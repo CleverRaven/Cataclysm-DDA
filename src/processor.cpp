@@ -121,10 +121,11 @@ struct process_data {
 
     process_id id;
     std::string name;
-    auto reagent;
+    auto components;
     auto output;
-    int fuelintake;
+    int fuel_intake;
     int duration;
+    //TODO: Skill used
 
     void load( JsonObject &jo, const std::string &src );
     void check() const;
@@ -143,7 +144,8 @@ generic_factory<process_data> processes_data( "process type", "id" );
 void process_data::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name );
-    mandatory( jo, was_loaded, "reagent", reagent );
+    //TODO: modify to allow lists of components
+    mandatory( jo, was_loaded, "components", components,  string_id_reader<itype_id> {});
     mandatory( jo, was_loaded, "output", output );
     mandatory( jo, was_loaded, "fuel_intake", fuel_intake );
     mandatory( jo, was_loaded, "duration", duration );
@@ -155,8 +157,8 @@ void process_data::check() const
 
     if( !proc_id.is_valid() ) {
         debugmsg( "There is no process with the name %s", id.c_str() );
-    if( !reagent.is_valid() ) {
-        debugmsg( "Invalid reagent \"%s\" in \"%s\".", reagent.c_str(), id.c_str() );
+    if( !components.is_valid() ) {
+        debugmsg( "Invalid components \"%s\" in \"%s\".", components.c_str(), id.c_str() );
     }
     if( !output.is_valid() ) {
         debugmsg( "Invalid output \"%s\" in \"%s\".", output.c_str(), id.c_str() );
@@ -188,7 +190,7 @@ void interact_with_processor( const tripoint &examp, player &p )
 {
     //Get processor id at examp
     processor_id pid = get_processor_id( examp );
-    //Do I need the debugmsg-es here or de they get checked on load?
+    //Do I need the debugmsg-es here or do they get checked in process_data::load?
     if( !processors_data.is_valid( pid ) ) {
         debugmsg( "Examined %s has action interact_with_processor, but has no processor data associated", g->m.furn( examp ).id().c_str() );
         return;
@@ -206,53 +208,48 @@ void interact_with_processor( const tripoint &examp, player &p )
             return;
         }
     }
+
+    //  Figure out which process to run, easier to work with than
+    //  trying to figure out desired process from items on tile,
+    //  Can become a mess with processor with multiple possible processes
+    std::vector<std::string> p_names;
+    for( auto p : possible_processes ){
+        p_names.push_back( p.name );
+    }
+    int p_index = 0;
+    if( p_names.size() > 1 ){
+        p_names.push_back(_("Cancel"));
+        p_index = menu_vec(true, _("Possible processes"), p_names);
+        if (p_index == (int)p_names.size() - 1) {
+            return;
+        }
+    }
+
+    auto active_process = possible_processes[p_index];
+
+    //Collect possible processed item id-s and fuels into a vector
+    //Use said vector to find out if we have usable items on the tile
+    //TODO: Handle processes with multiple possible inputs, see kiln
+    //TODO: Handle processes requiring multiple input materials
+    std::vector<itype_id> processed_materials;
+    for( auto &i : active_process.components ) {
+            //Not sure about this line
+            //I want to collect the possible components item id's into the vector
+            processed_materials.push_back( itype_id( i ) );
+    }
+    if( processed_materials.empty() ){
+        debugmsg( "Examined %s has no reagents associated", active_process.id().c_str() );
+        return;
+    }
+
     //You did say one function to handle all
     //processors not in the middle of a process
     //Basically, this furniture type denotes the type
     //where it is not in the middle of making something
     if(!processor.is_processing){
-        //  Figure out which process to run, easier to work with than
-        //  trying to figure out desired process from items on tile,
-        //  except we'll have to do just that on a running processor
-        std::vector<std::string> p_names;
-        for( auto p : possible_processes ){
-            p_names.push_back( p.name );
-        }
-        int p_index = 0;
-        if( p_names.size() > 1 ){
-            p_names.push_back(_("Cancel"));
-            p_index = menu_vec(true, _("Possible processes"), p_names);
-            if (p_index == (int)p_names.size() - 1) {
-                p_index = -1;
-            }
-        } else {
-            // Might not need confirmation if there's only one
-            if (!query_yn(_("Use the %s" + "process?"), p_names[0].c_str())) {
-                p_index = -1;
-            }
-        }
-        if ( p_index < 0 ) {
-            return;
-        }
-        active_process = possible_processes[p_index];
-        //Collect possible processed item id-s and fuels into a vector
-        //TODO: Handle processes with multiple possible inputs, see kiln
-        //TODO: Handle processes requiring multiple input materials
-        std::vector<itype_id> processed_materials;
-        for( auto &i : active_process.reagent ) {
-                //Not sure about this line
-                //I want to collect the possible reagent item id's into the vector
-                processed_materials.push_back( itype_id( i ) );
-        }
-        if( processed_materials.empty() ){
-            debugmsg( "Examined %s has no reagents associated", active_process.id().c_str() );
-            return;
-        }
-        //Use said vector to find out if we have usable items on the tile
-        bool to_deposit = false;
         bool processed_is_present = false;
         // Seen the code in keg, I could do interesting stuff by manipulating
-        // which reagent is at which position in the item stack, could make
+        // which components is at which position in the item stack, could make
         // multi-input processes more bearable
         auto items = g->m.i_at( examp );
             //TODO : figure out which loop to use
@@ -279,36 +276,40 @@ void interact_with_processor( const tripoint &examp, player &p )
                     add_msg( m_bad, _("You find some %s, which can't be processed here."), i.tname( 1, false ).c_str() );
                     add_msg( _("You must remove it before you proceed.") );
                     return;
+                }
             }
-        //TODO: If there's nothing on the tile, check player inventory if they have anything
+        //TODO: If there's nothing on the tile, check player inventory
+        // to see if they have anything to process
         if( !processed_is_present ){
             add_msg(m_info, _("There's nothing that can be processed."));
             return;
         }
-        //At this point, we should have only usable reagents on the tile,
-        // Currently in a very unordered fashion (keg code could help)
-        std::vector<itype_id> materials;
+        //  At this point, we should have only usable reagents on the tile,
+        //  Currently in a very unordered fashion (keg code could help)
+        //  This next loop is currently not used, could help sort items into a
+        //  predefined order (based on order in process.json maybe?)
+        std::vector<item> materials;
         std::vector<integer> charges;
-        int fuel = 0;
+        item &fuel;
         items = g->m.i_at( examp );
         for( auto item_it = items.begin(); item_it != items.end(); ) {
             if (item_it.typeId() == processor.fuel_type ){
-                fuel = item_it.charges;
+                fuel = item_it;
                 continue;
             }
-            for( auto reagent_it = processed_materials.begin(); reagent_it != processed_materials.end(); ){
-                //If we found which reagent it belongs to
-                if( item_it.typeId() == reagent_it.typeId() ) {
+            for( auto component_it = processed_materials.begin(); component_it != processed_materials.end(); ){
+                //If we found which components it belongs to
+                if( item_it.typeId() == component_it.typeId() ) {
                     materials.push_back( item_it.typeId() );
                     charges.push_back( item_it.charges );
                     break;
                 }
-                reagent_it++;
+                component_it++;
             }
             item_it++;
         }
-        //  Now we know how many charges of each reagent do we have, along with how much fuel
-        //  Current implementation assumes use of one on each reagent and one fuel_intake number of fuel charges
+        //  Now we know how many charges of each components do we have, along with how much fuel
+        //  Current implementation plan is to assume use of one on each components and one fuel_intake number of fuel charges
         //  per charge of output produced
 
         //  Should it be volume based?
@@ -324,12 +325,77 @@ void interact_with_processor( const tripoint &examp, player &p )
         }
         add_msg( _( processor.start_message ) );
         p.use_charges( "fire", 1 );
+        //TODO: skill xp gain
 
-        g->m.i_at( examp ).front().bday = calendar::turn;
-
+        for( auto item_it = items.begin(); item_it != items.end(); ){
+            item_it.bday = calendar::turn;
+        }
+        g->m.furn_set(examp, processor.next_type );
     } else {
-        //processor doing something
+        //processor processing away
+        auto items = g->m.i_at( examp );
+        if( items.empty() ) {
+            debugmsg( processor.empty_message );
+            g->m.furn_set( examp, processor.next_type );
+            return;
+        }
+        int last_bday = items[0].bday;
+        for( auto i : items ) {
+            if( processed_materials.find( item_it->id ) != container.end() && i.bday > last_bday ) {
+                last_bday = i.bday;
+            }
+        }
+        int process_time = active_process.duration;
+        int time_left = process_time - calendar::turn.get_turn() + items[0].bday;
+        if( time_left > 0 ) {
+            add_msg( _("It should take %d minutes to finish."), time_left / MINUTES(1) + 1 );
+            return;
+        }
 
+        //  Currently in a very unordered fashion (keg code could help)
+        //  This next loop is currently not used, could help sort items into a
+        //  predefined order (based on order in process.json maybe?)
+        std::vector<item> materials;
+        std::vector<integer> charges;
+        item &fuel;
+        items = g->m.i_at( examp );
+        fuel = items.find( processor.fuel_type );
+        for( auto component_it = processed_materials.begin(); component_it != processed_materials.end(); ){
+            materials.push_back( component_it.typeId() );
+            charges.push_back( 0 );
+            for( auto item_it = items.begin(); item_it != items.end(); ) {
+                //If we found which components it belongs to
+                if( item_it.typeId() == component_it.typeId() ) {
+                    charges[charges.size()-1] = item_it.charges;
+                    break;
+                }
+                item_it++;
+            }
+            component_it++;
+        }
+        int charge = 0;
+        bool have_enough = true;
+        for (int i : charges ){
+            if ( i == 0){
+                have_enough = false;
+            }
+        }
+        //Calculate output
+        while ( have_enough ) {
+            for (int i : charges ){
+                i--
+            }
+            charge++;
+            for (int i : charges ){
+            if ( i == 0){
+                have_enough = false;
+            }
+            }
+        }
+        item result( process.output , calendar::turn.get_turn() );
+        result.charge = charge;
+        g->m.add_item( examp, result );
+        g->m.furn_set( examp, processor.next_type);
     }
 }
 

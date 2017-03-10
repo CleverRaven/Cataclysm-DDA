@@ -7,6 +7,5 @@
         "output" : "brick",
         "fuel_intake" : "60",
         "duration" : 6000,
-		"skill_used" : "",
     }
 ]
