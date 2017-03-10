@@ -230,6 +230,29 @@ item_location game_menus::inv::disassemble( player &p )
     return inv_internal( p, disassemble_inventory_preset( p, p.crafting_inventory() ),
                          _( "Disassemble item" ), 1,
                          _( "You don't have any items you could disassemble." ) );
+};
+
+class comestible_inventory_preset : public pickup_inventory_preset
+{
+    public:
+        comestible_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {}
+
+        bool is_shown( const item_location &loc ) const override {
+            if( loc->typeId() == "1st_aid" ) {
+                return false; // temporary fix for #12991
+            }
+            return p.can_consume( *loc );
+        }
+
+    private:
+        const player &p;
+};
+
+item_location game_menus::inv::consume( player &p )
+{
+    return inv_internal( p, comestible_inventory_preset( p ),
+                         _( "Consume item" ), 1,
+                         _( "You have nothing to consume." ) );
 }
 
 class activatable_inventory_preset : public pickup_inventory_preset
