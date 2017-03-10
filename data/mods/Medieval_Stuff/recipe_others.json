@@ -9,13 +9,9 @@
   "time": 10000,
   "batch_time_factors": [ 90, 4 ],
   "autolearn": true,
+  "using": [ [ "forging_standard", 1 ] ],
   "tools": [
-    [ [ "tongs", -1 ] ],
-    [ [ "crucible", -1 ] ],
-    [
-      [ "forge", 50 ],
-      [ "oxy_torch", 10 ]
-    ]
+    [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
   ],
   "components": [
     [

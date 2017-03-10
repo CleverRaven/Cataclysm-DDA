@@ -740,6 +740,8 @@ public:
 // The preceding are in npcmove.cpp
 
  bool query_yn( const char *mes, ... ) const override PRINTF_LIKE( 2, 3 );
+ 
+    std::string extended_description() const override;
 
     // Note: NPCs use a different speed rating than players
     // Because they can't run yet

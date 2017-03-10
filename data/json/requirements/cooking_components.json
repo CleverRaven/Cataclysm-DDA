@@ -1,0 +1,14 @@
+[
+  {
+    "id": "batter",
+    "type": "requirement",
+    "//": "Bread type food usable as batter for frying.",
+    "components": [ [ [ "flour", 1 ], [ "cornmeal", 1 ], [ "flatbread", 1 ], [ "tortilla_corn", 1 ], [ "bread", 1 ], [ "wastebread", 1 ], [ "cornbread", 1 ], [ "biscuit", 1 ], [ "hardtack", 1 ], [ "crackers", 1 ] ] ]
+  },
+  {
+    "id": "hard_liquor",
+    "type": "requirement",
+    "//": "Hard liquor - necessarily comestible and high proof, not necessarily high quality.",
+    "components": [ [ [ "moonshine", 1 ], [ "vodka", 1 ], [ "whiskey", 1 ], [ "single_malt_whiskey", 1 ], [ "brandy", 1 ], [ "rum", 1 ], [ "gin", 1 ], [ "tequila", 1 ], [ "mixed_alcohol_strong", 1 ] ] ]
+  }
+]

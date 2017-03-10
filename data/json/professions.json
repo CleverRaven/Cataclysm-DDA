@@ -224,7 +224,7 @@
             },
             {
                 "level": 2,
-                "name": "carpentry"
+                "name": "fabrication"
             }
         ],
         "items": {
@@ -552,7 +552,7 @@
                 "level": 2
             },
             {
-                    "name": "carpentry",
+                    "name": "fabrication",
                     "level": 1
             }
         ],
@@ -582,7 +582,7 @@
         "type": "profession",
         "ident": "basketball_player",
         "name": "Basketball Player",
-        "description": "It was going to be your first major game, but then the cataclysm struck.  Creatures unlike anything you've seen before, began attacking the attending crowd and only a handful of people managed to escape the carnage.  Thanks to your quick feet, you were among the lucky few to survive and escape from the creatures.",
+        "description": "It was going to be your first major game, but then the cataclysm struck.  Thanks to your quick feet, you were among the lucky few to survive and escape from the creatures.",
         "points": 1,
         "skills": [
             {
@@ -1713,7 +1713,7 @@
         "skills": [
             {
                 "level": 2,
-                "name": "carpentry"
+                "name": "fabrication"
             }
         ],
         "items": {
@@ -1853,7 +1853,7 @@
         "type": "profession",
         "ident": "hacker",
         "name": "Computer Hacker",
-        "description": "Caffeine pills and all-nighters in front of a computer screen have given you skills in an area that seem, on the face of it, distinctly less-than-useful when the world has ended.  You suppose you can't really get in trouble for fulfilling your dream of hacking into a military mainframe, now.  That's a plus.",
+        "description": "Caffeine pills and all-nighters in front of a computer screen have given you skills in an area that seem, on the face of it, distinctly less-than-useful when the world has ended.  Unless you manage to find a military mainframe.",
         "points": 1,
         "skills": [
             {
@@ -2205,12 +2205,8 @@
         "points": 6,
         "skills": [
             {
-                "level": 1,
+                "level": 2,
                 "name": "fabrication"
-            },
-            {
-                "level": 1,
-                "name": "carpentry"
             },
             {
                 "level": 1,
@@ -2561,7 +2557,7 @@
         "type" : "profession",
         "ident": "bionic_spy",
         "name": "Bionic Agent",
-        "description": "Your body has several bionics worth millions of dollars, paid for by public taxes.  The government has turned you into an infiltration and recon specialist: you have night vision, an alarm, lock picking capabilities and a hacking module.  And it all runs off piles and piles of everyday household batteries.",
+        "description": "Your body has several bionics worth millions of dollars, paid for by public taxes.  The government has turned you into an infiltration and recon specialist: you have night vision, an alarm, lock picking capabilities and a hacking module.",
         "points": 4,
         "CBMs":[
             "bio_fingerhack",

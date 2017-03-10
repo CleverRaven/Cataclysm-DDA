@@ -6,6 +6,7 @@
 #include "field.h"
 #include "fire.h"
 #include "game.h"
+#include "fungal_effects.h"
 #include "messages.h"
 #include "translations.h"
 #include "material.h"
@@ -1193,7 +1194,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         dirty_transparency_cache = true;
                         spread_gas( cur, p, curtype, 33,  5);
                         if( one_in( 10 - 2 * cur->getFieldDensity() ) ) {
-                            g->spread_fungus( p ); //Haze'd terrain
+                            // Haze'd terrain
+                            fungal_effects( *g, g->m ).spread_fungus( p );
                         }
 
                         break;

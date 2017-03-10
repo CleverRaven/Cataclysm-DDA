@@ -126,7 +126,6 @@ const int core_version = 6;
 /** Will be set to true when running unit tests */
 bool test_mode = false;
 
-const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 const mtype_id mon_manhack( "mon_manhack" );
 
 const skill_id skill_melee( "melee" );
@@ -3961,7 +3960,7 @@ std::vector<std::string> game::list_active_characters()
 void game::write_memorial_file(std::string sLastWords)
 {
     const std::string &memorial_dir = FILENAMES["memorialdir"];
-    const std::string &memorial_active_world_dir = memorial_dir +  world_generator->active_world->world_name + "/";
+    const std::string &memorial_active_world_dir = memorial_dir + utf8_to_native( world_generator->active_world->world_name ) + "/";
 
     //Check if both dirs exist. Nested assure_dir_exist fails if the first dir of the nested dir does not exist.
     if (!assure_dir_exist(memorial_dir)) {
@@ -3988,11 +3987,15 @@ void game::write_memorial_file(std::string sLastWords)
     std::ostringstream memorial_file_path;
     memorial_file_path << memorial_active_world_dir;
 
-    // Use the default locale to replace non-printable characters with _ in the player name.
-    std::locale locale {"C"};
-    std::replace_copy_if(std::begin(u.name), std::begin(u.name) + truncated_name_len,
-        std::ostream_iterator<char>(memorial_file_path),
-        [&](char const c) { return !std::isgraph(c, locale); }, '_');
+    if( !get_options().has_option( "ENCODING_CONV" ) || !get_option<bool>( "ENCODING_CONV" ) ) {
+        // Use the default locale to replace non-printable characters with _ in the player name.
+        std::locale locale {"C"};
+        std::replace_copy_if(std::begin(u.name), std::begin(u.name) + truncated_name_len,
+            std::ostream_iterator<char>(memorial_file_path),
+            [&](char const c) { return !std::isgraph(c, locale); }, '_');
+    } else {
+        memorial_file_path << utf8_to_native( u.name );
+    }
 
     // Add a ~ if the player name was actually truncated.
     memorial_file_path << ((truncated_name_len != name_len) ? "~-" : "-");
@@ -8522,6 +8525,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
     ctxt.register_action("LEVEL_UP");
     ctxt.register_action("LEVEL_DOWN");
     ctxt.register_action("TOGGLE_FAST_SCROLL");
+    ctxt.register_action("EXTENDED_DESCRIPTION");
     if (select_zone) {
         ctxt.register_action("SELECT");
     } else {
@@ -8547,9 +8551,14 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
             if (!select_zone) {
                 nc_color clr = c_white;
-                const std::string colored_key = string_format( "<color_ltgreen>%s</color>",
-                                                               ctxt.get_desc( "LIST_ITEMS", 1 ).c_str() );
-                print_colored_text( w_info, getmaxy(w_info) - 1, 2, clr, clr,
+                std::string colored_key = string_format( "<color_ltgreen>%s</color>",
+                                                         ctxt.get_desc( "EXTENDED_DESCRIPTION", 1 ).c_str() );
+                print_colored_text( w_info, getmaxy( w_info ) - 2, 2, clr, clr,
+                                    string_format( _( "Press %s to view extended description" ),
+                                                   colored_key.c_str() ) );
+                colored_key = string_format( "<color_ltgreen>%s</color>",
+                                             ctxt.get_desc( "LIST_ITEMS", 1 ).c_str() );
+                print_colored_text( w_info, getmaxy( w_info ) - 1, 2, clr, clr,
                                     string_format( _( "Press %s to list items and monsters" ),
                                                    colored_key.c_str() ) );
             }
@@ -8684,6 +8693,10 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_scent();
             }
+        } else if( action == "EXTENDED_DESCRIPTION" ) {
+            extended_description( lp );
+            draw_sidebar();
+            draw_ter( lp, true );
         } else if (!ctxt.get_coordinates(w_terrain, lx, ly) && action != "MOUSE_MOVE") {
             int dx, dy;
             ctxt.get_direction(dx, dy, action);
@@ -9243,7 +9256,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 iActive = mSortCategory[0].empty() ? 0 : 1;
             }
         } else if( action == "RIGHT" ) {
-            if( ++page_num >= ( int )activeItem->vIG.size() && !filtered_items.empty() ) {
+            if( !filtered_items.empty() && ++page_num >= ( int )activeItem->vIG.size() ) {
                 page_num = activeItem->vIG.size() - 1;
             }
         } else if( action == "LEFT" ) {
@@ -13405,191 +13418,6 @@ void game::nuke( const tripoint &p )
     std::vector<npc *> npcs = overmap_buffer.get_npcs_near_omt(x, y, 0, 0);
     for( auto &npc : npcs ) {
         npc->marked_for_death = true;
-    }
-}
-
-bool game::spread_fungus( const tripoint &p )
-{
-    int growth = 1;
-    for( int i = p.x - 1; i <= p.x + 1; i++ ) {
-        for( int j = p.y - 1; j <= p.y + 1; j++ ) {
-            if (i == p.x && j == p.y) {
-                continue;
-            }
-            if( m.has_flag("FUNGUS", tripoint( i, j, p.z ) ) ) {
-                growth += 1;
-            }
-        }
-    }
-
-    bool converted = false;
-    if (!m.has_flag_ter("FUNGUS", p)) {
-        // Terrain conversion
-        if (m.has_flag_ter("DIGGABLE", p)) {
-            if (x_in_y(growth * 10, 100)) {
-                m.ter_set(p, t_fungus);
-                converted = true;
-            }
-        } else if (m.has_flag("FLAT", p)) {
-            if( m.has_flag( TFLAG_INDOORS, p ) ) {
-                if (x_in_y(growth * 10, 500)) {
-                    m.ter_set(p, t_fungus_floor_in);
-                    converted = true;
-                }
-            } else if( m.has_flag( TFLAG_SUPPORTS_ROOF, p ) ) {
-                if (x_in_y(growth * 10, 1000)) {
-                    m.ter_set(p, t_fungus_floor_sup);
-                    converted = true;
-                }
-            } else {
-                if (x_in_y(growth * 10, 2500)) {
-                    m.ter_set(p, t_fungus_floor_out);
-                    converted = true;
-                }
-            }
-        } else if (m.has_flag("SHRUB", p)) {
-            if (x_in_y(growth * 10, 200)) {
-                m.ter_set(p, t_shrub_fungal);
-                converted = true;
-            } else if (x_in_y(growth, 1000)) {
-                m.ter_set(p, t_marloss);
-                converted = true;
-            }
-        } else if (m.has_flag("THIN_OBSTACLE", p)) {
-            if (x_in_y(growth * 10, 150)) {
-                m.ter_set(p, t_fungus_mound);
-                converted = true;
-            }
-        } else if (m.has_flag("YOUNG", p)) {
-            if (x_in_y(growth * 10, 500)) {
-                m.ter_set(p, t_tree_fungal_young);
-                converted = true;
-            }
-        } else if (m.has_flag("WALL", p)) {
-            if (x_in_y(growth * 10, 5000)) {
-                converted = true;
-                m.ter_set(p, t_fungus_wall);
-            }
-        }
-        // Furniture conversion
-        if (converted) {
-            if (m.has_flag("FLOWER", p)) {
-                m.furn_set(p, f_flower_fungal);
-            } else if (m.has_flag("ORGANIC", p)) {
-                if (m.furn(p).obj().movecost == -10) {
-                    m.furn_set(p, f_fungal_mass);
-                } else {
-                    m.furn_set(p, f_fungal_clump);
-                }
-            } else if (m.has_flag("PLANT", p)) {
-                // Replace the (already existing) seed
-                m.i_at( p )[0] = item( "fungal_seeds", calendar::turn );
-            }
-        }
-        return true;
-    } else {
-        // Everything is already fungus
-        if (growth == 9) {
-            return false;
-        }
-        for (int i = p.x - 1; i <= p.x + 1; i++) {
-            for (int j = p.y - 1; j <= p.y + 1; j++) {
-                tripoint dest( i, j, p.z );
-                // One spread on average
-                if (!m.has_flag("FUNGUS", dest) && one_in(9 - growth)) {
-                    //growth chance is 100 in X simplified
-                    if (m.has_flag("DIGGABLE", dest)) {
-                        m.ter_set(dest, t_fungus);
-                        converted = true;
-                    } else if (m.has_flag("FLAT", dest)) {
-                        if( m.has_flag( TFLAG_INDOORS, dest ) ) {
-                            if (one_in(5)) {
-                                m.ter_set(dest, t_fungus_floor_in);
-                                converted = true;
-                            }
-                        } else if( m.has_flag( TFLAG_SUPPORTS_ROOF, dest ) ) {
-                            if (one_in(10)) {
-                                m.ter_set(dest, t_fungus_floor_sup);
-                                converted = true;
-                            }
-                        } else {
-                            if (one_in(25)) {
-                                m.ter_set(dest, t_fungus_floor_out);
-                                converted = true;
-                            }
-                        }
-                    } else if (m.has_flag("SHRUB", dest)) {
-                        if (one_in(2)) {
-                            m.ter_set(dest, t_shrub_fungal);
-                            converted = true;
-                        } else if (one_in(25)) {
-                            m.ter_set(dest, t_marloss);
-                            converted = true;
-                        }
-                    } else if (m.has_flag("THIN_OBSTACLE", dest)) {
-                        if (x_in_y(10, 15)) {
-                            m.ter_set(dest, t_fungus_mound);
-                            converted = true;
-                        }
-                    } else if (m.has_flag("YOUNG", dest)) {
-                        if (one_in(5)) {
-                            if( m.get_field_strength( p, fd_fungal_haze ) != 0 ) {
-                                if (one_in(8)) { // young trees are vulnerable
-                                    m.ter_set(dest, t_fungus);
-                                    summon_mon( mon_fungal_blossom, p );
-                                    if (u.sees(p)) {
-                                        add_msg(m_warning, _("The young tree blooms forth into a fungal blossom!"));
-                                    }
-                                } else if (one_in(4)) {
-                                    m.ter_set(dest, t_marloss_tree);
-                                }
-                            } else {
-                                m.ter_set(dest, t_tree_fungal_young);
-                            }
-                            converted = true;
-                        }
-                    } else if (m.has_flag("TREE", dest)) {
-                        if (one_in(10)) {
-                            if( m.get_field_strength( p, fd_fungal_haze ) != 0) {
-                                if (one_in(10)) {
-                                    m.ter_set(dest, t_fungus);
-                                    summon_mon( mon_fungal_blossom, p );
-                                    if (u.sees(p)) {
-                                        add_msg(m_warning, _("The tree blooms forth into a fungal blossom!"));
-                                    }
-                                } else if (one_in(6)) {
-                                    m.ter_set(dest, t_marloss_tree);
-                                }
-                            } else {
-                                m.ter_set(dest, t_tree_fungal);
-                            }
-                            converted = true;
-                        }
-                    } else if (m.has_flag("WALL", dest)) {
-                        if (one_in(50)) {
-                            converted = true;
-                            m.ter_set(dest, t_fungus_wall);
-                        }
-                    }
-
-                    if (converted) {
-                        if (m.has_flag("FLOWER", dest)) {
-                            m.furn_set(dest, f_flower_fungal);
-                        } else if (m.has_flag("ORGANIC", dest)) {
-                            if (m.furn(dest).obj().movecost == -10) {
-                                m.furn_set(dest, f_fungal_mass);
-                            } else {
-                                m.furn_set(dest, f_fungal_clump);
-                            }
-                        } else if (m.has_flag("PLANT", dest)) {
-                            // Replace the (already existing) seed
-                            m.i_at( p )[0] = item( "fungal_seeds", calendar::turn );
-                        }
-                    }
-                }
-            }
-        }
-        return false;
     }
 }
 

@@ -4,7 +4,7 @@
 #include "npc.h"
 #include "item_factory.h"
 
-static void test_distribution( const npc &who, int dispersion, int range )
+static void test_distribution( const npc &who, int dispersion, int range, double target_size )
 {
     const int N = 50000;
     std::array< std::pair<double, int>, 20 > bins;
@@ -15,7 +15,7 @@ static void test_distribution( const npc &who, int dispersion, int range )
     }
 
     for( int i = 0; i < N; ++i ) {
-        projectile_attack_aim aim = who.projectile_attack_roll( dispersion, range );
+        projectile_attack_aim aim = who.projectile_attack_roll( dispersion, range, target_size );
         for( int j = 0; j < bins.size() && aim.missed_by < bins[j].first; ++j ) {
             ++bins[j].second;
         }
@@ -25,7 +25,7 @@ static void test_distribution( const npc &who, int dispersion, int range )
         CAPTURE( range );
         CAPTURE( dispersion );
         CAPTURE( bins[i].first );
-        CHECK( who.projectile_attack_chance( dispersion, range, bins[i].first ) == Approx( ( double )bins[i].second / N ).epsilon( 0.01 ) );
+        CHECK( who.projectile_attack_chance( dispersion, range, bins[i].first, target_size ) == Approx( ( double )bins[i].second / N ).epsilon( 0.01 ) );
     }
 }
 
@@ -46,10 +46,12 @@ static void test_internal( const npc& who, const std::vector<item> &guns )
                         CAPTURE( range );
                         CAPTURE( dispersion );
 
-                        if ( range == gun.gun_range( &who ) ) {
-                            CHECK( who.projectile_attack_chance( dispersion, range, accuracy ) >= chance / 100.0 );
+                        // Aiming at human
+                        double target_size = who.ranged_target_size();
+                        if( range == gun.gun_range( &who ) ) {
+                            CHECK( who.projectile_attack_chance( dispersion, range, accuracy, target_size ) >= chance / 100.0 );
                         } else {
-                            CHECK( who.projectile_attack_chance( dispersion, range, accuracy ) == Approx( chance / 100.0 ).epsilon( 0.0005 ) );
+                            CHECK( who.projectile_attack_chance( dispersion, range, accuracy, target_size ) == Approx( chance / 100.0 ).epsilon( 0.0005 ) );
                         }
                     }
                 }
@@ -115,6 +117,24 @@ static void test_internal( const npc& who, const std::vector<item> &guns )
             }
         }
     }
+
+    WHEN( "the target is bigger" ) {
+        THEN( "chance to hit is greater" ) {
+            for( const auto &gun : guns ) {
+                CAPTURE( gun.tname() );
+                for( int i = MS_TINY; i < MS_HUGE - 1; i++ ) {
+                    m_size target_size = static_cast<m_size>( i );
+                    double accuracy = 0.5;
+                    double recoil = MIN_RECOIL;
+                    double chance = 0.5;
+                    double range = who.gun_current_range( gun, recoil, chance, accuracy );
+                    double dispersion = who.get_weapon_dispersion( gun ) + recoil;
+                    CHECK( who.projectile_attack_chance( dispersion, range, accuracy, target_size + 1 ) >=
+                           who.projectile_attack_chance( dispersion, range, accuracy, target_size ) );
+                }
+            }
+        }
+    }
 }
 
 TEST_CASE( "gun_aiming", "[gun] [aim]" ) {
@@ -130,11 +150,12 @@ TEST_CASE( "gun_aiming", "[gun] [aim]" ) {
         who.wear_item( item( "mask_lsurvivor" ) );
         who.set_skill_level( skill_id( "gun" ), gun_skill );
 
-        WHEN( "many shots are fired" ) {
+        WHEN( "many shots are fired at human-sized target" ) {
             THEN( "the distribution of accuracies is as expected" ) {
+                double target_size = who.ranged_target_size();
                 for( int range = 0; range <= MAX_RANGE; ++range ) {
                     for( int dispersion = 0; dispersion < 1200; dispersion += 50 ) {
-                        test_distribution( who, dispersion, range );
+                        test_distribution( who, dispersion, range, target_size );
                     }
                 }
             }

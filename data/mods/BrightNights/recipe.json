@@ -1,0 +1,43 @@
+[
+  {
+    "result": "laser_rifle_cheap",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": 300000,
+    "reversible": true,
+    "autolearn": [ [ "electronics", 4 ] ],
+    "book_learn": [ [ "advanced_electronics", 3 ], [ "textbook_electronics", 3 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
+    "tools": [ [ [ "soldering_iron", 200 ], [ "toolset", 200 ] ] ],
+    "components": [
+      [ [ "amplifier", 2 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 100 ] ],
+      [ [ "e_scrap", 10 ] ],
+      [ [ "lens", 2 ] ],
+      [ [ "plastic_chunk", 6 ] ]
+    ]
+  },
+  {
+    "result": "recharge_station",
+    "type": "recipe",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": 50000,
+    "reversible": true,
+    "autolearn": [ [ "electronics", 2 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [ [ [ "soldering_iron", 35 ], [ "toolset", 35 ] ] ],
+    "components": [
+      [ [ "power_supply", 2 ] ],
+      [ [ "processor", 2 ] ],
+      [ [ "scrap", 5 ] ],
+      [ [ "cable", 8 ] ]
+    ]
+  }
+]

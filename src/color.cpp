@@ -591,6 +591,11 @@ nc_color get_color_from_tag(const std::string &s, const nc_color base_color)
     return color_from_string(color_name);
 }
 
+std::string get_tag_from_color( const nc_color color )
+{
+    return "<color_" + string_from_color( color ) + ">";
+}
+
 nc_color get_note_color(std::string const &note_id)
 {
     auto const candidate_color = color_by_string_map.find( note_id );

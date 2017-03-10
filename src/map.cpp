@@ -6,6 +6,7 @@
 #include "output.h"
 #include "rng.h"
 #include "game.h"
+#include "fungal_effects.h"
 #include "line.h"
 #include "options.h"
 #include "item_factory.h"
@@ -43,18 +44,15 @@
 #include <cstring>
 #include <algorithm>
 
-const mtype_id mon_spore( "mon_spore" );
 const mtype_id mon_zombie( "mon_zombie" );
 
 const skill_id skill_driving( "driving" );
 const skill_id skill_traps( "traps" );
 
-const species_id FUNGUS( "FUNGUS" );
 const species_id ZOMBIE( "ZOMBIE" );
 
 const efftype_id effect_boomered( "boomered" );
 const efftype_id effect_crushed( "crushed" );
-const efftype_id effect_spores( "spores" );
 const efftype_id effect_stunned( "stunned" );
 
 extern bool is_valid_in_w_terrain(int,int);
@@ -2057,6 +2055,20 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
 
 // End of move cost
 
+double map::ranged_target_size( const tripoint &p ) const
+{
+    if( impassable( p ) ) {
+        return 1.0;
+    }
+
+    if( !has_floor( p ) ) {
+        return 0.0;
+    }
+
+    // @todo Handle cases like shrubs, trees, furniture, sandbags...
+    return 0.1;
+}
+
 int map::climb_difficulty( const tripoint &p ) const
 {
     if( p.z > OVERMAP_HEIGHT || p.z < -OVERMAP_DEPTH ) {
@@ -3070,70 +3082,6 @@ bool map::mop_spills( const tripoint &p )
     return retval;
 }
 
-
-void map::fungalize( const tripoint &sporep, Creature *origin, double spore_chance )
-{
-    int mondex = g->mon_at( sporep );
-    if( mondex != -1 ) { // Spores hit a monster
-        if( g->u.sees(sporep) &&
-            !g->zombie(mondex).type->in_species( FUNGUS )) {
-            add_msg(_("The %s is covered in tiny spores!"),
-                    g->zombie(mondex).name().c_str());
-        }
-        monster &critter = g->zombie( mondex );
-        if( !critter.make_fungus() ) {
-            // Don't insta-kill non-fungables. Jabberwocks, for example
-            critter.add_effect( effect_stunned, rng( 1, 3 ) );
-            critter.apply_damage( origin, bp_torso, rng( 25, 50 ) );
-        }
-    } else if( g->u.pos() == sporep ) {
-        player &pl = g->u; // TODO: Make this accept NPCs when they understand fungals
-        ///\EFFECT_DEX increases chance of knocking fungal spores away with your TAIL_CATTLE
-
-        ///\EFFECT_MELEE increases chance of knocking fungal sports away with your TAIL_CATTLE
-        if( pl.has_trait("TAIL_CATTLE") &&
-            one_in( 20 - pl.dex_cur - pl.get_skill_level( skill_id( "melee" ) ) ) ) {
-            pl.add_msg_if_player( _("The spores land on you, but you quickly swat them off with your tail!" ) );
-            return;
-        }
-        // Spores hit the player--is there any hope?
-        bool hit = false;
-        hit |= one_in(4) && pl.add_env_effect( effect_spores, bp_head, 3, 90, bp_head );
-        hit |= one_in(2) && pl.add_env_effect( effect_spores, bp_torso, 3, 90, bp_torso );
-        hit |= one_in(4) && pl.add_env_effect( effect_spores, bp_arm_l, 3, 90, bp_arm_l );
-        hit |= one_in(4) && pl.add_env_effect( effect_spores, bp_arm_r, 3, 90, bp_arm_r );
-        hit |= one_in(4) && pl.add_env_effect( effect_spores, bp_leg_l, 3, 90, bp_leg_l );
-        hit |= one_in(4) && pl.add_env_effect( effect_spores, bp_leg_r, 3, 90, bp_leg_r );
-        if( hit ) {
-            add_msg(m_warning, _("You're covered in tiny spores!"));
-        }
-    } else if( g->num_zombies() < 250 && x_in_y( spore_chance, 1.0 ) ) { // Spawn a spore
-        if( g->summon_mon( mon_spore, sporep ) ) {
-            monster *spore = g->monster_at(sporep);
-            monster *origin_mon = dynamic_cast<monster*>( origin );
-            if( origin_mon != nullptr ) {
-                spore->make_ally( origin_mon );
-            } else if( origin != nullptr && origin->is_player() && g->u.has_trait("THRESH_MYCUS") ) {
-                spore->friendly = 1000;
-            }
-        }
-    } else {
-        g->spread_fungus( sporep );
-    }
-}
-
-void map::create_spores( const tripoint &p, Creature* source )
-{
-    tripoint tmp = p;
-    int &i = tmp.x;
-    int &j = tmp.y;
-    for( i = p.x - 1; i <= p.x + 1; i++ ) {
-        for( j = p.y - 1; j <= p.y + 1; j++ ) {
-            fungalize( tmp, source, 0.25 );
-        }
-    }
-}
-
 int map::collapse_check( const tripoint &p )
 {
     const bool collapses = has_flag( "COLLAPSES", p );
@@ -3431,7 +3379,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
     if( ( smash_furn && has_flag_furn("FUNGUS", p) ) ||
         ( smash_ter && has_flag_ter("FUNGUS", p) ) ) {
-        create_spores( p );
+        fungal_effects( *g, *this ).create_spores( p );
     }
 
     if( params.destroy ) {
@@ -4035,22 +3983,6 @@ bool map::hit_with_fire( const tripoint &p )
         add_field(p, fd_fire, 3, 0);
     }
     return true;
-}
-
-bool map::marlossify( const tripoint &p )
-{
-    auto &terrain = ter( p ).obj();
-    if (one_in(25) && (terrain.movecost != 0 && !has_furn(p))
-            && !terrain.has_flag(TFLAG_DEEP_WATER)) {
-        ter_set(p, t_marloss);
-        return true;
-    }
-    for (int i = 0; i < 25; i++) {
-        if(!g->spread_fungus( p )) {
-            return true;
-        }
-    }
-    return false;
 }
 
 bool map::open_door( const tripoint &p, const bool inside, const bool check_only )
@@ -4722,15 +4654,17 @@ static bool process_map_items( item_stack &items, std::list<item>::iterator &n,
 
 static void process_vehicle_items( vehicle *cur_veh, int part )
 {
-    const bool fridge_here = cur_veh->has_part( "FRIDGE", true ) && cur_veh->part_flag(part, VPFLAG_FRIDGE);
+    const bool fridge_here = cur_veh->part_flag( part, VPFLAG_FRIDGE ) && cur_veh->has_part( "FRIDGE", true );
     if( fridge_here ) {
         for( auto &n : cur_veh->get_items( part ) ) {
             apply_in_fridge(n);
         }
     }
-    if( cur_veh->has_part( "RECHARGE", true ) && cur_veh->part_with_feature(part, VPFLAG_RECHARGE) >= 0 ) {
+    if( cur_veh->part_with_feature( part, VPFLAG_RECHARGE ) >= 0 && cur_veh->has_part( "RECHARGE", true ) ) {
         for( auto &n : cur_veh->get_items( part ) ) {
-            if( !n.is_tool() || ( !n.has_flag("RECHARGE") && !n.has_flag("USE_UPS") ) ) {
+            static const std::string recharge_s( "RECHARGE" );
+            static const std::string ups_s( "USE_UPS" );
+            if( !n.has_flag( recharge_s ) && !n.has_flag( ups_s ) ) {
                 continue;
             }
             if( n.ammo_capacity() > n.ammo_remaining() ) {

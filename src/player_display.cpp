@@ -841,7 +841,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 std::string s;
 
                 body_part bp = line <= 11 ? bp_aBodyPart[line] : num_bp;
-                bool combined_here = bp_aiOther[line] == line + 1 && // first of a pair
+                bool combined_here = ( bp_aiOther[line] == line + 1 ||
+                                       bp_aiOther[line] == line - 1 ) && // first of a pair
                                      should_combine_bps( *this, line, bp_aiOther[line] );
                 s += get_encumbrance_description( *this, bp, combined_here );
                 fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, s );
@@ -860,7 +861,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     if( line > 0 ) {
                         if( bp_aiOther[line] == line - 1 && // second of a pair
                             should_combine_bps( *this, line, bp_aiOther[line] ) ) {
-                            line -= ( line < num_bp - 2 ) ? 2 : 0; // skip a line if we aren't at the first pair
+                            line -= ( line > 1 ) ? 2 : 0; // skip a line if we aren't at the first pair
                         } else {
                             line--; // unpaired or unequal
                         }

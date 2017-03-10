@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <sstream>
 #include <string>
 #include "assign.h"
 #include "debug.h"
@@ -9,6 +10,7 @@
 template <>
 const harvest_id string_id<harvest_list>::NULL_ID( "null" );
 
+// @todo Make a generic factory
 static std::map<harvest_id, harvest_list> harvest_all;
 
 template<>
@@ -21,6 +23,12 @@ const harvest_list &string_id<harvest_list>::obj() const
         return null_list;
     }
     return found->second;
+}
+
+template<>
+bool string_id<harvest_list>::is_valid() const
+{
+    return harvest_all.count( *this ) > 0;
 }
 
 harvest_entry harvest_entry::load( JsonObject &jo, const std::string &src )
@@ -111,4 +119,46 @@ std::list<harvest_entry>::const_reverse_iterator harvest_list::rbegin() const
 std::list<harvest_entry>::const_reverse_iterator harvest_list::rend() const
 {
     return entries().rend();
+}
+
+std::string harvest_list::describe( int at_skill ) const
+{
+    if( empty() ) {
+        return "";
+    }
+
+    return enumerate_as_string( entries().begin(), entries().end(),
+    [at_skill]( const harvest_entry &en ) {
+        float min_f = en.base_num.first;
+        float max_f = en.base_num.second;
+        if( at_skill >= 0 ) {
+            min_f += en.scale_num.first * at_skill;
+            max_f += en.scale_num.second * at_skill;
+        } else {
+            max_f = en.max;
+        }
+        // @todo Avoid repetition here by making a common harvest drop function
+        int max_drops = std::min<int>( en.max, std::round( std::max( 0.0f, max_f ) ) );
+        int min_drops = std::max<int>( 0.0f, std::round( std::min( min_f, max_f ) ) );
+        if( max_drops <= 0 ) {
+            return std::string();
+        }
+
+        std::stringstream ss;
+        ss << "<bold>" << item::nname( en.drop, max_drops ) << "</bold>";
+        // If the number is unspecified, just list the type
+        if( max_drops >= 1000 && min_drops <= 0 ) {
+            return ss.str();
+        }
+        ss << ": ";
+        if( min_drops == max_drops ) {
+            ss << "<stat>" << min_drops << "</stat>";
+        } else if( max_drops < 1000 ) {
+            ss << "<stat>" << min_drops << "-" << max_drops << "</stat>";
+        } else {
+            ss << "<stat>" << min_drops << "+" << "</stat>";
+        }
+
+        return ss.str();
+    } );
 }

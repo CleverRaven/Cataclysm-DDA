@@ -363,8 +363,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool unarmed_attack() const;
         /** Called when a player triggers a trap, returns true if they don't set it off */
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
-        /** Picks a random body part, adjusting for mutations, broken body parts etc. */
-        body_part get_random_body_part( bool main ) const override;
 
         /** Returns true if the player or their vehicle has an alarm clock */
         bool has_alarm_clock() const;
@@ -724,11 +722,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         float fall_damage_mod() const override;
         /** Deals falling/collision damage with terrain/creature at pos */
         int impact( int force, const tripoint &pos ) override;
-
-        /** Converts a body_part to an hp_part */
-        static hp_part bp_to_hp(body_part bp);
-        /** Converts an hp_part to a body_part */
-        static body_part hp_to_bp(hp_part hpart);
 
         /** Returns overall % of HP remaining */
         int hp_percentage() const override;

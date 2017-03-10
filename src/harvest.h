@@ -54,6 +54,8 @@ class harvest_list
             return names_;
         }
 
+        std::string describe( int at_skill = -1 ) const;
+
         std::list<harvest_entry>::const_iterator begin() const;
         std::list<harvest_entry>::const_iterator end() const;
         std::list<harvest_entry>::const_reverse_iterator rbegin() const;

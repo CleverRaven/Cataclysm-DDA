@@ -199,8 +199,17 @@ class Creature
         dealt_projectile_attack projectile_attack( const projectile &proj, const tripoint &target,
                                                    double total_dispersion );
 
-        /** Makes an aiming/attack roll for a single projectile attack shot */
-        projectile_attack_aim projectile_attack_roll( double dispersion, double range ) const;
+        /**
+         * Makes an aiming/attack roll for a single projectile attack shot
+         * @param target_size Ease of hitting target. 1.0 means target occupies entire tile and doesn't dodge.
+         */
+        projectile_attack_aim projectile_attack_roll( double dispersion, double range, double target_size ) const;
+
+        /**
+         * Size of the target this creature presents to ranged weapons.
+         * 0.0 means unhittable, 1.0 means all projectiles going through this creature's tile will hit it.
+         */
+        double ranged_target_size() const;
 
         /**
          * Probability that a projectile attack will hit with at least the given accuracy.
@@ -210,7 +219,8 @@ class Creature
          * @param accuracy the required accuracy, in the range [0..1]
          * @return the probability, in the range (0..1]
          */
-        double projectile_attack_chance( double total_dispersion, double range, double accuracy ) const;
+        double projectile_attack_chance( double total_dispersion, double range,
+                                         double accuracy, double target_size ) const;
 
         // handles blocking of damage instance. mutates &dam
         virtual bool block_hit(Creature *source, body_part &bp_hit,
@@ -421,6 +431,11 @@ class Creature
         };
 
         virtual body_part get_random_body_part( bool main = false ) const = 0;
+        /**
+         * Returns body parts in order in which they should be displayed.
+         * @param main If true, only displays parts that can have hit points
+         */
+        virtual std::vector<body_part> get_all_body_parts( bool main = false ) const = 0;
 
         virtual int get_speed_base() const;
         virtual int get_speed_bonus() const;
@@ -513,6 +528,8 @@ class Creature
         virtual void add_msg_player_or_say( game_message_type, const char *, const char *, ... ) const PRINTF_LIKE( 4, 5 ) {};
 
         virtual void add_memorial_log(const char *, const char *, ...) PRINTF_LIKE( 3, 4 ) {};
+
+        virtual std::string extended_description() const = 0;
 
         virtual nc_color symbol_color() const = 0;
         virtual nc_color basic_symbol_color() const = 0;

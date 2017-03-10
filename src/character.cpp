@@ -20,6 +20,8 @@
 #include "cata_utility.h"
 
 #include <algorithm>
+#include <sstream>
+#include <numeric>
 
 const efftype_id effect_beartrap( "beartrap" );
 const efftype_id effect_bite( "bite" );
@@ -2145,4 +2147,152 @@ float Character::rest_quality() const
     // Just a placeholder for now.
     // @todo Waiting/reading/being unconscious on bed/sofa/grass
     return 0.0f;
+}
+
+hp_part Character::bp_to_hp( const body_part bp )
+{
+    switch(bp) {
+        case bp_head:
+        case bp_eyes:
+        case bp_mouth:
+            return hp_head;
+        case bp_torso:
+            return hp_torso;
+        case bp_arm_l:
+        case bp_hand_l:
+            return hp_arm_l;
+        case bp_arm_r:
+        case bp_hand_r:
+            return hp_arm_r;
+        case bp_leg_l:
+        case bp_foot_l:
+            return hp_leg_l;
+        case bp_leg_r:
+        case bp_foot_r:
+            return hp_leg_r;
+        default:
+            return num_hp_parts;
+    }
+}
+
+body_part Character::hp_to_bp( const hp_part hpart )
+{
+    switch(hpart) {
+        case hp_head:
+            return bp_head;
+        case hp_torso:
+            return bp_torso;
+        case hp_arm_l:
+            return bp_arm_l;
+        case hp_arm_r:
+            return bp_arm_r;
+        case hp_leg_l:
+            return bp_leg_l;
+        case hp_leg_r:
+            return bp_leg_r;
+        default:
+            return num_bp;
+    }
+}
+
+body_part Character::get_random_body_part( bool main ) const
+{
+    // TODO: Refuse broken limbs, adjust for mutations
+    return random_body_part( main );
+}
+
+std::vector<body_part> Character::get_all_body_parts( bool main ) const
+{
+    // @todo Remove broken parts, parts removed by mutations etc.
+    static const std::vector<body_part> all_bps = {{
+        bp_head,
+        bp_eyes,
+        bp_mouth,
+        bp_torso,
+        bp_arm_l,
+        bp_arm_r,
+        bp_hand_l,
+        bp_hand_r,
+        bp_leg_l,
+        bp_leg_r,
+        bp_foot_l,
+        bp_foot_r,
+    }};
+
+    static const std::vector<body_part> main_bps = {{
+        bp_head,
+        bp_torso,
+        bp_arm_l,
+        bp_arm_r,
+        bp_leg_l,
+        bp_leg_r,
+    }};
+
+    return main ? main_bps : all_bps;
+}
+
+// @todo Better place for it?
+std::string tag_colored_string( const std::string &s, nc_color color )
+{
+    // @todo Make this tag generation a function, put it in good place
+    std::string color_tag_open = "<color_" + string_from_color( color ) + ">";
+    return color_tag_open + s;
+}
+
+std::string Character::extended_description() const
+{
+    std::ostringstream ss;
+    if( is_player() ) {
+        // <bad>This is me, <player_name>.</bad>
+        ss << string_format( _( "This is you - %s." ), name.c_str() );
+    } else {
+        ss << string_format( _( "This is %s." ), name.c_str() );
+    }
+
+    ss << std::endl << "--" << std::endl;
+
+    const auto &bps = get_all_body_parts( true );
+    // Find length of bp names, to align
+    // accumulate looks weird here, any better function?
+    size_t longest = std::accumulate( bps.begin(), bps.end(), 0, []( size_t m, body_part bp ) {
+        return std::max( m, body_part_name_as_heading( bp, 1 ).size() );
+    } );
+
+    // This is a stripped-down version of the body_window function
+    // This should be extracted into a separate function later on
+    for( body_part bp : bps ) {
+        const std::string &bp_heading = body_part_name_as_heading( bp, 1 );
+        hp_part hp = bp_to_hp( bp );
+
+        const int maximal_hp = hp_max[hp];
+        const int current_hp = hp_cur[hp];
+        const nc_color state_col = limb_color( bp, true, true, true );
+        nc_color name_color = state_col;
+        auto hp_bar = get_hp_bar( current_hp, maximal_hp, false );
+
+        ss << tag_colored_string( bp_heading, name_color );
+        // Align them. There is probably a less ugly way to do it
+        ss << std::string( longest - bp_heading.size() + 1, ' ' );
+        ss << tag_colored_string( hp_bar.first, hp_bar.second );
+        // Trailing bars. UGLY!
+        // @todo Integrate into get_hp_bar somehow
+        ss << tag_colored_string( std::string( 5 - hp_bar.first.size(), '.' ), c_white );
+        ss << std::endl;
+    }
+
+    ss << "--" << std::endl;
+    ss << _( "Wielding:" ) << " ";
+    if( weapon.is_null() ) {
+        ss << _( "Nothing" );
+    } else {
+        ss << weapon.tname();
+    }
+
+    ss << std::endl;
+    ss << _( "Wearing:" ) << " ";
+    ss << enumerate_as_string( worn.begin(), worn.end(), []( const item &it ) {
+        return it.tname();
+    } );
+
+    return replace_colors( ss.str() );
 }

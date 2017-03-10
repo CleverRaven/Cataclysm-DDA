@@ -5,7 +5,7 @@
     "type": "uncraft",
     "using": [ [ "ammo_bullet", 10 ] ],
     "components": [
-      [ [ "chem_black_powder", 10 ] ]
+      [ [ "chem_black_powder", 5 ] ]
     ]
   },
   {
@@ -14,7 +14,7 @@
     "type": "uncraft",
     "using": [ [ "ammo_bullet", 10 ] ],
     "components": [
-      [ [ "chem_black_powder", 10 ] ]
+      [ [ "chem_black_powder", 5 ] ]
     ]
   }
 ]

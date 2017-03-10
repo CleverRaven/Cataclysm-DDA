@@ -1,6 +1,7 @@
 #include <cmath>
 #include <sstream>
 #include <limits>
+#include <array>
 
 #include "calendar.h"
 #include "output.h"
@@ -534,5 +535,21 @@ void calendar::sync()
 
 bool calendar::once_every(int event_frequency) {
     return (calendar::turn % event_frequency) == 0;
+}
+
+const std::string &calendar::name_season( season_type s )
+{
+    static const std::array<std::string, 5> season_names = {{
+        std::string( _( "Spring" ) ),
+        std::string( _( "Summer" ) ),
+        std::string( _( "Autumn" ) ),
+        std::string( _( "Winter" ) ),
+        std::string( _( "End times" ) )
+    }};
+    if( s >= SPRING && s <= WINTER ) {
+        return season_names[ s ];
+    }
+
+    return season_names[ 4 ];
 }
 
