@@ -785,6 +785,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Handles the nutrition value for a comestible **/
         int nutrition_for( const itype *comest ) const;
+        /**
+         * Returns a reference to the item itself (if it's comestible),
+         * the first of its contents (if it's comestible) or null item otherwise.
+         */
+        item &get_comestible_from( item &it ) const;
 
         /** Get vitamin contents for a comestible */
         std::map<vitamin_id, int> vitamins_from( const item& it ) const;
@@ -1576,11 +1581,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool feed_furnace_with( item &it );
         /** Check whether player can consume this very item */
         bool can_consume_as_is( const item &it ) const;
-        /**
-         * Returns a reference to the item itself (if it's comestible),
-         * the first of its contents (if it's comestible) or null item otherwise.
-         */
-        item &get_comestible_from( item &it ) const;
         /**
          * Consumes an item as medication.
          * @param target Item consumed. Must be a medication or a container of medication.
