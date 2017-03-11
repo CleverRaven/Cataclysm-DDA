@@ -288,93 +288,76 @@ edible_rating player::will_eat( const item &food, bool interactive ) const
         }
         return edibility;
     }
-    // Asks if interactive.
-    const auto maybe_query = [&]( const char *str ) {
-        return interactive ? query_yn( str, food.tname().c_str() ) : false;
-    };
+    std::vector<std::pair<edible_rating, std::string>> consequences;
 
     const auto comest = food.type->comestible.get();
-    // TODO: Move this cache to a structure and pass it around
-    // to speed up checking entire inventory for edibles
-    const bool gourmand = has_trait( "GOURMAND" );
-    const bool hibernate = has_active_mutation( "HIBERNATE" );
-    const bool eathealth = has_trait( "EATHEALTH" );
-    const bool slimespawner = has_trait( "SLIMESPAWNER" );
-    const int nutr = nutrition_for( food.type );
-    const int quench = comest->quench;
-    const int temp_hunger = get_hunger() - nutr;
-    const int temp_thirst = get_thirst() - quench;
-
-    if( interactive && hibernate &&
-        ( get_hunger() >= -60 && get_thirst() >= -60 ) &&
-        ( temp_hunger < -60 || temp_thirst < -60 ) ) {
-        if( !maybe_query( _( "You're adequately fueled. Prepare for hibernation?" ) ) ) {
-            return TOO_FULL;
-        }
-    }
 
     const bool carnivore = has_trait( "CARNIVORE" );
-    if( food.has_flag( "CANNIBALISM" ) ) {
-        if( !has_trait_flag( "CANNIBAL" ) &&
-            !maybe_query( _( "The thought of eating that makes you feel sick.  Really do it?" ) ) ) {
-            return CANNIBALISM;
-        }
+    if( food.has_flag( "CANNIBALISM" ) && !has_trait_flag( "CANNIBAL" ) ) {
+        consequences.emplace_back( CANNIBALISM,
+                                   _( "The thought of eating human flesh makes you feel sick." ) );
     }
 
-    if( allergy_type( food ) != MORALE_NULL &&
-        !maybe_query( _( "Really eat that %s?  Your stomach won't be happy." ) ) ) {
-        return ALLERGY;
-    }
-
-    if( carnivore && food.has_flag( "ALLERGEN_JUNK" ) && !food.has_flag( "CARNIVORE_OK" ) &&
-        !maybe_query( _( "Really eat that %s?  Your stomach won't be happy." ) ) ) {
-        return ALLERGY;
+    if( ( allergy_type( food ) != MORALE_NULL ) || ( carnivore && food.has_flag( "ALLERGEN_JUNK" ) &&
+            !food.has_flag( "CARNIVORE_OK" ) ) ) {
+        consequences.emplace_back( ALLERGY, _( "Your stomach won't be happy (allergy)." ) );
     }
 
     const bool edible    = comest->comesttype == "FOOD" || food.has_flag( "USE_EAT_VERB" );
     const bool saprophage = has_trait( "SAPROPHAGE" );
 
     if( food.rotten() ) {
-        if( !saprophage && !has_trait( "SAPROVORE" ) &&
-            !maybe_query( _( "This %s smells awful!  Eat it?" ) ) ) {
-            return ROTTEN;
+        if( !saprophage && !has_trait( "SAPROVORE" ) ) {
+            consequences.emplace_back( ROTTEN, _( "This is rotten an smells awful!" ) );
         }
-    } else if( saprophage && edible && !food.has_flag( "FERTILIZER" ) &&
-               !maybe_query( _( "Really eat that %s?  Your stomach won't be happy." ) ) ) {
+    } else if( saprophage && edible && !food.has_flag( "FERTILIZER" ) ) {
         // Note: We're allowing all non-solid "food". This includes drugs
         // Hardcoding fertilizer for now - should be a separate flag later
         //~ No, we don't eat "rotten" food. We eat properly aged food, like a normal person.
         //~ Semantic difference, but greatly facilitates people being proud of their character.
-        if( interactive ) {
-            add_msg_if_player( m_info, _( "It's too fresh, let it age a little first." ) );
-        }
-        return ROTTEN;
+        consequences.emplace_back( ROTTEN, _( "Your stomach won't be happy (not rotten enough)." ) );
     }
 
     if( edible && has_effect( effect_nausea ) ) {
-        if( !maybe_query(
-                _( "You still feel nauseous and will probably puke it all up again.  Eat anyway?" ) ) ) {
-            return ALLERGY;
+        consequences.emplace_back( ALLERGY,
+                                   _( "You still feel nauseous and will probably puke it all up again." ) );
+    }
+
+    const int nutr = nutrition_for( food.type );
+    const int quench = comest->quench;
+    const int temp_hunger = get_hunger() - nutr;
+    const int temp_thirst = get_thirst() - quench;
+
+    if( has_active_mutation( "HIBERNATE" ) ) {
+        if( ( get_hunger() >= -60 && get_thirst() >= -60 ) &&
+            ( temp_hunger < -60 || temp_thirst < -60 ) ) {
+            consequences.emplace_back( TOO_FULL, _( "You're adequately fueled. Prepare for hibernation?" ) );
+        }
+    } else if( !has_trait( "EATHEALTH" ) && !has_trait( "SLIMESPAWNER" ) ) {
+        if( get_hunger() < 0 && nutr >= 5 && !has_trait( "GOURMAND" ) ) {
+            consequences.emplace_back( TOO_FULL, _( "You're full already." ) );
+        } else if( ( ( nutr > 0 && temp_hunger < stomach_capacity() ) ||
+                     ( comest->quench > 0 && temp_thirst < stomach_capacity() ) ) &&
+                   !food.has_infinite_charges() ) {
+            consequences.emplace_back( TOO_FULL, _( "You will not be able to finish it all." ) );
         }
     }
 
-    const bool overeating = get_hunger() < 0 && nutr >= 5 && !gourmand && !eathealth && !slimespawner &&
-                            !hibernate;
-    // Print at most one of those
-    bool overfull = false;
+    if( !consequences.empty() ) {
+        const auto res = consequences.front().first;
+        if( !interactive ) {
+            return res;
+        }
+        std::ostringstream req;
+        for( const auto &elem : consequences ) {
+            req << elem.second << std::endl;
+        }
+        req << _( "Consume anyway?" );
 
-    if( overeating ) {
-        overfull = !maybe_query( _( "You're full.  Force yourself to eat?" ) );
-    } else if( ( ( nutr > 0 && temp_hunger < stomach_capacity() ) ||
-                 ( comest->quench > 0 && temp_thirst < stomach_capacity() ) ) &&
-               !food.has_infinite_charges() && !eathealth && !slimespawner ) {
-        overfull = !maybe_query( _( "You will not be able to finish it all.  Consume it?" ) );
+        if( !query_yn( "%s", req.str().c_str() ) ) {
+            return res;
+        }
     }
-
-    if( overfull ) {
-        return TOO_FULL;
-    }
-
     // All checks ended, it's edible (or we're pretending it is)
     return EDIBLE;
 }
