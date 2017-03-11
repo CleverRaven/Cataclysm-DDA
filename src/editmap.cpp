@@ -1926,6 +1926,22 @@ int editmap::mapgen_retarget()
     return ret;
 }
 
+class edit_mapgen_callback : public uimenu_callback {
+private:
+    editmap *_e;
+public:
+    edit_mapgen_callback( editmap *e ) {
+        _e = e;
+    };
+    bool key( const input_event &event, int entnum, uimenu *menu ) override {
+        if( event.get_first_input() == 'm' ) {
+            _e->mapgen_retarget();
+            return true;
+        }
+        return false;
+    }
+};
+
 /*
  * apply mapgen to a temporary map and overlay over terrain window, optionally regenerating, rotating, and applying to the real in-game map
  */
@@ -1938,6 +1954,8 @@ int editmap::edit_mapgen()
     gmenu.w_height = TERMY - infoHeight;
     gmenu.w_y = 0;
     gmenu.w_x = offsetX;
+    edit_mapgen_callback cb(this);
+    gmenu.callback = &cb;
     gmenu.return_invalid = true;
 
     for( size_t i = 0; i < overmap_terrains::count(); i++ ) {
@@ -1977,11 +1995,6 @@ int editmap::edit_mapgen()
 
         if( gmenu.ret > 0 ) {
             mapgen_preview( tc, gmenu );
-        } else {
-            if( gmenu.keypress == 'm' ) {
-                mapgen_retarget();
-
-            }
         }
     } while( ! menu_escape( gmenu.keypress ) );
     return ret;
