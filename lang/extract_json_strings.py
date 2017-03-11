@@ -100,6 +100,7 @@ automatically_convertible = {
     "MAGAZINE",
     "MOD_INFO",
     "MONSTER",
+    "morale_type",
     "mutation",
     "npc_class",
     "overmap_terrain",
