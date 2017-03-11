@@ -771,14 +771,18 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  Returns true if the item is to be removed (doesn't remove). */
         bool consume_item( item &eat );
-        /** This block is to be moved to character.h */
-        bool is_allergic( const item &food ) const;
         /** Returns allergy type or MORALE_NULL if not allergic for this player */
         morale_type allergy_type( const item &food ) const;
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
         bool eat( item &food, bool force = false );
-        edible_rating can_eat( const item &food, bool interactive = false,
-                               bool force = false ) const;
+
+        /** The food can be (theoretically) eaten. No matter the consquences. */
+        edible_rating can_eat( const item &food, std::string *err = nullptr ) const;
+        /**
+         * Same as @ref can_eat, but takes consequences into account.
+         * Asks about them if @param interactive is true, refuses otherwise.
+         */
+        edible_rating will_eat( const item &food, bool interactive = false ) const;
 
         /** Gets player's minimum hunger and thirst */
         int stomach_capacity() const;

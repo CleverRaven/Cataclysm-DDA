@@ -1436,7 +1436,7 @@ int npc::value( const item &it, int market_price ) const
         if( get_thirst() > 40 ) {
             comestval += ( it.type->comestible->quench + get_thirst() - 40 ) / 4;
         }
-        if( comestval > 0 && can_eat( it ) == EDIBLE ) {
+        if( comestval > 0 && will_eat( it ) == EDIBLE ) {
             ret += comestval;
         }
     }
@@ -2339,7 +2339,7 @@ mfaction_id npc::get_monster_faction() const
     static const string_id<monfaction> human_fac( "human" );
     static const string_id<monfaction> player_fac( "player" );
     static const string_id<monfaction> bee_fac( "bee" );
-    
+
     if( is_friend() ) {
         return player_fac.id();
     }
