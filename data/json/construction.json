@@ -1228,6 +1228,7 @@
             [ [ "rope_30", 1 ], [ "vine_30", 1 ] ],
             [ [ "stick", 8 ], [ "2x4", 8 ] ]
         ],
+        "pre_note" : "Must be adjacent to a palisade wall that is itself adjacent to a palisade gate in order to open said gate.",
         "pre_special" : "check_empty",
         "post_terrain" : "t_palisade_pulley"
     },{
@@ -1245,6 +1246,7 @@
             [ [ "2x4", 3 ] ],
             [ [ "rope_6", 2 ], [ "vine_30", 1 ] ]
         ],
+        "pre_note" : "Must be between palisade walls to function, and at least one wall must have an adjacent rope & pulley system.",
         "pre_terrain" : "t_pit",
         "post_terrain" : "t_palisade_gate"
     },{
