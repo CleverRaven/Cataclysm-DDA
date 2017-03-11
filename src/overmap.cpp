@@ -2977,28 +2977,28 @@ void overmap::move_hordes()
 void overmap::add_roamer(const monster& critter, tripoint sm) {
     // Scan for compatible hordes in this area.
     mongroup *add_to_group = NULL;
-    auto group_bucket = zg.equal_range(sm);
+    auto group_bucket = zg.equal_range( sm );
 
-    static const mongroup_id GROUP_ZOMBIE("GROUP_ZOMBIE");
+    static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
     std::for_each( group_bucket.first, group_bucket.second,
-                   [&](std::pair<const tripoint, mongroup> &horde_entry ) {
+                   [&]( std::pair<const tripoint, mongroup> &horde_entry ) {
                        mongroup &horde = horde_entry.second;
 
                        // We only absorb zombies into GROUP_ZOMBIE hordes
-                       if(horde.horde && !horde.monsters.empty() && horde.type == GROUP_ZOMBIE) {
+                       if( horde.horde && !horde.monsters.empty() && horde.type == GROUP_ZOMBIE ) {
                            add_to_group = &horde;
                        }
                    });
 
     // If there is no horde to add the monster to, create one.
-    if(add_to_group == NULL) {
-        mongroup m(GROUP_ZOMBIE, sm.x, sm.y, sm.z, 1, 0);
+    if( add_to_group == NULL ) {
+        mongroup m( GROUP_ZOMBIE, sm.x, sm.y, sm.z, 1, 0 );
         m.horde = true;
-        m.monsters.push_back(critter);
+        m.monsters.push_back( critter );
         m.interest = 0; // Ensures that we will select a new target.
         add_mon_group( m );
     } else {
-        add_to_group->monsters.push_back(critter);
+        add_to_group->monsters.push_back( critter );
     }
 }
 

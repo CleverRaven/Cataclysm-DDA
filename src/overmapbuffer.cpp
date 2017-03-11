@@ -823,7 +823,7 @@ void overmapbuffer::add_roamer(const monster &critter)
     const point omp = sm_to_om_remain( sm.x, sm.y );
     overmap &om = get( omp.x, omp.y );
 
-    om.add_roamer(critter, sm);
+    om.add_roamer( critter, sm );
 }
 
 void overmapbuffer::despawn_monster(const monster &critter)

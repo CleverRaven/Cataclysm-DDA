@@ -12519,21 +12519,21 @@ void game::vertical_move(int movez, bool force)
     if( !m.has_zlevels() ) {
         const int to_x = u.posx();
         const int to_y = u.posy();
-        for (unsigned int i = 0; i < num_zombies();) {
-            monster &critter = zombie(i);
-            int turns = critter.turns_to_reach(to_x, to_y);
-            if (turns < 10 && coming_to_stairs.size() < 8 && critter.will_reach(to_x, to_y)
-                && !slippedpast) {
+        for( unsigned int i = 0; i < num_zombies(); ) {
+            monster &critter = zombie( i );
+            int turns = critter.turns_to_reach( to_x, to_y );
+            if( turns < 10 && coming_to_stairs.size() < 8 && critter.will_reach( to_x, to_y )
+                && !slippedpast ) {
                 critter.staircount = 10 + turns;
                 critter.on_unload();
-                coming_to_stairs.push_back(critter);
-                remove_zombie(i);
+                coming_to_stairs.push_back( critter );
+                remove_zombie( i );
             } else {
                 i++;
             }
         }
 
-        despawn_monsters(0, 0, movez);
+        despawn_monsters( 0, 0, movez );
     }
 
     // Shift the map up or down
@@ -13171,8 +13171,9 @@ void game::update_stair_monsters()
     }
 }
 
-bool game::creature_can_roam(const monster& critter) {
-    if (!get_world_option<bool>( "WANDER_SPAWNS" )) {
+bool game::creature_can_roam( const monster &critter )
+{
+    if( !get_world_option<bool>( "WANDER_SPAWNS" ) ) {
         return false;
     }
 
@@ -13181,20 +13182,20 @@ bool game::creature_can_roam(const monster& critter) {
     // to pathing toward the submap edges (to check if the creature can leave the submap). For instance,
     // monsters locked in a closed building upon leaving the reality bubble shouldn't start roaming out
     // of them.
-    if (m.has_flag_ter_or_furn( TFLAG_INDOORS, critter.pos())) {
+    if( m.has_flag_ter_or_furn( TFLAG_INDOORS, critter.pos() ) ) {
         return false;
     }
 
     // Only zombies on z-level 0 may join hordes.
-    if ( critter.posz() != 0 ) {
+    if( critter.posz() != 0 ) {
         return false;
     }
 
     // Check if the monster is a zombie. Only zombies can roam for now.
-    auto& type = *(critter.type);
+    auto &type = *( critter.type );
     if(
-            !type.species.count(species_id("ZOMBIE")) || // Only add zombies to hordes.
-            type.id == mtype_id("mon_jabberwock") || // Jabberwockies are an exception.
+            !type.species.count( species_id( "ZOMBIE" ) ) || // Only add zombies to hordes.
+            type.id == mtype_id( "mon_jabberwock" ) || // Jabberwockies are an exception.
             critter.has_effect( effect_pet ) || // "Zombie pet" zlaves are, too.
             critter.mission_id != -1 // We mustn't delete monsters that are related to missions.
             ) {
@@ -13209,7 +13210,7 @@ void game::despawn_monster(int mondex)
     monster &critter = zombie( mondex );
     if( !critter.is_hallucination() ) {
         // hallucinations aren't stored, they come and go as they like,
-        if (creature_can_roam(critter)) {
+        if( creature_can_roam( critter ) ) {
             overmap_buffer.add_roamer( critter );
         } else {
             overmap_buffer.despawn_monster( critter );
@@ -13226,9 +13227,9 @@ void game::despawn_monsters( const int shiftx, const int shifty, const int shift
     if( shiftx == 0 && shifty == 0 && shiftz == 0 ) {
         return;
     }
-    for( unsigned int i = 0; i < num_zombies();) {
+    for( unsigned int i = 0; i < num_zombies(); ) {
         monster &critter = zombie( i );
-        tripoint pos_after_shift = critter.pos() + tripoint(shiftx, shifty, shiftz);
+        tripoint pos_after_shift = critter.pos() + tripoint( shiftx, shifty, shiftz );
 
         if( !m.inbounds( pos_after_shift ) || ( shiftz != 0 && !m.has_zlevels() ) ) {
             // Either a vertical shift or the critter is now outside of the reality bubble,
@@ -13240,16 +13241,16 @@ void game::despawn_monsters( const int shiftx, const int shifty, const int shift
     }
 }
 
-void game::shift_monsters( const int shiftx, const int shifty, const int shiftz )
+void game::shift_monsters( const int shiftx, const int shifty, const int )
 {
     // If either shift argument is non-zero, we're shifting.
     if( shiftx == 0 && shifty == 0 ) {
         return;
     }
     for( unsigned int i = 0; i < num_zombies(); i++) {
-        monster &critter = zombie(i);
-        if (shiftx != 0 || shifty != 0) {
-            critter.shift(shiftx, shifty);
+        monster &critter = zombie( i );
+        if( shiftx != 0 || shifty != 0 ) {
+            critter.shift( shiftx, shifty );
         }
     }
     // The order in which zombies are shifted may cause zombies to briefly exist on
