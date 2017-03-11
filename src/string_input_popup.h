@@ -52,7 +52,7 @@ class string_input_popup
         int _startx = 0;
         int _starty = 0;
         int _endx = 0;
-        int _position = 0;
+        int _position = -1;
 
         WINDOW_PTR w_ptr;
         WINDOW *w = nullptr;
