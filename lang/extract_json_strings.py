@@ -101,6 +101,7 @@ automatically_convertible = {
     "MOD_INFO",
     "MONSTER",
     "mutation",
+    "morale_type",
     "npc_class",
     "overmap_terrain",
     "skill",
