@@ -128,10 +128,6 @@ class uimenu;
 class uimenu_callback
 {
     public:
-        void *myptr;
-        void setptr( void *ptr ) {
-            myptr = ptr;
-        }
         virtual void select( int /*entnum*/, uimenu * ) {};
         virtual bool key( const input_event &/*key*/, int /*entnum*/, uimenu * ) {
             return false;

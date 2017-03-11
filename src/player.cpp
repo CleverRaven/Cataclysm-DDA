@@ -8527,32 +8527,9 @@ item::reload_option player::select_ammo( const item &base, const std::vector<ite
         return row;
     };
 
-    struct : public uimenu_callback {
-        std::function<std::string( int )> draw_row;
-
-        bool key( const input_event &event, int idx, uimenu * menu ) override {
-            auto &sel = static_cast<std::vector<reload_option> *>( myptr )->operator[]( idx );
-            switch( event.get_first_input() ) {
-                case KEY_LEFT:
-                    sel.qty( sel.qty() - 1 );
-                    menu->entries[ idx ].txt = draw_row( idx );
-                    return true;
-
-                case KEY_RIGHT:
-                    sel.qty( sel.qty() + 1 );
-                    menu->entries[ idx ].txt = draw_row( idx );
-                    return true;
-            }
-            return false;
-        }
-    } cb;
-    cb.setptr( const_cast<std::vector<reload_option> *>( &opts ) );
-    cb.draw_row = draw_row;
-    menu.callback = &cb;
-
     itype_id last = uistate.lastreload[ base.ammo_type() ];
 
-    for( auto i = 0; i != (int) opts.size(); ++i ) {
+    for( auto i = 0; i != ( int )opts.size(); ++i ) {
         const item& ammo = opts[ i ].ammo->is_ammo_container() ? opts[ i ].ammo->contents.front() : *opts[ i ].ammo;
 
         char hotkey = -1;
@@ -8570,7 +8547,7 @@ item::reload_option player::select_ammo( const item &base, const std::vector<ite
             }
         }
         if( hotkey == -1 && last == ammo.typeId() ) {
-            // if this is the first occurrence of the most recently used type of ammo and the hotkey
+            // If this is the first occurrence of the most recently used type of ammo and the hotkey
             // was not already set above then set it to the keypress that opened this prompt
             hotkey = inp_mngr.get_previously_pressed_key();
             last = std::string();
@@ -8578,6 +8555,56 @@ item::reload_option player::select_ammo( const item &base, const std::vector<ite
 
         menu.addentry( i, true, hotkey, draw_row( i ) );
     }
+    // We keep the last key so that pressing the key twice (for example, r-r for reload)
+    // will always pick the first option on the list.
+    int last_key = inp_mngr.get_previously_pressed_key();
+    bool last_key_bound = std::any_of( menu.entries.begin(), menu.entries.end(), [last_key]( const uimenu_entry &e ) {
+        return e.hotkey == last_key;
+    } );
+    // If last key isn't bound and the first entry has no bind, force last key for it
+    if( !last_key_bound && menu.entries.front().hotkey == -1 ) {
+        menu.entries.front().hotkey = last_key;
+        last_key_bound = true;
+    }
+
+    struct reload_callback : public uimenu_callback {
+        public:
+            std::vector<item::reload_option> &opts;
+            const std::function<std::string( int )> &draw_row;
+            int last_key;
+            bool last_key_bound;
+
+            reload_callback( std::vector<item::reload_option> &_opts,
+                             const std::function<std::string( int )> &_draw_row,
+                             int _last_key, bool _last_key_bound ) :
+                           opts( _opts ), draw_row( _draw_row ),
+                           last_key( _last_key ), last_key_bound( _last_key_bound )
+            {}
+
+            bool key( const input_event &event, int idx, uimenu * menu ) override {
+                auto &sel = opts[ idx ];
+                auto cur_key = event.get_first_input();
+                switch( cur_key ) {
+                    case KEY_LEFT:
+                        sel.qty( sel.qty() - 1 );
+                        menu->entries[ idx ].txt = draw_row( idx );
+                        return true;
+
+                    case KEY_RIGHT:
+                        sel.qty( sel.qty() + 1 );
+                        menu->entries[ idx ].txt = draw_row( idx );
+                        return true;
+                }
+                if( !last_key_bound && cur_key == last_key ) {
+                    // Select the first entry on the list
+                    menu->ret = 0;
+                    return true;
+                }
+                return false;
+            }
+        // @todo Get rid of the const cast - it's fucking bullshit
+    } cb( const_cast<std::vector<item::reload_option> &>( opts ), draw_row, last_key, last_key_bound );
+    menu.callback = &cb;
 
     menu.query();
     if( menu.ret < 0 || menu.ret >= ( int ) opts.size() ) {
