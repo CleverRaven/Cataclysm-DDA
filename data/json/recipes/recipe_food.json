@@ -992,7 +992,7 @@
     ],
     [
       ["lemonade_powder", 1],
-      ["sweet_fruit", 1, "LIST"],
+      ["sweet_fruit_like", 1, "LIST"],
       ["coconut", 1]
     ]
   ]
@@ -1016,7 +1016,7 @@
     ],
     [
       ["lemonade_powder", 1],
-      ["sweet_fruit", 1, "LIST"],
+      ["sweet_fruit_like", 1, "LIST"],
       ["coconut", 1]
     ]
   ]
@@ -4978,7 +4978,7 @@
       [ "beet_syrup", 4 ]
     ],
     [
-      [ "sweet_fruit", 1, "LIST" ],
+      [ "sweet_fruit_like", 1, "LIST" ],
       [ "jam_fruit", 1 ],
       [ "jam_strawberries", 1 ],
       [ "jam_blueberries", 1 ],
@@ -5195,7 +5195,7 @@
       [ "water_clean", 1 ]
     ],
     [
-      ["sweet_fruit", 1, "LIST"],
+      ["sweet_fruit_like", 1, "LIST"],
       ["jam_fruit", 1],
       ["jam_strawberries", 1],
       ["jam_blueberries", 1]
@@ -5395,7 +5395,7 @@
       [ "water_clean", 1 ]
     ],
     [
-      ["sweet_fruit", 1, "LIST"],
+      ["sweet_fruit_like", 1, "LIST"],
       ["jam_fruit", 1],
       ["jam_strawberries", 1],
       ["jam_blueberries", 1]
@@ -5533,7 +5533,7 @@
       [ "water_clean", 1 ]
     ],
     [
-      ["sweet_fruit", 1, "LIST"],
+      ["sweet_fruit_like", 1, "LIST"],
       ["choco_coffee_beans", 5],
       ["chocolate", 1],
       ["jam_fruit", 1],
@@ -6633,7 +6633,7 @@
   ],
   "components": [
     [
-      ["sweet_fruit", 2, "LIST"],
+      ["sweet_fruit_like", 2, "LIST"],
       ["bum_wine", 14],
       ["coconut", 2],
       ["coffee_syrup", 5],
