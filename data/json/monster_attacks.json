@@ -18,9 +18,9 @@
       { "id": "bleed", "duration": 100, "bp": "TORSO" },
       { "id": "downed", "duration": 3 }
     ],
-    "hit_dmg_u": "The %1$s impales your torso!",
-    "hit_dmg_npc": "The %1$s impales <npcname>'s torso!",
-    "no_dmg_msg_u": "The %1$s tries to impale your torso, but fails to penetrate your armor!",
-    "no_dmg_msg_npc": "The %1$s tries to impale <npcname>'s torso, but fails to penetrate their armor!"
+    "hit_dmg_u": "The <attacker_name> impales your <target_part_accusative>!",
+    "hit_dmg_npc": "The <attacker_name> impales <target_name>'s <target_part_accusative>!",
+    "no_dmg_msg_u": "The <attacker_name> tries to impale your <target_part_accusative>, but fails to penetrate your armor!",
+    "no_dmg_msg_npc": "The <attacker_name> tries to impale <target_name>'s <target_part_accusative>, but fails to penetrate their armor!"
   }
 ]
