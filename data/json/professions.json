@@ -142,6 +142,18 @@
             },
             {
                 "level": 2,
+                "name": "gun"
+            },
+            {
+                "level": 2,
+                "name": "archery"
+            },
+			{
+                "level": 2,
+                "name": "tailor"
+            },
+            {
+                "level": 2,
                 "name": "traps"
             },
             {
@@ -153,8 +165,9 @@
                 "name": "swimming"
             }
         ],
-            "items": {
-                "both": [
+        "items": {
+            "both": {
+                "items": [
                     "pants_cargo",
                     "boots",
                     "hat_boonie",
@@ -162,17 +175,30 @@
                     "jacket_light",
                     "socks",
                     "backpack",
+                    "canteen",
+                    "binoculars",
                     "rope_30",
-                    "canteen"
+                    "sewing_kit",
+                    "e_tool",
+                    "hatchet",
+                    "mess_kit",
+					"rollmat",
+					"tent_kit"
                 ],
-                "male": [
-                    "boxer_shorts"
-                ],
-                "female": [
-                    "bra",
-                    "boxer_shorts"
+                "entries": [
+                    { "item": "crossbow", "ammo-item": "bolt_steel", "charges": 1, "contents-item": "shoulder_strap" },
+                    { "item": "bolt_steel", "charges": 20, "container-item": "quiver" }
                 ]
-            }
+            },
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boxer_shorts"
+            ]
+        },
+        "flags": ["SCEN_ONLY"]
     },
     {
         "type": "profession",
@@ -2550,7 +2576,7 @@
         "ident": "bionic_hitman",
         "name": "Bionic Assassin",
         "description": "The product of millions of dollars of clandestine research, you are a bionic sleeper agent capable of silently engaging your target while maintaining an innocuous appearance.",
-        "points": 8,
+        "points": 6,
         "CBMs":[
             "bio_cqb",
             "bio_blade",
@@ -3215,15 +3241,15 @@
         ],
         "skills": [
             {
-                "level": 2,
+                "level": 3,
                 "name": "melee"
             },
             {
-                "level": 2,
+                "level": 3,
                 "name": "unarmed"
             },
             {
-                "level": 2,
+                "level": 3,
                 "name": "dodge"
             },
             {
