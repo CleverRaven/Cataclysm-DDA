@@ -36,4 +36,24 @@ struct targeting_data {
     firing_callback post_fire;
 };
 
+class target_handler {
+    // @todo: alias return type of target_ui
+    public:
+        /**
+         *  Prompts for target and returns trajectory to it.
+         *  @param args structure containing arguments passed to the overloaded form.
+         *  @param mode targeting mode, which affects UI display among other things.
+         *  @param relevant active item, if any (for instance, a weapon to be aimed).
+         *  @param range the maximum distance to which we're allowed to draw a target.
+         *  @param ammo effective ammo data (derived from @param relevant if unspecified).
+         *  @param on_mode_change callback when user attempts changing firing mode.
+         *  @param on_ammo_change callback when user attempts changing ammo.
+         */
+        std::vector<tripoint> target_ui( player pc, const targeting_data &args );
+        std::vector<tripoint> target_ui( player pc, target_mode mode,
+                                         item *relevant, int range, const itype *ammo,
+                                         const target_callback &on_mode_change,
+                                         const target_callback &on_ammo_change );
+}
+
 #endif // RANGED_H

@@ -1147,32 +1147,39 @@ static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const t
     return line_number;
 }
 
-// TODO: Shunt redundant drawing code elsewhere
-std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int range, const itype *ammo,
-                                          const target_callback &on_mode_change,
-                                          const target_callback &on_ammo_change )
+std::vector<tripoint> target_handler::target_ui( player pc, const targeting_data &args ) {
+    return target_ui( pc, args.mode, args.relevant, args.range,
+                      args.ammo, args.on_mode_change, args.on_ammo_change );
+}
+
+// @todo: Shunt redundant drawing code elsewhere
+std::vector<tripoint> target_handler::pl_target_ui( player pc, target_mode mode,
+                                                    item *relevant, int range, const itype *ammo,
+                                                    const target_callback &on_mode_change,
+                                                    const target_callback &on_ammo_change )
 {
+    // @todo: this should return a reference to a static vector which is cleared on each call.
     static const std::vector<tripoint> empty_result{};
     std::vector<tripoint> ret;
 
     int sight_dispersion = 0;
     if ( !relevant ) {
-        relevant = &u.weapon;
+        relevant = &pc.weapon;
     } else {
-        sight_dispersion = u.effective_dispersion( relevant->sight_dispersion() );
+        sight_dispersion = pc.effective_dispersion( relevant->sight_dispersion() );
     }
 
-    tripoint src = u.pos();
-    tripoint dst = u.pos();
+    tripoint src = pc.pos();
+    tripoint dst = pc.pos();
 
     std::vector<Creature *> t;
     int target;
 
     auto update_targets = [&]( int range, std::vector<Creature *>& targets, int &idx, tripoint &dst ) {
-        targets = u.get_targetable_creatures( range );
+        targets = pc.get_targetable_creatures( range );
 
         targets.erase( std::remove_if( targets.begin(), targets.end(), [&]( const Creature *e ) {
-            return u.attitude_to( *e ) == Creature::Attitude::A_FRIENDLY;
+            return pc.attitude_to( *e ) == Creature::Attitude::A_FRIENDLY;
         } ), targets.end() );
 
         if( targets.empty() ) {
@@ -1181,10 +1188,11 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         }
 
         std::sort( targets.begin(), targets.end(), [&]( const Creature *lhs, const Creature *rhs ) {
-            return rl_dist( lhs->pos(), u.pos() ) < rl_dist( rhs->pos(), u.pos() );
+            return rl_dist( lhs->pos(), pc.pos() ) < rl_dist( rhs->pos(), pc.pos() );
         } );
 
         const Creature *last = nullptr;
+        // @todo: last_target should be member of target_handler
         if( g->last_target >= 0 ) {
             if( g->last_target_was_npc ) {
                 last = size_t( last_target ) < active_npc.size() ? active_npc[ last_target ] : nullptr;
@@ -1306,7 +1314,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
     };
 
     const auto confirm_non_enemy_target = [this]( const tripoint &dst ) {
-        if( dst == u.pos() ) {
+        if( dst == pc.pos() ) {
             return true;
         }
         const int npc_index = npc_at( dst );
@@ -1320,7 +1328,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         return true;
     };
 
-    const tripoint old_offset = u.view_offset;
+    const tripoint old_offset = pc.view_offset;
     do {
         ret = g->m.find_clear_path( src, dst );
 
@@ -1344,7 +1352,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         if( snap_to_target ) {
             center = dst;
         } else {
-            center = u.pos() + u.view_offset;
+            center = pc.pos() + pc.view_offset;
         }
         // Clear the target window.
         for( int i = 1; i <= getmaxy(w_target) - num_instruction_lines - 2; i++ ) {
@@ -1402,7 +1410,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             line_number++;
         }
 
-        if( critter && critter != &u && u.sees( *critter ) ) {
+        if( critter && critter != &u && pc.sees( *critter ) ) {
             // The 6 is 2 for the border and 4 for aim bars.
             int available_lines = compact ? 1 : ( height - num_instruction_lines - line_number - 6 );
             line_number = critter->print_info( w_target, line_number, available_lines, 1);
@@ -1410,12 +1418,12 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             mvwputch(w_terrain, POSY + dst.y - center.y, POSX + dst.x - center.x, c_red, '*');
         }
 
-        if( mode == TARGET_MODE_FIRE && critter != nullptr && u.sees( *critter ) ) {
-            double predicted_recoil = u.recoil;
+        if( mode == TARGET_MODE_FIRE && critter != nullptr && pc.sees( *critter ) ) {
+            double predicted_recoil = pc.recoil;
             int predicted_delay = 0;
-            if( aim_mode->has_threshold && aim_mode->threshold < u.recoil ) {
+            if( aim_mode->has_threshold && aim_mode->threshold < pc.recoil ) {
                 do{
-                    const double aim_amount = u.aim_per_move( *relevant, predicted_recoil );
+                    const double aim_amount = pc.aim_per_move( *relevant, predicted_recoil );
                     if( aim_amount > 0 ) {
                         predicted_delay++;
                         predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );
@@ -1423,7 +1431,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                 } while( predicted_recoil > aim_mode->threshold &&
                           predicted_recoil - sight_dispersion > 0 );
             } else {
-                predicted_recoil = u.recoil;
+                predicted_recoil = pc.recoil;
             }
 
             line_number = print_aim( u, w_target, line_number, &*relevant->gun_current_mode(), *critter, predicted_recoil );
@@ -1440,15 +1448,15 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         refresh();
 
         std::string action;
-        if( u.activity.id() == activity_id( "ACT_AIM" ) && u.activity.str_values[0] != "AIM" ) {
+        if( pc.activity.id() == activity_id( "ACT_AIM" ) && pc.activity.str_values[0] != "AIM" ) {
             // If we're in 'aim and shoot' mode,
             // skip retrieving input and go straight to the action.
-            action = u.activity.str_values[0];
+            action = pc.activity.str_values[0];
         } else {
             action = ctxt.handle_input();
         }
         // Clear the activity if any, we'll re-set it later if we need to.
-        u.cancel_activity();
+        pc.cancel_activity();
 
         tripoint targ( 0, 0, 0 );
         // Our coordinates will either be determined by coordinate input(mouse),
@@ -1473,10 +1481,10 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
         }
         if( g->m.has_zlevels() && action == "LEVEL_UP" ) {
             dst.z++;
-            u.view_offset.z++;
+            pc.view_offset.z++;
         } else if( g->m.has_zlevels() && action == "LEVEL_DOWN" ) {
             dst.z--;
-            u.view_offset.z--;
+            pc.view_offset.z--;
         }
 
         /* More drawing to terrain */
@@ -1513,11 +1521,11 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             for( int i = 0; i != 10; ++i ) {
                 target = do_aim( u, t, target, *relevant, dst );
             }
-            if( u.moves <= 0 ) {
+            if( pc.moves <= 0 ) {
                 // We've run out of moves, clear target vector, but leave target selected.
-                u.assign_activity( activity_id( "ACT_AIM" ), 0, 0 );
-                u.activity.str_values.push_back( "AIM" );
-                u.view_offset = old_offset;
+                pc.assign_activity( activity_id( "ACT_AIM" ), 0, 0 );
+                pc.activity.str_values.push_back( "AIM" );
+                pc.view_offset = old_offset;
                 set_last_target( dst );
                 return empty_result;
             }
@@ -1555,18 +1563,18 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
             aim_threshold = it->threshold;
             do {
                 target = do_aim( u, t, target, *relevant, dst );
-            } while( target != -1 && u.moves > 0 && u.recoil > aim_threshold &&
-                     u.recoil - sight_dispersion > 0 );
+            } while( target != -1 && pc.moves > 0 && pc.recoil > aim_threshold &&
+                     pc.recoil - sight_dispersion > 0 );
             if( target == -1 ) {
                 // Bail out if there's no target.
                 continue;
             }
-            if( u.recoil <= aim_threshold ||
-                u.recoil - sight_dispersion == 0) {
+            if( pc.recoil <= aim_threshold ||
+                pc.recoil - sight_dispersion == 0) {
                 // If we made it under the aim threshold, go ahead and fire.
                 // Also fire if we're at our best aim level already.
                 delwin( w_target );
-                u.view_offset = old_offset;
+                pc.view_offset = old_offset;
                 set_last_target( dst );
                 return ret;
 
@@ -1576,9 +1584,9 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
                 // Set the string value of the aim action to the right thing
                 // so we re-enter this loop.
                 // Also clear target vector, but leave target selected.
-                u.assign_activity( activity_id( "ACT_AIM" ), 0, 0 );
-                u.activity.str_values.push_back( action );
-                u.view_offset = old_offset;
+                pc.assign_activity( activity_id( "ACT_AIM" ), 0, 0 );
+                pc.activity.str_values.push_back( action );
+                pc.view_offset = old_offset;
                 set_last_target( dst );
                 return empty_result;
             }
@@ -1604,7 +1612,7 @@ std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int 
     } while (true);
 
     delwin( w_target );
-    u.view_offset = old_offset;
+    pc.view_offset = old_offset;
 
     if( ret.empty() ) {
         return ret;

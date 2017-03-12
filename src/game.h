@@ -353,22 +353,6 @@ class game
                                       std::vector<Creature *> t, int target,
                                       item *relevant, target_mode mode );
 
-        /**
-         *  Prompts for target and returns trajectory to it.
-         *  @param args structure containing arguments passed to the overloaded form.
-         *  @param mode targeting mode, which affects UI display among other things.
-         *  @param relevant active item, if any (for instance, a weapon to be aimed).
-         *  @param range the maximum distance to which we're allowed to draw a target.
-         *  @param ammo effective ammo data (derived from @param relevant if unspecified).
-         *  @param on_mode_change callback when user attempts changing firing mode.
-         *  @param on_ammo_change callback when user attempts changing ammo.
-         */
-        std::vector<tripoint> pl_target_ui( const targeting_data &args );
-        std::vector<tripoint> pl_target_ui( target_mode mode, item *relevant, int range,
-                                            const itype *ammo = nullptr,
-                                            const target_callback &on_mode_change = target_callback(),
-                                            const target_callback &on_ammo_change = target_callback() );
-
         /** Redirects to player::cancel_activity(). */
         void cancel_activity();
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
