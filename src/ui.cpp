@@ -832,9 +832,9 @@ void uimenu::query(bool loop)
             }
         }
 
-		if ( skipkey ) { 
-			/* nothing */
-		} else if ( scrollby( scroll_amount_from_action( action ) ) == true ) {
+        if ( skipkey ) {
+            /* nothing */
+        } else if ( scrollby( scroll_amount_from_action( action ) ) == true ) {
             /* nothing */
         } else if ( filtering && action == "FILTER" ) {
             inputfilter();
