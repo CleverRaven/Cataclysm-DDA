@@ -1291,7 +1291,7 @@ std::vector<tripoint> target_handler::target_ui( player pc, target_mode mode,
     }
 
     int num_instruction_lines = draw_targeting_window( w_target, relevant ? relevant->tname() : "",
-                                                       g->u, mode, ctxt, aim_types,
+                                                       pc, mode, ctxt, aim_types,
                                                        bool( on_mode_change ),
                                                        bool( on_ammo_change ) );
 
@@ -1411,7 +1411,7 @@ std::vector<tripoint> target_handler::target_ui( player pc, target_mode mode,
             line_number++;
         }
 
-        if( critter && critter != &g->u && pc.sees( *critter ) ) {
+        if( critter && critter != &pc && pc.sees( *critter ) ) {
             // The 6 is 2 for the border and 4 for aim bars.
             int available_lines = compact ? 1 : ( height - num_instruction_lines - line_number - 6 );
             line_number = critter->print_info( w_target, line_number, available_lines, 1);
@@ -1435,13 +1435,13 @@ std::vector<tripoint> target_handler::target_ui( player pc, target_mode mode,
                 predicted_recoil = pc.recoil;
             }
 
-            line_number = print_aim( g->u, w_target, line_number, &*relevant->gun_current_mode(), *critter, predicted_recoil );
+            line_number = print_aim( pc, w_target, line_number, &*relevant->gun_current_mode(), *critter, predicted_recoil );
 
             if( aim_mode->has_threshold ) {
                 mvwprintw(w_target, line_number++, 1, _("%s Delay: %i"), aim_mode->name.c_str(), predicted_delay );
             }
         } else if( mode == TARGET_MODE_TURRET ) {
-            line_number = draw_turret_aim( g->u, w_target, line_number, dst );
+            line_number = draw_turret_aim( pc, w_target, line_number, dst );
         }
 
         wrefresh(w_target);
@@ -1494,7 +1494,7 @@ std::vector<tripoint> target_handler::target_ui( player pc, target_mode mode,
             if( critter != nullptr ) {
                 g->draw_critter( *critter, center );
             } else if( g->m.pl_sees( dst, -1 ) ) {
-                g->m.drawsq( g->w_terrain, g->u, dst, false, true, center );
+                g->m.drawsq( g->w_terrain, pc, dst, false, true, center );
             } else {
                 mvwputch( g->w_terrain, POSY, POSX, c_black, 'X' );
             }
@@ -1520,7 +1520,7 @@ std::vector<tripoint> target_handler::target_ui( player pc, target_mode mode,
             // No confirm_non_enemy_target here because we have not initiated the firing.
             // Aiming can be stopped / aborted at any time.
             for( int i = 0; i != 10; ++i ) {
-                target = do_aim( g->u, t, target, *relevant, dst );
+                target = do_aim( pc, t, target, *relevant, dst );
             }
             if( pc.moves <= 0 ) {
                 // We've run out of moves, clear target vector, but leave target selected.
@@ -1563,7 +1563,7 @@ std::vector<tripoint> target_handler::target_ui( player pc, target_mode mode,
             }
             aim_threshold = it->threshold;
             do {
-                target = do_aim( g->u, t, target, *relevant, dst );
+                target = do_aim( pc, t, target, *relevant, dst );
             } while( target != -1 && pc.moves > 0 && pc.recoil > aim_threshold &&
                      pc.recoil - sight_dispersion > 0 );
             if( target == -1 ) {
