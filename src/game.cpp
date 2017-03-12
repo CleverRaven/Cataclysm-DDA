@@ -10142,7 +10142,7 @@ bool game::plfire()
 
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
-    std::vector<tripoint> trajectory = target_handler::target_ui( u, args );
+    std::vector<tripoint> trajectory = target_handler().target_ui( u, args );
 
     if( trajectory.empty() ) {
         bool not_aiming = u.activity.id() != activity_id( "ACT_AIM" );

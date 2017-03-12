@@ -2,10 +2,12 @@
 #define RANGED_H
 
 #include <functional>
+#include <vector>
 
 class item;
 class player;
 struct itype;
+struct tripoint;
 
 /**
  * Targeting UI callback is passed the item being targeted (if any)
@@ -51,9 +53,10 @@ class target_handler {
          */
         std::vector<tripoint> target_ui( player pc, const targeting_data &args );
         std::vector<tripoint> target_ui( player pc, target_mode mode,
-                                         item *relevant, int range, const itype *ammo,
-                                         const target_callback &on_mode_change,
-                                         const target_callback &on_ammo_change );
+                                         item *relevant, int range,
+                                         const itype *ammo = nullptr,
+                                         const target_callback &on_mode_change = target_callback(),
+                                         const target_callback &on_ammo_change = target_callback() );
 };
 
 #endif // RANGED_H

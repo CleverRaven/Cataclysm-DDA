@@ -307,7 +307,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
             traj_len = --i;
             break;
         }
-        // Drawing the bullet uses player u, and not player p, because it's drawn
+        // Drawing the bullet uses player g->u, and not player p, because it's drawn
         // relative to YOUR position, which may not be the gunman's position.
         if( do_animation && !do_draw_line ) {
             // TODO: Make this draw thrown item/launched grenade/arrow
@@ -1195,9 +1195,9 @@ std::vector<tripoint> target_handler::target_ui( player pc, target_mode mode,
         // @todo: last_target should be member of target_handler
         if( g->last_target >= 0 ) {
             if( g->last_target_was_npc ) {
-                last = size_t( last_target ) < active_npc.size() ? active_npc[ last_target ] : nullptr;
+                last = size_t( g->last_target ) < g->active_npc.size() ? g->active_npc[ g->last_target ] : nullptr;
             } else {
-                last = size_t( last_target ) < num_zombies() ? &zombie( last_target ) : nullptr;
+                last = size_t( g->last_target ) < g->num_zombies() ? &g->zombie( g->last_target ) : nullptr;
             }
         }
 
@@ -1211,9 +1211,9 @@ std::vector<tripoint> target_handler::target_ui( player pc, target_mode mode,
     bool compact = TERMY < 34;
     int height = compact ? 18 : 25;
     int top = ( compact ? -4 : -1 ) +
-              ( use_narrow_sidebar() ? getbegy( w_messages ) : getbegy( w_minimap ) + getmaxy( w_minimap ) );
+              ( use_narrow_sidebar() ? getbegy( g->w_messages ) : getbegy( g->w_minimap ) + getmaxy( g->w_minimap ) );
 
-    WINDOW *w_target = newwin( height, getmaxx( w_messages ), top, getbegx( w_messages ) );
+    WINDOW *w_target = newwin( height, getmaxx( g->w_messages ), top, getbegx( g->w_messages ) );
 
     input_context ctxt("TARGET");
     ctxt.set_iso(true);
@@ -1290,9 +1290,10 @@ std::vector<tripoint> target_handler::target_ui( player pc, target_mode mode,
         aim_mode = aim_types.begin();
     }
 
-    int num_instruction_lines = draw_targeting_window( w_target, relevant ? relevant->tname() : "", u,
-                                                       mode, ctxt, aim_types,
-                                                       bool( on_mode_change ), bool( on_ammo_change ) );
+    int num_instruction_lines = draw_targeting_window( w_target, relevant ? relevant->tname() : "",
+                                                       g->u, mode, ctxt, aim_types,
+                                                       bool( on_mode_change ),
+                                                       bool( on_ammo_change ) );
 
     bool snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
 
@@ -1305,21 +1306,21 @@ std::vector<tripoint> target_handler::target_ui( player pc, target_mode mode,
     }
 
     const auto set_last_target = [this]( const tripoint &dst ) {
-        if( ( last_target = npc_at( dst ) ) >= 0 ) {
-            last_target_was_npc = true;
+        if( ( g->last_target = g->npc_at( dst ) ) >= 0 ) {
+            g->last_target_was_npc = true;
 
-        } else if( ( last_target = mon_at( dst, true ) ) >= 0 ) {
-            last_target_was_npc = false;
+        } else if( ( g->last_target = g->mon_at( dst, true ) ) >= 0 ) {
+            g->last_target_was_npc = false;
         }
     };
 
-    const auto confirm_non_enemy_target = [this]( const tripoint &dst ) {
+    const auto confirm_non_enemy_target = [this, &pc]( const tripoint &dst ) {
         if( dst == pc.pos() ) {
             return true;
         }
-        const int npc_index = npc_at( dst );
+        const int npc_index = g->npc_at( dst );
         if( npc_index >= 0 ) {
-            const npc &who = *active_npc[ npc_index ];
+            const npc &who = *g->active_npc[ npc_index ];
             if( who.guaranteed_hostile() ) {
                 return true;
             }
@@ -1361,9 +1362,9 @@ std::vector<tripoint> target_handler::target_ui( player pc, target_mode mode,
                 mvwputch( w_target, i, j, c_white, ' ' );
             }
         }
-        draw_ter(center, true);
+        g->draw_ter(center, true);
         int line_number = 1;
-        Creature *critter = critter_at( dst, true );
+        Creature *critter = g->critter_at( dst, true );
         if( dst != src ) {
             // Only draw those tiles which are on current z-level
             auto ret_this_zlevel = ret;
@@ -1372,11 +1373,11 @@ std::vector<tripoint> target_handler::target_ui( player pc, target_mode mode,
             // Only draw a highlighted trajectory if we can see the endpoint.
             // Provides feedback to the player, and avoids leaking information
             // about tiles they can't see.
-            draw_line( dst, center, ret_this_zlevel );
+            g->draw_line( dst, center, ret_this_zlevel );
 
             // Print to target window
             mvwprintw( w_target, line_number++, 1, _( "Range: %d/%d, %s" ),
-                      rl_dist( src, dst ), range, enemiesmsg.c_str() );
+                       rl_dist( src, dst ), range, enemiesmsg.c_str() );
 
         } else {
             mvwprintw( w_target, line_number++, 1, _("Range: %d, %s"), range, enemiesmsg.c_str() );
@@ -1410,12 +1411,12 @@ std::vector<tripoint> target_handler::target_ui( player pc, target_mode mode,
             line_number++;
         }
 
-        if( critter && critter != &u && pc.sees( *critter ) ) {
+        if( critter && critter != &g->u && pc.sees( *critter ) ) {
             // The 6 is 2 for the border and 4 for aim bars.
             int available_lines = compact ? 1 : ( height - num_instruction_lines - line_number - 6 );
             line_number = critter->print_info( w_target, line_number, available_lines, 1);
         } else {
-            mvwputch(w_terrain, POSY + dst.y - center.y, POSX + dst.x - center.x, c_red, '*');
+            mvwputch(g->w_terrain, POSY + dst.y - center.y, POSX + dst.x - center.x, c_red, '*');
         }
 
         if( mode == TARGET_MODE_FIRE && critter != nullptr && pc.sees( *critter ) ) {
@@ -1434,17 +1435,17 @@ std::vector<tripoint> target_handler::target_ui( player pc, target_mode mode,
                 predicted_recoil = pc.recoil;
             }
 
-            line_number = print_aim( u, w_target, line_number, &*relevant->gun_current_mode(), *critter, predicted_recoil );
+            line_number = print_aim( g->u, w_target, line_number, &*relevant->gun_current_mode(), *critter, predicted_recoil );
 
             if( aim_mode->has_threshold ) {
                 mvwprintw(w_target, line_number++, 1, _("%s Delay: %i"), aim_mode->name.c_str(), predicted_delay );
             }
         } else if( mode == TARGET_MODE_TURRET ) {
-            line_number = draw_turret_aim( u, w_target, line_number, dst );
+            line_number = draw_turret_aim( g->u, w_target, line_number, dst );
         }
 
         wrefresh(w_target);
-        wrefresh(w_terrain);
+        wrefresh(g->w_terrain);
         refresh();
 
         std::string action;
@@ -1489,13 +1490,13 @@ std::vector<tripoint> target_handler::target_ui( player pc, target_mode mode,
 
         /* More drawing to terrain */
         if( targ != tripoint_zero ) {
-            const Creature *critter = critter_at( dst, true );
+            const Creature *critter = g->critter_at( dst, true );
             if( critter != nullptr ) {
-                draw_critter( *critter, center );
-            } else if( m.pl_sees( dst, -1 ) ) {
-                m.drawsq( w_terrain, u, dst, false, true, center );
+                g->draw_critter( *critter, center );
+            } else if( g->m.pl_sees( dst, -1 ) ) {
+                g->m.drawsq( g->w_terrain, g->u, dst, false, true, center );
             } else {
-                mvwputch( w_terrain, POSY, POSX, c_black, 'X' );
+                mvwputch( g->w_terrain, POSY, POSX, c_black, 'X' );
             }
 
             // constrain by range
@@ -1519,7 +1520,7 @@ std::vector<tripoint> target_handler::target_ui( player pc, target_mode mode,
             // No confirm_non_enemy_target here because we have not initiated the firing.
             // Aiming can be stopped / aborted at any time.
             for( int i = 0; i != 10; ++i ) {
-                target = do_aim( u, t, target, *relevant, dst );
+                target = do_aim( g->u, t, target, *relevant, dst );
             }
             if( pc.moves <= 0 ) {
                 // We've run out of moves, clear target vector, but leave target selected.
@@ -1562,7 +1563,7 @@ std::vector<tripoint> target_handler::target_ui( player pc, target_mode mode,
             }
             aim_threshold = it->threshold;
             do {
-                target = do_aim( u, t, target, *relevant, dst );
+                target = do_aim( g->u, t, target, *relevant, dst );
             } while( target != -1 && pc.moves > 0 && pc.recoil > aim_threshold &&
                      pc.recoil - sight_dispersion > 0 );
             if( target == -1 ) {
@@ -1620,17 +1621,17 @@ std::vector<tripoint> target_handler::target_ui( player pc, target_mode mode,
 
     set_last_target( ret.back() );
 
-    if( last_target >= 0 && last_target_was_npc ) {
-        if( !active_npc[ last_target ]->guaranteed_hostile() ) {
+    if( g->last_target >= 0 && g->last_target_was_npc ) {
+        if( !g->active_npc[ g->last_target ]->guaranteed_hostile() ) {
             // TODO: get rid of this. Or combine it with effect_hit_by_player
-            active_npc[ last_target ]->hit_by_player = true; // used for morale penalty
+            g->active_npc[ g->last_target ]->hit_by_player = true; // used for morale penalty
         }
         // TODO: should probably go into the on-hit code?
-        active_npc[ last_target ]->make_angry();
+        g->active_npc[ g->last_target ]->make_angry();
 
-    } else if( last_target >= 0 && !last_target_was_npc ) {
+    } else if( g->last_target >= 0 && !g->last_target_was_npc ) {
         // TODO: get rid of this. Or move into the on-hit code?
-        zombie( last_target ).add_effect( effect_hit_by_player, 100 );
+        g->zombie( g->last_target ).add_effect( effect_hit_by_player, 100 );
     }
 
     return ret;
