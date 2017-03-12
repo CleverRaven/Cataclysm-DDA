@@ -391,7 +391,7 @@ bool vehicle::turrets_aim()
         return false;
     }
     tripoint pos = g->u.pos();
-    std::vector<tripoint> trajectory; 
+    std::vector<tripoint> trajectory;
     trajectory = target_handler().target_ui( g->u, TARGET_MODE_TURRET, nullptr, range );
 
     if( !trajectory.empty() ) {
