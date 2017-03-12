@@ -193,8 +193,7 @@
                 "sports_bra",
                 "boxer_shorts"
             ]
-        },
-        "flags": ["SCEN_ONLY"]
+        }
     },
     {
         "type": "profession",
@@ -2527,8 +2526,7 @@
                 "sports_bra",
                 "boxer_shorts"
             ]
-        },
-        "flags" : ["SCEN_ONLY"]
+        }
     },
     {
         "type" : "profession",
