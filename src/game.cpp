@@ -3032,7 +3032,7 @@ bool game::handle_action()
                 temp_exit_fullscreen();
                 m.draw( w_terrain, u.pos() );
                 std::vector<tripoint> trajectory;
-                trajectory = target_handler::target_ui( u, TARGET_MODE_REACH, &u.weapon,range );
+                trajectory = target_handler().target_ui( u, TARGET_MODE_REACH, &u.weapon,range );
                 if( !trajectory.empty() ) {
                     u.reach_attack( trajectory.back() );
                 }
@@ -9979,7 +9979,7 @@ void game::plthrow(int pos)
 
     // target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
     std::vector<tripoint> trajectory;
-    trajectory = target_handler::target_ui( u, TARGET_MODE_THROW, &thrown, range );
+    trajectory = target_handler().target_ui( u, TARGET_MODE_THROW, &thrown, range );
     if (trajectory.empty()) {
         return;
     }

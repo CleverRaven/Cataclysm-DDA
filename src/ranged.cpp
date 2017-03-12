@@ -1153,10 +1153,10 @@ std::vector<tripoint> target_handler::target_ui( player pc, const targeting_data
 }
 
 // @todo: Shunt redundant drawing code elsewhere
-std::vector<tripoint> target_handler::pl_target_ui( player pc, target_mode mode,
-                                                    item *relevant, int range, const itype *ammo,
-                                                    const target_callback &on_mode_change,
-                                                    const target_callback &on_ammo_change )
+std::vector<tripoint> target_handler::target_ui( player pc, target_mode mode,
+                                                 item *relevant, int range, const itype *ammo,
+                                                 const target_callback &on_mode_change,
+                                                 const target_callback &on_ammo_change )
 {
     // @todo: this should return a reference to a static vector which is cleared on each call.
     static const std::vector<tripoint> empty_result{};

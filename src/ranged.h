@@ -54,6 +54,6 @@ class target_handler {
                                          item *relevant, int range, const itype *ammo,
                                          const target_callback &on_mode_change,
                                          const target_callback &on_ammo_change );
-}
+};
 
 #endif // RANGED_H
