@@ -884,21 +884,20 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /**
          * Calculate (but do not deduct) the number of moves required when handling (eg. storing, drawing etc.) an item
-         * @param effects whether temporary player effects should be considered (eg. GRABBED, DOWNED)
-         * @param factor base move cost per unit volume before considering any other modifiers
-         * @param qty if specified limits maximum obtained charges
+         * @param penalties Whether item volume and temporary effects (eg. GRABBED, DOWNED) should be considered.
+         * @param base_cost Cost due to storage type.
          * @return cost in moves ranging from 0 to MAX_HANDLING_COST
          */
-        int item_handling_cost( const item& it, bool effects = true, int factor = VOLUME_MOVE_COST ) const;
+        int item_handling_cost( const item& it, bool penalties = true, int base_cost = INVENTORY_HANDLING_PENALTY ) const;
 
         /**
          * Calculate (but do not deduct) the number of moves required when storing an item in a container
-         * @param effects whether temporary player effects should be considered (eg. GRABBED, DOWNED)
-         * @param factor base move cost per unit volume before considering any other modifiers
+         * @param penalties Whether item volume and temporary effects (eg. GRABBED, DOWNED) should be considered.
+         * @param base_cost Cost due to storage type.
          * @return cost in moves ranging from 0 to MAX_HANDLING_COST
          */
-        int item_store_cost( const item& it, const item& container, bool effects = true,
-                             int factor = VOLUME_MOVE_COST ) const;
+        int item_store_cost( const item& it, const item& container, bool penalties = true,
+                             int base_cost = INVENTORY_HANDLING_PENALTY ) const;
 
         /**
          * Calculate (but do not deduct) the number of moves required to reload an item with specified quantity of ammo
@@ -927,16 +926,21 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void drop( int pos, const tripoint &where = tripoint_min );
         void drop( const std::list<std::pair<int, int>> &what, const tripoint &where = tripoint_min, bool stash = false );
 
-        /** Try to wield a contained item consuming moves proportional to weapon skill and volume.
-         *  @param pos index of contained item to wield. Set to -1 to show menu if container has more than one item
-         *  @param factor scales moves cost and can be set to zero if item should be wielded without any delay
-         *  @param effects whether temporary player effects such (eg. GRABBED) are considered when consuming moves */
-        bool wield_contents( item *container, int pos = 0, int factor = VOLUME_MOVE_COST,
-                             bool effects = true );
-        /** Stores an item inside another consuming moves proportional to weapon skill and volume
-         *  @param factor scales moves cost and can be set to zero if item should be stored without any delay
-         *  @param effects whether temporary player effects such (eg. GRABBED) are considered when consuming moves */
-        void store( item *container, item *put, int factor = VOLUME_MOVE_COST, bool effects = true );
+        /**
+         * Try to wield a contained item consuming moves proportional to weapon skill and volume.
+         * @param pos index of contained item to wield. Set to -1 to show menu if container has more than one item
+         * @param penalties Whether item volume and temporary effects (eg. GRABBED, DOWNED) should be considered.
+         * @param base_cost Cost due to storage type.
+         */
+        bool wield_contents( item &container, int pos = 0, bool penalties = true,
+                             int base_cost = INVENTORY_HANDLING_PENALTY );
+        /**
+         * Stores an item inside another consuming moves proportional to weapon skill and volume
+         * @param penalties Whether item volume and temporary effects (eg. GRABBED, DOWNED) should be considered.
+         * @param base_cost Cost due to storage type.
+         */
+        void store( item &container, item &put, bool penalties = true,
+                    int base_cost = INVENTORY_HANDLING_PENALTY );
         /** Draws the UI and handles player input for the armor re-ordering window */
         void sort_armor();
         /** Uses a tool */

@@ -17,7 +17,7 @@
     "use_action" : {
       "type": "holster",
       "max_volume": 15,
-      "draw_cost": 20,
+      "draw_cost": 150,
       "skills": ["smg", "shotgun", "rifle", "launcher"]
     },
     "flags" : ["BELTED", "OVERSIZE", "NO_QUICKDRAW"]
@@ -42,7 +42,7 @@
       "type": "holster",
       "max_volume": 2,
       "max_weight": 1000,
-      "draw_cost": 30,
+      "draw_cost": 150,
       "skills": ["pistol"]
     }
   },
@@ -78,7 +78,7 @@
     "use_action": {
       "type": "holster",
       "max_volume": 4,
-      "draw_cost": 3,
+      "draw_cost": 80,
       "skills": ["pistol", "shotgun"]
     }
   },
@@ -102,7 +102,6 @@
     "use_action": {
         "type": "holster",
          "max_volume": 8,
-         "draw_cost": 5,
          "skills": ["smg", "shotgun", "rifle"]
     },
     "flags": ["WATER_FRIENDLY", "STURDY", "WAIST"]

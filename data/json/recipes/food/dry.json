@@ -43,28 +43,10 @@
       [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
     ],
     "components": [
-      [ [ "apple",        2 ], [ "irradiated_apple",        2 ],
-        [ "apricot",      2 ], [ "irradiated_apricot",      2 ],
-        [ "banana",       2 ], [ "irradiated_banana",       2 ],
-        [ "blackberries", 2 ], [ "irradiated_blackberries", 2 ],
-        [ "blueberries",  2 ], [ "irradiated_blueberries",  2 ],
-        [ "cherries",     2 ], [ "irradiated_cherries",     2 ],
-        [ "cranberries",  6 ], [ "irradiated_cranberries",  6 ],
-        [ "grapes",       4 ], [ "irradiated_grapes",       4 ],
-        [ "kiwi",         2 ], [ "irradiated_kiwi",         2 ],
-        [ "lemon",        2 ], [ "irradiated_lemon",        2 ],
-        [ "mango",        2 ], [ "irradiated_mango",        2 ],
-        [ "orange",       2 ], [ "irradiated_orange",       2 ],
-        [ "papaya",       2 ], [ "irradiated_papaya",       2 ],
-        [ "peach",        2 ], [ "irradiated_peach",        2 ],
-        [ "pear",         2 ], [ "irradiated_pear",         2 ],
-        [ "pineapple",    2 ], [ "irradiated_pineapple",    2 ],
-        [ "plums",        2 ], [ "irradiated_plums",        2 ],
-        [ "pomegranate",  2 ], [ "irradiated_pomegranate",  2 ],
-        [ "raspberries",  2 ], [ "irradiated_raspberries",  2 ],
-        [ "strawberries", 2 ], [ "irradiated_strawberries", 2 ],
-        [ "rhubarb",      2 ], [ "irradiated_rhubarb",      2 ],
-        [ "coconut",      2 ], [ "can_coconut",             2 ]
+      [
+        [ "sweet_fruit", 2, "LIST" ],
+        [ "coconut", 2 ],
+        [ "can_coconut", 2 ]
       ]
     ]
   },

@@ -182,7 +182,7 @@ class item_location::impl::item_on_map : public item_location::impl
 
             int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj );
             mv *= square_dist( ch.pos(), cur ) + 1;
-            mv *= MAP_HANDLING_FACTOR;
+            mv += MAP_HANDLING_PENALTY;
 
             //@ todo handle unpacking costs
 
@@ -302,7 +302,7 @@ class item_location::impl::item_on_person : public item_location::impl
                 // it is more expensive to obtain items from the inventory
                 // @todo calculate cost for searching in inventory proportional to item volume
                 mv += dynamic_cast<player &>( who ).item_handling_cost( obj );
-                mv *= INVENTORY_HANDLING_FACTOR;
+                mv += INVENTORY_HANDLING_PENALTY;
             }
 
             if( &ch != &who ) {
@@ -396,7 +396,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
 
             int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj );
             mv *= square_dist( ch.pos(), cur.veh.global_part_pos3( cur.part ) ) + 1;
-            mv *= VEHICLE_HANDLING_FACTOR;
+            mv += VEHICLE_HANDLING_PENALTY;
 
             //@ todo handle unpacking costs
 
