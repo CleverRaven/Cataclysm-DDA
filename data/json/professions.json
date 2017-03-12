@@ -117,7 +117,7 @@
             "ident": "bionic_prepper",
             "name": "Bionic Prepper",
             "description": "You knew the end was coming.  You augmented yourself with some basic bionics and got additional survival training.  Now the end has come, and it is time to see if your efforts have paid off.",
-            "points": 8,
+            "points": 6,
             "CBMs":[
                 "bio_torsionratchet",
                 "bio_power_storage_mkII",
@@ -142,6 +142,10 @@
             },
             {
                 "level": 2,
+                "name": "firstaid"
+            },
+            {
+                "level": 2,
                 "name": "gun"
             },
             {
@@ -150,44 +154,36 @@
             },
             {
                 "level": 2,
-                "name": "tailor"
+                "name": "melee"
             },
             {
                 "level": 2,
-                "name": "traps"
+                "name": "cutting"
             },
             {
-                "level": 2,
-                "name": "firstaid"
-            },
-            {
-                "level": 2,
-                "name": "swimming"
+                "level": 1,
+                "name": "bashing"
             }
         ],
         "items": {
             "both": {
                 "items": [
-                    "pants_cargo",
-                    "boots",
                     "hat_boonie",
                     "tshirt",
-                    "jacket_light",
+                    "gloves_fingerless",
+					"pants_cargo",
                     "socks",
+                    "boots",
+                    "trenchcoat",
+                    "knit_scarf",
                     "backpack",
                     "canteen",
-                    "binoculars",
-                    "rope_30",
-                    "sewing_kit",
-                    "e_tool",
-                    "hatchet",
-                    "mess_kit",
-                    "rollmat",
-                    "tent_kit"
+                    "binoculars"
                 ],
                 "entries": [
                     { "item": "crossbow", "ammo-item": "bolt_steel", "charges": 1, "contents-item": "shoulder_strap" },
-                    { "item": "bolt_steel", "charges": 20, "container-item": "quiver" }
+                    { "item": "bolt_steel", "charges": 20, "container-item": "quiver" },
+                    { "item": "machete", "container-item": "scabbard" }
                 ]
             },
             "male": [
