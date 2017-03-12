@@ -336,6 +336,7 @@
       [ "plant_fibre", 20 ],
       [ "sinew", 20 ],
       [ "thread", 20 ],
+      [ "yarn", 20 ],
       [ "duct_tape", 20 ]
     ],
     [
@@ -351,7 +352,6 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "fabrication",
-  "skills_required": [ "carpentry", 1 ],
   "difficulty": 4,
   "time": 60000,
   "reversible": true,
@@ -470,6 +470,7 @@
       [ "plant_fibre", 20 ],
       [ "sinew", 20 ],
       [ "thread", 20 ],
+      [ "yarn", 20 ],
       [ "duct_tape", 20 ]
     ],
     [
@@ -486,11 +487,8 @@
   "difficulty": 1,
   "time": 45000,
   "autolearn": true,
-  "tools": [
-    [
-      [ "sewing_kit", 40 ]
-    ]
-  ],
+  "using": [ [ "filament", 40 ] ],
+  "qualities": [ { "id": "SEW", "level": 1 } ],
   "components": [
      [
       [ "rag", 1 ],
@@ -556,13 +554,10 @@
   "difficulty": 2,
   "time": 5000,
   "autolearn": true,
+  "using": [ [ "filament", 10 ] ],
   "qualities" : [
-    {"id":"CUT","level":1}
-  ],
-  "tools": [
-    [
-      [ "sewing_kit", 10 ]
-    ]
+    { "id" : "SEW" , "level" : 1 },
+    { "id" : "CUT" , "level" : 1 }
   ],
   "components": [
     [
@@ -862,7 +857,7 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "survival",
-  "skills_required": [ "carpentry", 1 ],
+  "skills_required": [ "fabrication", 1 ],
   "difficulty": 2,
   "time": 60000,
   "autolearn": true,
@@ -881,6 +876,7 @@
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
+      [ "yarn", 40 ],
       [ "withered", 2 ]
     ]
   ]
@@ -890,7 +886,7 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "survival",
-  "skills_required": [ "carpentry", 1 ],
+  "skills_required": [ "fabrication", 1 ],
   "difficulty": 3,
   "time": 60000,
   "autolearn": true,
@@ -911,6 +907,7 @@
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
+      [ "yarn", 40 ],
       [ "withered", 1 ]
     ]
   ]
@@ -1090,7 +1087,8 @@
       [ "bone_glue", 1 ],
       [ "thread", 20 ],
       [ "sinew", 20 ],
-      [ "plant_fibre", 20 ]
+      [ "plant_fibre", 20 ],
+      [ "yarn", 20 ]
     ],
     [
       [ "bone", 5 ],
@@ -1119,6 +1117,7 @@
   "skills_required": [ "survival", 1 ],
   "difficulty": 0,
   "time": 2000,
+  "autolearn": true,
   "qualities" : [ {"id":"CUT","level":1} ],
   "components": [
     [
@@ -1137,6 +1136,7 @@
   "difficulty": 1,
   "time": 5000,
   "reversible": true,
+  "autolearn": true,
   "components": [
     [ [ "snare_trigger", 1 ] ],
     [ [ "string_36", 1 ] ]
@@ -1152,6 +1152,7 @@
   "difficulty": 3,
   "time": 8000,
   "reversible": true,
+  "autolearn": true,
   "components": [
     [ [ "snare_trigger", 1 ] ],
     [ [ "rope_6", 1 ] ]
@@ -1166,6 +1167,7 @@
   "difficulty": 2,
   "time": 15000,
   "reversible": true,
+  "autolearn": true,
   "qualities" : [ {"id":"CUT","level":1} ],
   "components": [
     [

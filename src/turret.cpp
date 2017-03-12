@@ -231,42 +231,52 @@ turret_data::status turret_data::query() const
     return status::ready;
 }
 
+void turret_data::prepare_fire( player &p )
+{
+    // prevent turrets from shooting their own vehicles
+    p.add_effect( effect_on_roof, 1 );
+
+    // turrets are subject only to recoil_vehicle()
+    cached_recoil = p.recoil;
+    p.recoil = 0;
+
+    // set fuel tank fluid as ammo, if appropriate
+    if( part->info().has_flag( "USE_TANKS" ) ) {
+        auto mode = base()->gun_current_mode();
+        long qty  = mode->ammo_required();
+        long fuel_left = veh->fuel_left( ammo_current() );
+        mode->ammo_set( ammo_current(), std::min( qty * mode.qty, fuel_left ) );
+    }
+}
+
+void turret_data::post_fire( player &p, int shots )
+{
+    // remove any temporary recoil adjustments
+    p.remove_effect( effect_on_roof );
+    p.recoil = cached_recoil;
+
+    auto mode = base()->gun_current_mode();
+
+    // handle draining of vehicle tanks and UPS charges, if applicable
+    if( part->info().has_flag( "USE_TANKS" ) ) {
+        veh->drain( ammo_current(), mode->ammo_required() * shots );
+        mode->ammo_unset();
+    }
+
+    veh->drain( fuel_type_battery, mode->get_gun_ups_drain() * shots );
+}
+
 int turret_data::fire( player &p, const tripoint &target )
 {
     if( !veh || !part ) {
         return 0;
     }
-
     int shots = 0;
-
-    p.add_effect( effect_on_roof, 1 );
-
     auto mode = base()->gun_current_mode();
 
-    auto ammo = ammo_current();
-    long qty  = mode->ammo_required();
-
-    if( part->info().has_flag( "USE_TANKS" ) ) {
-        mode->ammo_set( ammo, std::min( qty * mode.qty, long( veh->fuel_left( ammo ) ) ) );
-    }
-
-    // turrets are subject only to recoil_vehicle()
-    double old = p.recoil;
-    p.recoil = 0;
-
+    prepare_fire( p );
     shots = p.fire_gun( target, mode.qty, *mode );
-
-    p.recoil = old;
-
-    if( part->info().has_flag( "USE_TANKS" ) ) {
-        veh->drain( ammo, qty * shots );
-        mode->ammo_unset();
-    }
-
-    veh->drain( fuel_type_battery, mode->get_gun_ups_drain() * shots );
-
-    p.remove_effect( effect_on_roof );
-
+    post_fire( p, shots );
     return shots;
 }
 
@@ -518,8 +528,8 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     // The current target of the turret.
     auto &target = pt.target;
     if( target.first == target.second ) {
-        // Set the initial values here.
-        // Calling turret_data.fire on tripoint (INT_MIN,INT_MIN,INT_MIN) starts a bad alloc crash
+        // Manual target not set, find one automatically.
+        // BEWARE: Calling turret_data.fire on tripoint min coordinates starts a crash
         //      triggered at `trajectory.insert( trajectory.begin(), source )` at ranged.cpp:236
         pt.reset_target( pos );
         int boo_hoo;

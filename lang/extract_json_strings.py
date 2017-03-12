@@ -59,6 +59,7 @@ ignorable = {
     "region_overlay",
     "region_settings",
     "requirement",
+    "rotatable_symbol",
     "SPECIES",
     "uncraft",
     "vehicle_group",
@@ -146,6 +147,13 @@ use_format_strings = {
 ##
 ##  SPECIALIZED EXTRACTION FUNCTIONS
 ##
+
+def extract_bodypart(item):
+    outfile = get_outfile("bodypart")
+    writestr(outfile, item["name"])
+    writestr(outfile, item["encumbrance_text"])
+    writestr(outfile, item["heading_singular"], item["heading_plural"])
+
 
 def extract_material(item):
     outfile = get_outfile("material")
@@ -518,6 +526,7 @@ def extract_gate(item):
 
 # these objects need to have their strings specially extracted
 extract_specials = {
+    "body_part": extract_bodypart,
     "effect_type": extract_effect_type,
     "GUN": extract_gun,
     "GUNMOD": extract_gunmod,
@@ -612,6 +621,7 @@ use_action_msgs = {
     "deactive_msg",
     "out_of_power_msg",
     "msg",
+    "menu_text",
     "message",
     "friendly_msg",
     "hostile_msg",

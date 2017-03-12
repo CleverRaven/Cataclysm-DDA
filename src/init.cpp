@@ -57,7 +57,9 @@
 #include "weather_gen.h"
 #include "npc_class.h"
 #include "recipe_dictionary.h"
+#include "rotatable_symbols.h"
 #include "harvest.h"
+#include "morale_types.h"
 
 #include <assert.h>
 #include <string>
@@ -119,7 +121,7 @@ void DynamicDataLoader::load_deferred( deferred_json& data )
     }
 }
 
-void load_ingored_type(JsonObject &jo)
+void load_ignored_type(JsonObject &jo)
 {
     // This does nothing!
     // This function is used for types that are to be ignored
@@ -197,6 +199,7 @@ void DynamicDataLoader::initialize()
     add( "CONTAINER", []( JsonObject &jo, const std::string &src ) { item_controller->load_container( jo, src ); } );
     add( "ENGINE", []( JsonObject &jo, const std::string &src ) { item_controller->load_engine( jo, src ); } );
     add( "WHEEL", []( JsonObject &jo, const std::string &src ) { item_controller->load_wheel( jo, src ); } );
+    add( "FUEL", []( JsonObject &jo, const std::string &src ) { item_controller->load_fuel( jo, src ); } );
     add( "GUNMOD", []( JsonObject &jo, const std::string &src ) { item_controller->load_gunmod( jo, src ); } );
     add( "MAGAZINE", []( JsonObject &jo, const std::string &src ) { item_controller->load_magazine( jo, src ); } );
     add( "GENERIC", []( JsonObject &jo, const std::string &src ) { item_controller->load_generic( jo, src ); } );
@@ -228,9 +231,9 @@ void DynamicDataLoader::initialize()
     add( "WORLD_OPTION", &load_world_option );
 
     // loaded earlier.
-    add( "colordef", &load_ingored_type );
+    add( "colordef", &load_ignored_type );
     // mod information, ignored, handled by the mod manager
-    add( "MOD_INFO", &load_ingored_type );
+    add( "MOD_INFO", &load_ignored_type );
 
     add( "faction", &faction::load_faction );
     add( "npc", &npc::load_npc );
@@ -250,6 +253,9 @@ void DynamicDataLoader::initialize()
 
     add( "monster_attack", []( JsonObject &jo, const std::string &src ) { MonsterGenerator::generator().load_monster_attack( jo, src ); } );
     add( "palette", mapgen_palette::load );
+    add( "rotatable_symbol", &rotatable_symbols::load );
+    add( "body_part", &body_part_struct::load );
+    add( "morale_type", &morale_type_data::load_type );
 }
 
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src )
@@ -375,6 +381,8 @@ void DynamicDataLoader::unload_data()
     gates::reset();
     reset_overlay_ordering();
     npc_class::reset_npc_classes();
+    rotatable_symbols::reset();
+    body_part_struct::reset();
 
     // TODO:
     //    NameGenerator::generator().clear_names();
@@ -385,6 +393,7 @@ void DynamicDataLoader::finalize_loaded_data()
 {
     assert( !finalized && "Can't finalize the data twice." );
 
+    body_part_struct::finalize();
     item_controller->finalize();
     requirement_data::finalize();
     vpart_info::finalize();

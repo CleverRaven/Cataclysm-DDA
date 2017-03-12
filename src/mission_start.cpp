@@ -1744,7 +1744,7 @@ void mission_start::reveal_refugee_center( mission *miss )
     const tripoint source_road = overmap_buffer.find_closest( your_pos, "road", 3, false );
     const tripoint dest_road = overmap_buffer.find_closest( center_pos, "road", 3, false );
 
-    if( overmap_buffer.reveal_route( source_road, dest_road ) ) {
+    if( overmap_buffer.reveal_route( source_road, dest_road, 1, true ) ) {
         add_msg( _( "You mark the refugee center and the road that leads to it..." ) );
     } else {
         add_msg( _( "You mark the refugee center, but you have no idea how to get there by road..." ) );

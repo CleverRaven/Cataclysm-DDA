@@ -911,7 +911,7 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glowiegrow" } ],
-    "flags": [ "REACTOR", "TOOL_NONE", "FOLDABLE", "ATOMIC_LIGHT" ]
+    "flags": [ "REACTOR", "TOOL_NONE", "FOLDABLE", "ATOMIC_LIGHT", "ENABLED_DRAINS_EPOWER" ]
   },
   {
     "id": "gray_amalgam",
@@ -2712,7 +2712,6 @@
     "name": "amorphous core",
     "item": "queen",
     "location": "center",
-    "fuel_type": "water",
     "symbol": "O",
     "broken_symbol": "#",
     "color": "red",
@@ -2762,10 +2761,10 @@
     "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
   },
   {
-    "id": "sickle",
+    "id": "gelrazor",
     "type": "vehicle_part",
     "name": "gel razor",
-    "item": "sickle",
+    "item": "gelrazor",
     "location": "on_roof",
     "symbol": "t",
     "broken_symbol": "#",

@@ -6,7 +6,6 @@
         "sym" : 70,
         "color" : "i_white",
         "extras" : "build",
-        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 1
     },{
@@ -16,7 +15,6 @@
         "sym" : 70,
         "color" : "i_white",
         "extras" : "build",
-        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 1
     },{
@@ -26,7 +24,6 @@
         "sym" : 70,
         "color" : "i_white",
         "extras" : "build",
-        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 1
     },{
@@ -36,7 +33,6 @@
         "sym" : 70,
         "color" : "i_white",
         "extras" : "build",
-        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 1
     },{
@@ -46,7 +42,6 @@
         "sym" : 70,
         "color" : "i_white",
         "extras" : "build",
-        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 1
     },{
@@ -56,7 +51,6 @@
         "sym" : 70,
         "color" : "i_white",
         "extras" : "build",
-        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 1
     },{
@@ -66,7 +60,6 @@
         "sym" : 70,
         "color" : "i_white",
         "extras" : "build",
-        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 1
     },{
@@ -76,7 +69,6 @@
         "sym" : 70,
         "color" : "i_white",
         "extras" : "build",
-        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 1
     },{
@@ -86,7 +78,6 @@
         "sym" : 70,
         "color" : "i_white",
         "extras" : "build",
-        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 1
     },{
@@ -96,7 +87,6 @@
         "sym" : 70,
         "color" : "i_white",
         "extras" : "build",
-        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 1
     }

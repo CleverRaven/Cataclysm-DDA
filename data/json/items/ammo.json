@@ -12,7 +12,10 @@
         "volume" : 1,
         "weight" : 1,
         "ammo_type" : "battery",
-        "count" : 100
+        "count" : 100,
+        "fuel": {
+            "energy": 1
+        }
     },
     {
         "type" : "AMMO",
@@ -175,7 +178,10 @@
         "weight" : 80,
         "ammo_type" : "plutonium",
         "count" : 5,
-        "effects" : ["COOKOFF", "NEVER_MISFIRES"]
+        "effects" : ["COOKOFF", "NEVER_MISFIRES"],
+        "fuel": {
+            "energy": 10
+        }
     },
     {
         "type" : "AMMO",

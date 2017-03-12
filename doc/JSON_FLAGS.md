@@ -1023,7 +1023,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```GAS_DISCOUNT``` ... Discount cards for the automated gas stations.
 - ```LEAK_ALWAYS``` ... Leaks (may be combined with "RADIOACTIVE").
 - ```LEAK_DAM``` ... Leaks when damaged (may be combined with "RADIOACTIVE").
-- ```NEEDS_UNFOLD``` ... Has an additional time penalty upon wielding. For guns this is offset by the relevant skill. Stacks with "SLOW_WIELD".
+- ```NEEDS_UNFOLD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill. Stacks with "SLOW_WIELD".
 - ```NO_PICKUP``` ... Character can not pickup anything while wielding this item (e.g. bionic claws).
 - ```NO_SALVAGE``` Item cannot be broken down through a salvage process. Best used when something should not be able to be broken down (i.e. base components like leather patches).
 - ```PSEUDO``` ... Used internally to mark items that are referred to in the crafting inventory but are not actually items. They can be used as tools, but not as components. Implies "TRADER_AVOID".
@@ -1061,6 +1061,18 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```SUM_START``` ... start in summer.
 - ```SUR_START``` ... surrounded start, zombies outside the starting shelter.
 - ```WIN_START``` ... start in winter.
+
+## Overmap terrains
+
+### Flags
+
+- ```ALLOW_OVERRIDE``` The terrain can be overriden during mapgen (e.g. with a road tile).
+- ```KNOWN_DOWN``` There's a known way down.
+- ```KNOWN_UP``` There's a known way up.
+- ```LINEAR``` For roads etc, which use ID_straight, ID_curved, ID_tee, ID_four_way.
+- ```NO_ROTATE``` The terrain can't be rotated (ID_north, ID_east, ID_south, and ID_west instances will NOT be generated, just ID).
+- ```RIVER``` It's a river tile.
+- ```SIDEWALK``` Has sidewalks on the sides adjacent to roads.
 
 ## TODO
 

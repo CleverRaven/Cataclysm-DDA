@@ -137,7 +137,6 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
     { "TRANSPARENT",              TFLAG_TRANSPARENT },    // map::trans / lightmap
     { "NOITEM",                   TFLAG_NOITEM },         // add/spawn_item*()
     { "FLAMMABLE_ASH",            TFLAG_FLAMMABLE_ASH },  // oh hey fire. again.
-    { "PLANT",                    TFLAG_PLANT },          // full map iteration
     { "WALL",                     TFLAG_WALL },           // smells
     { "DEEP_WATER",               TFLAG_DEEP_WATER },     // Deep enough to submerge things
     { "HARVESTED",                TFLAG_HARVESTED },      // harvested.  will not bear fruit.
@@ -942,6 +941,8 @@ void map_data_common_t::load( JsonObject &jo, const std::string &src )
             }
         }
     }
+
+    optional( jo, false, "description", description, translated_string_reader );
 }
 
 void ter_t::load( JsonObject &jo, const std::string &src )

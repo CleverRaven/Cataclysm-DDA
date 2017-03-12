@@ -21,15 +21,18 @@ src/damage.cpp
 src/debug.cpp
 src/debug_menu.cpp
 src/dependency_tree.cpp
+src/descriptions.cpp
 src/drawing_primitives.cpp
 src/editmap.cpp
 src/emit.cpp
 src/explosion.cpp
 src/fault.cpp
 src/flag.cpp
+src/fungal_effects.cpp
 src/game_inventory.cpp
 src/gamemode.cpp
 src/gates.cpp
+src/grab.cpp
 src/help.cpp
 src/input.cpp
 src/item_action.cpp
@@ -54,6 +57,7 @@ src/mondefense.cpp
 src/monfaction.cpp
 src/monmove.cpp
 src/morale.cpp
+src/morale_types.cpp
 src/mtype.cpp
 src/mutation_ui.cpp
 src/name.cpp
@@ -68,6 +72,7 @@ src/profession.cpp
 src/projectile.cpp
 src/recipe_dictionary.cpp
 src/rng.cpp
+src/rotatable_symbols.cpp
 src/safemode_ui.cpp
 src/scenario.cpp
 src/scent_map.cpp
@@ -84,6 +89,7 @@ src/turret.cpp
 src/tutorial.cpp
 src/vehicle_group.cpp
 src/vehicle_selector.cpp
+src/veh_utils.cpp
 src/version.cpp
 src/vitamin.cpp
 src/weather_gen.cpp
@@ -135,6 +141,7 @@ src/fault.h
 src/filesystem.h
 src/fire.h
 src/flag.h
+src/fungal_effects.h
 src/game_constants.h
 src/game_inventory.h
 src/gates.h
@@ -197,6 +204,7 @@ src/profession.h
 src/projectile.h
 src/recipe_dictionary.h
 src/requirements.h
+src/rotatable_symbols.h
 src/rng.h
 src/safemode_ui.h
 src/scent_map.h
@@ -220,6 +228,7 @@ src/vehicle_group.h
 src/vehicle_selector.h
 src/veh_interact.h
 src/veh_type.h
+src/veh_utils.h
 src/version.h
 src/visitable.h
 src/vitamin.h

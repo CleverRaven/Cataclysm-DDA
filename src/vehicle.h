@@ -38,16 +38,6 @@ float get_collision_factor(float delta_v);
 constexpr int SCATTER_DISTANCE = 3;
 constexpr int k_mvel = 200; //adjust this to balance collision damage
 
-struct fuel_type {
-    /** Id of the item type that represents the fuel. It may not be valid for certain pseudo
-     * fuel types like muscle. */
-    itype_id id;
-    /** See @ref vehicle::consume_fuel */
-    int coeff;
-};
-
-const std::array<fuel_type, 7> &get_fuel_types();
-
 enum veh_coll_type : int {
     veh_coll_nothing,  // 0 - nothing,
     veh_coll_body,     // 1 - monster/player/npc
@@ -141,6 +131,14 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
      */
     long ammo_consume( long qty, const tripoint& pos );
 
+    /**
+     * Consume fuel by energy content.
+     * @param ftype Type of fuel to consume
+     * @param energy Energy to consume, in kJ
+     * @return Energy actually consumed, in kJ
+     */
+    float consume_energy( const itype_id &ftype, float energy );
+
     /* Can part in current state be reloaded optionally with specific @ref obj */
     bool can_reload( const itype_id &obj = "" ) const;
 
@@ -227,6 +225,9 @@ public:
     /** current part health with range [0,durability] */
     int hp() const;
 
+    /** Current part damage in same units as item::damage. */
+    float damage() const;
+
     /** parts are considered broken at zero health */
     bool is_broken() const;
 
@@ -244,7 +245,7 @@ public:
     // Coordinates for some kind of target; jumper cables and turrets use this
     // Two coord pairs are stored: actual target point, and target vehicle center.
     // Both cases use absolute coordinates (relative to world origin)
-    std::pair<tripoint, tripoint> target;
+    std::pair<tripoint, tripoint> target = { tripoint_min, tripoint_min };
 
 private:
     /** What type of part is this? */
@@ -327,7 +328,27 @@ class turret_data {
         /** Maximum range considering current ammo (if any) */
         int range() const;
 
-        /** Fire at @ref target returning number of shots (may be zero) */
+        /**
+         * Prepare the turret for firing, called by firing function.
+         * This sets up vehicle tanks, recoil adjustments, vehicle rooftop status,
+         * and performs any other actions that must be done before firing a turret.
+         * @param p the player that is firing the gun, subject to recoil adjustment.
+         */
+        void prepare_fire( player &p );
+
+        /**
+         * Reset state after firing a prepared turret, called by the firing function.
+         * @param p the player that just fired (or attempted to fire) the turret.
+         * @param shots the number of shots fired by the most recent call to turret::fire.
+         */
+        void post_fire( player &p, int shots );
+
+        /**
+         * Fire the turret's gun at a given @ref target.
+         * @param p the player firing the turret, passed to pre_fire and post_fire calls.
+         * @param target coordinates that will be fired on.
+         * @return the number of shots actually fired (may be zero).
+         */
         int fire( player &p, const tripoint &target );
 
         bool can_reload() const;
@@ -345,6 +366,7 @@ class turret_data {
     private:
         turret_data( vehicle *veh, vehicle_part *part )
             : veh( veh ), part( part ) {}
+        double cached_recoil;
 
     protected:
         vehicle *veh = nullptr;
@@ -651,6 +673,13 @@ public:
     std::vector<const vehicle_part *> get_parts( const std::string &flag, bool enabled = false ) const;
 
     /**
+     *  Get all unbroken vehicle parts with cached bitflag @ref flag
+     *  @param enabled if set part must also be enabled to be considered
+     */
+    std::vector<vehicle_part *> get_parts( vpart_bitflags flag, bool enabled = false );
+    std::vector<const vehicle_part *> get_parts( vpart_bitflags flag, bool enabled = false ) const;
+
+    /**
      *  Get all unbroken vehicle parts at @ref pos
      *  @param flag if set only flags with this part will be considered
      *  @param enabled if set part must also be enabled to be considered
@@ -776,12 +805,24 @@ public:
 
     // drains a fuel type (e.g. for the kitchen unit)
     // returns amount actually drained, does not engage reactor
-    int drain (const itype_id &ftype, int amount);
+    int drain( const itype_id &ftype, int amount );
+    /**
+     * Consumes enough fuel by energy content. Does not support cable draining.
+     * @param ftype Type of fuel
+     * @param energy Desired amount of energy of fuel to consume
+     * @return Amount of energy actually consumed. May be more or less than energy.
+     */
+    float drain_energy( const itype_id &ftype, float energy );
 
     // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
     int basic_consumption (const itype_id &ftype) const;
 
     void consume_fuel( double load );
+
+    /**
+     * Maps used fuel to its basic (unscaled by load/strain) consumption.
+     */
+    std::map<itype_id, int> fuel_usage() const;
 
     /**
      * Get all vehicle lights (excluding any that are destroyed)

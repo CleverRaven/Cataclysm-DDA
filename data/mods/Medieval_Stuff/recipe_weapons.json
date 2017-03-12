@@ -8,18 +8,8 @@
   "difficulty": 6,
   "time": 50000,
   "book_learn": [[ "textbook_armschina", 5 ]],
-  "qualities":[
-    {"id":"HAMMER","level":3}
-  ],
-  "tools": [
-    [ [ "tongs", -1 ] ],
-    [ [ "crucible", -1 ] ],
-    [
-      [ "forge", 200 ],
-      [ "char_forge", 40 ],
-      [ "oxy_torch", 40 ]
-    ]
-  ],
+  "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
+  "qualities":[ { "id":"CUT","level":1 } ],
   "components": [
     [ [ "scrap_bronze", 4 ] ],
     [
@@ -40,18 +30,7 @@
   "difficulty": 7,
   "time": 55000,
   "book_learn": [[ "textbook_armschina", 5 ]],
-  "qualities": [
-    {"id":"HAMMER","level":1}
-  ],
-  "tools": [
-    [ [ "tongs", -1 ] ],
-    [ [ "crucible", -1 ] ],
-    [
-      [ "forge", 250 ],
-      [ "char_forge", 50 ],
-      [ "oxy_torch", 50 ]
-    ]
-  ],
+  "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
   "components": [
     [
       [ "rag", 1 ],
@@ -92,18 +71,7 @@
   "difficulty": 6,
   "time": 45000,
   "book_learn": [[ "textbook_weapwest", 4 ]],
-  "qualities": [
-    {"id":"HAMMER","level":1}
-  ],
-  "tools": [
-    [ [ "tongs", -1 ] ],
-    [ [ "crucible", -1 ] ],
-    [
-      [ "forge", 200 ],
-      [ "char_forge", 40 ],
-      [ "oxy_torch", 40 ]
-    ]
-  ],
+  "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
   "components": [
     [
       [ "rag", 1 ],
@@ -124,18 +92,7 @@
   "difficulty": 7,
   "time": 55000,
   "book_learn": [[ "textbook_weapwest", 5 ]],
-  "qualities": [
-    {"id":"HAMMER","level":1}
-  ],
-  "tools": [
-    [ [ "tongs", -1 ] ],
-    [ [ "crucible", -1 ] ],
-    [
-      [ "forge", 250 ],
-      [ "char_forge", 50 ],
-      [ "oxy_torch", 50 ]
-    ]
-  ],
+  "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
   "components": [
     [
       [ "rag", 1 ],
@@ -156,18 +113,8 @@
   "difficulty": 4,
   "time": 30000,
   "book_learn": [[ "textbook_weapwest", 4 ]],
-  "qualities":[
-    {"id":"HAMMER","level":3}
-  ],
-  "tools": [
-    [ [ "tongs", -1 ] ],
-    [ [ "crucible", -1 ] ],
-    [
-      [ "forge", 100 ],
-      [ "char_forge", 20 ],
-      [ "oxy_torch", 20 ]
-    ]
-  ],
+  "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
+  "qualities":[ {"id":"CUT","level":1} ],
   "components": [
     [ [ "scrap_bronze", 2 ] ],
     [

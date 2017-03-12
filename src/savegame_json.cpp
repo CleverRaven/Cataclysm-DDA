@@ -776,11 +776,6 @@ void player::deserialize(JsonIn &jsin)
 
     morale->load( data );
 
-    int tmpactive_mission;
-    if( data.read( "active_mission", tmpactive_mission ) && tmpactive_mission != -1 ) {
-        active_mission = mission::find( tmpactive_mission );
-    }
-
     std::vector<int> tmpmissions;
     if( data.read( "active_missions", tmpmissions ) ) {
         active_missions = mission::to_ptr_vector( tmpmissions );
@@ -790,6 +785,23 @@ void player::deserialize(JsonIn &jsin)
     }
     if( data.read( "completed_missions", tmpmissions ) ) {
         completed_missions = mission::to_ptr_vector( tmpmissions );
+    }
+
+    int tmpactive_mission;
+    if( data.read( "active_mission", tmpactive_mission ) ) {
+        if( savegame_loading_version <= 23 ) {
+            // In 0.C, active_mission was an index of the active_missions array (-1 indicated no active mission).
+            // And it would as often as not be out of bounds (e.g. when a questgiver died).
+            // Later, it became a mission * and stored as the mission's uid, and this change broke backward compatability.
+            // Unfortunately, nothing can be done about savegames between the bump to version 24 and 83808a941.
+            if( tmpactive_mission >= 0 && tmpactive_mission < int( active_missions.size() ) ) {
+                active_mission = active_missions[tmpactive_mission];
+            } else if( !active_missions.empty() ) {
+                active_mission = active_missions.back();
+            }
+        } else if( tmpactive_mission != -1 ) {
+            active_mission = mission::find( tmpactive_mission );
+        }
     }
 
     // Normally there is only one player character loaded, so if a mission that is assigned to
@@ -806,6 +818,16 @@ void player::deserialize(JsonIn &jsin)
             active_mission = nullptr;
         } else {
             active_mission = active_missions.front();
+        }
+    }
+
+    if( savegame_loading_version <= 23 && is_player() ) {
+        // In 0.C there was no player_id member of mission, so it'll be the default -1.
+        // When the member was introduced, no steps were taken to ensure compatibility with 0.C, so
+        // missions will be buggy for saves between experimental commits bd2088c033 and dd83800.
+        // see npc_chatbin::check_missions and npc::talk_to_u
+        for( mission *miss : active_missions ) {
+            miss->set_player_id_legacy_0c( getID() );
         }
     }
 
@@ -908,12 +930,18 @@ void npc_chatbin::deserialize(JsonIn &jsin)
     std::vector<int> tmpmissions_assigned;
     data.read( "missions_assigned", tmpmissions_assigned );
     missions_assigned = mission::to_ptr_vector( tmpmissions_assigned );
+
     int tmpmission_selected;
     mission_selected = nullptr;
-    if( savegame_loading_version <= 23 ) {
-        mission_selected = nullptr; // player can re-select which mision to talk about in the dialog
-    } else if( data.read( "mission_selected", tmpmission_selected ) && tmpmission_selected != -1 ) {
-        mission_selected = mission::find( tmpmission_selected );
+    if( data.read( "mission_selected", tmpmission_selected ) && tmpmission_selected != -1 ) {
+        if( savegame_loading_version <= 23 ) {
+            // In 0.C, it was an index into the missions_assigned vector
+            if( tmpmission_selected >= 0 && tmpmission_selected < int( missions_assigned.size() ) ) {
+                mission_selected = missions_assigned[tmpmission_selected];
+            }
+        } else {
+            mission_selected = mission::find( tmpmission_selected );
+        }
     }
 }
 
@@ -2006,7 +2034,13 @@ void mission::deserialize(JsonIn &jsin)
     jo.read("npc_id", npc_id );
     jo.read("good_fac_id", good_fac_id );
     jo.read("bad_fac_id", bad_fac_id );
-    jo.read("player_id", player_id );
+
+    // Suppose someone had two living players in an 0.C stable world. When loading player 1 in 0.D
+    // (or maybe even creating a new player), the former condition makes legacy_no_player_id true.
+    // When loading player 2, there will be a player_id member in master.gsav, but the bool member legacy_no_player_id
+    // will have been saved as true (unless the mission belongs to a player that's been loaded into 0.D)
+    // See player::deserialize and mission::set_player_id_legacy_0c
+    legacy_no_player_id = !jo.read("player_id", player_id ) || jo.get_bool( "legacy_no_player_id", false );
 }
 
 void mission::serialize(JsonOut &json) const
@@ -2041,6 +2075,7 @@ void mission::serialize(JsonOut &json) const
     json.member("step", step);
     json.member("follow_up", follow_up);
     json.member("player_id", player_id);
+    json.member( "legacy_no_player_id", legacy_no_player_id );
 
     json.end_object();
 }
@@ -2244,7 +2279,9 @@ void Creature::load( JsonObject &jsin )
 void player_morale::morale_point::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
-    type = static_cast<morale_type>( jo.get_int( "type_enum" ) );
+    if( !jo.read( "type", type ) ) {
+        type = morale_type_data::convert_legacy( jo.get_int( "type_enum" ) );
+    }
     std::string tmpitype;
     if( jo.read( "item_type", tmpitype ) && item::type_is_defined( tmpitype ) ) {
         item_type = item::find_type( tmpitype );
@@ -2258,7 +2295,7 @@ void player_morale::morale_point::deserialize( JsonIn &jsin )
 void player_morale::morale_point::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member( "type_enum", static_cast<int>( type ) );
+    json.member( "type", type );
     if( item_type != NULL ) {
         // @todo refactor player_morale to not require this hack
         json.member( "item_type", item_type->get_id() );

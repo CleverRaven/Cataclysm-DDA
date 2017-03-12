@@ -33,9 +33,13 @@
         "name" : "muscle",
         "name_plural" : "none",
         "description" : "seeing this is a bug",
+        "stackable": true,
         "price" : 0,
         "volume" : 0,
-        "flags": ["PSEUDO"]
+        "flags": ["PSEUDO"],
+        "fuel": {
+            "energy": 1
+        }
     },
     {
         "type":"GENERIC",

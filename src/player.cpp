@@ -7,6 +7,8 @@
 #include "mission.h"
 #include "game.h"
 #include "map.h"
+#include "filesystem.h"
+#include "fungal_effects.h"
 #include "debug.h"
 #include "addiction.h"
 #include "inventory.h"
@@ -56,6 +58,7 @@
 #include "vitamin.h"
 #include "fault.h"
 #include "recipe_dictionary.h"
+#include "ranged.h"
 
 #include <map>
 #include <iterator>
@@ -110,6 +113,7 @@ const efftype_id effect_darkness( "darkness" );
 const efftype_id effect_datura( "datura" );
 const efftype_id effect_deaf( "deaf" );
 const efftype_id effect_dermatik( "dermatik" );
+const efftype_id effect_disabled( "disabled" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_drunk( "drunk" );
 const efftype_id effect_earphones( "earphones" );
@@ -129,6 +133,7 @@ const efftype_id effect_iodine( "iodine" );
 const efftype_id effect_jetinjector( "jetinjector" );
 const efftype_id effect_lack_sleep( "lack_sleep" );
 const efftype_id effect_lying_down( "lying_down" );
+const efftype_id effect_mending( "mending" );
 const efftype_id effect_meth( "meth" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_paincysts( "paincysts" );
@@ -1967,6 +1972,8 @@ std::string player::save_info() const
 
 void player::memorial( std::ostream &memorial_file, std::string epitaph )
 {
+    static const char *eol = cata_files::eol();
+
     //Size of indents in the memorial file
     const std::string indent = "  ";
 
@@ -2019,67 +2026,67 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     //Header
     std::string version = string_format( "%s", getVersionString() );
     memorial_file << string_format( _( "Cataclysm - Dark Days Ahead version %s memorial file" ),
-                                    version.c_str() ) << "\n";
-    memorial_file << "\n";
-    memorial_file << string_format( _( "In memory of: %s" ), name.c_str() ) << "\n";
+                                    version.c_str() ) << eol;
+    memorial_file << eol;
+    memorial_file << string_format( _( "In memory of: %s" ), name.c_str() ) << eol;
     if( epitaph.length() > 0 ) { //Don't record empty epitaphs
         //~ The "%s" will be replaced by an epitaph as displyed in the memorial files. Replace the quotation marks as appropriate for your language.
-        memorial_file << string_format( pgettext( "epitaph", "\"%s\"" ), epitaph.c_str() ) << "\n\n";
+        memorial_file << string_format( pgettext( "epitaph", "\"%s\"" ), epitaph.c_str() ) << eol << eol;
     }
     //~ First parameter: Pronoun, second parameter: a profession name (with article)
     memorial_file << string_format( _( "%1$s was %2$s when the apocalypse began." ),
-                                    pronoun.c_str(), profession_name.c_str() ) << "\n";
+                                    pronoun.c_str(), profession_name.c_str() ) << eol;
     memorial_file << string_format( _( "%1$s died on %2$s of year %3$d, day %4$d, at %5$s." ),
                                     pronoun.c_str(), season_name_upper( calendar::turn.get_season() ).c_str(),
                                     ( calendar::turn.years() + 1 ),
-                                    ( calendar::turn.days() + 1 ), calendar::turn.print_time().c_str() ) << "\n";
-    memorial_file << kill_place << "\n";
-    memorial_file << "\n";
+                                    ( calendar::turn.days() + 1 ), calendar::turn.print_time().c_str() ) << eol;
+    memorial_file << kill_place << eol;
+    memorial_file << eol;
 
     //Misc
-    memorial_file << string_format( _( "Cash on hand: $%d" ), cash ) << "\n";
-    memorial_file << "\n";
+    memorial_file << string_format( _( "Cash on hand: $%d" ), cash ) << eol;
+    memorial_file << eol;
 
     //HP
 
     const auto limb_hp =
     [this, &memorial_file, &indent]( const std::string & desc, const hp_part bp ) {
-        memorial_file << indent << string_format( desc, get_hp( bp ), get_hp_max( bp ) ) << "\n";
+        memorial_file << indent << string_format( desc, get_hp( bp ), get_hp_max( bp ) ) << eol;
     };
 
-    memorial_file << _( "Final HP:" ) << "\n";
+    memorial_file << _( "Final HP:" ) << eol;
     limb_hp( _( " Head: %d/%d" ), hp_head );
     limb_hp( _( "Torso: %d/%d" ), hp_torso );
     limb_hp( _( "L Arm: %d/%d" ), hp_arm_l );
     limb_hp( _( "R Arm: %d/%d" ), hp_arm_r );
     limb_hp( _( "L Leg: %d/%d" ), hp_leg_l );
     limb_hp( _( "R Leg: %d/%d" ), hp_leg_r );
-    memorial_file << "\n";
+    memorial_file << eol;
 
     //Stats
-    memorial_file << _( "Final Stats:" ) << "\n";
+    memorial_file << _( "Final Stats:" ) << eol;
     memorial_file << indent << string_format( _( "Str %d" ), str_cur )
                   << indent << string_format( _( "Dex %d" ), dex_cur )
                   << indent << string_format( _( "Int %d" ), int_cur )
-                  << indent << string_format( _( "Per %d" ), per_cur ) << "\n";
-    memorial_file << _( "Base Stats:" ) << "\n";
+                  << indent << string_format( _( "Per %d" ), per_cur ) << eol;
+    memorial_file << _( "Base Stats:" ) << eol;
     memorial_file << indent << string_format( _( "Str %d" ), str_max )
                   << indent << string_format( _( "Dex %d" ), dex_max )
                   << indent << string_format( _( "Int %d" ), int_max )
-                  << indent << string_format( _( "Per %d" ), per_max ) << "\n";
-    memorial_file << "\n";
+                  << indent << string_format( _( "Per %d" ), per_max ) << eol;
+    memorial_file << eol;
 
     //Last 20 messages
-    memorial_file << _( "Final Messages:" ) << "\n";
+    memorial_file << _( "Final Messages:" ) << eol;
     std::vector<std::pair<std::string, std::string> > recent_messages = Messages::recent_messages( 20 );
     for( auto &recent_message : recent_messages ) {
         memorial_file << indent << recent_message.first << " " << recent_message.second;
-        memorial_file << "\n";
+        memorial_file << eol;
     }
-    memorial_file << "\n";
+    memorial_file << eol;
 
     //Kill list
-    memorial_file << _( "Kills:" ) << "\n";
+    memorial_file << _( "Kills:" ) << eol;
 
     int total_kills = 0;
 
@@ -2099,45 +2106,45 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     for( const auto entry : kill_counts ) {
         memorial_file << "  " << std::get<1>( entry.first ) << " - "
                       << string_format( "%4d", entry.second ) << " "
-                      << std::get<0>( entry.first ) << "\n";
+                      << std::get<0>( entry.first ) << eol;
     }
 
     if( total_kills == 0 ) {
-        memorial_file << indent << _( "No monsters were killed." ) << "\n";
+        memorial_file << indent << _( "No monsters were killed." ) << eol;
     } else {
-        memorial_file << string_format( _( "Total kills: %d" ), total_kills ) << "\n";
+        memorial_file << string_format( _( "Total kills: %d" ), total_kills ) << eol;
     }
-    memorial_file << "\n";
+    memorial_file << eol;
 
     //Skills
-    memorial_file << _( "Skills:" ) << "\n";
+    memorial_file << _( "Skills:" ) << eol;
     for( auto &skill : Skill::skills ) {
         SkillLevel next_skill_level = get_skill_level( skill.ident() );
         memorial_file << indent << skill.name() << ": " << next_skill_level.level() << " ("
-                      << next_skill_level.exercise() << "%)\n";
+                      << next_skill_level.exercise() << "%)" << eol;
     }
-    memorial_file << "\n";
+    memorial_file << eol;
 
     //Traits
-    memorial_file << _( "Traits:" ) << "\n";
+    memorial_file << _( "Traits:" ) << eol;
     for( auto &iter : my_mutations ) {
-        memorial_file << indent << mutation_branch::get_name( iter.first ) << "\n";
+        memorial_file << indent << mutation_branch::get_name( iter.first ) << eol;
     }
     if( !my_mutations.empty() ) {
-        memorial_file << indent << _( "(None)" ) << "\n";
+        memorial_file << indent << _( "(None)" ) << eol;
     }
-    memorial_file << "\n";
+    memorial_file << eol;
 
     //Effects (illnesses)
-    memorial_file << _( "Ongoing Effects:" ) << "\n";
+    memorial_file << _( "Ongoing Effects:" ) << eol;
     bool had_effect = false;
     if( get_morale_level() >= 100 ) {
         had_effect = true;
-        memorial_file << indent << _( "Elated" ) << "\n";
+        memorial_file << indent << _( "Elated" ) << eol;
     }
     if( get_morale_level() <= -100 ) {
         had_effect = true;
-        memorial_file << indent << _( "Depressed" ) << "\n";
+        memorial_file << indent << _( "Depressed" ) << eol;
     }
     if( get_perceived_pain() > 0 ) {
         had_effect = true;
@@ -2150,40 +2157,40 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
             dexbonus -= abs( stim - 15 ) /  8;
         }
         if( dexbonus < 0 ) {
-            memorial_file << indent << _( "Stimulant Overdose" ) << "\n";
+            memorial_file << indent << _( "Stimulant Overdose" ) << eol;
         } else {
-            memorial_file << indent << _( "Stimulant" ) << "\n";
+            memorial_file << indent << _( "Stimulant" ) << eol;
         }
     } else if( stim < 0 ) {
         had_effect = true;
-        memorial_file << indent << _( "Depressants" ) << "\n";
+        memorial_file << indent << _( "Depressants" ) << eol;
     }
     if( !had_effect ) {
-        memorial_file << indent << _( "(None)" ) << "\n";
+        memorial_file << indent << _( "(None)" ) << eol;
     }
-    memorial_file << "\n";
+    memorial_file << eol;
 
     //Bionics
-    memorial_file << _( "Bionics:" ) << "\n";
+    memorial_file << _( "Bionics:" ) << eol;
     int total_bionics = 0;
     for( size_t i = 0; i < my_bionics.size(); ++i ) {
-        memorial_file << indent << ( i + 1 ) << ": " << bionic_info( my_bionics[i].id ).name << "\n";
+        memorial_file << indent << ( i + 1 ) << ": " << bionic_info( my_bionics[i].id ).name << eol;
         total_bionics++;
     }
     if( total_bionics == 0 ) {
-        memorial_file << indent << _( "No bionics were installed." ) << "\n";
+        memorial_file << indent << _( "No bionics were installed." ) << eol;
     } else {
-        memorial_file << string_format( _( "Total bionics: %d" ), total_bionics ) << "\n";
+        memorial_file << string_format( _( "Total bionics: %d" ), total_bionics ) << eol;
     }
-    memorial_file << string_format( _( "Power: %d/%d" ), power_level,  max_power_level ) << "\n";
-    memorial_file << "\n";
+    memorial_file << string_format( _( "Power: %d/%d" ), power_level,  max_power_level ) << eol;
+    memorial_file << eol;
 
     //Equipment
-    memorial_file << _( "Weapon:" ) << "\n";
-    memorial_file << indent << weapon.invlet << " - " << weapon.tname( 1, false ) << "\n";
-    memorial_file << "\n";
+    memorial_file << _( "Weapon:" ) << eol;
+    memorial_file << indent << weapon.invlet << " - " << weapon.tname( 1, false ) << eol;
+    memorial_file << eol;
 
-    memorial_file << _( "Equipment:" ) << "\n";
+    memorial_file << _( "Equipment:" ) << eol;
     for( auto &elem : worn ) {
         item next_item = elem;
         memorial_file << indent << next_item.invlet << " - " << next_item.tname( 1, false );
@@ -2192,12 +2199,12 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
         } else if( next_item.contents.size() == 1 && next_item.contents.front().charges > 0 ) {
             memorial_file << " (" << next_item.contents.front().charges << ")";
         }
-        memorial_file << "\n";
+        memorial_file << eol;
     }
-    memorial_file << "\n";
+    memorial_file << eol;
 
     //Inventory
-    memorial_file << _( "Inventory:" ) << "\n";
+    memorial_file << _( "Inventory:" ) << eol;
     inv.restack( this );
     inv.sort();
     invslice slice = inv.slice();
@@ -2213,24 +2220,24 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
         } else if( next_item.contents.size() == 1 && next_item.contents.front().charges > 0 ) {
             memorial_file << " (" << next_item.contents.front().charges << ")";
         }
-        memorial_file << "\n";
+        memorial_file << eol;
     }
-    memorial_file << "\n";
+    memorial_file << eol;
 
     //Lifetime stats
-    memorial_file << _( "Lifetime Stats" ) << "\n";
+    memorial_file << _( "Lifetime Stats" ) << eol;
     memorial_file << indent << string_format( _( "Distance walked: %d squares" ),
-                  player_stats.squares_walked ) << "\n";
+                  player_stats.squares_walked ) << eol;
     memorial_file << indent << string_format( _( "Damage taken: %d damage" ),
-                  player_stats.damage_taken ) << "\n";
+                  player_stats.damage_taken ) << eol;
     memorial_file << indent << string_format( _( "Damage healed: %d damage" ),
-                  player_stats.damage_healed ) << "\n";
+                  player_stats.damage_healed ) << eol;
     memorial_file << indent << string_format( _( "Headshots: %d" ),
-                  player_stats.headshots ) << "\n";
-    memorial_file << "\n";
+                  player_stats.headshots ) << eol;
+    memorial_file << eol;
 
     //History
-    memorial_file << _( "Game History" ) << "\n";
+    memorial_file << _( "Game History" ) << eol;
     memorial_file << dump_memorial();
 
 }
@@ -2297,15 +2304,14 @@ void player::load_memorial_file( std::istream &fin )
  */
 std::string player::dump_memorial() const
 {
-
+    static const char *eol = cata_files::eol();
     std::stringstream output;
 
     for( auto &elem : memorial_log ) {
-        output << elem << "\n";
+        output << elem << eol;
     }
 
     return output.str();
-
 }
 
 /**
@@ -3103,12 +3109,6 @@ bool player::avoid_trap( const tripoint &pos, const trap &tr ) const
     }
 
     return myroll >= traproll;
-}
-
-body_part player::get_random_body_part( bool main ) const
-{
-    // TODO: Refuse broken limbs, adjust for mutations
-    return random_body_part( main );
 }
 
 bool player::has_alarm_clock() const
@@ -3928,6 +3928,11 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
         hp_cur[hurtpart] = 0;
     }
 
+    if( hp_cur[hurtpart] <= 0 ) {
+        remove_effect( effect_mending, hurt );
+        add_effect( effect_disabled, 1, hurt, true );
+    }
+
     lifetime_stats()->damage_taken += dam;
     if( dam > get_painkiller() ) {
         on_hurt( source );
@@ -4239,52 +4244,6 @@ void player::knock_back_from( const tripoint &p )
     }
 }
 
-hp_part player::bp_to_hp( const body_part bp )
-{
-    switch(bp) {
-        case bp_head:
-        case bp_eyes:
-        case bp_mouth:
-            return hp_head;
-        case bp_torso:
-            return hp_torso;
-        case bp_arm_l:
-        case bp_hand_l:
-            return hp_arm_l;
-        case bp_arm_r:
-        case bp_hand_r:
-            return hp_arm_r;
-        case bp_leg_l:
-        case bp_foot_l:
-            return hp_leg_l;
-        case bp_leg_r:
-        case bp_foot_r:
-            return hp_leg_r;
-        default:
-            return num_hp_parts;
-    }
-}
-
-body_part player::hp_to_bp( const hp_part hpart )
-{
-    switch(hpart) {
-        case hp_head:
-            return bp_head;
-        case hp_torso:
-            return bp_torso;
-        case hp_arm_l:
-            return bp_arm_l;
-        case hp_arm_r:
-            return bp_arm_r;
-        case hp_leg_l:
-            return bp_leg_l;
-        case hp_leg_r:
-            return bp_leg_r;
-        default:
-            return num_bp;
-    }
-}
-
 int player::hp_percentage() const
 {
     int total_cur = 0, total_max = 0;
@@ -4320,12 +4279,13 @@ void player::update_body( int from, int to )
         check_needs_extremes();
         update_needs( five_mins );
         regen( five_mins );
+        // Note: mend ticks once per 5 mins, but wants rate in TURNS, not 5 min intervals
+        mend( five_mins * MINUTES( 5 ) );
     }
 
     const int thirty_mins = ticks_between( from, to, MINUTES(30) );
     if( thirty_mins > 0 ) {
         get_sick();
-        mend( thirty_mins );
     }
 
     for( const auto& v : vitamin::all() ) {
@@ -5416,6 +5376,7 @@ void player::hardcoded_effects(effect &it)
                                               _("<npcname> vomits thousands of live spores!") );
 
                 moves = -500;
+                fungal_effects fe( *g, g->m );
                 for (int i = -1; i <= 1; i++) {
                     for (int j = -1; j <= 1; j++) {
                         if (i == 0 && j == 0) {
@@ -5423,7 +5384,7 @@ void player::hardcoded_effects(effect &it)
                         }
 
                         tripoint sporep( posx() + i, posy() + j, posz() );
-                        g->m.fungalize( sporep, this, 0.25 );
+                        fe.fungalize( sporep, this, 0.25 );
                     }
                 }
             // We're fucked
@@ -6571,6 +6532,17 @@ void player::hardcoded_effects(effect &it)
                 }
             }
         }
+    } else if( id == effect_mending ) {
+        // @todo Remove this and encapsulate hp_cur instead
+        if( hp_cur[bp_to_hp( bp )] > 0 ) {
+            it.set_duration( 0 );
+        }
+    } else if( id == effect_disabled ) {
+        // @todo Remove this and encapsulate hp_cur instead
+        if( hp_cur[bp_to_hp( bp )] > 0 ) {
+            // Just unpause, in case someone added it as a temporary effect (numbing poison etc.)
+            it.unpause_effect();
+        }
     }
 }
 
@@ -6602,6 +6574,14 @@ double player::vomit_mod()
 
 void player::suffer()
 {
+    // @todo Remove this section and encapsulate hp_cur
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
+        if( hp_cur[i] <= 0 ) {
+            add_effect( effect_disabled, 1, bp, true );
+        }
+    }
+
     for (size_t i = 0; i < my_bionics.size(); i++) {
         if (my_bionics[i].powered) {
             process_bionic(i);
@@ -7356,6 +7336,17 @@ void player::suffer()
     }
 }
 
+// At minimum level, return at_min, at maximum at_max
+float addiction_scaling( float at_min, float at_max, float add_lvl )
+{
+    // Not addicted
+    if( add_lvl < MIN_ADDICTION_LEVEL ) {
+        return 1.0f;
+    }
+
+    return lerp( at_min, at_max, ( add_lvl - MIN_ADDICTION_LEVEL ) / MAX_ADDICTION_LEVEL );
+}
+
 void player::mend( int rate_multiplier )
 {
     // Wearing splints can slowly mend a broken limb back to 1 hp.
@@ -7371,18 +7362,25 @@ void player::mend( int rate_multiplier )
         return;
     }
 
-    const double mending_odds = 500.0; // ~50% to mend in a week
     double healing_factor = 1.0;
     // Studies have shown that alcohol and tobacco use delay fracture healing time
-    if( has_effect( effect_cig ) || addiction_level(ADD_CIG) > 0 ) {
+    // Being under effect is 50% slowdown
+    // Being addicted but not under effect scales from 25% slowdown to 75% slowdown
+    // The improvement from being intoxicated over withdrawal is intended
+    if( has_effect( effect_cig ) ) {
         healing_factor *= 0.5;
+    } else {
+        healing_factor *= addiction_scaling( 0.25f, 0.75f, addiction_level( ADD_CIG ) );
     }
-    if( has_effect( effect_drunk ) || addiction_level(ADD_ALCOHOL) > 0 ) {
+
+    if( has_effect( effect_drunk ) ) {
         healing_factor *= 0.5;
+    } else {
+        healing_factor *= addiction_scaling( 0.25f, 0.75f, addiction_level( ADD_ALCOHOL ) );
     }
 
     if( radiation > 0 && !has_trait( "RADIOGENIC" ) ) {
-        healing_factor *= std::max( 0.0f, (1000.0f - radiation) / 1000.0f );
+        healing_factor *= clamp( ( 1000.0f - radiation ) / 1000.0f, 0.0f, 1.0f );
     }
 
     // Bed rest speeds up mending
@@ -7391,22 +7389,26 @@ void player::mend( int rate_multiplier )
     } else if( get_fatigue() > DEAD_TIRED ) {
         // but being dead tired does not...
         healing_factor *= 0.75;
+    } else {
+        // If not dead tired, resting without sleep also helps
+        healing_factor *= 1.0f + rest_quality();
     }
 
     // Being healthy helps.
     healing_factor *= 1.0f + get_healthy() / 200.0f;
 
-    // And being well fed...
-    if( get_hunger() < 0 ) {
-        healing_factor *= 2.0;
-    }
-
-    if( get_thirst() < 0 ) {
-        healing_factor *= 2.0;
-    }
+    // Very hungry starts lowering the chance
+    // Healing stops completely halfway between near starving and starving
+    healing_factor *= 1.0f - clamp( ( get_hunger() - 100.0f ) / 2000.0f, 0.0f, 1.0f );
+    // Similar for thirst - starts at very thirsty, drops to 0 ~halfway between two last statuses
+    healing_factor *= 1.0f - clamp( ( get_thirst() - 80.0f ) / 300.0f, 0.0f, 1.0f );
 
     // Mutagenic healing factor!
-    if( has_trait("REGEN") ) {
+    bool needs_splint = true;
+    if( has_trait("REGEN_LIZ") ) {
+        healing_factor *= 20.0;
+        needs_splint = false;
+    } else if( has_trait("REGEN") ) {
         healing_factor *= 16.0;
     } else if( has_trait("FASTHEALER2") ) {
         healing_factor *= 4.0;
@@ -7416,61 +7418,42 @@ void player::mend( int rate_multiplier )
         healing_factor *= 0.5;
     }
 
-    if( has_trait("REGEN_LIZ") ) {
-        healing_factor = 20.0;
+    add_msg( m_debug, "Limb mend healing factor: %.2f", healing_factor );
+    if( healing_factor <= 0.0f ) {
+        // The section below assumes positive healing rate
+        return;
     }
 
-    for( int iter = 0; iter < rate_multiplier; iter++ ) {
-        bool any_broken = false;
-        for( int i = 0; i < num_hp_parts; i++ ) {
-            const bool broken = (hp_cur[i] <= 0);
-            if( !broken ) {
-                continue;
-            }
-
-            any_broken = true;
-
-            bool mended = false;
-            body_part part;
-            switch(i) {
-                case hp_arm_r:
-                    part = bp_arm_r;
-                    mended = is_wearing_on_bp("arm_splint", bp_arm_r) && x_in_y(healing_factor, mending_odds);
-                    break;
-                case hp_arm_l:
-                    part = bp_arm_l;
-                    mended = is_wearing_on_bp("arm_splint", bp_arm_l) && x_in_y(healing_factor, mending_odds);
-                    break;
-                case hp_leg_r:
-                    part = bp_leg_r;
-                    mended = is_wearing_on_bp("leg_splint", bp_leg_r) && x_in_y(healing_factor, mending_odds);
-                    break;
-                case hp_leg_l:
-                    part = bp_leg_l;
-                    mended = is_wearing_on_bp("leg_splint", bp_leg_l) && x_in_y(healing_factor, mending_odds);
-                    break;
-                default:
-                    // No mending for you!
-                    continue;
-            }
-            if( mended == false && has_trait("REGEN_LIZ") ) {
-                // Splints aren't *strictly* necessary for your anatomy
-                mended = x_in_y(healing_factor * 0.2, mending_odds);
-            }
-            if( mended ) {
-                hp_cur[i] = 1;
-                //~ %s is bodypart
-                add_memorial_log( pgettext("memorial_male", "Broken %s began to mend."),
-                                  pgettext("memorial_female", "Broken %s began to mend."),
-                                  body_part_name(part).c_str() );
-                //~ %s is bodypart
-                add_msg_if_player( m_good, _("Your %s has started to mend!"),
-                    body_part_name(part).c_str());
-            }
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        const bool broken = (hp_cur[i] <= 0);
+        if( !broken ) {
+            continue;
         }
 
-        if( !any_broken ) {
-            return;
+        body_part part = hp_to_bp( static_cast<hp_part>( i ) );
+        if( needs_splint && !worn_with_flag( "SPLINT", part ) ) {
+            continue;
+        }
+
+        int dur_inc = roll_remainder( rate_multiplier * healing_factor );
+        auto &eff = get_effect( effect_mending, part );
+        if( eff.is_null() ) {
+            add_effect( effect_mending, dur_inc, part, true );
+            continue;
+        }
+
+        eff.set_duration( eff.get_duration() + dur_inc );
+
+        if( eff.get_duration() >= eff.get_max_duration() ) {
+            hp_cur[i] = 1;
+            remove_effect( effect_mending, part );
+            //~ %s is bodypart
+            add_memorial_log( pgettext("memorial_male", "Broken %s began to mend."),
+                              pgettext("memorial_female", "Broken %s began to mend."),
+                              body_part_name( part ).c_str() );
+            //~ %s is bodypart
+            add_msg_if_player( m_good, _("Your %s has started to mend!"),
+                               body_part_name( part ).c_str() );
         }
     }
 }
@@ -9870,7 +9853,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
     const std::string &method = std::next( used->type->use_methods.begin(), choice )->first;
     long charges_used = used->type->invoke( this, used, pt, method );
 
-    return used->is_tool() && consume_charges( *used, charges_used );
+    return ( used->is_tool() || used->is_medication() ) && consume_charges( *used, charges_used );
 }
 
 bool player::invoke_item( item* used, const std::string &method )
@@ -9891,7 +9874,7 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
     }
 
     long charges_used = actually_used->type->invoke( this, actually_used, pt, method );
-    return used->is_tool() && consume_charges( *actually_used, charges_used );
+    return ( used->is_tool() || used->is_medication() ) && consume_charges( *actually_used, charges_used );
 }
 
 void player::reassign_item( item &it, long invlet )
@@ -12619,6 +12602,7 @@ std::vector<std::string> player::get_overlay_ids() const
 
 void player::spores()
 {
+    fungal_effects fe( *g, g->m );
     //~spore-release sound
     sounds::sound( pos(), 10, _("Pouf!"));
     for (int i = -1; i <= 1; i++) {
@@ -12628,7 +12612,7 @@ void player::spores()
             }
 
             tripoint sporep( posx() + i, posy() + j, posz() );
-            g->m.fungalize( sporep, this, 0.25 );
+            fe.fungalize( sporep, this, 0.25 );
         }
     }
 }
@@ -12762,6 +12746,14 @@ void player::on_mission_finished( mission &mission )
             active_mission = active_missions.front();
         }
     }
+}
+
+const targeting_data &player::get_targeting_data() {
+    return *tdata;
+}
+
+void player::set_targeting_data( const targeting_data &td ) {
+    tdata.reset( new targeting_data( td ) );
 }
 
 void player::set_active_mission( mission &mission )

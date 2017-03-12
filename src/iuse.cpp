@@ -4,6 +4,7 @@
 #include "game.h"
 #include "game_inventory.h"
 #include "map.h"
+#include "fungal_effects.h"
 #include "mapdata.h"
 #include "output.h"
 #include "debug.h"
@@ -1463,13 +1464,14 @@ int iuse::purify_iv(player *p, item *it, bool, const tripoint& )
 
 void spawn_spores( const player &p ) {
     int spores_spawned = 0;
+    fungal_effects fe( *g, g->m );
     for( const tripoint &dest : closest_tripoints_first( 4, p.pos() ) ) {
         if( g->m.impassable( dest ) ) {
             continue;
         }
         float dist = trig_dist( dest, p.pos() );
         if( x_in_y( 1, dist ) ) {
-            g->m.marlossify( dest );
+            fe.marlossify( dest );
         }
         if( g->critter_at(dest) != nullptr ) {
             continue;
@@ -1829,9 +1831,10 @@ int iuse::mycus(player *p, item *it, bool t, const tripoint &pos)
         p->add_msg_if_player(m_good, _("We welcome the union of our lines in our local guide.  We will prosper, and unite this world."));
         p->add_msg_if_player(m_good, _("Even now, our fruits adapt to better serve local physiology."));
         p->add_msg_if_player(m_good, _("As, in time, shall we adapt to better welcome those who have not received us."));
+        fungal_effects fe( *g, g->m );
         for (int x = p->posx() - 3; x <= p->posx() + 3; x++) {
             for (int y = p->posy() - 3; y <= p->posy() + 3; y++) {
-                g->m.marlossify( tripoint( x, y, p->posz() ) );
+                fe.marlossify( tripoint( x, y, p->posz() ) );
             }
         }
         p->rem_addiction(ADD_MARLOSS_R);
@@ -7899,7 +7902,7 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
     p->consume_items( comps );
 
     p->add_msg_if_player( _( "You washed your clothing." ) );
-    p->mod_moves( -3000 );
+    p->mod_moves( -( 1000 * mod.volume() / 250_ml ) );
 
     if( p->is_worn( mod ) ) {
         mod.on_takeoff( g->u );

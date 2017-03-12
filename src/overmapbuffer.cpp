@@ -463,7 +463,7 @@ bool overmapbuffer::reveal( const tripoint &center, int radius )
     return result;
 }
 
-bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, int radius )
+bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, int radius, bool road_only )
 {
     static const int RADIUS = 4;            // Maximal radius of search (in overmaps)
     static const int OX = RADIUS * OMAPX;   // half-width of the area to search in
@@ -473,7 +473,7 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, 
     const tripoint base( source - start );      // To convert local coordinates to global ones
     const tripoint finish( dest - base );       // Local destination - relative to source
 
-    const auto estimate = [ this, &base, &finish ]( const pf::node &, const pf::node &cur ) {
+    const auto estimate = [ this, &base, &finish, road_only ]( const pf::node &, const pf::node &cur ) {
         int res = 0;
         int omx = base.x + cur.x;
         int omy = base.y + cur.y;
@@ -481,6 +481,10 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, 
         const auto &oter = get_om_global( omx, omy ).get_ter( omx, omy, base.z );
 
         if( !is_ot_type( "road", oter ) && !is_ot_type ( "bridge", oter ) && !is_ot_type( "hiway", oter ) ) {
+            if( road_only ) {
+                return -1;
+            }
+
             if( is_river( oter ) ) {
                 return -1; // Can't walk on water
             }

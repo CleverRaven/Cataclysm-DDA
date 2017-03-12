@@ -364,7 +364,11 @@ public:
     static mission_status status_from_string( const std::string &s );
     static const std::string status_to_string( mission_status st );
 
+    /** Used to handle saves from before player_id was a member of mission */
+    void set_player_id_legacy_0c( int id );
+
 private:
+    bool legacy_no_player_id = false;
     // Don't use this, it's only for loading legacy saves.
     void load_info(std::istream &info);
 

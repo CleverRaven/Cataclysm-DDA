@@ -201,5 +201,47 @@
       [ "solder_wire", 1400 ]
     ]
   ]
-}
+},
+  {
+    "result": "electric_primer",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ [ "electronics", 5 ], [ "launcher", 3 ] ],
+    "time": 45000,
+    "book_learn": [ [ "textbook_launcher", 5 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "tools": [
+      [ [ "swage", -1 ] ],
+      [ [ "press", -1 ] ]
+    ],
+    "components": [
+      [ [ "can_drink_unsealed", 2 ], [ "can_food_unsealed", 2 ], [ "scrap", 4 ] ],
+      [ [ "cable", 5 ] ],
+      [ [ "chem_hmtd", 5 ] ]
+    ]
+  },
+  {
+    "result": "electric_primer_large",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "skills_required": [ [ "electronics", 6 ], [ "launcher", 3 ] ],
+    "time": 45000,
+    "book_learn": [ [ "textbook_launcher", 6 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 } ],
+    "tools": [
+      [ [ "swage", -1 ] ],
+      [ [ "press", -1 ] ]
+    ],
+    "components": [
+      [ [ "can_drink_unsealed", 3 ], [ "can_food_unsealed", 3 ], [ "scrap", 6 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "chem_hmtd", 10 ] ]
+    ]
+  }
 ]

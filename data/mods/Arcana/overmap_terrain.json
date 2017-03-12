@@ -90,38 +90,21 @@
         "type" : "overmap_terrain",
         "id" : "impact_roof_left",
         "name" : "open air",
-        "rotate" : false,
-        "line_drawing" : false,
         "sym" : 46,
-        "color" : "blue",
-        "known_down" : false,
-        "known_up" : false,
-        "sidewalk" : false,
-        "allow_road" : false
+        "color" : "blue"
     },{
         "type" : "overmap_terrain",
         "id" : "impact_roof_center",
         "name" : "open air",
-        "rotate" : false,
-        "line_drawing" : false,
         "sym" : 46,
         "color" : "blue",
-        "known_down" : false,
-        "known_up" : false,
-        "sidewalk" : false,
-        "allow_road" : false
+        "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "impact_roof_right",
         "name" : "open air",
-        "rotate" : false,
-        "line_drawing" : false,
         "sym" : 46,
-        "color" : "blue",
-        "known_down" : false,
-        "known_up" : false,
-        "sidewalk" : false,
-        "allow_road" : false
+        "color" : "blue"
     },{
         "type" : "overmap_terrain",
         "id" : "island_temple_1",

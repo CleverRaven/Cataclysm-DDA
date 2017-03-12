@@ -26,7 +26,6 @@ struct trap;
 class mission;
 class profession;
 nc_color encumb_color(int level);
-enum morale_type : int;
 enum game_message_type : int;
 class ma_technique;
 class martialart;
@@ -42,6 +41,9 @@ class start_location;
 using start_location_id = string_id<start_location>;
 struct w_point;
 struct points_left;
+struct targeting_data;
+class morale_type_data;
+using morale_type = string_id<morale_type_data>;
 
 namespace debug_menu
 {
@@ -362,8 +364,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool unarmed_attack() const;
         /** Called when a player triggers a trap, returns true if they don't set it off */
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
-        /** Picks a random body part, adjusting for mutations, broken body parts etc. */
-        body_part get_random_body_part( bool main ) const override;
 
         /** Returns true if the player or their vehicle has an alarm clock */
         bool has_alarm_clock() const;
@@ -723,11 +723,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         float fall_damage_mod() const override;
         /** Deals falling/collision damage with terrain/creature at pos */
         int impact( int force, const tripoint &pos ) override;
-
-        /** Converts a body_part to an hp_part */
-        static hp_part bp_to_hp(body_part bp);
-        /** Converts an hp_part to a body_part */
-        static body_part hp_to_bp(hp_part hpart);
 
         /** Returns overall % of HP remaining */
         int hp_percentage() const override;
@@ -1493,6 +1488,18 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param target Target NPC to steal from
          */
         void steal( npc &target );
+        
+        /**
+         * Accessor method for weapon targeting data, used for interactive weapon aiming.
+         * @return a reference to the data pointed by player's tdata member.
+         */
+        const targeting_data &get_targeting_data();
+
+        /**
+         * Mutator method for weapon targeting data.
+         * @param td targeting data to be set.
+         */
+        void set_targeting_data( const targeting_data &td );
 
     protected:
         // The player's position on the local map.
@@ -1608,6 +1615,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * The currently active mission, or null if no mission is currently in progress.
          */
         mission *active_mission;
+
+        /** smart pointer to targeting data stored for aiming the player's weapon across turns. */
+        std::shared_ptr<targeting_data> tdata;
 
         /** Current deficiency/excess quantity for each vitamin */
         std::map<vitamin_id, int> vitamin_levels;

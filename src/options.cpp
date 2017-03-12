@@ -1078,6 +1078,14 @@ void options_manager::init()
         0, 1000, 0
         );
 
+    //~ aim bar style - bars or numbers
+    optionNames["numbers"] = _("Numbers");
+    optionNames["bars"] = _("Bars");
+    add("ACCURACY_DISPLAY", "interface", _("Aim window display style"),
+        _("How should confidence and steadiness be communicated to the player."),
+        "numbers,bars", "bars"
+        );
+
     mOptionsSort["interface"]++;
 
     add("MOVE_VIEW_OFFSET", "interface", _("Move view offset"),
@@ -1294,6 +1302,24 @@ void options_manager::init()
         _("If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing. Mainly for CJK Windows users."),
         false
         );
+    
+    mOptionsSort["debug"]++;
+    
+    add("OVERMAP_GENERATION_TRIES", "debug", _("Overmap generation attempt count"),
+        _("Maximum number of retries in overmap generation due to inability to place mandatory special locations. High numbers and strange world settings will lead to VERY slow generation!"),
+        1, 20, 2
+        );
+
+    //~ allow invalid (bugged, bad) maps without asking user
+    optionNames["allow_invalid"] = _("Any");
+    //~ allow any valid map, even if it's "bad"
+    optionNames["ask_invalid"] = _("Valid");
+    //~ ask for lifting restrictions
+    optionNames["ask_unlimited"] = _("Ask");
+    add("ALLOW_INVALID_OVERMAPS", "debug", _("Allow invalid overmaps"),
+        _("What to do if world settings/mods prevent valid overmaps. Invalid maps are BUGGED and while playable, may cause errors during missions. Unlimited maps will look ugly, but are fully functional."),
+        "allow_invalid,ask_invalid,ask_unlimited", "ask_invalid"
+        );
 
     ////////////////////////////WORLD DEFAULT////////////////////
     add("CORE_VERSION", "world_default", _("Core version data"),
@@ -1386,7 +1412,7 @@ void options_manager::init()
         );
 
     add("CONSTRUCTION_SCALING", "world_default", _("Construction scaling"),
-        _("Multiplies the speed of construction by the given percentage. '0' automatically scales construction to match the world's season length."),
+        _("Sets the time of construction in percents. '50' is two times faster than default, '200' is two times longer. '0' automatically scales construction time to match the world's season length."),
         0, 1000, 100
         );
 

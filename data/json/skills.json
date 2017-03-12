@@ -11,11 +11,6 @@
         "description" : "Your skill in accessing and manipulating computers.  Higher levels can allow a user to navigate complex software systems and even bypass their security."
     },{
         "type" : "skill",
-        "ident" : "carpentry",
-        "name" : "construction",
-        "description" : "Your general competence in building construction.  This governs the complexity of structures that can be built, and the time required to build them."
-    },{
-        "type" : "skill",
         "ident" : "cooking",
         "name" : "cooking",
         "description" : "Your skill in combining food ingredients to make other, tastier food items.  It may also be used in certain chemical mixtures and other, more esoteric tasks."

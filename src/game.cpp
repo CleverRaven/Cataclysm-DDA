@@ -126,7 +126,6 @@ const int core_version = 6;
 /** Will be set to true when running unit tests */
 bool test_mode = false;
 
-const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 const mtype_id mon_manhack( "mon_manhack" );
 
 const skill_id skill_melee( "melee" );
@@ -2925,6 +2924,7 @@ bool game::handle_action()
             break;
 
         case ACTION_FIRE:
+            // @todo: Move handling ACTION_FIRE to a new function.
             // Use vehicle turret or draw a pistol from a holster if unarmed
             if( !u.is_armed() ) {
 
@@ -2932,6 +2932,7 @@ bool game::handle_action()
                 vehicle *veh = m.veh_at( u.pos(), part );
 
                 turret_data turret;
+                // @todo: move direct turret firing from ACTION_FIRE to separate function.
                 if( veh && ( turret = veh->turret_query( u.pos() ) ) ) {
                     switch( turret.query() ) {
                         case turret_data::status::no_ammo:
@@ -2965,13 +2966,22 @@ bool game::handle_action()
                                 };
                             }
 
-                            auto trajectory = pl_target_ui( TARGET_MODE_TURRET_MANUAL, &*turret.base(),
-                                                            turret.range(), turret.ammo_data(),
-                                                            switch_mode, switch_ammo );
+                            // callbacks for handling setup and cleanup of turret firing
+                            firing_callback prepare_fire = [this, &turret]( const int ) {
+                                turret.prepare_fire( u );
+                            };
+                            firing_callback post_fire = [this, &turret]( const int shots ) {
+                                turret.post_fire( u, shots );
+                            };
 
-                            if( !trajectory.empty() ) {
-                                turret.fire( u, trajectory.back() );
-                            }
+                            targeting_data args = {
+                                TARGET_MODE_TURRET_MANUAL, &*turret.base(),
+                                turret.range(), 0, false, turret.ammo_data(),
+                                switch_mode, switch_ammo, prepare_fire, post_fire
+                            };
+                            u.set_targeting_data( args );
+                            plfire();
+
                             break;
                         }
 
@@ -3015,7 +3025,7 @@ bool game::handle_action()
             }
 
             if( u.weapon.is_gun() ) {
-                plfire( &u.weapon );
+                plfire( u.weapon );
 
             } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
                 int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
@@ -3033,7 +3043,7 @@ bool game::handle_action()
         case ACTION_FIRE_BURST: {
             auto mode = u.weapon.gun_get_mode_id();
             if( u.weapon.gun_set_mode( "AUTO" ) ) {
-                plfire( &u.weapon );
+                plfire( u.weapon );
                 u.weapon.gun_set_mode( mode );
             }
             break;
@@ -3950,7 +3960,7 @@ std::vector<std::string> game::list_active_characters()
 void game::write_memorial_file(std::string sLastWords)
 {
     const std::string &memorial_dir = FILENAMES["memorialdir"];
-    const std::string &memorial_active_world_dir = memorial_dir +  world_generator->active_world->world_name + "/";
+    const std::string &memorial_active_world_dir = memorial_dir + utf8_to_native( world_generator->active_world->world_name ) + "/";
 
     //Check if both dirs exist. Nested assure_dir_exist fails if the first dir of the nested dir does not exist.
     if (!assure_dir_exist(memorial_dir)) {
@@ -3977,11 +3987,15 @@ void game::write_memorial_file(std::string sLastWords)
     std::ostringstream memorial_file_path;
     memorial_file_path << memorial_active_world_dir;
 
-    // Use the default locale to replace non-printable characters with _ in the player name.
-    std::locale locale {"C"};
-    std::replace_copy_if(std::begin(u.name), std::begin(u.name) + truncated_name_len,
-        std::ostream_iterator<char>(memorial_file_path),
-        [&](char const c) { return !std::isgraph(c, locale); }, '_');
+    if( !get_options().has_option( "ENCODING_CONV" ) || !get_option<bool>( "ENCODING_CONV" ) ) {
+        // Use the default locale to replace non-printable characters with _ in the player name.
+        std::locale locale {"C"};
+        std::replace_copy_if(std::begin(u.name), std::begin(u.name) + truncated_name_len,
+            std::ostream_iterator<char>(memorial_file_path),
+            [&](char const c) { return !std::isgraph(c, locale); }, '_');
+    } else {
+        memorial_file_path << utf8_to_native( u.name );
+    }
 
     // Add a ~ if the player name was actually truncated.
     memorial_file_path << ((truncated_name_len != name_len) ? "~-" : "-");
@@ -8511,6 +8525,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
     ctxt.register_action("LEVEL_UP");
     ctxt.register_action("LEVEL_DOWN");
     ctxt.register_action("TOGGLE_FAST_SCROLL");
+    ctxt.register_action("EXTENDED_DESCRIPTION");
     if (select_zone) {
         ctxt.register_action("SELECT");
     } else {
@@ -8536,9 +8551,14 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
             if (!select_zone) {
                 nc_color clr = c_white;
-                const std::string colored_key = string_format( "<color_ltgreen>%s</color>",
-                                                               ctxt.get_desc( "LIST_ITEMS", 1 ).c_str() );
-                print_colored_text( w_info, getmaxy(w_info) - 1, 2, clr, clr,
+                std::string colored_key = string_format( "<color_ltgreen>%s</color>",
+                                                         ctxt.get_desc( "EXTENDED_DESCRIPTION", 1 ).c_str() );
+                print_colored_text( w_info, getmaxy( w_info ) - 2, 2, clr, clr,
+                                    string_format( _( "Press %s to view extended description" ),
+                                                   colored_key.c_str() ) );
+                colored_key = string_format( "<color_ltgreen>%s</color>",
+                                             ctxt.get_desc( "LIST_ITEMS", 1 ).c_str() );
+                print_colored_text( w_info, getmaxy( w_info ) - 1, 2, clr, clr,
                                     string_format( _( "Press %s to list items and monsters" ),
                                                    colored_key.c_str() ) );
             }
@@ -8673,6 +8693,10 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_scent();
             }
+        } else if( action == "EXTENDED_DESCRIPTION" ) {
+            extended_description( lp );
+            draw_sidebar();
+            draw_ter( lp, true );
         } else if (!ctxt.get_coordinates(w_terrain, lx, ly) && action != "MOUSE_MOVE") {
             int dx, dy;
             ctxt.get_direction(dx, dy, action);
@@ -9232,7 +9256,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 iActive = mSortCategory[0].empty() ? 0 : 1;
             }
         } else if( action == "RIGHT" ) {
-            if( ++page_num >= ( int )activeItem->vIG.size() && !filtered_items.empty() ) {
+            if( !filtered_items.empty() && ++page_num >= ( int )activeItem->vIG.size() ) {
                 page_num = activeItem->vIG.size() - 1;
             }
         } else if( action == "LEFT" ) {
@@ -9974,9 +9998,16 @@ void game::plthrow(int pos)
     reenter_fullscreen();
 }
 
-bool game::plfire_check( item &weapon, int &reload_time ) {
+// @todo: Move game::pl_target_ui and related data/functions to src/ranged.cpp
+std::vector<tripoint> game::pl_target_ui( const targeting_data &args ) {
+    return pl_target_ui( args.mode, args.relevant, args.range,
+                         args.ammo, args.on_mode_change, args.on_ammo_change );
+}
+
+bool game::plfire_check( const targeting_data &args ) {
     bool okay = true;
     vehicle *veh = nullptr;
+    item &weapon = *args.relevant;
     
     if( u.has_effect( effect_relax_gas ) ) {
         if( one_in(5) ) {
@@ -9996,7 +10027,6 @@ bool game::plfire_check( item &weapon, int &reload_time ) {
     }
 
     auto gun = weapon.gun_current_mode();
-
     // check that a valid mode was returned and we are able to use it
     if( !( gun && u.can_use( *gun ) ) ) {
         add_msg( m_info, _( "You can no longer fire." ) );
@@ -10009,46 +10039,27 @@ bool game::plfire_check( item &weapon, int &reload_time ) {
         return false;
     }
     
-    if( !gun.melee() ) {
-        
-        if( !weapon.is_gun() ) {
-            return false;
-        }
-        
-        if( gun->has_flag( "FIRE_TWOHAND" ) && ( !u.has_two_arms() || u.worn_with_flag( "RESTRICT_HANDS" ) ) ) {
-            add_msg( m_info, _( "You need two free hands to fire your %s." ), gun->tname().c_str() );
-            return false;
-        }
+    // skip the remaining checks if we are firing a melee weapon.
+    if( gun.melee() ) {
+        return true;
+    } else if( !weapon.is_gun() ) {
+        // no melee gun mode and the weapon itself isn't a gun, then this weapon is not fireable.
+        return false;
+    }
 
-        if( gun->has_flag( "RELOAD_AND_SHOOT" ) && !gun->ammo_remaining() ) {
-            item::reload_option opt = u.select_ammo( *gun );
-            if( !opt ) {
-                // Menu cancelled
-                return false;
-            }
+    if( gun->has_flag( "FIRE_TWOHAND" ) && ( !u.has_two_arms() || u.worn_with_flag( "RESTRICT_HANDS" ) ) ) {
+        add_msg( m_info, _( "You need two free hands to fire your %s." ), gun->tname().c_str() );
+        return false;
+    }
 
-            reload_time += opt.moves();
-            
-            if( !gun->reload( u, std::move( opt.ammo ), 1 ) ) {
-                // Reload not allowed
-                return false;
-            }
-
-            // Burn 2x the strength required to fire in stamina.
-            u.mod_stat( "stamina", gun->type->min_str * -2 );
-
-            // At low stamina levels, firing starts getting slow.
-            int sta_percent = ( 100 * u.stamina ) / u.get_stamina_max();
-            reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
-
-            refresh_all();
-        }
-
+    // Skip certain checks if we are directly firing a vehicle turret
+    if( args.mode != TARGET_MODE_TURRET_MANUAL ) {
         if( !gun->ammo_sufficient() && !gun->has_flag("RELOAD_AND_SHOOT") ) {
             if( !gun->ammo_remaining() ) {
                 add_msg( m_info, _( "You need to reload!" ) );
             } else {
-                add_msg( m_info, _( "Your %s needs %i charges to fire!" ), gun->tname().c_str(), gun->ammo_required() );
+                add_msg( m_info, _( "Your %s needs %i charges to fire!" ),
+                    gun->tname().c_str(), gun->ammo_required() );
             }
             return false;
         }
@@ -10058,10 +10069,10 @@ bool game::plfire_check( item &weapon, int &reload_time ) {
             const int adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
 
             if( !( u.has_charges( "UPS_off", ups_drain ) ||
-                   u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
-                   (u.has_active_bionic( "bio_ups" ) && u.power_level >= ups_drain ) ) ) {
+                u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
+                (u.has_active_bionic( "bio_ups" ) && u.power_level >= ups_drain ) ) ) {
                 add_msg( m_info,
-                         _("You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!"),
+                         _( "You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!" ),
                          ups_drain, adv_ups_drain );
                 return false;
             }
@@ -10079,44 +10090,62 @@ bool game::plfire_check( item &weapon, int &reload_time ) {
             }
         }
     }
-    
+
     return okay;
 }
 
-bool game::plfire( item *weapon, int bp_cost, bool held )
+bool game::plfire()
 {
-    static int bio_power_cost = 0;
-    static item *cached_weapon = nullptr;
-    static bool held_weapon = true;
-    
-    if( weapon != nullptr ) {
-        // valid weapon, set the cached weapon and bp_cost to the current values.
-        cached_weapon = weapon;
-        bio_power_cost = bp_cost;
-        held_weapon = held;
-    } else if( !cached_weapon ) {
-        // if no weapon is cached, default to the player's weapon.
-        cached_weapon = &u.weapon;
-        held_weapon = true;
+    targeting_data args = u.get_targeting_data();
+    if( !args.relevant ) {
+        // args missing a valid weapon, this shouldn't happen.
+        debugmsg( "Player tried to fire a null weapon." );
+        return false;
     }
-
-    int reload_time = 0;
-    
     // If we were wielding this weapon when we started aiming, make sure we still are.
-    bool lost_gun = ( held_weapon && &u.weapon != cached_weapon );
-    if( lost_gun || !plfire_check( *cached_weapon, reload_time ) ) {
-        bio_power_cost = 0;
+    bool lost_weapon = ( args.held && &u.weapon != args.relevant );
+    bool failed_check = !plfire_check( args );
+    if( lost_weapon || failed_check ) {
         return false;
     }
 
-    auto gun = cached_weapon->gun_current_mode();
-    int range = gun.melee() ? gun.qty : u.gun_engagement_range( *gun, player::engagement::maximum );
+    int reload_time = 0;
+    item::gun_mode gun = args.relevant->gun_current_mode();
+
+    // @todo: move handling "RELOAD_AND_SHOOT" flagged guns to a separate function.
+    if( gun->has_flag( "RELOAD_AND_SHOOT" ) ) {
+        if( !gun->ammo_remaining() ) {
+            item::reload_option opt = u.select_ammo( *gun );
+            if( !opt ) {
+                // Menu cancelled
+                return false;
+            }
+            reload_time += opt.moves();
+            if( !gun->reload( u, std::move( opt.ammo ), 1 ) ) {
+                // Reload not allowed
+                return false;
+            }
+
+            // Burn 2x the strength required to fire in stamina.
+            u.mod_stat( "stamina", gun->type->min_str * -2 );
+            // At low stamina levels, firing starts getting slow.
+            int sta_percent = ( 100 * u.stamina ) / u.get_stamina_max();
+            reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
+            refresh_all();
+        }
+        // RELOAD_AND_SHOOT guns (like bows) must be loaded before range can be properly calculated.
+        int gun_range = u.gun_engagement_range( *gun, player::engagement::maximum );
+        args.range = gun.melee() ? gun.qty : gun_range;
+    }
+
+    // Turrets fired directly by the player should not be subject to player::engagement range limits
+    if( args.mode == TARGET_MODE_TURRET_MANUAL ) {
+        args.range = args.relevant->gun_range( &u );
+    }
 
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
-
-    target_mode tmode = gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
-    std::vector<tripoint> trajectory = pl_target_ui( tmode, cached_weapon, range );
+    std::vector<tripoint> trajectory = pl_target_ui( args );
 
     if( trajectory.empty() ) {
         bool not_aiming = u.activity.id() != activity_id( "ACT_AIM" );
@@ -10132,26 +10161,44 @@ bool game::plfire( item *weapon, int bp_cost, bool held )
     }
     draw_ter(); // Recenter our view
 
-    bool res = false;
+    int shots = 0;
 
     if( gun.melee() ) {
         u.reach_attack( trajectory.back() );
-        res = true;
-
+        shots = 1;
     } else {
         u.moves -= reload_time;
         // @todo add check for TRIGGERHAPPY
-        res = u.fire_gun( trajectory.back(), gun.qty, *gun );
-    }
-    
-    if( res && bio_power_cost ) {
-        u.charge_power( -bio_power_cost );
-        bio_power_cost = 0;
+        if( args.pre_fire ) {
+            args.pre_fire( shots );
+        }
+        shots = u.fire_gun( trajectory.back(), gun.qty, *gun );
+        if( args.post_fire ) {
+            args.post_fire( shots );
+        }
     }
 
+    if( shots && args.power_cost ) {
+        u.charge_power( -args.power_cost * shots );
+    }
     reenter_fullscreen();
-    
-    return res;
+    return shots != 0;
+}
+
+bool game::plfire( item &weapon, int bp_cost )
+{
+    // @todo: bio power cost of firing should be derived from a value of the relevant weapon.
+    item::gun_mode gun = weapon.gun_current_mode();
+    int gun_range = u.gun_engagement_range( *gun, player::engagement::maximum );
+    targeting_data args = {
+        gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE,
+        &weapon, gun.melee() ? gun.qty : gun_range,
+        bp_cost, &u.weapon == &weapon, gun->ammo_data(),
+        target_callback(), target_callback(),
+        firing_callback(), firing_callback()
+    };
+    u.set_targeting_data( args );
+    return plfire();
 }
 
 // Helper for game::butcher
@@ -10406,27 +10453,28 @@ void game::butcher()
 
 void game::eat(int pos)
 {
-    if ((u.has_active_mutation("RUMINANT") || u.has_active_mutation("GRAZER")) &&
-        m.ter(u.pos()) == t_underbrush && query_yn(_("Eat underbrush?"))) {
-        u.moves -= 400;
-        u.mod_hunger(-10);
-        m.ter_set(u.pos(), t_grass);
-        add_msg(_("You eat the underbrush."));
-        return;
-    }
-    if (u.has_active_mutation("GRAZER") && m.ter(u.pos()) == t_grass &&
-        query_yn(_("Graze?"))) {
-        u.moves -= 400;
-        ///\EFFECT_INT increases chance of leaving some grass growing when grazing
-        if ((u.get_hunger() < 10) || one_in(20 - u.int_cur)) {
-            add_msg(_("You eat some of the taller grass, careful to leave some growing."));
-            u.mod_hunger(-2);
+    if( ( u.has_active_mutation( "RUMINANT" ) || u.has_active_mutation( "GRAZER" ) ) &&
+        m.ter( u.pos() ) == t_underbrush ) {
+        if( u.get_hunger() < 20 ) {
+            add_msg( _( "You're too full to eat the undershrub." ) );
         } else {
-            add_msg(_("You eat the grass."));
-            u.mod_hunger(-5);
-            m.ter_set(u.pos(), t_dirt);
+            u.moves -= 400;
+            u.mod_hunger( -20 );
+            m.ter_set( u.pos(), t_grass );
+            add_msg( _( "You eat the underbrush." ) );
+            return;
         }
-        return;
+    }
+    if( u.has_active_mutation( "GRAZER" ) && m.ter( u.pos() ) == t_grass ) {
+        if( u.get_hunger() < 8 ) {
+            add_msg( _( "You're too full to graze." ) );
+        } else {
+            u.moves -= 400;
+            add_msg( _("You eat the grass.") );
+            u.mod_hunger( -8 );
+            m.ter_set( u.pos(), t_dirt );
+            return;
+        }
     }
 
     if( pos != INT_MIN ) {
@@ -11869,162 +11917,6 @@ bool game::phasing_move( const tripoint &dest_loc )
     }
 
     return false;
-}
-
-bool game::grabbed_veh_move( const tripoint &dp )
-{
-    int grabbed_part = 0;
-    vehicle *grabbed_vehicle = m.veh_at( u.pos() + u.grab_point, grabbed_part );
-    if( nullptr == grabbed_vehicle ) {
-        add_msg(m_info, _("No vehicle at grabbed point."));
-        u.grab_point = tripoint_zero;
-        u.grab_type = OBJECT_NONE;
-        return false;
-    }
-
-    const vehicle *veh_under_player = m.veh_at( u.pos() );
-    if( grabbed_vehicle == veh_under_player ) {
-        u.grab_point = -dp;
-        return false;
-    }
-
-    tripoint dp_veh = -u.grab_point;
-    tripoint prev_grab = u.grab_point;
-
-    // We are not moving around the veh
-    if ((dp_veh.x + dp.x) == 0 && (dp_veh.y + dp.y) == 0) {
-        // We are pushing in the direction of veh
-        dp_veh = dp;
-    } else {
-        u.grab_point = -dp;
-    }
-
-    if( (abs(dp.x + dp_veh.x) == 0 || abs(dp.y + dp_veh.y) == 0) &&
-        u.grab_point.x != 0 && u.grab_point.y != 0 ) {
-        // We are moving diagonal while veh is diagonal too and one direction is 0
-        dp_veh.x = ((dp.x + dp_veh.x) == 0) ? 0 : dp_veh.x;
-        dp_veh.y = ((dp.y + dp_veh.y) == 0) ? 0 : dp_veh.y;
-
-        u.grab_point = -dp_veh;
-    }
-
-    if( abs(dp.x + dp_veh.x) != 2 && abs(dp.y + dp_veh.y) != 2 &&
-        ((dp_veh.x + dp.x) == 0 || (dp_veh.y + dp.y) == 0) ) {
-        // Not actually moving the vehicle, don't do the checks
-        u.grab_point = -(dp + dp_veh);
-        return false;
-    }
-
-    // Make sure the mass and pivot point are correct
-    grabbed_vehicle->invalidate_mass();
-
-    //vehicle movement: strength check
-    int mc = 0;
-    int str_req = (grabbed_vehicle->total_mass() / 25); //strengh reqired to move vehicle.
-
-    //if vehicle is rollable we modify str_req based on a function of movecost per wheel.
-
-    // Veh just too big to grab & move; 41-45 lets folks have a bit of a window
-    // (Roughly 1.1K kg = danger zone; cube vans are about the max)
-    if (str_req > 45) {
-        add_msg(m_info, _("The %s is too bulky for you to move by hand."),
-                grabbed_vehicle->name.c_str() );
-        u.moves -= 100;
-        return true; // No shoving around an RV.
-    }
-
-    const auto &wheel_indices = grabbed_vehicle->wheelcache;
-    // If vehicle weighs too much, wheels don't provide a bonus.
-    if( grabbed_vehicle->valid_wheel_config( false ) && str_req <= 40 ) {
-        //determine movecost for terrain touching wheels
-        const tripoint vehpos = grabbed_vehicle->global_pos3();
-        for( int p : wheel_indices ) {
-            const tripoint wheel_pos = vehpos + grabbed_vehicle->parts[p].precalc[0];
-            const int mapcost = m.move_cost( wheel_pos, grabbed_vehicle );
-            mc += (str_req / wheel_indices.size()) * mapcost;
-        }
-        //set strength check threshold
-        //if vehicle has many or only one wheel (shopping cart), it is as if it had four.
-        if(wheel_indices.size() > 4 || wheel_indices.size() == 1) {
-            str_req = mc / 4 + 1;
-        } else {
-            str_req = mc / wheel_indices.size() + 1;
-        }
-    } else {
-        str_req++;
-        //if vehicle has no wheels str_req make a noise.
-        if (str_req <= u.get_str() ) {
-            sounds::sound( grabbed_vehicle->global_pos3(), str_req * 2,
-                _("a scraping noise."));
-        }
-    }
-
-    //final strength check and outcomes
-    ///\EFFECT_STR determines ability to drag vehicles
-    if (str_req <= u.get_str() ) {
-        //calculate exertion factor and movement penalty
-        ///\EFFECT_STR increases speed of dragging vehicles
-        u.moves -= 100 * str_req / std::max( 1, u.get_str() );
-        int ex = dice(1, 3) - 1 + str_req;
-        if (ex > u.get_str() ) {
-            add_msg(m_bad, _("You strain yourself to move the %s!"), grabbed_vehicle->name.c_str() );
-            u.moves -= 200;
-            u.mod_pain(1);
-        } else if (ex == u.get_str() ) {
-            u.moves -= 200;
-            add_msg( _("It takes some time to move the %s."), grabbed_vehicle->name.c_str());
-        }
-    } else {
-        u.moves -= 100;
-        add_msg( m_bad, _("You lack the strength to move the %s"), grabbed_vehicle->name.c_str() );
-        return true;
-    }
-
-    tileray mdir;
-
-    mdir.init(dp_veh.x, dp_veh.y);
-    grabbed_vehicle->turn(mdir.dir() - grabbed_vehicle->face.dir());
-    grabbed_vehicle->face = grabbed_vehicle->turn_dir;
-    grabbed_vehicle->precalc_mounts(1, mdir.dir(), grabbed_vehicle->pivot_point());
-
-    // Grabbed part has to stay at distance 1 to the player
-    // and in roughly the same direction.
-    const tripoint new_part_pos = grabbed_vehicle->global_pos3() +
-                                  grabbed_vehicle->parts[ grabbed_part ].precalc[ 1 ];
-    const tripoint expected_pos = u.pos() + dp + u.grab_point;
-    dp_veh = expected_pos - new_part_pos;
-
-    std::vector<veh_collision> colls;
-    // Set player location to illegal value so it can't collide with vehicle.
-    const tripoint player_prev = u.pos();
-    u.setpos( tripoint_zero );
-    if( grabbed_vehicle->collision( colls, dp_veh, true ) ) {
-        add_msg( _("The %s collides with %s."), grabbed_vehicle->name.c_str(), colls[0].target_name.c_str() );
-        u.moves -= 10;
-        u.setpos( player_prev );
-        u.grab_point = prev_grab;
-        return true;
-    }
-
-    u.setpos( player_prev );
-
-    tripoint gp = grabbed_vehicle->global_pos3();
-    grabbed_vehicle = m.displace_vehicle( gp, dp_veh );
-
-    if( grabbed_vehicle == nullptr ) {
-        debugmsg( "Grabbed vehicle disappeared" );
-        return false;
-    }
-
-    for( int p : wheel_indices ) {
-        if( one_in(2) ) {
-            tripoint wheel_p = grabbed_vehicle->global_part_pos3( grabbed_part );
-            grabbed_vehicle->handle_trap( wheel_p, p );
-        }
-    }
-
-    return false;
-
 }
 
 bool game::grabbed_furn_move( const tripoint &dp )
@@ -13510,191 +13402,6 @@ void game::nuke( const tripoint &p )
     std::vector<npc *> npcs = overmap_buffer.get_npcs_near_omt(x, y, 0, 0);
     for( auto &npc : npcs ) {
         npc->marked_for_death = true;
-    }
-}
-
-bool game::spread_fungus( const tripoint &p )
-{
-    int growth = 1;
-    for( int i = p.x - 1; i <= p.x + 1; i++ ) {
-        for( int j = p.y - 1; j <= p.y + 1; j++ ) {
-            if (i == p.x && j == p.y) {
-                continue;
-            }
-            if( m.has_flag("FUNGUS", tripoint( i, j, p.z ) ) ) {
-                growth += 1;
-            }
-        }
-    }
-
-    bool converted = false;
-    if (!m.has_flag_ter("FUNGUS", p)) {
-        // Terrain conversion
-        if (m.has_flag_ter("DIGGABLE", p)) {
-            if (x_in_y(growth * 10, 100)) {
-                m.ter_set(p, t_fungus);
-                converted = true;
-            }
-        } else if (m.has_flag("FLAT", p)) {
-            if( m.has_flag( TFLAG_INDOORS, p ) ) {
-                if (x_in_y(growth * 10, 500)) {
-                    m.ter_set(p, t_fungus_floor_in);
-                    converted = true;
-                }
-            } else if( m.has_flag( TFLAG_SUPPORTS_ROOF, p ) ) {
-                if (x_in_y(growth * 10, 1000)) {
-                    m.ter_set(p, t_fungus_floor_sup);
-                    converted = true;
-                }
-            } else {
-                if (x_in_y(growth * 10, 2500)) {
-                    m.ter_set(p, t_fungus_floor_out);
-                    converted = true;
-                }
-            }
-        } else if (m.has_flag("SHRUB", p)) {
-            if (x_in_y(growth * 10, 200)) {
-                m.ter_set(p, t_shrub_fungal);
-                converted = true;
-            } else if (x_in_y(growth, 1000)) {
-                m.ter_set(p, t_marloss);
-                converted = true;
-            }
-        } else if (m.has_flag("THIN_OBSTACLE", p)) {
-            if (x_in_y(growth * 10, 150)) {
-                m.ter_set(p, t_fungus_mound);
-                converted = true;
-            }
-        } else if (m.has_flag("YOUNG", p)) {
-            if (x_in_y(growth * 10, 500)) {
-                m.ter_set(p, t_tree_fungal_young);
-                converted = true;
-            }
-        } else if (m.has_flag("WALL", p)) {
-            if (x_in_y(growth * 10, 5000)) {
-                converted = true;
-                m.ter_set(p, t_fungus_wall);
-            }
-        }
-        // Furniture conversion
-        if (converted) {
-            if (m.has_flag("FLOWER", p)) {
-                m.furn_set(p, f_flower_fungal);
-            } else if (m.has_flag("ORGANIC", p)) {
-                if (m.furn(p).obj().movecost == -10) {
-                    m.furn_set(p, f_fungal_mass);
-                } else {
-                    m.furn_set(p, f_fungal_clump);
-                }
-            } else if (m.has_flag("PLANT", p)) {
-                // Replace the (already existing) seed
-                m.i_at( p )[0] = item( "fungal_seeds", calendar::turn );
-            }
-        }
-        return true;
-    } else {
-        // Everything is already fungus
-        if (growth == 9) {
-            return false;
-        }
-        for (int i = p.x - 1; i <= p.x + 1; i++) {
-            for (int j = p.y - 1; j <= p.y + 1; j++) {
-                tripoint dest( i, j, p.z );
-                // One spread on average
-                if (!m.has_flag("FUNGUS", dest) && one_in(9 - growth)) {
-                    //growth chance is 100 in X simplified
-                    if (m.has_flag("DIGGABLE", dest)) {
-                        m.ter_set(dest, t_fungus);
-                        converted = true;
-                    } else if (m.has_flag("FLAT", dest)) {
-                        if( m.has_flag( TFLAG_INDOORS, dest ) ) {
-                            if (one_in(5)) {
-                                m.ter_set(dest, t_fungus_floor_in);
-                                converted = true;
-                            }
-                        } else if( m.has_flag( TFLAG_SUPPORTS_ROOF, dest ) ) {
-                            if (one_in(10)) {
-                                m.ter_set(dest, t_fungus_floor_sup);
-                                converted = true;
-                            }
-                        } else {
-                            if (one_in(25)) {
-                                m.ter_set(dest, t_fungus_floor_out);
-                                converted = true;
-                            }
-                        }
-                    } else if (m.has_flag("SHRUB", dest)) {
-                        if (one_in(2)) {
-                            m.ter_set(dest, t_shrub_fungal);
-                            converted = true;
-                        } else if (one_in(25)) {
-                            m.ter_set(dest, t_marloss);
-                            converted = true;
-                        }
-                    } else if (m.has_flag("THIN_OBSTACLE", dest)) {
-                        if (x_in_y(10, 15)) {
-                            m.ter_set(dest, t_fungus_mound);
-                            converted = true;
-                        }
-                    } else if (m.has_flag("YOUNG", dest)) {
-                        if (one_in(5)) {
-                            if( m.get_field_strength( p, fd_fungal_haze ) != 0 ) {
-                                if (one_in(8)) { // young trees are vulnerable
-                                    m.ter_set(dest, t_fungus);
-                                    summon_mon( mon_fungal_blossom, p );
-                                    if (u.sees(p)) {
-                                        add_msg(m_warning, _("The young tree blooms forth into a fungal blossom!"));
-                                    }
-                                } else if (one_in(4)) {
-                                    m.ter_set(dest, t_marloss_tree);
-                                }
-                            } else {
-                                m.ter_set(dest, t_tree_fungal_young);
-                            }
-                            converted = true;
-                        }
-                    } else if (m.has_flag("TREE", dest)) {
-                        if (one_in(10)) {
-                            if( m.get_field_strength( p, fd_fungal_haze ) != 0) {
-                                if (one_in(10)) {
-                                    m.ter_set(dest, t_fungus);
-                                    summon_mon( mon_fungal_blossom, p );
-                                    if (u.sees(p)) {
-                                        add_msg(m_warning, _("The tree blooms forth into a fungal blossom!"));
-                                    }
-                                } else if (one_in(6)) {
-                                    m.ter_set(dest, t_marloss_tree);
-                                }
-                            } else {
-                                m.ter_set(dest, t_tree_fungal);
-                            }
-                            converted = true;
-                        }
-                    } else if (m.has_flag("WALL", dest)) {
-                        if (one_in(50)) {
-                            converted = true;
-                            m.ter_set(dest, t_fungus_wall);
-                        }
-                    }
-
-                    if (converted) {
-                        if (m.has_flag("FLOWER", dest)) {
-                            m.furn_set(dest, f_flower_fungal);
-                        } else if (m.has_flag("ORGANIC", dest)) {
-                            if (m.furn(dest).obj().movecost == -10) {
-                                m.furn_set(dest, f_fungal_mass);
-                            } else {
-                                m.furn_set(dest, f_fungal_clump);
-                            }
-                        } else if (m.has_flag("PLANT", dest)) {
-                            // Replace the (already existing) seed
-                            m.i_at( p )[0] = item( "fungal_seeds", calendar::turn );
-                        }
-                    }
-                }
-            }
-        }
-        return false;
     }
 }
 

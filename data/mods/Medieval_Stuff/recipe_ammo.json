@@ -9,18 +9,12 @@
   "difficulty": 2,
   "time": 1000,
   "book_learn": [[ "textbook_armschina", 2 ]],
-  "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
   "components": [
     [
       [ "gunpowder", 600 ],
       [ "chem_black_powder", 600 ]
-    ]
+    ],
+    [ [ "paper", 1 ] ]
   ]
 },{
   "type" : "recipe",
@@ -32,13 +26,6 @@
   "difficulty": 3,
   "time": 2000,
   "book_learn": [[ "textbook_armschina", 3 ]],
-  "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
   "components": [
     [
       [ "gunpowder", 600 ],
@@ -52,7 +39,8 @@
       [ "bismuth", 400 ],
       [ "solder_wire", 400 ],
       [ "bearing", 8 ]
-    ]
+    ],
+    [ [ "paper", 1 ] ]
   ]
 }
 ]

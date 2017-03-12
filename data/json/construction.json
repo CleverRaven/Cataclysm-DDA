@@ -3,7 +3,7 @@
         "type" : "construction",
         "description" : "Deconstruct Furniture",
         "category" : "FURN",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 20,
         "qualities": [
             [
@@ -19,7 +19,7 @@
         "type" : "construction",
         "description" : "Dig Pit", "//": "Step 1: shallow pit",
         "category" : "DIG",
-        "difficulty" : 0,
+        "required_skills" : [ [ "survival", 0 ] ],
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
         "pre_flags" : "DIGGABLE",
@@ -28,7 +28,7 @@
         "type" : "construction",
         "description" : "Dig Pit", "//": "Step 2: deep pit",
         "category" : "DIG",
-        "difficulty" : 0,
+        "required_skills" : [ [ "survival", 0 ] ],
         "time" : 90,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "pre_terrain" : "t_pit_shallow",
@@ -37,7 +37,7 @@
         "type" : "construction",
         "description" : "Spike Pit",
         "category" : "DIG",
-        "difficulty" : 1,
+        "required_skills" : [ [ "survival", 1 ] ],
         "time" : 30,
         "components" : [
             [ [ "spear_wood", 4 ], [ "pointy_stick", 4] ]
@@ -48,7 +48,7 @@
         "type" : "construction",
         "description" : "Glass Pit",
         "category" : "DIG",
-        "difficulty" : 1,
+        "required_skills" : [ [ "survival", 1 ] ],
         "time" : 30,
         "components" : [
             [ ["glass_shard", 20] ]
@@ -59,7 +59,7 @@
         "type" : "construction",
         "description" : "Fill Pit", "//": "fill in a pit",
         "category" : "DIG",
-        "difficulty" : 0,
+        "required_skills" : [ [ "survival", 0 ] ],
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "pre_terrain" : "t_pit",
@@ -68,7 +68,7 @@
         "type" : "construction",
         "description" : "Fill Pit", "//": "fill in the spiked pit",
         "category" : "DIG",
-        "difficulty" : 0,
+        "required_skills" : [ [ "survival", 0 ] ],
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "pre_terrain" : "t_pit_spiked",
@@ -77,7 +77,7 @@
         "type" : "construction",
         "description" : "Fill Pit", "//": "fill in a glass pit",
         "category" : "DIG",
-        "difficulty" : 0,
+        "required_skills" : [ [ "survival", 0 ] ],
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "pre_terrain" : "t_pit_glass",
@@ -86,7 +86,7 @@
         "type" : "construction",
         "description" : "Fill Pit", "//": "fill in the shallow pit",
         "category" : "DIG",
-        "difficulty" : 0,
+        "required_skills" : [ [ "survival", 0 ] ],
         "time" : 15,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "pre_terrain" : "t_pit_shallow",
@@ -95,7 +95,7 @@
         "type" : "construction",
         "description" : "Till Soil",
         "category" : "FARM_WOOD",
-        "difficulty" : 0,
+        "required_skills" : [ [ "survival", 0 ] ],
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
         "pre_flags" : "DIGGABLE",
@@ -104,7 +104,7 @@
         "type" : "construction",
         "description" : "Tamp Ground",
         "category" : "FARM_WOOD",
-        "difficulty" : 0,
+        "required_skills" : [ [ "survival", 0 ] ],
         "time" : 5,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
         "pre_terrain": "t_dirtmound",
@@ -113,7 +113,7 @@
         "type" : "construction",
         "description" : "Chop Down Tree",
         "category" : "FARM_WOOD",
-        "difficulty" : 0,
+        "required_skills" : [ [ "survival", 0 ] ],
         "time" : 30,
         "qualities": [ [ { "id": "AXE", "level": 2 } ] ],
         "pre_flags" : "TREE",
@@ -123,7 +123,7 @@
         "type" : "construction",
         "description" : "Chop Tree Trunk Into Logs",
         "category" : "FARM_WOOD",
-        "difficulty" : 1,
+        "required_skills" : [ [ "survival", 1 ] ],
         "time" : 60,
         "qualities": [ [
             { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 2 }
@@ -135,7 +135,7 @@
         "type" : "construction",
         "description" : "Chop Tree Trunk Into Planks",
         "category" : "FARM_WOOD",
-        "difficulty" : 2,
+        "required_skills" : [ [ "survival", 2 ] ],
         "time" : 60,
         "qualities": [ [
             { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 2 }
@@ -148,7 +148,7 @@
         "skill" : "survival",
         "description" : "Build Improvised Shelter",
         "category" : "CONSTRUCT",
-        "difficulty" : 2,
+        "required_skills" : [ [ "survival", 2 ] ],
         "time" : 120,
         "qualities": [ [
             { "id": "CUT", "level": 1 },
@@ -164,7 +164,7 @@
         "type" : "construction",
         "description" : "Build Door Curtain", "//": "Door frame not required",
         "category" : "CONSTRUCT",
-        "difficulty" : 1,
+        "required_skills" : [ [ "tailor", 1 ] ],
         "time" : 30,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -181,7 +181,7 @@
         "type" : "construction",
         "description" : "Build Makeshift Door",
         "category" : "CONSTRUCT",
-        "difficulty" : 2,
+        "required_skills" : [ [ "fabrication", 2 ] ],
         "time" : 30,
         "qualities": [ [
             { "id": "CUT", "level": 1 }
@@ -196,7 +196,7 @@
         "type" : "construction",
         "description" : "Build Door", "//": "Step 1: door frame",
         "category" : "CONSTRUCT",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 60,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -211,7 +211,7 @@
         "type" : "construction",
         "description" : "Build Door", "//": "Step 2: door",
         "category" : "CONSTRUCT",
-        "difficulty" : 2,
+        "required_skills" : [ [ "fabrication", 2 ] ],
         "time" : 30,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -226,7 +226,7 @@
         "type" : "construction",
         "description" : "Build Door", "//": "Step 3: peephole",
         "category" : "CONSTRUCT",
-        "difficulty" : 3,
+        "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 15,
                 "qualities": [
             [
@@ -248,7 +248,7 @@
         "type" : "construction",
         "description" : "Repair Wood Door", "//": "Repair the regular door",
         "category" : "REPAIR",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 20,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -263,7 +263,7 @@
         "type" : "construction",
         "description" : "Repair Wood Door", "//": "Repair the peephole door",
         "category" : "REPAIR",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 20,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -278,7 +278,7 @@
         "type" : "construction",
         "description" : "Repair Wood Door", "//": "Repair the reinforced door",
         "category" : "REPAIR",
-        "difficulty" : 2,
+        "required_skills" : [ [ "fabrication", 2 ] ],
         "time" : 45,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -293,7 +293,7 @@
         "type" : "construction",
         "description" : "Board Up Wood Door", "//": "regular door",
         "category" : "REINFORCE",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 20,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -308,7 +308,7 @@
         "type" : "construction",
         "description" : "Board Up Wood Door", "//": "peephole door",
         "category" : "REINFORCE",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 20,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -323,7 +323,7 @@
         "type" : "construction",
         "description" : "Board Up Wood Door", "//": "boarded damaged door",
         "category" : "REINFORCE",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 20,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -338,7 +338,7 @@
         "type" : "construction",
         "description" : "Board Up Wood Door", "//": "boarded damaged peephole door",
         "category" : "REINFORCE",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 20,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -353,7 +353,7 @@
         "type" : "construction",
         "description" : "Board Up Wood Door", "//": "the reinforced doors",
         "category" : "REINFORCE",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 20,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -368,7 +368,7 @@
         "type" : "construction",
         "description" : "Board Up Wood Door", "//": "damaged reinforced doors",
         "category" : "REINFORCE",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 20,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -383,7 +383,7 @@
         "type" : "construction",
         "description" : "Reinforce Wood Door",
         "category" : "REINFORCE",
-        "difficulty" : 3,
+        "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 90,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -398,7 +398,7 @@
         "type" : "construction",
         "description" : "Build Metal Door", "//": "step 1: door frame",
         "category" : "CONSTRUCT",
-        "difficulty" : 6,
+        "required_skills" : [ [ "fabrication", 6 ] ],
         "time" : 90,
         "qualities": [
             [
@@ -418,7 +418,7 @@
         "type" : "construction",
         "description" : "Build Metal Door", "//": "Step 2: metal door",
         "category" : "CONSTRUCT",
-        "difficulty" : 7,
+        "required_skills" : [ [ "fabrication", 7 ] ],
         "time" : 120,
         "qualities": [
             [
@@ -441,7 +441,7 @@
         "type" : "construction",
         "description" : "Build Metal Door", "//": "Step 3: peephole",
         "category" : "CONSTRUCT",
-        "difficulty" : 3,
+        "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 25,
         "qualities": [
             [ { "id": "DRILL", "level": 1 } ],
@@ -454,7 +454,7 @@
         "type" : "construction",
         "description" : "Build Window", "//": "Step 1: window frame",
         "category" : "CONSTRUCT",
-        "difficulty" : 2,
+        "required_skills" : [ [ "fabrication", 2 ] ],
         "time" : 75,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -469,7 +469,7 @@
         "type" : "construction",
         "description" : "Build Window", "//": "Step 2: window, no curtains",
         "category" : "CONSTRUCT",
-        "difficulty" : 3,
+        "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 30,
         "components" : [
             [ [ "glass_sheet", 1 ] ]
@@ -480,7 +480,7 @@
         "type" : "construction",
         "description" : "Build Window", "//": "Step 3: window with curtains",
         "category" : "CONSTRUCT",
-        "difficulty" : 2,
+        "required_skills" : [ [ "fabrication", 2 ] ],
         "time" : 30,
         "qualities": [
             [ { "id": "SAW_W", "level": 1 } ],
@@ -498,7 +498,7 @@
         "type" : "construction",
         "description" : "Clean Broken Window",
         "category" : "REPAIR",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 5,
         "pre_terrain" : "t_window_frame",
         "post_terrain" : "t_window_empty"
@@ -506,7 +506,7 @@
         "type" : "construction",
         "description" : "Tape Up Window", "//": "Need a recipe for each type of window tapable due to how code works",
         "category" : "REINFORCE",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 5,
         "components" : [
             [ [ "duct_tape", 50 ] ]
@@ -517,7 +517,7 @@
         "type" : "construction",
         "description" : "Tape Up Window", "//": "Need a recipe for each type of window tapable due to how code works",
         "category" : "REINFORCE",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 5,
         "components" : [
             [ [ "duct_tape", 50 ] ]
@@ -528,7 +528,7 @@
         "type" : "construction",
         "description" : "Tape Up Window", "//": "Need a recipe for each type of window tapable due to how code works",
         "category" : "REINFORCE",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 5,
         "components" : [
             [ [ "duct_tape", 50 ] ]
@@ -539,7 +539,7 @@
         "type" : "construction",
         "description" : "Tape Up Window", "//": "Need a recipe for each type of window tapable due to how code works",
         "category" : "REINFORCE",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 5,
         "components" : [
             [ [ "duct_tape", 50 ] ]
@@ -550,7 +550,7 @@
         "type" : "construction",
         "description" : "Remove Tape from Window", "//": "Need a recipe for each type of window tapable due to how code works",
         "category" : "REINFORCE",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 2,
         "qualities": [ [
             { "id": "CUT", "level": 1 }
@@ -561,7 +561,7 @@
         "type" : "construction",
         "description" : "Remove Tape from Window", "//": "Need a recipe for each type of window tapable due to how code works",
         "category" : "REINFORCE",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 2,
         "qualities": [ [
             { "id": "CUT", "level": 1 }
@@ -572,7 +572,7 @@
         "type" : "construction",
         "description" : "Remove Tape from Window", "//": "Need a recipe for each type of window tapable due to how code works",
         "category" : "REINFORCE",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 2,
         "qualities": [ [
             { "id": "CUT", "level": 1 }
@@ -583,7 +583,7 @@
         "type" : "construction",
         "description" : "Remove Tape from Window", "//": "Need a recipe for each type of window tapable due to how code works",
         "category" : "REINFORCE",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 2,
         "qualities": [ [
             { "id": "CUT", "level": 1 }
@@ -594,7 +594,7 @@
         "type" : "construction",
         "description" : "Board Up Window", "//": "Board up normal window",
         "category" : "REINFORCE",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 20,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -609,7 +609,7 @@
         "type" : "construction",
         "description" : "Board Up Window", "//": "Board up window with curtains",
         "category" : "REINFORCE",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 20,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -625,7 +625,7 @@
         "type" : "construction",
         "description" : "Board Up Window", "//": "Board up empty window",
         "category" : "REINFORCE",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 20,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -640,7 +640,7 @@
         "type" : "construction",
         "description" : "Board Up Window", "//": "Board up window frame only",
         "category" : "REINFORCE",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 20,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -655,7 +655,7 @@
         "type" : "construction",
         "description" : "Reinforce Boarded Window", "//": "For regular windows",
         "category" : "REINFORCE",
-        "difficulty" : 3,
+        "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 40,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -670,7 +670,7 @@
         "type" : "construction",
         "description" : "Reinforce Boarded Window", "//": "For windows with no glass that were barricaded",
         "category" : "REINFORCE",
-        "difficulty" : 3,
+        "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 40,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -685,7 +685,7 @@
         "type" : "construction",
         "description" : "Armor Reinforced Window", "//": "Armo up regular reinforced window",
         "category" : "REINFORCE",
-        "difficulty" : 6,
+        "required_skills" : [ [ "fabrication", 6 ] ],
         "time" : 60,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -700,7 +700,7 @@
         "type" : "construction",
         "description" : "Armor Reinforced Window", "//": "When underlying window has no glass",
         "category" : "REINFORCE",
-        "difficulty" : 6,
+        "required_skills" : [ [ "fabrication", 6 ] ],
         "time" : 60,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -715,7 +715,7 @@
         "type" : "construction",
         "description" : "Build Metal Bars",
         "category" : "CONSTRUCT",
-        "difficulty" : 5,
+        "required_skills" : [ [ "fabrication", 5 ] ],
         "time" : 60,
         "tools": [
         [
@@ -739,7 +739,7 @@
         "type" : "construction",
         "description" : "Build Wood Wall", "//": "Step 1: half of a wall where a window used to be",
         "category" : "CONSTRUCT",
-        "difficulty" : 2,
+        "required_skills" : [ [ "fabrication", 2 ] ],
         "time" : 50,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -754,7 +754,7 @@
         "type" : "construction",
         "description" : "Build Wood Wall", "//": "Step 1: half of a wall in an empty space",
         "category" : "CONSTRUCT",
-        "difficulty" : 2,
+        "required_skills" : [ [ "fabrication", 2 ] ],
         "time" : 50,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -769,7 +769,7 @@
         "type" : "construction",
         "description" : "Build Wood Wall", "//": "Step 2: complete the half made wall",
         "category" : "CONSTRUCT",
-        "difficulty" : 2,
+        "required_skills" : [ [ "fabrication", 2 ] ],
         "time" : 50,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -784,7 +784,7 @@
         "type" : "construction",
         "description" : "Repair Wood Wall", "//": "fix a chip",
         "category" : "REPAIR",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 30,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -799,7 +799,7 @@
         "type" : "construction",
         "description" : "Repair Wood Wall", "//": "fix the broken to chipped",
         "category" : "REPAIR",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 60,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -814,7 +814,7 @@
         "type" : "construction",
         "description" : "Build Log Wall", "//": "Step 1: half of a log wall",
         "category" : "CONSTRUCT",
-        "difficulty" : 3,
+        "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 60,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "components" : [
@@ -827,7 +827,7 @@
         "type" : "construction",
         "description" : "Build Log Wall", "//": "Step 2: Finish the log wall",
         "category" : "CONSTRUCT",
-        "difficulty" : 3,
+        "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 60,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "components" : [
@@ -840,7 +840,7 @@
         "type" : "construction",
         "description" : "Repair Log Wall", "//": "Fix the chipped back to normal",
         "category" : "REPAIR",
-        "difficulty" : 2,
+        "required_skills" : [ [ "fabrication", 2 ] ],
         "time" : 30,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -855,7 +855,7 @@
         "type" : "construction",
         "description" : "Repair Log Wall", "//": "fix broken back to chipped",
         "category" : "REPAIR",
-        "difficulty" : 2,
+        "required_skills" : [ [ "fabrication", 2 ] ],
         "time" : 50,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -871,7 +871,7 @@
         "type" : "construction",
         "description" : "Build Sandbag Wall", "//": "Step 1: Build sandbag barricade",
         "category" : "CONSTRUCT",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 60,
         "components" : [
             [ [ "bag_canvas", 2 ] ],
@@ -883,7 +883,7 @@
         "type" : "construction",
         "description" : "Build Sandbag Wall", "//": "Step 2: Finish the sandbag wall",
         "category" : "CONSTRUCT",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 90,
         "components" : [
             [ [ "bag_canvas", 4 ] ],
@@ -895,7 +895,7 @@
         "type" : "construction",
         "description" : "Build Metal Wall", "//": "Step 1: foundation",
         "category" : "CONSTRUCT",
-        "difficulty" : 4,
+        "required_skills" : [ [ "fabrication", 4 ] ],
         "time" : 90,
         "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
         "tools": [
@@ -915,7 +915,7 @@
         "type" : "construction",
         "description" : "Build Metal Wall", "//": "Step 2: finish wall",
         "category" : "CONSTRUCT",
-        "difficulty" : 4,
+        "required_skills" : [ [ "fabrication", 4 ] ],
         "time" : 90,
         "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
         "tools": [
@@ -935,7 +935,7 @@
         "type" : "construction",
         "description" : "Build Brick Wall", "//": "Step 1: start wall",
         "category" : "CONSTRUCT",
-        "difficulty" : 3,
+        "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 120,
         "qualities": [ [
                 { "id": "SMOOTH", "level": 2 }
@@ -951,7 +951,7 @@
         "type" : "construction",
         "description" : "Build Brick Wall", "//": "Step 2: finish wall",
         "category" : "CONSTRUCT",
-        "difficulty" : 3,
+        "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 120,
         "qualities": [ [
                 { "id": "SMOOTH", "level": 2 }
@@ -967,7 +967,7 @@
         "type" : "construction",
         "description" : "Build Simple Concrete Wall", "//": "Step 1: foundation",
         "category" : "CONSTRUCT",
-        "difficulty" : 4,
+        "required_skills" : [ [ "fabrication", 4 ] ],
         "time" : 180,
         "qualities": [ [
                 { "id": "SMOOTH", "level": 1 }
@@ -983,7 +983,7 @@
         "type" : "construction",
         "description" : "Build Simple Concrete Wall", "//": "Step 2: finish wall",
         "category" : "CONSTRUCT",
-        "difficulty" : 4,
+        "required_skills" : [ [ "fabrication", 4 ] ],
         "time" : 180,
         "qualities": [ [
                 { "id": "SMOOTH", "level": 1 }
@@ -999,7 +999,7 @@
         "type" : "construction",
         "description" : "Build Reinforced Concrete Wall", "//": "Step 1: rebar cage",
         "category" : "CONSTRUCT",
-        "difficulty" : 6,
+        "required_skills" : [ [ "fabrication", 6 ] ],
         "time" : 120,
         "qualities": [ [
                 { "id": "WELD", "level": 2 }
@@ -1015,7 +1015,7 @@
         "type" : "construction",
         "description" : "Build Reinforced Concrete Wall", "//": "Step 2: foundation",
         "category" : "CONSTRUCT",
-        "difficulty" : 6,
+        "required_skills" : [ [ "fabrication", 6 ] ],
         "time" : 120,
         "qualities": [ [
                 { "id": "SMOOTH", "level": 2 }
@@ -1031,7 +1031,7 @@
         "type" : "construction",
         "description" : "Build Reinforced Concrete Wall", "//": "Step 3: finish wall",
         "category" : "CONSTRUCT",
-        "difficulty" : 6,
+        "required_skills" : [ [ "fabrication", 6 ] ],
         "time" : 120,
         "qualities": [ [
                 { "id": "SMOOTH", "level": 2 }
@@ -1047,7 +1047,7 @@
         "type" : "construction",
         "description" : "Build Metal Roof",
         "category" : "CONSTRUCT",
-        "difficulty" : 5,
+        "required_skills" : [ [ "fabrication", 5 ] ],
         "time" : 90,
         "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
         "tools": [
@@ -1067,7 +1067,7 @@
             "type" : "construction",
         "description" : "Build Concrete Roof", "//": "Step 1: rebar cage & supports",
         "category" : "CONSTRUCT",
-        "difficulty" : 5,
+        "required_skills" : [ [ "fabrication", 5 ] ],
         "time" : 120,
         "qualities": [ [
                 { "id": "WELD", "level": 2 }
@@ -1085,7 +1085,7 @@
         "type" : "construction",
         "description" : "Build Concrete Roof", "//": "Step 2: roof & floor",
         "category" : "CONSTRUCT",
-        "difficulty" : 5,
+        "required_skills" : [ [ "fabrication", 5 ] ],
         "time" : 120,
         "qualities": [ [
                 { "id": "SMOOTH", "level": 1 }
@@ -1100,7 +1100,7 @@
         "type" : "construction",
         "description" : "Build Reinforced Concrete Roof", "//": "Step 1: rebar cage & supports",
         "category" : "CONSTRUCT",
-        "difficulty" : 6,
+        "required_skills" : [ [ "fabrication", 6 ] ],
         "time" : 180,
         "qualities": [ [
                 { "id": "WELD", "level": 2 }
@@ -1118,7 +1118,7 @@
         "type" : "construction",
         "description" : "Build Reinforced Concrete Roof", "//": "Step 2: start roof & floor",
         "category" : "CONSTRUCT",
-        "difficulty" : 6,
+        "required_skills" : [ [ "fabrication", 6 ] ],
         "time" : 180,
         "qualities": [ [
                 { "id": "SMOOTH", "level": 2 }
@@ -1133,7 +1133,7 @@
         "type" : "construction",
         "description" : "Build Reinforced Concrete Roof", "//": "Step 3: finish roof & floor",
         "category" : "CONSTRUCT",
-        "difficulty" : 6,
+        "required_skills" : [ [ "fabrication", 6 ] ],
         "time" : 180,
         "qualities": [ [
                 { "id": "SMOOTH", "level": 2 }
@@ -1148,7 +1148,7 @@
         "type" : "construction",
         "description" : "Build Palisade Wall",
         "category" : "CONSTRUCT",
-        "difficulty" : 4,
+        "required_skills" : [ [ "fabrication", 4 ], [ "survival", 2 ] ],
         "time" : 120,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "components" : [
@@ -1161,7 +1161,7 @@
         "type" : "construction",
         "description" : "Build Stone Wall", "//": "Step 1: half the wall",
         "category" : "CONSTRUCT",
-        "difficulty" : 6,
+        "required_skills" : [ [ "fabrication", 6 ], [ "survival", 2 ] ],
         "time" : 180,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 },
@@ -1176,7 +1176,7 @@
         "type" : "construction",
         "description" : "Build Stone Wall", "//": "Step 2: the full wall",
         "category" : "CONSTRUCT",
-        "difficulty" : 6,
+        "required_skills" : [ [ "fabrication", 6 ], [ "survival", 2 ] ],
         "time" : 180,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 },
@@ -1191,7 +1191,7 @@
         "type" : "construction",
         "description" : "Build Roof",
         "category" : "CONSTRUCT",
-        "difficulty" : 3,
+        "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 120,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -1206,7 +1206,7 @@
         "type" : "construction",
         "description" : "Build Log & Sod Roof",
         "category" : "CONSTRUCT",
-        "difficulty" : 4,
+        "required_skills" : [ [ "fabrication", 4 ] ],
         "time" : 120,
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components" : [
@@ -1219,7 +1219,10 @@
         "type" : "construction",
         "description" : "Build Rope & Pulley System",
         "category" : "CONSTRUCT",
-        "difficulty" : 6,
+        "required_skills" : [
+            [ "fabrication", 5 ],
+            [ "mechanics", 2 ]
+        ],
         "time" : 60,
         "components" : [
             [ [ "rope_30", 1 ], [ "vine_30", 1 ] ],
@@ -1231,7 +1234,10 @@
         "type" : "construction",
         "description" : "Build Palisade Gate",
         "category" : "CONSTRUCT",
-        "difficulty" : 4,
+        "required_skills" : [
+            [ "fabrication", 4 ],
+            [ "survival", 2 ]
+        ],
         "time" : 120,
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "components" : [
@@ -1245,7 +1251,7 @@
         "type" : "construction",
         "description" : "Build Fence Posts",
         "category" : "CONSTRUCT",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ], [ "survival", 0 ] ],
         "time" : 15,
         "qualities": [
             [
@@ -1264,7 +1270,7 @@
         "type" : "construction",
         "description" : "Build Fence",
         "category" : "CONSTRUCT",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 15,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -1279,7 +1285,7 @@
         "type" : "construction",
         "description" : "Realign Fence", "//": "horizontal to vertical",
         "category" : "OTHER",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 1,
         "pre_terrain" : "t_fence_h",
         "post_terrain" : "t_fence_v"
@@ -1287,7 +1293,7 @@
         "type" : "construction",
         "description" : "Build Fence Gate",
         "category" : "CONSTRUCT",
-        "difficulty" : 2,
+        "required_skills" : [ [ "fabrication", 2 ], [ "survival", 1 ] ],
         "time" : 30,
         "qualities": [
             [
@@ -1308,7 +1314,7 @@
         "type" : "construction",
         "description" : "Realign Fence", "//": "vertical to horizontal",
         "category" : "OTHER",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 1,
         "pre_terrain" : "t_fence_v",
         "post_terrain" : "t_fence_h"
@@ -1316,7 +1322,7 @@
         "type" : "construction",
         "description" : "Build Wire Fence", "//": "Step 1: fence posts",
         "category" : "CONSTRUCT",
-        "difficulty" : 3,
+        "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 30,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -1331,7 +1337,7 @@
         "type" : "construction",
         "description" : "Build Wire Fence", "//": "Step 2: chainlink, vertical, use realign to get horizontal",
         "category" : "CONSTRUCT",
-        "difficulty" : 3,
+        "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 120,
         "components" : [
             [ [ "wire", 20 ] ]
@@ -1342,7 +1348,7 @@
         "type" : "construction",
         "description" : "Realign Fence",
         "category" : "OTHER",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 1,
         "pre_terrain" : "t_chainfence_h",
         "post_terrain" : "t_chainfence_v"
@@ -1350,7 +1356,7 @@
         "type" : "construction",
         "description" : "Realign Fence",
         "category" : "OTHER",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 1,
         "pre_terrain" : "t_chainfence_v",
         "post_terrain" : "t_chainfence_h"
@@ -1358,7 +1364,7 @@
         "type" : "construction",
         "description" : "Build Wire Gate",
         "category" : "CONSTRUCT",
-        "difficulty" : 3,
+        "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 150,
         "components" : [
             [ [ "wire", 20 ] ],
@@ -1371,7 +1377,7 @@
         "type" : "construction",
         "description" : "Seal Crate",
         "category" : "FURN",
-        "difficulty" : 0,
+        "required_skills" : [ [ "mechanics", 0 ] ],
         "time" : 10,
         "//": "You can re-use the lid and most of the nails",
         "components" : [
@@ -1384,7 +1390,7 @@
         "type" : "construction",
         "description" : "Build Crate",
         "category" : "FURN",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 45,
         "qualities": [
             [
@@ -1401,7 +1407,7 @@
         "type" : "construction",
         "description" : "Build Bulletin Board",
         "category" : "FURN",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 20,
         "qualities": [
             [
@@ -1421,7 +1427,7 @@
         "type" : "construction",
         "description" : "Build Dresser",
         "category" : "FURN",
-        "difficulty" : 3,
+        "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 30,
         "qualities": [
             [
@@ -1441,7 +1447,7 @@
         "type" : "construction",
         "description" : "Build Bookcase",
         "category" : "FURN",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 60,
         "qualities": [
             [
@@ -1461,7 +1467,7 @@
         "type" : "construction",
         "description" : "Build Locker",
         "category" : "FURN",
-        "difficulty" : 4,
+        "required_skills" : [ [ "fabrication", 4 ] ],
         "time" : 60,
         "qualities": [
             [
@@ -1481,7 +1487,7 @@
         "type" : "construction",
         "description" : "Build Metal Rack",
         "category" : "FURN",
-        "difficulty" : 2,
+        "required_skills" : [ [ "fabrication", 2 ] ],
         "time" : 60,
         "qualities": [
             [
@@ -1500,7 +1506,7 @@
         "type" : "construction",
         "description" : "Build Cupboard",
         "category" : "FURN",
-        "difficulty" : 3,
+        "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 20,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -1515,7 +1521,7 @@
         "type" : "construction",
         "description" : "Build Counter",
         "category" : "FURN",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 30,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -1530,7 +1536,7 @@
         "type" : "construction",
         "description" : "Build Table",
         "category" : "FURN",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 30,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -1545,7 +1551,7 @@
         "type" : "construction",
         "description" : "Build Chair",
         "category" : "FURN",
-        "difficulty" : 2,
+        "required_skills" : [ [ "fabrication", 2 ] ],
         "time" : 30,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -1560,7 +1566,7 @@
         "type" : "construction",
         "description" : "Build Bench",
         "category" : "FURN",
-        "difficulty" : 2,
+        "required_skills" : [ [ "fabrication", 2 ] ],
         "time" : 30,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -1575,7 +1581,7 @@
         "type" : "construction",
         "description" : "Build Makeshift Bed",
         "category" : "FURN",
-        "difficulty" : 2,
+        "required_skills" : [ [ "fabrication", 2 ] ],
         "time" : 45,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -1591,7 +1597,7 @@
         "type" : "construction",
         "description" : "Build Straw Bed",
         "category" : "FURN",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 30,
         "components" : [
             [ [ "2x4", 4 ] ],
@@ -1603,7 +1609,7 @@
         "type" : "construction",
         "description" : "Build Bed",
         "category" : "FURN",
-        "difficulty" : 3,
+        "required_skills" : [ [ "fabrication", 4 ], [ "tailor", 4 ] ],
         "time" : 60,
         "qualities": [
             [
@@ -1624,7 +1630,7 @@
         "type" : "construction",
         "description" : "Build Armchair",
         "category" : "FURN",
-        "difficulty" : 3,
+        "required_skills" : [ [ "fabrication", 3 ], [ "tailor", 3 ] ],
         "time" : 45,
         "qualities": [
             [
@@ -1645,7 +1651,7 @@
         "type" : "construction",
         "description" : "Build Sofa",
         "category" : "FURN",
-        "difficulty" : 4,
+        "required_skills" : [ [ "fabrication", 4 ], [ "tailor", 3 ] ],
         "time" : 60,
         "qualities": [
             [
@@ -1666,7 +1672,7 @@
         "type" : "construction",
         "description" : "Build Sign",
         "category" : "CONSTRUCT",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 20,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -1681,7 +1687,7 @@
         "type" : "construction",
         "description" : "Build Stone Fireplace",
         "category" : "FURN",
-        "difficulty" : 2,
+        "required_skills" : [ [ "fabrication", 2 ], [ "survival", 1 ] ],
         "time" : 120,
         "qualities": [
             [
@@ -1700,7 +1706,7 @@
         "type" : "construction",
         "description" : "Build Wood Stove",
         "category" : "FURN",
-        "difficulty" : 5,
+        "required_skills" : [ [ "fabrication", 5 ], [ "mechanics", 3 ] ],
         "time" : 60,
         "qualities": [ [
             { "id": "SAW_M", "level": 1 }
@@ -1715,7 +1721,7 @@
         "type" : "construction",
         "description" : "Build Fermenting Vat",
         "category" : "FURN",
-        "difficulty" : 2,
+        "required_skills" : [ [ "fabrication", 2 ], [ "cooking", 3 ] ],
         "time" : 90,
         "qualities": [
             [
@@ -1737,7 +1743,7 @@
         "type" : "construction",
         "description" : "Build Wooden Keg",
         "category" : "FURN",
-        "difficulty" : 3,
+        "required_skills" : [ [ "fabrication", 2 ], [ "cooking", 2 ] ],
         "time" : 120,
         "qualities": [
             [
@@ -1760,7 +1766,7 @@
         "type" : "construction",
         "description" : "Build Standing Tank", "//": "a freestanding metal tank, useful for holding liquids",
         "category" : "FURN",
-        "difficulty" : 2,
+        "required_skills" : [ [ "fabrication", 2 ], [ "cooking", 1 ] ],
         "time" : 180,
         "qualities": [
             [ { "id": "HAMMER", "level": 2 } ],
@@ -1778,7 +1784,7 @@
         "type" : "construction",
         "description" : "Place Anvil",
         "category" : "FURN",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 1,
         "components" : [
             [ [ "anvil", 1 ] ]
@@ -1789,7 +1795,7 @@
         "type" : "construction",
         "description" : "Place Forge",
         "category" : "FURN",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 1,
         "components" : [
             [ [ "char_forge", 1 ] ]
@@ -1800,7 +1806,7 @@
         "type" : "construction",
         "description" : "Place Still",
         "category" : "FURN",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 1,
         "components" : [
             [ [ "still", 1 ] ]
@@ -1811,7 +1817,7 @@
         "type" : "construction",
         "description" : "Build Water Well",
         "category" : "CONSTRUCT",
-        "difficulty" : 8,
+        "required_skills" : [ [ "fabrication", 4 ], [ "survival", 4 ] ],
         "time" : 480,
         "qualities": [
             [
@@ -1832,7 +1838,7 @@
         "type" : "construction",
         "description" : "Build Water Well",
         "category" : "CONSTRUCT",
-        "difficulty" : 5,
+        "required_skills" : [ [ "fabrication", 4 ], [ "mechanics", 2 ] ],
         "time" : 180,
         "qualities": [
             [
@@ -1852,7 +1858,7 @@
         "type" : "construction",
         "description" : "Paint Wall Red",
         "category" : "DECORATE",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 40,
         "tools" : [
             [ "paint_brush"]
@@ -1866,7 +1872,7 @@
         "type" : "construction",
         "description" : "Paint Wall Blue",
         "category" : "DECORATE",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 40,
         "tools" : [
             [ "paint_brush"]
@@ -1880,7 +1886,7 @@
         "type" : "construction",
         "description" : "Paint Wall white",
         "category" : "DECORATE",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 40,
         "tools" : [
             [ "paint_brush"]
@@ -1894,7 +1900,7 @@
         "type" : "construction",
         "description" : "Paint Wall Green",
         "category" : "DECORATE",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 40,
         "tools" : [
             [ "paint_brush"]
@@ -1908,7 +1914,7 @@
         "type" : "construction",
         "description" : "Paint Wall Purple",
         "category" : "DECORATE",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 40,
         "tools" : [
             [ "paint_brush"]
@@ -1922,7 +1928,7 @@
         "type" : "construction",
         "description" : "Paint Wall Yellow",
         "category" : "DECORATE",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 40,
         "tools" : [
             [ "paint_brush"]
@@ -1936,7 +1942,7 @@
         "type" : "construction",
         "description" : "Take Paint Off Wall", "//": "For vertical walls",
         "category" : "DECORATE",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 80,
         "tools" : [
             [ "chipper"]
@@ -1947,7 +1953,7 @@
         "type" : "construction",
         "description" : "Remove Carpet",
         "category" : "DECORATE",
-        "difficulty" : 0,
+        "required_skills" : [ [ "fabrication", 0 ] ],
         "time" : 30,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -1958,7 +1964,7 @@
         "type" : "construction",
         "description" : "Carpet Floor Red",
         "category" : "DECORATE",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 30,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -1973,7 +1979,7 @@
         "type" : "construction",
         "description" : "Carpet Floor Purple",
         "category" : "DECORATE",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 30,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -1988,7 +1994,7 @@
         "type" : "construction",
         "description" : "Carpet Floor Yellow",
         "category" : "DECORATE",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 30,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -2003,7 +2009,7 @@
         "type" : "construction",
         "description" : "Carpet Floor Green",
         "category" : "DECORATE",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 30,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }
@@ -2018,7 +2024,7 @@
         "type" : "construction",
         "description" : "Dig Downstair",
         "category" : "DIG",
-        "difficulty" : 5,
+        "required_skills" : [ [ "fabrication", 5 ], [ "survival", 3 ] ],
         "time" : 420,
         "qualities": [ [ { "id": "AXE", "level": 2 } ],
                        [ { "id": "HAMMER", "level": 2 } ],
@@ -2037,7 +2043,7 @@
         "type" : "construction",
         "description" : "Mine Downstair",
         "category" : "DIG",
-        "difficulty" : 6,
+        "required_skills" : [ [ "fabrication", 6 ], [ "survival", 4 ] ],
         "time" : 480,
         "qualities": [ [ { "id": "AXE", "level": 2 } ],
                        [ { "id": "HAMMER", "level": 2 } ],
@@ -2058,7 +2064,7 @@
         "type" : "construction",
         "description" : "Mine Upstair",
         "category" : "DIG",
-        "difficulty" : 6,
+        "required_skills" : [ [ "fabrication", 6 ], [ "survival", 4 ] ],
         "time" : 480,
         "qualities": [ [ { "id": "AXE", "level": 2 } ],
                        [ { "id": "HAMMER", "level": 2 } ],
@@ -2083,7 +2089,7 @@
         "type" : "construction",
         "description" : "Start Vehicle Construction", "//": "Rest of vehicle construction done in the vehicle construction menu",
         "category" : "OTHER",
-        "difficulty" : 0,
+        "required_skills" : [ [ "mechanics", 0 ] ],
         "time" : 10,
         "//": "no components required, they are filled in at runtime based on the vehicle parts that can be used to start a vehicle",
         "pre_special" : "check_empty",
@@ -2092,7 +2098,7 @@
         "type" : "construction",
         "description" : "Build Road Barricade",
         "category" : "OTHER",
-        "difficulty" : 1,
+        "required_skills" : [ [ "fabrication", 1 ] ],
         "time" : 30,
         "qualities": [ [
             { "id": "HAMMER", "level": 1 }
@@ -2107,7 +2113,7 @@
         "type" : "construction",
         "description" : "Build Pontoon Bridge", "//": "Set up pontoon bridge",
         "category" : "CONSTRUCT",
-        "difficulty" : 5,
+        "required_skills" : [ [ "fabrication", 5 ] ],
         "time" : 80,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 }
@@ -2123,7 +2129,7 @@
         "type" : "construction",
         "description" : "Build Dock/Shallow Bridge", "//": "Set up dock",
         "category" : "CONSTRUCT",
-        "difficulty" : 4,
+        "required_skills" : [ [ "fabrication", 4 ] ],
         "time" : 80,
         "qualities": [ [
             { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 }
@@ -2139,7 +2145,7 @@
         "type" : "construction",
         "description" : "Cut Down Grass",
         "category" : "OTHER",
-        "difficulty" : -1,
+        "required_skills" : [ [ "survival", 0 ] ],
         "time" : 6,
         "qualities": [ [ { "id": "CUT", "level": 1 }, { "id": "DIG", "level": 1 } ] ],
         "pre_terrain" : "t_grass",
@@ -2148,7 +2154,7 @@
         "type" : "construction",
         "description" : "Extract Clay Mound",
         "category" : "OTHER",
-        "difficulty" : 0,
+        "required_skills" : [ [ "survival", 0 ] ],
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
         "pre_terrain" : "t_water_sh",
@@ -2157,7 +2163,7 @@
         "type" : "construction",
         "description" : "Extract Sand Mound",
         "category" : "OTHER",
-        "difficulty" : 0,
+        "required_skills" : [ [ "survival", 0 ] ],
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
         "pre_terrain" : "t_water_sh",
@@ -2166,7 +2172,7 @@
         "type" : "construction",
         "description" : "Build Charcoal Kiln",
         "category" : "FURN",
-        "difficulty" : 3,
+        "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 120,
         "qualities": [
             [
@@ -2185,7 +2191,7 @@
         "type" : "construction",
         "description" : "Build Metal Charcoal Kiln",
         "category" : "FURN",
-        "difficulty" : 3,
+        "required_skills" : [ [ "fabrication", 3 ] ],
         "time" : 60,
         "qualities": [
             [
@@ -2205,7 +2211,7 @@
         "type" : "construction",
         "description" : "Build Smoking Rack",
         "category" : "FURN",
-        "difficulty" : 3,
+        "required_skills" : [ [ "fabrication", 3 ], [ "cooking", 2 ] ],
         "time" : 90,
         "qualities": [
             [ { "id": "DIG", "level": 1 } ],
@@ -2223,7 +2229,7 @@
         "type" : "construction",
         "description" : "Build Rock Forge",
         "category" : "FURN",
-        "difficulty" : 5,
+        "required_skills" : [ [ "fabrication", 5 ] ],
         "time" : 120,
         "qualities": [
             [ { "id": "DIG", "level": 2 } ],
@@ -2238,7 +2244,7 @@
         "type" : "construction",
         "description" : "Build Clay Kiln",
         "category" : "FURN",
-        "difficulty" : 4,
+        "required_skills" : [ [ "fabrication", 4 ] ],
         "time" : 150,
         "qualities": [
             [ {"id": "HAMMER", "level": 2 } ]
@@ -2254,7 +2260,7 @@
         "type" : "construction",
         "description" : "Build Reinforced Glass Window", "//": "Step 1 : metal frame",
         "category" : "CONSTRUCT",
-        "difficulty" : 7,
+        "required_skills" : [ [ "fabrication", 7 ] ],
         "time" : 90,
         "qualities": [
             [
@@ -2274,7 +2280,7 @@
         "type" : "construction",
         "description" : "Build Reinforced Glass Window", "//": "Step 2 : Reinforced Glass",
         "category" : "CONSTRUCT",
-        "difficulty" : 8,
+        "required_skills" : [ [ "fabrication", 8 ] ],
         "time" : 150,
         "qualities": [
             [
@@ -2293,7 +2299,7 @@
         "type" : "construction",
         "description" : "Build Reinforced Glass Window", "//": "Step 3 : Metal shutters",
         "category" : "CONSTRUCT",
-        "difficulty" : 8,
+        "required_skills" : [ [ "fabrication", 8 ] ],
         "time" : 150,
         "qualities": [
             [

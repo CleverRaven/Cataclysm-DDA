@@ -683,40 +683,17 @@
   "difficulty": 3,
   "time": 16000,
   "autolearn": true,
-  "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the fish",
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ],
   "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ],
-    [
-      [ "cooking_oil", -1 ],
-      [ "tallow", -1 ],
-      [ "lard", -1 ]
-    ]
+    [ [ "frying_oil", 1, "LIST" ] ],
+    [ [ "frying_heat", 8, "LIST" ] ]
   ],
   "components": [
-    [
-      [ "fish", 3 ]
-    ],
-    [
-      [ "flour", 1 ],
-      [ "cornmeal", 1 ],
-      [ "flatbread", 1 ],
-      [ "tortilla_corn", 1 ],
-      [ "bread", 1 ],
-      [ "wastebread", 1 ],
-      [ "cornbread", 1 ],
-      [ "biscuit", 1 ],
-      [ "hardtack", 1 ],
-      [ "crackers", 1 ]
-    ]
+    [ [ "fish", 3 ] ],
+    [ [ "batter", 1, "LIST" ] ]
   ]
 },{
   "type" : "recipe",
@@ -727,40 +704,17 @@
   "difficulty": 3,
   "time": 16000,
   "autolearn": true,
-  "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the onions",
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ],
   "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ],
-    [
-      [ "cooking_oil", -1 ],
-      [ "tallow", -1 ],
-      [ "lard", -1 ]
-    ]
+    [ [ "frying_oil", 1, "LIST" ] ],
+    [ [ "frying_heat", 8, "LIST" ] ]
   ],
   "components": [
-    [
-      [ "onion", 1 ]
-    ],
-    [
-      [ "flour", 1 ],
-      [ "cornmeal", 1 ],
-      [ "flatbread", 1 ],
-      [ "tortilla_corn", 1 ],
-      [ "bread", 1 ],
-      [ "wastebread", 1 ],
-      [ "cornbread", 1 ],
-      [ "biscuit", 1 ],
-      [ "hardtack", 1 ],
-      [ "crackers", 1 ]
-    ]
+    [ [ "onion", 1 ] ],
+    [ [ "batter", 1, "LIST" ] ]
   ]
 },{
   "type" : "recipe",
@@ -11930,19 +11884,18 @@
   "time": 30000,
   "book_learn": [[ "survival_book", 6 ], [ "scots_cookbook", 3 ]],
   "batch_time_factors":[50, 4],
+  "using": [ [ "filament", 2 ] ],
   "qualities":[
     {"id":"BOIL","level":1},
     {"id":"COOK","level":3},
-    {"id":"CUT","level":1}
+    {"id":"CUT","level":1},
+    {"id":"SEW","level":1}
   ], "tools": [
     [
       [ "hotplate", 5 ],
       [ "toolset", 5 ],
       [ "char_smoker", 5 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "sewing_kit", 2 ]
     ]
   ],
   "components": [
@@ -11977,19 +11930,18 @@
   "time": 30000,
   "book_learn": [[ "cookbook_human", 3 ]],
   "batch_time_factors":[50, 4],
+  "using": [ [ "filament", 2 ] ],
   "qualities":[
     {"id":"BOIL","level":1},
     {"id":"COOK","level":3},
-    {"id":"CUT","level":1}
+    {"id":"CUT","level":1},
+    {"id":"SEW","level":1}
   ], "tools": [
     [
       [ "hotplate", 5 ],
       [ "toolset", 5 ],
       [ "char_smoker", 5 ],
       [ "fire", -1 ]
-    ],
-    [
-      [ "sewing_kit", 2 ]
     ]
   ],
   "components": [

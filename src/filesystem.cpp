@@ -108,6 +108,16 @@ bool rename_file(const std::string &old_path, const std::string &new_path)
 }
 #endif
 
+const char *cata_files::eol()
+{
+#ifdef _WIN32
+    static const char local_eol[] = "\r\n";
+#else
+    static const char local_eol[] = "\n";
+#endif
+    return local_eol;
+}
+
 namespace {
 
 //TODO move elsewhere.

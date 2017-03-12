@@ -201,10 +201,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["office_tower_1"] = &mapgen_office_tower_1;
     mapgen_cfunction_map["office_tower_b_entrance"] = &mapgen_office_tower_b_entrance;
     mapgen_cfunction_map["office_tower_b"] = &mapgen_office_tower_b;
-    mapgen_cfunction_map["cathedral_1_entrance"] = &mapgen_cathedral_1_entrance;
-    mapgen_cfunction_map["cathedral_1"] = &mapgen_cathedral_1;
-    mapgen_cfunction_map["cathedral_b_entrance"] = &mapgen_cathedral_b_entrance;
-    mapgen_cfunction_map["cathedral_b"] = &mapgen_cathedral_b;
 
     mapgen_cfunction_map["megastore_entrance"] = &mapgen_megastore_entrance;
     mapgen_cfunction_map["megastore"] = &mapgen_megastore;
@@ -212,15 +208,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["hospital"] = &mapgen_hospital;
     mapgen_cfunction_map["public_works_entrance"] = &mapgen_public_works_entrance;
     mapgen_cfunction_map["public_works"] = &mapgen_public_works;
-    mapgen_cfunction_map["school_1"] = &mapgen_school_1;
-    mapgen_cfunction_map["school_2"] = &mapgen_school_2;
-    mapgen_cfunction_map["school_3"] = &mapgen_school_3;
-    mapgen_cfunction_map["school_4"] = &mapgen_school_4;
-    mapgen_cfunction_map["school_5"] = &mapgen_school_5;
-    mapgen_cfunction_map["school_6"] = &mapgen_school_6;
-    mapgen_cfunction_map["school_7"] = &mapgen_school_7;
-    mapgen_cfunction_map["school_8"] = &mapgen_school_8;
-    mapgen_cfunction_map["school_9"] = &mapgen_school_9;
     mapgen_cfunction_map["prison_1"] = &mapgen_prison_1;
     mapgen_cfunction_map["prison_2"] = &mapgen_prison_2;
     mapgen_cfunction_map["prison_3"] = &mapgen_prison_3;
@@ -258,7 +245,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["ice_lab_core"] = &mapgen_ice_lab_core;
     mapgen_cfunction_map["ice_lab_finale"] = &mapgen_ice_lab_finale;
     mapgen_cfunction_map["nuke_plant"] = &mapgen_nuke_plant;
-    mapgen_cfunction_map["bunker"] = &mapgen_bunker;
     mapgen_cfunction_map["outpost"] = &mapgen_outpost;
     mapgen_cfunction_map["silo"] = &mapgen_silo;
     mapgen_cfunction_map["silo_finale"] = &mapgen_silo_finale;
@@ -3374,42 +3360,6 @@ void mapgen_office_tower_b(map *m, oter_id terrain_type, mapgendata dat, int tur
 }
 
 
-void mapgen_cathedral_1_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_cathedral_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_cathedral_b_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_cathedral_b(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
 void mapgen_sub_station(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
     (void)dat;
@@ -3528,23 +3478,6 @@ void mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int, float)
                 m->add_vehicle(vgroup_id("garage"), {vx + v * tdx, vy + v * tdy}, theta + one_in(3)*rng(-1,1)*30, -1, -1);
             }
         }
-}
-
-void mapgen_farm(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_farm_field(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
 }
 
 
@@ -4034,87 +3967,6 @@ void mapgen_hospital(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
 }
 
 
-void mapgen_school_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_school_2(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_school_3(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_school_4(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_school_5(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_school_6(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_school_7(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_school_8(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_school_9(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
 void mapgen_prison_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
@@ -4449,15 +4301,6 @@ void mapgen_nuke_plant_entrance(map *m, oter_id terrain_type, mapgendata dat, in
 
 
 void mapgen_nuke_plant(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_bunker(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*

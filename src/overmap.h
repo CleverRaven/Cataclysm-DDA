@@ -177,6 +177,7 @@ class overmap
     point const& pos() const { return loc; }
 
     void save() const;
+    void clear();
 
     /**
      * @return The (local) overmap terrain coordinates of a randomly
@@ -297,6 +298,8 @@ public:
   std::vector<city> cities;
   std::vector<city> roads_out;
 
+    std::vector<const overmap_special *> unplaced_mandatory_specials;
+
  private:
     friend class overmapbuffer;
 
@@ -314,6 +317,22 @@ public:
      */
     std::unordered_multimap<tripoint, monster> monster_map;
     regional_settings settings;
+
+    // "Valid" map is one that has all mandatory specials
+    // "Limited" map is one where all specials are placed only in allowed places
+    enum class overmap_valid : int {
+        // Invalid map, with no limits
+        invalid = 0,
+        // Valid map, but some parts are without limits
+        unlimited,
+        // Perfectly valid map
+        valid
+    };
+
+    overmap_valid allow_generation = overmap_valid::valid;
+    overmap_valid current_validity = overmap_valid::invalid;
+
+    void set_validity_from_settings();
 
   // Initialise
   void init_layers();
@@ -333,6 +352,8 @@ public:
   void unserialize_view_legacy(std::istream &fin);
  private:
   void generate(const overmap* north, const overmap* east, const overmap* south, const overmap* west);
+  // Controls error handling in generation
+  void generate_outer(const overmap* north, const overmap* east, const overmap* south, const overmap* west);
   bool generate_sub(int const z);
 
     const city &get_nearest_city( const tripoint &p ) const;
@@ -412,10 +433,27 @@ public:
   void place_special( const overmap_special &special, const tripoint &p, om_direction::type dir, const city &cit );
   // Monsters, radios, etc.
   void place_specials();
+  /**
+   * One pass of placing specials - by default there are 3 (mandatory, mandatory without city distance, optional)
+   * @param to_place vector of pairs [special, count] to place in this pass. Placed specials are removed/deducted from this.
+   * @param sectors sectors in which placement is possible. Taken sectors will be removed from this vector.
+   * @param check_city_distance If false, the city distance limits of specials are not respected.
+   */
+  void place_specials_pass( std::vector<std::pair<const overmap_special *, int>> &to_place,
+                            std::vector<point> &sectors, bool check_city_distance );
+  /**
+   * As @ref place_specials_pass, but for only one sector at a time.
+   */
+  bool place_special_attempt( std::vector<std::pair<const overmap_special *, int>> &candidates,
+                              const point &sector, bool check_city_distance );
   void place_mongroups();
   void place_radios();
 
     void add_mon_group(const mongroup &group);
+
+    void load_monster_groups( JsonIn &jo );
+    void load_legacy_monstergroups( JsonIn &jo );
+    void save_monster_groups( JsonOut &jo ) const;
 };
 
 // TODO: readd the stream operators

@@ -50,7 +50,10 @@
     "damage": 5,
     "range": 4,
     "pierce": 5,
-    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ]
+    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
+    "fuel": {
+      "energy": 35.8
+    }
   },
   {
     "id": "gasoline",
@@ -74,7 +77,10 @@
     "damage": 5,
     "range": 4,
     "pierce": 5,
-    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ]
+    "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ],
+    "fuel": {
+      "energy": 34.2
+    }
   },
   {
     "id": "lamp_oil",

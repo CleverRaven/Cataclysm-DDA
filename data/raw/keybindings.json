@@ -26,6 +26,54 @@
     {
         "type" : "keybinding",
         "id":"UP",
+        "category": "UIMENU",
+        "name":"Pan up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"UP"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"DOWN",
+        "category": "UIMENU",
+        "name":"Pan down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"DOWN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id" : "FILTER",
+        "category" : "UIMENU",
+        "name" : "Filter",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"/"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "QUIT",
+        "category": "UIMENU",
+        "name": "Cancel menu",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"ESC"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"UP",
         "name":"Pan up",
         "bindings":[
             {
@@ -1381,6 +1429,17 @@
             {
                 "input_method":"keyboard",
                 "key":"f"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"EXTENDED_DESCRIPTION",
+        "name":"Show extended description",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"e"
             }
         ]
     },

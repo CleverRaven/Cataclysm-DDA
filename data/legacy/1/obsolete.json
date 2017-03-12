@@ -76,12 +76,6 @@
     "weight": 142,
     "volume": 1,
     "to_hit": -2,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "spare_parts"
   },
   {
@@ -335,8 +329,6 @@
      "price" : 2000,
      "material" : ["cotton"],
      "volume" : 0,
-     "warmth" : 0,
-     "encumbrance" : 0,
      "coverage" : 12,
      "material_thickness" : 1
   },

@@ -861,8 +861,11 @@ void Item_factory::check_definitions() const
         for( const auto& typ : type->magazines ) {
             for( const auto& opt : typ.second ) {
                 const itype *mag = find_template( opt );
-                if( !mag->magazine || mag->magazine->type != typ.first ) {
-                    msg << "invalid magazine " << opt << "\n";
+                if( !mag->magazine ) {
+                    msg << "unknown magazine \"" << opt << "\"\n";
+                } else if( mag->magazine->type != typ.first ) {
+                    msg << "magazine \"" << opt << "\" holds incompatible ammo (\""
+                        << mag->magazine->type.str() << "\" instead of \"" << typ.first.str() << "\")\n";
                 }
             }
         }
@@ -904,6 +907,10 @@ void Item_factory::check_definitions() const
             if( !actor->is_valid() ) {
                 msg << string_format( "item action \"%s\" was not described.", actor->type.c_str() ) << "\n";
             }
+        }
+
+        if( type->fuel != nullptr && !type->count_by_charges() ) {
+            msg << "fuel value set, but item isn't count_by_charges.\n";
         }
 
         if (msg.str().empty()) {
@@ -1049,7 +1056,7 @@ void Item_factory::load( islot_artifact &slot, JsonObject &jo, const std::string
 
 void Item_factory::load( islot_ammo &slot, JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "core";
+    bool strict = src == "dda";
 
     assign( jo, "ammo_type", slot.type, strict );
     assign( jo, "casing", slot.casing, strict );
@@ -1070,7 +1077,7 @@ void Item_factory::load_ammo( JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        assign( jo, "stack_size", def.stack_size, src == "core", 1 );
+        assign( jo, "stack_size", def.stack_size, src == "dda", 1 );
         load_slot( def.ammo, jo, src );
         load_basic_info( jo, def, src );
     }
@@ -1106,9 +1113,25 @@ void Item_factory::load_wheel( JsonObject &jo, const std::string &src )
     }
 }
 
+void Item_factory::load( islot_fuel &slot, JsonObject &jo, const std::string &src )
+{
+    bool strict = src == "dda";
+
+    assign( jo, "energy", slot.energy, strict, 0.001f );
+}
+
+void Item_factory::load_fuel( JsonObject &jo, const std::string &src )
+{
+    itype def;
+    if( load_definition( jo, src, def ) ) {
+        load_slot( def.fuel, jo, src );
+        load_basic_info( jo, def, src );
+    }
+}
+
 void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "core";
+    bool strict = src == "dda";
 
     if( jo.has_member( "burst" ) && jo.has_member( "modes" ) ) {
         jo.throw_error( "cannot specify both burst and modes", "burst" );
@@ -1181,7 +1204,7 @@ void Item_factory::load_armor( JsonObject &jo, const std::string &src )
 
 void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "core";
+    bool strict = src == "dda";
 
     assign( jo, "encumbrance", slot.encumber, strict, 0 );
     assign( jo, "coverage", slot.coverage, strict, 0, 100 );
@@ -1196,7 +1219,7 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &s
 
 void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "core";
+    bool strict = src == "dda";
 
     // @todo update tool slot to use signed integers (int) throughout
     assign( jo, "ammo", slot.ammo_id, strict );
@@ -1234,7 +1257,7 @@ void Item_factory::load_tool( JsonObject &jo, const std::string &src )
 
 void Item_factory::load( islot_mod &slot, JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "core";
+    bool strict = src == "dda";
 
     assign( jo, "ammo_modifier", slot.ammo_modifier, strict );
     assign( jo, "capacity_multiplier", slot.capacity_multiplier, strict );
@@ -1283,7 +1306,7 @@ void Item_factory::load_tool_armor( JsonObject &jo, const std::string &src )
 
 void Item_factory::load( islot_book &slot, JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "core";
+    bool strict = src == "dda";
 
     assign( jo, "max_level", slot.level, strict, 0, MAX_SKILL );
     assign( jo, "required_level", slot.req, strict, 0, MAX_SKILL );
@@ -1305,7 +1328,7 @@ void Item_factory::load_book( JsonObject &jo, const std::string &src )
 
 void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "core";
+    bool strict = src == "dda";
 
     assign( jo, "comestible_type", slot.comesttype, strict );
     assign( jo, "tool", slot.tool, strict );
@@ -1386,7 +1409,7 @@ void Item_factory::load_comestible( JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        assign( jo, "stack_size", def.stack_size, src == "core", 1 );
+        assign( jo, "stack_size", def.stack_size, src == "dda", 1 );
         load_slot( def.comestible, jo, src );
         load_basic_info( jo, def, src );
     }
@@ -1422,7 +1445,7 @@ void Item_factory::load( islot_container &slot, JsonObject &jo, const std::strin
 
 void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "core";
+    bool strict = src == "dda";
 
     assign( jo, "damage_modifier", slot.damage );
     assign( jo, "loudness_modifier", slot.loudness );
@@ -1467,7 +1490,7 @@ void Item_factory::load_gunmod( JsonObject &jo, const std::string &src )
 
 void Item_factory::load( islot_magazine &slot, JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "core";
+    bool strict = src == "dda";
 
     assign( jo, "ammo_type", slot.type, strict );
     assign( jo, "capacity", slot.capacity, strict, 0 );
@@ -1489,7 +1512,7 @@ void Item_factory::load_magazine( JsonObject &jo, const std::string &src )
 
 void Item_factory::load( islot_bionic &slot, JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "core";
+    bool strict = src == "dda";
 
     assign( jo, "difficulty", slot.difficulty, strict, 0 );
     // TODO: must be the same as the item type id, for compatibility
@@ -1596,7 +1619,7 @@ void npc_implied_flags( itype &item_template )
 
 void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::string &src )
 {
-    bool strict = src == "core";
+    bool strict = src == "dda";
 
     assign( jo, "category", def.category_force, strict );
     assign( jo, "weight", def.weight, strict, 0 );
@@ -1735,6 +1758,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     load_slot_optional( def.seed, jo, "seed_data", src );
     load_slot_optional( def.artifact, jo, "artifact_data", src );
     load_slot_optional( def.brewable, jo, "brewable", src );
+    load_slot_optional( def.fuel, jo, "fuel", src );
 
     // optional gunmod slot may also specify mod data
     load_slot_optional( def.gunmod, jo, "gunmod_data", src );
