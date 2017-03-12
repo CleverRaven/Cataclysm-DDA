@@ -37,7 +37,7 @@ static void test_internal( const npc& who, const std::vector<item> &guns )
                 for( int chance = 10; chance < 100; chance += 20 ) {
                     for( double recoil = 0; recoil < 1000; recoil += 50 ) {
                         double range = who.gun_current_range( gun, recoil, chance, accuracy );
-                        double dispersion = who.get_weapon_dispersion( gun ) + recoil;
+                        double dispersion = who.get_weapon_dispersion( gun, RANGE_SOFT_CAP ) + recoil;
 
                         CAPTURE( gun.tname() );
                         CAPTURE( accuracy );
@@ -128,7 +128,7 @@ static void test_internal( const npc& who, const std::vector<item> &guns )
                     double recoil = MIN_RECOIL;
                     double chance = 0.5;
                     double range = who.gun_current_range( gun, recoil, chance, accuracy );
-                    double dispersion = who.get_weapon_dispersion( gun ) + recoil;
+                    double dispersion = who.get_weapon_dispersion( gun, RANGE_SOFT_CAP ) + recoil;
                     CHECK( who.projectile_attack_chance( dispersion, range, accuracy, target_size + 1 ) >=
                            who.projectile_attack_chance( dispersion, range, accuracy, target_size ) );
                 }
@@ -153,7 +153,7 @@ TEST_CASE( "gun_aiming", "[gun] [aim]" ) {
         WHEN( "many shots are fired at human-sized target" ) {
             THEN( "the distribution of accuracies is as expected" ) {
                 double target_size = who.ranged_target_size();
-                for( int range = 0; range <= MAX_RANGE; ++range ) {
+                for( int range = 0; range <= RANGE_HARD_CAP; ++range ) {
                     for( int dispersion = 0; dispersion < 1200; dispersion += 50 ) {
                         test_distribution( who, dispersion, range, target_size );
                     }
