@@ -1481,17 +1481,17 @@ bool veh_interact::do_rename( std::string & )
     std::string name = string_input_popup()
                        .title( _( "Enter new vehicle name:" ) )
                        .width( 20 )
-                       .query();
-    if(name.length() > 0) {
-        (veh->name = name);
-        if (veh->tracking_on) {
+                       .query_string();
+    if( name.length() > 0 ) {
+        veh->name = name;
+        if( veh->tracking_on ) {
             overmap_buffer.remove_vehicle( veh );
             // Add the vehicle again, this time with the new name
             overmap_buffer.add_vehicle( veh );
         }
     }
     // refresh w_disp & w_part windows:
-    move_cursor(0, 0);
+    move_cursor( 0, 0 );
 
     return false;
 }
@@ -1507,10 +1507,10 @@ bool veh_interact::do_relabel( std::string &msg )
                        .title( _( "New label:" ) )
                        .width( 20 )
                        .text( veh->get_label( -ddx, -ddy ) )
-                       .query();
+                       .query_string();
     veh->set_label(-ddx, -ddy, text); // empty input removes the label
     // refresh w_disp & w_part windows:
-    move_cursor(0, 0);
+    move_cursor( 0, 0 );
 
     return false;
 }

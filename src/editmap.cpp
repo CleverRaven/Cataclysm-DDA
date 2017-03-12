@@ -138,7 +138,7 @@ void edit_json( SAVEOBJ *it )
         } else if( tmret == 1 ) {
             std::string ret = string_input_popup()
                               .text( save1 )
-                              .query();
+                              .query_string();
             if( !ret.empty() ) {
                 fs1 = fld_string( save1, TERMX - 10 );
                 save1 = ret;
@@ -1369,13 +1369,11 @@ int editmap::edit_itm()
                             intval = ( int )it->burnt;
                             break;
                     }
-                    int retval = std::atoi(
-                                     string_input_popup()
-                                     .title( "set: " )
-                                     .width( 20 )
-                                     .text( to_string( intval ) )
-                                     .query().c_str()
-                                 );
+                    int retval = string_input_popup()
+                                 .title( "set: " )
+                                 .width( 20 )
+                                 .text( to_string( intval ) )
+                                 .query_int();
                     if( intval != retval ) {
                         if( imenu.ret == imenu_bday ) {
                             it->bday = retval;

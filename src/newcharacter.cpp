@@ -2416,14 +2416,14 @@ std::string Character::random_bad_trait()
     return random_entry( vTraitsBad );
 }
 
-void save_template(player *u)
+void save_template( player *u )
 {
-    std::string title = _("Name of template:");
+    std::string title = _( "Name of template:" );
     std::string name = string_input_popup()
                        .title( title )
                        .width( FULL_SCREEN_WIDTH - utf8_width( title ) - 8 )
-                       .query();
-    if (name.length() == 0) {
+                       .query_string();
+    if( name.length() == 0 ) {
         return;
     }
     std::string playerfile = FILENAMES["templatedir"] + utf8_to_native( name ) + ".template";

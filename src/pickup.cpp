@@ -814,7 +814,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                                   .title( _( "Enter 2 letters (case sensitive):" ) )
                                   .width( 3 )
                                   .max_length( 2 )
-                                  .query();
+                                  .query_string();
                 if( ext.size() == 2 ) {
                     int p1 = pickup_chars.find( ext.at( 0 ) );
                     int p2 = pickup_chars.find( ext.at( 1 ) );
