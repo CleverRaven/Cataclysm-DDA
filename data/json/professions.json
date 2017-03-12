@@ -148,7 +148,7 @@
                 "level": 2,
                 "name": "archery"
             },
-			{
+            {
                 "level": 2,
                 "name": "tailor"
             },
@@ -182,8 +182,8 @@
                     "e_tool",
                     "hatchet",
                     "mess_kit",
-					"rollmat",
-					"tent_kit"
+                    "rollmat",
+                    "tent_kit"
                 ],
                 "entries": [
                     { "item": "crossbow", "ammo-item": "bolt_steel", "charges": 1, "contents-item": "shoulder_strap" },
