@@ -1865,7 +1865,9 @@ double player::get_weapon_dispersion( const item &obj, float range ) const
     }
 
     // @todo Scale the range penalty with something (but don't allow it to get below 2.0*range)
-    dispersion += std::max( 0.0f, range - RANGE_SOFT_CAP ) * 3.0f;
+    if( range > RANGE_SOFT_CAP ) {
+        dispersion += ( range - RANGE_SOFT_CAP ) * 3.0f;
+    }
 
     return std::max( dispersion, 0.0 );
 }
