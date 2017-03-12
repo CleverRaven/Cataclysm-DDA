@@ -3484,7 +3484,7 @@
     "default_faction": "gator",
     "categories": [ "WILDLIFE" ],
     "species": [ "REPTILE" ],
-    "diff": 15,
+    "diff": 22,
     "size": "LARGE",
     "hp": 90,
     "speed": 90,
