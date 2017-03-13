@@ -5,7 +5,7 @@
 #include "debug.h"
 #include "output.h"
 
-std::string error_keyvals[] = {"Missing Dependency(ies): ", "", ""};
+std::array<std::string, 3> error_keyvals = {{ "Missing Dependency(ies): ", "", "" }};
 
 // dependency_node
 dependency_node::dependency_node(): index( -1 ), lowlink( -1 ), on_stack( false )

@@ -199,13 +199,12 @@ void construction_menu()
     draw_grid( w_con, w_list_width + w_list_x0 );
 
     //tabcount needs to be increased to add more categories
-    int tabcount = 10;
-    std::string construct_cat[] = {_( "All" ), _( "Constructions" ), _( "Furniture" ),
-                                   _( "Digging and Mining" ), _( "Repairing" ),
-                                   _( "Reinforcing" ), _( "Decorative" ),
-                                   _( "Farming and Woodcutting" ), _( "Others" ),
-                                   _( "Filter" )
-                                  };
+    const int tabcount = 10;
+    std::array<std::string, tabcount> construct_cat = {{
+        _( "All" ), _( "Constructions" ), _( "Furniture" ), _( "Digging and Mining" ),
+        _( "Repairing" ), _( "Reinforcing" ), _( "Decorative" ), _( "Farming and Woodcutting" ),
+        _( "Others" ), _( "Filter" )
+    }};
 
     bool update_info = true;
     bool update_cat = true;

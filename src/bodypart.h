@@ -3,6 +3,7 @@
 #define BODYPART_H
 
 #include <string>
+#include <array>
 
 class JsonObject;
 
@@ -30,10 +31,11 @@ enum class side : int {
 };
 
 // map integers to body part enum
-const constexpr body_part bp_aBodyPart[] = {
-    bp_torso, bp_head, bp_eyes, bp_mouth,
-    bp_arm_l, bp_arm_r, bp_hand_l, bp_hand_r,
-    bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r
+const constexpr std::array<body_part, 12> bp_aBodyPart = {{
+        bp_torso, bp_head, bp_eyes, bp_mouth,
+        bp_arm_l, bp_arm_r, bp_hand_l, bp_hand_r,
+        bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r
+    }
 };
 
 struct body_part_struct {
@@ -91,7 +93,7 @@ struct body_part_struct {
 side opposite_side( side s );
 
 // identify the index of a body part's "other half", or itself if not
-const size_t bp_aiOther[] = {0, 1, 2, 3, 5, 4, 7, 6, 9, 8, 11, 10};
+const std::array<size_t, 12> bp_aiOther = {{0, 1, 2, 3, 5, 4, 7, 6, 9, 8, 11, 10}};
 
 /** Returns the matching name of the body_part token. */
 std::string body_part_name( body_part bp );
