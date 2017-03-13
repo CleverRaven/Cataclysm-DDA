@@ -2093,7 +2093,8 @@
         "time" : 10,
         "//": "no components required, they are filled in at runtime based on the vehicle parts that can be used to start a vehicle",
         "pre_special" : "check_empty",
-        "post_special" : "done_vehicle"
+        "post_special" : "done_vehicle",
+        "vehicle_start" : true
     },{
         "type" : "construction",
         "description" : "Build Road Barricade",
