@@ -3477,6 +3477,59 @@
     "flags": [ "SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
   },
   {
+    "id": "mon_gator",
+    "type": "MONSTER",
+    "name": "sewer gator",
+    "description": "In the late 20th century there was an urban legend about pet alligators getting flushed down the toilet and growing to adulthood in sewers.  This large specimen doesn't look like it is used to humans as anything other than a meal.",
+    "default_faction": "gator",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "REPTILE" ],
+    "diff": 22,
+    "size": "LARGE",
+    "hp": 90,
+    "speed": 90,
+    "material": [ "flesh" ],
+    "symbol": "A",
+    "color": "ltgreen",
+    "aggression": 30,
+    "morale": 50,
+    "melee_skill": 4,
+    "melee_dice": 1,
+    "melee_dice_sides": 10,
+    "melee_cut": 12,
+    "dodge": 2,
+    "armor_bash": 6,
+    "armor_cut": 8,
+    "vision_day": 3,
+    "vision_night": 35,
+    "path_settings": { "max_dist": 8 },
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 20,
+        "accuracy": 6,
+        "no_infection_chance": 2,
+        "damage_max_instance": [
+          {
+            "damage_type": "stab",
+            "amount": 9,
+            "armor_multiplier": 0.5
+          },
+          {
+            "damage_type": "bash",
+            "amount": 27,
+            "armor_multiplier": 0.5
+          }
+        ]
+      }
+    ],
+    "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
+    "fear_triggers": [ "FIRE", "HURT" ],
+    "placate_triggers": [ "MEAT" ],
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "BLEED", "ATTACKMON", "BONES", "LEATHER", "SWIMS" ]
+  },
+  {
     "id": "mon_sewer_fish",
     "type": "MONSTER",
     "name": "seweranha",
