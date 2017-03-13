@@ -3504,7 +3504,6 @@
     "vision_night": 35,
     "path_settings": { "max_dist": 8 },
     "special_attacks": [
-      [ "GRAB_DRAG", 15 ],
       {
         "type": "bite",
         "cooldown": 20,
