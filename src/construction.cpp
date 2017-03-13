@@ -458,6 +458,12 @@ void construction_menu()
                             current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
                                                    folded_result_string.end() );
                         }
+                        if( !current_con->pre_note.empty() ) {
+                            std::vector<std::string> folded_result_string =
+                                foldstring( _( current_con->pre_note.c_str() ), available_window_width );
+                            current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
+                                                   folded_result_string.end() );
+                        }
                         // get pre-folded versions of the rest of the construction project to be displayed later
 
                         // get time needed
@@ -1134,7 +1140,7 @@ void load_construction(JsonObject &jo)
         requirement_data::load_requirement( jo, req_id );
         con.requirements = requirement_id( req_id );
     }
-
+    con.pre_note = jo.get_string( "pre_note", "" );
     con.pre_terrain = jo.get_string("pre_terrain", "");
     if (con.pre_terrain.size() > 1
         && con.pre_terrain[0] == 'f'
