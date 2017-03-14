@@ -366,6 +366,12 @@
         "name": "Baseball Player",
         "description": "You were a batter on a local minor league team before the cataclysm.  You escaped with your equipment, but how long can you survive until your innings are up?",
         "points": 0,
+        "skills": [
+            {
+                "level": 1,
+                "name": "bashing"
+            }
+        ],
         "items": {
             "both": [
                 "bat",
@@ -392,6 +398,12 @@
         "name": "Football Player",
         "description": "You were the star player for the local football team, adored by teammates and fans alike.  Now they just adore your brain.  You've still got your bulky football gear on.",
         "points": 0,
+        "skills": [
+            {
+                "level": 2,
+                "name": "dodge"
+            }
+        ],
         "items": {
             "both": [
                 "football_armor",
@@ -401,7 +413,8 @@
                 "socks",
                 "cleats",
                 "mouthpiece",
-                "football"
+                "football",
+                "sports_drink"
             ],
             "male": [
                 "briefs"
