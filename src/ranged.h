@@ -51,8 +51,8 @@ class target_handler {
          *  @param on_mode_change callback when user attempts changing firing mode.
          *  @param on_ammo_change callback when user attempts changing ammo.
          */
-        std::vector<tripoint> target_ui( player pc, const targeting_data &args );
-        std::vector<tripoint> target_ui( player pc, target_mode mode,
+        std::vector<tripoint> target_ui( player &pc, const targeting_data &args );
+        std::vector<tripoint> target_ui( player &pc, target_mode mode,
                                          item *relevant, int range,
                                          const itype *ammo = nullptr,
                                          const target_callback &on_mode_change = target_callback(),

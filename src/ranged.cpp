@@ -1147,13 +1147,13 @@ static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const t
     return line_number;
 }
 
-std::vector<tripoint> target_handler::target_ui( player pc, const targeting_data &args ) {
+std::vector<tripoint> target_handler::target_ui( player &pc, const targeting_data &args ) {
     return target_ui( pc, args.mode, args.relevant, args.range,
                       args.ammo, args.on_mode_change, args.on_ammo_change );
 }
 
 // @todo: Shunt redundant drawing code elsewhere
-std::vector<tripoint> target_handler::target_ui( player pc, target_mode mode,
+std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                                                  item *relevant, int range, const itype *ammo,
                                                  const target_callback &on_mode_change,
                                                  const target_callback &on_ammo_change )
