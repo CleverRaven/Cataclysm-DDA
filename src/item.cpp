@@ -4618,7 +4618,13 @@ item::reload_option::reload_option( const player *who, const item *target, const
 
 int item::reload_option::moves() const
 {
-    int mv = ammo.obtain_cost( *who, qty() ) + who->item_reload_cost( *target, *ammo, qty() );
+    int mv = who->item_reload_cost( *target, *ammo, qty() );
+    if( parent->has_flag( "RELOAD_AND_SHOOT" ) && who->parents( *ammo ).empty() ) {
+        // Hardcoded hack for now. Later should be integrated into obtain_cost
+        mv += who->item_handling_cost( *ammo, true, 30 );
+    } else {
+        mv += ammo.obtain_cost( *who, qty() );
+    }
     if( parent != target ) {
         if( parent->is_gun() ) {
             mv += parent->type->gun->reload_time;
