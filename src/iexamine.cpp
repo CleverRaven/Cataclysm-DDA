@@ -30,6 +30,7 @@
 #include "sounds.h"
 #include "cata_utility.h"
 #include "string_input_popup.h"
+#include "processor.h"
 
 #include <sstream>
 #include <algorithm>
