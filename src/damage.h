@@ -59,12 +59,14 @@ struct damage_instance {
 
     /**
      * Adds damage to the instance.
-     * @param allow_dupes If false, identical damage types are added together and normalized. If true, they are kept separate.
+     * If the damage type already exists in the instance, the old and new instance are normalized.
+     * The normalization means that the effective damage can actually decrease (depending on target's armor).
      */
-    void add_damage( damage_type dt, float a, float rp = 0.0f, float rm = 1.0f, float mul = 1.0f, bool allow_dupes = false );
-    /** Adds a damage instance to this one. Normalizes multipliers, which makes it very lossy. */
+    /*@{*/
+    void add_damage( damage_type dt, float a, float rp = 0.0f, float rm = 1.0f, float mul = 1.0f );
     void add( const damage_instance &b );
     void add( const damage_unit &b );
+    /*@}*/
 };
 
 struct dealt_damage_instance {

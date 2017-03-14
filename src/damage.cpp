@@ -29,7 +29,7 @@ damage_instance::damage_instance( damage_type dt, float a, float rp, float rm, f
     add_damage( dt, a, rp, rm, mul );
 }
 
-void damage_instance::add_damage( damage_type dt, float a, float rp, float rm, float mul, bool allow_dupes )
+void damage_instance::add_damage( damage_type dt, float a, float rp, float rm, float mul )
 {
     if( a * mul > 0.0f ) {
         damage_unit du( dt, a, rp, rm, mul );

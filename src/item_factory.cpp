@@ -1641,6 +1641,15 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     assign( jo, "magazine_well", def.magazine_well );
     assign( jo, "explode_in_fire", def.explode_in_fire );
 
+    if( jo.has_member( "thrown_damage" ) ) {
+        JsonArray jarr = jo.get_array( "thrown_damage" );
+        def.thrown_damage = load_damage_instance( jarr );
+    } else {
+        // @todo Move to finalization
+        def.thrown_damage.clear();
+        def.thrown_damage.add_damage( DT_BASH, def.melee[DT_BASH] + def.weight / 1000.0f );
+    }
+
     if( jo.has_member( "damage_states" ) ) {
         auto arr = jo.get_array( "damage_states" );
         def.damage_min = arr.get_int( 0 );
