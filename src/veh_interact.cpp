@@ -2332,12 +2332,12 @@ void veh_interact::complete_vehicle()
 	        const double PI = 3.14159265358979f;
 	        dir = int(atan2(static_cast<float>(delta_y), static_cast<float>(delta_x)) * 180.0 / PI);
 	        dir -= veh->face.dir();
-	        while(dir < 0) {
+                while(dir < 0) {
                     dir += 360;
-	        }
-	        while(dir > 360) {
+                }
+                while(dir > 360) {
                     dir -= 360;
-	        }
+                }
 	    }
 
             veh->parts[partnum].direction = dir;
