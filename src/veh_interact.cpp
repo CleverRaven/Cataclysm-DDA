@@ -2321,24 +2321,24 @@ void veh_interact::complete_vehicle()
             // Restore previous view offsets.
             g->u.view_offset.x = px;
             g->u.view_offset.y = py;
-	    
-	    int dir = 0;
-	    if(headlight_target.x == INT_MIN) {
-	        dir = 0;
-	    } else {
-	        int delta_x = headlight_target.x - (veh->global_x() + q.x);
-	        int delta_y = headlight_target.y - (veh->global_y() + q.y);
+            
+            int dir = 0;
+            if(headlight_target.x == INT_MIN) {
+                dir = 0;
+            } else {
+                int delta_x = headlight_target.x - (veh->global_x() + q.x);
+                int delta_y = headlight_target.y - (veh->global_y() + q.y);
 
-	        const double PI = 3.14159265358979f;
-	        dir = int(atan2(static_cast<float>(delta_y), static_cast<float>(delta_x)) * 180.0 / PI);
-	        dir -= veh->face.dir();
+                const double PI = 3.14159265358979f;
+                dir = int(atan2(static_cast<float>(delta_y), static_cast<float>(delta_x)) * 180.0 / PI);
+                dir -= veh->face.dir();
                 while(dir < 0) {
                     dir += 360;
                 }
                 while(dir > 360) {
                     dir -= 360;
                 }
-	    }
+            }
 
             veh->parts[partnum].direction = dir;
         }
