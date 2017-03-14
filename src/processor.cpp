@@ -1,5 +1,5 @@
 #include "processor.h"
-#include "game.h" // TODO: This is a circular dependency //it was for gates, probably will be for this too
+#include "game.h"
 #include "map.h"
 #include "mapdata.h"
 #include "generic_factory.h"
@@ -25,8 +25,7 @@ struct processor_data {
 
     processor_id id; //furniture
     furn_id next_type;
-    auto fuel_type;
-    bool is_processing;
+    itype_id fuel_type;
 
 
     std::vector<process_id> processes;
@@ -43,7 +42,10 @@ struct processor_data {
     void check() const;
     void reset();
 
+    bool is_subset
+
 };
+
 
 processor_id get_processor_id( const tripoint &pos )
 {
@@ -57,7 +59,6 @@ generic_factory<processor_data> processors_data( "processor type", "id" );
 void processor_data::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "next_type", next_type );
-    mandatory( jo, was_loaded, "is_processing", is_processing );
     mandatory( jo, was_loaded, "fuel_type", fuel_type );
     mandatory( jo, was_loaded, "processes", processes, string_id_reader<process_id> {} );
 
@@ -85,7 +86,7 @@ void processor_data::check() const
         debugmsg( "Furniture \"%s\" can't act as a processor because the assigned iexamine function is not converter, but it has \"%s\" associated.",
                   processor_tid.c_str(), id.c_str() );
     }
-    for( const auto &elem : processes ) {
+    for( const process_id &elem : processes ) {
         if( !elem.is_valid() ) {
             debugmsg( "Invalid process \"%s\" in \"%s\".", elem.c_str(), id.c_str() );
         }
@@ -121,8 +122,8 @@ struct process_data {
 
     process_id id;
     std::string name;
-    auto components;
-    auto output;
+    std::vector<itype_id> components;
+    itype_id output;
     int fuel_intake;
     int duration;
     //TODO: Skill used
@@ -145,8 +146,8 @@ void process_data::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", name );
     //TODO: modify to allow lists of components
-    mandatory( jo, was_loaded, "components", components,  string_id_reader<itype_id> {});
-    mandatory( jo, was_loaded, "output", output );
+    mandatory( jo, was_loaded, "components", components,  string_id_reader<itype_id> {} );
+    mandatory( jo, was_loaded, "output", output, string_id_reader<itype_id> {} );
     mandatory( jo, was_loaded, "fuel_intake", fuel_intake );
     mandatory( jo, was_loaded, "duration", duration );
 }
@@ -157,16 +158,18 @@ void process_data::check() const
 
     if( !proc_id.is_valid() ) {
         debugmsg( "There is no process with the name %s", id.c_str() );
-    if( !components.is_valid() ) {
-        debugmsg( "Invalid components \"%s\" in \"%s\".", components.c_str(), id.c_str() );
+    for( const auto &elem : components ) {
+        if( !elem.is_valid() ) {
+            debugmsg( "Invalid components \"%s\" in \"%s\".", elem.c_str(), id.c_str() );
+        }
     }
     if( !output.is_valid() ) {
         debugmsg( "Invalid output \"%s\" in \"%s\".", output.c_str(), id.c_str() );
     }
-    if( !fuel_intake.is_valid() ) {
+    if( !fuel_intake >= 0 ) {
         debugmsg( "Invalid fuel intake \"%s\" in \"%s\".", fuel_intake.c_str(), id.c_str() );
     }
-    if( !duration.is_valid() ) {
+    if( !duration > 0 ) {
         debugmsg( "Invalid duration \"%s\" in \"%s\".", duration.c_str(), id.c_str() );
     }
 }
@@ -186,76 +189,152 @@ void process_data::reset()
     processes_data.reset();
 }
 
+template <typename T>
+bool IsSubset(std::vector<T> A, std::vector<T> B)
+{
+    std::sort(A.begin(), A.end());
+    std::sort(B.begin(), B.end());
+    return std::includes(A.begin(), A.end(), B.begin(), B.end());
+}
+
 void interact_with_processor( const tripoint &examp, player &p )
 {
-    //Get processor id at examp
     processor_id pid = get_processor_id( examp );
     //Do I need the debugmsg-es here or do they get checked in process_data::load?
     if( !processors_data.is_valid( pid ) ) {
+        //TODO EDIT: Verify in mapdata.cpp verification functions instead of on examine
         debugmsg( "Examined %s has action interact_with_processor, but has no processor data associated", g->m.furn( examp ).id().c_str() );
         return;
     }
-    //Get data associated with said processor id
     const processor_data &processor = processors_data.obj( pid );
-    std::vector<auto> possible_processes;
-    for( auto &p : processor.processes() ) {
-        if( p.is_valid() ){
-            possible_processes.push_back( process_data.obj( process_id( p ) ) );
+    //Make an object list of processes
+    std::vector<process_data> possible_processes;
+    for( process_id &p : processor.processes ) {
+        possible_processes.push_back( processes_data.obj( p ) );
+    }
+    //Figure out active process
+    process_data *active_process;
+    if( possible_processes.size() == 1 ){
+        active_process = possible_processes[0] );
+    } else {
+        map_stack items = g->m.i_at();
+        if( !items.empty() ){
+            //Build a set of item_id's present
+            std::vector<itype_id> present_items;
+            for( item i : items ){
+                if( std::find( present_items.begin(), present_items.end(), i.typeId() ) == present_items.end() ){
+                present_items.insert( i.typeId() );
+                }
+            }
+            //Based on the items present, find the process which has all components
+            //available and the largest number of required components
+            for( process_data data : possible_processes){
+                if( IsSubset( present_items, data.components) ){
+                    if ( !active_process ){
+                        //if nullpointer, set it as active
+                        active_process = data;
+                    } else if( active_process.components.size() < data.components.size() ) {
+                        active_process = data;
+                    }
+                }
+            }
+            if( !active_process ){
+                //If we can't decide based on the items, make the first process active
+                active_process = possible_processes[0];
+            }
         } else {
-            //Debugmsg probably not exactly right,
-            //I'm trying to return the processor name and the problematic process name too
-            debugmsg( "Examined %s has non-valid process data %s2 associated", processor.id().c_str(), get_process_id( p ).c_str() );
-            return;
+            //No items present, we can default to asking the player what they want
+            //and then looking at their inventory
+            std::vector<std::string> p_names;
+            for( process_data p : possible_processes ){
+                p_names.push_back( p.name );
+            }
+            p_names.push_back(_("Cancel"));
+            int p_index = menu_vec(true, _("Possible processes"), p_names);
+            if (p_index == (int)p_names.size() - 1 || p_index < 0) {
+                //In case cancel, return
+                return;
+            } else {
+                active_process = possible_processes[p_index];
+            }
         }
     }
-
-    //  Figure out which process to run, easier to work with than
-    //  trying to figure out desired process from items on tile,
-    //  Can become a mess with processor with multiple possible processes
-    std::vector<std::string> p_names;
-    for( auto p : possible_processes ){
-        p_names.push_back( p.name );
+    //Msg to tell you what you need for a process
+    add_msg( _("You start on %s.") , active_process.name.c_str() );
+    for( itype_id i : active_process.components ){
+        add_msg( _("You need some %s for each.") , item::nname( i, 1 ).c_str() );
     }
-    int p_index = 0;
-    if( p_names.size() > 1 ){
-        p_names.push_back(_("Cancel"));
-        p_index = menu_vec(true, _("Possible processes"), p_names);
-        if (p_index == (int)p_names.size() - 1) {
-            return;
-        }
-    }
+    //At this point, we know which process is active, but we don't know whether
+    //we have the fuel and components available,
 
-    auto active_process = possible_processes[p_index];
-
-    //Collect possible processed item id-s and fuels into a vector
-    //Use said vector to find out if we have usable items on the tile
+    //Use component vector to find out if we have usable items on the tile
     //TODO: Handle processes with multiple possible inputs, see kiln
     //TODO: Handle processes requiring multiple input materials
-    std::vector<itype_id> processed_materials;
-    for( auto &i : active_process.components ) {
-            //Not sure about this line
-            //I want to collect the possible components item id's into the vector
-            processed_materials.push_back( itype_id( i ) );
+
+    // Seen the code in keg, I could do interesting stuff by manipulating
+    // which components is at which position in the item stack, could make
+    // multi-input processes more bearable
+    map_stack items = g->m.i_at( examp );
+    bool processed_is_present = false;
+    std::map<itype_id, long> charges;
+    item fuel = item::item( processor.fuel_type, int( calendar::turn ), 0 );
+    for( item i : items ) {
+        //Please check to make sure this one is working as intended
+        iterator index = active_process.components.find( i->id );
+        if(  index == active_process.components.end() && i.id  != processor.fuel_type ) {
+            add_msg( m_bad, _("You find some %s, which can't be used in this process."), i.tname( 1, false ).c_str() );
+            add_msg( _("You must remove it before you proceed.") );
+            return;
+        } else if ( i.id  != processor.fuel_type ){
+            charges.insert(active_process.components[index], charges[active_process.components[index]] + item.charges );
+        } else {
+            fuel.charges += i.charges;
+        }
     }
-    if( processed_materials.empty() ){
-        debugmsg( "Examined %s has no reagents associated", active_process.id().c_str() );
+    //At this point we only have components and fuel on tile
+    //And we know exact numbers
+    //Can someone check if I'm using iterators right in this case?
+    long minimum = LONG_LONG_MAX;
+    for( std::map::iterator it = charges.begin(); it != charges.end(); it++ ){
+        if( charges[it] == 0 ){
+            add_msg(m_info, _("There's no %s which is needed for the process"), item::nname( it, 1 ).c_str() );
+            return;
+        } else if( charges[it] < minimum ){
+            minimum = charges[it];
+        }
+    }
+    minimum = min( minimum, fuel.charges );
+    add_msg( _("This process is ready to be started, and it will produce %d %s"), item::nname(active_process.output, minimum).c_str(), minimum );
+    if( !p.has_charges( "fire" , 1 ) ) {
+        add_msg( _("This process is ready to be started, but you have no fire source to start it.") );
+        return;
+    } else if( !query_yn( _("This process is ready to be started, and it will produce %d %s . %s"),
+                        item::nname(active_process.output, minimum).c_str(), minimum, processor.full_message.c_str() ) ) {
         return;
     }
+    add_msg( _( processor.start_message.c_str() ) );
+    p.use_charges( "fire", 1 );
+
+    //TODO: skill
+
+    for( item item_it = items.begin(); item_it != items.end(); ){
+        item_it.bday = calendar::turn;
+    }
+    g->m.furn_set(examp, processor.next_type );
+}
+
+// Below this is still WIP
 
     //You did say one function to handle all
     //processors not in the middle of a process
     //Basically, this furniture type denotes the type
     //where it is not in the middle of making something
     if(!processor.is_processing){
-        bool processed_is_present = false;
-        // Seen the code in keg, I could do interesting stuff by manipulating
-        // which components is at which position in the item stack, could make
-        // multi-input processes more bearable
-        auto items = g->m.i_at( examp );
+
             //TODO : figure out which loop to use
             //Use said items to figure out if we have usable items
             //Option 1
-            for( auto item_it = items.begin(); item_it != items.end(); ) {
+            for( item item_it = items.begin(); item_it != items.end(); ) {
                 //TODO Here, processor.fuel_type should return the item_id of the fuel
                 //TODO Make it possible to use different types of fuels
                 if( processed_materials.find( item_it->id ) == container.end() || item_it->id != processor.fuel_type ) {
@@ -270,14 +349,7 @@ void interact_with_processor( const tripoint &examp, player &p )
                 }
             }
             //Option 2
-            processed_is_present = true;
-            for( auto i : items ) {
-                if( processed_materials.find( i->id ) == container.end() && i.id  != processor.fuel_type ) {
-                    add_msg( m_bad, _("You find some %s, which can't be processed here."), i.tname( 1, false ).c_str() );
-                    add_msg( _("You must remove it before you proceed.") );
-                    return;
-                }
-            }
+
         //TODO: If there's nothing on the tile, check player inventory
         // to see if they have anything to process
         if( !processed_is_present ){
@@ -292,12 +364,13 @@ void interact_with_processor( const tripoint &examp, player &p )
         std::vector<integer> charges;
         item &fuel;
         items = g->m.i_at( examp );
-        for( auto item_it = items.begin(); item_it != items.end(); ) {
+        for( item item_it = items.begin(); item_it != items.end(); ) {
             if (item_it.typeId() == processor.fuel_type ){
+                item_it.i
                 fuel = item_it;
                 continue;
             }
-            for( auto component_it = processed_materials.begin(); component_it != processed_materials.end(); ){
+            for( itype_id component_it = processed_materials.begin(); component_it != processed_materials.end(); ){
                 //If we found which components it belongs to
                 if( item_it.typeId() == component_it.typeId() ) {
                     materials.push_back( item_it.typeId() );
@@ -320,22 +393,19 @@ void interact_with_processor( const tripoint &examp, player &p )
         if( !p.has_charges( "fire" , 1 ) ) {
             add_msg( _("This process is ready to be started, but you have no fire source.") );
             return;
-        } else if( !query_yn( _( processor.full_message ) ) ) {
+        } else if( !query_yn( _( processor.full_message.c_str() ) ) ) {
             return;
         }
-        add_msg( _( processor.start_message ) );
+        add_msg( _( processor.start_message.c_str() ) );
         p.use_charges( "fire", 1 );
         //TODO: skill xp gain
 
-        for( auto item_it = items.begin(); item_it != items.end(); ){
-            item_it.bday = calendar::turn;
-        }
-        g->m.furn_set(examp, processor.next_type );
+
     } else {
         //processor processing away
         auto items = g->m.i_at( examp );
         if( items.empty() ) {
-            debugmsg( processor.empty_message );
+            debugmsg( processor.empty_message.c_str() );
             g->m.furn_set( examp, processor.next_type );
             return;
         }
@@ -398,4 +468,11 @@ void interact_with_processor( const tripoint &examp, player &p )
         g->m.furn_set( examp, processor.next_type);
     }
 }
+
+void interact_with_working_processor( const tripoint &pos, player &p )
+{
+
+}
+
+
 

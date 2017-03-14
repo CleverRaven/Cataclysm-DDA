@@ -8,7 +8,7 @@
         "processes": [ "fire_clay_bricks" ],
         "messages" : {
             "empty" : "This clay kiln is empty...",
-            "full" : "Are you ready to fire this kiln?",
+            "full" : "Do you want to fire this kiln?",
 			"start" : "You fire the clay kiln!",
             "processing" : "The clay kiln is in use!",
 			"finish" : "The bricks are ready!",

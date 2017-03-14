@@ -3419,13 +3419,14 @@ void iexamine::climb_down( player &p, const tripoint &examp )
     g->m.creature_on_trap( p );
 }
 
-void iexamine::converter( player &p, const tripoint &examp )
+void iexamine::processor_is_off( player &p, const tripoint &examp )
 {
-    if (!query_yn(_("Use the %s?"), g->m.furn( examp ).c_str())) {
-        none( p, examp );
-        return;
-    }
-    g->interact_with_processor( &examp );
+    processor::interact_with_processor( &examp, player &p );
+}
+
+void iexamine::processor_is_on( player &p, const tripoint &examp )
+{
+    processor::interact_with_working_processor( &examp, player &p );
 }
 
 /**
@@ -3503,7 +3504,8 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "kiln_empty", &iexamine::kiln_empty },
         { "kiln_full", &iexamine::kiln_full },
         { "climb_down", &iexamine::climb_down },
-        { "converter", &iexamine::converter }
+        { "processor_is_off", &iexamine::processor_is_off }
+        { "processor_is_on", &iexamine::processor_is_on }
         }
     }};
 
