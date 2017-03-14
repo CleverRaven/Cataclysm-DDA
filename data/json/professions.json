@@ -2570,7 +2570,7 @@
         "ident": "bionic_hitman",
         "name": "Bionic Assassin",
         "description": "The product of millions of dollars of clandestine research, you are a bionic sleeper agent capable of silently engaging your target while maintaining an innocuous appearance.",
-        "points": 8
+        "points": 8,
         "CBMs":[
             "bio_cqb",
             "bio_blade",
