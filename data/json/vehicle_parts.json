@@ -955,9 +955,19 @@
         "folded_volume": 2,
         "bonus" : 25,
         "item" : "rope_6",
-        "difficulty" : 1,
         "location" : "on_seat",
-        "flags" : ["SEATBELT", "TOOL_SCREWDRIVER", "FOLDABLE"],
+        "requirements": {
+          "install": {
+            "time": 15000,
+            "skills": [ [ "mechanics", 1 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          },
+          "removal": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          }
+        },
+        "flags" : ["SEATBELT", "FOLDABLE"],
         "breaks_into" : [
             {"item": "string_36", "count": [0, 3]}
         ]
