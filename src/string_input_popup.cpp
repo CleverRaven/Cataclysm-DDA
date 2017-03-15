@@ -33,11 +33,20 @@ void string_input_popup::create_window()
         _width = std::min( FULL_SCREEN_WIDTH - 20, _width );
         w_width = _width + titlesize + 5;
     }
+
+    std::vector<std::string> title_split = { _title };
     if( w_width > FULL_SCREEN_WIDTH ) {
         // Out of horizontal space- wrap the title
         titlesize = FULL_SCREEN_WIDTH - _width - 5;
-        w_height += int( foldstring( _title, titlesize ).size() ) - 1;
         w_width = FULL_SCREEN_WIDTH;
+
+        for( int wraplen = w_width - 2; wraplen >= titlesize; wraplen-- ) {
+            title_split = foldstring( _title, wraplen );
+            if( int( title_split.back().size() ) <= titlesize ) {
+                break;
+            }
+        }
+        w_height += int( title_split.size() ) - 1;
     }
 
     std::vector<std::string> descformatted;
@@ -67,7 +76,10 @@ void string_input_popup::create_window()
     for( size_t i = 0; i < descformatted.size(); ++i ) {
         trim_and_print( w, 1 + i, 1, w_width - 2, desc_color, "%s", descformatted[i].c_str() );
     }
-    fold_and_print( w, _starty, 1, titlesize, title_color, "%s", _title.c_str() );
+    for( int i = 0; i < int( title_split.size() ) - 1; i++ ) {
+        mvwprintz( w, _starty++, i + 1, title_color, "%s", title_split[i].c_str() );
+    }
+    right_print( w, _starty, w_width - titlesize - 1, title_color, "%s", title_split.back().c_str() );
     _starty = w_height - 2; // The ____ looks better at the bottom right when the title folds
 }
 
