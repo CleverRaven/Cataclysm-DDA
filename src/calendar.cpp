@@ -494,8 +494,9 @@ std::string calendar::day_of_week() const
 
 int calendar::season_length()
 {
+    static const std::string s = "SEASON_LENGTH";
     // Avoid returning 0 as this value is used in division and expected to be non-zero.
-    return std::max( get_world_option<int>( "SEASON_LENGTH" ), 1 );
+    return std::max( get_world_option<int>( s ), 1 );
 }
 
 int calendar::turn_of_year() const
@@ -519,7 +520,8 @@ void calendar::sync()
     const int sl = season_length();
     year = turn_number / DAYS(sl * 4);
 
-    if( get_world_option<bool>( "ETERNAL_SEASON" ) ) {
+    static const std::string eternal = "ETERNAL_SEASON";
+    if( get_world_option<bool>( eternal ) ) {
         // If we use calendar::start to determine the initial season, and the user shortens the season length
         // mid-game, the result could be the wrong season!
         season = initial_season;
