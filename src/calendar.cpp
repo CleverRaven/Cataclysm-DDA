@@ -261,8 +261,8 @@ double calendar::current_daylight_level() const
 {
     double percent = double(double(day) / season_length());
     double modifier = 1.0;
-    // For ~Boston: solstices are +/- 26.5% sunlight intensity from equinoxes
-    static double deviation = 0.265;
+    // For ~Boston: solstices are +/- 25% sunlight intensity from equinoxes
+    static double deviation = 0.25;
     
     switch (season) {
     case SPRING:
