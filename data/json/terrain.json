@@ -4074,7 +4074,7 @@
         "symbol": "~",
         "color": "ltblue",
         "move_cost": 5,
-        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "FISHABLE"],
+        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "FISHABLE", "SAND_CLAY"],
         "connects_to": "WATER",
         "examine_action": "water_source"
     },{
@@ -4094,7 +4094,7 @@
         "symbol": "~",
         "color": "ltblue",
         "move_cost": 5,
-        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "SALT_WATER", "FISHABLE"],
+        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "SALT_WATER", "FISHABLE", "SAND_CLAY"],
         "connects_to": "WATER",
         "examine_action": "water_source"
     },{

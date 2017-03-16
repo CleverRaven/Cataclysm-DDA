@@ -2159,7 +2159,7 @@
         "required_skills" : [ [ "survival", 0 ] ],
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-        "pre_terrain" : "t_water_sh",
+        "pre_special" : "check_sand_clay",
         "post_terrain" : "t_claymound"
     },{
         "type" : "construction",
@@ -2168,7 +2168,7 @@
         "required_skills" : [ [ "survival", 0 ] ],
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-        "pre_terrain" : "t_water_sh",
+        "pre_special" : "check_sand_clay",
         "post_terrain" : "t_sandmound"
     },{
         "type" : "construction",
