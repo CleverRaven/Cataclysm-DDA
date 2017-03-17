@@ -142,61 +142,73 @@ const resistances &mutation_branch::damage_resistance( body_part bp ) const
 
 void Character::mutation_effect(std::string mut)
 {
-    if (mut == "TOUGH" || mut == "TOUGH2" || mut == "TOUGH3" || mut == "GLASSJAW" ||
-        mut == "FLIMSY" || mut == "FLIMSY2" || mut == "FLIMSY3" ||
-        mut == "MUT_TOUGH" || mut == "MUT_TOUGH2" || mut == "MUT_TOUGH3") {
-        recalc_hp();
-
-    } else if (mut == "STR_ALPHA") {
-        ///\EFFECT_STR_MAX determines bonus from STR mutation
-        if (str_max <= 6) {
-            str_max = 8;
-        } else if (str_max <= 7) {
-            str_max = 11;
-        } else if (str_max <= 14) {
-            str_max = 15;
-        } else {
-            str_max = 18;
-        }
-        recalc_hp();
-    } else if (mut == "DEX_ALPHA") {
-        ///\EFFECT_DEX_MAX determines bonus from DEX mutation
-        if (dex_max <= 6) {
-            dex_max = 8;
-        } else if (dex_max <= 7) {
-            dex_max = 11;
-        } else if (dex_max <= 14) {
-            dex_max = 15;
-        } else {
-            dex_max = 18;
-        }
-    } else if (mut == "INT_ALPHA") {
-        ///\EFFECT_INT_MAX determines bonus from INT mutation
-        if (int_max <= 6) {
-            int_max = 8;
-        } else if (int_max <= 7) {
-            int_max = 11;
-        } else if (int_max <= 14) {
-            int_max = 15;
-        } else {
-            int_max = 18;
-        }
-    } else if (mut == "INT_SLIME") {
-        int_max *= 2; // Now, can you keep it? :-)
-
-    } else if (mut == "PER_ALPHA") {
-        ///\EFFECT_PER_MAX determines bonus from PER mutation
-        if (per_max <= 6) {
-            per_max = 8;
-        } else if (per_max <= 7) {
-            per_max = 11;
-        } else if (per_max <= 14) {
-            per_max = 15;
-        } else {
-            per_max = 18;
-        }
-    } else {
-        apply_mods(mut, true);
+    switch(mut){
+        case "TOUGH":
+        case "TOUGH2":
+        case "TOUGH3":
+        case "GLASSJAW":
+        case "FLIMSY":
+        case "FLIMSY2":
+        case "FLIMSY3":
+        case "MUT_TOUGH":
+        case "MUT_TOUGH2":
+        case "MUT_TOUGH3":
+            recalc_hp();
+            break;
+        case "STR_ALPHA":
+            ///\EFFECT_STR_MAX determines bonus from STR mutation
+            if (str_max <= 6) {
+                str_max = 8;
+            } else if (str_max <= 7) {
+                str_max = 11;
+            } else if (str_max <= 14) {
+                str_max = 15;
+            } else {
+                str_max = 18;
+            }
+            recalc_hp();
+            break;
+        case "DEX_ALPHA":
+            ///\EFFECT_DEX_MAX determines bonus from DEX mutation
+            if (dex_max <= 6) {
+                dex_max = 8;
+            } else if (dex_max <= 7) {
+                dex_max = 11;
+            } else if (dex_max <= 14) {
+                dex_max = 15;
+            } else {
+                dex_max = 18;
+            }
+            break;
+        case "INT_ALPHA":
+            ///\EFFECT_INT_MAX determines bonus from INT mutation
+            if (int_max <= 6) {
+                int_max = 8;
+            } else if (int_max <= 7) {
+                int_max = 11;
+            } else if (int_max <= 14) {
+                int_max = 15;
+            } else {
+                int_max = 18;
+            }
+            break;
+        case "INT_SLIME":
+            int_max *= 2; // Now, can you keep it? :-)
+            break;
+        case "PER_ALPHA":
+            ///\EFFECT_PER_MAX determines bonus from PER mutation
+            if (per_max <= 6) {
+                per_max = 8;
+            } else if (per_max <= 7) {
+                per_max = 11;
+            } else if (per_max <= 14) {
+                per_max = 15;
+            } else {
+                per_max = 18;
+            }
+            break;
+        default:
+            apply_mods(mut, true);
     }
 
     const auto &branch = mutation_branch::get( mut );
@@ -236,61 +248,73 @@ void Character::mutation_effect(std::string mut)
 
 void Character::mutation_loss_effect(std::string mut)
 {
-    if (mut == "TOUGH" || mut == "TOUGH2" || mut == "TOUGH3" || mut == "GLASSJAW" ||
-        mut == "FLIMSY" || mut == "FLIMSY2" || mut == "FLIMSY3" ||
-        mut == "MUT_TOUGH" || mut == "MUT_TOUGH2" || mut == "MUT_TOUGH3") {
-        recalc_hp();
-
-    } else if (mut == "STR_ALPHA") {
-        ///\EFFECT_STR_MAX determines penalty from STR mutation loss
-        if (str_max == 18) {
-            str_max = 15;
-        } else if (str_max == 15) {
-            str_max = 8;
-        } else if (str_max == 11) {
-            str_max = 7;
-        } else {
-            str_max = 4;
-        }
-        recalc_hp();
-    } else if (mut == "DEX_ALPHA") {
-        ///\EFFECT_DEX_MAX determines penalty from DEX mutation loss
-        if (dex_max == 18) {
-            dex_max = 15;
-        } else if (dex_max == 15) {
-            dex_max = 8;
-        } else if (dex_max == 11) {
-            dex_max = 7;
-        } else {
-            dex_max = 4;
-        }
-    } else if (mut == "INT_ALPHA") {
-        ///\EFFECT_INT_MAX determines penalty from INT mutation loss
-        if (int_max == 18) {
-            int_max = 15;
-        } else if (int_max == 15) {
-            int_max = 8;
-        } else if (int_max == 11) {
-            int_max = 7;
-        } else {
-            int_max = 4;
-        }
-    } else if (mut == "INT_SLIME") {
-        int_max /= 2; // In case you have a freak accident with the debug menu ;-)
-
-    } else if (mut == "PER_ALPHA") {
-        ///\EFFECT_PER_MAX determines penalty from PER mutation loss
-        if (per_max == 18) {
-            per_max = 15;
-        } else if (per_max == 15) {
-            per_max = 8;
-        } else if (per_max == 11) {
-            per_max = 7;
-        } else {
-            per_max = 4;
-        }
-    } else {
-        apply_mods(mut, false);
+    switch(mut){
+        case "TOUGH":
+        case "TOUGH2":
+        case "TOUGH3":
+        case "GLASSJAW":
+        case "FLIMSY":
+        case "FLIMSY2":
+        case "FLIMSY3":
+        case "MUT_TOUGH":
+        case "MUT_TOUGH2":
+        case "MUT_TOUGH3":
+            recalc_hp();
+            break;
+        case "STR_ALPHA":
+            ///\EFFECT_STR_MAX determines penalty from STR mutation loss
+            if (str_max == 18) {
+                str_max = 15;
+            } else if (str_max == 15) {
+                str_max = 8;
+            } else if (str_max == 11) {
+                str_max = 7;
+            } else {
+                str_max = 4;
+            }
+            recalc_hp();
+            break;
+        case "DEX_ALPHA":
+            ///\EFFECT_DEX_MAX determines penalty from DEX mutation loss
+            if (dex_max == 18) {
+                dex_max = 15;
+            } else if (dex_max == 15) {
+                dex_max = 8;
+            } else if (dex_max == 11) {
+                dex_max = 7;
+            } else {
+                dex_max = 4;
+            }
+            break;
+        case "INT_ALPHA":
+            ///\EFFECT_INT_MAX determines penalty from INT mutation loss
+            if (int_max == 18) {
+                int_max = 15;
+            } else if (int_max == 15) {
+                int_max = 8;
+            } else if (int_max == 11) {
+                int_max = 7;
+            } else {
+                int_max = 4;
+            }
+            break;
+        case "INT_SLIME":
+            int_max /= 2; // In case you have a freak accident with the debug menu ;-)
+            break;
+        case "PER_ALPHA":
+            ///\EFFECT_PER_MAX determines penalty from PER mutation loss
+            if (per_max == 18) {
+                per_max = 15;
+            } else if (per_max == 15) {
+                per_max = 8;
+            } else if (per_max == 11) {
+                per_max = 7;
+            } else {
+                per_max = 4;
+            }
+            break;
+        default:
+            apply_mods(mut, false);
     }
 
     on_mutation_loss( mut );
@@ -339,121 +363,124 @@ void player::activate_mutation( const std::string &mut )
         recalc_sight_limits();
     }
 
-    if( mut == "WEB_WEAVER" ) {
-        g->m.add_field(pos(), fd_web, 1, 0);
-        add_msg_if_player(_("You start spinning web with your spinnerets!"));
-    } else if( mut == "WEB_ROPE" ) {
-        add_msg_if_player(_("You spin a rope from your silk."));
-        item rope( "rope_30" );
-        i_add_or_drop( rope );
-        tdata.powered = false;
-    } else if (mut == "BURROW"){
-        if( is_underwater() ) {
-            add_msg_if_player(m_info, _("You can't do that while underwater."));
+    switch(mut){
+        case "WEB_WEAVER":
+            g->m.add_field(pos(), fd_web, 1, 0);
+            add_msg_if_player(_("You start spinning web with your spinnerets!"));
+            break;
+        case "WEB_ROPE":
+            add_msg_if_player(_("You spin a rope from your silk."));
+            item rope( "rope_30" );
+            i_add_or_drop( rope );
             tdata.powered = false;
-            return;
-        }
-        tripoint dirp;
-        if (!choose_adjacent(_("Burrow where?"), dirp)) {
+            break;
+        case "BURROW":
+            if( is_underwater() ) {
+                add_msg_if_player(m_info, _("You can't do that while underwater."));
+                tdata.powered = false;
+                return;
+            }
+            tripoint dirp;
+            if (!choose_adjacent(_("Burrow where?"), dirp)) {
+                tdata.powered = false;
+                return;
+            }
+            if( dirp == pos() ) {
+                add_msg_if_player(_("You've got places to go and critters to beat."));
+                add_msg_if_player(_("Let the lesser folks eat their hearts out."));
+                tdata.powered = false;
+                return;
+            }
+            int turns;
+            if (g->m.is_bashable(dirp) && g->m.has_flag("SUPPORTS_ROOF", dirp) &&
+                g->m.ter(dirp) != t_tree) {
+                // Takes about 100 minutes (not quite two hours) base time.
+                // Being better-adapted to the task means that skillful Survivors can do it almost twice as fast.
+                ///\EFFECT_CARPENTRY speeds up burrowing
+                turns = (100000 - 5000 * get_skill_level( skill_id( "carpentry" ) ));
+            } else if (g->m.move_cost(dirp) == 2 && g->get_levz() == 0 &&
+                       g->m.ter(dirp) != t_dirt && g->m.ter(dirp) != t_grass) {
+                turns = 18000;
+            } else {
+                add_msg_if_player(m_info, _("You can't burrow there."));
+                tdata.powered = false;
+                return;
+            }
+            assign_activity( activity_id( "ACT_BURROW" ), turns, -1, 0 );
+            activity.placement = dirp;
+            add_msg_if_player(_("You tear into the %s with your teeth and claws."),
+                                 g->m.tername(dirp).c_str());
             tdata.powered = false;
-            return;
-        }
-
-        if( dirp == pos() ) {
-            add_msg_if_player(_("You've got places to go and critters to beat."));
-            add_msg_if_player(_("Let the lesser folks eat their hearts out."));
-            tdata.powered = false;
-            return;
-        }
-        int turns;
-        if (g->m.is_bashable(dirp) && g->m.has_flag("SUPPORTS_ROOF", dirp) &&
-            g->m.ter(dirp) != t_tree) {
-            // Takes about 100 minutes (not quite two hours) base time.
-            // Being better-adapted to the task means that skillful Survivors can do it almost twice as fast.
-            ///\EFFECT_CARPENTRY speeds up burrowing
-            turns = (100000 - 5000 * get_skill_level( skill_id( "carpentry" ) ));
-        } else if (g->m.move_cost(dirp) == 2 && g->get_levz() == 0 &&
-                   g->m.ter(dirp) != t_dirt && g->m.ter(dirp) != t_grass) {
-            turns = 18000;
-        } else {
-            add_msg_if_player(m_info, _("You can't burrow there."));
-            tdata.powered = false;
-            return;
-        }
-        assign_activity( activity_id( "ACT_BURROW" ), turns, -1, 0 );
-        activity.placement = dirp;
-        add_msg_if_player(_("You tear into the %s with your teeth and claws."),
-                          g->m.tername(dirp).c_str());
-        tdata.powered = false;
-        return; // handled when the activity finishes
-    } else if (mut == "SLIMESPAWNER") {
-        std::vector<tripoint> valid;
-        for (int x = posx() - 1; x <= posx() + 1; x++) {
-            for (int y = posy() - 1; y <= posy() + 1; y++) {
-                tripoint dest(x, y, posz());
-                if (g->is_empty(dest)) {
-                    valid.push_back( dest );
+            return; // handled when the activity finishes
+        case "SLIMESPAWNER":
+            std::vector<tripoint> valid;
+            for (int x = posx() - 1; x <= posx() + 1; x++) {
+                for (int y = posy() - 1; y <= posy() + 1; y++) {
+                    tripoint dest(x, y, posz());
+                    if (g->is_empty(dest)) {
+                        valid.push_back( dest );
+                    }
                 }
             }
-        }
-        // Oops, no room to divide!
-        if (valid.size() == 0) {
-            add_msg_if_player(m_bad, _("You focus, but are too hemmed in to birth a new slimespring!"));
+            // Oops, no room to divide!
+            if (valid.size() == 0) {
+                add_msg_if_player(m_bad, _("You focus, but are too hemmed in to birth a new slimespring!"));
+                tdata.powered = false;
+                return;
+            }
+            add_msg_if_player(m_good, _("You focus, and with a pleasant splitting feeling, birth a new slimespring!"));
+            int numslime = 1;
+            for (int i = 0; i < numslime && !valid.empty(); i++) {
+                const tripoint target = random_entry_removed( valid );
+                if (g->summon_mon(mtype_id( "mon_player_blob" ), target)) {
+                    monster *slime = g->monster_at( target );
+                    slime->friendly = -1;
+                }
+            }
+            if (one_in(3)) {
+                //~ Usual enthusiastic slimespring small voices! :D
+                add_msg_if_player(m_good, _("wow! you look just like me! we should look out for each other!"));
+            } else if (one_in(2)) {
+                //~ Usual enthusiastic slimespring small voices! :D
+                add_msg_if_player(m_good, _("come on, big me, let's go!"));
+            } else {
+                //~ Usual enthusiastic slimespring small voices! :D
+                add_msg_if_player(m_good, _("we're a team, we've got this!"));
+            }
             tdata.powered = false;
             return;
-        }
-        add_msg_if_player(m_good, _("You focus, and with a pleasant splitting feeling, birth a new slimespring!"));
-        int numslime = 1;
-        for (int i = 0; i < numslime && !valid.empty(); i++) {
-            const tripoint target = random_entry_removed( valid );
-            if (g->summon_mon(mtype_id( "mon_player_blob" ), target)) {
-                monster *slime = g->monster_at( target );
-                slime->friendly = -1;
+        case "NAUSEA":
+        case "VOMITOUS":
+            vomit();
+            tdata.powered = false;
+            return;
+        case "M_FERTILE":
+            spores();
+            tdata.powered = false;
+            return;
+        case "M_BLOOM":
+            blossoms();
+            tdata.powered = false;
+            return;
+        case "VINES3":
+            item newit( "vine_30", calendar::turn );
+            if ( !can_pickVolume( newit ) ) { //Accounts for result_mult
+                add_msg_if_player(_("You detach a vine but don't have room to carry it, so you drop it."));
+                g->m.add_item_or_charges(pos(), newit);
+            } else if ( !can_pickWeight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+                add_msg_if_player(_("Your freshly-detached vine is too heavy to carry, so you drop it."));
+                g->m.add_item_or_charges(pos(), newit);
+            } else {
+                inv.assign_empty_invlet(newit);
+                newit = i_add(newit);
+                add_msg_if_player(m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str());
             }
-        }
-        if (one_in(3)) {
-            //~ Usual enthusiastic slimespring small voices! :D
-            add_msg_if_player(m_good, _("wow! you look just like me! we should look out for each other!"));
-        } else if (one_in(2)) {
-            //~ Usual enthusiastic slimespring small voices! :D
-            add_msg_if_player(m_good, _("come on, big me, let's go!"));
-        } else {
-            //~ Usual enthusiastic slimespring small voices! :D
-            add_msg_if_player(m_good, _("we're a team, we've got this!"));
-        }
-        tdata.powered = false;
-        return;
-    } else if ((mut == "NAUSEA") || (mut == "VOMITOUS") ){
-        vomit();
-        tdata.powered = false;
-        return;
-    } else if (mut == "M_FERTILE"){
-        spores();
-        tdata.powered = false;
-        return;
-    } else if (mut == "M_BLOOM"){
-        blossoms();
-        tdata.powered = false;
-        return;
-    } else if (mut == "VINES3"){
-        item newit( "vine_30", calendar::turn );
-        if ( !can_pickVolume( newit ) ) { //Accounts for result_mult
-            add_msg_if_player(_("You detach a vine but don't have room to carry it, so you drop it."));
-            g->m.add_item_or_charges(pos(), newit);
-        } else if ( !can_pickWeight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
-            add_msg_if_player(_("Your freshly-detached vine is too heavy to carry, so you drop it."));
-            g->m.add_item_or_charges(pos(), newit);
-        } else {
-            inv.assign_empty_invlet(newit);
-            newit = i_add(newit);
-            add_msg_if_player(m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str());
-        }
-        tdata.powered = false;
-        return;
-    } else if( mut == "SELFAWARE" ) {
-        print_health();
-        tdata.powered = false;
-        return;
+            tdata.powered = false;
+            return;
+        case "SELFAWARE":
+            print_health();
+            tdata.powered = false;
+            return;
     }
 }
 
