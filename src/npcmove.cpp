@@ -263,6 +263,7 @@ void npc::regen_ai_cache()
 
 void npc::move()
 {
+add_msg("(%d,%d), %d,%d - %d,%d", global_square_location().x, global_square_location().y, submap_coords.x, submap_coords.y, posx(), posy());
     regen_ai_cache();
     npc_action action = npc_undecided;
 
@@ -2844,8 +2845,9 @@ void npc::reach_destination()
         // No point recalculating the path to get home
         move_to_next();
     } else if( guard_pos != no_goal_point ) {
-        const tripoint dest( guard_pos.x - mapx * SEEX,
-                             guard_pos.y - mapy * SEEY,
+        const tripoint sm_dir = goal - submap_coords;
+        const tripoint dest( sm_dir.x * SEEX + guard_pos.x - posx(),
+                             sm_dir.y * SEEY + guard_pos.y - posy(),
                              guard_pos.z );
         update_path( dest );
         move_to_next();
