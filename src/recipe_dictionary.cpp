@@ -13,6 +13,23 @@
 
 recipe_dictionary recipe_dict;
 
+namespace
+{
+
+void delete_if( std::map<std::string, recipe> &data,
+                const std::function<bool( const recipe & )> &pred )
+{
+    for( auto it = data.begin(); it != data.end(); ) {
+        if( pred( it->second ) ) {
+            it = data.erase( it );
+        } else {
+            ++it;
+        }
+    }
+}
+
+}
+
 static recipe null_recipe;
 static std::set<const recipe *> null_match;
 
@@ -303,12 +320,6 @@ void recipe_dictionary::finalize_internal( std::map<std::string, recipe> &obj )
         auto &r = it->second;
         const char *id = it->first.c_str();
 
-        // remove abstract recipes
-        if( r.abstract ) {
-            it = obj.erase( it );
-            continue;
-        }
-
         // concatenate both external and inline requirements
         r.requirements_ = std::accumulate( r.reqs_external.begin(), r.reqs_external.end(), r.requirements_,
         []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
@@ -386,6 +397,11 @@ void recipe_dictionary::finalize()
 {
     DynamicDataLoader::get_instance().load_deferred( deferred );
 
+    // remove abstract recipes
+    delete_if( []( const recipe & element ) {
+        return element.abstract;
+    } );
+
     finalize_internal( recipe_dict.recipes );
     finalize_internal( recipe_dict.uncraft );
 
@@ -447,20 +463,8 @@ void recipe_dictionary::reset()
 
 void recipe_dictionary::delete_if( const std::function<bool( const recipe & )> &pred )
 {
-    for( auto it = recipe_dict.recipes.begin(); it != recipe_dict.recipes.end(); ) {
-        if( pred( it->second ) ) {
-            it = recipe_dict.recipes.erase( it );
-        } else {
-            ++it;
-        }
-    }
-    for( auto it = recipe_dict.uncraft.begin(); it != recipe_dict.uncraft.end(); ) {
-        if( pred( it->second ) ) {
-            it = recipe_dict.uncraft.erase( it );
-        } else {
-            ++it;
-        }
-    }
+    ::delete_if( recipe_dict.recipes, pred );
+    ::delete_if( recipe_dict.uncraft, pred );
 }
 
 void recipe_subset::include( const recipe *r, int custom_difficulty )
