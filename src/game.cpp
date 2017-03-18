@@ -3031,7 +3031,8 @@ bool game::handle_action()
                 int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
                 temp_exit_fullscreen();
                 m.draw( w_terrain, u.pos() );
-                std::vector<tripoint> trajectory = pl_target_ui( TARGET_MODE_REACH, &u.weapon,range );
+                std::vector<tripoint> trajectory;
+                trajectory = target_handler().target_ui( u, TARGET_MODE_REACH, &u.weapon,range );
                 if( !trajectory.empty() ) {
                     u.reach_attack( trajectory.back() );
                 }
@@ -9976,8 +9977,9 @@ void game::plthrow(int pos)
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
 
-    // pl_target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
-    std::vector<tripoint> trajectory = pl_target_ui( TARGET_MODE_THROW, &thrown, range );
+    // target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
+    std::vector<tripoint> trajectory;
+    trajectory = target_handler().target_ui( u, TARGET_MODE_THROW, &thrown, range );
     if (trajectory.empty()) {
         return;
     }
@@ -9998,12 +10000,7 @@ void game::plthrow(int pos)
     reenter_fullscreen();
 }
 
-// @todo: Move game::pl_target_ui and related data/functions to src/ranged.cpp
-std::vector<tripoint> game::pl_target_ui( const targeting_data &args ) {
-    return pl_target_ui( args.mode, args.relevant, args.range,
-                         args.ammo, args.on_mode_change, args.on_ammo_change );
-}
-
+// @todo: Move data/functions related to targeting out of game class
 bool game::plfire_check( const targeting_data &args ) {
     bool okay = true;
     vehicle *veh = nullptr;
@@ -10145,7 +10142,7 @@ bool game::plfire()
 
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
-    std::vector<tripoint> trajectory = pl_target_ui( args );
+    std::vector<tripoint> trajectory = target_handler().target_ui( u, args );
 
     if( trajectory.empty() ) {
         bool not_aiming = u.activity.id() != activity_id( "ACT_AIM" );
