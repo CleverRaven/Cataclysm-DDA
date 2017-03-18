@@ -145,9 +145,7 @@ const resistances &mutation_branch::damage_resistance( body_part bp ) const
 
 void Character::mutation_effect(std::string mut)
 {
-    if (mut == "TOUGH" || mut == "TOUGH2" || mut == "TOUGH3" || mut == "GLASSJAW" ||
-        mut == "FLIMSY" || mut == "FLIMSY2" || mut == "FLIMSY3" ||
-        mut == "MUT_TOUGH" || mut == "MUT_TOUGH2" || mut == "MUT_TOUGH3") {
+    if( mut == "GLASSJAW" ) {
         recalc_hp();
 
     } else if (mut == "STR_ALPHA") {
@@ -203,6 +201,10 @@ void Character::mutation_effect(std::string mut)
     }
 
     const auto &branch = mutation_branch::get( mut );
+    if( branch.hp_modifier != 0.0f || branch.hp_modifier_secondary != 0.0f ||
+        branch.hp_adjustment != 0.0f ) {
+        recalc_hp();
+    }
 
     remove_worn_items_with( [&]( item& armor ) {
         static const std::string mutation_safe = "OVERSIZE";
@@ -239,9 +241,7 @@ void Character::mutation_effect(std::string mut)
 
 void Character::mutation_loss_effect(std::string mut)
 {
-    if (mut == "TOUGH" || mut == "TOUGH2" || mut == "TOUGH3" || mut == "GLASSJAW" ||
-        mut == "FLIMSY" || mut == "FLIMSY2" || mut == "FLIMSY3" ||
-        mut == "MUT_TOUGH" || mut == "MUT_TOUGH2" || mut == "MUT_TOUGH3") {
+    if( mut == "GLASSJAW" ) {
         recalc_hp();
 
     } else if (mut == "STR_ALPHA") {
@@ -294,6 +294,12 @@ void Character::mutation_loss_effect(std::string mut)
         }
     } else {
         apply_mods(mut, false);
+    }
+
+    const auto &branch = mutation_branch::get( mut );
+    if( branch.hp_modifier != 0.0f || branch.hp_modifier_secondary != 0.0f ||
+        branch.hp_adjustment != 0.0f ) {
+        recalc_hp();
     }
 
     on_mutation_loss( mut );

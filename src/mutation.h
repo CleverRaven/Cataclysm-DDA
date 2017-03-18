@@ -97,6 +97,12 @@ struct mutation_branch {
     // Healing per turn
     float healing_awake = 0.0f;
     float healing_resting = 0.0f;
+    // Bonus HP multiplier. That is, 1.0 doubles hp, -0.5 halves it.
+    float hp_modifier = 0.0f;
+    // Second HP modifier that stacks with first but is otherwise identical.
+    float hp_modifier_secondary = 0.0f;
+    // Flat bonus/penalty to hp.
+    float hp_adjustment = 0.0f;
 
     /** Attacks granted by this mutation */
     std::vector<mut_attack> attacks_granted;

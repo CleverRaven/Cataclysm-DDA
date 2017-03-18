@@ -340,44 +340,19 @@ void Character::process_turn()
 void Character::recalc_hp()
 {
     int new_max_hp[num_hp_parts];
+    // Mutated toughness stacks with starting, by design.
+    float hp_mod = 1.0f + calc_mutation_value( []( const mutation_branch &br ) {
+        return br.hp_modifier;
+    } ) + calc_mutation_value( []( const mutation_branch &br ) {
+        return br.hp_modifier_secondary;
+    } );
+    float hp_adjustment = calc_mutation_value( []( const mutation_branch &br ) {
+        return br.hp_adjustment;
+    } );
     for( auto &elem : new_max_hp ) {
         ///\EFFECT_STR_MAX increases base hp
-        elem = 60 + str_max * 3;
-        if (has_trait("HUGE")) {
-            // Bad-Huge doesn't quite have the cardio/skeletal/etc to support the mass,
-            // so no HP bonus from the ST above/beyond that from Large
-            elem -= 6;
-        }
-        // You lose half the HP you'd expect from BENDY mutations.  Your gelatinous
-        // structure can help with that, a bit.
-        if (has_trait("BENDY2")) {
-            elem += 3;
-        }
-        if (has_trait("BENDY3")) {
-            elem += 6;
-        }
-        // Only the most extreme applies.
-        if (has_trait("TOUGH")) {
-            elem *= 1.2;
-        } else if (has_trait("TOUGH2")) {
-            elem *= 1.3;
-        } else if (has_trait("TOUGH3")) {
-            elem *= 1.4;
-        } else if (has_trait("FLIMSY")) {
-            elem *= .75;
-        } else if (has_trait("FLIMSY2")) {
-            elem *= .5;
-        } else if (has_trait("FLIMSY3")) {
-            elem *= .25;
-        }
-        // Mutated toughness stacks with starting, by design.
-        if (has_trait("MUT_TOUGH")) {
-            elem *= 1.2;
-        } else if (has_trait("MUT_TOUGH2")) {
-            elem *= 1.3;
-        } else if (has_trait("MUT_TOUGH3")) {
-            elem *= 1.4;
-        }
+        elem = 60 + str_max * 3 + hp_adjustment;
+        elem *= hp_mod;
     }
     if( has_trait( "GLASSJAW" ) ) {
         new_max_hp[hp_head] *= 0.8;
@@ -2308,11 +2283,8 @@ std::string Character::extended_description() const
     return replace_colors( ss.str() );
 }
 
-// Goes over all mutations in list, gets min and max of a value
-// Returns min( 0, lowest ) + max( 0, highest )
 template <typename Getter>
-float mutation_value_lowest_plus_highest( const std::vector<const mutation_branch *> &cached_mutations,
-                                          Getter getter )
+float Character::calc_mutation_value( Getter getter ) const
 {
     float lowest = 0.0f;
     float highest = 0.0f;
@@ -2325,17 +2297,23 @@ float mutation_value_lowest_plus_highest( const std::vector<const mutation_branc
     return std::min( 0.0f, lowest ) + std::max( 0.0f, highest );
 }
 
+float Character::mutation_value( const std::function<float(const mutation_branch &)> &fun ) const
+{
+    return calc_mutation_value( fun );
+}
+
 float Character::healing_rate( float at_rest_quality ) const
 {
     // @todo Cache
-    float awake_rate = mutation_value_lowest_plus_highest( cached_mutations,
-    []( const mutation_branch &br ) {
+    float awake_rate = calc_mutation_value( []( const mutation_branch &br ) {
         return br.healing_awake;
     } );
-    float asleep_rate = at_rest_quality <= 0.0f ? 0.0f : mutation_value_lowest_plus_highest(
-    cached_mutations, []( const mutation_branch &br ) {
-        return br.healing_resting;
-    } );
+    float asleep_rate = 0.0f;
+    if( at_rest_quality > 0.0f ) {
+        asleep_rate = calc_mutation_value( []( const mutation_branch &br ) {
+            return br.healing_resting;
+        } );
+    }
     float final_rate = 0.0f;
     if( awake_rate > 0.0f ) {
         final_rate += awake_rate;
@@ -2352,13 +2330,12 @@ float Character::healing_rate( float at_rest_quality ) const
         return 0.0f;
     }
 
-    // If we have a hp divisor, it slows down healing and rot
-    if( has_trait( "FLIMSY3" ) ) {
-        final_rate /= 4.0f;
-    } else if( has_trait( "FLIMSY2" ) ) {
-        final_rate /= 2.0f;
-    } else if( has_trait( "FLIMSY" ) ) {
-        final_rate /= 1.33f;
+    float primary_hp_mod = calc_mutation_value( []( const mutation_branch &br ) {
+        return br.hp_modifier;
+    } );
+    if( primary_hp_mod < 0.0f ) {
+        // HP mod can't get below -1.0
+        final_rate *= 1.0f + primary_hp_mod;
     }
 
     return final_rate;

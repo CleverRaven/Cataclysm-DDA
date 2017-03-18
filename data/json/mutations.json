@@ -161,7 +161,8 @@
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
-        "changes_to" : ["TOUGH2"]
+        "changes_to" : ["TOUGH2"],
+        "hp_modifier" : 0.2
     },{
         "type" : "mutation",
         "id" : "TOUGH2",
@@ -171,7 +172,8 @@
         "valid" : false,
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
         "prereqs" : ["TOUGH"],
-        "changes_to" : ["TOUGH3"]
+        "changes_to" : ["TOUGH3"],
+        "hp_modifier" : 0.3
     },{
         "type" : "mutation",
         "id" : "TOUGH3",
@@ -180,7 +182,8 @@
         "description" : "Nothing can break you!  You get a 40% bonus to all hit points.",
         "valid" : false,
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
-        "prereqs" : ["TOUGH2"]
+        "prereqs" : ["TOUGH2"],
+        "hp_modifier" : 0.4
     },{
         "type" : "mutation",
         "id" : "THICKSKIN",
@@ -892,7 +895,8 @@
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["TOUGH", "TOUGH2", "TOUGH3"],
-        "changes_to" : ["FLIMSY2"]
+        "changes_to" : ["FLIMSY2"],
+        "hp_modifier" : -0.25
     },{
         "type" : "mutation",
         "id" : "FLIMSY2",
@@ -903,7 +907,8 @@
         "valid" : false,
         "cancels" : ["TOUGH", "TOUGH2", "TOUGH3"],
         "prereqs" : ["FLIMSY"],
-        "changes_to" : ["FLIMSY3"]
+        "changes_to" : ["FLIMSY3"],
+        "hp_modifier" : -0.5
     },{
         "type" : "mutation",
         "id" : "FLIMSY3",
@@ -913,7 +918,8 @@
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["TOUGH", "TOUGH2", "TOUGH3"],
-        "prereqs" : ["FLIMSY2"]
+        "prereqs" : ["FLIMSY2"],
+        "hp_modifier" : -0.75
     },{
         "type" : "mutation",
         "id" : "SKIN_ROUGH",
@@ -2071,7 +2077,8 @@
         "passive_mods" : {
             "dex_mod" : 3,
             "str_mod" : -2
-        }
+        },
+        "hp_adjustment": 3
     },{
         "type" : "mutation",
         "id" : "BENDY3",
@@ -2090,7 +2097,8 @@
         "passive_mods" : {
             "dex_mod" : 4,
             "str_mod" : -4
-        }
+        },
+        "hp_adjustment": 6
     },{
         "type" : "mutation",
         "id" : "COMPOUND_EYES",
@@ -2609,7 +2617,8 @@
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_LIZARD", "THRESH_BEAST"],
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
         "changes_to" : ["MUT_TOUGH2"],
-        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_CHIMERA","MUTCAT_BEAST", "MUTCAT_LIZARD", "MUTCAT_MEDICAL"]
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_CHIMERA","MUTCAT_BEAST", "MUTCAT_LIZARD", "MUTCAT_MEDICAL"],
+        "hp_modifier_secondary" : 0.2
     },{
         "type" : "mutation",
         "id" : "MUT_TOUGH2",
@@ -2621,7 +2630,8 @@
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_MEDICAL"],
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
         "changes_to" : ["MUT_TOUGH3"],
-        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_CHIMERA", "MUTCAT_MEDICAL"]
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_CHIMERA", "MUTCAT_MEDICAL"],
+        "hp_modifier_secondary" : 0.3
     },{
         "type" : "mutation",
         "id" : "MUT_TOUGH3",
@@ -2632,7 +2642,8 @@
         "prereqs" : ["MUT_TOUGH2"],
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE"],
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
-        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"],
+        "hp_modifier_secondary" : 0.4
     },{
         "type" : "mutation",
         "id" : "PAINREC1",
@@ -3069,6 +3080,7 @@
         "passive_mods" : {
             "str_mod" : 4
         },
+        "hp_adjustment": -6,
         "restricts_gear" : [ "TORSO", "LEG_L", "LEG_R", "ARM_L", "ARM_R", "HAND_L", "HAND_R", "HEAD", "FOOT_L", "FOOT_R" ],
         "destroys_gear" : true
     },{
