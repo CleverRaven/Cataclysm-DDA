@@ -10854,13 +10854,12 @@ void game::wield( int pos )
 
     item_location loc;
     if( pos != INT_MIN ) {
-        loc = std::move( item_location( u, &u.i_at( pos ) ) );
+        loc = item_location( u, &u.i_at( pos ) );
     } else {
         const auto filter = []( const item &it ) {
             return it.made_of( SOLID );
         };
-        loc = std::move( inv_map_splice( filter, _( "Wield item" ), 1,
-                                         _( "You have nothing to wield." ) ) );
+        loc = inv_map_splice( filter, _( "Wield item" ), 1, _( "You have nothing to wield." ) );
     }
 
     if( !loc ) {
