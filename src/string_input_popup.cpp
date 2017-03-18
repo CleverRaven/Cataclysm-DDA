@@ -18,15 +18,35 @@ void string_input_popup::create_window()
     nc_color title_color = c_ltred;
     nc_color desc_color = c_green;
 
-    const int titlesize = utf8_width( _title );
+    int titlesize = utf8_width( _title ); // Occupied horizontal space
     if( _max_length <= 0 ) {
         _max_length = _width;
     }
     // 2 for border (top and bottom) and 1 for the input text line.
     int w_height = 2 + 1;
-    int w_width = ( _width <= 0 ) ? FULL_SCREEN_WIDTH : _width + titlesize + 5;
+
+    // |"w_width = width + titlesize (this text) + 5": _____  |
+    int w_width = FULL_SCREEN_WIDTH;
+    if( _width <= 0 ) {
+        _width = std::max( 5, FULL_SCREEN_WIDTH - titlesize - 5 ); // Default if unspecified
+    } else {
+        _width = std::min( FULL_SCREEN_WIDTH - 20, _width );
+        w_width = _width + titlesize + 5;
+    }
+
+    std::vector<std::string> title_split = { _title };
     if( w_width > FULL_SCREEN_WIDTH ) {
+        // Out of horizontal space- wrap the title
+        titlesize = FULL_SCREEN_WIDTH - _width - 5;
         w_width = FULL_SCREEN_WIDTH;
+
+        for( int wraplen = w_width - 2; wraplen >= titlesize; wraplen-- ) {
+            title_split = foldstring( _title, wraplen );
+            if( int( title_split.back().size() ) <= titlesize ) {
+                break;
+            }
+        }
+        w_height += int( title_split.size() ) - 1;
     }
 
     std::vector<std::string> descformatted;
@@ -56,7 +76,11 @@ void string_input_popup::create_window()
     for( size_t i = 0; i < descformatted.size(); ++i ) {
         trim_and_print( w, 1 + i, 1, w_width - 2, desc_color, "%s", descformatted[i].c_str() );
     }
-    trim_and_print( w, _starty, 1, w_width - 2, title_color, "%s", _title.c_str() );
+    for( int i = 0; i < int( title_split.size() ) - 1; i++ ) {
+        mvwprintz( w, _starty++, i + 1, title_color, "%s", title_split[i].c_str() );
+    }
+    right_print( w, _starty, w_width - titlesize - 1, title_color, "%s", title_split.back().c_str() );
+    _starty = w_height - 2; // The ____ looks better at the bottom right when the title folds
 }
 
 void string_input_popup::create_context()
@@ -170,7 +194,22 @@ void string_input_popup::draw( const utf8_wrapper &ret, const int shift ) const
     }
 }
 
-const std::string &string_input_popup::query( const bool loop, const bool draw_only )
+void string_input_popup::query( const bool loop, const bool draw_only )
+{
+    query_string( loop, draw_only );
+}
+
+int string_input_popup::query_int( const bool loop, const bool draw_only )
+{
+    return std::atoi( query_string( loop, draw_only ).c_str() );
+}
+
+long string_input_popup::query_long( const bool loop, const bool draw_only )
+{
+    return std::atol( query_string( loop, draw_only ).c_str() );
+}
+
+const std::string &string_input_popup::query_string( const bool loop, const bool draw_only )
 {
     if( !w ) {
         create_window();

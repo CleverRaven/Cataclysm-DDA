@@ -169,9 +169,9 @@ void map::generate_lightmap( const int zlev )
     auto &light_source_buffer = map_cache.light_source_buffer;
     std::memset(light_source_buffer, 0, sizeof(light_source_buffer));
 
-    constexpr int dir_x[] = {  0, -1 , 1, 0 };   //    [0]
-    constexpr int dir_y[] = { -1,  0 , 0, 1 };   // [1][X][2]
-    constexpr int dir_d[] = { 90, 0, 180, 270 }; //    [3]
+    constexpr std::array<int, 4> dir_x = {{  0, -1 , 1, 0 }};   //    [0]
+    constexpr std::array<int, 4> dir_y = {{ -1,  0 , 0, 1 }};   // [1][X][2]
+    constexpr std::array<int, 4> dir_d = {{ 90, 0, 180, 270 }}; //    [3]
 
     const float natural_light  = g->natural_light_level( zlev );
     const float inside_light = (natural_light > LIGHT_SOURCE_BRIGHT) ?

@@ -199,13 +199,12 @@ void construction_menu()
     draw_grid( w_con, w_list_width + w_list_x0 );
 
     //tabcount needs to be increased to add more categories
-    int tabcount = 10;
-    std::string construct_cat[] = {_( "All" ), _( "Constructions" ), _( "Furniture" ),
-                                   _( "Digging and Mining" ), _( "Repairing" ),
-                                   _( "Reinforcing" ), _( "Decorative" ),
-                                   _( "Farming and Woodcutting" ), _( "Others" ),
-                                   _( "Filter" )
-                                  };
+    const int tabcount = 10;
+    std::array<std::string, tabcount> construct_cat = {{
+        _( "All" ), _( "Constructions" ), _( "Furniture" ), _( "Digging and Mining" ),
+        _( "Repairing" ), _( "Reinforcing" ), _( "Decorative" ), _( "Farming and Woodcutting" ),
+        _( "Others" ), _( "Filter" )
+    }};
 
     bool update_info = true;
     bool update_cat = true;
@@ -455,6 +454,12 @@ void construction_menu()
                                              _( "Requires: %s" ), require_string.c_str() ) << "</color>";
                             std::vector<std::string> folded_result_string = foldstring( current_line.str(),
                                     available_window_width );
+                            current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
+                                                   folded_result_string.end() );
+                        }
+                        if( !current_con->pre_note.empty() ) {
+                            std::vector<std::string> folded_result_string =
+                                foldstring( _( current_con->pre_note.c_str() ), available_window_width );
                             current_buffer.insert( current_buffer.end(), folded_result_string.begin(),
                                                    folded_result_string.end() );
                         }
@@ -905,7 +910,7 @@ void construct::done_vehicle( const tripoint &p )
     std::string name = string_input_popup()
                        .title( _( "Enter new vehicle name:" ) )
                        .width( 20 )
-                       .query();
+                       .query_string();
     if( name.empty() ) {
         name = _( "Car" );
     }
@@ -1134,7 +1139,7 @@ void load_construction(JsonObject &jo)
         requirement_data::load_requirement( jo, req_id );
         con.requirements = requirement_id( req_id );
     }
-
+    con.pre_note = jo.get_string( "pre_note", "" );
     con.pre_terrain = jo.get_string("pre_terrain", "");
     if (con.pre_terrain.size() > 1
         && con.pre_terrain[0] == 'f'

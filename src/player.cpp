@@ -3784,7 +3784,7 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
         }
     }
 
-    if( get_option<bool>( "FILTHY_WOUNDS" ) ) {
+    if( get_world_option<bool>( "FILTHY_WOUNDS" ) ) {
         int sum_cover = 0;
         for( const item &i : worn ) {
             if( i.covers( bp ) && i.is_filthy() ) {
@@ -7145,7 +7145,7 @@ void player::suffer()
         } else if (radiation > 2000) {
             radiation = 2000;
         }
-        if( get_option<bool>( "RAD_MUTATION" ) && rng(100, 10000) < radiation ) {
+        if( get_world_option<bool>( "RAD_MUTATION" ) && rng(100, 10000) < radiation ) {
             mutate();
             radiation -= 50;
         } else if( radiation > 50 && rng(1, 3000) < radiation &&
@@ -9329,13 +9329,15 @@ int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
     if( obj.is_null() ) {
         obj = ammo;
     }
-    int mv = item_handling_cost( obj, qty );
+    // No base cost for handling ammo - that's already included in obtain cost
+    // We have the ammo in our hands right now
+    int mv = item_handling_cost( obj, true, 0 );
 
     if( ammo.has_flag( "MAG_BULKY" ) ) {
         mv *= 1.5; // bulky magazines take longer to insert
     }
 
-    if( !it.is_gun() && ! it.is_magazine() ) {
+    if( !it.is_gun() && !it.is_magazine() ) {
         return mv + 100; // reload a tool
     }
 
@@ -9349,14 +9351,14 @@ int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
     int cost = ( it.is_gun() ? it.type->gun->reload_time : it.type->magazine->reload_time ) * qty;
 
     skill_id sk = it.is_gun() ? it.type->gun->skill_used : skill_gun;
-    mv += cost / ( 1 + std::min( double( get_skill_level( sk ) ) * 0.075, 0.75 ) );
+    mv += cost / ( 1.0f + std::min( float( get_skill_level( sk ) ) * 0.1f, 1.0f ) );
 
     if( it.has_flag( "STR_RELOAD" ) ) {
         ///\EFFECT_STR reduces reload time of some weapons
         mv -= get_str() * 20;
     }
 
-    return std::max( mv, 0 );
+    return std::max( mv, 25 );
 }
 
 int player::item_wear_cost( const item& it ) const

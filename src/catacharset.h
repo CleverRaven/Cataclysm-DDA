@@ -4,6 +4,7 @@
 
 #include <stdint.h>
 #include <string>
+#include <array>
 #define ANY_LENGTH 5
 #define UNKNOWN_UNICODE 0xFFFD
 

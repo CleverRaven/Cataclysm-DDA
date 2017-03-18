@@ -1387,11 +1387,12 @@ void computer::remove_option( computer_action const action )
 
 void computer::mark_refugee_center()
 {
+    //~555-0164 is a fake phone number in the US, please replace it with a number that will not cause issues in your locale if possible.
     print_line( _( "\
 IF YOU HAVE ANY FEEDBACK CONCERNING YOUR VISIT PLEASE CONTACT \n\
-THE DEPARTMENT OF EMERGENCY MANAGEMENT PUBLIC AFFAIRS OFFICE.  \n\
-THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND \n\
-4PM AT 1-800-255-5678.                                      \n\
+THE DEPARTMENT OF EMERGENCY MANAGEMENT PUBLIC AFFAIRS OFFICE. \n\
+THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND  \n\
+4PM AT 555-0164.                                              \n\
 \n\
 IF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\n\
 TO WRITE US A LETTER PLEASE SEND IT TO...\n" ) );
