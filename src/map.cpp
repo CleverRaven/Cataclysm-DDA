@@ -4509,7 +4509,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
             if( !valid_tile( e ) || has_flag( "NOITEM", e ) || !valid_limits( e ) ) {
                 continue;
             }
-	    return place_item( e );
+            return place_item( e );
         }
     }
 

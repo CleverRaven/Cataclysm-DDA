@@ -1214,7 +1214,7 @@ bool game::cleanup_at_end()
         std::string sLastWords = string_input_popup()
                                  .window( w_rip, iStartX, iNameLine, iStartX + iMaxWidth - 4 - 1 )
                                  .max_length( iMaxWidth - 4 - 1 )
-                                 .query();
+                                 .query_string();
         death_screen();
         if (uquit == QUIT_SUICIDE) {
             u.add_memorial_log(pgettext("memorial_male", "%s committed suicide."),
@@ -4333,7 +4333,7 @@ void game::debug()
                                   .width( 20 )
                                   .text( to_string( initial ) )
                                   .only_digits( true )
-                                  .query();
+                                  .query_string();
                 if( text.empty() ) {
                     return;
                 }
@@ -7409,7 +7409,7 @@ bool pet_menu(monster *z)
         std::string unique_name = string_input_popup()
                                   .title( _( "Enter new pet name:" ) )
                                   .width( 20 )
-                                  .query();
+                                  .query_string();
         if( unique_name.length() > 0 ) {
             z->unique_name = unique_name;
         }
@@ -9102,7 +9102,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             reset = true;
             refresh_all();
         } else if( action == "FILTER" ) {
-	  draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::FILTER );
+            draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::FILTER );
             string_input_popup()
             .title( _( "Filter:" ) )
             .width( 55 )
@@ -9141,7 +9141,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                                .description( _( "UP: history, CTRL-U clear line, ESC: abort, ENTER: save" ) )
                                .identifier( "list_item_priority" )
                                .max_length( 256 )
-                               .query();
+                               .query_string();
             refilter = true;
             reset = true;
             addcategory = !sort_radius;
@@ -9155,7 +9155,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                                  .description( _( "UP: history, CTRL-U clear line, ESC: abort, ENTER: save" ) )
                                  .identifier( "list_item_downvote" )
                                  .max_length( 256 )
-                                 .query();
+                                 .query_string();
             refilter = true;
             reset = true;
             addcategory = !sort_radius;
