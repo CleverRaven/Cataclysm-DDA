@@ -56,31 +56,11 @@ struct recipe {
 
         std::map<itype_id, int> byproducts;
 
-        // Does the item spawn contained in container?
-        bool contained = false;
-        // What does the item spawn contained in? Unset ("null") means default container.
-        itype_id container = "null";
-
         skill_id skill_used;
         std::map<skill_id, int> required_skills;
 
-        /** set learning requirements equal to required skills at finalization? */
-        bool autolearn = false;
-
         std::map<skill_id, int> autolearn_requirements; // Skill levels required to autolearn
         std::map<skill_id, int> learn_by_disassembly; // Skill levels required to learn by disassembly
-
-        /** If set (zero or positive) set charges of output result for items counted by charges */
-        int charges = -1;
-
-        // maximum achievable time reduction, as percentage of the original time.
-        // if zero then the recipe has no batch crafting time reduction.
-        double batch_rscale = 0.0;
-        int batch_rsize = 0; // minimum batch size to needed to reach batch_rscale
-        int result_mult = 1; // used by certain batch recipes that create more than one stack of the result
-
-        std::map<itype_id, int> booksets;
-        std::set<std::string> flags;
 
         //Create a string list to describe the skill requirements fir this recipe
         // Format: skill_name(amount), skill_name(amount)
@@ -117,8 +97,17 @@ struct recipe {
         /** Abstract recipes can be inherited from but are themselves disposed of at finalization */
         bool abstract = false;
 
+        /** set learning requirements equal to required skills at finalization? */
+        bool autolearn = false;
+
+        /** Does the item spawn contained in container? */
+        bool contained = false;
+
         /** Can recipe be used for disassembly of @ref result via @ref disassembly_requirements */
         bool reversible = false;
+
+        /** What does the item spawn contained in? Unset ("null") means default container. */
+        itype_id container = "null";
 
         /** External requirements (via "using" syntax) where second field is multiplier */
         std::vector<std::pair<requirement_id, int>> reqs_external;
@@ -128,6 +117,18 @@ struct recipe {
 
         /** Combined requirements cached when recipe finalized */
         requirement_data requirements_;
+
+        std::map<itype_id, int> booksets;
+        std::set<std::string> flags;
+
+        /** If set (zero or positive) set charges of output result for items counted by charges */
+        int charges = -1;
+
+        // maximum achievable time reduction, as percentage of the original time.
+        // if zero then the recipe has no batch crafting time reduction.
+        double batch_rscale = 0.0;
+        int batch_rsize = 0; // minimum batch size to needed to reach batch_rscale
+        int result_mult = 1; // used by certain batch recipes that create more than one stack of the result
 };
 
 #endif // RECIPE_H
