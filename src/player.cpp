@@ -4686,8 +4686,8 @@ void player::regen( int rate_multiplier )
     float heal_rate = healing_rate( rest ) * MINUTES(5);
     if( heal_rate > 0.0f ) {
         healall( roll_remainder( rate_multiplier * heal_rate ) );
-    } else if( rest <= 0.0f && heal_rate < 0.0f ) {
-        int rot_rate = roll_remainder( rate_multiplier * heal_rate );
+    } else if( heal_rate < 0.0f ) {
+        int rot_rate = roll_remainder( rate_multiplier * -heal_rate );
         // Has to be in loop because some effects depend on rounding
         while( rot_rate-- > 0 ) {
             hurtall( 1, nullptr, false );

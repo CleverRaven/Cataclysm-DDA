@@ -2326,7 +2326,9 @@ float Character::healing_rate( float at_rest_quality ) const
     }
 
     // Most common case: awake player with no regenerative abilities
-    if( abs( final_rate ) < 0.00001f ) {
+    // ~7e-5 is 1 hp per day, anything less than that is totally negligible
+    static constexpr float eps = 0.000007f;
+    if( abs( final_rate ) < eps ) {
         return 0.0f;
     }
 
