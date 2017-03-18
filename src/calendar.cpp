@@ -343,11 +343,12 @@ std::string calendar::print_duration( int turns )
         }
     }
 
-    if( divider != 0 ) {
+    const int remainder = divider ? turns % divider : 0;
+    if( remainder != 0 ) {
         //~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
         return string_format( _( "%1$s and %2$s" ),
                               print_clipped_duration( turns ).c_str(),
-                              print_clipped_duration( turns % divider ).c_str() );
+                              print_clipped_duration( remainder ).c_str() );
     }
 
     return print_clipped_duration( turns );
