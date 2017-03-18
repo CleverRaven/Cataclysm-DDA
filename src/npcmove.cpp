@@ -263,7 +263,6 @@ void npc::regen_ai_cache()
 
 void npc::move()
 {
-add_msg("(%d,%d), %d,%d - %d,%d", global_square_location().x, global_square_location().y, submap_coords.x, submap_coords.y, posx(), posy());
     regen_ai_cache();
     npc_action action = npc_undecided;
 
