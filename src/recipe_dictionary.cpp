@@ -114,7 +114,48 @@ const std::set<const recipe *> &recipe_subset::of_component( const itype_id &id 
     return iter != component.end() ? iter->second : null_match;
 }
 
-void recipe_dictionary::load( JsonObject &jo, const std::string &src, bool uncraft )
+void recipe_dictionary::load_recipe( JsonObject &jo, const std::string &src )
+{
+    auto r = load_common( jo, src, recipe_dict.recipes );
+
+    if( !r ) {
+        return;
+    }
+
+    if( jo.has_string( "id_suffix" ) ) {
+        if( r.abstract ) {
+            jo.throw_error( "abstract recipe cannot specify id_suffix", "id_suffix" );
+        }
+        r.ident_ += "_" + jo.get_string( "id_suffix" );
+    }
+
+    bool strict = src == "core";
+
+    assign( jo, "category", r.category, strict );
+    assign( jo, "subcategory", r.subcategory, strict );
+    assign( jo, "reversible", r.reversible, strict );
+
+    if( jo.has_member( "byproducts" ) ) {
+        auto bp = jo.get_array( "byproducts" );
+        r.byproducts.clear();
+        while( bp.has_more() ) {
+            auto arr = bp.next_array();
+            r.byproducts[ arr.get_string( 0 ) ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
+        }
+    }
+}
+
+void recipe_dictionary::load_uncraft( JsonObject &jo, const std::string &src )
+{
+    auto r = load_common( jo, src, recipe_dict.uncraft );
+
+    if( r ) {
+        r.reversible = true;
+    }
+}
+
+recipe &recipe_dictionary::load_common( JsonObject &jo, const std::string &src,
+                                        std::map<std::string, recipe> &dest )
 {
     bool strict = src == "core";
 
@@ -123,41 +164,18 @@ void recipe_dictionary::load( JsonObject &jo, const std::string &src, bool uncra
     // defer entries dependent upon as-yet unparsed definitions
     if( jo.has_string( "copy-from" ) ) {
         auto base = jo.get_string( "copy-from" );
-        if( uncraft ) {
-            if( !recipe_dict.uncraft.count( base ) ) {
-                deferred.emplace_back( jo.str(), src );
-                return;
-            }
-            r = recipe_dict.uncraft[ base ];
-        } else {
-            if( !recipe_dict.recipes.count( base ) ) {
-                deferred.emplace_back( jo.str(), src );
-                return;
-            }
-            r = recipe_dict.recipes[ base ];
+        if( !dest.count( base ) ) {
+            deferred.emplace_back( jo.str(), src );
+            return null_recipe;
         }
+        r = dest[ base ];
     }
 
-    if( jo.has_string( "abstract" ) ) {
+    r.abstract = jo.has_string( "abstract" );
+    if( r.abstract ) {
         r.ident_ = jo.get_string( "abstract" );
-        r.abstract = true;
     } else {
         r.ident_ = r.result = jo.get_string( "result" );
-        r.abstract = false;
-    }
-
-    if( !uncraft ) {
-        if( jo.has_string( "id_suffix" ) ) {
-            if( r.abstract ) {
-                jo.throw_error( "abstract recipe cannot specify id_suffix", "id_suffix" );
-            }
-            r.ident_ += "_" + jo.get_string( "id_suffix" );
-        }
-        assign( jo, "category", r.category, strict );
-        assign( jo, "subcategory", r.subcategory, strict );
-        assign( jo, "reversible", r.reversible, strict );
-    } else {
-        r.reversible = true;
     }
 
     assign( jo, "time", r.time, strict, 0 );
@@ -230,15 +248,6 @@ void recipe_dictionary::load( JsonObject &jo, const std::string &src, bool uncra
         }
     }
 
-    if( !uncraft && jo.has_member( "byproducts" ) ) {
-        auto bp = jo.get_array( "byproducts" );
-        r.byproducts.clear();
-        while( bp.has_more() ) {
-            auto arr = bp.next_array();
-            r.byproducts[ arr.get_string( 0 ) ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
-        }
-    }
-
     if( jo.has_member( "book_learn" ) ) {
         auto bk = jo.get_array( "book_learn" );
         r.booksets.clear();
@@ -264,15 +273,13 @@ void recipe_dictionary::load( JsonObject &jo, const std::string &src, bool uncra
     }
 
     // inline requirements are always replaced (cannot be inherited)
-    auto req_id = string_format( "inline_%s_%s", uncraft ? "uncraft" : "recipe", r.ident_.c_str() );
+    auto req_id = string_format( "inline_%s_%s", jo.get_string( "type" ).c_str(), r.ident_.c_str() );
     requirement_data::load_requirement( jo, req_id );
     r.reqs_internal = { { requirement_id( req_id ), 1 } };
 
-    if( uncraft ) {
-        recipe_dict.uncraft[ r.ident_ ] = r;
-    } else {
-        recipe_dict.recipes[ r.ident_ ] = r;
-    }
+    dest[ r.ident_ ] = r;
+
+    return dest[ r.ident_ ];
 }
 
 size_t recipe_dictionary::size() const
