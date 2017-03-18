@@ -2,7 +2,6 @@
 #ifndef RECIPE_H
 #define RECIPE_H
 
-#include "catacurse.h"
 #include "item.h"
 #include "requirements.h"
 
@@ -98,11 +97,6 @@ struct recipe {
         bool has_byproducts() const;
 
         bool check_eligible_containers_for_crafting( int batch = 1 ) const;
-
-        int print_items( WINDOW *w, int ypos, int xpos, nc_color col, int batch = 1 ) const;
-
-        int print_time( WINDOW *w, int ypos, int xpos, int width, nc_color col,
-                        int batch = 1 ) const;
 
         int batch_time( int batch = 1 ) const;
 

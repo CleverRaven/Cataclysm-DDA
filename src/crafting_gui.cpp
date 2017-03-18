@@ -92,6 +92,24 @@ void reset_recipe_categories()
     craft_subcat_list.clear();
 }
 
+
+int print_items( const recipe &r, WINDOW *w, int ypos, int xpos, nc_color col, int batch )
+{
+    if( !r.has_byproducts() ) {
+        return 0;
+    }
+
+    const int oldy = ypos;
+
+    mvwprintz( w, ypos++, xpos, col, _( "Byproducts:" ) );
+    for( const auto &bp : r.byproducts ) {
+        mvwprintz( w, ypos++, xpos, col, _( "> %d %s" ), bp.second * batch,
+                   item::nname( bp.first ).c_str() );
+    }
+
+    return ypos - oldy;
+}
+
 const recipe *select_crafting_recipe( int &batch_size )
 {
     if( normalized_names.empty() ) {
@@ -436,12 +454,17 @@ const recipe *select_crafting_recipe( int &batch_size )
                                // Macs don't seem to like passing this as a class, so force it to int
                                ( int )g->u.get_skill_level( current[line]->skill_used ) );
                 }
-                ypos += current[line]->print_time( w_data, ypos, xpos, pane, col, count );
+
+                const int turns = current[line]->batch_time( count ) / MOVES( 1 );
+                const std::string text = string_format( _( "Time to complete: %s" ),
+                                                        calendar::print_duration( turns ).c_str() );
+                ypos += fold_and_print( w_data, ypos, xpos, pane, col, text );
+
                 mvwprintz( w_data, ypos++, xpos, col, _( "Dark craftable? %s" ),
                            current[line]->has_flag( "BLIND_EASY" ) ? _( "Easy" ) :
                            current[line]->has_flag( "BLIND_HARD" ) ? _( "Hard" ) :
                            _( "Impossible" ) );
-                ypos += current[line]->print_items( w_data, ypos, xpos, col, batch ? line + 1 : 1 );
+                ypos += print_items( *current[line], w_data, ypos, xpos, col, batch ? line + 1 : 1 );
             }
 
             //color needs to be preserved in case part of the previous page was cut off
