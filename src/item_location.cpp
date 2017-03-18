@@ -294,7 +294,8 @@ class item_location::impl::item_on_person : public item_location::impl
                     mv += dynamic_cast<player &>( who ).item_handling_cost( obj, false, ptr->draw_cost );
 
                 } else {
-                    mv += dynamic_cast<player &>( who ).item_handling_cost( obj, false, INVENTORY_HANDLING_PENALTY / 2 );
+                    mv += dynamic_cast<player &>( who ).item_handling_cost( obj, false,
+                            INVENTORY_HANDLING_PENALTY / 2 );
                 }
 
             } else {
@@ -392,7 +393,8 @@ class item_location::impl::item_on_vehicle : public item_location::impl
                 obj = *target();
             }
 
-            int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj, true, VEHICLE_HANDLING_PENALTY );
+            int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj, true,
+                     VEHICLE_HANDLING_PENALTY );
             mv += 100 * rl_dist( ch.pos(), cur.veh.global_part_pos3( cur.part ) );
 
             //@ todo handle unpacking costs
