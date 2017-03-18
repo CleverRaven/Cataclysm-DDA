@@ -105,6 +105,11 @@ struct recipe {
 
         bool has_flag( const std::string &flag_name ) const;
 
+        void finalize();
+
+    private:
+        void add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );
+
     private:
         std::string ident_;
 

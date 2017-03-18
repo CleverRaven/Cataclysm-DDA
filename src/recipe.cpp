@@ -1,6 +1,7 @@
 #include "recipe.h"
 
 #include "game.h"
+#include "itype.h"
 #include "map.h"
 #include "npc.h"
 #include "player.h"
@@ -126,6 +127,35 @@ int recipe::batch_time( int batch ) const
 bool recipe::has_flag( const std::string &flag_name ) const
 {
     return flags.count( flag_name );
+}
+
+void recipe::finalize()
+{
+    // concatenate both external and inline requirements
+    add_requirements( reqs_external );
+    add_requirements( reqs_internal );
+
+    reqs_external.clear();
+    reqs_internal.clear();
+
+    if( contained && container == "null" ) {
+        container = item::find_type( result )->default_container;
+    }
+
+    if( autolearn && autolearn_requirements.empty() ) {
+        autolearn_requirements = required_skills;
+        if( skill_used ) {
+            autolearn_requirements[ skill_used ] = difficulty;
+        }
+    }
+}
+
+void recipe::add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs )
+{
+    requirements_ = std::accumulate( reqs.begin(), reqs.end(), requirements_,
+    []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
+        return lhs + ( *rhs.first * rhs.second );
+    } );
 }
 
 item recipe::create_result() const

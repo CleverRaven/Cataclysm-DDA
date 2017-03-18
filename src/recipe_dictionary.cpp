@@ -320,16 +320,7 @@ void recipe_dictionary::finalize_internal( std::map<std::string, recipe> &obj )
         auto &r = it->second;
         const char *id = it->first.c_str();
 
-        // concatenate both external and inline requirements
-        r.requirements_ = std::accumulate( r.reqs_external.begin(), r.reqs_external.end(), r.requirements_,
-        []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
-            return lhs + ( *rhs.first * rhs.second );
-        } );
-
-        r.requirements_ = std::accumulate( r.reqs_internal.begin(), r.reqs_internal.end(), r.requirements_,
-        []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
-            return lhs + ( *rhs.first * rhs.second );
-        } );
+        r.finalize();
 
         // remove blacklisted recipes
         if( r.requirements().is_blacklisted() ) {
@@ -411,17 +402,6 @@ void recipe_dictionary::finalize()
         for( const auto &bk : r.booksets ) {
             islot_book::recipe_with_description_t desc{ &r, bk.second, item::nname( r.result ), false };
             item::find_type( bk.first )->book->recipes.insert( desc );
-        }
-
-        if( r.contained && r.container == "null" ) {
-            r.container = item::find_type( r.result )->default_container;
-        }
-
-        if( r.autolearn && r.autolearn_requirements.empty() ) {
-            r.autolearn_requirements = r.required_skills;
-            if( r.skill_used ) {
-                r.autolearn_requirements[ r.skill_used ] = r.difficulty;
-            }
         }
 
         // if reversible and no specific uncraft recipe exists use this recipe
