@@ -1180,7 +1180,6 @@ void mongroup::io( Archive& archive )
     archive.io( "population", population, 1u );
     archive.io( "diffuse", diffuse, false );
     archive.io( "dying", dying, false );
-    archive.io( "dying", dying, false );
     archive.io( "horde", horde, false );
     archive.io( "target", target, tripoint_zero );
     archive.io( "interest", interest, 0 );
