@@ -1831,7 +1831,7 @@ void options_manager::show(bool ingame)
                 const std::string old_opt_val = cur_opt.getValueName();
                 const std::string opt_val = string_input_popup()
                                             .title( cur_opt.getMenuText() )
-                                            .width( 80 )
+                                            .width( 10 )
                                             .text( old_opt_val )
                                             .only_digits( is_int )
                                             .query();

@@ -1441,7 +1441,7 @@ void WORLD::load_options( JsonIn &jsin )
     }
     // for legacy saves, try to simulate old city_size based density
     if( WORLD_OPTIONS.count( "CITY_SPACING" ) == 0 ) {
-        WORLD_OPTIONS["CITY_SPACING"].setValue( 5 - get_option<int>( "CITY_SIZE" ) / 3 );
+        WORLD_OPTIONS["CITY_SPACING"].setValue( 5 - get_world_option<int>( "CITY_SIZE" ) / 3 );
     }
 
     WORLD_OPTIONS[ "CORE_VERSION" ].setValue( version );
