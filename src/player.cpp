@@ -4520,20 +4520,11 @@ void player::update_needs( int rate_multiplier )
     float hunger_rate = metabolic_rate();
     add_msg_if_player( m_debug, "Metabolic rate: %.2f", hunger_rate );
 
-    float thirst_rate = 1.0f;
-    if( has_trait("PLANTSKIN") ) {
-        thirst_rate -= 0.2f;
-    }
+    float thirst_rate = 1.0f + mutation_value( []( const mutation_branch &br ) {
+        return br.thirst_modifier;
+    } );
     if( is_wearing("stillsuit") ) {
         thirst_rate -= 0.3f;
-    }
-
-    if( has_trait("THIRST") ) {
-        thirst_rate += 0.5f;
-    } else if( has_trait("THIRST2") ) {
-        thirst_rate += 1.0f;
-    } else if( has_trait("THIRST3") ) {
-        thirst_rate += 2.0f;
     }
 
     // Note: intentionally not in metabolic rate
@@ -4569,31 +4560,9 @@ void player::update_needs( int rate_multiplier )
     const bool wasnt_fatigued = get_fatigue() <= DEAD_TIRED;
     // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
     if( get_fatigue() < 1050 && !asleep && !debug_ls ) {
-        float fatigue_rate = 1.0f;
-        // Wakeful folks don't always gain fatigue!
-        if( has_trait("WAKEFUL") ) {
-            fatigue_rate -= (1.0f / 6.0f);
-        } else if( has_trait("WAKEFUL2") ) {
-            fatigue_rate -= 0.25f;
-        } else if( has_trait("WAKEFUL3") ) {
-            // You're looking at over 24 hours to hit Tired here
-            fatigue_rate -= 0.5f;
-        }
-        // Sleepy folks gain fatigue faster; Very Sleepy is twice as fast as typical
-        if( has_trait("SLEEPY") ) {
-            fatigue_rate += (1.0f / 3.0f);
-        } else if( has_trait("SLEEPY2") ) {
-            fatigue_rate += 1.0f;
-        }
-
-        if( has_trait("MET_RAT") ) {
-            fatigue_rate += 0.5f;
-        }
-
-        // Freakishly Huge folks tire quicker
-        if( has_trait("HUGE") ) {
-            fatigue_rate += (1.0f / 6.0f);
-        }
+        float fatigue_rate = 1.0f + mutation_value( []( const mutation_branch &br ) {
+            return br.fatigue_modifier;
+        } );
 
         if( !debug_ls && fatigue_rate > 0.0f ) {
             mod_fatigue( divide_roll_remainder( fatigue_rate * rate_multiplier, 1.0 ) );
@@ -4602,24 +4571,16 @@ void player::update_needs( int rate_multiplier )
             }
         }
     } else if( asleep ) {
-        const int intense = sleep.is_null() ? 0 : sleep.get_intensity();
-        // Accelerated recovery capped to 2x over 2 hours
-        // After 16 hours of activity, equal to 7.25 hours of rest
-        const int accelerated_recovery_chance = 24 - intense + 1;
-        const float accelerated_recovery_rate = 1.0f / accelerated_recovery_chance;
-        float recovery_rate = 1.0f + accelerated_recovery_rate;
-
-        // You fatigue & recover faster with Sleepy
-        // Very Sleepy, you just fatigue faster
-        if( !hibernating && ( has_trait("SLEEPY") || has_trait("MET_RAT") ) ) {
-            recovery_rate += (1.0f + accelerated_recovery_rate) / 2.0f;
-        }
-
-        // Tireless folks recover fatigue really fast
-        // as well as gaining it really slowly
-        // (Doesn't speed healing any, though...)
-        if( !hibernating && has_trait("WAKEFUL3") ) {
-            recovery_rate += (1.0f + accelerated_recovery_rate) / 2.0f;
+        float recovery_rate = 1.0f + mutation_value( []( const mutation_branch &br ) {
+            return br.fatigue_regen_modifier;
+        } );
+        if( !hibernating ) {
+            const int intense = sleep.is_null() ? 0 : sleep.get_intensity();
+            // Accelerated recovery capped to 2x over 2 hours
+            // After 16 hours of activity, equal to 7.25 hours of rest
+            const int accelerated_recovery_chance = 24 - intense + 1;
+            const float accelerated_recovery_rate = 1.0f / accelerated_recovery_chance;
+            recovery_rate += accelerated_recovery_rate;
         }
 
         // Untreated pain causes a flat penalty to fatigue reduction
