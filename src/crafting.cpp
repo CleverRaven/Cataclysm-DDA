@@ -147,7 +147,7 @@ int player::time_to_craft( const recipe &rec, int batch_size )
 
 bool player::check_eligible_containers_for_crafting( const recipe &rec, int batch_size ) const
 {
-    std::vector<item> conts = get_eligible_containers_for_crafting();
+    std::vector<const item *> conts = get_eligible_containers_for_crafting();
     const std::vector<item> res = rec.create_results( batch_size );
     const std::vector<item> bps = rec.create_byproducts( batch_size );
     std::vector<item> all;
@@ -161,20 +161,20 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
         }
 
         // we go trough half-filled containers first, then go through empty containers if we need
-        std::sort( conts.begin(), conts.end(), item_compare_by_charges );
+        std::sort( conts.begin(), conts.end(), item_ptr_compare_by_charges );
 
         long charges_to_store = prod.charges;
-        for( const item &cont : conts ) {
+        for( const item *elem : conts ) {
             if( charges_to_store <= 0 ) {
                 break;
             }
 
-            if( !cont.is_container_empty() ) {
-                if( cont.contents.front().typeId() == prod.typeId() ) {
-                    charges_to_store -= cont.get_remaining_capacity_for_liquid( cont.contents.front(), true );
+            if( !elem->is_container_empty() ) {
+                if( elem->contents.front().typeId() == prod.typeId() ) {
+                    charges_to_store -= elem->get_remaining_capacity_for_liquid( elem->contents.front(), true );
                 }
             } else {
-                charges_to_store -= cont.get_remaining_capacity_for_liquid( prod, true );
+                charges_to_store -= elem->get_remaining_capacity_for_liquid( prod, true );
             }
         }
 
@@ -211,22 +211,22 @@ bool is_container_eligible_for_crafting( const item &cont, bool allow_bucket )
     return false;
 }
 
-std::vector<item> player::get_eligible_containers_for_crafting() const
+std::vector<const item *> player::get_eligible_containers_for_crafting() const
 {
-    std::vector<item> conts;
+    std::vector<const item *> conts;
 
     if( is_container_eligible_for_crafting( weapon, true ) ) {
-        conts.push_back( weapon );
+        conts.push_back( &weapon );
     }
     for( const auto &it : worn ) {
         if( is_container_eligible_for_crafting( it, false ) ) {
-            conts.push_back( it );
+            conts.push_back( &it );
         }
     }
     for( size_t i = 0; i < inv.size(); i++ ) {
         for( const auto &it : inv.const_stack( i ) ) {
             if( is_container_eligible_for_crafting( it, false ) ) {
-                conts.push_back( it );
+                conts.push_back( &it );
             }
         }
     }
@@ -236,7 +236,7 @@ std::vector<item> player::get_eligible_containers_for_crafting() const
         if( g->m.accessible_items( pos(), loc, PICKUP_RANGE ) ) {
             for( const auto &it : g->m.i_at( loc ) ) {
                 if( is_container_eligible_for_crafting( it, true ) ) {
-                    conts.emplace_back( it );
+                    conts.emplace_back( &it );
                 }
             }
         }
@@ -248,7 +248,7 @@ std::vector<item> player::get_eligible_containers_for_crafting() const
             if( part != -1 ) {
                 for( const auto &it : veh->get_items( part ) ) {
                     if( is_container_eligible_for_crafting( it, false ) ) {
-                        conts.emplace_back( it );
+                        conts.emplace_back( &it );
                     }
                 }
             }
