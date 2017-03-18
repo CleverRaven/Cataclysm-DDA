@@ -85,7 +85,7 @@
         "changes_to" : ["FASTHEALER2", "REGEN_LIZ"],
         "category" : ["MUTCAT_MEDICAL"],
         "healing_awake" : 0.002,
-        "healing_resting" : 0.01
+        "healing_resting" : 0.005
     },{
         "type" : "mutation",
         "id" : "LIGHTEATER",
@@ -1092,7 +1092,7 @@
         "changes_to" : ["REGEN"],
         "category" : ["MUTCAT_PLANT"],
         "healing_awake" : 0.0066,
-        "healing_resting" : 0.01
+        "healing_resting" : 0.005
     },{
         "type" : "mutation",
         "id" : "REGEN",
@@ -1103,7 +1103,7 @@
         "prereqs" : ["FASTHEALER2"],
         "category" : ["MUTCAT_SLIME", "MUTCAT_TROGLOBITE"],
         "healing_awake" : 0.02,
-        "healing_resting" : 0.02
+        "healing_resting" : 0.015
     },{
         "type" : "mutation",
         "id" : "REGEN_LIZ",
@@ -3746,7 +3746,7 @@
         "prereqs2" : ["SLEEPY"],
         "category" : ["MUTCAT_RAT"],
         "healing_awake" : 0.002,
-        "healing_resting" : 0.01
+        "healing_resting" : 0.005
     },{
         "type" : "mutation",
         "id" : "HUNGER2",
