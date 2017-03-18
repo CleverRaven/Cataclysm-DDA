@@ -2308,7 +2308,7 @@ float Character::healing_rate( float at_rest_quality ) const
     float awake_rate = calc_mutation_value( []( const mutation_branch &br ) {
         return br.healing_awake;
     } );
-    float asleep_rate = 0.0f;
+    float asleep_rate = 0.01f;
     if( at_rest_quality > 0.0f ) {
         asleep_rate = calc_mutation_value( []( const mutation_branch &br ) {
             return br.healing_resting;
@@ -2328,7 +2328,7 @@ float Character::healing_rate( float at_rest_quality ) const
     // Most common case: awake player with no regenerative abilities
     // ~7e-5 is 1 hp per day, anything less than that is totally negligible
     static constexpr float eps = 0.000007f;
-    if( abs( final_rate ) < eps ) {
+    if( std::abs( final_rate ) < eps ) {
         return 0.0f;
     }
 
