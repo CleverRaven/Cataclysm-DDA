@@ -5230,7 +5230,6 @@ int iuse::towel( player *p, item *it, bool t, const tripoint& )
 
         towelUsed = true;
         if( it->typeId() == "towel" ) {
-            it->convert( "towel_soiled" );
             it->item_tags.insert( "FILTHY" );
         }
 
