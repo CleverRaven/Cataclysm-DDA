@@ -42,13 +42,14 @@ struct recipe {
             return requirements_;
         }
 
+        bool is_blacklisted() const {
+            return requirements_.is_blacklisted();
+        }
+
         /** If recipe can be used for disassembly fetch the combined requirements */
         requirement_data disassembly_requirements() const {
             return reversible ? requirements().disassembly_requirements() : requirement_data();
         }
-
-        /** Combined requirements cached when recipe finalized */
-        requirement_data requirements_;
 
         std::map<itype_id, int> byproducts;
 
@@ -107,6 +108,9 @@ struct recipe {
 
         void finalize();
 
+        /** Returns a non-empty string describing an inconsistency (if any) in the recipe. */
+        std::string get_consistency_error() const;
+
     private:
         void add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );
 
@@ -124,6 +128,9 @@ struct recipe {
 
         /** Requires specified inline with the recipe (and replaced upon inheritance) */
         std::vector<std::pair<requirement_id, int>> reqs_internal;
+
+        /** Combined requirements cached when recipe finalized */
+        requirement_data requirements_;
 };
 
 #endif // RECIPE_H

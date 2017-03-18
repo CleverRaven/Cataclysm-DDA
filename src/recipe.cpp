@@ -158,6 +158,52 @@ void recipe::add_requirements( const std::vector<std::pair<requirement_id, int>>
     } );
 }
 
+std::string recipe::get_consistency_error() const
+{
+    if( !item::type_is_defined( result ) ) {
+        return "defines invalid result";
+    }
+
+    if( charges >= 0 && !item::count_by_charges( result ) ) {
+        return "specifies charges but result is not counted by charges";
+    }
+
+    const auto is_invalid_bp = []( const std::pair<itype_id, int> &elem ) {
+        return !item::type_is_defined( elem.first );
+    };
+
+    if( std::any_of( byproducts.begin(), byproducts.end(), is_invalid_bp ) ) {
+        return "defines invalid byproducts";
+    }
+
+    if( !contained && container != "null" ) {
+        return "defines container but not contained";
+    }
+
+    if( !item::type_is_defined( container ) ) {
+        return "specifies unknown container";
+    }
+
+    const auto is_invalid_skill = []( const std::pair<skill_id, int> &elem ) {
+        return !elem.first.is_valid();
+    };
+
+    if( ( skill_used && !skill_used.is_valid() ) ||
+        std::any_of( required_skills.begin(), required_skills.end(), is_invalid_skill ) ) {
+        return "uses invalid skill";
+    }
+
+    const auto is_invalid_book = []( const std::pair<itype_id, int> &elem ) {
+        return !item::find_type( elem.first )->book;
+    };
+
+    if( std::any_of( booksets.begin(), booksets.end(), is_invalid_book ) ) {
+        return "defines invalid book";
+    }
+
+    return std::string();
+}
+
 item recipe::create_result() const
 {
     item newit( result, calendar::turn, item::default_charges_tag{} );

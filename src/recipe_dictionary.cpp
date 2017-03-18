@@ -316,72 +316,23 @@ std::map<std::string, recipe>::const_iterator recipe_dictionary::end() const
 
 void recipe_dictionary::finalize_internal( std::map<std::string, recipe> &obj )
 {
-    for( auto it = obj.begin(); it != obj.end(); ) {
-        auto &r = it->second;
-        const char *id = it->first.c_str();
-
-        r.finalize();
-
-        // remove blacklisted recipes
-        if( r.requirements().is_blacklisted() ) {
-            it = obj.erase( it );
-            continue;
-        }
-
-        // remove any invalid recipes...
-        if( !item::type_is_defined( r.result ) ) {
-            debugmsg( "Recipe %s defines invalid result", id );
-            it = obj.erase( it );
-            continue;
-        }
-
-        if( r.charges >= 0 && !item::count_by_charges( r.result ) ) {
-            debugmsg( "Recipe %s specified charges but result is not counted by charges", id );
-            it = obj.erase( it );
-            continue;
-        }
-
-        if( std::any_of( r.byproducts.begin(), r.byproducts.end(),
-        []( const std::pair<itype_id, int> &bp ) {
-        return !item::type_is_defined( bp.first );
-        } ) ) {
-            debugmsg( "Recipe %s defines invalid byproducts", id );
-            it = obj.erase( it );
-            continue;
-        }
-
-        if( !r.contained && r.container != "null" ) {
-            debugmsg( "Recipe %s defines container but not contained", id );
-            it = obj.erase( it );
-            continue;
-        }
-
-        if( !item::type_is_defined( r.container ) ) {
-            debugmsg( "Recipe %s specifies unknown container", id );
-            it = obj.erase( it );
-            continue;
-        }
-
-        if( ( r.skill_used && !r.skill_used.is_valid() ) ||
-            std::any_of( r.required_skills.begin(),
-        r.required_skills.end(), []( const std::pair<skill_id, int> &sk ) {
-        return !sk.first.is_valid();
-        } ) ) {
-            debugmsg( "Recipe %s uses invalid skill", id );
-            it = obj.erase( it );
-            continue;
-        }
-
-        if( std::any_of( r.booksets.begin(), r.booksets.end(), []( const std::pair<itype_id, int> &bk ) {
-        return !item::find_type( bk.first )->book;
-        } ) ) {
-            debugmsg( "Recipe %s defines invalid book", id );
-            it = obj.erase( it );
-            continue;
-        }
-
-        ++it;
+    for( auto &elem : obj ) {
+        elem.second.finalize();
     }
+    // remove any blacklisted or invalid recipes...
+    delete_if( []( const recipe & elem ) {
+        if( elem.is_blacklisted() ) {
+            return true;
+        }
+
+        const std::string error = elem.get_consistency_error();
+
+        if( !error.empty() ) {
+            debugmsg( "Recipe %s %s.", elem.ident().c_str(), error.c_str() );
+        }
+
+        return !error.empty();
+    } );
 }
 
 void recipe_dictionary::finalize()
