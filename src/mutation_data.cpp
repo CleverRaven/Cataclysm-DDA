@@ -165,6 +165,9 @@ void mutation_branch::load( JsonObject &jsobj )
         new_mut.vitamin_rates[ vitamin_id( pair.get_string( 0 ) ) ] = pair.get_int( 1 );
     }
 
+    new_mut.healing_awake = jsobj.get_float( "healing_awake", 0.0f );
+    new_mut.healing_resting = jsobj.get_float( "healing_resting", 0.0f );
+
     load_mutation_mods(jsobj, "passive_mods", new_mut.mods);
     /* Not currently supported due to inability to save active mutation state
     load_mutation_mods(jsobj, "active_mods", new_mut.mods); */

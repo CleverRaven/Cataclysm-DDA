@@ -94,6 +94,9 @@ struct mutation_branch {
     int bodytemp_min = 0;
     int bodytemp_max = 0;
     int bodytemp_sleep = 0;
+    // Healing per turn
+    float healing_awake = 0.0f;
+    float healing_resting = 0.0f;
 
     /** Attacks granted by this mutation */
     std::vector<mut_attack> attacks_granted;

@@ -308,6 +308,7 @@ void Character::load(JsonObject &data)
         const auto &mid = it->first;
         if( mutation_branch::has( mid ) ) {
             on_mutation_gain( mid );
+            cached_mutations.push_back( &mutation_branch::get( mid ) );
             ++it;
         } else {
             debugmsg( "character %s has invalid mutation %s, it will be ignored", name.c_str(), mid.c_str() );

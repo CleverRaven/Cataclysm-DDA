@@ -13,6 +13,7 @@
 #include "debug.h"
 #include "field.h"
 #include "vitamin.h"
+#include <algorithm>
 
 bool Character::has_trait(const std::string &b) const
 {
@@ -48,35 +49,37 @@ void Character::toggle_trait(const std::string &flag)
     }
     const auto miter = my_mutations.find( flag );
     if( miter == my_mutations.end() ) {
-        my_mutations[flag]; // Creates a new entry with default values
+        set_mutation( flag, false );
         mutation_effect(flag);
     } else {
-        my_mutations.erase( miter );
+        unset_mutation( flag, false );
         mutation_loss_effect(flag);
     }
-    recalc_sight_limits();
-    reset_encumbrance();
 }
 
-void Character::set_mutation(const std::string &flag)
+void Character::set_mutation( const std::string &flag, bool warn )
 {
     const auto iter = my_mutations.find( flag );
     if( iter == my_mutations.end() ) {
         my_mutations[flag]; // Creates a new entry with default values
-    } else {
+        cached_mutations.push_back( &mutation_branch::get( flag ) );
+    } else if( warn ) {
         debugmsg("Trying to set %s mutation, but the character already has it.", flag.c_str());
     }
     recalc_sight_limits();
     reset_encumbrance();
 }
 
-void Character::unset_mutation(const std::string &flag)
+void Character::unset_mutation( const std::string &flag, bool warn )
 {
     const auto iter = my_mutations.find( flag );
-    if( iter == my_mutations.end() ) {
-        debugmsg("Trying to unset %s mutation, but the character does not have it.", flag.c_str());
-    } else {
+    if( iter != my_mutations.end() ) {
         my_mutations.erase( iter );
+        const mutation_branch *mut = &mutation_branch::get( flag );
+        cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), mut ),
+                                cached_mutations.end() );
+    } else if( warn ) {
+        debugmsg("Trying to unset %s mutation, but the character does not have it.", flag.c_str());
     }
     recalc_sight_limits();
     reset_encumbrance();

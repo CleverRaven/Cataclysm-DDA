@@ -83,7 +83,9 @@
         "starting_trait" : true,
         "cancels" : ["ROT1", "ROT2", "ROT3", "SLOWHEALER", "MET_RAT"],
         "changes_to" : ["FASTHEALER2", "REGEN_LIZ"],
-        "category" : ["MUTCAT_MEDICAL"]
+        "category" : ["MUTCAT_MEDICAL"],
+        "healing_awake" : 0.002,
+        "healing_resting" : 0.01
     },{
         "type" : "mutation",
         "id" : "LIGHTEATER",
@@ -525,7 +527,8 @@
         "points" : -2,
         "description" : "You heal a little slower than most; sleeping will heal less lost HP.",
         "starting_trait" : true,
-        "cancels" : ["FASTHEALER"]
+        "cancels" : ["FASTHEALER"],
+        "healing_resting" : -0.0025
     },{
         "type" : "mutation",
         "id" : "HYPEROPIC",
@@ -1081,7 +1084,9 @@
         "cancels" : ["ROT1", "ROT2", "ROT3"],
         "prereqs" : ["FASTHEALER"],
         "changes_to" : ["REGEN"],
-        "category" : ["MUTCAT_PLANT"]
+        "category" : ["MUTCAT_PLANT"],
+        "healing_awake" : 0.0066,
+        "healing_resting" : 0.01
     },{
         "type" : "mutation",
         "id" : "REGEN",
@@ -1090,7 +1095,9 @@
         "description" : "Your flesh regenerates from wounds incredibly quickly.",
         "cancels" : ["ROT1", "ROT2", "ROT3"],
         "prereqs" : ["FASTHEALER2"],
-        "category" : ["MUTCAT_SLIME", "MUTCAT_TROGLOBITE"]
+        "category" : ["MUTCAT_SLIME", "MUTCAT_TROGLOBITE"],
+        "healing_awake" : 0.02,
+        "healing_resting" : 0.02
     },{
         "type" : "mutation",
         "id" : "REGEN_LIZ",
@@ -3725,7 +3732,9 @@
         "cancels" : ["LIGHTEATER", "COLDBLOOD", "COLDBLOOD2", "COLDBLOOD3", "COLDBLOOD4", "FASTHEALER", "FASTHEALER2", "REGEN", "ROT1", "ROT2", "ROT3", "WAKEFUL", "WAKEFUL2", "WAKEFUL3"],
         "prereqs" : ["HUNGER"],
         "prereqs2" : ["SLEEPY"],
-        "category" : ["MUTCAT_RAT"]
+        "category" : ["MUTCAT_RAT"],
+        "healing_awake" : 0.002,
+        "healing_resting" : 0.01
     },{
         "type" : "mutation",
         "id" : "HUNGER2",
@@ -3799,7 +3808,9 @@
         "description" : "You feel as though you are slowly weakening and your body heals slower.",
         "cancels" : ["FASTHEALER", "FASTHEALER2", "REGEN"],
         "changes_to" : ["ROT2"],
-        "category" : ["MUTCAT_ELFA"]
+        "category" : ["MUTCAT_ELFA"],
+        "healing_awake" : -0.00002,
+        "healing_resting" : -0.0025
     },{
         "type" : "mutation",
         "id" : "ROT2",
@@ -3810,7 +3821,8 @@
         "cancels" : ["FASTHEALER", "FASTHEALER2", "REGEN"],
         "prereqs" : ["ROT1"],
         "changes_to" : ["ROT3"],
-        "category" : ["MUTCAT_CHIMERA"]
+        "category" : ["MUTCAT_CHIMERA"],
+        "healing_awake" : -0.0002
     },{
         "type" : "mutation",
         "id" : "ROT3",
@@ -3820,7 +3832,8 @@
         "description" : "Your body is slowly wasting away!",
         "cancels" : ["FASTHEALER", "FASTHEALER2", "REGEN"],
         "prereqs" : ["ROT2"],
-        "category": ["MUTCAT_ALPHA"]
+        "category": ["MUTCAT_ALPHA"],
+        "healing_awake" : -0.0008
     },{
         "type" : "mutation",
         "id" : "SUNBURN",

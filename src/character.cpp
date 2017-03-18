@@ -37,6 +37,7 @@ const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
+const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_webbed( "webbed" );
 
 const skill_id skill_dodge( "dodge" );
@@ -2156,7 +2157,7 @@ float Character::rest_quality() const
 {
     // Just a placeholder for now.
     // @todo Waiting/reading/being unconscious on bed/sofa/grass
-    return 0.0f;
+    return has_effect( effect_sleep ) ? 1.0f : 0.0f;
 }
 
 hp_part Character::bp_to_hp( const body_part bp )
@@ -2305,4 +2306,60 @@ std::string Character::extended_description() const
     } );
 
     return replace_colors( ss.str() );
+}
+
+// Goes over all mutations in list, gets min and max of a value
+// Returns min( 0, lowest ) + max( 0, highest )
+template <typename Getter>
+float mutation_value_lowest_plus_highest( const std::vector<const mutation_branch *> &cached_mutations,
+                                          Getter getter )
+{
+    float lowest = 0.0f;
+    float highest = 0.0f;
+    for( const mutation_branch *mut : cached_mutations ) {
+        float val = getter( *mut );
+        lowest = std::min( lowest, val );
+        highest = std::max( highest, val );
+    }
+
+    return std::min( 0.0f, lowest ) + std::max( 0.0f, highest );
+}
+
+float Character::healing_rate( float at_rest_quality ) const
+{
+    // @todo Cache
+    float awake_rate = mutation_value_lowest_plus_highest( cached_mutations,
+    []( const mutation_branch &br ) {
+        return br.healing_awake;
+    } );
+    float asleep_rate = at_rest_quality <= 0.0f ? 0.0f : mutation_value_lowest_plus_highest(
+    cached_mutations, []( const mutation_branch &br ) {
+        return br.healing_resting;
+    } );
+    float final_rate = 0.0f;
+    if( awake_rate > 0.0f ) {
+        final_rate += awake_rate;
+    } else if( at_rest_quality < 1.0f ) {
+        // Resting protects from rot
+        final_rate += ( 1.0f - at_rest_quality ) * awake_rate;
+    }
+    if( asleep_rate > 0.0f ) {
+        final_rate += asleep_rate * ( 1.0f + get_healthy() / 200.0f );
+    }
+
+    // Most common case: awake player with no regenerative abilities
+    if( abs( final_rate ) < 0.00001f ) {
+        return 0.0f;
+    }
+
+    // If we have a hp divisor, it slows down healing and rot
+    if( has_trait( "FLIMSY3" ) ) {
+        final_rate /= 4.0f;
+    } else if( has_trait( "FLIMSY2" ) ) {
+        final_rate /= 2.0f;
+    } else if( has_trait( "FLIMSY" ) ) {
+        final_rate /= 1.33f;
+    }
+
+    return final_rate;
 }

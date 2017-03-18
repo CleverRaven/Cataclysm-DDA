@@ -4682,48 +4682,11 @@ void player::regen( int rate_multiplier )
         mod_pain( -roll_remainder( 0.2f + get_pain() / 50.0f ) );
     }
 
-    const bool asleep = has_effect( effect_sleep );
-    float heal_rate = 0.0f;
-    if( asleep ) {
-        if( has_trait( "REGEN" ) || has_trait( "FASTHEALER2" ) ) {
-            heal_rate += 1.0f;
-        } else if( has_trait( "FASTHEALER" ) || has_trait( "MET_RAT" ) ) {
-            heal_rate += 0.5f;
-        } else if( has_trait( "SLOWHEALER" ) || has_trait( "ROT1" ) ) {
-            heal_rate += 0.13f;
-        } else {
-            heal_rate += 0.25f;
-        }
-
-        heal_rate += heal_rate * get_healthy() / 200.0f;
-    }
-
-    if( has_trait("ROT3") ) {
-        heal_rate -= 0.1f;
-    } else if( has_trait("ROT2") ) {
-        heal_rate -= 0.04f;
-    } else if( has_trait( "REGEN" ) ) {
-        heal_rate += 1.0f;
-    } else if( has_trait( "FASTHEALER2" ) ) {
-        heal_rate += 0.33f;
-    } else if( has_trait( "FASTHEALER" ) || has_trait( "MET_RAT" ) ) {
-        heal_rate += 0.1f;
-    }
-
-    // Let flimsy affect rot too - otherwise it would be a really horrible combo
-    if( heal_rate != 0.0f ) {
-        if( has_trait("FLIMSY3") ) {
-            heal_rate /= 4.0f;
-        } else if( has_trait("FLIMSY2") ) {
-            heal_rate /= 2.0f;
-        } else if( has_trait("FLIMSY") ) {
-            heal_rate /= 1.33f;
-        }
-    }
-
+    float rest = rest_quality();
+    float heal_rate = healing_rate( rest ) * MINUTES(5);
     if( heal_rate > 0.0f ) {
         healall( roll_remainder( rate_multiplier * heal_rate ) );
-    } else if( !asleep && heal_rate < 0.0f ) {
+    } else if( rest <= 0.0f && heal_rate < 0.0f ) {
         int rot_rate = roll_remainder( rate_multiplier * heal_rate );
         // Has to be in loop because some effects depend on rounding
         while( rot_rate-- > 0 ) {

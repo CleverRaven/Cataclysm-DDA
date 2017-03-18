@@ -11,6 +11,7 @@
 #include "pathfinding.h"
 
 #include <map>
+#include <vector>
 
 using skill_id = string_id<Skill>;
 enum field_id : int;
@@ -18,6 +19,7 @@ class field;
 class field_entry;
 class vehicle;
 struct resistances;
+struct mutation_branch;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -241,8 +243,8 @@ class Character : public Creature, public visitable<Character>
         /** Toggles a trait on the player and in their mutation list */
         void toggle_trait(const std::string &flag);
         /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
-        void set_mutation(const std::string &flag);
-        void unset_mutation(const std::string &flag);
+        void set_mutation( const std::string &flag, bool warn = true );
+        void unset_mutation( const std::string &flag, bool warn = true );
 
         /** Converts a body_part to an hp_part */
         static hp_part bp_to_hp(body_part bp);
@@ -506,6 +508,10 @@ class Character : public Creature, public visitable<Character>
          * 1 represents sleep on comfortable bed, so anything above that should be rare.
          */
         float rest_quality() const;
+        /**
+         * Average hit points healed per turn.
+         */
+        float healing_rate( float at_rest_quality ) const;
 
         /** Color's character's tile's background */
         nc_color symbol_color() const override;
@@ -601,6 +607,10 @@ class Character : public Creature, public visitable<Character>
          * Contains mutation ids of the base traits.
          */
         std::unordered_set<std::string> my_traits;
+        /**
+         * Pointers to mutation branches in @ref my_mutations.
+         */
+        std::vector<const mutation_branch *> cached_mutations;
 
         void store(JsonOut &jsout) const;
         void load(JsonObject &jsin);
