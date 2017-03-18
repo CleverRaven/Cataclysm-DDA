@@ -1,6 +1,7 @@
 #include "recipe.h"
 
 #include "game.h"
+#include "generic_factory.h"
 #include "itype.h"
 #include "map.h"
 #include "npc.h"
@@ -10,11 +11,6 @@
 #include <algorithm>
 
 recipe::recipe() : skill_used( "none" ) {}
-
-const std::string &recipe::ident() const
-{
-    return ident_;
-}
 
 bool recipe::check_eligible_containers_for_crafting( int batch ) const
 {
@@ -127,6 +123,146 @@ int recipe::batch_time( int batch ) const
 bool recipe::has_flag( const std::string &flag_name ) const
 {
     return flags.count( flag_name );
+}
+
+void recipe::load( JsonObject &jo, const std::string &src )
+{
+    bool strict = src == "core";
+
+    abstract = jo.has_string( "abstract" );
+
+    if( abstract ) {
+        ident_ = jo.get_string( "abstract" );
+    } else {
+        ident_ = result = jo.get_string( "result" );
+    }
+
+    assign( jo, "time", time, strict, 0 );
+    assign( jo, "difficulty", difficulty, strict, 0, MAX_SKILL );
+    assign( jo, "flags", flags );
+
+    // automatically set contained if we specify as container
+    assign( jo, "contained", contained, strict );
+    contained |= assign( jo, "container", container, strict );
+
+    if( jo.has_array( "batch_time_factors" ) ) {
+        auto batch = jo.get_array( "batch_time_factors" );
+        batch_rscale = batch.get_int( 0 ) / 100.0;
+        batch_rsize  = batch.get_int( 1 );
+    }
+
+    assign( jo, "charges", charges );
+    assign( jo, "result_mult", result_mult );
+
+    assign( jo, "skill_used", skill_used, strict );
+
+    if( jo.has_member( "skills_required" ) ) {
+        auto sk = jo.get_array( "skills_required" );
+        required_skills.clear();
+
+        if( sk.empty() ) {
+            // clear all requirements
+
+        } else if( sk.has_array( 0 ) ) {
+            // multiple requirements
+            while( sk.has_more() ) {
+                auto arr = sk.next_array();
+                required_skills[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
+            }
+
+        } else {
+            // single requirement
+            required_skills[skill_id( sk.get_string( 0 ) )] = sk.get_int( 1 );
+        }
+    }
+
+    // simplified autolearn sets requirements equal to required skills at finalization
+    if( jo.has_bool( "autolearn" ) ) {
+        assign( jo, "autolearn", autolearn );
+
+    } else if( jo.has_array( "autolearn" ) ) {
+        autolearn = true;
+        auto sk = jo.get_array( "autolearn" );
+        while( sk.has_more() ) {
+            auto arr = sk.next_array();
+            autolearn_requirements[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
+        }
+    }
+
+    if( jo.has_member( "decomp_learn" ) ) {
+        learn_by_disassembly.clear();
+
+        if( jo.has_int( "decomp_learn" ) ) {
+            if( !skill_used ) {
+                jo.throw_error( "decomp_learn specified with no skill_used" );
+            }
+            assign( jo, "decomp_learn", learn_by_disassembly[skill_used] );
+
+        } else if( jo.has_array( "decomp_learn" ) ) {
+            auto sk = jo.get_array( "decomp_learn" );
+            while( sk.has_more() ) {
+                auto arr = sk.next_array();
+                learn_by_disassembly[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
+            }
+        }
+    }
+
+    if( jo.has_member( "book_learn" ) ) {
+        auto bk = jo.get_array( "book_learn" );
+        booksets.clear();
+
+        while( bk.has_more() ) {
+            auto arr = bk.next_array();
+            booksets.emplace( arr.get_string( 0 ), arr.get_int( 1 ) );
+        }
+    }
+
+    // recipes not specifying any external requirements inherit from their parent recipe (if any)
+    if( jo.has_string( "using" ) ) {
+        reqs_external = { { requirement_id( jo.get_string( "using" ) ), 1 } };
+
+    } else if( jo.has_array( "using" ) ) {
+        auto arr = jo.get_array( "using" );
+        reqs_external.clear();
+
+        while( arr.has_more() ) {
+            auto cur = arr.next_array();
+            reqs_external.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
+        }
+    }
+
+    const std::string type = jo.get_string( "type" );
+
+    if( type == "recipe" ) {
+        if( jo.has_string( "id_suffix" ) ) {
+            if( abstract ) {
+                jo.throw_error( "abstract recipe cannot specify id_suffix", "id_suffix" );
+            }
+            ident_ += "_" + jo.get_string( "id_suffix" );
+        }
+
+        assign( jo, "category", category, strict );
+        assign( jo, "subcategory", subcategory, strict );
+        assign( jo, "reversible", reversible, strict );
+
+        if( jo.has_member( "byproducts" ) ) {
+            auto bp = jo.get_array( "byproducts" );
+            byproducts.clear();
+            while( bp.has_more() ) {
+                auto arr = bp.next_array();
+                byproducts[ arr.get_string( 0 ) ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
+            }
+        }
+    } else if( type == "uncraft" ) {
+        reversible = true;
+    } else {
+        jo.throw_error( "unknown recipe type", "type" );
+    }
+
+    // inline requirements are always replaced (cannot be inherited)
+    const auto req_id = string_format( "inline_%s_%s", type.c_str(), ident_.c_str() );
+    requirement_data::load_requirement( jo, req_id );
+    reqs_internal = { { requirement_id( req_id ), 1 } };
 }
 
 void recipe::finalize()

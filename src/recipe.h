@@ -42,6 +42,10 @@ struct recipe {
             return requirements_;
         }
 
+        const std::string &ident() const {
+            return ident_;
+        }
+
         bool is_blacklisted() const {
             return requirements_.is_blacklisted();
         }
@@ -79,8 +83,6 @@ struct recipe {
         std::map<itype_id, int> booksets;
         std::set<std::string> flags;
 
-        const std::string &ident() const;
-
         //Create a string list to describe the skill requirements fir this recipe
         // Format: skill_name(amount), skill_name(amount)
         std::string required_skills_string() const;
@@ -106,6 +108,7 @@ struct recipe {
 
         bool has_flag( const std::string &flag_name ) const;
 
+        void load( JsonObject &jo, const std::string &src );
         void finalize();
 
         /** Returns a non-empty string describing an inconsistency (if any) in the recipe. */

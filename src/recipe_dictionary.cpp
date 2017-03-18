@@ -133,49 +133,17 @@ const std::set<const recipe *> &recipe_subset::of_component( const itype_id &id 
 
 void recipe_dictionary::load_recipe( JsonObject &jo, const std::string &src )
 {
-    auto r = load_common( jo, src, recipe_dict.recipes );
-
-    if( !r ) {
-        return;
-    }
-
-    if( jo.has_string( "id_suffix" ) ) {
-        if( r.abstract ) {
-            jo.throw_error( "abstract recipe cannot specify id_suffix", "id_suffix" );
-        }
-        r.ident_ += "_" + jo.get_string( "id_suffix" );
-    }
-
-    bool strict = src == "core";
-
-    assign( jo, "category", r.category, strict );
-    assign( jo, "subcategory", r.subcategory, strict );
-    assign( jo, "reversible", r.reversible, strict );
-
-    if( jo.has_member( "byproducts" ) ) {
-        auto bp = jo.get_array( "byproducts" );
-        r.byproducts.clear();
-        while( bp.has_more() ) {
-            auto arr = bp.next_array();
-            r.byproducts[ arr.get_string( 0 ) ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
-        }
-    }
+    load( jo, src, recipe_dict.recipes );
 }
 
 void recipe_dictionary::load_uncraft( JsonObject &jo, const std::string &src )
 {
-    auto r = load_common( jo, src, recipe_dict.uncraft );
-
-    if( r ) {
-        r.reversible = true;
-    }
+    load( jo, src, recipe_dict.uncraft );
 }
 
-recipe &recipe_dictionary::load_common( JsonObject &jo, const std::string &src,
-                                        std::map<std::string, recipe> &dest )
+recipe &recipe_dictionary::load( JsonObject &jo, const std::string &src,
+                                 std::map<std::string, recipe> &dest )
 {
-    bool strict = src == "core";
-
     recipe r;
 
     // defer entries dependent upon as-yet unparsed definitions
@@ -188,115 +156,11 @@ recipe &recipe_dictionary::load_common( JsonObject &jo, const std::string &src,
         r = dest[ base ];
     }
 
-    r.abstract = jo.has_string( "abstract" );
-    if( r.abstract ) {
-        r.ident_ = jo.get_string( "abstract" );
-    } else {
-        r.ident_ = r.result = jo.get_string( "result" );
-    }
+    r.load( jo, src );
 
-    assign( jo, "time", r.time, strict, 0 );
-    assign( jo, "difficulty", r.difficulty, strict, 0, MAX_SKILL );
-    assign( jo, "flags", r.flags );
+    dest[ r.ident() ] = std::move( r );
 
-    // automatically set contained if we specify as container
-    assign( jo, "contained", r.contained, strict );
-    r.contained |= assign( jo, "container", r.container, strict );
-
-    if( jo.has_array( "batch_time_factors" ) ) {
-        auto batch = jo.get_array( "batch_time_factors" );
-        r.batch_rscale = batch.get_int( 0 ) / 100.0;
-        r.batch_rsize  = batch.get_int( 1 );
-    }
-
-    assign( jo, "charges", r.charges );
-    assign( jo, "result_mult", r.result_mult );
-
-    assign( jo, "skill_used", r.skill_used, strict );
-
-    if( jo.has_member( "skills_required" ) ) {
-        auto sk = jo.get_array( "skills_required" );
-        r.required_skills.clear();
-
-        if( sk.empty() ) {
-            // clear all requirements
-
-        } else if( sk.has_array( 0 ) ) {
-            // multiple requirements
-            while( sk.has_more() ) {
-                auto arr = sk.next_array();
-                r.required_skills[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
-            }
-
-        } else {
-            // single requirement
-            r.required_skills[skill_id( sk.get_string( 0 ) )] = sk.get_int( 1 );
-        }
-    }
-
-    // simplified autolearn sets requirements equal to required skills at finalization
-    if( jo.has_bool( "autolearn" ) ) {
-        assign( jo, "autolearn", r.autolearn );
-
-    } else if( jo.has_array( "autolearn" ) ) {
-        r.autolearn = true;
-        auto sk = jo.get_array( "autolearn" );
-        while( sk.has_more() ) {
-            auto arr = sk.next_array();
-            r.autolearn_requirements[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
-        }
-    }
-
-    if( jo.has_member( "decomp_learn" ) ) {
-        r.learn_by_disassembly.clear();
-
-        if( jo.has_int( "decomp_learn" ) ) {
-            if( !r.skill_used ) {
-                jo.throw_error( "decomp_learn specified with no skill_used" );
-            }
-            assign( jo, "decomp_learn", r.learn_by_disassembly[r.skill_used] );
-
-        } else if( jo.has_array( "decomp_learn" ) ) {
-            auto sk = jo.get_array( "decomp_learn" );
-            while( sk.has_more() ) {
-                auto arr = sk.next_array();
-                r.learn_by_disassembly[skill_id( arr.get_string( 0 ) )] = arr.get_int( 1 );
-            }
-        }
-    }
-
-    if( jo.has_member( "book_learn" ) ) {
-        auto bk = jo.get_array( "book_learn" );
-        r.booksets.clear();
-
-        while( bk.has_more() ) {
-            auto arr = bk.next_array();
-            r.booksets.emplace( arr.get_string( 0 ), arr.get_int( 1 ) );
-        }
-    }
-
-    // recipes not specifying any external requirements inherit from their parent recipe (if any)
-    if( jo.has_string( "using" ) ) {
-        r.reqs_external = { { requirement_id( jo.get_string( "using" ) ), 1 } };
-
-    } else if( jo.has_array( "using" ) ) {
-        auto arr = jo.get_array( "using" );
-        r.reqs_external.clear();
-
-        while( arr.has_more() ) {
-            auto cur = arr.next_array();
-            r.reqs_external.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
-        }
-    }
-
-    // inline requirements are always replaced (cannot be inherited)
-    auto req_id = string_format( "inline_%s_%s", jo.get_string( "type" ).c_str(), r.ident_.c_str() );
-    requirement_data::load_requirement( jo, req_id );
-    r.reqs_internal = { { requirement_id( req_id ), 1 } };
-
-    dest[ r.ident_ ] = r;
-
-    return dest[ r.ident_ ];
+    return dest[ r.ident() ];
 }
 
 size_t recipe_dictionary::size() const
