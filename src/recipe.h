@@ -6,15 +6,14 @@
 #include "requirements.h"
 
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
 
 class recipe_dictionary;
 class Skill;
+
 using skill_id = string_id<Skill>;
-
-typedef int nc_color; // From color.h
-
 using itype_id = std::string; // From itype.h
 using requirement_id = string_id<requirement_data>;
 
@@ -76,9 +75,7 @@ struct recipe {
 
         bool has_byproducts() const;
 
-        bool check_eligible_containers_for_crafting( int batch = 1 ) const;
-
-        int batch_time( int batch = 1 ) const;
+        int batch_time( int batch, float multiplier, size_t assistants ) const;
 
         bool has_flag( const std::string &flag_name ) const;
 

@@ -1,91 +1,24 @@
 #include "recipe.h"
 
-#include "game.h"
+#include "calendar.h"
 #include "generic_factory.h"
 #include "itype.h"
-#include "map.h"
-#include "npc.h"
-#include "player.h"
-#include "vehicle.h"
+#include "output.h"
+#include "skill.h"
 
 #include <algorithm>
 
 recipe::recipe() : skill_used( "none" ) {}
 
-bool recipe::check_eligible_containers_for_crafting( int batch ) const
-{
-    std::vector<item> conts = g->u.get_eligible_containers_for_crafting();
-    std::vector<item> res = create_results( batch );
-    std::vector<item> bps = create_byproducts( batch );
-    std::vector<item> all;
-    all.reserve( res.size() + bps.size() );
-    all.insert( all.end(), res.begin(), res.end() );
-    all.insert( all.end(), bps.begin(), bps.end() );
-
-    for( const item &prod : all ) {
-        if( !prod.made_of( LIQUID ) ) {
-            continue;
-        }
-
-        // we go trough half-filled containers first, then go through empty containers if we need
-        std::sort( conts.begin(), conts.end(), item_compare_by_charges );
-
-        long charges_to_store = prod.charges;
-        for( const item &cont : conts ) {
-            if( charges_to_store <= 0 ) {
-                break;
-            }
-
-            if( !cont.is_container_empty() ) {
-                if( cont.contents.front().typeId() == prod.typeId() ) {
-                    charges_to_store -= cont.get_remaining_capacity_for_liquid( cont.contents.front(), true );
-                }
-            } else {
-                charges_to_store -= cont.get_remaining_capacity_for_liquid( prod, true );
-            }
-        }
-
-        // also check if we're currently in a vehicle that has the necessary storage
-        if( charges_to_store > 0 ) {
-            vehicle *veh = g->m.veh_at( g->u.pos() );
-            if( veh != NULL ) {
-                const itype_id &ftype = prod.typeId();
-                int fuel_cap = veh->fuel_capacity( ftype );
-                int fuel_amnt = veh->fuel_left( ftype );
-
-                if( fuel_cap >= 0 ) {
-                    int fuel_space_left = fuel_cap - fuel_amnt;
-                    charges_to_store -= fuel_space_left;
-                }
-            }
-        }
-
-        if( charges_to_store > 0 ) {
-            popup( _( "You don't have anything to store %s in!" ), prod.tname().c_str() );
-            return false;
-        }
-    }
-
-    return true;
-}
-
-int recipe::batch_time( int batch ) const
+int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
 {
     // 1.0f is full speed
     // 0.33f is 1/3 speed
-    float lighting_speed = g->u.lighting_craft_speed_multiplier( *this );
-    if( lighting_speed == 0.0f ) {
+    if( multiplier == 0.0f ) {  // TODO: Don't compare floats this way!
         return time * batch; // how did we even get here?
     }
 
-    float local_time = float( time ) / lighting_speed;
-
-    // NPCs around you should assist in batch production if they have the skills
-    const auto helpers = g->u.get_crafting_helpers();
-    int assistants = std::count_if( helpers.begin(), helpers.end(),
-    [this]( const npc * np ) {
-        return np->get_skill_level( skill_used ) >= difficulty;
-    } );
+    const float local_time = float( time ) / multiplier;
 
     // if recipe does not benefit from batching and we have no assistants, don't do unnecessary additional calculations
     if( batch_rscale == 0.0 && assistants == 0 ) {

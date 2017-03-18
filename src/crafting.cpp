@@ -129,7 +129,77 @@ bool player::making_would_work( const std::string &id_to_make, int batch_size )
         return false;
     }
 
-    return making.check_eligible_containers_for_crafting( batch_size );
+    return check_eligible_containers_for_crafting( making, batch_size );
+}
+
+int player::time_to_craft( const recipe &rec, int batch_size )
+{
+    // NPCs around you should assist in batch production if they have the skills
+    const auto helpers = get_crafting_helpers();
+    const size_t assistants = std::count_if( helpers.begin(), helpers.end(),
+    [&]( const npc * np ) {
+        return np->get_skill_level( rec.skill_used ) >= rec.difficulty;
+    } );
+    const float lighting_speed = lighting_craft_speed_multiplier( rec );
+
+    return rec.batch_time( batch_size, lighting_speed, assistants );
+}
+
+bool player::check_eligible_containers_for_crafting( const recipe &rec, int batch_size ) const
+{
+    std::vector<item> conts = get_eligible_containers_for_crafting();
+    const std::vector<item> res = rec.create_results( batch_size );
+    const std::vector<item> bps = rec.create_byproducts( batch_size );
+    std::vector<item> all;
+    all.reserve( res.size() + bps.size() );
+    all.insert( all.end(), res.begin(), res.end() );
+    all.insert( all.end(), bps.begin(), bps.end() );
+
+    for( const item &prod : all ) {
+        if( !prod.made_of( LIQUID ) ) {
+            continue;
+        }
+
+        // we go trough half-filled containers first, then go through empty containers if we need
+        std::sort( conts.begin(), conts.end(), item_compare_by_charges );
+
+        long charges_to_store = prod.charges;
+        for( const item &cont : conts ) {
+            if( charges_to_store <= 0 ) {
+                break;
+            }
+
+            if( !cont.is_container_empty() ) {
+                if( cont.contents.front().typeId() == prod.typeId() ) {
+                    charges_to_store -= cont.get_remaining_capacity_for_liquid( cont.contents.front(), true );
+                }
+            } else {
+                charges_to_store -= cont.get_remaining_capacity_for_liquid( prod, true );
+            }
+        }
+
+        // also check if we're currently in a vehicle that has the necessary storage
+        if( charges_to_store > 0 ) {
+            vehicle *veh = g->m.veh_at( pos() );
+            if( veh != NULL ) {
+                const itype_id &ftype = prod.typeId();
+                int fuel_cap = veh->fuel_capacity( ftype );
+                int fuel_amnt = veh->fuel_left( ftype );
+
+                if( fuel_cap >= 0 ) {
+                    int fuel_space_left = fuel_cap - fuel_amnt;
+                    charges_to_store -= fuel_space_left;
+                }
+            }
+        }
+
+        if( charges_to_store > 0 ) {
+            popup( _( "You don't have anything to store %s in!" ), prod.tname().c_str() );
+            return false;
+        }
+    }
+
+    return true;
 }
 
 bool is_container_eligible_for_crafting( const item &cont, bool allow_bucket )
@@ -141,20 +211,20 @@ bool is_container_eligible_for_crafting( const item &cont, bool allow_bucket )
     return false;
 }
 
-std::vector<item> player::get_eligible_containers_for_crafting()
+std::vector<item> player::get_eligible_containers_for_crafting() const
 {
     std::vector<item> conts;
 
     if( is_container_eligible_for_crafting( weapon, true ) ) {
         conts.push_back( weapon );
     }
-    for( item &i : worn ) {
-        if( is_container_eligible_for_crafting( i, false ) ) {
-            conts.push_back( i );
+    for( const auto &it : worn ) {
+        if( is_container_eligible_for_crafting( it, false ) ) {
+            conts.push_back( it );
         }
     }
     for( size_t i = 0; i < inv.size(); i++ ) {
-        for( item it : inv.const_stack( i ) ) {
+        for( const auto &it : inv.const_stack( i ) ) {
             if( is_container_eligible_for_crafting( it, false ) ) {
                 conts.push_back( it );
             }
@@ -164,7 +234,7 @@ std::vector<item> player::get_eligible_containers_for_crafting()
     // get all potential containers within PICKUP_RANGE tiles including vehicles
     for( const auto &loc : closest_tripoints_first( PICKUP_RANGE, pos() ) ) {
         if( g->m.accessible_items( pos(), loc, PICKUP_RANGE ) ) {
-            for( item &it : g->m.i_at( loc ) ) {
+            for( const auto &it : g->m.i_at( loc ) ) {
                 if( is_container_eligible_for_crafting( it, true ) ) {
                     conts.emplace_back( it );
                 }
@@ -176,7 +246,7 @@ std::vector<item> player::get_eligible_containers_for_crafting()
         if( veh && part >= 0 ) {
             part = veh->part_with_feature( part, "CARGO" );
             if( part != -1 ) {
-                for( item &it : veh->get_items( part ) ) {
+                for( const auto &it : veh->get_items( part ) ) {
                     if( is_container_eligible_for_crafting( it, false ) ) {
                         conts.emplace_back( it );
                     }
@@ -360,9 +430,9 @@ void player::complete_craft()
     int diff_roll  = dice( diff_dice,  diff_sides );
 
     if( making->skill_used ) {
+        const double batch_mult = 1 + time_to_craft( *making, batch_size ) / 30000.0;
         //normalize experience gain to crafting time, giving a bonus for longer crafting
-        practice( making->skill_used, ( int )( ( making->difficulty * 15 + 10 ) * ( 1 + making->batch_time(
-                batch_size ) / 30000.0 ) ),
+        practice( making->skill_used, ( int )( ( making->difficulty * 15 + 10 ) * batch_mult ),
                   ( int )making->difficulty * 1.25 );
 
         //NPCs assisting or watching should gain experience...
@@ -370,7 +440,7 @@ void player::complete_craft()
             //If the NPC can understand what you are doing, they gain more exp
             if( elem->get_skill_level( making->skill_used ) >= making->difficulty ) {
                 elem->practice( making->skill_used,
-                                ( int )( ( making->difficulty * 15 + 10 ) * ( 1 + making->batch_time( batch_size ) / 30000.0 ) *
+                                ( int )( ( making->difficulty * 15 + 10 ) * batch_mult *
                                          .50 ), ( int )making->difficulty * 1.25 );
                 if( batch_size > 1 ) {
                     add_msg( m_info, _( "%s assists with crafting..." ), elem->name.c_str() );
@@ -381,8 +451,8 @@ void player::complete_craft()
                 //NPCs around you understand the skill used better
             } else {
                 elem->practice( making->skill_used,
-                                ( int )( ( making->difficulty * 15 + 10 ) * ( 1 + making->batch_time( batch_size ) / 30000.0 ) *
-                                         .15 ), ( int )making->difficulty * 1.25 );
+                                ( int )( ( making->difficulty * 15 + 10 ) * batch_mult * .15 ),
+                                ( int )making->difficulty * 1.25 );
                 add_msg( m_info, _( "%s watches you craft..." ), elem->name.c_str() );
             }
         }

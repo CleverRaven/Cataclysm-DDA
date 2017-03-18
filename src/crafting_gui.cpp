@@ -455,7 +455,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                                ( int )g->u.get_skill_level( current[line]->skill_used ) );
                 }
 
-                const int turns = current[line]->batch_time( count ) / MOVES( 1 );
+                const int turns = g->u.time_to_craft( *current[line], count ) / MOVES( 1 );
                 const std::string text = string_format( _( "Time to complete: %s" ),
                                                         calendar::print_duration( turns ).c_str() );
                 ypos += fold_and_print( w_data, ypos, xpos, pane, col, text );
@@ -540,7 +540,8 @@ const recipe *select_crafting_recipe( int &batch_size )
         } else if( action == "CONFIRM" ) {
             if( available.empty() || !available[line] ) {
                 popup( _( "You can't do that!" ) );
-            } else if( !current[line]->check_eligible_containers_for_crafting( ( batch ) ? line + 1 : 1 ) ) {
+            } else if( !g->u.check_eligible_containers_for_crafting( *current[line],
+                       ( batch ) ? line + 1 : 1 ) ) {
                 ; // popup is already inside check
             } else {
                 chosen = current[line];
