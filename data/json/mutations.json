@@ -3756,7 +3756,7 @@
         "prereqs2" : ["SLEEPY"],
         "category" : ["MUTCAT_RAT"],
         "healing_awake" : 0.002,
-        "healing_resting" : 0.005
+        "healing_resting" : 0.005,
         "fatigue_modifier": 0.5,
         "fatigue_regen_modifier": 0.333,
         "metabolism_modifier": 0.333
