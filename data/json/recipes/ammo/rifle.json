@@ -110,11 +110,12 @@
     "batch_time_factors": [ 50, 10 ],
     "book_learn": [ [ "recipe_bullets", 7 ] ],
     "charges": 1,
-    "using": [ [ "bullet_forming", 21 ], [ "ammo_bullet", 15 ] ],
+    "using": [ [ "bullet_forming", 21 ] ],
     "components": [
       [ [ "50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder", 30 ] ],
+      [ [ "scrap", 1 ] ],
       [ [ "copper", 6 ] ]
     ]
   },
