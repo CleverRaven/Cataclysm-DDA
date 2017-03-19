@@ -17,7 +17,8 @@ using skill_id = string_id<Skill>;
 using itype_id = std::string; // From itype.h
 using requirement_id = string_id<requirement_data>;
 
-struct recipe {
+class recipe
+{
         friend class recipe_dictionary;
 
     public:

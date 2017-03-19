@@ -29,7 +29,7 @@ nc_color encumb_color(int level);
 enum game_message_type : int;
 class ma_technique;
 class martialart;
-struct recipe;
+class recipe;
 struct component;
 struct item_comp;
 struct tool_comp;

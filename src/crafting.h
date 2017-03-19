@@ -3,14 +3,14 @@
 #define CRAFTING_H
 
 #include "item.h"         // item
-#include "recipe.h"
 
 #include <list>
 #include <vector>
 
 class inventory;
-class player;
 class npc;
+class player;
+class recipe;
 
 // removes any (removable) ammo from the item and stores it in the
 // players inventory.
