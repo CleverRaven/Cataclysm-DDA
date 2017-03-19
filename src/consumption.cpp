@@ -148,7 +148,7 @@ bool player::vitamin_set( const vitamin_id &vit, int qty )
 
 float player::metabolic_rate_base() const
 {
-    float ret = 1.0f + mutation_value( []( const mutation_branch &br ) {
+    float ret = 1.0f + mutation_value( []( const mutation_branch & br ) {
         return br.metabolism_modifier;
     } );
 
