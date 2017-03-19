@@ -60,7 +60,7 @@ bool recipe::has_flag( const std::string &flag_name ) const
 
 void recipe::load( JsonObject &jo, const std::string &src )
 {
-    bool strict = src == "core";
+    bool strict = src == "dda";
 
     abstract = jo.has_string( "abstract" );
 
