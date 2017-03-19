@@ -118,6 +118,7 @@
   "tools": [
     [
       [ "hotplate", 7 ],
+      [ "char_smoker", 7 ],
       [ "toolset", 7 ],
       [ "fire", -1 ]
     ]
