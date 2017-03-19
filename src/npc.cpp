@@ -942,7 +942,7 @@ bool npc::wield( item& it )
 {
     if( is_armed() ) {
 		// If weapon has a shoulder strap, try to wear it.
-		if( weapon.gunmod_find( "shoulder_strap" ) != nullptr && wear_item( weapon, false ) ) {		
+		if( wear_item( weapon, false ) ) {		
 			// Wearing the item was successful, remove weapon and post message.
 			add_msg_if_npc( m_info, _( "<npcname> wears the %s." ), weapon.tname().c_str() );
 			remove_weapon();
