@@ -947,8 +947,7 @@ bool npc::wield( item& it )
 			add_msg_if_npc( m_info, _( "<npcname> wears the %s." ), weapon.tname().c_str() );
 			remove_weapon();
 			moves -= 15;
-		}
-		else { // Weapon cannot be worn or wearing was not successful. Store it in inventory if possible, otherwise drop it.
+		} else { // Weapon cannot be worn or wearing was not successful. Store it in inventory if possible, otherwise drop it.
 			if ( volume_carried() + weapon.volume() <= volume_capacity() ) {
 				add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), weapon.tname().c_str() );
 				i_add( remove_weapon() );
