@@ -22,8 +22,8 @@
   {
     "type": "snippet",
     "category": "note",
-    "//": "Reference to Dusk, the debug item in the mod.",
-    "text": [ "\"I wonder if painting my longsword black and giving it a baddass name will make it cut better.\"" ]
+    "text": [ "\"I wonder if painting my longsword black and giving it a baddass name will make it cut better.\"" ],
+    "//": "Reference to Dusk, the debug item in the mod."
   },
   {
     "type": "snippet",

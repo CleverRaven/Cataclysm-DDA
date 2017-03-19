@@ -1648,7 +1648,7 @@ void advanced_inventory::display()
             do {
                 mvwprintz( spane.window, getmaxy( spane.window ) - 1, 2, c_cyan, "< " );
                 mvwprintz( spane.window, getmaxy( spane.window ) - 1, ( w_width / 2 ) - 3, c_cyan, " >" );
-                filter = spopup.query( false );
+                filter = spopup.query_string( false );
                 spane.set_filter( filter );
                 redraw_pane( src );
             } while( spopup.context().get_raw_input().get_first_input() != '\n' && spopup.context().get_raw_input().get_first_input() != KEY_ESCAPE );
@@ -2145,14 +2145,14 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         }
         // At this point amount contains the maximal amount that the destination can hold.
         const long possible_max = std::min( input_amount, amount );
-        if(amount <= 0) {
-           popup(_("The destination is already full!"));
+        if( amount <= 0 ) {
+            popup(_("The destination is already full!"));
         } else {
-            amount = std::atoi( string_input_popup()
-                                    .title( popupmsg )
-                                    .width( 20 )
-                                    .only_digits( true )
-                                    .query().c_str() );
+            amount = string_input_popup()
+                     .title( popupmsg )
+                     .width( 20 )
+                     .only_digits( true )
+                     .query_long();
         }
         if( amount <= 0 ) {
             redraw = true;

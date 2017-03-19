@@ -1834,7 +1834,7 @@ void options_manager::show(bool ingame)
                                             .width( 10 )
                                             .text( old_opt_val )
                                             .only_digits( is_int )
-                                            .query();
+                                            .query_string();
                 if (!opt_val.empty() && opt_val != old_opt_val) {
                     if (is_float) {
                         std::istringstream ssTemp(opt_val);

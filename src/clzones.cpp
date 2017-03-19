@@ -26,7 +26,7 @@ void zone_manager::zone_data::set_name()
                                  .width( 55 )
                                  .text( name )
                                  .max_length( 15 )
-                                 .query();
+                                 .query_string();
 
     name = ( new_name.empty() ) ? _( "<no name>" ) : new_name;
 }

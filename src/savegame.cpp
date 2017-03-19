@@ -311,7 +311,7 @@ bool overmap::obsolete_terrain( const std::string &ter ) {
         "school_4", "school_5", "school_6",
         "school_7", "school_8", "school_9",
         "cathedral_1_entrance", "cathedral_1",
-		"cathedral_b_entrance", "cathedral_b",
+        "cathedral_b_entrance", "cathedral_b",
         "hotel_tower_1_1", "hotel_tower_1_2", "hotel_tower_1_3", "hotel_tower_1_4",
         "hotel_tower_1_5", "hotel_tower_1_6", "hotel_tower_1_7", "hotel_tower_1_8",
         "hotel_tower_1_9", "hotel_tower_b_1", "hotel_tower_b_2", "hotel_tower_b_3",
@@ -1179,7 +1179,6 @@ void mongroup::io( Archive& archive )
     archive.io( "radius", radius, 1u );
     archive.io( "population", population, 1u );
     archive.io( "diffuse", diffuse, false );
-    archive.io( "dying", dying, false );
     archive.io( "dying", dying, false );
     archive.io( "horde", horde, false );
     archive.io( "target", target, tripoint_zero );
