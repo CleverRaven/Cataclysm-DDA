@@ -74,7 +74,7 @@
 #define TOOL_LIFT_FACTOR 500000 // 500kg/level
 
 /** Cap JACK requirements to support arbritrarily large vehicles */
-#define JACK_LIMIT 8000000 // 8000kg (8 metric tonnes)
+#define JACK_LIMIT 8500000 // 8500kg (8.5 metric tonnes)
 
 /** Maximum density of a map field */
 #define MAX_FIELD_DENSITY 3
