@@ -341,14 +341,8 @@ void Character::recalc_hp()
 {
     int new_max_hp[num_hp_parts];
     // Mutated toughness stacks with starting, by design.
-    float hp_mod = 1.0f + calc_mutation_value( []( const mutation_branch &br ) {
-        return br.hp_modifier;
-    } ) + calc_mutation_value( []( const mutation_branch &br ) {
-        return br.hp_modifier_secondary;
-    } );
-    float hp_adjustment = calc_mutation_value( []( const mutation_branch &br ) {
-        return br.hp_adjustment;
-    } );
+    float hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" );
+    float hp_adjustment = mutation_value( "hp_adjustment" );
     for( auto &elem : new_max_hp ) {
         ///\EFFECT_STR_MAX increases base hp
         elem = 60 + str_max * 3 + hp_adjustment;
@@ -2283,13 +2277,13 @@ std::string Character::extended_description() const
     return replace_colors( ss.str() );
 }
 
-template <typename Getter>
-float Character::calc_mutation_value( Getter getter ) const
+template <float mutation_branch::*member>
+float calc_mutation_value( const std::vector<const mutation_branch *> &mutations )
 {
     float lowest = 0.0f;
     float highest = 0.0f;
-    for( const mutation_branch *mut : cached_mutations ) {
-        float val = getter( *mut );
+    for( const mutation_branch *mut : mutations ) {
+        float val = mut->*member;
         lowest = std::min( lowest, val );
         highest = std::max( highest, val );
     }
@@ -2297,22 +2291,33 @@ float Character::calc_mutation_value( Getter getter ) const
     return std::min( 0.0f, lowest ) + std::max( 0.0f, highest );
 }
 
-float Character::mutation_value( const std::function<float(const mutation_branch &)> &fun ) const
+float Character::mutation_value( const std::string &val ) const
 {
-    return calc_mutation_value( fun );
+    // Syntax similar to tuple get<n>()
+    // @todo Get rid of if/else ladder
+    if( val == "healing_awake" ) {
+        return calc_mutation_value<&mutation_branch::healing_awake>( cached_mutations );
+    } else if( val == "healing_resting" ) {
+        return calc_mutation_value<&mutation_branch::healing_resting>( cached_mutations );
+    } else if( val == "hp_modifier" ) {
+        return calc_mutation_value<&mutation_branch::hp_modifier>( cached_mutations );
+    } else if( val == "hp_modifier_secondary" ) {
+        return calc_mutation_value<&mutation_branch::hp_modifier_secondary>( cached_mutations );
+    } else if( val == "hp_adjustment" ) {
+        return calc_mutation_value<&mutation_branch::hp_adjustment>( cached_mutations );
+    }
+
+    debugmsg( "Invalid mutation value name %s", val.c_str() );
+    return 0.0f;
 }
 
 float Character::healing_rate( float at_rest_quality ) const
 {
     // @todo Cache
-    float awake_rate = calc_mutation_value( []( const mutation_branch &br ) {
-        return br.healing_awake;
-    } );
+    float awake_rate = mutation_value( "healing_awake" );
     float asleep_rate = 0.0f;
     if( at_rest_quality > 0.0f ) {
-        asleep_rate = calc_mutation_value( []( const mutation_branch &br ) {
-            return br.healing_resting;
-        } );
+        asleep_rate = mutation_value( "healing_resting" );
     }
     float final_rate = 0.0f;
     if( awake_rate > 0.0f ) {
@@ -2332,9 +2337,7 @@ float Character::healing_rate( float at_rest_quality ) const
         return 0.0f;
     }
 
-    float primary_hp_mod = calc_mutation_value( []( const mutation_branch &br ) {
-        return br.hp_modifier;
-    } );
+    float primary_hp_mod = mutation_value( "hp_modifier" );
     if( primary_hp_mod < 0.0f ) {
         // HP mod can't get below -1.0
         final_rate *= 1.0f + primary_hp_mod;
