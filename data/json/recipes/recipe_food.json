@@ -4191,14 +4191,7 @@
   "difficulty": 1,
   "time": 6000,
   "autolearn": true,
-  "tools": [
-    [
-      ["hotplate", 5],
-      ["char_smoker", 5],
-      ["toolset", 5],
-      ["fire", -1]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [["pinecone", 4]]
   ]
@@ -4231,14 +4224,7 @@
   "qualities":[
     {"id":"COOK","level":1}
   ],
-  "tools": [
-    [
-      ["hotplate", 5],
-      ["char_smoker", 5],
-      ["toolset", 5],
-      ["fire", -1]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       ["hickory_nut_unshelled", 1]
@@ -4257,14 +4243,7 @@
     {"id":"COOK","level":3},
     {"id":"BOIL","level":2}
   ],
-  "tools": [
-    [
-      ["hotplate", 5],
-      [ "char_smoker", 5 ],
-      ["toolset", 5],
-      ["fire", -1]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
         ["hickory_nut_unshelled", 4]
@@ -6727,14 +6706,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ],
-  "tools": [
-    [
-      ["hotplate", 5],
-      [ "char_smoker", 5 ],
-      ["toolset", 5],
-      ["fire", -1]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       ["can_spam", 1]
@@ -6801,12 +6773,7 @@
   "time": 30000,
   "autolearn": true,
   "tools": [
-    [
-      ["hotplate", 25],
-      [ "char_smoker", 25 ],
-      ["toolset", 25],
-      ["fire", -1]
-    ],
+    [ [ "surface_heat", 25, "LIST" ] ],
     [
      ["pastaextruder", -1]
     ]
@@ -6825,12 +6792,7 @@
   "time": 30000,
   "autolearn": true,
   "tools": [
-    [
-      ["hotplate", 25],
-      [ "char_smoker", 25 ],
-      ["toolset", 25],
-      ["fire", -1]
-    ],
+    [ [ "surface_heat", 25, "LIST" ] ],
     [
      ["pastaextruder", -1]
     ]
@@ -6849,12 +6811,7 @@
   "time": 30000,
   "autolearn": true,
   "tools": [
-    [
-      ["hotplate", 25],
-      [ "char_smoker", 25 ],
-      ["toolset", 25],
-      ["fire", -1]
-    ],
+    [ [ "surface_heat", 25, "LIST" ] ],
     [
      ["pastaextruder", -1]
     ]
@@ -8238,14 +8195,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      ["hotplate", 2],
-      [ "char_smoker", 2 ],
-      ["toolset", 2],
-      ["fire", -1]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "sweet_fruit", 1, "LIST" ],
