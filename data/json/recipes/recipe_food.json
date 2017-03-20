@@ -198,7 +198,7 @@
       { "id": "COOK", "level": 3 }
     ],
     "tools": [
-      [ [ "hotplate", 10 ], [ "char_smoker", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ],
+    [ [ "surface_heat", 10, "LIST" ] ],
       [ [ "can_sealer", -1 ] ]
     ],
     "components": [
@@ -1214,12 +1214,7 @@
     {"id":"COOK","level":2}
   ],
   "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 8, "LIST" ] ],
     [
       [ "cooking_oil", -1 ],
       [ "tallow", -1 ],
@@ -1302,12 +1297,7 @@
     {"id":"CUT","level":1}
   ],
   "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 8, "LIST" ] ],
     [
       [ "cooking_oil", -1 ],
       [ "tallow", -1 ],
@@ -1763,12 +1753,7 @@
     {"id":"COOK","level":2}
   ],
   "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 8, "LIST" ] ],
     [
       [ "cooking_oil", -1 ],
       [ "tallow", -1 ],
@@ -2705,12 +2690,7 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "vac_sealer", 10 ],
       [ "makeshift_sealer", 20 ]
@@ -8657,12 +8637,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -8700,12 +8675,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -8743,12 +8713,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -8786,12 +8751,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -8841,12 +8801,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -8884,12 +8839,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -8928,12 +8878,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -9005,12 +8950,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -9092,12 +9032,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -9162,12 +9097,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [ [ "can_sealer", -1 ] ]
   ],
   "components": [
@@ -9226,12 +9156,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -9915,14 +9840,8 @@
       {"id":"BOIL","level":1},
       {"id":"CONTAIN","level":1}
     ],
-  "tools":
-    [
-      [
-        [ "hotplate", 5 ],
-        [ "char_smoker", 5 ],
-        [ "toolset", 5 ],
-        [ "fire", -1 ]
-      ],
+  "tools": [
+      [ [ "surface_heat", 5, "LIST" ] ],
       [
         ["rag", -1]
       ]
