@@ -17,6 +17,8 @@
 #include "SDL.h"
 #endif // TILES
 
+#include <functional>
+
 const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
@@ -63,6 +65,213 @@ const efftype_id effect_cough_suppress( "cough_suppress" );
 
 const vitamin_id vitamin_iron( "iron" );
 
+static void eff_fun_onfire( player &u, effect &it )
+{
+    const int intense = it.get_intensity();
+    u.deal_damage( nullptr, it.get_bp(), damage_instance( DT_HEAT, rng( intense, intense * 2 ) ) );
+}
+static void eff_fun_spores( player &u, effect &it )
+{
+    // Equivalent to X in 150000 + health * 100
+    const int intense = it.get_intensity();
+    if( ( !u.has_trait( "M_IMMUNE" ) ) && ( one_in( 100 ) &&
+                                            x_in_y( intense, 150 + u.get_healthy() / 10 ) ) ) {
+        u.add_effect( effect_fungus, 1, num_bp, true );
+    }
+}
+static void eff_fun_fungus( player &u, effect &it )
+{
+    const int dur = it.get_duration();
+    const int intense = it.get_intensity();
+    int bonus = u.get_healthy() / 10 + ( u.resists_effect( it ) ? 100 : 0 );
+    switch( intense ) {
+        case 1: // First hour symptoms
+            if( one_in( 160 + bonus ) ) {
+                u.cough( true );
+            }
+            if( one_in( 100 + bonus ) ) {
+                u.add_msg_if_player( m_warning, _( "You feel nauseous." ) );
+            }
+            if( one_in( 100 + bonus ) ) {
+                u.add_msg_if_player( m_warning, _( "You smell and taste mushrooms." ) );
+            }
+            it.mod_duration( 1 );
+            if( dur > 600 ) {
+                it.mod_intensity( 1 );
+            }
+            break;
+        case 2: // Five hours of worse symptoms
+            if( one_in( 600 + bonus * 3 ) ) {
+                u.add_msg_if_player( m_bad,  _( "You spasm suddenly!" ) );
+                u.moves -= 100;
+                u.apply_damage( nullptr, bp_torso, 5 );
+            }
+            if( x_in_y( u.vomit_mod(), ( 800 + bonus * 4 ) ) || one_in( 2000 + bonus * 10 ) ) {
+                u.add_msg_player_or_npc( m_bad, _( "You vomit a thick, gray goop." ),
+                                         _( "<npcname> vomits a thick, gray goop." ) );
+
+                int awfulness = rng( 0, 70 );
+                u.moves = -200;
+                u.mod_hunger( awfulness );
+                u.mod_thirst( awfulness );
+                ///\EFFECT_STR decreases damage taken by fungus effect
+                u.apply_damage( nullptr, bp_torso, awfulness / std::max( u.str_cur, 1 ) ); // can't be healthy
+            }
+            it.mod_duration( 1 );
+            if( dur > 3600 ) {
+                it.mod_intensity( 1 );
+            }
+            break;
+        case 3: // Permanent symptoms
+            if( one_in( 1000 + bonus * 8 ) ) {
+                u.add_msg_player_or_npc( m_bad,  _( "You vomit thousands of live spores!" ),
+                                         _( "<npcname> vomits thousands of live spores!" ) );
+
+                u.moves = -500;
+                fungal_effects fe( *g, g->m );
+                for( int i = -1; i <= 1; i++ ) {
+                    for( int j = -1; j <= 1; j++ ) {
+                        if( i == 0 && j == 0 ) {
+                            continue;
+                        }
+
+                        tripoint sporep( u.posx() + i, u.posy() + j, u.posz() );
+                        fe.fungalize( sporep, &u, 0.25 );
+                    }
+                }
+                // We're fucked
+            } else if( one_in( 6000 + bonus * 20 ) ) {
+                if( u.hp_cur[hp_arm_l] <= 0 || u.hp_cur[hp_arm_r] <= 0 ) {
+                    if( u.hp_cur[hp_arm_l] <= 0 && u.hp_cur[hp_arm_r] <= 0 ) {
+                        u.add_msg_player_or_npc( m_bad,
+                                                 _( "The flesh on your broken arms bulges. Fungus stalks burst through!" ),
+                                                 _( "<npcname>'s broken arms bulge. Fungus stalks burst out of the bulges!" ) );
+                    } else {
+                        u.add_msg_player_or_npc( m_bad,
+                                                 _( "The flesh on your broken and unbroken arms bulge. Fungus stalks burst through!" ),
+                                                 _( "<npcname>'s arms bulge. Fungus stalks burst out of the bulges!" ) );
+                    }
+                } else {
+                    u.add_msg_player_or_npc( m_bad, _( "Your hands bulge. Fungus stalks burst through the bulge!" ),
+                                             _( "<npcname>'s hands bulge. Fungus stalks burst through the bulge!" ) );
+                }
+                u.apply_damage( nullptr, bp_arm_l, 999 );
+                u.apply_damage( nullptr, bp_arm_r, 999 );
+            }
+            break;
+    }
+}
+static void eff_fun_rat( player &u, effect &it )
+{
+    const int dur = it.get_duration();
+    it.set_intensity( dur / 10 );
+    if( rng( 0, 100 ) < dur / 10 ) {
+        if( !one_in( 5 ) ) {
+            u.mutate_category( "MUTCAT_RAT" );
+            it.mult_duration( .2 );
+        } else {
+            u.mutate_category( "MUTCAT_TROGLOBITE" );
+            it.mult_duration( .33 );
+        }
+    } else if( rng( 0, 100 ) < dur / 8 ) {
+        if( one_in( 3 ) ) {
+            u.vomit();
+            it.mod_duration( -10 );
+        } else {
+            u.add_msg_if_player( m_bad, _( "You feel nauseous!" ) );
+            it.mod_duration( 3 );
+        }
+    }
+}
+static void eff_fun_bleed( player &u, effect &it )
+{
+    // Presuming that during the first-aid process you're putting pressure
+    // on the wound or otherwise suppressing the flow. (Kits contain either
+    // quikclot or bandages per the recipe.)
+    const int intense = it.get_intensity();
+    if( one_in( 6 / intense ) && u.activity.id() != activity_id( "ACT_FIRSTAID" ) ) {
+        u.add_msg_player_or_npc( m_bad, _( "You lose some blood." ),
+                                 _( "<npcname> loses some blood." ) );
+        // Prolonged haemorrhage is a significant risk for developing anaemia
+        u.vitamin_mod( vitamin_iron, rng( -1, -4 ) );
+        u.mod_pain( 1 );
+        u.apply_damage( nullptr, it.get_bp(), 1 );
+        u.bleed();
+    }
+}
+static void eff_fun_hallu( player &u, effect &it )
+{
+    // TODO: Redo this to allow for variable durations
+    // Time intervals are drawn from the old ones based on 3600 (6-hour) duration.
+    constexpr int maxDuration = 3600;
+    constexpr int comeupTime = int( maxDuration * 0.9 );
+    constexpr int noticeTime = int( comeupTime + ( maxDuration - comeupTime ) / 2 );
+    constexpr int peakTime = int( maxDuration * 0.8 );
+    constexpr int comedownTime = int( maxDuration * 0.3 );
+    const int dur = it.get_duration();
+    // Baseline
+    if( dur == noticeTime ) {
+        u.add_msg_if_player( m_warning, _( "You feel a little strange." ) );
+    } else if( dur == comeupTime ) {
+        // Coming up
+        if( one_in( 2 ) ) {
+            u.add_msg_if_player( m_warning, _( "The world takes on a dreamlike quality." ) );
+        } else if( one_in( 3 ) ) {
+            u.add_msg_if_player( m_warning, _( "You have a sudden nostalgic feeling." ) );
+        } else if( one_in( 5 ) ) {
+            u.add_msg_if_player( m_warning, _( "Everything around you is starting to breathe." ) );
+        } else {
+            u.add_msg_if_player( m_warning, _( "Something feels very, very wrong." ) );
+        }
+    } else if( dur > peakTime && dur < comeupTime ) {
+        if( u.get_stomach_food() > 0 && ( one_in( 200 ) || x_in_y( u.vomit_mod(), 50 ) ) ) {
+            u.add_msg_if_player( m_bad, _( "You feel sick to your stomach." ) );
+            u.mod_hunger( -2 );
+            if( one_in( 6 ) ) {
+                u.vomit();
+            }
+        }
+        if( u.is_npc() && one_in( 200 ) ) {
+            static const std::array<std::string, 4> npc_hallu = {{
+                    _( "\"I think it's starting to kick in.\"" ),
+                    _( "\"Oh God, what's happening?\"" ),
+                    _( "\"Of course... it's all fractals!\"" ),
+                    _( "\"Huh?  What was that?\"" )
+                }
+            };
+
+            const std::string &npc_text = random_entry_ref( npc_hallu );
+            ///\EFFECT_STR_NPC increases volume of hallucination sounds (NEGATIVE)
+
+            ///\EFFECT_INT_NPC decreases volume of hallucination sounds
+            int loudness = 20 + u.str_cur - u.int_cur;
+            loudness = ( loudness > 5 ? loudness : 5 );
+            loudness = ( loudness < 30 ? loudness : 30 );
+            sounds::sound( u.pos(), loudness, npc_text );
+        }
+    } else if( dur == peakTime ) {
+        // Visuals start
+        u.add_msg_if_player( m_bad, _( "Fractal patterns dance across your vision." ) );
+        u.add_effect( effect_visuals, peakTime - comedownTime );
+    } else if( dur > comedownTime && dur < peakTime ) {
+        // Full symptoms
+        u.mod_per_bonus( -2 );
+        u.mod_int_bonus( -1 );
+        u.mod_dex_bonus( -2 );
+        u.add_miss_reason( _( "Dancing fractals distract you." ), 2 );
+        u.mod_str_bonus( -1 );
+        if( u.is_player() && one_in( 50 ) ) {
+            g->spawn_hallucination();
+        }
+    } else if( dur == comedownTime ) {
+        if( one_in( 42 ) ) {
+            u.add_msg_if_player( _( "Everything looks SO boring now." ) );
+        } else {
+            u.add_msg_if_player( _( "Things are returning to normal." ) );
+        }
+    }
+}
+
 void player::hardcoded_effects( effect &it )
 {
     if( auto buff = ma_buff::from_effect( it ) ) {
@@ -73,201 +282,30 @@ void player::hardcoded_effects( effect &it )
         }
         return;
     }
+    using hc_effect_fun = std::function<void( player &, effect & )>;
+    static const std::map<efftype_id, hc_effect_fun> hc_effect_map = {{
+            { effect_onfire, eff_fun_onfire },
+            { effect_spores, eff_fun_spores },
+            { effect_fungus, eff_fun_fungus },
+            { effect_rat, eff_fun_rat },
+            { effect_bleed, eff_fun_bleed },
+            { effect_hallu, eff_fun_hallu }
+        }
+    };
     const efftype_id &id = it.get_id();
+    const auto &iter = hc_effect_map.find( id );
+    if( iter != hc_effect_map.end() ) {
+        iter->second( *this, it );
+        return;
+    }
+
     int start = it.get_start_turn();
     int dur = it.get_duration();
     int intense = it.get_intensity();
     body_part bp = it.get_bp();
     bool sleeping = has_effect( effect_sleep );
     bool msg_trig = one_in( 400 );
-    if( id == effect_onfire ) {
-        deal_damage( nullptr, bp, damage_instance( DT_HEAT, rng( intense, intense * 2 ) ) );
-    } else if( id == effect_spores ) {
-        // Equivalent to X in 150000 + health * 100
-        if( ( !has_trait( "M_IMMUNE" ) ) && ( one_in( 100 ) &&
-                                              x_in_y( intense, 150 + get_healthy() / 10 ) ) ) {
-            add_effect( effect_fungus, 1, num_bp, true );
-        }
-    } else if( id == effect_fungus ) {
-        int bonus = get_healthy() / 10 + ( resists_effect( it ) ? 100 : 0 );
-        switch( intense ) {
-            case 1: // First hour symptoms
-                if( one_in( 160 + bonus ) ) {
-                    cough( true );
-                }
-                if( one_in( 100 + bonus ) ) {
-                    add_msg_if_player( m_warning, _( "You feel nauseous." ) );
-                }
-                if( one_in( 100 + bonus ) ) {
-                    add_msg_if_player( m_warning, _( "You smell and taste mushrooms." ) );
-                }
-                it.mod_duration( 1 );
-                if( dur > 600 ) {
-                    it.mod_intensity( 1 );
-                }
-                break;
-            case 2: // Five hours of worse symptoms
-                if( one_in( 600 + bonus * 3 ) ) {
-                    add_msg_if_player( m_bad,  _( "You spasm suddenly!" ) );
-                    moves -= 100;
-                    apply_damage( nullptr, bp_torso, 5 );
-                }
-                if( x_in_y( vomit_mod(), ( 800 + bonus * 4 ) ) || one_in( 2000 + bonus * 10 ) ) {
-                    add_msg_player_or_npc( m_bad, _( "You vomit a thick, gray goop." ),
-                                           _( "<npcname> vomits a thick, gray goop." ) );
-
-                    int awfulness = rng( 0, 70 );
-                    moves = -200;
-                    mod_hunger( awfulness );
-                    mod_thirst( awfulness );
-                    ///\EFFECT_STR decreases damage taken by fungus effect
-                    apply_damage( nullptr, bp_torso, awfulness / std::max( str_cur, 1 ) ); // can't be healthy
-                }
-                it.mod_duration( 1 );
-                if( dur > 3600 ) {
-                    it.mod_intensity( 1 );
-                }
-                break;
-            case 3: // Permanent symptoms
-                if( one_in( 1000 + bonus * 8 ) ) {
-                    add_msg_player_or_npc( m_bad,  _( "You vomit thousands of live spores!" ),
-                                           _( "<npcname> vomits thousands of live spores!" ) );
-
-                    moves = -500;
-                    fungal_effects fe( *g, g->m );
-                    for( int i = -1; i <= 1; i++ ) {
-                        for( int j = -1; j <= 1; j++ ) {
-                            if( i == 0 && j == 0 ) {
-                                continue;
-                            }
-
-                            tripoint sporep( posx() + i, posy() + j, posz() );
-                            fe.fungalize( sporep, this, 0.25 );
-                        }
-                    }
-                    // We're fucked
-                } else if( one_in( 6000 + bonus * 20 ) ) {
-                    if( hp_cur[hp_arm_l] <= 0 || hp_cur[hp_arm_r] <= 0 ) {
-                        if( hp_cur[hp_arm_l] <= 0 && hp_cur[hp_arm_r] <= 0 ) {
-                            add_msg_player_or_npc( m_bad,
-                                                   _( "The flesh on your broken arms bulges. Fungus stalks burst through!" ),
-                                                   _( "<npcname>'s broken arms bulge. Fungus stalks burst out of the bulges!" ) );
-                        } else {
-                            add_msg_player_or_npc( m_bad,
-                                                   _( "The flesh on your broken and unbroken arms bulge. Fungus stalks burst through!" ),
-                                                   _( "<npcname>'s arms bulge. Fungus stalks burst out of the bulges!" ) );
-                        }
-                    } else {
-                        add_msg_player_or_npc( m_bad, _( "Your hands bulge. Fungus stalks burst through the bulge!" ),
-                                               _( "<npcname>'s hands bulge. Fungus stalks burst through the bulge!" ) );
-                    }
-                    apply_damage( nullptr, bp_arm_l, 999 );
-                    apply_damage( nullptr, bp_arm_r, 999 );
-                }
-                break;
-        }
-    } else if( id == effect_rat ) {
-        it.set_intensity( dur / 10 );
-        if( rng( 0, 100 ) < dur / 10 ) {
-            if( !one_in( 5 ) ) {
-                mutate_category( "MUTCAT_RAT" );
-                it.mult_duration( .2 );
-            } else {
-                mutate_category( "MUTCAT_TROGLOBITE" );
-                it.mult_duration( .33 );
-            }
-        } else if( rng( 0, 100 ) < dur / 8 ) {
-            if( one_in( 3 ) ) {
-                vomit();
-                it.mod_duration( -10 );
-            } else {
-                add_msg( m_bad, _( "You feel nauseous!" ) );
-                it.mod_duration( 3 );
-            }
-        }
-    } else if( id == effect_bleed ) {
-        // Presuming that during the first-aid process you're putting pressure
-        // on the wound or otherwise suppressing the flow. (Kits contain either
-        // quikclot or bandages per the recipe.)
-        if( one_in( 6 / intense ) && activity.id() != activity_id( "ACT_FIRSTAID" ) ) {
-            add_msg_player_or_npc( m_bad, _( "You lose some blood." ),
-                                   _( "<npcname> loses some blood." ) );
-            // Prolonged haemorrhage is a significant risk for developing anaemia
-            vitamin_mod( vitamin_iron, rng( -1, -4 ) );
-            mod_pain( 1 );
-            apply_damage( nullptr, bp, 1 );
-            bleed();
-        }
-    } else if( id == effect_hallu ) {
-        // TODO: Redo this to allow for variable durations
-        // Time intervals are drawn from the old ones based on 3600 (6-hour) duration.
-        constexpr int maxDuration = 3600;
-        constexpr int comeupTime = int( maxDuration * 0.9 );
-        constexpr int noticeTime = int( comeupTime + ( maxDuration - comeupTime ) / 2 );
-        constexpr int peakTime = int( maxDuration * 0.8 );
-        constexpr int comedownTime = int( maxDuration * 0.3 );
-        // Baseline
-        if( dur == noticeTime ) {
-            add_msg_if_player( m_warning, _( "You feel a little strange." ) );
-        } else if( dur == comeupTime ) {
-            // Coming up
-            if( one_in( 2 ) ) {
-                add_msg_if_player( m_warning, _( "The world takes on a dreamlike quality." ) );
-            } else if( one_in( 3 ) ) {
-                add_msg_if_player( m_warning, _( "You have a sudden nostalgic feeling." ) );
-            } else if( one_in( 5 ) ) {
-                add_msg_if_player( m_warning, _( "Everything around you is starting to breathe." ) );
-            } else {
-                add_msg_if_player( m_warning, _( "Something feels very, very wrong." ) );
-            }
-        } else if( dur > peakTime && dur < comeupTime ) {
-            if( get_stomach_food() > 0 && ( one_in( 200 ) || x_in_y( vomit_mod(), 50 ) ) ) {
-                add_msg_if_player( m_bad, _( "You feel sick to your stomach." ) );
-                mod_hunger( -2 );
-                if( one_in( 6 ) ) {
-                    vomit();
-                }
-            }
-            if( is_npc() && one_in( 200 ) ) {
-                static const std::array<std::string, 4> npc_hallu = {{
-                        _( "\"I think it's starting to kick in.\"" ),
-                        _( "\"Oh God, what's happening?\"" ),
-                        _( "\"Of course... it's all fractals!\"" ),
-                        _( "\"Huh?  What was that?\"" )
-                    }
-                };
-
-                const std::string &npc_text = random_entry_ref( npc_hallu );
-                ///\EFFECT_STR_NPC increases volume of hallucination sounds (NEGATIVE)
-
-                ///\EFFECT_INT_NPC decreases volume of hallucination sounds
-                int loudness = 20 + str_cur - int_cur;
-                loudness = ( loudness > 5 ? loudness : 5 );
-                loudness = ( loudness < 30 ? loudness : 30 );
-                sounds::sound( pos(), loudness, npc_text );
-            }
-        } else if( dur == peakTime ) {
-            // Visuals start
-            add_msg_if_player( m_bad, _( "Fractal patterns dance across your vision." ) );
-            add_effect( effect_visuals, peakTime - comedownTime );
-        } else if( dur > comedownTime && dur < peakTime ) {
-            // Full symptoms
-            mod_per_bonus( -2 );
-            mod_int_bonus( -1 );
-            mod_dex_bonus( -2 );
-            add_miss_reason( _( "Dancing fractals distract you." ), 2 );
-            mod_str_bonus( -1 );
-            if( is_player() && one_in( 50 ) ) {
-                g->spawn_hallucination();
-            }
-        } else if( dur == comedownTime ) {
-            if( one_in( 42 ) ) {
-                add_msg_if_player( _( "Everything looks SO boring now." ) );
-            } else {
-                add_msg_if_player( _( "Things are returning to normal." ) );
-            }
-        }
-    } else if( id == effect_cold ) {
+    if( id == effect_cold ) {
         switch( bp ) {
             case bp_head:
                 switch( intense ) {
