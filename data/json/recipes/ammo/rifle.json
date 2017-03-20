@@ -161,6 +161,26 @@
     ]
   },
   {
+    "result": "reloaded_700nx",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 9,
+    "skills_required": [ "gun", 7 ],
+    "time": 9000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 7 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 10 ] ],
+    "components": [
+      [ [ "700nx_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 30 ] ],
+      [ [ "copper", 5 ] ]
+    ]
+  },
+  {
     "result": "reloaded_762_m43",
     "type": "recipe",
     "category": "CC_AMMO",
