@@ -243,8 +243,8 @@ class Character : public Creature, public visitable<Character>
         /** Toggles a trait on the player and in their mutation list */
         void toggle_trait(const std::string &flag);
         /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
-        void set_mutation( const std::string &flag, bool warn = true );
-        void unset_mutation( const std::string &flag, bool warn = true );
+        void set_mutation( const std::string &flag );
+        void unset_mutation( const std::string &flag );
 
         /** Converts a body_part to an hp_part */
         static hp_part bp_to_hp(body_part bp);

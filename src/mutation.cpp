@@ -49,28 +49,28 @@ void Character::toggle_trait(const std::string &flag)
     }
     const auto miter = my_mutations.find( flag );
     if( miter == my_mutations.end() ) {
-        set_mutation( flag, false );
+        set_mutation( flag );
         mutation_effect(flag);
     } else {
-        unset_mutation( flag, false );
+        unset_mutation( flag );
         mutation_loss_effect(flag);
     }
 }
 
-void Character::set_mutation( const std::string &flag, bool warn )
+void Character::set_mutation( const std::string &flag )
 {
     const auto iter = my_mutations.find( flag );
     if( iter == my_mutations.end() ) {
         my_mutations[flag]; // Creates a new entry with default values
         cached_mutations.push_back( &mutation_branch::get( flag ) );
-    } else if( warn ) {
-        debugmsg("Trying to set %s mutation, but the character already has it.", flag.c_str());
+    } else {
+        return;
     }
     recalc_sight_limits();
     reset_encumbrance();
 }
 
-void Character::unset_mutation( const std::string &flag, bool warn )
+void Character::unset_mutation( const std::string &flag )
 {
     const auto iter = my_mutations.find( flag );
     if( iter != my_mutations.end() ) {
@@ -78,8 +78,8 @@ void Character::unset_mutation( const std::string &flag, bool warn )
         const mutation_branch *mut = &mutation_branch::get( flag );
         cached_mutations.erase( std::remove( cached_mutations.begin(), cached_mutations.end(), mut ),
                                 cached_mutations.end() );
-    } else if( warn ) {
-        debugmsg("Trying to unset %s mutation, but the character does not have it.", flag.c_str());
+    } else {
+        return;
     }
     recalc_sight_limits();
     reset_encumbrance();
