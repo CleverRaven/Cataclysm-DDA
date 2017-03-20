@@ -1,4 +1,3 @@
-#include "processor.h"
 #include "game.h"
 #include "map.h"
 #include "mapdata.h"
@@ -6,6 +5,7 @@
 #include "messages.h"
 #include "json.h"
 #include "vehicle.h"
+#include "processor.h"
 
 #include <string>
 
@@ -160,6 +160,7 @@ void process_data::check() const
         debugmsg("There is no process with the name %s", id.c_str());
     }
     for( itype_id elem : components ) {
+        //The compiler complains about this is_valid method
         if( !elem.is_valid() ) {
             debugmsg( "Invalid components \"%s\" in \"%s\".", elem.c_str(), id.c_str() );
         }
@@ -198,15 +199,9 @@ bool IsSubset(std::vector<T> A, std::vector<T> B)
     return std::includes(A.begin(), A.end(), B.begin(), B.end());
 }
 
-void interact_with_processor(const tripoint &examp, player &p)
+process_data select_active(const tripoint &examp, player &p)
 {
     processor_id pid = get_processor_id(examp);
-    //Do I need the debugmsg-es here or do they get checked in process_data::load?
-    if (!processors_data.is_valid(pid)) {
-        //TODO EDIT: Verify in mapdata.cpp verification functions instead of on examine
-        debugmsg("Examined %s has action interact_with_processor, but has no processor data associated", g->m.furn(examp).id().c_str());
-        return;
-    }
     const processor_data &current_processor = processors_data.obj(pid);
     //Make an object list of processes
     std::vector<process_data> possible_processes;
@@ -217,14 +212,15 @@ void interact_with_processor(const tripoint &examp, player &p)
     process_data* active_process;
     if (possible_processes.size() == 1) {
         *active_process = possible_processes[0];
-    } else {
-        map_stack items = g->m.i_at();
+    }
+    else {
+        map_stack items = g->m.i_at( examp );
         if (!items.empty()) {
             //Build a set of item_id's present
             std::vector<itype_id> present_items;
             for (item i : items) {
                 if (std::find(present_items.begin(), present_items.end(), i.typeId()) == present_items.end()) {
-                    present_items.push_back( i.typeId() );
+                    present_items.push_back(i.typeId());
                 }
             }
             //Based on the items present, find the process which has all components
@@ -235,7 +231,7 @@ void interact_with_processor(const tripoint &examp, player &p)
                         //if nullpointer, set it as active
                         *active_process = data;
                     }
-                    else if ( active_process->components.size() < data.components.size()) {
+                    else if (active_process->components.size() < data.components.size()) {
                         *active_process = data;
                     }
                 }
@@ -244,7 +240,8 @@ void interact_with_processor(const tripoint &examp, player &p)
                 //If we can't decide based on the items, make the first process active
                 *active_process = possible_processes[0];
             }
-        } else {
+        }
+        else {
             //No items present, we can default to asking the player what they want
             //and then looking at their inventory
             std::vector<std::string> p_names;
@@ -262,9 +259,25 @@ void interact_with_processor(const tripoint &examp, player &p)
             }
         }
     }
+    return *active_process;
+}
+
+void interact_with_processor(const tripoint &examp, player &p)
+{
+    processor_id pid = get_processor_id(examp);
+    //Do I need the debugmsg-es here or do they get checked in process_data::load?
+    if (!processors_data.is_valid(pid)) {
+        //TODO EDIT: Verify in mapdata.cpp verification functions instead of on examine
+        debugmsg("Examined %s has action interact_with_processor, but has no processor data associated", g->m.furn(examp).id().c_str());
+        return;
+    }
+    const processor_data &current_processor = processors_data.obj(pid);
+    //Figure out active process
+    process_data active_process = select_active( examp, p);
+
     //Msg to tell you what you need for a process
-    add_msg(_("You start on %s."), active_process->name.c_str());
-    for (itype_id i : active_process->components) {
+    add_msg(_("You start on %s."), active_process.name.c_str());
+    for (itype_id i : active_process.components) {
         add_msg(_("You need some %s for each."), item::nname(i, 1).c_str());
     }
     //At this point, we know which process is active, but we don't know whether
@@ -283,8 +296,8 @@ void interact_with_processor(const tripoint &examp, player &p)
     item fuel = item::item(current_processor.fuel_type, int(calendar::turn), 0);
     for (item i : items) {
         //Please check to make sure this one is working as intended
-        auto index = std::find( active_process->components.begin(), active_process->components.end(), i.typeId() );
-        if (index == active_process->components.end() && i.typeId() != current_processor.fuel_type) {
+        auto index = std::find( active_process.components.begin(), active_process.components.end(), i.typeId() );
+        if (index == active_process.components.end() && i.typeId() != current_processor.fuel_type) {
             add_msg(m_bad, _("You find some %s, which can't be used in this process."), i.tname(1, false).c_str());
             add_msg(_("You must remove it before you proceed."));
             return;
@@ -308,13 +321,18 @@ void interact_with_processor(const tripoint &examp, player &p)
             minimum = m.second;
         }
     }
-    minimum = std::min( minimum, fuel.charges );
-    add_msg( _("This process is ready to be started, and it will produce %d %s"), item::nname(active_process->output, minimum).c_str(), minimum );
+    //Need to check if the next line performs integer division
+    minimum = std::min( minimum, fuel.charges / active_process.fuel_intake );
+    if ( minimum <= 0 ) {
+        add_msg(_("The current materials present would go to waste without producing any %s, you need more reagents"), item::nname(active_process.output, 1).c_str() );
+        return;
+    }
+    add_msg( _("This process is ready to be started, and it will produce %d %s"), item::nname(active_process.output, minimum).c_str(), minimum );
     if( !p.has_charges( "fire" , 1 ) ) {
         add_msg( _("This process is ready to be started, but you have no fire source to start it.") );
         return;
     } else if( !query_yn( _("This process is ready to be started, and it will produce %d %s . %s"),
-                        item::nname(active_process->output, minimum).c_str(), minimum, current_processor.full_message.c_str() ) ) {
+                        item::nname(active_process.output, minimum).c_str(), minimum, current_processor.full_message.c_str() ) ) {
         return;
     }
     add_msg( _( current_processor.start_message.c_str() ) );
@@ -328,153 +346,65 @@ void interact_with_processor(const tripoint &examp, player &p)
     g->m.furn_set(examp, current_processor.next_type );
 }
 
-// Below this is still WIP
-
-    //You did say one function to handle all
-    //processors not in the middle of a process
-    //Basically, this furniture type denotes the type
-    //where it is not in the middle of making something
-    if(!processor.is_processing){
-
-            //TODO : figure out which loop to use
-            //Use said items to figure out if we have usable items
-            //Option 1
-            for( item item_it = items.begin(); item_it != items.end(); ) {
-                //TODO Here, processor.fuel_type should return the item_id of the fuel
-                //TODO Make it possible to use different types of fuels
-                if( processed_materials.find( item_it->id ) == container.end() || item_it->id != processor.fuel_type ) {
-                    //This is not one of the reagents
-                    items.push_back( *item_it );
-                    // ? next comment is from vat code, i'm not sure about this
-                    // This will add items to a space near the processor, if it's flagged as NOITEM.
-                    item_it = items.erase( item_it );
-                } else {
-                    item_it++;
-                    processed_is_present = true;
-                }
-            }
-            //Option 2
-
-        //TODO: If there's nothing on the tile, check player inventory
-        // to see if they have anything to process
-        if( !processed_is_present ){
-            add_msg(m_info, _("There's nothing that can be processed."));
-            return;
-        }
-        //  At this point, we should have only usable reagents on the tile,
-        //  Currently in a very unordered fashion (keg code could help)
-        //  This next loop is currently not used, could help sort items into a
-        //  predefined order (based on order in process.json maybe?)
-        std::vector<item> materials;
-        std::vector<integer> charges;
-        item &fuel;
-        items = g->m.i_at( examp );
-        for( item item_it = items.begin(); item_it != items.end(); ) {
-            if (item_it.typeId() == processor.fuel_type ){
-                item_it.i
-                fuel = item_it;
-                continue;
-            }
-            for( itype_id component_it = processed_materials.begin(); component_it != processed_materials.end(); ){
-                //If we found which components it belongs to
-                if( item_it.typeId() == component_it.typeId() ) {
-                    materials.push_back( item_it.typeId() );
-                    charges.push_back( item_it.charges );
-                    break;
-                }
-                component_it++;
-            }
-            item_it++;
-        }
-        //  Now we know how many charges of each components do we have, along with how much fuel
-        //  Current implementation plan is to assume use of one on each components and one fuel_intake number of fuel charges
-        //  per charge of output produced
-
-        //  Should it be volume based?
-        //TODO: calculate skill gain
-        //TODO: calculate output here, or in second phase, based on charges and fuel present at start
-
-        //TODO: make it skill use dependent? Would be silly to ask for fire on a CNC machine down the road
-        if( !p.has_charges( "fire" , 1 ) ) {
-            add_msg( _("This process is ready to be started, but you have no fire source.") );
-            return;
-        } else if( !query_yn( _( processor.full_message.c_str() ) ) ) {
-            return;
-        }
-        add_msg( _( processor.start_message.c_str() ) );
-        p.use_charges( "fire", 1 );
-        //TODO: skill xp gain
-
-
-    } else {
-        //processor processing away
-        auto items = g->m.i_at( examp );
-        if( items.empty() ) {
-            debugmsg( processor.empty_message.c_str() );
-            g->m.furn_set( examp, processor.next_type );
-            return;
-        }
-        int last_bday = items[0].bday;
-        for( auto i : items ) {
-            if( processed_materials.find( item_it->id ) != container.end() && i.bday > last_bday ) {
-                last_bday = i.bday;
-            }
-        }
-        int process_time = active_process.duration;
-        int time_left = process_time - calendar::turn.get_turn() + items[0].bday;
-        if( time_left > 0 ) {
-            add_msg( _("It should take %d minutes to finish."), time_left / MINUTES(1) + 1 );
-            return;
-        }
-
-        //  Currently in a very unordered fashion (keg code could help)
-        //  This next loop is currently not used, could help sort items into a
-        //  predefined order (based on order in process.json maybe?)
-        std::vector<item> materials;
-        std::vector<integer> charges;
-        item &fuel;
-        items = g->m.i_at( examp );
-        fuel = items.find( processor.fuel_type );
-        for( auto component_it = processed_materials.begin(); component_it != processed_materials.end(); ){
-            materials.push_back( component_it.typeId() );
-            charges.push_back( 0 );
-            for( auto item_it = items.begin(); item_it != items.end(); ) {
-                //If we found which components it belongs to
-                if( item_it.typeId() == component_it.typeId() ) {
-                    charges[charges.size()-1] = item_it.charges;
-                    break;
-                }
-                item_it++;
-            }
-            component_it++;
-        }
-        int charge = 0;
-        bool have_enough = true;
-        for (int i : charges ){
-            if ( i == 0){
-                have_enough = false;
-            }
-        }
-        //Calculate output
-        while ( have_enough ) {
-            for (int i : charges ){
-                i--
-            }
-            charge++;
-            for (int i : charges ){
-            if ( i == 0){
-                have_enough = false;
-            }
-            }
-        }
-        item result( process.output , calendar::turn.get_turn() );
-        result.charge = charge;
-        g->m.add_item( examp, result );
-        g->m.furn_set( examp, processor.next_type);
-    }
-}
-
-void interact_with_working_processor( const tripoint &pos, player &p )
+void interact_with_working_processor( const tripoint &examp, player &p )
 {
+    processor_id pid = get_processor_id( examp );
+    //Do I need the debugmsg-es here or do they get checked in process_data::load?
+    if (!processors_data.is_valid(pid)) {
+        //TODO EDIT: Verify in mapdata.cpp verification functions instead of on examine
+        debugmsg("Examined %s has action interact_with_processor, but has no processor data associated", g->m.furn(examp).id().c_str());
+        return;
+    }
+    const processor_data &current_processor = processors_data.obj(pid);
+    //Figure out active process. In this case, being a processor currently processing, it shouldn't opt for the menu
+    process_data active_process = select_active( examp, p);
 
+    map_stack items = g->m.i_at(examp);
+    if (items.empty()) {
+        debugmsg(current_processor.empty_message.c_str());
+        g->m.furn_set(examp, current_processor.next_type);
+        return;
+    }
+    int last_bday = items[0].bday;
+    for (int i = 0; i < items.size(); i++) {
+        if (std::find(active_process.components.begin(), active_process.components.end(), items[i].typeId()) == active_process.components.end()) {
+            add_msg(_("You remove %s from the %s."), item::nname(items[i].typeId() , items[i].charges ).c_str() , g->m.furn( examp ).obj().name.c_str() );
+            g->m.add_item_or_charges(p.pos(), items[i] );
+            g->m.i_rem(examp, i);
+            i--;
+        } else if (items[i].bday > last_bday ) {
+            last_bday = items[i].bday;
+        }
+    }
+    int time_left = active_process.duration - calendar::turn.get_turn() + items[0].bday;
+    if (time_left > 0) {
+        add_msg(_("It should take %d minutes to finish."), time_left / MINUTES(1) + 1);
+        return;
+    }
+    //Processing time is done, tally up components and figure out the output
+    items = g->m.i_at(examp);
+    std::map<itype_id, long> charges;
+    item fuel = item::item(current_processor.fuel_type, int(calendar::turn), 0);
+    for (item i : items) {
+        auto index = std::find(active_process.components.begin(), active_process.components.end(), i.typeId());
+        if (i.typeId() != current_processor.fuel_type) {
+            charges.insert(std::make_pair(i.typeId(), charges.at(i.typeId()) + i.charges));
+        } else {
+            fuel.charges += i.charges;
+        }
+    }
+    //And we know exact numbers
+    long minimum = LONG_MAX;
+    for (std::pair<itype_id, long> m : charges) {
+        if (m.second < minimum) {
+            minimum = m.second;
+        }
+    }
+    minimum = std::min( minimum, fuel.charges / active_process.fuel_intake );
+    item result = item::item( active_process.output , int(calendar::turn), minimum );
+    g->m.i_clear(examp);
+    g->m.add_item(examp, result);
+    p.moves -= 500;
+    g->m.furn_set(examp, current_processor.next_type );
+    
 }
