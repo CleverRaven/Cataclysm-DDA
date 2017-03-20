@@ -3377,14 +3377,8 @@
   "qualities":[
     {"id":"BOIL","level":2}
   ], "tools": [
-    [
-      [ "rag", -1 ]
-    ],
-    [
-      [ "hotplate", 12 ],
-      [ "toolset", 12 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 12, "LIST" ] ],
+    [ [ "rag", -1 ] ]
   ],
   "components": [
     [
@@ -3403,14 +3397,8 @@
   "qualities":[
     {"id":"BOIL","level":2}
   ], "tools": [
-    [
-      [ "thermometer", -1 ]
-    ],
-    [
-      [ "hotplate", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 12, "LIST" ] ],
+    [ [ "thermometer", -1 ] ]
   ],
   "components": [
     [
