@@ -7420,7 +7420,7 @@
       "type": "bandolier",
       "capacity": 20,
       "ammo": [ "arrow", "bolt" ],
-      "draw_cost": 3
+      "draw_cost": 20
     },
     "flags": [ "WAIST", "OVERSIZE" ]
   },
@@ -7444,7 +7444,7 @@
       "type": "bandolier",
       "capacity": 20,
       "ammo": [ "arrow", "bolt" ],
-      "draw_cost": 3
+      "draw_cost": 20
     },
     "flags": [ "WAIST", "VARSIZE", "OVERSIZE" ]
   },
@@ -7468,7 +7468,7 @@
       "type": "bandolier",
       "capacity": 60,
       "ammo": [ "arrow", "bolt" ],
-      "draw_cost": 3
+      "draw_cost": 20
     },
     "flags": [ "BELTED", "OVERSIZE" ]
   },
@@ -7492,7 +7492,7 @@
       "type": "bandolier",
       "capacity": 60,
       "ammo": [ "arrow", "bolt" ],
-      "draw_cost": 3
+      "draw_cost": 20
     },
     "flags": [ "BELTED", "VARSIZE", "OVERSIZE" ]
   },

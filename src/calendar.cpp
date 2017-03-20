@@ -257,11 +257,37 @@ bool calendar::is_night() const
     return (seconds > sunset_seconds + TWILIGHT_SECONDS || seconds < sunrise_seconds);
 }
 
+double calendar::current_daylight_level() const
+{
+    double percent = double(double(day) / season_length());
+    double modifier = 1.0;
+    // For ~Boston: solstices are +/- 25% sunlight intensity from equinoxes
+    static double deviation = 0.25;
+    
+    switch (season) {
+    case SPRING:
+        modifier = 1. + (percent * deviation);
+        break;
+    case SUMMER:
+        modifier = (1. + deviation) - (percent * deviation);
+        break;
+    case AUTUMN:
+        modifier = 1. - (percent * deviation);
+        break;
+    case WINTER:
+        modifier = (1. - deviation) + (percent * deviation);
+        break;
+    }
+    
+    return double(modifier * DAYLIGHT_LEVEL);
+}
+
 float calendar::sunlight() const
 {
     int seconds = seconds_past_midnight();
     int sunrise_seconds = sunrise().seconds_past_midnight();
     int sunset_seconds = sunset().seconds_past_midnight();
+    double daylight_level = current_daylight_level();
 
     int current_phase = int(moon());
     if ( current_phase > int(MOON_PHASE_MAX)/2 ) {
@@ -274,12 +300,12 @@ float calendar::sunlight() const
         return moonlight;
     } else if( seconds >= sunrise_seconds && seconds <= sunrise_seconds + TWILIGHT_SECONDS ) {
         double percent = double(seconds - sunrise_seconds) / TWILIGHT_SECONDS;
-        return double(moonlight) * (1. - percent) + double(DAYLIGHT_LEVEL) * percent;
+        return double(moonlight) * (1. - percent) + daylight_level * percent;
     } else if( seconds >= sunset_seconds && seconds <= sunset_seconds + TWILIGHT_SECONDS ) {
         double percent = double(seconds - sunset_seconds) / TWILIGHT_SECONDS;
-        return double(DAYLIGHT_LEVEL) * (1. - percent) + double(moonlight) * percent;
+        return daylight_level * (1. - percent) + double(moonlight) * percent;
     } else {
-        return DAYLIGHT_LEVEL;
+        return daylight_level;
     }
 }
 

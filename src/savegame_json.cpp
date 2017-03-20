@@ -1054,17 +1054,24 @@ void npc::load(JsonObject &data)
         wander_pos.z = posz();
     }
 
-    data.read("mapx", mapx);
-    data.read("mapy", mapy);
+    if( !data.read( "submap_coords", submap_coords ) ) {
+        // Old submap coords are for the point (0, 0, 0) on local map
+        // New ones are for submap that contains pos
+        point old_coords;
+        data.read( "mapx", old_coords.x );
+        data.read( "mapy", old_coords.y );
+        int o;
+        if( data.read( "omx", o ) ) {
+            old_coords.x += o * OMAPX * 2;
+        }
+        if( data.read( "omy", o ) ) {
+            old_coords.y += o * OMAPY * 2;
+        }
+        submap_coords = point( old_coords.x + posx() / SEEX, old_coords.y + posy() / SEEY );
+    }
+
     if(!data.read("mapz", position.z)) {
         data.read("omz", position.z); // omz/mapz got moved to position.z
-    }
-    int o;
-    if(data.read("omx", o)) {
-        mapx += o * OMAPX * 2;
-    }
-    if(data.read("omy", o)) {
-        mapy += o * OMAPY * 2;
     }
 
     data.read( "plx", last_player_seen_pos.x );
@@ -1166,8 +1173,7 @@ void npc::store(JsonOut &json) const
     json.member( "wandy", wander_pos.y );
     json.member( "wandz", wander_pos.z );
 
-    json.member( "mapx", mapx );
-    json.member( "mapy", mapy );
+    json.member( "submap_coords", submap_coords );
 
     json.member( "plx", last_player_seen_pos.x );
     json.member( "ply", last_player_seen_pos.y );

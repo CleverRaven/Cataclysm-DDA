@@ -390,9 +390,9 @@ bool vehicle::turrets_aim()
         add_msg( m_warning, _( "Can't aim turrets: all turrets are offline" ) );
         return false;
     }
-
     tripoint pos = g->u.pos();
-    std::vector<tripoint> trajectory = g->pl_target_ui( TARGET_MODE_TURRET, nullptr, range );
+    std::vector<tripoint> trajectory;
+    trajectory = target_handler().target_ui( g->u, TARGET_MODE_TURRET, nullptr, range );
 
     if( !trajectory.empty() ) {
         // set target for any turrets in range
