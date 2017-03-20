@@ -5069,13 +5069,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "veggy", 2 ],
@@ -5119,13 +5113,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "veggy", 2 ],
@@ -5162,13 +5150,7 @@
   "book_learn": [[ "cookbook_italian", 2 ]],
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "veggy", 2 ],
@@ -5214,13 +5196,7 @@
   "book_learn": [[ "cookbook_human", 2 ]],
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "veggy", 2 ],
@@ -5672,13 +5648,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"CHEM","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 50 ],
-      [ "toolset", 50 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
   "components": [
     [
       [ "lye_powder", 100 ],
@@ -5733,13 +5703,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"CHEM","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 50 ],
-      [ "toolset", 50 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
   "components": [
     [
       ["sweet_fruit_like", 2, "LIST"],
@@ -5780,13 +5744,7 @@
   "book_learn": [["adv_chemistry", 7] , ["textbook_chemistry", 8] , ["recipe_labchem", 6]],
   "qualities":[
     {"id":"CHEM","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 50 ],
-      [ "toolset", 50 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
   "components": [
     [
       [ "pine_bough", 6 ],
@@ -6924,7 +6882,7 @@
     "time": 7000,
     "autolearn": true,
     "qualities":[ { "id": "COOK", "level": 2 } ],
-    "tools":[ [ [ "hotplate", 20 ], [ "toolset", 20 ], ["fire", -1] ] ],
+    "tools":[ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
         [ [ "meat_tainted", 12 ] ],
         [
@@ -8064,13 +8022,7 @@
   "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
       [ "sauerkraut", 1 ]
@@ -9994,13 +9946,7 @@
     {"id":"COOK","level":3},
     {"id":"BOIL","level":2}
   ],
-  "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "egg_bird", 2 ],
@@ -10033,13 +9979,7 @@
     {"id":"COOK","level":3},
     {"id":"BOIL","level":2}
   ],
-  "tools": [
-    [
-      ["hotplate", 5],
-      ["toolset", 5],
-      ["fire", -1]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "egg_bird", 2 ],
@@ -10077,7 +10017,7 @@
   "autolearn": true,
   "result_mult": 2,
   "qualities": [ { "id": "COOK", "level": 3 } ],
-  "tools": [ [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [ [ "chocolate", 1 ] ],
     [ [ "milk", 1 ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],
@@ -10096,7 +10036,7 @@
   "book_learn": [ [ "family_cookbook", 2 ] ],
   "result_mult": 2,
   "qualities": [ { "id": "COOK", "level": 3 } ],
-  "tools": [ [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [ [ "chocolate", 1 ] ],
     [ [ "milk", 1 ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],
