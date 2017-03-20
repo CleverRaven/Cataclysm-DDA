@@ -3784,7 +3784,7 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
         }
     }
 
-    if( get_option<bool>( "FILTHY_WOUNDS" ) ) {
+    if( get_world_option<bool>( "FILTHY_WOUNDS" ) ) {
         int sum_cover = 0;
         for( const item &i : worn ) {
             if( i.covers( bp ) && i.is_filthy() ) {
@@ -7145,7 +7145,7 @@ void player::suffer()
         } else if (radiation > 2000) {
             radiation = 2000;
         }
-        if( get_option<bool>( "RAD_MUTATION" ) && rng(100, 10000) < radiation ) {
+        if( get_world_option<bool>( "RAD_MUTATION" ) && rng(100, 10000) < radiation ) {
             mutate();
             radiation -= 50;
         } else if( radiation > 50 && rng(1, 3000) < radiation &&
@@ -8527,32 +8527,15 @@ item::reload_option player::select_ammo( const item &base, const std::vector<ite
         return row;
     };
 
-    struct : public uimenu_callback {
-        std::function<std::string( int )> draw_row;
-
-        bool key( const input_event &event, int idx, uimenu * menu ) override {
-            auto &sel = static_cast<std::vector<reload_option> *>( myptr )->operator[]( idx );
-            switch( event.get_first_input() ) {
-                case KEY_LEFT:
-                    sel.qty( sel.qty() - 1 );
-                    menu->entries[ idx ].txt = draw_row( idx );
-                    return true;
-
-                case KEY_RIGHT:
-                    sel.qty( sel.qty() + 1 );
-                    menu->entries[ idx ].txt = draw_row( idx );
-                    return true;
-            }
-            return false;
-        }
-    } cb;
-    cb.setptr( const_cast<std::vector<reload_option> *>( &opts ) );
-    cb.draw_row = draw_row;
-    menu.callback = &cb;
-
     itype_id last = uistate.lastreload[ base.ammo_type() ];
+    // We keep the last key so that pressing the key twice (for example, r-r for reload)
+    // will always pick the first option on the list.
+    int last_key = inp_mngr.get_previously_pressed_key();
+    bool last_key_bound = false;
+    // This is the entry that has out default
+    int default_to = 0;
 
-    for( auto i = 0; i != (int) opts.size(); ++i ) {
+    for( auto i = 0; i != ( int )opts.size(); ++i ) {
         const item& ammo = opts[ i ].ammo->is_ammo_container() ? opts[ i ].ammo->contents.front() : *opts[ i ].ammo;
 
         char hotkey = -1;
@@ -8569,15 +8552,69 @@ item::reload_option player::select_ammo( const item &base, const std::vector<ite
                 }
             }
         }
-        if( hotkey == -1 && last == ammo.typeId() ) {
-            // if this is the first occurrence of the most recently used type of ammo and the hotkey
-            // was not already set above then set it to the keypress that opened this prompt
-            hotkey = inp_mngr.get_previously_pressed_key();
-            last = std::string();
+        if( last == ammo.typeId() ) {
+            if( !last_key_bound && hotkey == -1 ) {
+                // If this is the first occurrence of the most recently used type of ammo and the hotkey
+                // was not already set above then set it to the keypress that opened this prompt
+                hotkey = last_key;
+                last_key_bound = true;
+            }
+            if( !last_key_bound ) {
+                // Pressing the last key defaults to the first entry of compatible type
+                default_to = i;
+                last_key_bound = true;
+            }
+        }
+        if( hotkey == last_key ) {
+            last_key_bound = true;
+            // Prevent the default from being used: key is bound to something already
+            default_to = -1;
         }
 
         menu.addentry( i, true, hotkey, draw_row( i ) );
     }
+
+    struct reload_callback : public uimenu_callback {
+        public:
+            std::vector<item::reload_option> &opts;
+            const std::function<std::string( int )> &draw_row;
+            int last_key;
+            int default_to;
+
+            reload_callback( std::vector<item::reload_option> &_opts,
+                             const std::function<std::string( int )> &_draw_row,
+                             int _last_key, int _default_to ) :
+                           opts( _opts ), draw_row( _draw_row ),
+                           last_key( _last_key ), default_to( _default_to )
+            {}
+
+            bool key( const input_event &event, int idx, uimenu * menu ) override {
+                auto cur_key = event.get_first_input();
+                if( default_to != -1 && cur_key == last_key ) {
+                    // Select the first entry on the list
+                    menu->ret = default_to;
+                    return true;
+                }
+                if( idx < 0 || idx > (int)opts.size() - 1 ) {
+                    return false;
+                }
+                auto &sel = opts[ idx ];
+                switch( cur_key ) {
+                    case KEY_LEFT:
+                        sel.qty( sel.qty() - 1 );
+                        menu->entries[ idx ].txt = draw_row( idx );
+                        return true;
+
+                    case KEY_RIGHT:
+                        sel.qty( sel.qty() + 1 );
+                        menu->entries[ idx ].txt = draw_row( idx );
+                        return true;
+                }
+                return false;
+            }
+        // @todo Get rid of the const cast - it's fucking bullshit
+    } cb( const_cast<std::vector<item::reload_option> &>( opts ), draw_row, last_key, default_to );
+    menu.callback = &cb;
 
     menu.query();
     if( menu.ret < 0 || menu.ret >= ( int ) opts.size() ) {
@@ -8858,14 +8895,14 @@ bool player::wield( item& target )
     // than a skilled player with a holster.
     // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
 
-    mv += item_handling_cost( target );
+    bool worn = is_worn( target );
+    mv += item_handling_cost( target, true, worn ? INVENTORY_HANDLING_PENALTY / 2 : INVENTORY_HANDLING_PENALTY );
 
-    if( is_worn( target ) ) {
+    if( worn ) {
         target.on_takeoff( *this );
-    } else {
-        mv *= INVENTORY_HANDLING_FACTOR;
     }
 
+    add_msg( m_debug, "wielding took %d moves", mv );
     moves -= mv;
 
     if( has_item( target ) ) {
@@ -9065,13 +9102,13 @@ bool player::dispose_item( item_location &&obj, const std::string& prompt )
     opts.emplace_back( dispose_option {
         bucket ? _( "Spill contents and store in inventory" ) : _( "Store in inventory" ),
         volume_carried() + obj->volume() <= volume_capacity(), '1',
-        item_handling_cost( *obj ) * INVENTORY_HANDLING_FACTOR,
+        item_handling_cost( *obj ),
         [this, bucket, &obj] {
             if( bucket && !obj->spill_contents( *this ) ) {
                 return false;
             }
 
-            moves -= item_handling_cost( *obj ) * INVENTORY_HANDLING_FACTOR;
+            moves -= item_handling_cost( *obj );
             inv.add_item_keep_invlet( *obj );
             inv.unsort();
             obj.remove_item();
@@ -9235,9 +9272,19 @@ void player::mend_item( item_location&& obj, bool interactive )
     }
 }
 
-int player::item_handling_cost( const item& it, bool effects, int factor ) const {
-    // TODO: the volume (250 ml) should be part of the factor, provided by the caller
-    int mv = std::max( 1, it.volume() / 250_ml * factor );
+int player::item_handling_cost( const item& it, bool penalties, int base_cost ) const
+{
+    int mv = base_cost;
+    if( penalties ) {
+        // 40 moves per liter, up to 200 at 5 liters
+        mv += std::min( 200, it.volume() / 20_ml );
+    }
+
+    if( weapon.typeId() == "e_handcuffs" ) {
+        mv *= 4;
+    } else if( penalties && has_effect( effect_grabbed ) ) {
+        mv *= 2;
+    }
 
     // For single handed items use the least encumbered hand
     if( it.is_two_handed( *this ) ) {
@@ -9246,18 +9293,10 @@ int player::item_handling_cost( const item& it, bool effects, int factor ) const
         mv += std::min( encumb( bp_hand_l ), encumb( bp_hand_r ) );
     }
 
-    if( effects && has_effect( effect_grabbed ) ) {
-        mv *= 2;
-    }
-
-    if( weapon.typeId() == "e_handcuffs" ) {
-        mv *= 4;
-    }
-
     return std::min( std::max( mv, 0 ), MAX_HANDLING_COST );
 }
 
-int player::item_store_cost( const item& it, const item& /* container */, bool effects, int factor ) const
+int player::item_store_cost( const item& it, const item& /* container */, bool penalties, int base_cost ) const
 {
     ///\EFFECT_PISTOL decreases time taken to store a pistol
     ///\EFFECT_SMG decreases time taken to store an SMG
@@ -9268,7 +9307,7 @@ int player::item_store_cost( const item& it, const item& /* container */, bool e
     ///\EFFECT_CUTTING decreases time taken to store a cutting weapon
     ///\EFFECT_BASHING decreases time taken to store a bashing weapon
     int lvl = get_skill_level( it.is_gun() ? it.gun_skill() : it.melee_skill() );
-    return item_handling_cost( it, effects, factor ) / std::max( sqrt( ( lvl + 3 ) / 3 ), 1.0 );
+    return item_handling_cost( it, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
 }
 
 int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
@@ -9290,13 +9329,15 @@ int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
     if( obj.is_null() ) {
         obj = ammo;
     }
-    int mv = item_handling_cost( obj, qty );
+    // No base cost for handling ammo - that's already included in obtain cost
+    // We have the ammo in our hands right now
+    int mv = item_handling_cost( obj, true, 0 );
 
     if( ammo.has_flag( "MAG_BULKY" ) ) {
         mv *= 1.5; // bulky magazines take longer to insert
     }
 
-    if( !it.is_gun() && ! it.is_magazine() ) {
+    if( !it.is_gun() && !it.is_magazine() ) {
         return mv + 100; // reload a tool
     }
 
@@ -9310,14 +9351,14 @@ int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
     int cost = ( it.is_gun() ? it.type->gun->reload_time : it.type->magazine->reload_time ) * qty;
 
     skill_id sk = it.is_gun() ? it.type->gun->skill_used : skill_gun;
-    mv += cost / ( 1 + std::min( double( get_skill_level( sk ) ) * 0.075, 0.75 ) );
+    mv += cost / ( 1.0f + std::min( float( get_skill_level( sk ) ) * 0.1f, 1.0f ) );
 
     if( it.has_flag( "STR_RELOAD" ) ) {
         ///\EFFECT_STR reduces reload time of some weapons
         mv -= get_str() * 20;
     }
 
-    return std::max( mv, 0 );
+    return std::max( mv, 25 );
 }
 
 int player::item_wear_cost( const item& it ) const
@@ -11872,12 +11913,12 @@ std::string player::weapname() const
     }
 }
 
-bool player::wield_contents( item *container, int pos, int factor, bool effects )
+bool player::wield_contents( item &container, int pos, bool penalties, int base_cost )
 {
     // if index not specified and container has multiple items then ask the player to choose one
     if( pos < 0 ) {
         std::vector<std::string> opts;
-        std::transform( container->contents.begin(), container->contents.end(),
+        std::transform( container.contents.begin(), container.contents.end(),
                         std::back_inserter( opts ), []( const item& elem ) {
                             return elem.display_name();
                         } );
@@ -11888,12 +11929,12 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
         }
     }
 
-    if( pos >= static_cast<int>(container->contents.size() ) ) {
+    if( pos >= static_cast<int>(container.contents.size() ) ) {
         debugmsg( "Tried to wield non-existent item from container (player::wield_contents)" );
         return false;
     }
 
-    auto target = std::next( container->contents.begin(), pos );
+    auto target = std::next( container.contents.begin(), pos );
     if( !can_wield( *target ) ) {
         return false;
     }
@@ -11908,8 +11949,8 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
     }
 
     weapon = std::move( *target );
-    container->contents.erase( target );
-    container->on_contents_changed();
+    container.contents.erase( target );
+    container.on_contents_changed();
 
     inv.assign_empty_invlet( weapon, true );
     last_item = weapon.typeId();
@@ -11923,7 +11964,7 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
     ///\EFFECT_CUTTING decreases time taken to draw cutting weapons from scabbards
     ///\EFFECT_BASHING decreases time taken to draw bashing weapons from holsters
     int lvl = get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.melee_skill() );
-    mv += item_handling_cost( weapon, effects, factor ) / std::max( sqrt( ( lvl + 3 ) / 3 ), 1.0 );
+    mv += item_handling_cost( weapon, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
 
     moves -= mv;
 
@@ -11932,10 +11973,10 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
     return true;
 }
 
-void player::store(item* container, item* put, int factor, bool effects)
+void player::store( item& container, item& put, bool penalties, int base_cost )
 {
-    moves -= item_store_cost( *put, *container, factor, effects );
-    container->put_in( i_rem( put ) );
+    moves -= item_store_cost( put, container, penalties, base_cost );
+    container.put_in( i_rem( &put ) );
 }
 
 nc_color encumb_color(int level)

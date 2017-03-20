@@ -164,80 +164,81 @@ faction_value_datum faction::facval_data[NUM_FACVALS];
 //TODO move them to json
 void game::init_faction_data()
 {
-    std::string tmp_pos[] = {
+    const int elements = 15;
+    std::array<std::string, elements> tmp_pos = {{
         _("Shining"), _("Sacred"), _("Golden"), _("Holy"), _("Righteous"), _("Devoted"),
         _("Virtuous"), _("Splendid"), _("Divine"), _("Radiant"), _("Noble"), _("Venerable"),
         _("Immaculate"), _("Heroic"), _("Bright")
-    };
-    for(int i = 0; i < 15; i++) {
+    }};
+    for(int i = 0; i < elements; i++) {
         faction::faction_adj_pos[i] = tmp_pos[i];
     }
 
-    std::string tmp_neu[] = {
+    std::array<std::string, elements> tmp_neu = {{
         _("Original"), _("Crystal"), _("Metal"), _("Mighty"), _("Powerful"), _("Solid"),
         _("Stone"), _("Firey"), _("Colossal"), _("Famous"), _("Supreme"), _("Invincible"),
         _("Unlimited"), _("Great"), _("Electric")
-    };
-    for(int i = 0; i < 15; i++) {
+    }};
+    for(int i = 0; i < elements; i++) {
         faction::faction_adj_neu[i] = tmp_neu[i];
     }
 
-    std::string tmp_bad[] = {
+    std::array<std::string, elements> tmp_bad = {{
         _("Poisonous"), _("Deadly"), _("Foul"), _("Nefarious"), _("Wicked"), _("Vile"),
         _("Ruinous"), _("Horror"), _("Devastating"), _("Vicious"), _("Sinister"), _("Baleful"),
         _("Pestilent"), _("Pernicious"), _("Dread")
-    };
-    for(int i = 0; i < 15; i++) {
+    }};
+    for(int i = 0; i < elements; i++) {
         faction::faction_adj_bad[i] = tmp_bad[i];
     }
 
-    std::string tmp_strong[] = {
+    std::array<std::string, elements> tmp_strong = {{
         _("Fists"), _("Slayers"), _("Furies"), _("Dervishes"), _("Tigers"), _("Destroyers"),
         _("Berserkers"), _("Samurai"), _("Valkyries"), _("Army"), _("Killers"), _("Paladins"),
         _("Knights"), _("Warriors"), _("Huntsmen")
-    };
-    for(int i = 0; i < 15; i++) {
+    }};
+    for(int i = 0; i < elements; i++) {
         faction::faction_noun_strong[i] = tmp_strong[i];
     }
 
-    std::string tmp_sneak[] = {
+    std::array<std::string, elements> tmp_sneak = {{
         _("Snakes"), _("Rats"), _("Assassins"), _("Ninja"), _("Agents"), _("Shadows"),
         _("Guerillas"), _("Eliminators"), _("Snipers"), _("Smoke"), _("Arachnids"), _("Creepers"),
         _("Shade"), _("Stalkers"), _("Eels")
-    };
-    for(int i = 0; i < 15; i++) {
+    }};
+    for(int i = 0; i < elements; i++) {
         faction::faction_noun_sneak[i] = tmp_sneak[i];
     }
 
-    std::string tmp_crime[] = {
+    std::array<std::string, elements> tmp_crime = {{
         _("Bandits"), _("Punks"), _("Family"), _("Mafia"), _("Mob"), _("Gang"), _("Vandals"),
         _("Sharks"), _("Muggers"), _("Cutthroats"), _("Guild"), _("Faction"), _("Thugs"),
         _("Racket"), _("Crooks")
-    };
-    for(int i = 0; i < 15; i++) {
+    }};
+    for(int i = 0; i < elements; i++) {
         faction::faction_noun_crime[i] = tmp_crime[i];
     }
 
-    std::string tmp_cult[] = {
+    std::array<std::string, elements> tmp_cult = {{
         _("Brotherhood"), _("Church"), _("Ones"), _("Crucible"), _("Sect"), _("Creed"),
         _("Doctrine"), _("Priests"), _("Tenet"), _("Monks"), _("Clerics"), _("Pastors"),
         _("Gnostics"), _("Elders"), _("Inquisitors")
-    };
-    for(int i = 0; i < 15; i++) {
+    }};
+    for(int i = 0; i < elements; i++) {
         faction::faction_noun_cult[i] = tmp_cult[i];
     }
 
-    std::string tmp_none[] = {
+    std::array<std::string, elements> tmp_none = {{
         _("Settlers"), _("People"), _("Men"), _("Faction"), _("Tribe"), _("Clan"), _("Society"),
         _("Folk"), _("Nation"), _("Republic"), _("Colony"), _("State"), _("Kingdom"), _("Party"),
         _("Company")
-    };
-    for(int i = 0; i < 15; i++) {
+    }};
+    for(int i = 0; i < elements; i++) {
         faction::faction_noun_none[i] = tmp_none[i];
     }
 
 
-    faction_value_datum tmp_goal[] = {
+    std::array<faction_value_datum, NUM_FACGOALS> tmp_goal = {{
         // "Their ultimate goal is <name>"
         //Name                               Good Str Sneak Crime Cult
         {"Null",                             0,   0,  0,    0,    0},
@@ -252,13 +253,13 @@ void game::init_faction_data()
         {_("harmony with nature"),           2,  -2,  0,   -1,    2},
         {_("rebuilding civilization"),       2,   1, -2,   -2,   -4},
         {_("spreading the fungus"),         -2,   1,  1,    0,    4}
-    };
+    }};
     // TOTAL:                               -5    3  -2     0     7
     for(int i = 0; i < NUM_FACGOALS; i++) {
         faction::facgoal_data[i] = tmp_goal[i];
     }
 
-    faction_value_datum tmp_job[] = {
+    std::array<faction_value_datum, NUM_FACJOBS> tmp_job = {{
         // "They earn money via <name>"
         //Name                              Good Str Sneak Crime Cult
         {"Null",                            0,   0,  0,    0,    0},
@@ -276,13 +277,13 @@ void game::init_faction_data()
         {_("farming & selling food"),       3,  -4, -2,   -4,    1},
         {_("drug dealing"),                -2,   0, -1,    2,    0},
         {_("selling manufactured goods"),   1,   0, -1,   -2,    0}
-    };
+    }};
     // TOTAL:                              -5   -3  -5     0    -6
     for(int i = 0; i < NUM_FACJOBS; i++) {
         faction::facjob_data[i] = tmp_job[i];
     }
 
-    faction_value_datum tmp_val[] = {
+    std::array<faction_value_datum, NUM_FACVALS> tmp_val = {{
         // "They are known for <name>"
         //Name                            Good Str Sneak Crime Cult
         {"Null",                          0,   0,  0,    0,    0},
@@ -298,7 +299,7 @@ void game::init_faction_data()
         {_("the avoidance of drugs"),     1,   0,  0,   -1,    1},
         {_("their adherance to the law"), 2,  -1, -1,   -4,   -1},
         {_("their cruelty"),             -3,   1, -1,    4,    1}
-    };
+    }};
     // TOTALS:                            5    4   1    -3     4
     for(int i = 0; i < NUM_FACVALS; i++) {
         faction::facval_data[i] = tmp_val[i];

@@ -936,8 +936,8 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
     if( technique.aoe == "wide" ) {
         //check if either (or both) of the squares next to our target contain a possible victim
         //offsets are a pre-computed matrix allowing us to quickly lookup adjacent squares
-        int offset_a[] = {0 ,-1,-1,1 ,0 ,-1,1 ,1 ,0 };
-        int offset_b[] = {-1,-1,0 ,-1,0 ,1 ,0 ,1 ,1 };
+        std::array<int, 9> offset_a = {{0 ,-1,-1,1 ,0 ,-1,1 ,1 ,0 }};
+        std::array<int, 9> offset_b = {{-1,-1,0 ,-1,0 ,1 ,0 ,1 ,1 }};
 
         int lookup = t.posy() - posy() + 1 + (3 * (t.posx() - posx() + 1));
 
@@ -971,8 +971,8 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
         // Check if the square cardinally behind our target, or to the left / right,
         // contains a possible target.
         // Offsets are a pre-computed matrix allowing us to quickly lookup adjacent squares.
-        int offset_a[] = {0 ,-1,-1,1 ,0 ,-1,1 ,1 ,0 };
-        int offset_b[] = {-1,-1,0 ,-1,0 ,1 ,0 ,1 ,1 };
+        std::array<int, 9> offset_a = {{0 ,-1,-1,1 ,0 ,-1,1 ,1 ,0 }};
+        std::array<int, 9> offset_b = {{-1,-1,0 ,-1,0 ,1 ,0 ,1 ,1 }};
 
         int lookup = t.posy() - posy() + 1 + (3 * (t.posx() - posx() + 1));
 

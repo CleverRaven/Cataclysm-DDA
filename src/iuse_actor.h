@@ -633,8 +633,8 @@ class holster_actor : public iuse_actor
         int max_weight = -1;
         /** Total number of items that holster can contain **/
         int multi = 1;
-        /** Base move cost per unit volume when wielding the contained item */
-        int draw_cost = VOLUME_MOVE_COST;
+        /** Base cost of accessing/storing an item. Scales down to half of that with skills. */
+        int draw_cost = INVENTORY_HANDLING_PENALTY;
         /** Guns using any of these skills can be holstered */
         std::vector<skill_id> skills;
         /** Items with any of these flags set can be holstered */
@@ -667,8 +667,8 @@ class bandolier_actor : public iuse_actor
         /** What types of ammo can be stored? */
         std::set<ammotype> ammo;
 
-        /** Base move cost per unit volume when storing/retrieving contained items */
-        int draw_cost = VOLUME_MOVE_COST;
+        /** Base cost of accessing/storing an item. Scales down to half of that with skills. */
+        int draw_cost = INVENTORY_HANDLING_PENALTY;
 
         /** Check if obj could be stored in the bandolier */
         bool can_store( const item& bandolier, const item& obj ) const;

@@ -404,7 +404,8 @@ bool vehicle::turrets_aim( bool manual, bool automatic, vehicle_part *tur_part )
     } );
 
     tripoint pos = g->u.pos();
-    std::vector<tripoint> trajectory = g->pl_target_ui( TARGET_MODE_TURRET, nullptr, range );
+    std::vector<tripoint> trajectory;
+    trajectory = target_handler().target_ui( g->u, TARGET_MODE_TURRET, nullptr, range );
 
     bool got_target = !trajectory.empty();
     if( got_target ) {

@@ -943,11 +943,11 @@ void draw_item_filter_rules( WINDOW *win, int starty, int height, item_filter_ty
     }
 
     // Not static so that language changes are correctly handled
-    const std::string intros[] = {
+    const std::array<std::string, 3> intros = {{
         _( "Type part of an item's name to filter it." ),
         _( "Type part of an item's name to move nearby items to the bottom." ),
         _( "Type part of an item's name to move nearby items to the top." )
-    };
+    }};
     const int tab_idx = int( type ) - int( item_filter_type::FIRST );
     starty += 1 + fold_and_print( win, starty, 1, len, c_white, intros[tab_idx] );
 

@@ -51,7 +51,7 @@ static minimap_shared_texture_pool tex_pool;
 SDL_Color cursesColorToSDL(int color);
 
 static const std::string empty_string;
-static const std::string TILE_CATEGORY_IDS[] = {
+static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
     "", // C_NONE,
     "vehicle_part", // C_VEHICLE_PART,
     "terrain", // C_TERRAIN,
@@ -64,7 +64,7 @@ static const std::string TILE_CATEGORY_IDS[] = {
     "bullet", // C_BULLET,
     "hit_entity", // C_HIT_ENTITY,
     "weather", // C_WEATHER,
-};
+}};
 
 // Operator overload required to leverage unique_ptr API.
 void SDL_Texture_deleter::operator()( SDL_Texture *const ptr )
@@ -963,11 +963,12 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
             draw_points.push_back( tile_render_info( tripoint( x, y, center.z ), height_3d ) );
         }
-        const decltype ( &cata_tiles::draw_furniture ) drawing_layers[] = {
+        const std::array<decltype ( &cata_tiles::draw_furniture ), 7> drawing_layers = {{
             &cata_tiles::draw_furniture, &cata_tiles::draw_trap,
             &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart,
             &cata_tiles::draw_vpart_below, &cata_tiles::draw_terrain_below,
-            &cata_tiles::draw_critter_at };
+            &cata_tiles::draw_critter_at
+        }};
         // for each of the drawing layers in order, back to front ...
         for( auto f : drawing_layers ) {
             // ... draw all the points we drew terrain for, in the same order

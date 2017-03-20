@@ -1668,7 +1668,7 @@
         "connections" : [
             { "point" : [0,2,0] }
         ],
-        "locations" : [ "forest" ],
+        "locations" : [ "forest", "field" ],
         "city_distance" : [2, 10],
         "city_sizes" : [2, 16],
         "occurrences" : [2, 5],

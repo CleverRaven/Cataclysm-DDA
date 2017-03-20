@@ -130,10 +130,20 @@
         "damage_modifier": 10,
         "durability": 20,
         "item": "veh_tracker",
-        "difficulty": 2,
         "epower": -63,
         "folded_volume": 2,
-        "flags": ["TOOL_SCREWDRIVER", "TRACK", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "ENABLED_DRAINS_EPOWER"],
+        "requirements": {
+          "install": {
+            "time": 20000,
+            "skills": [ [ "mechanics", 2 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          },
+          "removal": {
+            "skills": [ [ "mechanics", 2 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          }
+        },        
+        "flags": ["TRACK", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "ENABLED_DRAINS_EPOWER"],
         "breaks_into": [
             {"item": "scrap", "count": [0, 2]}
         ]
@@ -149,9 +159,19 @@
         "durability" : 80,
         "folded_volume": 5,
         "item" : "saddle",
-        "difficulty" : 1,
         "location" : "center",
-        "flags" : ["SEAT", "BOARDABLE", "FOLDABLE", "TOOL_WRENCH"],
+        "requirements": {
+          "install": {
+            "time": 20000,
+            "skills": [ [ "mechanics", 1 ] ],
+            "qualities": [ { "id": "WRENCH", "level": 2 } ]
+          },
+          "removal": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "qualities": [ { "id": "WRENCH", "level": 2 } ]
+          }
+        },
+        "flags" : ["SEAT", "BOARDABLE", "FOLDABLE"],
         "breaks_into" : [
             {"item": "leather", "prob": 50},
             {"item": "scrap", "count": [1, 2]}
@@ -168,9 +188,19 @@
         "durability" : 20,
         "item" : "sheet",
         "folded_volume": 10,
-        "difficulty" : 2,
         "location" : "anywhere",
-        "flags" : ["SEAT", "BOARDABLE", "FOLDABLE", "TOOL_WRENCH"],
+        "requirements": {
+          "install": {
+            "time": 20000,
+            "skills": [ [ "mechanics", 2 ] ],
+            "qualities": [ { "id": "WRENCH", "level": 2 } ]
+          },
+          "removal": {
+            "skills": [ [ "mechanics", 2 ] ],
+            "qualities": [ { "id": "WRENCH", "level": 2 } ]
+          }
+        },
+        "flags" : ["SEAT", "BOARDABLE", "FOLDABLE"],
         "breaks_into" : [
             {"item": "rag", "count": [1, 6]}
         ]
@@ -925,9 +955,19 @@
         "folded_volume": 2,
         "bonus" : 25,
         "item" : "rope_6",
-        "difficulty" : 1,
         "location" : "on_seat",
-        "flags" : ["SEATBELT", "TOOL_SCREWDRIVER", "FOLDABLE"],
+        "requirements": {
+          "install": {
+            "time": 15000,
+            "skills": [ [ "mechanics", 1 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          },
+          "removal": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          }
+        },
+        "flags" : ["SEATBELT", "FOLDABLE"],
         "breaks_into" : [
             {"item": "string_36", "count": [0, 3]}
         ]
@@ -950,8 +990,7 @@
           "install": {
             "time": 30000,
             "skills": [ [ "mechanics", 4 ], [ "electronics", 4 ] ],
-            "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
-            "components": [ [ [ "processor", 1 ] ] ]
+            "qualities": [ { "id": "SCREW_FINE", "level": 1 } ]
           },
           "removal": {
             "skills": [ [ "mechanics", 4 ], [ "electronics", 4 ] ],
@@ -976,9 +1015,19 @@
         "folded_volume": 4,
         "bonus" : 25,
         "item" : "rope_30",
-        "difficulty" : 2,
         "location" : "on_seat",
-        "flags" : ["SEATBELT", "TOOL_SCREWDRIVER", "FOLDABLE"],
+        "requirements": {
+          "install": {
+            "time": 30000,
+            "skills": [ [ "mechanics", 2 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          },
+          "removal": {
+            "skills": [ [ "mechanics", 2 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          }
+        },
+        "flags" : ["SEATBELT", "FOLDABLE"],
         "breaks_into" : [
             {"item": "string_36", "count": [0, 3]}
         ]
@@ -995,8 +1044,18 @@
         "bonus": 25,
         "item": "sheet",
         "location": "on_windshield",
-        "difficulty": 1,
-        "flags": ["OPENABLE", "TOOL_SCREWDRIVER", "OPENCLOSE_INSIDE", "OPAQUE", "CURTAIN"],
+        "requirements": {
+          "install": {
+            "time": 30000,
+            "skills": [ [ "mechanics", 1 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          },
+          "removal": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          }
+        },
+        "flags": ["OPENABLE", "OPENCLOSE_INSIDE", "OPAQUE", "CURTAIN"],
         "breaks_into": []
     },{
         "type" : "vehicle_part",
@@ -1011,8 +1070,18 @@
         "bonus": 25,
         "item": "v_curtain_item",
         "location": "on_ceiling",
-        "difficulty": 1,
-        "flags": ["OPENABLE", "TOOL_SCREWDRIVER", "OPAQUE", "OPENCLOSE_INSIDE"],
+        "requirements": {
+          "install": {
+            "time": 30000,
+            "skills": [ [ "mechanics", 1 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          },
+          "removal": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          }
+        },
+        "flags": ["OPENABLE", "OPAQUE", "OPENCLOSE_INSIDE"],
         "breaks_into": []
     },{
         "type" : "vehicle_part",
@@ -1130,8 +1199,18 @@
         "damage_modifier": 10,
         "durability": 45,
         "item": "water_faucet",
-        "difficulty": 1,
-        "flags": ["FAUCET", "TOOL_WRENCH"],
+        "requirements": {
+          "install": {
+            "time": 30000,
+            "skills": [ [ "mechanics", 1 ] ],
+            "qualities": [ { "id": "WRENCH", "level": 1 } ]
+          },
+          "removal": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "qualities": [ { "id": "WRENCH", "level": 1 } ]
+          }
+        },
+        "flags": ["FAUCET"],
         "breaks_into" : [
             {"item": "scrap", "count": [1, 3]}
         ]
@@ -1400,8 +1479,18 @@
         "folded_volume": 1,
         "bonus" : 45,
         "item" : "horn_bicycle",
-        "difficulty" : 1,
-        "flags" : ["HORN", "FOLDABLE", "TOOL_SCREWDRIVER"],
+        "requirements": {
+          "install": {
+            "time": 15000,
+            "skills": [ [ "mechanics", 1 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          },
+          "removal": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          }
+        },
+        "flags" : ["HORN", "FOLDABLE"],
         "breaks_into" : [
             {"item": "scrap", "prob": 50}
         ]
@@ -1417,8 +1506,18 @@
         "durability" : 100,
         "bonus" : 100,
         "item" : "horn_car",
-        "difficulty" : 2,
-        "flags" : ["HORN", "TOOL_SCREWDRIVER"],
+        "requirements": {
+          "install": {
+            "time": 15000,
+            "skills": [ [ "mechanics", 2 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          },
+          "removal": {
+            "skills": [ [ "mechanics", 2 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          }
+        },
+        "flags" : ["HORN"],
         "breaks_into" : [
             {"item": "scrap", "count": [0, 2]}
         ]
@@ -1434,8 +1533,18 @@
         "durability" : 125,
         "bonus" : 120,
         "item" : "horn_big",
-        "difficulty" : 2,
-        "flags" : ["HORN", "TOOL_SCREWDRIVER"],
+        "requirements": {
+          "install": {
+            "time": 15000,
+            "skills": [ [ "mechanics", 2 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          },
+          "removal": {
+            "skills": [ [ "mechanics", 2 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          }
+        },
+        "flags" : ["HORN"],
         "breaks_into" : [
             {"item": "steel_chunk", "prob": 50}
         ]
@@ -1451,8 +1560,18 @@
         "durability" : 90,
         "bonus" : 40,
         "item" : "beeper",
-        "difficulty" : 2,
-        "flags" : ["BEEPER", "ODDTURN", "TOOL_SCREWDRIVER"],
+        "requirements": {
+          "install": {
+            "time": 15000,
+            "skills": [ [ "mechanics", 2 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          },
+          "removal": {
+            "skills": [ [ "mechanics", 2 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          }
+        },
+        "flags" : ["BEEPER", "ODDTURN"],
         "breaks_into" : [
             {"item": "scrap", "count": [0, 2]},
             {"item": "cable", "charges": [1, 3]},
@@ -1556,9 +1675,19 @@
         "durability" : 20,
         "folded_volume": 2,
         "item" : "mirror",
-        "difficulty" : 1,
+        "requirements": {
+          "install": {
+            "time": 10000,
+            "skills": [ [ "mechanics", 1 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          },
+          "removal": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          }
+        },
         "location" : "structure",
-        "flags" : ["VISION", "PROTRUSION", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "TOOL_SCREWDRIVER"],
+        "flags" : ["VISION", "PROTRUSION", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
         "breaks_into" : [
             {"item": "glass_shard", "count": [0, 2]}
         ]
@@ -1574,9 +1703,19 @@
         "durability" : 30,
         "folded_volume": 1,
         "item" : "mirror",
-        "difficulty" : 1,
+        "requirements": {
+          "install": {
+            "time": 10000,
+            "skills": [ [ "mechanics", 1 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          },
+          "removal": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          }
+        },
         "location" : "on_windshield",
-        "flags" : ["VISION", "FOLDABLE", "TOOL_SCREWDRIVER"],
+        "flags" : ["VISION", "FOLDABLE"],
         "breaks_into" : [
             {"item": "glass_shard", "count": [0, 2]}
         ]
@@ -1637,8 +1776,12 @@
         "//" : "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
         "durability" : 120,
         "item" : "jumper_cable",
-        "difficulty" : 1,
-        "flags" : ["NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER", "TOOL_NONE"],
+        "requirements": {
+          "removal": {
+            "time": 500
+          }
+        },
+        "flags" : ["NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER"],
         "breaks_into" : [
             {"item": "cable", "charges": [1, 10]},
             {"item": "plastic_chunk", "count": [1, 2]}
@@ -1657,8 +1800,12 @@
         "epower" : 5,
         "//" : "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
         "item" : "jumper_cable_heavy",
-        "difficulty" : 1,
-        "flags" : ["NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER", "TOOL_NONE"],
+        "requirements": {
+          "removal": {
+            "time": 500
+          }
+        },
+        "flags" : ["NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER"],
         "breaks_into" : [
             {"item": "wire", "count": [4, 8]},
             {"item": "plastic_chunk", "count": [4, 8]}
@@ -1677,8 +1824,12 @@
         "damage_modifier" : 10,
         "durability" : 120,
         "item" : "jumper_cable_debug",
-        "difficulty" : 1,
-        "flags" : ["NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER", "TOOL_NONE"],
+        "requirements": {
+          "removal": {
+            "time": 500
+          }
+        },
+        "flags" : ["NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER"],
         "breaks_into" : [
             {"item": "jumper_cable_debug"}
         ]
@@ -1920,7 +2071,17 @@
         "durability" : 20,
         "epower" : 0,
         "item" : "wristwatch",
-        "difficulty" : 1,
+        "requirements": {
+          "install": {
+            "time": 15000,
+            "skills": [ [ "mechanics", 1 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          },
+          "removal": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "qualities": [ { "id": "SCREW", "level": 1 } ]
+          }
+        },
         "flags": ["WATCH", "ALARMCLOCK", "TOOL_SCREWDRIVER"],
         "breaks_into" : [
             {"item": "scrap", "prob": 50}

@@ -484,7 +484,7 @@ public:
  void randomize_from_faction(faction *fac);
  void set_fac(std::string fac_name);
     /**
-     * Set @ref mapx and @ref mapx and @ref pos.
+     * Set @ref submap_coords and @ref pos.
      * @param mx,my,mz are global submap coordinates.
      * This function also adds the npc object to the overmap.
      */
@@ -496,7 +496,7 @@ public:
     void spawn_at_random_city(overmap *o);
     /**
      * Places the NPC on the @ref map. This update its
-     * posx,posy and mapx,mapy values to fit the current offset of
+     * pos values to fit the current offset of
      * map (g->levx, g->levy).
      * If the square on the map where the NPC would go is not empty
      * a spiral search for an empty square around it is performed.
@@ -747,6 +747,8 @@ public:
     // Because they can't run yet
     float speed_rating() const override;
 
+    void setpos( const tripoint &pos ) override;
+
 // #############   VALUES   ################
 
  npc_attitude attitude; // What we want to do to the player
@@ -756,14 +758,14 @@ public:
 
 private:
     /**
-     * Global submap coordinates of the npc (minus the position on the map:
-     * posx,posy). Use global_*_location to get the global position.
-     * You should not change mapx,mapy directly, use posx,posy instead,
-     * @ref shift will update mapx,mapy and move the npc to a different
+     * Global submap coordinates of the submap containing the npc.
+     * Use global_*_location to get the global position.
+     * You should not change submap_coords directly, use pos instead,
+     * @ref shift will update submap_coords and move the npc to a different
      * overmap if needed.
-     * (mapx,mapy) defines the overmap the npc is stored on.
+     * submap_coords defines the overmap the npc is stored on.
      */
-    int mapx, mapy;
+    point submap_coords;
     // Type of complaint->last time we complainted about this type
     std::map<std::string, int> complaints;
 
@@ -777,15 +779,15 @@ public:
      *
      * The (global) position of an NPC is always:
      * point(
-     *     mapx * SEEX + posx,
-     *     mapy * SEEY + posy,
+     *     submap_coords.x * SEEX + posx() % SEEX,
+     *     submap_coords.y * SEEY + posy() % SEEY,
      *     pos.z)
      * (Expressed in map squares, the system that @ref map uses.)
      * Any of om, map, pos can be in any range.
      * For active NPCs pos would be in the valid range required by
      * the map. But pos, map, and om can be changed without the NPC
      * actual moving as long as the position stays the same:
-     * posx += SEEX; mapx -= 1;
+     * pos() += SEEX; submap_coords.x -= 1;
      * This does not change the global position of the NPC.
      */
     tripoint global_square_location() const override;

@@ -1214,7 +1214,7 @@ bool game::cleanup_at_end()
         std::string sLastWords = string_input_popup()
                                  .window( w_rip, iStartX, iNameLine, iStartX + iMaxWidth - 4 - 1 )
                                  .max_length( iMaxWidth - 4 - 1 )
-                                 .query();
+                                 .query_string();
         death_screen();
         if (uquit == QUIT_SUICIDE) {
             u.add_memorial_log(pgettext("memorial_male", "%s committed suicide."),
@@ -3031,7 +3031,8 @@ bool game::handle_action()
                 int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
                 temp_exit_fullscreen();
                 m.draw( w_terrain, u.pos() );
-                std::vector<tripoint> trajectory = pl_target_ui( TARGET_MODE_REACH, &u.weapon,range );
+                std::vector<tripoint> trajectory;
+                trajectory = target_handler().target_ui( u, TARGET_MODE_REACH, &u.weapon,range );
                 if( !trajectory.empty() ) {
                     u.reach_attack( trajectory.back() );
                 }
@@ -4333,7 +4334,7 @@ void game::debug()
                                   .width( 20 )
                                   .text( to_string( initial ) )
                                   .only_digits( true )
-                                  .query();
+                                  .query_string();
                 if( text.empty() ) {
                     return;
                 }
@@ -4991,10 +4992,10 @@ void game::draw_sidebar()
     if( safe_mode != SAFE_MODE_OFF || get_option<bool>( "AUTOSAFEMODE" ) ) {
         int iPercent = turnssincelastmon * 100 / get_option<int>( "AUTOSAFEMODETURNS" );
         wmove(w_status, sideStyle ? 4 : 1, getmaxx(w_status) - 4);
-        const char *letters[] = { "S", "A", "F", "E" };
+        const std::array<std::string, 4> letters = {{ "S", "A", "F", "E" }};
         for (int i = 0; i < 4; i++) {
             nc_color c = (safe_mode == SAFE_MODE_OFF && iPercent < (i + 1) * 25) ? c_red : c_green;
-            wprintz(w_status, c, letters[i]);
+            wprintz(w_status, c, letters[i].c_str());
         }
     }
     wrefresh(w_status);
@@ -5212,21 +5213,21 @@ void game::draw_HP()
         }
     }
 
-    static const char *body_parts[] = { _("HEAD"), _("TORSO"), _("L ARM"),
-                                        _("R ARM"), _("L LEG"), _("R LEG"),
-                                        _("POWER")
-                                      };
-    static body_part part[] = { bp_head, bp_torso, bp_arm_l,
-                                bp_arm_r, bp_leg_l, bp_leg_r, num_bp
-                              };
-    int num_parts = sizeof(body_parts) / sizeof(body_parts[0]);
-    for (int i = 0; i < num_parts; i++) {
-        const char *str = body_parts[i];
+    const size_t num_parts = 7;
+    static const std::array<std::string, num_parts> body_parts = {{
+        _("HEAD"), _("TORSO"), _("L ARM"),
+        _("R ARM"), _("L LEG"), _("R LEG"), _("POWER")
+    }};
+    static std::array<body_part, num_parts> part = {{
+        bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r, num_bp
+    }};
+    for (size_t i = 0; i < num_parts; i++) {
+        const std::string &str = body_parts[i];
         wmove(w_HP, i * dy, 0);
         if (wide) {
             wprintz(w_HP, u.limb_color(part[i], true, true, true), " ");
         }
-        wprintz(w_HP, u.limb_color(part[i], true, true, true), str);
+        wprintz(w_HP, u.limb_color(part[i], true, true, true), str.c_str());
         if (!wide) {
             wprintz(w_HP, u.limb_color(part[i], true, true, true), ":");
         }
@@ -5774,16 +5775,16 @@ int game::mon_info(WINDOW *w)
     // 6 8 2    0-7 are provide by direction_from()
     // 5 4 3    8 is used for local monsters (for when we explain them below)
 
-    const char *dir_labels[] = {
+    const std::array<std::string, 8> dir_labels = {{
         _("North:"), _("NE:"), _("East:"), _("SE:"),
         _("South:"), _("SW:"), _("West:"), _("NW:")
-    };
-    int widths[8];
+    }};
+    std::array<int, 8> widths;
     for (int i = 0; i < 8; i++) {
-        widths[i] = utf8_width(dir_labels[i]);
+        widths[i] = utf8_width(dir_labels[i].c_str());
     }
-    int xcoords[8];
-    const int ycoords[] = { 0, 0, 1, 2, 2, 2, 1, 0 };
+    std::array<int, 8> xcoords;
+    const std::array<int, 8> ycoords = {{ 0, 0, 1, 2, 2, 2, 1, 0 }};
     xcoords[0] = xcoords[4] = width / 3;
     xcoords[1] = xcoords[3] = xcoords[2] = (width / 3) * 2;
     xcoords[5] = xcoords[6] = xcoords[7] = 0;
@@ -5792,7 +5793,7 @@ int game::mon_info(WINDOW *w)
     for (int i = 0; i < 8; i++) {
         nc_color c = unique_types[i].empty() && unique_mons[i].empty() ? c_dkgray
                      : (dangerous[i] ? c_ltred : c_ltgray);
-        mvwprintz(w, ycoords[i] + startrow, xcoords[i], c, dir_labels[i]);
+        mvwprintz(w, ycoords[i] + startrow, xcoords[i], c, dir_labels[i].c_str());
     }
 
     // Print the symbols of all monsters in all directions.
@@ -6258,13 +6259,13 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                     if (targ->has_effect( effect_stunned))
                         add_msg(_("%s was stunned!"), targ->name.c_str());
 
-                    body_part bps[] = {
+                    std::array<body_part, 8> bps = {{
                         bp_head,
                         bp_arm_l, bp_arm_r,
                         bp_hand_l, bp_hand_r,
                         bp_torso,
                         bp_leg_l, bp_leg_r
-                    };
+                    }};
                     for (auto &bp : bps) {
                         if (one_in(2)) {
                             targ->deal_damage( nullptr, bp, damage_instance( DT_BASH, force_remaining * dam_mult ) );
@@ -6333,13 +6334,13 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                                 force_remaining);
                     }
                     u.add_effect( effect_stunned, force_remaining);
-                    body_part bps[] = {
+                    std::array<body_part, 8> bps = {{
                         bp_head,
                         bp_arm_l, bp_arm_r,
                         bp_hand_l, bp_hand_r,
                         bp_torso,
                         bp_leg_l, bp_leg_r
-                    };
+                    }};
                     for (auto &bp : bps) {
                         if (one_in(2)) {
                             u.deal_damage( nullptr, bp, damage_instance( DT_BASH, force_remaining * dam_mult ) );
@@ -7409,7 +7410,7 @@ bool pet_menu(monster *z)
         std::string unique_name = string_input_popup()
                                   .title( _( "Enter new pet name:" ) )
                                   .width( 20 )
-                                  .query();
+                                  .query_string();
         if( unique_name.length() > 0 ) {
             z->unique_name = unique_name;
         }
@@ -9102,7 +9103,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             reset = true;
             refresh_all();
         } else if( action == "FILTER" ) {
-	  draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::FILTER );
+            draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::FILTER );
             string_input_popup()
             .title( _( "Filter:" ) )
             .width( 55 )
@@ -9141,7 +9142,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                                .description( _( "UP: history, CTRL-U clear line, ESC: abort, ENTER: save" ) )
                                .identifier( "list_item_priority" )
                                .max_length( 256 )
-                               .query();
+                               .query_string();
             refilter = true;
             reset = true;
             addcategory = !sort_radius;
@@ -9155,7 +9156,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                                  .description( _( "UP: history, CTRL-U clear line, ESC: abort, ENTER: save" ) )
                                  .identifier( "list_item_downvote" )
                                  .max_length( 256 )
-                                 .query();
+                                 .query_string();
             refilter = true;
             reset = true;
             addcategory = !sort_radius;
@@ -9976,8 +9977,9 @@ void game::plthrow(int pos)
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
 
-    // pl_target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
-    std::vector<tripoint> trajectory = pl_target_ui( TARGET_MODE_THROW, &thrown, range );
+    // target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
+    std::vector<tripoint> trajectory;
+    trajectory = target_handler().target_ui( u, TARGET_MODE_THROW, &thrown, range );
     if (trajectory.empty()) {
         return;
     }
@@ -9998,12 +10000,7 @@ void game::plthrow(int pos)
     reenter_fullscreen();
 }
 
-// @todo: Move game::pl_target_ui and related data/functions to src/ranged.cpp
-std::vector<tripoint> game::pl_target_ui( const targeting_data &args ) {
-    return pl_target_ui( args.mode, args.relevant, args.range,
-                         args.ammo, args.on_mode_change, args.on_ammo_change );
-}
-
+// @todo: Move data/functions related to targeting out of game class
 bool game::plfire_check( const targeting_data &args ) {
     bool okay = true;
     vehicle *veh = nullptr;
@@ -10145,7 +10142,7 @@ bool game::plfire()
 
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
-    std::vector<tripoint> trajectory = pl_target_ui( args );
+    std::vector<tripoint> trajectory = target_handler().target_ui( u, args );
 
     if( trajectory.empty() ) {
         bool not_aiming = u.activity.id() != activity_id( "ACT_AIM" );
@@ -10851,24 +10848,39 @@ void game::wield( int pos )
         add_msg( m_info, _( "You cannot unwield your %s." ), u.weapon.tname().c_str() );
         return;
     }
-    if( pos == INT_MIN ) {
-        pos = inv_for_all( _( "Wield item" ), _( "You have nothing to wield." ) );
+
+    item_location loc;
+    if( pos != INT_MIN ) {
+        loc = item_location( u, &u.i_at( pos ) );
+    } else {
+        const auto filter = []( const item &it ) {
+            return it.made_of( SOLID );
+        };
+        loc = inv_map_splice( filter, _( "Wield item" ), 1, _( "You have nothing to wield." ) );
     }
 
-    if( pos == INT_MIN ) {
+    if( !loc ) {
         add_msg( _( "Never mind." ) );
         return;
     }
 
+    // Minor hack: special case owned weapons here
+    // @todo Move that to player::wield
+    bool in_inv = loc.where() == item_location::type::character;
+
     // Weapons need invlets to access, give one if not already assigned.
-    item &it = u.i_at( pos );
+    item &it = *loc;
     if( !it.is_null() && it.invlet == 0 ) {
         u.inv.assign_empty_invlet( it, true );
     }
 
     // If called for the current weapon then try unwielding it
-    if( u.wield( pos == -1 ? u.ret_null : it ) ) {
+    if( u.wield( &it == &u.weapon ? u.ret_null : it ) ) {
         u.recoil = MIN_RECOIL;
+        // Rest of the hack: remove the item if it wasn't removed in player::wield
+        if( !in_inv ) {
+            loc.remove_item();
+        }
     }
 }
 

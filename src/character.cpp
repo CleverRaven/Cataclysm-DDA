@@ -826,6 +826,10 @@ units::volume Character::volume_carried() const
 
 int Character::weight_capacity() const
 {
+    if( has_trait( "DEBUG_STORAGE" ) ) {
+        // Infinite enough
+        return INT_MAX;
+    }
     // Get base capacity from creature,
     // then apply player-only mutation and trait effects.
     int ret = Creature::weight_capacity();
@@ -859,6 +863,10 @@ units::volume Character::volume_capacity() const
 
 units::volume Character::volume_capacity_reduced_by( units::volume mod ) const
 {
+    if( has_trait( "DEBUG_STORAGE" ) ) {
+        return units::volume_max;
+    }
+
     units::volume ret = -mod;
     for (auto &i : worn) {
         ret += i.get_storage();
@@ -1969,6 +1977,8 @@ bool Character::is_immune_field( const field_id fid ) const
                    get_armor_type( DT_ACID, bp_foot_r ) >= 5 &&
                    get_armor_type( DT_ACID, bp_leg_l ) >= 5 &&
                    get_armor_type( DT_ACID, bp_leg_r ) >= 5);
+        case fd_web:
+            return has_trait( "WEB_WALKER" );
         default:
             // Suppress warning
             break;

@@ -259,7 +259,7 @@ void vehicle::add_steerable_wheels()
                     axle = parts[p].mount.x;
                 }
 
-                wheels.push_back(std::make_pair(p, steerable_id));
+                wheels.push_back(std::make_pair(static_cast<int>( p ), steerable_id));
             }
         }
     }
@@ -3086,9 +3086,11 @@ void vehicle::spew_smoke( double joules, int part, int density )
  */
 void vehicle::noise_and_smoke( double load, double time )
 {
-    const int sound_levels[] = { 0, 15, 30, 60, 100, 140, 180, INT_MAX };
-    const char *sound_msgs[] = { "", _("hummm!"), _("whirrr!"), _("vroom!"), _("roarrr!"), _("ROARRR!"),
-                                 _("BRRROARRR!!"), _("BRUMBRUMBRUMBRUM!!!") };
+    const std::array<int, 8> sound_levels = {{ 0, 15, 30, 60, 100, 140, 180, INT_MAX }};
+    const std::array<std::string, 8> sound_msgs = {{
+        "", _("hummm!"), _("whirrr!"), _("vroom!"), _("roarrr!"), _("ROARRR!"),
+        _("BRRROARRR!!"), _("BRUMBRUMBRUMBRUM!!!")
+    }};
     double noise = 0.0;
     double mufflesmoke = 0.0;
     double muffle = 1.0, m;
@@ -3897,7 +3899,9 @@ void vehicle::operate_scoop()
     for( int scoop : scoops ) {
         const int chance_to_damage_item = 9;
         const units::volume max_pickup_volume = parts[scoop].info().size / 10;
-        const char *sound_msgs[] = {_("Whirrrr"), _("Ker-chunk"), _("Swish"), _("Cugugugugug")};
+        const std::array<std::string, 4> sound_msgs = {{
+            _("Whirrrr"), _("Ker-chunk"), _("Swish"), _("Cugugugugug")
+        }};
         sounds::sound( global_pos3() + parts[scoop].precalc[0], rng( 20, 35 ),
                        sound_msgs[rng( 0, 3 )] );
         std::vector<tripoint> parts_points;
@@ -3951,7 +3955,9 @@ void vehicle::alarm() {
 
         //if alarm found, make noise, else set alarm disabled
         if( found_alarm ) {
-            const char *sound_msgs[] = { _("WHOOP WHOOP"), _("NEEeu NEEeu NEEeu"), _("BLEEEEEEP"), _("WREEP")};
+            const std::array<std::string, 4> sound_msgs = {{
+                _("WHOOP WHOOP"), _("NEEeu NEEeu NEEeu"), _("BLEEEEEEP"), _("WREEP")
+            }};
             sounds::sound( global_pos3(), (int) rng(45,80), sound_msgs[rng(0,3)] );
             if( one_in(1000) ) {
                 is_alarm_on = false;
@@ -5072,7 +5078,7 @@ void vehicle::refresh()
         // Build map of point -> all parts in that point
         const point pt = parts[p].mount;
         // This will keep the parts at point pt sorted
-        vii = std::lower_bound( relative_parts[pt].begin(), relative_parts[pt].end(), p, svpv );
+        vii = std::lower_bound( relative_parts[pt].begin(), relative_parts[pt].end(), static_cast<int>( p ), svpv );
         relative_parts[pt].insert( vii, p );
     }
 

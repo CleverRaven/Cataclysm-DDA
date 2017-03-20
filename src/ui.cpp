@@ -279,7 +279,7 @@ std::string uimenu::inputfilter()
     input_event event;
     do {
         // filter=filter_input->query(filter, false);
-        filter = popup.query( false );
+        filter = popup.query_string( false );
         event = popup.context().get_raw_input();
         // key = filter_input->keypress;
         if ( event.get_first_input() != KEY_ESCAPE ) {
@@ -832,9 +832,9 @@ void uimenu::query(bool loop)
             }
         }
 
-		if ( skipkey ) { 
-			/* nothing */
-		} else if ( scrollby( scroll_amount_from_action( action ) ) == true ) {
+        if ( skipkey ) {
+            /* nothing */
+        } else if ( scrollby( scroll_amount_from_action( action ) ) == true ) {
             /* nothing */
         } else if ( filtering && action == "FILTER" ) {
             inputfilter();

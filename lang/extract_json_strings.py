@@ -85,7 +85,6 @@ automatically_convertible = {
     "BIONIC_ITEM",
     "BOOK",
     "COMESTIBLE",
-    "construction",
     "CONTAINER",
     "dream",
     "ENGINE",
@@ -100,7 +99,9 @@ automatically_convertible = {
     "MAGAZINE",
     "MOD_INFO",
     "MONSTER",
+    "morale_type",
     "mutation",
+    "morale_type",
     "npc_class",
     "overmap_terrain",
     "skill",
@@ -151,9 +152,16 @@ use_format_strings = {
 def extract_bodypart(item):
     outfile = get_outfile("bodypart")
     writestr(outfile, item["name"])
+    writestr(outfile, item["name"], context="bodypart_accusative")
     writestr(outfile, item["encumbrance_text"])
     writestr(outfile, item["heading_singular"], item["heading_plural"])
 
+
+def extract_construction(item):
+    outfile = get_outfile("construction")
+    writestr(outfile, item["description"])
+    if "pre_note" in item:
+        writestr(outfile, item["pre_note"])
 
 def extract_material(item):
     outfile = get_outfile("material")
@@ -527,6 +535,7 @@ def extract_gate(item):
 # these objects need to have their strings specially extracted
 extract_specials = {
     "body_part": extract_bodypart,
+    "construction": extract_construction,
     "effect_type": extract_effect_type,
     "GUN": extract_gun,
     "GUNMOD": extract_gunmod,
