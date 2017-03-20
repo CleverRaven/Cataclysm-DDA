@@ -5674,14 +5674,7 @@
     {"id":"CUT","level":1},
     {"id":"BOIL","level":2}
   ],
-  "tools": [
-    [
-      [ "hotplate", 50 ],
-      [ "toolset", 50 ],
-      [ "fire", -1 ],
-      [ "char_smoker", 5 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
   "components": [
     [
       [ "hickory_root", 10 ]
@@ -5773,14 +5766,7 @@
     { "id": "CONTAIN", "level": 1 },
     { "id": "BOIL", "level": 2 },
     { "id": "CHEM", "level": 1 }
-  ], "tools": [
-    [
-      [ "hotplate", 40 ],
-      [ "toolset", 40 ],
-      [ "fire", -1 ],
-      [ "char_smoker", 4 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 40, "LIST" ] ] ],
   "components": [
     [
       [ "sugar_beet", 2 ]
@@ -9704,14 +9690,7 @@
     {"id":"COOK","level":3},
     {"id":"CUT","level":1},
     {"id":"SEW","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "toolset", 5 ],
-      [ "char_smoker", 5 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -9750,14 +9729,7 @@
     {"id":"COOK","level":3},
     {"id":"CUT","level":1},
     {"id":"SEW","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "toolset", 5 ],
-      [ "char_smoker", 5 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -9798,14 +9770,7 @@
   "qualities":[
     {"id":"COOK","level":3},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "toolset", 5 ],
-      [ "char_smoker", 5 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -9836,14 +9801,7 @@
   "qualities":[
     {"id":"BOIL","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "toolset", 5 ],
-      [ "char_smoker", 5 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "oatmeal", 1 ],
