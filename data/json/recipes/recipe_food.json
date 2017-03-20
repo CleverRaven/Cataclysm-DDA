@@ -8,18 +8,8 @@
   "time": 5000,
   "autolearn": true,
   "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "coffeemaker", 3],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ]
@@ -35,18 +25,8 @@
   "time": 90000,
   "autolearn": true,
   "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "coffeemaker", 3],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "salt_water", 10 ],
@@ -63,18 +43,8 @@
   "time": 90000,
   "autolearn": true,
   "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "coffeemaker", 3],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "material_rocksalt", 1 ]
@@ -2151,18 +2121,8 @@
   "time": 10000,
   "autolearn": true,
   "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ],
-      [ "coffeemaker", 2]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "tea_raw", 1 ]
@@ -2182,18 +2142,8 @@
   "time": 10000,
   "autolearn": true,
   "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ],
-      [ "coffeemaker", 2]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "wild_herbs", 10 ]
@@ -2218,16 +2168,8 @@
   "qualities":[
      {"id":"CUT","level":1},
     {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ],
-      [ "coffeemaker", 2]
-    ]
   ],
+  "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "pine_bough", 1 ]
@@ -2251,16 +2193,8 @@
   "qualities":[
     {"id":"BOIL","level":1},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ],
-      [ "coffeemaker", 2]
-    ]
   ],
+  "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "raw_dandelion", 1 ]
@@ -2343,18 +2277,8 @@
   "time": 10000,
   "autolearn": true,
   "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "atomic_coffeepot", -1 ],
-      [ "coffeemaker", 2],
-      [ "fire", -1 ]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "coffee_raw", 1 ],
@@ -9621,18 +9545,8 @@
   "time": 90000,
   "autolearn": true,
   "batch_time_factors":[50, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "coffeemaker", 3],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "sweet_water", 10 ]
@@ -10693,16 +10607,8 @@
   "qualities" : [
     {"id":"BOIL","level":1},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "coffeemaker", 8],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -10764,18 +10670,8 @@
   "time": 15000,
   "autolearn": true,
   "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ],
-      [ "coffeemaker", 2]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "tea_raw", 1 ]
@@ -10914,18 +10810,8 @@
   "difficulty": 5,
   "time": 15000,
   "autolearn": true,
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "coffeemaker", 3],
-      [ "atomic_coffeepot", -1],
-      [ "fire", -1 ]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -11287,18 +11173,8 @@
   "time": 10000,
   "autolearn": true,
   "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ],
-      [ "coffeemaker", 2]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "bee_balm", 1 ]
