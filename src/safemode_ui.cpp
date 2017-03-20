@@ -308,7 +308,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                                          .title( _( "Safe Mode Rule:" ) )
                                          .width( 30 )
                                          .text( current_tab[line].rule )
-                                         .query() );
+                                         .query_string() );
             } else if( column == COLUMN_WHITE_BLACKLIST ) {
                 current_tab[line].whitelist = !current_tab[line].whitelist;
             } else if( column == COLUMN_ATTITUDE ) {
@@ -335,7 +335,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                                                 " " + get_options().get_option( "SAFEMODEPROXIMITY" ).getDefaultText() )
                                   .max_length( 3 )
                                   .only_digits( true )
-                                  .query();
+                                  .query_string();
                 if( text.empty() ) {
                     current_tab[line].proximity = get_option<int>( "SAFEMODEPROXIMITY" );
                 } else {

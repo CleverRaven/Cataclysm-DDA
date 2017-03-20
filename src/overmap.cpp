@@ -2620,7 +2620,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                                          .width( 45 )
                                          .text( old_note )
                                          .description( color_notes )
-                                         .query();
+                                         .query_string();
             if( new_note.empty() && !old_note.empty() ) {
                 // do nothing, the player should be using [D]elete
             } else if( old_note != new_note ) {
@@ -2654,13 +2654,11 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
                 show_explored = !show_explored;
             }
-        } else if (action == "TOGGLE_EXPLORED") {
-            overmap_buffer.toggle_explored(curs.x, curs.y, curs.z);
-        } else if (action == "SEARCH") {
-            std::string term = string_input_popup()
-                              .title( _( "Search term:" ) )
-                              .query();
-            if(term.empty()) {
+        } else if( action == "TOGGLE_EXPLORED" ) {
+            overmap_buffer.toggle_explored( curs.x, curs.y, curs.z );
+        } else if( action == "SEARCH" ) {
+            std::string term = string_input_popup().title( _( "Search term:" ) ).query_string();
+            if( term.empty() ) {
                 continue;
             }
             std::transform( term.begin(), term.end(), term.begin(), tolower );

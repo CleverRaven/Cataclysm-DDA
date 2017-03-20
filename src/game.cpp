@@ -1214,7 +1214,7 @@ bool game::cleanup_at_end()
         std::string sLastWords = string_input_popup()
                                  .window( w_rip, iStartX, iNameLine, iStartX + iMaxWidth - 4 - 1 )
                                  .max_length( iMaxWidth - 4 - 1 )
-                                 .query();
+                                 .query_string();
         death_screen();
         if (uquit == QUIT_SUICIDE) {
             u.add_memorial_log(pgettext("memorial_male", "%s committed suicide."),
@@ -3031,7 +3031,8 @@ bool game::handle_action()
                 int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
                 temp_exit_fullscreen();
                 m.draw( w_terrain, u.pos() );
-                std::vector<tripoint> trajectory = pl_target_ui( TARGET_MODE_REACH, &u.weapon,range );
+                std::vector<tripoint> trajectory;
+                trajectory = target_handler().target_ui( u, TARGET_MODE_REACH, &u.weapon,range );
                 if( !trajectory.empty() ) {
                     u.reach_attack( trajectory.back() );
                 }
@@ -4333,7 +4334,7 @@ void game::debug()
                                   .width( 20 )
                                   .text( to_string( initial ) )
                                   .only_digits( true )
-                                  .query();
+                                  .query_string();
                 if( text.empty() ) {
                     return;
                 }
@@ -7409,7 +7410,7 @@ bool pet_menu(monster *z)
         std::string unique_name = string_input_popup()
                                   .title( _( "Enter new pet name:" ) )
                                   .width( 20 )
-                                  .query();
+                                  .query_string();
         if( unique_name.length() > 0 ) {
             z->unique_name = unique_name;
         }
@@ -9102,7 +9103,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             reset = true;
             refresh_all();
         } else if( action == "FILTER" ) {
-	  draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::FILTER );
+            draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::FILTER );
             string_input_popup()
             .title( _( "Filter:" ) )
             .width( 55 )
@@ -9141,7 +9142,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                                .description( _( "UP: history, CTRL-U clear line, ESC: abort, ENTER: save" ) )
                                .identifier( "list_item_priority" )
                                .max_length( 256 )
-                               .query();
+                               .query_string();
             refilter = true;
             reset = true;
             addcategory = !sort_radius;
@@ -9155,7 +9156,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                                  .description( _( "UP: history, CTRL-U clear line, ESC: abort, ENTER: save" ) )
                                  .identifier( "list_item_downvote" )
                                  .max_length( 256 )
-                                 .query();
+                                 .query_string();
             refilter = true;
             reset = true;
             addcategory = !sort_radius;
@@ -9976,8 +9977,9 @@ void game::plthrow(int pos)
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
 
-    // pl_target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
-    std::vector<tripoint> trajectory = pl_target_ui( TARGET_MODE_THROW, &thrown, range );
+    // target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
+    std::vector<tripoint> trajectory;
+    trajectory = target_handler().target_ui( u, TARGET_MODE_THROW, &thrown, range );
     if (trajectory.empty()) {
         return;
     }
@@ -9998,12 +10000,7 @@ void game::plthrow(int pos)
     reenter_fullscreen();
 }
 
-// @todo: Move game::pl_target_ui and related data/functions to src/ranged.cpp
-std::vector<tripoint> game::pl_target_ui( const targeting_data &args ) {
-    return pl_target_ui( args.mode, args.relevant, args.range,
-                         args.ammo, args.on_mode_change, args.on_ammo_change );
-}
-
+// @todo: Move data/functions related to targeting out of game class
 bool game::plfire_check( const targeting_data &args ) {
     bool okay = true;
     vehicle *veh = nullptr;
@@ -10145,7 +10142,7 @@ bool game::plfire()
 
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
-    std::vector<tripoint> trajectory = pl_target_ui( args );
+    std::vector<tripoint> trajectory = target_handler().target_ui( u, args );
 
     if( trajectory.empty() ) {
         bool not_aiming = u.activity.id() != activity_id( "ACT_AIM" );
@@ -10854,13 +10851,12 @@ void game::wield( int pos )
 
     item_location loc;
     if( pos != INT_MIN ) {
-        loc = std::move( item_location( u, &u.i_at( pos ) ) );
+        loc = item_location( u, &u.i_at( pos ) );
     } else {
         const auto filter = []( const item &it ) {
             return it.made_of( SOLID );
         };
-        loc = std::move( inv_map_splice( filter, _( "Wield item" ), 1,
-                                         _( "You have nothing to wield." ) ) );
+        loc = inv_map_splice( filter, _( "Wield item" ), 1, _( "You have nothing to wield." ) );
     }
 
     if( !loc ) {

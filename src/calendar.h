@@ -111,6 +111,8 @@ class calendar
         calendar sunset() const;
         /** Returns true if it's currently after sunset + TWILIGHT_SECONDS or before sunrise. */
         bool is_night() const;
+        /** Returns the current seasonally-adjusted daylight level */
+        double current_daylight_level() const;
         /** Returns the current sunlight or moonlight level through the preceding functions. */
         float sunlight() const;
 

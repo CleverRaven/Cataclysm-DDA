@@ -5103,7 +5103,7 @@ int iuse::handle_ground_graffiti(player *p, item *it, const std::string prefix)
     std::string message = string_input_popup()
                           .title( prefix + " " + _( "(To delete, input one '.')" ) )
                           .identifier( "graffiti" )
-                          .query();
+                          .query_string();
 
     if( message.empty() ) {
         return 0;
