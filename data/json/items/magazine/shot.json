@@ -1,5 +1,15 @@
 [
   {
+    "id": "beltshot",
+    "copy-from": "magazine_belt",
+    "type": "MAGAZINE",
+    "name": "12 gauge ammo belt",
+    "ammo_type": "shot",
+    "capacity": 100,
+    "count": 100,
+    "linkage": "ammolinkshot"
+  },
+  {
     "id": "saiga10mag",
     "type": "MAGAZINE",
     "name": "Saiga-12 box magazine",

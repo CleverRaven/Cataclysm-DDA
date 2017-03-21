@@ -1,5 +1,28 @@
 [
   {
+    "id": "abzats",
+    "copy-from": "m2browning",
+    "type": "GUN",
+    "name": "heavy automatic shotgun",
+    "description": "Modified from the massive M2 Browning, this heavy machine gun has been re-chambered and re-bored for shotgun shells, and completely redesigned to be wielded unmounted by one user.",
+    "material": [ "steel", "wood" ],
+    "ammo": "shot",
+    "skill": "shotgun",
+    "modes": [
+      [ "DEFAULT", "semi-auto", 1 ],
+      [ "AUTO", "auto", 5 ]
+    ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "mechanism", 4 ], [ "rail", 1 ] ],
+    "magazines": [ [ "shot", [ "beltshot" ] ] ],
+    "relative": {
+      "volume": -2,
+      "dispersion": -50,
+      "durability": -2,
+      "barrel_length": -2
+    },
+    "flags": []
+  },
+  {
     "id": "ashot",
     "type": "GUN",
     "name": "12 gauge pistol",
@@ -200,6 +223,7 @@
     "copy-from": "shotgun_base",
     "type": "GUN",
     "name": "Saiga-12",
+    "name_plural": "Saiga-12",
     "description": "The Saiga-12 is a semi-automatic shotgun designed on the same Kalashnikov pattern as the AK47 rifle.  It reloads with a magazine, rather than one shell at a time like most shotguns.",
     "weight": 3550,
     "volume": 11,
@@ -210,8 +234,13 @@
     "dispersion": 95,
     "durability": 7,
     "barrel_length": 3,
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "magazine", 1 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
-    "magazines": [ [ "shot", [ "saiga10mag", "saiga30mag" ] ] ],
+    "magazines": [
+      [ "shot", [ "saiga10mag", "saiga30mag" ] ],
+      [ "308", [ "falmag", "falbigmag" ] ],
+      [ "223", [ "stanag10", "stanag30", "stanag50", "survivor223mag" ] ]
+    ],
     "flags": [ "NEVER_JAMS" ]
   },
   {
