@@ -96,7 +96,7 @@ void talk_function::bionic_install(npc &p)
 
 void talk_function::bionic_remove(npc &p)
 {
-    std::vector <bionic> all_bio = g->u.my_bionics;
+    std::vector <bionic> all_bio = g->u.get_bionics();
     if (all_bio.size() == 0){
         popup(_("You don't have any bionics installed..."));
         return;
@@ -107,14 +107,12 @@ void talk_function::bionic_remove(npc &p)
     std::vector<std::string> bionic_names;
     for( auto &bio : all_bio ) {
         if( std::find( bionic_types.begin(), bionic_types.end(), bio.id ) == bionic_types.end() ) {
-            if (bio.id !=  "bio_power_storage" || bio.id !=  "bio_power_storage_mkII"){
-                bionic_types.push_back( bio.id );
-                if( item::type_is_defined( bio.id ) ) {
-                    tmp = item(bio.id, 0);
-                    bionic_names.push_back( tmp.tname() +" - $"+to_string(500+(tmp.price( true )/400)));
-                } else {
-                    bionic_names.push_back( bio.id +" - $"+to_string(500));
-                }
+            bionic_types.push_back( bio.id );
+            if( item::type_is_defined( bio.id ) ) {
+                tmp = item(bio.id, 0);
+                bionic_names.push_back( tmp.tname() +" - $"+to_string(500+(tmp.price( true )/400)));
+            } else {
+                bionic_names.push_back( bio.id +" - $"+to_string(500));
             }
         }
     }

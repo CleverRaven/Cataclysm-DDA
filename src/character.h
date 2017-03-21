@@ -529,6 +529,25 @@ class Character : public Creature, public visitable<Character>
         /** Adds mandatory scenario and profession traits unless you already have them */
         void add_traits();
 
+        const std::vector<bionic> &get_bionics() const {
+            return installed_bionics;
+        }
+        /** Adds a bionic to installed_bionics[] */
+        void add_bionic( std::string const &b );
+        /** Removes a bionic from installed_bionics[] */
+        void remove_bionic( std::string const &b );
+        /** Updates bionic-related caches */
+        void on_bionics_changed();
+        /** Returns the size number of installed bionics */
+        size_t num_bionics() const;
+        /** Returns the bionic at a given index */
+        bionic &bionic_at_index( size_t i );
+        /** Returns the bionic with the given invlet, or nullptr if no bionic has that invlet */
+        bionic *bionic_by_invlet( long ch );
+        int get_max_power_level() const {
+            return max_power_level;
+        }
+
         // --------------- Values ---------------
         std::string name;
         bool male;
@@ -543,7 +562,7 @@ class Character : public Creature, public visitable<Character>
         item weapon;
         item ret_null; // Null item, sometimes returns by weapon() etc
 
-        std::vector<bionic> my_bionics;
+        int power_level;
 
     protected:
         void on_stat_change( const std::string &, int ) override {};
@@ -629,6 +648,10 @@ class Character : public Creature, public visitable<Character>
 
         int stomach_food;
         int stomach_water;
+
+        int max_power_level;
+
+        std::vector<bionic> installed_bionics;
 };
 
 #endif

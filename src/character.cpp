@@ -65,6 +65,8 @@ Character::Character() : Creature(), visitable<Character>()
     fatigue = 0;
     stomach_food = 0;
     stomach_water = 0;
+    power_level = 0;
+    max_power_level = 0;
 
     name = "";
 
@@ -517,7 +519,7 @@ float Character::get_vision_threshold( float light_level ) const {
 
 bool Character::has_bionic(const std::string & b) const
 {
-    for (auto &i : my_bionics) {
+    for (auto &i : get_bionics()) {
         if (i.id == b) {
             return true;
         }
@@ -527,7 +529,7 @@ bool Character::has_bionic(const std::string & b) const
 
 bool Character::has_active_bionic(const std::string & b) const
 {
-    for (auto &i : my_bionics) {
+    for (auto &i : get_bionics()) {
         if (i.id == b) {
             return (i.powered);
         }

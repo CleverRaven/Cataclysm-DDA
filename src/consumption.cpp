@@ -880,7 +880,7 @@ bool player::feed_battery_with( item &it )
         return false;
     }
 
-    const long amount = std::min( long( max_power_level - power_level ), it.charges );
+    const long amount = std::min( long( get_max_power_level() - power_level ), it.charges );
 
     if( amount <= 0 ) {
         add_msg_player_or_npc( m_info, _( "Your internal power storage is fully powered." ),
@@ -975,7 +975,7 @@ bool player::feed_furnace_with( item &it )
         amount /= 2;
     }
 
-    amount = std::min( max_power_level - power_level, amount );
+    amount = std::min( get_max_power_level() - power_level, amount );
 
     if( is_player() ) {
         if( amount <= 0 ) {

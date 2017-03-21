@@ -8,6 +8,7 @@
 
 #include <string>
 
+class Character;
 class player;
 
 struct quality;
@@ -105,7 +106,8 @@ void check_bionics();
 void reset_bionics();
 void load_bionic( JsonObject &jsobj ); // load a bionic from JSON
 bool is_valid_bionic( std::string const &id );
-char get_free_invlet( player &p );
+char get_free_invlet( const Character &p );
+void change_bionic_invlet( Character &c, const std::string &bio_id, char to_invlet );
 std::string list_occupied_bps( const std::string &bio_id, const std::string &intro,
                                const bool each_bp_on_new_line = true );
 

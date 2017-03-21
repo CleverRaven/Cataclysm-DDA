@@ -3161,7 +3161,7 @@ bool game::handle_action()
                         active.push_back( it->tname() );
                     }
                 }
-                for ( int i = 0; i < g->u.num_bionics(); i++ ) {
+                for ( size_t i = 0; i < g->u.num_bionics(); i++ ) {
                     bionic const &bio = g->u.bionic_at_index(i);
                     if (!bio.powered) {
                         continue;
@@ -5235,7 +5235,7 @@ void game::draw_HP()
 
     int powx = hpx;
     int powy = wide ? 6 : 13;
-    if (u.max_power_level == 0) {
+    if (u.get_max_power_level() == 0) {
         wmove(w_HP, powy, powx);
         if (wide)
             for (int i = 0; i < 2; i++) {
@@ -5246,9 +5246,9 @@ void game::draw_HP()
         }
     } else {
         nc_color color = c_red;
-        if (u.power_level == u.max_power_level) {
+        if (u.power_level == u.get_max_power_level()) {
             color = c_blue;
-        } else if (u.power_level >= u.max_power_level * .5) {
+        } else if (u.power_level >= u.get_max_power_level() * .5) {
             color = c_ltblue;
         } else if (u.power_level > 0) {
             color = c_yellow;

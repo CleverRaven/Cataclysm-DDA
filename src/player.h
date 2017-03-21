@@ -295,10 +295,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Returns true if the player is wearing an active optical cloak */
         bool has_active_optcloak() const;
-        /** Adds a bionic to my_bionics[] */
-        void add_bionic(std::string const &b);
-        /** Removes a bionic from my_bionics[] */
-        void remove_bionic(std::string const &b);
         /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
         bool uninstall_bionic(std::string const &b_id, int skill_level = -1);
         /** Adds the entered amount to the player's bionic power_level */
@@ -312,16 +308,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool deactivate_bionic(int b, bool eff_only = false);
         /** Handles bionic effects over time of the entered bionic */
         void process_bionic(int b);
-        /** Randomly removes a bionic from my_bionics[] */
+        /** Randomly removes an installed bionic */
         bool remove_random_bionic();
-        /** Returns the size of my_bionics[] */
-        int num_bionics() const;
-        /** Returns amount of Storage CBMs in the corpse **/
-        std::pair<int, int> amount_of_storage_bionics() const;
-        /** Returns the bionic at a given index in my_bionics[] */
-        bionic &bionic_at_index(int i);
-        /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
-        bionic *bionic_by_invlet( long ch );
         /** Returns player lumination based on the brightest active item they are carrying */
         float active_light() const;
 
@@ -1306,7 +1294,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int next_climate_control_check;
         bool last_climate_control_ret;
         std::string move_mode;
-        int power_level, max_power_level;
         int tank_plut, reactor_plut, slow_rad;
         int oxygen;
         int stamina;

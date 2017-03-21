@@ -271,7 +271,7 @@ const inventory &player::crafting_inventory()
     cached_crafting_inventory += inv;
     cached_crafting_inventory += weapon;
     cached_crafting_inventory += worn;
-    for( const auto &bio : my_bionics ) {
+    for( const auto &bio : get_bionics() ) {
         const auto &bio_data = bio.info();
         if( ( !bio_data.activated || bio.powered ) &&
             !bio_data.fake_item.empty() ) {

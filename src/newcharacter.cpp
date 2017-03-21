@@ -565,7 +565,7 @@ bool player::create(character_type type, std::string tempname)
         add_bionic(*iter);
     }
     // Adjust current energy level to maximum
-    power_level = max_power_level;
+    power_level = get_max_power_level();
 
     for( auto &t : get_base_traits() ) {
         std::vector<matype_id> styles;

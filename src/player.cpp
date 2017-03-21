@@ -245,8 +245,6 @@ player::player() : Character()
     per_max = 8;
     dodges_left = 1;
     blocks_left = 1;
-    power_level = 0;
-    max_power_level = 0;
     stamina = get_stamina_max();
     stim = 0;
     pkill = 0;
@@ -527,7 +525,7 @@ void player::process_turn()
     // Didn't just pick something up
     last_item = itype_id( "null" );
 
-    if( has_active_bionic( "bio_metabolics" ) && power_level + 25 <= max_power_level &&
+    if( has_active_bionic( "bio_metabolics" ) && power_level + 25 <= get_max_power_level() &&
         get_hunger() < 100 && calendar::once_every( 5 ) ) {
         mod_hunger( 2 );
         charge_power( 25 );
@@ -2173,8 +2171,8 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     //Bionics
     memorial_file << _( "Bionics:" ) << eol;
     int total_bionics = 0;
-    for( size_t i = 0; i < my_bionics.size(); ++i ) {
-        memorial_file << indent << ( i + 1 ) << ": " << bionic_info( my_bionics[i].id ).name << eol;
+    for( size_t i = 0; i < get_bionics().size(); ++i ) {
+        memorial_file << indent << ( i + 1 ) << ": " << bionic_info( get_bionics()[i].id ).name << eol;
         total_bionics++;
     }
     if( total_bionics == 0 ) {
@@ -2182,7 +2180,7 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     } else {
         memorial_file << string_format( _( "Total bionics: %d" ), total_bionics ) << eol;
     }
-    memorial_file << string_format( _( "Power: %d/%d" ), power_level,  max_power_level ) << eol;
+    memorial_file << string_format( _( "Power: %d/%d" ), power_level,  get_max_power_level() ) << eol;
     memorial_file << eol;
 
     //Equipment
@@ -2922,8 +2920,8 @@ bool player::has_active_optcloak() const
 void player::charge_power( int amount )
 {
     power_level += amount;
-    if( power_level > max_power_level ) {
-        power_level = max_power_level;
+    if( power_level > get_max_power_level() ) {
+        power_level = get_max_power_level();
     }
     if( power_level < 0 ) {
         power_level = 0;
@@ -6582,8 +6580,8 @@ void player::suffer()
         }
     }
 
-    for (size_t i = 0; i < my_bionics.size(); i++) {
-        if (my_bionics[i].powered) {
+    for (size_t i = 0; i < get_bionics().size(); i++) {
+        if (get_bionics()[i].powered) {
             process_bionic(i);
         }
     }
@@ -7296,8 +7294,8 @@ void player::suffer()
         }
         sounds::sound( pos(), 60, "");
     }
-    if (has_bionic("bio_power_weakness") && max_power_level > 0 &&
-        power_level >= max_power_level * .75) {
+    if (has_bionic("bio_power_weakness") && get_max_power_level() > 0 &&
+        power_level >= get_max_power_level() * .75) {
         mod_str_bonus(-3);
     }
     if (has_bionic("bio_trip") && one_in(500) && !has_effect( effect_visuals )) {
@@ -7947,7 +7945,7 @@ int player::invlet_to_position( const long linvlet ) const
 }
 
 bool player::can_interface_armor() const {
-    bool okay = std::any_of( my_bionics.begin(), my_bionics.end(), 
+    bool okay = std::any_of( get_bionics().begin(), get_bionics().end(), 
         []( const bionic &b ) { return b.powered && b.info().armor_interface; } );
     return okay;
 }
@@ -12566,20 +12564,12 @@ void player::place_corpse()
     for( auto itm : tmp ) {
         g->m.add_item_or_charges( pos(), *itm );
     }
-    for( auto & bio : my_bionics ) {
+    for( auto & bio : get_bionics() ) {
         if( item::type_is_defined( bio.id ) ) {
             body.put_in( item( bio.id, calendar::turn ) );
         }
     }
 
-    // Restore amount of installed pseudo-modules of Power Storage Units
-    std::pair<int, int> storage_modules = amount_of_storage_bionics();
-    for (int i = 0; i < storage_modules.first; ++i) {
-        body.emplace_back( "bio_power_storage" );
-    }
-    for (int i = 0; i < storage_modules.second; ++i) {
-        body.emplace_back( "bio_power_storage_mkII" );
-    }
     g->m.add_item_or_charges( pos(), body );
 }
 

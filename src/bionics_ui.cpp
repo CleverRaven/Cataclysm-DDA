@@ -29,9 +29,9 @@ enum bionic_menu_mode {
 };
 } // namespace
 
-bionic *player::bionic_by_invlet( const long ch )
+bionic *Character::bionic_by_invlet( const long ch )
 {
-    for( auto &elem : my_bionics ) {
+    for( auto &elem : installed_bionics ) {
         if( elem.invlet == ch ) {
             return &elem;
         }
@@ -39,8 +39,10 @@ bionic *player::bionic_by_invlet( const long ch )
     return nullptr;
 }
 
-char get_free_invlet( player &p )
+char get_free_invlet( const Character &p_const )
 {
+    // Ugly, but safe - @todo Deuglify
+    Character &p = const_cast<Character &>( p_const );
     for( auto &inv_char : bionic_chars ) {
         if( p.bionic_by_invlet( inv_char ) == nullptr ) {
             return inv_char;
@@ -55,7 +57,7 @@ void draw_bionics_titlebar( WINDOW *window, player *p, bionic_menu_mode mode )
     werase( window );
 
     const int pwr_str_pos = right_print( window, 0, 1, c_white, _( "Power: %i/%i" ),
-                                         int( p->power_level ), int( p->max_power_level ) );
+                                         int( p->power_level ), int( p->get_max_power_level() ) );
     std::string desc;
     if( mode == REASSIGNING ) {
         desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
@@ -272,10 +274,11 @@ nc_color get_bionic_text_color( bionic const &bio, bool const isHighlightedBioni
     return type;
 }
 
-std::vector< bionic *>filtered_bionics( std::vector<bionic> &all_bionics, bionic_tab_mode mode )
+std::vector<bionic *> filtered_bionics( Character &c, bionic_tab_mode mode )
 {
-    std::vector< bionic *>filtered_entries;
-    for( auto &elem : all_bionics ) {
+    std::vector<bionic *> filtered_entries;
+    for( size_t i = 0; i < c.num_bionics(); i++ ) {
+        bionic &elem = c.bionic_at_index( i );
         if( ( mode == TAB_ACTIVE ) == bionic_info( elem.id ).activated ) {
             filtered_entries.push_back( &elem );
         }
@@ -283,10 +286,20 @@ std::vector< bionic *>filtered_bionics( std::vector<bionic> &all_bionics, bionic
     return filtered_entries;
 }
 
+void change_bionic_invlet( Character &c, const std::string &bio_id, char to_invlet )
+{
+    for( size_t i = 0; i < c.num_bionics(); i++ ) {
+        bionic &b = c.bionic_at_index( i );
+        if( b.id == bio_id ) {
+            b.invlet = to_invlet;
+        }
+    }
+}
+
 void player::power_bionics()
 {
-    std::vector <bionic *> passive = filtered_bionics( my_bionics, TAB_PASSIVE );
-    std::vector <bionic *> active = filtered_bionics( my_bionics, TAB_ACTIVE );
+    std::vector<bionic *> passive = filtered_bionics( *this, TAB_PASSIVE );
+    std::vector<bionic *> active = filtered_bionics( *this, TAB_ACTIVE );
     bionic *bio_last = NULL;
     bionic_tab_mode tab_mode = TAB_ACTIVE;
 
@@ -306,7 +319,7 @@ void player::power_bionics()
     const int HEIGHT = std::min( TERMY,
                                  std::max( FULL_SCREEN_HEIGHT,
                                            TITLE_HEIGHT + TITLE_TAB_HEIGHT +
-                                           ( int )my_bionics.size() + 2 ) );
+                                           ( int )get_bionics().size() + 2 ) );
     const int WIDTH = FULL_SCREEN_WIDTH + ( TERMX - FULL_SCREEN_WIDTH ) / 2;
     const int START_X = ( TERMX - WIDTH ) / 2;
     const int START_Y = ( TERMY - HEIGHT ) / 2;
@@ -364,8 +377,8 @@ void player::power_bionics()
 
     for( ;; ) {
         if( recalc ) {
-            passive = filtered_bionics( my_bionics, TAB_PASSIVE );
-            active = filtered_bionics( my_bionics, TAB_ACTIVE );
+            passive = filtered_bionics( *this, TAB_PASSIVE );
+            active = filtered_bionics( *this, TAB_ACTIVE );
 
             if( active.empty() && !passive.empty() ) {
                 tab_mode = TAB_PASSIVE;
@@ -486,10 +499,10 @@ void player::power_bionics()
             }
             bionic *otmp = bionic_by_invlet( newch );
             if( otmp != nullptr ) {
-                std::swap( tmp->invlet, otmp->invlet );
-            } else {
-                tmp->invlet = newch;
+                change_bionic_invlet( *this, otmp->id, tmp->invlet );
             }
+
+            change_bionic_invlet( *this, tmp->id, newch );
             // TODO: show a message like when reassigning a key to an item?
         } else if( action == "NEXT_TAB" ) {
             redraw = true;
@@ -584,7 +597,7 @@ void player::power_bionics()
             }
             if( menu_mode == ACTIVATING ) {
                 if( bio_data.activated ) {
-                    int b = tmp - &my_bionics[0];
+                    int b = tmp - &get_bionics()[0];
                     if( tmp->powered ) {
                         deactivate_bionic( b );
                     } else {

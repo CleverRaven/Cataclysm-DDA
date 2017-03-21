@@ -235,6 +235,30 @@ void Character::trait_data::deserialize( JsonIn &jsin )
     data.read( "powered", powered );
 }
 
+std::pair<size_t, size_t> number_of_storage_bionics( const Character &c )
+{
+    int lvl = c.get_max_power_level();
+
+    // exclude amount of power capacity obtained via non-power-storage CBMs
+    for( auto it : c.get_bionics() ) {
+        lvl -= bionic_info( it.id ).capacity;
+    }
+
+    std::pair<size_t, size_t> results( 0, 0 );
+    if( lvl <= 0 ) {
+        return results;
+    }
+
+    int pow_mk1 = std::max( 1, bionic_info( "bio_power_storage" ).capacity );
+    int pow_mk2 = std::max( 1, bionic_info( "bio_power_storage_mkII" ).capacity );
+    results.second = lvl / pow_mk2;
+    lvl -= results.second * pow_mk2;
+    // A bit lossy: prefer granting free bionics instead of robbing the player
+    results.first = std::max<size_t>( 0, ceil( ( float )lvl / pow_mk1 ) );
+
+    return results;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// Character.h, player + npc
 /*
@@ -315,7 +339,30 @@ void Character::load(JsonObject &data)
         }
     }
 
-    data.read( "my_bionics", my_bionics );
+    data.read( "power_level", power_level );
+    data.read( "max_power_level", max_power_level );
+    // Bionic power scale has been changed, savegame version 21 has the new scale
+    if( savegame_loading_version <= 20 ) {
+        power_level *= 25;
+        max_power_level *= 25;
+    }
+
+    // Bionic power should not be negative!
+    if( power_level < 0) {
+        power_level = 0;
+    }
+
+    if( !data.read( "installed_bionics", installed_bionics ) ) {
+        // Old bionics do not include power storage
+        data.read( "my_bionics", installed_bionics );
+        std::pair<size_t, size_t> power_storage = number_of_storage_bionics( *this );
+        for( size_t i = 0; i < power_storage.first; i++ ) {
+            add_bionic( "bio_power_storage" );
+        }
+        for( size_t i = 0; i < power_storage.second; i++ ) {
+            add_bionic( "bio_power_storage_mkII" );
+        }
+    }
 
     for( auto &w : worn ) {
         w.on_takeoff( *this );
@@ -405,8 +452,9 @@ void Character::store(JsonOut &json) const
     json.member( "traits", my_traits );
     json.member( "mutations", my_mutations );
 
-    // "Fracking Toasters" - Saul Tigh, toaster
-    json.member( "my_bionics", my_bionics );
+    json.member( "installed_bionics", installed_bionics );
+    json.member( "power_level", power_level );
+    json.member( "max_power_level", max_power_level );
 
     // skills
     json.member( "skills" );
@@ -451,19 +499,6 @@ void player::load(JsonObject &data)
     data.read("in_vehicle", in_vehicle);
     if( data.read( "id", tmpid ) ) {
         setID( tmpid );
-    }
-
-    data.read("power_level", power_level);
-    data.read("max_power_level", max_power_level);
-    // Bionic power scale has been changed, savegame version 21 has the new scale
-    if( savegame_loading_version <= 20 ) {
-        power_level *= 25;
-        max_power_level *= 25;
-    }
-
-    // Bionic power should not be negative!
-    if( power_level < 0) {
-        power_level = 0;
     }
 
     data.read("ma_styles", ma_styles);
@@ -541,10 +576,6 @@ void player::store(JsonOut &json) const
     // todo: consider ["parts"]["head"]["hp_cur"] instead of ["hp_cur"][head_enum_value]
     json.member( "hp_cur", hp_cur );
     json.member( "hp_max", hp_max );
-
-    // npc; unimplemented
-    json.member( "power_level", power_level );
-    json.member( "max_power_level", max_power_level );
 
     // martial arts
     /*for (int i = 0; i < ma_styles.size(); i++) {

@@ -171,7 +171,7 @@ bool visitable<Character>::has_quality( const quality_id &qual, int level, int q
 {
     auto self = static_cast<const Character *>( this );
 
-    for( const auto &bio : self->my_bionics ) {
+    for( const auto &bio : self->get_bionics() ) {
         if( bio.get_quality( qual ) >= level ) {
             if( qty <= 1 ) {
                 return true;
@@ -229,7 +229,7 @@ int visitable<Character>::max_quality( const quality_id &qual ) const
 
     auto self = static_cast<const Character *>( this );
 
-    for( const auto &bio : self->my_bionics ) {
+    for( const auto &bio : self->get_bionics() ) {
         res = std::max( res, bio.get_quality( qual ) );
     }
 
