@@ -175,7 +175,7 @@ void npc_class::check_consistency()
         }
 
         if( !item_group::group_is_defined( cl.worn_female ) ) {
-            debugmsg( "Missing male worn item group %s", cl.worn_female.c_str() );
+            debugmsg( "Missing female worn item group %s", cl.worn_female.c_str() );
         }
 
         if( !item_group::group_is_defined( cl.inventory ) ) {
@@ -281,9 +281,9 @@ void npc_class::load( JsonObject &jo, const std::string & )
     bonus_per = load_distribution( jo, "bonus_per" );
 
     optional( jo, was_loaded, "shopkeeper_item_group", shopkeeper_item_group, "EMPTY_GROUP" );
-    optional( jo, was_loaded, "worn_male", worn_male, id.str() + "_worn_male" );
-    optional( jo, was_loaded, "worn_female", worn_female, id.str() + "_worn_female" );
-    optional( jo, was_loaded, "inventory", inventory, id.str() + "_inventory" );
+    optional( jo, was_loaded, "worn_male", worn_male );
+    optional( jo, was_loaded, "worn_female", worn_female );
+    optional( jo, was_loaded, "inventory", inventory );
 
     if( jo.has_array( "weapon_by_skill" ) ) {
         JsonArray jarr = jo.get_array( "weapon_by_skill" );

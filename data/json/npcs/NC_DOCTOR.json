@@ -11,6 +11,7 @@
       "npc_shoes",
       "NC_DOCTOR_masks",
       "npc_hat",
+      "NC_DOCTOR_eyes",
       "npc_extra"
     ]
   },
@@ -26,6 +27,7 @@
       "npc_shoes",
       "NC_DOCTOR_masks",
       "npc_hat",
+      "NC_DOCTOR_eyes",
       "npc_extra"
     ]
   },
@@ -40,9 +42,9 @@
       [ "NC_DOCTOR_misc", 50 ],
       [ "NC_DOCTOR_misc", 50 ],
       [ "NC_DOCTOR_misc", 50 ],
-      [ "NC_DOCTOR_misc", 50 ],
-      [ "NC_DOCTOR_misc", 50 ],
-      [ "NC_DOCTOR_misc", 50 ]
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ]
     ]
   },
   {

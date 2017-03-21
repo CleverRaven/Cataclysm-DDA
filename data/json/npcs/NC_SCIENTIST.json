@@ -1,6 +1,38 @@
 [
   {
     "type" : "item_group",
+    "id" : "NC_SCIENTIST_worn_male",
+    "subtype": "collection",
+    "groups": [
+      "npc_pants_male",
+      "npc_shirt_male",
+      "npc_gloves",
+      "NC_SCIENTIST_coat",
+      "npc_shoes",
+      "npc_masks",
+      "npc_hat",
+      "NC_SCIENTIST_eyes",
+      "npc_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "NC_SCIENTIST_worn_female",
+    "subtype": "collection",
+    "groups": [
+      "npc_pants_female",
+      "npc_shirt_female",
+      "npc_gloves",
+      "NC_SCIENTIST_coat",
+      "npc_shoes",
+      "npc_masks",
+      "npc_hat",
+      "NC_SCIENTIST_eyes",
+      "npc_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
     "id" : "NC_SCIENTIST_eyes",
     "items":[
       ["null", 20],

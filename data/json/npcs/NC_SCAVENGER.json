@@ -1,6 +1,54 @@
 [
   {
     "type" : "item_group",
+    "id" : "NC_SCAVENGER_worn_male",
+    "subtype": "collection",
+    "groups": [
+      "npc_pants_male",
+      "npc_shirt_male",
+      "NC_SCAVENGER_gloves",
+      "npc_coat",
+      "npc_shoes",
+      "npc_masks",
+      "npc_hat",
+      "npc_eyes",
+      "npc_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "NC_SCAVENGER_worn_female",
+    "subtype": "collection",
+    "groups": [
+      "npc_pants_female",
+      "npc_shirt_female",
+      "NC_SCAVENGER_gloves",
+      "npc_coat",
+      "npc_shoes",
+      "npc_masks",
+      "npc_hat",
+      "npc_eyes",
+      "npc_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "NC_SCAVENGER_inventory",
+    "subtype": "collection",
+    "items": [ "lighter" ],
+    "groups": [
+      [ "NC_SCAVENGER_misc", 100 ],
+      [ "NC_SCAVENGER_misc", 50 ],
+      [ "NC_SCAVENGER_misc", 50 ],
+      [ "NC_SCAVENGER_misc", 50 ],
+      [ "NC_SCAVENGER_misc", 50 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ]
+    ]
+  },
+  {
+    "type" : "item_group",
     "id" : "NC_SCAVENGER_gloves",
     "items":[
       ["null", 30],

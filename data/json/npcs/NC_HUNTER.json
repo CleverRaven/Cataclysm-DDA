@@ -1,6 +1,52 @@
 [
   {
     "type" : "item_group",
+    "id" : "NC_HUNTER_worn_male",
+    "subtype": "collection",
+    "groups": [
+      "npc_pants_male",
+      "NC_HUNTER_shirt_male",
+      "NC_HUNTER_gloves",
+      "NC_HUNTER_coat",
+      "npc_shoes",
+      "npc_masks",
+      "NC_HUNTER_hat",
+      "NC_HUNTER_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "NC_HUNTER_worn_female",
+    "subtype": "collection",
+    "groups": [
+      "npc_pants_female",
+      "NC_HUNTER_shirt_female",
+      "NC_HUNTER_gloves",
+      "NC_HUNTER_coat",
+      "npc_shoes",
+      "npc_masks",
+      "NC_HUNTER_hat",
+      "NC_HUNTER_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "NC_HUNTER_inventory",
+    "subtype": "collection",
+    "items": [ "lighter" ],
+    "groups": [
+      [ "NC_HUNTER_misc", 100 ],
+      [ "NC_HUNTER_misc", 50 ],
+      [ "NC_HUNTER_misc", 50 ],
+      [ "NC_HUNTER_misc", 50 ],
+      [ "NC_HUNTER_misc", 50 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ]
+    ]
+  },
+  {
+    "type" : "item_group",
     "id" : "NC_HUNTER_shirt_male",
     "items":[
       ["tshirt", 20],

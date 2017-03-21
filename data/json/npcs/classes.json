@@ -34,9 +34,10 @@
                 { "dice" : [ 10, 10 ] }
             ]
         },
-        "worn_override": "NC_DEBUG_worn",
-        "carry_override": "NC_DEBUG_carried",
-        "weapon_override": "NC_DEBUG_weapon",
+        "worn_male": "NC_DEBUG_worn",
+        "worn_female": "NC_DEBUG_worn",
+        "inventory": "NC_DEBUG_inventory",
+        "weapon_by_skill": [ [ "ALL", "NC_DEBUG_weapon" ] ],
         "traits": [ [ "DEBUG_NODMG", 100 ] ]
     },{
         "type" : "npc_class",

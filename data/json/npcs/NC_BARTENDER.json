@@ -1,6 +1,56 @@
 [
   {
     "type" : "item_group",
+    "id" : "NC_BARTENDER_worn_male",
+    "subtype": "collection",
+    "groups": [
+      "npc_pants_male",
+      "npc_shirt_male",
+      "npc_gloves",
+      "NC_BARTENDER_coat",
+      "npc_shoes",
+      "npc_masks",
+      "npc_hat",
+      "npc_eyes",
+      "NC_BARTENDER_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "NC_BARTENDER_worn_female",
+    "subtype": "collection",
+    "groups": [
+      "npc_pants_female",
+      "npc_shirt_female",
+      "npc_gloves",
+      "NC_BARTENDER_coat",
+      "npc_shoes",
+      "npc_masks",
+      "npc_hat",
+      "npc_eyes",
+      "NC_BARTENDER_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "NC_BARTENDER_inventory",
+    "subtype": "collection",
+    "items": [ "lighter" ],
+    "groups": [
+      [ "NC_BARTENDER_misc", 100 ],
+      [ "NC_BARTENDER_misc", 50 ],
+      [ "NC_BARTENDER_misc", 50 ],
+      [ "NC_BARTENDER_misc", 50 ],
+      [ "NC_BARTENDER_misc", 50 ],
+      [ "NC_BARTENDER_misc", 50 ],
+      [ "NC_BARTENDER_misc", 50 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ]
+    ]
+  },
+  {
+    "type" : "item_group",
     "id" : "NC_BARTENDER_extra",
     "items":[
       ["backpack", 90]
