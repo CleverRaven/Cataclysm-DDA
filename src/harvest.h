@@ -3,7 +3,9 @@
 #define HARVEST_H
 
 #include <list>
+#include <map>
 #include <set>
+
 #include "string_id.h"
 
 typedef std::string itype_id;
