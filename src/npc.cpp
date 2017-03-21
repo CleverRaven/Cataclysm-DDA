@@ -604,10 +604,8 @@ void npc::set_fac(std::string fac_name)
 
 void starting_clothes( npc &who, const npc_class_id &type )
 {
-    std::vector<item> ret;
-
     const auto &worn_group = who.male ? type->worn_male : type->worn_female;
-    ret = item_group::items_from( worn_group );
+    auto ret = item_group::items_from( worn_group );
 
     who.worn.clear();
     for( item &it : ret ) {
@@ -711,7 +709,7 @@ void starting_weapon( npc &who, const npc_class_id &type )
     using skill_pair = std::pair<skill_id, int>;
     std::vector<skill_pair> combat_skills;
     const auto &all_skills = who.get_skills();
-    std::copy_if( all_skills.begin(), all_skills.end(), combat_skills.begin(),
+    std::copy_if( all_skills.begin(), all_skills.end(), std::back_inserter( combat_skills ),
     []( const std::pair<skill_id, SkillLevel> &pr ) {
         return pr.first.obj().is_combat_skill();
     } );
