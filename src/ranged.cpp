@@ -451,7 +451,8 @@ double player::gun_current_range( const item& gun, double penalty, unsigned chan
     }
 
     // calculate base dispersion
-    double dispersion = get_weapon_dispersion( gun ) + ( penalty < 0 ? recoil_total() : penalty );
+    double dispersion = get_weapon_dispersion( gun, RANGE_SOFT_CAP ) + ( penalty < 0 ? recoil_total() : penalty );
+
     double sigma = dispersion / dispersion_sigmas;
 
     // angle such that chance% of dispersion rolls are <= that angle
@@ -466,7 +467,14 @@ double player::gun_current_range( const item& gun, double penalty, unsigned chan
     //   D = (0.5*T**2 / (1 - cos V)) ** 0.5
     double range = sqrt( 0.5 * missed_by_tiles * missed_by_tiles / ( 1 - cos( ARCMIN( max_dispersion ) ) ) );
 
-    return std::min( range, ( double )gun.gun_range( this ) );
+    range = std::min( range, ( double )gun.gun_range( this ) );
+    if( range > RANGE_SOFT_CAP ) {
+        // This is a special case that is a pain to calculate since dispersion depends on range
+        // Just interpolate linearly - the actual function is linear enough
+        return lerp_clamped( RANGE_SOFT_CAP, RANGE_HARD_CAP, 1.0 - dispersion / 180.0 );
+    }
+
+    return range;
 }
 
 double player::gun_engagement_range( const item &gun, engagement opt ) const
@@ -615,7 +623,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
             break;
         }
 
-        double dispersion = get_weapon_dispersion( gun ) + recoil_total();
+        double dispersion = get_weapon_dispersion( gun, rl_dist( pos(), aim ) ) + recoil_total();
         int range = rl_dist( pos(), aim );
 
         auto shot = projectile_attack( make_gun_projectile( gun ), aim, dispersion );
@@ -646,7 +654,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
         if( shot.hit_critter ) {
             hits++;
-            if( range > double( get_skill_level( skill_gun ) ) / MAX_SKILL * MAX_RANGE ) {
+            if( range > double( get_skill_level( skill_gun ) ) / MAX_SKILL * RANGE_SOFT_CAP ) {
                 xp += range; // shots at sufficient distance train marksmanship
             }
         }
@@ -1065,8 +1073,8 @@ static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
     // Creature::projectile_attack() into shared methods.
     // Dodge is intentionally not accounted for.
 
-    const double dispersion = p.get_weapon_dispersion( *weapon ) + predicted_recoil + p.recoil_vehicle();
     const double range = rl_dist( p.pos(), target.pos() );
+    const double dispersion = p.get_weapon_dispersion( *weapon, range ) + predicted_recoil + p.recoil_vehicle();
 
     // This is a relative measure of how steady the player's aim is,
     // 0 it is the best the player can do.
@@ -1838,7 +1846,7 @@ static bool is_driving( const player &p )
 
 
 // utility functions for projectile_attack
-double player::get_weapon_dispersion( const item &obj ) const
+double player::get_weapon_dispersion( const item &obj, float range ) const
 {
     double dispersion = obj.gun_dispersion();
 
@@ -1863,6 +1871,11 @@ double player::get_weapon_dispersion( const item &obj ) const
         (!is_underwater() && obj.has_flag("UNDERWATER_GUN"))) {
         // Range is effectively four times longer when shooting flagged guns out of water.
         dispersion *= 4;
+    }
+
+    // @todo Scale the range penalty with something (but don't allow it to get below 2.0*range)
+    if( range > RANGE_SOFT_CAP ) {
+        dispersion += ( range - RANGE_SOFT_CAP ) * 3.0f;
     }
 
     return std::max( dispersion, 0.0 );
@@ -1973,7 +1986,7 @@ double player::gun_value( const item &weap, long ammo ) const
 
     item tmp = weap;
     tmp.ammo_set( weap.ammo_default() );
-    int total_dispersion = get_weapon_dispersion( tmp ) + effective_dispersion( tmp.sight_dispersion() );
+    int total_dispersion = get_weapon_dispersion( tmp, RANGE_SOFT_CAP ) + effective_dispersion( tmp.sight_dispersion() );
 
     if( def_ammo_i != nullptr && def_ammo_i->ammo != nullptr ) {
         const islot_ammo &def_ammo = *def_ammo_i->ammo;
