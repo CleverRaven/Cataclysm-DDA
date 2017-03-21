@@ -468,6 +468,9 @@ class Character : public Creature, public visitable<Character>
         bool meets_requirements( const item &it, const item &context = item() ) const;
         /** Returns a string of missed requirements (both stats and skills) */
         std::string enumerate_unmet_requirements( const item &it, const item &context = item() ) const;
+        const std::map<skill_id, SkillLevel> &get_skills() const {
+            return _skills;
+        }
 
         // --------------- Other Stuff ---------------
 

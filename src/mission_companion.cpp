@@ -41,6 +41,25 @@ const skill_id skill_cooking( "cooking" );
 const skill_id skill_traps( "traps" );
 const skill_id skill_archery( "archery" );
 
+static const skill_id &best_skill( const npc &who )
+{
+    int highest_level = std::numeric_limits<int>::min();
+    static const skill_id &null_skill( NULL_ID );
+    const skill_id *highest_skill = nullptr;
+
+    for( auto const &p : who.get_skills() ) {
+        if( p.first.obj().is_combat_skill() ) {
+            int const level = p.second;
+            if( level > highest_level ) {
+                highest_level = level;
+                highest_skill = &p.first;
+            }
+        }
+    }
+
+    return highest_skill != nullptr ? *highest_skill : null_skill;
+}
+
 void talk_function::bionic_install(npc &p)
 {
     std::vector<item *> bionic_inv = g->u.items_with( []( const item &itm ) {
@@ -580,7 +599,7 @@ void talk_function::caravan_return(npc *p, std::string dest, std::string id)
             while (i < experience){
                 y = rng(0,100);
                 if (y < 60){
-                    const skill_id best = elem->best_skill();
+                    const skill_id best = best_skill( *elem );
                     if( best ) {
                         popup( "%s", best.obj().name().c_str() );
                         elem->practice(best, 10);
@@ -628,7 +647,7 @@ void talk_function::attack_random(std::vector<npc *> attacker, std::vector<npc *
     }
     npc* att = random_entry( attacker );
     npc* def = random_entry( defender );
-    const skill_id best = att->best_skill();
+    const skill_id best = best_skill( *att );
     int best_score = 1;
     if( best ) {
         best_score = att->get_skill_level(best);
@@ -649,7 +668,7 @@ int talk_function::combat_score(std::vector<npc *> group)
     int score = 0;
     for( auto *elem : group ) {
         if (elem->hp_cur[hp_torso] != 0){
-            const skill_id best = elem->best_skill();
+            const skill_id best = best_skill( *elem );
             if( best ) {
                 score += elem->get_skill_level(best);
             } else {

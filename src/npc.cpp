@@ -61,7 +61,8 @@ const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_pkill_l( "pkill_l" );
 const efftype_id effect_infection( "infection" );
 
-void starting_clothes( npc &who, const npc_class_id &type, bool male );
+void starting_weapon( npc &who, const npc_class_id &type );
+void starting_clothes( npc &who, const npc_class_id &type );
 void starting_inv( npc &who, const npc_class_id &type );
 
 npc::npc()
@@ -350,8 +351,8 @@ void npc::randomize( const npc_class_id &type )
         hp_cur[i] = hp_max[i];
     }
 
-    starting_weapon( type );
-    starting_clothes( *this, type, male );
+    starting_weapon( *this, type );
+    starting_clothes( *this, type );
     starting_inv( *this, type );
     has_new_items = true;
 
@@ -601,51 +602,12 @@ void npc::set_fac(std::string fac_name)
     }
 }
 
-// item id from group "<class-name>_<what>" or from fallback group
-// may still be a null item!
-item random_item_from( const npc_class_id &type, const std::string &what, const std::string &fallback )
-{
-    auto result = item_group::item_from( type.str() + "_" + what );
-    if( result.is_null() ) {
-        result = item_group::item_from( fallback );
-    }
-    return result;
-}
-
-// item id from "<class-name>_<what>" or from "npc_<what>"
-item random_item_from( const npc_class_id &type, const std::string &what )
-{
-    return random_item_from( type, what, "npc_" + what );
-}
-
-// item id from "<class-name>_<what>_<gender>" or from "npc_<what>_<gender>"
-item get_clothing_item( const npc_class_id &type, const std::string &what, bool male )
-{
-    if( male ) {
-        return random_item_from( type, what + "_male", "npc_" + what + "_male" );
-    } else {
-        return random_item_from( type, what + "_female", "npc_" + what + "_female" );
-    }
-}
-
-void starting_clothes( npc &who, const npc_class_id &type, bool male )
+void starting_clothes( npc &who, const npc_class_id &type )
 {
     std::vector<item> ret;
 
-    if( item_group::group_is_defined( type->worn_override ) ) {
-        ret = item_group::items_from( type->worn_override );
-    } else {
-        ret.push_back( get_clothing_item( type, "pants", male) );
-        ret.push_back( get_clothing_item( type, "shirt", male ) );
-        ret.push_back( random_item_from( type, "gloves" ) );
-        ret.push_back( random_item_from( type, "coat" ) );
-        ret.push_back( random_item_from( type, "shoes" ) );
-        ret.push_back( random_item_from( type, "masks" ) );
-        // Why is the alternative group not named "npc_glasses" but "npc_eyes"?
-        ret.push_back( random_item_from( type, "glasses", "npc_eyes" ) );
-        ret.push_back( random_item_from( type, "hat" ) );
-        ret.push_back( random_item_from( type, "extra" ) );
-    }
+    const auto &worn_group = who.male ? type->worn_male : type->worn_female;
+    ret = item_group::items_from( worn_group );
 
     who.worn.clear();
     for( item &it : ret ) {
@@ -661,61 +623,26 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
 
 void starting_inv( npc &me, const npc_class_id &type )
 {
-    std::list<item> res;
-    me.inv.clear();
-    if( item_group::group_is_defined( type->carry_override ) ) {
-        me.inv += item_group::items_from( type->carry_override );
-        return;
-    }
+    auto res = item_group::items_from( type->inventory );
 
-    res.emplace_back( "lighter" );
-    // If wielding a gun, get some additional ammo for it
-    if( me.weapon.is_gun() ) {
-        item ammo( default_ammo( me.weapon.ammo_type() ) );
-        ammo = ammo.in_its_container();
-        if( ammo.made_of( LIQUID ) ) {
-            item container( "bottle_plastic" );
-            container.put_in( ammo );
-            ammo = container;
-        }
-
-        // @todo Move to npc_class
-        // NC_COWBOY and NC_BOUNTY_HUNTER get 5-15 whilst all others get 3-6
-        int qty = 1 + ( type == NC_COWBOY ||
-                        type == NC_BOUNTY_HUNTER );
-        qty = rng( qty, qty * 2 );
-
-        while ( qty-- != 0 && me.can_pickVolume( ammo ) ) {
-            // @todo give NPC a default magazine instead
-            res.push_back( ammo );
+    // Sanitize the items a bit before adding them
+    for( item &it : res ) {
+        it = it.in_its_container();
+        if( !one_in( 3 ) && it.has_flag( "VARSIZE" ) ) {
+            it.item_tags.insert( "FIT" );
         }
     }
 
-    if( type == NC_ARSONIST ) {
-        res.emplace_back( "molotov" );
-    }
-
-    int qty = ( type == NC_EVAC_SHOPKEEP ||
-                type == NC_TRADER ) ? 5 : 2;
-    qty = rng( qty, qty * 3 );
-
-    while ( qty-- != 0 ) {
-        item tmp = random_item_from( type, "misc" ).in_its_container();
-        if( !tmp.is_null() ) {
-            if( !one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
-                tmp.item_tags.insert( "FIT" );
-            }
-            if( me.can_pickVolume( tmp ) ) {
-                res.push_back( tmp );
-            }
-        }
-    }
-
-    res.erase( std::remove_if( res.begin(), res.end(), [&]( const item& e ) {
-        return e.has_flag( "TRADER_AVOID" );
+    res.erase( std::remove_if( res.begin(), res.end(), []( const item& e ) {
+        return e.is_null() || e.has_flag( "TRADER_AVOID" );
     } ), res.end() );
 
-    me.inv += res;
+    me.inv.clear();
+    for( const item &it : res ) {
+        if( me.can_pickVolume( it ) ) {
+            me.inv += it;
+        }
+    }
 }
 
 void npc::spawn_at(int x, int y, int z)
@@ -777,56 +704,58 @@ void npc::place_on_map()
     debugmsg( "Failed to place NPC in a valid location near (%d,%d,%d)", posx(), posy(), posz() );
 }
 
-skill_id npc::best_skill() const
+void starting_weapon( npc &who, const npc_class_id &type )
 {
-    int highest_level = std::numeric_limits<int>::min();
-    skill_id highest_skill( NULL_ID );
+    // Get all the combat skills we have, sort them by our skill level in descending order
+    // Find the first group that is not empty
+    using skill_pair = std::pair<skill_id, int>;
+    std::vector<skill_pair> combat_skills;
+    const auto &all_skills = who.get_skills();
+    std::copy_if( all_skills.begin(), all_skills.end(), combat_skills.begin(),
+    []( const std::pair<skill_id, SkillLevel> &pr ) {
+        return pr.first.obj().is_combat_skill();
+    } );
+    std::sort( combat_skills.begin(), combat_skills.end(),
+    []( const skill_pair &a, const skill_pair &b ) {
+        return a.second > b.second;
+    } );
+    if( combat_skills.empty() ) {
+        // Default to stabbing because knives are always good
+        combat_skills.emplace_back( skill_stabbing, 0 );
+    }
 
-    for (auto const &p : _skills) {
-        if (p.first.obj().is_combat_skill()) {
-            int const level = p.second;
-            if( level > highest_level ) {
-                highest_level = level;
-                highest_skill = p.first;
-            }
+    static const Group_tag empty_group( "EMPTY_GROUP" );
+    Group_tag weapon_group = empty_group;
+    for( const skill_pair &pr : combat_skills ) {
+        const auto iter = type->weapon_by_skill.find( pr.first );
+        if( iter != type->weapon_by_skill.end() && iter->second != empty_group ) {
+            weapon_group = iter->second;
+            break;
         }
     }
 
-    return highest_skill;
-}
-
-void npc::starting_weapon( const npc_class_id &type )
-{
-    if( item_group::group_is_defined( type->weapon_override ) ) {
-        weapon = item_group::item_from( type->weapon_override );
+    const auto &weapons = item_group::items_from( weapon_group );
+    if( weapons.empty() ) {
         return;
     }
 
-    const skill_id best = best_skill();
-
-    // if NPC has no suitable skills default to stabbing weapon
-    if( !best || best == skill_stabbing ) {
-        weapon = random_item_from( type, "stabbing", "survivor_stabbing" );
-    } else if( best == skill_bashing ) {
-        weapon = random_item_from( type, "bashing", "survivor_bashing" );
-    } else if( best == skill_cutting ) {
-        weapon = random_item_from( type, "cutting", "survivor_cutting" );
-    } else if( best == skill_throw ) {
-        weapon = random_item_from( type, "throw" );
-    } else if( best == skill_archery ) {
-        weapon = random_item_from( type, "archery" );
-    } else if( best == skill_pistol ) {
-        weapon = random_item_from( type, "pistol", "guns_pistol_common" );
-    } else if( best == skill_shotgun ) {
-        weapon = random_item_from( type, "shotgun", "guns_shotgun_common" );
-    } else if( best == skill_smg ) {
-        weapon = random_item_from( type, "smg", "guns_smg_common" );
-    } else if( best == skill_rifle ) {
-        weapon = random_item_from( type, "rifle", "guns_rifle_common" );
+    // Find best weapon, equip it (rest is probably ammo)
+    double bestval = 0.0f;
+    size_t bestindex = 0;
+    for( size_t i = 0; i < weapons.size(); i++ ) {
+        double cur_val = who.weapon_value( weapons[i] );
+        if( cur_val > bestval ) {
+            bestval = cur_val;
+            bestindex = i;
+        }
     }
 
-    if( weapon.is_gun() ) {
-        weapon.ammo_set( default_ammo( weapon.type->gun->ammo ) );
+    who.weapon = weapons[bestindex];
+    // Other items go to inventory
+    for( size_t i = 0; i < weapons.size(); i++ ) {
+        if( i != bestindex ) {
+            who.inv.push_back( weapons[i] );
+        }
     }
 }
 

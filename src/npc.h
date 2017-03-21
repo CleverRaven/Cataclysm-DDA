@@ -506,8 +506,6 @@ public:
      * See @ref npc_chatbin::add_new_mission
      */
     void add_new_mission( mission *miss );
-    skill_id best_skill() const;
- void starting_weapon( const npc_class_id &type );
 
 // Save & load
     void load_info(std::string data) override;// Overloaded from player

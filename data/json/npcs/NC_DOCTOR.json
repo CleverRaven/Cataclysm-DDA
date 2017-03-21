@@ -1,6 +1,52 @@
 [
   {
     "type" : "item_group",
+    "id" : "NC_DOCTOR_worn_male",
+    "subtype": "collection",
+    "groups": [
+      "NC_DOCTOR_pants_male",
+      "NC_DOCTOR_shirt_male",
+      "NC_DOCTOR_gloves",
+      "NC_DOCTOR_coat",
+      "npc_shoes",
+      "NC_DOCTOR_masks",
+      "npc_hat",
+      "npc_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "NC_DOCTOR_worn_female",
+    "subtype": "collection",
+    "groups": [
+      "NC_DOCTOR_pants_female",
+      "NC_DOCTOR_shirt_female",
+      "NC_DOCTOR_gloves",
+      "NC_DOCTOR_coat",
+      "npc_shoes",
+      "NC_DOCTOR_masks",
+      "npc_hat",
+      "npc_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "NC_DOCTOR_inventory",
+    "subtype": "collection",
+    "items": [ "lighter" ],
+    "groups": [
+      [ "NC_DOCTOR_misc", 100 ],
+      [ "NC_DOCTOR_misc", 50 ],
+      [ "NC_DOCTOR_misc", 50 ],
+      [ "NC_DOCTOR_misc", 50 ],
+      [ "NC_DOCTOR_misc", 50 ],
+      [ "NC_DOCTOR_misc", 50 ],
+      [ "NC_DOCTOR_misc", 50 ],
+      [ "NC_DOCTOR_misc", 50 ]
+    ]
+  },
+  {
+    "type" : "item_group",
     "id" : "NC_DOCTOR_pants_male",
     "items":[
       ["jeans", 20],
