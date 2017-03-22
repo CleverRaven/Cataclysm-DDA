@@ -7,6 +7,7 @@
 #include "skill.h"
 
 #include <algorithm>
+#include <numeric>
 
 recipe::recipe() : skill_used( "none" ) {}
 
