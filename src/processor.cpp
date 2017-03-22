@@ -159,6 +159,8 @@ void process_data::check() const
     if (!proc_id.is_valid()) {
         debugmsg("There is no process with the name %s", id.c_str());
     }
+    /*
+    I'm not sure if I need this, it would validate components and output as valid itype_id
     for( itype_id elem : components ) {
         //The compiler complains about this is_valid method
         if( !elem.is_valid() ) {
@@ -168,6 +170,7 @@ void process_data::check() const
     if( !output.is_valid() ) {
         debugmsg( "Invalid output \"%s\" in \"%s\".", output.c_str(), id.c_str() );
     }
+    */
     if( !fuel_intake >= 0 ) {
         debugmsg( "Invalid fuel intake \"%d\" in \"%s\".", fuel_intake, id.c_str() );
     }
