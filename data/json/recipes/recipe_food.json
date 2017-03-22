@@ -2331,7 +2331,7 @@
   "time": 6000,
   "autolearn": true,
   "batch_time_factors": [ 80, 4 ],
-  "qualities": [ { "id": "COOK","level": 2,"amount": 1 } ],
+  "qualities": [ { "id": "COOK","level": 2 } ],
   "tools": [ [ [ "hotplate", 8 ], [ "char_smoker", 8 ], [ "toolset", 8 ], [ "fire", -1 ] ] ],
   "components": [ [ [ "coffee_bean", 1 ] ] ]
 },{
