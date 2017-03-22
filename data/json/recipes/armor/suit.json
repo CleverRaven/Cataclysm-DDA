@@ -89,10 +89,8 @@
     "time": 100000,
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
-    "components": [
-      [ [ "string_36", 2 ], [ "string_6", 12 ], [ "cordage_36", 2 ], [ "cordage_6", 12 ] ],
-      [ [ "chitin_piece", 15 ] ]
-    ]
+    "using": [ [ "cordage", 2 ] ],
+    "components": [ [ [ "chitin_piece", 15 ] ] ]
   },
   {
     "result": "armor_farmor",
@@ -293,10 +291,8 @@
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 6 ] ],
-    "components": [
-      [ [ "string_36", 2 ], [ "string_6", 12 ], [ "cordage_36", 2 ], [ "cordage_6", 12 ] ],
-      [ [ "scrap", 15 ] ]
-    ]
+    "using": [ [ "cordage", 2 ] ],
+    "components": [ [ [ "scrap", 15 ] ] ]
   },
   {
     "result": "chainmail_suit",
@@ -671,10 +667,8 @@
     "time": 6000,
     "reversible": true,
     "autolearn": true,
-    "components": [
-      [ [ "sheet", 1 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 4 ], [ "cordage_36", 1 ], [ "cordage_6", 4 ] ]
-    ]
+    "using": [ [ "cordage", 1 ] ],
+    "components": [ [ [ "sheet", 1 ] ] ]
   },
   {
     "result": "union_suit",
@@ -693,7 +687,7 @@
     "components": [
       [ [ "long_undertop", 1 ] ],
       [ [ "long_underpants", 1 ] ],
-      [ [ "string_36", 1 ], [ "cordage_36", 1 ] ]
+      [ [ "string_36", 1 ] ]
     ]
   },
   {

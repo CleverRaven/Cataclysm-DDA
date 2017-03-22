@@ -205,12 +205,12 @@
       [ "rag", 1 ],
       [ "felt_patch", 1 ],
       [ "string_6", 2 ],
-      [ "cordage_6", 2 ],
       [ "plant_fibre", 50 ],
       [ "sinew", 50 ],
       [ "thread", 50 ],
       [ "yarn", 50 ],
-      [ "withered", 2 ]
+      [ "withered", 2 ],
+      [ "straw_pile", 2 ]
     ]
   ]
 },{
@@ -378,14 +378,14 @@
     ],
     [
       [ "string_6", 2 ],
-      [ "cordage_6", 2 ],
       [ "resin_cord", 2 ],
       [ "duct_tape", 40 ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "yarn", 40 ],
       [ "plant_fibre", 40 ],
-      [ "withered", 2 ]
+      [ "withered", 2 ],
+      [ "straw_pile", 2 ]
     ]
   ]
 },{
@@ -431,7 +431,8 @@
       [ "yarn", 20 ],
       [ "duct_tape", 20 ],
       [ "resin_cord", 1 ],
-      [ "withered", 1 ]
+      [ "withered", 1 ],
+      [ "straw_pile", 1 ]
     ],
     [
       [ "scrap_copper", 3 ],
@@ -534,7 +535,8 @@
     [
       [ "resin_cord", 3 ],
       [ "string_6", 3 ],
-      [ "cordage_6", 2 ],
+      [ "withered", 6 ],
+      [ "straw_pile", 6 ],
       [ "plant_fibre", 60 ],
       [ "sinew", 60 ],
       [ "thread", 60 ],
@@ -752,7 +754,8 @@
   "components": [
     [
       [ "string_6", 2 ],
-      [ "cordage_6", 2 ],
+      [ "withered", 4 ],
+      [ "straw_pile", 4 ],
       [ "thread", 100 ],
       [ "sinew", 100 ],
       [ "plant_fibre", 100 ],
@@ -877,12 +880,12 @@
     ],
     [
       [ "string_6", 2 ],
-      [ "cordage_6", 2 ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
       [ "yarn", 40 ],
-      [ "withered", 2 ]
+      [ "withered", 2 ],
+      [ "straw_pile", 2 ]
     ]
   ]
 },{
@@ -909,12 +912,12 @@
     ],
     [
       [ "string_6", 2 ],
-      [ "cordage_6", 2 ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
       [ "yarn", 40 ],
-      [ "withered", 1 ]
+      [ "withered", 1 ],
+      [ "straw_pile", 2 ]
     ]
   ]
 },{
@@ -1143,10 +1146,8 @@
   "time": 5000,
   "reversible": true,
   "autolearn": true,
-  "components": [
-    [ [ "snare_trigger", 1 ] ],
-    [ [ "string_36", 1 ], [ "cordage_36", 1 ] ]
-  ]
+  "using": [ [ "cordage", 1 ] ],
+  "components": [ [ [ "snare_trigger", 1 ] ] ]
 },{
   "type" : "recipe",
   "result": "heavy_snare_kit",
@@ -1175,6 +1176,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities" : [ {"id":"CUT","level":1} ],
+  "using": [ [ "cordage", 3 ] ],
   "components": [
     [
       [ "2x4", 2 ],
@@ -1182,10 +1184,6 @@
     ],
     [
       [ "splinter", 1 ]
-    ],
-    [
-      [ "string_36", 3 ],
-      [ "cordage_36", 3 ]
     ]
   ]
 }

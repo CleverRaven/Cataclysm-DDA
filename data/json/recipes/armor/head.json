@@ -300,12 +300,9 @@
     "time": 10000,
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "filament", 8 ] ],
+    "using": [ [ "filament", 8 ], [ "cordage", 2 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "rag", 4 ] ],
-      [ [ "string_36", 2 ], [ "cordage_36", 2 ] ]
-    ]
+    "components": [ [ [ "rag", 4 ] ] ]
   },
   {
     "result": "helmet_barbute",
@@ -350,10 +347,8 @@
     "difficulty": 6,
     "time": 60000,
     "autolearn": true,
-    "components": [
-      [ [ "string_36", 1 ], [ "string_6", 5 ], [ "cordage_36", 1 ], [ "cordage_6", 5 ] ],
-      [ [ "chitin_piece", 5 ] ]
-    ]
+    "using": [ [ "cordage", 1 ] ],
+    "components": [ [ [ "chitin_piece", 5 ] ] ]
   },
   {
     "result": "helmet_hsurvivor",
@@ -704,10 +699,8 @@
     "time": 5000,
     "reversible": true,
     "autolearn": true,
-    "components": [
-      [ [ "sheet", 1 ] ],
-      [ [ "string_36", 1 ], [ "cordage_36", 1 ] ]
-    ]
+    "using": [ [ "cordage", 1 ] ],
+    "components": [ [ [ "sheet", 1 ] ] ]
   },
   {
     "result": "knit_scarf",
@@ -1095,7 +1088,7 @@
     "components": [
       [ [ "hat_hard", 1 ], [ "helmet_bike", 1 ] ],
       [ [ "flashlight", 1 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "cordage_36", 1 ], [ "cordage_6", 6 ], [ "duct_tape", 10 ], [ "medical_tape", 20 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "withered", 12 ], [ "straw_pile", 12 ], [ "duct_tape", 10 ], [ "medical_tape", 20 ] ]
     ]
   },
   {

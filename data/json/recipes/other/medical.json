@@ -39,8 +39,8 @@
         [ "plant_fibre", 300 ],
         [ "string_36", 1 ],
         [ "string_6", 6 ],
-        [ "cordage_36", 1 ],
-        [ "cordage_6", 6 ],
+        [ "withered", 12 ],
+        [ "straw_pile", 12 ],
         [ "superglue", 1 ]
       ],
       [

@@ -10,8 +10,8 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "using": [ [ "cordage", 4 ] ],
     "components": [
-      [ [ "string_36", 4 ], [ "cordage_36", 4 ] ],
       [ [ "2x4", 2 ] ],
       [ [ "rag", 8 ] ]
     ]
@@ -57,8 +57,8 @@
     "difficulty": 5,
     "time": 30000,
     "autolearn": true,
+    "using": [ [ "cordage", 1 ] ],
     "components": [
-      [ [ "string_36", 1 ], [ "string_6", 4 ], [ "cordage_36", 1 ], [ "cordage_6", 4 ] ],
       [ [ "chitin_piece", 4 ] ]
     ]
   },
@@ -130,8 +130,8 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 3 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "using": [ [ "cordage", 1 ] ],
     "components": [
-      [ [ "string_36", 1 ], [ "string_6", 4 ], [ "cordage_36", 1 ], [ "cordage_6", 4 ] ],
       [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ]
     ]
   },
