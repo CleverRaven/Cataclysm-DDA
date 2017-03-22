@@ -685,7 +685,8 @@
     ],
     [
       [ "superglue", 1 ],
-      [ "string_36", 1 ]
+      [ "string_36", 1 ],
+      [ "cordage_36", 1 ]
     ],
     [
       [ "can_food_unsealed", 1 ],

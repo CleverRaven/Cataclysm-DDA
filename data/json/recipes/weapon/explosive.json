@@ -45,7 +45,7 @@
     "qualities" : [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "soldering_iron", 6 ], [ "toolset", 6 ] ] ],
     "components": [
-      [ [ "superglue", 1 ], [ "string_36", 1 ] ],
+      [ [ "superglue", 1 ], [ "string_36", 1 ], [ "cordage_36", 1 ] ],
       [ [ "scrap", 3 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1], [ "canister_empty", 1 ] ],
       [ [ "amplifier", 1 ], [ "power_supply", 1 ] ],
       [ [ "cable", 5 ] ]
@@ -97,7 +97,7 @@
     "qualities" : [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "pilot_light", 1 ] ],
-      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ] ],
+      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ], [ "cordage_36", 1 ] ],
       [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "oxy_powder", 75 ] ],
       [ [ "incendiary", 50 ] ]
@@ -137,7 +137,7 @@
     "qualities" : [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "pilot_light", 1 ] ],
-      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ] ],
+      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ], [ "cordage_36", 1 ] ],
       [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1], [ "can_food_unsealed", 1 ] ],
       [ [ "bb", 100 ], [ "nail", 30 ] ],
       [ [ "gunpowder", 72 ], [ "chem_black_powder", 144 ], [ "shot_00", 3 ], [ "shot_slug", 2 ], [ "gasoline", 200 ], [ "diesel", 200 ], [ "shot_bird", 6 ] ]
@@ -209,7 +209,7 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ] ],
+      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ], [ "cordage_36", 1 ] ],
       [ [ "bottle_glass", 1 ], [ "clay_canister", 1 ], [ "flask_glass", 1 ] ],
       [ [ "nail", 40 ] ],
       [ [ "gunpowder", 72 ], [ "chem_black_powder", 144 ], [ "gasoline", 200 ], [ "diesel", 200 ], [ "shot_bird", 6 ] ]

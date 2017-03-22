@@ -26,7 +26,7 @@
     "autolearn": true,
     "components": [
       [ [ "spike", 1 ] ],
-      [ [ "string_6", 2 ] ]
+      [ [ "string_6", 2 ], [ "cordage_6", 2 ] ]
     ]
   },
   {
@@ -41,7 +41,7 @@
     "autolearn": true,
     "components": [
       [ [ "makeshift_machete", 1 ] ],
-      [ [ "string_36", 1 ] ]
+      [ [ "string_36", 1 ], [ "cordage_36", 1 ] ]
     ]
   },
   {

@@ -15,7 +15,7 @@
       { "id": "SEW", "level": 1 }
     ],
     "components": [
-      [ [ "string_36", 1 ], [ "string_6", 4 ] ],
+      [ [ "string_36", 1 ], [ "string_6", 4 ], [ "cordage_36", 1 ], [ "cordage_6", 4 ] ],
       [ [ "bone", 12 ], [ "bone_human", 12 ], [ "bone_tainted", 24 ] ],
       [ [ "leather", 2 ] ]
     ]
@@ -30,7 +30,7 @@
     "time": 30000,
     "autolearn": true,
     "components": [
-      [ [ "string_36", 1 ], [ "string_6", 4 ] ],
+      [ [ "string_36", 1 ], [ "string_6", 4 ], [ "cordage_36", 1 ], [ "cordage_6", 4 ] ],
       [ [ "chitin_piece", 4 ] ]
     ]
   },

@@ -376,6 +376,8 @@
       [ "leather", 2 ],
       [ "string_6", 6 ],
       [ "string_36", 1 ],
+      [ "cordage_6", 6 ],
+      [ "cordage_36", 1 ],
       [ "duct_tape", 10 ],
       [ "medical_tape", 20 ]
     ]
@@ -420,6 +422,8 @@
       [ "leather", 4 ],
       [ "string_6", 12 ],
       [ "string_36", 2 ],
+      [ "cordage_6", 12 ],
+      [ "cordage_36", 2 ],
       [ "duct_tape", 20 ],
       [ "medical_tape", 40 ]
     ]
@@ -663,6 +667,7 @@
     [ [ "rock", 1 ] ],
     [
       [ "string_6", 2 ],
+      [ "cordage_6", 2 ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
@@ -684,6 +689,7 @@
     [[ "steel_chunk", 1 ], [ "steel_lump", 1 ]],
     [
       [ "string_6", 2 ],
+      [ "cordage_6", 2 ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
@@ -749,6 +755,7 @@
     ],
     [
       [ "string_6", 1 ],
+      [ "cordage_6", 1 ],
       [ "sinew", 20 ],
       [ "thread", 20 ],
       [ "plant_fibre", 20 ],
@@ -795,7 +802,8 @@
       [ "thread", 80 ],
       [ "plant_fibre", 80 ],
       [ "yarn", 80 ],
-      [ "string_36", 1 ]
+      [ "string_36", 1 ],
+      [ "cordage_36", 1 ]
     ]
   ]
 },{
@@ -822,6 +830,7 @@
     ],
     [
       [ "string_6", 2 ],
+      [ "cordage_6", 2 ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
@@ -860,6 +869,7 @@
     ],
     [
       [ "string_6", 2 ],
+      [ "cordage_6", 2 ],
       [ "duct_tape", 40 ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
@@ -893,6 +903,7 @@
     ],
     [
       [ "string_6", 2 ],
+      [ "cordage_6", 2 ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
@@ -926,6 +937,7 @@
       ],
       [
         [ "string_6", 2 ],
+        [ "cordage_6", 2 ],
         [ "sinew", 40 ],
         [ "thread", 40 ],
         [ "plant_fibre", 40 ],
@@ -954,7 +966,8 @@
       [ "splinter", 1 ]
     ],
     [
-      [ "string_6", 3 ]
+      [ "string_6", 3 ],
+      [ "cordage_6", 3 ]
     ]
   ]
 },{
@@ -979,7 +992,8 @@
       [ "ceramic_shard", 1 ]
     ],
     [
-      [ "string_36", 3 ]
+      [ "string_36", 3 ],
+      [ "cordage_36", 3 ]
     ]
   ]
 },{
@@ -1095,7 +1109,8 @@
       [ "thread", 50 ],
       [ "plant_fibre", 50],
       [ "yarn", 25],
-      [ "string_6", 1]
+      [ "string_6", 1],
+      [ "cordage_6", 1]
     ],
     [
       [ "pine_bough", 2 ]
@@ -1137,7 +1152,8 @@
       [ "thread", 150 ],
       [ "plant_fibre", 150],
       [ "yarn", 75],
-      [ "string_6", 3]
+      [ "string_6", 3],
+      [ "cordage_6", 3]
     ],
     [
       [ "pine_bough", 4 ]
@@ -1165,7 +1181,8 @@
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
       [ "yarn", 40 ],
-      [ "string_36", 1 ]
+      [ "string_36", 1 ],
+      [ "cordage_36", 1 ]
     ],
     [
       [ "leather", 6 ],
@@ -1196,7 +1213,8 @@
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
       [ "yarn", 40 ],
-      [ "string_36", 1 ]
+      [ "string_36", 1 ],
+      [ "cordage_36", 1 ]
     ],
     [
       [ "leather", 14 ],
@@ -1227,7 +1245,8 @@
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
       [ "yarn", 40 ],
-      [ "string_36", 1 ]
+      [ "string_36", 1 ],
+      [ "cordage_36", 1 ]
     ],
     [
       [ "leather", 24 ],
@@ -1283,6 +1302,7 @@
     ],
     [
       [ "string_6", 10 ],
+      [ "cordage_6", 10 ],
       [ "sinew", 500 ],
       [ "thread", 500 ],
       [ "plant_fibre", 500 ],
@@ -1319,7 +1339,8 @@
       [ "thread", 60 ],
       [ "plant_fibre", 60 ],
       [ "yarn", 60 ],
-      [ "string_6", 1 ]
+      [ "string_6", 1 ],
+      [ "cordage_6", 1 ]
     ],
     [
       [ "damaged_shelter_kit", 1 ]
@@ -1350,7 +1371,9 @@
       [ "plant_fibre", 360 ],
       [ "yarn", 360 ],
       [ "string_6", 6 ],
-      [ "string_36", 1 ]
+      [ "string_36", 1 ],
+      [ "cordage_6", 6 ],
+      [ "cordage_36", 1 ]
     ]
   ]
 },{
@@ -1387,7 +1410,8 @@
       [ "snare_trigger", 1 ]
     ],
     [
-      [ "string_36", 1 ]
+      [ "string_36", 1 ],
+      [ "cordage_36", 1 ]
     ]
   ]
 },{
@@ -1876,6 +1900,35 @@
   ]
 },{
   "type" : "recipe",
+  "result": "cordage_6",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "survival",
+  "time": 5000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "withered", 2 ],
+      [ "straw_pile", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "cordage_36",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "survival",
+  "time": 5000,
+  "autolearn": true,
+  "components": [
+    [
+      [ "cordage_6", 6 ],
+      [ "withered", 12 ],
+      [ "straw_pile", 12 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "rope_6",
   "id_suffix": "from_string",
   "category": "CC_OTHER",
@@ -1887,7 +1940,9 @@
   "components": [
     [
       [ "string_36", 6 ],
-      [ "string_6", 36 ]
+      [ "string_6", 36 ],
+      [ "cordage_36", 6 ],
+      [ "cordage_6", 36 ]
     ]
   ]
 },{
@@ -1924,7 +1979,9 @@
     [
       [ "rope_6", 5 ],
       [ "string_36", 30 ],
-      [ "string_6", 180 ]
+      [ "string_6", 180 ],
+      [ "cordage_36", 30 ],
+      [ "cordage_6", 180 ]
     ]
   ]
 },{
@@ -2030,7 +2087,8 @@
       [ "2x4", 1 ]
     ],
     [
-      [ "string_6", 3 ]
+      [ "string_6", 3 ],
+      [ "cordage_6", 3 ]
     ]
   ]
 },{
@@ -2571,7 +2629,8 @@
   "autolearn": true,
   "components": [
     [
-      [ "string_36", 1 ]
+      [ "string_36", 1 ],
+      [ "cordage_36", 1 ]
     ],
     [
       [ "superglue", 1 ]
@@ -2641,7 +2700,9 @@
     ],
     [
       [ "string_6", 6 ],
-      [ "string_36", 1 ]
+      [ "string_36", 1 ],
+      [ "cordage_6", 6 ],
+      [ "cordage_36", 1 ]
     ]
   ]
 },{
@@ -2665,7 +2726,9 @@
     ],
     [
       [ "string_36", 1 ],
-      [ "string_6", 2 ]
+      [ "string_6", 6 ],
+      [ "cordage_36", 1 ],
+      [ "cordage_6", 6 ]
     ]
   ]
 },{
@@ -2690,7 +2753,8 @@
       [ "blade", 2 ]
     ],
     [
-      [ "string_36", 1 ]
+      [ "string_36", 1 ],
+      [ "cordage_36", 1 ]
     ]
   ]
 },{
@@ -2707,7 +2771,8 @@
       [ "grenade", 1 ]
     ],
     [
-      [ "string_6", 1 ]
+      [ "string_6", 1 ],
+      [ "cordage_6", 1 ]
     ],
     [
       [ "clay_canister", 1 ],
@@ -2732,7 +2797,8 @@
       [ "grenade", 1 ]
     ],
     [
-      [ "string_6", 1 ]
+      [ "string_6", 1 ],
+      [ "cordage_6", 1 ]
     ],
     [
       [ "can_drink_unsealed", 1 ]
@@ -2898,6 +2964,8 @@
     [
       [ "string_6", 6 ],
       [ "string_36", 1 ],
+      [ "cordage_6", 6 ],
+      [ "cordage_36", 1 ],
       [ "duct_tape", 50 ],
       [ "medical_tape", 25 ]
     ],
@@ -2926,6 +2994,8 @@
     [
       [ "string_6", 12 ],
       [ "string_36", 2 ],
+      [ "cordage_6", 12 ],
+      [ "cordage_36", 2 ],
       [ "duct_tape", 100 ],
       [ "medical_tape", 50 ]
     ],
@@ -3254,7 +3324,8 @@
   ],
   "components": [
     [
-      [ "string_36", 1 ]
+      [ "string_36", 1 ],
+      [ "cordage_36", 1 ]
     ],
     [
       [ "duct_tape", 50 ]
@@ -3277,7 +3348,8 @@
     {"id":"SCREW","level":1}
   ], "components": [
     [
-      [ "string_36", 1 ]
+      [ "string_36", 1 ],
+      [ "cordage_36", 1 ]
     ],
     [
       [ "metal_tank", 1 ]
@@ -3473,7 +3545,9 @@
   "components": [
     [
       ["string_36", 1],
-      ["string_6", 6]
+      ["string_6", 6],
+      ["cordage_36", 1],
+      ["cordage_6", 6]
     ],
     [
       ["chisel", 1]
@@ -5130,7 +5204,8 @@
       [ "rag", 4 ]
     ],
     [
-      [ "string_36", 1]
+      [ "string_36", 1],
+      [ "cordage_36", 1]
     ]
   ]
 },{
@@ -5506,7 +5581,8 @@
         [ "stick", 1 ]
       ],
       [
-        [ "string_36", 6 ]
+        [ "string_36", 6 ],
+        [ "cordage_36", 6 ]
       ],
       [
         [ "fishing_hook_bone", 1 ],
@@ -5535,6 +5611,8 @@
       [ "leather", 2 ],
       [ "string_6", 6 ],
       [ "string_36", 1 ],
+      [ "cordage_6", 6 ],
+      [ "cordage_36", 1 ],
       [ "duct_tape", 10 ],
       [ "medical_tape", 20 ]
     ]
@@ -5618,6 +5696,8 @@
     [
       [ "string_6", 6 ],
       [ "string_36", 1 ],
+      [ "cordage_6", 6 ],
+      [ "cordage_36", 1 ],
       [ "duct_tape", 50 ],
       [ "medical_tape", 25 ]
     ]
@@ -5642,7 +5722,8 @@
       [ "rag", 2 ]
     ],
     [
-      [ "string_6", 1 ]
+      [ "string_6", 1 ],
+      [ "cordage_6", 1 ]
     ]
   ]
 },
@@ -5670,7 +5751,9 @@
     ],
     [
       [ "string_36", 1 ],
-      [ "string_6", 6 ]
+      [ "string_6", 6 ],
+      [ "cordage_36", 1 ],
+      [ "cordage_6", 6 ]
     ]
   ]
   },{
@@ -6549,7 +6632,8 @@
       [ "fur", 3 ]
     ],
     [
-      [ "string_6", 2 ]
+      [ "string_6", 2 ],
+      [ "cordage_6", 2 ]
     ],
     [
       [ "tallow", 1 ],
@@ -6584,7 +6668,8 @@
       [ "fur", 2 ]
     ],
     [
-      [ "string_6", 1 ]
+      [ "string_6", 1 ],
+      [ "cordage_6", 1 ]
     ],
     [
       [ "tallow", 1 ],
@@ -6641,7 +6726,8 @@
       [ "fur", 3 ]
     ],
     [
-      [ "string_6", 2 ]
+      [ "string_6", 2 ],
+      [ "cordage_6", 2 ]
     ],
     [
       [ "tallow", 1 ],
@@ -6676,7 +6762,8 @@
       [ "fur", 3 ]
     ],
     [
-      [ "string_6", 2 ]
+      [ "string_6", 2 ],
+      [ "cordage_6", 2 ]
     ],
     [
       [ "tallow", 1 ],
@@ -6711,7 +6798,8 @@
       [ "fur", 2 ]
     ],
     [
-      [ "string_6", 1 ]
+      [ "string_6", 1 ],
+      [ "cordage_6", 1 ]
     ],
     [
       [ "tallow", 1 ],
@@ -7061,7 +7149,8 @@
       [ "mirror", 1 ]
     ],
     [
-      [ "string_6", 2 ]
+      [ "string_6", 2 ],
+      [ "cordage_6", 2 ]
     ],
     [
       [ "plastic_chunk", 1 ],
@@ -7087,7 +7176,10 @@
     [ [ "rag", 1 ] ],
     [ [ "scissors", 1 ] ],
     [ [ "mirror", 1 ] ],
-    [ [ "string_6", 4 ] ]
+    [
+      [ "string_6", 4 ],
+      [ "cordage_6", 4 ]
+    ]
   ]
 },{
   "type" : "recipe",

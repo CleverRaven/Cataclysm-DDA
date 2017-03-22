@@ -16,7 +16,7 @@
     ],
     "components": [
       [ [ "leather", 9 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 2 ], [ "string_6", 12 ], [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ], [ "yarn", 40 ] ],
+      [ [ "string_36", 2 ], [ "string_6", 12 ], [ "cordage_36", 2 ], [ "cordage_6", 12 ], [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ], [ "yarn", 40 ] ],
       [ [ "scrap", 3 ] ]
     ]
   },
@@ -34,7 +34,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 8 ], [ "rag", 8 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "cordage_36", 1 ], [ "cordage_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
     ]
   },
   {
@@ -51,7 +51,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 3 ], [ "string_6", 18 ], [ "thread", 60 ], [ "sinew", 60 ], [ "plant_fibre", 60 ], [ "yarn", 60 ] ]
+      [ [ "string_36", 3 ], [ "string_6", 18 ], [ "cordage_36", 3 ], [ "cordage_6", 18 ], [ "thread", 60 ], [ "sinew", 60 ], [ "plant_fibre", 60 ], [ "yarn", 60 ] ]
     ]
   },
   {
@@ -118,7 +118,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 8 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "cordage_36", 1 ], [ "cordage_6", 6 ] ]
     ]
   },
   {
@@ -135,7 +135,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 8 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "cordage_36", 1 ], [ "cordage_6", 6 ] ]
     ]
   },
   {
@@ -152,7 +152,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 8 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "cordage_36", 1 ], [ "cordage_6", 6 ] ]
     ]
   },
   {
@@ -169,7 +169,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 4 ] ],
-      [ [ "string_6", 4 ], [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ], [ "yarn", 40 ] ]
+      [ [ "string_6", 4 ], [ "cordage_6", 4 ], [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ], [ "yarn", 40 ] ]
     ]
   },
   {
@@ -201,7 +201,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 3 ] ],
-      [ [ "string_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
+      [ [ "string_6", 3 ], [ "cordage_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
     ]
   },
   {
@@ -218,7 +218,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 3 ] ],
-      [ [ "string_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
+      [ [ "string_6", 3 ], [ "cordage_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
     ]
   },
   {
@@ -256,7 +256,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 4 ], [ "rag", 4 ] ],
-      [ [ "string_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
+      [ [ "string_6", 3 ], [ "cordage_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
     ]
   },
   {
@@ -308,7 +308,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "cordage_36", 1 ], [ "cordage_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
     ]
   },
   {
@@ -327,7 +327,7 @@
     "components": [
       [ [ "rag", 4 ] ],
       [ [ "plastic_chunk", 2 ] ],
-      [ [ "string_6", 2 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
+      [ [ "string_6", 2 ], [ "cordage_6", 2 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
     ]
   },
   {
@@ -344,7 +344,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "cordage_36", 1 ], [ "cordage_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
     ]
   },
   {
@@ -360,7 +360,7 @@
     "using": [ [ "adhesive", 3 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "components": [
-      [ [ "rag", 6 ], [ "leather", 6 ], [ "string_6", 3 ] ],
+      [ [ "rag", 6 ], [ "leather", 6 ], [ "string_6", 3 ], [ "cordage_6", 3 ] ],
       [ [ "jerrycan", 1 ] ]
     ]
   },
@@ -393,7 +393,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "cordage_36", 1 ], [ "cordage_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
     ]
   },
   {
@@ -410,7 +410,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 3 ], [ "rag", 3 ] ],
-      [ [ "string_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
+      [ [ "string_6", 3 ], [ "cordage_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
     ]
   },
   {
@@ -427,7 +427,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "rag", 6 ] ],
-      [ [ "string_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
+      [ [ "string_6", 3 ], [ "cordage_6", 3 ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
     ]
   },
   {
@@ -462,7 +462,7 @@
     "autolearn": true,
     "components": [
       [ [ "pants", 1 ], [ "pants_cargo", 1 ], [ "pants_army", 1 ], [ "pants_checkered", 1 ], [ "striped_pants", 1 ], [ "technician_pants_blue", 1 ], [ "technician_pants_ltblue", 1 ], [ "technician_pants_gray", 1 ], [ "jeans", 1 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 4 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 4 ], [ "cordage_36", 1 ], [ "cordage_6", 4 ] ]
     ],
     "flags": [ "BLIND_HARD" ]
   },
@@ -489,7 +489,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "string_36", 2 ] ],
+      [ [ "string_36", 2 ], [ "cordage_36", 2 ] ],
       [ [ "bag_plastic", 8 ] ]
     ]
   },
@@ -574,7 +574,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 6 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "cordage_36", 1 ], [ "cordage_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
     ]
   },
   {
@@ -612,7 +612,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
+      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "cordage_36", 1 ], [ "cordage_6", 6 ], [ "thread", 20 ], [ "sinew", 20 ], [ "plant_fibre", 20 ], [ "yarn", 20 ] ]
     ]
   },
   {
@@ -629,7 +629,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 2 ], [ "string_6", 12 ], [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ], [ "yarn", 40 ] ]
+      [ [ "string_36", 2 ], [ "string_6", 12 ], [ "cordage_36", 2 ], [ "cordage_6", 12 ], [ "thread", 40 ], [ "sinew", 40 ], [ "plant_fibre", 40 ], [ "yarn", 40 ] ]
     ]
   },
   {

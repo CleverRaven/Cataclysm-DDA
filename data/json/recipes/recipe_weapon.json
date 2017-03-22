@@ -84,6 +84,7 @@
       [ "felt_patch", 1 ],
       [ "duct_tape", 50 ],
       [ "string_6", 2 ],
+      [ "cordage_6", 2 ],
       [ "sinew", 50 ],
       [ "thread", 50 ],
       [ "yarn", 50 ],
@@ -111,6 +112,7 @@
       [ "rag", 1 ],
       [ "duct_tape", 50 ],
       [ "string_6", 2 ],
+      [ "cordage_6", 2 ],
       [ "sinew", 100 ],
       [ "thread", 100 ],
       [ "plant_fibre", 100 ],
@@ -211,7 +213,9 @@
   "components": [
     [
       [ "string_36", 3 ],
-      [ "string_6", 18 ]
+      [ "string_6", 18 ],
+      [ "cordage_36", 3 ],
+      [ "cordage_6", 18 ]
     ]
   ]
 },{
@@ -372,6 +376,8 @@
     [
       [ "string_6", 9 ],
       [ "string_36", 2 ],
+      [ "cordage_6", 9 ],
+      [ "cordage_36", 2 ],
       [ "duct_tape", 75 ]
     ],
     [
@@ -474,6 +480,8 @@
     [
       [ "string_6", 6 ],
       [ "string_36", 1 ],
+      [ "cordage_6", 6 ],
+      [ "cordage_36", 1 ],
       [ "duct_tape", 50 ]
     ]
   ]
@@ -532,6 +540,7 @@
     ],
     [
       [ "string_36", 2 ],
+      [ "cordage_36", 2 ],
       [ "thread", 200 ],
       [ "sinew", 200 ],
       [ "plant_fibre", 200 ],
@@ -558,6 +567,7 @@
     ],
     [
       [ "string_36", 2 ],
+      [ "cordage_36", 2 ],
       [ "thread", 200 ],
       [ "sinew", 200 ],
       [ "plant_fibre", 200 ],
@@ -587,6 +597,7 @@
     ],
     [
       [ "string_36", 2 ],
+      [ "cordage_36", 2 ],
       [ "thread", 200 ],
       [ "sinew", 200 ],
       [ "plant_fibre", 200 ],
@@ -617,6 +628,7 @@
     ],
     [
       [ "string_36", 2 ],
+      [ "cordage_36", 2 ],
       [ "thread", 200 ],
       [ "sinew", 200 ],
       [ "plant_fibre", 200 ],
@@ -653,7 +665,8 @@
   "autolearn": true,
   "components": [
     [
-      [ "string_36", 8 ]
+      [ "string_36", 8 ],
+      [ "cordage_36", 8 ]
     ],
     [
       [ "steel_chunk", 4 ]
@@ -1058,7 +1071,8 @@
       [ "stick", 3 ]
     ],
     [
-      [ "string_6", 1 ]
+      [ "string_6", 1 ],
+      [ "cordage_6", 1 ]
     ],
     [
       [ "spring", 1 ]
@@ -1094,7 +1108,8 @@
       [ "scrap", 1 ]
     ],
     [
-      [ "string_36", 3 ]
+      [ "string_36", 3 ],
+      [ "cordage_36", 3 ]
     ]
   ]
 },{
@@ -1121,7 +1136,8 @@
       [ "scrap", 1 ]
     ],
     [
-      [ "string_36", 3 ]
+      [ "string_36", 3 ],
+      [ "cordage_36", 3 ]
     ],
     [
       [ "leather", 1 ]
@@ -1674,7 +1690,8 @@
     [
       [ "rope_6", 1 ],
       [ "rag", 3 ],
-      [ "string_36", 6 ]
+      [ "string_36", 6 ],
+      [ "cordage_36", 6 ]
     ]
   ]
 },{
@@ -1692,7 +1709,8 @@
       [ "spike", 1 ]
     ],
     [
-      [ "string_36", 1 ]
+      [ "string_36", 1 ],
+      [ "cordage_36", 1 ]
     ]
   ]
 },{
@@ -1745,7 +1763,8 @@
       [ "spike", 1 ]
     ],
     [
-      [ "string_6", 2 ]
+      [ "string_6", 2 ],
+      [ "cordage_6", 2 ]
     ]
   ]
 },{
@@ -2355,7 +2374,8 @@
       [ "stick", 2 ]
     ],
     [
-      [ "string_6", 1 ]
+      [ "string_6", 1 ],
+      [ "cordage_6", 1 ]
     ],
     [
       [ "spring", 1 ]
@@ -2865,7 +2885,8 @@
     {"id":"HAMMER","level":1}
   ], "components": [
     [
-      [ "string_36", 4 ]
+      [ "string_36", 4 ],
+      [ "cordage_36", 4 ]
     ],
     [
       [ "nail", 16 ]
@@ -4744,7 +4765,8 @@
       [ "spring", 1 ]
     ],
     [
-      [ "string_36", 1 ]
+      [ "string_36", 1 ],
+      [ "cordage_36", 1 ]
     ],
     [
       [ "nail", 20 ]

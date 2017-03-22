@@ -54,7 +54,7 @@
     "time": 40000,
     "autolearn": true,
     "components": [
-      [ [ "string_36", 1 ], [ "string_6", 4 ] ],
+      [ [ "string_36", 1 ], [ "string_6", 4 ], [ "cordage_36", 1 ], [ "cordage_6", 4 ] ],
       [ [ "chitin_piece", 8 ] ],
       [ [ "leather", 4 ], [ "fur", 4 ], [ "rag", 4 ] ]
     ]

@@ -205,6 +205,7 @@
       [ "rag", 1 ],
       [ "felt_patch", 1 ],
       [ "string_6", 2 ],
+      [ "cordage_6", 2 ],
       [ "plant_fibre", 50 ],
       [ "sinew", 50 ],
       [ "thread", 50 ],
@@ -377,6 +378,7 @@
     ],
     [
       [ "string_6", 2 ],
+      [ "cordage_6", 2 ],
       [ "resin_cord", 2 ],
       [ "duct_tape", 40 ],
       [ "sinew", 40 ],
@@ -532,6 +534,7 @@
     [
       [ "resin_cord", 3 ],
       [ "string_6", 3 ],
+      [ "cordage_6", 2 ],
       [ "plant_fibre", 60 ],
       [ "sinew", 60 ],
       [ "thread", 60 ],
@@ -749,6 +752,7 @@
   "components": [
     [
       [ "string_6", 2 ],
+      [ "cordage_6", 2 ],
       [ "thread", 100 ],
       [ "sinew", 100 ],
       [ "plant_fibre", 100 ],
@@ -873,6 +877,7 @@
     ],
     [
       [ "string_6", 2 ],
+      [ "cordage_6", 2 ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
@@ -904,6 +909,7 @@
     ],
     [
       [ "string_6", 2 ],
+      [ "cordage_6", 2 ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
@@ -1139,7 +1145,7 @@
   "autolearn": true,
   "components": [
     [ [ "snare_trigger", 1 ] ],
-    [ [ "string_36", 1 ] ]
+    [ [ "string_36", 1 ], [ "cordage_36", 1 ] ]
   ]
 },{
   "type" : "recipe",
@@ -1178,7 +1184,8 @@
       [ "splinter", 1 ]
     ],
     [
-      [ "string_36", 3 ]
+      [ "string_36", 3 ],
+      [ "cordage_36", 3 ]
     ]
   ]
 }

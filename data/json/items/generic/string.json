@@ -26,6 +26,31 @@
     }
   },
   {
+    "id": "cordage_6",
+    "copy-from": "string_6",
+    "type": "GENERIC",
+    "name": "natural cord",
+    "description": "A 6-inch long piece of natural cordage, woven from grass or straw.",
+    "material": "paper",
+    "proportional": {
+      "weight": 6,
+      "volume": 6,
+      "price": 6
+    }
+  },
+  {
+    "id": "natural_36",
+    "copy-from": "cordage_6",
+    "type": "GENERIC",
+    "name": "long natural cord",
+    "description": "A 3-foot long piece of cotton natural cordage, woven from grass or straw.  Disassemble it to cut it into smaller pieces.",
+    "proportional": {
+      "weight": 6,
+      "volume": 6,
+      "price": 6
+    }
+  },
+  {
     "id": "rope_6",
     "copy-from": "string_36",
     "type": "GENERIC",
