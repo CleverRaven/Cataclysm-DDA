@@ -9,8 +9,8 @@
     "time": 5000,
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
     "using": [ [ "cordage", 4 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "2x4", 2 ] ],
       [ [ "rag", 8 ] ]
@@ -129,8 +129,8 @@
     "time": 30000,
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 3 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "using": [ [ "cordage", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [
       [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ]
     ]

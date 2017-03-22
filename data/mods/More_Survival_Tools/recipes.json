@@ -204,13 +204,11 @@
     [
       [ "rag", 1 ],
       [ "felt_patch", 1 ],
-      [ "string_6", 2 ],
+      [ "cordage_small", 2, "LIST" ],
       [ "plant_fibre", 50 ],
       [ "sinew", 50 ],
       [ "thread", 50 ],
-      [ "yarn", 50 ],
-      [ "withered", 2 ],
-      [ "straw_pile", 2 ]
+      [ "yarn", 50 ]
     ]
   ]
 },{
@@ -301,7 +299,7 @@
       [ "yarn", 20 ],
       [ "duct_tape", 20 ],
       [ "resin_cord", 1 ],
-      [ "withered", 1 ]
+      [ "cordage_small", 1, "LIST" ]
     ],
     [
       [ "rock", 1 ],
@@ -377,15 +375,13 @@
       [ "copper", 1000 ]
     ],
     [
-      [ "string_6", 2 ],
+      [ "cordage_small", 2, "LIST" ],
       [ "resin_cord", 2 ],
       [ "duct_tape", 40 ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "yarn", 40 ],
-      [ "plant_fibre", 40 ],
-      [ "withered", 2 ],
-      [ "straw_pile", 2 ]
+      [ "plant_fibre", 40 ]
     ]
   ]
 },{
@@ -431,8 +427,7 @@
       [ "yarn", 20 ],
       [ "duct_tape", 20 ],
       [ "resin_cord", 1 ],
-      [ "withered", 1 ],
-      [ "straw_pile", 1 ]
+      [ "cordage_small", 1, "LIST" ]
     ],
     [
       [ "scrap_copper", 3 ],
@@ -534,10 +529,7 @@
     ],
     [
       [ "resin_cord", 3 ],
-      [ "string_6", 3 ],
-      [ "withered", 6 ],
-      [ "straw_pile", 6 ],
-      [ "plant_fibre", 60 ],
+      [ "cordage_small", 2, "LIST" ],
       [ "sinew", 60 ],
       [ "thread", 60 ],
       [ "yarn", 60 ]
@@ -753,9 +745,7 @@
   ],
   "components": [
     [
-      [ "string_6", 2 ],
-      [ "withered", 4 ],
-      [ "straw_pile", 4 ],
+      [ "cordage_small", 2, "LIST" ],
       [ "thread", 100 ],
       [ "sinew", 100 ],
       [ "plant_fibre", 100 ],
@@ -879,13 +869,11 @@
       [ "sheet_metal", 1 ]
     ],
     [
-      [ "string_6", 2 ],
+      [ "cordage_small", 2, "LIST" ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
-      [ "yarn", 40 ],
-      [ "withered", 2 ],
-      [ "straw_pile", 2 ]
+      [ "yarn", 40 ]
     ]
   ]
 },{
@@ -911,13 +899,11 @@
       [ "steel_lump", 1 ]
     ],
     [
-      [ "string_6", 2 ],
+      [ "cordage_small", 2, "LIST" ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
-      [ "yarn", 40 ],
-      [ "withered", 1 ],
-      [ "straw_pile", 2 ]
+      [ "yarn", 40 ]
     ]
   ]
 },{

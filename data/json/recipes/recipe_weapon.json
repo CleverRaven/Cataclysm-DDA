@@ -83,13 +83,11 @@
       [ "rag", 1 ],
       [ "felt_patch", 1 ],
       [ "duct_tape", 50 ],
-      [ "string_6", 2 ],
+      [ "cordage_short", 2, "LIST" ],
       [ "sinew", 50 ],
       [ "thread", 50 ],
       [ "yarn", 50 ],
-      [ "plant_fibre", 50 ],
-      [ "withered", 1 ],
-      [ "straw_pile", 1 ]
+      [ "plant_fibre", 50 ]
     ],
     [
       [ "scrap_copper", 2 ],
@@ -111,13 +109,11 @@
     [
       [ "rag", 1 ],
       [ "duct_tape", 50 ],
-      [ "string_6", 2 ],
+      [ "cordage_short", 2, "LIST" ],
       [ "sinew", 100 ],
       [ "thread", 100 ],
       [ "plant_fibre", 100 ],
-      [ "yarn", 100 ],
-      [ "withered", 1 ],
-      [ "straw_pile", 1 ]
+      [ "yarn", 100 ]
     ],
     [
       [ "spike", 1 ]
@@ -332,8 +328,7 @@
       [ "thread", 20 ],
       [ "yarn", 20 ],
       [ "duct_tape", 20 ],
-      [ "withered", 1 ],
-      [ "straw_pile", 1 ]
+      [ "cordage_short", 1, "LIST" ]
     ],
     [
       [ "scrap_copper", 3 ],
@@ -369,10 +364,7 @@
       [ "fur", 1 ]
     ],
     [
-      [ "string_6", 9 ],
-      [ "string_36", 2 ],
-      [ "withered", 24 ],
-      [ "straw_pile", 24 ],
+      [ "cordage", 2, "LIST" ],
       [ "duct_tape", 75 ]
     ],
     [
@@ -473,10 +465,7 @@
       [ "fur", 1 ]
     ],
     [
-      [ "string_6", 6 ],
-      [ "string_36", 1 ],
-      [ "withered", 12 ],
-      [ "straw_pile", 12 ],
+      [ "cordage", 1, "LIST" ],
       [ "duct_tape", 50 ]
     ]
   ]
@@ -534,9 +523,7 @@
       [ "2x4", 1 ]
     ],
     [
-      [ "string_36", 2 ],
-      [ "withered", 24 ],
-      [ "straw_pile", 24 ],
+      [ "cordage", 2, "LIST" ],
       [ "thread", 200 ],
       [ "sinew", 200 ],
       [ "plant_fibre", 200 ],
@@ -562,9 +549,7 @@
       [ "2x4", 1 ]
     ],
     [
-      [ "string_36", 2 ],
-      [ "withered", 24 ],
-      [ "straw_pile", 24 ],
+      [ "cordage", 2, "LIST" ],
       [ "thread", 200 ],
       [ "sinew", 200 ],
       [ "plant_fibre", 200 ],
@@ -593,9 +578,7 @@
       [ "2x4", 1 ]
     ],
     [
-      [ "string_36", 2 ],
-      [ "withered", 24 ],
-      [ "straw_pile", 24 ],
+      [ "cordage", 2, "LIST" ],
       [ "thread", 200 ],
       [ "sinew", 200 ],
       [ "plant_fibre", 200 ],
@@ -625,9 +608,7 @@
       [ "bone_human", 3 ]
     ],
     [
-      [ "string_36", 2 ],
-      [ "withered", 24 ],
-      [ "straw_pile", 24 ],
+      [ "cordage", 2, "LIST" ],
       [ "thread", 200 ],
       [ "sinew", 200 ],
       [ "plant_fibre", 200 ],

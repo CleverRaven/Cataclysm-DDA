@@ -1088,7 +1088,7 @@
     "components": [
       [ [ "hat_hard", 1 ], [ "helmet_bike", 1 ] ],
       [ [ "flashlight", 1 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ], [ "withered", 12 ], [ "straw_pile", 12 ], [ "duct_tape", 10 ], [ "medical_tape", 20 ] ]
+      [ [ "cordage", 1, "LIST" ], [ "duct_tape", 10 ], [ "medical_tape", 20 ] ]
     ]
   },
   {

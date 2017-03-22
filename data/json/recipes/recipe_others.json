@@ -374,10 +374,7 @@
     [
       [ "rag", 2 ],
       [ "leather", 2 ],
-      [ "string_6", 6 ],
-      [ "string_36", 1 ],
-      [ "withered", 12 ],
-      [ "straw_pile", 12 ],
+      [ "cordage", 1, "LIST" ],
       [ "duct_tape", 10 ],
       [ "medical_tape", 20 ]
     ]
@@ -420,10 +417,7 @@
     [
       [ "rag", 4 ],
       [ "leather", 4 ],
-      [ "string_6", 12 ],
-      [ "string_36", 2 ],
-      [ "withered", 12 ],
-      [ "straw_pile", 12 ],
+      [ "cordage", 1, "LIST" ],
       [ "duct_tape", 20 ],
       [ "medical_tape", 40 ]
     ]
@@ -666,13 +660,11 @@
     ],
     [ [ "rock", 1 ] ],
     [
-      [ "string_6", 2 ],
+      [ "cordage_short", 2, "LIST" ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
-      [ "yarn", 40 ],
-      [ "withered", 2 ],
-      [ "straw_pile", 2 ]
+      [ "yarn", 40 ]
     ]
   ]
 },{
@@ -688,13 +680,11 @@
     [[ "stick", 1 ], [ "2x4", 1 ]],
     [[ "steel_chunk", 1 ], [ "steel_lump", 1 ]],
     [
-      [ "string_6", 2 ],
+      [ "cordage_short", 2, "LIST" ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
-      [ "yarn", 40 ],
-      [ "withered", 2 ],
-      [ "straw_pile", 2 ]
+      [ "yarn", 40 ]
     ]
   ]
 },{
@@ -754,13 +744,11 @@
       [ "sharp_rock", 1 ]
     ],
     [
-      [ "string_6", 1 ],
+      [ "cordage_short", 1, "LIST" ],
       [ "sinew", 20 ],
       [ "thread", 20 ],
       [ "plant_fibre", 20 ],
-      [ "yarn", 20 ],
-      [ "withered", 1 ],
-      [ "straw_pile", 1 ]
+      [ "yarn", 20 ]
     ]
   ]
 },{
@@ -802,10 +790,7 @@
       [ "thread", 80 ],
       [ "plant_fibre", 80 ],
       [ "yarn", 80 ],
-      [ "string_36", 1 ],
-      [ "string_6", 6 ],
-      [ "withered", 12 ],
-      [ "straw_pile", 12 ]
+      [ "cordage", 1, "LIST" ]
     ]
   ]
 },{
@@ -831,13 +816,11 @@
       [ "sharp_rock", 1 ]
     ],
     [
-      [ "string_6", 2 ],
+      [ "cordage_short", 2, "LIST" ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
-      [ "yarn", 40 ],
-      [ "withered", 2 ],
-      [ "straw_pile", 2 ]
+      [ "yarn", 40 ]
     ]
   ]
 },{
@@ -870,14 +853,12 @@
       [ "copper", 1000 ]
     ],
     [
-      [ "string_6", 2 ],
+      [ "cordage_short", 2, "LIST" ],
       [ "duct_tape", 40 ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "yarn", 40 ],
-      [ "plant_fibre", 40 ],
-      [ "withered", 2 ],
-      [ "straw_pile", 2 ]
+      [ "plant_fibre", 40 ]
     ]
   ]
 },{
@@ -904,13 +885,11 @@
       [ "sharp_rock", 1 ]
     ],
     [
-      [ "string_6", 2 ],
+      [ "cordage_short", 2, "LIST" ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
-      [ "yarn", 40 ],
-      [ "withered", 1 ],
-      [ "straw_pile", 1 ]
+      [ "yarn", 40 ]
     ]
   ]
 },{
@@ -938,13 +917,11 @@
         [ "sharp_rock", 1 ]
       ],
       [
-        [ "string_6", 2 ],
+        [ "cordage_short", 2, "LIST" ],
         [ "sinew", 40 ],
         [ "thread", 40 ],
         [ "plant_fibre", 40 ],
-        [ "yarn", 40 ],
-        [ "withered", 2 ],
-        [ "straw_pile", 2 ]
+        [ "yarn", 40 ]
       ]
     ]
 },{
@@ -1101,13 +1078,11 @@
       [ "hstomach", 1]
     ],
     [
+      [ "cordage_short", 2, "LIST" ],
       [ "sinew", 50 ],
       [ "thread", 50 ],
       [ "plant_fibre", 50],
-      [ "yarn", 25],
-      [ "string_6", 1],
-      [ "withered", 2],
-      [ "straw_pile", 2]
+      [ "yarn", 25]
     ],
     [
       [ "pine_bough", 2 ]
@@ -1145,13 +1120,11 @@
       [ "hstomach_large", 1]
     ],
     [
+      [ "cordage_short", 3, "LIST" ],
       [ "sinew", 150 ],
       [ "thread", 150 ],
       [ "plant_fibre", 150],
-      [ "yarn", 75],
-      [ "string_6", 3],
-      [ "withered", 6],
-      [ "straw_pile", 6]
+      [ "yarn", 75]
     ],
     [
       [ "pine_bough", 4 ]
@@ -1179,9 +1152,7 @@
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
       [ "yarn", 40 ],
-      [ "string_36", 1 ],
-      [ "withered", 2 ],
-      [ "straw_pile", 2 ]
+      [ "cordage", 1, "LIST" ]
     ],
     [
       [ "leather", 6 ],
@@ -1212,9 +1183,7 @@
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
       [ "yarn", 40 ],
-      [ "string_36", 1 ],
-      [ "withered", 2 ],
-      [ "straw_pile", 2 ]
+      [ "cordage", 1, "LIST" ]
     ],
     [
       [ "leather", 14 ],
@@ -1245,9 +1214,7 @@
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
       [ "yarn", 40 ],
-      [ "string_36", 1 ],
-      [ "withered", 2 ],
-      [ "straw_pile", 2 ]
+      [ "cordage", 1, "LIST" ]
     ],
     [
       [ "leather", 24 ],
@@ -1302,9 +1269,7 @@
       [ "tanned_hide", 4 ]
     ],
     [
-      [ "string_6", 10 ],
-      [ "withered", 20 ],
-      [ "straw_pile", 20 ],
+      [ "cordage", 2, "LIST" ]
       [ "sinew", 500 ],
       [ "thread", 500 ],
       [ "plant_fibre", 500 ],
@@ -1341,9 +1306,7 @@
       [ "thread", 60 ],
       [ "plant_fibre", 60 ],
       [ "yarn", 60 ],
-      [ "string_6", 1 ],
-      [ "withered", 2 ],
-      [ "straw_pile", 2 ]
+      [ "cordage_short", 2, "LIST" ]
     ],
     [
       [ "damaged_shelter_kit", 1 ]
@@ -1373,10 +1336,7 @@
       [ "sinew", 360 ],
       [ "plant_fibre", 360 ],
       [ "yarn", 360 ],
-      [ "string_6", 6 ],
-      [ "string_36", 1 ],
-      [ "withered", 12 ],
-      [ "straw_pile", 12 ]
+      [ "cordage", 1, "LIST" ]
     ]
   ]
 },{
@@ -2894,10 +2854,7 @@
       [ "medical_gauze", 2 ]
     ],
     [
-      [ "string_6", 6 ],
-      [ "string_36", 1 ],
-      [ "withered", 12 ],
-      [ "straw_pile", 12 ],
+      [ "cordage", 1, "LIST" ],
       [ "duct_tape", 50 ],
       [ "medical_tape", 25 ]
     ],
@@ -2924,10 +2881,7 @@
       [ "medical_gauze", 4 ]
     ],
     [
-      [ "string_6", 12 ],
-      [ "string_36", 2 ],
-      [ "withered", 12 ],
-      [ "straw_pile", 12 ],
+      [ "cordage", 1, "LIST" ],
       [ "duct_tape", 100 ],
       [ "medical_tape", 50 ]
     ],
@@ -5607,10 +5561,7 @@
       [ "bottle_plastic_small", 20 ]
     ],
     [
-      [ "string_6", 6 ],
-      [ "string_36", 1 ],
-      [ "withered", 12 ],
-      [ "straw_pile", 12 ],
+      [ "cordage", 1, "LIST" ],
       [ "duct_tape", 50 ],
       [ "medical_tape", 25 ]
     ]
