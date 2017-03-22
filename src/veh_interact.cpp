@@ -372,8 +372,8 @@ void veh_interact::cache_tool_availability()
                            map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( JACK ),
                            vehicle_selector(g->u.pos(), 2, true, *veh ).max_quality( JACK ) } );
 
-    // cap JACK requirements at 8000kg to support arbritrarily large vehicles
-    double qual = ceil( double( std::min( veh->total_mass(), 8000 ) * 1000 ) / TOOL_LIFT_FACTOR );
+    // cap JACK requirements at 8500kg to support arbritrarily large vehicles
+    double qual = ceil( double( std::min( veh->total_mass(), 8500 ) * 1000 ) / TOOL_LIFT_FACTOR );
 
     has_jack = g->u.has_quality( JACK, qual ) ||
                map_selector( g->u.pos(), PICKUP_RANGE ).has_quality( JACK, qual ) ||
@@ -2321,7 +2321,7 @@ void veh_interact::complete_vehicle()
             // Restore previous view offsets.
             g->u.view_offset.x = px;
             g->u.view_offset.y = py;
-            
+
             int dir = 0;
             if(headlight_target.x == INT_MIN) {
                 dir = 0;
