@@ -1269,7 +1269,7 @@
       [ "tanned_hide", 4 ]
     ],
     [
-      [ "cordage", 2, "LIST" ]
+      [ "cordage", 2, "LIST" ],
       [ "sinew", 500 ],
       [ "thread", 500 ],
       [ "plant_fibre", 500 ],
