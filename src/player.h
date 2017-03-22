@@ -504,8 +504,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         void melee_attack( Creature &t, bool allow_special, const matec_id &force_technique, int hitspread ) override;
 
-        /** Returns a weapon's modified dispersion value */
-        double get_weapon_dispersion( const item &obj ) const;
+        /**
+         * Returns a weapon's modified dispersion value.
+         * @param range Distance to target against which we're calculating the dispersion
+         */
+        double get_weapon_dispersion( const item &obj, float range ) const;
 
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( item &firing );

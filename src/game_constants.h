@@ -88,8 +88,10 @@
 /** Maximum (effective) level for a stat */
 #define MAX_STAT 20
 
-/** Maximum range for aimed weapons */
-#define MAX_RANGE 30
+/** Maximum range at which only standard dispersion applies */
+#define RANGE_SOFT_CAP 30
+/** Maximum range at which ranged attacks can be executed */
+#define RANGE_HARD_CAP 60
 
 /** Accuracy levels which a shots tangent must be below */
 constexpr double accuracy_headshot = 0.1;
