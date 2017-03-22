@@ -5197,58 +5197,62 @@ int iuse::hotplate(player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
-int iuse::towel(player *p, item *it, bool t, const tripoint& )
+int iuse::towel( player *p, item *it, bool t, const tripoint& )
 {
     if( t ) {
         // Continuous usage, do nothing as not initiated by the player, this is for
         // wet towels only as they are active items.
         return 0;
     }
-    bool slime = p->has_effect( effect_slimed);
-    bool boom = p->has_effect( effect_boomered);
-    bool glow = p->has_effect( effect_glowing);
+    bool slime = p->has_effect( effect_slimed );
+    bool boom = p->has_effect( effect_boomered );
+    bool glow = p->has_effect( effect_glowing );
     int mult = slime + boom + glow; // cleaning off more than one at once makes it take longer
     bool towelUsed = false;
 
     // can't use an already wet towel!
-    if (it->has_flag("WET")) {
-        p->add_msg_if_player(m_info, _("That %s is too wet to soak up any more liquid!"),
-                             it->tname().c_str());
+    if( it->has_flag( "WET" ) ) {
+        p->add_msg_if_player(m_info, _( "That %s is too wet to soak up any more liquid!" ),
+                             it->tname().c_str() );
 
+    // can't use filthy towel to dry yourself!
+    } else if( it->has_flag( "FILTHY" ) ) {
+        p->add_msg_if_player( m_info, _( "That %s is filthy, you can't use it in this state!" ),
+                             it->tname().c_str() );
 
     // clean off the messes first, more important
-    } else if (slime || boom || glow) {
-        p->remove_effect( effect_slimed);  // able to clean off all at once
-        p->remove_effect( effect_boomered);
-        p->remove_effect( effect_glowing);
-        p->add_msg_if_player(_("You use the %s to clean yourself off, saturating it with slime!"),
-                             it->tname().c_str());
+    } else if( slime || boom || glow ) {
+        p->remove_effect( effect_slimed );  // able to clean off all at once
+        p->remove_effect( effect_boomered );
+        p->remove_effect( effect_glowing );
+        p->add_msg_if_player( _( "You use the %s to clean yourself off, saturating it with slime!" ),
+                             it->tname().c_str() );
 
         towelUsed = true;
         if( it->typeId() == "towel" ) {
-            it->convert( "towel_soiled" );
+            it->item_tags.insert( "FILTHY" );
         }
 
     // dry off from being wet
-    } else if (abs(p->has_morale(MORALE_WET))) {
-        p->rem_morale(MORALE_WET);
-        for (int i = 0; i < num_bp; ++i) {
+    } else if( abs( p->has_morale( MORALE_WET ) ) ) {
+        p->rem_morale( MORALE_WET );
+        for( int i = 0; i < num_bp; ++i ) {
             p->body_wetness[i] = 0;
         }
-        p->add_msg_if_player(_("You use the %s to dry off, saturating it with water!"),
-                             it->tname().c_str());
+        p->add_msg_if_player( _( "You use the %s to dry off, saturating it with water!" ),
+                             it->tname().c_str() );
 
         towelUsed = true;
         it->item_counter = 300;
 
     // default message
     } else {
-        p->add_msg_if_player(_("You are already dry, the %s does nothing."), it->tname().c_str());
+        p->add_msg_if_player( _( "You are already dry, the %s does nothing." ), it->tname().c_str() );
     }
 
     // towel was used
-    if (towelUsed) {
-        if ( mult == 0 ) {
+    if( towelUsed ) {
+        if( mult == 0 ) {
             mult = 1;
         }
         p->moves -= 50 * mult;
@@ -5258,7 +5262,7 @@ int iuse::towel(player *p, item *it, bool t, const tripoint& )
         }
 
         // WET, active items have their timer decremented every turn
-        it->item_tags.insert("WET");
+        it->item_tags.insert( "WET" );
         it->active = true;
     }
     return it->type->charges_to_use();

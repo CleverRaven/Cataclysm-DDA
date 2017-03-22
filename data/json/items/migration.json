@@ -335,5 +335,10 @@
     "id": "pda_flashlight",
     "type": "MIGRATION",
     "replace": "cell_phone"
+  },
+  {
+    "id": "towel_soiled",
+    "type": "MIGRATION",
+    "replace": "towel"
   }
 ]
