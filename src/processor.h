@@ -6,7 +6,7 @@
 #include "enums.h"
 #include "json.h"
 
-namespace processor
+namespace processors
 {
 
 void load( JsonObject &jo, const std::string &src );
@@ -19,7 +19,7 @@ void interact_with_working_processor( const tripoint &pos, player &p );
 
 };
 
-namespace process
+namespace processes
 {
 
 void load( JsonObject &jo, const std::string &src );

@@ -3421,12 +3421,12 @@ void iexamine::climb_down( player &p, const tripoint &examp )
 
 void iexamine::processor_is_off( player &p, const tripoint &examp )
 {
-    processor::interact_with_processor( examp,  p );
+    processors::interact_with_processor( examp,  p );
 }
 
 void iexamine::processor_is_on( player &p, const tripoint &examp )
 {
-    processor::interact_with_working_processor( examp,  p );
+    processors::interact_with_working_processor( examp,  p );
 }
 
 /**

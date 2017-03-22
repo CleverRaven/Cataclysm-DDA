@@ -9,11 +9,12 @@
 
 #include <string>
 
+
+
 // Processor namespace
 
 namespace
 {
-
 struct processor_data;
 using processor_id = string_id<processor_data>;
 
@@ -23,7 +24,7 @@ struct processor_data {
         was_loaded( false ) {};
 
     processor_id id; //furniture
-    furn_id next_type;
+    furn_str_id next_type;
     itype_id fuel_type;
 
 
@@ -40,7 +41,6 @@ struct processor_data {
 
     void load( JsonObject &jo, const std::string &src );
     void check() const;
-    void reset();
 
 };
 
@@ -91,17 +91,17 @@ void processor_data::check() const
     }
 }
 
-void processor_data::load( JsonObject &jo, const std::string &src )
+void processors::load( JsonObject &jo, const std::string &src )
 {
     processors_data.load( jo, src );
 }
 
-void processor_data::check() const
+void processors::check()
 {
     processors_data.check();
 }
 
-void processor_data::reset()
+void processors::reset()
 {
     processors_data.reset();
 }
@@ -110,84 +110,83 @@ void processor_data::reset()
 
 namespace
 {
-struct process_data;
-using process_id = string_id<process_data>;
+    struct process_data;
+    using process_id = string_id<process_data>;
 
-struct process_data {
+    struct process_data {
 
-    process_data() :
-        was_loaded(false) {};
+        process_data() :
+            was_loaded(false) {};
 
-    process_id id;
-    std::string name;
-    std::vector<itype_id> components;
-    itype_id output;
-    int fuel_intake;
-    int duration;
-    //TODO: Skill used
+        process_id id;
+        std::string name;
+        std::vector<itype_id> components;
+        itype_id output;
+        int fuel_intake;
+        int duration;
+        //TODO: Skill used
 
-    bool was_loaded;
-    void load( JsonObject &jo, const std::string &src );
-    void check() const;
-    void reset();
+        bool was_loaded;
+        void load(JsonObject &jo, const std::string &src);
+        void check() const;
 
-};
+    };
 
-process_id get_process_id( std::string id )
-{
-    return process_id( id );
+    process_id get_process_id(std::string id)
+    {
+        return process_id(id);
+    }
+
+    generic_factory<process_data> processes_data("process type", "id");
+
 }
 
-generic_factory<process_data> processes_data( "process type", "id" );
-
-}
-
-void process_data::load( JsonObject &jo, const std::string & )
+void process_data::load(JsonObject &jo, const std::string &)
 {
-    mandatory( jo, was_loaded, "name", name );
+    mandatory(jo, was_loaded, "name", name);
     //TODO: modify to allow lists of components
-    mandatory( jo, was_loaded, "components", components,  string_id_reader<itype_id> {} );
-    mandatory( jo, was_loaded, "output", output, string_id_reader<itype_id> {} );
-    mandatory( jo, was_loaded, "fuel_intake", fuel_intake );
-    mandatory( jo, was_loaded, "duration", duration );
+    mandatory(jo, was_loaded, "components", components, string_id_reader<itype_id> {});
+    mandatory(jo, was_loaded, "output", output, string_id_reader<itype_id> {});
+    mandatory(jo, was_loaded, "fuel_intake", fuel_intake);
+    mandatory(jo, was_loaded, "duration", duration);
 }
 
 void process_data::check() const
 {
-    const process_id proc_id( id.str() );
+    const process_id proc_id(id.str());
 
     if (!proc_id.is_valid()) {
         debugmsg("There is no process with the name %s", id.c_str());
     }
     //I'm not sure if I need this, it would validate components and output as valid itype_id
-    for( const itype_id &elem : components ) {
+    for (const itype_id &elem : components) {
         //The compiler complains about this is_valid method
-        if( !item::type_is_defined( elem )) {
-            debugmsg( "Invalid components \"%s\" in \"%s\".", elem.c_str(), id.c_str() );
+        if (!item::type_is_defined(elem)) {
+            debugmsg("Invalid components \"%s\" in \"%s\".", elem.c_str(), id.c_str());
         }
     }
-    if( !item::type_is_defined( output )) {
-        debugmsg( "Invalid output \"%s\" in \"%s\".", output.c_str(), id.c_str() );
+    if (!item::type_is_defined(output)) {
+        debugmsg("Invalid output \"%s\" in \"%s\".", output.c_str(), id.c_str());
     }
-    if( !(fuel_intake >= 0) ) {
-        debugmsg( "Invalid fuel intake \"%d\" in \"%s\".", fuel_intake, id.c_str() );
+    if (!(fuel_intake >= 0)) {
+        debugmsg("Invalid fuel intake \"%d\" in \"%s\".", fuel_intake, id.c_str());
     }
-    if( !(duration > 0) ) {
-        debugmsg( "Invalid duration \"%d\" in \"%s\".", duration, id.c_str() );
+    if (!(duration > 0)) {
+        debugmsg("Invalid duration \"%d\" in \"%s\".", duration, id.c_str());
     }
 }
 
-void process_data::load( JsonObject &jo, const std::string &src )
+void processes::load(JsonObject &jo, const std::string &src)
 {
-    processes_data.load( jo, src );
+    processes_data.load(jo, src);
 }
 
-void process_data::check() const
+void processes::check()
 {
     processes_data.check();
 }
 
-void process_data::reset()
+void processes::reset()
 {
     processes_data.reset();
 }
@@ -206,7 +205,7 @@ process_data select_active(const tripoint &examp, player &p)
     const processor_data &current_processor = processors_data.obj(pid);
     //Make an object list of processes
     std::vector<process_data> possible_processes;
-    for (process_id &p : current_processor.processes) {
+    for (const process_id &p : current_processor.processes) {
         possible_processes.push_back(processes_data.obj(p));
     }
     //Figure out active process
@@ -263,15 +262,16 @@ process_data select_active(const tripoint &examp, player &p)
     return *active_process;
 }
 
-void interact_with_processor(const tripoint &examp, player &p)
+void processors::interact_with_processor(const tripoint &examp, player &p)
 {
     processor_id pid = get_processor_id(examp);
-    //Do I need the debugmsg-es here or do they get checked in process_data::load?
-    if (!processors_data.is_valid(pid)) {
+
+    if (!processors_data.is_valid( pid )) {
         //TODO EDIT: Verify in mapdata.cpp verification functions instead of on examine
         debugmsg("Examined %s has action interact_with_processor, but has no processor data associated", g->m.furn(examp).id().c_str());
         return;
     }
+
     const processor_data &current_processor = processors_data.obj(pid);
     //Figure out active process
     process_data active_process = select_active( examp, p);
@@ -347,7 +347,7 @@ void interact_with_processor(const tripoint &examp, player &p)
     g->m.furn_set(examp, current_processor.next_type );
 }
 
-void interact_with_working_processor( const tripoint &examp, player &p )
+void processors::interact_with_working_processor( const tripoint &examp, player &p )
 {
     processor_id pid = get_processor_id( examp );
     //Do I need the debugmsg-es here or do they get checked in process_data::load?
