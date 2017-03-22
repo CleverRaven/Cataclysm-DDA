@@ -190,7 +190,6 @@ class calendar
         static   calendar start;
         static   calendar turn;
         static season_type initial_season;
-        static bool eternal_season;
 };
 
 #endif
