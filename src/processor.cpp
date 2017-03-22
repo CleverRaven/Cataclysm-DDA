@@ -159,22 +159,20 @@ void process_data::check() const
     if (!proc_id.is_valid()) {
         debugmsg("There is no process with the name %s", id.c_str());
     }
-    /*
-    I'm not sure if I need this, it would validate components and output as valid itype_id
-    for( itype_id elem : components ) {
+    //I'm not sure if I need this, it would validate components and output as valid itype_id
+    for( const itype_id &elem : components ) {
         //The compiler complains about this is_valid method
-        if( !elem.is_valid() ) {
+        if( !item::type_is_defined( elem )) {
             debugmsg( "Invalid components \"%s\" in \"%s\".", elem.c_str(), id.c_str() );
         }
     }
-    if( !output.is_valid() ) {
+    if( !item::type_is_defined( output )) {
         debugmsg( "Invalid output \"%s\" in \"%s\".", output.c_str(), id.c_str() );
     }
-    */
-    if( !fuel_intake >= 0 ) {
+    if( !(fuel_intake >= 0) ) {
         debugmsg( "Invalid fuel intake \"%d\" in \"%s\".", fuel_intake, id.c_str() );
     }
-    if( !duration > 0 ) {
+    if( !(duration > 0) ) {
         debugmsg( "Invalid duration \"%d\" in \"%s\".", duration, id.c_str() );
     }
 }
@@ -221,14 +219,14 @@ process_data select_active(const tripoint &examp, player &p)
         if (!items.empty()) {
             //Build a set of item_id's present
             std::vector<itype_id> present_items;
-            for (item i : items) {
+            for (const item &i : items) {
                 if (std::find(present_items.begin(), present_items.end(), i.typeId()) == present_items.end()) {
                     present_items.push_back(i.typeId());
                 }
             }
             //Based on the items present, find the process which has all components
             //available and the largest number of required components
-            for (process_data data : possible_processes) {
+            for (const process_data &data : possible_processes) {
                 if (IsSubset(present_items, data.components)) {
                     if (!active_process) {
                         //if nullpointer, set it as active
@@ -248,7 +246,7 @@ process_data select_active(const tripoint &examp, player &p)
             //No items present, we can default to asking the player what they want
             //and then looking at their inventory
             std::vector<std::string> p_names;
-            for (process_data p : possible_processes) {
+            for (const process_data &p : possible_processes) {
                 p_names.push_back(p.name);
             }
             p_names.push_back(_("Cancel"));
@@ -280,7 +278,7 @@ void interact_with_processor(const tripoint &examp, player &p)
 
     //Msg to tell you what you need for a process
     add_msg(_("You start on %s."), active_process.name.c_str());
-    for (itype_id i : active_process.components) {
+    for (const itype_id &i : active_process.components) {
         add_msg(_("You need some %s for each."), item::nname(i, 1).c_str());
     }
     //At this point, we know which process is active, but we don't know whether
@@ -297,7 +295,7 @@ void interact_with_processor(const tripoint &examp, player &p)
     bool processed_is_present = false;
     std::map<itype_id, long> charges;
     item fuel = item::item(current_processor.fuel_type, int(calendar::turn), 0);
-    for (item i : items) {
+    for ( item &i : items) {
         //Please check to make sure this one is working as intended
         auto index = std::find( active_process.components.begin(), active_process.components.end(), i.typeId() );
         if (index == active_process.components.end() && i.typeId() != current_processor.fuel_type) {
@@ -343,7 +341,7 @@ void interact_with_processor(const tripoint &examp, player &p)
 
     //TODO: skill
 
-    for( item i : items ){
+    for( item &i : items ){
         i.bday = calendar::turn;
     }
     g->m.furn_set(examp, current_processor.next_type );
@@ -381,7 +379,8 @@ void interact_with_working_processor( const tripoint &examp, player &p )
     }
     int time_left = active_process.duration - calendar::turn.get_turn() + items[0].bday;
     if (time_left > 0) {
-        add_msg(_("It should take %d minutes to finish."), time_left / MINUTES(1) + 1);
+        const auto time = calendar(time_left).textify_period();
+        add_msg(_("It will be done in %s."), time.c_str());
         return;
     }
     //Processing time is done, tally up components and figure out the output
@@ -390,6 +389,10 @@ void interact_with_working_processor( const tripoint &examp, player &p )
     item fuel = item::item(current_processor.fuel_type, int(calendar::turn), 0);
     for (item i : items) {
         auto index = std::find(active_process.components.begin(), active_process.components.end(), i.typeId());
+        //This handles unusable items found on tile at the finish time, could be more complicated, as items will be cleared
+        if (index == active_process.components.end()) {
+            continue;
+        }
         if (i.typeId() != current_processor.fuel_type) {
             charges.insert(std::make_pair(i.typeId(), charges.at(i.typeId()) + i.charges));
         } else {
