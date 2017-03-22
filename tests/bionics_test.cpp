@@ -7,9 +7,9 @@
 #include "player.h"
 
 void clear_bionics( player &p ) {
-    p.my_bionics.clear();
-    p.power_level = 0;
-    p.max_power_level = 0;
+    while( p.num_bionics() > 0 ) {
+        p.remove_random_bionic();
+    }
 
     return;
 }
@@ -24,8 +24,8 @@ void give_and_activate( player &p, std::string const &bioid ) {
 
     // get bionic's index - might not be "last added" due to "integrated" ones
     int bioindex = -1;
-    for( size_t i = 0; i < p.my_bionics.size(); i++ ) {
-        const auto &bio = p.my_bionics[ i ];
+    for( size_t i = 0; i < p.num_bionics(); i++ ) {
+        const auto &bio = p.bionic_at_index( i );
         if( bio.id == bioid ) {
             bioindex = i;
         }
@@ -84,13 +84,13 @@ TEST_CASE( "bionics", "[bionics] [item]" ) {
 
     // Could be a SECTION, but prerequisite for many tests.
     INFO( "no power capacity at first" );
-    CHECK( dummy.max_power_level == 0 );
+    CHECK( dummy.get_max_power_level() == 0 );
 
     dummy.add_bionic( "bio_power_storage" );
 
     INFO( "adding Power Storage CBM only increases capacity" );
     CHECK( dummy.power_level == 0 );
-    REQUIRE( dummy.max_power_level > 0 );
+    REQUIRE( dummy.get_max_power_level() > 0 );
 
     SECTION( "bio_advreactor" ) {
         give_and_activate( dummy, "bio_advreactor" );
