@@ -3509,7 +3509,7 @@ void player::on_hit( Creature *source, body_part bp_hit,
     }
 
     bool u_see = g->u.sees( *this );
-    if (has_active_bionic("bio_ods")) {
+    if( has_active_bionic( "bio_ods" ) && power_level > 5 ) {
         if (is_player()) {
             add_msg(m_good, _("Your offensive defense system shocks %s in mid-attack!"),
                             source->disp_name().c_str());
@@ -3518,9 +3518,12 @@ void player::on_hit( Creature *source, body_part bp_hit,
                         disp_name().c_str(),
                         source->disp_name().c_str());
         }
+        int shock = rng( 1, 4 );
+        charge_power( -shock );
         damage_instance ods_shock_damage;
-        ods_shock_damage.add_damage(DT_ELECTRIC, rng(10,40));
-        source->deal_damage(this, bp_torso, ods_shock_damage);
+        ods_shock_damage.add_damage( DT_ELECTRIC, shock * 5 );
+        // Should hit body part used for attack
+        source->deal_damage( this, bp_torso, ods_shock_damage );
     }
     if ((!(wearing_something_on(bp_hit))) && (has_trait("SPINES") || has_trait("QUILLS"))) {
         int spine = rng(1, (has_trait("QUILLS") ? 20 : 8));
@@ -11368,54 +11371,48 @@ float player::bionic_armor_bonus( body_part bp, damage_type dt ) const
     if( has_bionic( "bio_carbon" ) ) {
         if( dt == DT_BASH ) {
             result += 2;
-        } else if( dt == DT_CUT ) {
+        } else if( dt == DT_CUT || dt == DT_STAB ) {
             result += 4;
-        } else if( dt == DT_STAB ) {
-            result += 3.2;
         }
     }
-    //all the other bionic armors reduce bash/cut/stab by 3/3/2.4
+    // All the other bionic armors reduce bash/cut/stab by 3
     // Map body parts to a set of bionics that protect it
     // @todo: JSONize passive bionic armor instead of hardcoding it
     static const std::map< body_part, std::string > armor_bionics = {
-    { bp_head, { "bio_armor_head" } },
-    { bp_arm_l, { "bio_armor_arms" } },
-    { bp_arm_r, { "bio_armor_arms" } },
-    { bp_torso, { "bio_armor_torso" } },
-    { bp_leg_l, { "bio_armor_legs" } },
-    { bp_leg_r, { "bio_armor_legs" } },
-    { bp_eyes, { "bio_armor_eyes" } }
+        { bp_head, { "bio_armor_head" } },
+        { bp_arm_l, { "bio_armor_arms" } },
+        { bp_arm_r, { "bio_armor_arms" } },
+        { bp_torso, { "bio_armor_torso" } },
+        { bp_leg_l, { "bio_armor_legs" } },
+        { bp_leg_r, { "bio_armor_legs" } },
+        { bp_eyes, { "bio_armor_eyes" } }
     };
     auto iter = armor_bionics.find( bp );
-    if( iter != armor_bionics.end() ) {
-        if( has_bionic( iter->second ) ) {
-            if( dt == DT_BASH || dt == DT_CUT ) {
-                result += 3;
-            } else if( dt == DT_STAB ) {
-                result += 2.4;
-            }
-        }
+    if( iter != armor_bionics.end() && has_bionic( iter->second ) &&
+        ( dt == DT_BASH || dt == DT_CUT || dt == DT_STAB ) ) {
+        result += 3;
     }
     return result;
 }
 
 void player::passive_absorb_hit( body_part bp, damage_unit &du ) const
 {
-    du.amount -= bionic_armor_bonus( bp, du.type ); //Check for passive armor bionics
     // >0 check because some mutations provide negative armor
-        if( du.amount > 0.0f ) {
-            // Horrible hack warning!
-            // Get rid of this as soon as CUT and STAB are split
-            if( du.type == DT_STAB ) {
-                damage_unit du_copy = du;
-                du_copy.type = DT_CUT;
-                du.amount -= 0.8f * mutation_armor( bp, du_copy );
-            } else {
-                du.amount -= mutation_armor( bp, du );
-            }
+    // Thin skin check goes before subdermal armor plates because SUBdermal
+    if( du.amount > 0.0f ) {
+        // Horrible hack warning!
+        // Get rid of this as soon as CUT and STAB are split
+        if( du.type == DT_STAB ) {
+            damage_unit du_copy = du;
+            du_copy.type = DT_CUT;
+            du.amount -= mutation_armor( bp, du_copy );
+        } else {
+            du.amount -= mutation_armor( bp, du );
         }
-        du.amount -= mabuff_armor_bonus( du.type );
-        du.amount = std::max( 0.0f, du.amount );
+    }
+    du.amount -= bionic_armor_bonus( bp, du.type ); //Check for passive armor bionics
+    du.amount -= mabuff_armor_bonus( du.type );
+    du.amount = std::max( 0.0f, du.amount );
 }
 
 void player::absorb_hit(body_part bp, damage_instance &dam) {
@@ -11430,19 +11427,25 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
         }
 
         // The bio_ads CBM absorbs damage before hitting armor
-        if( has_active_bionic("bio_ads") ) {
-            if( elem.amount > 0 && power_level > 24 ) {
-                if( elem.type == DT_BASH ) {
-                    elem.amount -= rng( 1, 8 );
-                } else if( elem.type == DT_CUT ) {
-                    elem.amount -= rng( 1, 4 );
-                } else if( elem.type == DT_STAB ) {
-                    elem.amount -= rng( 1, 2 );
-                }
-                charge_power(-25);
+        if( has_active_bionic("bio_ads") && elem.amount > 0 && power_level > 0 ) {
+            float absorbed = 0.0f;
+            if( elem.type == DT_BASH ) {
+                absorbed = rng( 2, 6 );
+            } else if( elem.type == DT_CUT ) {
+                absorbed = std::max( 2.0f, elem.amount / 4.0f );
+            } else if( elem.type == DT_STAB ) {
+                absorbed = std::max( 5.0f, elem.amount / 2.0f );
             }
-            if( elem.amount < 0 ) {
-                elem.amount = 0;
+
+            absorbed = std::min( elem.amount, absorbed );
+            absorbed = std::min<float>( absorbed, power_level );
+            if( absorbed > 0.0f ) {
+                add_msg( m_debug, "raw: %.2f, mul: %.2f, absorbed: %.2f",
+                         elem.amount, elem.damage_multiplier, absorbed );
+                elem.amount = std::max( 0.0f, elem.amount - absorbed );
+                charge_power( -roll_remainder( absorbed ) );
+                add_msg_player_or_npc( _( "Your forcefield flares up!" ),
+                                       _( "<npcname>'s forcefield flares up!" ) );
             }
         }
 
