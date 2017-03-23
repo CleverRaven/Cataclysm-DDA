@@ -347,8 +347,10 @@
     "difficulty": 6,
     "time": 60000,
     "autolearn": true,
-    "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "chitin_piece", 5 ] ] ]
+    "components": [
+      [ [ "string_36", 1 ], [ "string_6", 5 ] ],
+      [ [ "chitin_piece", 5 ] ]
+    ]
   },
   {
     "result": "helmet_hsurvivor",

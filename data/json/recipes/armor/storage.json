@@ -247,7 +247,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 4 ], [ "rag", 4 ] ],
-      [ [ "cordage_small", 1, "LIST" ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
+      [ [ "cordage_short", 1, "LIST" ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
     ]
   },
   {
@@ -351,7 +351,7 @@
     "using": [ [ "adhesive", 3 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "components": [
-      [ [ "rag", 6 ], [ "leather", 6 ], [ "cordage_small", 3, "LIST" ] ],
+      [ [ "rag", 6 ], [ "leather", 6 ], [ "cordage_short", 3, "LIST" ] ],
       [ [ "jerrycan", 1 ] ]
     ]
   },
@@ -401,7 +401,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 3 ], [ "rag", 3 ] ],
-      [ [ "cordage_small", 1, "LIST" ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
+      [ [ "cordage_short", 1, "LIST" ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
     ]
   },
   {
@@ -418,7 +418,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 6 ], [ "rag", 6 ] ],
-      [ [ "cordage_small", 1, "LIST" ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
+      [ [ "cordage_short", 1, "LIST" ], [ "thread", 10 ], [ "sinew", 10 ], [ "plant_fibre", 10 ], [ "yarn", 10 ] ]
     ]
   },
   {

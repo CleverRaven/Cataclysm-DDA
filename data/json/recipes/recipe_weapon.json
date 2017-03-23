@@ -523,7 +523,7 @@
       [ "2x4", 1 ]
     ],
     [
-      [ "cordage", 2, "LIST" ],
+      [ "string_36", 2 ],
       [ "thread", 200 ],
       [ "sinew", 200 ],
       [ "plant_fibre", 200 ],
@@ -578,7 +578,7 @@
       [ "2x4", 1 ]
     ],
     [
-      [ "cordage", 2, "LIST" ],
+      [ "string_36", 2 ],
       [ "thread", 200 ],
       [ "sinew", 200 ],
       [ "plant_fibre", 200 ],
@@ -608,7 +608,7 @@
       [ "bone_human", 3 ]
     ],
     [
-      [ "cordage", 2, "LIST" ],
+      [ "string_36", 2 ],
       [ "thread", 200 ],
       [ "sinew", 200 ],
       [ "plant_fibre", 200 ],
@@ -1037,7 +1037,6 @@
   "reversible": true,
   "decomp_learn": 3,
   "book_learn" : [[ "recipe_bows", 3 ] , [ "manual_archery", 5] , [ "book_archery", 4]],
-  "using": [ [ "cordage_short", 1 ] ],
   "qualities":[
     {"id":"CUT","level":1},
     {"id":"HAMMER","level":2},
@@ -1047,6 +1046,9 @@
     [
       [ "2x4", 2 ],
       [ "stick", 3 ]
+    ],
+    [
+      [ "string_6", 1 ]
     ],
     [
       [ "spring", 1 ]
@@ -1070,7 +1072,6 @@
   "reversible": true,
   "decomp_learn": 2,
   "book_learn" : [[ "recipe_bows", 2 ] , [ "manual_archery", 4] , [ "book_archery", 3], [ "scots_cookbook", 6 ], [ "textbook_armschina", 5 ]],
-  "using": [ [ "cordage", 3 ] ],
   "qualities" : [
     {"id":"SCREW","level":1},
     {"id":"WRENCH","level":1}
@@ -1081,6 +1082,9 @@
     ],
     [
       [ "scrap", 1 ]
+    ],
+    [
+      [ "string_36", 3 ]
     ]
   ]
 },{
@@ -1095,7 +1099,6 @@
   "reversible": true,
   "decomp_learn": 2,
   "book_learn" : [[ "recipe_bows", 1 ] , [ "manual_archery", 3] , [ "book_archery", 2]],
-  "using": [ [ "cordage", 3 ] ],
   "qualities" : [
     {"id":"SCREW","level":1},
     {"id":"WRENCH","level":1}
@@ -1106,6 +1109,9 @@
     ],
     [
       [ "scrap", 1 ]
+    ],
+    [
+      [ "string_36", 3 ]
     ],
     [
       [ "leather", 1 ]
@@ -2317,7 +2323,6 @@
   "difficulty": 4,
   "time": 35000,
   "book_learn" : [[ "recipe_bows", 3 ] , [ "manual_archery", 5] , [ "book_archery", 4]],
-  "using": [ [ "cordage_short", 1 ] ],
   "qualities":[
     {"id":"CUT","level":1},
     {"id":"HAMMER","level":2},
@@ -2327,6 +2332,9 @@
     [
       [ "2x4", 1 ],
       [ "stick", 2 ]
+    ],
+    [
+      [ "string_6", 1 ]
     ],
     [
       [ "spring", 1 ]
@@ -4699,7 +4707,6 @@
   "reversible": true,
   "decomp_learn": 4,
   "book_learn" : [[ "recipe_bows", 4 ] , [ "textbook_weapeast", 6]],
-  "using": [ [ "cordage", 1 ] ],
   "qualities":[
     {"id":"CUT","level":1},
     {"id":"SCREW","level":1},
@@ -4712,6 +4719,9 @@
     ],
     [
       [ "spring", 1 ]
+    ],
+    [
+      [ "string_36", 1 ]
     ],
     [
       [ "nail", 20 ]

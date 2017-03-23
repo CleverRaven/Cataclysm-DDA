@@ -57,8 +57,10 @@
     "difficulty": 5,
     "time": 30000,
     "autolearn": true,
-    "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "chitin_piece", 4 ] ] ]
+    "components": [
+      [ [ "string_36", 1 ], [ "string_6", 4 ] ],
+      [ [ "chitin_piece", 4 ] ]
+    ]
   },
   {
     "result": "armguard_hard",
