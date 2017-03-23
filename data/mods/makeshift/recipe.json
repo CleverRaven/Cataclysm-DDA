@@ -126,7 +126,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1}
-  ], "components": [
+  ], 
+  "components": [
     [
       [ "broadsword", 1 ],
       [ "machete", 1 ],
@@ -146,11 +147,11 @@
       [ "naginata", 1 ],
       [ "qiang", 1 ],
       [ "lajatang", 1 ],
-	  [ "kukri", 1 ],
-	  [ "knife_rambo", 1 ],
-	  [ "survivor_machete", 1 ],
-	  [ "makeshift_machete", 1 ],
-	  [ "knife_combat", 1 ]
+      [ "kukri", 1 ],
+      [ "knife_rambo", 1 ],
+      [ "survivor_machete", 1 ],
+      [ "makeshift_machete", 1 ],
+      [ "knife_combat", 1 ]
     ]
   ]
 }
