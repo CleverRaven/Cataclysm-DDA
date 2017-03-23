@@ -117,7 +117,7 @@
   ]
 },{
   "type" : "recipe",
-  "override": "true",
+  "override": true,
   "result": "blade",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
