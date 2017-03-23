@@ -329,8 +329,10 @@ public:
         valid
     };
 
-    overmap_valid allow_generation = overmap_valid::valid;
-    overmap_valid current_validity = overmap_valid::invalid;
+    // Overmaps less valid than this will trigger the query
+    overmap_valid minimum_validity;
+    // The validity of this overmap, changed by actually generating it
+    overmap_valid current_validity;
 
     void set_validity_from_settings();
 
