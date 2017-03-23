@@ -72,7 +72,6 @@ void game::serialize(std::ostream & fout) {
         json.member("turn", (int)calendar::turn);
         json.member("calendar_start", (int)calendar::start);
         json.member("initial_season", (int)calendar::initial_season);
-        json.member("eternal_season", calendar::eternal_season);
         json.member( "last_target", (int)last_target );
         json.member( "run_mode", (int)safe_mode );
         json.member( "mostseen", mostseen );
@@ -188,7 +187,6 @@ void game::unserialize(std::istream & fin)
         data.read("turn",tmpturn);
         data.read("calendar_start",tmpcalstart);
         calendar::initial_season = (season_type)data.get_int("initial_season",(int)SPRING);
-        calendar::eternal_season = data.get_bool("eternal_season", false);
         data.read("last_target",tmptar);
         data.read("run_mode", tmprun);
         data.read("mostseen", mostseen);

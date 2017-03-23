@@ -16,7 +16,6 @@ const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
 calendar calendar::start;
 calendar calendar::turn;
 season_type calendar::initial_season;
-bool calendar::eternal_season = false;
 
 // Internal constants, not part of the calendar interface.
 // Times for sunrise, sunset at equinoxes
@@ -343,11 +342,12 @@ std::string calendar::print_duration( int turns )
         }
     }
 
-    if( divider != 0 ) {
+    const int remainder = divider ? turns % divider : 0;
+    if( remainder != 0 ) {
         //~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
         return string_format( _( "%1$s and %2$s" ),
                               print_clipped_duration( turns ).c_str(),
-                              print_clipped_duration( turns % divider ).c_str() );
+                              print_clipped_duration( remainder ).c_str() );
     }
 
     return print_clipped_duration( turns );
@@ -434,7 +434,7 @@ std::string calendar::textify_period() const
     if (year > 0) {
         am = year;
         tx = ngettext("%d year", "%d years", am);
-    } else if (season > 0 && !eternal_season) {
+    } else if ( season > 0 && !get_world_option<bool>( "ETERNAL_SEASON" ) ) {
         am = season;
         tx = ngettext("%d season", "%d seasons", am);
     } else if (day > 0) {
@@ -522,8 +522,9 @@ std::string calendar::day_of_week() const
 
 int calendar::season_length()
 {
+    static const std::string s = "SEASON_LENGTH";
     // Avoid returning 0 as this value is used in division and expected to be non-zero.
-    return std::max( get_world_option<int>( "SEASON_LENGTH" ), 1 );
+    return std::max( get_world_option<int>( s ), 1 );
 }
 
 int calendar::turn_of_year() const
@@ -547,7 +548,10 @@ void calendar::sync()
     const int sl = season_length();
     year = turn_number / DAYS(sl * 4);
 
-    if( eternal_season ) {
+    static const std::string eternal = "ETERNAL_SEASON";
+    if( get_world_option<bool>( eternal ) ) {
+        // If we use calendar::start to determine the initial season, and the user shortens the season length
+        // mid-game, the result could be the wrong season!
         season = initial_season;
     } else {
         season = season_type(turn_number / DAYS(sl) % 4);

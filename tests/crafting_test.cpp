@@ -108,7 +108,6 @@ TEST_CASE( "available_recipes", "[.]" ) {
 
     REQUIRE( dummy.get_skill_level( r->skill_used ) == 0 );
     REQUIRE_FALSE( dummy.knows_recipe( r ) );
-    REQUIRE( r->autolearn );
     REQUIRE( r->skill_used );
 
     GIVEN( "a recipe that can be automatically learned" ) {

@@ -37,7 +37,7 @@ static void test_internal( const npc& who, const std::vector<item> &guns )
                 for( int chance = 10; chance < 100; chance += 20 ) {
                     for( double recoil = 0; recoil < 1000; recoil += 50 ) {
                         double range = who.gun_current_range( gun, recoil, chance, accuracy );
-                        double dispersion = who.get_weapon_dispersion( gun ) + recoil;
+                        double dispersion = who.get_weapon_dispersion( gun, RANGE_SOFT_CAP ) + recoil;
 
                         CAPTURE( gun.tname() );
                         CAPTURE( accuracy );
@@ -48,7 +48,9 @@ static void test_internal( const npc& who, const std::vector<item> &guns )
 
                         // Aiming at human
                         double target_size = who.ranged_target_size();
-                        if( range == gun.gun_range( &who ) ) {
+                        if( range > RANGE_SOFT_CAP ) {
+                            // No good approximation for this edge case yet
+                        } else if( range == gun.gun_range( &who ) ) {
                             CHECK( who.projectile_attack_chance( dispersion, range, accuracy, target_size ) >= chance / 100.0 );
                         } else {
                             CHECK( who.projectile_attack_chance( dispersion, range, accuracy, target_size ) == Approx( chance / 100.0 ).epsilon( 0.0005 ) );
@@ -128,7 +130,7 @@ static void test_internal( const npc& who, const std::vector<item> &guns )
                     double recoil = MIN_RECOIL;
                     double chance = 0.5;
                     double range = who.gun_current_range( gun, recoil, chance, accuracy );
-                    double dispersion = who.get_weapon_dispersion( gun ) + recoil;
+                    double dispersion = who.get_weapon_dispersion( gun, RANGE_SOFT_CAP ) + recoil;
                     CHECK( who.projectile_attack_chance( dispersion, range, accuracy, target_size + 1 ) >=
                            who.projectile_attack_chance( dispersion, range, accuracy, target_size ) );
                 }
@@ -153,7 +155,8 @@ TEST_CASE( "gun_aiming", "[gun] [aim]" ) {
         WHEN( "many shots are fired at human-sized target" ) {
             THEN( "the distribution of accuracies is as expected" ) {
                 double target_size = who.ranged_target_size();
-                for( int range = 0; range <= MAX_RANGE; ++range ) {
+                // Don't test range above soft cap - there is no good approxmation for that yet
+                for( int range = 0; range <= RANGE_SOFT_CAP; ++range ) {
                     for( int dispersion = 0; dispersion < 1200; dispersion += 50 ) {
                         test_distribution( who, dispersion, range, target_size );
                     }

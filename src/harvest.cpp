@@ -1,11 +1,14 @@
-#include <algorithm>
-#include <sstream>
-#include <string>
+#include "harvest.h"
+
 #include "assign.h"
 #include "debug.h"
-#include "harvest.h"
 #include "item.h"
 #include "output.h"
+
+#include <algorithm>
+#include <cmath>
+#include <sstream>
+#include <string>
 
 template <>
 const harvest_id string_id<harvest_list>::NULL_ID( "null" );
