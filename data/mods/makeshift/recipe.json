@@ -40,7 +40,7 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-      [ [ "makeshift_machete", 1 ] ],
+      [ [ "makeshift_machete", 1 ], [ "blade", 1 ], [ "machete", 1 ], [ "survivor_machete", 1 ] ],
       [ [ "string_36", 1 ] ]
     ]
   },
@@ -93,5 +93,65 @@
       [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 24 ] ],
       [ [ "plastic_chunk", 2 ] ]
     ]
-  }
+  },
+  {
+  "type" : "recipe",
+  "result": "makeshift_machete",
+  "id_suffix": "sheet metal",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities": [
+      { "id": "HAMMER", "level": 1 }
+    ],
+  "components": [
+    [
+      [ "duct_tape", 50 ]
+    ],
+    [
+      [ "sheet_metal", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "override": "true",
+  "result": "blade",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "time": 3000,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1}
+  ], "components": [
+    [
+      [ "broadsword", 1 ],
+      [ "machete", 1 ],
+      [ "arming_sword", 1 ],
+      [ "longsword", 1 ],
+      [ "jian", 1 ],
+      [ "scimitar", 1 ],
+      [ "katana", 1 ],
+      [ "kris", 1 ],
+      [ "estoc", 1 ],
+      [ "zweihander", 1 ],
+      [ "nodachi", 1 ],
+      [ "wakizashi", 1 ],
+      [ "scythe_war", 1 ],
+      [ "scythe", 1 ],
+      [ "glaive", 1 ],
+      [ "naginata", 1 ],
+      [ "qiang", 1 ],
+      [ "lajatang", 1 ],
+	  [ "kukri", 1 ],
+	  [ "knife_rambo", 1 ],
+	  [ "survivor_machete", 1 ],
+	  [ "makeshift_machete", 1 ],
+	  [ "knife_combat", 1 ]
+    ]
+  ]
+}
 ]
