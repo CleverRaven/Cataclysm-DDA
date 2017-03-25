@@ -9,6 +9,7 @@
 #include "item.h"
 #include "itype.h"
 
+#include <algorithm>
 #include <functional>
 
 typedef std::function<bool( const item & )> item_filter;
@@ -235,13 +236,102 @@ item_location game_menus::inv::disassemble( player &p )
 class comestible_inventory_preset : public pickup_inventory_preset
 {
     public:
-        comestible_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {}
+        comestible_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {
+
+            append_cell( [ this, &p ]( const item_location & loc ) {
+                const int nutrition = get_comestible( loc ).nutr;
+                if( nutrition > 0 ) {
+                    return string_format( "<good>+%d</good>", nutrition );
+                } else if( nutrition < 0 ) {
+                    return string_format( "<bad>%d</bad>", nutrition );
+                }
+                return std::string();
+            }, _( "NUTRITION" ) );
+
+            append_cell( [ this, &p ]( const item_location & loc ) {
+                const int quench = get_comestible( loc ).quench;
+                if( quench > 0 ) {
+                    return string_format( "<good>+%d</good>", quench );
+                } else if( quench < 0 ) {
+                    return string_format( "<bad>%d</bad>", quench );
+                }
+                return std::string();
+            }, _( "QUENCH" ) );
+
+            append_cell( [ this, &p ]( const item_location & loc ) {
+                const int joy = get_comestible( loc ).fun;
+                if( joy > 0 ) {
+                    return string_format( "<good>+%d</good>", joy );
+                } else if( joy < 0 ) {
+                    return string_format( "<bad>%d</bad>", joy );
+                }
+                return std::string();
+            }, _( "JOY" ) );
+
+            append_cell( [ this, &p ]( const item_location & loc ) {
+                const int spoils = get_comestible( loc ).spoils;
+                if( spoils > 0 ) {
+                    return calendar( spoils ).textify_period();
+                }
+                return std::string();
+            }, _( "SPOILS IN" ) );
+        }
 
         bool is_shown( const item_location &loc ) const override {
             if( loc->typeId() == "1st_aid" ) {
                 return false; // temporary fix for #12991
             }
             return p.can_consume( *loc );
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            std::string res;
+            if( p.can_eat( get_comestible_item( loc ), &res ) != EDIBLE ) {
+                return res;
+            }
+            return pickup_inventory_preset::get_denial( loc );
+        }
+
+        bool sort_compare( const item_location &lhs, const item_location &rhs ) const override {
+            const auto &a = get_comestible_item( lhs );
+            const auto &b = get_comestible_item( rhs );
+
+            if( a.rotten() != b.rotten() ) {
+                // Rotten food always go last untill we prefer it to go first.
+                return p.has_trait( "SAPROPHAGE" ) ? a.rotten() : b.rotten();
+            }
+
+            const double spoilage = a.get_relative_rot() - b.get_relative_rot();
+            if( std::abs( spoilage ) > 1.0E-3 ) {   // Differ enough to matter.
+                return spoilage > 0; // The oldest always goes first.
+            }
+
+            const auto &com_a = get_comestible( a );
+            const auto &com_b = get_comestible( b );
+
+            const int nutrition = com_a.nutr - com_b.nutr;
+            if( nutrition != 0 ) {
+                return nutrition > 0;
+            }
+
+            return pickup_inventory_preset::sort_compare( lhs, rhs );
+        }
+
+    protected:
+        const item &get_comestible_item( const item_location &loc ) const {
+            return p.get_comestible_from( const_cast<item &>( *loc ) );
+        }
+
+        const islot_comestible &get_comestible( const item_location &loc ) const {
+            return get_comestible( get_comestible_item( loc ) );
+        }
+
+        const islot_comestible &get_comestible( const item &it ) const {
+            if( it.is_comestible() ) {
+                return *it.type->comestible;
+            }
+            static const islot_comestible dummy;
+            return dummy;
         }
 
     private:
