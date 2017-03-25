@@ -104,9 +104,6 @@
     "time": 10000,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [
-      [ [ "duct_tape", 50 ] ], 
-      [ [ "sheet_metal", 1 ] ]
-    ]
+    "components": [ [ [ "duct_tape", 50 ] ], [ [ "sheet_metal", 1 ] ] ]
   }
 ]
