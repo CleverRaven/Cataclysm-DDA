@@ -440,35 +440,11 @@ Visual Studio 2015 is required to build Cataclysm. We created solution and proje
 
 ### Dependencies
 
-#### SDL
+We've prepared an archive containing all the headers and libraries required to build Cataclysm: [http://dev.narc.ro/cataclysm/WinDepend-MSVC.zip](http://dev.narc.ro/cataclysm/WinDepend-MSVC.zip) or [http://dev.narc.ro/cataclysm/WinDepend-MSVC.7z](http://dev.narc.ro/cataclysm/WinDepend-MSVC.7z). The latter is smaller, but if you don't have a 7-zip archive extracter, the former one is easier to deal with.
 
-The following 4 libraries are required.
+Extract the 'WinDepend' folder and put it in the root folder of Cataclysm project.
 
-[http://www.libsdl.org/release/SDL2-devel-2.0.4-VC.zip](http://www.libsdl.org/release/SDL2-devel-2.0.4-VC.zip)
-
-[http://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-devel-2.0.14-VC.zip](http://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-devel-2.0.14-VC.zip)
-
-[http://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.1-VC.zip](http://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.1-VC.zip)
-
-[http://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.0.1-VC.zip](http://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.0.1-VC.zip)
-
-#### libintl and libiconv
-
-There is a repo providing MSVC project files to build those two libraries. 
-
-[https://github.com/kahrl/gettext-msvc](https://github.com/kahrl/gettext-msvc)
-
-#### Lua
-
-Download and extract lua source code. The source of lua can be obtained from [https://www.lua.org/download.html](https://www.lua.org/download.html). Open a Visual Studio Command Prompt, switch to `src` directory in lua source code and excute the following commands:
-
-```
-cl /MD /O2 /c *.c
-del lua.obj luac.obj
-lib -out:Lua.lib *.obj
-```
-
-Then, we get the static library `Lua.lib`.
+All the thing you need to do next is to install lua. Download x86 32-bit `lua.exe` from [http://lua-users.org/wiki/LuaBinaries](http://lua-users.org/wiki/LuaBinaries) and put it in `C:\Windows\System32` if you are using a 32-bit Windows, or `C:\Windows\SysWOW64` if you are using a 64-bit Windows.
 
 ### Building
 
