@@ -95,25 +95,25 @@
     ]
   },
   {
-  "result": "makeshift_machete",
-  "type" : "recipe",
-  "id_suffix": "sheet metal",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
-  "skill_used": "fabrication",
-  "time": 10000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities": [
+    "result": "makeshift_machete",
+    "type" : "recipe",
+    "id_suffix": "sheet_metal",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "time": 10000,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [
       { "id": "HAMMER", "level": 1 }
     ],
-  "components": [
-    [
-      [ "duct_tape", 50 ]
-    ],
-    [
-      [ "sheet_metal", 1 ]
+    "components": [
+      [
+        [ "duct_tape", 50 ]
+      ],
+      [
+        [ "sheet_metal", 1 ]
+      ]
     ]
-  ]
-}
+  }
 ]
