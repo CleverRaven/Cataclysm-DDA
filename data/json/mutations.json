@@ -83,7 +83,9 @@
         "starting_trait" : true,
         "cancels" : ["ROT1", "ROT2", "ROT3", "SLOWHEALER", "MET_RAT"],
         "changes_to" : ["FASTHEALER2", "REGEN_LIZ"],
-        "category" : ["MUTCAT_MEDICAL"]
+        "category" : ["MUTCAT_MEDICAL"],
+        "healing_awake" : 0.002,
+        "healing_resting" : 0.005
     },{
         "type" : "mutation",
         "id" : "LIGHTEATER",
@@ -159,7 +161,8 @@
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
-        "changes_to" : ["TOUGH2"]
+        "changes_to" : ["TOUGH2"],
+        "hp_modifier" : 0.2
     },{
         "type" : "mutation",
         "id" : "TOUGH2",
@@ -169,7 +172,8 @@
         "valid" : false,
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
         "prereqs" : ["TOUGH"],
-        "changes_to" : ["TOUGH3"]
+        "changes_to" : ["TOUGH3"],
+        "hp_modifier" : 0.3
     },{
         "type" : "mutation",
         "id" : "TOUGH3",
@@ -178,7 +182,8 @@
         "description" : "Nothing can break you!  You get a 40% bonus to all hit points.",
         "valid" : false,
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
-        "prereqs" : ["TOUGH2"]
+        "prereqs" : ["TOUGH2"],
+        "hp_modifier" : 0.4
     },{
         "type" : "mutation",
         "id" : "THICKSKIN",
@@ -525,7 +530,8 @@
         "points" : -2,
         "description" : "You heal a little slower than most; sleeping will heal less lost HP.",
         "starting_trait" : true,
-        "cancels" : ["FASTHEALER"]
+        "cancels" : ["FASTHEALER"],
+        "healing_resting" : -0.0025
     },{
         "type" : "mutation",
         "id" : "HYPEROPIC",
@@ -889,7 +895,8 @@
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["TOUGH", "TOUGH2", "TOUGH3"],
-        "changes_to" : ["FLIMSY2"]
+        "changes_to" : ["FLIMSY2"],
+        "hp_modifier" : -0.25
     },{
         "type" : "mutation",
         "id" : "FLIMSY2",
@@ -900,7 +907,8 @@
         "valid" : false,
         "cancels" : ["TOUGH", "TOUGH2", "TOUGH3"],
         "prereqs" : ["FLIMSY"],
-        "changes_to" : ["FLIMSY3"]
+        "changes_to" : ["FLIMSY3"],
+        "hp_modifier" : -0.5
     },{
         "type" : "mutation",
         "id" : "FLIMSY3",
@@ -910,7 +918,8 @@
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["TOUGH", "TOUGH2", "TOUGH3"],
-        "prereqs" : ["FLIMSY2"]
+        "prereqs" : ["FLIMSY2"],
+        "hp_modifier" : -0.75
     },{
         "type" : "mutation",
         "id" : "SKIN_ROUGH",
@@ -1081,7 +1090,9 @@
         "cancels" : ["ROT1", "ROT2", "ROT3"],
         "prereqs" : ["FASTHEALER"],
         "changes_to" : ["REGEN"],
-        "category" : ["MUTCAT_PLANT"]
+        "category" : ["MUTCAT_PLANT"],
+        "healing_awake" : 0.0066,
+        "healing_resting" : 0.005
     },{
         "type" : "mutation",
         "id" : "REGEN",
@@ -1090,7 +1101,9 @@
         "description" : "Your flesh regenerates from wounds incredibly quickly.",
         "cancels" : ["ROT1", "ROT2", "ROT3"],
         "prereqs" : ["FASTHEALER2"],
-        "category" : ["MUTCAT_SLIME", "MUTCAT_TROGLOBITE"]
+        "category" : ["MUTCAT_SLIME", "MUTCAT_TROGLOBITE"],
+        "healing_awake" : 0.02,
+        "healing_resting" : 0.015
     },{
         "type" : "mutation",
         "id" : "REGEN_LIZ",
@@ -2064,7 +2077,8 @@
         "passive_mods" : {
             "dex_mod" : 3,
             "str_mod" : -2
-        }
+        },
+        "hp_adjustment": 3
     },{
         "type" : "mutation",
         "id" : "BENDY3",
@@ -2083,7 +2097,8 @@
         "passive_mods" : {
             "dex_mod" : 4,
             "str_mod" : -4
-        }
+        },
+        "hp_adjustment": 6
     },{
         "type" : "mutation",
         "id" : "COMPOUND_EYES",
@@ -2602,7 +2617,8 @@
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_LIZARD", "THRESH_BEAST"],
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
         "changes_to" : ["MUT_TOUGH2"],
-        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_CHIMERA","MUTCAT_BEAST", "MUTCAT_LIZARD", "MUTCAT_MEDICAL"]
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_CHIMERA","MUTCAT_BEAST", "MUTCAT_LIZARD", "MUTCAT_MEDICAL"],
+        "hp_modifier_secondary" : 0.2
     },{
         "type" : "mutation",
         "id" : "MUT_TOUGH2",
@@ -2614,7 +2630,8 @@
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_MEDICAL"],
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
         "changes_to" : ["MUT_TOUGH3"],
-        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_CHIMERA", "MUTCAT_MEDICAL"]
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_CHIMERA", "MUTCAT_MEDICAL"],
+        "hp_modifier_secondary" : 0.3
     },{
         "type" : "mutation",
         "id" : "MUT_TOUGH3",
@@ -2625,7 +2642,8 @@
         "prereqs" : ["MUT_TOUGH2"],
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE"],
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
-        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"],
+        "hp_modifier_secondary" : 0.4
     },{
         "type" : "mutation",
         "id" : "PAINREC1",
@@ -3062,6 +3080,7 @@
         "passive_mods" : {
             "str_mod" : 4
         },
+        "hp_adjustment": -6,
         "restricts_gear" : [ "TORSO", "LEG_L", "LEG_R", "ARM_L", "ARM_R", "HAND_L", "HAND_R", "HEAD", "FOOT_L", "FOOT_R" ],
         "destroys_gear" : true
     },{
@@ -3725,7 +3744,9 @@
         "cancels" : ["LIGHTEATER", "COLDBLOOD", "COLDBLOOD2", "COLDBLOOD3", "COLDBLOOD4", "FASTHEALER", "FASTHEALER2", "REGEN", "ROT1", "ROT2", "ROT3", "WAKEFUL", "WAKEFUL2", "WAKEFUL3"],
         "prereqs" : ["HUNGER"],
         "prereqs2" : ["SLEEPY"],
-        "category" : ["MUTCAT_RAT"]
+        "category" : ["MUTCAT_RAT"],
+        "healing_awake" : 0.002,
+        "healing_resting" : 0.005
     },{
         "type" : "mutation",
         "id" : "HUNGER2",
@@ -3799,7 +3820,9 @@
         "description" : "You feel as though you are slowly weakening and your body heals slower.",
         "cancels" : ["FASTHEALER", "FASTHEALER2", "REGEN"],
         "changes_to" : ["ROT2"],
-        "category" : ["MUTCAT_ELFA"]
+        "category" : ["MUTCAT_ELFA"],
+        "healing_awake" : -0.00002,
+        "healing_resting" : -0.0025
     },{
         "type" : "mutation",
         "id" : "ROT2",
@@ -3810,7 +3833,8 @@
         "cancels" : ["FASTHEALER", "FASTHEALER2", "REGEN"],
         "prereqs" : ["ROT1"],
         "changes_to" : ["ROT3"],
-        "category" : ["MUTCAT_CHIMERA"]
+        "category" : ["MUTCAT_CHIMERA"],
+        "healing_awake" : -0.0002
     },{
         "type" : "mutation",
         "id" : "ROT3",
@@ -3820,7 +3844,8 @@
         "description" : "Your body is slowly wasting away!",
         "cancels" : ["FASTHEALER", "FASTHEALER2", "REGEN"],
         "prereqs" : ["ROT2"],
-        "category": ["MUTCAT_ALPHA"]
+        "category": ["MUTCAT_ALPHA"],
+        "healing_awake" : -0.0008
     },{
         "type" : "mutation",
         "id" : "SUNBURN",
