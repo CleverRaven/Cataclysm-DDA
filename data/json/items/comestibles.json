@@ -7696,7 +7696,7 @@
         "weight": 50,
         "volume": 1,
         "comestible_type": "DRINK",
-        "container": "jar_glass",
+        "container": "jar_glass_sealed",
         "quench": -2,
         "nutrition": 5,
         "charges": 5,
