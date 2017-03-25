@@ -95,8 +95,8 @@
     ]
   },
   {
-  "type" : "recipe",
   "result": "makeshift_machete",
+  "type" : "recipe",
   "id_suffix": "sheet metal",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_CUTTING",
