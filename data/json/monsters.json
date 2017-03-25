@@ -4853,7 +4853,13 @@
     "melee_skill": 7,
     "melee_dice": 3,
     "melee_dice_sides": 6,
-    "melee_cut": 2,
+    "melee_damage": [
+      {
+        "damage_type": "electric",
+        "amount": 4
+      }
+    ],
+    "melee_cut": 0,
     "dodge": 3,
     "armor_bash": 10,
     "armor_cut": 18,
@@ -5032,7 +5038,7 @@
     "species": [ "ZOMBIE" ],
     "diff": 22,
     "size": "MEDIUM",
-    "hp": 300,
+    "hp": 275,
     "speed": 110,
     "material": [ "flesh" ],
     "symbol": "Z",
@@ -5042,6 +5048,12 @@
     "melee_skill": 3,
     "melee_dice": 3,
     "melee_dice_sides": 4,
+    "melee_damage": [
+      {
+        "damage_type": "electric",
+        "amount": 4
+      }
+    ],
     "melee_cut": 2,
     "armor_bash": 3,
     "armor_cut": 8,
@@ -5236,20 +5248,19 @@
     "color": "ltcyan",
     "aggression": 100,
     "morale": 100,
-    "melee_skill": 3,
+    "melee_skill": 4,
     "melee_dice": 1,
-    "melee_dice_sides": 6,
+    "melee_dice_sides": 3,
+    "melee_damage": [
+      {
+        "damage_type": "electric",
+        "amount": 8
+      }
+    ],
     "melee_cut": 0,
     "dodge": 2,
     "luminance": 8,
-    "special_attacks": [
-      [ "SHOCKSTORM", 25 ],
-      {
-        "type": "bite",
-        "cooldown": 5
-      },
-      [ "scratch", 20 ]
-    ],
+    "special_attacks": [ [ "SHOCKSTORM", 25 ] ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
