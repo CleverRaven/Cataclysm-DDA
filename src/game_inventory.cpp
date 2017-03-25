@@ -15,6 +15,21 @@
 typedef std::function<bool( const item & )> item_filter;
 typedef std::function<bool( const item_location & )> item_location_filter;
 
+namespace
+{
+
+std::string good_bad_none( int value )
+{
+    if( value > 0 ) {
+        return string_format( "<good>+%d</good>", value );
+    } else if( value < 0 ) {
+        return string_format( "<bad>%d</bad>", value );
+    }
+    return std::string();
+}
+
+}
+
 class inventory_filter_preset : public inventory_selector_preset
 {
     public:
@@ -239,33 +254,15 @@ class comestible_inventory_preset : public pickup_inventory_preset
         comestible_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {
 
             append_cell( [ this, &p ]( const item_location & loc ) {
-                const int nutrition = get_comestible( loc ).nutr;
-                if( nutrition > 0 ) {
-                    return string_format( "<good>+%d</good>", nutrition );
-                } else if( nutrition < 0 ) {
-                    return string_format( "<bad>%d</bad>", nutrition );
-                }
-                return std::string();
+                return good_bad_none( get_comestible( loc ).nutr );
             }, _( "NUTRITION" ) );
 
             append_cell( [ this, &p ]( const item_location & loc ) {
-                const int quench = get_comestible( loc ).quench;
-                if( quench > 0 ) {
-                    return string_format( "<good>+%d</good>", quench );
-                } else if( quench < 0 ) {
-                    return string_format( "<bad>%d</bad>", quench );
-                }
-                return std::string();
+                return good_bad_none( get_comestible( loc ).quench );
             }, _( "QUENCH" ) );
 
             append_cell( [ this, &p ]( const item_location & loc ) {
-                const int joy = get_comestible( loc ).fun;
-                if( joy > 0 ) {
-                    return string_format( "<good>+%d</good>", joy );
-                } else if( joy < 0 ) {
-                    return string_format( "<bad>%d</bad>", joy );
-                }
-                return std::string();
+                return good_bad_none( get_comestible( loc ).fun );
             }, _( "JOY" ) );
 
             append_cell( [ this, &p ]( const item_location & loc ) {
@@ -422,8 +419,7 @@ class gunmod_inventory_preset : public inventory_selector_preset
             }, _( "SUCCESS CHANCE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                const auto odds = get_odds( loc );
-                return odds.second > 0 ? string_format( "<color_red>%d%%</color>", odds.second ) : std::string();
+                return good_bad_none( get_odds( loc ).second );
             }, _( "DAMAGE RISK" ) );
         }
 
@@ -514,13 +510,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
-                const int fun = get_book( loc ).fun;
-                if( fun > 0 ) {
-                    return string_format( "<good>+%d</good>", fun );
-                } else if( fun < 0 ) {
-                    return string_format( "<bad>%d</bad>", fun );
-                }
-                return std::string();
+                return good_bad_none( get_book( loc ).fun );
             }, _( "FUN" ), unknown );
 
             append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
