@@ -387,7 +387,7 @@ class comestible_inventory_preset : public pickup_inventory_preset
             if( it.is_comestible() && p.can_eat( it ) == EDIBLE ) {
                 return *it.type->comestible;
             }
-            static const islot_comestible dummy;
+            static const islot_comestible dummy {};
             return dummy;
         }
 
