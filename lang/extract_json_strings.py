@@ -591,6 +591,9 @@ directories = {
     "data/legacy"
 }
 to_dir = "lang/json"
+
+print("==> Preparing the work space")
+
 # allow running from main directory, or from script subdirectory
 if not os.path.exists("data/json"):
     print("Error: Couldn't find the 'data/json' subdirectory.")
@@ -874,10 +877,13 @@ def prepare_git_file_list():
 ##  EXTRACTION
 ##
 
+print("==> Generating the list of all Git tracked files")
 prepare_git_file_list()
-extract_all_from_dir(json_dir)
-extract_all_from_dir(raw_dir)
-extract_all_from_dir(mods_dir)
+print("==> Parsing JSON")
+for i in directories:
+    print("----> Traversing directory {}".format(i))
+    extract_all_from_dir(i)
+print("==> Finalizaing")
 add_fake_types()
 
 # done.
