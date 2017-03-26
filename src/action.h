@@ -127,7 +127,6 @@ enum action_id : int {
 void load_keyboard_settings( std::map<char, action_id> &keymap,
                              std::string &keymap_file_loaded_from,
                              std::set<action_id> &unbound_keymap );
-std::string default_keymap_txt();
 // All keys bound to act
 std::vector<char> keys_bound_to( action_id act );
 action_id look_up_action( std::string ident );
