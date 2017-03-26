@@ -1247,11 +1247,11 @@ void overmap::set_validity_from_settings()
 {
     const std::string &opt = get_option<std::string>( "ALLOW_INVALID_OVERMAPS" );
     if( opt == "allow_invalid" ) {
-        allow_generation = overmap_valid::invalid;
+        minimum_validity = overmap_valid::invalid;
     } else if( opt == "ask_invalid" ) {
-        allow_generation = overmap_valid::unlimited;
+        minimum_validity = overmap_valid::unlimited;
     } else {
-        allow_generation = overmap_valid::valid;
+        minimum_validity = overmap_valid::valid;
     }
 }
 
@@ -4289,7 +4289,7 @@ void overmap::place_specials()
     std::vector<std::pair<const overmap_special *, int>> mandatory_unlimited = mandatory;
     if( mandatory.empty() ) {
         current_validity = overmap_valid::valid;
-    } else if( allow_generation >= overmap_valid::unlimited ) {
+    } else if( minimum_validity >= overmap_valid::unlimited ) {
         const std::string unplaced = enumerate_as_string( mandatory.begin(), mandatory.end(),
         []( const std::pair<const overmap_special *, int> &elem ) {
             return string_format( "%s (%d)", elem.first->id.c_str(), elem.second );
@@ -4445,6 +4445,7 @@ void overmap::clear()
     unplaced_mandatory_specials.clear();
     scents.clear();
     monster_map.clear();
+    set_validity_from_settings();
     current_validity = overmap_valid::invalid;
 }
 
@@ -4487,7 +4488,7 @@ void overmap::generate_outer( const overmap* north, const overmap* east, const o
         }
 
         // Note: this should not be checked in a loop - only totally valid maps should exit the loop early
-        if( current_validity >= allow_generation ) {
+        if( current_validity >= minimum_validity ) {
             // Good enough
             break;
         }
@@ -4496,7 +4497,7 @@ void overmap::generate_outer( const overmap* north, const overmap* east, const o
         if( g != nullptr && !test_mode && ( opt == "ask_invalid" || opt == "ask_unlimited" ) ) {
             uimenu askmenu;
             if( unplaced_mandatory_specials.empty() ) {
-                debugmsg( "Map is invalid (%d < %d) but all mandatory specials are placed", (int)current_validity, (int)allow_generation );
+                debugmsg( "Map is invalid (%d < %d) but all mandatory specials are placed", (int)current_validity, (int)minimum_validity );
             }
             const std::string unplaced = enumerate_as_string( unplaced_mandatory_specials.begin(),
                 unplaced_mandatory_specials.end(), []( const overmap_special *special ) {
@@ -4515,7 +4516,7 @@ void overmap::generate_outer( const overmap* north, const overmap* east, const o
                 ALLOW = 3
             };
             askmenu.addentry( RETRY, true, 'r', _( "Retry %d times" ), try_num );
-            if( allow_generation != overmap_valid::unlimited ) {
+            if( minimum_validity != overmap_valid::unlimited ) {
                 askmenu.addentry( LIFT, true, 'l', _( "Generate unlimited map" ) );
             }
 
@@ -4529,19 +4530,19 @@ void overmap::generate_outer( const overmap* north, const overmap* east, const o
                 case RETRY:
                     break;
                 case LIFT:
-                    allow_generation = overmap_valid::unlimited;
+                    minimum_validity = overmap_valid::unlimited;
                     break;
                 case SETTINGS:
                     get_options().show( true );
                     break;
                 case ALLOW:
-                    allow_generation = current_validity;
+                    minimum_validity = current_validity;
                     break;
                 default:
                     break;
             }
         }
-    } while( current_validity < allow_generation );
+    } while( current_validity < minimum_validity );
 }
 
 // Note: this may throw io errors from std::ofstream

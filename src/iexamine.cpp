@@ -2263,7 +2263,6 @@ void iexamine::keg(player &p, const tripoint &examp)
                 return; // They didn't actually drink
             }
 
-            drink->charges--;
             if (drink->charges == 0) {
                 add_msg(_("You squeeze the last drops of %1$s from the %2$s."), drink->tname().c_str(),
                         g->m.name(examp).c_str());

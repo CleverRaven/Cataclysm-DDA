@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-17 21:26+0800\n"
-"PO-Revision-Date: 2017-03-18 08:48+0000\n"
+"POT-Creation-Date: 2017-03-23 21:44+0800\n"
+"PO-Revision-Date: 2017-03-24 08:31+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -4824,6 +4824,13 @@ msgid "baldric"
 msgid_plural "baldrics"
 msgstr[0] "수대"
 
+#. ~ Use action holster_prompt for baldric.
+#. ~ Use action holster_prompt for back scabbard.
+#. ~ Use action holster_prompt for scabbard.
+#: lang/json/ARMOR_from_json.py
+msgid "Sheath sword"
+msgstr "검 집어넣기"
+
 #. ~ Use action holster_msg for baldric.
 #. ~ Use action holster_msg for ankle sheath.
 #. ~ Use action holster_msg for back scabbard.
@@ -4835,13 +4842,6 @@ msgstr[0] "수대"
 #, no-python-format
 msgid "You sheath your %s"
 msgstr "%s을(를) 칼집에 넣었다."
-
-#. ~ Use action holster_prompt for baldric.
-#. ~ Use action holster_prompt for back scabbard.
-#. ~ Use action holster_prompt for scabbard.
-#: lang/json/ARMOR_from_json.py
-msgid "Sheath sword"
-msgstr "검 집어넣기"
 
 #. ~ Description for baldric
 #: lang/json/ARMOR_from_json.py
@@ -5895,6 +5895,13 @@ msgid "firefighter belt"
 msgid_plural "firefighter belts"
 msgstr[0] "소방관 벨트"
 
+#. ~ Use action holster_prompt for firefighter belt.
+#. ~ Use action holster_prompt for tool belt.
+#. ~ Use action holster_prompt for firefighter belt.
+#: lang/json/ARMOR_from_json.py
+msgid "Attach what to belt loop?"
+msgstr "벨트 고리에 무엇을 부착합니까?"
+
 #. ~ Use action holster_msg for firefighter belt.
 #. ~ Use action holster_msg for tool belt.
 #. ~ Use action holster_msg for firefighter belt.
@@ -5902,13 +5909,6 @@ msgstr[0] "소방관 벨트"
 #, no-python-format
 msgid "You clip your %s to your %s"
 msgstr "%s을(를) %s에 부착했다."
-
-#. ~ Use action holster_prompt for firefighter belt.
-#. ~ Use action holster_prompt for tool belt.
-#. ~ Use action holster_prompt for firefighter belt.
-#: lang/json/ARMOR_from_json.py
-msgid "Attach what to belt loop?"
-msgstr "벨트 고리에 무엇을 부착합니까?"
 
 #. ~ Description for firefighter belt
 #: lang/json/ARMOR_from_json.py
@@ -7612,16 +7612,16 @@ msgid "leather belt"
 msgid_plural "leather belts"
 msgstr[0] "가죽 벨트"
 
+#. ~ Use action holster_prompt for leather belt.
+#: lang/json/ARMOR_from_json.py
+msgid "Stick what into your belt"
+msgstr "벨트에 무엇을 끼웁니까?"
+
 #. ~ Use action holster_msg for leather belt.
 #: lang/json/ARMOR_from_json.py
 #, no-python-format
 msgid "You tuck your %s into your %s"
 msgstr "%s을(를) %s에 꽃아넣었다."
-
-#. ~ Use action holster_prompt for leather belt.
-#: lang/json/ARMOR_from_json.py
-msgid "Stick what into your belt"
-msgstr "벨트에 무엇을 끼웁니까?"
 
 #. ~ Description for leather belt
 #: lang/json/ARMOR_from_json.py
@@ -8439,15 +8439,15 @@ msgid "FB51 optical cloak"
 msgid_plural "FB51 optical cloaks"
 msgstr[0] "FB51 광학 미체"
 
-#. ~ Use action activate_msg for FB51 optical cloak.
-#: lang/json/ARMOR_from_json.py
-msgid "Your optical cloak flickers as it becomes transparent."
-msgstr "광학 미체가 깜빡이더니 투명해졌습니다."
-
 #. ~ Use action deactive_msg for FB51 optical cloak.
 #: lang/json/ARMOR_from_json.py src/player.cpp
 msgid "Your optical cloak flickers for a moment as it becomes opaque."
 msgstr "광학 망토가 깜빡이더니 투명화가 풀렸습니다."
+
+#. ~ Use action activate_msg for FB51 optical cloak.
+#: lang/json/ARMOR_from_json.py
+msgid "Your optical cloak flickers as it becomes transparent."
+msgstr "광학 미체가 깜빡이더니 투명해졌습니다."
 
 #. ~ Description for FB51 optical cloak
 #: lang/json/ARMOR_from_json.py
@@ -10219,6 +10219,15 @@ msgid "ammo satchel"
 msgid_plural "ammo satchels"
 msgstr[0] "탄약 수납부"
 
+#. ~ Use action holster_prompt for ammo satchel.
+#. ~ Use action holster_prompt for chest ammo pouch.
+#. ~ Use action holster_prompt for chest rig.
+#. ~ Use action holster_prompt for ankle ammo pouch.
+#. ~ Use action holster_prompt for leg ammo pouch.
+#: lang/json/ARMOR_from_json.py
+msgid "Stash ammo"
+msgstr "탄약 수납"
+
 #. ~ Use action holster_msg for ammo satchel.
 #. ~ Use action holster_msg for chest ammo pouch.
 #. ~ Use action holster_msg for chest rig.
@@ -10228,15 +10237,6 @@ msgstr[0] "탄약 수납부"
 #, no-python-format
 msgid "You stash your %s."
 msgstr "%s을(를) 수납했다."
-
-#. ~ Use action holster_prompt for ammo satchel.
-#. ~ Use action holster_prompt for chest ammo pouch.
-#. ~ Use action holster_prompt for chest rig.
-#. ~ Use action holster_prompt for ankle ammo pouch.
-#. ~ Use action holster_prompt for leg ammo pouch.
-#: lang/json/ARMOR_from_json.py
-msgid "Stash ammo"
-msgstr "탄약 수납"
 
 #. ~ Description for ammo satchel
 #: lang/json/ARMOR_from_json.py
@@ -19466,9 +19466,9 @@ msgstr "슬로피 조"
 #. ~ Description for sloppy joe
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
-"A sandwich, consisting of ground beef, onions, and tomato sauce served on a "
-"hamburger bun."
-msgstr "다진 쇠고기, 양파, 그리고 토마토 소스로 구성된 샌드위치로, 햄버거 빵을 이용해서 만들어졌습니다."
+"A sandwich, consisting of ground meat and tomato sauce served on a hamburger"
+" bun."
+msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "manwich"
@@ -27409,15 +27409,15 @@ msgid "sealed yeast culture"
 msgid_plural "sealed yeast cultures"
 msgstr[0] "밀봉된 효모 배양액"
 
-#. ~ Use action msg for sealed yeast culture.
-#: lang/json/GENERIC_from_json.py
-msgid "You open the flask and harvest the culture."
-msgstr "플라스크를 열고 배양된 이스트를 꺼냈습니다."
-
 #. ~ Use action not_ready_msg for sealed yeast culture.
 #: lang/json/GENERIC_from_json.py
 msgid "The yeast isn't done culturing yet."
 msgstr "이스트가 충분히 배양되지 않았다."
+
+#. ~ Use action msg for sealed yeast culture.
+#: lang/json/GENERIC_from_json.py
+msgid "You open the flask and harvest the culture."
+msgstr "플라스크를 열고 배양된 이스트를 꺼냈습니다."
 
 #. ~ Description for sealed yeast culture
 #: lang/json/GENERIC_from_json.py
@@ -27461,17 +27461,17 @@ msgid "lit charcoal kiln"
 msgid_plural "lit charcoal kilns"
 msgstr[0] "목탄 가마 (불붙음)"
 
+#. ~ Use action not_ready_msg for lit charcoal kiln.
+#: lang/json/GENERIC_from_json.py
+msgid "The kiln is still burning."
+msgstr "가마가 아직 타는 중입니다."
+
 #. ~ Use action msg for lit charcoal kiln.
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "The kilns embers have died out, you can now disassemble it to harvest the "
 "charcoal."
 msgstr "가마에 남은 불씨가 전부 꺼졌다. 가마를 분해하면 목탄을 꺼낼 수 있다."
-
-#. ~ Use action not_ready_msg for lit charcoal kiln.
-#: lang/json/GENERIC_from_json.py
-msgid "The kiln is still burning."
-msgstr "가마가 아직 타는 중입니다."
 
 #. ~ Description for lit charcoal kiln
 #: lang/json/GENERIC_from_json.py
@@ -27630,16 +27630,16 @@ msgid "fermenting sauerkraut jar"
 msgid_plural "fermenting sauerkraut jars"
 msgstr[0] "발효중인 자워크라우트 유리병"
 
+#. ~ Use action not_ready_msg for fermenting sauerkraut jar.
+#: lang/json/GENERIC_from_json.py
+msgid "The sauerkraut isn't done fermenting yet."
+msgstr "자워크라우트가 아직 발효되지 않았습니다."
+
 #. ~ Use action msg for fermenting sauerkraut jar.
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "You test the batch, and it tastes good, so you seal the jar up for storage."
 msgstr "열고 나니, 발효가 잘 되어 맛이 좋은 것을 확인한 후 보존을 위해 다시 밀봉했습니다."
-
-#. ~ Use action not_ready_msg for fermenting sauerkraut jar.
-#: lang/json/GENERIC_from_json.py
-msgid "The sauerkraut isn't done fermenting yet."
-msgstr "자워크라우트가 아직 발효되지 않았습니다."
 
 #. ~ Description for fermenting sauerkraut jar
 #: lang/json/GENERIC_from_json.py
@@ -32025,13 +32025,13 @@ msgid "Allows crafting of more improvised item variants"
 msgstr "더 많은 급조 물품 종류를 추가합니다."
 
 #: lang/json/MOD_INFO_from_json.py
-msgid "More Classes and Scenarios"
-msgstr "더 많은 직업과 시나리오"
+msgid "Classes and Scenarios Mod"
+msgstr ""
 
-#. ~ Description for More Classes and Scenarios
+#. ~ Description for Classes and Scenarios Mod
 #: lang/json/MOD_INFO_from_json.py
-msgid "Adds classes and scenarios that are not balanced for the core game."
-msgstr "기본 게임에 직업과 시나리오를 추가합니다. 밸런스는 맞지 않습니다."
+msgid "Adds new classes and scenarios while rebalancing some existing ones."
+msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "Necromancy"
@@ -32931,6 +32931,19 @@ msgid ""
 msgstr "1m 정도 길이의 진균체 줄기. 가죽 질감의 껍질에 가시로 덮인 표면에서 두 개의 공격적인 덩굴이 뻗어나와 있으며, 완전히 자란 진균체보다 빨리 움직인다."
 
 #: lang/json/MONSTER_from_json.py
+msgid "sewer gator"
+msgstr ""
+
+#. ~ Description for sewer gator
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"In the late 20th century there was an urban legend about pet alligators "
+"getting flushed down the toilet and growing to adulthood in sewers.  This "
+"large specimen doesn't look like it is used to humans as anything other than"
+" a meal."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
 msgid "amoebic mold"
 msgstr "아메바"
 
@@ -33395,19 +33408,6 @@ msgid ""
 "best-known weapon, it carries a blinding flash and a low-powered stungun for"
 " self-defense--in addition to its supply of electronic handcuffs."
 msgstr "비폭력적인 시위진압 로봇. 시위를 진압하고 체포를 돕도록 설계되었습니다. 진정 가스가 가장 잘 알려진 무기이긴 하지만, 자기방어를 위해 섬광을 뿜거나 저출력 전기 충격기도 가지고 있습니다. 전자 수갑 말고도요."
-
-#: lang/json/MONSTER_from_json.py
-msgid "sewer gator"
-msgstr ""
-
-#. ~ Description for sewer gator
-#: lang/json/MONSTER_from_json.py
-msgid ""
-"In the late 20th century there was an urban legend about pet alligators "
-"getting flushed down the toilet and growing to adulthood in sewers.  This "
-"large specimen doesn't look like it is used to humans as anything other than"
-" a meal."
-msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "seweranha"
@@ -37802,6 +37802,18 @@ msgid "simple patchwork scarf"
 msgid_plural "simple patchwork scarves"
 msgstr[0] "간이 스카프"
 
+#. ~ Use action menu_text for simple patchwork scarf.
+#. ~ Use action menu_text for long patchwork scarf.
+#. ~ Use action menu_text for knit scarf.
+#. ~ Use action menu_text for long knit scarf.
+#. ~ Use action menu_text for wool scarf.
+#. ~ Use action menu_text for long wool scarf.
+#. ~ Use action menu_text for fur scarf.
+#. ~ Use action menu_text for long fur scarf.
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "Loosen"
+msgstr ""
+
 #. ~ Use action msg for simple patchwork scarf.
 #. ~ Use action msg for long patchwork scarf.
 #. ~ Use action msg for knit scarf.
@@ -37815,18 +37827,6 @@ msgstr[0] "간이 스카프"
 msgid "You loosen your %s."
 msgstr "%s을(를) 살짝 풀었다."
 
-#. ~ Use action menu_text for simple patchwork scarf.
-#. ~ Use action menu_text for long patchwork scarf.
-#. ~ Use action menu_text for knit scarf.
-#. ~ Use action menu_text for long knit scarf.
-#. ~ Use action menu_text for wool scarf.
-#. ~ Use action menu_text for long wool scarf.
-#. ~ Use action menu_text for fur scarf.
-#. ~ Use action menu_text for long fur scarf.
-#: lang/json/TOOL_ARMOR_from_json.py
-msgid "Loosen"
-msgstr ""
-
 #. ~ Description for simple patchwork scarf
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
@@ -37839,16 +37839,6 @@ msgid "simple patchwork scarf (loose)"
 msgid_plural "simple patchwork scarves (loose)"
 msgstr[0] "간이 스카프 (풀림)"
 
-#. ~ Use action msg for simple patchwork scarf (loose).
-#. ~ Use action msg for long patchwork scarf (loose).
-#. ~ Use action msg for knit scarf (loose).
-#. ~ Use action msg for long knit scarf (loose).
-#. ~ Use action msg for long wool scarf (loose).
-#. ~ Use action msg for long fur scarf (loose).
-#: lang/json/TOOL_ARMOR_from_json.py
-msgid "You wrap your scarf tighter."
-msgstr "스카프를 단단히 맸다."
-
 #. ~ Use action menu_text for simple patchwork scarf (loose).
 #. ~ Use action menu_text for long patchwork scarf (loose).
 #. ~ Use action menu_text for knit scarf (loose).
@@ -37860,6 +37850,16 @@ msgstr "스카프를 단단히 맸다."
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "Wrap tighter"
 msgstr ""
+
+#. ~ Use action msg for simple patchwork scarf (loose).
+#. ~ Use action msg for long patchwork scarf (loose).
+#. ~ Use action msg for knit scarf (loose).
+#. ~ Use action msg for long knit scarf (loose).
+#. ~ Use action msg for long wool scarf (loose).
+#. ~ Use action msg for long fur scarf (loose).
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "You wrap your scarf tighter."
+msgstr "스카프를 단단히 맸다."
 
 #. ~ Description for simple patchwork scarf (loose)
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -39002,15 +39002,15 @@ msgid "bear trap"
 msgid_plural "bear traps"
 msgstr[0] "곰 덫"
 
-#. ~ Use action done_message for bear trap.
-#: lang/json/TOOL_from_json.py
-msgid "You set the beartrap."
-msgstr "곰 덫을 설치했다."
-
 #. ~ Use action bury_question for bear trap.
 #: lang/json/TOOL_from_json.py
 msgid "Bury the beartrap?"
 msgstr "곰 덫을 매설합니까?"
+
+#. ~ Use action done_message for bear trap.
+#: lang/json/TOOL_from_json.py
+msgid "You set the beartrap."
+msgstr "곰 덫을 설치했다."
 
 #. ~ Use action done_message for bear trap.
 #: lang/json/TOOL_from_json.py
@@ -39349,15 +39349,15 @@ msgid "firebrand (off)"
 msgid_plural "firebrands (off)"
 msgstr[0] "파이어브랜드 (꺼짐)"
 
-#. ~ Use action lacks_fuel_message for firebrand (off).
-#: lang/json/TOOL_from_json.py
-msgid "No strength to fight!"
-msgstr "태울 연료가 없다!"
-
 #. ~ Use action success_message for firebrand (off).
 #: lang/json/TOOL_from_json.py
 msgid "Charge!!"
 msgstr "불이 붙었다!"
+
+#. ~ Use action lacks_fuel_message for firebrand (off).
+#: lang/json/TOOL_from_json.py
+msgid "No strength to fight!"
+msgstr "태울 연료가 없다!"
 
 #. ~ Description for firebrand (off)
 #: lang/json/TOOL_from_json.py
@@ -39372,26 +39372,26 @@ msgid "firebrand (on)"
 msgid_plural "firebrands (on)"
 msgstr[0] "파이어브랜드 (켜짐)"
 
-#. ~ Use action voluntary_extinguish_message for firebrand (on).
-#: lang/json/TOOL_from_json.py
-msgid "Run away!"
-msgstr "불이 꺼졌다."
-
 #. ~ Use action charges_extinguish_message for firebrand (on).
 #: lang/json/TOOL_from_json.py
 msgid "Thy strength fades!"
 msgstr "연료가 부족해 불이 꺼졌다."
+
+#. ~ Use action noise_message for firebrand (on).
+#: lang/json/TOOL_from_json.py
+msgid "Your blade burns for combat!"
+msgstr "날이 타오른다!"
+
+#. ~ Use action voluntary_extinguish_message for firebrand (on).
+#: lang/json/TOOL_from_json.py
+msgid "Run away!"
+msgstr "불이 꺼졌다."
 
 #. ~ Use action water_extinguish_message for firebrand (on).
 #. ~ Use action water_extinguish_message for Rising Sun (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your sword hisses in the water and goes out."
 msgstr "칼이 물속에서 칙칙 소리를 내더니 꺼졌다."
-
-#. ~ Use action noise_message for firebrand (on).
-#: lang/json/TOOL_from_json.py
-msgid "Your blade burns for combat!"
-msgstr "날이 타오른다!"
 
 #. ~ Description for firebrand (on)
 #: lang/json/TOOL_from_json.py
@@ -40449,15 +40449,15 @@ msgid "Rising Sun (off)"
 msgid_plural "Rising Suns (off)"
 msgstr[0] "라이징선 (꺼짐)"
 
-#. ~ Use action lacks_fuel_message for Rising Sun (off).
-#: lang/json/TOOL_from_json.py
-msgid "Time stands still."
-msgstr "반응이 없다. 연료가 모자란 것 같다."
-
 #. ~ Use action success_message for Rising Sun (off).
 #: lang/json/TOOL_from_json.py
 msgid "The Sun rises."
 msgstr "태양이 떠오른 것처럼 밝은 불꽃을 뿜기 시작했다."
+
+#. ~ Use action lacks_fuel_message for Rising Sun (off).
+#: lang/json/TOOL_from_json.py
+msgid "Time stands still."
+msgstr "반응이 없다. 연료가 모자란 것 같다."
 
 #. ~ Description for Rising Sun (off)
 #: lang/json/TOOL_from_json.py
@@ -40473,11 +40473,6 @@ msgid "Rising Sun (on)"
 msgid_plural "Rising Suns (on)"
 msgstr[0] "라이징선 (켜짐)"
 
-#. ~ Use action voluntary_extinguish_message for Rising Sun (on).
-#: lang/json/TOOL_from_json.py
-msgid "The Sun sets."
-msgstr "태양이 지듯 불꽃이 꺼졌다."
-
 #. ~ Use action charges_extinguish_message for Rising Sun (on).
 #: lang/json/TOOL_from_json.py
 msgid "The Light Fades."
@@ -40487,6 +40482,11 @@ msgstr "빛이 희미해진다."
 #: lang/json/TOOL_from_json.py
 msgid "The Sun shines brightly."
 msgstr "태양처럼 밝은 불꽃을 뿜고 있다."
+
+#. ~ Use action voluntary_extinguish_message for Rising Sun (on).
+#: lang/json/TOOL_from_json.py
+msgid "The Sun sets."
+msgstr "태양이 지듯 불꽃이 꺼졌다."
 
 #. ~ Description for Rising Sun (on)
 #: lang/json/TOOL_from_json.py
@@ -40501,16 +40501,16 @@ msgid "No. 9 (off)"
 msgid_plural "No. 9's (off)"
 msgstr[0] "No. 9's (꺼짐)"
 
+#. ~ Use action success_message for No. 9 (off).
+#: lang/json/TOOL_from_json.py
+msgid "Your No. 9 glows!"
+msgstr "No. 9가 밝게 빛난다."
+
 #. ~ Use action lacks_fuel_message for No. 9 (off).
 #. ~ Use action failure_message for No. 9 (off).
 #: lang/json/TOOL_from_json.py src/iuse.cpp
 msgid "Click."
 msgstr "찰칵."
-
-#. ~ Use action success_message for No. 9 (off).
-#: lang/json/TOOL_from_json.py
-msgid "Your No. 9 glows!"
-msgstr "No. 9가 밝게 빛난다."
 
 #. ~ Description for No. 9 (off)
 #: lang/json/TOOL_from_json.py
@@ -40525,30 +40525,30 @@ msgid "No. 9 (on)"
 msgid_plural "No. 9's (on)"
 msgstr[0] "No. 9's (켜짐)"
 
-#. ~ Use action voluntary_extinguish_message for No. 9 (on).
-#: lang/json/TOOL_from_json.py
-msgid "Your No. 9 goes dark."
-msgstr "No. 9가 어두워지며 꺼졌다."
-
 #. ~ Use action charges_extinguish_message for No. 9 (on).
 #: lang/json/TOOL_from_json.py
 msgid "Out of ammo!"
 msgstr "탄약이 바닥났다!"
 
-#. ~ Use action auto_extinguish_message for No. 9 (on).
+#. ~ Use action noise_message for No. 9 (on).
 #: lang/json/TOOL_from_json.py
-msgid "Your No. 9 cuts out!"
-msgstr "No. 9가 작동을 멈췄다!"
+msgid "Your No. 9 hisses."
+msgstr "No. 9에서 쉭쉭 거리는 소리가 난다."
+
+#. ~ Use action voluntary_extinguish_message for No. 9 (on).
+#: lang/json/TOOL_from_json.py
+msgid "Your No. 9 goes dark."
+msgstr "No. 9가 어두워지며 꺼졌다."
 
 #. ~ Use action water_extinguish_message for No. 9 (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your No. 9 hisses in the water and goes out."
 msgstr "No. 9가 물속에서 칙칙 소리를 내더니 꺼졌다."
 
-#. ~ Use action noise_message for No. 9 (on).
+#. ~ Use action auto_extinguish_message for No. 9 (on).
 #: lang/json/TOOL_from_json.py
-msgid "Your No. 9 hisses."
-msgstr "No. 9에서 쉭쉭 거리는 소리가 난다."
+msgid "Your No. 9 cuts out!"
+msgstr "No. 9가 작동을 멈췄다!"
 
 #. ~ Description for No. 9 (on)
 #: lang/json/TOOL_from_json.py
@@ -41210,15 +41210,15 @@ msgid "filled charcoal kiln"
 msgid_plural "filled charcoal kilns"
 msgstr[0] "목탄 가마 (가득참)"
 
-#. ~ Use action msg for filled charcoal kiln.
-#: lang/json/TOOL_from_json.py
-msgid "You light the wood."
-msgstr "나무에 불을 붙였다."
-
 #. ~ Use action need_fire_msg for filled charcoal kiln.
 #: lang/json/TOOL_from_json.py
 msgid "You need something to light it with!"
 msgstr "불을 붙일게 필요하다!"
+
+#. ~ Use action msg for filled charcoal kiln.
+#: lang/json/TOOL_from_json.py
+msgid "You light the wood."
+msgstr "나무에 불을 붙였다."
 
 #. ~ Description for filled charcoal kiln
 #: lang/json/TOOL_from_json.py
@@ -41398,15 +41398,15 @@ msgid "land mine"
 msgid_plural "land mines"
 msgstr[0] "지뢰"
 
-#. ~ Use action done_message for land mine.
-#: lang/json/TOOL_from_json.py
-msgid "You set the land mine."
-msgstr "지뢰를 설치했다."
-
 #. ~ Use action bury_question for land mine.
 #: lang/json/TOOL_from_json.py
 msgid "Bury the land mine?"
 msgstr "지뢰를 묻습니까?"
+
+#. ~ Use action done_message for land mine.
+#: lang/json/TOOL_from_json.py
+msgid "You set the land mine."
+msgstr "지뢰를 설치했다."
 
 #. ~ Use action done_message for land mine.
 #: lang/json/TOOL_from_json.py
@@ -42027,17 +42027,17 @@ msgid "permanent marker"
 msgid_plural "permanent markers"
 msgstr[0] "마커"
 
-#. ~ Use action gerund for permanent marker.
-#. ~ Use action gerund for survival marker.
-#: lang/json/TOOL_from_json.py src/iuse.cpp
-msgid "Written"
-msgstr "쓰여진"
-
 #. ~ Use action verb for permanent marker.
 #. ~ Use action verb for survival marker.
 #: lang/json/TOOL_from_json.py src/iuse.cpp
 msgid "Write"
 msgstr "쓰기"
+
+#. ~ Use action gerund for permanent marker.
+#. ~ Use action gerund for survival marker.
+#: lang/json/TOOL_from_json.py src/iuse.cpp
+msgid "Written"
+msgstr "쓰여진"
 
 #. ~ Description for permanent marker
 #: lang/json/TOOL_from_json.py
@@ -42390,16 +42390,16 @@ msgid "refillable lighter"
 msgid_plural "refillable lighters"
 msgstr[0] "재사용 라이터"
 
-#. ~ Use action msg for refillable lighter.
-#: lang/json/TOOL_from_json.py
-msgid "You flick the lighter."
-msgstr "라이터를 켰다."
-
 #. ~ Use action menu_text for refillable lighter.
 #: lang/json/TOOL_from_json.py lang/json/item_action_from_json.py
 #: lang/json/item_action_from_json.py
 msgid "Light up"
 msgstr "켜기"
+
+#. ~ Use action msg for refillable lighter.
+#: lang/json/TOOL_from_json.py
+msgid "You flick the lighter."
+msgstr "라이터를 켰다."
 
 #. ~ Use action need_charges_msg for refillable lighter.
 #: lang/json/TOOL_from_json.py src/game.cpp src/gates.cpp src/gates.cpp
@@ -42421,11 +42421,6 @@ msgid "refillable lighter (lit)"
 msgid_plural "refillable lighters (lit)"
 msgstr[0] "재사용 라이터 (불붙음)"
 
-#. ~ Use action msg for refillable lighter (lit).
-#: lang/json/TOOL_from_json.py
-msgid "You extinguish the lighter."
-msgstr "라이터를 껐다."
-
 #. ~ Use action menu_text for refillable lighter (lit).
 #. ~ Use action menu_text for hobo stove (lit).
 #. ~ Use action menu_text for ember carrier (lit).
@@ -42433,6 +42428,11 @@ msgstr "라이터를 껐다."
 #: lang/json/item_action_from_json.py
 msgid "Extinguish"
 msgstr "소화하기"
+
+#. ~ Use action msg for refillable lighter (lit).
+#: lang/json/TOOL_from_json.py
+msgid "You extinguish the lighter."
+msgstr "라이터를 껐다."
 
 #. ~ Description for refillable lighter (lit)
 #: lang/json/TOOL_from_json.py
@@ -42664,15 +42664,15 @@ msgid "shishkebab (off)"
 msgid_plural "shishkebabs (off)"
 msgstr[0] "시시케밥 (꺼짐)"
 
-#. ~ Use action lacks_fuel_message for shishkebab (off).
-#: lang/json/TOOL_from_json.py
-msgid "This thing needs some fuel!"
-msgstr "연료가 부족해 켤 수 없다!"
-
 #. ~ Use action success_message for shishkebab (off).
 #: lang/json/TOOL_from_json.py
 msgid "Let's dance, Zeds!"
 msgstr "불이 타오른다. 좀비 놈들과 신나게 춤출 준비가 되었다!"
+
+#. ~ Use action lacks_fuel_message for shishkebab (off).
+#: lang/json/TOOL_from_json.py
+msgid "This thing needs some fuel!"
+msgstr "연료가 부족해 켤 수 없다!"
 
 #. ~ Use action failure_message for shishkebab (off).
 #: lang/json/TOOL_from_json.py
@@ -42693,30 +42693,30 @@ msgid "shishkebab (on)"
 msgid_plural "shishkebabs (on)"
 msgstr[0] "시시케밥 (켜짐)"
 
-#. ~ Use action voluntary_extinguish_message for shishkebab (on).
-#: lang/json/TOOL_from_json.py
-msgid "Peace out.  Your shishkebab's flame dies."
-msgstr "친구여, 안녕. 시시케밥의 불을 껐다."
-
 #. ~ Use action charges_extinguish_message for shishkebab (on).
 #: lang/json/TOOL_from_json.py
 msgid "Uncool, outta gas!  Your shishkebab's flame goes out."
 msgstr "연료가 없다! 시시케밥의 불이 꺼졌다."
 
-#. ~ Use action auto_extinguish_message for shishkebab (on).
+#. ~ Use action noise_message for shishkebab (on).
 #: lang/json/TOOL_from_json.py
-msgid "Bummer, man!  Your shishkebab's flame flickers and dies out."
-msgstr "게으르기는... 쯧쯧. 시시케밥의 불이 깜박이더니 꺼졌다."
+msgid "Your shishkebab crackles!"
+msgstr "시시케밥에서 딱딱거리며 불타는 소리가 난다!"
+
+#. ~ Use action voluntary_extinguish_message for shishkebab (on).
+#: lang/json/TOOL_from_json.py
+msgid "Peace out.  Your shishkebab's flame dies."
+msgstr "친구여, 안녕. 시시케밥의 불을 껐다."
 
 #. ~ Use action water_extinguish_message for shishkebab (on).
 #: lang/json/TOOL_from_json.py
 msgid "Your shishkebab hisses in the water and goes out."
 msgstr "시시케밥이 물 속에서 칙칙 소리를 내더니 꺼졌다."
 
-#. ~ Use action noise_message for shishkebab (on).
+#. ~ Use action auto_extinguish_message for shishkebab (on).
 #: lang/json/TOOL_from_json.py
-msgid "Your shishkebab crackles!"
-msgstr "시시케밥에서 딱딱거리며 불타는 소리가 난다!"
+msgid "Bummer, man!  Your shishkebab's flame flickers and dies out."
+msgstr "게으르기는... 쯧쯧. 시시케밥의 불이 깜박이더니 꺼졌다."
 
 #. ~ Description for shishkebab (on)
 #: lang/json/TOOL_from_json.py
@@ -43097,15 +43097,15 @@ msgid "tanning leather hide"
 msgid_plural "tanning leather hides"
 msgstr[0] "가죽 (무두질 중)"
 
-#. ~ Use action msg for tanning leather hide.
-#: lang/json/TOOL_from_json.py
-msgid "You carefully unfold the tanning leather hide and shake it clean."
-msgstr "조심스럽게 무두질한 가죽을 펴서 깨끗하게 털어냈다."
-
 #. ~ Use action not_ready_msg for tanning leather hide.
 #: lang/json/TOOL_from_json.py
 msgid "The tanning leather hide isn't done yet."
 msgstr "무두질 과정이 아직 끝나지 않았다."
+
+#. ~ Use action msg for tanning leather hide.
+#: lang/json/TOOL_from_json.py
+msgid "You carefully unfold the tanning leather hide and shake it clean."
+msgstr "조심스럽게 무두질한 가죽을 펴서 깨끗하게 털어냈다."
 
 #. ~ Description for tanning leather hide
 #: lang/json/TOOL_from_json.py
@@ -43120,15 +43120,15 @@ msgid "tanning fur pelt"
 msgid_plural "tanning fur pelts"
 msgstr[0] "모피 (무두질 중)"
 
-#. ~ Use action msg for tanning fur pelt.
-#: lang/json/TOOL_from_json.py
-msgid "You carefully unfold the tanning fur pelt and shake it clean."
-msgstr "조심스럽게 무두질한 모피를 펴서 깨끗하게 털어냈다."
-
 #. ~ Use action not_ready_msg for tanning fur pelt.
 #: lang/json/TOOL_from_json.py
 msgid "The tanning fur pelt isn't done yet."
 msgstr "무두질 과정이 아직 끝나지 않았다."
+
+#. ~ Use action msg for tanning fur pelt.
+#: lang/json/TOOL_from_json.py
+msgid "You carefully unfold the tanning fur pelt and shake it clean."
+msgstr "조심스럽게 무두질한 모피를 펴서 깨끗하게 털어냈다."
 
 #. ~ Description for tanning fur pelt
 #: lang/json/TOOL_from_json.py
@@ -43846,14 +43846,14 @@ msgid "flammenschwert (aus)"
 msgid_plural "flammenschwerter (aus)"
 msgstr[0] "불꽃의 칼 (꺼짐)"
 
-#. ~ Use action lacks_fuel_message for flammenschwert (aus).
-#: lang/json/TOOL_from_json.py
-msgid "Dein Flammenschwert hat keinen Brennstoff mehr."
-msgstr ""
-
 #. ~ Use action success_message for flammenschwert (aus).
 #: lang/json/TOOL_from_json.py
 msgid "Die Klinge deines Schwertes brennt!"
+msgstr ""
+
+#. ~ Use action lacks_fuel_message for flammenschwert (aus).
+#: lang/json/TOOL_from_json.py
+msgid "Dein Flammenschwert hat keinen Brennstoff mehr."
 msgstr ""
 
 #. ~ Description for flammenschwert (aus)
@@ -43870,24 +43870,24 @@ msgid "flammenschwert (an)"
 msgid_plural "flammenschwerter (an)"
 msgstr[0] "불꽃의 칼 (켜짐)"
 
-#. ~ Use action voluntary_extinguish_message for flammenschwert (an).
-#: lang/json/TOOL_from_json.py
-msgid "Die Flamme deines Schwertes erlischt."
-msgstr ""
-
 #. ~ Use action charges_extinguish_message for flammenschwert (an).
 #: lang/json/TOOL_from_json.py
 msgid "Deinem Flammenschwert ist der Brennstoff ausgegangen!"
 msgstr ""
 
-#. ~ Use action water_extinguish_message for flammenschwert (an).
-#: lang/json/TOOL_from_json.py
-msgid "Dein Schwert zischt und erlischt."
-msgstr ""
-
 #. ~ Use action noise_message for flammenschwert (an).
 #: lang/json/TOOL_from_json.py
 msgid "Das Feuer um deine Schwertklinge leuchtet hell!"
+msgstr ""
+
+#. ~ Use action voluntary_extinguish_message for flammenschwert (an).
+#: lang/json/TOOL_from_json.py
+msgid "Die Flamme deines Schwertes erlischt."
+msgstr ""
+
+#. ~ Use action water_extinguish_message for flammenschwert (an).
+#: lang/json/TOOL_from_json.py
+msgid "Dein Schwert zischt und erlischt."
 msgstr ""
 
 #. ~ Description for zweihänder
@@ -44089,18 +44089,18 @@ msgid "acetylene lamp (on)"
 msgid_plural "acetylene lamps (on)"
 msgstr[0] "아세틸렌 램프 (켜짐)"
 
-#. ~ Use action msg for acetylene lamp (on).
-#: lang/json/TOOL_from_json.py
-#, no-python-format
-msgid "The %s is extinguished"
-msgstr "%s이(가) 꺼졌다"
-
 #. ~ Use action menu_text for acetylene lamp (on).
 #: lang/json/TOOL_from_json.py lang/json/item_action_from_json.py
 #: lang/json/item_action_from_json.py lang/json/item_action_from_json.py
 #: src/iuse.cpp
 msgid "Turn off"
 msgstr "끄기"
+
+#. ~ Use action msg for acetylene lamp (on).
+#: lang/json/TOOL_from_json.py
+#, no-python-format
+msgid "The %s is extinguished"
+msgstr "%s이(가) 꺼졌다"
 
 #: lang/json/TOOL_from_json.py
 msgid "inhaler"
@@ -44263,14 +44263,14 @@ msgid "offering chalice"
 msgid_plural "offering chalices"
 msgstr[0] "헌납의 잔"
 
-#. ~ Use action msg for offering chalice.
-#: lang/json/TOOL_from_json.py
-msgid "You raise the chalice to your lips..."
-msgstr ""
-
 #. ~ Use action menu_text for offering chalice.
 #: lang/json/TOOL_from_json.py
 msgid "Drink from the chalice"
+msgstr ""
+
+#. ~ Use action msg for offering chalice.
+#: lang/json/TOOL_from_json.py
+msgid "You raise the chalice to your lips..."
 msgstr ""
 
 #. ~ Description for offering chalice
@@ -44314,16 +44314,16 @@ msgid "silver athame"
 msgid_plural "silver athames"
 msgstr[0] "은제 에더메"
 
+#. ~ Use action menu_text for silver athame.
+#: lang/json/TOOL_from_json.py
+msgid "Test the blade's sharpness"
+msgstr ""
+
 #. ~ Use action msg for silver athame.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "The edge of the athame looks too dull to break the skin, yet some strange "
 "urge leads you to test this..."
-msgstr ""
-
-#. ~ Use action menu_text for silver athame.
-#: lang/json/TOOL_from_json.py
-msgid "Test the blade's sharpness"
 msgstr ""
 
 #. ~ Description for silver athame
@@ -44351,15 +44351,15 @@ msgid "incorruptible sword"
 msgid_plural "incorruptible swords"
 msgstr[0] "성검"
 
-#. ~ Use action lacks_fuel_message for incorruptible sword.
-#: lang/json/TOOL_from_json.py
-msgid "The sword needs energy to serve its purpose."
-msgstr "제대로 작동하기 위해서는 에너지가 필요합니다."
-
 #. ~ Use action success_message for incorruptible sword.
 #: lang/json/TOOL_from_json.py
 msgid "The blade gives off a brilliant glow as you invoke its power!"
 msgstr ""
+
+#. ~ Use action lacks_fuel_message for incorruptible sword.
+#: lang/json/TOOL_from_json.py
+msgid "The sword needs energy to serve its purpose."
+msgstr "제대로 작동하기 위해서는 에너지가 필요합니다."
 
 #. ~ Description for incorruptible sword
 #: lang/json/TOOL_from_json.py
@@ -44374,24 +44374,24 @@ msgid "incorruptible sword (on)"
 msgid_plural "incorruptible swords (on)"
 msgstr[0] "성검 (작동)"
 
-#. ~ Use action voluntary_extinguish_message for incorruptible sword (on).
-#: lang/json/TOOL_from_json.py
-msgid "The blade dims as you dispel its effect."
-msgstr ""
-
 #. ~ Use action charges_extinguish_message for incorruptible sword (on).
 #: lang/json/TOOL_from_json.py
 msgid "The sword's radiance fades."
 msgstr ""
 
-#. ~ Use action water_extinguish_message for incorruptible sword (on).
-#: lang/json/TOOL_from_json.py
-msgid "The sword shimmers in the water, before the glow fades."
-msgstr ""
-
 #. ~ Use action noise_message for incorruptible sword (on).
 #: lang/json/TOOL_from_json.py
 msgid "The glow intensifies, the blade yearning to cleave darkness itself."
+msgstr ""
+
+#. ~ Use action voluntary_extinguish_message for incorruptible sword (on).
+#: lang/json/TOOL_from_json.py
+msgid "The blade dims as you dispel its effect."
+msgstr ""
+
+#. ~ Use action water_extinguish_message for incorruptible sword (on).
+#: lang/json/TOOL_from_json.py
+msgid "The sword shimmers in the water, before the glow fades."
 msgstr ""
 
 #. ~ Description for incorruptible sword (on)
@@ -44406,14 +44406,14 @@ msgid "hammer of the hunter"
 msgid_plural "hammers of the hunter"
 msgstr[0] "사냥꾼의 망치"
 
-#. ~ Use action msg for hammer of the hunter.
-#: lang/json/TOOL_from_json.py
-msgid "\"Ave martello!\" The hammer gives off a golden light."
-msgstr ""
-
 #. ~ Use action menu_text for hammer of the hunter.
 #: lang/json/TOOL_from_json.py
 msgid "Hold the hammer high"
+msgstr ""
+
+#. ~ Use action msg for hammer of the hunter.
+#: lang/json/TOOL_from_json.py
+msgid "\"Ave martello!\" The hammer gives off a golden light."
 msgstr ""
 
 #. ~ Use action need_charges_msg for hammer of the hunter.
@@ -44729,14 +44729,14 @@ msgid "veinreaver"
 msgid_plural "veinreavers"
 msgstr[0] "베인리버"
 
-#. ~ Use action msg for veinreaver.
-#: lang/json/TOOL_from_json.py
-msgid "You draw upon the axe's energy, and the axehead glows a bright red!"
-msgstr ""
-
 #. ~ Use action menu_text for veinreaver.
 #: lang/json/TOOL_from_json.py
 msgid "Activate explosive rune"
+msgstr ""
+
+#. ~ Use action msg for veinreaver.
+#: lang/json/TOOL_from_json.py
+msgid "You draw upon the axe's energy, and the axehead glows a bright red!"
 msgstr ""
 
 #. ~ Description for veinreaver
@@ -44882,16 +44882,16 @@ msgid "cursed blade"
 msgid_plural "cursed blades"
 msgstr[0] "저주받은 블레이드"
 
+#. ~ Use action menu_text for cursed blade.
+#: lang/json/TOOL_from_json.py
+msgid "Awaken the dark blade"
+msgstr ""
+
 #. ~ Use action msg for cursed blade.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "The runes on the blade glow for a moment, and you feel a strange bloodlust "
 "overtake you."
-msgstr ""
-
-#. ~ Use action menu_text for cursed blade.
-#: lang/json/TOOL_from_json.py
-msgid "Awaken the dark blade"
 msgstr ""
 
 #. ~ Use action need_charges_msg for cursed blade.
@@ -45068,15 +45068,15 @@ msgid "ember carrier"
 msgid_plural "ember carriers"
 msgstr[0] "불씨 보관통"
 
-#. ~ Use action msg for ember carrier.
-#: lang/json/TOOL_from_json.py
-msgid "You light the tinder."
-msgstr "부싯깃에 불을 붙였다."
-
 #. ~ Use action need_fire_msg for ember carrier.
 #: lang/json/TOOL_from_json.py
 msgid "You need a lighter or fire to light this."
 msgstr "불을 붙이려면 라이터 같은 도구나 불이 필요하다."
+
+#. ~ Use action msg for ember carrier.
+#: lang/json/TOOL_from_json.py
+msgid "You light the tinder."
+msgstr "부싯깃에 불을 붙였다."
 
 #. ~ Description for ember carrier
 #: lang/json/TOOL_from_json.py
@@ -45116,6 +45116,13 @@ msgid "small batch of curdling milk"
 msgid_plural "small batches of curdling milk"
 msgstr[0] "우유 (응고중) 소량 묶음"
 
+#. ~ Use action not_ready_msg for small batch of curdling milk.
+#. ~ Use action not_ready_msg for batch of curdling milk.
+#. ~ Use action not_ready_msg for large batch of curdling milk.
+#: lang/json/TOOL_from_json.py
+msgid "The milk is still curdling."
+msgstr "우유가 아직 응고중이다."
+
 #. ~ Use action msg for small batch of curdling milk.
 #. ~ Use action msg for batch of curdling milk.
 #. ~ Use action msg for large batch of curdling milk.
@@ -45124,13 +45131,6 @@ msgid ""
 "The milk appears to have finished curdling, and is ready for further "
 "processing.  Checking on it has exposed the mixture to the atmosphere."
 msgstr ""
-
-#. ~ Use action not_ready_msg for small batch of curdling milk.
-#. ~ Use action not_ready_msg for batch of curdling milk.
-#. ~ Use action not_ready_msg for large batch of curdling milk.
-#: lang/json/TOOL_from_json.py
-msgid "The milk is still curdling."
-msgstr "우유가 아직 응고중이다."
 
 #. ~ Description for small batch of curdling milk
 #: lang/json/TOOL_from_json.py
@@ -45494,15 +45494,15 @@ msgid "recharging soulcube"
 msgid_plural "recharging soulcubes"
 msgstr[0] ""
 
-#. ~ Use action msg for recharging soulcube.
-#: lang/json/TOOL_from_json.py
-msgid "\"USE US.\""
-msgstr "\"우리를 사용해\""
-
 #. ~ Use action not_ready_msg for recharging soulcube.
 #: lang/json/TOOL_from_json.py
 msgid "You fiddle with the cube, but nothing happens."
 msgstr "큐브를 만져보았지만, 아무런 일도 일어나지 않았다."
+
+#. ~ Use action msg for recharging soulcube.
+#: lang/json/TOOL_from_json.py
+msgid "\"USE US.\""
+msgstr "\"우리를 사용해\""
 
 #: lang/json/TOOL_from_json.py
 msgid "soulcube"
@@ -45524,14 +45524,14 @@ msgid "incubating boil bomb"
 msgid_plural "incubating boil bombs"
 msgstr[0] ""
 
-#. ~ Use action msg for incubating boil bomb.
-#: lang/json/TOOL_from_json.py
-msgid "The boil inside matures!"
-msgstr ""
-
 #. ~ Use action not_ready_msg for incubating boil bomb.
 #: lang/json/TOOL_from_json.py
 msgid "The boil requires 36 hours to mature.  It is not ready yet."
+msgstr ""
+
+#. ~ Use action msg for incubating boil bomb.
+#: lang/json/TOOL_from_json.py
+msgid "The boil inside matures!"
 msgstr ""
 
 #. ~ Description for incubating boil bomb
@@ -45878,15 +45878,15 @@ msgid "growing blob frame"
 msgid_plural "growing blob frames"
 msgstr[0] "블럽 프레임 (성장중)"
 
+#. ~ Use action not_ready_msg for growing blob frame.
+#: lang/json/TOOL_from_json.py
+msgid "You test the frame; it gives easily, it's still not sturdy enough"
+msgstr ""
+
 #. ~ Use action msg for growing blob frame.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "You test the frame; It wiggles, and then collapses into an lump of goo."
-msgstr ""
-
-#. ~ Use action not_ready_msg for growing blob frame.
-#: lang/json/TOOL_from_json.py
-msgid "You test the frame; it gives easily, it's still not sturdy enough"
 msgstr ""
 
 #. ~ Description for growing blob frame
@@ -45901,30 +45901,6 @@ msgstr ""
 msgid "growing keratinous mass"
 msgid_plural "growing keratinous mass"
 msgstr[0] ""
-
-#. ~ Use action msg for growing keratinous mass.
-#. ~ Use action msg for growing beaded mass.
-#. ~ Use action msg for growing icy mass.
-#. ~ Use action msg for growing cold mass.
-#. ~ Use action msg for growing hairy mass.
-#. ~ Use action msg for growing gelatinous mass.
-#. ~ Use action msg for growing glowing mass.
-#. ~ Use action msg for growing gray mass.
-#. ~ Use action msg for growing spike-studded mass.
-#. ~ Use action msg for growing gasoline-laced mass.
-#. ~ Use action msg for growing acidic mass.
-#. ~ Use action msg for growing ooze.
-#. ~ Use action msg for growing mass of tendrils.
-#. ~ Use action msg for growing spiked mass.
-#. ~ Use action msg for growing spiny mass.
-#. ~ Use action msg for growing spiky mass.
-#. ~ Use action msg for growing bright mass.
-#. ~ Use action msg for growing viscous mass.
-#. ~ Use action msg for growing warm mass.
-#. ~ Use action msg for growing electrified mass.
-#: lang/json/TOOL_from_json.py
-msgid "The blob balloons to full size."
-msgstr ""
 
 #. ~ Use action not_ready_msg for growing keratinous mass.
 #. ~ Use action not_ready_msg for growing beaded mass.
@@ -45948,6 +45924,30 @@ msgstr ""
 #. ~ Use action not_ready_msg for growing electrified mass.
 #: lang/json/TOOL_from_json.py
 msgid "Whatever it's doing, it's not done yet."
+msgstr ""
+
+#. ~ Use action msg for growing keratinous mass.
+#. ~ Use action msg for growing beaded mass.
+#. ~ Use action msg for growing icy mass.
+#. ~ Use action msg for growing cold mass.
+#. ~ Use action msg for growing hairy mass.
+#. ~ Use action msg for growing gelatinous mass.
+#. ~ Use action msg for growing glowing mass.
+#. ~ Use action msg for growing gray mass.
+#. ~ Use action msg for growing spike-studded mass.
+#. ~ Use action msg for growing gasoline-laced mass.
+#. ~ Use action msg for growing acidic mass.
+#. ~ Use action msg for growing ooze.
+#. ~ Use action msg for growing mass of tendrils.
+#. ~ Use action msg for growing spiked mass.
+#. ~ Use action msg for growing spiny mass.
+#. ~ Use action msg for growing spiky mass.
+#. ~ Use action msg for growing bright mass.
+#. ~ Use action msg for growing viscous mass.
+#. ~ Use action msg for growing warm mass.
+#. ~ Use action msg for growing electrified mass.
+#: lang/json/TOOL_from_json.py
+msgid "The blob balloons to full size."
 msgstr ""
 
 #. ~ Description for growing keratinous mass
@@ -47681,6 +47681,11 @@ msgid "torso"
 msgstr "상체"
 
 #: lang/json/bodypart_from_json.py
+msgctxt "bodypart_accusative"
+msgid "torso"
+msgstr ""
+
+#: lang/json/bodypart_from_json.py
 msgid "Dodging and melee is hampered."
 msgstr "회피와 근접 공격에 방해됩니다."
 
@@ -47694,6 +47699,11 @@ msgstr[0] "상체"
 msgid "head"
 msgstr "머리"
 
+#: lang/json/bodypart_from_json.py
+msgctxt "bodypart_accusative"
+msgid "head"
+msgstr ""
+
 #: lang/json/bodypart_from_json.py src/armor_layers.cpp src/character.cpp
 #: src/debug_menu.cpp
 msgid "Head"
@@ -47703,6 +47713,11 @@ msgstr[0] "머리"
 #: lang/json/bodypart_from_json.py
 msgid "eyes"
 msgstr "눈"
+
+#: lang/json/bodypart_from_json.py
+msgctxt "bodypart_accusative"
+msgid "eyes"
+msgstr ""
 
 #: lang/json/bodypart_from_json.py
 msgid "Ranged combat is hampered."
@@ -47718,6 +47733,11 @@ msgid "mouth"
 msgstr "입"
 
 #: lang/json/bodypart_from_json.py
+msgctxt "bodypart_accusative"
+msgid "mouth"
+msgstr ""
+
+#: lang/json/bodypart_from_json.py
 msgid "Running is slowed."
 msgstr "달리기가 느려졌습니다."
 
@@ -47729,6 +47749,11 @@ msgstr[0] "입"
 #: lang/json/bodypart_from_json.py
 msgid "left arm"
 msgstr "왼팔"
+
+#: lang/json/bodypart_from_json.py
+msgctxt "bodypart_accusative"
+msgid "left arm"
+msgstr ""
 
 #: lang/json/bodypart_from_json.py
 msgid "Melee and ranged combat is hampered."
@@ -47743,6 +47768,11 @@ msgstr[0] "팔"
 msgid "right arm"
 msgstr "오른팔"
 
+#: lang/json/bodypart_from_json.py
+msgctxt "bodypart_accusative"
+msgid "right arm"
+msgstr ""
+
 #: lang/json/bodypart_from_json.py src/armor_layers.cpp
 msgid "R. Arm"
 msgid_plural "Arms"
@@ -47751,6 +47781,11 @@ msgstr[0] "팔"
 #: lang/json/bodypart_from_json.py
 msgid "left hand"
 msgstr "왼손"
+
+#: lang/json/bodypart_from_json.py
+msgctxt "bodypart_accusative"
+msgid "left hand"
+msgstr ""
 
 #: lang/json/bodypart_from_json.py
 msgid "Manual tasks are slowed."
@@ -47765,6 +47800,11 @@ msgstr[0] "손"
 msgid "right hand"
 msgstr "오른손"
 
+#: lang/json/bodypart_from_json.py
+msgctxt "bodypart_accusative"
+msgid "right hand"
+msgstr ""
+
 #: lang/json/bodypart_from_json.py src/armor_layers.cpp
 msgid "R. Hand"
 msgid_plural "Hands"
@@ -47773,6 +47813,11 @@ msgstr[0] "손"
 #: lang/json/bodypart_from_json.py
 msgid "left leg"
 msgstr "왼다리"
+
+#: lang/json/bodypart_from_json.py
+msgctxt "bodypart_accusative"
+msgid "left leg"
+msgstr ""
 
 #: lang/json/bodypart_from_json.py
 msgid "Running and swimming are slowed."
@@ -47787,6 +47832,11 @@ msgstr[0] "다리"
 msgid "right leg"
 msgstr "오른다리"
 
+#: lang/json/bodypart_from_json.py
+msgctxt "bodypart_accusative"
+msgid "right leg"
+msgstr ""
+
 #: lang/json/bodypart_from_json.py src/armor_layers.cpp
 msgid "R. Leg"
 msgid_plural "Legs"
@@ -47795,6 +47845,11 @@ msgstr[0] "다리"
 #: lang/json/bodypart_from_json.py
 msgid "left foot"
 msgstr "왼발"
+
+#: lang/json/bodypart_from_json.py
+msgctxt "bodypart_accusative"
+msgid "left foot"
+msgstr ""
 
 #: lang/json/bodypart_from_json.py src/armor_layers.cpp
 msgid "L. Foot"
@@ -47805,6 +47860,11 @@ msgstr[0] "발"
 msgid "right foot"
 msgstr "오른발"
 
+#: lang/json/bodypart_from_json.py
+msgctxt "bodypart_accusative"
+msgid "right foot"
+msgstr ""
+
 #: lang/json/bodypart_from_json.py src/armor_layers.cpp
 msgid "R. Foot"
 msgid_plural "Feet"
@@ -47814,6 +47874,11 @@ msgstr[0] "발"
 msgid "appendix"
 msgid_plural "Appendices"
 msgstr[0] ""
+
+#: lang/json/bodypart_from_json.py
+msgctxt "bodypart_accusative"
+msgid "appendix"
+msgstr ""
 
 #: lang/json/bodypart_from_json.py
 msgid "It's inflamed."
@@ -69205,34 +69270,6 @@ msgstr "문명에서 동떨어진 땅에서 생존하는데 익숙한 당신의 
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
-msgid "Bionic Survivalist"
-msgstr "바이오닉 생존주의자"
-
-#. ~ Profession (male Bionic Survivalist) description
-#: lang/json/professions_from_json.py
-msgctxt "prof_desc_male"
-msgid ""
-"Mainly from paranoia, you augmented yourself, got some training and basic "
-"gear to go inawoods incase anything went down, well it did.  Seems your "
-"paranoia paid off."
-msgstr "당신은 재앙에 대한 편집증 때문에, 몸을 개조하고, 모든 것이 무너질 때를 대비해서 몇 가지 훈련을 받고 기본적인 장비를 숲에 보관해 두었고, 모든 것이 무너지고 말았습니다. 결국, 걱정하던 공포가 실현된 것 같습니다."
-
-#: lang/json/professions_from_json.py
-msgctxt "profession_female"
-msgid "Bionic Survivalist"
-msgstr "바이오닉 생존주의자"
-
-#. ~ Profession (female Bionic Survivalist) description
-#: lang/json/professions_from_json.py
-msgctxt "prof_desc_female"
-msgid ""
-"Mainly from paranoia, you augmented yourself, got some training and basic "
-"gear to go inawoods incase anything went down, well it did.  Seems your "
-"paranoia paid off."
-msgstr "당신은 재앙에 대한 편집증 때문에, 몸을 개조하고, 모든 것이 무너질 때를 대비해서 몇 가지 훈련을 받고 기본적인 장비를 숲에 보관해 두었고, 모든 것이 무너지고 말았습니다. 결국, 걱정하던 공포가 실현된 것 같습니다."
-
-#: lang/json/professions_from_json.py
-msgctxt "profession_male"
 msgid "Chain Smoker"
 msgstr "담배 중독자"
 
@@ -70629,116 +70666,6 @@ msgstr "당신은 북동부에서 개최되는 프리미어 애니메이션 컨�
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
-msgid "Hockey Player"
-msgstr "하키 선수"
-
-#. ~ Profession (male Hockey Player) description
-#: lang/json/professions_from_json.py
-msgctxt "prof_desc_male"
-msgid ""
-"You were a minor-league hockey goalie before the rest of your team became "
-"zombies.  It's just you and your hockey equipment versus the undead, but at "
-"least you can cross-check them now."
-msgstr "당신의 팀이 좀비가 되기 전까지, 당신은 하키 마이너리그에서 골리 역할을 맡고 있었습니다. 이제 당신과 하키 장비만으로 언데드 군단과 경기를 치러야 할 상황이 왔지만, 적어도 반칙은 마음껏 쓸 수 있게 됐습니다."
-
-#: lang/json/professions_from_json.py
-msgctxt "profession_female"
-msgid "Hockey Player"
-msgstr "하키 선수"
-
-#. ~ Profession (female Hockey Player) description
-#: lang/json/professions_from_json.py
-msgctxt "prof_desc_female"
-msgid ""
-"You were a minor-league hockey goalie before the rest of your team became "
-"zombies.  It's just you and your hockey equipment versus the undead, but at "
-"least you can cross-check them now."
-msgstr "당신의 팀이 좀비가 되기 전까지, 당신은 하키 마이너리그에서 골리 역할을 맡고 있었습니다. 이제 당신과 하키 장비만으로 언데드 군단과 경기를 치러야 할 상황이 왔지만, 적어도 반칙은 마음껏 쓸 수 있게 됐습니다."
-
-#: lang/json/professions_from_json.py
-msgctxt "profession_male"
-msgid "Baseball Player"
-msgstr "야구 선수"
-
-#. ~ Profession (male Baseball Player) description
-#: lang/json/professions_from_json.py
-msgctxt "prof_desc_male"
-msgid ""
-"You were a batter on a local minor league team before the cataclysm.  You "
-"escaped with your equipment, but how long can you survive until your innings"
-" are up?"
-msgstr "대재앙이 벌어지기 전까지, 당신은 지방의 마이너리그 팀에서 타자 역할을 맡고 있었습니다. 겨우 장비를 가지고 도망쳐 나왔지만, 이닝이 끝나기까지 얼마나 오래 살아남을 수 있을까요?"
-
-#: lang/json/professions_from_json.py
-msgctxt "profession_female"
-msgid "Baseball Player"
-msgstr "야구 선수"
-
-#. ~ Profession (female Baseball Player) description
-#: lang/json/professions_from_json.py
-msgctxt "prof_desc_female"
-msgid ""
-"You were a batter on a local minor league team before the cataclysm.  You "
-"escaped with your equipment, but how long can you survive until your innings"
-" are up?"
-msgstr "대재앙이 벌어지기 전까지, 당신은 지방의 마이너리그 팀에서 타자 역할을 맡고 있었습니다. 겨우 장비를 가지고 도망쳐 나왔지만, 이닝이 끝나기까지 얼마나 오래 살아남을 수 있을까요?"
-
-#: lang/json/professions_from_json.py
-msgctxt "profession_male"
-msgid "Football Player"
-msgstr "미식축구 선수"
-
-#. ~ Profession (male Football Player) description
-#: lang/json/professions_from_json.py
-msgctxt "prof_desc_male"
-msgid ""
-"You were the star player for the local football team, adored by teammates "
-"and fans alike.  Now they just adore your brain.  You've still got your "
-"bulky football gear on."
-msgstr "당신은 지역 미식축구팀의 스타 플레이어였습니다. 덕분에 팀 동료들과 팬의 사랑을 받았지만, 이제 그들은 당신의 뇌를 사랑합니다. 다행스럽게도 당신은 아직 큼직한 미식축구 장비를 착용하고 있습니다."
-
-#: lang/json/professions_from_json.py
-msgctxt "profession_female"
-msgid "Football Player"
-msgstr "미식축구 선수"
-
-#. ~ Profession (female Football Player) description
-#: lang/json/professions_from_json.py
-msgctxt "prof_desc_female"
-msgid ""
-"You were the star player for the local football team, adored by teammates "
-"and fans alike.  Now they just adore your brain.  You've still got your "
-"bulky football gear on."
-msgstr "당신은 지역 미식축구팀의 스타 플레이어였습니다. 덕분에 팀 동료들과 팬의 사랑을 받았지만, 이제 그들은 당신의 뇌를 사랑합니다. 다행스럽게도 당신은 아직 큼직한 미식축구 장비를 착용하고 있습니다."
-
-#: lang/json/professions_from_json.py
-msgctxt "profession_male"
-msgid "Golfer"
-msgstr "골프 선수"
-
-#. ~ Profession (male Golfer) description
-#: lang/json/professions_from_json.py
-msgctxt "prof_desc_male"
-msgid ""
-"A birdie is one under par, but how much is a zombie?  Your clubhouse was "
-"overrun by the undead, and you fled with your trusty driving wedge."
-msgstr "1 언더파는 버디로 기록되지만, 좀비 상대로는 어떨까요? 당신이 다니던 클럽 회관은 언데드에게 점령당했고, 당신은 든든한 골프채를 들고 도망쳐 나왔습니다."
-
-#: lang/json/professions_from_json.py
-msgctxt "profession_female"
-msgid "Golfer"
-msgstr "골프 선수"
-
-#. ~ Profession (female Golfer) description
-#: lang/json/professions_from_json.py
-msgctxt "prof_desc_female"
-msgid ""
-"A birdie is one under par, but how much is a zombie?  Your clubhouse was "
-"overrun by the undead, and you fled with your trusty driving wedge."
-msgstr "1 언더파는 버디로 기록되지만, 좀비 상대로는 어떨까요? 당신이 다니던 클럽 회관은 언데드에게 점령당했고, 당신은 든든한 골프채를 들고 도망쳐 나왔습니다."
-
-#: lang/json/professions_from_json.py
-msgctxt "profession_male"
 msgid "Groom"
 msgstr "신랑"
 
@@ -71831,34 +71758,6 @@ msgstr "당신은 자동 거리 미화 기계, 뉴스로봇 그리고 피자 배
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
-msgid "Elementary Student"
-msgstr "초등학생"
-
-#. ~ Profession (male Elementary Student) description
-#: lang/json/professions_from_json.py
-msgctxt "prof_desc_male"
-msgid ""
-"You're just a kid, and now the world has turned into something out of one of"
-" your bad dreams.  The grown-ups you relied on are all dead--or undead--now."
-"  What are you going to do?"
-msgstr "당신은 평범한 어린이입니다. 세상은 당신이 꾸었던 악몽중 하나처럼 변해버렸고요. 당신이 의지하던 어른들은 다 죽었거나(dead), 덜 죽었네요(undead). 이제 어떻게 하죠?"
-
-#: lang/json/professions_from_json.py
-msgctxt "profession_female"
-msgid "Elementary Student"
-msgstr "초등학생"
-
-#. ~ Profession (female Elementary Student) description
-#: lang/json/professions_from_json.py
-msgctxt "prof_desc_female"
-msgid ""
-"You're just a kid, and now the world has turned into something out of one of"
-" your bad dreams.  The grown-ups you relied on are all dead--or undead--now."
-"  What are you going to do?"
-msgstr "당신은 평범한 어린이입니다. 세상은 당신이 꾸었던 악몽중 하나처럼 변해버렸고요. 당신이 의지하던 어른들은 다 죽었거나(dead), 덜 죽었네요(undead). 이제 어떻게 하죠?"
-
-#: lang/json/professions_from_json.py
-msgctxt "profession_male"
 msgid "Skater Boy"
 msgstr "스케이트 타는 소년"
 
@@ -71912,36 +71811,6 @@ msgid ""
 "needing grown-ups to tell you what to do is the only reason you're alive.  "
 "Man, you really should've played hooky today."
 msgstr "당신은 어른들이 어떻게 하라는 것에 전혀 신경 쓰지 않았고, 교장실에서 대부분 시간을 보내게 되었습니다. 이제 더는 이거 해라 저거 해라 할 어른은 없습니다. 이야, 오늘은 꼭 하키 한판 해야겠네요."
-
-#: lang/json/professions_from_json.py
-msgctxt "profession_male"
-msgid "Preppy Student"
-msgstr "사립학교 학생"
-
-#. ~ Profession (male Preppy Student) description
-#: lang/json/professions_from_json.py
-msgctxt "prof_desc_male"
-msgid ""
-"Your parents were busy, important people, who wanted you to have every "
-"advantage and pushed you to be \"successful,\" whatever that meant.  If only"
-" they'd ever let you experience childhood, or ever shown you their love.  "
-"You're certainly not getting either one now."
-msgstr "당신의 부모님은 바쁘고, 중요한 사람이며, 당신이 \"성공\"하기 위해 받을 수 있는 모든 것을 받길 원하셨습니다. 당신이 어린 시절을 즐기거나 적어도 부모의 사랑이란 걸 받을 수 있었다면 얼마나 좋았을까요. 이젠 그 둘 다 얻을 수 없습니다."
-
-#: lang/json/professions_from_json.py
-msgctxt "profession_female"
-msgid "Preppy Student"
-msgstr "사립학교 학생"
-
-#. ~ Profession (female Preppy Student) description
-#: lang/json/professions_from_json.py
-msgctxt "prof_desc_female"
-msgid ""
-"Your parents were busy, important people, who wanted you to have every "
-"advantage and pushed you to be \"successful,\" whatever that meant.  If only"
-" they'd ever let you experience childhood, or ever shown you their love.  "
-"You're certainly not getting either one now."
-msgstr "당신의 부모님은 바쁘고, 중요한 사람이며, 당신이 \"성공\"하기 위해 받을 수 있는 모든 것을 받길 원하셨습니다. 당신이 어린 시절을 즐기거나 적어도 부모의 사랑이란 걸 받을 수 있었다면 얼마나 좋았을까요. 이젠 그 둘 다 얻을 수 없습니다."
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
@@ -72089,34 +71958,6 @@ msgstr "당신은 학교 A/V 동아리의 회원이었습니다. 당신은 전�
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
-msgid "Janitor"
-msgstr "수위"
-
-#. ~ Profession (male Janitor) description
-#: lang/json/professions_from_json.py
-msgctxt "prof_desc_male"
-msgid ""
-"You earned a living from sweeping up chocolate wrappers and picking chewing "
-"gum from under tables.  Now the only thing you'll be sweeping are the brains"
-" of the dead."
-msgstr "당신은 땅에 버려진 초콜릿 포장지를 쓸어담거나 책상 밑에 붙은 껌을 떼는 일을 하며 생활비를 벌어왔습니다. 이제 당신이 청소할 것은 시체의 뇌가 되었네요."
-
-#: lang/json/professions_from_json.py
-msgctxt "profession_female"
-msgid "Janitor"
-msgstr "수위"
-
-#. ~ Profession (female Janitor) description
-#: lang/json/professions_from_json.py
-msgctxt "prof_desc_female"
-msgid ""
-"You earned a living from sweeping up chocolate wrappers and picking chewing "
-"gum from under tables.  Now the only thing you'll be sweeping are the brains"
-" of the dead."
-msgstr "당신은 땅에 버려진 초콜릿 포장지를 쓸어담거나 책상 밑에 붙은 껌을 떼는 일을 하며 생활비를 벌어왔습니다. 이제 당신이 청소할 것은 시체의 뇌가 되었네요."
-
-#: lang/json/professions_from_json.py
-msgctxt "profession_male"
 msgid "Teacher"
 msgstr "교사"
 
@@ -72228,36 +72069,6 @@ msgid ""
 "sounded.  The world may be ruined, but you're prepared to make a home "
 "wherever you may find yourself."
 msgstr "모든 것이 변하기 전까지 산행을 가거나 자연 속에서 자길 좋아하던 당신은 사이렌이 울리자 볼 것도 없이 캠핑용품이 든 가방을 쥐었습니다. 세상이 자연으로 변했지만 전처럼 자기 위해서는 준비가 좀 필요할 것입니다."
-
-#: lang/json/professions_from_json.py
-msgctxt "profession_male"
-msgid "Poor Student"
-msgstr "가난한 학생"
-
-#. ~ Profession (male Poor Student) description
-#: lang/json/professions_from_json.py
-msgctxt "prof_desc_male"
-msgid ""
-"You come from a low-income family, and got mocked for your old hand-me-down "
-"clothes and for getting free school lunches in the cafeteria.  Even worse, "
-"your ratty old backpack finally fell apart at the worst time.  At least no "
-"one's mocking you now."
-msgstr "당신은 저소득 가정에서 태어나 줄곧 남이 버린 헌옷 물려받아 입는다거나 교내 식당에서 무료급식을 먹는다고 학교에서 놀림을 받아왔습니다. 더군다나 그동안 애용하던 낡은 책가방이 찢어져서 더 이상 쓸수 없게 되었습니다. 하지만 적어도 당신을 놀리는 사람은 이제 아무도 없군요."
-
-#: lang/json/professions_from_json.py
-msgctxt "profession_female"
-msgid "Poor Student"
-msgstr "가난한 학생"
-
-#. ~ Profession (female Poor Student) description
-#: lang/json/professions_from_json.py
-msgctxt "prof_desc_female"
-msgid ""
-"You come from a low-income family, and got mocked for your old hand-me-down "
-"clothes and for getting free school lunches in the cafeteria.  Even worse, "
-"your ratty old backpack finally fell apart at the worst time.  At least no "
-"one's mocking you now."
-msgstr "당신은 저소득 가정에서 태어나 줄곧 남이 버린 헌옷 물려받아 입는다거나 교내 식당에서 무료급식을 먹는다고 학교에서 놀림을 받아왔습니다. 더군다나 그동안 애용하던 낡은 책가방이 찢어져서 더 이상 쓸수 없게 되었습니다. 하지만 적어도 당신을 놀리는 사람은 이제 아무도 없군요."
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
@@ -73106,6 +72917,232 @@ msgid ""
 "augmentative technology to bring forth the future.  You are now a walking "
 "example of what humanity could had become."
 msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Janitor"
+msgstr "수위"
+
+#. ~ Profession (male Janitor) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"You earned a living from sweeping up chocolate wrappers and picking chewing "
+"gum from under tables.  Now the only thing you'll be sweeping are the brains"
+" of the dead."
+msgstr "당신은 땅에 버려진 초콜릿 포장지를 쓸어담거나 책상 밑에 붙은 껌을 떼는 일을 하며 생활비를 벌어왔습니다. 이제 당신이 청소할 것은 시체의 뇌가 되었네요."
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Janitor"
+msgstr "수위"
+
+#. ~ Profession (female Janitor) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"You earned a living from sweeping up chocolate wrappers and picking chewing "
+"gum from under tables.  Now the only thing you'll be sweeping are the brains"
+" of the dead."
+msgstr "당신은 땅에 버려진 초콜릿 포장지를 쓸어담거나 책상 밑에 붙은 껌을 떼는 일을 하며 생활비를 벌어왔습니다. 이제 당신이 청소할 것은 시체의 뇌가 되었네요."
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Poor Student"
+msgstr "가난한 학생"
+
+#. ~ Profession (male Poor Student) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"You come from a low-income family, and got mocked for your old hand-me-down "
+"clothes and for getting free school lunches in the cafeteria.  Even worse, "
+"your ratty old backpack finally fell apart at the worst time.  At least no "
+"one's mocking you now."
+msgstr "당신은 저소득 가정에서 태어나 줄곧 남이 버린 헌옷 물려받아 입는다거나 교내 식당에서 무료급식을 먹는다고 학교에서 놀림을 받아왔습니다. 더군다나 그동안 애용하던 낡은 책가방이 찢어져서 더 이상 쓸수 없게 되었습니다. 하지만 적어도 당신을 놀리는 사람은 이제 아무도 없군요."
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Poor Student"
+msgstr "가난한 학생"
+
+#. ~ Profession (female Poor Student) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"You come from a low-income family, and got mocked for your old hand-me-down "
+"clothes and for getting free school lunches in the cafeteria.  Even worse, "
+"your ratty old backpack finally fell apart at the worst time.  At least no "
+"one's mocking you now."
+msgstr "당신은 저소득 가정에서 태어나 줄곧 남이 버린 헌옷 물려받아 입는다거나 교내 식당에서 무료급식을 먹는다고 학교에서 놀림을 받아왔습니다. 더군다나 그동안 애용하던 낡은 책가방이 찢어져서 더 이상 쓸수 없게 되었습니다. 하지만 적어도 당신을 놀리는 사람은 이제 아무도 없군요."
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Elementary Student"
+msgstr "초등학생"
+
+#. ~ Profession (male Elementary Student) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"You're just a kid, and now the world has turned into something out of one of"
+" your bad dreams.  The grown-ups you relied on are all dead--or undead--now."
+"  What are you going to do?"
+msgstr "당신은 평범한 어린이입니다. 세상은 당신이 꾸었던 악몽중 하나처럼 변해버렸고요. 당신이 의지하던 어른들은 다 죽었거나(dead), 덜 죽었네요(undead). 이제 어떻게 하죠?"
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Elementary Student"
+msgstr "초등학생"
+
+#. ~ Profession (female Elementary Student) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"You're just a kid, and now the world has turned into something out of one of"
+" your bad dreams.  The grown-ups you relied on are all dead--or undead--now."
+"  What are you going to do?"
+msgstr "당신은 평범한 어린이입니다. 세상은 당신이 꾸었던 악몽중 하나처럼 변해버렸고요. 당신이 의지하던 어른들은 다 죽었거나(dead), 덜 죽었네요(undead). 이제 어떻게 하죠?"
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Hockey Player"
+msgstr "하키 선수"
+
+#. ~ Profession (male Hockey Player) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"You were a minor-league hockey goalie before the rest of your team became "
+"zombies.  It's just you and your hockey equipment versus the undead, but at "
+"least you can cross-check them now."
+msgstr "당신의 팀이 좀비가 되기 전까지, 당신은 하키 마이너리그에서 골리 역할을 맡고 있었습니다. 이제 당신과 하키 장비만으로 언데드 군단과 경기를 치러야 할 상황이 왔지만, 적어도 반칙은 마음껏 쓸 수 있게 됐습니다."
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Hockey Player"
+msgstr "하키 선수"
+
+#. ~ Profession (female Hockey Player) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"You were a minor-league hockey goalie before the rest of your team became "
+"zombies.  It's just you and your hockey equipment versus the undead, but at "
+"least you can cross-check them now."
+msgstr "당신의 팀이 좀비가 되기 전까지, 당신은 하키 마이너리그에서 골리 역할을 맡고 있었습니다. 이제 당신과 하키 장비만으로 언데드 군단과 경기를 치러야 할 상황이 왔지만, 적어도 반칙은 마음껏 쓸 수 있게 됐습니다."
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Baseball Player"
+msgstr "야구 선수"
+
+#. ~ Profession (male Baseball Player) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"You were a batter on a local minor league team before the cataclysm.  You "
+"escaped with your equipment, but how long can you survive until your innings"
+" are up?"
+msgstr "대재앙이 벌어지기 전까지, 당신은 지방의 마이너리그 팀에서 타자 역할을 맡고 있었습니다. 겨우 장비를 가지고 도망쳐 나왔지만, 이닝이 끝나기까지 얼마나 오래 살아남을 수 있을까요?"
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Baseball Player"
+msgstr "야구 선수"
+
+#. ~ Profession (female Baseball Player) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"You were a batter on a local minor league team before the cataclysm.  You "
+"escaped with your equipment, but how long can you survive until your innings"
+" are up?"
+msgstr "대재앙이 벌어지기 전까지, 당신은 지방의 마이너리그 팀에서 타자 역할을 맡고 있었습니다. 겨우 장비를 가지고 도망쳐 나왔지만, 이닝이 끝나기까지 얼마나 오래 살아남을 수 있을까요?"
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Football Player"
+msgstr "미식축구 선수"
+
+#. ~ Profession (male Football Player) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"You were the star player for the local football team, adored by teammates "
+"and fans alike.  Now they just adore your brain.  You've still got your "
+"bulky football gear on."
+msgstr "당신은 지역 미식축구팀의 스타 플레이어였습니다. 덕분에 팀 동료들과 팬의 사랑을 받았지만, 이제 그들은 당신의 뇌를 사랑합니다. 다행스럽게도 당신은 아직 큼직한 미식축구 장비를 착용하고 있습니다."
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Football Player"
+msgstr "미식축구 선수"
+
+#. ~ Profession (female Football Player) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"You were the star player for the local football team, adored by teammates "
+"and fans alike.  Now they just adore your brain.  You've still got your "
+"bulky football gear on."
+msgstr "당신은 지역 미식축구팀의 스타 플레이어였습니다. 덕분에 팀 동료들과 팬의 사랑을 받았지만, 이제 그들은 당신의 뇌를 사랑합니다. 다행스럽게도 당신은 아직 큼직한 미식축구 장비를 착용하고 있습니다."
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Golfer"
+msgstr "골프 선수"
+
+#. ~ Profession (male Golfer) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"A birdie is one under par, but how much is a zombie?  Your clubhouse was "
+"overrun by the undead, and you fled with your trusty driving wedge."
+msgstr "1 언더파는 버디로 기록되지만, 좀비 상대로는 어떨까요? 당신이 다니던 클럽 회관은 언데드에게 점령당했고, 당신은 든든한 골프채를 들고 도망쳐 나왔습니다."
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Golfer"
+msgstr "골프 선수"
+
+#. ~ Profession (female Golfer) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"A birdie is one under par, but how much is a zombie?  Your clubhouse was "
+"overrun by the undead, and you fled with your trusty driving wedge."
+msgstr "1 언더파는 버디로 기록되지만, 좀비 상대로는 어떨까요? 당신이 다니던 클럽 회관은 언데드에게 점령당했고, 당신은 든든한 골프채를 들고 도망쳐 나왔습니다."
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Preppy Student"
+msgstr "사립학교 학생"
+
+#. ~ Profession (male Preppy Student) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"Your parents were busy, important people, who wanted you to have every "
+"advantage and pushed you to be \"successful,\" whatever that meant.  If only"
+" they'd ever let you experience childhood, or ever shown you their love.  "
+"You're certainly not getting either one now."
+msgstr "당신의 부모님은 바쁘고, 중요한 사람이며, 당신이 \"성공\"하기 위해 받을 수 있는 모든 것을 받길 원하셨습니다. 당신이 어린 시절을 즐기거나 적어도 부모의 사랑이란 걸 받을 수 있었다면 얼마나 좋았을까요. 이젠 그 둘 다 얻을 수 없습니다."
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Preppy Student"
+msgstr "사립학교 학생"
+
+#. ~ Profession (female Preppy Student) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"Your parents were busy, important people, who wanted you to have every "
+"advantage and pushed you to be \"successful,\" whatever that meant.  If only"
+" they'd ever let you experience childhood, or ever shown you their love.  "
+"You're certainly not getting either one now."
+msgstr "당신의 부모님은 바쁘고, 중요한 사람이며, 당신이 \"성공\"하기 위해 받을 수 있는 모든 것을 받길 원하셨습니다. 당신이 어린 시절을 즐기거나 적어도 부모의 사랑이란 걸 받을 수 있었다면 얼마나 좋았을까요. 이젠 그 둘 다 얻을 수 없습니다."
 
 #. ~ Crafting recipes category name
 #: lang/json/recipe_category_from_json.py
@@ -89916,21 +89953,19 @@ msgstr "%s을(를) 작동 할 수 없다!\n%s의 설명을 보려면, '!' 키를
 msgid "forever"
 msgstr ""
 
-#: src/calendar.cpp src/construction.cpp src/crafting_gui.cpp
+#: src/calendar.cpp src/construction.cpp
 #, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
 msgstr[0] "%d초"
 
 #: src/calendar.cpp src/construction.cpp src/construction.cpp
-#: src/crafting_gui.cpp
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] "%d분"
 
 #: src/calendar.cpp src/construction.cpp src/construction.cpp
-#: src/crafting_gui.cpp
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
@@ -89946,7 +89981,7 @@ msgstr[0] "%d일"
 #. (e.g. 11 minutes).
 #. ~ A time duration: first is hours, second is minutes, e.g. "4 hours" "6
 #. minutes"
-#: src/calendar.cpp src/construction.cpp src/crafting_gui.cpp
+#: src/calendar.cpp src/construction.cpp
 #, c-format
 msgid "%1$s and %2$s"
 msgstr "%1$s %2$s"
@@ -91294,7 +91329,7 @@ msgstr "단계 #"
 msgid "Result: %s"
 msgstr "결과물: %s"
 
-#: src/construction.cpp src/crafting.cpp src/crafting_gui.cpp
+#: src/construction.cpp src/crafting_gui.cpp src/recipe.cpp
 msgid "N/A"
 msgstr "해당없음"
 
@@ -91892,6 +91927,15 @@ msgid "NONCRAFT"
 msgstr ""
 
 #: src/crafting_gui.cpp
+msgid "Byproducts:"
+msgstr "부산물:"
+
+#: src/crafting_gui.cpp
+#, c-format
+msgid "> %d %s"
+msgstr "> %d %s"
+
+#: src/crafting_gui.cpp
 msgid "Press <ENTER> to attempt to craft object."
 msgstr "물건 만들기를 시도하려면 <엔터>를 누르세요."
 
@@ -92032,15 +92076,6 @@ msgstr "검색완료"
 #: src/crafting_gui.cpp
 msgid "Batch"
 msgstr "일괄제작"
-
-#: src/crafting_gui.cpp
-msgid "Byproducts:"
-msgstr "부산물:"
-
-#: src/crafting_gui.cpp
-#, c-format
-msgid "> %d %s"
-msgstr "> %d %s"
 
 #: src/creature.cpp
 msgid "<npcname> forces you to the ground!"
@@ -112273,6 +112308,11 @@ msgstr "템플릿 이름:"
 #: src/newcharacter.cpp
 msgid "player template"
 msgstr "플레이어 양식"
+
+#: src/npc.cpp
+#, c-format
+msgid "<npcname> wears the %s."
+msgstr ""
 
 #: src/npc.cpp
 #, c-format

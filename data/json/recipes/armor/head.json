@@ -286,6 +286,7 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "time": 40000,
+    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
     "components": [ [ [ "yarn", 75 ] ] ]
