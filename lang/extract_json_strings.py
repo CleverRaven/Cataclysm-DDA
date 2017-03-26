@@ -4,6 +4,14 @@
 import json
 import os
 import subprocess 
+from optparse import OptionParser
+
+# Must parse command line arguments here
+# 'options' variable is referenced in our defined functions below
+
+parser = OptionParser()
+parser.add_option("-v", "--verbose", dest="verbose", help="be verbose")
+(options, args) = parser.parse_args()
 
 # Exceptions
 class WrongJSONItem(Exception):
@@ -797,15 +805,18 @@ def extract_all_from_dir(json_dir):
             if full_name in git_files_list:
                 extract_all_from_file(full_name)
             else:
-                print("Skipping untracked file: '{}'".format(full_name))
+                if options.verbose:
+                    print("Skipping untracked file: '{}'".format(full_name))
         elif f not in not_json:
-            print("Skipping file: '{}'".format(f))
+            if options.verbose:
+                print("Skipping file: '{}'".format(f))
     for d in dirs:
         extract_all_from_dir(os.path.join(json_dir, d))
 
 def extract_all_from_file(json_file):
     "Extract translatable strings from every object in the specified file."
-    print("Loading {}".format(json_file))
+    if options.verbose:
+        print("Loading {}".format(json_file))
 
     with open(json_file) as fp:
         jsondata = json.load(fp)
