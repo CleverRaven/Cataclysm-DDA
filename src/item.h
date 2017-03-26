@@ -1718,19 +1718,38 @@ class map_item_stack
         }
 };
 
-// Commonly used convenience functions that match an item to one of the 3 common types of locators:
-// type_id (itype_id, a typedef of string), position (int) or pointer (item *).
-// The item's position is optional, if not passed in we expect the item to fail position match.
+/**
+ *  Match an item with a locator.
+ *
+ *  Commonly used convenience functions that match an item to one of the 3 common types of locators:
+ *      1) type_id (just a typedef to a string)
+ *      2) position (int)
+ *      3) pointer (item *)
+ *
+ *  The item's position is optional.  The default used if position is not given is expected to fail
+ *  the position match in all cases.
+ *
+ *  @returns true if match is found, otherwise returns false
+ */
+/*@{*/
 bool item_matches_locator(const item &it, const itype_id &id, int item_pos = INT_MIN);
 bool item_matches_locator(const item &it, int locator_pos, int item_pos = INT_MIN);
 bool item_matches_locator(const item &it, const item *other, int);
+/*@}*/
 
-//the assigned numbers are a result of legacy stuff in draw_item_info(),
-//it would be better long-term to rewrite stuff so that we don't need that hack
+/**
+ *  Hint value used in a hack to decide text color.
+ *
+ *  This is assigned as a result of some legacy logic in @ref draw_item_info().  This
+ *  will eventually be rewritten to eliminate the need for this hack.
+ */
 enum hint_rating {
-    HINT_CANT = 0, //meant to display as gray
-    HINT_IFFY = 1, //meant to display as red
-    HINT_GOOD = -999 // meant to display as green
+    /** Item should display as gray */
+    HINT_CANT = 0,
+    /** Item should display as red */
+    HINT_IFFY = 1,
+    /** Item should display as green */
+    HINT_GOOD = -999
 };
 
 #endif
