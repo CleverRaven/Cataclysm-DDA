@@ -62,6 +62,7 @@ namespace io {
 struct object_archive_tag;
 }
 
+
 struct iteminfo {
     public:
         std::string sType; //Itemtype
@@ -78,9 +79,9 @@ struct iteminfo {
         // Inputs are: ItemType, main text, text between main text and value, value,
         // if the value should be an int instead of a double, text after number,
         // if there should be a newline after this item, if lower values are better
-        iteminfo(std::string Type, std::string Name, std::string Fmt = "", double Value = -999,
-                 bool _is_int = true, std::string Plus = "", bool NewLine = true,
-                 bool LowerIsBetter = false, bool DrawName = true);
+        iteminfo( std::string Type, std::string Name, std::string Fmt = "", double Value = -999,
+                  bool _is_int = true, std::string Plus = "", bool NewLine = true,
+                  bool LowerIsBetter = false, bool DrawName = true );
 };
 
 enum layer_level {
