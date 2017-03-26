@@ -652,19 +652,19 @@ void Character::i_rem_keep_contents( const int pos )
     }
 }
 
-bool Character::i_add_or_drop(item& it, int qty) {
+bool Character::i_add_or_drop( item& it, int qty ) {
     bool retval = true;
     bool drop = false;
-    inv.assign_empty_invlet(it);
-    for (int i = 0; i < qty; ++i) {
-        if ( !drop && ( !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) )
+    inv.assign_empty_invlet( it );
+    for( int i = 0; i < qty; ++i ) {
+        if( !drop && ( !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) )
                       || !can_pickVolume( it ) ) ) {
             drop = true;
         }
-        if( drop ) {
+        if( drop || it.made_of( LIQUID ) ) {
             retval &= !g->m.add_item_or_charges( pos(), it ).is_null();
-        } else if ( !( it.has_flag("IRREMOVABLE") && !it.is_gun() ) ){
-            i_add(it);
+        } else if ( !( it.has_flag("IRREMOVABLE") && !it.is_gun() ) ) {
+            i_add( it );
         }
     }
     return retval;
