@@ -143,24 +143,41 @@ enum layer_level {
     MAX_CLOTHING_LAYER
 };
 
+/**
+ *  Contains metadata for one category of items
+ *
+ *  Every item belongs to a category (eg weapons, armor, food, etc).  This class
+ *  contains the info about one such category.  Actual categories are normally added
+ *  by class @ref Item_factory from definitions in the json data files.
+ */
 class item_category
 {
     public:
-        // id (like itype::id) - used when loading from json
+        /** Unique ID of this category, used when loading from json. */
         std::string id;
-        // display name (localized)
+        /** Name of category for displaying to the user (localized) */
         std::string name;
-        // categories are sorted by this value,
-        // lower values means the category is shown first
+        /** Used to sort categories when displaying.  Lower values are shown first. */
         int sort_rank;
 
         item_category();
+        /**
+         *  @param id: Unique ID of this category
+         *  @param name: Localized string for displaying name of this category
+         *  @param sort_rank: Used to order a display list of categories
+         */
         item_category(const std::string &id, const std::string &name, int sort_rank);
-        // Comparators operato on the sort_rank, name, id
-        // (in that order).
+
+        /**
+         *  Comparison operators
+         *
+         *  Used for sorting.  Will result in sorting by sort_rank, then by name, then by id.
+         */
+        /*@{*/
         bool operator<(const item_category &rhs) const;
         bool operator==(const item_category &rhs) const;
         bool operator!=(const item_category &rhs) const;
+        /*@}*/
 };
 
 class item : public JsonSerializer, public JsonDeserializer, public visitable<item>
