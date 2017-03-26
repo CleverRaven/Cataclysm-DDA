@@ -326,28 +326,55 @@ class comestible_inventory_preset : public pickup_inventory_preset
             const auto &a = get_comestible_item( lhs );
             const auto &b = get_comestible_item( rhs );
 
-            if( a.rotten() != b.rotten() ) {
-                // Rotten food always go last untill we prefer it to go first.
-                return p.has_trait( "SAPROPHAGE" ) ? a.rotten() : b.rotten();
-            }
-
-            const double spoilage = a.get_relative_rot() - b.get_relative_rot();
-            if( std::abs( spoilage ) > 1.0E-3 ) {   // Differ enough to matter.
-                return spoilage > 0; // The oldest always goes first.
+            const int freshness = rate_freshness( a, *lhs ) - rate_freshness( b, *rhs );
+            if( freshness != 0 ) {
+                return freshness > 0;
             }
 
             const auto &com_a = get_edible_comestible( a );
             const auto &com_b = get_edible_comestible( b );
 
-            const int nutrition = com_a.nutr - com_b.nutr;
-            if( nutrition != 0 ) {
-                return nutrition > 0;
+            const int nutrition = com_a.nutr   - com_b.nutr;
+            const int quench    = com_a.quench - com_b.quench;
+            const int joy       = com_a.fun    - com_b.fun;
+            const int energy    = p.get_acquirable_energy( a ) - p.get_acquirable_energy( b );
+
+            const auto sort_order = []( const std::vector<int> &vec ) {
+                for( const int &elem : vec ) {
+                    if( elem != 0 ) {
+                        return elem;
+                    }
+                }
+                return 0;
+            };
+
+            int res;
+            if( p.get_hunger() >= p.get_thirst() ) {
+                res = sort_order( { nutrition, quench, joy, energy } );
+            } else {
+                res = sort_order( { quench, nutrition, joy, energy } );
             }
 
-            return pickup_inventory_preset::sort_compare( lhs, rhs );
+            return res != 0 ? res > 0 : pickup_inventory_preset::sort_compare( lhs, rhs );
         }
 
     protected:
+        int rate_freshness( const item &it, const item &container ) const {
+            if( p.will_eat( it ) == edible_rating::ROTTEN ) {
+                return -1;
+            } else if( !container.type->container || !container.type->container->preserves ) {
+                if( it.is_fresh() ) {
+                    return 1;
+                } else if( it.is_going_bad() ) {
+                    return 3;
+                } else if( it.goes_bad() ) {
+                    return 2;
+                }
+            }
+
+            return 0;
+        }
+
         const item &get_comestible_item( const item_location &loc ) const {
             return p.get_comestible_from( const_cast<item &>( *loc ) );
         }
