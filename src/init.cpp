@@ -186,7 +186,7 @@ void DynamicDataLoader::initialize()
     add( "vehicle_spawn",  &VehicleSpawn::load );
 
     add( "requirement", []( JsonObject &jo ) { requirement_data::load_requirement( jo ); } );
-    add( "trap", &trap::load );
+    add( "trap", &trap::load_trap );
 
     add( "AMMO", []( JsonObject &jo, const std::string &src ) { item_controller->load_ammo( jo, src ); } );
     add( "GUN", []( JsonObject &jo, const std::string &src ) { item_controller->load_gun( jo, src ); } );
