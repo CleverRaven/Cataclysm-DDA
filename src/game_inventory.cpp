@@ -254,24 +254,52 @@ class comestible_inventory_preset : public pickup_inventory_preset
         comestible_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {
 
             append_cell( [ this, &p ]( const item_location & loc ) {
-                return good_bad_none( get_comestible( loc ).nutr );
+                return good_bad_none( get_edible_comestible( loc ).nutr );
             }, _( "NUTRITION" ) );
 
             append_cell( [ this, &p ]( const item_location & loc ) {
-                return good_bad_none( get_comestible( loc ).quench );
+                return good_bad_none( get_edible_comestible( loc ).quench );
             }, _( "QUENCH" ) );
 
             append_cell( [ this, &p ]( const item_location & loc ) {
-                return good_bad_none( get_comestible( loc ).fun );
+                return good_bad_none( get_edible_comestible( loc ).fun );
             }, _( "JOY" ) );
 
             append_cell( [ this, &p ]( const item_location & loc ) {
-                const int spoils = get_comestible( loc ).spoils;
+                const int spoils = get_edible_comestible( loc ).spoils;
                 if( spoils > 0 ) {
                     return calendar( spoils ).textify_period();
                 }
                 return std::string();
             }, _( "SPOILS IN" ) );
+
+            append_cell( [ this, &p ]( const item_location & loc ) {
+                std::string cbm_name;
+
+                switch( p.get_cbm_rechargeable_with( get_comestible_item( loc ) ) ) {
+                    case rechargeable_cbm::none:
+                        break;
+                    case rechargeable_cbm::battery:
+                        cbm_name = _( "Battery" );
+                        break;
+                    case rechargeable_cbm::reactor:
+                        cbm_name = _( "Reactor" );
+                        break;
+                    case rechargeable_cbm::furnace:
+                        cbm_name = _( "Furnace" );
+                        break;
+                }
+
+                if( !cbm_name.empty() ) {
+                    return string_format( "<color_cyan>%s</color>", cbm_name.c_str() );
+                }
+
+                return std::string();
+            }, _( "CBM" ) );
+
+            append_cell( [ this, &p ]( const item_location & loc ) {
+                return good_bad_none( p.get_acquirable_energy( get_comestible_item( loc ) ) );
+            }, _( "ENERGY" ) );
         }
 
         bool is_shown( const item_location &loc ) const override {
@@ -283,9 +311,14 @@ class comestible_inventory_preset : public pickup_inventory_preset
 
         std::string get_denial( const item_location &loc ) const override {
             std::string res;
-            if( p.can_eat( get_comestible_item( loc ), &res ) != EDIBLE ) {
+
+            const auto &it = get_comestible_item( loc );
+
+            if( p.can_eat( it, &res ) != EDIBLE &&
+                p.get_cbm_rechargeable_with( it ) == rechargeable_cbm::none ) {
                 return res;
             }
+
             return pickup_inventory_preset::get_denial( loc );
         }
 
@@ -303,8 +336,8 @@ class comestible_inventory_preset : public pickup_inventory_preset
                 return spoilage > 0; // The oldest always goes first.
             }
 
-            const auto &com_a = get_comestible( a );
-            const auto &com_b = get_comestible( b );
+            const auto &com_a = get_edible_comestible( a );
+            const auto &com_b = get_edible_comestible( b );
 
             const int nutrition = com_a.nutr - com_b.nutr;
             if( nutrition != 0 ) {
@@ -319,12 +352,12 @@ class comestible_inventory_preset : public pickup_inventory_preset
             return p.get_comestible_from( const_cast<item &>( *loc ) );
         }
 
-        const islot_comestible &get_comestible( const item_location &loc ) const {
-            return get_comestible( get_comestible_item( loc ) );
+        const islot_comestible &get_edible_comestible( const item_location &loc ) const {
+            return get_edible_comestible( get_comestible_item( loc ) );
         }
 
-        const islot_comestible &get_comestible( const item &it ) const {
-            if( it.is_comestible() ) {
+        const islot_comestible &get_edible_comestible( const item &it ) const {
+            if( it.is_comestible() && p.can_eat( it ) == EDIBLE ) {
                 return *it.type->comestible;
             }
             static const islot_comestible dummy;

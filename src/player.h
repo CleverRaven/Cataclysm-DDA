@@ -73,6 +73,13 @@ enum edible_rating {
     NO_TOOL
 };
 
+enum class rechargeable_cbm {
+    none = 0,
+    battery,
+    reactor,
+    furnace
+};
+
 struct special_attack {
     std::string text;
     damage_instance damage;
@@ -783,6 +790,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * Asks about them if @param interactive is true, refuses otherwise.
          */
         edible_rating will_eat( const item &food, bool interactive = false ) const;
+
+        // TODO: Move these methods out of the class.
+        rechargeable_cbm get_cbm_rechargeable_with( const item &it ) const;
+        int get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const;
+        int get_acquirable_energy( const item &it ) const;
 
         /** Gets player's minimum hunger and thirst */
         int stomach_capacity() const;

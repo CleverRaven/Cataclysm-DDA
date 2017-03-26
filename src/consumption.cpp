@@ -29,6 +29,9 @@ const efftype_id effect_nausea( "nausea" );
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 
+namespace
+{
+
 static const std::vector<std::string> carnivore_blacklist {{
         "ALLERGEN_VEGGY", "ALLERGEN_FRUIT", "ALLERGEN_WHEAT",
     }
@@ -37,6 +40,15 @@ static const std::vector<std::string> carnivore_blacklist {{
 // std::vector(char*, char*)->vector(InputIterator,InputIterator) or some such
 const std::array<std::string, 2> temparray {{"ALLERGEN_MEAT", "ALLERGEN_EGG"}};
 static const std::vector<std::string> herbivore_blacklist( temparray.begin(), temparray.end() );
+
+// @todo JSONize.
+static const std::map<itype_id, int> plut_charges = {
+    { "plut_cell",         PLUTONIUM_CHARGES * 10 },
+    { "plut_slurry_dense", PLUTONIUM_CHARGES },
+    { "plut_slurry",       PLUTONIUM_CHARGES / 2 }
+};
+
+}
 
 int player::stomach_capacity() const
 {
@@ -341,6 +353,14 @@ edible_rating player::will_eat( const item &food, bool interactive ) const
                    !food.has_infinite_charges() ) {
             consequences.emplace_back( TOO_FULL, _( "You will not be able to finish it all." ) );
         }
+    }
+
+    const int energy = get_acquirable_energy( food );
+
+    if( energy ) {
+        consequences.emplace_back( INEDIBLE,
+                                   string_format( _( "Instead of eating it, you could get %d points of energy." ),
+                                           energy ) );
     }
 
     if( !consequences.empty() ) {
@@ -825,10 +845,11 @@ hint_rating player::rate_action_eat( const item &it ) const
 
 bool player::can_feed_battery_with( const item &it ) const
 {
-    if( !has_active_bionic( "bio_batteries" ) ) {
+    if( !it.is_ammo() || !has_active_bionic( "bio_batteries" ) ) {
         return false;
     }
-    return it.is_ammo() && it.type->ammo->type.count( ammotype( "battery" ) );
+
+    return it.type->ammo->type.count( ammotype( "battery" ) );
 }
 
 bool player::feed_battery_with( item &it )
@@ -837,7 +858,7 @@ bool player::feed_battery_with( item &it )
         return false;
     }
 
-    const long amount = std::min( long( max_power_level - power_level ), it.charges );
+    const int amount = get_acquirable_energy( it, rechargeable_cbm::battery );
 
     if( amount <= 0 ) {
         add_msg_player_or_npc( m_info, _( "Your internal power storage is fully powered." ),
@@ -882,19 +903,10 @@ bool player::feed_reactor_with( item &it )
         return false;
     }
 
-    static const std::map<itype_id, int> contained_charges = {
-        { "plut_cell",         PLUTONIUM_CHARGES * 10 },
-        { "plut_slurry_dense", PLUTONIUM_CHARGES },
-        { "plut_slurry",       PLUTONIUM_CHARGES / 2 }
-    };
+    const auto iter = plut_charges.find( it.typeId() );
+    const int max_amount = iter != plut_charges.end() ? iter->second : 0;
+    const int amount = std::min( get_acquirable_energy( it, rechargeable_cbm::reactor ), max_amount );
 
-    const auto iter = contained_charges.find( it.typeId() );
-
-    if( iter == contained_charges.end() ) {
-        return false;
-    }
-
-    const int amount = iter->second;
     if( amount >= PLUTONIUM_CHARGES * 10 &&
         !query_yn( _( "Thats a LOT of plutonium.  Are you sure you want that much?" ) ) ) {
         return false;
@@ -924,15 +936,7 @@ bool player::feed_furnace_with( item &it )
         return false;
     }
 
-    int amount = ( it.volume() / 250_ml + it.weight() ) / 9;
-    if( it.made_of( material_id( "leather" ) ) ) {
-        amount /= 4;
-    }
-    if( it.made_of( material_id( "wood" ) ) ) {
-        amount /= 2;
-    }
-
-    amount = std::min( max_power_level - power_level, amount );
+    const int amount = get_acquirable_energy( it, rechargeable_cbm::furnace );
 
     if( is_player() ) {
         if( amount <= 0 ) {
@@ -950,7 +954,7 @@ bool player::feed_furnace_with( item &it )
     }
 
     add_msg_player_or_npc( _( "You digest your %s for energy." ),
-                           _( "<npcname> digests a %s. for energy." ), it.tname().c_str() );
+                           _( "<npcname> digests a %s for energy." ), it.tname().c_str() );
 
     charge_power( amount );
     it.charges = 0;
@@ -959,12 +963,67 @@ bool player::feed_furnace_with( item &it )
     return true;
 }
 
+rechargeable_cbm player::get_cbm_rechargeable_with( const item &it ) const
+{
+    if( can_feed_reactor_with( it ) ) {
+        return rechargeable_cbm::reactor;
+    }
+
+    const int battery_energy = get_acquirable_energy( it, rechargeable_cbm::battery );
+    const int furnace_energy = get_acquirable_energy( it, rechargeable_cbm::furnace );
+
+    if( can_feed_battery_with( it ) && battery_energy >= furnace_energy ) {
+        return rechargeable_cbm::battery;
+    } else if( can_feed_furnace_with( it ) ) {
+        return rechargeable_cbm::furnace;
+    }
+
+    return rechargeable_cbm::none;
+}
+
+int player::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
+{
+    switch( cbm ) {
+        case rechargeable_cbm::none:
+            break;
+
+        case rechargeable_cbm::battery:
+            return std::min<long>( it.charges, std::numeric_limits<int>::max() );
+
+        case rechargeable_cbm::reactor:
+            if( it.charges > 0 ) {
+                const auto iter = plut_charges.find( it.typeId() );
+                return iter != plut_charges.end() ? it.charges * iter->second : 0;
+            }
+
+            break;
+
+        case rechargeable_cbm::furnace: {
+            int amount = ( it.volume() / 250_ml + it.weight() ) / 9;
+
+            // @todo JSONize.
+            if( it.made_of( material_id( "leather" ) ) ) {
+                amount /= 4;
+            }
+            if( it.made_of( material_id( "wood" ) ) ) {
+                amount /= 2;
+            }
+
+            return amount;
+        }
+    }
+
+    return 0;
+}
+
+int player::get_acquirable_energy( const item &it ) const
+{
+    return get_acquirable_energy( it, get_cbm_rechargeable_with( it ) );
+}
+
 bool player::can_consume_as_is( const item &it ) const
 {
-    return it.is_comestible()
-           || can_feed_battery_with( it )
-           || can_feed_reactor_with( it )
-           || can_feed_furnace_with( it );
+    return it.is_comestible() || get_cbm_rechargeable_with( it ) != rechargeable_cbm::none;
 }
 
 bool player::can_consume( const item &it ) const
@@ -979,12 +1038,12 @@ bool player::can_consume( const item &it ) const
 
 item &player::get_comestible_from( item &it ) const
 {
-    if( can_consume_as_is( it ) ) {
-        return it;
-    }
     if( !it.is_container_empty() && can_consume_as_is( it.contents.front() ) ) {
         return it.contents.front();
+    } else if( can_consume_as_is( it ) ) {
+        return it;
     }
+
     static item null_comestible;
     null_comestible = item();   // Since it's not const.
     return null_comestible;
