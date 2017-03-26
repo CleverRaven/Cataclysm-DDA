@@ -798,7 +798,7 @@ int Character::weight_capacity() const
 {
     if( has_trait( "DEBUG_STORAGE" ) ) {
         // Infinite enough
-        return INT_MAX;
+        return INT_MAX >> 2;
     }
     // Get base capacity from creature,
     // then apply player-only mutation and trait effects.
