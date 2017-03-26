@@ -659,11 +659,11 @@ bool Character::i_add_or_drop( item& it, int qty ) {
     inv.assign_empty_invlet( it );
     for( int i = 0; i < qty; ++i ) {
         drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
+        if( drop ) {
+            retval &= !g->m.add_item_or_charges( pos(), it ).is_null();
+        } else if ( add ) {
+            i_add( it );
         }
-    if( drop ) {
-        retval &= !g->m.add_item_or_charges( pos(), it ).is_null();
-    } else if ( add ) {
-        i_add( it );
     }
 
     return retval;
