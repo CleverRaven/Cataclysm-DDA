@@ -62,23 +62,58 @@ namespace io {
 struct object_archive_tag;
 }
 
-
+/**
+ *  Value and metadata for one property of an item
+ *
+ *  Contains the value of one property of an item, as well as various metadata items required to
+ *  output that value.  This is used primarily for user output of information about an item, for
+ *  example in the various inventory menus.  See @ref item::info() for the main example of how a
+ *  class desiring to provide user output might obtain a class of this type.
+ *
+ *  As an example, if the item being queried was a piece of clothing, then several properties might
+ *  be returned.  All would have sType "ARMOR".  There would be one for the coverage stat with
+ *  sName "Coverage: ", another for the warmth stat with sName "Warmth: ", etc.
+ */
 struct iteminfo {
     public:
-        std::string sType; //Itemtype
-        std::string sName; //Main item text
-        std::string sFmt; //Text between main item and value
-        std::string sValue; //Set to "-999" if no compare value is present
-        double dValue; //Stores double value of sValue for value comparisons
-        bool is_int; //Sets if sValue should be treated as int or single decimal double
-        std::string sPlus; //number +
-        bool bNewLine; //New line at the end
-        bool bLowerIsBetter; //Lower values are better (red <-> green)
-        bool bDrawName; //If false then compares sName, but don't print sName.
+        /** Category of item that owns this iteminfo.  See @ref item_category. */
+        std::string sType;
 
-        // Inputs are: ItemType, main text, text between main text and value, value,
-        // if the value should be an int instead of a double, text after number,
-        // if there should be a newline after this item, if lower values are better
+        /** Main text of this property's name */
+        std::string sName;
+
+        /** Formatting text to be placed between the name and value of this item. */
+        std::string sFmt;
+
+        /** Numerical value of this property. Set to -999 if no compare value is present */
+        std::string sValue;
+
+        /** Internal double floating point version of value, for numerical comparisons */
+        double dValue;
+
+        /** Flag indicating type of sValue.  True if integer, false if single decimal */
+        bool is_int;
+
+        /** Used to add a leading character to the printed value, usually '+' or '$'. */
+        std::string sPlus;
+
+        /** Flag indicating whether a newline should be printed after printing this item */
+        bool bNewLine;
+
+        /** Reverses behavior of red/green text coloring; smaller values are green if true */
+        bool bLowerIsBetter;
+
+        /** Whether to print sName.  If false, use for comparisons but don't print for user. */
+        bool bDrawName;
+
+        /**
+         *  @param Type The item type of the item this iteminfo belongs to.
+         *  @param Name The name of the property this iteminfo describes.
+         *  @param Fmt Formatting text desired between item name and value
+         *  @param Value Numerical value of this property, -999 for none.
+         *  @param LowerIsBetter True if lower values better for red/green coloring
+         *  @param DrawName True if item name should be displayed.
+         */
         iteminfo( std::string Type, std::string Name, std::string Fmt = "", double Value = -999,
                   bool _is_int = true, std::string Plus = "", bool NewLine = true,
                   bool LowerIsBetter = false, bool DrawName = true );
