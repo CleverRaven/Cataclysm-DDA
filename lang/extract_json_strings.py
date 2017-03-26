@@ -34,6 +34,23 @@ git_files_list = {
     ".",
 }
 
+# no warning will be given if an untranslatable object is found in those files
+warning_suppressed_list = {
+    "data/json/traps.json",
+    "data/json/vehicleparts/",
+    "data/raw/keybindings.json",
+    "data/mods/Arcana/monsters.json",
+    "data/mods/DeoxyMod/Deoxy_vehicle_parts.json",
+    "data/mods/PKs_Rebalance/monsters/",
+    "data/mods/More_Survival_Tools/start_locations.json",
+    "data/mods/Tanks/monsters.json"
+}
+
+def warning_supressed(filename):
+    for i in warning_suppressed_list:
+        if filename.startswith(i):
+            return True
+    return False
 
 # these files will not be parsed. Full related path.
 ignore_files = {
@@ -780,7 +797,8 @@ def extract(item, infilename):
        writestr(outfile, item["stop_phrase"], **kwargs)
        wrote = True
     if not wrote:
-        print("WARNING: {}: nothing translatable found in item: {}".format(infilename, item))
+        if not warning_supressed(infilename):
+            print("WARNING: {}: nothing translatable found in item: {}".format(infilename, item))
 
 def is_official_mod(full_path):
     for i in official_mods:
