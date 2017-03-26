@@ -883,7 +883,7 @@ print("==> Parsing JSON")
 for i in directories:
     print("----> Traversing directory {}".format(i))
     extract_all_from_dir(i)
-print("==> Finalizaing")
+print("==> Finalizing")
 add_fake_types()
 
 # done.
