@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <locale.h>
 
-// create map where we will store the FILENAMES
+/** Map where we store filenames */
 std::map<std::string, std::string> FILENAMES;
 
 void PATH_INFO::init_base_path(std::string path)
