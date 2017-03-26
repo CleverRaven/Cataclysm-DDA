@@ -583,18 +583,16 @@ extract_specials = {
 ##  PREPARATION
 ##
 
+directories = {
+    "data/raw",
+    "data/json",
+    "data/mods",
+    "data/core",
+    "data/legacy"
+}
+to_dir = "lang/json"
 # allow running from main directory, or from script subdirectory
-if os.path.exists("data/json"):
-    raw_dir = "data/raw"
-    json_dir = "data/json"
-    mods_dir = "data/mods"
-    to_dir = "lang/json"
-elif os.path.exists("../data/json"):
-    raw_dir = "../data/raw"
-    json_dir = "../data/json"
-    mods_dir = "../data/mods"
-    to_dir = "../lang/json"
-else:
+if not os.path.exists("data/json"):
     print("Error: Couldn't find the 'data/json' subdirectory.")
     exit(1)
 
