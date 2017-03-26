@@ -9,7 +9,90 @@
 
 #include <string>
 
+//process namespace
 
+namespace
+{
+    struct process_data;
+    using process_id = string_id<process_data>;
+
+    struct process_data {
+
+        process_data() :
+            was_loaded(false) {};
+
+        process_id id;
+        std::string name;
+        std::vector<itype_id> components;
+        itype_id output;
+        int fuel_intake;
+        int duration;
+        //TODO: Skill used
+
+        bool was_loaded;
+        void load(JsonObject &jo, const std::string &src);
+        void check() const;
+
+    };
+
+    process_id get_process_id( std::string id )
+    {
+        return process_id( id );
+    }
+
+    generic_factory<process_data> processes_data("process type", "id");
+
+}
+
+void process_data::load(JsonObject &jo, const std::string &)
+{
+    mandatory(jo, was_loaded, "name", name);
+    //TODO: modify to allow lists of components
+    mandatory(jo, was_loaded, "components", components, string_id_reader<itype_id> {});
+    mandatory(jo, was_loaded, "output", output, string_id_reader<itype_id> {});
+    mandatory(jo, was_loaded, "fuel_intake", fuel_intake);
+    mandatory(jo, was_loaded, "duration", duration);
+}
+
+void process_data::check() const
+{
+    const process_id proc_id(id.str());
+
+    if (!proc_id.is_valid()) {
+        debugmsg("There is no process with the name %s", id.c_str());
+    }
+    //I'm not sure if I need this, it would validate components and output as valid itype_id
+    for (const itype_id &elem : components) {
+        //The compiler complains about this is_valid method
+        if (!item::type_is_defined(elem)) {
+            debugmsg("Invalid components \"%s\" in \"%s\".", elem.c_str(), id.c_str());
+        }
+    }
+    if (!item::type_is_defined(output)) {
+        debugmsg("Invalid output \"%s\" in \"%s\".", output.c_str(), id.c_str());
+    }
+    if (!(fuel_intake >= 0)) {
+        debugmsg("Invalid fuel intake \"%d\" in \"%s\".", fuel_intake, id.c_str());
+    }
+    if (!(duration > 0)) {
+        debugmsg("Invalid duration \"%d\" in \"%s\".", duration, id.c_str());
+    }
+}
+
+void processes::load(JsonObject &jo, const std::string &src)
+{
+    processes_data.load(jo, src);
+}
+
+void processes::check()
+{
+    processes_data.check();
+}
+
+void processes::reset()
+{
+    processes_data.reset();
+}
 
 // Processor namespace
 
@@ -106,91 +189,6 @@ void processors::reset()
     processors_data.reset();
 }
 
-//process namespace
-
-namespace
-{
-    struct process_data;
-    using process_id = string_id<process_data>;
-
-    struct process_data {
-
-        process_data() :
-            was_loaded(false) {};
-
-        process_id id;
-        std::string name;
-        std::vector<itype_id> components;
-        itype_id output;
-        int fuel_intake;
-        int duration;
-        //TODO: Skill used
-
-        bool was_loaded;
-        void load(JsonObject &jo, const std::string &src);
-        void check() const;
-
-    };
-
-    process_id get_process_id(std::string id)
-    {
-        return process_id(id);
-    }
-
-    generic_factory<process_data> processes_data("process type", "id");
-
-}
-
-void process_data::load(JsonObject &jo, const std::string &)
-{
-    mandatory(jo, was_loaded, "name", name);
-    //TODO: modify to allow lists of components
-    mandatory(jo, was_loaded, "components", components, string_id_reader<itype_id> {});
-    mandatory(jo, was_loaded, "output", output, string_id_reader<itype_id> {});
-    mandatory(jo, was_loaded, "fuel_intake", fuel_intake);
-    mandatory(jo, was_loaded, "duration", duration);
-}
-
-void process_data::check() const
-{
-    const process_id proc_id(id.str());
-
-    if (!proc_id.is_valid()) {
-        debugmsg("There is no process with the name %s", id.c_str());
-    }
-    //I'm not sure if I need this, it would validate components and output as valid itype_id
-    for (const itype_id &elem : components) {
-        //The compiler complains about this is_valid method
-        if (!item::type_is_defined(elem)) {
-            debugmsg("Invalid components \"%s\" in \"%s\".", elem.c_str(), id.c_str());
-        }
-    }
-    if (!item::type_is_defined(output)) {
-        debugmsg("Invalid output \"%s\" in \"%s\".", output.c_str(), id.c_str());
-    }
-    if (!(fuel_intake >= 0)) {
-        debugmsg("Invalid fuel intake \"%d\" in \"%s\".", fuel_intake, id.c_str());
-    }
-    if (!(duration > 0)) {
-        debugmsg("Invalid duration \"%d\" in \"%s\".", duration, id.c_str());
-    }
-}
-
-void processes::load(JsonObject &jo, const std::string &src)
-{
-    processes_data.load(jo, src);
-}
-
-void processes::check()
-{
-    processes_data.check();
-}
-
-void processes::reset()
-{
-    processes_data.reset();
-}
-
 template <typename T>
 bool IsSubset(std::vector<T> A, std::vector<T> B)
 {
@@ -199,19 +197,19 @@ bool IsSubset(std::vector<T> A, std::vector<T> B)
     return std::includes(A.begin(), A.end(), B.begin(), B.end());
 }
 
-process_data select_active(const tripoint &examp, player &p)
+process_data select_active(const tripoint &examp )
 {
     processor_id pid = get_processor_id(examp);
     const processor_data &current_processor = processors_data.obj(pid);
     //Make an object list of processes
-    std::vector<process_data> possible_processes;
+    std::vector<process_data> *possible_processes = new std::vector<process_data>();
     for (const process_id &p : current_processor.processes) {
-        possible_processes.push_back(processes_data.obj(p));
+        possible_processes->push_back( processes_data.obj( p ));
     }
     //Figure out active process
     process_data* active_process;
-    if (possible_processes.size() == 1) {
-        *active_process = possible_processes[0];
+    if (possible_processes->size() == 1) {
+        *active_process = possible_processes->at(0);
     }
     else {
         map_stack items = g->m.i_at( examp );
@@ -225,7 +223,7 @@ process_data select_active(const tripoint &examp, player &p)
             }
             //Based on the items present, find the process which has all components
             //available and the largest number of required components
-            for (const process_data &data : possible_processes) {
+            for (const process_data &data : (*possible_processes) ) {
                 if (IsSubset(present_items, data.components)) {
                     if (!active_process) {
                         //if nullpointer, set it as active
@@ -238,24 +236,24 @@ process_data select_active(const tripoint &examp, player &p)
             }
             if (!active_process) {
                 //If we can't decide based on the items, make the first process active
-                *active_process = possible_processes[0];
+                *active_process = possible_processes->at(0);
             }
         }
         else {
             //No items present, we can default to asking the player what they want
             //and then looking at their inventory
             std::vector<std::string> p_names;
-            for (const process_data &p : possible_processes) {
+            for (const process_data &p : (*possible_processes) ) {
                 p_names.push_back(p.name);
             }
             p_names.push_back(_("Cancel"));
-            int p_index = menu_vec(true, _("Possible processes"), p_names);
+            int p_index = menu_vec( false, _("Possible processes"), p_names);
             if (p_index == (int)p_names.size() - 1 || p_index < 0) {
                 //In case cancel, return
-                return;
+                return possible_processes->at(0);
             }
             else {
-                *active_process = possible_processes[p_index];
+                *active_process = possible_processes->at( p_index );
             }
         }
     }
@@ -274,7 +272,7 @@ void processors::interact_with_processor(const tripoint &examp, player &p)
 
     const processor_data &current_processor = processors_data.obj(pid);
     //Figure out active process
-    process_data active_process = select_active( examp, p);
+    process_data active_process = select_active( examp );
 
     //Msg to tell you what you need for a process
     add_msg(_("You start on %s."), active_process.name.c_str());
@@ -358,7 +356,7 @@ void processors::interact_with_working_processor( const tripoint &examp, player 
     }
     const processor_data &current_processor = processors_data.obj(pid);
     //Figure out active process. In this case, being a processor currently processing, it shouldn't opt for the menu
-    process_data active_process = select_active( examp, p);
+    process_data active_process = select_active( examp );
 
     map_stack items = g->m.i_at(examp);
     if (items.empty()) {
