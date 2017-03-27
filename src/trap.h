@@ -56,7 +56,7 @@ void drain( Creature *creature, const tripoint &p );
 void snake( Creature *creature, const tripoint &p );
 };
 
-using trap_function = std::function<void(Creature *, const tripoint &)>;
+using trap_function = std::function<void( Creature *, const tripoint & )>;
 
 struct trap {
         using itype_id = std::string;
