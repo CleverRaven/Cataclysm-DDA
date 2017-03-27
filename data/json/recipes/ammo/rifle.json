@@ -157,6 +157,46 @@
     ]
   },
   {
+    "result": "reloaded_545",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 2 ],
+    "time": 6000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ] ],
+    "components": [
+      [ [ "545_casing", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "gunpowder", 5 ] ],
+      [ [ "copper", 1 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_545_ap",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "gun", 3 ],
+    "time": 6000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ] ],
+    "components": [
+      [ [ "545_casing", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "gunpowder", 6 ] ],
+      [ [ "copper", 1 ] ]
+    ]
+  },
+  {
     "result": "reloaded_556",
     "type": "recipe",
     "category": "CC_AMMO",
