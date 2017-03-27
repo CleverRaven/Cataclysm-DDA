@@ -204,7 +204,7 @@
     [
       [ "rag", 1 ],
       [ "felt_patch", 1 ],
-      [ "cordage_small", 2, "LIST" ],
+      [ "cordage_short", 2, "LIST" ],
       [ "plant_fibre", 50 ],
       [ "sinew", 50 ],
       [ "thread", 50 ],
@@ -299,7 +299,7 @@
       [ "yarn", 20 ],
       [ "duct_tape", 20 ],
       [ "resin_cord", 1 ],
-      [ "cordage_small", 1, "LIST" ]
+      [ "cordage_short", 1, "LIST" ]
     ],
     [
       [ "rock", 1 ],
@@ -375,7 +375,7 @@
       [ "copper", 1000 ]
     ],
     [
-      [ "cordage_small", 2, "LIST" ],
+      [ "cordage_short", 2, "LIST" ],
       [ "resin_cord", 2 ],
       [ "duct_tape", 40 ],
       [ "sinew", 40 ],
@@ -427,7 +427,7 @@
       [ "yarn", 20 ],
       [ "duct_tape", 20 ],
       [ "resin_cord", 1 ],
-      [ "cordage_small", 1, "LIST" ]
+      [ "cordage_short", 1, "LIST" ]
     ],
     [
       [ "scrap_copper", 3 ],
@@ -529,7 +529,7 @@
     ],
     [
       [ "resin_cord", 3 ],
-      [ "cordage_small", 2, "LIST" ],
+      [ "cordage_short", 2, "LIST" ],
       [ "sinew", 60 ],
       [ "thread", 60 ],
       [ "yarn", 60 ]
@@ -745,7 +745,7 @@
   ],
   "components": [
     [
-      [ "cordage_small", 2, "LIST" ],
+      [ "cordage_short", 2, "LIST" ],
       [ "thread", 100 ],
       [ "sinew", 100 ],
       [ "plant_fibre", 100 ],
@@ -869,7 +869,7 @@
       [ "sheet_metal", 1 ]
     ],
     [
-      [ "cordage_small", 2, "LIST" ],
+      [ "cordage_short", 2, "LIST" ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
@@ -899,7 +899,7 @@
       [ "steel_lump", 1 ]
     ],
     [
-      [ "cordage_small", 2, "LIST" ],
+      [ "cordage_short", 2, "LIST" ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],

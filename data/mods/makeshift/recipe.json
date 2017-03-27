@@ -24,7 +24,7 @@
     "time": 500,
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "cordage_small", 2 ] ],
+    "using": [ [ "cordage_short", 2 ] ],
     "components": [ [ [ "spike", 1 ] ] ]
   },
   {

@@ -147,12 +147,13 @@
     "skills_required": [ "tailor", 3 ],
     "time": 30000,
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_armschina", 4 ] ],
-    "using": [ [ "filament", 68 ], [ "cordage", 4 ] ],
+    "using": [ [ "filament", 68 ]],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
     ],
     "components": [
+      [ [ "string_36", 4 ], [ "string_6", 16 ] ],
       [ [ "rag", 4 ] ],
       [ [ "leather", 42 ], [ "tanned_hide", 7 ], [ "fur", 42 ], [ "tanned_pelt", 7 ] ]
     ]
