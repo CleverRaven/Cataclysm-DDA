@@ -923,7 +923,8 @@ void game::load_npcs()
         // NPCs who are out of bounds before placement would be pushed into bounds
         // This can cause NPCs to teleport around, so we don't want that
         if( sm_loc.x < get_levx() || sm_loc.x >= get_levx() + MAPSIZE ||
-            sm_loc.y < get_levy() || sm_loc.y >= get_levy() + MAPSIZE ) {
+            sm_loc.y < get_levy() || sm_loc.y >= get_levy() + MAPSIZE ||
+            ( sm_loc.z != get_levz() && !m.has_zlevels() ) ) {
             continue;
         }
 
@@ -1002,9 +1003,7 @@ void game::create_starting_npcs()
     tmp->normalize();
     tmp->randomize( one_in(2) ? NC_DOCTOR : NC_NONE );
     // spawn the npc in the overmap, sets its overmap and submap coordinates
-    tmp->spawn_at( get_levx(), get_levy(), get_levz() );
-    tmp->setx( SEEX * int(MAPSIZE / 2) + SEEX );
-    tmp->sety( SEEY * int(MAPSIZE / 2) + 6 );
+    tmp->spawn_at_precise( { get_levx(), get_levy() }, { SEEX / 2, SEEY / 2, get_levz() } );
     tmp->form_opinion( u );
     tmp->attitude = NPCATT_NULL;
     //This sets the npc mission. This NPC remains in the shelter.
@@ -3799,10 +3798,7 @@ bool game::save_factions_missions_npcs()
 {
     //Dump all of the NPCs from mission_npc into the world map to be saved
     for( auto *elem : mission_npc ) {
-        elem->spawn_at(get_levx(), get_levy(), get_levz());
-        elem->setx(u.posx() + 3);
-        elem->sety(u.posy() + 3);
-        elem->setz( u.posz() );
+        elem->spawn_at_precise( { get_levx(), get_levy() }, u.pos() + point( 3, 3 ) );
     }
 
     std::string masterfile = world_generator->active_world->world_path + "/master.gsav";
@@ -4108,10 +4104,7 @@ void game::debug()
             npc *temp = new npc();
             temp->normalize();
             temp->randomize();
-            temp->spawn_at( get_levx(), get_levy(), get_levz() );
-            temp->setx( u.posx() - 4 );
-            temp->sety( u.posy() - 4 );
-            temp->setz( u.posz() );
+            temp->spawn_at_precise( { get_levx(), get_levy() }, u.pos() + point( -4, -4 ) );
             temp->form_opinion( u );
             temp->mission = NPC_MISSION_NULL;
             temp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, temp->global_omt_location(),
@@ -13263,7 +13256,7 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
             break;
         }
         // adds the npc to the correct overmap.
-        tmp->spawn_at( msx, msy, 0 );
+        tmp->spawn_at_sm( msx, msy, 0 );
         tmp->form_opinion( u );
         tmp->mission = NPC_MISSION_NULL;
         tmp->add_new_mission( mission::reserve_random(ORIGIN_ANY_NPC, tmp->global_omt_location(), tmp->getID()) );

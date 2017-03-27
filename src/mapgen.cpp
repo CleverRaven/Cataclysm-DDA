@@ -8555,9 +8555,7 @@ int map::place_npc( int x, int y, const std::string &type )
     npc *temp = new npc();
     temp->normalize();
     temp->load_npc_template(type);
-    temp->spawn_at(abs_sub.x, abs_sub.y, abs_sub.z);
-    temp->setx( x );
-    temp->sety( y );
+    temp->spawn_at_precise( { abs_sub.x, abs_sub.y }, { x, y, abs_sub.z } );
     return temp->getID();
 }
 
@@ -8868,41 +8866,53 @@ void map::rotate(int turns)
     }
 
     real_coords rc;
-    rc.fromabs(get_abs_sub().x*SEEX, get_abs_sub().y*SEEY);
+    const tripoint &abs_sub = get_abs_sub();
+    rc.fromabs( abs_sub.x * SEEX, abs_sub.y * SEEY );
 
+    // @todo This radius can be smaller - how small?
     const int radius = int(MAPSIZE / 2) + 3;
     // uses submap coordinates
-    std::vector<npc*> npcs = overmap_buffer.get_npcs_near_player(radius);
-    for (auto &i : npcs) {
-        npc *act_npc = i;
-        if (act_npc->global_omt_location().x*2 == get_abs_sub().x &&
-            act_npc->global_omt_location().y*2 == get_abs_sub().y ){
-                rc.fromabs(act_npc->global_square_location().x, act_npc->global_square_location().y);
-                int old_x = rc.sub_pos.x;
-                int old_y = rc.sub_pos.y;
-                if ( rc.om_sub.x % 2 != 0 )
-                    old_x += SEEX;
-                if ( rc.om_sub.y % 2 != 0 )
-                    old_y += SEEY;
-                int new_x = old_x;
-                int new_y = old_y;
-                switch(turns) {
-                    case 3:
-                        new_x = old_y;
-                        new_y = SEEX * 2 - 1 - old_x;
-                        break;
-                    case 2:
-                        new_x = SEEX * 2 - 1 - old_x;
-                        new_y = SEEY * 2 - 1 - old_y;
-                        break;
-                    case 1:
-                        new_x = SEEY * 2 - 1 - old_y;
-                        new_y = old_x;
-                        break;
-                    }
-                i->setx( i->posx() + new_x - old_x );
-                i->sety( i->posy() + new_y - old_y );
-            }
+    std::vector<npc*> npcs = overmap_buffer.get_npcs_near( abs_sub.x, abs_sub.y, abs_sub.z, radius );
+    for( npc *i : npcs ) {
+        npc &np = *i;
+        const tripoint sq = np.global_square_location();
+        real_coords np_rc;
+        np_rc.fromabs( sq.x, sq.y );
+        // Note: We are rotating the entire overmap square (2x2 of submaps)
+        if( np_rc.om_pos != rc.om_pos || sq.z != abs_sub.z ){
+            continue;
+        }
+
+        // OK, this is ugly: we remove the NPC from the whole map
+        // Then we place it back from scratch
+        // It could be rewritten to utilize the fact that rotation shouldn't cross overmaps
+        overmap_buffer.hide_npc( np.getID() );
+
+        int old_x = np_rc.sub_pos.x;
+        int old_y = np_rc.sub_pos.y;
+        if( np_rc.om_sub.x % 2 != 0 ) {
+            old_x += SEEX;
+        }
+        if( np_rc.om_sub.y % 2 != 0 ) {
+            old_y += SEEY;
+        }
+        int new_x = old_x;
+        int new_y = old_y;
+        switch( turns ) {
+            case 3:
+                new_x = old_y;
+                new_y = SEEX * 2 - 1 - old_x;
+                break;
+            case 2:
+                new_x = SEEX * 2 - 1 - old_x;
+                new_y = SEEY * 2 - 1 - old_y;
+                break;
+            case 1:
+                new_x = SEEY * 2 - 1 - old_y;
+                new_y = old_x;
+                break;
+        }
+        np.spawn_at_precise( { abs_sub.x, abs_sub.y }, { new_x, new_y, abs_sub.z } );
     }
     ter_id rotated [SEEX * 2][SEEY * 2];
     furn_id furnrot [SEEX * 2][SEEY * 2];
