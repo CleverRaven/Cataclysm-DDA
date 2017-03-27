@@ -774,6 +774,7 @@
         "flags" : ["DURABLE_MELEE","BELT_CLIP"],
             "use_action": {
             "type": "transform",
+            "menu_text": "Expand",
             "target": "baton-extended",
             "msg": "You snap open your baton."
         },
@@ -796,6 +797,7 @@
         "flags" : ["DURABLE_MELEE","BELT_CLIP"],
         "use_action": {
             "type": "transform",
+            "menu_text": "Collapse",
             "target": "baton",
             "msg": "You collapse your baton."
         },
@@ -1191,6 +1193,7 @@
         "flags" : ["DURABLE_MELEE"],
         "use_action": {
             "type": "transform",
+            "menu_text": "Extend",
             "target": "PR24-extended",
             "msg": "You snap open your PR-24 baton."
         },
@@ -1214,6 +1217,7 @@
         "flags" : ["DURABLE_MELEE"],
         "use_action": {
             "type": "transform",
+            "menu_text": "Retract",
             "target": "PR24-retracted",
             "msg": "You collapse your PR-24 baton."
         },
