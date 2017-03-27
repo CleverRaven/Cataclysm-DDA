@@ -18,6 +18,7 @@
       "msg": "You pull the pin on the EMP grenade.",
       "target_charges": 3,
       "active": true,
+      "menu_text": "Pull pin",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
@@ -69,7 +70,8 @@
       "msg": "You pull the activating lever, readying the LAW to fire.",
       "target_charges": 1,
       "target_ammo": "66mm_HEAT",
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Activate"
     }
   },
   {
@@ -237,7 +239,8 @@
     "use_action": {
       "target": "atomic_lamp_off",
       "msg": "You close the lamp's cover.",
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Close cover"
     },
     "flags": [ "LIGHT_15", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
   },
@@ -259,7 +262,8 @@
     "use_action": {
       "target": "atomic_lamp",
       "msg": "You open the lamp's cover.",
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Open cover"
     },
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
   },
@@ -280,7 +284,8 @@
     "use_action": {
       "target": "atomic_light_off",
       "msg": "You close the nightlight's cover.",
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Close cover"
     },
     "flags": [ "LIGHT_5", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
   },
@@ -302,7 +307,8 @@
     "use_action": {
       "target": "atomic_light",
       "msg": "You open the nightlight's cover.",
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Open cover"
     },
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
   },
@@ -340,7 +346,8 @@
       "target": "apple_vac",
       "msg": "You open the vacuum pack, exposing it to the atmosphere.",
       "container": "bag_plastic",
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Open bag"
     }
   },
   {
@@ -360,7 +367,8 @@
       "target": "fish_vac",
       "msg": "You open the vacuum pack, exposing it to the atmosphere.",
       "container": "bag_plastic",
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Open bag"
     }
   },
   {
@@ -380,7 +388,8 @@
       "target": "hflesh_vac",
       "msg": "You open the vacuum pack, exposing it to the atmosphere.",
       "container": "bag_plastic",
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Open bag"
     }
   },
   {
@@ -401,7 +410,8 @@
       "target": "meat_vac",
       "msg": "You open the vacuum pack, exposing it to the atmosphere.",
       "container": "bag_plastic",
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Open bag"
     }
   },
   {
@@ -422,7 +432,8 @@
       "target": "veggy_vac",
       "msg": "You open the vacuum pack, exposing it to the atmosphere.",
       "container": "bag_plastic",
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Open bag"
     }
   },
   {
@@ -514,7 +525,8 @@
       "msg": "You light the Louisville Slaughterer.",
       "active": true,
       "need_fire": 1,
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Light"
     },
     "flags": [ "DURABLE_MELEE" ]
   },
@@ -1204,7 +1216,8 @@
       "msg": "You light the candle.",
       "active": true,
       "need_fire": 1,
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Light"
     }
   },
   {
@@ -1227,7 +1240,8 @@
     "use_action": {
       "target": "candle",
       "msg": "The candle winks out.",
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Extinguish"
     },
     "flags": [ "LIGHT_8", "TRADER_AVOID" ]
   },
@@ -1360,7 +1374,8 @@
     "use_action": {
       "target": "cell_phone",
       "msg": "You deactivate the flashlight app.",
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Turn off"
     },
     "flags": [ "LIGHT_20", "CHARGEDIM", "TRADER_AVOID" ]
   },
@@ -2224,7 +2239,8 @@
       "target_charges": 20,
       "active": true,
       "need_fire": 1,
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Light fuse"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
   },
@@ -2283,7 +2299,8 @@
       "msg": "You arm your radio-detonated dynamite.",
       "target_charges": 1,
       "active": true,
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Arm detonator"
     }
   },
   {
@@ -2526,7 +2543,8 @@
       "target_charges": 10,
       "active": true,
       "need_fire": 1,
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Light fuse"
     }
   },
   {
@@ -2935,7 +2953,8 @@
       "msg": "You pull the pin on the flashbang.",
       "target_charges": 5,
       "active": true,
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Pull pin"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
   },
@@ -3135,7 +3154,8 @@
       "msg": "You arm the makeshift gas canister.",
       "target_charges": 10,
       "active": true,
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Arm"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
   },
@@ -3239,7 +3259,8 @@
     "use_action": {
       "target": "gasoline_lantern",
       "msg": "The lantern is extinguished.",
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Turn off"
     },
     "flags": [ "LIGHT_15", "TRADER_AVOID" ]
   },
@@ -3312,7 +3333,8 @@
       "target": "glowstick_lit",
       "msg": "You activate the glowstick.",
       "active": true,
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Activate"
     }
   },
   {
@@ -3386,7 +3408,8 @@
       "msg": "You pull the pin on the grenade.",
       "target_charges": 5,
       "active": true,
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Pull pin"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
   },
@@ -3438,7 +3461,8 @@
       "msg": "You pull the pin on the grenade.",
       "target_charges": 5,
       "active": true,
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Pull pin"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ACT_IN_FIRE" ]
   },
@@ -3779,7 +3803,8 @@
       "msg": "You open the jar, exposing it to the atmosphere.",
       "container": "jar_glass",
       "target_charges": 4,
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Open jar"
     }
   },
   {
@@ -3847,7 +3872,8 @@
       "msg": "You light the wood.",
       "need_fire": 1,
       "need_fire_msg": "You need something to light it with!",
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Light wood"
     }
   },
   {
@@ -4148,7 +4174,8 @@
     "use_action": {
       "target": "l-stick",
       "msg": "The l-stick(tm)'s light fades away.",
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Turn off"
     },
     "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID" ]
   },
@@ -4537,7 +4564,8 @@
       "target_charges": 20,
       "active": true,
       "need_fire": 1,
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Light fuse"
     }
   },
   {
@@ -4788,7 +4816,8 @@
       "active": true,
       "moves": 75,
       "need_fire": 1,
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Light rag"
     },
     "flags": [ "NPC_ACTIVATE", "NO_REPAIR" ]
   },
@@ -5116,7 +5145,8 @@
     "use_action": {
       "target": "oil_lamp",
       "msg": "The lantern is extinguished.",
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Turn off"
     },
     "flags": [ "LIGHT_10", "TRADER_AVOID" ]
   },
@@ -5346,7 +5376,8 @@
       "target_charges": 3,
       "active": true,
       "need_fire": 1,
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Light fuse"
     },
     "flags": [ "NPC_ACTIVATE" ]
   },
@@ -5390,7 +5421,8 @@
       "msg": "You arm your radio-detonated pipe bomb.",
       "target_charges": 1,
       "active": true,
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Arm detonator"
     }
   },
   {
@@ -6044,7 +6076,8 @@
       "msg": "You pull the pin on the scrambler grenade.",
       "target_charges": 3,
       "active": true,
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Pull pin"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
   },
@@ -6484,7 +6517,8 @@
     "use_action": {
       "target": "smart_lamp",
       "msg": "Your smart lamp turned off",
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Turn off"
     },
     "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ]
   },
@@ -7146,7 +7180,8 @@
       "target_charges": 20,
       "active": true,
       "need_fire": 1,
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Light fuse"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
   },
@@ -7209,7 +7244,8 @@
       "target_charges": 2,
       "active": true,
       "need_fire": 1,
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Light fuse"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
   },
@@ -7274,7 +7310,8 @@
       "msg": "You light the fuse on the black gunpowder charge.  Get rid of it quickly!",
       "target_charges": 5,
       "active": true,
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Light fuse"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
   },
@@ -7351,7 +7388,8 @@
       "msg": "You light the fuse on the explosive charge.  Clear the area!",
       "target_charges": 30,
       "active": true,
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Light fuse"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
   },
@@ -7426,7 +7464,8 @@
       "target_charges": 5,
       "active": true,
       "need_fire": 1,
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Light fuse"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
   },
@@ -7483,7 +7522,8 @@
       "msg": "You light the rocket candy on fire.  Throw it!",
       "target_charges": 2,
       "active": true,
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Light candy"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
   },
@@ -7556,7 +7596,8 @@
       "msg": "You light the torch.",
       "active": true,
       "need_fire": 1,
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Light torch"
     }
   },
   {
@@ -8078,7 +8119,8 @@
     "use_action": {
       "target": "rad_badge",
       "msg": "You remove the badge from its wrapper, exposing it to ambient radiation.",
-      "type": "transform"
+      "type": "transform",
+      "menu_text": "Unwrap badge"
     }
   },
   {
