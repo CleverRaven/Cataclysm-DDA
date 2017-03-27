@@ -4655,9 +4655,17 @@ void player::update_needs( int rate_multiplier )
         mod_painkiller( -std::min( get_painkiller(), rate_multiplier ) );
     }
 
-    // Installed solar panels need a naked torso to work
-    if( has_bionic( "bio_solar" ) && g->is_in_sunlight( pos() ) && !wearing_something_on( bp_torso ) ) {
-        charge_power( rate_multiplier * 25 );
+    // The less items is worn on torso, the more power solar panels will generate
+    int sum_cover = 0;
+    int uncovered = 0;
+    for( const item &i : worn ) {
+        if( i.covers( bp_torso ) ) {
+            sum_cover += i.get_coverage();
+        }
+    }
+    uncovered = 100 - ( std::min( sum_cover, 100 ) );
+    if( has_bionic( "bio_solar" ) && g->is_in_sunlight( pos() ) ) {
+        charge_power( rate_multiplier * uncovered );
     }
 
     // Huge folks take penalties for cramming themselves in vehicles
