@@ -4655,7 +4655,8 @@ void player::update_needs( int rate_multiplier )
         mod_painkiller( -std::min( get_painkiller(), rate_multiplier ) );
     }
 
-    if( has_bionic("bio_solar") && g->is_in_sunlight( pos() ) ) {
+    // Installed solar panels need a naked torso to work
+    if( has_bionic( "bio_solar" ) && g->is_in_sunlight( pos() ) && !wearing_something_on( bp_torso ) ) {
         charge_power( rate_multiplier * 25 );
     }
 
