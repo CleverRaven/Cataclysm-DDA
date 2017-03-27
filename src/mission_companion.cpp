@@ -31,8 +31,8 @@ const skill_id skill_cutting( "cutting" );
 const skill_id skill_stabbing( "stabbing" );
 const skill_id skill_bashing( "bashing" );
 const skill_id skill_melee( "melee" );
+const skill_id skill_fabrication( "fabrication" );
 const skill_id skill_survival( "survival" );
-const skill_id skill_carpentry( "carpentry" );
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_electronics( "electronics" );
 const skill_id skill_firstaid( "firstaid" );
@@ -1146,7 +1146,7 @@ bool talk_function::labor_return(npc *p)
     while (i < exp){
         y = rng( 0, 100 );
         if (y < 50){
-            comp->practice( skill_carpentry, 5);
+            comp->practice( skill_fabrication, 5);
         } else if (y < 70){
             comp->practice( skill_survival, 5);
         } else if (y < 85){
@@ -1179,12 +1179,12 @@ bool talk_function::carpenter_return(npc *p)
     if (one_in(20)){
         // the following doxygen aliases do not yet exist. this is marked for future reference
 
-        ///\EFFECT_CARPENTRY_NPC affects carpenter mission results
+        ///\EFFECT_FABRICATION_NPC affects carpenter mission results
 
         ///\EFFECT_DODGE_NPC affects carpenter mission results
 
         ///\EFFECT_SURVIVAL_NPC affects carpenter mission results
-        int skill_1 = comp->get_skill_level( skill_carpentry );
+        int skill_1 = comp->get_skill_level( skill_fabrication );
         int skill_2 = comp->get_skill_level( skill_dodge );
         int skill_3 = comp->get_skill_level( skill_survival );
         popup(_("While %s was framing a building one of the walls began to collapse..."), comp->name.c_str());
@@ -1213,7 +1213,7 @@ bool talk_function::carpenter_return(npc *p)
     while (i < exp){
         y = rng( 0, 100 );
         if (y < 70){
-            comp->practice( skill_carpentry, 10);
+            comp->practice( skill_fabrication, 10 );
         } else if (y < 80){
             comp->practice( skill_survival, 10);
         } else if (y < 90){

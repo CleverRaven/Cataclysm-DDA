@@ -44,8 +44,8 @@ const mtype_id mon_turret( "mon_turret" );
 const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 
 const skill_id skill_computer( "computer" );
+const skill_id skill_fabrication( "fabrication" );
 const skill_id skill_mechanics( "mechanics" );
-const skill_id skill_carpentry( "carpentry" );
 const skill_id skill_cooking( "cooking" );
 const skill_id skill_survival( "survival" );
 
@@ -1889,8 +1889,8 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
         return;
     }
 
-    ///\EFFECT_CARPENTRY decreases loss when firing a kiln
-    const SkillLevel &skill = p.get_skill_level( skill_carpentry );
+    ///\EFFECT_FABRICATION decreases loss when firing a kiln
+    const SkillLevel &skill = p.get_skill_level( skill_fabrication );
     int loss = 60 - 2 * skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
 
     // Burn stuff that should get charred, leave out the rest
@@ -1921,7 +1921,6 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     g->m.add_item( examp, result );
     add_msg( _("You fire the charcoal kiln.") );
     int practice_amount = ( 10 - skill ) * total_volume / units::from_liter( 25 ); // 50 at 0 skill, 25 at 5, 10 at 8
-    p.practice( skill_carpentry, practice_amount );
 }
 
 void iexamine::kiln_full(player &, const tripoint &examp)
