@@ -6381,6 +6381,7 @@
     "warmth": 75,
     "material_thickness": 3,
     "environmental_protection": 15,
+    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "VARSIZE", "STURDY" ]
   },
   {
@@ -6402,6 +6403,7 @@
     "warmth": 75,
     "material_thickness": 3,
     "environmental_protection": 15,
+    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
