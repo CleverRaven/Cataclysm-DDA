@@ -3144,20 +3144,21 @@ void player::pause()
     recoil = recoil / 2;
 
     // Train swimming if underwater
-    if( underwater ) {
-        practice( skill_swimming, 1 );
-        drench( 100, mfb( bp_leg_l ) | mfb( bp_leg_r ) | mfb( bp_torso ) | mfb( bp_arm_l ) | mfb(
-                    bp_arm_r ) |
-                mfb( bp_head ) | mfb( bp_eyes ) | mfb( bp_mouth ) | mfb( bp_foot_l ) | mfb( bp_foot_r ) |
-                mfb( bp_hand_l ) | mfb( bp_hand_r ), true );
-    } else if( g->m.has_flag( TFLAG_DEEP_WATER, pos() ) ) {
-        practice( skill_swimming, 1 );
-        // Same as above, except no head/eyes/mouth
-        drench( 100, mfb( bp_leg_l ) | mfb( bp_leg_r ) | mfb( bp_torso ) | mfb( bp_arm_l ) | mfb(
-                    bp_arm_r ) |
-                mfb( bp_foot_l ) | mfb( bp_foot_r ) | mfb( bp_hand_l ) | mfb( bp_hand_r ), true );
-    } else if( g->m.has_flag( "SWIMMABLE", pos() ) ) {
-        drench( 40, mfb( bp_foot_l ) | mfb( bp_foot_r ) | mfb( bp_leg_l ) | mfb( bp_leg_r ), false );
+    if( !in_vehicle ) {
+        if( underwater ) {
+            practice( skill_swimming, 1 );
+            drench( 100, mfb( bp_leg_l ) | mfb( bp_leg_r ) | mfb( bp_torso ) | mfb( bp_arm_l ) |
+                         mfb( bp_arm_r ) | mfb( bp_head ) | mfb( bp_eyes ) | mfb( bp_mouth ) |
+		         mfb( bp_foot_l ) | mfb( bp_foot_r ) | mfb( bp_hand_l ) | mfb( bp_hand_r ), true );
+        } else if( g->m.has_flag( TFLAG_DEEP_WATER, pos() ) ) {
+            practice( skill_swimming, 1 );
+            // Same as above, except no head/eyes/mouth
+            drench( 100, mfb( bp_leg_l ) | mfb( bp_leg_r ) | mfb( bp_torso ) | mfb( bp_arm_l ) |
+                         mfb( bp_arm_r ) | mfb( bp_foot_l ) | mfb( bp_foot_r ) | mfb( bp_hand_l ) |
+                         mfb( bp_hand_r ), true );
+        } else if( g->m.has_flag( "SWIMMABLE", pos() ) ) {
+            drench( 40, mfb( bp_foot_l ) | mfb( bp_foot_r ) | mfb( bp_leg_l ) | mfb( bp_leg_r ), false );
+        }
     }
 
     // Try to put out clothing/hair fire
@@ -9818,7 +9819,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
     const std::string &method = std::next( used->type->use_methods.begin(), choice )->first;
     long charges_used = used->type->invoke( this, used, pt, method );
 
-    return ( used->is_tool() || used->is_medication() ) && consume_charges( *used, charges_used );
+    return ( used->is_tool() || used->is_medication() || used->is_container() ) && consume_charges( *used, charges_used );
 }
 
 bool player::invoke_item( item* used, const std::string &method )
@@ -9839,7 +9840,7 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
     }
 
     long charges_used = actually_used->type->invoke( this, actually_used, pt, method );
-    return ( used->is_tool() || used->is_medication() ) && consume_charges( *actually_used, charges_used );
+    return ( used->is_tool() || used->is_medication() || used->is_container() ) && consume_charges( *actually_used, charges_used );
 }
 
 void player::reassign_item( item &it, long invlet )

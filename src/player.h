@@ -29,7 +29,7 @@ nc_color encumb_color(int level);
 enum game_message_type : int;
 class ma_technique;
 class martialart;
-struct recipe;
+class recipe;
 struct component;
 struct item_comp;
 struct tool_comp;
@@ -504,8 +504,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         void melee_attack( Creature &t, bool allow_special, const matec_id &force_technique, int hitspread ) override;
 
-        /** Returns a weapon's modified dispersion value */
-        double get_weapon_dispersion( const item &obj ) const;
+        /**
+         * Returns a weapon's modified dispersion value.
+         * @param range Distance to target against which we're calculating the dispersion
+         */
+        double get_weapon_dispersion( const item &obj, float range ) const;
 
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( item &firing );
@@ -1123,7 +1126,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * the player does not have such an item with that invlet. Don't use this on npcs.
          * Only use the invlet in the user interface, otherwise always use the item position. */
         int invlet_to_position( long invlet ) const;
-        
+
         /**
         * Check whether player has a bionic power armor interface.
         * @return true if player has an active bionic capable of powering armor, false otherwise.
@@ -1189,6 +1192,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         // crafting.cpp
         float lighting_craft_speed_multiplier( const recipe & rec ) const;
+        int time_to_craft( const recipe &rec, int batch_size = 1 );
+        std::vector<const item *> get_eligible_containers_for_crafting() const;
+        bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
         bool has_morale_to_craft() const;
         bool can_make( const recipe * r, int batch_size = 1 ); // have components?
         bool making_would_work( const std::string & id_to_make, int batch_size );
@@ -1219,7 +1225,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // yet more crafting.cpp
         const inventory &crafting_inventory(); // includes nearby items
         void invalidate_crafting_inventory();
-        std::vector<item> get_eligible_containers_for_crafting();
         comp_selection<item_comp>
             select_item_component( const std::vector<item_comp> &components,
                                    int batch, inventory &map_inv, bool can_cancel = false );
@@ -1270,15 +1275,15 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         }
         inline void setx( int x )
         {
-            position.x = x;
+            setpos( tripoint( x, position.y, position.z ) );
         }
         inline void sety( int y )
         {
-            position.y = y;
+            setpos( tripoint( position.x, y, position.z ) );
         }
         inline void setz( int z )
         {
-            position.z = z;
+            setpos( tripoint( position.x, position.y, z ) );
         }
         inline void setpos( const tripoint &p ) override
         {
@@ -1492,7 +1497,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param target Target NPC to steal from
          */
         void steal( npc &target );
-        
+
         /**
          * Accessor method for weapon targeting data, used for interactive weapon aiming.
          * @return a reference to the data pointed by player's tdata member.

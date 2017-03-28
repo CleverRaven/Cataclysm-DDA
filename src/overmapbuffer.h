@@ -355,6 +355,10 @@ private:
      */
     void fix_mongroups(overmap &new_overmap);
     /**
+     * Moves out-of-bounds NPCs to the overmaps they should be in.
+     */
+    void fix_npcs( overmap &new_overmap );
+    /**
      * Retrieve overmaps that overlap the bounding box defined by the location and radius.
      * The location is in absolute submap coordinates, the radius is in the same system.
      */

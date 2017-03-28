@@ -243,8 +243,8 @@ class Character : public Creature, public visitable<Character>
         /** Toggles a trait on the player and in their mutation list */
         void toggle_trait(const std::string &flag);
         /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
-        void set_mutation( const std::string &flag, bool warn = true );
-        void unset_mutation( const std::string &flag, bool warn = true );
+        void set_mutation( const std::string &flag );
+        void unset_mutation( const std::string &flag );
 
         /** Converts a body_part to an hp_part */
         static hp_part bp_to_hp(body_part bp);
@@ -514,10 +514,10 @@ class Character : public Creature, public visitable<Character>
         float healing_rate( float at_rest_quality ) const;
 
         /**
-         * Goes over all mutations, gets min and max of a value returned by @param fun
+         * Goes over all mutations, gets min and max of a value with given name
          * @return min( 0, lowest ) + max( 0, highest )
          */
-        float mutation_value( const std::function<float(const mutation_branch &)> &fun ) const;
+        float mutation_value( const std::string &val ) const;
 
         /** Color's character's tile's background */
         nc_color symbol_color() const override;
@@ -565,8 +565,6 @@ class Character : public Creature, public visitable<Character>
     public:
         virtual void on_item_wear( const item & ) {};
         virtual void on_item_takeoff( const item & ) {};
-        template <typename Getter>
-        float calc_mutation_value( Getter getter ) const;
 
     protected:
         Character();

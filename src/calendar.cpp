@@ -16,7 +16,6 @@ const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
 calendar calendar::start;
 calendar calendar::turn;
 season_type calendar::initial_season;
-bool calendar::eternal_season = false;
 
 // Internal constants, not part of the calendar interface.
 // Times for sunrise, sunset at equinoxes
@@ -257,11 +256,37 @@ bool calendar::is_night() const
     return (seconds > sunset_seconds + TWILIGHT_SECONDS || seconds < sunrise_seconds);
 }
 
+double calendar::current_daylight_level() const
+{
+    double percent = double(double(day) / season_length());
+    double modifier = 1.0;
+    // For ~Boston: solstices are +/- 25% sunlight intensity from equinoxes
+    static double deviation = 0.25;
+    
+    switch (season) {
+    case SPRING:
+        modifier = 1. + (percent * deviation);
+        break;
+    case SUMMER:
+        modifier = (1. + deviation) - (percent * deviation);
+        break;
+    case AUTUMN:
+        modifier = 1. - (percent * deviation);
+        break;
+    case WINTER:
+        modifier = (1. - deviation) + (percent * deviation);
+        break;
+    }
+    
+    return double(modifier * DAYLIGHT_LEVEL);
+}
+
 float calendar::sunlight() const
 {
     int seconds = seconds_past_midnight();
     int sunrise_seconds = sunrise().seconds_past_midnight();
     int sunset_seconds = sunset().seconds_past_midnight();
+    double daylight_level = current_daylight_level();
 
     int current_phase = int(moon());
     if ( current_phase > int(MOON_PHASE_MAX)/2 ) {
@@ -274,12 +299,12 @@ float calendar::sunlight() const
         return moonlight;
     } else if( seconds >= sunrise_seconds && seconds <= sunrise_seconds + TWILIGHT_SECONDS ) {
         double percent = double(seconds - sunrise_seconds) / TWILIGHT_SECONDS;
-        return double(moonlight) * (1. - percent) + double(DAYLIGHT_LEVEL) * percent;
+        return double(moonlight) * (1. - percent) + daylight_level * percent;
     } else if( seconds >= sunset_seconds && seconds <= sunset_seconds + TWILIGHT_SECONDS ) {
         double percent = double(seconds - sunset_seconds) / TWILIGHT_SECONDS;
-        return double(DAYLIGHT_LEVEL) * (1. - percent) + double(moonlight) * percent;
+        return daylight_level * (1. - percent) + double(moonlight) * percent;
     } else {
-        return DAYLIGHT_LEVEL;
+        return daylight_level;
     }
 }
 
@@ -317,11 +342,12 @@ std::string calendar::print_duration( int turns )
         }
     }
 
-    if( divider != 0 ) {
+    const int remainder = divider ? turns % divider : 0;
+    if( remainder != 0 ) {
         //~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
         return string_format( _( "%1$s and %2$s" ),
                               print_clipped_duration( turns ).c_str(),
-                              print_clipped_duration( turns % divider ).c_str() );
+                              print_clipped_duration( remainder ).c_str() );
     }
 
     return print_clipped_duration( turns );
@@ -408,7 +434,7 @@ std::string calendar::textify_period() const
     if (year > 0) {
         am = year;
         tx = ngettext("%d year", "%d years", am);
-    } else if (season > 0 && !eternal_season) {
+    } else if ( season > 0 && !get_world_option<bool>( "ETERNAL_SEASON" ) ) {
         am = season;
         tx = ngettext("%d season", "%d seasons", am);
     } else if (day > 0) {
@@ -496,8 +522,9 @@ std::string calendar::day_of_week() const
 
 int calendar::season_length()
 {
+    static const std::string s = "SEASON_LENGTH";
     // Avoid returning 0 as this value is used in division and expected to be non-zero.
-    return std::max( get_world_option<int>( "SEASON_LENGTH" ), 1 );
+    return std::max( get_world_option<int>( s ), 1 );
 }
 
 int calendar::turn_of_year() const
@@ -521,7 +548,10 @@ void calendar::sync()
     const int sl = season_length();
     year = turn_number / DAYS(sl * 4);
 
-    if( eternal_season ) {
+    static const std::string eternal = "ETERNAL_SEASON";
+    if( get_world_option<bool>( eternal ) ) {
+        // If we use calendar::start to determine the initial season, and the user shortens the season length
+        // mid-game, the result could be the wrong season!
         season = initial_season;
     } else {
         season = season_type(turn_number / DAYS(sl) % 4);

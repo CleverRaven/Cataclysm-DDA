@@ -59,7 +59,7 @@ void map::build_transparency_cache( const int zlev )
 
     // Default to just barely not transparent.
     std::uninitialized_fill_n(
-        &transparency_cache[0][0], MAPSIZE*SEEX * MAPSIZE*SEEY, LIGHT_TRANSPARENCY_OPEN_AIR);
+        &transparency_cache[0][0], MAPSIZE*SEEX * MAPSIZE*SEEY, static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR ) );
 
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {

@@ -194,7 +194,22 @@ void string_input_popup::draw( const utf8_wrapper &ret, const int shift ) const
     }
 }
 
-const std::string &string_input_popup::query( const bool loop, const bool draw_only )
+void string_input_popup::query( const bool loop, const bool draw_only )
+{
+    query_string( loop, draw_only );
+}
+
+int string_input_popup::query_int( const bool loop, const bool draw_only )
+{
+    return std::atoi( query_string( loop, draw_only ).c_str() );
+}
+
+long string_input_popup::query_long( const bool loop, const bool draw_only )
+{
+    return std::atol( query_string( loop, draw_only ).c_str() );
+}
+
+const std::string &string_input_popup::query_string( const bool loop, const bool draw_only )
 {
     if( !w ) {
         create_window();
@@ -320,7 +335,7 @@ const std::string &string_input_popup::query( const bool loop, const bool draw_o
             }
         } else if( ch == ERR ) {
             // Ignore the error
-        } else if( ch != 0 && _only_digits && !isdigit( ch ) ) {
+        } else if( ch != 0 && _only_digits && !( isdigit( ch ) || ch == '-' ) ) {
             add_to_history( ret.str() );
             _text = ret.str();
             return _text;

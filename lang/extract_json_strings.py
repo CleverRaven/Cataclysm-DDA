@@ -152,6 +152,7 @@ use_format_strings = {
 def extract_bodypart(item):
     outfile = get_outfile("bodypart")
     writestr(outfile, item["name"])
+    writestr(outfile, item["name"], context="bodypart_accusative")
     writestr(outfile, item["encumbrance_text"])
     writestr(outfile, item["heading_singular"], item["heading_plural"])
 
