@@ -1,3 +1,4 @@
+[
 {
     "id": "2byshin_guard",
     "type": "ARMOR",
@@ -1126,3 +1127,4 @@
     "material_thickness": 1,
     "flags": [ "VARSIZE" ]
   }
+  ]

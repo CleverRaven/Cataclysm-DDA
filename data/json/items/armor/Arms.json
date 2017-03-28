@@ -1,4 +1,4 @@
-
+[
 {
     "id": "2byarm_guard",
     "type": "ARMOR",
@@ -272,4 +272,5 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "STURDY", "BELTED" ]
-  },
+  }
+  ]
