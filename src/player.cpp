@@ -3144,20 +3144,21 @@ void player::pause()
     recoil = recoil / 2;
 
     // Train swimming if underwater
-    if( underwater ) {
-        practice( skill_swimming, 1 );
-        drench( 100, mfb( bp_leg_l ) | mfb( bp_leg_r ) | mfb( bp_torso ) | mfb( bp_arm_l ) | mfb(
-                    bp_arm_r ) |
-                mfb( bp_head ) | mfb( bp_eyes ) | mfb( bp_mouth ) | mfb( bp_foot_l ) | mfb( bp_foot_r ) |
-                mfb( bp_hand_l ) | mfb( bp_hand_r ), true );
-    } else if( g->m.has_flag( TFLAG_DEEP_WATER, pos() ) ) {
-        practice( skill_swimming, 1 );
-        // Same as above, except no head/eyes/mouth
-        drench( 100, mfb( bp_leg_l ) | mfb( bp_leg_r ) | mfb( bp_torso ) | mfb( bp_arm_l ) | mfb(
-                    bp_arm_r ) |
-                mfb( bp_foot_l ) | mfb( bp_foot_r ) | mfb( bp_hand_l ) | mfb( bp_hand_r ), true );
-    } else if( g->m.has_flag( "SWIMMABLE", pos() ) ) {
-        drench( 40, mfb( bp_foot_l ) | mfb( bp_foot_r ) | mfb( bp_leg_l ) | mfb( bp_leg_r ), false );
+    if( !in_vehicle ) {
+        if( underwater ) {
+            practice( skill_swimming, 1 );
+            drench( 100, mfb( bp_leg_l ) | mfb( bp_leg_r ) | mfb( bp_torso ) | mfb( bp_arm_l ) |
+                         mfb( bp_arm_r ) | mfb( bp_head ) | mfb( bp_eyes ) | mfb( bp_mouth ) |
+		         mfb( bp_foot_l ) | mfb( bp_foot_r ) | mfb( bp_hand_l ) | mfb( bp_hand_r ), true );
+        } else if( g->m.has_flag( TFLAG_DEEP_WATER, pos() ) ) {
+            practice( skill_swimming, 1 );
+            // Same as above, except no head/eyes/mouth
+            drench( 100, mfb( bp_leg_l ) | mfb( bp_leg_r ) | mfb( bp_torso ) | mfb( bp_arm_l ) |
+                         mfb( bp_arm_r ) | mfb( bp_foot_l ) | mfb( bp_foot_r ) | mfb( bp_hand_l ) |
+                         mfb( bp_hand_r ), true );
+        } else if( g->m.has_flag( "SWIMMABLE", pos() ) ) {
+            drench( 40, mfb( bp_foot_l ) | mfb( bp_foot_r ) | mfb( bp_leg_l ) | mfb( bp_leg_r ), false );
+        }
     }
 
     // Try to put out clothing/hair fire
@@ -3767,7 +3768,7 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
         }
     }
 
-    if( get_option<bool>( "FILTHY_WOUNDS" ) ) {
+    if( get_world_option<bool>( "FILTHY_WOUNDS" ) ) {
         int sum_cover = 0;
         for( const item &i : worn ) {
             if( i.covers( bp ) && i.is_filthy() ) {
@@ -4665,49 +4666,12 @@ void player::regen( int rate_multiplier )
         mod_pain( -roll_remainder( 0.2f + get_pain() / 50.0f ) );
     }
 
-    const bool asleep = has_effect( effect_sleep );
-    float heal_rate = 0.0f;
-    if( asleep ) {
-        if( has_trait( "REGEN" ) || has_trait( "FASTHEALER2" ) ) {
-            heal_rate += 1.0f;
-        } else if( has_trait( "FASTHEALER" ) || has_trait( "MET_RAT" ) ) {
-            heal_rate += 0.5f;
-        } else if( has_trait( "SLOWHEALER" ) || has_trait( "ROT1" ) ) {
-            heal_rate += 0.13f;
-        } else {
-            heal_rate += 0.25f;
-        }
-
-        heal_rate += heal_rate * get_healthy() / 200.0f;
-    }
-
-    if( has_trait("ROT3") ) {
-        heal_rate -= 0.1f;
-    } else if( has_trait("ROT2") ) {
-        heal_rate -= 0.04f;
-    } else if( has_trait( "REGEN" ) ) {
-        heal_rate += 1.0f;
-    } else if( has_trait( "FASTHEALER2" ) ) {
-        heal_rate += 0.33f;
-    } else if( has_trait( "FASTHEALER" ) || has_trait( "MET_RAT" ) ) {
-        heal_rate += 0.1f;
-    }
-
-    // Let flimsy affect rot too - otherwise it would be a really horrible combo
-    if( heal_rate != 0.0f ) {
-        if( has_trait("FLIMSY3") ) {
-            heal_rate /= 4.0f;
-        } else if( has_trait("FLIMSY2") ) {
-            heal_rate /= 2.0f;
-        } else if( has_trait("FLIMSY") ) {
-            heal_rate /= 1.33f;
-        }
-    }
-
+    float rest = rest_quality();
+    float heal_rate = healing_rate( rest ) * MINUTES(5);
     if( heal_rate > 0.0f ) {
         healall( roll_remainder( rate_multiplier * heal_rate ) );
-    } else if( !asleep && heal_rate < 0.0f ) {
-        int rot_rate = roll_remainder( rate_multiplier * heal_rate );
+    } else if( heal_rate < 0.0f ) {
+        int rot_rate = roll_remainder( rate_multiplier * -heal_rate );
         // Has to be in loop because some effects depend on rounding
         while( rot_rate-- > 0 ) {
             hurtall( 1, nullptr, false );
@@ -7128,7 +7092,7 @@ void player::suffer()
         } else if (radiation > 2000) {
             radiation = 2000;
         }
-        if( get_option<bool>( "RAD_MUTATION" ) && rng(100, 10000) < radiation ) {
+        if( get_world_option<bool>( "RAD_MUTATION" ) && rng(100, 10000) < radiation ) {
             mutate();
             radiation -= 50;
         } else if( radiation > 50 && rng(1, 3000) < radiation &&
@@ -9312,13 +9276,15 @@ int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
     if( obj.is_null() ) {
         obj = ammo;
     }
-    int mv = item_handling_cost( obj, qty );
+    // No base cost for handling ammo - that's already included in obtain cost
+    // We have the ammo in our hands right now
+    int mv = item_handling_cost( obj, true, 0 );
 
     if( ammo.has_flag( "MAG_BULKY" ) ) {
         mv *= 1.5; // bulky magazines take longer to insert
     }
 
-    if( !it.is_gun() && ! it.is_magazine() ) {
+    if( !it.is_gun() && !it.is_magazine() ) {
         return mv + 100; // reload a tool
     }
 
@@ -9332,14 +9298,14 @@ int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
     int cost = ( it.is_gun() ? it.type->gun->reload_time : it.type->magazine->reload_time ) * qty;
 
     skill_id sk = it.is_gun() ? it.type->gun->skill_used : skill_gun;
-    mv += cost / ( 1 + std::min( double( get_skill_level( sk ) ) * 0.075, 0.75 ) );
+    mv += cost / ( 1.0f + std::min( float( get_skill_level( sk ) ) * 0.1f, 1.0f ) );
 
     if( it.has_flag( "STR_RELOAD" ) ) {
         ///\EFFECT_STR reduces reload time of some weapons
         mv -= get_str() * 20;
     }
 
-    return std::max( mv, 0 );
+    return std::max( mv, 25 );
 }
 
 int player::item_wear_cost( const item& it ) const
@@ -9875,7 +9841,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
     const std::string &method = std::next( used->type->use_methods.begin(), choice )->first;
     long charges_used = used->type->invoke( this, used, pt, method );
 
-    return ( used->is_tool() || used->is_medication() ) && consume_charges( *used, charges_used );
+    return ( used->is_tool() || used->is_medication() || used->is_container() ) && consume_charges( *used, charges_used );
 }
 
 bool player::invoke_item( item* used, const std::string &method )
@@ -9896,7 +9862,7 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
     }
 
     long charges_used = actually_used->type->invoke( this, actually_used, pt, method );
-    return ( used->is_tool() || used->is_medication() ) && consume_charges( *actually_used, charges_used );
+    return ( used->is_tool() || used->is_medication() || used->is_container() ) && consume_charges( *actually_used, charges_used );
 }
 
 void player::reassign_item( item &it, long invlet )

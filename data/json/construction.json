@@ -1591,7 +1591,7 @@
         "components" : [
             [ [ "2x4", 4 ] ],
             [ [ "nail", 6 ] ],
-            [  [ "sheet", 2 ], [ "blanket", 1 ], [ "down_blanket", 1] ]
+            [  [ "sheet", 2 ], [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1] ]
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_makeshift_bed"
@@ -1624,7 +1624,7 @@
         "components" : [
             [ [ "2x4", 12 ] ],
             [ [ "nail", 10 ] ],
-            [ [ "sheet", 4 ], [ "blanket", 2 ], [ "down_blanket", 2] ]
+            [ [ "sheet", 4 ], [ "blanket", 2 ], [ "down_blanket", 2 ], [ "fur_blanket", 2 ] ]
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_bed"
@@ -1645,7 +1645,7 @@
         "components" : [
             [ [ "2x4", 10 ] ],
             [ [ "nail", 8 ] ],
-            [ [ "blanket", 1 ], [ "down_blanket", 1] ]
+            [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ]
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_armchair"
@@ -1666,7 +1666,7 @@
         "components" : [
             [ [ "2x4", 12 ] ],
             [ [ "nail", 10 ] ],
-            [ [ "blanket", 1 ], [ "down_blanket", 1] ]
+            [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ]
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_sofa"
@@ -2095,7 +2095,8 @@
         "time" : 10,
         "//": "no components required, they are filled in at runtime based on the vehicle parts that can be used to start a vehicle",
         "pre_special" : "check_empty",
-        "post_special" : "done_vehicle"
+        "post_special" : "done_vehicle",
+        "vehicle_start" : true
     },{
         "type" : "construction",
         "description" : "Build Road Barricade",

@@ -4506,7 +4506,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
             if( !valid_tile( e ) || has_flag( "NOITEM", e ) || !valid_limits( e ) ) {
                 continue;
             }
-	    return place_item( e );
+            return place_item( e );
         }
     }
 
@@ -6711,11 +6711,25 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     set_pathfinding_cache_dirty( gridz );
     setsubmap( gridn, tmpsub );
 
-    for( auto it : tmpsub->vehicles ) {
-        // Always fix submap coords for easier z-level-related operations
-        it->smx = gridx;
-        it->smy = gridy;
-        it->smz = gridz;
+    // Destroy bugged no-part vehicles
+    auto &veh_vec = tmpsub->vehicles;
+    for( auto iter = veh_vec.begin(); iter != veh_vec.end(); ) {
+        auto *veh = *iter;
+        if( !veh->parts.empty() ) {
+            // Always fix submap coords for easier z-level-related operations
+            veh->smx = gridx;
+            veh->smy = gridy;
+            veh->smz = gridz;
+            iter++;
+        } else {
+            reset_vehicle_cache( gridz );
+            if( veh->tracking_on ) {
+                overmap_buffer.remove_vehicle( veh );
+            }
+            dirty_vehicle_list.erase( veh );
+            delete( veh );
+            iter = veh_vec.erase( iter );
+        }
     }
 
     // Update vehicle data

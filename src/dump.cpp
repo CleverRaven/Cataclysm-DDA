@@ -337,7 +337,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
         scol = -1; // unsorted output so graph columns have predictable ordering
 
         header = { "Name" };
-        for( int range = 1; range <= MAX_RANGE; ++range ) {
+        for( int range = 1; range <= RANGE_HARD_CAP; ++range ) {
             header.push_back( to_string( range ) );
         }
 
@@ -353,16 +353,16 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
                 recoil -= adj;
             }
 
-            double dispersion = who.get_weapon_dispersion( gun ) + recoil;
-
             std::vector<std::string> r;
             r.push_back( string_format( "%s %s (%dmv aiming)", who.get_name().c_str(), gun.tname().c_str(), aim_moves ) );
 
-            for( int range = 1; range <= MAX_RANGE; ++range ) {
+            for( int range = 1; range <= RANGE_HARD_CAP; ++range ) {
                 if( range > gun.gun_range( &who ) ) {
                     r.push_back( "0" );
                     continue;
                 }
+
+                double dispersion = who.get_weapon_dispersion( gun, range ) + recoil;
 
                 // We want to find the long-run average damage per shot for this dispersion.
 

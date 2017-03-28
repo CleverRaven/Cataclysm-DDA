@@ -12,7 +12,8 @@
 class inventory;
 class item;
 class player;
-struct recipe;
+class recipe;
+
 struct component;
 struct tool_comp;
 struct item_comp;

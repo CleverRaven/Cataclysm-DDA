@@ -70,6 +70,7 @@ src/player_display.cpp
 src/posix_time.cpp
 src/profession.cpp
 src/projectile.cpp
+src/recipe.cpp
 src/recipe_dictionary.cpp
 src/rng.cpp
 src/rotatable_symbols.cpp
@@ -202,6 +203,7 @@ src/posix_time.h
 src/printf_check.h
 src/profession.h
 src/projectile.h
+src/recipe.h
 src/recipe_dictionary.h
 src/requirements.h
 src/rotatable_symbols.h

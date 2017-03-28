@@ -63,54 +63,122 @@ namespace io {
 struct object_archive_tag;
 }
 
+/**
+ *  Value and metadata for one property of an item
+ *
+ *  Contains the value of one property of an item, as well as various metadata items required to
+ *  output that value.  This is used primarily for user output of information about an item, for
+ *  example in the various inventory menus.  See @ref item::info() for the main example of how a
+ *  class desiring to provide user output might obtain a class of this type.
+ *
+ *  As an example, if the item being queried was a piece of clothing, then several properties might
+ *  be returned.  All would have sType "ARMOR".  There would be one for the coverage stat with
+ *  sName "Coverage: ", another for the warmth stat with sName "Warmth: ", etc.
+ */
 struct iteminfo {
     public:
-        std::string sType; //Itemtype
-        std::string sName; //Main item text
-        std::string sFmt; //Text between main item and value
-        std::string sValue; //Set to "-999" if no compare value is present
-        double dValue; //Stores double value of sValue for value comparisons
-        bool is_int; //Sets if sValue should be treated as int or single decimal double
-        std::string sPlus; //number +
-        bool bNewLine; //New line at the end
-        bool bLowerIsBetter; //Lower values are better (red <-> green)
-        bool bDrawName; //If false then compares sName, but don't print sName.
+        /** Category of item that owns this iteminfo.  See @ref item_category. */
+        std::string sType;
 
-        // Inputs are: ItemType, main text, text between main text and value, value,
-        // if the value should be an int instead of a double, text after number,
-        // if there should be a newline after this item, if lower values are better
-        iteminfo(std::string Type, std::string Name, std::string Fmt = "", double Value = -999,
-                 bool _is_int = true, std::string Plus = "", bool NewLine = true,
-                 bool LowerIsBetter = false, bool DrawName = true);
+        /** Main text of this property's name */
+        std::string sName;
+
+        /** Formatting text to be placed between the name and value of this item. */
+        std::string sFmt;
+
+        /** Numerical value of this property. Set to -999 if no compare value is present */
+        std::string sValue;
+
+        /** Internal double floating point version of value, for numerical comparisons */
+        double dValue;
+
+        /** Flag indicating type of sValue.  True if integer, false if single decimal */
+        bool is_int;
+
+        /** Used to add a leading character to the printed value, usually '+' or '$'. */
+        std::string sPlus;
+
+        /** Flag indicating whether a newline should be printed after printing this item */
+        bool bNewLine;
+
+        /** Reverses behavior of red/green text coloring; smaller values are green if true */
+        bool bLowerIsBetter;
+
+        /** Whether to print sName.  If false, use for comparisons but don't print for user. */
+        bool bDrawName;
+
+        /**
+         *  @param Type The item type of the item this iteminfo belongs to.
+         *  @param Name The name of the property this iteminfo describes.
+         *  @param Fmt Formatting text desired between item name and value
+         *  @param Value Numerical value of this property, -999 for none.
+         *  @param LowerIsBetter True if lower values better for red/green coloring
+         *  @param DrawName True if item name should be displayed.
+         */
+        iteminfo( std::string Type, std::string Name, std::string Fmt = "", double Value = -999,
+                  bool _is_int = true, std::string Plus = "", bool NewLine = true,
+                  bool LowerIsBetter = false, bool DrawName = true );
 };
 
+/**
+ *  Possible layers that a piece of clothing/armor can occupy
+ *
+ *  Every piece of clothing occupies one distinct layer on the body-part that
+ *  it covers.  This is used for example by @ref Character to calculate
+ *  encumbrance values, @ref Player to calculate time to wear/remove the item,
+ *  and by @ref profession to place the characters' clothing in a sane order
+ *  when starting the game.
+ */
 enum layer_level {
+    /* "Close to skin" layer, corresponds to SKINTIGHT flag. */
     UNDERWEAR = 0,
+    /* "Normal" layer, default if no flags set */
     REGULAR_LAYER,
+    /* "Waist" layer, corresponds to WAIST flag. */
     WAIST_LAYER,
+    /* "Outer" layer, corresponds to OUTER flag. */
     OUTER_LAYER,
+    /* "Strapped" layer, corresponds to BELTED flag */
     BELTED_LAYER,
+    /* Not a valid layer; used for C-style iteration through this enum */
     MAX_CLOTHING_LAYER
 };
 
+/**
+ *  Contains metadata for one category of items
+ *
+ *  Every item belongs to a category (eg weapons, armor, food, etc).  This class
+ *  contains the info about one such category.  Actual categories are normally added
+ *  by class @ref Item_factory from definitions in the json data files.
+ */
 class item_category
 {
     public:
-        // id (like itype::id) - used when loading from json
+        /** Unique ID of this category, used when loading from json. */
         std::string id;
-        // display name (localized)
+        /** Name of category for displaying to the user (localized) */
         std::string name;
-        // categories are sorted by this value,
-        // lower values means the category is shown first
+        /** Used to sort categories when displaying.  Lower values are shown first. */
         int sort_rank;
 
         item_category();
+        /**
+         *  @param id: Unique ID of this category
+         *  @param name: Localized string for displaying name of this category
+         *  @param sort_rank: Used to order a display list of categories
+         */
         item_category(const std::string &id, const std::string &name, int sort_rank);
-        // Comparators operato on the sort_rank, name, id
-        // (in that order).
+
+        /**
+         *  Comparison operators
+         *
+         *  Used for sorting.  Will result in sorting by sort_rank, then by name, then by id.
+         */
+        /*@{*/
         bool operator<(const item_category &rhs) const;
         bool operator==(const item_category &rhs) const;
         bool operator!=(const item_category &rhs) const;
+        /*@}*/
 };
 
 class item : public JsonSerializer, public JsonDeserializer, public visitable<item>
@@ -1656,19 +1724,38 @@ class map_item_stack
         }
 };
 
-// Commonly used convenience functions that match an item to one of the 3 common types of locators:
-// type_id (itype_id, a typedef of string), position (int) or pointer (item *).
-// The item's position is optional, if not passed in we expect the item to fail position match.
+/**
+ *  Match an item with a locator.
+ *
+ *  Commonly used convenience functions that match an item to one of the 3 common types of locators:
+ *      1) type_id (just a typedef to a string)
+ *      2) position (int)
+ *      3) pointer (item *)
+ *
+ *  The item's position is optional.  The default used if position is not given is expected to fail
+ *  the position match in all cases.
+ *
+ *  @returns true if match is found, otherwise returns false
+ */
+/*@{*/
 bool item_matches_locator(const item &it, const itype_id &id, int item_pos = INT_MIN);
 bool item_matches_locator(const item &it, int locator_pos, int item_pos = INT_MIN);
 bool item_matches_locator(const item &it, const item *other, int);
+/*@}*/
 
-//the assigned numbers are a result of legacy stuff in draw_item_info(),
-//it would be better long-term to rewrite stuff so that we don't need that hack
+/**
+ *  Hint value used in a hack to decide text color.
+ *
+ *  This is assigned as a result of some legacy logic in @ref draw_item_info().  This
+ *  will eventually be rewritten to eliminate the need for this hack.
+ */
 enum hint_rating {
-    HINT_CANT = 0, //meant to display as gray
-    HINT_IFFY = 1, //meant to display as red
-    HINT_GOOD = -999 // meant to display as green
+    /** Item should display as gray */
+    HINT_CANT = 0,
+    /** Item should display as red */
+    HINT_IFFY = 1,
+    /** Item should display as green */
+    HINT_GOOD = -999
 };
 
 #endif

@@ -37,6 +37,7 @@ const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
+const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_webbed( "webbed" );
 
 const skill_id skill_dodge( "dodge" );
@@ -339,44 +340,13 @@ void Character::process_turn()
 void Character::recalc_hp()
 {
     int new_max_hp[num_hp_parts];
+    // Mutated toughness stacks with starting, by design.
+    float hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" );
+    float hp_adjustment = mutation_value( "hp_adjustment" );
     for( auto &elem : new_max_hp ) {
         ///\EFFECT_STR_MAX increases base hp
-        elem = 60 + str_max * 3;
-        if (has_trait("HUGE")) {
-            // Bad-Huge doesn't quite have the cardio/skeletal/etc to support the mass,
-            // so no HP bonus from the ST above/beyond that from Large
-            elem -= 6;
-        }
-        // You lose half the HP you'd expect from BENDY mutations.  Your gelatinous
-        // structure can help with that, a bit.
-        if (has_trait("BENDY2")) {
-            elem += 3;
-        }
-        if (has_trait("BENDY3")) {
-            elem += 6;
-        }
-        // Only the most extreme applies.
-        if (has_trait("TOUGH")) {
-            elem *= 1.2;
-        } else if (has_trait("TOUGH2")) {
-            elem *= 1.3;
-        } else if (has_trait("TOUGH3")) {
-            elem *= 1.4;
-        } else if (has_trait("FLIMSY")) {
-            elem *= .75;
-        } else if (has_trait("FLIMSY2")) {
-            elem *= .5;
-        } else if (has_trait("FLIMSY3")) {
-            elem *= .25;
-        }
-        // Mutated toughness stacks with starting, by design.
-        if (has_trait("MUT_TOUGH")) {
-            elem *= 1.2;
-        } else if (has_trait("MUT_TOUGH2")) {
-            elem *= 1.3;
-        } else if (has_trait("MUT_TOUGH3")) {
-            elem *= 1.4;
-        }
+        elem = 60 + str_max * 3 + hp_adjustment;
+        elem *= hp_mod;
     }
     if( has_trait( "GLASSJAW" ) ) {
         new_max_hp[hp_head] *= 0.8;
@@ -682,21 +652,20 @@ void Character::i_rem_keep_contents( const int pos )
     }
 }
 
-bool Character::i_add_or_drop(item& it, int qty) {
+bool Character::i_add_or_drop( item& it, int qty ) {
     bool retval = true;
-    bool drop = false;
-    inv.assign_empty_invlet(it);
-    for (int i = 0; i < qty; ++i) {
-        if ( !drop && ( !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) )
-                      || !can_pickVolume( it ) ) ) {
-            drop = true;
-        }
+    bool drop = it.made_of( LIQUID );
+    bool add = it.is_gun() || !it.has_flag( "IRREMOVABLE" );
+    inv.assign_empty_invlet( it );
+    for( int i = 0; i < qty; ++i ) {
+        drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
         if( drop ) {
             retval &= !g->m.add_item_or_charges( pos(), it ).is_null();
-        } else if ( !( it.has_flag("IRREMOVABLE") && !it.is_gun() ) ){
-            i_add(it);
+        } else if ( add ) {
+            i_add( it );
         }
     }
+
     return retval;
 }
 
@@ -828,7 +797,7 @@ int Character::weight_capacity() const
 {
     if( has_trait( "DEBUG_STORAGE" ) ) {
         // Infinite enough
-        return INT_MAX;
+        return INT_MAX >> 2;
     }
     // Get base capacity from creature,
     // then apply player-only mutation and trait effects.
@@ -1977,6 +1946,8 @@ bool Character::is_immune_field( const field_id fid ) const
                    get_armor_type( DT_ACID, bp_foot_r ) >= 5 &&
                    get_armor_type( DT_ACID, bp_leg_l ) >= 5 &&
                    get_armor_type( DT_ACID, bp_leg_r ) >= 5);
+        case fd_web:
+            return has_trait( "WEB_WALKER" );
         default:
             // Suppress warning
             break;
@@ -2154,7 +2125,7 @@ float Character::rest_quality() const
 {
     // Just a placeholder for now.
     // @todo Waiting/reading/being unconscious on bed/sofa/grass
-    return 0.0f;
+    return has_effect( effect_sleep ) ? 1.0f : 0.0f;
 }
 
 hp_part Character::bp_to_hp( const body_part bp )
@@ -2303,4 +2274,74 @@ std::string Character::extended_description() const
     } );
 
     return replace_colors( ss.str() );
+}
+
+template <float mutation_branch::*member>
+float calc_mutation_value( const std::vector<const mutation_branch *> &mutations )
+{
+    float lowest = 0.0f;
+    float highest = 0.0f;
+    for( const mutation_branch *mut : mutations ) {
+        float val = mut->*member;
+        lowest = std::min( lowest, val );
+        highest = std::max( highest, val );
+    }
+
+    return std::min( 0.0f, lowest ) + std::max( 0.0f, highest );
+}
+
+float Character::mutation_value( const std::string &val ) const
+{
+    // Syntax similar to tuple get<n>()
+    // @todo Get rid of if/else ladder
+    if( val == "healing_awake" ) {
+        return calc_mutation_value<&mutation_branch::healing_awake>( cached_mutations );
+    } else if( val == "healing_resting" ) {
+        return calc_mutation_value<&mutation_branch::healing_resting>( cached_mutations );
+    } else if( val == "hp_modifier" ) {
+        return calc_mutation_value<&mutation_branch::hp_modifier>( cached_mutations );
+    } else if( val == "hp_modifier_secondary" ) {
+        return calc_mutation_value<&mutation_branch::hp_modifier_secondary>( cached_mutations );
+    } else if( val == "hp_adjustment" ) {
+        return calc_mutation_value<&mutation_branch::hp_adjustment>( cached_mutations );
+    }
+
+    debugmsg( "Invalid mutation value name %s", val.c_str() );
+    return 0.0f;
+}
+
+float Character::healing_rate( float at_rest_quality ) const
+{
+    // @todo Cache
+    float awake_rate = mutation_value( "healing_awake" );
+    float final_rate = 0.0f;
+    if( awake_rate > 0.0f ) {
+        final_rate += awake_rate;
+    } else if( at_rest_quality < 1.0f ) {
+        // Resting protects from rot
+        final_rate += ( 1.0f - at_rest_quality ) * awake_rate;
+    }
+    float asleep_rate = 0.0f;
+    if( at_rest_quality > 0.0f ) {
+        asleep_rate = at_rest_quality * ( 0.01f + mutation_value( "healing_resting" ) );
+    }
+    if( asleep_rate > 0.0f ) {
+        final_rate += asleep_rate * ( 1.0f + get_healthy() / 200.0f );
+    }
+
+    // Most common case: awake player with no regenerative abilities
+    // ~7e-5 is 1 hp per day, anything less than that is totally negligible
+    static constexpr float eps = 0.000007f;
+    add_msg( m_debug, "%s healing: %.6f", name.c_str(), final_rate );
+    if( std::abs( final_rate ) < eps ) {
+        return 0.0f;
+    }
+
+    float primary_hp_mod = mutation_value( "hp_modifier" );
+    if( primary_hp_mod < 0.0f ) {
+        // HP mod can't get below -1.0
+        final_rate *= 1.0f + primary_hp_mod;
+    }
+
+    return final_rate;
 }

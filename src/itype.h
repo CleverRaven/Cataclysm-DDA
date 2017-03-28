@@ -29,7 +29,8 @@
 // see item.h
 class item_category;
 class Item_factory;
-struct recipe;
+class recipe;
+
 struct itype;
 class Skill;
 using skill_id = string_id<Skill>;
@@ -231,7 +232,7 @@ struct islot_book {
         /**
          * The recipe that can be learned (never null).
          */
-        const struct recipe *recipe;
+        const class recipe *recipe;
         /**
          * The skill level required to learn the recipe.
          */

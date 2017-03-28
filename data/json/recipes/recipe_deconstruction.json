@@ -721,7 +721,7 @@
     "result": "baseball",
     "type": "uncraft",
     "time": 1000,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "leather", 2 ] ],
       [ [ "string_6", 2 ] ]
@@ -838,7 +838,7 @@
     "result": "blade",
     "type": "uncraft",
     "time": 1500,
-    "qualities": [ { "id": "HAMMER", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 3 ] ] ]
   },
   {
@@ -872,7 +872,7 @@
     "skill_used": "electronics",
     "difficulty": 4,
     "time": 2000,
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "soldering_iron", 5 ], [ "toolset", 5 ] ] ],
     "components": [
       [ [ "processor", 1 ] ],
@@ -886,7 +886,7 @@
     "skill_used": "electronics",
     "difficulty": 4,
     "time": 2000,
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "soldering_iron", 5 ], [ "toolset", 5 ] ] ],
     "components": [
       [ [ "processor", 1 ] ],
@@ -901,8 +901,8 @@
     "difficulty": 6,
     "time": 120000,
     "qualities": [
-      { "id": "SCREW", "level": 1, "amount": 1 },
-      { "id": "SAW_M", "level": 1, "amount": 1 }
+      { "id": "SCREW", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
     ],
     "tools": [
       [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ],
@@ -923,7 +923,7 @@
     "skill_used": "electronics",
     "difficulty": 2,
     "time": 30000,
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "soldering_iron", 3 ], [ "toolset", 3 ] ] ],
     "components": [
       [ [ "processor", 1 ] ],
@@ -938,7 +938,7 @@
     "skill_used": "electronics",
     "difficulty": 4,
     "time": 2000,
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "soldering_iron", 5 ], [ "toolset", 5 ] ] ],
     "components": [
       [ [ "processor", 1 ] ],
@@ -952,7 +952,7 @@
     "skill_used": "electronics",
     "difficulty": 4,
     "time": 2000,
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "soldering_iron", 5 ], [ "toolset", 5 ] ] ],
     "components": [
       [ [ "processor", 1 ] ],
@@ -966,7 +966,7 @@
     "skill_used": "electronics",
     "difficulty": 4,
     "time": 2000,
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "soldering_iron", 5 ], [ "toolset", 5 ] ] ],
     "components": [
       [ [ "processor", 1 ] ],
@@ -995,7 +995,7 @@
     "skill_used": "electronics",
     "difficulty": 5,
     "time": 4000,
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ] ],
     "components": [
       [ [ "processor", 2 ] ],
@@ -1009,7 +1009,7 @@
     "skill_used": "electronics",
     "difficulty": 3,
     "time": 180000,
-    "qualities": [ { "id": "SAW_M", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "oxy_torch", 12 ], [ "welder", 60 ], [ "toolset", 90 ], [ "welder_crude", 90 ] ] ],
     "components": [
       [ [ "power_supply", 4 ] ],
@@ -1024,8 +1024,8 @@
     "difficulty": 6,
     "time": 120000,
     "qualities": [
-      { "id": "SCREW", "level": 1, "amount": 1 },
-      { "id": "SAW_M", "level": 1, "amount": 1 }
+      { "id": "SCREW", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
     ],
     "tools": [
       [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ],
@@ -1046,7 +1046,7 @@
     "skill_used": "electronics",
     "difficulty": 3,
     "time": 60000,
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ] ],
     "components": [
       [ [ "power_supply", 1 ] ],
@@ -1062,9 +1062,9 @@
     "difficulty": 8,
     "time": 600000,
     "qualities": [
-      { "id": "SCREW", "level": 1, "amount": 1 },
-      { "id": "WRENCH", "level": 1, "amount": 1 },
-      { "id": "SAW_M", "level": 1, "amount": 1 }
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
     ],
     "tools": [
       [ [ "soldering_iron", 30 ], [ "toolset", 30 ] ],
@@ -1090,8 +1090,8 @@
     "difficulty": 8,
     "time": 300000,
     "qualities": [
-      { "id": "SCREW", "level": 1, "amount": 1 },
-      { "id": "SAW_M", "level": 1, "amount": 1 }
+      { "id": "SCREW", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
     ],
     "tools": [
       [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ],
@@ -1111,7 +1111,7 @@
     "result": "camera",
     "type": "uncraft",
     "time": 1000,
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "scrap", 2 ] ],
       [ [ "processor", 1 ] ],
@@ -1124,7 +1124,7 @@
     "result": "camera_pro",
     "type": "uncraft",
     "time": 1200,
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "scrap", 5 ] ],
       [ [ "processor", 1 ] ],
@@ -1138,8 +1138,8 @@
     "type": "uncraft",
     "time": 2000,
     "qualities": [
-      { "id": "HAMMER", "level": 1, "amount": 1 },
-      { "id": "SCREW", "level": 1, "amount": 1 }
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SCREW", "level": 1 }
     ],
     "components": [ [ [ "gold_small", 300 ] ] ]
   },
@@ -1147,7 +1147,7 @@
     "result": "cannabis",
     "type": "uncraft",
     "time": 5000,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "weed", 20 ] ],
       [ [ "plant_fibre", 100 ] ],
@@ -1283,7 +1283,7 @@
     "result": "eink_tablet_pc",
     "type": "uncraft",
     "time": 500,
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "scrap", 1 ] ],
       [ [ "RAM", 1 ] ],
@@ -1298,7 +1298,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": 500,
-    "qualities": [ { "id": "WRENCH", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "scrap", 3 ] ],
       [ [ "hose", 1 ] ],
@@ -1321,7 +1321,7 @@
     "result": "felt_patch",
     "type": "uncraft",
     "time": 6000,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "yarn", 50 ] ] ]
   },
   {
@@ -1342,14 +1342,14 @@
     "result": "foon",
     "type": "uncraft",
     "time": 1500,
-    "qualities": [ { "id": "HAMMER", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "football",
     "type": "uncraft",
     "time": 1000,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "leather", 4 ] ],
       [ [ "string_6", 3 ] ]
@@ -1359,7 +1359,7 @@
     "result": "fork",
     "type": "uncraft",
     "time": 1500,
-    "qualities": [ { "id": "HAMMER", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
@@ -1453,7 +1453,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": 750000,
-    "qualities": [ { "id": "SAW_M", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "welder", 500 ], [ "toolset", 750 ] ] ],
     "components": [
       [ [ "steel_plate", 10 ] ],
@@ -1467,8 +1467,8 @@
     "difficulty": 3,
     "time": 10000,
     "qualities": [
-      { "id": "SCREW", "level": 1, "amount": 1 },
-      { "id": "SAW_M", "level": 1, "amount": 1 }
+      { "id": "SCREW", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
     ],
     "components": [
       [ [ "cable", 12 ] ],
@@ -1482,7 +1482,7 @@
     "skill_used": "electronics",
     "difficulty": 3,
     "time": 10000,
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "e_scrap", 4 ] ],
       [ [ "amplifier", 2 ] ],
@@ -1495,7 +1495,7 @@
     "skill_used": "electronics",
     "difficulty": 2,
     "time": 10000,
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "e_scrap", 2 ] ],
       [ [ "amplifier", 1 ] ],
@@ -1619,7 +1619,7 @@
     "result": "material_shrd_limestone",
     "type": "uncraft",
     "time": 10000,
-    "qualities": [ { "id": "HAMMER", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "material_limestone", 10 ] ] ]
   },
@@ -1628,7 +1628,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "time": 10000,
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ] ],
     "components": [
       [ [ "element", 3 ] ],
@@ -1657,7 +1657,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "time": 10000,
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "element", 3 ] ],
       [ [ "amplifier", 1 ] ],
@@ -1692,9 +1692,9 @@
     "difficulty": 4,
     "time": 30000,
     "qualities": [
-      { "id": "SCREW", "level": 1, "amount": 1 },
-      { "id": "WRENCH", "level": 1, "amount": 1 },
-      { "id": "SAW_M", "level": 1, "amount": 1 }
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
     ],
     "tools": [
       [ [ "soldering_iron", 40 ], [ "toolset", 40 ] ],
@@ -1714,9 +1714,9 @@
     "difficulty": 6,
     "time": 50000,
     "qualities": [
-      { "id": "SCREW", "level": 1, "amount": 1 },
-      { "id": "WRENCH", "level": 1, "amount": 1 },
-      { "id": "SAW_M", "level": 1, "amount": 1 }
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
     ],
     "tools": [
       [ [ "soldering_iron", 50 ], [ "toolset", 50 ] ],
@@ -1865,7 +1865,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "time": 90000,
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
@@ -1905,7 +1905,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": 1500,
-    "qualities": [ { "id": "WRENCH", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "scrap", 5 ] ],
       [ [ "cu_pipe", 1 ] ],
@@ -1920,7 +1920,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": 500,
-    "qualities": [ { "id": "WRENCH", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "scrap", 1 ] ],
       [ [ "plastic_chunk", 1 ] ],
@@ -1961,7 +1961,7 @@
     "skill_used": "electronics",
     "difficulty": 2,
     "time": 10000,
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ] ],
     "components": [
       [ [ "plastic_chunk", 8 ] ],
@@ -1975,7 +1975,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": 7500,
-    "qualities": [ { "id": "SAW_M", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "scrap_copper", 5 ] ],
       [ [ "scrap", 1 ] ]
@@ -1989,9 +1989,9 @@
     "skills_required": [ "electronics", 5 ],
     "time": 80000,
     "qualities": [
-      { "id": "SAW_M", "level": 1, "amount": 1 },
-      { "id": "SCREW", "level": 1, "amount": 1 },
-      { "id": "WRENCH", "level": 1, "amount": 1 }
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
     ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
     "components": [
@@ -2011,9 +2011,9 @@
     "skills_required": [ "electronics", 4 ],
     "time": 80000,
     "qualities": [
-      { "id": "SAW_M", "level": 1, "amount": 1 },
-      { "id": "SCREW", "level": 1, "amount": 1 },
-      { "id": "WRENCH", "level": 1, "amount": 1 }
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
     ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
     "components": [
@@ -2031,7 +2031,7 @@
     "skill_used": "electronics",
     "difficulty": 1,
     "time": 10000,
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "soldering_iron", 5 ], [ "toolset", 5 ] ] ],
     "components": [
       [ [ "e_scrap", 3 ] ],
@@ -2081,7 +2081,7 @@
     "result": "rag",
     "type": "uncraft",
     "time": 60000,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "thread", 100 ] ] ]
   },
   {
@@ -2121,9 +2121,9 @@
     "difficulty": 8,
     "time": 60000,
     "qualities": [
-      { "id": "SCREW", "level": 1, "amount": 1 },
-      { "id": "WRENCH", "level": 1, "amount": 1 },
-      { "id": "SAW_M", "level": 1, "amount": 1 }
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
     ],
     "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
     "components": [
@@ -2137,7 +2137,7 @@
     "result": "seat",
     "type": "uncraft",
     "time": 5000,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "oxy_torch", 12 ], [ "welder", 25 ], [ "welder_crude", 40 ], [ "toolset", 40 ] ] ],
     "components": [
       [ [ "pipe", 4 ] ],
@@ -2179,7 +2179,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": 500,
-    "qualities": [ { "id": "WRENCH", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "scrap", 1 ] ],
       [ [ "plastic_chunk", 1 ] ],
@@ -2199,7 +2199,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": 500,
-    "qualities": [ { "id": "WRENCH", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 2 ] ],
       [ [ "canister_empty", 1 ] ]
@@ -2209,21 +2209,21 @@
     "result": "spoon",
     "type": "uncraft",
     "time": 1500,
-    "qualities": [ { "id": "HAMMER", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "spork",
     "type": "uncraft",
     "time": 1500,
-    "qualities": [ { "id": "HAMMER", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "spring",
     "type": "uncraft",
     "time": 1500,
-    "qualities": [ { "id": "HAMMER", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 7 ] ] ]
   },
   {
@@ -2244,7 +2244,7 @@
     "result": "straw_fedora",
     "type": "uncraft",
     "time": 1500,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "straw_pile", 5 ] ] ]
   },
   {
@@ -2315,7 +2315,7 @@
     "result": "thyme",
     "type": "uncraft",
     "time": 1000,
-    "qualities": [ { "id": "CUT", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "wild_herbs", 10 ] ] ]
   },
   {
@@ -2329,7 +2329,7 @@
     "result": "tin_plate",
     "type": "uncraft",
     "time": 1500,
-    "qualities": [ { "id": "HAMMER", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "tin", 100 ] ] ]
   },
   {
@@ -2371,7 +2371,7 @@
     "result": "vac_sealer",
     "type": "uncraft",
     "time": 500,
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "scrap", 4 ] ],
       [ [ "element", 2 ] ],
@@ -2387,8 +2387,8 @@
     "skills_required": [ "fabrication", 2 ],
     "time": 5400,
     "qualities": [
-      { "id": "SCREW", "level": 1, "amount": 1 },
-      { "id": "SAW_M", "level": 1, "amount": 1 }
+      { "id": "SCREW", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
     ],
     "components": [
       [ [ "e_scrap", 1 ] ],
@@ -2407,7 +2407,7 @@
     "result": "wire",
     "type": "uncraft",
     "time": 1500,
-    "qualities": [ { "id": "HAMMER", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {

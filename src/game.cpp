@@ -1214,7 +1214,7 @@ bool game::cleanup_at_end()
         std::string sLastWords = string_input_popup()
                                  .window( w_rip, iStartX, iNameLine, iStartX + iMaxWidth - 4 - 1 )
                                  .max_length( iMaxWidth - 4 - 1 )
-                                 .query();
+                                 .query_string();
         death_screen();
         if (uquit == QUIT_SUICIDE) {
             u.add_memorial_log(pgettext("memorial_male", "%s committed suicide."),
@@ -1837,7 +1837,7 @@ void game::handle_key_blocking_activity()
 
     if( u.activity && u.activity.moves_left > 0 && u.activity.is_abortable() ) {
         input_context ctxt = get_default_mode_input_context();
-        const std::string action = ctxt.handle_input( 1 );
+        const std::string action = ctxt.handle_input( 0 );
         if (action == "pause") {
             cancel_activity_query(_("Confirm:"));
         } else if (action == "player_data") {
@@ -3031,7 +3031,8 @@ bool game::handle_action()
                 int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
                 temp_exit_fullscreen();
                 m.draw( w_terrain, u.pos() );
-                std::vector<tripoint> trajectory = pl_target_ui( TARGET_MODE_REACH, &u.weapon,range );
+                std::vector<tripoint> trajectory;
+                trajectory = target_handler().target_ui( u, TARGET_MODE_REACH, &u.weapon,range );
                 if( !trajectory.empty() ) {
                     u.reach_attack( trajectory.back() );
                 }
@@ -4333,12 +4334,13 @@ void game::debug()
                                   .width( 20 )
                                   .text( to_string( initial ) )
                                   .only_digits( true )
-                                  .query();
+                                  .query_string();
                 if( text.empty() ) {
                     return;
                 }
-                const int new_value = std::atoi( text.c_str() );
-                calendar::turn -= ( initial - new_value ) * factor;
+                const int new_value = ( std::atoi( text.c_str() ) - initial ) * factor;
+                calendar::turn += std::max( std::min( INT_MAX / 2 - calendar::turn.get_turn(), new_value ),
+                                            -calendar::turn.get_turn() );
             };
 
             uimenu smenu;
@@ -4348,7 +4350,8 @@ void game::debug()
                 smenu.reset();
                 smenu.return_invalid = true;
                 smenu.addentry( 0, true, 'y', "%s: %d", _( "year" ), calendar::turn.years() );
-                smenu.addentry( 1, true, 's', "%s: %d", _( "season" ), int( calendar::turn.get_season() ) );
+                smenu.addentry( 1, !get_world_option<bool>( "ETERNAL_SEASON" ), 's', "%s: %d",
+                                _( "season" ), int( calendar::turn.get_season() ) );
                 smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), calendar::turn.days() );
                 smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), calendar::turn.hours() );
                 smenu.addentry( 4, true, 'm', "%s: %d", _( "minute" ), calendar::turn.minutes() );
@@ -7409,7 +7412,7 @@ bool pet_menu(monster *z)
         std::string unique_name = string_input_popup()
                                   .title( _( "Enter new pet name:" ) )
                                   .width( 20 )
-                                  .query();
+                                  .query_string();
         if( unique_name.length() > 0 ) {
             z->unique_name = unique_name;
         }
@@ -9102,7 +9105,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             reset = true;
             refresh_all();
         } else if( action == "FILTER" ) {
-	  draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::FILTER );
+            draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::FILTER );
             string_input_popup()
             .title( _( "Filter:" ) )
             .width( 55 )
@@ -9141,7 +9144,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                                .description( _( "UP: history, CTRL-U clear line, ESC: abort, ENTER: save" ) )
                                .identifier( "list_item_priority" )
                                .max_length( 256 )
-                               .query();
+                               .query_string();
             refilter = true;
             reset = true;
             addcategory = !sort_radius;
@@ -9155,7 +9158,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                                  .description( _( "UP: history, CTRL-U clear line, ESC: abort, ENTER: save" ) )
                                  .identifier( "list_item_downvote" )
                                  .max_length( 256 )
-                                 .query();
+                                 .query_string();
             refilter = true;
             reset = true;
             addcategory = !sort_radius;
@@ -9976,8 +9979,9 @@ void game::plthrow(int pos)
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
 
-    // pl_target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
-    std::vector<tripoint> trajectory = pl_target_ui( TARGET_MODE_THROW, &thrown, range );
+    // target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
+    std::vector<tripoint> trajectory;
+    trajectory = target_handler().target_ui( u, TARGET_MODE_THROW, &thrown, range );
     if (trajectory.empty()) {
         return;
     }
@@ -9998,12 +10002,7 @@ void game::plthrow(int pos)
     reenter_fullscreen();
 }
 
-// @todo: Move game::pl_target_ui and related data/functions to src/ranged.cpp
-std::vector<tripoint> game::pl_target_ui( const targeting_data &args ) {
-    return pl_target_ui( args.mode, args.relevant, args.range,
-                         args.ammo, args.on_mode_change, args.on_ammo_change );
-}
-
+// @todo: Move data/functions related to targeting out of game class
 bool game::plfire_check( const targeting_data &args ) {
     bool okay = true;
     vehicle *veh = nullptr;
@@ -10145,7 +10144,7 @@ bool game::plfire()
 
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
-    std::vector<tripoint> trajectory = pl_target_ui( args );
+    std::vector<tripoint> trajectory = target_handler().target_ui( u, args );
 
     if( trajectory.empty() ) {
         bool not_aiming = u.activity.id() != activity_id( "ACT_AIM" );
@@ -10854,13 +10853,12 @@ void game::wield( int pos )
 
     item_location loc;
     if( pos != INT_MIN ) {
-        loc = std::move( item_location( u, &u.i_at( pos ) ) );
+        loc = item_location( u, &u.i_at( pos ) );
     } else {
         const auto filter = []( const item &it ) {
             return it.made_of( SOLID );
         };
-        loc = std::move( inv_map_splice( filter, _( "Wield item" ), 1,
-                                         _( "You have nothing to wield." ) ) );
+        loc = inv_map_splice( filter, _( "Wield item" ), 1, _( "You have nothing to wield." ) );
     }
 
     if( !loc ) {
@@ -13224,7 +13222,8 @@ void game::shift_monsters( const int shiftx, const int shifty, const int shiftz 
 void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
 {
     // Create a new NPC?
-    if( !get_world_option<bool>( "RANDOM_NPC" ) ) {
+    // Only allow NPCs on 0 z-level, otherwise they can bug out due to lack of spots
+    if( !get_world_option<bool>( "RANDOM_NPC" ) || ( !m.has_zlevels() && get_levz() != 0 ) ) {
         return;
     }
 
@@ -13264,7 +13263,7 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
             break;
         }
         // adds the npc to the correct overmap.
-        tmp->spawn_at( msx, msy, get_levz() );
+        tmp->spawn_at( msx, msy, 0 );
         tmp->form_opinion( u );
         tmp->mission = NPC_MISSION_NULL;
         tmp->add_new_mission( mission::reserve_random(ORIGIN_ANY_NPC, tmp->global_omt_location(), tmp->getID()) );
@@ -13733,45 +13732,32 @@ void game::process_artifact(item *it, player *p)
     p->dex_cur = p->get_dex();
     p->per_cur = p->get_per();
 }
+
 void game::start_calendar()
 {
     calendar::start = HOURS(get_world_option<int>( "INITIAL_TIME" ) );
-    if( scen->has_flag("SPR_START") || scen->has_flag("SUM_START") ||
-        scen->has_flag("AUT_START") || scen->has_flag("WIN_START") ||
-        scen->has_flag("SUM_ADV_START") ) {
-        if( scen->has_flag("SPR_START") ) {
-            ; // Do nothing;
-        } else if( scen->has_flag("SUM_START") ) {
-            calendar::start += DAYS( calendar::season_length() );
-        } else if( scen->has_flag("AUT_START") ) {
-            calendar::start += DAYS( calendar::season_length() * 2 );
-        } else if( scen->has_flag("WIN_START") ) {
-            calendar::start += DAYS( calendar::season_length() * 3 );
-        } else if( scen->has_flag("SUM_ADV_START") ) {
-            calendar::start += DAYS( calendar::season_length() * 5 );
-        } else {
-            debugmsg("The Unicorn");
-        }
+    const bool scen_season = scen->has_flag( "SPR_START" ) || scen->has_flag( "SUM_START" ) ||
+                             scen->has_flag( "AUT_START" ) || scen->has_flag( "WIN_START" ) ||
+                             scen->has_flag( "SUM_ADV_START" );
+    const std::string nonscen_season = get_world_option<std::string>( "INITIAL_SEASON" );
+    if( scen->has_flag( "SPR_START" ) || ( !scen_season && nonscen_season == "spring" ) ) {
+        calendar::initial_season = SPRING;
+    } else if( scen->has_flag( "SUM_START" ) || ( !scen_season && nonscen_season == "summer" ) ) {
+        calendar::initial_season = SUMMER;
+        calendar::start += DAYS( calendar::season_length() );
+    } else if( scen->has_flag( "AUT_START" ) || ( !scen_season && nonscen_season == "autumn" ) ) {
+        calendar::initial_season = AUTUMN;
+        calendar::start += DAYS( calendar::season_length() * 2 );
+    } else if( scen->has_flag( "WIN_START" ) || ( !scen_season && nonscen_season == "winter" ) ) {
+        calendar::initial_season = WINTER;
+        calendar::start += DAYS( calendar::season_length() * 3 );
+    } else if( scen->has_flag( "SUM_ADV_START" ) ) {
+        calendar::initial_season = SUMMER;
+        calendar::start += DAYS( calendar::season_length() * 5 );
     } else {
-        if( get_world_option<std::string>( "INITIAL_SEASON" ) == "spring" ) {
-            calendar::initial_season = SPRING;
-            ; // Do nothing.
-        } else if( get_world_option<std::string>( "INITIAL_SEASON" ) == "summer") {
-            calendar::initial_season = SUMMER;
-            calendar::start += DAYS( calendar::season_length() );
-        } else if( get_world_option<std::string>( "INITIAL_SEASON" ) == "autumn" ) {
-            calendar::initial_season = AUTUMN;
-            calendar::start += DAYS( calendar::season_length() * 2 );
-        } else {
-            calendar::initial_season = WINTER;
-            calendar::start += DAYS( calendar::season_length() * 3 );
-        }
+        debugmsg( "The Unicorn" );
     }
     calendar::turn = calendar::start;
-
-    if ( get_world_option<bool>( "ETERNAL_SEASON" ) ) {
-      calendar::eternal_season = true;
-    }
 }
 
 void game::add_artifact_messages(std::vector<art_effect_passive> effects)

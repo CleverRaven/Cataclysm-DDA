@@ -72,7 +72,6 @@ void game::serialize(std::ostream & fout) {
         json.member("turn", (int)calendar::turn);
         json.member("calendar_start", (int)calendar::start);
         json.member("initial_season", (int)calendar::initial_season);
-        json.member("eternal_season", calendar::eternal_season);
         json.member( "last_target", (int)last_target );
         json.member( "run_mode", (int)safe_mode );
         json.member( "mostseen", mostseen );
@@ -188,7 +187,6 @@ void game::unserialize(std::istream & fin)
         data.read("turn",tmpturn);
         data.read("calendar_start",tmpcalstart);
         calendar::initial_season = (season_type)data.get_int("initial_season",(int)SPRING);
-        calendar::eternal_season = data.get_bool("eternal_season", false);
         data.read("last_target",tmptar);
         data.read("run_mode", tmprun);
         data.read("mostseen", mostseen);
@@ -311,7 +309,7 @@ bool overmap::obsolete_terrain( const std::string &ter ) {
         "school_4", "school_5", "school_6",
         "school_7", "school_8", "school_9",
         "cathedral_1_entrance", "cathedral_1",
-		"cathedral_b_entrance", "cathedral_b",
+        "cathedral_b_entrance", "cathedral_b",
         "hotel_tower_1_1", "hotel_tower_1_2", "hotel_tower_1_3", "hotel_tower_1_4",
         "hotel_tower_1_5", "hotel_tower_1_6", "hotel_tower_1_7", "hotel_tower_1_8",
         "hotel_tower_1_9", "hotel_tower_b_1", "hotel_tower_b_2", "hotel_tower_b_3",
@@ -1179,7 +1177,6 @@ void mongroup::io( Archive& archive )
     archive.io( "radius", radius, 1u );
     archive.io( "population", population, 1u );
     archive.io( "diffuse", diffuse, false );
-    archive.io( "dying", dying, false );
     archive.io( "dying", dying, false );
     archive.io( "horde", horde, false );
     archive.io( "target", target, tripoint_zero );

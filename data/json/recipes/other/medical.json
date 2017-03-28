@@ -37,8 +37,7 @@
         [ "thread", 300 ],
         [ "sinew", 300 ],
         [ "plant_fibre", 300 ],
-        [ "string_36", 1 ],
-        [ "string_6", 6 ],
+        [ "cordage", 1, "LIST" ],
         [ "superglue", 1 ]
       ],
       [

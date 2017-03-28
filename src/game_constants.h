@@ -74,7 +74,7 @@
 #define TOOL_LIFT_FACTOR 500000 // 500kg/level
 
 /** Cap JACK requirements to support arbritrarily large vehicles */
-#define JACK_LIMIT 8000000 // 8000kg (8 metric tonnes)
+#define JACK_LIMIT 8500000 // 8500kg (8.5 metric tonnes)
 
 /** Maximum density of a map field */
 #define MAX_FIELD_DENSITY 3
@@ -88,8 +88,10 @@
 /** Maximum (effective) level for a stat */
 #define MAX_STAT 20
 
-/** Maximum range for aimed weapons */
-#define MAX_RANGE 30
+/** Maximum range at which only standard dispersion applies */
+#define RANGE_SOFT_CAP 30
+/** Maximum range at which ranged attacks can be executed */
+#define RANGE_HARD_CAP 60
 
 /** Accuracy levels which a shots tangent must be below */
 constexpr double accuracy_headshot = 0.1;

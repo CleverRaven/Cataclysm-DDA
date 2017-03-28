@@ -872,7 +872,7 @@ static calendar &get_calendar_turn_wrapper() {
 }
 
 static std::string string_input_popup_wrapper(std::string title, int width, std::string desc) {
-    return string_input_popup().title(title).width(width).description(desc).query();
+    return string_input_popup().title(title).width(width).description(desc).query_string();
 }
 
 /** Create a new monster of the given type. */

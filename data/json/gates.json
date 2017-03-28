@@ -10,6 +10,12 @@
         "floor" : "t_floor",
         "walls" : [
             "t_wall",
+            "t_wall_r",
+            "t_wall_w",
+            "t_wall_b",
+            "t_wall_g",
+            "t_wall_y",
+            "t_wall_p",
             "t_concrete_wall",
             "t_brick_wall"
         ],

@@ -943,11 +943,11 @@ void input_context::display_help()
         spopup.text( filter_phrase );
         if( status == s_show ) {
             spopup.ch_code_blacklist = bound_character_blacklist;
-            filter_phrase = spopup.query( false );
+            filter_phrase = spopup.query_string( false );
             action = ctxt.input_to_action( ctxt.get_raw_input() );
         } else {
             spopup.ch_code_blacklist.clear();
-            spopup.query( false, true );
+            spopup.query_string( false, true );
             action = ctxt.handle_input();
         }
         raw_input_char = ctxt.get_raw_input().get_first_input();
