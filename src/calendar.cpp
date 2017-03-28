@@ -19,12 +19,23 @@ season_type calendar::initial_season;
 
 // Internal constants, not part of the calendar interface.
 // Times for sunrise, sunset at equinoxes
+
+/** Hour of sunrise at winter solstice */
 #define SUNRISE_WINTER   7
+
+/** Hour of sunrise at fall and spring equinox */
 #define SUNRISE_EQUINOX 6
+
+/** Hour of sunrise at summer solstice */
 #define SUNRISE_SUMMER   5
 
+/** Hour of sunset at winter solstice */
 #define SUNSET_WINTER   17
+
+/** Hour of sunset at fall and spring equinox */
 #define SUNSET_EQUINOX 19
+
+/** Hour of setset at summer solstice */
 #define SUNSET_SUMMER   21
 
 // How long, in seconds, does sunrise/sunset last?
