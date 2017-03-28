@@ -1837,7 +1837,7 @@ void game::handle_key_blocking_activity()
 
     if( u.activity && u.activity.moves_left > 0 && u.activity.is_abortable() ) {
         input_context ctxt = get_default_mode_input_context();
-        const std::string action = ctxt.handle_input( 1 );
+        const std::string action = ctxt.handle_input( 0 );
         if (action == "pause") {
             cancel_activity_query(_("Confirm:"));
         } else if (action == "player_data") {
@@ -13222,7 +13222,8 @@ void game::shift_monsters( const int shiftx, const int shifty, const int shiftz 
 void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
 {
     // Create a new NPC?
-    if( !get_world_option<bool>( "RANDOM_NPC" ) ) {
+    // Only allow NPCs on 0 z-level, otherwise they can bug out due to lack of spots
+    if( !get_world_option<bool>( "RANDOM_NPC" ) || ( !m.has_zlevels() && get_levz() != 0 ) ) {
         return;
     }
 
@@ -13262,7 +13263,7 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
             break;
         }
         // adds the npc to the correct overmap.
-        tmp->spawn_at( msx, msy, get_levz() );
+        tmp->spawn_at( msx, msy, 0 );
         tmp->form_opinion( u );
         tmp->mission = NPC_MISSION_NULL;
         tmp->add_new_mission( mission::reserve_random(ORIGIN_ANY_NPC, tmp->global_omt_location(), tmp->getID()) );

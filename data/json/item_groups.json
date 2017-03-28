@@ -6617,7 +6617,7 @@
     "id" : "razorclaw_nest",
     "subtype" : "distribution",
     "entries":[
-      {"item":"razorclaw_roe", "repeat": [ 1,6 ]}
+      {"item":"razorclaw_roe", "count-min": 1, "count-max": 6 }
     ]
   },{
     "type" : "item_group",

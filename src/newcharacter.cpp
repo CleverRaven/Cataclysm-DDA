@@ -213,7 +213,7 @@ matype_id choose_ma_style( const character_type type, const std::vector<matype_i
 
 bool player::load_template( const std::string &template_name )
 {
-    return read_from_file( FILENAMES["templatedir"] + template_name + ".template", [&]( std::istream &fin ) {
+    return read_from_file( FILENAMES["templatedir"] + utf8_to_native( template_name ) + ".template", [&]( std::istream &fin ) {
         std::string data;
         getline( fin, data );
         load_info( data );

@@ -24,10 +24,8 @@
     "time": 500,
     "reversible": true,
     "autolearn": true,
-    "components": [
-      [ [ "spike", 1 ] ],
-      [ [ "string_6", 2 ] ]
-    ]
+    "using": [ [ "cordage_short", 2 ] ],
+    "components": [ [ [ "spike", 1 ] ] ]
   },
   {
     "result": "makeshift_sword_bayonet",
