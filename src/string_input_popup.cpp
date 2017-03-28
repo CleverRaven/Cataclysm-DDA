@@ -335,7 +335,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             }
         } else if( ch == ERR ) {
             // Ignore the error
-        } else if( ch != 0 && _only_digits && !isdigit( ch ) ) {
+        } else if( ch != 0 && _only_digits && !( isdigit( ch ) || ch == '-' ) ) {
             add_to_history( ret.str() );
             _text = ret.str();
             return _text;

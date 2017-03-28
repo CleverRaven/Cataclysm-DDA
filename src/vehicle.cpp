@@ -1876,7 +1876,12 @@ bool vehicle::remove_part (int p)
             item it = parts[curtain].properties_to_item();
             g->m.add_item_or_charges( part_loc, it );
             remove_part(curtain);
+            g->m.set_transparency_cache_dirty( smz );
         }
+    }
+
+    if( part_flag( p, VPFLAG_OPAQUE ) ) {
+        g->m.set_transparency_cache_dirty( smz );
     }
 
     //Ditto for seatbelts
