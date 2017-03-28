@@ -749,32 +749,46 @@ int throw_cost( const player &c, const item &to_throw )
     return std::max( 25, move_cost );
 }
 
+// Perfect situation gives us 1000 dispersion at lvl 0
+// This goes down linearly to 250  dispersion at lvl 10
 int throwing_dispersion( const player &c, const item &to_throw, Creature *critter )
 {
+    int weight = to_throw.weight();
+    units::volume volume = to_throw.volume();
+    if( to_throw.count_by_charges() && to_throw.charges > 1 ) {
+        weight /= to_throw.charges;
+        volume /= to_throw.charges;
+    }
+
+    int throw_difficulty = 1000;
+    // 1000 penalty for every liter after the first
+    // @todo Except javelin type items
+    throw_difficulty += std::max<int>( 0, units::to_milliliter( volume - 1000_ml ) );
+    // 1 penalty for gram above str*100 grams (at 0 skill)
+    ///\EFFECT_STR decreases throwing dispersion when throwing heavy objects
+    throw_difficulty += std::max( 0, weight - c.get_str() * 100 );
+
+    // Dispersion from difficult throws goes from 100% at lvl 0 to 25% at lvl 10
     ///\EFFECT_THROW increases throwing accuracy
     const int throw_skill = std::min<int>( MAX_SKILL, c.get_skill_level( skill_throw ) );
-    const int weight = to_throw.weight();
-    const units::volume volume = to_throw.volume();
-    ///\EFFECT_DEX increases throwing accuracy
-    int throw_difficulty = 2000;
+    int dispersion = 10 * throw_difficulty / ( 3 * throw_skill + 10 );
     // If the target is a creature, it moves around and ruins aim
     // @todo Inform projectile functions if the attacker actually aims for the critter or just the tile
     if( critter != nullptr ) {
-        throw_difficulty += critter->get_dodge() * 100.0f;
+        // +200 per dodge point at 0 dexterity
+        // +100 at 8, +80 at 12, +66.6 at 16, +57 at 20, +50 at 24
+        // Each 10 encumbrance on either hand is like -1 dex (can bring penalty to +400 per dodge)
+        // Maybe @todo Only use one hand
+        ///\EFFECT_DEX increases throwing accuracy against targets with good dodge stat
+        float effective_dex = 2 + c.throw_dex_mod() - ( c.encumb( bp_hand_l ) + c.encumb( bp_hand_r ) ) / 40.0f;
+        // It's easier to dodge at close range (thrower needs to adjust more)
+        // Dodge x10 at point blank, x5 at 1 dist, then flat
+        float effective_dodge = critter->get_dodge() * std::max( 1, 10 - 5 * rl_dist( c.pos(), critter->pos() ) );
+        dispersion += effective_dodge * 400.0f / std::max( 1.0f, effective_dex );
     }
-
-    int dispersion = throw_difficulty / ( throw_skill + c.throw_dex_mod() );
-    dispersion += ( c.encumb( bp_hand_l ) + c.encumb( bp_hand_r ) + c.encumb( bp_eyes ) ) * 25;
-    // 100 penalty for every liter after the first
-    // @todo Except javelin type items
-    dispersion += std::max<int>( 0, units::to_milliliter( volume - 1000_ml ) / 10 );
-    // ~500 penalty for trying to throwing a single pill
-    dispersion += std::max<int>( 0, 2 * units::to_milliliter( 250_ml - volume ) );
-
-    // 100 penalty for 1kg above str*100 grams
-    ///\EFFECT_STR decreases throwing dispersion when throwing heavy objects
-    dispersion += std::max( 0, weight / 10 - c.get_str() * 100 );
-
+    // 1 perception per 1 eye encumbrance
+    ///\EFFECT_PER decreases throwing accuracy penalty from eye encumbrance
+    dispersion += std::max( 0, ( c.encumb( bp_eyes ) - c.get_per() ) * 10 );
     return std::max( 0, dispersion );
 }
 
@@ -793,10 +807,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     mod_stat( "stamina", stamina_cost );
 
     const skill_id &skill_used = skill_throw;
-    int skill_level = get_skill_level( skill_throw );
-
-    Creature *critter = g->critter_at( target );
-    const int dispersion = throwing_dispersion( *this, thrown, critter );
+    const int skill_level = std::min<int>( MAX_SKILL, get_skill_level( skill_throw ) );
 
     // We'll be constructing a projectile
     projectile proj;
@@ -846,12 +857,6 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         proj_effects.insert( "WIDE" );
     }
 
-    // Deal extra cut damage if the item breaks
-    if( shatter ) {
-        impact.add_damage( DT_CUT, units::to_milliliter( volume ) / 500.0f );
-        proj_effects.insert( "SHATTER_SELF" );
-    }
-
     // Skilled throwers can sometimes replace thrown damage with melee damage
     // This doesn't affect good thrown weapons, but allows Spetsnaz hatchet throwing shenanigans
     if( rng( 0, 100 ) < skill_level * 10 ) {
@@ -860,6 +865,18 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         if( melee.total_damage() > impact.total_damage() ) {
             impact = melee;
         }
+    }
+
+    // Deal extra cut damage if the item breaks
+    if( shatter ) {
+        impact.add_damage( DT_CUT, units::to_milliliter( volume ) / 500.0f );
+        proj_effects.insert( "SHATTER_SELF" );
+    }
+
+    // Some minor (skill/2) armor piercing for skillfull throws
+    // Not as much as in melee, though
+    for( damage_unit &du : impact.damage_units ) {
+        du.res_pen += skill_level / 2.0f;
     }
 
     // Put the item into the projectile
@@ -880,15 +897,17 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // This should generally have values below ~20*sqrt(skill_lvl)
     const float final_xp_mult = range_factor * damage_factor;
 
+    Creature *critter = g->critter_at( target, true );
+    const double dispersion = throwing_dispersion( *this, thrown, critter );
     auto dealt_attack = projectile_attack( proj, target, dispersion );
 
     const double missed_by = dealt_attack.missed_by;
     if( missed_by <= 0.1 && dealt_attack.hit_critter != nullptr ) {
-        practice( skill_used, final_xp_mult );
+        practice( skill_used, final_xp_mult, MAX_SKILL );
         // TODO: Check target for existence of head
         lifetime_stats()->headshots++;
     } else if( dealt_attack.hit_critter != nullptr && missed_by > 0.0f ) {
-        practice( skill_used, final_xp_mult / ( 1.0f + missed_by ) );
+        practice( skill_used, final_xp_mult / ( 1.0f + missed_by ), MAX_SKILL );
     } else {
         // Pure grindy practice - cap gain at lvl 2
         practice( skill_used, 5, 2 );
@@ -1151,7 +1170,8 @@ static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const t
     return line_number;
 }
 
-static int draw_throw_aim( const player &p, WINDOW *w, int line_number, item *weapon, const tripoint &target_pos )
+static int draw_throw_aim( const player &p, WINDOW *w, int line_number,
+                           const item *weapon, const tripoint &target_pos )
 {
     Creature *target = g->critter_at( target_pos, true );
     if( target != nullptr && !p.sees( *target ) ) {
@@ -1212,10 +1232,6 @@ static int draw_throw_aim( const player &p, WINDOW *w, int line_number, item *we
     return line_number;
 }
 
-// TODO: Shunt redundant drawing code elsewhere
-std::vector<tripoint> game::pl_target_ui( target_mode mode, item *relevant, int range, const itype *ammo,
-                                          const target_callback &on_mode_change,
-                                          const target_callback &on_ammo_change )
 std::vector<tripoint> target_handler::target_ui( player &pc, const targeting_data &args ) {
     return target_ui( pc, args.mode, args.relevant, args.range,
                       args.ammo, args.on_mode_change, args.on_ammo_change );
@@ -1512,7 +1528,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         } else if( mode == TARGET_MODE_TURRET ) {
             line_number = draw_turret_aim( pc, w_target, line_number, dst );
         } else if( mode == TARGET_MODE_THROW ) {
-            line_number = draw_throw_aim( u, w_target, line_number, relevant, dst );
+            line_number = draw_throw_aim( pc, w_target, line_number, relevant, dst );
         }
 
         wrefresh(w_target);
