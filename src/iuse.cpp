@@ -137,6 +137,7 @@ const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
+const efftype_id effect_zed_buff( "zed_buff" );
 
 void remove_radio_mod( item &it, player &p )
 {
@@ -3875,7 +3876,8 @@ int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
                 continue;
             }
             monster &critter = g->zombie( mondex );
-            if( critter.type->in_species( ZOMBIE ) && critter.friendly == 0 && rng( 0, 500 ) > critter.get_hp() ) {
+            if( critter.type->in_species( ZOMBIE ) && critter.friendly == 0 &&
+                rng( 0, 500 ) > critter.get_hp() && !critter.has_effect( effect_zed_buff ) ) {
                 converts++;
                 critter.make_friendly();
             }

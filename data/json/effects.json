@@ -1645,5 +1645,16 @@
         "remove_message": "The broken limb has mended.",
         "max_duration": 2,
         "rating": "bad"
+    },
+    {
+        "type": "effect_type",
+        "id": "zed_buff",
+        "name": [ "Enhanced" ],
+        "desc": [ "This creature is buffed by zombie master powers.  It is a bug if you have it." ],
+        "max_duration": 200,
+        "rating": "good",
+        "base_mods": {
+            "speed_mod": [30]
+        }
     }
 ]

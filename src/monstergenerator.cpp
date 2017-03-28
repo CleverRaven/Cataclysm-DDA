@@ -317,7 +317,9 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "MULTI_ROBOT", mattack::multi_robot );
     add_hardcoded_attack( "RATKING", mattack::ratking );
     add_hardcoded_attack( "GENERATOR", mattack::generator );
-    add_hardcoded_attack( "UPGRADE", mattack::upgrade );
+    // Just for compatibility, @todo Remove after 0.D
+    add_hardcoded_attack( "UPGRADE", mattack::buff_zed );
+    add_hardcoded_attack( "BUFF_ZED", mattack::buff_zed );
     add_hardcoded_attack( "BREATHE", mattack::breathe );
     add_hardcoded_attack( "IMPALE", mattack::impale );
     add_hardcoded_attack( "BRANDISH", mattack::brandish );

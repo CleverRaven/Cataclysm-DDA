@@ -1683,7 +1683,6 @@ classes = {
             { name = "to_item", rval = "item", args = { } },
             { name = "turns_to_reach", rval = "int", args = { "int", "int" } },
             { name = "try_upgrade", rval = nil, args = { "bool" } },
-            { name = "hasten_upgrade", rval = nil, args = { } },
             { name = "unset_dest", rval = nil, args = { } },
             { name = "wander", rval = "bool", args = { } },
             { name = "wander_to", rval = nil, args = { "tripoint", "int" } },

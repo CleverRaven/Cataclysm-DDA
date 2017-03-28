@@ -70,7 +70,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         void poly( const mtype_id &id );
         bool can_upgrade();
-        void hasten_upgrade();
         void try_upgrade( bool pin_time );
         void spawn( const tripoint &p );
         m_size get_size() const override;
