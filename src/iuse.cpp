@@ -3321,14 +3321,17 @@ int iuse::can_goo(player *p, item *it, bool, const tripoint& )
     int mondex = g->mon_at(goop);
     if (mondex != -1) {
         auto &critter = g->zombie( mondex );
-        if (g->u.sees(goop)) {
-            add_msg(_("Black goo emerges from the canister and envelopes a %s!"),
-                    critter.name().c_str());
+        if( critter.made_of( material_id( "flesh" ) ) &&
+            critter.get_hp() < 100 &&
+            !critter.has_effect( effect_zed_buff ) ) {
+            if( g->u.sees( goop ) ) {
+                add_msg( _("Black goo emerges from the canister and envelops a %s!"),
+                         critter.name().c_str() );
+            }
+            critter.poly( mon_blob );
+            critter.set_speed_base( critter.get_speed_base() - rng(5, 25) );
+            critter.set_hp( critter.get_speed() );
         }
-        critter.poly( mon_blob );
-
-        critter.set_speed_base( critter.get_speed_base() - rng(5, 25) );
-        critter.set_hp( critter.get_speed() );
     } else {
         if (g->u.sees(goop)) {
             add_msg(_("Living black goo emerges from the canister!"));

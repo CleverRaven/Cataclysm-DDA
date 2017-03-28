@@ -2001,9 +2001,24 @@ static void poly_keep_speed( monster &mon, const mtype_id& id )
 
 static bool blobify( monster &blob, monster &target )
 {
+    bool immune = target.get_size() >= MS_HUGE ||
+                  target.has_effect( effect_zed_buff ) ||
+                  rng( 0, blob.get_hp() ) <= rng( target.get_hp() / 2, target.get_hp() ) ||
+                  ( !target.made_of( material_id( "flesh" ) ) &&
+                    !target.made_of( material_id( "veggy" ) ) &&
+                    !target.made_of( material_id( "iflesh" ) ) );
+
     if( g->u.sees( target ) ) {
-        add_msg( m_warning, _("%s is engulfed by %s!"),
-            target.disp_name().c_str(), blob.disp_name().c_str() );
+        if( immune ) {
+            add_msg( m_warning, _("%1$s tries to engulf %2$s, but fails!"),
+                     blob.disp_name().c_str(), target.disp_name().c_str() );
+        } else {
+            add_msg( m_warning, _("%1$s is engulfed by %2$s!"),
+                     target.disp_name().c_str(), blob.disp_name().c_str() );
+        }
+    }
+    if( immune ) {
+        return false;
     }
 
     switch( target.get_size() ) {
@@ -2093,10 +2108,7 @@ bool mattack::formblob(monster *z)
             } else if( othermon.type->id == mon_blob && othermon.get_speed_base() >= 80 ) {
                 poly_keep_speed( othermon, mon_blob_large );
             }
-        } else if( (othermon.made_of( material_id( "flesh" ) ) ||
-                    othermon.made_of( material_id( "veggy" ) ) ||
-                    othermon.made_of( material_id( "iflesh" ) ) ) &&
-                   rng( 0, z->get_hp() ) > rng( othermon.get_hp() / 2, othermon.get_hp() ) ) {
+        } else {
             didit = blobify( *z, othermon );
         }
     }
