@@ -1121,7 +1121,7 @@ bool overmap_special::can_belong_to_city( const tripoint &p, const city &cit ) c
 
 void overmap_special::load( JsonObject &jo, const std::string &src )
 {
-    const bool strict = src == "core";
+    const bool strict = src == "dda";
 
     mandatory( jo, was_loaded, "overmaps", terrains );
 
