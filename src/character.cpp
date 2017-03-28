@@ -2314,16 +2314,16 @@ float Character::healing_rate( float at_rest_quality ) const
 {
     // @todo Cache
     float awake_rate = mutation_value( "healing_awake" );
-    float asleep_rate = 0.01f;
-    if( at_rest_quality > 0.0f ) {
-        asleep_rate = mutation_value( "healing_resting" );
-    }
     float final_rate = 0.0f;
     if( awake_rate > 0.0f ) {
         final_rate += awake_rate;
     } else if( at_rest_quality < 1.0f ) {
         // Resting protects from rot
         final_rate += ( 1.0f - at_rest_quality ) * awake_rate;
+    }
+    float asleep_rate = 0.0f;
+    if( at_rest_quality > 0.0f ) {
+        asleep_rate = at_rest_quality * ( 0.01f + mutation_value( "healing_resting" ) );
     }
     if( asleep_rate > 0.0f ) {
         final_rate += asleep_rate * ( 1.0f + get_healthy() / 200.0f );
@@ -2332,6 +2332,7 @@ float Character::healing_rate( float at_rest_quality ) const
     // Most common case: awake player with no regenerative abilities
     // ~7e-5 is 1 hp per day, anything less than that is totally negligible
     static constexpr float eps = 0.000007f;
+    add_msg( m_debug, "%s healing: %.6f", name.c_str(), final_rate );
     if( std::abs( final_rate ) < eps ) {
         return 0.0f;
     }
