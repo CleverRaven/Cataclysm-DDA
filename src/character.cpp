@@ -2304,6 +2304,14 @@ float Character::mutation_value( const std::string &val ) const
         return calc_mutation_value<&mutation_branch::hp_modifier_secondary>( cached_mutations );
     } else if( val == "hp_adjustment" ) {
         return calc_mutation_value<&mutation_branch::hp_adjustment>( cached_mutations );
+    } else if( val == "metabolism_modifier" ) {
+        return calc_mutation_value<&mutation_branch::metabolism_modifier>( cached_mutations );
+    } else if( val == "thirst_modifier" ) {
+        return calc_mutation_value<&mutation_branch::thirst_modifier>( cached_mutations );
+    } else if( val == "fatigue_regen_modifier" ) {
+        return calc_mutation_value<&mutation_branch::fatigue_regen_modifier>( cached_mutations );
+    } else if( val == "fatigue_modifier" ) {
+        return calc_mutation_value<&mutation_branch::fatigue_modifier>( cached_mutations );
     }
 
     debugmsg( "Invalid mutation value name %s", val.c_str() );
