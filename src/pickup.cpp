@@ -1040,19 +1040,29 @@ void Pickup::pick_up( const tripoint &pos, int min )
     }
     std::vector<std::pair<int, int>> pick_values;
     for( size_t i = 0; i < stacked_here.size(); i++ ) {
-        if( getitem[i].pick ) {
-            if( stacked_here[i].begin()->_item.count_by_charges() ) {
-                item_idx &it = *stacked_here[i].begin();
-                size_t count = getitem[i].count == 0 ? it._item.charges : getitem[i].count;
+        const auto &selection = getitem[i];
+        if( !selection.pick ) {
+            continue;
+        }
+
+        const auto &stack = stacked_here[i];
+        // Note: items can be both charged and stacked
+        // For robustness, let's assume they can be both in the same stack
+        bool pick_all = selection.count == 0;
+        size_t count = selection.count;
+        for( const item_idx &it : stack ) {
+            if( !pick_all && count == 0 ) {
+                break;
+            }
+
+            if( it._item.count_by_charges() ) {
                 size_t num_picked = std::min( ( size_t )it._item.charges, count );
                 pick_values.push_back( { it.idx, num_picked } );
+                count -= num_picked;
             } else {
-                size_t count = getitem[i].count == 0 ? stacked_here[i].size() : getitem[i].count;
-                size_t num_picked = std::min( stacked_here[i].size(), count );
-                auto it = stacked_here[i].begin();
-                for( size_t j = 0; j < num_picked; j++, it++ ) {
-                    pick_values.push_back( { it->idx, 0 } );
-                }
+                size_t num_picked = 1;
+                pick_values.push_back( { it.idx, 0 } );
+                count -= num_picked;
             }
         }
     }
