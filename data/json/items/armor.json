@@ -3784,9 +3784,6 @@
     "material_thickness": 2,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS" ]
   },
-  
-  
-  },
   {
     "id": "striped_shirt",
     "type": "ARMOR",
@@ -4493,6 +4490,5 @@
     "material_thickness": 3,
     "environmental_protection": 3,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
-  },
-
+  }
 ]
