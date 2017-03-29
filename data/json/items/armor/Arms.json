@@ -1,5 +1,5 @@
 [
-{
+  {
     "id": "2byarm_guard",
     "type": "ARMOR",
     "category": "armor",
@@ -22,7 +22,7 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELTED", "BLOCK_WHILE_WORN" ]
   },
-   {
+  {
     "id": "arm_warmers",
     "type": "ARMOR",
     "name": "pair of arm warmers",
@@ -213,7 +213,7 @@
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
   },
-   {
+  {
     "id": "chainmail_arms",
     "type": "ARMOR",
     "name": "pair of chainmail sleeves",
@@ -232,7 +232,7 @@
     "material_thickness": 4,
     "flags": [ "VARSIZE", "STURDY" ]
   },
-    {
+  {
     "id": "elbow_pads",
     "type": "ARMOR",
     "category": "armor",
@@ -251,7 +251,7 @@
     "material_thickness": 5,
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
-    {
+  {
     "id": "vambrace_larmor",
     "type": "ARMOR",
     "category": "armor",
@@ -273,4 +273,4 @@
     "environmental_protection": 1,
     "flags": [ "STURDY", "BELTED" ]
   }
-  ]
+]

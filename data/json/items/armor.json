@@ -1,4 +1,4 @@
-[  
+[
   {
     "id": "aep_suit",
     "type": "ARMOR",
@@ -101,7 +101,6 @@
     "material_thickness": 1,
     "flags": [ "WATER_FRIENDLY", "OUTER", "SPLINT" ]
   },
- 
   {
     "id": "armor_blarmor",
     "type": "ARMOR",
@@ -358,7 +357,7 @@
     "warmth": 20,
     "material_thickness": 3,
     "flags": [ "OUTER" ]
-  },  
+  },
   {
     "id": "badge_cybercop",
     "type": "ARMOR",
@@ -418,7 +417,7 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "yellow"
-  },  
+  },
   {
     "id": "bandana",
     "type": "ARMOR",
@@ -597,7 +596,6 @@
     },
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
-
   {
     "id": "briefcase",
     "type": "ARMOR",
@@ -1084,7 +1082,6 @@
     "environmental_protection": 1,
     "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
   },
- 
   {
     "id": "dress",
     "type": "ARMOR",
@@ -1259,8 +1256,6 @@
     "material_thickness": 1,
     "flags": [ "FANCY" ]
   },
-
-
   {
     "id": "entry_suit",
     "type": "ARMOR",
@@ -1302,7 +1297,6 @@
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES" ]
   },
-  
   {
     "id": "fencing_jacket",
     "type": "ARMOR",
@@ -1322,11 +1316,6 @@
     "material_thickness": 2,
     "flags": [ "OUTER" ]
   },
-
- 
-
-
- 
   {
     "id": "fishing_waders",
     "type": "ARMOR",
@@ -1369,7 +1358,6 @@
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "VARSIZE", "OUTER" ]
   },
-  
   {
     "id": "fsurvivor_suit",
     "type": "ARMOR",
@@ -1473,8 +1461,6 @@
     "material_thickness": 5,
     "flags": [ "VARSIZE", "SKINTIGHT", "STURDY" ]
   },
- 
-  
   {
     "id": "glasses_bal",
     "type": "ARMOR",
@@ -1631,7 +1617,6 @@
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "FANCY" ]
   },
-  
   {
     "id": "gobag",
     "type": "ARMOR",
@@ -1837,9 +1822,6 @@
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
   },
-  
-  
-  
   {
     "id": "hazmat_suit",
     "type": "ARMOR",
@@ -1860,7 +1842,6 @@
     "environmental_protection": 20,
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "GAS_PROOF", "OUTER" ]
   },
-  
   {
     "id": "holy_symbol",
     "type": "ARMOR",
@@ -1888,7 +1869,6 @@
     "color": "brown",
     "use_action": "MEDITATE"
   },
-  
   {
     "id": "hoodie",
     "type": "ARMOR",
@@ -1908,7 +1888,6 @@
     "material_thickness": 3,
     "flags": [ "VARSIZE", "OUTER", "POCKETS", "HOOD" ]
   },
-  
   {
     "id": "house_coat",
     "type": "ARMOR",
@@ -2151,7 +2130,6 @@
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
-  
   {
     "id": "jedi_cloak",
     "type": "ARMOR",
@@ -2172,7 +2150,6 @@
     "environmental_protection": 5,
     "flags": [ "OVERSIZE", "OUTER" ]
   },
-  
   {
     "id": "jersey",
     "type": "ARMOR",
@@ -2454,8 +2431,6 @@
     "material_thickness": 1,
     "flags": [ "VARSIZE" ]
   },
- 
-  
   {
     "id": "kimono",
     "type": "ARMOR",
@@ -2476,7 +2451,6 @@
     "material_thickness": 2,
     "flags": [ "VARSIZE" ]
   },
-
   {
     "id": "kittel",
     "type": "ARMOR",
@@ -2498,8 +2472,6 @@
     "material_thickness": 2,
     "flags": [ "VARSIZE" ]
   },
-  
- 
   {
     "id": "leather_cat_ears",
     "type": "ARMOR",
@@ -2541,7 +2513,6 @@
     "color": "dark_gray",
     "flags": [ "FANCY" ]
   },
-  
   {
     "id": "leg_splint",
     "type": "ARMOR",
@@ -2560,10 +2531,6 @@
     "material_thickness": 1,
     "flags": [ "WATER_FRIENDLY", "OUTER", "SPLINT" ]
   },
- 
- 
-  
- 
   {
     "id": "locket",
     "type": "ARMOR",
@@ -2577,7 +2544,6 @@
     "color": "light_gray",
     "flags": [ "FANCY" ]
   },
- 
   {
     "id": "long_glove_white",
     "type": "ARMOR",
@@ -2597,7 +2563,6 @@
     "material_thickness": 2,
     "flags": [ "VARSIZE" ]
   },
- 
   {
     "id": "long_undertop",
     "type": "ARMOR",
@@ -2634,8 +2599,6 @@
     "material_thickness": 1,
     "flags": [ "VARSIZE" ]
   },
- 
-  
   {
     "id": "lsurvivor_suit",
     "type": "ARMOR",
@@ -2677,7 +2640,6 @@
     "material_thickness": 1,
     "flags": [ "VARSIZE", "FANCY" ]
   },
-  
   {
     "id": "mask_bal",
     "type": "ARMOR",
@@ -2905,7 +2867,6 @@
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "VARSIZE", "STURDY" ]
   },
-
   {
     "id": "mask_survivor",
     "type": "ARMOR",
@@ -2992,8 +2953,6 @@
     "environmental_protection": 15,
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
-  
- 
   {
     "id": "motorbike_armor",
     "type": "ARMOR",
@@ -3015,7 +2974,6 @@
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "RAINPROOF" ]
   },
-  
   {
     "id": "mouthpiece",
     "type": "ARMOR",
@@ -3034,7 +2992,6 @@
     "material_thickness": 1,
     "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "SKINTIGHT" ]
   },
-  
   {
     "id": "necklace",
     "type": "ARMOR",
@@ -3048,9 +3005,6 @@
     "color": "light_gray",
     "flags": [ "FANCY" ]
   },
- 
-  
-  
   {
     "id": "nomex_suit",
     "type": "ARMOR",
@@ -3109,7 +3063,6 @@
     },
     "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "VARSIZE" ]
   },
-  
   {
     "id": "peacoat",
     "type": "ARMOR",
@@ -3143,7 +3096,6 @@
     "color": "white",
     "flags": [ "SUPER_FANCY" ]
   },
-
   {
     "id": "plastic_shopping_bag",
     "type": "ARMOR",
@@ -3240,7 +3192,6 @@
     },
     "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
   },
-  
   {
     "id": "power_armor_light",
     "type": "ARMOR",
@@ -3283,7 +3234,6 @@
     "color": "light_blue",
     "flags": [ "OVERSIZE" ]
   },
- 
   {
     "id": "ring",
     "type": "ARMOR",
@@ -3318,7 +3268,6 @@
     "material_thickness": 2,
     "flags": [ "VARSIZE", "OUTER" ]
   },
-  
   {
     "id": "scabbard",
     "type": "ARMOR",
@@ -3463,7 +3412,6 @@
     "material_thickness": 1,
     "flags": [ "VARSIZE" ]
   },
-
   {
     "id": "silver_bracelet",
     "type": "ARMOR",
@@ -3503,7 +3451,6 @@
     "color": "dark_gray",
     "flags": [ "FANCY" ]
   },
-
   {
     "id": "sleeping_bag",
     "type": "ARMOR",
@@ -3633,7 +3580,6 @@
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
   },
- 
   {
     "id": "sleeveless_tunic",
     "type": "ARMOR",
@@ -3653,7 +3599,6 @@
     "material_thickness": 1,
     "flags": [ "VARSIZE" ]
   },
- 
   {
     "id": "small_relic",
     "type": "ARMOR",
@@ -3688,8 +3633,6 @@
     "environmental_protection": 1,
     "flags": [ "OVERSIZE", "OUTER" ]
   },
-  
-  
   {
     "id": "stillsuit",
     "type": "ARMOR",
@@ -3918,7 +3861,6 @@
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "WATER_FRIENDLY", "SUN_GLASSES" ]
   },
- 
   {
     "id": "survivor_goggles",
     "type": "ARMOR",
@@ -3941,7 +3883,6 @@
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "OVERSIZE", "VARSIZE", "STURDY" ]
   },
- 
   {
     "id": "survivor_suit",
     "type": "ARMOR",
@@ -4042,9 +3983,6 @@
     "material_thickness": 3,
     "flags": [ "VARSIZE" ]
   },
-  
-  
-  
   {
     "id": "thawb",
     "type": "ARMOR",
@@ -4097,8 +4035,6 @@
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
-  
-  
   {
     "id": "touring_suit",
     "type": "ARMOR",
@@ -4206,9 +4142,6 @@
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
   },
- 
-
-  
   {
     "id": "tunic",
     "type": "ARMOR",
@@ -4246,7 +4179,6 @@
     "material_thickness": 1,
     "flags": [ "OVERSIZE" ]
   },
-  
   {
     "id": "tux",
     "type": "ARMOR",
@@ -4266,7 +4198,7 @@
     "warmth": 30,
     "material_thickness": 2,
     "flags": [ "VARSIZE", "POCKETS", "SUPER_FANCY" ]
-  }, 
+  },
   {
     "id": "union_suit",
     "type": "ARMOR",
@@ -4304,7 +4236,7 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "SUPER_FANCY", "OUTER", "OVERSIZE" ]
-  },  
+  },
   {
     "id": "wetsuit",
     "type": "ARMOR",
@@ -4326,7 +4258,6 @@
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   },
- 
   {
     "id": "wetsuit_spring",
     "type": "ARMOR",
@@ -4348,7 +4279,6 @@
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   },
-  
   {
     "id": "winter_jacket_army",
     "type": "ARMOR",
@@ -4368,7 +4298,7 @@
     "warmth": 50,
     "material_thickness": 3,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER" ]
-  },  
+  },
   {
     "id": "wolfsuit",
     "type": "ARMOR",

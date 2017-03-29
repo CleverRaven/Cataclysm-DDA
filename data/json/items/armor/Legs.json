@@ -1,5 +1,5 @@
 [
-{
+  {
     "id": "2byshin_guard",
     "type": "ARMOR",
     "category": "armor",
@@ -21,7 +21,7 @@
     "material_thickness": 3,
     "flags": [ "BELTED" ]
   },
-{
+  {
     "id": "b_shorts",
     "type": "ARMOR",
     "name": "basketball shorts",
@@ -41,7 +41,7 @@
     "material_thickness": 1,
     "flags": [ "VARSIZE" ]
   },
-   {
+  {
     "id": "bikini_bottom",
     "type": "ARMOR",
     "name": "bikini bottom",
@@ -130,7 +130,7 @@
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
-   {
+  {
     "id": "bunker_pants",
     "type": "ARMOR",
     "category": "armor",
@@ -173,7 +173,7 @@
     "material_thickness": 4,
     "flags": [ "VARSIZE", "STURDY" ]
   },
-   {
+  {
     "id": "chaps_leather",
     "type": "ARMOR",
     "name": "leather chaps",
@@ -193,7 +193,7 @@
     "material_thickness": 3,
     "flags": [ "OUTER" ]
   },
-   {
+  {
     "id": "fencing_pants",
     "type": "ARMOR",
     "name": "fencing pants",
@@ -364,7 +364,7 @@
     "material_thickness": 5,
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
-   {
+  {
     "id": "leg_warmers",
     "type": "ARMOR",
     "name": "pair of leg warmers",
@@ -420,7 +420,7 @@
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
   },
-   {
+  {
     "id": "legguard_hard",
     "type": "ARMOR",
     "category": "armor",
@@ -523,7 +523,7 @@
     "material_thickness": 2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED" ]
   },
-   {
+  {
     "id": "loincloth",
     "type": "ARMOR",
     "name": "loincloth",
@@ -589,7 +589,7 @@
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
   },
-   {
+  {
     "id": "long_underpants",
     "type": "ARMOR",
     "name": "long underwear bottom",
@@ -870,7 +870,7 @@
     "material_thickness": 2,
     "flags": [ "VARSIZE" ]
   },
-    {
+  {
     "id": "shorts",
     "type": "ARMOR",
     "name": "shorts",
@@ -933,7 +933,7 @@
     "material_thickness": 3,
     "flags": [ "VARSIZE" ]
   },
-    {
+  {
     "id": "skirt",
     "type": "ARMOR",
     "name": "skirt",
@@ -989,8 +989,8 @@
     "warmth": 15,
     "material_thickness": 2,
     "flags": [ "VARSIZE", "POCKETS" ]
-	},
-	  {
+  },
+  {
     "id": "technician_pants_blue",
     "type": "ARMOR",
     "name": "blue work pants",
@@ -1053,7 +1053,7 @@
     "material_thickness": 2,
     "flags": [ "VARSIZE", "POCKETS" ]
   },
-    {
+  {
     "id": "trunks",
     "type": "ARMOR",
     "name": "pair of swimming trunks",
@@ -1071,7 +1071,7 @@
     "material_thickness": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
   },
-   {
+  {
     "id": "under_armor_shorts",
     "type": "ARMOR",
     "name": "compression shorts",
@@ -1109,7 +1109,7 @@
     "material_thickness": 3,
     "flags": [ "VARSIZE", "POCKETS" ]
   },
-    {
+  {
     "id": "zubon_gi",
     "type": "ARMOR",
     "name": "zubon",
@@ -1127,4 +1127,4 @@
     "material_thickness": 1,
     "flags": [ "VARSIZE" ]
   }
-  ]
+]

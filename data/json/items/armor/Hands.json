@@ -1,5 +1,5 @@
 [
-{
+  {
     "id": "beekeeping_gloves",
     "type": "ARMOR",
     "name": "pair of beekeeping gloves",
@@ -19,7 +19,7 @@
     "material_thickness": 2,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
-  },  
+  },
   {
     "id": "boxing_gloves",
     "type": "ARMOR",
@@ -41,7 +41,7 @@
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ]
   },
-    {
+  {
     "id": "fire_gauntlets",
     "type": "ARMOR",
     "category": "armor",
@@ -63,7 +63,7 @@
     "environmental_protection": 6,
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ]
   },
-   {
+  {
     "id": "gauntlets_bone",
     "type": "ARMOR",
     "category": "armor",
@@ -647,7 +647,7 @@
     "environmental_protection": 3,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
   },
-   {
+  {
     "id": "mittens",
     "type": "ARMOR",
     "name": "pair of mittens",
@@ -706,7 +706,7 @@
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT", "ALLOWS_NATURAL_ATTACKS" ]
   },
-   {
+  {
     "id": "wetsuit_gloves",
     "type": "ARMOR",
     "name": "pair of swimming gloves",
@@ -746,4 +746,4 @@
     "warmth": 50,
     "material_thickness": 4
   }
-  ]
+]

@@ -1,5 +1,5 @@
 [
-{
+  {
     "id": "10gal_hat",
     "type": "ARMOR",
     "name": "ten-gallon hat",
@@ -36,7 +36,7 @@
     "material_thickness": 2,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
-    {
+  {
     "id": "beekeeping_hood",
     "type": "ARMOR",
     "name": "beekeeping hood",
@@ -55,7 +55,7 @@
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "OUTER" ]
   },
-      {
+  {
     "id": "beret",
     "type": "ARMOR",
     "name": "beret",
@@ -89,7 +89,7 @@
     "material_thickness": 2,
     "flags": [ "VARSIZE", "WATERPROOF", "FANCY" ]
   },
-      {
+  {
     "id": "bondage_mask",
     "type": "ARMOR",
     "name": "bondage mask",
@@ -109,7 +109,7 @@
     "environmental_protection": 1,
     "flags": [ "VARSIZE" ]
   },
-      {
+  {
     "id": "bowhat",
     "type": "ARMOR",
     "name": "bowler hat",
@@ -128,7 +128,7 @@
     "environmental_protection": 1,
     "flags": [ "FANCY", "VARSIZE" ]
   },
-      {
+  {
     "id": "chainmail_hood",
     "type": "ARMOR",
     "name": "chainmail coif",
@@ -146,7 +146,7 @@
     "material_thickness": 4,
     "flags": [ "VARSIZE", "STURDY" ]
   },
-      {
+  {
     "id": "cowboy_hat",
     "type": "ARMOR",
     "name": "cowboy hat",
@@ -165,7 +165,7 @@
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "SUN_GLASSES" ]
   },
-      {
+  {
     "id": "depowered_helmet",
     "type": "ARMOR",
     "category": "armor",
@@ -188,7 +188,7 @@
     "qualities": [ [ "GLARE", 2 ] ],
     "flags": [ "WATERPROOF", "STURDY" ]
   },
-      {
+  {
     "id": "eboshi",
     "type": "ARMOR",
     "name": "eboshi",
@@ -205,7 +205,7 @@
     "warmth": 4,
     "material_thickness": 1
   },
-      {
+  {
     "id": "fencing_mask",
     "type": "ARMOR",
     "name": "fencing mask",
@@ -222,7 +222,7 @@
     "warmth": 10,
     "material_thickness": 2
   },
-      {
+  {
     "id": "firehelmet",
     "type": "ARMOR",
     "category": "armor",
@@ -244,7 +244,7 @@
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "WATERPROOF", "FANCY", "STURDY" ]
   },
-    {
+  {
     "id": "hat_ball",
     "type": "ARMOR",
     "name": "baseball cap",
@@ -466,7 +466,7 @@
     "environmental_protection": 4,
     "flags": [ "FANCY", "OUTER", "SUN_GLASSES" ]
   },
-    {
+  {
     "id": "headgear",
     "type": "ARMOR",
     "name": "headgear",
@@ -913,7 +913,7 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
   },
-    {
+  {
     "id": "hood_fsurvivor",
     "type": "ARMOR",
     "category": "armor",
@@ -1065,7 +1065,7 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ]
   },
-      {
+  {
     "id": "kippah",
     "type": "ARMOR",
     "name": "kippah",
@@ -1082,7 +1082,7 @@
     "warmth": 3,
     "material_thickness": 1
   },
-    {
+  {
     "id": "kufi",
     "type": "ARMOR",
     "name": "kufi cap",
@@ -1101,7 +1101,7 @@
     "material_thickness": 1,
     "environmental_protection": 1
   },
-    {
+  {
     "id": "maid_hat",
     "type": "ARMOR",
     "name": "French maid hat",
@@ -1119,7 +1119,7 @@
     "material_thickness": 1,
     "flags": [ "VARSIZE", "FANCY" ]
   },
-      {
+  {
     "id": "mask_rioter",
     "type": "ARMOR",
     "name": "rioter mask",
@@ -1138,7 +1138,7 @@
     "material_thickness": 1,
     "environmental_protection": 1
   },
-    {
+  {
     "id": "nomex_hood",
     "type": "ARMOR",
     "name": "flame-resistant hood",
@@ -1180,7 +1180,7 @@
     "material_thickness": 3,
     "flags": [ "FANCY", "STAB" ]
   },
-    {
+  {
     "id": "porkpie",
     "type": "ARMOR",
     "name": "porkpie hat",
@@ -1218,7 +1218,7 @@
     "environmental_protection": 2,
     "flags": [ "SUN_GLASSES" ]
   },
-     {
+  {
     "id": "pot_helmet",
     "type": "ARMOR",
     "category": "armor",
@@ -1238,7 +1238,7 @@
     "material_thickness": 2,
     "techniques": [ "WBLOCK_1" ]
   },
-    {
+  {
     "id": "power_armor_helmet_basic",
     "type": "ARMOR",
     "category": "armor",
@@ -1310,7 +1310,7 @@
     "qualities": [ [ "GLARE", 2 ] ],
     "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER" ]
   },
-    {
+  {
     "id": "straw_hat",
     "type": "ARMOR",
     "name": "straw hat",
@@ -1328,7 +1328,7 @@
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "SUN_GLASSES" ]
   },
-    {
+  {
     "id": "tac_fullhelmet",
     "type": "ARMOR",
     "category": "armor",
@@ -1373,7 +1373,7 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATER_FRIENDLY", "STURDY" ]
   },
-    {
+  {
     "id": "tinfoil_hat",
     "type": "ARMOR",
     "category": "armor",
@@ -1389,7 +1389,7 @@
     "coverage": 90,
     "flags": [ "SKINTIGHT", "TRADER_AVOID" ]
   },
-     {
+  {
     "id": "tophat",
     "type": "ARMOR",
     "name": "top hat",
@@ -1409,7 +1409,7 @@
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUPER_FANCY" ]
   },
-     {
+  {
     "id": "tricorne",
     "type": "ARMOR",
     "name": "tricorne",
@@ -1428,7 +1428,7 @@
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF", "WATER_FRIENDLY", "FANCY" ]
   },
-    {
+  {
     "id": "turban",
     "type": "ARMOR",
     "name": "turban",
@@ -1447,7 +1447,7 @@
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
-      {
+  {
     "id": "wetsuit_hood",
     "type": "ARMOR",
     "name": "wetsuit hood",

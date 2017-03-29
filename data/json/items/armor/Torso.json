@@ -1,5 +1,5 @@
 [
-{
+  {
     "id": "army_top",
     "type": "ARMOR",
     "name": "camo tank top",
@@ -15,7 +15,6 @@
     "material_thickness": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   },
-  
   {
     "id": "backpack",
     "type": "ARMOR",
@@ -150,7 +149,6 @@
     "material_thickness": 3,
     "flags": [ "BELTED" ]
   },
-  
   {
     "id": "bra",
     "type": "ARMOR",
@@ -194,7 +192,7 @@
     },
     "flags": [ "BELTED", "OVERSIZE" ]
   },
-    {
+  {
     "id": "camisole",
     "type": "ARMOR",
     "name": "camisole",
@@ -229,7 +227,6 @@
     "material_thickness": 4,
     "flags": [ "VARSIZE", "STURDY" ]
   },
- 
   {
     "id": "chestwrap",
     "type": "ARMOR",
@@ -321,7 +318,7 @@
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "FANCY", "SKINTIGHT" ]
   },
-   {
+  {
     "id": "cuirass_lightplate",
     "type": "ARMOR",
     "category": "armor",
@@ -360,7 +357,7 @@
     "material_thickness": 1,
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
-   {
+  {
     "id": "dragonskin",
     "type": "ARMOR",
     "category": "armor",
@@ -440,7 +437,7 @@
     "material_thickness": 1,
     "flags": [ "WAIST" ]
   },
-   {
+  {
     "id": "fireman_belt",
     "type": "ARMOR",
     "name": "firefighter belt",
@@ -563,7 +560,7 @@
     },
     "flags": [ "OVERSIZE", "BELTED" ]
   },
-   {
+  {
     "id": "kevlar",
     "type": "ARMOR",
     "category": "armor",
@@ -584,7 +581,6 @@
     "material_thickness": 3,
     "flags": [ "STURDY", "SKINTIGHT" ]
   },
-   
   {
     "id": "leather_belt",
     "type": "ARMOR",
@@ -632,7 +628,6 @@
     "material_thickness": 1,
     "flags": [ "WAIST", "OVERSIZE" ]
   },
-  
   {
     "id": "linuxtshirt",
     "type": "ARMOR",
@@ -685,7 +680,7 @@
     ],
     "flags": [ "VARSIZE" ]
   },
-   {
+  {
     "id": "lsurvivor_armor",
     "type": "ARMOR",
     "category": "armor",
@@ -706,7 +701,6 @@
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ]
   },
-  
   {
     "id": "makeshift_knapsack",
     "type": "ARMOR",
@@ -767,7 +761,7 @@
     "material_thickness": 1,
     "flags": [ "BELTED" ]
   },
-   {
+  {
     "id": "modularvest",
     "type": "ARMOR",
     "category": "armor",
@@ -962,7 +956,6 @@
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "OUTER" ]
   },
-  
   {
     "id": "postman_shirt",
     "type": "ARMOR",
@@ -981,7 +974,7 @@
     "material_thickness": 1,
     "flags": [ "VARSIZE" ]
   },
-   {
+  {
     "id": "purse",
     "type": "ARMOR",
     "name": "purse",
@@ -1096,8 +1089,8 @@
       "draw_cost": 20
     },
     "flags": [ "BELTED", "VARSIZE", "OVERSIZE" ]
-	},
-	 {
+  },
+  {
     "id": "ragpouch",
     "type": "ARMOR",
     "name": "pouch",
@@ -1157,7 +1150,7 @@
     "material_thickness": 1,
     "flags": [ "WATERPROOF", "BELTED" ]
   },
-   {
+  {
     "id": "sleeveless_trenchcoat",
     "type": "ARMOR",
     "name": "sleeveless trenchcoat",
@@ -1246,7 +1239,7 @@
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
   },
-   {
+  {
     "id": "slingpack",
     "type": "ARMOR",
     "name": "sling pack",
@@ -1284,7 +1277,7 @@
     "material_thickness": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   },
-   {
+  {
     "id": "survivor_belt_notools",
     "type": "ARMOR",
     "name": "survivor belt",
@@ -1328,7 +1321,7 @@
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]
   },
-   {
+  {
     "id": "survivor_pack",
     "type": "ARMOR",
     "name": "survivor backpack",
@@ -1398,7 +1391,6 @@
     "material_thickness": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ]
   },
-
   {
     "id": "technician_shirt_blue",
     "type": "ARMOR",
@@ -1484,7 +1476,7 @@
     },
     "flags": [ "WAIST", "NO_QUICKDRAW" ]
   },
- {
+  {
     "id": "tshirt",
     "type": "ARMOR",
     "name": "t-shirt",
@@ -1524,7 +1516,7 @@
     ],
     "flags": [ "VARSIZE" ]
   },
-   {
+  {
     "id": "under_armor",
     "type": "ARMOR",
     "name": "compression top",
@@ -1541,7 +1533,6 @@
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT", "WATER_FRIENDLY" ]
   },
- 
   {
     "id": "undershirt",
     "type": "ARMOR",
@@ -1639,4 +1630,4 @@
     "material_thickness": 1,
     "flags": [ "VARSIZE", "FANCY" ]
   }
-  ]
+]

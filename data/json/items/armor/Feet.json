@@ -1,5 +1,5 @@
 [
-{
+  {
     "id": "geta",
     "type": "ARMOR",
     "name": "pair of geta",
@@ -21,7 +21,7 @@
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "WATERPROOF" ]
   },
-   {
+  {
     "id": "leg_warmers_xlf",
     "type": "ARMOR",
     "name": "pair of fetlock furs",
@@ -171,4 +171,4 @@
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   }
-  ]
+]
