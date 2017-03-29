@@ -1002,8 +1002,7 @@ void game::create_starting_npcs()
     npc *tmp = new npc();
     tmp->normalize();
     tmp->randomize( one_in(2) ? NC_DOCTOR : NC_NONE );
-    // spawn the npc in the overmap, sets its overmap and submap coordinates
-    tmp->spawn_at_precise( { get_levx(), get_levy() }, { SEEX / 2, SEEY / 2, get_levz() } );
+    tmp->spawn_at_precise( { get_levx(), get_levy() }, u.pos() - point( 1, 1 ) );
     tmp->form_opinion( u );
     tmp->attitude = NPCATT_NULL;
     //This sets the npc mission. This NPC remains in the shelter.
