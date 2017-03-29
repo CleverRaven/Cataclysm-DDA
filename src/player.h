@@ -528,6 +528,15 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         double gun_current_range( const item &gun, double penalty = -1,
                                   unsigned chance = 50, double accuracy = accuracy_goodhit ) const;
+        /**
+         *  Calculate range at which given chance of hit considering player stats, clothing and recoil
+         *  @param to_throw item that will be thrown
+         *  @param chance probability of hit, range [0-100) with zero returning absolute maximum range
+         *  @param accuracy minimum accuracy required
+         *  @param target the target creature (can be null) who may try to dodge the thrown item
+         */
+        double thrown_current_range( const item& to_throw, unsigned chance = 50,
+                                     double accuracy = accuracy_goodhit, Creature *target = nullptr ) const;
 
         enum class engagement {
             snapshot,   // 50% chance of good hit with no aiming
@@ -670,8 +679,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // ranged.cpp
         /** Execute a throw */
         dealt_projectile_attack throw_item( const tripoint &target, const item &thrown );
-        /** Returns the throwing attack dexterity mod */
-        int throw_dex_mod(bool return_stat_effect = true) const;
 
         // Mental skills and stats
         /** Returns the player's reading speed */

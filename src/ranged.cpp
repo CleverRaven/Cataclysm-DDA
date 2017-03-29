@@ -46,7 +46,8 @@ static void cycle_action( item& weap, const tripoint &pos );
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
 void drop_or_embed_projectile( const dealt_projectile_attack &attack );
-int throwing_dispersion( const player &c, const item &to_throw, Creature *critter );
+
+using confidence_rating = std::tuple<double, char, std::string>;
 
 struct aim_type {
     std::string name;
@@ -453,7 +454,25 @@ double player::gun_current_range( const item& gun, double penalty, unsigned chan
 
     // calculate base dispersion
     double dispersion = get_weapon_dispersion( gun, RANGE_SOFT_CAP ) + ( penalty < 0 ? recoil_total() : penalty );
+    double range = ranged::effective_range( dispersion, chance, accuracy, occupied_tile_fraction( MS_MEDIUM ) );
+    range = std::min( range, ( double )gun.gun_range( this ) );
+    return range;
+}
 
+double player::thrown_current_range( const item& to_throw, unsigned chance,
+                                     double accuracy, Creature *target ) const
+{
+    double dispersion = throwing_dispersion( to_throw, target );
+    float target_size = occupied_tile_fraction( target != nullptr ? target->get_size() : MS_MEDIUM );
+    double range = ranged::effective_range( dispersion, chance, accuracy, target_size );
+    range = std::min( range, ( double )throw_range( to_throw ) );
+    return range;
+}
+
+namespace ranged {
+
+double effective_range( double dispersion, unsigned chance, double accuracy, double target_size )
+{
     double sigma = dispersion / dispersion_sigmas;
 
     // angle such that chance% of dispersion rolls are <= that angle
@@ -461,14 +480,13 @@ double player::gun_current_range( const item& gun, double penalty, unsigned chan
 
     // required iso_tangent value
     // Assume we're displaying ranges against humans and human-sized zombies
-    double missed_by_tiles = accuracy * occupied_tile_fraction( MS_MEDIUM );
+    double missed_by_tiles = accuracy * target_size;
 
     // work backwards to range
     //   T = (2*D**2 * (1 - cos V)) ** 0.5   (from iso_tangent)
     //   D = (0.5*T**2 / (1 - cos V)) ** 0.5
     double range = sqrt( 0.5 * missed_by_tiles * missed_by_tiles / ( 1 - cos( ARCMIN( max_dispersion ) ) ) );
 
-    range = std::min( range, ( double )gun.gun_range( this ) );
     if( range > RANGE_SOFT_CAP ) {
         // This is a special case that is a pain to calculate since dispersion depends on range
         // Just interpolate linearly - the actual function is linear enough
@@ -476,6 +494,8 @@ double player::gun_current_range( const item& gun, double penalty, unsigned chan
     }
 
     return range;
+}
+
 }
 
 double player::gun_engagement_range( const item &gun, engagement opt ) const
@@ -749,9 +769,21 @@ int throw_cost( const player &c, const item &to_throw )
     return std::max( 25, move_cost );
 }
 
+int Character::throw_dispersion_per_dodge( bool add_encumbrance ) const
+{
+    // +200 per dodge point at 0 dexterity
+    // +100 at 8, +80 at 12, +66.6 at 16, +57 at 20, +50 at 24
+    // Each 10 encumbrance on either hand is like -1 dex (can bring penalty to +400 per dodge)
+    // Maybe @todo Only use one hand
+    const int encumbrance = add_encumbrance ? encumb( bp_hand_l ) + encumb( bp_hand_r ) : 0;
+    ///\EFFECT_DEX increases throwing accuracy against targets with good dodge stat
+    float effective_dex = 2 + get_dex() / 4.0f - ( encumbrance ) / 40.0f;
+    return static_cast<int>( 100.0f / std::max( 1.0f, effective_dex ) );
+}
+
 // Perfect situation gives us 1000 dispersion at lvl 0
 // This goes down linearly to 250  dispersion at lvl 10
-int throwing_dispersion( const player &c, const item &to_throw, Creature *critter )
+int Character::throwing_dispersion( const item &to_throw, Creature *critter ) const
 {
     int weight = to_throw.weight();
     units::volume volume = to_throw.volume();
@@ -766,29 +798,23 @@ int throwing_dispersion( const player &c, const item &to_throw, Creature *critte
     throw_difficulty += std::max<int>( 0, units::to_milliliter( volume - 1000_ml ) );
     // 1 penalty for gram above str*100 grams (at 0 skill)
     ///\EFFECT_STR decreases throwing dispersion when throwing heavy objects
-    throw_difficulty += std::max( 0, weight - c.get_str() * 100 );
+    throw_difficulty += std::max( 0, weight - get_str() * 100 );
 
     // Dispersion from difficult throws goes from 100% at lvl 0 to 25% at lvl 10
     ///\EFFECT_THROW increases throwing accuracy
-    const int throw_skill = std::min<int>( MAX_SKILL, c.get_skill_level( skill_throw ) );
+    const int throw_skill = std::min<int>( MAX_SKILL, get_skill_level( skill_throw ) );
     int dispersion = 10 * throw_difficulty / ( 3 * throw_skill + 10 );
     // If the target is a creature, it moves around and ruins aim
     // @todo Inform projectile functions if the attacker actually aims for the critter or just the tile
     if( critter != nullptr ) {
-        // +200 per dodge point at 0 dexterity
-        // +100 at 8, +80 at 12, +66.6 at 16, +57 at 20, +50 at 24
-        // Each 10 encumbrance on either hand is like -1 dex (can bring penalty to +400 per dodge)
-        // Maybe @todo Only use one hand
-        ///\EFFECT_DEX increases throwing accuracy against targets with good dodge stat
-        float effective_dex = 2 + c.throw_dex_mod() - ( c.encumb( bp_hand_l ) + c.encumb( bp_hand_r ) ) / 40.0f;
         // It's easier to dodge at close range (thrower needs to adjust more)
         // Dodge x10 at point blank, x5 at 1 dist, then flat
-        float effective_dodge = critter->get_dodge() * std::max( 1, 10 - 5 * rl_dist( c.pos(), critter->pos() ) );
-        dispersion += effective_dodge * 400.0f / std::max( 1.0f, effective_dex );
+        float effective_dodge = critter->get_dodge() * std::max( 1, 10 - 5 * rl_dist( pos(), critter->pos() ) );
+        dispersion += throw_dispersion_per_dodge( true ) * effective_dodge;
     }
     // 1 perception per 1 eye encumbrance
     ///\EFFECT_PER decreases throwing accuracy penalty from eye encumbrance
-    dispersion += std::max( 0, ( c.encumb( bp_eyes ) - c.get_per() ) * 10 );
+    dispersion += std::max( 0, ( encumb( bp_eyes ) - get_per() ) * 10 );
     return std::max( 0, dispersion );
 }
 
@@ -898,7 +924,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     const float final_xp_mult = range_factor * damage_factor;
 
     Creature *critter = g->critter_at( target, true );
-    const double dispersion = throwing_dispersion( *this, thrown, critter );
+    const double dispersion = throwing_dispersion( thrown, critter );
     auto dealt_attack = projectile_attack( proj, target, dispersion );
 
     const double missed_by = dealt_attack.missed_by;
@@ -1081,12 +1107,68 @@ double Creature::projectile_attack_chance( double dispersion, double range, doub
     return std::erf( shot_dispersion / ( sigma * sqrt2 ) );
 }
 
+static int print_ranged_chance( const player &p, WINDOW *w, int line_number,
+                                const std::vector<confidence_rating> &confidence_config,
+                                double dispersion, double range, double target_size,
+                                double steadiness = 10000.0 )
+{
+    const int window_width = getmaxx( w ) - 2; // Window width minus borders.
+
+    const auto get_chance = [&p, dispersion, range, target_size]( double acc ) {
+        return p.projectile_attack_chance( dispersion, range, acc, target_size );
+    };
+
+    bool print_steadiness = steadiness < 1000.0;
+    if( get_option<std::string>( "ACCURACY_DISPLAY" ) == "numbers" ) {
+        // Chances by get_chance are absolute, meaning graze will always be higher than headshot etc.
+        int last_chance = 0;
+        std::string confidence_s = enumerate_as_string( confidence_config.begin(), confidence_config.end(),
+        [&]( const confidence_rating &config ) {
+            // @todo Consider not printing 0 chances, but only if you can print something (at least miss 100% or so)
+            int chance = std::min<int>( 100, 100.0 * get_chance( std::get<0>( config ) ) ) - last_chance;
+            last_chance += chance;
+            return string_format( "%s: %3d%%", std::get<2>( config ).c_str(), chance );
+        }, false );
+        line_number += fold_and_print_from( w, line_number, 1, window_width, 0,
+                                            c_white, confidence_s );
+
+        if( print_steadiness ) {
+            std::string steadiness_s = string_format( "%s: %d%%", _( "Steadiness" ), (int)( 100.0 * steadiness ) );
+            mvwprintw( w, line_number++, 1, "%s", steadiness_s.c_str() );
+        }
+
+    } else {
+        // Extract pairs from tuples, because get_labeled_bar expects pairs
+        // @todo Update get_labeled_bar to allow tuples
+        std::vector<std::pair<double, char>> confidence_ratings;
+        std::transform( confidence_config.begin(), confidence_config.end(), std::back_inserter( confidence_ratings ),
+        [&]( const confidence_rating &config ) {
+            return std::make_pair( get_chance( std::get<0>( config ) ), std::get<1>( config ) );
+        } );
+
+        const std::string &confidence_bar = get_labeled_bar( 1.0, window_width, _( "Confidence" ),
+                                                             confidence_ratings.begin(),
+                                                             confidence_ratings.end() );
+        
+
+        mvwprintw( w, line_number++, 1, _( "Symbols: * = Headshot + = Hit | = Graze" ) );
+        mvwprintw( w, line_number++, 1, confidence_bar.c_str() );
+        if( print_steadiness ) {
+            const std::string &steadiness_bar = get_labeled_bar( steadiness, window_width,
+                                                                 _( "Steadiness" ), '*' );
+            mvwprintw( w, line_number++, 1, steadiness_bar.c_str() );
+        }
+    }
+
+    return line_number;
+}
+
 static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
                       Creature &target, double predicted_recoil ) {
     // This is absolute accuracy for the player.
     // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
     // Creature::projectile_attack() into shared methods.
-    // Dodge is intentionally not accounted for.
+    // Dodge doesn't affect gun attacks
 
     const double range = rl_dist( p.pos(), target.pos() );
     const double dispersion = p.get_weapon_dispersion( *weapon, range ) + predicted_recoil + p.recoil_vehicle();
@@ -1098,57 +1180,15 @@ static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
     const double steadiness = 1.0 - steady_score / MIN_RECOIL;
 
     const double target_size = target.ranged_target_size();
-    const auto get_chance = [&p, dispersion, range, target_size]( double acc ) {
-        return p.projectile_attack_chance( dispersion, range, acc, target_size );
-    };
 
     // This could be extracted, to allow more/less verbose displays
-    using cconf = std::tuple<double, char, std::string>;
-    static const std::array<cconf, 3> confidence_config = {{
+    static const std::vector<confidence_rating> confidence_config = {{
         std::make_tuple( accuracy_headshot, '*', _( "Headshot" ) ),
         std::make_tuple( accuracy_goodhit, '+', _( "Hit" ) ),
         std::make_tuple( accuracy_grazing, '|', _( "Graze" ) )
     }};
 
-    const int window_width = getmaxx( w ) - 2; // Window width minus borders.
-
-    if( get_option<std::string>( "ACCURACY_DISPLAY" ) == "numbers" ) {
-        // Chances by get_chance are absolute, meaning graze will always be higher than headshot etc.
-        int last_chance = 0;
-        std::string confidence_s = enumerate_as_string( confidence_config.begin(), confidence_config.end(),
-        [&]( const cconf &config ) {
-            // @todo Consider not printing 0 chances, but only if you can print something (at least miss 100% or so)
-            int chance = std::min<int>( 100, 100.0 * get_chance( std::get<0>( config ) ) ) - last_chance;
-            last_chance += chance;
-            return string_format( "%s: %3d%%", std::get<2>( config ).c_str(), chance );
-        }, false );
-        line_number += fold_and_print_from( w, line_number, 1, window_width, 0,
-                                            c_white, confidence_s );
-
-        std::string steadiness_s = string_format( "%s: %d%%", _( "Steadiness" ), (int)( 100.0 * steadiness ) );
-        mvwprintw( w, line_number++, 1, "%s", steadiness_s.c_str() );
-
-    } else {
-        // Extract pairs from tuples, because get_labeled_bar expects pairs
-        // @todo Update get_labeled_bar to allow tuples
-        std::vector<std::pair<double, char>> confidence_ratings;
-        std::transform( confidence_config.begin(), confidence_config.end(), std::back_inserter( confidence_ratings ),
-        [&]( const cconf &config ) {
-            return std::make_pair( get_chance( std::get<0>( config ) ), std::get<1>( config ) );
-        } );
-
-        const std::string &confidence_bar = get_labeled_bar( 1.0, window_width, _( "Confidence" ),
-                                                             confidence_ratings.begin(),
-                                                             confidence_ratings.end() );
-        const std::string &steadiness_bar = get_labeled_bar( steadiness, window_width,
-                                                             _( "Steadiness" ), '*' );
-
-        mvwprintw( w, line_number++, 1, _( "Symbols: * = Headshot + = Hit | = Graze" ) );
-        mvwprintw( w, line_number++, 1, confidence_bar.c_str() );
-        mvwprintw( w, line_number++, 1, steadiness_bar.c_str() );
-    }
-
-    return line_number;
+    return print_ranged_chance( p, w, line_number, confidence_config, dispersion, range, target_size, steadiness );
 }
 
 static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const tripoint &targ )
@@ -1178,13 +1218,10 @@ static int draw_throw_aim( const player &p, WINDOW *w, int line_number,
         target = nullptr;
     }
 
-    const double dispersion = throwing_dispersion( p, *weapon, target );
+    const double dispersion = p.throwing_dispersion( *weapon, target );
     const double range = rl_dist( p.pos(), target_pos );
 
     const double target_size = target != nullptr ? target->ranged_target_size() : 1.0f;
-    const auto get_chance = [&p, dispersion, range, target_size]( double acc ) {
-        return p.projectile_attack_chance( dispersion, range, acc, target_size );
-    };
 
     // This could be extracted, to allow more/less verbose displays
     using cconf = std::tuple<double, char, std::string>;
@@ -1198,38 +1235,7 @@ static int draw_throw_aim( const player &p, WINDOW *w, int line_number,
     }};
     const auto &confidence_config = target != nullptr ? confidence_config_critter : confidence_config_object;
 
-    const int window_width = getmaxx( w ) - 2; // Window width minus borders.
-
-    if( get_option<std::string>( "ACCURACY_DISPLAY" ) == "numbers" ) {
-        // Chances by get_chance are absolute, meaning graze will always be higher than headshot etc.
-        int last_chance = 0;
-        std::string confidence_s = enumerate_as_string( confidence_config.begin(), confidence_config.end(),
-        [&]( const cconf &config ) {
-            int chance = std::min<int>( 100, 100.0 * get_chance( std::get<0>( config ) ) ) - last_chance;
-            last_chance += chance;
-            return string_format( "%s: %3d%%", std::get<2>( config ).c_str(), chance );
-        }, false );
-        line_number += fold_and_print_from( w, line_number, 1, window_width, 0,
-                                            c_white, confidence_s );
-
-    } else {
-        // Extract pairs from tuples, because get_labeled_bar expects pairs
-        // @todo Update get_labeled_bar to allow tuples
-        std::vector<std::pair<double, char>> confidence_ratings;
-        std::transform( confidence_config.begin(), confidence_config.end(), std::back_inserter( confidence_ratings ),
-        [&]( const cconf &config ) {
-            return std::make_pair( get_chance( std::get<0>( config ) ), std::get<1>( config ) );
-        } );
-
-        const std::string &confidence_bar = get_labeled_bar( 1.0, window_width, _( "Confidence" ),
-                                                             confidence_ratings.begin(),
-                                                             confidence_ratings.end() );
-
-        mvwprintw( w, line_number++, 1, _( "Symbols: * = Headshot + = Hit | = Graze" ) );
-        mvwprintw( w, line_number++, 1, confidence_bar.c_str() );
-    }
-
-    return line_number;
+    return print_ranged_chance( p, w, line_number, confidence_config, dispersion, range, target_size );
 }
 
 std::vector<tripoint> target_handler::target_ui( player &pc, const targeting_data &args ) {

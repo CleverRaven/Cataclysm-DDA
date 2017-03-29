@@ -3336,11 +3336,6 @@ void player::search_surroundings()
     }
 }
 
-int player::throw_dex_mod( bool ) const
-{
-    return get_dex() / 4;
-}
-
 int player::read_speed(bool return_stat_effect) const
 {
     // Stat window shows stat effects on based on current stat

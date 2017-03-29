@@ -770,8 +770,6 @@ classes = {
             { name = "takeoff", rval = bool, args = { "item" } },
             { name = "talk_skill", rval = "int", args = { } },
             { name = "temp_equalizer", rval = nil, args = { "body_part", "body_part" } },
-            { name = "throw_dex_mod", rval = "int", args = { "bool" } },
-            { name = "throw_dex_mod", rval = "int", args = { } },
             { name = "throw_range", rval = "int", args = { "item" } },
             { name = "toggle_move_mode", rval = nil, args = { } },
             { name = "try_to_sleep", rval = nil, args = { } },

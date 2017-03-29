@@ -839,13 +839,8 @@ tab_direction set_stats(WINDOW *w, player *u, points_left &points)
             }
             mvwprintz(w_description, 0, 0, COL_STAT_BONUS, _("Melee to-hit bonus: +%.2f"),
                       u->get_hit_base());
-            if (u->throw_dex_mod(false) <= 0) {
-                mvwprintz(w_description, 1, 0, COL_STAT_BONUS, _("Throwing bonus: +%d"),
-                          abs(u->throw_dex_mod(false)));
-            } else {
-                mvwprintz(w_description, 1, 0, COL_STAT_PENALTY, _("Throwing penalty: -%d"),
-                          abs(u->throw_dex_mod(false)));
-            }
+            mvwprintz( w_description, 1, 0, COL_STAT_BONUS, _("Throwing penalty per target's dodge: +%d"),
+                       u->throw_dispersion_per_dodge( false ) );
             fold_and_print(w_description, 4, 0, getmaxx(w_description) - 1, COL_STAT_NEUTRAL,
                            _("Dexterity also enhances many actions which require finesse."));
             break;
