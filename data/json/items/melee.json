@@ -773,8 +773,8 @@
         "techniques" : ["WBLOCK_1"],
         "flags" : ["DURABLE_MELEE","BELT_CLIP"],
             "use_action": {
-            "type": "transform",
             "menu_text": "Expand",
+            "type": "transform",
             "target": "baton-extended",
             "msg": "You snap open your baton."
         },
@@ -796,8 +796,8 @@
         "techniques" : ["WBLOCK_1"],
         "flags" : ["DURABLE_MELEE","BELT_CLIP"],
         "use_action": {
-            "type": "transform",
             "menu_text": "Collapse",
+            "type": "transform",
             "target": "baton",
             "msg": "You collapse your baton."
         },
@@ -1192,8 +1192,8 @@
         "techniques" : ["WBLOCK_1"],
         "flags" : ["DURABLE_MELEE"],
         "use_action": {
-            "type": "transform",
             "menu_text": "Extend",
+            "type": "transform",
             "target": "PR24-extended",
             "msg": "You snap open your PR-24 baton."
         },
@@ -1216,8 +1216,8 @@
         "techniques" : ["WBLOCK_2", "RAPID"],
         "flags" : ["DURABLE_MELEE"],
         "use_action": {
-            "type": "transform",
             "menu_text": "Retract",
+            "type": "transform",
             "target": "PR24-retracted",
             "msg": "You collapse your PR-24 baton."
         },

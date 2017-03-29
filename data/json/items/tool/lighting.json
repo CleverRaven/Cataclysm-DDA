@@ -35,8 +35,8 @@
     "turns_per_charge": 45,
     "revert_to": "electric_lantern",
     "use_action": {
-        "type": "transform",
         "menu_text": "Turn off",
+        "type": "transform",
         "target": "electric_lantern",
         "msg": "You turn the lamp off."
     },
@@ -76,8 +76,8 @@
     "turns_per_charge": 20,
     "revert_to": "flashlight",
     "use_action": {
-        "type": "transform",
         "menu_text": "Turn off",
+        "type": "transform",
         "msg": "You turn the flashlight off.",
         "target": "flashlight"
     },
@@ -97,8 +97,8 @@
     "max_charges": 300,
     "initial_charges": 300,
     "use_action": {
-        "type": "transform",
         "menu_text": "Strike the striker",
+        "type": "transform",
         "target": "handflare_lit",
         "active": true,
         "msg": "You strike your flare and light it."
@@ -153,8 +153,8 @@
     "turns_per_charge": 12,
     "revert_to": "heavy_flashlight",
     "use_action": {
-        "type": "transform",
         "menu_text": "Turn off",
+        "type": "transform",
         "msg": "You turn the heavy duty flashlight off.",
         "target": "heavy_flashlight"
     },
@@ -195,8 +195,8 @@
     "turns_per_charge": 240,
     "revert_to": "oxylamp",
     "use_action": {
-        "type": "transform",
         "menu_text": "Turn off",
+        "type": "transform",
         "msg": "The %s is extinguished",
         "target": "oxylamp"
     },
