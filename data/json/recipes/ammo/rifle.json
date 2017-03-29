@@ -176,6 +176,26 @@
     ]
   },
   {
+    "result": "reloaded_308",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": 6000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 4 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
+    "components": [
+      [ [ "308_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 8 ] ],
+      [ [ "copper", 3 ] ]
+    ]
+  },
+  {
     "result": "reloaded_50bmg",
     "type": "recipe",
     "category": "CC_AMMO",
@@ -336,6 +356,47 @@
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "gunpowder", 30 ] ],
       [ [ "copper", 5 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_762_51",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 5 ],
+    "time": 6000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 4 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
+    "components": [
+      [ [ "308_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 10 ] ],
+      [ [ "copper", 3 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_762_51_incendiary",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "skills_required": [ "gun", 5 ],
+    "time": 7000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 5 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
+    "components": [
+      [ [ "308_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 10 ] ],
+      [ [ "copper", 3 ] ],
+      [ [ "incendiary", 6 ] ]
     ]
   },
   {
