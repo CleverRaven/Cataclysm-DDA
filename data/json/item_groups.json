@@ -3391,7 +3391,7 @@
   },{
     "type" : "item_group",
     "id" : "contraband",
-    "note": "concealable items only plz",
+    "//": "concealable items only plz",
     "items":[
       ["caffeine", 25],
       ["oxycodone", 4],
@@ -5537,7 +5537,7 @@
     "type" : "item_group",
     "id" : "bionics_sci",
     "subtype": "distribution",
-    "note" : "High-tech bionics, handy for the harried researcher.  They get access to classified toys too.",
+    "//" : "High-tech bionics, handy for the harried researcher.  They get access to classified toys too.",
     "items":[
       ["bio_solar", 5],
       ["bio_batteries", 20],
@@ -5917,7 +5917,7 @@
       "type" : "item_group",
     "id" : "bionics_op",
     "subtype": "distribution",
-    "note" : "What the commandos get.",
+    "//" : "What the commandos get.",
     "items":[
       ["bio_power_storage_mkII", 10],
       ["bio_solar", 15],
@@ -8567,7 +8567,7 @@
     "type" : "item_group",
     "id" : "bionics_tech",
     "subtype": "distribution",
-    "note" : "Bionics used by technicians.",
+    "//" : "Bionics used by technicians.",
     "items":[
       ["bio_torsionratchet", 20],
       ["bio_memory", 20],
@@ -8580,7 +8580,7 @@
     "type" : "item_group",
     "id" : "bionics_subs",
     "subtype": "distribution",
-    "note" : "Bionics dropped by substation mini-boss.",
+    "//" : "Bionics dropped by substation mini-boss.",
     "items":[
       ["bio_power_storage", 20],
       ["bio_batteries", 20],
