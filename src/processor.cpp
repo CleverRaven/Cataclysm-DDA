@@ -23,8 +23,8 @@ namespace
 
         process_id id;
         std::string name;
-        std::vector<itype_id> components;
-        itype_id output;
+        std::vector<std::string> components;
+        std::string output;
         int fuel_intake;
         int duration;
         //TODO: Skill used
@@ -48,30 +48,25 @@ void process_data::load(JsonObject &jo, const std::string &)
 {
     mandatory(jo, was_loaded, "name", name);
     //TODO: modify to allow lists of components
-    mandatory(jo, was_loaded, "components", components, string_id_reader<itype_id> {});
-    mandatory(jo, was_loaded, "output", output, string_id_reader<itype_id> {});
+    mandatory(jo, was_loaded, "components", components);
+    mandatory(jo, was_loaded, "output", output);
     mandatory(jo, was_loaded, "fuel_intake", fuel_intake);
     mandatory(jo, was_loaded, "duration", duration);
 }
 
 void process_data::check() const
 {
-    const process_id proc_id(id.str());
-
-    if (!proc_id.is_valid()) {
-        debugmsg("There is no process with the name %s", id.c_str());
-    }
     //I'm not sure if I need this, it would validate components and output as valid itype_id
-    for (const itype_id &elem : components) {
+    for (const std::string &elem : components) {
         //The compiler complains about this is_valid method
-        if (!item::type_is_defined(elem)) {
+        if (!item::type_is_defined( elem )) {
             debugmsg("Invalid components \"%s\" in \"%s\".", elem.c_str(), id.c_str());
         }
     }
-    if (!item::type_is_defined(output)) {
+    if (!item::type_is_defined( output )) {
         debugmsg("Invalid output \"%s\" in \"%s\".", output.c_str(), id.c_str());
     }
-    if (!(fuel_intake >= 0)) {
+    if ( !(fuel_intake >= 0) ) {
         debugmsg("Invalid fuel intake \"%d\" in \"%s\".", fuel_intake, id.c_str());
     }
     if (!(duration > 0)) {
@@ -111,7 +106,7 @@ struct processor_data {
     itype_id fuel_type;
 
 
-    std::vector<process_id> processes;
+    std::vector<std::string> processes;
 
     std::string full_message;
     std::string empty_message;
@@ -141,7 +136,7 @@ void processor_data::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "next_type", next_type );
     mandatory( jo, was_loaded, "fuel_type", fuel_type );
-    mandatory( jo, was_loaded, "processes", processes, string_id_reader<process_id> {} );
+    mandatory( jo, was_loaded, "processes", processes );
 
     if( !was_loaded || jo.has_member( "messages" ) ) {
         JsonObject messages_obj = jo.get_object( "messages" );
@@ -167,11 +162,13 @@ void processor_data::check() const
         debugmsg( "Furniture \"%s\" can't act as a processor because the assigned iexamine function is not converter, but it has \"%s\" associated.",
                   processor_id.c_str(), id.c_str() );
     }
-    for( const process_id &elem : processes ) {
-        if( !elem.is_valid() ) {
+    /*
+    for( const std::string &elem : processes ) {
+        if( !get_process_id(elem).is_valid() ) {
             debugmsg( "Invalid process \"%s\" in \"%s\".", elem.c_str(), id.c_str() );
         }
     }
+    */
 }
 
 void processors::load( JsonObject &jo, const std::string &src )
@@ -203,11 +200,11 @@ process_data select_active(const tripoint &examp )
     const processor_data &current_processor = processors_data.obj(pid);
     //Make an object list of processes
     std::vector<process_data> *possible_processes = new std::vector<process_data>();
-    for (const process_id &p : current_processor.processes) {
-        possible_processes->push_back( processes_data.obj( p ));
+    for (const std::string &p : current_processor.processes) {
+        possible_processes->push_back( processes_data.obj( get_process_id(p) ));
     }
     //Figure out active process
-    process_data* active_process;
+    process_data *active_process = nullptr;
     if (possible_processes->size() == 1) {
         *active_process = possible_processes->at(0);
     }
@@ -290,7 +287,6 @@ void processors::interact_with_processor(const tripoint &examp, player &p)
     // which components is at which position in the item stack, could make
     // multi-input processes more bearable
     map_stack items = g->m.i_at(examp);
-    bool processed_is_present = false;
     std::map<itype_id, long> charges;
     item fuel = item::item(current_processor.fuel_type, int(calendar::turn), 0);
     for ( item &i : items) {
