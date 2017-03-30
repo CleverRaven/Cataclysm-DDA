@@ -194,7 +194,7 @@ bool IsSubset(std::vector<T> A, std::vector<T> B)
     return std::includes(A.begin(), A.end(), B.begin(), B.end());
 }
 
-process_data select_active(const tripoint &examp )
+const process_data& select_active(const tripoint &examp )
 {
     processor_id pid = get_processor_id(examp);
     const processor_data &current_processor = processors_data.obj(pid);
@@ -381,21 +381,21 @@ void processors::interact_with_working_processor( const tripoint &examp, player 
     items = g->m.i_at(examp);
     std::map<itype_id, long> charges;
     item fuel = item::item(current_processor.fuel_type, int(calendar::turn), 0);
-    for (item i : items) {
+    for (item &i : items) {
         auto index = std::find(active_process.components.begin(), active_process.components.end(), i.typeId());
         //This handles unusable items found on tile at the finish time, could be more complicated, as items will be cleared
         if (index == active_process.components.end()) {
             continue;
         }
         if (i.typeId() != current_processor.fuel_type) {
-            charges.insert(std::make_pair(i.typeId(), charges.at(i.typeId()) + i.charges));
+            charges.insert(std::make_pair( i.typeId() , charges.at(i.typeId()) + i.charges) );
         } else {
             fuel.charges += i.charges;
         }
     }
     //And we know exact numbers
     long minimum = LONG_MAX;
-    for (std::pair<itype_id, long> m : charges) {
+    for ( std::pair<const itype_id, long> &m : charges) {
         if (m.second < minimum) {
             minimum = m.second;
         }
@@ -406,5 +406,5 @@ void processors::interact_with_working_processor( const tripoint &examp, player 
     g->m.add_item(examp, result);
     p.moves -= 500;
     g->m.furn_set(examp, current_processor.next_type );
-    
+
 }
