@@ -4362,7 +4362,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     // e = 1 -> inelastic collision
     float part_dens = 0; //part density
 
-    if( is_body_collision && !critter->is_hallucination() ) {
+    if( is_body_collision ) {
         // Check any monster/NPC/player on the way
         ret.type = veh_coll_body; // body
         ret.target = critter;
@@ -4579,44 +4579,47 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                 }
             }
         }
-
-        coll_velocity = vel1_a * ( smashed ? 100 : 90 );
+        if( !critter->is_hallucination() ) {
+            coll_velocity = vel1_a * ( smashed ? 100 : 90 );
+        }
         // Stop processing when sign inverts, not when we reach 0
     } while( !smashed && sgn( coll_velocity ) == vel_sign );
 
     // Apply special effects from collision.
-    if( critter != nullptr ) {
-        if( pl_ctrl ) {
-            if( turns_stunned > 0 ) {
-                //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
-                add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s and stuns it!"),
-                         name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str());
-            } else {
-                //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
-                add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s!"),
-                         name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str());
+    if( !critter->is_hallucination() ) {
+        if( critter != nullptr ) {
+            if( pl_ctrl ) {
+                if( turns_stunned > 0 ) {
+                    //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
+                    add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s and stuns it!"),
+                             name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str());
+                } else {
+                    //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
+                    add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s!"),
+                             name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str());
+                }
             }
-        }
 
-        if( part_flag( ret.part, "SHARP" ) ) {
-            critter->bleed();
+            if( part_flag( ret.part, "SHARP" ) ) {
+                critter->bleed();
+            } else {
+                sounds::sound( p, 20, snd );
+            }
         } else {
-            sounds::sound( p, 20, snd );
-        }
-    } else {
-        if( pl_ctrl ) {
-            if( snd.length() > 0 ) {
-                //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name, 4$s - sound message
-                add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s with a %4$s"),
-                         name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str(), snd.c_str());
-            } else {
-                //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name
-                add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s."),
-                         name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str());
+            if( pl_ctrl ) {
+                if( snd.length() > 0 ) {
+                    //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name, 4$s - sound message
+                    add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s with a %4$s"),
+                             name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str(), snd.c_str());
+                } else {
+                    //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name
+                    add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s."),
+                             name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str());
+                }
             }
-        }
 
-        sounds::sound(p, smashed ? 80 : 50, snd );
+            sounds::sound(p, smashed ? 80 : 50, snd );
+        }
     }
 
     if( smashed && !vert_coll ) {
