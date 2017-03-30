@@ -47,7 +47,6 @@ namespace
 void process_data::load(JsonObject &jo, const std::string &)
 {
     mandatory(jo, was_loaded, "name", name);
-    //TODO: modify to allow lists of components
     mandatory(jo, was_loaded, "components", components);
     mandatory(jo, was_loaded, "output", output);
     mandatory(jo, was_loaded, "fuel_intake", fuel_intake);
@@ -56,9 +55,7 @@ void process_data::load(JsonObject &jo, const std::string &)
 
 void process_data::check() const
 {
-    //I'm not sure if I need this, it would validate components and output as valid itype_id
     for (const std::string &elem : components) {
-        //The compiler complains about this is_valid method
         if (!item::type_is_defined( elem )) {
             debugmsg("Invalid components \"%s\" in \"%s\".", elem.c_str(), id.c_str());
         }
@@ -143,7 +140,6 @@ void processor_data::load( JsonObject &jo, const std::string & )
 
         optional( messages_obj, was_loaded, "empty", empty_message, translated_string_reader );
         optional( messages_obj, was_loaded, "full", full_message, translated_string_reader );
-        //optional( messages_obj, was_loaded, "prompt", prompt_message, translated_string_reader );
         optional( messages_obj, was_loaded, "start", start_message, translated_string_reader );
         optional( messages_obj, was_loaded, "processing", processing_message, translated_string_reader );
         optional( messages_obj, was_loaded, "finish", finish_message, translated_string_reader );
@@ -162,13 +158,11 @@ void processor_data::check() const
         debugmsg( "Furniture \"%s\" can't act as a processor because the assigned iexamine function is not converter, but it has \"%s\" associated.",
                   processor_id.c_str(), id.c_str() );
     }
-    /*
     for( const std::string &elem : processes ) {
         if( !get_process_id(elem).is_valid() ) {
             debugmsg( "Invalid process \"%s\" in \"%s\".", elem.c_str(), id.c_str() );
         }
     }
-    */
 }
 
 void processors::load( JsonObject &jo, const std::string &src )
@@ -239,6 +233,7 @@ const process_data& select_active(const tripoint &examp )
         else {
             //No items present, we can default to asking the player what they want
             //and then looking at their inventory
+            //Currently, the only thing the player gets out of this is to get a list of components required for the selected process
             std::vector<std::string> p_names;
             for (const process_data &p : (*possible_processes) ) {
                 p_names.push_back(p.name);
@@ -276,16 +271,6 @@ void processors::interact_with_processor(const tripoint &examp, player &p)
     for (const itype_id &i : active_process.components) {
         add_msg(_("You need some %s for each."), item::nname(i, 1).c_str());
     }
-    //At this point, we know which process is active, but we don't know whether
-    //we have the fuel and components available,
-
-    //Use component vector to find out if we have usable items on the tile
-    //TODO: Handle processes with multiple possible inputs, see kiln
-    //TODO: Handle processes requiring multiple input materials
-
-    // Seen the code in keg, I could do interesting stuff by manipulating
-    // which components is at which position in the item stack, could make
-    // multi-input processes more bearable
     map_stack items = g->m.i_at(examp);
     std::map<itype_id, long> charges;
     item fuel = item::item(current_processor.fuel_type, int(calendar::turn), 0);
@@ -306,7 +291,6 @@ void processors::interact_with_processor(const tripoint &examp, player &p)
     }
     //At this point we only have components and fuel on tile
     //And we know exact numbers
-    //Can someone check if I'm using iterators right in this case?
     long minimum = LONG_MAX;
     for( std::pair<itype_id, long> m : charges ){
         if( m.second == 0 ){
@@ -344,7 +328,7 @@ void processors::interact_with_processor(const tripoint &examp, player &p)
 void processors::interact_with_working_processor( const tripoint &examp, player &p )
 {
     processor_id pid = get_processor_id( examp );
-    //Do I need the debugmsg-es here or do they get checked in process_data::load?
+
     if (!processors_data.is_valid(pid)) {
         //TODO EDIT: Verify in mapdata.cpp verification functions instead of on examine
         debugmsg("Examined %s has action interact_with_processor, but has no processor data associated", g->m.furn(examp).id().c_str());
