@@ -1056,13 +1056,7 @@
     {"id":"BOIL","level":1}
   ],
   "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "toolset", 3 ],
-      [ "coffeemaker", 3],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "water_boiling_heat", 3, "LIST" ] ]
   ],
   "components": [
     [
@@ -1097,15 +1091,7 @@
     {"id":"CUT","level":1},
     {"id":"BOIL","level":1}
   ],
-  "tools": [
-    [
-      [ "hotplate", 4 ],
-      [ "toolset", 4 ],
-      [ "coffeemaker", 4],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "water_boiling_heat", 4, "LIST" ] ] ],
   "components": [
     [
       [ "water", 8 ],
