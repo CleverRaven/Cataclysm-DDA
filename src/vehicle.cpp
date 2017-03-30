@@ -4362,7 +4362,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     // e = 1 -> inelastic collision
     float part_dens = 0; //part density
 
-    if( is_body_collision ) {
+    if( is_body_collision && !critter->is_hallucination() ) {
         // Check any monster/NPC/player on the way
         ret.type = veh_coll_body; // body
         ret.target = critter;
