@@ -23,7 +23,7 @@ namespace
 
         process_id id;
         std::string name;
-        std::vector<std::string> components;
+        std::vector<itype_id> components;
         std::string output;
         int fuel_intake;
         int duration;
@@ -55,7 +55,7 @@ void process_data::load(JsonObject &jo, const std::string &)
 
 void process_data::check() const
 {
-    for (const std::string &elem : components) {
+    for (const itype_id &elem : components) {
         if (!item::type_is_defined( elem )) {
             debugmsg("Invalid components \"%s\" in \"%s\".", elem.c_str(), id.c_str());
         }
@@ -103,7 +103,7 @@ struct processor_data {
     itype_id fuel_type;
 
 
-    std::vector<std::string> processes;
+    std::vector<process_id> processes;
 
     std::string full_message;
     std::string empty_message;
@@ -133,7 +133,7 @@ void processor_data::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "next_type", next_type );
     mandatory( jo, was_loaded, "fuel_type", fuel_type );
-    mandatory( jo, was_loaded, "processes", processes );
+    mandatory( jo, was_loaded, "processes",  string_id_reader<process_id>() );
 
     if( !was_loaded || jo.has_member( "messages" ) ) {
         JsonObject messages_obj = jo.get_object( "messages" );
@@ -158,8 +158,8 @@ void processor_data::check() const
         debugmsg( "Furniture \"%s\" can't act as a processor because the assigned iexamine function is not converter, but it has \"%s\" associated.",
                   processor_id.c_str(), id.c_str() );
     }
-    for( const std::string &elem : processes ) {
-        if( !get_process_id(elem).is_valid() ) {
+    for( const process_id &elem : processes ) {
+        if( !elem.is_valid() ) {
             debugmsg( "Invalid process \"%s\" in \"%s\".", elem.c_str(), id.c_str() );
         }
     }
@@ -181,9 +181,8 @@ void processors::reset()
 }
 
 template <typename T>
-bool IsSubset(std::vector<T> A, std::vector<T> B)
+bool IsSubset(std::set<T> A, std::vector<T> B)
 {
-    std::sort(A.begin(), A.end());
     std::sort(B.begin(), B.end());
     return std::includes(A.begin(), A.end(), B.begin(), B.end());
 }
@@ -194,23 +193,24 @@ const process_data& select_active(const tripoint &examp )
     const processor_data &current_processor = processors_data.obj(pid);
     //Make an object list of processes
     std::vector<process_data> *possible_processes = new std::vector<process_data>();
-    for (const std::string &p : current_processor.processes) {
-        possible_processes->push_back( processes_data.obj( get_process_id(p) ));
+    for (const process_id &p : current_processor.processes) {
+        possible_processes->push_back( processes_data.obj( p ));
     }
     //Figure out active process
-    process_data *active_process = nullptr;
+    const process_data *active_process = nullptr;
     if (possible_processes->size() == 1) {
-        *active_process = possible_processes->at(0);
+        return possible_processes->at(0);
     }
     else {
-        map_stack items = g->m.i_at( examp );
-        if (!items.empty()) {
+        const map_stack items = g->m.i_at( examp );
+        if (items.empty()) {
+            //Temporary solution, should be expanded into player being able to depsit directly form inventory after choosing a process
+            return possible_processes->at(0);
+        } else {
             //Build a set of item_id's present
-            std::vector<itype_id> present_items;
+            std::set<itype_id> present_items;
             for (const item &i : items) {
-                if (std::find(present_items.begin(), present_items.end(), i.typeId()) == present_items.end()) {
-                    present_items.push_back(i.typeId());
-                }
+                    present_items.insert(i.typeId());
             }
             //Based on the items present, find the process which has all components
             //available and the largest number of required components
@@ -218,34 +218,16 @@ const process_data& select_active(const tripoint &examp )
                 if (IsSubset(present_items, data.components)) {
                     if (!active_process) {
                         //if nullpointer, set it as active
-                        *active_process = data;
+                        active_process = &data;
                     }
                     else if (active_process->components.size() < data.components.size()) {
-                        *active_process = data;
+                        active_process = &data;
                     }
                 }
             }
             if (!active_process) {
                 //If we can't decide based on the items, make the first process active
-                *active_process = possible_processes->at(0);
-            }
-        }
-        else {
-            //No items present, we can default to asking the player what they want
-            //and then looking at their inventory
-            //Currently, the only thing the player gets out of this is to get a list of components required for the selected process
-            std::vector<std::string> p_names;
-            for (const process_data &p : (*possible_processes) ) {
-                p_names.push_back(p.name);
-            }
-            p_names.push_back(_("Cancel"));
-            int p_index = menu_vec( false, _("Possible processes"), p_names);
-            if (p_index == (int)p_names.size() - 1 || p_index < 0) {
-                //In case cancel, return
-                return possible_processes->at(0);
-            }
-            else {
-                *active_process = possible_processes->at( p_index );
+                active_process = &possible_processes->at(0);
             }
         }
     }
@@ -306,7 +288,7 @@ void processors::interact_with_processor(const tripoint &examp, player &p)
         add_msg(_("The current materials present would go to waste without producing any %s, you need more reagents"), item::nname(active_process.output, 1).c_str() );
         return;
     }
-    add_msg( _("This process is ready to be started, and it will produce %d %s"), item::nname(active_process.output, minimum).c_str(), minimum );
+    add_msg( _("This process is ready to be started, and it will produce %d %s"), minimum, item::nname(active_process.output, minimum).c_str() );
     if( !p.has_charges( "fire" , 1 ) ) {
         add_msg( _("This process is ready to be started, but you have no fire source to start it.") );
         return;
