@@ -295,7 +295,7 @@
         "id" : "s_lot",
         "name" : "parking lot",
         "sym" : 79,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 1,
         "extras" : "build",
         "mondensity" : 2,
@@ -1611,7 +1611,7 @@
         "id" : "bunker",
         "name" : "military bunker",
         "sym" : 66,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 2,
         "flags" : [ "KNOWN_DOWN" ]
     },{
@@ -1619,7 +1619,7 @@
         "id": "bunker_basement",
         "name": "military bunker",
         "sym": 66,
-        "color": "dark_gray",
+        "color": "white",
         "see_cost": 2,
         "flags" : [ "KNOWN_UP", "NO_ROTATE" ]
     },{
@@ -1627,7 +1627,7 @@
         "id" : "outpost",
         "name" : "military outpost",
         "sym" : 77,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 2,
         "extras" : "build",
         "flags" : [ "NO_ROTATE" ]
@@ -1718,7 +1718,7 @@
         "id" : "mine_shaft",
         "name" : "mine shaft",
         "sym" : 79,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "flags" : [ "KNOWN_UP", "KNOWN_DOWN", "NO_ROTATE" ]
     },{
@@ -1823,7 +1823,7 @@
         "id" : "cave_rat",
         "name" : "rat cave",
         "sym" : 67,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 2,
         "flags" : [ "KNOWN_DOWN", "NO_ROTATE" ]
     },{
@@ -1932,7 +1932,7 @@
         "id" : "basement",
         "name" : "basement",
         "sym" : 79,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "mapgen": [
@@ -1953,7 +1953,7 @@
         "id" : "rock", "//" : "This is old rock type, new one (below) will replace it in new overmaps",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "flags" : [ "ALLOW_OVERRIDE", "NO_ROTATE" ]
     },{
@@ -1961,7 +1961,7 @@
         "id" : "empty_rock",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "flags" : [ "ALLOW_OVERRIDE", "NO_ROTATE" ]
     },{
@@ -1993,7 +1993,7 @@
         "type" : "overmap_terrain",
         "id" : "subway",
         "name" : "subway",
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "extras" : "subway",
         "flags" : [ "LINEAR", "ALLOW_OVERRIDE" ]
@@ -2048,7 +2048,7 @@
         "id" : "mall_a_1",
         "name" : "road",
         "sym" : 4194412,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2057,7 +2057,7 @@
         "id" : "mall_a_2",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2093,7 +2093,7 @@
         "id" : "mall_a_6",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2102,7 +2102,7 @@
         "id" : "mall_a_7",
         "name" : "lot",
         "sym" : 79,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2111,7 +2111,7 @@
         "id" : "mall_a_8",
         "name" : "lot",
         "sym" : 79,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2120,7 +2120,7 @@
         "id" : "mall_a_9",
         "name" : "lot",
         "sym" : 79,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2129,7 +2129,7 @@
         "id" : "mall_a_10",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2174,7 +2174,7 @@
         "id" : "mall_a_15",
         "name" : "road",
         "sym" : 4194413,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2183,7 +2183,7 @@
         "id" : "mall_a_16",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2192,7 +2192,7 @@
         "id" : "mall_a_17",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2201,7 +2201,7 @@
         "id" : "mall_a_18",
         "name" : "road",
         "sym" : 4194411,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2210,7 +2210,7 @@
         "id" : "mall_a_19",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2282,7 +2282,7 @@
         "id" : "mall_a_27",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2291,7 +2291,7 @@
         "id" : "mall_a_28",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2363,7 +2363,7 @@
         "id" : "mall_a_36",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2372,7 +2372,7 @@
         "id" : "mall_a_37",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2444,7 +2444,7 @@
         "id" : "mall_a_45",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2453,7 +2453,7 @@
         "id" : "mall_a_46",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2525,7 +2525,7 @@
         "id" : "mall_a_54",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2534,7 +2534,7 @@
         "id" : "mall_a_55",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2606,7 +2606,7 @@
         "id" : "mall_a_63",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2615,7 +2615,7 @@
         "id" : "mall_a_64",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2687,7 +2687,7 @@
         "id" : "mall_a_72",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2696,7 +2696,7 @@
         "id" : "mall_a_73",
         "name" : "road",
         "sym" : 4194413,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2705,7 +2705,7 @@
         "id" : "mall_a_74",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2714,7 +2714,7 @@
         "id" : "mall_a_75",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2723,7 +2723,7 @@
         "id" : "mall_a_76",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2732,7 +2732,7 @@
         "id" : "mall_a_77",
         "name" : "road",
         "sym" : 4194423,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2741,7 +2741,7 @@
         "id" : "mall_a_78",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2750,7 +2750,7 @@
         "id" : "mall_a_79",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2759,7 +2759,7 @@
         "id" : "mall_a_80",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2768,7 +2768,7 @@
         "id" : "mall_a_81",
         "name" : "road",
         "sym" : 4194410,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2820,7 +2820,7 @@
         "type" : "overmap_terrain",
         "id" : "necropolis_a_6",
         "name" : "road",
-        "color" : "dark_gray",
+        "color" : "white",
         "sym" : 4194424,
         "see_cost" : 5,
         "mondensity" : 2
@@ -2864,7 +2864,7 @@
         "type" : "overmap_terrain",
         "id" : "necropolis_a_11",
         "name" : "road",
-        "color" : "dark_gray",
+        "color" : "white",
         "sym" : 4194424,
         "see_cost" : 5,
         "mondensity" : 2,
@@ -2904,7 +2904,7 @@
         "mondensity" : 2,
         "see_cost" : 5,
         "sym" : 4194424,
-        "color" : "dark_gray"
+        "color" : "white"
     },{
         "type" : "overmap_terrain",
         "id" : "necropolis_a_16",
@@ -2937,7 +2937,7 @@
         "id" : "necropolis_a_19",
         "name" : "lot",
         "sym" : 79,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2946,7 +2946,7 @@
         "id" : "necropolis_a_20",
         "name" : "road",
         "sym" : 4194413,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2955,7 +2955,7 @@
         "id" : "necropolis_a_21",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2964,7 +2964,7 @@
         "id" : "necropolis_a_22",
         "name" : "road",
         "sym" : 4194423,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2973,7 +2973,7 @@
         "id" : "necropolis_a_23",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2982,7 +2982,7 @@
         "id" : "necropolis_a_24",
         "name" : "road",
         "sym" : 4194422,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -2991,7 +2991,7 @@
         "id" : "necropolis_a_25",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3000,7 +3000,7 @@
         "id" : "necropolis_a_26",
         "name" : "road",
         "sym" : 4194411,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3045,7 +3045,7 @@
         "id" : "necropolis_a_31",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3117,7 +3117,7 @@
         "id" : "necropolis_a_39",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3126,7 +3126,7 @@
         "id" : "necropolis_a_40",
         "name" : "road",
         "sym" : 4194422,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3135,7 +3135,7 @@
         "id" : "necropolis_a_41",
         "name" : "road",
         "sym" : 4194423,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3144,7 +3144,7 @@
         "id" : "necropolis_a_42",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3153,7 +3153,7 @@
         "id" : "necropolis_a_43",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3162,7 +3162,7 @@
         "id" : "necropolis_a_44",
         "name" : "road",
         "sym" : 4194421,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3189,7 +3189,7 @@
         "id" : "necropolis_a_47",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3216,7 +3216,7 @@
         "id" : "necropolis_a_50",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3243,7 +3243,7 @@
         "id" : "necropolis_a_53",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3270,7 +3270,7 @@
         "id" : "necropolis_a_56",
         "name" : "lot",
         "sym" : 79,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3288,7 +3288,7 @@
         "id" : "necropolis_a_58",
         "name" : "lot",
         "sym" : 79,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3297,7 +3297,7 @@
         "id" : "necropolis_a_59",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3306,7 +3306,7 @@
         "id" : "necropolis_a_60",
         "name" : "lot",
         "sym" : 79,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3315,7 +3315,7 @@
         "id" : "necropolis_a_61",
         "name" : "lot",
         "sym" : 79,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3324,7 +3324,7 @@
         "id" : "necropolis_a_62",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3342,7 +3342,7 @@
         "id" : "necropolis_a_64",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2
     },{
@@ -3350,7 +3350,7 @@
         "id" : "necropolis_a_65",
         "name" : "road",
         "sym" : 4194422,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3359,7 +3359,7 @@
         "id" : "necropolis_a_66",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3368,7 +3368,7 @@
         "id" : "necropolis_a_67",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3377,7 +3377,7 @@
         "id" : "necropolis_a_68",
         "name" : "road",
         "sym" : 4194414,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3386,7 +3386,7 @@
         "id" : "necropolis_a_69",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3395,7 +3395,7 @@
         "id" : "necropolis_a_70",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3404,7 +3404,7 @@
         "id" : "necropolis_a_71",
         "name" : "road",
         "sym" : 4194410,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3449,7 +3449,7 @@
         "id" : "necropolis_a_76",
         "name" : "lot",
         "sym" : 79,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
@@ -3458,7 +3458,7 @@
         "id" : "necropolis_a_77",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2
     },{
@@ -3503,7 +3503,7 @@
         "id" : "necropolis_b_1",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -3511,7 +3511,7 @@
         "id" : "necropolis_b_2",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -3519,7 +3519,7 @@
         "id" : "necropolis_b_3",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -3527,7 +3527,7 @@
         "id" : "necropolis_b_4",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -3567,7 +3567,7 @@
         "id" : "necropolis_b_9",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -3575,7 +3575,7 @@
         "id" : "necropolis_b_10",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -3599,7 +3599,7 @@
         "id" : "necropolis_b_13",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -3607,7 +3607,7 @@
         "id" : "necropolis_b_14",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -3623,7 +3623,7 @@
         "id" : "necropolis_b_16",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -3639,7 +3639,7 @@
         "id" : "necropolis_b_18",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -3647,7 +3647,7 @@
         "id" : "necropolis_b_19",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -3711,7 +3711,7 @@
         "id" : "necropolis_b_27",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -3735,7 +3735,7 @@
         "id" : "necropolis_b_30",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -3751,7 +3751,7 @@
         "id" : "necropolis_b_32",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -3759,7 +3759,7 @@
         "id" : "necropolis_b_33",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -3767,7 +3767,7 @@
         "id" : "necropolis_b_34",
         "name" : "basement",
         "sym" : 79,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -3783,7 +3783,7 @@
         "id" : "necropolis_b_36",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -3855,7 +3855,7 @@
         "id" : "necropolis_b_45",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -3911,7 +3911,7 @@
         "id" : "necropolis_b_52",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -3927,7 +3927,7 @@
         "id" : "necropolis_b_54",
         "name" : "basement",
         "sym" : 79,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -3935,7 +3935,7 @@
         "id" : "necropolis_b_55",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -3975,7 +3975,7 @@
         "id" : "necropolis_b_60",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -3983,7 +3983,7 @@
         "id" : "necropolis_b_61",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -3999,7 +3999,7 @@
         "id" : "necropolis_b_63",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -4071,7 +4071,7 @@
         "id" : "necropolis_b_72",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -4079,7 +4079,7 @@
         "id" : "necropolis_b_73",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -4087,7 +4087,7 @@
         "id" : "necropolis_b_74",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -4095,7 +4095,7 @@
         "id" : "necropolis_b_75",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -4103,7 +4103,7 @@
         "id" : "necropolis_b_76",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -4135,7 +4135,7 @@
         "id" : "necropolis_b_80",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -4143,7 +4143,7 @@
         "id" : "necropolis_b_81",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -4295,7 +4295,7 @@
         "id" : "necropolis_c_19",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -4511,7 +4511,7 @@
         "id" : "necropolis_c_46",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -4583,7 +4583,7 @@
         "id" : "necropolis_c_55",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -4727,7 +4727,7 @@
         "id" : "necropolis_c_73",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -4855,7 +4855,7 @@
         "id" : "necropolis_d_8",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -4871,7 +4871,7 @@
         "id" : "necropolis_d_10",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -5087,7 +5087,7 @@
         "id" : "necropolis_d_37",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -5375,7 +5375,7 @@
         "id" : "necropolis_d_73",
         "name" : "solid rock",
         "sym" : 37,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 999,
         "mondensity" : 2
     },{
@@ -5447,7 +5447,7 @@
         "id" : "evac_center_1",
         "name" : "road",
         "sym" : 4194412,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2
     },{
@@ -5455,7 +5455,7 @@
         "id" : "evac_center_2",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2
     },{
@@ -5463,7 +5463,7 @@
         "id" : "evac_center_3",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2
     },{
@@ -5471,7 +5471,7 @@
         "id" : "evac_center_4",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2
     },{
@@ -5479,7 +5479,7 @@
         "id" : "evac_center_5",
         "name" : "road",
         "sym" : 4194411,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2
     },{
@@ -5487,7 +5487,7 @@
         "id" : "evac_center_6",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2
     },{
@@ -5519,7 +5519,7 @@
         "id" : "evac_center_10",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2
     },{
@@ -5527,7 +5527,7 @@
         "id" : "evac_center_11",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2
     },{
@@ -5559,7 +5559,7 @@
         "id" : "evac_center_15",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "extras" : "build",
         "see_cost" : 5,
         "mondensity" : 2
@@ -5568,7 +5568,7 @@
         "id" : "evac_center_16",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2
     },{
@@ -5600,7 +5600,7 @@
         "id" : "evac_center_20",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2
     },{
@@ -5608,7 +5608,7 @@
         "id" : "evac_center_21",
         "name" : "road",
         "sym" : 4194413,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2
     },{
@@ -5616,7 +5616,7 @@
         "id" : "evac_center_22",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2
     },{
@@ -5624,7 +5624,7 @@
         "id" : "evac_center_23",
         "name" : "road",
         "sym" : 4194423,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2
     },{
@@ -5632,7 +5632,7 @@
         "id" : "evac_center_24",
         "name" : "road",
         "sym" : 4194417,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2
     },{
@@ -5640,7 +5640,7 @@
         "id" : "evac_center_25",
         "name" : "road",
         "sym" : 4194410,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 5,
         "mondensity" : 2
     },{
@@ -6410,7 +6410,7 @@
         "id" : "ranch_camp_76",
         "name" : "lot",
         "sym" : 79,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
     },{
@@ -6418,7 +6418,7 @@
         "id" : "ranch_camp_77",
         "name" : "road",
         "sym" : 4194424,
-        "color" : "dark_gray",
+        "color" : "white",
         "see_cost" : 2,
         "extras" : "road",
         "flags" : [ "ALLOW_OVERRIDE", "NO_ROTATE" ]
