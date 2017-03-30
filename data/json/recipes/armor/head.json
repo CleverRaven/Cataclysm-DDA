@@ -960,8 +960,11 @@
     "skills_required": [ "tailor", 5 ],
     "time": 20000,
     "autolearn": true,
-    "using": [ [ "adhesive", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "using": [ [ "adhesive", 1 ], [ "filament", 10 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
+    ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
@@ -1005,8 +1008,11 @@
     "skills_required": [ "tailor", 6 ],
     "time": 20000,
     "autolearn": true,
-    "using": [ [ "adhesive", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "using": [ [ "adhesive", 1 ], [ "filament", 10 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
+    ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
@@ -1025,12 +1031,16 @@
     "skills_required": [ "tailor", 5 ],
     "time": 20000,
     "autolearn": true,
-    "using": [ [ "adhesive", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "using": [ [ "adhesive", 2 ], [ "filament", 20 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "SEW", "level": 1 }
+    ],
     "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
     "components": [
       [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
       [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
+      [ [ "leather", 6 ] ],
       [ [ "mask_bal", 1 ], [ "kevlar_plate", 6 ] ]
     ]
   },
@@ -1067,7 +1077,7 @@
     "skills_required": [ "tailor", 7 ],
     "time": 20000,
     "autolearn": true,
-    "using": [ [ "adhesive", 1 ], [ "filament", 10 ] ],
+    "using": [ [ "adhesive", 1 ], [ "filament", 20 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
