@@ -1567,8 +1567,8 @@ void monster::explode()
 
 void monster::process_turn()
 {
-    for( const auto &e: type->emit_fields ) {
-        if( !is_hallucination() ) {
+    if( !is_hallucination() ) {
+        for( const auto &e: type->emit_fields ) {
             g->m.emit_field( pos(), e );
         }
     }
