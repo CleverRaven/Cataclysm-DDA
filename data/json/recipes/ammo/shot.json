@@ -11,7 +11,7 @@
     "batch_time_factors": [ 50, 10 ],
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
     "charges": 1,
-    "using": [ [ "bullet_forming", 1 ], [ "ammo_shot", 1 ], [ "ammo_bullet", 10 ] ],
+    "using": [ [ "bullet_forming", 1 ], [ "ammo_bullet", 10 ], [ "ammo_shot", 1 ] ],
     "components": [ [ [ "gunpowder", 6 ], [ "chem_black_powder", 6 ] ] ]
   },
   {
@@ -26,7 +26,7 @@
     "batch_time_factors": [ 50, 10 ],
     "book_learn": [ [ "recipe_bullets", 1 ], [ "manual_shotgun", 1 ] ],
     "charges": 1,
-    "using": [ [ "bullet_forming", 1 ], [ "ammo_shot", 1 ], [ "ammo_bullet", 10 ] ],
+    "using": [ [ "bullet_forming", 1 ], [ "ammo_bullet", 10 ], [ "ammo_shot", 1 ] ],
     "components": [ [ [ "gunpowder", 3 ], [ "chem_black_powder", 3 ] ] ]
   },
   {
@@ -60,7 +60,7 @@
     "batch_time_factors": [ 50, 10 ],
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_shotgun", 3 ] ],
     "charges": 1,
-    "using": [ [ "bullet_forming", 1 ], [ "ammo_shot", 1 ], [ "ammo_bullet", 20 ] ],
+    "using": [ [ "bullet_forming", 1 ], [ "ammo_bullet", 20 ], [ "ammo_shot", 1 ] ],
     "components": [ [ [ "gunpowder", 6 ], [ "chem_black_powder", 6 ] ] ]
   },
   {
