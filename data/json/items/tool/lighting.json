@@ -36,6 +36,7 @@
     "revert_to": "electric_lantern",
     "use_action": {
         "type": "transform",
+        "menu_text": "Turn off",
         "target": "electric_lantern",
         "msg": "You turn the lamp off."
     },
@@ -76,6 +77,7 @@
     "revert_to": "flashlight",
     "use_action": {
         "type": "transform",
+        "menu_text": "Turn off",
         "msg": "You turn the flashlight off.",
         "target": "flashlight"
     },
@@ -96,6 +98,7 @@
     "initial_charges": 300,
     "use_action": {
         "type": "transform",
+        "menu_text": "Strike the striker",
         "target": "handflare_lit",
         "active": true,
         "msg": "You strike your flare and light it."
@@ -151,6 +154,7 @@
     "revert_to": "heavy_flashlight",
     "use_action": {
         "type": "transform",
+        "menu_text": "Turn off",
         "msg": "You turn the heavy duty flashlight off.",
         "target": "heavy_flashlight"
     },
