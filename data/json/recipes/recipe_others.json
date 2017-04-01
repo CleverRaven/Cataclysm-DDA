@@ -2613,25 +2613,6 @@
 },{
   "type" : "recipe",
   "result": "boobytrap",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TRAPS",
-  "skill_used": "traps",
-  "difficulty": 3,
-  "time": 5000,
-  "book_learn": [["textbook_traps", 2] , ["manual_traps", 3] , ["howto_traps", 3]],
-  "using": [ [ "cordage_short", 1 ] ],
-  "components": [
-    [
-      [ "grenade", 1 ]
-    ],
-    [
-      [ "clay_canister", 1 ],
-      [ "can_food_unsealed", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "boobytrap",
   "id_suffix" : "closed_cans_such_as_drinks",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TRAPS",
@@ -2648,7 +2629,9 @@
       [ "grenade", 1 ]
     ],
     [
-      [ "can_drink_unsealed", 1 ]
+      [ "clay_canister", 1 ],
+      [ "can_drink_unsealed", 1 ],
+      [ "can_food_unsealed", 1 ]
     ]
   ]
 },{
