@@ -1485,7 +1485,7 @@
         "color": "brown",
         "move_cost": 0,
         "roof": "t_flat_roof",
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL"],
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BARRICADABLE_DOOR"],
         "examine_action": "locked_object",
         "bash": {
             "str_min": 8, "str_max": 80, "str_min_blocked": 15, "str_max_blocked": 100,
@@ -1507,7 +1507,7 @@
         "move_cost": 0,
         "roof": "t_flat_roof",
         "flags": [
-            "FLAMMABLE_ASH", "NOITEM", "OPENCLOSE_INSIDE", "REDUCE_SCENT", "CONNECT_TO_WALL"
+            "FLAMMABLE_ASH", "NOITEM", "OPENCLOSE_INSIDE", "REDUCE_SCENT", "CONNECT_TO_WALL", "BARRICADABLE_DOOR"
         ],
         "examine_action": "locked_object",
         "open": "t_door_o",
@@ -1531,7 +1531,7 @@
         "move_cost": 0,
         "roof": "t_flat_roof",
         "flags": [
-            "FLAMMABLE_ASH", "NOITEM", "OPENCLOSE_INSIDE", "REDUCE_SCENT", "CONNECT_TO_WALL"
+            "FLAMMABLE_ASH", "NOITEM", "OPENCLOSE_INSIDE", "REDUCE_SCENT", "CONNECT_TO_WALL", "BARRICADABLE_DOOR"
         ],
         "open": "t_door_o_peep",
         "examine_action": "door_peephole",
@@ -1556,7 +1556,7 @@
         "move_cost": 0,
         "roof": "t_flat_roof",
         "flags": [
-            "FLAMMABLE_ASH", "ALARMED", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL"],
+            "FLAMMABLE_ASH", "ALARMED", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BARRICADABLE_DOOR"],
         "examine_action": "locked_object",
         "bash": {
             "str_min": 8, "str_max": 80, "str_min_blocked": 15, "str_max_blocked": 100,
