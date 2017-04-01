@@ -2081,43 +2081,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "superglue",
-  "category": "CC_CHEM",
-  "subcategory": "CSC_CHEM_OTHER",
-  "skill_used": "cooking",
-  "difficulty": 2,
-  "time": 12000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"CHEM","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "water", 1 ],
-      [ "water_clean", 1 ]
-    ],
-    [
-      [ "bleach", 1 ],
-      [ "lye_powder", 100 ],
-      [ "bone", 20 ],
-      [ "bone_human", 20 ],
-      [ "bone_tainted", 40 ],
-      [ "cured_hide", 2 ],
-      [ "pine_bough", 10 ],
-      [ "raw_dandelion", 20 ],
-      [ "biollante_bud", 1],
-      [ "ant_egg", 1 ],
-      [ "slime_scrap", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "pheromone",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
