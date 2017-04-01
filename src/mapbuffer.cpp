@@ -604,7 +604,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
                 }
             } else if( submap_member_name == "computers" ) {
                 std::string computer_data = jsin.get_string();
-                std::unique_ptr<computer> new_comp( new computer() );
+                std::unique_ptr<computer> new_comp( new computer( "BUGGED_COMPUTER", -100 ) );
                 new_comp->load_data( computer_data );
                 sm->comp.reset( new_comp.release() );
             } else if( submap_member_name == "camp" ) {
