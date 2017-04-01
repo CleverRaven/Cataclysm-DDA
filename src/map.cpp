@@ -5594,13 +5594,7 @@ computer* map::computer_at( const tripoint &p )
         return nullptr;
     }
 
-    submap * const current_submap = get_submap_at( p );
-
-    if( current_submap->comp->name.empty() ) {
-        return nullptr;
-    }
-
-    return current_submap->comp.get();
+    return get_submap_at( p )->comp.get();
 }
 
 bool map::allow_camp( const tripoint &p, const int radius)

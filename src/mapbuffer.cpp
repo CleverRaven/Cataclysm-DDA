@@ -372,7 +372,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
         jsout.end_array();
 
         // Output the computer
-        if (sm->comp->name != "") {
+        if( sm->comp != nullptr ) {
             jsout.member( "computers", sm->comp->save_data() );
         }
 
@@ -604,7 +604,9 @@ void mapbuffer::deserialize( JsonIn &jsin )
                 }
             } else if( submap_member_name == "computers" ) {
                 std::string computer_data = jsin.get_string();
-                sm->comp->load_data( computer_data );
+                std::unique_ptr<computer> new_comp( new computer() );
+                new_comp->load_data( computer_data );
+                sm->comp.reset( new_comp.release() );
             } else if( submap_member_name == "camp" ) {
                 std::string camp_data = jsin.get_string();
                 sm->camp.load_data( camp_data );
