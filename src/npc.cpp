@@ -718,12 +718,19 @@ void starting_inv( npc &me, const npc_class_id &type )
     me.inv += res;
 }
 
-void npc::spawn_at(int x, int y, int z)
+void npc::spawn_at_sm(int x, int y, int z)
 {
-    submap_coords = point( x, y );
-    position.x = rng(0, SEEX - 1);
-    position.y = rng(0, SEEY - 1);
-    position.z = z;
+    spawn_at_precise( point( x, y ), tripoint( rng( 0, SEEX - 1 ), rng( 0, SEEY - 1 ), z ) );
+}
+
+void npc::spawn_at_precise( const point &submap_offset, const tripoint &square )
+{
+    submap_coords = submap_offset;
+    submap_coords.x += square.x / SEEX;
+    submap_coords.y += square.y / SEEY;
+    position.x = square.x % SEEX;
+    position.y = square.y % SEEY;
+    position.z = square.z;
     const point pos_om = sm_to_om_copy( submap_coords );
     overmap &om = overmap_buffer.get( pos_om.x, pos_om.y );
     om.add_npc( *this );
@@ -742,7 +749,7 @@ void npc::spawn_at_random_city(overmap *o)
     }
     x += o->pos().x * OMAPX * 2;
     y += o->pos().y * OMAPY * 2;
-    spawn_at(x, y, 0);
+    spawn_at_sm(x, y, 0);
 }
 
 tripoint npc::global_square_location() const

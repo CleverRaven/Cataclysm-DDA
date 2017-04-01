@@ -488,7 +488,13 @@ public:
      * @param mx,my,mz are global submap coordinates.
      * This function also adds the npc object to the overmap.
      */
-    void spawn_at(int mx, int my, int mz);
+    void spawn_at_sm(int mx, int my, int mz);
+    /**
+     * As @ref spawn_at, but also sets position within the submap.
+     * Note: final submap may differ from @ref submap_offset if @ref square has
+     * x/y values outside [0, SEEX-1]/[0, SEEY-1] range.
+     */
+    void spawn_at_precise( const point &submap_offset, const tripoint &square );
     /**
      * Calls @ref spawn_at, spawns in a random city in
      * the given overmap on z-level 0.
@@ -747,6 +753,10 @@ public:
     // Because they can't run yet
     float speed_rating() const override;
 
+    /**
+     * Note: this places NPC on a given position in CURRENT MAP coords.
+     * Do not use when placing a NPC in mapgen.
+     */
     void setpos( const tripoint &pos ) override;
 
 // #############   VALUES   ################

@@ -265,11 +265,7 @@
   "book_learn": [["recipe_bullets", 6] , ["textbook_fabrication", 7]],
   "tools" : [
      [ ["mold_plastic", -1] ],
-     [
-      ["hotplate", 10],
-      ["toolset", 10],
-      ["fire", -1]
-     ],
+     [ [ "surface_heat", 10, "LIST" ] ],
      [
       [ "swage", -1 ]
      ],
@@ -1060,13 +1056,7 @@
     {"id":"BOIL","level":1}
   ],
   "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "toolset", 3 ],
-      [ "coffeemaker", 3],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "water_boiling_heat", 3, "LIST" ] ]
   ],
   "components": [
     [
@@ -1101,15 +1091,7 @@
     {"id":"CUT","level":1},
     {"id":"BOIL","level":1}
   ],
-  "tools": [
-    [
-      [ "hotplate", 4 ],
-      [ "toolset", 4 ],
-      [ "coffeemaker", 4],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "water_boiling_heat", 4, "LIST" ] ] ],
   "components": [
     [
       [ "water", 8 ],
@@ -1628,11 +1610,7 @@
   "time": 3000,
   "autolearn": true,
   "tools": [
-    [
-      [ "fire", -1 ],
-      [ "hotplate", 3 ],
-      [ "toolset", 3 ]
-    ]
+    [ [ "surface_heat", 3, "LIST" ] ]
   ],
   "components": [
     [
@@ -2027,11 +2005,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 5, "LIST" ] ]
   ],
   "components": [
     [
@@ -3239,11 +3213,7 @@
   "time": 12000,
   "autolearn": true,
   "tools": [
-    [
-      ["hotplate", 2],
-      ["toolset", 2],
-      ["fire", -1]
-    ]
+    [ [ "surface_heat", 2, "LIST" ] ]
   ],
   "components": [
     [
@@ -3260,11 +3230,7 @@
   "time": 20000,
   "autolearn": true,
   "tools": [
-    [
-      ["hotplate", 5],
-      ["toolset", 5],
-      ["fire", -1]
-    ]
+    [ [ "surface_heat", 5, "LIST" ] ]
   ],
   "components": [
     [
@@ -3284,11 +3250,7 @@
     [
       ["mold_plastic", -1]
     ],
-    [
-      ["hotplate", 5],
-      ["toolset", 5],
-      ["fire", -1]
-    ]
+    [ [ "surface_heat", 5, "LIST" ] ]
   ],
   "components": [
     [
@@ -3308,11 +3270,7 @@
     [
       ["mold_plastic", -1]
     ],
-    [
-      ["hotplate", 3],
-      ["toolset", 3],
-      ["fire", -1]
-    ]
+    [ [ "surface_heat", 3, "LIST" ] ]
   ],
   "components": [
     [
@@ -4490,11 +4448,7 @@
   "qualities":[
     {"id":"CHEM","level":1}
   ], "tools": [
-    [
-      [ "hotplate", 18 ],
-      [ "toolset", 18 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 18, "LIST" ] ]
   ],
   "components": [
     [
@@ -4519,11 +4473,7 @@
   "qualities":[
     {"id":"CHEM","level":1}
   ], "tools": [
-    [
-      [ "hotplate", 18 ],
-      [ "toolset", 18 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 18, "LIST" ] ]
   ],
   "components": [
     [
@@ -5060,9 +5010,7 @@
      [
       [ "forge", 25]
      ],
-     [
-      [ "hotplate", 15], [ "toolset", 15], [ "fire", -1 ]
-     ]
+     [ [ "surface_heat", 15, "LIST" ] ]
     ],
   "components": [
      [
@@ -5731,7 +5679,7 @@
     {"id":"CUT","level":1}
   ],
   "tools": [
-    [ ["hotplate", 15], ["toolset", 15], ["fire", -1] ]
+    [ [ "surface_heat", 15, "LIST" ] ]
   ],
   "components": [
      [ [ "milk", 15 ] ],
@@ -5781,7 +5729,7 @@
   "time": 10000,
   "autolearn": true,
   "tools": [
-    [ ["hotplate", 4], ["toolset", 4], ["fire", -1] ],
+    [ [ "surface_heat", 4, "LIST" ] ],
     [ ["mold_plastic", -1] ]
     ],
   "components": [ [ [ "bag_plastic", 3 ] ] ]
@@ -6003,14 +5951,8 @@
   "time": 30000,
   "autolearn": true,
   "tools": [
-    [
-      ["mold_plastic", -1]
-    ],
-    [
-      ["hotplate", 5],
-      ["toolset", 5],
-      ["fire", -1]
-    ]
+    [ ["mold_plastic", -1]  ],
+    [ [ "surface_heat", 5, "LIST" ] ]
     ],
     "components": [
     [
@@ -6031,11 +5973,7 @@
     [
       ["mold_plastic", -1]
     ],
-    [
-      ["hotplate", 15],
-      ["toolset", 15],
-      ["fire", -1]
-    ]
+    [ [ "surface_heat", 15, "LIST" ] ]
   ],
   "components": [
     [
@@ -6145,11 +6083,7 @@
     {"id":"CONTAIN","level":1}
   ],
   "tools": [
-    [
-      [ "hotplate", 20 ],
-      [ "toolset", 20 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 20, "LIST" ] ]
   ],
   "components": [
     [
@@ -6218,11 +6152,7 @@
     {"id":"CONTAIN","level":1}
   ],
   "tools": [
-    [
-      [ "hotplate", 20 ],
-      [ "toolset", 20 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 20, "LIST" ] ]
   ],
   "components": [
     [
@@ -6268,11 +6198,7 @@
     {"id":"CONTAIN","level":1}
   ],
   "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 10, "LIST" ] ]
   ],
   "components": [
     [
@@ -6306,11 +6232,7 @@
     {"id":"CONTAIN","level":1}
   ],
   "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 10, "LIST" ] ]
   ],
   "components": [
     [
@@ -6819,11 +6741,7 @@
     [
       ["mold_plastic", -1]
     ],
-    [
-      ["hotplate", 10],
-      ["toolset", 10],
-      ["fire", -1]
-    ]
+    [ [ "surface_heat", 10, "LIST" ] ]
   ],
   "components": [
     [
@@ -6853,11 +6771,7 @@
     [
       ["mold_plastic", -1]
     ],
-    [
-      ["hotplate", 15],
-      ["toolset", 15],
-      ["fire", -1]
-    ]
+    [ [ "surface_heat", 15, "LIST" ] ]
   ],
   "components": [
     [

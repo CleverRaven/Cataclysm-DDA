@@ -2233,7 +2233,7 @@ std::string Character::extended_description() const
     const auto &bps = get_all_body_parts( true );
     // Find length of bp names, to align
     // accumulate looks weird here, any better function?
-    size_t longest = std::accumulate( bps.begin(), bps.end(), 0, []( size_t m, body_part bp ) {
+    size_t longest = std::accumulate( bps.begin(), bps.end(), ( size_t )0, []( size_t m, body_part bp ) {
         return std::max( m, body_part_name_as_heading( bp, 1 ).size() );
     } );
 
