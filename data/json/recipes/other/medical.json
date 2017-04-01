@@ -38,6 +38,22 @@
     ]
   },
   {
+    "result": "arm_splint",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "firstaid",
+    "difficulty": 1,
+    "skills_required": [ "survival", 1 ],
+    "time": 1000,
+    "autolearn": true,
+    "components": [
+      [ [ "rag", 5 ], [ "medical_gauze", 2 ] ],
+      [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ], [ "medical_tape", 25 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ] ]
+    ]
+  },
+  {
     "result": "bandages",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -50,6 +66,25 @@
       [ [ "rag", 3 ], [ "medical_gauze", 1 ] ],
       [ [ "duct_tape", 20 ], [ "medical_tape", 5 ] ],
       [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "disinfectant", 1 ], [ "thyme_oil", 1 ] ]
+    ]
+  },
+  {
+    "result": "bfipowder",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "cooking",
+    "difficulty": 6,
+    "skills_required": [ "firstaid", 1 ],
+    "time": 1200,
+    "book_learn": [ [ "textbook_firstaid", 8 ], [ "textbook_chemistry", 7 ], [ "adv_chemistry", 6 ], [ "emergency_book", 8 ] ],
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "tools": [ [ [ "hotplate", 18 ], [ "toolset", 18 ], [ "fire", -1 ] ] ],
+    "components": [
+      [ [ "iodine", 2 ] ],
+      [ [ "aspirin", 4 ] ],
+      [ [ "oxy_powder", 50 ] ],
+      [ [ "salt_water", 1 ], [ "saline", 5 ] ]
     ]
   },
   {
@@ -68,6 +103,58 @@
       [ [ "water_clean", 1 ] ],
       [ [ "oxy_powder", 10 ] ],
       [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ]
+    ]
+  },
+  {
+    "result": "leg_splint",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "firstaid",
+    "difficulty": 1,
+    "skills_required": [ "survival", 1 ],
+    "time": 1000,
+    "autolearn": true,
+    "components": [
+      [ [ "rag", 10 ], [ "medical_gauze", 4 ] ],
+      [ [ "cordage", 1, "LIST" ], [ "duct_tape", 100 ], [ "medical_tape", 50 ] ],
+      [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "pool_cue", 2 ] ]
+    ]
+  },
+  {
+    "result": "quikclot",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "skills_required": [ "firstaid", 1 ],
+    "time": 1200,
+    "book_learn": [ [ "textbook_firstaid", 3 ], [ "adv_chemistry", 4 ], [ "emergency_book", 4 ] ],
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "tools": [ [ [ "hotplate", 18 ], [ "toolset", 18 ], [ "fire", -1 ] ] ],
+    "components": [
+      [ [ "chitin_piece", 6 ], [ "meal_chitin_piece", 6 ] ],
+      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+    ]
+  },
+  {
+    "result": "vacutainer",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "firstaid",
+    "difficulty": 4,
+    "skills_required": [ "fabrication", 2 ],
+    "time": 3000,
+    "autolearn": true,
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "CUT", "level": 1 }
+    ],
+    "components": [
+      [ [ "syringe", 1 ] ],
+      [ [ "flask_glass", 1 ], [ "bottle_plastic_small", 1 ] ]
     ]
   }
 ]
