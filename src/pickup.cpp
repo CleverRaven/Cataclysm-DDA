@@ -1045,7 +1045,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 item_idx &it = *stacked_here[i].begin();
                 size_t count = getitem[i].count == 0 ? it._item.charges : getitem[i].count;
                 size_t num_picked = std::min( ( size_t )it._item.charges, count );
-                pick_values.push_back( { it.idx, num_picked } );
+                pick_values.push_back( { static_cast<int>( it.idx ), static_cast<int>( num_picked ) } );
             } else {
                 size_t count = getitem[i].count == 0 ? stacked_here[i].size() : getitem[i].count;
                 size_t num_picked = std::min( stacked_here[i].size(), count );

@@ -1255,7 +1255,7 @@ bool advanced_inventory::move_all_items(bool nested_call)
                 const auto &it = stack.front();
 
                 if( !spane.is_filtered( &it ) ) {
-                    dropped.emplace_back( static_cast<int>( index ), it.count_by_charges() ? it.charges : stack.size() );
+                    dropped.emplace_back( static_cast<int>( index ), it.count_by_charges() ? static_cast<int>( it.charges ) : static_cast<int>( stack.size() ) );
                 }
             }
         } else if( spane.get_area() == AIM_WORN ) {
