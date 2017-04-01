@@ -1494,11 +1494,7 @@ bool game::do_turn()
         // might also happen when someone dives from a moving car.
         // or when using the handbrake.
         vehicle *veh = m.veh_at(u.pos());
-        if (veh == 0) {
-            calc_driving_offset(0); // reset to (0,0)
-        } else {
-            calc_driving_offset(veh);
-        }
+        calc_driving_offset(veh);
     }
 
     // No-scent debug mutation has to be processed here or else it takes time to start working
@@ -1837,7 +1833,7 @@ void game::handle_key_blocking_activity()
 
     if( u.activity && u.activity.moves_left > 0 && u.activity.is_abortable() ) {
         input_context ctxt = get_default_mode_input_context();
-        const std::string action = ctxt.handle_input( 1 );
+        const std::string action = ctxt.handle_input( 0 );
         if (action == "pause") {
             cancel_activity_query(_("Confirm:"));
         } else if (action == "player_data") {

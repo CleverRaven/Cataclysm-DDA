@@ -374,8 +374,7 @@
     [
       [ "rag", 2 ],
       [ "leather", 2 ],
-      [ "string_6", 6 ],
-      [ "string_36", 1 ],
+      [ "cordage", 1, "LIST" ],
       [ "duct_tape", 10 ],
       [ "medical_tape", 20 ]
     ]
@@ -418,8 +417,7 @@
     [
       [ "rag", 4 ],
       [ "leather", 4 ],
-      [ "string_6", 12 ],
-      [ "string_36", 2 ],
+      [ "cordage", 1, "LIST" ],
       [ "duct_tape", 20 ],
       [ "medical_tape", 40 ]
     ]
@@ -662,12 +660,11 @@
     ],
     [ [ "rock", 1 ] ],
     [
-      [ "string_6", 2 ],
+      [ "cordage_short", 2, "LIST" ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
-      [ "yarn", 40 ],
-      [ "withered", 2 ]
+      [ "yarn", 40 ]
     ]
   ]
 },{
@@ -683,12 +680,11 @@
     [[ "stick", 1 ], [ "2x4", 1 ]],
     [[ "steel_chunk", 1 ], [ "steel_lump", 1 ]],
     [
-      [ "string_6", 2 ],
+      [ "cordage_short", 2, "LIST" ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
-      [ "yarn", 40 ],
-      [ "withered", 2 ]
+      [ "yarn", 40 ]
     ]
   ]
 },{
@@ -748,12 +744,11 @@
       [ "sharp_rock", 1 ]
     ],
     [
-      [ "string_6", 1 ],
+      [ "cordage_short", 1, "LIST" ],
       [ "sinew", 20 ],
       [ "thread", 20 ],
       [ "plant_fibre", 20 ],
-      [ "yarn", 20 ],
-      [ "withered", 1 ]
+      [ "yarn", 20 ]
     ]
   ]
 },{
@@ -795,7 +790,7 @@
       [ "thread", 80 ],
       [ "plant_fibre", 80 ],
       [ "yarn", 80 ],
-      [ "string_36", 1 ]
+      [ "cordage", 1, "LIST" ]
     ]
   ]
 },{
@@ -821,12 +816,11 @@
       [ "sharp_rock", 1 ]
     ],
     [
-      [ "string_6", 2 ],
+      [ "cordage_short", 2, "LIST" ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
-      [ "yarn", 40 ],
-      [ "withered", 2 ]
+      [ "yarn", 40 ]
     ]
   ]
 },{
@@ -859,13 +853,12 @@
       [ "copper", 1000 ]
     ],
     [
-      [ "string_6", 2 ],
+      [ "cordage_short", 2, "LIST" ],
       [ "duct_tape", 40 ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "yarn", 40 ],
-      [ "plant_fibre", 40 ],
-      [ "withered", 2 ]
+      [ "plant_fibre", 40 ]
     ]
   ]
 },{
@@ -892,12 +885,11 @@
       [ "sharp_rock", 1 ]
     ],
     [
-      [ "string_6", 2 ],
+      [ "cordage_short", 2, "LIST" ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
-      [ "yarn", 40 ],
-      [ "withered", 1 ]
+      [ "yarn", 40 ]
     ]
   ]
 },{
@@ -925,12 +917,11 @@
         [ "sharp_rock", 1 ]
       ],
       [
-        [ "string_6", 2 ],
+        [ "cordage_short", 2, "LIST" ],
         [ "sinew", 40 ],
         [ "thread", 40 ],
         [ "plant_fibre", 40 ],
-        [ "yarn", 40 ],
-        [ "withered", 2 ]
+        [ "yarn", 40 ]
       ]
     ]
 },{
@@ -942,6 +933,7 @@
   "difficulty": 2,
   "time": 5000,
   "autolearn": true,
+  "using": [ [ "cordage_short", 1 ] ],
   "qualities" : [
     {"id":"CUT","level":1}
   ],
@@ -952,9 +944,6 @@
     ],
     [
       [ "splinter", 1 ]
-    ],
-    [
-      [ "string_6", 3 ]
     ]
   ]
 },{
@@ -966,6 +955,7 @@
   "difficulty": 2,
   "time": 10000,
   "autolearn": true,
+  "using": [ [ "cordage", 2 ] ],
   "qualities" : [
     {"id":"CUT","level":1}
   ],
@@ -977,9 +967,6 @@
     [
       [ "rock", 1 ],
       [ "ceramic_shard", 1 ]
-    ],
-    [
-      [ "string_36", 3 ]
     ]
   ]
 },{
@@ -1091,11 +1078,11 @@
       [ "hstomach", 1]
     ],
     [
+      [ "cordage_short", 2, "LIST" ],
       [ "sinew", 50 ],
       [ "thread", 50 ],
       [ "plant_fibre", 50],
-      [ "yarn", 25],
-      [ "string_6", 1]
+      [ "yarn", 25]
     ],
     [
       [ "pine_bough", 2 ]
@@ -1133,11 +1120,11 @@
       [ "hstomach_large", 1]
     ],
     [
+      [ "cordage_short", 3, "LIST" ],
       [ "sinew", 150 ],
       [ "thread", 150 ],
       [ "plant_fibre", 150],
-      [ "yarn", 75],
-      [ "string_6", 3]
+      [ "yarn", 75]
     ],
     [
       [ "pine_bough", 4 ]
@@ -1165,7 +1152,7 @@
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
       [ "yarn", 40 ],
-      [ "string_36", 1 ]
+      [ "cordage", 1, "LIST" ]
     ],
     [
       [ "leather", 6 ],
@@ -1196,7 +1183,7 @@
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
       [ "yarn", 40 ],
-      [ "string_36", 1 ]
+      [ "cordage", 1, "LIST" ]
     ],
     [
       [ "leather", 14 ],
@@ -1227,7 +1214,7 @@
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
       [ "yarn", 40 ],
-      [ "string_36", 1 ]
+      [ "cordage", 1, "LIST" ]
     ],
     [
       [ "leather", 24 ],
@@ -1282,7 +1269,7 @@
       [ "tanned_hide", 4 ]
     ],
     [
-      [ "string_6", 10 ],
+      [ "cordage", 2, "LIST" ],
       [ "sinew", 500 ],
       [ "thread", 500 ],
       [ "plant_fibre", 500 ],
@@ -1319,7 +1306,7 @@
       [ "thread", 60 ],
       [ "plant_fibre", 60 ],
       [ "yarn", 60 ],
-      [ "string_6", 1 ]
+      [ "cordage_short", 2, "LIST" ]
     ],
     [
       [ "damaged_shelter_kit", 1 ]
@@ -1349,64 +1336,7 @@
       [ "sinew", 360 ],
       [ "plant_fibre", 360 ],
       [ "yarn", 360 ],
-      [ "string_6", 6 ],
-      [ "string_36", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "snare_trigger",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TRAPS",
-  "skill_used": "traps",
-  "skills_required": [ "survival", 1 ],
-  "time": 2000,
-  "note": "believed removed-from-game",
-  "qualities" : [
-    {"id":"CUT","level":1}
-  ],
-  "components": [
-    [
-      [ "stick", 1 ],
-      [ "2x4", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "light_snare_kit",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TRAPS",
-  "skill_used": "traps",
-  "skills_required": [ "survival", 1 ],
-  "difficulty": 1,
-  "time": 5000,
-  "reversible": true,
-  "note": "believed removed-from-game",
-  "components": [
-    [
-      [ "snare_trigger", 1 ]
-    ],
-    [
-      [ "string_36", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "heavy_snare_kit",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TRAPS",
-  "skill_used": "traps",
-  "skills_required": [ "survival", 1 ],
-  "difficulty": 3,
-  "time": 8000,
-  "reversible": true,
-  "note": "believed removed-from-game",
-  "components": [
-    [
-      [ "snare_trigger", 1 ]
-    ],
-    [
-      [ "rope_6", 1 ]
+      [ "cordage", 1, "LIST" ]
     ]
   ]
 },{
@@ -2020,6 +1950,7 @@
   "skill_used": "fabrication",
   "time": 30000,
   "autolearn": true,
+  "using": [ [ "cordage_short", 3 ] ],
   "qualities" : [
     {"id":"CUT","level":1}
   ],
@@ -2028,9 +1959,6 @@
       [ "splinter", 1 ],
       [ "stick", 1 ],
       [ "2x4", 1 ]
-    ],
-    [
-      [ "string_6", 3 ]
     ]
   ]
 },{
@@ -2569,13 +2497,8 @@
   "difficulty": 1,
   "time": 500,
   "autolearn": true,
-  "components": [
-    [
-      [ "string_36", 1 ]
-    ],
-    [
-      [ "superglue", 1 ]
-    ]
+  "using": [ [ "cordage", 1 ] ],
+  "components": [ [ [ "superglue", 1 ] ]
   ]
 },{
   "type" : "recipe",
@@ -2631,6 +2554,7 @@
   "reversible": true,
   "decomp_learn": 2,
   "autolearn": true,
+  "using": [ [ "cordage", 1 ] ],
   "components": [
     [
       [ "crossbow", 1 ]
@@ -2638,10 +2562,6 @@
     [
       [ "bolt_steel", 1 ],
       [ "bolt_wood", 4 ]
-    ],
-    [
-      [ "string_6", 6 ],
-      [ "string_36", 1 ]
     ]
   ]
 },{
@@ -2656,16 +2576,13 @@
   "reversible": true,
   "decomp_learn": 2,
   "autolearn": true,
+  "using": [ [ "cordage", 1 ] ],
   "components": [
     [
       [ "shotgun_s", 1 ]
     ],
     [
       [ "shot_00", 2 ]
-    ],
-    [
-      [ "string_36", 1 ],
-      [ "string_6", 2 ]
     ]
   ]
 },{
@@ -2702,12 +2619,10 @@
   "difficulty": 3,
   "time": 5000,
   "book_learn": [["textbook_traps", 2] , ["manual_traps", 3] , ["howto_traps", 3]],
+  "using": [ [ "cordage_short", 1 ] ],
   "components": [
     [
       [ "grenade", 1 ]
-    ],
-    [
-      [ "string_6", 1 ]
     ],
     [
       [ "clay_canister", 1 ],
@@ -2724,15 +2639,13 @@
   "difficulty": 3,
   "time": 5000,
   "book_learn": [["textbook_traps", 2] , ["manual_traps", 3] , ["howto_traps", 3]],
+  "using": [ [ "cordage_short", 1 ] ],
   "qualities" : [
     {"id":"CUT","level":1}
   ],
   "components": [
     [
       [ "grenade", 1 ]
-    ],
-    [
-      [ "string_6", 1 ]
     ],
     [
       [ "can_drink_unsealed", 1 ]
@@ -2896,8 +2809,7 @@
       [ "medical_gauze", 2 ]
     ],
     [
-      [ "string_6", 6 ],
-      [ "string_36", 1 ],
+      [ "cordage", 1, "LIST" ],
       [ "duct_tape", 50 ],
       [ "medical_tape", 25 ]
     ],
@@ -2924,8 +2836,7 @@
       [ "medical_gauze", 4 ]
     ],
     [
-      [ "string_6", 12 ],
-      [ "string_36", 2 ],
+      [ "cordage", 1, "LIST" ],
       [ "duct_tape", 100 ],
       [ "medical_tape", 50 ]
     ],
@@ -3249,13 +3160,11 @@
   "difficulty": 1,
   "time": 30000,
   "autolearn": true,
+  "using": [ [ "cordage", 1 ] ],
   "qualities" : [
     {"id":"CUT","level":1}
   ],
   "components": [
-    [
-      [ "string_36", 1 ]
-    ],
     [
       [ "duct_tape", 50 ]
     ],
@@ -3272,13 +3181,11 @@
   "difficulty": 2,
   "time": 30000,
   "autolearn": true,
+  "using": [ [ "cordage", 1 ] ],
   "qualities":[
     {"id":"SAW_M","level":1},
     {"id":"SCREW","level":1}
   ], "components": [
-    [
-      [ "string_36", 1 ]
-    ],
     [
       [ "metal_tank", 1 ]
     ],
@@ -3470,11 +3377,8 @@
   "time": 2000,
   "reversible": true,
   "autolearn": true,
+  "using": [ [ "cordage", 1 ] ],
   "components": [
-    [
-      ["string_36", 1],
-      ["string_6", 6]
-    ],
     [
       ["chisel", 1]
     ],
@@ -5118,6 +5022,7 @@
   "time": 10000,
   "reversible": true,
   "autolearn": true,
+  "using": [ [ "cordage", 1 ] ],
   "qualities" : [
     {"id":"CUT","level":1}
   ],
@@ -5128,9 +5033,6 @@
     ],
     [
       [ "rag", 4 ]
-    ],
-    [
-      [ "string_36", 1]
     ]
   ]
 },{
@@ -5500,13 +5402,11 @@
     "time": 1000,
     "reversible": true,
     "autolearn": true,
+    "using": [ [ "cordage", 6 ] ],
     "tools": [ ],
     "components": [
       [
         [ "stick", 1 ]
-      ],
-      [
-        [ "string_36", 6 ]
       ],
       [
         [ "fishing_hook_bone", 1 ],
@@ -5616,8 +5516,7 @@
       [ "bottle_plastic_small", 20 ]
     ],
     [
-      [ "string_6", 6 ],
-      [ "string_36", 1 ],
+      [ "cordage", 1, "LIST" ],
       [ "duct_tape", 50 ],
       [ "medical_tape", 25 ]
     ]
@@ -5632,19 +5531,12 @@
   "difficulty": 1,
   "time": 10000,
   "autolearn": true,
-  "using": [ [ "filament", 20 ] ],
+  "using": [ [ "filament", 20 ], [ "cordage_short", 1 ] ],
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"SEW","level":1}
   ],
-  "components": [
-    [
-      [ "rag", 2 ]
-    ],
-    [
-      [ "string_6", 1 ]
-    ]
-  ]
+  "components": [ [ [ "rag", 2 ] ] ]
 },
 {
   "type" : "recipe",
@@ -5655,7 +5547,7 @@
   "difficulty": 3,
   "time": 50000,
   "autolearn": true,
-  "using": [ [ "filament", 80 ] ],
+  "using": [ [ "filament", 80 ], [ "cordage", 1 ] ],
   "qualities": [{
           "id": "CUT",
           "level": 1
@@ -5664,15 +5556,7 @@
           "level": 1
       }
   ],
-  "components": [
-    [
-      [ "rag", 12 ]
-    ],
-    [
-      [ "string_36", 1 ],
-      [ "string_6", 6 ]
-    ]
-  ]
+  "components": [ [ [ "rag", 12 ] ] ]
   },{
   "type" : "recipe",
   "result": "material_quicklime",
@@ -6533,6 +6417,7 @@
   "difficulty": 2,
   "time": 25000,
   "autolearn": true,
+  "using": [ [ "cordage_short", 2 ] ],
   "tools": [
     [ [ "brick_kiln", 50 ] ]
   ],
@@ -6547,9 +6432,6 @@
     [
       [ "leather", 3 ],
       [ "fur", 3 ]
-    ],
-    [
-      [ "string_6", 2 ]
     ],
     [
       [ "tallow", 1 ],
@@ -6568,6 +6450,7 @@
   "difficulty": 2,
   "time": 20000,
   "autolearn": true,
+  "using": [ [ "cordage_short", 1 ] ],
   "tools": [
     [ [ "brick_kiln", 40 ] ]
   ],
@@ -6582,9 +6465,6 @@
     [
       [ "leather", 2 ],
       [ "fur", 2 ]
-    ],
-    [
-      [ "string_6", 1 ]
     ],
     [
       [ "tallow", 1 ],
@@ -6625,6 +6505,7 @@
   "difficulty": 2,
   "time": 80000,
   "autolearn": true,
+  "using": [ [ "cordage_short", 2 ] ],
   "tools": [
     [ [ "brick_kiln", 160 ] ]
   ],
@@ -6639,9 +6520,6 @@
     [
       [ "leather", 3 ],
       [ "fur", 3 ]
-    ],
-    [
-      [ "string_6", 2 ]
     ],
     [
       [ "tallow", 1 ],
@@ -6660,6 +6538,7 @@
   "difficulty": 2,
   "time": 45000,
   "autolearn": true,
+  "using": [ [ "cordage_short", 2 ] ],
   "tools": [
     [ [ "brick_kiln", 120 ] ]
   ],
@@ -6674,9 +6553,6 @@
     [
       [ "leather", 3 ],
       [ "fur", 3 ]
-    ],
-    [
-      [ "string_6", 2 ]
     ],
     [
       [ "tallow", 1 ],
@@ -6695,6 +6571,7 @@
   "difficulty": 2,
   "time": 30000,
   "autolearn": true,
+  "using": [ [ "cordage_short", 1 ] ],
   "tools": [
     [ [ "brick_kiln", 60 ] ]
   ],
@@ -6709,9 +6586,6 @@
     [
       [ "leather", 2 ],
       [ "fur", 2 ]
-    ],
-    [
-      [ "string_6", 1 ]
     ],
     [
       [ "tallow", 1 ],
@@ -7046,6 +6920,7 @@
   "time": 1000,
   "reversible": true,
   "autolearn": true,
+  "using": [ [ "cordage_short", 2 ] ],
   "components": [
     [
       [ "leather", 1 ],
@@ -7059,9 +6934,6 @@
     ],
     [
       [ "mirror", 1 ]
-    ],
-    [
-      [ "string_6", 2 ]
     ],
     [
       [ "plastic_chunk", 1 ],
@@ -7079,6 +6951,7 @@
   "time": 1000,
   "reversible": true,
   "autolearn": true,
+  "using": [ [ "cordage_short", 4 ] ],
   "components": [
     [
       [ "leather", 1 ],
@@ -7086,8 +6959,7 @@
     ],
     [ [ "rag", 1 ] ],
     [ [ "scissors", 1 ] ],
-    [ [ "mirror", 1 ] ],
-    [ [ "string_6", 4 ] ]
+    [ [ "mirror", 1 ] ]
   ]
 },{
   "type" : "recipe",

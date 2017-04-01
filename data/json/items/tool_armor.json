@@ -53,6 +53,7 @@
         "ammo": "battery",
         "revert_to": "miner_hat",
         "use_action": {
+            "menu_text": "Turn off",
             "type": "transform",
             "msg": "The %s flicks off.",
             "target": "miner_hat"
@@ -160,6 +161,7 @@
         "ammo": "battery",
         "revert_to": "thermal_socks",
         "use_action": {
+            "menu_text": "Turn off",
             "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "thermal_socks"
@@ -219,6 +221,7 @@
         "ammo": "battery",
         "revert_to": "thermal_suit",
         "use_action": {
+            "menu_text": "Turn off",
             "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "thermal_suit"
@@ -279,6 +282,7 @@
         "ammo": "battery",
         "revert_to": "thermal_gloves",
         "use_action": {
+            "menu_text": "Turn off",
             "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "thermal_gloves"
@@ -339,6 +343,7 @@
         "revert_to": "thermal_mask",
         "use_action": {
             "type": "transform",
+            "menu_text": "Turn off",
             "msg": "Your %s deactivates.",
             "target": "thermal_mask"
         },
@@ -426,6 +431,7 @@
         "revert_to": "wearable_light",
         "use_action": {
             "type": "transform",
+            "menu_text": "Turn off",
             "msg": "The %s flicks off.",
             "target": "wearable_light"
         },
@@ -485,6 +491,7 @@
         "revert_to": "survivor_light",
         "use_action": {
             "type": "transform",
+            "menu_text": "Turn off",
             "msg": "The %s flicks off.",
             "target": "survivor_light"
         },
@@ -548,6 +555,7 @@
         "revert_to": "mask_bunker",
         "use_action": {
             "type": "transform",
+            "menu_text": "Turn off",
             "msg": "Your %s deactivates.",
             "target": "mask_bunker"
         },
@@ -667,6 +675,7 @@
         "revert_to": "rebreather",
         "use_action": {
             "type": "transform",
+            "menu_text": "Turn off",
             "msg": "Your %s deactivates.",
             "target": "rebreather"
         },
@@ -731,6 +740,7 @@
         "revert_to": "rebreather_xl",
         "use_action": {
             "type": "transform",
+            "menu_text": "Turn off",
             "msg": "Your %s deactivates.",
             "target": "rebreather_xl"
         },
@@ -797,6 +807,7 @@
         "revert_to": "goggles_nv",
         "use_action": {
             "type": "transform",
+            "menu_text": "Turn off",
             "msg": "Your %s deactivates.",
             "target": "goggles_nv"
         },
@@ -863,6 +874,7 @@
         "revert_to": "goggles_ir",
         "use_action": {
             "type": "transform",
+            "menu_text": "Turn off",
             "msg": "Your %s deactivates.",
             "target": "goggles_ir"
         },
@@ -966,6 +978,7 @@
         "revert_to": "mask_h20survivor",
         "use_action": {
             "type": "transform",
+            "menu_text": "Turn off",
             "msg": "Your %s deactivates.",
             "target": "mask_h20survivor"
         },
@@ -1029,6 +1042,7 @@
         "revert_to": "mask_h20survivorxl",
         "use_action": {
             "type": "transform",
+            "menu_text": "Turn off",
             "msg": "Your %s deactivates.",
             "target": "mask_h20survivorxl"
         },
@@ -1775,6 +1789,7 @@
         "revert_to": "thermal_outfit",
         "use_action": {
             "type": "transform",
+            "menu_text": "Turn off",
             "msg": "Your %s deactivates.",
             "target": "thermal_outfit"
         },
@@ -1793,6 +1808,7 @@
         "covers" : ["HEAD", "MOUTH"],
         "use_action": {
             "type": "transform",
+            "menu_text": "Loosen",
             "msg": "You adjust your ski mask for less warmth.",
             "target": "mask_ski_loose"
         },
@@ -1818,6 +1834,7 @@
         "covers" : ["HEAD", "MOUTH"],
         "use_action": {
             "type": "transform",
+            "menu_text": "Tighten",
             "msg": "You adjust your ski mask for more warmth.",
             "target": "mask_ski"
         },
@@ -2084,6 +2101,7 @@
         "revert_to": "powered_earmuffs",
         "use_action": {
             "type": "transform",
+            "menu_text": "Turn off",
             "msg": "The %s flicks off.",
             "target": "powered_earmuffs"
         },

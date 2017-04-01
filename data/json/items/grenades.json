@@ -25,6 +25,7 @@
     "price": 3600,
     "description": "This is a canister grenade filled with noxious irritant.  Use this item to pull the pin and light the fuse, turning it into an active tear gas grenade.  In five turns it will begin to expel a highly toxic gas for some time.  This gas damages and slows those who enter it, as well as obscuring vision and scent.",
     "countdown_action": {
+        "menu_text": "Pull pin",
         "type": "transform",
         "target": "gasbomb_act"
     }
