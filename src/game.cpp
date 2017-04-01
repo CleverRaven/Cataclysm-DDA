@@ -10708,6 +10708,7 @@ bool game::unload( item &it )
         }
 
         int old_charges = it.contents.front().charges;
+        unsigned int old_size = it.contents.size();
         it.contents.erase( std::remove_if( it.contents.begin(), it.contents.end(), [this]( item& e ) {
             int mv = u.item_handling_cost( e );
             if( !add_or_drop_with_msg( u, e ) ) {
@@ -10716,7 +10717,7 @@ bool game::unload( item &it )
             u.moves -= mv;
             return true;
         } ), it.contents.end() );
-        if( it.contents.front().charges != old_charges ) {
+        if( it.contents.size() != old_size || it.contents.front().charges != old_charges ) {
             it.on_contents_changed();
         }
         return true;
