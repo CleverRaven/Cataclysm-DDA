@@ -78,8 +78,8 @@
     "skills_required": [ "firstaid", 1 ],
     "time": 1200,
     "book_learn": [ [ "textbook_firstaid", 8 ], [ "textbook_chemistry", 7 ], [ "adv_chemistry", 6 ], [ "emergency_book", 8 ] ],
+    "using": [ [ "surface_heat", 18 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
-    "tools": [ [ [ "hotplate", 18 ], [ "toolset", 18 ], [ "fire", -1 ] ] ],
     "components": [
       [ [ "iodine", 2 ] ],
       [ [ "aspirin", 4 ] ],
@@ -131,8 +131,8 @@
     "skills_required": [ "firstaid", 1 ],
     "time": 1200,
     "book_learn": [ [ "textbook_firstaid", 3 ], [ "adv_chemistry", 4 ], [ "emergency_book", 4 ] ],
+    "using": [ [ "surface_heat", 18 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
-    "tools": [ [ [ "hotplate", 18 ], [ "toolset", 18 ], [ "fire", -1 ] ] ],
     "components": [
       [ [ "chitin_piece", 6 ], [ "meal_chitin_piece", 6 ] ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
