@@ -67,6 +67,7 @@ src/pathfinding.cpp
 src/pickup.cpp
 src/player_activity.cpp
 src/player_display.cpp
+src/player_hardcoded_effects.cpp
 src/posix_time.cpp
 src/profession.cpp
 src/projectile.cpp

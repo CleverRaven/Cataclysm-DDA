@@ -1497,7 +1497,7 @@ bool mapgen_function_json::setup() {
         format.resize( mapgensize * mapgensize );
         // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
         if ( jo.has_array("rows") ) {
-            mapgen_palette palette = mapgen_palette::load_temp( jo, "core" );
+            mapgen_palette palette = mapgen_palette::load_temp( jo, "dda" );
             auto &format_terrain = palette.format_terrain;
             auto &format_furniture = palette.format_furniture;
             auto &format_placings = palette.format_placings;

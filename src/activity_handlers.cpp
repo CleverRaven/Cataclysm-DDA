@@ -35,7 +35,6 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-const skill_id skill_carpentry( "carpentry" );
 const skill_id skill_survival( "survival" );
 const skill_id skill_firstaid( "firstaid" );
 
@@ -135,8 +134,6 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
         p->mod_thirst( 10 );
         p->mod_fatigue( 15 );
         p->mod_pain( 3 * rng( 1, 3 ) );
-        // Mining is construction work!
-        p->practice( skill_carpentry, 5 );
     } else if( g->m.move_cost( pos ) == 2 && g->get_levz() == 0 &&
                g->m.ter( pos ) != t_dirt && g->m.ter( pos ) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
@@ -1126,8 +1123,6 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
             p->mod_fatigue( 30 );
         }
         p->mod_pain( 2 * rng( 1, 3 ) );
-        // Mining is construction work!
-        p->practice( skill_carpentry, 5 );
     } else if( g->m.move_cost(pos) == 2 && g->get_levz() == 0 &&
                g->m.ter(pos) != t_dirt && g->m.ter(pos) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad

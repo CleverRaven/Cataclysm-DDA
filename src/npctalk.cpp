@@ -861,14 +861,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                       "have exaggerated my construction skills to get the hell out of the refugee center.  Unless you "
                       "are a trader there isn't much work there and food was really becoming scarce when I left.");
 
-    } else if( topic == "TALK_RANCH_CONSTRUCTION_2_HIRE" ) {
-             if( p->has_effect( effect_currently_busy ) ) {
-                return _("Come back later, I need to take care of a few things first.");
-             } else {
-                return _("I'm tasked out to the construction party but I might be able to show you a few pointers that "
-                      "I've picked up.");
-             }
-
     } else if( topic == "TALK_RANCH_WOODCUTTER" ) {
              return _("You need something?");
 
@@ -1779,16 +1771,9 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response( _("I'll talk to him then..."), "TALK_DONE" );
     } else if( topic == "TALK_RANCH_CONSTRUCTION_2" ) {
             add_response( _("What are you doing here?"), "TALK_RANCH_CONSTRUCTION_2_JOB" );
-            add_response( _("I'd like to hire your services."), "TALK_RANCH_CONSTRUCTION_2_HIRE" );
             add_response( _("I've got to go..."), "TALK_DONE" );
     } else if( topic == "TALK_RANCH_CONSTRUCTION_2_JOB" ) {
             add_response( _("..."), "TALK_RANCH_CONSTRUCTION_2" );
-    } else if( topic == "TALK_RANCH_CONSTRUCTION_2_HIRE" ) {
-            if (g->u.cash >= 2000 && !p->has_effect( effect_currently_busy ) ) {
-                add_response( _("[$20,1h] Sure, I could use a bit of help..."), "TALK_DONE" );
-                SUCCESS_ACTION(&talk_function::construction_tips);
-            }
-            add_response( _("Sorry, I don't have the time."), "TALK_RANCH_CONSTRUCTION_2" );
     } else if( topic == "TALK_RANCH_WOODCUTTER" ) {
             add_response( _("What are you doing here?"), "TALK_RANCH_WOODCUTTER_JOB" );
             add_response( _("I'd like to hire your services."), "TALK_RANCH_WOODCUTTER_HIRE" );
@@ -2936,15 +2921,6 @@ void talk_function::give_all_aid( npc &p )
             }
         }
     }
-}
-
-void talk_function::construction_tips( npc &p )
-{
-    g->u.cash -= 2000;
-    g->u.practice( skill_id( "carpentry" ), 30 );
-    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 600 );
-    g->u.activity.str_values.push_back(p.name);
-    p.add_effect( effect_currently_busy, 600);
 }
 
 void talk_function::buy_haircut( npc &p )

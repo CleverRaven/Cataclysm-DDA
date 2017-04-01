@@ -105,7 +105,7 @@ skill_id Skill::from_legacy_int( const int legacy_id )
         skill_id("bashing"), skill_id("cutting"), skill_id("stabbing"), skill_id("throw"),
         skill_id("gun"), skill_id("pistol"), skill_id("shotgun"), skill_id("smg"),
         skill_id("rifle"), skill_id("archery"), skill_id("launcher"), skill_id("mechanics"),
-        skill_id("electronics"), skill_id("cooking"), skill_id("tailor"), skill_id("carpentry"),
+        skill_id("electronics"), skill_id("cooking"), skill_id("tailor"), skill_id::NULL_ID,
         skill_id("firstaid"), skill_id("speech"), skill_id("barter"), skill_id("computer"),
         skill_id("survival"), skill_id("traps"), skill_id("swimming"), skill_id("driving"),
     } };

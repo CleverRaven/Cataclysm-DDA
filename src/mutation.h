@@ -104,6 +104,15 @@ struct mutation_branch {
     // Flat bonus/penalty to hp.
     float hp_adjustment = 0.0f;
 
+    // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
+    float metabolism_modifier = 0.0f;
+    // As above but for thirst.
+    float thirst_modifier = 0.0f;
+    // As above but for fatigue.
+    float fatigue_modifier = 0.0f;
+    // Modifier for the rate at which fatigue drops when resting.
+    float fatigue_regen_modifier = 0.0f;
+
     /** Attacks granted by this mutation */
     std::vector<mut_attack> attacks_granted;
 

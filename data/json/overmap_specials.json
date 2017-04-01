@@ -258,7 +258,6 @@
         "city_distance" : [20, -1],
         "city_sizes" : [4, 12],
         "occurrences" : [0, 20],
-        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",

@@ -169,6 +169,12 @@ void mutation_branch::load( JsonObject &jsobj )
     new_mut.healing_resting = jsobj.get_float( "healing_resting", 0.0f );
     new_mut.hp_modifier = jsobj.get_float( "hp_modifier", 0.0f );
     new_mut.hp_modifier_secondary = jsobj.get_float( "hp_modifier_secondary", 0.0f );
+    new_mut.hp_adjustment = jsobj.get_float( "hp_adjustment", 0.0f );
+
+    new_mut.metabolism_modifier = jsobj.get_float( "metabolism_modifier", 0.0f );
+    new_mut.thirst_modifier = jsobj.get_float( "thirst_modifier", 0.0f );
+    new_mut.fatigue_modifier = jsobj.get_float( "fatigue_modifier", 0.0f );
+    new_mut.fatigue_regen_modifier = jsobj.get_float( "fatigue_regen_modifier", 0.0f );
 
     load_mutation_mods(jsobj, "passive_mods", new_mut.mods);
     /* Not currently supported due to inability to save active mutation state

@@ -186,7 +186,7 @@ class generic_factory
          * @throws JsonError If loading fails for any reason (thrown by `T::load`).
          */
         void load( JsonObject &jo, const std::string &src ) {
-            bool strict = src == "core";
+            bool strict = src == "dda";
 
             T def;
 
