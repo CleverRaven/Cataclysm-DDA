@@ -8569,8 +8569,6 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
 {
     std::vector<item *> res;
 
-    const float spawn_rate = get_world_option<float>( "ITEM_SPAWNRATE" );
-
     if (chance > 100 || chance <= 0) {
         debugmsg("map::place_items() called with an invalid chance (%d)", chance);
         return res;
@@ -8583,10 +8581,9 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
         return res;
     }
 
-    float lets_spawn = chance * spawn_rate;
-    while( rng_float( 0.0f, 100.0f ) <= lets_spawn ) {
-        lets_spawn -= 100.0f;
-
+    const float spawn_rate = get_world_option<float>( "ITEM_SPAWNRATE" );
+    int spawn_count = roll_remainder( chance * spawn_rate / 100.0f );
+    for( int i = 0; i < spawn_count; i++ ) {
         // Might contain one item or several that belong together like guns & their ammo
         int tries = 0;
         auto is_valid_terrain = [this,ongrass](int x,int y){
