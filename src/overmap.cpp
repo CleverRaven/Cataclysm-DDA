@@ -3046,6 +3046,7 @@ void overmap::move_hordes()
 }
 
 /**
+* @param p location of signal
 * @param sig_power - power of signal or max distantion for reaction of zombies
 */
 void overmap::signal_hordes( const tripoint &p, const int sig_power)

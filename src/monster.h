@@ -157,6 +157,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * This will cause the monster to slowly move towards the destination,
          * unless there is an overriding smell or plan.
          *
+         * @param p Destination of monster's wonderings
          * @param f The priority of the destination, as well as how long we should
          *          wander towards there.
          */
@@ -184,6 +185,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * costs at the target, an existing NPC or monster, this function simply
          * aborts and does nothing.
          *
+         * @param p Destination of movement
          * @param force If this is set to true, the movement will happen even if
          *              there's currently something blocking the destination.
          *
@@ -214,6 +216,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * Try to push away whatever occupies p, then step in.
          * May recurse and try to make the creature at p push further.
          *
+         * @param p Location of pushed object
          * @param boost A bonus on the roll to represent a horde pushing from behind
          * @param depth Number of recursions so far
          *
@@ -350,6 +353,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         /**
          * Makes monster react to heard sound
          *
+         * @param from Location of the sound source
          * @param source_volume Volume at the center of the sound source
          * @param distance Distance to sound source (currently just rl_dist)
          */
@@ -405,9 +409,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         std::map<std::string, int> ammo;
 
         /**
-         * Convert this monster into an item (see @ref mtype::revet_to_itype).
+         * Convert this monster into an item (see @ref mtype::revert_to_itype).
          * Only useful for robots and the like, the monster must have at least
-         * a non-empty item id as revet_to_itype.
+         * a non-empty item id as revert_to_itype.
          */
         item to_item() const;
         /**

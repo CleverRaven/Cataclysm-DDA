@@ -8729,6 +8729,7 @@ vehicle *map::add_vehicle(const vproto_id &type, const tripoint &p, const int di
  * otherwise returns a pointer to the placed vehicle, which may not necessarily
  * be the one passed in (if wreckage is created by fusing cars).
  * @param veh The vehicle to place on the map.
+ * @param merge_wrecks Whether crashed vehicles become part of each other
  * @return The vehicle that was finally placed.
  */
 vehicle *map::add_vehicle_to_map( std::unique_ptr<vehicle> veh, const bool merge_wrecks )

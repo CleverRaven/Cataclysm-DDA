@@ -189,6 +189,7 @@ class effect : public JsonSerializer, public JsonDeserializer
 
         /**
          * Sets inensity of effect capped by range [1..max_intensity]
+         * @param val Value to set intensity to
          * @param alert whether decay messages should be displayed
          * @return new intensity of the effect after val subjected to above cap
          */
@@ -196,6 +197,7 @@ class effect : public JsonSerializer, public JsonDeserializer
 
         /**
          * Modify inensity of effect capped by range [1..max_intensity]
+         * @param mod Amount to increase current intensity by
          * @param alert whether decay messages should be displayed
          * @return new intensity of the effect after modification and capping
          */

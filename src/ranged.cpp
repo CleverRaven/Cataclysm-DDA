@@ -607,10 +607,10 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     }
 
     // Up to 50% of recoil can be delayed until end of burst dependent upon relevant skill
-    ///\EFFECT_PISTOL delays effects of recoil during autoamtic fire
-    ///\EFFECT_SMG delays effects of recoil during automatic fire
-    ///\EFFECT_RIFLE delays effects of recoil during automatic fire
-    ///\EFFECT_SHOTGUN delays effects of recoil during automatic fire
+    /** @EFFECT_PISTOL delays effects of recoil during autoamtic fire */
+    /** @EFFECT_SMG delays effects of recoil during automatic fire */
+    /** @EFFECT_RIFLE delays effects of recoil during automatic fire */
+    /** @EFFECT_SHOTGUN delays effects of recoil during automatic fire */
     double absorb = std::min( int( get_skill_level( gun.gun_skill() ) ), MAX_SKILL ) / double( MAX_SKILL * 2 );
 
     tripoint aim = target;
@@ -672,7 +672,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
             hostiles.erase( std::remove_if( hostiles.begin(), hostiles.end(), [&]( const Creature *z ) {
                 if( rl_dist( z->pos(), aim ) > get_skill_level( skill_gun ) ) {
-                    return true; ///\EFFECT_GUN increases range of automatic retargeting during burst fire
+                    return true; /** @EFFECT_GUN increases range of automatic retargeting during burst fire */
 
                 } else if( z->is_dead_state() ) {
                     return true;
@@ -689,7 +689,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
                 break; // We ran out of suitable targets
 
             } else if( !one_in( 7 - get_skill_level( skill_gun ) ) ) {
-                break; ///\EFFECT_GUN increases chance of firing multiple times in a burst
+                break; /** @EFFECT_GUN increases chance of firing multiple times in a burst */
             }
             aim = random_entry( hostiles )->pos();
         }
@@ -720,9 +720,9 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Base move cost on moves per turn of the weapon
     // and our skill.
     int move_cost = thrown.attack_time() / 2;
-    ///\EFFECT_THROW speeds up throwing items
+    /** @EFFECT_THROW speeds up throwing items */
     int skill_cost = (int)(move_cost / (std::pow(get_skill_level( skill_throw ), 3.0f) / 400.0 + 1.0));
-    ///\EFFECT_DEX speeds up throwing items
+    /** @EFFECT_DEX speeds up throwing items */
     const int dexbonus = (int)(std::pow(std::max(dex_cur - 8, 0), 0.8) * 3.0);
 
     move_cost += skill_cost;
@@ -752,24 +752,24 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Throwing attempts below "Basic Competency" level are extra-bad
     int skill_level = get_skill_level( skill_throw );
 
-    ///\EFFECT_THROW <8 randomly increases throwing deviation
+    /** @EFFECT_THROW <8 randomly increases throwing deviation */
     if( skill_level < 3 ) {
         deviation += rng(0, 8 - skill_level);
     }
 
     if( skill_level < 8 ) {
         deviation += rng(0, 8 - skill_level);
-    ///\EFFECT_THROW >7 decreases throwing deviation
+    /** @EFFECT_THROW >7 decreases throwing deviation */
     } else {
         deviation -= skill_level - 6;
     }
 
     deviation += throw_dex_mod();
 
-    ///\EFFECT_PER <6 randomly increases throwing deviation
+    /** @EFFECT_PER <6 randomly increases throwing deviation */
     if (per_cur < 6) {
         deviation += rng(0, 8 - per_cur);
-    ///\EFFECT_PER >8 decreases throwing deviation
+    /** @EFFECT_PER >8 decreases throwing deviation */
     } else if (per_cur > 8) {
         deviation -= per_cur - 8;
     }
@@ -784,7 +784,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         deviation += rng(0, 3);
     }
 
-    ///\EFFECT_STR randomly decreases throwing deviation
+    /** @EFFECT_STR randomly decreases throwing deviation */
     deviation += rng(0, std::max( 0, thrown.weight() / 113 - str_cur ) );
     deviation = std::max( 0, deviation );
 
@@ -796,7 +796,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
                       thrown.made_of_any( ferric );
 
     // The damage dealt due to item's weight and player's strength
-    ///\EFFECT_STR increases throwing damage
+    /** @EFFECT_STR increases throwing damage */
     int real_dam = ( (thrown.weight() / 452)
                      + (thrown.damage_melee(DT_BASH) / 2)
                      + (str_cur / 2) )
@@ -826,7 +826,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     }
 
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
-    ///\EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE)
+    /** @EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE) */
     const bool shatter = !thrown.active && thrown.made_of( material_id( "glass" ) ) &&
                          rng(0, vol + 8) - rng(0, str_cur) < vol;
 
@@ -1850,7 +1850,7 @@ double player::get_weapon_dispersion( const item &obj, float range ) const
 {
     double dispersion = obj.gun_dispersion();
 
-    ///\EFFECT_GUN improves usage of accurate weapons and sights
+    /** @EFFECT_GUN improves usage of accurate weapons and sights */
     dispersion += 10 * ( MAX_SKILL - std::min( int( get_skill_level( skill_gun ) ), MAX_SKILL ) );
 
     if( is_driving( *this ) ) {
@@ -1858,7 +1858,7 @@ double player::get_weapon_dispersion( const item &obj, float range ) const
         const item *parent = has_item( obj ) ? find_parent( obj ) : nullptr;
         const int vol = ( parent ? parent->volume() : obj.volume() ) / 250_ml;
 
-        ///\EFFECT_DRIVING reduces the inaccuracy penalty when using guns whilst driving
+        /** @EFFECT_DRIVING reduces the inaccuracy penalty when using guns whilst driving */
         dispersion += std::max( vol - get_skill_level( skill_driving ), 1 ) * 20;
     }
 

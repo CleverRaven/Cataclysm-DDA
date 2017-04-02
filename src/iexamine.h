@@ -36,6 +36,8 @@ namespace iexamine
     * Spawn spiders from a spider egg sack in radius 1 around the egg sack.
     * Transforms the egg sack furntiture into a ruptured egg sack (f_egg_sacke).
     * Also spawns eggs.
+    * @param p The player
+    * @param examp Location of egg sack
     * @param montype The monster type of the created spiders.
     */
 void egg_sack_generic( player &p, const tripoint &examp, const mtype_id &montype );

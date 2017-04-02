@@ -214,7 +214,7 @@ class consume_drug_iuse : public iuse_actor
         /** A list of stats and adjustments to them. **/
         std::map<std::string, int> stat_adjustments;
 
-        /** Modify player @vitamin_levels by random amount between min (first) and max (second) */
+        /** Modify player vitamin_levels by random amount between min (first) and max (second) */
         std::map<vitamin_id, std::pair<int,int>> vitamins;
 
         /** How many move points this action takes. */

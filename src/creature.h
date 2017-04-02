@@ -163,7 +163,7 @@ class Creature
          * chooses a target. This is for creatures that are friendly towards
          * the player and therefor choose a target that is hostile
          * to the player.
-         * @param pos Position of the fake-player
+         *
          * @param range The maximal range to look for monsters, anything
          * outside of that range is ignored.
          * @param boo_hoo The number of targets that have been skipped
@@ -201,6 +201,8 @@ class Creature
 
         /**
          * Makes an aiming/attack roll for a single projectile attack shot
+         * @param dispersion Effective dispersion of the shot (higher = less accurate weapon/ammo/sights)
+         * @param range Range to the target
          * @param target_size Ease of hitting target. 1.0 means target occupies entire tile and doesn't dodge.
          */
         projectile_attack_aim projectile_attack_roll( double dispersion, double range, double target_size ) const;
@@ -217,6 +219,7 @@ class Creature
          * @param total_dispersion nominal shot dispersion of gun + shooter
          * @param range range of the attack
          * @param accuracy the required accuracy, in the range [0..1]
+         * @param target_size Ease of hitting target. 1.0 means target occupies entire tile and doesn't dodge.
          * @return the probability, in the range (0..1]
          */
         double projectile_attack_chance( double total_dispersion, double range,
@@ -248,12 +251,15 @@ class Creature
 
         /**
          * Deals the damage via an attack. Allows armor mitigation etc.
+         *
          * Most sources of external damage should use deal_damage
          * Mutates the damage_instance& object passed in to reflect the
          * post-mitigation object.
          * Does nothing if this creature is already dead.
-         * Does not call @ref check_dead_state (see there).
-         * @ref source The attacking creature, can be null.
+         * Does not call @ref check_dead_state.
+         * @param source The attacking creature, can be null.
+         * @param bp The attacked body part
+         * @param d The damage dealt
          */
         virtual dealt_damage_instance deal_damage(Creature *source, body_part bp,
                 const damage_instance &d);

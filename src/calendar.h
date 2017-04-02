@@ -137,7 +137,10 @@ class calendar
         }
 
         /**
-         * Predicate to handle rate-limiting, returns true once every @event_frequency turns.
+         * Predicate to handle rate-limiting.
+         *
+         * @param event_frequency Number of turns between true returns
+         * @returns true after every 'event_frequency' turns
          */
         static bool once_every( int event_frequency );
 
@@ -173,7 +176,7 @@ class calendar
         static std::string print_duration( int turns );
         /**
          * Returns approximate duration.
-         * @prarm verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.
+         * @param verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.
          */
         static std::string print_approx_duration( int turns, bool verbose = true );
 

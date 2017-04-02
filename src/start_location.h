@@ -52,6 +52,7 @@ class start_location
         /**
          * Burn random terrain / furniture with FLAMMABLE or FLAMMABLE_ASH tag.
          * Doors and windows are excluded.
+         * @param omtstart Global overmap terrain coordinates where the player is to be spawned.
          * @param rad safe radius area to prevent player spawn next to burning wall.
          * @param count number of fire on the map.
          */
