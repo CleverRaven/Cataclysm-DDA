@@ -1780,5 +1780,7 @@ std::ostream &operator<<( std::ostream &stream, const JsonError &err )
 // Need to instantiate those template to make them available for other compilation units.
 // Currently only bitsets of size 12 are loaded / stored, if you need other sizes, either explicitly
 // instantiate them here, or move the templated read/write functions into the header.
+/** @relates JsonOut */
 template void JsonOut::write<12>(const std::bitset<12> &);
+/** @relates JsonIn */
 template bool JsonIn::read<12>(std::bitset<12> &);

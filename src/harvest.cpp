@@ -10,12 +10,14 @@
 #include <sstream>
 #include <string>
 
+/** @relates string_id */
 template <>
 const harvest_id string_id<harvest_list>::NULL_ID( "null" );
 
 // @todo Make a generic factory
 static std::map<harvest_id, harvest_list> harvest_all;
 
+/** @relates string_id */
 template<>
 const harvest_list &string_id<harvest_list>::obj() const
 {
@@ -28,6 +30,7 @@ const harvest_list &string_id<harvest_list>::obj() const
     return found->second;
 }
 
+/** @relates string_id */
 template<>
 bool string_id<harvest_list>::is_valid() const
 {

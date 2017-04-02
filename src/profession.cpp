@@ -55,12 +55,14 @@ static class json_item_substitution
         std::vector<item> get_substitution( const item &it, const std::vector<std::string> &traits ) const;
 } item_substitutions;
 
+/** @relates string_id */
 template<>
 const profession &string_id<profession>::obj() const
 {
     return all_profs.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<profession>::is_valid() const
 {

@@ -10,6 +10,7 @@
 #include <string>
 #include <map>
 
+/** @relates string_id */
 template<>
 const string_id<material_type> string_id<material_type>::NULL_ID( "null", 0 );
 
@@ -20,12 +21,14 @@ generic_factory<material_type> material_data( "material", "ident" );
 
 } // namespace
 
+/** @relates string_id */
 template<>
 bool string_id<material_type>::is_valid() const
 {
     return material_data.is_valid( *this );
 }
 
+/** @relates string_id */
 template<>
 const material_type &string_id<material_type>::obj() const
 {
