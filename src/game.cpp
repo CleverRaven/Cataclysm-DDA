@@ -10707,17 +10707,17 @@ bool game::unload( item &it )
             return false;
         }
 
-        int old_charges = it.contents.front().charges;
-        unsigned int old_size = it.contents.size();
-        it.contents.erase( std::remove_if( it.contents.begin(), it.contents.end(), [this]( item& e ) {
-            int mv = u.item_handling_cost( e );
-            if( !add_or_drop_with_msg( u, e ) ) {
-                return false;
+        bool changed = false;
+        it.contents.erase( std::remove_if( it.contents.begin(), it.contents.end(), [this, &changed]( item& e ) {
+            long old_charges = e.charges;
+            const bool consumed = add_or_drop_with_msg( u, e );
+            changed = changed || consumed || e.charges != old_charges;
+            if( consumed ) {
+                u.mod_moves( -u.item_handling_cost( e ) );
             }
-            u.moves -= mv;
-            return true;
+            return consumed;
         } ), it.contents.end() );
-        if( it.contents.size() != old_size || it.contents.front().charges != old_charges ) {
+        if( changed ) {
             it.on_contents_changed();
         }
         return true;
