@@ -95,8 +95,7 @@ struct computer_option {
 struct computer_failure {
     computer_failure_type type;
 
-    computer_failure( computer_failure_type t ) : type( t )
-    {
+    computer_failure( computer_failure_type t ) : type( t ) {
     }
 
     static computer_failure from_json( JsonObject &jo );
