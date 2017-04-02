@@ -14,7 +14,6 @@
     "method": "json",
     "om_terrain": [ "shelter" ],
     "object": {
-      "//": "This weird terrain type is only 16x16, so don't fill with floor",
       "rows": [
         "                        ",
         "                        ",
