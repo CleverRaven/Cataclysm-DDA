@@ -30,7 +30,7 @@ constexpr int DAYS( int n )
 }
 
 // How much light the moon provides per quater
-#define MOONLIGHT_PER_QUATER 2.25
+#define MOONLIGHT_PER_QUARTER 2.25
 
 // How much light is provided in full daylight
 #define DAYLIGHT_LEVEL 100

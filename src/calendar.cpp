@@ -20,11 +20,11 @@ season_type calendar::initial_season;
 // Internal constants, not part of the calendar interface.
 // Times for sunrise, sunset at equinoxes
 #define SUNRISE_WINTER   7
-#define SUNRISE_SOLSTICE 6
+#define SUNRISE_EQUINOX 6
 #define SUNRISE_SUMMER   5
 
 #define SUNSET_WINTER   17
-#define SUNSET_SOLSTICE 19
+#define SUNSET_EQUINOX 19
 #define SUNSET_SUMMER   21
 
 // How long, in seconds, does sunrise/sunset last?
@@ -190,20 +190,20 @@ calendar calendar::sunrise() const
     int start_hour = 0, end_hour = 0, newhour = 0, newminute = 0;
     switch (season) {
     case SPRING:
-        start_hour = SUNRISE_SOLSTICE;
+        start_hour = SUNRISE_EQUINOX;
         end_hour   = SUNRISE_SUMMER;
         break;
     case SUMMER:
         start_hour = SUNRISE_SUMMER;
-        end_hour   = SUNRISE_SOLSTICE;
+        end_hour   = SUNRISE_EQUINOX;
         break;
     case AUTUMN:
-        start_hour = SUNRISE_SOLSTICE;
+        start_hour = SUNRISE_EQUINOX;
         end_hour   = SUNRISE_WINTER;
         break;
     case WINTER:
         start_hour = SUNRISE_WINTER;
-        end_hour   = SUNRISE_SOLSTICE;
+        end_hour   = SUNRISE_EQUINOX;
         break;
     }
     double percent = double(double(day) / season_length());
@@ -221,20 +221,20 @@ calendar calendar::sunset() const
     int start_hour = 0, end_hour = 0, newhour = 0, newminute = 0;
     switch (season) {
     case SPRING:
-        start_hour = SUNSET_SOLSTICE;
+        start_hour = SUNSET_EQUINOX;
         end_hour   = SUNSET_SUMMER;
         break;
     case SUMMER:
         start_hour = SUNSET_SUMMER;
-        end_hour   = SUNSET_SOLSTICE;
+        end_hour   = SUNSET_EQUINOX;
         break;
     case AUTUMN:
-        start_hour = SUNSET_SOLSTICE;
+        start_hour = SUNSET_EQUINOX;
         end_hour   = SUNSET_WINTER;
         break;
     case WINTER:
         start_hour = SUNSET_WINTER;
-        end_hour   = SUNSET_SOLSTICE;
+        end_hour   = SUNSET_EQUINOX;
         break;
     }
     double percent = double(double(day) / season_length());
@@ -293,7 +293,7 @@ float calendar::sunlight() const
         current_phase = int(MOON_PHASE_MAX) - current_phase;
     }
 
-    int moonlight = 1 + int(current_phase * MOONLIGHT_PER_QUATER);
+    int moonlight = 1 + int(current_phase * MOONLIGHT_PER_QUARTER);
 
     if( seconds > sunset_seconds + TWILIGHT_SECONDS || seconds < sunrise_seconds ) { // Night
         return moonlight;

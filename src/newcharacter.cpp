@@ -175,8 +175,6 @@ tab_direction set_description(WINDOW *w, player *u, bool allow_reroll, points_le
 
 void save_template(player *u);
 
-bool lcmatch(const std::string &str, const std::string &findstr); // ui.cpp
-
 void Character::pick_name(bool bUseDefault)
 {
     if (bUseDefault && !get_option<std::string>( "DEF_CHAR_NAME" ).empty() ) {
