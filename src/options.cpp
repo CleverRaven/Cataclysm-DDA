@@ -813,8 +813,13 @@ void options_manager::init()
         false
         );
 
-    add("AUTO_PICKUP_ZERO", "general", _("Auto pickup 0 vol light items"),
-        _("Auto pickup items with 0 Volume, and weight less than or equal to [option] * 50 grams. '0' disables this option"),
+    add("AUTO_PICKUP_WEIGHT_LIMIT", "general", _("Auto pickup light items"),
+        _("Auto pickup items with weight less than or equal to [option] * 50 grams. You must also set the small items option.  '0' disables this option"),
+        0, 20, 0
+        );
+
+    add("AUTO_PICKUP_VOL_LIMIT", "general", _("Auto pickup small items"),
+        _("Auto pickup items with volume less than or equal to [option] * 50 milliliters. You must also set the light items option.  '0' disables this option"),
         0, 20, 0
         );
 
