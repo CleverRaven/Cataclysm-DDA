@@ -76,7 +76,6 @@ const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_archery( "archery" );
 const skill_id skill_computer( "computer" );
 const skill_id skill_cutting( "cutting" );
-const skill_id skill_carpentry( "carpentry" );
 const skill_id skill_fabrication( "fabrication" );
 const skill_id skill_electronics( "electronics" );
 const skill_id skill_melee( "melee" );
@@ -2756,10 +2755,10 @@ bool pry_nails(player *p, ter_id &type, int dirx, int diry)
     } else {
         return false;
     }
-    p->practice( skill_carpentry, 1, 1);
+    p->practice( skill_fabrication, 1, 1);
     p->moves -= 500;
-    g->m.spawn_item(p->posx(), p->posy(), "nail", 0, nails);
-    g->m.spawn_item(p->posx(), p->posy(), "2x4", boards);
+    g->m.spawn_item( p->posx(), p->posy(), "nail", 0, nails );
+    g->m.spawn_item( p->posx(), p->posy(), "2x4", boards );
     g->m.ter_set(dirx, diry, newter);
     return true;
 }
@@ -3210,10 +3209,7 @@ int iuse::pickaxe(player *p, item *it, bool, const tripoint& )
         ( g->m.has_flag( "SUPPORTS_ROOF", dirx, diry ) || g->m.has_flag( "MINEABLE", dirx, diry ) ) ) {
 
         ///\EFFECT_STR speeds up mining with a pickaxe
-        turns = ( ( MAX_STAT + 4 ) - std::min( p->str_cur, MAX_STAT ) ) * 10000;
-
-        ///\EFFECT_CARPENTRY speeds up mining with a pickaxe
-        turns /= sqrt( std::min( int( p->get_skill_level( skill_carpentry ) ), MAX_SKILL ) + 1 );
+        turns = ( ( MAX_STAT + 4 ) - std::min( p->str_cur, MAX_STAT ) ) * MINUTES( 5 );
 
     } else if (g->m.move_cost(dirx, diry) == 2 && g->get_levz() == 0 &&
                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
@@ -4334,8 +4330,8 @@ void iuse::cut_log_into_planks(player *p)
     p->add_msg_if_player(_("You cut the log into planks."));
     item plank("2x4", int(calendar::turn));
     item scrap("splinter", int(calendar::turn));
-    ///\EFFECT_CARPENTRY increases number of planks cut from a log
-    int planks = (rng(1, 3) + (p->get_skill_level( skill_carpentry ) * 2));
+    ///\EFFECT_FABRICATION increases number of planks cut from a log
+    int planks = (rng(1, 3) + (p->get_skill_level( skill_fabrication ) * 2));
     int scraps = 12 - planks;
     if (planks >= 12) {
         planks = 12;

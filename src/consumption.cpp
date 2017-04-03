@@ -148,24 +148,7 @@ bool player::vitamin_set( const vitamin_id &vit, int qty )
 
 float player::metabolic_rate_base() const
 {
-    float ret = 1.0f;
-    if( has_trait( "LIGHTEATER" ) ) {
-        ret -= ( 1.0f / 3.0f );
-    }
-
-    if( has_trait( "HUNGER" ) ) {
-        ret += 0.5f;
-    } else if( has_trait( "HUNGER2" ) ) {
-        ret += 1.0f;
-    } else if( has_trait( "HUNGER3" ) ) {
-        ret += 2.0f;
-    }
-
-    if( has_trait( "MET_RAT" ) ) {
-        ret += ( 1.0f / 3.0f );
-    }
-
-    return ret;
+    return 1.0f + mutation_value( "metabolism_modifier" );
 }
 
 // TODO: Make this less chaotic to let NPC retroactive catch up work here

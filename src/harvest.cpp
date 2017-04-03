@@ -36,7 +36,7 @@ bool string_id<harvest_list>::is_valid() const
 
 harvest_entry harvest_entry::load( JsonObject &jo, const std::string &src )
 {
-    const bool strict = src == "core";
+    const bool strict = src == "dda";
 
     harvest_entry ret;
     assign( jo, "drop", ret.drop, strict );

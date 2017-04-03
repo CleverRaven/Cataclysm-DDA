@@ -629,7 +629,7 @@ void npc::execute_action( npc_action action )
                 my_spot = priority;
             }
 
-            seats.push_back( std::make_pair( priority, p2 ) );
+            seats.push_back( std::make_pair( priority, static_cast<int>( p2 ) ) );
         }
 
         if( my_spot >= 3 ) {
