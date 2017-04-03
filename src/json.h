@@ -41,14 +41,14 @@ namespace io {
 /**
  * @name Enumeration (de)serialization to/from string.
  *
- * @ref io::enum_to_string converts an enumeration value to a string (which can be written to JSON).
+ * @ref enum_to_string converts an enumeration value to a string (which can be written to JSON).
  * The result must be an non-empty string.
  *
- * @ref io::string_to_enum converts the string value back into an enumeration value. The input
- * is expected to be one of the outputs of @ref io::enum_to_string. If the given string does
- * not match an enumeration, an InvalidEnumString is to be thrown.
+ * @ref string_to_enum converts the string value back into an enumeration value. The input
+ * is expected to be one of the outputs of @ref enum_to_string. If the given string does
+ * not match an enumeration, an @ref InvalidEnumString is to be thrown.
  *
- * @code io::string_to_enum<E>(io::enum_to_string<E>(X)) == X @endcode must yield true for all values
+ * @code string_to_enum<E>(enum_to_string<E>(X)) == X @endcode must yield true for all values
  * of the enumeration E.
  *
  * The functions need to be implemented somewhere for each enumeration type they are used on.
