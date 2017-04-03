@@ -133,7 +133,7 @@ void processor_data::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "next_type", next_type );
     mandatory( jo, was_loaded, "fuel_type", fuel_type );
-    mandatory( jo, was_loaded, "processes",  string_id_reader<process_id>() );
+    mandatory( jo, was_loaded, "processes", processes, string_id_reader<process_id>() );
 
     if( !was_loaded || jo.has_member( "messages" ) ) {
         JsonObject messages_obj = jo.get_object( "messages" );
@@ -201,35 +201,32 @@ const process_data& select_active(const tripoint &examp )
     if (possible_processes->size() == 1) {
         return possible_processes->at(0);
     }
-    else {
-        const map_stack items = g->m.i_at( examp );
-        if (items.empty()) {
-            //Temporary solution, should be expanded into player being able to depsit directly form inventory after choosing a process
-            return possible_processes->at(0);
-        } else {
-            //Build a set of item_id's present
-            std::set<itype_id> present_items;
-            for (const item &i : items) {
-                    present_items.insert(i.typeId());
-            }
-            //Based on the items present, find the process which has all components
-            //available and the largest number of required components
-            for (const process_data &data : (*possible_processes) ) {
-                if (IsSubset(present_items, data.components)) {
-                    if (!active_process) {
-                        //if nullpointer, set it as active
-                        active_process = &data;
-                    }
-                    else if (active_process->components.size() < data.components.size()) {
-                        active_process = &data;
-                    }
-                }
-            }
+    const map_stack items = g->m.i_at( examp );
+    if (items.empty()) {
+        //Temporary solution, should be expanded into player being able to depsit directly form inventory after choosing a process
+        return possible_processes->at(0);
+    }
+    //Build a set of item_id's present
+    std::set<itype_id> present_items;
+    for (const item &i : items) {
+            present_items.insert(i.typeId());
+    }
+    //Based on the items present, find the process which has all components
+    //available and the largest number of required components
+    for (const process_data &data : (*possible_processes) ) {
+        if (IsSubset(present_items, data.components)) {
             if (!active_process) {
-                //If we can't decide based on the items, make the first process active
-                active_process = &possible_processes->at(0);
+                //if nullpointer, set it as active
+                active_process = &data;
+            }
+            else if (active_process->components.size() < data.components.size()) {
+                active_process = &data;
             }
         }
+    }
+    if (!active_process) {
+        //If we can't decide based on the items, make the first process active
+        active_process = &possible_processes->at(0);
     }
     return *active_process;
 }
@@ -293,7 +290,7 @@ void processors::interact_with_processor(const tripoint &examp, player &p)
         add_msg( _("This process is ready to be started, but you have no fire source to start it.") );
         return;
     } else if( !query_yn( _("This process is ready to be started, and it will produce %d %s . %s"),
-                        item::nname(active_process.output, minimum).c_str(), minimum, current_processor.full_message.c_str() ) ) {
+                minimum, item::nname(active_process.output, minimum).c_str(), current_processor.full_message.c_str() ) ) {
         return;
     }
     add_msg( _( current_processor.start_message.c_str() ) );
@@ -327,7 +324,7 @@ void processors::interact_with_working_processor( const tripoint &examp, player 
         return;
     }
     int last_bday = items[0].bday;
-    for (int i = 0; i < items.size(); i++) {
+    for (size_t i = 0; i < items.size(); i++) {
         if (std::find(active_process.components.begin(), active_process.components.end(), items[i].typeId()) == active_process.components.end()) {
             add_msg(_("You remove %s from the %s."), item::nname(items[i].typeId() , items[i].charges ).c_str() , g->m.furn( examp ).obj().name.c_str() );
             g->m.add_item_or_charges(p.pos(), items[i] );
