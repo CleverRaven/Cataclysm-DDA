@@ -5268,7 +5268,8 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         } else if( ammo_type->cookoff ) {
             // Ammo that cooks off, but doesn't have a
             // large intrinsic effect blows up with shrapnel
-            g->explosion( p, ammo_type->damage / 2, 0.5f, false, rounds_exploded / 5 );
+           g->explosion( p, sqrtf( ammo_type->damage / 10.0f ) * 5, 0.5f, false,
+                                   roll_remainder( sqrtf( rounds_exploded / 5.0f ) ) );
         }
         charges_remaining -= rounds_exploded;
         if( charges_remaining > 0 ) {
