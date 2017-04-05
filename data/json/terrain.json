@@ -1586,7 +1586,7 @@
             "items": [
                 { "item": "stick", "count": 1 },
                 { "item": "sheet", "count": 2 },
-                { "item": "string_36", "prob": 50 }
+                { "item": "withered", "count": 12 }
             ]
         },
         "bash": {
@@ -1600,7 +1600,7 @@
                 { "item": "sheet", "count": [0, 1] },
                 { "item": "rag", "count": [2, 5] },
                 { "item": "stick", "count": 1 },
-                { "item": "string_36", "count": 1 }
+                { "item": "withered", "count": [2, 12] }
             ]
         }
     },{
@@ -1619,7 +1619,7 @@
             "ter_set": "t_door_frame",
             "items": [
                 { "item": "2x4", "count": 6 },
-                { "item": "rope_6", "count": 2 }
+                { "item": "rope_makeshift_6", "count": 2 }
             ]
         },
         "bash": {
@@ -1629,8 +1629,8 @@
             "ter_set": "t_door_frame",
             "items": [
                 { "item": "2x4", "count": [2, 5] },
-                { "item": "rope_6", "count": [0, 1] },
-                { "item": "string_36", "count": [1, 6] },
+                { "item": "rope_makeshift_6", "count": [0, 1] },
+                { "item": "withered", "count": [2, 12] },
                 { "item": "splinter", "count": [5, 10] }
             ]
         }
@@ -1652,7 +1652,7 @@
             "items": [
                 { "item": "stick", "count": 1 },
                 { "item": "sheet", "count": 2 },
-                { "item": "string_36", "prob": 50 }
+                { "item": "withered", "count": 12 }
             ]
         },
         "close": "t_door_curtain_c",
@@ -1667,7 +1667,7 @@
                 { "item": "sheet", "count": [0, 1] },
                 { "item": "rag", "count": [2, 5] },
                 { "item": "stick", "count": 1 },
-                { "item": "string_36", "count": 1 }
+                { "item": "withered", "count": [2, 12] }
             ]
         }
     },{
@@ -1687,7 +1687,7 @@
             "ter_set": "t_door_frame",
             "items": [
                 { "item": "2x4", "count": 6 },
-                { "item": "rope_6", "count": 2 }
+                { "item": "rope_makeshift_6", "count": 2 }
             ]
         },
         "close": "t_door_makeshift_c",
@@ -1698,8 +1698,8 @@
             "ter_set": "t_door_frame",
             "items": [
                 { "item": "2x4", "count": [2, 5] },
-                { "item": "rope_6", "count": [0, 1] },
-                { "item": "string_36", "count": [1, 6] },
+                { "item": "rope_makeshift_6", "count": [0, 1] },
+                { "item": "withered", "count": [2, 12] },
                 { "item": "splinter", "count": [5, 10] }
             ]
         }
@@ -4676,7 +4676,7 @@
             "sound_fail": "whump.",
             "ter_set": "t_null",
             "items": [
-                { "item": "rope_6", "count": [3, 4] },
+                { "item": "rope_makeshift_6", "count": [3, 4] },
                 { "item": "2x4", "count": [1, 4] },
                 { "item": "splinter", "count": [2, 4] }
             ]
@@ -4684,7 +4684,7 @@
         "deconstruct": {
             "ter_set": "t_dirtfloor",
             "items": [
-                { "item": "rope_30", "count": 1 },
+                { "item": "rope_makeshift_30", "count": 1 },
                 { "item": "2x4", "count": 8 }
             ]
         }
@@ -6024,7 +6024,7 @@
         "deconstruct": {
             "ter_set": "t_water_dp",
             "items": [
-                { "item": "rope_6", "count": [3, 4] },
+                { "item": "rope_makeshift_6", "count": [3, 4] },
                 { "item": "2x4", "count": 8 }
             ]
         },

@@ -1064,7 +1064,7 @@
   "autolearn": true,
   "components": [
     [ [ "snare_trigger", 1 ] ],
-    [ [ "rope_6", 1 ] ]
+    [ [ "rope_makeshift_6", 1 ], [ "rope_6", 1 ] ]
   ]
 },{
   "type" : "recipe",

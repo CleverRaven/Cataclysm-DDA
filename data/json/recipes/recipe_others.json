@@ -1374,6 +1374,7 @@
     ],
     [
       ["rope_30", 4],
+      ["rope_makeshift_30", 4],
       ["vine_30", 4]
     ],
     [
@@ -1837,6 +1838,37 @@
   ]
 },{
   "type" : "recipe",
+  "result": "rope_makeshift_6",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "survival",
+  "time": 7500,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "withered", 36 ],
+      [ "straw_pile", 36 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "rope_makeshift_30",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "survival",
+  "time": 7500,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "rope_makeshift_6", 5 ],
+      [ "withered", 180 ],
+      [ "straw_pile", 180 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "wire",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -2282,6 +2314,7 @@
       [ "stick", 6 ]
     ],
     [
+      [ "rope_makeshift_6", 3 ],
       [ "rope_6", 3 ]
     ]
   ]
@@ -2345,6 +2378,7 @@
       [ "2x4", 6 ]
     ],
     [
+      [ "rope_makeshift_6", 2],
       [ "rope_6", 2]
     ]
   ]
@@ -5729,6 +5763,7 @@
   "components": [
     [ [ "chitin_piece", 20 ] ],
     [
+        [ "rope_makeshift_6", 2 ],
         [ "rope_6", 2 ],
         [ "superglue", 2 ],
         [ "bone_glue", 4 ]
@@ -5751,6 +5786,7 @@
         [ "bone_tainted", 50 ]
     ],
     [
+        [ "rope_makeshift_6", 4 ],
         [ "rope_6", 4 ],
         [ "superglue", 2 ],
         [ "bone_glue", 4 ]
