@@ -10943,7 +10943,7 @@ void game::pldrive(int x, int y)
         int pctr = veh->part_with_feature(part, "CONTROLS");
         if (pctr < 0) {
             add_msg(m_info, _("You can't drive the vehicle from here. You need controls!"));
-            return;
+            u.controlling_vehicle = false;
         }
     } else {
         if ( veh->all_parts_with_feature( "REMOTE_CONTROLS", true ).empty() ) {
