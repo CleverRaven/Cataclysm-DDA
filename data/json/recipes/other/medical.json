@@ -30,11 +30,11 @@
       { "id": "CUT", "level": 1 },
       { "id": "BOIL", "level": 1 }
     ],
-    "tools": [ [ [ "hotplate", 20 ], [ "toolset", 20 ], [ "fire", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "rag", 3 ] ],
-      [ [ "thread", 300 ], [ "sinew", 300 ], [ "plant_fibre", 300 ], [ "cordage", 1, "LIST" ], [ "superglue", 1 ] ],
-      [ [ "moonshine", 14 ], [ "vodka", 14 ], [ "whiskey", 14 ], [ "single_malt_whiskey", 14 ], [ "brandy", 14 ], [ "rum", 14 ], [ "gin", 14 ], [ "tequila", 14 ], [ "mixed_alcohol_strong", 14 ] ]
+      [ [ "filament", 300, "LIST" ], [ "cordage", 1, "LIST" ], [ "superglue", 1 ] ],
+      [ [ "hard_liquor", 14, "LIST" ] ]
     ]
   },
   {
@@ -63,7 +63,7 @@
     "time": 24000,
     "book_learn": [ [ "textbook_firstaid", 2 ], [ "manual_first_aid", 2 ], [ "emergency_book", 2 ], [ "pocket_firstaid", 2 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "fire", -1 ], [ "hotplate", 20 ], [ "toolset", 20 ] ] ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "water_clean", 1 ] ],
       [ [ "oxy_powder", 10 ] ],
