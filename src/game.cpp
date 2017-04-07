@@ -247,7 +247,8 @@ game::game() :
     user_action_counter(0),
     lookHeight(13),
     tileset_zoom(16),
-    weather_override( WEATHER_NULL )
+    weather_override( WEATHER_NULL ),
+    next_cid( 1 )
 {
     world_generator.reset( new worldfactory() );
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
@@ -1671,36 +1672,6 @@ void game::catch_a_monster(std::vector<monster*> &catchables, const tripoint &po
 void game::cancel_activity()
 {
     u.cancel_activity();
-}
-
-bool game::cancel_activity_or_ignore_query(const char *reason, ...)
-{
-    if( !u.activity ) {
-        return false;
-    }
-    va_list ap;
-    va_start(ap, reason);
-    const std::string text = vstring_format(reason, ap);
-    va_end(ap);
-
-    bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-    int ch = (int)' ';
-
-    std::string stop_message = text + " " + u.activity.get_stop_phrase() + " " +
-                               _( "(Y)es, (N)o, (I)gnore further distractions and finish." );
-
-    do {
-        ch = popup(stop_message, PF_GET_KEY);
-    } while (ch != '\n' && ch != ' ' && ch != KEY_ESCAPE &&
-             ch != 'Y' && ch != 'N' && ch != 'I' &&
-             (force_uc || (ch != 'y' && ch != 'n' && ch != 'i')));
-
-    if (ch == 'Y' || ch == 'y') {
-        u.cancel_activity();
-    } else if (ch == 'I' || ch == 'i') {
-        return true;
-    }
-    return false;
 }
 
 bool game::cancel_activity_query(const char *message, ...)
@@ -5523,6 +5494,13 @@ int game::assign_faction_id()
 {
     int ret = next_faction_id;
     next_faction_id++;
+    return ret;
+}
+
+creature_id game::next_creature_id()
+{
+    int ret = next_cid;
+    next_cid++;
     return ret;
 }
 

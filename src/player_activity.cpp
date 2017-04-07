@@ -263,3 +263,73 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
     return !auto_resume && id() == other.id() && index == other.index &&
            position == other.position && name == other.name && targets == other.targets;
 }
+
+class danger_warning
+{
+    private:
+        bool warn_noise = false;
+        bool warn_footstep = false;
+        std::set<creature_id> ignored_critters;
+    public:
+        /** Returns true if character cares. */
+        bool warn_noise( Character &c, const sound_event &s );
+        /** Returns true if character cares. */
+        bool warn_critter( Character &c, const Creature &critter );
+}
+
+const std::string &describe_unknown_noise( const sound_event &s )
+{
+    // @todo Less hardcoded
+    const std::array<std::string, 3> footstep_descriptions = {{
+        _( "Heard tiny footsteps!" ), _( "Heard footsteps!" ), _( "Heard something stomping around!" )
+    }};
+    const std::array<std::string, 3> noise_descriptions = {{
+        _( "Heard soft noise!" ), _( "Heard a noise!" ), _( "Heard loud noise!" )
+    }};
+    // Note: base volume, not heard one
+    const size_t index = s.volume > 5 + s.volume > 10;
+    return s.footstep ? footstep_descriptions[ index ] : noise_descriptions[ index ];
+}
+
+bool danger_warning::warn_noise( Character &c, const sound_event &s )
+{
+    if( ( s.footstep && ignore_footstep ) ||
+        ( !s.footstep && ignore_noise ) ) {
+        return false;
+    }
+
+    // @todo Get rid of casts when player/Character migration is done
+    player &p = dynamic_cast<player &>( c );
+    if( !p.activity ) {
+        debugmsg( "No player activity" );
+        return false;
+    }
+
+    const std::string &query = s.description.empty()
+                               ? describe_unknown_noise( s ) 
+                               : string_format( _( "Heard %s!" ), description.c_str() );
+
+    std::string stop_message = text + " " + u.activity.get_stop_phrase() + " " +
+                               _( "(Y)es, (N)o, (I)gnore further distractions and finish." );
+
+    do {
+        ch = popup(stop_message, PF_GET_KEY);
+    } while (ch != '\n' && ch != ' ' && ch != KEY_ESCAPE &&
+             ch != 'Y' && ch != 'N' && ch != 'I' &&
+             (force_uc || (ch != 'y' && ch != 'n' && ch != 'i')));
+
+    if (ch == 'Y' || ch == 'y') {
+        u.cancel_activity();
+    } else if (ch == 'I' || ch == 'i') {
+        return true;
+    }
+    return false;
+    
+    if( g->cancel_activity_or_ignore_query( query.c_str() ) ) {
+        p->activity.ignore_trivial = true;
+        for( auto activity : p->backlog ) {
+            activity.ignore_trivial = true;
+        }
+    }
+}
+bool danger_warning::warn_critter( Character &c, const Creature &critter )

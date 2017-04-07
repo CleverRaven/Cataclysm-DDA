@@ -32,6 +32,8 @@ class field_entry;
 enum field_id : int;
 struct pathfinding_settings;
 
+using creature_id = unsigned int;
+
 enum m_size : int {
     MS_TINY = 0,    // Squirrel
     MS_SMALL,      // Dog
@@ -536,6 +538,9 @@ class Creature
         virtual const std::string &symbol() const = 0;
         virtual bool is_symbol_highlighted() const;
 
+        creature_id get_id() const;
+        void set_id( creature_id );
+
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
         void set_killer( Creature *killer );
@@ -630,6 +635,9 @@ class Creature
         void load(JsonObject &jsin);
 
     private:
+        // Currently non-persistent and not strictly guaranteed not to collide
+        // 0 means unassigned - most creatures won't need those yet
+        mutable creature_id id;
         int pain;
 };
 

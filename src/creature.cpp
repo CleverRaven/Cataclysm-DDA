@@ -72,6 +72,8 @@ const std::map<std::string, m_size> Creature::size_map = {
 
 Creature::Creature()
 {
+    id = 0;
+
     moves = 0;
     pain = 0;
     killer = NULL;
@@ -85,6 +87,21 @@ Creature::Creature()
 
 Creature::~Creature()
 {
+}
+
+creature_id Creature::get_id() const
+{
+    if( id != 0 ) {
+        return id;
+    }
+
+    set_id( g->next_creature_id() );
+    return id;
+}
+
+void Creature::set_id( creature_id cid )
+{
+    id = cid;
 }
 
 void Creature::normalize()
