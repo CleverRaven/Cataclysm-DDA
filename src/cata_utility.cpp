@@ -12,9 +12,13 @@
 #include "json.h"
 #include "filesystem.h"
 #include "item_search.h"
+#include "rng.h"
 
 #include <algorithm>
 #include <cmath>
+#include <string>
+#include <locale>
+#include <codecvt>
 
 double round_up( double val, unsigned int dp )
 {
@@ -529,4 +533,41 @@ std::string utf8_to_native( const std::string &str )
 #else
     return str;
 #endif
+}
+
+std::string obscure_message( const std::string &str, std::function<char(void)> f )
+{
+    //~ translators: place some random 1-width characters here in your language if possible, or leave it as is
+    std::string gibberish_narrow = _( "abcdefghijklmnopqrstuvwxyz" );
+    //~ translators: place some random 2-width characters here in your language if possible, or leave it as is
+    std::string gibberish_wide = _( "に坂索トし荷測のンおク妙免イロコヤ梅棋厚れ表幌" );
+    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+    std::wstring w_gibberish_narrow = converter.from_bytes( gibberish_narrow );
+    std::wstring w_gibberish_wide = converter.from_bytes( gibberish_wide );
+    std::wstring w_str = converter.from_bytes( str );
+    for( size_t i = 0; i < w_str.size(); ++i ) {
+        char transformation = f();
+        std::string this_char = converter.to_bytes( w_str[i] );
+        if( transformation == -1 ) {
+            continue;
+        } else if( transformation == 0 ) {
+            if( utf8_width( this_char ) == 1 ) {
+                w_str[i] = random_entry( w_gibberish_narrow );
+            } else {
+                w_str[i] = random_entry( w_gibberish_wide );
+            }
+        } else {
+            // Only support the case eg. replace current character to symbols like # or ?
+            if( utf8_width( &transformation ) != 1 ) {
+                debugmsg( "target character isn't narrow" );
+            }
+            // A 2-width wide character in the original string should be replace by two narrow characters
+            w_str.replace( i, 1, converter.from_bytes( std::string( utf8_width( this_char ), transformation ) ) );
+        }
+    }
+    std::string result = converter.to_bytes( w_str );
+    if( utf8_width( str ) != utf8_width( result ) ) {
+        debugmsg( "utf8_width differ between original string and obscured string" );
+    }
+    return converter.to_bytes( w_str );
 }
