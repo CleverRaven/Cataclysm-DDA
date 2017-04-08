@@ -299,13 +299,17 @@ static bool select_autopickup_items( std::vector<std::list<item_idx>> &here,
                     }
                 }
 
-                //Auto Pickup all items with 0 Volume and Weight <= AUTO_PICKUP_ZERO * 50
+                //Auto Pickup all items with Volume <= AUTO_PICKUP_VOL_LIMIT * 50 and Weight <= AUTO_PICKUP_ZERO * 50
                 //items will either be in the autopickup list ("true") or unmatched ("")
-                if( !bPickup && get_option<int>( "AUTO_PICKUP_ZERO" ) ) {
-                    if( here[i].begin()->_item.volume() == 0 &&
-                        here[i].begin()->_item.weight() <= get_option<int>( "AUTO_PICKUP_ZERO" ) * 50 &&
-                        get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
-                        bPickup = true;
+                if( !bPickup ) {
+                    int weight_limit = get_option<int>( "AUTO_PICKUP_WEIGHT_LIMIT" );
+                    int volume_limit = get_option<int>( "AUTO_PICKUP_VOL_LIMIT" );
+                    if( weight_limit && volume_limit ) {
+                        if( here[i].begin()->_item.volume() <= units::from_milliliter( volume_limit * 50 ) &&
+                            here[i].begin()->_item.weight() <= weight_limit * 50 &&
+                            get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
+                            bPickup = true;
+                        }
                     }
                 }
             }
