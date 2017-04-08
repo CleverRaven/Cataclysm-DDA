@@ -2166,7 +2166,7 @@ void iexamine::keg(player &p, const tripoint &examp)
             liquid_present = true;
         }
     }
-    if (!liquid_present) {
+    if( !liquid_present ) {
         // Get list of all drinks
         auto drinks_inv = p.items_with( []( const item &it ) {
             return it.made_of( LIQUID );
@@ -2178,48 +2178,57 @@ void iexamine::keg(player &p, const tripoint &examp)
         // Make lists of unique drinks... about third time we do this, maybe we oughta make a function next time
         std::vector<itype_id> drink_types;
         std::vector<std::string> drink_names;
+        std::vector<double> drink_rot;
         for( auto &drink : drinks_inv ) {
-            if (std::find(drink_types.begin(), drink_types.end(), drink->typeId()) == drink_types.end()) {
-                drink_types.push_back(drink->typeId());
-                drink_names.push_back(drink->tname());
+            auto found_drink = std::find( drink_types.begin(), drink_types.end(), drink->typeId() );
+            if( found_drink == drink_types.end() ) {
+                drink_types.push_back( drink->typeId() );
+                drink_names.push_back( drink->tname()) ;
+                drink_rot.push_back( drink->get_relative_rot() );
+            } else {
+                auto rot_iter = std::next( drink_rot.begin(), std::distance( drink_types.begin(), found_drink ) );
+                // Yep, worst rot wins.
+                *rot_iter = std::max( *rot_iter, drink->get_relative_rot() );
             }
         }
         // Choose drink to store in keg from list
         int drink_index = 0;
-        if (drink_types.size() > 1) {
-            drink_names.push_back(_("Cancel"));
-            drink_index = menu_vec(false, _("Store which drink?"), drink_names) - 1;
-            if (drink_index == (int)drink_names.size() - 1) {
+        if( drink_types.size() > 1 ) {
+            drink_names.push_back( _( "Cancel" ) );
+            drink_index = menu_vec( false, _( "Store which drink?" ), drink_names ) - 1;
+            if( drink_index == (int)drink_names.size() - 1 ) {
                 drink_index = -1;
             }
         } else { //Only one drink type was in inventory, so it's automatically used
-            if (!query_yn(_("Fill the %1$s with %2$s?"), g->m.name(examp).c_str(), drink_names[0].c_str())) {
+            if( !query_yn( _( "Fill the %1$s with %2$s?" ),
+                           g->m.name( examp ).c_str(), drink_names[0].c_str() ) ) {
                 drink_index = -1;
             }
         }
-        if (drink_index < 0) {
+        if( drink_index < 0 ) {
             return;
         }
         //Store liquid chosen in the keg
-        itype_id drink_type = drink_types[drink_index];
-        int charges_held = p.charges_of(drink_type);
-        item drink (drink_type, 0);
+        itype_id drink_type = drink_types[ drink_index ];
+        int charges_held = p.charges_of( drink_type );
+        item drink( drink_type, 0 );
+        drink.set_relative_rot( drink_rot[ drink_index ] );
         drink.charges = 0;
         bool keg_full = false;
-        for (int i = 0; i < charges_held && !keg_full; i++) {
-            g->u.use_charges(drink.typeId(), 1);
+        for( int i = 0; i < charges_held && !keg_full; i++ ) {
+            g->u.use_charges( drink.typeId(), 1 );
             drink.charges++;
             keg_full = drink.volume() >= keg_cap;
         }
         if( keg_full ) {
-            add_msg(_("You completely fill the %1$s with %2$s."),
-                    g->m.name(examp).c_str(), drink.tname().c_str());
+            add_msg( _( "You completely fill the %1$s with %2$s." ),
+                    g->m.name( examp ).c_str(), drink.tname().c_str() );
         } else {
-            add_msg(_("You fill the %1$s with %2$s."), g->m.name(examp).c_str(),
-                    drink.tname().c_str());
+            add_msg( _( "You fill the %1$s with %2$s." ), g->m.name( examp ).c_str(),
+                    drink.tname().c_str() );
         }
         p.moves -= 250;
-        g->m.i_clear(examp);
+        g->m.i_clear( examp );
         g->m.add_item( examp, drink );
         return;
     } else {
@@ -2311,10 +2320,8 @@ bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
 
     map_stack stack = g->m.i_at( pos );
     if( stack.empty() ) {
-        // Not using map functions here because kegs have the NOITEM flags and map functions
-        // will put the liquid on a nearby tile instead.
-        stack.insert_at( stack.begin(), liquid );
-        stack.front().charges = 0; // Will be set later
+        g->m.add_item( pos, liquid );
+        g->m.i_at( pos ).front().charges = 0; // Will be set later
     } else if( stack.front().typeId() != liquid.typeId() ) {
         add_msg( _( "The %s already contains some %s, you can't add a different liquid to it." ),
                  keg_name.c_str(), stack.front().tname().c_str() );
