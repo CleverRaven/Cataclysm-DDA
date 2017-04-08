@@ -996,6 +996,11 @@ public:
     units::volume free_volume(int part) const;
     units::volume stored_volume(int part) const;
     /**
+     * Update an item's active status, for example when adding
+     * hot or perishable liquid to a container.
+     */
+    void make_active( item_location &loc );
+    /**
      * Try to add an item to part's cargo.
      *
      * @ret False if it can't be put here (not a cargo part, adding this would violate

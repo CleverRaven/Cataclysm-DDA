@@ -938,22 +938,22 @@ bool npc::wear_if_wanted( const item &it )
 bool npc::wield( item& it )
 {
     if( is_armed() ) {
-		// If weapon has a shoulder strap, try to wear it.
-		if( wear_item( weapon, false ) ) {		
-			// Wearing the item was successful, remove weapon and post message.
-			add_msg_if_npc( m_info, _( "<npcname> wears the %s." ), weapon.tname().c_str() );
-			remove_weapon();
-			moves -= 15;
-		} else { // Weapon cannot be worn or wearing was not successful. Store it in inventory if possible, otherwise drop it.
-			if ( volume_carried() + weapon.volume() <= volume_capacity() ) {
-				add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), weapon.tname().c_str() );
-				i_add( remove_weapon() );
-				moves -= 15;
-			} else { // No room for weapon, so we drop it
-				add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), weapon.tname().c_str() );
-				g->m.add_item_or_charges( pos(), remove_weapon() );
-			}
-		}
+        // If weapon has a shoulder strap, try to wear it.
+        if( wear_item( weapon, false ) ) {
+            // Wearing the item was successful, remove weapon and post message.
+            add_msg_if_npc( m_info, _( "<npcname> wears the %s." ), weapon.tname().c_str() );
+            remove_weapon();
+            moves -= 15;
+        } else { // Weapon cannot be worn or wearing was not successful. Store it in inventory if possible, otherwise drop it.
+            if ( volume_carried() + weapon.volume() <= volume_capacity() ) {
+                add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), weapon.tname().c_str() );
+                i_add( remove_weapon() );
+                moves -= 15;
+            } else { // No room for weapon, so we drop it
+                add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), weapon.tname().c_str() );
+                g->m.add_item_or_charges( pos(), remove_weapon() );
+            }
+        }
     }
 
     if( it.is_null() ) {

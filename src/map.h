@@ -846,6 +846,12 @@ void add_corpse( const tripoint &p );
                         const long charges, const int damlevel);
 
     /**
+     * Update an item's active status, for example when adding
+     * hot or perishable liquid to a container.
+     */
+    void make_active( item_location &loc );
+
+    /**
      * @name Consume items on the map
      *
      * The functions here consume accessible items / item charges on the map or in vehicles
