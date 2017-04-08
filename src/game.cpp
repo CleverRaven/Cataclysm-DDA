@@ -10947,6 +10947,7 @@ void game::pldrive(int x, int y)
         int pctr = veh->part_with_feature(part, "CONTROLS");
         if (pctr < 0) {
             add_msg(m_info, _("You can't drive the vehicle from here. You need controls!"));
+            u.controlling_vehicle = false;
             return;
         }
     } else {
