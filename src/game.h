@@ -223,15 +223,23 @@ class game
         scent_map &scent;
 
         std::unique_ptr<Creature_tracker> critter_tracker;
+
         /**
-         * Add an entry to @ref events. For further information see event.h
+         * Add an entry to @ref game::events. For further information see event.h
+         * @param type Type of event.
+         * @param on_turn On which turn event should be happened.
+         * @param faction_id Faction of event.
+         * reality bubble. In global submap coordinates.
+         */
+        void add_event(event_type type, int on_turn, int faction_id = -1);
+        /**
+         * Add an entry to @ref game::events. For further information see event.h
          * @param type Type of event.
          * @param on_turn On which turn event should be happened.
          * @param faction_id Faction of event.
          * @param where The location of the event, optional, defaults to the center of the
          * reality bubble. In global submap coordinates.
          */
-        void add_event(event_type type, int on_turn, int faction_id = -1);
         void add_event(event_type type, int on_turn, int faction_id, tripoint where);
         bool event_queued(event_type type) const;
         /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
@@ -338,12 +346,16 @@ class game
 
         /**
          * Handles interactive parts of gun firing (target selection, etc.).
-         * Overload stores targeting parameters for weapon, used for calls to the nullary form.
+         * @return Whether an attack was actually performed.
+         */
+        bool plfire();
+        /**
+         * Handles interactive parts of gun firing (target selection, etc.).
+         * This version stores targeting parameters for weapon, used for calls to the nullary form.
          * @param weapon Reference to a weapon we want to start aiming.
          * @param bp_cost The amount by which the player's power reserve is decreased after firing.
          * @return Whether an attack was actually performed.
          */
-        bool plfire();
         bool plfire( item &weapon, int bp_cost = 0 );
 
         /** Target is an interactive function which allows the player to choose a nearby
@@ -458,7 +470,7 @@ class game
         };
         int inventory_item_menu(int pos, int startx = 0, int width = 50, inventory_item_menu_positon position = RIGHT_OF_INFO);
 
-        /** Custom-filtered menu for inventory items and those that are nearby (within @ref radius). */
+        /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
         faction *list_factions(std::string title = "FACTIONS:");
@@ -575,6 +587,7 @@ class game
          * @param on_ground Iterator to the item on the ground. Must be valid and point to an
          * item in the stack at `m.i_at(pos)`
          * @param pos The position of the item on the map.
+         * @param radius around position to handle liquid for
          * @return Whether the item has been removed (which implies it was handled completely).
          * The iterator is invalidated in that case. Otherwise the item remains but may have
          * fewer charges.
@@ -585,6 +598,8 @@ class game
          * Handle liquid from inside a container item. The function also handles consuming move points.
          * @param in_container Iterator to the liquid. Must be valid and point to an
          * item in the @ref item::contents of the container.
+         * @param container Container of the liquid
+         * @param radius around position to handle liquid for
          * @return Whether the item has been removed (which implies it was handled completely).
          * The iterator is invalidated in that case. Otherwise the item remains but may have
          * fewer charges.
@@ -602,7 +617,9 @@ class game
          * Supply one of the source parameters to prevent the player from pouring the liquid back
          * into that "container". If no source parameter is given, the liquid must not be in a
          * container at all (e.g. freshly crafted, or already removed from the container).
+         * @param liquid The actual liquid
          * @param source The container that currently contains the liquid.
+         * @param radius Radius to look for liquid around pos
          * @param source_pos The source of the liquid when it's from the map.
          * @param source_veh The vehicle that currently contains the liquid in its tank.
          * @return Whether the user has handled the liquid (at least part of it). `false` indicates

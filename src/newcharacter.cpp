@@ -175,8 +175,6 @@ tab_direction set_description(WINDOW *w, player *u, bool allow_reroll, points_le
 
 void save_template(player *u);
 
-bool lcmatch(const std::string &str, const std::string &findstr); // ui.cpp
-
 void Character::pick_name(bool bUseDefault)
 {
     if (bUseDefault && !get_option<std::string>( "DEF_CHAR_NAME" ).empty() ) {
@@ -1202,6 +1200,7 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
 struct {
     bool sort_by_points = true;
     bool male;
+    /** @related player */
     bool operator() ( const string_id<profession> &a, const string_id<profession> &b )
     {
         // The generic ("Unemployed") profession should be listed first.
@@ -1221,6 +1220,7 @@ struct {
     }
 } profession_sorter;
 
+/** Handle the profession tab of teh character generation menu */
 tab_direction set_profession(WINDOW *w, player *u, points_left &points)
 {
     draw_tabs( w, _("PROFESSION") );
@@ -1730,6 +1730,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
 struct {
     bool sort_by_points = true;
     bool male;
+    /** @related player */
     bool operator() (const scenario *a, const scenario *b)
     {
         // The generic ("Unemployed") profession should be listed first.

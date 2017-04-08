@@ -1,5 +1,6 @@
 #include "crafting_gui.h"
 
+#include "cata_utility.h"
 #include "crafting.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -704,9 +705,6 @@ static void draw_recipe_subtabs( WINDOW *w, std::string tab, std::string subtab,
 
     wrefresh( w );
 }
-
-// ui.cpp
-extern bool lcmatch( const std::string &str, const std::string &findstr );
 
 template<typename T>
 bool lcmatch_any( const std::vector< std::vector<T> > &list_of_list, const std::string &filter )

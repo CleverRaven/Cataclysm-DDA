@@ -430,6 +430,7 @@ class Character : public Creature, public visitable<Character>
         /**
          * Checks if character stats and skills meet minimum requirements for the item.
          * Prints an appropriate message if requirements not met.
+         * @param it Item we are checking
          * @param context optionally override effective item when checking contextual skills
          */
         bool can_use( const item& it, const item &context = item() ) const;
@@ -577,8 +578,8 @@ class Character : public Creature, public visitable<Character>
             char key = ' ';
             /**
              * Time (in turns) until the mutation increase hunger/thirst/fatigue according
-             * to its cost (@ref mutation_data::cost). When those costs have been paid, this
-             * is reset to @ref mutation_data::cooldown.
+             * to its cost (@ref mutation_branch::cost). When those costs have been paid, this
+             * is reset to @ref mutation_branch::cooldown.
              */
             int charge = 0;
             /** Whether the mutation is activated. */

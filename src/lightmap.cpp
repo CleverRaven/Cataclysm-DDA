@@ -666,9 +666,8 @@ void cast_zlight(
  * field of view, whereas a value equal to or above 1 means that cell is
  * in the field of view.
  *
- * @param startx the horizontal component of the starting location
- * @param starty the vertical component of the starting location
- * @param radius the maximum distance to draw the FOV
+ * @param origin the starting location
+ * @param target_z Z-level to draw light map on
  */
 void map::build_seen_cache( const tripoint &origin, const int target_z )
 {

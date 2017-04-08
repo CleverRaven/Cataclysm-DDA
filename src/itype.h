@@ -524,7 +524,7 @@ struct islot_bionic {
      */
     int difficulty = 0;
     /**
-     * Id of the bionic, see @ref bionics.
+     * Id of the bionic, see bionics.cpp for its usage.
      */
     std::string bionic_id;
 };

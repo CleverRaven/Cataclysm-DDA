@@ -576,7 +576,7 @@ void player::process_turn()
     // auto-learning. This is here because skill-increases happens all over the place:
     // SkillLevel::readBook (has no connection to the skill or the player),
     // player::read, player::practice, ...
-    ///\EFFECT_UNARMED >1 allows spontaneous discovery of brawling martial art style
+    /** @EFFECT_UNARMED >1 allows spontaneous discovery of brawling martial art style */
     if( get_skill_level( skill_unarmed ) >= 2 ) {
         const matype_id brawling( "style_brawling" );
         if( !has_martialart( brawling ) ) {
@@ -1745,23 +1745,23 @@ int player::swim_speed() const
     const auto usable = exclusive_flag_coverage( "ALLOWS_NATURAL_ATTACKS" );
     float hand_bonus_mult = ( usable.test( bp_hand_l ) ? 0.5f : 0.0f ) +
                             ( usable.test( bp_hand_r ) ? 0.5f : 0.0f );
-    ///\EFFECT_STR increases swim speed bonus from PAWS
+    /** @EFFECT_STR increases swim speed bonus from PAWS */
     if( has_trait( "PAWS" ) ) {
         ret -= hand_bonus_mult * ( 20 + str_cur * 3 );
     }
-    ///\EFFECT_STR increases swim speed bonus from PAWS_LARGE
+    /** @EFFECT_STR increases swim speed bonus from PAWS_LARGE */
     if( has_trait( "PAWS_LARGE" ) ) {
         ret -= hand_bonus_mult * ( 20 + str_cur * 4 );
     }
-    ///\EFFECT_STR increases swim speed bonus from swim_fins
+    /** @EFFECT_STR increases swim speed bonus from swim_fins */
     if( is_wearing( "swim_fins" ) ) {
         ret -= ( 15 * str_cur ) / ( 3 - shoe_type_count( "swim_fins" ) );
     }
-    ///\EFFECT_STR increases swim speed bonus from WEBBED
+    /** @EFFECT_STR increases swim speed bonus from WEBBED */
     if( has_trait( "WEBBED" ) ) {
         ret -= hand_bonus_mult * ( 60 + str_cur * 5 );
     }
-    ///\EFFECT_STR increases swim speed bonus from TAIL_FIN
+    /** @EFFECT_STR increases swim speed bonus from TAIL_FIN */
     if( has_trait( "TAIL_FIN" ) ) {
         ret -= 100 + str_cur * 10;
     }
@@ -1774,7 +1774,7 @@ int player::swim_speed() const
     if( has_trait( "FAT" ) ) {
         ret -= 30;
     }
-    ///\EFFECT_SWIMMING increases swim speed
+    /** @EFFECT_SWIMMING increases swim speed */
     ret += ( 50 - get_skill_level( skill_swimming ) * 2 ) * ( ( encumb( bp_leg_l ) + encumb(
                 bp_leg_r ) ) / 10 );
     ret += ( 80 - get_skill_level( skill_swimming ) * 3 ) * ( encumb( bp_torso ) / 10 );
@@ -1783,9 +1783,9 @@ int player::swim_speed() const
             ret += i.volume() / 125_ml * ( 10 - get_skill_level( skill_swimming ) );
         }
     }
-    ///\EFFECT_STR increases swim speed
+    /** @EFFECT_STR increases swim speed */
 
-    ///\EFFECT_DEX increases swim speed
+    /** @EFFECT_DEX increases swim speed */
     ret -= str_cur * 6 + dex_cur * 4;
     if( worn_with_flag( "FLOTATION" ) ) {
         ret = std::min( ret, 400 );
@@ -1835,13 +1835,13 @@ bool player::is_immune_effect( const efftype_id &eff ) const
 
 float player::stability_roll() const
 {
-    ///\EFFECT_STR improves player stability roll
+    /** @EFFECT_STR improves player stability roll */
 
-    ///\EFFECT_PER slightly improves player stability roll
+    /** @EFFECT_PER slightly improves player stability roll */
 
-    ///\EFFECT_DEX slightly improves player stability roll
+    /** @EFFECT_DEX slightly improves player stability roll */
 
-    ///\EFFECT_MELEE improves player stability roll
+    /** @EFFECT_MELEE improves player stability roll */
     return get_melee() + get_str() + ( get_per() / 3.0f ) + ( get_dex() / 4.0f );
 }
 
@@ -3077,9 +3077,9 @@ bool player::has_two_arms() const
 
 bool player::avoid_trap( const tripoint &pos, const trap &tr ) const
 {
-    ///\EFFECT_DEX increases chance to avoid traps
+    /** @EFFECT_DEX increases chance to avoid traps */
 
-    ///\EFFECT_DODGE increases chance to avoid traps
+    /** @EFFECT_DODGE increases chance to avoid traps */
     int myroll = dice( 3, dex_cur + get_skill_level( skill_dodge ) * 1.5 );
     int traproll;
     if( tr.can_see( pos, *this ) ) {
@@ -3124,9 +3124,9 @@ bool player::has_watch() const
 void player::pause()
 {
     moves = 0;
-    ///\EFFECT_STR increases recoil recovery speed
+    /** @EFFECT_STR increases recoil recovery speed */
 
-    ///\EFFECT_GUN increases recoil recovery speed
+    /** @EFFECT_GUN increases recoil recovery speed */
     recoil -= str_cur + 2 * get_skill_level( skill_gun );
     recoil = std::max( MIN_RECOIL * 2, recoil );
     recoil = recoil / 2;
@@ -3236,7 +3236,7 @@ void player::shout( std::string msg )
     // Masks and such dampen the sound
     // Balanced around  whisper for wearing bondage mask
     // and noise ~= 10(door smashing) for wearing dust mask for character with strength = 8
-    ///\EFFECT_STR increases shouting volume
+    /** @EFFECT_STR increases shouting volume */
     const int penalty = encumb( bp_mouth ) * 3 / 2;
     int noise = base + str_cur * shout_multiplier - penalty;
 
@@ -3330,7 +3330,7 @@ int player::throw_dex_mod(bool return_stat_effect) const
  int dex = get_dex();
  if (dex == 8 || dex == 9)
   return 0;
- ///\EFFECT_DEX increases throwing bonus
+ /** @EFFECT_DEX increases throwing bonus */
  if (dex >= 10)
   return (return_stat_effect ? 0 - rng(0, dex - 9) : 9 - dex);
 
@@ -3350,7 +3350,7 @@ int player::read_speed(bool return_stat_effect) const
 {
     // Stat window shows stat effects on based on current stat
     const int intel = get_int();
-    ///\EFFECT_INT increases reading speed
+    /** @EFFECT_INT increases reading speed */
     int ret = 1000 - 50 * (intel - 8);
     if( has_trait("FASTREADER") ) {
         ret *= .8;
@@ -3375,7 +3375,7 @@ int player::rust_rate(bool return_stat_effect) const
 
     // Stat window shows stat effects on based on current stat
     int intel = get_int();
-    ///\EFFECT_INT reduces skill rust
+    /** @EFFECT_INT reduces skill rust */
     int ret = ((get_option<std::string>( "SKILL_RUST" ) == "vanilla" || get_option<std::string>( "SKILL_RUST" ) == "capped") ? 500 : 500 - 35 * (intel - 8));
 
     if (has_trait("FORGETFUL")) {
@@ -3396,11 +3396,11 @@ int player::rust_rate(bool return_stat_effect) const
 
 int player::talk_skill() const
 {
-    ///\EFFECT_INT slightly increases talking skill
+    /** @EFFECT_INT slightly increases talking skill */
 
-    ///\EFFECT_PER slightly increases talking skill
+    /** @EFFECT_PER slightly increases talking skill */
 
-    ///\EFFECT_SPEECH increases talking skill
+    /** @EFFECT_SPEECH increases talking skill */
     int ret = get_int() + get_per() + get_skill_level( skill_id( "speech" ) ) * 3;
     if (has_trait("SAPIOVORE")) {
         ret -= 20; // Friendly convo with your prey? unlikely
@@ -3426,7 +3426,7 @@ int player::talk_skill() const
 
 int player::intimidation() const
 {
-    ///\EFFECT_STR increases intimidation factor
+    /** @EFFECT_STR increases intimidation factor */
     int ret = get_str() * 2;
     if (weapon.is_gun()) {
         ret += 10;
@@ -3750,9 +3750,9 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
     // Skip all this if the damage isn't from a creature. e.g. an explosion.
     if( source != nullptr ) {
         if ( source->has_flag( MF_GRABS ) && !source->is_hallucination() ) {
-            ///\EFFECT_DEX increases chance to avoid being grabbed, if DEX>STR
+            /** @EFFECT_DEX increases chance to avoid being grabbed, if DEX>STR */
 
-            ///\EFFECT_STR increases chance to avoid being grabbed, if STR>DEX
+            /** @EFFECT_STR increases chance to avoid being grabbed, if STR>DEX */
             if( has_grab_break_tec() && get_grab_resist() > 0 &&
                 ( get_dex() > get_str() ? rng( 0, get_dex() ) : rng( 0, get_str() ) ) >
                     rng( 0, 10 ) ) {
@@ -4030,9 +4030,9 @@ float player::fall_damage_mod() const
     float ret = 1.0f;
 
     // Ability to land properly is 2x as important as dexterity itself
-    ///\EFFECT_DEX decreases damage from falling
+    /** @EFFECT_DEX decreases damage from falling */
 
-    ///\EFFECT_DODGE decreases damage from falling
+    /** @EFFECT_DODGE decreases damage from falling */
     float dex_dodge = dex_cur / 2 + get_skill_level( skill_dodge );
     // Penalize for wearing heavy stuff
     dex_dodge -= ( ( ( encumb(bp_leg_l) + encumb(bp_leg_r) ) / 2 ) + ( encumb(bp_torso) / 1 ) ) / 10;
@@ -4187,7 +4187,7 @@ void player::knock_back_from( const tripoint &p )
         monster *critter = &(g->zombie(mondex));
         deal_damage( critter, bp_torso, damage_instance( DT_BASH, critter->type->size ) );
         add_effect( effect_stunned, 1 );
-        ///\EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters
+        /** @EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters */
         if ((str_max - 6) / 4 > critter->type->size) {
             critter->knock_back_from(pos()); // Chain reaction!
             critter->apply_damage( this, bp_torso, (str_max - 6) / 4);
@@ -4472,7 +4472,7 @@ void player::check_needs_extremes()
                 add_msg_if_player( m_warning, _("You're too tired to stop yawning.") );
                 add_effect( effect_lack_sleep, MINUTES(30) + 1 );
             }
-            ///\EFFECT_INT slightly decreases occurrence of short naps when dead tired
+            /** @EFFECT_INT slightly decreases occurrence of short naps when dead tired */
             if( one_in(50 + int_cur) ) {
                 // Rivet's idea: look out for microsleeps!
                 fall_asleep(5);
@@ -4482,7 +4482,7 @@ void player::check_needs_extremes()
                 add_msg_if_player( m_warning, _("How much longer until bedtime?") );
                 add_effect( effect_lack_sleep, MINUTES( 30 ) + 1 );
             }
-            ///\EFFECT_INT slightly decreases occurrence of short naps when exhausted
+            /** @EFFECT_INT slightly decreases occurrence of short naps when exhausted */
             if (one_in(100 + int_cur)) {
                 fall_asleep(5);
             }
@@ -5334,7 +5334,7 @@ void player::suffer()
             mod_healthy_mod(10, 50);
             // No losing oneself in the fertile embrace of rich
             // New England loam.  But it can be a near thing.
-            ///\EFFECT_INT decreases chance of losing focus points while eating soil with ROOTS3
+            /** @EFFECT_INT decreases chance of losing focus points while eating soil with ROOTS3 */
             if ( (one_in(int_cur)) && (focus_pool >= 25) ) {
                 focus_pool--;
             }
@@ -7965,14 +7965,14 @@ int player::item_handling_cost( const item& it, bool penalties, int base_cost ) 
 
 int player::item_store_cost( const item& it, const item& /* container */, bool penalties, int base_cost ) const
 {
-    ///\EFFECT_PISTOL decreases time taken to store a pistol
-    ///\EFFECT_SMG decreases time taken to store an SMG
-    ///\EFFECT_RIFLE decreases time taken to store a rifle
-    ///\EFFECT_SHOTGUN decreases time taken to store a shotgun
-    ///\EFFECT_LAUNCHER decreases time taken to store a launcher
-    ///\EFFECT_STABBING decreases time taken to store a stabbing weapon
-    ///\EFFECT_CUTTING decreases time taken to store a cutting weapon
-    ///\EFFECT_BASHING decreases time taken to store a bashing weapon
+    /** @EFFECT_PISTOL decreases time taken to store a pistol */
+    /** @EFFECT_SMG decreases time taken to store an SMG */
+    /** @EFFECT_RIFLE decreases time taken to store a rifle */
+    /** @EFFECT_SHOTGUN decreases time taken to store a shotgun */
+    /** @EFFECT_LAUNCHER decreases time taken to store a launcher */
+    /** @EFFECT_STABBING decreases time taken to store a stabbing weapon */
+    /** @EFFECT_CUTTING decreases time taken to store a cutting weapon */
+    /** @EFFECT_BASHING decreases time taken to store a bashing weapon */
     int lvl = get_skill_level( it.is_gun() ? it.gun_skill() : it.melee_skill() );
     return item_handling_cost( it, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
 }
@@ -8008,12 +8008,12 @@ int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
         return mv + 100; // reload a tool
     }
 
-    ///\EFFECT_GUN decreases the time taken to reload a magazine
-    ///\EFFECT_PISTOL decreases time taken to reload a pistol
-    ///\EFFECT_SMG decreases time taken to reload an SMG
-    ///\EFFECT_RIFLE decreases time taken to reload a rifle
-    ///\EFFECT_SHOTGUN decreases time taken to reload a shotgun
-    ///\EFFECT_LAUNCHER decreases time taken to reload a launcher
+    /** @EFFECT_GUN decreases the time taken to reload a magazine */
+    /** @EFFECT_PISTOL decreases time taken to reload a pistol */
+    /** @EFFECT_SMG decreases time taken to reload an SMG */
+    /** @EFFECT_RIFLE decreases time taken to reload a rifle */
+    /** @EFFECT_SHOTGUN decreases time taken to reload a shotgun */
+    /** @EFFECT_LAUNCHER decreases time taken to reload a launcher */
 
     int cost = ( it.is_gun() ? it.type->gun->reload_time : it.type->magazine->reload_time ) * qty;
 
@@ -8021,7 +8021,7 @@ int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
     mv += cost / ( 1.0f + std::min( float( get_skill_level( sk ) ) * 0.1f, 1.0f ) );
 
     if( it.has_flag( "STR_RELOAD" ) ) {
-        ///\EFFECT_STR reduces reload time of some weapons
+        /** @EFFECT_STR reduces reload time of some weapons */
         mv -= get_str() * 20;
     }
 
@@ -8387,7 +8387,7 @@ hint_rating player::rate_action_use( const item &it ) const
         return it.ammo_sufficient() ? HINT_GOOD : HINT_IFFY;
 
     } else if (it.is_gunmod()) {
-        ///\EFFECT_GUN >0 allows rating estimates for gun modifications
+        /** @EFFECT_GUN >0 allows rating estimates for gun modifications */
         if (get_skill_level( skill_gun ) == 0) {
             return HINT_IFFY;
         } else {
@@ -9262,7 +9262,7 @@ void player::do_read( item *book )
             const int originalSkillLevel = skill_level;
 
             // Calculate experience gained
-            ///\EFFECT_INT increases reading comprehension
+            /** @EFFECT_INT increases reading comprehension */
             int min_ex = std::max( 1, reading->time / 10 + learner->get_int() / 4 );
             int max_ex = reading->time /  5 + learner->get_int() / 2 - originalSkillLevel;
             if( max_ex < 2 ) {
@@ -10622,14 +10622,16 @@ bool player::wield_contents( item &container, int pos, bool penalties, int base_
     inv.assign_empty_invlet( weapon, true );
     last_item = weapon.typeId();
 
-    ///\EFFECT_PISTOL decreases time taken to draw pistols from holsters
-    ///\EFFECT_SMG decreases time taken to draw smgs from holsters
-    ///\EFFECT_RIFLE decreases time taken to draw rifles from holsters
-    ///\EFFECT_SHOTGUN decreases time taken to draw shotguns from holsters
-    ///\EFFECT_LAUNCHER decreases time taken to draw launchers from holsters
-    ///\EFFECT_STABBING decreases time taken to draw stabbing weapons from sheathes
-    ///\EFFECT_CUTTING decreases time taken to draw cutting weapons from scabbards
-    ///\EFFECT_BASHING decreases time taken to draw bashing weapons from holsters
+    /**
+     * @EFFECT_PISTOL decreases time taken to draw pistols from holsters
+     * @EFFECT_SMG decreases time taken to draw smgs from holsters
+     * @EFFECT_RIFLE decreases time taken to draw rifles from holsters
+     * @EFFECT_SHOTGUN decreases time taken to draw shotguns from holsters
+     * @EFFECT_LAUNCHER decreases time taken to draw launchers from holsters
+     * @EFFECT_STABBING decreases time taken to draw stabbing weapons from sheathes
+     * @EFFECT_CUTTING decreases time taken to draw cutting weapons from scabbards
+     * @EFFECT_BASHING decreases time taken to draw bashing weapons from holsters
+     */
     int lvl = get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.melee_skill() );
     mv += item_handling_cost( weapon, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
 

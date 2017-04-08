@@ -67,8 +67,7 @@ The functions can contain more code:
 Optional: implement the other functions used by the DynamicDataLoader: `finalize`,
 `check_consistency`. There is no implementation of them in the generic factory.
 
-`check_consistency` typically goes over all loaded items (@ref generic_factory::all) and checks
-them somehow.
+`check_consistency` typically goes over all loaded items and checks them somehow.
 
 `finalize` typically populates some other data (e.g. some cache) or sets up connection between
 loaded objects of different type.
@@ -167,6 +166,8 @@ class generic_factory
          * @param type_name A string used in debug messages as the name of `T`,
          * for example "vehicle type".
          * @param id_member_name The name of the JSON member that contains the id of the
+         * loaded object.
+         * @param alias_member_name Alternate names of the JSON member that contains the id of the
          * loaded object.
          */
         generic_factory( const std::string &type_name, const std::string &id_member_name = "id",
@@ -619,7 +620,7 @@ struct handler<std::vector<T>> {
 /**
  * Base class for reading generic objects from JSON.
  * It can load members being certain containers or being a single value.
- * @ref get_next needs to be implemented to read and convert the data from JSON.
+ * The function get_next() needs to be implemented to read and convert the data from JSON.
  * It uses the curiously recurring template pattern, you have to derive your new class
  * `MyReader` from `generic_typed_reader<MyReader>` and implement `get_next` and
  * optionally `erase_next`.
@@ -702,8 +703,8 @@ class generic_typed_reader
 
         /**
          * Implements the reader interface, handles members that are containers of flags.
-         * The functions forwards the actual changes to @ref assign, @ref insert
-         * and @ref erase, which are specialized for various container types.
+         * The functions forwards the actual changes to assign(), insert()
+         * and erase(), which are specialized for various container types.
          * The `enable_if` is here to prevent the compiler from considering it
          * when called on a simple data member, the other `operator()` will be used.
          */

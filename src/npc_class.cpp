@@ -49,15 +49,18 @@ npc_class_id NC_JUNK_SHOPKEEP( "NC_JUNK_SHOPKEEP" );
 
 generic_factory<npc_class> npc_class_factory( "npc_class" );
 
+/** @relates string_id */
 template<>
 const npc_class_id string_id<npc_class>::NULL_ID( "NC_NONE" );
 
+/** @relates string_id */
 template<>
 const npc_class &string_id<npc_class>::obj() const
 {
     return npc_class_factory.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<npc_class>::is_valid() const
 {

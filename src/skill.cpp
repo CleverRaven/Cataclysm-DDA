@@ -11,6 +11,7 @@
 std::vector<Skill> Skill::skills;
 std::map<skill_id, Skill> Skill::contextual_skills;
 
+/** @relates string_id */
 template<>
 const skill_id string_id<Skill>::NULL_ID( "none" );
 
@@ -32,12 +33,14 @@ const Skill &Skill::get( const skill_id &id )
     return invalid_skill;
 }
 
+/** @relates string_id */
 template<>
 const Skill &string_id<Skill>::obj() const
 {
     return Skill::get( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<Skill>::is_valid() const
 {

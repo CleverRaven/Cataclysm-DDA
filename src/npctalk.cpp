@@ -110,8 +110,6 @@ struct talk_response {
     talk_trial trial;
     /**
      * The following values are forwarded to the chatbin of the NPC (see @ref npc_chatbin).
-     * Except @ref miss, it is apparently not used but should be a mission type that can create
-     * new mission.
      */
     mission *mission_selected = nullptr;
     skill_id skill = skill_id::NULL_ID;

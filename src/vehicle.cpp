@@ -1713,7 +1713,7 @@ bool vehicle::can_unmount(int const p) const
  * if a part can be legally removed.
  * @param to The part to reach.
  * @param from The part to start the search from.
- * @param excluded The part that is being removed and, therefore, should not
+ * @param excluded_part The part that is being removed and, therefore, should not
  *        be included in the path.
  * @return true if a path exists without the excluded part, false otherwise.
  */
@@ -1784,6 +1784,7 @@ bool vehicle::is_connected(vehicle_part const &to, vehicle_part const &from, veh
  * @param dx The x coordinate of where to install the part.
  * @param dy The y coordinate of where to install the part.
  * @param id The string ID of the part to install. (see vehicle_parts.json)
+ * @param force Skip check of whether we can mount the part here.
  * @return false if the part could not be installed, true otherwise.
  */
 int vehicle::install_part( int dx, int dy, const vpart_id &id, bool force )
@@ -2347,6 +2348,7 @@ int vehicle::global_part_at(int const x, int const y) const
  * that part. This exists solely because activities relating to vehicle editing
  * require the index of the vehicle part to be passed around.
  * @param part The part to find.
+ * @param check_removed Check whether this part can be removed
  * @return The part index, -1 if it is not part of this vehicle.
  */
 int vehicle::index_of_part(const vehicle_part *const part, bool const check_removed) const
@@ -2523,7 +2525,7 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
 /**
  * Prints a list of all parts to the screen inside of a boxed window, possibly
  * highlighting a selected one.
- * @param w The window to draw in.
+ * @param win The window to draw in.
  * @param y1 The y-coordinate to start drawing at.
  * @param max_y Draw no further than this y-coordinate.
  * @param width The width of the window.
@@ -2620,7 +2622,7 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
 
 /**
  * Prints all of the fuel indicators of the vehical
- * @param w Pointer to the window to draw in.
+ * @param win Pointer to the window to draw in.
  * @param y Y location to draw at.
  * @param x X location to draw at.
  * @param start_index Starting index in array of fuel gauges to start reading from
@@ -5400,8 +5402,7 @@ void vehicle::damage_all( int dmg1, int dmg2, damage_type type, const point &imp
  * vehicle itself in the opposite direction. The end result is that the vehicle
  * appears to have not moved. Useful for re-zeroing a vehicle to ensure that a
  * (0, 0) part is always present.
- * @param dx How much to shift on the x-axis.
- * @param dy How much to shift on the y-axis.
+ * @param delta How much to shift along each axis
  */
 void vehicle::shift_parts( const point delta )
 {

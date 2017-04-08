@@ -17,9 +17,11 @@ const std::set<std::string> classic_extras = { "mx_helicopter", "mx_military",
 "mx_crater", "mx_collegekids"
 };
 
+/** @relates string_id */
 template<>
 const string_id<ter_t> string_id<ter_t>::NULL_ID( "t_null", 0 );
 
+/** @relates string_id */
 template<>
 const string_id<furn_t> string_id<furn_t>::NULL_ID( "f_null", 0 );
 
@@ -33,83 +35,97 @@ generic_factory<furn_t> furniture_data( "furniture", "id", "aliases" );
 
 }
 
+/** @relates int_id */
 template<>
 inline bool int_id<ter_t>::is_valid() const
 {
     return terrain_data.is_valid( *this );
 }
 
+/** @relates int_id */
 template<>
 const ter_t &int_id<ter_t>::obj() const
 {
     return terrain_data.obj( *this );
 }
 
+/** @relates int_id */
 template<>
 const string_id<ter_t> &int_id<ter_t>::id() const
 {
     return terrain_data.convert( *this );
 }
 
+/** @relates int_id */
 template<>
 int_id<ter_t> string_id<ter_t>::id() const
 {
     return terrain_data.convert( *this, t_null );
 }
 
+/** @relates int_id */
 template<>
 int_id<ter_t>::int_id( const string_id<ter_t> &id ) : _id( id.id() )
 {
 }
 
+/** @relates string_id */
 template<>
 const ter_t &string_id<ter_t>::obj() const
 {
     return terrain_data.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<ter_t>::is_valid() const
 {
     return terrain_data.is_valid( *this );
 }
 
+/** @relates int_id */
 template<>
 inline bool int_id<furn_t>::is_valid() const
 {
     return furniture_data.is_valid( *this );
 }
 
+/** @relates int_id */
 template<>
 const furn_t &int_id<furn_t>::obj() const
 {
     return furniture_data.obj( *this );
 }
 
+/** @relates int_id */
 template<>
 const string_id<furn_t> &int_id<furn_t>::id() const
 {
     return furniture_data.convert( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<furn_t>::is_valid() const
 {
     return furniture_data.is_valid( *this );
 }
 
+/** @relates string_id */
 template<>
 const furn_t &string_id<furn_t>::obj() const
 {
     return furniture_data.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 int_id<furn_t> string_id<furn_t>::id() const
 {
     return furniture_data.convert( *this, f_null );
 }
 
+/** @relates int_id */
 template<>
 int_id<furn_t>::int_id( const string_id<furn_t> &id ) : _id( id.id() )
 {

@@ -68,12 +68,14 @@ class recipe_subset
     public:
         /**
          * Include a recipe to the subset.
+         * @param r recipe to include
          * @param custom_difficulty If specified, it defines custom difficulty for the recipe
          */
         void include( const recipe *r, int custom_difficulty = -1 );
         void include( const recipe_subset &subset );
         /**
          * Include a recipe to the subset. Based on the condition.
+         * @param subset Where to included the recipe
          * @param pred Unary predicate that accepts a @ref recipe.
          */
         template<class Predicate>
@@ -85,7 +87,7 @@ class recipe_subset
             }
         }
 
-        /** Check if the subset contains a recipe with the specified @param id. */
+        /** Check if the subset contains a recipe with the specified id. */
         bool contains( const recipe *r ) const {
             return recipes.find( r ) != recipes.end();
         }
