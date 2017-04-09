@@ -364,6 +364,10 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" ) {
     test_vehicle( "beetle", 124100, 120300, 12580, 12330 );
     test_vehicle( "car", 122400, 103000, 12650, 8434 );
     test_vehicle( "car_sports", 285800, 184900, 15780, 9458 );
+    // The tests for electric veh are inaccurate:
+    // Real tests show it draining ~12.5% of all charge per overmap made of dirt
+    // While same test for car shows ~5%
+    // Meaning car range should be 250% the electric car here, but is 200%
     test_vehicle( "electric_car", 70950, 51480, 3709, 2519 );
     test_vehicle( "suv", 326800, 232000, 28420, 15720 );
     test_vehicle( "motorcycle", 13890, 11480, 2304, 1302 );
