@@ -47,6 +47,8 @@ void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
 void drop_or_embed_projectile( const dealt_projectile_attack &attack );
 
+using confidence_rating = std::tuple<double, char, std::string>;
+
 struct aim_type {
     std::string name;
     std::string action;
@@ -452,7 +454,25 @@ double player::gun_current_range( const item& gun, double penalty, unsigned chan
 
     // calculate base dispersion
     double dispersion = get_weapon_dispersion( gun, RANGE_SOFT_CAP ) + ( penalty < 0 ? recoil_total() : penalty );
+    double range = ranged::effective_range( dispersion, chance, accuracy, occupied_tile_fraction( MS_MEDIUM ) );
+    range = std::min( range, ( double )gun.gun_range( this ) );
+    return range;
+}
 
+double player::thrown_current_range( const item& to_throw, unsigned chance,
+                                     double accuracy, Creature *target ) const
+{
+    double dispersion = throwing_dispersion( to_throw, target );
+    float target_size = occupied_tile_fraction( target != nullptr ? target->get_size() : MS_MEDIUM );
+    double range = ranged::effective_range( dispersion, chance, accuracy, target_size );
+    range = std::min( range, ( double )throw_range( to_throw ) );
+    return range;
+}
+
+namespace ranged {
+
+double effective_range( double dispersion, unsigned chance, double accuracy, double target_size )
+{
     double sigma = dispersion / dispersion_sigmas;
 
     // angle such that chance% of dispersion rolls are <= that angle
@@ -460,14 +480,13 @@ double player::gun_current_range( const item& gun, double penalty, unsigned chan
 
     // required iso_tangent value
     // Assume we're displaying ranges against humans and human-sized zombies
-    double missed_by_tiles = accuracy * occupied_tile_fraction( MS_MEDIUM );
+    double missed_by_tiles = accuracy * target_size;
 
     // work backwards to range
     //   T = (2*D**2 * (1 - cos V)) ** 0.5   (from iso_tangent)
     //   D = (0.5*T**2 / (1 - cos V)) ** 0.5
     double range = sqrt( 0.5 * missed_by_tiles * missed_by_tiles / ( 1 - cos( ARCMIN( max_dispersion ) ) ) );
 
-    range = std::min( range, ( double )gun.gun_range( this ) );
     if( range > RANGE_SOFT_CAP ) {
         // This is a special case that is a pain to calculate since dispersion depends on range
         // Just interpolate linearly - the actual function is linear enough
@@ -475,6 +494,8 @@ double player::gun_current_range( const item& gun, double penalty, unsigned chan
     }
 
     return range;
+}
+
 }
 
 double player::gun_engagement_range( const item &gun, engagement opt ) const
@@ -712,113 +733,124 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     return curshot;
 }
 
+// @todo Method
+int throw_cost( const player &c, const item &to_throw )
+{
+    // Very similar to player::attack_speed
+    // @todo Extract into a function?
+    // Differences:
+    // Dex is more (2x) important for throwing speed
+    // At 10 skill, the cost is down to 0.75%, not 0.66%
+    const int base_move_cost = to_throw.attack_time() / 2;
+    const int throw_skill = std::min<int>( MAX_SKILL, c.get_skill_level( skill_throw ) );
+    ///\EFFECT_THROW increases throwing speed
+    const int skill_cost = ( int )( base_move_cost * ( 20 - throw_skill ) / 20 );
+    ///\EFFECT_DEX increases throwing speed
+    const int dexbonus = c.get_dex();
+    const int encumbrance_penalty = c.encumb( bp_torso ) +
+                                    ( c.encumb( bp_hand_l ) + c.encumb( bp_hand_r ) ) / 2;
+    const float stamina_ratio = ( float )c.stamina / c.get_stamina_max();
+    const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
+
+    int move_cost = base_move_cost;
+    // Stamina penalty only affects base/2 and encumbrance parts of the cost
+    move_cost += encumbrance_penalty;
+    move_cost *= stamina_penalty;
+    move_cost += skill_cost;
+    move_cost -= dexbonus;
+
+    if( c.has_trait("LIGHT_BONES") ) {
+        move_cost *= .9;
+    }
+    if( c.has_trait("HOLLOW_BONES") ) {
+        move_cost *= .8;
+    }
+
+    return std::max( 25, move_cost );
+}
+
+int Character::throw_dispersion_per_dodge( bool add_encumbrance ) const
+{
+    // +200 per dodge point at 0 dexterity
+    // +100 at 8, +80 at 12, +66.6 at 16, +57 at 20, +50 at 24
+    // Each 10 encumbrance on either hand is like -1 dex (can bring penalty to +400 per dodge)
+    // Maybe @todo Only use one hand
+    const int encumbrance = add_encumbrance ? encumb( bp_hand_l ) + encumb( bp_hand_r ) : 0;
+    ///\EFFECT_DEX increases throwing accuracy against targets with good dodge stat
+    float effective_dex = 2 + get_dex() / 4.0f - ( encumbrance ) / 40.0f;
+    return static_cast<int>( 100.0f / std::max( 1.0f, effective_dex ) );
+}
+
+// Perfect situation gives us 1000 dispersion at lvl 0
+// This goes down linearly to 250  dispersion at lvl 10
+int Character::throwing_dispersion( const item &to_throw, Creature *critter ) const
+{
+    int weight = to_throw.weight();
+    units::volume volume = to_throw.volume();
+    if( to_throw.count_by_charges() && to_throw.charges > 1 ) {
+        weight /= to_throw.charges;
+        volume /= to_throw.charges;
+    }
+
+    int throw_difficulty = 1000;
+    // 1000 penalty for every liter after the first
+    // @todo Except javelin type items
+    throw_difficulty += std::max<int>( 0, units::to_milliliter( volume - 1000_ml ) );
+    // 1 penalty for gram above str*100 grams (at 0 skill)
+    ///\EFFECT_STR decreases throwing dispersion when throwing heavy objects
+    throw_difficulty += std::max( 0, weight - get_str() * 100 );
+
+    // Dispersion from difficult throws goes from 100% at lvl 0 to 25% at lvl 10
+    ///\EFFECT_THROW increases throwing accuracy
+    const int throw_skill = std::min<int>( MAX_SKILL, get_skill_level( skill_throw ) );
+    int dispersion = 10 * throw_difficulty / ( 3 * throw_skill + 10 );
+    // If the target is a creature, it moves around and ruins aim
+    // @todo Inform projectile functions if the attacker actually aims for the critter or just the tile
+    if( critter != nullptr ) {
+        // It's easier to dodge at close range (thrower needs to adjust more)
+        // Dodge x10 at point blank, x5 at 1 dist, then flat
+        float effective_dodge = critter->get_dodge() * std::max( 1, 10 - 5 * rl_dist( pos(), critter->pos() ) );
+        dispersion += throw_dispersion_per_dodge( true ) * effective_dodge;
+    }
+    // 1 perception per 1 eye encumbrance
+    ///\EFFECT_PER decreases throwing accuracy penalty from eye encumbrance
+    dispersion += std::max( 0, ( encumb( bp_eyes ) - get_per() ) * 10 );
+    return std::max( 0, dispersion );
+}
+
 dealt_projectile_attack player::throw_item( const tripoint &target, const item &to_throw )
 {
     // Copy the item, we may alter it before throwing
     item thrown = to_throw;
 
-    // Base move cost on moves per turn of the weapon
-    // and our skill.
-    int move_cost = thrown.attack_time() / 2;
-    /** @EFFECT_THROW speeds up throwing items */
-    int skill_cost = (int)(move_cost / (std::pow(get_skill_level( skill_throw ), 3.0f) / 400.0 + 1.0));
-    /** @EFFECT_DEX speeds up throwing items */
-    const int dexbonus = (int)(std::pow(std::max(dex_cur - 8, 0), 0.8) * 3.0);
+    const int move_cost = throw_cost( *this, to_throw );
+    mod_moves( -move_cost );
 
-    move_cost += skill_cost;
-    move_cost += 2 * encumb(bp_torso);
-    move_cost -= dexbonus;
+    units::volume volume = to_throw.volume();
+    int weight = to_throw.weight();
 
-    if( has_trait("LIGHT_BONES") ) {
-        move_cost *= .9;
-    }
-    if( has_trait("HOLLOW_BONES") ) {
-        move_cost *= .8;
-    }
-
-    if( move_cost < 25 ) {
-        move_cost = 25;
-    }
-
-    moves -= move_cost;
-
-    const int stamina_cost = ( (thrown.weight() / 100 ) + 20) * -1;
-    mod_stat("stamina", stamina_cost);
-
-    tripoint targ = target;
-    int deviation = 0;
+    const int stamina_cost = ( ( weight / 100 ) + 20 ) * -1;
+    mod_stat( "stamina", stamina_cost );
 
     const skill_id &skill_used = skill_throw;
-    // Throwing attempts below "Basic Competency" level are extra-bad
-    int skill_level = get_skill_level( skill_throw );
-
-    /** @EFFECT_THROW <8 randomly increases throwing deviation */
-    if( skill_level < 3 ) {
-        deviation += rng(0, 8 - skill_level);
-    }
-
-    if( skill_level < 8 ) {
-        deviation += rng(0, 8 - skill_level);
-    /** @EFFECT_THROW >7 decreases throwing deviation */
-    } else {
-        deviation -= skill_level - 6;
-    }
-
-    deviation += throw_dex_mod();
-
-    /** @EFFECT_PER <6 randomly increases throwing deviation */
-    if (per_cur < 6) {
-        deviation += rng(0, 8 - per_cur);
-    /** @EFFECT_PER >8 decreases throwing deviation */
-    } else if (per_cur > 8) {
-        deviation -= per_cur - 8;
-    }
-
-    const int vol = thrown.volume() / 250_ml;
-
-    deviation += rng(0, ((encumb(bp_hand_l) + encumb(bp_hand_r)) + encumb(bp_eyes) + 1) / 10);
-    if (vol > 5) {
-        deviation += rng(0, 1 + (vol - 5) / 4);
-    }
-    if (vol == 0) {
-        deviation += rng(0, 3);
-    }
-
-    /** @EFFECT_STR randomly decreases throwing deviation */
-    deviation += rng(0, std::max( 0, thrown.weight() / 113 - str_cur ) );
-    deviation = std::max( 0, deviation );
-
-    // Rescaling to use the same units as projectile_attack
-    const double shot_dispersion = deviation * (.01 / 0.00021666666666666666);
-    static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
-
-    bool do_railgun = has_active_bionic("bio_railgun") &&
-                      thrown.made_of_any( ferric );
-
-    // The damage dealt due to item's weight and player's strength
-    /** @EFFECT_STR increases throwing damage */
-    int real_dam = ( (thrown.weight() / 452)
-                     + (thrown.damage_melee(DT_BASH) / 2)
-                     + (str_cur / 2) )
-                   / (2.0 + (vol / 4.0));
-    if( real_dam > thrown.weight() / 40 ) {
-        real_dam = thrown.weight() / 40;
-    }
-    if( real_dam < 1 ) {
-        // Need at least 1 dmg or projectile attack will stop due to no momentum
-        real_dam = 1;
-    }
-    if( do_railgun ) {
-        real_dam *= 2;
-    }
+    const int skill_level = std::min<int>( MAX_SKILL, get_skill_level( skill_throw ) );
 
     // We'll be constructing a projectile
     projectile proj;
+    proj.impact = thrown.base_damage_thrown();
     proj.speed = 10 + skill_level;
     auto &impact = proj.impact;
     auto &proj_effects = proj.proj_effects;
 
-    impact.add_damage( DT_BASH, real_dam );
+    static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
+
+    bool do_railgun = has_active_bionic( "bio_railgun" ) && thrown.made_of_any( ferric );
+
+    // The damage dealt due to item's weight and player's strength
+    // Up to str/2 or weight/100g (lower), so 10 str is 5 damage before multipliers
+    // Railgun doubles the effective strength
+    ///\EFFECT_STR increases throwing damage
+    impact.add_damage( DT_BASH, std::min( weight / 100.0f, do_railgun ? get_str() : ( get_str() / 2.0f ) ) );
 
     if( thrown.has_flag( "ACT_ON_RANGED_HIT" ) ) {
         proj_effects.insert( "ACT_ON_RANGED_HIT" );
@@ -828,11 +860,13 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
     /** @EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE) */
     const bool shatter = !thrown.active && thrown.made_of( material_id( "glass" ) ) &&
-                         rng(0, vol + 8) - rng(0, str_cur) < vol;
+                         rng( 0, units::to_milliliter( 2000_ml - volume ) ) < get_str() * 100;
 
     // Add some flags to the projectile
-    // TODO: Add this flag only when the item is heavy
-    proj_effects.insert( "HEAVY_HIT" );
+    if( weight > 500 ) {
+        proj_effects.insert( "HEAVY_HIT" );
+    }
+
     proj_effects.insert( "NO_ITEM_DAMAGE" );
 
     if( thrown.active ) {
@@ -845,23 +879,20 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         proj_effects.insert( "LIGHTNING" );
     }
 
-    if( vol > 2 ) {
+    if( volume > 500_ml ) {
         proj_effects.insert( "WIDE" );
     }
 
     // Deal extra cut damage if the item breaks
     if( shatter ) {
-        const int glassdam = rng( 0, vol * 2 );
-        impact.add_damage( DT_CUT, glassdam );
+        impact.add_damage( DT_CUT, units::to_milliliter( volume ) / 500.0f );
         proj_effects.insert( "SHATTER_SELF" );
     }
 
-    if( rng(0, 100) < 20 + skill_level * 12 ) {
-        int cut = thrown.damage_melee( DT_CUT );
-        int stab = thrown.damage_melee( DT_STAB );
-        if( cut > 0 || stab > 0 ) {
-            proj.impact.add_damage( cut > stab ? DT_CUT : DT_STAB, std::max( cut, stab ) );
-        }
+    // Some minor (skill/2) armor piercing for skillfull throws
+    // Not as much as in melee, though
+    for( damage_unit &du : impact.damage_units ) {
+        du.res_pen += skill_level / 2.0f;
     }
 
     // Put the item into the projectile
@@ -869,33 +900,33 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     if( thrown.has_flag( "CUSTOM_EXPLOSION" ) ) {
         proj.set_custom_explosion( thrown.type->explosion );
     }
-    const int range = rl_dist( pos(), target );
-    proj.range = range;
 
-    auto dealt_attack = projectile_attack( proj, target, shot_dispersion );
+    float range = rl_dist( pos(), target );
+    proj.range = range;
+    // Prevent light items from landing immediately
+    proj.momentum_loss = std::min( impact.total_damage() / 10.0f, 1.0f );
+    int skill_lvl = get_skill_level( skill_used );
+    // Avoid awarding tons of xp for lucky throws against hard to hit targets
+    const float range_factor = std::min<float>( range, skill_lvl + 3 );
+    // We're aiming to get a damaging hit, not just an accurate one - reward proper weapons
+    const float damage_factor = 5.0f * sqrt( proj.impact.total_damage() / 5.0f );
+    // This should generally have values below ~20*sqrt(skill_lvl)
+    const float final_xp_mult = range_factor * damage_factor;
+
+    Creature *critter = g->critter_at( target, true );
+    const double dispersion = throwing_dispersion( thrown, critter );
+    auto dealt_attack = projectile_attack( proj, target, dispersion );
 
     const double missed_by = dealt_attack.missed_by;
-
-    // Copied from the shooting function
-    const int range_multiplier = std::min( range, 3 * ( get_skill_level( skill_used ) + 1 ) );
-    constexpr int damage_factor = 21;
-
-    if( missed_by <= .1 ) {
-        practice( skill_used, damage_factor * range_multiplier );
+    if( missed_by <= 0.1 && dealt_attack.hit_critter != nullptr ) {
+        practice( skill_used, final_xp_mult, MAX_SKILL );
         // TODO: Check target for existence of head
-        if( dealt_attack.hit_critter != nullptr ) {
-            lifetime_stats()->headshots++;
-        }
-    } else if( missed_by <= .2 ) {
-        practice( skill_used, damage_factor * range_multiplier / 2 );
-    } else if( missed_by <= .4 ) {
-        practice( skill_used, damage_factor * range_multiplier / 3 );
-    } else if( missed_by <= .6 ) {
-        practice( skill_used, damage_factor * range_multiplier / 4 );
-    } else if( missed_by <= 1.0 ) {
-        practice( skill_used, damage_factor * range_multiplier / 5 );
+        lifetime_stats()->headshots++;
+    } else if( dealt_attack.hit_critter != nullptr && missed_by > 0.0f ) {
+        practice( skill_used, final_xp_mult / ( 1.0f + missed_by ), MAX_SKILL );
     } else {
-        practice( skill_used, 10 );
+        // Pure grindy practice - cap gain at lvl 2
+        practice( skill_used, 5, 2 );
     }
 
     return dealt_attack;
@@ -1066,12 +1097,68 @@ double Creature::projectile_attack_chance( double dispersion, double range, doub
     return std::erf( shot_dispersion / ( sigma * sqrt2 ) );
 }
 
+static int print_ranged_chance( const player &p, WINDOW *w, int line_number,
+                                const std::vector<confidence_rating> &confidence_config,
+                                double dispersion, double range, double target_size,
+                                double steadiness = 10000.0 )
+{
+    const int window_width = getmaxx( w ) - 2; // Window width minus borders.
+
+    const auto get_chance = [&p, dispersion, range, target_size]( double acc ) {
+        return p.projectile_attack_chance( dispersion, range, acc, target_size );
+    };
+
+    bool print_steadiness = steadiness < 1000.0;
+    if( get_option<std::string>( "ACCURACY_DISPLAY" ) == "numbers" ) {
+        // Chances by get_chance are absolute, meaning graze will always be higher than headshot etc.
+        int last_chance = 0;
+        std::string confidence_s = enumerate_as_string( confidence_config.begin(), confidence_config.end(),
+        [&]( const confidence_rating &config ) {
+            // @todo Consider not printing 0 chances, but only if you can print something (at least miss 100% or so)
+            int chance = std::min<int>( 100, 100.0 * get_chance( std::get<0>( config ) ) ) - last_chance;
+            last_chance += chance;
+            return string_format( "%s: %3d%%", std::get<2>( config ).c_str(), chance );
+        }, false );
+        line_number += fold_and_print_from( w, line_number, 1, window_width, 0,
+                                            c_white, confidence_s );
+
+        if( print_steadiness ) {
+            std::string steadiness_s = string_format( "%s: %d%%", _( "Steadiness" ), (int)( 100.0 * steadiness ) );
+            mvwprintw( w, line_number++, 1, "%s", steadiness_s.c_str() );
+        }
+
+    } else {
+        // Extract pairs from tuples, because get_labeled_bar expects pairs
+        // @todo Update get_labeled_bar to allow tuples
+        std::vector<std::pair<double, char>> confidence_ratings;
+        std::transform( confidence_config.begin(), confidence_config.end(), std::back_inserter( confidence_ratings ),
+        [&]( const confidence_rating &config ) {
+            return std::make_pair( get_chance( std::get<0>( config ) ), std::get<1>( config ) );
+        } );
+
+        const std::string &confidence_bar = get_labeled_bar( 1.0, window_width, _( "Confidence" ),
+                                                             confidence_ratings.begin(),
+                                                             confidence_ratings.end() );
+        
+
+        mvwprintw( w, line_number++, 1, _( "Symbols: * = Headshot + = Hit | = Graze" ) );
+        mvwprintw( w, line_number++, 1, confidence_bar.c_str() );
+        if( print_steadiness ) {
+            const std::string &steadiness_bar = get_labeled_bar( steadiness, window_width,
+                                                                 _( "Steadiness" ), '*' );
+            mvwprintw( w, line_number++, 1, steadiness_bar.c_str() );
+        }
+    }
+
+    return line_number;
+}
+
 static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
                       Creature &target, double predicted_recoil ) {
     // This is absolute accuracy for the player.
     // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
     // Creature::projectile_attack() into shared methods.
-    // Dodge is intentionally not accounted for.
+    // Dodge doesn't affect gun attacks
 
     const double range = rl_dist( p.pos(), target.pos() );
     const double dispersion = p.get_weapon_dispersion( *weapon, range ) + predicted_recoil + p.recoil_vehicle();
@@ -1083,57 +1170,15 @@ static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
     const double steadiness = 1.0 - steady_score / MIN_RECOIL;
 
     const double target_size = target.ranged_target_size();
-    const auto get_chance = [&p, dispersion, range, target_size]( double acc ) {
-        return p.projectile_attack_chance( dispersion, range, acc, target_size );
-    };
 
     // This could be extracted, to allow more/less verbose displays
-    using cconf = std::tuple<double, char, std::string>;
-    static const std::array<cconf, 3> confidence_config = {{
+    static const std::vector<confidence_rating> confidence_config = {{
         std::make_tuple( accuracy_headshot, '*', _( "Headshot" ) ),
         std::make_tuple( accuracy_goodhit, '+', _( "Hit" ) ),
         std::make_tuple( accuracy_grazing, '|', _( "Graze" ) )
     }};
 
-    const int window_width = getmaxx( w ) - 2; // Window width minus borders.
-
-    if( get_option<std::string>( "ACCURACY_DISPLAY" ) == "numbers" ) {
-        // Chances by get_chance are absolute, meaning graze will always be higher than headshot etc.
-        int last_chance = 0;
-        std::string confidence_s = enumerate_as_string( confidence_config.begin(), confidence_config.end(),
-        [&]( const cconf &config ) {
-            // @todo Consider not printing 0 chances, but only if you can print something (at least miss 100% or so)
-            int chance = std::min<int>( 100, 100.0 * get_chance( std::get<0>( config ) ) ) - last_chance;
-            last_chance += chance;
-            return string_format( "%s: %3d%%", std::get<2>( config ).c_str(), chance );
-        }, false );
-        line_number += fold_and_print_from( w, line_number, 1, window_width, 0,
-                                            c_white, confidence_s );
-
-        std::string steadiness_s = string_format( "%s: %d%%", _( "Steadiness" ), (int)( 100.0 * steadiness ) );
-        mvwprintw( w, line_number++, 1, "%s", steadiness_s.c_str() );
-
-    } else {
-        // Extract pairs from tuples, because get_labeled_bar expects pairs
-        // @todo Update get_labeled_bar to allow tuples
-        std::vector<std::pair<double, char>> confidence_ratings;
-        std::transform( confidence_config.begin(), confidence_config.end(), std::back_inserter( confidence_ratings ),
-        [&]( const cconf &config ) {
-            return std::make_pair( get_chance( std::get<0>( config ) ), std::get<1>( config ) );
-        } );
-
-        const std::string &confidence_bar = get_labeled_bar( 1.0, window_width, _( "Confidence" ),
-                                                             confidence_ratings.begin(),
-                                                             confidence_ratings.end() );
-        const std::string &steadiness_bar = get_labeled_bar( steadiness, window_width,
-                                                             _( "Steadiness" ), '*' );
-
-        mvwprintw( w, line_number++, 1, _( "Symbols: * = Headshot + = Hit | = Graze" ) );
-        mvwprintw( w, line_number++, 1, confidence_bar.c_str() );
-        mvwprintw( w, line_number++, 1, steadiness_bar.c_str() );
-    }
-
-    return line_number;
+    return print_ranged_chance( p, w, line_number, confidence_config, dispersion, range, target_size, steadiness );
 }
 
 static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const tripoint &targ )
@@ -1153,6 +1198,34 @@ static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const t
     }
 
     return line_number;
+}
+
+static int draw_throw_aim( const player &p, WINDOW *w, int line_number,
+                           const item *weapon, const tripoint &target_pos )
+{
+    Creature *target = g->critter_at( target_pos, true );
+    if( target != nullptr && !p.sees( *target ) ) {
+        target = nullptr;
+    }
+
+    const double dispersion = p.throwing_dispersion( *weapon, target );
+    const double range = rl_dist( p.pos(), target_pos );
+
+    const double target_size = target != nullptr ? target->ranged_target_size() : 1.0f;
+
+    // This could be extracted, to allow more/less verbose displays
+    using cconf = std::tuple<double, char, std::string>;
+    static const std::vector<cconf> confidence_config_critter = {{
+        std::make_tuple( accuracy_headshot, '*', _( "Headshot" ) ),
+        std::make_tuple( accuracy_goodhit, '+', _( "Hit" ) ),
+        std::make_tuple( accuracy_grazing, '|', _( "Graze" ) )
+    }};
+    static const std::vector<cconf> confidence_config_object = {{
+        std::make_tuple( accuracy_grazing, '*', _( "Hit" ) )
+    }};
+    const auto &confidence_config = target != nullptr ? confidence_config_critter : confidence_config_object;
+
+    return print_ranged_chance( p, w, line_number, confidence_config, dispersion, range, target_size );
 }
 
 std::vector<tripoint> target_handler::target_ui( player &pc, const targeting_data &args ) {
@@ -1450,6 +1523,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             }
         } else if( mode == TARGET_MODE_TURRET ) {
             line_number = draw_turret_aim( pc, w_target, line_number, dst );
+        } else if( mode == TARGET_MODE_THROW ) {
+            line_number = draw_throw_aim( pc, w_target, line_number, relevant, dst );
         }
 
         wrefresh(w_target);

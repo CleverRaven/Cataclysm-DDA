@@ -158,9 +158,9 @@ std::string get_encumbrance_description( const player &p, body_part bp, bool com
             break;
         case bp_eyes:
             s += string_format( _( "Perception %+d when checking traps or firing ranged weapons;\n"
-                                   "Perception %+.1f when throwing items." ),
+                                   "Dispersion %+d when throwing items." ),
                                 -( eff_encumbrance / 10 ),
-                                double( -( eff_encumbrance / 10 ) ) / 2 );
+                                eff_encumbrance * 10 );
             break;
         case bp_mouth:
             s += _( "Covering your mouth will make it more difficult to breathe and catch your breath." );
@@ -173,7 +173,7 @@ std::string get_encumbrance_description( const player &p, body_part bp, bool com
         case bp_hand_r:
             s += _( "Reduces the speed at which you can handle or manipulate items\n" );
             s += reload_cost_text( ( eff_encumbrance / 10 ) * 15 );
-            s += string_format( _( "Dexterity %+d when throwing items;\n" ), -( eff_encumbrance / 10 ) );
+            s += string_format( _( "Dexterity %+.1f when throwing items;\n" ), -( eff_encumbrance / 10.0f ) );
             s += melee_cost_text( eff_encumbrance / 2 );
             break;
         case bp_leg_l:
@@ -768,12 +768,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
                     mvwprintz( w_stats, 6, 1, c_magenta, _( "Melee to-hit bonus:" ) );
                     mvwprintz( w_stats, 6, 22, c_magenta, "%+.2lf", get_hit_base() );
-                    if( throw_dex_mod( false ) <= 0 ) {
-                        mvwprintz( w_stats, 8, 1, c_magenta, _( "Throwing bonus:" ) );
-                    } else {
-                        mvwprintz( w_stats, 8, 1, c_magenta, _( "Throwing penalty:" ) );
-                    }
-                    mvwprintz( w_stats, 8, 22, c_magenta, "%+3d", -( throw_dex_mod( false ) ) );
+                    mvwprintz( w_stats, 8, 1, c_magenta, _("Throwing penalty per target's dodge: +%d") );
+                    mvwprintz( w_stats, 8, 22, c_magenta, "%3d", throw_dispersion_per_dodge( false ) );
 
                     fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                                     _( "Dexterity affects your chance to hit in melee combat, helps you steady your "

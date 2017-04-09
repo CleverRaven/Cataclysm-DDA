@@ -3324,28 +3324,6 @@ void player::search_surroundings()
     }
 }
 
-int player::throw_dex_mod(bool return_stat_effect) const
-{
-  // Stat window shows stat effects on based on current stat
- int dex = get_dex();
- if (dex == 8 || dex == 9)
-  return 0;
- /** @EFFECT_DEX increases throwing bonus */
- if (dex >= 10)
-  return (return_stat_effect ? 0 - rng(0, dex - 9) : 9 - dex);
-
- int deviation = 0;
- if (dex < 4)
-  deviation = 4 * (8 - dex);
- else if (dex < 6)
-  deviation = 3 * (8 - dex);
- else
-  deviation = 2 * (8 - dex);
-
- // return_stat_effect actually matters here
- return (return_stat_effect ? rng(0, deviation) : deviation);
-}
-
 int player::read_speed(bool return_stat_effect) const
 {
     // Stat window shows stat effects on based on current stat
