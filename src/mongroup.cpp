@@ -28,15 +28,18 @@ MonsterGroupManager::t_string_set MonsterGroupManager::monster_categories_blackl
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_categories_whitelist;
 bool monster_whitelist_is_exclusive = false;
 
+/** @relates string_id */
 template<>
 const mongroup_id string_id<MonsterGroup>::NULL_ID( "GROUP_NULL" );
 
+/** @relates string_id */
 template<>
 bool string_id<MonsterGroup>::is_valid() const
 {
     return MonsterGroupManager::isValidMonsterGroup( *this );
 }
 
+/** @relates string_id */
 template<>
 const MonsterGroup& string_id<MonsterGroup>::obj() const
 {

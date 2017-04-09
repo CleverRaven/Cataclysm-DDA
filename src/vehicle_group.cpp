@@ -10,6 +10,7 @@ std::unordered_map<vgroup_id, VehicleGroup> vgroups;
 std::unordered_map<vplacement_id, VehiclePlacement> vplacements;
 std::unordered_map<vspawn_id, VehicleSpawn> vspawns;
 
+/** @relates string_id */
 template<>
 const VehicleGroup &string_id<VehicleGroup>::obj() const
 {
@@ -22,6 +23,7 @@ const VehicleGroup &string_id<VehicleGroup>::obj() const
     return iter->second;
 }
 
+/** @relates string_id */
 template<>
 bool string_id<VehicleGroup>::is_valid() const
 {

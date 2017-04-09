@@ -299,13 +299,17 @@ static bool select_autopickup_items( std::vector<std::list<item_idx>> &here,
                     }
                 }
 
-                //Auto Pickup all items with 0 Volume and Weight <= AUTO_PICKUP_ZERO * 50
+                //Auto Pickup all items with Volume <= AUTO_PICKUP_VOL_LIMIT * 50 and Weight <= AUTO_PICKUP_ZERO * 50
                 //items will either be in the autopickup list ("true") or unmatched ("")
-                if( !bPickup && get_option<int>( "AUTO_PICKUP_ZERO" ) ) {
-                    if( here[i].begin()->_item.volume() == 0 &&
-                        here[i].begin()->_item.weight() <= get_option<int>( "AUTO_PICKUP_ZERO" ) * 50 &&
-                        get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
-                        bPickup = true;
+                if( !bPickup ) {
+                    int weight_limit = get_option<int>( "AUTO_PICKUP_WEIGHT_LIMIT" );
+                    int volume_limit = get_option<int>( "AUTO_PICKUP_VOL_LIMIT" );
+                    if( weight_limit && volume_limit ) {
+                        if( here[i].begin()->_item.volume() <= units::from_milliliter( volume_limit * 50 ) &&
+                            here[i].begin()->_item.weight() <= weight_limit * 50 &&
+                            get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
+                            bPickup = true;
+                        }
                     }
                 }
             }
@@ -814,7 +818,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                                   .title( _( "Enter 2 letters (case sensitive):" ) )
                                   .width( 3 )
                                   .max_length( 2 )
-                                  .query();
+                                  .query_string();
                 if( ext.size() == 2 ) {
                     int p1 = pickup_chars.find( ext.at( 0 ) );
                     int p2 = pickup_chars.find( ext.at( 1 ) );
@@ -1040,19 +1044,29 @@ void Pickup::pick_up( const tripoint &pos, int min )
     }
     std::vector<std::pair<int, int>> pick_values;
     for( size_t i = 0; i < stacked_here.size(); i++ ) {
-        if( getitem[i].pick ) {
-            if( stacked_here[i].begin()->_item.count_by_charges() ) {
-                item_idx &it = *stacked_here[i].begin();
-                size_t count = getitem[i].count == 0 ? it._item.charges : getitem[i].count;
+        const auto &selection = getitem[i];
+        if( !selection.pick ) {
+            continue;
+        }
+
+        const auto &stack = stacked_here[i];
+        // Note: items can be both charged and stacked
+        // For robustness, let's assume they can be both in the same stack
+        bool pick_all = selection.count == 0;
+        size_t count = selection.count;
+        for( const item_idx &it : stack ) {
+            if( !pick_all && count == 0 ) {
+                break;
+            }
+
+            if( it._item.count_by_charges() ) {
                 size_t num_picked = std::min( ( size_t )it._item.charges, count );
-                pick_values.push_back( { it.idx, num_picked } );
+                pick_values.push_back( { static_cast<int>( it.idx ), static_cast<int>( num_picked ) } );
+                count -= num_picked;
             } else {
-                size_t count = getitem[i].count == 0 ? stacked_here[i].size() : getitem[i].count;
-                size_t num_picked = std::min( stacked_here[i].size(), count );
-                auto it = stacked_here[i].begin();
-                for( size_t j = 0; j < num_picked; j++, it++ ) {
-                    pick_values.push_back( { it->idx, 0 } );
-                }
+                size_t num_picked = 1;
+                pick_values.push_back( { it.idx, 0 } );
+                count -= num_picked;
             }
         }
     }

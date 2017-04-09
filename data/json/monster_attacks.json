@@ -22,5 +22,23 @@
     "hit_dmg_npc": "The %1$s impales <npcname>'s torso!",
     "no_dmg_msg_u": "The %1$s tries to impale your torso, but fails to penetrate your armor!",
     "no_dmg_msg_npc": "The %1$s tries to impale <npcname>'s torso, but fails to penetrate their armor!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "scratch",
+    "cooldown": 20,
+    "move_cost": 150,
+    "damage_max_instance": [
+      {
+        "damage_type": "cut",
+        "amount": 8
+      }
+    ],
+    "body_parts": [ [ "FOOT_L", 2 ],[ "FOOT_R", 2 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ], [ "HAND_L", 2 ], [ "HAND_R", 2 ], [ "HEAD", 3 ], [ "EYES", 2 ], [ "MOUTH", 1 ], [ "ARM_L", 3 ], [ "ARM_R", 3 ], [ "TORSO", 4 ] ],
+    "hit_dmg_u": "The %1$s claws at you!",
+    "hit_dmg_npc": "The %1$s claws at <npcname>!",
+    "no_dmg_msg_u": "The %1$s tries to claw at you, but fails to.",
+    "no_dmg_msg_npc": "The %1$s tries to claw <npcname>, but fails to."
   }
 ]

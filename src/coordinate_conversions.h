@@ -37,6 +37,7 @@
  * There are SEEX*SEEY map squares in each submap.
  *
  * The class provides static translation functions, named like this:
+@code
     static point <from>_to_<to>_copy(int x, int y);
     static point <from>_to_<to>_copy(const point& p);
     static tripoint <from>_to_<to>_copy(const tripoint& p);
@@ -45,6 +46,7 @@
     static void <from>_to_<to>(tripoint& p);
     static point <from>_to_<to>_remain(int &x, int &y);
     static point <from>_to_<to>_remain(point& p);
+@endcode
  * Functions ending with _copy return the translated coordinates,
  * other functions change the parameters itself and don't return anything.
  * Functions ending with _remain return teh translated coordinates and

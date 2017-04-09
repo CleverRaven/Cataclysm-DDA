@@ -3693,12 +3693,12 @@ void map::crush( const tripoint &p )
 void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 {
     // TODO: Make bashing count fully, but other types much less
-    const int initial_damage = proj.impact.total_damage();
+    const float initial_damage = proj.impact.total_damage();
     if( initial_damage < 0 ) {
         return;
     }
 
-    int dam = initial_damage;
+    float dam = initial_damage;
     const auto &ammo_effects = proj.proj_effects;
 
     if( has_flag("ALARMED", p) && !g->event_queued(EVENT_WANTED) ) {
@@ -3872,7 +3872,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         bash( p, dam, false );
         dam = 0; // TODO: Preserve some residual damage when it makes sense.
     } else {
-        dam -= (rng(0, 1) * rng(0, 1) * rng(0, 1));
+        dam -= proj.momentum_loss;
     }
 
     if (ammo_effects.count("TRAIL") && !one_in(4)) {
@@ -3903,10 +3903,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         add_field(p, fd_laser, 2, 0 );
     }
 
-    // Set damage to 0 if it's less
-    if( dam < 0 ) {
-        dam = 0;
-    }
+    dam = std::max( 0.0f, dam );
 
     // Check fields?
     const field_entry *fieldhit = get_field( p, fd_web );
@@ -4509,7 +4506,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
             if( !valid_tile( e ) || has_flag( "NOITEM", e ) || !valid_limits( e ) ) {
                 continue;
             }
-	    return place_item( e );
+            return place_item( e );
         }
     }
 
@@ -4595,6 +4592,23 @@ item map::water_from( const tripoint &p )
         return ret;
     }
     return item();
+}
+
+void map::make_active( item_location &loc )
+{
+    item *target = loc.get_item();
+
+    // Trust but verify, don't let stinking callers set items active when they shouldn't be.
+    if( !target->needs_processing() ) {
+        return;
+    }
+    int lx, ly;
+    submap *const current_submap = get_submap_at( loc.position(), lx, ly );
+    auto &item_stack = current_submap->itm[lx][ly];
+    auto iter = std::find_if( item_stack.begin(), item_stack.end(),
+                              [&target]( const item &i ) { return &i == target; } );
+
+    current_submap->active_items.add( iter, point(lx, ly) );
 }
 
 // Check if it's in a fridge and is food, set the fridge
@@ -6714,11 +6728,25 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     set_pathfinding_cache_dirty( gridz );
     setsubmap( gridn, tmpsub );
 
-    for( auto it : tmpsub->vehicles ) {
-        // Always fix submap coords for easier z-level-related operations
-        it->smx = gridx;
-        it->smy = gridy;
-        it->smz = gridz;
+    // Destroy bugged no-part vehicles
+    auto &veh_vec = tmpsub->vehicles;
+    for( auto iter = veh_vec.begin(); iter != veh_vec.end(); ) {
+        auto *veh = *iter;
+        if( !veh->parts.empty() ) {
+            // Always fix submap coords for easier z-level-related operations
+            veh->smx = gridx;
+            veh->smy = gridy;
+            veh->smz = gridz;
+            iter++;
+        } else {
+            reset_vehicle_cache( gridz );
+            if( veh->tracking_on ) {
+                overmap_buffer.remove_vehicle( veh );
+            }
+            dirty_vehicle_list.erase( veh );
+            delete( veh );
+            iter = veh_vec.erase( iter );
+        }
     }
 
     // Update vehicle data

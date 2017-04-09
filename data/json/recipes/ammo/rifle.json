@@ -14,7 +14,7 @@
     "using": [ [ "ammo_bullet", 10 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "chem_black_powder", 10 ], [ "gunpowder", 5 ] ],
+      [ [ "chem_black_powder", 5 ], [ "gunpowder", 5 ] ],
       [ [ "paper", 1 ] ]
     ]
   },
@@ -33,8 +33,450 @@
     "using": [ [ "ammo_bullet", 10 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "chem_black_powder", 10 ], [ "gunpowder", 5 ] ],
+      [ [ "chem_black_powder", 5 ], [ "gunpowder", 5 ] ],
       [ [ "paper", 1 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_22_fmj",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": 4000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 1 ], [ "manual_pistol", 2 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 2 ] ],
+    "components": [
+      [ [ "22_casing_new", 1 ] ],
+      [ [ "gunpowder", 2 ], [ "chem_black_powder", 2 ] ],
+      [ [ "copper", 1 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_22_lr",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": 3000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 1 ], [ "manual_pistol", 2 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "components": [
+      [ [ "22_casing_new", 1 ] ],
+      [ [ "gunpowder", 2 ], [ "chem_black_powder", 2 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_223",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": 6000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 1 ], [ "mag_rifle", 2 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ] ],
+    "components": [
+      [ [ "223_casing", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "gunpowder", 4 ] ],
+      [ [ "copper", 1 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_270",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": 6000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 1 ], [ "mag_rifle", 3 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 8 ], [ "ammo_bullet", 5 ] ],
+    "components": [
+      [ [ "3006_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 10 ] ],
+      [ [ "copper", 3 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_300_winmag",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 5 ],
+    "time": 8000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 4 ], [ "mag_rifle", 5 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 8 ] ],
+    "components": [
+      [ [ "300_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 16 ] ],
+      [ [ "copper", 4 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_3006",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 5 ],
+    "time": 7000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 8 ] ],
+    "components": [
+      [ [ "3006_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 12 ] ],
+      [ [ "copper", 4 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_3006fmj",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 5 ],
+    "time": 7000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 8 ] ],
+    "components": [
+      [ [ "3006_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 12 ] ],
+      [ [ "copper", 4 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_3006_incendiary",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "skills_required": [ "gun", 7 ],
+    "time": 8000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 2 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 12 ], [ "ammo_bullet", 8 ] ],
+    "components": [
+      [ [ "3006_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 12 ] ],
+      [ [ "copper", 4 ] ],
+      [ [ "incendiary", 8 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_308",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": 6000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 4 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
+    "components": [
+      [ [ "308_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 8 ] ],
+      [ [ "copper", 3 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_50bmg",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "skills_required": [ "gun", 7 ],
+    "time": 10000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 6 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 18 ], [ "ammo_bullet", 12 ] ],
+    "components": [
+      [ [ "50_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 30 ] ],
+      [ [ "copper", 6 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_50_incendiary",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "skills_required": [ "gun", 7 ],
+    "time": 11000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 8 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 21 ], [ "ammo_bullet", 15 ] ],
+    "components": [
+      [ [ "50_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 30 ] ],
+      [ [ "copper", 6 ] ],
+      [ [ "incendiary", 20 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_50ss",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "skills_required": [ "gun", 7 ],
+    "time": 11000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 7 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 21 ] ],
+    "components": [
+      [ [ "50_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 30 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "copper", 6 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_545",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 2 ],
+    "time": 6000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ] ],
+    "components": [
+      [ [ "545_casing", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "gunpowder", 5 ] ],
+      [ [ "copper", 1 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_545_ap",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "gun", 3 ],
+    "time": 6000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ] ],
+    "components": [
+      [ [ "545_casing", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "gunpowder", 6 ] ],
+      [ [ "copper", 1 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_556",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 5 ],
+    "time": 6000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ] ],
+    "components": [
+      [ [ "223_casing", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "gunpowder", 6 ] ],
+      [ [ "copper", 1 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_556_incendiary",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "skills_required": [ "gun", 5 ],
+    "time": 7000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 5 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ] ],
+    "components": [
+      [ [ "223_casing", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "gunpowder", 6 ] ],
+      [ [ "copper", 1 ] ],
+      [ [ "incendiary", 2 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_700nx",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 9,
+    "skills_required": [ "gun", 7 ],
+    "time": 9000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 7 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 10 ] ],
+    "components": [
+      [ [ "700nx_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 30 ] ],
+      [ [ "copper", 5 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_762_51",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 5 ],
+    "time": 6000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 4 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
+    "components": [
+      [ [ "308_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 10 ] ],
+      [ [ "copper", 3 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_762_51_incendiary",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "skills_required": [ "gun", 5 ],
+    "time": 7000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 5 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 9 ], [ "ammo_bullet", 6 ] ],
+    "components": [
+      [ [ "308_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 10 ] ],
+      [ [ "copper", 3 ] ],
+      [ [ "incendiary", 6 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_762_54R",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "gun", 4 ],
+    "time": 7000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 10 ], [ "ammo_bullet", 7 ] ],
+    "components": [
+      [ [ "762R_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 10 ] ],
+      [ [ "copper", 3 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_762_m43",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": 6000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "mag_rifle", 3 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 4 ] ],
+    "components": [
+      [ [ "762_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 8 ] ],
+      [ [ "copper", 1 ] ]
+    ]
+  },
+  {
+    "result": "reloaded_762_m87",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 5 ],
+    "time": 6000,
+    "batch_time_factors": [ 50, 10 ],
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 4 ] ],
+    "components": [
+      [ [ "762_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 8 ] ],
+      [ [ "copper", 1 ] ]
     ]
   }
 ]

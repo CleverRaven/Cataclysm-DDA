@@ -55,16 +55,14 @@
 /** Total number of z-levels */
 #define OVERMAP_LAYERS (1 + OVERMAP_DEPTH + OVERMAP_HEIGHT)
 
-/** Base move cost (before modifiers) per unit volume when handling items */
-#define VOLUME_MOVE_COST 20
 /** Maximum move cost when handling an item */
-#define MAX_HANDLING_COST 800
-/** Factor for item handling costs when item found in inventory */
-#define INVENTORY_HANDLING_FACTOR 3
-/** Factor for item handling costs when item found on map tile */
-#define MAP_HANDLING_FACTOR 5
-/** Factor for item handling costs when item found in vehicle */
-#define VEHICLE_HANDLING_FACTOR 4
+#define MAX_HANDLING_COST 400
+/** Move cost of accessign an item in inventory. */
+#define INVENTORY_HANDLING_PENALTY 100
+/** Move cost of accessing an item lying on the map. @todo Less if player is crouching */
+#define MAP_HANDLING_PENALTY 80
+/** Move cost of accessing an item lying on a vehicle. */
+#define VEHICLE_HANDLING_PENALTY 80
 
 /** Amount by which to charge an item for each unit of plutonium cell */
 #define PLUTONIUM_CHARGES 500
@@ -76,7 +74,7 @@
 #define TOOL_LIFT_FACTOR 500000 // 500kg/level
 
 /** Cap JACK requirements to support arbritrarily large vehicles */
-#define JACK_LIMIT 8000000 // 8000kg (8 metric tonnes)
+#define JACK_LIMIT 8500000 // 8500kg (8.5 metric tonnes)
 
 /** Maximum density of a map field */
 #define MAX_FIELD_DENSITY 3
@@ -90,8 +88,10 @@
 /** Maximum (effective) level for a stat */
 #define MAX_STAT 20
 
-/** Maximum range for aimed weapons */
-#define MAX_RANGE 30
+/** Maximum range at which only standard dispersion applies */
+#define RANGE_SOFT_CAP 30
+/** Maximum range at which ranged attacks can be executed */
+#define RANGE_HARD_CAP 60
 
 /** Accuracy levels which a shots tangent must be below */
 constexpr double accuracy_headshot = 0.1;

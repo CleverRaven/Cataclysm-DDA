@@ -563,8 +563,8 @@
     "symbol": "[",
     "color": "dark_gray",
     "covers": [ "TORSO", "LEGS", "ARMS", "HANDS" ],
-    "coverage": 75,
-    "encumbrance": 25,
+    "coverage": 85,
+    "encumbrance": 15,
     "warmth": 25,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
@@ -1414,7 +1414,7 @@
     "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
-    "color": "black",
+    "color": "dark_gray",
     "covers": [ "LEGS", "TORSO", "ARMS" ],
     "coverage": 90,
     "encumbrance": 10,
@@ -2342,7 +2342,7 @@
     "price": 7000,
     "material": [ "cotton" ],
     "symbol": "[",
-    "color": "black",
+    "color": "dark_gray",
     "covers": [ "HEAD" ],
     "coverage": 60,
     "encumbrance": 10,
@@ -2518,15 +2518,15 @@
     "price": 24000,
     "to_hit": 1,
     "bashing": 4,
-    "material": [ "steel" ],
+    "material": [ "plastic", "nomex" ],
     "symbol": "[",
     "color": "yellow",
     "covers": [ "HEAD" ],
     "coverage": 75,
     "encumbrance": 40,
     "warmth": 15,
-    "material_thickness": 2,
-    "environmental_protection": 1,
+    "material_thickness": 6,
+    "environmental_protection": 6,
     "flags": [ "VARSIZE", "WATERPROOF", "FANCY", "STURDY" ]
   },
   {
@@ -3670,7 +3670,7 @@
     "price": 21000,
     "material": [ "cotton" ],
     "symbol": "[",
-    "color": "black",
+    "color": "dark_gray",
     "covers": [ "TORSO", "LEGS" ],
     "coverage": 75,
     "encumbrance": 14,
@@ -6381,6 +6381,7 @@
     "warmth": 75,
     "material_thickness": 3,
     "environmental_protection": 15,
+    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "VARSIZE", "STURDY" ]
   },
   {
@@ -6402,6 +6403,7 @@
     "warmth": 75,
     "material_thickness": 3,
     "environmental_protection": 15,
+    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
@@ -7420,7 +7422,7 @@
       "type": "bandolier",
       "capacity": 20,
       "ammo": [ "arrow", "bolt" ],
-      "draw_cost": 3
+      "draw_cost": 20
     },
     "flags": [ "WAIST", "OVERSIZE" ]
   },
@@ -7444,7 +7446,7 @@
       "type": "bandolier",
       "capacity": 20,
       "ammo": [ "arrow", "bolt" ],
-      "draw_cost": 3
+      "draw_cost": 20
     },
     "flags": [ "WAIST", "VARSIZE", "OVERSIZE" ]
   },
@@ -7468,7 +7470,7 @@
       "type": "bandolier",
       "capacity": 60,
       "ammo": [ "arrow", "bolt" ],
-      "draw_cost": 3
+      "draw_cost": 20
     },
     "flags": [ "BELTED", "OVERSIZE" ]
   },
@@ -7492,7 +7494,7 @@
       "type": "bandolier",
       "capacity": 60,
       "ammo": [ "arrow", "bolt" ],
-      "draw_cost": 3
+      "draw_cost": 20
     },
     "flags": [ "BELTED", "VARSIZE", "OVERSIZE" ]
   },

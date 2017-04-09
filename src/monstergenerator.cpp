@@ -26,30 +26,36 @@ extern bool test_mode;
 
 const mtype_id mon_generator( "mon_generator" );
 
+/** @relates string_id */
 template<>
 const mtype_id string_id<mtype>::NULL_ID( "mon_null" );
 
+/** @relates string_id */
 template<>
 const mtype& string_id<mtype>::obj() const
 {
     return MonsterGenerator::generator().mon_templates->obj( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<mtype>::is_valid() const
 {
     return MonsterGenerator::generator().mon_templates->is_valid( *this );
 }
 
+/** @relates string_id */
 template<>
 const species_id string_id<species_type>::NULL_ID( "spec_null" );
 
+/** @relates string_id */
 template<>
 const species_type& string_id<species_type>::obj() const
 {
     return MonsterGenerator::generator().mon_species->obj( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<species_type>::is_valid() const
 {

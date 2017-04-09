@@ -94,6 +94,24 @@ struct mutation_branch {
     int bodytemp_min = 0;
     int bodytemp_max = 0;
     int bodytemp_sleep = 0;
+    // Healing per turn
+    float healing_awake = 0.0f;
+    float healing_resting = 0.0f;
+    // Bonus HP multiplier. That is, 1.0 doubles hp, -0.5 halves it.
+    float hp_modifier = 0.0f;
+    // Second HP modifier that stacks with first but is otherwise identical.
+    float hp_modifier_secondary = 0.0f;
+    // Flat bonus/penalty to hp.
+    float hp_adjustment = 0.0f;
+
+    // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
+    float metabolism_modifier = 0.0f;
+    // As above but for thirst.
+    float thirst_modifier = 0.0f;
+    // As above but for fatigue.
+    float fatigue_modifier = 0.0f;
+    // Modifier for the rate at which fatigue drops when resting.
+    float fatigue_regen_modifier = 0.0f;
 
     /** Attacks granted by this mutation */
     std::vector<mut_attack> attacks_granted;

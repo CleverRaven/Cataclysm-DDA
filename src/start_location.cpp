@@ -24,12 +24,14 @@ namespace
 generic_factory<start_location> all_starting_locations( "starting location", "ident" );
 }
 
+/** @relates string_id */
 template<>
 const start_location &string_id<start_location>::obj() const
 {
     return all_starting_locations.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<start_location>::is_valid() const
 {

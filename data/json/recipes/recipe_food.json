@@ -8,18 +8,8 @@
   "time": 5000,
   "autolearn": true,
   "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "coffeemaker", 3],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ]
@@ -35,18 +25,8 @@
   "time": 90000,
   "autolearn": true,
   "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "coffeemaker", 3],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "salt_water", 10 ],
@@ -63,18 +43,8 @@
   "time": 90000,
   "autolearn": true,
   "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "coffeemaker", 3],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "material_rocksalt", 1 ]
@@ -95,14 +65,7 @@
   "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
       [ "mushroom", 1 ]
@@ -119,14 +82,7 @@
   "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
       [ "meat", 1 ]
@@ -148,17 +104,8 @@
     {"id":"BOIL","level":2},
     {"id":"COOK","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ],
-    [
-      [ "cooking_oil", -1 ],
-      [ "tallow", -1 ],
-      [ "lard", -1 ]
-    ]
+    [ [ "surface_heat", 7, "LIST" ] ],
+    [ [ "frying_oil", 7, "LIST" ] ]
   ],
   "components": [
     [
@@ -202,14 +149,7 @@
   "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
       [ "offal", 1 ]
@@ -233,7 +173,7 @@
       { "id": "CUT", "level": 1 },
       { "id": "COOK", "level": 3 }
     ],
-    "tools": [ [ [ "hotplate", 10 ], [ "char_smoker", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "jar_glass", 1 ] ],
@@ -258,7 +198,7 @@
       { "id": "COOK", "level": 3 }
     ],
     "tools": [
-      [ [ "hotplate", 10 ], [ "char_smoker", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ],
+    [ [ "surface_heat", 10, "LIST" ] ],
       [ [ "can_sealer", -1 ] ]
     ],
     "components": [
@@ -285,7 +225,7 @@
       { "id": "CUT", "level": 1 },
       { "id": "COOK", "level": 3 }
     ],
-    "tools": [ [ [ "hotplate", 20 ], [ "char_smoker", 20 ], [ "toolset", 20 ], [ "fire", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
       [ [ "jar_glass", 1 ] ],
@@ -304,14 +244,7 @@
   "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
       [ "stomach_large", 1 ]
@@ -332,14 +265,7 @@
   "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
       [ "hstomach_large", 1 ]
@@ -360,14 +286,8 @@
   "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "stomach", 1 ]
@@ -388,14 +308,8 @@
   "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "hstomach", 1 ]
@@ -416,14 +330,8 @@
   "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
       [ "fish", 1 ]
@@ -443,14 +351,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ],
-  "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
       [ "fat", 3 ]
@@ -474,14 +375,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ],
-  "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
       [ "fat", 2 ]
@@ -500,14 +394,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ],
-  "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "plant_sac", 1 ],
@@ -689,7 +576,7 @@
   ],
   "tools": [
     [ [ "frying_oil", 1, "LIST" ] ],
-    [ [ "frying_heat", 8, "LIST" ] ]
+    [ [ "surface_heat", 8, "LIST" ] ]
   ],
   "components": [
     [ [ "fish", 3 ] ],
@@ -710,7 +597,7 @@
   ],
   "tools": [
     [ [ "frying_oil", 1, "LIST" ] ],
-    [ [ "frying_heat", 8, "LIST" ] ]
+    [ [ "surface_heat", 8, "LIST" ] ]
   ],
   "components": [
     [ [ "onion", 1 ] ],
@@ -729,14 +616,7 @@
     {"id":"COOK","level":2},
     {"id":"CONTAIN","level":1}
   ],
-  "tools": [
-    [
-      [ "hotplate", 4 ],
-      [ "char_smoker", 4 ],
-      [ "toolset", 4 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -992,57 +872,8 @@
     ],
     [
       ["lemonade_powder", 1],
-      ["apple", 1],
-      ["apricot", 1],
-      ["banana", 1],
-      ["blackberries", 1],
-      ["blueberries", 1],
-      ["cherries", 1],
-      ["coconut", 1],
-      ["cranberries", 3],
-      ["dry_fruit", 1],
-      ["grapefruit", 1],
-      ["grapes", 2],
-      ["irradiated_apple", 1],
-      ["irradiated_apricot", 1],
-      ["irradiated_banana", 1],
-      ["irradiated_blackberries", 1],
-      ["irradiated_blueberries", 1],
-      ["irradiated_cherries", 1],
-      ["irradiated_cranberries", 3],
-      ["irradiated_grapefruit", 1],
-      ["irradiated_grapes", 2],
-      ["irradiated_kiwi", 1],
-      ["irradiated_lemon", 1],
-      ["irradiated_mango", 1],
-      ["irradiated_melon", 2],
-      ["irradiated_orange", 1],
-      ["irradiated_papaya", 1],
-      ["irradiated_peach", 1],
-      ["irradiated_pear", 1],
-      ["irradiated_pineapple", 1],
-      ["irradiated_plums", 1],
-      ["irradiated_pomegranate", 1],
-      ["irradiated_raspberries", 1],
-      ["irradiated_strawberries", 1],
-      ["irradiated_watermelon", 1],
-      ["juice_pulp", 2],
-      ["kiwi", 1],
-      ["lemon", 1],
-      ["mango", 1],
-      ["melon", 2],
-      ["orange", 1],
-      ["papaya", 1],
-      ["peach", 1],
-      ["pear", 1],
-      ["pineapple", 1],
-      ["plums", 1],
-      ["pomegranate", 1],
-      ["raspberries", 1],
-      ["rehydrated_fruit", 1],
-      ["can_peach", 1],
-      ["strawberries", 1],
-      ["watermelon", 1]
+      ["sweet_fruit_like", 1, "LIST"],
+      ["coconut", 1]
     ]
   ]
 },{
@@ -1065,57 +896,8 @@
     ],
     [
       ["lemonade_powder", 1],
-      ["apple", 1],
-      ["apricot", 1],
-      ["banana", 1],
-      ["blackberries", 1],
-      ["blueberries", 1],
-      ["cherries", 1],
-      ["coconut", 1],
-      ["cranberries", 3],
-      ["dry_fruit", 1],
-      ["grapefruit", 1],
-      ["grapes", 2],
-      ["irradiated_apple", 1],
-      ["irradiated_apricot", 1],
-      ["irradiated_banana", 1],
-      ["irradiated_blackberries", 1],
-      ["irradiated_blueberries", 1],
-      ["irradiated_cherries", 1],
-      ["irradiated_cranberries", 3],
-      ["irradiated_grapefruit", 1],
-      ["irradiated_grapes", 2],
-      ["irradiated_kiwi", 1],
-      ["irradiated_lemon", 1],
-      ["irradiated_mango", 1],
-      ["irradiated_melon", 2],
-      ["irradiated_orange", 1],
-      ["irradiated_papaya", 1],
-      ["irradiated_peach", 1],
-      ["irradiated_pear", 1],
-      ["irradiated_pineapple", 1],
-      ["irradiated_plums", 1],
-      ["irradiated_pomegranate", 1],
-      ["irradiated_raspberries", 1],
-      ["irradiated_strawberries", 1],
-      ["irradiated_watermelon", 1],
-      ["juice_pulp", 2],
-      ["kiwi", 1],
-      ["lemon", 1],
-      ["mango", 1],
-      ["melon", 2],
-      ["orange", 1],
-      ["papaya", 1],
-      ["peach", 1],
-      ["pear", 1],
-      ["pineapple", 1],
-      ["plums", 1],
-      ["pomegranate", 1],
-      ["raspberries", 1],
-      ["rehydrated_fruit", 1],
-      ["can_peach", 1],
-      ["strawberries", 1],
-      ["watermelon", 1]
+      ["sweet_fruit_like", 1, "LIST"],
+      ["coconut", 1]
     ]
   ]
 },{
@@ -1231,14 +1013,8 @@
   "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
       [ "human_flesh", 1 ]
@@ -1306,14 +1082,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "meat", 1 ],
@@ -1341,14 +1111,7 @@
      {"id":"CUT","level":1},
      {"id":"COOK","level":2}
   ],
-  "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "meat", 2 ],
@@ -1369,14 +1132,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "veggy", 1 ]
@@ -1392,14 +1149,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "veggy_wild", 1 ]
@@ -1419,14 +1170,8 @@
   "qualities":[
     {"id":"CUT","level":1},
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "cattail_stalk", 1 ]
@@ -1444,14 +1189,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -1475,12 +1214,7 @@
     {"id":"COOK","level":2}
   ],
   "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 8, "LIST" ] ],
     [
       [ "cooking_oil", -1 ],
       [ "tallow", -1 ],
@@ -1516,14 +1250,8 @@
   ["manual_survival", 1], ["survival_book", 1]],
   "qualities":[
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "dahlia_root", 1 ]
@@ -1542,14 +1270,8 @@
   "qualities":[
     {"id":"COOK","level":2},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "raw_dandelion", 2 ]
@@ -1575,12 +1297,7 @@
     {"id":"CUT","level":1}
   ],
   "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 8, "LIST" ] ],
     [
       [ "cooking_oil", -1 ],
       [ "tallow", -1 ],
@@ -1617,14 +1334,8 @@
   "qualities":[
     {"id":"COOK","level":2},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "acorns", 1 ]
@@ -1644,14 +1355,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 4 ],
-      [ "char_smoker", 4 ],
-      [ "toolset", 4 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
   "components": [
     [
       [ "spaghetti_raw", 1 ],
@@ -1671,14 +1376,7 @@
   "skill_used": "cooking",
   "time": 2500,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "frozen_burrito", 1 ]
@@ -1692,14 +1390,7 @@
   "skill_used": "cooking",
   "time": 5000,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "frozen_dinner", 1 ]
@@ -1716,14 +1407,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 4 ],
-      [ "char_smoker", 4 ],
-      [ "toolset", 4 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
   "components": [
     [
       [ "spaghetti_raw", 1 ],
@@ -1751,14 +1436,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 4 ],
-      [ "char_smoker", 4 ],
-      [ "toolset", 4 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
   "components": [
     [
       [ "spaghetti_raw", 1 ],
@@ -1802,14 +1481,8 @@
   "book_learn": [[ "cookbook_human", 1 ]],
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 4 ],
-      [ "char_smoker", 4 ],
-      [ "toolset", 4 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
   "components": [
     [
       [ "spaghetti_raw", 1 ],
@@ -1844,14 +1517,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ],
-  "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "pumpkin", 1 ],
@@ -1869,14 +1535,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "potato_raw", 1 ],
@@ -1896,14 +1556,7 @@
      {"id":"CUT","level":1},
      {"id":"COOK","level":2}
   ],
-   "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
-  ],
+   "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "potato_raw", 1 ],
@@ -1926,14 +1579,7 @@
   "qualities" : [
     {"id":"COOK","level":2}
   ],
-  "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "seed_weed", 4 ],
@@ -1954,14 +1600,7 @@
      {"id":"CUT","level":1},
      {"id":"COOK","level":2}
   ],
-   "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
-  ],
+   "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "cornmeal", 1 ]
@@ -1982,14 +1621,7 @@
      {"id":"CUT","level":1},
      {"id":"COOK","level":2}
   ],
-   "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
-  ],
+   "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "cheese", 1 ],
@@ -2012,14 +1644,7 @@
      {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ],
-   "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
-  ],
+   "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "meat", 1],
@@ -2044,14 +1669,7 @@
      {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ],
-   "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
-  ],
+   "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "meat", 1],
@@ -2081,14 +1699,7 @@
      {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ],
-   "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
-  ],
+   "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "human_flesh", 1 ],
@@ -2110,14 +1721,8 @@
    "qualities" : [
      {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "human_flesh", 1 ],
@@ -2148,12 +1753,7 @@
     {"id":"COOK","level":2}
   ],
   "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 8, "LIST" ] ],
     [
       [ "cooking_oil", -1 ],
       [ "tallow", -1 ],
@@ -2181,14 +1781,7 @@
    "qualities" : [
      {"id":"CUT","level":1}
    ],
-   "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
-  ],
+   "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "cheese", 1 ],
@@ -2210,14 +1803,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-      [
-        [ "hotplate", 2 ],
-        [ "char_smoker", 2 ],
-        [ "toolset", 2 ],
-        [ "fire", -1 ]
-      ]
-    ],
+  ],
+  "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
       [
         [ "kernels", 1 ]
@@ -2249,18 +1836,8 @@
   "time": 10000,
   "autolearn": true,
   "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ],
-      [ "coffeemaker", 2]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "tea_raw", 1 ]
@@ -2280,18 +1857,8 @@
   "time": 10000,
   "autolearn": true,
   "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ],
-      [ "coffeemaker", 2]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "wild_herbs", 10 ]
@@ -2316,16 +1883,8 @@
   "qualities":[
      {"id":"CUT","level":1},
     {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ],
-      [ "coffeemaker", 2]
-    ]
   ],
+  "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "pine_bough", 1 ]
@@ -2349,16 +1908,8 @@
   "qualities":[
     {"id":"BOIL","level":1},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ],
-      [ "coffeemaker", 2]
-    ]
   ],
+  "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "raw_dandelion", 1 ]
@@ -2381,68 +1932,11 @@
   "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
-      ["apple", 4],
-      ["apple_canned", 4],
-      ["apple_vac", 4],
-      ["apricot", 4],
-      ["blackberries", 4],
-      ["banana", 4],
-      ["blueberries", 4],
-      ["cherries", 4],
-      ["cranberries", 12],
-      ["dry_fruit", 4],
-      ["can_peach", 2],
-      ["grapefruit", 4],
-      ["grapes", 8],
-      ["irradiated_apple", 4],
-      ["irradiated_apricot", 4],
-      ["irradiated_banana", 4],
-      ["irradiated_blackberries", 4],
-      ["irradiated_blueberries", 4],
-      ["irradiated_cherries", 4],
-      ["irradiated_cranberries", 12],
-      ["irradiated_grapefruit", 4],
-      ["irradiated_grapes", 8],
-      ["irradiated_kiwi", 4],
-      ["irradiated_lemon", 4],
-      ["irradiated_mango", 4],
-      ["irradiated_melon", 8],
-      ["irradiated_orange", 4],
-      ["irradiated_papaya", 4],
-      ["irradiated_peach", 4],
-      ["irradiated_pear", 4],
-      ["irradiated_pineapple", 4],
-      ["irradiated_plums", 4],
-      ["irradiated_pomegranate", 4],
-      ["irradiated_raspberries", 4],
-      ["irradiated_rhubarb", 8],
-      ["irradiated_strawberries", 4],
-      ["irradiated_watermelon", 3],
-      ["kiwi", 4],
-      ["lemon", 4],
-      ["mango", 4],
-      ["melon", 8],
-      ["orange", 4],
-      ["papaya", 4],
-      ["peach", 4],
-      ["pear", 4],
-      ["pineapple", 4],
-      ["plums", 4],
-      ["pomegranate", 4],
-      ["raspberries", 4],
-      ["rhubarb", 8],
-      ["strawberries", 4],
-      ["watermelon", 3]
+      ["sweet_fruit_like", 4, "LIST"]
     ],
     [
       [ "sugar", 10 ]
@@ -2480,8 +1974,8 @@
   "time": 6000,
   "autolearn": true,
   "batch_time_factors": [ 80, 4 ],
-  "qualities": [ { "id": "COOK","level": 2,"amount": 1 } ],
-  "tools": [ [ [ "hotplate", 8 ], [ "char_smoker", 8 ], [ "toolset", 8 ], [ "fire", -1 ] ] ],
+  "qualities": [ { "id": "COOK","level": 2 } ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [ [ [ "coffee_bean", 1 ] ] ]
 },{
   "type" : "recipe",
@@ -2492,18 +1986,8 @@
   "time": 10000,
   "autolearn": true,
   "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "atomic_coffeepot", -1 ],
-      [ "coffeemaker", 2],
-      [ "fire", -1 ]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "coffee_raw", 1 ],
@@ -2610,14 +2094,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "coffee_raw", 5 ]
@@ -2939,14 +2417,7 @@
   "batch_time_factors":[50, 5],
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
         [ "bone", 4 ]
@@ -2979,14 +2450,7 @@
   "batch_time_factors":[50, 5],
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
         [ "veggy", 2 ],
@@ -3034,14 +2498,7 @@
   "batch_time_factors":[50, 5],
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
         [ "bone_human", 4 ]
@@ -3065,14 +2522,7 @@
   "time": 60000,
   "autolearn": true,
   "batch_time_factors":[83, 5],
-  "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "salt_water", 1 ],
@@ -3097,14 +2547,7 @@
   "time": 30000,
   "batch_time_factors":[83, 5],
   "autolearn": true,
-  "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "salt_water", 1 ],
@@ -3129,14 +2572,7 @@
   "time": 30000,
   "batch_time_factors":[83, 5],
   "book_learn": [[ "cookbook_human", 3 ]],
-  "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "salt_water", 1 ],
@@ -3163,14 +2599,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
      {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "fat", 1 ]
@@ -3188,14 +2617,7 @@
   "qualities" : [
     {"id":"CUT","level":1}
   ],
-  "tools": [
-    [
-      [ "hotplate", 20 ],
-      [ "char_smoker", 20 ],
-      [ "toolset", 20 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
   "components": [
     [
       [ "tallow", 2 ],
@@ -3268,12 +2690,7 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "vac_sealer", 10 ],
       [ "makeshift_sealer", 20 ]
@@ -3317,12 +2734,7 @@
     {"id":"CONTAIN","level":1}
   ],
   "tools": [
-    [
-      [ "hotplate", 4 ],
-      [ "char_smoker", 4 ],
-      [ "toolset", 4 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 4, "LIST" ] ],
     [
       [ "rag", -1 ]
     ]
@@ -3350,14 +2762,8 @@
   "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -3407,14 +2813,8 @@
   "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "bone", 10 ]
@@ -3436,14 +2836,8 @@
   "book_learn": [[ "cookbook_human", 1 ]],
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "bone_human", 10 ]
@@ -3465,14 +2859,8 @@
   "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "broth", 1 ]
@@ -3501,12 +2889,7 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "vac_sealer", 10 ],
       [ "makeshift_sealer", 20 ]
@@ -3544,12 +2927,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -3584,14 +2962,8 @@
   "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "broth", 1 ]
@@ -3656,14 +3028,8 @@
   "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "broth", 1 ],
@@ -3711,14 +3077,8 @@
   "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "broth", 1 ],
@@ -3798,14 +3158,8 @@
   "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "broth", 1 ],
@@ -3860,14 +3214,8 @@
   "book_learn": [[ "cookbook_human", 2 ]],
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "broth", 1 ],
@@ -3912,14 +3260,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "can_clams", 1 ]
@@ -3952,14 +3294,7 @@
   "autolearn": true,
   "qualities": [
   {"id":"COOK","level":3} ],
-  "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 3 ]
@@ -3992,14 +3327,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 3 ]
@@ -4021,14 +3350,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 3 ]
@@ -4054,14 +3377,8 @@
   "qualities":[
     {"id":"BOIL","level":2}
   ], "tools": [
-    [
-      [ "rag", -1 ]
-    ],
-    [
-      [ "hotplate", 12 ],
-      [ "toolset", 12 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 12, "LIST" ] ],
+    [ [ "rag", -1 ] ]
   ],
   "components": [
     [
@@ -4080,14 +3397,8 @@
   "qualities":[
     {"id":"BOIL","level":2}
   ], "tools": [
-    [
-      [ "thermometer", -1 ]
-    ],
-    [
-      [ "hotplate", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 8, "LIST" ] ],
+    [ [ "thermometer", -1 ] ]
   ],
   "components": [
     [
@@ -4107,14 +3418,7 @@
     {"id":"BUTCHER","level":20},
     {"id":"COOK","level":3},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 4 ],
-      [ "char_smoker", 4 ],
-      [ "toolset", 4 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
   "components": [
     [
       [ "sugar", 20 ],
@@ -4223,14 +3527,7 @@
   "qualities":[
     {"id":"COOK","level":2},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "sugar_beet", 4 ]
@@ -4252,14 +3549,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "cooking_oil", 1 ],
@@ -4286,14 +3576,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "cornmeal", 3 ]
@@ -4315,14 +3598,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 16 ],
-      [ "char_smoker", 16 ],
-      [ "toolset", 16 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 16, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 2 ]
@@ -4349,14 +3625,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 2 ]
@@ -4382,14 +3651,7 @@
   "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "cooking_oil", 1 ],
@@ -4412,14 +3674,7 @@
   "batch_time_factors":[82, 4],
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "dry_beans", 1 ],
@@ -4442,14 +3697,7 @@
   "qualities":[
     {"id":"COOK","level":2},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "can_beans", 1 ],
@@ -4498,14 +3746,7 @@
   "qualities":[
     {"id":"COOK","level":2},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "can_beans", 1 ],
@@ -4565,14 +3806,7 @@
   "batch_time_factors":[82, 4],
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "dry_rice", 1 ]
@@ -4594,14 +3828,7 @@
   "qualities":[
     {"id":"COOK","level":2},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "rice_cooked", 1 ]
@@ -4645,14 +3872,7 @@
   "qualities":[
     {"id":"COOK","level":2},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "rice_cooked", 1 ]
@@ -4706,14 +3926,7 @@
   "batch_time_factors":[82, 4],
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "dry_beans", 1 ],
@@ -4739,14 +3952,7 @@
   "qualities":[
     {"id":"COOK","level":2},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "dry_beans", 1 ],
@@ -4800,14 +4006,7 @@
   "qualities":[
     {"id":"COOK","level":2},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "dry_beans", 1 ],
@@ -4870,8 +4069,10 @@
   "difficulty": 2,
   "time": 45000,
   "autolearn": true,
-  "tools": [    [ [ "hotplate", 5 ], [ "char_smoker", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ],
-                [ ["rock_quern", -1], ["clay_quern", -1] ] ],
+  "tools": [
+    [ [ "surface_heat", 5, "LIST" ] ],
+    [ ["rock_quern", -1], ["clay_quern", -1] ]
+  ],
   "components": [ [ ["oats", 2] ] ]
 },{
   "type" : "recipe",
@@ -4883,14 +4084,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "oatmeal", 1 ]
@@ -4910,14 +4104,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "oatmeal", 1 ]
@@ -4972,14 +4159,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "buckwheat", 1 ]
@@ -4999,14 +4179,7 @@
   "difficulty": 1,
   "time": 6000,
   "autolearn": true,
-  "tools": [
-    [
-      ["hotplate", 5],
-      ["char_smoker", 5],
-      ["toolset", 5],
-      ["fire", -1]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [["pinecone", 4]]
   ]
@@ -5039,14 +4212,7 @@
   "qualities":[
     {"id":"COOK","level":1}
   ],
-  "tools": [
-    [
-      ["hotplate", 5],
-      ["char_smoker", 5],
-      ["toolset", 5],
-      ["fire", -1]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       ["hickory_nut_unshelled", 1]
@@ -5065,14 +4231,7 @@
     {"id":"COOK","level":3},
     {"id":"BOIL","level":2}
   ],
-  "tools": [
-    [
-      ["hotplate", 5],
-      [ "char_smoker", 5 ],
-      ["toolset", 5],
-      ["fire", -1]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
         ["hickory_nut_unshelled", 4]
@@ -5104,14 +4263,7 @@
   "difficulty": 3,
   "time": 45000,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hotplate", 20 ],
-      [ "char_smoker", 20 ],
-      [ "toolset", 20 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
   "components": [
     [
       [ "oatmeal", 4 ],
@@ -5127,59 +4279,10 @@
       [ "beet_syrup", 4 ]
     ],
     [
-      [ "apple", 1 ],
-      [ "apricot", 1 ],
-      [ "banana", 1 ],
-      [ "blackberries", 1 ],
-      [ "blueberries", 1 ],
-      [ "cherries", 1 ],
-      [ "coconut", 1 ],
-      [ "cranberries", 3 ],
-      [ "grapefruit", 1 ],
-      [ "grapes", 2 ],
-      [ "kiwi", 1 ],
-      [ "lemon", 1 ],
-      [ "mango", 1 ],
-      [ "melon", 2 ],
-      [ "orange", 1 ],
-      [ "papaya", 1 ],
-      [ "peach", 1 ],
-      [ "pear", 1 ],
-      [ "pineapple", 1 ],
-      [ "plums", 1 ],
-      [ "pomegranate", 1 ],
-      [ "raspberries", 1 ],
-      [ "strawberries", 1 ],
-      [ "watermelon", 1 ],
-      ["irradiated_apple", 1],
-      ["irradiated_apricot", 1],
-      ["irradiated_banana", 1],
-      ["irradiated_blackberries", 1],
-      ["irradiated_blueberries", 1],
-      ["irradiated_cherries", 1],
-      ["irradiated_cranberries", 3],
-      ["irradiated_grapefruit", 1],
-      ["irradiated_grapes", 2],
-      ["irradiated_kiwi", 1],
-      ["irradiated_lemon", 1],
-      ["irradiated_mango", 1],
-      ["irradiated_melon", 2],
-      ["irradiated_orange", 1],
-      ["irradiated_papaya", 1],
-      ["irradiated_peach", 1],
-      ["irradiated_pear", 1],
-      ["irradiated_pineapple", 1],
-      ["irradiated_plums", 1],
-      ["irradiated_pomegranate", 1],
-      ["irradiated_raspberries", 1],
-      ["irradiated_strawberries", 1],
-      ["irradiated_watermelon", 1],
-      [ "dry_fruit", 1 ],
-      [ "juice_pulp", 2 ],
+      [ "sweet_fruit_like", 1, "LIST" ],
       [ "jam_fruit", 1 ],
       [ "jam_strawberries", 1 ],
       [ "jam_blueberries", 1 ],
-      [ "can_peach", 1],
       [ "chocolate", 1 ],
       [ "candy", 3 ],
       [ "candy2", 3 ],
@@ -5197,14 +4300,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "powder_eggs", 10 ],
@@ -5228,14 +4324,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "egg_bird", 1 ],
@@ -5257,14 +4346,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "powder_eggs", 10 ],
@@ -5310,14 +4392,7 @@
   "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 1 ]
@@ -5357,14 +4432,7 @@
   "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 1 ]
@@ -5393,57 +4461,10 @@
       [ "water_clean", 1 ]
     ],
     [
-      ["apple", 1],
-      ["apricot", 1],
-      ["banana", 1],
-      ["blackberries", 1],
-      ["blueberries", 1],
-      ["cherries", 1],
-      ["cranberries", 3],
-      ["dry_fruit", 1],
-      ["grapes", 2],
-      ["irradiated_apple", 1],
-      ["irradiated_apricot", 1],
-      ["irradiated_banana", 1],
-      ["irradiated_blackberries", 1],
-      ["irradiated_blueberries", 1],
-      ["irradiated_cherries", 1],
-      ["irradiated_cranberries", 3],
-      ["irradiated_grapefruit", 1],
-      ["irradiated_grapes", 2],
-      ["irradiated_kiwi", 1],
-      ["irradiated_lemon", 1],
-      ["irradiated_mango", 1],
-      ["irradiated_melon", 2],
-      ["irradiated_orange", 1],
-      ["irradiated_papaya", 1],
-      ["irradiated_peach", 1],
-      ["irradiated_pear", 1],
-      ["irradiated_pineapple", 1],
-      ["irradiated_plums", 1],
-      ["irradiated_pomegranate", 1],
-      ["irradiated_raspberries", 1],
-      ["irradiated_strawberries", 1],
-      ["irradiated_watermelon", 1],
+      ["sweet_fruit_like", 1, "LIST"],
       ["jam_fruit", 1],
       ["jam_strawberries", 1],
-      ["jam_blueberries", 1],
-      ["can_peach", 1],
-      ["juice_pulp", 2],
-      ["kiwi", 1],
-      ["lemon", 1],
-      ["mango", 1],
-      ["melon", 2],
-      ["papaya", 1],
-      ["peach", 1],
-      ["pear", 1],
-      ["pineapple", 1],
-      ["plums", 1],
-      ["pomegranate", 1],
-      ["raspberries", 1],
-      ["rehydrated_fruit", 1],
-      ["strawberries", 1],
-      ["watermelon", 1]
+      ["jam_blueberries", 1]
     ]
   ]
 },{
@@ -5457,14 +4478,7 @@
   "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 1 ]
@@ -5508,14 +4522,7 @@
   "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "milk", 1 ],
@@ -5548,12 +4555,7 @@
   "time": 12000,
   "autolearn": true,
   "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 8, "LIST" ] ],
     [
       [ "waffleiron", -1 ]
     ]
@@ -5599,12 +4601,7 @@
   "time": 12000,
   "autolearn": true,
   "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 8, "LIST" ] ],
     [
       [ "waffleiron", -1 ]
     ]
@@ -5640,58 +4637,10 @@
       [ "water_clean", 1 ]
     ],
     [
-      ["apple", 1],
-      ["apricot", 1],
-      ["banana", 1],
-      ["blackberries", 1],
-      ["blueberries", 1],
-      ["cherries", 1],
-      ["cranberries", 3],
-      ["dry_fruit", 1],
-      ["grapes", 2],
-      ["irradiated_apple", 1],
-      ["irradiated_apricot", 1],
-      ["irradiated_banana", 1],
-      ["irradiated_blackberries", 1],
-      ["irradiated_blueberries", 1],
-      ["irradiated_cherries", 1],
-      ["irradiated_cranberries", 3],
-      ["irradiated_grapefruit", 1],
-      ["irradiated_grapes", 2],
-      ["irradiated_kiwi", 1],
-      ["irradiated_lemon", 1],
-      ["irradiated_mango", 1],
-      ["irradiated_melon", 2],
-      ["irradiated_orange", 1],
-      ["irradiated_papaya", 1],
-      ["irradiated_peach", 1],
-      ["irradiated_pear", 1],
-      ["irradiated_pineapple", 1],
-      ["irradiated_plums", 1],
-      ["irradiated_pomegranate", 1],
-      ["irradiated_raspberries", 1],
-      ["irradiated_strawberries", 1],
-      ["irradiated_watermelon", 1],
+      ["sweet_fruit_like", 1, "LIST"],
       ["jam_fruit", 1],
       ["jam_strawberries", 1],
-      ["jam_blueberries", 1],
-      ["can_peach", 1],
-      ["juice_pulp", 2],
-      ["kiwi", 1],
-      ["lemon", 1],
-      ["mango", 1],
-      ["melon", 2],
-      ["orange", 1],
-      ["papaya", 1],
-      ["peach", 1],
-      ["pear", 1],
-      ["pineapple", 1],
-      ["plums", 1],
-      ["pomegranate", 1],
-      ["raspberries", 1],
-      ["rehydrated_fruit", 1],
-      ["strawberries", 1],
-      ["watermelon", 1]
+      ["jam_blueberries", 1]
     ]
   ]
 },{
@@ -5704,12 +4653,7 @@
   "time": 12000,
   "autolearn": true,
   "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 8, "LIST" ] ],
     [
       [ "waffleiron", -1 ]
     ]
@@ -5762,63 +4706,10 @@
      {"id":"CUT","level":1},
      {"id":"COOK","level":2}
   ],
-  "tools" : [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools" : [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
-      ["apple", 1],
-      ["apricot", 1],
-      ["banana", 1],
-      ["blackberries", 1],
-      ["blueberries", 1],
-      ["cherries", 1],
-      ["cranberries", 3],
-      ["grapefruit", 1],
-      ["grapes", 2],
-      ["irradiated_apple", 1],
-      ["irradiated_apricot", 1],
-      ["irradiated_banana", 1],
-      ["irradiated_blackberries", 1],
-      ["irradiated_blueberries", 1],
-      ["irradiated_cherries", 1],
-      ["irradiated_cranberries", 3],
-      ["irradiated_grapefruit", 1],
-      ["irradiated_grapes", 2],
-      ["irradiated_kiwi", 1],
-      ["irradiated_lemon", 1],
-      ["irradiated_mango", 1],
-      ["irradiated_melon", 2],
-      ["irradiated_orange", 1],
-      ["irradiated_papaya", 1],
-      ["irradiated_peach", 1],
-      ["irradiated_pear", 1],
-      ["irradiated_pineapple", 1],
-      ["irradiated_plums", 1],
-      ["irradiated_pomegranate", 1],
-      ["irradiated_raspberries", 1],
-      ["irradiated_strawberries", 1],
-      ["irradiated_watermelon", 1],
-      ["can_peach", 1],
-      ["kiwi", 1],
-      ["lemon", 1],
-      ["mango", 1],
-      ["melon", 2],
-      ["orange", 1],
-      ["papaya", 1],
-      ["peach", 1],
-      ["pear", 1],
-      ["pineapple", 1],
-      ["plums", 1],
-      ["pomegranate", 1],
-      ["raspberries", 1],
-      ["strawberries", 1],
-      ["watermelon", 1]
+      ["sweet_fruit", 1, "LIST"]
     ],
     [
       [ "sugar", 5 ],
@@ -5841,14 +4732,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 1 ],
@@ -5872,63 +4756,12 @@
       [ "water_clean", 1 ]
     ],
     [
-      ["apple", 1],
-      ["apricot", 1],
-      ["banana", 1],
-      ["blackberries", 1],
-      ["blueberries", 1],
-      ["candy", 3],
-      ["candy2", 3],
-      ["cherries", 1],
+      ["sweet_fruit_like", 1, "LIST"],
       ["choco_coffee_beans", 5],
       ["chocolate", 1],
-      ["dry_fruit", 1],
-      ["cranberries", 3],
-      ["grapefruit", 1],
-      ["grapes", 2],
-      ["irradiated_apple", 1],
-      ["irradiated_apricot", 1],
-      ["irradiated_banana", 1],
-      ["irradiated_blackberries", 1],
-      ["irradiated_blueberries", 1],
-      ["irradiated_cherries", 1],
-      ["irradiated_cranberries", 3],
-      ["irradiated_grapefruit", 1],
-      ["irradiated_grapes", 2],
-      ["irradiated_kiwi", 1],
-      ["irradiated_lemon", 1],
-      ["irradiated_mango", 1],
-      ["irradiated_melon", 2],
-      ["irradiated_orange", 1],
-      ["irradiated_papaya", 1],
-      ["irradiated_peach", 1],
-      ["irradiated_pear", 1],
-      ["irradiated_pineapple", 1],
-      ["irradiated_plums", 1],
-      ["irradiated_pomegranate", 1],
-      ["irradiated_raspberries", 1],
-      ["irradiated_strawberries", 1],
-      ["irradiated_watermelon", 1],
       ["jam_fruit", 1],
       ["jam_strawberries", 1],
-      ["jam_blueberries", 1],
-      ["can_peach", 1],
-      ["juice_pulp", 2],
-      ["kiwi", 1],
-      ["lemon", 1],
-      ["mango", 1],
-      ["melon", 2],
-      ["orange", 1],
-      ["papaya", 1],
-      ["peach", 1],
-      ["pear", 1],
-      ["pineapple", 1],
-      ["plums", 1],
-      ["pomegranate", 1],
-      ["raspberries", 1],
-      ["rehydrated_fruit", 1],
-      ["strawberries", 1],
-      ["watermelon", 1]
+      ["jam_blueberries", 1]
     ]
   ]
 },{
@@ -5943,14 +4776,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "roasted_coffee_bean", 1 ]
@@ -5971,14 +4797,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "pretzels", 6 ]
@@ -5998,14 +4817,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "salt", 50 ]
@@ -6049,14 +4861,7 @@
   "qualities":[
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "salt", 20 ]
@@ -6083,73 +4888,13 @@
   "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 2 ]
     ],
     [
-      ["apple", 2],
-      ["apple_canned", 1],
-      ["apple_vac", 1],
-      ["apricot", 2],
-      ["banana", 2],
-      ["blackberries", 2],
-      ["blueberries", 2],
-      ["cherries", 2],
-      ["coconut", 2],
-      ["cranberries", 6],
-      ["dry_fruit", 2],
-      ["grapefruit", 2],
-      ["grapes", 4],
-      ["irradiated_apple", 2],
-      ["irradiated_apricot", 2],
-      ["irradiated_banana", 2],
-      ["irradiated_blackberries", 2],
-      ["irradiated_blueberries", 2],
-      ["irradiated_cherries", 2],
-      ["irradiated_cranberries", 6],
-      ["irradiated_grapefruit", 2],
-      ["irradiated_grapes", 4],
-      ["irradiated_kiwi", 2],
-      ["irradiated_lemon", 2],
-      ["irradiated_mango", 2],
-      ["irradiated_melon", 4],
-      ["irradiated_orange", 2],
-      ["irradiated_papaya", 2],
-      ["irradiated_peach", 2],
-      ["irradiated_pear", 2],
-      ["irradiated_pineapple", 2],
-      ["irradiated_plums", 2],
-      ["irradiated_pomegranate", 2],
-      ["irradiated_raspberries", 2],
-      ["irradiated_rhubarb", 4],
-      ["irradiated_strawberries", 2],
-      ["irradiated_watermelon", 1],
-      ["can_peach", 2],
-      ["juice_pulp", 4],
-      ["kiwi", 2],
-      ["lemon", 2],
-      ["mango", 2],
-      ["melon", 4],
-      ["orange", 2],
-      ["papaya", 2],
-      ["peach", 2],
-      ["pear", 2],
-      ["pineapple", 2],
-      ["plums", 2],
-      ["pomegranate", 2],
-      ["raspberries", 2],
-      ["rhubarb", 4],
-      ["strawberries", 2],
-      ["watermelon", 1]
+      ["sweet_fruit_like", 1, "LIST"]
     ],
     [
       [ "sugar", 5 ],
@@ -6173,14 +4918,7 @@
   "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 2 ]
@@ -6229,14 +4967,7 @@
   "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 2 ]
@@ -6269,14 +5000,7 @@
   "book_learn": [[ "cookbook_human", 3 ]],
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 2 ]
@@ -6304,14 +5028,7 @@
      {"id":"BOIL","level":2},
      {"id":"COOK","level":2}
   ],
-  "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 2 ]
@@ -6340,13 +5057,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "veggy", 2 ],
@@ -6390,13 +5101,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "veggy", 2 ],
@@ -6433,13 +5138,7 @@
   "book_learn": [[ "cookbook_italian", 2 ]],
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "veggy", 2 ],
@@ -6485,13 +5184,7 @@
   "book_learn": [[ "cookbook_human", 2 ]],
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "veggy", 2 ],
@@ -6536,14 +5229,7 @@
   "book_learn": [[ "cookbook_italian", 2 ]],
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 2 ]
@@ -6594,7 +5280,7 @@
   "time": 8000,
   "autolearn": true,
   "qualities" : [ { "id" : "COOK","level" : 1,"amount" : 1 } ],
-  "tools": [ [ [ "hotplate", 8 ], [ "char_smoker", 8 ], [ "toolset", 8 ], [ "fire", -1 ] ] ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [ [ "grahmcrackers", 8 ] ],
     [ [ "marshmallow", 8 ] ],
@@ -6639,14 +5325,7 @@
   "book_learn": [[ "cookbook_italian", 2 ]],
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 2 ]
@@ -6678,14 +5357,7 @@
   "book_learn": [[ "cookbook_italian", 2 ]],
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 2 ]
@@ -6725,14 +5397,7 @@
   "book_learn": [[ "cookbook_human", 3 ]],
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 2 ]
@@ -6766,14 +5431,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "spaghetti_raw", 1 ]
@@ -6810,14 +5468,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "lasagne_raw", 1 ]
@@ -6854,14 +5505,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "lasagne_raw", 1 ]
@@ -6897,14 +5541,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "spaghetti_raw", 1 ]
@@ -6940,14 +5577,7 @@
   "qualities":[
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 4 ],
-      [ "char_smoker", 4 ],
-      [ "toolset", 4 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
   "components": [
     [
       [ "spaghetti_raw", 1 ]
@@ -7006,13 +5636,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"CHEM","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 50 ],
-      [ "toolset", 50 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
   "components": [
     [
       [ "lye_powder", 100 ],
@@ -7038,14 +5662,7 @@
     {"id":"CUT","level":1},
     {"id":"BOIL","level":2}
   ],
-  "tools": [
-    [
-      [ "hotplate", 50 ],
-      [ "toolset", 50 ],
-      [ "fire", -1 ],
-      [ "char_smoker", 5 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
   "components": [
     [
       [ "hickory_root", 10 ]
@@ -7067,77 +5684,25 @@
   "autolearn": true,
   "qualities":[
     {"id":"CHEM","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 50 ],
-      [ "toolset", 50 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
   "components": [
     [
-      ["apple", 2],
-      ["apricot", 2],
-      ["banana", 2],
-      ["blackberries", 2],
-      ["blueberries", 2],
+      ["sweet_fruit_like", 2, "LIST"],
       ["bum_wine", 14],
-      ["cherries", 2],
       ["coconut", 2],
       ["coffee_syrup", 5],
       ["cola", 6],
       ["con_milk", 1],
       ["corn", 3],
-      ["cranberries", 6],
-      ["dry_fruit", 2],
-      ["grapes", 4],
       ["honey_bottled", 1],
       ["honey_glassed", 1],
       ["honeycomb", 1],
-      ["irradiated_apple", 2],
-      ["irradiated_apricot", 2],
-      ["irradiated_banana", 2],
-      ["irradiated_blackberries", 2],
-      ["irradiated_blueberries", 2],
-      ["irradiated_cherries", 2],
-      ["irradiated_corn", 3],
-      ["irradiated_cranberries", 6],
-      ["irradiated_grapefruit", 2],
-      ["irradiated_grapes", 4],
-      ["irradiated_kiwi", 2],
-      ["irradiated_lemon", 2],
-      ["irradiated_mango", 2],
-      ["irradiated_melon", 4],
-      ["irradiated_orange", 2],
-      ["irradiated_papaya", 2],
-      ["irradiated_peach", 2],
-      ["irradiated_pear", 2],
-      ["irradiated_pineapple", 2],
-      ["irradiated_plums", 2],
-      ["irradiated_pomegranate", 2],
-      ["irradiated_raspberries", 2],
-      ["irradiated_strawberries", 2],
-      ["irradiated_watermelon", 1],
       ["can_corn", 3],
-      ["can_peach", 1],
-      ["kiwi", 2],
-      ["mango", 2],
-      ["melon", 4],
       ["molasses", 1],
-      ["orange", 2],
-      ["papaya", 2],
-      ["pear", 2],
-      ["peach", 2],
-      ["pineapple", 2],
-      ["plums", 2],
-      ["pomegranate", 2],
       ["purple_drink", 6],
-      ["raspberries", 2],
       ["rootbeer", 6],
-      ["strawberries", 2],
       ["syrup", 2],
-      ["beet_syrup", 4],
-      ["watermelon", 1]
+      ["beet_syrup", 4]
     ],
     [
       [ "lye_powder", 20 ]
@@ -7160,13 +5725,7 @@
   "book_learn": [["adv_chemistry", 7] , ["textbook_chemistry", 8] , ["recipe_labchem", 6]],
   "qualities":[
     {"id":"CHEM","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 50 ],
-      [ "toolset", 50 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
   "components": [
     [
       [ "pine_bough", 6 ],
@@ -7195,14 +5754,7 @@
     { "id": "CONTAIN", "level": 1 },
     { "id": "BOIL", "level": 2 },
     { "id": "CHEM", "level": 1 }
-  ], "tools": [
-    [
-      [ "hotplate", 40 ],
-      [ "toolset", 40 ],
-      [ "fire", -1 ],
-      [ "char_smoker", 4 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 40, "LIST" ] ] ],
   "components": [
     [
       [ "sugar_beet", 2 ]
@@ -7231,14 +5783,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -7267,14 +5812,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -7303,14 +5841,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -7339,14 +5870,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -7377,14 +5901,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -7394,52 +5911,7 @@
       [ "jar_glass", 1 ]
     ],
     [
-      [ "apple", 2 ],
-      [ "apricot", 2 ],
-      [ "banana", 2 ],
-      [ "blackberries", 2 ],
-      [ "blueberries", 2 ],
-      [ "cherries", 2 ],
-      [ "cranberries", 6 ],
-      [ "grapefruit", 2 ],
-      [ "grapes", 4 ],
-      [ "kiwi", 2 ],
-      [ "lemon", 2 ],
-      [ "mango", 2 ],
-      [ "melon", 4 ],
-      [ "orange", 2 ],
-      [ "papaya", 2 ],
-      [ "peach", 2 ],
-      [ "pear", 2 ],
-      [ "pineapple", 2 ],
-      [ "plums", 2 ],
-      [ "pomegranate", 2 ],
-      [ "raspberries", 2 ],
-      [ "strawberries", 2 ],
-      [ "watermelon", 2 ],
-      [ "irradiated_apple", 2 ],
-      [ "irradiated_apricot", 2 ],
-      [ "irradiated_banana", 2 ],
-      [ "irradiated_blackberries", 2 ],
-      [ "irradiated_blueberries", 2 ],
-      [ "irradiated_cherries", 2 ],
-      [ "irradiated_cranberries", 6 ],
-      [ "irradiated_grapefruit", 2 ],
-      [ "irradiated_grapes", 4 ],
-      [ "irradiated_kiwi", 2 ],
-      [ "irradiated_lemon", 2 ],
-      [ "irradiated_mango", 2 ],
-      [ "irradiated_melon", 4 ],
-      [ "irradiated_orange", 2 ],
-      [ "irradiated_papaya", 2 ],
-      [ "irradiated_peach", 2 ],
-      [ "irradiated_pear", 2 ],
-      [ "irradiated_pineapple", 2 ],
-      [ "irradiated_plums", 2 ],
-      [ "irradiated_pomegranate", 2 ],
-      [ "irradiated_raspberries", 2 ],
-      [ "irradiated_strawberries", 2 ],
-      [ "irradiated_watermelon", 2 ]
+      [ "sweet_fruit", 2, "LIST" ]
     ]
   ]
 },{
@@ -7459,12 +5931,7 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "vac_sealer", 10 ],
       [ "makeshift_sealer", 20 ]
@@ -7533,12 +6000,7 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "vac_sealer", 10 ],
       [ "makeshift_sealer", 20 ]
@@ -7599,12 +6061,7 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "vac_sealer", 10 ],
       [ "makeshift_sealer", 20 ]
@@ -7682,12 +6139,7 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "vac_sealer", 10 ],
       [ "makeshift_sealer", 20 ]
@@ -7780,12 +6232,7 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "vac_sealer", 10 ],
       [ "makeshift_sealer", 20 ]
@@ -7844,12 +6291,7 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "vac_sealer", 10 ],
       [ "makeshift_sealer", 20 ]
@@ -7914,12 +6356,7 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "vac_sealer", 10 ],
       [ "makeshift_sealer", 20 ]
@@ -7954,12 +6391,7 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "vac_sealer", 10 ],
       [ "makeshift_sealer", 20 ]
@@ -8137,8 +6569,8 @@
     {"id":"COOK","level":3}
   ], "tools": [
     [
-      [ "vac_sealer", 10 ],
-      [ "makeshift_sealer", 20 ]
+      [ "vac_sealer", 5 ],
+      [ "makeshift_sealer", 10 ]
     ]
   ],
   "components": [
@@ -8150,55 +6582,10 @@
       [ "bag_plastic", 1 ]
     ],
     [
-      [ "apple", 3 ],
-      [ "strawberries", 3 ],
-      [ "blueberries", 3 ],
-      [ "orange", 3 ],
-      [ "lemon", 3 ],
-      [ "banana", 3 ],
-      [ "pear", 3 ],
-      [ "grapefruit", 3 ],
-      [ "cherries", 3 ],
-      [ "plums", 3 ],
-      [ "grapes", 6 ],
-      [ "pineapple", 3],
-      [ "peach", 3 ],
-      [ "cranberries", 9 ],
-      [ "watermelon", 2 ],
-      [ "melon", 6 ],
-      [ "raspberries", 3 ],
-      [ "blackberries", 3 ],
-      [ "pomegranate", 3 ],
-      [ "mango", 3 ],
-      [ "papaya", 3 ],
-      [ "apricot", 3 ],
-      [ "kiwi", 3 ],
-      [ "irradiated_apple", 3 ],
-      [ "irradiated_strawberries", 3 ],
-      [ "irradiated_blueberries", 3 ],
-      [ "irradiated_orange", 3 ],
-      [ "irradiated_lemon", 3 ],
-      [ "irradiated_banana", 3 ],
-      [ "irradiated_pear", 3 ],
-      [ "irradiated_grapefruit", 3 ],
-      [ "irradiated_cherries", 3 ],
-      [ "irradiated_plums", 3 ],
-      [ "irradiated_grapes", 6 ],
-      [ "irradiated_pineapple", 3],
-      [ "irradiated_peach", 3 ],
-      [ "irradiated_cranberries", 9 ],
-      [ "irradiated_watermelon", 2 ],
-      [ "irradiated_melon", 6 ],
-      [ "irradiated_raspberries", 3 ],
-      [ "irradiated_blackberries", 3 ],
-      [ "irradiated_pomegranate", 3 ],
-      [ "irradiated_mango", 3 ],
-      [ "irradiated_papaya", 3 ],
-      [ "irradiated_apricot", 3 ],
-      [ "irradiated_kiwi", 3 ]
+      [ "sweet_fruit", 1, "LIST" ]
    ],
     [
-      [ "sugar", 20 ]
+      [ "sugar", 5 ]
     ]
   ]
 },{
@@ -8217,12 +6604,7 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 2, "LIST" ] ],
     [
       [ "vac_sealer", 10 ],
       [ "makeshift_sealer", 20 ]
@@ -8233,57 +6615,7 @@
       [ "jar_3l_glass", 1 ]
     ],
     [
-      ["apple", 4],
-      ["apple_canned", 4],
-      ["apple_vac", 4],
-      ["apricot", 4],
-      ["banana", 4 ],
-      ["blackberries", 4],
-      ["blueberries", 4],
-      ["cherries", 4],
-      ["cranberries", 12],
-      ["dry_fruit", 4 ],
-      ["grapefruit", 4],
-      ["grapes", 8],
-      ["irradiated_apple", 4],
-      ["irradiated_apricot", 4],
-      ["irradiated_banana", 4],
-      ["irradiated_blackberries", 4],
-      ["irradiated_blueberries", 4],
-      ["irradiated_cherries", 4],
-      ["irradiated_cranberries", 12],
-      ["irradiated_grapefruit", 4],
-      ["irradiated_grapes", 8],
-      ["irradiated_kiwi", 4],
-      ["irradiated_lemon", 4],
-      ["irradiated_mango", 4],
-      ["irradiated_melon", 8],
-      ["irradiated_orange", 4],
-      ["irradiated_papaya", 4],
-      ["irradiated_peach", 4],
-      ["irradiated_pear", 4],
-      ["irradiated_pineapple", 4],
-      ["irradiated_plums", 4],
-      ["irradiated_pomegranate", 4],
-      ["irradiated_raspberries", 4],
-      ["irradiated_rhubarb", 8],
-      ["irradiated_strawberries", 4],
-      ["irradiated_watermelon", 3],
-      ["kiwi", 4],
-      ["lemon", 4],
-      ["mango", 4],
-      ["melon", 8],
-      ["orange", 4],
-      ["papaya", 4],
-      ["peach", 4],
-      ["pear", 4],
-      ["pineapple", 4],
-      ["plums", 4],
-      ["pomegranate", 4],
-      ["raspberries", 4],
-      ["rhubarb", 8],
-      ["strawberries", 4],
-      ["watermelon", 3]
+      [ "sweet_fruit_like", 4, "LIST" ]
     ],
     [
       [ "sugar", 5 ]
@@ -8306,14 +6638,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ],
-  "tools": [
-    [
-      ["hotplate", 5],
-      [ "char_smoker", 5 ],
-      ["toolset", 5],
-      ["fire", -1]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       ["can_spam", 1]
@@ -8341,8 +6666,10 @@
   "time": 45000,
   "autolearn": true,
   "batch_time_factors":[83, 3],
-  "tools": [    [ [ "hotplate", 5 ], [ "char_smoker", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ],
-                [ ["rock_quern", -1], ["clay_quern", -1] ] ],
+  "tools": [
+    [ [ "surface_heat", 5, "LIST" ] ],
+    [ ["rock_quern", -1], ["clay_quern", -1] ]
+  ],
   "components": [ [ ["corn", 2], ["irradiated_corn", 2] ] ]
 },{
   "type" : "recipe",
@@ -8378,12 +6705,7 @@
   "time": 30000,
   "autolearn": true,
   "tools": [
-    [
-      ["hotplate", 25],
-      [ "char_smoker", 25 ],
-      ["toolset", 25],
-      ["fire", -1]
-    ],
+    [ [ "surface_heat", 25, "LIST" ] ],
     [
      ["pastaextruder", -1]
     ]
@@ -8402,12 +6724,7 @@
   "time": 30000,
   "autolearn": true,
   "tools": [
-    [
-      ["hotplate", 25],
-      [ "char_smoker", 25 ],
-      ["toolset", 25],
-      ["fire", -1]
-    ],
+    [ [ "surface_heat", 25, "LIST" ] ],
     [
      ["pastaextruder", -1]
     ]
@@ -8426,12 +6743,7 @@
   "time": 30000,
   "autolearn": true,
   "tools": [
-    [
-      ["hotplate", 25],
-      [ "char_smoker", 25 ],
-      ["toolset", 25],
-      ["fire", -1]
-    ],
+    [ [ "surface_heat", 25, "LIST" ] ],
     [
      ["pastaextruder", -1]
     ]
@@ -8531,7 +6843,7 @@
   "time": 7000,
   "autolearn": true,
   "qualities": [ { "id": "COOK", "level": 2 } ],
-  "tools": [ [ [ "hotplate", 4 ], [ "char_smoker", 4 ], [ "toolset", 4 ], [ "fire", -1 ] ] ],
+  "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
   "components": [ [ ["meth", 4] ],
     [ ["cola", 2] ] ]
 },{
@@ -8544,7 +6856,7 @@
     "time": 7000,
     "autolearn": true,
     "qualities":[ { "id": "COOK", "level": 2 } ],
-    "tools":[ [ [ "hotplate", 20 ], [ "toolset", 20 ], ["fire", -1] ] ],
+    "tools":[ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
         [ [ "meat_tainted", 12 ] ],
         [
@@ -8564,14 +6876,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "meat", 1 ]
@@ -8646,14 +6951,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "fish", 4 ]
@@ -8854,14 +7152,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "human_flesh", 1 ]
@@ -8900,14 +7191,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
      {"id":"COOK","level":2}
-  ], "tools": [
-   [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "meat", 1 ]
@@ -8943,14 +7227,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
      {"id":"COOK","level":2}
-  ], "tools": [
-   [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "meat", 1],
@@ -8978,14 +7255,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
      {"id":"COOK","level":2}
-  ], "tools": [
-   [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "human_flesh", 1 ],
@@ -9009,14 +7279,7 @@
    "autolearn": true,
    "qualities" : [
      {"id":"COOK","level":1}
-  ], "tools": [
-   [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "cheese", 1 ],
@@ -9038,9 +7301,7 @@
    "batch_time_factors" : [ 67, 5 ],
    "qualities" : [
      { "id" : "COOK","level" : 1,"amount" : 1 }
-  ], "tools" : [
-    [ [ "hotplate", 10], [ "char_smoker", 10], [ "toolset", 10], [ "fire", -1] ]
-  ],
+  ], "tools" : [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components" : [
     [
       [ "hotdogs_frozen", 1 ]
@@ -9058,14 +7319,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
      {"id":"COOK","level":2}
-  ], "tools": [
-   [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "hotdogs_frozen", 4 ]
@@ -9099,14 +7353,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
      {"id":"COOK","level":2}
-  ], "tools": [
-   [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "hotdogs_frozen", 1 ]
@@ -9139,14 +7386,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ],
-  "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "sausage", 1 ],
@@ -9182,14 +7422,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ],
-  "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "mannwurst", 1 ],
@@ -9223,14 +7456,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-   [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "sausage", 2 ]
@@ -9254,14 +7480,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
      {"id":"COOK","level":2}
-  ], "tools": [
-   [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "hotdogs_frozen", 1 ]
@@ -9293,14 +7512,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-   [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "mannwurst", 2 ]
@@ -9324,14 +7536,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-   [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "corndogs_frozen", 1 ]
@@ -9349,14 +7554,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-   [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "human_flesh", 1 ]
@@ -9392,14 +7590,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "flatbread", 2 ],
@@ -9432,14 +7623,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "flatbread", 2 ],
@@ -9473,14 +7657,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "flatbread", 2 ],
@@ -9662,14 +7839,7 @@
    "skill_used": "cooking",
    "time": 5000,
    "autolearn": true,
-   "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-    ],
+   "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "toasterpastryfrozen", 2 ]
@@ -9688,14 +7858,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ],
-  "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "can_tomato", 1 ],
@@ -9719,14 +7882,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "can_tomato", 1 ],
@@ -9756,14 +7912,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 20 ],
-      [ "char_smoker", 20 ],
-      [ "toolset", 20 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
   "//" : "Canned tomatoes aren't an option as they've already been preserved.",
   "components": [
     [
@@ -9814,14 +7963,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 20 ],
-      [ "char_smoker", 20 ],
-      [ "toolset", 20 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -9854,13 +7996,7 @@
   "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
       [ "sauerkraut", 1 ]
@@ -9889,14 +8025,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 20 ],
-      [ "char_smoker", 20 ],
-      [ "toolset", 20 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -9930,14 +8059,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 20 ],
-      [ "char_smoker", 20 ],
-      [ "toolset", 20 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -9971,14 +8093,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 20 ],
-      [ "char_smoker", 20 ],
-      [ "toolset", 20 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -10006,63 +8121,11 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      ["hotplate", 2],
-      [ "char_smoker", 2 ],
-      ["toolset", 2],
-      ["fire", -1]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
-      [ "apple", 1 ],
-      [ "apricot", 1 ],
-      [ "banana", 1 ],
-      [ "blackberries", 1 ],
-      [ "blueberries", 1 ],
-      [ "cherries", 1 ],
-      [ "coconut", 1 ],
-      [ "cranberries", 3 ],
-      [ "grapefruit", 1 ],
-      [ "grapes", 2 ],
-      [ "kiwi", 1 ],
-      [ "lemon", 1 ],
-      [ "mango", 1 ],
-      [ "melon", 2 ],
-      [ "orange", 1 ],
-      [ "papaya", 1 ],
-      [ "peach", 1 ],
-      [ "pear", 1 ],
-      [ "pineapple", 1 ],
-      [ "plums", 1 ],
-      [ "pomegranate", 1 ],
-      [ "raspberries", 1 ],
-      [ "strawberries", 1 ],
-      [ "watermelon", 1 ],
-      [ "irradiated_apple", 1 ],
-      [ "irradiated_apricot", 1 ],
-      [ "irradiated_banana", 1 ],
-      [ "irradiated_blackberries", 1 ],
-      [ "irradiated_blueberries", 1 ],
-      [ "irradiated_cherries", 1 ],
-      [ "irradiated_cranberries", 3 ],
-      [ "irradiated_grapefruit", 1 ],
-      [ "irradiated_grapes", 2 ],
-      [ "irradiated_kiwi", 1 ],
-      [ "irradiated_lemon", 1 ],
-      [ "irradiated_mango", 1 ],
-      [ "irradiated_melon", 2 ],
-      [ "irradiated_orange", 1 ],
-      [ "irradiated_papaya", 1 ],
-      [ "irradiated_peach", 1 ],
-      [ "irradiated_pear", 1 ],
-      [ "irradiated_pineapple", 1 ],
-      [ "irradiated_plums", 1 ],
-      [ "irradiated_pomegranate", 1 ],
-      [ "irradiated_raspberries", 1 ],
-      [ "irradiated_strawberries", 1 ],
-      [ "irradiated_watermelon", 1 ]
+      [ "sweet_fruit", 1, "LIST" ],
+      [ "coconut", 1 ]
     ]
   ]
 },{
@@ -10077,64 +8140,10 @@
   "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
-       [ "apple", 1 ],
-       [ "orange", 1 ],
-       [ "lemon", 1 ],
-       [ "banana", 1 ],
-       [ "pear", 1 ],
-       [ "grapefruit", 1 ],
-       [ "cherries", 1 ],
-       [ "plums", 1 ],
-       [ "grapes", 2 ],
-       [ "pineapple", 1 ],
-       [ "peach", 1 ],
-       [ "cranberries", 3 ],
-       [ "watermelon", 1 ],
-       [ "melon", 2 ],
-       [ "raspberries", 1 ],
-       [ "blackberries", 1 ],
-       [ "strawberries", 1 ],
-       [ "blueberries", 1 ],
-       [ "pomegranate", 1 ],
-       [ "mango", 1 ],
-       [ "rhubarb", 2 ],
-       [ "papaya", 1 ],
-       [ "apricot", 1 ],
-       [ "kiwi", 1 ],
-       [ "irradiated_apple", 1 ],
-       [ "irradiated_orange", 1 ],
-       [ "irradiated_lemon", 1 ],
-       [ "irradiated_banana", 1 ],
-       [ "irradiated_pear", 1 ],
-       [ "irradiated_grapefruit", 1 ],
-       [ "irradiated_cherries", 1 ],
-       [ "irradiated_plums", 1 ],
-       [ "irradiated_grapes", 2 ],
-       [ "irradiated_pineapple", 1 ],
-       [ "irradiated_peach", 1 ],
-       [ "irradiated_cranberries", 3 ],
-       [ "irradiated_watermelon", 1 ],
-       [ "irradiated_melon", 2 ],
-       [ "irradiated_raspberries", 1 ],
-       [ "irradiated_blackberries", 1 ],
-       [ "irradiated_strawberries", 1 ],
-       [ "irradiated_blueberries", 1 ],
-       [ "irradiated_pomegranate", 1 ],
-       [ "irradiated_mango", 1 ],
-       [ "irradiated_rhubarb", 2 ],
-       [ "irradiated_papaya", 1 ],
-       [ "irradiated_apricot", 1 ],
-       [ "irradiated_kiwi", 1 ]
+      [ "sweet_fruit", 1, "LIST" ]
     ],
     [
       [ "sugar", 10 ]
@@ -10157,46 +8166,7 @@
   "tools": [ [ ["rag", -1] ] ],
   "components": [
     [
-      ["apple", 2],
-      ["apricot", 2],
-      ["blackberries", 2],
-      ["blueberries", 2],
-      ["cherries", 2],
-      ["cranberries", 6],
-      ["grapefruit", 2],
-      ["grapes", 2],
-      ["kiwi", 2],
-      ["mango", 2],
-      ["melon", 4],
-      ["papaya", 2],
-      ["peach", 2],
-      ["pear", 2],
-      ["pineapple", 2],
-      ["plums", 2],
-      ["pomegranate", 2],
-      ["raspberries", 2],
-      ["strawberries", 2],
-      ["watermelon", 1],
-      ["irradiated_apple", 2],
-      ["irradiated_apricot", 2],
-      ["irradiated_blackberries", 2],
-      ["irradiated_blueberries", 2],
-      ["irradiated_cherries", 2],
-      ["irradiated_cranberries", 6],
-      ["irradiated_grapefruit", 2],
-      ["irradiated_grapes", 4],
-      ["irradiated_kiwi", 2],
-      ["irradiated_mango", 2],
-      ["irradiated_melon", 4],
-      ["irradiated_papaya", 2],
-      ["irradiated_peach", 2],
-      ["irradiated_pear", 2],
-      ["irradiated_pineapple", 2],
-      ["irradiated_plums", 2],
-      ["irradiated_pomegranate", 2],
-      ["irradiated_raspberries", 2],
-      ["irradiated_strawberries", 2],
-      ["irradiated_watermelon", 1]
+      [ "sweet_fruit", 1, "LIST" ]
     ],
     [
       [ "water_clean", 1 ]
@@ -10220,26 +8190,7 @@
   "tools": [ [ ["rag", -1] ] ],
   "components": [
     [
-      ["apple", 4],
-      ["apricot", 4],
-      ["blackberries", 4],
-      ["blueberries", 4],
-      ["cherries", 6],
-      ["cranberries", 12],
-      ["grapefruit", 2],
-      ["grapes", 4],
-      ["kiwi", 6],
-      ["mango", 4],
-      ["melon", 6],
-      ["papaya", 3],
-      ["peach", 5],
-      ["pear", 4],
-      ["pineapple", 3],
-      ["plums", 4],
-      ["pomegranate", 2],
-      ["raspberries", 4],
-      ["strawberries", 4],
-      ["watermelon", 2]
+      [ "sweet_fruit", 2, "LIST" ]
     ]
   ]
 },{
@@ -10253,14 +8204,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 3 ]
@@ -10400,18 +8344,8 @@
   "time": 90000,
   "autolearn": true,
   "batch_time_factors":[50, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "coffeemaker", 3],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "sweet_water", 10 ]
@@ -10427,7 +8361,7 @@
   "time": 3500,
   "autolearn": true,
   "qualities":[ {"id":"COOK","level":2} ],
-  "tools": [ [ [ "hotplate", 2 ], [ "char_smoker", 2 ], [ "toolset", 2 ], [ "fire", -1 ] ] ],
+  "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [ [ "sugar", 10 ] ],
     [
@@ -10477,14 +8411,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -10515,12 +8442,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -10558,12 +8480,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -10601,12 +8518,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -10644,12 +8556,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -10699,12 +8606,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -10722,29 +8624,7 @@
       [ "water_clean", 1 ]
     ],
     [
-      [ "cranberries", 4 ],
-      [ "grapes", 4 ],
-      [ "apple", 2 ],
-      [ "blackberries", 2 ],
-      [ "blueberries", 2 ],
-      [ "cherries", 2 ],
-      [ "grapefruit", 2 ],
-      [ "banana", 2 ],
-      [ "kiwi", 2 ],
-      [ "lemon", 2 ],
-      [ "mango", 2 ],
-      [ "melon", 2 ],
-      [ "orange", 2 ],
-      [ "papaya", 2 ],
-      [ "peach", 2 ],
-      [ "pear", 2 ],
-      [ "pineapple", 2 ],
-      [ "plums", 2 ],
-      [ "pomegranate", 2 ],
-      [ "raspberries", 2 ],
-      [ "strawberries", 2 ],
-      [ "watermelon", 2 ],
-      [ "apricot", 2 ]
+      [ "sweet_fruit", 1, "LIST" ]
     ]
   ]
 },{
@@ -10764,12 +8644,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -10808,12 +8683,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -10885,12 +8755,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -10972,12 +8837,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -11042,12 +8902,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [ [ "can_sealer", -1 ] ]
   ],
   "components": [
@@ -11106,12 +8961,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -11202,14 +9052,7 @@
   "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
       [ "meat", 1 ]
@@ -11231,14 +9074,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 1 ]
@@ -11467,14 +9303,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "sandwich_cheese", 1 ]
@@ -11494,16 +9323,8 @@
   "qualities" : [
     {"id":"BOIL","level":1},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "coffeemaker", 8],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -11565,18 +9386,8 @@
   "time": 15000,
   "autolearn": true,
   "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ],
-      [ "coffeemaker", 2]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "tea_raw", 1 ]
@@ -11715,18 +9526,8 @@
   "difficulty": 5,
   "time": 15000,
   "autolearn": true,
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "coffeemaker", 3],
-      [ "atomic_coffeepot", -1],
-      [ "fire", -1 ]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -11786,14 +9587,7 @@
   "qualities" : [
     {"id":"COOK","level":1},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 12 ],
-      [ "char_smoker", 12 ],
-      [ "toolset", 12 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 12, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 2 ]
@@ -11851,14 +9645,8 @@
       {"id":"BOIL","level":1},
       {"id":"CONTAIN","level":1}
     ],
-  "tools":
-    [
-      [
-        [ "hotplate", 5 ],
-        [ "char_smoker", 5 ],
-        [ "toolset", 5 ],
-        [ "fire", -1 ]
-      ],
+  "tools": [
+      [ [ "surface_heat", 5, "LIST" ] ],
       [
         ["rag", -1]
       ]
@@ -11890,14 +9678,7 @@
     {"id":"COOK","level":3},
     {"id":"CUT","level":1},
     {"id":"SEW","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "toolset", 5 ],
-      [ "char_smoker", 5 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -11936,14 +9717,7 @@
     {"id":"COOK","level":3},
     {"id":"CUT","level":1},
     {"id":"SEW","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "toolset", 5 ],
-      [ "char_smoker", 5 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -11984,14 +9758,7 @@
   "qualities":[
     {"id":"COOK","level":3},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "toolset", 5 ],
-      [ "char_smoker", 5 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -12022,14 +9789,7 @@
   "qualities":[
     {"id":"BOIL","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "toolset", 5 ],
-      [ "char_smoker", 5 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "oatmeal", 1 ],
@@ -12088,18 +9848,8 @@
   "time": 10000,
   "autolearn": true,
   "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ],
-      [ "coffeemaker", 2]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "bee_balm", 1 ]
@@ -12124,13 +9874,7 @@
     {"id":"CUT","level":1},
     {"id":"BOIL","level":2}
   ],
-  "tools": [
-    [ [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [ [ "cooking_oil", 2 ] ],
     [ [ "mugwort", 2 ] ]
@@ -12148,13 +9892,7 @@
     {"id":"COOK","level":3},
     {"id":"BOIL","level":2}
   ],
-  "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "egg_bird", 2 ],
@@ -12187,13 +9925,7 @@
     {"id":"COOK","level":3},
     {"id":"BOIL","level":2}
   ],
-  "tools": [
-    [
-      ["hotplate", 5],
-      ["toolset", 5],
-      ["fire", -1]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "egg_bird", 2 ],
@@ -12231,7 +9963,7 @@
   "autolearn": true,
   "result_mult": 2,
   "qualities": [ { "id": "COOK", "level": 3 } ],
-  "tools": [ [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [ [ "chocolate", 1 ] ],
     [ [ "milk", 1 ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],
@@ -12250,7 +9982,7 @@
   "book_learn": [ [ "family_cookbook", 2 ] ],
   "result_mult": 2,
   "qualities": [ { "id": "COOK", "level": 3 } ],
-  "tools": [ [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [ [ "chocolate", 1 ] ],
     [ [ "milk", 1 ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],

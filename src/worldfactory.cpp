@@ -1299,14 +1299,16 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
 void worldfactory::draw_modselection_borders(WINDOW *win, input_context *ctxtp)
 {
     // make appropriate lines: X & Y coordinate of starting point, length, horizontal/vertical type
-    int xs[] = {1, 1, (FULL_SCREEN_WIDTH / 2) + 2, (FULL_SCREEN_WIDTH / 2) - 4,
-                (FULL_SCREEN_WIDTH / 2) + 2
-               };
-    int ys[] = {FULL_SCREEN_HEIGHT - 8, 4, 4, 3, 3};
-    int ls[] = {FULL_SCREEN_WIDTH - 2, (FULL_SCREEN_WIDTH / 2) - 4, (FULL_SCREEN_WIDTH / 2) - 3,
-                FULL_SCREEN_HEIGHT - 11, 1
-               };
-    bool hv[] = {true, true, true, false, false}; // horizontal line = true, vertical line = false
+    std::array<int, 5> xs = {{
+        1, 1, ( FULL_SCREEN_WIDTH / 2 ) + 2, ( FULL_SCREEN_WIDTH / 2 ) - 4,
+        ( FULL_SCREEN_WIDTH / 2 ) + 2
+    }};
+    std::array<int, 5> ys = {{FULL_SCREEN_HEIGHT - 8, 4, 4, 3, 3}};
+    std::array<int, 5> ls = {{
+        FULL_SCREEN_WIDTH - 2, ( FULL_SCREEN_WIDTH / 2 ) - 4,
+        ( FULL_SCREEN_WIDTH / 2 ) - 3, FULL_SCREEN_HEIGHT - 11, 1
+    }};
+    std::array<bool, 5> hv = {{true, true, true, false, false}}; // horizontal line = true, vertical line = false
 
     for (int i = 0; i < 5; ++i) {
         int x = xs[i];
@@ -1439,7 +1441,7 @@ void WORLD::load_options( JsonIn &jsin )
     }
     // for legacy saves, try to simulate old city_size based density
     if( WORLD_OPTIONS.count( "CITY_SPACING" ) == 0 ) {
-        WORLD_OPTIONS["CITY_SPACING"].setValue( 5 - get_option<int>( "CITY_SIZE" ) / 3 );
+        WORLD_OPTIONS["CITY_SPACING"].setValue( 5 - get_world_option<int>( "CITY_SIZE" ) / 3 );
     }
 
     WORLD_OPTIONS[ "CORE_VERSION" ].setValue( version );

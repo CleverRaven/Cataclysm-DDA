@@ -2623,6 +2623,27 @@ int item::damage_melee( damage_type dt ) const
     return std::max( res, 0 );
 }
 
+damage_instance item::base_damage_melee() const
+{
+    // @todo Caching
+    damage_instance ret;
+    for( size_t i = DT_NULL + 1; i < NUM_DT; i++ ) {
+        damage_type dt = static_cast<damage_type>( i );
+        int dam = damage_melee( dt );
+        if( dam > 0 ) {
+            ret.add_damage( dt, dam );
+        }
+    }
+
+    return ret;
+}
+
+damage_instance item::base_damage_thrown() const
+{
+    // @todo Create a separate cache for individual items (for modifiers like diamond etc.)
+    return type->thrown_damage;
+}
+
 int item::reach_range( const player &p ) const
 {
     int res = 1;
@@ -4051,7 +4072,7 @@ int item::gun_range( bool with_ammo ) const
     if( with_ammo && ammo_data() ) {
         ret += ammo_data()->ammo->range;
     }
-    return std::min( std::max( 0, ret ), MAX_RANGE );
+    return std::min( std::max( 0, ret ), RANGE_HARD_CAP );
 }
 
 int item::gun_range( const player *p ) const

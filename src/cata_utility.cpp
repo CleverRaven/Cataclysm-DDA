@@ -489,7 +489,7 @@ bool read_from_file_optional( const std::string &path, JsonDeserializer &reader 
 
 std::string native_to_utf8( const std::string &str )
 {
-    if( !get_options().has_option( "ENCODING_CONV" ) || !get_option<bool>( "ENCODING_CONV" ) ) {
+    if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
         return str;
     }
 #if defined(_WIN32) || defined(WINDOWS)
@@ -511,7 +511,7 @@ std::string native_to_utf8( const std::string &str )
 
 std::string utf8_to_native( const std::string &str )
 {
-    if( !get_options().has_option( "ENCODING_CONV" ) || !get_option<bool>( "ENCODING_CONV" ) ) {
+    if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
         return str;
     }
 #if defined(_WIN32) || defined(WINDOWS)

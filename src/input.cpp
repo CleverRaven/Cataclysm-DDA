@@ -775,7 +775,7 @@ void rotate_direction_cw( int &dx, int &dy )
     // 1 2 5
     // 0 4 8
     // 3 6 7
-    static const int rotate_direction_vec[] = { 1, 2, 5, 0, 4, 8, 3, 6, 7 };
+    static const std::array<int, 9> rotate_direction_vec = {{ 1, 2, 5, 0, 4, 8, 3, 6, 7 }};
     dir_num = rotate_direction_vec[dir_num];
     // convert back to -1,0,+1
     dx = ( dir_num % 3 ) - 1;
@@ -943,11 +943,11 @@ void input_context::display_help()
         spopup.text( filter_phrase );
         if( status == s_show ) {
             spopup.ch_code_blacklist = bound_character_blacklist;
-            filter_phrase = spopup.query( false );
+            filter_phrase = spopup.query_string( false );
             action = ctxt.input_to_action( ctxt.get_raw_input() );
         } else {
             spopup.ch_code_blacklist.clear();
-            spopup.query( false, true );
+            spopup.query_string( false, true );
             action = ctxt.handle_input();
         }
         raw_input_char = ctxt.get_raw_input().get_first_input();

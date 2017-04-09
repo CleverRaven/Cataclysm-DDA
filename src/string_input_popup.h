@@ -52,7 +52,7 @@ class string_input_popup
         int _startx = 0;
         int _starty = 0;
         int _endx = 0;
-        int _position = 0;
+        int _position = -1;
 
         WINDOW_PTR w_ptr;
         WINDOW *w = nullptr;
@@ -160,7 +160,12 @@ class string_input_popup
          * Draws the input box, waits for input (if \p loop is true).
          * @return @ref text()
          */
-        const std::string &query( bool loop = true, bool draw_only = false );
+        /**@{*/
+        void query( bool loop = true, bool draw_only = false );
+        int query_int( bool loop = true, bool draw_only = false );
+        long query_long( bool loop = true, bool draw_only = false );
+        const std::string &query_string( bool loop = true, bool draw_only = false );
+        /**@}*/
         /**
          * Whether the input box was canceled via the ESCAPE key (or similar)
          * If the input was finished via the ENTER key (or similar), this will

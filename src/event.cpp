@@ -37,44 +37,6 @@ void event::actualize()
     switch( type ) {
         case EVENT_HELP:
             debugmsg("Currently disabled while NPC and monster factions are being rewritten.");
-        /*
-        {
-            int num = 1;
-            if( faction_id >= 0 ) {
-                num = rng( 1, 6 );
-            }
-            for( int i = 0; i < num; i++ ) {
-                npc *temp = new npc();
-                temp->normalize();
-                if( faction_id != -1 ) {
-                    faction *fac = g->faction_by_id( faction_id );
-                    if( fac ) {
-                        temp->randomize_from_faction( fac );
-                    } else {
-                        debugmsg( "EVENT_HELP run with invalid faction_id" );
-                        temp->randomize();
-                    }
-                } else {
-                    temp->randomize();
-                }
-                temp->attitude = NPCATT_DEFEND;
-                // important: npc::spawn_at must be called to put the npc into the overmap
-                temp->spawn_at( g->get_levx(), g->get_levy(), g->get_levz() );
-                // spawn at the border of the reality bubble, outside of the players view
-                if( one_in( 2 ) ) {
-                    temp->setx( rng( 0, SEEX * MAPSIZE - 1 ) );
-                    temp->sety( rng( 0, 1 ) * SEEY * MAPSIZE );
-                } else {
-                    temp->setx( rng( 0, 1 ) * SEEX * MAPSIZE );
-                    temp->sety( rng( 0, SEEY * MAPSIZE - 1 ) );
-                }
-                // And tell the npc to go to the player.
-                temp->goal.x = g->u.global_omt_location().x;
-                temp->goal.y = g->u.global_omt_location().y;
-                // The npcs will be loaded later by game::load_npcs()
-            }
-        }
-        */
         break;
 
     case EVENT_ROBOT_ATTACK: {

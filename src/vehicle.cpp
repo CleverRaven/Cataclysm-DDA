@@ -259,7 +259,7 @@ void vehicle::add_steerable_wheels()
                     axle = parts[p].mount.x;
                 }
 
-                wheels.push_back(std::make_pair(p, steerable_id));
+                wheels.push_back(std::make_pair(static_cast<int>( p ), steerable_id));
             }
         }
     }
@@ -1713,7 +1713,7 @@ bool vehicle::can_unmount(int const p) const
  * if a part can be legally removed.
  * @param to The part to reach.
  * @param from The part to start the search from.
- * @param excluded The part that is being removed and, therefore, should not
+ * @param excluded_part The part that is being removed and, therefore, should not
  *        be included in the path.
  * @return true if a path exists without the excluded part, false otherwise.
  */
@@ -1784,6 +1784,7 @@ bool vehicle::is_connected(vehicle_part const &to, vehicle_part const &from, veh
  * @param dx The x coordinate of where to install the part.
  * @param dy The y coordinate of where to install the part.
  * @param id The string ID of the part to install. (see vehicle_parts.json)
+ * @param force Skip check of whether we can mount the part here.
  * @return false if the part could not be installed, true otherwise.
  */
 int vehicle::install_part( int dx, int dy, const vpart_id &id, bool force )
@@ -1876,7 +1877,12 @@ bool vehicle::remove_part (int p)
             item it = parts[curtain].properties_to_item();
             g->m.add_item_or_charges( part_loc, it );
             remove_part(curtain);
+            g->m.set_transparency_cache_dirty( smz );
         }
+    }
+
+    if( part_flag( p, VPFLAG_OPAQUE ) ) {
+        g->m.set_transparency_cache_dirty( smz );
     }
 
     //Ditto for seatbelts
@@ -2179,7 +2185,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
 
     // @todo check fuel for combustion engines
 
-    if( fuel_left( "battery", true ) < -std::min( pt.info().epower, 0 ) ) {
+    if( pt.info().epower < 0 && fuel_left( fuel_type_battery, true ) <= 0 ) {
         if( alert ) {
             add_msg( m_bad, _( "Insufficient power to enable %s" ), pt.name().c_str() );
         }
@@ -2342,6 +2348,7 @@ int vehicle::global_part_at(int const x, int const y) const
  * that part. This exists solely because activities relating to vehicle editing
  * require the index of the vehicle part to be passed around.
  * @param part The part to find.
+ * @param check_removed Check whether this part can be removed
  * @return The part index, -1 if it is not part of this vehicle.
  */
 int vehicle::index_of_part(const vehicle_part *const part, bool const check_removed) const
@@ -2518,7 +2525,7 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
 /**
  * Prints a list of all parts to the screen inside of a boxed window, possibly
  * highlighting a selected one.
- * @param w The window to draw in.
+ * @param win The window to draw in.
  * @param y1 The y-coordinate to start drawing at.
  * @param max_y Draw no further than this y-coordinate.
  * @param width The width of the window.
@@ -2615,7 +2622,7 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
 
 /**
  * Prints all of the fuel indicators of the vehical
- * @param w Pointer to the window to draw in.
+ * @param win Pointer to the window to draw in.
  * @param y Y location to draw at.
  * @param x X location to draw at.
  * @param start_index Starting index in array of fuel gauges to start reading from
@@ -3078,9 +3085,11 @@ void vehicle::spew_smoke( double joules, int part, int density )
  */
 void vehicle::noise_and_smoke( double load, double time )
 {
-    const int sound_levels[] = { 0, 15, 30, 60, 100, 140, 180, INT_MAX };
-    const char *sound_msgs[] = { "", _("hummm!"), _("whirrr!"), _("vroom!"), _("roarrr!"), _("ROARRR!"),
-                                 _("BRRROARRR!!"), _("BRUMBRUMBRUMBRUM!!!") };
+    const std::array<int, 8> sound_levels = {{ 0, 15, 30, 60, 100, 140, 180, INT_MAX }};
+    const std::array<std::string, 8> sound_msgs = {{
+        "", _("hummm!"), _("whirrr!"), _("vroom!"), _("roarrr!"), _("ROARRR!"),
+        _("BRRROARRR!!"), _("BRUMBRUMBRUMBRUM!!!")
+    }};
     double noise = 0.0;
     double mufflesmoke = 0.0;
     double muffle = 1.0, m;
@@ -3889,7 +3898,9 @@ void vehicle::operate_scoop()
     for( int scoop : scoops ) {
         const int chance_to_damage_item = 9;
         const units::volume max_pickup_volume = parts[scoop].info().size / 10;
-        const char *sound_msgs[] = {_("Whirrrr"), _("Ker-chunk"), _("Swish"), _("Cugugugugug")};
+        const std::array<std::string, 4> sound_msgs = {{
+            _("Whirrrr"), _("Ker-chunk"), _("Swish"), _("Cugugugugug")
+        }};
         sounds::sound( global_pos3() + parts[scoop].precalc[0], rng( 20, 35 ),
                        sound_msgs[rng( 0, 3 )] );
         std::vector<tripoint> parts_points;
@@ -3943,7 +3954,9 @@ void vehicle::alarm() {
 
         //if alarm found, make noise, else set alarm disabled
         if( found_alarm ) {
-            const char *sound_msgs[] = { _("WHOOP WHOOP"), _("NEEeu NEEeu NEEeu"), _("BLEEEEEEP"), _("WREEP")};
+            const std::array<std::string, 4> sound_msgs = {{
+                _("WHOOP WHOOP"), _("NEEeu NEEeu NEEeu"), _("BLEEEEEEP"), _("WREEP")
+            }};
             sounds::sound( global_pos3(), (int) rng(45,80), sound_msgs[rng(0,3)] );
             if( one_in(1000) ) {
                 is_alarm_on = false;
@@ -4747,6 +4760,24 @@ units::volume vehicle::free_volume(int const part) const
     return get_items( part ).free_volume();
 }
 
+void vehicle::make_active( item_location &loc )
+{
+    item *target = loc.get_item();
+    if( !target->needs_processing() ) {
+        return;
+    }
+    auto cargo_parts = get_parts( loc.position(), "CARGO" );
+    if( cargo_parts.empty() ) {
+        return;
+    }
+    // System insures that there is only one part in this vector.
+    vehicle_part *cargo_part = cargo_parts.front();
+    auto &item_stack = cargo_part->items;
+    auto item_index = std::find_if( item_stack.begin(), item_stack.end(),
+                                    [&target]( const item &i ) { return &i == target; } );
+    active_items.add( item_index, cargo_part->mount );
+}
+
 long vehicle::add_charges( int part, const item &itm )
 {
     if( !itm.count_by_charges() ) {
@@ -5064,7 +5095,7 @@ void vehicle::refresh()
         // Build map of point -> all parts in that point
         const point pt = parts[p].mount;
         // This will keep the parts at point pt sorted
-        vii = std::lower_bound( relative_parts[pt].begin(), relative_parts[pt].end(), p, svpv );
+        vii = std::lower_bound( relative_parts[pt].begin(), relative_parts[pt].end(), static_cast<int>( p ), svpv );
         relative_parts[pt].insert( vii, p );
     }
 
@@ -5389,8 +5420,7 @@ void vehicle::damage_all( int dmg1, int dmg2, damage_type type, const point &imp
  * vehicle itself in the opposite direction. The end result is that the vehicle
  * appears to have not moved. Useful for re-zeroing a vehicle to ensure that a
  * (0, 0) part is always present.
- * @param dx How much to shift on the x-axis.
- * @param dy How much to shift on the y-axis.
+ * @param delta How much to shift along each axis
  */
 void vehicle::shift_parts( const point delta )
 {

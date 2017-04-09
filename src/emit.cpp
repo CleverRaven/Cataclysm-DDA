@@ -5,11 +5,13 @@
 #include "debug.h"
 #include "generic_factory.h"
 
+/** @relates string_id */
 template <>
 const emit_id string_id<emit>::NULL_ID( "null" );
 
 static std::map<emit_id, emit> emits_all;
 
+/** @relates string_id */
 template<>
 bool string_id<emit>::is_valid() const
 {
@@ -20,6 +22,7 @@ bool string_id<emit>::is_valid() const
     return found->second.field() != fd_null;
 }
 
+/** @relates string_id */
 template<>
 const emit &string_id<emit>::obj() const
 {

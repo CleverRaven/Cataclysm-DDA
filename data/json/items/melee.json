@@ -773,6 +773,7 @@
         "techniques" : ["WBLOCK_1"],
         "flags" : ["DURABLE_MELEE","BELT_CLIP"],
             "use_action": {
+            "menu_text": "Expand",
             "type": "transform",
             "target": "baton-extended",
             "msg": "You snap open your baton."
@@ -795,6 +796,7 @@
         "techniques" : ["WBLOCK_1"],
         "flags" : ["DURABLE_MELEE","BELT_CLIP"],
         "use_action": {
+            "menu_text": "Collapse",
             "type": "transform",
             "target": "baton",
             "msg": "You collapse your baton."
@@ -951,6 +953,10 @@
         "volume" : 4,
         "bashing" : 5,
         "cutting" : 11,
+        "thrown_damage" : [
+            { "damage_type": "bash", "amount": 5 },
+            { "damage_type": "stab", "amount": 11 }
+        ],
         "flags" : ["SPEAR"],
         "price" : 4000,
         "qualities": [["COOK", 1]]
@@ -969,6 +975,10 @@
         "volume" : 4,
         "bashing" : 5,
         "cutting" : 17,
+        "thrown_damage" : [
+            { "damage_type": "bash", "amount": 5 },
+            { "damage_type": "stab", "amount": 17 }
+        ],
         "flags" : ["SPEAR", "NONCONDUCTIVE"],
         "price" : 9000,
         "qualities": [["COOK", 1]]
@@ -1190,6 +1200,7 @@
         "techniques" : ["WBLOCK_1"],
         "flags" : ["DURABLE_MELEE"],
         "use_action": {
+            "menu_text": "Extend",
             "type": "transform",
             "target": "PR24-extended",
             "msg": "You snap open your PR-24 baton."
@@ -1213,6 +1224,7 @@
         "techniques" : ["WBLOCK_2", "RAPID"],
         "flags" : ["DURABLE_MELEE"],
         "use_action": {
+            "menu_text": "Retract",
             "type": "transform",
             "target": "PR24-retracted",
             "msg": "You collapse your PR-24 baton."

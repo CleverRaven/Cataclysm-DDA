@@ -666,7 +666,6 @@
         "type": "bite",
         "cooldown": 20,
         "accuracy": 6,
-        "no_infection_chance": 2,
         "damage_max_instance": [
           {
             "damage_type": "stab",
@@ -678,7 +677,8 @@
             "amount": 27,
             "armor_multiplier": 0.5
           }
-        ]
+        ],
+        "no_infection_chance": 2
       }
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],

@@ -1,126 +1,120 @@
+#include "string_id.h"
+#include "int_id.h"
+#include "generic_factory.h"
 #include "trap.h"
 #include "debug.h"
 #include "line.h"
+#include "game.h"
+#include "map.h"
+#include "debug.h"
+#include "translations.h"
 #include "player.h"
 
 #include <vector>
 #include <memory>
 
-std::vector< std::unique_ptr<trap> > traplist;
-std::unordered_map< trap_str_id, trap_id > trapmap;
-
 template<>
-const trap_str_id string_id<trap>::NULL_ID( "tr_null" );
+/** @relates string_id */
+const string_id<trap> string_id<trap>::NULL_ID( "tr_null" );
 
+namespace
+{
+
+generic_factory<trap> trap_factory( "trap" );
+
+}
+
+/** @relates string_id */
+template<>
+inline bool int_id<trap>::is_valid() const
+{
+    return trap_factory.is_valid( *this );
+}
+
+/** @relates int_id */
 template<>
 const trap &int_id<trap>::obj() const
 {
-    if( static_cast<size_t>( _id ) >= traplist.size() ) {
-        debugmsg( "invalid trap id %d", _id );
-        static const trap dummy{};
-        return dummy;
-    }
-    return *traplist[_id];
+    return trap_factory.obj( *this );
 }
 
+/** @relates int_id */
 template<>
 const string_id<trap> &int_id<trap>::id() const
 {
-    return obj().id;
+    return trap_factory.convert( *this );
 }
 
+/** @relates string_id */
 template<>
 int_id<trap> string_id<trap>::id() const
 {
-    const auto iter = trapmap.find( *this );
-    if( iter == trapmap.end() ) {
-        debugmsg( "invalid trap id %s", c_str() );
-        return trap_id();
-    }
-    return iter->second;
+    return trap_factory.convert( *this, tr_null );
 }
 
+/** @relates string_id */
+template<>
+int_id<trap>::int_id( const string_id<trap> &id ) : _id( id.id() )
+{
+}
+
+/** @relates string_id */
 template<>
 const trap &string_id<trap>::obj() const
 {
-    return id().obj();
+    return trap_factory.obj( *this );
 }
 
+/** @relates int_id */
 template<>
 bool string_id<trap>::is_valid() const
 {
-    return trapmap.count( *this ) > 0;
+    return trap_factory.is_valid( *this );
 }
 
-template<>
-int_id<trap>::int_id( const string_id<trap> &id )
-    : _id( id.id() )
-{
-}
-
-#include "game.h"
-// Map must be included after the above template specializations
-#include "map.h"
-#include "debug.h"
-#include "translations.h"
+static std::vector<const trap *> funnel_traps;
 
 const skill_id skill_traps( "traps" );
 
 const efftype_id effect_lack_sleep( "lack_sleep" );
 
-static std::vector<const trap *> funnel_traps;
-const std::vector<const trap *> trap::get_funnels()
+const std::vector<const trap *> &trap::get_funnels()
 {
     return funnel_traps;
 }
 
 size_t trap::count()
 {
-    return trapmap.size();
+    return trap_factory.size();
 }
 
-void trap::load( JsonObject &jo )
+void trap::load_trap( JsonObject &jo, const std::string &src )
 {
-    std::unique_ptr<trap> trap_ptr( new trap() );
-    trap &t = *trap_ptr;
+    trap_factory.load( jo, src );
+}
 
-    if( jo.has_member( "drops" ) ) {
-        JsonArray drops_list = jo.get_array( "drops" );
-        while( drops_list.has_more() ) {
-            t.components.push_back( drops_list.next_string() );
-        }
-    }
-    t.name = jo.get_string( "name" );
-    if( !t.name.empty() ) {
-        t.name = _( t.name.c_str() );
-    }
-    t.id = trap_str_id( jo.get_string( "id" ) );
-    t.color = color_from_string( jo.get_string( "color" ) );
-    t.sym = jo.get_string( "symbol" ).at( 0 );
-    t.visibility = jo.get_int( "visibility" );
-    t.avoidance = jo.get_int( "avoidance" );
-    t.difficulty = jo.get_int( "difficulty" );
-    t.act = trap_function_from_string( jo.get_string( "action" ) );
-    t.benign = jo.get_bool( "benign", false );
-    t.funnel_radius_mm = jo.get_int( "funnel_radius", 0 );
-    t.trigger_weight = jo.get_int( "trigger_weight", -1 );
+void trap::load( JsonObject &jo, const std::string & )
+{
+    mandatory( jo, was_loaded, "id", id );
+    mandatory( jo, was_loaded, "name", name, translated_string_reader );
+    mandatory( jo, was_loaded, "color", color, color_reader{} );
+    mandatory( jo, was_loaded, "symbol", sym, one_char_symbol_reader );
+    mandatory( jo, was_loaded, "visibility", visibility );
+    mandatory( jo, was_loaded, "avoidance", avoidance );
+    mandatory( jo, was_loaded, "difficulty", difficulty );
+    // @todo Is there a generic_factory version of this?
+    act = trap_function_from_string( jo.get_string( "action" ) );
 
-    const auto iter = trapmap.find( t.id );
-    if( iter == trapmap.end() ) {
-        t.loadid = trap_id( traplist.size() );
-        traplist.push_back( std::move( trap_ptr ) );
-    } else {
-        t.loadid = iter->second;
-        traplist[t.loadid.to_i()] = std::move( trap_ptr );
-    }
-    trapmap[t.id] = t.loadid;
+    optional( jo, was_loaded, "benign", benign, false );
+    optional( jo, was_loaded, "funnel_radius", funnel_radius_mm, 0 );
+    optional( jo, was_loaded, "trigger_weight", trigger_weight, -1 );
+    optional( jo, was_loaded, "drops", components );
 }
 
 void trap::reset()
 {
-    traplist.clear();
-    trapmap.clear();
     funnel_traps.clear();
+    trap_factory.reset();
 }
 
 bool trap::detect_trap( const tripoint &pos, const player &p ) const
@@ -164,10 +158,7 @@ bool trap::can_see( const tripoint &pos, const player &p ) const
 
 void trap::trigger( const tripoint &pos, Creature *creature ) const
 {
-    if( act != nullptr ) {
-        trapfunc f;
-        ( f.*act )( creature, pos );
-    }
+    act( creature, pos );
 }
 
 bool trap::is_null() const
@@ -260,10 +251,10 @@ tr_glass_pit;
 
 void trap::check_consistency()
 {
-    for( auto &tptr : traplist ) {
-        for( auto &i : tptr->components ) {
+    for( const auto &t : trap_factory.get_all() ) {
+        for( auto &i : t.components ) {
             if( !item::type_is_defined( i ) ) {
-                debugmsg( "trap %s has unknown item as component %s", tptr->id.c_str(), i.c_str() );
+                debugmsg( "trap %s has unknown item as component %s", t.id.c_str(), i.c_str() );
             }
         }
     }
@@ -271,9 +262,12 @@ void trap::check_consistency()
 
 void trap::finalize()
 {
-    for( auto &tptr : traplist ) {
-        if( tptr->is_funnel() ) {
-            funnel_traps.push_back( tptr.get() );
+    for( const trap &t_const : trap_factory.get_all() ) {
+        trap &t = const_cast<trap &>( t_const );
+        // We need to set int ids manually now
+        t.loadid = t.id.id();
+        if( t.is_funnel() ) {
+            funnel_traps.push_back( &t );
         }
     }
     const auto trapfind = []( const char *id ) {

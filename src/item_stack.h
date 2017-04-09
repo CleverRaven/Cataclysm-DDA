@@ -52,10 +52,10 @@ class item_stack
             return max_volume() - stored_volume();
         }
         /**
-         * Returns how many of the @ref it (or how many charges if it's counted by charges)
+         * Returns how many of the specified item (or how many charges if it's counted by charges)
          * could be added without violating either the volume or itemcount limits.
          *
-         * @ret is always at least 0 for all items. For items counted by charges, it is always at
+         * @returns Value of zero or greater for all items. For items counted by charges, it is always at
          * most it.charges.
          */
         long amount_can_fit( const item &it ) const;

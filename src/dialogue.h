@@ -29,7 +29,6 @@ namespace talk_function {
     void bionic_install       ( npc & );
     void bionic_remove        ( npc & );
 
-    void construction_tips    ( npc & );
     void buy_haircut          ( npc & );
     void buy_shave            ( npc & );
     void buy_10_logs          ( npc & );

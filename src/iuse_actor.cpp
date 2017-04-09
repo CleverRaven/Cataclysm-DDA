@@ -1,5 +1,6 @@
 #include "iuse_actor.h"
 #include "action.h"
+#include "assign.h"
 #include "item.h"
 #include "game.h"
 #include "map.h"
@@ -682,7 +683,7 @@ long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) c
     if( skill2 ) {
         skill_offset += p->get_skill_level( skill2 );
     }
-    ///\EFFECT_INT increases chance of a placed turret being friendly
+    /** @EFFECT_INT increases chance of a placed turret being friendly */
     if( rng( 0, p->int_cur / 2 ) + skill_offset < rng( 0, difficulty ) ) {
         if( hostile_msg.empty() ) {
             p->add_msg_if_player( m_bad, _( "The %s scans you and makes angry beeping noises!" ),
@@ -827,15 +828,15 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
     }
 
     p->practice( skill_mechanics, 1 );
-    ///\EFFECT_DEX speeds up door lock picking
+    /** @EFFECT_DEX speeds up door lock picking */
 
-    ///\EFFECT_MECHANICS speeds up door lock picking
+    /** @EFFECT_MECHANICS speeds up door lock picking */
     p->moves -= std::max(0, ( 1000 - ( pick_quality * 100 ) ) - ( p->dex_cur + p->get_skill_level( skill_mechanics ) ) * 5);
-    ///\EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes
+    /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
 
     bool destroy = false;
 
-    ///\EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes
+    /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
     int pick_roll = ( dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2, p->dex_cur ) - it->damage() / 2 ) * pick_quality;
     int door_roll = dice( 4, 30 );
     if( pick_roll >= door_roll ) {
@@ -1035,7 +1036,7 @@ long firestarter_actor::use( player *p, item *it, bool t, const tripoint &spos )
     }
 
     double skill_level = p->get_skill_level( skill_survival );
-    ///\EFFECT_SURVIVAL speeds up fire starting
+    /** @EFFECT_SURVIVAL speeds up fire starting */
     float moves_modifier = std::pow( 0.8, std::min( 5.0, skill_level ) );
     const int moves_base = moves_cost_by_fuel( pos );
     const int min_moves = std::min<int>( moves_base, sqrt( 1 + moves_base / MOVES( 1 ) ) * MOVES( 1 ) );
@@ -1179,7 +1180,7 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
     // This can go awry if there is a volume / recipe mismatch.
     int count = cut->volume() / minimal_volume_to_cut;
     // Chance of us losing a material component to entropy.
-    ///\EFFECT_FABRICATION reduces chance of losing components when cutting items up
+    /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
     int entropy_threshold = std::max(5, 10 - p->get_skill_level( skill_fabrication ) );
     // What material components can we get back?
     std::vector<material_id> cut_material_components = cut->made_of();
@@ -1207,7 +1208,7 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
         count -= 1;
     }
     // Fail dex roll, potentially lose more parts.
-    ///\EFFECT_DEX randomly reduces component loss when cutting items up
+    /** @EFFECT_DEX randomly reduces component loss when cutting items up */
     if (dice(3, 4) > p->dex_cur) {
         count -= rng(0, 2);
     }
@@ -1554,7 +1555,7 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
 
     // Survival skill increases your willingness to get things done,
     // but it doesn't make you feel any less bad about it.
-    ///\EFFECT_SURVIVAL increases tolerance for enzlavement
+    /** @EFFECT_SURVIVAL increases tolerance for enzlavement */
     if( p->get_morale_level() <= ( 15 * ( tolerance_level - p->get_skill_level( skill_survival ) ) ) - 150 ) {
         add_msg(m_neutral, _("The prospect of cutting up the copse and letting it rise again as a slave is too much for you to deal with right now."));
         return 0;
@@ -1583,7 +1584,7 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
     } else {
         add_msg(m_bad, _("You feel horrible for mutilating and enslaving someone's corpse."));
 
-        ///\EFFECT_SURVIVAL decreases moral penalty and duration for enzlavement
+        /** @EFFECT_SURVIVAL decreases moral penalty and duration for enzlavement */
         int moraleMalus = -50 * (5.0 / (float) p->get_skill_level( skill_survival ));
         int maxMalus = -250 * (5.0 / (float)p->get_skill_level( skill_survival ));
         int duration = 300 * (5.0 / (float)p->get_skill_level( skill_survival ));
@@ -1612,17 +1613,17 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
     // An average zombie with an undamaged corpse is 0 + 8 + 14 = 22.
     int difficulty = ( body->damage() * 5 ) + ( mt->hp / 10 ) + ( mt->speed / 5 );
     // 0 - 30
-    ///\EFFECT_DEX increases chance of success for enzlavement
+    /** @EFFECT_DEX increases chance of success for enzlavement */
 
-    ///\EFFECT_SURVIVAL increases chance of success for enzlavement
+    /** @EFFECT_SURVIVAL increases chance of success for enzlavement */
 
-    ///\EFFECT_FIRSTAID increases chance of success for enzlavement
+    /** @EFFECT_FIRSTAID increases chance of success for enzlavement */
     int skills = p->get_skill_level( skill_survival ) + p->get_skill_level( skill_firstaid ) + (p->dex_cur / 2);
     skills *= 2;
 
     int success = rng(0, skills) - rng(0, difficulty);
 
-    ///\EFFECT_FIRSTAID speeds up enzlavement
+    /** @EFFECT_FIRSTAID speeds up enzlavement */
     const int moves = difficulty * 1200 / p->get_skill_level( skill_firstaid );
 
     p->assign_activity( activity_id( "ACT_MAKE_ZLAVE" ), moves);
@@ -1634,9 +1635,9 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
 
 bool enzlave_actor::can_use( const player *p, const item*, bool, const tripoint& ) const
 {
-    ///\EFFECT_SURVIVAL >1 allows enzlavement
+    /** @EFFECT_SURVIVAL >1 allows enzlavement */
 
-    ///\EFFECT_FIRSTAID >1 allows enzlavement
+    /** @EFFECT_FIRSTAID >1 allows enzlavement */
     return p->get_skill_level( skill_survival ) > 1 && p->get_skill_level( skill_firstaid ) > 1;
 }
 
@@ -1846,7 +1847,7 @@ long musical_instrument_actor::use( player *p, item *it, bool t, const tripoint&
     }
 
     std::string desc = "";
-    ///\EFFECT_PER increases morale bonus when playing an instrument
+    /** @EFFECT_PER increases morale bonus when playing an instrument */
     const int morale_effect = fun + fun_bonus * p->per_cur;
     if( morale_effect >= 0 && calendar::turn.once_every( description_frequency ) ) {
         if( !descriptions.empty() ) {
@@ -1887,17 +1888,10 @@ void holster_actor::load( JsonObject &obj )
 {
     holster_prompt = obj.get_string( "holster_prompt", "" );
     holster_msg = obj.get_string( "holster_msg", "" );
-    int max_v = obj.get_int( "max_volume" );
-    int min_v = obj.get_int( "min_volume", max_v / 3 );
-    // the legacy_volume_factor must be applied after the min volume computation
-    // in order to keep previous rounding truncation behavior
-    // In practice, an holster of a max volume of 4 should accept an item of volume 1
-    // This is the case for the survivor utility belt
-    // 4/3 == 1 (due to rounding) --> min real volume == 1*250 (so an item of volume 1*250 is ok)
-    // if we change the unit before the division
-    // 4*250 / 3 = 333 --> an item of volume 1*250 is NOT ok.
-    max_volume = max_v * units::legacy_volume_factor;
-    min_volume = min_v * units::legacy_volume_factor;
+    assign( obj, "max_volume", max_volume );
+    if( !assign( obj, "min_volume", min_volume ) ) {
+        min_volume = max_volume / 3;
+    }
 
     max_weight = obj.get_int( "max_weight", max_weight );
     multi      = obj.get_int( "multi",      multi );
@@ -1962,7 +1956,7 @@ bool holster_actor::store( player &p, item& holster, item& obj ) const
                          obj.tname().c_str(), holster.tname().c_str() );
 
     // holsters ignore penalty effects (eg. GRABBED) when determining number of moves to consume
-    p.store( &holster, &obj, draw_cost, false );
+    p.store( holster, obj, draw_cost, false );
     return true;
 }
 
@@ -1996,9 +1990,9 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
     if( pos >= 0 ) {
         // worn holsters ignore penalty effects (eg. GRABBED) when determining number of moves to consume
         if( p->is_worn( *it ) ) {
-            p->wield_contents( it, pos, draw_cost, false );
+            p->wield_contents( *it, pos, draw_cost, false );
         } else {
-            p->wield_contents( it, pos );
+            p->wield_contents( *it, pos );
         }
 
     } else {
@@ -2016,9 +2010,8 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
 
 void holster_actor::info( const item&, std::vector<iteminfo>& dump ) const
 {
-    int scale = 0;
     dump.emplace_back( "TOOL", _( "Can contain items up to " ), string_format( "<num> %s", volume_units_abbr() ),
-                       round_up( convert_volume( max_volume.value(), &scale ), 1 ), scale == 0, "", max_weight <= 0 );
+                       convert_volume( max_volume.value() ), false, "", max_weight <= 0 );
 
     if( max_weight > 0 ) {
         dump.emplace_back( "TOOL", "holster_kg", string_format( _( " or <num> %s" ), weight_units() ),
@@ -2459,8 +2452,8 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
 std::pair<float, float> repair_item_actor::repair_chance(
     const player &pl, const item &fix, repair_item_actor::repair_type action_type ) const
 {
-    ///\EFFECT_TAILOR randomly improves clothing repair efforts
-    ///\EFFECT_MECHANICS randomly improves metal repair efforts
+    /** @EFFECT_TAILOR randomly improves clothing repair efforts */
+    /** @EFFECT_MECHANICS randomly improves metal repair efforts */
     const int skill = pl.get_skill_level( used_skill );
     const int recipe_difficulty = repair_recipe_difficulty( pl, fix );
     int action_difficulty = 0;
@@ -2494,7 +2487,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
     // Duster |    2   |   2   |  10 |   4%    |   1%
     // Duster | Refit  |   2   |  10 |   0%    |   N/A
     float success_chance = (10 + 2 * skill - 2 * difficulty + tool_quality / 5.0f) / 100.0f;
-    ///\EFFECT_DEX reduces the chances of damaging an item when repairing
+    /** @EFFECT_DEX reduces the chances of damaging an item when repairing */
     float damage_chance = (difficulty - skill - (tool_quality + pl.dex_cur) / 5.0f) / 100.0f;
 
     damage_chance = std::max( 0.0f, std::min( 1.0f, damage_chance ) );
@@ -2732,7 +2725,7 @@ long heal_actor::use( player *p, item *it, bool, const tripoint &pos ) const
     // NPCs can use first aid now, but they can't perform long actions
     if( long_action && &patient == p && !p->is_npc() ) {
         // Assign first aid long action.
-        ///\EFFECT_FIRSTAID speeds up firstaid activity
+        /** @EFFECT_FIRSTAID speeds up firstaid activity */
         p->assign_activity( activity_id( "ACT_FIRSTAID" ), cost, 0, p->get_item_position( it ), it->tname() );
         p->activity.values.push_back( hpp );
         p->moves = 0;
@@ -2765,7 +2758,7 @@ int heal_actor::get_heal_value( const player &healer, hp_part healed ) const
     }
 
     if( heal_base > 0 ) {
-        ///\EFFECT_FIRSTAID increases healing item effects
+        /** @EFFECT_FIRSTAID increases healing item effects */
         return heal_base + bonus_mult * healer.get_skill_level( skill_firstaid );
     }
 
@@ -2872,9 +2865,9 @@ hp_part pick_part_to_heal(
     const bool infect = infect_chance > 0.0f;
     const bool precise = &healer == &patient ?
         patient.has_trait( "SELFAWARE" ) :
-        ///\EFFECT_PER slightly increases precision when using first aid on someone else
+        /** @EFFECT_PER slightly increases precision when using first aid on someone else */
 
-        ///\EFFECT_FIRSTAID increases precision when using first aid on someone else
+        /** @EFFECT_FIRSTAID increases precision when using first aid on someone else */
         (healer.get_skill_level( skill_firstaid ) * 4 + healer.per_cur >= 20);
     while( true ) {
         hp_part healed_part = patient.body_window( menu_header, force, precise,

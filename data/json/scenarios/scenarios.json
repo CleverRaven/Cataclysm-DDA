@@ -100,7 +100,7 @@
     "allowed_locs": ["lmoe","shelter"],
     "start_name": "Enclosed Shelter",
     "flags" : ["WIN_START"],
-    "professions" : ["sheltered_militia","sheltered_survivor","unemployed"]
+    "professions" : ["sheltered_militia","sheltered_survivor","bionic_prepper","unemployed"]
   },{
     "type": "scenario",
     "ident": "patient",
@@ -169,7 +169,7 @@
     "points" : -1,
     "description": "You were at school when the principal shambled in and ate one of the students, and before you knew it the entire campus was overrun by monsters.  Guess school's out forever.",
     "allowed_locs" : ["school"],
-    "professions" : ["student", "elementary_student", "skaterkid", "jdelinquent", "prep_student", "jr_survivalist", "bionic_student", "poor_student", "dodgeball_player", "science_club_mem", "av_club_mem", "janitor", "teacher", "gym_teacher"],
+    "professions" : ["student", "skaterkid", "jdelinquent", "jr_survivalist", "bionic_student", "dodgeball_player", "science_club_mem", "av_club_mem", "teacher", "gym_teacher"],
     "start_name": "School"
   },{
     "type": "scenario",
@@ -178,7 +178,7 @@
     "points" : 0,
     "description": "You find yourself amongst trees.  The screaming and the moaning is fainter this far from civilization, but you'd better know what you're doing out here.",
     "start_name": "Forest",
-    "professions" : ["unemployed", "survivalist", "trapper", "bionic_prepper", "guru", "backpacker", "naturalist", "camper", "bow_hunter", "crossbow_hunter", "shotgun_hunter", "rifle_hunter", "lumberjack", "jr_survivalist", "fisher", "bio_sur", "bio_sniper"],
+    "professions" : ["unemployed", "survivalist", "trapper", "bionic_prepper", "guru", "backpacker", "naturalist", "camper", "bow_hunter", "crossbow_hunter", "shotgun_hunter", "rifle_hunter", "lumberjack", "jr_survivalist", "fisher", "bio_sniper"],
     "allowed_locs" : ["forest"]
   },{
     "type": "scenario",

@@ -66,8 +66,7 @@ void starting_inv( npc &who, const npc_class_id &type );
 
 npc::npc()
 {
-    mapx = 0;
-    mapy = 0;
+    submap_coords = point( 0, 0 );
     position.x = -1;
     position.y = -1;
     position.z = 500;
@@ -719,14 +718,20 @@ void starting_inv( npc &me, const npc_class_id &type )
     me.inv += res;
 }
 
-void npc::spawn_at(int x, int y, int z)
+void npc::spawn_at_sm(int x, int y, int z)
 {
-    mapx = x;
-    mapy = y;
-    position.x = rng(0, SEEX - 1);
-    position.y = rng(0, SEEY - 1);
-    position.z = z;
-    const point pos_om = sm_to_om_copy( mapx, mapy );
+    spawn_at_precise( point( x, y ), tripoint( rng( 0, SEEX - 1 ), rng( 0, SEEY - 1 ), z ) );
+}
+
+void npc::spawn_at_precise( const point &submap_offset, const tripoint &square )
+{
+    submap_coords = submap_offset;
+    submap_coords.x += square.x / SEEX;
+    submap_coords.y += square.y / SEEY;
+    position.x = square.x % SEEX;
+    position.y = square.y % SEEY;
+    position.z = square.z;
+    const point pos_om = sm_to_om_copy( submap_coords );
     overmap &om = overmap_buffer.get( pos_om.x, pos_om.y );
     om.add_npc( *this );
 }
@@ -744,47 +749,39 @@ void npc::spawn_at_random_city(overmap *o)
     }
     x += o->pos().x * OMAPX * 2;
     y += o->pos().y * OMAPY * 2;
-    spawn_at(x, y, 0);
+    spawn_at_sm(x, y, 0);
 }
 
 tripoint npc::global_square_location() const
 {
-    return tripoint( mapx * SEEX + posx(), mapy * SEEY + posy(), position.z );
+    return tripoint( submap_coords.x * SEEX + posx() % SEEX, submap_coords.y * SEEY + posy() % SEEY, position.z );
 }
 
 void npc::place_on_map()
 {
     // The global absolute position (in map squares) of the npc is *always*
-    // "mapx * SEEX + posx()" (analog for y).
-    // The main map assumes that pos[xy] is in its own (local to the main map)
-    // coordinate system. We have to change pos[xy] to match that assumption,
-    // but also have to change map[xy] to keep the global position of the npc
-    // unchanged.
-    const int dmx = mapx - g->get_levx();
-    const int dmy = mapy - g->get_levy();
-    mapx -= dmx; // == g->get_levx()
-    mapy -= dmy;
-    position.x += dmx * SEEX; // value of "mapx * SEEX + posx()" is unchanged
-    position.y += dmy * SEEY;
+    // "submap_coords.x * SEEX + posx() % SEEX" (analog for y).
+    // The main map assumes that pos is in its own (local to the main map)
+    // coordinate system. We have to change pos to match that assumption
+    const int dmx = submap_coords.x - g->get_levx();
+    const int dmy = submap_coords.y - g->get_levy();
+    const int offset_x = position.x % SEEX;
+    const int offset_y = position.y % SEEY;
+    // value of "submap_coords.x * SEEX + posx()" is unchanged
+    setpos( tripoint( offset_x + dmx * SEEX, offset_y + dmy * SEEY, posz() ) );
 
-    // Places the npc at the nearest empty spot near (posx(), posy()).
-    // Searches in a spiral pattern for a suitable location.
-    int x = 0, y = 0, dx = 0, dy = -1;
-    int temp;
-    while( !g->is_empty( { posx() + x, posy() + y, posz() } ) )
-    {
-        if ((x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1-y)))
-        {//change direction
-            temp = dx;
-            dx = -dy;
-            dy = temp;
+    if( g->is_empty( pos() ) ) {
+        return;
+    }
+
+    for( const tripoint &p : closest_tripoints_first( SEEX + 1, pos() ) ) {
+        if( g->is_empty( p ) ) {
+            setpos( p );
+            return;
         }
-        x += dx;
-        y += dy;
-    }//end search, posx() + x , posy() + y contains a free spot.
-    //place the npc at the free spot.
-    position.x += x;
-    position.y += y;
+    }
+
+    debugmsg( "Failed to place NPC in a valid location near (%d,%d,%d)", posx(), posy(), posz() );
 }
 
 skill_id npc::best_skill() const
@@ -941,13 +938,21 @@ bool npc::wear_if_wanted( const item &it )
 bool npc::wield( item& it )
 {
     if( is_armed() ) {
-        if ( volume_carried() + weapon.volume() <= volume_capacity() ) {
-            add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), weapon.tname().c_str() );
-            i_add( remove_weapon() );
+        // If weapon has a shoulder strap, try to wear it.
+        if( wear_item( weapon, false ) ) {
+            // Wearing the item was successful, remove weapon and post message.
+            add_msg_if_npc( m_info, _( "<npcname> wears the %s." ), weapon.tname().c_str() );
+            remove_weapon();
             moves -= 15;
-        } else { // No room for weapon, so we drop it
-            add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), weapon.tname().c_str() );
-            g->m.add_item_or_charges( pos(), remove_weapon() );
+        } else { // Weapon cannot be worn or wearing was not successful. Store it in inventory if possible, otherwise drop it.
+            if ( volume_carried() + weapon.volume() <= volume_capacity() ) {
+                add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), weapon.tname().c_str() );
+                i_add( remove_weapon() );
+                moves -= 15;
+            } else { // No room for weapon, so we drop it
+                add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), weapon.tname().c_str() );
+                g->m.add_item_or_charges( pos(), remove_weapon() );
+            }
         }
     }
 
@@ -1837,6 +1842,28 @@ std::string npc::opinion_text() const
  return ret.str();
 }
 
+void npc::setpos( const tripoint &pos )
+{
+    position = pos;
+    const point pos_om_old = sm_to_om_copy( submap_coords );
+    submap_coords.x = g->get_levx() + pos.x / SEEX;
+    submap_coords.y = g->get_levy() + pos.y / SEEY;
+    const point pos_om_new = sm_to_om_copy( submap_coords );
+    if( !is_fake() && pos_om_old != pos_om_new ) {
+        overmap &om_old = overmap_buffer.get( pos_om_old.x, pos_om_old.y );
+        overmap &om_new = overmap_buffer.get( pos_om_new.x, pos_om_new.y );
+        auto a = std::find( om_old.npcs.begin(), om_old.npcs.end(), this );
+        if( a != om_old.npcs.end() ) {
+            om_old.npcs.erase( a );
+            om_new.npcs.push_back( this );
+        } else {
+            // Don't move the npc pointer around to avoid having two overmaps
+            // with the same npc pointer
+            debugmsg( "could not find npc %s on its old overmap", name.c_str() );
+        }
+    }
+}
+
 void maybe_shift( tripoint &pos, int dx, int dy )
 {
     if( pos != tripoint_min ) {
@@ -1850,25 +1877,7 @@ void npc::shift(int sx, int sy)
     const int shiftx = sx * SEEX;
     const int shifty = sy * SEEY;
 
-    position.x -= shiftx;
-    position.y -= shifty;
-    const point pos_om_old = sm_to_om_copy( mapx, mapy );
-    mapx += sx;
-    mapy += sy;
-    const point pos_om_new = sm_to_om_copy( mapx, mapy );
-    if( pos_om_old != pos_om_new ) {
-        overmap &om_old = overmap_buffer.get( pos_om_old.x, pos_om_old.y );
-        overmap &om_new = overmap_buffer.get( pos_om_new.x, pos_om_new.y );
-        auto a = std::find(om_old.npcs.begin(), om_old.npcs.end(), this);
-        if (a != om_old.npcs.end()) {
-            om_old.npcs.erase( a );
-            om_new.npcs.push_back( this );
-        } else {
-            // Don't move the npc pointer around to avoid having two overmaps
-            // with the same npc pointer
-            debugmsg( "could not find npc %s on its old overmap", name.c_str() );
-        }
-    }
+    setpos( pos() - point( shiftx, shifty ) );
 
     maybe_shift( wanted_item_pos, -shiftx, -shifty );
     maybe_shift( last_player_seen_pos, -shiftx, -shifty );
@@ -2214,9 +2223,9 @@ bool npc::dispose_item( item_location &&obj, const std::string & )
 
     if( volume_carried() + obj->volume() <= volume_capacity() ) {
         opts.emplace_back( dispose_option {
-            item_handling_cost( *obj ) * INVENTORY_HANDLING_FACTOR,
+            item_handling_cost( *obj ),
             [this,&obj] {
-                moves -= item_handling_cost( *obj ) * INVENTORY_HANDLING_FACTOR;
+                moves -= item_handling_cost( *obj );
                 inv.add_item_keep_invlet( *obj );
                 obj.remove_item();
                 inv.unsort();

@@ -308,6 +308,7 @@ void Character::load(JsonObject &data)
         const auto &mid = it->first;
         if( mutation_branch::has( mid ) ) {
             on_mutation_gain( mid );
+            cached_mutations.push_back( &mutation_branch::get( mid ) );
             ++it;
         } else {
             debugmsg( "character %s has invalid mutation %s, it will be ignored", name.c_str(), mid.c_str() );
@@ -1054,17 +1055,24 @@ void npc::load(JsonObject &data)
         wander_pos.z = posz();
     }
 
-    data.read("mapx", mapx);
-    data.read("mapy", mapy);
+    if( !data.read( "submap_coords", submap_coords ) ) {
+        // Old submap coords are for the point (0, 0, 0) on local map
+        // New ones are for submap that contains pos
+        point old_coords;
+        data.read( "mapx", old_coords.x );
+        data.read( "mapy", old_coords.y );
+        int o;
+        if( data.read( "omx", o ) ) {
+            old_coords.x += o * OMAPX * 2;
+        }
+        if( data.read( "omy", o ) ) {
+            old_coords.y += o * OMAPY * 2;
+        }
+        submap_coords = point( old_coords.x + posx() / SEEX, old_coords.y + posy() / SEEY );
+    }
+
     if(!data.read("mapz", position.z)) {
         data.read("omz", position.z); // omz/mapz got moved to position.z
-    }
-    int o;
-    if(data.read("omx", o)) {
-        mapx += o * OMAPX * 2;
-    }
-    if(data.read("omy", o)) {
-        mapy += o * OMAPY * 2;
     }
 
     data.read( "plx", last_player_seen_pos.x );
@@ -1166,8 +1174,7 @@ void npc::store(JsonOut &json) const
     json.member( "wandy", wander_pos.y );
     json.member( "wandz", wander_pos.z );
 
-    json.member( "mapx", mapx );
-    json.member( "mapy", mapy );
+    json.member( "submap_coords", submap_coords );
 
     json.member( "plx", last_player_seen_pos.x );
     json.member( "ply", last_player_seen_pos.y );
@@ -2279,7 +2286,9 @@ void Creature::load( JsonObject &jsin )
 void player_morale::morale_point::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
-    type = static_cast<morale_type>( jo.get_int( "type_enum" ) );
+    if( !jo.read( "type", type ) ) {
+        type = morale_type_data::convert_legacy( jo.get_int( "type_enum" ) );
+    }
     std::string tmpitype;
     if( jo.read( "item_type", tmpitype ) && item::type_is_defined( tmpitype ) ) {
         item_type = item::find_type( tmpitype );
@@ -2293,7 +2302,7 @@ void player_morale::morale_point::deserialize( JsonIn &jsin )
 void player_morale::morale_point::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member( "type_enum", static_cast<int>( type ) );
+    json.member( "type", type );
     if( item_type != NULL ) {
         // @todo refactor player_morale to not require this hack
         json.member( "item_type", item_type->get_id() );

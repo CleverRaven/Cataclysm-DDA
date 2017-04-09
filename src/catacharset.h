@@ -4,6 +4,7 @@
 
 #include <stdint.h>
 #include <string>
+#include <array>
 #define ANY_LENGTH 5
 #define UNKNOWN_UNICODE 0xFFFD
 
@@ -23,9 +24,9 @@ int utf8_width( const utf8_wrapper &str, const bool ignore_tags = false );
 
 /**
  * Center text inside whole line.
- * @param Text to be centered.
- * @param First printable position on line.
- * @param Last printable position on line.
+ * @param text to be centered.
+ * @param start_pos printable position on line.
+ * @param end_pos printable position on line.
  * @return First char position of centered text or start_pos if text is too big.
 */
 int center_text_pos( const char *text, int start_pos, int end_pos );

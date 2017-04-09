@@ -59,7 +59,7 @@ void map::build_transparency_cache( const int zlev )
 
     // Default to just barely not transparent.
     std::uninitialized_fill_n(
-        &transparency_cache[0][0], MAPSIZE*SEEX * MAPSIZE*SEEY, LIGHT_TRANSPARENCY_OPEN_AIR);
+        &transparency_cache[0][0], MAPSIZE*SEEX * MAPSIZE*SEEY, static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR ) );
 
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
@@ -169,9 +169,9 @@ void map::generate_lightmap( const int zlev )
     auto &light_source_buffer = map_cache.light_source_buffer;
     std::memset(light_source_buffer, 0, sizeof(light_source_buffer));
 
-    constexpr int dir_x[] = {  0, -1 , 1, 0 };   //    [0]
-    constexpr int dir_y[] = { -1,  0 , 0, 1 };   // [1][X][2]
-    constexpr int dir_d[] = { 90, 0, 180, 270 }; //    [3]
+    constexpr std::array<int, 4> dir_x = {{  0, -1 , 1, 0 }};   //    [0]
+    constexpr std::array<int, 4> dir_y = {{ -1,  0 , 0, 1 }};   // [1][X][2]
+    constexpr std::array<int, 4> dir_d = {{ 90, 0, 180, 270 }}; //    [3]
 
     const float natural_light  = g->natural_light_level( zlev );
     const float inside_light = (natural_light > LIGHT_SOURCE_BRIGHT) ?
@@ -666,9 +666,8 @@ void cast_zlight(
  * field of view, whereas a value equal to or above 1 means that cell is
  * in the field of view.
  *
- * @param startx the horizontal component of the starting location
- * @param starty the vertical component of the starting location
- * @param radius the maximum distance to draw the FOV
+ * @param origin the starting location
+ * @param target_z Z-level to draw light map on
  */
 void map::build_seen_cache( const tripoint &origin, const int target_z )
 {

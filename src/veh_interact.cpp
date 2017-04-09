@@ -372,8 +372,8 @@ void veh_interact::cache_tool_availability()
                            map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( JACK ),
                            vehicle_selector(g->u.pos(), 2, true, *veh ).max_quality( JACK ) } );
 
-    // cap JACK requirements at 8000kg to support arbritrarily large vehicles
-    double qual = ceil( double( std::min( veh->total_mass(), 8000 ) * 1000 ) / TOOL_LIFT_FACTOR );
+    // cap JACK requirements at 8500kg to support arbritrarily large vehicles
+    double qual = ceil( double( std::min( veh->total_mass(), 8500 ) * 1000 ) / TOOL_LIFT_FACTOR );
 
     has_jack = g->u.has_quality( JACK, qual ) ||
                map_selector( g->u.pos(), PICKUP_RANGE ).has_quality( JACK, qual ) ||
@@ -1481,17 +1481,17 @@ bool veh_interact::do_rename( std::string & )
     std::string name = string_input_popup()
                        .title( _( "Enter new vehicle name:" ) )
                        .width( 20 )
-                       .query();
-    if(name.length() > 0) {
-        (veh->name = name);
-        if (veh->tracking_on) {
+                       .query_string();
+    if( name.length() > 0 ) {
+        veh->name = name;
+        if( veh->tracking_on ) {
             overmap_buffer.remove_vehicle( veh );
             // Add the vehicle again, this time with the new name
             overmap_buffer.add_vehicle( veh );
         }
     }
     // refresh w_disp & w_part windows:
-    move_cursor(0, 0);
+    move_cursor( 0, 0 );
 
     return false;
 }
@@ -1507,10 +1507,10 @@ bool veh_interact::do_relabel( std::string &msg )
                        .title( _( "New label:" ) )
                        .width( 20 )
                        .text( veh->get_label( -ddx, -ddy ) )
-                       .query();
+                       .query_string();
     veh->set_label(-ddx, -ddy, text); // empty input removes the label
     // refresh w_disp & w_part windows:
-    move_cursor(0, 0);
+    move_cursor( 0, 0 );
 
     return false;
 }
@@ -1890,7 +1890,6 @@ void veh_interact::display_name()
 
 /**
  * Prints the list of usable commands, and highlights the hotkeys used to activate them.
- * @param mode What command we are currently using. ' ' for no command.
  */
 void veh_interact::display_mode()
 {
@@ -1955,6 +1954,7 @@ size_t veh_interact::display_esc(WINDOW *win)
  * when installing new parts or changing tires.
  * @param pos The current cursor position in the list.
  * @param list The list to display parts from.
+ * @param header Number of lines occupied by the list header
  */
 void veh_interact::display_list(size_t pos, std::vector<const vpart_info*> list, const int header)
 {
@@ -2322,17 +2322,22 @@ void veh_interact::complete_vehicle()
             g->u.view_offset.x = px;
             g->u.view_offset.y = py;
 
-            int delta_x = headlight_target.x - (veh->global_x() + q.x);
-            int delta_y = headlight_target.y - (veh->global_y() + q.y);
+            int dir = 0;
+            if(headlight_target.x == INT_MIN) {
+                dir = 0;
+            } else {
+                int delta_x = headlight_target.x - (veh->global_x() + q.x);
+                int delta_y = headlight_target.y - (veh->global_y() + q.y);
 
-            const double PI = 3.14159265358979f;
-            int dir = int(atan2(static_cast<float>(delta_y), static_cast<float>(delta_x)) * 180.0 / PI);
-            dir -= veh->face.dir();
-            while(dir < 0) {
-                dir += 360;
-            }
-            while(dir > 360) {
-                dir -= 360;
+                const double PI = 3.14159265358979f;
+                dir = int(atan2(static_cast<float>(delta_y), static_cast<float>(delta_x)) * 180.0 / PI);
+                dir -= veh->face.dir();
+                while(dir < 0) {
+                    dir += 360;
+                }
+                while(dir > 360) {
+                    dir -= 360;
+                }
             }
 
             veh->parts[partnum].direction = dir;

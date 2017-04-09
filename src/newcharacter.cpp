@@ -175,8 +175,6 @@ tab_direction set_description(WINDOW *w, player *u, bool allow_reroll, points_le
 
 void save_template(player *u);
 
-bool lcmatch(const std::string &str, const std::string &findstr); // ui.cpp
-
 void Character::pick_name(bool bUseDefault)
 {
     if (bUseDefault && !get_option<std::string>( "DEF_CHAR_NAME" ).empty() ) {
@@ -213,7 +211,7 @@ matype_id choose_ma_style( const character_type type, const std::vector<matype_i
 
 bool player::load_template( const std::string &template_name )
 {
-    return read_from_file( FILENAMES["templatedir"] + template_name + ".template", [&]( std::istream &fin ) {
+    return read_from_file( FILENAMES["templatedir"] + utf8_to_native( template_name ) + ".template", [&]( std::istream &fin ) {
         std::string data;
         getline( fin, data );
         load_info( data );
@@ -443,9 +441,9 @@ bool player::create(character_type type, std::string tempname)
         points.stat_points = 0;
         points.trait_points = 0;
         points.skill_points = 0;
-		// We want to prevent recipes known by the template from being applied to the
-		// new character. The recipe list will be rebuilt when entering the game.
-		learned_recipes.clear();
+        // We want to prevent recipes known by the template from being applied to the
+        // new character. The recipe list will be rebuilt when entering the game.
+        learned_recipes.clear();
         tab = NEWCHAR_TAB_MAX;
         break;
     }
@@ -839,13 +837,8 @@ tab_direction set_stats(WINDOW *w, player *u, points_left &points)
             }
             mvwprintz(w_description, 0, 0, COL_STAT_BONUS, _("Melee to-hit bonus: +%.2f"),
                       u->get_hit_base());
-            if (u->throw_dex_mod(false) <= 0) {
-                mvwprintz(w_description, 1, 0, COL_STAT_BONUS, _("Throwing bonus: +%d"),
-                          abs(u->throw_dex_mod(false)));
-            } else {
-                mvwprintz(w_description, 1, 0, COL_STAT_PENALTY, _("Throwing penalty: -%d"),
-                          abs(u->throw_dex_mod(false)));
-            }
+            mvwprintz( w_description, 1, 0, COL_STAT_BONUS, _("Throwing penalty per target's dodge: +%d"),
+                       u->throw_dispersion_per_dodge( false ) );
             fold_and_print(w_description, 4, 0, getmaxx(w_description) - 1, COL_STAT_NEUTRAL,
                            _("Dexterity also enhances many actions which require finesse."));
             break;
@@ -1202,6 +1195,7 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
 struct {
     bool sort_by_points = true;
     bool male;
+    /** @related player */
     bool operator() ( const string_id<profession> &a, const string_id<profession> &b )
     {
         // The generic ("Unemployed") profession should be listed first.
@@ -1221,6 +1215,7 @@ struct {
     }
 } profession_sorter;
 
+/** Handle the profession tab of teh character generation menu */
 tab_direction set_profession(WINDOW *w, player *u, points_left &points)
 {
     draw_tabs( w, _("PROFESSION") );
@@ -1730,6 +1725,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
 struct {
     bool sort_by_points = true;
     bool male;
+    /** @related player */
     bool operator() (const scenario *a, const scenario *b)
     {
         // The generic ("Unemployed") profession should be listed first.
@@ -2416,14 +2412,14 @@ std::string Character::random_bad_trait()
     return random_entry( vTraitsBad );
 }
 
-void save_template(player *u)
+void save_template( player *u )
 {
-    std::string title = _("Name of template:");
+    std::string title = _( "Name of template:" );
     std::string name = string_input_popup()
                        .title( title )
                        .width( FULL_SCREEN_WIDTH - utf8_width( title ) - 8 )
-                       .query();
-    if (name.length() == 0) {
+                       .query_string();
+    if( name.length() == 0 ) {
         return;
     }
     std::string playerfile = FILENAMES["templatedir"] + utf8_to_native( name ) + ".template";

@@ -180,9 +180,8 @@ class item_location::impl::item_on_map : public item_location::impl
                 obj = *target();
             }
 
-            int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj );
-            mv *= square_dist( ch.pos(), cur ) + 1;
-            mv *= MAP_HANDLING_FACTOR;
+            int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj, true, MAP_HANDLING_PENALTY );
+            mv += 100 * rl_dist( ch.pos(), cur );
 
             //@ todo handle unpacking costs
 
@@ -295,14 +294,14 @@ class item_location::impl::item_on_person : public item_location::impl
                     mv += dynamic_cast<player &>( who ).item_handling_cost( obj, false, ptr->draw_cost );
 
                 } else {
-                    mv += dynamic_cast<player &>( who ).item_handling_cost( obj, false );
+                    mv += dynamic_cast<player &>( who ).item_handling_cost( obj, false,
+                            INVENTORY_HANDLING_PENALTY / 2 );
                 }
 
             } else {
                 // it is more expensive to obtain items from the inventory
                 // @todo calculate cost for searching in inventory proportional to item volume
-                mv += dynamic_cast<player &>( who ).item_handling_cost( obj );
-                mv *= INVENTORY_HANDLING_FACTOR;
+                mv += dynamic_cast<player &>( who ).item_handling_cost( obj, true, INVENTORY_HANDLING_PENALTY );
             }
 
             if( &ch != &who ) {
@@ -394,9 +393,9 @@ class item_location::impl::item_on_vehicle : public item_location::impl
                 obj = *target();
             }
 
-            int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj );
-            mv *= square_dist( ch.pos(), cur.veh.global_part_pos3( cur.part ) ) + 1;
-            mv *= VEHICLE_HANDLING_FACTOR;
+            int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj, true,
+                     VEHICLE_HANDLING_PENALTY );
+            mv += 100 * rl_dist( ch.pos(), cur.veh.global_part_pos3( cur.part ) );
 
             //@ todo handle unpacking costs
 

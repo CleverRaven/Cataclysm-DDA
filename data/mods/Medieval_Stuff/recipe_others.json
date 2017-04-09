@@ -1,24 +1,19 @@
 [
-{
-  "type" : "recipe",
-  "result": "scrap_bronze",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
-  "skill_used": "fabrication",
-  "difficulty": 2,
-  "time": 10000,
-  "batch_time_factors": [ 90, 4 ],
-  "autolearn": true,
-  "using": [ [ "forging_standard", 1 ] ],
-  "tools": [
-    [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
-  ],
-  "components": [
-    [
-      [ "tin", 10 ],
-      [ "solder_wire", 10 ]
-    ],
-    [ [ "copper", 50 ] ]
-  ]
-}
+  {
+    "result": "scrap_bronze",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": 10000,
+    "batch_time_factors": [ 90, 4 ],
+    "autolearn": true,
+    "using": [ [ "forging_standard", 1 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [
+      [ [ "tin", 10 ], [ "solder_wire", 10 ] ],
+      [ [ "copper", 50 ] ]
+    ]
+  }
 ]

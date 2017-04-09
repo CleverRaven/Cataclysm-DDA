@@ -108,7 +108,6 @@ TEST_CASE( "available_recipes", "[.]" ) {
 
     REQUIRE( dummy.get_skill_level( r->skill_used ) == 0 );
     REQUIRE_FALSE( dummy.knows_recipe( r ) );
-    REQUIRE( r->autolearn );
     REQUIRE( r->skill_used );
 
     GIVEN( "a recipe that can be automatically learned" ) {
@@ -176,7 +175,7 @@ TEST_CASE( "available_recipes", "[.]" ) {
         standard_npc who( "helper", {}, 0 );
 
         who.attitude = NPCATT_FOLLOW;
-        who.spawn_at( 0, 0, 0 );
+        who.spawn_at_sm( 0, 0, 0 );
 
         g->load_npcs();
 

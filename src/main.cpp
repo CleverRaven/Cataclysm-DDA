@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
         const char *section_default = nullptr;
         const char *section_map_sharing = "Map sharing";
         const char *section_user_directory = "User directories";
-        const arg_handler first_pass_arguments[] = {
+        const std::array<arg_handler, 12> first_pass_arguments = {{
             {
                 "--seed", "<string of letters and or numbers>",
                 "Sets the random number generator's seed value",
@@ -233,11 +233,11 @@ int main(int argc, char *argv[])
                     return 1;
                 }
             }
-        };
+        }};
 
         // The following arguments are dependent on one or more of the previous flags and are run
         // in a second pass.
-        const arg_handler second_pass_arguments[] = {
+        const std::array<arg_handler, 9> second_pass_arguments = {{
             {
                 "--worldmenu", nullptr,
                 "Enables the world menu in the map-sharing code",
@@ -329,7 +329,7 @@ int main(int argc, char *argv[])
                     return 1;
                 }
             },
-        };
+        }};
 
         // Process CLI arguments.
         const size_t num_first_pass_arguments =
@@ -340,8 +340,8 @@ int main(int argc, char *argv[])
         const char **saved_argv = (const char **)++argv;
         while (argc) {
             if(!strcmp(argv[0], "--help")) {
-                printHelpMessage(first_pass_arguments, num_first_pass_arguments,
-                    second_pass_arguments, num_second_pass_arguments);
+                printHelpMessage(first_pass_arguments.data(), num_first_pass_arguments,
+                    second_pass_arguments.data(), num_second_pass_arguments);
                 return 0;
             } else {
                 bool arg_handled = false;

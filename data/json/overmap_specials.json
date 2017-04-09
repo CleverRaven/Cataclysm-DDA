@@ -258,7 +258,6 @@
         "city_distance" : [20, -1],
         "city_sizes" : [4, 12],
         "occurrences" : [0, 20],
-        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -1668,7 +1667,7 @@
         "connections" : [
             { "point" : [0,2,0] }
         ],
-        "locations" : [ "forest" ],
+        "locations" : [ "forest", "field" ],
         "city_distance" : [2, 10],
         "city_sizes" : [2, 16],
         "occurrences" : [2, 5],

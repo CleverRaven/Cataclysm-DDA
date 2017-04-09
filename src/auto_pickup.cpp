@@ -291,7 +291,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                                       .title( _( "Pickup Rule:" ) )
                                       .width( 30 )
                                       .text( vRules[iTab][iLine].sRule )
-                                      .query();
+                                      .query_string();
                 // If r is empty, then either (1) The player ESC'ed from the window (changed their mind), or
                 // (2) Explicitly entered an empty rule- which isn't allowed since "*" should be used
                 // to include/exclude everything

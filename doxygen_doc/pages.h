@@ -24,15 +24,15 @@
  * \ref mapbuffer \ref map \ref submap
  */
 
-/*! @page Effects_Stat_Strength 
+/*! @page Effects_Stat_Strength
  *  @brief Cross referenced effects of the Strength stat.
  *  @par
  */
-/*! @page Effects_Stat_Dexterity 
+/*! @page Effects_Stat_Dexterity
  *  @brief Cross referenced effects of the Dexterity stat.
  *  @par
  */
-/*! @page Effects_Stat_Intelligence 
+/*! @page Effects_Stat_Intelligence
  *  @brief Cross referenced effects of the Intelligence stat.
  *  @par
  */

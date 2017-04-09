@@ -10,7 +10,7 @@
     "time": 60000,
     "decomp_learn": 4,
     "book_learn": [ [ "recipe_atomic_battery", 6 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ] ],
     "components": [
       [ [ "scrap", 6 ] ],
@@ -31,7 +31,7 @@
     "decomp_learn": 2,
     "autolearn": true,
     "book_learn": [ [ "manual_electronics", 2 ], [ "advanced_electronics", 2 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "soldering_iron", 5 ], [ "toolset", 5 ] ] ],
     "components": [
       [ [ "scrap", 4 ] ],
@@ -50,7 +50,7 @@
     "decomp_learn": 4,
     "autolearn": true,
     "book_learn": [ [ "manual_electronics", 3 ], [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ], [ "recipe_lab_elec", 3 ], [ "textbook_anarch", 3 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "soldering_iron", 24 ], [ "toolset", 24 ] ] ],
     "components": [
       [ [ "power_supply", 1 ] ],
@@ -70,7 +70,7 @@
     "time": 60000,
     "decomp_learn": 4,
     "book_learn": [ [ "recipe_atomic_battery", 7 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
     "components": [
       [ [ "scrap", 9 ] ],

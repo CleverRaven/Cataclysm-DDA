@@ -31,8 +31,8 @@ const skill_id skill_cutting( "cutting" );
 const skill_id skill_stabbing( "stabbing" );
 const skill_id skill_bashing( "bashing" );
 const skill_id skill_melee( "melee" );
+const skill_id skill_fabrication( "fabrication" );
 const skill_id skill_survival( "survival" );
-const skill_id skill_carpentry( "carpentry" );
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_electronics( "electronics" );
 const skill_id skill_firstaid( "firstaid" );
@@ -1146,7 +1146,7 @@ bool talk_function::labor_return(npc *p)
     while (i < exp){
         y = rng( 0, 100 );
         if (y < 50){
-            comp->practice( skill_carpentry, 5);
+            comp->practice( skill_fabrication, 5);
         } else if (y < 70){
             comp->practice( skill_survival, 5);
         } else if (y < 85){
@@ -1179,12 +1179,12 @@ bool talk_function::carpenter_return(npc *p)
     if (one_in(20)){
         // the following doxygen aliases do not yet exist. this is marked for future reference
 
-        ///\EFFECT_CARPENTRY_NPC affects carpenter mission results
+        ///\EFFECT_FABRICATION_NPC affects carpenter mission results
 
         ///\EFFECT_DODGE_NPC affects carpenter mission results
 
         ///\EFFECT_SURVIVAL_NPC affects carpenter mission results
-        int skill_1 = comp->get_skill_level( skill_carpentry );
+        int skill_1 = comp->get_skill_level( skill_fabrication );
         int skill_2 = comp->get_skill_level( skill_dodge );
         int skill_3 = comp->get_skill_level( skill_survival );
         popup(_("While %s was framing a building one of the walls began to collapse..."), comp->name.c_str());
@@ -1213,7 +1213,7 @@ bool talk_function::carpenter_return(npc *p)
     while (i < exp){
         y = rng( 0, 100 );
         if (y < 70){
-            comp->practice( skill_carpentry, 10);
+            comp->practice( skill_fabrication, 10 );
         } else if (y < 80){
             comp->practice( skill_survival, 10);
         } else if (y < 90){
@@ -1440,14 +1440,8 @@ void talk_function::companion_return(npc *comp){
         if( elem == comp) {
             elem->companion_mission = "";
             elem->companion_mission_time = 0;
-            elem->spawn_at(g->get_levx(), g->get_levy(), g->get_levz());
-            elem->setx( g->u.posx() + rng( -2, 2 ));
-            if (one_in(2)){
-                elem->sety( g->u.posy() + rng( -2, 2 ) );
-            }else{
-                elem->sety( g->u.posy() - rng( -2, 2 ) );
-            }
-            elem->setz( g->u.posz() );
+            elem->spawn_at_precise( { g->get_levx(), g->get_levy() },
+                                    g->u.pos() + point( rng( -2, 2 ), rng( -2, 2 ) ) );
         } else {
             new_mission_npc.push_back(elem);
         }

@@ -53,8 +53,8 @@
     "difficulty": 4,
     "time": 40000,
     "autolearn": true,
+    "using": [ [ "cordage", 1 ] ],
     "components": [
-      [ [ "string_36", 1 ], [ "string_6", 4 ] ],
       [ [ "chitin_piece", 8 ] ],
       [ [ "leather", 4 ], [ "fur", 4 ], [ "rag", 4 ] ]
     ]
@@ -325,7 +325,7 @@
     "time": 80000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "2x4", 2 ], [ "stick", 2 ], [ "splinter", 2 ] ] ]
+    "components": [ [ [ "2x4", 2 ], [ "stick", 2 ] ] ]
   },
   {
     "result": "footrags",

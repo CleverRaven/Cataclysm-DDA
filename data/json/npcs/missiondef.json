@@ -7,7 +7,7 @@
     "difficulty": 2,
     "value": 800,
     "start": "place_book",
-    "origins": [ "ORIGIN_ANY_NPC" ],
+    "origins": [ "ORIGIN_NULL" ],
     "dialogue": {
       "describe": "Wanna help me out?",
       "offer": "Get me a book.",

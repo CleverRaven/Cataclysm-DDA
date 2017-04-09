@@ -6,12 +6,14 @@
 
 static std::map<fault_id, fault> faults_all;
 
+/** @relates string_id */
 template<>
 bool string_id<fault>::is_valid() const
 {
     return faults_all.count( *this );
 }
 
+/** @relates string_id */
 template<>
 const fault &string_id<fault>::obj() const
 {

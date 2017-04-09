@@ -59,6 +59,7 @@
 #include "recipe_dictionary.h"
 #include "rotatable_symbols.h"
 #include "harvest.h"
+#include "morale_types.h"
 
 #include <assert.h>
 #include <string>
@@ -185,7 +186,7 @@ void DynamicDataLoader::initialize()
     add( "vehicle_spawn",  &VehicleSpawn::load );
 
     add( "requirement", []( JsonObject &jo ) { requirement_data::load_requirement( jo ); } );
-    add( "trap", &trap::load );
+    add( "trap", &trap::load_trap );
 
     add( "AMMO", []( JsonObject &jo, const std::string &src ) { item_controller->load_ammo( jo, src ); } );
     add( "GUN", []( JsonObject &jo, const std::string &src ) { item_controller->load_gun( jo, src ); } );
@@ -211,8 +212,8 @@ void DynamicDataLoader::initialize()
     add( "SPECIES", []( JsonObject &jo, const std::string &src ) { MonsterGenerator::generator().load_species( jo, src ); } );
 
     add( "recipe_category", &load_recipe_category );
-    add( "recipe",  []( JsonObject &jo, const std::string &src ) { recipe_dictionary::load( jo, src, false ); } );
-    add( "uncraft", []( JsonObject &jo, const std::string &src ) { recipe_dictionary::load( jo, src, true  ); } );
+    add( "recipe",  &recipe_dictionary::load_recipe );
+    add( "uncraft", &recipe_dictionary::load_uncraft );
 
     add( "tool_quality", &quality::load_static );
     add( "technique", &load_technique );
@@ -254,6 +255,7 @@ void DynamicDataLoader::initialize()
     add( "palette", mapgen_palette::load );
     add( "rotatable_symbol", &rotatable_symbols::load );
     add( "body_part", &body_part_struct::load );
+    add( "morale_type", &morale_type_data::load_type );
 }
 
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src )

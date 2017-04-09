@@ -159,7 +159,7 @@ public:
     palette_id id;
     /**
      * The mapping from character code (key) to a list of things that should be placed. This is
-     * similar to @ref objects, but it uses key to get the actual position where to place things
+     * similar to objects, but it uses key to get the actual position where to place things
      * out of the json "bitmap" (which is used to paint the terrain/furniture).
      */
     using placing_map = std::map< int, std::vector< std::shared_ptr<jmapgen_piece> > >;

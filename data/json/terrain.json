@@ -1485,7 +1485,7 @@
         "color": "brown",
         "move_cost": 0,
         "roof": "t_flat_roof",
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL"],
+        "flags": ["FLAMMABLE_ASH", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BARRICADABLE_DOOR"],
         "examine_action": "locked_object",
         "bash": {
             "str_min": 8, "str_max": 80, "str_min_blocked": 15, "str_max_blocked": 100,
@@ -1507,7 +1507,7 @@
         "move_cost": 0,
         "roof": "t_flat_roof",
         "flags": [
-            "FLAMMABLE_ASH", "NOITEM", "OPENCLOSE_INSIDE", "REDUCE_SCENT", "CONNECT_TO_WALL"
+            "FLAMMABLE_ASH", "NOITEM", "OPENCLOSE_INSIDE", "REDUCE_SCENT", "CONNECT_TO_WALL", "BARRICADABLE_DOOR"
         ],
         "examine_action": "locked_object",
         "open": "t_door_o",
@@ -1531,7 +1531,7 @@
         "move_cost": 0,
         "roof": "t_flat_roof",
         "flags": [
-            "FLAMMABLE_ASH", "NOITEM", "OPENCLOSE_INSIDE", "REDUCE_SCENT", "CONNECT_TO_WALL"
+            "FLAMMABLE_ASH", "NOITEM", "OPENCLOSE_INSIDE", "REDUCE_SCENT", "CONNECT_TO_WALL", "BARRICADABLE_DOOR"
         ],
         "open": "t_door_o_peep",
         "examine_action": "door_peephole",
@@ -1556,7 +1556,7 @@
         "move_cost": 0,
         "roof": "t_flat_roof",
         "flags": [
-            "FLAMMABLE_ASH", "ALARMED", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL"],
+            "FLAMMABLE_ASH", "ALARMED", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BARRICADABLE_DOOR"],
         "examine_action": "locked_object",
         "bash": {
             "str_min": 8, "str_max": 80, "str_min_blocked": 15, "str_max_blocked": 100,
@@ -1586,7 +1586,7 @@
             "items": [
                 { "item": "stick", "count": 1 },
                 { "item": "sheet", "count": 2 },
-                { "item": "string_36", "prob": 50 }
+                { "item": "withered", "count": 12 }
             ]
         },
         "bash": {
@@ -1600,7 +1600,7 @@
                 { "item": "sheet", "count": [0, 1] },
                 { "item": "rag", "count": [2, 5] },
                 { "item": "stick", "count": 1 },
-                { "item": "string_36", "count": 1 }
+                { "item": "withered", "count": [2, 12] }
             ]
         }
     },{
@@ -1619,7 +1619,7 @@
             "ter_set": "t_door_frame",
             "items": [
                 { "item": "2x4", "count": 6 },
-                { "item": "rope_6", "count": 2 }
+                { "item": "rope_makeshift_6", "count": 2 }
             ]
         },
         "bash": {
@@ -1629,8 +1629,8 @@
             "ter_set": "t_door_frame",
             "items": [
                 { "item": "2x4", "count": [2, 5] },
-                { "item": "rope_6", "count": [0, 1] },
-                { "item": "string_36", "count": [1, 6] },
+                { "item": "rope_makeshift_6", "count": [0, 1] },
+                { "item": "withered", "count": [2, 12] },
                 { "item": "splinter", "count": [5, 10] }
             ]
         }
@@ -1652,7 +1652,7 @@
             "items": [
                 { "item": "stick", "count": 1 },
                 { "item": "sheet", "count": 2 },
-                { "item": "string_36", "prob": 50 }
+                { "item": "withered", "count": 12 }
             ]
         },
         "close": "t_door_curtain_c",
@@ -1667,7 +1667,7 @@
                 { "item": "sheet", "count": [0, 1] },
                 { "item": "rag", "count": [2, 5] },
                 { "item": "stick", "count": 1 },
-                { "item": "string_36", "count": 1 }
+                { "item": "withered", "count": [2, 12] }
             ]
         }
     },{
@@ -1687,7 +1687,7 @@
             "ter_set": "t_door_frame",
             "items": [
                 { "item": "2x4", "count": 6 },
-                { "item": "rope_6", "count": 2 }
+                { "item": "rope_makeshift_6", "count": 2 }
             ]
         },
         "close": "t_door_makeshift_c",
@@ -1698,8 +1698,8 @@
             "ter_set": "t_door_frame",
             "items": [
                 { "item": "2x4", "count": [2, 5] },
-                { "item": "rope_6", "count": [0, 1] },
-                { "item": "string_36", "count": [1, 6] },
+                { "item": "rope_makeshift_6", "count": [0, 1] },
+                { "item": "withered", "count": [2, 12] },
                 { "item": "splinter", "count": [5, 10] }
             ]
         }
@@ -3404,6 +3404,7 @@
         "type" : "terrain",
         "id" : "t_underbrush",
         "name": "underbrush",
+        "description": "Small plants and shrubs that decorate the forest.  An observant forager could obtain edible plants, acorns, eggs, and mushrooms from it.",
         "symbol": "#",
         "color": "ltgreen",
         "move_cost": 6,
@@ -4675,7 +4676,7 @@
             "sound_fail": "whump.",
             "ter_set": "t_null",
             "items": [
-                { "item": "rope_6", "count": [3, 4] },
+                { "item": "rope_makeshift_6", "count": [3, 4] },
                 { "item": "2x4", "count": [1, 4] },
                 { "item": "splinter", "count": [2, 4] }
             ]
@@ -4683,7 +4684,7 @@
         "deconstruct": {
             "ter_set": "t_dirtfloor",
             "items": [
-                { "item": "rope_30", "count": 1 },
+                { "item": "rope_makeshift_30", "count": 1 },
                 { "item": "2x4", "count": 8 }
             ]
         }
@@ -6023,7 +6024,7 @@
         "deconstruct": {
             "ter_set": "t_water_dp",
             "items": [
-                { "item": "rope_6", "count": [3, 4] },
+                { "item": "rope_makeshift_6", "count": [3, 4] },
                 { "item": "2x4", "count": 8 }
             ]
         },

@@ -19,7 +19,7 @@
         "holster_prompt": "Stash ammo",
         "holster_msg": "You stash your %s.",
         "max_volume": 6,
-        "draw_cost": 5,
+        "draw_cost": 40,
         "flags": [ "MAG_COMPACT", "MAG_BULKY" ]
     },
     "flags": ["WATER_FRIENDLY", "WAIST"]
@@ -45,7 +45,7 @@
         "holster_prompt": "Stash ammo",
         "holster_msg": "You stash your %s.",
         "max_volume": 3,
-        "draw_cost": 5,
+        "draw_cost": 40,
         "flags": [ "MAG_COMPACT" ]
     },
     "flags" : ["WATER_FRIENDLY", "BELTED"]
@@ -72,7 +72,7 @@
         "holster_prompt": "Stash ammo",
         "holster_msg": "You stash your %s.",
         "max_volume": 4,
-        "draw_cost": 5,
+        "draw_cost": 60,
         "flags": [ "MAG_COMPACT", "MAG_BULKY" ]
     },
     "flags": ["WATER_FRIENDLY", "WAIST"]
@@ -98,7 +98,7 @@
         "holster_prompt": "Stash ammo",
         "holster_msg": "You stash your %s.",
         "max_volume": 1,
-        "draw_cost": 5,
+        "draw_cost": 40,
         "flags": [ "MAG_COMPACT", "MAG_BULKY" ]
     },
     "flags" : ["WATER_FRIENDLY", "BELTED", "ALLOWS_NATURAL_ATTACKS"]
@@ -124,7 +124,7 @@
         "holster_prompt": "Stash ammo",
         "holster_msg": "You stash your %s.",
         "max_volume": 2,
-        "draw_cost": 5,
+        "draw_cost": 40,
         "flags": [ "MAG_COMPACT" ]
     },
     "flags": ["WATER_FRIENDLY", "BELTED"]

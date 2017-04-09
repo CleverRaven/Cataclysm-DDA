@@ -155,7 +155,7 @@ class string_id
         static const string_id<T> NULL_ID;
         /**
          * Returns whether this represents the id of the null-object (in which case it's the null-id).
-         * Note that not all types @ref T may have a null-object. As such, there won't be a
+         * Note that not all types assigned to T may have a null-object. As such, there won't be a
          * definition of @ref NULL_ID and if you use any of the related functions, you'll get
          * errors during the linking.
          *
@@ -217,7 +217,7 @@ struct hash< string_id<T> > {
 
 /**
  * Instances of this type are *implicitly* convertible to string_id<T> (with any kind of T).
- * There is also the global constant @ref NULL_ID, which should be the only instance of this
+ * There is also the global constant NULL_ID, which should be the only instance of this
  * struct you'll ever need.
  * Together they allow this neat code:
  * \code

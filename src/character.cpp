@@ -37,6 +37,7 @@ const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
+const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_webbed( "webbed" );
 
 const skill_id skill_dodge( "dodge" );
@@ -120,7 +121,7 @@ void Character::mod_stat( const std::string &stat, float modifier )
 
 int Character::effective_dispersion( int dispersion ) const
 {
-    ///\EFFECT_PER improves effectiveness of gun sights
+    /** @EFFECT_PER improves effectiveness of gun sights */
     dispersion += ( 10 - per_cur ) * 15;
 
     dispersion += encumb( bp_eyes );
@@ -160,14 +161,14 @@ double Character::aim_per_move( const item& gun, double recoil ) const
     // each 5 points (combined) of hand encumbrance increases aim cost by one unit
     cost += round ( ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 10.0 );
 
-    ///\EFFECT_DEX increases aiming speed
+    /** @EFFECT_DEX increases aiming speed */
     cost += 8 - dex_cur;
 
-    ///\EFFECT_PISTOL increases aiming speed for pistols
-    ///\EFFECT_SMG increases aiming speed for SMGs
-    ///\EFFECT_RIFLE increases aiming speed for rifles
-    ///\EFFECT_SHOTGUN increases aiming speed for shotguns
-    ///\EFFECT_LAUNCHER increases aiming speed for launchers
+    /** @EFFECT_PISTOL increases aiming speed for pistols */
+    /** @EFFECT_SMG increases aiming speed for SMGs */
+    /** @EFFECT_RIFLE increases aiming speed for rifles */
+    /** @EFFECT_SHOTGUN increases aiming speed for shotguns */
+    /** @EFFECT_LAUNCHER increases aiming speed for launchers */
     cost += ( ( MAX_SKILL / 2 ) - get_skill_level( gun.gun_skill() ) ) * 2;
 
     cost = std::max( cost, 1 );
@@ -189,9 +190,9 @@ double Character::aim_per_move( const item& gun, double recoil ) const
 bool Character::move_effects(bool attacking)
 {
     if (has_effect( effect_downed )) {
-        ///\EFFECT_DEX increases chance to stand up when knocked down
+        /** @EFFECT_DEX increases chance to stand up when knocked down */
 
-        ///\EFFECT_STR increases chance to stand up when knocked down, slightly
+        /** @EFFECT_STR increases chance to stand up when knocked down, slightly */
         if (rng(0, 40) > get_dex() + get_str() / 2) {
             add_msg_if_player(_("You struggle to stand."));
         } else {
@@ -202,7 +203,7 @@ bool Character::move_effects(bool attacking)
         return false;
     }
     if (has_effect( effect_webbed )) {
-        ///\EFFECT_STR increases chance to escape webs
+        /** @EFFECT_STR increases chance to escape webs */
         if (x_in_y(get_str(), 6 * get_effect_int( effect_webbed ))) {
             add_msg_player_or_npc(m_good, _("You free yourself from the webs!"),
                                     _("<npcname> frees themselves from the webs!"));
@@ -213,9 +214,9 @@ bool Character::move_effects(bool attacking)
         return false;
     }
     if (has_effect( effect_lightsnare )) {
-        ///\EFFECT_STR increases chance to escape light snare
+        /** @EFFECT_STR increases chance to escape light snare */
 
-        ///\EFFECT_DEX increases chance to escape light snare
+        /** @EFFECT_DEX increases chance to escape light snare */
         if(x_in_y(get_str(), 12) || x_in_y(get_dex(), 8)) {
             remove_effect( effect_lightsnare);
             add_msg_player_or_npc(m_good, _("You free yourself from the light snare!"),
@@ -230,9 +231,9 @@ bool Character::move_effects(bool attacking)
         return false;
     }
     if (has_effect( effect_heavysnare )) {
-        ///\EFFECT_STR increases chance to escape heavy snare, slightly
+        /** @EFFECT_STR increases chance to escape heavy snare, slightly */
 
-        ///\EFFECT_DEX increases chance to escape light snare
+        /** @EFFECT_DEX increases chance to escape light snare */
         if(x_in_y(get_str(), 32) || x_in_y(get_dex(), 16)) {
             remove_effect( effect_heavysnare);
             add_msg_player_or_npc(m_good, _("You free yourself from the heavy snare!"),
@@ -252,7 +253,7 @@ bool Character::move_effects(bool attacking)
            (at which point the player could later remove it from the leg with the right tools).
            As such we are currently making it a bit easier for players and NPC's to get out of bear traps.
         */
-        ///\EFFECT_STR increases chance to escape bear trap
+        /** @EFFECT_STR increases chance to escape bear trap */
         if(x_in_y(get_str(), 100)) {
             remove_effect( effect_beartrap);
             add_msg_player_or_npc(m_good, _("You free yourself from the bear trap!"),
@@ -265,9 +266,9 @@ bool Character::move_effects(bool attacking)
         return false;
     }
     if (has_effect( effect_crushed )) {
-        ///\EFFECT_STR increases chance to escape crushing rubble
+        /** @EFFECT_STR increases chance to escape crushing rubble */
 
-        ///\EFFECT_DEX increases chance to escape crushing rubble, slightly
+        /** @EFFECT_DEX increases chance to escape crushing rubble, slightly */
         if(x_in_y(get_str() + get_dex() / 4, 100)) {
             remove_effect( effect_crushed);
             add_msg_player_or_npc(m_good, _("You free yourself from the rubble!"),
@@ -282,9 +283,9 @@ bool Character::move_effects(bool attacking)
     // Currently we only have one thing that forces movement if you succeed, should we get more
     // than this will need to be reworked to only have success effects if /all/ checks succeed
     if (has_effect( effect_in_pit )) {
-        ///\EFFECT_STR increases chance to escape pit
+        /** @EFFECT_STR increases chance to escape pit */
 
-        ///\EFFECT_DEX increases chance to escape pit, slightly
+        /** @EFFECT_DEX increases chance to escape pit, slightly */
         if (rng(0, 40) > get_str() + get_dex() / 2) {
             add_msg_if_player(m_bad, _("You try to escape the pit, but slip back in."));
             return false;
@@ -307,9 +308,9 @@ bool Character::move_effects(bool attacking)
             add_msg_player_or_npc( m_good, _( "You find yourself no longer grabbed." ),
                                    _( "<npcname> finds themselves no longer grabbed." ) );
             remove_effect( effect_grabbed );
-        ///\EFFECT_DEX increases chance to escape grab, if >STR
+        /** @EFFECT_DEX increases chance to escape grab, if >STR */
 
-        ///\EFFECT_STR increases chance to escape grab, if >DEX
+        /** @EFFECT_STR increases chance to escape grab, if >DEX */
         } else if( rng( 0, std::max( get_dex(), get_str() ) ) < rng( get_effect_int( effect_grabbed ), 8 ) ) {
             // Randomly compare higher of dex or str to grab intensity.
             add_msg_player_or_npc( m_bad, _( "You try break out of the grab, but fail!" ),
@@ -339,44 +340,13 @@ void Character::process_turn()
 void Character::recalc_hp()
 {
     int new_max_hp[num_hp_parts];
+    // Mutated toughness stacks with starting, by design.
+    float hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" );
+    float hp_adjustment = mutation_value( "hp_adjustment" );
     for( auto &elem : new_max_hp ) {
-        ///\EFFECT_STR_MAX increases base hp
-        elem = 60 + str_max * 3;
-        if (has_trait("HUGE")) {
-            // Bad-Huge doesn't quite have the cardio/skeletal/etc to support the mass,
-            // so no HP bonus from the ST above/beyond that from Large
-            elem -= 6;
-        }
-        // You lose half the HP you'd expect from BENDY mutations.  Your gelatinous
-        // structure can help with that, a bit.
-        if (has_trait("BENDY2")) {
-            elem += 3;
-        }
-        if (has_trait("BENDY3")) {
-            elem += 6;
-        }
-        // Only the most extreme applies.
-        if (has_trait("TOUGH")) {
-            elem *= 1.2;
-        } else if (has_trait("TOUGH2")) {
-            elem *= 1.3;
-        } else if (has_trait("TOUGH3")) {
-            elem *= 1.4;
-        } else if (has_trait("FLIMSY")) {
-            elem *= .75;
-        } else if (has_trait("FLIMSY2")) {
-            elem *= .5;
-        } else if (has_trait("FLIMSY3")) {
-            elem *= .25;
-        }
-        // Mutated toughness stacks with starting, by design.
-        if (has_trait("MUT_TOUGH")) {
-            elem *= 1.2;
-        } else if (has_trait("MUT_TOUGH2")) {
-            elem *= 1.3;
-        } else if (has_trait("MUT_TOUGH3")) {
-            elem *= 1.4;
-        }
+        /** @EFFECT_STR_MAX increases base hp */
+        elem = 60 + str_max * 3 + hp_adjustment;
+        elem *= hp_mod;
     }
     if( has_trait( "GLASSJAW" ) ) {
         new_max_hp[hp_head] *= 0.8;
@@ -682,21 +652,20 @@ void Character::i_rem_keep_contents( const int pos )
     }
 }
 
-bool Character::i_add_or_drop(item& it, int qty) {
+bool Character::i_add_or_drop( item& it, int qty ) {
     bool retval = true;
-    bool drop = false;
-    inv.assign_empty_invlet(it);
-    for (int i = 0; i < qty; ++i) {
-        if ( !drop && ( !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) )
-                      || !can_pickVolume( it ) ) ) {
-            drop = true;
-        }
+    bool drop = it.made_of( LIQUID );
+    bool add = it.is_gun() || !it.has_flag( "IRREMOVABLE" );
+    inv.assign_empty_invlet( it );
+    for( int i = 0; i < qty; ++i ) {
+        drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
         if( drop ) {
             retval &= !g->m.add_item_or_charges( pos(), it ).is_null();
-        } else if ( !( it.has_flag("IRREMOVABLE") && !it.is_gun() ) ){
-            i_add(it);
+        } else if ( add ) {
+            i_add( it );
         }
     }
+
     return retval;
 }
 
@@ -826,10 +795,14 @@ units::volume Character::volume_carried() const
 
 int Character::weight_capacity() const
 {
+    if( has_trait( "DEBUG_STORAGE" ) ) {
+        // Infinite enough
+        return INT_MAX >> 2;
+    }
     // Get base capacity from creature,
     // then apply player-only mutation and trait effects.
     int ret = Creature::weight_capacity();
-    ///\EFFECT_STR increases carrying capacity
+    /** @EFFECT_STR increases carrying capacity */
     ret += get_str() * 4000;
     if (has_trait("BADBACK")) {
         ret = int(ret * .65);
@@ -859,6 +832,10 @@ units::volume Character::volume_capacity() const
 
 units::volume Character::volume_capacity_reduced_by( units::volume mod ) const
 {
+    if( has_trait( "DEBUG_STORAGE" ) ) {
+        return units::volume_max;
+    }
+
     units::volume ret = -mod;
     for (auto &i : worn) {
         ret += i.get_storage();
@@ -1182,9 +1159,9 @@ void Character::reset_stats()
         mod_dodge_bonus(-4);
     }
 
-    ///\EFFECT_STR_MAX above 15 decreases Dodge bonus by 1 (NEGATIVE)
+    /** @EFFECT_STR_MAX above 15 decreases Dodge bonus by 1 (NEGATIVE) */
     if (str_max >= 16) {mod_dodge_bonus(-1);} // Penalty if we're huge
-    ///\EFFECT_STR_MAX below 6 increases Dodge bonus by 1
+    /** @EFFECT_STR_MAX below 6 increases Dodge bonus by 1 */
     else if (str_max <= 5) {mod_dodge_bonus(1);} // Bonus if we're small
 
     nv_cached = false;
@@ -1696,13 +1673,13 @@ void Character::update_health(int external_modifiers)
 
 float Character::get_dodge_base() const
 {
-    ///\EFFECT_DEX increases dodge base
-    ///\EFFECT_DODGE increases dodge_base
+    /** @EFFECT_DEX increases dodge base */
+    /** @EFFECT_DODGE increases dodge_base */
     return get_dex() / 2.0f + get_skill_level( skill_dodge );
 }
 float Character::get_hit_base() const
 {
-    ///\EFFECT_DEX increases hit base, slightly
+    /** @EFFECT_DEX increases hit base, slightly */
     return get_dex() / 4.0f;
 }
 
@@ -1969,6 +1946,8 @@ bool Character::is_immune_field( const field_id fid ) const
                    get_armor_type( DT_ACID, bp_foot_r ) >= 5 &&
                    get_armor_type( DT_ACID, bp_leg_l ) >= 5 &&
                    get_armor_type( DT_ACID, bp_leg_r ) >= 5);
+        case fd_web:
+            return has_trait( "WEB_WALKER" );
         default:
             // Suppress warning
             break;
@@ -1989,12 +1968,12 @@ int Character::throw_range( const item &it ) const
         tmp.charges = 1;
     }
 
-    ///\EFFECT_STR determines maximum weight that can be thrown
+    /** @EFFECT_STR determines maximum weight that can be thrown */
     if( (tmp.weight() / 113) > int(str_cur * 15) ) {
         return 0;
     }
     // Increases as weight decreases until 150 g, then decreases again
-    ///\EFFECT_STR increases throwing range, vs item weight (high or low)
+    /** @EFFECT_STR increases throwing range, vs item weight (high or low) */
     int ret = (str_cur * 8) / (tmp.weight() >= 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
     ret -= tmp.volume() / 1000_ml;
     static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
@@ -2005,9 +1984,9 @@ int Character::throw_range( const item &it ) const
         return 1;
     }
     // Cap at double our strength + skill
-    ///\EFFECT_STR caps throwing range
+    /** @EFFECT_STR caps throwing range */
 
-    ///\EFFECT_THROW caps throwing range
+    /** @EFFECT_THROW caps throwing range */
     if( ret > str_cur * 1.5 + get_skill_level( skill_throw ) ) {
         return str_cur * 1.5 + get_skill_level( skill_throw );
     }
@@ -2146,7 +2125,7 @@ float Character::rest_quality() const
 {
     // Just a placeholder for now.
     // @todo Waiting/reading/being unconscious on bed/sofa/grass
-    return 0.0f;
+    return has_effect( effect_sleep ) ? 1.0f : 0.0f;
 }
 
 hp_part Character::bp_to_hp( const body_part bp )
@@ -2254,7 +2233,7 @@ std::string Character::extended_description() const
     const auto &bps = get_all_body_parts( true );
     // Find length of bp names, to align
     // accumulate looks weird here, any better function?
-    size_t longest = std::accumulate( bps.begin(), bps.end(), 0, []( size_t m, body_part bp ) {
+    size_t longest = std::accumulate( bps.begin(), bps.end(), ( size_t )0, []( size_t m, body_part bp ) {
         return std::max( m, body_part_name_as_heading( bp, 1 ).size() );
     } );
 
@@ -2295,4 +2274,82 @@ std::string Character::extended_description() const
     } );
 
     return replace_colors( ss.str() );
+}
+
+template <float mutation_branch::*member>
+float calc_mutation_value( const std::vector<const mutation_branch *> &mutations )
+{
+    float lowest = 0.0f;
+    float highest = 0.0f;
+    for( const mutation_branch *mut : mutations ) {
+        float val = mut->*member;
+        lowest = std::min( lowest, val );
+        highest = std::max( highest, val );
+    }
+
+    return std::min( 0.0f, lowest ) + std::max( 0.0f, highest );
+}
+
+float Character::mutation_value( const std::string &val ) const
+{
+    // Syntax similar to tuple get<n>()
+    // @todo Get rid of if/else ladder
+    if( val == "healing_awake" ) {
+        return calc_mutation_value<&mutation_branch::healing_awake>( cached_mutations );
+    } else if( val == "healing_resting" ) {
+        return calc_mutation_value<&mutation_branch::healing_resting>( cached_mutations );
+    } else if( val == "hp_modifier" ) {
+        return calc_mutation_value<&mutation_branch::hp_modifier>( cached_mutations );
+    } else if( val == "hp_modifier_secondary" ) {
+        return calc_mutation_value<&mutation_branch::hp_modifier_secondary>( cached_mutations );
+    } else if( val == "hp_adjustment" ) {
+        return calc_mutation_value<&mutation_branch::hp_adjustment>( cached_mutations );
+    } else if( val == "metabolism_modifier" ) {
+        return calc_mutation_value<&mutation_branch::metabolism_modifier>( cached_mutations );
+    } else if( val == "thirst_modifier" ) {
+        return calc_mutation_value<&mutation_branch::thirst_modifier>( cached_mutations );
+    } else if( val == "fatigue_regen_modifier" ) {
+        return calc_mutation_value<&mutation_branch::fatigue_regen_modifier>( cached_mutations );
+    } else if( val == "fatigue_modifier" ) {
+        return calc_mutation_value<&mutation_branch::fatigue_modifier>( cached_mutations );
+    }
+
+    debugmsg( "Invalid mutation value name %s", val.c_str() );
+    return 0.0f;
+}
+
+float Character::healing_rate( float at_rest_quality ) const
+{
+    // @todo Cache
+    float awake_rate = mutation_value( "healing_awake" );
+    float final_rate = 0.0f;
+    if( awake_rate > 0.0f ) {
+        final_rate += awake_rate;
+    } else if( at_rest_quality < 1.0f ) {
+        // Resting protects from rot
+        final_rate += ( 1.0f - at_rest_quality ) * awake_rate;
+    }
+    float asleep_rate = 0.0f;
+    if( at_rest_quality > 0.0f ) {
+        asleep_rate = at_rest_quality * ( 0.01f + mutation_value( "healing_resting" ) );
+    }
+    if( asleep_rate > 0.0f ) {
+        final_rate += asleep_rate * ( 1.0f + get_healthy() / 200.0f );
+    }
+
+    // Most common case: awake player with no regenerative abilities
+    // ~7e-5 is 1 hp per day, anything less than that is totally negligible
+    static constexpr float eps = 0.000007f;
+    add_msg( m_debug, "%s healing: %.6f", name.c_str(), final_rate );
+    if( std::abs( final_rate ) < eps ) {
+        return 0.0f;
+    }
+
+    float primary_hp_mod = mutation_value( "hp_modifier" );
+    if( primary_hp_mod < 0.0f ) {
+        // HP mod can't get below -1.0
+        final_rate *= 1.0f + primary_hp_mod;
+    }
+
+    return final_rate;
 }
