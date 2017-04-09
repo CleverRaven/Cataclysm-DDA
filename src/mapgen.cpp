@@ -10568,17 +10568,18 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
         line(&m, t_fence_barbed, SEEX * 2 - 3, 13, SEEX * 2 - 3, 19);
         line(&m, t_fence_barbed, 3, 4, 3, 10);
         line(&m, t_fence_barbed, 1, 13, 1, 19);
-        if (one_in(3)) {  // Chicken delivery
+        if (one_in(3)) { //Default spawn, potentially working vehicle
             m.add_vehicle( vgroup_id( "military_vehicles" ), {12, SEEY * 2 - 5}, 0);
-            m.add_spawn(mon_chickenbot, 1, 12, 12);
-        } else if (one_in(2)) {  // TAAANK
+            place_spawns( GROUP_MIL_BLOCK, 3, 1, 1, 22, 22, 3);
+        } else if (one_in(2)) {
             // The truck's wrecked...with fuel.  Explosive barrel?
             m.add_vehicle( vproto_id( "military_cargo_truck" ), 12, SEEY * 2 - 5, 0, 70, -1);
-            m.add_spawn(mon_tankbot, 1, 12, 12);
+            place_spawns( GROUP_MIL_BLOCK, 3, 1, 1, 22, 22, 3);
         } else {  // Vehicle & turrets
             m.add_vehicle( vgroup_id( "military_vehicles" ), {12, SEEY * 2 - 5}, 0);
             m.add_spawn(mon_turret_bmg, 1, 12, 12);
             m.add_spawn(mon_turret_rifle, 1, 9, 12);
+            place_spawns( GROUP_MIL_BLOCK, 3, 1, 1, 22, 22, 1);
         }
 
         int num_bodies = dice(2, 5);
