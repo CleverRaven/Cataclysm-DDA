@@ -10613,6 +10613,7 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
         m.add_vehicle( vproto_id( "policecar" ), 16, SEEY * 2 - 5, 145);
         m.add_spawn(mon_turret, 1, 1, 12);
         m.add_spawn(mon_turret, 1, SEEX * 2 - 1, 12);
+        place_spawns( GROUP_POL_BLOCK, 3, 1, 1, 22, 22, 2);
 
         int num_bodies = dice(1, 6);
         for (int i = 0; i < num_bodies; i++) {
@@ -10624,7 +10625,7 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
             } while (tries < 10 && m.impassable(x, y));
 
             if (tries < 10) { // We found a valid spot!
-                if (one_in(8)) {
+                if (one_in(6)) {
                     m.add_spawn(mon_zombie_cop, 1, x, y);
                 } else {
                     m.place_items("map_extra_police", 100, x, y, x, y, true, 0);
