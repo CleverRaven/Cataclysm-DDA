@@ -908,32 +908,31 @@
   },{
     "type":"monstergroup",
     "name": "GROUP_MIL_BLOCK",
-    "default": "mon_null",
+    "default": "mon_chickenbot",
     "monsters": [
+      { "monster": "mon_null", "freq": 200, "cost_multiplier": 0 },
       { "monster": "mon_tankbot", "freq": 150, "cost_multiplier": 0 },
-      { "monster": "mon_chickenbot", "freq": 150, "cost_multiplier": 0 },
       { "monster": "mon_turret_rifle", "freq": 150, "cost_multiplier": 0 },
       { "monster": "mon_turret_bmg", "freq": 150, "cost_multiplier": 0 },
       { "monster": "mon_tripod", "freq": 150, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_soldier", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_soldier", "freq": 100, "cost_multiplier": 0, "pack_size": [1,3] },
       { "monster": "mon_zombie_bio_op", "freq": 50, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_armored", "freq": 50, "cost_multiplier": 0 }
+      { "monster": "mon_zombie_armored", "freq": 50, "cost_multiplier": 0 },
     ]
-  },
-  {
+  },{
     "type":"monstergroup",
     "name": "GROUP_POL_BLOCK",
-    "default": "mon_null",
+    "default": "mon_zombie_cop",
     "monsters": [
-      { "monster": "mon_copbot", "freq": 175, "cost_multiplier": 0 },
-      { "monster": "mon_eyebot", "freq": 125, "cost_multiplier": 0, "pack_size": [1,2] },
+      { "monster": "mon_null", "freq": 200, "cost_multiplier": 0 },
+      { "monster": "mon_copbot", "freq": 175, "cost_multiplier": 0, "pack_size": [1,2] },
+      { "monster": "mon_eyebot", "freq": 125, "cost_multiplier": 0, "pack_size": [1,3] },
       { "monster": "mon_tripod", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_dog_zombie_cop", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_chickenbot", "freq": 75, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_cop", "freq": 75, "cost_multiplier": 0 },
       { "monster": "mon_turret_rifle", "freq": 50, "cost_multiplier": 0 },
       { "monster": "mon_turret", "freq": 50, "cost_multiplier": 0 },
-      { "monster": "mon_secubot", "freq": 25, "cost_multiplier": 0 },
+      { "monster": "mon_secubot", "freq": 25, "cost_multiplier": 0, "pack_size": [1,2] },
       { "monster": "mon_tankbot", "freq": 25, "cost_multiplier": 0 }
     ]
   },{
