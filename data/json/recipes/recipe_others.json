@@ -1355,6 +1355,7 @@
   "difficulty": 4,
   "time": 60000,
   "autolearn": true,
+  "using": [ [ "rope_natural", 4 ] ],
   "qualities":[
     {"id":"HAMMER","level":2},
     {"id":"SAW_M","level":1},
@@ -1371,11 +1372,6 @@
   "components": [
     [
       [ "frame", 4 ]
-    ],
-    [
-      ["rope_30", 4],
-      ["rope_makeshift_30", 4],
-      ["vine_30", 4]
     ],
     [
       [ "steel_chunk", 4 ],
@@ -2308,16 +2304,8 @@
   "time": 4000,
   "reversible": true,
   "autolearn": true,
-  "components": [
-    [
-      [ "2x4", 3 ],
-      [ "stick", 6 ]
-    ],
-    [
-      [ "rope_makeshift_6", 3 ],
-      [ "rope_6", 3 ]
-    ]
-  ]
+  "using": [ [ "rope_natural_short", 3 ] ],
+  "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ] ]
 },{
   "type" : "recipe",
   "result": "wheel_wood",
@@ -2373,15 +2361,8 @@
   "time": 6000,
   "reversible": true,
   "autolearn": true,
-  "components": [
-    [
-      [ "2x4", 6 ]
-    ],
-    [
-      [ "rope_makeshift_6", 2],
-      [ "rope_6", 2]
-    ]
-  ]
+  "using": [ [ "rope_natural_short", 2 ] ],
+  "components": [ [ [ "2x4", 6 ] ] ]
 },{
   "type" : "recipe",
   "result": "steel_plate",

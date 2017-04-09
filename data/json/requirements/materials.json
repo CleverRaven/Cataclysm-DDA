@@ -45,6 +45,18 @@
     "components": [ [ [ "thread", 1 ], [ "sinew", 1 ], [ "plant_fibre", 1 ], [ "yarn", 1 ] ] ]
   },
   {
+    "id": "rope_natural",
+    "type": "requirement",
+    "//": "Materials used for lashing, when choice of makeshift rope or vine is sensible",
+    "components": [ [ [ "rope_6", 5 ], [ "rope_30", 1 ], [ "rope_makeshift_6", 5 ], [ "rope_makeshift_30", 1 ], ], [ "vine_30", 1 ] ] ]
+  },
+  {
+    "id": "rope_natural_short",
+    "type": "requirement",
+    "//": "Materials used for lashing, when choice of makeshift rope is sensible",
+    "components": [ [ [ "rope_6", 1 ], [ "rope_makeshift_6", 1 ] ]
+  },
+  {
     "id": "steel_standard",
     "type": "requirement",
     "//": "Materials for use when forging items from steel",
