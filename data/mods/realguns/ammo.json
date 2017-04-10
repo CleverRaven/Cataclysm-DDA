@@ -155,6 +155,7 @@
     "type": "AMMO",
     "name": "10mm Auto",
     "name_plural": "10mm Auto",
+    "description": "10mm Auto ammunition with 155gr bullets.  The 10mm Auto round is one of the most powerful pistol cartridges available, although its usefulness is limited by high recoil.",
     "relative": {
         "range": 2,
         "damage": 2,
