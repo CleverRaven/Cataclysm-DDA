@@ -7030,9 +7030,9 @@ void game::smash()
     }
 }
 
-void game::use_item(int pos)
+void game::use_item( int pos )
 {
-    if (pos == INT_MIN) {
+    if( pos == INT_MIN ) {
         auto loc = game_menus::inv::use( u );
 
         if( !loc ) {
@@ -7046,7 +7046,7 @@ void game::use_item(int pos)
     }
 
     refresh_all();
-    u.use(pos);
+    u.use( pos );
     u.invalidate_crafting_inventory();
 }
 

@@ -8463,46 +8463,45 @@ bool player::consume_charges( item& used, long qty )
     return false;
 }
 
-void player::use(int inventory_position)
+void player::use( int inventory_position )
 {
-    item* used = &i_at(inventory_position);
+    item *used = &i_at( inventory_position );
     item copy;
 
-    if (used->is_null()) {
-        add_msg(m_info, _("You do not have that item."));
+    if( used->is_null() ) {
+        add_msg( m_info, _( "You do not have that item." ) );
         return;
     }
 
     last_item = used->typeId();
 
-    if (used->is_tool()) {
+    if( used->is_tool() ) {
         if( !used->type->has_use() ) {
             add_msg_if_player( _( "You can't do anything interesting with your %s." ), used->tname().c_str() );
             return;
         }
-
         invoke_item( used );
 
-    } else if (used->is_bionic()) {
+    } else if( used->is_bionic() ) {
         if( install_bionics( *used->type ) ) {
-            i_rem(inventory_position);
+            i_rem( inventory_position );
         }
 
     } else if( used->is_food() ||
                used->is_medication() ||
                used->get_contained().is_food() ||
                used->get_contained().is_medication() ) {
-        consume(inventory_position);
+        consume( inventory_position );
 
-    } else if (used->is_book()) {
-        read(inventory_position);
+    } else if( used->is_book() ) {
+        read( inventory_position );
 
     } else if ( used->type->has_use() ) {
         invoke_item( used );
 
     } else {
-        add_msg(m_info, _("You can't do anything interesting with your %s."),
-                used->tname().c_str());
+        add_msg( m_info, _( "You can't do anything interesting with your %s." ),
+                 used->tname().c_str() );
     }
 }
 

@@ -1003,7 +1003,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Draws the UI and handles player input for the armor re-ordering window */
         void sort_armor();
         /** Uses a tool */
-        void use(int pos);
+        void use( int pos );
         /** Uses the current wielded weapon */
         void use_wielded();
         /**
