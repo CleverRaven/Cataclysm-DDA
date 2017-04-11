@@ -5622,10 +5622,7 @@
     "bashing": 6,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
-    "color": "dark_gray",
-    "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100
+    "color": "dark_gray"
   },
   {
     "id": "primitive_adze",
