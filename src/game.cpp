@@ -7030,21 +7030,23 @@ void game::smash()
     }
 }
 
-void game::use_item(int pos)
+void game::use_item( int pos )
 {
-    if (pos == INT_MIN) {
+    if( pos == INT_MIN ) {
         auto loc = game_menus::inv::use( u );
 
         if( !loc ) {
             add_msg( _( "Never mind." ) );
             return;
         }
-
+        int obtain_cost = loc.obtain_cost( u );
         pos = loc.obtain( u );
+        // This method only handles items in te inventory, so refund the obtain cost.
+        u.moves += obtain_cost;
     }
 
     refresh_all();
-    u.use(pos);
+    u.use( pos );
     u.invalidate_crafting_inventory();
 }
 
