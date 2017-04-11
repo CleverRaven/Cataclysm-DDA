@@ -517,6 +517,7 @@ void player::complete_craft()
     float used_age_tally = 0;
     int used_age_count = 0;
     size_t newit_counter = 0;
+    bool filthy = false;
     for( item &newit : newits ) {
         // messages, learning of recipe, food spoilage calc only once
         if( first ) {
@@ -548,9 +549,14 @@ void player::complete_craft()
                     used_age_tally += elem.get_relative_rot();
                     ++used_age_count;
                 }
+                if( elem.is_filthy() ) {
+                    filthy = true;
+                }
             }
         }
-
+        if( filthy ) {
+            newit.item_tags.insert( "FILTHY" );
+        }
         // Don't store components for things made by charges,
         // don't store components for things that can't be uncrafted.
         if( recipe_dictionary::get_uncraft( making->result ) && !newit.count_by_charges() ) {
@@ -567,6 +573,9 @@ void player::complete_craft()
     if( making->has_byproducts() ) {
         std::vector<item> bps = making->create_byproducts( batch_size );
         for( auto &bp : bps ) {
+            if( filthy ) {
+                bp.item_tags.insert( "FILTHY" );
+            }
             finalize_crafted_item( bp, used_age_tally, used_age_count );
             set_item_inventory( bp );
         }
