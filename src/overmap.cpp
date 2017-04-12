@@ -4385,7 +4385,7 @@ static std::map<std::string, std::unordered_set<tripoint>> bin_locations( const 
         // Doesn't handle exclusions yet, so treat "land" as "field"
         if( !sploc.second.disallowed.empty() ) {
             for( const oter_id variant : string_id<oter_type_t>( "field" ).obj().get_all_variants() ) {
-                oters_to_locations[variant] = { "field" };
+                oters_to_locations[variant] = { "field", "forest" };
             }
             continue;
         }
@@ -4431,13 +4431,18 @@ bool overmap::place_specials_sectorless( unplaced_specials &mandatory, unplaced_
         auto iter = to_place_set.begin();
         while( iter != to_place_set.end() ) {
             bool placed = false;
-            for( const overmap_special_location *loc : iter->first->locations ) {
+            // Location blacklist not supported
+            static const std::set<const overmap_special_location *> land_locs = {{
+                &special_locations.at( "wilderness" )
+            }};
+            const auto &locations_to_check = !iter->first->locations.empty() ? iter->first->locations : land_locs;
+            for( const overmap_special_location *loc : locations_to_check ) {
                 const auto bin = binned_locations.find( loc->id );
                 if( bin == binned_locations.end() ) {
                     continue;
                 }
 
-                for( size_t i = 0; i < 10 && !placed; i++ ) {
+                for( size_t i = 0; i < 100 && !placed; i++ ) {
                     const tripoint &position = random_entry_ref( bin->second );
                     const auto rotation = random_special_rotation( *iter->first, position );
                     if( rotation == om_direction::type::invalid ) {
