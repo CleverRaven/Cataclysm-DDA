@@ -2037,7 +2037,7 @@
         ],
         "components" : [
             [ [ "2x4", 8 ] , [ "log", 8 ] ],
-            [ [ "rope_makeshift_6", 1 ], [ "rope_6", 1 ] ]
+            [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ]
         ],
         "pre_flags" : "DIGGABLE",
         "post_special" : "done_dig_stair"
@@ -2056,7 +2056,7 @@
         ],
         "components" : [
             [ [ "2x4", 12 ] , [ "log", 12 ] ],
-            [ [ "rope_makeshift_6", 1 ], [ "rope_6", 1 ] ]
+            [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ]
         ],
         "pre_special" : "check_down_OK",
         "pre_terrain" : "t_rock_floor",
@@ -2080,7 +2080,7 @@
         "note" : "Helmets are essential because you're digging up and things may fall on you.",
         "components" : [
             [ [ "2x4", 12 ] , [ "log", 12 ] ],
-            [ [ "rope_makeshift_6", 1 ], [ "rope_6", 1 ] ]
+            [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ]
         ],
         "pre_special" : "check_up_OK",
         "pre_terrain" : "t_rock",
