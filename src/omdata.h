@@ -146,6 +146,8 @@ struct oter_type_t {
         oter_id get_first() const;
         oter_id get_rotated( om_direction::type dir ) const;
         oter_id get_linear( size_t n ) const;
+        // Rotated, linear etc. - all subtypes
+        std::vector<oter_id> get_all_variants() const;
 
         bool has_flag( oter_flags flag ) const {
             return flags[flag];

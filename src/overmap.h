@@ -418,7 +418,7 @@ public:
   void build_mine(int x, int y, int z, int s);
   void place_rifts(int const z);
     // Connection laying
-    void build_connection( const point &source, const point &dest, int z, const int_id<oter_type_t> &type_id );
+    std::vector<tripoint> build_connection( const point &source, const point &dest, int z, const int_id<oter_type_t> &type_id );
     void connect_closest_points( const std::vector<point> &points, int z, const int_id<oter_type_t> &type_id );
   // Polishing
   bool check_ot_type(const std::string &otype, int x, int y, int z) const;
@@ -436,22 +436,33 @@ public:
   std::vector<point> get_sectors() const;
 
   om_direction::type random_special_rotation( const overmap_special &special, const tripoint &p ) const;
-  void place_special( const overmap_special &special, const tripoint &p, om_direction::type dir, const city &cit );
+  // Returns changed tiles
+  std::vector<tripoint> place_special( const overmap_special &special, const tripoint &p,
+                                       om_direction::type dir, const city &cit );
   // Monsters, radios, etc.
   void place_specials();
+  using unplaced_specials = std::vector<std::pair<const overmap_special *, int>>;
+
+  void get_specials_to_place( unplaced_specials &mandatory, unplaced_specials &optional ) const;
   /**
    * One pass of placing specials - by default there are 3 (mandatory, mandatory without city distance, optional)
    * @param to_place vector of pairs [special, count] to place in this pass. Placed specials are removed/deducted from this.
    * @param sectors sectors in which placement is possible. Taken sectors will be removed from this vector.
    * @param check_city_distance If false, the city distance limits of specials are not respected.
    */
-  void place_specials_pass( std::vector<std::pair<const overmap_special *, int>> &to_place,
-                            std::vector<point> &sectors, bool check_city_distance );
+  void place_specials_pass( unplaced_specials &to_place, std::vector<point> &sectors, bool check_city_distance );
   /**
    * As @ref place_specials_pass, but for only one sector at a time.
    */
-  bool place_special_attempt( std::vector<std::pair<const overmap_special *, int>> &candidates,
-                              const point &sector, bool check_city_distance );
+  bool place_special_attempt( unplaced_specials &candidates, const point &sector, bool check_city_distance );
+  /**
+   * Old special placement. Places only one special per square-shaped sector of hardcoded size.
+   */
+  bool place_specials_sectored( unplaced_specials &mandatory, unplaced_specials &optional );
+  /**
+   * Experimental special placement. Builds expensive caches to avoid sectoring.
+   */
+  bool place_specials_sectorless( unplaced_specials &mandatory, unplaced_specials &optional );
   void place_mongroups();
   void place_radios();
 
