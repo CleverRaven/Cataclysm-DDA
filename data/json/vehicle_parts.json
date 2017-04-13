@@ -1729,7 +1729,7 @@
         "broken_color" : "light_gray",
         "damage_modifier" : 0,
         "durability" : 60,
-        "epower" : -700,
+        "epower" : -200,
         "bonus" : 80,
         "item" : "stereo",
         "difficulty" : 2,
