@@ -1,9 +1,9 @@
+#undef __STRICT_ANSI__ // _putenv in minGW need that
 #include "translations.h"
 
 #include <string>
 
 #ifdef LOCALIZE
-#undef __STRICT_ANSI__ // _putenv in minGW need that
 #include <stdlib.h> // for getenv()/setenv()/putenv()
 #include "options.h"
 #include "path_info.h"
