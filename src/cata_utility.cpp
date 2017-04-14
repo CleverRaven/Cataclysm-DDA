@@ -513,6 +513,12 @@ std::wstring utf8_to_wstr( const std::string &str )
     MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, &wstr[0], sz );
     strip_trailing_nulls( wstr );
     return wstr;
+#else
+    std::size_t sz = std::mbstowcs( NULL, str.c_str(), str.size() );
+    std::wstring wstr( sz, '\0' );
+    std::mbstowcs( &wstr[0], str.c_str(), str.size() );
+    strip_trailing_nulls( wstr );
+    return wstr;
 #endif
 }
 
@@ -522,6 +528,12 @@ std::string wstr_to_utf8( const std::wstring &wstr )
     int sz = WideCharToMultiByte( CP_UTF8, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL );
     std::string str( sz, '\0' );
     WideCharToMultiByte( CP_UTF8, 0, wstr.c_str(), -1, &str[0], sz, NULL, NULL );
+    strip_trailing_nulls( str );
+    return str;
+#else
+    std::size_t sz = std::wcstombs( NULL, wstr.c_str(), wstr.size() );
+    std::string str( sz, '\0' );
+    std::wcstombs( &str[0], wstr.c_str(), wstr.size() );
     strip_trailing_nulls( str );
     return str;
 #endif
