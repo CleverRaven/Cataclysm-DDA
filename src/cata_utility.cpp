@@ -491,6 +491,26 @@ bool read_from_file_optional( const std::string &path, JsonDeserializer &reader 
     } );
 }
 
+std::wstring utf8_to_wstr( const std::string &str )
+{
+#if defined(_WIN32) || defined(WINDOWS)
+    int sz = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, NULL, 0 ) + 1;
+    std::wstring wstr( sz, '\0' );
+    MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, &wstr[0], sz );
+    return wstr;
+#endif
+}
+
+std::string wstr_to_utf8( const std::wstring &wstr )
+{
+#if defined(_WIN32) || defined(WINDOWS)
+    int sz = WideCharToMultiByte( CP_UTF8, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL );
+    std::string str( sz, '\0' );
+    WideCharToMultiByte( CP_UTF8, 0, wstr.c_str(), -1, &str[0], sz, NULL, NULL );
+    return str;
+#endif
+}
+
 std::string native_to_utf8( const std::string &str )
 {
     if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
