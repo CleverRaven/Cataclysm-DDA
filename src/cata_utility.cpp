@@ -561,13 +561,12 @@ std::string obscure_message( const std::string &str, std::function<char(void)> f
     std::string gibberish_narrow = _( "abcdefghijklmnopqrstuvwxyz" );
     //~ translators: place some random 2-width characters here in your language if possible, or leave it as is
     std::string gibberish_wide = _( "に坂索トし荷測のンおク妙免イロコヤ梅棋厚れ表幌" );
-    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-    std::wstring w_gibberish_narrow = converter.from_bytes( gibberish_narrow );
-    std::wstring w_gibberish_wide = converter.from_bytes( gibberish_wide );
-    std::wstring w_str = converter.from_bytes( str );
+    std::wstring w_gibberish_narrow = utf8_to_wstr( gibberish_narrow );
+    std::wstring w_gibberish_wide = utf8_to_wstr( gibberish_wide );
+    std::wstring w_str = utf8_to_wstr( str );
     for( size_t i = 0; i < w_str.size(); ++i ) {
         char transformation = f();
-        std::string this_char = converter.to_bytes( w_str[i] );
+        std::string this_char = wstr_to_utf8( std::wstring( 1, w_str[i] ) );
         if( transformation == -1 ) {
             continue;
         } else if( transformation == 0 ) {
@@ -582,12 +581,12 @@ std::string obscure_message( const std::string &str, std::function<char(void)> f
                 debugmsg( "target character isn't narrow" );
             }
             // A 2-width wide character in the original string should be replace by two narrow characters
-            w_str.replace( i, 1, converter.from_bytes( std::string( utf8_width( this_char ), transformation ) ) );
+            w_str.replace( i, 1, utf8_to_wstr( std::string( utf8_width( this_char ), transformation ) ) );
         }
     }
-    std::string result = converter.to_bytes( w_str );
+    std::string result = wstr_to_utf8( w_str );
     if( utf8_width( str ) != utf8_width( result ) ) {
         debugmsg( "utf8_width differ between original string and obscured string" );
     }
-    return converter.to_bytes( w_str );
+    return result;
 }
