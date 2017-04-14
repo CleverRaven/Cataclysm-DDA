@@ -18,7 +18,6 @@
 #include <cmath>
 #include <string>
 #include <locale>
-#include <codecvt>
 
 double round_up( double val, unsigned int dp )
 {
