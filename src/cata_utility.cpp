@@ -491,12 +491,27 @@ bool read_from_file_optional( const std::string &path, JsonDeserializer &reader 
     } );
 }
 
+inline void strip_trailing_nulls( std::wstring &str )
+{
+    while( !str.empty() && str.back() == '\0' ) {
+        str.pop_back();
+    }
+}
+
+inline void strip_trailing_nulls( std::string &str )
+{
+    while( !str.empty() && str.back() == '\0' ) {
+        str.pop_back();
+    }
+}
+
 std::wstring utf8_to_wstr( const std::string &str )
 {
 #if defined(_WIN32) || defined(WINDOWS)
     int sz = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, NULL, 0 ) + 1;
     std::wstring wstr( sz, '\0' );
     MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, &wstr[0], sz );
+    strip_trailing_nulls( wstr );
     return wstr;
 #endif
 }
@@ -507,6 +522,7 @@ std::string wstr_to_utf8( const std::wstring &wstr )
     int sz = WideCharToMultiByte( CP_UTF8, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL );
     std::string str( sz, '\0' );
     WideCharToMultiByte( CP_UTF8, 0, wstr.c_str(), -1, &str[0], sz, NULL, NULL );
+    strip_trailing_nulls( str );
     return str;
 #endif
 }
@@ -524,9 +540,7 @@ std::string native_to_utf8( const std::string &str )
     int utf8_size = WideCharToMultiByte( CP_UTF8, 0, &unicode[0], -1, NULL, 0, NULL, 0 ) + 1;
     std::string result( utf8_size, '\0' );
     WideCharToMultiByte( CP_UTF8, 0, &unicode[0], -1, &result[0], utf8_size, NULL, 0 );
-    while( !result.empty() && result.back() == '\0' ) {
-        result.pop_back();
-    }
+    strip_trailing_nulls( result );
     return result;
 #else
     return str;
@@ -546,9 +560,7 @@ std::string utf8_to_native( const std::string &str )
     int native_size = WideCharToMultiByte( CP_ACP, 0, &unicode[0], -1, NULL, 0, NULL, 0 ) + 1;
     std::string result( native_size, '\0' );
     WideCharToMultiByte( CP_ACP, 0, &unicode[0], -1, &result[0], native_size, NULL, 0 );
-    while( !result.empty() && result.back() == '\0' ) {
-        result.pop_back();
-    }
+    strip_trailing_nulls( result );
     return result;
 #else
     return str;
