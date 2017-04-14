@@ -578,12 +578,13 @@ std::string utf8_to_native( const std::string &str )
 #endif
 }
 
-std::string obscure_message( const std::string &str, std::function<char(void)> f )
+std::string obscure_message( const std::string &str, std::function<char( void )> f )
 {
     //~ translators: place some random 1-width characters here in your language if possible, or leave it as is
     std::string gibberish_narrow = _( "abcdefghijklmnopqrstuvwxyz" );
     //~ translators: place some random 2-width characters here in your language if possible, or leave it as is
-    std::string gibberish_wide = _( "に坂索トし荷測のンおク妙免イロコヤ梅棋厚れ表幌" );
+    std::string gibberish_wide =
+        _( "に坂索トし荷測のンおク妙免イロコヤ梅棋厚れ表幌" );
     std::wstring w_gibberish_narrow = utf8_to_wstr( gibberish_narrow );
     std::wstring w_gibberish_wide = utf8_to_wstr( gibberish_wide );
     std::wstring w_str = utf8_to_wstr( str );
