@@ -576,12 +576,13 @@ std::string obscure_message( const std::string &str, std::function<char(void)> f
     std::wstring w_gibberish_narrow = utf8_to_wstr( gibberish_narrow );
     std::wstring w_gibberish_wide = utf8_to_wstr( gibberish_wide );
     std::wstring w_str = utf8_to_wstr( str );
+    char transformation[2] = { 0 }; // a trailing NULL terminator is necessary for utf8_width function
     for( size_t i = 0; i < w_str.size(); ++i ) {
-        char transformation = f();
+        transformation[0] = f();
         std::string this_char = wstr_to_utf8( std::wstring( 1, w_str[i] ) );
-        if( transformation == -1 ) {
+        if( transformation[0] == -1 ) {
             continue;
-        } else if( transformation == 0 ) {
+        } else if( transformation[0] == 0 ) {
             if( utf8_width( this_char ) == 1 ) {
                 w_str[i] = random_entry( w_gibberish_narrow );
             } else {
@@ -589,11 +590,11 @@ std::string obscure_message( const std::string &str, std::function<char(void)> f
             }
         } else {
             // Only support the case eg. replace current character to symbols like # or ?
-            if( utf8_width( &transformation ) != 1 ) {
+            if( utf8_width( transformation ) != 1 ) {
                 debugmsg( "target character isn't narrow" );
             }
             // A 2-width wide character in the original string should be replace by two narrow characters
-            w_str.replace( i, 1, utf8_to_wstr( std::string( utf8_width( this_char ), transformation ) ) );
+            w_str.replace( i, 1, utf8_to_wstr( std::string( utf8_width( this_char ), transformation[0] ) ) );
         }
     }
     std::string result = wstr_to_utf8( w_str );
