@@ -1360,8 +1360,9 @@
   "components": [
     [
       [ "spaghetti_raw", 1 ],
-      [ "macaroni_raw", 1],
-      [ "noodles_fast", 1]
+      [ "macaroni_raw", 1 ],
+      [ "noodles_fast", 1 ],
+      [ "lasagne_raw", 1 ]
     ],
     [
       [ "water", 1 ],
