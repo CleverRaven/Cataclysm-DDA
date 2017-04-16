@@ -447,6 +447,177 @@ static void eff_fun_cold( player &u, effect &it )
     }
 }
 
+static void eff_fun_hot( player &u, effect &it )
+{
+    bool sleeping = u.has_effect( effect_sleep );
+    bool msg_trig = one_in( 400 );
+    int intense = it.get_intensity();
+    body_part bp = it.get_bp();
+    switch( bp ) {
+        case bp_head:
+            switch( intense ) {
+                case 3:
+                    if( !sleeping && msg_trig ) {
+                        u.add_msg_if_player( m_bad, _( "Your head is pounding from the heat." ) );
+                    }
+                // Fall-through
+                case 2:
+                    // Hallucinations handled in game.cpp
+                    if( one_in( std::min( 14500, 15000 - u.temp_cur[bp_head] ) ) ) {
+                        u.vomit();
+                    }
+                    if( !sleeping && msg_trig ) {
+                        u.add_msg_if_player( m_bad, _( "The heat is making you see things." ) );
+                    }
+                    break;
+                default: // Suppress compiler warning [-Wswitch]
+                    break;
+            }
+            break;
+        case bp_torso:
+            switch( intense ) {
+                case 3:
+                    u.mod_str_bonus( -1 );
+                    if( !sleeping && msg_trig ) {
+                        u.add_msg_if_player( m_bad, _( "You are sweating profusely." ) );
+                    }
+                // Fall-through
+                case 2:
+                    u.mod_str_bonus( -1 );
+                    break;
+                default:
+                    break;
+            }
+            break;
+        case bp_hand_l:
+            switch( intense ) {
+                case 3:
+                    u.mod_dex_bonus( -1 );
+                // Fall-through
+                case 2:
+                    u.add_miss_reason( _( "Your left hand's too sweaty to grip well." ), 1 );
+                    u.mod_dex_bonus( -1 );
+                default:
+                    break;
+            }
+            break;
+        case bp_hand_r:
+            switch( intense ) {
+                case 3:
+                    u.mod_dex_bonus( -1 );
+                // Fall-through
+                case 2:
+                    u.mod_dex_bonus( -1 );
+                    u.add_miss_reason( _( "Your right hand's too sweaty to grip well." ), 1 );
+                    break;
+                default:
+                    break;
+            }
+            break;
+        case bp_leg_l:
+            switch( intense ) {
+                case 3 :
+                    if( one_in( 2 ) ) {
+                        if( !sleeping && msg_trig ) {
+                            u.add_msg_if_player( m_bad, _( "Your left leg is cramping up." ) );
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+            break;
+        case bp_leg_r:
+            switch( intense ) {
+                case 3 :
+                    if( one_in( 2 ) ) {
+                        if( !sleeping && msg_trig ) {
+                            u.add_msg_if_player( m_bad, _( "Your right leg is cramping up." ) );
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+            break;
+        case bp_foot_l:
+            switch( intense ) {
+                case 3:
+                    if( one_in( 2 ) ) {
+                        if( !sleeping && msg_trig ) {
+                            u.add_msg_if_player( m_bad, _( "Your left foot is swelling in the heat." ) );
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+            break;
+        case bp_foot_r:
+            switch( intense ) {
+                case 3:
+                    if( one_in( 2 ) ) {
+                        if( !sleeping && msg_trig ) {
+                            u.add_msg_if_player( m_bad, _( "Your right foot is swelling in the heat." ) );
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+            break;
+        default: // Suppress compiler warning [-Wswitch]
+            break;
+    }
+}
+
+static void eff_fun_frostbite( player &u, effect &it )
+{
+    bool sleeping = u.has_effect( effect_sleep );
+    bool msg_trig = one_in( 400 );
+    int intense = it.get_intensity();
+    body_part bp = it.get_bp();
+    switch( bp ) {
+        case bp_hand_l:
+        case bp_hand_r:
+            switch( intense ) {
+                case 2:
+                    u.add_miss_reason( _( "You have trouble grasping with your numb fingers." ), 2 );
+                    u.mod_dex_bonus( -2 );
+                default:
+                    break;
+            }
+            break;
+        case bp_foot_l:
+        case bp_foot_r:
+            switch( intense ) {
+                case 2:
+                case 1:
+                    if( !sleeping && msg_trig && one_in( 2 ) ) {
+                        u.add_msg_if_player( m_bad, _( "Your foot has gone numb." ) );
+                    }
+                default:
+                    break;
+            }
+            break;
+        case bp_mouth:
+            switch( intense ) {
+                case 2:
+                    u.mod_per_bonus( -2 );
+                case 1:
+                    u.mod_per_bonus( -1 );
+                    if( !sleeping && msg_trig ) {
+                        u.add_msg_if_player( m_bad, _( "Your face feels numb." ) );
+                    }
+                default:
+                    break;
+            }
+            break;
+        default: // Suppress compiler warnings [-Wswitch]
+            break;
+    }
+}
+
 void player::hardcoded_effects( effect &it )
 {
     if( auto buff = ma_buff::from_effect( it ) ) {
@@ -466,6 +637,8 @@ void player::hardcoded_effects( effect &it )
             { effect_bleed, eff_fun_bleed },
             { effect_hallu, eff_fun_hallu },
             { effect_cold, eff_fun_cold },
+            { effect_hot, eff_fun_hot },
+            { effect_frostbite, eff_fun_frostbite },
         }
     };
     const efftype_id &id = it.get_id();
