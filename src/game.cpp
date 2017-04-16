@@ -9005,7 +9005,7 @@ void game::list_items_monsters()
 
     refresh_all();
     if( ret == game::vmenu_ret::FIRE ) {
-        plfire();
+        plfire( u.weapon );
     }
     reenter_fullscreen();
 }
@@ -10011,10 +10011,12 @@ void game::plthrow(int pos)
 
 // @todo: Move data/functions related to targeting out of game class
 bool game::plfire_check( const targeting_data &args ) {
-    bool okay = true;
-    vehicle *veh = nullptr;
-    item &weapon = *args.relevant;
-    
+    // @todo Make this check not needed
+    if( args.relevant == nullptr ) {
+        debugmsg( "Can't plfire_check a null" );
+        return false;
+    }
+
     if( u.has_effect( effect_relax_gas ) ) {
         if( one_in(5) ) {
             add_msg( m_good, _( "Your eyes steel, and you raise your weapon!" ) );
@@ -10024,7 +10026,8 @@ bool game::plfire_check( const targeting_data &args ) {
             return false;
         }
     }
-    
+
+    item &weapon = *args.relevant;
     if( weapon.is_gunmod() ) {
         add_msg( m_info, 
             _( "The %s must be attached to a gun, it can not be fired separately." ), 
@@ -10039,7 +10042,7 @@ bool game::plfire_check( const targeting_data &args ) {
         return false;
     }
 
-    veh = m.veh_at( u.pos() );
+    vehicle *veh = m.veh_at( u.pos() );
     if( veh != nullptr && veh->player_in_control( u ) && gun->is_two_handed( u ) ) {
         add_msg( m_info, _( "You need a free arm to drive!" ) );
         return false;
@@ -10097,7 +10100,7 @@ bool game::plfire_check( const targeting_data &args ) {
         }
     }
 
-    return okay;
+    return true;
 }
 
 bool game::plfire()
@@ -10195,6 +10198,12 @@ bool game::plfire( item &weapon, int bp_cost )
 {
     // @todo: bio power cost of firing should be derived from a value of the relevant weapon.
     item::gun_mode gun = weapon.gun_current_mode();
+    // gun can be null if the item is an unattached gunmod
+    if( !gun ) {
+        add_msg( m_info, _( "The %s can't be fired in its current state." ), weapon.tname().c_str() );
+        return false;
+    }
+
     int gun_range = u.gun_engagement_range( *gun, player::engagement::maximum );
     targeting_data args = {
         gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE,

@@ -511,6 +511,7 @@ double player::gun_engagement_range( const item &gun, engagement opt ) const
             return gun_current_range( gun, effective_dispersion( gun.sight_dispersion() ), 10, accuracy_grazing );
     }
 
+    debugmsg( "Invalid engagement %d", ( int )opt );
     abort(); // never reached
 }
 
