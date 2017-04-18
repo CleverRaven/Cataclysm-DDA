@@ -24,15 +24,18 @@ void ammunition_type::load_ammunition_type( JsonObject &jsobj )
     res.default_ammotype_ = jsobj.get_string( "default" );
 }
 
+/** @relates string_id */
 template<>
 const string_id<ammunition_type> string_id<ammunition_type>::NULL_ID( "NULL" );
 
+/** @relates string_id */
 template<>
 bool string_id<ammunition_type>::is_valid() const
 {
     return all_ammunition_types().count( *this ) > 0;
 }
 
+/** @relates string_id */
 template<>
 ammunition_type const &string_id<ammunition_type>::obj() const
 {

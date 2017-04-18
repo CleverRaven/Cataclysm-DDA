@@ -393,8 +393,9 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
             const itype *type = f.crafting_pseudo_item_type();
             if (type != NULL) {
                 const itype *ammo = f.crafting_ammo_item_type();
-                item furn_item( type, calendar::turn, ammo ? count_charges_in_list( ammo, g->m.i_at( p ) ) : 0 );
+                item furn_item( type, calendar::turn, 0);
                 furn_item.item_tags.insert("PSEUDO");
+                furn_item.charges = ammo ? count_charges_in_list(ammo, g->m.i_at(p)) : 0;
                 add_item(furn_item);
             }
         }

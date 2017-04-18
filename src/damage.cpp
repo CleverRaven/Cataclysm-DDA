@@ -31,12 +31,18 @@ damage_instance::damage_instance( damage_type dt, float a, float rp, float rm, f
 
 void damage_instance::add_damage( damage_type dt, float a, float rp, float rm, float mul )
 {
-    damage_unit du( dt, a, rp, rm, mul );
-    damage_units.push_back( du );
+    if( a * mul > 0.0f ) {
+        damage_unit du( dt, a, rp, rm, mul );
+        add( du );
+    }
 }
 
 void damage_instance::mult_damage( double multiplier, bool pre_armor )
 {
+    if( multiplier <= 0.0 ) {
+        clear();
+    }
+
     if( pre_armor ) {
         for( auto &elem : damage_units ) {
             elem.amount *= multiplier;
@@ -79,18 +85,26 @@ bool damage_instance::empty() const
 void damage_instance::add( const damage_instance &b )
 {
     for( auto &added_du : b.damage_units ) {
-        auto iter = std::find_if( damage_units.begin(), damage_units.end(),
-        [&added_du]( const damage_unit & du ) {
-            return du.type == added_du.type;
-        } );
-        if( iter == damage_units.end() ) {
-            damage_units.emplace_back( added_du );
-        } else {
-            damage_unit &du = *iter;
-            float mult = added_du.damage_multiplier / du.damage_multiplier;
-            du.amount += added_du.amount * mult;
-            du.res_pen += added_du.res_pen * mult;
-        }
+        add( added_du );
+    }
+}
+
+void damage_instance::add( const damage_unit &added_du )
+{
+    auto iter = std::find_if( damage_units.begin(), damage_units.end(),
+    [&added_du]( const damage_unit & du ) {
+        return du.type == added_du.type;
+    } );
+    if( iter == damage_units.end() ) {
+        damage_units.emplace_back( added_du );
+    } else {
+        damage_unit &du = *iter;
+        float mult = added_du.damage_multiplier / du.damage_multiplier;
+        du.amount += added_du.amount * mult;
+        du.res_pen += added_du.res_pen * mult;
+        // Linearly interpolate armor multiplier based on damage proportion contributed
+        float t = added_du.damage_multiplier / ( added_du.damage_multiplier + du.damage_multiplier );
+        du.res_mult = lerp( du.res_mult, added_du.damage_multiplier, t );
     }
 }
 

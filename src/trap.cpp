@@ -14,6 +14,7 @@
 #include <memory>
 
 template<>
+/** @relates string_id */
 const string_id<trap> string_id<trap>::NULL_ID( "tr_null" );
 
 namespace
@@ -23,41 +24,48 @@ generic_factory<trap> trap_factory( "trap" );
 
 }
 
+/** @relates string_id */
 template<>
 inline bool int_id<trap>::is_valid() const
 {
     return trap_factory.is_valid( *this );
 }
 
+/** @relates int_id */
 template<>
 const trap &int_id<trap>::obj() const
 {
     return trap_factory.obj( *this );
 }
 
+/** @relates int_id */
 template<>
 const string_id<trap> &int_id<trap>::id() const
 {
     return trap_factory.convert( *this );
 }
 
+/** @relates string_id */
 template<>
 int_id<trap> string_id<trap>::id() const
 {
     return trap_factory.convert( *this, tr_null );
 }
 
+/** @relates string_id */
 template<>
 int_id<trap>::int_id( const string_id<trap> &id ) : _id( id.id() )
 {
 }
 
+/** @relates string_id */
 template<>
 const trap &string_id<trap>::obj() const
 {
     return trap_factory.obj( *this );
 }
 
+/** @relates int_id */
 template<>
 bool string_id<trap>::is_valid() const
 {

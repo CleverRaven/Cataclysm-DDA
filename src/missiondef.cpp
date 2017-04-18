@@ -212,15 +212,18 @@ mission_goal string_to_enum<mission_goal>( const std::string &data )
 
 generic_factory<mission_type> mission_type_factory( "mission_type" );
 
+/** @relates string_id */
 template<>
 const mission_type_id string_id<mission_type>::NULL_ID( "MISSION_NULL" );
 
+/** @relates string_id */
 template<>
 const mission_type &string_id<mission_type>::obj() const
 {
     return mission_type_factory.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<mission_type>::is_valid() const
 {

@@ -78,6 +78,7 @@ namespace item_group {
      * used as subtype of the new item group and the array is loaded like the "entries" array of
      * a item group definition (see format of item groups).
      *
+     * @param stream Stream to load from
      * @param default_subtype If an inlined item group is loaded this is used as the default
      * subtype. It must be either "distribution" or "collection". See @ref Item_group.
      * @throw std::string as usual for JSON errors, including invalid input values.
@@ -100,7 +101,8 @@ class Item_spawn_data
         /**
          * Create a list of items. The create list might be empty.
          * No item of it will be the null item.
-         * @param birthday All items have that value as birthday.
+         * @param[in] birthday All items have that value as birthday.
+         * @param[out] rec Recursion list, output goes here
          */
         virtual ItemList create(int birthday, RecursionList &rec) const = 0;
         ItemList create(int birthday) const;
@@ -266,7 +268,7 @@ class Item_group : public Item_spawn_data
         /**
          * These aren't directly used. Instead, the values (both with a default value of 0) "trickle down"
          * to apply to every item/group entry within this item group. It's added to the
-         * @ref Single_item_creator's @ref Item_modifier via @ref Single_item_creator::inherit_ammo_mag_chances.
+         * @ref Single_item_creator's @ref Item_modifier via @ref Single_item_creator::inherit_ammo_mag_chances()
          */
         /** Every item in this group has this chance [0-100%] for items to spawn with ammo (plus default magazine if necesssary) */
         const int with_ammo;

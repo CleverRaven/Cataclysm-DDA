@@ -102,12 +102,14 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
 // Not implemented on purpose (martialart objects have no integer id)
 // int_id<T> string_id<mabuff>::id() const;
 
+/** @relates string_id */
 template<>
 const ma_technique &string_id<ma_technique>::obj() const
 {
     return ma_techniques.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<ma_technique>::is_valid() const
 {
@@ -135,12 +137,14 @@ void ma_buff::load( JsonObject &jo, const std::string &src )
 // Not implemented on purpose (martialart objects have no integer id)
 // int_id<T> string_id<mabuff>::id() const;
 
+/** @relates string_id */
 template<>
 const ma_buff &string_id<ma_buff>::obj() const
 {
     return ma_buffs.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<ma_buff>::is_valid() const
 {
@@ -195,12 +199,14 @@ void martialart::load( JsonObject &jo, const std::string & )
 // Not implemented on purpose (martialart objects have no integer id)
 // int_id<T> string_id<martialart>::id() const;
 
+/** @relates string_id */
 template<>
 const martialart &string_id<martialart>::obj() const
 {
     return martialarts.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<martialart>::is_valid() const
 {

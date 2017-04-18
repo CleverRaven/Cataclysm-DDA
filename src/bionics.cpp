@@ -590,22 +590,23 @@ bool player::deactivate_bionic( int b, bool eff_only )
 }
 
 /**
- *  @param bio the bionic that is meant to be recharged.
- *  @param amount the amount of power that is to be spent recharging the bionic. 
- *  @param factor multiplies the power cost per turn.
- *  @param rate divides the number of turns we may charge (rate of 2 discharges in half the time).
- *  @return indicates whether we successfully charged the bionic.
+ * @param p the player
+ * @param bio the bionic that is meant to be recharged.
+ * @param amount the amount of power that is to be spent recharging the bionic.
+ * @param factor multiplies the power cost per turn.
+ * @param rate divides the number of turns we may charge (rate of 2 discharges in half the time).
+ * @return indicates whether we successfully charged the bionic.
  */
 bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 1, int rate = 1 ) {
     bionic_data const &info = bio.info();
     const int armor_power_cost = 1;
     int power_cost = info.power_over_time * factor;
     bool recharged = false;
-    
+
     if( power_cost > 0 ) {
         if( info.armor_interface ) {
             // Don't spend any power on armor interfacing unless we're wearing active powered armor.
-            bool powered_armor = std::any_of( p.worn.begin(), p.worn.end(), 
+            bool powered_armor = std::any_of( p.worn.begin(), p.worn.end(),
                 []( const item &w ) { return w.active && w.is_power_armor(); } );
             if( !powered_armor ) {
                 power_cost -= armor_power_cost * factor;
@@ -619,7 +620,7 @@ bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 1, int 
             recharged = true;
         }
     }
-    
+
     return recharged;
 }
 

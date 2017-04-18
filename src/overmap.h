@@ -243,7 +243,7 @@ class overmap
      * Interactive point choosing; used as the map screen.
      * The map is initially center at the players position.
      * @returns The absolute coordinates of the chosen point or
-     * @ref invalid_point if canceled with escape (or similar key).
+     * invalid_point if canceled with escape (or similar key).
      */
     static tripoint draw_overmap();
     /**
@@ -384,12 +384,16 @@ public:
     static tripoint draw_overmap(const tripoint& center, const draw_data_t &data);
   /**
    * Draws the overmap terrain.
-   * @param w The window to draw in.
+   * @param w The window to draw map in.
+   * @param wbar Window containing status bar
    * @param center The global overmap terrain coordinate of the center
    * of the view. The z-component is used to determine the z-level.
    * @param orig The global overmap terrain coordinates of the player.
    * It will be marked specially.
-   * @param debug_monstergroups Displays monster groups on the overmap.
+   * @param blink Whether blinking is enabled
+   * @param showExplored Whether display of explored territory is enabled
+   * @param inp_ctxt Input context in this screen
+   * @param data Various other drawing flags, largely regarding debug information
    */
   static void draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             const tripoint &orig, bool blink, bool showExplored,

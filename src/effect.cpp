@@ -12,6 +12,7 @@ namespace {
 std::map<efftype_id, effect_type> effect_types;
 }
 
+/** @relates string_id */
 template<>
 const effect_type& string_id<effect_type>::obj() const
 {
@@ -24,12 +25,14 @@ const effect_type& string_id<effect_type>::obj() const
     return iter->second;
 }
 
+/** @relates string_id */
 template<>
 bool string_id<effect_type>::is_valid() const
 {
     return effect_types.count( *this ) > 0;
 }
 
+/** @relates string_id */
 template<>
 const efftype_id string_id<effect_type>::NULL_ID( "null" );
 

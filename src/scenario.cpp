@@ -27,12 +27,14 @@ generic_factory<scenario> all_scenarios( "scenario", "ident" );
 const string_id<scenario> generic_scenario_id( "evacuee" );
 }
 
+/** @relates string_id */
 template<>
 const scenario &string_id<scenario>::obj() const
 {
     return all_scenarios.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<scenario>::is_valid() const
 {

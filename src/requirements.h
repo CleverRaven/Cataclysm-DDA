@@ -171,12 +171,14 @@ struct requirement_data {
         /**
          * Load @ref tools, @ref qualities and @ref components from
          * the json object. Assumes them to be in sub-objects.
+         * @param jsobj Object to load data from
          * @param id provide (or override) unique id for this instance
          */
         static void load_requirement( JsonObject &jsobj, const std::string &id = "" );
 
         /**
          * Store requirement data for future lookup
+         * @param req Data to save
          * @param id provide (or override) unique id for this instance
          */
         static void save_requirement( const requirement_data &req, const std::string &id = "" );

@@ -15,11 +15,13 @@
 #include <algorithm>
 
 // activity_type functions
-
 static std::map< activity_id, activity_type > activity_type_all;
+
+/** @relates string_id */
 template<>
 const activity_id string_id<activity_type>::NULL_ID( "ACT_NULL" );
 
+/** @relates string_id */
 template<>
 const activity_type &string_id<activity_type>::obj() const
 {

@@ -14,6 +14,7 @@
 
 #include <algorithm>
 #include <cstring>
+#include <chrono>
 
 std::vector<std::string> extract_mod_selection( std::vector<const char *> &arg_vec )
 {
@@ -120,7 +121,9 @@ int main( int argc, const char *argv[] )
     std::vector<const char *> arg_vec( argv, argv + argc );
 
     std::vector<std::string> mods = extract_mod_selection( arg_vec );
-    mods.insert( mods.begin(), "dda" ); // @todo move unit test items to core
+    if( std::find( mods.begin(), mods.end(), "dda" ) == mods.end() ) {
+        mods.insert( mods.begin(), "dda" ); // @todo move unit test items to core
+    }
 
     bool dont_save = check_remove_flags( arg_vec, { "-D", "--drop-world" } );
 
@@ -144,7 +147,12 @@ int main( int argc, const char *argv[] )
         return EXIT_FAILURE;
     }
 
+    const auto start = std::chrono::system_clock::now();
+    std::time_t start_time = std::chrono::system_clock::to_time_t( start );
+    printf( "Starting the actual test at %s", std::ctime( &start_time ) );
     result = session.run();
+    const auto end = std::chrono::system_clock::now();
+    std::time_t end_time = std::chrono::system_clock::to_time_t( end );
 
     auto world_name = world_generator->active_world->world_name;
     if( result == 0 || dont_save ) {
@@ -152,6 +160,9 @@ int main( int argc, const char *argv[] )
     } else {
         printf("Test world \"%s\" left for inspection.\n", world_name.c_str());
     }
+
+    std::chrono::duration<double> elapsed_seconds = end - start;
+    printf( "Ended test at %sThe test took %.3f seconds\n", std::ctime( &end_time ), elapsed_seconds.count() );
 
     return result;
 }

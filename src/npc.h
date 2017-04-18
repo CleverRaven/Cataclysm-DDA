@@ -490,13 +490,13 @@ public:
      */
     void spawn_at_sm(int mx, int my, int mz);
     /**
-     * As @ref spawn_at, but also sets position within the submap.
-     * Note: final submap may differ from @ref submap_offset if @ref square has
+     * As spawn_at, but also sets position within the submap.
+     * Note: final submap may differ from submap_offset if @ref square has
      * x/y values outside [0, SEEX-1]/[0, SEEY-1] range.
      */
     void spawn_at_precise( const point &submap_offset, const tripoint &square );
     /**
-     * Calls @ref spawn_at, spawns in a random city in
+     * Calls spawn_at, spawns in a random city in
      * the given overmap on z-level 0.
      */
     void spawn_at_random_city(overmap *o);
@@ -657,7 +657,7 @@ public:
     double confidence_mult() const;
     int confident_shoot_range( const item &it ) const;
     int confident_gun_mode_range( const item::gun_mode &gun, int at_recoil = -1 ) const;
-    int confident_throw_range( const item & ) const;
+    int confident_throw_range( const item &, Creature * ) const;
     bool wont_hit_friend( const tripoint &p, const item &it, bool throwing ) const;
     bool enough_time_to_reload( const item &gun ) const;
     /** Can reload currently wielded gun? */
@@ -677,6 +677,7 @@ public:
 // Physical movement from one tile to the next
     /**
      * Tries to find path to p. If it can, updates path to it.
+     * @param p Destination of pathing
      * @param no_bashing Don't allow pathing through tiles that require bashing.
      * @param force If there is no valid path, empty the current path.
      * @returns If it updated the path.

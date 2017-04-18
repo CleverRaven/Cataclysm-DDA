@@ -180,7 +180,7 @@ double convert_velocity( int velocity, const units_type vel_units );
 /**
  * Convert weight in grams to units defined by user (kg or lbs)
  *
- * @param Weight to be converted.
+ * @param weight to be converted.
  *
  * @returns Weight converted to user selected unit
  */
@@ -287,16 +287,16 @@ class list_circularizer
 };
 
 /**
- * Wrapper around @ref std::ofstream that handles error checking and throws on errors.
+ * Wrapper around std::ofstream that handles error checking and throws on errors.
  *
  * Use like a normal ofstream: the stream is opened in the constructor and
- * closed via @ref close. Both functions check for success and throw @ref std::exception
+ * closed via @ref close. Both functions check for success and throw std::exception
  * upon any error (e.g. when opening failed or when the stream is in an error state when
  * being closed).
  * Use @ref stream (or the implicit conversion) to access the output stream and to write
  * to it.
  *
- * @Note: the stream is closed in the constructor, but no exception is throw from it. To
+ * @note: the stream is closed in the constructor, but no exception is throw from it. To
  * ensure all errors get reported correctly, you should always call `close` explicitly.
  */
 class ofstream_wrapper

@@ -1890,7 +1890,6 @@ void veh_interact::display_name()
 
 /**
  * Prints the list of usable commands, and highlights the hotkeys used to activate them.
- * @param mode What command we are currently using. ' ' for no command.
  */
 void veh_interact::display_mode()
 {
@@ -1955,6 +1954,7 @@ size_t veh_interact::display_esc(WINDOW *win)
  * when installing new parts or changing tires.
  * @param pos The current cursor position in the list.
  * @param list The list to display parts from.
+ * @param header Number of lines occupied by the list header
  */
 void veh_interact::display_list(size_t pos, std::vector<const vpart_info*> list, const int header)
 {

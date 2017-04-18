@@ -17,15 +17,18 @@
 
 static std::map<requirement_id, requirement_data> requirements_all;
 
+/** @relates string_id */
 template <>
 const requirement_id string_id<requirement_data>::NULL_ID( "null" );
 
+/** @relates string_id */
 template<>
 bool string_id<requirement_data>::is_valid() const
 {
     return requirements_all.count( *this );
 }
 
+/** @relates string_id */
 template<>
 const requirement_data &string_id<requirement_data>::obj() const
 {
@@ -66,12 +69,14 @@ void quality::load( JsonObject &jo, const std::string & )
     }
 }
 
+/** @relates string_id */
 template<>
 const quality &string_id<quality>::obj() const
 {
     return quality_factory.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<quality>::is_valid() const
 {

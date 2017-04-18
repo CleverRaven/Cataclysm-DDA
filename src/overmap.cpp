@@ -61,12 +61,15 @@ const efftype_id effect_pet( "pet" );
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
 
+/** @relates string_id */
 template<>
 const string_id<oter_type_t> string_id<oter_type_t>::NULL_ID( "", 0 );
 
+/** @relates string_id */
 template<>
 const string_id<oter_t> string_id<oter_t>::NULL_ID( "", 0 );
 
+/** @relates string_id */
 template<>
 const string_id<overmap_special> string_id<overmap_special>::NULL_ID( "", 0 );
 
@@ -226,18 +229,21 @@ int city::get_distance_from( const tripoint &p ) const
 std::map<enum radio_type, std::string> radio_type_names =
 {{ {MESSAGE_BROADCAST, "broadcast"}, {WEATHER_RADIO, "weather"} }};
 
+/** @relates string_id */
 template<>
 bool string_id<oter_type_t>::is_valid() const
 {
     return terrain_types.is_valid( *this );
 }
 
+/** @relates string_id */
 template<>
 int_id<oter_type_t> string_id<oter_type_t>::id() const
 {
     return terrain_types.convert( *this, int_id<oter_type_t>( 0 ) );
 }
 
+/** @relates int_id */
 template<>
 int_id<oter_type_t>::int_id( const string_id<oter_type_t> &id ) : _id( id.id() ) {}
 
@@ -247,45 +253,53 @@ const oter_type_t &int_id<oter_type_t>::obj() const
     return terrain_types.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 const oter_type_t &string_id<oter_type_t>::obj() const
 {
     return terrain_types.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<oter_t>::is_valid() const
 {
     return terrains.is_valid( *this );
 }
 
+/** @relates string_id */
 template<>
 const oter_t &string_id<oter_t>::obj() const
 {
     return terrains.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 int_id<oter_t> string_id<oter_t>::id() const
 {
     return terrains.convert( *this, ot_null );
 }
 
+/** @relates int_id */
 template<>
 int_id<oter_t>::int_id( const string_id<oter_t> &id ) : _id( id.id() ) {}
 
+/** @relates int_id */
 template<>
 inline bool int_id<oter_t>::is_valid() const
 {
     return terrains.is_valid( *this );
 }
 
+/** @relates int_id */
 template<>
 const oter_t &int_id<oter_t>::obj() const
 {
     return terrains.obj( *this );
 }
 
+/** @relates int_id */
 template<>
 const string_id<oter_t> &int_id<oter_t>::id() const
 {
@@ -3032,6 +3046,7 @@ void overmap::move_hordes()
 }
 
 /**
+* @param p location of signal
 * @param sig_power - power of signal or max distantion for reaction of zombies
 */
 void overmap::signal_hordes( const tripoint &p, const int sig_power)

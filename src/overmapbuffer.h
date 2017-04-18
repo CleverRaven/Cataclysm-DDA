@@ -144,8 +144,8 @@ public:
      * Get all npcs in a area with given radius around (x, y).
      * Only npcs on the given z-level are considered.
      * Uses square_dist for distance calculation.
-     * x,y are submap coordinates.
-     * @radius Maximal distance of npc from (x,y). If the npc
+     * @param x,y,z are submap coordinates.
+     * @param radius Maximal distance of npc from (x,y). If the npc
      * is at most this far away from (x,y) it will be returned.
      * A radius of 0 returns only those npcs that are on the
      * specifc submap.
@@ -188,6 +188,8 @@ public:
      * The function only searches on the z-level indicated by
      * origin.
      * This function may greate a new overmap if needed.
+     * @param origin Location of search
+     * @param type Terrain type to serch for
      * @param dist The maximum search distance.
      * If 0, OMAPX is used.
      * @param must_be_seen If true, only terrain seen by the player
@@ -199,7 +201,8 @@ public:
     /**
      * Returns a random point of specific terrain type among those found in certain search radius.
      * This function may create new overmaps if needed.
-     * @param radius The maximal radius of the area to search for the desired terrain.
+     * @param type Type of terrain to search for
+     * @param dist The maximal radius of the area to search for the desired terrain.
      * A value of 0 will search an area equal to 4 entire overmaps.
      * @returns If no matching tile can be found @ref overmap::invalid_tripoint is returned.
      * @param origin uses overmap terrain coordinates.
@@ -212,10 +215,11 @@ public:
     /**
      * Mark a square area around center on z-level z
      * as seen.
-     * center is in absolute overmap terrain coords.
+     * @param center is in absolute overmap terrain coords.
      * @param radius The half size of the square to make visible.
      * A value of 0 makes only center visible, radius 1 makes a
      * square 3x3 visible.
+     * @param z Z level to make area on
      * @return true if something has actually been revealed.
      */
     bool reveal(const point &center, int radius, int z);
@@ -225,6 +229,7 @@ public:
     /**
      * Returns the closest point of terrain type.
      * This function may create new overmaps if needed.
+     * @param type Type of terrain to look for
      * @param radius The maximal radius of the area to search for the desired terrain.
      * A value of 0 will search an area equal to 4 entire overmaps.
      * @returns If no matching tile can be found @ref overmap::invalid_tripoint is returned.

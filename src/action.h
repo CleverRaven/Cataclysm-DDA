@@ -275,7 +275,7 @@ enum action_id : int {
  *  that this is done.
  *
  *  @param[out] keymap Place in which to store the keys explicitly bound by the file
- *  @param[out] Name of file that keymap was loaded from
+ *  @param[out] keymap_file_loaded_from Name of file that keymap was loaded from
  *  @param[out] unbound_keymap Place to store the keys explicitly unbound by the file
  */
 void load_keyboard_settings( std::map<char, action_id> &keymap,
@@ -314,10 +314,10 @@ action_id look_up_action( std::string ident );
  * @note The values we use here are more or less human-readable, but are not always suitable for
  * display directly to the user.
  *
- * @param action_id The action ID to lookup an identifier for
+ * @param act The action ID to lookup an identifier for
  * @returns The string identifier for the specified action ID.
  */
-std::string action_ident( action_id );
+std::string action_ident( action_id act );
 
 /**
  * Lookup whether an action can affect the state of the game world.
@@ -405,7 +405,7 @@ bool choose_direction( const std::string &message, int &x, int &y );
  * an examine or directional item drop.  This version of the function assumes that the requested
  * tile will be on the player's current z-level.
  *
- * This function is identical to @ref request_adjacent except that squares are highlighted for
+ * This function is identical to @ref choose_adjacent except that squares are highlighted for
  * the player to indicate valid squares for a given @ref action_id
  *
  * Note: If this function returns 'false' to indicate an invalid choice, then the x/y parameters
@@ -446,7 +446,7 @@ bool choose_direction( const std::string &message, tripoint &offset, bool allow_
  * an examine or directional item drop.  This version of the function allows the player to select
  * a tile above or below.
  *
- * This function is identical to @ref request_adjacent except that squares are highlighted for
+ * This function is identical to @ref choose_adjacent except that squares are highlighted for
  * the player to indicate valid squares for a given @ref action_id
  *
  * Note: If this function returns 'false' to indicate an invalid choice, then the x/y components
@@ -479,11 +479,11 @@ std::string press_x( action_id act, std::string act_desc );
  *
  * The only valid values for the parameters of this function are -1, 0 and 1
  *
- * @Note This function does not sanitize its inputs, which can result in some strange behavior:
+ * @note: This function does not sanitize its inputs, which can result in some strange behavior:
  * 1. If dz is valid and non-zero, then dx and dy are ignored.
  * 2. If dz is invalid, it is treated as if it were zero.
- * 3. If dz is 0 or invalid, then any invalid dx or dy results in @ref ACTION_MOV_NW
- * 4. If dz is 0 or invalid, then a dx == dy == 0 results in @ref ACTION_MOV_NW
+ * 3. If dz is 0 or invalid, then any invalid dx or dy results in @ref ACTION_MOVE_NW
+ * 4. If dz is 0 or invalid, then a dx == dy == 0 results in @ref ACTION_MOVE_NW
  *
  * @param[in] dx X component of direction, should be -1, 0, or 1
  * @param[in] dy Y component of direction, should be -1, 0, or 1

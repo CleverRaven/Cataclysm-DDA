@@ -182,9 +182,8 @@ struct advanced_inv_listitem {
      * to an item, only @ref cat is valid.
      */
     bool is_category_header() const;
-    /**
-     * Whether this is an item entry (where @ref it is a valid pointer).
-     */
+
+    /** Returns true if this is an item entry */
     bool is_item_entry() const;
     /**
      * Create a category header entry.
@@ -197,19 +196,19 @@ struct advanced_inv_listitem {
     advanced_inv_listitem();
     /**
      * Create a normal item entry.
-     * @param an_item The item pointer, stored in @ref it. Must not be null.
-     * @param index The index, stored in @ref idx.
-     * @param count The stack size, stored in @ref stacks.
-     * @param area The source area, stored in @ref area. Must not be AIM_ALL.
+     * @param an_item The item pointer. Must not be null.
+     * @param index The index
+     * @param count The stack size
+     * @param area The source area. Must not be AIM_ALL.
      * @param from_vehicle Is the item from a vehicle cargo space?
      */
     advanced_inv_listitem( item *an_item, int index, int count,
                            aim_location area, bool from_vehicle );
     /**
      * Create a normal item entry.
-     * @param items The list of item pointers, stored in @ref it.
-     * @param index The index, stored in @ref idx.
-     * @param area The source area, stored in @ref area. Must not be AIM_ALL.
+     * @param items The list of item pointers.
+     * @param index The index
+     * @param area The source area. Must not be AIM_ALL.
      * @param from_vehicle Is the item from a vehicle cargo space?
      */
     advanced_inv_listitem( const std::list<item *> &items, int index,
@@ -327,7 +326,7 @@ class advanced_inventory
         void display();
     private:
         /**
-         * Refers to the two panels, used as index into @ref panels.
+         * Refers to the two panes, used as index into @ref panes.
          */
         enum side {
             left  = 0,
@@ -408,6 +407,7 @@ class advanced_inventory
         void init();
         /**
          * Translate an action ident from the input context to an aim_location.
+         * @param action Action ident to translate
          * @param ret If the action ident referred to a location, its id is stored
          * here. Only valid when the function returns true.
          * @return true if the action did refer to an location (which has been
@@ -446,14 +446,15 @@ class advanced_inventory
         int remove_item( advanced_inv_listitem &sitem, int count = 1 );
         /**
          * Move content of source container into destination container (destination pane = AIM_CONTAINER)
-         * @param src_container Source container
-         * @param dest_container Destination container
+         * @param src Source container
+         * @param dest Destination container
          */
         bool move_content( item &src, item &dest );
         /**
          * Setup how many items/charges (if counted by charges) should be moved.
          * @param destarea Where to move to. This must not be AIM_ALL.
          * @param sitem The source item, it must contain a valid reference to an item!
+         * @param action The action we are querying
          * @param amount The input value is ignored, contains the amount that should
          *      be moved. Only valid if this returns true.
          * @return false if nothing should/can be moved. True only if there can and

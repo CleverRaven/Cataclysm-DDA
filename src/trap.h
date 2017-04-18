@@ -155,9 +155,9 @@ struct trap {
         /**
          * @name Funnels
          *
-         * Traps can act as funnels, for this they need a @ref funnel_radius_mm > 0.
-         * Funnels are usual not hidden at all (@ref visibility == 0), are @ref benign and can
-         * be picked up easily (@ref difficulty == 0).
+         * Traps can act as funnels, for this they need a @ref trap::funnel_radius_mm > 0.
+         * Funnels are usual not hidden at all (@ref trap::visibility == 0), are @ref trap::benign and can
+         * be picked up easily (@ref trap::difficulty == 0).
          * The funnel filling is handled in weather.cpp. is_funnel is used the check whether the
          * funnel specific code should be run for this trap.
          */
@@ -177,12 +177,12 @@ struct trap {
          * Those functions are used by the @ref DynamicDataLoader, see there.
          */
         /**
-         * Loads the trap and adds it to the @ref trapmap, and the @ref traplist.
+         * Loads the trap and adds it to the trapmap, and the traplist.
          * @throw std::string if the json is invalid as usual.
          */
         static void load_trap( JsonObject &jo, const std::string &src );
         /**
-         * Releases the loaded trap objects in @ref trapmap and @ref traplist.
+         * Releases the loaded trap objects in trapmap and traplist.
          */
         static void reset();
         /**

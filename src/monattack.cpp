@@ -3214,26 +3214,31 @@ bool mattack::chickenbot(monster *z)
     }
 
     int dist = rl_dist( z->pos(), target->pos() );
-    if( dist == 1 && one_in(2) ) {
+    int player_dist = rl_dist( target->pos(), g->u.pos() );
+    if( dist == 1 && one_in( 2 ) ) {
+        // Use tazer at point-blank range, and even then, not continuously.
         mode = 1;
-    } else if( ( dist >= 12) ||
-               ( ( z->friendly != 0 || g->u.in_vehicle ) && dist >= 6 ) ||
-               cap > 2 ) {
+    } else if( ( z->friendly == 0 || player_dist >= 6 ) &&
+               // Avoid shooting near player if we're friendly.
+               ( dist >= 12 || ( g->u.in_vehicle && dist >= 6 ) ) ) {
+               // Only use at long range, unless player is in a vehicle, then tolerate closer targeting.
         mode = 3;
-    } else if( dist >= 4) {
+    } else if( dist >= 4 ) {
+        // Don't use machine gun at very close range, under the assumption that targets at that range can dodge?
         mode = 2;
     }
 
-    if (mode == 0) {
+    if( mode == 0 ) {
         return false;    // No attacks were valid!
     }
 
     if( mode > cap ) {
         mode = cap;
     }
-    switch (mode) {
+    switch( mode ) {
     case 0:
     case 1:
+        // If we downgraded to taze, but are out of range, don't act.
         if( dist <= 1 ) {
             taze( z, target );
         }
@@ -3244,7 +3249,7 @@ bool mattack::chickenbot(monster *z)
         }
         break;
     case 3:
-        if( dist == 38 ) {
+        if( dist <= 38 ) {
             frag( z, target );
         }
         break;
