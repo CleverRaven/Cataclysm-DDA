@@ -602,6 +602,7 @@
         "main_parts_only": true,
         "rating": "bad",
         "int_dur_factor": 1800,
+        "max_intensity": 2,
         "scaling_mods": {
             "dex_mod": [-1, 0],
             "pain_chance_bot": [200],
@@ -626,6 +627,7 @@
         "main_parts_only": true,
         "rating": "bad",
         "int_dur_factor": 4800,
+        "max_intensity": 3,
         "base_mods": {
             "pain_chance": [2, 1],
             "pain_chance_bot": [200],
@@ -885,6 +887,7 @@
         "part_descs": true,
         "speed_name": "Frostbite",
         "dur_add_perc": 0,
+        "max_intensity": 2,
         "scaling_mods": {
             "speed_mod": [-5]
         }

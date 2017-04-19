@@ -626,44 +626,18 @@ void effect::decay(std::vector<efftype_id> &rem_ids, std::vector<body_part> &rem
                    unsigned int turn, bool player)
 {
     // Decay duration if not permanent
-    if (!is_permanent()) {
-        duration -= 1;
-        add_msg( m_debug, "ID: %s, Duration %d", get_id().c_str(), duration );
+    if( !is_permanent() ) {
+        mod_duration( -1, player );
     }
-    // Store current intensity for comparison later
-    int tmp_int = intensity;
 
-    // Fix bad intensities
-    if (intensity < 1) {
-        add_msg( m_debug, "Bad intensity, ID: %s", get_id().c_str() );
-        intensity = 1;
-    } else if (intensity > 1) {
-        // Decay intensity if necessary
-        if (eff_type->int_decay_tick != 0 && turn % eff_type->int_decay_tick == 0) {
-            intensity += eff_type->int_decay_step;
-        }
-    }
-    // Force intensity if it is duration based
-    if (eff_type->int_dur_factor != 0) {
-        // + 1 here so that the lowest is intensity 1, not 0
-        intensity = (duration / eff_type->int_dur_factor) + 1;
-    }
-    // Bound intensity to [1, max_intensity]
-    if (intensity > eff_type->max_intensity) {
-        intensity = eff_type->max_intensity;
-    }
-    if (intensity < 1) {
-        intensity = 1;
-    }
-    // Display decay message if available
-    if (player && tmp_int > intensity && (intensity - 1) < int(eff_type->decay_msgs.size())) {
-        // -1 because intensity = 1 is the first message
-        add_msg(eff_type->decay_msgs[intensity - 1].second,
-                eff_type->decay_msgs[intensity - 1].first.c_str());
+    // Decay intensity if supposed to do so
+    // @todo Remove effects that would decay to 0 intensity?
+    if( intensity > 1 && eff_type->int_decay_tick != 0 && turn % eff_type->int_decay_tick == 0 ) {
+        set_intensity( intensity + eff_type->int_decay_step, player );
     }
 
     // Add to removal list if duration is <= 0
-    if (duration <= 0) {
+    if( duration <= 0 ) {
         rem_ids.push_back(get_id());
         rem_bps.push_back(bp);
     }
@@ -682,29 +656,29 @@ int effect::get_max_duration() const
 {
     return eff_type->max_duration;
 }
-void effect::set_duration(int dur)
+void effect::set_duration( int dur, bool alert )
 {
     duration = dur;
     // Cap to max_duration if it exists
-    if (eff_type->max_duration > 0 && duration > eff_type->max_duration) {
+    if( eff_type->max_duration > 0 && duration > eff_type->max_duration ) {
         duration = eff_type->max_duration;
     }
+
+    // Force intensity if it is duration based
+    if( eff_type->int_dur_factor != 0 ) {
+        // + 1 here so that the lowest is intensity 1, not 0
+        set_intensity( ( duration / eff_type->int_dur_factor ) + 1, alert );
+    }
+
+    add_msg( m_debug, "ID: %s, Duration %d", get_id().c_str(), duration );
 }
-void effect::mod_duration(int dur)
+void effect::mod_duration( int dur, bool alert )
 {
-    duration += dur;
-    // Cap to max_duration if it exists
-    if (eff_type->max_duration > 0 && duration > eff_type->max_duration) {
-        duration = eff_type->max_duration;
-    }
+    set_duration( duration + dur, alert );
 }
-void effect::mult_duration(double dur)
+void effect::mult_duration( double dur, bool alert )
 {
-    duration *= dur;
-    // Cap to max_duration if it exists
-    if (eff_type->max_duration > 0 && duration > eff_type->max_duration) {
-        duration = eff_type->max_duration;
-    }
+    set_duration( duration * dur, alert );
 }
 
 int effect::get_start_turn() const
@@ -745,16 +719,30 @@ int effect::get_max_intensity() const
 
 int effect::set_intensity( int val, bool alert )
 {
-    val = std::max( std::min( val, eff_type->max_intensity ), 1 );
-
-    if( alert && val < intensity ) {
-        if ( val - 1 < int( eff_type->decay_msgs.size() ) ) {
-            add_msg( eff_type->decay_msgs[ val - 1 ].second,
-                     eff_type->decay_msgs[ val - 1 ].first.c_str() );
-        }
+    if( intensity < 1 ) {
+        // Fix bad intensity
+        add_msg( m_debug, "Bad intensity, ID: %s", get_id().c_str() );
+        intensity = 1;
     }
 
-    return intensity = val;
+    val = std::max( std::min( val, eff_type->max_intensity ), 1 );
+    if( val == intensity ) {
+        // Nothing to change
+        return intensity;
+    }
+
+    if( alert && val < intensity && val - 1 < int( eff_type->decay_msgs.size() ) ) {
+        add_msg( eff_type->decay_msgs[ val - 1 ].second,
+                 eff_type->decay_msgs[ val - 1 ].first.c_str() );
+    }
+
+    int old_intensity = intensity;
+    intensity = val;
+    if( old_intensity != intensity ) {
+        add_msg( m_debug, "%s intensity %d->%d", get_id().c_str(), old_intensity, intensity );
+    }
+
+    return intensity;
 }
 
 int effect::mod_intensity( int mod, bool alert )
@@ -944,7 +932,7 @@ double effect::get_percentage(std::string arg, int val, bool reduced) const
     if (found_tick_base != mod_data.end()) {
         tick += found_tick_base->second;
     }
-    if (found_bot_scale != mod_data.end()) {
+    if (found_tick_scale != mod_data.end()) {
         tick += found_tick_scale->second * (intensity - 1);
     }
     // Tick is the exception where tick = 0 means tick = 1
@@ -1018,7 +1006,7 @@ bool effect::activated(int turn, std::string arg, int val, bool reduced, double 
     if (found_tick_base != mod_data.end()) {
         tick += found_tick_base->second;
     }
-    if (found_bot_scale != mod_data.end()) {
+    if (found_tick_scale != mod_data.end()) {
         tick += found_tick_scale->second * (intensity - 1);
     }
     // Tick is the exception where tick = 0 means tick = 1
@@ -1149,14 +1137,10 @@ void load_effect_type(JsonObject &jo)
         while (jsarr.has_more()) {
             new_etype.reduced_desc.push_back(jsarr.next_string());
         }
-    } else if (jo.has_member("desc")) {
-        JsonArray jsarr = jo.get_array("desc");
-        while (jsarr.has_more()) {
-            new_etype.reduced_desc.push_back(jsarr.next_string());
-        }
     } else {
-        new_etype.reduced_desc.push_back("");
+        new_etype.reduced_desc = new_etype.desc;
     }
+
     new_etype.part_descs = jo.get_bool("part_descs", false);
 
     if(jo.has_member("rating")) {
