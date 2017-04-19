@@ -878,7 +878,7 @@ void npc_follower_rules::deserialize(JsonIn &jsin)
     int tmpeng;
     data.read("engagement", tmpeng);
     engagement = (combat_engagement)tmpeng;
-    aim_rule tmpaim;
+    int tmpaim;
     data.read("aim", tmpaim);
     aim = (aim_rule)tmpaim;
     data.read( "use_guns", use_guns);
