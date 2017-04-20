@@ -173,6 +173,8 @@ class inventory : public visitable<inventory>
         // Assigns an invlet if any remain.  If none do, will assign ` if force is
         // true, empty (invlet = 0) otherwise.
         void assign_empty_invlet(item &it, bool force = false);
+        // Assigns the item with the given invlet, and updates the favourite invlet cache. Does not check for uniqueness
+        void reassign_item(item &it, char invlet);
 
         std::set<char> allocated_invlets() const;
 

@@ -8567,7 +8567,7 @@ void player::reassign_item( item &it, long invlet )
     if( invlet ) {
         item &prev = i_at( invlet_to_position( invlet ) );
         if( !prev.is_null() ) {
-            prev.invlet = it.invlet;
+            inv.reassign_item( prev, it.invlet );
         }
     }
 
@@ -8582,7 +8582,7 @@ void player::reassign_item( item &it, long invlet )
     }
 
     if( !invlet || inv_chars.valid( invlet ) ) {
-        it.invlet = invlet;
+        inv.reassign_item( it, invlet );
         if( invlet ) {
             assigned_invlet[invlet] = it.typeId();
         }
