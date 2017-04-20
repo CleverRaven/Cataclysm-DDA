@@ -823,14 +823,7 @@
             "speed_mod": [-2]
         },
         "scaling_mods": {
-            "speed_mod": [-7],
-            "int_mod": [-0.5],
-            "dex_mod": [-0.5],
-            "hurt_min": [1],
-            "hurt_chance": [200],
-            "pkill_tick": [10],
-            "pkill_min": [1],
-            "pkill_max_val": [30],
+            "speed_mod": [-4],
             "stamina_chance": [2],
             "stamina_min": [-2]
         }
@@ -879,14 +872,25 @@
             "Frostbite"
         ],
         "desc": [
-            "Your %s is frostnipped and has gone numb.",
+            "Your %s is frostnipped, it is starting to swell and ache.",
             "Your %s is frostbitten!  Its tissues are frozen from the cold!"
         ],
         "part_descs": true,
         "speed_name": "Frostbite",
+        "max_intensity": 2,
         "dur_add_perc": 0,
+        "base_mods": {
+            "pain_min": [1],
+            "pain_chance": [50],
+            "pain_max_val": [20]
+        },
         "scaling_mods": {
-            "speed_mod": [-5]
+            "speed_mod": [-5],
+            "pkill_tick": [10],
+            "pkill_min": [1],
+            "pkill_max_val": [10],
+            "hurt_min": [1],
+            "hurt_chance": [18]
         }
     },
     {
@@ -896,7 +900,9 @@
         "desc": ["Your %s is starting to feel the damage cold has wrought."],
         "part_descs": true,
         "base_mods": {
-            "pain_max_val": [40],
+            "hurt_min": [1],
+            "hurt_chance": [120],
+            "pain_max_val": [90],
             "pain_chance": [2],
             "pain_min": [1]
         }
