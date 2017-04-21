@@ -5583,6 +5583,9 @@ void item::reset_cable( player* p )
     int max_charges = type->maximum_charges();
 
     set_var( "state", "attach_first" );
+    erase_var("source_x");
+    erase_var("source_y");
+    erase_var("source_z");
     active = false;
     charges = max_charges;
 
