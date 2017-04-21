@@ -1157,7 +1157,6 @@ classes = {
             { name = "put_in", rval = nil, args = { "item" } },
             { name = "reach_range", rval = "int", args = { "player" } },
             { name = "ready_to_revive", rval = "bool", args = { "tripoint" } },
-            { name = "reload", rval = "bool", args = { "player", "item_location", "int" } },
             { name = "remove_item", rval = "item", args = { "item" } },
             { name = "reset_cable", rval = nil, args = { "player" } },
             { name = "rotten", rval = "bool", args = { } },
@@ -1201,30 +1200,6 @@ classes = {
             { name = "weight", rval = "int", args = { } },
             { name = "wheel_area", rval = "int", args = { } },
             { name = "will_explode_in_fire", rval = "bool", args = { } },
-        }
-    },
-    item_location = {
-        new = {
-            { "Character", "item" },
-            { "item_location" },
-            { },
-        },
-        by_value_and_reference = true,
-        has_equal = true,
-        functions = {
-            { name = "clone", rval = "item_location", args = { } },
-            { name = "describe", rval = "std::string", args = { "Character" } },
-            { name = "describe", rval = "std::string", args = { } },
-            { name = "deserialize", rval = nil, args = { "std::string" } },
-            { name = "get_item", rval = "item&", args = { } },
-            { name = "get_item", rval = "item&", args = { } },
-            { name = "obtain", rval = "int", args = { "Character" } },
-            { name = "obtain", rval = "int", args = { "Character", "int" } },
-            { name = "obtain_cost", rval = "int", args = { "Character" } },
-            { name = "obtain_cost", rval = "int", args = { "Character", "int" } },
-            { name = "position", rval = "tripoint", args = { } },
-            { name = "remove_item", rval = nil, args = { } },
-            { name = "serialize", rval = "std::string", args = { } },
         }
     },
     point = {
@@ -1537,7 +1512,6 @@ classes = {
             { name = "item_from", rval = "item&", args = { "tripoint", "int" } },
             { name = "light_transparency", rval = "float", args = { "tripoint" } },
             { name = "load", rval = nil, args = { "int", "int", "int", "bool" } },
-            { name = "make_active", rval = nil, args = { "item_location" } },
             { name = "make_rubble", rval = nil, args = { "tripoint" } },
             { name = "make_rubble", rval = nil, args = { "tripoint", "furn_id", "bool" } },
             { name = "make_rubble", rval = nil, args = { "tripoint", "furn_id", "bool", "ter_id" } },
