@@ -6231,7 +6231,7 @@ bool vehicle_part::can_reload( const itype_id &obj ) const
 
 bool vehicle_part::fill_with( item &liquid, long qty )
 {
-    if( liquid.active || liquid.rotten ) {
+    if( liquid.active || liquid.rotten() ) {
         // cannot refill using active liquids (those that rot) due to #18570
         return false;
     }
