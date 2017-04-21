@@ -11436,6 +11436,12 @@ void player::on_mission_finished( mission &mission )
 }
 
 const targeting_data &player::get_targeting_data() {
+    if( tdata.get() == nullptr ) {
+        debugmsg( "Tried to get targeting data before setting it" );
+        tdata.reset( new targeting_data() );
+        tdata->relevant = nullptr;
+    }
+
     return *tdata;
 }
 
