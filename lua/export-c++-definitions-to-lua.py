@@ -2,6 +2,8 @@
 
 from parser import Parser
 
+import re
+
 # All the headers in the src folder that will be searched for the definitions
 # of the exported types. The script will complain if a type is requested, but
 # not found.
@@ -65,6 +67,18 @@ parser.add_export_enumeration('game_message_type')
 parser.add_export_enumeration('season_type')
 parser.add_export_enumeration('add_type')
 parser.add_export_enumeration('field_id')
+
+
+# One can block specific members from being exported:
+# The given string or regex is matched against the C++ name of the member.
+# This includes the parameter list (only type names) for function.
+
+# Exported to Lua via a global variables:
+parser.blocked_identifiers.add('game::m')
+parser.blocked_identifiers.add('game::u')
+# Problematic because of overloading in C++
+parser.blocked_identifiers.add(re.compile('.*item::get_remaining_capacity_for_liquid\(.*'))
+
 
 for header in headers:
     parser.parse('src/' + header)
