@@ -161,11 +161,11 @@ class effect : public JsonSerializer, public JsonDeserializer
         /** Returns the maximum duration of an effect. */
         int get_max_duration() const;
         /** Sets the duration, capping at max_duration if it exists. */
-        void set_duration( int dur );
+        void set_duration( int dur, bool alert = false );
         /** Mods the duration, capping at max_duration if it exists. */
-        void mod_duration( int dur );
+        void mod_duration( int dur, bool alert = false );
         /** Multiplies the duration, capping at max_duration if it exists. */
-        void mult_duration( double dur );
+        void mult_duration( double dur, bool alert = false );
 
         /** Returns the turn the effect was applied. */
         int get_start_turn() const;
