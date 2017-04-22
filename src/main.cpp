@@ -474,6 +474,11 @@ int main(int argc, char *argv[])
     sigaction(SIGINT, &sigIntHandler, NULL);
 #endif
 
+    if( get_option<std::string>( "USE_LANG" ).empty() ) {
+        select_language();
+        set_language();
+    }
+
     while( true ) {
         if( !world.empty() ) {
             if( !g->load( world ) ) {

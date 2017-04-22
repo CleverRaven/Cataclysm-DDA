@@ -48,6 +48,7 @@ const char *strip_positional_formatting( const char *msgid );
 #define npgettext(STRING0, STRING1, STRING2, COUNT) ngettext(STRING1, STRING2, COUNT)
 
 #endif // LOCALIZE
+void select_language();
 void set_language();
 
 #endif // _TRANSLATIONS_H_
