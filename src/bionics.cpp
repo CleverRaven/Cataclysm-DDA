@@ -958,10 +958,24 @@ bool player::install_bionics( const itype &type, int skill_level )
         return false;
     }
 
+    const inventory &crafting_inv = crafting_inventory();
+    if( !crafting_inv.has_charges( "codeine", 6 ) && !crafting_inv.has_charges( "tramadol", 5 ) &&
+        !crafting_inv.has_charges( "oxycodone", 3 ) && !crafting_inv.has_charges( "heroin", 2 ) ) {
+        popup( _( "You need a sufficient amount of strong painkillers to install bionics." ) );
+        return false;
+        }
+
     if( !query_yn( _( "WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Continue anyway?" ),
                    ( 100 - int( chance_of_success ) ) ) ) {
         return false;
     }
+
+    std::vector<item_comp> comps;
+    comps.push_back( item_comp( "codeine", 6 ) );
+    comps.push_back( item_comp( "tramadol", 5 ) );
+    comps.push_back( item_comp( "oxycodone", 3 ) );
+    comps.push_back( item_comp( "heroin", 2 ) );
+    consume_items( comps );
 
     practice( skilll_electronics, int( ( 100 - chance_of_success ) * 1.5 ) );
     practice( skilll_firstaid, int( ( 100 - chance_of_success ) * 1.0 ) );
