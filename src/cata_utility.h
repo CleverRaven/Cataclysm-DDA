@@ -392,6 +392,19 @@ bool write_to_file_exclusive( const std::string &path,
 
 std::istream &safe_getline( std::istream &ins, std::string &str );
 
+/** Apply fuzzy effect to a string like:
+ * Hello, world! --> H##lo, wurl#!
+ *
+ * @param str the original string to be processed
+ * @param f the function that guides how to mess the message
+ * f() will be called for each character (lingual, not byte):
+ * [-] f() == -1 : nothing will be done
+ * [-] f() == 0  : the said character will be replace by a random character
+ * [-] f() == ch : the said character will be replace by ch
+ *
+ * @return The processed string
+ *
+ */
 
 std::string obscure_message( const std::string &str, std::function<char( void )> f );
 
