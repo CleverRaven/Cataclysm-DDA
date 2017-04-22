@@ -8567,25 +8567,20 @@ void player::reassign_item( item &it, long invlet )
     if( invlet ) {
         item &prev = i_at( invlet_to_position( invlet ) );
         if( !prev.is_null() ) {
-            prev.invlet = it.invlet;
-        }
-    }
-
-    if( !invlet || it.invlet == invlet ) {
-        const auto iter = assigned_invlet.find( it.invlet );
-        if( iter != assigned_invlet.end() ) {
-            assigned_invlet.erase( iter );
-            if( invlet ) {
-                return;
-            }
+            inv.reassign_item( prev, it.invlet );
         }
     }
 
     if( !invlet || inv_chars.valid( invlet ) ) {
-        it.invlet = invlet;
-        if( invlet ) {
+        const auto iter = assigned_invlet.find( it.invlet );
+        bool found = iter != assigned_invlet.end();
+        if( found ) {
+            assigned_invlet.erase( iter );
+        }
+        if( invlet && ( !found || it.invlet != invlet ) ) {
             assigned_invlet[invlet] = it.typeId();
         }
+        inv.reassign_item( it, invlet );
     }
 }
 

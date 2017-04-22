@@ -76,7 +76,6 @@ ignorable = {
     "MONSTER_FACTION",
     "monstergroup",
     "MONSTER_WHITELIST",
-    "npc",      # FIXME right now this object is unextractable
     "overlay_order",
     "overmap_special",
     "profession_item_substitutions",
@@ -127,6 +126,7 @@ automatically_convertible = {
     "morale_type",
     "mutation",
     "morale_type",
+    "npc",
     "npc_class",
     "overmap_terrain",
     "skill",
@@ -733,6 +733,12 @@ def extract(item, infilename):
                 writestr(outfile, name, "{}s".format(name), **kwargs)
             else:
                 writestr(outfile, name, **kwargs)
+        wrote = True
+    if "name_suffix" in item:
+        writestr(outfile, item["name_suffix"], **kwargs)
+        wrote = True
+    if "name_unique" in item:
+        writestr(outfile, item["name_unique"], **kwargs)
         wrote = True
     if "use_action" in item:
         extract_use_action_msgs(outfile, item["use_action"], item.get("name"), kwargs)

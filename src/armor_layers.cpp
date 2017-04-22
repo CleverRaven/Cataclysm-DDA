@@ -554,7 +554,7 @@ void player::sort_armor()
                     } else if( invlet_to_position( invlet ) != INT_MIN ) {
                         ++iiter;
                     } else {
-                        w.invlet = invlet;
+                        inv.reassign_item( w, invlet );
                         ++witer;
                         ++iiter;
                     }

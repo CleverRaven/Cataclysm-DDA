@@ -141,8 +141,14 @@ void npc::load_npc(JsonObject &jsobj)
 {
     npc guy;
     guy.idz = jsobj.get_string("id");
-    if (jsobj.has_string("name+"))
-        guy.name = jsobj.get_string("name+");
+    guy.name = "";
+    if( jsobj.has_string( "name_unique" ) ) {
+        guy.name = ( std::string )_( jsobj.get_string( "name_unique" ).c_str() );
+    }
+    if( jsobj.has_string( "name_suffix" ) ) {
+        guy.name += ", " + ( std::string )
+            _( jsobj.get_string( "name_suffix" ).c_str() );
+    }
     if (jsobj.has_string("gender")){
         if (jsobj.get_string("gender") == "male"){
             guy.male = true;
