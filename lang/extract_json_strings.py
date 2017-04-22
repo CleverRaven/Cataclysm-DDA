@@ -398,16 +398,16 @@ def extract_scenarios(item):
 def extract_mapgen(item):
     outfile = get_outfile("mapgen")
     # writestr will not write string if it is None.
-    for objkey in item["object"]:
+    for (objkey, objval) in sorted(item["object"].items(), key=lambda x: x[0]):
         if objkey == "place_specials" or objkey == "place_signs":
-            for special in item["object"][objkey]:
-                for speckey in special:
+            for special in objval:
+                for (speckey, specval) in sorted(special.items(), key=lambda x: x[0]):
                     if speckey == "signage":
-                        writestr(outfile, special[speckey], comment="Sign")
-        if objkey == "signs":
-            obj = item["object"][objkey]
-            for k in obj.keys():
-                sign = obj[k].get("signage", None)
+                        writestr(outfile, specval, comment="Sign")
+        elif objkey == "signs":
+            obj = objval
+            for (k, v) in sorted(objval.items(), key=lambda x: x[0]):
+                sign = v.get("signage", None)
                 writestr(outfile, sign, comment="Sign")
 
 def extract_monster_attack(item):
@@ -553,9 +553,9 @@ def extract_gate(item):
     outfile = get_outfile("gates")
     messages = item.get("messages", {})
 
-    for message in messages.items():
-        writestr(outfile, message[1],
-                 comment="'{}' action message of some gate object.".format(message[0]))
+    for (k, v) in sorted(messages.items(), key=lambda x: x[0]):
+        writestr(outfile, v,
+                 comment="'{}' action message of some gate object.".format(k))
 
 # these objects need to have their strings specially extracted
 extract_specials = {
@@ -687,7 +687,7 @@ use_action_msgs = {
 
 def extract_use_action_msgs(outfile, use_action, it_name, kwargs):
     """Extract messages for iuse_actor objects. """
-    for f in use_action_msgs:
+    for f in sorted(use_action_msgs):
         if type(use_action) is dict and f in use_action:
             if it_name:
                 writestr(outfile, use_action[f],
@@ -697,8 +697,8 @@ def extract_use_action_msgs(outfile, use_action, it_name, kwargs):
         for i in use_action:
             extract_use_action_msgs(outfile, i, it_name, kwargs)
     elif type(use_action) is dict:
-        for k in use_action:
-            extract_use_action_msgs(outfile, use_action[k], it_name, kwargs)
+        for (k, v) in sorted(use_action.items(), key=lambda x: x[0]):
+            extract_use_action_msgs(outfile, v, it_name, kwargs)
 
 # extract commonly translatable data from json to fake-python
 def extract(item, infilename):
@@ -880,7 +880,7 @@ def prepare_git_file_list():
 print("==> Generating the list of all Git tracked files")
 prepare_git_file_list()
 print("==> Parsing JSON")
-for i in directories:
+for i in sorted(directories):
     print("----> Traversing directory {}".format(i))
     extract_all_from_dir(i)
 print("==> Finalizing")
