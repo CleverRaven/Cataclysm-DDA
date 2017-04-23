@@ -574,7 +574,7 @@ bool player::create(character_type type, std::string tempname)
 
     for( auto &t : get_base_traits() ) {
         std::vector<matype_id> styles;
-        for( auto &s : t.obj().initial_ma_styles ) {
+        for( auto &s : t->initial_ma_styles ) {
             if( !has_martialart( s ) ) {
                 styles.push_back( s );
             }

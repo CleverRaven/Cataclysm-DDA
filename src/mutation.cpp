@@ -143,7 +143,7 @@ void Character::unset_mutation( const trait_id &flag )
 
 int Character::get_mod( const trait_id &mut, std::string arg ) const
 {
-    auto &mod_data = mut.obj().mods;
+    auto &mod_data = mut->mods;
     int ret = 0;
     auto found = mod_data.find(std::make_pair(false, arg));
     if (found != mod_data.end()) {
@@ -620,7 +620,7 @@ void player::mutate()
         if (has_trait(base_mutation)) {
             // ...consider the mutations that replace it.
             for( auto &mutation : base_mdata.replacements ) {
-                bool valid_ok = mutation.obj().valid;
+                bool valid_ok = mutation->valid;
 
                 if ( (mutation_ok(mutation, force_good, force_bad)) &&
                      (valid_ok) ) {
@@ -630,7 +630,7 @@ void player::mutate()
 
             // ...consider the mutations that add to it.
             for( auto &mutation : base_mdata.additions ) {
-                bool valid_ok = mutation.obj().valid;
+                bool valid_ok = mutation->valid;
 
                 if ( (mutation_ok(mutation, force_good, force_bad)) &&
                      (valid_ok) ) {
@@ -712,7 +712,7 @@ void player::mutate()
         // goes against our intention of a good/bad mutation
         for (size_t i = 0; i < valid.size(); i++) {
             if ( (!mutation_ok(valid[i], force_good, force_bad)) ||
-                 (!valid[i].obj().valid) ) {
+                 (!valid[i]->valid) ) {
                 valid.erase(valid.begin() + i);
                 i--;
             }
@@ -1152,7 +1152,7 @@ void player::remove_mutation( const trait_id &mut )
 
 bool player::has_child_flag( const trait_id &flag ) const
 {
-    for( auto &elem : flag.obj().replacements ) {
+    for( auto &elem : flag->replacements ) {
         trait_id tmp = elem;
         if (has_trait(tmp) || has_child_flag(tmp)) {
             return true;
@@ -1163,7 +1163,7 @@ bool player::has_child_flag( const trait_id &flag ) const
 
 void player::remove_child_flag( const trait_id &flag )
 {
-    for( auto &elem : flag.obj().replacements ) {
+    for( auto &elem : flag->replacements ) {
         trait_id tmp = elem;
         if (has_trait(tmp)) {
             remove_mutation(tmp);

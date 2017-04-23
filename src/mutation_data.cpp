@@ -345,7 +345,7 @@ nc_color mutation_branch::get_display_color() const
 
 const std::string &mutation_branch::get_name( const trait_id &mutation_id )
 {
-    return mutation_id.obj().name;
+    return mutation_id->name;
 }
 
 const mutation_branch::MutationMap &mutation_branch::get_all()
@@ -376,5 +376,5 @@ void load_dream(JsonObject &jsobj)
 
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
 {
-    return a.obj().name < b.obj().name;
+    return a->name < b->name;
 }

@@ -1692,7 +1692,7 @@ int player::bodytemp_modifier_traits_floor() const
 {
     int mod = 0;
     for( auto &iter : my_mutations ) {
-        mod += iter.first.obj().bodytemp_sleep;
+        mod += iter.first->bodytemp_sleep;
     }
     return mod;
 }
@@ -3024,7 +3024,7 @@ bool player::has_higher_trait( const trait_id &flag ) const
 bool player::crossed_threshold() const
 {
     for( auto &mut : my_mutations ) {
-        if( mut.first.obj().threshold ) {
+        if( mut.first->threshold ) {
             return true;
         }
     }
