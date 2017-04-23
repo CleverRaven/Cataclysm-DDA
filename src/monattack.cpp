@@ -106,13 +106,13 @@ const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_targeted( "targeted" );
 const efftype_id effect_teleglow( "teleglow" );
 
-const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
-const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
-const trait_id trait_MARLOSS( "MARLOSS" );
-const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
-const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
-const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
-const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
+static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
+static const trait_id trait_MARLOSS( "MARLOSS" );
+static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
+static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
+static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
 // shared utility functions
 int within_visual_range(monster *z, int max_range) {

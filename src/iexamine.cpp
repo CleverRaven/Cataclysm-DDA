@@ -52,20 +52,20 @@ const skill_id skill_survival( "survival" );
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_teleglow( "teleglow" );
 
-const trait_id trait_AMORPHOUS( "AMORPHOUS" );
-const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
-const trait_id trait_BADKNEES( "BADKNEES" );
-const trait_id trait_BEAK_HUM( "BEAK_HUM" );
-const trait_id trait_ILLITERATE( "ILLITERATE" );
-const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
-const trait_id trait_M_DEFENDER( "M_DEFENDER" );
-const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
-const trait_id trait_M_FERTILE( "M_FERTILE" );
-const trait_id trait_M_SPORES( "M_SPORES" );
-const trait_id trait_PARKOUR( "PARKOUR" );
-const trait_id trait_PROBOSCIS( "PROBOSCIS" );
-const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
-const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
+static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
+static const trait_id trait_BADKNEES( "BADKNEES" );
+static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
+static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
+static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
+static const trait_id trait_M_FERTILE( "M_FERTILE" );
+static const trait_id trait_M_SPORES( "M_SPORES" );
+static const trait_id trait_PARKOUR( "PARKOUR" );
+static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
+static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
 static void pick_plant( player &p, const tripoint &examp, std::string itemType, ter_id new_ter,
                         bool seeds = false );

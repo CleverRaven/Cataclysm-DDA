@@ -59,10 +59,10 @@
 
 const char clear_str[] = "                                                ";
 
-const trait_id trait_HYPEROPIC( "HYPEROPIC" );
-const trait_id trait_MYOPIC( "MYOPIC" );
-const trait_id trait_NIGHTVISION( "NIGHTVISION" );
-const trait_id trait_URSINE_EYE( "URSINE_EYE" );
+static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+static const trait_id trait_MYOPIC( "MYOPIC" );
+static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
+static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 
 void draw_tabs(WINDOW *w, std::string sTab);
 void draw_points( WINDOW *w, points_left &points, int netPointCost = 0 );

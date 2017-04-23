@@ -112,14 +112,14 @@ const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tied( "tied" );
 const efftype_id effect_webbed( "webbed" );
 
-const trait_id trait_ANIMALDISCORD( "ANIMALDISCORD" );
-const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
-const trait_id trait_BEE( "BEE" );
-const trait_id trait_FLOWERS( "FLOWERS" );
-const trait_id trait_PACIFIST( "PACIFIST" );
-const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
-const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
-const trait_id trait_TERRIFYING( "TERRIFYING" );
+static const trait_id trait_ANIMALDISCORD( "ANIMALDISCORD" );
+static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
+static const trait_id trait_BEE( "BEE" );
+static const trait_id trait_FLOWERS( "FLOWERS" );
+static const trait_id trait_PACIFIST( "PACIFIST" );
+static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
+static const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
+static const trait_id trait_TERRIFYING( "TERRIFYING" );
 
 monster::monster()
 {

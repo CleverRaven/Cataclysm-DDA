@@ -52,20 +52,20 @@ const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_asthma( "asthma" );
 
-const trait_id trait_CENOBITE( "CENOBITE" );
-const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
-const trait_id trait_MASOCHIST( "MASOCHIST" );
-const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
-const trait_id trait_NOPAIN( "NOPAIN" );
-const trait_id trait_PACIFIST( "PACIFIST" );
-const trait_id trait_PRED1( "PRED1" );
-const trait_id trait_PRED2( "PRED2" );
-const trait_id trait_PRED3( "PRED3" );
-const trait_id trait_PRED4( "PRED4" );
-const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
-const trait_id trait_SAPIOVORE( "SAPIOVORE" );
-const trait_id trait_SELFAWARE( "SELFAWARE" );
-const trait_id trait_TOLERANCE( "TOLERANCE" );
+static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
+static const trait_id trait_MASOCHIST( "MASOCHIST" );
+static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_PACIFIST( "PACIFIST" );
+static const trait_id trait_PRED1( "PRED1" );
+static const trait_id trait_PRED2( "PRED2" );
+static const trait_id trait_PRED3( "PRED3" );
+static const trait_id trait_PRED4( "PRED4" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
+static const trait_id trait_SELFAWARE( "SELFAWARE" );
+static const trait_id trait_TOLERANCE( "TOLERANCE" );
 
 iuse_transform::~iuse_transform()
 {

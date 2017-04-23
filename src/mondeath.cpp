@@ -51,12 +51,12 @@ const efftype_id effect_no_ammo( "no_ammo" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_rat( "rat" );
 
-const trait_id trait_PACIFIST( "PACIFIST" );
-const trait_id trait_PRED1( "PRED1" );
-const trait_id trait_PRED2( "PRED2" );
-const trait_id trait_PRED3( "PRED3" );
-const trait_id trait_PRED4( "PRED4" );
-const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_PACIFIST( "PACIFIST" );
+static const trait_id trait_PRED1( "PRED1" );
+static const trait_id trait_PRED2( "PRED2" );
+static const trait_id trait_PRED3( "PRED3" );
+static const trait_id trait_PRED4( "PRED4" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 
 void mdeath::normal(monster *z)
 {

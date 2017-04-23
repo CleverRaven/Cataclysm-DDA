@@ -41,9 +41,9 @@ const efftype_id effect_on_roof( "on_roof" );
 const efftype_id effect_bounced( "bounced" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 
-const trait_id trait_TRIGGERHAPPY( "TRIGGERHAPPY" );
-const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
-const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
+static const trait_id trait_TRIGGERHAPPY( "TRIGGERHAPPY" );
+static const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
+static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
 
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire( const Character &p, const itype &firing );

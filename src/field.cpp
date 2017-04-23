@@ -38,7 +38,7 @@ const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_teargas( "teargas" );
 const efftype_id effect_webbed( "webbed" );
 
-const trait_id trait_M_SKIN2( "M_SKIN2" );
+static const trait_id trait_M_SKIN2( "M_SKIN2" );
 
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)

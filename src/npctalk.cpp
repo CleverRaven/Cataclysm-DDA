@@ -50,22 +50,22 @@ const efftype_id effect_infection( "infection" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_sleep( "sleep" );
 
-const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
-const trait_id trait_ELFAEYES( "ELFAEYES" );
-const trait_id trait_FLOWERS( "FLOWERS" );
-const trait_id trait_GROWL( "GROWL" );
-const trait_id trait_HISS( "HISS" );
-const trait_id trait_LIAR( "LIAR" );
-const trait_id trait_MINOTAUR( "MINOTAUR" );
-const trait_id trait_MUZZLE_LONG( "MUZZLE_LONG" );
-const trait_id trait_MUZZLE( "MUZZLE" );
-const trait_id trait_PROF_FED( "PROF_FED" );
-const trait_id trait_SABER_TEETH( "SABER_TEETH" );
-const trait_id trait_SNARL( "SNARL" );
-const trait_id trait_TAIL_FLUFFY( "TAIL_FLUFFY" );
-const trait_id trait_TERRIFYING( "TERRIFYING" );
-const trait_id trait_TRUTHTELLER( "TRUTHTELLER" );
-const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
+static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
+static const trait_id trait_ELFAEYES( "ELFAEYES" );
+static const trait_id trait_FLOWERS( "FLOWERS" );
+static const trait_id trait_GROWL( "GROWL" );
+static const trait_id trait_HISS( "HISS" );
+static const trait_id trait_LIAR( "LIAR" );
+static const trait_id trait_MINOTAUR( "MINOTAUR" );
+static const trait_id trait_MUZZLE_LONG( "MUZZLE_LONG" );
+static const trait_id trait_MUZZLE( "MUZZLE" );
+static const trait_id trait_PROF_FED( "PROF_FED" );
+static const trait_id trait_SABER_TEETH( "SABER_TEETH" );
+static const trait_id trait_SNARL( "SNARL" );
+static const trait_id trait_TAIL_FLUFFY( "TAIL_FLUFFY" );
+static const trait_id trait_TERRIFYING( "TERRIFYING" );
+static const trait_id trait_TRUTHTELLER( "TRUTHTELLER" );
+static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 
 struct dialogue;
 

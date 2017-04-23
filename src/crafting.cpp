@@ -35,9 +35,9 @@ const efftype_id effect_contacts( "contacts" );
 void remove_from_component_lookup( recipe *r );
 void drop_or_handle( const item &newit, player &p );
 
-const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
-const trait_id trait_PAWS( "PAWS" );
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
+static const trait_id trait_PAWS( "PAWS" );
 
 static bool crafting_allowed( const player &p, const recipe &rec )
 {

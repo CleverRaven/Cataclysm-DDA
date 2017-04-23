@@ -47,8 +47,8 @@ auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
 const efftype_id effect_deaf( "deaf" );
 const efftype_id effect_sleep( "sleep" );
 
-const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
-const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
+static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
+static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 
 struct sound_event {
     int volume;

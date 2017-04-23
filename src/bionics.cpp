@@ -63,9 +63,9 @@ const efftype_id effect_took_xanax( "took_xanax" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 
-const trait_id trait_HYPEROPIC( "HYPEROPIC" );
-const trait_id trait_MYOPIC( "MYOPIC" );
-const trait_id trait_PROF_MED( "PROF_MED" );
+static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+static const trait_id trait_MYOPIC( "MYOPIC" );
+static const trait_id trait_PROF_MED( "PROF_MED" );
 
 namespace
 {

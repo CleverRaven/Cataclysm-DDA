@@ -137,7 +137,7 @@ vehicle_part &veh_interact::select_part( const vehicle &veh, const part_selector
     return *res;
 }
 
-const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 /**
  * Creates a blank veh_interact window.

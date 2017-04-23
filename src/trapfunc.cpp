@@ -28,10 +28,10 @@ const efftype_id effect_lightsnare( "lightsnare" );
 const efftype_id effect_slimed( "slimed" );
 const efftype_id effect_tetanus( "tetanus" );
 
-const trait_id trait_INFIMMUNE( "INFIMMUNE" );
-const trait_id trait_INFRESIST( "INFRESIST" );
-const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
-const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
+static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
+static const trait_id trait_INFRESIST( "INFRESIST" );
+static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
+static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 
 // A pit becomes less effective as it fills with corpses.
 float pit_effectiveness( const tripoint &p )
