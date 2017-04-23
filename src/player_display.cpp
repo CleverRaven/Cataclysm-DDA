@@ -906,9 +906,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     }
                 }
                 if( line < traitslist.size() ) {
-                    const auto &mdata = traitslist[line].obj();
                     fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
-                                    mdata.description );
+                                    traitslist[line]->description );
                 }
                 wrefresh( w_traits );
                 wrefresh( w_info );

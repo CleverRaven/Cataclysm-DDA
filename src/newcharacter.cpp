@@ -2131,8 +2131,7 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
             } else {
                 for( auto &current_trait : current_traits ) {
                     wprintz(w_traits, c_ltgray, "\n");
-                    const auto &mdata = current_trait.obj();
-                    wprintz( w_traits, mdata.get_display_color(), mdata.name.c_str() );
+                    wprintz( w_traits, current_trait->get_display_color(), current_trait->name.c_str() );
                 }
             }
             wrefresh(w_traits);

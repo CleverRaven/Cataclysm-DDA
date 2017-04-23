@@ -1435,8 +1435,7 @@ void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) con
     // Lower penalty for bps covered only by XL armor
     const auto oversize = exclusive_flag_coverage( "OVERSIZE" );
     for( const auto &mut_pair : my_mutations ) {
-        const auto &branch = mut_pair.first.obj();
-        apply_mut_encumbrance( vals, branch, oversize );
+        apply_mut_encumbrance( vals, *mut_pair.first, oversize );
     }
 }
 
@@ -2122,8 +2121,7 @@ resistances Character::mutation_armor( body_part bp ) const
 {
     resistances res;
     for( auto &iter : my_mutations ) {
-        const mutation_branch &mb = iter.first.obj();
-        res += mb.damage_resistance( bp );
+        res += iter.first->damage_resistance( bp );
     }
 
     return res;
