@@ -3573,7 +3573,7 @@ void player::search_surroundings()
             if( !sees( x, y ) ) {
                 continue;
             }
-            if( tr.name.empty() || tr.can_see( tripoint( x, y, z ), *this ) ) {
+            if( tr.name().empty() || tr.can_see( tripoint( x, y, z ), *this ) ) {
                 // Already seen, or has no name -> can never be seen
                 continue;
             }
@@ -3584,7 +3584,7 @@ void player::search_surroundings()
                     const std::string direction = direction_name(
                         direction_from(posx(), posy(), x, y));
                     add_msg_if_player(_("You've spotted a %1$s to the %2$s!"),
-                                      tr.name.c_str(), direction.c_str());
+                                      tr.name().c_str(), direction.c_str());
                 }
                 add_known_trap( tripoint( x, y, z ), tr);
             }
