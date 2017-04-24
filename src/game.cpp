@@ -7882,7 +7882,7 @@ void game::print_trap_info( const tripoint &lp, WINDOW *w_look, const int column
 {
     const trap &tr = m.tr_at( lp );
     if( tr.can_see( lp, u )) {
-        mvwprintz(w_look, line++, column, tr.color, "%s", tr.name.c_str());
+        mvwprintz(w_look, line++, column, tr.color, "%s", tr.name().c_str());
     }
 }
 
@@ -11182,10 +11182,10 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
         // Note: in non-z-level mode, ledges obey different rules and so should be handled as regular traps
         if( tr.loadid == tr_ledge && m.has_zlevels() ) {
             if( !boardable && !m.has_floor_or_support( dest_loc ) ) {
-                harmful_stuff.push_back( tr.name.c_str() );
+                harmful_stuff.push_back( tr.name().c_str() );
             }
         } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() ) {
-            harmful_stuff.push_back( tr.name.c_str() );
+            harmful_stuff.push_back( tr.name().c_str() );
         }
 
         static const std::set< body_part > sharp_bps = {
