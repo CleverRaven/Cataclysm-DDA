@@ -959,9 +959,18 @@ bool player::install_bionics( const itype &type, int skill_level )
     }
 
     const int pk = get_painkiller();
-    if( pk < 100 ) {
-        popup( _( "You need %i more painkiller intensity to install bionics." ), 100-pk );
-        return false;
+    int pain_cap = 100;
+    if( has_trait( "PAINRESIST_TROGLO" ) ) {
+        pain_cap = roll_remainder( pain_cap * 0.5f );
+    } else if( has_trait( "PAINRESIST" ) ) {
+        pain_cap = roll_remainder( pain_cap * 0.67f );
+    }
+
+    if( !has_trait( "NOPAIN" ) ) {
+        if( pk < pain_cap ) {
+            popup( _( "You need %i more painkiller intensity to install bionics." ), 100-pk );
+            return false;
+        }
     }
 
     if( !query_yn( _( "WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Continue anyway?" ),
