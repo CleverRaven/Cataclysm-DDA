@@ -4448,18 +4448,17 @@
                     "tank_top",
                     "socks",
                     "fishing_waders",
-                    "knife_hunting",
                     "knit_scarf",
                     "fishing_rod_professional",
                     "fish_bait",
                     "fish_trap",
                     "vest",
                     "hat_boonie",
-                    "jacket_flannel",
-                    "sheath"
+                    "jacket_flannel"
                 ],
                 "entries": [
-                    { "item": "lighter", "charges": 100 }
+                    { "item": "lighter", "charges": 100 },
+                    { "item": "knife_hunting", "container-item": "sheath" }
                 ]
             },
             "male": [
