@@ -1851,13 +1851,13 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
  * Mark a part as removed from the vehicle.
  * @return bool true if the vehicle's 0,0 point shifted.
  */
-bool vehicle::remove_part (int p)
+bool vehicle::remove_part( int p )
 {
-    if (p >= (int)parts.size()) {
+    if( p >= (int)parts.size() ) {
         debugmsg("Tried to remove part %d but only %d parts!", p, parts.size());
         return false;
     }
-    if (parts[p].removed) {
+    if( parts[p].removed ) {
         /* This happens only when we had to remove part, because it was depending on
          * other part (using recursive remove_part() call) - currently curtain
          * depending on presence of window and seatbelt depending on presence of seat.
@@ -1871,12 +1871,12 @@ bool vehicle::remove_part (int p)
 
     // if a windshield is removed (usually destroyed) also remove curtains
     // attached to it.
-    if(part_flag(p, "WINDOW")) {
-        int curtain = part_with_feature(p, "CURTAIN", false);
-        if (curtain >= 0) {
+    if( part_flag( p, "WINDOW" ) ) {
+        int curtain = part_with_feature( p, "CURTAIN", false );
+        if( curtain >= 0 ) {
             item it = parts[curtain].properties_to_item();
             g->m.add_item_or_charges( part_loc, it );
-            remove_part(curtain);
+            remove_part( curtain );
             g->m.set_transparency_cache_dirty( smz );
         }
     }
@@ -1886,17 +1886,17 @@ bool vehicle::remove_part (int p)
     }
 
     //Ditto for seatbelts
-    if(part_flag(p, "SEAT")) {
-        int seatbelt = part_with_feature(p, "SEATBELT", false);
-        if (seatbelt >= 0) {
+    if( part_flag( p, "SEAT" ) ) {
+        int seatbelt = part_with_feature( p, "SEATBELT", false );
+        if( seatbelt >= 0 ) {
             item it = parts[seatbelt].properties_to_item();
             g->m.add_item_or_charges( part_loc, it );
-            remove_part(seatbelt);
+            remove_part( seatbelt );
         }
     }
 
     // Unboard any entities standing on removed boardable parts
-    if(part_flag(p, "BOARDABLE")) {
+    if( part_flag( p, "BOARDABLE" ) ) {
         std::vector<int> bp = boarded_parts();
         for( auto &elem : bp ) {
             if( elem == p ) {
@@ -1906,20 +1906,20 @@ bool vehicle::remove_part (int p)
     }
 
     // Update current engine configuration if needed
-    if(part_flag(p, "ENGINE") && engines.size() > 1){
+    if( part_flag( p, "ENGINE" ) && engines.size() > 1 ) {
         bool any_engine_on = false;
 
-        for(auto &e : engines) {
-            if(e != p && is_part_on(e)) {
+        for( auto &e : engines ) {
+            if( e != p && is_part_on( e ) ) {
                 any_engine_on = true;
                 break;
             }
         }
 
-        if(!any_engine_on) {
+        if( !any_engine_on ) {
             engine_on = false;
-            for(auto &e : engines) {
-                toggle_specific_part(e, true);
+            for( auto &e : engines ) {
+                toggle_specific_part( e, true );
             }
         }
     }
@@ -1939,31 +1939,41 @@ bool vehicle::remove_part (int p)
     }
 
     const auto iter = labels.find( label( parts[p].mount.x, parts[p].mount.y ) );
-    if( iter != labels.end() ) {
+    const bool no_label = iter != labels.end();
+    const bool grab_found = g->u.grab_type == OBJECT_VEHICLE && g->u.grab_point == part_loc;
+    // Checking these twice to avoid calling the relatively expensive parts_at_relative() unecessarally.
+    if( no_label || grab_found ) {
         if( parts_at_relative( parts[p].mount.x, parts[p].mount.y, false ).empty() ) {
-            labels.erase( iter );
+            if( no_label ) {
+                labels.erase( iter );
+            }
+            if( grab_found ) {
+                add_msg( m_info, _( "The vehicle part you were holding has been destroyed!" ) );
+                g->u.grab_type = OBJECT_NONE;
+                g->u.grab_point = tripoint_zero;
+            }
         }
     }
 
-    for( auto &i : get_items(p) ) {
+    for( auto &i : get_items( p ) ) {
         // Note: this can spawn items on the other side of the wall!
         tripoint dest( part_loc.x + rng( -3, 3 ), part_loc.y + rng( -3, 3 ), smz );
         g->m.add_item_or_charges( dest, i );
     }
-    g->m.dirty_vehicle_list.insert(this);
+    g->m.dirty_vehicle_list.insert( this );
     refresh();
     return shift_if_needed();
 }
 
 void vehicle::part_removal_cleanup() {
     bool changed = false;
-    for (std::vector<vehicle_part>::iterator it = parts.begin(); it != parts.end(); /* noop */) {
-        if ((*it).removed) {
+    for( std::vector<vehicle_part>::iterator it = parts.begin(); it != parts.end(); /* noop */ ) {
+        if( it->removed ) {
             auto items = get_items( std::distance( parts.begin(), it ) );
             while( !items.empty() ) {
                 items.erase( items.begin() );
             }
-            it = parts.erase(it);
+            it = parts.erase( it );
             changed = true;
         }
         else {
@@ -1971,10 +1981,10 @@ void vehicle::part_removal_cleanup() {
         }
     }
     removed_part_count = 0;
-    if (changed || parts.empty()) {
+    if( changed || parts.empty() ) {
         refresh();
-        if(parts.empty()) {
-            g->m.destroy_vehicle(this);
+        if( parts.empty() ) {
+            g->m.destroy_vehicle( this );
             return;
         } else {
             g->m.update_vehicle_cache( this, smz );
