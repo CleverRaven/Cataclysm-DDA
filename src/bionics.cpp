@@ -963,7 +963,7 @@ bool player::install_bionics( const itype &type, int skill_level )
     if( has_trait( "PAINRESIST_TROGLO" ) ) {
         pain_cap = pain_cap / 2;
     } else if( has_trait( "PAINRESIST" ) ) {
-        pain_cap = pain_cap / 3;
+        pain_cap = pain_cap / 1.5;
     }
 
     if( !has_trait( "NOPAIN" ) && !has_trait( "CENOBITE" ) ) {
