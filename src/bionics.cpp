@@ -966,9 +966,15 @@ bool player::install_bionics( const itype &type, int skill_level )
         pain_cap = roll_remainder( pain_cap * 0.67f );
     }
 
-    if( !has_trait( "NOPAIN" ) ) {
-        if( pk < pain_cap ) {
-            popup( _( "You need %i more painkiller intensity to install bionics." ), 100-pk );
+    if( !has_trait( "NOPAIN" ) && !has_trait( "CENOBITE" ) ) {
+        if( pk == 0 ) {
+            popup( _( "You need to take painkillers to make installing bionics tolerable." ) );
+            return false;
+        } else if( pk < roll_remainder( pain_cap / 2 ) ) {
+            popup( _( "You need to be a lot more numb to tolerate installing bionics.  Note that painkillers you've already taken might not be fully working yet." ) );
+            return false;
+        } else if( pk < pain_cap ) {
+            popup( _( "You aren't quite numb enough to tolerate installing bionics.  Note that painkillers you've already taken might not be fully working yet." ) );
             return false;
         }
     }
