@@ -816,6 +816,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 .edit( new_filter );
                 if( !popup.canceled() ) {
                     filter_changed = true;
+                } else {
+                    wrefresh(g->w_terrain);
                 }
             } else if( action == "ANY_INPUT" && raw_input_char == '`' ) {
                 std::string ext = string_input_popup()
@@ -872,6 +874,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                     }
                     if( matches.empty() ) {
                         popup( _( "Your filter returned no results" ) );
+                        wrefresh(g->w_terrain);
                         // The filter must have results, or simply be emptied or canceled,
                         // as this screen can't be reached without there being
                         // items available
@@ -888,6 +891,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 filter = new_filter;
                 filter_changed = false;
                 selected = 0;
+                wrefresh(g->w_terrain);
             }
             item &selected_item = stacked_here[matches[selected]].begin()->_item;
 
