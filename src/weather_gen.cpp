@@ -4,6 +4,7 @@
 #include "calendar.h"
 #include "simplexnoise.h"
 #include "json.h"
+#include "rng.h"
 
 #include <cmath>
 #include <fstream>
@@ -178,7 +179,7 @@ void weather_generator::test_weather() const
 
     for( calendar i( calendar::turn );
          i.get_turn() < calendar::turn + 14400 * 2 * calendar::turn.year_length(); i += 200 ) {
-        w_point w = get_weather( tripoint( 0, 0, 0 ), i, rand() );
+        w_point w = get_weather( tripoint( 0, 0, 0 ), i, xrand() );
         testfile << i.get_turn() << "," << w.temperature << "," << w.humidity << "," << w.pressure <<
                  std::endl;
     }

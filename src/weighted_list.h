@@ -7,6 +7,7 @@
 #include <functional>
 #include <cstdlib>
 #include <cmath>
+#include <climits>
 
 template <typename W, typename T> struct weighted_object {
     weighted_object( const T &obj, const W &weight ) : obj( obj ), weight( weight ) {}
@@ -93,7 +94,7 @@ template <typename W, typename T> struct weighted_list {
             }
         }
         const T *pick() const {
-            return pick( rand() );
+            return pick( xrand() );
         }
 
         /**
@@ -110,7 +111,7 @@ template <typename W, typename T> struct weighted_list {
             }
         }
         T *pick() {
-            return pick( rand() );
+            return pick( xrand() );
         }
 
         /**
@@ -222,7 +223,7 @@ template <typename T> struct weighted_float_list : public weighted_list<double, 
     protected:
 
         size_t pick_ent( unsigned int randi ) const override {
-            double picked = ( double )( randi % RAND_MAX ) / ( double )RAND_MAX * ( this->total_weight );
+            double picked = ( double )( randi % ULLONG_MAX ) / ( double )ULLONG_MAX * ( this->total_weight );
             double accumulated_weight = 0;
             size_t i;
             for( i = 0; i < this->objects.size(); i++ ) {

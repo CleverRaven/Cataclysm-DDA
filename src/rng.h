@@ -6,6 +6,32 @@
 
 #include <functional>
 
+/* http://xoroshiro.di.unimi.it/xoroshiro128plus.c */
+extern unsigned long long xrshr_state[2];
+static inline unsigned long long xrshr_rotl( const unsigned long long x, int k )
+{
+    return (x << k) | (x >> (64 - k));
+}
+
+static inline void xsrand( unsigned long long seed )
+{
+    xrshr_state[0] = seed;
+    xrshr_state[1] = ~seed;
+}
+
+static inline unsigned long long xrand()
+{
+    const unsigned long long s0 = xrshr_state[0];
+    unsigned long long s1 = xrshr_state[1];
+    const unsigned long long result = s0 + s1;
+
+    s1 ^= s0;
+    xrshr_state[0] = xrshr_rotl(s0, 55) ^ s1 ^ (s1 << 14);
+    xrshr_state[1] = xrshr_rotl(s1, 36);
+
+    return result;
+}
+
 long rng( long val1, long val2 );
 double rng_float( double val1, double val2 );
 bool one_in( int chance );
