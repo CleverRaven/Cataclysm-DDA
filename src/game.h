@@ -290,7 +290,7 @@ class game
         /** Returns the NPC index of the npc at p. Returns -1 if no NPC is present. */
         int  npc_at( const tripoint &p ) const;
         /** Returns the NPC index of the npc with a matching ID. Returns -1 if no NPC is present. */
-        int  npc_by_id(const int id) const;
+        npc *npc_by_id(const int id) const;
         /** Returns the Creature at tripoint p */
         Creature *critter_at( const tripoint &p, bool allow_hallucination = false );
         Creature const* critter_at( const tripoint &p, bool allow_hallucination = false ) const;

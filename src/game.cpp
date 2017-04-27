@@ -6612,14 +6612,14 @@ int game::npc_at( const tripoint &p ) const
     return -1;
 }
 
-int game::npc_by_id(const int id) const
+npc *game::npc_by_id(const int id) const
 {
     for (size_t i = 0; i < active_npc.size(); i++) {
         if (active_npc[i]->getID() == id) {
-            return (int)i;
+            return active_npc[i];
         }
     }
-    return -1;
+    return nullptr;
 }
 
 Creature *game::critter_at( const tripoint &p, bool allow_hallucination )
