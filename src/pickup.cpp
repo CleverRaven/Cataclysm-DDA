@@ -885,12 +885,17 @@ void Pickup::pick_up( const tripoint &pos, int min )
                         .edit( new_filter );
                         if( popup.canceled() ) {
                             new_filter = filter;
+                            filter_changed = false;
                         }
                     }
                 }
-                filter = new_filter;
-                filter_changed = false;
-                selected = 0;
+                if( filter_changed ) {
+                    filter = new_filter;
+                    filter_changed = false;
+                    selected = 0;
+                    start = 0;
+                    iScrollPos = 0;
+                }
                 wrefresh(g->w_terrain);
             }
             item &selected_item = stacked_here[matches[selected]].begin()->_item;
