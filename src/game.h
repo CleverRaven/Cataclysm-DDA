@@ -524,6 +524,18 @@ class game
         int weight_dragged; // Computed once, when you start dragging
 
         int ter_view_x, ter_view_y, ter_view_z;
+
+    private:
+        WINDOW_PTR w_terrain_ptr;
+        WINDOW_PTR w_minimap_ptr;
+        WINDOW_PTR w_pixel_minimap_ptr;
+        WINDOW_PTR w_HP_ptr;
+        WINDOW_PTR w_messages_short_ptr;
+        WINDOW_PTR w_messages_long_ptr;
+        WINDOW_PTR w_location_ptr;
+        WINDOW_PTR w_status_ptr;
+        WINDOW_PTR w_status2_ptr;
+    public:
         WINDOW *w_terrain;
         WINDOW *w_overmap;
         WINDOW *w_omlegend;
