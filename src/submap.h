@@ -3,7 +3,6 @@
 #define SUBMAP_H
 
 #include "game_constants.h"
-#include "computer.h"
 #include "basecamp.h"
 #include "item.h"
 #include "field.h"
@@ -11,14 +10,17 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "active_item_cache.h"
+#include "copyable_unique_ptr.h"
 
 #include <vector>
 #include <list>
 #include <map>
 #include <string>
+#include <memory>
 
 class map;
 class vehicle;
+class computer;
 struct trap;
 struct ter_t;
 struct furn_t;
@@ -177,7 +179,7 @@ struct submap {
      * TODO: submap owns these pointers, they ought to be unique_ptrs.
      */
     std::vector<vehicle*> vehicles;
-    computer comp;
+    copyable_unique_ptr<computer> comp;
     basecamp camp;  // only allowing one basecamp per submap
 
     submap();

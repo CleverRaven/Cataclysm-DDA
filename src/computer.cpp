@@ -37,17 +37,9 @@ const efftype_id effect_stemcell_treatment( "stemcell_treatment" );
 
 int alerts = 0;
 
-computer::computer(): name(DEFAULT_COMPUTER_NAME)
+computer::computer( const std::string &new_name, int new_security ): name( new_name )
 {
-    security = 0;
-    w_terminal = NULL;
-    w_border = NULL;
-    mission_id = -1;
-}
-
-computer::computer(std::string Name, int Security): name(Name)
-{
-    security = Security;
+    security = new_security;
     w_terminal = NULL;
     w_border = NULL;
     mission_id = -1;
