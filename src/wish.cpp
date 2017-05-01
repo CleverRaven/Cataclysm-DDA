@@ -476,6 +476,9 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
         wmenu.query();
         if( wmenu.ret >= 0 ) {
             item granted( opts[wmenu.ret] );
+            if( dynamic_cast<wish_item_callback *>( wmenu.callback )->incontainer ) {
+                granted = granted.in_its_container();
+            }
             prev_amount = amount;
             bool canceled = false;
             if( p != NULL ) {
@@ -488,9 +491,6 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
                 canceled = popup.canceled();
             }
             if( !canceled ) {
-                if( dynamic_cast<wish_item_callback *>( wmenu.callback )->incontainer ) {
-                    granted = granted.in_its_container();
-                }
                 if( p != NULL ) {
                     for( int i = 0; i < amount; i++ ) {
                         p->i_add( granted );
