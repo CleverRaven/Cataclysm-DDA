@@ -3228,8 +3228,11 @@ bool game::handle_action()
             break;
 
         case ACTION_CONTROL_VEHICLE:
-            if (u.has_active_mutation("SHELL2")) {
-                add_msg(m_info, _("You can't operate a vehicle while you're in your shell."));
+            if( u.has_active_mutation( "SHELL2" ) ) {
+                add_msg( m_info, _( "You can't operate a vehicle while you're in your shell." ) );
+            } else if( u.has_active_item( "acoustic_guitar" ) || u.has_active_item( "bagpipes" ) ||
+                u.has_active_item( "tuba" ) || u.has_active_item( "saxophone" ) || !u.is_wearing( "harmonica_holder" ) ) {
+                add_msg( m_info, _( "You can't operate a vehicle while playing musical instrument." ) );
             } else {
                 control_vehicle();
             }

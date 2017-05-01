@@ -1804,6 +1804,12 @@ long musical_instrument_actor::use( player *p, item *it, bool t, const tripoint&
         it->active = false;
         return 0;
     }
+    
+    if( p->controlling_vehicle && !p->is_wearing( "harmonica_holder" ) ) {
+        p->add_msg_if_player( m_bad, _("You can't play music while driving.") );
+        it->active = false;
+        return 0;
+    }
 
     // Stop playing a wind instrument when winded or even eventually become winded while playing it?
     // It's impossible to distinguish instruments for now anyways.
