@@ -4261,7 +4261,7 @@ void game::debug()
 
             weather_menu.query();
 
-            if( weather_menu.ret >= 0 && weather_menu.ret <= NUM_WEATHER_TYPES ) {
+            if( weather_menu.ret >= 0 && weather_menu.ret < NUM_WEATHER_TYPES ) {
                 weather_type selected_weather = ( weather_type )weather_menu.selected;
                 weather_override = selected_weather;
                 nextweather = calendar::turn;
