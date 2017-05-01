@@ -1,0 +1,17 @@
+[
+{
+    "type": "MOD_INFO",
+    "mod_type": "SUPPLEMENTAL",
+    "ident": "No_Survivor_Zombies",
+    "name": "No Survivor Zombies",
+    "description": "Removes survivor zombies from the game.",
+    "category": "monster_exclude",
+    "author": "DeadLeaves",
+    "path": "modinfo.json"
+},{
+    "type": "MONSTER_BLACKLIST",
+    "monsters": [
+        "mon_zombie_survivor"
+    ]
+}
+]
