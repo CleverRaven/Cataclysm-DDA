@@ -4082,8 +4082,6 @@ void game::debug()
                        _( "Quit to Main Menu" ),    // 33
                        _( "Cancel" ),
                        NULL );
-    int veh_num;
-    std::vector<std::string> opts;
     refresh_all();
     switch( action ) {
         case 1:
@@ -4172,21 +4170,25 @@ void game::debug()
                 debugmsg( "There's already vehicle here" );
             } else {
                 std::vector<vproto_id> veh_strings;
+                uimenu veh_menu;
+                veh_menu.text = _( "Choose vehicle to spawn" );
+                veh_menu.return_invalid = true;
+                int menu_ind = 0;
                 for( auto & elem : vehicle_prototype::get_all() ) {
                     if( elem != vproto_id( "custom" ) ) {
                         const vehicle_prototype &proto = elem.obj();
                         veh_strings.push_back( elem );
                         //~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
-                        opts.push_back( string_format( _( "%1$s (%2$s)" ), _( proto.name.c_str() ),
-                                                       elem.c_str() ) );
+                        veh_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, string_format( _( "%1$s (%2$s)" ),
+                                                       _( proto.name.c_str() ), elem.c_str() ) );
+                        ++menu_ind;
                     }
                 }
-                opts.push_back( std::string( _( "Cancel" ) ) );
-                veh_num = menu_vec( false, _( "Choose vehicle to spawn" ), opts ) + 1;
-                veh_num -= 2;
-                if( veh_num < ( int )opts.size() - 1 ) {
+                veh_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, _( "Cancel" ) );
+                veh_menu.query();
+                if( veh_menu.ret >= 0 && veh_menu.ret < ( int )veh_strings.size() ) {
                     //Didn't pick Cancel
-                    const vproto_id &selected_opt = veh_strings[veh_num];
+                    const vproto_id &selected_opt = veh_strings[veh_menu.ret];
                     tripoint dest = u.pos(); // TODO: Allow picking this when add_vehicle has 3d argument
                     vehicle *veh = m.add_vehicle( selected_opt, dest.x, dest.y, -90, 100, 0 );
                     if( veh != NULL ) {
