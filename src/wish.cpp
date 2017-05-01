@@ -477,31 +477,36 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
         if( wmenu.ret >= 0 ) {
             item granted( opts[wmenu.ret] );
             prev_amount = amount;
+            bool canceled = false;
             if( p != NULL ) {
-                string_input_popup()
+                string_input_popup popup;
+                popup
                 .title( _( "How many?" ) )
                 .width( 20 )
                 .description( granted.tname() )
                 .edit( amount );
+                canceled = popup.canceled();
             }
-            if( dynamic_cast<wish_item_callback *>( wmenu.callback )->incontainer ) {
-                granted = granted.in_its_container();
-            }
-            if( p != NULL ) {
-                for( int i = 0; i < amount; i++ ) {
-                    p->i_add( granted );
+            if( !canceled ) {
+                if( dynamic_cast<wish_item_callback *>( wmenu.callback )->incontainer ) {
+                    granted = granted.in_its_container();
                 }
-                p->invalidate_crafting_inventory();
-            } else if( x >= 0 && y >= 0 ) {
-                g->m.add_item_or_charges( tripoint( x, y, z ), granted );
-                wmenu.keypress = 'q';
-            }
-            if( amount > 0 ) {
-                dynamic_cast<wish_item_callback *>( wmenu.callback )->msg =
-                    _( "Wish granted. Wish for more or hit 'q' to quit." );
+                if( p != NULL ) {
+                    for( int i = 0; i < amount; i++ ) {
+                        p->i_add( granted );
+                    }
+                    p->invalidate_crafting_inventory();
+                } else if( x >= 0 && y >= 0 ) {
+                    g->m.add_item_or_charges( tripoint( x, y, z ), granted );
+                    wmenu.keypress = 'q';
+                }
+                if( amount > 0 ) {
+                    dynamic_cast<wish_item_callback *>( wmenu.callback )->msg =
+                        _( "Wish granted. Wish for more or hit 'q' to quit." );
+                }
             }
             uistate.wishitem_selected = wmenu.ret;
-            if( !amount ) {
+            if( canceled || amount <= 0 ) {
                 amount = prev_amount;
             }
         }
