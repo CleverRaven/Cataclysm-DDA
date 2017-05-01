@@ -12,15 +12,1795 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-22 16:45+0800\n"
-"PO-Revision-Date: 2017-04-22 08:54+0000\n"
-"Last-Translator: Brett Dong <brett.browning.dong@gmail.com>\n"
+"POT-Creation-Date: 2017-04-27 20:14+0800\n"
+"PO-Revision-Date: 2017-04-29 17:46+0000\n"
+"Last-Translator: Jazz <jazzzz@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: lang/extra/android/options.cpp src/auto_pickup.cpp src/options.cpp
+#: src/safemode_ui.cpp
+msgid "False"
+msgstr "Faux"
+
+#: lang/extra/android/options.cpp src/auto_pickup.cpp src/options.cpp
+#: src/safemode_ui.cpp
+msgid "True"
+msgstr "Vrai"
+
+#: lang/extra/android/options.cpp src/options.cpp
+#, c-format
+msgid "%d: %s"
+msgstr ""
+
+#: lang/extra/android/options.cpp src/options.cpp
+#, c-format
+msgid "Default: %s - Values: %s"
+msgstr "Par défaut: %s - Valeurs: %s"
+
+#: lang/extra/android/options.cpp src/options.cpp
+#, c-format
+msgid "Default: %s"
+msgstr "Par défaut: %s"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Default: False"
+msgstr "Par défaut: Faux"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Default: True"
+msgstr "Par défaut: Vrai"
+
+#: lang/extra/android/options.cpp src/options.cpp
+#, c-format
+msgid "Default: %d - Min: %d, Max: %d"
+msgstr "par défaut: %d - Min: %d, Max: %d"
+
+#: lang/extra/android/options.cpp src/options.cpp
+#, c-format
+msgid "Default: %d: %s"
+msgstr "Par défaut: %d: %s"
+
+#: lang/extra/android/options.cpp src/options.cpp
+#, c-format
+msgid "Default: %.2f - Min: %.2f, Max: %.2f"
+msgstr "par défaut: %.2f - Min: %.2f, Max: %.2f"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Deon's"
+msgstr "Deon"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Hoder's"
+msgstr "Hoder"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Basic"
+msgstr ""
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "General"
+msgstr "Général"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Interface"
+msgstr "Interface"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Graphics"
+msgstr "Graphismes"
+
+#: lang/extra/android/options.cpp src/action.cpp src/options.cpp
+msgid "Debug"
+msgstr "Debug"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "World Defaults"
+msgstr "Monde par défaut"
+
+#: lang/extra/android/options.cpp
+msgid "Android"
+msgstr "Android"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Default character name"
+msgstr "Nom de personnage par défaut"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"Set a default character name that will be used instead of a random name on "
+"character creation."
+msgstr "Définir un nom de personnage par défaut qui va être utilisé à la place du nom aléatoire à la création de personnage."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Auto pickup enabled"
+msgstr "Prise automatique activée"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"Enable item auto pickup.  Change pickup rules with the Auto Pickup Manager "
+"in the Help Menu ?3"
+msgstr "Activer la prise automatique d'objets. Changer les règles de prise avec le gestionnaire de prise auto dans le menu aide, ?3"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Auto pickup adjacent"
+msgstr "Prise automatique des objets adjacents"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"If true, will enable to pickup items one tile around to the player.  You can"
+" assign No Auto Pickup zones with the Zones Manager 'Y' key for eg.  your "
+"homebase."
+msgstr "Si vrai, permettra de prendre des objets à une tuile autour du joueur. Vous pouvez attribuer des zones de non-ramassage automatique avec la touche 'Y' du gestionnaire de zones, pour par exemple votre base de départ."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Auto pickup light items"
+msgstr "Prise automatique des objets légers"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"Auto pickup items with weight less than or equal to [option] * 50 grams.  "
+"You must also set the small items option.  '0' disables this option"
+msgstr "Prendre automatiquement les objets de poids inférieur ou égal à [option] * 50 grammes. Vous devez aussi activer l'option pour les petits objets. '0' désactive cette option."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Auto pickup small items"
+msgstr "Prise automatique des petits objets"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"Auto pickup items with volume less than or equal to [option] * 50 "
+"milliliters.  You must also set the light items option.  '0' disables this "
+"option"
+msgstr "Prendre automatiquement les objets de volume inférieur ou égal à [option] * 50 millilitres. Vous devez aussi activer l'option pour les objets légers. '0' désactive cette option."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Auto pickup safe mode"
+msgstr "Mode prudence de la prise auto"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"Auto pickup is disabled as long as you can see monsters nearby.  This is "
+"affected by 'Safe Mode proximity distance'."
+msgstr "La prise automatique est désactivée tant que vous pouvez voir des monstres à proximité. Cette option est affectée par la 'Distance de proximité pour le mode prudence'."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Dangerous pickups"
+msgstr "Prises automatiques dangereuses"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"If false, will cause player to drop new items that cause them to exceed the "
+"weight limit."
+msgstr ""
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Auto-safe mode"
+msgstr "Mode prudence auto"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"If true, turns safemode automatically back on after it being disabled "
+"beforehand.  See option 'Turns to re-enable safe mode'"
+msgstr "Si vrai, réactive automatiquement le mode prudence après qu'il ait été désactivé. Voir l'option 'Nombre de tours pour réactiver le mode prudence'"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Turns to re-enable safe mode"
+msgstr "Nombre de tours pour réactiver le mode prudence"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"Number of turns after safe mode is re-enabled if no hostiles are in 'Safe "
+"Mode proximity distance'."
+msgstr "Nombre de tours après lesquels le mode prudence sera réactivé si aucun ennemi n'est présent dans la 'Distance de proximité pour le mode prudence'."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Safe Mode"
+msgstr "Mode prudence"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"If true, will hold the game and display a warning if a hostile monster/npc "
+"is approaching."
+msgstr "Si vrai, interrompra la partie et affichera un avertissement quand mon monstre/pnj hostile approchera."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Safe Mode proximity distance"
+msgstr "Distance de proximité pour le mode prudence"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"If safe mode is enabled, distance to hostiles at which safe mode should show"
+" a warning.  0 = Max player viewdistance."
+msgstr "Lorsque le mode prudence est activé, cette option permet de régler à quelle distance un avertissement sera affiché. 0 = Distance maximale (vision du joueur)"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Safe Mode when driving"
+msgstr "Mode prudent en conduisant"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"When true, safe mode will alert you of hostiles while you are driving a "
+"vehicle."
+msgstr "Si vrai, le mode prudence vous alerte pendant que vous conduisez."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Realtime turn progression"
+msgstr "Progression du tour en temps réel"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"If enabled, monsters will take periodic gameplay turns.  This value is the "
+"delay between each turn, in seconds.  Works best with Safe Mode disabled.  0"
+" = disabled."
+msgstr "Si activé, les monstres auront des tours de jeu à intervalle régulier. La valeur représente le temps en secondes entre chaque tour. Fonctionne mieux avec le mode Prudence désactivé. 0 = désactivé."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Periodically autosave"
+msgstr "Sauvegarde automatique périodique"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"If true, game will periodically save the map.  Autosaves occur based on in-"
+"game turns or real-time minutes, whichever is larger."
+msgstr "Si vrai, le jeu sauvegardera périodiquement. Les sauvegardes auront lieu soit après un nombre de tours donné, soit suivant un temps écoulé, le plus grand des deux."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Game turns between autosaves"
+msgstr "Tours de jeu entre chaque sauvegarde"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Number of game turns between autosaves"
+msgstr "Nombre de tours de jeu entre chaque sauvegarde"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Real minutes between autosaves"
+msgstr "Minutes réelles entre les sauvegardes"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Number of real time minutes between autosaves"
+msgstr "Nombre de minutes réelles entre les sauvegardes"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Circular distances"
+msgstr "Distances circulaires"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"If true, the game will calculate range in a realistic way: light sources "
+"will be circles, diagonal movement will cover more ground and take longer.  "
+"If disabled, everything is square: moving to the northwest corner of a "
+"building takes as long as moving to the north wall."
+msgstr "Si vrai, le jeu calcule la portée de manière plus réaliste. Les source de lumière seront des cercles et les mouvements en diagonale prennent plus de temps."
+
+#: lang/extra/android/options.cpp src/craft_command.cpp src/options.cpp
+#: src/veh_interact.cpp
+msgid "No"
+msgstr "Non"
+
+#. ~ containers
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Watertight"
+msgstr "Étanche"
+
+#: lang/extra/android/options.cpp src/advanced_inv.cpp src/armor_layers.cpp
+#: src/construction.cpp src/options.cpp src/scenario.cpp
+msgid "All"
+msgstr "Tous"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Drop empty containers"
+msgstr "Poser les contenants vides"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"Set to drop empty containers after use.  No: Don't drop any. - Watertight: "
+"All except watertight containers. - All: Drop all containers."
+msgstr "Choisissez le sort des contenants vides après utilisation. Non: Les garder tous. -Étanche: Garder uniquement les contenants étanches. -Tous: Poser tous les contenants."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Auto notes"
+msgstr "Notes automatiques"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"If true, automatically sets notes on places that have stairs that go up or "
+"down"
+msgstr "Si vrai, place automatiquement des notes aux emplacements avec des escaliers."
+
+#. ~ ask for lifting restrictions
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Ask"
+msgstr "Demander"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Always"
+msgstr "Toujours"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Never"
+msgstr "Jamais"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "DeathCam"
+msgstr "Caméra de mort"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"Always: Always start deathcam.  Ask: Query upon death.  Never: Never show "
+"deathcam."
+msgstr "Une caméra vous permettant de voir votre mort. 'Toujours' démarrer la caméra. 'Demander' au moment de la mort. Ne 'Jamais' afficher la caméra."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Choose soundpack"
+msgstr "Pack de sons"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Choose the soundpack you want to use."
+msgstr "Choisir le pack de sons à utiliser."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Music Volume"
+msgstr "Volume de la musique"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Adjust the volume of the music being played in the background."
+msgstr "Régler le volume de la musique jouée en fond."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Sound Effect Volume"
+msgstr "Volume des bruitages"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Adjust the volume of sound effects being played by the game."
+msgstr "Régler le volume des bruitages du jeu."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "System language"
+msgstr "Langue du système"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Language"
+msgstr "Langue"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Switch Language."
+msgstr ""
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Fahrenheit"
+msgstr "Fahrenheit"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Celsius"
+msgstr "Celsius"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Temperature units"
+msgstr "Unité de température"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Switch between Celsius and Fahrenheit."
+msgstr "Choisir entre Celsius et Fahrenheit"
+
+#: lang/extra/android/options.cpp src/cata_utility.cpp src/options.cpp
+msgid "mph"
+msgstr "mph"
+
+#: lang/extra/android/options.cpp src/cata_utility.cpp src/options.cpp
+msgid "km/h"
+msgstr "km/h"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Speed units"
+msgstr "Unité de vitesse"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Switch between km/h and mph."
+msgstr "Choisir entre km/h et mph"
+
+#: lang/extra/android/options.cpp src/cata_utility.cpp src/options.cpp
+msgid "lbs"
+msgstr "lbs"
+
+#: lang/extra/android/options.cpp src/cata_utility.cpp src/options.cpp
+msgid "kg"
+msgstr "kg"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Mass units"
+msgstr "Unité de masse"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Switch between kg and lbs."
+msgstr "Choisir entre kg et lbs."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Cup"
+msgstr "Tasse"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Liter"
+msgstr "Litre"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Quart"
+msgstr ""
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Volume units"
+msgstr "Unités de volume"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Switch between the Cup (c), Liter (L) or Quart (qt)."
+msgstr "Choisir entre Tasse (c), Litre (L) ou Quart (qt)."
+
+#. ~ 12h time, e.g.  11:59pm
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "12h"
+msgstr "12h"
+
+#. ~ Military time, e.g.  2359
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Military"
+msgstr "Militaire"
+
+#. ~ 24h time, e.g.  23:59
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "24h"
+msgstr "24h"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Time format"
+msgstr "Format de l'heure"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"12h: AM/PM, eg: 7:31 AM - Military: 24h Military, eg: 0731 - 24h: Normal "
+"24h, eg: 7:31"
+msgstr "12h: AM/PM, ex: 7:31 AM - Militaire: 24h Militaire, ex: 0731 - 24h: Normal 24h, ex: 7:31"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Force Y/N in prompts"
+msgstr "Obliger O/N dans les messages"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "If true, Y/N prompts are case-sensitive and y and n are not accepted."
+msgstr "Si vrai, les messages O/N tiennent compte de la casse des caractères et 'o' et 'n' ne sont pas acceptés."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Snap to target"
+msgstr "Voir les cibles"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "If true, automatically follow the crosshair when firing/throwing."
+msgstr "Si vrai, le viseur est automatiquement suivi lorsque vous tirez/lancez."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Ask to save before sleeping"
+msgstr "Demander à sauvegarder avant de dormir"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "If true, game will ask to save the map before sleeping."
+msgstr "Si vrai, le jeu demandera si vous voulez sauvegarder avant de dormir."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Query on disassembly"
+msgstr "Demander confirmation avant de démonter"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "If true, will query before disassembling items."
+msgstr "Si l'option est réglée sur Oui, le jeu vous demandera confirmation avant de démonter un objet."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Query on keybinding removal"
+msgstr "Demander suppression raccourci"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "If true, will query before removing a keybinding from a hotkey."
+msgstr "Si vrai, demandera confirmation avant de supprimer un raccourci d'une touche."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Close advanced inventory on move all"
+msgstr "Fermer l'inventaire avancé après avoir tout déplacé"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"If true, will close the advanced inventory when the move all items command "
+"is used."
+msgstr "Si vrai, fermera l'inventaire avancé après avoir utilisé la commande pour déplacer tout les objets."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Display actions in Use Item menu"
+msgstr ""
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"If true, actions (like \"Read\", \"Smoke\", \"Wrap tighter\") will be "
+"displayed next to the corresponding items."
+msgstr ""
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Vehicle plating changes part color"
+msgstr "Les armures de véhicules changent la couleur"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "If true, vehicle parts will change color if they are armor plated"
+msgstr "Si vrai, les pièces de véhicules changeront si elles sont blindées."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Auto-shift the view while driving"
+msgstr "Déplacer automatiquement la vue lors de la conduite"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "If true, view will automatically shift towards the driving direction"
+msgstr "Si vrai, la vue se déplacera automatiquement vers la direction de conduite."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Draw vehicle facing indicator"
+msgstr "Afficher l'indicateur de direction en véhicule"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"If true, when controlling a vehicle, a white 'X' (in curses version) or a "
+"crosshair (in tiles version) at distance 10 from the center will display its"
+" current facing."
+msgstr "Si vrai, quand vous conduisez, un 'X' blanc (version curses) ou une croix (version tuiles) à distance de 10 cases du centre du véhicule vous indique sa direction."
+
+#. ~ sidebar position
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Left"
+msgstr "Gauche"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Right"
+msgstr "Droite"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Sidebar position"
+msgstr "Position de la barre latérale"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"Switch between sidebar on the left or on the right side.  Requires restart."
+msgstr "Alterner entre une barre latérale à gauche ou à droite. Nécessite un redémarrage."
+
+#. ~ sidebar style
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Wider"
+msgstr "Large"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Narrow"
+msgstr "Étroite"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Sidebar style"
+msgstr "Style de la barre"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Switch between a narrower or wider sidebar.  Requires restart."
+msgstr "Alterner entre une barre latérale large ou étroite. Nécessite un redémarrage."
+
+#. ~ sidebar message log flow direction
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Top"
+msgstr "Haut"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Bottom"
+msgstr "Bas"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Sidebar log flow"
+msgstr "Sens du journal de la barre"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Where new sidebar log messages should show."
+msgstr "Dans quel sens apparaissent les nouveaux messages dans la barre."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Sidebar log message display duration"
+msgstr "Durée des messages du journal"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"Number of turns after which a message will be removed from the sidebar log."
+"  '0' disables this option."
+msgstr "Nombre de tours après lesquels un message disparaît du journal. '0' désactive l'option."
+
+#. ~ aim bar style - bars or numbers
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Numbers"
+msgstr "Nombres"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Bars"
+msgstr "Barres"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Aim window display style"
+msgstr "Style de la fenêtre de visée"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "How should confidence and steadiness be communicated to the player."
+msgstr "Comment la fiabilité et la stabilité doivent être communiquées au joueur."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Move view offset"
+msgstr "Réglage des mouvements de la vue"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Move view by how many squares per keypress."
+msgstr "Déplacer la vue de combien de carrés par pression de touche."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Centered menu scrolling"
+msgstr "Défilement de menu centré"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"If true, menus will start scrolling in the center of the list, and keep the "
+"list centered."
+msgstr "Si vrai, les menus défileront à partir du centre de la liste, et garderont la liste centrée."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Centered"
+msgstr "Centré"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "To edge"
+msgstr "Au bord"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Shift list item view"
+msgstr "Déplacer la vue sur les objets de la liste."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"Centered or to edge, shift the view toward the selected item if it is "
+"outside of your current viewport."
+msgstr "Centré ou sur le bord, cela déplace la vue vers l'objet sélectionné  s'il est en dehors de votre fenêtre d'affichage."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Auto inventory letters"
+msgstr "Lettres inventaire automatiques"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"If false, new inventory items will only get letters assigned if they had one"
+" before."
+msgstr "Si Faux, les nouveaux objets placés dans l'inventaires n'auront une lettre attribuée que s'ils en avaient une auparavant."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Show item health bars"
+msgstr "Afficher les barres de vie des objets"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"If true, show item health bars instead of reinforced, scratched etc. text."
+msgstr "Si vrai, affiche une forme graphique, sous forme de barre de vie, de l'état des objets."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Show item symbols"
+msgstr "Afficher les symboles des objets"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "If true, show item symbols in inventory and pick up menu."
+msgstr "Si vrai, affiche les symboles des objets dans l'inventaire et le menu de ramassage."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Enable Joystick"
+msgstr "Activer Joystick"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Enable input from joystick."
+msgstr "Permet le contrôle à l'aide d'un joystick."
+
+#. ~ show mouse cursor
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Show"
+msgstr "Afficher"
+
+#. ~ hide mouse cursor
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Hide"
+msgstr "Masquer"
+
+#. ~ hide mouse cursor when keyboard is used
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "HideKB"
+msgstr "MasquerKB"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Hide mouse cursor"
+msgstr "Masquer le curseur de la souris"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"Show: Cursor is always shown.  Hide: Cursor is hidden.  HideKB: Cursor is "
+"hidden on keyboard input and unhidden on mouse movement."
+msgstr "Afficher: Le curseur est toujours visible. Masquer: Le curseur est masqué. MasquerKB: Le curseur est masqué lorsque le clavier est utilisé et montré lorsque la souris se déplace."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Animations"
+msgstr "Animations"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "If true, will display enabled animations."
+msgstr "Si vrai, affichera les animations actives."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Rain animation"
+msgstr "Animation de la pluie"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "If true, will display weather animations."
+msgstr "Si l'option est réglée sur Vrai, le jeu affichera les animations du climat."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "SCT animation"
+msgstr "Animation Texte de Combat Défilant"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "If true, will display scrolling combat text animations."
+msgstr "Si vrai, affichera les textes de combat défilants."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Animation delay"
+msgstr "Vitesse d'animation"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "The amount of time to pause between animation frames in ms."
+msgstr "Temps de pause entre chaque image d'animation en ms."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Force redraw"
+msgstr "Forcer à retracer"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "If true, forces the game to redraw at least once per turn."
+msgstr "Si vrai, force à retracer le jeu au moins une fois par tour."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Terminal width"
+msgstr "Largeur du terminal"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Set the size of the terminal along the X axis.  Requires restart."
+msgstr "Définit la taille horizontale du terminal. Requiert un redémarrage."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Terminal height"
+msgstr "Hauteur du terminal"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Set the size of the terminal along the Y axis.  Requires restart."
+msgstr "Définit la taille verticale du terminal. Requiert un redémarrage."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Use tiles"
+msgstr "Utiliser des tuiles graphiques"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "If true, replaces some TTF rendered text with tiles."
+msgstr "Si vrai, remplace certaines polices TTF par des tuiles graphiques."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Choose tileset"
+msgstr "Choix de la collection de tuiles"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Choose the tileset you want to use."
+msgstr "Choisir la collection de tuiles à utiliser."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Pixel Minimap"
+msgstr "Minicarte"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"If true, shows the pixel-detail minimap in game after the save is loaded.  "
+"Use the 'Toggle Pixel Minimap' action key to change its visibility during "
+"gameplay."
+msgstr "Si vrai, affiche la Minicarte en jeu après le chargement. Utilisez le raccourci 'Basculer Minicarte' pour changer sa visibilité."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Pixel Minimap height"
+msgstr "Hauteur Minicarte"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"Height of pixel-detail minimap, measured in terminal rows.  Set to 0 for "
+"default spacing."
+msgstr "Hauteur de la minicarte en lignes de terminal. '0' pour la taille par défaut."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Maintain Pixel Minimap aspect ratio"
+msgstr "Garder la Minicarte proportionnelle"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Preserves the square shape of tiles shown on the pixel minimap."
+msgstr "Préserve l'aspect carré des éléments de la Minicarte."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Enemy beacon blink speed"
+msgstr "Vitesse de clignotement des ennemis"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"Controls how fast the enemy beacons blink on the pixel minimap.  Value is "
+"multiplied by 200 ms.  Set to 0 to disable."
+msgstr "Contrôle la vitesse de clignotement des indicateurs ennemis sur la Minicarte. La valeur est multipliée par 200ms. '0' pour désactiver."
+
+#: lang/extra/android/options.cpp src/options.cpp src/sdltiles.cpp
+msgid "Display"
+msgstr "Écran"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"Sets which video display will be used to show the game.  Requires restart."
+msgstr "Permet de choisir l'écran sur lequel afficher le jeu. Requiert un redémarrage."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Fullscreen"
+msgstr "Plein écran"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Windowed borderless"
+msgstr "Plein écran fenêtré"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Starts Cataclysm in one of the fullscreen modes.  Requires restart."
+msgstr "Démarre Cataclysm dans l'un des modes plein écran. Requiert un redémarrage."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Software rendering"
+msgstr "Rendu logiciel"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Use software renderer instead of graphics card acceleration."
+msgstr "Utiliser le rendu logiciel au lieu de l'accélération de la carte graphique."
+
+#. ~ Do not scale the game image to the window size.
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "No scaling"
+msgstr "Aucune"
+
+#. ~ An algorithm for image scaling.
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Nearest neighbor"
+msgstr "Au plus proche"
+
+#. ~ An algorithm for image scaling.
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Linear filtering"
+msgstr "Linéaire"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Scaling mode"
+msgstr "Mise à l'échelle"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"Sets the scaling mode, 'none' (default) displays at the game's native "
+"resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' "
+"provides high-quality scaling."
+msgstr "Choisit le mode de mise à l'échelle, 'Aucune': résolution native du jeu; 'Au plus proche': basse qualité mais rapide, 'Linéaire': haute qualité."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Distance initial visibility"
+msgstr "Distance de visibilité initiale"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Determines the scope, which is known in the beginning of the game."
+msgstr "Détermine l'étendue qui est connu au début du jeu."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Initial stat points"
+msgstr "Points de stats initiaux"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Initial points available to spend on stats on character generation."
+msgstr "Les points initiaux à dépenser pour les statistiques du personnage."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Initial trait points"
+msgstr "Points de trait initiaux"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Initial points available to spend on traits on character generation."
+msgstr "Les points initiaux à dépenser pour les traits du personnage."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Initial skill points"
+msgstr "Points de compétences initiaux"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Initial points available to spend on skills on character generation."
+msgstr "Les points initiaux à dépenser pour les compétences du personnage."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Maximum trait points"
+msgstr "Maximum de points de trait"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Maximum trait points available for character generation."
+msgstr "Le nombre maximum de points de trait disponibles lors de la création de personnage."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Skill training speed"
+msgstr "Vitesse d'apprentissage"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"Scales experience gained from practicing skills and reading books.  0.5 is "
+"half as fast as default, 2.0 is twice as fast, 0.0 disables skill training "
+"except for NPC training."
+msgstr "Règle la vitesse d'apprentissage des compétences par la pratique et la lecture. 0.5 est deux fois plus lent et 2.0 deux fois plus rapide. 0.0 désactive l'apprentissage, excepté pour les PNJ."
+
+#. ~ plain, default, normal
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Vanilla"
+msgstr "Vanilla"
+
+#. ~ capped at a value
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Capped"
+msgstr "Bloqué"
+
+#. ~ based on intelligence
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Int"
+msgstr "Int"
+
+#. ~ based on intelligence and capped
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "IntCap"
+msgstr "IntBloqué"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Off"
+msgstr "Désactivé"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Skill rust"
+msgstr "Oubli des compétences"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"Set the level of skill rust.  Vanilla: Vanilla Cataclysm - Capped: Capped at"
+" skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence "
+"dependent, capped - Off: None at all."
+msgstr "Règle l'oubli des compétences. Vanilla: Comme le jeu original - Bloqué: Compétences bloqués au niveau 2 - Int: Selon l'intelligence - IntBloqué: Selon l'intelligence, bloqué - Désactivé: Aucun oubli."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Experimental 3D Field of Vision"
+msgstr "Champs de vision 3D (expérimental)"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"If false, vision is limited to current z-level.  If true and the world is in"
+" z-level mode, the vision will extend beyond current z-level.  Currently "
+"very bugged!"
+msgstr ""
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Experimental path name encoding conversion"
+msgstr ""
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"If true, file path names are going to be transcoded from system encoding to "
+"UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK"
+" Windows users."
+msgstr ""
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Overmap generation attempt count"
+msgstr ""
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"Maximum number of retries in overmap generation due to inability to place "
+"mandatory special locations.  High numbers and strange world settings will "
+"lead to VERY slow generation!"
+msgstr ""
+
+#. ~ allow invalid (bugged, bad) maps without asking user
+#: lang/extra/android/options.cpp src/creature.cpp src/options.cpp
+msgid "Any"
+msgstr "Toutes"
+
+#. ~ allow any valid map, even if it's "bad"
+#: lang/extra/android/options.cpp src/options.cpp src/wish.cpp
+msgid "Valid"
+msgstr "Valide"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Allow invalid overmaps"
+msgstr "Autoriser les cartes invalides"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"What to do if world settings/mods prevent valid overmaps.  Invalid maps are "
+"BUGGED and while playable, may cause errors during missions.  Unlimited maps"
+" will look ugly, but are fully functional."
+msgstr ""
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Core version data"
+msgstr ""
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Controls what migrations are applied for legacy worlds"
+msgstr ""
+
+#: lang/extra/android/options.cpp src/craft_command.cpp src/options.cpp
+#: src/veh_interact.cpp
+msgid "Yes"
+msgstr "Oui"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Query"
+msgstr "Demander"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Delete world"
+msgstr "Suppression du monde"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Delete the world when the last active character dies."
+msgstr "Supprimer le monde lorsque le dernier personnage actif meurt."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Size of cities"
+msgstr "Dimension des villes"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"A number determining how large cities are.  0 disables cities and roads."
+msgstr "Détermine la taille des villes. '0' désactive les villes et les routes."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "City spacing"
+msgstr "Espacement des villes"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"A number determining how far apart cities are.  Warning, small numbers lead "
+"to very slow mapgen."
+msgstr "Détermine l'espacement entre les villes. Attention, les petites valeurs rendent la génération de la carte très longue."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Spawn rate scaling factor"
+msgstr "Taux d'apparition des monstres"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "A scaling factor that determines density of monster spawns."
+msgstr "Détermine la fréquence d'apparition des monstres."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Item spawn scaling factor"
+msgstr "Taux d'apparition des objets"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "A scaling factor that determines density of item spawns."
+msgstr "Détermine la quantité d'objets générés."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "NPC spawn rate scaling factor"
+msgstr "Taux d'apparition des PNJ"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "A scaling factor that determines density of dynamic NPC spawns."
+msgstr "Détermine la fréquence d'apparition des PNJ."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Monster evolution scaling factor"
+msgstr "Vitesse d'évolution des monstres"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"A scaling factor that determines the time between monster upgrades.  A "
+"higher number means slower evolution.  Set to 0.00 to turn off monster "
+"upgrades."
+msgstr "Détermine la durée entre chaque évolution des monstres. Plus la valeur est grande plus l'évolution est lente. '0.00' désactive l'évolution."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Monster speed"
+msgstr "Vitesse des monstres"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"Determines the movement rate of monsters.  A higher value increases monster "
+"speed and a lower reduces it."
+msgstr "Détermine le taux de mouvement des monstres. Une valeur plus élevée augmente la vitesse des monstre et une plus faible la réduit."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Monster resilience"
+msgstr "Résistance des monstres"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"Determines how much damage monsters can take.  A higher value makes monsters"
+" more resilient and a lower makes them more flimsy."
+msgstr "Détermine combien de dégâts les monstres peuvent prendre. Une valeur plus élevée rend les monstres plus résistants et une plus faible les rend plus fragiles."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Default region type"
+msgstr "Type de région par défaut"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "(WIP feature) Determines terrain, shops, plants, and more."
+msgstr "(fonction en travaux) Détermine le terrain, les magasins, les plantes et autres sur un monde."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Initial time"
+msgstr "Heure initiale"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Initial starting time of day on character generation."
+msgstr "L'heure au début de chaque partie."
+
+#: lang/extra/android/options.cpp src/calendar.cpp src/options.cpp
+msgid "Spring"
+msgstr "Print."
+
+#: lang/extra/android/options.cpp src/calendar.cpp src/options.cpp
+msgid "Summer"
+msgstr "Été"
+
+#: lang/extra/android/options.cpp src/calendar.cpp src/options.cpp
+msgid "Autumn"
+msgstr "Automne"
+
+#: lang/extra/android/options.cpp src/calendar.cpp src/options.cpp
+msgid "Winter"
+msgstr "Hiver"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Initial season"
+msgstr "Saison initiale"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"Season the player starts in.  Options other than the default delay spawn of "
+"the character, so food decay and monster spawns will have advanced."
+msgstr "La saison de départ. Les saisons autres que par défaut retardent l'apparition du personnage, la nourriture se périme et l'apparition des monstres est plus avancée."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Season length"
+msgstr "Durée des saisons"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Season length, in days."
+msgstr "Durée des saisons, en jours."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Construction scaling"
+msgstr "Vitesse de construction"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"Sets the time of construction in percents.  '50' is two times faster than "
+"default, '200' is two times longer.  '0' automatically scales construction "
+"time to match the world's season length."
+msgstr "Définit le temps de construction en pourcents. '50' est deux fois plus rapide que la valeur par défaut, '200' est deux fois plus long. '0' définit automatiquement le temps de construction pour correspondre à la longueur d'une saison."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Eternal season"
+msgstr "Saison éternelle"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Keep the initial season for ever."
+msgstr "Garder la saison initiale pour toujours."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Wander spawns"
+msgstr "Génération de hordes"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"Emulation of zombie hordes.  Zombie spawn points wander around cities and "
+"may go to noise.  Must reset world directory after changing for it to take "
+"effect."
+msgstr "Crée des hordes de zombies. Les hordes errent autour des villes et le bruit les attire. Une réinitialisation du monde est nécessaire pour prendre effet."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Classic zombies"
+msgstr "Zombies classiques"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"Only spawn classic zombies and natural wildlife.  Requires a reset of save "
+"folder to take effect.  This disables certain buildings."
+msgstr "Génère uniquement des zombies classiques et de la faune sauvage. Nécessite un reset du dossier de sauvegarde pour prendre effet. Cela désactive certains bâtiments."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Surrounded start"
+msgstr "Départ encerclé"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"If true, spawn zombies at shelters.  Makes the starting game a lot harder."
+msgstr "Si vrai des zombies sont générés aux abris. Le début est donc beaucoup plus difficile."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Static npcs"
+msgstr "Personnages non joueurs statiques"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"If true, the game will spawn static NPC at the start of the game, requires "
+"world reset."
+msgstr "Si vrai, le jeu génèrera des PNJs au début du jeu, nécessite un reset du monde."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Random npcs"
+msgstr "Personnages non joueurs aléatoires"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "If true, the game will randomly spawn NPC during gameplay."
+msgstr "Si vrai, le jeu génère aléatoirement des PNJs durant le jeu."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Mutations by radiation"
+msgstr "Mutations par radiation"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "If true, radiation causes the player to mutate."
+msgstr "Si vrai, les radiations entrainent la mutation du joueur."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Experimental z-levels"
+msgstr "Étages expérimentaux"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"If true, experimental z-level maps will be enabled.  This feature is not "
+"finished yet and turning it on will only slow the game down."
+msgstr "Si vrai, les bâtiments à étages expérimentaux des cartes seront activés. Cette option n'est pas encore terminée et son activation risque de ne faire que ralentir le jeu."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Align up and down stairs"
+msgstr "Aligner les escaliers montants et descendants"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"If true, downstairs will be placed directly above upstairs, even if this "
+"results in uglier maps."
+msgstr "Si vrai, les escaliers descendants seront placés directement au-dessus des escaliers montants, même si ça donne des cartes plus laides."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Disables vehicle part faults."
+msgstr ""
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"If true, disables vehicle part faults, vehicle parts will be totally "
+"reliable unless destroyed, and can only be repaired via replacement."
+msgstr ""
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Morale penalty for filthy clothing."
+msgstr ""
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "If true, wearing filthy clothing will cause morale penalties."
+msgstr ""
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Infected wounds from filthy clothing."
+msgstr ""
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"If true, getting hit in a body part covered in filthy clothing may cause "
+"infections."
+msgstr ""
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Disables tracking vitamins in food items."
+msgstr ""
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "If true, disables vitamin tracking and vitamin disorders."
+msgstr ""
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Disables tracking food, thirst and (partially) fatigue for NPCs."
+msgstr ""
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid ""
+"If true, NPCs won't need to eat or drink and will only get tired enough to "
+"sleep, not to get penalties."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Skip welcome screen"
+msgstr "Passer l'écran de bienvenue"
+
+#: lang/extra/android/options.cpp
+msgid "If true, skips the Android welcome screen on app load."
+msgstr "Si vrai, passe l'écran de bienvenue Android au chargement de l'application."
+
+#: lang/extra/android/options.cpp
+msgid "Quicksave on app lose focus"
+msgstr "Sauvegarde rapide quand l'app perd le focus"
+
+#: lang/extra/android/options.cpp
+msgid ""
+"If true, quicksave whenever the app loses focus (screen locked, app moved "
+"into background etc.) WARNING: Experimental. This may result in corrupt save"
+" games."
+msgstr "Si vrai, effectue une sauvegarde rapide à chaque fois que l'application perd le focus (écran verrouillé, application qui passe en arrière-plan etc.) AVERTISSEMENT: expérimental. Ceci peut générer des sauvegardes corrompues."
+
+#: lang/extra/android/options.cpp
+msgid "Auto-manage virtual keyboard"
+msgstr "Gérer automatiquement le clavier virtuel"
+
+#: lang/extra/android/options.cpp
+msgid ""
+"If true, automatically show/hide the virtual keyboard when necessary based "
+"on context. If false, virtual keyboard must be toggled manually."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Virtual keyboard screen scale"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid ""
+"When the virtual keyboard is visible, scale the screen to prevent "
+"overlapping. Useful for text entry so you can see what you're typing."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Vibration duration"
+msgstr "Durée de vibration"
+
+#: lang/extra/android/options.cpp
+msgid ""
+"If non-zero, vibrate the device for this long on input, in millisconds. "
+"Ignored if hardware keyboard connected."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Sensor"
+msgstr "Capteur"
+
+#: lang/extra/android/options.cpp
+msgid "Portrait"
+msgstr "Portrait"
+
+#: lang/extra/android/options.cpp
+msgid "Landscape"
+msgstr "Paysage"
+
+#: lang/extra/android/options.cpp
+msgid "Rev Landscape"
+msgstr "Paysage inversé"
+
+#: lang/extra/android/options.cpp
+msgid "Screen orientation"
+msgstr "Orientation de l'écran"
+
+#: lang/extra/android/options.cpp
+msgid ""
+"Use the device's sensor to orient the screen automatically, or force a "
+"specific orientation."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Show virtual joystick"
+msgstr "Afficher le joystick virtuel"
+
+#: lang/extra/android/options.cpp
+msgid ""
+"If true, show the virtual joystick when touching and holding the screen. "
+"Gives a visual indicator of deadzone and stick deflection."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Virtual joystick opacity"
+msgstr "Opacité du joystick virtuel"
+
+#: lang/extra/android/options.cpp
+msgid "The opacity of the on-screen virtual joystick, as a percentage."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Virtual joystick deadzone size"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid ""
+"While using the virtual joystick, deflecting the stick beyond this distance "
+"will trigger directional input. Specified as a percentage of longest screen "
+"edge."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Virtual joystick size"
+msgstr "Taille du joystick virtuel"
+
+#: lang/extra/android/options.cpp
+msgid ""
+"While using the virtual joystick, deflecting the stick by this much will "
+"repeat input at the deflected rate (see below). Specified as a percentage of"
+" longest screen edge."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Virtual joystick follows finger"
+msgstr "Le joystick virtuel suit le doigt"
+
+#: lang/extra/android/options.cpp
+msgid ""
+"If true, the virtual joystick will follow when sliding beyond its range."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Virtual joystick repeat rate (centered)"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid ""
+"When the virtual joystick is centered, how fast should input events repeat, "
+"in milliseconds."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Virtual joystick repeat rate (deflected)"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid ""
+"When the virtual joystick is fully deflected, how fast should input events "
+"repeat, in milliseconds."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Virtual joystick repeat rate sensitivity"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid ""
+"As the virtual joystick moves from centered to fully deflected, this value "
+"is an exponent that controls the blend between the two repeat rates defined "
+"above. 1.0 = linear."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Input repeat delay"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid ""
+"While touching the screen, wait this long before showing the virtual "
+"joystick and repeating input, in milliseconds. Also used to determine tap"
+"/double-tap detection, flick detection and toggling quick shortcuts."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Virtual joystick hides shortcuts"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid ""
+"If true, hides on-screen keyboard shortcuts while using the virtual "
+"joystick. Helps keep the view uncluttered while travelling long distances "
+"and navigating menus."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Default gameplay shortcuts"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid ""
+"The default set of gameplay shortcuts to show. Used on starting a new game "
+"and whenever all gameplay shortcuts are removed."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Add shortcuts for action menu selections"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid ""
+"If true, automatically add a shortcut for actions selected via the in-game "
+"action menu."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Add shortcuts for inventory selections"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid ""
+"If true, automatically add a shortcut for items selected via the inventory."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Tap key (in-game)"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "The key to press when tapping during gameplay."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Two-finger tap key (in-game)"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "The key to press when tapping with two fingers during gameplay."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Two-finger swipe up key (in-game)"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "The key to press when swiping up with two fingers during gameplay."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Two-finger swipe down key (in-game)"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "The key to press when swiping down with two fingers during gameplay."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Two-finger swipe left key (in-game)"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "The key to press when swiping left with two fingers during gameplay."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Two-finger swipe right key (in-game)"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "The key to press when swiping right with two fingers during gameplay."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Pinch in key (in-game)"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "The key to press when pinching in during gameplay."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Pinch out key (in-game)"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "The key to press when pinching out during gameplay."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Auto-manage contextual gameplay shortcuts"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid ""
+"If true, contextual in-game shortcuts are added and removed automatically as"
+" needed: examine, close, butcher, move up/down, control vehicle, pickup, "
+"toggle enemy + safe mode, sleep."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Move contextual gameplay shortcuts to front"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid ""
+"If the above option is enabled, specifies whether contextual in-game "
+"shortcuts will be added to the front or back of the shortcuts list. True "
+"makes them easier to reach, False reduces shuffling of shortcut positions."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Move used shortcuts to front"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid ""
+"If true, using an existing shortcut will always move it to the front of the "
+"shortcuts list. If false, only shortcuts typed via keyboard will move to the"
+" front."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Separate shortcuts for No Auto Pickup zones"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid ""
+"If true, separate gameplay shortcuts will be used within No Auto Pickup "
+"zones. Useful for keeping home base actions separate from exploring actions."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Turns to remove unused gameplay shortcuts"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid ""
+"If non-zero, unused gameplay shortcuts will be removed after this many turns"
+" (as in discrete player actions, not world calendar turns)."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Shortcuts persistence"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid ""
+"If true, shortcuts are saved/restored with each save game. If false, "
+"shortcuts reset between sessions."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Shortcuts position"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid ""
+"Switch between shortcuts on the left or on the right side of the screen."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Shortcuts screen percentage"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid ""
+"How much of the screen can shortcuts occupy, as a percentage of total screen"
+" width."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Shortcuts overlap screen"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid ""
+"If true, shortcuts will be drawn transparently overlapping the game screen. "
+"If false, the game screen size will be reduced to fit the shortcuts below."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Shortcut opacity (background)"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid ""
+"The background opacity of on-screen keyboard shortcuts, as a percentage."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Shortcut opacity (shadow)"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "The shadow opacity of on-screen keyboard shortcuts, as a percentage."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Shortcut opacity (text)"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid ""
+"The foreground opacity of on-screen keyboard shortcuts, as a percentage."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Shortcut color"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "The color of on-screen keyboard shortcuts."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Shortcut border"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "The border of each on-screen keyboard shortcut in pixels. ."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Shortcut width (min)"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid ""
+"The minimum width of each on-screen keyboard shortcut in pixels. Only "
+"relevant when lots of shortcuts are visible at once."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Shortcut width (max)"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "The maximum width of each on-screen keyboard shortcut in pixels."
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "Shortcut height"
+msgstr ""
+
+#: lang/extra/android/options.cpp
+msgid "The height of each on-screen keyboard shortcut in pixels."
+msgstr ""
+
+#: lang/extra/android/options.cpp src/options.cpp
+#, c-format
+msgid "Loading the tileset failed: %s"
+msgstr "Échec du chargement de la collection de tuiles: %s"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid " OPTIONS "
+msgstr " OPTIONS "
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Current world"
+msgstr "Monde actuel"
+
+#: lang/extra/android/options.cpp src/options.cpp
+#, c-format
+msgid "%s #%s -- The window will be %d pixel wide with the selected value."
+msgid_plural ""
+"%s #%s -- The window will be %d pixels wide with the selected value."
+msgstr[0] "%s #%s -- La fenêtre aura une largeur de %d pixel avec la valeur sélectionnée."
+msgstr[1] "%s #%s -- La fenêtre aura une largeur de %d pixels avec la valeur sélectionnée."
+
+#: lang/extra/android/options.cpp src/options.cpp
+#, c-format
+msgid "%s #%s -- The window will be %d pixel tall with the selected value."
+msgid_plural ""
+"%s #%s -- The window will be %d pixels tall with the selected value."
+msgstr[0] "%s #%s -- La fenêtre aura une hauteur de %d pixel avec la valeur sélectionnée."
+msgstr[1] "%s #%s -- La fenêtre aura une hauteur de %d pixels avec la valeur sélectionnée."
+
+#: lang/extra/android/options.cpp src/item.cpp src/options.cpp
+msgid "Note: "
+msgstr "Note: "
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Some of these options may produce unexpected results if changed."
+msgstr "Certaines de ces options peuvent produire des résultats inattendus s'ils sont modifiés."
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "Invalid input: not a number"
+msgstr "Saisie invalide: pas un nombre"
+
+#: lang/extra/android/options.cpp src/auto_pickup.cpp src/color.cpp
+#: src/game.cpp src/input.cpp src/options.cpp src/safemode_ui.cpp
+msgid "Save changes?"
+msgstr "Enregistrer les modifications ?"
+
+#: lang/extra/android/options.cpp src/options.cpp
+msgid "options"
+msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "battery"
@@ -12180,8 +13960,8 @@ msgid_plural "Adrenaline Pump CBMs"
 msgstr[0] "MBC: Pompe d'Adrénaline"
 msgstr[1] "MBCs: Pompe d'Adrénaline"
 
-#. ~ Description for Adrenaline Pump CBM
 #. ~ Description for Adrenaline Pump
+#. ~ Description for Adrenaline Pump CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A stimulator system has been implanted alongside your adrenal glands, "
@@ -12195,8 +13975,8 @@ msgid_plural "Active Defense System CBMs"
 msgstr[0] "MBC: Système de Défense Active"
 msgstr[1] "MBCs: Système de Défense Active"
 
-#. ~ Description for Active Defense System CBM
 #. ~ Description for Active Defense System
+#. ~ Description for Active Defense System CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  Anything"
@@ -12224,8 +14004,8 @@ msgid_plural "Alarm System CBMs"
 msgstr[0] "MBC: Système d'Alarme"
 msgstr[1] "MBCs: Système d'Alarme"
 
-#. ~ Description for Alarm System CBM
 #. ~ Description for Alarm System
+#. ~ Description for Alarm System CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A motion-detecting alarm system will notice almost all movement within a "
@@ -12239,8 +14019,8 @@ msgid_plural "Arms Alloy Plating CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Arms Alloy Plating CBM
 #. ~ Description for Alloy Plating - Arms
+#. ~ Description for Arms Alloy Plating CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "The flesh on your arms has been replaced by a strong armor, protecting you "
@@ -12253,8 +14033,8 @@ msgid_plural "Protective Lenses CBMs"
 msgstr[0] "MBC: Lentilles protectrices"
 msgstr[1] "MBCs: Lentilles protectrices"
 
-#. ~ Description for Protective Lenses CBM
 #. ~ Description for Protective Lenses
+#. ~ Description for Protective Lenses CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your eye sockets have been sealed with highly protective mirrored lenses and"
@@ -12268,8 +14048,8 @@ msgid_plural "Head Alloy Plating CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Head Alloy Plating CBM
 #. ~ Description for Alloy Plating - Head
+#. ~ Description for Head Alloy Plating CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "The flesh on your head has been replaced by a strong armor, protecting both "
@@ -12282,8 +14062,8 @@ msgid_plural "Legs Alloy Plating CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Legs Alloy Plating CBM
 #. ~ Description for Alloy Plating - Legs
+#. ~ Description for Legs Alloy Plating CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "The flesh on your legs has been replaced by a strong armor, protecting you "
@@ -12296,8 +14076,8 @@ msgid_plural "Torso Alloy Plating CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Torso Alloy Plating CBM
 #. ~ Description for Alloy Plating - Torso
+#. ~ Description for Torso Alloy Plating CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "The flesh on your torso has been replaced by a strong armor, protecting you "
@@ -12310,8 +14090,8 @@ msgid_plural "Battery System CBMs"
 msgstr[0] "MBC: Système de batteries"
 msgstr[1] "MBCs: Système de batteries"
 
-#. ~ Description for Battery System CBM
 #. ~ Description for Battery System
+#. ~ Description for Battery System CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You have a battery draining attachment, and thus can make use of the energy "
@@ -12325,8 +14105,8 @@ msgid_plural "Monomolecular Blade CBMs"
 msgstr[0] "MBC: Lame Monomoléculaire"
 msgstr[1] "MBCs: Lame Monomoléculaire"
 
-#. ~ Description for Monomolecular Blade CBM
 #. ~ Description for Monomolecular Blade
+#. ~ Description for Monomolecular Blade CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A deadly foot-long blade made of advanced material now resides inside your "
@@ -12355,8 +14135,8 @@ msgid_plural "Blood Analysis CBMs"
 msgstr[0] "MBC: Analyse Sanguine"
 msgstr[1] "MBCs: Analyse Sanguine"
 
-#. ~ Description for Blood Analysis CBM
 #. ~ Description for Blood Analysis
+#. ~ Description for Blood Analysis CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Small sensors have been implanted in your heart, allowing you to analyze "
@@ -12369,8 +14149,8 @@ msgid_plural "Blood Filter CBMs"
 msgstr[0] "MBC: Filtration du Sang"
 msgstr[1] "MBCs: Filtration du Sang"
 
-#. ~ Description for Blood Filter CBM
 #. ~ Description for Blood Filter
+#. ~ Description for Blood Filter CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A filtration system in your heart allows you to actively filter out chemical"
@@ -12385,8 +14165,8 @@ msgid_plural "Cable Charger System CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Cable Charger System CBM
 #. ~ Description for Cable Charger System
+#. ~ Description for Cable Charger System CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You have a complex port mounted above your hip.  While active, it will drain"
@@ -12399,8 +14179,8 @@ msgid_plural "Subdermal Carbon Filament CBMs"
 msgstr[0] "MBC: Filament Carbone Sous-cutané"
 msgstr[1] "MBCs: Filament Carbone Sous-cutané"
 
-#. ~ Description for Subdermal Carbon Filament CBM
 #. ~ Description for Subdermal Carbon Filament
+#. ~ Description for Subdermal Carbon Filament CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Lying just beneath your skin is a thin armor made of carbon nanotubes.  This"
@@ -12413,8 +14193,8 @@ msgid_plural "Chain Lightning CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Chain Lightning CBM
 #. ~ Description for Chain Lightning
+#. ~ Description for Chain Lightning CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your body is equipped with a chain lightning generator, allowing you to emit"
@@ -12428,8 +14208,8 @@ msgid_plural "Bionic Claws CBMs"
 msgstr[0] "MBC: Griffes Bioniques"
 msgstr[1] "MBCs: Griffes Bioniques"
 
-#. ~ Description for Bionic Claws CBM
 #. ~ Description for Bionic Claws
+#. ~ Description for Bionic Claws CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Vicious claws have been installed inside your fingers, allowing you to "
@@ -12444,8 +14224,8 @@ msgid_plural "Internal Climate Control CBMs"
 msgstr[0] "MBC: Contrôle du Climat Interne"
 msgstr[1] "MBCs: Contrôle du Climat Interne"
 
-#. ~ Description for Internal Climate Control CBM
 #. ~ Description for Internal Climate Control
+#. ~ Description for Internal Climate Control CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Throughout your body lies a network of thermal piping which eases the "
@@ -12458,8 +14238,8 @@ msgid_plural "Cloaking System CBMs"
 msgstr[0] "MBC: Système de Camouflage"
 msgstr[1] "MBCs: Système de Camouflage"
 
-#. ~ Description for Cloaking System CBM
 #. ~ Description for Cloaking System
+#. ~ Description for Cloaking System CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "This high-power system uses a set of cameras and LEDs to make you blend into"
@@ -12491,8 +14271,8 @@ msgid_plural "Wired Reflexes CBMs"
 msgstr[0] "MBC: Réflexes câblés"
 msgstr[1] "MBCs: Réflexes câblés"
 
-#. ~ Description for Wired Reflexes CBM
 #. ~ Description for Wired Reflexes
+#. ~ Description for Wired Reflexes CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your reaction time has been greatly enhanced with bionic nerve stimulators, "
@@ -12505,8 +14285,8 @@ msgid_plural "Expanded Digestive System CBMs"
 msgstr[0] "MBC: Système Digestif Étendu"
 msgstr[1] "MBCs: Système Digestif Étendu"
 
-#. ~ Description for Expanded Digestive System CBM
 #. ~ Description for Expanded Digestive System
+#. ~ Description for Expanded Digestive System CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You have been outfitted with three synthetic stomachs and industrial-grade "
@@ -12552,8 +14332,8 @@ msgid_plural "Ethanol Burner CBMs"
 msgstr[0] "MBC: Brûleur à alcool"
 msgstr[1] "MBC: Brûleur à alcool"
 
-#. ~ Description for Ethanol Burner CBM
 #. ~ Description for Ethanol Burner
+#. ~ Description for Ethanol Burner CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You burn alcohol as fuel in an extremely efficient reaction.  However, you "
@@ -12566,8 +14346,8 @@ msgid_plural "Aero-Evaporator CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Aero-Evaporator CBM
 #. ~ Description for Aero-Evaporator
+#. ~ Description for Aero-Evaporator CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "This unit draws moisture from the surrounding air, which then is poured from"
@@ -12580,8 +14360,8 @@ msgid_plural "Diamond Cornea CBMs"
 msgstr[0] "MBC : Cornée Diamant"
 msgstr[1] "MBCs : Cornée Diamant"
 
-#. ~ Description for Diamond Cornea CBM
 #. ~ Description for Diamond Cornea
+#. ~ Description for Diamond Cornea CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid "Your vision is greatly enhanced, giving you a +2 bonus to perception."
 msgstr "Votre vision est grandement augmentée, vous accordant un bonus de +2 en perception."
@@ -12592,8 +14372,8 @@ msgid_plural "Telescopic Eyes CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Telescopic Eyes CBM
 #. ~ Description for Telescopic Eyes
+#. ~ Description for Telescopic Eyes CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Much of the material in your inner eye has been removed and replaced with an"
@@ -12608,8 +14388,8 @@ msgid_plural "Facial Distortion CBMs"
 msgstr[0] "MBC: Déformation Faciale"
 msgstr[1] "MBCs: Déformation Faciale"
 
-#. ~ Description for Facial Distortion CBM
 #. ~ Description for Facial Distortion
+#. ~ Description for Facial Distortion CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Through controlled application of electrochemical impulses, you are capable "
@@ -12623,8 +14403,8 @@ msgid_plural "Dielectric Capacitance System CBMs"
 msgstr[0] "MBC: Capacitance Diélectrique"
 msgstr[1] "MBCs: Capacitance Diélectrique"
 
-#. ~ Description for Dielectric Capacitance System CBM
 #. ~ Description for Dielectric Capacitance System
+#. ~ Description for Dielectric Capacitance System CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Throughout your body lies a network of miniature piezoelectric capacitors "
@@ -12638,8 +14418,8 @@ msgid_plural "Fingerhack CBMs"
 msgstr[0] "MBC: Digit'Hack"
 msgstr[1] "MBCs: Digit'Hack"
 
-#. ~ Description for Fingerhack CBM
 #. ~ Description for Fingerhack
+#. ~ Description for Fingerhack CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "One of your fingers has an electrohack embedded in it; an all-purpose "
@@ -12654,8 +14434,8 @@ msgid_plural "Flashbang Generator CBMs"
 msgstr[0] "MBC: Générateur de Flashbang"
 msgstr[1] "MBCs: Générateur de Flashbang"
 
-#. ~ Description for Flashbang Generator CBM
 #. ~ Description for Flashbang Generator
+#. ~ Description for Flashbang Generator CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Light emitting diodes integrated into your skin can release a flash "
@@ -12669,8 +14449,8 @@ msgid_plural "Cranial Flashlight CBMs"
 msgstr[0] "MBC: Lampe Crânienne"
 msgstr[1] "MBCs: Lampe Crânienne"
 
-#. ~ Description for Cranial Flashlight CBM
 #. ~ Description for Cranial Flashlight
+#. ~ Description for Cranial Flashlight CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid "Mounted between your eyes is a small but powerful LED flashlight."
 msgstr "Une lampe LED petite mais puissante a été montée entre vos yeux."
@@ -12695,8 +14475,8 @@ msgid_plural "Integrated Dosimeter CBMs"
 msgstr[0] "MBC: Dosimètre Intégré"
 msgstr[1] "MBCs: Dosimètre Intégré"
 
-#. ~ Description for Integrated Dosimeter CBM
 #. ~ Description for Integrated Dosimeter
+#. ~ Description for Integrated Dosimeter CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Small radiation sensors have been implanted throughout your body, allowing "
@@ -12710,8 +14490,8 @@ msgid_plural "Oxygenator CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Oxygenator CBM
 #. ~ Description for Oxygenator
+#. ~ Description for Oxygenator CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A complex oxygen delivery system.  Improves the ability to extract oxygen "
@@ -12725,8 +14505,8 @@ msgid_plural "Terranian Sonar CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Terranian Sonar CBM
 #. ~ Description for Terranian Sonar
+#. ~ Description for Terranian Sonar CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your feet are equipped with precision sonar equipment, allowing you to "
@@ -12739,8 +14519,8 @@ msgid_plural "Heat Drain CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Heat Drain CBM
 #. ~ Description for Heat Drain
+#. ~ Description for Heat Drain CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "While fighting unarmed against a warm-blooded opponent, there is a chance "
@@ -12754,8 +14534,8 @@ msgid_plural "Thermal Dissipation CBMs"
 msgstr[0] "MBC: Dissipation Thermique"
 msgstr[1] "MBCs: Dissipation Thermique"
 
-#. ~ Description for Thermal Dissipation CBM
 #. ~ Description for Thermal Dissipation
+#. ~ Description for Thermal Dissipation CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Powerful heatsinks and supermaterials are woven into your flesh.  While "
@@ -12769,8 +14549,8 @@ msgid_plural "Hydraulic Muscles CBMs"
 msgstr[0] "MBC: Muscles Hydrauliques"
 msgstr[1] "MBCs: Muscles Hydrauliques"
 
-#. ~ Description for Hydraulic Muscles CBM
 #. ~ Description for Hydraulic Muscles
+#. ~ Description for Hydraulic Muscles CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "While activated, your muscles will be greatly enhanced, increasing your "
@@ -12796,8 +14576,8 @@ msgid_plural "Cerebral Booster CBMs"
 msgstr[0] "MBC: Amplificateur Cérébral"
 msgstr[1] "MBCs: Amplificateur Cérébral"
 
-#. ~ Description for Cerebral Booster CBM
 #. ~ Description for Cerebral Booster
+#. ~ Description for Cerebral Booster CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your brain has been enhanced with bionic coprocessors, giving you a +2 bonus"
@@ -12810,8 +14590,8 @@ msgid_plural "Finger-Mounted Laser CBMs"
 msgstr[0] "MBC: Laser-Doigt"
 msgstr[1] "MBCs: Laser-Doigt"
 
-#. ~ Description for Finger-Mounted Laser CBM
 #. ~ Description for Finger-Mounted Laser
+#. ~ Description for Finger-Mounted Laser CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "One of your fingers has a small high-powered laser embedded in it.  This "
@@ -12825,8 +14605,8 @@ msgid_plural "Leukocyte Breeder System CBMs"
 msgstr[0] "MBC: Système Surgénérateur de Leucocytes"
 msgstr[1] "MBCs: Système Surgénérateur de Leucocytes"
 
-#. ~ Description for Leukocyte Breeder System CBM
 #. ~ Description for Leukocyte Breeder System
+#. ~ Description for Leukocyte Breeder System CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You are equipped with bionic stimulators which augment your haematopoiesis "
@@ -12841,8 +14621,8 @@ msgid_plural "Mini-Flamethrower CBMs"
 msgstr[0] "MBC: Mini-Lance-Flammes"
 msgstr[1] "MBCs: Mini-Lance-Flammes"
 
-#. ~ Description for Mini-Flamethrower CBM
 #. ~ Description for Mini-Flamethrower
+#. ~ Description for Mini-Flamethrower CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "The index fingers of both hands have powerful fire starters which extend "
@@ -12855,8 +14635,8 @@ msgid_plural "Fingerpick CBMs"
 msgstr[0] "MBC: Doigt Crocheteur"
 msgstr[1] "MBCs: Doigt Crocheteur"
 
-#. ~ Description for Fingerpick CBM
 #. ~ Description for Fingerpick
+#. ~ Description for Fingerpick CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "One of your fingers has an electronic lockpick embedded in it.  This "
@@ -12870,8 +14650,8 @@ msgid_plural "Electromagnetic Unit CBMs"
 msgstr[0] "MBC: Unité Électromagnétique"
 msgstr[1] "MBCs: Unité Électromagnétique"
 
-#. ~ Description for Electromagnetic Unit CBM
 #. ~ Description for Electromagnetic Unit
+#. ~ Description for Electromagnetic Unit CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Embedded in your hand is a powerful electromagnet, allowing you to pull "
@@ -12884,8 +14664,8 @@ msgid_plural "Nictating Membrane CBMs"
 msgstr[0] "MBC: Membrane Nictitante"
 msgstr[1] "MBCs: Membrane Nictitante"
 
-#. ~ Description for Nictating Membrane CBM
 #. ~ Description for Nictating Membrane
+#. ~ Description for Nictating Membrane CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your eyes have a thin membrane that closes over your eyes while underwater, "
@@ -12898,8 +14678,8 @@ msgid_plural "Enhanced Memory Banks CBMs"
 msgstr[0] "MBC: Banque Mémorielle Améliorée"
 msgstr[1] "MBCs: Banque Mémorielle Améliorée"
 
-#. ~ Description for Enhanced Memory Banks CBM
 #. ~ Description for Enhanced Memory Banks
+#. ~ Description for Enhanced Memory Banks CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your memory has been enhanced with small quantum storage drives.  Any time "
@@ -12913,8 +14693,8 @@ msgid_plural "Metabolic Interchange CBMs"
 msgstr[0] "MBC: Permutation métabolique"
 msgstr[1] "MBCs: Permutation métabolique"
 
-#. ~ Description for Metabolic Interchange CBM
 #. ~ Description for Metabolic Interchange
+#. ~ Description for Metabolic Interchange CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your digestive system and power supply are interconnected.  Energy drains "
@@ -12928,8 +14708,8 @@ msgid_plural "Weather Reader CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Weather Reader CBM
 #. ~ Description for Weather Reader
+#. ~ Description for Weather Reader CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A multitude of scientific instruments and sensors collect environmental "
@@ -12957,8 +14737,8 @@ msgid_plural "Artificial Night Generator CBMs"
 msgstr[0] "MBC: Générateur de Nuit Artificielle"
 msgstr[1] "MBCs: Générateur de Nuit Artificielle"
 
-#. ~ Description for Artificial Night Generator CBM
 #. ~ Description for Artificial Night Generator
+#. ~ Description for Artificial Night Generator CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid "Destructive interference eliminates all light within a 15 tile radius."
 msgstr "Les interférences destructives éliminent toute lumière dans un rayon de 15 tuiles."
@@ -12969,8 +14749,8 @@ msgid_plural "Implanted Night Vision CBMs"
 msgstr[0] "MBC: Vision Nocturne Intégrée"
 msgstr[1] "MBCs: Vision Nocturne Intégrée"
 
-#. ~ Description for Implanted Night Vision CBM
 #. ~ Description for Implanted Night Vision
+#. ~ Description for Implanted Night Vision CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your eyes have been modified to amplify existing light, allowing you to see "
@@ -12983,8 +14763,8 @@ msgid_plural "Offensive Defense System CBMs"
 msgstr[0] "MBC: Système de Défense Offensif"
 msgstr[1] "MBCs: Système de Défense Offensif"
 
-#. ~ Description for Offensive Defense System CBM
 #. ~ Description for Offensive Defense System
+#. ~ Description for Offensive Defense System CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  This "
@@ -12998,8 +14778,8 @@ msgid_plural "Sensory Dulling CBMs"
 msgstr[0] "MBC: Atténuement des Sens"
 msgstr[1] "MBCs: Atténuement des Sens"
 
-#. ~ Description for Sensory Dulling CBM
 #. ~ Description for Sensory Dulling
+#. ~ Description for Sensory Dulling CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your nervous system is wired to allow you to inhibit the signals of pain, "
@@ -13026,8 +14806,8 @@ msgid_plural "Power Armor Interface CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Power Armor Interface CBM
 #. ~ Description for Power Armor Interface
+#. ~ Description for Power Armor Interface CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Interfaces your power system with the internal charging port on suits of "
@@ -13040,8 +14820,8 @@ msgid_plural "Power Armor Mk. II Interface CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Power Armor Mk. II Interface CBM
 #. ~ Description for Power Armor Interface Mk. II
+#. ~ Description for Power Armor Mk. II Interface CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Interfaces your power system with the internal charging port on suits of "
@@ -13055,8 +14835,8 @@ msgid_plural "Power Storage CBMs"
 msgstr[0] "MBC: Stockage d'Énergie"
 msgstr[1] "MBCs: Stockage d'Énergie"
 
-#. ~ Description for Power Storage CBM
 #. ~ Description for Power Storage
+#. ~ Description for Power Storage CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Compact Bionics Module that upgrades your power capacity by 100 units.  "
@@ -13070,8 +14850,8 @@ msgid_plural "Power Storage CBMs Mk. II"
 msgstr[0] "MBC: Stockage d'Énergie Mk. II"
 msgstr[1] "MBCs: Stockage d'Énergie Mk. II"
 
-#. ~ Description for Power Storage CBM Mk. II
 #. ~ Description for Power Storage Mk. II
+#. ~ Description for Power Storage CBM Mk. II
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Compact Bionics Module developed at DoubleTech Industries as a replacement "
@@ -13085,8 +14865,8 @@ msgid_plural "Probability Travel CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Probability Travel CBM
 #. ~ Description for Probability Travel
+#. ~ Description for Probability Travel CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Increases your body's wavelength, allowing you to quantum tunnel through "
@@ -13113,8 +14893,8 @@ msgid_plural "Radiation Scrubber System CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Radiation Scrubber System CBM
 #. ~ Description for Radiation Scrubber System
+#. ~ Description for Radiation Scrubber System CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A system of advanced piezomechanical blood filters have been implanted "
@@ -13128,8 +14908,8 @@ msgid_plural "Railgun CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Railgun CBM
 #. ~ Description for Railgun
+#. ~ Description for Railgun CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "EM field generators in your arms double the range and damage of thrown iron "
@@ -13143,8 +14923,8 @@ msgid_plural "Fingertip Razors CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Fingertip Razors CBM
 #. ~ Description for Fingertip Razors
+#. ~ Description for Fingertip Razors CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You possess razor-sharp retractable claws underneath your fingernails, ten "
@@ -13185,8 +14965,8 @@ msgid_plural "Recycler Unit CBMs"
 msgstr[0] "MBC: Unité de Recyclage"
 msgstr[1] "MBCs: Unité de Recyclage"
 
-#. ~ Description for Recycler Unit CBM
 #. ~ Description for Recycler Unit
+#. ~ Description for Recycler Unit CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your digestive system has been outfitted with a series of filters and "
@@ -13200,8 +14980,8 @@ msgid_plural "Remote Controller CBMs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for Remote Controller CBM
 #. ~ Description for Remote Controller
+#. ~ Description for Remote Controller CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A small module connected to your brain allows you to interface with nearby "
@@ -13228,8 +15008,8 @@ msgid_plural "Olfactory Mask CBMs"
 msgstr[0] "MBC: Masque Olfactif"
 msgstr[1] "MBCs: Masque Olfactif"
 
-#. ~ Description for Olfactory Mask CBM
 #. ~ Description for Olfactory Mask
+#. ~ Description for Olfactory Mask CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "While this system is powered, your body will produce very little odor, "
@@ -13242,8 +15022,8 @@ msgid_plural "Scent Vision CBMs"
 msgstr[0] "MBC: Pistage Visuel"
 msgstr[1] "MBCs: Pistage Visuel"
 
-#. ~ Description for Scent Vision CBM
 #. ~ Description for Scent Vision
+#. ~ Description for Scent Vision CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "While this system is powered, you're able to visually sense your own scent, "
@@ -13257,8 +15037,8 @@ msgid_plural "Electroshock Unit CBMs"
 msgstr[0] "MBC: Unité d'électrochocs"
 msgstr[1] "MBCs: Unité d'Électrochocs"
 
-#. ~ Description for Electroshock Unit CBM
 #. ~ Description for Electroshock Unit
+#. ~ Description for Electroshock Unit CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "While fighting unarmed, or with a weapon that conducts electricity, there is"
@@ -13272,8 +15052,8 @@ msgid_plural "Shockwave Generator CBMs"
 msgstr[0] "MBC: Générateur d'Ondes de Choc"
 msgstr[1] "MBCs: Générateur d'Ondes de Choc"
 
-#. ~ Description for Shockwave Generator CBM
 #. ~ Description for Shockwave Generator
+#. ~ Description for Shockwave Generator CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You generate a powerful shockwave, knocking back all nearby creatures.  "
@@ -13287,8 +15067,8 @@ msgid_plural "Solar Panels CBMs"
 msgstr[0] "MBC: Panneaux Solaires"
 msgstr[1] "MBCs: Panneaux Solaires"
 
-#. ~ Description for Solar Panels CBM
 #. ~ Description for Solar Panels
+#. ~ Description for Solar Panels CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You have a few solar panels installed.  While in direct sunlight, your power"
@@ -13301,8 +15081,8 @@ msgid_plural "Synaptic Accelerator CBMs"
 msgstr[0] "MBC: Accélérateur Synaptique"
 msgstr[1] "MBCs: Accélérateur Synaptique"
 
-#. ~ Description for Synaptic Accelerator CBM
 #. ~ Description for Synaptic Accelerator
+#. ~ Description for Synaptic Accelerator CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 #, no-python-format
 msgid ""
@@ -13316,8 +15096,8 @@ msgid_plural "Internal Storage CBMs"
 msgstr[0] "MBC: Stockage interne"
 msgstr[1] "MBCs: Stockage interne"
 
-#. ~ Description for Internal Storage CBM
 #. ~ Description for Internal Storage
+#. ~ Description for Internal Storage CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Space inside your chest cavity has been converted into a storage area.  You "
@@ -13330,8 +15110,8 @@ msgid_plural "Muscle Augmentation CBMs"
 msgstr[0] "MBC: Augmentation Musculaire"
 msgstr[1] "MBCs: Augmentation Musculaire"
 
-#. ~ Description for Muscle Augmentation CBM
 #. ~ Description for Muscle Augmentation
+#. ~ Description for Muscle Augmentation CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your muscular system has been enhanced with myomer fibers, giving you a +2 "
@@ -13359,8 +15139,8 @@ msgid_plural "Targeting System CBMs"
 msgstr[0] "MBC: Système de Ciblage"
 msgstr[1] "MBCs: Système de Ciblage"
 
-#. ~ Description for Targeting System CBM
 #. ~ Description for Targeting System
+#. ~ Description for Targeting System CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your eyes are equipped with range finders, and their movement is synced with"
@@ -13374,8 +15154,8 @@ msgid_plural "Teleportation Unit CBMs"
 msgstr[0] "MBC: Unité de Téléportation"
 msgstr[1] "MBCs: Unité de Téléportation"
 
-#. ~ Description for Teleportation Unit CBM
 #. ~ Description for Teleportation Unit
+#. ~ Description for Teleportation Unit CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "This highly experimental unit folds space over short distances, instantly "
@@ -13403,8 +15183,8 @@ msgid_plural "Integrated Toolset CBMs"
 msgstr[0] "MBC: Boîte à Outils Intégrée"
 msgstr[1] "MBCs: Boîte à Outils Intégrée"
 
-#. ~ Description for Integrated Toolset CBM
 #. ~ Description for Integrated Toolset
+#. ~ Description for Integrated Toolset CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Implanted in your hands and fingers is a complete tool set - screwdriver, "
@@ -13418,8 +15198,8 @@ msgid_plural "Joint Torsion Ratchet CBMs"
 msgstr[0] "MBC: Articulations à cliquets"
 msgstr[1] "MBCs: Articulations à cliquets"
 
-#. ~ Description for Joint Torsion Ratchet CBM
 #. ~ Description for Joint Torsion Ratchet
+#. ~ Description for Joint Torsion Ratchet CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your joints have been equipped with torsion ratchets that generate power "
@@ -13432,8 +15212,8 @@ msgid_plural "Uncanny Dodge CBMs"
 msgstr[0] "MBC: Esquive Surnaturelle"
 msgstr[1] "MBCs: Esquive Surnaturelle"
 
-#. ~ Description for Uncanny Dodge CBM
 #. ~ Description for Uncanny Dodge
+#. ~ Description for Uncanny Dodge CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your nervous system has been augmented with bionic processors, allowing you "
@@ -13473,8 +15253,8 @@ msgid_plural "Water Extraction Unit CBMs"
 msgstr[0] "MBC: Unité d'Extraction d'Eau"
 msgstr[1] "MBCs: Unité d'Extraction d'Eau"
 
-#. ~ Description for Water Extraction Unit CBM
 #. ~ Description for Water Extraction Unit
+#. ~ Description for Water Extraction Unit CBM
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Nanotubes embedded in the palm of your hand will pump any available fluid "
@@ -25787,8 +27567,8 @@ msgstr "feu proche"
 #. ~ Description for nearby fire
 #. ~ Description for muscle
 #. ~ Description for a smoking device and a source of flame
-#. ~ Description for seeing this is a bug
 #. ~ Description for weapon
+#. ~ Description for seeing this is a bug
 #: lang/json/GENERIC_from_json.py lang/json/GENERIC_from_json.py
 #: lang/json/TOOL_from_json.py lang/json/TOOL_from_json.py
 #: lang/json/skill_from_json.py
@@ -56831,8 +58611,8 @@ msgstr ""
 #: lang/json/gun_from_json.py
 msgid "Beretta ARX-160"
 msgid_plural "Beretta ARX-160"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Beretta ARX-160"
+msgstr[1] "Beretta ARX-160"
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -57583,8 +59363,8 @@ msgstr ""
 #: lang/json/gun_from_json.py
 msgid "Saiga-12"
 msgid_plural "Saiga-12s"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Saiga-12"
+msgstr[1] "Saiga-12"
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -60745,8 +62525,8 @@ msgstr "Inhaler"
 msgid "Drill"
 msgstr "Percer"
 
-#: lang/json/item_action_from_json.py lang/json/keybinding_from_json.py
-#: src/game_inventory.cpp src/game_inventory.cpp
+#: lang/json/item_action_from_json.py lang/json/item_action_from_json.py
+#: lang/json/keybinding_from_json.py src/game_inventory.cpp
 msgid "Read"
 msgstr "Lire"
 
@@ -71420,31 +73200,31 @@ msgstr ""
 
 #: lang/json/npc_from_json.py
 msgid "Representative"
-msgstr ""
+msgstr "Représentant"
 
 #: lang/json/npc_from_json.py
 msgid "CPT"
-msgstr ""
+msgstr "Capitaine"
 
 #: lang/json/npc_from_json.py
 msgid "SFC"
-msgstr ""
+msgstr "Sergent"
 
 #: lang/json/npc_from_json.py
 msgid "Broker"
-msgstr ""
+msgstr "Courtier"
 
 #: lang/json/npc_from_json.py
 msgid "Guard"
-msgstr ""
+msgstr "Garde"
 
 #: lang/json/npc_from_json.py
 msgid "Foreman"
-msgstr ""
+msgstr "Contremaître"
 
 #: lang/json/npc_from_json.py
 msgid "Carpenter"
-msgstr ""
+msgstr "Charpentier"
 
 #: lang/json/npc_from_json.py
 msgid "Lumberjack"
@@ -71452,7 +73232,7 @@ msgstr "Bûcheron"
 
 #: lang/json/npc_from_json.py
 msgid "Woodworker"
-msgstr ""
+msgstr "Artisan du bois"
 
 #: lang/json/npc_from_json.py
 msgid "Crop Overseer"
@@ -71460,15 +73240,15 @@ msgstr ""
 
 #: lang/json/npc_from_json.py
 msgid "Farmer"
-msgstr "Agriculteur"
+msgstr "Fermier"
 
 #: lang/json/npc_from_json.py
 msgid "Laborer"
-msgstr ""
+msgstr "Ouvrier"
 
 #: lang/json/npc_from_json.py
 msgid "Nurse"
-msgstr ""
+msgstr "Infirmier"
 
 #: lang/json/npc_from_json.py
 msgid "Scrapper"
@@ -71480,19 +73260,19 @@ msgstr ""
 
 #: lang/json/npc_from_json.py
 msgid "Barber"
-msgstr ""
+msgstr "Barbier"
 
 #: lang/json/npc_from_json.py
 msgid "Merc"
-msgstr ""
+msgstr "Mercenaire"
 
 #: lang/json/npc_from_json.py
 msgid "Makayla Sanchez"
-msgstr ""
+msgstr "Makayla Sanchez"
 
 #: lang/json/npc_from_json.py
 msgid "Bandit"
-msgstr ""
+msgstr "Bandit"
 
 #: lang/json/overmap_terrain_from_json.py src/mapdata.cpp src/mapdata.cpp
 msgid "nothing"
@@ -91001,11 +92781,11 @@ msgstr "Essayer"
 
 #: src/action.cpp
 msgid "Look"
-msgstr ""
+msgstr "Regarder"
 
 #: src/action.cpp
 msgid "Interact"
-msgstr ""
+msgstr "Interagir"
 
 #: src/action.cpp src/advanced_inv.cpp src/game_inventory.cpp
 msgid "Inventory"
@@ -91013,23 +92793,19 @@ msgstr "Inventaire"
 
 #: src/action.cpp
 msgid "Combat"
-msgstr ""
+msgstr "Combat"
 
 #: src/action.cpp
 msgid "Craft"
-msgstr ""
+msgstr "Fabriquer"
 
 #: src/action.cpp
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 #: src/action.cpp
 msgid "Misc"
-msgstr ""
-
-#: src/action.cpp src/options.cpp
-msgid "Debug"
-msgstr "Debug"
+msgstr "Divers"
 
 #: src/action.cpp
 msgid "Back"
@@ -92140,11 +93916,6 @@ msgstr ""
 msgid "The destination is already full!"
 msgstr ""
 
-#: src/advanced_inv.cpp src/armor_layers.cpp src/construction.cpp
-#: src/options.cpp src/scenario.cpp
-msgid "All"
-msgstr "Tous"
-
 #: src/armor_layers.cpp
 msgid "This is worn next to the skin."
 msgstr "Cela se porte en contact avec la peau."
@@ -92988,14 +94759,6 @@ msgstr "[<Personnage>]"
 msgid "Auto pickup enabled:"
 msgstr "Prise auto activée:"
 
-#: src/auto_pickup.cpp src/options.cpp src/safemode_ui.cpp
-msgid "False"
-msgstr "Faux"
-
-#: src/auto_pickup.cpp src/options.cpp src/safemode_ui.cpp
-msgid "True"
-msgstr "Vrai"
-
 #: src/auto_pickup.cpp src/safemode_ui.cpp
 msgid "<S>witch"
 msgstr "Ba<S>culer"
@@ -93030,11 +94793,6 @@ msgstr "* est utilisé comme joker. Quelques exemples :\n\nflèche de bois  corr
 #: src/auto_pickup.cpp
 msgid "Pickup Rule:"
 msgstr "Règle de ramassage:"
-
-#: src/auto_pickup.cpp src/color.cpp src/game.cpp src/input.cpp
-#: src/options.cpp src/safemode_ui.cpp
-msgid "Save changes?"
-msgstr "Enregistrer les modifications ?"
 
 #: src/auto_pickup.cpp
 #, c-format
@@ -93804,45 +95562,13 @@ msgstr "Vendredi"
 msgid "Saturday"
 msgstr "Samedi"
 
-#: src/calendar.cpp src/options.cpp
-msgid "Spring"
-msgstr "Print."
-
-#: src/calendar.cpp src/options.cpp
-msgid "Summer"
-msgstr "Été"
-
-#: src/calendar.cpp src/options.cpp
-msgid "Autumn"
-msgstr "Automne"
-
-#: src/calendar.cpp src/options.cpp
-msgid "Winter"
-msgstr "Hiver"
-
 #: src/calendar.cpp
 msgid "End times"
 msgstr ""
 
-#: src/cata_utility.cpp src/options.cpp
-msgid "mph"
-msgstr "mph"
-
-#: src/cata_utility.cpp src/options.cpp
-msgid "km/h"
-msgstr "km/h"
-
 #: src/cata_utility.cpp
 msgid "m/s"
 msgstr "m/s"
-
-#: src/cata_utility.cpp src/options.cpp
-msgid "kg"
-msgstr "kg"
-
-#: src/cata_utility.cpp src/options.cpp
-msgid "lbs"
-msgstr "lbs"
 
 #: src/cata_utility.cpp
 msgid "c"
@@ -95181,8 +96907,9 @@ msgstr ""
 msgid "You need a %s to consume that!"
 msgstr "Vous avez besoin d'une(e) %s pour consomme ceci!"
 
-#: src/consumption.cpp src/iuse.cpp src/iuse.cpp src/iuse_actor.cpp
-#: src/iuse_actor.cpp src/mutation.cpp src/player.cpp
+#: src/consumption.cpp src/iuse.cpp src/iuse.cpp src/iuse.cpp
+#: src/iuse_actor.cpp src/iuse_actor.cpp src/iuse_actor.cpp src/mutation.cpp
+#: src/player.cpp
 msgid "You can't do that while underwater."
 msgstr "Vous ne pouvez pas faire ça sous l'eau."
 
@@ -95471,14 +97198,6 @@ msgstr ""
 msgid "Tool(s): "
 msgstr ""
 
-#: src/craft_command.cpp src/options.cpp src/veh_interact.cpp
-msgid "Yes"
-msgstr "Oui"
-
-#: src/craft_command.cpp src/options.cpp src/veh_interact.cpp
-msgid "No"
-msgstr "Non"
-
 #: src/crafting.cpp src/iuse.cpp
 msgid "Your morale is too low to craft..."
 msgstr "Votre moral est trop bas pour fabriquer quelque chose..."
@@ -95757,7 +97476,7 @@ msgstr "Vous ne pouvez pas faire ça!"
 msgid "Nothing selected!"
 msgstr "Pas de sélection!"
 
-#: src/crafting_gui.cpp src/newcharacter.cpp src/newcharacter.cpp
+#: src/crafting_gui.cpp src/newcharacter.cpp
 msgid "Search:"
 msgstr "Chercher :"
 
@@ -95902,11 +97621,6 @@ msgstr "Neutre"
 #: src/creature.cpp
 msgid "Friendly"
 msgstr ""
-
-#. ~ allow invalid (bugged, bad) maps without asking user
-#: src/creature.cpp src/options.cpp
-msgid "Any"
-msgstr "Toutes"
 
 #: src/creature.cpp
 msgid "BUG: Behavior unnamed. (Creature::get_attitude_ui_data)"
@@ -105806,10 +107520,6 @@ msgstr "Ça sera prêt dans %s."
 msgid "%1$s on the %2$s is: "
 msgstr ""
 
-#: src/item.cpp src/options.cpp
-msgid "Note: "
-msgstr "Note: "
-
 #: src/item.cpp
 msgid "Integrated mod: "
 msgstr "Mod intégré: "
@@ -106027,28 +107737,28 @@ msgid "right"
 msgstr ""
 
 #: src/item.cpp
-msgid "(++)"
-msgstr "(++)"
+msgid "++"
+msgstr "++"
 
 #: src/item.cpp
-msgid "(||)"
-msgstr "(||)"
+msgid "||"
+msgstr "||"
 
 #: src/item.cpp
-msgid "(..)"
-msgstr "(..)"
+msgid ".."
+msgstr ".."
 
 #: src/item.cpp
-msgid "(.)"
-msgstr ""
+msgid "\\."
+msgstr "\\."
 
 #: src/item.cpp
-msgid "(|.)"
-msgstr "(|.)"
+msgid "|."
+msgstr "|."
 
 #: src/item.cpp
-msgid "(|)"
-msgstr "(|)"
+msgid "|\\"
+msgstr "|\\"
 
 #: src/item.cpp
 msgid "isn't a weapon"
@@ -111670,6 +113380,11 @@ msgid "the %s"
 msgstr "le/la %s"
 
 #: src/map.cpp
+#, c-format
+msgid "The %s you were grabbing is destroyed!"
+msgstr ""
+
+#: src/map.cpp
 msgid "Smashable. "
 msgstr "Brisable. "
 
@@ -115541,7 +117256,7 @@ msgstr "TRAITS"
 msgid "STATS"
 msgstr "STATS"
 
-#: src/newcharacter.cpp src/newcharacter.cpp src/player_display.cpp
+#: src/newcharacter.cpp src/player_display.cpp
 msgid "SKILLS"
 msgstr "COMPÉTENCES"
 
@@ -118799,1277 +120514,6 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "Select a follower"
-msgstr ""
-
-#: src/options.cpp
-#, c-format
-msgid "%d: %s"
-msgstr ""
-
-#: src/options.cpp
-#, c-format
-msgid "Default: %s - Values: %s"
-msgstr "Par défaut: %s - Valeurs: %s"
-
-#: src/options.cpp
-#, c-format
-msgid "Default: %s"
-msgstr "Par défaut: %s"
-
-#: src/options.cpp
-msgid "Default: False"
-msgstr "Par défaut: Faux"
-
-#: src/options.cpp
-msgid "Default: True"
-msgstr "Par défaut: Vrai"
-
-#: src/options.cpp
-#, c-format
-msgid "Default: %d - Min: %d, Max: %d"
-msgstr "par défaut: %d - Min: %d, Max: %d"
-
-#: src/options.cpp
-#, c-format
-msgid "Default: %d: %s"
-msgstr "Par défaut: %d: %s"
-
-#: src/options.cpp
-#, c-format
-msgid "Default: %.2f - Min: %.2f, Max: %.2f"
-msgstr "par défaut: %.2f - Min: %.2f, Max: %.2f"
-
-#: src/options.cpp
-msgid "Deon's"
-msgstr "Deon"
-
-#: src/options.cpp
-msgid "Hoder's"
-msgstr "Hoder"
-
-#: src/options.cpp
-msgid "Basic"
-msgstr ""
-
-#: src/options.cpp
-msgid "General"
-msgstr "Général"
-
-#: src/options.cpp
-msgid "Interface"
-msgstr "Interface"
-
-#: src/options.cpp
-msgid "Graphics"
-msgstr "Graphismes"
-
-#: src/options.cpp
-msgid "World Defaults"
-msgstr "Monde par défaut"
-
-#: src/options.cpp
-msgid "Default character name"
-msgstr "Nom de personnage par défaut"
-
-#: src/options.cpp
-msgid ""
-"Set a default character name that will be used instead of a random name on "
-"character creation."
-msgstr "Définir un nom de personnage par défaut qui va être utilisé à la place du nom aléatoire à la création de personnage."
-
-#: src/options.cpp
-msgid "Auto pickup enabled"
-msgstr "Prise automatique activée"
-
-#: src/options.cpp
-msgid ""
-"Enable item auto pickup.  Change pickup rules with the Auto Pickup Manager "
-"in the Help Menu ?3"
-msgstr "Activer la prise automatique d'objets. Changer les règles de prise avec le gestionnaire de prise auto dans le menu aide, ?3"
-
-#: src/options.cpp
-msgid "Auto pickup adjacent"
-msgstr "Prise automatique des objets adjacents"
-
-#: src/options.cpp
-msgid ""
-"If true, will enable to pickup items one tile around to the player.  You can"
-" assign No Auto Pickup zones with the Zones Manager 'Y' key for eg.  your "
-"homebase."
-msgstr "Si vrai, permettra de prendre des objets à une tuile autour du joueur. Vous pouvez attribuer des zones de non-ramassage automatique avec la touche 'Y' du gestionnaire de zones, pour par exemple votre base de départ."
-
-#: src/options.cpp
-msgid "Auto pickup light items"
-msgstr "Prise automatique des objets légers"
-
-#: src/options.cpp
-msgid ""
-"Auto pickup items with weight less than or equal to [option] * 50 grams.  "
-"You must also set the small items option.  '0' disables this option"
-msgstr "Prendre automatiquement les objets de poids inférieur ou égal à [option] * 50 grammes. Vous devez aussi activer l'option pour les petits objets. '0' désactive cette option."
-
-#: src/options.cpp
-msgid "Auto pickup small items"
-msgstr "Prise automatique des petits objets"
-
-#: src/options.cpp
-msgid ""
-"Auto pickup items with volume less than or equal to [option] * 50 "
-"milliliters.  You must also set the light items option.  '0' disables this "
-"option"
-msgstr "Prendre automatiquement les objets de volume inférieur ou égal à [option] * 50 millilitres. Vous devez aussi activer l'option pour les objets légers. '0' désactive cette option."
-
-#: src/options.cpp
-msgid "Auto pickup safe mode"
-msgstr "Mode prudence de la prise auto"
-
-#: src/options.cpp
-msgid ""
-"Auto pickup is disabled as long as you can see monsters nearby.  This is "
-"affected by 'Safe Mode proximity distance'."
-msgstr "La prise automatique est désactivée tant que vous pouvez voir des monstres à proximité. Cette option est affectée par la 'Distance de proximité pour le mode prudence'."
-
-#: src/options.cpp
-msgid "Dangerous pickups"
-msgstr "Prises automatiques dangereuses"
-
-#: src/options.cpp
-msgid ""
-"If false, will cause player to drop new items that cause them to exceed the "
-"weight limit."
-msgstr ""
-
-#: src/options.cpp
-msgid "Auto-safe mode"
-msgstr "Mode prudence auto"
-
-#: src/options.cpp
-msgid ""
-"If true, turns safemode automatically back on after it being disabled "
-"beforehand.  See option 'Turns to re-enable safe mode'"
-msgstr "Si vrai, réactive automatiquement le mode prudence après qu'il ait été désactivé. Voir l'option 'Nombre de tours pour réactiver le mode prudence'"
-
-#: src/options.cpp
-msgid "Turns to re-enable safe mode"
-msgstr "Nombre de tours pour réactiver le mode prudence"
-
-#: src/options.cpp
-msgid ""
-"Number of turns after safe mode is re-enabled if no hostiles are in 'Safe "
-"Mode proximity distance'."
-msgstr "Nombre de tours après lesquels le mode prudence sera réactivé si aucun ennemi n'est présent dans la 'Distance de proximité pour le mode prudence'."
-
-#: src/options.cpp
-msgid "Safe Mode"
-msgstr "Mode prudence"
-
-#: src/options.cpp
-msgid ""
-"If true, will hold the game and display a warning if a hostile monster/npc "
-"is approaching."
-msgstr "Si vrai, interrompra la partie et affichera un avertissement quand mon monstre/pnj hostile approchera."
-
-#: src/options.cpp
-msgid "Safe Mode proximity distance"
-msgstr "Distance de proximité pour le mode prudence"
-
-#: src/options.cpp
-msgid ""
-"If safe mode is enabled, distance to hostiles at which safe mode should show"
-" a warning.  0 = Max player viewdistance."
-msgstr "Lorsque le mode prudence est activé, cette option permet de régler à quelle distance un avertissement sera affiché. 0 = Distance maximale (vision du joueur)"
-
-#: src/options.cpp
-msgid "Safe Mode when driving"
-msgstr "Mode prudent en conduisant"
-
-#: src/options.cpp
-msgid ""
-"When true, safe mode will alert you of hostiles while you are driving a "
-"vehicle."
-msgstr "Si vrai, le mode prudence vous alerte pendant que vous conduisez."
-
-#: src/options.cpp
-msgid "Realtime turn progression"
-msgstr "Progression du tour en temps réel"
-
-#: src/options.cpp
-msgid ""
-"If enabled, monsters will take periodic gameplay turns.  This value is the "
-"delay between each turn, in seconds.  Works best with Safe Mode disabled.  0"
-" = disabled."
-msgstr "Si activé, les monstres auront des tours de jeu à intervalle régulier. La valeur représente le temps en secondes entre chaque tour. Fonctionne mieux avec le mode Prudence désactivé. 0 = désactivé."
-
-#: src/options.cpp
-msgid "Periodically autosave"
-msgstr "Sauvegarde automatique périodique"
-
-#: src/options.cpp
-msgid ""
-"If true, game will periodically save the map.  Autosaves occur based on in-"
-"game turns or real-time minutes, whichever is larger."
-msgstr "Si vrai, le jeu sauvegardera périodiquement. Les sauvegardes auront lieu soit après un nombre de tours donné, soit suivant un temps écoulé, le plus grand des deux."
-
-#: src/options.cpp
-msgid "Game turns between autosaves"
-msgstr "Tours de jeu entre chaque sauvegarde"
-
-#: src/options.cpp
-msgid "Number of game turns between autosaves"
-msgstr "Nombre de tours de jeu entre chaque sauvegarde"
-
-#: src/options.cpp
-msgid "Real minutes between autosaves"
-msgstr "Minutes réelles entre les sauvegardes"
-
-#: src/options.cpp
-msgid "Number of real time minutes between autosaves"
-msgstr "Nombre de minutes réelles entre les sauvegardes"
-
-#: src/options.cpp
-msgid "Circular distances"
-msgstr "Distances circulaires"
-
-#: src/options.cpp
-msgid ""
-"If true, the game will calculate range in a realistic way: light sources "
-"will be circles, diagonal movement will cover more ground and take longer.  "
-"If disabled, everything is square: moving to the northwest corner of a "
-"building takes as long as moving to the north wall."
-msgstr "Si vrai, le jeu calcule la portée de manière plus réaliste. Les source de lumière seront des cercles et les mouvements en diagonale prennent plus de temps."
-
-#. ~ containers
-#: src/options.cpp
-msgid "Watertight"
-msgstr "Étanche"
-
-#: src/options.cpp
-msgid "Drop empty containers"
-msgstr "Poser les contenants vides"
-
-#: src/options.cpp
-msgid ""
-"Set to drop empty containers after use.  No: Don't drop any. - Watertight: "
-"All except watertight containers. - All: Drop all containers."
-msgstr "Choisissez le sort des contenants vides après utilisation. Non: Les garder tous. -Étanche: Garder uniquement les contenants étanches. -Tous: Poser tous les contenants."
-
-#: src/options.cpp
-msgid "Auto notes"
-msgstr "Notes automatiques"
-
-#: src/options.cpp
-msgid ""
-"If true, automatically sets notes on places that have stairs that go up or "
-"down"
-msgstr "Si vrai, place automatiquement des notes aux emplacements avec des escaliers."
-
-#. ~ ask for lifting restrictions
-#: src/options.cpp
-msgid "Ask"
-msgstr "Demander"
-
-#: src/options.cpp
-msgid "Always"
-msgstr "Toujours"
-
-#: src/options.cpp
-msgid "Never"
-msgstr "Jamais"
-
-#: src/options.cpp
-msgid "DeathCam"
-msgstr "Caméra de mort"
-
-#: src/options.cpp
-msgid ""
-"Always: Always start deathcam.  Ask: Query upon death.  Never: Never show "
-"deathcam."
-msgstr "Une caméra vous permettant de voir votre mort. 'Toujours' démarrer la caméra. 'Demander' au moment de la mort. Ne 'Jamais' afficher la caméra."
-
-#: src/options.cpp
-msgid "Choose soundpack"
-msgstr "Pack de sons"
-
-#: src/options.cpp
-msgid "Choose the soundpack you want to use."
-msgstr "Choisir le pack de sons à utiliser."
-
-#: src/options.cpp
-msgid "Music Volume"
-msgstr "Volume de la musique"
-
-#: src/options.cpp
-msgid "Adjust the volume of the music being played in the background."
-msgstr "Régler le volume de la musique jouée en fond."
-
-#: src/options.cpp
-msgid "Sound Effect Volume"
-msgstr "Volume des bruitages"
-
-#: src/options.cpp
-msgid "Adjust the volume of sound effects being played by the game."
-msgstr "Régler le volume des bruitages du jeu."
-
-#: src/options.cpp
-msgid "System language"
-msgstr "Langue du système"
-
-#: src/options.cpp
-msgid "Language"
-msgstr "Langue"
-
-#: src/options.cpp
-msgid "Switch Language."
-msgstr ""
-
-#: src/options.cpp
-msgid "Fahrenheit"
-msgstr "Fahrenheit"
-
-#: src/options.cpp
-msgid "Celsius"
-msgstr "Celsius"
-
-#: src/options.cpp
-msgid "Temperature units"
-msgstr "Unité de température"
-
-#: src/options.cpp
-msgid "Switch between Celsius and Fahrenheit."
-msgstr "Choisir entre Celsius et Fahrenheit"
-
-#: src/options.cpp
-msgid "Speed units"
-msgstr "Unité de vitesse"
-
-#: src/options.cpp
-msgid "Switch between km/h and mph."
-msgstr "Choisir entre km/h et mph"
-
-#: src/options.cpp
-msgid "Mass units"
-msgstr "Unité de masse"
-
-#: src/options.cpp
-msgid "Switch between kg and lbs."
-msgstr "Choisir entre kg et lbs."
-
-#: src/options.cpp
-msgid "Cup"
-msgstr "Tasse"
-
-#: src/options.cpp
-msgid "Liter"
-msgstr "Litre"
-
-#: src/options.cpp
-msgid "Quart"
-msgstr ""
-
-#: src/options.cpp
-msgid "Volume units"
-msgstr "Unités de volume"
-
-#: src/options.cpp
-msgid "Switch between the Cup (c), Liter (L) or Quart (qt)."
-msgstr "Choisir entre Tasse (c), Litre (L) ou Quart (qt)."
-
-#. ~ 12h time, e.g.  11:59pm
-#: src/options.cpp
-msgid "12h"
-msgstr "12h"
-
-#. ~ Military time, e.g.  2359
-#: src/options.cpp
-msgid "Military"
-msgstr "Militaire"
-
-#. ~ 24h time, e.g.  23:59
-#: src/options.cpp
-msgid "24h"
-msgstr "24h"
-
-#: src/options.cpp
-msgid "Time format"
-msgstr "Format de l'heure"
-
-#: src/options.cpp
-msgid ""
-"12h: AM/PM, eg: 7:31 AM - Military: 24h Military, eg: 0731 - 24h: Normal "
-"24h, eg: 7:31"
-msgstr "12h: AM/PM, ex: 7:31 AM - Militaire: 24h Militaire, ex: 0731 - 24h: Normal 24h, ex: 7:31"
-
-#: src/options.cpp
-msgid "Force Y/N in prompts"
-msgstr "Obliger O/N dans les messages"
-
-#: src/options.cpp
-msgid "If true, Y/N prompts are case-sensitive and y and n are not accepted."
-msgstr "Si vrai, les messages O/N tiennent compte de la casse des caractères et 'o' et 'n' ne sont pas acceptés."
-
-#: src/options.cpp
-msgid "Snap to target"
-msgstr "Voir les cibles"
-
-#: src/options.cpp
-msgid "If true, automatically follow the crosshair when firing/throwing."
-msgstr "Si vrai, le viseur est automatiquement suivi lorsque vous tirez/lancez."
-
-#: src/options.cpp
-msgid "Ask to save before sleeping"
-msgstr "Demander à sauvegarder avant de dormir"
-
-#: src/options.cpp
-msgid "If true, game will ask to save the map before sleeping."
-msgstr "Si vrai, le jeu demandera si vous voulez sauvegarder avant de dormir."
-
-#: src/options.cpp
-msgid "Query on disassembly"
-msgstr "Demander confirmation avant de démonter"
-
-#: src/options.cpp
-msgid "If true, will query before disassembling items."
-msgstr "Si l'option est réglée sur Oui, le jeu vous demandera confirmation avant de démonter un objet."
-
-#: src/options.cpp
-msgid "Query on keybinding removal"
-msgstr "Demander suppression raccourci"
-
-#: src/options.cpp
-msgid "If true, will query before removing a keybinding from a hotkey."
-msgstr "Si vrai, demandera confirmation avant de supprimer un raccourci d'une touche."
-
-#: src/options.cpp
-msgid "Close advanced inventory on move all"
-msgstr "Fermer l'inventaire avancé après avoir tout déplacé"
-
-#: src/options.cpp
-msgid ""
-"If true, will close the advanced inventory when the move all items command "
-"is used."
-msgstr "Si vrai, fermera l'inventaire avancé après avoir utilisé la commande pour déplacer tout les objets."
-
-#: src/options.cpp
-msgid "Display actions in Use Item menu"
-msgstr ""
-
-#: src/options.cpp
-msgid ""
-"If true, actions (like \"Read\", \"Smoke\", \"Wrap tighter\") will be "
-"displayed next to the corresponding items."
-msgstr ""
-
-#: src/options.cpp
-msgid "Vehicle plating changes part color"
-msgstr "Les armures de véhicules changent la couleur"
-
-#: src/options.cpp
-msgid "If true, vehicle parts will change color if they are armor plated"
-msgstr "Si vrai, les pièces de véhicules changeront si elles sont blindées."
-
-#: src/options.cpp
-msgid "Auto-shift the view while driving"
-msgstr "Déplacer automatiquement la vue lors de la conduite"
-
-#: src/options.cpp
-msgid "If true, view will automatically shift towards the driving direction"
-msgstr "Si vrai, la vue se déplacera automatiquement vers la direction de conduite."
-
-#: src/options.cpp
-msgid "Draw vehicle facing indicator"
-msgstr "Afficher l'indicateur de direction en véhicule"
-
-#: src/options.cpp
-msgid ""
-"If true, when controlling a vehicle, a white 'X' (in curses version) or a "
-"crosshair (in tiles version) at distance 10 from the center will display its"
-" current facing."
-msgstr "Si vrai, quand vous conduisez, un 'X' blanc (version curses) ou une croix (version tuiles) à distance de 10 cases du centre du véhicule vous indique sa direction."
-
-#. ~ sidebar position
-#: src/options.cpp
-msgid "Left"
-msgstr "Gauche"
-
-#: src/options.cpp
-msgid "Right"
-msgstr "Droite"
-
-#: src/options.cpp
-msgid "Sidebar position"
-msgstr "Position de la barre latérale"
-
-#: src/options.cpp
-msgid ""
-"Switch between sidebar on the left or on the right side.  Requires restart."
-msgstr "Alterner entre une barre latérale à gauche ou à droite. Nécessite un redémarrage."
-
-#. ~ sidebar style
-#: src/options.cpp
-msgid "Wider"
-msgstr "Large"
-
-#: src/options.cpp
-msgid "Narrow"
-msgstr "Étroite"
-
-#: src/options.cpp
-msgid "Sidebar style"
-msgstr "Style de la barre"
-
-#: src/options.cpp
-msgid "Switch between a narrower or wider sidebar.  Requires restart."
-msgstr "Alterner entre une barre latérale large ou étroite. Nécessite un redémarrage."
-
-#. ~ sidebar message log flow direction
-#: src/options.cpp
-msgid "Top"
-msgstr "Haut"
-
-#: src/options.cpp
-msgid "Bottom"
-msgstr "Bas"
-
-#: src/options.cpp
-msgid "Sidebar log flow"
-msgstr "Sens du journal de la barre"
-
-#: src/options.cpp
-msgid "Where new sidebar log messages should show."
-msgstr "Dans quel sens apparaissent les nouveaux messages dans la barre."
-
-#: src/options.cpp
-msgid "Sidebar log message display duration"
-msgstr "Durée des messages du journal"
-
-#: src/options.cpp
-msgid ""
-"Number of turns after which a message will be removed from the sidebar log."
-"  '0' disables this option."
-msgstr "Nombre de tours après lesquels un message disparaît du journal. '0' désactive l'option."
-
-#. ~ aim bar style - bars or numbers
-#: src/options.cpp
-msgid "Numbers"
-msgstr "Nombres"
-
-#: src/options.cpp
-msgid "Bars"
-msgstr "Barres"
-
-#: src/options.cpp
-msgid "Aim window display style"
-msgstr "Style de la fenêtre de visée"
-
-#: src/options.cpp
-msgid "How should confidence and steadiness be communicated to the player."
-msgstr "Comment la fiabilité et la stabilité doivent être communiquées au joueur."
-
-#: src/options.cpp
-msgid "Move view offset"
-msgstr "Réglage des mouvements de la vue"
-
-#: src/options.cpp
-msgid "Move view by how many squares per keypress."
-msgstr "Déplacer la vue de combien de carrés par pression de touche."
-
-#: src/options.cpp
-msgid "Centered menu scrolling"
-msgstr "Défilement de menu centré"
-
-#: src/options.cpp
-msgid ""
-"If true, menus will start scrolling in the center of the list, and keep the "
-"list centered."
-msgstr "Si vrai, les menus défileront à partir du centre de la liste, et garderont la liste centrée."
-
-#: src/options.cpp
-msgid "Centered"
-msgstr "Centré"
-
-#: src/options.cpp
-msgid "To edge"
-msgstr "Au bord"
-
-#: src/options.cpp
-msgid "Shift list item view"
-msgstr "Déplacer la vue sur les objets de la liste."
-
-#: src/options.cpp
-msgid ""
-"Centered or to edge, shift the view toward the selected item if it is "
-"outside of your current viewport."
-msgstr "Centré ou sur le bord, cela déplace la vue vers l'objet sélectionné  s'il est en dehors de votre fenêtre d'affichage."
-
-#: src/options.cpp
-msgid "Auto inventory letters"
-msgstr "Lettres inventaire automatiques"
-
-#: src/options.cpp
-msgid ""
-"If false, new inventory items will only get letters assigned if they had one"
-" before."
-msgstr "Si Faux, les nouveaux objets placés dans l'inventaires n'auront une lettre attribuée que s'ils en avaient une auparavant."
-
-#: src/options.cpp
-msgid "Show item health bars"
-msgstr "Afficher les barres de vie des objets"
-
-#: src/options.cpp
-msgid ""
-"If true, show item health bars instead of reinforced, scratched etc. text."
-msgstr "Si vrai, affiche une forme graphique, sous forme de barre de vie, de l'état des objets."
-
-#: src/options.cpp
-msgid "Show item symbols"
-msgstr "Afficher les symboles des objets"
-
-#: src/options.cpp
-msgid "If true, show item symbols in inventory and pick up menu."
-msgstr "Si vrai, affiche les symboles des objets dans l'inventaire et le menu de ramassage."
-
-#: src/options.cpp
-msgid "Enable Joystick"
-msgstr "Activer Joystick"
-
-#: src/options.cpp
-msgid "Enable input from joystick."
-msgstr "Permet le contrôle à l'aide d'un joystick."
-
-#. ~ show mouse cursor
-#: src/options.cpp
-msgid "Show"
-msgstr "Afficher"
-
-#. ~ hide mouse cursor
-#: src/options.cpp
-msgid "Hide"
-msgstr "Masquer"
-
-#. ~ hide mouse cursor when keyboard is used
-#: src/options.cpp
-msgid "HideKB"
-msgstr "MasquerKB"
-
-#: src/options.cpp
-msgid "Hide mouse cursor"
-msgstr "Masquer le curseur de la souris"
-
-#: src/options.cpp
-msgid ""
-"Show: Cursor is always shown.  Hide: Cursor is hidden.  HideKB: Cursor is "
-"hidden on keyboard input and unhidden on mouse movement."
-msgstr "Afficher: Le curseur est toujours visible. Masquer: Le curseur est masqué. MasquerKB: Le curseur est masqué lorsque le clavier est utilisé et montré lorsque la souris se déplace."
-
-#: src/options.cpp
-msgid "Animations"
-msgstr "Animations"
-
-#: src/options.cpp
-msgid "If true, will display enabled animations."
-msgstr "Si vrai, affichera les animations actives."
-
-#: src/options.cpp
-msgid "Rain animation"
-msgstr "Animation de la pluie"
-
-#: src/options.cpp
-msgid "If true, will display weather animations."
-msgstr "Si l'option est réglée sur Vrai, le jeu affichera les animations du climat."
-
-#: src/options.cpp
-msgid "SCT animation"
-msgstr "Animation Texte de Combat Défilant"
-
-#: src/options.cpp
-msgid "If true, will display scrolling combat text animations."
-msgstr "Si vrai, affichera les textes de combat défilants."
-
-#: src/options.cpp
-msgid "Animation delay"
-msgstr "Vitesse d'animation"
-
-#: src/options.cpp
-msgid "The amount of time to pause between animation frames in ms."
-msgstr "Temps de pause entre chaque image d'animation en ms."
-
-#: src/options.cpp
-msgid "Force redraw"
-msgstr "Forcer à retracer"
-
-#: src/options.cpp
-msgid "If true, forces the game to redraw at least once per turn."
-msgstr "Si vrai, force à retracer le jeu au moins une fois par tour."
-
-#: src/options.cpp
-msgid "Terminal width"
-msgstr "Largeur du terminal"
-
-#: src/options.cpp
-msgid "Set the size of the terminal along the X axis.  Requires restart."
-msgstr "Définit la taille horizontale du terminal. Requiert un redémarrage."
-
-#: src/options.cpp
-msgid "Terminal height"
-msgstr "Hauteur du terminal"
-
-#: src/options.cpp
-msgid "Set the size of the terminal along the Y axis.  Requires restart."
-msgstr "Définit la taille verticale du terminal. Requiert un redémarrage."
-
-#: src/options.cpp
-msgid "Use tiles"
-msgstr "Utiliser des tuiles graphiques"
-
-#: src/options.cpp
-msgid "If true, replaces some TTF rendered text with tiles."
-msgstr "Si vrai, remplace certaines polices TTF par des tuiles graphiques."
-
-#: src/options.cpp
-msgid "Choose tileset"
-msgstr "Choix de la collection de tuiles"
-
-#: src/options.cpp
-msgid "Choose the tileset you want to use."
-msgstr "Choisir la collection de tuiles à utiliser."
-
-#: src/options.cpp
-msgid "Pixel Minimap"
-msgstr "Minicarte"
-
-#: src/options.cpp
-msgid ""
-"If true, shows the pixel-detail minimap in game after the save is loaded.  "
-"Use the 'Toggle Pixel Minimap' action key to change its visibility during "
-"gameplay."
-msgstr "Si vrai, affiche la Minicarte en jeu après le chargement. Utilisez le raccourci 'Basculer Minicarte' pour changer sa visibilité."
-
-#: src/options.cpp
-msgid "Pixel Minimap height"
-msgstr "Hauteur Minicarte"
-
-#: src/options.cpp
-msgid ""
-"Height of pixel-detail minimap, measured in terminal rows.  Set to 0 for "
-"default spacing."
-msgstr "Hauteur de la minicarte en lignes de terminal. '0' pour la taille par défaut."
-
-#: src/options.cpp
-msgid "Maintain Pixel Minimap aspect ratio"
-msgstr "Garder la Minicarte proportionnelle"
-
-#: src/options.cpp
-msgid "Preserves the square shape of tiles shown on the pixel minimap."
-msgstr "Préserve l'aspect carré des éléments de la Minicarte."
-
-#: src/options.cpp
-msgid "Enemy beacon blink speed"
-msgstr "Vitesse de clignotement des ennemis"
-
-#: src/options.cpp
-msgid ""
-"Controls how fast the enemy beacons blink on the pixel minimap.  Value is "
-"multiplied by 200 ms.  Set to 0 to disable."
-msgstr "Contrôle la vitesse de clignotement des indicateurs ennemis sur la Minicarte. La valeur est multipliée par 200ms. '0' pour désactiver."
-
-#: src/options.cpp src/sdltiles.cpp
-msgid "Display"
-msgstr "Écran"
-
-#: src/options.cpp
-msgid ""
-"Sets which video display will be used to show the game.  Requires restart."
-msgstr "Permet de choisir l'écran sur lequel afficher le jeu. Requiert un redémarrage."
-
-#: src/options.cpp
-msgid "Fullscreen"
-msgstr "Plein écran"
-
-#: src/options.cpp
-msgid "Windowed borderless"
-msgstr "Plein écran fenêtré"
-
-#: src/options.cpp
-msgid "Starts Cataclysm in one of the fullscreen modes.  Requires restart."
-msgstr "Démarre Cataclysm dans l'un des modes plein écran. Requiert un redémarrage."
-
-#: src/options.cpp
-msgid "Software rendering"
-msgstr "Rendu logiciel"
-
-#: src/options.cpp
-msgid "Use software renderer instead of graphics card acceleration."
-msgstr "Utiliser le rendu logiciel au lieu de l'accélération de la carte graphique."
-
-#. ~ Do not scale the game image to the window size.
-#: src/options.cpp
-msgid "No scaling"
-msgstr "Aucune"
-
-#. ~ An algorithm for image scaling.
-#: src/options.cpp
-msgid "Nearest neighbor"
-msgstr "Au plus proche"
-
-#. ~ An algorithm for image scaling.
-#: src/options.cpp
-msgid "Linear filtering"
-msgstr "Linéaire"
-
-#: src/options.cpp
-msgid "Scaling mode"
-msgstr "Mise à l'échelle"
-
-#: src/options.cpp
-msgid ""
-"Sets the scaling mode, 'none' (default) displays at the game's native "
-"resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' "
-"provides high-quality scaling."
-msgstr "Choisit le mode de mise à l'échelle, 'Aucune': résolution native du jeu; 'Au plus proche': basse qualité mais rapide, 'Linéaire': haute qualité."
-
-#: src/options.cpp
-msgid "Distance initial visibility"
-msgstr "Distance de visibilité initiale"
-
-#: src/options.cpp
-msgid "Determines the scope, which is known in the beginning of the game."
-msgstr "Détermine l'étendue qui est connu au début du jeu."
-
-#: src/options.cpp
-msgid "Initial stat points"
-msgstr "Points de stats initiaux"
-
-#: src/options.cpp
-msgid "Initial points available to spend on stats on character generation."
-msgstr "Les points initiaux à dépenser pour les statistiques du personnage."
-
-#: src/options.cpp
-msgid "Initial trait points"
-msgstr "Points de trait initiaux"
-
-#: src/options.cpp
-msgid "Initial points available to spend on traits on character generation."
-msgstr "Les points initiaux à dépenser pour les traits du personnage."
-
-#: src/options.cpp
-msgid "Initial skill points"
-msgstr "Points de compétences initiaux"
-
-#: src/options.cpp
-msgid "Initial points available to spend on skills on character generation."
-msgstr "Les points initiaux à dépenser pour les compétences du personnage."
-
-#: src/options.cpp
-msgid "Maximum trait points"
-msgstr "Maximum de points de trait"
-
-#: src/options.cpp
-msgid "Maximum trait points available for character generation."
-msgstr "Le nombre maximum de points de trait disponibles lors de la création de personnage."
-
-#: src/options.cpp
-msgid "Skill training speed"
-msgstr "Vitesse d'apprentissage"
-
-#: src/options.cpp
-msgid ""
-"Scales experience gained from practicing skills and reading books.  0.5 is "
-"half as fast as default, 2.0 is twice as fast, 0.0 disables skill training "
-"except for NPC training."
-msgstr "Règle la vitesse d'apprentissage des compétences par la pratique et la lecture. 0.5 est deux fois plus lent et 2.0 deux fois plus rapide. 0.0 désactive l'apprentissage, excepté pour les PNJ."
-
-#. ~ plain, default, normal
-#: src/options.cpp
-msgid "Vanilla"
-msgstr "Vanilla"
-
-#. ~ capped at a value
-#: src/options.cpp
-msgid "Capped"
-msgstr "Bloqué"
-
-#. ~ based on intelligence
-#: src/options.cpp
-msgid "Int"
-msgstr "Int"
-
-#. ~ based on intelligence and capped
-#: src/options.cpp
-msgid "IntCap"
-msgstr "IntBloqué"
-
-#: src/options.cpp
-msgid "Off"
-msgstr "Désactivé"
-
-#: src/options.cpp
-msgid "Skill rust"
-msgstr "Oubli des compétences"
-
-#: src/options.cpp
-msgid ""
-"Set the level of skill rust.  Vanilla: Vanilla Cataclysm - Capped: Capped at"
-" skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence "
-"dependent, capped - Off: None at all."
-msgstr "Règle l'oubli des compétences. Vanilla: Comme le jeu original - Bloqué: Compétences bloqués au niveau 2 - Int: Selon l'intelligence - IntBloqué: Selon l'intelligence, bloqué - Désactivé: Aucun oubli."
-
-#: src/options.cpp
-msgid "Experimental 3D Field of Vision"
-msgstr "Champs de vision 3D (expérimental)"
-
-#: src/options.cpp
-msgid ""
-"If false, vision is limited to current z-level.  If true and the world is in"
-" z-level mode, the vision will extend beyond current z-level.  Currently "
-"very bugged!"
-msgstr ""
-
-#: src/options.cpp
-msgid "Experimental path name encoding conversion"
-msgstr ""
-
-#: src/options.cpp
-msgid ""
-"If true, file path names are going to be transcoded from system encoding to "
-"UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK"
-" Windows users."
-msgstr ""
-
-#: src/options.cpp
-msgid "Overmap generation attempt count"
-msgstr ""
-
-#: src/options.cpp
-msgid ""
-"Maximum number of retries in overmap generation due to inability to place "
-"mandatory special locations.  High numbers and strange world settings will "
-"lead to VERY slow generation!"
-msgstr ""
-
-#. ~ allow any valid map, even if it's "bad"
-#: src/options.cpp src/wish.cpp
-msgid "Valid"
-msgstr "Valide"
-
-#: src/options.cpp
-msgid "Allow invalid overmaps"
-msgstr "Autoriser les cartes invalides"
-
-#: src/options.cpp
-msgid ""
-"What to do if world settings/mods prevent valid overmaps.  Invalid maps are "
-"BUGGED and while playable, may cause errors during missions.  Unlimited maps"
-" will look ugly, but are fully functional."
-msgstr ""
-
-#: src/options.cpp
-msgid "Core version data"
-msgstr ""
-
-#: src/options.cpp
-msgid "Controls what migrations are applied for legacy worlds"
-msgstr ""
-
-#: src/options.cpp
-msgid "Query"
-msgstr "Demander"
-
-#: src/options.cpp
-msgid "Delete world"
-msgstr "Suppression du monde"
-
-#: src/options.cpp
-msgid "Delete the world when the last active character dies."
-msgstr "Supprimer le monde lorsque le dernier personnage actif meurt."
-
-#: src/options.cpp
-msgid "Size of cities"
-msgstr "Dimension des villes"
-
-#: src/options.cpp
-msgid ""
-"A number determining how large cities are.  0 disables cities and roads."
-msgstr "Détermine la taille des villes. '0' désactive les villes et les routes."
-
-#: src/options.cpp
-msgid "City spacing"
-msgstr "Espacement des villes"
-
-#: src/options.cpp
-msgid ""
-"A number determining how far apart cities are.  Warning, small numbers lead "
-"to very slow mapgen."
-msgstr "Détermine l'espacement entre les villes. Attention, les petites valeurs rendent la génération de la carte très longue."
-
-#: src/options.cpp
-msgid "Spawn rate scaling factor"
-msgstr "Taux d'apparition des monstres"
-
-#: src/options.cpp
-msgid "A scaling factor that determines density of monster spawns."
-msgstr "Détermine la fréquence d'apparition des monstres."
-
-#: src/options.cpp
-msgid "Item spawn scaling factor"
-msgstr "Taux d'apparition des objets"
-
-#: src/options.cpp
-msgid "A scaling factor that determines density of item spawns."
-msgstr "Détermine la quantité d'objets générés."
-
-#: src/options.cpp
-msgid "NPC spawn rate scaling factor"
-msgstr "Taux d'apparition des PNJ"
-
-#: src/options.cpp
-msgid "A scaling factor that determines density of dynamic NPC spawns."
-msgstr "Détermine la fréquence d'apparition des PNJ."
-
-#: src/options.cpp
-msgid "Monster evolution scaling factor"
-msgstr "Vitesse d'évolution des monstres"
-
-#: src/options.cpp
-msgid ""
-"A scaling factor that determines the time between monster upgrades.  A "
-"higher number means slower evolution.  Set to 0.00 to turn off monster "
-"upgrades."
-msgstr "Détermine la durée entre chaque évolution des monstres. Plus la valeur est grande plus l'évolution est lente. '0.00' désactive l'évolution."
-
-#: src/options.cpp
-msgid "Monster speed"
-msgstr "Vitesse des monstres"
-
-#: src/options.cpp
-msgid ""
-"Determines the movement rate of monsters.  A higher value increases monster "
-"speed and a lower reduces it."
-msgstr "Détermine le taux de mouvement des monstres. Une valeur plus élevée augmente la vitesse des monstre et une plus faible la réduit."
-
-#: src/options.cpp
-msgid "Monster resilience"
-msgstr "Résistance des monstres"
-
-#: src/options.cpp
-msgid ""
-"Determines how much damage monsters can take.  A higher value makes monsters"
-" more resilient and a lower makes them more flimsy."
-msgstr "Détermine combien de dégâts les monstres peuvent prendre. Une valeur plus élevée rend les monstres plus résistants et une plus faible les rend plus fragiles."
-
-#: src/options.cpp
-msgid "Default region type"
-msgstr "Type de région par défaut"
-
-#: src/options.cpp
-msgid "(WIP feature) Determines terrain, shops, plants, and more."
-msgstr "(fonction en travaux) Détermine le terrain, les magasins, les plantes et autres sur un monde."
-
-#: src/options.cpp
-msgid "Initial time"
-msgstr "Heure initiale"
-
-#: src/options.cpp
-msgid "Initial starting time of day on character generation."
-msgstr "L'heure au début de chaque partie."
-
-#: src/options.cpp
-msgid "Initial season"
-msgstr "Saison initiale"
-
-#: src/options.cpp
-msgid ""
-"Season the player starts in.  Options other than the default delay spawn of "
-"the character, so food decay and monster spawns will have advanced."
-msgstr "La saison de départ. Les saisons autres que par défaut retardent l'apparition du personnage, la nourriture se périme et l'apparition des monstres est plus avancée."
-
-#: src/options.cpp
-msgid "Season length"
-msgstr "Durée des saisons"
-
-#: src/options.cpp
-msgid "Season length, in days."
-msgstr "Durée des saisons, en jours."
-
-#: src/options.cpp
-msgid "Construction scaling"
-msgstr "Vitesse de construction"
-
-#: src/options.cpp
-msgid ""
-"Sets the time of construction in percents.  '50' is two times faster than "
-"default, '200' is two times longer.  '0' automatically scales construction "
-"time to match the world's season length."
-msgstr "Définit le temps de construction en pourcents. '50' est deux fois plus rapide que la valeur par défaut, '200' est deux fois plus long. '0' définit automatiquement le temps de construction pour correspondre à la longueur d'une saison."
-
-#: src/options.cpp
-msgid "Eternal season"
-msgstr "Saison éternelle"
-
-#: src/options.cpp
-msgid "Keep the initial season for ever."
-msgstr "Garder la saison initiale pour toujours."
-
-#: src/options.cpp
-msgid "Wander spawns"
-msgstr "Génération de hordes"
-
-#: src/options.cpp
-msgid ""
-"Emulation of zombie hordes.  Zombie spawn points wander around cities and "
-"may go to noise.  Must reset world directory after changing for it to take "
-"effect."
-msgstr "Crée des hordes de zombies. Les hordes errent autour des villes et le bruit les attire. Une réinitialisation du monde est nécessaire pour prendre effet."
-
-#: src/options.cpp
-msgid "Classic zombies"
-msgstr "Zombies classiques"
-
-#: src/options.cpp
-msgid ""
-"Only spawn classic zombies and natural wildlife.  Requires a reset of save "
-"folder to take effect.  This disables certain buildings."
-msgstr "Génère uniquement des zombies classiques et de la faune sauvage. Nécessite un reset du dossier de sauvegarde pour prendre effet. Cela désactive certains bâtiments."
-
-#: src/options.cpp
-msgid "Surrounded start"
-msgstr "Départ encerclé"
-
-#: src/options.cpp
-msgid ""
-"If true, spawn zombies at shelters.  Makes the starting game a lot harder."
-msgstr "Si vrai des zombies sont générés aux abris. Le début est donc beaucoup plus difficile."
-
-#: src/options.cpp
-msgid "Static npcs"
-msgstr "Personnages non joueurs statiques"
-
-#: src/options.cpp
-msgid ""
-"If true, the game will spawn static NPC at the start of the game, requires "
-"world reset."
-msgstr "Si vrai, le jeu génèrera des PNJs au début du jeu, nécessite un reset du monde."
-
-#: src/options.cpp
-msgid "Random npcs"
-msgstr "Personnages non joueurs aléatoires"
-
-#: src/options.cpp
-msgid "If true, the game will randomly spawn NPC during gameplay."
-msgstr "Si vrai, le jeu génère aléatoirement des PNJs durant le jeu."
-
-#: src/options.cpp
-msgid "Mutations by radiation"
-msgstr "Mutations par radiation"
-
-#: src/options.cpp
-msgid "If true, radiation causes the player to mutate."
-msgstr "Si vrai, les radiations entrainent la mutation du joueur."
-
-#: src/options.cpp
-msgid "Experimental z-levels"
-msgstr "Étages expérimentaux"
-
-#: src/options.cpp
-msgid ""
-"If true, experimental z-level maps will be enabled.  This feature is not "
-"finished yet and turning it on will only slow the game down."
-msgstr "Si vrai, les bâtiments à étages expérimentaux des cartes seront activés. Cette option n'est pas encore terminée et son activation risque de ne faire que ralentir le jeu."
-
-#: src/options.cpp
-msgid "Align up and down stairs"
-msgstr "Aligner les escaliers montants et descendants"
-
-#: src/options.cpp
-msgid ""
-"If true, downstairs will be placed directly above upstairs, even if this "
-"results in uglier maps."
-msgstr "Si vrai, les escaliers descendants seront placés directement au-dessus des escaliers montants, même si ça donne des cartes plus laides."
-
-#: src/options.cpp
-msgid "Disables vehicle part faults."
-msgstr ""
-
-#: src/options.cpp
-msgid ""
-"If true, disables vehicle part faults, vehicle parts will be totally "
-"reliable unless destroyed, and can only be repaired via replacement."
-msgstr ""
-
-#: src/options.cpp
-msgid "Morale penalty for filthy clothing."
-msgstr ""
-
-#: src/options.cpp
-msgid "If true, wearing filthy clothing will cause morale penalties."
-msgstr ""
-
-#: src/options.cpp
-msgid "Infected wounds from filthy clothing."
-msgstr ""
-
-#: src/options.cpp
-msgid ""
-"If true, getting hit in a body part covered in filthy clothing may cause "
-"infections."
-msgstr ""
-
-#: src/options.cpp
-msgid "Disables tracking vitamins in food items."
-msgstr ""
-
-#: src/options.cpp
-msgid "If true, disables vitamin tracking and vitamin disorders."
-msgstr ""
-
-#: src/options.cpp
-msgid "Disables tracking food, thirst and (partially) fatigue for NPCs."
-msgstr ""
-
-#: src/options.cpp
-msgid ""
-"If true, NPCs won't need to eat or drink and will only get tired enough to "
-"sleep, not to get penalties."
-msgstr ""
-
-#: src/options.cpp
-#, c-format
-msgid "Loading the tileset failed: %s"
-msgstr "Échec du chargement de la collection de tuiles: %s"
-
-#: src/options.cpp
-msgid " OPTIONS "
-msgstr " OPTIONS "
-
-#: src/options.cpp
-msgid "Current world"
-msgstr "Monde actuel"
-
-#: src/options.cpp
-#, c-format
-msgid "%s #%s -- The window will be %d pixel wide with the selected value."
-msgid_plural ""
-"%s #%s -- The window will be %d pixels wide with the selected value."
-msgstr[0] "%s #%s -- La fenêtre aura une largeur de %d pixel avec la valeur sélectionnée."
-msgstr[1] "%s #%s -- La fenêtre aura une largeur de %d pixels avec la valeur sélectionnée."
-
-#: src/options.cpp
-#, c-format
-msgid "%s #%s -- The window will be %d pixel tall with the selected value."
-msgid_plural ""
-"%s #%s -- The window will be %d pixels tall with the selected value."
-msgstr[0] "%s #%s -- La fenêtre aura une hauteur de %d pixel avec la valeur sélectionnée."
-msgstr[1] "%s #%s -- La fenêtre aura une hauteur de %d pixels avec la valeur sélectionnée."
-
-#: src/options.cpp
-msgid "Some of these options may produce unexpected results if changed."
-msgstr "Certaines de ces options peuvent produire des résultats inattendus s'ils sont modifiés."
-
-#: src/options.cpp
-msgid "Invalid input: not a number"
-msgstr "Saisie invalide: pas un nombre"
-
-#: src/options.cpp
-msgid "options"
 msgstr ""
 
 #: src/output.cpp
@@ -125675,6 +126119,10 @@ msgstr ""
 #: src/vehicle.cpp
 msgid "The vehicle part you were working on has gone!"
 msgstr "La pièce de véhicule sur laquelle vous travailliez est partie!"
+
+#: src/vehicle.cpp
+msgid "The vehicle part you were holding has been destroyed!"
+msgstr ""
 
 #: src/vehicle.cpp
 #, c-format
