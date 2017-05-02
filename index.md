@@ -36,7 +36,7 @@ Cataclysm: DDA is under constant development, the latest successful builds for t
 * [OSX Terminal build](http://dev.narc.ro/cataclysm/jenkins-latest/OSX/Curses/)
 * [OSX Tiles build](http://dev.narc.ro/cataclysm/jenkins-latest/OSX/Tiles/)
 
-## Community
+## Community and Resources
 
 * [Forums](http://smf.cataclysmdda.com)
 * [Reddit(unofficial)](https://www.reddit.com/r/cataclysmdda/)
@@ -46,6 +46,7 @@ Cataclysm: DDA is under constant development, the latest successful builds for t
 * [GitHub repository](https://github.com/CleverRaven/Cataclysm-DDA)
 * [Web Tools](http://tools.cataclysmdda.com/)
 * [Item Browser](http://cdda-trunk.chezzo.com/)
+* [Game Launcher](http://smf.cataclysmdda.com/index.php?topic=11895.0)
 
 ## Frequently Asked Questions
 
