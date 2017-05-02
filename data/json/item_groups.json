@@ -4250,6 +4250,7 @@
       ["wakizashi_inferior", 30],
       ["katana_inferior", 30],
       ["zweihander_inferior", 30],
+      ["florentine_swords_inferior", 25],
       ["battleaxe_inferior", 30],
       ["cutlass_inferior", 30],
       ["scimitar_inferior", 30],
@@ -4555,6 +4556,7 @@
       ["scimitar_inferior", 25],
       ["longsword", 1],
       ["longsword_inferior", 25],
+      ["florentine_swords", 1],
       ["arming_sword", 1],
       ["arming_sword_inferior", 25],
       ["tanto", 1],
@@ -8260,6 +8262,8 @@
       ["broadsword", 2],
       ["nodachi", 2],
       ["zweihander", 2],
+      ["florentine_swords", 2],
+      ["florentine_swords_inferior", 6],
       ["longsword", 2],
       ["katana", 2],
       ["kris", 2],
@@ -8450,7 +8454,9 @@
       ["morningstar", 2],
       ["warhammer", 2],
       ["scythe_war", 2],
-      ["pike", 2]
+      ["pike", 2],
+      ["florentine_swords", 2],
+      ["florentine_swords_inferior", 10]
     ]
   },{
 "type" : "item_group",
