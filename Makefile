@@ -76,8 +76,13 @@
 # RELEASE is flags for release builds, this disables some debugging flags and
 # enforces build failure when warnings are encountered.
 # We want to error on everything to make sure we don't check in code with new warnings.
+# If using clang, suppress problematic undefined-var-template warning (#20915 and #18493).
 RELEASE_FLAGS = -Werror
 WARNINGS = -Wall -Wextra
+ifdef CLANG
+  RELEASE_FLAGS += -Wno-undefined-var-template
+  WARNINGS += -Wno-undefined-var-template
+endif
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g
