@@ -13,24 +13,25 @@
 #include <stdlib.h>
 #include <string>
 #include <unordered_map>
+
+class field;
+class field_entry;
 class game;
 class JsonObject;
 class JsonOut;
-struct projectile;
-struct damage_instance;
-struct dealt_damage_instance;
-struct damage_unit;
-struct dealt_projectile_attack;
-struct trap;
-enum m_flag : int;
-enum field_id : int;
-enum damage_type : int;
 class material_type;
-using material_id = string_id<material_type>;
-class field;
-class field_entry;
+enum damage_type : int;
 enum field_id : int;
+enum m_flag : int;
+struct damage_instance;
+struct damage_unit;
+struct dealt_damage_instance;
+struct dealt_projectile_attack;
 struct pathfinding_settings;
+struct projectile;
+struct trap;
+
+using material_id = string_id<material_type>;
 
 enum m_size : int {
     MS_TINY = 0,    // Squirrel
