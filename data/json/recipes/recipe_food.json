@@ -9992,5 +9992,72 @@
     [ [ "chilly-p", 5 ] ],
     [ [ "cinnamon", 5 ] ]
   ]
-}
+},    {
+        "type": "recipe",
+        "result": "oatmeal",
+        "id_suffix": "with_food_processor",
+        "category": "CC_FOOD",
+        "subcategory": "CSC_FOOD_OTHER",
+        "skill_used": "cooking",
+        "difficulty": 2,
+        "time": 11250,
+        "autolearn": true,
+        "tools": [[["food_processor", 20]]],
+        "components": [[["oats", 2]]]
+    },
+
+    {
+        "type": "recipe",
+        "result": "cornmeal",
+        "id_suffix": "with_from_food_processor",
+        "category": "CC_FOOD",
+        "subcategory": "CSC_FOOD_OTHER",
+        "skill_used": "cooking",
+        "difficulty": 2,
+        "time": 11250,
+        "autolearn": true,
+        "tools": [[["food_processor", 20]]],
+        "components": [[["corn", 2]]]
+    },
+
+    {
+        "type": "recipe",
+        "result": "flour",
+        "id_suffix": "with_from_food_processor",
+        "category": "CC_FOOD",
+        "subcategory": "CSC_FOOD_OTHER",
+        "skill_used": "cooking",
+        "difficulty": 2,
+        "time": 11250,
+        "autolearn": true,
+        "tools": [[["food_processor", 20]]],
+        "components": [[["wheat", 2], ["buckwheat", 2], ["barley", 2], ["acorns_cooked", 2], ["oats", 2], ["starch", 2], ["dry_rice", 6]]]
+    },
+
+    {
+        "type": "recipe",
+        "result": "meal_bone",
+        "id_suffix": "with_from_food_processor",
+        "category": "CC_FOOD",
+        "subcategory": "CSC_FOOD_OTHER",
+        "skill_used": "cooking",
+        "difficulty": 2,
+        "time": 15000,
+        "autolearn": true,
+        "tools": [[["food_processor", 20]]],
+        "components": [[["bone", 1]]]
+    },
+    {
+        "type": "recipe",
+        "result": "meal_bone_tainted",
+        "id_suffix": "with_from_food_processor",
+        "category": "CC_FOOD",
+        "subcategory": "CSC_FOOD_OTHER",
+        "skill_used": "cooking",
+        "difficulty": 2,
+        "time": 15000,
+        "autolearn": true,
+        "tools": [[["food_processor", 20]]],
+        "components": [[["bone_tainted", 1]]]
+    }
 ]
