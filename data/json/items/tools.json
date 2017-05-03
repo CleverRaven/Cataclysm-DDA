@@ -8244,6 +8244,7 @@
   {
     "id": "food_processor",
     "type": "TOOL",
+	"category": "tools",
     "symbol": "%",
     "color": "white",
     "name": "food processor",
@@ -8256,7 +8257,6 @@
     "to_hit": -1,
     "max_charges": 100,
     "initial_charges": 100,
-    "charges_per_use": 10,
     "ammo": "battery"
   }
 ]
