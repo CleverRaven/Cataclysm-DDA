@@ -10002,8 +10002,6 @@
     "skill_used": "cooking",
     "difficulty": 2,
     "time": 11250,
-    "batch_time_factors": [ 80, 4 ],
-    "reversible": false,
     "autolearn": true,
     "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [ [ [ "oats", 2 ] ] ]
@@ -10017,7 +10015,6 @@
     "skill_used": "cooking",
     "difficulty": 2,
     "time": 11250,
-    "reversible": false,
     "autolearn": true,
     "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [ [ [ "corn", 2 ] ] ]
@@ -10031,7 +10028,6 @@
     "skill_used": "cooking",
     "difficulty": 2,
     "time": 11250,
-    "reversible": false,
     "autolearn": true,
     "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [ [ [ "wheat", 2 ], [ "buckwheat", 2 ], [ "barley", 2 ], [ "acorns_cooked", 2 ], [ "oats", 2 ], [ "starch", 2 ], [ "dry_rice", 6 ] ] ]
@@ -10045,7 +10041,6 @@
     "skill_used": "cooking",
     "difficulty": 2,
     "time": 15000,
-    "reversible": false,
     "autolearn": true,
     "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [ [ [ "bone", 1 ] ] ]
