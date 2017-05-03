@@ -92,7 +92,6 @@ void PATH_INFO::update_datadir()
     update_pathname("defaulttilejson", FILENAMES["gfx"] + "tile_config.json");
     update_pathname("defaulttilepng", FILENAMES["gfx"] + "tinytile.png");
     update_pathname("mods-dev-default", FILENAMES["moddir"] + "default.json");
-    update_pathname("mods-user-default", FILENAMES["moddir"] + "user-default-mods.json");
     update_pathname("mods-replacements", FILENAMES["moddir"] + "replacements.json");
     update_pathname("defaultsounddir", FILENAMES["datadir"] + "sound");
 }
@@ -107,6 +106,7 @@ void PATH_INFO::update_config_dir()
     update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.json");
     update_pathname("safemode", FILENAMES["config_dir"] + "safemode.json");
     update_pathname("custom_colors", FILENAMES["config_dir"] + "custom_colors.json");
+    update_pathname("mods-user-default", FILENAMES["config_dir"] + "user-default-mods.json");
 }
 
 void PATH_INFO::set_standard_filenames(void)
@@ -155,7 +155,6 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("defaulttilejson", FILENAMES["gfx"] + "tile_config.json");
     update_pathname("defaulttilepng", FILENAMES["gfx"] + "tinytile.png");
     update_pathname("mods-dev-default", FILENAMES["moddir"] + "default.json");
-    update_pathname("mods-user-default", FILENAMES["moddir"] + "user-default-mods.json");
     update_pathname("mods-replacements", FILENAMES["moddir"] + "replacements.json");
     update_pathname("defaultsounddir", FILENAMES["datadir"] + "sound");
 
@@ -186,6 +185,7 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.json");
     update_pathname("safemode", FILENAMES["config_dir"] + "safemode.json");
     update_pathname("custom_colors", FILENAMES["config_dir"] + "custom_colors.json");
+    update_pathname("mods-user-default", FILENAMES["config_dir"] + "user-default-mods.json");
     update_pathname("worldoptions", "worldoptions.json");
 
     // Needed to move files from these legacy locations to the new config directory.
