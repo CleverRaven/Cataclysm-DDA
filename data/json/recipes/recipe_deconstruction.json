@@ -2434,5 +2434,36 @@
     "time": 500,
     "components": [ [ [ "paper", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
-  }
+  },{
+        "result": "food_processor",
+        "type": "uncraft",
+        "skill_used": "fabrication",
+        "difficulty": 4,
+        "time": 9000,
+        "qualities":
+        [
+            {
+                "id": "SCREW",
+                "level": 1,
+                "amount": 1
+            },
+            {
+                "id": "HAMMER",
+                "level": 3,
+                "amount": 1
+            }
+        ],
+        "tools": [
+            [
+                ["soldering_iron", 20],
+                ["toolset", 20]
+            ]
+        ],
+        "components":
+        [
+            [["scrap", 4]],
+            [["cable", 2]],
+            [["pot", 1]]
+        ]
+    }
 ]
