@@ -8253,7 +8253,6 @@
     "weight": 3000,
     "volume": 8,
     "bashing": 10,
-    "cutting": 0,
     "to_hit": -1,
     "max_charges": 100,
     "initial_charges": 100,
