@@ -8258,6 +8258,6 @@
     "max_charges": 100,
     "initial_charges": 100,
     "charges_per_use": 10,
-    "ammo": "battery",
+    "ammo": "battery"
   }
 ]
