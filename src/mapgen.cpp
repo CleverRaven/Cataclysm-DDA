@@ -27,6 +27,7 @@
 #include "mtype.h"
 #include "itype.h"
 #include "item_factory.h"
+#include "computer.h"
 
 #include <algorithm>
 #include <cassert>
@@ -8841,8 +8842,8 @@ computer *map::add_computer( const tripoint &p, std::string name, int security )
 {
     ter_set( p, t_console ); // TODO: Turn this off?
     submap *place_on_submap = get_submap_at( p );
-    place_on_submap->comp = computer(name, security);
-    return &(place_on_submap->comp);
+    place_on_submap->comp.reset( new computer( name, security ) );
+    return place_on_submap->comp.get();
 }
 
 /**
@@ -8918,7 +8919,7 @@ void map::rotate(int turns)
 
     std::vector<spawn_point> sprot[MAPSIZE * MAPSIZE];
     std::vector<vehicle*> vehrot[MAPSIZE * MAPSIZE];
-    computer tmpcomp[MAPSIZE * MAPSIZE];
+    copyable_unique_ptr<computer> tmpcomp[MAPSIZE * MAPSIZE];
     int field_count[MAPSIZE * MAPSIZE];
     int temperature[MAPSIZE * MAPSIZE];
 

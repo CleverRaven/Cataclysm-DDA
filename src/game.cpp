@@ -8936,7 +8936,7 @@ void centerlistview( const tripoint &active_item_position )
 }
 
 #define MAXIMUM_ZOOM_LEVEL 4
-void game::zoom_in()
+void game::zoom_out()
 {
 #ifdef TILES
     if (tileset_zoom > MAXIMUM_ZOOM_LEVEL) {
@@ -8948,7 +8948,7 @@ void game::zoom_in()
 #endif
 }
 
-void game::zoom_out()
+void game::zoom_in()
 {
 #ifdef TILES
     if (tileset_zoom == 64) {
