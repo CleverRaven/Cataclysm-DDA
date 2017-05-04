@@ -64,13 +64,4 @@ class target_handler {
                                          const target_callback &on_ammo_change = target_callback() );
 };
 
-namespace ranged {
-/**
- * Returns maximum range at which attack with @param dispersion
- * has @param chance to hit at accuracy level of @param accuracy or better
- * against a target of size @param target_size
- */
-double effective_range( double dispersion, unsigned chance, double accuracy, double target_size );
-}
-
 #endif // RANGED_H

@@ -41,13 +41,6 @@ enum m_size : int {
     MS_HUGE     // TAAAANK
 };
 
-/** Aim result for a single projectile attack */
-struct projectile_attack_aim {
-    double missed_by;       ///< Hit quality, where 0.0 is a perfect hit and 1.0 is a miss
-    double missed_by_tiles; ///< Number of tiles the attack missed by
-    double dispersion;      ///< Dispersion of this particular shot in arcminutes
-};
-
 class Creature
 {
     public:
@@ -188,25 +181,6 @@ class Creature
          * technique should be used).
          */
         void melee_attack(Creature &t, bool allow_special);
-
-        /**
-         *  Fires a projectile at the target point from the source point with total_dispersion
-         *  dispersion.
-         *  Returns the rolled dispersion of the shot and the actually hit point.
-         */
-        dealt_projectile_attack projectile_attack( const projectile &proj, const tripoint &source,
-                                                   const tripoint &target, double total_dispersion );
-        /** Overloaded version that assumes the projectile comes from this Creature's postion. */
-        dealt_projectile_attack projectile_attack( const projectile &proj, const tripoint &target,
-                                                   double total_dispersion );
-
-        /**
-         * Makes an aiming/attack roll for a single projectile attack shot
-         * @param dispersion Effective dispersion of the shot (higher = less accurate weapon/ammo/sights)
-         * @param range Range to the target
-         * @param target_size Ease of hitting target. 1.0 means target occupies entire tile and doesn't dodge.
-         */
-        projectile_attack_aim projectile_attack_roll( double dispersion, double range, double target_size ) const;
 
         /**
          * Size of the target this creature presents to ranged weapons.

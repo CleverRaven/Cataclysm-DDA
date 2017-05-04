@@ -283,52 +283,6 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             dump( e.second );
         }
 
-    } else if( what == "AIMING" ) {
-        scol = -1; // unsorted output so graph columns have predictable ordering
-
-        const int cycles = 1400;
-
-        header = { "Name" };
-        for( int i = 0; i <= cycles; ++i ) {
-            header.push_back( to_string( i ) );
-        }
-
-        auto dump = [&rows]( const standard_npc &who, const item &gun) {
-            const int cycles = 1400;
-            std::vector<std::string> r( 1, string_format( "%s %s", who.get_name().c_str(), gun.tname().c_str() ) );
-            double penalty = MIN_RECOIL;
-            for( int i = 0; i <= cycles; ++i ) {
-                penalty -= who.aim_per_move( gun, penalty );
-                r.push_back( string_format( "%.2f", who.gun_current_range( gun, penalty ) ) );
-            }
-            rows.push_back( r );
-        };
-
-        if( opts.empty() ) {
-            dump( test_npcs[ "S1" ], test_items[ "G1" ] );
-            dump( test_npcs[ "S1" ], test_items[ "G2" ] );
-            dump( test_npcs[ "S1" ], test_items[ "G3" ] );
-            dump( test_npcs[ "S1" ], test_items[ "G4" ] );
-
-        } else {
-            for( const auto &str : opts ) {
-                auto idx = str.find( ':' );
-                if( idx == std::string::npos ) {
-                    std::cerr << "cannot parse test case: " << str << std::endl;
-                    return false;
-                }
-                auto test = std::make_pair( test_npcs.find( str.substr( 0, idx ) ),
-                                            test_items.find( str.substr( idx + 1 ) ) );
-
-                if( test.first == test_npcs.end() || test.second == test_items.end() ) {
-                    std::cerr << "invalid test case: " << str << std::endl;
-                    return false;
-                }
-
-                dump( test.first->second, test.second->second );
-            }
-        }
-
     } else if( what == "EXPLOSIVE" ) {
         header = {
             // @todo Should display more useful data: shrapnel damage, safe range
