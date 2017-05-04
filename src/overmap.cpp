@@ -2325,37 +2325,41 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     }
     if (has_target && blink &&
         (target.x < cursx - om_half_width ||
-         target.x >= cursx + om_half_width  ||
+         target.x >= cursx + om_half_width ||
          target.y < cursy - om_half_height ||
          target.y >= cursy + om_half_height)) {
+        int marker_x = ( target.x >= cursx - om_half_width  ) ? ( ( target.x < cursx + om_half_width  ) ? target.x : om_map_width  - 1) : 0;
+        int marker_y = ( target.y >= cursy - om_half_height ) ? ( ( target.y < cursy + om_half_height ) ? target.y : om_map_height - 1) : 0;
+        long marker_sym = ' ';
         switch (direction_from(cursx, cursy, target.x, target.y)) {
         case NORTH:
-            mvwputch(w, 0,                  om_half_width - 1,  c_red, '^');
+            marker_sym = '^';
             break;
         case NORTHEAST:
-            mvwputch(w, 0,                  om_map_width - 1,   c_red, LINE_OOXX);
+            marker_sym = LINE_OOXX;
             break;
         case EAST:
-            mvwputch(w, om_half_height - 1, om_map_width - 1,   c_red, '>');
+            marker_sym = '>';
             break;
         case SOUTHEAST:
-            mvwputch(w, om_map_height - 1,  om_map_width - 1,   c_red, LINE_XOOX);
+            marker_sym = LINE_XOOX;
             break;
         case SOUTH:
-            mvwputch(w, om_map_height - 1,  om_half_width - 1,  c_red, 'v');
+            marker_sym = 'v';
             break;
         case SOUTHWEST:
-            mvwputch(w, om_map_height - 1,  0,                  c_red, LINE_XXOO);
+            marker_sym = LINE_XXOO;
             break;
         case WEST:
-            mvwputch(w, om_half_height - 1, 0,                  c_red, '<');
+            marker_sym = '<';
             break;
         case NORTHWEST:
-            mvwputch(w, 0,                  0,                  c_red, LINE_OXXO);
+            marker_sym = LINE_OXXO;
             break;
         default:
             break; //Do nothing
         }
+        mvwputch(w, marker_y, marker_x, c_red, marker_sym);
     }
 
     std::vector<std::pair<nc_color, std::string>> corner_text;
