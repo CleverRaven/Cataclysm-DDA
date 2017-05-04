@@ -48,8 +48,6 @@ void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
 void drop_or_embed_projectile( const dealt_projectile_attack &attack );
 
-using confidence_rating = std::tuple<double, char, std::string>;
-
 struct aim_type {
     std::string name;
     std::string action;
@@ -1056,54 +1054,36 @@ static int do_aim( player &p, const std::vector<Creature *> &t, int cur_target,
     return cur_target;
 }
 
-double Creature::projectile_attack_chance( double dispersion, double range, double accuracy, double target_size ) const {
-    // This is essentially the inverse of what Creature::projectile_attack() does.
+struct confidence_rating {
+    double aim_level;
+    char symbol;
+    std::string label;
+};
 
-    if( dispersion <= 0 ) {
-        // Perfect accuracy, always hits
-        return 1.0;
-    }
-
-    if( range == 0 ) {
-        return 1.0;
-    }
-
-    double missed_by_tiles = accuracy * target_size;
-
-    //          T = (2*D**2 * (1 - cos V)) ** 0.5   (from iso_tangent)
-    //      cos V = 1 - T**2 / (2*D**2)
-    double cosV = 1 - missed_by_tiles * missed_by_tiles / (2 * range * range);
-    double shot_dispersion = ( cosV < -1.0 ? M_PI : acos( cosV ) ) * 180 * 60 / M_PI;
-    double sigma = dispersion / dispersion_sigmas;
-
-    // erf(x / (sigma * sqrt(2))) is the probability that a measurement
-    // of a normally distributed variable with standard deviation sigma
-    // lies in the range [-x..x]
-    return std::erf( shot_dispersion / ( sigma * sqrt2 ) );
-}
-
-static int print_ranged_chance( const player &p, WINDOW *w, int line_number,
+static int print_ranged_chance( WINDOW *w, int line_number,
                                 const std::vector<confidence_rating> &confidence_config,
                                 double dispersion, double range, double target_size,
                                 double steadiness = 10000.0 )
 {
     const int window_width = getmaxx( w ) - 2; // Window width minus borders.
-
-    const auto get_chance = [&p, dispersion, range, target_size]( double acc ) {
-        return p.projectile_attack_chance( dispersion, range, acc, target_size );
-    };
+    // This is a rough estimate of accuracy based on a linear distribution across min and max
+    // dispersion.  It is highly inaccurate probability-wise, but this is intentional, the player
+    // is not doing gaussian integration in their head while aiming.  The result gives the player
+    // correct relative measures of chance to hit, and corresponds with the actual distribution at
+    // min, max, and mean.
+    const double max_lateral_offset = iso_tangent( range, dispersion );
+    const double confidence = 1 / ( max_lateral_offset / target_size );
 
     bool print_steadiness = steadiness < 1000.0;
     if( get_option<std::string>( "ACCURACY_DISPLAY" ) == "numbers" ) {
-        // Chances by get_chance are absolute, meaning graze will always be higher than headshot etc.
         int last_chance = 0;
         std::string confidence_s = enumerate_as_string( confidence_config.begin(), confidence_config.end(),
-        [&]( const confidence_rating &config ) {
-            // @todo Consider not printing 0 chances, but only if you can print something (at least miss 100% or so)
-            int chance = std::min<int>( 100, 100.0 * get_chance( std::get<0>( config ) ) ) - last_chance;
-            last_chance += chance;
-            return string_format( "%s: %3d%%", std::get<2>( config ).c_str(), chance );
-        }, false );
+            [&]( const confidence_rating &config ) {
+                // @todo Consider not printing 0 chances, but only if you can print something (at least miss 100% or so)
+                int chance = std::min<int>( 100, 100.0 * ( config.aim_level * confidence ) ) - last_chance;
+                last_chance += chance;
+                return string_format( "%s: %3d%%", config.label.c_str(), chance );
+            }, false );
         line_number += fold_and_print_from( w, line_number, 1, window_width, 0,
                                             c_white, confidence_s );
 
@@ -1114,14 +1094,13 @@ static int print_ranged_chance( const player &p, WINDOW *w, int line_number,
 
     } else {
         // Extract pairs from tuples, because get_labeled_bar expects pairs
-        // @todo Update get_labeled_bar to allow tuples
         std::vector<std::pair<double, char>> confidence_ratings;
         std::transform( confidence_config.begin(), confidence_config.end(), std::back_inserter( confidence_ratings ),
         [&]( const confidence_rating &config ) {
-            return std::make_pair( get_chance( std::get<0>( config ) ), std::get<1>( config ) );
+            return std::make_pair( config.aim_level, config.symbol );
         } );
 
-        const std::string &confidence_bar = get_labeled_bar( 1.0, window_width, _( "Confidence" ),
+        const std::string &confidence_bar = get_labeled_bar( confidence, window_width, _( "Confidence" ),
                                                              confidence_ratings.begin(),
                                                              confidence_ratings.end() );
         
@@ -1158,12 +1137,12 @@ static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
 
     // This could be extracted, to allow more/less verbose displays
     static const std::vector<confidence_rating> confidence_config = {{
-        std::make_tuple( accuracy_headshot, '*', _( "Headshot" ) ),
-        std::make_tuple( accuracy_goodhit, '+', _( "Hit" ) ),
-        std::make_tuple( accuracy_grazing, '|', _( "Graze" ) )
+        { accuracy_headshot, '*', _( "Headshot" ) },
+        { accuracy_goodhit, '+', _( "Hit" ) },
+        { accuracy_grazing, '|', _( "Graze" ) }
     }};
 
-    return print_ranged_chance( p, w, line_number, confidence_config, dispersion, range, target_size, steadiness );
+    return print_ranged_chance( w, line_number, confidence_config, dispersion, range, target_size, steadiness );
 }
 
 static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const tripoint &targ )
@@ -1198,19 +1177,17 @@ static int draw_throw_aim( const player &p, WINDOW *w, int line_number,
 
     const double target_size = target != nullptr ? target->ranged_target_size() : 1.0f;
 
-    // This could be extracted, to allow more/less verbose displays
-    using cconf = std::tuple<double, char, std::string>;
-    static const std::vector<cconf> confidence_config_critter = {{
-        std::make_tuple( accuracy_headshot, '*', _( "Headshot" ) ),
-        std::make_tuple( accuracy_goodhit, '+', _( "Hit" ) ),
-        std::make_tuple( accuracy_grazing, '|', _( "Graze" ) )
+    static const std::vector<confidence_rating> confidence_config_critter = {{
+        { accuracy_headshot, '*', _( "Headshot" ) },
+        { accuracy_goodhit, '+', _( "Hit" ) },
+        { accuracy_grazing, '|', _( "Graze" ) }
     }};
-    static const std::vector<cconf> confidence_config_object = {{
-        std::make_tuple( accuracy_grazing, '*', _( "Hit" ) )
+    static const std::vector<confidence_rating> confidence_config_object = {{
+        { accuracy_grazing, '*', _( "Hit" ) }
     }};
     const auto &confidence_config = target != nullptr ? confidence_config_critter : confidence_config_object;
 
-    return print_ranged_chance( p, w, line_number, confidence_config, dispersion, range, target_size );
+    return print_ranged_chance( w, line_number, confidence_config, dispersion, range, target_size );
 }
 
 std::vector<tripoint> target_handler::target_ui( player &pc, const targeting_data &args ) {

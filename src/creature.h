@@ -214,18 +214,6 @@ class Creature
          */
         double ranged_target_size() const;
 
-        /**
-         * Probability that a projectile attack will hit with at least the given accuracy.
-         *
-         * @param total_dispersion nominal shot dispersion of gun + shooter
-         * @param range range of the attack
-         * @param accuracy the required accuracy, in the range [0..1]
-         * @param target_size Ease of hitting target. 1.0 means target occupies entire tile and doesn't dodge.
-         * @return the probability, in the range (0..1]
-         */
-        double projectile_attack_chance( double total_dispersion, double range,
-                                         double accuracy, double target_size ) const;
-
         // handles blocking of damage instance. mutates &dam
         virtual bool block_hit(Creature *source, body_part &bp_hit,
                                damage_instance &dam) = 0;

@@ -4,63 +4,8 @@
 #include "npc.h"
 #include "item_factory.h"
 
-static void test_distribution( const npc &who, int dispersion, int range, double target_size )
-{
-    const int N = 50000;
-    std::array< std::pair<double, int>, 20 > bins;
-
-    for( int i = 0; i < bins.size(); ++i ) {
-        bins[i].first = ( double )( bins.size() - i ) / bins.size();
-        bins[i].second = 0;
-    }
-
-    for( int i = 0; i < N; ++i ) {
-        projectile_attack_aim aim = who.projectile_attack_roll( dispersion, range, target_size );
-        for( int j = 0; j < bins.size() && aim.missed_by < bins[j].first; ++j ) {
-            ++bins[j].second;
-        }
-    }
-
-    for( int i = 0; i < bins.size(); ++i ) {
-        CAPTURE( range );
-        CAPTURE( dispersion );
-        CAPTURE( bins[i].first );
-        CHECK( who.projectile_attack_chance( dispersion, range, bins[i].first, target_size ) == Approx( ( double )bins[i].second / N ).epsilon( 0.01 ) );
-    }
-}
-
 static void test_internal( const npc& who, const std::vector<item> &guns )
 {
-    THEN( "the computed range from accuracy, recoil, and chance is correctly calculated" ) {
-        for( const auto &gun : guns ) {
-            for( double accuracy = 0.1; accuracy <= 1.0; accuracy += 0.1 ) {
-                for( int chance = 10; chance < 100; chance += 20 ) {
-                    for( double recoil = 0; recoil < 1000; recoil += 50 ) {
-                        double range = who.gun_current_range( gun, recoil, chance, accuracy );
-                        double dispersion = who.get_weapon_dispersion( gun, RANGE_SOFT_CAP ) + recoil;
-
-                        CAPTURE( gun.tname() );
-                        CAPTURE( accuracy );
-                        CAPTURE( chance );
-                        CAPTURE( recoil );
-                        CAPTURE( range );
-                        CAPTURE( dispersion );
-
-                        // Aiming at human
-                        double target_size = who.ranged_target_size();
-                        if( range > RANGE_SOFT_CAP ) {
-                            // No good approximation for this edge case yet
-                        } else if( range == gun.gun_range( &who ) ) {
-                            CHECK( who.projectile_attack_chance( dispersion, range, accuracy, target_size ) >= chance / 100.0 );
-                        } else {
-                            CHECK( who.projectile_attack_chance( dispersion, range, accuracy, target_size ) == Approx( chance / 100.0 ).epsilon( 0.0005 ) );
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     WHEN( "the gun it is aimed" ) {
         double penalty = MIN_RECOIL;
 
@@ -103,24 +48,6 @@ static void test_internal( const npc& who, const std::vector<item> &guns )
             }
         }
     }
-
-    WHEN( "the target is bigger" ) {
-        THEN( "chance to hit is greater" ) {
-            for( const auto &gun : guns ) {
-                CAPTURE( gun.tname() );
-                for( int i = MS_TINY; i < MS_HUGE - 1; i++ ) {
-                    m_size target_size = static_cast<m_size>( i );
-                    double accuracy = 0.5;
-                    double recoil = MIN_RECOIL;
-                    double chance = 0.5;
-                    double range = who.gun_current_range( gun, recoil, chance, accuracy );
-                    double dispersion = who.get_weapon_dispersion( gun, RANGE_SOFT_CAP ) + recoil;
-                    CHECK( who.projectile_attack_chance( dispersion, range, accuracy, target_size + 1 ) >=
-                           who.projectile_attack_chance( dispersion, range, accuracy, target_size ) );
-                }
-            }
-        }
-    }
 }
 
 TEST_CASE( "gun_aiming", "[gun] [aim]" ) {
@@ -135,18 +62,6 @@ TEST_CASE( "gun_aiming", "[gun] [aim]" ) {
         who.wear_item( item( "gloves_lsurvivor" ) );
         who.wear_item( item( "mask_lsurvivor" ) );
         who.set_skill_level( skill_id( "gun" ), gun_skill );
-
-        WHEN( "many shots are fired at human-sized target" ) {
-            THEN( "the distribution of accuracies is as expected" ) {
-                double target_size = who.ranged_target_size();
-                // Don't test range above soft cap - there is no good approxmation for that yet
-                for( int range = 0; range <= RANGE_SOFT_CAP; ++range ) {
-                    for( int dispersion = 0; dispersion < 1200; dispersion += 50 ) {
-                        test_distribution( who, dispersion, range, target_size );
-                    }
-                }
-            }
-        }
 
         WHEN( "the gun ranges are examined" ) {
             std::vector<item> guns;
