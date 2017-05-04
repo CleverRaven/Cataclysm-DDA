@@ -1075,7 +1075,7 @@ input_event draw_item_info( WINDOW *win, const std::string sItemName, const std:
     while( true ) {
         int iLines = 0;
         if( !buffer.str().empty() ) {
-            const auto vFolded = foldstring( buffer.str(), width );
+            const auto vFolded = foldstring( buffer.str(), width - 1 );
             iLines = vFolded.size();
 
             if( selected < 0 ) {
