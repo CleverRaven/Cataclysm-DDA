@@ -1384,12 +1384,14 @@ void draw_scrollbar( WINDOW *window, const int iCurrentLine, const int iContentH
             iSBHeight = 2;
         }
 
-        int iStartY = ( iCurrentLine * ( iContentHeight - 3 - iSBHeight ) ) / iNumEntries;
+        int iStartY;
         if( iCurrentLine == 0 ) {
             iStartY = -1;
-        } else if( bTextScroll && iCurrentLine == iNumEntries ) {
-            iStartY = iContentHeight - 3 - iSBHeight;
-        } else if( !bTextScroll && iCurrentLine == iNumEntries - 1 ) {
+        } else if( bTextScroll && iNumEntries > 1 ) {
+            iStartY = ( ( iContentHeight - 3 - iSBHeight ) * ( iCurrentLine - 1 ) ) / ( iNumEntries - 1 );
+        } else if ( !bTextScroll && iNumEntries > 2 ) {
+            iStartY = ( ( iContentHeight - 3 - iSBHeight ) * ( iCurrentLine - 1 ) ) / ( iNumEntries - 2 );
+        } else {
             iStartY = iContentHeight - 3 - iSBHeight;
         }
 
