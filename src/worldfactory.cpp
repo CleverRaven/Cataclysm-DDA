@@ -751,6 +751,7 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
     const int iMaxRows = getmaxy( w );
     int iModNum = mods.size();
     int iActive = cursor;
+    bool first_line_is_category = false;
 
     if( mods.empty() ) {
         center_print( w, 0, c_red, "%s", text_if_empty.c_str() );
@@ -765,6 +766,9 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
                 sLastCategoryName = mman->mod_map[mods[i]]->category.second;
                 mSortCategory[ i + iCatSortNum++ ] = sLastCategoryName;
                 iModNum++;
+                if( i == 0 ) {
+                    first_line_is_category = true;
+                }
             }
         }
 
@@ -850,7 +854,11 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
         }
     }
 
-    draw_scrollbar( w, iActive, iMaxRows, iModNum, 0);
+    if( first_line_is_category && iActive > 0 && iModNum > 1 ) {  // Ensure that the scrollbar starts at zero position
+        draw_scrollbar( w, iActive - 1, iMaxRows, iModNum - 1, 0);
+    } else {
+        draw_scrollbar( w, iActive, iMaxRows, iModNum, 0);
+    }
 
     wrefresh( w );
     wrefresh(w_shift);
