@@ -9396,8 +9396,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                                            TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX);
     WINDOW_PTR w_monster_info_borderptr( w_monster_info_border );
 
-    const int iWeaponRange = u.gun_engagement_range( u.weapon, player::engagement::maximum );
-
     const tripoint stored_view_offset = u.view_offset;
     u.view_offset = tripoint_zero;
 
@@ -9479,8 +9477,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             tripoint recentered = look_around();
             iLastActivePos = recentered;
         } else if (action == "fire") {
-            if( cCurMon != nullptr &&
-                rl_dist( u.pos(), cCurMon->pos() ) <= iWeaponRange) {
+            if( cCurMon != nullptr ) {
                 last_target = mon_at( cCurMon->pos(), true );
                 u.view_offset = stored_view_offset;
                 return game::vmenu_ret::FIRE;
@@ -9574,11 +9571,9 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                 mvwprintz(w_monsters, getmaxy(w_monsters) - 1, 1, c_ltgreen, "%s", ctxt.press_x( "look" ).c_str());
                 wprintz(w_monsters, c_ltgray, " %s", _("to look around"));
 
-                if (rl_dist( u.pos(), cCurMon->pos() ) <= iWeaponRange) {
-                    wprintz(w_monsters, c_ltgray, "%s", " ");
-                    wprintz(w_monsters, c_ltgreen, "%s", ctxt.press_x( "fire" ).c_str());
-                    wprintz(w_monsters, c_ltgray, " %s", _("to shoot"));
-                }
+                wprintz(w_monsters, c_ltgray, "%s", " ");
+                wprintz(w_monsters, c_ltgreen, "%s", ctxt.press_x( "fire" ).c_str());
+                wprintz(w_monsters, c_ltgray, " %s", _("to shoot"));
             }
 
             //Only redraw trail/terrain if x/y position changed
@@ -10149,14 +10144,6 @@ bool game::plfire()
             reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
             refresh_all();
         }
-        // RELOAD_AND_SHOOT guns (like bows) must be loaded before range can be properly calculated.
-        int gun_range = u.gun_engagement_range( *gun, player::engagement::maximum );
-        args.range = gun.melee() ? gun.qty : gun_range;
-    }
-
-    // Turrets fired directly by the player should not be subject to player::engagement range limits
-    if( args.mode == TARGET_MODE_TURRET_MANUAL ) {
-        args.range = args.relevant->gun_range( &u );
     }
 
     temp_exit_fullscreen();
@@ -10211,10 +10198,9 @@ bool game::plfire( item &weapon, int bp_cost )
         return false;
     }
 
-    int gun_range = u.gun_engagement_range( *gun, player::engagement::maximum );
     targeting_data args = {
         gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE,
-        &weapon, gun.melee() ? gun.qty : gun_range,
+        &weapon, gun.melee() ? gun.qty : RANGE_HARD_CAP,
         bp_cost, &u.weapon == &weapon, gun->ammo_data(),
         target_callback(), target_callback(),
         firing_callback(), firing_callback()

@@ -61,22 +61,6 @@ static void test_internal( const npc& who, const std::vector<item> &guns )
         }
     }
 
-    THEN( "the snapshot range is less than the effective range" ) {
-        for( const auto &gun : guns ) {
-            CAPTURE( gun.tname() );
-            CHECK( who.gun_engagement_range( gun, player::engagement::snapshot ) <=
-                   who.gun_engagement_range( gun, player::engagement::effective ) );
-        }
-    }
-
-    THEN( "the effective range is less than maximum range" ) {
-        for( const auto &gun : guns ) {
-            CAPTURE( gun.tname() );
-            CHECK( who.gun_engagement_range( gun, player::engagement::effective ) <=
-                   who.gun_engagement_range( gun, player::engagement::maximum ) );
-        }
-    }
-
     WHEN( "the gun it is aimed" ) {
         double penalty = MIN_RECOIL;
 

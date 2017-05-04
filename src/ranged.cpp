@@ -499,23 +499,6 @@ double effective_range( double dispersion, unsigned chance, double accuracy, dou
 
 }
 
-double player::gun_engagement_range( const item &gun, engagement opt ) const
-{
-    switch( opt ) {
-        case engagement::snapshot:
-            return gun_current_range( gun, MIN_RECOIL, 50, accuracy_goodhit );
-
-        case engagement::effective:
-            return gun_current_range( gun, effective_dispersion( gun.sight_dispersion() ), 50, accuracy_goodhit );
-
-        case engagement::maximum:
-            return gun_current_range( gun, effective_dispersion( gun.sight_dispersion() ), 10, accuracy_grazing );
-    }
-
-    debugmsg( "Invalid engagement %d", ( int )opt );
-    abort(); // never reached
-}
-
 int player::gun_engagement_moves( const item &gun ) const
 {
     int mv = 0;

@@ -540,15 +540,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         double thrown_current_range( const item& to_throw, unsigned chance = 50,
                                      double accuracy = accuracy_goodhit, Creature *target = nullptr ) const;
 
-        enum class engagement {
-            snapshot,   // 50% chance of good hit with no aiming
-            effective,  // 50% chance of good hit at maximum aim
-            maximum,    // 10% chance of any hit at maximum aim
-        };
-
-        /** Get engagement ranges for gun */
-        double gun_engagement_range( const item &gun, engagement opt ) const;
-
         /** How many moves does it take to aim gun to maximum accuracy? */
         int gun_engagement_moves( const item &gun ) const;
 
