@@ -1,6 +1,9 @@
 #ifndef TEST_STATISTICS_H
 #define TEST_STATISTICS_H
 
+#include <limits>
+#include <vector>
+
 class statistics {
 private:
     int _types;
@@ -11,7 +14,8 @@ private:
     std::vector<int> samples;
 
 public:
-    statistics() : _types(0), _n(0), _sum(0), _max(INT_MIN), _min(INT_MAX) {}
+    statistics() : _types(0), _n(0), _sum(0), _max( std::numeric_limits<int>::min() ),
+      _min( std::numeric_limits<int>::max() ) {}
 
     void new_type() {
         _types++;

@@ -1,8 +1,5 @@
 #include "ranged.h"
 
-#include <vector>
-#include <string>
-#include <cmath>
 #include "cata_utility.h"
 #include "game.h"
 #include "map.h"
@@ -26,7 +23,11 @@
 #include "vehicle.h"
 #include "field.h"
 #include "mtype.h"
+
 #include <algorithm>
+#include <vector>
+#include <string>
+#include <cmath>
 
 const float sqrt2 = std::sqrt( 2.0f );
 
