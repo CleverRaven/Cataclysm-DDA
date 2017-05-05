@@ -8244,19 +8244,19 @@
   {
     "id": "food_processor",
     "type": "TOOL",
-	"category": "tools",
-    "symbol": "%",
-    "color": "white",
+    "category": "tools",
     "name": "food processor",
     "description": "This is a kitchen appliance capable of slicing, chopping, shredding, grinding, pureeing and mixing.",
-    "price": 50,
-    "material": [ "iron" ],
     "weight": 3000,
     "volume": 8,
-    "bashing": 10,
+    "price": 50,
     "to_hit": -1,
-    "max_charges": 100,
+    "bashing": 10,
+    "material": [ "iron" ],
+    "symbol": "%",
+    "color": "white",
+    "ammo": "battery",
     "initial_charges": 100,
-    "ammo": "battery"
+    "max_charges": 100
   }
 ]
