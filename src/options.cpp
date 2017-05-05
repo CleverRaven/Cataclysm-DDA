@@ -2050,7 +2050,7 @@ options_manager::cOpt &options_manager::get_option( const std::string &name )
     if( global_options.count( name ) == 0 ) {
         debugmsg( "requested non-existing option %s", name.c_str() );
     }
-    if( !world_generator->active_world ) {
+    if( !world_generator || !world_generator->active_world ) {
         // Global options contains the default for new worlds, which is good enough here.
         return global_options[name];
     }
