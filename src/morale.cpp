@@ -706,7 +706,7 @@ void player_morale::update_constrained_penalty()
 
 void player_morale::update_squeamish_penalty()
 {
-    if( !get_world_option<bool>( "FILTHY_MORALE" ) ) {
+    if( !get_option<bool>( "FILTHY_MORALE" ) ) {
         set_permanent( MORALE_PERM_FILTHY, 0 );
         return;
     }

@@ -2567,7 +2567,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
     // For rotation
     const bool has_basement = terrain_type->get_type_id().str() == "house_base";
     if( has_basement ) {
-        const bool force = get_world_option<bool>( "ALIGN_STAIRS" );
+        const bool force = get_option<bool>( "ALIGN_STAIRS" );
         // Find the basement's stairs first
         const tripoint abs_sub_here = m->get_abs_sub();
         tinymap basement;
@@ -3016,13 +3016,13 @@ void mapgen_shelter(map *m, oter_id, mapgendata dat, int, float) {
                 m->spawn_item(lxa, 5, "mask_gas"); // See! The gas mask is real!
             }
         }
-        if(get_world_option<bool>( "BLACK_ROAD" ) || g->scen->has_flag("SUR_START")) {
+        if(get_option<bool>( "BLACK_ROAD" ) || g->scen->has_flag("SUR_START")) {
             //place zombies outside
-            m->place_spawns( GROUP_ZOMBIE, get_world_option<float>( "SPAWN_DENSITY" ), 0, 0, SEEX * 2 - 1, 3, 0.4f);
-            m->place_spawns( GROUP_ZOMBIE, get_world_option<float>( "SPAWN_DENSITY" ), 0, 4, 3, SEEX * 2 - 4, 0.4f);
-            m->place_spawns( GROUP_ZOMBIE, get_world_option<float>( "SPAWN_DENSITY" ), SEEX * 2 - 3, 4,
+            m->place_spawns( GROUP_ZOMBIE, get_option<float>( "SPAWN_DENSITY" ), 0, 0, SEEX * 2 - 1, 3, 0.4f);
+            m->place_spawns( GROUP_ZOMBIE, get_option<float>( "SPAWN_DENSITY" ), 0, 4, 3, SEEX * 2 - 4, 0.4f);
+            m->place_spawns( GROUP_ZOMBIE, get_option<float>( "SPAWN_DENSITY" ), SEEX * 2 - 3, 4,
                          SEEX * 2 - 1, SEEX * 2 - 4, 0.4f);
-            m->place_spawns( GROUP_ZOMBIE, get_world_option<float>( "SPAWN_DENSITY" ), 0, SEEX * 2 - 3,
+            m->place_spawns( GROUP_ZOMBIE, get_option<float>( "SPAWN_DENSITY" ), 0, SEEX * 2 - 3,
                          SEEX * 2 - 1, SEEX * 2 - 1, 0.4f);
         }
 }
