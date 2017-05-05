@@ -2061,8 +2061,13 @@ options_manager::cOpt &options_manager::get_world_option( const std::string &nam
     }
     auto &wopts = world_generator->active_world->WORLD_OPTIONS;
     if( wopts.count( name ) == 0 ) {
+        auto &opt = get_option( name );
+        if( opt.getPage() != "world_default" ) {
+            // Requested a non-world option, deliver it.
+            return opt;
+        }
         // May be a new option and an old world - import default from global options.
-        wopts[name] = get_option( name );
+        wopts[name] = opt;
     }
     return wopts[name];
 }
