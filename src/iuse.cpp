@@ -2610,17 +2610,20 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
             } else if( selected_tower->type == WEATHER_RADIO ) {
                 message = weather_forecast( tref.abs_sm_pos );
             }
-            for( auto &elem : message ) {
+
+            message = obscure_message( message, [&]()->int {
                 int signal_roll = dice( 10, tref.signal_strength * 3 );
                 int static_roll = dice( 10, 100 );
                 if( static_roll > signal_roll ) {
                     if( static_roll < signal_roll * 1.1 && one_in( 4 ) ) {
-                        elem = char( rng( 'a', 'z' ) );
+                        return 0;
                     } else {
-                        elem = '#';
+                        return '#';
                     }
+                } else {
+                    return -1;
                 }
-            }
+            } );
 
             std::vector<std::string> segments = foldstring( message, RADIO_PER_TURN );
             int index = calendar::turn % segments.size();

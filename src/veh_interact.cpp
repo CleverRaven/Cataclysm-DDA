@@ -2316,7 +2316,7 @@ void veh_interact::complete_vehicle()
             int py = g->u.view_offset.y;
             g->u.view_offset.x = veh->global_x() + q.x - g->u.posx();
             g->u.view_offset.y = veh->global_y() + q.y - g->u.posy();
-            popup(_("Choose a facing direction for the new headlight."));
+            popup(_("Choose a facing direction for the new headlight.  Press space to continue."));
             tripoint headlight_target = g->look_around(); // Note: no way to cancel
             // Restore previous view offsets.
             g->u.view_offset.x = px;

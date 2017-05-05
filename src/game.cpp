@@ -383,15 +383,6 @@ void game::load_data_from_dir( const std::string &path, const std::string &src )
 game::~game()
 {
     MAPBUFFER.reset();
-    delwin(w_terrain);
-    delwin(w_minimap);
-    delwin(w_pixel_minimap);
-    delwin(w_HP);
-    delwin(w_messages_short);
-    delwin(w_messages_long);
-    delwin(w_location);
-    delwin(w_status);
-    delwin(w_status2);
 }
 
 // Fixed window sizes
@@ -515,6 +506,7 @@ void game::init_ui()
     w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH,
                        VIEW_OFFSET_Y, right_sidebar ? VIEW_OFFSET_X :
                        VIEW_OFFSET_X + sidebarWidth);
+    w_terrain_ptr.reset( w_terrain );
     werase(w_terrain);
 
     /**
@@ -627,18 +619,23 @@ void game::init_ui()
     int _x = right_sidebar ? TERMX - VIEW_OFFSET_X - sidebarWidth : VIEW_OFFSET_X;
 
     w_minimap = newwin(MINIMAP_HEIGHT, MINIMAP_WIDTH, _y + minimapY, _x + minimapX);
+    w_minimap_ptr.reset( w_minimap );
     werase(w_minimap);
 
     w_HP = newwin(hpH, hpW, _y + hpY, _x + hpX);
+    w_HP_ptr.reset( w_HP );
     werase(w_HP);
 
     w_messages_short = newwin(messHshort, messW, _y + messY, _x + messX);
+    w_messages_short_ptr.reset( w_messages_short );
     werase(w_messages_short);
 
     w_messages_long = newwin(messHlong, messW, _y + messY, _x + messX);
+    w_messages_long_ptr.reset( w_messages_long );
     werase(w_messages_long);
 
     w_pixel_minimap = newwin(pixelminimapH, pixelminimapW, _y + pixelminimapY, _x + pixelminimapX);
+    w_pixel_minimap_ptr.reset( w_pixel_minimap );
     werase(w_pixel_minimap);
 
     w_messages = w_messages_short;
@@ -647,12 +644,15 @@ void game::init_ui()
     }
 
     w_location = newwin(locH, locW, _y + locY, _x + locX);
+    w_location_ptr.reset( w_location );
     werase(w_location);
 
     w_status = newwin(statH, statW, _y + statY, _x + statX);
+    w_status_ptr.reset( w_status );
     werase(w_status);
 
     w_status2 = newwin(stat2H, stat2W, _y + stat2Y, _x + stat2X);
+    w_status2_ptr.reset( w_status2 );
     werase(w_status2);
 
     liveview.init();

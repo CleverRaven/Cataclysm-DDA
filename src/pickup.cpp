@@ -736,7 +736,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
         int selected = 0;
         int iScrollPos = 0;
 
-        std::string filter;
+        std::string filter, new_filter;
         std::vector<int> matches;//Indexes of items that match the filter
         bool filter_changed = true;
         if( g->was_fullscreen ) {
@@ -808,11 +808,17 @@ void Pickup::pick_up( const tripoint &pos, int min )
                        ) ) {
                 idx = selected;
             } else if( action == "FILTER" ) {
-                string_input_popup()
+                new_filter = filter;
+                string_input_popup popup;
+                popup
                 .title( _( "Set filter" ) )
                 .width( 30 )
-                .edit( filter );
-                filter_changed = true;
+                .edit( new_filter );
+                if( !popup.canceled() ) {
+                    filter_changed = true;
+                } else {
+                    wrefresh( g->w_terrain );
+                }
             } else if( action == "ANY_INPUT" && raw_input_char == '`' ) {
                 std::string ext = string_input_popup()
                                   .title( _( "Enter 2 letters (case sensitive):" ) )
@@ -860,7 +866,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
             if( filter_changed ) {
                 matches.clear();
                 while( matches.empty() ) {
-                    auto filter_func = item_filter_from_string( filter );
+                    auto filter_func = item_filter_from_string( new_filter );
                     for( size_t index = 0; index < stacked_here.size(); index++ ) {
                         if( filter_func( stacked_here[index].begin()->_item ) ) {
                             matches.push_back( index );
@@ -868,17 +874,29 @@ void Pickup::pick_up( const tripoint &pos, int min )
                     }
                     if( matches.empty() ) {
                         popup( _( "Your filter returned no results" ) );
-                        // The filter must have results, or simply be emptied,
+                        wrefresh( g->w_terrain );
+                        // The filter must have results, or simply be emptied or canceled,
                         // as this screen can't be reached without there being
                         // items available
-                        string_input_popup()
+                        string_input_popup popup;
+                        popup
                         .title( _( "Set filter" ) )
                         .width( 30 )
-                        .edit( filter );
+                        .edit( new_filter );
+                        if( popup.canceled() ) {
+                            new_filter = filter;
+                            filter_changed = false;
+                        }
                     }
                 }
-                filter_changed = false;
-                selected = 0;
+                if( filter_changed ) {
+                    filter = new_filter;
+                    filter_changed = false;
+                    selected = 0;
+                    start = 0;
+                    iScrollPos = 0;
+                }
+                wrefresh( g->w_terrain );
             }
             item &selected_item = stacked_here[matches[selected]].begin()->_item;
 
