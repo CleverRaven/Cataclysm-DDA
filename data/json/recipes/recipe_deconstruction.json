@@ -2449,7 +2449,8 @@
     "components": [
       [ [ "scrap", 4 ] ],
       [ [ "cable", 2 ] ],
-      [ [ "pot", 1 ] ]
+      [ [ "pot", 1 ] ],
+      [ [ "e_scrap", 1 ] ]  
     ]
   }
 ]
