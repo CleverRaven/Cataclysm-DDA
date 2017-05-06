@@ -4,7 +4,15 @@
         "id" : "menu_move",
         "volume" : 100,
         "files" : [
-            "nenadsimic_menu_selection_click.wav"
+            "menu_move.wav"
+        ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "menu_error",
+        "volume" : 100,
+        "files" : [
+            "menu_error.wav"
         ]
     }
 ]

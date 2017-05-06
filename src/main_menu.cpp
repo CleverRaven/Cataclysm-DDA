@@ -650,6 +650,7 @@ bool main_menu::new_character_tab()
             if( templates.empty() ) {
                 mvwprintz( w_open, iMenuOffsetY - 4, iMenuOffsetX + 20 + extra_w / 2,
                            c_red, _( "No templates found!" ) );
+                sfx::play_variant_sound( "menu_error", "default", 100 );
             } else {
                 mvwprintz( w_open, iMenuOffsetY - 2, iMenuOffsetX + 20 + extra_w / 2,
                            c_white, _( "Press 'd' to delete a preset." ) );
@@ -735,6 +736,7 @@ bool main_menu::load_character_tab()
             if( world_generator->all_worldnames.empty() ) {
                 mvwprintz( w_open, iMenuOffsetY - 2, 15 + iMenuOffsetX + extra_w / 2,
                            c_red, _( "No Worlds found!" ) );
+                sfx::play_variant_sound( "menu_error", "default", 100 );
             } else {
                 for( int i = 0; i < ( int )world_generator->all_worldnames.size(); ++i ) {
                     int line = iMenuOffsetY - 2 - i;
@@ -798,9 +800,11 @@ bool main_menu::load_character_tab()
                 savegames.clear();
                 mvwprintz( w_open, iMenuOffsetY - 2, 15 + iMenuOffsetX + extra_w / 2,
                            c_red, _( "This world requires the game to be compiled with Lua." ) );
+                sfx::play_variant_sound( "menu_error", "default", 100 );
             } else if( savegames.empty() ) {
                 mvwprintz( w_open, iMenuOffsetY - 2, 19 + 19 + iMenuOffsetX + extra_w / 2,
                            c_red, _( "No save games found!" ) );
+                sfx::play_variant_sound( "menu_error", "default", 100 );
             } else {
                 int line = iMenuOffsetY - 2;
                 for( const std::string &savename : savegames ) {
