@@ -7800,7 +7800,7 @@ void game::print_all_tile_info( const tripoint &lp, WINDOW *w_look, int column, 
                 print_graffiti_info( lp, w_look, column, line, last_line );
 
                 if ( draw_terrain_indicators) {
-                    if ( creature != nullptr ) {
+                    if ( creature != nullptr && u.sees( *creature ) ) {
                         creature->draw( w_terrain, lp, true );
                     } else {
                         m.drawsq( w_terrain, u, lp, true, true, lp );
