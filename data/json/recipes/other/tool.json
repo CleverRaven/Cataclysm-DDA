@@ -22,8 +22,7 @@
         [ [ "plastic_chunk", 3 ] ],
         [ [ "wire", 1 ] ],
         [ [ "scrap", 1 ] ],
-        [ [ "bismuth", 200 ] ],
-        [ [ "motor_small", 1 ] ]
+        [ [ "bismuth", 200 ] ]
       ]
   },
   {
@@ -150,6 +149,7 @@
       [ [ "scrap", 4 ] ],
       [ [ "cable", 2 ] ],
       [ [ "pot", 1 ] ],
+      [ [ "motor_small", 1 ] ],
       [ [ "e_scrap", 1 ] ]
     ]
   }
