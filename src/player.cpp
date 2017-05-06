@@ -5328,7 +5328,7 @@ void player::suffer()
     }
 
     if (!in_sleep_state()) {
-        if (weight_carried() > 4 * weight_capacity()) {
+        if ( !has_trait("DEBUG_STORAGE") && ( weight_carried() > 4 * weight_capacity() ) ) {
             if (has_effect( effect_downed )) {
                 add_effect( effect_downed, 1, num_bp, false, 0, true );
             } else {
