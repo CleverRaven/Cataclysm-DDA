@@ -4940,7 +4940,7 @@ void game::draw_sidebar()
 
         wprintz(time_window, c_white, "]");
     } else {
-        wprintz( time_window, c_white, "Time: ???" );
+        wprintz( time_window, c_white, _( "Time: ???") );
     } 
 
     const oter_id &cur_ter = overmap_buffer.ter(u.global_omt_location());
