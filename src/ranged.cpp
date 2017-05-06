@@ -1141,7 +1141,7 @@ static int print_ranged_chance( const player &p, WINDOW *w, int line_number,
         const std::string &confidence_bar = get_labeled_bar( 1.0, window_width, _( "Confidence" ),
                                                              confidence_ratings.begin(),
                                                              confidence_ratings.end() );
-        
+
 
         mvwprintw( w, line_number++, 1, _( "Symbols: * = Headshot + = Hit | = Graze" ) );
         mvwprintw( w, line_number++, 1, confidence_bar.c_str() );
@@ -1865,7 +1865,7 @@ item::sound_data item::gun_noise( bool const burst ) const
     if( ammo_type() == ammotype( "40mm" ) ) {
         return { 8, _( "Thunk!" ) };
 
-    } else if( typeId() == "hk_g80") {
+    } else if( typeId() == "hk_g80" ) {
         return { 24, _( "tz-CRACKck!" ) };
 
     } else if( ammo_type() == ammotype( "flammable" ) || ammo_type() == ammotype( "66mm" ) ||
@@ -1905,7 +1905,7 @@ item::sound_data item::gun_noise( bool const burst ) const
             return { noise, burst ? _( "Brrrip!" ) : _( "plink!" ) };
         } else if( noise < 150 ) {
             return { noise, burst ? _( "Brrrap!" ) : _( "bang!" ) };
-        } else if(noise < 175 ) {
+        } else if( noise < 175 ) {
             return { noise, burst ? _( "P-p-p-pow!" ) : _( "blam!" ) };
         } else {
             return { noise, burst ? _( "Kaboom!!" ) : _( "kerblam!" ) };
