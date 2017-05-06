@@ -854,8 +854,8 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
         }
     }
 
-    if( first_line_is_category && iActive > 0 && iModNum > 1 ) {  // Ensure that the scrollbar starts at zero position
-        draw_scrollbar( w, iActive - 1, iMaxRows, iModNum - 1, 0);
+    if( first_line_is_category && iActive == 1 ) {  // Ensure that the scrollbar starts at zero position
+        draw_scrollbar( w, 0, iMaxRows, iModNum, 0);
     } else {
         draw_scrollbar( w, iActive, iMaxRows, iModNum, 0);
     }
