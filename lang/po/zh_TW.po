@@ -39,8 +39,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-27 20:14+0800\n"
-"PO-Revision-Date: 2017-04-28 15:04+0000\n"
+"POT-Creation-Date: 2017-05-05 22:55+0800\n"
+"PO-Revision-Date: 2017-05-06 15:10+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -53481,7 +53481,7 @@ msgid "bulletin board"
 msgstr "告示牌"
 
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
-#: src/iuse.cpp
+#: lang/json/terrain_from_json.py src/iuse.cpp
 msgid "crunch!"
 msgstr "匡噹！"
 
@@ -61159,6 +61159,14 @@ msgstr "設定槍塔射擊模式"
 #: lang/json/keybinding_from_json.py src/vehicle.cpp
 msgid "Aim turrets manually"
 msgstr "手動瞄準槍塔"
+
+#: lang/json/keybinding_from_json.py src/vehicle.cpp
+msgid "Aim automatic turrets"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py src/vehicle.cpp
+msgid "Aim individual turret"
+msgstr ""
 
 #: lang/json/keybinding_from_json.py src/vehicle.cpp
 msgid "Set turret targeting modes"
@@ -89791,7 +89799,7 @@ msgstr "返回"
 #: src/debug_menu.cpp src/editmap.cpp src/game.cpp src/game.cpp src/game.cpp
 #: src/iexamine.cpp src/iexamine.cpp src/inventory_ui.cpp src/iuse.cpp
 #: src/iuse.cpp src/iuse_actor.cpp src/mission_companion.cpp src/pickup.cpp
-#: src/player.cpp src/vehicle.cpp
+#: src/player.cpp src/turret.cpp src/vehicle.cpp
 msgid "Cancel"
 msgstr "取消"
 
@@ -92572,6 +92580,16 @@ msgstr "寫入檔案失敗"
 #, c-format
 msgid "Failed to read from \"%1$s\": %2$s"
 msgstr "讀取失敗，從 \"%1$s\": %2$s"
+
+#. ~ translators: place some random 1-width characters here in your language
+#. if possible, or leave it as is
+#: src/cata_utility.cpp
+msgid "abcdefghijklmnopqrstuvwxyz"
+msgstr ""
+
+#: src/cata_utility.cpp
+msgid "に坂索トし荷測のンおク妙免イロコヤ梅棋厚れ表幌"
+msgstr ""
 
 #: src/catalua.cpp src/player.cpp
 #, c-format
@@ -121989,6 +122007,14 @@ msgid "Can't aim turrets: all turrets are offline"
 msgstr "無法瞄準槍塔：所有槍塔離線中"
 
 #: src/turret.cpp
+msgid "Aim which turret?"
+msgstr ""
+
+#: src/turret.cpp
+msgid "None of the turrets are available to fire."
+msgstr ""
+
+#: src/turret.cpp
 #, c-format
 msgctxt "vehicle turret"
 msgid "The %s"
@@ -122601,8 +122627,9 @@ msgid "Could not find base part in requirements for %s."
 msgstr ""
 
 #: src/veh_interact.cpp
-msgid "Choose a facing direction for the new headlight."
-msgstr "選擇新車頭燈的照射方向。"
+msgid ""
+"Choose a facing direction for the new headlight.  Press space to continue."
+msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
