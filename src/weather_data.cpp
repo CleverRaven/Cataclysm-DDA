@@ -35,41 +35,29 @@ weather_animation_t get_weather_animation(weather_type const type)
     return {0.0f, c_white, '?'};
 }
 
-std::string const& season_name(int const season)
+const std::string season_name(int const season)
 {
     static std::string const invalid {"bad season!"};
-    static std::array<std::string, 4> const names {{
-        pgettext( "season_name", "spring" ),
-        pgettext( "season_name", "summer" ),
-        pgettext( "season_name", "autumn" ),
-        pgettext( "season_name", "winter" )
+    static std::array<std::string, 4> const untranslated_names {{
+        "spring", "summer", "autumn", "winter"
     }};
 
     if (!(season >= 0 && season < 4)) {
         return invalid;
     }
 
-    return names[season];
+    return pgettext( "season_name", untranslated_names[season].c_str() );
 }
 
-std::string const& season_name_upper(int const season)
+const std::string season_name_upper(int const season)
 {
-    static auto const as_upper = [](std::string const& s) {
-        std::string result {s};
-        result[0] = toupper(result[0]);
-        return result;
-    };
-
-    static std::array<std::string, 4> const names {{
-        as_upper(season_name(0)), as_upper(season_name(1)),
-        as_upper(season_name(2)), as_upper(season_name(3))
-    }};
-
     if (!(season >= 0 && season < 4)) {
         return season_name(season);
     }
 
-    return names[static_cast<size_t>(season)];
+    std::string name = season_name( season );
+    name[0] = toupper( name[0] );
+    return name;
 }
 
 weather_datum const& weather_data(weather_type const type)
