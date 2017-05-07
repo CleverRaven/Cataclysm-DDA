@@ -39,7 +39,6 @@ groups of vehicle definitions with self-explanatory names of files:
 * books.json         - books
 * comestibles.json   - food/drinks
 * containers.json    - containers
-* instruments.json   - instruments
 * melee.json         - anything that doesn't go in the other item jsons, melee weapons
 * mods.json          - gunmods
 
