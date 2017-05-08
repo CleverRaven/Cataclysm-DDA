@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-27 20:14+0800\n"
-"PO-Revision-Date: 2017-04-28 15:04+0000\n"
+"POT-Creation-Date: 2017-05-05 22:55+0800\n"
+"PO-Revision-Date: 2017-05-06 15:10+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -154,7 +154,7 @@ msgid ""
 "If true, will enable to pickup items one tile around to the player.  You can"
 " assign No Auto Pickup zones with the Zones Manager 'Y' key for eg.  your "
 "homebase."
-msgstr ""
+msgstr "이 설정을 켜면 플레이어의 주변 한 칸 영역의 물품을 자동으로 줍습니다. 'Y'키를 누르면 구역 관리자에서 자동 줍기 금지 구역을 설정할 수 있습니다. (은신처 등을 설정하는데 사용)"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Auto pickup light items"
@@ -53473,7 +53473,7 @@ msgid "bulletin board"
 msgstr "게시판"
 
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
-#: src/iuse.cpp
+#: lang/json/terrain_from_json.py src/iuse.cpp
 msgid "crunch!"
 msgstr "우지끈!"
 
@@ -54953,7 +54953,7 @@ msgstr "스위스 군용 단축형 자동소총. 일체형 접이식 개머리�
 
 #: lang/json/gun_from_json.py
 msgid "3 rd."
-msgstr ""
+msgstr "3점사"
 
 #: lang/json/gun_from_json.py
 msgid "Steyr AUG"
@@ -55783,7 +55783,7 @@ msgstr "AK-74를 대체하기 위해 만들어진 소총. 반동을 줄이기 �
 
 #: lang/json/gun_from_json.py
 msgid "2 rd."
-msgstr ""
+msgstr "2점사"
 
 #: lang/json/gun_from_json.py
 msgid "FN Five-Seven"
@@ -55824,7 +55824,7 @@ msgstr "5x50mm 철갑 플레셰트탄을 사용하는 경량 카빈 소총. 특�
 
 #: lang/json/gun_from_json.py
 msgid "5 rd."
-msgstr ""
+msgstr "5점사"
 
 #: lang/json/gun_from_json.py
 msgid "RM232 IDW"
@@ -56037,7 +56037,7 @@ msgstr "강력하고 특이한 탄을 사용하는 리브텍 RM614 경기관총�
 
 #: lang/json/gun_from_json.py
 msgid "4 rd."
-msgstr ""
+msgstr "4점사"
 
 #: lang/json/gun_from_json.py
 msgid "RM88 battle rifle"
@@ -61153,6 +61153,14 @@ msgid "Aim turrets manually"
 msgstr "터렛 수동 조준"
 
 #: lang/json/keybinding_from_json.py src/vehicle.cpp
+msgid "Aim automatic turrets"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py src/vehicle.cpp
+msgid "Aim individual turret"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py src/vehicle.cpp
 msgid "Set turret targeting modes"
 msgstr "터렛을 조준 모드로 설정"
 
@@ -63658,7 +63666,7 @@ msgstr ""
 
 #: lang/json/mission_def_from_json.py
 msgid "Do you have the metal tanks?"
-msgstr ""
+msgstr "금속탱크를 가지고 있습니까?"
 
 #: lang/json/mission_def_from_json.py
 msgid "Find 2 55-Gallon Drums"
@@ -89783,7 +89791,7 @@ msgstr "뒤로"
 #: src/debug_menu.cpp src/editmap.cpp src/game.cpp src/game.cpp src/game.cpp
 #: src/iexamine.cpp src/iexamine.cpp src/inventory_ui.cpp src/iuse.cpp
 #: src/iuse.cpp src/iuse_actor.cpp src/mission_companion.cpp src/pickup.cpp
-#: src/player.cpp src/vehicle.cpp
+#: src/player.cpp src/turret.cpp src/vehicle.cpp
 msgid "Cancel"
 msgstr "취소"
 
@@ -92565,6 +92573,16 @@ msgstr ""
 msgid "Failed to read from \"%1$s\": %2$s"
 msgstr ""
 
+#. ~ translators: place some random 1-width characters here in your language
+#. if possible, or leave it as is
+#: src/cata_utility.cpp
+msgid "abcdefghijklmnopqrstuvwxyz"
+msgstr ""
+
+#: src/cata_utility.cpp
+msgid "に坂索トし荷測のンおク妙免イロコヤ梅棋厚れ表幌"
+msgstr ""
+
 #: src/catalua.cpp src/player.cpp
 #, c-format
 msgid "You can't do anything interesting with your %s."
@@ -94240,7 +94258,7 @@ msgstr "어떤 도구를 사용합니까?"
 
 #: src/crafting.cpp
 msgid "You cannot disassemble this."
-msgstr ""
+msgstr "분해할 수 없다."
 
 #: src/crafting.cpp
 msgid "It's rotten, I'm not taking that apart."
@@ -121981,6 +121999,14 @@ msgid "Can't aim turrets: all turrets are offline"
 msgstr "터렛 조준 불가: 모든 터렛 꺼짐"
 
 #: src/turret.cpp
+msgid "Aim which turret?"
+msgstr ""
+
+#: src/turret.cpp
+msgid "None of the turrets are available to fire."
+msgstr ""
+
+#: src/turret.cpp
 #, c-format
 msgctxt "vehicle turret"
 msgid "The %s"
@@ -122593,8 +122619,9 @@ msgid "Could not find base part in requirements for %s."
 msgstr "%s을(를) 설치하려면 기초 부품이 있어야 한다."
 
 #: src/veh_interact.cpp
-msgid "Choose a facing direction for the new headlight."
-msgstr "헤드라이트가 향할 방향을 정합니다."
+msgid ""
+"Choose a facing direction for the new headlight.  Press space to continue."
+msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format

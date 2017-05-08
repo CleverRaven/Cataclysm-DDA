@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-27 20:14+0800\n"
-"PO-Revision-Date: 2017-04-28 15:04+0000\n"
+"POT-Creation-Date: 2017-05-05 22:55+0800\n"
+"PO-Revision-Date: 2017-05-06 15:10+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
@@ -56069,7 +56069,7 @@ msgid "bulletin board"
 msgstr "bacheca"
 
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
-#: src/iuse.cpp
+#: lang/json/terrain_from_json.py src/iuse.cpp
 msgid "crunch!"
 msgstr "crunch!"
 
@@ -64184,6 +64184,14 @@ msgstr ""
 
 #: lang/json/keybinding_from_json.py src/vehicle.cpp
 msgid "Aim turrets manually"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py src/vehicle.cpp
+msgid "Aim automatic turrets"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py src/vehicle.cpp
+msgid "Aim individual turret"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py src/vehicle.cpp
@@ -92817,7 +92825,7 @@ msgstr "Indietro"
 #: src/debug_menu.cpp src/editmap.cpp src/game.cpp src/game.cpp src/game.cpp
 #: src/iexamine.cpp src/iexamine.cpp src/inventory_ui.cpp src/iuse.cpp
 #: src/iuse.cpp src/iuse_actor.cpp src/mission_companion.cpp src/pickup.cpp
-#: src/player.cpp src/vehicle.cpp
+#: src/player.cpp src/turret.cpp src/vehicle.cpp
 msgid "Cancel"
 msgstr "Annulla"
 
@@ -95612,6 +95620,16 @@ msgstr ""
 #: src/cata_utility.cpp
 #, c-format
 msgid "Failed to read from \"%1$s\": %2$s"
+msgstr ""
+
+#. ~ translators: place some random 1-width characters here in your language
+#. if possible, or leave it as is
+#: src/cata_utility.cpp
+msgid "abcdefghijklmnopqrstuvwxyz"
+msgstr ""
+
+#: src/cata_utility.cpp
+msgid "に坂索トし荷測のンおク妙免イロコヤ梅棋厚れ表幌"
 msgstr ""
 
 #: src/catalua.cpp src/player.cpp
@@ -125099,6 +125117,14 @@ msgid "Can't aim turrets: all turrets are offline"
 msgstr ""
 
 #: src/turret.cpp
+msgid "Aim which turret?"
+msgstr ""
+
+#: src/turret.cpp
+msgid "None of the turrets are available to fire."
+msgstr ""
+
+#: src/turret.cpp
 #, c-format
 msgctxt "vehicle turret"
 msgid "The %s"
@@ -125712,8 +125738,9 @@ msgid "Could not find base part in requirements for %s."
 msgstr ""
 
 #: src/veh_interact.cpp
-msgid "Choose a facing direction for the new headlight."
-msgstr "Scegliere la direzione di illuminazione del nuovo faro."
+msgid ""
+"Choose a facing direction for the new headlight.  Press space to continue."
+msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format
