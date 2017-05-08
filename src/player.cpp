@@ -3551,9 +3551,9 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
         }
         if( !is_npc() ) {
             if( source != nullptr ) {
-                g->cancel_activity_query(_("You were attacked by %s!"), source->disp_name().c_str());
-            } else {
-                g->cancel_activity_query(_("You were hurt!"));
+                g->cancel_activity_query( _( "You were attacked by %s!" ), source->disp_name().c_str() );
+            } else if( !is_elec_immune() ) {
+                g->cancel_activity_query( _( "You were hurt!" ) );
             }
         }
     }
