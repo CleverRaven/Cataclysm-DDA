@@ -9862,26 +9862,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "mugwort_oil",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
-  "skill_used": "cooking",
-  "skills_required": [ "survival", 4 ],
-  "difficulty": 4,
-  "time": 60000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1},
-    {"id":"CUT","level":1},
-    {"id":"BOIL","level":2}
-  ],
-  "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-  "components": [
-    [ [ "cooking_oil", 2 ] ],
-    [ [ "mugwort", 2 ] ]
-  ]
-},{
-  "type" : "recipe",
   "result": "eggnog",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
