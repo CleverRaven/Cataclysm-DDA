@@ -1152,7 +1152,7 @@
     "count": 30,
     "start": "ranch_construct_16",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_FOREMAN_17",
+    "followup": "MISSION_NULL",
     "dialogue": {
       "describe": "We need help...",
       "offer": "Although we are an agricultural outpost, we are restricted to growing plants that are compatible with the New England climate during the warmer months.  The easiest way to work around that is to build green houses to supplement our external fields.  There isn't going to be an easy way to build these, we are going to need a massive number of glass sheets to enclose the frames.  The first house will need 30 sheets of glass if you are still interested.",
