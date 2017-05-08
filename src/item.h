@@ -787,6 +787,9 @@ public:
 
     /** How much damage has the item sustained? */
     int damage() const { return fast_floor( damage_ ); }
+    
+    /** Precise damage */
+    double precise_damage() const { return damage_; }
 
     /** Minimum amount of damage to an item (state of maximum repair) */
     int min_damage() const;
