@@ -1948,6 +1948,8 @@ bool Character::is_immune_field( const field_id fid ) const
                    get_armor_type( DT_ACID, bp_leg_r ) >= 5);
         case fd_web:
             return has_trait( "WEB_WALKER" );
+        case fd_fire:
+            return has_trait( "M_SKIN2" );
         default:
             // Suppress warning
             break;
