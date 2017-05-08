@@ -3305,7 +3305,7 @@ nc_color item::damage_color() const
     }
 
     // assign other colors proportionally
-    auto q = double( damage() ) / max_damage();
+    auto q = precise_damage() / max_damage();
     if( q > 0.66 ) {
         return c_ltred;
     }
@@ -3328,8 +3328,8 @@ std::string item::damage_symbol() const
         return _( R"(..)" );
     }
 
-    // assign other colors proportionally
-    auto q = double( damage() ) / max_damage();
+    // assign other symbols proportionally
+    auto q = precise_damage() / max_damage();
     if( q > 0.66 ) {
         return _( R"(\.)" );
     }
