@@ -3294,10 +3294,10 @@ nc_color item::damage_color() const
     // @todo unify with getDurabilityColor
 
     // reinforced, undamaged and nearly destroyed items are special case
-    if( damage() < 0 ) {
+    if( precise_damage() <= min_damage() ) {
         return c_green;
     }
-    if( damage() == 0 ) {
+    if( damage() <= 0 ) {
         return c_ltgreen;
     }
     if( damage() == max_damage() ) {
