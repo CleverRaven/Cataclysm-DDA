@@ -23,6 +23,31 @@ using namespace std::placeholders;
 // single instance of world generator
 std::unique_ptr<worldfactory> world_generator;
 
+save_t::save_t( const std::string &name )
+: name( name )
+{
+}
+
+std::string save_t::player_name() const
+{
+    return name;
+}
+
+std::string save_t::base_path() const
+{
+    return base64_encode( name );
+}
+
+save_t save_t::from_player_name( const std::string &name )
+{
+    return save_t( name );
+}
+
+save_t save_t::from_base_path( const std::string &base_path )
+{
+    return save_t( base64_decode( base_path ) );
+}
+
 std::string get_next_valid_worldname()
 {
     std::string worldname = Name::get(nameIsWorldName);
@@ -42,12 +67,12 @@ WORLD::WORLD()
     active_mod_order = world_generator->get_mod_manager()->get_default_mods();
 }
 
-bool WORLD::save_exists( const std::string &name ) const
+bool WORLD::save_exists( const save_t &name ) const
 {
     return std::find( world_saves.begin(), world_saves.end(), name ) != world_saves.end();
 }
 
-void WORLD::add_save( const std::string &name )
+void WORLD::add_save( const save_t &name )
 {
     if ( !save_exists( name ) ) {
         world_saves.push_back( name );
@@ -334,7 +359,7 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
         all_worldnames.push_back(worldname);
         // add sav files
         for( auto &world_sav_file : world_sav_files ) {
-            retworlds[worldname]->world_saves.push_back( world_sav_file );
+            retworlds[worldname]->world_saves.push_back( save_t::from_base_path( world_sav_file ) );
         }
         // set world path
         retworlds[worldname]->world_path = world_dir;

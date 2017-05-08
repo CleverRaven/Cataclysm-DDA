@@ -789,8 +789,8 @@ bool main_menu::load_character_tab()
 
             if( MAP_SHARING::isSharing() ) {
                 auto new_end = std::remove_if( savegames.begin(), savegames.end(),
-                []( const std::string & str ) {
-                    return base64_decode( str ) != MAP_SHARING::getUsername();
+                []( const save_t &str ) {
+                    return str.player_name() != MAP_SHARING::getUsername();
                 } );
                 savegames.erase( new_end, savegames.end() );
             }
@@ -803,10 +803,10 @@ bool main_menu::load_character_tab()
                            c_red, _( "No save games found!" ) );
             } else {
                 int line = iMenuOffsetY - 2;
-                for( const std::string &savename : savegames ) {
+                for( const auto &savename : savegames ) {
                     const bool selected = sel3 + line == iMenuOffsetY - 2;
                     mvwprintz( w_open, line--, 19 + 19 + iMenuOffsetX + extra_w / 2,
-                               selected ? h_white : c_white, base64_decode( savename ).c_str() );
+                               selected ? h_white : c_white, savename.player_name().c_str() );
                 }
             }
             wrefresh( w_open );
