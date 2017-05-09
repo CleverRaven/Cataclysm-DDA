@@ -1061,6 +1061,7 @@
         "components" : [
             [ [ "steel_plate", 2] ]
         ],
+        "pre_note" : "Must be supported on at least two sides.",
         "pre_special" : "check_support",
         "post_terrain" : "t_scrap_floor"
     },{
@@ -1200,6 +1201,7 @@
             [ [ "2x4", 8 ] ],
             [ [ "nail", 40 ] ]
         ],
+        "pre_note" : "Must be supported on at least two sides.",
         "pre_special" : "check_support",
         "post_terrain" : "t_floor"
     },{
@@ -1213,6 +1215,7 @@
             [ [ "log", 2 ] ],
             [ [ "stick", 4 ], [ "2x4", 8 ] ]
         ],
+        "pre_note" : "Must be supported on at least two sides.",
         "pre_special" : "check_support",
         "post_terrain" : "t_floor"
     },{
@@ -1373,6 +1376,7 @@
             [ [ "steel_chunk", 3 ], [ "scrap", 12 ] ],
             [ [ "pipe", 20 ] ]
         ],
+        "pre_note" : "Needs to be supported on both sides by fencing, walls, etc.",
         "pre_special" : "check_support",
         "post_terrain" : "t_chaingate_c"
     },{
