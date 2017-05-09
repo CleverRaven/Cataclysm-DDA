@@ -11,7 +11,7 @@ title: "Contribution Guidelines"
 
 **Investigating bugs?** [debugging commands]({{ site.baseurl }}{% link pages/debugging.md %}) can help.
 
-**Need hep with git?** [git howto]({{ site.baseurl }}{% link pages/branch_management.md %}) might be what you're looking for.
+**Need help with git?** [git howto]({{ site.baseurl }}{% link pages/branch_management.md %}) might be what you're looking for.
 
 Contributing code or data to Cataclysm: Dark Days Ahead is easy - simply fork the repository here on GitHub, make your changes, and then send us a pull request.
 
