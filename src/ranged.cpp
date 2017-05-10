@@ -1867,7 +1867,7 @@ item::sound_data item::gun_noise( bool const burst ) const
         return { 8, _( "Thunk!" ) };
 
     // Railguns
-    } else if( ammotype() == "12mm" || ammotype( "metal_rail" ) ) {
+    } else if( ammotype() == "12mm" || ammotype() == "metal_rail" ) {
         return { 24, _( "tz-CRACKck!" ) };
 
     // Rocket launchers and flamethrowers
