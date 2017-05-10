@@ -1,0 +1,9 @@
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "tone_back_items",
+    "name": "Tone Back Items",
+    "author": "tungtn",
+    "description": "Removes extreme items and nerfs survivor armor.",
+    "path": ""
+}

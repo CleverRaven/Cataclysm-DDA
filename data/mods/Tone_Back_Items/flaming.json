@@ -1,0 +1,13 @@
+{
+    "type": "ITEM_BLACKLIST",
+    "items": [
+        "shishkebab_off",
+        "shishkebab_on",
+        "firemachete_off",
+        "firemachete_on",
+        "broadfire_off",
+        "broadfire_on",
+        "zweifire_off",
+        "zweifire_on"
+    ]
+}
