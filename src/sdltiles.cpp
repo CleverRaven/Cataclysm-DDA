@@ -390,6 +390,7 @@ bool WinCreate()
         }
     }
     if( software_renderer ) {
+        SDL_SetHint(SDL_HINT_FRAMEBUFFER_ACCELERATION, "1");
         renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_SOFTWARE | SDL_RENDERER_TARGETTEXTURE );
         if( renderer == NULL ) {
             dbg( D_ERROR ) << "Failed to initialize software renderer: " << SDL_GetError();
