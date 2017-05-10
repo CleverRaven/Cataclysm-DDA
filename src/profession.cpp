@@ -362,7 +362,7 @@ std::list<item> profession::items( bool male, const std::vector<std::string> &tr
     }
 
     // Merge charges for items that stack with each other
-    for( auto outer = result.begin(); std::next( outer ) != result.end(); ++outer ) {
+    for( auto outer = result.begin(); outer != result.end(); ++outer ) {
         if( !outer->count_by_charges() ) {
             continue;
         }
