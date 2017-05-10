@@ -4159,7 +4159,10 @@
   "time": 45000,
   "autolearn": true,
   "batch_time_factors":[83, 3],
-  "tools": [ [ ["rock_quern", -1], ["clay_quern", -1] ] ],
+  "tools": [
+    [ [ "surface_heat", 5, "LIST" ] ],
+    [ ["rock_quern", -1], ["clay_quern", -1] ]
+  ],
   "components": [ [ ["chili_pepper", 2] ] ]
 },{
   "type" : "recipe",
