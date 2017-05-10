@@ -320,12 +320,11 @@
                     "cloak",
                     "i_staff",
                     "1st_aid",
-                    "waterskin",
-                    "dry_veggy",
-                    "dry_veggy"
+                    "waterskin"
                 ],
                 "entries": [
-                    { "item": "tanto", "container-item": "sheath" }
+                    { "item": "tanto", "container-item": "sheath" },
+                    { "item": "dry_veggy", "charges": 2 }
                 ]
             }
         }
