@@ -6384,21 +6384,6 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
 
 void game::use_computer( const tripoint &p )
 {
-    if (u.has_trait("ILLITERATE")) {
-        add_msg(m_info, _("You can not read a computer screen!"));
-        return;
-    }
-    if( u.is_blind() ) {
-        // we don't have screen readers in game
-        add_msg( m_info, _( "You can not see a computer screen!" ) );
-        return;
-    }
-    if (u.has_trait("HYPEROPIC") && !u.is_wearing("glasses_reading")
-        && !u.is_wearing("glasses_bifocal") && !u.has_effect( effect_contacts)) {
-        add_msg(m_info, _("You'll need to put on reading glasses before you can see the screen."));
-        return;
-    }
-
     computer *used = m.computer_at( p );
 
     if (used == NULL) {
