@@ -5186,7 +5186,8 @@
     ],
     [
       [ "sauce_red", 1 ],
-      [ "chilly-p", 25]
+      [ "chilly-p", 25],
+      [ "chili_pepper", 1]
     ]
   ]
 },{
@@ -5231,7 +5232,8 @@
     ],
     [
       [ "sauce_red", 1 ],
-      [ "chilly-p", 25]
+      [ "chilly-p", 25],
+      [ "chili_pepper", 1]
     ]
   ]
 },{
