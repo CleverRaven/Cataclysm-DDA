@@ -2328,8 +2328,8 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
          target.x >= offset_x + om_map_width ||
          target.y < offset_y ||
          target.y >= offset_y + om_map_height)) {
-        int marker_x = ( target.x >= offset_x ) ? ( ( target.x < offset_x + om_map_width  ) ? target.x - offset_x : om_map_width  - 1) : 0;
-        int marker_y = ( target.y >= offset_y ) ? ( ( target.y < offset_y + om_map_height ) ? target.y - offset_y : om_map_height - 1) : 0;
+        int marker_x = std::max( 0, std::min( om_map_width  - 1, target.x - offset_x ) );
+        int marker_y = std::max( 0, std::min( om_map_height - 1, target.y - offset_y ) );
         long marker_sym = ' ';
         switch (direction_from(cursx, cursy, target.x, target.y)) {
         case NORTH:
