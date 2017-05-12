@@ -1862,17 +1862,17 @@ item::sound_data item::gun_noise( bool const burst ) const
 
     noise = std::max( noise, 0 );
 
-    // Grenade launchers
     if( ammo_type() == ammotype( "40mm" ) ) {
+        // Grenade launchers
         return { 8, _( "Thunk!" ) };
 
-    // Railguns
-    } else if( ammotype() == "12mm" || ammotype() == "metal_rail" ) {
+    } else if( ammo_type() == ammotype( "12mm" ) || ammo_type() == ammotype( "metal_rail" ) ) {
+        // Railguns
         return { 24, _( "tz-CRACKck!" ) };
 
-    // Rocket launchers and flamethrowers
     } else if( ammo_type() == ammotype( "flammable" ) || ammo_type() == ammotype( "66mm" ) ||
                ammo_type() == ammotype( "84x246mm" ) || ammo_type() == ammotype( "m235" ) ) {
+        // Rocket launchers and flamethrowers
         return { 4, _( "Fwoosh!" ) };
     }
 
