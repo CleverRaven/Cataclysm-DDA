@@ -3541,7 +3541,7 @@ void player::on_hit( Creature *source, body_part bp_hit,
 void player::on_hurt( Creature *source, bool disturb /*= true*/ )
 {
     if( has_trait("ADRENALINE") && !has_effect( effect_adrenaline ) &&
-        (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15) ) {
+        ( hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15 ) ) {
         add_effect( effect_adrenaline, 200 );
     }
 
@@ -3552,7 +3552,7 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
         if( !is_npc() ) {
             if( source != nullptr ) {
                 g->cancel_activity_query( _( "You were attacked by %s!" ), source->disp_name().c_str() );
-            } else if( !is_elec_immune() ) {
+            } else {
                 g->cancel_activity_query( _( "You were hurt!" ) );
             }
         }
