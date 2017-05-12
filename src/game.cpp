@@ -10025,6 +10025,11 @@ bool game::plfire_check( const targeting_data &args ) {
         } else {
             u.moves -= rng(2, 5) * 10;
             add_msg( m_bad, _( "You can't fire your weapon, it's too heavy..." ) );
+            // break a possible loop when aiming
+            if(u.activity) {
+              u.cancel_activity();
+            }
+
             return false;
         }
     }
