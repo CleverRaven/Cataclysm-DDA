@@ -5148,7 +5148,7 @@
       "menu_text": "Turn off",
       "type": "transform"
     },
-    "flags": [ "LIGHT_10", "TRADER_AVOID" ]
+    "flags": [ "LIGHT_10", "TRADER_AVOID", "FIRE" ]
   },
   {
     "id": "oxygen_tank",
