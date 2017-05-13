@@ -946,13 +946,14 @@ void options_manager::init()
     optionNames["es_ES"] = R"(Español (España))";
     optionNames["ja"] = R"(日本語)";
     optionNames["ko"] = R"(한국어)";
+    optionNames["pl"] = R"(Polskie)";
     optionNames["pt_BR"] = R"(Português (Brasil))";
     optionNames["pt_PT"] = R"(Português (Portugal))";
     optionNames["ru"] = R"(Русский)";
     optionNames["zh_CN"] = R"(中文(天朝))";
     optionNames["zh_TW"] = R"(中文(台灣))";
     add("USE_LANG", "interface", _("Language"), _("Switch Language."),
-        ",en,fr,de,it_IT,es_AR,es_ES,ja,ko,pt_BR,pt_PT,ru,zh_CN,zh_TW",
+        ",en,fr,de,it_IT,es_AR,es_ES,ja,ko,pl,pt_BR,pt_PT,ru,zh_CN,zh_TW",
         ""
         );
 
