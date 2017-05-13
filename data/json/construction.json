@@ -2153,22 +2153,22 @@
         "post_terrain" : "t_dirt"
     },{
         "type" : "construction",
-        "description" : "Extract Clay Mound",
+        "description" : "Extract Sand",
         "category" : "OTHER",
         "required_skills" : [ [ "survival", 0 ] ],
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-        "pre_terrain" : "t_water_sh",
-        "post_terrain" : "t_claymound"
+        "pre_terrain" : "t_sand",
+        "post_special" : "done_extract_sand"
     },{
         "type" : "construction",
-        "description" : "Extract Sand Mound",
+        "description" : "Extract Clay",
         "category" : "OTHER",
         "required_skills" : [ [ "survival", 0 ] ],
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-        "pre_terrain" : "t_water_sh",
-        "post_terrain" : "t_sandmound"
+        "pre_terrain" : "t_clay",
+        "post_special" : "done_extract_clay"
     },{
         "type" : "construction",
         "description" : "Build Charcoal Kiln",

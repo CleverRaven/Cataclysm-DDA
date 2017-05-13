@@ -63,6 +63,8 @@ void done_dig_stair( const tripoint & );
 void done_mine_downstair( const tripoint & );
 void done_mine_upstair( const tripoint & );
 void done_window_curtains( const tripoint & );
+void done_extract_sand( const tripoint & );
+void done_extract_clay( const tripoint & );
 
 void failure_standard( const tripoint & );
 };
@@ -1087,6 +1089,23 @@ void construct::done_window_curtains( const tripoint & )
     g->u.add_msg_if_player( _("After boarding up the window the curtains and curtain rod are left.") );
 }
 
+void construct::done_extract_sand( const tripoint &p )
+{
+    g->m.spawn_item( g->u.pos(), "material_sand", 1, rng(300,600) );
+    if (one_in(10)) {
+        g->m.ter_set( p, t_dirt );
+    }
+    g->u.add_msg_if_player( _("You gather some sand.") );
+}
+void construct::done_extract_clay( const tripoint &p )
+{
+    g->m.spawn_item( g->u.pos(), "clay_lump", rng(6,12) );
+    if (one_in(10)) {
+        g->m.ter_set( p, t_dirt );
+    }
+    g->u.add_msg_if_player( _("You gather some clay.") );
+}
+
 void construct::failure_standard( const tripoint & )
 {
     add_msg( m_info, _( "You cannot build there!" ) );
@@ -1179,6 +1198,8 @@ void load_construction(JsonObject &jo)
         { "done_mine_downstair", construct::done_mine_downstair },
         { "done_mine_upstair", construct::done_mine_upstair },
         { "done_window_curtains", construct::done_window_curtains },
+        { "done_extract_sand", construct::done_extract_sand },
+        { "done_extract_clay", construct::done_extract_clay },
     }};
     static const std::map<std::string, std::function<void( const tripoint & )>> explain_fail_map = {{
         { "", construct::failure_standard },

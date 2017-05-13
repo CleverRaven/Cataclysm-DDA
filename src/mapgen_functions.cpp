@@ -374,6 +374,13 @@ ter_id dirt_or_pile()
  return t_dirt;
 }
 
+ter_id clay_or_sand()
+{
+ if (one_in(4))
+  return t_sand;
+ return t_clay;
+}
+
 void mapgendata::square_groundcover(const int x1, const int y1, const int x2, const int y2) {
     m->draw_square_ter( this->default_groundcover, x1, y1, x2, y2);
 }
@@ -1646,6 +1653,9 @@ void mapgen_river_curved_not(map *m, oter_id terrain_type, mapgendata dat, int, 
             if(circle_edge <= 8){
                 m->ter_set(x, y, grass_or_dirt());
             }
+            if(circle_edge == 9 && one_in(100)){
+                m->ter_set(x, y, clay_or_sand());
+            }
             else if(circle_edge <= 36){
                 m->ter_set(x, y, t_water_sh);
             }
@@ -1672,7 +1682,10 @@ void mapgen_river_straight(map *m, oter_id terrain_type, mapgendata dat, int, fl
         int ground_edge = rng(1,3);
         int shallow_edge = rng(4,6);
         line(m, grass_or_dirt(), x, 0, x, ground_edge);
-        line(m, t_water_sh, x, ground_edge, x, shallow_edge);
+        if(one_in(100)) {
+            m->ter_set(x, ++ground_edge, clay_or_sand());
+        }
+        line(m, t_water_sh, x, ++ground_edge, x, shallow_edge);
     }
 
     if (terrain_type == "river_east") {
@@ -1695,13 +1708,19 @@ void mapgen_river_curved(map *m, oter_id terrain_type, mapgendata dat, int, floa
         int ground_edge = rng(1,3);
         int shallow_edge = rng(4,6);
         line(m, grass_or_dirt(), x, 0, x, ground_edge);
-        line(m, t_water_sh, x, ground_edge, x, shallow_edge);
+        if(one_in(100)) {
+            m->ter_set(x, ++ground_edge, clay_or_sand());
+        }
+        line(m, t_water_sh, x, ++ground_edge, x, shallow_edge);
     }
     for(int y = 0; y < 24; y++){
         int ground_edge = rng(19,21);
         int shallow_edge = rng(16,18);
         line(m, grass_or_dirt(), ground_edge, y, 23, y);
-        line(m, t_water_sh, shallow_edge, y, ground_edge, y);
+        if(one_in(100)) {
+            m->ter_set(--ground_edge, y, clay_or_sand());
+        }
+        line(m, t_water_sh, shallow_edge, y, --ground_edge, y);
     }
 
     if (terrain_type == "river_se") {
