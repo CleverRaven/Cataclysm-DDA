@@ -23,7 +23,17 @@ local tab = "    "
 -- Generic helpers to generate C++ source code chunks for use in our lua binding.
 ---------------------------------------------------------------------------------
 
--- Convert a given type such as "string" to the corresponding C++ wrapper class,
+-- Convert a C++ type (which may include scope resolution operator '::' or template
+-- instance '<foo>') to a single identifier string (without special characters).
+-- It also adds a separator string to avoid accidents:
+-- A function 'X::part_info' creates a wrapper function 'X_part_info', but
+-- 'X_part::info' would create the same wrapper function. Adding the separator makes
+-- them 'X_LUA_part_info' and 'X_part_LUA_info'
+function cpp_ident(name)
+    return name:gsub('%A', '_') .. '_LUA_'
+end
+
+-- Convert a given type such as "std::string" to the corresponding C++ wrapper class,
 -- e.g. `LuaType<std::string>`. The wrapper class has various static functions:
 -- `get` to get a value of that type from Lua stack.
 -- `push` to push a value of that type to Lua stack.
@@ -32,7 +42,7 @@ local tab = "    "
 function member_type_to_cpp_type(member_type)
     if member_type == "bool" then return "LuaType<bool>"
     elseif member_type == "cstring" then return "LuaType<const char*>"
-    elseif member_type == "string" then return "LuaType<std::string>"
+    elseif member_type == "std::string" then return "LuaType<std::string>"
     elseif member_type == "int" then return "LuaType<int>"
     elseif member_type == "float" then return "LuaType<float>"
     else
@@ -118,7 +128,7 @@ end
 
 -- Generates a getter function for a specific class and member variable.
 function generate_getter(class_name, member_name, member_type, cpp_name)
-    local function_name = "get_" .. class_name .. "_" .. member_name
+    local function_name = "get_" .. cpp_ident(class_name) .. "_" .. member_name
     local text = "static int "..function_name.."(lua_State *L) {"..br
 
     text = text .. tab .. load_instance(class_name)..br
@@ -134,7 +144,7 @@ end
 
 -- Generates a setter function for a specific class and member variable.
 function generate_setter(class_name, member_name, member_type, cpp_name)
-    local function_name = "set_" .. class_name .. "_" .. member_name
+    local function_name = "set_" .. cpp_ident(class_name) .. "_" .. member_name
 
     local text = "static int "..function_name.."(lua_State *L) {"..br
 
@@ -193,27 +203,47 @@ functions = {
 we want a decision tree. The leafs of the tree are the rval entries (they can be different for
 each overload, but they do not affect the overload resolution).
 Example: functions = {
-    r = { rval = "int", cpp_name = "f" }
-    "string" = {
-        r = { rval = "int", cpp_name = "f" }
+    r = { rval = "int", ... }
+    "std::string" = {
+        r = { rval = "int", ... }
     },
     "int" = {
-        r = { rval = "bool", cpp_name = "f" }
+        r = { rval = "bool", ... }
         "int" = {
-            r = { rval = "void", cpp_name = "f" }
+            r = { rval = "void", ... }
         },
-        "string" = {
-            r = { rval = "int", cpp_name = "f" }
+        "std::string" = {
+            r = { rval = "int", ... }
         }
     }
 }
-Means: `int f()` `int f(string)` `bool f(int)` void f(int, int)` `int f(int, string)`
-Leafs are marked by the presence of rval entries.
+Means: `int f()` `int f(std::string)` `bool f(int)` void f(int, int)` `int f(int, std::string)`
+A table under the index 'r' is a leaf (this assumes no type of name 'r' is ever used).
+The leafs have the following entries:
+- rval: the return value of the function (can be nil).
+- cpp_name: the name of the C++ function to call (can be different from the Lua name of the function).
+- class_name: the name of the C++ class name that contains the function (optional, only present if
+  the function is a class member).
 --]]
 function generate_overload_tree(classes)
-    for class_name, value in pairs(classes) do
-        local functions_by_name = {}
-        for _, func in ipairs(value.functions) do
+    function generate_overload_path(root, args)
+        for _, arg in pairs(args) do
+            if not root[arg] then
+                root[arg] = { }
+            end
+            root = root[arg]
+        end
+        return root
+    end
+    -- Input is a list of function declarations (multiple entries with the same name are
+    -- possible). Result is a table with one entry (the overload resolution tree) for each
+    -- function name.
+    function convert_function_list_to_tree_list(function_list, class_name)
+        if not function_list then
+            return { }
+        end
+        local functions_by_name = { }
+        for _, func in ipairs(function_list) do
             if not func.name then
                 print("Every function of " .. class_name .. " needs a name, doesn't it?")
             end
@@ -222,29 +252,27 @@ function generate_overload_tree(classes)
         end
         -- This creates the mentioned tree: each entry has the key matching the parameter type,
         -- and the final table (the leaf) has a `r` entry.
-        for _, func in ipairs(value.functions) do
-            local root = functions_by_name[func.name]
-            for _, arg in pairs(func.args) do
-                if not root[arg] then
-                    root[arg] = {}
-                end
-                root = root[arg]
+        for _, func in ipairs(function_list) do
+            local base = functions_by_name[func.name]
+            -- non-static functions have an implicit first argument `this` of type class_name
+            if not base[class_name] then
+                base[class_name] = { }
             end
-            root.r = { rval = func.rval, cpp_name = func.cpp_name or func.name }
+            base = base[class_name]
+            local leaf = generate_overload_path(base, func.args)
+            leaf.r = { rval = func.rval, cpp_name = func.cpp_name or func.name, class_name = class_name }
         end
-        value.functions = functions_by_name
+        return functions_by_name
+    end
+
+    for class_name, value in pairs(classes) do
+        value.functions = convert_function_list_to_tree_list(value.functions, class_name)
 
         if value.new then
             local new_root = {}
             for _, func in ipairs(value.new) do
-                local root = new_root
-                for _, arg in pairs(func) do
-                    if not root[arg] then
-                        root[arg] = {}
-                    end
-                    root = root[arg]
-                end
-                root.r = { rval = nil, cpp_name = class_name .. "::" .. class_name }
+                local leaf = generate_overload_path(new_root, func)
+                leaf.r = { rval = nil, cpp_name = class_name .. "::" .. class_name, class_name = class_name }
             end
             value.new = new_root
         end
@@ -261,8 +289,8 @@ This (recursive) function handles function overloading:
   Its parameters:
   - indentation: level of indentation it should use
   - stack_index: number of parameters it can use (C++ variables parameter1, parameter2 and so on)
-  - rval: type of the object the C++ function returns (can be nil)
-  - cpp_name: name of the C++ function to call.
+  - data: some data associated with this particular overload. See documentation of
+    leafs of the decision tree generated by `generate_overload_tree`.
 --]]
 function insert_overload_resolution(function_name, args, cbc, indentation, stack_index)
     local ind = string.rep("    ", indentation)
@@ -310,7 +338,7 @@ function insert_overload_resolution(function_name, args, cbc, indentation, stack
         text = text..mind.."if(lua_gettop(L) > "..stack_index..") {"..br
         text = text..mind..tab.."return luaL_error(L, \"Too many arguments to "..function_name..", expected only "..stack_index..", got %d\", lua_gettop(L));"..br
         text = text..mind.."}"..br
-        text = text .. cbc(ni, stack_index - 1, args.r.rval, args.r.cpp_name)
+        text = text .. cbc(ni, stack_index - 1, args.r)
         if more then
             text = text .. ind .. "}"..br
         end
@@ -327,31 +355,26 @@ end
 -- Generate a wrapper around a class function(method) that allows us to call a method of a specific
 -- C++ instance by calling the method on the corresponding lua wrapper, e.g.
 -- monster:name() in lua translates to monster.name() in C++
-function generate_class_function_wrapper(class_name, function_name, func, cur_class_name)
-    local text = "static int func_" .. class_name .. "_" .. function_name .. "(lua_State *L) {"..br
+function generate_class_function_wrapper(class_name, function_name, func)
+    local text = "static int func_" .. cpp_ident(class_name) .. "_" .. function_name .. "(lua_State *L) {"..br
 
-    -- retrieve the object to call the function on from the stack.
-    text = text .. tab .. load_instance(class_name)..br
-
-    local cbc = function(indentation, stack_index, rval, function_to_call)
+    local cbc = function(indentation, stack_index, data)
         local tab = string.rep("    ", indentation)
 
         local func_invoc
-        if cur_class_name == class_name then
-            func_invoc = "instance"
-        else
-            --[[
-            If we call a function of the parent class, we need to call it through
-            a reference to the parent class, otherwise we get into trouble with default parameters:
-            Example:
-            class A {     void f(int = 0); }
-            class B : A { void f(int); }
-            This won't work: B b; b.f();
-            But this will:   B b; static_cast<A&>(b).f()
-            --]]
-            func_invoc = "static_cast<"..cur_class_name.."&>(instance)"
-        end
-        func_invoc = func_invoc .. "."..function_to_call .. "("
+        --[[
+        The first parameter is implicitly the `this` object. The static case is require for:
+        a) parameter0 is a proxy object with a conversion to `T&` operator that is invoked by the cast.
+        b) If we call a function of the parent class, we need to call it through
+        a reference to the parent class, otherwise we get into trouble with default parameters:
+        Example:
+        class A {     void f(int = 0); }
+        class B : A { void f(int); }
+        This won't work: B b; b.f();
+        But this will:   B b; static_cast<A&>(b).f()
+        --]]
+        func_invoc = "static_cast<"..data.class_name.."&>(parameter0)"
+        func_invoc = func_invoc .. "."..data.cpp_name .. "("
 
         for i = 1,stack_index do
             func_invoc = func_invoc .. "parameter"..i
@@ -360,8 +383,8 @@ function generate_class_function_wrapper(class_name, function_name, func, cur_cl
         func_invoc = func_invoc .. ")"
 
         local text
-        if rval then
-            text = tab .. push_lua_value(func_invoc, rval)..br
+        if data.rval then
+            text = tab .. push_lua_value(func_invoc, data.rval)..br
             text = text .. tab .. "return 1; // 1 return values"..br
         else
             text = tab .. func_invoc .. ";"..br
@@ -370,7 +393,7 @@ function generate_class_function_wrapper(class_name, function_name, func, cur_cl
         return text
     end
 
-    text = text .. insert_overload_resolution(function_name, func, cbc, 1, 1)
+    text = text .. insert_overload_resolution(function_name, func, cbc, 1, 0)
 
     text = text .. "}"..br
 
@@ -378,9 +401,9 @@ function generate_class_function_wrapper(class_name, function_name, func, cur_cl
 end
 
 function generate_constructor(class_name, args)
-    local text = "static int new_" .. class_name .. "(lua_State *L) {"..br
+    local text = "static int new_" .. cpp_ident(class_name) .. "(lua_State *L) {"..br
 
-    local cbc = function(indentation, stack_index, rval, function_to_call)
+    local cbc = function(indentation, stack_index, data)
         local tab = string.rep("    ", indentation)
 
         -- Push is always done on a value, never on a pointer/reference, therefor don't use
@@ -404,7 +427,7 @@ function generate_constructor(class_name, args)
 end
 
 function generate_operator(class_name, operator_id, cppname)
-    local text = "static int op_" .. class_name .. "_" .. operator_id .. "(lua_State *L) {"..br
+    local text = "static int op_" .. cpp_ident(class_name) .. "_" .. operator_id .. "(lua_State *L) {"..br
 
     text = text .. tab .. "const " .. class_name .. " &lhs = " .. retrieve_lua_value(class_name, 1) .. ";"..br
     text = text .. tab .. "const " .. class_name .. " &rhs = " .. retrieve_lua_value(class_name, 2) .. ";"..br
@@ -432,6 +455,7 @@ local cpp_output = "// This file was automatically generated by lua/generate_bin
 
 local lua_output = ""
 
+dofile "../../lua/generated_class_definitions.lua"
 dofile "../../lua/class_definitions.lua"
 
 generate_overload_tree(classes)
@@ -446,33 +470,81 @@ function generate_accessors(class, class_name)
     end
 end
 
-
-function generate_class_function_wrappers(functions, class_name, cur_class_name)
+function generate_class_function_wrappers(functions, class_name)
     for index, func in pairs(functions) do
-        cpp_output = cpp_output .. generate_class_function_wrapper(class_name, index, func, cur_class_name)
+        cpp_output = cpp_output .. generate_class_function_wrapper(class_name, index, func)
+    end
+end
+
+--[[
+Merges function declaration of the a parent class into the function declarations of a derived
+class. Existing declarations of the same signature are left as they are.
+--]]
+function merge_parent_class_functions(derived_functions, parent_functions)
+    for index, func in pairs(parent_functions) do
+        if index == 'r' then
+            if not derived_functions.r then
+                derived_functions.r = {
+                    rval = func.rval,
+                    cpp_name = func.cpp_name,
+                    class_name = func.class_name
+                }
+            end
+        else
+            if not derived_functions[index] then
+                derived_functions[index] = { }
+            end
+            merge_parent_class_functions(derived_functions[index], func)
+        end
+    end
+end
+
+--[[
+The wrapper does not export the class relationship, that means the Lua part does not
+know anything about class inheritance. Lua can therefor not do the dynamic dispatch
+of function calls to the parent class.
+This loop inserts the functions exported by the parent class to the child class.
+
+Example:
+```C++
+class Parent {
+    void func();
+};
+class Child : public Parent {
+};
+```
+This would produce only one wrapper function for `Parent::func`. Trying to call `func`
+on a wrapped Child object would not work as there is no `Child::func` exported.
+The loop copies the declaration of `Parent::func` into `Child`, which in turn triggers
+exporting `Child::func`.
+--]]
+for class_name, class in pairs(classes) do
+    local derived_functions = class.functions
+    local parent_name = class.parent
+    while parent_name do
+        local parent_class = classes[parent_name]
+        merge_parent_class_functions(derived_functions, parent_class.functions)
+        parent_name = parent_class.parent
     end
 end
 
 for class_name, class in pairs(classes) do
     while class do
-        generate_accessors(class.attributes, class_name)
+        if class.attributes then
+            generate_accessors(class.attributes, class_name)
+        end
         class = classes[class.parent]
     end
 end
 
 for class_name, class in pairs(classes) do
-    local cur_class_name = class_name
-    while class do
-        generate_class_function_wrappers(class.functions, class_name, cur_class_name)
-        if class.new then
-            cpp_output = cpp_output .. generate_constructor(class_name, class.new)
-        end
-        if class.has_equal then
-            cpp_output = cpp_output .. generate_operator(class_name, "eq", "==")
-        end
-        cur_class_name = class.parent
-        class = classes[class.parent]
+    if class.new then
+        cpp_output = cpp_output .. generate_constructor(class_name, class.new)
     end
+    if class.has_equal then
+        cpp_output = cpp_output .. generate_operator(class_name, "eq", "==")
+    end
+    generate_class_function_wrappers(class.functions, class_name)
 end
 
 for name, func in pairs(global_functions) do
@@ -489,13 +561,13 @@ function generate_functions_static(cpp_type, class, class_name)
     cpp_output = cpp_output .. "const luaL_Reg " .. cpp_type .. "::FUNCTIONS[] = {" .. br
     while class do
         for name, _ in pairs(class.functions) do
-            cpp_output = cpp_output .. luaL_Reg("func_" .. class_name .. "_" .. name, name)
+            cpp_output = cpp_output .. luaL_Reg("func_" .. cpp_ident(class_name) .. "_" .. name, name)
         end
         if class.new then
-            cpp_output = cpp_output .. luaL_Reg("new_" .. class_name, "__call")
+            cpp_output = cpp_output .. luaL_Reg("new_" .. cpp_ident(class_name), "__call")
         end
         if class.has_equal then
-            cpp_output = cpp_output .. luaL_Reg("op_" .. class_name .. "_eq", "__eq")
+            cpp_output = cpp_output .. luaL_Reg("op_" .. cpp_ident(class_name) .. "_eq", "__eq")
         end
         class = classes[class.parent]
     end
@@ -508,9 +580,11 @@ function generate_read_members_static(cpp_type, class, class_name)
     cpp_output = cpp_output .. "template<>" .. br
     cpp_output = cpp_output .. "const " .. cpp_type .. "::MRMap " .. cpp_type .. "::READ_MEMBERS{" .. br
     while class do
-        for key, attribute in pairs(class.attributes) do
-            local function_name = "get_" .. class_name .. "_" .. key
-            cpp_output = cpp_output .. tab .. "{\"" .. key .. "\", " .. function_name .. "}," .. br
+        if class.attributes then
+            for key, attribute in pairs(class.attributes) do
+                local function_name = "get_" .. cpp_ident(class_name) .. "_" .. key
+                cpp_output = cpp_output .. tab .. "{\"" .. key .. "\", " .. function_name .. "}," .. br
+            end
         end
         class = classes[class.parent]
     end
@@ -522,10 +596,12 @@ function generate_write_members_static(cpp_type, class, class_name)
     cpp_output = cpp_output .. "template<>" .. br
     cpp_output = cpp_output .. "const " .. cpp_type .. "::MWMap " .. cpp_type .. "::WRITE_MEMBERS{" .. br
     while class do
-        for key, attribute in pairs(class.attributes) do
-            if attribute.writable then
-                local function_name = "set_" .. class_name .. "_" .. key
-                cpp_output = cpp_output .. tab .. "{\"" .. key .. "\", " .. function_name .. "}," .. br
+        if class.attributes then
+            for key, attribute in pairs(class.attributes) do
+                if attribute.writable then
+                    local function_name = "set_" .. cpp_ident(class_name) .. "_" .. key
+                    cpp_output = cpp_output .. tab .. "{\"" .. key .. "\", " .. function_name .. "}," .. br
+                end
             end
         end
         class = classes[class.parent]
@@ -618,7 +694,7 @@ for enum_name, values in pairs(enums) do
     cpp_output = cpp_output .. "template<>" .. br
     cpp_output = cpp_output .. "const "..cpp_name.."::EMap "..cpp_name.."::BINDINGS = {"..br
     for _, name in ipairs(values) do
-        cpp_output = cpp_output .. tab.."{\""..name.."\", "..name.."},"..br
+        cpp_output = cpp_output .. tab.."{\""..name.."\", "..enum_name.."::"..name.."},"..br
     end
     cpp_output = cpp_output .. "};" .. br
 end

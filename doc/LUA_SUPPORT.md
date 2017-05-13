@@ -3,7 +3,6 @@ File Layout
 
 - src/catalua.cpp - Core of the lua mod, glueing lua to the cataclysm C++ engine.
 - src/catalua.h   - Export of some public lua-related functions, do not use these outside #ifdef LUA
-- lua/autoexec.lua - Lua-side initialization of important data structures(metatables for classes etc.)
 - lua/class_definitions.lua - Definitions of classes and functions that bindings will be generated from
 - lua/generate_bindings.lua - Custom binding generator for cataclysm, can generate class and function bindings.
 - lua/catabindings.cpp - Output of generate_bindings.lua
@@ -136,6 +135,5 @@ Adding new classes
 
 To add a new wrapped class, you have to do several things:
 - Add a new entry to `classes` in lua/class_definitions.lua
-- Add the relevant metatable to lua/autoexec.lua, e.g. `monster_metatable = generate_metatable("monster", classes.monster)`
 
 Eventually, the latter should be automated, but right now it's necessary. Note that the class name should be the exact same in lua as in C++, otherwise the binding generator will fail. That limitation might be removed at some point.

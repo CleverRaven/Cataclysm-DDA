@@ -531,7 +531,6 @@ public:
  std::string opinion_text() const;
 
 // Goal / mission functions
- void pick_long_term_goal();
  bool fac_has_value(faction_value value) const;
  bool fac_has_job(faction_job job) const;
 
@@ -717,7 +716,6 @@ public:
  bool alt_attack(); // Returns true if did something
  void heal_player (player &patient);
  void heal_self  ();
- void take_painkiller ();
  void mug_player (player &mark);
  void look_for_player (player &sought);
  bool saw_player_recently() const;// Do we have an idea of where u are?

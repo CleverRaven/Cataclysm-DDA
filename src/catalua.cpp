@@ -31,6 +31,9 @@
 #include "field.h"
 #include "filesystem.h"
 #include "string_input_popup.h"
+#include "martialarts.h"
+#include "material.h"
+#include "start_location.h"
 extern "C" {
 #include "lua.h"
 #include "lualib.h"
@@ -45,6 +48,8 @@ extern "C" {
 
 using item_stack_iterator = std::list<item>::iterator;
 using volume = units::volume;
+
+static const char * const OUTDATED_METATABLE_NAME = "outdated_metatable";
 
 lua_State *lua_state = nullptr;
 
@@ -784,9 +789,9 @@ public:
         // being used anymore by setting a metatable that will error on
         // access.
         luah_remove_from_registry( L, item_in_registry );
-        luah_setmetatable( L, "outdated_metatable");
+        luah_setmetatable( L, OUTDATED_METATABLE_NAME );
         luah_remove_from_registry( L, tripoint_in_registry );
-        luah_setmetatable( L, "outdated_metatable" );
+        luah_setmetatable( L, OUTDATED_METATABLE_NAME );
 
         return lua_tointeger( L, -1 );
     }
@@ -1170,15 +1175,40 @@ void game::init_lua()
     lua_setglobal(lua_state, "game");
 #endif
 
+    // create the "outdated_metatable" table.
+    luaL_newmetatable( lua_state, OUTDATED_METATABLE_NAME );
+    lua_pushvalue( lua_state, -1 );
+    lua_pushcfunction( lua_state, static_cast<int( * )( lua_State * )>( []( lua_State * const L )
+    {
+        return luaL_error( L, "Attempt to access outdated gamedata." );
+    } ) );
+    lua_setfield( lua_state, -2, "__index" );
+    lua_pushcfunction( lua_state, static_cast<int( * )( lua_State * )>( []( lua_State * const L )
+    {
+        return luaL_error( L, "Attempt to access outdated gamedata." );
+    } ) );
+    lua_setfield( lua_state, -2, "__newindex" );
+    lua_pop( lua_state, 1 );
+
     load_metatables( lua_state );
     LuaEnum<body_part>::export_global( lua_state, "body_part" );
 
     // override default print to our version
     lua_register( lua_state, "print", game_myPrint );
 
-    // Load lua-side metatables etc.
-    lua_dofile(lua_state, FILENAMES["class_defslua"].c_str());
-    lua_dofile(lua_state, FILENAMES["autoexeclua"].c_str());
+    // Callbacks for mods. This function is called from the game. Mods can attach a callback
+    // to the global `mods` table to recieve the callback:
+    // `mods["my_mod"] = { "on_skill_increased" = some_mod_function }`
+    call_lua("\
+        mods = { }\n\
+        function mod_callback(callback_name)\n\
+            for modname, mod_instance in pairs(mods) do\n\
+                if type(mod_instance[callback_name]) == \"function\" then\n\
+                    mod_instance[callback_name]()\n\
+                end\n\
+            end\n\
+        end\n\
+    ");
 }
 
 #endif // #ifdef LUA

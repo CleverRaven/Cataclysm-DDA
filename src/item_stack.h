@@ -25,13 +25,13 @@ class item_stack
     public:
         item_stack( std::list<item> *mystack ) : mystack( mystack ) { }
 
-        size_t size() const;
+        std::list<item>::size_type size() const;
         bool empty() const;
         virtual std::list<item>::iterator erase( std::list<item>::iterator it ) = 0;
         virtual void push_back( const item &newitem ) = 0;
         virtual void insert_at( std::list<item>::iterator, const item &newitem ) = 0;
         item &front();
-        item &operator[]( size_t index );
+        item &operator[]( std::list<item>::size_type index );
 
         std::list<item>::iterator begin();
         std::list<item>::iterator end();
