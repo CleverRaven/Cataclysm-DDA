@@ -863,12 +863,25 @@ private:
          * monsters are despawned upon a vertical shift.
          */
         void shift_monsters(const int shiftx, const int shifty, const int shiftz);
+
+        /**
+        * Despawn monsters before doing a shift. This is done in a separate step in order
+        * to access map information that might be relevant for the despawn. For instance,
+        * a monster that's 'inside' upon despawn should not be added to roaming groups.
+        */
+        void despawn_monsters(const int shiftx, const int shifty, const int shiftz);
+
         /**
          * Despawn a specific monster, it's stored on the overmap. Also removes
          * it from the creature tracker. Keep in mind that mondex points to a
          * different monster after calling this (or to no monster at all).
          */
         void despawn_monster(int mondex);
+
+        /**
+         * @return True if the given monster should be added to a roaming group of creatures.
+         */
+        bool creature_can_roam(const monster &critter);
 
         void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
         void rebuild_mon_at_cache();

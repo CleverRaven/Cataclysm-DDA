@@ -363,6 +363,7 @@ public:
     void signal_hordes( const tripoint &p, int sig_power );
     void process_mongroups();
     void move_hordes();
+    void add_roamer(const monster& critter, tripoint sm);
 
     static bool obsolete_terrain( const std::string &ter );
     void convert_terrain( const std::unordered_map<tripoint, std::string> &needs_conversion );

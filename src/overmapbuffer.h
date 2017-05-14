@@ -311,6 +311,11 @@ public:
      */
     void despawn_monster(const monster &critter);
     /**
+     * Add the monster to a roaming group on the overmap. The monsters position
+     * (monster::pos()) is interpreted as relative to the main map.
+     */
+    void add_roamer(const monster &critter);
+    /**
      * Find radio station with given frequency, search an unspecified area around
      * the current player location.
      * If no matching tower has been found, it returns an object with the tower pointer set
