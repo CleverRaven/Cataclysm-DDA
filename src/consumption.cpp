@@ -429,7 +429,8 @@ bool player::eat( item &food, bool force )
             _( "You've begun stockpiling calories and liquid for hibernation.  You get the feeling that you should prepare for bed, just in case, but...you're hungry again, and you could eat a whole week's worth of food RIGHT NOW." ) );
     }
 
-    const bool will_vomit = get_hunger() < 0 && nutr >= 5 && !has_trait( trait_id( "GOURMAND" ) ) && !hibernate &&
+    const bool will_vomit = get_hunger() < 0 && nutr >= 5 && !has_trait( trait_id( "GOURMAND" ) ) &&
+                            !hibernate &&
                             !has_trait( trait_id( "SLIMESPAWNER" ) ) && !has_trait( trait_id( "EATHEALTH" ) ) &&
                             rng( -200, 0 ) > get_hunger() - nutr;
     const bool saprophage = has_trait( trait_id( "SAPROPHAGE" ) );
@@ -476,7 +477,8 @@ bool player::eat( item &food, bool force )
 
     // If it's poisonous... poison us.
     // TODO: Move this to a flag
-    if( food.poison > 0 && !has_trait( trait_id( "EATPOISON" ) ) && !has_trait( trait_id( "EATDEAD" ) ) ) {
+    if( food.poison > 0 && !has_trait( trait_id( "EATPOISON" ) ) &&
+        !has_trait( trait_id( "EATDEAD" ) ) ) {
         if( food.poison >= rng( 2, 4 ) ) {
             add_effect( effect_poison, food.poison * 100 );
         }
@@ -565,7 +567,8 @@ bool player::eat( item &food, bool force )
         add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
         add_morale( MORALE_NO_DIGEST, -75, -400, 300, 240 );
     }
-    if( food.has_flag( "URSINE_HONEY" ) && ( !crossed_threshold() || has_trait( trait_id( "THRESH_URSINE" ) ) ) &&
+    if( food.has_flag( "URSINE_HONEY" ) && ( !crossed_threshold() ||
+            has_trait( trait_id( "THRESH_URSINE" ) ) ) &&
         mutation_category_level["MUTCAT_URSINE"] > 40 ) {
         //Need at least 5 bear muts for effect to show, to filter out mutations in common with other mutcats
         int honey_fun = has_trait( trait_id( "THRESH_URSINE" ) ) ?

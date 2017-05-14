@@ -116,7 +116,8 @@ void trapfunc::beartrap( Creature *c, const tripoint &p )
 
             if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 512 ) ) ) {
                 n->add_effect( effect_tetanus, 1, num_bp, true );
-            } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) && ( one_in( 128 ) ) ) {
+            } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
+                       ( one_in( 128 ) ) ) {
                 n->add_effect( effect_tetanus, 1, num_bp, true );
             }
         }
@@ -148,7 +149,8 @@ void trapfunc::board( Creature *c, const tripoint & )
             c->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, rng( 6, 10 ) ) );
             if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
                 n->add_effect( effect_tetanus, 1, num_bp, true );
-            } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) && ( one_in( 35 ) ) ) {
+            } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
+                       ( one_in( 35 ) ) ) {
                 n->add_effect( effect_tetanus, 1, num_bp, true );
             }
         }
@@ -744,7 +746,8 @@ void trapfunc::pit_spikes( Creature *c, const tripoint &p )
                 n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
                 if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
                     n->add_effect( effect_tetanus, 1, num_bp, true );
-                } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) && ( one_in( 35 ) ) ) {
+                } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
+                           ( one_in( 35 ) ) ) {
                     n->add_effect( effect_tetanus, 1, num_bp, true );
                 }
             }
@@ -822,7 +825,8 @@ void trapfunc::pit_glass( Creature *c, const tripoint &p )
                 n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
                 if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
                     n->add_effect( effect_tetanus, 1, num_bp, true );
-                } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) && ( one_in( 35 ) ) ) {
+                } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
+                           ( one_in( 35 ) ) ) {
                     n->add_effect( effect_tetanus, 1, num_bp, true );
                 }
             }
@@ -1001,7 +1005,8 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
             g->u.add_memorial_log( pgettext( "memorial_male", "Fell down a ledge." ),
                                    pgettext( "memorial_female", "Fell down a ledge." ) );
             g->vertical_move( -1, true );
-            if( g->u.has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) && g->u.has_trait( trait_WINGS_BUTTERFLY ) ) ) {
+            if( g->u.has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
+                    g->u.has_trait( trait_WINGS_BUTTERFLY ) ) ) {
                 add_msg( _( "You flap your wings and flutter down gracefully." ) );
             } else {
                 g->u.impact( 20, p );
@@ -1072,7 +1077,8 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
     } else {
         pl->setpos( where );
     }
-    if( pl->has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) && pl->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
+    if( pl->has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
+            pl->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
         pl->add_msg_player_or_npc( _( "You flap your wings and flutter down gracefully." ),
                                    _( "<npcname> flaps their wings and flutters down gracefully." ) );
     } else {
