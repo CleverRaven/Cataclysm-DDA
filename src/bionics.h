@@ -12,6 +12,8 @@ class player;
 
 struct quality;
 using quality_id = string_id<quality>;
+struct mutation_branch;
+using trait_id = string_id<mutation_branch>;
 
 struct bionic_data {
     bionic_data();
@@ -65,7 +67,7 @@ struct bionic_data {
      * Mutations/trait that are removed upon installing this CBM.
      * E.g. enhanced optic bionic may cancel HYPEROPIC trait.
      */
-    std::vector<std::string> canceled_mutations;
+    std::vector<trait_id> canceled_mutations;
     /**
      * Additional bionics that are installed automatically when this
      * bionic is installed. This can be used to install several bionics

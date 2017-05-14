@@ -139,9 +139,9 @@ void weed_msg(player *p) {
         case 1: // Real Life
             p->add_msg_if_player(_("Man, a cheeseburger sounds SO awesome right now."));
             p->mod_hunger(4);
-            if(p->has_trait("VEGETARIAN")) {
+            if( p->has_trait( trait_id( "VEGETARIAN" ) ) ) {
                 p->add_msg_if_player(_("Eh... maybe not."));
-            } else if(p->has_trait("LACTOSE")) {
+            } else if( p->has_trait( trait_id( "LACTOSE" ) ) ) {
                 p->add_msg_if_player(_("I guess, maybe, without the cheese... yeah."));
             }
             return;
@@ -750,7 +750,7 @@ int effect::mod_intensity( int mod, bool alert )
     return set_intensity( intensity + mod, alert );
 }
 
-const std::vector<std::string> &effect::get_resist_traits() const
+const std::vector<trait_id> &effect::get_resist_traits() const
 {
     return eff_type->resist_traits;
 }
@@ -1164,7 +1164,9 @@ void load_effect_type(JsonObject &jo)
     new_etype.apply_memorial_log = jo.get_string("apply_memorial_log", "");
     new_etype.remove_memorial_log = jo.get_string("remove_memorial_log", "");
 
-    new_etype.resist_traits = jo.get_string_array("resist_traits");
+    for( auto &&f : jo.get_string_array( "resist_traits" ) ) {
+        new_etype.resist_traits.push_back( trait_id( f ) );
+    }
     for( auto &&f : jo.get_string_array( "resist_effects" ) ) {
         new_etype.resist_effects.push_back( efftype_id( f ) );
     }

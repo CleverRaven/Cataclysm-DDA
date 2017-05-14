@@ -61,6 +61,19 @@ const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_pkill_l( "pkill_l" );
 const efftype_id effect_infection( "infection" );
 
+static const trait_id trait_BEAUTIFUL2( "BEAUTIFUL2" );
+static const trait_id trait_BEAUTIFUL3( "BEAUTIFUL3" );
+static const trait_id trait_BEAUTIFUL( "BEAUTIFUL" );
+static const trait_id trait_CANNIBAL( "CANNIBAL" );
+static const trait_id trait_DEFORMED2( "DEFORMED2" );
+static const trait_id trait_DEFORMED3( "DEFORMED3" );
+static const trait_id trait_DEFORMED( "DEFORMED" );
+static const trait_id trait_PRETTY( "PRETTY" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
+static const trait_id trait_TERRIFYING( "TERRIFYING" );
+static const trait_id trait_UGLY( "UGLY" );
+
 void starting_clothes( npc &who, const npc_class_id &type, bool male );
 void starting_inv( npc &who, const npc_class_id &type );
 
@@ -1015,29 +1028,29 @@ void npc::form_opinion( const player &u )
         }
     }
 
-    if (u.has_trait("SAPIOVORE")) {
+    if (u.has_trait( trait_SAPIOVORE )) {
         op_of_u.fear += 10; // Sapiovores = Scary
     }
 
-    if (u.has_trait("PRETTY")) {
+    if (u.has_trait( trait_PRETTY )) {
         op_of_u.fear += 1;
-    } else if (u.has_trait("BEAUTIFUL")) {
+    } else if (u.has_trait( trait_BEAUTIFUL )) {
         op_of_u.fear += 2;
-    } else if (u.has_trait("BEAUTIFUL2")) {
+    } else if (u.has_trait( trait_BEAUTIFUL2 )) {
         op_of_u.fear += 3;
-    } else if (u.has_trait("BEAUTIFUL3")) {
+    } else if (u.has_trait( trait_BEAUTIFUL3 )) {
         op_of_u.fear += 4;
-    } else if (u.has_trait("UGLY")) {
+    } else if (u.has_trait( trait_UGLY )) {
         op_of_u.fear -= 1;
-    } else if (u.has_trait("DEFORMED")) {
+    } else if (u.has_trait( trait_DEFORMED )) {
         op_of_u.fear += 3;
-    } else if (u.has_trait("DEFORMED2")) {
+    } else if (u.has_trait( trait_DEFORMED2 )) {
         op_of_u.fear += 6;
-    } else if (u.has_trait("DEFORMED3")) {
+    } else if (u.has_trait( trait_DEFORMED3 )) {
         op_of_u.fear += 9;
     }
 
-    if (u.has_trait("TERRIFYING")) {
+    if (u.has_trait( trait_TERRIFYING )) {
         op_of_u.fear += 6;
     }
 
@@ -1076,21 +1089,21 @@ void npc::form_opinion( const player &u )
         op_of_u.trust -= 1;
     }
 
-    if (u.has_trait("PRETTY")) {
+    if (u.has_trait( trait_PRETTY )) {
       op_of_u.trust += 1;
-    } else if (u.has_trait("BEAUTIFUL")) {
+    } else if (u.has_trait( trait_BEAUTIFUL )) {
         op_of_u.trust += 3;
-    } else if (u.has_trait("BEAUTIFUL2")) {
+    } else if (u.has_trait( trait_BEAUTIFUL2 )) {
         op_of_u.trust += 5;
-    } else if (u.has_trait("BEAUTIFUL3")) {
+    } else if (u.has_trait( trait_BEAUTIFUL3 )) {
         op_of_u.trust += 7;
-    } else if (u.has_trait("UGLY")) {
+    } else if (u.has_trait( trait_UGLY )) {
         op_of_u.trust -= 1;
-    } else if (u.has_trait("DEFORMED")) {
+    } else if (u.has_trait( trait_DEFORMED )) {
         op_of_u.trust -= 3;
-    } else if (u.has_trait("DEFORMED2")) {
+    } else if (u.has_trait( trait_DEFORMED2 )) {
         op_of_u.trust -= 6;
-    } else if (u.has_trait("DEFORMED3")) {
+    } else if (u.has_trait( trait_DEFORMED3 )) {
         op_of_u.trust -= 9;
     }
 
@@ -1312,7 +1325,7 @@ void npc::say( const std::string line, ... ) const
     std::string formatted_line = vstring_format(line, ap);
     va_end(ap);
     parse_tags( formatted_line, g->u, *this );
-    if( has_trait( "MUTE" ) ) {
+    if( has_trait( trait_id( "MUTE" ) ) ) {
         return;
     }
 
@@ -1739,8 +1752,8 @@ int npc::print_info(WINDOW* w, int line, int vLines, int column) const
 
     const int visibility_cap = g->u.get_per() - rl_dist( g->u.pos(), pos() );
     const std::string trait_str = enumerate_as_string( my_mutations.begin(), my_mutations.end(),
-        [ this, visibility_cap ]( const std::pair<std::string, trait_data> &pr ) -> std::string {
-        const auto &mut_branch = mutation_branch::get( pr.first );
+        [ this, visibility_cap ]( const std::pair<trait_id, trait_data> &pr ) -> std::string {
+        const auto &mut_branch = pr.first.obj();
         // Finally some use for visibility trait of mutations
         // @todo Balance this formula
         if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap ) {
@@ -1913,9 +1926,9 @@ void npc::die(Creature* nkiller) {
     }
 
     if( killer == &g->u && ( !guaranteed_hostile() || hit_by_player ) ) {
-        bool cannibal = g->u.has_trait("CANNIBAL");
-        bool psycho = g->u.has_trait("PSYCHOPATH");
-        if( g->u.has_trait( "SAPIOVORE" ) ) {
+        bool cannibal = g->u.has_trait( trait_CANNIBAL );
+        bool psycho = g->u.has_trait( trait_PSYCHOPATH );
+        if( g->u.has_trait( trait_SAPIOVORE ) ) {
             g->u.add_memorial_log(pgettext("memorial_male", "Caught and killed an ape.  Prey doesn't have a name."),
                                   pgettext("memorial_female", "Caught and killed an ape.  Prey doesn't have a name."));
         } else if( psycho && cannibal ) {
@@ -2300,7 +2313,7 @@ std::ostream& operator<< (std::ostream & os, npc_need need)
 
 bool npc::will_accept_from_player( const item &it ) const
 {
-    if( is_minion() || g->u.has_trait( "DEBUG_MIND_CONTROL" ) || it.has_flag( "NPC_SAFE" ) ) {
+    if( is_minion() || g->u.has_trait( trait_id( "DEBUG_MIND_CONTROL" ) ) || it.has_flag( "NPC_SAFE" ) ) {
         return true;
     }
 
@@ -2357,7 +2370,7 @@ mfaction_id npc::get_monster_faction() const
         return player_fac.id();
     }
 
-    if( has_trait( "BEE" ) ) {
+    if( has_trait( trait_id( "BEE" ) ) ) {
         return bee_fac.id();
     }
 

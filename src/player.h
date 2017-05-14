@@ -266,13 +266,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player has a conflicting trait to the entered trait
          *  Uses has_opposite_trait(), has_lower_trait(), and has_higher_trait() to determine conflicts.
          */
-        bool has_conflicting_trait(const std::string &flag) const;
+        bool has_conflicting_trait( const trait_id &flag ) const;
         /** Returns true if the player has a trait which cancels the entered trait */
-        bool has_opposite_trait(const std::string &flag) const;
+        bool has_opposite_trait( const trait_id &flag ) const;
         /** Returns true if the player has a trait which upgrades into the entered trait */
-        bool has_lower_trait(const std::string &flag) const;
+        bool has_lower_trait( const trait_id &flag ) const;
         /** Returns true if the player has a trait which is an upgrade of the entered trait */
-        bool has_higher_trait(const std::string &flag) const;
+        bool has_higher_trait( const trait_id &flag ) const;
         /** Returns true if the player has crossed a mutation threshold
          *  Player can only cross one mutation threshold.
          */
@@ -280,9 +280,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the entered trait may be purified away
          *  Defaults to true
          */
-        bool purifiable(const std::string &flag) const;
+        bool purifiable( const trait_id &flag ) const;
         /** Modifies mutation_category_level[] based on the entered trait */
-        void set_cat_level_rec(const std::string &sMut);
+        void set_cat_level_rec( const trait_id &sMut );
         /** Recalculates mutation_category_level[] values for the player */
         void set_highest_cat_level();
         /** Returns the highest mutation category */
@@ -326,19 +326,19 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         float active_light() const;
 
         /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
-        bool mutation_ok( const std::string &mutation, bool force_good, bool force_bad ) const;
+        bool mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const;
         /** Picks a random valid mutation and gives it to the player, possibly removing/changing others along the way */
         void mutate();
         /** Picks a random valid mutation in a category and mutate_towards() it */
         void mutate_category( const std::string &mut_cat );
         /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
-        bool mutate_towards( const std::string &mut );
+        bool mutate_towards( const trait_id &mut );
         /** Removes a mutation, downgrading to the previous level if possible */
-        void remove_mutation( const std::string &mut );
+        void remove_mutation( const trait_id &mut );
         /** Returns true if the player has the entered mutation child flag */
-        bool has_child_flag( const std::string &mut ) const;
+        bool has_child_flag( const trait_id &mut ) const;
         /** Removes the mutation's child flag from the player's list */
-        void remove_child_flag( const std::string &mut );
+        void remove_child_flag( const trait_id &mut );
 
         const tripoint &pos() const override;
         /** Returns the player's sight range */
@@ -872,9 +872,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool can_lift( const T& obj ) const {
             // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
             int str = get_str();
-            if( has_trait( "STRONGBACK" ) ) {
+            if( has_trait( trait_id( "STRONGBACK" ) ) ) {
                 str *= 1.35;
-            } else if( has_trait( "BADBACK" ) ) {
+            } else if( has_trait( trait_id( "BADBACK" ) ) ) {
                 str /= 1.35;
             }
             return get_str() >= obj.lift_strength();
@@ -1508,11 +1508,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /**
          * Called when a mutation is gained
          */
-        void on_mutation_gain( const std::string &mid ) override;
+        void on_mutation_gain( const trait_id &mid ) override;
         /**
          * Called when a mutation is lost
          */
-        void on_mutation_loss( const std::string &mid ) override;
+        void on_mutation_loss( const trait_id &mid ) override;
         /**
          * Called when a stat is changed
          */
@@ -1622,8 +1622,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int blood_loss( body_part bp ) const;
 
         // Trigger and disable mutations that can be so toggled.
-        void activate_mutation( const std::string &mutation );
-        void deactivate_mutation( const std::string &mut );
+        void activate_mutation( const trait_id &mutation );
+        void deactivate_mutation( const trait_id &mut );
         bool has_fire(const int quantity) const;
         void use_fire(const int quantity);
 

@@ -106,6 +106,14 @@ const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_targeted( "targeted" );
 const efftype_id effect_teleglow( "teleglow" );
 
+static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
+static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
+static const trait_id trait_MARLOSS( "MARLOSS" );
+static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
+static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
+static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+
 // shared utility functions
 int within_visual_range(monster *z, int max_range) {
     int dist;
@@ -1419,7 +1427,7 @@ bool mattack::fungus(monster *z)
 {
     // TODO: Infect NPCs?
     z->moves -= 200;   // It takes a while
-    if (g->u.has_trait("THRESH_MYCUS")) {
+    if (g->u.has_trait( trait_THRESH_MYCUS )) {
         z->friendly = 100;
     }
     //~ the sound of a fungus releasing spores
@@ -1542,11 +1550,11 @@ bool mattack::fungus_inject(monster *z)
         return false;
     }
 
-    if (g->u.has_trait("THRESH_MARLOSS") || g->u.has_trait("THRESH_MYCUS")) {
+    if (g->u.has_trait( trait_THRESH_MARLOSS ) || g->u.has_trait( trait_THRESH_MYCUS )) {
         z->friendly = 1;
         return true;
     }
-    if ( (g->u.has_trait("MARLOSS")) && (g->u.has_trait("MARLOSS_BLUE")) && !g->u.crossed_threshold()) {
+    if ( (g->u.has_trait( trait_MARLOSS )) && (g->u.has_trait( trait_MARLOSS_BLUE )) && !g->u.crossed_threshold()) {
         add_msg(m_info, _("The %s seems to wave you toward the tower..."), z->name().c_str());
         z->anger = 0;
         return true;
@@ -1598,7 +1606,7 @@ bool mattack::fungus_inject(monster *z)
 
 bool mattack::fungus_bristle(monster *z)
 {
-    if (g->u.has_trait("THRESH_MARLOSS") || g->u.has_trait("THRESH_MYCUS")) {
+    if (g->u.has_trait( trait_THRESH_MARLOSS ) || g->u.has_trait( trait_THRESH_MYCUS )) {
         z->friendly = 1;
     }
     Creature *target = z->attack_target();
@@ -1694,10 +1702,10 @@ bool mattack::fungus_fortify(monster *z)
     Creature *target = &g->u;
     bool mycus = false;
     bool peaceful = true;
-    if (g->u.has_trait("THRESH_MARLOSS") || g->u.has_trait("THRESH_MYCUS")) {
+    if (g->u.has_trait( trait_THRESH_MARLOSS ) || g->u.has_trait( trait_THRESH_MYCUS )) {
         mycus = true; //No nifty support effects.  Yet.  This lets it rebuild hedges.
     }
-    if ( (g->u.has_trait("MARLOSS")) && (g->u.has_trait("MARLOSS_BLUE")) &&
+    if ( (g->u.has_trait( trait_MARLOSS )) && (g->u.has_trait( trait_MARLOSS_BLUE )) &&
          !g->u.crossed_threshold() && !mycus) {
         // You have the other two.  Is it really necessary for us to fight?
         add_msg(m_info, _("The %s spreads its tendrils.  It seems as though it's expecting you..."), z->name().c_str());
@@ -1706,9 +1714,9 @@ bool mattack::fungus_fortify(monster *z)
                 add_msg(m_warning, _("The %s works several tendrils into your arms, legs, torso, and even neck..."), z->name().c_str());
                 g->u.hurtall(1, z);
                 add_msg(m_warning, _("You see a clear golden liquid pump through the tendrils--and then lose consciousness."));
-                g->u.unset_mutation("MARLOSS");
-                g->u.unset_mutation("MARLOSS_BLUE");
-                g->u.set_mutation("THRESH_MARLOSS");
+                g->u.unset_mutation( trait_MARLOSS );
+                g->u.unset_mutation( trait_MARLOSS_BLUE );
+                g->u.set_mutation( trait_THRESH_MARLOSS );
                 g->m.ter_set(g->u.pos(), t_marloss); // We only show you the door.  You walk through it on your own.
                 g->u.add_memorial_log(pgettext("memorial_male", "Was shown to the Marloss Gatweay."),
                     pgettext("memorial_female", "Was shown to the Marloss Gateway."));
@@ -1902,7 +1910,7 @@ bool mattack::dermatik(monster *z)
     ///\EFFECT_UNARMED increases chance to deflect dermatik attack
     int swat_skill = ( foe->get_skill_level( skill_melee ) + foe->get_skill_level( skill_unarmed ) * 2) / 3;
     int player_swat = dice(swat_skill, 10);
-    if( foe->has_trait("TAIL_CATTLE") ) {
+    if( foe->has_trait( trait_TAIL_CATTLE ) ) {
         target->add_msg_if_player(_("You swat at the %s with your tail!"), z->name().c_str());
         ///\EFFECT_DEX increases chance of deflecting dermatik attack with TAIL_CATTLE
 
@@ -1936,7 +1944,7 @@ bool mattack::dermatik(monster *z)
     //~ 1$s monster name(dermatic), 2$s bodypart name in accusative.
     target->add_msg_if_player( m_bad, _("The %1$s sinks its ovipositor into your %2$s!"), z->name().c_str(),
                             body_part_name_accusative(targeted).c_str());
-    if ( !foe->has_trait("PARAIMMUNE") || !foe->has_trait("ACIDBLOOD") ) {
+    if ( !foe->has_trait( trait_PARAIMMUNE ) || !foe->has_trait( trait_ACIDBLOOD ) ) {
         foe->add_effect( effect_dermatik, 1, targeted, true);
         foe->add_memorial_log(pgettext("memorial_male", "Injected with dermatik eggs."),
                               pgettext("memorial_female", "Injected with dermatik eggs."));
@@ -2584,7 +2592,7 @@ bool mattack::photograph(monster *z)
     // Badges should NOT be swappable between roles.
     // Hence separate checking.
     // If you are in fact listed as a police officer
-    if (g->u.has_trait("PROF_POLICE")) {
+    if( g->u.has_trait( trait_id( "PROF_POLICE" ) ) ) {
         // And you're wearing your badge
         if (g->u.is_wearing("badge_deputy")) {
             if (one_in(3)) {
@@ -2601,7 +2609,7 @@ bool mattack::photograph(monster *z)
         }
     }
 
-    if (g->u.has_trait("PROF_PD_DET")) {
+    if( g->u.has_trait( trait_id( "PROF_PD_DET" ) ) ) {
         // And you have your shield on
         if (g->u.is_wearing("badge_detective")) {
             if (one_in(4)) {
@@ -2616,7 +2624,7 @@ bool mattack::photograph(monster *z)
                 return true;
             }
         }
-    } else if (g->u.has_trait("PROF_SWAT")) {
+    } else if( g->u.has_trait( trait_id( "PROF_SWAT" ) ) ) {
         // And you're wearing your badge
         if (g->u.is_wearing("badge_swat")) {
             if (one_in(3)) {
@@ -2631,7 +2639,7 @@ bool mattack::photograph(monster *z)
                 return true;
             }
         }
-    } else if (g->u.has_trait("PROF_CYBERCOP")) {
+    } else if( g->u.has_trait( trait_id( "PROF_CYBERCOP" ) ) ) {
         // And you're wearing your badge
         if (g->u.is_wearing("badge_cybercop")) {
             if (one_in(3)) {
@@ -2648,7 +2656,7 @@ bool mattack::photograph(monster *z)
         }
     }
 
-    if (g->u.has_trait("PROF_FED")) {
+    if( g->u.has_trait( trait_id( "PROF_FED" ) ) ) {
         // And you're wearing your badge
         if (g->u.is_wearing("badge_marshal")) {
             add_msg(m_info, _("The %s flashes a LED and departs.  The Feds have this."), z->name().c_str());

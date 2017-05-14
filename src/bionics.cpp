@@ -63,6 +63,10 @@ const efftype_id effect_took_xanax( "took_xanax" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 
+static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+static const trait_id trait_MYOPIC( "MYOPIC" );
+static const trait_id trait_PROF_MED( "PROF_MED" );
+
 namespace
 {
 std::map<std::string, bionic_data> bionics;
@@ -765,7 +769,7 @@ int bionic_manip_cos( int p_int, int s_electronics, int s_firstaid, int s_mechan
                    s_mechanics   * 1;
 
     // Medical residents have some idea what they're doing
-    if( g->u.has_trait( "PROF_MED" ) ) {
+    if( g->u.has_trait( trait_PROF_MED ) ) {
         pl_skill += 3;
         add_msg( m_neutral, _( "You prep yourself to begin surgery." ) );
     }
@@ -1010,7 +1014,7 @@ void bionics_install_failure( player *u, int difficulty, int success )
                    u->get_skill_level( skilll_firstaid )    * 3 +
                    u->get_skill_level( skilll_mechanics )   * 1;
     // Medical residents get a substantial assist here
-    if( u->has_trait( "PROF_MED" ) ) {
+    if( u->has_trait( trait_PROF_MED ) ) {
         pl_skill += 6;
     }
 
@@ -1048,7 +1052,7 @@ void bionics_install_failure( player *u, int difficulty, int success )
             break;
     }
 
-    if( u->has_trait( "PROF_MED" ) ) {
+    if( u->has_trait( trait_PROF_MED ) ) {
         //~"Complications" is USian medical-speak for "unintended damage from a medical procedure".
         add_msg( m_neutral, _( "Your training helps you minimize the complications." ) );
         // In addition to the bonus, medical residents know enough OR protocol to avoid botching.
@@ -1065,7 +1069,7 @@ void bionics_install_failure( player *u, int difficulty, int success )
     switch( fail_type ) {
 
         case 1:
-            if( !( u->has_trait( "NOPAIN" ) ) ) {
+            if( !( u->has_trait( trait_id( "NOPAIN" ) ) ) ) {
                 add_msg( m_bad, _( "It really hurts!" ) );
                 u->mod_pain( rng( failure_level * 3, failure_level * 6 ) );
             }
@@ -1159,7 +1163,7 @@ int player::get_used_bionics_slots( const body_part bp ) const
 std::map<body_part, int> player::bionic_installation_issues( const std::string &bioid )
 {
     std::map<body_part, int> issues;
-    if( !has_trait( "DEBUG_CBM_SLOTS" ) ) {
+    if( !has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
         return issues;
     }
     for( auto &elem : bionics[ bioid ].occupied_bodyparts ) {
@@ -1392,7 +1396,7 @@ void check_bionics()
                       bio.first.c_str(), bio.second.fake_item.c_str() );
         }
         for( const auto &mid : bio.second.canceled_mutations ) {
-            if( !mutation_branch::has( mid ) ) {
+            if( !mid.is_valid() ) {
                 debugmsg( "Bionic %s cancels undefined mutation %s",
                           bio.first.c_str(), mid.c_str() );
             }
