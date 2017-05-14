@@ -1,6 +1,22 @@
 [
   {
     "type" : "item_group",
+    "id" : "NC_HACKER_inventory",
+    "subtype": "collection",
+    "items": [ "lighter" ],
+    "groups": [
+      [ "NC_HACKER_misc", 100 ],
+      [ "NC_HACKER_misc", 50 ],
+      [ "NC_HACKER_misc", 50 ],
+      [ "NC_HACKER_misc", 50 ],
+      [ "NC_HACKER_misc", 50 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ]
+    ]
+  },
+  {
+    "type" : "item_group",
     "id" : "NC_HACKER_misc",
     "items":[
         ["energy_drink", 55],

@@ -1,6 +1,58 @@
 [
   {
     "type" : "item_group",
+    "id" : "NC_EVAC_SHOPKEEP_worn_male",
+    "subtype": "collection",
+    "groups": [
+      "npc_pants_male",
+      "npc_shirt_male",
+      "npc_gloves",
+      "NC_EVAC_SHOPKEEP_coat",
+      "npc_shoes",
+      "npc_masks",
+      "npc_hat",
+      "npc_eyes",
+      "NC_EVAC_SHOPKEEP_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "NC_EVAC_SHOPKEEP_worn_female",
+    "subtype": "collection",
+    "groups": [
+      "npc_pants_female",
+      "npc_shirt_female",
+      "npc_gloves",
+      "NC_EVAC_SHOPKEEP_coat",
+      "npc_shoes",
+      "npc_masks",
+      "npc_hat",
+      "npc_eyes",
+      "NC_EVAC_SHOPKEEP_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "NC_EVAC_SHOPKEEP_inventory",
+    "subtype": "collection",
+    "items": [ "lighter" ],
+    "groups": [
+      [ "NC_EVAC_SHOPKEEP_misc", 100 ],
+      [ "NC_EVAC_SHOPKEEP_misc", 100 ],
+      [ "NC_EVAC_SHOPKEEP_misc", 100 ],
+      [ "NC_EVAC_SHOPKEEP_misc", 50 ],
+      [ "NC_EVAC_SHOPKEEP_misc", 50 ],
+      [ "NC_EVAC_SHOPKEEP_misc", 50 ],
+      [ "NC_EVAC_SHOPKEEP_misc", 50 ],
+      [ "NC_EVAC_SHOPKEEP_misc", 50 ],
+      [ "NC_EVAC_SHOPKEEP_misc", 50 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ]
+    ]
+  },
+  {
+    "type" : "item_group",
     "id" : "NC_EVAC_SHOPKEEP_extra",
     "items":[
       ["rucksack", 90]

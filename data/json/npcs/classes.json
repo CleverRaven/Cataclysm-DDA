@@ -34,9 +34,10 @@
                 { "dice" : [ 10, 10 ] }
             ]
         },
-        "worn_override": "NC_DEBUG_worn",
-        "carry_override": "NC_DEBUG_carried",
-        "weapon_override": "NC_DEBUG_weapon",
+        "worn_male": "NC_DEBUG_worn",
+        "worn_female": "NC_DEBUG_worn",
+        "inventory": "NC_DEBUG_inventory",
+        "weapon_by_skill": [ [ "ALL", "NC_DEBUG_weapon" ] ],
         "traits": [ [ "DEBUG_NODMG", 100 ] ]
     },{
         "type" : "npc_class",
@@ -404,9 +405,10 @@
             { "skill": "melee", "level" : { "dice" : [ 2, 2 ] } },
             { "skill": "unarmed", "level" : { "dice" : [ 2, 2 ] } }
         ],
-        "worn_override": "EMPTY_GROUP",
-        "carry_override": "EMPTY_GROUP",
-        "weapon_override": "EMPTY_GROUP",
+        "worn_male": "EMPTY_GROUP",
+        "worn_female": "EMPTY_GROUP",
+        "inventory": "EMPTY_GROUP",
+        "weapon_by_skill": [ [ "ALL", "EMPTY_GROUP" ] ],
         "comment": "NPCs can't run yet and we want this one to be fast, so road runner.",
         "traits": [
             [ "THRESH_INSECT", 100 ],

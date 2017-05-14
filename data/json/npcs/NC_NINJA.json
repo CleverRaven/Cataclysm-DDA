@@ -1,6 +1,38 @@
 [
   {
     "type" : "item_group",
+    "id" : "NC_NINJA_worn_male",
+    "subtype": "collection",
+    "groups": [
+      "npc_pants_male",
+      "NC_NINJA_shirt_male",
+      "NC_NINJA_gloves",
+      "npc_coat",
+      "npc_shoes",
+      "NC_NINJA_masks",
+      "NC_NINJA_hat",
+      "npc_eyes",
+      "npc_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "NC_NINJA_worn_female",
+    "subtype": "collection",
+    "groups": [
+      "npc_pants_female",
+      "NC_NINJA_shirt_female",
+      "NC_NINJA_gloves",
+      "npc_coat",
+      "npc_shoes",
+      "NC_NINJA_masks",
+      "NC_NINJA_hat",
+      "npc_eyes",
+      "npc_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
     "id" : "NC_NINJA_shirt_male",
     "items":[
       ["null", 50],

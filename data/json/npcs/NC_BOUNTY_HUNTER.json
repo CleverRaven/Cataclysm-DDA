@@ -1,6 +1,54 @@
 [
   {
     "type" : "item_group",
+    "id" : "NC_BOUNTY_HUNTER_worn_male",
+    "subtype": "collection",
+    "groups": [
+      "NC_BOUNTY_HUNTER_pants_male",
+      "npc_shirt_male",
+      "npc_gloves",
+      "NC_BOUNTY_HUNTER_coat",
+      "NC_BOUNTY_HUNTER_shoes",
+      "NC_BOUNTY_HUNTER_masks",
+      "npc_hat",
+      "NC_BOUNTY_HUNTER_eyes",
+      "NC_BOUNTY_HUNTER_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "NC_BOUNTY_HUNTER_worn_female",
+    "subtype": "collection",
+    "groups": [
+      "NC_BOUNTY_HUNTER_pants_female",
+      "npc_shirt_female",
+      "npc_gloves",
+      "NC_BOUNTY_HUNTER_coat",
+      "NC_BOUNTY_HUNTER_shoes",
+      "NC_BOUNTY_HUNTER_masks",
+      "npc_hat",
+      "NC_BOUNTY_HUNTER_eyes",
+      "NC_BOUNTY_HUNTER_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "NC_BOUNTY_HUNTER_inventory",
+    "subtype": "collection",
+    "items": [ "lighter" ],
+    "groups": [
+      [ "npc_misc", 100 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ]
+    ]
+  },
+  {
+    "type" : "item_group",
     "id" : "NC_BOUNTY_HUNTER_pants_male",
     "items":[
       ["jeans", 20],

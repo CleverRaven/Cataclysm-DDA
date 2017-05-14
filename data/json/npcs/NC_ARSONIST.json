@@ -1,6 +1,54 @@
 [
   {
     "type" : "item_group",
+    "id" : "NC_ARSONIST_worn_male",
+    "subtype": "collection",
+    "groups": [
+      "NC_ARSONIST_pants_male",
+      "NC_ARSONIST_shirt_male",
+      "NC_ARSONIST_gloves",
+      "NC_ARSONIST_coat",
+      "NC_ARSONIST_shoes",
+      "NC_ARSONIST_masks",
+      "NC_ARSONIST_hat",
+      "NC_ARSONIST_eyes",
+      "NC_ARSONIST_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "NC_ARSONIST_worn_female",
+    "subtype": "collection",
+    "groups": [
+      "NC_ARSONIST_pants_female",
+      "NC_ARSONIST_shirt_female",
+      "NC_ARSONIST_gloves",
+      "NC_ARSONIST_coat",
+      "NC_ARSONIST_shoes",
+      "NC_ARSONIST_masks",
+      "NC_ARSONIST_hat",
+      "NC_ARSONIST_eyes",
+      "NC_ARSONIST_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "NC_ARSONIST_inventory",
+    "subtype": "collection",
+    "items": [ "lighter", "molotov" ],
+    "groups": [
+      [ "NC_ARSONIST_misc", 100 ],
+      [ "NC_ARSONIST_misc", 50 ],
+      [ "NC_ARSONIST_misc", 50 ],
+      [ "NC_ARSONIST_misc", 50 ],
+      [ "NC_ARSONIST_misc", 50 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ]
+    ]
+  },
+  {
+    "type" : "item_group",
     "id" : "NC_ARSONIST_pants_male",
     "items":[
       ["jeans", 20],

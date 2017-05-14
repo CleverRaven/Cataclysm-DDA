@@ -1,6 +1,52 @@
 [
   {
     "type" : "item_group",
+    "id" : "npc_worn_male",
+    "subtype": "collection",
+    "groups": [
+      "npc_pants_male",
+      "npc_shirt_male",
+      "npc_gloves",
+      "npc_coat",
+      "npc_shoes",
+      "npc_masks",
+      "npc_hat",
+      "npc_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "npc_worn_female",
+    "subtype": "collection",
+    "groups": [
+      "npc_pants_female",
+      "npc_shirt_female",
+      "npc_gloves",
+      "npc_coat",
+      "npc_shoes",
+      "npc_masks",
+      "npc_hat",
+      "npc_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "npc_inventory",
+    "subtype": "collection",
+    "items": [ "lighter" ],
+    "groups": [
+      [ "npc_misc", 100 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ]
+    ]
+  },
+  {
+    "type" : "item_group",
     "id" : "npc_pants_male",
     "items":[
       ["jeans", 20],

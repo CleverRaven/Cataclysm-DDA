@@ -91,7 +91,7 @@ void apply_all_to_unassigned( T &skills )
     } );
 
     if( iter != skills.end() ) {
-        distribution dis = iter->second;
+        auto dis = iter->second;
         skills.erase( iter );
         for( const auto &sk : Skill::skills ) {
             if( skills.count( sk.ident() ) == 0 ) {
@@ -101,18 +101,60 @@ void apply_all_to_unassigned( T &skills )
     }
 }
 
+void default_item_group( Group_tag &grp, const Group_tag &first_fallback,
+                         const Group_tag &second_fallback )
+{
+    if( !grp.empty() ) {
+        return;
+    }
+    if( item_group::group_is_defined( first_fallback ) ) {
+        grp = first_fallback;
+    } else {
+        // This one must exist because it is the generic group
+        // Warning is preferable to recovery here
+        grp = second_fallback;
+    }
+}
+
 void npc_class::finalize_all()
 {
     for( auto &cl_const : npc_class_factory.get_all() ) {
         auto &cl = const_cast<npc_class &>( cl_const );
         apply_all_to_unassigned( cl.skills );
         apply_all_to_unassigned( cl.bonus_skills );
+        apply_all_to_unassigned( cl.weapon_by_skill );
 
         for( const auto &pr : cl.bonus_skills ) {
             if( cl.skills.count( pr.first ) == 0 ) {
                 cl.skills[ pr.first ] = pr.second;
             } else {
                 cl.skills[ pr.first ] = cl.skills[ pr.first ] + pr.second;
+            }
+        }
+
+        // If item groups haven't been set, set them to defaults now
+        default_item_group( cl.worn_male, Group_tag( cl.id.str() + "_worn_male" ),
+                            Group_tag( "npc_worn_male" ) );
+        default_item_group( cl.worn_female, Group_tag( cl.id.str() + "_worn_female" ),
+                            Group_tag( "npc_worn_female" ) );
+        default_item_group( cl.inventory, Group_tag( cl.id.str() + "_inventory" ),
+                            Group_tag( "npc_inventory" ) );
+        for( auto const &p : Skill::skills ) {
+            if( p.is_combat_skill() && cl.weapon_by_skill.count( p.ident() ) == 0 ) {
+                const Group_tag first_fallback = Group_tag( cl.id.str() + "_" + p.ident().str() );
+                if( item_group::group_is_defined( first_fallback ) ) {
+                    cl.weapon_by_skill[ p.ident() ] = first_fallback;
+                    continue;
+                }
+
+                const Group_tag second_fallback = Group_tag( "npc_" + p.ident().str() );
+                if( item_group::group_is_defined( second_fallback ) ) {
+                    cl.weapon_by_skill[ p.ident() ] = second_fallback;
+                    continue;
+                }
+
+                // Empty groups are allowed for weapons
+                cl.weapon_by_skill[ p.ident() ] = "EMPTY_GROUP";
             }
         }
     }
@@ -131,16 +173,22 @@ void npc_class::check_consistency()
             debugmsg( "Missing shopkeeper item group %s", cl.shopkeeper_item_group.c_str() );
         }
 
-        if( !cl.worn_override.empty() && !item_group::group_is_defined( cl.worn_override ) ) {
-            debugmsg( "Missing worn override item group %s", cl.worn_override.c_str() );
+        if( !item_group::group_is_defined( cl.worn_male ) ) {
+            debugmsg( "Missing male worn item group %s", cl.worn_male.c_str() );
         }
 
-        if( !cl.carry_override.empty() && !item_group::group_is_defined( cl.carry_override ) ) {
-            debugmsg( "Missing carry override item group %s", cl.carry_override.c_str() );
+        if( !item_group::group_is_defined( cl.worn_female ) ) {
+            debugmsg( "Missing female worn item group %s", cl.worn_female.c_str() );
         }
 
-        if( !cl.weapon_override.empty() && !item_group::group_is_defined( cl.weapon_override ) ) {
-            debugmsg( "Missing weapon override item group %s", cl.weapon_override.c_str() );
+        if( !item_group::group_is_defined( cl.inventory ) ) {
+            debugmsg( "Missing inventory item group %s", cl.inventory.c_str() );
+        }
+
+        for( const auto &pr : cl.weapon_by_skill ) {
+            if( !item_group::group_is_defined( pr.second ) ) {
+                debugmsg( "Missing weapon item group %s for skill %s", pr.second.c_str(), pr.first.c_str() );
+            }
         }
 
         for( const auto &pr : cl.skills ) {
@@ -236,9 +284,17 @@ void npc_class::load( JsonObject &jo, const std::string & )
     bonus_per = load_distribution( jo, "bonus_per" );
 
     optional( jo, was_loaded, "shopkeeper_item_group", shopkeeper_item_group, "EMPTY_GROUP" );
-    optional( jo, was_loaded, "worn_override", worn_override );
-    optional( jo, was_loaded, "carry_override", carry_override );
-    optional( jo, was_loaded, "weapon_override", weapon_override );
+    optional( jo, was_loaded, "worn_male", worn_male );
+    optional( jo, was_loaded, "worn_female", worn_female );
+    optional( jo, was_loaded, "inventory", inventory );
+
+    if( jo.has_array( "weapon_by_skill" ) ) {
+        JsonArray jarr = jo.get_array( "weapon_by_skill" );
+        while( jarr.has_more() ) {
+            JsonArray inner = jarr.next_array();
+            weapon_by_skill[ skill_id( inner.get_string( 0 ) ) ] = Group_tag( inner.get_string( 1 ) );
+        }
+    }
 
     if( jo.has_array( "traits" ) ) {
         JsonArray jarr = jo.get_array( "traits" );

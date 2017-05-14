@@ -1,6 +1,54 @@
 [
   {
     "type" : "item_group",
+    "id" : "NC_SOLDIER_worn_male",
+    "subtype": "collection",
+    "groups": [
+      "NC_SOLDIER_pants_male",
+      "NC_SOLDIER_shirt_male",
+      "NC_SOLDIER_gloves",
+      "NC_SOLDIER_coat",
+      "NC_SOLDIER_shoes",
+      "NC_SOLDIER_masks",
+      "NC_SOLDIER_hat",
+      "NC_SOLDIER_eyes",
+      "NC_SOLDIER_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "NC_SOLDIER_worn_female",
+    "subtype": "collection",
+    "groups": [
+      "NC_SOLDIER_pants_female",
+      "NC_SOLDIER_shirt_female",
+      "NC_SOLDIER_gloves",
+      "NC_SOLDIER_coat",
+      "NC_SOLDIER_shoes",
+      "NC_SOLDIER_masks",
+      "NC_SOLDIER_hat",
+      "NC_SOLDIER_eyes",
+      "NC_SOLDIER_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "NC_SOLDIER_inventory",
+    "subtype": "collection",
+    "items": [ "lighter" ],
+    "groups": [
+      [ "NC_SOLDIER_misc", 100 ],
+      [ "NC_SOLDIER_misc", 50 ],
+      [ "NC_SOLDIER_misc", 50 ],
+      [ "NC_SOLDIER_misc", 50 ],
+      [ "NC_SOLDIER_misc", 50 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ],
+      [ "npc_misc", 50 ]
+    ]
+  },
+  {
+    "type" : "item_group",
     "id" : "NC_SOLDIER_pants_male",
     "items":[
       ["pants_army", 100]

@@ -6,7 +6,7 @@
   },
   {
     "type" : "item_group",
-    "id" : "NC_DEBUG_carried",
+    "id" : "NC_DEBUG_inventory",
     "items":[ ["mininuke", 100] ]
   },
   {

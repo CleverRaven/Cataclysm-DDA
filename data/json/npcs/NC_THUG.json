@@ -1,6 +1,38 @@
 [
   {
     "type" : "item_group",
+    "id" : "NC_THUG_worn_male",
+    "subtype": "collection",
+    "groups": [
+      "NC_THUG_pants_male",
+      "NC_THUG_shirt_male",
+      "NC_THUG_gloves",
+      "NC_THUG_coat",
+      "NC_THUG_shoes",
+      "npc_masks",
+      "npc_hat",
+      "npc_eyes",
+      "npc_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "NC_THUG_worn_female",
+    "subtype": "collection",
+    "groups": [
+      "NC_THUG_pants_female",
+      "NC_THUG_shirt_female",
+      "NC_THUG_gloves",
+      "NC_THUG_coat",
+      "NC_THUG_shoes",
+      "npc_masks",
+      "npc_hat",
+      "npc_eyes",
+      "npc_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
     "id" : "NC_THUG_pants_male",
     "items":[
       ["jeans", 40],

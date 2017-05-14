@@ -1,6 +1,38 @@
 [
   {
     "type" : "item_group",
+    "id" : "NC_COWBOY_worn_male",
+    "subtype": "collection",
+    "groups": [
+      "NC_COWBOY_pants_male",
+      "NC_COWBOY_shirt_male",
+      "NC_COWBOY_gloves",
+      "NC_COWBOY_coat",
+      "NC_COWBOY_shoes",
+      "npc_masks",
+      "NC_COWBOY_hat",
+      "npc_eyes",
+      "NC_COWBOY_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "NC_COWBOY_worn_female",
+    "subtype": "collection",
+    "groups": [
+      "NC_COWBOY_pants_female",
+      "NC_COWBOY_shirt_female",
+      "NC_COWBOY_gloves",
+      "NC_COWBOY_coat",
+      "NC_COWBOY_shoes",
+      "npc_masks",
+      "NC_COWBOY_hat",
+      "npc_eyes",
+      "NC_COWBOY_extra"
+    ]
+  },
+  {
+    "type" : "item_group",
     "id" : "NC_COWBOY_pants_male",
     "items":[
       ["jeans", 70],

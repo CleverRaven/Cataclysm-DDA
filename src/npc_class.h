@@ -65,9 +65,10 @@ class npc_class
         npc_class_id id;
         bool was_loaded = false;
 
-        Group_tag worn_override;
-        Group_tag carry_override;
-        Group_tag weapon_override;
+        Group_tag worn_male;
+        Group_tag worn_female;
+        Group_tag inventory;
+        std::map<skill_id, Group_tag> weapon_by_skill;
 
         std::map<std::string, int> traits;
 
