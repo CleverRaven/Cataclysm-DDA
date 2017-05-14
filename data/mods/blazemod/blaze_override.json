@@ -159,7 +159,7 @@
     "range": 5,
     "damage_modifier": 80,
     "breaks_into": [ { "item": "flamethrower", "prob": 50 } ],
-    "flags": [ "TURRET", "MANUAL" ]
+    "flags": [ "TURRET", "MANUAL", "USE_TANKS" ]
   },
   {
     "id": "auto_m1918",

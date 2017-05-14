@@ -3662,19 +3662,19 @@ bool game::load( const std::string &world ) {
     return true;
 }
 
-void game::load(std::string worldname, std::string name)
+void game::load(std::string worldname, const save_t &name)
 {
     using namespace std::placeholders;
 
     const std::string worldpath = world_generator->all_worlds[worldname]->world_path + "/";
-    const std::string playerfile = worldpath + name + ".sav";
+    const std::string playerfile = worldpath + name.base_path() + ".sav";
 
     // Now load up the master game data; factions (and more?)
     if( !load_master( worldname ) || factions.empty() ) {
         create_factions();
     }
     u = player();
-    u.name = base64_decode(name);
+    u.name = name.player_name();
     // This should be initialized more globally (in player/Character constructor)
     u.ret_null = item( "null", 0 );
     u.weapon = item("null", 0);
@@ -3682,10 +3682,10 @@ void game::load(std::string worldname, std::string name)
         return;
     }
 
-    read_from_file_optional( worldpath + name + ".weather", std::bind( &game::load_weather, this, _1 ) );
+    read_from_file_optional( worldpath + name.base_path() + ".weather", std::bind( &game::load_weather, this, _1 ) );
     nextweather = int(calendar::turn);
 
-    read_from_file_optional( worldpath + name + ".log", std::bind( &player::load_memorial_file, &u, _1 ) );
+    read_from_file_optional( worldpath + name.base_path() + ".log", std::bind( &player::load_memorial_file, &u, _1 ) );
 
     // Now that the player's worn items are updated, their sight limits need to be
     // recalculated. (This would be cleaner if u.worn were private.)
@@ -3875,7 +3875,7 @@ bool game::save()
              !save_uistate()){
             return false;
         } else {
-            world_generator->active_world->add_save( base64_encode( u.name ) );
+            world_generator->active_world->add_save( save_t::from_player_name( u.name ) );
             return true;
         }
     } catch (std::ios::failure &err) {
@@ -3953,9 +3953,8 @@ void game::delete_world(std::string worldname, bool delete_folder)
 std::vector<std::string> game::list_active_characters()
 {
     std::vector<std::string> saves;
-    std::vector<std::string> worldsaves = world_generator->active_world->world_saves;
-    for( auto &worldsave : worldsaves ) {
-        saves.push_back( base64_decode( worldsave ) );
+    for( auto &worldsave : world_generator->active_world->world_saves ) {
+        saves.push_back(  worldsave.player_name() );
     }
     return saves;
 }
@@ -7819,7 +7818,7 @@ void game::print_all_tile_info( const tripoint &lp, WINDOW *w_look, int column, 
                 print_graffiti_info( lp, w_look, column, line, last_line );
 
                 if ( draw_terrain_indicators) {
-                    if ( creature != nullptr ) {
+                    if ( creature != nullptr && u.sees( *creature ) ) {
                         creature->draw( w_terrain, lp, true );
                     } else {
                         m.drawsq( w_terrain, u, lp, true, true, lp );
@@ -13525,8 +13524,7 @@ void game::quickload()
         return;
     }
 
-    const std::string &save_name = base64_encode(u.name);
-    if( active_world->save_exists( save_name ) ) {
+    if( active_world->save_exists( save_t::from_player_name( u.name ) ) ) {
         if( moves_since_last_save != 0 ) { // See if we need to reload anything
             MAPBUFFER.reset();
             overmap_buffer.clear();
@@ -13535,7 +13533,7 @@ void game::quickload()
             } catch( const std::exception &err ) {
                 debugmsg( "Error: %s", err.what() );
             }
-            load( active_world->world_name, save_name );
+            load( active_world->world_name, save_t::from_player_name( u.name ) );
         }
     } else {
         popup_getkey( _( "No saves for %s yet." ), u.name.c_str() );

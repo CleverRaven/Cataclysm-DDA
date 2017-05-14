@@ -1636,7 +1636,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
         fold_and_print_from( w_description, 0, 0, getmaxx( w_description ),
                              selected, COL_SKILL_USED, rec_disp );
 
-        draw_scrollbar( w, selected, iContentHeight, iLines - iContentHeight,
+        draw_scrollbar( w, selected, iContentHeight, iLines,
                         5, getmaxx(w) - 1, BORDER_COLOR, true );
 
         int first_i, end_i, base_y;

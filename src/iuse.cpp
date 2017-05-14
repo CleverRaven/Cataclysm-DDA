@@ -6107,7 +6107,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
 
         return 0;
 
-    } else {
+    } else if ( !p->is_npc() ) {
 
         enum {
             ei_cancel, ei_photo, ei_music, ei_recipe, ei_monsters, ei_download, ei_decrypt

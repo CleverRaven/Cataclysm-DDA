@@ -650,6 +650,7 @@ bool main_menu::new_character_tab()
             if( templates.empty() ) {
                 mvwprintz( w_open, iMenuOffsetY - 4, iMenuOffsetX + 20 + extra_w / 2,
                            c_red, _( "No templates found!" ) );
+                sfx::play_variant_sound( "menu_error", "default", 100 );
             } else {
                 mvwprintz( w_open, iMenuOffsetY - 2, iMenuOffsetX + 20 + extra_w / 2,
                            c_white, _( "Press 'd' to delete a preset." ) );
@@ -735,6 +736,7 @@ bool main_menu::load_character_tab()
             if( world_generator->all_worldnames.empty() ) {
                 mvwprintz( w_open, iMenuOffsetY - 2, 15 + iMenuOffsetX + extra_w / 2,
                            c_red, _( "No Worlds found!" ) );
+                sfx::play_variant_sound( "menu_error", "default", 100 );
             } else {
                 for( int i = 0; i < ( int )world_generator->all_worldnames.size(); ++i ) {
                     int line = iMenuOffsetY - 2 - i;
@@ -789,8 +791,8 @@ bool main_menu::load_character_tab()
 
             if( MAP_SHARING::isSharing() ) {
                 auto new_end = std::remove_if( savegames.begin(), savegames.end(),
-                []( const std::string & str ) {
-                    return base64_decode( str ) != MAP_SHARING::getUsername();
+                []( const save_t &str ) {
+                    return str.player_name() != MAP_SHARING::getUsername();
                 } );
                 savegames.erase( new_end, savegames.end() );
             }
@@ -798,15 +800,17 @@ bool main_menu::load_character_tab()
                 savegames.clear();
                 mvwprintz( w_open, iMenuOffsetY - 2, 15 + iMenuOffsetX + extra_w / 2,
                            c_red, _( "This world requires the game to be compiled with Lua." ) );
+                sfx::play_variant_sound( "menu_error", "default", 100 );
             } else if( savegames.empty() ) {
                 mvwprintz( w_open, iMenuOffsetY - 2, 19 + 19 + iMenuOffsetX + extra_w / 2,
                            c_red, _( "No save games found!" ) );
+                sfx::play_variant_sound( "menu_error", "default", 100 );
             } else {
                 int line = iMenuOffsetY - 2;
-                for( const std::string &savename : savegames ) {
+                for( const auto &savename : savegames ) {
                     const bool selected = sel3 + line == iMenuOffsetY - 2;
                     mvwprintz( w_open, line--, 19 + 19 + iMenuOffsetX + extra_w / 2,
-                               selected ? h_white : c_white, base64_decode( savename ).c_str() );
+                               selected ? h_white : c_white, savename.player_name().c_str() );
                 }
             }
             wrefresh( w_open );

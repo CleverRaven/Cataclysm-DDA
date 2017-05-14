@@ -1421,7 +1421,7 @@ void advanced_inventory::display()
             werase( minimap );
             werase( mm_border );
             draw_border( head );
-            Messages::display_messages( head, 2, 1, w_width - 1, 4 );
+            Messages::display_messages( head, 2, 1, w_width - 1, head_height - 2 );
             draw_minimap();
             const std::string msg = _( "< [?] show help >" );
             mvwprintz( head, 0,

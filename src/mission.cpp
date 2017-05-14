@@ -459,6 +459,14 @@ std::string mission::name()
     return type->name;
 }
 
+mission_type_id mission::mission_id()
+{
+    if (type == NULL) {
+        return mission_type_id( "NULL" );
+    }
+    return type->id;
+}
+
 void mission::load_info(std::istream &data)
 {
     int type_id, rewtype, reward_id, rew_skill, tmpfollow, item_num, target_npc_id;

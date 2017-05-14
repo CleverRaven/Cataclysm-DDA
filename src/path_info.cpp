@@ -135,7 +135,6 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("rawdir", FILENAMES["datadir"] + "raw/");
     update_pathname("jsondir", FILENAMES["datadir"] + "core/");
     update_pathname("moddir", FILENAMES["datadir"] + "mods/");
-    update_pathname("recycledir", FILENAMES["datadir"] + "recycling/");
     update_pathname("namesdir", FILENAMES["datadir"] + "names/");
     update_pathname("titledir", FILENAMES["datadir"] + "title/");
     update_pathname("motddir", FILENAMES["datadir"] + "motd/");

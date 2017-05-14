@@ -17,11 +17,34 @@
 
 class JsonIn;
 
+class save_t
+{
+    private:
+        std::string name;
+
+        save_t( const std::string &name );
+
+    public:
+        std::string player_name() const;
+        std::string base_path() const;
+
+        static save_t from_player_name( const std::string &name );
+        static save_t from_base_path( const std::string &base_path );
+
+        bool operator==( const save_t &rhs ) const {
+            return name == rhs.name;
+        }
+        bool operator!=( const save_t &rhs ) const {
+            return !operator==( rhs );
+        }
+        save_t &operator=( const save_t & ) = default;
+};
+
 struct WORLD {
     std::string world_path;
     std::string world_name;
     std::unordered_map<std::string, options_manager::cOpt> WORLD_OPTIONS;
-    std::vector<std::string> world_saves;
+    std::vector<save_t> world_saves;
     /**
      * A (possibly empty) list of (idents of) mods that
      * should be loaded for this world.
@@ -30,8 +53,8 @@ struct WORLD {
 
     WORLD();
 
-    bool save_exists( const std::string &name ) const;
-    void add_save( const std::string &name );
+    bool save_exists( const save_t &name ) const;
+    void add_save( const save_t &name );
 
     void load_options( JsonIn &jsin );
     void load_legacy_options( std::istream &fin );
