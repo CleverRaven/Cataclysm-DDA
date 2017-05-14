@@ -4633,7 +4633,6 @@
         "type" : "COMESTIBLE",
         "id" : "chili_pepper",
         "name" : "chili pepper",
-        "name_plural" : "chili peppers",
         "weight" : 114,
         "color" : "red",
         "spoils_in" : 720,
