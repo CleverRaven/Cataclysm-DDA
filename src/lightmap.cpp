@@ -490,7 +490,7 @@ void cast_zlight(
         return;
     }
 
-    float radius = 60.0f - offset_distance;
+    int radius = 60 - offset_distance;
 
     constexpr int min_z = -OVERMAP_DEPTH;
     constexpr int max_z = OVERMAP_HEIGHT;
@@ -505,13 +505,16 @@ void cast_zlight(
     tripoint current(0, 0, 0);
     for( int distance = row; distance <= radius; distance++ ) {
         delta.y = distance;
+        // Calculate once since delta.y is constant here on out.
+        float yhighinv = 1 / (delta.y + .5f);
+        float ylowinv = 1 / (delta.y - .5f);
         bool started_block = false;
         float current_transparency = 0.0f;
 
         // TODO: Precalculate min/max delta.z based on start/end and distance
         for( delta.z = 0; delta.z <= distance; delta.z++ ) {
-            float trailing_edge_major = (delta.z - 0.5f) / (delta.y + 0.5f);
-            float leading_edge_major = (delta.z + 0.5f) / (delta.y - 0.5f);
+            float trailing_edge_major = (delta.z - 0.5f) * yhighinv;
+            float leading_edge_major = (delta.z + 0.5f) * ylowinv;
             current.z = offset.z + delta.x * 00 + delta.y * 00 + delta.z * zz;
             if( current.z > max_z || current.z < min_z ) {
                 continue;
@@ -526,8 +529,8 @@ void cast_zlight(
             for( delta.x = 0; delta.x <= distance; delta.x++ ) {
                 current.x = offset.x + delta.x * xx + delta.y * xy + delta.z * xz;
                 current.y = offset.y + delta.x * yx + delta.y * yy + delta.z * yz;
-                float trailing_edge_minor = (delta.x - 0.5f) / (delta.y + 0.5f);
-                float leading_edge_minor = (delta.x + 0.5f) / (delta.y - 0.5f);
+                float trailing_edge_minor = (delta.x - 0.5f) * yhighinv;
+                float leading_edge_minor = (delta.x + 0.5f) * ylowinv;
 
                 if( !(current.x >= 0 && current.y >= 0 &&
                       current.x < SEEX * MAPSIZE &&
@@ -843,7 +846,7 @@ void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                 const int row, float start, const float end, double cumulative_transparency )
 {
     float newStart = 0.0f;
-    float radius = 60.0f - offsetDistance;
+    int radius = 60 - offsetDistance;
     if( start < end ) {
         return;
     }
@@ -854,13 +857,16 @@ void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
     tripoint delta(0, 0, 0);
     for( int distance = row; distance <= radius; distance++ ) {
         delta.y = -distance;
+        // Calculate once since delta.y is constant here on out.
+        float yhighinv = 1 / (delta.y + .5f);
+        float ylowinv = 1 / (delta.y - .5f);
         bool started_row = false;
         float current_transparency = 0.0;
         for( delta.x = -distance; delta.x <= 0; delta.x++ ) {
             int currentX = offsetX + delta.x * xx + delta.y * xy;
             int currentY = offsetY + delta.x * yx + delta.y * yy;
-            float trailingEdge = (delta.x - 0.5f) / (delta.y + 0.5f);
-            float leadingEdge = (delta.x + 0.5f) / (delta.y - 0.5f);
+            float trailingEdge = (delta.x - 0.5f) * yhighinv;
+            float leadingEdge = (delta.x + 0.5f) * ylowinv;
 
             if( !(currentX >= 0 && currentY >= 0 && currentX < SEEX * MAPSIZE &&
                   currentY < SEEY * MAPSIZE) || start < leadingEdge ) {
