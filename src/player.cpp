@@ -11529,7 +11529,7 @@ std::vector<std::string> player::get_overlay_ids() const
         if( it2 != tileset_mutation_overlay_ordering.end() ) {
             value = it2->second;
         }
-        mutation_sorting.insert( std::pair<int, std::string>( value, mutation ) );
+        mutation_sorting.insert( std::pair<int, std::string>( value, mutation.str() ) );
     }
 
     for( auto &mutorder : mutation_sorting ) {
