@@ -152,6 +152,7 @@
     "copy-from": "flamethrower_simple",
     "type": "GUN",
     "name": "simple flamethrower",
+    "range": 2,
     "extend": {
       "ammo_effects": [ "STREAM" ],
       "flags": [ "FIRE_20" ]
