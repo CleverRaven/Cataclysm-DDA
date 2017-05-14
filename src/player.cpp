@@ -8224,8 +8224,10 @@ bool player::takeoff( const item &it, std::list<item> *res )
             }
             return false;
         }
+        iter->on_takeoff( *this );
         inv.add_item_keep_invlet( it );
     } else {
+        iter->on_takeoff( *this );
         res->push_back( it );
     }
 
@@ -8234,7 +8236,6 @@ bool player::takeoff( const item &it, std::list<item> *res )
                            it.tname().c_str() );
 
     mod_moves( -250 );    // TODO: Make this variable
-    iter->on_takeoff( *this );
     worn.erase( iter );
 
     recalc_sight_limits();
