@@ -1804,6 +1804,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
     static const mongroup_id GROUP_PUBLICWORKERS( "GROUP_PUBLICWORKERS" );
     static const mongroup_id GROUP_DOMESTIC( "GROUP_DOMESTIC" );
+    static const mongroup_id GROUP_MIL_BLOCK( "GROUP_MIL_BLOCK" );
+    static const mongroup_id GROUP_POL_BLOCK( "GROUP_POL_BLOCK" );
     // Big old switch statement with a case for each overmap terrain type.
     // Many of these can be copied from another type, then rotated; for instance,
     //  "house_east" is identical to "house_north", just rotated 90 degrees to
@@ -10569,17 +10571,18 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
         line(&m, t_fence_barbed, SEEX * 2 - 3, 13, SEEX * 2 - 3, 19);
         line(&m, t_fence_barbed, 3, 4, 3, 10);
         line(&m, t_fence_barbed, 1, 13, 1, 19);
-        if (one_in(3)) {  // Chicken delivery
+        if (one_in(3)) { //Default spawn, potentially working vehicle
             m.add_vehicle( vgroup_id( "military_vehicles" ), {12, SEEY * 2 - 5}, 0);
-            m.add_spawn(mon_chickenbot, 1, 12, 12);
-        } else if (one_in(2)) {  // TAAANK
+            place_spawns( GROUP_MIL_BLOCK, 3, 1, 1, 22, 22, 3);
+        } else if (one_in(2)) {
             // The truck's wrecked...with fuel.  Explosive barrel?
             m.add_vehicle( vproto_id( "military_cargo_truck" ), 12, SEEY * 2 - 5, 0, 70, -1);
-            m.add_spawn(mon_tankbot, 1, 12, 12);
+            place_spawns( GROUP_MIL_BLOCK, 3, 1, 1, 22, 22, 3);
         } else {  // Vehicle & turrets
             m.add_vehicle( vgroup_id( "military_vehicles" ), {12, SEEY * 2 - 5}, 0);
             m.add_spawn(mon_turret_bmg, 1, 12, 12);
             m.add_spawn(mon_turret_rifle, 1, 9, 12);
+            place_spawns( GROUP_MIL_BLOCK, 3, 1, 1, 22, 22, 1);
         }
 
         int num_bodies = dice(2, 5);
@@ -10613,6 +10616,7 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
         m.add_vehicle( vproto_id( "policecar" ), 16, SEEY * 2 - 5, 145);
         m.add_spawn(mon_turret, 1, 1, 12);
         m.add_spawn(mon_turret, 1, SEEX * 2 - 1, 12);
+        place_spawns( GROUP_POL_BLOCK, 3, 1, 1, 22, 22, 2);
 
         int num_bodies = dice(1, 6);
         for (int i = 0; i < num_bodies; i++) {
@@ -10624,7 +10628,7 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
             } while (tries < 10 && m.impassable(x, y));
 
             if (tries < 10) { // We found a valid spot!
-                if (one_in(8)) {
+                if (one_in(6)) {
                     m.add_spawn(mon_zombie_cop, 1, x, y);
                 } else {
                     m.place_items("map_extra_police", 100, x, y, x, y, true, 0);
