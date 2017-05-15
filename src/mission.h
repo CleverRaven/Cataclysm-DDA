@@ -261,7 +261,7 @@ private:
 public:
 
         std::string name();
-        mission_type_id mission_id();
+        mission_type_id mission_id() const;
         using JsonSerializer::serialize;
         void serialize(JsonOut &jsout) const override;
         using JsonDeserializer::deserialize;
