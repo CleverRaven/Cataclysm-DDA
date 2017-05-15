@@ -79,6 +79,19 @@
     "conflicts": [ "SUPER_FANCY" ]
   },
   {
+    "id": "FILTHY",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Zombie-dropped clothing giving various penalties if Filthy mod is active.",
+    "info": "This piece of clothing is <bad>filthy</bad>."
+  },
+  {
+    "id": "FLASH_PROTECTION",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Used for eyes protection from flashbang."
+  },
+  {
     "id": "FLOTATION",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -90,6 +103,12 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This gear is <bad>fragile</bad> and <info>won't protect you for long</info>.",
     "conflicts": [ "STURDY" ]
+  },
+  {
+    "id": "GAS_PROOF",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear <good>completely protects</good> you from <info>any gas</info>."
   },
   {
     "id": "HOOD",
@@ -259,7 +278,8 @@
     "id": "WATCH",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Acts as a watch and allows the player to see actual time."
+    "description": "Acts as a watch and allows the player to see actual time.",
+    "info": "This gear allows to see <info>actual time</info>."
   },
   {
     "id": "WATERPROOF",

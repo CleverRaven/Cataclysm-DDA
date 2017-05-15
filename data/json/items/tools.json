@@ -3936,7 +3936,7 @@
     "color": "dark_gray",
     "gunmod_data": {
       "location": "underbarrel",
-      "mod_targets": [ "shotgun", "rifle" ],
+      "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
       "dispersion_modifier": 10,
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
       "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]
@@ -5148,7 +5148,7 @@
       "menu_text": "Turn off",
       "type": "transform"
     },
-    "flags": [ "LIGHT_10", "TRADER_AVOID" ]
+    "flags": [ "LIGHT_10", "TRADER_AVOID", "FIRE" ]
   },
   {
     "id": "oxygen_tank",

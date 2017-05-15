@@ -1,5 +1,19 @@
 [
   {
+    "result": "bfeedfuel",
+    "type": "recipe",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_FUEL",
+    "skill_used": "cooking",
+    "difficulty": 6,
+    "time": 1000,
+    "autolearn": true,
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "bfeed", 1 ] ]
+    ]
+  },
+  {
     "result": "bfeed",
     "type": "recipe",
     "category": "CC_OTHER",

@@ -47,6 +47,9 @@ auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
 const efftype_id effect_deaf( "deaf" );
 const efftype_id effect_sleep( "sleep" );
 
+static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
+static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
+
 struct sound_event {
     int volume;
     std::string description;
@@ -243,7 +246,7 @@ void sounds::process_sound_markers( player *p )
         if( is_deaf ) {
             if( is_sound_deafening && !p->is_immune_effect( effect_deaf ) ) {
                 p->add_effect( effect_deaf, std::min( 40, ( felt_volume - 130 ) / 8 ) );
-                if( !p->has_trait( "DEADENED" ) ) {
+                if( !p->has_trait( trait_id( "DEADENED" ) ) ) {
                     p->add_msg_if_player( m_bad, _( "Your eardrums suddenly ache!" ) );
                     if( p->get_pain() < 10 ) {
                         p->mod_pain( rng( 0, 2 ) );
@@ -278,10 +281,10 @@ void sounds::process_sound_markers( player *p )
 
         // See if we need to wake someone up
         if( p->has_effect( effect_sleep ) ) {
-            if( ( !( p->has_trait( "HEAVYSLEEPER" ) ||
-                     p->has_trait( "HEAVYSLEEPER2" ) ) && dice( 2, 15 ) < heard_volume ) ||
-                ( p->has_trait( "HEAVYSLEEPER" ) && dice( 3, 15 ) < heard_volume ) ||
-                ( p->has_trait( "HEAVYSLEEPER2" ) && dice( 6, 15 ) < heard_volume ) ) {
+            if( ( !( p->has_trait( trait_HEAVYSLEEPER ) ||
+                     p->has_trait( trait_HEAVYSLEEPER2 ) ) && dice( 2, 15 ) < heard_volume ) ||
+                ( p->has_trait( trait_HEAVYSLEEPER ) && dice( 3, 15 ) < heard_volume ) ||
+                ( p->has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < heard_volume ) ) {
                 //Not kidding about sleep-thru-firefight
                 p->wake_up();
                 add_msg( m_warning, _( "Something is making noise." ) );

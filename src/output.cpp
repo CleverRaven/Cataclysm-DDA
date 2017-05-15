@@ -1075,7 +1075,7 @@ input_event draw_item_info( WINDOW *win, const std::string sItemName, const std:
     while( true ) {
         int iLines = 0;
         if( !buffer.str().empty() ) {
-            const auto vFolded = foldstring( buffer.str(), width );
+            const auto vFolded = foldstring( buffer.str(), width - 1 );
             iLines = vFolded.size();
 
             if( selected < 0 ) {
@@ -1088,7 +1088,7 @@ input_event draw_item_info( WINDOW *win, const std::string sItemName, const std:
 
             fold_and_print_from( win, line_num, b, width - 1, selected, c_ltgray, buffer.str() );
 
-            draw_scrollbar( win, selected, height, iLines - height, ( without_border && use_full_win ? 0 : 1 ),
+            draw_scrollbar( win, selected, height, iLines, ( without_border && use_full_win ? 0 : 1 ),
                             scrollbar_left ? 0 : getmaxx( win ) - 1, BORDER_COLOR, true );
         }
 
@@ -1342,20 +1342,21 @@ void draw_subtab( WINDOW *w, int iOffsetX, std::string sText, bool bSelected, bo
 /**
  * Draw a scrollbar
  * @param window Pointer of window to draw on
- * @param iCurrentLine The currently selected line out of the iNumEntries lines
+ * @param iCurrentLine The starting line or currently selected line out of the iNumLines lines
  * @param iContentHeight Height of the scrollbar
- * @param iNumEntries Total number of lines to scroll through
+ * @param iNumLines Total number of lines
  * @param iOffsetY Y drawing offset
  * @param iOffsetX X drawing offset
  * @param bar_color Default line color
- * @param bTextScroll If true, will draw the scrollbar even if iContentHeight >= iNumEntries.
- * Used for scrolling multiline wrapped text. If false, used for scrolling one line selections.
+ * @param bDoNotScrollToEnd True if the last (iContentHeight-1) lines cannot be a start position or be selected
+ *   If false, iCurrentLine can be from 0 to iNumLines - 1.
+ *   If true, iCurrentLine can be at most iNumLines - iContentHeight.
  **/
 void draw_scrollbar( WINDOW *window, const int iCurrentLine, const int iContentHeight,
-                     const int iNumEntries, const int iOffsetY, const int iOffsetX,
-                     nc_color bar_color, const bool bTextScroll )
+                     const int iNumLines, const int iOffsetY, const int iOffsetX,
+                     nc_color bar_color, const bool bDoNotScrollToEnd )
 {
-    if( !bTextScroll && iContentHeight >= iNumEntries ) {
+    if( iContentHeight >= iNumLines ) {
         //scrollbar is not required
         bar_color = BORDER_COLOR;
     }
@@ -1365,30 +1366,23 @@ void draw_scrollbar( WINDOW *window, const int iCurrentLine, const int iContentH
         mvwputch( window, i, iOffsetX, bar_color, LINE_XOXO );
     }
 
-    if( !bTextScroll && iContentHeight >= iNumEntries ) {
+    if( iContentHeight >= iNumLines ) {
         return;
     }
 
-    if( iNumEntries > 0 ) {
+    if( iNumLines > 0 ) {
         mvwputch( window, iOffsetY, iOffsetX, c_ltgreen, '^' );
         mvwputch( window, iOffsetY + iContentHeight - 1, iOffsetX, c_ltgreen, 'v' );
 
-        int iSBHeight = ( ( iContentHeight - 2 ) * ( iContentHeight - 2 ) ) / iNumEntries;
+        int iSBHeight = std::max( 2, ( ( iContentHeight - 2 ) * iContentHeight ) / iNumLines );
+        int iScrollableLines = bDoNotScrollToEnd ? iNumLines - iContentHeight + 1 : iNumLines;
 
-        if( bTextScroll && iNumEntries < iContentHeight ) {
-            iSBHeight = iContentHeight - iNumEntries - 2;
-        }
-
-        if( iSBHeight < 2 ) {
-            iSBHeight = 2;
-        }
-
-        int iStartY = ( iCurrentLine * ( iContentHeight - 3 - iSBHeight ) ) / iNumEntries;
+        int iStartY;
         if( iCurrentLine == 0 ) {
             iStartY = -1;
-        } else if( bTextScroll && iCurrentLine == iNumEntries ) {
-            iStartY = iContentHeight - 3 - iSBHeight;
-        } else if( !bTextScroll && iCurrentLine == iNumEntries - 1 ) {
+        } else if( iScrollableLines > 2 ) {
+            iStartY = ( ( iContentHeight - 3 - iSBHeight ) * ( iCurrentLine - 1 ) ) / ( iScrollableLines - 2 );
+        } else {
             iStartY = iContentHeight - 3 - iSBHeight;
         }
 
@@ -1824,7 +1818,7 @@ void display_table( WINDOW *w, const std::string &title, int columns,
             const int y = ( i / columns ) + 2;
             fold_and_print_from( w, y, x, col_width, 0, c_white, data[i + offset * columns] );
         }
-        draw_scrollbar( w, offset, rows, data.size() / 3, 2, 0 );
+        draw_scrollbar( w, offset, rows, ( data.size() + columns - 1 ) / columns, 2, 0 );
         wrefresh( w );
         // TODO: use input context
         int ch = inp_mngr.get_input_event().get_first_input();

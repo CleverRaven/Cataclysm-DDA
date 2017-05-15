@@ -52,6 +52,21 @@ const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_asthma( "asthma" );
 
+static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
+static const trait_id trait_MASOCHIST( "MASOCHIST" );
+static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_PACIFIST( "PACIFIST" );
+static const trait_id trait_PRED1( "PRED1" );
+static const trait_id trait_PRED2( "PRED2" );
+static const trait_id trait_PRED3( "PRED3" );
+static const trait_id trait_PRED4( "PRED4" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
+static const trait_id trait_SELFAWARE( "SELFAWARE" );
+static const trait_id trait_TOLERANCE( "TOLERANCE" );
+
 iuse_transform::~iuse_transform()
 {
 }
@@ -538,9 +553,9 @@ long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
     // Apply the various effects.
     for( auto eff : effects ) {
         int dur = eff.duration;
-        if (p->has_trait("TOLERANCE")) {
+        if (p->has_trait( trait_TOLERANCE )) {
             dur *= .8;
-        } else if (p->has_trait("LIGHTWEIGHT")) {
+        } else if (p->has_trait( trait_LIGHTWEIGHT )) {
             dur *= 1.2;
         }
         p->add_effect( eff.id, dur, eff.bp, eff.permanent );
@@ -1434,7 +1449,7 @@ bool cauterize_actor::cauterize_effect( player *p, item *it, bool force )
     hp_part hpart = dummy.use_healing_item( *p, *p, *it, force );
     if( hpart != num_hp_parts ) {
         p->add_msg_if_player(m_neutral, _("You cauterize yourself."));
-        if (!(p->has_trait("NOPAIN"))) {
+        if (!(p->has_trait( trait_NOPAIN ))) {
             p->mod_pain(15);
             p->add_msg_if_player(m_bad, _("It hurts like hell!"));
         } else {
@@ -1472,7 +1487,7 @@ long cauterize_actor::use( player *p, item *it, bool t, const tripoint& ) const
     } else if( has_disease ) {
         did_cauterize = cauterize_effect( p, it, !has_disease );
     } else {
-        if( ( p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE") ) &&
+        if( ( p->has_trait( trait_MASOCHIST ) || p->has_trait( trait_MASOCHIST_MED ) || p->has_trait( trait_CENOBITE ) ) &&
             query_yn(_("Cauterize yourself for fun?"))) {
             did_cauterize = cauterize_effect( p, it, true );
         } else {
@@ -1503,7 +1518,7 @@ bool cauterize_actor::can_use( const player *p, const item *it, bool, const trip
         return false;
     } else if( p->has_effect( effect_bite ) || p->has_effect( effect_bleed ) ) {
         return true;
-    } else if( p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE") ) {
+    } else if( p->has_trait( trait_MASOCHIST ) || p->has_trait( trait_MASOCHIST_MED ) || p->has_trait( trait_CENOBITE ) ) {
         return true;
     }
 
@@ -1545,11 +1560,11 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
     }
 
     int tolerance_level = 9;
-    if( p->has_trait("PSYCHOPATH") || p->has_trait("SAPIOVORE") ) {
+    if( p->has_trait( trait_PSYCHOPATH ) || p->has_trait( trait_SAPIOVORE ) ) {
         tolerance_level = 0;
-    } else if( p->has_trait("PRED4") ) {
+    } else if( p->has_trait( trait_PRED4 ) ) {
         tolerance_level = 5;
-    } else if( p->has_trait("PRED3") ) {
+    } else if( p->has_trait( trait_PRED3 ) ) {
         tolerance_level = 7;
     }
 
@@ -1590,12 +1605,12 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
         int duration = 300 * (5.0 / (float)p->get_skill_level( skill_survival ));
         int decayDelay = 30 * (5.0 / (float)p->get_skill_level( skill_survival ));
 
-        if (p->has_trait("PACIFIST")) {
+        if (p->has_trait( trait_PACIFIST )) {
             moraleMalus *= 5;
             maxMalus *= 3;
-        } else if (p->has_trait("PRED1")) {
+        } else if (p->has_trait( trait_PRED1 )) {
             moraleMalus /= 4;
-        } else if (p->has_trait("PRED2")) {
+        } else if (p->has_trait( trait_PRED2 )) {
             moraleMalus /= 5;
         }
 
@@ -2864,7 +2879,7 @@ hp_part pick_part_to_heal(
     const bool bite = bite_chance > 0.0f;
     const bool infect = infect_chance > 0.0f;
     const bool precise = &healer == &patient ?
-        patient.has_trait( "SELFAWARE" ) :
+        patient.has_trait( trait_SELFAWARE ) :
         /** @EFFECT_PER slightly increases precision when using first aid on someone else */
 
         /** @EFFECT_FIRSTAID increases precision when using first aid on someone else */

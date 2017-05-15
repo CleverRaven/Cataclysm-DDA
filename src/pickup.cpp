@@ -1115,12 +1115,18 @@ void remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int cargo_pa
 void show_pickup_message( const PickupMap &mapPickup )
 {
     for( auto &entry : mapPickup ) {
+        std::string name;
+        if( entry.second.first.count_by_charges() ) {
+            name = entry.second.first.tname( entry.second.second );
+        } else {
+            name = entry.second.first.display_name( entry.second.second );
+        }
         if( entry.second.first.invlet != 0 ) {
             add_msg( _( "You pick up: %d %s [%c]" ), entry.second.second,
-                     entry.second.first.display_name( entry.second.second ).c_str(), entry.second.first.invlet );
+                     name.c_str(), entry.second.first.invlet );
         } else {
             add_msg( _( "You pick up: %d %s" ), entry.second.second,
-                     entry.second.first.display_name( entry.second.second ).c_str() );
+                     name.c_str() );
         }
     }
 }

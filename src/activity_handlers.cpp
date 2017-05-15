@@ -1117,7 +1117,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
         // Betcha wish you'd opted for the J-Hammer ;P
         p->mod_hunger( 15 );
         p->mod_thirst( 15 );
-        if( p->has_trait( "STOCKY_TROGLO" ) ) {
+        if( p->has_trait( trait_id( "STOCKY_TROGLO" ) ) ) {
             p->mod_fatigue( 20 ); // Yep, dwarves can dig longer before tiring
         } else {
             p->mod_fatigue( 30 );

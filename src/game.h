@@ -96,6 +96,7 @@ class salvage_actor;
 class input_context;
 class map_item_stack;
 struct WORLD;
+class save_t;
 typedef WORLD *WORLDPTR;
 class overmap;
 struct event;
@@ -722,7 +723,7 @@ class game
 
     private:
         // Game-start procedures
-        void load( std::string worldname, std::string name ); // Load a player-specific save file
+        void load( std::string worldname, const save_t &name ); // Load a player-specific save file
         bool load_master(std::string worldname); // Load the master data file, with factions &c
         void load_weather(std::istream &fin);
         bool start_game(std::string worldname); // Starts a new game in a world
