@@ -7890,7 +7890,7 @@ int iuse::saw_barrel( player *p, item *, bool t, const tripoint& )
         const auto gunmods = e.gunmods();
         // cannot saw down barrel of gun that already has a barrel mod
         return std::none_of( gunmods.begin(), gunmods.end(), []( const item *mod ) {
-            return mod->type->gunmod->location == "barrel";
+            return mod->type->gunmod->location == gunmod_location( "barrel" );
         });
     };
 

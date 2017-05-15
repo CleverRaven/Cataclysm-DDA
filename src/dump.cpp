@@ -151,7 +151,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
                 std::transform( e->gun->valid_mod_locations.begin(),
                                 e->gun->valid_mod_locations.end(),
                                 std::inserter( locations, locations.begin() ),
-                                []( const std::pair<std::string, int>& q ) { return q.first; } );
+                                []( const std::pair<gunmod_location, int>& q ) { return q.first.name(); } );
             }
         }
         for( const auto &e : locations ) {

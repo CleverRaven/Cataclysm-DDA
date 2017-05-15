@@ -810,7 +810,7 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->gunmod ) {
-            if( type->gunmod->location.empty() ) {
+            if( type->gunmod->location.str().empty() ) {
                     msg << "gunmod does not specify location" << "\n";
             }
 
