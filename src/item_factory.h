@@ -25,6 +25,7 @@ class Item_group;
 class item;
 class item_category;
 class Item_factory;
+struct mtype;
 
 extern std::unique_ptr<Item_factory> item_controller;
 
@@ -170,6 +171,8 @@ class Item_factory
 
         /** called after all JSON has been read and performs any necessary cleanup tasks */
         void finalize();
+        /** Does necessary finalization for a runtime type. */
+        void finalize_runtime_type( itype &obj );
 
         /**
          * Load item category definition from json
@@ -211,9 +214,7 @@ class Item_factory
          * If the item type overrides an existing type, the existing type is deleted first.
          * @param def The new item type, must not be null.
          */
-        void add_item_type( const itype &def ) {
-            m_runtimes[ def.id ].reset( new itype( def ) );
-        }
+        void add_item_type( const itype &def );
 
         /**
          * Check if an iuse is known to the Item_factory.
@@ -236,6 +237,11 @@ class Item_factory
          */
         Item_tag create_artifact_id() const;
 
+        /**
+         * Generates and adds a corpse type for a monster type.
+         */
+        Item_tag generate_corpse_type( const mtype &mt );
+
         std::list<itype_id> subtype_replacement( const itype_id & ) const;
 
     private:
@@ -248,8 +254,21 @@ class Item_factory
 
         mutable std::map<itype_id, std::unique_ptr<itype>> m_runtimes;
 
+        // Tools that have at least one repair action
+        std::set<itype_id> repair_tools;
+
+        // Tools that can be used to repair complex firearms
+        std::set<itype_id> gun_tools;
+
         typedef std::map<Group_tag, Item_spawn_data *> GroupMap;
         GroupMap m_template_groups;
+
+        /** Finalizes the item, except for the repair-related parts. */
+        void finalize_pre_repair( itype &obj );
+        /** Registers the item as having repair actions (if it has any). */
+        void register_cached_uses( const itype &obj );
+        /** Notes that the item is repairable. */
+        void finalize_post_repair( itype &obj );
 
         /** Checks that ammo is listed in ammo_name().
          * At least one instance of this ammo type should be defined.

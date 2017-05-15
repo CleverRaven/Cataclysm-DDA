@@ -8,6 +8,9 @@
 #include <algorithm>
 
 const species_id MOLLUSK( "MOLLUSK" );
+const species_id FISH( "FISH" );
+const species_id BIRD( "BIRD" );
+const species_id INSECT( "INSECT" );
 
 mtype::mtype()
 {
@@ -202,6 +205,64 @@ int mtype::get_meat_chunks_count() const
             return 16;
     }
     return 0;
+}
+
+itype_id mtype::get_corpse_itype() const
+{
+    return corpse_type;
+}
+
+int mtype::intact_corpse_weight() const
+{
+    int ret = 0;
+    // @todo Get rid of this hardcoded crap, use material density * volume instead
+    switch( size ) {
+        case MS_TINY:
+            ret =   1000;
+            break;
+        case MS_SMALL:
+            ret =  40750;
+            break;
+        case MS_MEDIUM:
+            ret =  81500;
+            break;
+        case MS_LARGE:
+            ret = 120000;
+            break;
+        case MS_HUGE:
+            ret = 200000;
+            break;
+    }
+    if( made_of( material_id( "veggy" ) ) ) {
+        ret /= 3;
+    } else if( in_species( FISH ) || in_species( BIRD ) || in_species( INSECT ) ||
+               made_of( material_id( "bone" ) ) ) {
+        ret /= 8;
+    } else if( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) ) ||
+               made_of( material_id( "stone" ) ) ) {
+        ret *= 7;
+    }
+
+    return ret;
+}
+
+units::volume mtype::intact_corpse_volume() const
+{
+    switch( size ) {
+        case MS_TINY:
+            return    750_ml;
+        case MS_SMALL:
+            return  30000_ml;
+        case MS_MEDIUM:
+            return  62500_ml;
+        case MS_LARGE:
+            return  92500_ml;
+        case MS_HUGE:
+            return 875000_ml;
+    }
+
+    // Shouldn't ever happen
+    return -1_ml;
 }
 
 mtype_special_attack::~mtype_special_attack()
