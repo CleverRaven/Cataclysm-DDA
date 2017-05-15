@@ -1318,8 +1318,8 @@ void player::hardcoded_effects( effect &it )
         }
     } else if( id == effect_alarm_clock ) {
         if( has_effect( effect_sleep ) ) {
-            if( dur == 1 ) {
-                if( has_bionic( "bio_watch" ) ) {
+            if( has_bionic( "bio_watch" ) ) {        
+                if( dur == 1 ) {
                     // Normal alarm is volume 12, tested against (2/3/6)d15 for
                     // normal/HEAVYSLEEPER/HEAVYSLEEPER2.
                     //
@@ -1336,14 +1336,15 @@ void player::hardcoded_effects( effect &it )
                         // 10 minute cyber-snooze
                         it.mod_duration( 100 );
                     }
-                } else {
+                }
+            } else {
+                if( dur <= 1 ) {
+                    add_msg_if_player( m_warning, _( "Your alarm clock rings, but you do not hear it." ) );
+                    // 10 minute automatic snooze
+                    it.mod_duration( 100 );
+                } else if( dur <= 2 ) {
                     sounds::sound( pos(), 16, _( "beep-beep-beep!" ) );
-                    if( !can_hear( pos(), 16 ) ) {
-                        // 10 minute automatic snooze
-                        it.mod_duration( 100 );
-                    } else {
-                        add_msg_if_player( _( "You turn off your alarm-clock." ) );
-                    }
+                    // let the sound code handle the wake-up part
                 }
             }
         }

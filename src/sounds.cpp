@@ -46,6 +46,7 @@ auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
 
 const efftype_id effect_deaf( "deaf" );
 const efftype_id effect_sleep( "sleep" );
+const efftype_id effect_alarm_clock( "alarm_clock" );
 
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
@@ -318,6 +319,13 @@ void sounds::process_sound_markers( player *p )
                 std::string direction = direction_name( direction_from( p->pos(), pos ) );
                 add_msg( m_warning, _( "From the %s you hear %s" ), direction.c_str(), description.c_str() );
             }
+        }
+        
+        if( !p->has_effect( effect_sleep ) && p->has_effect( effect_alarm_clock ) && !p->has_bionic( "bio_watch" ) ) {
+            if ( p->get_effect( effect_alarm_clock ).get_duration() < 2 ) {
+                p->add_msg_if_player( _( "You turn off your alarm-clock." ) );
+            }
+            p->get_effect( effect_alarm_clock ).set_duration( 0 );
         }
 
         const std::string &sfx_id = sound.id;
