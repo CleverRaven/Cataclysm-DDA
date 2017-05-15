@@ -111,6 +111,7 @@ const efftype_id effect_shrieking( "shrieking" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tied( "tied" );
 const efftype_id effect_webbed( "webbed" );
+const efftype_id effect_zed_buff( "zed_buff" );
 
 static const trait_id trait_ANIMALDISCORD( "ANIMALDISCORD" );
 static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
@@ -212,19 +213,6 @@ void monster::poly( const mtype_id& id )
 
 bool monster::can_upgrade() {
     return upgrades && get_world_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0.0;
-}
-
-// For master special attack.
-void monster::hasten_upgrade() {
-    if (!can_upgrade() || upgrade_time < 1) {
-        return;
-    }
-
-    const int scaled_half_life = type->half_life * get_world_option<float>( "MONSTER_UPGRADE_FACTOR" );
-    upgrade_time -= rng(1, scaled_half_life);
-    if (upgrade_time < 0) {
-        upgrade_time = 0;
-    }
 }
 
 // This will disable upgrades in case max iters have been reached.
@@ -442,6 +430,8 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
         wprintz(w, h_white, _("Tied"));
     } else if (has_effect( effect_shrieking)) {
         wprintz(w, h_white, _("Shrieking"));
+    } else if (has_effect( effect_zed_buff )) {
+        wprintz( w, h_red, _("Enhanced") );
     }
 
     const auto hp_desc = hp_description( hp, type->hp );
@@ -463,6 +453,12 @@ std::string monster::extended_description() const
     ret += "\n--\n";
     auto hp_bar = hp_description( hp, type->hp );
     ret += get_tag_from_color( hp_bar.second ) + hp_bar.first;
+    if( has_effect( effect_zed_buff ) ) {
+        ret += "\n--\n";
+        // @todo Jsonize monster effect descriptions
+        ret += get_tag_from_color( c_red ) +
+               _( "It is moving unusually quickly.  Small wisps of black mist float from its eyes, nose and mouth." );
+    }
     return replace_colors( ret );
 }
 
@@ -990,6 +986,14 @@ void monster::melee_attack( Creature &target, bool, const matec_id&, int hitspre
     damage_instance damage = !is_hallucination() ? type->melee_damage : damage_instance();
     if( !is_hallucination() && type->melee_dice > 0 ) {
         damage.add_damage( DT_BASH, dice( type->melee_dice, type->melee_sides ) );
+    }
+    if( has_effect( effect_zed_buff ) ) {
+        // Minor armor piercing
+        for( damage_unit &du : damage.damage_units ) {
+            // @todo Jsonize
+            du.res_pen += 2;
+            du.res_mult *= 0.8f;
+        }
     }
 
     dealt_damage_instance dealt_dam;
@@ -1832,6 +1836,10 @@ bool monster::make_fungus()
         !made_of( material_id( "veggy" ) ) && !made_of( material_id( "iflesh" ) ) &&
         !made_of( material_id( "bone" ) ) ) {
         // No fungalizing robots or weird stuff (mi-gos are technically fungi, blobs are goo)
+        return true;
+    }
+    if( has_effect( effect_zed_buff ) ) {
+        // Fungicidal zed master powers!
         return true;
     }
     if( tid == mon_ant || tid == mon_ant_soldier || tid == mon_ant_queen ) {

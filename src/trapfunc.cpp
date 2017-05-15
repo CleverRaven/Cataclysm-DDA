@@ -27,6 +27,7 @@ const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
 const efftype_id effect_slimed( "slimed" );
 const efftype_id effect_tetanus( "tetanus" );
+const efftype_id effect_zed_buff( "zed_buff" );
 
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
@@ -599,15 +600,17 @@ void trapfunc::goo( Creature *c, const tripoint &p )
             n->add_env_effect( effect_slimed, bp_foot_r, 6, 20 );
             if( one_in( 3 ) ) {
                 n->add_msg_if_player( m_bad, _( "The acidic goo eats away at your feet." ) );
-                n->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 5 ) );
-                n->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 5 ) );
+                n->deal_damage( nullptr, bp_foot_l, damage_instance( DT_ACID, 5 ) );
+                n->deal_damage( nullptr, bp_foot_r, damage_instance( DT_ACID, 5 ) );
                 n->check_dead_state();
             }
         } else if( z != nullptr ) {
             if( z->type->id == mon_blob ) {
                 z->set_speed_base( z->get_speed_base() + 15 );
                 z->set_hp( z->get_speed() );
-            } else {
+            } else if( z->made_of( material_id( "flesh" ) ) &&
+                       z->get_hp() < 100 &&
+                       !z->has_effect( effect_zed_buff ) ) {
                 z->poly( mon_blob );
                 z->set_speed_base( z->get_speed_base() - 15 );
                 z->set_hp( z->get_speed() );

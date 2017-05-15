@@ -105,6 +105,7 @@ const efftype_id effect_slimed( "slimed" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_targeted( "targeted" );
 const efftype_id effect_teleglow( "teleglow" );
+const efftype_id effect_zed_buff( "zed_buff" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
@@ -2008,9 +2009,24 @@ static void poly_keep_speed( monster &mon, const mtype_id& id )
 
 static bool blobify( monster &blob, monster &target )
 {
+    bool immune = target.get_size() >= MS_HUGE ||
+                  target.has_effect( effect_zed_buff ) ||
+                  rng( 0, blob.get_hp() ) <= rng( target.get_hp() / 2, target.get_hp() ) ||
+                  ( !target.made_of( material_id( "flesh" ) ) &&
+                    !target.made_of( material_id( "veggy" ) ) &&
+                    !target.made_of( material_id( "iflesh" ) ) );
+
     if( g->u.sees( target ) ) {
-        add_msg( m_warning, _("%s is engulfed by %s!"),
-            target.disp_name().c_str(), blob.disp_name().c_str() );
+        if( immune ) {
+            add_msg( m_warning, _("%1$s tries to engulf %2$s, but fails!"),
+                     blob.disp_name().c_str(), target.disp_name().c_str() );
+        } else {
+            add_msg( m_warning, _("%1$s is engulfed by %2$s!"),
+                     target.disp_name().c_str(), blob.disp_name().c_str() );
+        }
+    }
+    if( immune ) {
+        return false;
     }
 
     switch( target.get_size() ) {
@@ -2100,10 +2116,7 @@ bool mattack::formblob(monster *z)
             } else if( othermon.type->id == mon_blob && othermon.get_speed_base() >= 80 ) {
                 poly_keep_speed( othermon, mon_blob_large );
             }
-        } else if( (othermon.made_of( material_id( "flesh" ) ) ||
-                    othermon.made_of( material_id( "veggy" ) ) ||
-                    othermon.made_of( material_id( "iflesh" ) ) ) &&
-                   rng( 0, z->get_hp() ) > rng( othermon.get_hp() / 2, othermon.get_hp() ) ) {
+        } else {
             didit = blobify( *z, othermon );
         }
     }
@@ -3406,57 +3419,63 @@ bool mattack::generator(monster *z)
     return true;
 }
 
-bool mattack::upgrade(monster *z)
+bool mattack::buff_zed( monster *z )
 {
-    std::vector<int> targets;
+    std::vector<monster *> all_targets;
     for (size_t i = 0; i < g->num_zombies(); i++) {
-        monster &zed = g->zombie(i);
-        // Check this first because it is a relatively cheap check
-        if( zed.can_upgrade()) {
-            // Then do the more expensive ones
-            if ( z->attitude_to( zed ) != Creature::Attitude::A_HOSTILE &&
-                 within_target_range(z, &zed, 10) ) {
-                targets.push_back(i);
-            }
+        monster &zed = g->zombie( i );
+        // Can only buff zeds who are non-hostile, within 10 tiles,
+        // who aren't buffed much and aren't us
+        // Two masters buffing each other can happen, but they don't hasten cooldowns
+        if( zed.type->in_species( ZOMBIE ) &&
+            &zed != z &&
+            z->attitude_to( zed ) != Creature::Attitude::A_HOSTILE &&
+            within_target_range( z, &zed, 10 ) &&
+            zed.get_effect_dur( effect_zed_buff ) < 10 ) {
+            all_targets.push_back( &zed );
         }
     }
-    if (targets.empty()) {
-        // Nobody to upgrade, get MAD!
+    if( all_targets.empty() ) {
+        // Nobody to buff, get MAD!
         z->anger = 100;
         return false;
     } else {
-        // We've got zombies to upgrade now, calm down again
+        // We've got zombies to buff now, calm down again
         z->anger = 5;
     }
 
-    z->moves -= z->type->speed; // Takes one turn
+    // Takes one turn
+    z->moves -= z->type->speed;
 
-    monster *target = &( g->zombie( random_entry( targets ) ) );
+    monster &target = *random_entry( all_targets );
 
-    std::string old_name = target->name();
-    const auto could_see = g->u.sees( *target );
-    target->hasten_upgrade();
-    target->try_upgrade(false);
-    const auto can_see = g->u.sees( *target );
-    if (g->u.sees( *z )) {
-        if (could_see) {
-            //~ %1$s is the name of the zombie upgrading the other, %2$s is the zombie being upgraded.
-            add_msg(m_warning, _("A black mist floats from the %1$s around the %2$s."),
-                     z->name().c_str(), old_name.c_str());
-        } else {
-            add_msg(m_warning, _("A black mist floats from the %s."), z->name().c_str());
-        }
-    }
-    if (target->name() != old_name) {
-        if( could_see && can_see ) {
-            //~ %1$s is the pre-upgrade monster, %2$s is the post-upgrade monster.
-            add_msg(m_warning, _("The %1$s becomes a %2$s!"), old_name.c_str(),
-                     target->name().c_str());
-        } else if( could_see ) {
-            add_msg( m_warning, _( "The %s vanishes!" ), old_name.c_str() );
-        } else if( can_see ) {
-            add_msg( m_warning, _( "A %s appears!"), target->name().c_str() );
-        }
+    // Duration is higher for lower "power" zombies
+    // Power mass*velocity, so "power" is maxhp*speed
+    // A 100 hp, 100 speed zed should gain half of the max duration
+    // Doubling hp halves duration, halving hp doubles duration
+    float hp_factor = 100.0f / target.get_hp_max();
+    // Speed is twice as important - +50 speed halves duration, -50 doubles
+    float speed_factor = 100.0f / std::max( 0.001f, ( 100.0f + 2 * ( target.get_speed() - 100 ) ) );
+    // Sample durations:
+    // Zombie:      100 * 1.42 * 1.66 = 200 (cap)
+    // Zdog:        100 * 2.77 * 0.95 = 200 (cap)
+    // Hunter:      100 * 1.11 * 0.83 = 92
+    // Predator:    100 * 1.11 * 0.55 = 61
+    // Hulk:        100 * 0.20 * 0.62 = 12
+    int dur = 100 * hp_factor * speed_factor;
+    target.add_effect( effect_zed_buff, dur );
+    add_msg( m_debug, "%s buffed for %d turns", target.name().c_str(), dur );
+
+    const bool sees_z = g->u.sees( *z );
+    const bool sees_target = g->u.sees( target );
+    if( sees_z && sees_target ) {
+        //~ %1$s is the name of the zombie buffing the other, %2$s is the zombie being buffed.
+        add_msg( m_warning, _("A black mist floats from the %1$s around the %2$s."),
+                 z->name().c_str(), target.name().c_str() );
+    } else if( sees_z ) {
+        add_msg( m_warning, _("A black mist floats from the %s."), z->name().c_str() );
+    } else if( sees_target ) {
+        add_msg( m_warning, _("A black mist floats around the %s."), target.name().c_str() );
     }
 
     return true;

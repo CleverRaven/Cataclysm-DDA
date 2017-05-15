@@ -136,6 +136,7 @@ const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
+const efftype_id effect_zed_buff( "zed_buff" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ALCMET( "ALCMET" );
@@ -3353,14 +3354,17 @@ int iuse::can_goo(player *p, item *it, bool, const tripoint& )
     int mondex = g->mon_at(goop);
     if (mondex != -1) {
         auto &critter = g->zombie( mondex );
-        if (g->u.sees(goop)) {
-            add_msg(_("Black goo emerges from the canister and envelopes a %s!"),
-                    critter.name().c_str());
+        if( critter.made_of( material_id( "flesh" ) ) &&
+            critter.get_hp() < 100 &&
+            !critter.has_effect( effect_zed_buff ) ) {
+            if( g->u.sees( goop ) ) {
+                add_msg( _("Black goo emerges from the canister and envelops a %s!"),
+                         critter.name().c_str() );
+            }
+            critter.poly( mon_blob );
+            critter.set_speed_base( critter.get_speed_base() - rng(5, 25) );
+            critter.set_hp( critter.get_speed() );
         }
-        critter.poly( mon_blob );
-
-        critter.set_speed_base( critter.get_speed_base() - rng(5, 25) );
-        critter.set_hp( critter.get_speed() );
     } else {
         if (g->u.sees(goop)) {
             add_msg(_("Living black goo emerges from the canister!"));
@@ -3908,7 +3912,8 @@ int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
                 continue;
             }
             monster &critter = g->zombie( mondex );
-            if( critter.type->in_species( ZOMBIE ) && critter.friendly == 0 && rng( 0, 500 ) > critter.get_hp() ) {
+            if( critter.type->in_species( ZOMBIE ) && critter.friendly == 0 &&
+                rng( 0, 500 ) > critter.get_hp() && !critter.has_effect( effect_zed_buff ) ) {
                 converts++;
                 critter.make_friendly();
             }
