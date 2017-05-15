@@ -37,16 +37,18 @@ weather_animation_t get_weather_animation(weather_type const type)
 
 const std::string season_name(int const season)
 {
-    static std::string const invalid {"bad season!"};
-    static std::array<std::string, 4> const untranslated_names {{
-        "spring", "summer", "autumn", "winter"
-    }};
-
-    if (!(season >= 0 && season < 4)) {
-        return invalid;
+    switch( season ) {
+        case 0:
+            return pgettext( "season_name", "spring" );
+        case 1:
+            return pgettext( "season_name", "summer" );
+        case 2:
+            return pgettext( "season_name", "autumn" );
+        case 3:
+            return pgettext( "season_name", "winter" );
+        default:
+            return "bad season!";
     }
-
-    return pgettext( "season_name", untranslated_names[season].c_str() );
 }
 
 const std::string season_name_upper(int const season)

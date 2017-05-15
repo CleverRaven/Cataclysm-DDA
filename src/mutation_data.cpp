@@ -10,9 +10,30 @@
 #include <map>
 
 std::vector<dream> dreams;
-std::map<std::string, std::vector<std::string> > mutations_category;
+std::map<std::string, std::vector<trait_id> > mutations_category;
 std::map<std::string, mutation_category_trait> mutation_category_traits;
-std::unordered_map<std::string, mutation_branch> mutation_data;
+std::unordered_map<trait_id, mutation_branch> mutation_data;
+
+template<>
+const string_id<mutation_branch> string_id<mutation_branch>::NULL_ID( "" );
+
+template<>
+const mutation_branch& string_id<mutation_branch>::obj() const
+{
+    const auto iter = mutation_data.find( *this );
+    if( iter == mutation_data.end() ) {
+        debugmsg( "invalid trait/mutation type id %s", c_str() );
+        static const mutation_branch dummy{};
+        return dummy;
+    }
+    return iter->second;
+}
+
+template<>
+bool string_id<mutation_branch>::is_valid() const
+{
+    return mutation_data.count( *this ) > 0;
+}
 
 static void extract_mod(JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int> &data,
                         std::string mod_type, bool active, std::string type_key)
@@ -124,7 +145,7 @@ static mut_attack load_mutation_attack( JsonObject &jo )
 
 void mutation_branch::load( JsonObject &jsobj )
 {
-    const std::string id = jsobj.get_string( "id" );
+    const trait_id id( jsobj.get_string( "id" ) );
     mutation_branch &new_mut = mutation_data[id];
 
     JsonArray jsarr;
@@ -180,25 +201,37 @@ void mutation_branch::load( JsonObject &jsobj )
     /* Not currently supported due to inability to save active mutation state
     load_mutation_mods(jsobj, "active_mods", new_mut.mods); */
 
-    new_mut.prereqs = jsobj.get_string_array( "prereqs" );
+    for( auto &t : jsobj.get_string_array( "prereqs" ) ) {
+        new_mut.prereqs.emplace_back( t );
+    }
     // Helps to be able to have a trait require more than one other trait
     // (Individual prereq-lists are "OR", not "AND".)
     // Traits shoud NOT appear in both lists for a given mutation, unless
     // you want that trait to satisfy both requirements.
     // These are additional to the first list.
-    new_mut.prereqs2 = jsobj.get_string_array( "prereqs2" );
+    for( auto &t : jsobj.get_string_array( "prereqs2" ) ) {
+        new_mut.prereqs2.emplace_back( t );
+    }
     // Dedicated-purpose prereq slot for Threshold mutations
     // Stuff like Huge might fit in more than one mutcat post-threshold, so yeah
-    new_mut.threshreq = jsobj.get_string_array( "threshreq" );
-    new_mut.cancels = jsobj.get_string_array( "cancels" );
-    new_mut.replacements = jsobj.get_string_array( "changes_to" );
-    new_mut.additions = jsobj.get_string_array( "leads_to" );
+    for( auto &t : jsobj.get_string_array( "threshreq" ) ) {
+        new_mut.threshreq.emplace_back( t );
+    }
+    for( auto &t : jsobj.get_string_array( "cancels" ) ) {
+        new_mut.cancels.emplace_back( t );
+    }
+    for( auto &t : jsobj.get_string_array( "changes_to" ) ) {
+        new_mut.replacements.emplace_back( t );
+    }
+    for( auto &t : jsobj.get_string_array( "leads_to" ) ) {
+        new_mut.additions.emplace_back( t );
+    }
     new_mut.flags = jsobj.get_tags( "flags" );
     jsarr = jsobj.get_array("category");
     while (jsarr.has_more()) {
         std::string s = jsarr.next_string();
         new_mut.category.push_back(s);
-        mutations_category[s].push_back(id);
+        mutations_category[s].push_back( trait_id( id ) );
     }
     jsarr = jsobj.get_array("wet_protection");
     while (jsarr.has_more()) {
@@ -267,10 +300,10 @@ void mutation_branch::load( JsonObject &jsobj )
     }
 }
 
-static void check_consistency( const std::vector<std::string> &mvec, const std::string &mid, const std::string &what )
+static void check_consistency( const std::vector<trait_id> &mvec, const trait_id &mid, const std::string &what )
 {
     for( const auto &m : mvec ) {
-        if( !mutation_branch::has( m ) ) {
+        if( !m.is_valid() ) {
             debugmsg( "mutation %s refers to undefined %s %s", mid.c_str(), what.c_str(), m.c_str() );
         }
     }
@@ -310,25 +343,9 @@ nc_color mutation_branch::get_display_color() const
     }
 }
 
-bool mutation_branch::has( const std::string &mutation_id )
+const std::string &mutation_branch::get_name( const trait_id &mutation_id )
 {
-    return mutation_data.count( mutation_id ) > 0;
-}
-
-const mutation_branch &mutation_branch::get( const std::string &mutation_id )
-{
-    const auto iter = mutation_data.find( mutation_id );
-    if( iter != mutation_data.end() ) {
-        return iter->second;
-    }
-    debugmsg( "Requested unknown mutation %s", mutation_id.c_str() );
-    static mutation_branch dummy;
-    return dummy;
-}
-
-const std::string &mutation_branch::get_name( const std::string &mutation_id )
-{
-    return get( mutation_id ).name;
+    return mutation_id->name;
 }
 
 const mutation_branch::MutationMap &mutation_branch::get_all()
@@ -357,7 +374,7 @@ void load_dream(JsonObject &jsobj)
     dreams.push_back(newdream);
 }
 
-bool trait_display_sort( const std::string &a, const std::string &b ) noexcept
+bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
 {
-    return mutation_data[a].name < mutation_data[b].name;
+    return a->name < b->name;
 }

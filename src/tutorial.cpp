@@ -57,7 +57,7 @@ bool tutorial_game::init()
     starting_om.ter( lx, ly, -1 ) = oter_id( "tutorial" );
     starting_om.clear_mon_groups();
 
-    g->u.toggle_trait( "QUICK" );
+    g->u.toggle_trait( trait_id( "QUICK" ) );
     item lighter( "lighter", 0 );
     lighter.invlet = 'e';
     g->u.inv.add_item( lighter, true, false );

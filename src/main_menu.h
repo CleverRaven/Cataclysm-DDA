@@ -9,6 +9,7 @@ class player;
 
 #include "cursesdef.h"
 #include "input.h"
+#include "worldfactory.h"
 
 class main_menu
 {
@@ -60,7 +61,7 @@ class main_menu
         int iMenuOffsetY;
         std::vector<std::string> templates;
         int extra_w;
-        std::vector<std::string> savegames;
+        std::vector<save_t> savegames;
 
         /**
          * Prints a horizontal list of options
