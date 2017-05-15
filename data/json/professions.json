@@ -4401,27 +4401,28 @@
             }
         ],
         "items": {
-            "both": [
-                "pants_fur",
-                "trenchcoat_fur",
-                "backpack_leather",
-                "boots_fur",
-                "gloves_fur",
-                "hat_fur",
-                "scarf_fur",
-                "quiver",
-                "sheath",
-                "shortbow",
-                "arrow_wood",
-                "arrow_wood",
-                "primitive_knife",
-                "shelter_kit",
-                "leather_funnel",
-                "rock_pot",
-                "waterskin",
-                "fur_rollmat",
-                "fire_drill"
-            ]
+            "both": {
+                "items": [
+                    "pants_fur",
+                    "trenchcoat_fur",
+                    "backpack_leather",
+                    "boots_fur",
+                    "gloves_fur",
+                    "hat_fur",
+                    "scarf_fur",
+                    "shortbow",
+                    "shelter_kit",
+                    "leather_funnel",
+                    "rock_pot",
+                    "waterskin",
+                    "fur_rollmat",
+                    "fire_drill"
+                ],
+                "entries": [
+                        { "item": "primitive_knife", "container-item": "sheath" },
+                        { "item": "arrow_wood", "charges": 20, "container-item": "quiver" }
+                ]
+            }
         },
          "flags" : ["SCEN_ONLY"]
     },
@@ -4448,18 +4449,17 @@
                     "tank_top",
                     "socks",
                     "fishing_waders",
-                    "knife_hunting",
                     "knit_scarf",
                     "fishing_rod_professional",
                     "fish_bait",
                     "fish_trap",
                     "vest",
                     "hat_boonie",
-                    "jacket_flannel",
-                    "sheath"
+                    "jacket_flannel"
                 ],
                 "entries": [
-                    { "item": "lighter", "charges": 100 }
+                    { "item": "lighter", "charges": 100 },
+                    { "item": "knife_hunting", "container-item": "sheath" }
                 ]
             },
             "male": [

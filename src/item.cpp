@@ -838,7 +838,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         info.push_back( iteminfo( "FOOD", _( "Portions: " ), "", abs( int( food_item->charges ) ) ) );
         if( food_item->corpse != NULL && ( debug == true || ( g != NULL &&
-                                           ( g->u.has_bionic( "bio_scent_vision" ) || g->u.has_trait( "CARNIVORE" ) ||
+                                           ( g->u.has_bionic( "bio_scent_vision" ) || g->u.has_trait( trait_id( "CARNIVORE" ) ) ||
                                              g->u.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) ) ) {
             info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
         }
@@ -884,7 +884,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 if( g->u.has_bionic( "bio_digestion" ) ) {
                     info.push_back( iteminfo( "DESCRIPTION",
                                               _( "This food has started to <neutral>rot</neutral>, but <info>your bionic digestion can tolerate it</info>." ) ) );
-                } else if( g->u.has_trait( "SAPROVORE" ) ) {
+                } else if( g->u.has_trait( trait_id( "SAPROVORE" ) ) ) {
                     info.push_back( iteminfo( "DESCRIPTION",
                                               _( "This food has started to <neutral>rot</neutral>, but <info>you can tolerate it</info>." ) ) );
                 } else {
@@ -1590,10 +1590,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             if( is_sided() ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This item can be worn on <info>either side</info> of the body." ) ) );
-            }
-            if( is_filthy() ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This piece of clothing is <bad>filthy</bad>." ) ) );
             }
             if( is_power_armor() ) {
                 info.push_back( iteminfo( "DESCRIPTION",
@@ -5489,9 +5485,9 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
         // only puff every other turn
         if( item_counter % 2 == 0 ) {
             int duration = 10;
-            if( carrier->has_trait( "TOLERANCE" ) ) {
+            if( carrier->has_trait( trait_id( "TOLERANCE" ) ) ) {
                 duration = 5;
-            } else if( carrier->has_trait( "LIGHTWEIGHT" ) ) {
+            } else if( carrier->has_trait( trait_id( "LIGHTWEIGHT" ) ) ) {
                 duration = 20;
             }
             carrier->add_msg_if_player( m_neutral, _( "You take a puff of your %s." ), tname().c_str() );
@@ -5504,7 +5500,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
         }
 
         if( ( carrier->has_effect( effect_shakes ) && one_in( 10 ) ) ||
-            ( carrier->has_trait( "JITTERY" ) && one_in( 200 ) ) ) {
+            ( carrier->has_trait( trait_id( "JITTERY" ) ) && one_in( 200 ) ) ) {
             carrier->add_msg_if_player( m_bad, _( "Your shaking hand causes you to drop your %s." ),
                                         tname().c_str() );
             g->m.add_item_or_charges( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), *this );
@@ -5994,7 +5990,7 @@ bool item_category::operator!=( const item_category &rhs ) const
 
 bool item::is_filthy() const
 {
-    return has_flag( "FILTHY" ) && ( get_world_option<bool>( "FILTHY_MORALE" ) || g->u.has_trait( "SQUEAMISH" ) );
+    return has_flag( "FILTHY" ) && ( get_world_option<bool>( "FILTHY_MORALE" ) || g->u.has_trait( trait_id( "SQUEAMISH" ) ) );
 }
 
 bool item::on_drop( const tripoint &pos )

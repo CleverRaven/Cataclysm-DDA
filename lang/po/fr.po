@@ -8,13 +8,14 @@
 # _hickop, 2016
 # Mickaël Falck <lastmikoi+github@lastmikoi.net>, 2016
 # Mickaël Falck <lastmikoi+github@lastmikoi.net>, 2015
+# Réouven Assouly <reouvenassouly@yahoo.fr>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-27 20:14+0800\n"
-"PO-Revision-Date: 2017-04-29 17:46+0000\n"
-"Last-Translator: Jazz <jazzzz@gmail.com>\n"
+"POT-Creation-Date: 2017-05-05 22:55+0800\n"
+"PO-Revision-Date: 2017-05-06 15:10+0000\n"
+"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -369,7 +370,7 @@ msgstr "Langue"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Switch Language."
-msgstr ""
+msgstr "Change la langue."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Fahrenheit"
@@ -1009,7 +1010,7 @@ msgid ""
 "Maximum number of retries in overmap generation due to inability to place "
 "mandatory special locations.  High numbers and strange world settings will "
 "lead to VERY slow generation!"
-msgstr ""
+msgstr "Nombre maximum d'essais dans la génération de la carte à cause de l'impossibilité de placer systématiquement les structures spéciales . Des valeurs élevées et des réglages particuliers du monde rendront la génération du monde EXTRÊMEMENT longue !"
 
 #. ~ allow invalid (bugged, bad) maps without asking user
 #: lang/extra/android/options.cpp src/creature.cpp src/options.cpp
@@ -1417,7 +1418,7 @@ msgstr ""
 
 #: lang/extra/android/options.cpp
 msgid "Virtual joystick deadzone size"
-msgstr ""
+msgstr "Taille de la zone morte du joystick virtuel"
 
 #: lang/extra/android/options.cpp
 msgid ""
@@ -2007,7 +2008,7 @@ msgstr "66mm HEAT"
 msgid ""
 "A 60mm High Explosive Anti Tank round.  It could blow through up to two feet"
 " of concrete."
-msgstr ""
+msgstr "Un obus explosif anti-tank de 60 mm. Il peut pénétrer jusqu'à 60 cm de béton."
 
 #: lang/json/AMMO_from_json.py
 msgid "120mm HEAT"
@@ -2017,18 +2018,18 @@ msgstr "66mm HEAT"
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A 120mm High Explosive Anti Tank round.  It could ruin anyone's whole day."
-msgstr ""
+msgstr "Un obus explosif anti-tank de 120 mm. Il peut ruiner la vie de n'importe qui."
 
 #: lang/json/AMMO_from_json.py
 msgid "hydrogen canister"
-msgstr ""
+msgstr "cartouche d'hydrogène"
 
 #. ~ Description for hydrogen canister
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A canister of pressurized hydrogen so heavily compressed it has turned "
 "solid.  With proper equipment, it could be heated to plasma."
-msgstr ""
+msgstr "Cartouche d'hydrogène. Avec l'équipement adéquat, elle pourrait être chauffée et transformée en plasma."
 
 #: lang/json/AMMO_from_json.py
 msgid "unused .22 casing"
@@ -2039,7 +2040,7 @@ msgstr "douille de .22 inutilisée"
 msgid ""
 "An empty casing from a .22 round that hasn't been fired, and still has an "
 "intact case with primer."
-msgstr ""
+msgstr "Une douille vide de munition .22 qui n'a pas été tirée et qui a encore une amorce intacte."
 
 #: lang/json/AMMO_from_json.py
 msgid "gunpowder"
@@ -2165,7 +2166,7 @@ msgstr "Un rouleau de sparadrap, similaire au ruban adhésif."
 
 #: lang/json/AMMO_from_json.py
 msgid "FFV441B HE rocket"
-msgstr ""
+msgstr "Rocket FFV441B HE"
 
 #. ~ Description for FFV441B HE rocket
 #: lang/json/AMMO_from_json.py
@@ -2320,7 +2321,7 @@ msgstr "oxygène"
 #. ~ Description for oxygen
 #: lang/json/AMMO_from_json.py
 msgid "A canister of oxygen."
-msgstr ""
+msgstr "Une cartouche d'oxygène."
 
 #: lang/json/AMMO_from_json.py
 msgid "spiked home-made rocket"
@@ -2336,7 +2337,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "explosive home-made rocket"
-msgstr ""
+msgstr "Roquette explosive artisanale"
 
 #. ~ Description for explosive home-made rocket
 #: lang/json/AMMO_from_json.py
@@ -2348,7 +2349,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "incendiary home-made rocket"
-msgstr ""
+msgstr "Roquette incendiaire artisanale"
 
 #. ~ Description for incendiary home-made rocket
 #: lang/json/AMMO_from_json.py
@@ -2360,14 +2361,14 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "unfinished charcoal"
-msgstr ""
+msgstr "Charbon inachevé"
 
 #. ~ Description for unfinished charcoal
 #: lang/json/AMMO_from_json.py
 msgid ""
 "The result of an interrupted charcoal making process.  Useless, except as "
 "fuel in a charcoal kiln."
-msgstr ""
+msgstr "Le résultat d'une fabrication de charbon interrompue. Inutile, sauf dans un four à charbon. "
 
 #: lang/json/AMMO_from_json.py
 msgid "sprayable fungicide"
@@ -56067,7 +56068,7 @@ msgid "bulletin board"
 msgstr "panneau d'affichage public"
 
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
-#: src/iuse.cpp
+#: lang/json/terrain_from_json.py src/iuse.cpp
 msgid "crunch!"
 msgstr "crac!"
 
@@ -64183,6 +64184,14 @@ msgstr "Configurer modes de tir de la tourelle"
 #: lang/json/keybinding_from_json.py src/vehicle.cpp
 msgid "Aim turrets manually"
 msgstr "Viser manuellement avec les tourelles"
+
+#: lang/json/keybinding_from_json.py src/vehicle.cpp
+msgid "Aim automatic turrets"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py src/vehicle.cpp
+msgid "Aim individual turret"
+msgstr ""
 
 #: lang/json/keybinding_from_json.py src/vehicle.cpp
 msgid "Set turret targeting modes"
@@ -92815,7 +92824,7 @@ msgstr "Retour"
 #: src/debug_menu.cpp src/editmap.cpp src/game.cpp src/game.cpp src/game.cpp
 #: src/iexamine.cpp src/iexamine.cpp src/inventory_ui.cpp src/iuse.cpp
 #: src/iuse.cpp src/iuse_actor.cpp src/mission_companion.cpp src/pickup.cpp
-#: src/player.cpp src/vehicle.cpp
+#: src/player.cpp src/turret.cpp src/vehicle.cpp
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -95610,6 +95619,16 @@ msgstr "l'écriture du fichier a échoué"
 #: src/cata_utility.cpp
 #, c-format
 msgid "Failed to read from \"%1$s\": %2$s"
+msgstr ""
+
+#. ~ translators: place some random 1-width characters here in your language
+#. if possible, or leave it as is
+#: src/cata_utility.cpp
+msgid "abcdefghijklmnopqrstuvwxyz"
+msgstr ""
+
+#: src/cata_utility.cpp
+msgid "に坂索トし荷測のンおク妙免イロコヤ梅棋厚れ表幌"
 msgstr ""
 
 #: src/catalua.cpp src/player.cpp
@@ -107738,27 +107757,27 @@ msgstr ""
 
 #: src/item.cpp
 msgid "++"
-msgstr "++"
+msgstr ""
 
 #: src/item.cpp
 msgid "||"
-msgstr "||"
+msgstr ""
 
 #: src/item.cpp
 msgid ".."
-msgstr ".."
+msgstr ""
 
 #: src/item.cpp
 msgid "\\."
-msgstr "\\."
+msgstr ""
 
 #: src/item.cpp
 msgid "|."
-msgstr "|."
+msgstr ""
 
 #: src/item.cpp
 msgid "|\\"
-msgstr "|\\"
+msgstr ""
 
 #: src/item.cpp
 msgid "isn't a weapon"
@@ -125097,6 +125116,14 @@ msgid "Can't aim turrets: all turrets are offline"
 msgstr ""
 
 #: src/turret.cpp
+msgid "Aim which turret?"
+msgstr ""
+
+#: src/turret.cpp
+msgid "None of the turrets are available to fire."
+msgstr ""
+
+#: src/turret.cpp
 #, c-format
 msgctxt "vehicle turret"
 msgid "The %s"
@@ -125710,8 +125737,9 @@ msgid "Could not find base part in requirements for %s."
 msgstr ""
 
 #: src/veh_interact.cpp
-msgid "Choose a facing direction for the new headlight."
-msgstr "Choisissez l'orientation du nouveau phare."
+msgid ""
+"Choose a facing direction for the new headlight.  Press space to continue."
+msgstr ""
 
 #: src/veh_interact.cpp
 #, c-format

@@ -246,11 +246,11 @@ int visitable<Character>::max_quality( const quality_id &qual ) const
 
     static const quality_id BUTCHER( "BUTCHER" );
     if( qual == BUTCHER ) {
-        if( self->has_trait( "CLAWS_ST" ) ) {
+        if( self->has_trait( trait_id( "CLAWS_ST" ) ) ) {
             res = std::max( res, 8 );
-        } else if( self->has_trait( "TALONS" ) || self->has_trait( "MANDIBLES" ) ||
-                   self->has_trait( "CLAWS" ) || self->has_trait( "CLAWS_RETRACT" ) ||
-                   self->has_trait( "CLAWS_RAT" ) ) {
+        } else if( self->has_trait( trait_id( "TALONS" ) ) || self->has_trait( trait_id( "MANDIBLES" ) ) ||
+                   self->has_trait( trait_id( "CLAWS" ) ) || self->has_trait( trait_id( "CLAWS_RETRACT" ) ) ||
+                   self->has_trait( trait_id( "CLAWS_RAT" ) ) ) {
             res = std::max( res, 4 );
         }
     }

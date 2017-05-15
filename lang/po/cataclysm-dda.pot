@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-27 20:14+0800\n"
+"POT-Creation-Date: 2017-05-13 11:01+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -56018,7 +56018,7 @@ msgstr ""
 
 #: lang/json/furniture_from_json.py
 #: lang/json/terrain_from_json.py
-#: src/iuse.cpp
+#: lang/json/terrain_from_json.py src/iuse.cpp
 msgid "crunch!"
 msgstr ""
 
@@ -64176,6 +64176,14 @@ msgid "Aim turrets manually"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py src/vehicle.cpp
+msgid "Aim automatic turrets"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py src/vehicle.cpp
+msgid "Aim individual turret"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py src/vehicle.cpp
 msgid "Set turret targeting modes"
 msgstr ""
 
@@ -64352,6 +64360,24 @@ msgid "Per increases unarmed power, Str reduces block damage."
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
+msgid "Footwork"
+msgstr ""
+
+#. ~ Description of buff 'Footwork' for martial art 'Boxing'
+#: lang/json/martial_art_from_json.py
+msgid "Gain an extra dodge while moving."
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
+msgid "Counter Chance"
+msgstr ""
+
+#. ~ Description of buff 'Counter Chance' for martial art 'Boxing'
+#: lang/json/martial_art_from_json.py
+msgid "They're wide open!"
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
 msgid "Judo"
 msgstr ""
 
@@ -64406,6 +64432,15 @@ msgstr ""
 #. ~ Description of buff 'Capoeira Tempo' for martial art 'Capoeira'
 #: lang/json/martial_art_from_json.py
 msgid "+1 dodge and +1 blocks per stack"
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
+msgid "Capoeira Momentum"
+msgstr ""
+
+#. ~ Description of buff 'Capoeira Momentum' for martial art 'Capoeira'
+#: lang/json/martial_art_from_json.py
+msgid "+2 bash and +1 acc per stack"
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
@@ -64474,6 +64509,15 @@ msgid "Silent melee attacks"
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
+msgid "Momentum shift"
+msgstr ""
+
+#. ~ Description of buff 'Momentum shift' for martial art 'Ninjutsu'
+#: lang/json/martial_art_from_json.py
+msgid "Bonus dodges and increased to-hit"
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
 msgid "Taekwondo"
 msgstr ""
 
@@ -64531,6 +64575,15 @@ msgid "Intelligence increases dodging ability"
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
+msgid "Counter Strike"
+msgstr ""
+
+#. ~ Description of buff 'Counter Strike' for martial art 'Zui Quan'
+#: lang/json/martial_art_from_json.py
+msgid "Extra damage and to-hit after successful dodge"
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
 msgid "Silat"
 msgstr ""
 
@@ -64552,6 +64605,15 @@ msgid "+1 dodge"
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
+msgid "Silat Counter"
+msgstr ""
+
+#. ~ Description of buff 'Silat Counter' for martial art 'Silat'
+#: lang/json/martial_art_from_json.py
+msgid "Extra to-hit after successful dodge"
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
 msgid "Fencing"
 msgstr ""
 
@@ -64562,6 +64624,15 @@ msgid ""
 "techniques are derived from (and applicable to) more functional examples.  "
 "Skilled fencers can take advantage of advances and retreats to deliver "
 "accurate strikes."
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
+msgid "Fencing Footwork"
+msgstr ""
+
+#. ~ Description of buff 'Fencing Footwork' for martial art 'Fencing'
+#: lang/json/martial_art_from_json.py
+msgid "+2 stab and +1 acc per stack"
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
@@ -64587,6 +64658,20 @@ msgstr ""
 #. ~ Description of buff for martial art 'Niten Ichi-Ryu'
 #: lang/json/martial_art_from_json.py
 msgid "Perception increases dodging and damage."
+msgstr ""
+
+#. ~ Description of buff 'Blocking' for martial art 'Niten Ichi-Ryu'
+#: lang/json/martial_art_from_json.py
+msgid "You forgo dodging on the move, but gain more blocks."
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
+msgid "In-One Timing Set-Up"
+msgstr ""
+
+#. ~ Description of buff 'In-One Timing Set-Up' for martial art 'Niten Ichi-Ryu'
+#: lang/json/martial_art_from_json.py
+msgid "You found a gap in the enemy's defense!"
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
@@ -64642,6 +64727,15 @@ msgid "Damage bonus from dexterity at the cost of damage from strength."
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
+msgid "Crane's Flight"
+msgstr ""
+
+#. ~ Description of buff 'Crane's Flight' for martial art 'Crane Kung Fu'
+#: lang/json/martial_art_from_json.py
+msgid "+2 Dodge"
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
 msgid "Dragon Kung Fu"
 msgstr ""
 
@@ -64663,6 +64757,15 @@ msgid "Bonus damage from intelligence."
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
+msgid "Dragon's Flight"
+msgstr ""
+
+#. ~ Description of buff 'Dragon's Flight' for martial art 'Dragon Kung Fu'
+#: lang/json/martial_art_from_json.py
+msgid "+2 Accuracy & Damage"
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
 msgid "Leopard Kung Fu"
 msgstr ""
 
@@ -64681,6 +64784,15 @@ msgstr ""
 #. ~ Description of buff 'Leopard Strategy' for martial art 'Leopard Kung Fu'
 #: lang/json/martial_art_from_json.py
 msgid "Perception and intelligence provide a bonus to dodge."
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
+msgid "Leopard's Stalk"
+msgstr ""
+
+#. ~ Description of buff 'Leopard's Stalk' for martial art 'Leopard Kung Fu'
+#: lang/json/martial_art_from_json.py
+msgid "+2 Accuracy"
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
@@ -64796,6 +64908,15 @@ msgid "Gain up to +6 armor while standing still"
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
+msgid "Iron Skin Dissipation"
+msgstr ""
+
+#. ~ Description of buff 'Iron Skin Dissipation' for martial art 'Toad Kung Fu'
+#: lang/json/martial_art_from_json.py
+msgid "Iron Skin softens when you move!"
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
 msgid "Lizard Kung Fu"
 msgstr ""
 
@@ -64835,6 +64956,15 @@ msgstr ""
 #. ~ Description of buff 'Viper Patience' for martial art 'Viper Kung Fu'
 #: lang/json/martial_art_from_json.py
 msgid "+2 Dodge.  Dodging an attack initiates a combo."
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
+msgid "Viper Ambush"
+msgstr ""
+
+#. ~ Description of buff 'Viper Ambush' for martial art 'Viper Kung Fu'
+#: lang/json/martial_art_from_json.py
+msgid "You've lured 'em in!  Your next attack will be a Viper Bite."
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
@@ -64898,6 +65028,11 @@ msgstr ""
 #. ~ Description of buff 'Grappling' for martial art 'Pankration'
 #: lang/json/martial_art_from_json.py
 msgid "I have you now!"
+msgstr ""
+
+#. ~ Description of buff 'Counter Chance' for martial art 'Pankration'
+#: lang/json/martial_art_from_json.py
+msgid "The enemy has presented an opening in their defense."
 msgstr ""
 
 #: lang/json/material_from_json.py src/bionics.cpp
@@ -73255,6 +73390,14 @@ msgstr ""
 
 #: lang/json/npc_from_json.py
 msgid "Bandit"
+msgstr ""
+
+#: lang/json/npc_from_json.py
+msgid "Raider"
+msgstr ""
+
+#: lang/json/npc_from_json.py
+msgid "Captive"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py src/mapdata.cpp
@@ -92797,7 +92940,8 @@ msgstr ""
 #: src/iuse.cpp
 #: src/iuse_actor.cpp
 #: src/mission_companion.cpp
-#: src/pickup.cpp src/player.cpp src/vehicle.cpp
+#: src/pickup.cpp src/player.cpp src/turret.cpp
+#: src/vehicle.cpp
 msgid "Cancel"
 msgstr ""
 
@@ -95593,6 +95737,15 @@ msgstr ""
 #: src/cata_utility.cpp
 #, c-format
 msgid "Failed to read from \"%1$s\": %2$s"
+msgstr ""
+
+#. ~ translators: place some random 1-width characters here in your language if possible, or leave it as is
+#: src/cata_utility.cpp
+msgid "abcdefghijklmnopqrstuvwxyz"
+msgstr ""
+
+#: src/cata_utility.cpp
+msgid "に坂索トし荷測のンおク妙免イロコヤ梅棋厚れ表幌"
 msgstr ""
 
 #: src/catalua.cpp src/player.cpp
@@ -101931,6 +102084,10 @@ msgstr ""
 #: src/game.cpp
 #, c-format
 msgid "Combat Ability:    %s"
+msgstr ""
+
+#: src/game.cpp
+msgid "Time: ???"
 msgstr ""
 
 #: src/game.cpp
@@ -125208,6 +125365,14 @@ msgid "Can't aim turrets: all turrets are offline"
 msgstr ""
 
 #: src/turret.cpp
+msgid "Aim which turret?"
+msgstr ""
+
+#: src/turret.cpp
+msgid "None of the turrets are available to fire."
+msgstr ""
+
+#: src/turret.cpp
 #, c-format
 msgctxt "vehicle turret"
 msgid "The %s"
@@ -125820,7 +125985,8 @@ msgid "Could not find base part in requirements for %s."
 msgstr ""
 
 #: src/veh_interact.cpp
-msgid "Choose a facing direction for the new headlight."
+msgid ""
+"Choose a facing direction for the new headlight.  Press space to continue."
 msgstr ""
 
 #: src/veh_interact.cpp

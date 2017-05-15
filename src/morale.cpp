@@ -215,22 +215,22 @@ player_morale::player_morale() :
     const auto update_constrained = std::bind( &player_morale::update_constrained_penalty, _1 );
     const auto update_masochist   = std::bind( &player_morale::update_masochist_bonus, _1 );
 
-    mutations["OPTIMISTIC"]    = mutation_data(
+    mutations[trait_id( "OPTIMISTIC" )]    = mutation_data(
                                      std::bind( set_optimist, _1, 4 ),
                                      std::bind( set_optimist, _1, 0 ) );
-    mutations["BADTEMPER"]     = mutation_data(
+    mutations[trait_id( "BADTEMPER" )]     = mutation_data(
                                      std::bind( set_badtemper, _1, -4 ),
                                      std::bind( set_badtemper, _1, 0 ) );
-    mutations["STYLISH"]       = mutation_data(
+    mutations[trait_id( "STYLISH" )]       = mutation_data(
                                      std::bind( set_stylish, _1, true ),
                                      std::bind( set_stylish, _1, false ) );
-    mutations["FLOWERS"]       = mutation_data( update_constrained );
-    mutations["ROOTS"]         = mutation_data( update_constrained );
-    mutations["ROOTS2"]        = mutation_data( update_constrained );
-    mutations["ROOTS3"]        = mutation_data( update_constrained );
-    mutations["MASOCHIST"]     = mutation_data( update_masochist );
-    mutations["MASOCHIST_MED"] = mutation_data( update_masochist );
-    mutations["CENOBITE"]      = mutation_data( update_masochist );
+    mutations[trait_id( "FLOWERS" )]       = mutation_data( update_constrained );
+    mutations[trait_id( "ROOTS1" )]         = mutation_data( update_constrained );
+    mutations[trait_id( "ROOTS2" )]        = mutation_data( update_constrained );
+    mutations[trait_id( "ROOTS3" )]        = mutation_data( update_constrained );
+    mutations[trait_id( "MASOCHIST" )]     = mutation_data( update_masochist );
+    mutations[trait_id( "MASOCHIST_MED" )] = mutation_data( update_masochist );
+    mutations[trait_id( "CENOBITE" )]      = mutation_data( update_masochist );
 }
 
 void player_morale::add( morale_type type, int bonus, int max_bonus,
@@ -490,13 +490,13 @@ void player_morale::invalidate()
     level_is_valid = false;
 }
 
-bool player_morale::has_mutation( const std::string &mid )
+bool player_morale::has_mutation( const trait_id &mid )
 {
     const auto &mutation = mutations.find( mid );
     return ( mutation != mutations.end() && mutation->second.get_active() );
 }
 
-void player_morale::set_mutation( const std::string &mid, bool active )
+void player_morale::set_mutation( const trait_id &mid, bool active )
 {
     const auto &mutation = mutations.find( mid );
     if( mutation != mutations.end() ) {
@@ -504,12 +504,12 @@ void player_morale::set_mutation( const std::string &mid, bool active )
     }
 }
 
-void player_morale::on_mutation_gain( const std::string &mid )
+void player_morale::on_mutation_gain( const trait_id &mid )
 {
     set_mutation( mid, true );
 }
 
-void player_morale::on_mutation_loss( const std::string &mid )
+void player_morale::on_mutation_loss( const trait_id &mid )
 {
     set_mutation( mid, false );
 }
@@ -638,8 +638,8 @@ void player_morale::update_stylish_bonus()
 
 void player_morale::update_masochist_bonus()
 {
-    const bool amateur_masochist = has_mutation( "MASOCHIST" );
-    const bool advanced_masochist = has_mutation( "MASOCHIST_MED" ) || has_mutation( "CENOBITE" );
+    const bool amateur_masochist = has_mutation( trait_id( "MASOCHIST" ) );
+    const bool advanced_masochist = has_mutation( trait_id( "MASOCHIST_MED" ) ) || has_mutation( trait_id( "CENOBITE" ) );
     const bool any_masochist = amateur_masochist || advanced_masochist;
 
     int bonus = 0;
@@ -694,10 +694,10 @@ void player_morale::update_constrained_penalty()
     };
     int pen = 0;
 
-    if( has_mutation( "FLOWERS" ) ) {
+    if( has_mutation( trait_id( "FLOWERS" ) ) ) {
         pen += bp_pen( bp_head, 10 );
     }
-    if( has_mutation( "ROOTS" ) || has_mutation( "ROOTS2" ) || has_mutation( "ROOTS3" ) ) {
+    if( has_mutation( trait_id( "ROOTS1" ) ) || has_mutation( trait_id( "ROOTS2" ) ) || has_mutation( trait_id( "ROOTS3" ) ) ) {
         pen += bp_pen( bp_foot_l, 5 );
         pen += bp_pen( bp_foot_r, 5 );
     }

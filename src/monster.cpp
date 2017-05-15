@@ -112,6 +112,15 @@ const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tied( "tied" );
 const efftype_id effect_webbed( "webbed" );
 
+static const trait_id trait_ANIMALDISCORD( "ANIMALDISCORD" );
+static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
+static const trait_id trait_BEE( "BEE" );
+static const trait_id trait_FLOWERS( "FLOWERS" );
+static const trait_id trait_PACIFIST( "PACIFIST" );
+static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
+static const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
+static const trait_id trait_TERRIFYING( "TERRIFYING" );
+
 monster::monster()
 {
     position.x = 20;
@@ -694,14 +703,14 @@ monster_attitude monster::attitude( const Character *u ) const
     if( u != nullptr ) {
         // Those are checked quite often, so avoiding string construction is a good idea
         const string_id<monfaction> faction_bee( "bee" );
-        const std::string pheromone_mammal( "PHEROMONE_MAMMAL" );
-        const std::string pheromone_insect( "PHEROMONE_INSECT" );
-        const std::string mycus_thresh( "MYCUS_THRESH" );
-        const std::string terrifying( "TERRIFYING" );
+        const trait_id pheromone_mammal( "PHEROMONE_MAMMAL" );
+        const trait_id pheromone_insect( "PHEROMONE_INSECT" );
+        const trait_id mycus_thresh( "THRESH_MYCUS" );
+        const trait_id terrifying( "TERRIFYING" );
         if( faction == faction_bee ) {
-            if( u->has_trait( "BEE" ) ) {
+            if( u->has_trait( trait_BEE ) ) {
                 return MATT_FRIEND;
-            } else if( u->has_trait( "FLOWERS" ) ) {
+            } else if( u->has_trait( trait_FLOWERS ) ) {
                 effective_anger -= 10;
             }
         }
@@ -722,12 +731,12 @@ monster_attitude monster::attitude( const Character *u ) const
         }
 
         if( has_flag( MF_ANIMAL ) ) {
-            if( u->has_trait("ANIMALEMPATH") ) {
+            if( u->has_trait( trait_ANIMALEMPATH ) ) {
                 effective_anger -= 10;
                 if( effective_anger < 10 ) {
                     effective_morale += 5;
                 }
-            } else if( u->has_trait("ANIMALDISCORD") ) {
+            } else if( u->has_trait( trait_ANIMALDISCORD ) ) {
                 if( effective_anger >= 10 ) {
                     effective_anger += 10;
                 }
@@ -1592,7 +1601,7 @@ void monster::die(Creature* nkiller)
     // TODO: should actually be class Character
     player *ch = dynamic_cast<player*>( get_killer() );
     if( !is_hallucination() && ch != nullptr ) {
-        if( ( has_flag( MF_GUILT ) && ch->is_player() ) || ( ch->has_trait( "PACIFIST" ) && has_flag( MF_HUMAN ) ) ) {
+        if( ( has_flag( MF_GUILT ) && ch->is_player() ) || ( ch->has_trait( trait_PACIFIST ) && has_flag( MF_HUMAN ) ) ) {
             // has guilt flag or player is pacifist && monster is humanoid
             mdeath::guilt(this);
         }

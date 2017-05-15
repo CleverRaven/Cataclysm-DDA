@@ -895,7 +895,7 @@
     "damage_modifier": 80,
     "folded_volume": 24,
     "breaks_into": [ { "item": "flamethrower_simple", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE", "USE_TANKS" ]
   },
   {
     "id": "flamethrower2",
@@ -913,7 +913,7 @@
     "damage_modifier": 80,
     "folded_volume": 19,
     "breaks_into": [ { "item": "flamethrower", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE", "USE_TANKS" ]
   },
   {
     "id": "flamethrower3",
@@ -931,7 +931,7 @@
     "damage_modifier": 80,
     "folded_volume": 19,
     "breaks_into": [ { "item": "rm451_flamethrower", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE" ]
+    "flags": [ "TURRET", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "TOOL_NONE", "USE_TANKS" ]
   },
   {
     "id": "fn_fal",

@@ -50,8 +50,7 @@
   "tools": [
     [
       [ "fire", -1 ],
-      [ "toolset", 10 ],
-      [ "press", 10 ]
+      [ "toolset", 10 ]
     ]
   ],
   "components": [
@@ -81,8 +80,7 @@
   "tools": [
     [
       [ "fire", -1 ],
-      [ "toolset", 10 ],
-      [ "press", 10 ]
+      [ "toolset", 10 ]
     ]
   ],
   "components": [
@@ -112,8 +110,7 @@
   "tools": [
     [
       [ "fire", -1 ],
-      [ "toolset", 10 ],
-      [ "press", 10 ]
+      [ "toolset", 10 ]
     ],
     [ ["tongs", -1] ],
     [
@@ -148,8 +145,7 @@
   "tools": [
     [
       [ "fire", -1 ],
-      [ "toolset", 20 ],
-      [ "press", 20 ]
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
@@ -179,8 +175,7 @@
   "tools": [
     [
       [ "fire", -1 ],
-      [ "toolset", 20 ],
-      [ "press", 20 ]
+      [ "toolset", 20 ]
     ],
     [ ["tongs", -1] ],
     [

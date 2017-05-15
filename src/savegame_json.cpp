@@ -45,6 +45,9 @@
 #include "debug.h"
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
+static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+static const trait_id trait_MYOPIC( "MYOPIC" );
+
 const std::string obj_type_name[11]={ "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
     "OBJECT_NPC", "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD",
     "OBJECT_TERRAIN", "OBJECT_FURNITURE"
@@ -277,7 +280,7 @@ void Character::load(JsonObject &data)
     data.read("traits", my_traits);
     for( auto it = my_traits.begin(); it != my_traits.end(); ) {
         const auto &tid = *it;
-        if( mutation_branch::has( tid ) ) {
+        if( tid.is_valid() ) {
             ++it;
         } else {
             debugmsg( "character %s has invalid trait %s, it will be ignored", name.c_str(), tid.c_str() );
@@ -286,17 +289,17 @@ void Character::load(JsonObject &data)
     }
 
     if( savegame_loading_version <= 23 ) {
-        std::unordered_set<std::string> old_my_mutations;
+        std::unordered_set<trait_id> old_my_mutations;
         data.read( "mutations", old_my_mutations );
         for( const auto & mut : old_my_mutations ) {
             my_mutations[mut]; // Creates a new entry with default values
         }
-        std::map<std::string, char> trait_keys;
+        std::map<trait_id, char> trait_keys;
         data.read( "mutation_keys", trait_keys );
         for( const auto & k : trait_keys ) {
             my_mutations[k.first].key = k.second;
         }
-        std::set<std::string> active_muts;
+        std::set<trait_id> active_muts;
         data.read( "active_mutations_hacky", active_muts );
         for( const auto & mut : active_muts ) {
             my_mutations[mut].powered = true;
@@ -306,9 +309,9 @@ void Character::load(JsonObject &data)
     }
     for( auto it = my_mutations.begin(); it != my_mutations.end(); ) {
         const auto &mid = it->first;
-        if( mutation_branch::has( mid ) ) {
+        if( mid.is_valid() ) {
             on_mutation_gain( mid );
-            cached_mutations.push_back( &mutation_branch::get( mid ) );
+            cached_mutations.push_back( &mid.obj() );
             ++it;
         } else {
             debugmsg( "character %s has invalid mutation %s, it will be ignored", name.c_str(), mid.c_str() );
@@ -490,12 +493,12 @@ void player::load(JsonObject &data)
     }
 
     // Fixes bugged characters for telescopic eyes CBM.
-    if( has_bionic( "bio_eye_optic" ) && has_trait( "HYPEROPIC" ) ) {
-        remove_mutation( "HYPEROPIC" );
+    if( has_bionic( "bio_eye_optic" ) && has_trait( trait_HYPEROPIC ) ) {
+        remove_mutation( trait_HYPEROPIC );
     }
 
-    if( has_bionic( "bio_eye_optic" ) && has_trait( "MYOPIC" ) ) {
-        remove_mutation( "MYOPIC" );
+    if( has_bionic( "bio_eye_optic" ) && has_trait( trait_MYOPIC ) ) {
+        remove_mutation( trait_MYOPIC );
     }
 
     on_stat_change( "pkill", pkill );

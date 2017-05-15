@@ -150,7 +150,7 @@ void npc_class::check_consistency()
         }
 
         for( const auto &pr : cl.traits ) {
-            if( !mutation_branch::has( pr.first ) ) {
+            if( !pr.first.is_valid() ) {
                 debugmsg( "Invalid trait %s", pr.first.c_str() );
             }
         }
@@ -244,7 +244,7 @@ void npc_class::load( JsonObject &jo, const std::string & )
         JsonArray jarr = jo.get_array( "traits" );
         while( jarr.has_more() ) {
             JsonArray jarr_in = jarr.next_array();
-            traits[ jarr_in.get_string( 0 ) ] = jarr_in.get_int( 1 );
+            traits[ trait_id( jarr_in.get_string( 0 ) ) ] = jarr_in.get_int( 1 );
         }
     }
 

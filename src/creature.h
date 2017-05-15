@@ -13,24 +13,26 @@
 #include <stdlib.h>
 #include <string>
 #include <unordered_map>
+
+class field;
+class field_entry;
 class game;
 class JsonObject;
 class JsonOut;
-struct projectile;
-struct damage_instance;
-struct dealt_damage_instance;
-struct damage_unit;
-struct dealt_projectile_attack;
-struct trap;
-enum m_flag : int;
-enum field_id : int;
-enum damage_type : int;
 class material_type;
-using material_id = string_id<material_type>;
-class field;
-class field_entry;
+enum damage_type : int;
 enum field_id : int;
+enum m_flag : int;
+struct damage_instance;
+struct damage_unit;
+struct dealt_damage_instance;
+struct dealt_projectile_attack;
 struct pathfinding_settings;
+struct projectile;
+struct trap;
+
+using material_id = string_id<material_type>;
+using trait_id = string_id<mutation_branch>;
 
 enum m_size : int {
     MS_TINY = 0,    // Squirrel
@@ -374,7 +376,7 @@ class Creature
         virtual void process_effects();
 
         /** Returns true if the player has the entered trait, returns false for non-humans */
-        virtual bool has_trait(const std::string &flag) const;
+        virtual bool has_trait( const trait_id &flag ) const;
 
         // not-quite-stats, maybe group these with stats later
         virtual void mod_pain(int npain);

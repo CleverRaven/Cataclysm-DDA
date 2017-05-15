@@ -12,9 +12,12 @@
 #include "json.h"
 #include "filesystem.h"
 #include "item_search.h"
+#include "rng.h"
 
 #include <algorithm>
 #include <cmath>
+#include <string>
+#include <locale>
 
 double round_up( double val, unsigned int dp )
 {
@@ -487,46 +490,40 @@ bool read_from_file_optional( const std::string &path, JsonDeserializer &reader 
     } );
 }
 
-std::string native_to_utf8( const std::string &str )
+std::string obscure_message( const std::string &str, std::function<char( void )> f )
 {
-    if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
-        return str;
+    //~ translators: place some random 1-width characters here in your language if possible, or leave it as is
+    std::string gibberish_narrow = _( "abcdefghijklmnopqrstuvwxyz" );
+    //~ translators: place some random 2-width characters here in your language if possible, or leave it as is
+    std::string gibberish_wide =
+        _( "に坂索トし荷測のンおク妙免イロコヤ梅棋厚れ表幌" );
+    std::wstring w_gibberish_narrow = utf8_to_wstr( gibberish_narrow );
+    std::wstring w_gibberish_wide = utf8_to_wstr( gibberish_wide );
+    std::wstring w_str = utf8_to_wstr( str );
+    char transformation[2] = { 0 }; // a trailing NULL terminator is necessary for utf8_width function
+    for( size_t i = 0; i < w_str.size(); ++i ) {
+        transformation[0] = f();
+        std::string this_char = wstr_to_utf8( std::wstring( 1, w_str[i] ) );
+        if( transformation[0] == -1 ) {
+            continue;
+        } else if( transformation[0] == 0 ) {
+            if( utf8_width( this_char ) == 1 ) {
+                w_str[i] = random_entry( w_gibberish_narrow );
+            } else {
+                w_str[i] = random_entry( w_gibberish_wide );
+            }
+        } else {
+            // Only support the case eg. replace current character to symbols like # or ?
+            if( utf8_width( transformation ) != 1 ) {
+                debugmsg( "target character isn't narrow" );
+            }
+            // A 2-width wide character in the original string should be replace by two narrow characters
+            w_str.replace( i, 1, utf8_to_wstr( std::string( utf8_width( this_char ), transformation[0] ) ) );
+        }
     }
-#if defined(_WIN32) || defined(WINDOWS)
-    // native encoded string --> Unicode sequence --> UTF-8 string
-    int unicode_size = MultiByteToWideChar( CP_ACP, 0, str.c_str(), -1, NULL, 0 ) + 1;
-    std::wstring unicode( unicode_size, '\0' );
-    MultiByteToWideChar( CP_ACP, 0, str.c_str(), -1, &unicode[0], unicode_size );
-    int utf8_size = WideCharToMultiByte( CP_UTF8, 0, &unicode[0], -1, NULL, 0, NULL, 0 ) + 1;
-    std::string result( utf8_size, '\0' );
-    WideCharToMultiByte( CP_UTF8, 0, &unicode[0], -1, &result[0], utf8_size, NULL, 0 );
-    while( !result.empty() && result.back() == '\0' ) {
-        result.pop_back();
+    std::string result = wstr_to_utf8( w_str );
+    if( utf8_width( str ) != utf8_width( result ) ) {
+        debugmsg( "utf8_width differ between original string and obscured string" );
     }
     return result;
-#else
-    return str;
-#endif
-}
-
-std::string utf8_to_native( const std::string &str )
-{
-    if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
-        return str;
-    }
-#if defined(_WIN32) || defined(WINDOWS)
-    // UTF-8 string --> Unicode sequence --> native encoded string
-    int unicode_size = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, NULL, 0 ) + 1;
-    std::wstring unicode( unicode_size, '\0' );
-    MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, &unicode[0], unicode_size );
-    int native_size = WideCharToMultiByte( CP_ACP, 0, &unicode[0], -1, NULL, 0, NULL, 0 ) + 1;
-    std::string result( native_size, '\0' );
-    WideCharToMultiByte( CP_ACP, 0, &unicode[0], -1, &result[0], native_size, NULL, 0 );
-    while( !result.empty() && result.back() == '\0' ) {
-        result.pop_back();
-    }
-    return result;
-#else
-    return str;
-#endif
 }
