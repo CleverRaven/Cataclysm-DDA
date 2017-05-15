@@ -25,6 +25,8 @@
 
 #include "cursesdef.h"
 
+static const bionic_id bio_cqb( "bio_cqb" );
+
 static const matec_id tec_none( "tec_none" );
 static const matec_id WBLOCK_1( "WBLOCK_1" );
 static const matec_id WBLOCK_2( "WBLOCK_2" );
@@ -194,7 +196,7 @@ float player::get_hit_weapon( const item &weap ) const
     auto skill = get_skill_level( is_armed() ? weap.melee_skill() : skill_unarmed );
 
     // CQB bionic acts as a lower bound providing item uses a weapon skill
-    if( skill < BIO_CQB_LEVEL && has_active_bionic( "bio_cqb" ) ) {
+    if( skill < BIO_CQB_LEVEL && has_active_bionic( bio_cqb ) ) {
         skill = BIO_CQB_LEVEL;
     }
 
@@ -349,7 +351,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
         t.on_dodge( this, get_melee() );
 
         // Practice melee and relevant weapon skill (if any) except when using CQB bionic
-        if( !has_active_bionic( "bio_cqb" ) ) {
+        if( !has_active_bionic( bio_cqb ) ) {
             melee_train( *this, 5, 10 );
         }
 
@@ -411,7 +413,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
             int dam = dealt_dam.total_damage();
 
             // Practice melee and relevant weapon skill (if any) except when using CQB bionic
-            if( !has_active_bionic( "bio_cqb" ) ) {
+            if( !has_active_bionic( bio_cqb ) ) {
                 melee_train( *this, 2, 5 );
             }
 
@@ -562,7 +564,7 @@ double player::crit_chance( float roll_hit, float target_dodge, const item &weap
     /** @EFFECT_STABBING increases crit chance with piercing weapons */
     /** @EFFECT_UNARMED increases crit chance with unarmed weapons */
     int sk = get_skill_level( is_armed() ? weap.melee_skill() : skill_unarmed );
-    if( has_active_bionic( "bio_cqb" ) ) {
+    if( has_active_bionic( bio_cqb ) ) {
         sk = std::max( sk, BIO_CQB_LEVEL );
     }
 
@@ -662,7 +664,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
 
     const bool unarmed = weap.has_flag("UNARMED_WEAPON");
     int skill = get_skill_level( unarmed ? skill_unarmed : skill_bashing );
-    if( has_active_bionic("bio_cqb") ) {
+    if( has_active_bionic(bio_cqb) ) {
         skill = BIO_CQB_LEVEL;
     }
 
@@ -746,7 +748,7 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
     int cutting_skill = get_skill_level( skill_cutting );
     int unarmed_skill = get_skill_level( skill_unarmed );
 
-    if( has_active_bionic("bio_cqb") ) {
+    if( has_active_bionic(bio_cqb) ) {
         cutting_skill = BIO_CQB_LEVEL;
     }
 
@@ -760,7 +762,7 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
             if (has_trait( trait_CLAWS ) || (has_active_mutation( trait_CLAWS_RETRACT )) ) {
                 per_hand += 3;
             }
-            if (has_bionic("bio_razors")) {
+            if (has_bionic(bionic_id( "bio_razors" ))) {
                 per_hand += 2;
             }
             if (has_trait( trait_TALONS )) {
@@ -819,7 +821,7 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average, con
     int unarmed_skill = get_skill_level( skill_unarmed );
     int stabbing_skill = get_skill_level( skill_stabbing );
 
-    if( has_active_bionic( "bio_cqb" ) ) {
+    if( has_active_bionic( bio_cqb ) ) {
         stabbing_skill = BIO_CQB_LEVEL;
     }
 
@@ -837,7 +839,7 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average, con
                 per_hand += .5;
             }
 
-            if( has_bionic("bio_razors") ) {
+            if( has_bionic( bionic_id( "bio_razors" ) ) ) {
                 per_hand += 2;
             }
 
@@ -1212,7 +1214,7 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
     }
 
     //player has a very small chance, based on their intelligence, to learn a style whilst using the cqb bionic
-    if (has_active_bionic("bio_cqb") && !has_martialart(style_selected)) {
+    if (has_active_bionic(bio_cqb) && !has_martialart(style_selected)) {
         /** @EFFECT_INT slightly increases chance to learn techniques when using CQB bionic */
         if (one_in(1400 - (get_int() * 50))) {
             ma_styles.push_back(style_selected);
@@ -1490,12 +1492,12 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
     tripoint tarpos = t.pos();
 
     // Bonus attacks!
-    bool shock_them = (has_active_bionic("bio_shock") && power_level >= 2 &&
+    bool shock_them = (has_active_bionic( bionic_id( "bio_shock" ) ) && power_level >= 2 &&
                        (unarmed_attack() || weapon.made_of( material_id( "iron" ) ) ||
                         weapon.made_of( material_id( "steel" ) ) || weapon.made_of( material_id( "silver" ) ) ||
                         weapon.made_of( material_id( "gold" ) ) || weapon.made_of( material_id( "superalloy" ) )) && one_in(3));
 
-    bool drain_them = (has_active_bionic("bio_heat_absorb") && power_level >= 1 &&
+    bool drain_them = (has_active_bionic( bionic_id( "bio_heat_absorb" ) ) && power_level >= 1 &&
                        !is_armed() && t.is_warm());
     drain_them &= one_in(2); // Only works half the time
 
@@ -1863,7 +1865,7 @@ void player_hit_message(player* attacker, std::string message,
 int player::attack_speed( const item &weap ) const
 {
     const int base_move_cost = weap.attack_time() / 2;
-    const int melee_skill = has_active_bionic("bio_cqb") ? BIO_CQB_LEVEL : (int)get_skill_level( skill_melee );
+    const int melee_skill = has_active_bionic(bionic_id( bio_cqb )) ? BIO_CQB_LEVEL : (int)get_skill_level( skill_melee );
     /** @EFFECT_MELEE increases melee attack speed */
     const int skill_cost = (int)( base_move_cost * ( 15 - melee_skill ) / 15 );
     /** @EFFECT_DEX increases attack speed */

@@ -74,7 +74,7 @@ void draw_bionics_titlebar( WINDOW *window, player *p, bionic_menu_mode mode )
 //builds the power usage string of a given bionic
 std::string build_bionic_poweronly_string( bionic const &bio )
 {
-    const bionic_data &bio_data( bionic_info( bio.id ) );
+    const bionic_data &bio_data = bio.id.obj();
     std::vector<std::string> properties;
 
     if( bio_data.charge_time > 0 ) {
@@ -103,7 +103,7 @@ std::string build_bionic_powerdesc_string( bionic const &bio )
 {
     std::ostringstream power_desc;
     const std::string power_string = build_bionic_poweronly_string( bio );
-    power_desc << bionic_info( bio.id ).name;
+    power_desc << bio.id->name;
     if( !power_string.empty() ) {
         power_desc << ", " << power_string;
     }
@@ -134,12 +134,12 @@ void draw_description( WINDOW *win, bionic const &bio )
     werase( win );
     const int width = getmaxx( win );
     const std::string poweronly_string = build_bionic_poweronly_string( bio );
-    int ypos = fold_and_print( win, 0, 0, width, c_white, bionic_info( bio.id ).name );
+    int ypos = fold_and_print( win, 0, 0, width, c_white, bio.id->name );
     if( !poweronly_string.empty() ) {
         ypos += fold_and_print( win, ypos, 0, width, c_ltgray,
                                 _( "Power usage: %s" ), poweronly_string.c_str() );
     }
-    ypos += 1 + fold_and_print( win, ypos, 0, width, c_ltblue, bionic_info( bio.id ).description );
+    ypos += 1 + fold_and_print( win, ypos, 0, width, c_ltblue, bio.id->description );
 
     // @todo Unhide when enforcing limits
     if( g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
@@ -152,12 +152,12 @@ void draw_description( WINDOW *win, bionic const &bio )
 }
 
 void draw_connectors( WINDOW *win, const int start_y, const int start_x, const int last_x,
-                      const std::string &bio_id )
+                      const bionic_id &bio_id )
 {
     const int LIST_START_Y = 6;
     // first: pos_y, second: occupied slots
     std::vector<std::pair<int, size_t>> pos_and_num;
-    for( const auto &elem : bionic_info( bio_id ).occupied_bodyparts ) {
+    for( const auto &elem : bio_id->occupied_bodyparts ) {
         pos_and_num.emplace_back( static_cast<int>( elem.first ) + LIST_START_Y, elem.second );
     }
     if( pos_and_num.empty() || !g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
@@ -235,23 +235,23 @@ void draw_connectors( WINDOW *win, const int start_y, const int start_x, const i
 nc_color get_bionic_text_color( bionic const &bio, bool const isHighlightedBionic )
 {
     nc_color type = c_white;
-    if( bionic_info( bio.id ).activated ) {
+    if( bio.id->activated ) {
         if( isHighlightedBionic ) {
-            if( bio.powered && !bionic_info( bio.id ).power_source ) {
+            if( bio.powered && !bio.id->power_source ) {
                 type = h_red;
-            } else if( bionic_info( bio.id ).power_source && !bio.powered ) {
+            } else if( bio.id->power_source && !bio.powered ) {
                 type = h_ltcyan;
-            } else if( bionic_info( bio.id ).power_source && bio.powered ) {
+            } else if( bio.id->power_source && bio.powered ) {
                 type = h_ltgreen;
             } else {
                 type = h_ltred;
             }
         } else {
-            if( bio.powered && !bionic_info( bio.id ).power_source ) {
+            if( bio.powered && !bio.id->power_source ) {
                 type = c_red;
-            } else if( bionic_info( bio.id ).power_source && !bio.powered ) {
+            } else if( bio.id->power_source && !bio.powered ) {
                 type = c_ltcyan;
-            } else if( bionic_info( bio.id ).power_source && bio.powered ) {
+            } else if( bio.id->power_source && bio.powered ) {
                 type = c_ltgreen;
             } else {
                 type = c_ltred;
@@ -259,13 +259,13 @@ nc_color get_bionic_text_color( bionic const &bio, bool const isHighlightedBioni
         }
     } else {
         if( isHighlightedBionic ) {
-            if( bionic_info( bio.id ).power_source ) {
+            if( bio.id->power_source ) {
                 type = h_ltcyan;
             } else {
                 type = h_cyan;
             }
         } else {
-            if( bionic_info( bio.id ).power_source ) {
+            if( bio.id->power_source ) {
                 type = c_ltcyan;
             } else {
                 type = c_cyan;
@@ -279,7 +279,7 @@ std::vector< bionic *>filtered_bionics( std::vector<bionic> &all_bionics, bionic
 {
     std::vector< bionic *>filtered_entries;
     for( auto &elem : all_bionics ) {
-        if( ( mode == TAB_ACTIVE ) == bionic_info( elem.id ).activated ) {
+        if( ( mode == TAB_ACTIVE ) == elem.id->activated ) {
             filtered_entries.push_back( &elem );
         }
     }
@@ -443,12 +443,12 @@ void player::power_bionics()
                     trim_and_print( wBio, list_start_y + i - scroll_position, 2, WIDTH - 3, col,
                                     "%s", desc.c_str() );
                     if( is_highlighted && menu_mode != EXAMINING && g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
-                        const std::string bio_id = ( *current_bionic_list )[i]->id;
+                        const bionic_id bio_id = ( *current_bionic_list )[i]->id;
                         draw_connectors( wBio, list_start_y + i - scroll_position, utf8_width( desc ) + 3,
                                          pos_x - 2, bio_id );
 
                         // redraw highlighted (occupied) body parts
-                        for( auto &elem : bionic_info( bio_id ).occupied_bodyparts ) {
+                        for( auto &elem : bio_id->occupied_bodyparts ) {
                             const int i = static_cast<int>( elem.first );
                             mvwprintz( wBio, i + list_start_y, pos_x, c_yellow, "%s", bps[i].c_str() );
                         }
@@ -479,7 +479,7 @@ void player::power_bionics()
             }
             redraw = true;
             const long newch = popup_getkey( _( "%s; enter new letter." ),
-                                             bionic_info( tmp->id ).name.c_str() );
+                                             tmp->id->name.c_str() );
             wrefresh( wBio );
             if( newch == ch || newch == ' ' || newch == KEY_ESCAPE ) {
                 continue;
@@ -580,8 +580,8 @@ void player::power_bionics()
                 break;
             }
             bio_last = tmp;
-            const std::string &bio_id = tmp->id;
-            const bionic_data &bio_data = bionic_info( bio_id );
+            const bionic_id &bio_id = tmp->id;
+            const bionic_data &bio_data = bio_id.obj();
             if( menu_mode == REMOVING ) {
                 recalc = uninstall_bionic( bio_id );
                 redraw = true;

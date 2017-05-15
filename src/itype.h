@@ -34,6 +34,8 @@ class recipe;
 struct itype;
 class Skill;
 using skill_id = string_id<Skill>;
+struct bionic_data;
+using bionic_id = string_id<bionic_data>;
 class player;
 class item;
 class ma_technique;
@@ -550,7 +552,7 @@ struct islot_bionic {
     /**
      * Id of the bionic, see bionics.cpp for its usage.
      */
-    std::string bionic_id;
+    bionic_id id;
 };
 
 struct islot_seed {

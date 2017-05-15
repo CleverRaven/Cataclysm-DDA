@@ -297,11 +297,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player is wearing an active optical cloak */
         bool has_active_optcloak() const;
         /** Adds a bionic to my_bionics[] */
-        void add_bionic(std::string const &b);
+        void add_bionic(bionic_id const &b);
         /** Removes a bionic from my_bionics[] */
-        void remove_bionic(std::string const &b);
+        void remove_bionic(bionic_id const &b);
         /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
-        bool uninstall_bionic(std::string const &b_id, int skill_level = -1);
+        bool uninstall_bionic(bionic_id const &b_id, int skill_level = -1);
         /** Adds the entered amount to the player's bionic power_level */
         void charge_power(int amount);
         /** Generates and handles the UI for player interaction with installed bionics */
@@ -1386,7 +1386,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int get_used_bionics_slots( const body_part bp ) const;
         int get_total_bionics_slots( const body_part bp ) const;
         int get_free_bionics_slots( const body_part bp ) const;
-        std::map<body_part, int> bionic_installation_issues( const std::string &bioid );
+        std::map<body_part, int> bionic_installation_issues( const bionic_id &bioid );
 
         //Dumps all memorial events into a single newline-delimited string
         std::string dump_memorial() const;
