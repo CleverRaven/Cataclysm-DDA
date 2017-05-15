@@ -182,6 +182,20 @@
     "bindings":[ { "input_method": "keyboard", "key": "X" } ]
   },
   {
+    "id": "TURRET_MANUAL_OVERRIDE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Aim automatic turrets",
+    "bindings":[ { "input_method": "keyboard", "key": "V" } ]
+  },
+  {
+    "id": "TURRET_SINGLE_FIRE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Aim individual turret",
+    "bindings":[ { "input_method": "keyboard", "key": "T" } ]
+  },
+  {
     "id": "TURRET_TARGET_MODE",
     "type": "keybinding",
     "category": "VEHICLE",

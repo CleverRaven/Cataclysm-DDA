@@ -27,6 +27,7 @@
 #include "mtype.h"
 #include "itype.h"
 #include "item_factory.h"
+#include "computer.h"
 
 #include <algorithm>
 #include <cassert>
@@ -8841,8 +8842,8 @@ computer *map::add_computer( const tripoint &p, std::string name, int security )
 {
     ter_set( p, t_console ); // TODO: Turn this off?
     submap *place_on_submap = get_submap_at( p );
-    place_on_submap->comp = computer(name, security);
-    return &(place_on_submap->comp);
+    place_on_submap->comp.reset( new computer( name, security ) );
+    return place_on_submap->comp.get();
 }
 
 /**
@@ -8918,7 +8919,7 @@ void map::rotate(int turns)
 
     std::vector<spawn_point> sprot[MAPSIZE * MAPSIZE];
     std::vector<vehicle*> vehrot[MAPSIZE * MAPSIZE];
-    computer tmpcomp[MAPSIZE * MAPSIZE];
+    copyable_unique_ptr<computer> tmpcomp[MAPSIZE * MAPSIZE];
     int field_count[MAPSIZE * MAPSIZE];
     int temperature[MAPSIZE * MAPSIZE];
 
@@ -10591,11 +10592,7 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
             } while (tries < 10 && m.impassable(x, y));
 
             if (tries < 10) { // We found a valid spot!
-                if (one_in(8)) {
-                    m.add_spawn(mon_zombie_soldier, 1, x, y);
-                } else {
-                    m.place_items("map_extra_military", 100, x, y, x, y, true, 0);
-                }
+                m.place_items("map_extra_military", 100, x, y, x, y, true, 0);
 
                 int splatter_range = rng(1, 3);
                 for (int j = 0; j <= splatter_range; j++) {
@@ -10623,11 +10620,7 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
             } while (tries < 10 && m.impassable(x, y));
 
             if (tries < 10) { // We found a valid spot!
-                if (one_in(8)) {
-                    m.add_spawn(mon_zombie_cop, 1, x, y);
-                } else {
-                    m.place_items("map_extra_police", 100, x, y, x, y, true, 0);
-                }
+                m.place_items("map_extra_police", 100, x, y, x, y, true, 0);
 
                 int splatter_range = rng(1, 3);
                 for (int j = 0; j <= splatter_range; j++) {

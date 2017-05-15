@@ -210,7 +210,9 @@ def extract_martial_art(item):
                  comment="Description for martial art '{}'".format(name))
     onhit_buffs = item.get("onhit_buffs", list())
     static_buffs = item.get("static_buffs", list())
-    buffs = onhit_buffs + static_buffs
+    onmove_buffs = item.get("onmove_buffs", list())
+    ondodge_buffs = item.get("ondodge_buffs", list())
+    buffs = onhit_buffs + static_buffs + onmove_buffs + ondodge_buffs
     for buff in buffs:
         writestr(outfile, buff["name"])
         if buff["name"] == item["name"]:

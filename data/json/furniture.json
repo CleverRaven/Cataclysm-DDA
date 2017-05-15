@@ -84,7 +84,7 @@
             "sound_fail": "whump.",
             "items": [
                 { "item": "2x4", "count": [2, 6] },
-                { "item": "nail", "charges": [4, 12] },
+                { "item": "nail", "charges": [4, 8] },
                 { "item": "splinter", "count": 1 }
             ]
         }
@@ -323,6 +323,7 @@
                 { "item": "scrap", "count": [2, 6] },
                 { "item": "steel_chunk", "count": [2, 3] },
                 { "item": "element", "count": [1, 4] },
+                { "item": "cable", "charges": [1, 3] },
                 { "item": "pilot_light", "count": 1 }
             ]
         },
@@ -689,7 +690,7 @@
             "sound_fail": "whump.",
             "items": [
                 { "item": "2x4", "count": [2, 6] },
-                { "item": "nail", "charges": [4, 12] },
+                { "item": "nail", "charges": [4, 8] },
                 { "item": "splinter", "count": 1 }
             ]
         }
@@ -769,7 +770,7 @@
             "sound_fail": "whump.",
             "items": [
                 { "item": "2x4", "count": [2, 6] },
-                { "item": "nail", "charges": [4, 12] },
+                { "item": "nail", "charges": [4, 8] },
                 { "item": "splinter", "count": 1 }
             ]
         }
@@ -857,7 +858,7 @@
             "sound_fail": "whump.",
             "items": [
                 { "item": "2x4", "count": [2, 6] },
-                { "item": "nail", "charges": [4, 12] },
+                { "item": "nail", "charges": [4, 8] },
                 { "item": "splinter", "count": 1 }
             ]
         }
@@ -955,6 +956,7 @@
                 { "item": "steel_chunk", "count": [1, 3] },
                 { "item": "sheet_metal", "count": [2, 6] },
                 { "item": "cable", "charges": [1, 15] },
+                { "item": "hose", "count": [1, 2] },
                 { "item": "cu_pipe", "count": [2, 5] }
             ]
         },
@@ -986,6 +988,7 @@
             "items": [
                 { "item": "scrap", "count": [2, 6] },
                 { "item": "steel_chunk", "count": [1, 3] },
+                { "item": "element", "count": [2, 3] },
                 { "item": "sheet_metal", "count": [2, 6] },
                 { "item": "cable", "charges": [1, 15] },
                 { "item": "cu_pipe", "count": [1, 3] }
@@ -2240,7 +2243,7 @@
                 { "item": "scrap", "count": [0, 3] },
                 { "item": "pipe", "count": [0, 4] },
                 { "item": "small_lcd_screen", "prob": 50 },
-                { "item": "RAM", "count": [4, 1] },
+                { "item": "RAM", "count": [0, 1] },
                 { "item": "nail", "charges": [2, 6] }
             ]
         }

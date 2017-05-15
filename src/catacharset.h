@@ -39,6 +39,12 @@ std::string utf8_truncate( std::string s, size_t length );
 std::string base64_encode( std::string str );
 std::string base64_decode( std::string str );
 
+std::wstring utf8_to_wstr( const std::string &str );
+std::string wstr_to_utf8( const std::wstring &wstr );
+
+std::string native_to_utf8( const std::string &str );
+std::string utf8_to_native( const std::string &str );
+
 /**
  * UTF8-Wrapper over std::string.
  * It looks and feels like a std::string, but uses code points counts

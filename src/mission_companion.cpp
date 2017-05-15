@@ -41,6 +41,10 @@ const skill_id skill_cooking( "cooking" );
 const skill_id skill_traps( "traps" );
 const skill_id skill_archery( "archery" );
 
+static const trait_id trait_NPC_CONSTRUCTION_LEV_1( "NPC_CONSTRUCTION_LEV_1" );
+static const trait_id trait_NPC_CONSTRUCTION_LEV_2( "NPC_CONSTRUCTION_LEV_2" );
+static const trait_id trait_NPC_MISSION_LEV_1( "NPC_MISSION_LEV_1" );
+
 void talk_function::bionic_install(npc &p)
 {
     std::vector<item *> bionic_inv = g->u.items_with( []( const item &itm ) {
@@ -202,7 +206,7 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
         }
     }
 
-    if (id == "SCAVENGER" && p->has_trait("NPC_MISSION_LEV_1")){
+    if (id == "SCAVENGER" && p->has_trait( trait_NPC_MISSION_LEV_1 )){
         col_missions["Assign Scavenging Raid"] = _("Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \n"
             "Scavenging raids target formerly populated areas to loot as many valuable items as possible before "
             "being surrounded by the undead.  Combat is to be expected and assistance from the rest of the party "
@@ -237,7 +241,7 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
         }
     }
 
-    if (id == "FOREMAN" && p->has_trait("NPC_MISSION_LEV_1")){
+    if (id == "FOREMAN" && p->has_trait( trait_NPC_MISSION_LEV_1 )){
         col_missions["Assign Ally to Carpentry Work"] = _("Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
             "Carpentry work requires more skill than menial labor while offering modestly improved pay.  It is "
             "unlikely that your companions will face combat but there are hazards working on makeshift buildings.");
@@ -254,7 +258,7 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
         }
     }
 
-    if (id == "COMMUNE CROPS" && !p->has_trait("NPC_CONSTRUCTION_LEV_1")){
+    if (id == "COMMUNE CROPS" && !p->has_trait( trait_NPC_CONSTRUCTION_LEV_1 )){
         col_missions["Purchase East Field"] = _("Cost: $1000\n \n"
             "\n              .........\n              .........\n              .........\n              "
             ".........\n              .........\n              .........\n              ..#....**\n     "
@@ -266,7 +270,7 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
         keys.push_back("Purchase East Field");
     }
 
-    if (id == "COMMUNE CROPS" && p->has_trait("NPC_CONSTRUCTION_LEV_1") && !p->has_trait("NPC_CONSTRUCTION_LEV_2")){
+    if (id == "COMMUNE CROPS" && p->has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) && !p->has_trait( trait_NPC_CONSTRUCTION_LEV_2 )){
         col_missions["Upgrade East Field I"] = _("Cost: $5500\n \n"
             "\n              .........\n              .........\n              .........\n              "
             ".........\n              .........\n              .........\n              ..#....**\n     "
@@ -276,7 +280,7 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
         keys.push_back("Upgrade East Field I");
     }
 
-    if (id == "COMMUNE CROPS" && p->has_trait("NPC_CONSTRUCTION_LEV_1")){
+    if (id == "COMMUNE CROPS" && p->has_trait( trait_NPC_CONSTRUCTION_LEV_1 )){
         col_missions["Plant East Field"] = _("Cost: $3.00/plot\n \n"
         "\n              .........\n              .........\n              .........\n              .........\n"
         "              .........\n              .........\n              ..#....**\n              ..#Ov..**\n  "
@@ -675,7 +679,7 @@ void talk_function::field_build_1(npc *p)
         popup(_("I'm sorry, you don't have enough money."));
         return;
     }
-    p->set_mutation( "NPC_CONSTRUCTION_LEV_1" );
+    p->set_mutation( trait_NPC_CONSTRUCTION_LEV_1 );
     g->u.cash += -100000;
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), "ranch_camp_63", 20, false );
     tinymap bay;
@@ -697,7 +701,7 @@ void talk_function::field_build_2(npc *p)
         popup(_("I'm sorry, you don't have enough money."));
         return;
     }
-    p->set_mutation( "NPC_CONSTRUCTION_LEV_2" );
+    p->set_mutation( trait_NPC_CONSTRUCTION_LEV_2 );
     g->u.cash += -550000;
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), "ranch_camp_63", 20, false );
     tinymap bay;
@@ -867,7 +871,7 @@ void talk_function::field_harvest(npc *p, std::string place)
     int number_plants = 0;
     int number_seeds = 0;
     int skillLevel = 2;
-    if (p->has_trait("NPC_CONSTRUCTION_LEV_2"))
+    if (p->has_trait( trait_NPC_CONSTRUCTION_LEV_2 ))
         skillLevel += 2;
 
     for (int x = 0; x < 23; x++){
@@ -1019,8 +1023,8 @@ bool talk_function::scavenging_patrol_return(npc *p)
         popup(_("%s was impressed with %s's performance and gave you a small bonus ($100)"), p->name.c_str(), comp->name.c_str());
         g->u.cash += 10000;
     }
-    if (one_in(10) && !p->has_trait("NPC_MISSION_LEV_1")){
-        p->set_mutation( "NPC_MISSION_LEV_1" );
+    if (one_in(10) && !p->has_trait( trait_NPC_MISSION_LEV_1 )){
+        p->set_mutation( trait_NPC_MISSION_LEV_1 );
         popup(_("%s feels more confident in your abilities and is willing to let you participate in daring raids."), p->name.c_str());
     }
     companion_return(comp);
@@ -1161,8 +1165,8 @@ bool talk_function::labor_return(npc *p)
 
     popup(_("%s returns from working as a laborer having earned $%d and a bit of experience..."), comp->name.c_str(),money);
     companion_return(comp);
-    if (turns >= 8 && one_in(8) && !p->has_trait("NPC_MISSION_LEV_1")){
-        p->set_mutation( "NPC_MISSION_LEV_1" );
+    if (turns >= 8 && one_in(8) && !p->has_trait( trait_NPC_MISSION_LEV_1 )){
+        p->set_mutation( trait_NPC_MISSION_LEV_1 );
         popup(_("%s feels more confident in your companions and is willing to let them participate in advanced tasks."), p->name.c_str());
     }
 
@@ -1341,8 +1345,8 @@ bool talk_function::forage_return(npc *p)
                 popup(_("%s returned with a %s for you!"),comp->name.c_str(),result.tname().c_str());
                 g->u.i_add( result );
         }
-        if (one_in(6) && !p->has_trait("NPC_MISSION_LEV_1")){
-            p->set_mutation( "NPC_MISSION_LEV_1" );
+        if (one_in(6) && !p->has_trait( trait_NPC_MISSION_LEV_1 )){
+            p->set_mutation( trait_NPC_MISSION_LEV_1 );
             popup(_("%s feels more confident in your companions and is willing to let them participate in advanced tasks."), p->name.c_str());
         }
 

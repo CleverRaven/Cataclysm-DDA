@@ -15,6 +15,8 @@
 #include <algorithm>
 #include "generic_factory.h"
 
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+
 static std::map<requirement_id, requirement_data> requirements_all;
 
 /** @relates string_id */
@@ -518,7 +520,7 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
 
 bool requirement_data::can_make_with_inventory( const inventory &crafting_inv, int batch ) const
 {
-    if( g->u.has_trait( "DEBUG_HS" ) ) {
+    if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
 
@@ -564,7 +566,7 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
 
 bool quality_requirement::has( const inventory &crafting_inv, int ) const
 {
-    if( g->u.has_trait( "DEBUG_HS" ) ) {
+    if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
 
@@ -578,7 +580,7 @@ std::string quality_requirement::get_color( bool, const inventory &, int ) const
 
 bool tool_comp::has( const inventory &crafting_inv, int batch ) const
 {
-    if( g->u.has_trait( "DEBUG_HS" ) ) {
+    if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
 
@@ -603,7 +605,7 @@ std::string tool_comp::get_color( bool has_one, const inventory &crafting_inv, i
 
 bool item_comp::has( const inventory &crafting_inv, int batch ) const
 {
-    if( g->u.has_trait( "DEBUG_HS" ) ) {
+    if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
 

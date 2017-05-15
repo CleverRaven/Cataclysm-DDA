@@ -2738,8 +2738,8 @@ void mapgen_church_new_england(map *m, oter_id terrain_type, mapgendata dat, int
                f_null,   f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,
                f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null)
     );
-    m->spawn_item(9, 6, "brazier");
-    m->spawn_item(14, 6, "brazier");
+    madd_trap(m, 9, 6, tr_brazier);
+    madd_trap(m, 14, 6, tr_brazier);
     m->place_items("church", 40,  5,  5, 8,  16, false, 0);
     m->place_items("church", 40,  5,  5, 8,  16, false, 0);
     m->place_items("church", 85,  12,  2, 14,  2, false, 0);
@@ -2790,8 +2790,8 @@ ssssssssssssssssssssssss\n",
                f_null,       f_null,   f_null,   f_bench,      f_table,      f_null,   f_null,         f_toilet,
                f_sink,       f_chair,      f_counter,    f_locker,     f_null)
     );
-    m->spawn_item(8, 4, "brazier");
-    m->spawn_item(15, 4, "brazier");
+    madd_trap(m, 8, 4, tr_brazier);
+    madd_trap(m, 15, 4, tr_brazier);
     m->place_items("church", 70,  6,  7, 17,  16, false, 0);
     m->place_items("church", 70,  6,  7, 17,  16, false, 0);
     m->place_items("church", 60,  6,  7, 17,  16, false, 0);

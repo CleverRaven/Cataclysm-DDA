@@ -51,6 +51,13 @@ const efftype_id effect_no_ammo( "no_ammo" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_rat( "rat" );
 
+static const trait_id trait_PACIFIST( "PACIFIST" );
+static const trait_id trait_PRED1( "PRED1" );
+static const trait_id trait_PRED2( "PRED2" );
+static const trait_id trait_PRED3( "PRED3" );
+static const trait_id trait_PRED4( "PRED4" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+
 void mdeath::normal(monster *z)
 {
     if( z->no_corpse_quiet ) {
@@ -358,7 +365,7 @@ void mdeath::guilt(monster *z)
     guilt_tresholds[50] = _("You regret killing %s.");
     guilt_tresholds[25] = _("You feel remorse for killing %s.");
 
-    if (g->u.has_trait("PSYCHOPATH") || g->u.has_trait("PRED3") || g->u.has_trait("PRED4") ) {
+    if (g->u.has_trait( trait_PSYCHOPATH ) || g->u.has_trait( trait_PRED3 ) || g->u.has_trait( trait_PRED4 ) ) {
         return;
     }
     if (rl_dist( z->pos(), g->u.pos() ) > MAX_GUILT_DISTANCE) {
@@ -377,7 +384,7 @@ void mdeath::guilt(monster *z)
                               "about their deaths anymore."), z->name(maxKills).c_str());
         }
         return;
-    } else if ((g->u.has_trait("PRED1")) || (g->u.has_trait("PRED2"))) {
+    } else if ((g->u.has_trait( trait_PRED1 )) || (g->u.has_trait( trait_PRED2 ))) {
         msg = (_("Culling the weak is distasteful, but necessary."));
         msgtype = m_neutral;
     } else {
@@ -398,11 +405,11 @@ void mdeath::guilt(monster *z)
     int decayDelay = 30 * (1.0 - ((float) kill_count / maxKills));
     if (z->type->in_species( ZOMBIE )) {
         moraleMalus /= 10;
-        if (g->u.has_trait("PACIFIST")) {
+        if (g->u.has_trait( trait_PACIFIST )) {
             moraleMalus *= 5;
-        } else if (g->u.has_trait("PRED1")) {
+        } else if (g->u.has_trait( trait_PRED1 )) {
             moraleMalus /= 4;
-        } else if (g->u.has_trait("PRED2")) {
+        } else if (g->u.has_trait( trait_PRED2 )) {
             moraleMalus /= 5;
         }
     }

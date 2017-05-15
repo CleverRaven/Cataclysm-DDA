@@ -2,16 +2,18 @@
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
 
-#include "enums.h"
 #include "damage.h"
+#include "enums.h"
+#include "explosion.h"
+
 #include <string>
 #include <vector>
 #include <set>
 #include <memory>
 
-struct itype;
-struct explosion_data;
 class Creature;
+class vehicle;
+struct itype;
 
 struct projectile {
         damage_instance impact;

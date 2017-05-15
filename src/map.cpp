@@ -38,6 +38,7 @@
 #include "cata_utility.h"
 #include "harvest.h"
 #include "input.h"
+#include "computer.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -1562,6 +1563,13 @@ void map::furn_set( const tripoint &p, const furn_id new_furniture )
     // Set the dirty flags
     const furn_t &old_t = old_id.obj();
     const furn_t &new_t = new_furniture.obj();
+
+    // If player has grabbed this furniture and it's no longer grabbable, release the grab.
+    if( g->u.grab_type == OBJECT_FURNITURE && g->u.grab_point == p && new_t.move_str_req < 0 ) {
+        add_msg( _( "The %s you were grabbing is destroyed!" ), old_t.name.c_str() );
+        g->u.grab_type = OBJECT_NONE;
+        g->u.grab_point = tripoint_zero;
+    }
 
     if( old_t.transparent != new_t.transparent ) {
         set_transparency_cache_dirty( p.z );
@@ -5607,13 +5615,7 @@ computer* map::computer_at( const tripoint &p )
         return nullptr;
     }
 
-    submap * const current_submap = get_submap_at( p );
-
-    if( current_submap->comp.name.empty() ) {
-        return nullptr;
-    }
-
-    return &(current_submap->comp);
+    return get_submap_at( p )->comp.get();
 }
 
 bool map::allow_camp( const tripoint &p, const int radius)

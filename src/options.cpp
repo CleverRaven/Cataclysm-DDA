@@ -7,6 +7,7 @@
 #include "cursesdef.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "sounds.h"
 #include "cata_utility.h"
 #include "input.h"
 #include "worldfactory.h"
@@ -946,13 +947,13 @@ void options_manager::init()
     optionNames["es_ES"] = R"(Español (España))";
     optionNames["ja"] = R"(日本語)";
     optionNames["ko"] = R"(한국어)";
+    optionNames["pl"] = R"(Polskie)";
     optionNames["pt_BR"] = R"(Português (Brasil))";
-    optionNames["pt_PT"] = R"(Português (Portugal))";
     optionNames["ru"] = R"(Русский)";
     optionNames["zh_CN"] = R"(中文(天朝))";
     optionNames["zh_TW"] = R"(中文(台灣))";
     add("USE_LANG", "interface", _("Language"), _("Switch Language."),
-        ",en,fr,de,it_IT,es_AR,es_ES,ja,ko,pt_BR,pt_PT,ru,zh_CN,zh_TW",
+        ",en,fr,de,it_IT,es_AR,es_ES,ja,ko,pl,pt_BR,ru,zh_CN,zh_TW",
         ""
         );
 
@@ -1819,6 +1820,7 @@ void options_manager::show(bool ingame)
             if (iCurrentPage >= (int)vPages.size()) {
                 iCurrentPage = 0;
             }
+            sfx::play_variant_sound( "menu_move", "default", 100 );
         } else if (action == "PREV_TAB") {
             iCurrentLine = 0;
             iStartPos = 0;
@@ -1826,6 +1828,7 @@ void options_manager::show(bool ingame)
             if (iCurrentPage < 0) {
                 iCurrentPage = vPages.size() - 1;
             }
+            sfx::play_variant_sound( "menu_move", "default", 100 );
         } else if (!mPageItems[iCurrentPage].empty() && action == "CONFIRM") {
             cOpt &cur_opt = cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]];
             if (cur_opt.getType() == "bool" || cur_opt.getType() == "string_select" || cur_opt.getType() == "string_input" ) {
