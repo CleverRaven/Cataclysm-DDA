@@ -296,9 +296,6 @@ void game::load_static_data()
     init_artifacts();
     init_faction_data();
 
-    get_auto_pickup().load_global();
-    get_safemode().load_global();
-
     // --- move/delete everything below
     // TODO: move this to player class
     moveCount = 0;
@@ -739,6 +736,9 @@ void game::setup()
     load_core_data();
 
     load_world_modfiles(world_generator->active_world);
+
+    get_auto_pickup().load_global();
+    get_safemode().load_global();
 
     m =  map( get_world_option<bool>( "ZLEVELS" ) );
 
