@@ -10592,11 +10592,7 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
             } while (tries < 10 && m.impassable(x, y));
 
             if (tries < 10) { // We found a valid spot!
-                if (one_in(8)) {
-                    m.add_spawn(mon_zombie_soldier, 1, x, y);
-                } else {
-                    m.place_items("map_extra_military", 100, x, y, x, y, true, 0);
-                }
+                m.place_items("map_extra_military", 100, x, y, x, y, true, 0);
 
                 int splatter_range = rng(1, 3);
                 for (int j = 0; j <= splatter_range; j++) {
@@ -10624,11 +10620,7 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
             } while (tries < 10 && m.impassable(x, y));
 
             if (tries < 10) { // We found a valid spot!
-                if (one_in(8)) {
-                    m.add_spawn(mon_zombie_cop, 1, x, y);
-                } else {
-                    m.place_items("map_extra_police", 100, x, y, x, y, true, 0);
-                }
+                m.place_items("map_extra_police", 100, x, y, x, y, true, 0);
 
                 int splatter_range = rng(1, 3);
                 for (int j = 0; j <= splatter_range; j++) {
