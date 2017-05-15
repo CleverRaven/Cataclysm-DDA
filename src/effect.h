@@ -18,7 +18,7 @@ struct mutation_branch;
 using trait_id = string_id<mutation_branch>;
 
 /** Handles the large variety of weed messages. */
-void weed_msg(player *p);
+void weed_msg( player *p );
 
 enum effect_rating {
     e_good,     // The effect is good for the one who has it.

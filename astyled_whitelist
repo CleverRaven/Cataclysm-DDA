@@ -1,3 +1,4 @@
+src/action.cpp
 src/active_item_cache.cpp
 src/activity_item_handling.cpp
 src/addiction.cpp
@@ -25,6 +26,7 @@ src/drawing_primitives.cpp
 src/editmap.cpp
 src/emit.cpp
 src/explosion.cpp
+src/fault.cpp
 src/flag.cpp
 src/fungal_effects.cpp
 src/game_inventory.cpp
@@ -35,6 +37,7 @@ src/help.cpp
 src/input.cpp
 src/item_action.cpp
 src/item_location.cpp
+src/item_search.cpp
 src/item_stack.cpp
 src/itype.cpp
 src/iuse_software.cpp
@@ -66,6 +69,7 @@ src/player_activity.cpp
 src/player_display.cpp
 src/player_hardcoded_effects.cpp
 src/posix_time.cpp
+src/profession.cpp
 src/projectile.cpp
 src/recipe.cpp
 src/recipe_dictionary.cpp
@@ -108,6 +112,7 @@ src/calendar.h
 src/catacharset.h
 src/catacurse.h
 src/catalua.h
+src/cata_tiles.h
 src/cata_utility.h
 src/char_validity_check.h
 src/color.h
@@ -120,12 +125,16 @@ src/coordinates.h
 src/copyable_unique_ptr.h
 src/craft_command.h
 src/crafting_gui.h
+src/crafting.h
 src/creature_tracker.h
 src/cursesdef.h
+src/damage.h
 src/debug.h
 src/debug_menu.h
 src/dependency_tree.h
 src/drawing_primitives.h
+src/editmap.h
+src/effect.h
 src/emit.h
 src/event.h
 src/explosion.h
@@ -137,6 +146,7 @@ src/flag.h
 src/fungal_effects.h
 src/game_constants.h
 src/game_inventory.h
+src/gamemode.h
 src/gates.h
 src/generic_factory.h
 src/get_version.h
@@ -170,11 +180,14 @@ src/mapsharing.h
 src/martialarts.h
 src/material.h
 src/mattack_actors.h
+src/messages.h
 src/mod_manager.h
 src/mondeath.h
 src/mondefense.h
 src/monfaction.h
 src/mongroup.h
+src/monstergenerator.h
+src/monster.h
 src/morale.h
 src/morale_types.h
 src/mutation.h
@@ -194,11 +207,11 @@ src/pldata.h
 src/posix_time.h
 src/printf_check.h
 src/projectile.h
-src/recipe.h
 src/recipe_dictionary.h
+src/recipe.h
 src/requirements.h
-src/rotatable_symbols.h
 src/rng.h
+src/rotatable_symbols.h
 src/safemode_ui.h
 src/scent_map.h
 src/shadowcasting.h
@@ -225,6 +238,7 @@ src/veh_utils.h
 src/version.h
 src/visitable.h
 src/vitamin.h
+src/weather_gen.h
 src/weather.h
 src/weighted_list.h
 src/worldfactory.h

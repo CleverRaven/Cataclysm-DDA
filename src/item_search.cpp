@@ -90,7 +90,7 @@ item_filter_from_string( std::string filter )
         case 'm'://material
             return [filter]( const item & i ) {
                 return std::any_of( i.made_of().begin(), i.made_of().end(),
-                                    [&filter]( const material_id &mat ) {
+                [&filter]( const material_id & mat ) {
                     return lcmatch( mat->name(), filter );
                 } );
             };

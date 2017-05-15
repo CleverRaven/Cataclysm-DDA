@@ -365,8 +365,10 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         field_id gibType() const override;
 
         void add_msg_if_npc( const char *msg, ... ) const override PRINTF_LIKE( 2, 3 );
-        void add_msg_if_npc( game_message_type type, const char *msg, ... ) const override PRINTF_LIKE( 3, 4 );
-        void add_msg_player_or_npc( const char *, const char *npc_str, ... ) const override PRINTF_LIKE( 3, 4 );
+        void add_msg_if_npc( game_message_type type, const char *msg,
+                             ... ) const override PRINTF_LIKE( 3, 4 );
+        void add_msg_player_or_npc( const char *, const char *npc_str,
+                                    ... ) const override PRINTF_LIKE( 3, 4 );
         void add_msg_player_or_npc( game_message_type type, const char *, const char *npc_str,
                                     ... ) const override PRINTF_LIKE( 4, 5 );
 

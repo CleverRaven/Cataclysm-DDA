@@ -453,7 +453,7 @@ void mission::set_player_id_legacy_0c( int id )
 
 std::string mission::name()
 {
-    if (type == NULL) {
+    if( type == NULL ) {
         return "NULL";
     }
     return type->name;
@@ -461,13 +461,13 @@ std::string mission::name()
 
 mission_type_id mission::mission_id() const
 {
-    if (type == NULL) {
+    if( type == NULL ) {
         return mission_type_id( "NULL" );
     }
     return type->id;
 }
 
-void mission::load_info(std::istream &data)
+void mission::load_info( std::istream &data )
 {
     int type_id, rewtype, reward_id, rew_skill, tmpfollow, item_num, target_npc_id;
     std::string rew_item, itemid;
@@ -476,22 +476,22 @@ void mission::load_info(std::istream &data)
     std::string tmpdesc;
     do {
         data >> tmpdesc;
-        if (tmpdesc != "<>") {
+        if( tmpdesc != "<>" ) {
             description += tmpdesc + " ";
         }
-    } while (tmpdesc != "<>");
+    } while( tmpdesc != "<>" );
     description = description.substr( 0, description.size() - 1 ); // Ending ' '
     bool failed; // Dummy, no one has saves this old
     data >> failed >> value >> rewtype >> reward_id >> rew_item >> rew_skill >>
          uid >> target.x >> target.y >> itemid >> item_num >> deadline >> npc_id >>
          good_fac_id >> bad_fac_id >> step >> tmpfollow >> target_npc_id;
     target.z = 0;
-    follow_up = mission_type::from_legacy(tmpfollow);
-    reward.type = npc_favor_type(reward_id);
+    follow_up = mission_type::from_legacy( tmpfollow );
+    reward.type = npc_favor_type( reward_id );
     reward.item_id = itype_id( rew_item );
     reward.skill = Skill::from_legacy_int( rew_skill );
-    item_id = itype_id(itemid);
-    item_count = int(item_num);
+    item_id = itype_id( itemid );
+    item_count = int( item_num );
 }
 
 std::string mission::dialogue_for_topic( const std::string &in_topic ) const
