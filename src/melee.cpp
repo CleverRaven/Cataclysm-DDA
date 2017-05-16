@@ -964,13 +964,12 @@ matec_id player::pick_technique(Creature &t,
 
 bool player::valid_aoe_technique( Creature &t, const ma_technique &technique )
 {
-    std::vector<int> dummy_mon_targets;
-    std::vector<int> dummy_npc_targets;
-    return valid_aoe_technique( t, technique, dummy_mon_targets, dummy_npc_targets );
+    std::vector<Creature*> dummy_targets;
+    return valid_aoe_technique( t, technique, dummy_targets );
 }
 
 bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
-                                  std::vector<int> &mon_targets, std::vector<int> &npc_targets )
+                                  std::vector<Creature*> &targets )
 {
     if( technique.aoe.empty() ) {
         return false;
@@ -991,21 +990,21 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
         int mondex_l = g->mon_at( left );
         int mondex_r = g->mon_at( right );
         if (mondex_l != -1 && g->zombie(mondex_l).friendly == 0) {
-            mon_targets.push_back(mondex_l);
+            targets.push_back( &g->zombie( mondex_l ) );
         }
         if (mondex_r != -1 && g->zombie(mondex_r).friendly == 0) {
-            mon_targets.push_back(mondex_r);
+            targets.push_back( &g->zombie( mondex_r ) );
         }
 
-        int npcdex_l = g->npc_at( left );
-        int npcdex_r = g->npc_at( right );
-        if (npcdex_l != -1 && g->active_npc[npcdex_l]->attitude == NPCATT_KILL) {
-            npc_targets.push_back(npcdex_l);
+        npc * const npc_l = dynamic_cast<npc*>( g->critter_at( left ) );
+        npc * const npc_r = dynamic_cast<npc*>( g->critter_at( right ) );
+        if( npc_l && npc_l->attitude == NPCATT_KILL ) {
+            targets.push_back( npc_l );
         }
-        if (npcdex_r != -1 && g->active_npc[npcdex_r]->attitude == NPCATT_KILL) {
-            npc_targets.push_back(npcdex_r);
+        if( npc_r && npc_r->attitude == NPCATT_KILL ) {
+            targets.push_back( npc_r );
         }
-        if(!(npc_targets.empty() && mon_targets.empty())) {
+        if(!targets.empty()) {
             return true;
         }
     }
@@ -1028,33 +1027,33 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
         int mondex_t = g->mon_at( target_pos );
         int mondex_r = g->mon_at( right );
         if (mondex_l != -1 && g->zombie(mondex_l).friendly == 0) {
-            mon_targets.push_back(mondex_l);
+            targets.push_back( &g->zombie( mondex_l ) );
         }
         if (mondex_t != -1 && g->zombie(mondex_t).friendly == 0) {
-            mon_targets.push_back(mondex_t);
+            targets.push_back( &g->zombie( mondex_t ) );
         }
         if (mondex_r != -1 && g->zombie(mondex_r).friendly == 0) {
-            mon_targets.push_back(mondex_r);
+            targets.push_back( &g->zombie( mondex_r ) );
         }
 
-        int npcdex_l = g->npc_at( left );
-        int npcdex_t = g->npc_at( target_pos );
-        int npcdex_r = g->npc_at( right );
-        if (npcdex_l != -1 && g->active_npc[npcdex_l]->attitude == NPCATT_KILL) {
-            npc_targets.push_back(npcdex_l);
+        npc * const npc_l = dynamic_cast<npc*>( g->critter_at( left ) );
+        npc * const npc_t = dynamic_cast<npc*>( g->critter_at( target_pos ) );
+        npc * const npc_r = dynamic_cast<npc*>( g->critter_at( right ) );
+        if( npc_l && npc_l->attitude == NPCATT_KILL) {
+            targets.push_back( npc_l );
         }
-        if (npcdex_t != -1 && g->active_npc[npcdex_t]->attitude == NPCATT_KILL) {
-            npc_targets.push_back(npcdex_t);
+        if( npc_t && npc_t->attitude == NPCATT_KILL) {
+            targets.push_back( npc_t );
         }
-        if (npcdex_r != -1 && g->active_npc[npcdex_r]->attitude == NPCATT_KILL) {
-            npc_targets.push_back(npcdex_r);
+        if( npc_r && npc_r->attitude == NPCATT_KILL) {
+            targets.push_back( npc_r );
         }
-        if(!(npc_targets.empty() && mon_targets.empty())) {
+        if( !targets.empty() ) {
             return true;
         }
     }
 
-    if( npc_targets.empty() && mon_targets.empty() && technique.aoe == "spin" ) {
+    if( targets.empty() && technique.aoe == "spin" ) {
         tripoint tmp;
         tmp.z = posz();
         for ( tmp.x = posx() - 1; tmp.x <= posx() + 1; tmp.x++) {
@@ -1064,18 +1063,17 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
                 }
                 int mondex = g->mon_at( tmp );
                 if (mondex != -1 && g->zombie(mondex).friendly == 0) {
-                    mon_targets.push_back(mondex);
+                    targets.push_back( &g->zombie( mondex ) );
                 }
-                int npcdex = g->npc_at( tmp );
-                if (npcdex != -1 && g->active_npc[npcdex]->attitude == NPCATT_KILL) {
-                    npc_targets.push_back(npcdex);
+                npc * const np = dynamic_cast<npc*>( g->critter_at( tmp ) );
+                if( np && np->attitude == NPCATT_KILL) {
+                    targets.push_back( np );
                 }
             }
         }
         //don't trigger circle for fewer than 2 targets
-        if( npc_targets.size() + mon_targets.size() < 2 ) {
-            npc_targets.clear();
-            mon_targets.clear();
+        if( targets.size() < 2 ) {
+            targets.clear();
         } else {
             return true;
         }
@@ -1184,46 +1182,26 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
         const int temp_moves = moves;
         const int temp_stamina = stamina;
 
-        std::vector<int> mon_targets = std::vector<int>();
-        std::vector<int> npc_targets = std::vector<int>();
+        std::vector<Creature*> targets;
 
-        valid_aoe_technique( t, technique, mon_targets, npc_targets );
+        valid_aoe_technique( t, technique, targets );
 
         //hit only one valid target (pierce through doesn't spread out)
         if (technique.aoe == "impale") {
-            size_t victim = rng(0, mon_targets.size() + npc_targets.size() - 1);
-            if (victim >= mon_targets.size()) {
-                victim -= mon_targets.size();
-                mon_targets.clear();
-                int npc_id = npc_targets[victim];
-                npc_targets.clear();
-                npc_targets.push_back(npc_id);
-            } else {
-                npc_targets.clear();
-                int mon_id = mon_targets[victim];
-                mon_targets.clear();
-                mon_targets.push_back(mon_id);
-            }
+            size_t victim = rng(0, targets.size() - 1);
+            const auto v = targets[victim];
+            targets.clear();
+            targets.push_back( v );
         }
 
         //hit the targets in the lists (all candidates if wide or burst, or just the unlucky sod if deep)
         int count_hit = 0;
-        for (auto &i : mon_targets) {
-            if (hit_roll() >= rng(0, 5) + g->zombie(i).dodge_roll()) {
+        for( Creature *const c : targets) {
+            if (hit_roll() >= rng(0, 5) + c->dodge_roll()) {
                 count_hit++;
-                melee_attack(g->zombie(i), false);
+                melee_attack( *c, false );
 
-                std::string temp_target = string_format(_("the %s"), g->zombie(i).name().c_str());
-                add_msg_player_or_npc( m_good, _("You hit %s!"), _("<npcname> hits %s!"), temp_target.c_str() );
-            }
-        }
-        for (auto &i : npc_targets) {
-            if (hit_roll() >= rng(0, 5) + g->active_npc[i]->dodge_roll()) {
-                count_hit++;
-                melee_attack(*g->active_npc[i], false);
-
-                add_msg_player_or_npc( m_good, _("You hit %s!"), _("<npcname> hits %s!"),
-                                          g->active_npc[i]->name.c_str() );
+                add_msg_player_or_npc( m_good, _("You hit %s!"), _("<npcname> hits %s!"), c->disp_name().c_str() );
             }
         }
 
