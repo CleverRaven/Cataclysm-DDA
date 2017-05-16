@@ -123,7 +123,6 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
             // We have no sane option here, just place the NPC on the edge
             debugmsg( "NPC %s is out of bounds, on ungenerated overmap %d,%d",
                       np.name.c_str(), loc.x, loc.y );
-            hide_npc( np.getID() );
             point npc_sm = om_to_sm_copy( npc_om_pos );
             point min = om_to_sm_copy( loc );
             point max = om_to_sm_copy( loc + point( 1, 1 ) ) - point( 1, 1 );
