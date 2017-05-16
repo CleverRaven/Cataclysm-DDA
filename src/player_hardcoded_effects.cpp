@@ -1318,7 +1318,7 @@ void player::hardcoded_effects( effect &it )
         }
     } else if( id == effect_alarm_clock ) {
         if( has_effect( effect_sleep ) ) {
-            if( has_bionic( "bio_watch" ) ) {        
+            if( has_bionic( "bio_watch" ) ) {
                 if( dur == 1 ) {
                     // Normal alarm is volume 12, tested against (2/3/6)d15 for
                     // normal/HEAVYSLEEPER/HEAVYSLEEPER2.
