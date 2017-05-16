@@ -1256,10 +1256,10 @@ int construction::print_time( WINDOW *w, int ypos, int xpos, int width,
 float construction::time_scale() const
 {
     //incorporate construction time scaling
-    if( get_world_option<int>( "CONSTRUCTION_SCALING" ) == 0 ) {
+    if( get_option<int>( "CONSTRUCTION_SCALING" ) == 0 ) {
         return calendar::season_ratio();
     } else {
-        return get_world_option<int>( "CONSTRUCTION_SCALING" ) / 100.0;
+        return get_option<int>( "CONSTRUCTION_SCALING" ) / 100.0;
     }
 }
 

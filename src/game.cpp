@@ -740,7 +740,7 @@ void game::setup()
 
     load_world_modfiles(world_generator->active_world);
 
-    m =  map( get_world_option<bool>( "ZLEVELS" ) );
+    m =  map( get_option<bool>( "ZLEVELS" ) );
 
     next_npc_id = 1;
     next_faction_id = 1;
@@ -865,7 +865,7 @@ bool game::start_game(std::string worldname)
     load_npcs();
     // Spawn the monsters
     const bool spawn_near =
-        get_world_option<bool>( "BLACK_ROAD" ) || g->scen->has_flag("SUR_START");
+        get_option<bool>( "BLACK_ROAD" ) || g->scen->has_flag("SUR_START");
     m.spawn_monsters( !spawn_near ); // Static monsters
 
     // Make sure that no monsters are near the player
@@ -1005,7 +1005,7 @@ void game::load_mission_npcs()
 
 void game::create_starting_npcs()
 {
-    if( !get_world_option<bool>( "STATIC_NPC" ) ) {
+    if( !get_option<bool>( "STATIC_NPC" ) ) {
         return; //Do not generate a starting npc.
     }
 
@@ -1257,12 +1257,12 @@ bool game::cleanup_at_end()
             characters.erase(curchar);
         }
         if (characters.empty()) {
-            if (get_world_option<std::string>( "DELETE_WORLD" ) == "yes" ||
-                (get_world_option<std::string>( "DELETE_WORLD" ) == "query" &&
+            if (get_option<std::string>( "DELETE_WORLD" ) == "yes" ||
+                (get_option<std::string>( "DELETE_WORLD" ) == "query" &&
                  query_yn(_("Delete saved world?")))) {
                 delete_world(world_generator->active_world->world_name, true);
             }
-        } else if (get_world_option<std::string>( "DELETE_WORLD" ) != "no") {
+        } else if (get_option<std::string>( "DELETE_WORLD" ) != "no") {
             std::stringstream message;
             std::string tmpmessage;
             for( auto &character : characters ) {
@@ -3790,7 +3790,7 @@ bool game::load_packs( const std::string &msg, const std::vector<std::string>& p
 
         // if mod specifies legacy migrations load any that are required
         if( !mod.legacy.empty() ) {
-            for( int i = get_world_option<int>( "CORE_VERSION" ); i < core_version; ++i ) {
+            for( int i = get_option<int>( "CORE_VERSION" ); i < core_version; ++i ) {
                 popup_status( msg.c_str(), _( "Applying legacy migration (%s %i/%i)" ),
                               e.c_str(), i, core_version - 1 );
                 load_data_from_dir( string_format( "%s/%i", mod.legacy.c_str(), i ), mod.ident );
@@ -4140,7 +4140,7 @@ void game::debug()
                 u.posx(), u.posy(), get_levx(), get_levy(),
                 overmap_buffer.ter( u.global_omt_location() )->get_name().c_str(),
                 int( calendar::turn ), int( nextspawn ),
-                ( get_world_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
+                ( get_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
                   _( "NPCs are NOT going to spawn." ) ),
                 num_zombies(), active_npc.size(), events.size() );
             if( !active_npc.empty() ) {
@@ -4354,7 +4354,7 @@ void game::debug()
                 smenu.reset();
                 smenu.return_invalid = true;
                 smenu.addentry( 0, true, 'y', "%s: %d", _( "year" ), calendar::turn.years() );
-                smenu.addentry( 1, !get_world_option<bool>( "ETERNAL_SEASON" ), 's', "%s: %d",
+                smenu.addentry( 1, !get_option<bool>( "ETERNAL_SEASON" ), 's', "%s: %d",
                                 _( "season" ), int( calendar::turn.get_season() ) );
                 smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), calendar::turn.days() );
                 smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), calendar::turn.hours() );
@@ -13267,11 +13267,11 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
 {
     // Create a new NPC?
     // Only allow NPCs on 0 z-level, otherwise they can bug out due to lack of spots
-    if( !get_world_option<bool>( "RANDOM_NPC" ) || ( !m.has_zlevels() && get_levz() != 0 ) ) {
+    if( !get_option<bool>( "RANDOM_NPC" ) || ( !m.has_zlevels() && get_levz() != 0 ) ) {
         return;
     }
 
-    float density = get_world_option<float>( "NPC_DENSITY" );
+    float density = get_option<float>( "NPC_DENSITY" );
     const int npc_num = get_cur_om().npcs.size();
     if( npc_num > 0 ) {
         // 100%, 80%, 64%, 52%, 41%, 33%...
@@ -13778,11 +13778,11 @@ void game::process_artifact(item *it, player *p)
 
 void game::start_calendar()
 {
-    calendar::start = HOURS(get_world_option<int>( "INITIAL_TIME" ) );
+    calendar::start = HOURS(get_option<int>( "INITIAL_TIME" ) );
     const bool scen_season = scen->has_flag( "SPR_START" ) || scen->has_flag( "SUM_START" ) ||
                              scen->has_flag( "AUT_START" ) || scen->has_flag( "WIN_START" ) ||
                              scen->has_flag( "SUM_ADV_START" );
-    const std::string nonscen_season = get_world_option<std::string>( "INITIAL_SEASON" );
+    const std::string nonscen_season = get_option<std::string>( "INITIAL_SEASON" );
     if( scen->has_flag( "SPR_START" ) || ( !scen_season && nonscen_season == "spring" ) ) {
         calendar::initial_season = SPRING;
     } else if( scen->has_flag( "SUM_START" ) || ( !scen_season && nonscen_season == "summer" ) ) {

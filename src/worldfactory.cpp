@@ -1474,7 +1474,7 @@ void WORLD::load_options( JsonIn &jsin )
     }
     // for legacy saves, try to simulate old city_size based density
     if( WORLD_OPTIONS.count( "CITY_SPACING" ) == 0 ) {
-        WORLD_OPTIONS["CITY_SPACING"].setValue( 5 - get_world_option<int>( "CITY_SIZE" ) / 3 );
+        WORLD_OPTIONS["CITY_SPACING"].setValue( 5 - get_option<int>( "CITY_SIZE" ) / 3 );
     }
 
     WORLD_OPTIONS[ "CORE_VERSION" ].setValue( version );
@@ -1526,7 +1526,7 @@ void load_world_option( JsonObject &jo )
         jo.throw_error( "no options specified", "options" );
     }
     while( arr.has_more() ) {
-        get_options().get_world_option( arr.next_string() ).setValue( "true" );
+        get_options().get_option( arr.next_string() ).setValue( "true" );
     }
 }
 

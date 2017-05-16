@@ -88,7 +88,7 @@ void init_global_game_state( const std::vector<std::string> &mods )
     g->u = player();
     g->u.create(PLTYPE_NOW);
 
-    g->m = map( get_world_option<bool>( "ZLEVELS" ) );
+    g->m = map( get_option<bool>( "ZLEVELS" ) );
 
     g->m.load( g->get_levx(), g->get_levy(), g->get_levz(), false );
 }

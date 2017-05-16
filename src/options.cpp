@@ -2053,19 +2053,19 @@ options_manager::cOpt &options_manager::get_option( const std::string &name )
     if( global_options.count( name ) == 0 ) {
         debugmsg( "requested non-existing option %s", name.c_str() );
     }
-    return global_options[name];
-}
-
-options_manager::cOpt &options_manager::get_world_option( const std::string &name )
-{
-    if( !world_generator->active_world ) {
+    if( !world_generator || !world_generator->active_world ) {
         // Global options contains the default for new worlds, which is good enough here.
-        return get_option( name );
+        return global_options[name];
     }
     auto &wopts = world_generator->active_world->WORLD_OPTIONS;
     if( wopts.count( name ) == 0 ) {
+        auto &opt = global_options[name];
+        if( opt.getPage() != "world_default" ) {
+            // Requested a non-world option, deliver it.
+            return opt;
+        }
         // May be a new option and an old world - import default from global options.
-        wopts[name] = get_option( name );
+        wopts[name] = opt;
     }
     return wopts[name];
 }
