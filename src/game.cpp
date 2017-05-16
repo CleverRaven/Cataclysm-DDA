@@ -13253,7 +13253,7 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
     }
 
     float density = get_option<float>( "NPC_DENSITY" );
-    const int npc_num = get_cur_om().npcs.size();
+    const int npc_num = get_cur_om().get_npcs().size();
     if( npc_num > 0 ) {
         // 100%, 80%, 64%, 52%, 41%, 33%...
         density *= powf( 0.8f, npc_num );

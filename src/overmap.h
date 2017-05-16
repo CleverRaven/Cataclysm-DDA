@@ -309,10 +309,13 @@ public:
 
         npc *find_npc( int id );
 
+        const std::vector<npc*> &get_npcs() const {
+            return npcs;
+        }
+
  private:
     friend class overmapbuffer;
         friend class npc; //@todo get rid of this.
-        friend class game; //@todo get rid of this.
 
         std::vector<npc*> npcs;
 
