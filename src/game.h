@@ -287,8 +287,6 @@ class game
         void scrambler_blast( const tripoint &p );
         /** Triggers an emp blast at p. */
         void emp_blast( const tripoint &p );
-        /** Returns the NPC index of the npc at p. Returns -1 if no NPC is present. */
-        int  npc_at( const tripoint &p ) const;
         /** Returns the NPC index of the npc with a matching ID. Returns -1 if no NPC is present. */
         npc *npc_by_id(const int id) const;
         /** Returns the Creature at tripoint p */

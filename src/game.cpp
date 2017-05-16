@@ -6598,16 +6598,6 @@ void game::emp_blast( const tripoint &p )
     // TODO: Drain NPC energy reserves
 }
 
-int game::npc_at( const tripoint &p ) const
-{
-    for( size_t i = 0; i < active_npc.size(); i++ ) {
-        if( active_npc[i]->pos() == p && !active_npc[i]->is_dead() ) {
-            return (int)i;
-        }
-    }
-    return -1;
-}
-
 npc *game::npc_by_id(const int id) const
 {
     for (size_t i = 0; i < active_npc.size(); i++) {

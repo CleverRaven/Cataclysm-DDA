@@ -30,6 +30,7 @@
 #include "cata_utility.h"
 #include "string_input_popup.h"
 #include "options.h"
+#include "npc.h"
 
 #include <sstream>
 #include <algorithm>
