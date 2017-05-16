@@ -438,5 +438,5 @@ mission_type_id mission_type::get_random_id( const mission_origin origin, const 
             valid.push_back( t.id );
         }
     }
-    return random_entry( valid, NULL_ID );
+    return random_entry( valid, mission_type_id::NULL_ID );
 }

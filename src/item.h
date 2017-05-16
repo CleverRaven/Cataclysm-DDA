@@ -29,6 +29,7 @@ class npc;
 struct itype;
 struct mtype;
 using mtype_id = string_id<mtype>;
+extern template const string_id<mtype> string_id<mtype>::NULL_ID;
 struct islot_armor;
 struct use_function;
 class material_type;
@@ -274,7 +275,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
          * With the default parameters it makes a human corpse, created at the current turn.
          */
         /*@{*/
-        static item make_corpse( const mtype_id& mt = NULL_ID, int turn = -1, const std::string &name = "" );
+        static item make_corpse( const mtype_id& mt = string_id<mtype>::NULL_ID, int turn = -1, const std::string &name = "" );
         /*@}*/
         /**
          * @return The monster type associated with this item (@ref corpse). It is usually the

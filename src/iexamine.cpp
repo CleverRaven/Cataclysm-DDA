@@ -3108,7 +3108,7 @@ static bool toPumpFuel( const tripoint &src, const tripoint &dst, long units )
             item liq_d( item_it->type, calendar::turn, units );
 
             const auto backup_pump = g->m.ter( dst );
-            g->m.ter_set( dst, ter_id( NULL_ID ) );
+            g->m.ter_set( dst, ter_str_id::NULL_ID );
             g->m.add_item_or_charges( dst, liq_d );
             g->m.ter_set( dst, backup_pump );
 
@@ -3137,7 +3137,7 @@ static long fromPumpFuel( const tripoint &dst, const tripoint &src )
 
             // add the charges to the destination
             const auto backup_tank = g->m.ter( dst );
-            g->m.ter_set( dst, ter_id( NULL_ID ) );
+            g->m.ter_set( dst, ter_str_id::NULL_ID );
             g->m.add_item_or_charges( dst, liq_d );
             g->m.ter_set( dst, backup_tank );
 

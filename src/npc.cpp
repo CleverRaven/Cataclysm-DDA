@@ -97,13 +97,13 @@ npc::npc()
     per_max = 0;
     my_fac = NULL;
     fac_id = "";
-    miss_id = NULL_ID;
+    miss_id = mission_type_id::NULL_ID;
     marked_for_death = false;
     dead = false;
     hit_by_player = false;
     moves = 100;
     mission = NPC_MISSION_NULL;
-    myclass = NULL_ID;
+    myclass = npc_class_id::NULL_ID;
     patience = 0;
     restock = -1;
     companion_mission = "";
@@ -178,7 +178,7 @@ void npc::load_npc(JsonObject &jsobj)
         guy.myclass = npc_class_id( jsobj.get_string("class") );
         if( !guy.myclass.is_valid() ) {
             debugmsg( "Invalid NPC class %s", guy.myclass.c_str() );
-            guy.myclass = NULL_ID;
+            guy.myclass = npc_class_id::NULL_ID;
         }
     }
 
@@ -188,7 +188,7 @@ void npc::load_npc(JsonObject &jsobj)
     if( jsobj.has_string( "mission_offered" ) ){
         guy.miss_id = mission_type_id( jsobj.get_string( "mission_offered" ) );
     } else {
-        guy.miss_id = NULL_ID;
+        guy.miss_id = mission_type_id::NULL_ID;
     }
     _all_npc[guy.idz] = std::move( guy );
 }
@@ -276,7 +276,7 @@ void npc::randomize( const npc_class_id &type )
 
     if( !type.is_valid() ) {
         debugmsg( "Invalid NPC class %s", type.c_str() );
-        myclass = NULL_ID;
+        myclass = npc_class_id::NULL_ID;
     } else if( type.is_null() && !one_in( 5 ) ) {
         npc_class_id typetmp;
         myclass = npc_class::random_common();
@@ -383,10 +383,10 @@ void npc::randomize( const npc_class_id &type )
 
 void npc::randomize_from_faction(faction *fac)
 {
-// Personality = aggression, bravery, altruism, collector
- my_fac = fac;
- fac_id = fac->id;
-    randomize( NULL_ID );
+    // Personality = aggression, bravery, altruism, collector
+    my_fac = fac;
+    fac_id = fac->id;
+    randomize( npc_class_id::NULL_ID );
 
  switch (fac->goal) {
   case FACGOAL_DOMINANCE:
@@ -806,7 +806,7 @@ void npc::place_on_map()
 skill_id npc::best_skill() const
 {
     int highest_level = std::numeric_limits<int>::min();
-    skill_id highest_skill( NULL_ID );
+    skill_id highest_skill( skill_id::NULL_ID );
 
     for (auto const &p : _skills) {
         if (p.first.obj().is_combat_skill()) {

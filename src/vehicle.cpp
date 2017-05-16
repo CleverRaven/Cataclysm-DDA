@@ -66,6 +66,9 @@ const skill_id skill_mechanics( "mechanics" );
 
 const efftype_id effect_stunned( "stunned" );
 
+/** @relates string_id */
+template<> const string_id<vpart_info> string_id<vpart_info>::NULL_ID;
+
 // Vehicle stack methods.
 std::list<item>::iterator vehicle_stack::erase( std::list<item>::iterator it )
 {
@@ -6018,7 +6021,7 @@ void vehicle::update_time( const calendar &update_to )
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
 vehicle_part::vehicle_part()
-    : mount( 0, 0 ), id( NULL_ID ) {}
+    : mount( 0, 0 ), id( vpart_id::NULL_ID ) {}
 
 vehicle_part::vehicle_part( const vpart_id& vp, int const dx, int const dy, item&& obj )
     : mount( dx, dy ), id( vp ), base( std::move( obj ) )
@@ -6033,7 +6036,7 @@ vehicle_part::vehicle_part( const vpart_id& vp, int const dx, int const dy, item
 }
 
 vehicle_part::operator bool() const {
-    return id != vpart_id( NULL_ID );
+    return id != vpart_id::NULL_ID;
 }
 
 item vehicle_part::properties_to_item() const

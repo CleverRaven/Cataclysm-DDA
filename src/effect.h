@@ -16,6 +16,7 @@ enum game_message_type : int;
 using efftype_id = string_id<effect_type>;
 struct mutation_branch;
 using trait_id = string_id<mutation_branch>;
+extern template const string_id<effect_type> string_id<effect_type>::NULL_ID;
 
 /** Handles the large variety of weed messages. */
 void weed_msg(player *p);

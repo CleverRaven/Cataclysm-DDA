@@ -15,9 +15,6 @@ std::map<std::string, mutation_category_trait> mutation_category_traits;
 std::unordered_map<trait_id, mutation_branch> mutation_data;
 
 template<>
-const string_id<mutation_branch> string_id<mutation_branch>::NULL_ID( "" );
-
-template<>
 const mutation_branch& string_id<mutation_branch>::obj() const
 {
     const auto iter = mutation_data.find( *this );

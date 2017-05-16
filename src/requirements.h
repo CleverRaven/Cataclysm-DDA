@@ -16,6 +16,7 @@ class inventory;
 
 struct requirement_data;
 using requirement_id = string_id<requirement_data>;
+extern template const string_id<requirement_data> string_id<requirement_data>::NULL_ID;
 
 // Denotes the id of an item type
 typedef std::string itype_id;

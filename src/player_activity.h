@@ -16,61 +16,7 @@ class player_activity;
 class activity_type;
 
 using activity_id = string_id<activity_type>;
-
-/** @relates string_id */
-template<>
-const activity_type &string_id<activity_type>::obj() const;
-
-enum class based_on_type : int {
-    TIME = 0,
-    SPEED,
-    NEITHER
-};
-
-/** A class that stores constant information that doesn't differ between activities of the same type */
-class activity_type
-{
-    private:
-        activity_id id_;
-        bool rooted_ = false;
-        std::string stop_phrase_ = "THIS IS A BUG";
-        bool abortable_ = true;
-        bool suspendable_ = true;
-        based_on_type based_on_ = based_on_type::SPEED;
-        bool no_resume_ = false;
-
-    public:
-        const activity_id &id() const {
-            return id_;
-        }
-        bool rooted() const {
-            return rooted_;
-        }
-        bool abortable() const {
-            return abortable_;
-        }
-        bool suspendable() const {
-            return suspendable_;
-        }
-        std::string stop_phrase() const {
-            return stop_phrase_;
-        }
-        based_on_type based_on() const {
-            return based_on_;
-        }
-        bool no_resume() const {
-            return no_resume_;
-        }
-
-        void call_do_turn( player_activity *, player * ) const;
-        /** Returns whether it had a finish function or not */
-        bool call_finish( player_activity *, player * ) const;
-
-        /** JSON stuff */
-        static void load( JsonObject &jo );
-        static void check_consistency();
-        static void reset();
-};
+extern template const string_id<activity_type> string_id<activity_type>::NULL_ID;
 
 class player_activity : public JsonSerializer, public JsonDeserializer
 {
@@ -103,7 +49,7 @@ class player_activity : public JsonSerializer, public JsonDeserializer
          */
         bool auto_resume;
 
-        player_activity() : type( activity_id( NULL_ID ) ) { }
+        player_activity();
         player_activity( activity_id, int turns = 0, int Index = -1, int pos = INT_MIN,
                          std::string name_in = "" );
         player_activity( player_activity && ) = default;
@@ -118,28 +64,22 @@ class player_activity : public JsonSerializer, public JsonDeserializer
             return type.is_null();
         }
         /** This replaces the former usage `act.type = ACT_NULL` */
-        void set_to_null() {
-            type = activity_id( NULL_ID );
-        }
+        void set_to_null();
+
         const activity_id &id() const {
             return type;
         }
-        bool rooted() const {
-            return type->rooted();
-        }
+        bool rooted() const;
 
         // Question to ask when the activity is to be stoped,
         // e.g. "Stop doing something?", already translated.
-        std::string get_stop_phrase() const {
-            return type->stop_phrase();
-        }
+        std::string get_stop_phrase() const;
+
         /**
          * If this returns true, the activity can be aborted with
          * the ACTION_PAUSE key (see game::handle_key_blocking_activity)
          */
-        bool is_abortable() const {
-            return type->abortable();
-        }
+        bool is_abortable() const;
         int get_value( size_t index, int def = 0 ) const;
         std::string get_str_value( size_t index, const std::string def = "" ) const;
         /**
@@ -148,9 +88,7 @@ class player_activity : public JsonSerializer, public JsonDeserializer
          * possible if the player start the very same activity (with the same
          * parameters) again.
          */
-        bool is_suspendable() const {
-            return type->suspendable();
-        }
+        bool is_suspendable() const;
 
         using JsonSerializer::serialize;
         void serialize( JsonOut &jsout ) const override;

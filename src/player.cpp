@@ -10587,7 +10587,7 @@ void player::practice( const skill_id &id, int amount, int cap )
 
     bool isSavant = has_trait( trait_SAVANT );
 
-    skill_id savantSkill( NULL_ID );
+    skill_id savantSkill( skill_id::NULL_ID );
     SkillLevel savantSkillLevel = SkillLevel();
 
     if (isSavant) {
@@ -11472,7 +11472,7 @@ std::vector<Creature *> player::get_hostile_creatures( int range ) const
 void player::place_corpse()
 {
     std::vector<item *> tmp = inv_dump();
-    item body = item::make_corpse( NULL_ID, calendar::turn, name );
+    item body = item::make_corpse( mtype_id::NULL_ID, calendar::turn, name );
     for( auto itm : tmp ) {
         g->m.add_item_or_charges( pos(), *itm );
     }

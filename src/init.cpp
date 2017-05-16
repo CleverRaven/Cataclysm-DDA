@@ -4,6 +4,7 @@
 #include "filesystem.h"
 
 // can load from json
+#include "activity_type.h"
 #include "flag.h"
 #include "effect.h"
 #include "emit.h"

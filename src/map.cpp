@@ -1671,12 +1671,11 @@ ter_id map::ter( const tripoint &p ) const
  */
 const harvest_id &map::get_harvest( const tripoint &pos ) const
 {
-    static const harvest_id null_harvest( NULL_ID );
     const auto furn_here = furn( pos );
     if( furn_here->examine != iexamine::none ) {
         // Note: if furniture can be examined, the terrain can NOT (until furniture is removed)
         if( furn_here->has_flag( TFLAG_HARVESTED ) ) {
-            return null_harvest;
+            return harvest_id::NULL_ID;
         }
 
         return furn_here->get_harvest();
@@ -1684,7 +1683,7 @@ const harvest_id &map::get_harvest( const tripoint &pos ) const
 
     const auto ter_here = ter( pos );
     if( ter_here->has_flag( TFLAG_HARVESTED ) ) {
-        return null_harvest;
+        return harvest_id::NULL_ID;
     }
 
     return ter_here->get_harvest();

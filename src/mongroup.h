@@ -16,10 +16,11 @@ class overmap;
 
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
-struct mtype;
-using mtype_id = string_id<mtype>;
+extern template const string_id<MonsterGroup> string_id<MonsterGroup>::NULL_ID;
 
 struct mtype;
+using mtype_id = string_id<mtype>;
+extern template const string_id<mtype> string_id<mtype>::NULL_ID;
 
 struct MonsterGroupEntry;
 typedef std::vector<MonsterGroupEntry> FreqDef;
@@ -60,14 +61,11 @@ struct MonsterGroupResult {
     mtype_id name;
     int pack_size;
 
-    MonsterGroupResult()
-        : name( NULL_ID )
-        , pack_size( 0 ) {
+    MonsterGroupResult() : name( mtype_id::NULL_ID ), pack_size( 0 ) {
     }
 
     MonsterGroupResult( const mtype_id &id, int new_pack_size )
-        : name( id )
-        , pack_size( new_pack_size ) {
+        : name( id ), pack_size( new_pack_size ) {
     }
 };
 

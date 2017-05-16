@@ -32,10 +32,6 @@ bool string_id<effect_type>::is_valid() const
     return effect_types.count( *this ) > 0;
 }
 
-/** @relates string_id */
-template<>
-const efftype_id string_id<effect_type>::NULL_ID( "null" );
-
 const efftype_id effect_weed_high( "weed_high" );
 
 void weed_msg(player *p) {

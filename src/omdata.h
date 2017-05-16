@@ -7,6 +7,7 @@
 #include "json.h"
 #include "enums.h"
 #include "int_id.h"
+#include "mongroup.h"
 #include "string_id.h"
 
 #include <string>
@@ -20,6 +21,8 @@ struct city;
 struct oter_t;
 struct oter_type_t;
 struct overmap_special_location;
+
+extern template const string_id<oter_t> string_id<oter_t>::NULL_ID;
 
 /** Direction on the overmap. */
 namespace om_direction
@@ -77,7 +80,7 @@ type random();
 };
 
 struct overmap_spawns : public JsonDeserializer {
-    overmap_spawns() : group( "GROUP_NULL" ) {} // @fixme Replace it with NULL_ID.
+    overmap_spawns() : group( mongroup_id::NULL_ID ) {}
 
     string_id<MonsterGroup> group;
     numeric_interval<int> population;
@@ -124,6 +127,9 @@ enum oter_flags {
 
 using oter_id = int_id<oter_t>;
 using oter_str_id = string_id<oter_t>;
+
+struct oter_type_t;
+extern template const string_id<oter_type_t> string_id<oter_type_t>::NULL_ID;
 
 struct oter_type_t {
     public:

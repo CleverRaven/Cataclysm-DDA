@@ -32,8 +32,12 @@ using mon_action_attack = bool (*)(monster*);
 using mon_action_defend = void (*)(monster&, Creature*, dealt_projectile_attack const*);
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
+extern template const string_id<MonsterGroup> string_id<MonsterGroup>::NULL_ID;
 struct mtype;
 using mtype_id = string_id<mtype>;
+/** @relates string_id */
+extern template const string_id<mtype> string_id<mtype>::NULL_ID;
+
 using mfaction_id = int_id<monfaction>;
 using species_id = string_id<species_type>;
 class effect_type;
@@ -50,6 +54,7 @@ using emit_id = string_id<emit>;
 
 class harvest_list;
 using harvest_id = string_id<harvest_list>;
+extern template const string_id<harvest_list> string_id<harvest_list>::NULL_ID;
 
 // These are triggers which may affect the monster's anger or morale.
 // They are handled in monster::check_triggers(), in monster.cpp
