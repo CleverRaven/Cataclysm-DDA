@@ -994,7 +994,7 @@ void game::load_mission_npcs()
     // uses submap coordinates
     std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(radius);
     for( auto temp : npcs ) {
-        if (temp->companion_mission != ""){
+        if( temp->has_companion_mission() ) {
             mission_npc.push_back(temp);
             overmap_buffer.hide_npc( temp->getID() );
         }

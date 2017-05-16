@@ -489,7 +489,7 @@ void talk_function::individual_mission(npc *p, std::string desc, std::string id,
         return;
     }
     popup("%s %s", comp->name.c_str(), desc.c_str());
-    comp->companion_mission = p->name + id;
+    comp->set_companion_mission( *p, id );
     if (group){
         comp->companion_mission_time = -1;
     } else {
@@ -575,10 +575,10 @@ void talk_function::caravan_return(npc *p, std::string dest, std::string id)
     int money = 0;
     for( auto *elem : caravan_party ) {
         //Scrub temporary party members and the dead
-        if (elem->hp_cur[hp_torso] == 0 && elem->companion_mission != ""){
+        if (elem->hp_cur[hp_torso] == 0 && elem->has_companion_mission() ) {
             companion_lost(comp);
             money += (time/600) * 9;
-        } else if (elem->companion_mission != ""){
+        } else if( elem->has_companion_mission() ){
             money += (time/600) * 18;
             i = 0;
             while (i < experience){
@@ -1440,7 +1440,7 @@ void talk_function::companion_return(npc *comp){
     std::vector<npc *> new_mission_npc;
     for( auto *elem : g->mission_npc ) {
         if( elem == comp) {
-            elem->companion_mission = "";
+            elem->reset_companion_mission();
             elem->companion_mission_time = 0;
             elem->spawn_at_precise( { g->get_levx(), g->get_levy() },
                                     g->u.pos() + point( rng( -2, 2 ), rng( -2, 2 ) ) );
@@ -1456,7 +1456,7 @@ std::vector<npc *> talk_function::companion_list(std::string id)
 {
     std::vector<npc *> available;
     for( auto *elem : g->mission_npc ) {
-        if( elem->companion_mission == id ) {
+        if( elem->get_companion_mission() == id ) {
             available.push_back( elem );
         }
     }
@@ -1493,7 +1493,7 @@ npc *talk_function::companion_choose(){
 npc *talk_function::companion_choose_return(std::string id, int deadline){
     std::vector<npc *> available;
     for( auto *elem : g->mission_npc ) {
-        if( elem->companion_mission == id && elem->companion_mission_time <= deadline) {
+        if( elem->get_companion_mission() == id && elem->companion_mission_time <= deadline) {
             available.push_back( elem );
         }
     }

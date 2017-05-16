@@ -2406,3 +2406,25 @@ std::string npc::extended_description() const
 
     return replace_colors( ss.str() );
 }
+
+void npc::set_companion_mission( npc &p, const std::string &id )
+{
+    //@todo store them separately
+    //@todo set time here as well.
+    companion_mission = p.name + id;
+}
+
+void npc::reset_companion_mission()
+{
+    companion_mission = "";
+}
+
+bool npc::has_companion_mission() const
+{
+    return !companion_mission.empty();
+}
+
+std::string npc::get_companion_mission() const
+{
+    return companion_mission;
+}

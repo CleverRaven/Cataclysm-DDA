@@ -830,7 +830,6 @@ public:
 // Personality & other defining characteristics
  std::string fac_id; // A temp variable used to inform the game which faction to link
  faction *my_fac;
- std::string companion_mission;
  int companion_mission_time;
  npc_mission mission;
  npc_personality personality;
@@ -854,6 +853,13 @@ public:
      */
     void on_load();
 
+        /// Set up (start) a companion mission.
+        void set_companion_mission( npc &p, const std::string &id );
+        /// Unset a companion mission. Precondition: `!has_companion_mission()`
+        void reset_companion_mission();
+        bool has_companion_mission() const;
+        std::string get_companion_mission() const;
+
     protected:
         void store(JsonOut &jsout) const;
         void load(JsonObject &jsin);
@@ -864,6 +870,8 @@ private:
 
     bool sees_dangerous_field( const tripoint &p ) const;
     bool could_move_onto( const tripoint &p ) const;
+
+        std::string companion_mission;
 };
 
 /** An NPC with standard stats */
