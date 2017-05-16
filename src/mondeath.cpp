@@ -171,10 +171,9 @@ void mdeath::boomer(monster *z)
     sounds::sound(z->pos(), 24, explode);
     for( auto &&dest : g->m.points_in_radius( z->pos(), 1 ) ) {
         g->m.bash( dest, 10 );
-        int mondex = g->mon_at( dest );
-        if (mondex != -1) {
-            g->zombie(mondex).stumble();
-            g->zombie(mondex).moves -= 250;
+        if( monster * const z = g->critter_at<monster>( dest ) ) {
+            z->stumble();
+            z->moves -= 250;
         }
     }
 
@@ -192,13 +191,11 @@ void mdeath::boomer_glow(monster *z)
 
     for( auto &&dest : g->m.points_in_radius( z->pos(), 1 ) ) {
         g->m.bash(dest , 10 );
-        int mondex = g->mon_at(dest);
-        Creature *critter = g->critter_at(dest);
-        if (mondex != -1) {
-            g->zombie(mondex).stumble();
-            g->zombie(mondex).moves -= 250;
+        if( monster * const z = g->critter_at<monster>( dest ) ) {
+            z->stumble();
+            z->moves -= 250;
         }
-        if (critter != nullptr){
+        if( Creature * const critter = g->critter_at( dest ) ) {
             critter->add_env_effect( effect_boomered, bp_eyes, 5, 25 );
             for (int i = 0; i < rng(2,4); i++){
                 body_part bp = random_body_part();
@@ -244,7 +241,7 @@ void mdeath::kill_vines(monster *z)
 
 void mdeath::vine_cut(monster *z)
 {
-    std::vector<int> vines;
+    std::vector<monster*> vines;
     tripoint tmp = z->pos();
     int &x = tmp.x;
     int &y = tmp.y;
@@ -253,25 +250,25 @@ void mdeath::vine_cut(monster *z)
             if( tmp == z->pos() ) {
                 y++; // Skip ourselves
             }
-            int mondex = g->mon_at( tmp );
-            if (mondex != -1 && g->zombie(mondex).type->id == mon_creeper_vine) {
-                vines.push_back(mondex);
+            if( monster * const z = g->critter_at<monster>( tmp ) ) {
+                if( z->type->id == mon_creeper_vine ) {
+                    vines.push_back( z );
+                }
             }
         }
     }
 
-    for (auto &i : vines) {
+    for (auto &vine : vines) {
         bool found_neighbor = false;
-        monster *vine = &(g->zombie( i ));
         tmp = vine->pos();
         for( x = vine->posx() - 1; x <= vine->posx() + 1 && !found_neighbor; x++ ) {
             for( y = vine->posy() - 1; y <= vine->posy() + 1 && !found_neighbor; y++ ) {
                 if (x != z->posx() || y != z->posy()) {
                     // Not the dying vine
-                    int mondex = g->mon_at( { x, y, z->posz() } );
-                    if (mondex != -1 && (g->zombie(mondex).type->id == mon_creeper_hub ||
-                                         g->zombie(mondex).type->id == mon_creeper_vine)) {
-                        found_neighbor = true;
+                    if( monster * const v = g->critter_at<monster>( { x, y, z->posz() } ) ) {
+                        if( v->type->id == mon_creeper_hub || v->type->id == mon_creeper_vine ) {
+                            found_neighbor = true;
+                        }
                     }
                 }
             }

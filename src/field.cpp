@@ -1414,7 +1414,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         g->u.deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
                                         g->u.check_dead_state();
                                     }
-                                    int mondex = g->mon_at( newp );
 
                                     if( npc * const p = g->critter_at<npc>( newp ) ) {
                                         // TODO: combine with player character code above
@@ -1424,10 +1423,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                             add_msg(_("A %1$s hits %2$s!"), tmp.tname().c_str(), p->name.c_str());
                                         }
                                         p->check_dead_state();
-                                    }
-
-                                    if( mondex != -1 ) {
-                                        monster *mon = &(g->zombie(mondex));
+                                    } else if( monster * const mon = g->critter_at<monster>( newp ) ) {
                                         mon->apply_damage( nullptr, bp_torso, 6 - mon->get_armor_bash( bp_torso ) );
                                         if (g->u.sees( newp ))
                                             add_msg(_("A %1$s hits the %2$s!"), tmp.tname().c_str(),
@@ -2314,17 +2310,14 @@ void map::monster_in_field( monster &z )
 
                 if (tries == 10) {
                     z.die_in_explosion( nullptr );
-                } else {
-                    int mon_hit = g->mon_at(newpos);
-                    if (mon_hit != -1) {
-                        if (g->u.sees(z)) {
-                            add_msg(_("The %1$s teleports into a %2$s, killing them both!"),
-                                       z.name().c_str(), g->zombie(mon_hit).name().c_str());
-                        }
-                        g->zombie( mon_hit ).die_in_explosion( &z );
-                    } else {
-                        z.setpos(newpos);
+                } else if( monster * const other = g->critter_at<monster>( newpos ) ) {
+                    if (g->u.sees(z)) {
+                        add_msg(_("The %1$s teleports into a %2$s, killing them both!"),
+                                   z.name().c_str(), other->name().c_str());
                     }
+                    other->die_in_explosion( &z );
+                } else {
+                    z.setpos(newpos);
                 }
             }
             break;

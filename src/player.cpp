@@ -4428,9 +4428,7 @@ void player::knock_back_from( const tripoint &p )
     to.y += sgn( dp.y );
 
     // First, see if we hit a monster
-    int mondex = g->mon_at( to );
-    if (mondex != -1) {
-        monster *critter = &(g->zombie(mondex));
+    if( monster * const critter = g->critter_at<monster>( to ) ) {
         deal_damage( critter, bp_torso, damage_instance( DT_BASH, critter->type->size ) );
         add_effect( effect_stunned, 1 );
         /** @EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters */

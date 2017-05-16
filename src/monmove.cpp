@@ -1076,9 +1076,8 @@ bool monster::attack_at( const tripoint &p )
         return true;
     }
 
-    const int mondex = g->mon_at( p, is_hallucination() );
-    if( mondex != -1 ) {
-        monster &mon = g->zombie( mondex );
+    if( const auto mon_ = g->critter_at<monster>( p, is_hallucination() ) ) {
+        monster &mon = *mon_;
 
         // Don't attack yourself.
         if( &mon == this ) {
@@ -1263,12 +1262,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     }
 
     // TODO: Generalize this to Creature
-    const int mondex = g->mon_at( p );
-    if( mondex < 0 ) {
-        return false;
-    }
-
-    monster *critter = &g->zombie( mondex );
+    monster *const critter = g->critter_at<monster>( p );
     if( critter == nullptr || critter == this || p == pos() ) {
         return false;
     }
@@ -1470,9 +1464,7 @@ void monster::knock_back_from( const tripoint &p )
     bool u_see = g->u.sees( to );
 
     // First, see if we hit another monster
-    int mondex = g->mon_at( to );
-    if( mondex != -1 ) {
-        monster *z = &( g->zombie( mondex ) );
+    if( monster *const z = g->critter_at<monster>( to ) ) {
         apply_damage( z, bp_torso, z->type->size );
         add_effect( effect_stunned, 1 );
         if( type->size > 1 + z->type->size ) {
