@@ -6916,46 +6916,20 @@ bool player::use_charges_if_avail(itype_id it, long quantity)
     return false;
 }
 
-bool player::has_fire(const int quantity) const
+bool player::has_fire( const int quantity ) const
 {
-// TODO: Replace this with a "tool produces fire" flag.
-
     if( g->m.has_nearby_fire( pos() ) ) {
         return true;
-    } else if (has_charges("torch_lit", 1)) {
-        return true;
-    } else if (has_charges("battletorch_lit", quantity)) {
-        return true;
-    } else if (has_charges("handflare_lit", 1)) {
-        return true;
-    } else if (has_charges("candle_lit", 1)) {
-        return true;
-    } else if (has_charges("ref_lighter", quantity)) {
-        return true;
-    } else if (has_charges("matches", quantity)) {
-        return true;
-    } else if (has_charges("lighter", quantity)) {
-        return true;
-    } else if (has_charges("flamethrower", quantity)) {
-        return true;
-    } else if (has_charges("flamethrower_simple", quantity)) {
-        return true;
-    } else if (has_charges("hotplate", quantity)) {
-        return true;
-    } else if (has_charges("welder", quantity)) {
-        return true;
-    } else if (has_charges("welder_crude", quantity)) {
-        return true;
-    } else if (has_charges("shishkebab_on", quantity)) {
-        return true;
-    } else if (has_charges("firemachete_on", quantity)) {
-        return true;
-    } else if (has_charges("broadfire_on", quantity)) {
-        return true;
-    } else if (has_charges("firekatana_on", quantity)) {
-        return true;
-    } else if (has_charges("zweifire_on", quantity)) {
-        return true;
+    } else if( has_item_with_flag( "FIRE" ) ) {
+        auto firestarters = all_items_with_flag( "FIRE" );
+        for( auto &i : firestarters ) {
+            int required_charges = quantity;
+            if( i->typeId() == "torch_lit" || i->typeId() == "handflare_lit" || 
+                i->typeId() == "candle_lit" || i->typeId() == "battletorch_lit" )
+                required_charges = 1;
+            if( has_charges( i->typeId() , required_charges ) )
+                return true;
+        }
     } else if (has_active_bionic("bio_tools") && power_level > quantity * 5 ) {
         return true;
     } else if (has_bionic("bio_lighter") && power_level > quantity * 5 ) {
@@ -6971,72 +6945,23 @@ bool player::has_fire(const int quantity) const
 
 void player::use_fire(const int quantity)
 {
-//Ok, so checks for nearby fires first,
-//then held lit torch or candle, bio tool/lighter/laser
-//tries to use 1 charge of lighters, matches, flame throwers
-//If there is enough power, will use power of one activation of the bio_lighter, bio_tools and bio_laser
-// (home made, military), hotplate, welder in that order.
-// bio_lighter, bio_laser, bio_tools, has_active_bionic("bio_tools"
-
     if( g->m.has_nearby_fire( pos() ) ) {
         return;
-    } else if (has_charges("torch_lit", 1)) {
-        return;
-    } else if (has_charges("battletorch_lit", 1)) {
-        return;
-    } else if (has_charges("handflare_lit", 1)) {
-        return;
-    } else if (has_charges("candle_lit", 1)) {
-        return;
-    } else if (has_charges("shishkebab_on", quantity)) {
-        return;
-    } else if (has_charges("firemachete_on", quantity)) {
-        return;
-    } else if (has_charges("broadfire_on", quantity)) {
-        return;
-    } else if (has_charges("firekatana_on", quantity)) {
-        return;
-    } else if (has_charges("zweifire_on", quantity)) {
-        return;
-    } else if (has_charges("ref_lighter", quantity)) {
-        use_charges("ref_lighter", quantity);
-        return;
-    } else if (has_charges("matches", quantity)) {
-        use_charges("matches", quantity);
-        return;
-    } else if (has_charges("lighter", quantity)) {
-        use_charges("lighter", quantity);
-        return;
-    } else if (has_charges("flamethrower", quantity)) {
-        use_charges("flamethrower", quantity);
-        return;
-    } else if (has_charges("flamethrower_simple", quantity)) {
-        use_charges("flamethrower_simple", quantity);
-        return;
-    } else if (has_charges("hotplate", quantity)) {
-        use_charges("hotplate", quantity);
-        return;
-    } else if (has_charges("welder", quantity)) {
-        use_charges("welder", quantity);
-        return;
-    } else if (has_charges("welder_crude", quantity)) {
-        use_charges("welder_crude", quantity);
-        return;
-    } else if (has_charges("shishkebab_off", quantity)) {
-        use_charges("shishkebab_off", quantity);
-        return;
-    } else if (has_charges("firemachete_off", quantity)) {
-        use_charges("firemachete_off", quantity);
-        return;
-    } else if (has_charges("broadfire_off", quantity)) {
-        use_charges("broadfire_off", quantity);
-        return;
-    } else if (has_charges("firekatana_off", quantity)) {
-        use_charges("firekatana_off", quantity);
-        return;
-    } else if (has_charges("zweifire_off", quantity)) {
-        use_charges("zweifire_off", quantity);
-        return;
+    } else if( has_item_with_flag( "FIRE" ) ) {
+        auto firestarters = all_items_with_flag( "FIRE" );
+        for( auto &i : firestarters ) {
+            int required_charges = quantity;
+            if( i->typeId() == "torch_lit" || i->typeId() == "handflare_lit" 
+                || i->typeId() == "candle_lit" || i->typeId() == "battletorch_lit" )
+                required_charges = 1;
+            if( has_charges( i->typeId() , required_charges ) ) {
+                if( i->typeId() != "broadfire_on" && i->typeId() != "firekatana_on" && 
+                    i->typeId() != "firemachete_on" && i->typeId() != "shishkebab_on" &&
+                    i->typeId() != "zweifire_on")
+                    use_charges( i->typeId(), required_charges );
+                return;
+            }
+        }
     } else if (has_active_bionic("bio_tools") && power_level > quantity * 5 ) {
         charge_power( -quantity * 5 );
         return;
