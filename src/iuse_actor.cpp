@@ -3015,7 +3015,10 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
     dump.emplace_back( "TOOL", _( "<bold>Moves to use</bold>:" ), "", move_cost );
 }
 
+place_trap_actor::place_trap_actor( const std::string &type ) :
+  iuse_actor( type ), needs_neighbor_terrain( ter_str_id::NULL_ID ), outer_layer_trap( trap_str_id::NULL_ID ) {}
 
+place_trap_actor::data::data() : trap( trap_str_id::NULL_ID ) {}
 
 void place_trap_actor::data::load( JsonObject obj )
 {

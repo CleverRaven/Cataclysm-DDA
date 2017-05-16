@@ -13,10 +13,6 @@
 #include <vector>
 #include <memory>
 
-template<>
-/** @relates string_id */
-const string_id<trap> string_id<trap>::NULL_ID( "tr_null" );
-
 namespace
 {
 

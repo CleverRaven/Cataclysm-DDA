@@ -15,6 +15,7 @@
 
 class material_type;
 using material_id = string_id<material_type>;
+extern template const string_id<material_type> string_id<material_type>::NULL_ID;
 using itype_id = std::string;
 
 class material_type

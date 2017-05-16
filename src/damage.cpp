@@ -233,7 +233,7 @@ const skill_id &skill_by_dt( damage_type dt )
             return skill_stabbing;
 
         default:
-            return NULL_ID;
+            return skill_id::NULL_ID;
     }
 }
 

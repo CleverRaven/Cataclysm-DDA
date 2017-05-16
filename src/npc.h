@@ -23,7 +23,12 @@ enum game_message_type : int;
 
 using npc_class_id = string_id<npc_class>;
 using mission_type_id = string_id<mission_type>;
+extern template const string_id<mission_type> string_id<mission_type>::NULL_ID;
+
 using mfaction_id = int_id<monfaction>;
+
+extern template const string_id<npc_class> string_id<npc_class>::NULL_ID;
+extern template const string_id<Skill> string_id<Skill>::NULL_ID;
 
 void parse_tags( std::string &phrase, const player &u, const npc &me );
 
@@ -440,7 +445,7 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
     /**
      * The skill this NPC offers to train.
      */
-    skill_id skill = skill_id( NULL_ID );
+    skill_id skill = skill_id::NULL_ID;
     /**
      * The martial art style this NPC offers to train.
      */
@@ -480,7 +485,7 @@ public:
  void load_npc_template( const std::string &ident );
 
     // Generating our stats, etc.
-    void randomize( const npc_class_id &type = NULL_ID );
+    void randomize( const npc_class_id &type = npc_class_id::NULL_ID );
  void randomize_from_faction(faction *fac);
  void set_fac(std::string fac_name);
     /**

@@ -13,6 +13,7 @@ class JsonObject;
 class harvest_list;
 
 using harvest_id = string_id<harvest_list>;
+extern template const string_id<harvest_list> string_id<harvest_list>::NULL_ID;
 
 // Could be reused for butchery
 struct harvest_entry {
@@ -30,15 +31,11 @@ struct harvest_entry {
 class harvest_list
 {
     public:
-        harvest_list() : id_( NULL_ID ) {}
+        harvest_list();
 
-        const harvest_id &id() const {
-            return id_;
-        }
+        const harvest_id &id() const;
 
-        bool is_null() const {
-            return id_ == NULL_ID;
-        }
+        bool is_null() const;
 
         const std::list<harvest_entry> &entries() const {
             return entries_;

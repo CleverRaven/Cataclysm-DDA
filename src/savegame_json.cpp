@@ -1009,7 +1009,7 @@ void npc_favor::deserialize(JsonIn &jsin)
     } else if (jo.has_string("skill_id")) {
         skill = skill_id( jo.get_string("skill_id") );
     } else {
-        skill = skill_id( NULL_ID );
+        skill = skill_id::NULL_ID;
     }
 }
 

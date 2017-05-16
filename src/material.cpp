@@ -10,10 +10,6 @@
 #include <string>
 #include <map>
 
-/** @relates string_id */
-template<>
-const string_id<material_type> string_id<material_type>::NULL_ID( "null", 0 );
-
 namespace
 {
 
@@ -36,7 +32,7 @@ const material_type &string_id<material_type>::obj() const
 }
 
 material_type::material_type() :
-    id( NULL_ID ),
+    id( material_id::NULL_ID ),
     _bash_dmg_verb( _( "damages" ) ),
     _cut_dmg_verb( _( "damages" ) )
 {

@@ -530,7 +530,7 @@ mission::mission()
     target = tripoint(INT_MIN, INT_MIN, INT_MIN);
     item_id = "null";
     item_count = 1;
-    target_id = NULL_ID;
+    target_id = string_id<oter_type_t>::NULL_ID;
     recruit_class = NC_NONE;
     target_npc_id = -1;
     monster_type = "mon_null";

@@ -12,8 +12,7 @@ std::vector<Skill> Skill::skills;
 std::map<skill_id, Skill> Skill::contextual_skills;
 
 /** @relates string_id */
-template<>
-const skill_id string_id<Skill>::NULL_ID( "none" );
+template<> const string_id<Skill> string_id<Skill>::NULL_ID = string_id<Skill>( "none" );
 
 static const Skill invalid_skill;
 
@@ -47,8 +46,7 @@ bool string_id<Skill>::is_valid() const
     return Skill::get( *this ) != invalid_skill;
 }
 
-Skill::Skill()
-  : Skill(NULL_ID, "nothing", "The zen-most skill there is.", std::set<std::string> {})
+Skill::Skill() : Skill( skill_id::NULL_ID, "nothing", "The zen-most skill there is.", std::set<std::string> {})
 {
 }
 

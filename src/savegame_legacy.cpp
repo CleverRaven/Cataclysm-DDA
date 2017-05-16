@@ -494,7 +494,7 @@ void overmap::unserialize_view_legacy( std::istream &fin )
 void player_activity::deserialize_legacy_type( int legacy_type, activity_id &dest )
 {
     static const std::vector< activity_id > legacy_map = {
-        activity_id( NULL_ID ),
+        activity_id::NULL_ID,
         activity_id( "ACT_RELOAD" ),
         activity_id( "ACT_READ" ),
         activity_id( "ACT_GAME" ),
@@ -507,7 +507,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         activity_id( "ACT_FORAGE" ),
         activity_id( "ACT_BUILD" ),
         activity_id( "ACT_VEHICLE" ),
-        activity_id( NULL_ID ), // ACT_REFILL_VEHICLE is deprecated
+        activity_id::NULL_ID, // ACT_REFILL_VEHICLE is deprecated
         activity_id( "ACT_TRAIN" ),
         activity_id( "ACT_WAIT_WEATHER" ),
         activity_id( "ACT_FIRSTAID" ),
@@ -538,12 +538,12 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         activity_id( "ACT_WAIT_NPC" ),
         activity_id( "ACT_CLEAR_RUBBLE" ),
         activity_id( "ACT_MEDITATE" ),
-        activity_id( NULL_ID ) // NUM_ACTIVITIES
+        activity_id::NULL_ID // NUM_ACTIVITIES
     };
 
     if( legacy_type < 0 || ( size_t )legacy_type >= legacy_map.size() ) {
         debugmsg( "Bad legacy activity data. Got %d, exected something from 0 to %d", legacy_type, legacy_map.size() );
-        dest = activity_id( NULL_ID );
+        dest = activity_id::NULL_ID;
         return;
     }
     dest = legacy_map[ legacy_type ];

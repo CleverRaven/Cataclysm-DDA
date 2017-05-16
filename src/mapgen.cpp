@@ -1492,7 +1492,7 @@ bool mapgen_function_json::setup() {
         if ( jo.read("fill_ter", tmpval) ) {
             fill_ter = tmpval.id();
             qualifies = true;
-            tmpval = NULL_ID;
+            tmpval = ter_str_id::NULL_ID;
         }
 
         format.resize( mapgensize * mapgensize );

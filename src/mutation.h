@@ -21,6 +21,7 @@ struct dream;
 struct mutation_branch;
 class item;
 using trait_id = string_id<mutation_branch>;
+extern template const string_id<mutation_branch> string_id<mutation_branch>::NULL_ID;
 
 extern std::vector<dream> dreams;
 extern std::map<std::string, std::vector<trait_id> > mutations_category;

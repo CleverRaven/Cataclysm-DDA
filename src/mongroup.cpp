@@ -30,10 +30,6 @@ bool monster_whitelist_is_exclusive = false;
 
 /** @relates string_id */
 template<>
-const mongroup_id string_id<MonsterGroup>::NULL_ID( "GROUP_NULL" );
-
-/** @relates string_id */
-template<>
 bool string_id<MonsterGroup>::is_valid() const
 {
     return MonsterGroupManager::isValidMonsterGroup( *this );
@@ -80,10 +76,10 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     auto &group = GetUpgradedMonsterGroup( group_name );
     //Our spawn details specify, by default, a single instance of the default monster
     MonsterGroupResult spawn_details = MonsterGroupResult(group.defaultMonster, 1);
-    //If the default monster is too difficult, replace this with NULL_ID
+    //If the default monster is too difficult, replace this with NULL_ID.
     if(turn != -1 &&
        (turn + 900 < MINUTES(STARTING_MINUTES) + HOURS( group.defaultMonster.obj().difficulty))) {
-        spawn_details = MonsterGroupResult(NULL_ID, 0);
+        spawn_details = MonsterGroupResult();
     }
 
     bool monster_found = false;
@@ -211,7 +207,7 @@ const mongroup_id& MonsterGroupManager::Monster2Group( const mtype_id& monster )
             return g.second.name;
         }
     }
-    return NULL_ID;
+    return mongroup_id::NULL_ID;
 }
 
 std::vector<mtype_id> MonsterGroupManager::GetMonstersFromGroup(const mongroup_id& group)
@@ -242,7 +238,7 @@ const MonsterGroup& MonsterGroupManager::GetMonsterGroup(const mongroup_id& grou
         // but it prevents further messages about invalid monster type id
         auto &g = monsterGroupMap[group];
         g.name = group;
-        g.defaultMonster = NULL_ID;
+        g.defaultMonster = mtype_id::NULL_ID;
         return g;
     } else {
         return it->second;
@@ -313,7 +309,7 @@ void MonsterGroupManager::FinalizeMonsterGroups()
             }
         }
         if(MonsterGroupManager::monster_is_blacklisted( mg.defaultMonster )) {
-            mg.defaultMonster = NULL_ID;
+            mg.defaultMonster = mtype_id::NULL_ID;
         }
     }
 }

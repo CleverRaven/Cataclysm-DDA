@@ -35,6 +35,14 @@ const emit &string_id<emit>::obj() const
     return found->second;
 }
 
+emit::emit() : id_( emit_id::NULL_ID ) {}
+
+bool emit::is_null() const
+{
+    return id_ == emit_id::NULL_ID;
+}
+
+
 void emit::load_emit( JsonObject &jo )
 {
     emit et;
