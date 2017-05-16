@@ -6921,14 +6921,13 @@ bool player::has_fire( const int quantity ) const
     if( g->m.has_nearby_fire( pos() ) ) {
         return true;
     } else if( has_item_with_flag( "FIRE" ) ) {
-        auto firestarters = all_items_with_flag( "FIRE" );
+        return true;
+    } else if( has_item_with_flag( "FIRESTARTER" ) ) {
+        auto firestarters = all_items_with_flag( "FIRESTARTER" );
         for( auto &i : firestarters ) {
-            int required_charges = quantity;
-            if( i->typeId() == "torch_lit" || i->typeId() == "handflare_lit" || 
-                i->typeId() == "candle_lit" || i->typeId() == "battletorch_lit" )
-                required_charges = 1;
-            if( has_charges( i->typeId() , required_charges ) )
+            if( has_charges( i->typeId() , quantity ) ) {
                 return true;
+            }
         }
     } else if (has_active_bionic("bio_tools") && power_level > quantity * 5 ) {
         return true;
@@ -6948,17 +6947,12 @@ void player::use_fire(const int quantity)
     if( g->m.has_nearby_fire( pos() ) ) {
         return;
     } else if( has_item_with_flag( "FIRE" ) ) {
-        auto firestarters = all_items_with_flag( "FIRE" );
+        return;
+    } else if( has_item_with_flag( "FIRESTARTER" ) ) {
+        auto firestarters = all_items_with_flag( "FIRESTARTER" );
         for( auto &i : firestarters ) {
-            int required_charges = quantity;
-            if( i->typeId() == "torch_lit" || i->typeId() == "handflare_lit" 
-                || i->typeId() == "candle_lit" || i->typeId() == "battletorch_lit" )
-                required_charges = 1;
-            if( has_charges( i->typeId() , required_charges ) ) {
-                if( i->typeId() != "broadfire_on" && i->typeId() != "firekatana_on" && 
-                    i->typeId() != "firemachete_on" && i->typeId() != "shishkebab_on" &&
-                    i->typeId() != "zweifire_on")
-                    use_charges( i->typeId(), required_charges );
+            if( has_charges( i->typeId() , quantity ) ) {
+                use_charges( i->typeId(), quantity );
                 return;
             }
         }

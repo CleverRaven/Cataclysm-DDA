@@ -2009,7 +2009,8 @@
     "ammo": "battery",
     "max_charges": 100,
     "charges_per_use": 5,
-    "use_action": { "type": "firestarter" }
+    "use_action": { "type": "firestarter" },
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "crude_picklock",
@@ -4301,7 +4302,8 @@
     "use_action": {
       "type": "firestarter",
       "moves": 50
-    }
+    },
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "lightstrip",
@@ -4613,7 +4615,8 @@
       "type": "firestarter",
       "moves": 40,
       "moves_slow": 1000
-    }
+    },
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "mess_kit",
@@ -5801,7 +5804,8 @@
         "type": "firestarter",
         "moves": 50
       }
-    ]
+    ],
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "ref_lighter_on",
@@ -8037,7 +8041,8 @@
         "flame": false,
         "type": "cauterize"
       }
-    ]
+    ],
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "welder_crude",
@@ -8070,7 +8075,8 @@
         "flame": false,
         "type": "cauterize"
       }
-    ]
+    ],
+    "flags": [ "FIRESTARTER" ]
   },
   {
     "id": "wood_smoother",
