@@ -2,7 +2,7 @@
 
 Certain features of the game can be modified without rebuilding the game from source code; you should be able to just modify the pertinent files and run the game to see your changes.  This attempts to document these features.
 
-An in-depth review of all json files and their appropriate fields is available in JSON_INFO.txt.
+An in-depth review of all json files and their appropriate fields is available in [JSON_INFO.md](JSON_INFO.md).
 
 ## Adding a profession.
 
