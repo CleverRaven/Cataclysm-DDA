@@ -7687,8 +7687,9 @@ void game::examine( const tripoint &examp )
         }
 		
 		if (mon != nullptr && mon->has_flag(MF_MILKABLE)) {
+			monster *source_mon = dynamic_cast<monster *>(c);
 			add_msg(m_info, _("This is a milkable cow. Moo moo."));
-			iexamine::milk_source(examp);
+			iexamine::milk_source(examp, source_mon);
 		}
 
 
@@ -9767,7 +9768,8 @@ extern void serialize_liquid_target( player_activity &act, const tripoint &pos )
 
 bool game::handle_liquid( item &liquid, item * const source, const int radius,
                           const tripoint * const source_pos,
-                          const vehicle * const source_veh )
+                          const vehicle * const source_veh, 
+						  const monster * const source_mon)
 {
     if( !liquid.made_of(LIQUID) ) {
         dbg(D_ERROR) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
@@ -9798,7 +9800,10 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         menu.text = string_format( _( "What to do with the %s from %s?" ), liquid_name.c_str(), m.name( *source_pos ).c_str() );
     } else if( source_veh != nullptr ) {
         menu.text = string_format( _( "What to do with the %s from the %s?" ), liquid_name.c_str(), source_veh->name.c_str() );
-    } else {
+	}
+	else if (source_mon != nullptr) {
+		menu.text = string_format(_("What to do with the %s from the %s?"), liquid_name.c_str(), source_mon->disp_name().c_str());
+	}else {
         menu.text = string_format( _( "What to do with the %s?" ), liquid_name.c_str() );
     }
     std::vector<std::function<void()>> actions;

@@ -30,6 +30,7 @@
 #include "sounds.h"
 #include "cata_utility.h"
 #include "string_input_popup.h"
+#include "monster.h"
 
 #include <sstream>
 #include <algorithm>
@@ -2780,11 +2781,11 @@ void iexamine::water_source(player &p, const tripoint &examp)
     g->handle_liquid( water, nullptr, 0, &examp );
 }
 
-void iexamine::milk_source(const tripoint &examp)
+void iexamine::milk_source(const tripoint &examp, const monster *source_mon)
 {
 	item milk("milk", 0, 1);
-	// TODO: add a source origing for handle_liquid() that tells the monster as its source
-	g->handle_liquid(milk, nullptr, 0, &examp);
+	
+	g->handle_liquid(milk, nullptr, 0, nullptr, nullptr, source_mon);
 	add_msg("You milk the cow.");
 }
 
