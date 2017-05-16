@@ -100,7 +100,6 @@ namespace talk_function {
     std::vector<npc *> companion_list   ( const npc &p, const std::string &id );
     npc *companion_choose               ();
     npc *companion_choose_return        (std::string id, int deadline);
-    void companion_leave                (npc *comp);//Pulls the NPC from
     void companion_return               (npc *comp);//Return NPC to your party
     void companion_lost                 (npc *comp);//Kills the NPC off-screen
     std::vector<item*> loot_building    (const tripoint site);//Smash stuff, steal valuables, and change map maker

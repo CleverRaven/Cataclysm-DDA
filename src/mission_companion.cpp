@@ -495,7 +495,10 @@ void talk_function::individual_mission(npc *p, std::string desc, std::string id,
     } else {
         comp->companion_mission_time = calendar::turn.get_turn();
     }
-    companion_leave(comp);
+    g->mission_npc.push_back(comp);
+    overmap_buffer.hide_npc( comp->getID() );
+    g->reload_npcs();
+    assert( !comp->is_active() );
 }
 
 void talk_function::caravan_depart(npc *p, std::string dest, std::string id)
@@ -1414,13 +1417,6 @@ void talk_function::force_on_force(std::vector<npc *> defender, std::string def_
         }
     }
 }
-
-void talk_function::companion_leave(npc *comp){
-    g->mission_npc.push_back(comp);
-    overmap_buffer.hide_npc( comp->getID() );
-    g->reload_npcs();
-}
-
 
 void talk_function::companion_lost(npc *comp){
     std::vector<npc *> new_mission_npc;
