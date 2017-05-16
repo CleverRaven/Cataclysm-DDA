@@ -411,9 +411,9 @@ tripoint editmap::edit()
         } else if( action == "EDIT_MONSTER" ) {
             int veh_part = -1;
             vehicle *veh = g->m.veh_at( target, veh_part );
-            if( dynamic_cast<monster *>( g->critter_at( target ) ) ) {
+            if( g->critter_at<monster>( target ) ) {
                 edit_mon();
-            } else if( dynamic_cast<npc *>( g->critter_at( target ) ) ) {
+            } else if( g->critter_at<npc>( target ) ) {
                 edit_npc();
             } else if( veh ) {
                 edit_veh();
@@ -1540,7 +1540,7 @@ bool editmap::move_target( const std::string &action, int moveorigin )
 int editmap::edit_npc()
 {
     int ret = 0;
-    if( npc *const it = dynamic_cast<npc *>( g->critter_at( target ) ) ) {
+    if( npc *const it = g->critter_at<npc>( target ) ) {
         edit_json( it );
     }
     return ret;

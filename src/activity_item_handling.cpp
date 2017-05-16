@@ -366,7 +366,7 @@ void activity_handlers::stash_do_turn( player_activity *act, player *p )
 {
     const tripoint pos = act->placement + p->pos();
 
-    monster *pet = dynamic_cast<monster *>( g->critter_at( pos ) );
+    monster *pet = g->critter_at<monster>( pos );
     if( pet != nullptr && pet->has_effect( effect_pet ) ) {
         stash_on_pet( obtain_activity_items( *act, *p ), *pet );
     } else {

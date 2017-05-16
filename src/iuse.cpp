@@ -1929,7 +1929,7 @@ int petfood(player *p, item *it, bool is_dogfood)
         } else {
             p->add_msg_if_player( _( "The %s seems quite unimpressed!" ), mon.name().c_str() );
         }
-    } else if( npc * const person_ = dynamic_cast<npc*>( g->critter_at( dirp ) ) ) {
+    } else if( npc * const person_ = g->critter_at<npc>( dirp ) ) {
         npc &person = *person_;
         if( query_yn( is_dogfood ?
             _( "Are you sure you want to feed a person the dog food?" ) :
@@ -3493,7 +3493,7 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                             critter.set_speed_base(
                                 critter.get_speed_base() * rng_float(1.1, 2.0) );
                             critter.set_hp( critter.get_hp() * rng_float( 1.1, 2.0 ) );
-                        } else if( npc * const person = dynamic_cast<npc*>( g->critter_at( dest ) ) ) {
+                        } else if( npc * const person = g->critter_at<npc>( dest ) ) {
                             /** @EFFECT_STR_MAX increases possible granade str buff for NPCs */
                             buff_stat(person->str_max, rng(0, person->str_max / 2));
                             /** @EFFECT_DEX_MAX increases possible granade dex buff for NPCs */
@@ -3535,7 +3535,7 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                             critter.set_speed_base(
                                 rng( 0, critter.get_speed_base() ) );
                             critter.set_hp( rng( 1, critter.get_hp() ) );
-                        } else if( npc * const person = dynamic_cast<npc*>( g->critter_at( dest ) ) ) {
+                        } else if( npc * const person = g->critter_at<npc>( dest ) ) {
                             /** @EFFECT_STR_MAX increases possible granade str debuff for NPCs (NEGATIVE) */
                             person->str_max -= rng(0, person->str_max / 2);
                             /** @EFFECT_DEX_MAX increases possible granade dex debuff for NPCs (NEGATIVE) */
@@ -3576,7 +3576,7 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                             critter.set_speed_base( critter.type->speed );
                             critter.set_hp( critter.get_hp_max() );
                             critter.clear_effects();
-                        } else if( npc * const person = dynamic_cast<npc*>( g->critter_at( dest ) ) ) {
+                        } else if( npc * const person = g->critter_at<npc>( dest ) ) {
                             person->environmental_revert_effect();
                         } else if (g->u.posx() == pos.x + i && g->u.posy() == pos.y + j) {
                             g->u.environmental_revert_effect();
@@ -6460,7 +6460,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
         }
 
         const int sel_zid = g->mon_at( aim_point, true );
-        const npc * const sel_npc = dynamic_cast<npc*>( g->critter_at( aim_point ) );
+        const npc * const sel_npc = g->critter_at<npc>( aim_point );
 
         if( !g->critter_at( aim_point ) ) {
             p->add_msg_if_player(_("There's nothing particularly interesting there."));
@@ -6477,7 +6477,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
 
             int zid = g->mon_at( i, true );
 
-            npc * const guy = dynamic_cast<npc*>( g->critter_at( i ) );
+            npc * const guy = g->critter_at<npc>( i );
             if (zid != -1 || guy) {
                 int dist = rl_dist( p->pos(), i );
 

@@ -289,9 +289,16 @@ class game
         void emp_blast( const tripoint &p );
         /** Returns the NPC index of the npc with a matching ID. Returns -1 if no NPC is present. */
         npc *npc_by_id(const int id) const;
-        /** Returns the Creature at tripoint p */
-        Creature *critter_at( const tripoint &p, bool allow_hallucination = false );
-        Creature const* critter_at( const tripoint &p, bool allow_hallucination = false ) const;
+        /**
+         * Returns the Creature at the given location. Optionally casted to the given
+         * type of creature: @ref npc, @ref player, @ref monster - if there is a creature,
+         * but it's not of the requested tpye, returns nullptr.
+         * @param allow_hallucination Whether to return monsters that are actually hallucinations.
+         */
+        template<typename T = Creature>
+        T *critter_at( const tripoint &p, bool allow_hallucination = false );
+        template<typename T = Creature>
+        T const* critter_at( const tripoint &p, bool allow_hallucination = false ) const;
 
         /** Summons a brand new monster at the current time. Returns the summoned monster. */
         bool summon_mon( const mtype_id& id, const tripoint &p );

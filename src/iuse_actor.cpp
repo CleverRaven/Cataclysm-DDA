@@ -30,7 +30,6 @@
 #include "cata_utility.h"
 #include "string_input_popup.h"
 #include "options.h"
-#include "npc.h"
 
 #include <sstream>
 #include <algorithm>
@@ -809,7 +808,7 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
         return 0;
     }
     const ter_id type = g->m.ter( dirp );
-    if( dynamic_cast<npc*>( g->critter_at( dirp ) ) ) {
+    if( g->critter_at<npc>( dirp ) ) {
         p->add_msg_if_player( m_info,
                               _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose" ) );
         return 0;
@@ -2698,7 +2697,7 @@ player &get_patient( player &healer, const tripoint &pos )
         return healer;
     }
 
-    player *const person = dynamic_cast<player*>( g->critter_at( pos ) );
+    player *const person = g->critter_at<player>( pos );
     if( !person ) {
         // Default to heal self on failure not to break old functionality
         add_msg( m_debug, "No heal target at position %d,%d,%d", pos.x, pos.y, pos.z );

@@ -1101,7 +1101,7 @@ bool monster::attack_at( const tripoint &p )
         return false;
     }
 
-    npc *const guy = dynamic_cast<npc *>( g->critter_at( p ) );
+    npc *const guy = g->critter_at<npc>( p );
     if( guy && type->melee_dice > 0 ) {
         // For now we're always attacking NPCs that are getting into our
         // way. This is consistent with how it worked previously, but
@@ -1492,7 +1492,7 @@ void monster::knock_back_from( const tripoint &p )
         return;
     }
 
-    if( npc *const p = dynamic_cast<npc *>( g->critter_at( to ) ) ) {
+    if( npc *const p = g->critter_at<npc>( to ) ) {
         apply_damage( p, bp_torso, 3 );
         add_effect( effect_stunned, 1 );
         p->deal_damage( this, bp_torso, damage_instance( DT_BASH, type->size ) );

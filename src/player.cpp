@@ -4449,7 +4449,7 @@ void player::knock_back_from( const tripoint &p )
         return;
     }
 
-    if( npc * const np = dynamic_cast<npc*>( g->critter_at( to ) ) ) {
+    if( npc * const np = g->critter_at<npc>( to ) ) {
         deal_damage( np, bp_torso, damage_instance( DT_BASH, np->get_size() ) );
         add_effect( effect_stunned, 1 );
         np->deal_damage( this, bp_torso, damage_instance( DT_BASH, 3 ) );

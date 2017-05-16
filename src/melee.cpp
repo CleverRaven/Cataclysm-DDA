@@ -996,8 +996,8 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
             targets.push_back( &g->zombie( mondex_r ) );
         }
 
-        npc * const npc_l = dynamic_cast<npc*>( g->critter_at( left ) );
-        npc * const npc_r = dynamic_cast<npc*>( g->critter_at( right ) );
+        npc * const npc_l = g->critter_at<npc>( left );
+        npc * const npc_r = g->critter_at<npc>( right );
         if( npc_l && npc_l->attitude == NPCATT_KILL ) {
             targets.push_back( npc_l );
         }
@@ -1036,9 +1036,9 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
             targets.push_back( &g->zombie( mondex_r ) );
         }
 
-        npc * const npc_l = dynamic_cast<npc*>( g->critter_at( left ) );
-        npc * const npc_t = dynamic_cast<npc*>( g->critter_at( target_pos ) );
-        npc * const npc_r = dynamic_cast<npc*>( g->critter_at( right ) );
+        npc * const npc_l = g->critter_at<npc>( left );
+        npc * const npc_t = g->critter_at<npc>( target_pos );
+        npc * const npc_r = g->critter_at<npc>( right );
         if( npc_l && npc_l->attitude == NPCATT_KILL) {
             targets.push_back( npc_l );
         }
@@ -1065,7 +1065,7 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
                 if (mondex != -1 && g->zombie(mondex).friendly == 0) {
                     targets.push_back( &g->zombie( mondex ) );
                 }
-                npc * const np = dynamic_cast<npc*>( g->critter_at( tmp ) );
+                npc * const np = g->critter_at<npc>( tmp );
                 if( np && np->attitude == NPCATT_KILL) {
                     targets.push_back( np );
                 }

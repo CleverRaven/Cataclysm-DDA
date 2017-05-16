@@ -1218,7 +1218,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         spread_gas( cur, p, curtype, 200, 60 );
 
                         if(one_in(20)) {
-                            if( npc *const np = dynamic_cast<npc*>( g->critter_at( p ) ) ) {
+                            if( npc *const np = g->critter_at<npc>( p ) ) {
                                 if(np->is_friend()) {
                                     np->say(one_in(10) ? _("Whew... smells like skunk!") : _("Man, that smells like some good shit!"));
                                 }
@@ -1234,7 +1234,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         spread_gas( cur, p, curtype, 175, 70 );
 
                         if(one_in(20)) {
-                            if( npc *const np = dynamic_cast<npc*>( g->critter_at( p ) ) ) {
+                            if( npc *const np = g->critter_at<npc>( p ) ) {
                                 if(np->is_friend()) {
                                     np->say(_("I don't know... should you really be smoking that stuff?"));
                                 }
@@ -1249,7 +1249,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         spread_gas( cur, p, curtype, 175, 80 );
 
                         if(one_in(20)) {
-                            if( npc *const np = dynamic_cast<npc*>( g->critter_at( p ) ) ) {
+                            if( npc *const np = g->critter_at<npc>( p ) ) {
                                 if(np->is_friend()) {
                                     np->say(one_in(2) ? _("Ew, smells like burning rubber!") : _("Ugh, that smells rancid!"));
                                 }
@@ -1416,7 +1416,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     }
                                     int mondex = g->mon_at( newp );
 
-                                    if( npc * const p = dynamic_cast<npc*>( g->critter_at( newp ) ) ) {
+                                    if( npc * const p = g->critter_at<npc>( newp ) ) {
                                         // TODO: combine with player character code above
                                         body_part hit = random_body_part();
                                         p->deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
