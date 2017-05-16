@@ -142,8 +142,8 @@ void MonsterGenerator::finalize_mtypes()
         }
 
         // adjust for worldgen difficulty parameters
-        mon.speed *= get_world_option<int>( "MONSTER_SPEED" )      / 100.0;
-        mon.hp    *= get_world_option<int>( "MONSTER_RESILIENCE" ) / 100.0;
+        mon.speed *= get_option<int>( "MONSTER_SPEED" )      / 100.0;
+        mon.hp    *= get_option<int>( "MONSTER_RESILIENCE" ) / 100.0;
 
         mon.hp = std::max( mon.hp, 1 ); // lower bound for hp scaling
 

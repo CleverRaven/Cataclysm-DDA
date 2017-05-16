@@ -36,8 +36,8 @@ void prepare_test()
     std::list<item> temp;
     while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
     // Prevent spilling, but don't cause encumbrance
-    if( !dummy.has_trait( "DEBUG_STORAGE" ) ) {
-        dummy.set_mutation( "DEBUG_STORAGE" );
+    if( !dummy.has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
+        dummy.set_mutation( trait_id( "DEBUG_STORAGE" ) );
     }
 
     const tripoint spot( 60, 60, 0 );

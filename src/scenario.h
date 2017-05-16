@@ -20,6 +20,8 @@ class start_location;
 using start_location_id = string_id<start_location>;
 template<typename T>
 class generic_factory;
+struct mutation_branch;
+using trait_id = string_id<mutation_branch>;
 
 class scenario
 {
@@ -44,9 +46,9 @@ private:
     */
     mutable std::vector<string_id<profession>> cached_permitted_professions;
 
-    std::set<std::string> _allowed_traits;
-    std::set<std::string> _forced_traits;
-    std::set<std::string> _forbidden_traits;
+    std::set<trait_id> _allowed_traits;
+    std::set<trait_id> _forced_traits;
+    std::set<trait_id> _forbidden_traits;
     std::vector<start_location_id> _allowed_locs;
     int _point_cost;
     std::set<std::string> flags; // flags for some special properties of the scenario
@@ -82,10 +84,10 @@ public:
     const profession* weighted_random_profession() const;
     std::vector<string_id<profession>> permitted_professions() const;
 
-    bool traitquery(std::string trait) const;
-    std::set<std::string> get_locked_traits() const;
-    bool is_locked_trait( std::string trait ) const;
-    bool is_forbidden_trait(std::string trait) const;
+    bool traitquery( const trait_id &trait ) const;
+    std::set<trait_id> get_locked_traits() const;
+    bool is_locked_trait( const trait_id &trait ) const;
+    bool is_forbidden_trait( const trait_id &trait ) const;
 
     bool allowed_start( const start_location_id &loc ) const;
     signed int point_cost() const;

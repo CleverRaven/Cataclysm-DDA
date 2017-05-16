@@ -64,8 +64,8 @@ void mongroup::clear() {
 const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup_id& group )
 {
     const MonsterGroup *groupptr = &group.obj();
-    if (get_world_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0) {
-        const int replace_time = DAYS(groupptr->monster_group_time * get_world_option<float>( "MONSTER_UPGRADE_FACTOR" ) );
+    if (get_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0) {
+        const int replace_time = DAYS(groupptr->monster_group_time * get_option<float>( "MONSTER_UPGRADE_FACTOR" ) );
         while( groupptr->replace_monster_group && calendar::turn.get_turn() > replace_time ) {
             groupptr = &groupptr->new_monster_group.obj();
         }
@@ -96,7 +96,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
         valid_entry = valid_entry && (turn == -1 ||
                                       (turn + 900) >= (MINUTES(STARTING_MINUTES) + HOURS(mt.difficulty)));
         // If we are in classic mode, require the monster type to be either CLASSIC or WILDLIFE
-        if(get_world_option<bool>( "CLASSIC_ZOMBIES" ) ) {
+        if(get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
             valid_entry = valid_entry && (mt.in_category("CLASSIC") ||
                                           mt.in_category("WILDLIFE"));
         }
@@ -342,16 +342,16 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
             int starts = 0;
             int ends = 0;
             if(mon.has_member("starts")) {
-                if (get_world_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0) {
-                    starts = mon.get_int("starts") * get_world_option<float>( "MONSTER_UPGRADE_FACTOR" );
+                if (get_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0) {
+                    starts = mon.get_int("starts") * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
                 } else {
                     // Default value if the monster upgrade factor is set to 0.0 - off
                     starts = mon.get_int("starts");
                 }
             }
             if(mon.has_member("ends")) {
-                if (get_world_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0) {
-                    ends = mon.get_int("ends") * get_world_option<float>( "MONSTER_UPGRADE_FACTOR" );
+                if (get_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0) {
+                    ends = mon.get_int("ends") * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
                 } else {
                     // Default value if the monster upgrade factor is set to 0.0 - off
                     ends = mon.get_int("ends");

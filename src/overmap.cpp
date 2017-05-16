@@ -862,7 +862,7 @@ void load_region_settings( JsonObject &jo )
                     std::set<std::string> keys = exjo.get_member_names();
                     for( const auto &key : keys ) {
                         if(key != "//" ) {
-                            if (get_world_option<bool>( "CLASSIC_ZOMBIES" )
+                            if (get_option<bool>( "CLASSIC_ZOMBIES" )
                                 && classic_extras.count(key) == 0) {
                                 continue;
                             }
@@ -1060,7 +1060,7 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
             std::set<std::string> extrakeys = extrasjo.get_member_names();
             for( const auto &key : extrakeys ) {
                 if( key != "//" ) {
-                    if (get_world_option<bool>( "CLASSIC_ZOMBIES" )
+                    if (get_option<bool>( "CLASSIC_ZOMBIES" )
                         && classic_extras.count(key) == 0) {
                         continue;
                     }
@@ -1220,7 +1220,7 @@ void overmap_special::check() const
 
 overmap::overmap( int const x, int const y ) : loc( x, y )
 {
-    const std::string rsettings_id = get_world_option<std::string>( "DEFAULT_REGION" );
+    const std::string rsettings_id = get_option<std::string>( "DEFAULT_REGION" );
     t_regional_settings_map_citr rsit = region_settings_map.find( rsettings_id );
 
     if ( rsit == region_settings_map.end() ) {
@@ -2081,7 +2081,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     bool csee = false;
     oter_id ccur_ter = ot_null;
     // Debug vision allows seeing everything
-    const bool has_debug_vision = g->u.has_trait( "DEBUG_NIGHTVISION" );
+    const bool has_debug_vision = g->u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
     // sight_points is hoisted for speed reasons.
     const int sight_points = !has_debug_vision ?
                              g->u.overmap_sight_range( g->light_level( g->u.posz() ) ) :
@@ -2324,38 +2324,42 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         }
     }
     if (has_target && blink &&
-        (target.x < cursx - om_half_width ||
-         target.x >= cursx + om_half_width  ||
-         target.y < cursy - om_half_height ||
-         target.y >= cursy + om_half_height)) {
+        (target.x < offset_x ||
+         target.x >= offset_x + om_map_width ||
+         target.y < offset_y ||
+         target.y >= offset_y + om_map_height)) {
+        int marker_x = std::max( 0, std::min( om_map_width  - 1, target.x - offset_x ) );
+        int marker_y = std::max( 0, std::min( om_map_height - 1, target.y - offset_y ) );
+        long marker_sym = ' ';
         switch (direction_from(cursx, cursy, target.x, target.y)) {
         case NORTH:
-            mvwputch(w, 0,                  om_half_width - 1,  c_red, '^');
+            marker_sym = '^';
             break;
         case NORTHEAST:
-            mvwputch(w, 0,                  om_map_width - 1,   c_red, LINE_OOXX);
+            marker_sym = LINE_OOXX;
             break;
         case EAST:
-            mvwputch(w, om_half_height - 1, om_map_width - 1,   c_red, '>');
+            marker_sym = '>';
             break;
         case SOUTHEAST:
-            mvwputch(w, om_map_height - 1,  om_map_width - 1,   c_red, LINE_XOOX);
+            marker_sym = LINE_XOOX;
             break;
         case SOUTH:
-            mvwputch(w, om_map_height - 1,  om_half_width - 1,  c_red, 'v');
+            marker_sym = 'v';
             break;
         case SOUTHWEST:
-            mvwputch(w, om_map_height - 1,  0,                  c_red, LINE_XXOO);
+            marker_sym = LINE_XXOO;
             break;
         case WEST:
-            mvwputch(w, om_half_height - 1, 0,                  c_red, '<');
+            marker_sym = '<';
             break;
         case NORTHWEST:
-            mvwputch(w, 0,                  0,                  c_red, LINE_OXXO);
+            marker_sym = LINE_OXXO;
             break;
         default:
             break; //Do nothing
         }
+        mvwputch(w, marker_y, marker_x, c_red, marker_sym);
     }
 
     std::vector<std::pair<nc_color, std::string>> corner_text;
@@ -2986,7 +2990,7 @@ void overmap::move_hordes()
     zg.insert( tmpzg.begin(), tmpzg.end() );
 
 
-    if(get_world_option<bool>( "WANDER_SPAWNS" ) ) {
+    if(get_option<bool>( "WANDER_SPAWNS" ) ) {
         static const mongroup_id GROUP_ZOMBIE("GROUP_ZOMBIE");
 
         // Re-absorb zombies into hordes.
@@ -3270,11 +3274,11 @@ spawns happen at... <cue Clue music>
 20:56 <kevingranade>: game:pawn_mon() in game.cpp:7380*/
 void overmap::place_cities()
 {
-    int op_city_size = get_world_option<int>( "CITY_SIZE" );
+    int op_city_size = get_option<int>( "CITY_SIZE" );
     if( op_city_size <= 0 ) {
         return;
     }
-    int op_city_spacing = get_world_option<int>( "CITY_SPACING" );
+    int op_city_spacing = get_option<int>( "CITY_SPACING" );
 
     // spacing dictates how much of the map is covered in cities
     //   city  |  cities  |   size N cities per overmap
@@ -4155,7 +4159,7 @@ void overmap::place_special( const overmap_special &special, const tripoint &p, 
 
 std::vector<const overmap_special *> overmap::get_enabled_specials() const
 {
-    const bool only_classic = get_world_option<bool>( "CLASSIC_ZOMBIES" );
+    const bool only_classic = get_option<bool>( "CLASSIC_ZOMBIES" );
     std::vector<const overmap_special *> res;
 
     res.reserve( specials.size() );
@@ -4341,7 +4345,7 @@ void overmap::place_mongroups()
 {
     // Cities are full of zombies
     for( auto &elem : cities ) {
-        if( get_world_option<bool>( "WANDER_SPAWNS" ) ) {
+        if( get_option<bool>( "WANDER_SPAWNS" ) ) {
             if( !one_in( 16 ) || elem.s > 5 ) {
                 mongroup m( mongroup_id( "GROUP_ZOMBIE" ), ( elem.x * 2 ), ( elem.y * 2 ), 0, int( elem.s * 2.5 ),
                             elem.s * 80 );
@@ -4353,7 +4357,7 @@ void overmap::place_mongroups()
         }
     }
 
-    if (!get_world_option<bool>( "CLASSIC_ZOMBIES" ) ) {
+    if (!get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
         // Figure out where swamps are, and place swamp monsters
         for (int x = 3; x < OMAPX - 3; x += 7) {
             for (int y = 3; y < OMAPY - 3; y += 7) {
@@ -4372,7 +4376,7 @@ void overmap::place_mongroups()
         }
     }
 
-    if (!get_world_option<bool>( "CLASSIC_ZOMBIES" ) ) {
+    if (!get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
         // Figure out where rivers are, and place swamp monsters
         for (int x = 3; x < OMAPX - 3; x += 7) {
             for (int y = 3; y < OMAPY - 3; y += 7) {
@@ -4391,7 +4395,7 @@ void overmap::place_mongroups()
         }
     }
 
-    if (!get_world_option<bool>( "CLASSIC_ZOMBIES" ) ) {
+    if (!get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
         // Place the "put me anywhere" groups
         int numgroups = rng(0, 3);
         for (int i = 0; i < numgroups; i++) {

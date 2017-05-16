@@ -41,6 +41,10 @@ const efftype_id effect_on_roof( "on_roof" );
 const efftype_id effect_bounced( "bounced" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 
+static const trait_id trait_TRIGGERHAPPY( "TRIGGERHAPPY" );
+static const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
+static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
+
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire( const Character &p, const itype &firing );
 static void cycle_action( item& weap, const tripoint &pos );
@@ -700,7 +704,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
                 } else if( z->is_dead_state() ) {
                     return true;
 
-                } else if( has_trait( "TRIGGERHAPPY") && one_in( 10 ) ) {
+                } else if( has_trait( trait_id( "TRIGGERHAPPY" ) ) && one_in( 10 ) ) {
                     return false; // Trigger happy sometimes doesn't care who we shoot
 
                 } else {
@@ -761,10 +765,10 @@ int throw_cost( const player &c, const item &to_throw )
     move_cost += skill_cost;
     move_cost -= dexbonus;
 
-    if( c.has_trait("LIGHT_BONES") ) {
+    if( c.has_trait( trait_LIGHT_BONES ) ) {
         move_cost *= .9;
     }
-    if( c.has_trait("HOLLOW_BONES") ) {
+    if( c.has_trait( trait_HOLLOW_BONES ) ) {
         move_cost *= .8;
     }
 
@@ -1141,7 +1145,7 @@ static int print_ranged_chance( const player &p, WINDOW *w, int line_number,
         const std::string &confidence_bar = get_labeled_bar( 1.0, window_width, _( "Confidence" ),
                                                              confidence_ratings.begin(),
                                                              confidence_ratings.end() );
-        
+
 
         mvwprintw( w, line_number++, 1, _( "Symbols: * = Headshot + = Hit | = Graze" ) );
         mvwprintw( w, line_number++, 1, confidence_bar.c_str() );
@@ -1863,13 +1867,16 @@ item::sound_data item::gun_noise( bool const burst ) const
     noise = std::max( noise, 0 );
 
     if( ammo_type() == ammotype( "40mm" ) ) {
+        // Grenade launchers
         return { 8, _( "Thunk!" ) };
 
-    } else if( typeId() == "hk_g80") {
+    } else if( ammo_type() == ammotype( "12mm" ) || ammo_type() == ammotype( "metal_rail" ) ) {
+        // Railguns
         return { 24, _( "tz-CRACKck!" ) };
 
-    } else if( ammo_type() == ammotype( "gasoline" ) || ammo_type() == ammotype( "66mm" ) ||
+    } else if( ammo_type() == ammotype( "flammable" ) || ammo_type() == ammotype( "66mm" ) ||
                ammo_type() == ammotype( "84x246mm" ) || ammo_type() == ammotype( "m235" ) ) {
+        // Rocket launchers and flamethrowers
         return { 4, _( "Fwoosh!" ) };
     }
 
@@ -1905,7 +1912,7 @@ item::sound_data item::gun_noise( bool const burst ) const
             return { noise, burst ? _( "Brrrip!" ) : _( "plink!" ) };
         } else if( noise < 150 ) {
             return { noise, burst ? _( "Brrrap!" ) : _( "bang!" ) };
-        } else if(noise < 175 ) {
+        } else if( noise < 175 ) {
             return { noise, burst ? _( "P-p-p-pow!" ) : _( "blam!" ) };
         } else {
             return { noise, burst ? _( "Kaboom!!" ) : _( "kerblam!" ) };
