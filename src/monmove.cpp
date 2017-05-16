@@ -240,8 +240,7 @@ void monster::plan( const mfactions &factions )
         return;
     }
 
-    for( size_t i = 0; i < g->active_npc.size(); i++ ) {
-        npc &who = *g->active_npc[i];
+    for( npc &who : g->all_npcs() ) {
         auto faction_att = faction.obj().attitude( who.get_monster_faction() );
         if( faction_att == MFA_NEUTRAL || faction_att == MFA_FRIENDLY ) {
             continue;
@@ -471,9 +470,9 @@ void monster::move()
         if( goal == g->u.pos() ) {
             current_attitude = attitude( &( g->u ) );
         } else {
-            for( auto &i : g->active_npc ) {
-                if( goal == i->pos() ) {
-                    current_attitude = attitude( i.get() );
+            for( const npc &guy : g->all_npcs() ) {
+                if( goal == guy.pos() ) {
+                    current_attitude = attitude( &guy );
                 }
             }
         }

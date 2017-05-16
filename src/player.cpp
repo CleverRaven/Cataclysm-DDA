@@ -11689,9 +11689,9 @@ const pathfinding_settings &player::get_pathfinding_settings() const
 std::set<tripoint> player::get_path_avoid() const
 {
     std::set<tripoint> ret;
-    for( const auto &np : g->active_npc ) {
-        if( sees( *np ) ) {
-            ret.insert( np->pos() );
+    for( npc &guy : g->all_npcs() ) {
+        if( sees( guy ) ) {
+            ret.insert( guy.pos() );
         }
     }
 

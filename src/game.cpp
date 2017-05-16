@@ -4071,7 +4071,6 @@ void game::debug()
             s = _( "Location %d:%d in %d:%d, %s\n" );
             s += _( "Current turn: %d; Next spawn %d.\n%s\n" );
             s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", num_creatures() );
-            s += ngettext( "%d currently active NPC.\n", "%d currently active NPCs.\n", active_npc.size() );
             s += ngettext( "%d event planned.", "%d events planned", events.size() );
             popup_top(
                 s.c_str(),
@@ -4080,23 +4079,22 @@ void game::debug()
                 int( calendar::turn ), int( nextspawn ),
                 ( get_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
                   _( "NPCs are NOT going to spawn." ) ),
-                num_creatures(), active_npc.size(), events.size() );
-            if( !active_npc.empty() ) {
-                for( const auto &elem : active_npc ) {
-                    tripoint t = ( elem )->global_sm_location();
-                    add_msg( m_info, _( "%s: map (%d:%d) pos (%d:%d)" ), ( elem )->name.c_str(), t.x,
-                             t.y, ( elem )->posx(), ( elem )->posy() );
-                }
-
-                add_msg( m_info, _( "(you: %d:%d)" ), u.posx(), u.posy() );
+                num_creatures(), events.size() );
+            for( const npc &guy : all_npcs() ) {
+                tripoint t = guy.global_sm_location();
+                add_msg( m_info, _( "%s: map ( %d:%d ) pos ( %d:%d )" ), guy.name.c_str(), t.x,
+                         t.y, guy.posx(), guy.posy() );
             }
+
+            add_msg( m_info, _( "(you: %d:%d)" ), u.posx(), u.posy() );
+
             disp_NPCs();
             break;
         }
         case 8:
-            for( const auto &elem : active_npc ) {
-                add_msg( _( "%s's head implodes!" ), ( elem )->name.c_str() );
-                ( elem )->hp_cur[bp_head] = 0;
+            for( npc &guy : all_npcs() ) {
+                add_msg( _( "%s's head implodes!" ), guy.name.c_str() );
+                guy.hp_cur[bp_head] = 0;
             }
             break;
 
@@ -4463,12 +4461,12 @@ void game::disp_NPC_epilogues()
     std::vector<std::string> data;
     epilogue epi;
     //This search needs to be expanded to all NPCs
-    for( const auto &elem : active_npc ) {
-        if(elem->is_friend()) {
-            if (elem->male){
-                epi.random_by_group("male", elem->name);
+    for( const npc &guy : all_npcs() ) {
+        if( guy.is_friend() ) {
+            if( guy.male ) {
+                epi.random_by_group( "male", guy.name );
             } else {
-                epi.random_by_group("female", elem->name);
+                epi.random_by_group( "female", guy.name );
             }
             for( auto &ln : epi.lines ) {
                 data.push_back( ln );
@@ -5868,6 +5866,7 @@ void game::cleanup_dead()
     bool monster_is_dead = critter_tracker->kill_marked_for_death();
 
     bool npc_is_dead = false;
+    // can't use all_npcs as that does not include dead ones
     for( const auto &n : active_npc ) {
         if( n->is_dead() ) {
             n->die( nullptr ); // make sure this has been called to create corpses etc.
@@ -5995,17 +5994,14 @@ void game::monmove()
     }
 
     // Now, do active NPCs.
-    for( const auto &np : active_npc ) {
-        if( np->is_dead() ) {
-            continue;
-        }
+    for( npc &guy : g->all_npcs() ) {
         int turns = 0;
-        m.creature_in_field( *np );
-        np->process_turn();
-        while( !np->is_dead() && !np->in_sleep_state() && np->moves > 0 && turns < 10 ) {
-            int moves = np->moves;
-            np->move();
-            if( moves == np->moves ) {
+        m.creature_in_field( guy );
+        guy.process_turn();
+        while( !guy.is_dead() && !guy.in_sleep_state() && guy.moves > 0 && turns < 10 ) {
+            int moves = guy.moves;
+            guy.move();
+            if( moves == guy.moves ) {
                 // Count every time we exit npc::move() without spending any moves.
                 turns++;
             }
@@ -6015,7 +6011,7 @@ void game::monmove()
             // there will be no meaningful debug output.
             if( turns == 9 ) {
                 debugmsg( "NPC %s entered infinite loop. Turning on debug mode",
-                          np->name.c_str() );
+                          guy.name.c_str() );
                 debug_mode = true;
             }
         }
@@ -6023,13 +6019,13 @@ void game::monmove()
         // If we spun too long trying to decide what to do (without spending moves),
         // Invoke cranial detonation to prevent an infinite loop.
         if( turns == 10 ) {
-            add_msg( _( "%s's brain explodes!" ), np->name.c_str() );
-            np->die( nullptr );
+            add_msg( _( "%s's brain explodes!" ), guy.name.c_str() );
+            guy.die( nullptr );
         }
 
-        if( !np->is_dead() ) {
-            np->process_active_items();
-            np->update_body();
+        if( !guy.is_dead() ) {
+            guy.process_active_items();
+            guy.update_body();
         }
     }
     cleanup_dead();
@@ -6092,10 +6088,10 @@ void game::shockwave( const tripoint &p, int radius, int force, int stun, int da
         }
     }
     //@todo combine the two loops and the case for g->u using all_creatures()
-    for( const auto &elem : active_npc ) {
-        if( rl_dist( ( elem )->pos(), p ) <= radius ) {
-            add_msg( _( "%s is caught in the shockwave!" ), ( elem )->name.c_str() );
-            knockback( p, ( elem )->pos(), force, stun, dam_mult );
+    for( npc &guy : all_npcs() ) {
+        if( rl_dist( guy.pos(), p ) <= radius ) {
+            add_msg( _( "%s is caught in the shockwave!" ), guy.name.c_str() );
+            knockback( p, guy.pos(), force, stun, dam_mult );
         }
     }
     if( rl_dist(u.pos(), p ) <= radius && !ignore_player &&
@@ -10948,15 +10944,12 @@ void game::read()
 
 void game::chat()
 {
-    std::vector<npc *> available;
-    for( const auto &elem : active_npc ) {
+    const std::vector<npc *> available = get_npcs_if( [&]( const npc &guy ) {
         // @todo Get rid of the z-level check when z-level vision gets "better"
-        if( u.posz() == elem->posz() &&
-            u.sees( elem->pos() ) &&
-            rl_dist( u.pos(), elem->pos() ) <= 24 ) {
-            available.push_back( elem.get() );
-        }
-    }
+        return u.posz() == guy.posz() &&
+            u.sees( guy.pos() ) &&
+            rl_dist( u.pos(), guy.pos() ) <= 24;
+    } );
 
     uimenu nmenu;
     nmenu.text = std::string( _( "Who do you want to talk to or yell at?" ) );
@@ -14052,13 +14045,9 @@ overmap &game::get_cur_om() const
 
 std::vector<npc *> game::allies()
 {
-    std::vector<npc *> res;
-    for( const auto &e : active_npc ) {
-        if( !e->is_dead_state() && e->is_friend() ) {
-            res.push_back( e.get() );
-        }
-    }
-    return res;
+    return get_npcs_if( [&]( const npc &guy ) {
+        return guy.is_friend();
+    } );
 }
 
 std::vector<Creature *> game::get_creatures_if( const std::function<bool( const Creature & )> &pred )
@@ -14072,8 +14061,25 @@ std::vector<Creature *> game::get_creatures_if( const std::function<bool( const 
     return result;
 }
 
+std::vector<npc *> game::get_npcs_if( const std::function<bool( const npc & )> &pred )
+{
+    std::vector<npc *> result;
+    for( npc &guy : all_npcs() ) {
+        if( pred( guy ) ) {
+            result.push_back( &guy );
+        }
+    }
+    return result;
+}
+
 template<>
 bool game::non_dead_range<monster>::iterator::valid() {
+    current = iter->lock();
+    return current && !current->is_dead();
+}
+
+template<>
+bool game::non_dead_range<npc>::iterator::valid() {
     current = iter->lock();
     return current && !current->is_dead();
 }
@@ -14107,6 +14113,10 @@ game::Creature_range::Creature_range( game &g ) : u( &g.u, []( player * ) { } ) 
     items.push_back( u );
 }
 
+game::npc_range::npc_range( game &g ) {
+    items.insert( items.end(), g.active_npc.begin(), g.active_npc.end() );
+}
+
 game::Creature_range game::all_creatures()
 {
     return Creature_range( *this );
@@ -14115,6 +14125,11 @@ game::Creature_range game::all_creatures()
 game::monster_range game::all_monsters()
 {
     return monster_range( *this );
+}
+
+game::npc_range game::all_npcs()
+{
+    return npc_range( *this );
 }
 
 Creature *game::get_creature_if( const std::function<bool( const Creature & )> &pred )

@@ -823,20 +823,18 @@ void npc::choose_target()
         return false;
     };
 
-    for( size_t i = 0; i < g->active_npc.size(); i++ ) {
-        if( g->active_npc[ i ].get() == this ) {
+    for( const npc &np : g->all_npcs() ) {
+        if( &np == this ) {
             continue;
         }
 
-        const npc &np = *g->active_npc[ i ];
-
         auto att = attitude_to( np );
         if( att == Creature::A_FRIENDLY ) {
-            ai_cache.friends.emplace_back( g->active_npc[i] );
+            ai_cache.friends.emplace_back( g->shared_from( np ) );
         } else if( att == Creature::A_NEUTRAL ) {
             // Nothing
         } else if( sees( np ) && check_hostile_character( np ) ) {
-            ai_cache.target = g->active_npc[i];
+            ai_cache.target = g->shared_from( np );
         }
     }
 

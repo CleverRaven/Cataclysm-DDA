@@ -7075,9 +7075,9 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
     }
 
     //Check for Merchants to restock
-    for( auto & i : g->active_npc ) {
-        if( i->restock > 0 && calendar::turn > i->restock ) {
-            i->shop_restock();
+    for( npc &guy : g->all_npcs() ) {
+        if( guy.restock > 0 && calendar::turn > guy.restock ) {
+            guy.shop_restock();
         }
     }
 

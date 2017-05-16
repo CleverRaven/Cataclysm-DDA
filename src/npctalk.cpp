@@ -3001,19 +3001,19 @@ void talk_function::give_all_aid( npc &p )
     p.add_effect( effect_currently_busy, 300 );
     give_aid( p );
     body_part bp_healed;
-    for( auto &elem : g->active_npc ) {
-        if( rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend() ) {
-            for( int i = 0; i < num_hp_parts; i++ ) {
-                bp_healed = player::hp_to_bp( hp_part( i ) );
-                elem->heal( hp_part( i ), 5 * rng( 2, 5 ) );
-                if( elem->has_effect( effect_bite, bp_healed ) ) {
-                    elem->remove_effect( effect_bite, bp_healed );
+    for( npc &guy : g->all_npcs() ) {
+        if( rl_dist( guy.pos(), g->u.pos() ) < PICKUP_RANGE && guy.is_friend() ) {
+            for (int i = 0; i < num_hp_parts; i++) {
+                bp_healed = player::hp_to_bp( hp_part(i) );
+                guy.heal( hp_part( i ), 5 * rng( 2, 5 ) );
+                if( guy.has_effect( effect_bite, bp_healed ) ) {
+                    guy.remove_effect( effect_bite, bp_healed );
                 }
-                if( elem->has_effect( effect_bleed, bp_healed ) ) {
-                    elem->remove_effect( effect_bleed, bp_healed );
+                if( guy.has_effect( effect_bleed, bp_healed ) ) {
+                    guy.remove_effect( effect_bleed, bp_healed );
                 }
-                if( elem->has_effect( effect_infected, bp_healed ) ) {
-                    elem->remove_effect( effect_infected, bp_healed );
+                if( guy.has_effect( effect_infected, bp_healed ) ) {
+                    guy.remove_effect( effect_infected, bp_healed );
                 }
             }
         }
@@ -4565,10 +4565,10 @@ npc *pick_follower()
     std::vector<npc *> followers;
     std::vector<tripoint> locations;
 
-    for( const auto &np : g->active_npc ) {
-        if( np->is_following() && g->u.sees( *np ) ) {
-            followers.push_back( np.get() );
-            locations.push_back( np->pos() );
+    for( npc &guy : g->all_npcs() ) {
+        if( guy.is_following() && g->u.sees( guy ) ) {
+            followers.push_back( &guy );
+            locations.push_back( guy.pos() );
         }
     }
 

@@ -189,8 +189,8 @@ void map::generate_lightmap( const int zlev )
     }
 
     apply_character_light( g->u );
-    for( auto &n : g->active_npc ) {
-        apply_character_light( *n );
+    for( npc &guy : g->all_npcs() ) {
+        apply_character_light( guy );
     }
 
     // Traverse the submaps in order
