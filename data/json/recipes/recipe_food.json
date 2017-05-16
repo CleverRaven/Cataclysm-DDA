@@ -2433,8 +2433,8 @@
         [ "can_tuna", 2 ],
         [ "can_sardine", 2 ],
         [ "can_clams", 2 ],
-		[ "meat_canned", 1 ],
-		[ "fish_canned", 2 ],
+        [ "meat_canned", 1 ],
+        [ "fish_canned", 2 ],
     ],
     [
         [ "water_clean", 1],
