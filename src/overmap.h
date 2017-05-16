@@ -17,6 +17,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <functional>
 #include <memory>
 
 class input_context;
@@ -290,18 +291,30 @@ public:
     bool mongroup_check(const mongroup &candidate) const;
     bool monster_check(const std::pair<tripoint, monster> &candidate) const;
 
-    void add_npc( npc &who );
     // TODO: make private
   std::vector<radio_tower> radios;
-  std::vector<npc *> npcs;
   std::map<int, om_vehicle> vehicles;
   std::vector<city> cities;
   std::vector<city> roads_out;
 
     std::vector<const overmap_special *> unplaced_mandatory_specials;
 
+        /// Adds the npc. The overmap takes ownership of the pointer.
+        void insert_npc( npc *who );
+        /// Removes the npc, and deletes the pointer.
+        void erase_npc( npc *who );
+
+        void for_each_npc( std::function<void( npc & )> callback );
+        void for_each_npc( std::function<void( const npc & )> callback ) const;
+
+        npc *find_npc( int id );
+
  private:
     friend class overmapbuffer;
+        friend class npc; //@todo get rid of this.
+        friend class game; //@todo get rid of this.
+
+        std::vector<npc*> npcs;
 
     bool nullbool = false;
     point loc{ 0, 0 };

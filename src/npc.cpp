@@ -752,7 +752,7 @@ void npc::spawn_at_precise( const point &submap_offset, const tripoint &square )
     position.z = square.z;
     const point pos_om = sm_to_om_copy( submap_coords );
     overmap &om = overmap_buffer.get( pos_om.x, pos_om.y );
-    om.add_npc( *this );
+    om.insert_npc( this );
 }
 
 void npc::spawn_at_random_city(overmap *o)
