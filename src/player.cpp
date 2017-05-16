@@ -4449,9 +4449,7 @@ void player::knock_back_from( const tripoint &p )
         return;
     }
 
-    int npcdex = g->npc_at( to );
-    if (npcdex != -1) {
-        npc *np = g->active_npc[npcdex];
+    if( npc * const np = dynamic_cast<npc*>( g->critter_at( to ) ) ) {
         deal_damage( np, bp_torso, damage_instance( DT_BASH, np->get_size() ) );
         add_effect( effect_stunned, 1 );
         np->deal_damage( this, bp_torso, damage_instance( DT_BASH, 3 ) );
@@ -10960,7 +10958,7 @@ tripoint player::adjacent_tile() const
             continue;
         }
         const trap &curtrap = g->m.tr_at( p );
-        if( g->mon_at( p ) == -1 && g->npc_at( p ) == -1 && g->m.passable( p ) &&
+        if( g->critter_at( p ) == nullptr && g->m.passable( p ) &&
             (curtrap.is_null() || curtrap.is_benign()) ) {
             // Only consider tile if unoccupied, passable and has no traps
             dangerous_fields = 0;

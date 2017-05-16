@@ -1101,12 +1101,12 @@ bool monster::attack_at( const tripoint &p )
         return false;
     }
 
-    const int npcdex = g->npc_at( p );
-    if( npcdex != -1 && type->melee_dice > 0 ) {
+    npc *const guy = dynamic_cast<npc *>( g->critter_at( p ) );
+    if( guy && type->melee_dice > 0 ) {
         // For now we're always attacking NPCs that are getting into our
         // way. This is consistent with how it worked previously, but
         // later on not hitting allied NPCs would be cool.
-        melee_attack( *g->active_npc[npcdex], true );
+        melee_attack( *guy, true );
         return true;
     }
 
@@ -1492,9 +1492,7 @@ void monster::knock_back_from( const tripoint &p )
         return;
     }
 
-    int npcdex = g->npc_at( to );
-    if( npcdex != -1 ) {
-        npc *p = g->active_npc[npcdex];
+    if( npc *const p = dynamic_cast<npc *>( g->critter_at( to ) ) ) {
         apply_damage( p, bp_torso, 3 );
         add_effect( effect_stunned, 1 );
         p->deal_damage( this, bp_torso, damage_instance( DT_BASH, type->size ) );

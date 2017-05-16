@@ -808,8 +808,7 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
         return 0;
     }
     const ter_id type = g->m.ter( dirp );
-    const int npcdex = g->npc_at( dirp );
-    if( npcdex != -1 ) {
+    if( dynamic_cast<npc*>( g->critter_at( dirp ) ) ) {
         p->add_msg_if_player( m_info,
                               _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose" ) );
         return 0;
@@ -2698,18 +2697,14 @@ player &get_patient( player &healer, const tripoint &pos )
         return healer;
     }
 
-    if( g->u.pos() == pos ) {
-        return g->u;
-    }
-
-    const int npc_index = g->npc_at( pos );
-    if( npc_index == -1 ) {
+    player *const person = dynamic_cast<player*>( g->critter_at( pos ) );
+    if( !person ) {
         // Default to heal self on failure not to break old functionality
         add_msg( m_debug, "No heal target at position %d,%d,%d", pos.x, pos.y, pos.z );
         return healer;
     }
 
-    return (player&)(*g->active_npc[npc_index]);
+    return *person;
 }
 
 long heal_actor::use( player *p, item *it, bool, const tripoint &pos ) const

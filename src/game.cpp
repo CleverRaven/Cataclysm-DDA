@@ -6168,7 +6168,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
     // perhaps that is what it should do?
     tripoint tp = traj.front();
     const int zid = mon_at( tp, true );
-    if( zid == -1 && npc_at( tp ) == -1 && u.pos() != tp ) {
+    if( !critter_at( tp ) ) {
         debugmsg(_("Nothing at (%d,%d) to knockback!"), tp.x, tp.y, tp.z );
         return;
     }
@@ -6192,8 +6192,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                 }
                 m.bash( traj[i], 2 * dam_mult * force_remaining );
                 break;
-            } else if (mon_at(traj[i]) != -1 || npc_at(traj[i]) != -1 ||
-                       (u.pos() == traj[i])) {
+            } else if( critter_at( traj[i] ) ) {
                 targ->setpos(traj[i - 1]);
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
@@ -6204,8 +6203,8 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                 if (mon_at(traj.front()) != -1) {
                     add_msg(_("%s collided with something else and sent it flying!"),
                             targ->name().c_str());
-                } else if (npc_at(traj.front()) != -1) {
-                    if (active_npc[npc_at(traj.front())]->male) {
+                } else if( npc * const guy = dynamic_cast<npc*>( critter_at( traj.front() ) ) ) {
+                    if (guy->male) {
                         add_msg(_("%s collided with someone else and sent him flying!"),
                                 targ->name().c_str());
                     } else {
@@ -6233,8 +6232,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                 }
             }
         }
-    } else if( npc_at( tp ) != -1 ) {
-        npc *targ = active_npc[npc_at( tp )];
+    } else if( npc * const targ = dynamic_cast<npc*>( critter_at( tp ) ) ) {
         if (stun > 0) {
             targ->add_effect( effect_stunned, stun);
             add_msg(_("%s was stunned!"), targ->name.c_str());
@@ -6264,9 +6262,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                 }
                 m.bash( traj[i], 2 * dam_mult * force_remaining );
                 break;
-            } else if( mon_at(traj[i]) != -1 ||
-                       npc_at(traj[i]) != -1 ||
-                       u.pos() == traj[i] ) {
+            } else if( critter_at( traj[i] ) ) {
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
@@ -6277,8 +6273,8 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                 if (mon_at(traj.front()) != -1) {
                     add_msg(_("%s collided with something else and sent it flying!"),
                             targ->name.c_str());
-                } else if (npc_at(traj.front()) != -1) {
-                    if (active_npc[npc_at(traj.front())]->male) {
+                } else if( npc * const guy = dynamic_cast<npc*>( critter_at( traj.front() ) ) ) {
+                    if (guy->male) {
                         add_msg(_("%s collided with someone else and sent him flying!"),
                                 targ->name.c_str());
                     } else {
@@ -6339,7 +6335,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                 }
                 m.bash( traj[i], 2 * dam_mult * force_remaining );
                 break;
-            } else if( mon_at( traj[i] ) != -1 || npc_at( traj[i] ) != -1 ) {
+            } else if( critter_at( traj[i] ) ) {
                 u.setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
@@ -6359,8 +6355,8 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                 traj.erase(traj.begin(), traj.begin() + i);
                 if (mon_at(traj.front()) != -1) {
                     add_msg(_("You collided with something and sent it flying!"));
-                } else if (npc_at(traj.front()) != -1) {
-                    if (active_npc[npc_at(traj.front())]->male) {
+                } else if( npc * const guy = dynamic_cast<npc*>( critter_at( traj.front() ) ) ) {
+                    if (guy->male) {
                         add_msg(_("You collided with someone and sent him flying!"));
                     } else {
                         add_msg(_("You collided with someone and sent her flying!"));
@@ -6631,9 +6627,10 @@ Creature *game::critter_at( const tripoint &p, bool allow_hallucination )
     if( p == u.pos() ) {
         return &u;
     }
-    const int nindex = npc_at( p );
-    if( nindex != -1 ) {
-        return active_npc[nindex];
+    for( size_t i = 0; i < active_npc.size(); i++ ) {
+        if( active_npc[i]->pos() == p && !active_npc[i]->is_dead() ) {
+            return active_npc[i];
+        }
     }
     return nullptr;
 }
@@ -7108,15 +7105,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id door_type, int b
     }
     const tripoint kbp( kbx, kby, p.z );
     const bool can_see = u.sees(x, y);
-    player *npc_or_player = NULL;
-    if (x == u.pos().x && y == u.pos().y) {
-        npc_or_player = &u;
-    } else {
-        const int cindex = npc_at(p);
-        if (cindex != -1) {
-            npc_or_player = active_npc[cindex];
-        }
-    }
+    player *npc_or_player = dynamic_cast<player*>( critter_at( tripoint( x, y, p.z ) ) );
     if (npc_or_player != NULL) {
         if (bash_dmg <= 0) {
             return false;
@@ -11289,11 +11278,10 @@ bool game::plmove(int dx, int dy, int dz)
 
     // Check if our movement is actually an attack on a monster or npc
     int mondex = mon_at( dest_loc, true );
-    int npcdex = npc_at( dest_loc );
     // Are we displacing a monster?
 
     bool attacking = false;
-    if( mondex != -1 || npcdex != -1 ){
+    if( critter_at( dest_loc ) ) {
         attacking = true;
     }
 
@@ -11335,8 +11323,8 @@ bool game::plmove(int dx, int dy, int dz)
         // Successful displacing is handled (much) later
     }
     // If not a monster, maybe there's an NPC there
-    if( npcdex != -1 ) {
-        npc &np = *active_npc[npcdex];
+    if( npc * const np_ = dynamic_cast<npc*>( critter_at( dest_loc ) ) ) {
+        npc &np = *np_;
         if( u.has_destination() ) {
             add_msg(_("NPC in the way, Auto-move canceled."));
             add_msg(m_info, _("Click directly on NPC to attack."));
@@ -11969,8 +11957,8 @@ bool game::grabbed_furn_move( const tripoint &dp )
     // which will forbid pulling, so:
     const bool canmove = (
         m.passable(fdest) &&
-        npc_at(fdest) == -1 &&
-        mon_at(fdest) == -1 &&
+        dynamic_cast<npc*>( critter_at( fdest ) ) == nullptr &&
+        dynamic_cast<monster*>( critter_at( fdest ) ) == nullptr &&
         ( !pulling_furniture || is_empty( u.pos() + dp ) ) &&
         ( !has_floor || m.has_flag( "FLAT", fdest ) ) &&
         !m.has_furn( fdest ) &&

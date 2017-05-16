@@ -1234,14 +1234,7 @@ void map::unboard_vehicle( const tripoint &p )
     if( !veh ) {
         debugmsg ("map::unboard_vehicle: vehicle not found");
         // Try and force unboard the player anyway.
-        if( g->u.pos() == p ) {
-            passenger = &(g->u);
-        } else {
-            int npcdex = g->npc_at( p );
-            if( npcdex != -1 ) {
-                passenger = g->active_npc[npcdex];
-            }
-        }
+        passenger = dynamic_cast<player*>( g->critter_at( p ) );
         if( passenger ) {
             passenger->in_vehicle = false;
             passenger->controlling_vehicle = false;
@@ -3637,13 +3630,7 @@ void map::destroy_furn( const tripoint &p, const bool silent )
 void map::crush( const tripoint &p )
 {
     int veh_part;
-    player *crushed_player = nullptr;
-    int npc_index = g->npc_at( p );
-    if( g->u.pos() == p ) {
-        crushed_player = &(g->u);
-    } else if( npc_index != -1 ) {
-        crushed_player = static_cast<player *>(g->active_npc[npc_index]);
-    }
+    player *crushed_player = dynamic_cast<player*>( g->critter_at( p ) );
 
     if( crushed_player != nullptr ) {
         bool player_inside = false;
