@@ -495,8 +495,6 @@ void talk_function::individual_mission(npc *p, std::string desc, std::string id,
     } else {
         comp->companion_mission_time = calendar::turn.get_turn();
     }
-    g->mission_npc.push_back(comp);
-    overmap_buffer.hide_npc( comp->getID() );
     g->reload_npcs();
     assert( !comp->is_active() );
 }
@@ -579,7 +577,7 @@ void talk_function::caravan_return(npc *p, std::string dest, std::string id)
     for( auto *elem : caravan_party ) {
         //Scrub temporary party members and the dead
         if (elem->hp_cur[hp_torso] == 0 && elem->has_companion_mission() ) {
-            companion_lost(comp);
+            overmap_buffer.remove_npc( comp->getID() );
             money += (time/600) * 9;
         } else if( elem->has_companion_mission() ){
             money += (time/600) * 18;
@@ -983,7 +981,7 @@ bool talk_function::scavenging_patrol_return(npc *p)
                 experience += rng ( 2, 10 );
             } else {
                 popup(_("Unfortunately they were overpowered by the undead... I'm sorry."));
-                companion_lost(comp);
+                overmap_buffer.remove_npc( comp->getID() );
                 return false;
             }
         }
@@ -1073,7 +1071,7 @@ bool talk_function::scavenging_raid_return(npc *p)
                 experience += rng( 2, 10 );
             } else {
                 popup(_("Unfortunatly they were overpowered by the undead... I'm sorry."));
-                companion_lost(comp);
+                overmap_buffer.remove_npc( comp->getID() );
                 return false;
             }
         }
@@ -1206,7 +1204,7 @@ bool talk_function::carpenter_return(npc *p)
             popup(_("%s didn't make it out in time..."), comp->name.c_str());
             popup(_("Everyone who was trapped under the collapsing roof died..."));
             popup(_("I'm sorry, there is nothing we could do."));
-            companion_lost(comp);
+            overmap_buffer.remove_npc( comp->getID() );
             return false;
         }
     }
@@ -1292,7 +1290,7 @@ bool talk_function::forage_return(npc *p)
                     popup(_("We... we don't know what exactly happened but we found %s's gear ripped and bloody..."), comp->name.c_str());
                     popup(_("I fear your companion won't be returning."));
                 }
-                companion_lost(comp);
+                overmap_buffer.remove_npc( comp->getID() );
                 return false;
             }
         }
@@ -1418,40 +1416,19 @@ void talk_function::force_on_force(std::vector<npc *> defender, std::string def_
     }
 }
 
-void talk_function::companion_lost(npc *comp){
-    std::vector<npc *> new_mission_npc;
-    for( auto *elem : g->mission_npc ) {
-        if( elem->getID() == comp->getID() ) {
-            delete elem;
-        } else {
-            new_mission_npc.push_back(elem);
-        }
-    }
-    g->mission_npc = new_mission_npc;
-    g->reload_npcs();
-}
-
-
 void talk_function::companion_return(npc *comp){
-    std::vector<npc *> new_mission_npc;
-    for( auto *elem : g->mission_npc ) {
-        if( elem == comp) {
-            elem->reset_companion_mission();
-            elem->companion_mission_time = 0;
-            elem->spawn_at_precise( { g->get_levx(), g->get_levy() },
-                                    g->u.pos() + point( rng( -2, 2 ), rng( -2, 2 ) ) );
-        } else {
-            new_mission_npc.push_back(elem);
-        }
-    }
-    g->mission_npc = new_mission_npc;
+    assert( comp );
+    assert( !comp->is_active() );
+    comp->reset_companion_mission();
+    comp->companion_mission_time = 0;
+    // npc *may* be active, or not if outside the reality bubble
     g->reload_npcs();
 }
 
 std::vector<npc *> talk_function::companion_list( const npc &p, const std::string &id )
 {
     std::vector<npc *> available;
-    for( auto *elem : g->mission_npc ) {
+    for( auto *elem : overmap_buffer.get_companion_mission_npcs() ) {
         if( elem->get_companion_mission() == p.name + id ) {
             available.push_back( elem );
         }
@@ -1488,9 +1465,9 @@ npc *talk_function::companion_choose(){
 
 npc *talk_function::companion_choose_return(std::string id, int deadline){
     std::vector<npc *> available;
-    for( auto *elem : g->mission_npc ) {
-        if( elem->get_companion_mission() == id && elem->companion_mission_time <= deadline) {
-            available.push_back( elem );
+    for( npc *const guy : overmap_buffer.get_companion_mission_npcs() ) {
+        if( guy->get_companion_mission() == id && guy->companion_mission_time <= deadline) {
+            available.push_back( guy );
         }
     }
 

@@ -701,6 +701,18 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const point &p, const i
     return get_overmaps_near( tripoint( p.x, p.y, 0 ), radius );
 }
 
+std::vector<npc *> overmapbuffer::get_companion_mission_npcs()
+{
+    std::vector<npc *> available;
+    //@todo this is an arbitrary radius, replace with something sane.
+    for( npc *const guy : get_npcs_near_player( 100 ) ) {
+        if( guy->has_companion_mission() ) {
+            available.push_back( guy );
+        }
+    }
+    return available;
+}
+
 // If z == INT_MIN, allow all z-levels
 std::vector<npc*> overmapbuffer::get_npcs_near(int x, int y, int z, int radius)
 {
