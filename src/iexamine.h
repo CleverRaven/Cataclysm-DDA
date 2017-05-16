@@ -109,6 +109,7 @@ void sign( player &p, const tripoint &examp );
 void pay_gas( player &p, const tripoint &examp );
 void climb_down( player &p, const tripoint &examp );
 hack_result hack_attempt( player &p );
+void milk_source(const tripoint &examp);
 
 /**
  * Pour liquid into a keg (furniture) on the map. The transferred charges (if any)

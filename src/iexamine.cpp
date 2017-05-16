@@ -2780,6 +2780,15 @@ void iexamine::water_source(player &p, const tripoint &examp)
     g->handle_liquid( water, nullptr, 0, &examp );
 }
 
+void iexamine::milk_source(const tripoint &examp)
+{
+	item milk("milk", 0, 1);
+	// TODO: add a source origing for handle_liquid() that tells the monster as its source
+	g->handle_liquid(milk, nullptr, 0, &examp);
+	add_msg("You milk the cow.");
+}
+
+
 const itype * furn_t::crafting_pseudo_item_type() const
 {
     if (crafting_pseudo_item.empty()) {
