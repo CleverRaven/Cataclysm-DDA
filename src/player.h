@@ -20,6 +20,7 @@ static const std::string DEFAULT_HOTKEYS("1234567890abcdefghijklmnopqrstuvwxyz")
 
 enum action_id : int;
 
+class dispersion_sources;
 class monster;
 class game;
 struct trap;
@@ -510,7 +511,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param obj Weapon to check dispersion on
          * @param range Distance to target against which we're calculating the dispersion
          */
-        double get_weapon_dispersion( const item &obj, float range ) const;
+        dispersion_sources get_weapon_dispersion( const item &obj, float range ) const;
 
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( item &firing );
@@ -520,34 +521,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Current total maximum recoil penalty from all sources */
         double recoil_total() const;
-
-        /**
-         *  Calculate range at which given chance of hit considering player stats, clothing and recoil
-         *  @param gun ranged weapon which must have sufficient ammo for at least one shot
-         *  @param penalty if set (non-negative) use this value instead of @ref recoil_total()
-         *  @param chance probability of hit, range [0-100) with zero returning absolute maximum range
-         *  @param accuracy minimum accuracy required
-         */
-        double gun_current_range( const item &gun, double penalty = -1,
-                                  unsigned chance = 50, double accuracy = accuracy_goodhit ) const;
-        /**
-         *  Calculate range at which given chance of hit considering player stats, clothing and recoil
-         *  @param to_throw item that will be thrown
-         *  @param chance probability of hit, range [0-100) with zero returning absolute maximum range
-         *  @param accuracy minimum accuracy required
-         *  @param target the target creature (can be null) who may try to dodge the thrown item
-         */
-        double thrown_current_range( const item& to_throw, unsigned chance = 50,
-                                     double accuracy = accuracy_goodhit, Creature *target = nullptr ) const;
-
-        enum class engagement {
-            snapshot,   // 50% chance of good hit with no aiming
-            effective,  // 50% chance of good hit at maximum aim
-            maximum,    // 10% chance of any hit at maximum aim
-        };
-
-        /** Get engagement ranges for gun */
-        double gun_engagement_range( const item &gun, engagement opt ) const;
 
         /** How many moves does it take to aim gun to maximum accuracy? */
         int gun_engagement_moves( const item &gun ) const;

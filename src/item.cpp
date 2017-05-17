@@ -1002,14 +1002,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         insert_separation_line();
 
-        int eff_range = round( g->u.gun_engagement_range( *mod, player::engagement::effective ) );
-        int max_range = round( g->u.gun_engagement_range( *mod, player::engagement::maximum ) );
-
-        if( eff_range > 0 ) {
-            info.emplace_back( "GUN", _( "<bold>Effective range: </bold>" ), "<num>", eff_range, true, "", false );
-            info.emplace_back( "GUN", space + _( "Maximum range: " ), "<num>", max_range );
-        }
-
         int aim_mv = g->u.gun_engagement_moves( *mod );
         if( aim_mv > 0 ) {
             info.emplace_back( "GUN", _( "Maximum aiming time: " ), _( "<num> seconds" ), int( aim_mv / 16.67 ), true, "", true, true );

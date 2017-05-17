@@ -1,5 +1,8 @@
 #include "player.h"
+
 #include "action.h"
+#include "ballistics.h"
+#include "dispersion.h"
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"

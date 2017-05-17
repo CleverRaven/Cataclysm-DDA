@@ -1,5 +1,8 @@
-#include "mondeath.h"
 #include "monster.h"
+#include "mondeath.h"
+
+#include "ballistics.h"
+#include "dispersion.h"
 #include "game.h"
 #include "debug.h"
 #include "map.h"
@@ -411,7 +414,7 @@ bool mattack::acid(monster *z)
     proj.impact.add_damage( DT_ACID, 5 ); // Mostly just for momentum
     proj.range = 10;
     proj.proj_effects.insert( "NO_OVERSHOOT" );
-    auto dealt = z->projectile_attack( proj, target->pos(), 5400 );
+    auto dealt = projectile_attack( proj, z->pos(), target->pos(), { 5400 }, z );
     const tripoint &hitp = dealt.end_point;
     const Creature *hit_critter = dealt.hit_critter;
     if( hit_critter == nullptr && g->m.hit_with_acid( hitp ) && g->u.sees( hitp ) ) {
@@ -523,7 +526,7 @@ bool mattack::acid_accurate(monster *z)
     proj.proj_effects.insert( "NO_DAMAGE_SCALING" );
     proj.impact.add_damage( DT_ACID, rng( 3, 5 ) );
     // Make it arbitrarily less accurate at close ranges
-    z->projectile_attack( proj, target->pos(), 8000 / range );
+    projectile_attack( proj, z->pos(), target->pos(), { 8000.0 * (double)range }, z );
 
     return true;
 }
@@ -1356,7 +1359,7 @@ bool mattack::spit_sap(monster *z)
     proj.range = 12;
     proj.proj_effects.insert( "APPLY_SAP" );
     proj.impact.add_damage( DT_ACID, rng( 5, 10 ) );
-    z->projectile_attack( proj, target->pos(), 150 );
+    projectile_attack( proj, z->pos(), target->pos(), { 150 }, z );
 
     return true;
 }

@@ -581,7 +581,6 @@ classes = {
             { name = "get_sick", rval = nil, args = { } },
             { name = "get_size", rval = "m_size", args = { } },
             { name = "get_stamina_max", rval = "int", args = { } },
-            { name = "get_weapon_dispersion", rval = "float", args = { "item", "float" } },
             { name = "get_wind_resistance", rval = "int", args = { "body_part" } },
             { name = "global_omt_location", rval = "tripoint", args = { } },
             { name = "global_sm_location", rval = "tripoint", args = { } },
