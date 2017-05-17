@@ -7692,7 +7692,6 @@ void game::examine( const tripoint &examp )
 			iexamine::milk_source(examp, source_mon);
 		}
 
-
         npc *np = dynamic_cast<npc*>( c );
         if( np != nullptr ) {
             if( npc_menu( *np ) ) {
