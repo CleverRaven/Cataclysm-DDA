@@ -1339,7 +1339,6 @@ void player::hardcoded_effects( effect &it )
                 }
             } else {
                 if( dur <= 1 ) {
-                    add_msg_if_player( m_warning, _( "Your alarm clock rings, but you do not hear it." ) );
                     // 10 minute automatic snooze
                     it.mod_duration( 100 );
                 } else if( dur <= 2 ) {
