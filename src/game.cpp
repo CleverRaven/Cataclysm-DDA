@@ -7689,7 +7689,7 @@ void game::examine( const tripoint &examp )
 		if (mon != nullptr && mon->has_flag(MF_MILKABLE)) {
 			monster *source_mon = dynamic_cast<monster *>(c);
 			add_msg(m_info, _("This is a milkable cow. Moo moo."));
-			iexamine::milk_source(examp, source_mon);
+			iexamine::milk_source(source_mon);
 		}
 
         npc *np = dynamic_cast<npc*>( c );

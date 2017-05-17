@@ -2782,7 +2782,7 @@ void iexamine::water_source(player &p, const tripoint &examp)
     g->handle_liquid( water, nullptr, 0, &examp );
 }
 
-void iexamine::milk_source(const tripoint &examp, monster *source_mon)
+void iexamine::milk_source(monster *source_mon)
 {
 	if (source_mon->turn_next_milking < calendar::turn) {
 		item milk("milk", 0, 4);
