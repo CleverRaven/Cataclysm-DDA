@@ -2792,7 +2792,6 @@ void iexamine::milk_source( monster *source_mon )
     } else {
         add_msg( "The cow's udders run dry" );
     }
-
 }
 
 const itype * furn_t::crafting_pseudo_item_type() const

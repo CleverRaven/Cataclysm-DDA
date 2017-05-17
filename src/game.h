@@ -635,7 +635,7 @@ class game
          * @param radius Radius to look for liquid around pos
          * @param source_pos The source of the liquid when it's from the map.
          * @param source_veh The vehicle that currently contains the liquid in its tank.
-		 * @param source_mon The source monster that is milked.
+         * @param source_mon The source monster that is milked.
          * @return Whether the user has handled the liquid (at least part of it). `false` indicates
          * the user has rejected all possible actions. But note that `true` does *not* indicate any
          * liquid was actually consumed, the user may have chosen an option that turned out to be

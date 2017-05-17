@@ -547,7 +547,6 @@ class Creature
 		// Turn since creature was milked for last time
 		int turn_next_milking = 0;
 
-
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
         void set_killer( Creature *killer );

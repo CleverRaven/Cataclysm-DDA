@@ -9767,8 +9767,8 @@ extern void serialize_liquid_target( player_activity &act, const tripoint &pos )
 
 bool game::handle_liquid( item &liquid, item * const source, const int radius,
                           const tripoint * const source_pos,
-                          const vehicle * const source_veh, 
-						  const monster * const source_mon)
+                          const vehicle * const source_veh,
+                          const monster * const source_mon)
 {
     if( !liquid.made_of(LIQUID) ) {
         dbg(D_ERROR) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
