@@ -229,7 +229,7 @@ public:
      * Note: This excludes items that take extra tools to harvest.
      */
     std::array<harvest_id, SEASONS_PER_YEAR> harvest_by_season = {{
-        harvest_id( "null" ), harvest_id( "null" ), harvest_id( "null" ), harvest_id( "null" )
+        harvest_id::NULL_ID, harvest_id::NULL_ID, harvest_id::NULL_ID, harvest_id::NULL_ID
     }};
 
     bool transparent;
