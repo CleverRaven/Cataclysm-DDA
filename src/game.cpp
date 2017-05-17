@@ -9799,8 +9799,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         menu.text = string_format( _( "What to do with the %s from %s?" ), liquid_name.c_str(), m.name( *source_pos ).c_str() );
     } else if( source_veh != nullptr ) {
         menu.text = string_format( _( "What to do with the %s from the %s?" ), liquid_name.c_str(), source_veh->name.c_str() );
-	}
-	else if (source_mon != nullptr) {
+	} else if(source_mon != nullptr) {
 		menu.text = string_format(_("What to do with the %s from the %s?"), liquid_name.c_str(), source_mon->disp_name().c_str());
 	}else {
         menu.text = string_format( _( "What to do with the %s?" ), liquid_name.c_str() );
