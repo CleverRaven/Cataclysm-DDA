@@ -543,6 +543,7 @@ class Creature
         virtual nc_color basic_symbol_color() const = 0;
         virtual const std::string &symbol() const = 0;
         virtual bool is_symbol_highlighted() const;
+
 		// Turn since creature was milked for last time
 		int turn_next_milking = 0;
 

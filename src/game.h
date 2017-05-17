@@ -644,9 +644,9 @@ class game
          * indicates they want to handle it.
          */
         bool handle_liquid( item &liquid, item *source = NULL, int radius = 0,
-                            const tripoint *source_pos = nullptr,
-                            const vehicle *source_veh = nullptr,
-							const monster *source_mon = nullptr );
+                    const tripoint *source_pos = nullptr,
+                    const vehicle *source_veh = nullptr,
+                    const monster *source_mon = nullptr );
         /**@}*/
 
         void open_gate( const tripoint &p );

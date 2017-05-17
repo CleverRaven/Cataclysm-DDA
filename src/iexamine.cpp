@@ -2782,19 +2782,18 @@ void iexamine::water_source(player &p, const tripoint &examp)
     g->handle_liquid( water, nullptr, 0, &examp );
 }
 
-void iexamine::milk_source(monster *source_mon)
+void iexamine::milk_source( monster *source_mon )
 {
-	if (source_mon->turn_next_milking < calendar::turn) {
-		item milk("milk", 0, 4);
-		g->handle_liquid(milk, nullptr, 0, nullptr, nullptr, source_mon);
-		add_msg("You milk the cow.");
-		source_mon->turn_next_milking = calendar::turn.get_turn() + HOURS(24);
-	}else {
-		add_msg("The cow's udders run dry");
-	}
-	
-}
+    if( source_mon->turn_next_milking < calendar::turn ) {
+        item milk( "milk", 0, 4 );
+        g->handle_liquid( milk, nullptr, 0, nullptr, nullptr, source_mon );
+        add_msg( "You milk the cow." );
+        source_mon->turn_next_milking = calendar::turn.get_turn() + HOURS( 24 );
+    } else {
+        add_msg( "The cow's udders run dry" );
+    }
 
+}
 
 const itype * furn_t::crafting_pseudo_item_type() const
 {
