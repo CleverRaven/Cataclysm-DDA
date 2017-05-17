@@ -140,6 +140,7 @@ const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_recover( "recover" );
 const efftype_id effect_shakes( "shakes" );
 const efftype_id effect_sleep( "sleep" );
+const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 const efftype_id effect_spores( "spores" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tapeworm( "tapeworm" );
@@ -9910,9 +9911,13 @@ void player::wake_up()
         if(calendar::turn - get_effect( effect_sleep ).get_start_turn() > HOURS(2) ) {
             print_health();
         }
+        if( has_effect( effect_slept_through_alarm ) ) {
+            add_msg_if_player( m_warning, _( "It looks like you've slept through the alarm..." ) );
+        }
     }
 
     remove_effect( effect_sleep );
+    remove_effect( effect_slept_through_alarm );
     remove_effect( effect_lying_down );
 }
 

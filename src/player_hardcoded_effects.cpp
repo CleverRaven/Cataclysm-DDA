@@ -53,6 +53,7 @@ const efftype_id effect_rat( "rat" );
 const efftype_id effect_recover( "recover" );
 const efftype_id effect_shakes( "shakes" );
 const efftype_id effect_sleep( "sleep" );
+const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 const efftype_id effect_spores( "spores" );
 const efftype_id effect_stemcell_treatment( "stemcell_treatment" );
 const efftype_id effect_stunned( "stunned" );
@@ -1313,8 +1314,14 @@ void player::hardcoded_effects( effect &it )
 
         // A bit of a hack: check if we are about to wake up for any reason,
         // including regular timing out of sleep
-        if( ( it.get_duration() == 1 || woke_up ) && calendar::turn - start > HOURS( 2 ) ) {
-            print_health();
+        if( it.get_duration() == 1 || woke_up ) {
+            if( calendar::turn - start > HOURS( 2 ) ) {
+                print_health();
+            }
+            if( has_effect( effect_slept_through_alarm ) ) {
+                add_msg_if_player( m_warning, _( "It looks like you've slept through the alarm..." ) );
+                get_effect( effect_slept_through_alarm ).set_duration( 0 );
+            }
         }
     } else if( id == effect_alarm_clock ) {
         if( has_effect( effect_sleep ) ) {
@@ -1339,6 +1346,9 @@ void player::hardcoded_effects( effect &it )
                 }
             } else {
                 if( dur <= 1 ) {
+                    if( !has_effect( effect_slept_through_alarm ) ) {
+                        add_effect( effect_slept_through_alarm, 1, num_bp, true );
+                    }
                     // 10 minute automatic snooze
                     it.mod_duration( 100 );
                 } else if( dur <= 2 ) {
