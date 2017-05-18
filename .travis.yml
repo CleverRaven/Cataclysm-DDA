@@ -3,6 +3,8 @@
 sudo: false
 language: c++
 
+cache: ccache
+
 script: make
 
 notifications:
@@ -84,7 +86,7 @@ matrix:
           sources: *apt_sources
 
     # Clang 4.0
-    - env: COMPILER=clang++-4.0
+    - env: COMPILER=clang++-4.0 CXXFLAGS=-Wno-error=unused-command-line-argument
       dist: trusty
       addons: &clang40
         apt:
@@ -94,4 +96,4 @@ matrix:
 before_script:
   - ${COMPILER} --version
 
-script: make CXX=$COMPILER -j3 RELEASE=1
+script: CXX="ccache $COMPILER" make -j3 RELEASE=1
