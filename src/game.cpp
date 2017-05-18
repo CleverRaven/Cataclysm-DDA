@@ -7685,10 +7685,9 @@ void game::examine( const tripoint &examp )
                 return;
             }
         }
-
         if( mon != nullptr && mon->has_flag( MF_MILKABLE ) ) {
             add_msg( m_info, _( "This is a milkable cow. Moo moo." ) );
-            iexamine::milk_source( source_mon );
+            iexamine::milk_source( mon );
         }
 
         npc *np = dynamic_cast<npc *>( c );
@@ -9799,12 +9798,10 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
     } else if( source_veh != nullptr ) {
         menu.text = string_format( _( "What to do with the %s from the %s?" ), liquid_name.c_str(), source_veh->name.c_str() );
 
-	} else if( source_mon != nullptr )
-	{
+	} else if( source_mon != nullptr ) {
 	    menu.text = string_format( _( "What to do with the %s from the %s?" ), liquid_name.c_str(),
 	                               source_mon->disp_name().c_str() );
-	} else
-	{
+	} else {
         menu.text = string_format( _( "What to do with the %s?" ), liquid_name.c_str() );
     }
     std::vector<std::function<void()>> actions;
