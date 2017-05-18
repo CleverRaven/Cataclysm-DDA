@@ -63,14 +63,14 @@ void do_test( bool generating_cases )
     dummy.reset_encumbrance();
     wield_check( "Wielding halberd from inventory while wearing work gloves", dummy, dummy.i_add( item( "halberd" ) ), 307 );
     wield_check( "Wielding 1 aspirin from inventory while wearing work gloves", dummy, dummy.i_add( item( "aspirin" ).split( 1 ) ), 120 );
-    wield_check( "Wielding combat knife from inventory while wearing work gloves", dummy, dummy.i_add( item( "knife_combat" ) ), 145 );
+    wield_check( "Wielding combat knife from inventory while wearing work gloves", dummy, dummy.i_add( item( "knife_combat" ) ), 150 );
     wield_check( "Wielding metal tank from outside inventory while wearing work gloves", dummy, g->m.add_item( spot, item( "metal_tank" ) ), 340 );
 
     dummy.worn = {{ item( "boxing_gloves" ) }};
     dummy.reset_encumbrance();
-    wield_check( "Wielding halberd from inventory while wearing boxing gloves", dummy, dummy.i_add( item( "halberd" ) ), 357 );
+    wield_check( "Wielding halberd from inventory while wearing boxing gloves", dummy, dummy.i_add( item( "halberd" ) ), 365 );
     wield_check( "Wielding 1 aspirin from inventory while wearing boxing gloves", dummy, dummy.i_add( item( "aspirin" ).split( 1 ) ), 170 );
-    wield_check( "Wielding combat knife from inventory while wearing boxing gloves", dummy, dummy.i_add( item( "knife_combat" ) ), 195 );
+    wield_check( "Wielding combat knife from inventory while wearing boxing gloves", dummy, dummy.i_add( item( "knife_combat" ) ), 200 );
     wield_check( "Wielding metal tank from outside inventory while wearing boxing gloves", dummy, g->m.add_item( spot, item( "metal_tank" ) ), 400 );
 }
 

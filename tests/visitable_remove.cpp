@@ -57,7 +57,7 @@ TEST_CASE( "visitable_remove", "[visitable]" ) {
     auto tiles = closest_tripoints_first( 1, p.pos() );
     tiles.erase( tiles.begin() ); // player tile
     tripoint veh = random_entry( tiles );
-    REQUIRE( g->m.add_vehicle( vproto_id( "shopping_cart" ), veh, 0 ) );
+    REQUIRE( g->m.add_vehicle( vproto_id( "shopping_cart" ), veh, 0, 0, 0 ) );
 
     item temp_liquid( liquid_id );
     item obj = temp_liquid.in_container( temp_liquid.type->default_container );
