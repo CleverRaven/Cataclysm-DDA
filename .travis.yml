@@ -83,6 +83,14 @@ matrix:
           packages: ["g++-6",   "g++-6-multilib",   "libc6-dbg", "libc6-dbg:i386"]
           sources: *apt_sources
 
+    # Clang 4.0
+    - env: COMPILER=clang++-4.0
+      dist: trusty
+      addons: &clang40
+        apt:
+          packages: ["clang-4.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
+          sources: *apt_sources
+
 before_script:
   - ${COMPILER} --version
 
