@@ -4291,29 +4291,27 @@
             }
         ],
         "items": {
-            "both": [
+            "both": {
+                "items": [			              
                 "gold_ear",
                 "pants_survivor",
                 "motorbike_boots",
                 "gauntlets_bone",
                 "survivor_goggles",
-                "nailrifle",
-                "shoulder_strap",
-                "folding_stock",
-                "nailmag",
-                "nailmag",
                 "combatnail",
-                "combatnail",
-                "chestpouch",
                 "waterskin2",
                 "survivor_scope",
                 "heavy_flashlight",
-                "makeshift_machete",
-                "scabbard",
                 "knuckle_steel",
                 "ref_lighter",
                 "mess_kit"
-            ],
+                ],
+			"entries": [
+                    { "item": "nailrifle", "ammo-item": "combatnail", "charges": 50, "contents-item": [ "shoulder_strap", "folding_stock" ] },
+                    { "item": "makeshift_machete", "container-item": "scabbard" },
+                    { "item": "nailmag", "ammo-item": "combatnail", "charges": 50, "container-item": "chestpouch" }
+                ]
+		    },
             "male": [
                 "football_armor",
                 "elbow_pads",
