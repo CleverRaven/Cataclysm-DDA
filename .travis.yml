@@ -96,4 +96,5 @@ matrix:
 before_script:
   - ${COMPILER} --version
 
-script: CXX="ccache $COMPILER" make -j3 RELEASE=1
+
+script: CXX="ccache $COMPILER" make -j3 RELEASE=1 && tests/cata_test
