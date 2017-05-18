@@ -2787,10 +2787,10 @@ void iexamine::milk_source( monster *source_mon )
     if( source_mon->turn_next_milking < calendar::turn ) {
         item milk( "milk", 0, 4 );
         g->handle_liquid( milk, nullptr, 0, nullptr, nullptr, source_mon );
-        add_msg( "You milk the cow." );
+        add_msg(_("You milk the cow." ));
         source_mon->turn_next_milking = calendar::turn.get_turn() + HOURS( 24 );
     } else {
-        add_msg( "The cow's udders run dry" );
+        add_msg(_( "The cow's udders run dry" ));
     }
 }
 
