@@ -544,7 +544,7 @@ class Creature
         virtual const std::string &symbol() const = 0;
         virtual bool is_symbol_highlighted() const;
 
-		// Turn since creature was milked for last time
+		// Turn for the next milking
 		int turn_next_milking = 0;
 
     protected:
