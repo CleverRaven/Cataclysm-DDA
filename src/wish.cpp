@@ -170,7 +170,9 @@ class wish_mutate_callback: public uimenu_callback
 
             mvwprintz( menu->window, menu->w_height - 3, startx, c_green, "%s", msg.c_str() );
             msg = padding;
-            mvwprintw( menu->window, menu->w_height - 2, startx, _( "[/] find, [q]uit" ) );
+            input_context ctxt( "UIMENU" );
+            mvwprintw( menu->window, menu->w_height - 2, startx, string_format( _( "[%s] find, [%s] quit" ),
+                      ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() ).c_str() );
 
         };
 
@@ -255,7 +257,7 @@ void debug_menu::wishmutate( player *p )
                 }
             }
         }
-    } while( wmenu.keypress != 'q' && wmenu.keypress != KEY_ESCAPE && wmenu.keypress != ' ' );
+    } while( wmenu.ret >= 0 );
 }
 
 class wish_monster_callback: public uimenu_callback
@@ -334,8 +336,10 @@ class wish_monster_callback: public uimenu_callback
 
             mvwprintz( w_info, getmaxy( w_info ) - 3, 0, c_green, "%s", msg.c_str() );
             msg = padding;
+            input_context ctxt( "UIMENU" );
             mvwprintw( w_info, getmaxy( w_info ) - 2, 0,
-                       _( "[/] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [q]uit" ) );
+                       string_format( _( "[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [%s] quit" ),
+                       ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() ).c_str() );
         }
 
         void refresh( uimenu *menu ) override {
@@ -395,13 +399,14 @@ void debug_menu::wishmonster( const tripoint &p )
                         g->add_zombie( mon, true );
                     }
                 }
-                cb.msg = string_format( _( "Spawned %d/%d monsters, choose another or 'q' to quit." ),
-                                        num_spawned, int( spawn_points.size() ) );
+                input_context ctxt( "UIMENU" );
+                cb.msg = string_format( _( "Spawned %d/%d monsters, choose another or [%s] to quit." ),
+                                        num_spawned, int( spawn_points.size() ), ctxt.get_desc( "QUIT" ).c_str() );
                 uistate.wishmonster_selected = wmenu.ret;
                 wmenu.redraw();
             }
         }
-    } while( wmenu.keypress != 'q' && wmenu.keypress != KEY_ESCAPE && wmenu.keypress != ' ' );
+    } while( wmenu.ret >= 0 );
 }
 
 class wish_item_callback: public uimenu_callback
@@ -441,7 +446,9 @@ class wish_item_callback: public uimenu_callback
             mvwprintz( menu->window, menu->w_height - 3, startx, c_green, "%s", msg.c_str() );
             msg.erase();
 
-            mvwprintw( menu->window, menu->w_height - 2, startx, _( "[/] find, [f] container, [q]uit" ) );
+            input_context ctxt( "UIMENU" );
+            mvwprintw( menu->window, menu->w_height - 2, startx, string_format( _( "[%s] find, [f] container, [%s] quit" ),
+                       ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() ).c_str() );
         }
 };
 
@@ -498,11 +505,12 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
                     p->invalidate_crafting_inventory();
                 } else if( x >= 0 && y >= 0 ) {
                     g->m.add_item_or_charges( tripoint( x, y, z ), granted );
-                    wmenu.keypress = 'q';
+                    wmenu.ret = -1;
                 }
                 if( amount > 0 ) {
-                    dynamic_cast<wish_item_callback *>( wmenu.callback )->msg =
-                        _( "Wish granted. Wish for more or hit 'q' to quit." );
+                    input_context ctxt( "UIMENU" );
+                    dynamic_cast<wish_item_callback *>( wmenu.callback )->msg = string_format(
+                        _( "Wish granted. Wish for more or hit [%s] to quit." ), ctxt.get_desc( "QUIT" ).c_str() );
                 }
             }
             uistate.wishitem_selected = wmenu.ret;
@@ -510,7 +518,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
                 amount = prev_amount;
             }
         }
-    } while( wmenu.keypress != 'q' && wmenu.keypress != KEY_ESCAPE && wmenu.keypress != ' ' );
+    } while( wmenu.ret >= 0 );
 }
 
 /*
@@ -600,6 +608,5 @@ void debug_menu::wishskill( player *p )
                 }
             }
         }
-    } while( skmenu.ret != -1 && ( skmenu.keypress != 'q' && skmenu.keypress != ' ' &&
-                                   skmenu.keypress != KEY_ESCAPE ) );
+    } while( skmenu.ret >= 0 );
 }
