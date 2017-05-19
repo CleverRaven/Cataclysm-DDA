@@ -1776,7 +1776,7 @@ void player::recalc_speed_bonus()
 {
     // Minus some for weight...
     int carry_penalty = 0;
-    if( weight_carried() > weight_capacity() ) {
+    if( weight_carried() > weight_capacity() && !has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
         carry_penalty = 25 * ( weight_carried() - weight_capacity() ) / ( weight_capacity() );
     }
     mod_speed_bonus( -carry_penalty );
@@ -5595,9 +5595,9 @@ void player::suffer()
         }
     }
 
-    if (!in_sleep_state()) {
-        if (weight_carried() > 4 * weight_capacity()) {
-            if (has_effect( effect_downed )) {
+    if( !in_sleep_state() ) {
+        if ( !has_trait( trait_id( "DEBUG_STORAGE" ) ) && ( weight_carried() > 4 * weight_capacity() ) ) {
+            if( has_effect( effect_downed ) ) {
                 add_effect( effect_downed, 1, num_bp, false, 0, true );
             } else {
                 add_effect( effect_downed, 2, num_bp, false, 0, true );
@@ -5627,14 +5627,14 @@ void player::suffer()
                 }
             }
         }
-        if (has_trait( trait_CHEMIMBALANCE )) {
-            if (one_in(3600) && (!(has_trait( trait_NOPAIN )))) {
-                add_msg_if_player(m_bad, _("You suddenly feel sharp pain for no reason."));
-                mod_pain( 3 * rng(1, 3) );
+        if( has_trait( trait_CHEMIMBALANCE ) ) {
+            if( one_in( 3600 ) && !has_trait( trait_NOPAIN ) ) {
+                add_msg_if_player( m_bad, _( "You suddenly feel sharp pain for no reason." ) );
+                mod_pain( 3 * rng( 1, 3 ) );
             }
-            if (one_in(3600)) {
-                int pkilladd = 5 * rng(-1, 2);
-                if (pkilladd > 0) {
+            if( one_in( 3600 ) ) {
+                int pkilladd = 5 * rng( -1, 2 );
+                if( pkilladd > 0 ) {
                     add_msg_if_player(m_bad, _("You suddenly feel numb."));
                 } else if ((pkilladd < 0) && (!(has_trait( trait_NOPAIN )))) {
                     add_msg_if_player(m_bad, _("You suddenly ache."));
