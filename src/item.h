@@ -22,6 +22,7 @@
 #include "units.h"
 #include "cata_utility.h"
 
+class gunmod_location;
 class game;
 class Character;
 class player;
@@ -1572,7 +1573,7 @@ public:
          * Number of mods that can still be installed into the given mod location,
          * for non-guns it always returns 0.
          */
-        int get_free_mod_locations( const std::string& location ) const;
+        int get_free_mod_locations( const gunmod_location& location ) const;
         /**
          * Does it require gunsmithing tools to repair.
          */

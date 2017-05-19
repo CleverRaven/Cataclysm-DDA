@@ -1968,7 +1968,8 @@ void map::player_in_field( player &u )
 
         case fd_electricity:
         {
-            // Small universal damage based on density.
+            // Small universal damage based on density, only if not electroproofed.
+            if( u.is_elec_immune() ) break;
             int total_damage = 0;
             for( size_t i = 0; i < num_hp_parts; i++ ) {
                 const body_part bp = player::hp_to_bp( static_cast<hp_part>( i ) );

@@ -1123,8 +1123,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                     temp1 << "; ";
                 }
                 const int free_slots = ( elem ).second - get_free_mod_locations( ( elem ).first );
-                temp1 << "<bold>" << free_slots << "/" << ( elem ).second << "</bold> " << _( (
-                            elem ).first.c_str() );
+                temp1 << "<bold>" << free_slots << "/" << ( elem ).second << "</bold> " << elem.first.name();
                 bool first_mods = true;
                 for( const auto mod : gunmods() ) {
                     if( mod->type->gunmod->location == ( elem ).first ) { // if mod for this location
@@ -1198,7 +1197,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         temp2.str( "" );
         temp2 << _( "Location: " );
-        temp2 << _( mod->location.c_str() );
+        temp2 << mod->location.name();
 
         info.push_back( iteminfo( "GUNMOD", temp1.str() ) );
         info.push_back( iteminfo( "GUNMOD", temp2.str() ) );
@@ -1788,7 +1787,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                     } else {
                         temp1 << _( "Mod: " );
                     }
-                    temp1 << "<bold>" << mod->tname() << "</bold> (" << _( mod->type->gunmod->location.c_str() ) << ")";
+                    temp1 << "<bold>" << mod->tname() << "</bold> (" << mod->type->gunmod->location.name() << ")";
                 }
                 insert_separation_line();
                 info.emplace_back( "DESCRIPTION", temp1.str() );
@@ -1867,14 +1866,13 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
     return replace_colors( temp1.str() );
 }
 
-int item::get_free_mod_locations( const std::string &location ) const
+int item::get_free_mod_locations( const gunmod_location &location ) const
 {
     if( !is_gun() ) {
         return 0;
     }
     const islot_gun *gt = type->gun.get();
-    std::map<std::string, int>::const_iterator loc =
-        gt->valid_mod_locations.find( location );
+    const auto loc = gt->valid_mod_locations.find( location );
     if( loc == gt->valid_mod_locations.end() ) {
         return 0;
     }
@@ -4403,7 +4401,7 @@ bool item::gunmod_compatible( const item& mod, std::string *msg ) const
 
     } else if( get_free_mod_locations( mod.type->gunmod->location ) <= 0 ) {
         return error( string_format( _( "doesn't have enough room for another %s mod" ),
-                                     _( mod.type->gunmod->location.c_str() ) ) );
+                                     mod.type->gunmod->location.name().c_str() ) );
 
     } else if( !mod.type->gunmod->usable.count( gun_type() ) ) {
         return error( string_format( _( "cannot have a %s" ), mod.tname().c_str() ) );
