@@ -40,6 +40,7 @@ extern template const string_id<furn_t> string_id<furn_t>::NULL_ID;
 using itype_id = std::string;
 
 using harvest_id = string_id<harvest_list>;
+extern template const string_id<harvest_list> string_id<harvest_list>::NULL_ID;
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
 #ifndef mfb
