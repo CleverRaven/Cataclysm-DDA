@@ -172,7 +172,7 @@ class wish_mutate_callback: public uimenu_callback
             msg = padding;
             input_context ctxt( "UIMENU" );
             mvwprintw( menu->window, menu->w_height - 2, startx, string_format( _( "[%s] find, [%s] quit" ),
-                      ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() ).c_str() );
+                       ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() ).c_str() );
 
         };
 
@@ -338,8 +338,9 @@ class wish_monster_callback: public uimenu_callback
             msg = padding;
             input_context ctxt( "UIMENU" );
             mvwprintw( w_info, getmaxy( w_info ) - 2, 0,
-                       string_format( _( "[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [%s] quit" ),
-                       ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() ).c_str() );
+                       string_format(
+                           _( "[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [%s] quit" ),
+                           ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() ).c_str() );
         }
 
         void refresh( uimenu *menu ) override {
@@ -447,8 +448,9 @@ class wish_item_callback: public uimenu_callback
             msg.erase();
 
             input_context ctxt( "UIMENU" );
-            mvwprintw( menu->window, menu->w_height - 2, startx, string_format( _( "[%s] find, [f] container, [%s] quit" ),
-                       ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() ).c_str() );
+            mvwprintw( menu->window, menu->w_height - 2, startx,
+                       string_format( _( "[%s] find, [f] container, [%s] quit" ),
+                                      ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() ).c_str() );
         }
 };
 
@@ -510,7 +512,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
                 if( amount > 0 ) {
                     input_context ctxt( "UIMENU" );
                     dynamic_cast<wish_item_callback *>( wmenu.callback )->msg = string_format(
-                        _( "Wish granted. Wish for more or hit [%s] to quit." ), ctxt.get_desc( "QUIT" ).c_str() );
+                                _( "Wish granted. Wish for more or hit [%s] to quit." ), ctxt.get_desc( "QUIT" ).c_str() );
                 }
             }
             uistate.wishitem_selected = wmenu.ret;
