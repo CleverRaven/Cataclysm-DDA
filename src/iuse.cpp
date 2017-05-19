@@ -4929,7 +4929,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
 
             case AEA_BUGS: {
                 int roll = rng(1, 10);
-                mtype_id bug = mtype_id::NULL_ID;
+                mtype_id bug = mtype_id::NULL_ID();
                 int num = 0;
                 std::vector<tripoint> empty;
                 for (int x = p->posx() - 1; x <= p->posx() + 1; x++) {
@@ -4977,7 +4977,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 break;
 
             case AEA_GROWTH: {
-                monster tmptriffid( mtype_id::NULL_ID, p->pos() );
+                monster tmptriffid( mtype_id::NULL_ID(), p->pos() );
                 mattack::growplants(&tmptriffid);
             }
             break;

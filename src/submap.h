@@ -40,7 +40,7 @@ struct spawn_point {
     int mission_id;
     bool friendly;
     std::string name;
-    spawn_point( const mtype_id& T = mtype_id::NULL_ID, int C = 0, int X = -1, int Y = -1,
+    spawn_point( const mtype_id& T = mtype_id::NULL_ID(), int C = 0, int X = -1, int Y = -1,
                  int FAC = -1, int MIS = -1, bool F = false,
                  std::string N = "NONE") :
                  posx( X ), posy( Y ), count( C ), type( T ), faction_id( FAC ),

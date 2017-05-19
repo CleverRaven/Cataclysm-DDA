@@ -13,7 +13,6 @@ class JsonObject;
 class harvest_list;
 
 using harvest_id = string_id<harvest_list>;
-extern template const string_id<harvest_list> string_id<harvest_list>::NULL_ID;
 
 // Could be reused for butchery
 struct harvest_entry {

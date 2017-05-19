@@ -462,12 +462,6 @@ public:
     void save_monster_groups( JsonOut &jo ) const;
 };
 
-// TODO: readd the stream operators
-//std::ostream & operator<<(std::ostream &, const overmap *);
-//std::ostream & operator<<(std::ostream &, const overmap &);
-//std::ostream & operator<<(std::ostream &, const city &);
-
-//extern const regional_settings default_region_settings;
 typedef std::unordered_map<std::string, regional_settings> t_regional_settings_map;
 typedef t_regional_settings_map::const_iterator t_regional_settings_map_citr;
 extern t_regional_settings_map region_settings_map;

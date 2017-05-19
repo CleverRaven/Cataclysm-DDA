@@ -83,10 +83,6 @@ static DynamicDataLoader::deferred_json deferred;
 
 /** @relates string_id */
 template<>
-const vpart_id string_id<vpart_info>::NULL_ID( "null" );
-
-/** @relates string_id */
-template<>
 bool string_id<vpart_info>::is_valid() const
 {
     return vpart_info_all.count( *this );

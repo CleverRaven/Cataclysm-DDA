@@ -15,7 +15,7 @@
 
 #include <algorithm>
 
-player_activity::player_activity() : type( activity_id::NULL_ID ) { }
+player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
 player_activity::player_activity( activity_id t, int turns, int Index, int pos,
                                   std::string name_in ) :
@@ -70,7 +70,7 @@ player_activity &player_activity::operator=( const player_activity &rhs )
 
 void player_activity::set_to_null()
 {
-    type = activity_id::NULL_ID;
+    type = activity_id::NULL_ID();
 }
 
 bool player_activity::rooted() const

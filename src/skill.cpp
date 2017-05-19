@@ -11,9 +11,6 @@
 std::vector<Skill> Skill::skills;
 std::map<skill_id, Skill> Skill::contextual_skills;
 
-/** @relates string_id */
-template<> const string_id<Skill> string_id<Skill>::NULL_ID = string_id<Skill>( "none" );
-
 static const Skill invalid_skill;
 
 const Skill &Skill::get( const skill_id &id )
@@ -46,7 +43,7 @@ bool string_id<Skill>::is_valid() const
     return Skill::get( *this ) != invalid_skill;
 }
 
-Skill::Skill() : Skill( skill_id::NULL_ID, "nothing", "The zen-most skill there is.", std::set<std::string> {})
+Skill::Skill() : Skill( skill_id::NULL_ID(), "nothing", "The zen-most skill there is.", std::set<std::string> {})
 {
 }
 
@@ -102,11 +99,11 @@ void Skill::load_skill(JsonObject &jsobj)
 skill_id Skill::from_legacy_int( const int legacy_id )
 {
     static const std::array<skill_id, 28> legacy_skills = { {
-        skill_id::NULL_ID, skill_id("dodge"), skill_id("melee"), skill_id("unarmed"),
+        skill_id::NULL_ID(), skill_id("dodge"), skill_id("melee"), skill_id("unarmed"),
         skill_id("bashing"), skill_id("cutting"), skill_id("stabbing"), skill_id("throw"),
         skill_id("gun"), skill_id("pistol"), skill_id("shotgun"), skill_id("smg"),
         skill_id("rifle"), skill_id("archery"), skill_id("launcher"), skill_id("mechanics"),
-        skill_id("electronics"), skill_id("cooking"), skill_id("tailor"), skill_id::NULL_ID,
+        skill_id("electronics"), skill_id("cooking"), skill_id("tailor"), skill_id::NULL_ID(),
         skill_id("firstaid"), skill_id("speech"), skill_id("barter"), skill_id("computer"),
         skill_id("survival"), skill_id("traps"), skill_id("swimming"), skill_id("driving"),
     } };

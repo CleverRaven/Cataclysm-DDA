@@ -16,7 +16,6 @@ class player_activity;
 class activity_type;
 
 using activity_id = string_id<activity_type>;
-extern template const string_id<activity_type> string_id<activity_type>::NULL_ID;
 
 class player_activity : public JsonSerializer, public JsonDeserializer
 {

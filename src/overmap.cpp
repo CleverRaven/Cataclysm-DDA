@@ -61,9 +61,6 @@ const efftype_id effect_pet( "pet" );
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
 
-/** @relates string_id */
-template<> const string_id<overmap_special> string_id<overmap_special>::NULL_ID = string_id<overmap_special>("", 0 );
-
 #include "omdata.h"
 ////////////////
 oter_id  ot_null,
@@ -309,7 +306,7 @@ bool operator!=( const int_id<oter_t> &lhs, const char *rhs )
 
 void set_oter_ids()   // fixme constify
 {
-    ot_null         = oter_str_id::NULL_ID;
+    ot_null         = oter_str_id::NULL_ID();
     // NOT required.
     ot_crater       = oter_id( "crater" );
     ot_field        = oter_id( "field" );

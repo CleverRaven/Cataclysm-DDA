@@ -611,18 +611,18 @@ void mtype::load( JsonObject &jo, const std::string &src )
     // Disable upgrading when JSON contains `"upgrades": false`, but fallback to the
     // normal behavior (including error checking) if "upgrades" is not boolean or not `false`.
     if( jo.has_bool( "upgrades" ) && !jo.get_bool( "upgrades" ) ) {
-        upgrade_group = mongroup_id::NULL_ID;
-        upgrade_into = mtype_id::NULL_ID;
+        upgrade_group = mongroup_id::NULL_ID();
+        upgrade_into = mtype_id::NULL_ID();
         upgrades = false;
     } else if( jo.has_member( "upgrades" ) ) {
         JsonObject up = jo.get_object( "upgrades" );
         optional( up, was_loaded, "half_life", half_life, -1 );
-        optional( up, was_loaded, "into_group", upgrade_group, auto_flags_reader<mongroup_id> {}, mongroup_id::NULL_ID );
-        optional( up, was_loaded, "into", upgrade_into, auto_flags_reader<mtype_id> {}, mtype_id::NULL_ID );
+        optional( up, was_loaded, "into_group", upgrade_group, auto_flags_reader<mongroup_id> {}, mongroup_id::NULL_ID() );
+        optional( up, was_loaded, "into", upgrade_into, auto_flags_reader<mtype_id> {}, mtype_id::NULL_ID() );
         upgrades = true;
     }
 
-    optional( jo, was_loaded, "burn_into", burn_into, auto_flags_reader<mtype_id> {}, mtype_id::NULL_ID );
+    optional( jo, was_loaded, "burn_into", burn_into, auto_flags_reader<mtype_id> {}, mtype_id::NULL_ID() );
 
     const typed_flag_reader<decltype( gen.flag_map )> flag_reader{ gen.flag_map, "invalid monster flag" };
     optional( jo, was_loaded, "flags", flags, flag_reader );

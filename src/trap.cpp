@@ -269,7 +269,7 @@ void trap::finalize()
     const auto trapfind = []( const char *id ) {
         return trap_str_id( id ).id();
     };
-    tr_null = trap_str_id::NULL_ID.id();
+    tr_null = trap_str_id::NULL_ID().id();
     tr_bubblewrap = trapfind( "tr_bubblewrap" );
     tr_cot = trapfind( "tr_cot" );
     tr_brazier = trapfind( "tr_brazier" );

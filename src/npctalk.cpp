@@ -129,7 +129,7 @@ struct talk_response {
      * The following values are forwarded to the chatbin of the NPC (see @ref npc_chatbin).
      */
     mission *mission_selected = nullptr;
-    skill_id skill = skill_id::NULL_ID;
+    skill_id skill = skill_id::NULL_ID();
     matype_id style;
     /**
      * Defines what happens when the trial succeeds or fails. If trial is

@@ -31,16 +31,10 @@ using trap_str_id = string_id<trap>;
 
 using ter_id = int_id<ter_t>;
 using ter_str_id = string_id<ter_t>;
-extern template const string_id<ter_t> string_id<ter_t>::NULL_ID;
-
 using furn_id = int_id<furn_t>;
 using furn_str_id = string_id<furn_t>;
-extern template const string_id<furn_t> string_id<furn_t>::NULL_ID;
-
 using itype_id = std::string;
-
 using harvest_id = string_id<harvest_list>;
-extern template const string_id<harvest_list> string_id<harvest_list>::NULL_ID;
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
 #ifndef mfb
@@ -230,7 +224,7 @@ public:
      * Note: This excludes items that take extra tools to harvest.
      */
     std::array<harvest_id, SEASONS_PER_YEAR> harvest_by_season = {{
-        harvest_id::NULL_ID, harvest_id::NULL_ID, harvest_id::NULL_ID, harvest_id::NULL_ID
+        harvest_id::NULL_ID(), harvest_id::NULL_ID(), harvest_id::NULL_ID(), harvest_id::NULL_ID()
     }};
 
     bool transparent;

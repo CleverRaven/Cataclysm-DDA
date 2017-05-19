@@ -25,7 +25,6 @@ using mon_action_defend = void (*)(monster&, Creature*, dealt_projectile_attack 
 using mtype_id = string_id<mtype>;
 struct species_type;
 using species_id = string_id<species_type>;
-extern template const string_id<species_type> string_id<species_type>::NULL_ID;
 
 class mattack_actor;
 template<typename T>
@@ -37,7 +36,7 @@ struct species_type {
     std::set<m_flag> flags;
     std::set<monster_trigger> anger_trig, fear_trig, placate_trig;
 
-    species_type(): id( species_id::NULL_ID ) {
+    species_type(): id( species_id::NULL_ID() ) {
 
     }
 

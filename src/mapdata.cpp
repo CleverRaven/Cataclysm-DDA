@@ -180,7 +180,7 @@ map_bash_info::map_bash_info() : str_min( -1 ), str_max( -1 ),
                                  explosive( 0 ), sound_vol( -1 ), sound_fail_vol( -1 ),
                                  collapse_radius( 1 ), destroy_only( false ), bash_below( false ),
                                  drop_group( "EMPTY_GROUP" ),
-                                 ter_set( ter_str_id::NULL_ID ), furn_set( furn_str_id::NULL_ID ) {};
+                                 ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {};
 
 bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture) {
     if( !jsobj.has_object(member) ) {
@@ -232,7 +232,7 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
 }
 
 map_deconstruct_info::map_deconstruct_info() : can_do( false ), deconstruct_above( false ),
-                                               ter_set( ter_str_id::NULL_ID ), furn_set( furn_str_id::NULL_ID ) {};
+                                               ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {};
 
 bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfurniture)
 {
@@ -254,7 +254,7 @@ bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfu
 
 furn_t null_furniture_t() {
   furn_t new_furniture;
-  new_furniture.id = furn_str_id::NULL_ID;
+  new_furniture.id = furn_str_id::NULL_ID();
   new_furniture.name = _("nothing");
   new_furniture.symbol_.fill( ' ' );
   new_furniture.color_.fill( c_white );
@@ -267,14 +267,14 @@ furn_t null_furniture_t() {
   return new_furniture;
 }
 
-ter_t::ter_t() : open( ter_str_id::NULL_ID ), close( ter_str_id::NULL_ID ),
-                 transforms_into( ter_str_id::NULL_ID ),
-                 roof( ter_str_id::NULL_ID ), trap( tr_null ) {};
+ter_t::ter_t() : open( ter_str_id::NULL_ID() ), close( ter_str_id::NULL_ID() ),
+                 transforms_into( ter_str_id::NULL_ID() ),
+                 roof( ter_str_id::NULL_ID() ), trap( tr_null ) {};
 
 ter_t null_terrain_t() {
   ter_t new_terrain;
 
-  new_terrain.id = ter_str_id::NULL_ID;
+  new_terrain.id = ter_str_id::NULL_ID();
   new_terrain.name = _("nothing");
   new_terrain.symbol_.fill( ' ' );
   new_terrain.color_.fill( c_white );
@@ -993,10 +993,10 @@ void ter_t::load( JsonObject &jo, const std::string &src )
         set_connects( jo.get_string( "connects_to" ) );
     }
 
-    optional( jo, was_loaded, "open", open, ter_str_id::NULL_ID );
-    optional( jo, was_loaded, "close", close, ter_str_id::NULL_ID );
-    optional( jo, was_loaded, "transforms_into", transforms_into, ter_str_id::NULL_ID );
-    optional( jo, was_loaded, "roof", roof, ter_str_id::NULL_ID );
+    optional( jo, was_loaded, "open", open, ter_str_id::NULL_ID() );
+    optional( jo, was_loaded, "close", close, ter_str_id::NULL_ID() );
+    optional( jo, was_loaded, "transforms_into", transforms_into, ter_str_id::NULL_ID() );
+    optional( jo, was_loaded, "roof", roof, ter_str_id::NULL_ID() );
 
     bash.load( jo, "bash", false );
     deconstruct.load( jo, "deconstruct", false );
@@ -1059,7 +1059,7 @@ void ter_t::check() const
     }
 }
 
-furn_t::furn_t() : open( furn_str_id::NULL_ID ), close( furn_str_id::NULL_ID ) {};
+furn_t::furn_t() : open( furn_str_id::NULL_ID() ), close( furn_str_id::NULL_ID() ) {};
 
 size_t furn_t::count()
 {
@@ -1082,8 +1082,8 @@ void furn_t::load( JsonObject &jo, const std::string &src )
         set_flag( flag );
     }
 
-    optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, furn_str_id::NULL_ID );
-    optional( jo, was_loaded, "close", close, string_id_reader<furn_t> {}, furn_str_id::NULL_ID );
+    optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
+    optional( jo, was_loaded, "close", close, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
 
     bash.load( jo, "bash", true );
     deconstruct.load( jo, "deconstruct", true );
