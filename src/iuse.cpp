@@ -918,25 +918,23 @@ int iuse::inhaler( player *p, item *it, bool, const tripoint& )
             p->add_effect( effect_shakes, 10 * rng( 2, 5 ) );
         }
     }
-    if( p->has_effect( effect_smoke ) ) {
-        p->remove_effect( effect_smoke );
-    }
+    p->remove_effect( effect_smoke );
     return it->type->charges_to_use();
 }
 
-int iuse::oxygen_bottle(player *p, item *it, bool, const tripoint& )
+int iuse::oxygen_bottle( player *p, item *it, bool, const tripoint& )
 {
     p->moves -= 500;
-    p->add_msg_if_player(m_neutral, _("You breathe deeply from the %s"), it->tname().c_str());
-    if (p->has_effect( effect_smoke)) {
-        p->remove_effect( effect_smoke);
-    } else if (p->has_effect( effect_asthma)) {
-        p->remove_effect( effect_asthma);
-    } else if (p->stim < 16) {
+    p->add_msg_if_player( m_neutral, _( "You breathe deeply from the %s" ), it->tname().c_str() );
+    if( p->has_effect( effect_smoke ) ) {
+        p->remove_effect( effect_smoke );
+    } else if( p->has_effect( effect_asthma ) ) {
+        p->remove_effect( effect_asthma );
+    } else if( p->stim < 16 ) {
         p->stim += 8;
         p->mod_painkiller( 2 );
     }
-    p->remove_effect( effect_winded);
+    p->remove_effect( effect_winded );
     p->mod_painkiller( 2 );
     return it->type->charges_to_use();
 }
