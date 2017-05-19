@@ -5623,7 +5623,7 @@
     "items":[
       { "group" : "mags_milspec", "prob" : 40 },
       ["flamethrower", 20],
-      ["rm451_flamethrower", 5],
+      ["rm451_flamethrower", 10],
       ["m249", 30],
       ["m240", 20],
       ["m27iar", 30],
