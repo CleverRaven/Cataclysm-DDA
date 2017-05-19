@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-13 11:01+0800\n"
+"POT-Creation-Date: 2017-05-19 17:08+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -6141,6 +6141,18 @@ msgstr ""
 #. ~ Description for metal fragment
 #: lang/json/AMMO_from_json.py
 msgid "Small slivers of metal.  Can't see much use for them."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "liquified blob feed"
+msgid_plural "bfeedfuel"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for liquified blob feed
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Liquified blob feed, useful for fueling certain blob based vehicle parts"
 msgstr ""
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
@@ -36040,12 +36052,12 @@ msgid "Core content for Cataclysm-DDA"
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
-msgid "More Craftables"
+msgid "Makeshift Items Mod"
 msgstr ""
 
-#. ~ Description for More Craftables
+#. ~ Description for Makeshift Items Mod
 #: lang/json/MOD_INFO_from_json.py
-msgid "Allows crafting of more improvised item variants"
+msgid "Adds more improvised item variants and rebalances existing ones."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
@@ -52845,6 +52857,10 @@ msgid "Build Metal Roof"
 msgstr ""
 
 #: lang/json/construction_from_json.py
+msgid "Must be supported on at least two sides."
+msgstr ""
+
+#: lang/json/construction_from_json.py
 msgid "Build Concrete Roof"
 msgstr ""
 
@@ -52910,6 +52926,10 @@ msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Build Wire Gate"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Needs to be supported on both sides by fencing, walls, etc."
 msgstr ""
 
 #: lang/json/construction_from_json.py
@@ -56210,9 +56230,8 @@ msgstr ""
 #: lang/json/furniture_from_json.py
 #: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 #: lang/json/terrain_from_json.py
-#: lang/json/terrain_from_json.py src/iuse.cpp src/map.cpp
+#: lang/json/terrain_from_json.py src/ballistics.cpp src/iuse.cpp
 #: src/map.cpp
-#: src/map.cpp src/ranged.cpp
 msgid "glass breaking!"
 msgstr ""
 
@@ -57201,8 +57220,7 @@ msgstr[1] ""
 #: lang/json/gun_from_json.py
 msgid ""
 "Developed by Heckler & Koch in 2033, the railgun magnetically propels a "
-"ferromagnetic projectile using an alternating current.  This makes it silent "
-"while still deadly.  Powered by UPS."
+"ferromagnetic projectile using an alternating current.  Powered by UPS."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -62723,6 +62741,20 @@ msgstr ""
 msgid "This piece of clothing is <info>fancy</info>."
 msgstr ""
 
+#: lang/json/json_flag_from_json.py
+msgid ""
+"Zombie-dropped clothing giving various penalties if Filthy mod is active."
+msgstr ""
+
+#. ~ Please leave anything in <angle brackets> unchanged.
+#: lang/json/json_flag_from_json.py
+msgid "This piece of clothing is <bad>filthy</bad>."
+msgstr ""
+
+#: lang/json/json_flag_from_json.py
+msgid "Used for eyes protection from flashbang."
+msgstr ""
+
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
 msgid ""
@@ -62734,6 +62766,12 @@ msgstr ""
 #: lang/json/json_flag_from_json.py
 msgid ""
 "This gear is <bad>fragile</bad> and <info>won't protect you for long</info>."
+msgstr ""
+
+#. ~ Please leave anything in <angle brackets> unchanged.
+#: lang/json/json_flag_from_json.py
+msgid ""
+"This gear <good>completely protects</good> you from <info>any gas</info>."
 msgstr ""
 
 #. ~ Please leave anything in <angle brackets> unchanged.
@@ -62921,6 +62959,11 @@ msgstr ""
 
 #: lang/json/json_flag_from_json.py
 msgid "Acts as a watch and allows the player to see actual time."
+msgstr ""
+
+#. ~ Please leave anything in <angle brackets> unchanged.
+#: lang/json/json_flag_from_json.py
+msgid "This gear allows to see <info>actual time</info>."
 msgstr ""
 
 #: lang/json/json_flag_from_json.py
@@ -63288,8 +63331,7 @@ msgstr ""
 msgid "Next Target"
 msgstr ""
 
-#: lang/json/keybinding_from_json.py src/npcmove.cpp
-#: src/ranged.cpp
+#: lang/json/keybinding_from_json.py src/npcmove.cpp src/ranged.cpp
 msgid "Aim"
 msgstr ""
 
@@ -92214,27 +92256,7 @@ msgid "gel framework"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "diesel capsule"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "diesel capsule (under)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "feed capsule"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "feed capsule (under)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "gasoline capsule"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "gasoline capsule (under)"
+msgid "capsule (10L)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -92255,22 +92277,6 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "gel pouch (under)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "dirty water capsule"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "dirty water capsule (under)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "clean water capsule"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "clean water capsule (under)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -92314,27 +92320,7 @@ msgid "gray frame"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "diesel cocoon"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "diesel cocoon (under)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "feed cocoon"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "feed cocoon (under)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "gasoline cocoon"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "gasoline cocoon (under)"
+msgid "cocoon (25L)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -92355,22 +92341,6 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "gray pouch (under)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "dirty water cocoon"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "dirty water cocoon (under)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "clean water cocoon"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "clean water cocoon (under)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -92414,27 +92384,7 @@ msgid "ooze chassis"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "diesel pod"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "diesel pod (under)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "feed pod"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "feed pod (under)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "gasoline pod"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "gasoline pod (under)"
+msgid "pod (20L)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -92455,22 +92405,6 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "ooze pouch (under)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "dirty water pod"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "dirty water pod (under)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "clean water pod"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "clean water pod (under)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -94939,6 +94873,29 @@ msgstr ""
 
 #: src/auto_pickup.cpp
 msgid "autopickup configuration"
+msgstr ""
+
+#: src/ballistics.cpp
+#, c-format
+msgid "The %s shatters!"
+msgstr ""
+
+#: src/ballistics.cpp
+#, c-format
+msgid "The %1$s embeds in %2$s!"
+msgstr ""
+
+#: src/ballistics.cpp src/map.cpp
+msgid "splash!"
+msgstr ""
+
+#: src/ballistics.cpp
+msgid "thud."
+msgstr ""
+
+#: src/ballistics.cpp
+#, c-format
+msgid "The attack bounced to %s!"
 msgstr ""
 
 #. ~ Name of a basecamp
@@ -107209,14 +107166,6 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/item.cpp
-msgid "<bold>Effective range: </bold>"
-msgstr ""
-
-#: src/item.cpp
-msgid "Maximum range: "
-msgstr ""
-
-#: src/item.cpp
 msgid "<num> seconds"
 msgstr ""
 
@@ -107613,10 +107562,6 @@ msgstr ""
 
 #: src/item.cpp
 msgid "* This item can be worn on <info>either side</info> of the body."
-msgstr ""
-
-#: src/item.cpp
-msgid "* This piece of clothing is <bad>filthy</bad>."
 msgstr ""
 
 #: src/item.cpp
@@ -113581,10 +113526,6 @@ msgstr ""
 msgid "Your %s is beached."
 msgstr ""
 
-#: src/map.cpp src/ranged.cpp
-msgid "splash!"
-msgstr ""
-
 #: src/map.cpp
 #, c-format
 msgid "You take %d damage by the power of the impact!"
@@ -117289,6 +117230,37 @@ msgstr ""
 
 #: src/mutation.cpp
 msgid "Your freshly-detached vine is too heavy to carry, so you drop it."
+msgstr ""
+
+#: src/mutation.cpp
+msgid "MUTATIONS -"
+msgstr ""
+
+#: src/mutation.cpp src/player.cpp
+#, c-format
+msgid "Power: %d/%d"
+msgstr ""
+
+#: src/mutation.cpp
+msgid ""
+"Reassigning.\n"
+"Select a mutation to reassign or press SPACE to cancel."
+msgstr ""
+
+#: src/mutation.cpp
+msgid ""
+"<color_green>Activating</color>  <color_yellow>!</color> to examine, "
+"<color_yellow>=</color> to reassign."
+msgstr ""
+
+#: src/mutation.cpp
+msgid ""
+"<color_ltblue>Examining</color>  <color_yellow>!</color> to activate, "
+"<color_yellow>=</color> to reassign."
+msgstr ""
+
+#: src/mutation.cpp
+msgid "Might need to use ? to assign the keys."
 msgstr ""
 
 #: src/mutation.cpp
@@ -121605,11 +121577,6 @@ msgid "Total bionics: %d"
 msgstr ""
 
 #: src/player.cpp
-#, c-format
-msgid "Power: %d/%d"
-msgstr ""
-
-#: src/player.cpp
 msgid "Weapon:"
 msgid_plural "Weapons:"
 msgstr[0] ""
@@ -124201,11 +124168,6 @@ msgstr ""
 
 #: src/ranged.cpp
 #, c-format
-msgid "The attack bounced to %s!"
-msgstr ""
-
-#: src/ranged.cpp
-#, c-format
 msgid "Your %s misfires with a wet click!"
 msgstr ""
 
@@ -124503,20 +124465,6 @@ msgstr ""
 
 #: src/ranged.cpp
 msgid "kerblam!"
-msgstr ""
-
-#: src/ranged.cpp
-#, c-format
-msgid "The %s shatters!"
-msgstr ""
-
-#: src/ranged.cpp
-#, c-format
-msgid "The %1$s embeds in %2$s!"
-msgstr ""
-
-#: src/ranged.cpp
-msgid "thud."
 msgstr ""
 
 #: src/requirements.cpp
