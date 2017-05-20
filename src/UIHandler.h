@@ -23,7 +23,7 @@ public:
     virtual IntPair RequestedSize(bool min) = 0;
     virtual int SetSize(IntPair size) = 0;
 };
-
+/*
 // A generic panel to split crap
 class UISplitPanel
 {
@@ -53,7 +53,7 @@ private:
     std::vector<UIPanel*> m_childPanels;
     Arangments m_arangment;
 };
-
+*/
 // to be used _ONLY_ in windows
 // If you want a generic panel use PaddingPanel
 class UIParentPanel : public UIPanel
@@ -70,6 +70,9 @@ public:
     IntPair RequestedSize(bool min);
     int SetSize(IntPair size);
 private:
+    IntPair m_thisSize;
+    IntPair m_lastSize;
+
     std::vector<UIPanel*> m_childPanels;
 };
 

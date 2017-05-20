@@ -53,7 +53,7 @@ int UIWindow::UpdateWindow()
     m_lastLocation = m_thisLocation;
     return 0;
 }
-
+/*
 UISplitPanel::UISplitPanel(Arangments arangment)
 {
     m_arangment = arangment;
@@ -129,7 +129,7 @@ IntPair UISplitPanel::RequestedSize(bool min)
     }
 }
 int UISplitPanel::SetSize(IntPair size);
-
+*/
 // UIParentPanel
 std::vector<UIPanel*> UIParentPanel::getChild()
 {
@@ -168,4 +168,15 @@ IntPair UIParentPanel::RequestedSize(bool min)
     return size;
 }
 
-int UIParentPanel::SetSize(IntPair size);
+// We are a simple border!
+int UIParentPanel::SetSize(IntPair size)
+{
+    m_thisSize = size;
+
+    if (m_childPanels.size() == 0)
+        return;
+    auto newSize = size;
+    newSize.x -= 2;
+    newSize.y -= 2;
+    m_childPanels[0].SetSize(newSize);
+}
