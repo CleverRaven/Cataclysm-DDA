@@ -1,6 +1,6 @@
 #include "UIHandler.h"
 
-UIWindow::UIWindow(int minSizeX, int minSizeY, Location location, bool drawBorder) : m_panel(new UIParentPanel(drawBorder))
+UIWindow::UIWindow(int minSizeX, int minSizeY, Location location, bool drawBorder) : m_panel(new UIPaddingPanel(drawBorder))
 {
     m_minSize.x = minSizeX;
     m_minSize.y = minSizeY;
@@ -130,13 +130,13 @@ point UISplitPanel::RequestedSize(Sizes sizes)
 }
 int UISplitPanel::SetSize(point size);
 */
-// UIParentPanel
-std::vector<std::shared_ptr<UIPanel>> UIParentPanel::getChild() const
+// UIPaddingPanel
+std::vector<std::shared_ptr<UIPanel>> UIPaddingPanel::getChild() const
 {
     return m_childPanels; 
 }
 
-void UIParentPanel::addChild(std::shared_ptr<UIPanel> panel)
+void UIPaddingPanel::addChild(std::shared_ptr<UIPanel> panel)
 {   if (m_childPanels.empty())
     {
         DebugLog(D_ERROR, DC_ALL) << "Only supports one panel";
@@ -145,14 +145,14 @@ void UIParentPanel::addChild(std::shared_ptr<UIPanel> panel)
     m_childPanels.push_back(panel);
 }
 
-void UIParentPanel::removeChild(size_t index)
+void UIPaddingPanel::removeChild(size_t index)
 {
     if (index != m_childPanels.size() -1)
         m_childPanels[index] = std::move(m_childPanels.back());
     m_childPanels.pop_back();
 }
 
-point UIParentPanel::RequestedSize(Sizes sizes)
+point UIPaddingPanel::RequestedSize(Sizes sizes)
 {
     point size = { 2, 2 };
 
@@ -166,7 +166,7 @@ point UIParentPanel::RequestedSize(Sizes sizes)
 }
 
 // We are a simple border!
-int UIParentPanel::SetSize(point size)
+int UIPaddingPanel::SetSize(point size)
 {
     m_thisSize = size;
 
@@ -178,7 +178,7 @@ int UIParentPanel::SetSize(point size)
     return 0;
 }
 
-void UIParentPanel::DrawEverything(WINDOW *wf_win, point offset)
+void UIPaddingPanel::DrawEverything(WINDOW *wf_win, point offset)
 {
     werase(wf_win);
     
@@ -217,7 +217,7 @@ void UIUtils::DrawBorder(WINDOW *wf_win, point offset, point m_thisSize)
     mvwputch(wf_win, offset.y + m_thisSize.y - 1 , offset.x + m_thisSize.x - 1   , BORDER_COLOR, LINE_XOOX); // _|
 }
 
-UIParentPanel::UIParentPanel(bool drawBorder)
+UIPaddingPanel::UIPaddingPanel(bool drawBorder)
 {
     m_drawBorder = drawBorder;
 }

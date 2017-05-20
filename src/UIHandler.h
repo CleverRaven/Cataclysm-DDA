@@ -65,12 +65,11 @@ private:
     Arangments m_arangment;
 };
 */
-// to be used _ONLY_ in windows
-// If you want a generic panel use PaddingPanel
-class UIParentPanel : public UIPanel
+
+class UIPaddingPanel : public UIPanel
 {
 public:
-    UIParentPanel(bool drawBorder);
+    UIPaddingPanel(bool drawBorder);
     std::vector<std::shared_ptr<UIPanel>> getChild() const;
     void addChild(std::shared_ptr<UIPanel> panel);
 
