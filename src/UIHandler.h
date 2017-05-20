@@ -7,20 +7,21 @@
 #include "cursesdef.h"
 #include "output.h"
 
-struct IntPair {
+struct IntPair
+{
     int x;
     int y;
 };
 
 class UIPanel
 {
-    public:
-        virtual std::vector<UIPanel *> getChild() = 0;
-        virtual void addChild( UIPanel *panel ) = 0;
-        virtual void removeChild( size_t index ) = 0; // Passes back removed child
+public:
+    virtual std::vector<UIPanel*> getChild() = 0;
+    virtual void addChild(UIPanel *panel) = 0;
+    virtual void removeChild(size_t index) = 0; // Passes back removed child
 
-        virtual IntPair RequestedSize( bool min ) = 0;
-        virtual int SetSize( IntPair size ) = 0;
+    virtual IntPair RequestedSize(bool min) = 0;
+    virtual int SetSize(IntPair size) = 0;
 };
 /*
 // A generic panel to split crap
@@ -57,55 +58,53 @@ private:
 // If you want a generic panel use PaddingPanel
 class UIParentPanel : public UIPanel
 {
-    public:
-        std::vector<UIPanel *> getChild();
-        void addChild( UIPanel *panel );
+public:
+    std::vector<UIPanel*> getChild();
+    void addChild(UIPanel *panel);
 
-        // Passes back removed child
-        // We swap this with the last then push back
-        // Previous Indexes are not maintained!!!
-        void removeChild( size_t index );
+    // Passes back removed child
+    // We swap this with the last then push back
+    // Previous Indexes are not maintained!!!
+    void removeChild(size_t index);
 
-        IntPair RequestedSize( bool min );
-        int SetSize( IntPair size );
-    private:
-        IntPair m_thisSize;
-        //IntPair m_lastSize;
+    IntPair RequestedSize(bool min);
+    int SetSize(IntPair size);
+private:
+    IntPair m_thisSize;
+    //IntPair m_lastSize;
 
-        std::vector<UIPanel *> m_childPanels;
+    std::vector<UIPanel*> m_childPanels;
 };
 
-class UIWindow
-{
-    public:
-        // TODO REMOVE EVENTUALY!!!
-        WINDOW *LegacyWindow() {
-            return m_wf_win;
-        };
+class UIWindow {
+public:
+    // TODO REMOVE EVENTUALY!!!
+    WINDOW* LegacyWindow() {return m_wf_win;};
 
 
-        enum class Location {
-            Centered,
+    enum class Location
+    {
+        Centered,
 
-            Undefined = 0,
-            Total
-        };
+        Undefined = 0,
+        Total
+    };
 
-        UIWindow( int minSizeX, int minSizeY, Location location );
-        int UpdateWindow();
-    private:
-        UIPanel *m_panel = new UIParentPanel();
+    UIWindow(int minSizeX, int minSizeY, Location location);
+    int UpdateWindow();
+private:
+    UIPanel* m_panel = new UIParentPanel();
+    
+    Location m_thisLocation;
+    Location m_lastLocation;
 
-        Location m_thisLocation;
-        Location m_lastLocation;
+    IntPair m_minSize;
+    IntPair m_thisSize;
+    IntPair m_lastSize;
+    IntPair m_offset;
 
-        IntPair m_minSize;
-        IntPair m_thisSize;
-        IntPair m_lastSize;
-        IntPair m_offset;
-
-        WINDOW *m_wf_win = nullptr;
-        WINDOW_PTR m_wf_winptr = nullptr;
+    WINDOW *m_wf_win = nullptr;
+    WINDOW_PTR m_wf_winptr = nullptr;
 };
 
 #endif // UIHANDLER_H

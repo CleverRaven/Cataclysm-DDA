@@ -1,6 +1,6 @@
 #include "UIHandler.h"
 
-UIWindow::UIWindow( int minSizeX, int minSizeY, Location location )
+UIWindow::UIWindow(int minSizeX, int minSizeY, Location location)
 {
     m_minSize.x = minSizeX;
     m_minSize.y = minSizeY;
@@ -14,53 +14,38 @@ int UIWindow::UpdateWindow()
 {
     // TODO: Clear prev contents? Is that our job?
 
-    m_thisSize = m_panel->RequestedSize( false );
+    m_thisSize = m_panel->RequestedSize(false);    
+    
+    IntPair minSize = m_panel->RequestedSize(true);
 
-    IntPair minSize = m_panel->RequestedSize( true );
+    if (m_minSize.x > m_thisSize.x) m_thisSize.x = m_minSize.x;
+    if (m_minSize.y > m_thisSize.y) m_thisSize.y = m_minSize.y;
 
-    if( m_minSize.x > m_thisSize.x ) {
-        m_thisSize.x = m_minSize.x;
-    }
-    if( m_minSize.y > m_thisSize.y ) {
-        m_thisSize.y = m_minSize.y;
-    }
+    if (m_thisSize.x > TERMX) m_thisSize.x = TERMX;
+    if (m_thisSize.y > TERMY) m_thisSize.y = TERMY;
 
-    if( m_thisSize.x > TERMX ) {
-        m_thisSize.x = TERMX;
-    }
-    if( m_thisSize.y > TERMY ) {
-        m_thisSize.y = TERMY;
-    }
+    if (m_minSize.x > TERMX) DebugLog(D_ERROR, DC_ALL) << "Not enought screen space...";
+    if (m_minSize.y > TERMY) DebugLog(D_ERROR, DC_ALL) << "Not enought screen space...";
 
-    if( m_minSize.x > TERMX ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Not enought screen space...";
-    }
-    if( m_minSize.y > TERMY ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Not enought screen space...";
-    }
+    if (minSize.x > TERMX) DebugLog(D_ERROR, DC_ALL) << "Not enought screen space...";
+    if (minSize.y > TERMY) DebugLog(D_ERROR, DC_ALL) << "Not enought screen space...";
 
-    if( minSize.x > TERMX ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Not enought screen space...";
-    }
-    if( minSize.y > TERMY ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Not enought screen space...";
-    }
+    m_panel->SetSize(m_thisSize);
 
-    m_panel->SetSize( m_thisSize );
+    switch (m_thisLocation)
+    {
+    case Location::Centered:
+        m_offset.x = (TERMX > m_thisSize.x) ? (TERMX - m_thisSize.x) / 2 : 0;
+        m_offset.y = (TERMY > m_thisSize.y) ? (TERMY - m_thisSize.y) / 2 : 0;
+        break;
 
-    switch( m_thisLocation ) {
-        case Location::Centered:
-            m_offset.x = ( TERMX > m_thisSize.x ) ? ( TERMX - m_thisSize.x ) / 2 : 0;
-            m_offset.y = ( TERMY > m_thisSize.y ) ? ( TERMY - m_thisSize.y ) / 2 : 0;
-            break;
-
-        default:
-            DebugLog( D_ERROR, DC_ALL ) << "Please state the location...";
-            break;
+    default:
+        DebugLog(D_ERROR, DC_ALL) << "Please state the location...";
+        break;
     }
 
     // set up window
-    m_wf_win = newwin( m_thisSize.y, m_thisSize.x, m_offset.y, m_offset.x );
+    m_wf_win = newwin(m_thisSize.y, m_thisSize.x, m_offset.y, m_offset.x);
     m_wf_winptr = WINDOW_PTR( m_wf_win );
 
     m_lastSize = m_thisSize;
@@ -76,7 +61,7 @@ UISplitPanel::UISplitPanel(Arangments arangment)
 
 std::vector<UIPanel*> UISplitPanel::getChild()
 {
-    return m_childPanels;
+    return m_childPanels; 
 }
 
 void UISplitPanel::addChild(UIPanel *panel)
@@ -116,7 +101,7 @@ IntPair UISplitPanel::RequestedSize(bool min)
         // |E|
         // |-|
         size.y += m_childPanels.size() - 1;
-
+        
         for (auto panel : m_childPanels)
         {
             auto reqSize = panel->RequestedSize(min);
@@ -131,7 +116,7 @@ IntPair UISplitPanel::RequestedSize(bool min)
         // |A|B|C|D|E| minY = smallest Y + 2
         // |-+-+-+-+-|
         size.x += m_childPanels.size() - 1;
-
+        
         for (auto panel : m_childPanels)
         {
             auto reqSize = panel->RequestedSize(min);
@@ -146,39 +131,37 @@ IntPair UISplitPanel::RequestedSize(bool min)
 int UISplitPanel::SetSize(IntPair size);
 */
 // UIParentPanel
-std::vector<UIPanel *> UIParentPanel::getChild()
+std::vector<UIPanel*> UIParentPanel::getChild()
 {
-    return m_childPanels;
+    return m_childPanels; 
 }
 
-void UIParentPanel::addChild( UIPanel *panel )
-{
-    if( m_childPanels.size() != 0 ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Only supports one panel";
+void UIParentPanel::addChild(UIPanel *panel)
+{   if (m_childPanels.size() != 0)
+    {
+        DebugLog(D_ERROR, DC_ALL) << "Only supports one panel";
         return;
     }
-    m_childPanels.push_back( panel );
+    m_childPanels.push_back(panel);
 }
 
-void UIParentPanel::removeChild( size_t index )
+void UIParentPanel::removeChild(size_t index)
 {
-    if( index != m_childPanels.size() - 1 ) {
-        m_childPanels[index] = std::move( m_childPanels.back() );
-    }
+    if (index != m_childPanels.size() -1)
+        m_childPanels[index] = std::move(m_childPanels.back());
     m_childPanels.pop_back();
 }
 
-IntPair UIParentPanel::RequestedSize( bool min )
+IntPair UIParentPanel::RequestedSize(bool min)
 {
     IntPair size;
     size.x = 2;
     size.y = 2;
 
-    if( m_childPanels.size() == 0 ) {
+    if (m_childPanels.size() == 0)
         return size;
-    }
 
-    auto paneSize = m_childPanels[0]->RequestedSize( min );
+    auto paneSize = m_childPanels[0]->RequestedSize(min);
     size.x += paneSize.x;
     size.y += paneSize.y;
 
@@ -186,16 +169,15 @@ IntPair UIParentPanel::RequestedSize( bool min )
 }
 
 // We are a simple border!
-int UIParentPanel::SetSize( IntPair size )
+int UIParentPanel::SetSize(IntPair size)
 {
     m_thisSize = size;
 
-    if( m_childPanels.size() == 0 ) {
+    if (m_childPanels.size() == 0)
         return 0;
-    }
     auto newSize = size;
     newSize.x -= 2;
     newSize.y -= 2;
-    m_childPanels[0]->SetSize( newSize );
+    m_childPanels[0]->SetSize(newSize);
     return 0;
 }

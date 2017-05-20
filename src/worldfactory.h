@@ -123,7 +123,7 @@ class worldfactory
         std::unique_ptr<mod_manager> mman;
         std::unique_ptr<mod_ui> mman_ui;
 
-        typedef std::function<int( UIWindow &, WORLDPTR )> worldgen_display;
+        typedef std::function<int( UIWindow&, WORLDPTR )> worldgen_display;
 
         std::vector<worldgen_display> tabs;
         std::vector<std::string> tab_strings;
