@@ -51,6 +51,12 @@ using emit_id = string_id<emit>;
 class harvest_list;
 using harvest_id = string_id<harvest_list>;
 
+// Milking effects
+const efftype_id effect_threequarters_milked("threequarters_milked");
+const efftype_id effect_half_milked("half_milked");
+const efftype_id effect_quarter_milked("quarter_milked");
+const efftype_id effect_fully_milked("fully_milked");
+
 // These are triggers which may affect the monster's anger or morale.
 // They are handled in monster::check_triggers(), in monster.cpp
 enum monster_trigger : int {
@@ -158,10 +164,6 @@ enum m_flag : int {
     MF_PRIORITIZE_TARGETS,  // This monster will prioritize targets depending on their danger levels
     MF_NOT_HALLU,           // Monsters that will NOT appear when player's producing hallucinations
     MF_MILKABLE,            // This monster is milkable, applies only to cows.
-    MF_FULL_MILK,
-    MF_THREEQUARTER_MILK,
-    MF_HALF_MILK,
-    MF_QUARTER_MILK,
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
