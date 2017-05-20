@@ -7,21 +7,17 @@
 #include "cursesdef.h"
 #include "output.h"
 
-struct IntPair
-{
-    int x;
-    int y;
-};
+#include "enums.h"
 
 class UIPanel
 {
 public:
-    virtual std::vector<UIPanel*> getChild() = 0;
+    virtual std::vector<UIPanel*> getChild() const = 0;
     virtual void addChild(UIPanel *panel) = 0;
-    virtual void removeChild(size_t index) = 0; // Passes back removed child
+    virtual void removeChild(size_t index) = 0;
 
-    virtual IntPair RequestedSize(bool min) = 0;
-    virtual int SetSize(IntPair size) = 0;
+    virtual point RequestedSize(bool min) = 0;
+    virtual int SetSize(point size) = 0;
 };
 /*
 // A generic panel to split crap
@@ -30,8 +26,8 @@ class UISplitPanel
 public:
     enum class Arangments
     {
-        Stacked,
         SideBySide,
+        Stacked,
 
         Undefined = 0,
         Total
@@ -39,7 +35,7 @@ public:
 
     UISplitPanel(Arangments arangment);
 
-    std::vector<UIPanel*> getChild();
+    std::vector<UIPanel*> getChild() = 0;
     void addChild(UIPanel *panel);
 
     // Passes back removed child
@@ -47,8 +43,8 @@ public:
     // Previous Indexes are not maintained!!!
     void removeChild(size_t index);
 
-    IntPair RequestedSize(bool min);
-    int SetSize(IntPair size);
+    point RequestedSize(bool min);
+    int SetSize(point size);
 private:
     std::vector<UIPanel*> m_childPanels;
     Arangments m_arangment;
@@ -59,7 +55,7 @@ private:
 class UIParentPanel : public UIPanel
 {
 public:
-    std::vector<UIPanel*> getChild();
+    std::vector<UIPanel*> getChild() const;
     void addChild(UIPanel *panel);
 
     // Passes back removed child
@@ -67,11 +63,11 @@ public:
     // Previous Indexes are not maintained!!!
     void removeChild(size_t index);
 
-    IntPair RequestedSize(bool min);
-    int SetSize(IntPair size);
+    point RequestedSize(bool min);
+    int SetSize(point size);
 private:
-    IntPair m_thisSize;
-    //IntPair m_lastSize;
+    point m_thisSize;
+    //point m_lastSize;
 
     std::vector<UIPanel*> m_childPanels;
 };
@@ -98,10 +94,10 @@ private:
     Location m_thisLocation;
     Location m_lastLocation;
 
-    IntPair m_minSize;
-    IntPair m_thisSize;
-    IntPair m_lastSize;
-    IntPair m_offset;
+    point m_minSize;
+    point m_thisSize;
+    point m_lastSize;
+    point m_offset;
 
     WINDOW *m_wf_win = nullptr;
     WINDOW_PTR m_wf_winptr = nullptr;

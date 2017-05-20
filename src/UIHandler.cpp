@@ -16,7 +16,7 @@ int UIWindow::UpdateWindow()
 
     m_thisSize = m_panel->RequestedSize(false);    
     
-    IntPair minSize = m_panel->RequestedSize(true);
+    point minSize = m_panel->RequestedSize(true);
 
     if (m_minSize.x > m_thisSize.x) m_thisSize.x = m_minSize.x;
     if (m_minSize.y > m_thisSize.y) m_thisSize.y = m_minSize.y;
@@ -59,7 +59,7 @@ UISplitPanel::UISplitPanel(Arangments arangment)
     m_arangment = arangment;
 }
 
-std::vector<UIPanel*> UISplitPanel::getChild()
+std::vector<UIPanel*> UISplitPanel::getChild() const
 {
     return m_childPanels; 
 }
@@ -76,15 +76,9 @@ void UISplitPanel::removeChild(size_t index)
     m_childPanels.pop_back();
 }
 
-IntPair UISplitPanel::RequestedSize(bool min)
+point UISplitPanel::RequestedSize(bool min)
 {
-    IntPair size;
-
-    // Border
-    size.x = 2;
-
-    // One less to acount for sub 1
-    size.y = 2;
+    point size = { 2, 2 };
 
     switch (m_arangement)
     {
@@ -128,16 +122,16 @@ IntPair UISplitPanel::RequestedSize(bool min)
         break;
     }
 }
-int UISplitPanel::SetSize(IntPair size);
+int UISplitPanel::SetSize(point size);
 */
 // UIParentPanel
-std::vector<UIPanel*> UIParentPanel::getChild()
+std::vector<UIPanel*> UIParentPanel::getChild() const
 {
     return m_childPanels; 
 }
 
 void UIParentPanel::addChild(UIPanel *panel)
-{   if (m_childPanels.size() != 0)
+{   if (m_childPanels.empty())
     {
         DebugLog(D_ERROR, DC_ALL) << "Only supports one panel";
         return;
@@ -152,32 +146,28 @@ void UIParentPanel::removeChild(size_t index)
     m_childPanels.pop_back();
 }
 
-IntPair UIParentPanel::RequestedSize(bool min)
+point UIParentPanel::RequestedSize(bool min)
 {
-    IntPair size;
-    size.x = 2;
-    size.y = 2;
+    point size = { 2, 2 };
 
     if (m_childPanels.size() == 0)
         return size;
 
     auto paneSize = m_childPanels[0]->RequestedSize(min);
-    size.x += paneSize.x;
-    size.y += paneSize.y;
+    size += paneSize;
 
     return size;
 }
 
 // We are a simple border!
-int UIParentPanel::SetSize(IntPair size)
+int UIParentPanel::SetSize(point size)
 {
     m_thisSize = size;
 
     if (m_childPanels.size() == 0)
         return 0;
     auto newSize = size;
-    newSize.x -= 2;
-    newSize.y -= 2;
+    newSize -= { 2, 2 };
     m_childPanels[0]->SetSize(newSize);
     return 0;
 }
