@@ -20,10 +20,10 @@ void wield_check_internal( player &dummy, item &the_item, const char *section_te
         if( expected_cost < 0 ) {
             printf( "    wield_check( %s, dummy, %s, %d );\n", section_text, var_name.c_str(), move_cost );
         } else {
-            int max_cost = move_cost * 1.1f;
-            int min_cost = move_cost * 0.9f;
-            CHECK( expected_cost <= max_cost );
-            CHECK( expected_cost >= min_cost );
+            int max_cost = expected_cost * 1.1f;
+            int min_cost = expected_cost * 0.9f;
+            CHECK( move_cost <= max_cost );
+            CHECK( move_cost >= min_cost );
         }
     }
 }
@@ -35,6 +35,9 @@ void prepare_test()
     // Remove first worn item until there are none left.
     std::list<item> temp;
     while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
+    for( trait_id tr : dummy.get_mutations() ) {
+        dummy.unset_mutation( tr );
+    }
     // Prevent spilling, but don't cause encumbrance
     if( !dummy.has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
         dummy.set_mutation( trait_id( "DEBUG_STORAGE" ) );
