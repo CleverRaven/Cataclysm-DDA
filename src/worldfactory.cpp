@@ -144,7 +144,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
     WORLDPTR retworld = new WORLD();
     if( show_prompt ) {
         
-        UIWindow win(0, 0, UIWindow::Location::Centered);
+        UIWindow win(5, 5, UIWindow::Location::Centered);
 
         int curtab = 0;
         int lasttab; // give placement memory to menus, sorta.

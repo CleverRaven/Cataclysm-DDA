@@ -47,7 +47,7 @@ int UIWindow::UpdateWindow()
     // set up window
     m_wf_win = newwin(m_thisSize.y, m_thisSize.x, m_offset.y, m_offset.x);
     m_wf_winptr = WINDOW_PTR( m_wf_win );
-
+        
     m_lastSize = m_thisSize;
 
     m_lastLocation = m_thisLocation;
