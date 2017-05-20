@@ -144,13 +144,14 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
     WORLDPTR retworld = new WORLD();
     if( show_prompt ) {
         
-        UIWindow win(5, 5, UIWindow::Location::Centered);
+        UIWindow win(FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT, UIWindow::Location::Centered, true);
 
         int curtab = 0;
         int lasttab; // give placement memory to menus, sorta.
         const int numtabs = tabs.size();
         while (curtab >= 0 && curtab < numtabs) {
             lasttab = curtab;
+            win.DrawEverything();
             draw_worldgen_tabs(win, curtab);
             curtab += tabs[curtab](win, retworld);
 
@@ -1385,32 +1386,12 @@ void worldfactory::draw_modselection_borders(UIWindow &nwin, input_context *ctxt
 void worldfactory::draw_worldgen_tabs(UIWindow &nwin, unsigned int current)
 {
     auto w = nwin.LegacyWindow();
-    werase(w);
-
-    for (int i = 1; i < FULL_SCREEN_WIDTH - 1; i++) {
-        mvwputch(w, 2, i, BORDER_COLOR, LINE_OXOX);
-        mvwputch(w, FULL_SCREEN_HEIGHT - 1, i, BORDER_COLOR, LINE_OXOX);
-
-        if (i > 2 && i < FULL_SCREEN_HEIGHT - 1) {
-            mvwputch(w, i, 0, BORDER_COLOR, LINE_XOXO);
-            mvwputch(w, i, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXO);
-        }
-    }
 
     int x = 2;
     for (size_t i = 0; i < tab_strings.size(); ++i) {
         draw_tab(w, x, tab_strings[i], (i == current) ? true : false);
-        x += utf8_width( tab_strings[i] ) + 7;
+        x += utf8_width( tab_strings[i] ) + 5;
     }
-
-    mvwputch(w, 2, 0, BORDER_COLOR, LINE_OXXO); // |^
-    mvwputch(w, 2, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_OOXX); // ^|
-
-    mvwputch(w, 4, 0, BORDER_COLOR, LINE_XOXO); // |
-    mvwputch(w, 4, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXO); // |
-
-    mvwputch(w, FULL_SCREEN_HEIGHT - 1, 0, BORDER_COLOR, LINE_XXOO); // |_
-    mvwputch(w, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOOX); // _|
 }
 
 

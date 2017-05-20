@@ -16,6 +16,12 @@ enum class Sizes
     Prefered
 };
 
+class UIUtils 
+{
+public:
+    static void DrawBorder(WINDOW *wf_win, point offset, point m_thisSize);
+};
+
 class UIPanel
 {
 public:
@@ -25,6 +31,8 @@ public:
 
     virtual point RequestedSize(Sizes sizes) = 0;
     virtual int SetSize(point size) = 0;
+
+    virtual void DrawEverything(WINDOW *wf_window, point offset) = 0;
 };
 /*
 // A generic panel to split crap
@@ -62,6 +70,7 @@ private:
 class UIParentPanel : public UIPanel
 {
 public:
+    UIParentPanel(bool drawBorder);
     std::vector<std::shared_ptr<UIPanel>> getChild() const;
     void addChild(std::shared_ptr<UIPanel> panel);
 
@@ -72,11 +81,14 @@ public:
 
     point RequestedSize(Sizes sizes);
     int SetSize(point size);
+
+    void DrawEverything(WINDOW *wf_win, point offset);
 private:
     point m_thisSize;
-    //point m_lastSize;
+    point m_lastSize;
 
     std::vector<std::shared_ptr<UIPanel>> m_childPanels;
+    bool m_drawBorder;
 };
 
 class UIWindow {
@@ -93,8 +105,10 @@ public:
         Total
     };
 
-    UIWindow(int minSizeX, int minSizeY, Location location);
+    UIWindow(int minSizeX, int minSizeY, Location location, bool drawBorder);
     int UpdateWindow();
+
+    void DrawEverything();
 private:
     std::unique_ptr<UIPanel> m_panel;
     

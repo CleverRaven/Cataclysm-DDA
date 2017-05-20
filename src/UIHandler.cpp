@@ -1,6 +1,6 @@
 #include "UIHandler.h"
 
-UIWindow::UIWindow(int minSizeX, int minSizeY, Location location) : m_panel(new UIParentPanel())
+UIWindow::UIWindow(int minSizeX, int minSizeY, Location location, bool drawBorder) : m_panel(new UIParentPanel(drawBorder))
 {
     m_minSize.x = minSizeX;
     m_minSize.y = minSizeY;
@@ -53,6 +53,12 @@ int UIWindow::UpdateWindow()
     m_lastLocation = m_thisLocation;
     return 0;
 }
+
+void UIWindow::DrawEverything()
+{
+    m_panel->DrawEverything(m_wf_win, { 0, 0 });
+}
+
 /*
 UISplitPanel::UISplitPanel(Arangments arangment)
 {
@@ -150,7 +156,7 @@ point UIParentPanel::RequestedSize(Sizes sizes)
 {
     point size = { 2, 2 };
 
-    if (m_childPanels.size() == 0)
+    if (m_childPanels.empty())
         return size;
 
     auto paneSize = m_childPanels[0]->RequestedSize(sizes);
@@ -164,10 +170,54 @@ int UIParentPanel::SetSize(point size)
 {
     m_thisSize = size;
 
-    if (m_childPanels.size() == 0)
+    if (m_childPanels.empty())
         return 0;
     auto newSize = size;
     newSize -= { 2, 2 };
     m_childPanels[0]->SetSize(newSize);
     return 0;
+}
+
+void UIParentPanel::DrawEverything(WINDOW *wf_win, point offset)
+{
+    werase(wf_win);
+    
+    if (m_drawBorder)
+        UIUtils::DrawBorder(wf_win, offset, m_thisSize);
+
+    if (!m_childPanels.empty())
+    {
+        m_childPanels[0]->DrawEverything(wf_win, offset += { 1, 1 });
+    }
+
+    m_lastSize = m_thisSize;
+}
+
+
+void UIUtils::DrawBorder(WINDOW *wf_win, point offset, point m_thisSize)
+{
+    // Bottom and top border
+    for (int i = 1; i < m_thisSize.x - 1; i++) 
+    {
+        mvwputch(wf_win, offset.y                   , i + offset.x, BORDER_COLOR, LINE_OXOX);
+        mvwputch(wf_win, offset.y + m_thisSize.y - 1, i + offset.x, BORDER_COLOR, LINE_OXOX);
+    }
+
+    // Right and left border
+    for (int i = 1; i < m_thisSize.y - 1; i++) 
+    {
+        mvwputch(wf_win, i + offset.y, offset.x                    , BORDER_COLOR, LINE_XOXO);
+        mvwputch(wf_win, i + offset.y, offset.x + m_thisSize.x - 1 , BORDER_COLOR, LINE_XOXO);
+    }
+        
+    // Corners
+    mvwputch(wf_win, offset.y                    , offset.x                      , BORDER_COLOR, LINE_OXXO); // |^
+    mvwputch(wf_win, offset.y                    , offset.x + m_thisSize.x - 1   , BORDER_COLOR, LINE_OOXX); // ^|
+    mvwputch(wf_win, offset.y + m_thisSize.y - 1 , offset.x                      , BORDER_COLOR, LINE_XXOO); // |_
+    mvwputch(wf_win, offset.y + m_thisSize.y - 1 , offset.x + m_thisSize.x - 1   , BORDER_COLOR, LINE_XOOX); // _|
+}
+
+UIParentPanel::UIParentPanel(bool drawBorder)
+{
+    m_drawBorder = drawBorder;
 }
