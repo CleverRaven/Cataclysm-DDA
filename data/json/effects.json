@@ -1659,7 +1659,7 @@
         "type": "effect_type",
         "id": "half_milked",
         "name": ["Half milked"],
-        "desc": ["This creature is milked to threequarters of its milk."]
+        "desc": ["This creature is milked to half of its milk."]
     }, 
 	{
         "type": "effect_type",
