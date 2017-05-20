@@ -174,7 +174,7 @@ int UIParentPanel::SetSize(IntPair size)
     m_thisSize = size;
 
     if (m_childPanels.size() == 0)
-        return;
+        return 0;
     auto newSize = size;
     newSize.x -= 2;
     newSize.y -= 2;
