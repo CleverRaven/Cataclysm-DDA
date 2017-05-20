@@ -178,5 +178,6 @@ int UIParentPanel::SetSize(IntPair size)
     auto newSize = size;
     newSize.x -= 2;
     newSize.y -= 2;
-    m_childPanels[0].SetSize(newSize);
+    m_childPanels[0]->SetSize(newSize);
+    return 0;
 }
