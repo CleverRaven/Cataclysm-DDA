@@ -18,22 +18,42 @@ class UIPanel
 public:
     virtual std::vector<UIPanel*> getChild() = 0;
     virtual int addChild(UIPanel *panel) = 0;
-    virtual UIPanel* removeChild(int index0 = 0; // Passes back removed child
+    virtual UIPanel* removeChild(int index) = 0; // Passes back removed child
 
     virtual IntPair MinRequestedSize() = 0;
-    virtual IntPair PerferedRequestedSize() = 0;
-    virtual int SetSize() = 0;
+    virtual IntPair PreferedRequestedSize() = 0;
+    virtual int SetSize(IntPair size) = 0;
 };
 
 // A generic panel to hold crap
 class UIPaddingPanel
 {
+public:
+    std::vector<UIPanel*> getChild();
+    int addChild(UIPanel *panel);
+    UIPanel* removeChild(int index); // Passes back removed child
+
+    IntPair MinRequestedSize();
+    IntPair PreferedRequestedSize();
+    int SetSize(IntPair size);
+private:
+    std::vector<UIPanel*> m_childPanels;
 };
 
 // to be used _ONLY_ in windows
 // If you want a generic panel use PaddingPanel
 class UIParentPanel : public UIPanel
 {
+public:
+    std::vector<UIPanel*> getChild();
+    int addChild(UIPanel *panel);
+    UIPanel* removeChild(int index); // Passes back removed child
+
+    IntPair MinRequestedSize();
+    IntPair PreferedRequestedSize();
+    int SetSize(IntPair size);
+private:
+    std::vector<UIPanel*> m_childPanels;
 };
 
 class UIWindow {
