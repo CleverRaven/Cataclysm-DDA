@@ -1,6 +1,6 @@
 #include "UIHandler.h"
 
-UIWindow::UIWindow(int minSizeX, int minSizeY, Location location)
+UIWindow::UIWindow(int minSizeX, int minSizeY, Location location) : m_panel(new UIParentPanel())
 {
     m_minSize.x = minSizeX;
     m_minSize.y = minSizeY;
@@ -59,12 +59,12 @@ UISplitPanel::UISplitPanel(Arangments arangment)
     m_arangment = arangment;
 }
 
-std::vector<UIPanel*> UISplitPanel::getChild() const
+std::vector<std::shared_ptr<UIPanel>> UISplitPanel::getChild() const
 {
     return m_childPanels; 
 }
 
-void UISplitPanel::addChild(UIPanel *panel)
+void UISplitPanel::addChild(std::shared_ptr<UIPanel> panel)
 {
     m_childPanels.push_back(panel);
 }
@@ -125,12 +125,12 @@ point UISplitPanel::RequestedSize(Sizes sizes)
 int UISplitPanel::SetSize(point size);
 */
 // UIParentPanel
-std::vector<UIPanel*> UIParentPanel::getChild() const
+std::vector<std::shared_ptr<UIPanel>> UIParentPanel::getChild() const
 {
     return m_childPanels; 
 }
 
-void UIParentPanel::addChild(UIPanel *panel)
+void UIParentPanel::addChild(std::shared_ptr<UIPanel> panel)
 {   if (m_childPanels.empty())
     {
         DebugLog(D_ERROR, DC_ALL) << "Only supports one panel";

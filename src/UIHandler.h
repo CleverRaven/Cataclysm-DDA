@@ -8,6 +8,7 @@
 #include "output.h"
 
 #include "enums.h"
+#include <memory>
 
 enum class Sizes
 {
@@ -18,8 +19,8 @@ enum class Sizes
 class UIPanel
 {
 public:
-    virtual std::vector<UIPanel*> getChild() const = 0;
-    virtual void addChild(UIPanel *panel) = 0;
+    virtual std::vector<std::shared_ptr<UIPanel>> getChild() const = 0;
+    virtual void addChild(std::shared_ptr<UIPanel> panel) = 0;
     virtual void removeChild(size_t index) = 0;
 
     virtual point RequestedSize(Sizes sizes) = 0;
@@ -41,8 +42,8 @@ public:
 
     UISplitPanel(Arangments arangment);
 
-    std::vector<UIPanel*> getChild() = 0;
-    void addChild(UIPanel *panel);
+    std::vector<std::shared_ptr<UIPanel>> getChild() = 0;
+    void addChild(std::shared_ptr<UIPanel> panel);
 
     // Passes back removed child
     // We swap this with the last then push back
@@ -52,7 +53,7 @@ public:
     point RequestedSize(Sizes sizes);
     int SetSize(point size);
 private:
-    std::vector<UIPanel*> m_childPanels;
+    std::vector<std::shared_ptr<UIPanel>> m_childPanels;
     Arangments m_arangment;
 };
 */
@@ -61,8 +62,8 @@ private:
 class UIParentPanel : public UIPanel
 {
 public:
-    std::vector<UIPanel*> getChild() const;
-    void addChild(UIPanel *panel);
+    std::vector<std::shared_ptr<UIPanel>> getChild() const;
+    void addChild(std::shared_ptr<UIPanel> panel);
 
     // Passes back removed child
     // We swap this with the last then push back
@@ -75,7 +76,7 @@ private:
     point m_thisSize;
     //point m_lastSize;
 
-    std::vector<UIPanel*> m_childPanels;
+    std::vector<std::shared_ptr<UIPanel>> m_childPanels;
 };
 
 class UIWindow {
@@ -95,7 +96,7 @@ public:
     UIWindow(int minSizeX, int minSizeY, Location location);
     int UpdateWindow();
 private:
-    UIPanel* m_panel = new UIParentPanel();
+    std::unique_ptr<UIPanel> m_panel;
     
     Location m_thisLocation;
     Location m_lastLocation;
