@@ -17,27 +17,41 @@ class UIPanel
 {
 public:
     virtual std::vector<UIPanel*> getChild() = 0;
-    virtual int addChild(UIPanel *panel) = 0;
-    virtual UIPanel* removeChild(int index) = 0; // Passes back removed child
+    virtual void addChild(UIPanel *panel) = 0;
+    virtual void removeChild(size_t index) = 0; // Passes back removed child
 
-    virtual IntPair MinRequestedSize() = 0;
-    virtual IntPair PreferedRequestedSize() = 0;
+    virtual IntPair RequestedSize(bool min) = 0;
     virtual int SetSize(IntPair size) = 0;
 };
 
-// A generic panel to hold crap
-class UIPaddingPanel
+// A generic panel to split crap
+class UISplitPanel
 {
 public:
-    std::vector<UIPanel*> getChild();
-    int addChild(UIPanel *panel);
-    UIPanel* removeChild(int index); // Passes back removed child
+    enum class Arangments
+    {
+        Stacked,
+        SideBySide,
 
-    IntPair MinRequestedSize();
-    IntPair PreferedRequestedSize();
+        Undefined = 0,
+        Total
+    };
+
+    UISplitPanel(Arangments arangment);
+
+    std::vector<UIPanel*> getChild();
+    void addChild(UIPanel *panel);
+
+    // Passes back removed child
+    // We swap this with the last then push back
+    // Previous Indexes are not maintained!!!
+    void removeChild(size_t index);
+
+    IntPair RequestedSize(bool min);
     int SetSize(IntPair size);
 private:
     std::vector<UIPanel*> m_childPanels;
+    Arangments m_arangment;
 };
 
 // to be used _ONLY_ in windows
@@ -46,11 +60,14 @@ class UIParentPanel : public UIPanel
 {
 public:
     std::vector<UIPanel*> getChild();
-    int addChild(UIPanel *panel);
-    UIPanel* removeChild(int index); // Passes back removed child
+    void addChild(UIPanel *panel);
 
-    IntPair MinRequestedSize();
-    IntPair PreferedRequestedSize();
+    // Passes back removed child
+    // We swap this with the last then push back
+    // Previous Indexes are not maintained!!!
+    void removeChild(size_t index);
+
+    IntPair RequestedSize(bool min);
     int SetSize(IntPair size);
 private:
     std::vector<UIPanel*> m_childPanels;

@@ -107,9 +107,9 @@ class worldfactory
     protected:
     private:
         std::string pick_random_name();
-        int show_worldgen_tab_options( UIWindow &win );
-        int show_worldgen_tab_modselection( UIWindow &win );
-        int show_worldgen_tab_confirm( UIWindow &win );
+        int show_worldgen_tab_options( UIWindow &win, WORLDPTR world );
+        int show_worldgen_tab_modselection( UIWindow &win, WORLDPTR world );
+        int show_worldgen_tab_confirm( UIWindow &win, WORLDPTR world );
 
         void draw_modselection_borders( WINDOW *win, input_context *ctxtp );
         void draw_worldgen_tabs( UIWindow &win, unsigned int current );

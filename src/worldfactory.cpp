@@ -90,9 +90,9 @@ worldfactory::worldfactory()
     mman_ui.reset( new mod_ui( mman.get() ) );
 
     // prepare tab display order
-    tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_modselection, this, _1));
-    tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_options, this, _1));
-    tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_confirm, this, _1));
+    tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_modselection, this, _1, _2));
+    tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_options, this, _1, _2));
+    tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_confirm, this, _1, _2));
 
     tab_strings.push_back(_("Content"));
     tab_strings.push_back(_("World Gen Options"));
@@ -611,7 +611,7 @@ std::string worldfactory::pick_random_name()
     return get_next_valid_worldname();
 }
 
-int worldfactory::show_worldgen_tab_options(UIWindow &win)
+int worldfactory::show_worldgen_tab_options(UIWindow &win, WORLDPTR world)
 {
     const int iTooltipHeight = 4;
     const int iContentHeight = FULL_SCREEN_HEIGHT - 5 - iTooltipHeight;
@@ -884,7 +884,7 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
     wrefresh(w_shift);
 }
 
-int worldfactory::show_worldgen_tab_modselection(UIWindow &win)
+int worldfactory::show_worldgen_tab_modselection(UIWindow &win, WORLDPTR world)
 {
     // Use active_mod_order of the world,
     // saves us from writing 'world->active_mod_order' all the time.
@@ -1198,7 +1198,7 @@ int worldfactory::show_worldgen_tab_modselection(UIWindow &win)
     return tab_output;
 }
 
-int worldfactory::show_worldgen_tab_confirm(UIWindow &win)
+int worldfactory::show_worldgen_tab_confirm(UIWindow &win, WORLDPTR world)
 {
     const int iTooltipHeight = 1;
     const int iContentHeight = FULL_SCREEN_HEIGHT - 3 - iTooltipHeight;

@@ -14,9 +14,9 @@ int UIWindow::UpdateWindow()
 {
     // TODO: Clear prev contents? Is that our job?
 
-    m_thisSize = m_panel->PreferedRequestedSize();    
+    m_thisSize = m_panel->RequestedSize(false);    
     
-    IntPair minSize = m_panel->MinRequestedSize();
+    IntPair minSize = m_panel->RequestedSize(true);
 
     if (m_minSize.x > m_thisSize.x) m_thisSize.x = m_minSize.x;
     if (m_minSize.y > m_thisSize.y) m_thisSize.y = m_minSize.y;
@@ -29,24 +29,24 @@ int UIWindow::UpdateWindow()
 
     if (minSize.x > TERMX) DebugLog(D_ERROR, DC_ALL) << "Not enought screen space...";
     if (minSize.y > TERMY) DebugLog(D_ERROR, DC_ALL) << "Not enought screen space...";
-    
+
     m_panel->SetSize(m_thisSize);
 
     switch (m_thisLocation)
     {
     case Location::Centered:
-    m_offset.x = (TERMX > m_thisSize.x) ? (TERMX - m_thisSize.x) / 2 : 0;
-    m_offset.y = (TERMY > m_thisSize.y) ? (TERMY - m_thisSize.y) / 2 : 0;
-    break;
+        m_offset.x = (TERMX > m_thisSize.x) ? (TERMX - m_thisSize.x) / 2 : 0;
+        m_offset.y = (TERMY > m_thisSize.y) ? (TERMY - m_thisSize.y) / 2 : 0;
+        break;
 
     default:
-    DebugLog(D_ERROR, DC_ALL) << "Please state the location...";
-    break;
-}
+        DebugLog(D_ERROR, DC_ALL) << "Please state the location...";
+        break;
+    }
 
-// set up window
-m_wf_win = newwin(m_thisSize.y, m_thisSize.x, m_offset.y, m_offset.x);
-m_wf_winptr = WINDOW_PTR( m_wf_win );
+    // set up window
+    m_wf_win = newwin(m_thisSize.y, m_thisSize.x, m_offset.y, m_offset.x);
+    m_wf_winptr = WINDOW_PTR( m_wf_win );
 
     m_lastSize = m_thisSize;
 
@@ -54,7 +54,118 @@ m_wf_winptr = WINDOW_PTR( m_wf_win );
     return 0;
 }
 
-// UIPaddingPanel
+UISplitPanel::UISplitPanel(Arangments arangment)
+{
+    m_arangment = arangment;
+}
 
+std::vector<UIPanel*> UISplitPanel::getChild()
+{
+    return m_childPanels; 
+}
+
+void UISplitPanel::addChild(UIPanel *panel)
+{
+    m_childPanels.push_back(panel);
+}
+
+void UISplitPanel::removeChild(size_t index)
+{
+    if (index != m_childPanels.size() -1)
+        m_childPanels[index] = std::move(m_childPanels.back());
+    m_childPanels.pop_back();
+}
+
+IntPair UISplitPanel::RequestedSize(bool min)
+{
+    IntPair size;
+
+    // Border
+    size.x = 2;
+
+    // One less to acount for sub 1
+    size.y = 2;
+
+    switch (m_arangement)
+    {
+    case Arangments::Stacked:
+        // |-|
+        // |A| minX = smallest x + 2
+        // |-|
+        // |B| minY = Sum of Ys + # children - 1 + 2
+        // |-|
+        // |C|
+        // |-|
+        // |D|
+        // |-|
+        // |E|
+        // |-|
+        size.y += m_childPanels.size() - 1;
+        
+        for (auto panel : m_childPanels)
+        {
+            auto reqSize = panel->RequestedSize(min);
+
+            if (reqSize.x > size.x) size.x = reqSize.x;
+
+            size.y += reqSize.y;
+        }
+        break;
+    case Arangments::SideBySide:
+        // |-+-+-+-+-| minX = Sum of Xs + # children - 1 + 2
+        // |A|B|C|D|E| minY = smallest Y + 2
+        // |-+-+-+-+-|
+        size.x += m_childPanels.size() - 1;
+        
+        for (auto panel : m_childPanels)
+        {
+            auto reqSize = panel->RequestedSize(min);
+
+            if (reqSize.y > size.y) size.y = reqSize.y;
+
+            size.x += reqSize.x;
+        }
+        break;
+    }
+}
+int UISplitPanel::SetSize(IntPair size);
 
 // UIParentPanel
+std::vector<UIPanel*> UIParentPanel::getChild()
+{
+    return m_childPanels; 
+}
+
+void UIParentPanel::addChild(UIPanel *panel)
+{   if (m_childPanels.size() != 0)
+    {
+        DebugLog(D_ERROR, DC_ALL) << "Only supports one panel";
+        return;
+    }
+    m_childPanels.push_back(panel);
+}
+
+void UIParentPanel::removeChild(size_t index)
+{
+    if (index != m_childPanels.size() -1)
+        m_childPanels[index] = std::move(m_childPanels.back());
+    m_childPanels.pop_back();
+}
+
+IntPair UIParentPanel::RequestedSize(bool min)
+{
+    IntPair size;
+    size.x = 2;
+    size.y = 2;
+
+    if (m_childPanels.size() == 0)
+        return size;
+
+    auto paneSize = m_childPanels[0]->RequestedSize(min);
+    size.x += paneSize.x;
+    size.y += paneSize.y;
+
+    return size;
+}
+
+int UIParentPanel::SetSize(IntPair size);
