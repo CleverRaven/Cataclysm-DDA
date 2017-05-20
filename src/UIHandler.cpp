@@ -14,9 +14,9 @@ int UIWindow::UpdateWindow()
 {
     // TODO: Clear prev contents? Is that our job?
 
-    m_thisSize = m_panel->RequestedSize(false);    
+    m_thisSize = m_panel->RequestedSize(Sizes::Prefered);    
     
-    point minSize = m_panel->RequestedSize(true);
+    point minSize = m_panel->RequestedSize(Sizes::Minimum);
 
     if (m_minSize.x > m_thisSize.x) m_thisSize.x = m_minSize.x;
     if (m_minSize.y > m_thisSize.y) m_thisSize.y = m_minSize.y;
@@ -76,7 +76,7 @@ void UISplitPanel::removeChild(size_t index)
     m_childPanels.pop_back();
 }
 
-point UISplitPanel::RequestedSize(bool min)
+point UISplitPanel::RequestedSize(Sizes sizes)
 {
     point size = { 2, 2 };
 
@@ -146,14 +146,14 @@ void UIParentPanel::removeChild(size_t index)
     m_childPanels.pop_back();
 }
 
-point UIParentPanel::RequestedSize(bool min)
+point UIParentPanel::RequestedSize(Sizes sizes)
 {
     point size = { 2, 2 };
 
     if (m_childPanels.size() == 0)
         return size;
 
-    auto paneSize = m_childPanels[0]->RequestedSize(min);
+    auto paneSize = m_childPanels[0]->RequestedSize(sizes);
     size += paneSize;
 
     return size;

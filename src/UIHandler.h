@@ -9,6 +9,12 @@
 
 #include "enums.h"
 
+enum class Sizes
+{
+    Minimum,
+    Prefered
+};
+
 class UIPanel
 {
 public:
@@ -16,7 +22,7 @@ public:
     virtual void addChild(UIPanel *panel) = 0;
     virtual void removeChild(size_t index) = 0;
 
-    virtual point RequestedSize(bool min) = 0;
+    virtual point RequestedSize(Sizes sizes) = 0;
     virtual int SetSize(point size) = 0;
 };
 /*
@@ -43,7 +49,7 @@ public:
     // Previous Indexes are not maintained!!!
     void removeChild(size_t index);
 
-    point RequestedSize(bool min);
+    point RequestedSize(Sizes sizes);
     int SetSize(point size);
 private:
     std::vector<UIPanel*> m_childPanels;
@@ -63,7 +69,7 @@ public:
     // Previous Indexes are not maintained!!!
     void removeChild(size_t index);
 
-    point RequestedSize(bool min);
+    point RequestedSize(Sizes sizes);
     int SetSize(point size);
 private:
     point m_thisSize;
