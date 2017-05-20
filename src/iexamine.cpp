@@ -2784,13 +2784,19 @@ void iexamine::water_source(player &p, const tripoint &examp)
 
 void iexamine::milk_source( monster *source_mon )
 {
+    // Creates the milk item based on milk charges left
+    item milk( "milk", 0, source_mon->milk_left );
     if( source_mon->turn_next_milking < calendar::turn ) {
-        item milk( "milk", 0, 4 );
+        // Recharge the milk of the creature
+        source_mon->milk_left = 4;
         g->handle_liquid( milk, nullptr, 0, nullptr, nullptr, source_mon );
-        add_msg(_("You milk the cow." ));
+        add_msg( _( "You milk the %s." ), source_mon->disp_name().c_str() );
         source_mon->turn_next_milking = calendar::turn.get_turn() + HOURS( 24 );
+    } else if( source_mon->milk_left > 0 ) {
+        g->handle_liquid( milk, nullptr, 0, nullptr, nullptr, source_mon );
+        add_msg( _( "You milk the %s." ), source_mon->disp_name().c_str() );
     } else {
-        add_msg(_( "The cow's udders run dry" ));
+        add_msg( _( "The %s's udders run dry" ), source_mon->disp_name().c_str() );
     }
 }
 

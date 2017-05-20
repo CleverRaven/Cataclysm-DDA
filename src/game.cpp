@@ -9758,6 +9758,7 @@ bool game::handle_liquid_from_container( item &container, int radius )
 
 extern void serialize_liquid_source( player_activity &act, const vehicle &veh, const itype_id &ftype );
 extern void serialize_liquid_source( player_activity &act, const tripoint &pos, const item &liquid );
+extern void serialize_liquid_source( player_activity &act, const monster &mon, const item &liquid);
 
 extern void serialize_liquid_target( player_activity &act, const vehicle &veh );
 extern void serialize_liquid_target( player_activity &act, int container_item_pos );
@@ -9784,7 +9785,13 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
             u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
             serialize_liquid_source( u.activity, *source_pos, liquid );
             return true;
-        } else {
+        }
+        else if (source_mon != nullptr) {
+            u.assign_activity(activity_id("ACT_FILL_LIQUID"));
+            serialize_liquid_source(u.activity, *source_mon, liquid);
+            return true;
+        }
+        else {
             return false;
         }
     };
@@ -9805,13 +9812,15 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         menu.text = string_format( _( "What to do with the %s?" ), liquid_name.c_str() );
     }
     std::vector<std::function<void()>> actions;
-
-    if( u.can_consume( liquid ) ) {
-        menu.addentry( -1, true, 'e', _( "Consume it" ) );
-        actions.emplace_back( [&]() {
-            // consume_item already consumes moves.
-            u.consume_item( liquid );
-        } );
+    // Small check to avoid players sucking milk directly from the animal.
+    if (!source_mon == true) {
+        if (u.can_consume(liquid)) {
+            menu.addentry(-1, true, 'e', _("Consume it"));
+            actions.emplace_back([&]() {
+                // consume_item already consumes moves.
+                u.consume_item(liquid);
+            });
+        }
     }
 
     // This handles containers found anywhere near the player, including on the map and in vehicle storage.

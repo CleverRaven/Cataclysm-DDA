@@ -546,6 +546,8 @@ class Creature
 
 		// Turn for the next milking
 		int turn_next_milking = 0;
+        // Charges left of milk
+        int milk_left = 4;
 
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead

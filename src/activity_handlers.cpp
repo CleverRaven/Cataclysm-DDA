@@ -613,7 +613,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
 }
 
-enum liquid_source_type { LST_INFINITE_MAP = 1, LST_MAP_ITEM = 2, LST_VEHICLE = 3, };
+enum liquid_source_type { LST_INFINITE_MAP = 1, LST_MAP_ITEM = 2, LST_VEHICLE = 3, LST_MONSTER = 4 };
 
 // All serialize_liquid_source functions should add the same number of elements to the vectors of
 // the activity. This makes it easier to distinguish the values of the source and the values of the target.
@@ -623,6 +623,14 @@ void serialize_liquid_source( player_activity &act, const vehicle &veh, const it
     act.values.push_back( 0 ); // dummy
     act.coords.push_back( veh.global_pos3() );
     act.str_values.push_back( ftype );
+}
+
+void serialize_liquid_source(player_activity &act, const monster &mon, const item &liquid)
+{
+    act.values.push_back(LST_MONSTER);
+    act.values.push_back(0); // dummy
+    act.coords.push_back(mon.pos());
+    act.str_values.push_back(liquid.serialize());
 }
 
 void serialize_liquid_source( player_activity &act, const tripoint &pos, const item &liquid )
@@ -673,6 +681,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         vehicle *source_veh = nullptr;
         const tripoint source_pos = act.coords.at( 0 );
         map_stack source_stack = g->m.i_at( source_pos );
+        Creature *source_creature = nullptr;
         std::list<item>::iterator on_ground;
         item liquid;
         const auto source_type = static_cast<liquid_source_type>( act.values.at( 0 ) );
@@ -689,9 +698,19 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             liquid.charges = item::INFINITE_CHARGES;
             break;
         case LST_MAP_ITEM:
-            if( static_cast<size_t>( act.values.at( 1 ) ) >= source_stack.size() ) {
-                throw std::runtime_error( "could not find source item on ground for liquid transfer" );
+            if (static_cast<size_t>(act.values.at(1)) >= source_stack.size()) {
+                throw std::runtime_error("could not find source item on ground for liquid transfer");
             }
+            break;
+        case LST_MONSTER:
+            source_creature = g->critter_at(source_pos);
+            if (source_creature == nullptr) {
+                throw std::runtime_error("could not find source creature for liquid transfer");
+            }
+            liquid.deserialize(act.str_values.at(0));
+            liquid.charges = source_creature->milk_left;
+            break;
+
             on_ground = source_stack.begin();
             std::advance( on_ground, act.values.at( 1 ) );
             liquid = *on_ground;
@@ -758,6 +777,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         case LST_INFINITE_MAP:
             // nothing, the liquid source is infinite
             break;
+        case LST_MONSTER:
+            source_creature->milk_left -= removed_charges;
         }
 
         if( removed_charges < original_charges ) {
