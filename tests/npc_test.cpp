@@ -35,6 +35,9 @@ npc create_model()
     npc model_npc;
     model_npc.normalize();
     model_npc.randomize( NC_NONE );
+    for( trait_id tr : model_npc.get_mutations() ) {
+        model_npc.unset_mutation( tr );
+    }
     model_npc.set_hunger( 0 );
     model_npc.set_thirst( 0 );
     model_npc.set_fatigue( 0 );
