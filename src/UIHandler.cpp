@@ -67,7 +67,7 @@ std::vector<std::shared_ptr<UIPanel>> UIPaddingPanel::GetChild() const
 
 void UIPaddingPanel::AddChild(std::shared_ptr<UIPanel> panel)
 {   
-    if (m_childPanels.empty())
+    if (!m_childPanels.empty())
     {
         DebugLog(D_ERROR, DC_ALL) << "Only supports one panel";
         return;
