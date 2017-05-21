@@ -780,9 +780,6 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             // nothing, the liquid source is infinite
             break;
         case LST_MONSTER:
-            Creature *c = g->critter_at(source_pos);
-            source_mon = dynamic_cast<monster *>(c);
-
             // Max duration set here to avoid including effect.h
             int max_dur = 14400;
             // Minimun time in turns needed for the cow to regenerate the milk and which is 6 hours
