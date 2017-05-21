@@ -164,6 +164,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         const int numtabs = tabs.size();
         while (curtab >= 0 && curtab < numtabs) {
             lasttab = curtab;
+            tabPanel->SwitchTab(curtab);
             win.DrawEverything();
             curtab += tabs[curtab](win, retworld);
 
