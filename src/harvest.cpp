@@ -33,14 +33,14 @@ bool string_id<harvest_list>::is_valid() const
     return harvest_all.count( *this ) > 0;
 }
 
-harvest_list::harvest_list() : id_( harvest_id::NULL_ID ) {}
+harvest_list::harvest_list() : id_( harvest_id::NULL_ID() ) {}
 
 const harvest_id &harvest_list::id() const {
     return id_;
 }
 
 bool harvest_list::is_null() const {
-    return id_ == harvest_id::NULL_ID;
+    return id_ == harvest_id::NULL_ID();
 }
 
 harvest_entry harvest_entry::load( JsonObject &jo, const std::string &src )

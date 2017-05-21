@@ -61,9 +61,6 @@ const efftype_id effect_pet( "pet" );
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
 
-/** @relates string_id */
-template<> const string_id<overmap_special> string_id<overmap_special>::NULL_ID = string_id<overmap_special>("", 0 );
-
 #include "omdata.h"
 ////////////////
 oter_id  ot_null,
@@ -309,7 +306,7 @@ bool operator!=( const int_id<oter_t> &lhs, const char *rhs )
 
 void set_oter_ids()   // fixme constify
 {
-    ot_null         = oter_str_id::NULL_ID;
+    ot_null         = oter_str_id::NULL_ID();
     // NOT required.
     ot_crater       = oter_id( "crater" );
     ot_field        = oter_id( "field" );
@@ -1351,9 +1348,18 @@ bool overmap::monster_check(const std::pair<tripoint, monster> &candidate) const
         } ) != matching_range.second;
 }
 
-void overmap::add_npc( npc &who )
+void overmap::insert_npc( npc *who )
 {
-    npcs.push_back( &who );
+    npcs.push_back( who );
+    g->set_npcs_dirty();
+}
+
+void overmap::erase_npc( npc *who )
+{
+    const auto iter = std::find( npcs.begin(), npcs.end(), who );
+    assert( iter != npcs.end() );
+    npcs.erase( iter );
+    delete who;
     g->set_npcs_dirty();
 }
 
@@ -4728,6 +4734,30 @@ void overmap::add_mon_group(const mongroup &group)
         }
     }
     DebugLog( D_ERROR, D_GAME ) << group.type.str() << ": " << group.population << " => " << xpop;
+}
+
+void overmap::for_each_npc( const std::function<void( npc & )> callback )
+{
+    for( auto &guy : npcs ) {
+        callback( *guy );
+    }
+}
+
+void overmap::for_each_npc( const std::function<void( const npc & )> callback ) const
+{
+    for( auto &guy : npcs ) {
+        callback( *guy );
+    }
+}
+
+npc* overmap::find_npc( const int id )
+{
+    for( auto &guy : npcs ) {
+        if( guy->getID() == id ) {
+            return guy;
+        }
+    }
+    return nullptr;
 }
 
 const tripoint overmap::invalid_tripoint = tripoint(INT_MIN, INT_MIN, INT_MIN);

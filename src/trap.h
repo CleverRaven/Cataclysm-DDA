@@ -17,7 +17,6 @@ struct tripoint;
 
 using trap_id = int_id<trap>;
 using trap_str_id = string_id<trap>;
-extern template const string_id<trap> string_id<trap>::NULL_ID;
 
 namespace trapfunc
 {

@@ -391,8 +391,6 @@ class game
         void unload_npcs();
         /** Unloads, then loads the NPCs */
         void reload_npcs();
-        /** Pulls the NPCs that were dumped into the world map on save back into mission_npcs */
-        void load_mission_npcs();
         /** Returns the number of kills of the given mon_id by the player. */
         int kill_count( const mtype_id& id );
         /** Increments the number of kills of the given mtype_id by the player upwards. */
@@ -520,7 +518,6 @@ class game
         std::vector<npc *> allies();
 
         std::vector<npc *> active_npc;
-        std::vector<npc *> mission_npc;
         std::vector<faction> factions;
         int weight_dragged; // Computed once, when you start dragging
 

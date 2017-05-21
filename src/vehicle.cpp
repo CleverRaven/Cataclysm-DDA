@@ -66,9 +66,6 @@ const skill_id skill_mechanics( "mechanics" );
 
 const efftype_id effect_stunned( "stunned" );
 
-/** @relates string_id */
-template<> const string_id<vpart_info> string_id<vpart_info>::NULL_ID;
-
 // Vehicle stack methods.
 std::list<item>::iterator vehicle_stack::erase( std::list<item>::iterator it )
 {
@@ -1335,7 +1332,7 @@ const vpart_info& vehicle::part_info (int index, bool include_removed) const
             return parts[index].info();
         }
     }
-    return vpart_id::NULL_ID.obj();
+    return vpart_id::NULL_ID().obj();
 }
 
 // engines & alternators all have power.
@@ -2473,7 +2470,7 @@ vpart_id vehicle::part_id_string(int const p, char &part_mod) const
 {
     part_mod = 0;
     if( p < 0 || p >= (int)parts.size() || parts[p].removed ) {
-        return vpart_id::NULL_ID;
+        return vpart_id::NULL_ID();
     }
 
     int displayed_part = part_displayed_at(parts[p].mount.x, parts[p].mount.y);
@@ -6021,7 +6018,7 @@ void vehicle::update_time( const calendar &update_to )
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
 vehicle_part::vehicle_part()
-    : mount( 0, 0 ), id( vpart_id::NULL_ID ) {}
+    : mount( 0, 0 ), id( vpart_id::NULL_ID() ) {}
 
 vehicle_part::vehicle_part( const vpart_id& vp, int const dx, int const dy, item&& obj )
     : mount( dx, dy ), id( vp ), base( std::move( obj ) )
@@ -6036,7 +6033,7 @@ vehicle_part::vehicle_part( const vpart_id& vp, int const dx, int const dy, item
 }
 
 vehicle_part::operator bool() const {
-    return id != vpart_id::NULL_ID;
+    return id != vpart_id::NULL_ID();
 }
 
 item vehicle_part::properties_to_item() const

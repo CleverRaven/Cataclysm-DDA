@@ -51,10 +51,6 @@ generic_factory<npc_class> npc_class_factory( "npc_class" );
 
 /** @relates string_id */
 template<>
-const npc_class_id string_id<npc_class>::NULL_ID( "NC_NONE" );
-
-/** @relates string_id */
-template<>
 const npc_class &string_id<npc_class>::obj() const
 {
     return npc_class_factory.obj( *this );
@@ -272,7 +268,7 @@ const npc_class_id &npc_class::from_legacy_int( int i )
 {
     if( i < 0 || ( size_t )i >= legacy_ids.size() ) {
         debugmsg( "Invalid legacy class id: %d", i );
-        return npc_class_id::NULL_ID;
+        return npc_class_id::NULL_ID();
     }
 
     return legacy_ids[ i ];

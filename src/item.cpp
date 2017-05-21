@@ -114,7 +114,7 @@ item::item()
 item::item( const itype *type, int turn, long qty ) : type( type )
 {
     bday = turn >= 0 ? turn : int( calendar::turn );
-    corpse = typeId() == "corpse" ? &mtype_id::NULL_ID.obj() : nullptr;
+    corpse = typeId() == "corpse" ? &mtype_id::NULL_ID().obj() : nullptr;
     item_counter = type->countdown_interval;
 
     if( qty >= 0 ) {
@@ -3861,13 +3861,13 @@ void item::mark_chapter_as_read( const player &u )
 
 const material_type &item::get_random_material() const
 {
-    return random_entry( made_of(), material_id::NULL_ID ).obj();
+    return random_entry( made_of(), material_id::NULL_ID() ).obj();
 }
 
 const material_type &item::get_base_material() const
 {
     const auto mats = made_of();
-    return mats.empty() ? material_id::NULL_ID.obj() : mats.front().obj();
+    return mats.empty() ? material_id::NULL_ID().obj() : mats.front().obj();
 }
 
 bool item::operator<(const item& other) const
@@ -3894,7 +3894,7 @@ bool item::operator<(const item& other) const
 skill_id item::gun_skill() const
 {
     if( !is_gun() ) {
-        return skill_id::NULL_ID;
+        return skill_id::NULL_ID();
     }
     return type->gun->skill_used;
 }
@@ -3919,7 +3919,7 @@ std::string item::gun_type() const
 skill_id item::melee_skill() const
 {
     if( !is_melee() ) {
-        return skill_id::NULL_ID;
+        return skill_id::NULL_ID();
     }
 
     if( has_flag( "UNARMED_WEAPON" ) ) {
@@ -3927,7 +3927,7 @@ skill_id item::melee_skill() const
     }
 
     int hi = 0;
-    skill_id res = skill_id::NULL_ID;
+    skill_id res = skill_id::NULL_ID();
 
     for( auto idx = DT_NULL + 1; idx != NUM_DT; ++idx ) {
         auto val = damage_melee( static_cast<damage_type>( idx ) );
@@ -4256,7 +4256,7 @@ ammotype item::ammo_type( bool conversion ) const
     } else if( is_magazine() ) {
         return type->magazine->type;
     }
-    return ammotype::NULL_ID;
+    return ammotype::NULL_ID();
 }
 
 itype_id item::ammo_default( bool conversion ) const
@@ -5863,9 +5863,9 @@ std::string item::type_name( unsigned int quantity ) const
                                corpse->nname().c_str(), corpse_name.c_str() );
         }
     } else if( typeId() == "blood" ) {
-        if( corpse == nullptr || corpse->id == mtype_id::NULL_ID ) {
+        if( corpse == nullptr || corpse->id.is_null() ) {
             return string_format( npgettext( "item name", "human blood",
-                                        "human blood", quantity ) );
+                                             "human blood", quantity ) );
         } else {
             return string_format( npgettext( "item name", "%s blood",
                                          "%s blood",  quantity ),

@@ -1,47 +1,34 @@
 #include "string_id.h"
 
-class activity_type;
-class effect_type;
-class furn_t;
-class harvest_list;
-class material_type;
-class MonsterGroup;
-class mtype;
-class mutation_branch;
-class oter_t;
-class oter_type_t;
-class requirement_data;
-class species_type;
-class ter_t;
-class trap;
-
 // These are centralized in this file because they must appear in one and only one compilation unit,
 // and it's problematic to define them in the respective cpp files for each class.
+// Very repitious, so define them with a macro.
+#define MAKE_NULL_ID( type, ... ) \
+class type; \
+template<> const string_id<type> &string_id<type>::NULL_ID() {	\
+    static string_id<type> id = string_id<type>( __VA_ARGS__ ); \
+    return id; \
+}
 
-template<> const string_id<activity_type> string_id<activity_type>::NULL_ID = string_id<activity_type>( "ACT_NULL", -1 );
+MAKE_NULL_ID( activity_type, "ACT_NULL", -1 );
+MAKE_NULL_ID( harvest_list);
+MAKE_NULL_ID( effect_type, "null");
+MAKE_NULL_ID( furn_t, "f_null", 0 );
+MAKE_NULL_ID( material_type, "null", 0 );
+MAKE_NULL_ID( MonsterGroup, "GROUP_NULL" );
+MAKE_NULL_ID( mtype, "mon_null" );
+MAKE_NULL_ID( mutation_branch );
+MAKE_NULL_ID( oter_t, "", 0 );
+MAKE_NULL_ID( oter_type_t, "", 0 );
+MAKE_NULL_ID( requirement_data, "null" );
+MAKE_NULL_ID( species_type, "spec_null" );
+MAKE_NULL_ID( ter_t, "t_null", 0 );
+MAKE_NULL_ID( trap, "tr_null" );
 
-template<> const string_id<harvest_list> string_id<harvest_list>::NULL_ID{};
-
-template<> const string_id<effect_type> string_id<effect_type>::NULL_ID = string_id<effect_type>( "null" );
-
-template<> const string_id<furn_t> string_id<furn_t>::NULL_ID = string_id<furn_t>( "f_null", 0 );
-
-template<> const string_id<material_type> string_id<material_type>::NULL_ID = string_id<material_type>( "null", 0 );
-
-template<> const string_id<MonsterGroup> string_id<MonsterGroup>::NULL_ID = string_id<MonsterGroup>( "GROUP_NULL" );
-
-template<> const string_id<mtype> string_id<mtype>::NULL_ID = string_id<mtype>( "mon_null" );
-
-template<> const string_id<mutation_branch> string_id<mutation_branch>::NULL_ID( "" );
-
-template<> const string_id<oter_t> string_id<oter_t>::NULL_ID = string_id<oter_t>("", 0 );
-
-template<> const string_id<oter_type_t> string_id<oter_type_t>::NULL_ID = string_id<oter_type_t>("", 0 );
-
-template <> const string_id<requirement_data> string_id<requirement_data>::NULL_ID = string_id<requirement_data>( "null" );
-
-template<> const string_id<species_type> string_id<species_type>::NULL_ID( "spec_null" );
-
-template<> const string_id<ter_t> string_id<ter_t>::NULL_ID( "t_null", 0 );
-
-template<> const string_id<trap> string_id<trap>::NULL_ID = string_id<trap>( "tr_null" );
+MAKE_NULL_ID( overmap_special, "", 0 );
+MAKE_NULL_ID( Skill, "none" );
+MAKE_NULL_ID( mission_type, "mission_type" );
+MAKE_NULL_ID( npc_class, "NC_NONE" );
+MAKE_NULL_ID( ammunition_type, "NULL" );
+MAKE_NULL_ID( vpart_info, "null" );
+MAKE_NULL_ID( emit, "null" );

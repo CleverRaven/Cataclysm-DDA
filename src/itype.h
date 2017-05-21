@@ -34,7 +34,6 @@ class recipe;
 struct itype;
 class Skill;
 using skill_id = string_id<Skill>;
-extern template const string_id<Skill> string_id<Skill>::NULL_ID;
 class player;
 class item;
 class ma_technique;
@@ -47,7 +46,6 @@ using material_id = string_id<material_type>;
 typedef std::string itype_id;
 class ammunition_type;
 using ammotype = string_id<ammunition_type>;
-extern template const string_id<ammunition_type> string_id<ammunition_type>::NULL_ID;
 class fault;
 using fault_id = string_id<fault>;
 struct quality;
@@ -85,7 +83,7 @@ class gunmod_location
 };
 
 struct islot_tool {
-    ammotype ammo_id = ammotype::NULL_ID;
+    ammotype ammo_id = ammotype::NULL_ID();
 
     itype_id revert_to = "null";
     std::string revert_msg;
@@ -225,7 +223,7 @@ struct islot_book {
     /**
      * Which skill it upgrades, if any. Can be @ref skill_id::NULL_ID.
      */
-    skill_id skill = skill_id::NULL_ID;
+    skill_id skill = skill_id::NULL_ID();
     /**
      * The skill level the book provides.
      */
@@ -289,7 +287,7 @@ struct islot_mod {
     std::set<ammotype> acceptable_ammo;
 
     /** If set modifies parent ammo to this type */
-    ammotype ammo_modifier = ammotype::NULL_ID;
+    ammotype ammo_modifier = ammotype::NULL_ID();
 
     /** If non-empty replaces the compatible magazines for the parent item */
     std::map< ammotype, std::set<itype_id> > magazine_adaptor;
@@ -358,11 +356,11 @@ struct islot_gun : common_ranged_data {
     /**
      * What skill this gun uses.
      */
-    skill_id skill_used = skill_id::NULL_ID;
+    skill_id skill_used = skill_id::NULL_ID();
     /**
      * What type of ammo this gun uses.
      */
-    ammotype ammo = ammotype::NULL_ID;
+    ammotype ammo = ammotype::NULL_ID();
     /**
      * Gun durability, affects gun being damaged during shooting.
      */
@@ -465,7 +463,7 @@ struct islot_gunmod : common_ranged_data {
 
 struct islot_magazine {
     /** What type of ammo this magazine can be loaded with */
-    ammotype type = ammotype::NULL_ID;
+    ammotype type = ammotype::NULL_ID();
 
     /** Capacity of magazine (in equivalent units to ammo charges) */
     int capacity = 0;

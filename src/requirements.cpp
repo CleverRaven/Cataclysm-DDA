@@ -213,7 +213,7 @@ requirement_data requirement_data::operator+( const requirement_data &rhs ) cons
     res.qualities.insert( res.qualities.end(), rhs.qualities.begin(), rhs.qualities.end() );
 
     // combined result is temporary which caller could store via @ref save_requirement
-    res.id_ = requirement_id::NULL_ID;
+    res.id_ = requirement_id::NULL_ID();
 
     // @todo deduplicate qualites and combine other requirements
 
