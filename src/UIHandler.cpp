@@ -19,32 +19,38 @@ void UIWindow::UpdateWindowSize()
 
     point minSize = m_panel->RequestedSize( Sizes::Minimum );
 
-    m_thisSize.x = std::max(m_thisSize.x, m_minSize.x);
-    m_thisSize.y = std::max(m_thisSize.y, m_minSize.y);
+    m_thisSize.x = std::max( m_thisSize.x, m_minSize.x );
+    m_thisSize.y = std::max( m_thisSize.y, m_minSize.y );
 
-    m_thisSize.x = std::min(m_thisSize.x, TERMX);
-    m_thisSize.y = std::min(m_thisSize.y, TERMY);
+    m_thisSize.x = std::min( m_thisSize.x, TERMX );
+    m_thisSize.y = std::min( m_thisSize.y, TERMY );
 
     if( m_minSize.x > TERMX ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Window's Min Size is greater than terminal's. (X) Window: " << m_minSize.x << " Term: " << TERMX;
+        DebugLog( D_ERROR, DC_ALL ) << "Window's Min Size is greater than terminal's. (X) Window: " <<
+                                    m_minSize.x << " Term: " << TERMX;
     }
     if( m_minSize.y > TERMY ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Window's Min Size is greater than terminal's. (Y) Window: " << m_minSize.y << " Term: " << TERMY;
+        DebugLog( D_ERROR, DC_ALL ) << "Window's Min Size is greater than terminal's. (Y) Window: " <<
+                                    m_minSize.y << " Term: " << TERMY;
     }
 
     if( minSize.x > TERMX ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Window's child panel's Min Size is greater than terminal's. (X) Window: " << minSize.x << " Term: " << TERMX;
+        DebugLog( D_ERROR, DC_ALL ) <<
+                                    "Window's child panel's Min Size is greater than terminal's. (X) Window: " << minSize.x << " Term: "
+                                    << TERMX;
     }
     if( minSize.y > TERMY ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Window's child panel's Min Size is greater than terminal's. (Y) Window: " << minSize.y << " Term: " << TERMY;
+        DebugLog( D_ERROR, DC_ALL ) <<
+                                    "Window's child panel's Min Size is greater than terminal's. (Y) Window: " << minSize.y << " Term: "
+                                    << TERMY;
     }
 
     m_panel->SetSize( m_thisSize );
 
     switch( m_thisLocation ) {
         case Location::Centered:
-            m_offset.x = (TERMX - m_thisSize.x) / 2;
-            m_offset.y = (TERMY - m_thisSize.y) / 2;
+            m_offset.x = ( TERMX - m_thisSize.x ) / 2;
+            m_offset.y = ( TERMY - m_thisSize.y ) / 2;
             break;
     }
 
@@ -103,7 +109,7 @@ void UIPaddingPanel::SetSize( point size )
         newSize -= { 2, 2 };
 
     m_childPanel->SetSize( newSize );
-    return; 
+    return;
 }
 
 void UIPaddingPanel::DrawEverything( WINDOW *wf_win, point offset )
@@ -138,12 +144,12 @@ std::vector<std::pair<std::string, std::shared_ptr<UIPanel>>> UITabPanel::GetTab
 
 void UITabPanel::AddTab( std::string name, std::shared_ptr<UIPanel> panel )
 {
-    m_childPanels.push_back( std::pair<std::string, std::shared_ptr<UIPanel>>(name, panel) );
+    m_childPanels.push_back( std::pair<std::string, std::shared_ptr<UIPanel>>( name, panel ) );
 }
 
 void UITabPanel::RemoveTab( size_t index )
 {
-    m_childPanels.erase(m_childPanels.begin() + index);
+    m_childPanels.erase( m_childPanels.begin() + index );
 }
 
 point UITabPanel::RequestedSize( Sizes sizes )
@@ -167,8 +173,8 @@ point UITabPanel::RequestedSize( Sizes sizes )
         len += utf8_width( tx.first ) + 6;
     }
 
-    size.x = std::max(len, size.x);
-    
+    size.x = std::max( len, size.x );
+
     return size;
 }
 
@@ -208,7 +214,7 @@ void UITabPanel::DrawEverything( WINDOW *wf_win, point offset )
     //.^
     //We then draw our tab
     //      We then add the length of the text (4 in this case)
-    //.....V  
+    //.....V
     //.<|TEXT|>..<|TEXT|>.
     //..........^
     //We then add 5 to account for the "<||>."

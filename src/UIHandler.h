@@ -17,9 +17,9 @@ enum class Sizes {
 
 namespace UIUtils
 {
-    void DrawBorder( WINDOW *wf_win, point offset, point m_thisSize );
-    void DrawTab( WINDOW *wf_win, point offset, int tabOffset, bool tabActive,
-                             std::string text );
+void DrawBorder( WINDOW *wf_win, point offset, point m_thisSize );
+void DrawTab( WINDOW *wf_win, point offset, int tabOffset, bool tabActive,
+              std::string text );
 }
 
 class UIPanel
@@ -54,7 +54,7 @@ class UITabPanel : public UIPanel
 {
     public:
         UITabPanel( bool drawBorder );
-        
+
         std::vector<std::pair<std::string, std::shared_ptr<UIPanel>>> GetTabs() const;
         void AddTab( std::string name, std::shared_ptr<UIPanel> panel );
         void RemoveTab( size_t index );
