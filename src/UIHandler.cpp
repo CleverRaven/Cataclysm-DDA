@@ -208,7 +208,7 @@ int UITabPanel::SetSize(point size)
     if (m_drawBorder)
         newSize -= { 2, 2 };
      
-    size -= { 0, 2 };
+    newSize -= { 0, 2 };
     
     m_childPanels[m_currentTab]->SetSize(newSize);
     return 0;
@@ -219,14 +219,14 @@ void UITabPanel::DrawEverything(WINDOW *wf_win, point offset)
     if (m_drawBorder)
         UIUtils::DrawBorder(wf_win, offset, m_thisSize);
     
-    int toffset = 0;
+    int toffset = 2;
     for (size_t i = 0; i < m_childPanels.size(); i++)
     {
         toffset += 1;
 
         UIUtils::DrawTab(wf_win, offset, toffset, (i == m_currentTab), m_childPanelNames[i]);
     
-        toffset += 5;
+        toffset += 5 + utf8_width(m_childPanelNames[i]);
     }
     
     if (!m_childPanels.empty())

@@ -153,7 +153,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         {
             auto thisPanel = std::make_shared<UIPaddingPanel>(false);
 
-            tabPanel->AddChild(tabName, tabPanel);
+            tabPanel->AddChild(tabName, thisPanel);
         }
 
         // Regenerate all the sizes
