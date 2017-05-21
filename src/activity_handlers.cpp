@@ -683,7 +683,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         vehicle *source_veh = nullptr;
         const tripoint source_pos = act.coords.at( 0 );
         map_stack source_stack = g->m.i_at( source_pos );
-        Creature *source_creature = nullptr;
+        monster *source_mon = nullptr;
         std::list<item>::iterator on_ground;
         item liquid;
         const auto source_type = static_cast<liquid_source_type>( act.values.at( 0 ) );
@@ -705,8 +705,9 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             }
             break;
         case LST_MONSTER:
-        source_creature = g->critter_at( source_pos );
-        if( source_creature == nullptr ){
+        Creature *c = g->critter_at(source_pos);
+        source_mon = dynamic_cast<monster *>(c);
+        if( source_mon == nullptr ){
             throw std::runtime_error( "could not find source creature for liquid transfer" );
         }
         liquid.deserialize( act.str_values.at( 0 ) );
@@ -779,22 +780,23 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             // nothing, the liquid source is infinite
             break;
         case LST_MONSTER:
-            source_creature = g->critter_at( source_pos );
+            Creature *c = g->critter_at(source_pos);
+            source_mon = dynamic_cast<monster *>(c);
 
             // Max duration set here to avoid including effect.h
             int max_dur = 14400;
             // Minimun time in turns needed for the cow to regenerate the milk and which is 6 hours
             int min_dur = 3600;
-            int current_dur = source_creature->get_effect_dur( effect_milked );
+            int current_dur = source_mon->get_effect_dur( effect_milked );
             // Initialize current_dur if source_mon has the effect
 
-            if( !source_creature->has_effect( effect_milked ) )
+            if( !source_mon->has_effect( effect_milked ) )
             {
-                source_creature->add_effect( effect_milked, min_dur );
-            } else if( source_creature->has_effect( effect_milked ) &&
+                source_mon->add_effect( effect_milked, min_dur );
+            } else if( source_mon->has_effect( effect_milked ) &&
                        ( ( max_dur - current_dur ) < max_dur ) ) {
-                current_dur = source_creature->get_effect_dur( effect_milked );
-                source_creature->add_effect( effect_milked, current_dur += min_dur );
+                current_dur = source_mon->get_effect_dur( effect_milked );
+                source_mon->add_effect( effect_milked, current_dur += min_dur );
             }
             break;
         }
