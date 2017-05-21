@@ -319,22 +319,19 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
     return true;
 }
 
-std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
+void worldfactory::init()
 {
-    std::map<std::string, WORLDPTR> retworlds;
-
     std::vector<std::string> qualifiers;
     qualifiers.push_back(FILENAMES["worldoptions"]);
     qualifiers.push_back(FILENAMES["legacy_worldoptions"]);
     qualifiers.push_back(SAVE_MASTER);
 
-    if (!all_worlds.empty()) {
-        for( auto &elem : all_worlds ) {
-            delete elem.second;
-        }
-        all_worlds.clear();
-        all_worldnames.clear();
+    for( auto &elem : all_worlds ) {
+        delete elem.second;
     }
+    all_worlds.clear();
+    all_worldnames.clear();
+
     // get the master files. These determine the validity of a world
     // worlds exist by having an option file
     // create worlds
@@ -353,52 +350,50 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
         worldname = native_to_utf8( world_dir.substr( name_index + 1 ) );
 
         // create and store the world
-        retworlds[worldname] = new WORLD();
+        all_worlds[worldname] = new WORLD();
         // give the world a name
-        retworlds[worldname]->world_name = worldname;
+        all_worlds[worldname]->world_name = worldname;
         all_worldnames.push_back(worldname);
         // add sav files
         for( auto &world_sav_file : world_sav_files ) {
-            retworlds[worldname]->world_saves.push_back( save_t::from_base_path( world_sav_file ) );
+            all_worlds[worldname]->world_saves.push_back( save_t::from_base_path( world_sav_file ) );
         }
         // set world path
-        retworlds[worldname]->world_path = world_dir;
-        mman->load_mods_list(retworlds[worldname]);
+        all_worlds[worldname]->world_path = world_dir;
+        mman->load_mods_list(all_worlds[worldname]);
 
         // load options into the world
-        if ( !load_world_options(retworlds[worldname]) ) {
-            retworlds[worldname]->WORLD_OPTIONS = get_options().get_world_defaults();
-            retworlds[worldname]->WORLD_OPTIONS["DELETE_WORLD"].setValue("yes");
-            save_world(retworlds[worldname]);
+        if ( !load_world_options(all_worlds[worldname]) ) {
+            all_worlds[worldname]->WORLD_OPTIONS = get_options().get_world_defaults();
+            all_worlds[worldname]->WORLD_OPTIONS["DELETE_WORLD"].setValue("yes");
+            save_world(all_worlds[worldname]);
         }
     }
 
     // check to see if there exists a worldname "save" which denotes that a world exists in the save
     // directory and not in a sub-world directory
-    if (retworlds.find("save") != retworlds.end()) {
-        WORLDPTR converted_world = convert_to_world(retworlds["save"]->world_path);
+    if (all_worlds.find("save") != all_worlds.end()) {
+        WORLDPTR converted_world = convert_to_world(all_worlds["save"]->world_path);
         if (converted_world) {
-            converted_world->world_saves = retworlds["save"]->world_saves;
-            converted_world->WORLD_OPTIONS = retworlds["save"]->WORLD_OPTIONS;
+            converted_world->world_saves = all_worlds["save"]->world_saves;
+            converted_world->WORLD_OPTIONS = all_worlds["save"]->WORLD_OPTIONS;
 
             std::vector<std::string>::iterator oldindex = std::find(all_worldnames.begin(),
                     all_worldnames.end(), "save");
 
-            delete retworlds["save"];
-            retworlds.erase("save");
+            delete all_worlds["save"];
+            all_worlds.erase("save");
             all_worldnames.erase(oldindex);
 
-            retworlds[converted_world->world_name] = converted_world;
+            all_worlds[converted_world->world_name] = converted_world;
             all_worldnames.push_back(converted_world->world_name);
         }
     }
-    all_worlds = retworlds;
-    return retworlds;
 }
 
 WORLDPTR worldfactory::pick_world( bool show_prompt )
 {
-    std::map<std::string, WORLDPTR> worlds = get_all_worlds();
+    std::map<std::string, WORLDPTR> worlds = all_worlds;
     std::vector<std::string> world_names = all_worldnames;
 
     // Filter out special worlds (TUTORIAL | DEFENSE) from world_names.

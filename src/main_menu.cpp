@@ -269,8 +269,7 @@ bool main_menu::opening_screen()
     play_music( "title" );
 
     world_generator->set_active_world( NULL );
-    // This actually _loads_ what worlds exist.
-    world_generator->get_all_worlds();
+    world_generator->init();
 
     w_background = newwin( TERMY, TERMX, 0, 0 );
     WINDOW_PTR w_backgroundptr( w_background );
