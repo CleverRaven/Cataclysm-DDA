@@ -62,6 +62,7 @@ void ui::Window::UpdateWindowSize()
 
 void ui::Window::DrawEverything()
 {
+    assert( m_wf_win );
     werase( m_wf_win );
     assert( m_panel );
     m_panel->DrawEverything( m_wf_win, { 0, 0 } );
