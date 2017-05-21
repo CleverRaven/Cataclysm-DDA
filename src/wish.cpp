@@ -171,8 +171,8 @@ class wish_mutate_callback: public uimenu_callback
             mvwprintz( menu->window, menu->w_height - 3, startx, c_green, "%s", msg.c_str() );
             msg = padding;
             input_context ctxt( "UIMENU" );
-            mvwprintw( menu->window, menu->w_height - 2, startx, string_format( _( "[%s] find, [%s] quit" ),
-                       ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() ).c_str() );
+            mvwprintw( menu->window, menu->w_height - 2, startx, _( "[%s] find, [%s] quit" ),
+                       ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() );
 
         };
 
@@ -338,9 +338,8 @@ class wish_monster_callback: public uimenu_callback
             msg = padding;
             input_context ctxt( "UIMENU" );
             mvwprintw( w_info, getmaxy( w_info ) - 2, 0,
-                       string_format(
-                           _( "[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [%s] quit" ),
-                           ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() ).c_str() );
+                       _( "[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [%s] quit" ),
+                       ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() );
         }
 
         void refresh( uimenu *menu ) override {
@@ -448,9 +447,8 @@ class wish_item_callback: public uimenu_callback
             msg.erase();
 
             input_context ctxt( "UIMENU" );
-            mvwprintw( menu->window, menu->w_height - 2, startx,
-                       string_format( _( "[%s] find, [f] container, [%s] quit" ),
-                                      ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() ).c_str() );
+            mvwprintw( menu->window, menu->w_height - 2, startx, _( "[%s] find, [f] container, [%s] quit" ),
+                       ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() );
         }
 };
 
