@@ -38,6 +38,8 @@
 const skill_id skill_survival( "survival" );
 const skill_id skill_firstaid( "firstaid" );
 
+const efftype_id effect_milked("milked");
+
 using namespace activity_handlers;
 
 const std::map< activity_id, std::function<void( player_activity *, player *)> > activity_handlers::do_turn_functions =
@@ -708,7 +710,6 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             throw std::runtime_error( "could not find source creature for liquid transfer" );
         }
         liquid.deserialize( act.str_values.at( 0 ) );
-        liquid.charges = source_creature->milk_left;
         break;
 
             on_ground = source_stack.begin();
@@ -778,7 +779,24 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             // nothing, the liquid source is infinite
             break;
         case LST_MONSTER:
-            source_creature->milk_left -= removed_charges;
+            source_creature = g->critter_at( source_pos );
+
+            // Max duration set here to avoid including effect.h
+            int max_dur = 14400;
+            // Minimun time in turns needed for the cow to regenerate the milk and which is 6 hours
+            int min_dur = 3600;
+            int current_dur = source_creature->get_effect_dur( effect_milked );
+            // Initialize current_dur if source_mon has the effect
+
+            if( !source_creature->has_effect( effect_milked ) )
+            {
+                source_creature->add_effect( effect_milked, min_dur );
+            } else if( source_creature->has_effect( effect_milked ) &&
+                       ( ( max_dur - current_dur ) < max_dur ) ) {
+                current_dur = source_creature->get_effect_dur( effect_milked );
+                source_creature->add_effect( effect_milked, current_dur += min_dur );
+            }
+            break;
         }
 
         if( removed_charges < original_charges ) {

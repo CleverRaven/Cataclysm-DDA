@@ -2797,19 +2797,19 @@ void iexamine::milk_source( monster *source_mon )
     if( source_mon->has_effect( effect_milked ) ) {
         current_dur = source_mon->get_effect_dur( effect_milked );
     }
-
-    int available_milk = 0;
+   
+    // If that takes care of checking if there's milk left
     if( !source_mon->has_effect( effect_milked ) ) {
 
         g->handle_liquid( milk, nullptr, 0, nullptr, nullptr, source_mon );
         add_msg( _( "You milk the %s." ), source_mon->disp_name().c_str() );
-        source_mon->add_effect( effect_milked, min_dur );
 
-    } else if( source_mon->has_effect( effect_milked ) && ( ( max_dur - current_dur ) > max_dur ) ) {
+
+    } else if( source_mon->has_effect( effect_milked ) &&
+               ( ( max_dur - source_mon->get_effect_dur( effect_milked ) ) < max_dur ) ) {
         g->handle_liquid( milk, nullptr, 0, nullptr, nullptr, source_mon );
         add_msg( _( "You milk the %s." ), source_mon->disp_name().c_str() );
-        current_dur = source_mon->get_effect_dur( effect_milked );
-        source_mon->add_effect( effect_milked, current_dur += min_dur );
+
     } else {
         add_msg( _( "The %s's udders run dry" ), source_mon->disp_name().c_str() );
     }

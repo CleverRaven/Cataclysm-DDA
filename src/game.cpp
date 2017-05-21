@@ -9814,12 +9814,13 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
     std::vector<std::function<void()>> actions;
     // Small check to avoid players sucking milk directly from the animal.
     if( !source_mon == true ){
-    if( u.can_consume( liquid ) ) {
-        menu.addentry( -1, true, 'e', _( "Consume it" ) );
-        actions.emplace_back( [&]() {
-            // consume_item already consumes moves.
-            u.consume_item( liquid );
-        } );
+
+        if( u.can_consume( liquid ) ) {
+            menu.addentry( -1, true, 'e', _( "Consume it" ) );
+            actions.emplace_back( [&]() {
+                // consume_item already consumes moves.
+                u.consume_item( liquid );
+            } );
         }
     }
 

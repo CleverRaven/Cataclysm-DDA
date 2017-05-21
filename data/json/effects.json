@@ -1653,6 +1653,6 @@
         "type": "effect_type",
         "id": "milked",
         "name": [ "Milked" ],
-        "desc": [ "The creature has been partically milked." ],
+        "desc": [ "The creature has been partially milked." ]
     }
 ]

@@ -111,11 +111,7 @@ void pay_gas( player &p, const tripoint &examp );
 void climb_down( player &p, const tripoint &examp );
 hack_result hack_attempt( player &p );
 
-/*
-* Milking is divided in chunks of 6 hour, giving a max milking of 4 times per day
-* the function first checks if there's the milked flag, if not it adds it with the minimum_dur.
-* If it has the flag, it adds the minimum_dur until it equals max_duration.
-*/
+
 void milk_source( monster *source_mon );
 
 /**
