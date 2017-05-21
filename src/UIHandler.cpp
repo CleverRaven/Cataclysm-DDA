@@ -170,7 +170,7 @@ point UITabPanel::RequestedSize( Sizes sizes )
 
     int len = 0;
     for( auto tx : m_childPanels ) {
-        len += utf8_width( tx.first ) + 6;
+        len += utf8_width( tx.first ) + 6; // 6 tiles for the ".<||>."
     }
 
     size.x = std::max( len, size.x );
