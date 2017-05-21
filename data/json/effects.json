@@ -1648,30 +1648,5 @@
         "remove_message": "The broken limb has mended.",
         "max_duration": 2,
         "rating": "bad"
-    }, 
-	{
-        "type": "effect_type",
-        "id": "threequarters_milked",
-        "name": ["Threequarters milked"],
-        "desc": ["This creature is milked to threequarters of its milk."]
-    }, 
-	{
-        "type": "effect_type",
-        "id": "half_milked",
-        "name": ["Half milked"],
-        "desc": ["This creature is milked to half of its milk."]
-    }, 
-	{
-        "type": "effect_type",
-        "id": "quarter_milked",
-        "name": ["Quarter milked"],
-        "desc": ["This creature is milked to a quarter of its milk."]
-    }, 
-	{
-        "type": "effect_type",
-        "id": "fully_milked",
-        "name": ["Fully milked"],
-        "desc": ["This creature has been milked of all its milk."]
     }
-
 ]

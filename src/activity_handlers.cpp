@@ -703,14 +703,13 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             }
             break;
         case LST_MONSTER:
-        source_creature = g->critter_at( source_pos );
-        if( source_creature == nullptr ) {
-            throw std::runtime_error( "could not find source creature for liquid transfer" );
-        }
-        liquid.deserialize( act.str_values.at( 0 ) );
-
-
-        break;
+            source_creature = g->critter_at(source_pos);
+            if (source_creature == nullptr) {
+                throw std::runtime_error("could not find source creature for liquid transfer");
+            }
+            liquid.deserialize(act.str_values.at(0));
+            liquid.charges = source_creature->milk_left;
+            break;
 
             on_ground = source_stack.begin();
             std::advance( on_ground, act.values.at( 1 ) );
@@ -779,31 +778,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             // nothing, the liquid source is infinite
             break;
         case LST_MONSTER:
-            // If to check which flag/milk left in the source_monster.
-            // It adds the next effect level with time left in turns of the last effect.
-            if (source_creature->has_effect(effect_threequarters_milked)) {
-                liquid.deserialize(act.str_values.at(0));
-                source_creature->add_effect(effect_half_milked,
-                    source_creature->get_effect_dur(effect_quarter_milked));
-                source_creature->remove_effect(effect_threequarters_milked);
-
-            }
-            else if (source_creature->has_effect(effect_half_milked)) {
-                liquid.deserialize(act.str_values.at(0));
-                source_creature->add_effect(effect_quarter_milked,
-                    source_creature->get_effect_dur(effect_quarter_milked));
-                source_creature->remove_effect(effect_half_milked);
-            }
-            else if (source_creature->has_effect(effect_quarter_milked)) {
-                liquid.deserialize(act.str_values.at(0));
-                source_creature->add_effect(effect_fully_milked,
-                    source_creature->get_effect_dur(effect_quarter_milked));
-                source_creature->remove_effect(effect_quarter_milked);
-            }
-            else {
-                liquid.deserialize(act.str_values.at(0));
-                source_creature->add_effect(effect_threequarters_milked, 14400);
-            }
+            source_creature->milk_left -= removed_charges;
         }
 
         if( removed_charges < original_charges ) {
