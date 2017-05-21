@@ -10,33 +10,36 @@
 #include "enums.h"
 #include <memory>
 
+namespace ui
+{
 enum class Sizes {
     Minimum,
     Prefered
 };
 
-namespace UIUtils
+namespace Utils
 {
 void DrawBorder( WINDOW *wf_win, point offset, point m_thisSize );
 void DrawTab( WINDOW *wf_win, point offset, int tabOffset, bool tabActive,
               std::string text );
 }
 
-class UIPanel
+class Panel
 {
     public:
         virtual point RequestedSize( Sizes sizes ) = 0;
+
         virtual void SetSize( point size ) = 0;
 
         virtual void DrawEverything( WINDOW *wf_window, point offset ) = 0;
 };
 
-class UIPaddingPanel : public UIPanel
+class PaddingPanel : public Panel
 {
     public:
-        UIPaddingPanel( bool drawBorder );
-        std::shared_ptr<UIPanel> GetChild() const;
-        void SetChild( std::shared_ptr<UIPanel> panel );
+        PaddingPanel( bool drawBorder );
+        std::shared_ptr<Panel> GetChild() const;
+        void SetChild( std::shared_ptr<Panel> panel );
 
         point RequestedSize( Sizes sizes ) override;
         void SetSize( point size ) override;
@@ -45,17 +48,17 @@ class UIPaddingPanel : public UIPanel
     private:
         point m_thisSize;
 
-        std::shared_ptr<UIPanel> m_childPanel;
+        std::shared_ptr<Panel> m_childPanel;
         bool m_drawBorder;
 };
 
-class UITabPanel : public UIPanel
+class TabPanel : public Panel
 {
     public:
-        UITabPanel( bool drawBorder );
+        TabPanel( bool drawBorder );
 
-        std::vector<std::pair<std::string, std::shared_ptr<UIPanel>>> GetTabs() const;
-        void AddTab( std::string name, std::shared_ptr<UIPanel> panel );
+        std::vector<std::pair<std::string, std::shared_ptr<Panel>>> GetTabs() const;
+        void AddTab( std::string name, std::shared_ptr<Panel> panel );
         void RemoveTab( size_t index );
 
         point RequestedSize( Sizes sizes ) override;
@@ -72,12 +75,12 @@ class UITabPanel : public UIPanel
         // Could use std::map
         // But then GetChild function would get way more complex
         // I think this is easier
-        std::vector<std::pair<std::string, std::shared_ptr<UIPanel>>> m_childPanels;
+        std::vector<std::pair<std::string, std::shared_ptr<Panel>>> m_childPanels;
 
         bool m_drawBorder;
 };
 
-class UIWindow
+class Window
 {
     public:
         // TODO REMOVE EVENTUALY!!!
@@ -89,12 +92,12 @@ class UIWindow
             Centered
         };
 
-        UIWindow( int minSizeX, int minSizeY, Location location, bool drawBorder );
+        Window( int minSizeX, int minSizeY, Location location, bool drawBorder );
         void UpdateWindowSize();
 
         void DrawEverything();
 
-        std::unique_ptr<UIPaddingPanel> m_panel;
+        std::unique_ptr<PaddingPanel> m_panel;
     private:
         Location m_thisLocation;
 
@@ -105,5 +108,5 @@ class UIWindow
         WINDOW *m_wf_win;
         WINDOW_PTR m_wf_winptr;
 };
-
+}
 #endif // UIHANDLER_H

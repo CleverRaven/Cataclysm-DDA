@@ -16,7 +16,11 @@
 #include <iosfwd>
 
 class JsonIn;
-class UIWindow;
+
+namespace ui
+{
+class Window;
+}
 
 class save_t
 {
@@ -107,12 +111,12 @@ class worldfactory
     protected:
     private:
         std::string pick_random_name();
-        int show_worldgen_tab_options( UIWindow &nwin, WORLDPTR world );
-        int show_worldgen_tab_modselection( UIWindow &nwin, WORLDPTR world );
-        int show_worldgen_tab_confirm( UIWindow &nwin, WORLDPTR world );
+        int show_worldgen_tab_options( ui::Window &nwin, WORLDPTR world );
+        int show_worldgen_tab_modselection( ui::Window &nwin, WORLDPTR world );
+        int show_worldgen_tab_confirm( ui::Window &nwin, WORLDPTR world );
 
-        void draw_modselection_borders( UIWindow &nwin, input_context *ctxtp );
-        void draw_worldgen_tabs( UIWindow &win, unsigned int current );
+        void draw_modselection_borders( ui::Window &nwin, input_context *ctxtp );
+        void draw_worldgen_tabs( ui::Window &win, unsigned int current );
         void draw_mod_list( WINDOW *nwin, int &start, int &cursor, const std::vector<std::string> &mods,
                             bool is_active_list, const std::string &text_if_empty, WINDOW *w_shift );
 
@@ -123,7 +127,7 @@ class worldfactory
         std::unique_ptr<mod_manager> mman;
         std::unique_ptr<mod_ui> mman_ui;
 
-        typedef std::function<int( UIWindow &, WORLDPTR )> worldgen_display;
+        typedef std::function<int( ui::Window &, WORLDPTR )> worldgen_display;
 
         std::vector<worldgen_display> tabs;
         std::vector<std::string> tab_strings;

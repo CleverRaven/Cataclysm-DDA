@@ -146,14 +146,14 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
     WORLDPTR retworld = new WORLD();
     if( show_prompt ) {
         
-        UIWindow win(FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT, UIWindow::Location::Centered, false);
-        auto tabPanel = std::make_shared<UITabPanel>(true);
+        ui::Window win(FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT, ui::Window::Location::Centered, false);
+        auto tabPanel = std::make_shared<ui::TabPanel>(true);
 
         win.m_panel->SetChild(tabPanel);
         
         for (auto tabName : tab_strings)
         {
-            auto thisPanel = std::make_shared<UIPaddingPanel>(false);
+            auto thisPanel = std::make_shared<ui::PaddingPanel>(false);
 
             tabPanel->AddTab(tabName, thisPanel);
         }
@@ -626,7 +626,7 @@ std::string worldfactory::pick_random_name()
     return get_next_valid_worldname();
 }
 
-int worldfactory::show_worldgen_tab_options(UIWindow &nwin, WORLDPTR world)
+int worldfactory::show_worldgen_tab_options(ui::Window &nwin, WORLDPTR world)
 {
     auto win = nwin.LegacyWindow();
     const int iTooltipHeight = 4;
@@ -900,7 +900,7 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
     wrefresh(w_shift);
 }
 
-int worldfactory::show_worldgen_tab_modselection(UIWindow &nwin, WORLDPTR world)
+int worldfactory::show_worldgen_tab_modselection(ui::Window &nwin, WORLDPTR world)
 {
     auto win = nwin.LegacyWindow();
     // Use active_mod_order of the world,
@@ -1214,7 +1214,7 @@ int worldfactory::show_worldgen_tab_modselection(UIWindow &nwin, WORLDPTR world)
     return tab_output;
 }
 
-int worldfactory::show_worldgen_tab_confirm(UIWindow &nwin, WORLDPTR world)
+int worldfactory::show_worldgen_tab_confirm(ui::Window &nwin, WORLDPTR world)
 {
     auto win = nwin.LegacyWindow();
     const int iTooltipHeight = 1;
@@ -1341,7 +1341,7 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
     return 0;
 }
 
-void worldfactory::draw_modselection_borders(UIWindow &nwin, input_context *ctxtp)
+void worldfactory::draw_modselection_borders(ui::Window &nwin, input_context *ctxtp)
 {
     auto win = nwin.LegacyWindow();
     // make appropriate lines: X & Y coordinate of starting point, length, horizontal/vertical type

@@ -2,8 +2,8 @@
 
 #include "debug.h"
 
-UIWindow::UIWindow( int minSizeX, int minSizeY, Location location,
-                    bool drawBorder ) : m_panel( new UIPaddingPanel( drawBorder ) )
+ui::Window::Window( int minSizeX, int minSizeY, Location location,
+                    bool drawBorder ) : m_panel( new PaddingPanel( drawBorder ) )
 {
     m_minSize.x = minSizeX;
     m_minSize.y = minSizeY;
@@ -13,7 +13,7 @@ UIWindow::UIWindow( int minSizeX, int minSizeY, Location location,
     UpdateWindowSize();
 }
 
-void UIWindow::UpdateWindowSize()
+void ui::Window::UpdateWindowSize()
 {
     assert( m_panel );
     m_thisSize = m_panel->RequestedSize( Sizes::Prefered );
@@ -37,13 +37,13 @@ void UIWindow::UpdateWindowSize()
 
     if( minSize.x > TERMX ) {
         DebugLog( D_ERROR, DC_ALL ) <<
-                                    "Window's child panel's Min Size is greater than terminal's. (X) Window: " << minSize.x << " Term: "
-                                    << TERMX;
+                                    "Window's child panel's Min Size is greater than terminal's. (X) Window: " << minSize.x
+                                    << " Term: " << TERMX;
     }
     if( minSize.y > TERMY ) {
         DebugLog( D_ERROR, DC_ALL ) <<
-                                    "Window's child panel's Min Size is greater than terminal's. (Y) Window: " << minSize.y << " Term: "
-                                    << TERMY;
+                                    "Window's child panel's Min Size is greater than terminal's. (Y) Window: " << minSize.y <<
+                                    " Term: " << TERMY;
     }
 
     m_panel->SetSize( m_thisSize );
@@ -60,24 +60,24 @@ void UIWindow::UpdateWindowSize()
     return;
 }
 
-void UIWindow::DrawEverything()
+void ui::Window::DrawEverything()
 {
     werase( m_wf_win );
     assert( m_panel );
     m_panel->DrawEverything( m_wf_win, { 0, 0 } );
 }
 
-std::shared_ptr<UIPanel> UIPaddingPanel::GetChild() const
+std::shared_ptr<ui::Panel> ui::PaddingPanel::GetChild() const
 {
     return m_childPanel;
 }
 
-void UIPaddingPanel::SetChild( std::shared_ptr<UIPanel> panel )
+void ui::PaddingPanel::SetChild( std::shared_ptr<Panel> panel )
 {
     m_childPanel = panel;
 }
 
-point UIPaddingPanel::RequestedSize( Sizes sizes )
+point ui::PaddingPanel::RequestedSize( Sizes sizes )
 {
     point size;
 
@@ -95,7 +95,7 @@ point UIPaddingPanel::RequestedSize( Sizes sizes )
 }
 
 // We are a simple border!
-void UIPaddingPanel::SetSize( point size )
+void ui::PaddingPanel::SetSize( point size )
 {
     m_thisSize = size;
 
@@ -111,11 +111,11 @@ void UIPaddingPanel::SetSize( point size )
     return;
 }
 
-void UIPaddingPanel::DrawEverything( WINDOW *wf_win, point offset )
+void ui::PaddingPanel::DrawEverything( WINDOW *wf_win, point offset )
 {
 
     if( m_drawBorder ) {
-        UIUtils::DrawBorder( wf_win, offset, m_thisSize );
+        Utils::DrawBorder( wf_win, offset, m_thisSize );
     }
 
     if( m_childPanel != nullptr ) {
@@ -129,28 +129,28 @@ void UIPaddingPanel::DrawEverything( WINDOW *wf_win, point offset )
 }
 
 
-UIPaddingPanel::UIPaddingPanel( bool drawBorder )
+ui::PaddingPanel::PaddingPanel( bool drawBorder )
 {
     m_drawBorder = drawBorder;
 }
 
-std::vector<std::pair<std::string, std::shared_ptr<UIPanel>>> UITabPanel::GetTabs() const
+std::vector<std::pair<std::string, std::shared_ptr<ui::Panel>>> ui::TabPanel::GetTabs() const
 {
     return m_childPanels;
 }
 
-void UITabPanel::AddTab( std::string name, std::shared_ptr<UIPanel> panel )
+void ui::TabPanel::AddTab( std::string name, std::shared_ptr<Panel> panel )
 {
-    m_childPanels.push_back( std::pair<std::string, std::shared_ptr<UIPanel>>( name, panel ) );
+    m_childPanels.push_back( std::pair<std::string, std::shared_ptr<Panel>>( name, panel ) );
 }
 
-void UITabPanel::RemoveTab( size_t index )
+void ui::TabPanel::RemoveTab( size_t index )
 {
     assert( m_childPanels.size() > index );
     m_childPanels.erase( m_childPanels.begin() + index );
 }
 
-point UITabPanel::RequestedSize( Sizes sizes )
+point ui::TabPanel::RequestedSize( Sizes sizes )
 {
     point size;
 
@@ -178,7 +178,7 @@ point UITabPanel::RequestedSize( Sizes sizes )
     return size;
 }
 
-void UITabPanel::SetSize( point size )
+void ui::TabPanel::SetSize( point size )
 {
     m_thisSize = size;
 
@@ -196,7 +196,7 @@ void UITabPanel::SetSize( point size )
     return;
 }
 
-void UITabPanel::DrawEverything( WINDOW *wf_win, point offset )
+void ui::TabPanel::DrawEverything( WINDOW *wf_win, point offset )
 {
     if( m_drawBorder ) {
         auto bOffset = offset;
@@ -207,7 +207,7 @@ void UITabPanel::DrawEverything( WINDOW *wf_win, point offset )
         auto bSize = m_thisSize;
         bSize -= { 0, 2 }; // We lose two characters to the tabs
 
-        UIUtils::DrawBorder( wf_win, bOffset, bSize );
+        Utils::DrawBorder( wf_win, bOffset, bSize );
     }
 
     //We add 1 so we get one space to the left of the tab
@@ -225,7 +225,7 @@ void UITabPanel::DrawEverything( WINDOW *wf_win, point offset )
     for( size_t i = 0; i < m_childPanels.size(); i++ ) {
         toffset += 1;
 
-        UIUtils::DrawTab( wf_win, offset, toffset, ( i == m_currentTab ), m_childPanels[i].first );
+        Utils::DrawTab( wf_win, offset, toffset, ( i == m_currentTab ), m_childPanels[i].first );
 
         toffset += 5 + utf8_width( m_childPanels[i].first );
     }
@@ -242,7 +242,7 @@ void UITabPanel::DrawEverything( WINDOW *wf_win, point offset )
     }
 }
 
-void UITabPanel::SwitchTab( size_t tab )
+void ui::TabPanel::SwitchTab( size_t tab )
 {
     m_currentTab = tab;
 
@@ -250,12 +250,12 @@ void UITabPanel::SwitchTab( size_t tab )
     SetSize( m_thisSize );
 }
 
-UITabPanel::UITabPanel( bool drawBorder )
+ui::TabPanel::TabPanel( bool drawBorder )
 {
     m_drawBorder = drawBorder;
 }
 
-void UIUtils::DrawBorder( WINDOW *wf_win, point offset, point m_thisSize )
+void ui::Utils::DrawBorder( WINDOW *wf_win, point offset, point m_thisSize )
 {
     // Bottom and top border
     for( int i = 1; i < m_thisSize.x - 1; i++ ) {
@@ -280,8 +280,8 @@ void UIUtils::DrawBorder( WINDOW *wf_win, point offset, point m_thisSize )
               LINE_XOOX ); // _|
 }
 
-void UIUtils::DrawTab( WINDOW *wf_win, point offset, int tabOffset, bool tabActive,
-                       std::string text )
+void ui::Utils::DrawTab( WINDOW *wf_win, point offset, int tabOffset, bool tabActive,
+                         std::string text )
 {
     int tabOffsetRight = tabOffset + utf8_width( text ) + 1;
 
