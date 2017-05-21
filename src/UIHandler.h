@@ -44,7 +44,6 @@ class UIPaddingPanel : public UIPanel
         void DrawEverything( WINDOW *wf_win, point offset ) override;
     private:
         point m_thisSize;
-        point m_lastSize;
 
         std::shared_ptr<UIPanel> m_childPanel;
         bool m_drawBorder;
@@ -69,7 +68,6 @@ class UITabPanel : public UIPanel
         size_t m_currentTab;
 
         point m_thisSize;
-        point m_lastSize;
 
         // Could use std::map
         // But then GetChild function would get way more complex
@@ -99,11 +97,9 @@ class UIWindow
         std::unique_ptr<UIPaddingPanel> m_panel;
     private:
         Location m_thisLocation;
-        Location m_lastLocation;
 
         point m_minSize;
         point m_thisSize;
-        point m_lastSize;
         point m_offset;
 
         WINDOW *m_wf_win;

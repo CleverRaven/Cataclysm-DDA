@@ -15,6 +15,7 @@ UIWindow::UIWindow( int minSizeX, int minSizeY, Location location,
 
 void UIWindow::UpdateWindowSize()
 {
+    assert( m_panel );
     m_thisSize = m_panel->RequestedSize( Sizes::Prefered );
 
     point minSize = m_panel->RequestedSize( Sizes::Minimum );
@@ -56,16 +57,13 @@ void UIWindow::UpdateWindowSize()
 
     m_wf_win = newwin( m_thisSize.y, m_thisSize.x, m_offset.y, m_offset.x );
     m_wf_winptr = WINDOW_PTR( m_wf_win );
-
-    m_lastSize = m_thisSize;
-
-    m_lastLocation = m_thisLocation;
     return;
 }
 
 void UIWindow::DrawEverything()
 {
     werase( m_wf_win );
+    assert( m_panel );
     m_panel->DrawEverything( m_wf_win, { 0, 0 } );
 }
 
@@ -83,6 +81,7 @@ point UIPaddingPanel::RequestedSize( Sizes sizes )
 {
     point size;
 
+    // Space for tab's border
     if( m_drawBorder )
         size += { 2, 2 };
 
@@ -105,7 +104,7 @@ void UIPaddingPanel::SetSize( point size )
     }
     auto newSize = size;
 
-    if( m_drawBorder )
+    if( m_drawBorder ) //they lose two tiles for the tabs
         newSize -= { 2, 2 };
 
     m_childPanel->SetSize( newSize );
@@ -122,13 +121,11 @@ void UIPaddingPanel::DrawEverything( WINDOW *wf_win, point offset )
     if( m_childPanel != nullptr ) {
         point offset;
 
-        if( m_drawBorder )
+        if( m_drawBorder ) // They should go into the border, not on it
             offset += { 1, 1 };
 
         m_childPanel->DrawEverything( wf_win, offset );
     }
-
-    m_lastSize = m_thisSize;
 }
 
 
@@ -149,6 +146,7 @@ void UITabPanel::AddTab( std::string name, std::shared_ptr<UIPanel> panel )
 
 void UITabPanel::RemoveTab( size_t index )
 {
+    assert( m_childPanels.size() > index );
     m_childPanels.erase( m_childPanels.begin() + index );
 }
 
@@ -156,9 +154,11 @@ point UITabPanel::RequestedSize( Sizes sizes )
 {
     point size;
 
+    // Space for the tab's height
     size += { 0, 2 };
 
     if( m_drawBorder )
+        // Panel's border
         size += { 2, 2 };
 
     if( m_childPanels.empty() ) {
@@ -187,10 +187,10 @@ void UITabPanel::SetSize( point size )
     }
     auto newSize = size;
 
-    if( m_drawBorder )
+    if( m_drawBorder ) // they lose two characters to the border
         newSize -= { 2, 2 };
 
-    newSize -= { 0, 2 };
+    newSize -= { 0, 2 }; // and another two (on the y) for the tabs
 
     m_childPanels[m_currentTab].second->SetSize( newSize );
     return;
@@ -200,10 +200,12 @@ void UITabPanel::DrawEverything( WINDOW *wf_win, point offset )
 {
     if( m_drawBorder ) {
         auto bOffset = offset;
-        bOffset += { 0, 2 };
+
+        //Acounting for the fact we have tabs
+        bOffset += { 0, 2 }; // Go bellow the tabs
 
         auto bSize = m_thisSize;
-        bSize -= { 0, 2 };
+        bSize -= { 0, 2 }; // We lose two characters to the tabs
 
         UIUtils::DrawBorder( wf_win, bOffset, bSize );
     }
@@ -231,15 +233,13 @@ void UITabPanel::DrawEverything( WINDOW *wf_win, point offset )
     if( !m_childPanels.empty() ) {
         point offset;
 
-        if( m_drawBorder )
+        if( m_drawBorder ) // if we have borders we want to go in them'
             offset += { 1, 1 };
 
-        offset += { 0, 2 };
+        offset += { 0, 2 }; // We go bellow the tabs
 
         m_childPanels[m_currentTab].second->DrawEverything( wf_win, offset );
     }
-
-    m_lastSize = m_thisSize;
 }
 
 void UITabPanel::SwitchTab( size_t tab )
