@@ -573,7 +573,7 @@ bool main_menu::new_character_tab()
         if( layer == 2 && sel1 == 1 ) {
             // Then choose custom character, random character, preset, etc
             if( MAP_SHARING::isSharing() &&
-                world_generator->all_worlds.empty() ) { //don't show anything when there are no worlds (will not work if there are special maps)
+                world_generator->all_worldnames().empty() ) { //don't show anything when there are no worlds (will not work if there are special maps)
                 layer = 1;
                 sel1 = 1;
                 continue;
