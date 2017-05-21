@@ -103,6 +103,13 @@ class worldfactory
          * @return True if world can't be loaded without Lua support. False otherwise. (When LUA is defined it's allways false).
          */
         bool world_need_lua_build( std::string world_name );
+        /**
+         * @param delete_folder If true: delete all the files and directories  of the given
+         * world folder. Else just avoid deleting the config files and the directory
+         * itself.
+         */
+        void delete_world( const std::string &worldname, bool delete_folder );
+
     protected:
     private:
         std::string pick_random_name();

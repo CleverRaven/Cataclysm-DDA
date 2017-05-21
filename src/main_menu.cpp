@@ -989,19 +989,12 @@ void main_menu::world_tab()
 
                     layer = 2; // Go to world submenu, not list of worlds
                     if( query_yes ) {
-                        g->delete_world( world_generator->all_worldnames[sel3], do_delete );
+                        world_generator->delete_world( world_generator->all_worldnames[sel3], do_delete );
 
                         savegames.clear();
                         MAPBUFFER.reset();
                         overmap_buffer.clear();
 
-                        if( do_delete ) {
-                            // delete world and all contents
-                            world_generator->remove_world( world_generator->all_worldnames[sel3] );
-                        } else {
-                            // clear out everything but worldoptions from this world
-                            world_generator->all_worlds[world_generator->all_worldnames[sel3]]->world_saves.clear();
-                        }
                         if( world_generator->all_worldnames.empty() ) {
                             sel2 = 0; // reset to create world selection
                         }
