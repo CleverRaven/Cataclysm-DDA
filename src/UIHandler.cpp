@@ -181,7 +181,7 @@ point UITabPanel::RequestedSize(Sizes sizes)
     auto paneSize = m_childPanels[m_currentTab]->RequestedSize(sizes);
     size += paneSize;
     
-    int len = 0;
+    int len = 2;
     
     for (auto tx : m_childPanelNames)
     {
