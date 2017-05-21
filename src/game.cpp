@@ -4179,8 +4179,7 @@ void game::debug()
                         const vehicle_prototype &proto = elem.obj();
                         veh_strings.push_back( elem );
                         //~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
-                        veh_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, string_format( _( "%1$s (%2$s)" ),
-                                                       _( proto.name.c_str() ), elem.c_str() ) );
+                        veh_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, _( "%1$s (%2$s)" ), _( proto.name.c_str() ), elem.c_str() );
                         ++menu_ind;
                     }
                 }
