@@ -41,8 +41,9 @@ compiler: gcc
 os: linux
 
 matrix:
-    - env: CXXFLAGS=Tomatoes
-    - env: CXXFLAGS=DOGS
+    include:
+        - env: CXXFLAGS=Tomatoes
+        - env: CXXFLAGS=DOGS
 
 matrix:
   exclude:
