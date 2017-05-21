@@ -40,10 +40,10 @@ addons:
 compiler: gcc
 os: linux
 
-matrix:
-    include:
-        - env: CXXFLAGS=Tomatoes
-        - env: CXXFLAGS=DOGS
+env:
+    matrix:
+        - CXXFLAGS=Tomatoes
+        - CXXFLAGS=DOGS
 
 matrix:
   exclude:
