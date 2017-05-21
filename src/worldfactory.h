@@ -2,11 +2,10 @@
 #ifndef WORLDFACTORY_H
 #define WORLDFACTORY_H
 
+#include "cursesdef.h"
 #include "enums.h"
 #include "json.h"
 #include "options.h"
-
-#include "UIHandler.h"
 
 #include <functional>
 #include <map>
@@ -17,6 +16,7 @@
 #include <iosfwd>
 
 class JsonIn;
+class UIWindow;
 
 class save_t
 {

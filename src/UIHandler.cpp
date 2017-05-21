@@ -1,5 +1,7 @@
 #include "UIHandler.h"
 
+#include "debug.h"
+
 UIWindow::UIWindow( int minSizeX, int minSizeY, Location location,
                     bool drawBorder ) : m_panel( new UIPaddingPanel( drawBorder ) )
 {
@@ -8,66 +10,51 @@ UIWindow::UIWindow( int minSizeX, int minSizeY, Location location,
 
     m_thisLocation = location;
 
-    UpdateWindow();
+    UpdateWindowSize();
 }
 
-int UIWindow::UpdateWindow()
+void UIWindow::UpdateWindowSize()
 {
-    // TODO: Clear prev contents? Is that our job?
-
     m_thisSize = m_panel->RequestedSize( Sizes::Prefered );
 
     point minSize = m_panel->RequestedSize( Sizes::Minimum );
 
-    if( m_minSize.x > m_thisSize.x ) {
-        m_thisSize.x = m_minSize.x;
-    }
-    if( m_minSize.y > m_thisSize.y ) {
-        m_thisSize.y = m_minSize.y;
-    }
+    m_thisSize.x = std::max(m_thisSize.x, m_minSize.x);
+    m_thisSize.y = std::max(m_thisSize.y, m_minSize.y);
 
-    if( m_thisSize.x > TERMX ) {
-        m_thisSize.x = TERMX;
-    }
-    if( m_thisSize.y > TERMY ) {
-        m_thisSize.y = TERMY;
-    }
+    m_thisSize.x = std::min(m_thisSize.x, TERMX);
+    m_thisSize.y = std::min(m_thisSize.y, TERMY);
 
     if( m_minSize.x > TERMX ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Not enought screen space...";
+        DebugLog( D_ERROR, DC_ALL ) << "Window's Min Size is greater than terminal's. (X) Window: " << m_minSize.x << " Term: " << TERMX;
     }
     if( m_minSize.y > TERMY ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Not enought screen space...";
+        DebugLog( D_ERROR, DC_ALL ) << "Window's Min Size is greater than terminal's. (Y) Window: " << m_minSize.y << " Term: " << TERMY;
     }
 
     if( minSize.x > TERMX ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Not enought screen space...";
+        DebugLog( D_ERROR, DC_ALL ) << "Window's child panel's Min Size is greater than terminal's. (X) Window: " << minSize.x << " Term: " << TERMX;
     }
     if( minSize.y > TERMY ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Not enought screen space...";
+        DebugLog( D_ERROR, DC_ALL ) << "Window's child panel's Min Size is greater than terminal's. (Y) Window: " << minSize.y << " Term: " << TERMY;
     }
 
     m_panel->SetSize( m_thisSize );
 
     switch( m_thisLocation ) {
         case Location::Centered:
-            m_offset.x = ( TERMX > m_thisSize.x ) ? ( TERMX - m_thisSize.x ) / 2 : 0;
-            m_offset.y = ( TERMY > m_thisSize.y ) ? ( TERMY - m_thisSize.y ) / 2 : 0;
-            break;
-
-        default:
-            DebugLog( D_ERROR, DC_ALL ) << "Please state the location...";
+            m_offset.x = (TERMX - m_thisSize.x) / 2;
+            m_offset.y = (TERMY - m_thisSize.y) / 2;
             break;
     }
 
-    // set up window
     m_wf_win = newwin( m_thisSize.y, m_thisSize.x, m_offset.y, m_offset.x );
     m_wf_winptr = WINDOW_PTR( m_wf_win );
 
     m_lastSize = m_thisSize;
 
     m_lastLocation = m_thisLocation;
-    return 0;
+    return;
 }
 
 void UIWindow::DrawEverything()
@@ -76,26 +63,14 @@ void UIWindow::DrawEverything()
     m_panel->DrawEverything( m_wf_win, { 0, 0 } );
 }
 
-std::vector<std::shared_ptr<UIPanel>> UIPaddingPanel::GetChild() const
+std::shared_ptr<UIPanel> UIPaddingPanel::GetChild() const
 {
-    return m_childPanels;
+    return m_childPanel;
 }
 
-void UIPaddingPanel::AddChild( std::shared_ptr<UIPanel> panel )
+void UIPaddingPanel::SetChild( std::shared_ptr<UIPanel> panel )
 {
-    if( !m_childPanels.empty() ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Only supports one panel";
-        return;
-    }
-    m_childPanels.push_back( panel );
-}
-
-void UIPaddingPanel::RemoveChild( size_t index )
-{
-    if( index != m_childPanels.size() - 1 ) {
-        m_childPanels[index] = std::move( m_childPanels.back() );
-    }
-    m_childPanels.pop_back();
+    m_childPanel = panel;
 }
 
 point UIPaddingPanel::RequestedSize( Sizes sizes )
@@ -105,31 +80,30 @@ point UIPaddingPanel::RequestedSize( Sizes sizes )
     if( m_drawBorder )
         size += { 2, 2 };
 
-    if( m_childPanels.empty() ) {
+    if( m_childPanel == nullptr ) {
         return size;
     }
 
-    auto paneSize = m_childPanels[0]->RequestedSize( sizes );
-    size += paneSize;
+    size += m_childPanel->RequestedSize( sizes );
 
     return size;
 }
 
 // We are a simple border!
-int UIPaddingPanel::SetSize( point size )
+void UIPaddingPanel::SetSize( point size )
 {
     m_thisSize = size;
 
-    if( m_childPanels.empty() ) {
-        return 0;
+    if( m_childPanel == nullptr ) {
+        return;
     }
     auto newSize = size;
 
     if( m_drawBorder )
         newSize -= { 2, 2 };
 
-    m_childPanels[0]->SetSize( newSize );
-    return 0;
+    m_childPanel->SetSize( newSize );
+    return; 
 }
 
 void UIPaddingPanel::DrawEverything( WINDOW *wf_win, point offset )
@@ -139,13 +113,13 @@ void UIPaddingPanel::DrawEverything( WINDOW *wf_win, point offset )
         UIUtils::DrawBorder( wf_win, offset, m_thisSize );
     }
 
-    if( !m_childPanels.empty() ) {
+    if( m_childPanel != nullptr ) {
         point offset;
 
         if( m_drawBorder )
             offset += { 1, 1 };
 
-        m_childPanels[0]->DrawEverything( wf_win, offset );
+        m_childPanel->DrawEverything( wf_win, offset );
     }
 
     m_lastSize = m_thisSize;
@@ -157,33 +131,19 @@ UIPaddingPanel::UIPaddingPanel( bool drawBorder )
     m_drawBorder = drawBorder;
 }
 
-std::vector<std::shared_ptr<UIPanel>> UITabPanel::GetChild() const
+std::vector<std::pair<std::string, std::shared_ptr<UIPanel>>> UITabPanel::GetTabs() const
 {
     return m_childPanels;
 }
 
-void UITabPanel::AddChild( std::shared_ptr<UIPanel> panel )
+void UITabPanel::AddTab( std::string name, std::shared_ptr<UIPanel> panel )
 {
-    AddChild( std::to_string( m_childPanels.size() ), panel );
+    m_childPanels.push_back( std::pair<std::string, std::shared_ptr<UIPanel>>(name, panel) );
 }
 
-void UITabPanel::AddChild( std::string name, std::shared_ptr<UIPanel> panel )
+void UITabPanel::RemoveTab( size_t index )
 {
-    m_childPanels.push_back( panel );
-    m_childPanelNames.push_back( name );
-}
-
-void UITabPanel::RemoveChild( size_t index )
-{
-    if( index != m_childPanels.size() - 1 ) {
-        m_childPanels[index] = std::move( m_childPanels.back() );
-    }
-    m_childPanels.pop_back();
-
-    if( index != m_childPanelNames.size() - 1 ) {
-        m_childPanelNames[index] = std::move( m_childPanelNames.back() );
-    }
-    m_childPanelNames.pop_back();
+    m_childPanels.erase(m_childPanels.begin() + index);
 }
 
 point UITabPanel::RequestedSize( Sizes sizes )
@@ -199,31 +159,25 @@ point UITabPanel::RequestedSize( Sizes sizes )
         return size;
     }
 
-    auto paneSize = m_childPanels[m_currentTab]->RequestedSize( sizes );
+    auto paneSize = m_childPanels[m_currentTab].second->RequestedSize( sizes );
     size += paneSize;
 
-    int len = 2;
-
-    for( auto tx : m_childPanelNames ) {
-        len += utf8_width( tx ) + 6;
+    int len = 0;
+    for( auto tx : m_childPanels ) {
+        len += utf8_width( tx.first ) + 6;
     }
 
-    if( len > size.x ) {
-        size.x = len;
-    }
-
-    query_yn( std::to_string( size.x ).c_str() );
-    query_yn( std::to_string( size.y ).c_str() );
-
+    size.x = std::max(len, size.x);
+    
     return size;
 }
 
-int UITabPanel::SetSize( point size )
+void UITabPanel::SetSize( point size )
 {
     m_thisSize = size;
 
     if( m_childPanels.empty() ) {
-        return 0;
+        return;
     }
     auto newSize = size;
 
@@ -232,8 +186,8 @@ int UITabPanel::SetSize( point size )
 
     newSize -= { 0, 2 };
 
-    m_childPanels[m_currentTab]->SetSize( newSize );
-    return 0;
+    m_childPanels[m_currentTab].second->SetSize( newSize );
+    return;
 }
 
 void UITabPanel::DrawEverything( WINDOW *wf_win, point offset )
@@ -248,13 +202,24 @@ void UITabPanel::DrawEverything( WINDOW *wf_win, point offset )
         UIUtils::DrawBorder( wf_win, bOffset, bSize );
     }
 
-    int toffset = 2;
+    //We add 1 so we get one space to the left of the tab
+    //v
+    //.<|TEXT|>..<|TEXT|>.
+    //.^
+    //We then draw our tab
+    //      We then add the length of the text (4 in this case)
+    //.....V  
+    //.<|TEXT|>..<|TEXT|>.
+    //..........^
+    //We then add 5 to account for the "<||>."
+
+    int toffset = 0;
     for( size_t i = 0; i < m_childPanels.size(); i++ ) {
         toffset += 1;
 
-        UIUtils::DrawTab( wf_win, offset, toffset, ( i == m_currentTab ), m_childPanelNames[i] );
+        UIUtils::DrawTab( wf_win, offset, toffset, ( i == m_currentTab ), m_childPanels[i].first );
 
-        toffset += 5 + utf8_width( m_childPanelNames[i] );
+        toffset += 5 + utf8_width( m_childPanels[i].first );
     }
 
     if( !m_childPanels.empty() ) {
@@ -265,7 +230,7 @@ void UITabPanel::DrawEverything( WINDOW *wf_win, point offset )
 
         offset += { 0, 2 };
 
-        m_childPanels[m_currentTab]->DrawEverything( wf_win, offset );
+        m_childPanels[m_currentTab].second->DrawEverything( wf_win, offset );
     }
 
     m_lastSize = m_thisSize;

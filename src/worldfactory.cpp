@@ -14,6 +14,8 @@
 #include "name.h"
 #include "json.h"
 
+#include "UIHandler.h" 
+
 using namespace std::placeholders;
 
 #define SAVE_MASTER "master.gsav"
@@ -147,17 +149,16 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         UIWindow win(FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT, UIWindow::Location::Centered, false);
         auto tabPanel = std::make_shared<UITabPanel>(true);
 
-        win.m_panel->AddChild(tabPanel);
+        win.m_panel->SetChild(tabPanel);
         
         for (auto tabName : tab_strings)
         {
             auto thisPanel = std::make_shared<UIPaddingPanel>(false);
 
-            tabPanel->AddChild(tabName, thisPanel);
+            tabPanel->AddTab(tabName, thisPanel);
         }
 
-        // Regenerate all the sizes
-        win.m_panel->SetSize({FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT});
+        win.UpdateWindowSize();
 
         int curtab = 0;
         int lasttab; // give placement memory to menus, sorta.
@@ -1159,7 +1160,6 @@ int worldfactory::show_worldgen_tab_modselection(UIWindow &nwin, WORLDPTR world)
             redraw_description = true;
             redraw_list = true;
             redraw_active = true;
-            //draw_worldgen_tabs( nwin, 0 );
             draw_modselection_borders( nwin, &ctxt );
             redraw_description = true;
         } else if( action == "QUIT" ) {

@@ -133,10 +133,3 @@ msvc-full-features/distribution
 
 # Transifex Client
 .tx/
-
-# Generic Files
-.cproject
-.settings/
-data/mods/nocs_cata_mod/
-data/sound/ChestHole/
-
