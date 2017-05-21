@@ -698,18 +698,18 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             liquid.charges = item::INFINITE_CHARGES;
             break;
         case LST_MAP_ITEM:
-            if (static_cast<size_t>(act.values.at(1)) >= source_stack.size()) {
-                throw std::runtime_error("could not find source item on ground for liquid transfer");
+            if( static_cast<size_t>( act.values.at( 1 ) ) >= source_stack.size() ){
+                throw std::runtime_error( "could not find source item on ground for liquid transfer" );
             }
             break;
         case LST_MONSTER:
-            source_creature = g->critter_at(source_pos);
-            if (source_creature == nullptr) {
-                throw std::runtime_error("could not find source creature for liquid transfer");
-            }
-            liquid.deserialize(act.str_values.at(0));
-            liquid.charges = source_creature->milk_left;
-            break;
+        source_creature = g->critter_at( source_pos );
+        if( source_creature == nullptr ){
+            throw std::runtime_error( "could not find source creature for liquid transfer" );
+        }
+        liquid.deserialize( act.str_values.at( 0 ) );
+        liquid.charges = source_creature->milk_left;
+        break;
 
             on_ground = source_stack.begin();
             std::advance( on_ground, act.values.at( 1 ) );

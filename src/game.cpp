@@ -7686,7 +7686,7 @@ void game::examine( const tripoint &examp )
             }
         }
         if( mon != nullptr && mon->has_flag( MF_MILKABLE ) ) {
-            add_msg( m_info, _( "This is a milkable cow. Moo moo." ) );
+            add_msg( m_info, _( "This is a milkable cow." ) );
             iexamine::milk_source( mon );
         }
 
@@ -9786,9 +9786,9 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
             serialize_liquid_source( u.activity, *source_pos, liquid );
             return true;
         }
-        else if (source_mon != nullptr) {
-            u.assign_activity(activity_id("ACT_FILL_LIQUID"));
-            serialize_liquid_source(u.activity, *source_mon, liquid);
+        else if( source_mon != nullptr ){
+            u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
+            serialize_liquid_source( u.activity, *source_mon, liquid );
             return true;
         }
         else {
@@ -9813,13 +9813,13 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
     }
     std::vector<std::function<void()>> actions;
     // Small check to avoid players sucking milk directly from the animal.
-    if (!source_mon == true) {
-        if (u.can_consume(liquid)) {
-            menu.addentry(-1, true, 'e', _("Consume it"));
-            actions.emplace_back([&]() {
-                // consume_item already consumes moves.
-                u.consume_item(liquid);
-            });
+    if( !source_mon == true ){
+    if( u.can_consume( liquid ) ) {
+        menu.addentry( -1, true, 'e', _( "Consume it" ) );
+        actions.emplace_back( [&]() {
+            // consume_item already consumes moves.
+            u.consume_item( liquid );
+        } );
         }
     }
 
