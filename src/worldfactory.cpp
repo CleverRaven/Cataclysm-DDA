@@ -386,7 +386,6 @@ std::vector<std::string> worldfactory::all_worldnames() const
 
 WORLDPTR worldfactory::pick_world( bool show_prompt )
 {
-    std::map<std::string, WORLDPTR> worlds = all_worlds;
     std::vector<std::string> world_names = all_worldnames();
 
     // Filter out special worlds (TUTORIAL | DEFENSE) from world_names.
@@ -401,7 +400,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     }
     // If there is only one world to pick from, autoreturn it.
     if (world_names.size() == 1) {
-        return worlds[world_names[0]];
+        return get_world( world_names[0] );
     }
     // If there are no worlds to pick from, immediately try to make one.
     else if (world_names.empty()) {
@@ -409,7 +408,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     }
     // If we're skipping prompts, just return the first one.
     else if( !show_prompt ) {
-        return worlds[world_names[0]];
+        return get_world( world_names[0] );
     }
 
     const int iTooltipHeight = 3;
