@@ -97,6 +97,10 @@ point ui::PaddingPanel::RequestedSize( Sizes sizes )
 // We are a simple border!
 void ui::PaddingPanel::SetSize( point size )
 {
+    point reqSize = RequestedSize( Sizes::Minimum );
+    assert( size.x >= reqSize.x );
+    assert( size.y >= reqSize.y );
+
     m_thisSize = size;
 
     if( m_childPanel == nullptr ) {
@@ -180,6 +184,10 @@ point ui::TabPanel::RequestedSize( Sizes sizes )
 
 void ui::TabPanel::SetSize( point size )
 {
+    point reqSize = RequestedSize( Sizes::Minimum );
+    assert( size.x >= reqSize.x );
+    assert( size.y >= reqSize.y );
+
     m_thisSize = size;
 
     if( m_childPanels.empty() ) {

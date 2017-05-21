@@ -19,7 +19,52 @@ enum class Sizes {
 
 namespace Utils
 {
+/**
+ * Draws a border.
+ *
+ *  ____ m_thisSize.x
+ * /    \
+ * v    v
+ * +----+<-\
+ * |    |  | m_thisSize.y
+ * |    |  |
+ * +----+<-/
+ *
+ * + - - - - - - - - - +
+ *            ^
+ * |          |offset.y|
+ *            v
+ * |          +----+   |
+ *   offset.x |    |
+ * |<-------->+----+   | <- wf_win
+ *
+ * + - - - - - - - - - +
+ * \param wf_win The window to draw the border in
+ * \param offset Where to start the border
+ * \param m_thisSize The size of the area to be covered.
+ */
 void DrawBorder( WINDOW *wf_win, point offset, point m_thisSize );
+
+/**
+ * Draws tabs
+ *
+ * + - - - - - - - - - +
+ *  offset.x + tabOffset <-\
+ * |/--------\         |   | offset.y
+ *  V        V             |
+ * |  /----\   /---\   | <-/
+ *   <|text|>  |tx2| <- Inactive tab
+ * |--/    \-----------|
+ *      ^Active Tab
+ * + - - - - - - - - - + <- wf_win
+ *
+ *
+ * \param wf_win The window to draw the tabs in
+ * \param offset Where to start the tab
+ * \param tabOffset Addition offset on the x axis
+ * \param tabActive Whether or not the tab is currently active
+ * \param text Tab's name
+ */
 void DrawTab( WINDOW *wf_win, point offset, int tabOffset, bool tabActive,
               std::string text );
 }
@@ -27,10 +72,28 @@ void DrawTab( WINDOW *wf_win, point offset, int tabOffset, bool tabActive,
 class Panel
 {
     public:
+        /**
+         * Returns either its Prefered size or its Minimum size
+         *
+         * \param sizes Whether you want the prefered size or minimum size
+         */
         virtual point RequestedSize( Sizes sizes ) = 0;
 
+        /**
+         * Sets the size
+         * 
+         * WARNING: Will crash program if less than minimum size.
+         *
+         * \param size Size to set size to
+         */
         virtual void SetSize( point size ) = 0;
 
+        /**
+         * Draws this panel and then tells children to draw themselfs
+         *
+         * \param wf_window Window to draw content in
+         * \param offset where to start drawing
+         */
         virtual void DrawEverything( WINDOW *wf_window, point offset ) = 0;
 };
 
