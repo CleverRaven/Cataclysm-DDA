@@ -483,7 +483,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
         wmenu.query();
         if( wmenu.ret >= 0 ) {
             item granted( opts[wmenu.ret] );
-            if( dynamic_cast<wish_item_callback *>( wmenu.callback )->incontainer ) {
+            if( cb.incontainer ) {
                 granted = granted.in_its_container();
             }
             prev_amount = amount;
@@ -509,8 +509,8 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
                 }
                 if( amount > 0 ) {
                     input_context ctxt( "UIMENU" );
-                    dynamic_cast<wish_item_callback *>( wmenu.callback )->msg = string_format(
-                                _( "Wish granted. Wish for more or hit [%s] to quit." ), ctxt.get_desc( "QUIT" ).c_str() );
+                    cb.msg = string_format( _( "Wish granted. Wish for more or hit [%s] to quit." ),
+                                            ctxt.get_desc( "QUIT" ).c_str() );
                 }
             }
             uistate.wishitem_selected = wmenu.ret;
