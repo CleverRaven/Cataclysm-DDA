@@ -20,63 +20,32 @@ class UIUtils
 {
 public:
     static void DrawBorder(WINDOW *wf_win, point offset, point m_thisSize);
+    static void DrawTab(WINDOW *wf_win, point offset, int tabOffset, bool tabActive, std::string text);
 };
 
 class UIPanel
 {
 public:
-    virtual std::vector<std::shared_ptr<UIPanel>> getChild() const = 0;
-    virtual void addChild(std::shared_ptr<UIPanel> panel) = 0;
-    virtual void removeChild(size_t index) = 0;
+    virtual std::vector<std::shared_ptr<UIPanel>> GetChild() const = 0;
+    virtual void AddChild(std::shared_ptr<UIPanel> panel) = 0;
+    virtual void RemoveChild(size_t index) = 0;
 
     virtual point RequestedSize(Sizes sizes) = 0;
     virtual int SetSize(point size) = 0;
 
     virtual void DrawEverything(WINDOW *wf_window, point offset) = 0;
 };
-/*
-// A generic panel to split crap
-class UISplitPanel
-{
-public:
-    enum class Arangments
-    {
-        SideBySide,
-        Stacked,
-
-        Undefined = 0,
-        Total
-    };
-
-    UISplitPanel(Arangments arangment);
-
-    std::vector<std::shared_ptr<UIPanel>> getChild() = 0;
-    void addChild(std::shared_ptr<UIPanel> panel);
-
-    // Passes back removed child
-    // We swap this with the last then push back
-    // Previous Indexes are not maintained!!!
-    void removeChild(size_t index);
-
-    point RequestedSize(Sizes sizes);
-    int SetSize(point size);
-private:
-    std::vector<std::shared_ptr<UIPanel>> m_childPanels;
-    Arangments m_arangment;
-};
-*/
 
 class UIPaddingPanel : public UIPanel
 {
 public:
     UIPaddingPanel(bool drawBorder);
-    std::vector<std::shared_ptr<UIPanel>> getChild() const;
-    void addChild(std::shared_ptr<UIPanel> panel);
+    std::vector<std::shared_ptr<UIPanel>> GetChild() const;
+    void AddChild(std::shared_ptr<UIPanel> panel);
 
-    // Passes back removed child
     // We swap this with the last then push back
     // Previous Indexes are not maintained!!!
-    void removeChild(size_t index);
+    void RemoveChild(size_t index);
 
     point RequestedSize(Sizes sizes);
     int SetSize(point size);
@@ -90,11 +59,43 @@ private:
     bool m_drawBorder;
 };
 
+class UITabPanel : public UIPanel
+{
+public:
+    UITabPanel(bool drawBorder);
+    std::vector<std::shared_ptr<UIPanel>> GetChild() const;
+    
+    //Please don't, use one below and give it a proper name. 
+    void AddChild(std::shared_ptr<UIPanel> panel);
+    void AddChild(std::string name, std::shared_ptr<UIPanel> panel);
+
+    // We swap this with the last then push back
+    // Previous Indexes are not maintained!!!
+    void RemoveChild(size_t index);
+
+    point RequestedSize(Sizes sizes);
+    int SetSize(point size);
+
+    void DrawEverything(WINDOW *wf_win, point offset);
+private:
+    size_t m_currentTab;
+
+    point m_thisSize;
+    point m_lastSize;
+
+    // Could use std::map
+    // But then GetChild function would get way more complex
+    // I think this is easier
+    std::vector<std::shared_ptr<UIPanel>> m_childPanels;
+    std::vector<std::string> m_childPanelNames;
+
+    bool m_drawBorder;
+};
+
 class UIWindow {
 public:
     // TODO REMOVE EVENTUALY!!!
     WINDOW* LegacyWindow() {return m_wf_win;};
-
 
     enum class Location
     {
@@ -108,9 +109,9 @@ public:
     int UpdateWindow();
 
     void DrawEverything();
-private:
-    std::unique_ptr<UIPanel> m_panel;
     
+    std::unique_ptr<UIPanel> m_panel;
+private:
     Location m_thisLocation;
     Location m_lastLocation;
 

@@ -144,7 +144,20 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
     WORLDPTR retworld = new WORLD();
     if( show_prompt ) {
         
-        UIWindow win(FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT, UIWindow::Location::Centered, true);
+        UIWindow win(FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT, UIWindow::Location::Centered, false);
+        auto tabPanel = std::make_shared<UITabPanel>(true);
+
+        win.m_panel->AddChild(tabPanel);
+        
+        for (auto tabName : tab_strings)
+        {
+            auto thisPanel = std::make_shared<UIPaddingPanel>(false);
+
+            tabPanel->AddChild(tabName, tabPanel);
+        }
+
+        // Regenerate all the sizes
+        win.m_panel->SetSize({FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT});
 
         int curtab = 0;
         int lasttab; // give placement memory to menus, sorta.
@@ -152,7 +165,6 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         while (curtab >= 0 && curtab < numtabs) {
             lasttab = curtab;
             win.DrawEverything();
-            draw_worldgen_tabs(win, curtab);
             curtab += tabs[curtab](win, retworld);
 
             if (curtab < 0) {
@@ -1146,7 +1158,7 @@ int worldfactory::show_worldgen_tab_modselection(UIWindow &nwin, WORLDPTR world)
             redraw_description = true;
             redraw_list = true;
             redraw_active = true;
-            draw_worldgen_tabs( nwin, 0 );
+            //draw_worldgen_tabs( nwin, 0 );
             draw_modselection_borders( nwin, &ctxt );
             redraw_description = true;
         } else if( action == "QUIT" ) {
@@ -1382,18 +1394,6 @@ void worldfactory::draw_modselection_borders(UIWindow &nwin, input_context *ctxt
     wrefresh(win);
     refresh();
 }
-
-void worldfactory::draw_worldgen_tabs(UIWindow &nwin, unsigned int current)
-{
-    auto w = nwin.LegacyWindow();
-
-    int x = 2;
-    for (size_t i = 0; i < tab_strings.size(); ++i) {
-        draw_tab(w, x, tab_strings[i], (i == current) ? true : false);
-        x += utf8_width( tab_strings[i] ) + 5;
-    }
-}
-
 
 bool worldfactory::world_need_lua_build(std::string world_name)
 {

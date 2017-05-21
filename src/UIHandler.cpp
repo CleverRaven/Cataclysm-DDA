@@ -56,88 +56,18 @@ int UIWindow::UpdateWindow()
 
 void UIWindow::DrawEverything()
 {
+    werase(m_wf_win);
     m_panel->DrawEverything(m_wf_win, { 0, 0 });
 }
 
-/*
-UISplitPanel::UISplitPanel(Arangments arangment)
-{
-    m_arangment = arangment;
-}
-
-std::vector<std::shared_ptr<UIPanel>> UISplitPanel::getChild() const
+std::vector<std::shared_ptr<UIPanel>> UIPaddingPanel::GetChild() const
 {
     return m_childPanels; 
 }
 
-void UISplitPanel::addChild(std::shared_ptr<UIPanel> panel)
-{
-    m_childPanels.push_back(panel);
-}
-
-void UISplitPanel::removeChild(size_t index)
-{
-    if (index != m_childPanels.size() -1)
-        m_childPanels[index] = std::move(m_childPanels.back());
-    m_childPanels.pop_back();
-}
-
-point UISplitPanel::RequestedSize(Sizes sizes)
-{
-    point size = { 2, 2 };
-
-    switch (m_arangement)
-    {
-    case Arangments::Stacked:
-        // |-|
-        // |A| minX = smallest x + 2
-        // |-|
-        // |B| minY = Sum of Ys + # children - 1 + 2
-        // |-|
-        // |C|
-        // |-|
-        // |D|
-        // |-|
-        // |E|
-        // |-|
-        size.y += m_childPanels.size() - 1;
-        
-        for (auto panel : m_childPanels)
-        {
-            auto reqSize = panel->RequestedSize(min);
-
-            if (reqSize.x > size.x) size.x = reqSize.x;
-
-            size.y += reqSize.y;
-        }
-        break;
-    case Arangments::SideBySide:
-        // |-+-+-+-+-| minX = Sum of Xs + # children - 1 + 2
-        // |A|B|C|D|E| minY = smallest Y + 2
-        // |-+-+-+-+-|
-        size.x += m_childPanels.size() - 1;
-        
-        for (auto panel : m_childPanels)
-        {
-            auto reqSize = panel->RequestedSize(min);
-
-            if (reqSize.y > size.y) size.y = reqSize.y;
-
-            size.x += reqSize.x;
-        }
-        break;
-    }
-}
-int UISplitPanel::SetSize(point size);
-*/
-// UIPaddingPanel
-std::vector<std::shared_ptr<UIPanel>> UIPaddingPanel::getChild() const
-{
-    return m_childPanels; 
-}
-
-void UIPaddingPanel::addChild(std::shared_ptr<UIPanel> panel)
-{   if (m_childPanels.empty())
+void UIPaddingPanel::AddChild(std::shared_ptr<UIPanel> panel)
+{   
+    if (m_childPanels.empty())
     {
         DebugLog(D_ERROR, DC_ALL) << "Only supports one panel";
         return;
@@ -145,7 +75,7 @@ void UIPaddingPanel::addChild(std::shared_ptr<UIPanel> panel)
     m_childPanels.push_back(panel);
 }
 
-void UIPaddingPanel::removeChild(size_t index)
+void UIPaddingPanel::RemoveChild(size_t index)
 {
     if (index != m_childPanels.size() -1)
         m_childPanels[index] = std::move(m_childPanels.back());
@@ -154,7 +84,10 @@ void UIPaddingPanel::removeChild(size_t index)
 
 point UIPaddingPanel::RequestedSize(Sizes sizes)
 {
-    point size = { 2, 2 };
+    point size;
+    
+    if (m_drawBorder) 
+        size += { 2, 2 };
 
     if (m_childPanels.empty())
         return size;
@@ -173,26 +106,149 @@ int UIPaddingPanel::SetSize(point size)
     if (m_childPanels.empty())
         return 0;
     auto newSize = size;
-    newSize -= { 2, 2 };
+    
+    if (m_drawBorder)
+        newSize -= { 2, 2 };
+     
     m_childPanels[0]->SetSize(newSize);
     return 0;
 }
 
 void UIPaddingPanel::DrawEverything(WINDOW *wf_win, point offset)
 {
-    werase(wf_win);
     
     if (m_drawBorder)
         UIUtils::DrawBorder(wf_win, offset, m_thisSize);
 
     if (!m_childPanels.empty())
     {
-        m_childPanels[0]->DrawEverything(wf_win, offset += { 1, 1 });
+        point offset;
+        
+        if (m_drawBorder)
+            offset += { 1, 1 };
+        
+        m_childPanels[0]->DrawEverything(wf_win, offset);
     }
 
     m_lastSize = m_thisSize;
 }
 
+
+UIPaddingPanel::UIPaddingPanel(bool drawBorder)
+{
+    m_drawBorder = drawBorder;
+}
+
+std::vector<std::shared_ptr<UIPanel>> UITabPanel::GetChild() const
+{
+    return m_childPanels; 
+}
+
+void UITabPanel::AddChild(std::shared_ptr<UIPanel> panel)
+{
+    AddChild(std::to_string(m_childPanels.size()), panel);
+}
+
+void UITabPanel::AddChild(std::string name, std::shared_ptr<UIPanel> panel)
+{
+    m_childPanels.push_back(panel);
+    m_childPanelNames.push_back(name);
+}
+
+void UITabPanel::RemoveChild(size_t index)
+{
+    if (index != m_childPanels.size() -1)
+        m_childPanels[index] = std::move(m_childPanels.back());
+    m_childPanels.pop_back();
+
+    if (index != m_childPanelNames.size() -1)
+        m_childPanelNames[index] = std::move(m_childPanelNames.back());
+    m_childPanelNames.pop_back();
+}
+
+point UITabPanel::RequestedSize(Sizes sizes)
+{
+    point size;
+   
+    size += { 0, 2 };
+
+    if (m_drawBorder) 
+        size += { 2, 2 };
+
+    if (m_childPanels.empty())
+        return size;
+
+    auto paneSize = m_childPanels[m_currentTab]->RequestedSize(sizes);
+    size += paneSize;
+    
+    int len = 0;
+    
+    for (auto tx : m_childPanelNames)
+    {
+        len += utf8_width(tx) + 6;
+    }
+
+    if (len > size.x) 
+        size.x = len;
+
+    query_yn(std::to_string(size.x).c_str());
+    query_yn(std::to_string(size.y).c_str());
+
+    return size;
+}
+
+int UITabPanel::SetSize(point size)
+{
+    m_thisSize = size;
+
+    if (m_childPanels.empty())
+        return 0;
+    auto newSize = size;
+    
+    if (m_drawBorder)
+        newSize -= { 2, 2 };
+     
+    size -= { 0, 2 };
+    
+    m_childPanels[m_currentTab]->SetSize(newSize);
+    return 0;
+}
+
+void UITabPanel::DrawEverything(WINDOW *wf_win, point offset)
+{
+    if (m_drawBorder)
+        UIUtils::DrawBorder(wf_win, offset, m_thisSize);
+    
+    int toffset = 0;
+    for (size_t i = 0; i < m_childPanels.size(); i++)
+    {
+        toffset += 1;
+
+        UIUtils::DrawTab(wf_win, offset, toffset, (i == m_currentTab), m_childPanelNames[i]);
+    
+        toffset += 5;
+    }
+    
+    if (!m_childPanels.empty())
+    {
+        point offset;
+        
+        if (m_drawBorder)
+            offset += { 1, 1 };
+        
+        offset += { 0, 2 };
+        
+        m_childPanels[m_currentTab]->DrawEverything(wf_win, offset);
+    }
+
+    m_lastSize = m_thisSize;
+}
+
+
+UITabPanel::UITabPanel(bool drawBorder)
+{
+    m_drawBorder = drawBorder;
+}
 
 void UIUtils::DrawBorder(WINDOW *wf_win, point offset, point m_thisSize)
 {
@@ -217,7 +273,40 @@ void UIUtils::DrawBorder(WINDOW *wf_win, point offset, point m_thisSize)
     mvwputch(wf_win, offset.y + m_thisSize.y - 1 , offset.x + m_thisSize.x - 1   , BORDER_COLOR, LINE_XOOX); // _|
 }
 
-UIPaddingPanel::UIPaddingPanel(bool drawBorder)
+void UIUtils::DrawTab(WINDOW *wf_win, point offset, int tabOffset, bool tabActive, std::string text)
 {
-    m_drawBorder = drawBorder;
+    int tabOffsetRight = tabOffset + utf8_width(text) + 1;
+
+    mvwputch(wf_win, offset.y    , offset.x + tabOffset       , c_ltgray, LINE_OXXO); // |^
+    mvwputch(wf_win, offset.y    , offset.x + tabOffsetRight  , c_ltgray, LINE_OOXX); // ^|
+    mvwputch(wf_win, offset.y + 1, offset.x + tabOffset       , c_ltgray, LINE_XOXO); // |
+    mvwputch(wf_win, offset.y + 1, offset.x + tabOffsetRight  , c_ltgray, LINE_XOXO); // |
+
+    mvwprintz(wf_win, offset.y + 1, offset.x + tabOffset + 1, ( tabActive ) ? h_ltgray : c_ltgray, "%s", text.c_str() );
+
+    for (int i = tabOffset + 1; i < tabOffsetRight; i++) 
+    {
+        mvwputch(wf_win, offset.y, offset.x + i, c_ltgray, LINE_OXOX);  // -
+    }
+
+    if (tabActive) 
+    {
+        mvwputch(wf_win, offset.y + 1, offset.x + tabOffset - 1     , h_ltgray, '<');
+        mvwputch(wf_win, offset.y + 1, offset.x + tabOffsetRight + 1, h_ltgray, '>');
+
+        for(int i = tabOffset + 1; i < tabOffsetRight; i++) 
+        {
+            mvwputch(wf_win, offset.y + 2, offset.x + i, c_black, ' ');
+        }
+
+        mvwputch(wf_win, offset.y + 2, offset.x + tabOffset,      c_ltgray, LINE_XOOX); // _|
+        mvwputch(wf_win, offset.y + 2, offset.x + tabOffsetRight, c_ltgray, LINE_XXOO); // |_
+
+    }
+    else 
+    {
+        mvwputch(wf_win, offset.y + 2, offset.x + tabOffset,      c_ltgray, LINE_XXOX); // _|_
+        mvwputch(wf_win, offset.y + 2, offset.x + tabOffsetRight, c_ltgray, LINE_XXOX); // _|_
+    }
+
 }
