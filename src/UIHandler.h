@@ -77,6 +77,8 @@ public:
     int SetSize(point size);
 
     void DrawEverything(WINDOW *wf_win, point offset);
+
+    void SwitchTab(size_t tab);
 private:
     size_t m_currentTab;
 
