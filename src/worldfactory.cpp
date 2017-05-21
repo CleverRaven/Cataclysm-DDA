@@ -1088,7 +1088,7 @@ int worldfactory::show_worldgen_tab_modselection(UIWindow &nwin, WORLDPTR world)
                 if( mman->mod_map[current_tab_mods[cursel[0]]]->need_lua() ) {
                     popup(_("Can't add mod. This mod requires Lua support."));
                     redraw_active = true;
-                    draw_modselection_borders(win, &ctxt);
+                    draw_modselection_borders(nwin, &ctxt);
                     redraw_description = true;
                     continue;
                 }
