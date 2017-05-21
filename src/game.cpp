@@ -7686,7 +7686,7 @@ void game::examine( const tripoint &examp )
             }
         }
         if( mon != nullptr && mon->has_flag( MF_MILKABLE ) ) {
-            add_msg( m_info, _( "This is a milkable %s." ), mon->disp_name().c_str());
+            add_msg( m_info, _( "This is a milkable %s." ), mon->name().c_str());
             iexamine::milk_source( mon );
         }
 
@@ -9813,7 +9813,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
     }
     std::vector<std::function<void()>> actions;
     // Small check to avoid players sucking milk directly from the animal.
-    if( !source_mon == true ){
+    if( !source_mon ){
 
         if( u.can_consume( liquid ) ) {
             menu.addentry( -1, true, 'e', _( "Consume it" ) );
