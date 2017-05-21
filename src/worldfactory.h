@@ -92,8 +92,6 @@ class worldfactory
 
         WORLDPTR active_world;
 
-        std::map<std::string, WORLDPTR> all_worlds;
-
         std::vector<std::string> all_worldnames() const;
 
         mod_manager *get_mod_manager();
@@ -116,6 +114,8 @@ class worldfactory
 
     protected:
     private:
+        std::map<std::string, WORLDPTR> all_worlds;
+
         std::string pick_random_name();
         int show_worldgen_tab_options( WINDOW *win, WORLDPTR world );
         int show_worldgen_tab_modselection( WINDOW *win, WORLDPTR world );
