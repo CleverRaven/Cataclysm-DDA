@@ -7686,7 +7686,7 @@ void game::examine( const tripoint &examp )
             }
         }
         if( mon != nullptr && mon->has_flag( MF_MILKABLE ) ) {
-            add_msg( m_info, _( "This is a milkable cow." ) );
+            add_msg( m_info, _( "This is a milkable %s." ), mon->disp_name().c_str());
             iexamine::milk_source( mon );
         }
 
