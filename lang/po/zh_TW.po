@@ -11,6 +11,7 @@
 # Hao JK <haojk0829@gmail.com>, 2016-2017
 # Ho Andy <h7153a@gmail.com>, 2017
 # HOXV <hoxv00@yahoo.com.tw>, 2015-2017
+# Hsinyu Chan, 2017
 # Isida <jeffr500000@gmail.com>, 2015
 # Jack Cross <jack80156@gmail.com>, 2015
 # jeff tu <athelok0614@gmail.com>, 2015
@@ -39,8 +40,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-05 22:55+0800\n"
-"PO-Revision-Date: 2017-05-06 15:10+0000\n"
+"POT-Creation-Date: 2017-05-19 17:08+0800\n"
+"PO-Revision-Date: 2017-05-20 13:16+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -166,24 +167,24 @@ msgstr ""
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Auto pickup light items"
-msgstr ""
+msgstr "自動撿取重量輕的物品"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "Auto pickup items with weight less than or equal to [option] * 50 grams.  "
 "You must also set the small items option.  '0' disables this option"
-msgstr ""
+msgstr "自動撿取重量小於或是等於 [設定值] * 50 公克的物品。設定 0 停用這個選項。"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Auto pickup small items"
-msgstr ""
+msgstr "自動撿取體積小的物品"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "Auto pickup items with volume less than or equal to [option] * 50 "
 "milliliters.  You must also set the light items option.  '0' disables this "
 "option"
-msgstr ""
+msgstr "自動撿取體積小於或是等於 [設定值] * 50 毫升的物品。設定 0 停用這個選項。"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Auto pickup safe mode"
@@ -6064,6 +6065,17 @@ msgstr "金屬碎片"
 msgid "Small slivers of metal.  Can't see much use for them."
 msgstr "小塊金屬碎片。看不出它們有什麼用途。"
 
+#: lang/json/AMMO_from_json.py
+msgid "liquified blob feed"
+msgid_plural "bfeedfuel"
+msgstr[0] ""
+
+#. ~ Description for liquified blob feed
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Liquified blob feed, useful for fueling certain blob based vehicle parts"
+msgstr ""
+
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "blob feed"
 msgid_plural "blob feed"
@@ -6847,7 +6859,7 @@ msgstr "一件簡單的比基尼內衣。"
 #: lang/json/ARMOR_from_json.py
 msgid "fur bikini top"
 msgid_plural "fur bikini tops"
-msgstr[0] "毛比基尼內衣"
+msgstr[0] "毛皮比基尼內衣"
 
 #. ~ Description for fur bikini top
 #: lang/json/ARMOR_from_json.py
@@ -6857,12 +6869,12 @@ msgstr "一件簡單的毛茸茸比基尼內衣。"
 #: lang/json/ARMOR_from_json.py
 msgid "leather bikini top"
 msgid_plural "leather bikini tops"
-msgstr[0] "皮比基尼內衣"
+msgstr[0] "皮革比基尼內衣"
 
 #. ~ Description for leather bikini top
 #: lang/json/ARMOR_from_json.py
 msgid "A simple leather bikini top."
-msgstr "一件簡單的皮比基尼內衣。"
+msgstr "一件簡單的皮革比基尼內衣。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "bindle"
@@ -7164,7 +7176,7 @@ msgstr "定制的鏈甲兜帽，可在頭盔下舒適地佩戴。"
 #: lang/json/ARMOR_from_json.py
 msgid "chainmail leggings"
 msgid_plural "pairs of chainmail leggings"
-msgstr[0] "鏈甲護腿"
+msgstr[0] "鏈甲綁腿"
 
 #. ~ Description for chainmail leggings
 #: lang/json/ARMOR_from_json.py
@@ -7214,7 +7226,7 @@ msgstr "一件黑色的皮護腿。非常輕盈、強韌，但是無法提供任
 #: lang/json/ARMOR_from_json.py
 msgid "chestwrap"
 msgid_plural "chestwraps"
-msgstr[0] "布製纏胸"
+msgstr[0] "纏胸"
 
 #. ~ Description for chestwrap
 #: lang/json/ARMOR_from_json.py
@@ -7295,14 +7307,14 @@ msgstr "一件能夠蓋住你身體的厚實毛皮斗篷。"
 #: lang/json/ARMOR_from_json.py
 msgid "leather cloak"
 msgid_plural "leather cloaks"
-msgstr[0] "皮斗篷"
+msgstr[0] "皮革斗篷"
 
 #. ~ Description for leather cloak
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A heavy leather cloak that is thrown over your body.  Provides decent "
 "protection."
-msgstr "一件能夠蓋住你身體的厚實皮斗篷。提供一些保護。"
+msgstr "一件能夠蓋住你身體的厚實皮革斗篷。提供一些保護。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "wool cloak"
@@ -7328,12 +7340,12 @@ msgstr "一件色彩繽紛並搞笑的小丑外衣。有一些儲物空間。"
 #: lang/json/ARMOR_from_json.py
 msgid "fur coat"
 msgid_plural "fur coats"
-msgstr[0] "毛外套"
+msgstr[0] "毛皮大衣"
 
 #. ~ Description for fur coat
 #: lang/json/ARMOR_from_json.py
 msgid "A fur coat with a couple small pockets.  Extremely warm."
-msgstr "一件毛外套，擁有許多小口袋。非常保暖。"
+msgstr "一件毛皮大衣，擁有許多小口袋。非常保暖。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "sable coat"
@@ -7416,14 +7428,14 @@ msgstr "一個銅耳環，有點重。佩戴太久也許會把耳朵拉長。"
 #: lang/json/ARMOR_from_json.py
 msgid "leather corset"
 msgid_plural "leather corsets"
-msgstr[0] "皮馬甲"
+msgstr[0] "皮革馬甲"
 
 #. ~ Description for leather corset
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A snug, black leather corset.  Has no pockets, but its thick material "
 "provides good protection from harm."
-msgstr "一個舒適的黑色皮馬甲。沒有口袋，但是其厚材質提供了絕佳的保護性。"
+msgstr "一個舒適的黑色皮革馬甲。沒有口袋，但是其厚材質提供了絕佳的保護性。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "cowboy hat"
@@ -7553,7 +7565,7 @@ msgstr "一條防水的自動上鍊手錶，鋼製錶帶，可用來看現在的
 #: lang/json/ARMOR_from_json.py
 msgid "down-filled blanket"
 msgid_plural "down-filled blankets"
-msgstr[0] "羽絨被"
+msgstr[0] "羽絨毯"
 
 #. ~ Description for down-filled blanket
 #: lang/json/ARMOR_from_json.py
@@ -8135,7 +8147,7 @@ msgstr "一雙手工製手套，由凱夫勒與諾梅克斯阻燃布料製成，
 #: lang/json/ARMOR_from_json.py
 msgid "pair of fur gloves"
 msgid_plural "pairs of fur gloves"
-msgstr[0] "毛手套"
+msgstr[0] "毛皮手套"
 
 #. ~ Description for pair of fur gloves
 #: lang/json/ARMOR_from_json.py
@@ -8319,12 +8331,12 @@ msgid ""
 "Pieces of animal pelt that are meant to be wrapped around your hands to "
 "provide small amounts of protection while punching and performing other "
 "general mischief."
-msgstr "幾塊毛皮所用來纏在你的手上以提供少量的保護，一般是在毆打人或是做其他壞事的時候使用。"
+msgstr "幾塊毛皮用來纏在你的手上以提供少量的保護，一般是在毆打人或是做其他壞事的時候使用。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of leather hand wraps"
 msgid_plural "pairs of leather hand wraps"
-msgstr[0] "皮手綁帶"
+msgstr[0] "皮革手綁帶"
 
 #. ~ Description for pair of leather hand wraps
 #: lang/json/ARMOR_from_json.py
@@ -8332,7 +8344,7 @@ msgid ""
 "Pieces of leather that are meant to be wrapped around your hands to provide "
 "small amounts of protection while punching and performing other general "
 "mischief."
-msgstr "幾塊皮所用來纏在你的手上以提供少量的保護，一般是在毆打人或是做其他壞事的時候使用。"
+msgstr "幾塊皮革用來纏在你的手上以提供少量的保護，一般是在毆打人或是做其他壞事的時候使用。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of wool hand wraps"
@@ -9033,7 +9045,7 @@ msgstr "一件簡單的熱褲。"
 #: lang/json/ARMOR_from_json.py
 msgid "fur hot pants"
 msgid_plural "fur hot pants"
-msgstr[0] "毛熱褲"
+msgstr[0] "毛皮熱褲"
 
 #. ~ Description for fur hot pants
 #: lang/json/ARMOR_from_json.py
@@ -9623,12 +9635,12 @@ msgstr "寬大、柔軟、舒適的布套，讓你變異的肢體保持溫暖。
 #: lang/json/ARMOR_from_json.py
 msgid "pair of fetlock furs"
 msgid_plural "pairs of fetlock furs"
-msgstr[0] "護蹄毛套"
+msgstr[0] "毛皮護蹄"
 
 #. ~ Description for pair of fetlock furs
 #: lang/json/ARMOR_from_json.py
 msgid "Snug fur sleeves to keep your fetlocks warm."
-msgstr "溫暖的皮草套，能讓你的蹄保暖。"
+msgstr "溫暖的毛皮套子，能讓你的蹄保暖。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "leggings"
@@ -9672,7 +9684,7 @@ msgstr[0] "鐵製護脛"
 #. ~ Description for pair of iron greaves
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of iron leg guards with a simple leather lining."
-msgstr "一對有著簡易皮內襯的鐵製護腿。"
+msgstr "一對有著簡易皮革內襯的鐵製護腿。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of paper leg guards"
@@ -10431,7 +10443,7 @@ msgstr "在緊急的時刻，這件褲子可以用來當作圍棋的棋盤。"
 #: lang/json/ARMOR_from_json.py
 msgid "fur pants"
 msgid_plural "fur pants"
-msgstr[0] "皮褲"
+msgstr[0] "毛皮褲"
 
 #. ~ Description for fur pants
 #: lang/json/ARMOR_from_json.py
@@ -11020,7 +11032,7 @@ msgstr[0] "毛皮睡袋"
 #. ~ Description for fur sleeping bag
 #: lang/json/ARMOR_from_json.py
 msgid "A large sleeping bag lined with fur.  Who needs a tent?"
-msgstr "有這件有著毛內裡的大睡袋。誰還需要帳棚？"
+msgstr "有這件內襯毛皮的大睡袋，誰還需要帳棚？"
 
 #: lang/json/ARMOR_from_json.py
 msgid "sleeveless duster"
@@ -11085,7 +11097,7 @@ msgstr "一件無袖的輕薄棉質風衣。它有很多口袋，提供了相當
 #: lang/json/ARMOR_from_json.py
 msgid "sleeveless fur trenchcoat"
 msgid_plural "sleeveless fur trenchcoats"
-msgstr[0] "無袖毛風衣"
+msgstr[0] "無袖毛皮風衣"
 
 #. ~ Description for sleeveless fur trenchcoat
 #: lang/json/ARMOR_from_json.py
@@ -11097,7 +11109,7 @@ msgstr "一件無袖的厚實毛皮風衣，讓你的手臂不受束縛。它有
 #: lang/json/ARMOR_from_json.py
 msgid "sleeveless leather trenchcoat"
 msgid_plural "sleeveless leather trenchcoats"
-msgstr[0] "無袖皮風衣"
+msgstr[0] "無袖皮革風衣"
 
 #. ~ Description for sleeveless leather trenchcoat
 #: lang/json/ARMOR_from_json.py
@@ -11732,22 +11744,22 @@ msgstr "一件棉製的薄風衣，上面有口袋，很適合儲物。"
 #: lang/json/ARMOR_from_json.py
 msgid "fur trenchcoat"
 msgid_plural "fur trenchcoats"
-msgstr[0] "毛風衣"
+msgstr[0] "毛皮風衣"
 
 #. ~ Description for fur trenchcoat
 #: lang/json/ARMOR_from_json.py
 msgid "A thick fur trenchcoat, lined with pockets.  Great for storage."
-msgstr "一件厚實的毛風衣，有許多口袋，很適合儲物。"
+msgstr "一件厚實的毛皮風衣，有許多口袋，很適合儲物。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "leather trenchcoat"
 msgid_plural "leather trenchcoats"
-msgstr[0] "皮風衣"
+msgstr[0] "皮革風衣"
 
 #. ~ Description for leather trenchcoat
 #: lang/json/ARMOR_from_json.py
 msgid "A thick leather trenchcoat, lined with pockets.  Great for storage."
-msgstr "一件厚實的皮風衣，有許多口袋，很適合儲物。"
+msgstr "一件厚實的皮革風衣，有許多口袋，很適合儲物。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "survivor trenchcoat"
@@ -12296,7 +12308,7 @@ msgstr "用細繩編製而成的輕巧拖鞋，幾乎無法提供任何防護，
 #: lang/json/ARMOR_from_json.py
 msgid "pair of boots"
 msgid_plural "pairs of boots"
-msgstr[0] "皮靴"
+msgstr[0] "皮革靴"
 
 #. ~ Description for pair of boots
 #: lang/json/ARMOR_from_json.py
@@ -12367,7 +12379,7 @@ msgstr[0] "毛皮靴"
 #. ~ Description for pair of fur boots
 #: lang/json/ARMOR_from_json.py
 msgid "Boots lined with fur for warmth."
-msgstr "內襯有毛的靴子，很保暖。"
+msgstr "內襯毛皮的靴子，很保暖。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "pair of survivor wetsuit boots"
@@ -12609,7 +12621,7 @@ msgstr "幾塊毛皮綁在你的腳掌上，不比赤腳好多少，但總比沒
 #: lang/json/ARMOR_from_json.py
 msgid "pair of leather foot wraps"
 msgid_plural "pairs of leather foot wraps"
-msgstr[0] "皮裹腳布"
+msgstr[0] "皮革裹腳布"
 
 #. ~ Description for pair of leather foot wraps
 #: lang/json/ARMOR_from_json.py
@@ -12687,7 +12699,7 @@ msgstr "用動物皮革製作的簡單鞋子。"
 #: lang/json/ARMOR_from_json.py
 msgid "pair of motorcycle boots"
 msgid_plural "pairs of motorcycle boots"
-msgstr[0] "一雙騎士靴"
+msgstr[0] "機車靴"
 
 #. ~ Description for pair of motorcycle boots
 #: lang/json/ARMOR_from_json.py
@@ -12800,12 +12812,12 @@ msgstr "非常長的及膝皮靴。穿戴時有點困難，但非常耐用。"
 #: lang/json/ARMOR_from_json.py
 msgid "pair of swimming booties"
 msgid_plural "pairs of swimming booties"
-msgstr[0] "潛水鞋"
+msgstr[0] "潛水靴"
 
 #. ~ Description for pair of swimming booties
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of neoprene swimming booties, with individual toes."
-msgstr "一雙橡膠製潛水鞋，腳趾部分是分開的。"
+msgstr "一雙橡膠製潛水靴，腳趾部分是分開的。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "back holster"
@@ -13011,7 +13023,7 @@ msgstr[0] "青銅護脛"
 #. ~ Description for pair of bronze greaves
 #: lang/json/ARMOR_from_json.py
 msgid "A pair of bronze leg guards with a simple leather lining."
-msgstr "一對有著簡易皮內襯的青銅護腿。"
+msgstr "一對有著簡易皮革內襯的青銅護腿。"
 
 #: lang/json/ARMOR_from_json.py
 msgid "lamellar armor"
@@ -13139,7 +13151,7 @@ msgstr "一頂像樣的寬邊帽，在頸部縫上了一個護兜，以保護不
 #: lang/json/ARMOR_from_json.py
 msgid "pair of fur leggings"
 msgid_plural "pairs of fur leggings"
-msgstr[0] "毛皮護腿"
+msgstr[0] "毛皮綁腿"
 
 #. ~ Description for pair of fur leggings
 #: lang/json/ARMOR_from_json.py
@@ -21200,12 +21212,12 @@ msgstr[0] "森林蜜"
 msgid ""
 "Honey, that stuff bees make.  This one is \"forest honey\", a liquid form of"
 " honey.  This honey won't spoil and is good for your digestion."
-msgstr "蜂蜜，由蜜蜂生產。這是\"森林蜜\"，一種液態的蜂蜜。這種蜂蜜不會變質而且會幫助消化。"
+msgstr "蜂蜜，蜜蜂的產物。這是\"森林蜜\"，一種液態的蜂蜜。這種蜂蜜不會變質而且對消化有益。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "candied honey"
 msgid_plural "candied honey"
-msgstr[0] "糖蜜"
+msgstr[0] "結晶蜜"
 
 #. ~ Description for candied honey
 #: lang/json/COMESTIBLE_from_json.py
@@ -21213,7 +21225,7 @@ msgid ""
 "Honey, that stuff the bees make.  This variant is \"candied honey\", a "
 "variant of very thick consistence.  This honey won't spoil and is good for "
 "your digestion."
-msgstr "蜂蜜，由蜜蜂生產。這是\"糖蜜\"，一種濃稠狀的蜂蜜。這種蜂蜜不會變質而且會幫助消化。"
+msgstr "蜂蜜，蜜蜂的產物。這是\"結晶蜜\"，一種非常濃稠的蜂蜜。這種蜂蜜不會變質而且對消化有益。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "peanut butter"
@@ -23702,7 +23714,7 @@ msgstr "浸泡過氯仿的布條"
 #. ~ Description for chloroform soaked rag
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A debug item that lets you put NPCs (or yourself) to sleep."
-msgstr "除錯用物品，可以令NPC（或是自己）入睡。"
+msgstr "除錯用物品，可以令 NPC（或是自己）入睡。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "codeine"
@@ -25176,7 +25188,7 @@ msgstr[0] "2.5L 水壺"
 #: lang/json/CONTAINER_from_json.py
 msgid ""
 "A large plastic water canteen, with a 2.5 liter capacity and carrying strap."
-msgstr "一個有背帶的大型塑膠水壺，有2.5升的容量。"
+msgstr "一個有背帶的大型塑膠水壺，有2.5公升的容量。"
 
 #: lang/json/CONTAINER_from_json.py
 msgid "30 gallon barrel"
@@ -25693,7 +25705,7 @@ msgstr[0] "小水袋"
 msgid ""
 "A small watertight leather bag with a carrying strap, can hold 1.5 liters of"
 " water."
-msgstr "一個有背帶的水密小皮水袋，可容納1.5升的水。"
+msgstr "一個有背帶的水密小皮水袋，可容納1.5公升的水。"
 
 #: lang/json/CONTAINER_from_json.py
 msgid "waterskin"
@@ -25704,7 +25716,7 @@ msgstr[0] "皮製水袋"
 #: lang/json/CONTAINER_from_json.py
 msgid ""
 "A watertight leather bag with a carrying strap, can hold 3 liters of water."
-msgstr "一個有背帶的水密皮水袋，可容納3升的水。"
+msgstr "一個有背帶的水密皮水袋，可容納3公升的水。"
 
 #: lang/json/CONTAINER_from_json.py
 msgid "large waterskin"
@@ -25716,7 +25728,7 @@ msgstr[0] "大水袋"
 msgid ""
 "A large watertight leather bag with a carrying strap, can hold 5 liters of "
 "water."
-msgstr "一個有背帶的水密大皮水袋，可容納5升的水。"
+msgstr "一個有背帶的水密大皮水袋，可容納5公升的水。"
 
 #: lang/json/CONTAINER_from_json.py
 msgid "wooden barrel"
@@ -29756,7 +29768,7 @@ msgstr "一個格子鬆餅烤盤。能拿來做鬆餅。"
 #: lang/json/GENERIC_from_json.py
 msgid "foldable-light frame"
 msgid_plural "foldable-light frames"
-msgstr[0] "折疊輕框架"
+msgstr[0] "折疊輕型框架"
 
 #. ~ Description for foldable-light frame
 #: lang/json/GENERIC_from_json.py
@@ -29766,27 +29778,27 @@ msgstr "一個小型的可折疊輕型框架，使用鋼管製作。"
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "foldable wooden frame"
 msgid_plural "foldable wooden frames"
-msgstr[0] "折疊木框架"
+msgstr[0] "折疊木製框架"
 
 #. ~ Description for foldable wooden frame
 #: lang/json/GENERIC_from_json.py
 msgid "A small foldable frame made from scrap wood."
-msgstr "一個小型的可折疊木框架，使用木碎製作。"
+msgstr "一個小型的可折疊木製框架，使用木碎製作。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "extra-light frame"
 msgid_plural "extra-light frames"
-msgstr[0] "超輕車架"
+msgstr[0] "超輕型框架"
 
 #. ~ Description for extra-light frame
 #: lang/json/GENERIC_from_json.py
 msgid "A small lightweight frame made from pipework.  Useful for crafting."
-msgstr "一個由鋼管組成的輕型車輛框架。製作物品時很有用。"
+msgstr "一個由鋼管組成的輕型框架。製作物品時很有用。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "steel frame"
 msgid_plural "steel frames"
-msgstr[0] "鋼架"
+msgstr[0] "鋼製框架"
 
 #. ~ Description for steel frame
 #: lang/json/GENERIC_from_json.py
@@ -29816,7 +29828,7 @@ msgstr "一個從購物車拆下來的大型網籃，被改造成可折疊式。
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "wooden frame"
 msgid_plural "wooden frames"
-msgstr[0] "木製車架"
+msgstr[0] "木製框架"
 
 #. ~ Description for wooden frame
 #: lang/json/GENERIC_from_json.py
@@ -29826,19 +29838,19 @@ msgstr "一個用木頭做的大框架。製作物品時很有用。"
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "light wooden frame"
 msgid_plural "light wooden frames"
-msgstr[0] "輕型木製車架"
+msgstr[0] "輕型木製框架"
 
 #. ~ Description for light wooden frame
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "A small frame made of few pieces of wood, held together by rope.  Useful for"
 " crafting."
-msgstr "一個由數根木頭和繩索綁製而成的小車架。製作物品時很有用。"
+msgstr "一個由數根木頭和繩索綁製而成的小框架。製作物品時很有用。"
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "heavy duty frame"
 msgid_plural "heavy duty frames"
-msgstr[0] "重型車架"
+msgstr[0] "重型框架"
 
 #. ~ Description for heavy duty frame
 #: lang/json/GENERIC_from_json.py
@@ -31183,7 +31195,7 @@ msgstr "一條30英尺長的堅韌藤蔓，可以很容易地被用來作為繩�
 #: lang/json/GENERIC_from_json.py
 msgid "short makeshift rope"
 msgid_plural "short makeshift ropes"
-msgstr[0] ""
+msgstr[0] "粗製短繩索"
 
 #. ~ Description for short makeshift rope
 #: lang/json/GENERIC_from_json.py
@@ -31195,7 +31207,7 @@ msgstr ""
 #: lang/json/GENERIC_from_json.py
 msgid "long makeshift rope"
 msgid_plural "long makeshift ropes"
-msgstr[0] ""
+msgstr[0] "粗製長繩索"
 
 #. ~ Description for long makeshift rope
 #: lang/json/GENERIC_from_json.py
@@ -32221,20 +32233,20 @@ msgid ""
 "rudimentary ammo feed system for easy access, and a section for a movement "
 "system.  It is controlled by a targeting AI that can adapt to the usage of "
 "whatever weapon that has been loading, with proper programming."
-msgstr ""
+msgstr "一個能夠旋轉360度的框架，能通過焊接或是繫帶固定的方式掛載複數的武器系統。它配備了一個易於修改的彈藥儲存容器、一個易於使用的簡易供彈系統。它透過一個設計良好的瞄準AI來控制，能夠適應並操作任何被加載的武器。"
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 #: lang/json/vehicle_part_from_json.py
 msgid "diamond frame"
 msgid_plural "diamond frames"
-msgstr[0] "鑽石車架"
+msgstr[0] "鑽石框架"
 
 #. ~ Description for diamond frame
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "A brilliantly sparkling diamond vehicle frame.  Incredibly strong for its "
 "weight."
-msgstr "一個出眾閃亮的鑽石車架。不可思議的堅硬，考慮到它的重量。"
+msgstr "一個出眾閃亮的鑽石框架。以重量來說，它不可思議的堅硬。"
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "diamond plating"
@@ -34122,13 +34134,13 @@ msgid "Core content for Cataclysm-DDA"
 msgstr "代誌大條 - 烏日到站 的核心內容"
 
 #: lang/json/MOD_INFO_from_json.py
-msgid "More Craftables"
-msgstr "更多自製物品"
+msgid "Makeshift Items Mod"
+msgstr ""
 
-#. ~ Description for More Craftables
+#. ~ Description for Makeshift Items Mod
 #: lang/json/MOD_INFO_from_json.py
-msgid "Allows crafting of more improvised item variants"
-msgstr "允許製作更多類型的物品"
+msgid "Adds more improvised item variants and rebalances existing ones."
+msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "Classes and Scenarios Mod"
@@ -34178,7 +34190,7 @@ msgstr "添加更多重疊的彈藥類型和更多的現實槍械。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "debug monster"
-msgstr "測試用怪物"
+msgstr "除錯怪物"
 
 #. ~ Description for debug monster
 #: lang/json/MONSTER_from_json.py
@@ -39170,7 +39182,7 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py lang/json/TOOL_from_json.py
 msgid "gelatinous mass"
 msgid_plural "gelatinous mass"
-msgstr[0] ""
+msgstr[0] "凝膠團塊"
 
 #. ~ Description for gelatinous mass
 #. ~ Description for gray mass
@@ -40445,12 +40457,12 @@ msgid ""
 "A simple leather cloak, richly decorated with scales of gold and several "
 "feathers.  It resembles the hide of a golden dragon or serpent.  Using it "
 "will heal minor injuries, in exchange for inflicting pain."
-msgstr ""
+msgstr "一件金色的斗篷，裝飾著金色的鱗片和幾根羽毛。它似乎是金龍或金蛇的皮。使用它能夠治療輕傷，代價是會有一些疼痛。"
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "mask of insight"
 msgid_plural "masks of insight"
-msgstr[0] ""
+msgstr[0] "慧眼面具"
 
 #. ~ Use action msg for mask of insight.
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -40475,7 +40487,7 @@ msgstr ""
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "mask of insight (on)"
 msgid_plural "masks of insight (on)"
-msgstr[0] ""
+msgstr[0] "慧眼面具（啟動）"
 
 #. ~ Use action msg for mask of insight (on).
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -40527,7 +40539,7 @@ msgstr ""
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "mantle of shadows"
 msgid_plural "mantles of shadows"
-msgstr[0] ""
+msgstr[0] "暗影披風"
 
 #. ~ Use action msg for mantle of shadows.
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -40539,7 +40551,7 @@ msgstr ""
 #. ~ Use action need_charges_msg for mantle of shadows.
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "The mantle requires essence to bring forth the night."
-msgstr ""
+msgstr "這件披風需要精華才能帶來夜晚。"
 
 #. ~ Description for mantle of shadows
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -40552,7 +40564,7 @@ msgstr ""
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "mantle of shadows (on)"
 msgid_plural "mantles of shadows (on)"
-msgstr[0] ""
+msgstr[0] "暗影披風（啟動）"
 
 #. ~ Use action msg for mantle of shadows (on).
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -42906,7 +42918,7 @@ msgstr "這是一個能夠用來收集雨水的漏斗。在室外使用後並且
 #: lang/json/TOOL_from_json.py
 msgid "fur rollmat"
 msgid_plural "fur rollmats"
-msgstr[0] "毛皮墊"
+msgstr[0] "毛皮睡墊"
 
 #. ~ Use action done_message for fur rollmat.
 #: lang/json/TOOL_from_json.py
@@ -46618,7 +46630,7 @@ msgstr "一把華麗的銀匕首，看似用於祭祀的目的。這似乎是一
 #: lang/json/TOOL_from_json.py
 msgid "incorruptible sword"
 msgid_plural "incorruptible swords"
-msgstr[0] ""
+msgstr[0] "貴族之劍"
 
 #. ~ Use action lacks_fuel_message for incorruptible sword.
 #: lang/json/TOOL_from_json.py
@@ -46641,7 +46653,7 @@ msgstr ""
 #: lang/json/TOOL_from_json.py
 msgid "incorruptible sword (on)"
 msgid_plural "incorruptible swords (on)"
-msgstr[0] ""
+msgstr[0] "貴族之劍（啟動）"
 
 #. ~ Use action charges_extinguish_message for incorruptible sword (on).
 #: lang/json/TOOL_from_json.py
@@ -46903,7 +46915,7 @@ msgstr ""
 msgid ""
 "Eyes of flame meet your gaze, the creature resists your attempt to control "
 "it!"
-msgstr ""
+msgstr "火焰之眼與你視線交會，抵抗著你試圖控制它的嘗試！"
 
 #. ~ Description for glyph of the golem
 #: lang/json/TOOL_from_json.py
@@ -47149,7 +47161,7 @@ msgstr ""
 #: lang/json/TOOL_from_json.py
 msgid "cursed blade"
 msgid_plural "cursed blades"
-msgstr[0] ""
+msgstr[0] "詛咒之刃"
 
 #. ~ Use action menu_text for cursed blade.
 #: lang/json/TOOL_from_json.py
@@ -47179,7 +47191,7 @@ msgstr ""
 #: lang/json/TOOL_from_json.py
 msgid "cursed blade (on)"
 msgid_plural "cursed blades (on)"
-msgstr[0] ""
+msgstr[0] "詛咒之刃（啟動）"
 
 #. ~ Description for cursed blade (on)
 #: lang/json/TOOL_from_json.py
@@ -48121,18 +48133,18 @@ msgstr ""
 #: lang/json/TOOL_from_json.py
 msgid "growing blob frame"
 msgid_plural "growing blob frames"
-msgstr[0] "成長中的黏稠車架"
+msgstr[0] "成長中的黏稠框架"
 
 #. ~ Use action msg for growing blob frame.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "You test the frame; It wiggles, and then collapses into an lump of goo."
-msgstr ""
+msgstr "你測試了這個框架；它蠕動著，然後塌陷成一坨黏稠的物質。"
 
 #. ~ Use action not_ready_msg for growing blob frame.
 #: lang/json/TOOL_from_json.py
 msgid "You test the frame; it gives easily, it's still not sturdy enough"
-msgstr "你測試這車架；它很容易轉移，還不夠堅固。"
+msgstr "你測試了這個框架；它很容易變形，還不夠堅固。"
 
 #. ~ Description for growing blob frame
 #: lang/json/TOOL_from_json.py
@@ -50282,6 +50294,10 @@ msgid "Build Metal Roof"
 msgstr "建設金屬屋頂"
 
 #: lang/json/construction_from_json.py
+msgid "Must be supported on at least two sides."
+msgstr ""
+
+#: lang/json/construction_from_json.py
 msgid "Build Concrete Roof"
 msgstr "建設混凝土屋頂"
 
@@ -50348,6 +50364,10 @@ msgstr "建設鐵絲護欄"
 #: lang/json/construction_from_json.py
 msgid "Build Wire Gate"
 msgstr "建設鐵絲護欄門"
+
+#: lang/json/construction_from_json.py
+msgid "Needs to be supported on both sides by fencing, walls, etc."
+msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Seal Crate"
@@ -50611,7 +50631,7 @@ msgstr "你做了一個有關於蜥蜴的怪夢。"
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a strange scaly feeling."
-msgstr "你的夢境讓你有個奇怪的鱗屑感。"
+msgstr "你的夢境帶給你一種鱗屑般的奇怪感覺。"
 
 #: lang/json/dream_from_json.py
 msgid ""
@@ -50620,7 +50640,7 @@ msgstr "你做了一個在恐怖病院當病患的詭異夢境。"
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you an oddly medicated feeling."
-msgstr "你做的夢讓你有了奇異的藥物感。"
+msgstr "你的夢境帶給你一種藥物般的奇異感覺。"
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about birds."
@@ -50628,7 +50648,7 @@ msgstr "你做了一個有關於鳥類的怪夢。"
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a strange feathered feeling."
-msgstr "你的夢境讓你有個奇怪的羽毛感。"
+msgstr "你的夢境帶給你一種羽毛般的奇怪感覺。"
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about fish."
@@ -50636,7 +50656,7 @@ msgstr "你做了一個有關於魚類的怪夢。"
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a strange wet, scaly feeling."
-msgstr "你的夢境讓你有了潮濕，鱗屑的感覺。"
+msgstr "你的夢境帶給你一種潮濕、鱗屑般的奇怪感覺。"
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about animals."
@@ -50644,7 +50664,7 @@ msgstr "你做了一個有關動物的怪夢。"
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a strange furry feeling."
-msgstr "你的夢境讓你有了毛茸茸的奇怪感覺。"
+msgstr "你的夢境帶給你一種毛皮般的奇怪感覺。"
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about bears."
@@ -50652,7 +50672,7 @@ msgstr "你做了一個關於熊的怪夢。"
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a rough furry feeling."
-msgstr "你夢見自己渾身長滿了粗糙的毛。"
+msgstr "你的夢境帶給你一種粗糙毛皮般的感覺。"
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about cats."
@@ -50660,7 +50680,7 @@ msgstr "你做了一個關於貓的怪夢。"
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a sleek furry feeling."
-msgstr "你夢見自己渾身長滿了柔順的毛。"
+msgstr "你的夢境帶給你一種柔順毛皮般的感覺。"
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about wolves."
@@ -50668,7 +50688,7 @@ msgstr "你做了一個關於狼的怪夢。"
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a thick furry feeling."
-msgstr "你夢見自己渾身長滿了剛硬的毛。"
+msgstr "你的夢境帶給你一種剛硬毛皮般的感覺。"
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about cattle."
@@ -50676,7 +50696,7 @@ msgstr "你做了一個有關牛的怪夢。"
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a strange content, furry feeling."
-msgstr "你的夢境讓你有了毛毛的奇怪感覺。"
+msgstr "你做了奇怪的夢，帶給你一種毛皮般的感覺。"
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about insects."
@@ -50684,7 +50704,7 @@ msgstr "你做了一個有關昆蟲的怪夢。"
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a strange chitinous feeling."
-msgstr "你的夢境讓你有了甲殼的奇怪感覺。"
+msgstr "你的夢境帶給你一種甲殼般的奇怪感覺。"
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about plants."
@@ -50692,7 +50712,7 @@ msgstr "你做了一個有關植物的怪夢。"
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a strange plantlike feeling."
-msgstr "你的夢境讓你有了植物般的奇怪感覺。"
+msgstr "你的夢境帶給你一種植物般的奇怪感覺。"
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about slime."
@@ -50700,7 +50720,7 @@ msgstr "你做了一個有關黏液的怪夢。"
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a strange slimy feeling."
-msgstr "你的夢境讓你有了黏液的奇怪感覺。"
+msgstr "你的夢境帶給你一種黏液般的奇怪感覺。"
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about living in a cave."
@@ -50708,7 +50728,7 @@ msgstr "你做了一個有關穴居生活的怪夢。"
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give a strange reclusive feeling."
-msgstr "你的夢境讓你有了穴居動物的奇怪感覺。"
+msgstr "你的夢境帶給你一種穴居般的奇怪感覺。"
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about sea creatures."
@@ -50716,7 +50736,7 @@ msgstr "你做了一個有關海中生物的怪夢。"
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a strange wet feeling."
-msgstr "你的夢境讓你有了潮溼的奇怪感覺。"
+msgstr "你的夢境帶給你一種潮溼的奇怪感覺。"
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about spiders."
@@ -50724,7 +50744,7 @@ msgstr "你做了一個有關蜘蛛的怪夢。"
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a strange webbed feeling."
-msgstr "你的夢境讓你有了蜘蛛網的奇怪感覺。"
+msgstr "你的夢境帶給你一種蜘蛛網般的奇怪感覺。"
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream about rats."
@@ -50732,7 +50752,7 @@ msgstr "你做了一個有關老鼠的怪夢。"
 
 #: lang/json/dream_from_json.py
 msgid "Your dreams give you a strange fuzzy feeling."
-msgstr "你的夢境讓你有了毛皮的奇怪感覺。"
+msgstr "你的夢境帶給你一種絨毛般的奇怪感覺。"
 
 #: lang/json/dream_from_json.py
 msgid "You have a strange dream."
@@ -51267,7 +51287,7 @@ msgstr "你夢到你要過著一個沒有漁網的日子，嚇死你了。"
 
 #: lang/json/dream_from_json.py
 msgid "The Fury is so big!  It's GONNA GET YOAAAAAH! *pant* only a dream."
-msgstr ""
+msgstr "那團怒火如此巨大！它就要追到...啊啊啊啊...（喘息）還好只是一個夢。"
 
 #: lang/json/dream_from_json.py
 msgid "You find your paws twitching.  There's a cave.  You should go."
@@ -53666,8 +53686,7 @@ msgstr "自動販賣機"
 
 #: lang/json/furniture_from_json.py lang/json/furniture_from_json.py
 #: lang/json/terrain_from_json.py lang/json/terrain_from_json.py
-#: lang/json/terrain_from_json.py src/iuse.cpp src/map.cpp src/map.cpp
-#: src/map.cpp src/ranged.cpp
+#: lang/json/terrain_from_json.py src/ballistics.cpp src/iuse.cpp src/map.cpp
 msgid "glass breaking!"
 msgstr "玻璃破碎聲！"
 
@@ -54337,7 +54356,7 @@ msgstr[0] "坦克機器人主砲"
 #: lang/json/gun_from_json.py
 msgid ""
 "The 120mm cannon from a tankbot.  If you have this, you'd best be debugging!"
-msgstr "從坦克機器人身上拆下來的120mm加農砲，如果你有這個，你最好先除一下程式臭蟲(debug)！"
+msgstr "從坦克機器人身上拆下來的 120mm 加農砲，如果你有這個，你最好先除一下程式臭蟲(debug)！"
 
 #: lang/json/gun_from_json.py
 msgid "Boeing XM-P plasma rifle"
@@ -54603,9 +54622,8 @@ msgstr[0] "H&K G80 軌道槍"
 #: lang/json/gun_from_json.py
 msgid ""
 "Developed by Heckler & Koch in 2033, the railgun magnetically propels a "
-"ferromagnetic projectile using an alternating current.  This makes it silent"
-" while still deadly.  Powered by UPS."
-msgstr "在 2033 年由 Heckler & Koch 公司開發的軌道槍，利用電磁原理加速子彈。讓其既安靜又致命。需要 UPS 供電。"
+"ferromagnetic projectile using an alternating current.  Powered by UPS."
+msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "RM120c shotgun"
@@ -55342,7 +55360,7 @@ msgid ""
 "A .40 S&W variant of the popular Glock 17 pistol.  The standard-issue "
 "firearm of the FBI and of countless other law enforcement agencies "
 "worldwide."
-msgstr ""
+msgstr "流行的格洛克 17 手槍的 .40 S&W 版本。是 FBI 與世界上無數執法機構的標準配備武器。"
 
 #: lang/json/gun_from_json.py
 msgid "SIG Pro .40"
@@ -55364,7 +55382,7 @@ msgstr[0] "生存者左輪"
 msgid ""
 "A homemade 6 shot revolver.  While it's not as good as the pre-Cataclysm "
 "manufactured weapons, it's a decent piece of work all things considered."
-msgstr "一把自製的六輪手鎗，雖然它不如末日前的製造的武器，但至少還是把像樣的手鎗。"
+msgstr "一把自製的六輪手槍，雖然它不如末日前製造的武器，但至少還是把像樣的手槍。"
 
 #: lang/json/gun_from_json.py
 msgid "S&W 610"
@@ -57052,7 +57070,7 @@ msgid ""
 "The Lightning Trail carbine was developed for the riot police to quickly "
 "blanket an area with lightning clouds.  While damaging, it is less lethal "
 "than live ammunition."
-msgstr ""
+msgstr "閃電獵手卡賓槍是為了讓鎮暴警察能以雷雲快速制壓一個地區而開發的。雖然它能造成傷害，但相較於實體彈藥更不致命。"
 
 #: lang/json/gun_from_json.py
 msgid "arc cannon"
@@ -59715,6 +59733,20 @@ msgstr "如果玩家具有時尚狂人特質，穿著這件衣物會給予士氣
 msgid "This piece of clothing is <info>fancy</info>."
 msgstr "這一件衣物<info>很花俏</info>。"
 
+#: lang/json/json_flag_from_json.py
+msgid ""
+"Zombie-dropped clothing giving various penalties if Filthy mod is active."
+msgstr ""
+
+#. ~ Please leave anything in <angle brackets> unchanged.
+#: lang/json/json_flag_from_json.py
+msgid "This piece of clothing is <bad>filthy</bad>."
+msgstr ""
+
+#: lang/json/json_flag_from_json.py
+msgid "Used for eyes protection from flashbang."
+msgstr ""
+
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
 msgid ""
@@ -59727,6 +59759,12 @@ msgstr "這件衣物<info>防止你沉入水中</info>，令你<good>不會溺�
 msgid ""
 "This gear is <bad>fragile</bad> and <info>won't protect you for long</info>."
 msgstr "這件裝備相當<bad>脆弱</bad>，<info>無法長久保護你</info>。"
+
+#. ~ Please leave anything in <angle brackets> unchanged.
+#: lang/json/json_flag_from_json.py
+msgid ""
+"This gear <good>completely protects</good> you from <info>any gas</info>."
+msgstr ""
 
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
@@ -59915,6 +59953,11 @@ msgstr "這件裝備可以穿戴或綁在你的<info>腰部</info>。"
 #: lang/json/json_flag_from_json.py
 msgid "Acts as a watch and allows the player to see actual time."
 msgstr "作用跟手錶一樣，讓玩家看到實際時間。"
+
+#. ~ Please leave anything in <angle brackets> unchanged.
+#: lang/json/json_flag_from_json.py
+msgid "This gear allows to see <info>actual time</info>."
+msgstr ""
 
 #: lang/json/json_flag_from_json.py
 msgid ""
@@ -61345,6 +61388,24 @@ msgid "Per increases unarmed power, Str reduces block damage."
 msgstr "感知可以增加徒手攻擊力，力量則可以減少你格檔時所受到的傷害。"
 
 #: lang/json/martial_art_from_json.py
+msgid "Footwork"
+msgstr "步法"
+
+#. ~ Description of buff 'Footwork' for martial art 'Boxing'
+#: lang/json/martial_art_from_json.py
+msgid "Gain an extra dodge while moving."
+msgstr "在移動時增加額外的閃避"
+
+#: lang/json/martial_art_from_json.py
+msgid "Counter Chance"
+msgstr "機會反擊"
+
+#. ~ Description of buff 'Counter Chance' for martial art 'Boxing'
+#: lang/json/martial_art_from_json.py
+msgid "They're wide open!"
+msgstr "他們門戶大開了！"
+
+#: lang/json/martial_art_from_json.py
 msgid "Judo"
 msgstr "柔道"
 
@@ -61400,6 +61461,15 @@ msgstr "戰舞節奏"
 #: lang/json/martial_art_from_json.py
 msgid "+1 dodge and +1 blocks per stack"
 msgstr "+1 閃避 與 +1 格擋每次疊加"
+
+#: lang/json/martial_art_from_json.py
+msgid "Capoeira Momentum"
+msgstr "戰舞氣勢"
+
+#. ~ Description of buff 'Capoeira Momentum' for martial art 'Capoeira'
+#: lang/json/martial_art_from_json.py
+msgid "+2 bash and +1 acc per stack"
+msgstr "+2 鈍擊 與 +1 命中每次疊加"
 
 #: lang/json/martial_art_from_json.py
 msgid "Krav Maga"
@@ -61467,6 +61537,15 @@ msgid "Silent melee attacks"
 msgstr "無聲近戰攻擊"
 
 #: lang/json/martial_art_from_json.py
+msgid "Momentum shift"
+msgstr "動能轉移"
+
+#. ~ Description of buff 'Momentum shift' for martial art 'Ninjutsu'
+#: lang/json/martial_art_from_json.py
+msgid "Bonus dodges and increased to-hit"
+msgstr "額外的閃避並增加命中"
+
+#: lang/json/martial_art_from_json.py
 msgid "Taekwondo"
 msgstr "跆拳道"
 
@@ -61524,6 +61603,15 @@ msgid "Intelligence increases dodging ability"
 msgstr "智力增加閃避能力"
 
 #: lang/json/martial_art_from_json.py
+msgid "Counter Strike"
+msgstr "反擊"
+
+#. ~ Description of buff 'Counter Strike' for martial art 'Zui Quan'
+#: lang/json/martial_art_from_json.py
+msgid "Extra damage and to-hit after successful dodge"
+msgstr "在閃避成功後增加額外的傷害及命中"
+
+#: lang/json/martial_art_from_json.py
 msgid "Silat"
 msgstr "印尼刀術"
 
@@ -61545,6 +61633,15 @@ msgid "+1 dodge"
 msgstr "+1 閃避"
 
 #: lang/json/martial_art_from_json.py
+msgid "Silat Counter"
+msgstr "印尼刀術反擊"
+
+#. ~ Description of buff 'Silat Counter' for martial art 'Silat'
+#: lang/json/martial_art_from_json.py
+msgid "Extra to-hit after successful dodge"
+msgstr "在閃避成功後增加額外的命中"
+
+#: lang/json/martial_art_from_json.py
 msgid "Fencing"
 msgstr "擊劍"
 
@@ -61556,6 +61653,15 @@ msgid ""
 "Skilled fencers can take advantage of advances and retreats to deliver "
 "accurate strikes."
 msgstr "這種使用高貴藝術雖然使用柔軟的比賽用劍，但是這種擊劍的技巧可以應用在其他地方，技巧純熟的擊劍士可以巧妙的利用前進與後退的技巧精準的攻擊敵人。"
+
+#: lang/json/martial_art_from_json.py
+msgid "Fencing Footwork"
+msgstr "擊劍步法"
+
+#. ~ Description of buff 'Fencing Footwork' for martial art 'Fencing'
+#: lang/json/martial_art_from_json.py
+msgid "+2 stab and +1 acc per stack"
+msgstr "+2 穿刺 與 +1 命中每次疊加"
 
 #: lang/json/martial_art_from_json.py
 msgid "Niten Ichi-Ryu"
@@ -61581,6 +61687,21 @@ msgstr "你放棄閃躲攻擊，但獲得更多的格擋。"
 #: lang/json/martial_art_from_json.py
 msgid "Perception increases dodging and damage."
 msgstr "感知增加閃避與傷害。"
+
+#. ~ Description of buff 'Blocking' for martial art 'Niten Ichi-Ryu'
+#: lang/json/martial_art_from_json.py
+msgid "You forgo dodging on the move, but gain more blocks."
+msgstr "你在移動時放棄閃避，取而代之的是更多的格擋。"
+
+#: lang/json/martial_art_from_json.py
+msgid "In-One Timing Set-Up"
+msgstr ""
+
+#. ~ Description of buff 'In-One Timing Set-Up' for martial art 'Niten Ichi-
+#. Ryu'
+#: lang/json/martial_art_from_json.py
+msgid "You found a gap in the enemy's defense!"
+msgstr "你在敵人的防禦中發現了一絲縫隙！"
 
 #: lang/json/martial_art_from_json.py
 msgid "Eskrima"
@@ -61635,6 +61756,15 @@ msgid "Damage bonus from dexterity at the cost of damage from strength."
 msgstr "傷害加成和敏捷而非力量成正比。"
 
 #: lang/json/martial_art_from_json.py
+msgid "Crane's Flight"
+msgstr "鶴形展翅"
+
+#. ~ Description of buff 'Crane's Flight' for martial art 'Crane Kung Fu'
+#: lang/json/martial_art_from_json.py
+msgid "+2 Dodge"
+msgstr "+2 閃避"
+
+#: lang/json/martial_art_from_json.py
 msgid "Dragon Kung Fu"
 msgstr "龍形拳"
 
@@ -61656,6 +61786,15 @@ msgid "Bonus damage from intelligence."
 msgstr "傷害加成和智力成正比。"
 
 #: lang/json/martial_art_from_json.py
+msgid "Dragon's Flight"
+msgstr "龍翔"
+
+#. ~ Description of buff 'Dragon's Flight' for martial art 'Dragon Kung Fu'
+#: lang/json/martial_art_from_json.py
+msgid "+2 Accuracy & Damage"
+msgstr "+2 命中與傷害"
+
+#: lang/json/martial_art_from_json.py
 msgid "Leopard Kung Fu"
 msgstr "豹形拳"
 
@@ -61675,6 +61814,15 @@ msgstr "豹之戰術"
 #: lang/json/martial_art_from_json.py
 msgid "Perception and intelligence provide a bonus to dodge."
 msgstr "感知與智力能提昇閃避。"
+
+#: lang/json/martial_art_from_json.py
+msgid "Leopard's Stalk"
+msgstr "豹之潛行"
+
+#. ~ Description of buff 'Leopard's Stalk' for martial art 'Leopard Kung Fu'
+#: lang/json/martial_art_from_json.py
+msgid "+2 Accuracy"
+msgstr "+2 命中"
 
 #: lang/json/martial_art_from_json.py
 msgid "Tiger Kung Fu"
@@ -61789,6 +61937,16 @@ msgid "Gain up to +6 armor while standing still"
 msgstr "站著不動時增加 6 點護甲"
 
 #: lang/json/martial_art_from_json.py
+msgid "Iron Skin Dissipation"
+msgstr "鐵甲消散"
+
+#. ~ Description of buff 'Iron Skin Dissipation' for martial art 'Toad Kung
+#. Fu'
+#: lang/json/martial_art_from_json.py
+msgid "Iron Skin softens when you move!"
+msgstr "當你移動時鐵甲會軟化！"
+
+#: lang/json/martial_art_from_json.py
 msgid "Lizard Kung Fu"
 msgstr "蜥蜴功"
 
@@ -61819,7 +61977,7 @@ msgstr "毒牙鎖"
 #. ~ Description of buff 'Viper Lock' for martial art 'Viper Kung Fu'
 #: lang/json/martial_art_from_json.py
 msgid "You bit true!  Your next attack will be the Viper Strike!"
-msgstr "你咬到對方了！你的下一個攻擊是毒蛇突擊！"
+msgstr "你咬到對方了！你的下一個攻擊是毒蛇猛擊！"
 
 #: lang/json/martial_art_from_json.py
 msgid "Viper Patience"
@@ -61831,8 +61989,17 @@ msgid "+2 Dodge.  Dodging an attack initiates a combo."
 msgstr "+2 閃避。閃避攻擊能觸發連擊。"
 
 #: lang/json/martial_art_from_json.py
+msgid "Viper Ambush"
+msgstr "毒蛇伏擊"
+
+#. ~ Description of buff 'Viper Ambush' for martial art 'Viper Kung Fu'
+#: lang/json/martial_art_from_json.py
+msgid "You've lured 'em in!  Your next attack will be a Viper Bite."
+msgstr "你已經撒下了餌！你的下一個攻擊是毒蛇咬。"
+
+#: lang/json/martial_art_from_json.py
 msgid "Debug Mastery"
-msgstr "除蟲大師"
+msgstr "除錯大師"
 
 #. ~ Description for martial art 'Debug Mastery'
 #: lang/json/martial_art_from_json.py
@@ -61893,6 +62060,11 @@ msgstr "擒拿"
 #: lang/json/martial_art_from_json.py
 msgid "I have you now!"
 msgstr "我抓住你了！"
+
+#. ~ Description of buff 'Counter Chance' for martial art 'Pankration'
+#: lang/json/martial_art_from_json.py
+msgid "The enemy has presented an opening in their defense."
+msgstr "敵人的防禦呈現出了破綻。"
 
 #: lang/json/material_from_json.py src/bionics.cpp
 msgid "Alcohol"
@@ -62993,7 +63165,7 @@ msgid ""
 "personally believed the man was some kind of repentant visionary.  I'm not "
 "in a position to cast out the account just yet... it seems the man has "
 "prophesied  events accurately before concerning the Church of Starry Wisdom."
-msgstr "如果你願意的話，我還有另一個任務。牧師特別提到了一位囚犯。我在想，如果你能瞭解發生在他身上的事，或是他留在牢房的東西。牧師已經承認這人非常不穩定，雖然只是輕描淡寫，但是某種懺悔的跡象。我不目前還無法瞭解囚犯的想法...不過似乎之前他對星慧教堂的相關預言都非常準確。"
+msgstr "如果你願意的話，我還有另一個任務。牧師特別提到了一位囚犯。我想知道你是否能瞭解在他身上發生了什麼事情，或是他在牢房裡留下了什麼東西。牧師承認這人非常不穩定...雖然只是輕描淡寫，但他認為這個人有一些懺悔的想法。我目前還沒有立場排除這些報告...不過他之前似乎準確地預言了關於星慧教堂的事件。"
 
 #: lang/json/mission_def_from_json.py
 msgid ""
@@ -63355,7 +63527,7 @@ msgid ""
 "the power grid their power systems will rapidly deteriorate over the next "
 "few weeks.  The task is rather simple but the shelters offer us a place to "
 "redirect refugees until this vault can be secured. "
-msgstr "我覺得我又需要你的技能了。這附近還有些避難所有著發信機。如果我們不早點把他們從電網上摘下來，那幾周內電源大概就會耗盡了。這個任務相當簡單，不過避難所可能會給我們一些新的空間來收容難民。"
+msgstr "我覺得我再一次需要你的技能協助。附近的避難所裡有一些小型發信機，如果不把它們從電網上摘下來，幾周內它們的電力就會消耗殆盡。這個任務相當簡單，不過避難所會提供我們一些安置難民的地方，直到這個掩體的安全獲得保障。"
 
 #: lang/json/mission_def_from_json.py
 msgid ""
@@ -63644,7 +63816,7 @@ msgid ""
 "If you are interested, we are going to need sugar beet seeds to meet future "
 "demand regardless of what the scavengers can find.  Could you bring me at "
 "least enough seeds to plant a small 10 meter long patch?"
-msgstr ""
+msgstr "糖和糖蜜一直供應短缺。我已經申請了更多...但恐怕會有好一段時間無法取得可靠的供應來源。如果你有興趣，我們還需要一些甜菜籽以便滿足未來的需求，不論拾荒者們能找到什麼。你可以替我帶來至少足以種植 10 米田地的甜菜籽嗎？"
 
 #: lang/json/mission_def_from_json.py
 msgid "Farms or supply stories might have a few seeds..."
@@ -65836,7 +66008,7 @@ msgid ""
 "You eat faster, and can eat and drink more, than anyone else!  You also "
 "enjoy food more; delicious food is better for your morale, and you don't "
 "mind unsavory meals as much.  Activate to skip prompt for overeating."
-msgstr ""
+msgstr "你吃東西的速度很快，而且能夠吃喝得比任何人都多！同時你更懂得享受食物，好吃的食物能提振你的士氣，你也不那麼介意難吃食物。啟動以關閉過量飲食的提示。"
 
 #: lang/json/mutation_from_json.py
 msgid "Addiction Resistant"
@@ -66069,7 +66241,7 @@ msgstr "你的氣味很微弱。生物不容易由氣味追蹤到你。"
 
 #: lang/json/mutation_from_json.py
 msgid "Skilled Liar"
-msgstr "詐騙集團"
+msgstr "說謊達人"
 
 #. ~ Description for Skilled Liar
 #: lang/json/mutation_from_json.py
@@ -70030,7 +70202,7 @@ msgstr "驅蟲力場。"
 
 #: lang/json/mutation_from_json.py
 msgid "Debug Hammerspace"
-msgstr "除錯異空間百寶袋"
+msgstr "除錯工具空間"
 
 #. ~ Description for Debug Hammerspace
 #: lang/json/mutation_from_json.py
@@ -70041,7 +70213,7 @@ msgstr "不再為物品製作及建設時的各種要求費心。小心應用。
 
 #: lang/json/mutation_from_json.py
 msgid "Debug CBM Slots Limits"
-msgstr "測試的 CBM 插槽限制"
+msgstr "除錯生化插槽限制"
 
 #. ~ Description for Debug CBM Slots Limits
 #: lang/json/mutation_from_json.py
@@ -70060,7 +70232,7 @@ msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Debug Carrying Capacity"
-msgstr "DEBUG 攜帶量"
+msgstr "除錯攜帶容量"
 
 #. ~ Description for Debug Carrying Capacity
 #: lang/json/mutation_from_json.py
@@ -70256,6 +70428,14 @@ msgstr ""
 
 #: lang/json/npc_from_json.py
 msgid "Bandit"
+msgstr ""
+
+#: lang/json/npc_from_json.py
+msgid "Raider"
+msgstr ""
+
+#: lang/json/npc_from_json.py
+msgid "Captive"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py src/mapdata.cpp src/mapdata.cpp
@@ -85326,12 +85506,12 @@ msgstr "毒蛇猛擊"
 #: lang/json/technique_from_json.py
 #, python-format
 msgid "You Viper Strike %s!"
-msgstr "你對 %s 發動 毒蛇攻擊！"
+msgstr "你對 %s 發動 毒蛇猛擊！"
 
 #: lang/json/technique_from_json.py
 #, python-format
 msgid "<npcname> Viper Strikes %s!"
-msgstr "<npcname>對%s 發動 毒蛇攻擊！"
+msgstr "<npcname>對%s 發動 毒蛇猛擊！"
 
 #: lang/json/technique_from_json.py
 msgid "Viper Writhe"
@@ -87393,7 +87573,7 @@ msgid ""
 "item, press 't' and then select the item to throw.  The maximum range "
 "depends on your strength and the object's weight and size.  Throwing isn't "
 "very good in most combat situations, but if you've got some fire power..."
-msgstr "你剛拉下了手榴彈的插梢！你最好趕快投擲出去。按下 't' 來選取物品進行投擲。投擲的最遠距離取決於你的力量和物品的重量及大小。\r\n投擲物品的動作在大部分的戰鬥中起不了什麼太大的作用，除非你丟的是手榴彈之類的東西..."
+msgstr "你剛拉下了手榴彈的插梢！你最好趕快投擲出去。按下 't' 來選取物品進行投擲。投擲的最遠距離取決於你的力量和物品的重量及大小。投擲物品的動作在大部分的戰鬥中起不了什麼太大的作用，除非你丟的是手榴彈之類的東西..."
 
 #: lang/json/tutorial_messages_from_json.py
 msgid ""
@@ -88112,15 +88292,15 @@ msgstr "伸縮臂起重機"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "foldable light frame"
-msgstr "折疊式輕型車架"
+msgstr "折疊輕型框架"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "frame"
-msgstr "車架"
+msgstr "框架"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "extra light frame"
-msgstr "超輕車架"
+msgstr "超輕型框架"
 
 #: lang/json/vehicle_part_from_json.py lang/json/vehicle_part_from_json.py
 #: src/vehicle.cpp
@@ -89077,31 +89257,11 @@ msgstr "凝膠安全帶"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "gel framework"
+msgstr "凝膠框架"
+
+#: lang/json/vehicle_part_from_json.py
+msgid "capsule (10L)"
 msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "diesel capsule"
-msgstr "柴油囊"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "diesel capsule (under)"
-msgstr "柴油囊（下方）"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "feed capsule"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "feed capsule (under)"
-msgstr "飼料囊（下方）"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "gasoline capsule"
-msgstr "汽油囊"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "gasoline capsule (under)"
-msgstr "汽油囊（下方）"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "gel reinforcement"
@@ -89122,22 +89282,6 @@ msgstr ""
 #: lang/json/vehicle_part_from_json.py
 msgid "gel pouch (under)"
 msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "dirty water capsule"
-msgstr "污水囊"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "dirty water capsule (under)"
-msgstr "污水囊（下方）"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "clean water capsule"
-msgstr "淨水囊"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "clean water capsule (under)"
-msgstr "淨水囊（下方）"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "gel walkway"
@@ -89180,28 +89324,8 @@ msgid "gray frame"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "diesel cocoon"
-msgstr "柴油繭"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "diesel cocoon (under)"
-msgstr "柴油繭（下方）"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "feed cocoon"
-msgstr "飼料繭"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "feed cocoon (under)"
-msgstr "飼料繭（下方）"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "gasoline cocoon"
-msgstr "汽油繭"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "gasoline cocoon (under)"
-msgstr "汽油繭（下方）"
+msgid "cocoon (25L)"
+msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "gray reinforcement"
@@ -89222,22 +89346,6 @@ msgstr ""
 #: lang/json/vehicle_part_from_json.py
 msgid "gray pouch (under)"
 msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "dirty water cocoon"
-msgstr "污水繭"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "dirty water cocoon (under)"
-msgstr "污水繭（下方）"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "clean water cocoon"
-msgstr "淨水繭"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "clean water cocoon (under)"
-msgstr "淨水繭（下方）"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "gray walkway"
@@ -89280,28 +89388,8 @@ msgid "ooze chassis"
 msgstr "軟泥底盤"
 
 #: lang/json/vehicle_part_from_json.py
-msgid "diesel pod"
-msgstr "柴油莢"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "diesel pod (under)"
-msgstr "柴油莢（下方）"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "feed pod"
-msgstr "飼料莢"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "feed pod (under)"
-msgstr "飼料莢（下方）"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "gasoline pod"
-msgstr "汽油莢"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "gasoline pod (under)"
-msgstr "汽油莢（下方）"
+msgid "pod (20L)"
+msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "ooze reinforcement"
@@ -89322,22 +89410,6 @@ msgstr ""
 #: lang/json/vehicle_part_from_json.py
 msgid "ooze pouch (under)"
 msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "dirty water pod"
-msgstr "污水莢"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "dirty water pod (under)"
-msgstr "污水莢（下方）"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "clean water pod"
-msgstr "淨水莢"
-
-#: lang/json/vehicle_part_from_json.py
-msgid "clean water pod (under)"
-msgstr "淨水莢（下方）"
 
 #: lang/json/vehicle_part_from_json.py
 msgid "ooze walkway"
@@ -91789,6 +91861,29 @@ msgstr "自動拾取功能沒有啟用。現在啟用？"
 msgid "autopickup configuration"
 msgstr "自動拾取設定"
 
+#: src/ballistics.cpp
+#, c-format
+msgid "The %s shatters!"
+msgstr "%s 粉碎了！"
+
+#: src/ballistics.cpp
+#, c-format
+msgid "The %1$s embeds in %2$s!"
+msgstr "%1$s 嵌進了 %2$s！"
+
+#: src/ballistics.cpp src/map.cpp
+msgid "splash!"
+msgstr "啪啦！"
+
+#: src/ballistics.cpp
+msgid "thud."
+msgstr "咚。"
+
+#: src/ballistics.cpp
+#, c-format
+msgid "The attack bounced to %s!"
+msgstr "攻擊反彈到了 %s！"
+
 #. ~ Name of a basecamp
 #: src/basecamp.cpp
 #, c-format
@@ -93944,7 +94039,7 @@ msgstr "你吃飽了，還要再吃嗎？"
 
 #: src/consumption.cpp
 msgid "You're full, but you cram it into your mouth without a second thought."
-msgstr ""
+msgstr "你吃飽了，但你想都不想就把它塞進嘴裡。"
 
 #: src/consumption.cpp
 msgid "You will not be able to finish it all.  Consume it?"
@@ -98555,7 +98650,7 @@ msgstr "無法儲存遊戲資料"
 
 #: src/game.cpp
 msgid "Debug Functions - Using these is CHEATING!"
-msgstr "除錯功能-用這算作弊！"
+msgstr "除錯功能 - 用這算是作弊！"
 
 #: src/game.cpp
 msgid "Wish for an item"
@@ -98759,7 +98854,7 @@ msgstr "選擇要產生的車輛"
 
 #: src/game.cpp
 msgid "Martial arts debug."
-msgstr "武術除錯"
+msgstr "武術除錯。"
 
 #: src/game.cpp
 msgid "Your eyes blink rapidly as knowledge floods your brain."
@@ -98905,6 +99000,10 @@ msgstr "食物供應: %s"
 #, c-format
 msgid "Combat Ability:    %s"
 msgstr "戰鬥力: %s"
+
+#: src/game.cpp
+msgid "Time: ???"
+msgstr ""
 
 #: src/game.cpp
 msgid "Underground"
@@ -101995,7 +102094,7 @@ msgid ""
 "survivor's runner pack (belted). Her encumbrance penalty is 0.  If she put "
 "on a tank top it would conflict with the leather touring suit and add the "
 "minimum encumbrance penalty of 2."
-msgstr ""
+msgstr "舉例來說，一個女性角色可以在軀幹上穿著一件皮革馬甲（貼身）、一件皮革旅行套裝（一般）、一件風衣（外層）、一個生存者慢跑背包（繫結），此時她的軀幹累贅會是 0。如果她再穿上一件背心，它將與皮革旅行套裝衝突並增加 2 的累贅懲罰最小值。"
 
 #: src/help.cpp
 #, c-format
@@ -103903,14 +104002,6 @@ msgid_plural "Uses <stat>%i</stat> charges of UPS per shot"
 msgstr[0] "使用UPS <stat>%i</stat> 的電量來發射一槍。"
 
 #: src/item.cpp
-msgid "<bold>Effective range: </bold>"
-msgstr "<bold>有效射程: </bold>"
-
-#: src/item.cpp
-msgid "Maximum range: "
-msgstr "最大射程:"
-
-#: src/item.cpp
 msgid "<num> seconds"
 msgstr "<num> 秒"
 
@@ -104305,10 +104396,6 @@ msgid "* This item can be worn on <info>either side</info> of the body."
 msgstr "* 這件物品可以穿在身上<info>任何一邊</info>。"
 
 #: src/item.cpp
-msgid "* This piece of clothing is <bad>filthy</bad>."
-msgstr "* 這一件衣物是 <bad>骯髒的</bad>。"
-
-#: src/item.cpp
 msgid "* This gear is a part of power armor."
 msgstr "* 這件裝備是動力裝甲的部件。"
 
@@ -104688,27 +104775,27 @@ msgstr "右"
 
 #: src/item.cpp
 msgid "++"
-msgstr ""
+msgstr "++"
 
 #: src/item.cpp
 msgid "||"
-msgstr ""
+msgstr "||"
 
 #: src/item.cpp
 msgid ".."
-msgstr ""
+msgstr ".."
 
 #: src/item.cpp
 msgid "\\."
-msgstr ""
+msgstr "\\."
 
 #: src/item.cpp
 msgid "|."
-msgstr ""
+msgstr "|."
 
 #: src/item.cpp
 msgid "|\\"
-msgstr ""
+msgstr "|\\"
 
 #: src/item.cpp
 msgid "isn't a weapon"
@@ -110275,10 +110362,6 @@ msgstr "你的 %s 無法在這種地形上移動。"
 msgid "Your %s is beached."
 msgstr "你的 %s 擱淺了。"
 
-#: src/map.cpp src/ranged.cpp
-msgid "splash!"
-msgstr "啪啦！"
-
 #: src/map.cpp
 #, c-format
 msgid "You take %d damage by the power of the impact!"
@@ -113960,6 +114043,37 @@ msgid "Your freshly-detached vine is too heavy to carry, so you drop it."
 msgstr "你新剝落的藤蔓太重了，所以你把它丟棄在地上。"
 
 #: src/mutation.cpp
+msgid "MUTATIONS -"
+msgstr ""
+
+#: src/mutation.cpp src/player.cpp
+#, c-format
+msgid "Power: %d/%d"
+msgstr "能量: %d/%d"
+
+#: src/mutation.cpp
+msgid ""
+"Reassigning.\n"
+"Select a mutation to reassign or press SPACE to cancel."
+msgstr ""
+
+#: src/mutation.cpp
+msgid ""
+"<color_green>Activating</color>  <color_yellow>!</color> to examine, "
+"<color_yellow>=</color> to reassign."
+msgstr ""
+
+#: src/mutation.cpp
+msgid ""
+"<color_ltblue>Examining</color>  <color_yellow>!</color> to activate, "
+"<color_yellow>=</color> to reassign."
+msgstr ""
+
+#: src/mutation.cpp
+msgid "Might need to use ? to assign the keys."
+msgstr ""
+
+#: src/mutation.cpp
 msgid "You feel something straining deep inside you, yearning to be free..."
 msgstr "你感覺到有東西在你的體內深處掙扎，渴望被解放..."
 
@@ -114315,7 +114429,7 @@ msgstr "近戰命中加成: +%.2f"
 #: src/newcharacter.cpp src/player_display.cpp
 #, c-format
 msgid "Throwing penalty per target's dodge: +%d"
-msgstr ""
+msgstr "每點目標閃避的投擲懲罰: +%d"
 
 #: src/newcharacter.cpp
 msgid "Dexterity also enhances many actions which require finesse."
@@ -118264,11 +118378,6 @@ msgid "Total bionics: %d"
 msgstr "生化插件總數: %d"
 
 #: src/player.cpp
-#, c-format
-msgid "Power: %d/%d"
-msgstr "能量: %d/%d"
-
-#: src/player.cpp
 msgid "Weapon:"
 msgid_plural "Weapons:"
 msgstr[0] "武器:"
@@ -119995,35 +120104,35 @@ msgstr "任務 \"%s\" 成功完成。"
 #, c-format
 msgid "Swimming costs %+d movement point. "
 msgid_plural "Swimming costs %+d movement points. "
-msgstr[0] "游泳消耗 %+d 移動點數. "
+msgstr[0] "游泳消耗 %+d 移動點數。 "
 
 #: src/player_display.cpp
 #, c-format
 msgid "Running costs %+d movement point. "
 msgid_plural "Running costs %+d movement points. "
-msgstr[0] "奔跑消耗 %+d 移動點數. "
+msgstr[0] "奔跑消耗 %+d 移動點數。 "
 
 #: src/player_display.cpp
 #, c-format
 msgid "Reloading costs %+d movement point. "
 msgid_plural "Reloading costs %+d movement points. "
-msgstr[0] "重新裝填消耗 %+d 移動點數. "
+msgstr[0] "重新裝填消耗 %+d 移動點數。 "
 
 #: src/player_display.cpp
 #, c-format
 msgid "Melee and thrown attacks cost %+d movement point. "
 msgid_plural "Melee and thrown attacks cost %+d movement points. "
-msgstr[0] "近戰與投擲攻擊消耗 %+d 移動點數. "
+msgstr[0] "近戰與投擲攻擊消耗 %+d 移動點數。 "
 
 #: src/player_display.cpp
 #, c-format
 msgid "Dodge skill %+.1f. "
-msgstr "閃避技能 %+.1f. "
+msgstr "閃避技能 %+.1f。 "
 
 #: src/player_display.cpp
 #, c-format
 msgid "Melee attack rolls %+d%%; "
-msgstr "近戰命中 %+d%%;"
+msgstr "近戰命中 %+d%%； "
 
 #: src/player_display.cpp
 msgid ""
@@ -120035,7 +120144,7 @@ msgstr "頭部累贅度沒有影響；僅僅限制你能穿上的東西。"
 msgid ""
 "Perception %+d when checking traps or firing ranged weapons;\n"
 "Dispersion %+d when throwing items."
-msgstr ""
+msgstr "偵測陷阱或射擊武器時感知 %+d；\n投擲物品時分散 %+d。"
 
 #: src/player_display.cpp
 msgid ""
@@ -120056,7 +120165,7 @@ msgstr "降低你處理或操控物品的速度\n"
 #: src/player_display.cpp
 #, c-format
 msgid "Dexterity %+.1f when throwing items;\n"
-msgstr ""
+msgstr "投擲物品時敏捷 %+.1f；\n"
 
 #: src/player_display.cpp
 msgid "Dexterity"
@@ -120850,11 +120959,6 @@ msgstr "你關閉了你的鬧鐘。"
 
 #: src/ranged.cpp
 #, c-format
-msgid "The attack bounced to %s!"
-msgstr "攻擊反彈到了 %s！"
-
-#: src/ranged.cpp
-#, c-format
 msgid "Your %s misfires with a wet click!"
 msgstr "你的 %s 只發出濕響無法擊發！"
 
@@ -121152,20 +121256,6 @@ msgstr "喀碰！！"
 #: src/ranged.cpp
 msgid "kerblam!"
 msgstr "咔啦碰！"
-
-#: src/ranged.cpp
-#, c-format
-msgid "The %s shatters!"
-msgstr "%s 粉碎了！"
-
-#: src/ranged.cpp
-#, c-format
-msgid "The %1$s embeds in %2$s!"
-msgstr "%1$s 嵌進了 %2$s！"
-
-#: src/ranged.cpp
-msgid "thud."
-msgstr "咚。"
 
 #: src/requirements.cpp
 #, c-format
