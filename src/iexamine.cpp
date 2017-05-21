@@ -53,6 +53,7 @@ const skill_id skill_survival( "survival" );
 
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_teleglow( "teleglow" );
+const efftype_id effect_milked("milked");
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -2784,17 +2785,31 @@ void iexamine::water_source(player &p, const tripoint &examp)
 
 void iexamine::milk_source( monster *source_mon )
 {
-    // Creates the milk item based on milk charges left
-    item milk( "milk", 0, source_mon->milk_left );
-    if( source_mon->turn_next_milking < calendar::turn ) {
-        // Recharge the milk of the creature
-        source_mon->milk_left = 4;
+
+    item milk( "milk", 0, 1 );
+
+    // Max duration set here to avoid including effect.h
+    int max_dur = 14400;
+    // Minimun time in turns needed for the cow to regenerate the milk and which is 6 hours
+    int min_dur = 3600;
+    int current_dur = 0;
+    // Initialize current_dur if source_mon has the effect
+    if( source_mon->has_effect( effect_milked ) ) {
+        current_dur = source_mon->get_effect_dur( effect_milked );
+    }
+
+    int available_milk = 0;
+    if( !source_mon->has_effect( effect_milked ) ) {
+
         g->handle_liquid( milk, nullptr, 0, nullptr, nullptr, source_mon );
         add_msg( _( "You milk the %s." ), source_mon->disp_name().c_str() );
-        source_mon->turn_next_milking = calendar::turn.get_turn() + HOURS( 24 );
-    } else if( source_mon->milk_left > 0 ) {
+        source_mon->add_effect( effect_milked, min_dur );
+
+    } else if( source_mon->has_effect( effect_milked ) && ( ( max_dur - current_dur ) > max_dur ) ) {
         g->handle_liquid( milk, nullptr, 0, nullptr, nullptr, source_mon );
         add_msg( _( "You milk the %s." ), source_mon->disp_name().c_str() );
+        current_dur = source_mon->get_effect_dur( effect_milked );
+        source_mon->add_effect( effect_milked, current_dur += min_dur );
     } else {
         add_msg( _( "The %s's udders run dry" ), source_mon->disp_name().c_str() );
     }
