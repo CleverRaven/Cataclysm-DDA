@@ -41,9 +41,10 @@ compiler: gcc
 os: linux
 
 env:
-    matrix:
-        - CXXFLAGS=Tomatoes
-        - CXXFLAGS=DOGS
+    global:
+        matrix:
+            - CXXFLAGS=Tomatoes
+            - CXXFLAGS=DOGS
 
 matrix:
   exclude:
