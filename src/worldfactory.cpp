@@ -82,7 +82,6 @@ void WORLD::add_save( const save_t &name )
 worldfactory::worldfactory()
 : active_world( nullptr )
 , all_worlds()
-, all_worldnames()
 , mman( nullptr )
 , mman_ui( nullptr )
 {
@@ -111,7 +110,6 @@ WORLDPTR worldfactory::add_world( WORLDPTR retworld )
 {
     // add world to world list
     all_worlds[ retworld->world_name ] = retworld;
-    all_worldnames.push_back( retworld->world_name );
 
     std::ostringstream path;
     path << FILENAMES[ "savedir" ] << utf8_to_native( retworld->world_name );
@@ -119,9 +117,6 @@ WORLDPTR worldfactory::add_world( WORLDPTR retworld )
 
     if( !save_world( retworld ) ) {
         std::string worldname = retworld->world_name;
-        std::vector<std::string>::iterator it = std::find( all_worldnames.begin(), all_worldnames.end(),
-                                                           worldname );
-        all_worldnames.erase(it);
         if( all_worlds[ worldname ] != retworld ) {
             delete retworld;
         }
@@ -214,16 +209,12 @@ WORLDPTR worldfactory::make_new_world(special_game_id special_type)
 
     // add world to world list!
     all_worlds[worldname] = special_world;
-    all_worldnames.push_back(worldname);
 
     std::ostringstream path;
     path << FILENAMES["savedir"] << utf8_to_native( worldname );
     special_world->world_path = path.str();
 
     if (!save_world(special_world)) {
-        std::vector<std::string>::iterator it = std::find(all_worldnames.begin(), all_worldnames.end(),
-                                                worldname);
-        all_worldnames.erase(it);
         delete all_worlds[worldname];
         delete special_world;
         all_worlds.erase(worldname);
@@ -330,7 +321,6 @@ void worldfactory::init()
         delete elem.second;
     }
     all_worlds.clear();
-    all_worldnames.clear();
 
     // get the master files. These determine the validity of a world
     // worlds exist by having an option file
@@ -353,7 +343,6 @@ void worldfactory::init()
         all_worlds[worldname] = new WORLD();
         // give the world a name
         all_worlds[worldname]->world_name = worldname;
-        all_worldnames.push_back(worldname);
         // add sav files
         for( auto &world_sav_file : world_sav_files ) {
             all_worlds[worldname]->world_saves.push_back( save_t::from_base_path( world_sav_file ) );
@@ -378,23 +367,27 @@ void worldfactory::init()
             converted_world->world_saves = all_worlds["save"]->world_saves;
             converted_world->WORLD_OPTIONS = all_worlds["save"]->WORLD_OPTIONS;
 
-            std::vector<std::string>::iterator oldindex = std::find(all_worldnames.begin(),
-                    all_worldnames.end(), "save");
-
             delete all_worlds["save"];
             all_worlds.erase("save");
-            all_worldnames.erase(oldindex);
 
             all_worlds[converted_world->world_name] = converted_world;
-            all_worldnames.push_back(converted_world->world_name);
         }
     }
+}
+
+std::vector<std::string> worldfactory::all_worldnames() const
+{
+    std::vector<std::string> result;
+    for( auto &elem : all_worlds ) {
+        result.push_back( elem.first );
+    }
+    return result;
 }
 
 WORLDPTR worldfactory::pick_world( bool show_prompt )
 {
     std::map<std::string, WORLDPTR> worlds = all_worlds;
-    std::vector<std::string> world_names = all_worldnames;
+    std::vector<std::string> world_names = all_worldnames();
 
     // Filter out special worlds (TUTORIAL | DEFENSE) from world_names.
     for (std::vector<std::string>::iterator it = world_names.begin(); it != world_names.end();) {
@@ -595,14 +588,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
 
 void worldfactory::remove_world(std::string worldname)
 {
-    std::vector<std::string>::iterator it = std::find(all_worldnames.begin(), all_worldnames.end(),
-                                            worldname);
-    if (it != all_worldnames.end()) {
-        all_worldnames.erase(it);
-
-        delete all_worlds[worldname];
-        all_worlds.erase(worldname);
-    }
+    delete all_worlds[worldname];
+    all_worlds.erase(worldname);
 }
 
 std::string worldfactory::pick_random_name()
@@ -1434,7 +1421,7 @@ bool worldfactory::valid_worldname(std::string name, bool automated)
 
     if (name == "save" || name == "TUTORIAL" || name == "DEFENSE") {
         msg = string_format(_("%s is a reserved name!"), name.c_str());
-    } else if (std::find(all_worldnames.begin(), all_worldnames.end(), name) == all_worldnames.end()) {
+    } else if( all_worlds.count( name ) == 0 ) {
         return true;
     } else {
         msg = string_format(_("A world named %s already exists!"), name.c_str());

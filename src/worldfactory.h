@@ -93,7 +93,8 @@ class worldfactory
         WORLDPTR active_world;
 
         std::map<std::string, WORLDPTR> all_worlds;
-        std::vector<std::string> all_worldnames;
+
+        std::vector<std::string> all_worldnames() const;
 
         mod_manager *get_mod_manager();
 
