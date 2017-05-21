@@ -2792,11 +2792,7 @@ void iexamine::milk_source( monster *source_mon )
     int max_dur = 14400;
     // Minimun time in turns needed for the cow to regenerate the milk and which is 6 hours
     int min_dur = 3600;
-    int current_dur = 0;
-    // Initialize current_dur if source_mon has the effect
-    if( source_mon->has_effect( effect_milked ) ) {
-        current_dur = source_mon->get_effect_dur( effect_milked );
-    }
+
    
     // If that takes care of checking if there's milk left
     if( !source_mon->has_effect( effect_milked ) ) {
