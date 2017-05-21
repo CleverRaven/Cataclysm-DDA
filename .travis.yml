@@ -41,6 +41,10 @@ compiler: gcc
 os: linux
 
 matrix:
+    - env: CXXFLAGS=Tomatoes
+    - env: CXXFLAGS=DOGS
+
+matrix:
   exclude:
     - env: TRAVIS_EMPTY_JOB_WORKAROUND=true
 
