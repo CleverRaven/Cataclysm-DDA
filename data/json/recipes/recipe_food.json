@@ -4152,6 +4152,21 @@
     ]
   ]
 },{
+  "type": "recipe",
+  "result": "chilly-p",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 45000,
+  "autolearn": true,
+  "batch_time_factors":[83, 3],
+  "tools": [
+    [ [ "surface_heat", 5, "LIST" ] ],
+    [ ["rock_quern", -1], ["clay_quern", -1] ]
+  ],
+  "components": [ [ ["chili_pepper", 2] ] ]
+},{
   "type" : "recipe",
   "result": "buckwheat_cooked",
   "category": "CC_FOOD",
@@ -5173,7 +5188,8 @@
     ],
     [
       [ "sauce_red", 1 ],
-      [ "chilly-p", 25]
+      [ "chilly-p", 25],
+      [ "chili_pepper", 1]
     ]
   ]
 },{
@@ -5218,7 +5234,8 @@
     ],
     [
       [ "sauce_red", 1 ],
-      [ "chilly-p", 25]
+      [ "chilly-p", 25],
+      [ "chili_pepper", 1]
     ]
   ]
 },{
