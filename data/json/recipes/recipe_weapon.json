@@ -174,42 +174,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "sling",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "fabrication",
-  "time": 1000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities":[
-    {"id":"CUT","level":1}
-  ],
-  "components": [
-    [
-      [ "leather", 1 ],
-      [ "fur", 1 ]
-    ],
-    [
-      [ "plant_fibre", 20 ],
-      [ "sinew", 20 ],
-      [ "thread", 20 ],
-      [ "yarn", 20 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "sling",
-  "id_suffix": "cord",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "fabrication",
-  "difficulty": 1,
-  "time": 3000,
-  "reversible": true,
-  "autolearn": true,
-  "using": [ [ "cordage", 3 ] ]
-},{
-  "type" : "recipe",
   "result": "slingshot",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
