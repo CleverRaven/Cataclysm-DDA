@@ -652,7 +652,7 @@ void serialize_liquid_source( player_activity &act, const tripoint &pos, const i
     act.str_values.push_back( liquid.serialize() );
 }
 
-enum liquid_target_type { LTT_CONTAINER = 1, LTT_VEHICLE = 2, LTT_MAP = 3, };
+enum liquid_target_type { LTT_CONTAINER = 1, LTT_VEHICLE = 2, LTT_MAP = 3, LTT_MONSTER = 4 };
 
 void serialize_liquid_target( player_activity &act, const vehicle &veh )
 {
@@ -668,11 +668,19 @@ void serialize_liquid_target( player_activity &act, int container_item_pos )
     act.coords.push_back( tripoint() ); // dummy
 }
 
-void serialize_liquid_target( player_activity &act, const tripoint &pos )
+void serialize_liquid_target( player_activity &act, const monster &mon)
 {
-    act.values.push_back( LTT_MAP );
+    act.values.push_back( LTT_MONSTER );
     act.values.push_back( 0 ); // dummy
-    act.coords.push_back( pos );
+    act.coords.push_back(mon.pos());
+}
+
+
+void serialize_liquid_target(player_activity &act, const tripoint &pos)
+{
+    act.values.push_back(LTT_MAP);
+    act.values.push_back(0); // dummy
+    act.coords.push_back(pos);
 }
 
 void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
@@ -684,6 +692,12 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         const tripoint source_pos = act.coords.at( 0 );
         map_stack source_stack = g->m.i_at( source_pos );
         monster *source_mon = nullptr;
+        // Maximum time between fully milkings
+        int max_dur = HOURS(24);
+        // Minimum time between milkings
+        int min_dur = HOURS(6);
+        // Current milking duration
+        int current_dur = 0;
         std::list<item>::iterator on_ground;
         item liquid;
         const auto source_type = static_cast<liquid_source_type>( act.values.at( 0 ) );
@@ -711,6 +725,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             throw std::runtime_error( "could not find source creature for liquid transfer" );
         }
         liquid.deserialize( act.str_values.at( 0 ) );
+        liquid.charges = 1;
         break;
 
             on_ground = source_stack.begin();
@@ -743,6 +758,9 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
                 p->add_msg_if_player( _( "You pour %1$s onto the ground." ), liquid.tname().c_str() );
                 liquid.charges = 0;
             }
+            break;
+        case LTT_MONSTER:
+            liquid.charges = 0;  
             break;
         }
 
@@ -779,22 +797,21 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         case LST_INFINITE_MAP:
             // nothing, the liquid source is infinite
             break;
-        case LST_MONSTER:
-            // Max duration set here to avoid including effect.h
-            int max_dur = 14400;
-            // Minimun time in turns needed for the cow to regenerate the milk and which is 6 hours
-            int min_dur = 3600;
-            int current_dur = source_mon->get_effect_dur( effect_milked );
-            // Initialize current_dur if source_mon has the effect
-
+        case LST_MONSTER:          
+            current_dur = source_mon->get_effect_dur(effect_milked);
             if( !source_mon->has_effect( effect_milked ) )
             {
                 source_mon->add_effect( effect_milked, min_dur );
-            } else if( source_mon->has_effect( effect_milked ) &&
-                       ( ( max_dur - current_dur ) < max_dur ) ) {
-                current_dur = source_mon->get_effect_dur( effect_milked );
+            } else if( ( ( max_dur - current_dur ) <= max_dur ) ) {
+                
                 source_mon->add_effect( effect_milked, current_dur += min_dur );
+                
+            } else { act.set_to_null(); }
+
+            if( liquid.charges == 0 ) {
+                act.set_to_null();
             }
+
             break;
         }
 

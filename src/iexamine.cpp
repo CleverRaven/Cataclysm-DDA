@@ -2788,13 +2788,11 @@ void iexamine::milk_source( monster *source_mon )
     item milk( "milk", 0, 1 );
 
     // Max duration set here to avoid including effect.h
-    int max_dur = HOURS(24);
+    int max_dur = HOURS(30);
+    int min_dur = HOURS(6);
 
     // If that takes care of checking if there's milk left
-    if( !source_mon->has_effect( effect_milked ) ) {
-        g->handle_liquid( milk, nullptr, 0, nullptr, nullptr, source_mon );
-        add_msg( _( "You milk the %s." ), source_mon->disp_name().c_str() );
-    } else if( ( ( max_dur - source_mon->get_effect_dur( effect_milked ) ) < max_dur ) ) {
+    if( ( ( max_dur - source_mon->get_effect_dur( effect_milked ) ) <= max_dur ) ) {
         g->handle_liquid( milk, nullptr, 0, nullptr, nullptr, source_mon );
         add_msg( _( "You milk the %s." ), source_mon->disp_name().c_str() );
     } else {
