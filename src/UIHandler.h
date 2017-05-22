@@ -65,7 +65,7 @@ void DrawBorder( WINDOW *wf_win, point offset, point m_thisSize );
  * + - - - - - - - - - + <- wf_win
  * </pre>
  *
- * \param wf_win The window to draw the tabs in
+ * \param wf_win The window to draw the tab in
  * \param offset Where to start the tab
  * \param tabOffset Additional offset on the x axis
  * \param tabActive Whether or not the tab is currently active
