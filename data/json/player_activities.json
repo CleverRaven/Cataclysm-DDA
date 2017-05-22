@@ -306,5 +306,5 @@
     "type": "activity_type",
     "stop_phrase": "Stop washing?",
     "based_on": "speed"
-   }
+  }
 ]
