@@ -163,7 +163,7 @@ point ui::TabPanel::RequestedSize( Sizes sizes )
     // Space for the tab's height
     size += { 0, 2 };
 
-    if( m_drawBorder )
+    if( drawBorder )
         // Panel's border
         size += { 2, 2 };
 
@@ -200,7 +200,7 @@ void ui::TabPanel::SetSize( point size )
     }
     auto newSize = size;
 
-    if( m_drawBorder ) // they lose two characters to the border
+    if( drawBorder ) // they lose two characters to the border
         newSize -= { 2, 2 };
 
     newSize -= { 0, 2 }; // and another two (on the y) for the tabs
@@ -211,7 +211,7 @@ void ui::TabPanel::SetSize( point size )
 
 void ui::TabPanel::DrawEverything( WINDOW *wf_win, point offset )
 {
-    if( m_drawBorder ) {
+    if( drawBorder ) {
         auto bOffset = offset;
 
         //Acounting for the fact we have tabs
@@ -246,7 +246,7 @@ void ui::TabPanel::DrawEverything( WINDOW *wf_win, point offset )
     if( !m_childPanels.empty() ) {
         point offset;
 
-        if( m_drawBorder ) // if we have borders we want to go in them'
+        if( drawBorder ) // if we have borders we want to go in them'
             offset += { 1, 1 };
 
         offset += { 0, 2 }; // We go bellow the tabs
@@ -263,9 +263,9 @@ void ui::TabPanel::SwitchTab( size_t tab )
     SetSize( m_thisSize );
 }
 
-ui::TabPanel::TabPanel( bool drawBorder )
+ui::TabPanel::TabPanel( bool newDrawBorder )
 {
-    m_drawBorder = drawBorder;
+    drawBorder = newDrawBorder;
 }
 
 void ui::Utils::DrawBorder( WINDOW *wf_win, point offset, point m_thisSize )

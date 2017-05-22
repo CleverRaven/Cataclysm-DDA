@@ -123,7 +123,7 @@ class PaddingPanel : public Panel
 class TabPanel : public Panel
 {
     public:
-        TabPanel( bool drawBorder );
+        TabPanel( bool newDrawBorder );
 
         std::vector<std::pair<std::string, std::shared_ptr<Panel>>> GetTabs() const;
         void AddTab( std::string name, std::shared_ptr<Panel> panel );
@@ -142,7 +142,7 @@ class TabPanel : public Panel
 
         std::vector<std::pair<std::string, std::shared_ptr<Panel>>> m_childPanels;
 
-        bool m_drawBorder;
+        bool drawBorder;
 };
 
 class Window
