@@ -136,11 +136,11 @@ class TabPanel : public Panel
 
         void SwitchTab( size_t tab );
     private:
-        size_t m_currentTab = 0;
+        size_t currentTab = 0;
 
-        point m_thisSize;
+        point thisSize;
 
-        std::vector<std::pair<std::string, std::shared_ptr<Panel>>> m_childPanels;
+        std::vector<std::pair<std::string, std::shared_ptr<Panel>>> childPanels;
 
         bool drawBorder;
 };

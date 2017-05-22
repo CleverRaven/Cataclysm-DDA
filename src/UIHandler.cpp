@@ -142,18 +142,18 @@ ui::PaddingPanel::PaddingPanel( bool newDrawBorder )
 
 std::vector<std::pair<std::string, std::shared_ptr<ui::Panel>>> ui::TabPanel::GetTabs() const
 {
-    return m_childPanels;
+    return childPanels;
 }
 
 void ui::TabPanel::AddTab( std::string name, std::shared_ptr<Panel> panel )
 {
-    m_childPanels.push_back( std::pair<std::string, std::shared_ptr<Panel>>( name, panel ) );
+    childPanels.push_back( std::pair<std::string, std::shared_ptr<Panel>>( name, panel ) );
 }
 
 void ui::TabPanel::RemoveTab( size_t index )
 {
-    assert( m_childPanels.size() > index );
-    m_childPanels.erase( m_childPanels.begin() + index );
+    assert( childPanels.size() > index );
+    childPanels.erase( childPanels.begin() + index );
 }
 
 point ui::TabPanel::RequestedSize( Sizes sizes )
@@ -167,18 +167,18 @@ point ui::TabPanel::RequestedSize( Sizes sizes )
         // Panel's border
         size += { 2, 2 };
 
-    if( m_childPanels.empty() ) {
+    if( childPanels.empty() ) {
         return size;
     }
 
-    assert( m_currentTab < m_childPanels.size() );
-    assert( m_childPanels[m_currentTab].second != nullptr );
+    assert( currentTab < childPanels.size() );
+    assert( childPanels[currentTab].second != nullptr );
 
-    auto paneSize = m_childPanels[m_currentTab].second->RequestedSize( sizes );
+    auto paneSize = childPanels[currentTab].second->RequestedSize( sizes );
     size += paneSize;
 
     int len = 0;
-    for( auto tx : m_childPanels ) {
+    for( auto tx : childPanels ) {
         len += utf8_width( tx.first ) + 6; // 6 tiles for the ".<||>."
     }
 
@@ -193,9 +193,9 @@ void ui::TabPanel::SetSize( point size )
     assert( size.x >= reqSize.x );
     assert( size.y >= reqSize.y );
 
-    m_thisSize = size;
+    thisSize = size;
 
-    if( m_childPanels.empty() ) {
+    if( childPanels.empty() ) {
         return;
     }
     auto newSize = size;
@@ -205,7 +205,7 @@ void ui::TabPanel::SetSize( point size )
 
     newSize -= { 0, 2 }; // and another two (on the y) for the tabs
 
-    m_childPanels[m_currentTab].second->SetSize( newSize );
+    childPanels[currentTab].second->SetSize( newSize );
     return;
 }
 
@@ -217,7 +217,7 @@ void ui::TabPanel::DrawEverything( WINDOW *wf_win, point offset )
         //Acounting for the fact we have tabs
         bOffset += { 0, 2 }; // Go bellow the tabs
 
-        auto bSize = m_thisSize;
+        auto bSize = thisSize;
         bSize -= { 0, 2 }; // We lose two characters to the tabs
 
         Utils::DrawBorder( wf_win, bOffset, bSize );
@@ -235,15 +235,15 @@ void ui::TabPanel::DrawEverything( WINDOW *wf_win, point offset )
     //We then add 5 to account for the "<||>."
 
     int toffset = 0;
-    for( size_t i = 0; i < m_childPanels.size(); i++ ) {
+    for( size_t i = 0; i < childPanels.size(); i++ ) {
         toffset += 1;
 
-        Utils::DrawTab( wf_win, offset, toffset, ( i == m_currentTab ), m_childPanels[i].first );
+        Utils::DrawTab( wf_win, offset, toffset, ( i == currentTab ), childPanels[i].first );
 
-        toffset += 5 + utf8_width( m_childPanels[i].first );
+        toffset += 5 + utf8_width( childPanels[i].first );
     }
 
-    if( !m_childPanels.empty() ) {
+    if( !childPanels.empty() ) {
         point offset;
 
         if( drawBorder ) // if we have borders we want to go in them'
@@ -251,16 +251,16 @@ void ui::TabPanel::DrawEverything( WINDOW *wf_win, point offset )
 
         offset += { 0, 2 }; // We go bellow the tabs
 
-        m_childPanels[m_currentTab].second->DrawEverything( wf_win, offset );
+        childPanels[currentTab].second->DrawEverything( wf_win, offset );
     }
 }
 
 void ui::TabPanel::SwitchTab( size_t tab )
 {
-    m_currentTab = tab;
+    currentTab = tab;
 
     // Regenerate size for children
-    SetSize( m_thisSize );
+    SetSize( thisSize );
 }
 
 ui::TabPanel::TabPanel( bool newDrawBorder )
@@ -268,28 +268,28 @@ ui::TabPanel::TabPanel( bool newDrawBorder )
     drawBorder = newDrawBorder;
 }
 
-void ui::Utils::DrawBorder( WINDOW *wf_win, point offset, point m_thisSize )
+void ui::Utils::DrawBorder( WINDOW *wf_win, point offset, point thisSize )
 {
     // Bottom and top border
-    for( int i = 1; i < m_thisSize.x - 1; i++ ) {
+    for( int i = 1; i < thisSize.x - 1; i++ ) {
         mvwputch( wf_win, offset.y, i + offset.x, BORDER_COLOR, LINE_OXOX );
-        mvwputch( wf_win, offset.y + m_thisSize.y - 1, i + offset.x, BORDER_COLOR, LINE_OXOX );
+        mvwputch( wf_win, offset.y + thisSize.y - 1, i + offset.x, BORDER_COLOR, LINE_OXOX );
     }
 
     // Right and left border
-    for( int i = 1; i < m_thisSize.y - 1; i++ ) {
+    for( int i = 1; i < thisSize.y - 1; i++ ) {
         mvwputch( wf_win, i + offset.y, offset.x, BORDER_COLOR, LINE_XOXO );
-        mvwputch( wf_win, i + offset.y, offset.x + m_thisSize.x - 1, BORDER_COLOR, LINE_XOXO );
+        mvwputch( wf_win, i + offset.y, offset.x + thisSize.x - 1, BORDER_COLOR, LINE_XOXO );
     }
 
     // Corners
     mvwputch( wf_win, offset.y, offset.x, BORDER_COLOR,
               LINE_OXXO );                                         // |^
-    mvwputch( wf_win, offset.y, offset.x + m_thisSize.x - 1, BORDER_COLOR,
+    mvwputch( wf_win, offset.y, offset.x + thisSize.x - 1, BORDER_COLOR,
               LINE_OOXX );                      // ^|
-    mvwputch( wf_win, offset.y + m_thisSize.y - 1, offset.x, BORDER_COLOR,
+    mvwputch( wf_win, offset.y + thisSize.y - 1, offset.x, BORDER_COLOR,
               LINE_XXOO );                      // |_
-    mvwputch( wf_win, offset.y + m_thisSize.y - 1, offset.x + m_thisSize.x - 1, BORDER_COLOR,
+    mvwputch( wf_win, offset.y + thisSize.y - 1, offset.x + thisSize.x - 1, BORDER_COLOR,
               LINE_XOOX ); // _|
 }
 
