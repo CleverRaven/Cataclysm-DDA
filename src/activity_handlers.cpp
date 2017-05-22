@@ -1950,7 +1950,7 @@ void activity_handlers::aim_finish( player_activity *, player * )
 
 void activity_handlers::washing_finish( player_activity *act, player *p )
 {
-    item &filthy_item = p->i_at(act->position);
+    item &filthy_item = p->i_at( act->position );
 
     if( p->is_worn( filthy_item ) ) {
         filthy_item.on_takeoff( *p );
