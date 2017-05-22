@@ -1,55 +1,5 @@
 [
   {
-    "result": "nailrifle",
-    "type": "recipe",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "skills_required": [ "gun", 2 ],
-    "time": 12000,
-    "reversible": true,
-    "autolearn": true,
-    "qualities": [
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 }
-    ],
-    "components": [
-      [ [ "nailgun", 1 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "2x4", 2 ], [ "stick", 3 ] ]
-    ]
-  },
-  {
-    "result": "rifle_flintlock",
-    "type": "recipe",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "fabrication",
-    "difficulty": 8,
-    "skills_required": [ "rifle", 4 ],
-    "time": 240000,
-    "autolearn": true,
-    "book_learn": [ [ "manual_rifle", 5 ], [ "mag_rifle", 6 ] ],
-    "using": [ [ "forging_standard", 4 ], [ "steel_standard", 3 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "HAMMER", "level": 3 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
-      [ [ "swage", -1 ] ]
-    ],
-    "components": [
-      [ [ "2x4", 2 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "sharp_rock", 1 ] ]
-    ]
-  },
-  {
     "result": "carbine_flintlock",
     "type": "recipe",
     "category": "CC_WEAPON",
@@ -74,35 +24,6 @@
     ],
     "components": [
       [ [ "2x4", 2 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "sharp_rock", 1 ] ]
-    ]
-  },
-  {
-    "result": "pistol_flintlock",
-    "type": "recipe",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "fabrication",
-    "difficulty": 8,
-    "skills_required": [ "pistol", 4 ],
-    "time": 80000,
-    "autolearn": true,
-    "book_learn": [ [ "manual_pistol", 5 ], [ "mag_pistol", 6 ] ],
-    "using": [ [ "forging_standard", 2 ], [ "steel_standard", 3 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "HAMMER", "level": 3 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
-      [ [ "swage", -1 ] ]
-    ],
-    "components": [
-      [ [ "2x4", 1 ] ],
       [ [ "pipe", 1 ] ],
       [ [ "sharp_rock", 1 ] ]
     ]
@@ -147,5 +68,84 @@
       { "id": "SCREW_FINE", "level": 1 }
     ],
     "components": [ [ [ "rifle_flintlock", 2 ], [ "carbine_flintlock", 2 ] ] ]
+  },
+  {
+    "result": "nailrifle",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "skills_required": [ "gun", 2 ],
+    "time": 12000,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "nailgun", 1 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "2x4", 2 ], [ "stick", 3 ] ]
+    ]
+  },
+  {
+    "result": "pistol_flintlock",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "skills_required": [ "pistol", 4 ],
+    "time": 80000,
+    "autolearn": true,
+    "book_learn": [ [ "manual_pistol", 5 ], [ "mag_pistol", 6 ] ],
+    "using": [ [ "forging_standard", 2 ], [ "steel_standard", 3 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "anvil", -1 ] ],
+      [ [ "swage", -1 ] ]
+    ],
+    "components": [
+      [ [ "2x4", 1 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "sharp_rock", 1 ] ]
+    ]
+  },
+  {
+    "result": "rifle_flintlock",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "skills_required": [ "rifle", 4 ],
+    "time": 240000,
+    "autolearn": true,
+    "book_learn": [ [ "manual_rifle", 5 ], [ "mag_rifle", 6 ] ],
+    "using": [ [ "forging_standard", 4 ], [ "steel_standard", 3 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "anvil", -1 ] ],
+      [ [ "swage", -1 ] ]
+    ],
+    "components": [
+      [ [ "2x4", 2 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "sharp_rock", 1 ] ]
+    ]
   }
 ]
