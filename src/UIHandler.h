@@ -97,10 +97,10 @@ class Panel
         /**
          * Draws this panel and then tells children to draw themselfs
          *
-         * \param wf_window Window to draw content in
+         * \param wf_win Window to draw content in
          * \param offset where to start drawing
          */
-        virtual void DrawEverything( WINDOW *wf_window, point offset ) = 0;
+        virtual void DrawEverything( WINDOW *wf_win, point offset ) = 0;
 };
 
 class PaddingPanel : public Panel

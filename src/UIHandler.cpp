@@ -56,6 +56,7 @@ void ui::Window::UpdateWindowSize()
     }
 
     m_wf_win = newwin( m_thisSize.y, m_thisSize.x, m_offset.y, m_offset.x );
+    assert(m_wf_win);
     m_wf_winptr = WINDOW_PTR( m_wf_win );
     return;
 }
@@ -324,5 +325,4 @@ void ui::Utils::DrawTab( WINDOW *wf_win, point offset, int tabOffset, bool tabAc
         mvwputch( wf_win, offset.y + 2, offset.x + tabOffset,      c_ltgray, LINE_XXOX ); // _|_
         mvwputch( wf_win, offset.y + 2, offset.x + tabOffsetRight, c_ltgray, LINE_XXOX ); // _|_
     }
-
 }
