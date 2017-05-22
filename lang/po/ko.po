@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-05 22:55+0800\n"
-"PO-Revision-Date: 2017-05-06 15:10+0000\n"
+"POT-Creation-Date: 2017-05-19 17:08+0800\n"
+"PO-Revision-Date: 2017-05-20 13:16+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -6055,6 +6055,17 @@ msgstr "금속 파편"
 #: lang/json/AMMO_from_json.py
 msgid "Small slivers of metal.  Can't see much use for them."
 msgstr "작은 금속 파편입니다. 도저히 사용할 방법이 보이지 않습니다."
+
+#: lang/json/AMMO_from_json.py
+msgid "liquified blob feed"
+msgid_plural "bfeedfuel"
+msgstr[0] ""
+
+#. ~ Description for liquified blob feed
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Liquified blob feed, useful for fueling certain blob based vehicle parts"
+msgstr ""
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "blob feed"
@@ -34114,13 +34125,13 @@ msgid "Core content for Cataclysm-DDA"
 msgstr "Cataclysm-DDA의 중심 컨텐츠"
 
 #: lang/json/MOD_INFO_from_json.py
-msgid "More Craftables"
-msgstr "제작물 추가"
+msgid "Makeshift Items Mod"
+msgstr ""
 
-#. ~ Description for More Craftables
+#. ~ Description for Makeshift Items Mod
 #: lang/json/MOD_INFO_from_json.py
-msgid "Allows crafting of more improvised item variants"
-msgstr "더 많은 급조 물품 종류를 추가합니다."
+msgid "Adds more improvised item variants and rebalances existing ones."
+msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "Classes and Scenarios Mod"
@@ -50274,6 +50285,10 @@ msgid "Build Metal Roof"
 msgstr "금속 지붕 만들기"
 
 #: lang/json/construction_from_json.py
+msgid "Must be supported on at least two sides."
+msgstr ""
+
+#: lang/json/construction_from_json.py
 msgid "Build Concrete Roof"
 msgstr "콘크리트 지붕 만들기"
 
@@ -50340,6 +50355,10 @@ msgstr "철조망 만들기"
 #: lang/json/construction_from_json.py
 msgid "Build Wire Gate"
 msgstr "철사 문 만들기"
+
+#: lang/json/construction_from_json.py
+msgid "Needs to be supported on both sides by fencing, walls, etc."
+msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Seal Crate"
@@ -53658,8 +53677,7 @@ msgstr "자판기"
 
 #: lang/json/furniture_from_json.py lang/json/furniture_from_json.py
 #: lang/json/terrain_from_json.py lang/json/terrain_from_json.py
-#: lang/json/terrain_from_json.py src/iuse.cpp src/map.cpp src/map.cpp
-#: src/map.cpp src/ranged.cpp
+#: lang/json/terrain_from_json.py src/ballistics.cpp src/iuse.cpp src/map.cpp
 msgid "glass breaking!"
 msgstr "쨍그랑!"
 
@@ -54595,9 +54613,8 @@ msgstr[0] "H&K G80 레일건"
 #: lang/json/gun_from_json.py
 msgid ""
 "Developed by Heckler & Koch in 2033, the railgun magnetically propels a "
-"ferromagnetic projectile using an alternating current.  This makes it silent"
-" while still deadly.  Powered by UPS."
-msgstr "2033년 헤클러 앤 코치에 의해 개발된 레일건.  교류 전원을 이용해 만들어진 자기장으로 강자성 물질을 날려버립니다. 치명적인 무기이면서도 동시에 소음도 없는 이 무기는 작동 시에 통합전력공급장치를 필요로 합니다."
+"ferromagnetic projectile using an alternating current.  Powered by UPS."
+msgstr ""
 
 #: lang/json/gun_from_json.py
 msgid "RM120c shotgun"
@@ -59707,6 +59724,20 @@ msgstr "이 의류를 입고 멋쟁이 특성이 있으면 보너스를 받을 �
 msgid "This piece of clothing is <info>fancy</info>."
 msgstr "이 의류는 <info>멋지다</info>."
 
+#: lang/json/json_flag_from_json.py
+msgid ""
+"Zombie-dropped clothing giving various penalties if Filthy mod is active."
+msgstr ""
+
+#. ~ Please leave anything in <angle brackets> unchanged.
+#: lang/json/json_flag_from_json.py
+msgid "This piece of clothing is <bad>filthy</bad>."
+msgstr ""
+
+#: lang/json/json_flag_from_json.py
+msgid "Used for eyes protection from flashbang."
+msgstr ""
+
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
 msgid ""
@@ -59719,6 +59750,12 @@ msgstr "이 의류는 <info>물에 빠지는 것</info>을 방지한다. <good>�
 msgid ""
 "This gear is <bad>fragile</bad> and <info>won't protect you for long</info>."
 msgstr "이 장비는 <bad>부서지기 쉬우며</bad>, <info>오랫동안 보호해주지 못한다</info>."
+
+#. ~ Please leave anything in <angle brackets> unchanged.
+#: lang/json/json_flag_from_json.py
+msgid ""
+"This gear <good>completely protects</good> you from <info>any gas</info>."
+msgstr ""
 
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
@@ -59906,6 +59943,11 @@ msgstr "이 장비는 <info>허리나 허리 주변</info>에 착용한다."
 
 #: lang/json/json_flag_from_json.py
 msgid "Acts as a watch and allows the player to see actual time."
+msgstr ""
+
+#. ~ Please leave anything in <angle brackets> unchanged.
+#: lang/json/json_flag_from_json.py
+msgid "This gear allows to see <info>actual time</info>."
 msgstr ""
 
 #: lang/json/json_flag_from_json.py
@@ -61337,6 +61379,24 @@ msgid "Per increases unarmed power, Str reduces block damage."
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
+msgid "Footwork"
+msgstr ""
+
+#. ~ Description of buff 'Footwork' for martial art 'Boxing'
+#: lang/json/martial_art_from_json.py
+msgid "Gain an extra dodge while moving."
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
+msgid "Counter Chance"
+msgstr ""
+
+#. ~ Description of buff 'Counter Chance' for martial art 'Boxing'
+#: lang/json/martial_art_from_json.py
+msgid "They're wide open!"
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
 msgid "Judo"
 msgstr "유도"
 
@@ -61392,6 +61452,15 @@ msgstr "카포에이라 템포"
 #: lang/json/martial_art_from_json.py
 msgid "+1 dodge and +1 blocks per stack"
 msgstr "효과 중첩될 때마다 회피, 막기 +1"
+
+#: lang/json/martial_art_from_json.py
+msgid "Capoeira Momentum"
+msgstr ""
+
+#. ~ Description of buff 'Capoeira Momentum' for martial art 'Capoeira'
+#: lang/json/martial_art_from_json.py
+msgid "+2 bash and +1 acc per stack"
+msgstr ""
 
 #: lang/json/martial_art_from_json.py
 msgid "Krav Maga"
@@ -61459,6 +61528,15 @@ msgid "Silent melee attacks"
 msgstr "근접 공격이 소리를 내지 않음"
 
 #: lang/json/martial_art_from_json.py
+msgid "Momentum shift"
+msgstr ""
+
+#. ~ Description of buff 'Momentum shift' for martial art 'Ninjutsu'
+#: lang/json/martial_art_from_json.py
+msgid "Bonus dodges and increased to-hit"
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
 msgid "Taekwondo"
 msgstr "태권도"
 
@@ -61516,6 +61594,15 @@ msgid "Intelligence increases dodging ability"
 msgstr "지능에 비례해서 회피 능력 상승"
 
 #: lang/json/martial_art_from_json.py
+msgid "Counter Strike"
+msgstr ""
+
+#. ~ Description of buff 'Counter Strike' for martial art 'Zui Quan'
+#: lang/json/martial_art_from_json.py
+msgid "Extra damage and to-hit after successful dodge"
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
 msgid "Silat"
 msgstr "실랏"
 
@@ -61537,6 +61624,15 @@ msgid "+1 dodge"
 msgstr "회피 +1"
 
 #: lang/json/martial_art_from_json.py
+msgid "Silat Counter"
+msgstr ""
+
+#. ~ Description of buff 'Silat Counter' for martial art 'Silat'
+#: lang/json/martial_art_from_json.py
+msgid "Extra to-hit after successful dodge"
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
 msgid "Fencing"
 msgstr "펜싱"
 
@@ -61547,6 +61643,15 @@ msgid ""
 " techniques are derived from (and applicable to) more functional examples.  "
 "Skilled fencers can take advantage of advances and retreats to deliver "
 "accurate strikes."
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
+msgid "Fencing Footwork"
+msgstr ""
+
+#. ~ Description of buff 'Fencing Footwork' for martial art 'Fencing'
+#: lang/json/martial_art_from_json.py
+msgid "+2 stab and +1 acc per stack"
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
@@ -61573,6 +61678,21 @@ msgstr "공격 받을때 회피를 포기했지만, 더 많이 막을 수 있습
 #: lang/json/martial_art_from_json.py
 msgid "Perception increases dodging and damage."
 msgstr "지각력에 비례하여, 회피와 공격력 증가"
+
+#. ~ Description of buff 'Blocking' for martial art 'Niten Ichi-Ryu'
+#: lang/json/martial_art_from_json.py
+msgid "You forgo dodging on the move, but gain more blocks."
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
+msgid "In-One Timing Set-Up"
+msgstr ""
+
+#. ~ Description of buff 'In-One Timing Set-Up' for martial art 'Niten Ichi-
+#. Ryu'
+#: lang/json/martial_art_from_json.py
+msgid "You found a gap in the enemy's defense!"
+msgstr ""
 
 #: lang/json/martial_art_from_json.py
 msgid "Eskrima"
@@ -61627,6 +61747,15 @@ msgid "Damage bonus from dexterity at the cost of damage from strength."
 msgstr "피해를 줄 때, 일정 비율만큼 체력 대신 민첩성을 사용해서 피해량 계산"
 
 #: lang/json/martial_art_from_json.py
+msgid "Crane's Flight"
+msgstr ""
+
+#. ~ Description of buff 'Crane's Flight' for martial art 'Crane Kung Fu'
+#: lang/json/martial_art_from_json.py
+msgid "+2 Dodge"
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
 msgid "Dragon Kung Fu"
 msgstr "용권"
 
@@ -61648,6 +61777,15 @@ msgid "Bonus damage from intelligence."
 msgstr "지능을 통한 추가 피해량"
 
 #: lang/json/martial_art_from_json.py
+msgid "Dragon's Flight"
+msgstr ""
+
+#. ~ Description of buff 'Dragon's Flight' for martial art 'Dragon Kung Fu'
+#: lang/json/martial_art_from_json.py
+msgid "+2 Accuracy & Damage"
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
 msgid "Leopard Kung Fu"
 msgstr "표권"
 
@@ -61666,6 +61804,15 @@ msgstr "표범의 전략"
 #. ~ Description of buff 'Leopard Strategy' for martial art 'Leopard Kung Fu'
 #: lang/json/martial_art_from_json.py
 msgid "Perception and intelligence provide a bonus to dodge."
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
+msgid "Leopard's Stalk"
+msgstr ""
+
+#. ~ Description of buff 'Leopard's Stalk' for martial art 'Leopard Kung Fu'
+#: lang/json/martial_art_from_json.py
+msgid "+2 Accuracy"
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
@@ -61781,6 +61928,16 @@ msgid "Gain up to +6 armor while standing still"
 msgstr "가만히 서 있을 때 방어 +6"
 
 #: lang/json/martial_art_from_json.py
+msgid "Iron Skin Dissipation"
+msgstr ""
+
+#. ~ Description of buff 'Iron Skin Dissipation' for martial art 'Toad Kung
+#. Fu'
+#: lang/json/martial_art_from_json.py
+msgid "Iron Skin softens when you move!"
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
 msgid "Lizard Kung Fu"
 msgstr "도마뱀권"
 
@@ -61820,6 +61977,15 @@ msgstr "살무사의 인내"
 #. ~ Description of buff 'Viper Patience' for martial art 'Viper Kung Fu'
 #: lang/json/martial_art_from_json.py
 msgid "+2 Dodge.  Dodging an attack initiates a combo."
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
+msgid "Viper Ambush"
+msgstr ""
+
+#. ~ Description of buff 'Viper Ambush' for martial art 'Viper Kung Fu'
+#: lang/json/martial_art_from_json.py
+msgid "You've lured 'em in!  Your next attack will be a Viper Bite."
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
@@ -61885,6 +62051,11 @@ msgstr "잡기"
 #: lang/json/martial_art_from_json.py
 msgid "I have you now!"
 msgstr "잡았다!"
+
+#. ~ Description of buff 'Counter Chance' for martial art 'Pankration'
+#: lang/json/martial_art_from_json.py
+msgid "The enemy has presented an opening in their defense."
+msgstr ""
 
 #: lang/json/material_from_json.py src/bionics.cpp
 msgid "Alcohol"
@@ -70248,6 +70419,14 @@ msgstr ""
 
 #: lang/json/npc_from_json.py
 msgid "Bandit"
+msgstr ""
+
+#: lang/json/npc_from_json.py
+msgid "Raider"
+msgstr ""
+
+#: lang/json/npc_from_json.py
+msgid "Captive"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py src/mapdata.cpp src/mapdata.cpp
@@ -89072,27 +89251,7 @@ msgid "gel framework"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "diesel capsule"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "diesel capsule (under)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "feed capsule"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "feed capsule (under)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "gasoline capsule"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "gasoline capsule (under)"
+msgid "capsule (10L)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -89113,22 +89272,6 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "gel pouch (under)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "dirty water capsule"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "dirty water capsule (under)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "clean water capsule"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "clean water capsule (under)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -89172,27 +89315,7 @@ msgid "gray frame"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "diesel cocoon"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "diesel cocoon (under)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "feed cocoon"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "feed cocoon (under)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "gasoline cocoon"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "gasoline cocoon (under)"
+msgid "cocoon (25L)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -89213,22 +89336,6 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "gray pouch (under)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "dirty water cocoon"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "dirty water cocoon (under)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "clean water cocoon"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "clean water cocoon (under)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -89272,27 +89379,7 @@ msgid "ooze chassis"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "diesel pod"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "diesel pod (under)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "feed pod"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "feed pod (under)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "gasoline pod"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "gasoline pod (under)"
+msgid "pod (20L)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -89313,22 +89400,6 @@ msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "ooze pouch (under)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "dirty water pod"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "dirty water pod (under)"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "clean water pod"
-msgstr ""
-
-#: lang/json/vehicle_part_from_json.py
-msgid "clean water pod (under)"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -91780,6 +91851,29 @@ msgstr "자동 줍기 설정이 켜져 있지 않습니다. 지금 설정할까�
 #: src/auto_pickup.cpp
 msgid "autopickup configuration"
 msgstr "자동줍기 설정"
+
+#: src/ballistics.cpp
+#, c-format
+msgid "The %s shatters!"
+msgstr "%s이(가) 산산이 부서졌다!"
+
+#: src/ballistics.cpp
+#, c-format
+msgid "The %1$s embeds in %2$s!"
+msgstr "%1$s이(가) %2$s에 박혔다!"
+
+#: src/ballistics.cpp src/map.cpp
+msgid "splash!"
+msgstr "철퍽!"
+
+#: src/ballistics.cpp
+msgid "thud."
+msgstr "툭."
+
+#: src/ballistics.cpp
+#, c-format
+msgid "The attack bounced to %s!"
+msgstr "공격이 %s에 튕겨나갔다!"
 
 #. ~ Name of a basecamp
 #: src/basecamp.cpp
@@ -98899,6 +98993,10 @@ msgid "Combat Ability:    %s"
 msgstr "전투능력:     %s"
 
 #: src/game.cpp
+msgid "Time: ???"
+msgstr ""
+
+#: src/game.cpp
 msgid "Underground"
 msgstr "지하"
 
@@ -103895,14 +103993,6 @@ msgid_plural "Uses <stat>%i</stat> charges of UPS per shot"
 msgstr[0] "사격 당 UPS 충전량 <stat>%i</stat> 사용"
 
 #: src/item.cpp
-msgid "<bold>Effective range: </bold>"
-msgstr "<bold>유효 사거리: </bold>"
-
-#: src/item.cpp
-msgid "Maximum range: "
-msgstr "최대 사거리:"
-
-#: src/item.cpp
 msgid "<num> seconds"
 msgstr "<num>초"
 
@@ -104297,10 +104387,6 @@ msgid "* This item can be worn on <info>either side</info> of the body."
 msgstr "* 이 물품은 몸의 <info>좌측과 우측</info>에 착용한다."
 
 #: src/item.cpp
-msgid "* This piece of clothing is <bad>filthy</bad>."
-msgstr "* 이 의류는 <bad>불결하다</bad>."
-
-#: src/item.cpp
 msgid "* This gear is a part of power armor."
 msgstr "* 이 장비는 파워아머의 한 부위이다."
 
@@ -104680,27 +104766,27 @@ msgstr "우"
 
 #: src/item.cpp
 msgid "++"
-msgstr ""
+msgstr "++"
 
 #: src/item.cpp
 msgid "||"
-msgstr ""
+msgstr "||"
 
 #: src/item.cpp
 msgid ".."
-msgstr ""
+msgstr ".."
 
 #: src/item.cpp
 msgid "\\."
-msgstr ""
+msgstr "\\."
 
 #: src/item.cpp
 msgid "|."
-msgstr ""
+msgstr "|."
 
 #: src/item.cpp
 msgid "|\\"
-msgstr ""
+msgstr "|\\"
 
 #: src/item.cpp
 msgid "isn't a weapon"
@@ -110267,10 +110353,6 @@ msgstr "이 지형 위에서는 %s을(를) 옮길 수 없다!"
 msgid "Your %s is beached."
 msgstr "%s을(를) 뭍으로 올렸다."
 
-#: src/map.cpp src/ranged.cpp
-msgid "splash!"
-msgstr "철퍽!"
-
 #: src/map.cpp
 #, c-format
 msgid "You take %d damage by the power of the impact!"
@@ -113950,6 +114032,37 @@ msgstr "덩굴을 떼냈지만 넣을 자리가 없어서 땅에 버렸다."
 #: src/mutation.cpp
 msgid "Your freshly-detached vine is too heavy to carry, so you drop it."
 msgstr "덩굴을 떼냈지만 들고 다니기엔 너무 무거워서 땅에 버렸다."
+
+#: src/mutation.cpp
+msgid "MUTATIONS -"
+msgstr ""
+
+#: src/mutation.cpp src/player.cpp
+#, c-format
+msgid "Power: %d/%d"
+msgstr "에너지: %d/%d"
+
+#: src/mutation.cpp
+msgid ""
+"Reassigning.\n"
+"Select a mutation to reassign or press SPACE to cancel."
+msgstr ""
+
+#: src/mutation.cpp
+msgid ""
+"<color_green>Activating</color>  <color_yellow>!</color> to examine, "
+"<color_yellow>=</color> to reassign."
+msgstr ""
+
+#: src/mutation.cpp
+msgid ""
+"<color_ltblue>Examining</color>  <color_yellow>!</color> to activate, "
+"<color_yellow>=</color> to reassign."
+msgstr ""
+
+#: src/mutation.cpp
+msgid "Might need to use ? to assign the keys."
+msgstr ""
 
 #: src/mutation.cpp
 msgid "You feel something straining deep inside you, yearning to be free..."
@@ -118256,11 +118369,6 @@ msgid "Total bionics: %d"
 msgstr "획득 바이오닉: %d"
 
 #: src/player.cpp
-#, c-format
-msgid "Power: %d/%d"
-msgstr "에너지: %d/%d"
-
-#: src/player.cpp
 msgid "Weapon:"
 msgid_plural "Weapons:"
 msgstr[0] "무기:"
@@ -120842,11 +120950,6 @@ msgstr "알람시계를 껐다."
 
 #: src/ranged.cpp
 #, c-format
-msgid "The attack bounced to %s!"
-msgstr "공격이 %s에 튕겨나갔다!"
-
-#: src/ranged.cpp
-#, c-format
 msgid "Your %s misfires with a wet click!"
 msgstr "%s이(가) 습기탓에 불발되었다!"
 
@@ -121144,20 +121247,6 @@ msgstr "콰아앙!!"
 #: src/ranged.cpp
 msgid "kerblam!"
 msgstr "쿠와앙!"
-
-#: src/ranged.cpp
-#, c-format
-msgid "The %s shatters!"
-msgstr "%s이(가) 산산이 부서졌다!"
-
-#: src/ranged.cpp
-#, c-format
-msgid "The %1$s embeds in %2$s!"
-msgstr "%1$s이(가) %2$s에 박혔다!"
-
-#: src/ranged.cpp
-msgid "thud."
-msgstr "툭."
 
 #: src/requirements.cpp
 #, c-format
