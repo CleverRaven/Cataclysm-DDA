@@ -149,7 +149,7 @@ class window
 {
     public:
         // TODO REMOVE EVENTUALY!!!
-        WINDOW *LegacyWindow() {
+        WINDOW *legacy_window() {
             return wf_win;
         };
 
