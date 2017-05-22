@@ -538,6 +538,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         activity_id( "ACT_WAIT_NPC" ),
         activity_id( "ACT_CLEAR_RUBBLE" ),
         activity_id( "ACT_MEDITATE" ),
+        activity_id( "ACT_WASH" ),
         activity_id::NULL_ID() // NUM_ACTIVITIES
     };
 
