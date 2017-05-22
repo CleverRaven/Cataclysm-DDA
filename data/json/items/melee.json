@@ -1530,6 +1530,25 @@
     "to_hit": 2,
     "category" : "weapons"
     },
+  {
+    "id": "cavalry_sabre_fake",
+    "type": "GENERIC",
+    "category": "weapons",
+    "name": "cavalry saber",
+    "description": "This is a dull, cheapr replica of a curved sword associated with cavalry, from the Early Modern period onwards.",
+    "weight": 600,
+    "volume": 5,
+    "price": 9700,
+    "price_postapoc": 0,
+    "to_hit": 2,
+    "bashing": 4,
+    "cutting": 2,
+    "material": "aluminum",
+    "symbol": "/",
+    "color": "dark_gray",
+    "techniques": [ "WBLOCK_2", "RAPID" ],
+    "flags": [ "SHEATH_SWORD" ]
+  },
     {
     "id": "rapier_fake",
     "type": "GENERIC",

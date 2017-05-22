@@ -1010,6 +1010,7 @@
       ["pants_leather", 60],
       ["pants_cargo", 70],
       ["shorts_cargo", 50],
+      ["breeches", 5],
       ["skirt", 75],
       ["dress", 70],
       ["sundress", 50],
@@ -2656,7 +2657,8 @@
       ["tophat", 30],
       ["tux", 50],
       ["gown", 50],
-      ["long_glove_white", 30]
+      ["long_glove_white", 30],
+      ["breeches", 10]
     ]
   },{
     "type" : "item_group",
@@ -2841,6 +2843,7 @@
       ["shorts", 70],
       ["shorts_denim", 35],
       ["pants", 75],
+      ["breeches", 10],
       ["leather_belt", 30],
       ["suit", 60],
       ["waistcoat", 30],
@@ -4171,6 +4174,7 @@
       ["nodachi", 1],
       ["katana", 2],
       ["rapier", 3],
+      ["cavalry_sabre", 2],
       ["sf_watch", 5]
     ]
   },{
@@ -4184,6 +4188,7 @@
       ["morningstar", 10],
       ["glaive", 10],
       ["rapier", 3],
+      ["cavalry_sabre", 3],
       ["estoc", 3],
       ["cutlass", 3],
       ["cutlass_inferior", 3],
@@ -4550,6 +4555,7 @@
       ["cutlass", 1],
       ["scimitar", 1],
       ["rapier", 1],
+      ["cavalry_sabre", 1],
       ["estoc", 1],
       ["wakizashi", 1],
       ["jian_inferior", 30],
@@ -6006,6 +6012,7 @@
       ["baton", 8],
       ["tazer", 3],
       ["rapier", 3],
+      ["cavalry_sabre", 2],
       ["bat_metal", 60],
       ["e_tool", 2],
       ["knife_trench", 7],
@@ -8266,6 +8273,7 @@
       ["katana", 2],
       ["kris", 2],
       ["rapier", 2],
+      ["cavalry_sabre_fake", 4],
       ["glaive", 2],
       ["naginata", 2],
       ["estoc", 2],
@@ -8291,6 +8299,7 @@
       ["longsword_fake", 4],
       ["longsword_inferior", 8],
       ["rapier_fake", 4],
+      ["cavalry_sabre", 2],
       ["wakizashi_fake", 4],
       ["wakizashi_inferior", 8],
       ["kris_fake", 8],
@@ -8427,6 +8436,8 @@
       ["jian_inferior", 10],
       ["rapier", 4],
       ["rapier_fake", 8],
+      ["cavalry_sabre", 4],
+      ["cavalry_sabre_fake", 8]
       ["estoc", 3],
       ["estoc_fake", 5],
       ["kris", 3],
