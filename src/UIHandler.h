@@ -22,6 +22,7 @@ namespace Utils
 /**
  * Draws a border.
  *
+ * <pre>
  *  ____ m_thisSize.x
  * /    \
  * v    v
@@ -39,6 +40,8 @@ namespace Utils
  * |<-------->+----+   | <- wf_win
  *
  * + - - - - - - - - - +
+ * </pre>
+ *
  * \param wf_win The window to draw the border in
  * \param offset Where to start the border
  * \param m_thisSize The size of the area to be covered.
@@ -48,16 +51,17 @@ void DrawBorder( WINDOW *wf_win, point offset, point m_thisSize );
 /**
  * Draws tabs
  *
+ * <pre>
  * + - - - - - - - - - +
  *  offset.x + tabOffset <-\
  * |/--------\         |   | offset.y
  *  V        V             |
  * |  /----\   /---\   | <-/
  *   <|text|>  |tx2| <- Inactive tab
- * |--/    \-----------|
+ * |--/    \\-----------|
  *      ^Active Tab
  * + - - - - - - - - - + <- wf_win
- *
+ * </pre>
  *
  * \param wf_win The window to draw the tabs in
  * \param offset Where to start the tab
@@ -82,9 +86,9 @@ class Panel
         /**
          * Sets the size
          *
-         * WARNING: Will crash program if less than minimum size.
-         *
          * \param size Size to set size to
+         *
+         * \remarks Will crash program if size is less than the minimum size.
          */
         virtual void SetSize( point size ) = 0;
 
