@@ -99,7 +99,8 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_VIBE" ), vibe_finish },
     { activity_id( "ACT_MOVE_ITEMS" ), move_items_finish },
     { activity_id( "ACT_ATM" ), atm_finish },
-    { activity_id( "ACT_AIM" ), aim_finish }
+    { activity_id( "ACT_AIM" ), aim_finish },
+    { activity_id( "ACT_WASH" ), washing_finish }
 };
 
 void activity_handlers::burrow_do_turn( player_activity *act, player *p )
@@ -1945,4 +1946,19 @@ void activity_handlers::aim_finish( player_activity *, player * )
     // Aim bails itself by resetting itself every turn,
     // you only re-enter if it gets set again.
     return;
+}
+
+void activity_handlers::washing_finish( player_activity *act, player *p )
+{
+    item &filthy_item = p->i_at(act->position);
+
+    if( p->is_worn( filthy_item ) ) {
+        filthy_item.on_takeoff( g->u );
+        filthy_item.item_tags.erase( "FILTHY" );
+        filthy_item.on_wear( g->u );
+    }
+    filthy_item.item_tags.erase( "FILTHY" );
+
+    p->add_msg_if_player( m_good, _( "You washed your clothing." ) );
+    act->set_to_null();
 }
