@@ -168,7 +168,7 @@ class Window
 
         point m_minSize;
         point m_thisSize;
-        point m_offset;
+        point offset;
 
         WINDOW *m_wf_win;
         WINDOW_PTR m_wf_winptr;

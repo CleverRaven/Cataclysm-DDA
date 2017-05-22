@@ -27,11 +27,11 @@ void ui::Window::UpdateWindowSize()
     m_thisSize.y = std::min( m_thisSize.y, TERMY );
 
     if( m_minSize.x > TERMX ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Window's Min Size is greater than terminal's. (X) Window: " 
+        DebugLog( D_ERROR, DC_ALL ) << "Window's Min Size is greater than terminal's. (X) Window: "
                                     << m_minSize.x << " Term: " << TERMX;
     }
     if( m_minSize.y > TERMY ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Window's Min Size is greater than terminal's. (Y) Window: " 
+        DebugLog( D_ERROR, DC_ALL ) << "Window's Min Size is greater than terminal's. (Y) Window: "
                                     << m_minSize.y << " Term: " << TERMY;
     }
 
@@ -42,7 +42,7 @@ void ui::Window::UpdateWindowSize()
     }
     if( minSize.y > TERMY ) {
         DebugLog( D_ERROR, DC_ALL ) <<
-                                    "Window's child panel's Min Size is greater than terminal's. (Y) Window: " << minSize.y 
+                                    "Window's child panel's Min Size is greater than terminal's. (Y) Window: " << minSize.y
                                     << " Term: " << TERMY;
     }
 
@@ -50,13 +50,13 @@ void ui::Window::UpdateWindowSize()
 
     switch( m_thisLocation ) {
         case Location::Centered:
-            m_offset.x = ( TERMX - m_thisSize.x ) / 2;
-            m_offset.y = ( TERMY - m_thisSize.y ) / 2;
+            offset.x = ( TERMX - m_thisSize.x ) / 2;
+            offset.y = ( TERMY - m_thisSize.y ) / 2;
             break;
     }
 
-    m_wf_win = newwin( m_thisSize.y, m_thisSize.x, m_offset.y, m_offset.x );
-    assert(m_wf_win);
+    m_wf_win = newwin( m_thisSize.y, m_thisSize.x, offset.y, offset.x );
+    assert( m_wf_win );
     m_wf_winptr = WINDOW_PTR( m_wf_win );
     return;
 }
