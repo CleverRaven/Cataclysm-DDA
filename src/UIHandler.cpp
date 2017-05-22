@@ -18,7 +18,7 @@ void ui::window::UpdateWindowSize()
     assert( main_panel );
     this_size = main_panel->RequestedSize( sizes::PREFERED );
 
-    point panelMinSize = main_panel->RequestedSize( sizes::MINIMUM );
+    point panel_min_size = main_panel->RequestedSize( sizes::MINIMUM );
 
     this_size.x = std::max( this_size.x, min_size.x );
     this_size.y = std::max( this_size.y, min_size.y );
@@ -35,14 +35,14 @@ void ui::window::UpdateWindowSize()
                                     << min_size.y << " Term: " << TERMY;
     }
 
-    if( panelMinSize.x > TERMX ) {
+    if( panel_min_size.x > TERMX ) {
         DebugLog( D_ERROR, DC_ALL ) <<
-                                    "Window's child panel's Min Size is greater than terminal's. (X) Window: " << panelMinSize.x
+                                    "Window's child panel's Min Size is greater than terminal's. (X) Window: " << panel_min_size.x
                                     << " Term: " << TERMX;
     }
-    if( panelMinSize.y > TERMY ) {
+    if( panel_min_size.y > TERMY ) {
         DebugLog( D_ERROR, DC_ALL ) <<
-                                    "Window's child panel's Min Size is greater than terminal's. (Y) Window: " << panelMinSize.y
+                                    "Window's child panel's Min Size is greater than terminal's. (Y) Window: " << panel_min_size.y
                                     << " Term: " << TERMY;
     }
 
@@ -71,12 +71,12 @@ void ui::window::DrawEverything()
 
 std::shared_ptr<ui::Panel> ui::PaddingPanel::GetChild() const
 {
-    return childPanel;
+    return child_panel;
 }
 
-void ui::PaddingPanel::SetChild( std::shared_ptr<Panel> child_panel )
+void ui::PaddingPanel::SetChild( std::shared_ptr<Panel> new_child_panel )
 {
-    childPanel = child_panel;
+    child_panel = new_child_panel;
 }
 
 point ui::PaddingPanel::RequestedSize( sizes size )
@@ -84,100 +84,99 @@ point ui::PaddingPanel::RequestedSize( sizes size )
     point req_size;
 
     // Space for tab's border
-    if( drawBorder )
+    if( draw_border )
         req_size += { 2, 2 };
 
-    if( childPanel == nullptr ) {
+    if( child_panel == nullptr ) {
         return req_size;
     }
 
-    req_size += childPanel->RequestedSize( size );
+    req_size += child_panel->RequestedSize( size );
 
     return req_size;
 }
 
-// We are a simple border!
 void ui::PaddingPanel::SetSize( point size )
 {
-    point reqSize = RequestedSize( sizes::MINIMUM );
-    assert( size.x >= reqSize.x );
-    assert( size.y >= reqSize.y );
+    point req_size = RequestedSize( sizes::MINIMUM );
+    assert( size.x >= req_size.x );
+    assert( size.y >= req_size.y );
 
     this_size = size;
 
-    if( childPanel == nullptr ) {
+    if( child_panel == nullptr ) {
         return;
     }
-    auto newSize = size;
+    auto new_size = size;
 
-    if( drawBorder ) //they lose two tiles for the tabs
-        newSize -= { 2, 2 };
+    if( draw_border ) //they lose two tiles for the tabs
+        new_size -= { 2, 2 };
 
-    childPanel->SetSize( newSize );
+    child_panel->SetSize( new_size );
     return;
 }
 
 void ui::PaddingPanel::DrawEverything( WINDOW *wf_win, point offset )
 {
 
-    if( drawBorder ) {
+    if( draw_border ) {
         utils::DrawBorder( wf_win, offset, this_size );
     }
 
-    if( childPanel != nullptr ) {
+    if( child_panel != nullptr ) {
         point offset;
 
-        if( drawBorder ) // They should go into the border, not on it
+        if( draw_border ) // They should go into the border, not on it
             offset += { 1, 1 };
 
-        childPanel->DrawEverything( wf_win, offset );
+        child_panel->DrawEverything( wf_win, offset );
     }
 }
 
 
 ui::PaddingPanel::PaddingPanel( bool new_draw_border )
 {
-    drawBorder = new_draw_border;
+    draw_border = new_draw_border;
 }
 
 std::vector<std::pair<std::string, std::shared_ptr<ui::Panel>>> ui::TabPanel::GetTabs() const
 {
-    return childPanels;
+    return child_panels;
 }
 
 void ui::TabPanel::AddTab( std::string name, std::shared_ptr<Panel> tab_panel )
 {
-    childPanels.push_back( std::pair<std::string, std::shared_ptr<Panel>>( name, tab_panel ) );
+    child_panels.push_back( std::pair<std::string, std::shared_ptr<Panel>>( name, tab_panel ) );
 }
 
 void ui::TabPanel::RemoveTab( size_t index )
 {
-    assert( childPanels.size() > index );
-    childPanels.erase( childPanels.begin() + index );
+    assert( child_panels.size() > index );
+    child_panels.erase( child_panels.begin() + index );
 }
 
-point ui::TabPanel::RequestedSize( sizes sizes )
+point ui::TabPanel::RequestedSize( sizes size )
 {
     point req_size;
 
     // Space for the tab's height
     req_size += { 0, 2 };
 
-    if( drawBorder )
+    if( draw_border )
         // Panel's border
         req_size += { 2, 2 };
 
-    if( childPanels.empty() ) {
+    if( child_panels.empty() ) {
         return req_size;
     }
 
-    assert( currentTab < childPanels.size() );
-    assert( childPanels[currentTab].second != nullptr );
+    assert( current_tab < child_panels.size() );
+    assert( child_panels[current_tab].second != nullptr );
 
-    req_size += childPanels[currentTab].second->RequestedSize( sizes );
+    req_size += child_panels[current_tab].second->RequestedSize( size );
 
     int len = 0;
-    for( auto tx : childPanels ) {
+    for( auto tx : child_panels ) {
         len += utf8_width( tx.first ) + 6; // 6 tiles for the ".<||>."
     }
 
@@ -188,38 +187,38 @@ point ui::TabPanel::RequestedSize( sizes sizes )
 
 void ui::TabPanel::SetSize( point size )
 {
-    point reqSize = RequestedSize( sizes::MINIMUM );
-    assert( size.x >= reqSize.x );
-    assert( size.y >= reqSize.y );
+    point req_size = RequestedSize( sizes::MINIMUM );
+    assert( size.x >= req_size.x );
+    assert( size.y >= req_size.y );
 
     this_size = size;
 
-    if( childPanels.empty() ) {
+    if( child_panels.empty() ) {
         return;
     }
-    auto newSize = size;
+    auto new_size = size;
 
-    if( drawBorder ) // they lose two characters to the border
-        newSize -= { 2, 2 };
+    if( draw_border ) // they lose two characters to the border
+        new_size -= { 2, 2 };
 
-    newSize -= { 0, 2 }; // and another two (on the y) for the tabs
+    new_size -= { 0, 2 }; // and another two (on the y) for the tabs
 
-    childPanels[currentTab].second->SetSize( newSize );
+    child_panels[current_tab].second->SetSize( new_size );
     return;
 }
 
 void ui::TabPanel::DrawEverything( WINDOW *wf_win, point offset )
 {
-    if( drawBorder ) {
-        auto bOffset = offset;
+    if( draw_border ) {
+        auto b_offset = offset;
 
         //Acounting for the fact we have tabs
-        bOffset += { 0, 2 }; // Go bellow the tabs
+        b_offset += { 0, 2 }; // Go bellow the tabs
 
-        auto bSize = this_size;
-        bSize -= { 0, 2 }; // We lose two characters to the tabs
+        auto b_size = this_size;
+        b_size -= { 0, 2 }; // We lose two characters to the tabs
 
-        utils::DrawBorder( wf_win, bOffset, bSize );
+        utils::DrawBorder( wf_win, b_offset, b_size );
     }
 
     //We add 1 so we get one space to the left of the tab
@@ -233,30 +232,30 @@ void ui::TabPanel::DrawEverything( WINDOW *wf_win, point offset )
     //..........^
     //We then add 5 to account for the "<||>."
 
-    int toffset = 0;
-    for( size_t i = 0; i < childPanels.size(); i++ ) {
-        toffset += 1;
+    int t_offset = 0;
+    for( size_t i = 0; i < child_panels.size(); i++ ) {
+        t_offset += 1;
 
-        utils::DrawTab( wf_win, offset, toffset, ( i == currentTab ), childPanels[i].first );
+        utils::DrawTab( wf_win, offset, t_offset, ( i == current_tab ), child_panels[i].first );
 
-        toffset += 5 + utf8_width( childPanels[i].first );
+        t_offset += 5 + utf8_width( child_panels[i].first );
     }
 
-    if( !childPanels.empty() ) {
+    if( !child_panels.empty() ) {
         point offset;
 
-        if( drawBorder ) // if we have borders we want to go in them'
+        if( draw_border ) // if we have borders we want to go in them'
             offset += { 1, 1 };
 
         offset += { 0, 2 }; // We go bellow the tabs
 
-        childPanels[currentTab].second->DrawEverything( wf_win, offset );
+        child_panels[current_tab].second->DrawEverything( wf_win, offset );
     }
 }
 
 void ui::TabPanel::SwitchTab( size_t tab )
 {
-    currentTab = tab;
+    current_tab = tab;
 
     // Regenerate size for children
     SetSize( this_size );
@@ -264,7 +263,7 @@ void ui::TabPanel::SwitchTab( size_t tab )
 
 ui::TabPanel::TabPanel( bool new_draw_border )
 {
-    drawBorder = new_draw_border;
+    draw_border = new_draw_border;
 }
 
 void ui::utils::DrawBorder( WINDOW *wf_win, point offset, point this_size )
@@ -292,36 +291,36 @@ void ui::utils::DrawBorder( WINDOW *wf_win, point offset, point this_size )
               LINE_XOOX ); // _|
 }
 
-void ui::utils::DrawTab( WINDOW *wf_win, point offset, int tabOffset, bool tabActive,
+void ui::utils::DrawTab( WINDOW *wf_win, point offset, int tab_offset, bool tab_active,
                          std::string text )
 {
-    int tabOffsetRight = tabOffset + utf8_width( text ) + 1;
+    int tab_offset_right = tab_offset + utf8_width( text ) + 1;
 
-    mvwputch( wf_win, offset.y, offset.x + tabOffset, c_ltgray, LINE_OXXO );          // |^
-    mvwputch( wf_win, offset.y, offset.x + tabOffsetRight, c_ltgray, LINE_OOXX );     // ^|
-    mvwputch( wf_win, offset.y + 1, offset.x + tabOffset, c_ltgray, LINE_XOXO );      // |
-    mvwputch( wf_win, offset.y + 1, offset.x + tabOffsetRight, c_ltgray, LINE_XOXO ); // |
+    mvwputch( wf_win, offset.y, offset.x + tab_offset, c_ltgray, LINE_OXXO );          // |^
+    mvwputch( wf_win, offset.y, offset.x + tab_offset_right, c_ltgray, LINE_OOXX );     // ^|
+    mvwputch( wf_win, offset.y + 1, offset.x + tab_offset, c_ltgray, LINE_XOXO );      // |
+    mvwputch( wf_win, offset.y + 1, offset.x + tab_offset_right, c_ltgray, LINE_XOXO ); // |
 
-    mvwprintz( wf_win, offset.y + 1, offset.x + tabOffset + 1, ( tabActive ) ? h_ltgray : c_ltgray,
+    mvwprintz( wf_win, offset.y + 1, offset.x + tab_offset + 1, ( tab_active ) ? h_ltgray : c_ltgray,
                "%s", text.c_str() );
 
-    for( int i = tabOffset + 1; i < tabOffsetRight; i++ ) {
+    for( int i = tab_offset + 1; i < tab_offset_right; i++ ) {
         mvwputch( wf_win, offset.y, offset.x + i, c_ltgray, LINE_OXOX ); // -
     }
 
-    if( tabActive ) {
-        mvwputch( wf_win, offset.y + 1, offset.x + tabOffset - 1, h_ltgray, '<' );
-        mvwputch( wf_win, offset.y + 1, offset.x + tabOffsetRight + 1, h_ltgray, '>' );
+    if( tab_active ) {
+        mvwputch( wf_win, offset.y + 1, offset.x + tab_offset - 1, h_ltgray, '<' );
+        mvwputch( wf_win, offset.y + 1, offset.x + tab_offset_right + 1, h_ltgray, '>' );
 
-        for( int i = tabOffset + 1; i < tabOffsetRight; i++ ) {
+        for( int i = tab_offset + 1; i < tab_offset_right; i++ ) {
             mvwputch( wf_win, offset.y + 2, offset.x + i, c_black, ' ' );
         }
 
-        mvwputch( wf_win, offset.y + 2, offset.x + tabOffset,      c_ltgray, LINE_XOOX ); // _|
-        mvwputch( wf_win, offset.y + 2, offset.x + tabOffsetRight, c_ltgray, LINE_XXOO ); // |_
+        mvwputch( wf_win, offset.y + 2, offset.x + tab_offset,      c_ltgray, LINE_XOOX ); // _|
+        mvwputch( wf_win, offset.y + 2, offset.x + tab_offset_right, c_ltgray, LINE_XXOO ); // |_
 
     } else {
-        mvwputch( wf_win, offset.y + 2, offset.x + tabOffset,      c_ltgray, LINE_XXOX ); // _|_
-        mvwputch( wf_win, offset.y + 2, offset.x + tabOffsetRight, c_ltgray, LINE_XXOX ); // _|_
+        mvwputch( wf_win, offset.y + 2, offset.x + tab_offset,      c_ltgray, LINE_XXOX ); // _|_
+        mvwputch( wf_win, offset.y + 2, offset.x + tab_offset_right, c_ltgray, LINE_XXOX ); // _|_
     }
 }

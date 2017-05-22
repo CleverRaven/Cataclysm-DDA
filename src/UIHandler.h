@@ -71,7 +71,7 @@ void DrawBorder( WINDOW *wf_win, point offset, point this_size );
  * \param tabActive Whether or not the tab is currently active
  * \param text Tab's name
  */
-void DrawTab( WINDOW *wf_win, point offset, int tabOffset, bool tabActive,
+void DrawTab( WINDOW *wf_win, point offset, int tab_offset, bool tab_active,
               std::string text );
 }
 
@@ -108,7 +108,7 @@ class PaddingPanel : public Panel
     public:
         PaddingPanel( bool new_draw_border );
         std::shared_ptr<Panel> GetChild() const;
-        void SetChild( std::shared_ptr<Panel> child_panel );
+        void SetChild( std::shared_ptr<Panel> new_child_panel );
 
         point RequestedSize( sizes size ) override;
         void SetSize( point size ) override;
@@ -116,8 +116,8 @@ class PaddingPanel : public Panel
     private:
         point this_size;
 
-        std::shared_ptr<Panel> childPanel;
-        bool drawBorder;
+        std::shared_ptr<Panel> child_panel;
+        bool draw_border;
 };
 
 class TabPanel : public Panel
@@ -136,13 +136,13 @@ class TabPanel : public Panel
 
         void SwitchTab( size_t tab );
     private:
-        size_t currentTab = 0;
+        size_t current_tab = 0;
 
         point this_size;
 
-        std::vector<std::pair<std::string, std::shared_ptr<Panel>>> childPanels;
+        std::vector<std::pair<std::string, std::shared_ptr<Panel>>> child_panels;
 
-        bool drawBorder;
+        bool draw_border;
 };
 
 class window
