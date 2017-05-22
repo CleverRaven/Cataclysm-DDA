@@ -150,7 +150,7 @@ class Window
     public:
         // TODO REMOVE EVENTUALY!!!
         WINDOW *LegacyWindow() {
-            return m_wf_win;
+            return wf_win;
         };
 
         enum class Location {
@@ -170,8 +170,8 @@ class Window
         point m_thisSize;
         point offset;
 
-        WINDOW *m_wf_win;
-        WINDOW_PTR m_wf_winptr;
+        WINDOW *wf_win;
+        WINDOW_PTR wf_winptr;
 };
 }
 #endif // UIHANDLER_H

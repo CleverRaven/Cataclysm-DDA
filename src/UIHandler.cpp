@@ -55,18 +55,18 @@ void ui::Window::UpdateWindowSize()
             break;
     }
 
-    m_wf_win = newwin( m_thisSize.y, m_thisSize.x, offset.y, offset.x );
-    assert( m_wf_win );
-    m_wf_winptr = WINDOW_PTR( m_wf_win );
+    wf_win = newwin( m_thisSize.y, m_thisSize.x, offset.y, offset.x );
+    assert( wf_win );
+    wf_winptr = WINDOW_PTR( wf_win );
     return;
 }
 
 void ui::Window::DrawEverything()
 {
-    assert( m_wf_win );
-    werase( m_wf_win );
+    assert( wf_win );
+    werase( wf_win );
     assert( m_panel );
-    m_panel->DrawEverything( m_wf_win, { 0, 0 } );
+    m_panel->DrawEverything( wf_win, { 0, 0 } );
 }
 
 std::shared_ptr<ui::Panel> ui::PaddingPanel::GetChild() const
