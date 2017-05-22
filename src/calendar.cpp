@@ -445,7 +445,7 @@ std::string calendar::textify_period() const
     if (year > 0) {
         am = year;
         tx = ngettext("%d year", "%d years", am);
-    } else if ( season > 0 && !get_world_option<bool>( "ETERNAL_SEASON" ) ) {
+    } else if ( season > 0 && !get_option<bool>( "ETERNAL_SEASON" ) ) {
         am = season;
         tx = ngettext("%d season", "%d seasons", am);
     } else if (day > 0) {
@@ -535,7 +535,7 @@ int calendar::season_length()
 {
     static const std::string s = "SEASON_LENGTH";
     // Avoid returning 0 as this value is used in division and expected to be non-zero.
-    return std::max( get_world_option<int>( s ), 1 );
+    return std::max( get_option<int>( s ), 1 );
 }
 
 int calendar::turn_of_year() const
@@ -560,7 +560,7 @@ void calendar::sync()
     year = turn_number / DAYS(sl * 4);
 
     static const std::string eternal = "ETERNAL_SEASON";
-    if( get_world_option<bool>( eternal ) ) {
+    if( get_option<bool>( eternal ) ) {
         // If we use calendar::start to determine the initial season, and the user shortens the season length
         // mid-game, the result could be the wrong season!
         season = initial_season;

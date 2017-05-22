@@ -316,6 +316,10 @@ void vehicle::turrets_set_targeting()
 
         sel = menu.ret;
         turrets[ sel ]->enabled = !turrets[ sel ]->enabled;
+
+        // clear the turret's current targets to prevent unwanted auto-firing
+        tripoint pos = locations[ sel ];
+        turrets[ sel ]->reset_target( pos );
     }
 }
 
@@ -358,14 +362,27 @@ void vehicle::turrets_set_mode()
     }
 }
 
-bool vehicle::turrets_aim()
+bool vehicle::turrets_aim( bool manual, bool automatic, vehicle_part *tur_part )
 {
-    // reload all turrets and clear any existing targets
+    // Only work with turrets we want and are able to fire
     auto opts = turrets();
-    for( auto e : opts ) {
-        e->target.first  = tripoint_min;
-        e->target.second = tripoint_min;
+    auto last = opts.end();
+    opts.erase( std::remove_if( opts.begin(), last, [&]( vehicle_part * vp ) {
+        bool available = turret_query( *vp ).query() == turret_data::status::ready;
+        bool mode_ok = ( ( !vp->enabled && manual ) || ( vp->enabled && automatic ) );
+        bool part_wanted = mode_ok || ( tur_part && vp == tur_part );
+        return !available || !part_wanted;
+    } ), last );
+
+    if( opts.empty() ) {
+        add_msg( m_warning, _( "Can't aim turrets: all turrets are offline" ) );
+        return false;
     }
+
+    // Clear any existing targets for turrets we want to aim
+    std::for_each( opts.begin(), opts.end(), [&]( vehicle_part * vp ) {
+        vp->reset_target( global_part_pos3( *vp ) );
+    } );
 
     // find radius of a circle centered at u encompassing all points turrets can aim at
     int range = std::accumulate( opts.begin(), opts.end(), 0, [&]( const int lhs, vehicle_part * e ) {
@@ -386,96 +403,170 @@ bool vehicle::turrets_aim()
         return std::max( lhs, res );
     } );
 
-    if( opts.empty() ) {
-        add_msg( m_warning, _( "Can't aim turrets: all turrets are offline" ) );
-        return false;
-    }
     tripoint pos = g->u.pos();
     std::vector<tripoint> trajectory;
     trajectory = target_handler().target_ui( g->u, TARGET_MODE_TURRET, nullptr, range );
 
-    if( !trajectory.empty() ) {
+    bool got_target = !trajectory.empty();
+    if( got_target ) {
         // set target for any turrets in range
-        for( auto e : turrets( trajectory.back() ) ) {
-            e->target.first = global_part_pos3( *e );
-            e->target.second = trajectory.back();
+        for( vehicle_part *vp : opts ) {
+            tripoint targ = trajectory.back();
+            if( rl_dist( global_part_pos3( *vp ), targ ) <= vp->base.gun_range() ) {
+                vp->target.second = targ;
+            }
         }
         ///\EFFECT_INT speeds up aiming of vehicle turrets
         g->u.moves = std::min( 0, g->u.moves - 100 + ( 5 * g->u.int_cur ) );
     }
 
-    return !trajectory.empty();
+    return got_target;
+}
+
+int vehicle::turrets_aim_and_fire( bool manual, bool automatic, vehicle_part *tur_part )
+{
+    int shots = 0;
+    auto fire_if_able = [&]( vehicle_part * vp ) {
+        if( vp->target.first != vp->target.second && !vp->enabled ) {
+            turret_data turret = this->turret_query( *vp );
+            npc cpu = get_targeting_npc( *vp );
+            shots += turret.fire( cpu, vp->target.second );
+            vp->reset_target( global_part_pos3( *vp ) );
+        }
+    };
+
+    if( turrets_aim( manual, automatic, tur_part ) ) {
+        // turrets_aim already set the targets for any available turrets that can reach the target.
+        auto const &turs = turrets();
+        std::for_each( turs.begin(), turs.end(), fire_if_able );
+    }
+
+    return shots;
+}
+
+int vehicle::turrets_aim_single( vehicle_part *tur_part )
+{
+    int shots = 0;
+    if( tur_part ) {
+        return turrets_aim_and_fire( false, false, tur_part );
+    }
+
+    std::vector<std::string> options( 1, _( "Cancel" ) );
+    std::vector<vehicle_part *> guns( 1, nullptr );
+
+    // Get a group of turrets that are ready to fire
+    for( auto &t : turrets() ) {
+        if( t != nullptr ) {
+            turret_data data = turret_query( *t );
+            if( data.query() == turret_data::status::ready ) {
+                options.push_back( t->name() );
+                guns.push_back( t );
+            }
+        }
+    }
+
+    vehicle_part *chosen;
+
+    if( options.size() > 1 ) {
+        chosen = guns[( uimenu( false, _( "Aim which turret?" ), options ) ) - 1 ];
+    } else {
+        add_msg( m_warning, _( "None of the turrets are available to fire." ) );
+        return shots;
+    }
+
+    if( chosen !=  nullptr ) {
+        shots = turrets_aim_and_fire( false, false, chosen );
+    }
+
+    return shots;
+
+}
+
+npc vehicle::get_targeting_npc( vehicle_part &pt )
+{
+    // Make a fake NPC to represent the targeting system
+    npc cpu;
+    cpu.set_fake( true );
+    cpu.name = string_format( pgettext( "vehicle turret", "The %s" ), pt.name().c_str() );
+    // turrets are subject only to recoil_vehicle()
+    cpu.recoil = 0;
+    // These might all be affected by vehicle part damage, weather effects, etc.
+    cpu.set_skill_level( turret_query( pt ).base()->gun_skill(), 8 );
+    cpu.set_skill_level( skill_id( "gun" ), 4 );
+    cpu.str_cur = 16;
+    cpu.dex_cur = 8;
+    cpu.per_cur = 12;
+    cpu.setpos( global_part_pos3( pt ) );
+    // Assume vehicle turrets are friendly to the player.
+    cpu.attitude = NPCATT_FOLLOW;
+    return cpu;
 }
 
 int vehicle::automatic_fire_turret( vehicle_part &pt )
 {
-    auto gun = turret_query( pt );
+    turret_data gun = turret_query( pt );
     if( gun.query() != turret_data::status::ready ) {
         return 0;
     }
 
+    int shots = 0;
+
+    // The position of the vehicle part.
     tripoint pos = global_part_pos3( pt );
 
-    npc tmp;
-    tmp.set_fake( true );
-    tmp.name = string_format( pgettext( "vehicle turret", "The %s" ), pt.name().c_str() );
-    tmp.set_skill_level( gun.base()->gun_skill(), 8 );
-    tmp.set_skill_level( skill_id( "gun" ), 4 );
-    tmp.recoil = 0; // turrets are subject only to recoil_vehicle()
-    tmp.setpos( pos );
-    tmp.str_cur = 16;
-    tmp.dex_cur = 8;
-    tmp.per_cur = 12;
-    // Assume vehicle turrets are friendly to the player.
-    tmp.attitude = NPCATT_FOLLOW;
+    // Create the targeting computer's npc
+    npc cpu = get_targeting_npc( pt );
 
     int area = aoe_size( gun.ammo_effects() );
     if( area > 0 ) {
-        area += area == 1 ? 1 : 2; // Pad a bit for less friendly fire
+        // Pad a bit for less friendly fire
+        area += area == 1 ? 1 : 2;
     }
 
+    // The position on which we are firing
     tripoint targ = pos;
+    const bool u_see = g->u.sees( pos );
+    // The current target of the turret.
     auto &target = pt.target;
-    // Part enabled means auto fire, unless target is set
-    if( pt.enabled && target.first == target.second ) {
-        // Manual target not set, find one automatically
-        const bool u_see = g->u.sees( pos );
+    if( target.first == target.second ) {
+        // Manual target not set, find one automatically.
+        // BEWARE: Calling turret_data.fire on tripoint min coordinates starts a crash
+        //      triggered at `trajectory.insert( trajectory.begin(), source )` at ranged.cpp:236
+        pt.reset_target( pos );
         int boo_hoo;
 
         // @todo calculate chance to hit and cap range based upon this
-        int range = std::min( gun.range(), 12 );
-        Creature *auto_target = tmp.auto_find_hostile_target( range, boo_hoo, area );
+        int max_range = 12;
+        int range = std::min( gun.range(), max_range );
+        Creature *auto_target = cpu.auto_find_hostile_target( range, boo_hoo, area );
         if( auto_target == nullptr ) {
             if( u_see && boo_hoo ) {
                 add_msg( m_warning, ngettext( "%s points in your direction and emits an IFF warning beep.",
                                               "%s points in your direction and emits %d annoyed sounding beeps.",
                                               boo_hoo ),
-                         tmp.name.c_str(), boo_hoo );
+                         cpu.name.c_str(), boo_hoo );
             }
-            return 0;
+            return shots;
         }
 
-        targ = auto_target->pos();
-    } else if( target.first != target.second ) {
-        // Target set manually
-        // Make sure we didn't move between aiming and firing (it's a bug if we did)
-        if( targ != target.first ) {
-            target.second = target.first;
-            return 0;
-        }
+        target.second = auto_target->pos();
 
-        targ = target.second;
     } else {
-        // Shouldn't happen, but does, so let's tolerate it
-        target = std::make_pair( tripoint_min, tripoint_min );
-        return 0;
+        // Target is already set, make sure we didn't move after aiming (it's a bug if we did).
+        if( pos != target.first ) {
+            target.second = target.first;
+            debugmsg( "%s moved after aiming but before it could fire.", cpu.name.c_str() );
+            return shots;
+        }
     }
 
-    // Remove any manually set target
-    target = std::make_pair( tripoint_min, tripoint_min );
-    auto shots = gun.fire( tmp, targ );
+    // Get the turret's target and reset it
+    targ = target.second;
+    pt.reset_target( pos );
 
-    if( g->u.sees( pos ) && shots ) {
+    shots = gun.fire( cpu, targ );
+
+    if( shots && u_see && !g->u.sees( targ ) ) {
         add_msg( _( "The %1$s fires its %2$s!" ), name.c_str(), pt.name().c_str() );
     }
 

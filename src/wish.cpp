@@ -27,12 +27,12 @@ class wish_mutate_callback: public uimenu_callback
         int lastlen;           // last menu entry
         std::string msg;       // feedback message
         bool started;
-        std::vector<std::string> vTraits;
-        std::map<std::string, bool> pTraits;
+        std::vector<trait_id> vTraits;
+        std::map<trait_id, bool> pTraits;
         player *p;
         std::string padding;
 
-        nc_color mcolor( std::string m ) {
+        nc_color mcolor( const trait_id &m ) {
             if( pTraits[ m ] == true ) {
                 return c_green;
             }
@@ -72,7 +72,7 @@ class wish_mutate_callback: public uimenu_callback
                     pTraits[traits_iter.first] = ( p->has_trait( traits_iter.first ) );
                 }
             }
-            auto &mdata = mutation_branch::get( vTraits[entnum] );
+            const mutation_branch &mdata = vTraits[entnum].obj();
 
             int startx = menu->w_width - menu->pad_right;
             for( int i = 2; i < lastlen; i++ ) {
@@ -209,8 +209,8 @@ void debug_menu::wishmutate( player *p )
         wmenu.query();
         if( wmenu.ret >= 0 ) {
             int rc = 0;
-            std::string mstr = cb.vTraits[ wmenu.ret ];
-            const auto &mdata = mutation_branch::get( mstr );
+            const trait_id mstr = cb.vTraits[ wmenu.ret ];
+            const auto &mdata = mstr.obj();
             bool threshold = mdata.threshold;
             bool profession = mdata.profession;
             //Manual override for the threshold-gaining

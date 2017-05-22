@@ -224,27 +224,27 @@ class Character : public Creature, public visitable<Character>
         // --------------- Mutation Stuff ---------------
         // In newcharacter.cpp
         /** Returns the id of a random starting trait that costs >= 0 points */
-        std::string random_good_trait();
+        trait_id random_good_trait();
         /** Returns the id of a random starting trait that costs < 0 points */
-        std::string random_bad_trait();
+        trait_id random_bad_trait();
 
         // In mutation.cpp
         /** Returns true if the player has the entered trait */
-        bool has_trait(const std::string &flag) const override;
+        bool has_trait(const trait_id &flag) const override;
         /** Returns true if the player has the entered starting trait */
-        bool has_base_trait(const std::string &flag) const;
+        bool has_base_trait(const trait_id &flag) const;
         /** Returns true if player has a trait with a flag */
         bool has_trait_flag( const std::string &flag ) const;
         /** Returns true if player has a bionic with a flag */
         bool has_bionic_flag( const std::string &flag ) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
-        std::string trait_by_invlet( long ch ) const;
+        trait_id trait_by_invlet( long ch ) const;
 
         /** Toggles a trait on the player and in their mutation list */
-        void toggle_trait(const std::string &flag);
+        void toggle_trait( const trait_id &flag );
         /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
-        void set_mutation( const std::string &flag );
-        void unset_mutation( const std::string &flag );
+        void set_mutation( const trait_id &flag );
+        void unset_mutation( const trait_id &flag );
 
         /** Converts a body_part to an hp_part */
         static hp_part bp_to_hp(body_part bp);
@@ -268,10 +268,10 @@ class Character : public Creature, public visitable<Character>
 
  private:
         /** Retrieves a stat mod of a mutation. */
-        int get_mod(std::string mut, std::string arg) const;
+        int get_mod( const trait_id &mut, std::string arg ) const;
  protected:
         /** Applies stat mods to character. */
-        void apply_mods(const std::string &mut, bool add_remove);
+        void apply_mods(const trait_id &mut, bool add_remove);
 
         /** Recalculate encumbrance for all body parts. */
         std::array<encumbrance_data, num_bp> calc_encumbrance() const;
@@ -284,11 +284,11 @@ class Character : public Creature, public visitable<Character>
         void item_encumb( std::array<encumbrance_data, num_bp> &vals, const item &new_item ) const;
  public:
         /** Handles things like destruction of armor, etc. */
-        void mutation_effect(std::string mut);
+        void mutation_effect( const trait_id &mut );
         /** Handles what happens when you lose a mutation. */
-        void mutation_loss_effect(std::string mut);
+        void mutation_loss_effect( const trait_id &mut );
 
-        bool has_active_mutation(const std::string &b) const;
+        bool has_active_mutation( const trait_id &b ) const;
 
         /**
          * Returns resistances on a body part provided by mutations
@@ -534,9 +534,9 @@ class Character : public Creature, public visitable<Character>
         /** Returns a random name from NAMES_* */
         void pick_name(bool bUseDefault = false);
         /** Get the idents of all base traits. */
-        std::vector<std::string> get_base_traits() const;
+        std::vector<trait_id> get_base_traits() const;
         /** Get the idents of all traits/mutations. */
-        std::vector<std::string> get_mutations() const;
+        std::vector<trait_id> get_mutations() const;
         const std::bitset<NUM_VISION_MODES> &get_vision_modes() const
         {
             return vision_mode_cache;
@@ -564,8 +564,8 @@ class Character : public Creature, public visitable<Character>
 
     protected:
         void on_stat_change( const std::string &, int ) override {};
-        virtual void on_mutation_gain( const std::string & ) {};
-        virtual void on_mutation_loss( const std::string & ) {};
+        virtual void on_mutation_gain( const trait_id & ) {};
+        virtual void on_mutation_loss( const trait_id & ) {};
 
     public:
         virtual void on_item_wear( const item & ) {};
@@ -613,11 +613,11 @@ class Character : public Creature, public visitable<Character>
          * If there is not entry for a mutation, the character does not have it. If the map
          * contains the entry, the character has the mutation.
          */
-        std::unordered_map<std::string, trait_data> my_mutations;
+        std::unordered_map<trait_id, trait_data> my_mutations;
         /**
          * Contains mutation ids of the base traits.
          */
-        std::unordered_set<std::string> my_traits;
+        std::unordered_set<trait_id> my_traits;
         /**
          * Pointers to mutation branches in @ref my_mutations.
          */

@@ -244,7 +244,7 @@ void event::per_turn()
     switch (type) {
     case EVENT_WANTED: {
         // About once every 5 minutes. Suppress in classic zombie mode.
-        if (g->get_levz() >= 0 && one_in(50) && !get_world_option<bool>( "CLASSIC_ZOMBIES" )) {
+        if (g->get_levz() >= 0 && one_in(50) && !get_option<bool>( "CLASSIC_ZOMBIES" )) {
             point place = g->m.random_outdoor_tile();
             if (place.x == -1 && place.y == -1) {
                 return; // We're safely indoors!

@@ -23,6 +23,7 @@
 
 class map;
 class player;
+class npc;
 class vehicle;
 class vpart_info;
 enum vpart_bitflags : int;
@@ -179,6 +180,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     /** Remove any currently assigned crew member for this part */
     void unset_crew();
+
+    /** Reset the target for this part. */
+    void reset_target( tripoint pos );
 
     /**
      * @name Part capabilities
@@ -1093,10 +1097,36 @@ public:
 
     /*
      * Set specific target for automatic turret fire
-     * @returns whether a valid target was selected
+     * @param manual if true, allows target assignment for manually controlled turrets.
+     * @param automatic if true, allows target assignment for automatically controlled turrets.
+     * @param tur_part pointer to a turret aimed regardless of target mode filters, if not nullptr.
+     * @returns whether a valid target was selected.
      */
-    bool turrets_aim();
+    bool turrets_aim( bool manual = true, bool automatic = false,
+                      vehicle_part *tur_part = nullptr );
 
+    /*
+     * Call turrets_aim and then fire turrets if we get a valid target.
+     * @param manual if true, allows targeting and firing for manual turrets.
+     * @param automatic if true, allows targeting and firing for automatic turrets.
+     * @param tur_part pointer to a turret aimed regardless of target mode filters, if not nullptr.
+     * @return the number of shots fired.
+     */
+    int turrets_aim_and_fire( bool manual = true, bool automatic = false,
+                              vehicle_part *tur_part = nullptr );
+
+    /*
+     * Call turrets_aim and then fire a selected single turret if we have a valid target.
+     * @param tur_part if not null, this turret is aimed instead of bringing up the selection menu.
+     * @return the number of shots fired.
+     */
+    int turrets_aim_single( vehicle_part *tur_part = nullptr );
+    
+    /*
+     * @param pt the vehicle part containing the turret we're trying to target.
+     * @return npc object with suitable attributes for targeting a vehicle turret.
+     */
+    npc get_targeting_npc( vehicle_part &pt );
     /*@}*/
 
     /**

@@ -9,13 +9,11 @@
 #include "json.h"
 #include "player.h"
 #include "bionics.h"
-#include "start_location.h"
 #include "game.h"
 #include "map.h"
 #include "translations.h"
 #include "pldata.h"
 #include "addiction.h"
-#include "skill.h"
 #include "profession.h"
 #include "mutation.h"
 #include "mapgen.h"
@@ -80,9 +78,9 @@ void scenario::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "professions", professions,
               auto_flags_reader<string_id<profession>> {} );
 
-    optional( jo, was_loaded, "traits", _allowed_traits, auto_flags_reader<> {} );
-    optional( jo, was_loaded, "forced_traits", _forced_traits, auto_flags_reader<> {} );
-    optional( jo, was_loaded, "forbidden_traits", _forbidden_traits, auto_flags_reader<> {} );
+    optional( jo, was_loaded, "traits", _allowed_traits, auto_flags_reader<trait_id> {} );
+    optional( jo, was_loaded, "forced_traits", _forced_traits, auto_flags_reader<trait_id> {} );
+    optional( jo, was_loaded, "forbidden_traits", _forbidden_traits, auto_flags_reader<trait_id> {} );
     optional( jo, was_loaded, "allowed_locs", _allowed_locs, auto_flags_reader<start_location_id> {} );
     if( _allowed_locs.empty() ) {
         jo.throw_error( "at least one starting location (member \"allowed_locs\") must be defined" );
@@ -135,10 +133,10 @@ void scenario::check_definitions()
     }
 }
 
-void check_traits( const std::set<std::string> &traits, const string_id<scenario> &ident )
+void check_traits( const std::set<trait_id> &traits, const string_id<scenario> &ident )
 {
     for( auto &t : traits ) {
-        if( !mutation_branch::has( t ) ) {
+        if( !t.is_valid() ) {
             debugmsg( "trait %s for scenario %s does not exist", t.c_str(), ident.c_str() );
         }
     }
@@ -272,23 +270,23 @@ std::string scenario::start_name() const
     return _start_name;
 }
 
-bool scenario::traitquery( std::string trait ) const
+bool scenario::traitquery( const trait_id &trait ) const
 {
     return _allowed_traits.count( trait ) != 0 || is_locked_trait( trait ) ||
-           ( !is_forbidden_trait( trait ) && mutation_branch::get( trait ).startingtrait );
+           ( !is_forbidden_trait( trait ) && trait->startingtrait );
 }
 
-std::set<std::string> scenario::get_locked_traits() const
+std::set<trait_id> scenario::get_locked_traits() const
 {
     return _forced_traits;
 }
 
-bool scenario::is_locked_trait( std::string trait ) const
+bool scenario::is_locked_trait( const trait_id &trait ) const
 {
     return _forced_traits.count( trait ) != 0;
 }
 
-bool scenario::is_forbidden_trait( std::string trait ) const
+bool scenario::is_forbidden_trait( const trait_id &trait ) const
 {
     return _forbidden_traits.count( trait ) != 0;
 }

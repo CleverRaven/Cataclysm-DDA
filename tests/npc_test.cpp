@@ -40,7 +40,7 @@ npc create_model()
     model_npc.set_fatigue( 0 );
     model_npc.remove_effect( efftype_id( "sleep" ) );
     // An ugly hack to prevent NPC falling asleep during testing due to massive fatigue
-    model_npc.set_mutation( "WEB_WEAVER" );
+    model_npc.set_mutation( trait_id( "WEB_WEAVER" ) );
 
     return model_npc;
 }

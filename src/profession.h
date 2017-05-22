@@ -18,6 +18,8 @@ class player;
 class JsonArray;
 class JsonObject;
 class addiction;
+struct mutation_branch;
+using trait_id = string_id<mutation_branch>;
 enum add_type : int;
 
     // The weird indentation is thanks to astyle; don't fix it unless you feel like
@@ -65,7 +67,7 @@ enum add_type : int;
 
         std::vector<addiction> _starting_addictions;
         std::vector<std::string> _starting_CBMs;
-        std::vector<std::string> _starting_traits;
+        std::vector<trait_id> _starting_traits;
         std::set<std::string> flags; // flags for some special properties of the profession
         StartingSkillList  _starting_skills;
 
@@ -96,7 +98,7 @@ enum add_type : int;
         std::string gender_appropriate_name( bool male ) const;
         std::string description( bool male ) const;
         signed int point_cost() const;
-        std::list<item> items( bool male, const std::vector<std::string> &traits ) const;
+        std::list<item> items( bool male, const std::vector<trait_id> &traits ) const;
         std::vector<addiction> addictions() const;
         std::vector<std::string> CBMs() const;
         const StartingSkillList skills() const;
@@ -115,8 +117,8 @@ enum add_type : int;
          * @return true, if player can pick profession. Otherwise - false.
          */
         bool can_pick( player *u, int points ) const;
-        bool is_locked_trait( const std::string &trait ) const;
-        std::vector<std::string> get_locked_traits() const;
+        bool is_locked_trait( const trait_id &trait ) const;
+        std::vector<trait_id> get_locked_traits() const;
 };
 
 #endif

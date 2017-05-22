@@ -1,5 +1,6 @@
-#include <sstream>
 #include "npc.h"
+
+#include "dispersion.h"
 #include "rng.h"
 #include "game.h"
 #include "map.h"
@@ -20,6 +21,7 @@
 #include "gates.h"
 
 #include <algorithm>
+#include <sstream>
 
 // @todo Get rid of this include
 #include "mapdata.h"
@@ -1261,19 +1263,24 @@ int npc::confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) co
         return 0;
     }
 
-    double ret = gun_current_range( *gun.target, at_recoil, 50 / confidence_mult(), accuracy_goodhit );
+    double average_dispersion = get_weapon_dispersion( *( gun.target ), RANGE_SOFT_CAP ).avg() +
+      (double)at_recoil;
+    double even_chance_range = 0.5 / average_dispersion;
     // 5 round burst equivalent to ~2 individually aimed shots
-    ret /= std::max( sqrt( gun.qty / 1.5 ), 1.0 );
+    even_chance_range /= std::max( sqrt( gun.qty / 1.5 ), 1.0 );
+    double confident_range = even_chance_range * confidence_mult();
 
-    add_msg( m_debug, "confident_gun_mode_range (%s=%d)", gun.mode.c_str(), (int)ret );
-    return std::max<int>( ret, 1 );
+    add_msg( m_debug, "confident_gun_mode_range (%s=%d)", gun.mode.c_str(), (int)confident_range );
+    return std::max<int>( confident_range, 1 );
 }
 
 int npc::confident_throw_range( const item &thrown, Creature *target ) const
 {
-    const int ret = thrown_current_range( thrown, 50 / confidence_mult(), accuracy_goodhit, target );
-    add_msg( m_debug, "confident_throw_range == %d", ret );
-    return ret;
+    double average_dispersion = throwing_dispersion( thrown, target ) / 2.0;
+    double even_chance_range = ( target == nullptr ? 0.5 : target->ranged_target_size() ) / average_dispersion;
+    double confident_range = even_chance_range * confidence_mult();
+    add_msg( m_debug, "confident_throw_range == %d", (int)confident_range );
+    return (int)confident_range;
 }
 
 // Index defaults to -1, i.e., wielded weapon
