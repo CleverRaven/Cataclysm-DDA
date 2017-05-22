@@ -147,26 +147,26 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
     if( show_prompt ) {
         
         ui::window win(FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT, ui::window::location::CENTERED, false);
-        auto tab_panel = std::make_shared<ui::TabPanel>(true);
+        auto tab_panel = std::make_shared<ui::tab_panel>(true);
 
-        win.main_panel->SetChild(tab_panel);
+        win.main_panel->set_child(tab_panel);
         
         for (auto tab_name : tab_strings)
         {
-            auto this_panel = std::make_shared<ui::PaddingPanel>(false);
+            auto this_panel = std::make_shared<ui::padding_panel>(false);
 
-            tab_panel->AddTab(tab_name, this_panel);
+            tab_panel->add_tab(tab_name, this_panel);
         }
 
-        win.UpdateWindowSize();
+        win.update_window_size();
 
         int curtab = 0;
         int lasttab; // give placement memory to menus, sorta.
         const int numtabs = tabs.size();
         while (curtab >= 0 && curtab < numtabs) {
             lasttab = curtab;
-            tab_panel->SwitchTab(curtab);
-            win.DrawEverything();
+            tab_panel->switch_tab(curtab);
+            win.draw_everything();
             curtab += tabs[curtab](win, retworld);
 
             if (curtab < 0) {

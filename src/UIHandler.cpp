@@ -3,22 +3,22 @@
 #include "debug.h"
 
 ui::window::window( int min_size_x, int min_size_y, location new_location,
-                    bool new_draw_border ) : main_panel( new PaddingPanel( new_draw_border ) )
+                    bool new_draw_border ) : main_panel( new padding_panel( new_draw_border ) )
 {
     min_size.x = min_size_x;
     min_size.y = min_size_y;
 
     this_location = new_location;
 
-    UpdateWindowSize();
+    update_window_size();
 }
 
-void ui::window::UpdateWindowSize()
+void ui::window::update_window_size()
 {
     assert( main_panel );
-    this_size = main_panel->RequestedSize( sizes::PREFERED );
+    this_size = main_panel->requested_size( sizes::PREFERED );
 
-    point panel_min_size = main_panel->RequestedSize( sizes::MINIMUM );
+    point panel_min_size = main_panel->requested_size( sizes::MINIMUM );
 
     this_size.x = std::max( this_size.x, min_size.x );
     this_size.y = std::max( this_size.y, min_size.y );
@@ -46,7 +46,7 @@ void ui::window::UpdateWindowSize()
                                     << " Term: " << TERMY;
     }
 
-    main_panel->SetSize( this_size );
+    main_panel->set_size( this_size );
 
     switch( this_location ) {
         case location::CENTERED:
@@ -61,25 +61,25 @@ void ui::window::UpdateWindowSize()
     return;
 }
 
-void ui::window::DrawEverything()
+void ui::window::draw_everything()
 {
     assert( wf_win );
     werase( wf_win );
     assert( main_panel );
-    main_panel->DrawEverything( wf_win, { 0, 0 } );
+    main_panel->draw_everything( wf_win, { 0, 0 } );
 }
 
-std::shared_ptr<ui::Panel> ui::PaddingPanel::GetChild() const
+std::shared_ptr<ui::panel> ui::padding_panel::get_child() const
 {
     return child_panel;
 }
 
-void ui::PaddingPanel::SetChild( std::shared_ptr<Panel> new_child_panel )
+void ui::padding_panel::set_child( std::shared_ptr<panel> new_child_panel )
 {
     child_panel = new_child_panel;
 }
 
-point ui::PaddingPanel::RequestedSize( sizes size )
+point ui::padding_panel::requested_size( sizes size )
 {
     point req_size;
 
@@ -91,14 +91,14 @@ point ui::PaddingPanel::RequestedSize( sizes size )
         return req_size;
     }
 
-    req_size += child_panel->RequestedSize( size );
+    req_size += child_panel->requested_size( size );
 
     return req_size;
 }
 
-void ui::PaddingPanel::SetSize( point size )
+void ui::padding_panel::set_size( point size )
 {
-    point req_size = RequestedSize( sizes::MINIMUM );
+    point req_size = requested_size( sizes::MINIMUM );
     assert( size.x >= req_size.x );
     assert( size.y >= req_size.y );
 
@@ -112,15 +112,15 @@ void ui::PaddingPanel::SetSize( point size )
     if( draw_border ) //they lose two tiles for the tabs
         new_size -= { 2, 2 };
 
-    child_panel->SetSize( new_size );
+    child_panel->set_size( new_size );
     return;
 }
 
-void ui::PaddingPanel::DrawEverything( WINDOW *wf_win, point offset )
+void ui::padding_panel::draw_everything( WINDOW *wf_win, point offset )
 {
 
     if( draw_border ) {
-        utils::DrawBorder( wf_win, offset, this_size );
+        utils::draw_border( wf_win, offset, this_size );
     }
 
     if( child_panel != nullptr ) {
@@ -129,33 +129,33 @@ void ui::PaddingPanel::DrawEverything( WINDOW *wf_win, point offset )
         if( draw_border ) // They should go into the border, not on it
             offset += { 1, 1 };
 
-        child_panel->DrawEverything( wf_win, offset );
+        child_panel->draw_everything( wf_win, offset );
     }
 }
 
 
-ui::PaddingPanel::PaddingPanel( bool new_draw_border )
+ui::padding_panel::padding_panel( bool new_draw_border )
 {
     draw_border = new_draw_border;
 }
 
-std::vector<std::pair<std::string, std::shared_ptr<ui::Panel>>> ui::TabPanel::GetTabs() const
+std::vector<std::pair<std::string, std::shared_ptr<ui::panel>>> ui::tab_panel::get_tabs() const
 {
     return child_panels;
 }
 
-void ui::TabPanel::AddTab( std::string name, std::shared_ptr<Panel> tab_panel )
+void ui::tab_panel::add_tab( std::string name, std::shared_ptr<panel> tab_panel )
 {
-    child_panels.push_back( std::pair<std::string, std::shared_ptr<Panel>>( name, tab_panel ) );
+    child_panels.push_back( std::pair<std::string, std::shared_ptr<panel>>( name, tab_panel ) );
 }
 
-void ui::TabPanel::RemoveTab( size_t index )
+void ui::tab_panel::remove_tab( size_t index )
 {
     assert( child_panels.size() > index );
     child_panels.erase( child_panels.begin() + index );
 }
 
-point ui::TabPanel::RequestedSize( sizes size )
+point ui::tab_panel::requested_size( sizes size )
 {
     point req_size;
 
@@ -163,7 +163,7 @@ point ui::TabPanel::RequestedSize( sizes size )
     req_size += { 0, 2 };
 
     if( draw_border )
-        // Panel's border
+        // panel's border
         req_size += { 2, 2 };
 
     if( child_panels.empty() ) {
@@ -173,7 +173,7 @@ point ui::TabPanel::RequestedSize( sizes size )
     assert( current_tab < child_panels.size() );
     assert( child_panels[current_tab].second != nullptr );
 
-    req_size += child_panels[current_tab].second->RequestedSize( size );
+    req_size += child_panels[current_tab].second->requested_size( size );
 
     int len = 0;
     for( auto tx : child_panels ) {
@@ -185,9 +185,9 @@ point ui::TabPanel::RequestedSize( sizes size )
     return req_size;
 }
 
-void ui::TabPanel::SetSize( point size )
+void ui::tab_panel::set_size( point size )
 {
-    point req_size = RequestedSize( sizes::MINIMUM );
+    point req_size = requested_size( sizes::MINIMUM );
     assert( size.x >= req_size.x );
     assert( size.y >= req_size.y );
 
@@ -203,11 +203,11 @@ void ui::TabPanel::SetSize( point size )
 
     new_size -= { 0, 2 }; // and another two (on the y) for the tabs
 
-    child_panels[current_tab].second->SetSize( new_size );
+    child_panels[current_tab].second->set_size( new_size );
     return;
 }
 
-void ui::TabPanel::DrawEverything( WINDOW *wf_win, point offset )
+void ui::tab_panel::draw_everything( WINDOW *wf_win, point offset )
 {
     if( draw_border ) {
         auto b_offset = offset;
@@ -218,7 +218,7 @@ void ui::TabPanel::DrawEverything( WINDOW *wf_win, point offset )
         auto b_size = this_size;
         b_size -= { 0, 2 }; // We lose two characters to the tabs
 
-        utils::DrawBorder( wf_win, b_offset, b_size );
+        utils::draw_border( wf_win, b_offset, b_size );
     }
 
     //We add 1 so we get one space to the left of the tab
@@ -236,7 +236,7 @@ void ui::TabPanel::DrawEverything( WINDOW *wf_win, point offset )
     for( size_t i = 0; i < child_panels.size(); i++ ) {
         t_offset += 1;
 
-        utils::DrawTab( wf_win, offset, t_offset, ( i == current_tab ), child_panels[i].first );
+        utils::draw_tab( wf_win, offset, t_offset, ( i == current_tab ), child_panels[i].first );
 
         t_offset += 5 + utf8_width( child_panels[i].first );
     }
@@ -249,24 +249,24 @@ void ui::TabPanel::DrawEverything( WINDOW *wf_win, point offset )
 
         offset += { 0, 2 }; // We go bellow the tabs
 
-        child_panels[current_tab].second->DrawEverything( wf_win, offset );
+        child_panels[current_tab].second->draw_everything( wf_win, offset );
     }
 }
 
-void ui::TabPanel::SwitchTab( size_t tab )
+void ui::tab_panel::switch_tab( size_t tab )
 {
     current_tab = tab;
 
     // Regenerate size for children
-    SetSize( this_size );
+    set_size( this_size );
 }
 
-ui::TabPanel::TabPanel( bool new_draw_border )
+ui::tab_panel::tab_panel( bool new_draw_border )
 {
     draw_border = new_draw_border;
 }
 
-void ui::utils::DrawBorder( WINDOW *wf_win, point offset, point this_size )
+void ui::utils::draw_border( WINDOW *wf_win, point offset, point this_size )
 {
     // Bottom and top border
     for( int i = 1; i < this_size.x - 1; i++ ) {
@@ -291,7 +291,7 @@ void ui::utils::DrawBorder( WINDOW *wf_win, point offset, point this_size )
               LINE_XOOX ); // _|
 }
 
-void ui::utils::DrawTab( WINDOW *wf_win, point offset, int tab_offset, bool tab_active,
+void ui::utils::draw_tab( WINDOW *wf_win, point offset, int tab_offset, bool tab_active,
                          std::string text )
 {
     int tab_offset_right = tab_offset + utf8_width( text ) + 1;

@@ -46,7 +46,7 @@ namespace utils
  * \param offset Where to start the border
  * \param this_size The size of the area to be covered.
  */
-void DrawBorder( WINDOW *wf_win, point offset, point this_size );
+void draw_border( WINDOW *wf_win, point offset, point this_size );
 
 /**
  * Draws tabs
@@ -67,15 +67,15 @@ void DrawBorder( WINDOW *wf_win, point offset, point this_size );
  *
  * \param wf_win The window to draw the tab in
  * \param offset Where to start the tab
- * \param tabOffset Additional offset on the x axis
- * \param tabActive Whether or not the tab is currently active
+ * \param tab_offset Additional offset on the x axis
+ * \param tab_active Whether or not the tab is currently active
  * \param text Tab's name
  */
-void DrawTab( WINDOW *wf_win, point offset, int tab_offset, bool tab_active,
+void draw_tab( WINDOW *wf_win, point offset, int tab_offset, bool tab_active,
               std::string text );
 }
 
-class Panel
+class panel
 {
     public:
         /**
@@ -83,7 +83,7 @@ class Panel
          *
          * \param size Whether you want the prefered size or minimum size
          */
-        virtual point RequestedSize( sizes size ) = 0;
+        virtual point requested_size( sizes size ) = 0;
 
         /**
          * Sets the size
@@ -92,7 +92,7 @@ class Panel
          *
          * \remarks Will crash program if size is less than the minimum size.
          */
-        virtual void SetSize( point size ) = 0;
+        virtual void set_size( point size ) = 0;
 
         /**
          * Draws this panel and then tells children to draw themselfs
@@ -100,47 +100,47 @@ class Panel
          * \param wf_win Window to draw content in
          * \param offset where to start drawing
          */
-        virtual void DrawEverything( WINDOW *wf_win, point offset ) = 0;
+        virtual void draw_everything( WINDOW *wf_win, point offset ) = 0;
 };
 
-class PaddingPanel : public Panel
+class padding_panel : public panel
 {
     public:
-        PaddingPanel( bool new_draw_border );
-        std::shared_ptr<Panel> GetChild() const;
-        void SetChild( std::shared_ptr<Panel> new_child_panel );
+        padding_panel( bool new_draw_border );
+        std::shared_ptr<panel> get_child() const;
+        void set_child( std::shared_ptr<panel> new_child_panel );
 
-        point RequestedSize( sizes size ) override;
-        void SetSize( point size ) override;
-        void DrawEverything( WINDOW *wf_win, point offset ) override;
+        point requested_size( sizes size ) override;
+        void set_size( point size ) override;
+        void draw_everything( WINDOW *wf_win, point offset ) override;
     private:
         point this_size;
 
-        std::shared_ptr<Panel> child_panel;
+        std::shared_ptr<panel> child_panel;
         bool draw_border;
 };
 
-class TabPanel : public Panel
+class tab_panel : public panel
 {
     public:
-        TabPanel( bool new_draw_border );
+        tab_panel( bool new_draw_border );
 
-        std::vector<std::pair<std::string, std::shared_ptr<Panel>>> GetTabs() const;
-        void AddTab( std::string name, std::shared_ptr<Panel> tab_panel );
-        void RemoveTab( size_t index );
+        std::vector<std::pair<std::string, std::shared_ptr<panel>>> get_tabs() const;
+        void add_tab( std::string name, std::shared_ptr<panel> tab_panel );
+        void remove_tab( size_t index );
 
-        point RequestedSize( sizes size ) override;
-        void SetSize( point size ) override;
+        point requested_size( sizes size ) override;
+        void set_size( point size ) override;
 
-        void DrawEverything( WINDOW *wf_win, point offset ) override;
+        void draw_everything( WINDOW *wf_win, point offset ) override;
 
-        void SwitchTab( size_t tab );
+        void switch_tab( size_t tab );
     private:
         size_t current_tab = 0;
 
         point this_size;
 
-        std::vector<std::pair<std::string, std::shared_ptr<Panel>>> child_panels;
+        std::vector<std::pair<std::string, std::shared_ptr<panel>>> child_panels;
 
         bool draw_border;
 };
@@ -158,11 +158,11 @@ class window
         };
 
         window( int min_size_x, int min_size_y, location new_location, bool new_draw_border );
-        void UpdateWindowSize();
+        void update_window_size();
 
-        void DrawEverything();
+        void draw_everything();
 
-        std::unique_ptr<PaddingPanel> main_panel;
+        std::unique_ptr<padding_panel> main_panel;
     private:
         location this_location;
 
