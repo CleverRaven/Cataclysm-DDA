@@ -1953,9 +1953,9 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     item &filthy_item = p->i_at(act->position);
 
     if( p->is_worn( filthy_item ) ) {
-        filthy_item.on_takeoff( g->u );
+        filthy_item.on_takeoff( *p );
         filthy_item.item_tags.erase( "FILTHY" );
-        filthy_item.on_wear( g->u );
+        filthy_item.on_wear( *p );
     }
     filthy_item.item_tags.erase( "FILTHY" );
 
