@@ -106,7 +106,7 @@ class Panel
 class PaddingPanel : public Panel
 {
     public:
-        PaddingPanel( bool drawBorder );
+        PaddingPanel( bool newDrawBorder );
         std::shared_ptr<Panel> GetChild() const;
         void SetChild( std::shared_ptr<Panel> panel );
 
@@ -114,10 +114,10 @@ class PaddingPanel : public Panel
         void SetSize( point size ) override;
         void DrawEverything( WINDOW *wf_win, point offset ) override;
     private:
-        point m_thisSize;
+        point thisSize;
 
-        std::shared_ptr<Panel> m_childPanel;
-        bool m_drawBorder;
+        std::shared_ptr<Panel> childPanel;
+        bool drawBorder;
 };
 
 class TabPanel : public Panel
@@ -157,7 +157,7 @@ class Window
             Centered
         };
 
-        Window( int minSizeX, int minSizeY, Location location, bool drawBorder );
+        Window( int minSizeX, int minSizeY, Location location, bool newDrawBorder );
         void UpdateWindowSize();
 
         void DrawEverything();

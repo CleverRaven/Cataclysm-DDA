@@ -3,7 +3,7 @@
 #include "debug.h"
 
 ui::Window::Window( int minSizeX, int minSizeY, Location location,
-                    bool drawBorder ) : panel( new PaddingPanel( drawBorder ) )
+                    bool newDrawBorder ) : panel( new PaddingPanel( newDrawBorder ) )
 {
     minSize.x = minSizeX;
     minSize.y = minSizeY;
@@ -71,12 +71,12 @@ void ui::Window::DrawEverything()
 
 std::shared_ptr<ui::Panel> ui::PaddingPanel::GetChild() const
 {
-    return m_childPanel;
+    return childPanel;
 }
 
 void ui::PaddingPanel::SetChild( std::shared_ptr<Panel> panel )
 {
-    m_childPanel = panel;
+    childPanel = panel;
 }
 
 point ui::PaddingPanel::RequestedSize( Sizes sizes )
@@ -84,14 +84,14 @@ point ui::PaddingPanel::RequestedSize( Sizes sizes )
     point size;
 
     // Space for tab's border
-    if( m_drawBorder )
+    if( drawBorder )
         size += { 2, 2 };
 
-    if( m_childPanel == nullptr ) {
+    if( childPanel == nullptr ) {
         return size;
     }
 
-    size += m_childPanel->RequestedSize( sizes );
+    size += childPanel->RequestedSize( sizes );
 
     return size;
 }
@@ -103,41 +103,41 @@ void ui::PaddingPanel::SetSize( point size )
     assert( size.x >= reqSize.x );
     assert( size.y >= reqSize.y );
 
-    m_thisSize = size;
+    thisSize = size;
 
-    if( m_childPanel == nullptr ) {
+    if( childPanel == nullptr ) {
         return;
     }
     auto newSize = size;
 
-    if( m_drawBorder ) //they lose two tiles for the tabs
+    if( drawBorder ) //they lose two tiles for the tabs
         newSize -= { 2, 2 };
 
-    m_childPanel->SetSize( newSize );
+    childPanel->SetSize( newSize );
     return;
 }
 
 void ui::PaddingPanel::DrawEverything( WINDOW *wf_win, point offset )
 {
 
-    if( m_drawBorder ) {
-        Utils::DrawBorder( wf_win, offset, m_thisSize );
+    if( drawBorder ) {
+        Utils::DrawBorder( wf_win, offset, thisSize );
     }
 
-    if( m_childPanel != nullptr ) {
+    if( childPanel != nullptr ) {
         point offset;
 
-        if( m_drawBorder ) // They should go into the border, not on it
+        if( drawBorder ) // They should go into the border, not on it
             offset += { 1, 1 };
 
-        m_childPanel->DrawEverything( wf_win, offset );
+        childPanel->DrawEverything( wf_win, offset );
     }
 }
 
 
-ui::PaddingPanel::PaddingPanel( bool drawBorder )
+ui::PaddingPanel::PaddingPanel( bool newDrawBorder )
 {
-    m_drawBorder = drawBorder;
+    drawBorder = newDrawBorder;
 }
 
 std::vector<std::pair<std::string, std::shared_ptr<ui::Panel>>> ui::TabPanel::GetTabs() const
