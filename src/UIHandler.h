@@ -166,7 +166,7 @@ class Window
     private:
         Location m_thisLocation;
 
-        point m_minSize;
+        point minSize;
         point m_thisSize;
         point offset;
 

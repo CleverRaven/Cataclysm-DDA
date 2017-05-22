@@ -5,8 +5,8 @@
 ui::Window::Window( int minSizeX, int minSizeY, Location location,
                     bool drawBorder ) : m_panel( new PaddingPanel( drawBorder ) )
 {
-    m_minSize.x = minSizeX;
-    m_minSize.y = minSizeY;
+    minSize.x = minSizeX;
+    minSize.y = minSizeY;
 
     m_thisLocation = location;
 
@@ -18,31 +18,31 @@ void ui::Window::UpdateWindowSize()
     assert( m_panel );
     m_thisSize = m_panel->RequestedSize( Sizes::Prefered );
 
-    point minSize = m_panel->RequestedSize( Sizes::Minimum );
+    point panelMinSize = m_panel->RequestedSize( Sizes::Minimum );
 
-    m_thisSize.x = std::max( m_thisSize.x, m_minSize.x );
-    m_thisSize.y = std::max( m_thisSize.y, m_minSize.y );
+    m_thisSize.x = std::max( m_thisSize.x, minSize.x );
+    m_thisSize.y = std::max( m_thisSize.y, minSize.y );
 
     m_thisSize.x = std::min( m_thisSize.x, TERMX );
     m_thisSize.y = std::min( m_thisSize.y, TERMY );
 
-    if( m_minSize.x > TERMX ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Window's Min Size is greater than terminal's. (X) Window: "
-                                    << m_minSize.x << " Term: " << TERMX;
-    }
-    if( m_minSize.y > TERMY ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Window's Min Size is greater than terminal's. (Y) Window: "
-                                    << m_minSize.y << " Term: " << TERMY;
-    }
-
     if( minSize.x > TERMX ) {
-        DebugLog( D_ERROR, DC_ALL ) <<
-                                    "Window's child panel's Min Size is greater than terminal's. (X) Window: " << minSize.x
-                                    << " Term: " << TERMX;
+        DebugLog( D_ERROR, DC_ALL ) << "Window's Min Size is greater than terminal's. (X) Window: "
+                                    << minSize.x << " Term: " << TERMX;
     }
     if( minSize.y > TERMY ) {
+        DebugLog( D_ERROR, DC_ALL ) << "Window's Min Size is greater than terminal's. (Y) Window: "
+                                    << minSize.y << " Term: " << TERMY;
+    }
+
+    if( panelMinSize.x > TERMX ) {
         DebugLog( D_ERROR, DC_ALL ) <<
-                                    "Window's child panel's Min Size is greater than terminal's. (Y) Window: " << minSize.y
+                                    "Window's child panel's Min Size is greater than terminal's. (X) Window: " << panelMinSize.x
+                                    << " Term: " << TERMX;
+    }
+    if( panelMinSize.y > TERMY ) {
+        DebugLog( D_ERROR, DC_ALL ) <<
+                                    "Window's child panel's Min Size is greater than terminal's. (Y) Window: " << panelMinSize.y
                                     << " Term: " << TERMY;
     }
 
