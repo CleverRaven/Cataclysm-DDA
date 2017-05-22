@@ -3565,10 +3565,7 @@
   "components":
     [
      [
-     [ "steel_lump", 1 ],
-     [ "steel_chunk", 4 ],
-     [ "scrap", 12 ],
-     [ "pipe", 3 ]
+     [ "material_aluminium_ingot", 2 ]
      ]
     ]
 },{
@@ -6722,6 +6719,39 @@
 [ "material_sand", 25]
 ]
 ]
+},{
+  "type" : "recipe",
+  "result": "material_aluminium_ingot",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "crucible", -1 ],
+      [ "crucible_clay", -1 ]
+    ],
+    [
+      [ "welder", 20 ],
+      [ "welder_crude", 30 ],
+      [ "toolset", 30 ],
+      [ "forge", 10],
+      [ "char_forge", 2],
+      [ "oxy_torch", 2]
+    ]
+  ],
+  "components": [
+    [
+      [ "aluminum_foil", 40 ],
+      [ "can_drink", 6]
+    ]
+  ]
 },{
   "type" : "recipe",
   "result": "canteen",
