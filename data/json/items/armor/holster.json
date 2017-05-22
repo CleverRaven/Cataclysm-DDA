@@ -142,7 +142,6 @@
     "material": "steel",
     "symbol": "[",
     "color": "gray",
-    "covers": [ "LEG_EITHER" ],
     "coverage": 5,
     "encumbrance": 3,
     "power_armor": true,

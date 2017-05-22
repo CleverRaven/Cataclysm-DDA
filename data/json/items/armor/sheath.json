@@ -2,6 +2,7 @@
   {
     "id": "power_armor_sheath",
     "type": "ARMOR",
+    "category": "armor",
     "name": "power armor sheath",
     "description": "A metal knife sheath made for power armor attachment points.  Activate to sheathe/draw a weapon.",
     "weight": 300,
@@ -11,9 +12,9 @@
     "material": [ "steel" ],
     "symbol": "[",
     "color": "gray",
-    "covers": [ "ARM_EITHER" ],
     "coverage": 5,
     "encumbrance": 3,
+    "power_armor": true,
     "material_thickness": 1,
     "use_action": {
       "type": "holster",
@@ -24,5 +25,32 @@
       "flags": [ "SHEATH_KNIFE" ]
     },
     "flags": [ "BELTED", "OVERSIZE", "WATERPROOF", "STURDY" ]
+  },
+  {
+    "id": "power_armor_scabbard",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "power armor scabbard",
+    "description": "A large metal sheath compatible with power armor attachment points.  Activate to sheathe/draw a weapon.",
+    "weight": 2000,
+    "volume": 6,
+    "price": 15000,
+    "bashing": 6,
+    "material": [ "steel" ],
+    "symbol": "[",
+    "color": "gray",
+    "covers": [ "LEG_EITHER" ],
+    "coverage": 15,
+    "encumbrance": 4,
+    "power_armor": true,
+    "material_thickness": 1,
+    "use_action": {
+      "type": "holster",
+      "holster_prompt": "Sheath sword",
+      "holster_msg": "You sheath your %s",
+      "max_volume": 8,
+      "flags": [ "SHEATH_SWORD" ]
+    },
+    "flags": [ "WAIST", "OVERSIZE", "WATERPROOF", "STURDY" ]
   }
 ]
