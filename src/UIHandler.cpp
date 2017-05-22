@@ -170,6 +170,9 @@ point ui::TabPanel::RequestedSize( Sizes sizes )
         return size;
     }
 
+    assert( m_currentTab < m_childPanels.size() );
+    assert( m_childPanels[m_currentTab].second != nullptr );
+
     auto paneSize = m_childPanels[m_currentTab].second->RequestedSize( sizes );
     size += paneSize;
 

@@ -81,7 +81,7 @@ class Panel
 
         /**
          * Sets the size
-         * 
+         *
          * WARNING: Will crash program if less than minimum size.
          *
          * \param size Size to set size to
@@ -131,7 +131,7 @@ class TabPanel : public Panel
 
         void SwitchTab( size_t tab );
     private:
-        size_t m_currentTab;
+        size_t m_currentTab = 0;
 
         point m_thisSize;
 
