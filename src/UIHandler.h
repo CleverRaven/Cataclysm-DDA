@@ -112,7 +112,6 @@ class PaddingPanel : public Panel
 
         point RequestedSize( Sizes sizes ) override;
         void SetSize( point size ) override;
-
         void DrawEverything( WINDOW *wf_win, point offset ) override;
     private:
         point m_thisSize;
@@ -141,9 +140,6 @@ class TabPanel : public Panel
 
         point m_thisSize;
 
-        // Could use std::map
-        // But then GetChild function would get way more complex
-        // I think this is easier
         std::vector<std::pair<std::string, std::shared_ptr<Panel>>> m_childPanels;
 
         bool m_drawBorder;
