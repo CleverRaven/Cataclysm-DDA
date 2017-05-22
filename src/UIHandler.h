@@ -13,21 +13,21 @@
 namespace ui
 {
 enum class Sizes {
-    Minimum,
-    Prefered
+    MINIMUM,
+    PREFERED
 };
 
-namespace Utils
+namespace utils
 {
 /**
  * Draws a border.
  *
  * <pre>
- *  ____ m_thisSize.x
+ *  ____ thisSize.x
  * /    \
  * v    v
  * +----+<-\
- * |    |  | m_thisSize.y
+ * |    |  | thisSize.y
  * |    |  |
  * +----+<-/
  *
@@ -44,9 +44,9 @@ namespace Utils
  *
  * \param wf_win The window to draw the border in
  * \param offset Where to start the border
- * \param m_thisSize The size of the area to be covered.
+ * \param thisSize The size of the area to be covered.
  */
-void DrawBorder( WINDOW *wf_win, point offset, point m_thisSize );
+void DrawBorder( WINDOW *wf_win, point offset, point thisSize );
 
 /**
  * Draws tabs
@@ -79,7 +79,7 @@ class Panel
 {
     public:
         /**
-         * Returns either its Prefered size or its Minimum size
+         * Returns either its prefered size or its minimum size
          *
          * \param sizes Whether you want the prefered size or minimum size
          */
@@ -108,7 +108,7 @@ class PaddingPanel : public Panel
     public:
         PaddingPanel( bool newDrawBorder );
         std::shared_ptr<Panel> GetChild() const;
-        void SetChild( std::shared_ptr<Panel> panel );
+        void SetChild( std::shared_ptr<Panel> child_panel );
 
         point RequestedSize( Sizes sizes ) override;
         void SetSize( point size ) override;
@@ -126,7 +126,7 @@ class TabPanel : public Panel
         TabPanel( bool newDrawBorder );
 
         std::vector<std::pair<std::string, std::shared_ptr<Panel>>> GetTabs() const;
-        void AddTab( std::string name, std::shared_ptr<Panel> panel );
+        void AddTab( std::string name, std::shared_ptr<Panel> tab_panel );
         void RemoveTab( size_t index );
 
         point RequestedSize( Sizes sizes ) override;
@@ -162,9 +162,9 @@ class Window
 
         void DrawEverything();
 
-        std::unique_ptr<PaddingPanel> panel;
+        std::unique_ptr<PaddingPanel> main_panel;
     private:
-        Location m_thisLocation;
+        Location thisLocation;
 
         point minSize;
         point thisSize;

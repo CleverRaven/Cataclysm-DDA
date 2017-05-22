@@ -17,11 +17,6 @@
 
 class JsonIn;
 
-namespace ui
-{
-class Window;
-}
-
 class save_t
 {
     private:
@@ -111,13 +106,13 @@ class worldfactory
     protected:
     private:
         std::string pick_random_name();
-        int show_worldgen_tab_options( ui::Window &nwin, WORLDPTR world );
-        int show_worldgen_tab_modselection( ui::Window &nwin, WORLDPTR world );
-        int show_worldgen_tab_confirm( ui::Window &nwin, WORLDPTR world );
+        int show_worldgen_tab_options( WINDOW *win, WORLDPTR world );
+        int show_worldgen_tab_modselection( WINDOW *win, WORLDPTR world );
+        int show_worldgen_tab_confirm( WINDOW *win, WORLDPTR world );
 
-        void draw_modselection_borders( ui::Window &nwin, input_context *ctxtp );
-        void draw_worldgen_tabs( ui::Window &win, unsigned int current );
-        void draw_mod_list( WINDOW *nwin, int &start, int &cursor, const std::vector<std::string> &mods,
+        void draw_modselection_borders( WINDOW *win, input_context *ctxtp );
+        void draw_worldgen_tabs( WINDOW *win, unsigned int current );
+        void draw_mod_list( WINDOW *w, int &start, int &cursor, const std::vector<std::string> &mods,
                             bool is_active_list, const std::string &text_if_empty, WINDOW *w_shift );
 
         bool load_world_options( WORLDPTR &world );
@@ -127,7 +122,7 @@ class worldfactory
         std::unique_ptr<mod_manager> mman;
         std::unique_ptr<mod_ui> mman_ui;
 
-        typedef std::function<int( ui::Window &, WORLDPTR )> worldgen_display;
+        typedef std::function<int( WINDOW *, WORLDPTR )> worldgen_display;
 
         std::vector<worldgen_display> tabs;
         std::vector<std::string> tab_strings;
