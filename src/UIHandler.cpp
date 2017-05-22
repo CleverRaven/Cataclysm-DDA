@@ -16,15 +16,15 @@ ui::Window::Window( int minSizeX, int minSizeY, Location location,
 void ui::Window::UpdateWindowSize()
 {
     assert( m_panel );
-    m_thisSize = m_panel->RequestedSize( Sizes::Prefered );
+    thisSize = m_panel->RequestedSize( Sizes::Prefered );
 
     point panelMinSize = m_panel->RequestedSize( Sizes::Minimum );
 
-    m_thisSize.x = std::max( m_thisSize.x, minSize.x );
-    m_thisSize.y = std::max( m_thisSize.y, minSize.y );
+    thisSize.x = std::max( thisSize.x, minSize.x );
+    thisSize.y = std::max( thisSize.y, minSize.y );
 
-    m_thisSize.x = std::min( m_thisSize.x, TERMX );
-    m_thisSize.y = std::min( m_thisSize.y, TERMY );
+    thisSize.x = std::min( thisSize.x, TERMX );
+    thisSize.y = std::min( thisSize.y, TERMY );
 
     if( minSize.x > TERMX ) {
         DebugLog( D_ERROR, DC_ALL ) << "Window's Min Size is greater than terminal's. (X) Window: "
@@ -46,16 +46,16 @@ void ui::Window::UpdateWindowSize()
                                     << " Term: " << TERMY;
     }
 
-    m_panel->SetSize( m_thisSize );
+    m_panel->SetSize( thisSize );
 
     switch( m_thisLocation ) {
         case Location::Centered:
-            offset.x = ( TERMX - m_thisSize.x ) / 2;
-            offset.y = ( TERMY - m_thisSize.y ) / 2;
+            offset.x = ( TERMX - thisSize.x ) / 2;
+            offset.y = ( TERMY - thisSize.y ) / 2;
             break;
     }
 
-    wf_win = newwin( m_thisSize.y, m_thisSize.x, offset.y, offset.x );
+    wf_win = newwin( thisSize.y, thisSize.x, offset.y, offset.x );
     assert( wf_win );
     wf_winptr = WINDOW_PTR( wf_win );
     return;

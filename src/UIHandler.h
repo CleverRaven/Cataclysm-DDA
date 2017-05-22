@@ -167,7 +167,7 @@ class Window
         Location m_thisLocation;
 
         point minSize;
-        point m_thisSize;
+        point thisSize;
         point offset;
 
         WINDOW *wf_win;
