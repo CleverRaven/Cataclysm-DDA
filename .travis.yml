@@ -1,11 +1,99 @@
-language: cpp
-compiler:
-  - gcc
+# this file is HEAVILY influenced by https://github.com/boostorg/hana/blob/master/.travis.yml
+
+sudo: false
+language: c++
+
+cache: ccache
 
 script: make
 
 notifications:
-  irc: "irc.newnet.net#Cataclysm-DDA"
+  email: false
   irc: "irc.freenode.org#Cataclysm-DDA"
   use_notice: true
   skip_join: true
+
+git:
+  depth: 500
+
+env:
+  global:
+  # Workaround for https://github.com/travis-ci/travis-ci/issues/4681
+  # "Defining the build matrix only with matrix.include leads to an additional, unwanted job"
+  matrix:
+    - TRAVIS_EMPTY_JOB_WORKAROUND=true
+
+addons:
+  # these apt sources will be referenced later (by using *name)
+  apt:
+    sources: &apt_sources
+      - ubuntu-toolchain-r-test
+      - llvm-toolchain-precise
+      - llvm-toolchain-precise-3.5
+      - llvm-toolchain-precise-3.6
+      - llvm-toolchain-precise-3.7
+      - llvm-toolchain-precise-3.8
+      - llvm-toolchain-precise-3.9
+      - llvm-toolchain-trusty
+      - llvm-toolchain-trusty-4.0
+
+compiler: gcc
+os: linux
+
+matrix:
+  exclude:
+    - env: TRAVIS_EMPTY_JOB_WORKAROUND=true
+
+  include:
+    # coverage
+    - env: COMPILER=g++-4.8 CODE_COVERAGE=true
+      compiler: gcc
+      addons: &gcc48
+        apt:
+          packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386", "lcov", "astyle"]
+          sources: *apt_sources
+
+    # GCC 4.8
+    - env: COMPILER=g++-4.8
+      compiler: gcc
+      addons: &gcc48
+        apt:
+          packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386"]
+          sources: *apt_sources
+
+    # GCC 4.9
+    - env: COMPILER=g++-4.9
+      compiler: gcc
+      addons: &gcc49
+        apt:
+          packages: ["g++-4.9", "g++-4.9-multilib", "libc6-dbg", "libc6-dbg:i386"]
+          sources: *apt_sources
+
+    # GCC 5
+    - env: COMPILER=g++-5
+      compiler: gcc
+      addons: &gcc5
+        apt:
+          packages: ["g++-5",   "g++-5-multilib",   "libc6-dbg", "libc6-dbg:i386"]
+          sources: *apt_sources
+
+    # GCC 6
+    - env: COMPILER=g++-6
+      compiler: gcc
+      addons: &gcc6
+        apt:
+          packages: ["g++-6",   "g++-6-multilib",   "libc6-dbg", "libc6-dbg:i386"]
+          sources: *apt_sources
+
+    # Clang 4.0
+    - env: COMPILER=clang++-4.0 CXXFLAGS=-Wno-error=unused-command-line-argument
+      dist: trusty
+      addons: &clang40
+        apt:
+          packages: ["clang-4.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
+          sources: *apt_sources
+
+before_script:
+  - ${COMPILER} --version
+
+script: CXX="ccache $COMPILER" make -j3 RELEASE=1

@@ -96,6 +96,7 @@ class salvage_actor;
 class input_context;
 class map_item_stack;
 struct WORLD;
+class save_t;
 typedef WORLD *WORLDPTR;
 class overmap;
 struct event;
@@ -390,8 +391,6 @@ class game
         void unload_npcs();
         /** Unloads, then loads the NPCs */
         void reload_npcs();
-        /** Pulls the NPCs that were dumped into the world map on save back into mission_npcs */
-        void load_mission_npcs();
         /** Returns the number of kills of the given mon_id by the player. */
         int kill_count( const mtype_id& id );
         /** Increments the number of kills of the given mtype_id by the player upwards. */
@@ -519,11 +518,22 @@ class game
         std::vector<npc *> allies();
 
         std::vector<npc *> active_npc;
-        std::vector<npc *> mission_npc;
         std::vector<faction> factions;
         int weight_dragged; // Computed once, when you start dragging
 
         int ter_view_x, ter_view_y, ter_view_z;
+
+    private:
+        WINDOW_PTR w_terrain_ptr;
+        WINDOW_PTR w_minimap_ptr;
+        WINDOW_PTR w_pixel_minimap_ptr;
+        WINDOW_PTR w_HP_ptr;
+        WINDOW_PTR w_messages_short_ptr;
+        WINDOW_PTR w_messages_long_ptr;
+        WINDOW_PTR w_location_ptr;
+        WINDOW_PTR w_status_ptr;
+        WINDOW_PTR w_status2_ptr;
+    public:
         WINDOW *w_terrain;
         WINDOW *w_overmap;
         WINDOW *w_omlegend;
@@ -710,7 +720,7 @@ class game
 
     private:
         // Game-start procedures
-        void load( std::string worldname, std::string name ); // Load a player-specific save file
+        void load( std::string worldname, const save_t &name ); // Load a player-specific save file
         bool load_master(std::string worldname); // Load the master data file, with factions &c
         void load_weather(std::istream &fin);
         bool start_game(std::string worldname); // Starts a new game in a world

@@ -114,7 +114,7 @@ item::item()
 item::item( const itype *type, int turn, long qty ) : type( type )
 {
     bday = turn >= 0 ? turn : int( calendar::turn );
-    corpse = typeId() == "corpse" ? &mtype_id::NULL_ID.obj() : nullptr;
+    corpse = typeId() == "corpse" ? &mtype_id::NULL_ID().obj() : nullptr;
     item_counter = type->countdown_interval;
 
     if( qty >= 0 ) {
@@ -838,7 +838,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         info.push_back( iteminfo( "FOOD", _( "Portions: " ), "", abs( int( food_item->charges ) ) ) );
         if( food_item->corpse != NULL && ( debug == true || ( g != NULL &&
-                                           ( g->u.has_bionic( "bio_scent_vision" ) || g->u.has_trait( "CARNIVORE" ) ||
+                                           ( g->u.has_bionic( "bio_scent_vision" ) || g->u.has_trait( trait_id( "CARNIVORE" ) ) ||
                                              g->u.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) ) ) {
             info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
         }
@@ -884,7 +884,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 if( g->u.has_bionic( "bio_digestion" ) ) {
                     info.push_back( iteminfo( "DESCRIPTION",
                                               _( "This food has started to <neutral>rot</neutral>, but <info>your bionic digestion can tolerate it</info>." ) ) );
-                } else if( g->u.has_trait( "SAPROVORE" ) ) {
+                } else if( g->u.has_trait( trait_id( "SAPROVORE" ) ) ) {
                     info.push_back( iteminfo( "DESCRIPTION",
                                               _( "This food has started to <neutral>rot</neutral>, but <info>you can tolerate it</info>." ) ) );
                 } else {
@@ -1001,14 +1001,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         insert_separation_line();
-
-        int eff_range = round( g->u.gun_engagement_range( *mod, player::engagement::effective ) );
-        int max_range = round( g->u.gun_engagement_range( *mod, player::engagement::maximum ) );
-
-        if( eff_range > 0 ) {
-            info.emplace_back( "GUN", _( "<bold>Effective range: </bold>" ), "<num>", eff_range, true, "", false );
-            info.emplace_back( "GUN", space + _( "Maximum range: " ), "<num>", max_range );
-        }
 
         int aim_mv = g->u.gun_engagement_moves( *mod );
         if( aim_mv > 0 ) {
@@ -1131,8 +1123,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                     temp1 << "; ";
                 }
                 const int free_slots = ( elem ).second - get_free_mod_locations( ( elem ).first );
-                temp1 << "<bold>" << free_slots << "/" << ( elem ).second << "</bold> " << _( (
-                            elem ).first.c_str() );
+                temp1 << "<bold>" << free_slots << "/" << ( elem ).second << "</bold> " << elem.first.name();
                 bool first_mods = true;
                 for( const auto mod : gunmods() ) {
                     if( mod->type->gunmod->location == ( elem ).first ) { // if mod for this location
@@ -1206,7 +1197,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         temp2.str( "" );
         temp2 << _( "Location: " );
-        temp2 << _( mod->location.c_str() );
+        temp2 << mod->location.name();
 
         info.push_back( iteminfo( "GUNMOD", temp1.str() ) );
         info.push_back( iteminfo( "GUNMOD", temp2.str() ) );
@@ -1591,10 +1582,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This item can be worn on <info>either side</info> of the body." ) ) );
             }
-            if( is_filthy() ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This piece of clothing is <bad>filthy</bad>." ) ) );
-            }
             if( is_power_armor() ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This gear is a part of power armor." ) ) );
@@ -1800,7 +1787,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                     } else {
                         temp1 << _( "Mod: " );
                     }
-                    temp1 << "<bold>" << mod->tname() << "</bold> (" << _( mod->type->gunmod->location.c_str() ) << ")";
+                    temp1 << "<bold>" << mod->tname() << "</bold> (" << mod->type->gunmod->location.name() << ")";
                 }
                 insert_separation_line();
                 info.emplace_back( "DESCRIPTION", temp1.str() );
@@ -1879,14 +1866,13 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
     return replace_colors( temp1.str() );
 }
 
-int item::get_free_mod_locations( const std::string &location ) const
+int item::get_free_mod_locations( const gunmod_location &location ) const
 {
     if( !is_gun() ) {
         return 0;
     }
     const islot_gun *gt = type->gun.get();
-    std::map<std::string, int>::const_iterator loc =
-        gt->valid_mod_locations.find( location );
+    const auto loc = gt->valid_mod_locations.find( location );
     if( loc == gt->valid_mod_locations.end() ) {
         return 0;
     }
@@ -3875,13 +3861,13 @@ void item::mark_chapter_as_read( const player &u )
 
 const material_type &item::get_random_material() const
 {
-    return random_entry( made_of(), material_id::NULL_ID ).obj();
+    return random_entry( made_of(), material_id::NULL_ID() ).obj();
 }
 
 const material_type &item::get_base_material() const
 {
     const auto mats = made_of();
-    return mats.empty() ? material_id::NULL_ID.obj() : mats.front().obj();
+    return mats.empty() ? material_id::NULL_ID().obj() : mats.front().obj();
 }
 
 bool item::operator<(const item& other) const
@@ -3908,7 +3894,7 @@ bool item::operator<(const item& other) const
 skill_id item::gun_skill() const
 {
     if( !is_gun() ) {
-        return NULL_ID;
+        return skill_id::NULL_ID();
     }
     return type->gun->skill_used;
 }
@@ -3933,7 +3919,7 @@ std::string item::gun_type() const
 skill_id item::melee_skill() const
 {
     if( !is_melee() ) {
-        return NULL_ID;
+        return skill_id::NULL_ID();
     }
 
     if( has_flag( "UNARMED_WEAPON" ) ) {
@@ -3941,7 +3927,7 @@ skill_id item::melee_skill() const
     }
 
     int hi = 0;
-    skill_id res = NULL_ID;
+    skill_id res = skill_id::NULL_ID();
 
     for( auto idx = DT_NULL + 1; idx != NUM_DT; ++idx ) {
         auto val = damage_melee( static_cast<damage_type>( idx ) );
@@ -4270,7 +4256,7 @@ ammotype item::ammo_type( bool conversion ) const
     } else if( is_magazine() ) {
         return type->magazine->type;
     }
-    return NULL_ID;
+    return ammotype::NULL_ID();
 }
 
 itype_id item::ammo_default( bool conversion ) const
@@ -4415,7 +4401,7 @@ bool item::gunmod_compatible( const item& mod, std::string *msg ) const
 
     } else if( get_free_mod_locations( mod.type->gunmod->location ) <= 0 ) {
         return error( string_format( _( "doesn't have enough room for another %s mod" ),
-                                     _( mod.type->gunmod->location.c_str() ) ) );
+                                     mod.type->gunmod->location.name().c_str() ) );
 
     } else if( !mod.type->gunmod->usable.count( gun_type() ) ) {
         return error( string_format( _( "cannot have a %s" ), mod.tname().c_str() ) );
@@ -5289,7 +5275,8 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         } else if( ammo_type->cookoff ) {
             // Ammo that cooks off, but doesn't have a
             // large intrinsic effect blows up with shrapnel
-            g->explosion( p, ammo_type->damage / 2, 0.5f, false, rounds_exploded / 5 );
+           g->explosion( p, sqrtf( ammo_type->damage / 10.0f ) * 5, 0.5f,
+                         false, rounds_exploded / 5.0f );
         }
         charges_remaining -= rounds_exploded;
         if( charges_remaining > 0 ) {
@@ -5489,9 +5476,9 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
         // only puff every other turn
         if( item_counter % 2 == 0 ) {
             int duration = 10;
-            if( carrier->has_trait( "TOLERANCE" ) ) {
+            if( carrier->has_trait( trait_id( "TOLERANCE" ) ) ) {
                 duration = 5;
-            } else if( carrier->has_trait( "LIGHTWEIGHT" ) ) {
+            } else if( carrier->has_trait( trait_id( "LIGHTWEIGHT" ) ) ) {
                 duration = 20;
             }
             carrier->add_msg_if_player( m_neutral, _( "You take a puff of your %s." ), tname().c_str() );
@@ -5504,7 +5491,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
         }
 
         if( ( carrier->has_effect( effect_shakes ) && one_in( 10 ) ) ||
-            ( carrier->has_trait( "JITTERY" ) && one_in( 200 ) ) ) {
+            ( carrier->has_trait( trait_id( "JITTERY" ) ) && one_in( 200 ) ) ) {
             carrier->add_msg_if_player( m_bad, _( "Your shaking hand causes you to drop your %s." ),
                                         tname().c_str() );
             g->m.add_item_or_charges( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), *this );
@@ -5876,9 +5863,9 @@ std::string item::type_name( unsigned int quantity ) const
                                corpse->nname().c_str(), corpse_name.c_str() );
         }
     } else if( typeId() == "blood" ) {
-        if( corpse == nullptr || corpse->id == NULL_ID ) {
+        if( corpse == nullptr || corpse->id.is_null() ) {
             return string_format( npgettext( "item name", "human blood",
-                                        "human blood", quantity ) );
+                                             "human blood", quantity ) );
         } else {
             return string_format( npgettext( "item name", "%s blood",
                                          "%s blood",  quantity ),
@@ -5994,7 +5981,7 @@ bool item_category::operator!=( const item_category &rhs ) const
 
 bool item::is_filthy() const
 {
-    return has_flag( "FILTHY" ) && ( get_world_option<bool>( "FILTHY_MORALE" ) || g->u.has_trait( "SQUEAMISH" ) );
+    return has_flag( "FILTHY" ) && ( get_option<bool>( "FILTHY_MORALE" ) || g->u.has_trait( trait_id( "SQUEAMISH" ) ) );
 }
 
 bool item::on_drop( const tripoint &pos )

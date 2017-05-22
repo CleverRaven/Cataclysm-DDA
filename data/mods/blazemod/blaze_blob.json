@@ -1,7 +1,37 @@
 [
   {
+    "id": "bfeedfuel",
+    "type": "AMMO",
+    "category": "fuel",
+    "name": "liquified blob feed",
+    "name_plural": "bfeedfuel",
+    "description": "Liquified blob feed, useful for fueling certain blob based vehicle parts",
+    "weight": 50,
+    "volume": 1,
+    "price": 40,
+    "price_postapoc": 800,
+    "phase": "liquid",
+    "container": "jerrycan",
+    "material": "hydrocarbons",
+    "fuel": { "energy": 35 },
+    "symbol": "=",
+    "color": "red",
+    "count": 250,
+    "stack_size": 250,
+    "range": 4,
+    "damage": 5,
+    "pierce": 5
+  },
+  {
+    "id": "blobrep",
+    "type": "requirement",
+    "//": "Material for fixing parts made from blobs.",
+    "components": [ [ [ "bfeed", 1 ] ] ]
+  },
+  {
     "id": "bfeed",
     "type": "AMMO",
+    "category": "fuel",
     "name": "blob feed",
     "name_plural": "blob feed",
     "description": "An amalgam of various types of organic material, contains everything the blob needs to be healthy.  You think...",
@@ -152,6 +182,7 @@
     "copy-from": "flamethrower_simple",
     "type": "GUN",
     "name": "simple flamethrower",
+    "range": 2,
     "extend": {
       "ammo_effects": [ "STREAM" ],
       "flags": [ "FIRE_20" ]

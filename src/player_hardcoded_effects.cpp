@@ -74,8 +74,8 @@ static void eff_fun_spores( player &u, effect &it )
 {
     // Equivalent to X in 150000 + health * 100
     const int intense = it.get_intensity();
-    if( ( !u.has_trait( "M_IMMUNE" ) ) && ( one_in( 100 ) &&
-                                            x_in_y( intense, 150 + u.get_healthy() / 10 ) ) ) {
+    if( ( !u.has_trait( trait_id( "M_IMMUNE" ) ) ) && ( one_in( 100 ) &&
+            x_in_y( intense, 150 + u.get_healthy() / 10 ) ) ) {
         u.add_effect( effect_fungus, 1, num_bp, true );
     }
 }
@@ -884,7 +884,7 @@ void player::hardcoded_effects( effect &it )
             }
         }
         if( one_in( 10000 ) ) {
-            if( !has_trait( "M_IMMUNE" ) ) {
+            if( !has_trait( trait_id( "M_IMMUNE" ) ) ) {
                 add_effect( effect_fungus, 1, num_bp, true );
             } else {
                 add_msg_if_player( m_info, _( "We have many colonists awaiting passage." ) );
@@ -1028,7 +1028,7 @@ void player::hardcoded_effects( effect &it )
         }
 
         if( dur > 18000 && one_in( MINUTES( 5 ) * 512 ) ) {
-            if( !has_trait( "NOPAIN" ) ) {
+            if( !has_trait( trait_id( "NOPAIN" ) ) ) {
                 add_msg_if_player( m_bad,
                                    _( "Your heart spasms painfully and stops, dragging you back to reality as you die." ) );
             } else {
@@ -1081,7 +1081,7 @@ void player::hardcoded_effects( effect &it )
             if( has_effect( effect_recover ) ) {
                 recover_factor -= get_effect_dur( effect_recover ) / 600;
             }
-            if( has_trait( "INFRESIST" ) ) {
+            if( has_trait( trait_id( "INFRESIST" ) ) ) {
                 recover_factor += 200;
             }
             recover_factor += get_healthy() / 10;
@@ -1114,7 +1114,7 @@ void player::hardcoded_effects( effect &it )
             if( has_effect( effect_recover ) ) {
                 recover_factor -= get_effect_dur( effect_recover ) / 600;
             }
-            if( has_trait( "INFRESIST" ) ) {
+            if( has_trait( trait_id( "INFRESIST" ) ) ) {
                 recover_factor += 200;
             }
             recover_factor += get_healthy() / 10;
@@ -1158,7 +1158,7 @@ void player::hardcoded_effects( effect &it )
                     add_msg_if_player( _( "You use your %s to keep warm." ), item_name.c_str() );
                 }
             }
-            if( has_active_mutation( "HIBERNATE" ) && get_hunger() < -60 ) {
+            if( has_active_mutation( trait_id( "HIBERNATE" ) ) && get_hunger() < -60 ) {
                 add_memorial_log( pgettext( "memorial_male", "Entered hibernation." ),
                                   pgettext( "memorial_female", "Entered hibernation." ) );
                 // 10 days' worth of round-the-clock Snooze.  Cata seasons default to 14 days.
@@ -1200,7 +1200,7 @@ void player::hardcoded_effects( effect &it )
         }
 
         // TODO: Move this to update_needs when NPCs can mutate
-        if( calendar::once_every( MINUTES( 10 ) ) && has_trait( "CHLOROMORPH" ) &&
+        if( calendar::once_every( MINUTES( 10 ) ) && has_trait( trait_id( "CHLOROMORPH" ) ) &&
             g->is_in_sunlight( pos() ) ) {
             // Hunger and thirst fall before your Chloromorphic physiology!
             if( get_hunger() >= -30 ) {
@@ -1237,7 +1237,7 @@ void player::hardcoded_effects( effect &it )
                     add_msg_if_player( "%s", dream.c_str() );
                 }
                 // Mycus folks upgrade in their sleep.
-                if( has_trait( "THRESH_MYCUS" ) ) {
+                if( has_trait( trait_id( "THRESH_MYCUS" ) ) ) {
                     if( one_in( 8 ) ) {
                         mutate_category( "MUTCAT_MYCUS" );
                         mod_hunger( 10 );
@@ -1251,7 +1251,7 @@ void player::hardcoded_effects( effect &it )
         bool woke_up = false;
         int tirednessVal = rng( 5, 200 ) + rng( 0, abs( get_fatigue() * 2 * 5 ) );
         if( !is_blind() ) {
-            if( has_trait( "HEAVYSLEEPER2" ) && !has_trait( "HIBERNATE" ) ) {
+            if( has_trait( trait_id( "HEAVYSLEEPER2" ) ) && !has_trait( trait_id( "HIBERNATE" ) ) ) {
                 // So you can too sleep through noon
                 if( ( tirednessVal * 1.25 ) < g->m.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
                         one_in( get_fatigue() / 2 ) ) ) {
@@ -1261,7 +1261,7 @@ void player::hardcoded_effects( effect &it )
                     woke_up = true;
                 }
                 // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
-            } else if( has_trait( "HIBERNATE" ) ) {
+            } else if( has_trait( trait_id( "HIBERNATE" ) ) ) {
                 if( ( tirednessVal * 5 ) < g->m.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
                         one_in( get_fatigue() / 2 ) ) ) {
                     add_msg_if_player( _( "It's too bright to sleep." ) );
@@ -1326,10 +1326,10 @@ void player::hardcoded_effects( effect &it )
                     // It's much harder to ignore an alarm inside your own skull,
                     // so this uses an effective volume of 20.
                     const int volume = 20;
-                    if( ( !( has_trait( "HEAVYSLEEPER" ) || has_trait( "HEAVYSLEEPER2" ) ) &&
+                    if( ( !( has_trait( trait_id( "HEAVYSLEEPER" ) ) || has_trait( trait_id( "HEAVYSLEEPER2" ) ) ) &&
                           dice( 2, 15 ) < volume ) ||
-                        ( has_trait( "HEAVYSLEEPER" ) && dice( 3, 15 ) < volume ) ||
-                        ( has_trait( "HEAVYSLEEPER2" ) && dice( 6, 15 ) < volume ) ) {
+                        ( has_trait( trait_id( "HEAVYSLEEPER" ) ) && dice( 3, 15 ) < volume ) ||
+                        ( has_trait( trait_id( "HEAVYSLEEPER2" ) ) && dice( 6, 15 ) < volume ) ) {
                         wake_up();
                         add_msg_if_player( _( "Your internal chronometer wakes you up." ) );
                     } else {

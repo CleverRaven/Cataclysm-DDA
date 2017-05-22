@@ -136,7 +136,7 @@ void Item_factory::finalize() {
             obj.use_methods.emplace( func, usage_from_string( func ) );
         }
 
-        if( obj.engine && get_world_option<bool>( "NO_FAULTS" ) ) {
+        if( obj.engine && get_option<bool>( "NO_FAULTS" ) ) {
             obj.engine->faults.clear();
         }
 
@@ -258,7 +258,7 @@ void Item_factory::finalize() {
         if( obj.comestible ) {
             obj.comestible->spoils *= HOURS( 1 ); // JSON specifies hours so convert to turns
 
-            if( get_world_option<bool>( "NO_VITAMINS" ) ) {
+            if( get_option<bool>( "NO_VITAMINS" ) ) {
                 obj.comestible->vitamins.clear();
             } else if( obj.comestible->vitamins.empty() && obj.comestible->healthy >= 0 ) {
                 // Default vitamins of healthy comestibles to their edible base materials if none explicitly specified.
@@ -810,7 +810,7 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->gunmod ) {
-            if( type->gunmod->location.empty() ) {
+            if( type->gunmod->location.str().empty() ) {
                     msg << "gunmod does not specify location" << "\n";
             }
 

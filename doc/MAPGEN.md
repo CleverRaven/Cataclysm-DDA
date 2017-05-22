@@ -158,10 +158,12 @@ The above example only illustrate the mapgen entries, not the actual format for 
 
 > "lua" - requires
 
-```"script": [
+```
+"script": [
    " -- array of lines ",
    " -- etc ",
-]```
+]
+```
 
 ### 1.2.1 "om_terrain":
 **required for standalone**

@@ -151,6 +151,11 @@ public:
      * specifc submap.
      */
     std::vector<npc*> get_npcs_near(int x, int y, int z, int radius);
+        /**
+         * Get all (currently loaded!) npcs that have a companion
+         * mission set.
+         */
+        std::vector<npc *> get_companion_mission_npcs();
     /**
      * Uses overmap terrain coords, this also means radius is
      * in overmap terrain.
