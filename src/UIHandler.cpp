@@ -27,12 +27,12 @@ void ui::Window::UpdateWindowSize()
     m_thisSize.y = std::min( m_thisSize.y, TERMY );
 
     if( m_minSize.x > TERMX ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Window's Min Size is greater than terminal's. (X) Window: " <<
-                                    m_minSize.x << " Term: " << TERMX;
+        DebugLog( D_ERROR, DC_ALL ) << "Window's Min Size is greater than terminal's. (X) Window: " 
+                                    << m_minSize.x << " Term: " << TERMX;
     }
     if( m_minSize.y > TERMY ) {
-        DebugLog( D_ERROR, DC_ALL ) << "Window's Min Size is greater than terminal's. (Y) Window: " <<
-                                    m_minSize.y << " Term: " << TERMY;
+        DebugLog( D_ERROR, DC_ALL ) << "Window's Min Size is greater than terminal's. (Y) Window: " 
+                                    << m_minSize.y << " Term: " << TERMY;
     }
 
     if( minSize.x > TERMX ) {
@@ -42,8 +42,8 @@ void ui::Window::UpdateWindowSize()
     }
     if( minSize.y > TERMY ) {
         DebugLog( D_ERROR, DC_ALL ) <<
-                                    "Window's child panel's Min Size is greater than terminal's. (Y) Window: " << minSize.y <<
-                                    " Term: " << TERMY;
+                                    "Window's child panel's Min Size is greater than terminal's. (Y) Window: " << minSize.y 
+                                    << " Term: " << TERMY;
     }
 
     m_panel->SetSize( m_thisSize );
