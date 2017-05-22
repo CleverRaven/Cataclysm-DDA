@@ -2,37 +2,37 @@
 
 #include "debug.h"
 
-ui::Window::Window( int minSizeX, int minSizeY, Location location,
-                    bool newDrawBorder ) : main_panel( new PaddingPanel( newDrawBorder ) )
+ui::window::window( int min_size_x, int min_size_y, location new_location,
+                    bool new_draw_border ) : main_panel( new PaddingPanel( new_draw_border ) )
 {
-    minSize.x = minSizeX;
-    minSize.y = minSizeY;
+    min_size.x = min_size_x;
+    min_size.y = min_size_y;
 
-    thisLocation = location;
+    this_location = new_location;
 
     UpdateWindowSize();
 }
 
-void ui::Window::UpdateWindowSize()
+void ui::window::UpdateWindowSize()
 {
     assert( main_panel );
-    thisSize = main_panel->RequestedSize( Sizes::PREFERED );
+    this_size = main_panel->RequestedSize( sizes::PREFERED );
 
-    point panelMinSize = main_panel->RequestedSize( Sizes::MINIMUM );
+    point panelMinSize = main_panel->RequestedSize( sizes::MINIMUM );
 
-    thisSize.x = std::max( thisSize.x, minSize.x );
-    thisSize.y = std::max( thisSize.y, minSize.y );
+    this_size.x = std::max( this_size.x, min_size.x );
+    this_size.y = std::max( this_size.y, min_size.y );
 
-    thisSize.x = std::min( thisSize.x, TERMX );
-    thisSize.y = std::min( thisSize.y, TERMY );
+    this_size.x = std::min( this_size.x, TERMX );
+    this_size.y = std::min( this_size.y, TERMY );
 
-    if( minSize.x > TERMX ) {
+    if( min_size.x > TERMX ) {
         DebugLog( D_ERROR, DC_ALL ) << "Window's Min Size is greater than terminal's. (X) Window: "
-                                    << minSize.x << " Term: " << TERMX;
+                                    << min_size.x << " Term: " << TERMX;
     }
-    if( minSize.y > TERMY ) {
+    if( min_size.y > TERMY ) {
         DebugLog( D_ERROR, DC_ALL ) << "Window's Min Size is greater than terminal's. (Y) Window: "
-                                    << minSize.y << " Term: " << TERMY;
+                                    << min_size.y << " Term: " << TERMY;
     }
 
     if( panelMinSize.x > TERMX ) {
@@ -46,22 +46,22 @@ void ui::Window::UpdateWindowSize()
                                     << " Term: " << TERMY;
     }
 
-    main_panel->SetSize( thisSize );
+    main_panel->SetSize( this_size );
 
-    switch( thisLocation ) {
-        case Location::Centered:
-            offset.x = ( TERMX - thisSize.x ) / 2;
-            offset.y = ( TERMY - thisSize.y ) / 2;
+    switch( this_location ) {
+        case location::CENTERED:
+            offset.x = ( TERMX - this_size.x ) / 2;
+            offset.y = ( TERMY - this_size.y ) / 2;
             break;
     }
 
-    wf_win = newwin( thisSize.y, thisSize.x, offset.y, offset.x );
+    wf_win = newwin( this_size.y, this_size.x, offset.y, offset.x );
     assert( wf_win );
     wf_winptr = WINDOW_PTR( wf_win );
     return;
 }
 
-void ui::Window::DrawEverything()
+void ui::window::DrawEverything()
 {
     assert( wf_win );
     werase( wf_win );
@@ -79,31 +79,31 @@ void ui::PaddingPanel::SetChild( std::shared_ptr<Panel> child_panel )
     childPanel = child_panel;
 }
 
-point ui::PaddingPanel::RequestedSize( Sizes sizes )
+point ui::PaddingPanel::RequestedSize( sizes size )
 {
-    point size;
+    point req_size;
 
     // Space for tab's border
     if( drawBorder )
-        size += { 2, 2 };
+        req_size += { 2, 2 };
 
     if( childPanel == nullptr ) {
-        return size;
+        return req_size;
     }
 
-    size += childPanel->RequestedSize( sizes );
+    req_size += childPanel->RequestedSize( size );
 
-    return size;
+    return req_size;
 }
 
 // We are a simple border!
 void ui::PaddingPanel::SetSize( point size )
 {
-    point reqSize = RequestedSize( Sizes::MINIMUM );
+    point reqSize = RequestedSize( sizes::MINIMUM );
     assert( size.x >= reqSize.x );
     assert( size.y >= reqSize.y );
 
-    thisSize = size;
+    this_size = size;
 
     if( childPanel == nullptr ) {
         return;
@@ -121,7 +121,7 @@ void ui::PaddingPanel::DrawEverything( WINDOW *wf_win, point offset )
 {
 
     if( drawBorder ) {
-        utils::DrawBorder( wf_win, offset, thisSize );
+        utils::DrawBorder( wf_win, offset, this_size );
     }
 
     if( childPanel != nullptr ) {
@@ -135,9 +135,9 @@ void ui::PaddingPanel::DrawEverything( WINDOW *wf_win, point offset )
 }
 
 
-ui::PaddingPanel::PaddingPanel( bool newDrawBorder )
+ui::PaddingPanel::PaddingPanel( bool new_draw_border )
 {
-    drawBorder = newDrawBorder;
+    drawBorder = new_draw_border;
 }
 
 std::vector<std::pair<std::string, std::shared_ptr<ui::Panel>>> ui::TabPanel::GetTabs() const
@@ -156,44 +156,43 @@ void ui::TabPanel::RemoveTab( size_t index )
     childPanels.erase( childPanels.begin() + index );
 }
 
-point ui::TabPanel::RequestedSize( Sizes sizes )
+point ui::TabPanel::RequestedSize( sizes sizes )
 {
-    point size;
+    point req_size;
 
     // Space for the tab's height
-    size += { 0, 2 };
+    req_size += { 0, 2 };
 
     if( drawBorder )
         // Panel's border
-        size += { 2, 2 };
+        req_size += { 2, 2 };
 
     if( childPanels.empty() ) {
-        return size;
+        return req_size;
     }
 
     assert( currentTab < childPanels.size() );
     assert( childPanels[currentTab].second != nullptr );
 
-    auto paneSize = childPanels[currentTab].second->RequestedSize( sizes );
-    size += paneSize;
+    req_size += childPanels[currentTab].second->RequestedSize( sizes );
 
     int len = 0;
     for( auto tx : childPanels ) {
         len += utf8_width( tx.first ) + 6; // 6 tiles for the ".<||>."
     }
 
-    size.x = std::max( len, size.x );
+    req_size.x = std::max( len, req_size.x );
 
-    return size;
+    return req_size;
 }
 
 void ui::TabPanel::SetSize( point size )
 {
-    point reqSize = RequestedSize( Sizes::MINIMUM );
+    point reqSize = RequestedSize( sizes::MINIMUM );
     assert( size.x >= reqSize.x );
     assert( size.y >= reqSize.y );
 
-    thisSize = size;
+    this_size = size;
 
     if( childPanels.empty() ) {
         return;
@@ -217,7 +216,7 @@ void ui::TabPanel::DrawEverything( WINDOW *wf_win, point offset )
         //Acounting for the fact we have tabs
         bOffset += { 0, 2 }; // Go bellow the tabs
 
-        auto bSize = thisSize;
+        auto bSize = this_size;
         bSize -= { 0, 2 }; // We lose two characters to the tabs
 
         utils::DrawBorder( wf_win, bOffset, bSize );
@@ -260,36 +259,36 @@ void ui::TabPanel::SwitchTab( size_t tab )
     currentTab = tab;
 
     // Regenerate size for children
-    SetSize( thisSize );
+    SetSize( this_size );
 }
 
-ui::TabPanel::TabPanel( bool newDrawBorder )
+ui::TabPanel::TabPanel( bool new_draw_border )
 {
-    drawBorder = newDrawBorder;
+    drawBorder = new_draw_border;
 }
 
-void ui::utils::DrawBorder( WINDOW *wf_win, point offset, point thisSize )
+void ui::utils::DrawBorder( WINDOW *wf_win, point offset, point this_size )
 {
     // Bottom and top border
-    for( int i = 1; i < thisSize.x - 1; i++ ) {
+    for( int i = 1; i < this_size.x - 1; i++ ) {
         mvwputch( wf_win, offset.y, i + offset.x, BORDER_COLOR, LINE_OXOX );
-        mvwputch( wf_win, offset.y + thisSize.y - 1, i + offset.x, BORDER_COLOR, LINE_OXOX );
+        mvwputch( wf_win, offset.y + this_size.y - 1, i + offset.x, BORDER_COLOR, LINE_OXOX );
     }
 
     // Right and left border
-    for( int i = 1; i < thisSize.y - 1; i++ ) {
+    for( int i = 1; i < this_size.y - 1; i++ ) {
         mvwputch( wf_win, i + offset.y, offset.x, BORDER_COLOR, LINE_XOXO );
-        mvwputch( wf_win, i + offset.y, offset.x + thisSize.x - 1, BORDER_COLOR, LINE_XOXO );
+        mvwputch( wf_win, i + offset.y, offset.x + this_size.x - 1, BORDER_COLOR, LINE_XOXO );
     }
 
     // Corners
     mvwputch( wf_win, offset.y, offset.x, BORDER_COLOR,
               LINE_OXXO );                                         // |^
-    mvwputch( wf_win, offset.y, offset.x + thisSize.x - 1, BORDER_COLOR,
+    mvwputch( wf_win, offset.y, offset.x + this_size.x - 1, BORDER_COLOR,
               LINE_OOXX );                      // ^|
-    mvwputch( wf_win, offset.y + thisSize.y - 1, offset.x, BORDER_COLOR,
+    mvwputch( wf_win, offset.y + this_size.y - 1, offset.x, BORDER_COLOR,
               LINE_XXOO );                      // |_
-    mvwputch( wf_win, offset.y + thisSize.y - 1, offset.x + thisSize.x - 1, BORDER_COLOR,
+    mvwputch( wf_win, offset.y + this_size.y - 1, offset.x + this_size.x - 1, BORDER_COLOR,
               LINE_XOOX ); // _|
 }
 
