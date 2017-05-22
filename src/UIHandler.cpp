@@ -3,7 +3,7 @@
 #include "debug.h"
 
 ui::Window::Window( int minSizeX, int minSizeY, Location location,
-                    bool drawBorder ) : m_panel( new PaddingPanel( drawBorder ) )
+                    bool drawBorder ) : panel( new PaddingPanel( drawBorder ) )
 {
     minSize.x = minSizeX;
     minSize.y = minSizeY;
@@ -15,10 +15,10 @@ ui::Window::Window( int minSizeX, int minSizeY, Location location,
 
 void ui::Window::UpdateWindowSize()
 {
-    assert( m_panel );
-    thisSize = m_panel->RequestedSize( Sizes::Prefered );
+    assert( panel );
+    thisSize = panel->RequestedSize( Sizes::Prefered );
 
-    point panelMinSize = m_panel->RequestedSize( Sizes::Minimum );
+    point panelMinSize = panel->RequestedSize( Sizes::Minimum );
 
     thisSize.x = std::max( thisSize.x, minSize.x );
     thisSize.y = std::max( thisSize.y, minSize.y );
@@ -46,7 +46,7 @@ void ui::Window::UpdateWindowSize()
                                     << " Term: " << TERMY;
     }
 
-    m_panel->SetSize( thisSize );
+    panel->SetSize( thisSize );
 
     switch( m_thisLocation ) {
         case Location::Centered:
@@ -65,8 +65,8 @@ void ui::Window::DrawEverything()
 {
     assert( wf_win );
     werase( wf_win );
-    assert( m_panel );
-    m_panel->DrawEverything( wf_win, { 0, 0 } );
+    assert( panel );
+    panel->DrawEverything( wf_win, { 0, 0 } );
 }
 
 std::shared_ptr<ui::Panel> ui::PaddingPanel::GetChild() const

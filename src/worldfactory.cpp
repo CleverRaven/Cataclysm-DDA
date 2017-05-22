@@ -149,7 +149,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         ui::Window win(FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT, ui::Window::Location::Centered, false);
         auto tabPanel = std::make_shared<ui::TabPanel>(true);
 
-        win.m_panel->SetChild(tabPanel);
+        win.panel->SetChild(tabPanel);
         
         for (auto tabName : tab_strings)
         {

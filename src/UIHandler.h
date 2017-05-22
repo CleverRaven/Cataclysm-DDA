@@ -162,7 +162,7 @@ class Window
 
         void DrawEverything();
 
-        std::unique_ptr<PaddingPanel> m_panel;
+        std::unique_ptr<PaddingPanel> panel;
     private:
         Location m_thisLocation;
 
