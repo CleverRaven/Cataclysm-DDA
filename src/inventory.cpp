@@ -485,14 +485,13 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
         }
 
         if(faupart >= 0 ) {
-            item clean_water("water_clean", 0);
-            clean_water.charges = veh->fuel_left("water_clean");
-            add_item(clean_water);
-
-            item water("water", 0);
-            water.charges = veh->fuel_left("water");
-            // TODO: Poison
-            add_item(water);
+            for( const auto &it : veh->fuels_left() ) {
+                item fuel( it.first , 0 );
+                if( fuel.made_of( LIQUID ) ) {
+                    fuel.charges = it.second;
+                    add_item( fuel );
+                }
+            }
         }
 
         if (kpart >= 0) {
@@ -500,15 +499,6 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
             hotplate.charges = veh->fuel_left("battery", true);
             hotplate.item_tags.insert("PSEUDO");
             add_item(hotplate);
-
-            item clean_water("water_clean", 0);
-            clean_water.charges = veh->fuel_left("water_clean");
-            add_item(clean_water);
-
-            item water("water", 0);
-            water.charges = veh->fuel_left("water");
-            // TODO: Poison
-            add_item(water);
 
             item pot("pot", 0);
             pot.item_tags.insert("PSEUDO");
