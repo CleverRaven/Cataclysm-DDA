@@ -251,7 +251,7 @@ void Messages::display_messages()
     ctxt.register_action("HELP_KEYBINDINGS");
 
     int offset = 0;
-    const int maxlength = FULL_SCREEN_WIDTH - 2 - 1;
+    const int maxlength = FULL_SCREEN_WIDTH - 2 - 1 - 8;
     const int bottom = FULL_SCREEN_HEIGHT - 2;
     const int msg_count = size();
 
@@ -271,10 +271,19 @@ void Messages::display_messages()
             const game_message &m     = player_messages.impl_->history(i);
             const nc_color col        = msgtype_to_color( m.type, false );
             const calendar timepassed = calendar::turn - m.timestamp_in_turns;
+            const std::string long_ago= timepassed.textify_period();
+            const size_t first_space  = long_ago.find_first_of(' ');
 
+            // Given long_ago looks something like `5 seasons` or something similar.
+            // This statement essentially pads the number to three characters long using spaces, and then appends the first letter of the time using ('turns', 'seasons', 'minutes', etc.) after it.
+            // e.g. '19 turns' => ' 19t'; '3 seasons' => '  3s', etc.
+            // Breaking it down:
+            // std::string(3-first_space,' '); // Enough spaces to properly pad out the number.
+            // long_ago.substr(0,first_space); // The actual number.
+            // long_ago.at(first_space+1)      // The very first character after the first space ('t' for 'turns', 'm' for 'minutes', etc.)
+            // IF for some reason the maximum number needs to be raised to FOUR digits (which I presume never happens in normal gameplay) then you only need to increase the '3' in the first part of the statement.
             if (timepassed.get_turn() > lasttime) {
-                mvwprintz(w, line++, 3, c_ltblue, _("%s ago:"),
-                    timepassed.textify_period().c_str());
+                right_print(w, line, 1, c_ltblue, _("%s ago"), (std::string(3-first_space,' ') + long_ago.substr(0,first_space) + long_ago.at(first_space+1)).c_str());
                 lasttime = timepassed.get_turn();
             }
 
@@ -285,6 +294,7 @@ void Messages::display_messages()
                 }
                 print_colored_text( w, line++, 1, col_out, col, folded );
             }
+
         }
 
         if (offset + 1 < msg_count) {
