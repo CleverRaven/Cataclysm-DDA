@@ -73,7 +73,6 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "RECHARGE", VPFLAG_RECHARGE },
     { "VISION", VPFLAG_EXTENDS_VISION },
     { "ENABLED_DRAINS_EPOWER", VPFLAG_ENABLED_DRAINS_EPOWER },
-    { "WATER_PURIFIER", VPFLAG_WATER_PURIFIER },
 };
 
 static std::map<vpart_id, vpart_info> vpart_info_all;
