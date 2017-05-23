@@ -161,6 +161,13 @@
     "bindings":[ { "input_method": "keyboard", "key": "m" } ]
   },
   {
+    "id": "TOGGLE_WATER_PURIFIER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle water purifiers",
+    "bindings":[ { "input_method": "keyboard", "key": "p" } ]
+  },
+  {
     "id": "TOGGLE_TRACKING",
     "type": "keybinding",
     "category": "VEHICLE",
