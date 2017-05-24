@@ -158,10 +158,6 @@ enum m_flag : int {
     MF_PRIORITIZE_TARGETS,  // This monster will prioritize targets depending on their danger levels
     MF_NOT_HALLU,           // Monsters that will NOT appear when player's producing hallucinations
     MF_MILKABLE,            // This monster is milkable, applies only to cows.
-    MF_FULL_MILK,
-    MF_THREEQUARTER_MILK,
-    MF_HALF_MILK,
-    MF_QUARTER_MILK,
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 

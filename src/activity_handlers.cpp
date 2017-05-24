@@ -793,7 +793,11 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             // nothing, the liquid source is infinite
             break;
         case LST_MONSTER:          
-            current_dur = source_mon->get_effect_dur(effect_milked);
+            if (source_mon->has_effect(effect_milked)) {
+                current_dur = source_mon->get_effect_dur(effect_milked);
+            }
+
+
             if( !source_mon->has_effect( effect_milked ) ) {
                 source_mon->add_effect( effect_milked, HOURS(6));
             } else if( (HOURS(25) - current_dur ) <= HOURS(25) ) {
@@ -806,7 +810,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
 
             break;
         }
-
+         current_dur = source_mon->get_effect_dur(effect_milked);
         if( removed_charges < original_charges ) {
             // Transferred less than the available charges -> target must be full
             act.set_to_null();
