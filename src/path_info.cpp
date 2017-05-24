@@ -187,6 +187,11 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("mods-user-default", FILENAMES["config_dir"] + "user-default-mods.json");
     update_pathname("worldoptions", "worldoptions.json");
 
+    // Alternate directories
+    update_pathname("altgfxdir", FILENAMES["user_dir"] + "gfx/");
+    update_pathname("altmoddir", FILENAMES["user_dir"] + "data/mods/");
+    update_pathname("altsounddir", FILENAMES["user_dir"] + "data/sound");
+
     // Needed to move files from these legacy locations to the new config directory.
     update_pathname("legacy_options", "data/options.txt");
     update_pathname("legacy_options2", FILENAMES["config_dir"] + "options.txt");
