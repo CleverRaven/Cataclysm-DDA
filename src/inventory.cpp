@@ -224,20 +224,11 @@ char inventory::find_usable_cached_invlet(const std::string &item_type)
         if( g->u.assigned_invlet.count(invlet) ) {
             continue;
         }
-        if( g->u.weapon.invlet == invlet ) {
+        // Check if anything is using this invlet.
+        if( g->u.invlet_to_position( invlet ) != INT_MIN ) {
             continue;
         }
-        // Check if anything is using this invlet.
-        bool invlet_is_used = false;
-        for( auto &elem : items ) {
-            if( elem.front().invlet == invlet ) {
-                invlet_is_used = true;
-                break;
-            }
-        }
-        if( !invlet_is_used ) {
-            return invlet;
-        }
+        return invlet;
     }
 
     return 0;
@@ -246,46 +237,6 @@ char inventory::find_usable_cached_invlet(const std::string &item_type)
 item &inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
 {
     binned = false;
-    bool reuse_cached_letter = false;
-
-    // Avoid letters that have been manually assigned to other things.
-    if( !keep_invlet && g->u.assigned_invlet.count(newit.invlet) ) {
-        newit.invlet = '\0';
-    }
-    
-    // Remove letters if not in the favourites cache
-    if( !keep_invlet && assign_invlet && newit.invlet ) {
-        auto invlet_list_iter = invlet_cache.find( newit.typeId() );
-        bool found = false;
-        if( invlet_list_iter != invlet_cache.end() ) {
-            auto &invlet_list = invlet_list_iter->second;
-            found = std::find( invlet_list.begin(), invlet_list.end(), newit.invlet ) != invlet_list.end();
-        }
-        if( !found ) {
-            newit.invlet = '\0';
-        }
-    }
-
-    // Check how many stacks of this type already are in our inventory.
-    if(!keep_invlet && assign_invlet) {
-        // Do we have this item in our inventory favourites cache?
-        char temp_invlet = find_usable_cached_invlet(newit.typeId());
-        if( temp_invlet != 0 ) {
-            newit.invlet = temp_invlet;
-            reuse_cached_letter = true;
-        }
-
-        // If it's not in our cache and not a lowercase letter, try to give it a low letter.
-        if(!reuse_cached_letter && (newit.invlet < 'a' || newit.invlet > 'z')) {
-            assign_empty_invlet(newit);
-        }
-
-        // Make sure the assigned invlet doesn't exist already.
-        if(this == &g->u.inv && g->u.invlet_to_position(newit.invlet) != INT_MIN) {
-            assign_empty_invlet(newit);
-        }
-    }
-
 
     // See if we can't stack this item.
     for( auto &elem : items ) {
@@ -304,9 +255,10 @@ item &inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
     }
 
     // Couldn't stack the item, proceed.
-    if(!reuse_cached_letter) {
-        update_cache_with_item(newit);
+    if( !keep_invlet ) {
+        update_invlet( newit, assign_invlet );
     }
+    update_cache_with_item( newit );
 
     std::list<item> newstack;
     newstack.push_back(newit);
@@ -1050,6 +1002,47 @@ void inventory::reassign_item(item &it, char invlet)
         }
     }
     it.invlet = invlet;
+}
+
+void inventory::update_invlet( item &newit, bool assign_invlet ) {
+    // Avoid letters that have been manually assigned to other things.
+    if( newit.invlet && g->u.assigned_invlet.find( newit.invlet ) != g->u.assigned_invlet.end() &&
+            g->u.assigned_invlet[newit.invlet] != newit.typeId() ) {
+        newit.invlet = '\0';
+    }
+
+    // Remove letters that are not in the favourites cache
+    if( newit.invlet ) {
+        auto invlet_list_iter = invlet_cache.find( newit.typeId() );
+        bool found = false;
+        if( invlet_list_iter != invlet_cache.end() ) {
+            auto &invlet_list = invlet_list_iter->second;
+            found = std::find( invlet_list.begin(), invlet_list.end(), newit.invlet ) != invlet_list.end();
+        }
+        if( !found ) {
+            newit.invlet = '\0';
+        }
+    }
+
+    // Remove letters that have been assigned to other items in the inventory
+    if( newit.invlet ) {
+        int pos = g->u.invlet_to_position( newit.invlet );
+        if( pos != INT_MIN && &( g->u.i_at( pos ) ) != &newit ) {
+            newit.invlet = '\0';
+        }
+    }
+
+    if( assign_invlet ) {
+        // Assign a cached letter to the item
+        if( !newit.invlet ) {
+            newit.invlet = find_usable_cached_invlet( newit.typeId() );
+        }
+
+        // Give the item an invlet if it has none
+        if( !newit.invlet ) {
+            assign_empty_invlet( newit );
+        }
+    }
 }
 
 std::set<char> inventory::allocated_invlets() const

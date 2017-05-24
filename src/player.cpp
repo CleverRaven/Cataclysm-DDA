@@ -8318,18 +8318,23 @@ bool player::wear( int pos, bool interactive )
         return false;
     }
 
-    if( !wear_item( to_wear, interactive ) ) {
-        return false;
-    }
-
+    bool was_weapon;
     if( &to_wear == &weapon ) {
         weapon = ret_null;
+        was_weapon = true;
     } else {
-        // it has been copied into worn vector, but assigned an invlet,
-        // in case it's a stack, reset the invlet to avoid duplicates
-        to_wear.invlet = 0;
         inv.remove_item( &to_wear );
         inv.restack( this );
+        was_weapon = false;
+    }
+
+    if( !wear_item( to_wear, interactive ) ) {
+        if( was_weapon ) {
+            weapon = to_wear;
+        } else {
+            inv.add_item( to_wear, true );
+        }
+        return false;
     }
 
     return true;
@@ -8368,9 +8373,9 @@ bool player::wear_item( const item &to_wear, bool interactive )
 
     item &new_item = worn.back();
     new_item.on_wear( *this );
-    if( new_item.invlet == 0 ) {
-        inv.assign_empty_invlet( new_item, false );
-    }
+
+    inv.update_invlet( new_item );
+    inv.update_cache_with_item( new_item );
 
     recalc_sight_limits();
     reset_encumbrance();
