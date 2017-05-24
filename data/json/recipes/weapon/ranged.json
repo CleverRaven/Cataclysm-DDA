@@ -159,7 +159,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "fabric_standard", 1, "LIST" ] ],
+      [ [ "leather", 1 ], [ "fur", 1 ] ],
       [ [ "cordage", 1, "LIST" ], [ "filament", 300, "LIST" ] ]
     ]
   },
