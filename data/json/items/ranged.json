@@ -29,7 +29,7 @@
     "symbol": "(",
     "color": "brown",
     "name": "sling",
-    "description": "A simple sling, easy to use and accurate.  It uses pebbles as ammunition.",
+    "description": "A leather sling, easy to use and accurate.  It uses pebbles as ammunition.",
     "price": 150, "//": "It's little more than a piece of slightly shaped leather",
     "material": "leather",
     "flags": ["RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP"],
