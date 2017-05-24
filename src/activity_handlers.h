@@ -4,6 +4,8 @@
 
 #include "player_activity.h"
 
+#include <functional>
+
 class player;
 
 // activity_item_handling.cpp

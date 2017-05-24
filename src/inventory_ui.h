@@ -4,6 +4,7 @@
 
 #include <limits>
 #include <memory>
+#include <functional>
 
 #include "color.h"
 #include "cursesdef.h"
