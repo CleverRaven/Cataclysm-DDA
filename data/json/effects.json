@@ -1653,6 +1653,7 @@
         "type": "effect_type",
         "id": "milked",
         "name": [ "Milked" ],
-        "desc": [ "The creature has been partially milked." ]
+        "desc": [ "The creature has been partially milked." ],
+		"max_duration": 14400
     }
 ]

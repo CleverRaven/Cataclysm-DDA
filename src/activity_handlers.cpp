@@ -692,11 +692,6 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         const tripoint source_pos = act.coords.at( 0 );
         map_stack source_stack = g->m.i_at( source_pos );
         monster *source_mon = nullptr;
-        // Maximum time between fully milkings
-        int max_dur = HOURS(24);
-        // Minimum time between milkings
-        int min_dur = HOURS(6);
-        // Current milking duration
         int current_dur = 0;
         std::list<item>::iterator on_ground;
         item liquid;
@@ -799,13 +794,10 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             break;
         case LST_MONSTER:          
             current_dur = source_mon->get_effect_dur(effect_milked);
-            if( !source_mon->has_effect( effect_milked ) )
-            {
-                source_mon->add_effect( effect_milked, min_dur );
-            } else if( ( ( max_dur - current_dur ) <= max_dur ) ) {
-                
-                source_mon->add_effect( effect_milked, current_dur += min_dur );
-                
+            if( !source_mon->has_effect( effect_milked ) ) {
+                source_mon->add_effect( effect_milked, HOURS(6));
+            } else if( (HOURS(25) - current_dur ) <= HOURS(25) ) {
+                source_mon->add_effect( effect_milked, current_dur += HOURS(6));
             } else { act.set_to_null(); }
 
             if( liquid.charges == 0 ) {
