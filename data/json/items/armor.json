@@ -4760,7 +4760,7 @@
     "encumbrance": 15,
     "storage": 14,
     "warmth": 20,
-    "material_thickness": 2,
+    "material_thickness": 3,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
@@ -6868,7 +6868,7 @@
     "encumbrance": 18,
     "storage": 10,
     "warmth": 20,
-    "material_thickness": 2,
+    "material_thickness": 3,
     "flags": [ "VARSIZE", "POCKETS" ]
   },
   {
@@ -9679,7 +9679,7 @@
     "encumbrance": 20,
     "storage": 14,
     "warmth": 50,
-    "material_thickness": 3,
+    "material_thickness": 4,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER" ]
   },
   {
@@ -9699,7 +9699,7 @@
     "encumbrance": 22,
     "storage": 10,
     "warmth": 50,
-    "material_thickness": 3,
+    "material_thickness": 4,
     "flags": [ "VARSIZE", "POCKETS" ]
   },
   {
