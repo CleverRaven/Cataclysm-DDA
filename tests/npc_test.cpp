@@ -57,7 +57,7 @@ TEST_CASE("on_load-sane-values")
         npc test_npc = model_npc;
         const int five_min_ticks = 2;
         on_load_test( test_npc, 0, MINUTES(5 * five_min_ticks) );
-        const int margin = 1;
+        const int margin = 2;
 
         const numeric_interval<int> hunger( five_min_ticks / 4, margin, margin );
         const numeric_interval<int> thirst( five_min_ticks / 4, margin, margin );
@@ -114,7 +114,7 @@ TEST_CASE("on_load-similar-to-per-turn")
             iterated_npc.update_body( turn, turn + 1 );
         }
 
-        const int margin = 1;
+        const int margin = 2;
         const numeric_interval<int> hunger( iterated_npc.get_hunger(), margin, margin );
         const numeric_interval<int> thirst( iterated_npc.get_thirst(), margin, margin );
         const numeric_interval<int> fatigue( iterated_npc.get_fatigue(), margin, margin );
