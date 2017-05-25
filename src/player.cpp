@@ -7828,6 +7828,9 @@ bool player::wield( item& target )
 
     weapon.on_wield( *this, mv );
 
+    inv.update_invlet( weapon );
+    inv.update_cache_with_item( weapon );
+
     return true;
 }
 
