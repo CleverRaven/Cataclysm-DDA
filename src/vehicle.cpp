@@ -798,8 +798,8 @@ void vehicle::smash_security_system(){
         }
         if (percent_alarm > rand) {
             damage_direct (s, part_info(s).durability / 5);
-            //chance to disable alarm immediately
-            if (percent_alarm / 4 > rand) {
+            // chance to disable alarm immediately, or disable on destruction
+            if( percent_alarm / 4 > rand || parts[ s ].is_broken() ) {
                 is_alarm_on = false;
             }
         }
