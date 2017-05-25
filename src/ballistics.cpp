@@ -204,7 +204,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         double rad = atan2( dy, dx );
 
         // cap wild misses at +/- 30 degrees
-        rad += std::max( std::min( ARCMIN( aim.dispersion ), DEGREES( 30 ) ), DEGREES( -30 ) );
+        rad += ( one_in( 2 ) ) ? std::min( ARCMIN( aim.dispersion ), DEGREES( 30 ) )
+                            : -( std::min( ARCMIN( aim.dispersion ), DEGREES( 30 ) ) );
 
         // @todo This should also represent the miss on z axis
         const int offset = std::min<int>( range, sqrtf( aim.missed_by_tiles ) );
