@@ -45,6 +45,12 @@ void prepare_test()
         dummy.set_mutation( trait_id( "DEBUG_STORAGE" ) );
     }
 
+    // Make stats nominal.
+    dummy.str_cur = 8;
+    dummy.dex_cur = 8;
+    dummy.int_cur = 8;
+    dummy.per_cur = 8;
+
     const tripoint spot( 60, 60, 0 );
     dummy.setpos( spot );
     g->m.ter_set( spot, ter_id( "t_dirt" ) );
