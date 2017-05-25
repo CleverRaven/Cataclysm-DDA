@@ -9938,14 +9938,14 @@ void game::drop_in_direction()
     }
 }
 
-void game::plthrow(int pos)
+void game::plthrow( int pos )
 {
-    if (u.has_active_mutation( trait_SHELL2 )) {
-        add_msg(m_info, _("You can't effectively throw while you're in your shell."));
+    if( u.has_active_mutation( trait_SHELL2 ) ) {
+        add_msg( m_info, _( "You can't effectively throw while you're in your shell." ) );
         return;
     }
 
-    if (pos == INT_MIN) {
+    if( pos == INT_MIN ) {
         pos = inv_for_all( _( "Throw item" ), _( "You don't have any items to throw." ) );
         refresh_all();
     }
@@ -9955,29 +9955,28 @@ void game::plthrow(int pos)
         return;
     }
 
-    item thrown = u.i_at(pos);
+    item thrown = u.i_at( pos );
     int range = u.throw_range( thrown );
-    if (range < 0) {
-        add_msg(m_info, _("You don't have that item."));
+    if( range < 0 ) {
+        add_msg( m_info, _( "You don't have that item." ) );
         return;
-    } else if (range == 0) {
-        add_msg(m_info, _("That is too heavy to throw."));
+    } else if( range == 0 ) {
+        add_msg( m_info, _( "That is too heavy to throw." ) );
         return;
     }
 
-    if (pos == -1 && thrown.has_flag("NO_UNWIELD")) {
+    if( pos == -1 && thrown.has_flag( "NO_UNWIELD" ) ) {
         // pos == -1 is the weapon, NO_UNWIELD is used for bio_claws_weapon
-        add_msg(m_info, _("That's part of your body, you can't throw that!"));
+        add_msg( m_info, _( "That's part of your body, you can't throw that!" ) );
         return;
     }
 
-    if (u.has_effect( effect_relax_gas)) {
-        if (one_in(5)) {
-            add_msg(m_good, _("You concentrate mightily, and your body obeys!"));
-        }
-        else {
-            u.moves -= rng(2, 5) * 10;
-            add_msg(m_bad, _("You can't muster up the effort to throw anything..."));
+    if( u.has_effect( effect_relax_gas ) ) {
+        if( one_in( 5 ) ) {
+            add_msg( m_good, _( "You concentrate mightily, and your body obeys!" ) );
+        } else {
+            u.moves -= rng( 2, 5 ) * 10;
+            add_msg( m_bad, _( "You can't muster up the effort to throw anything..." ) );
             return;
         }
     }
@@ -9988,12 +9987,12 @@ void game::plthrow(int pos)
     // target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
     std::vector<tripoint> trajectory;
     trajectory = target_handler().target_ui( u, TARGET_MODE_THROW, &thrown, range );
-    if (trajectory.empty()) {
+    if( trajectory.empty() ) {
         return;
     }
 
-    if (u.is_worn(u.i_at(pos))) {
-        thrown.on_takeoff(u);
+    if( u.is_worn( u.i_at( pos ) ) ) {
+        thrown.on_takeoff( u );
     }
 
     // Throw a single charge of a stacking object.
