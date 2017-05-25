@@ -1266,7 +1266,7 @@
     "type": "ARMOR",
     "name": "breeches",
     "name_plural": "breeches",
-    "description": "A well-made pair of old-fashioned pants, wearable as trousers or under other clothing.  Comfortable, but lacks pockets.",
+    "description": "A well-made pair of old-fashioned pants, made of stiff yet baggy material.  Comfortable, but lacks pockets.",
     "weight": 520,
     "volume": 7,
     "price": 4900,
@@ -1279,7 +1279,7 @@
     "encumbrance": 8,
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "SKINTIGHT", "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE", "FANCY" ]
   },
   {
     "id": "briefcase",
