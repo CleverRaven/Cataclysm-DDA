@@ -6,27 +6,29 @@
 
 #include <string>
 
-// As macro, so that we can generate the test cases for easy copypasting
-#define wield_check(section_text, dummy, the_item, expected_cost) wield_check_internal(dummy, the_item, #section_text, #the_item, generating_cases ? -1 : expected_cost)
-
 void wield_check_internal( player &dummy, item &the_item, const char *section_text, const std::string &var_name, int expected_cost )
 {
-    SECTION( section_text ) {
-        dummy.weapon = dummy.ret_null;
-        dummy.set_moves( 1000 );
-        int old_moves = dummy.moves;
-        dummy.wield( the_item );
-        int move_cost = old_moves - dummy.moves;
-        if( expected_cost < 0 ) {
-            printf( "    wield_check( %s, dummy, %s, %d );\n", section_text, var_name.c_str(), move_cost );
-        } else {
-            int max_cost = expected_cost * 1.1f;
-            int min_cost = expected_cost * 0.9f;
-            CHECK( move_cost <= max_cost );
-            CHECK( move_cost >= min_cost );
-        }
+    dummy.weapon = dummy.ret_null;
+    dummy.set_moves( 1000 );
+    int old_moves = dummy.moves;
+    dummy.wield( the_item );
+    int move_cost = old_moves - dummy.moves;
+    if( expected_cost < 0 ) {
+        printf( "    wield_check( %s, dummy, %s, %d );\n", section_text, var_name.c_str(), move_cost );
+    } else {
+        INFO( "Strength:" << dummy.get_str() );
+        int max_cost = expected_cost * 1.1f;
+        int min_cost = expected_cost * 0.9f;
+        CHECK( move_cost <= max_cost );
+        CHECK( move_cost >= min_cost );
     }
 }
+
+// As macro, so that we can generate the test cases for easy copypasting
+#define wield_check(section_text, dummy, the_item, expected_cost) \
+    SECTION( section_text) { \
+        wield_check_internal(dummy, the_item, #section_text, #the_item, generating_cases ? -1 : expected_cost); \
+    }
 
 void prepare_test()
 {
