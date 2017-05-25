@@ -9950,6 +9950,11 @@ void game::plthrow(int pos)
         refresh_all();
     }
 
+    if( pos == INT_MIN ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+
     item thrown = u.i_at(pos);
     int range = u.throw_range( thrown );
     if (range < 0) {
