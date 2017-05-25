@@ -8322,6 +8322,7 @@ bool player::wear( int pos, bool interactive )
     }
 
     bool was_weapon;
+    item to_wear_copy( to_wear );
     if( &to_wear == &weapon ) {
         weapon = ret_null;
         was_weapon = true;
@@ -8331,11 +8332,11 @@ bool player::wear( int pos, bool interactive )
         was_weapon = false;
     }
 
-    if( !wear_item( to_wear, interactive ) ) {
+    if( !wear_item( to_wear_copy, interactive ) ) {
         if( was_weapon ) {
-            weapon = to_wear;
+            weapon = to_wear_copy;
         } else {
-            inv.add_item( to_wear, true );
+            inv.add_item( to_wear_copy, true );
         }
         return false;
     }
