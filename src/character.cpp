@@ -929,7 +929,7 @@ bool Character::can_pickWeight( const item &it, bool safe ) const
     if (!safe)
     {
         // Character can carry up to four times their maximum weight
-        return ( weight_carried() + it.weight() <= has_trait( trait_id( "DEBUG_STORAGE" ) ) ? INT_MAX : weight_capacity() * 4 );
+        return ( weight_carried() + it.weight() <= ( has_trait( trait_id( "DEBUG_STORAGE" ) ) ? INT_MAX : weight_capacity() * 4 ) );
     }
     else
     {
