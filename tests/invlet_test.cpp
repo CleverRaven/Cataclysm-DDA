@@ -110,7 +110,7 @@ void invlet_test( std::function<void( player &, item & )> item_add, std::functio
                   std::function<void( player &, int, char, invlet_state )> assign_invlet,
                   std::function<void( player &, int )> remove_action, std::function<void( player &, int )> add_action,
                   std::function<std::string( int )> remove_action_name, std::function<std::string( int )> add_action_name,
-                  player &dummy, const invlet_state expected_invlet_state[3][3][3][2] ) {
+                  player &dummy, const invlet_state expected_invlet_state[27][2] ) {
     constexpr char invlet = '|';
 
     std::cout << std::setw( 5 ) << "id" << std::setw( 15 ) << "set invlet 1" << std::setw( 10 ) << "" <<
@@ -172,12 +172,12 @@ void invlet_test( std::function<void( player &, item & )> item_add, std::functio
         std::cout << std::setw( 5 ) << id << std::setw( 15 ) << invlet_state_name( first_invlet_state ) << std::setw( 10 ) << remove_action_name( 0 ) <<
                      std::setw( 15 ) << invlet_state_name( second_invlet_state ) << std::setw( 30 ) << third_action_name( third_action, remove_action_name, add_action_name ) <<
                      std::setw( 20 ) << invlet_state_name( first_invlet_state_now ) << std::setw( 20 ) << invlet_state_name( second_invlet_state_now ) <<
-                     std::setw( 10 ) << ( ( first_invlet_state_now == expected_invlet_state[third_action][second_invlet_state][first_invlet_state][0] &&
-                                        second_invlet_state_now == expected_invlet_state[third_action][second_invlet_state][first_invlet_state][1] ) ?
+                     std::setw( 10 ) << ( ( first_invlet_state_now == expected_invlet_state[id][0] &&
+                                        second_invlet_state_now == expected_invlet_state[id][1] ) ?
                                         "success" : "failed" ) << std::endl;
 
-        CHECK( first_invlet_state_now == expected_invlet_state[third_action][second_invlet_state][first_invlet_state][0] );
-        CHECK( second_invlet_state_now == expected_invlet_state[third_action][second_invlet_state][first_invlet_state][1] );
+        CHECK( first_invlet_state_now == expected_invlet_state[id][0] );
+        CHECK( second_invlet_state_now == expected_invlet_state[id][1] );
 
         dummy.reassign_item( *final_first, '\0' );
         dummy.reassign_item( *final_second, '\0' );
@@ -186,7 +186,7 @@ void invlet_test( std::function<void( player &, item & )> item_add, std::functio
 
 TEST_CASE( "Inventory letter test", "[invlet]" ) {
     /*
-     *  expected[3rd][2nd][1st][item]
+     *  expected[3rd,2nd,1st][item]
      *  1st:
      *      0       No invlet for the first item, then drop/take-off it
      *      1       Cached invlet for the first item, then drop/take-off it
@@ -200,64 +200,64 @@ TEST_CASE( "Inventory letter test", "[invlet]" ) {
      *      1       Drop/take-off second, pickup/wear second, pickup/wear first
      *      2       Pickup/wear first
      */
-    static const invlet_state expected_invlet_state[3][3][3][2] {
-        NONE    , NONE    ,
-        CACHED  , NONE    ,
-        ASSIGNED, NONE    ,
-        NONE    , CACHED  ,
-        CACHED  , NONE    ,
-        CACHED  , NONE    ,
-        NONE    , ASSIGNED,
-        NONE    , ASSIGNED,
-        NONE    , ASSIGNED,
-        NONE    , NONE    ,
-        CACHED  , NONE    ,
-        ASSIGNED, NONE    ,
-        NONE    , CACHED  ,
-        NONE    , CACHED  ,
-        NONE    , CACHED  ,
-        NONE    , ASSIGNED,
-        NONE    , ASSIGNED,
-        NONE    , ASSIGNED,
-        NONE    , NONE    ,
-        CACHED  , NONE    ,
-        ASSIGNED, NONE    ,
-        NONE    , CACHED  ,
-        NONE    , CACHED  ,
-        NONE    , CACHED  ,
-        NONE    , ASSIGNED,
-        NONE    , ASSIGNED,
-        NONE    , ASSIGNED,
+    static const invlet_state expected_invlet_state[27][2] {
+        {NONE    , NONE    },
+        {CACHED  , NONE    },
+        {ASSIGNED, NONE    },
+        {NONE    , CACHED  },
+        {CACHED  , NONE    },
+        {CACHED  , NONE    },
+        {NONE    , ASSIGNED},
+        {NONE    , ASSIGNED},
+        {NONE    , ASSIGNED},
+        {NONE    , NONE    },
+        {CACHED  , NONE    },
+        {ASSIGNED, NONE    },
+        {NONE    , CACHED  },
+        {NONE    , CACHED  },
+        {NONE    , CACHED  },
+        {NONE    , ASSIGNED},
+        {NONE    , ASSIGNED},
+        {NONE    , ASSIGNED},
+        {NONE    , NONE    },
+        {CACHED  , NONE    },
+        {ASSIGNED, NONE    },
+        {NONE    , CACHED  },
+        {NONE    , CACHED  },
+        {NONE    , CACHED  },
+        {NONE    , ASSIGNED},
+        {NONE    , ASSIGNED},
+        {NONE    , ASSIGNED},
     };
 
-    static const invlet_state takeoff_wear_expected_invlet_state[3][3][3][2] {
-        NONE    , NONE    ,
-        CACHED  , NONE    ,
-        ASSIGNED, NONE    ,
-        NONE    , CACHED  ,
-        NONE    , CACHED  ,
-        NONE    , CACHED  ,
-        NONE    , ASSIGNED,
-        NONE    , ASSIGNED,
-        NONE    , ASSIGNED,
-        NONE    , NONE    ,
-        CACHED  , NONE    ,
-        ASSIGNED, NONE    ,
-        NONE    , CACHED  ,
-        NONE    , CACHED  ,
-        NONE    , CACHED  ,
-        NONE    , ASSIGNED,
-        NONE    , ASSIGNED,
-        NONE    , ASSIGNED,
-        NONE    , NONE    ,
-        CACHED  , NONE    ,
-        ASSIGNED, NONE    ,
-        NONE    , CACHED  ,
-        NONE    , CACHED  ,
-        NONE    , CACHED  ,
-        NONE    , ASSIGNED,
-        NONE    , ASSIGNED,
-        NONE    , ASSIGNED,
+    static const invlet_state takeoff_wear_expected_invlet_state[27][2] {
+        {NONE    , NONE    },
+        {CACHED  , NONE    },
+        {ASSIGNED, NONE    },
+        {NONE    , CACHED  },
+        {NONE    , CACHED  },
+        {NONE    , CACHED  },
+        {NONE    , ASSIGNED},
+        {NONE    , ASSIGNED},
+        {NONE    , ASSIGNED},
+        {NONE    , NONE    },
+        {CACHED  , NONE    },
+        {ASSIGNED, NONE    },
+        {NONE    , CACHED  },
+        {NONE    , CACHED  },
+        {NONE    , CACHED  },
+        {NONE    , ASSIGNED},
+        {NONE    , ASSIGNED},
+        {NONE    , ASSIGNED},
+        {NONE    , NONE    },
+        {CACHED  , NONE    },
+        {ASSIGNED, NONE    },
+        {NONE    , CACHED  },
+        {NONE    , CACHED  },
+        {NONE    , CACHED  },
+        {NONE    , ASSIGNED},
+        {NONE    , ASSIGNED},
+        {NONE    , ASSIGNED},
     };
 
     player &dummy = g->u;
