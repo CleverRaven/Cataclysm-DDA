@@ -7972,7 +7972,7 @@
     "id": "washboard",
     "type": "TOOL",
     "name": "washboard",
-    "description": "This is a wooden washboard.  You can use it to wash filthy clothing if it's supplied with soap.  It requires 1 unit of soap per use.",
+    "description": "This is a wooden washboard.  You can use it to wash filthy clothing if it's supplied with cleansing agent.",
     "weight": 90,
     "volume": 1,
     "price": 1000,
@@ -7980,10 +7980,6 @@
     "material": "wood",
     "symbol": ";",
     "color": "white",
-    "ammo": "soap",
-    "initial_charges": 5,
-    "max_charges": 10,
-    "charges_per_use": 1,
     "use_action": "WASHCLOTHES"
   },
   {
