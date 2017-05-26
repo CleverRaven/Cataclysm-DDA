@@ -1411,6 +1411,36 @@
         "post_terrain" : "f_crate_o"
     },{
         "type" : "construction",
+        "description" : "Seal Coffin",
+        "category" : "FURN",
+        "required_skills" : [ [ "mechanics", 0 ] ],
+        "time" : 10,
+        "components" : [
+        [ ["nail", 6] ]
+        ],
+        "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
+        "pre_terrain" : "f_coffin_o",
+        "post_terrain" : "f_coffin_c"
+    },{
+        "type" : "construction",
+        "description" : "Build Coffin",
+        "category" : "FURN",
+        "required_skills" : [ [ "fabrication", 1 ] ],
+        "time" : 60,
+        "qualities": [
+            [
+            { "id": "HAMMER", "level": 2 }
+            ]
+            ],
+        "components" : [
+            [ [ "2x4", 12 ] ],
+            [ [ "sheet", 2 ], [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1] ],
+            [ [ "nail", 24 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_coffin_o"
+    },{
+        "type" : "construction",
         "description" : "Build Bulletin Board",
         "category" : "FURN",
         "required_skills" : [ [ "fabrication", 0 ] ],
