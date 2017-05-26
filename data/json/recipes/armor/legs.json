@@ -59,6 +59,19 @@
     "components": [ [ [ "rag", 5 ] ] ]
   },
   {
+    "result": "breeches",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 40000,
+    "book_learn": [ [ "textbook_tailor", 2 ], [ "tailor_portfolio", 2 ] ],
+    "using": [ [ "filament", 20 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "rag", 7 ] ] ]
+  },
+  {
     "result": "briefs",
     "type": "recipe",
     "category": "CC_ARMOR",

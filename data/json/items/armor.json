@@ -1262,6 +1262,26 @@
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
+    "id": "breeches",
+    "type": "ARMOR",
+    "name": "breeches",
+    "name_plural": "breeches",
+    "description": "A well-made pair of old-fashioned pants, made of stiff yet baggy material.  Comfortable, but lacks pockets.",
+    "weight": 520,
+    "volume": 7,
+    "price": 4900,
+    "to_hit": 1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "brown",
+    "covers": [ "LEGS" ],
+    "coverage": 80,
+    "encumbrance": 8,
+    "warmth": 10,
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "FANCY" ]
+  },
+  {
     "id": "briefcase",
     "type": "ARMOR",
     "name": "briefcase",

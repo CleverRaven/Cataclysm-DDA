@@ -1337,6 +1337,25 @@
     "use_action": "CATFOOD"
   },
   {
+    "id": "cavalry_sabre",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "cavalry saber",
+    "description": "This is a curved sword associated with cavalry from the Early Modern period onwards.  Lightweight but a deadly slashing weapon.",
+    "weight": 910,
+    "volume": 5,
+    "price": 97000,
+    "to_hit": 2,
+    "bashing": 2,
+    "cutting": 26,
+    "material": "steel",
+    "symbol": "/",
+    "color": "dark_gray",
+    "techniques": [ "WBLOCK_2", "RAPID" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+  },
+  {
     "id": "cell_phone",
     "type": "TOOL",
     "name": "cell phone",
