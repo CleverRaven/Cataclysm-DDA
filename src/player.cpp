@@ -9912,7 +9912,11 @@ void player::wake_up()
             print_health();
         }
         if( has_effect( effect_slept_through_alarm ) ) {
-            add_msg_if_player( m_warning, _( "It looks like you've slept through the alarm..." ) );
+            if( has_bionic( "bio_watch" ) ) {
+                add_msg_if_player( m_warning, _( "It looks like you've slept through your internal alarm..." ) );
+            } else {
+                add_msg_if_player( m_warning, _( "It looks like you've slept through the alarm..." ) );
+            }
         }
     }
 

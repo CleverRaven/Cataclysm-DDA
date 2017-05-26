@@ -1319,7 +1319,11 @@ void player::hardcoded_effects( effect &it )
                 print_health();
             }
             if( has_effect( effect_slept_through_alarm ) ) {
-                add_msg_if_player( m_warning, _( "It looks like you've slept through the alarm..." ) );
+                if( has_bionic( "bio_watch" ) ) {
+                    add_msg_if_player( m_warning, _( "It looks like you've slept through your internal alarm..." ) );
+                } else {
+                    add_msg_if_player( m_warning, _( "It looks like you've slept through the alarm..." ) );
+                }
                 get_effect( effect_slept_through_alarm ).set_duration( 0 );
             }
         }
@@ -1340,6 +1344,9 @@ void player::hardcoded_effects( effect &it )
                         wake_up();
                         add_msg_if_player( _( "Your internal chronometer wakes you up." ) );
                     } else {
+                        if( !has_effect( effect_slept_through_alarm ) ) {
+                            add_effect( effect_slept_through_alarm, 1, num_bp, true );
+                        }
                         // 10 minute cyber-snooze
                         it.mod_duration( 100 );
                     }
