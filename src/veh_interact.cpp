@@ -1468,7 +1468,7 @@ bool veh_interact::do_assign_crew( std::string &msg )
         if( menu.ret == 0 ) {
             pt.unset_crew();
         } else if( menu > 0 ) {
-            const auto &who = *g->active_npc[g->npc_by_id( menu.ret )];
+            const auto &who = *g->npc_by_id( menu.ret );
             veh->assign_seat( pt, who );
         }
 

@@ -1911,7 +1911,6 @@ int petfood(player *p, item *it, bool is_dogfood)
     }
     p->moves -= 15;
     const int mon_idx = g->mon_at( dirp, true );
-    const int npc_idx = g->npc_at( dirp );
     if(mon_idx != -1) {
         monster &mon = g->zombie( mon_idx );
         if(mon.type->id == (is_dogfood ? mon_dog : mon_cat)) {
@@ -1931,8 +1930,8 @@ int petfood(player *p, item *it, bool is_dogfood)
         } else {
             p->add_msg_if_player( _( "The %s seems quite unimpressed!" ), mon.name().c_str() );
         }
-    } else if( npc_idx != -1 ) {
-        npc &person = *g->active_npc[npc_idx];
+    } else if( npc * const person_ = g->critter_at<npc>( dirp ) ) {
+        npc &person = *person_;
         if( query_yn( is_dogfood ?
             _( "Are you sure you want to feed a person the dog food?" ) :
             _( "Are you sure you want to feed a person the cat food?" ) ) ) {
@@ -3495,16 +3494,15 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                             critter.set_speed_base(
                                 critter.get_speed_base() * rng_float(1.1, 2.0) );
                             critter.set_hp( critter.get_hp() * rng_float( 1.1, 2.0 ) );
-                        } else if (g->npc_at(dest) != -1) {
-                            int npc_hit = g->npc_at(dest);
+                        } else if( npc * const person = g->critter_at<npc>( dest ) ) {
                             /** @EFFECT_STR_MAX increases possible granade str buff for NPCs */
-                            buff_stat(g->active_npc[npc_hit]->str_max, rng(0, g->active_npc[npc_hit]->str_max / 2));
+                            buff_stat(person->str_max, rng(0, person->str_max / 2));
                             /** @EFFECT_DEX_MAX increases possible granade dex buff for NPCs */
-                            buff_stat(g->active_npc[npc_hit]->dex_max, rng(0, g->active_npc[npc_hit]->dex_max / 2));
+                            buff_stat(person->dex_max, rng(0, person->dex_max / 2));
                             /** @EFFECT_INT_MAX increases possible granade int buff for NPCs */
-                            buff_stat(g->active_npc[npc_hit]->int_max, rng(0, g->active_npc[npc_hit]->int_max / 2));
+                            buff_stat(person->int_max, rng(0, person->int_max / 2));
                             /** @EFFECT_PER_MAX increases possible granade per buff for NPCs */
-                            buff_stat(g->active_npc[npc_hit]->per_max, rng(0, g->active_npc[npc_hit]->per_max / 2));
+                            buff_stat(person->per_max, rng(0, person->per_max / 2));
                         } else if (g->u.posx() == pos.x + i && g->u.posy() == pos.y + j) {
                             /** @EFFECT_STR_MAX increases possible granade str buff */
                             buff_stat(g->u.str_max, rng(0, g->u.str_max / 2));
@@ -3538,16 +3536,15 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                             critter.set_speed_base(
                                 rng( 0, critter.get_speed_base() ) );
                             critter.set_hp( rng( 1, critter.get_hp() ) );
-                        } else if (g->npc_at(dest) != -1) {
-                            int npc_hit = g->npc_at(dest);
+                        } else if( npc * const person = g->critter_at<npc>( dest ) ) {
                             /** @EFFECT_STR_MAX increases possible granade str debuff for NPCs (NEGATIVE) */
-                            g->active_npc[npc_hit]->str_max -= rng(0, g->active_npc[npc_hit]->str_max / 2);
+                            person->str_max -= rng(0, person->str_max / 2);
                             /** @EFFECT_DEX_MAX increases possible granade dex debuff for NPCs (NEGATIVE) */
-                            g->active_npc[npc_hit]->dex_max -= rng(0, g->active_npc[npc_hit]->dex_max / 2);
+                            person->dex_max -= rng(0, person->dex_max / 2);
                             /** @EFFECT_INT_MAX increases possible granade int debuff for NPCs (NEGATIVE) */
-                            g->active_npc[npc_hit]->int_max -= rng(0, g->active_npc[npc_hit]->int_max / 2);
+                            person->int_max -= rng(0, person->int_max / 2);
                             /** @EFFECT_PER_MAX increases possible granade per debuff for NPCs (NEGATIVE) */
-                            g->active_npc[npc_hit]->per_max -= rng(0, g->active_npc[npc_hit]->per_max / 2);
+                            person->per_max -= rng(0, person->per_max / 2);
                         } else if (g->u.posx() == pos.x + i && g->u.posy() == pos.y + j) {
                             /** @EFFECT_STR_MAX increases possible granade str debuff (NEGATIVE) */
                             g->u.str_max -= rng(0, g->u.str_max / 2);
@@ -3580,9 +3577,8 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                             critter.set_speed_base( critter.type->speed );
                             critter.set_hp( critter.get_hp_max() );
                             critter.clear_effects();
-                        } else if (g->npc_at(dest) != -1) {
-                            int npc_hit = g->npc_at(dest);
-                            g->active_npc[npc_hit]->environmental_revert_effect();
+                        } else if( npc * const person = g->critter_at<npc>( dest ) ) {
+                            person->environmental_revert_effect();
                         } else if (g->u.posx() == pos.x + i && g->u.posy() == pos.y + j) {
                             g->u.environmental_revert_effect();
                             do_purify( &(g->u) );
@@ -3596,8 +3592,7 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         tripoint dest( pos.x + i, pos.y + j, pos.z );
-                        if (one_in(5) && -1 == g->mon_at(dest) &&
-                            -1 == g->npc_at(dest)) {
+                        if (one_in(5) && !g->critter_at( dest ) ) {
                             g->m.add_field(dest, fd_bees, rng(1, 3), 0 );
                         }
                     }
@@ -6466,9 +6461,9 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
         }
 
         const int sel_zid = g->mon_at( aim_point, true );
-        const int sel_npcID = g->npc_at( aim_point );
+        const npc * const sel_npc = g->critter_at<npc>( aim_point );
 
-        if (sel_zid == -1 && sel_npcID == -1) {
+        if( !g->critter_at( aim_point ) ) {
             p->add_msg_if_player(_("There's nothing particularly interesting there."));
             return 0;
         }
@@ -6482,9 +6477,9 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
         for (auto &i : trajectory) {
 
             int zid = g->mon_at( i, true );
-            int npcID = g->npc_at(i);
 
-            if (zid != -1 || npcID != -1) {
+            npc * const guy = g->critter_at<npc>( i );
+            if (zid != -1 || guy) {
                 int dist = rl_dist( p->pos(), i );
 
                 int camera_bonus = it->has_flag("CAMERA_PRO") ? 10 : 0;
@@ -6571,16 +6566,14 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
 
                     return it->type->charges_to_use();
 
-                } else {
-                    npc *guy = g->active_npc[npcID];
-
+                } else if( guy ) {
                     if (dist < 4 && one_in(dist + 2)) {
                         p->add_msg_if_player(_("%s looks blinded."), guy->name.c_str());
                         guy->add_effect( effect_blind, rng(5, 10));
                     }
 
                     //just photo, no save. Maybe in the future we will need to create CAMERA_NPC_PHOTOS
-                    if (npcID == sel_npcID) {
+                    if (sel_npc == guy) {
                         if (p->is_blind()) {
                             p->add_msg_if_player(_("You took a photo of %s."), guy->name.c_str());
                         } else {

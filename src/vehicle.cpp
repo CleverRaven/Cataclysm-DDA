@@ -2764,10 +2764,7 @@ player *vehicle::get_passenger(int p) const
      if( player_id == g->u.getID()) {
       return &g->u;
      }
-     int npcdex = g->npc_by_id (player_id);
-     if (npcdex >= 0) {
-      return g->active_npc[npcdex];
-     }
+        return g->npc_by_id( player_id );
     }
     return 0;
 }
@@ -6304,11 +6301,10 @@ npc * vehicle_part::crew() const
         return nullptr;
     }
 
-    int idx = g->npc_by_id( crew_id );
-    if( idx < 0 ) {
+    npc *const res = g->npc_by_id( crew_id );
+    if( !res ) {
         return nullptr;
     }
-    npc *res = g->active_npc[idx];
     return !res->is_dead_state() && res->is_friend() ? res : nullptr;
 }
 

@@ -656,16 +656,14 @@ sfx::sound_thread::sound_thread( const tripoint &source, const tripoint &target,
 {
     // This is function is run in the main thread.
     const int heard_volume = get_heard_volume( source );
-    const player *p;
-    int npc_index = g->npc_at( source );
-    if( npc_index == -1 ) {
+    const player *p = g->critter_at<npc>( source );
+    if( !p ) {
         p = &g->u;
         // sound comes from the same place as the player is, calculation of angle wouldn't work
         ang_src = 0;
         vol_src = heard_volume;
         vol_targ = heard_volume;
     } else {
-        p = g->active_npc[npc_index];
         ang_src = get_heard_angle( source );
         vol_src = std::max(heard_volume - 30, 0);
         vol_targ = std::max(heard_volume - 20, 0);

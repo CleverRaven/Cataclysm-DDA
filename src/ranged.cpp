@@ -939,9 +939,11 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     }
 
     const auto set_last_target = [this]( const tripoint &dst ) {
-        if( ( g->last_target = g->npc_at( dst ) ) >= 0 ) {
+        if( const auto np = g->critter_at<npc>( dst ) ) {
+            auto &a = g->active_npc;
+            // Convert the npc pointer into an index in game::active_npc
+            g->last_target = std::distance( a.begin(), std::find( a.begin(), a.end(), np ) );
             g->last_target_was_npc = true;
-
         } else if( ( g->last_target = g->mon_at( dst, true ) ) >= 0 ) {
             g->last_target_was_npc = false;
         }
@@ -951,9 +953,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         if( dst == pc.pos() ) {
             return true;
         }
-        const int npc_index = g->npc_at( dst );
-        if( npc_index >= 0 ) {
-            const npc &who = *g->active_npc[ npc_index ];
+        if( npc * const who_ = g->critter_at<npc>( dst ) ) {
+            const npc &who = *who_;
             if( who.guaranteed_hostile() ) {
                 return true;
             }

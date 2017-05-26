@@ -1218,11 +1218,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         spread_gas( cur, p, curtype, 200, 60 );
 
                         if(one_in(20)) {
-                            int npcdex = g->npc_at( p );
-                            if (npcdex != -1) {
-                                npc *p = g->active_npc[npcdex];
-                                if(p->is_friend()) {
-                                    p->say(one_in(10) ? _("Whew... smells like skunk!") : _("Man, that smells like some good shit!"));
+                            if( npc *const np = g->critter_at<npc>( p ) ) {
+                                if(np->is_friend()) {
+                                    np->say(one_in(10) ? _("Whew... smells like skunk!") : _("Man, that smells like some good shit!"));
                                 }
                             }
                         }
@@ -1236,11 +1234,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         spread_gas( cur, p, curtype, 175, 70 );
 
                         if(one_in(20)) {
-                            int npcdex = g->npc_at( p );
-                            if (npcdex != -1) {
-                                npc *p = g->active_npc[npcdex];
-                                if(p->is_friend()) {
-                                    p->say(_("I don't know... should you really be smoking that stuff?"));
+                            if( npc *const np = g->critter_at<npc>( p ) ) {
+                                if(np->is_friend()) {
+                                    np->say(_("I don't know... should you really be smoking that stuff?"));
                                 }
                             }
                         }
@@ -1253,11 +1249,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         spread_gas( cur, p, curtype, 175, 80 );
 
                         if(one_in(20)) {
-                            int npcdex = g->npc_at( p );
-                            if (npcdex != -1) {
-                                npc *p = g->active_npc[npcdex];
-                                if(p->is_friend()) {
-                                    p->say(one_in(2) ? _("Ew, smells like burning rubber!") : _("Ugh, that smells rancid!"));
+                            if( npc *const np = g->critter_at<npc>( p ) ) {
+                                if(np->is_friend()) {
+                                    np->say(one_in(2) ? _("Ew, smells like burning rubber!") : _("Ugh, that smells rancid!"));
                                 }
                             }
                         }
@@ -1420,22 +1414,16 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         g->u.deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
                                         g->u.check_dead_state();
                                     }
-                                    int npcdex = g->npc_at( newp );
-                                    int mondex = g->mon_at( newp );
 
-                                    if( npcdex != -1 ) {
+                                    if( npc * const p = g->critter_at<npc>( newp ) ) {
                                         // TODO: combine with player character code above
-                                        npc *p = g->active_npc[npcdex];
                                         body_part hit = random_body_part();
                                         p->deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
                                         if (g->u.sees( newp )) {
                                             add_msg(_("A %1$s hits %2$s!"), tmp.tname().c_str(), p->name.c_str());
                                         }
                                         p->check_dead_state();
-                                    }
-
-                                    if( mondex != -1 ) {
-                                        monster *mon = &(g->zombie(mondex));
+                                    } else if( monster * const mon = g->critter_at<monster>( newp ) ) {
                                         mon->apply_damage( nullptr, bp_torso, 6 - mon->get_armor_bash( bp_torso ) );
                                         if (g->u.sees( newp ))
                                             add_msg(_("A %1$s hits the %2$s!"), tmp.tname().c_str(),
@@ -2322,17 +2310,14 @@ void map::monster_in_field( monster &z )
 
                 if (tries == 10) {
                     z.die_in_explosion( nullptr );
-                } else {
-                    int mon_hit = g->mon_at(newpos);
-                    if (mon_hit != -1) {
-                        if (g->u.sees(z)) {
-                            add_msg(_("The %1$s teleports into a %2$s, killing them both!"),
-                                       z.name().c_str(), g->zombie(mon_hit).name().c_str());
-                        }
-                        g->zombie( mon_hit ).die_in_explosion( &z );
-                    } else {
-                        z.setpos(newpos);
+                } else if( monster * const other = g->critter_at<monster>( newpos ) ) {
+                    if (g->u.sees(z)) {
+                        add_msg(_("The %1$s teleports into a %2$s, killing them both!"),
+                                   z.name().c_str(), other->name().c_str());
                     }
+                    other->die_in_explosion( &z );
+                } else {
+                    z.setpos(newpos);
                 }
             }
             break;
