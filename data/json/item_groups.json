@@ -527,6 +527,7 @@
       ["salted_fish", 15],
       ["charcoal", 5],
       ["soap", 70],
+      ["detergent", 50],
       ["dry_beans", 40],
       ["dry_rice", 40],
       ["survnote", 1],
@@ -1762,6 +1763,7 @@
       ["charcoal", 5],
       ["fungicide", 2],
       ["soap", 80],
+      ["detergent", 80],
       ["chem_hydrogen_peroxide", 20]
     ]
   },{
@@ -3452,6 +3454,7 @@
       ["sharp_toothbrush", 10],
       ["razor_blade", 20],
       ["soap", 5],
+      ["detergent", 5],
       ["knitting_needles", 1],
       ["survnote", 2]
     ]
