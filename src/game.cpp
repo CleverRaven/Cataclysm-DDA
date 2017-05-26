@@ -6636,6 +6636,7 @@ template const monster *game::critter_at<monster>( const tripoint &, bool ) cons
 template const npc *game::critter_at<npc>( const tripoint &, bool ) const;
 template const player *game::critter_at<player>( const tripoint &, bool ) const;
 template const Character *game::critter_at<Character>( const tripoint &, bool ) const;
+template Character *game::critter_at<Character>( const tripoint &, bool );
 template const Creature *game::critter_at<Creature>( const tripoint &, bool ) const;
 
 bool game::summon_mon( const mtype_id& id, const tripoint &p )
