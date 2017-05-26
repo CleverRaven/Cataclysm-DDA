@@ -44,9 +44,10 @@ auto start_sfx_timestamp = std::chrono::high_resolution_clock::now();
 auto end_sfx_timestamp = std::chrono::high_resolution_clock::now();
 auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
 
+const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_deaf( "deaf" );
 const efftype_id effect_sleep( "sleep" );
-const efftype_id effect_alarm_clock( "alarm_clock" );
+const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
@@ -280,6 +281,8 @@ void sounds::process_sound_markers( player *p )
             p->volume = std::max( p->volume, heard_volume );
         }
 
+        // Secure the flag before wake_up() clears the effect
+        bool slept_through = p->has_effect( effect_slept_through_alarm );
         // See if we need to wake someone up
         if( p->has_effect( effect_sleep ) ) {
             if( ( !( p->has_trait( trait_HEAVYSLEEPER ) ||
@@ -323,6 +326,11 @@ void sounds::process_sound_markers( player *p )
         
         if( !p->has_effect( effect_sleep ) && p->has_effect( effect_alarm_clock ) && !p->has_bionic( "bio_watch" ) ) {
             if ( p->get_effect( effect_alarm_clock ).get_duration() < 2 ) {
+                if( slept_through ) {
+                    p->add_msg_if_player( _( "Your alarm-clock finally wakes you up." ) );
+                } else {
+                    p->add_msg_if_player( _( "Your alarm-clock wakes you up." ) );
+                }
                 p->add_msg_if_player( _( "You turn off your alarm-clock." ) );
             }
             p->get_effect( effect_alarm_clock ).set_duration( 0 );

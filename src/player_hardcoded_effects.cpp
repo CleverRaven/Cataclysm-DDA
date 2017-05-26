@@ -1341,8 +1341,14 @@ void player::hardcoded_effects( effect &it )
                           dice( 2, 15 ) < volume ) ||
                         ( has_trait( trait_id( "HEAVYSLEEPER" ) ) && dice( 3, 15 ) < volume ) ||
                         ( has_trait( trait_id( "HEAVYSLEEPER2" ) ) && dice( 6, 15 ) < volume ) ) {
+                        // Secure the flag before wake_up() clears the effect
+                        bool slept_through = has_effect( effect_slept_through_alarm );
                         wake_up();
-                        add_msg_if_player( _( "Your internal chronometer wakes you up." ) );
+                        if( slept_through ) {
+                            add_msg_if_player( _( "Your internal chronometer finally wakes you up." ) );
+                        } else {
+                            add_msg_if_player( _( "Your internal chronometer wakes you up." ) );
+                        }
                     } else {
                         if( !has_effect( effect_slept_through_alarm ) ) {
                             add_effect( effect_slept_through_alarm, 1, num_bp, true );
