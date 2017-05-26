@@ -204,7 +204,7 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "BLOCK_WHILE_WORN" ]
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "armguard_chitin",
@@ -269,7 +269,7 @@
     "encumbrance": 16,
     "warmth": 25,
     "material_thickness": 4,
-    "flags": [ "STURDY", "BLOCK_WHILE_WORN" ]
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "armguard_lightplate",
