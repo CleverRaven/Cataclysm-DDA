@@ -1,15 +1,15 @@
 [
   {
-    "id" : "cop_armory",
-    "type" : "item_group",
+    "id": "cop_armory",
+    "type": "item_group",
     "magazine": 100,
-    "items":[
-      { "group": "ammo_cop",  "prob":  80 },
-      { "group": "guns_cop",  "prob": 100 },
-      { "group": "mags_cop",  "prob":  40 },
-      { "group": "ammo_swat", "prob":  20 },
-      { "group": "guns_swat", "prob":  20 },
-      { "group": "mags_swat", "prob":  20 },
+    "items": [
+      { "group": "ammo_cop", "prob": 80 },
+      { "group": "guns_cop", "prob": 100 },
+      { "group": "mags_cop", "prob": 40 },
+      { "group": "ammo_swat", "prob": 20 },
+      { "group": "guns_swat", "prob": 20 },
+      { "group": "mags_swat", "prob": 20 },
       [ "l_car_223_kit", 5 ],
       [ "l_dsr_223_kit", 5 ],
       [ "l_lmg_223_kit", 5 ],
@@ -18,29 +18,29 @@
     ]
   },
   {
-    "type":"item_group",
-    "id":"homeguns",
-    "ammo": 70,
-    "magazine": 100,
+    "id": "homeguns",
+    "type": "item_group",
     "subtype": "distribution",
-    "entries" : [
+    "magazine": 100,
+    "ammo": 70,
+    "entries": [
       { "group": "guns_common", "prob": 100 },
       { "group": "ammo_common", "prob": 50 }
     ]
-  },{
-    "type":"item_group",
-    "id":"mags_pawnshop",
+  },
+  {
+    "id": "mags_pawnshop",
+    "type": "item_group",
     "subtype": "distribution",
-    "entries" : [
-      { "group": "mags_obscure", "prob": 10 }
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "mansion_guns",
+    "entries": [ { "group": "mags_obscure", "prob": 10 } ]
+  },
+  {
+    "id": "mansion_guns",
+    "type": "item_group",
+    "subtype": "distribution",
     "magazine": 100,
     "ammo": 100,
-    "subtype": "distribution",
-    "entries" : [
+    "entries": [
       { "group": "guns_pistol_common", "prob": 20 },
       { "group": "guns_rifle_common", "prob": 20 },
       { "group": "guns_shotgun_common", "prob": 20 },
@@ -52,13 +52,14 @@
       { "group": "ammo_reloaded", "prob": 30 },
       { "group": "mags_obscure", "prob": 30 }
     ]
-  },{
-    "type" : "item_group",
-    "id" : "lmoe_guns",
+  },
+  {
+    "id": "lmoe_guns",
+    "type": "item_group",
+    "subtype": "distribution",
     "magazine": 100,
     "ammo": 100,
-    "subtype": "distribution",
-    "entries" : [
+    "entries": [
       { "group": "guns_pistol_common", "prob": 50 },
       { "group": "guns_rifle_common", "prob": 50 },
       { "group": "guns_shotgun_common", "prob": 50 },
@@ -69,20 +70,21 @@
       { "item": "signal_flare", "prob": 20 },
       { "item": "small_repairkit", "prob": 5 }
     ]
-  },{
-    "type" : "item_group",
-    "id" : "hospital_samples",
-    "items":[
-      ["blood", 20],
-      ["vacutainer", 10]
+  },
+  {
+    "id": "hospital_samples",
+    "type": "item_group",
+    "items": [
+      [ "blood", 20 ],
+      [ "vacutainer", 10 ]
     ]
-  },{
-    "type" : "item_group",
-    "id" : "cave_minerals",
-    "items":[
-      ["material_niter", 20],
-      ["material_limestone", 5]
+  },
+  {
+    "id": "cave_minerals",
+    "type": "item_group",
+    "items": [
+      [ "material_niter", 20 ],
+      [ "material_limestone", 5 ]
     ]
   }
 ]
- 
