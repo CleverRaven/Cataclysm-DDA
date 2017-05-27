@@ -27,6 +27,7 @@
 #include "lightmap.h"
 #include "rng.h"
 #include <algorithm>
+#include "cata_utility.h"
 
 //TODO replace these includes with filesystem.h
 #ifdef _MSC_VER
@@ -1758,20 +1759,36 @@ inline SDL_Color ccolor( const std::string &color )
 // Instead it should return ERR or OK, see man curs_color
 int curses_start_color( void )
 {
-    const std::string path = FILENAMES["colors"];
-    std::ifstream colorfile( path.c_str(), std::ifstream::in | std::ifstream::binary );
-    try {
-        JsonIn jsin( colorfile );
-        // Manually load the colordef object because the json handler isn't loaded yet.
-        jsin.start_array();
-        while( !jsin.end_array() ) {
-            JsonObject jo = jsin.get_object();
-            load_colors( jo );
-            jo.finish();
+    const std::string default_path = FILENAMES["colors"];
+    const std::string custom_path = FILENAMES["base_colors"];
+
+    if ( !file_exist(custom_path) ){
+        std::ifstream src(default_path.c_str(), std::ifstream::in | std::ios::binary);
+        write_to_file_exclusive(custom_path, [&src]( std::ostream &dst ) {
+            dst << src.rdbuf();
+        }, _("base colors") );
+    }
+
+    auto load_colorfile = []( const std::string &path ) {
+        std::ifstream colorfile( path.c_str(), std::ifstream::in | std::ifstream::binary );
+        try {
+            JsonIn jsin( colorfile );
+            // Manually load the colordef object because the json handler isn't loaded yet.
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                JsonObject jo = jsin.get_object();
+                load_colors( jo );
+                jo.finish();
+            }
+            return OK;
+        } catch( const JsonError &e ) {
+            dbg( D_ERROR ) << "Failed to load color definitions from " << path << ": " << e;
+            return ERR;
         }
-    } catch( const JsonError &e ) {
-        dbg( D_ERROR ) << "Failed to load color definitions from " << path << ": " << e;
-        return ERR;
+    };
+
+    if ( load_colorfile(custom_path) == ERR ){
+        load_colorfile(default_path);
     }
     for( size_t c = 0; c < main_color_names.size(); c++ ) {
         windowsPalette[c]  = ccolor( main_color_names[c] );

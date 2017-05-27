@@ -17,6 +17,7 @@
 #include "path_info.h"
 #include "filesystem.h"
 #include "debug.h"
+#include "cata_utility.h"
 
 //***********************************
 //Globals                           *
@@ -710,21 +711,38 @@ int curses_start_color(void)
     //TODO: this should be reviewed in the future.
 
     //Load the console colors from colors.json
-    std::ifstream colorfile(FILENAMES["colors"].c_str(), std::ifstream::in | std::ifstream::binary);
-    try{
-        JsonIn jsin(colorfile);
-        // Manually load the colordef object because the json handler isn't loaded yet.
-        jsin.start_array();
-        // find type and dispatch each object until array close
-        while (!jsin.end_array()) {
-            JsonObject jo = jsin.get_object();
-            load_colors(jo);
-            jo.finish();
-        }
-    } catch( const JsonError &err ){
-        throw std::runtime_error( FILENAMES["colors"] + ": " + err.what() );
+    const std::string default_path = FILENAMES["colors"];
+    const std::string custom_path = FILENAMES["base_colors"];
+
+    if ( !file_exist(custom_path) ){
+        std::ifstream src(default_path.c_str(), std::ifstream::in | std::ios::binary);
+        write_to_file_exclusive(custom_path, [&src]( std::ostream &dst ) {
+            dst << src.rdbuf();
+        }, _("base colors") );
     }
 
+    auto load_colorfile = []( const std::string &path ) {
+        std::ifstream colorfile( custom_path.c_str(), std::ifstream::in | std::ifstream::binary );
+        try{
+            JsonIn jsin(colorfile);
+            // Manually load the colordef object because the json handler isn't loaded yet.
+            jsin.start_array();
+            // find type and dispatch each object until array close
+            while (!jsin.end_array()) {
+                JsonObject jo = jsin.get_object();
+                load_colors(jo);
+                jo.finish();
+            }
+            return OK;
+        } catch( const JsonError &e ){
+            DebugLog( D_ERROR, DC_ALL ) << "Failed to load color definitions from " << path << ": " << e;
+            return ERR;
+        }
+    };
+
+    if ( load_colorfile(custom_path) == ERR ){
+        load_colorfile(default_path);
+    }
     if(consolecolors.empty())return SetDIBColorTable(backbuffer, 0, 16, windowsPalette.data());
     windowsPalette[0]  = BGR(ccolor("BLACK"));
     windowsPalette[1]  = BGR(ccolor("RED"));
