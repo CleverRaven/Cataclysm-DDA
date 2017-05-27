@@ -2786,10 +2786,10 @@ void iexamine::water_source(player &p, const tripoint &examp)
 void iexamine::milk_source( monster *source_mon )
 {
     item milk( "milk", 0, 1 );
-
+    int dur = source_mon->get_effect_dur(effect_milked);
     if( !source_mon->has_effect( effect_milked ) ) {
         g->handle_liquid( milk, nullptr, 0, nullptr, nullptr, source_mon );
-    } else if( source_mon->get_effect_dur( effect_milked ) <= HOURS( 25 ) ) {
+    } else if( source_mon->get_effect_dur( effect_milked ) <= HOURS( 24 ) ) {
         g->handle_liquid( milk, nullptr, 0, nullptr, nullptr, source_mon );
         add_msg( _( "You milk the %s." ), source_mon->disp_name().c_str() );
     } else {
