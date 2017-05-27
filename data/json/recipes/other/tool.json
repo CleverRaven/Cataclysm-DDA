@@ -16,7 +16,7 @@
     ],
     "tools": [
       [ [ "mold_plastic", -1 ] ],
-      [ [ "hotplate", 50 ], [ "toolset", 50 ], ["fire", -1 ] ]
+      [ [ "fire", -1 ], [ "hotplate", 50 ], [ "toolset", 50 ] ]
     ],
     "components": [ 
         [ [ "plastic_chunk", 3 ] ],

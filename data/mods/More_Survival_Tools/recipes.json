@@ -360,8 +360,8 @@
   ],
   "tools": [
     [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
+      [ "fire", -1 ],
+      [ "toolset", 10 ]
     ]
   ],
   "components": [
@@ -708,8 +708,8 @@
   ],
   "tools": [
       [
-        [ "toolset", 10 ],
-        [ "fire", -1 ]
+        [ "fire", -1 ],
+        [ "toolset", 10 ]
       ]
       ],
   "components":
@@ -734,8 +734,8 @@
   ],
   "tools": [
       [
-        [ "toolset", 10 ],
-        [ "fire", -1 ]
+        [ "fire", -1 ],
+        [ "toolset", 10 ]
       ]
       ],
   "components": [
