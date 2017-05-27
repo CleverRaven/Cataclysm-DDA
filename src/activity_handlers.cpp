@@ -800,7 +800,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             if( !source_mon->has_effect( effect_milked ) ) {
                 source_mon->add_effect( effect_milked, HOURS( 6 ) );
             } else if( ( HOURS( 24 ) - current_dur ) < HOURS( 24 ) ) {
-                source_mon->add_effect( effect_milked, (current_dur + HOURS( 6 )) );
+                source_mon->add_effect( effect_milked, (current_dur + HOURS( 6 ) ) );
             } else {
                 act.set_to_null();
             }
