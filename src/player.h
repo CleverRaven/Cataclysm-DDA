@@ -1563,7 +1563,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Check if an area-of-effect technique has valid targets */
         bool valid_aoe_technique( Creature &t, const ma_technique &technique );
         bool valid_aoe_technique( Creature &t, const ma_technique &technique,
-                                  std::vector<int> &mon_targets, std::vector<int> &npc_targets );
+                                  std::vector<Creature*> &targets );
         /**
          * Check whether the other creature is in range and can be seen by this creature.
          * @param critter Creature to check for visiblity

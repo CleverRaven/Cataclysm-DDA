@@ -375,8 +375,6 @@ classes = {
             { name = "monster_at", rval = "monster&", args = { "tripoint" } },
             { name = "monster_at", rval = "monster&", args = { "tripoint", "bool" } },
             { name = "natural_light_level", rval = "float", args = { "int" } },
-            { name = "npc_at", rval = "int", args = { "tripoint" } },
-            { name = "npc_by_id", rval = "int", args = { "int" } },
             { name = "nuke", rval = nil, args = { "tripoint" } },
             { name = "num_zombies", rval = "int", args = { } },
             { name = "open_gate", rval = nil, args = { "tripoint" } },

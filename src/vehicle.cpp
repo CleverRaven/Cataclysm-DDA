@@ -388,6 +388,10 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         for( auto e : get_parts( "FRIDGE" ) ) {
             e->enabled = true;
         }
+
+        for( auto e : get_parts( "WATER_PURIFIER" ) ) {
+            e->enabled = true;
+        }
     }
 
     bool blood_inside_set = false;
@@ -798,8 +802,8 @@ void vehicle::smash_security_system(){
         }
         if (percent_alarm > rand) {
             damage_direct (s, part_info(s).durability / 5);
-            //chance to disable alarm immediately
-            if (percent_alarm / 4 > rand) {
+            // chance to disable alarm immediately, or disable on destruction
+            if( percent_alarm / 4 > rand || parts[ s ].is_broken() ) {
                 is_alarm_on = false;
             }
         }
@@ -931,6 +935,7 @@ void vehicle::use_controls( const tripoint &pos )
         add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
         add_toggle( _( "planter" ), keybind( "TOGGLE_PLANTER" ), "PLANTER" );
         add_toggle( _( "scoop" ), keybind( "TOGGLE_SCOOP" ), "SCOOP" );
+        add_toggle( _( "water purifier" ), keybind( "TOGGLE_WATER_PURIFIER" ), "WATER_PURIFIER" );
 
         if( has_part( "DOOR_MOTOR" ) ) {
             options.emplace_back( _( "Toggle doors" ), keybind( "TOGGLE_DOORS" ) );
@@ -1832,7 +1837,8 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
             "PLOW",
             "REAPER",
             "PLANTER",
-            "SCOOP"
+            "SCOOP",
+            "WATER_PURIFIER"
         }};
 
         for( const std::string &flag : enable_like ) {
@@ -2764,10 +2770,7 @@ player *vehicle::get_passenger(int p) const
      if( player_id == g->u.getID()) {
       return &g->u;
      }
-     int npcdex = g->npc_by_id (player_id);
-     if (npcdex >= 0) {
-      return g->active_npc[npcdex];
-     }
+        return g->npc_by_id( player_id );
     }
     return 0;
 }
@@ -5976,7 +5979,7 @@ void vehicle::update_time( const calendar &update_to )
 
         // we need an empty tank (or one already containing water) below the funnel
         auto tank = std::find_if( parts.begin(), parts.end(), [&pt]( const vehicle_part &e ) {
-            return pt.mount == e.mount && e.is_tank() && e.can_reload( "water" );
+            return pt.mount == e.mount && e.is_tank() && ( e.can_reload( "water" ) || e.can_reload( "water_clean" ) );
         } );
 
         if( tank == parts.end() ) {
@@ -5985,9 +5988,16 @@ void vehicle::update_time( const calendar &update_to )
 
         double area = pow( pt.info().size / units::legacy_volume_factor, 2 ) * M_PI;
         int qty = divide_roll_remainder( funnel_charges_per_turn( area, accum_weather.rain_amount ), 1.0 );
+        double cost_to_purify = epower_to_power( ( qty + ( tank->can_reload( "water_clean" ) ? tank->ammo_remaining() : 0 ) )
+                                  * item::find_type( "water_purifier" )->charges_to_use() );
 
         if( qty > 0 ) {
-            tank->ammo_set( "water", tank->ammo_remaining() + qty );
+            if( has_part( global_part_pos3( pt ), "WATER_PURIFIER", true ) && ( fuel_left( "battery" ) > cost_to_purify  ) ) {
+                tank->ammo_set( "water_clean", tank->ammo_remaining() + qty );
+                discharge_battery( cost_to_purify );
+            } else {
+                tank->ammo_set( "water", tank->ammo_remaining() + qty );
+            }
             invalidate_mass();
         }
     }
@@ -6304,11 +6314,10 @@ npc * vehicle_part::crew() const
         return nullptr;
     }
 
-    int idx = g->npc_by_id( crew_id );
-    if( idx < 0 ) {
+    npc *const res = g->npc_by_id( crew_id );
+    if( !res ) {
         return nullptr;
     }
-    npc *res = g->active_npc[idx];
     return !res->is_dead_state() && res->is_friend() ? res : nullptr;
 }
 

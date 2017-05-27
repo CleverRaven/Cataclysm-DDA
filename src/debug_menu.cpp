@@ -75,7 +75,6 @@ void npc_edit_menu()
     std::vector< tripoint > locations;
     uimenu charmenu;
     charmenu.return_invalid = true;
-    // Hack: uimenu doesn't like negative indices in entries
     int charnum = 0;
     charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
     locations.emplace_back( g->u.pos() );
@@ -88,14 +87,13 @@ void npc_edit_menu()
     charmenu.callback = &callback;
     charmenu.w_y = 0;
     charmenu.query();
-    // Part 2 of the index hack
-    int npcdex = charmenu.ret - 1;
-    if( npcdex < -1 || npcdex > charnum ) {
+    const size_t index = charmenu.ret;
+    if( index >= locations.size() ) {
         return;
     }
-    player &p = npcdex != -1 ? *g->active_npc[npcdex] : g->u;
     // The NPC is also required for "Add mission", so has to be in this scope
-    npc *np = npcdex != -1 ? g->active_npc[npcdex] : nullptr;
+    npc *np = g->critter_at<npc>( locations[index] );
+    player &p = np ? *np : g->u;
     uimenu nmenu;
     nmenu.return_invalid = true;
 

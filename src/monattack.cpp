@@ -194,19 +194,16 @@ bool mattack::none(monster *)
 bool mattack::antqueen(monster *z)
 {
     std::vector<tripoint> egg_points;
-    std::vector<int> ants;
+    std::vector<monster*> ants;
     // Count up all adjacent tiles the contain at least one egg.
     for( const auto &dest : g->m.points_in_radius( z->pos(), 2 ) ) {
         if( g->m.impassable( dest ) ) {
             continue;
         }
 
-        const int mondex = g->mon_at( dest );
-        if( mondex != -1 ) {
-            monster &mon = g->zombie( mondex );
-            if( mon.type->id == mon_ant_larva ||
-                mon.type->id == mon_ant ) {
-                ants.push_back(mondex);
+        if( monster * const mon = g->critter_at<monster>( dest ) ) {
+            if( mon->type->id == mon_ant_larva || mon->type->id == mon_ant ) {
+                ants.push_back( mon );
             }
 
             continue;
@@ -225,7 +222,7 @@ bool mattack::antqueen(monster *z)
 
     if( !ants.empty() ) {
         z->moves -= 100; // It takes a while
-        monster *ant = &(g->zombie( random_entry( ants ) ) );
+        monster *ant = random_entry( ants );
         if( g->u.sees( *z ) && g->u.sees( *ant ) )
             add_msg(m_warning, _("The %1$s feeds an %2$s and it grows!"), z->name().c_str(),
                     ant->name().c_str());
@@ -1308,9 +1305,8 @@ bool mattack::vine(monster *z)
 
         if( g->is_empty(dest) ) {
             grow.push_back(dest);
-        } else {
-            const int zid = g->mon_at(dest);
-            if( zid > -1 && g->zombie(zid).type->id == mon_creeper_vine ) {
+        } else if( monster * const z = g->critter_at<monster>( dest ) ) {
+            if( z->type->id == mon_creeper_vine ) {
                 vine_neighbors++;
             }
         }

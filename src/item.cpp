@@ -5066,9 +5066,11 @@ bool item::allow_crafting_component() const
             return e.is_magazine() || ( e.is_gunmod() && e.has_flag( "IRREMOVABLE" ) );
         } );
 
-    } else {
-        return contents.empty();
     }
+    if( is_filthy() ) {
+        return false;
+    }
+    return contents.empty();
 }
 
 void item::fill_with( item &liquid, long amount )

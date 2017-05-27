@@ -1076,9 +1076,8 @@ bool monster::attack_at( const tripoint &p )
         return true;
     }
 
-    const int mondex = g->mon_at( p, is_hallucination() );
-    if( mondex != -1 ) {
-        monster &mon = g->zombie( mondex );
+    if( const auto mon_ = g->critter_at<monster>( p, is_hallucination() ) ) {
+        monster &mon = *mon_;
 
         // Don't attack yourself.
         if( &mon == this ) {
@@ -1101,12 +1100,12 @@ bool monster::attack_at( const tripoint &p )
         return false;
     }
 
-    const int npcdex = g->npc_at( p );
-    if( npcdex != -1 && type->melee_dice > 0 ) {
+    npc *const guy = g->critter_at<npc>( p );
+    if( guy && type->melee_dice > 0 ) {
         // For now we're always attacking NPCs that are getting into our
         // way. This is consistent with how it worked previously, but
         // later on not hitting allied NPCs would be cool.
-        melee_attack( *g->active_npc[npcdex], true );
+        melee_attack( *guy, true );
         return true;
     }
 
@@ -1263,12 +1262,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     }
 
     // TODO: Generalize this to Creature
-    const int mondex = g->mon_at( p );
-    if( mondex < 0 ) {
-        return false;
-    }
-
-    monster *critter = &g->zombie( mondex );
+    monster *const critter = g->critter_at<monster>( p );
     if( critter == nullptr || critter == this || p == pos() ) {
         return false;
     }
@@ -1470,9 +1464,7 @@ void monster::knock_back_from( const tripoint &p )
     bool u_see = g->u.sees( to );
 
     // First, see if we hit another monster
-    int mondex = g->mon_at( to );
-    if( mondex != -1 ) {
-        monster *z = &( g->zombie( mondex ) );
+    if( monster *const z = g->critter_at<monster>( to ) ) {
         apply_damage( z, bp_torso, z->type->size );
         add_effect( effect_stunned, 1 );
         if( type->size > 1 + z->type->size ) {
@@ -1492,9 +1484,7 @@ void monster::knock_back_from( const tripoint &p )
         return;
     }
 
-    int npcdex = g->npc_at( to );
-    if( npcdex != -1 ) {
-        npc *p = g->active_npc[npcdex];
+    if( npc *const p = g->critter_at<npc>( to ) ) {
         apply_damage( p, bp_torso, 3 );
         add_effect( effect_stunned, 1 );
         p->deal_damage( this, bp_torso, damage_instance( DT_BASH, type->size ) );
