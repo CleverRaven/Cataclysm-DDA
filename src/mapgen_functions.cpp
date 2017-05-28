@@ -152,7 +152,7 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["basement_spiders"] = &mapgen_basement_spiders;
     mapgen_cfunction_map["office_doctor"] = &mapgen_office_doctor;
     mapgen_cfunction_map["sub_station"] = &mapgen_sub_station;
-    mapgen_cfunction_map["s_garage"] = &mapgen_s_garage;
+//   mapgen_cfunction_map["s_garage"] = &mapgen_s_garage;
 //    mapgen_cfunction_map["farm"] = &mapgen_farm;
 //    mapgen_cfunction_map["farm_field"] = &mapgen_farm_field;
     mapgen_cfunction_map["police"] = &mapgen_police;
