@@ -786,6 +786,6 @@
     "weight" : 1,
     "ammo_type" : "components",
     "container" : "box_small",
-    "count" : 200
+    "count" : 20
    }
 ]
