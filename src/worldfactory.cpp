@@ -505,7 +505,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
             mvwprintz(w_worlds, i, 4, c_white, "");
 
             std::string world_name = (world_pages[selpage])[i];
-            size_t saves_num = world_generator->all_worlds[world_name]->world_saves.size();
+            size_t saves_num = get_world( world_name )->world_saves.size();
 
             if (i == sel) {
                 wprintz(w_worlds, c_yellow, ">> ");
@@ -585,7 +585,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
                 werase(w_worlds_border);
                 werase(w_worlds_header);
                 werase(w_worlds_tooltip);
-                return all_worlds[world_pages[selpage][sel]];//sel + selpage * iContentHeight;
+                return get_world( world_pages[selpage][sel] );//sel + selpage * iContentHeight;
             }
         }
     }
@@ -1417,7 +1417,7 @@ void worldfactory::draw_worldgen_tabs(WINDOW *w, unsigned int current)
 bool worldfactory::world_need_lua_build(std::string world_name)
 {
 #ifndef LUA
-    WORLDPTR world = all_worlds[world_name];
+    WORLDPTR world = get_world( world_name );
 
     if( world == nullptr ) {
         return false;
@@ -1535,6 +1535,16 @@ mod_manager *worldfactory::get_mod_manager()
     return mman.get();
 }
 
+WORLDPTR worldfactory::get_world( const std::string &name )
+{
+    const auto iter = all_worlds.find( name );
+    if( iter == all_worlds.end() ) {
+        debugmsg( "Requested non-existing world %s, prepare for crash", name.c_str() );
+        return nullptr;
+    }
+    return iter->second;
+}
+
 // Helper predicate to exclude files from deletion when resetting a world directory.
 static bool isForbidden(std::string candidate)
 {
@@ -1547,7 +1557,7 @@ static bool isForbidden(std::string candidate)
 
 void worldfactory::delete_world( const std::string &worldname, const bool delete_folder )
 {
-    std::string worldpath = all_worlds[worldname]->world_path;
+    std::string worldpath = get_world( worldname )->world_path;
     std::set<std::string> directory_paths;
 
     auto file_paths = get_files_from_path("", worldpath, true, true);
@@ -1581,6 +1591,6 @@ void worldfactory::delete_world( const std::string &worldname, const bool delete
         remove_directory( worldpath );
         remove_world( worldname );
     } else {
-        all_worlds[worldname]->world_saves.clear();
+        get_world( worldname )->world_saves.clear();
     }
 }

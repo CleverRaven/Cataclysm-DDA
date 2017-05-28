@@ -3611,35 +3611,31 @@ void game::move_save_to_graveyard()
 bool game::load_master(std::string worldname)
 {
     using namespace std::placeholders;
-    const auto datafile = world_generator->all_worlds[worldname]->world_path + "/master.gsav";
+    const auto datafile = world_generator->get_world( worldname )->world_path + "/master.gsav";
     return read_from_file_optional( datafile, std::bind( &game::unserialize_master, this, _1 ) );
 }
 
 void game::load_uistate(std::string worldname)
 {
     using namespace std::placeholders;
-    const auto savefile = world_generator->all_worlds[worldname]->world_path + "/uistate.json";
+    const auto savefile = world_generator->get_world( worldname )->world_path + "/uistate.json";
     read_from_file_optional( savefile, uistate );
 }
 
 bool game::load( const std::string &world ) {
-    auto opts = world_generator->get_all_worlds();
-
-    // check world exists and containts at least one valid save
-    auto iter = opts.find( world );
-    if( iter == opts.end() ) {
-        debugmsg( "unknown world '%s'", world.c_str() );
+    const WORLDPTR wptr = world_generator->get_world( world );
+    if( !wptr ) {
         return false;
     }
-    if( iter->second->world_saves.empty() ) {
+    if( wptr->world_saves.empty() ) {
         debugmsg( "world '%s' contains no saves", world.c_str() );
         return false;
     }
 
     try {
-        world_generator->set_active_world( iter->second );
+        world_generator->set_active_world( wptr );
         g->setup();
-        g->load( world, iter->second->world_saves.front() );
+        g->load( world, wptr->world_saves.front() );
     } catch( const std::exception &err ) {
         debugmsg( "cannot load world '%s': %s", world.c_str(), err.what() );
         return false;
@@ -3652,7 +3648,7 @@ void game::load(std::string worldname, const save_t &name)
 {
     using namespace std::placeholders;
 
-    const std::string worldpath = world_generator->all_worlds[worldname]->world_path + "/";
+    const std::string worldpath = world_generator->get_world( worldname )->world_path + "/";
     const std::string playerfile = worldpath + name.base_path() + ".sav";
 
     // Now load up the master game data; factions (and more?)

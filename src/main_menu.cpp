@@ -741,7 +741,7 @@ bool main_menu::load_character_tab()
                 for( int i = 0; i < ( int )world_generator->all_worldnames.size(); ++i ) {
                     int line = iMenuOffsetY - 2 - i;
                     std::string world_name = world_generator->all_worldnames[i];
-                    int savegames_count = world_generator->all_worlds[world_name]->world_saves.size();
+                    int savegames_count = world_generator->get_world( world_name )->world_saves.size();
                     nc_color color1, color2;
                     if( world_name == "TUTORIAL" || world_name == "DEFENSE" ) {
                         color1 = c_ltcyan;
@@ -786,7 +786,7 @@ bool main_menu::load_character_tab()
                 }
             }
         } else if( layer == 3 && sel1 == 2 ) {
-            savegames = world_generator->all_worlds[world_generator->all_worldnames[sel2]]->world_saves;
+            savegames = world_generator->get_world( world_generator->all_worldnames[sel2] )->world_saves;
             const std::string &wn = world_generator->all_worldnames[sel2];
 
             if( MAP_SHARING::isSharing() ) {
@@ -839,7 +839,7 @@ bool main_menu::load_character_tab()
                 if( sel3 >= 0 && sel3 < ( int )savegames.size() ) {
                     werase( w_background );
                     wrefresh( w_background );
-                    WORLDPTR world = world_generator->all_worlds[world_generator->all_worldnames[sel2]];
+                    WORLDPTR world = world_generator->get_world( world_generator->all_worldnames[sel2] );
                     world_generator->set_active_world( world );
                     try {
                         g->setup();
@@ -936,7 +936,7 @@ void main_menu::world_tab()
             int i = 0;
             for( std::vector<std::string>::iterator it = world_generator->all_worldnames.begin();
                  it != world_generator->all_worldnames.end(); ++it ) {
-                int savegames_count = world_generator->all_worlds[*it]->world_saves.size();
+                int savegames_count = world_generator->get_world( *it )->world_saves.size();
                 int line = iMenuOffsetY - 4 - i;
                 nc_color color1, color2;
                 if( *it == "TUTORIAL" || *it == "DEFENSE" ) {

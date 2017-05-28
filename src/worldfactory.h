@@ -80,6 +80,8 @@ class worldfactory
         // Used for unit tests - does NOT verify if the mods can be loaded
         WORLDPTR make_new_world( const std::vector<std::string> &mods );
         WORLDPTR convert_to_world( std::string origin_path );
+        /// Returns the *existing* world of given name.
+        WORLDPTR get_world( const std::string &name );
 
         void set_active_world( WORLDPTR world );
         bool save_world( WORLDPTR world = NULL, bool is_conversion = false );
