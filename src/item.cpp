@@ -1547,14 +1547,12 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         if( !conductive () ) {
-                info.push_back( iteminfo( "BASE", string_format( _( "* This item <good>does not conduct</good> electricity." ) ) ) );
-            }
-            else if( has_flag( "CONDUCTIVE" ) ) {
-                info.push_back( iteminfo( "BASE", string_format( _( "* This item effectively <bad>conducts</bad> electricity, as it has no guard." ) ) ) );
-            }
-            else {
-                info.push_back( iteminfo( "BASE", string_format( _( "* This item <bad>conducts</bad> electricity." ) ) ) );
-            }
+            info.push_back( iteminfo( "BASE", string_format( _( "* This item <good>does not conduct</good> electricity." ) ) ) );
+        } else if( has_flag( "CONDUCTIVE" ) ) {
+            info.push_back( iteminfo( "BASE", string_format( _( "* This item effectively <bad>conducts</bad> electricity, as it has no guard." ) ) ) );
+        } else {
+            info.push_back( iteminfo( "BASE", string_format( _( "* This item <bad>conducts</bad> electricity." ) ) ) );
+        }
 
         // concatenate base and acquired flags...
         std::vector<std::string> flags;
