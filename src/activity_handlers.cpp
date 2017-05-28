@@ -627,12 +627,12 @@ void serialize_liquid_source( player_activity &act, const vehicle &veh, const it
     act.str_values.push_back( ftype );
 }
 
-void serialize_liquid_source(player_activity &act, const monster &mon, const item &liquid)
+void serialize_liquid_source( player_activity &act, const monster &mon, const item &liquid )
 {
-    act.values.push_back(LST_MONSTER);
-    act.values.push_back(0); // dummy
-    act.coords.push_back(mon.pos());
-    act.str_values.push_back(liquid.serialize());
+    act.values.push_back( LST_MONSTER );
+    act.values.push_back( 0 ); // dummy
+    act.coords.push_back( mon.pos() );
+    act.str_values.push_back( liquid.serialize() );
 }
 
 void serialize_liquid_source( player_activity &act, const tripoint &pos, const item &liquid )
@@ -668,19 +668,11 @@ void serialize_liquid_target( player_activity &act, int container_item_pos )
     act.coords.push_back( tripoint() ); // dummy
 }
 
-void serialize_liquid_target( player_activity &act, const monster &mon)
+void serialize_liquid_target( player_activity &act, const tripoint &pos )
 {
-    act.values.push_back( LTT_MONSTER );
+    act.values.push_back( LTT_MAP );
     act.values.push_back( 0 ); // dummy
-    act.coords.push_back(mon.pos());
-}
-
-
-void serialize_liquid_target(player_activity &act, const tripoint &pos)
-{
-    act.values.push_back(LTT_MAP);
-    act.values.push_back(0); // dummy
-    act.coords.push_back(pos);
+    act.coords.push_back( pos );
 }
 
 void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
@@ -691,9 +683,9 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         vehicle *source_veh = nullptr;
         const tripoint source_pos = act.coords.at( 0 );
         map_stack source_stack = g->m.i_at( source_pos );
+        std::list<item>::iterator on_ground;
         monster *source_mon = nullptr;
         int current_dur = 0;
-        std::list<item>::iterator on_ground;
         item liquid;
         const auto source_type = static_cast<liquid_source_type>( act.values.at( 0 ) );
         switch( source_type ) {
@@ -709,23 +701,21 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             liquid.charges = item::INFINITE_CHARGES;
             break;
         case LST_MAP_ITEM:
-            if( static_cast<size_t>( act.values.at( 1 ) ) >= source_stack.size() ){
+            if( static_cast<size_t>( act.values.at( 1 ) ) >= source_stack.size() ) {
                 throw std::runtime_error( "could not find source item on ground for liquid transfer" );
             }
-            break;
-        case LST_MONSTER:
-        Creature *c = g->critter_at(source_pos);
-        source_mon = dynamic_cast<monster *>(c);
-        if( source_mon == nullptr ){
-            throw std::runtime_error( "could not find source creature for liquid transfer" );
-        }
-        liquid.deserialize( act.str_values.at( 0 ) );
-        liquid.charges = 1;
-        break;
-
             on_ground = source_stack.begin();
             std::advance( on_ground, act.values.at( 1 ) );
             liquid = *on_ground;
+            break;
+        case LST_MONSTER:
+            Creature *c = g->critter_at(source_pos);
+            source_mon = dynamic_cast<monster *>(c);
+            if (source_mon == nullptr) {
+                throw std::runtime_error("could not find source creature for liquid transfer");
+            }
+            liquid.deserialize(act.str_values.at(0));
+            liquid.charges = 1;
         }
 
         static const auto volume_per_turn = units::from_liter( 4 );
@@ -755,7 +745,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             }
             break;
         case LTT_MONSTER:
-            liquid.charges = 0;  
+            liquid.charges = 0;
             break;
         }
 
@@ -792,27 +782,22 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         case LST_INFINITE_MAP:
             // nothing, the liquid source is infinite
             break;
-        case LST_MONSTER:          
-            if( source_mon->has_effect( effect_milked ) ) {
-                current_dur = source_mon->get_effect_dur( effect_milked );
-            }
-
-            if( !source_mon->has_effect( effect_milked ) ) {
-                source_mon->add_effect( effect_milked, HOURS( 6 ) );
-            } else if( ( HOURS( 24 ) - current_dur ) < HOURS( 24 ) ) {
-                source_mon->add_effect( effect_milked, (current_dur + HOURS( 6 ) ) );
-            } else {
-                act.set_to_null();
-            }
-
-            if( liquid.charges == 0 )
-            {
-                act.set_to_null();
-            }
-
+        case LST_MONSTER:
+        if( source_mon->has_effect( effect_milked ) ) {
+            current_dur = source_mon->get_effect_dur( effect_milked );
+        }
+        if( !source_mon->has_effect( effect_milked ) ) {
+            source_mon->add_effect( effect_milked, HOURS( 6 ) );
+        } else if( ( HOURS( 24 ) - current_dur ) < HOURS( 24 ) ) {
+            source_mon->add_effect( effect_milked, ( current_dur + HOURS( 6 ) ) );
+        } else {
+            act.set_to_null();
+        }
+        if( liquid.charges == 0 ) {
+            act.set_to_null();
+        }
             break;
         }
-         current_dur = source_mon->get_effect_dur(effect_milked);
         if( removed_charges < original_charges ) {
             // Transferred less than the available charges -> target must be full
             act.set_to_null();
