@@ -108,6 +108,15 @@ bool rename_file(const std::string &old_path, const std::string &new_path)
 }
 #endif
 
+bool remove_directory( const std::string &path )
+{
+#if (defined _WIN32 || defined __WIN32__)
+    return RemoveDirectory( path.c_str() );
+#else
+    return remove( path.c_str() ) == 0;
+#endif
+}
+
 const char *cata_files::eol()
 {
 #ifdef _WIN32

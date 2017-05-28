@@ -15,11 +15,6 @@
 #include "name.h"
 #include "json.h"
 
-#if (defined _WIN32 || defined __WIN32__)
-#   include "platform_win.h"
-#   include <tchar.h>
-#endif
-
 using namespace std::placeholders;
 
 #define SAVE_MASTER "master.gsav"
@@ -1579,26 +1574,11 @@ void worldfactory::delete_world( const std::string &worldname, const bool delete
     for( auto &file : file_paths ) {
         remove_file( file );
     }
-#if (defined _WIN32 || defined __WIN32__)
-    for (std::set<std::string>::reverse_iterator it = directory_paths.rbegin();
-         it != directory_paths.rend(); ++it) {
-        RemoveDirectory(std::string(worldpath + *it).c_str());
+    for( auto &dir : directory_paths ) {
+        remove_directory( worldpath + dir );
     }
-    if (delete_folder) {
-        RemoveDirectory(worldpath.c_str());
-    }
-#else
-    // Delete directories -- directories are ordered deepest to shallowest.
-    for (std::set<std::string>::reverse_iterator it = directory_paths.rbegin();
-         it != directory_paths.rend(); ++it) {
-        remove(std::string(worldpath + *it).c_str());
-    }
-    if (delete_folder) {
-        remove(worldpath.c_str());
-    }
-#endif
-
     if( delete_folder ) {
+        remove_directory( worldpath );
         remove_world( worldname );
     } else {
         all_worlds[worldname]->world_saves.clear();
