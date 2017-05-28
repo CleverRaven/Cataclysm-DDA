@@ -1636,7 +1636,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             }
         }
 
-        if( is_bionic() ) {
+        // @todo Unhide when enforcing limits
+        if( is_bionic() && g->u.has_trait( "DEBUG_CBM_SLOTS" ) ) {
             info.push_back( iteminfo( "DESCRIPTION", list_occupied_bps( typeId(),
                 _( "This bionic is installed in the following body part(s):" ) ) ) );
         }

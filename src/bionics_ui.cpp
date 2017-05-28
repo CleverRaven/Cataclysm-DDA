@@ -141,10 +141,13 @@ void draw_description( WINDOW *win, bionic const &bio )
     }
     ypos += 1 + fold_and_print( win, ypos, 0, width, c_ltblue, bionic_info( bio.id ).description );
 
-    const bool each_bp_on_new_line = ypos + ( int )num_bp + 1 < getmaxy( win );
-    ypos += fold_and_print( win, ypos, 0, width, c_ltgray,
-                            list_occupied_bps( bio.id, _( "This bionic occupies the following body parts:" ),
-                                    each_bp_on_new_line ) );
+    // @todo Unhide when enforcing limits
+    if( g->u.has_trait( "DEBUG_CBM_SLOTS" ) ) {
+        const bool each_bp_on_new_line = ypos + ( int )num_bp + 1 < getmaxy( win );
+        ypos += fold_and_print( win, ypos, 0, width, c_ltgray,
+                                list_occupied_bps( bio.id, _( "This bionic occupies the following body parts:" ),
+                                        each_bp_on_new_line ) );
+    }
     wrefresh( win );
 }
 
@@ -157,7 +160,7 @@ void draw_connectors( WINDOW *win, const int start_y, const int start_x, const i
     for( const auto &elem : bionic_info( bio_id ).occupied_bodyparts ) {
         pos_and_num.emplace_back( static_cast<int>( elem.first ) + LIST_START_Y, elem.second );
     }
-    if( pos_and_num.empty() ) {
+    if( pos_and_num.empty() || !g->u.has_trait( "DEBUG_CBM_SLOTS" ) ) {
         return;
     }
 
@@ -409,8 +412,10 @@ void player::power_bionics()
                 max_width = std::max( max_width, utf8_width( s ) );
             }
             const int pos_x = WIDTH - 2 - max_width;
-            for( int i = 0; i < num_bp; ++i ) {
-                mvwprintz( wBio, i + list_start_y, pos_x, c_ltgray, "%s", bps[i].c_str() );
+            if( g->u.has_trait( "DEBUG_CBM_SLOTS" ) ) {
+                for( int i = 0; i < num_bp; ++i ) {
+                    mvwprintz( wBio, i + list_start_y, pos_x, c_ltgray, "%s", bps[i].c_str() );
+                }
             }
 
             if( current_bionic_list->empty() ) {
@@ -437,7 +442,7 @@ void player::power_bionics()
                                                                     *( *current_bionic_list )[i] ).c_str() );
                     trim_and_print( wBio, list_start_y + i - scroll_position, 2, WIDTH - 3, col,
                                     "%s", desc.c_str() );
-                    if( is_highlighted && menu_mode != EXAMINING ) {
+                    if( is_highlighted && menu_mode != EXAMINING && g->u.has_trait( "DEBUG_CBM_SLOTS" ) ) {
                         const std::string bio_id = ( *current_bionic_list )[i]->id;
                         draw_connectors( wBio, list_start_y + i - scroll_position, utf8_width( desc ) + 3,
                                          pos_x - 2, bio_id );
