@@ -82,6 +82,7 @@ class worldfactory
         WORLDPTR convert_to_world( std::string origin_path );
         /// Returns the *existing* world of given name.
         WORLDPTR get_world( const std::string &name );
+        bool has_world( const std::string &name ) const;
 
         void set_active_world( WORLDPTR world );
         bool save_world( WORLDPTR world = NULL, bool is_conversion = false );

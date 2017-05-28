@@ -198,7 +198,7 @@ WORLDPTR worldfactory::make_new_world(special_game_id special_type)
 
     // Look through all worlds and see if a world named worldname already exists. If so, then just return it instead of
     // making a new world.
-    if (all_worlds.find(worldname) != all_worlds.end()) {
+    if( has_world( worldname ) ) {
         return all_worlds[worldname];
     }
 
@@ -361,7 +361,7 @@ void worldfactory::init()
 
     // check to see if there exists a worldname "save" which denotes that a world exists in the save
     // directory and not in a sub-world directory
-    if (all_worlds.find("save") != all_worlds.end()) {
+    if( has_world( "save" ) ) {
         WORLDPTR converted_world = convert_to_world(all_worlds["save"]->world_path);
         if (converted_world) {
             converted_world->world_saves = all_worlds["save"]->world_saves;
@@ -373,6 +373,11 @@ void worldfactory::init()
             all_worlds[converted_world->world_name] = converted_world;
         }
     }
+}
+
+bool worldfactory::has_world( const std::string &name ) const
+{
+    return all_worlds.count( name ) > 0;
 }
 
 std::vector<std::string> worldfactory::all_worldnames() const
@@ -1420,7 +1425,7 @@ bool worldfactory::valid_worldname(std::string name, bool automated)
 
     if (name == "save" || name == "TUTORIAL" || name == "DEFENSE") {
         msg = string_format(_("%s is a reserved name!"), name.c_str());
-    } else if( all_worlds.count( name ) == 0 ) {
+    } else if( !has_world( name ) ) {
         return true;
     } else {
         msg = string_format(_("A world named %s already exists!"), name.c_str());
