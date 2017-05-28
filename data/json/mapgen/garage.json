@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "ts_garage" ],
+    "om_terrain": [ "s_garage" ],
     "weight": 1000,
     "object": {
 	  "fill_ter": "t_floor",
