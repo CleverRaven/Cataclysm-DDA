@@ -7548,9 +7548,13 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
         opts.push_back( base.magazine_current() );
     }
 
+    bool ammo_match_found = false;
     for( const auto e : opts ) {
         for( item_location& ammo : find_ammo( *e ) ) {
             auto id = ammo->is_ammo_container() ? ammo->contents.front().typeId() : ammo->typeId();
+            if( e->can_reload_with( id ) ) {
+                ammo_match_found = true;
+            }
             if( can_reload( *e, id ) || e->has_flag( "RELOAD_AND_SHOOT" ) ) {
                 ammo_list.emplace_back( this, e, &base, std::move( ammo ) );
             }
@@ -7561,6 +7565,8 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
         if( !base.is_magazine() && !base.magazine_integral() && !base.magazine_current() ) {
             add_msg_if_player( m_info, _( "You need a compatible magazine to reload the %s!" ), base.tname().c_str() );
 
+        } else if ( ammo_match_found ) {
+            add_msg_if_player( m_info, _( "Nothing to reload!" ) );
         } else {
             auto name = base.ammo_data() ? base.ammo_data()->nname( 1 ) : ammo_name( base.ammo_type() );
             add_msg_if_player( m_info, _( "Out of %s!" ), name.c_str() );
