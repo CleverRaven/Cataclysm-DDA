@@ -1576,11 +1576,10 @@ void worldfactory::delete_world( const std::string &worldname, const bool delete
         }
     }
 
-#if (defined _WIN32 || defined __WIN32__)
-    for (std::vector<std::string>::iterator file = file_paths.begin();
-         file != file_paths.end(); ++file) {
-        DeleteFile(file->c_str());
+    for( auto &file : file_paths ) {
+        remove_file( file );
     }
+#if (defined _WIN32 || defined __WIN32__)
     for (std::set<std::string>::reverse_iterator it = directory_paths.rbegin();
          it != directory_paths.rend(); ++it) {
         RemoveDirectory(std::string(worldpath + *it).c_str());
@@ -1589,10 +1588,6 @@ void worldfactory::delete_world( const std::string &worldname, const bool delete
         RemoveDirectory(worldpath.c_str());
     }
 #else
-    // Delete files, order doesn't matter.
-    for( auto &file_path : file_paths ) {
-        (void)remove( file_path.c_str() );
-    }
     // Delete directories -- directories are ordered deepest to shallowest.
     for (std::set<std::string>::reverse_iterator it = directory_paths.rbegin();
          it != directory_paths.rend(); ++it) {
