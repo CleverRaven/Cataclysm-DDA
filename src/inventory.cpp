@@ -996,12 +996,8 @@ void inventory::reassign_item(item &it, char invlet)
             return cached_invlet == it.invlet;
         } ), invlet_list->end() );
     }
-    if( invlet_list && invlet ) {   // add the new invlet to the cache
-        if( std::find( invlet_list->begin(), invlet_list->end(), invlet ) == invlet_list->end() ) {
-            invlet_list->push_back( invlet );
-        }
-    }
     it.invlet = invlet;
+    update_cache_with_item( it );
 }
 
 void inventory::update_invlet( item &newit, bool assign_invlet ) {

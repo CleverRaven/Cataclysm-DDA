@@ -205,36 +205,6 @@ TEST_CASE( "Inventory letter test", "[invlet]" ) {
         {CACHED  , NONE    },
         {ASSIGNED, NONE    },
         {NONE    , CACHED  },
-        {CACHED  , NONE    },
-        {CACHED  , NONE    },
-        {NONE    , ASSIGNED},
-        {NONE    , ASSIGNED},
-        {NONE    , ASSIGNED},
-        {NONE    , NONE    },
-        {CACHED  , NONE    },
-        {ASSIGNED, NONE    },
-        {NONE    , CACHED  },
-        {NONE    , CACHED  },
-        {NONE    , CACHED  },
-        {NONE    , ASSIGNED},
-        {NONE    , ASSIGNED},
-        {NONE    , ASSIGNED},
-        {NONE    , NONE    },
-        {CACHED  , NONE    },
-        {ASSIGNED, NONE    },
-        {NONE    , CACHED  },
-        {NONE    , CACHED  },
-        {NONE    , CACHED  },
-        {NONE    , ASSIGNED},
-        {NONE    , ASSIGNED},
-        {NONE    , ASSIGNED},
-    };
-
-    static const invlet_state takeoff_wear_expected_invlet_state[27][2] {
-        {NONE    , NONE    },
-        {CACHED  , NONE    },
-        {ASSIGNED, NONE    },
-        {NONE    , CACHED  },
         {NONE    , CACHED  },
         {NONE    , CACHED  },
         {NONE    , ASSIGNED},
@@ -389,6 +359,6 @@ TEST_CASE( "Inventory letter test", "[invlet]" ) {
                 return "wear unk";
                 break;
             }
-        }, dummy, takeoff_wear_expected_invlet_state );
+        }, dummy, expected_invlet_state );
     }
 }
