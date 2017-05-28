@@ -1654,6 +1654,6 @@
         "id": "milked",
         "name": [ "Milked" ],
         "desc": [ "The creature has been partially milked." ],
-		"max_duration": 14400
+        "max_duration": 14400
     }
 ]

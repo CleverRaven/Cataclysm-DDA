@@ -38,7 +38,7 @@
 const skill_id skill_survival( "survival" );
 const skill_id skill_firstaid( "firstaid" );
 
-const efftype_id effect_milked("milked");
+const efftype_id effect_milked( "milked" );
 
 using namespace activity_handlers;
 
