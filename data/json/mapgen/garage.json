@@ -34,26 +34,26 @@
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "e": "t_gates_mech_control",
-        "=": "t_door_metal_locked",
-        "+": "t_door_c",
-        "*": "t_door_frame",
-        "H": "t_wall_glass",
         "$": "t_door_glass_c",
-        "6": "t_console_broken",
+        "*": "t_door_frame",
+        "+": "t_door_c",
         "-": "t_wall",
         ".": "t_floor",
+        "6": "t_console_broken",
         ":": "t_window",
+        "=": "t_door_metal_locked",
+        "H": "t_wall_glass",
+        "e": "t_gates_mech_control",
         "|": "t_wall"
       },
       "furniture": {
-        "c": "f_counter",
+        "L": "f_locker",
         "b": "f_bench",
-        "L": "f_locker"
+        "c": "f_counter"
       },
       "items": {
-        "c": { "item": "mechanics", "chance": 20 },
-        "L": { "item": "clothing_work_set", "chance": 40 }
+        "L": { "item": "clothing_work_set", "chance": 40 },
+        "c": { "item": "mechanics", "chance": 20 }
       },	  
       "place_vehicles": [
         {"vehicle": "garage", "x": [ 10, 11 ], "y": [ 16, 18 ], "chance": 25, "rotation": 0 },
