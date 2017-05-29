@@ -5,7 +5,7 @@
     "om_terrain": [ "s_garage" ],
     "weight": 1000,
     "object": {
-	  "fill_ter": "t_floor",
+      "fill_ter": "t_floor",
       "rows": [
 	    "                        ",
         "                        ",
@@ -37,9 +37,9 @@
         "e": "t_gates_mech_control",
         "=": "t_door_metal_locked",
         "+": "t_door_c",
-		"*": "t_door_frame",
-		"H": "t_wall_glass",
-		"$": "t_door_glass_c",
+        "*": "t_door_frame",
+        "H": "t_wall_glass",
+        "$": "t_door_glass_c",
         "6": "t_console_broken",
         "-": "t_wall",
         ".": "t_floor",
@@ -51,13 +51,13 @@
         "b": "f_bench",
         "L": "f_locker"
       },
-	  "items": {
+      "items": {
         "c": { "item": "mechanics", "chance": 20 },
         "L": { "item": "clothing_work_set", "chance": 40 }
-	  },	  
+      },	  
       "place_vehicles": [
         {"vehicle": "garage", "x": [ 10, 11 ], "y": [ 16, 18 ], "chance": 25, "rotation": 0 },
-		{"vehicle": "garage", "x": [ 10, 11 ], "y": [ 6, 8 ], "chance": 25, "rotation": 0 }
+        {"vehicle": "garage", "x": [ 10, 11 ], "y": [ 6, 8 ], "chance": 25, "rotation": 0 }
       ]
     }
   }
