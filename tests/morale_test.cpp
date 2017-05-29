@@ -247,7 +247,7 @@ TEST_CASE( "player_morale" )
     GIVEN( "a humanoid plant" ) {
         m.on_mutation_gain( trait_id( "PLANT" ) );
         m.on_mutation_gain( trait_id( "FLOWERS" ) );
-        m.on_mutation_gain( trait_id( "ROOTS" ) );
+        m.on_mutation_gain( trait_id( "ROOTS1" ) );
 
         CHECK( m.has( MORALE_PERM_CONSTRAINED ) == 0 );
 

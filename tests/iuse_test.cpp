@@ -31,17 +31,17 @@ TEST_CASE( "use_eyedrops" ) {
     int test_item_pos = dummy.inv.position_by_item( &test_item );
     REQUIRE( test_item_pos != INT_MIN );
 
-    dummy.invoke_item( &test_item );
+    dummy.consume( test_item_pos );
 
     test_item_pos = dummy.inv.position_by_item( &test_item );
     REQUIRE( test_item_pos != INT_MIN );
     REQUIRE( test_item.charges == 4 );
     REQUIRE( !dummy.has_effect( efftype_id( "boomered" ) ) );
 
-    dummy.invoke_item( &test_item );
-    dummy.invoke_item( &test_item );
-    dummy.invoke_item( &test_item );
-    dummy.invoke_item( &test_item );
+    dummy.consume( test_item_pos );
+    dummy.consume( test_item_pos );
+    dummy.consume( test_item_pos );
+    dummy.consume( test_item_pos );
 
     test_item_pos = dummy.inv.position_by_item( &test_item );
     REQUIRE( test_item_pos == INT_MIN );
