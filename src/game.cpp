@@ -9312,6 +9312,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                                            TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX);
     WINDOW_PTR w_monster_info_borderptr( w_monster_info_border );
 
+    const int max_gun_range = u.weapon.gun_range( &u );
+
     const tripoint stored_view_offset = u.view_offset;
     u.view_offset = tripoint_zero;
 
@@ -9393,7 +9395,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             tripoint recentered = look_around();
             iLastActivePos = recentered;
         } else if (action == "fire") {
-            if( cCurMon != nullptr ) {
+            if( cCurMon != nullptr && rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
                 last_target = mon_at( cCurMon->pos(), true );
                 u.view_offset = stored_view_offset;
                 return game::vmenu_ret::FIRE;
@@ -9487,9 +9489,11 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                 mvwprintz(w_monsters, getmaxy(w_monsters) - 1, 1, c_ltgreen, "%s", ctxt.press_x( "look" ).c_str());
                 wprintz(w_monsters, c_ltgray, " %s", _("to look around"));
 
-                wprintz(w_monsters, c_ltgray, "%s", " ");
-                wprintz(w_monsters, c_ltgreen, "%s", ctxt.press_x( "fire" ).c_str());
-                wprintz(w_monsters, c_ltgray, " %s", _("to shoot"));
+                if( rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
+                    wprintz(w_monsters, c_ltgray, "%s", " ");
+                    wprintz(w_monsters, c_ltgreen, "%s", ctxt.press_x( "fire" ).c_str());
+                    wprintz(w_monsters, c_ltgray, " %s", _("to shoot"));
+                }
             }
 
             //Only redraw trail/terrain if x/y position changed
@@ -10120,7 +10124,7 @@ bool game::plfire( item &weapon, int bp_cost )
 
     targeting_data args = {
         gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE,
-        &weapon, gun.melee() ? gun.qty : RANGE_HARD_CAP,
+        &weapon, gun.melee() ? gun.qty : gun.target->gun_range( &u ),
         bp_cost, &u.weapon == &weapon, gun->ammo_data(),
         target_callback(), target_callback(),
         firing_callback(), firing_callback()
