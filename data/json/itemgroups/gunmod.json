@@ -1,8 +1,8 @@
 [
   {
-    "type" : "item_group",
-    "id" : "gunmod_common",
-    "//" : "Common gunmods typically owned by citizens and found in many locations.",
+    "id": "gunmod_common",
+    "type": "item_group",
+    "//": "Common gunmods typically owned by citizens and found in many locations.",
     "items": [
       [ "brass_catcher", 100 ],
       [ "improve_sights", 60 ],
@@ -15,11 +15,11 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "gunmod_rare",
-    "//" : "Less common gunmods including those only used by police/paramilitary forces.",
+    "id": "gunmod_rare",
+    "type": "item_group",
+    "//": "Less common gunmods including those only used by police/paramilitary forces.",
     "items": [
-      [ "adjustable_stock", 80],
+      [ "adjustable_stock", 80 ],
       [ "autofire", 20 ],
       [ "barrel_big", 20 ],
       [ "barrel_ported", 20 ],
@@ -55,9 +55,9 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "gunmod_milspec",
-    "//" : "Military specification gunmods found only at military sites.",
+    "id": "gunmod_milspec",
+    "type": "item_group",
+    "//": "Military specification gunmods found only at military sites.",
     "items": [
       [ "aux_flamer", 20 ],
       [ "holo_sight", 100 ],
@@ -69,9 +69,9 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "gunmod_archery",
-    "//" : "Gunmods for bows and crossbows.",
+    "id": "gunmod_archery",
+    "type": "item_group",
+    "//": "Gunmods for bows and crossbows.",
     "items": [
       [ "arrowrest", 100 ],
       [ "bow_sight", 100 ],

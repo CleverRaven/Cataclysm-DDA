@@ -9,7 +9,7 @@
     "skills_required": [ "survival", 4 ],
     "time": 300000,
     "reversible": true,
-    "book_learn": [ [ "mag_survival", 4 ] , [ "manual_survival", 4 ] , [ "textbook_survival", 4 ] ],
+    "book_learn": [ [ "mag_survival", 4 ], [ "manual_survival", 4 ], [ "textbook_survival", 4 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SCREW_FINE", "level": 1 }
@@ -18,12 +18,12 @@
       [ [ "mold_plastic", -1 ] ],
       [ [ "fire", -1 ], [ "hotplate", 50 ], [ "toolset", 50 ] ]
     ],
-    "components": [ 
-        [ [ "plastic_chunk", 3 ] ],
-        [ [ "wire", 1 ] ],
-        [ [ "scrap", 1 ] ],
-        [ [ "bismuth", 200 ] ]
-      ]
+    "components": [
+      [ [ "plastic_chunk", 3 ] ],
+      [ [ "wire", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "bismuth", 200 ] ]
+    ]
   },
   {
     "result": "jack",
@@ -34,56 +34,56 @@
     "difficulty": 5,
     "skills_required": [ "mechanics", 3 ],
     "time": 300000,
-    "book_learn": [ [ "manual_mechanics", 3 ] , [ "manual_fabrication", 5 ] , [ "textbook_fabrication", 5 ] ],
+    "book_learn": [ [ "manual_mechanics", 3 ], [ "manual_fabrication", 5 ], [ "textbook_fabrication", 5 ] ],
     "using": [ [ "forging_standard", 10 ], [ "steel_standard", 1 ] ],
     "qualities": [
-      { "id":"HAMMER", "level": 3 },
+      { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
-      [ ["tongs", -1 ] ],
-      [ ["anvil", -1 ] ],
-      [ ["crucible", -1 ], ["crucible_clay", -1] ],
-      [ ["swage", -1 ] ]
+      [ [ "tongs", -1 ] ],
+      [ [ "anvil", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "swage", -1 ] ]
     ]
   },
   {
-  "result": "jack_makeshift",
-  "type": "recipe",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TOOLS",
-  "skill_used": "fabrication",
-  "difficulty": 2,
-  "skills_required": [ "mechanics", 1 ],
-  "time": 100000,
-  "book_learn": [ [ "manual_mechanics", 1 ] , [ "manual_fabrication", 2 ] , [ "textbook_fabrication", 2 ] ],
-  "qualities":[
-    { "id": "SAW_M", "level": 1 },
-    { "id": "SCREW", "level": 1 },
-    { "id": "WRENCH", "level": 1 }
-  ],
-  "components": [
+    "result": "jack_makeshift",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "mechanics", 1 ],
+    "time": 100000,
+    "book_learn": [ [ "manual_mechanics", 1 ], [ "manual_fabrication", 2 ], [ "textbook_fabrication", 2 ] ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "components": [
       [ [ "pipe", 4 ] ],
       [ [ "scrap", 2 ] ]
     ]
   },
   {
-  "result": "jack_small",
-  "type": "recipe",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TOOLS",
-  "skill_used": "fabrication",
-  "difficulty": 3,
-  "skills_required": [ "mechanics", 2 ],
-  "time": 200000,
-  "book_learn": [ [ "manual_mechanics", 2 ] , [ "manual_fabrication", 3 ] , [ "textbook_fabrication", 3 ] ],
-  "using": [ [ "welding_standard", 5 ] ],
-  "qualities":[
-    { "id": "SAW_M_FINE", "level": 1 },
-    { "id": "SCREW", "level": 1 },
-    { "id": "WRENCH", "level": 1 }
-  ],
-  "components": [
+    "result": "jack_small",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "mechanics", 2 ],
+    "time": 200000,
+    "book_learn": [ [ "manual_mechanics", 2 ], [ "manual_fabrication", 3 ], [ "textbook_fabrication", 3 ] ],
+    "using": [ [ "welding_standard", 5 ] ],
+    "qualities": [
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "components": [
       [ [ "pipe", 4 ] ],
       [ [ "scrap", 2 ] ]
     ]
@@ -116,13 +116,13 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "skills_required": [ "cooking", 3 ],
     "difficulty": 4,
+    "skills_required": [ "cooking", 3 ],
     "time": 200000,
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "brewing_cookbook", 3 ] ],
-    "qualities" : [
-      { "id":"CUT", "level": 1 },
-      { "id":"HAMMER", "level": 2 }
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "HAMMER", "level": 2 }
     ],
     "components": [
       [ [ "pot_copper", 1 ] ],

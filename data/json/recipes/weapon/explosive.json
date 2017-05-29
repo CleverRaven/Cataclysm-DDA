@@ -1,7 +1,7 @@
 [
   {
     "result": "acidbomb",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
@@ -16,7 +16,7 @@
   },
   {
     "result": "dynamite",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "cooking",
@@ -34,7 +34,7 @@
   },
   {
     "result": "EMPbomb",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "electronics",
@@ -42,18 +42,18 @@
     "time": 32000,
     "reversible": true,
     "book_learn": [ [ "textbook_anarch", 5 ], [ "advanced_electronics", 5 ] ],
-    "qualities" : [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "soldering_iron", 6 ], [ "toolset", 6 ] ] ],
     "components": [
       [ [ "superglue", 1 ], [ "string_36", 1 ] ],
-      [ [ "scrap", 3 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1], [ "canister_empty", 1 ] ],
+      [ [ "scrap", 3 ], [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1 ], [ "canister_empty", 1 ] ],
       [ [ "amplifier", 1 ], [ "power_supply", 1 ] ],
       [ [ "cable", 5 ] ]
     ]
   },
   {
     "result": "firecracker",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
@@ -61,7 +61,7 @@
     "time": 1000,
     "reversible": true,
     "autolearn": true,
-    "qualities" : [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "thread", 10 ] ],
       [ [ "paper", 1 ], [ "rolling_paper", 6 ] ],
@@ -70,13 +70,13 @@
   },
   {
     "result": "firecracker_pack",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
     "time": 3000,
     "autolearn": true,
-    "qualities" : [ { "id": "CUT", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "firecracker", 25 ] ],
       [ [ "paper", 5 ] ],
@@ -85,16 +85,16 @@
   },
   {
     "result": "flashbang",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "skills_required": [ "cooking", 6 ],
     "difficulty": 6,
+    "skills_required": [ "cooking", 6 ],
     "time": 40000,
     "reversible": true,
     "book_learn": [ [ "recipe_labchem", 7 ], [ "textbook_anarch", 7 ] ],
-    "qualities" : [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "pilot_light", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ] ],
@@ -105,17 +105,17 @@
   },
   {
     "result": "gasbomb_makeshift",
-    "type" : "recipe",
-    "//" : "Displaces older teargas recipe.  Conventional teargas grenades generally aren't trichloramine.",
+    "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "//": "Displaces older teargas recipe.  Conventional teargas grenades generally aren't trichloramine.",
     "skill_used": "cooking",
-    "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
+    "skills_required": [ "mechanics", 1 ],
     "time": 8000,
     "autolearn": true,
     "book_learn": [ [ "textbook_gaswarfare", 3 ] ],
-    "qualities" : [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
       [ [ "ammonia", 2 ], [ "lye_powder", 200 ] ],
@@ -125,27 +125,27 @@
   },
   {
     "result": "grenade",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "skills_required": [ "mechanics", 1 ],
     "difficulty": 2,
+    "skills_required": [ "mechanics", 1 ],
     "time": 5000,
     "reversible": true,
     "autolearn": true,
-    "qualities" : [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "pilot_light", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ] ],
-      [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1], [ "can_food_unsealed", 1 ] ],
+      [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "bb", 100 ], [ "nail", 30 ] ],
       [ [ "gunpowder", 72 ], [ "chem_black_powder", 144 ], [ "shot_00", 3 ], [ "shot_slug", 2 ], [ "shot_bird", 6 ] ]
     ]
   },
   {
     "result": "matchbomb",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
@@ -160,17 +160,17 @@
   },
   {
     "result": "mininuke",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "mechanics",
-    "skills_required": [ "electronics", 5 ],
     "difficulty": 10,
+    "skills_required": [ "electronics", 5 ],
     "time": 360000,
     "reversible": true,
     "decomp_learn": 10,
-    "book_learn": [[ "recipe_lab_elec", 5 ]],
-    "qualities" : [
+    "book_learn": [ [ "recipe_lab_elec", 5 ] ],
+    "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
@@ -184,7 +184,7 @@
   },
   {
     "result": "molotov",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
@@ -199,12 +199,12 @@
   },
   {
     "result": "nail_bomb",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "skills_required": [ "mechanics", 1 ],
     "difficulty": 2,
+    "skills_required": [ "mechanics", 1 ],
     "time": 5000,
     "reversible": true,
     "autolearn": true,
@@ -217,7 +217,7 @@
   },
   {
     "result": "pipebomb",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
@@ -234,16 +234,16 @@
   },
   {
     "result": "scrambler",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "electronics",
-    "skills_required": [ "computer", 4 ],
     "difficulty": 8,
+    "skills_required": [ "computer", 4 ],
     "time": 32000,
     "reversible": true,
-    "book_learn": [ [ "textbook_anarch", 8 ] , [ "advanced_electronics", 8 ] ],
-    "qualities" : [ { "id": "SCREW", "level": 1 } ],
+    "book_learn": [ [ "textbook_anarch", 8 ], [ "advanced_electronics", 8 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "soldering_iron", 6 ], [ "toolset", 6 ] ] ],
     "components": [
       [ [ "EMPbomb", 1 ] ],
@@ -254,26 +254,26 @@
   },
   {
     "result": "smokebomb",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "cooking",
-    "skills_required": [ "mechanics", 1 ],
     "difficulty": 3,
+    "skills_required": [ "mechanics", 1 ],
     "time": 7500,
     "autolearn": true,
-    "qualities" : [ { "id": "SCREW", "level": 1 } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
       [ [ "candy", 1 ], [ "cola", 1 ] ],
       [ [ "vitamins", 10 ], [ "aspirin", 8 ] ],
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "clay_canister", 1], [ "can_drink_unsealed", 1 ] ],
+      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_drink_unsealed", 1 ] ],
       [ [ "superglue", 1 ] ]
     ]
   },
   {
     "result": "tool_anfo_charge",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "cooking",
@@ -284,13 +284,13 @@
     "tools": [ [ [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ], [ "soldering_iron", 30 ] ] ],
     "components": [
       [ [ "keg", 1 ], [ "keg_steel", 1 ] ],
-      [ [ "chem_anfo", 700 ] ] ,
+      [ [ "chem_anfo", 700 ] ],
       [ [ "dynamite", 2 ] ]
     ]
   },
   {
     "result": "tool_black_powder_bomb",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
@@ -307,7 +307,7 @@
   },
   {
     "result": "tool_black_powder_charge",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
@@ -325,7 +325,7 @@
   },
   {
     "result": "tool_rdx_charge",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
@@ -335,7 +335,7 @@
     "book_learn": [ [ "manual_launcher", 9 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
-      [ [ "keg", 1 ], [ "keg_steel", 1] ],
+      [ [ "keg", 1 ], [ "keg_steel", 1 ] ],
       [ [ "chem_rdx", 575 ] ],
       [ [ "chem_hmtd", 200 ] ],
       [ [ "string_36", 5 ], [ "string_6", 30 ] ],
@@ -344,14 +344,14 @@
   },
   {
     "result": "tool_rdx_sand_bomb",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": 30000,
     "reversible": true,
-    "book_learn": [[ "manual_launcher", 4 ] , [ "textbook_anarch", 5 ]],
+    "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "pipe", 1 ] ],
