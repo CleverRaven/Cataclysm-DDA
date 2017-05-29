@@ -8256,5 +8256,23 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+  },
+  {
+    "id": "food_processor",
+    "type": "TOOL",
+    "category": "tools",
+    "name": "food processor",
+    "description": "This is a kitchen appliance capable of slicing, chopping, shredding, grinding, pureeing and mixing.",
+    "weight": 3000,
+    "volume": 8,
+    "price": 50,
+    "to_hit": -1,
+    "bashing": 10,
+    "material": [ "iron" ],
+    "symbol": "%",
+    "color": "white",
+    "ammo": "battery",
+    "initial_charges": 100,
+    "max_charges": 100
   }
 ]
