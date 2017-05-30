@@ -977,24 +977,19 @@ void inventory::assign_empty_invlet(item &it, bool force)
     debugmsg("could not find a hotkey for %s", it.tname().c_str());
 }
 
-void inventory::reassign_item(item &it, char invlet)
+void inventory::reassign_item( item &it, char invlet, bool remove_old )
 {
     if( it.invlet == invlet ) { // no change needed
         return;
     }
-    std::vector<char> *invlet_list = nullptr;
-    if( invlet ) {  // assigning a new invlet, so we always need to create the list
-        invlet_list = &invlet_cache[it.typeId()];
-    } else {  // unsetting the old invlet, so we want to avoid creating the list
+    if( remove_old && it.invlet ) {
         auto invlet_list_iter = invlet_cache.find( it.typeId() );
         if( invlet_list_iter != invlet_cache.end() ) {
-            invlet_list = &invlet_list_iter->second;
+            auto &invlet_list = invlet_list_iter->second;
+            invlet_list.erase( std::remove_if( invlet_list.begin(), invlet_list.end(), [&it]( char cached_invlet ) {
+                return cached_invlet == it.invlet;
+            } ), invlet_list.end() );
         }
-    }
-    if( invlet_list && it.invlet ) {  // remove the old invlet from the cache
-        invlet_list->erase( std::remove_if( invlet_list->begin(), invlet_list->end(), [&it]( char cached_invlet ) {
-            return cached_invlet == it.invlet;
-        } ), invlet_list->end() );
     }
     it.invlet = invlet;
     update_cache_with_item( it );

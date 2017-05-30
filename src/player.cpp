@@ -8842,10 +8842,12 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
 
 void player::reassign_item( item &it, long invlet )
 {
+    bool remove_old = true;
     if( invlet ) {
         item &prev = i_at( invlet_to_position( invlet ) );
         if( !prev.is_null() ) {
-            inv.reassign_item( prev, it.invlet );
+            remove_old = it.typeId() != prev.typeId();
+            inv.reassign_item( prev, it.invlet, remove_old );
         }
     }
 
@@ -8858,7 +8860,7 @@ void player::reassign_item( item &it, long invlet )
         if( invlet && ( !found || it.invlet != invlet ) ) {
             assigned_invlet[invlet] = it.typeId();
         }
-        inv.reassign_item( it, invlet );
+        inv.reassign_item( it, invlet, remove_old );
     }
 }
 
