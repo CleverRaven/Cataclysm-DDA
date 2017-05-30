@@ -3693,7 +3693,17 @@ bool item::is_container_full( bool allow_bucket ) const
     return get_remaining_capacity_for_liquid( contents.front(), allow_bucket ) == 0;
 }
 
+bool item::can_reload_with( const itype_id& ammo ) const
+{
+    return is_reloadable_helper( ammo, false );
+}
+
 bool item::is_reloadable_with( const itype_id& ammo ) const
+{
+    return is_reloadable_helper( ammo, true );
+}
+
+bool item::is_reloadable_helper( const itype_id& ammo, bool now ) const
 {
     if( !is_reloadable() ) {
         return false;
@@ -3710,7 +3720,7 @@ bool item::is_reloadable_with( const itype_id& ammo ) const
                 }
             }
         }
-        return ammo_remaining() < ammo_capacity();
+        return now ? ( ammo_remaining() < ammo_capacity() ) : true;
     } else {
         return ammo.empty() ? true : magazine_compatible().count( ammo );
     }
