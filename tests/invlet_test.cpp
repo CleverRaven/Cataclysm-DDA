@@ -420,4 +420,46 @@ TEST_CASE( "Inventory letter test", "[invlet]" ) {
             }
         }, dummy, expected_invlet_state );
     }
+
+    SECTION( "Wearing from a stack (auto letter off)" ) {
+        get_options().get_option( "AUTO_INV_ASSIGN" ).setValue( "false" );
+
+        // Remove all items
+        dummy.inv.clear();
+        dummy.worn.clear();
+        dummy.remove_weapon();
+        g->m.i_clear( dummy.pos() );
+
+        item tshirt( "tshirt" );
+        dummy.i_add( tshirt );
+        dummy.i_add( tshirt );
+        assign_invlet( dummy, dummy.i_at( 0 ), '|', CACHED );
+        dummy.wear( 0, false );
+
+        CHECK( dummy.i_at( 0 ).invlet != dummy.i_at( -2 ).invlet );
+
+        dummy.reassign_item( dummy.i_at( 0 ), '\0' );
+        dummy.reassign_item( dummy.i_at( -2 ), '\0' );
+    }
+    
+    SECTION( "Wielding from a stack (auto letter off)" ) {
+        get_options().get_option( "AUTO_INV_ASSIGN" ).setValue( "false" );
+
+        // Remove all items
+        dummy.inv.clear();
+        dummy.worn.clear();
+        dummy.remove_weapon();
+        g->m.i_clear( dummy.pos() );
+
+        item tshirt( "tshirt" );
+        dummy.i_add( tshirt );
+        dummy.i_add( tshirt );
+        assign_invlet( dummy, dummy.i_at( 0 ), '|', CACHED );
+        dummy.wield( dummy.i_at( 0 ) );
+
+        CHECK( dummy.i_at( 0 ).invlet != dummy.i_at( -1 ).invlet );
+
+        dummy.reassign_item( dummy.i_at( 0 ), '\0' );
+        dummy.reassign_item( dummy.i_at( -1 ), '\0' );
+    }
 }
