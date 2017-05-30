@@ -56,6 +56,7 @@ bool check_support( const tripoint & ); // at least two orthogonal supports
 bool check_deconstruct( const tripoint & ); // either terrain or furniture must be deconstructable
 bool check_up_OK( const tripoint & ); // tile is empty and you're not on the surface
 bool check_down_OK( const tripoint & ); // tile is empty and you're not on z-10 already
+bool check_sand_clay( const tripoint & ); // tile has extractable sand and clay
 
 // Special actions to be run post-terrain-mod
 void done_nothing( const tripoint & ) {}
@@ -860,6 +861,11 @@ bool construct::check_down_OK( const tripoint & )
     return ( g->get_levz() > -OVERMAP_DEPTH );
 }
 
+bool construct::check_sand_clay( const tripoint &p )
+{
+    return ( g->m.has_flag( "SAND_CLAY", p ) );
+}
+
 void construct::done_tree( const tripoint &p )
 {
     tripoint dirp;
@@ -1173,6 +1179,7 @@ void load_construction(JsonObject &jo)
         { "check_deconstruct", construct::check_deconstruct },
         { "check_up_OK", construct::check_up_OK },
         { "check_down_OK", construct::check_down_OK },
+        { "check_sand_clay", construct::check_sand_clay },
     }};
     static const std::map<std::string, std::function<void( const tripoint & )>> post_special_map = {{
         { "", construct::done_nothing },
