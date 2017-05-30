@@ -148,8 +148,8 @@
         ".": "t_rock",
         "6": "t_machinery_light",
         "C": "t_dirtmound",
+        "R": "t_plut_generator",
         "e": "t_machinery_heavy",
-		"R": "t_plut_generator",
         "~": "t_water_sh"
       },
       "furniture": {
