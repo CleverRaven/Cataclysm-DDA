@@ -126,7 +126,7 @@
         ".... -------------------",
         ".....-### ~~C~ C~#~~66e-",
         ".....--####C~~ ~~~     -",
-        "... . -####C~~~ #e ~~ ~#",
+        "... . -####R~~~ #e ~~ ~#",
         "......-###CC ~~  ~~~~~~-",
         "......--####CC~~~~666ee-",
         ".......-----------------",
@@ -149,6 +149,7 @@
         "6": "t_machinery_light",
         "C": "t_dirtmound",
         "e": "t_machinery_heavy",
+		"R": "t_plut_generator",
         "~": "t_water_sh"
       },
       "furniture": {
@@ -158,7 +159,7 @@
         "C": { "item": "razorclaw_nest", "chance": 80 }
       },
       "place_monsters": [
-        { "monster": "GROUP_RAZORCLAW", "x": [ 11, 21 ], "y": [ 9, 13 ], "density": 0.2 }
+        { "monster": "GROUP_RAZORCLAW", "x": [ 12, 21 ], "y": [ 9, 13 ], "density": 0.2 }
       ],
       "place_monster": [
         { "monster": "mon_alpha_razorclaw", "x": 13, "y": 11 }

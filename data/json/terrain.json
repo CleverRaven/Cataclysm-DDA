@@ -5568,8 +5568,8 @@
         "type" : "terrain",
         "id" : "t_plut_generator",
         "name": "plutonium generator",
-        "symbol": "4",
-        "color": "h_brown",
+        "symbol": "0",
+        "color": "light_green",
         "move_cost": 0,
         "flags": ["TRANSPARENT", "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE"],
         "bash": {
