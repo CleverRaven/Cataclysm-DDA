@@ -74,6 +74,13 @@ void wear_from_feet( player &p, int pos ) {
     g->m.i_rem( p.pos(), pos );
 }
 
+void wield_from_feet( player &p, int pos ) {
+    auto size_before = g->m.i_at( p.pos() ).size();
+    REQUIRE( size_before > pos );
+    p.wield( g->m.i_at( p.pos() )[pos] );
+    g->m.i_rem( p.pos(), pos );
+}
+
 void pick_up_from_feet( player &p, int pos ) {
     auto size_before = g->m.i_at( p.pos() ).size();
     REQUIRE( size_before > pos );
@@ -316,6 +323,58 @@ TEST_CASE( "Inventory letter test", "[invlet]" ) {
                 break;
             default:
                 return "pick unk";
+                break;
+            }
+        }, dummy, expected_invlet_state );
+    }
+
+    SECTION( "Drop and wield+wear (auto letter off)" ) {
+        get_options().get_option( "AUTO_INV_ASSIGN" ).setValue( "false" );
+
+        invlet_test( []( player &p, item &it ) {
+            if( p.weapon.is_null() ) {
+                p.wield( it );
+            } else {
+                p.wear_item( it );
+            }
+        }, []( player &p, int pos )->item & {
+            return p.i_at( -1 - pos );
+        }, []( player &p, int pos, char invlet, invlet_state state ) {
+            item &it = p.i_at( -1 - pos );
+            assign_invlet( p, it, invlet, state );
+        }, []( player &p, int pos ) {
+            drop_at_feet( p, -1 - pos );
+            if( pos == 0 && !p.worn.empty() ) {
+                p.wield( p.i_at( -2 ) );
+            }
+        }, []( player &p, int pos ) {
+            if( p.weapon.is_null() ) {
+                wield_from_feet( p, pos );
+            } else {
+                wear_from_feet( p, pos );
+            }
+        }, []( int idx )->std::string {
+            switch( idx ) {
+            case 0:
+                return "drop 1st";
+                break;
+            case 1:
+                return "drop 2nd";
+                break;
+            default:
+                return "drop unk";
+                break;
+            }
+        }, []( int idx )->std::string {
+            switch( idx ) {
+            case 0:
+                return "get 1st";
+                break;
+            case 1:
+                return "get 2nd";
+                break;
+            default:
+                return "get unk";
                 break;
             }
         }, dummy, expected_invlet_state );
