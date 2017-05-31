@@ -1748,5 +1748,22 @@
         "occurrences" : [0, 1],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
+    },
+    {
+        "type" : "overmap_special",
+        "id" : "Diary Farm",
+        "overmaps" : [
+            { "point":[0,0,0], "overmap": "diary_farm_NW"},
+            { "point":[1,0,0], "overmap": "diary_farm_NE"},
+            { "point":[0,1,0], "overmap": "diary_farm_SW"},
+            { "point":[1,1,0], "overmap": "diary_farm_SE"}
+        ],
+        "connections" : [
+            { "point" : [1,-1,0], "terrain" : "road" }
+        ],
+        "locations" : [ "wilderness" ],
+        "city_distance" : [5, 10],
+        "city_sizes" : [4, 12],
+        "occurrences" : [1, 4],
     }
 ]
