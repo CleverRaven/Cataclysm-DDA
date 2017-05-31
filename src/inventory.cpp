@@ -1017,9 +1017,10 @@ void inventory::update_invlet( item &newit, bool assign_invlet ) {
 
     // Remove letters that have been assigned to other items in the inventory
     if( newit.invlet ) {
-        int pos = g->u.invlet_to_position( newit.invlet );
-        if( pos != INT_MIN && &( g->u.i_at( pos ) ) != &newit ) {
-            newit.invlet = '\0';
+        char tmp_invlet = newit.invlet;
+        newit.invlet = '\0';
+        if( g->u.invlet_to_position( tmp_invlet ) == INT_MIN ) {
+            newit.invlet = tmp_invlet;
         }
     }
 
