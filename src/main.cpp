@@ -23,9 +23,6 @@
 #ifdef LOCALIZE
 #include <libintl.h>
 #endif
-#ifdef TILES
-#include <SDL_hints.h>
-#endif
 #include "translations.h"
 
 void exit_handler(int s);
@@ -60,9 +57,6 @@ int APIENTRY WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 #else
 int main(int argc, char *argv[])
 {
-#endif
-#ifdef TILES
-    SDL_SetHint(SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1");
 #endif
     int seed = time(NULL);
     bool verifyexit = false;

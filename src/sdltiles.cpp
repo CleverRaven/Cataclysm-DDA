@@ -253,6 +253,8 @@ bool InitSDL()
     int init_flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER;
     int ret;
 
+    SDL_SetHint(SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1");
+
     ret = SDL_Init( init_flags );
     if( ret != 0 ) {
         dbg( D_ERROR ) << "SDL_Init failed with " << ret << ", error: " << SDL_GetError();
