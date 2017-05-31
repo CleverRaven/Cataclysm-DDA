@@ -6869,7 +6869,6 @@
     "sym": 119,
     "color": "brown",
     "see_cost": 1,
-    "mondensity": 0,
     "flags": [ "SIDEWALK", "NO_ROTATE" ]
   },
   {
@@ -6879,7 +6878,6 @@
     "sym": 119,
     "color": "brown",
     "see_cost": 1,
-    "mondensity": 0,
     "flags": [ "SIDEWALK", "NO_ROTATE" ]
   },
   {
@@ -6889,7 +6887,6 @@
     "sym": 119,
     "color": "brown",
     "see_cost": 5,
-    "mondensity": 0,
     "flags": [ "SIDEWALK", "NO_ROTATE" ]
   },
   {
@@ -6899,7 +6896,6 @@
     "sym": 119,
     "color": "brown",
     "see_cost": 5,
-    "mondensity": 0,
     "flags": [ "SIDEWALK", "NO_ROTATE" ]
   }
 ]
