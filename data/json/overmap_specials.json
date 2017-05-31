@@ -1764,6 +1764,6 @@
         "locations" : [ "wilderness" ],
         "city_distance" : [5, 10],
         "city_sizes" : [4, 12],
-        "occurrences" : [1, 4],
+        "occurrences" : [1, 4]
     }
 ]
