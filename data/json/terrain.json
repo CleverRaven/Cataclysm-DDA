@@ -6453,7 +6453,7 @@
     "move_cost": 0,
     "bash": {
       "str_min": 20,
-      "str_max": 50,
+      "str_max": 80,
       "ter_set": "t_floor",
       "sound": "crunch!",
       "sound_fail": "whump!",
