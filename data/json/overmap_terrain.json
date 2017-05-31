@@ -6862,7 +6862,8 @@
         "extras" : "field",
         "mondensity" : 3,
         "flags" : [ "NO_ROTATE" ]
-    },{
+    },
+  {
     "id": "diary_farm_NW",
     "type": "overmap_terrain",
     "name": "dairy farm",
@@ -6890,7 +6891,7 @@
     "flags": [ "SIDEWALK", "NO_ROTATE" ]
   },
   {
-    "id": "diary_farm_SW",
+    "id": "dairy_farm_SW",
     "type": "overmap_terrain",
     "name": "dairy farm",
     "sym": 119,
