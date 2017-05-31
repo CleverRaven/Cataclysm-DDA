@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "diary_farm_NW" ],
+    "om_terrain": [ "dairy_farm_NW" ],
     "weight": 250,
     "object": {
       "rows": [
@@ -55,7 +55,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "diary_farm_NE" ],
+    "om_terrain": [ "dairy_farm_NE" ],
     "weight": 250,
     "object": {
       "rows": [
@@ -103,7 +103,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "diary_farm_SE" ],
+    "om_terrain": [ "dairy_farm_SE" ],
     "weight": 250,
     "object": {
       "rows": [
@@ -147,7 +147,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "diary_farm_SW" ],
+    "om_terrain": [ "dairy_farm_SW" ],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
