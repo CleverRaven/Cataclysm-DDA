@@ -152,7 +152,7 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["basement_spiders"] = &mapgen_basement_spiders;
     mapgen_cfunction_map["office_doctor"] = &mapgen_office_doctor;
     mapgen_cfunction_map["sub_station"] = &mapgen_sub_station;
-    mapgen_cfunction_map["s_garage"] = &mapgen_s_garage;
+//  mapgen_cfunction_map["s_garage"] = &mapgen_s_garage;
 //    mapgen_cfunction_map["farm"] = &mapgen_farm;
 //    mapgen_cfunction_map["farm_field"] = &mapgen_farm_field;
     mapgen_cfunction_map["police"] = &mapgen_police;
@@ -3422,81 +3422,6 @@ void mapgen_sub_station(map *m, oter_id terrain_type, mapgendata dat, int, float
         m->ter_set(16, 10, t_stairs_down);
         autorotate(false);
 
-}
-
-
-void mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int, float)
-{
-
-        dat.fill_groundcover();
-        int yard_wdth = rng(4,6);
-        square(m, t_floor, 0, yard_wdth, SEEX * 2 - 4, SEEY * 2 - 4);
-        line(m, t_wall, 0, yard_wdth, 0, SEEY * 2 - 4);
-        line(m, t_wall, SEEX * 2 - 3, yard_wdth, SEEX * 2 - 3, SEEY * 2 - 4);
-        line(m, t_wall, 0, SEEY * 2 - 4, SEEX * 2 - 3, SEEY * 2 - 4);
-        line(m, t_window, 0, SEEY * 2 - 4, SEEX * 2 - 14, SEEY * 2 - 4);
-        line(m, t_wall, 0, SEEY * 2 - 4, SEEX * 2 - 20, SEEY * 2 - 4);
-        line(m, t_wall, 0, yard_wdth, 3, yard_wdth);
-        line(m, t_wall, 12, yard_wdth, 13, yard_wdth);
-        line(m, t_wall, 20, yard_wdth, 21, yard_wdth);
-        line_furn(m, f_counter, 1, yard_wdth + 1, 1, yard_wdth + 7);
-        line(m, t_wall, 1, SEEY * 2 - 9, 3, SEEY * 2 - 9);
-        line(m, t_wall, 3, SEEY * 2 - 8, 3, SEEY * 2 - 5);
-        m->ter_set(3, SEEY * 2 - 7, t_door_frame);
-        m->ter_set(21, SEEY * 2 - 7, t_door_c);
-        line_furn(m, f_counter, 4, SEEY * 2 - 5, 15, SEEY * 2 - 5);
-        //office
-        line(m, t_wall_glass, 16, SEEY * 2 - 9 , 20, SEEY * 2 - 9);
-        line(m, t_wall_glass, 16, SEEY * 2 - 8, 16, SEEY * 2 - 5);
-        m->ter_set(16, SEEY * 2 - 7, t_door_glass_c);
-        line_furn(m, f_bench, SEEX * 2 - 6, SEEY * 2 - 8, SEEX * 2 - 4, SEEY * 2 - 8);
-        m->ter_set(SEEX * 2 - 6, SEEY * 2 - 6, t_console_broken);
-        m->furn_set(SEEX * 2 - 5, SEEY * 2 - 6, f_bench);
-        line_furn(m, f_locker, SEEX * 2 - 6, SEEY * 2 - 5, SEEX * 2 - 4, SEEY * 2 - 5);
-        //gates
-        line(m, t_door_metal_locked, 4, yard_wdth, 11, yard_wdth);
-        m->ter_set(3, yard_wdth + 1, t_gates_mech_control);
-        m->ter_set(3, yard_wdth - 1, t_gates_mech_control);
-        line(m, t_door_metal_locked, 14, yard_wdth, 19, yard_wdth );
-        m->ter_set(13, yard_wdth + 1, t_gates_mech_control);
-        m->ter_set(13, yard_wdth - 1, t_gates_mech_control);
-
-        //place items
-        m->place_items("mechanics", 90, 1, yard_wdth + 1, 1, yard_wdth + 7, true, 0);
-        m->place_items("mechanics", 90, 4, SEEY * 2 - 5, 15, SEEY * 2 - 5, true, 0);
-        m->place_items("clothing_work_set", 40, SEEX * 2 - 6, SEEY * 2 - 5, SEEX * 2 - 4, SEEY * 2 - 5, true, 0);
-
-        // rotate garage
-
-        int vy = 0, vx = 0, theta = 0, tdx = 0, tdy = 0, td = 9;
-
-        if (terrain_type == "s_garage_north") {
-            vx = 8, vy = yard_wdth + 6;
-            theta = 90;
-            tdx = td;
-        } else if (terrain_type == "s_garage_east") {
-            m->rotate(1);
-            vx = yard_wdth + 8, vy = 7;
-            theta = 0;
-            tdy = td;
-        } else if (terrain_type == "s_garage_south") {
-            m->rotate(2);
-            vx = SEEX * 2 - 9, vy = SEEY * 2 - (yard_wdth + 6);
-            theta = 270;
-            tdx = -td;
-        } else if (terrain_type == "s_garage_west") {
-            m->rotate(3);
-            vx = SEEX * 2 - yard_wdth - 9, vy = SEEY * 2 - 8;
-            theta = 180;
-            tdy = -td;
-        }
-
-        // place vehicles, if any
-        for (int v=0; v<=1; v++) {
-            if (one_in(4)) {
-                m->add_vehicle(vgroup_id("garage"), {vx + v * tdx, vy + v * tdy}, theta + one_in(3)*rng(-1,1)*30, -1, -1);
-            }
-        }
 }
 
 
