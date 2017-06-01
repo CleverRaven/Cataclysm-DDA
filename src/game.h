@@ -194,10 +194,6 @@ class game
 
         /** Returns false if saving failed. */
         bool save();
-        /** Deletes the given world. If delete_folder is true delete all the files and directories
-         *  of the given world folder. Else just avoid deleting the two config files and the directory
-         *  itself. */
-        void delete_world(std::string worldname, bool delete_folder);
         /** Returns a list of currently active character saves. */
         std::vector<std::string> list_active_characters();
         void write_memorial_file(std::string sLastWords);

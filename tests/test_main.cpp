@@ -76,7 +76,7 @@ void init_global_game_state( const std::vector<std::string> &mods )
     g->load_static_data();
 
     world_generator->set_active_world(NULL);
-    world_generator->get_all_worlds();
+    world_generator->init();
     WORLDPTR test_world = world_generator->make_new_world( mods );
     assert( test_world != NULL );
     world_generator->set_active_world(test_world);
@@ -156,7 +156,7 @@ int main( int argc, const char *argv[] )
 
     auto world_name = world_generator->active_world->world_name;
     if( result == 0 || dont_save ) {
-        g->delete_world(world_name, true);
+        world_generator->delete_world(world_name, true);
     } else {
         printf("Test world \"%s\" left for inspection.\n", world_name.c_str());
     }

@@ -1246,7 +1246,7 @@ bool game::cleanup_at_end()
             if (get_option<std::string>( "DELETE_WORLD" ) == "yes" ||
                 (get_option<std::string>( "DELETE_WORLD" ) == "query" &&
                  query_yn(_("Delete saved world?")))) {
-                delete_world(world_generator->active_world->world_name, true);
+                world_generator->delete_world( world_generator->active_world->world_name, true );
             }
         } else if (get_option<std::string>( "DELETE_WORLD" ) != "no") {
             std::stringstream message;
@@ -3611,35 +3611,31 @@ void game::move_save_to_graveyard()
 bool game::load_master(std::string worldname)
 {
     using namespace std::placeholders;
-    const auto datafile = world_generator->all_worlds[worldname]->world_path + "/master.gsav";
+    const auto datafile = world_generator->get_world( worldname )->world_path + "/master.gsav";
     return read_from_file_optional( datafile, std::bind( &game::unserialize_master, this, _1 ) );
 }
 
 void game::load_uistate(std::string worldname)
 {
     using namespace std::placeholders;
-    const auto savefile = world_generator->all_worlds[worldname]->world_path + "/uistate.json";
+    const auto savefile = world_generator->get_world( worldname )->world_path + "/uistate.json";
     read_from_file_optional( savefile, uistate );
 }
 
 bool game::load( const std::string &world ) {
-    auto opts = world_generator->get_all_worlds();
-
-    // check world exists and containts at least one valid save
-    auto iter = opts.find( world );
-    if( iter == opts.end() ) {
-        debugmsg( "unknown world '%s'", world.c_str() );
+    const WORLDPTR wptr = world_generator->get_world( world );
+    if( !wptr ) {
         return false;
     }
-    if( iter->second->world_saves.empty() ) {
+    if( wptr->world_saves.empty() ) {
         debugmsg( "world '%s' contains no saves", world.c_str() );
         return false;
     }
 
     try {
-        world_generator->set_active_world( iter->second );
+        world_generator->set_active_world( wptr );
         g->setup();
-        g->load( world, iter->second->world_saves.front() );
+        g->load( world, wptr->world_saves.front() );
     } catch( const std::exception &err ) {
         debugmsg( "cannot load world '%s': %s", world.c_str(), err.what() );
         return false;
@@ -3652,7 +3648,7 @@ void game::load(std::string worldname, const save_t &name)
 {
     using namespace std::placeholders;
 
-    const std::string worldpath = world_generator->all_worlds[worldname]->world_path + "/";
+    const std::string worldpath = world_generator->get_world( worldname )->world_path + "/";
     const std::string playerfile = worldpath + name.base_path() + ".sav";
 
     // Now load up the master game data; factions (and more?)
@@ -3863,72 +3859,6 @@ bool game::save()
         popup(_("Failed to save game data"));
         return false;
     }
-}
-
-// Helper predicate to exclude files from deletion when resetting a world directory.
-static bool isForbidden(std::string candidate)
-{
-    if (candidate.find(FILENAMES["worldoptions"]) != std::string::npos ||
-        candidate.find("mods.json") != std::string::npos) {
-        return true;
-    }
-    return false;
-}
-
-// If delete_folder is true, just delete all the files and directories of a world folder.
-// If it's false, just avoid deleting the two config files and the directory itself.
-void game::delete_world(std::string worldname, bool delete_folder)
-{
-    std::string worldpath = world_generator->all_worlds[worldname]->world_path;
-    std::set<std::string> directory_paths;
-
-    auto file_paths = get_files_from_path("", worldpath, true, true);
-    if (!delete_folder) {
-        std::vector<std::string>::iterator forbidden = find_if(file_paths.begin(), file_paths.end(),
-                isForbidden);
-        while (forbidden != file_paths.end()) {
-            file_paths.erase(forbidden);
-            forbidden = find_if(file_paths.begin(), file_paths.end(), isForbidden);
-        }
-    }
-    for( auto &file_path : file_paths ) {
-        // strip to path and remove worldpath from it
-        std::string part = file_path.substr( worldpath.size(),
-                                             file_path.find_last_of( "/\\" ) - worldpath.size() );
-        int last_separator = part.find_last_of("/\\");
-        while (last_separator != (int)std::string::npos && part.size() > 1) {
-            directory_paths.insert(part);
-            part = part.substr(0, last_separator);
-            last_separator = part.find_last_of("/\\");
-        }
-    }
-
-#if (defined _WIN32 || defined __WIN32__)
-    for (std::vector<std::string>::iterator file = file_paths.begin();
-         file != file_paths.end(); ++file) {
-        DeleteFile(file->c_str());
-    }
-    for (std::set<std::string>::reverse_iterator it = directory_paths.rbegin();
-         it != directory_paths.rend(); ++it) {
-        RemoveDirectory(std::string(worldpath + *it).c_str());
-    }
-    if (delete_folder) {
-        RemoveDirectory(worldpath.c_str());
-    }
-#else
-    // Delete files, order doesn't matter.
-    for( auto &file_path : file_paths ) {
-        (void)remove( file_path.c_str() );
-    }
-    // Delete directories -- directories are ordered deepest to shallowest.
-    for (std::set<std::string>::reverse_iterator it = directory_paths.rbegin();
-         it != directory_paths.rend(); ++it) {
-        remove(std::string(worldpath + *it).c_str());
-    }
-    if (delete_folder) {
-        remove(worldpath.c_str());
-    }
-#endif
 }
 
 std::vector<std::string> game::list_active_characters()

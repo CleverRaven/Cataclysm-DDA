@@ -80,17 +80,20 @@ class worldfactory
         // Used for unit tests - does NOT verify if the mods can be loaded
         WORLDPTR make_new_world( const std::vector<std::string> &mods );
         WORLDPTR convert_to_world( std::string origin_path );
+        /// Returns the *existing* world of given name.
+        WORLDPTR get_world( const std::string &name );
+        bool has_world( const std::string &name ) const;
 
         void set_active_world( WORLDPTR world );
         bool save_world( WORLDPTR world = NULL, bool is_conversion = false );
-        std::map<std::string, WORLDPTR> get_all_worlds();
+
+        void init();
 
         WORLDPTR pick_world( bool show_prompt = true );
 
         WORLDPTR active_world;
 
-        std::map<std::string, WORLDPTR> all_worlds;
-        std::vector<std::string> all_worldnames;
+        std::vector<std::string> all_worldnames() const;
 
         mod_manager *get_mod_manager();
 
@@ -103,8 +106,17 @@ class worldfactory
          * @return True if world can't be loaded without Lua support. False otherwise. (When LUA is defined it's allways false).
          */
         bool world_need_lua_build( std::string world_name );
+        /**
+         * @param delete_folder If true: delete all the files and directories  of the given
+         * world folder. Else just avoid deleting the config files and the directory
+         * itself.
+         */
+        void delete_world( const std::string &worldname, bool delete_folder );
+
     protected:
     private:
+        std::map<std::string, WORLDPTR> all_worlds;
+
         std::string pick_random_name();
         int show_worldgen_tab_options( WINDOW *win, WORLDPTR world );
         int show_worldgen_tab_modselection( WINDOW *win, WORLDPTR world );
