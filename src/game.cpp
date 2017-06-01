@@ -9812,13 +9812,13 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
     }
     std::vector<std::function<void()>> actions;
 
-        if( u.can_consume( liquid ) && !source_mon ) {
-            menu.addentry( -1, true, 'e', _( "Consume it" ) );
-            actions.emplace_back( [&]() {
-                // consume_item already consumes moves.
-                u.consume_item( liquid );
-            } );
-        }
+    if( u.can_consume( liquid ) && !source_mon ) {
+        menu.addentry( -1, true, 'e', _( "Consume it" ) );
+        actions.emplace_back( [&]() {
+            // consume_item already consumes moves.
+            u.consume_item( liquid );
+        } );
+    }
 
     // This handles containers found anywhere near the player, including on the map and in vehicle storage.
     menu.addentry( -1, true, 'c', _( "Pour into a container" ) );
