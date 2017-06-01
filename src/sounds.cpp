@@ -909,6 +909,7 @@ void sfx::do_footstep() {
         static std::set<ter_str_id> const dirt = {
             ter_str_id( "t_dirt" ),
             ter_str_id( "t_sand" ),
+            ter_str_id( "t_clay" ),
             ter_str_id( "t_dirtfloor" ),
             ter_str_id( "t_palisade_gate_o" ),
             ter_str_id( "t_sandbox" ),
