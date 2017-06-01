@@ -6870,7 +6870,8 @@
     "sym": 119,
     "color": "brown",
     "see_cost": 1,
-    "flags": [ "SIDEWALK", "NO_ROTATE" ]
+    "rotate": false,
+    "flags": [ "SIDEWALK" ]
   },
   {
     "id": "dairy_farm_NE",
@@ -6879,7 +6880,8 @@
     "sym": 119,
     "color": "brown",
     "see_cost": 1,
-    "flags": [ "SIDEWALK", "NO_ROTATE" ]
+    "rotate": false,
+    "flags": [ "SIDEWALK" ]
   },
   {
     "id": "dairy_farm_SE",
@@ -6888,7 +6890,8 @@
     "sym": 119,
     "color": "brown",
     "see_cost": 5,
-    "flags": [ "SIDEWALK", "NO_ROTATE" ]
+    "rotate": false,
+    "flags": [ "SIDEWALK" ]
   },
   {
     "id": "dairy_farm_SW",
@@ -6897,6 +6900,7 @@
     "sym": 119,
     "color": "brown",
     "see_cost": 5,
-    "flags": [ "SIDEWALK", "NO_ROTATE" ]
+    "rotate": false,
+    "flags": [ "SIDEWALK" ]
   }
 ]
