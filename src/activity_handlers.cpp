@@ -712,7 +712,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             Creature *c = g->critter_at(source_pos);
             source_mon = dynamic_cast<monster *>(c);
             if (source_mon == nullptr) {
-                 debugmsg("could not find source creature for liquid transfer");
+                throw std::runtime_error("could not find source creature for liquid transfer");
             }
             liquid.deserialize(act.str_values.at(0));
             liquid.charges = 1;
