@@ -479,6 +479,71 @@ void stack_invlet_test( player &dummy, inventory_location from, inventory_locati
     assign_invlet( dummy, item_at( dummy, 0, to ), invlet, NONE );
 }
 
+void swap_invlet_test( player &dummy, inventory_location loc ) {
+    // invlet to assign
+    constexpr char invlet_1 = '{';
+    constexpr char invlet_2 = '}';
+
+    // cannot swap invlets of items on the ground
+    REQUIRE( loc != GROUND );
+
+    // remove all items
+    dummy.inv.clear();
+    dummy.worn.clear();
+    dummy.remove_weapon();
+    g->m.i_clear( dummy.pos() );
+
+    // two items of the same type that do not stack
+    item tshirt1( "tshirt" );
+    item tshirt2( "tshirt" );
+    tshirt2.mod_damage( -1 );
+
+    // add the items
+    add_item( dummy, tshirt1, loc );
+    add_item( dummy, tshirt2, loc );
+
+    // assign the items with invlets
+    assign_invlet( dummy, item_at( dummy, 0, loc ), invlet_1, CACHED );
+    assign_invlet( dummy, item_at( dummy, 1, loc ), invlet_2, CACHED );
+
+    // swap the invlets (invoking twice to make the invlet non-player-assigned)
+    dummy.reassign_item( item_at( dummy, 0, loc ), invlet_2 );
+    dummy.reassign_item( item_at( dummy, 0, loc ), invlet_2 );
+
+    // drop the items
+    move_item( dummy, 0, loc, GROUND );
+    move_item( dummy, 0, loc, GROUND );
+
+    // get them again
+    move_item( dummy, 0, GROUND, loc );
+    move_item( dummy, 0, GROUND, loc );
+
+    std::stringstream ss;
+    ss << "1. add two items of the same type to " << location_desc( loc ) << ", and ensure them do not stack" << std::endl;
+    ss << "2. assign different invlets to the two items" << std::endl;
+    ss << "3. swap the invlets by assign one of the items with the invlet of the other item" << std::endl;
+    ss << "4. move the items to " << location_desc( GROUND ) << std::endl;
+    ss << "5. move the items to " << location_desc( loc ) << " again" << std::endl;
+    ss << "expect the items to keep their swapped invlets" << std::endl;
+    if( item_at( dummy, 0, loc ).invlet == invlet_2 && item_at( dummy, 1, loc ).invlet == invlet_1 ) {
+        ss << "the items actually keep their swapped invlets" << std::endl;
+    } else {
+        ss << "the items actually does not keep their swapped invlets" << std::endl;
+    }
+    INFO( ss.str() );
+    REQUIRE( item_at( dummy, 0, loc ).typeId() == tshirt1.typeId() );
+    REQUIRE( item_at( dummy, 1, loc ).typeId() == tshirt2.typeId() );
+    // invlets should not disappear and should still be swapped
+    CHECK( item_at( dummy, 0, loc ).invlet == invlet_2 );
+    CHECK( item_at( dummy, 1, loc ).invlet == invlet_1 );
+    CHECK( check_invlet( dummy, item_at( dummy, 0, loc ), invlet_2 ) == CACHED );
+    CHECK( check_invlet( dummy, item_at( dummy, 1, loc ), invlet_1 ) == CACHED );
+
+    // clear invlets
+    assign_invlet( dummy, item_at( dummy, 0, loc ), invlet_2, NONE );
+    assign_invlet( dummy, item_at( dummy, 1, loc ), invlet_1, NONE );
+}
+
 #define invlet_test_autoletter_off( name, dummy, from, to ) \
     SECTION( std::string( name ) + " (auto letter off)" ) { \
         get_options().get_option( "AUTO_INV_ASSIGN" ).setValue( "false" ); \
@@ -489,6 +554,12 @@ void stack_invlet_test( player &dummy, inventory_location from, inventory_locati
     SECTION( std::string( name ) + " (auto letter off)" ) { \
         get_options().get_option( "AUTO_INV_ASSIGN" ).setValue( "false" ); \
         stack_invlet_test( dummy, from, to ); \
+    }
+
+#define swap_invlet_test_autoletter_off( name, dummy, loc ) \
+    SECTION( std::string( name ) + " (auto letter off)" ) { \
+        get_options().get_option( "AUTO_INV_ASSIGN" ).setValue( "false" ); \
+        swap_invlet_test( dummy, loc ); \
     }
 
 TEST_CASE( "Inventory letter test", "[invlet]" ) {
@@ -508,4 +579,6 @@ TEST_CASE( "Inventory letter test", "[invlet]" ) {
 
     stack_invlet_test_autoletter_off( "Wearing item from a stack in inventory", dummy, INVENTORY, WORN );
     stack_invlet_test_autoletter_off( "Wielding item from a stack in inventory", dummy, INVENTORY, WIELDED_OR_WORN );
+
+    swap_invlet_test_autoletter_off( "Swapping invlets of two worn items of the same type", dummy, WORN );
 }
