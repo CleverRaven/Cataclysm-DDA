@@ -6864,7 +6864,7 @@
         "flags" : [ "NO_ROTATE" ]
     },
   {
-    "id": "dairy_farm_NW",
+    "id": "diary_farm_NW",
     "type": "overmap_terrain",
     "name": "dairy farm",
     "sym": 119,
@@ -6874,7 +6874,7 @@
     "flags": [ "SIDEWALK" ]
   },
   {
-    "id": "dairy_farm_NE",
+    "id": "diary_farm_NE",
     "type": "overmap_terrain",
     "name": "dairy farm",
     "sym": 119,
@@ -6884,7 +6884,7 @@
     "flags": [ "SIDEWALK" ]
   },
   {
-    "id": "dairy_farm_SE",
+    "id": "diary_farm_SE",
     "type": "overmap_terrain",
     "name": "dairy farm",
     "sym": 119,
