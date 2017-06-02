@@ -654,7 +654,25 @@
         "volume" : 12,
         "bashing" : 5,
         "cutting" : 29,
-        "flags" : ["SPEAR", "REACH_ATTACK", "NONCONDUCTIVE"],
+        "flags" : ["DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE"],
+        "price" : 16000,
+        "qualities": [["COOK", 1]]
+    },{
+        "type":"GENERIC",
+        "id" : "spear_pipe",
+        "//" : "stats of original steel spear, after it was made into a less makeshift version",
+        "name" : "pipe spear",
+        "description" : "A stout metal pole with a sharp point.",
+        "weight" : 1398,
+        "to_hit" : 1,
+        "color" : "light_gray",
+        "symbol" : "/",
+        "material" : ["steel"],
+        "techniques" : ["WBLOCK_1", "IMPALE"],
+        "volume" : 5,
+        "bashing" : 6,
+        "cutting" : 20,
+        "flags" : ["SPEAR", "REACH_ATTACK"],
         "price" : 8000,
         "qualities": [["COOK", 1]]
     },{
@@ -671,7 +689,7 @@
         "volume" : 10,
         "bashing" : 4,
         "cutting" : 28,
-        "flags" : ["SPEAR", "REACH_ATTACK", "NONCONDUCTIVE"],
+        "flags" : ["DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE"],
         "price" : 80000,
         "qualities": [["COOK", 1]]
     },{
@@ -687,8 +705,8 @@
         "techniques": ["WBLOCK_1", "WIDE"],
         "weight": 3175,
         "volume": 15,
-        "bashing": 15,
-        "cutting": 34,
+        "bashing": 16,
+        "cutting": 36,
         "to_hit": 2,
         "qualities": [["COOK", 1]]
   },{

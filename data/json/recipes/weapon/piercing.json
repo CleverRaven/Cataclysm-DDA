@@ -20,12 +20,12 @@
     ],
     "components": [
       [ [ "2x4", 3 ], [ "stick", 6 ] ],
-      [ [ "fur", 2 ], [ "leather", 2 ] ],
+      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ],
       [ [ "thread", 100 ], [ "sinew", 100 ], [ "plant_fibre", 100 ], [ "yarn", 100 ] ]
     ]
   },
   {
-    "result": "spear_steel",
+    "result": "spear_pipe",
     "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
