@@ -289,7 +289,7 @@ void Messages::display_messages()
         werase(w);
         draw_border(w);
         mvwprintz(w, bottom + 1, 32, c_red, _("Press %s to return"), ctxt.get_desc("QUIT").c_str());
-        draw_scrollbar(w, offset, bottom, msg_count, 1);
+        draw_scrollbar(w, offset, bottom, msg_count, 1, 0, c_white, true);
 
         int line = 1;
         int lasttime = -1;
@@ -337,7 +337,7 @@ void Messages::display_messages()
             }
         }
 
-        if (offset + 1 < msg_count) {
+        if (offset < msg_count-bottom) {
             mvwprintz(w, bottom + 1, 5, c_magenta, "vvv");
         }
         if (offset > 0) {
@@ -346,7 +346,7 @@ void Messages::display_messages()
         wrefresh(w);
 
         const std::string &action = ctxt.handle_input();
-        if (action == "DOWN" && offset + 1 < msg_count) {
+        if (action == "DOWN" && offset < msg_count-bottom) {
             offset++;
         } else if (action == "UP" && offset > 0) {
             offset--;
