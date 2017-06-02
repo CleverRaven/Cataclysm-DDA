@@ -4211,6 +4211,7 @@
       ["warhammer", 10],
       ["halberd", 5],
       ["pike", 5],
+      ["spear_steel", 5],
       ["helmet_plate", 1],
       ["armor_plate", 2],
       ["huge_crossbow", 2],
@@ -8468,7 +8469,8 @@
       ["morningstar", 2],
       ["warhammer", 2],
       ["scythe_war", 2],
-      ["pike", 2]
+      ["pike", 2],
+      ["spear_steel", 2]
     ]
   },{
 "type" : "item_group",
