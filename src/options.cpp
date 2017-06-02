@@ -1512,6 +1512,14 @@ void options_manager::init()
         false, COPT_ALWAYS_HIDE
         );
 
+    mOptionsSort["world_default"]++;
+
+    add("NO_FREEFORM", "world_default", _("Disables freeform character generation for shared map play."),
+        _("If true, players cannot choose freeform when creating new characters."),
+        false, COPT_ALWAYS_HIDE
+        );
+
+
     for (unsigned i = 0; i < vPages.size(); ++i) {
         mPageItems[i].resize(mOptionsSort[vPages[i].first]);
     }
