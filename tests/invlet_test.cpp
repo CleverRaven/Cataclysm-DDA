@@ -389,7 +389,7 @@ void invlet_test( player &dummy, inventory_location from, inventory_location to 
         // assign invlet to the second item
         assign_invlet( dummy, item_at( dummy, 0, to ), invlet, second_invlet_state );
 
-        item *final_first, *final_second;
+        item *final_first = nullptr, *final_second = nullptr;
         switch( action ) {
         case REMOVE_1ST_REMOVE_2ND_ADD_1ST_ADD_2ND:
             move_item( dummy, 0, to, from );
