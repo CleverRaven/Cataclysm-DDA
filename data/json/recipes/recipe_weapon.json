@@ -471,38 +471,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "spear_steel",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
-  "skill_used": "fabrication",
-  "skills_required": [ "melee", 1 ],
-  "difficulty": 1,
-  "time": 60000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":3},
-    {"id":"SAW_M","level":1},
-    { "id" : "GLARE", "level" : 2 }
-  ], "tools": [
-      [
-      [ "oxy_torch", 4 ],
-      [ "welder", 20 ],
-      [ "welder_crude", 30 ],
-      [ "toolset", 30 ]
-      ]
-      ],
-  "components":
-     [
-     [
-      [ "pipe", 1 ]
-     ],
-     [
-     [ "steel_chunk", 1 ],
-     [ "scrap", 3 ]
-     ]
-    ]
-},{
-  "type" : "recipe",
   "result": "longbow",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
