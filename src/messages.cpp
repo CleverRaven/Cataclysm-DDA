@@ -251,7 +251,25 @@ void Messages::display_messages()
     ctxt.register_action("HELP_KEYBINDINGS");
 
     int offset = 0;
-    const int maxlength = FULL_SCREEN_WIDTH - 2 - 1 - 8;
+
+    /* Right-Aligning Time Epochs For Readability
+     * ==========================================
+     * Given display_messages(); right-aligns epochs, we must declare one quick variable first:
+     * The first, right_padlength; refers to the length of the LONGEST possible unit of time returned by calendar::textify_period() any language has to offer.
+     * This variable is, for now, set to '10', which seems most reasonable.
+     *
+     * The reason right-aligned epochs don't use a "shortened version" (e.g. only showing the first letter) boils down to:
+     * 1. The first letter of every time unit being unique might not carry across to all languages.
+     * 2. Languages where displayed characters change depending on the characters preceding/following it will become unclear.
+     * 3. Some polymorphic languages might not be able to appropriately convey meaning with one character (FRS is not a linguist- correct her on this if needed.)
+     *
+     * This right padlength is then incorporated into a so-called format, which in turn, will be used to format the correct epoch.
+     * If an external language introduces time units longer than 10 characters in size, consider altering this variable.
+     * The game (likely) shan't segfault, though the text may appear a bit messed up if these variables aren't set properly.
+     */
+    const int max_padlength = 10;
+
+    const int maxlength = FULL_SCREEN_WIDTH - 2 - 1 - 4 - max_padlength;
     const int bottom = FULL_SCREEN_HEIGHT - 2;
     const int msg_count = size();
 
@@ -269,21 +287,17 @@ void Messages::display_messages()
             }
 
             const game_message &m     = player_messages.impl_->history(i);
-            const nc_color col        = msgtype_to_color( m.type, false );
             const calendar timepassed = calendar::turn - m.timestamp_in_turns;
-            const std::string long_ago= timepassed.textify_period();
-            const size_t first_space  = long_ago.find_first_of(' ');
+            const char *long_ago      = timepassed.textify_period().c_str();
+            nc_color col              = msgtype_to_color( m.type, false );
 
-            // Given long_ago looks something like `5 seasons` or something similar.
-            // This statement essentially pads the number to three characters long using spaces, and then appends the first letter of the time using ('turns', 'seasons', 'minutes', etc.) after it.
-            // e.g. '19 turns' => ' 19t'; '3 seasons' => '  3s', etc.
-            // Breaking it down:
-            // std::string(3-first_space,' '); // Enough spaces to properly pad out the number.
-            // long_ago.substr(0,first_space); // The actual number.
-            // long_ago.at(first_space+1)      // The very first character after the first space ('t' for 'turns', 'm' for 'minutes', etc.)
-            // IF for some reason the maximum number needs to be raised to FOUR digits (which I presume never happens in normal gameplay) then you only need to increase the '3' in the first part of the statement.
+            // Here we seperate the unit and amount from one another so that they can be properly padded when they're drawn on the screen.
+            // Note that the very first character of 'unit' is often a space (except for languages where the time unit directly follows the number.)
+            char unit[0];
+            int amount;
+            sscanf(long_ago,"%d%s",&amount,unit);
             if (timepassed.get_turn() > lasttime) {
-                right_print(w, line, 1, c_ltblue, _("%s ago"), (std::string(3-first_space,' ') + long_ago.substr(0,first_space) + long_ago.at(first_space+1)).c_str());
+                right_print(w, line, 2, c_ltblue, _("%-3d%-10s"), amount, unit);
                 lasttime = timepassed.get_turn();
             }
 
@@ -292,9 +306,23 @@ void Messages::display_messages()
                 if (line > bottom) {
                     break;
                 }
-                print_colored_text( w, line++, 1, col_out, col, folded );
-            }
+                print_colored_text( w, line, 2, col_out, col, folded );
 
+                // So-called special "markers"- alternating '=' and '-'s at the edges of te message window so players can properly make sense of which message belongs to which time interval.
+                // The '+offset%4' in the calculation makes it so that the markings scroll along with the messages.
+                // On lines divisible by 4, draw a dark grey '-' at both horizontal extremes of the window.
+                if ( (line+offset%4)%4 == 0 ) {
+                    mvwprintz( w, line, 1 , c_dkgray, "-" );
+                    mvwprintz( w, line, FULL_SCREEN_WIDTH-2 , c_dkgray, "-" );
+                // On lines divisible by 2 (but not 4), draw a light grey '=' at the horizontal extremes of the window.
+                } else if ( (line+offset%4)%2 == 0 ) {
+                    mvwprintz( w, line, 1 , c_dkgray, "=" );
+                    mvwprintz( w, line, FULL_SCREEN_WIDTH-2 , c_dkgray, "=" );
+                }
+
+                // Only now are we done with this line:
+                line++;
+            }
         }
 
         if (offset + 1 < msg_count) {
