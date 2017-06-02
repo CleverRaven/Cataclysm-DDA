@@ -255,20 +255,32 @@ void Messages::display_messages()
     /* Right-Aligning Time Epochs For Readability
      * ==========================================
      * Given display_messages(); right-aligns epochs, we must declare one quick variable first:
-     * The first, right_padlength; refers to the length of the LONGEST possible unit of time returned by calendar::textify_period() any language has to offer.
+     * max_padlength refers to the length of the LONGEST possible unit of time returned by calendar::textify_period() any language has to offer.
      * This variable is, for now, set to '10', which seems most reasonable.
      *
      * The reason right-aligned epochs don't use a "shortened version" (e.g. only showing the first letter) boils down to:
-     * 1. The first letter of every time unit being unique might not carry across to all languages.
+     * 1. The first letter of every time unit being unique is a property that might not carry across to other languages.
      * 2. Languages where displayed characters change depending on the characters preceding/following it will become unclear.
      * 3. Some polymorphic languages might not be able to appropriately convey meaning with one character (FRS is not a linguist- correct her on this if needed.)
      *
-     * This right padlength is then incorporated into a so-called format, which in turn, will be used to format the correct epoch.
-     * If an external language introduces time units longer than 10 characters in size, consider altering this variable.
+     * This right padlength is then incorporated into a so-called 'epoch_format' which, in turn, will be used to format the correct epoch.
+     * If an external language introduces time units longer than 10 characters in size, consider altering these variables.
      * The game (likely) shan't segfault, though the text may appear a bit messed up if these variables aren't set properly.
      */
     const int max_padlength = 10;
+    const char epoch_format[] = "%-3d%-10s";
 
+    /* Dealing With Screen Extremities
+     * ===============================
+     * 'maxlength' corresponds to the most extreme length a log message may be before foldstring() wraps it around to two or more lines.
+     * The numbers subtracted from FULL_SCREEN_WIDTH are - in order:
+     * '-2' the characters reserved for the borders of the box, both on the left and right side.
+     * '-1' the leftmost guide character that's drawn on screen.
+     * '-4' the padded three-digit number each epoch starts with.
+     * '-max_padlength' the characters of space that are allocated to time units (e.g. "years", "minutes", etc.)
+     *
+     * 'bottom' works much like 'maxlength', but instead it refers to the amount of lines that the message box may hold.
+     */
     const int maxlength = FULL_SCREEN_WIDTH - 2 - 1 - 4 - max_padlength;
     const int bottom = FULL_SCREEN_HEIGHT - 2;
     const int msg_count = size();
@@ -297,7 +309,7 @@ void Messages::display_messages()
             int amount;
             sscanf(long_ago,"%d%s",&amount,unit);
             if (timepassed.get_turn() > lasttime) {
-                right_print(w, line, 2, c_ltblue, _("%-3d%-10s"), amount, unit);
+                right_print(w, line, 2, c_ltblue, _(epoch_format), amount, unit);
                 lasttime = timepassed.get_turn();
             }
 
