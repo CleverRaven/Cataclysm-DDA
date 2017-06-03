@@ -17,7 +17,8 @@
 extern bool log_from_top;
 extern int message_ttl;
 
-namespace {
+namespace
+{
 
 // Messages object.
 Messages player_messages;
@@ -30,12 +31,11 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
     game_message_type type  = m_neutral;
 
     game_message() = default;
-    game_message(std::string &&msg, game_message_type const t) :
-        message (std::move(msg)),
-        timestamp_in_turns (calendar::turn),
-        timestamp_in_user_actions(g->get_user_action_counter()),
-        type (t)
-    {
+    game_message( std::string &&msg, game_message_type const t ) :
+        message( std::move( msg ) ),
+        timestamp_in_turns( calendar::turn ),
+        timestamp_in_user_actions( g->get_user_action_counter() ),
+        type( t ) {
     }
 
     int turn() const {
@@ -43,36 +43,36 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
     }
 
     std::string get_with_count() const {
-        if (count <= 1) {
+        if( count <= 1 ) {
             return message;
         }
         //~ Message %s on the message log was repeated %d times, eg. "You hear a whack! x 12"
-        return string_format(_("%s x %d"), message.c_str(), count);
+        return string_format( _( "%s x %d" ), message.c_str(), count );
     }
 
-    bool is_new(int const current) const {
+    bool is_new( int const current ) const {
         return turn() >= current;
     }
 
-    bool is_recent(int const current) const {
+    bool is_recent( int const current ) const {
         return turn() + 5 >= current;
     }
 
-    nc_color get_color(int const current) const {
-        if (is_new(current)) {
+    nc_color get_color( int const current ) const {
+        if( is_new( current ) ) {
             // color for new messages
-            return msgtype_to_color(type, false);
+            return msgtype_to_color( type, false );
 
-        } else if (is_recent(current)) {
+        } else if( is_recent( current ) ) {
             // color for slightly old messages
-            return msgtype_to_color(type, true);
+            return msgtype_to_color( type, true );
         }
 
         // color for old messages
         return c_dkgray;
     }
 
-    void deserialize(JsonIn &jsin) override {
+    void deserialize( JsonIn &jsin ) override {
         JsonObject obj = jsin.get_object();
         timestamp_in_turns = obj.get_int( "turn" );
         message = obj.get_string( "message" );
@@ -80,7 +80,7 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
         type = static_cast<game_message_type>( obj.get_int( "type" ) );
     }
 
-    void serialize(JsonOut &jsout) const override {
+    void serialize( JsonOut &jsout ) const override {
         jsout.start_object();
         jsout.member( "turn", static_cast<int>( timestamp_in_turns ) );
         jsout.member( "message", message );
@@ -90,93 +90,96 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
     }
 };
 
-bool message_exceeds_ttl(const game_message &message) {
-    return message_ttl > 0 && message.timestamp_in_user_actions + message_ttl <= g->get_user_action_counter();
+bool message_exceeds_ttl( const game_message &message )
+{
+    return message_ttl > 0 &&
+           message.timestamp_in_user_actions + message_ttl <= g->get_user_action_counter();
 }
 
 } //namespace
 
-class Messages::impl_t {
-public:
-    std::deque<game_message> messages;   // Messages to be printed
-    int                      curmes = 0; // The last-seen message.
+class Messages::impl_t
+{
+    public:
+        std::deque<game_message> messages;   // Messages to be printed
+        int                      curmes = 0; // The last-seen message.
 
-    bool has_undisplayed_messages() const {
-        return !messages.empty() && messages.back().turn() > curmes;
-    }
-
-    game_message const& history(int const i) const {
-        return messages[messages.size() - i - 1];
-    }
-
-    // coalesce recent like messages
-    bool coalesce_messages(std::string const &msg, game_message_type const type) {
-        if (messages.empty()) {
-            return false;
+        bool has_undisplayed_messages() const {
+            return !messages.empty() && messages.back().turn() > curmes;
         }
 
-        auto &last_msg = messages.back();
-        if (last_msg.turn() + 3 < calendar::turn.get_turn()) {
-            return false;
+        game_message const &history( int const i ) const {
+            return messages[messages.size() - i - 1];
         }
 
-        if (type != last_msg.type || msg != last_msg.message) {
-            return false;
-        }
-
-        last_msg.count++;
-        last_msg.timestamp_in_turns = calendar::turn;
-        last_msg.timestamp_in_user_actions = g->get_user_action_counter();
-        last_msg.type = type;
-
-        return true;
-    }
-
-    void add_msg_string(std::string &&msg) {
-        add_msg_string(std::move(msg), m_neutral);
-    }
-
-    void add_msg_string(std::string &&msg, game_message_type const type) {
-        if (msg.length() == 0) {
-            return;
-        }
-        // hide messages if dead
-        if (g->u.is_dead_state()) {
-            return;
-        }
-
-        if (type == m_debug && !debug_mode) {
-            return;
-        }
-
-        if (coalesce_messages(msg, type)) {
-            return;
-        }
-
-        while (messages.size() > 255) {
-            messages.pop_front();
-        }
-
-        messages.emplace_back(std::move(msg), type);
-    }
-
-    std::vector<std::pair<std::string, std::string>> recent_messages(size_t count) const {
-        count = std::min(count, messages.size());
-
-        std::vector<std::pair<std::string, std::string>> result;
-        result.reserve(count);
-
-        const int offset = static_cast<std::ptrdiff_t>( messages.size() - count );
-
-        std::transform(begin(messages) + offset, end(messages), back_inserter(result),
-            [](game_message const& msg) {
-                return std::make_pair(msg.timestamp_in_turns.print_time(),
-                    msg.count ? msg.message + to_string(msg.count) : msg.message);
+        // coalesce recent like messages
+        bool coalesce_messages( std::string const &msg, game_message_type const type ) {
+            if( messages.empty() ) {
+                return false;
             }
-        );
 
-        return result;
-    }
+            auto &last_msg = messages.back();
+            if( last_msg.turn() + 3 < calendar::turn.get_turn() ) {
+                return false;
+            }
+
+            if( type != last_msg.type || msg != last_msg.message ) {
+                return false;
+            }
+
+            last_msg.count++;
+            last_msg.timestamp_in_turns = calendar::turn;
+            last_msg.timestamp_in_user_actions = g->get_user_action_counter();
+            last_msg.type = type;
+
+            return true;
+        }
+
+        void add_msg_string( std::string &&msg ) {
+            add_msg_string( std::move( msg ), m_neutral );
+        }
+
+        void add_msg_string( std::string &&msg, game_message_type const type ) {
+            if( msg.length() == 0 ) {
+                return;
+            }
+            // hide messages if dead
+            if( g->u.is_dead_state() ) {
+                return;
+            }
+
+            if( type == m_debug && !debug_mode ) {
+                return;
+            }
+
+            if( coalesce_messages( msg, type ) ) {
+                return;
+            }
+
+            while( messages.size() > 255 ) {
+                messages.pop_front();
+            }
+
+            messages.emplace_back( std::move( msg ), type );
+        }
+
+        std::vector<std::pair<std::string, std::string>> recent_messages( size_t count ) const {
+            count = std::min( count, messages.size() );
+
+            std::vector<std::pair<std::string, std::string>> result;
+            result.reserve( count );
+
+            const int offset = static_cast<std::ptrdiff_t>( messages.size() - count );
+
+            std::transform( begin( messages ) + offset, end( messages ), back_inserter( result ),
+            []( game_message const & msg ) {
+                return std::make_pair( msg.timestamp_in_turns.print_time(),
+                                       msg.count ? msg.message + to_string( msg.count ) : msg.message );
+            }
+                          );
+
+            return result;
+        }
 };
 
 Messages::Messages() : impl_ {new impl_t()}
@@ -185,9 +188,9 @@ Messages::Messages() : impl_ {new impl_t()}
 
 Messages::~Messages() = default;
 
-std::vector<std::pair<std::string, std::string>> Messages::recent_messages(const size_t count)
+std::vector<std::pair<std::string, std::string>> Messages::recent_messages( const size_t count )
 {
-    return player_messages.impl_->recent_messages(count);
+    return player_messages.impl_->recent_messages( count );
 }
 
 void Messages::serialize( JsonOut &json )
@@ -201,7 +204,7 @@ void Messages::serialize( JsonOut &json )
 
 void Messages::deserialize( JsonObject &json )
 {
-    if (!json.has_member("player_messages")) {
+    if( !json.has_member( "player_messages" ) ) {
         return;
     }
 
@@ -210,14 +213,14 @@ void Messages::deserialize( JsonObject &json )
     obj.read( "curmes", player_messages.impl_->curmes );
 }
 
-void Messages::vadd_msg(const char *msg, va_list ap)
+void Messages::vadd_msg( const char *msg, va_list ap )
 {
-    player_messages.impl_->add_msg_string(vstring_format(msg, ap));
+    player_messages.impl_->add_msg_string( vstring_format( msg, ap ) );
 }
 
-void Messages::vadd_msg(game_message_type type, const char *msg, va_list ap)
+void Messages::vadd_msg( game_message_type type, const char *msg, va_list ap )
 {
-    player_messages.impl_->add_msg_string(vstring_format(msg, ap), type);
+    player_messages.impl_->add_msg_string( vstring_format( msg, ap ), type );
 }
 
 void Messages::clear_messages()
@@ -238,17 +241,17 @@ bool Messages::has_undisplayed_messages()
 void Messages::display_messages()
 {
     WINDOW_PTR w_ptr {newwin(
-        FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-        (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0,
-        (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0)};
+                          FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                          ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
+                          ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 )};
 
     WINDOW *const w = w_ptr.get();
 
-    input_context ctxt("MESSAGE_LOG");
-    ctxt.register_action("UP", _("Scroll up"));
-    ctxt.register_action("DOWN", _("Scroll down"));
-    ctxt.register_action("QUIT");
-    ctxt.register_action("HELP_KEYBINDINGS");
+    input_context ctxt( "MESSAGE_LOG" );
+    ctxt.register_action( "UP", _( "Scroll up" ) );
+    ctxt.register_action( "DOWN", _( "Scroll down" ) );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
 
     /* Right-Aligning Time Epochs For Readability
      * ==========================================
@@ -302,28 +305,28 @@ void Messages::display_messages()
      *  OLDEST-TOP: 'offset' is set to the maximum value it could possibly be. That is- 'msg_count-bottom'. This way, the screen starts with the scrollbar all the way down.
      * 'retrieve_history' refers to the line that should be displayed- this is either 'i' if it's NEWEST-TOP, or a flipped version of 'i' if it's OLDEST-TOP.
      */
-    int offset = log_from_top ? 0 : (msg_count-bottom);
-    const int flip = log_from_top ? 0 : msg_count-1;
+    int offset = log_from_top ? 0 : ( msg_count - bottom );
+    const int flip = log_from_top ? 0 : msg_count - 1;
     int retrieve_history;
 
-    for (;;) {
-        werase(w);
-        draw_border(w);
-        mvwprintz(w, bottom + 1, 32, c_red, _("Press %s to return"), ctxt.get_desc("QUIT").c_str());
-        draw_scrollbar(w, offset, bottom, msg_count, 1, 0, c_white, true);
+    for( ;; ) {
+        werase( w );
+        draw_border( w );
+        mvwprintz( w, bottom + 1, 32, c_red, _("Press %s to return"), ctxt.get_desc("QUIT").c_str() );
+        draw_scrollbar( w, offset, bottom, msg_count, 1, 0, c_white, true );
 
         int line = 1;
         int lasttime = -1;
         for( int i = offset; i < msg_count; ++i ) {
-            retrieve_history = abs(i-flip);
-            if (line > bottom) {
+            retrieve_history = abs( i - flip );
+            if( line > bottom ) {
                 break;
-            // This statement makes it so that no non-existent messages are printed (which usually results in a segfault)
-            } else if ( retrieve_history >= msg_count ) {
+                // This statement makes it so that no non-existent messages are printed (which usually results in a segfault)
+            } else if( retrieve_history >= msg_count ) {
                 continue;
             }
 
-            const game_message &m     = player_messages.impl_->history(retrieve_history);
+            const game_message &m     = player_messages.impl_->history( retrieve_history );
             const calendar timepassed = calendar::turn - m.timestamp_in_turns;
             const char *long_ago      = timepassed.textify_period().c_str();
             nc_color col              = msgtype_to_color( m.type, false );
@@ -332,15 +335,15 @@ void Messages::display_messages()
             // Note that the very first character of 'unit' is often a space (except for languages where the time unit directly follows the number.)
             char unit[0];
             int amount;
-            sscanf(long_ago,"%d%s",&amount,unit);
-            if (timepassed.get_turn() != lasttime) {
-                right_print(w, line, 2, c_ltblue, _(epoch_format), amount, unit);
+            sscanf( long_ago, "%d%s", &amount, unit );
+            if( timepassed.get_turn() != lasttime ) {
+                right_print( w, line, 2, c_ltblue, _( epoch_format ), amount, unit );
                 lasttime = timepassed.get_turn();
             }
 
             nc_color col_out = col;
-            for( const std::string &folded : foldstring(m.get_with_count(), maxlength) ) {
-                if (line > bottom) {
+            for( const std::string &folded : foldstring( m.get_with_count(), maxlength ) ) {
+                if( line > bottom ) {
                     break;
                 }
                 print_colored_text( w, line, 2, col_out, col, folded );
@@ -349,13 +352,13 @@ void Messages::display_messages()
                 // So-called special "markers"- alternating '=' and '-'s at the edges of te message window so players can properly make sense of which message belongs to which time interval.
                 // The '+offset%4' in the calculation makes it so that the markings scroll along with the messages.
                 // On lines divisible by 4, draw a dark grey '-' at both horizontal extremes of the window.
-                if ( (line+offset%4)%4 == 0 ) {
-                    mvwprintz( w, line, 1 , c_dkgray, "-" );
-                    mvwprintz( w, line, FULL_SCREEN_WIDTH-2 , c_dkgray, "-" );
-                // On lines divisible by 2 (but not 4), draw a light grey '=' at the horizontal extremes of the window.
-                } else if ( (line+offset%4)%2 == 0 ) {
-                    mvwprintz( w, line, 1 , c_dkgray, "=" );
-                    mvwprintz( w, line, FULL_SCREEN_WIDTH-2 , c_dkgray, "=" );
+                if( ( line + offset % 4 ) % 4 == 0 ) {
+                    mvwprintz( w, line, 1, c_dkgray, "-" );
+                    mvwprintz( w, line, FULL_SCREEN_WIDTH - 2, c_dkgray, "-" );
+                    // On lines divisible by 2 (but not 4), draw a light grey '=' at the horizontal extremes of the window.
+                } else if( ( line + offset % 4 ) % 2 == 0 ) {
+                    mvwprintz( w, line, 1, c_dkgray, "=" );
+                    mvwprintz( w, line, FULL_SCREEN_WIDTH - 2, c_dkgray, "=" );
                 }
 
                 // Only now are we done with this line:
@@ -363,20 +366,20 @@ void Messages::display_messages()
             }
         }
 
-        if (offset < msg_count-bottom) {
-            mvwprintz(w, bottom + 1, 5, c_magenta, "vvv");
+        if( offset < msg_count - bottom ) {
+            mvwprintz( w, bottom + 1, 5, c_magenta, "vvv" );
         }
-        if (offset > 0) {
-            mvwprintz(w, bottom + 1, maxlength - 3, c_magenta, "^^^");
+        if( offset > 0 ) {
+            mvwprintz( w, bottom + 1, FULL_SCREEN_WIDTH - 8, c_magenta, "^^^" );
         }
-        wrefresh(w);
+        wrefresh( w );
 
         const std::string &action = ctxt.handle_input();
-        if (action == "DOWN" && offset < msg_count-bottom) {
+        if( action == "DOWN" && offset < msg_count - bottom ) {
             offset++;
-        } else if (action == "UP" && offset > 0) {
+        } else if( action == "UP" && offset > 0 ) {
             offset--;
-        } else if (action == "QUIT") {
+        } else if( action == "QUIT" ) {
             break;
         }
     }
@@ -384,70 +387,70 @@ void Messages::display_messages()
     player_messages.impl_->curmes = calendar::turn.get_turn();
 }
 
-void Messages::display_messages(WINDOW *const ipk_target, int const left, int const top,
-                                int const right, int const bottom)
+void Messages::display_messages( WINDOW *const ipk_target, int const left, int const top,
+                                 int const right, int const bottom )
 {
-    if (!size()) {
+    if( !size() ) {
         return;
     }
 
     int const maxlength = right - left;
     int line = log_from_top ? top : bottom;
 
-    if (log_from_top) {
-        for (int i = size() - 1; i >= 0; --i) {
-            if (line > bottom) {
+    if( log_from_top ) {
+        for( int i = size() - 1; i >= 0; --i ) {
+            if( line > bottom ) {
                 break;
             }
 
             const game_message &m = player_messages.impl_->messages[i];
-            if (message_exceeds_ttl(m)) {
+            if( message_exceeds_ttl( m ) ) {
                 break;
             }
 
-            const nc_color col = m.get_color(player_messages.impl_->curmes);
+            const nc_color col = m.get_color( player_messages.impl_->curmes );
             std::string message_text = m.get_with_count();
-            if (!m.is_recent(player_messages.impl_->curmes)) {
-                message_text = remove_color_tags(message_text);
+            if( !m.is_recent( player_messages.impl_->curmes ) ) {
+                message_text = remove_color_tags( message_text );
             }
 
-            for( const std::string &folded : foldstring(message_text, maxlength) ) {
-                if (line > bottom) {
+            for( const std::string &folded : foldstring( message_text, maxlength ) ) {
+                if( line > bottom ) {
                     break;
                 }
                 // Redrawing line to ensure new messages similar to previous
                 // messages will not be missed by screen readers
-                wredrawln(ipk_target, line, 1);
+                wredrawln( ipk_target, line, 1 );
                 nc_color col_out = col;
                 print_colored_text( ipk_target, line++, left, col_out, col, folded );
             }
         }
     } else {
-        for (int i = size() - 1; i >= 0; --i) {
-            if (line < top) {
+        for( int i = size() - 1; i >= 0; --i ) {
+            if( line < top ) {
                 break;
             }
 
             const game_message &m = player_messages.impl_->messages[i];
-            if (message_exceeds_ttl(m)) {
+            if( message_exceeds_ttl( m ) ) {
                 break;
             }
 
-            const nc_color col = m.get_color(player_messages.impl_->curmes);
+            const nc_color col = m.get_color( player_messages.impl_->curmes );
             std::string message_text = m.get_with_count();
-            if (!m.is_recent(player_messages.impl_->curmes)) {
-                message_text = remove_color_tags(message_text);
+            if( !m.is_recent( player_messages.impl_->curmes ) ) {
+                message_text = remove_color_tags( message_text );
             }
 
-            const auto folded_strings = foldstring(message_text, maxlength);
+            const auto folded_strings = foldstring( message_text, maxlength );
             const auto folded_rend = folded_strings.rend();
             for( auto string_iter = folded_strings.rbegin();
-                    string_iter != folded_rend && line >= top; ++string_iter, line-- ) {
+                 string_iter != folded_rend && line >= top; ++string_iter, line-- ) {
                 // Redrawing line to ensure new messages similar to previous
                 // messages will not be missed by screen readers
-                wredrawln(ipk_target, line, 1);
+                wredrawln( ipk_target, line, 1 );
                 nc_color col_out = col;
-                print_colored_text( ipk_target, line, left, col_out, col, *string_iter);
+                print_colored_text( ipk_target, line, left, col_out, col, *string_iter );
             }
         }
     }
@@ -455,18 +458,18 @@ void Messages::display_messages(WINDOW *const ipk_target, int const left, int co
     player_messages.impl_->curmes = calendar::turn.get_turn();
 }
 
-void add_msg(const char *msg, ...)
+void add_msg( const char *msg, ... )
 {
     va_list ap;
-    va_start(ap, msg);
-    Messages::vadd_msg(msg, ap);
-    va_end(ap);
+    va_start( ap, msg );
+    Messages::vadd_msg( msg, ap );
+    va_end( ap );
 }
 
-void add_msg(game_message_type const type, const char *msg, ...)
+void add_msg( game_message_type const type, const char *msg, ... )
 {
     va_list ap;
-    va_start(ap, msg);
-    Messages::vadd_msg(type, msg, ap);
-    va_end(ap);
+    va_start( ap, msg );
+    Messages::vadd_msg( type, msg, ap );
+    va_end( ap );
 }
