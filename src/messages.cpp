@@ -300,10 +300,11 @@ void Messages::display_messages()
      * 'offset' refers to the corresponding message that will be displayed at the very TOP of the message box window.
      *  NEWEST-TOP: 'offset' starts simply at '0' - the very top of the window.
      *  OLDEST-TOP: 'offset' is set to the maximum value it could possibly be. That is- 'msg_count-bottom'. This way, the screen starts with the scrollbar all the way down.
-     *
+     * 'retrieve_history' refers to the line that should be displayed- this is either 'i' if it's NEWEST-TOP, or a flipped version of 'i' if it's OLDEST-TOP.
      */
     int offset = log_from_top ? 0 : (msg_count-bottom);
     const int flip = log_from_top ? 0 : msg_count-1;
+    int retrieve_history;
 
     for (;;) {
         werase(w);
@@ -314,11 +315,15 @@ void Messages::display_messages()
         int line = 1;
         int lasttime = -1;
         for( int i = offset; i < msg_count; ++i ) {
+            retrieve_history = abs(i-flip);
             if (line > bottom) {
                 break;
+            // This statement makes it so that no non-existent messages are printed (which usually results in a segfault)
+            } else if ( retrieve_history >= msg_count ) {
+                continue;
             }
 
-            const game_message &m     = player_messages.impl_->history(abs(i-flip));
+            const game_message &m     = player_messages.impl_->history(retrieve_history);
             const calendar timepassed = calendar::turn - m.timestamp_in_turns;
             const char *long_ago      = timepassed.textify_period().c_str();
             nc_color col              = msgtype_to_color( m.type, false );
@@ -339,6 +344,7 @@ void Messages::display_messages()
                     break;
                 }
                 print_colored_text( w, line, 2, col_out, col, folded );
+
 
                 // So-called special "markers"- alternating '=' and '-'s at the edges of te message window so players can properly make sense of which message belongs to which time interval.
                 // The '+offset%4' in the calculation makes it so that the markings scroll along with the messages.
