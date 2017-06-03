@@ -250,8 +250,6 @@ void Messages::display_messages()
     ctxt.register_action("QUIT");
     ctxt.register_action("HELP_KEYBINDINGS");
 
-    int offset = 0;
-
     /* Right-Aligning Time Epochs For Readability
      * ==========================================
      * Given display_messages(); right-aligns epochs, we must declare one quick variable first:
@@ -285,6 +283,28 @@ void Messages::display_messages()
     const int bottom = FULL_SCREEN_HEIGHT - 2;
     const int msg_count = size();
 
+    /* Dealing With Scroll Direction
+     * =============================
+     * Much like how the sidebar can have variable scroll direction, so will the message box.
+     * To properly differentiate the two methods of displaying text, we will label them NEWEST-TOP, and OLDEST-TOP. This labeling should be self explanatory.
+     *
+     * Note that 'offset' tracks only our current position in the list; it shan't at all affect the manner in which the messages are drawn.
+     * Messages are always drawn top-to-bottom. If NEWEST-TOP is used, then the top line (line=1) corresponds to the newest message. The one further down the second-newest, etc.
+     * If the OLDEST-TOP method is used, then the top line (line=1) corresponds to the oldest message, and the bottom one to the newest.
+     * The 'for (;;)' block below is nearly completely method-agnostic, save for the `player_messages.impl_->history(i)` call.
+     *
+     * In case of NEWEST-TOP, the 'i' variable easily enough corresponds to the newest message.
+     * In case of OLDEST-TOP, the 'i' variable must be flipped- meaning the highest value of 'i' returns the result for the lowest value of 'i', etc.
+     * To achieve this, the 'flip_message' variable is set to either the value of 'msg_count', or '0'. This variable is then subtracted from 'i' in each call to player_messages.impl_->history();
+     *
+     * 'offset' refers to the corresponding message that will be displayed at the very TOP of the message box window.
+     *  NEWEST-TOP: 'offset' starts simply at '0' - the very top of the window.
+     *  OLDEST-TOP: 'offset' is set to the maximum value it could possibly be. That is- 'msg_count-bottom'. This way, the screen starts with the scrollbar all the way down.
+     *
+     */
+    int offset = log_from_top ? 0 : (msg_count-bottom);
+    const int flip = log_from_top ? 0 : msg_count-1;
+
     for (;;) {
         werase(w);
         draw_border(w);
@@ -298,7 +318,7 @@ void Messages::display_messages()
                 break;
             }
 
-            const game_message &m     = player_messages.impl_->history(i);
+            const game_message &m     = player_messages.impl_->history(abs(i-flip));
             const calendar timepassed = calendar::turn - m.timestamp_in_turns;
             const char *long_ago      = timepassed.textify_period().c_str();
             nc_color col              = msgtype_to_color( m.type, false );
@@ -308,7 +328,7 @@ void Messages::display_messages()
             char unit[0];
             int amount;
             sscanf(long_ago,"%d%s",&amount,unit);
-            if (timepassed.get_turn() > lasttime) {
+            if (timepassed.get_turn() != lasttime) {
                 right_print(w, line, 2, c_ltblue, _(epoch_format), amount, unit);
                 lasttime = timepassed.get_turn();
             }
