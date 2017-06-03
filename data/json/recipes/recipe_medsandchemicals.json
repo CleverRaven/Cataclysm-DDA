@@ -89,7 +89,7 @@
   "time": 10000,
   "book_learn": [["adv_chemistry", 1] , ["textbook_chemistry", 1]],
   "qualities": [
-    {"id":"CHEM","level":1}
+    {"id":"CHEM","level":3}
   ],
   "components": [ [ [ "salt_water", 1 ] ] ]
 },{
