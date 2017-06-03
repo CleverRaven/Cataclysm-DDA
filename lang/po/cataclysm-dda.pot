@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-19 17:08+0800\n"
+"POT-Creation-Date: 2017-05-28 19:58+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -7220,6 +7220,19 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A simple bra.  For protecting those bits you don't want zombies to look at."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "breeches"
+msgid_plural "breeches"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for breeches
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A well-made pair of old-fashioned pants, made of stiff yet baggy material.  "
+"Comfortable, but lacks pockets."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -20691,6 +20704,30 @@ msgid "Some corn seeds."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "chili pepper"
+msgstr ""
+
+#. ~ Description for chili pepper
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Spicy chili pepper."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "chili pepper seed"
+msgid_plural "chili pepper seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for chili pepper seed
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some chili pepper seeds."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "chili_pepper"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated lettuce"
 msgstr ""
 
@@ -30443,6 +30480,19 @@ msgid ""
 "This is a dull, cheaply made replica of an early modern sword seeing use in "
 "the 16th, 17th, and 18th centuries.  Called 'broad' to contrast with the "
 "slimmer rapiers."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py lang/json/TOOL_from_json.py
+msgid "cavalry saber"
+msgid_plural "cavalry sabers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for cavalry saber
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This is a dull, cheap replica of a curved sword associated with cavalry, "
+"from the Early Modern period onwards."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/TOOL_from_json.py
@@ -41212,8 +41262,8 @@ msgstr[1] ""
 #. ~ Description for battery compartment mod
 #: lang/json/TOOLMOD_from_json.py
 msgid ""
-"A battery compartment mod that allows using high-density, rechargeable "
-"vehicle batteries in regular tools."
+"A battery compartment mod that allows using high-density, rechargeable small "
+"and medium vehicle batteries in regular tools."
 msgstr ""
 
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -43861,6 +43911,13 @@ msgstr[1] ""
 #. ~ Description for cat food
 #: lang/json/TOOL_from_json.py
 msgid "This is food for cats.  It smells strange, but cats seem to love it."
+msgstr ""
+
+#. ~ Description for cavalry saber
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a curved sword associated with cavalry from the Early Modern period "
+"onwards.  Lightweight but a deadly slashing weapon."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -48326,6 +48383,7 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py lang/json/vehicle_part_from_json.py
+#: src/vehicle.cpp
 msgid "water purifier"
 msgid_plural "water purifiers"
 msgstr[0] ""
@@ -51472,6 +51530,10 @@ msgstr ""
 msgid "Stop meditating?"
 msgstr ""
 
+#: lang/json/activity_type_from_json.py
+msgid "Stop washing?"
+msgstr ""
+
 #: lang/json/ammunition_type_from_json.py
 msgid ".700 Nitro Express"
 msgstr ""
@@ -52938,6 +53000,14 @@ msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Build Crate"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Seal Coffin"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Build Coffin"
 msgstr ""
 
 #: lang/json/construction_from_json.py
@@ -64203,6 +64273,10 @@ msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Toggle stereo"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle water purifiers"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -93319,6 +93393,10 @@ msgstr ""
 msgid "You feel much better."
 msgstr ""
 
+#: src/activity_handlers.cpp
+msgid "You washed your clothing."
+msgstr ""
+
 #: src/activity_item_handling.cpp
 #, c-format
 msgid "To avoid spilling its contents, you set your %1$s on the %2$s."
@@ -97423,14 +97501,12 @@ msgstr[1] ""
 
 #: src/crafting.cpp src/game.cpp
 #: src/game.cpp
-#: src/game.cpp src/iexamine.cpp
 #: src/iexamine.cpp
-#: src/iexamine.cpp src/iuse.cpp
 #: src/iuse.cpp
 #: src/iuse.cpp src/iuse_actor.cpp
 #: src/iuse_actor.cpp src/npctalk.cpp
 #: src/npctalk.cpp
-#: src/npctalk.cpp src/pickup.cpp
+#: src/pickup.cpp src/player.cpp
 #: src/player.cpp
 #: src/player.cpp src/veh_interact.cpp
 msgid "Never mind."
@@ -101884,14 +101960,14 @@ msgstr ""
 msgid "%s's head implodes!"
 msgstr ""
 
+#: src/game.cpp
+msgid "Choose vehicle to spawn"
+msgstr ""
+
 #. ~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string: internal name of vehicle
 #: src/game.cpp
 #, c-format
 msgid "%1$s (%2$s)"
-msgstr ""
-
-#: src/game.cpp
-msgid "Choose vehicle to spawn"
 msgstr ""
 
 #: src/game.cpp
@@ -111432,10 +111508,6 @@ msgstr ""
 msgid "You need %1$i charges of water or clean water to wash your %2$s."
 msgstr ""
 
-#: src/iuse.cpp
-msgid "You washed your clothing."
-msgstr ""
-
 #: src/iuse_actor.cpp
 #, c-format
 msgid "The %s is empty!"
@@ -113561,7 +113633,7 @@ msgstr ""
 msgid "The %1$s's %2$s collides with %3$s's %4$s."
 msgstr ""
 
-#: src/map.cpp src/melee.cpp src/monster.cpp src/vehicle.cpp
+#: src/map.cpp src/monster.cpp src/vehicle.cpp
 #, c-format
 msgid "the %s"
 msgstr ""
@@ -124162,10 +124234,6 @@ msgstr ""
 msgid "Your internal chronometer wakes you up."
 msgstr ""
 
-#: src/player_hardcoded_effects.cpp
-msgid "You turn off your alarm-clock."
-msgstr ""
-
 #: src/ranged.cpp
 #, c-format
 msgid "Your %s misfires with a wet click!"
@@ -124621,6 +124689,10 @@ msgid ""
 "Sets which video display will be used to show the game. Requires restart."
 msgstr ""
 
+#: src/sdltiles.cpp src/wincurse.cpp
+msgid "base colors"
+msgstr ""
+
 #: src/sounds.cpp
 msgid "Your eardrums suddenly ache!"
 msgstr ""
@@ -124646,6 +124718,10 @@ msgstr ""
 #: src/sounds.cpp
 #, c-format
 msgid "From the %s you hear %s"
+msgstr ""
+
+#: src/sounds.cpp
+msgid "You turn off your alarm-clock."
 msgstr ""
 
 #: src/sounds.cpp
@@ -126801,7 +126877,8 @@ msgid "Category:"
 msgstr ""
 
 #: src/wish.cpp
-msgid "[/] find, [q]uit"
+#, c-format
+msgid "[%s] find, [%s] quit"
 msgstr ""
 
 #: src/wish.cpp
@@ -126814,14 +126891,15 @@ msgid " (hallucination)"
 msgstr ""
 
 #: src/wish.cpp
+#, c-format
 msgid ""
-"[/] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, "
-"[q]uit"
+"[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, "
+"[%s] quit"
 msgstr ""
 
 #: src/wish.cpp
 #, c-format
-msgid "Spawned %d/%d monsters, choose another or 'q' to quit."
+msgid "Spawned %d/%d monsters, choose another or [%s] to quit."
 msgstr ""
 
 #: src/wish.cpp
@@ -126829,7 +126907,8 @@ msgid " (contained)"
 msgstr ""
 
 #: src/wish.cpp
-msgid "[/] find, [f] container, [q]uit"
+#, c-format
+msgid "[%s] find, [f] container, [%s] quit"
 msgstr ""
 
 #: src/wish.cpp
@@ -126842,7 +126921,8 @@ msgid "How many?"
 msgstr ""
 
 #: src/wish.cpp
-msgid "Wish granted. Wish for more or hit 'q' to quit."
+#, c-format
+msgid "Wish granted. Wish for more or hit [%s] to quit."
 msgstr ""
 
 #: src/wish.cpp
