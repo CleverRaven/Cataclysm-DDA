@@ -1479,13 +1479,12 @@ void options_manager::init()
 
     mOptionsSort["world_default"]++;
 
-    optionNames["all"] = _("All");
+    optionNames["any"] = _("Any");
     optionNames["multiple"] = _("Multiple");
-    optionNames["single"] = _("Single");
     optionNames["no_freeform"] = _("No Freeform");
     add("CHARACTER_POINT_POOLS", "world_default", _("Character point pools"),
         _("Allowable point pools for character generation."),
-        "all,multiple,single,no_freeform", "all"
+        "any,multiple,no_freeform", "any"
         );
 
     mOptionsSort["world_default"]++;

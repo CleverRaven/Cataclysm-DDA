@@ -715,34 +715,14 @@ Scenarios and professions affect skill point pool" ) );
 
 
     if( point_pool == "multiple" ) {
-    
         opts = {{multi_pool}};
-    }
-
-    else if( point_pool == "single" ) {
-    
-        opts={{one_pool}};
-
-        // Set selected point pool to single, otherwise multipool is chosen by default 
-        points.limit = std::get<0>((opts[0]));
-
-    }
-
-    else if( point_pool == "no_freeform") {
-
-        opts={{multi_pool, one_pool}};
-
-    }
-
-    else {
-
+    } else if( point_pool == "no_freeform") { 
+        opts={{multi_pool, one_pool}}; 
+    } else { 
         opts={{multi_pool, one_pool, freeform}};
-
     }
         
-
     int highlighted = 0;
-
 
     do {
         if( highlighted < 0 ) {
