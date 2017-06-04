@@ -247,6 +247,8 @@ public:
     // Both cases use absolute coordinates (relative to world origin)
     std::pair<tripoint, tripoint> target = { tripoint_min, tripoint_min };
 
+    item base;
+
 private:
     /** What type of part is this? */
     vpart_id id;
@@ -254,7 +256,6 @@ private:
     /** As a performance optimisation we cache the part information here on first lookup */
     mutable const vpart_info *info_cache = nullptr;
 
-    item base;
     std::list<item> items; // inventory
 
     /** Preferred ammo type when multiple are available */
