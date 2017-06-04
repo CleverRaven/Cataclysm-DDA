@@ -4,12 +4,10 @@
     "name" : "GROUP_COWS",
     "is_safe" : true,
     "default" : "mon_null",
-    "monsters":[{"monster" : "mon_cow", "cost_multiplier" : 1 "freq": 100,"pack_size" : [5, 10]},
-    {"monster" : "mon_cow", "freq": 100, "cost_multiplier" : 1 "pack_size" : [1,5]},
-{"monster" : "mon_cow", "freq": 100, "cost_multiplier" : 1 "ends" : 168, "pack_size" : [5, 10]},
-{"monster" : "mon_cow", "freq": 100,"cost_multiplier" : 1 "starts" :  168,  "pack_size" : [1,5]}]
-  },
-  {
+    "monsters":[{"monster" : "mon_cow", "cost_multiplier" : 10, "freq": 100,  "ends" : 168, "pack_size" : [5,10] },
+    {"monster" : "mon_cow", "freq": 100, "cost_multiplier" : 5, "starts" :  336, "pack_size" : [1,5] }
+    ]
+  },{
     "method": "json",
     "object": {
         "place_monsters": [
@@ -52,7 +50,7 @@
             ".": ["t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt"]
         }
     },
-    "om_terrain": "dairy_farm_NW",
+    "om_terrain": [ "dairy_farm_NW" ],
     "type": "mapgen",
     "weight": 250
 },
@@ -103,7 +101,7 @@
             ".": ["t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt"]
         }
     },
-    "om_terrain": "dairy_farm_NE",
+    "om_terrain": [ "dairy_farm_NE" ],
     "type": "mapgen",
     "weight": 250
 },
