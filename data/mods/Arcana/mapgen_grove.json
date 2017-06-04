@@ -96,10 +96,10 @@
             "fill_ter": "t_dirtfloor",
             "rows": [
                 "########################",
-                "#WWWWR    R R  WRR    W#",
+                "#WWWWR    R R  WRRB   W#",
                 "#R=RWZ  R      WR   R  #",
                 "#=~=WZ RR  R   WB  RR  #",
-                "#~~~W~RR   RW  WB RR   #",
+                "#~~~W~RR   RW  WBBRR   #",
                 "# ~ WRR  O  W  WWWR    #",
                 "#   W       WR  RR   WW#",
                 "#  WW  WWWWWW  WRR RR ~#",
@@ -108,9 +108,9 @@
                 "#      RW              #",
                 "#WW   WW  WWWW WWWWW   #",
                 "# RR~RR  WR<<RRR~~=RW  #",
-                "#  RRR  rW      ~~==W  #",
-                "#       rW       ~~~W  #",
-                "#   O  RRWR       ~RW  #",
+                "#r RRR  rW      ~~==W  #",
+                "#r      rW       ~~~W  #",
+                "#r  O  RRWR       ~RW  #",
                 "#R    RR~WR       RRW  #",
                 "# WWWWR~R RR        +  #",
                 "#  R  RR   WWWWWWWWWW  #",
@@ -121,7 +121,8 @@
                 "########################"
             ],
             "place_loot": [
-                { "group": "summoner_casualties", "chance": 100, "x": [ 1,22 ], "y": [ 1,22 ], "repeat": [ 2,6 ] }
+                { "group": "summoner_casualties", "chance": 100, "x": [ 1,22 ], "y": [ 1,22 ], "repeat": [ 2,6 ] },
+                { "item": "note_grove",  "x": [11, 15], "y": [13, 15], "amount":1 }
             ],
             "terrain": {
                 "#": "t_rock",
@@ -142,9 +143,6 @@
                 "Z": "f_bed",
                 "r": "f_rack"
             },
-            "add": [
-                { "item": "note_grove",  "x": [11, 15], "y": [13, 15], "amount":1 }
-            ],
             "set": [
                 { "point": "trap", "id": "tr_portal", "x": 9, "y": 5},
                 { "point": "trap", "id": "tr_portal", "x": 4, "y": 15},

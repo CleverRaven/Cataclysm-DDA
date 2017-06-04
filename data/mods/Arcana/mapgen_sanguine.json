@@ -12,7 +12,7 @@
       ["textbook_speech", 1],
       ["book_bloodmagic", 6],
       ["book_summoning", 1],
-      ["book_potioncraft", 1]
+      ["book_potioncraft", 2]
     ]
   },{
     "type" : "item_group",
@@ -98,9 +98,9 @@
                 "c": "f_chair",
                 "d": "f_desk"
             },
-            "place_items": [
-                { "item": "sanguine_cult_casualties", "chance": 30, "x": 22, "y": 2 },
-                { "item": "sanguine_cult_casualties", "chance": 30, "x": 19, "y": 22 }
+            "place_loot": [
+                { "group": "sanguine_cult_casualties", "chance": 30, "x": 22, "y": 2 },
+                { "group": "sanguine_cult_casualties", "chance": 30, "x": 19, "y": 22 }
             ],
             "place_monsters": [
                 { "monster": "GROUP_IMPACT", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.1 }
@@ -155,9 +155,9 @@
                 "c": "f_chair",
                 "d": "f_desk"
             },
-            "place_items": [
-                { "item": "sanguine_cult_casualties", "chance": 30, "x": 1, "y": 19 },
-                { "item": "sanguine_cult_casualties", "chance": 30, "x": 4, "y": 22 }
+            "place_loot": [
+                { "group": "sanguine_cult_casualties", "chance": 30, "x": 1, "y": 19 },
+                { "group": "sanguine_cult_casualties", "chance": 30, "x": 4, "y": 22 }
             ],
             "place_monsters": [
                 { "monster": "GROUP_IMPACT", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.1 }
@@ -212,9 +212,9 @@
                 "c": "f_chair",
                 "d": "f_desk"
             },
-            "place_items": [
-                { "item": "sanguine_cult_casualties", "chance": 30, "x": 19, "y": 1 },
-                { "item": "sanguine_cult_casualties", "chance": 30, "x": 4, "y": 22 }
+            "place_loot": [
+                { "group": "sanguine_cult_casualties", "chance": 30, "x": 19, "y": 1 },
+                { "group": "sanguine_cult_casualties", "chance": 30, "x": 4, "y": 22 }
             ],
             "place_monsters": [
                 { "monster": "GROUP_IMPACT", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.1 }
@@ -269,9 +269,9 @@
                 "c": "f_chair",
                 "d": "f_desk"
             },
-            "place_items": [
-                { "item": "sanguine_cult_casualties", "chance": 30, "x": 4, "y": 1 },
-                { "item": "sanguine_cult_casualties", "chance": 30, "x": 1, "y": 4 }
+            "place_loot": [
+                { "group": "sanguine_cult_casualties", "chance": 30, "x": 4, "y": 1 },
+                { "group": "sanguine_cult_casualties", "chance": 30, "x": 1, "y": 4 }
             ],
             "place_monsters": [
                 { "monster": "GROUP_IMPACT", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.1 }
@@ -422,15 +422,15 @@
             "furniture": {
                 "t": "f_table"
             },
-            "place_items": [
-                { "item": "cult_sacrifice", "chance": 25, "x": 13, "y": 4 },
-                { "item": "cult_sacrifice", "chance": 25, "x": 7, "y": 10 },
-                { "item": "cult_sacrifice", "chance": 25, "x": 19, "y": 10 },
-                { "item": "cult_sacrifice", "chance": 25, "x": 13, "y": 16 },
-                { "item": "cult_sacrifice", "chance": 25, "x": 1, "y": 18 },
-                { "item": "cult_sacrifice", "chance": 25, "x": 5, "y": 22 },
-                { "item": "cult_sacrifice", "chance": 100, "x": 3, "y": 2 },
-                { "item": "cult_sacrifice", "chance": 100, "x": 3, "y": 5 }
+            "place_loot": [
+                { "group": "cult_sacrifice", "chance": 25, "x": 13, "y": 4 },
+                { "group": "cult_sacrifice", "chance": 25, "x": 7, "y": 10 },
+                { "group": "cult_sacrifice", "chance": 25, "x": 19, "y": 10 },
+                { "group": "cult_sacrifice", "chance": 25, "x": 13, "y": 16 },
+                { "group": "cult_sacrifice", "chance": 25, "x": 1, "y": 18 },
+                { "group": "cult_sacrifice", "chance": 25, "x": 5, "y": 22 },
+                { "group": "cult_sacrifice", "chance": 100, "x": 3, "y": 2 },
+                { "group": "cult_sacrifice", "chance": 100, "x": 3, "y": 5 }
             ],
             "mapping": {
                 "t": {
@@ -504,13 +504,13 @@
             "furniture": {
                 "t": "f_table"
             },
-            "place_items": [
-                { "item": "cult_sacrifice", "chance": 25, "x": 10, "y": 7 },
-                { "item": "cult_sacrifice", "chance": 25, "x": 4, "y": 13 },
-                { "item": "cult_sacrifice", "chance": 25, "x": 16, "y": 13 },
-                { "item": "cult_sacrifice", "chance": 25, "x": 10, "y": 19 },
-                { "item": "cult_sacrifice", "chance": 25, "x": 18, "y": 1 },
-                { "item": "cult_sacrifice", "chance": 25, "x": 22, "y": 5 }
+            "place_loot": [
+                { "group": "cult_sacrifice", "chance": 25, "x": 10, "y": 7 },
+                { "group": "cult_sacrifice", "chance": 25, "x": 4, "y": 13 },
+                { "group": "cult_sacrifice", "chance": 25, "x": 16, "y": 13 },
+                { "group": "cult_sacrifice", "chance": 25, "x": 10, "y": 19 },
+                { "group": "cult_sacrifice", "chance": 25, "x": 18, "y": 1 },
+                { "group": "cult_sacrifice", "chance": 25, "x": 22, "y": 5 }
             ],
             "mapping": {
                 "t": {
@@ -587,9 +587,9 @@
                 "B": "f_bed",
                 "d": "f_dresser"
             },
-            "place_items": [
-                { "item": "cult_sacrifice", "chance": 25, "x": 5, "y": 1 },
-                { "item": "cult_sacrifice", "chance": 25, "x": 1, "y": 5 }
+            "place_loot": [
+                { "group": "cult_sacrifice", "chance": 25, "x": 5, "y": 1 },
+                { "group": "cult_sacrifice", "chance": 25, "x": 1, "y": 5 }
             ],
             "mapping": {
                 "C": {

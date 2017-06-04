@@ -587,7 +587,7 @@
     "color": "white",
     "name": "scroll of light",
     "name_plural": "scrolls of light",
-    "description": "This is a scroll, with odd writing and illustrations of a solar motif on it.  Using it will brighten the sky.",
+    "description": "This is a scroll, with odd writing and illustrations of a solar motif on it.  Using it will yield a blinding flash, and brighten the sky.",
     "price": 2000,
     "material": ["paper"],
     "weight": 415,
@@ -606,7 +606,7 @@
     "color": "white",
     "name": "scroll of light",
     "name_plural": "scrolls of light",
-    "description": "This is a scroll, with odd writing and illustrations of a solar motif on it.  Using it will brighten the sky.",
+    "description": "This is a scroll, with odd writing and illustrations of a solar motif on it.  Using it will yield a blinding flash, and brighten the sky.",
     "price": 2000,
     "material": ["paper"],
     "weight": 415,
@@ -616,7 +616,7 @@
     "revert_to": "scroll_blank",
     "use_action" : "ARTIFACT",
         "artifact_data" : {
-            "effects_activated": ["AEA_LIGHT"]
+            "effects_activated": ["AEA_FLASH", "AEA_LIGHT"]
         }
   },{
     "id": "scroll_moon",
@@ -624,8 +624,8 @@
     "symbol": "!",
     "color": "white",
     "name": "scroll of darkness",
-    "name_plural": "scrolls of mysticism",
-    "description": "This is a scroll, with odd writing and depictions of the lunar cycles on it.  Using it will darken the sky temporarily.",
+    "name_plural": "scrolls of darkness",
+    "description": "This is a scroll, with odd writing and depictions of the lunar cycles on it.  Using it will darken the sky temporarily, and confound nearby enemies.",
     "price": 2000,
     "material": ["paper"],
     "weight": 415,
@@ -644,7 +644,7 @@
     "color": "white",
     "name": "scroll of darkness",
     "name_plural": "scrolls of darkness",
-    "description": "This is a scroll, with odd writing and depictions of the lunar cycles on it.  Using it will darken the sky temporarily.",
+    "description": "This is a scroll, with odd writing and depictions of the lunar cycles on it.  Using it will darken the sky temporarily, and confound nearby enemies",
     "price": 2000,
     "material": ["paper"],
     "weight": 415,
@@ -654,7 +654,7 @@
     "revert_to": "scroll_blank",
     "use_action" : "ARTIFACT",
         "artifact_data" : {
-            "effects_activated": ["AEA_DIM"]
+            "effects_activated": ["AEA_CONFUSED", "AEA_DIM"]
         }
   },{
     "id": "scroll_artiface",

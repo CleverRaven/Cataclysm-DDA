@@ -40,7 +40,8 @@
     ],
     [
       [ "essence", 1 ],
-      [ "essence_blood", 3 ]
+      [ "essence_blood", 3 ],
+      [ "essence_dull", 16 ]
     ]
   ]
 },
@@ -64,6 +65,7 @@
       [ "fire", -1 ]
     ]
   ],
+  "//": "Dull essence is permitted at slightly reduced efficency, since curious structures have this on their book list.",
   "components": [
     [
       [ "chem_ethanol", 1 ],
@@ -85,7 +87,8 @@
     [ [ "material_limestone", 1 ] ],
     [
       [ "essence", 1 ],
-      [ "essence_blood", 3 ]
+      [ "essence_blood", 3 ],
+      [ "essence_dull", 16 ]
     ]
   ]
 },
@@ -133,7 +136,8 @@
     ],
     [
       [ "essence", 1 ],
-      [ "essence_blood", 3 ]
+      [ "essence_blood", 3 ],
+      [ "essence_dull", 16 ]
     ]
   ]
 },
@@ -184,7 +188,8 @@
     ],
     [
       [ "essence", 1 ],
-      [ "essence_blood", 3 ]
+      [ "essence_blood", 3 ],
+      [ "essence_dull", 16 ]
     ]
   ]
 }
