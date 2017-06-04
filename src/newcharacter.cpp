@@ -714,12 +714,12 @@ Scenarios and professions affect skill point pool" ) );
                          _( "No point limits are enforced" ) );
 
 
-    if( point_pool == "multiple" ) {
-        opts = {{multi_pool}};
-    } else if( point_pool == "no_freeform") { 
-        opts={{multi_pool, one_pool}}; 
+    if( point_pool == "multi_pool" ) {
+        opts = {{ multi_pool }};
+    } else if( point_pool == "no_freeform" ) { 
+        opts={{ multi_pool, one_pool }}; 
     } else { 
-        opts={{multi_pool, one_pool, freeform}};
+        opts={{ multi_pool, one_pool, freeform }};
     }
         
     int highlighted = 0;
