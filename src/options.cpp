@@ -1479,6 +1479,17 @@ void options_manager::init()
 
     mOptionsSort["world_default"]++;
 
+    optionNames["all"] = _("All");
+    optionNames["single"] = _("Single");
+    optionNames["multiple"] = _("Multiple");
+    optionNames["no_freeform"] = _("No Freeform");
+    add("CHARACTER_POINT_POOLS", "world_default", _("Character point pools"),
+        _("Allowable point pools for character generation."),
+        "all,single,multiple,no_freeform", "all"
+        );
+
+    mOptionsSort["world_default"]++;
+
     add("NO_FAULTS", "world_default", _("Disables vehicle part faults."),
         _("If true, disables vehicle part faults, vehicle parts will be totally reliable unless destroyed, and can only be repaired via replacement."),
         false, COPT_ALWAYS_HIDE

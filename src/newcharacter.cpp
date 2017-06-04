@@ -696,19 +696,49 @@ tab_direction set_points( WINDOW *w, player *, points_left &points )
     ctxt.register_action("QUIT");
     ctxt.register_action("CONFIRM");
 
+    const std::string point_pool = get_option<std::string>( "CHARACTER_POINT_POOLS" );
+
     using point_limit_tuple = std::tuple<points_left::point_limit, std::string, std::string>;
-    const std::vector<point_limit_tuple> opts = {{
-        std::make_tuple( points_left::MULTI_POOL, _( "Multiple pools" ),
+    std::vector<point_limit_tuple> opts;
+    
+    
+    const point_limit_tuple multi_pool = std::make_tuple( points_left::MULTI_POOL, _( "Multiple pools" ),
                          _( "Stats, traits and skills have separate point pools.\n\
 Putting stat points into traits and skills is allowed and putting trait points into skills is allowed.\n\
-Scenarios and professions affect skill point pool" ) ),
-        std::make_tuple( points_left::ONE_POOL, _( "Single pool" ),
-                         _( "Stats, traits and skills share a single point pool." ) ),
-        std::make_tuple( points_left::FREEFORM, _( "Freeform" ),
-                         _( "No point limits are enforced" ) )
-    }};
+Scenarios and professions affect skill point pool" ) );
+
+    const point_limit_tuple one_pool = std::make_tuple( points_left::ONE_POOL, _( "Single pool" ),
+                         _( "Stats, traits and skills share a single point pool." ) );
+
+    const point_limit_tuple freeform = std::make_tuple( points_left::FREEFORM, _( "Freeform" ),
+                         _( "No point limits are enforced" ) );
+
+
+    if( point_pool == "all" ) {
+    
+        opts = {{
+            multi_pool, one_pool, freeform
+        }};
+    }
+
+    else if( point_pool == "multiple") {
+        opts={{multi_pool}};
+    }
+
+    else if( point_pool == "single" ) {
+    
+        opts={{one_pool}};
+        // Set selected point pool to single, otherwise multipool is chosen by default 
+        points.limit = std::get<0>((opts[0]));
+    }
+
+    else {
+        opts={{multi_pool, one_pool}};
+    }
+        
 
     int highlighted = 0;
+
 
     do {
         if( highlighted < 0 ) {
