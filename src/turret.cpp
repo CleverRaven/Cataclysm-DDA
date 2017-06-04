@@ -492,15 +492,7 @@ npc vehicle::get_targeting_npc( vehicle_part &pt )
     cpu.recoil = 0;
 
     // These might all be affected by vehicle part damage, weather effects, etc.
-    cpu.set_skill_level(skill_id("pistol"), 8);
-    cpu.set_skill_level(skill_id("rifle"), 8);
-    cpu.set_skill_level(skill_id("smg"), 8);
-    cpu.set_skill_level(skill_id("shotgun"), 8);
-    cpu.set_skill_level(skill_id("launcher"), 8);
-    cpu.set_skill_level(skill_id("archery"), 8);
-    cpu.set_skill_level(skill_id("throw"), 8);
-    
-    cpu.set_skill_level( skill_id( "gun" ), 4 );
+    cpu.set_skill_level( pt.base.gun_skill(), 8 );
 
     cpu.str_cur = 16;
     cpu.dex_cur = 8;
