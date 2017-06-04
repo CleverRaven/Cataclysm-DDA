@@ -261,7 +261,7 @@
     ],
     "tools": [
       [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
+      [ [ "anvil", -1 ] ]
     ],
     "components": [
       [ [ "wire", 10 ] ],
