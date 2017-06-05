@@ -365,7 +365,7 @@ bool game::check_mod_data( const std::vector<std::string> &opts )
         DynamicDataLoader::get_instance().finalize_loaded_data();
     }
 
-    return !g->game_error();
+    return true;
 }
 
 bool game::is_core_data_loaded() const
@@ -13255,11 +13255,6 @@ void game::wait()
     player_activity new_act( actType, 100 * ( durations[as_m.ret] - 1 ), 0 );
 
     u.assign_activity( new_act, false );
-}
-
-bool game::game_error()
-{
-    return false;
 }
 
 void game::teleport(player *p, bool add_teleglow)
