@@ -1162,7 +1162,7 @@
     "material": [ "flesh" ],
     "symbol": "C",
     "color": "brown",
-    "aggression": -99,
+    "aggression": 10,
     "morale": 60,
     "melee_skill": 6,
     "melee_dice": 2,
