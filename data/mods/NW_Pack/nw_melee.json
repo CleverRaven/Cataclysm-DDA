@@ -16,12 +16,11 @@
     "type":"GENERIC",
     "name" : "Gungnir",
     "description" : "A replica of Gungnir, the spear of Odin.  It is rumored to be the perfect spear, perfectly hitting any target regardless of the wielder's strength or skill.  It is decorated with gold and silver ornaments.",
-    "weight" : 1754,
-    "material" : ["steel", "gold"],
+    "weight" : 1854,
+    "material" : ["steel", "wood", "gold"],
     "techniques" : ["WBLOCK_1", "IMPALE"],
-    "volume" : 6,
+    "volume" : 13,
     "bashing" : 10,
-    "cutting" : 20,
     "price" : 120000
   }
 ]
