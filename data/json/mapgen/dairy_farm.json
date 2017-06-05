@@ -4,21 +4,20 @@
     "name" : "GROUP_COWS",
     "is_safe" : true,
     "default" : "mon_null",
-    "monsters":[{"monster" : "mon_cow", "cost_multiplier" : 10, "freq": 100,  "ends" : 168, "pack_size" : [5,10] },
-    {"monster" : "mon_cow", "freq": 100, "cost_multiplier" : 5, "starts" :  336, "pack_size" : [1,5] }
+    "monsters":[{"monster" : "mon_cow", "cost_multiplier" : 10, "freq": 100, "ends" : 168 },
+    {"monster" : "mon_cow", "freq": 50, "cost_multiplier" : 5, "starts" :  336  }
     ]
   },{
     "method": "json",
     "object": {
-        "place_monsters": [
-            {
-                "chance": 100,
-                "density": 0.5,
-                "monster": "GROUP_COWS",
-                "x": 10,
-                "y": 10
-            }
-        ],
+    "place_monsters": [
+        { "monster": "GROUP_COWS", "x": [ 1, 10 ], "y": [ 1, 9 ], "density": 0.5 },
+        { "monster": "GROUP_COWS", "x": [ 1, 12 ], "y": [ 1, 12 ], "density": 0.5 },
+        { "monster": "GROUP_COWS", "x": [ 1, 11 ], "y": [ 1, 10 ], "density": 0.5 },
+        { "monster": "GROUP_COWS", "x": [ 1, 9 ], "y": [ 1, 11 ], "density": 0.5 },
+        { "monster": "GROUP_COWS", "x": [ 1, 15 ], "y": [ 1, 14 ], "density": 0.5 }
+
+      ],
         "rows": [
             "........................",
             ".$$$$$$$$$$$$$$$$$$$$$$$",
@@ -62,13 +61,11 @@
             ".": "f_null"
         },
         "place_monsters": [
-            {
-                "chance": 100,
-                "density": 0.5,
-                "monster": "GROUP_COWS",
-                "x": 10,
-                "y": 10
-            }
+        { "monster": "GROUP_COWS", "x": [ 1, 10 ], "y": [ 1, 9 ], "density": 0.5 },
+        { "monster": "GROUP_COWS", "x": [ 1, 12 ], "y": [ 1, 12 ], "density": 0.5 },
+        { "monster": "GROUP_COWS", "x": [ 1, 11 ], "y": [ 1, 10 ], "density": 0.5 },
+        { "monster": "GROUP_COWS", "x": [ 1, 9 ], "y": [ 1, 11 ], "density": 0.5 },
+        { "monster": "GROUP_COWS", "x": [ 1, 15 ], "y": [ 1, 12 ], "density": 0.5 }
         ],
         "rows": [
             "........................",
@@ -111,25 +108,26 @@
     "om_terrain": [ "dairy_farm_SE" ],
     "weight": 250,
     "object": {
+    "fill_ter": "t_floor",
       "rows": [
         "......................$.",
         "......................$.",
         "......................$.",
         ".|*|+|*|....|*|+|*|...$.",
         ".|_____|....|_____|...$.",
+        ".|O%_%O|....|___H_|...$.",
+        ".*O%_%O*....*_H___*...$.",
         ".|O%_%O|....|_____|...$.",
+        ".|O%_%O|....|___H_|...$.",
+        ".|O%_%O|....|_____|...$.",
+        ".*O%_%O*....*_H___*...$.",
+        ".|O%_%O|....|_____|...$.",
+        ".|O%_%O|....|_____|...$.",
+        ".|O%_%O|....|_H___|...$.",
         ".*O%_%O*....*_____*...$.",
+        ".|O%_%O|....|H____|...$.",
         ".|O%_%O|....|_____|...$.",
-        ".|O%_%O|....|_____|...$.",
-        ".|O%_%O|....|_____|...$.",
-        ".*O%_%O*....*_____*...$.",
-        ".|O%_%O|....|_____|...$.",
-        ".|O%_%O|....|_____|...$.",
-        ".|O%_%O|....|_____|...$.",
-        ".*O%_%O*....*_____*...$.",
-        ".|O%_%O|....|_____|...$.",
-        ".|O%_%O|....|_____|...$.",
-        ".|O%_%O|....|_____|...$.",
+        ".|O%_%O|....|___H_|...$.",
         ".|OOOOO|....|_____|...$.",
         ".|*|||*|....|*|||*|...$.",
         "......................$.",
@@ -142,10 +140,14 @@
         "%": "t_milking_machine",
         "*": "t_window_bars",
         "+": "t_door_o",
-        ".": "t_grass",
+        ".": ["t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt"],
         "O": "t_bulk_tank",
         "_": "t_floor",
         "|": "t_wall"
+      },
+      "furniture": {
+        "H": "f_hay"
+
       }
     }
   },
@@ -187,7 +189,7 @@
         "'": "t_door_o",
         "*": "t_window_domestic",
         "+": "t_door_locked_interior",
-        ".": "t_grass",
+        ".": ["t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt"],
         "_": "t_floor",
         "f": "t_door_metal_c",
         "|": "t_wall"
@@ -220,8 +222,8 @@
         { "item": "bed", "x": 13, "y": 16, "chance": 60 },
         { "item": "drugs_heal_simple", "x": 7, "y": 16, "chance": 90 },
         { "item": "homebooks", "x": 8, "y": 10, "chance": 80 },
-        { "item": "homebooks", "x": 17, "y": 12, "chance": 80 },
-        { "item": "homebooks", "x": 17, "y": 13, "chance": 80 },
+        { "item": "homebooks", "x": 10, "y": 15, "chance": 80 },
+        { "item": "homebooks", "x": 11, "y": 16, "chance": 80 },
         { "item": "clothing_outdoor_set", "x": 9, "y": 16, "chance": 90 },
         { "item": "fridge", "x": 15, "y": 17, "chance": 90 },
         { "item": "fridge", "x": 15, "y": 17, "chance": 90 },
