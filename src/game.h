@@ -60,7 +60,6 @@ enum quit_status {
     QUIT_NOSAVED,   // Quit without saving
     QUIT_DIED,      // Actual death
     QUIT_WATCH,     // Died, and watching aftermath
-    QUIT_ERROR
 };
 
 enum safe_mode_type {

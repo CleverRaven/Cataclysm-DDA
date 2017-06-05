@@ -13259,7 +13259,7 @@ void game::wait()
 
 bool game::game_error()
 {
-    return (uquit == QUIT_ERROR);
+    return false;
 }
 
 void game::teleport(player *p, bool add_teleglow)
