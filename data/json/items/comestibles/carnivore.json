@@ -25,7 +25,8 @@
     "volume": 1,
     "price": 500,
     "spoils_in": 12,
-    "calories": 200
+    "calories": 200,
+    "proportional": { "vitamins": [ [ "calcium", 2.0 ], [ "iron", 0.5 ] ] }
   },
   {
     "id": "fish_cooked",
