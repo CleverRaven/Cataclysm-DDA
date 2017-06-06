@@ -3,6 +3,9 @@
 
 # Shell globs are supported.
 
+# Linter unit tests
+tools/format/examples/*
+
 # Core
 data/json/bionics.json
 data/json/item_category.json sort_rank
