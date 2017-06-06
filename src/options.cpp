@@ -1071,11 +1071,11 @@ void options_manager::init()
         "wider,narrow", "narrow"
         );
 
-    //~ sidebar message log flow direction
+    //~ sidebar/message log flow direction
     optionNames["new_top"] = _("Top");
     optionNames["new_bottom"] = _("Bottom");
-    add("SIDEBAR_LOG_FLOW", "interface", _("Sidebar log flow"),
-        _("Where new sidebar log messages should show."),
+    add("LOG_FLOW", "interface", _("Message log flow"),
+        _("Where new log messages should show."),
         "new_top,new_bottom", "new_bottom"
         );
 
@@ -1984,7 +1984,7 @@ bool options_manager::save()
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
-    log_from_top = ::get_option<std::string>( "SIDEBAR_LOG_FLOW" ) == "new_top";
+    log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
 
@@ -2010,7 +2010,7 @@ void options_manager::load()
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
-    log_from_top = ::get_option<std::string>( "SIDEBAR_LOG_FLOW" ) == "new_top";
+    log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
 }
