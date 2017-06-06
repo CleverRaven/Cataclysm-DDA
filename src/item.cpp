@@ -5064,6 +5064,10 @@ bool item::use_amount(const itype_id &it, long &quantity, std::list<item> &used)
 
 bool item::allow_crafting_component() const
 {
+    if( rotten() || damage() > 0 ) {
+        return false;
+    }
+
     // vehicle batteries are implemented as magazines of charge
     if( is_magazine() && ammo_type() == ammotype( "battery" ) ) {
         return true;
