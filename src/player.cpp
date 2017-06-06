@@ -8675,7 +8675,7 @@ bool player::has_enough_charges( const item &it, bool show_msg ) const
                     it.tname().c_str(), it.ammo_required() );
         }
         return false;
-    } else if( !it.ammo_sufficient() ) {
+    } else if( !it.units_sufficient( *this ) ) {
         if( show_msg ) {
             add_msg_if_player( m_info,
                     ngettext( "Your %s has %d charge but needs %d.",
@@ -8727,7 +8727,12 @@ bool player::consume_charges( item& used, long qty )
         if( used.charges >= qty ) {
             used.ammo_consume( qty, pos() );
         } else {
-            use_charges( "UPS", qty );
+            long tmp = qty;
+            if( used.charges > 0 ){
+                tmp -= used.charges;
+                used.ammo_consume( used.charges, pos() );
+            }
+            return !use_charges( "UPS", tmp ).empty();
         }
     } else {
         used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );
