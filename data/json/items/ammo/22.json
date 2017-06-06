@@ -12,7 +12,7 @@
       "range": 0.6,
       "damage": 0.5,
       "dispersion": 1.2,
-      "recoil": 0.6
+      "recoil": 0.3
     },
     "extend": { "effects": [ "NOGIB" ] }
   },
@@ -59,7 +59,7 @@
     "proportional": {
       "range": 0.6,
       "damage": 0.5,
-      "recoil": 0.5
+      "recoil": 0.3
     },
     "extend": { "effects": [ "SHOT", "NOGIB" ] }
   },
