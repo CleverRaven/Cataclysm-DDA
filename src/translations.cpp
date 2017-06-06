@@ -19,9 +19,11 @@ const char *pgettext( const char *context, const char *msgid )
     // need to construct the string manually,
     // to correctly handle strings loaded from json.
     // could probably do this more efficiently without using std::string.
-    std::string context_id( context );
-    context_id += '\004';
-    context_id += msgid;
+    const int context_len = strlen( context ), msgid_len = strlen( msgid );
+    std::string context_id( context_len + msgid_len + 1, '\0' );
+    strcpy( &context_id[0], context );
+    strcpy( &context_id[context_len], "\004" );
+    strcpy( &context_id[context_len + 1], msgid );
     // null domain, uses global translation domain
     const char *msg_ctxt_id = context_id.c_str();
     const char *translation = dcgettext( NULL, msg_ctxt_id, LC_MESSAGES );
