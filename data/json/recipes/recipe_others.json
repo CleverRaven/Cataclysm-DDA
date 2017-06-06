@@ -1758,7 +1758,9 @@
       [ "thread", 50 ],
       [ "sinew", 50 ],
       [ "plant_fibre", 50 ],
-      [ "yarn", 25 ]
+      [ "yarn", 25 ],
+      [ "withered", 2 ],
+      [ "straw_pile", 2 ]
     ]
   ]
 },{
@@ -1776,7 +1778,9 @@
       [ "thread", 300 ],
       [ "sinew", 300 ],
       [ "plant_fibre", 300 ],
-      [ "yarn", 150 ]
+      [ "yarn", 150 ],
+      [ "withered", 12 ],
+      [ "straw_pile", 12 ]
     ]
   ]
 },{
