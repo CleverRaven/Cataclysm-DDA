@@ -150,8 +150,8 @@ std::string harvest_list::describe( int at_skill ) const
             max_f = en.max;
         }
         // @todo Avoid repetition here by making a common harvest drop function
-        int max_drops = std::min<int>( en.max, std::round( std::max( 0.0f, max_f ) ) );
-        int min_drops = std::max<int>( 0.0f, std::round( std::min( min_f, max_f ) ) );
+        int max_drops = std::min<int>( en.max, round( std::max( 0.0f, max_f ) ) );
+        int min_drops = std::max<int>( 0.0f, round( std::min( min_f, max_f ) ) );
         if( max_drops <= 0 ) {
             return std::string();
         }
