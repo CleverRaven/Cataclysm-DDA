@@ -4599,8 +4599,9 @@ bool item::units_sufficient( const Character &ch, int qty ) const
 }
 
 item::reload_option::reload_option( const reload_option &rhs ) :
-    who( rhs.who ), target( rhs.target ), ammo( rhs.ammo.clone() ),
-    qty_( rhs.qty_ ), max_qty( rhs.max_qty ), parent( rhs.parent ) {}
+    who( rhs.who ), target( rhs.target ), target_parent( rhs.target_parent ),
+    ammo( rhs.ammo.clone() ), ammo_parent( rhs.ammo_parent ),
+    qty_( rhs.qty_ ), max_qty( rhs.max_qty ) {}
 
 item::reload_option &item::reload_option::operator=( const reload_option &rhs )
 {
@@ -4609,13 +4610,15 @@ item::reload_option &item::reload_option::operator=( const reload_option &rhs )
     ammo = rhs.ammo.clone();
     qty_ = rhs.qty_;
     max_qty = rhs.max_qty;
-    parent = rhs.parent;
+    target_parent = rhs.target_parent;
+    ammo_parent = rhs.ammo_parent;
 
     return *this;
 }
 
-item::reload_option::reload_option( const player *who, const item *target, const item *parent, item_location&& ammo ) :
-    who( who ), target( target ), ammo( std::move( ammo ) ), parent( parent )
+item::reload_option::reload_option( const player *who, const item *target, const item *target_parent,
+                                    item_location&& ammo, const item *ammo_parent ) :
+    who( who ), target( target ), target_parent( target_parent ), ammo( std::move( ammo ) ), ammo_parent( ammo_parent )
 {
     if( this->target->is_ammo_belt() && this->target->type->magazine->linkage != "NULL" ) {
         max_qty = this->who->charges_of( this->target->type->magazine->linkage );
@@ -4635,10 +4638,10 @@ item::reload_option::reload_option( const player *who, const item *target, const
 int item::reload_option::moves() const
 {
     int mv = ammo.obtain_cost( *who, qty() ) + who->item_reload_cost( *target, *ammo, qty() );
-    if( parent != target ) {
-        if( parent->is_gun() ) {
-            mv += parent->type->gun->reload_time;
-        } else if( parent->is_tool() ) {
+    if( target_parent != target ) {
+        if( target_parent->is_gun() ) {
+            mv += target_parent->type->gun->reload_time;
+        } else if( target_parent->is_tool() ) {
             mv += 100;
         }
     }

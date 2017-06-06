@@ -7551,13 +7551,14 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
 
     bool ammo_match_found = false;
     for( const auto e : opts ) {
-        for( item_location& ammo : find_ammo( *e ) ) {
+        for( wrapped_location &wl : find_ammo( *e ) ) {
+            auto &ammo = wl.location;
             auto id = ammo->is_ammo_container() ? ammo->contents.front().typeId() : ammo->typeId();
             if( e->can_reload_with( id ) ) {
                 ammo_match_found = true;
             }
             if( can_reload( *e, id ) || e->has_flag( "RELOAD_AND_SHOOT" ) ) {
-                ammo_list.emplace_back( this, e, &base, std::move( ammo ) );
+                ammo_list.emplace_back( this, e, &base, std::move( ammo ), wl.parent );
             }
         }
     }
@@ -7588,6 +7589,18 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
 
     if( is_npc() ) {
         return std::move( ammo_list[ 0 ] );
+    }
+
+    for( auto &opt : ammo_list ) {
+        if( ( opt.ammo_parent != nullptr && opt.ammo_parent->has_flag( "PREFERRED_AMMO_SOURCE" ) ) ) {
+            add_msg_if_player( m_info, _( "Reloading from a preferred ammo source: %s" ), opt.ammo_parent->tname().c_str() );
+            return std::move( opt );
+        }
+
+        if( opt.ammo->has_flag( "PREFERRED_AMMO_SOURCE" ) ) {
+            add_msg_if_player( m_info, _( "Reloading with preferred ammo: %s" ), opt.ammo->tname().c_str() );
+            return std::move( opt );
+        }
     }
 
     if( !prompt && ammo_list.size() == 1 ) {

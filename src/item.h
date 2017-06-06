@@ -366,11 +366,18 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
             reload_option( const reload_option & );
             reload_option &operator=( const reload_option & );
 
-            reload_option( const player *who, const item *target, const item *parent, item_location&& ammo );
+            reload_option( const player *who, const item *target, const item *parent,
+                           item_location&& ammo, const item *ammo_parent );
 
             const player *who = nullptr;
+            // Item or gunmod to reload
             const item *target = nullptr;
+            // Same as above or parent of the gunmod
+            const item *target_parent = nullptr;
+            // Ammo used to reload
             item_location ammo;
+            // Item that contains the ammo (null if it's in inventory/map/etc.)
+            const item *ammo_parent = nullptr;
 
             long qty() const { return qty_; }
             void qty( long val );
@@ -384,7 +391,6 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         private:
             long qty_ = 0;
             long max_qty = LONG_MAX;
-            const item *parent = nullptr;
     };
 
     /**

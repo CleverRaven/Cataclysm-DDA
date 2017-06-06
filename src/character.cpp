@@ -778,7 +778,7 @@ void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nes
         // find suitable ammo excluding that already loaded in magazines
         ammotype ammo = obj.ammo_type();
 
-        src.visit_items( [&src,&nested,&out,ammo]( item *node ) {
+        src.visit_items( [&src,&nested,&out,ammo]( item *node, item *parent ) {
             if( node->is_magazine() || node->is_gun() || node->is_tool() ) {
                 // guns/tools never contain usable ammo so most efficient to skip them now
                 return VisitResponse::SKIP;
@@ -789,12 +789,12 @@ void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nes
             }
             if( node->is_ammo_container() && !node->contents.front().made_of( SOLID ) ) {
                 if( node->contents.front().type->ammo->type.count( ammo ) ) {
-                    out = item_location( src, node );
+                    out = wrapped_location( parent, item_location( src, node ) );
                 }
                 return VisitResponse::SKIP;
             }
             if( node->is_ammo() && node->type->ammo->type.count( ammo ) ) {
-                out = item_location( src, node );
+                out = wrapped_location( parent, item_location( src, node ) );
             }
             return nested ? VisitResponse::NEXT : VisitResponse::SKIP;
         } );
@@ -803,13 +803,13 @@ void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nes
         // find compatible magazines excluding those already loaded in tools/guns
         const auto mags = obj.magazine_compatible();
 
-        src.visit_items( [&src,&nested,&out,mags,empty]( item *node ) {
+        src.visit_items( [&src,&nested,&out,mags,empty]( item *node, item *parent ) {
             if( node->is_gun() || node->is_tool() ) {
                 return VisitResponse::SKIP;
             }
             if( node->is_magazine() ) {
                 if ( mags.count( node->typeId() ) && ( node->ammo_remaining() || empty ) ) {
-                    out = item_location( src, node );
+                    out = wrapped_location( parent, item_location( src, node ) );
                 }
                 return VisitResponse::SKIP;
             }
@@ -818,9 +818,9 @@ void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nes
     }
 }
 
-std::vector<item_location> Character::find_ammo( const item& obj, bool empty, int radius ) const
+std::vector<wrapped_location> Character::find_ammo( const item& obj, bool empty, int radius ) const
 {
-    std::vector<item_location> res;
+    std::vector<wrapped_location> res;
 
     find_ammo_helper( const_cast<Character &>( *this ), obj, empty, std::back_inserter( res ), true );
 
@@ -2158,7 +2158,8 @@ long Character::ammo_count_for( const item &gun )
 
         const auto found_ammo = find_ammo( gun, true, -1 );
         long loose_ammo = 0;
-        for( const auto &ammo : found_ammo ) {
+        for( const auto &wrapped_ammo : found_ammo ) {
+            const auto &ammo = wrapped_ammo.location;
             if( ammo->is_magazine() ) {
                 has_mag = true;
                 total_ammo += ammo->ammo_remaining();

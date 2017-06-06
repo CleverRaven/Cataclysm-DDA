@@ -178,6 +178,13 @@
     "info": "This clothing has <info>pockets</info> to warm your hands when you are wielding nothing."
   },
   {
+    "id": "PREFERRED_AMMO_SOURCE",
+    "type": "json_flag",
+    "context": [],
+    "description": "This item is a preferred source of ammo.  If it is available when reloading a compatible weapon, it will be picked automatically, without asking.  Should only be assigned by the player.",
+    "info": "This item is a <info>preferred source of ammo</info> and will be selected by default when reloading."
+  },
+  {
     "id": "RAD_PROOF",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
