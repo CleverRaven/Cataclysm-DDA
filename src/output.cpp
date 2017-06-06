@@ -1565,41 +1565,31 @@ std::string rewrite_vsnprintf( const char *msg )
 
 std::string vstring_format( char const *format, va_list args )
 {
-    errno = 0; // Clear errno before trying
-    std::vector<char> buffer( 1024, '\0' );
-
 #if (defined __CYGWIN__)
     std::string rewritten_format = rewrite_vsnprintf( format );
     format = rewritten_format.c_str();
 #endif
-
-    for( ;; ) {
-        size_t const buffer_size = buffer.size();
-
-        va_list args_copy;
-        va_copy( args_copy, args );
-        int const result = vsnprintf( &buffer[0], buffer_size, format, args_copy );
-        va_end( args_copy );
-
-        // No error, and the buffer is big enough; we're done.
-        if( result >= 0 && static_cast<size_t>( result ) < buffer_size ) {
-            break;
+    va_list args_copy;
+    va_copy( args_copy, args );
+    va_end( args_copy );
+    std::string result;
+    int count = vsnprintf( NULL, 0, format, args_copy );
+    if( count >= 0 ) {
+        std::string result( count+1, '\0' );
+        // vsnprintf stores a trailing '\0' in the given buffer
+        if ( vsnprintf( &result[0], count+1, format, args ) == count ) {
+            if( result.size() > 0 ) {
+                // so we need to remove the trailing '\0' afterward
+                result.pop_back();
+            }
+            return result;
+        } else {
+            return std::string( "Bad format string to printf." );
         }
-
-        // Standards conformant versions return -1 on error only.
-        // Some non-standard versions return -1 to indicate a bigger buffer is needed.
-        // Some of the latter set errno to ERANGE at the same time.
-        if( result < 0 && errno && errno != ERANGE ) {
-            return std::string( "Bad format string for printf." );
-        }
-
-        // Looks like we need to grow... bigger, definitely bigger.
-        buffer.resize( buffer_size * 2 );
     }
-
-    return std::string( &buffer[0] );
+    return std::string( "Bad format string to printf." );
 }
-#endif
+#endif // (defiend _MSC_VER)
 
 std::string string_format( const char *pattern, ... )
 {
