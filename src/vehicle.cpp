@@ -1985,7 +1985,11 @@ void vehicle::part_removal_cleanup() {
         if( it->removed ) {
             auto items = get_items( std::distance( parts.begin(), it ) );
             while( !items.empty() ) {
-                items.erase( items.begin() );
+                auto cur_item = items.begin();
+                if ( active_items.has( cur_item, it->mount ) ) {
+                    active_items.remove( cur_item, it->mount );
+                }
+                items.erase( cur_item );
             }
             it = parts.erase( it );
             changed = true;
@@ -5450,6 +5454,8 @@ void vehicle::shift_parts( const point delta )
     for( auto &elem : parts ) {
         elem.mount -= delta;
     }
+
+    active_items.shift_location( delta );
 
     decltype(labels) new_labels;
     for( auto &l : labels ) {
