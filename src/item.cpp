@@ -1998,6 +1998,13 @@ nc_color item::color_in_inventory() const
                 ret = c_pink;
             } else if( !u->studied_all_recipes( *type ) ) { // Book can't improve skill anymore, but has more recipes: yellow
                 ret = c_yellow;
+            } else if ( type->can_use( "MA_MANUAL" ) ) { // Martial arts book support
+                // TODO: replace this terrible hack to rely on the item name matching the style name, it's terrible.
+                // (also change equivalent code in iuse.cpp's ma_manual)
+                const matype_id style_to_learn( "style_" + typeId().substr( 7 ) );
+                if( !u->has_martialart( style_to_learn ) ) {
+                    ret = c_ltblue;
+                }
             }
         } else {
             ret = c_red; // Book hasn't been identified yet: red
