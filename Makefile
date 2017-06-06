@@ -818,9 +818,9 @@ data/osx/AppIcon.icns: data/osx/AppIcon.iconset
 	iconutil -c icns $<
 
 ifdef OSXCROSS
-app: appclean version $(APPTARGET)
+app: appclean version $(L10N) $(APPTARGET)
 else
-app: appclean version data/osx/AppIcon.icns $(APPTARGET)
+app: appclean version data/osx/AppIcon.icns $(L10N) $(APPTARGET)
 endif
 	mkdir -p $(APPTARGETDIR)/Contents
 	cp data/osx/Info.plist $(APPTARGETDIR)/Contents/
@@ -881,7 +881,7 @@ dmgdistclean:
 	rm -f Cataclysm.dmg
 	rm -rf lang/mo
 
-dmgdist: dmgdistclean $(L10N) app
+dmgdist: dmgdistclean app
 ifdef OSXCROSS
 	mkdir Cataclysm
 	cp -a $(APPTARGETDIR) Cataclysm/$(APPTARGETDIR)
