@@ -1632,7 +1632,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         return;
     }
 
-    item &fix = p->i_at( act->position );
+    item &fix = *act->targets[0];
 
     // The first time through we just find out how many times the player wants to repeat the action.
     if( repeat != REPEAT_INIT ) {

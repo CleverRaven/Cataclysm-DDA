@@ -10,6 +10,8 @@
 #include "explosion.h"
 #include "vitamin.h"
 #include "units.h"
+#include "requirements.h"
+
 #include <limits.h>
 
 struct vehicle_prototype;
@@ -744,8 +746,21 @@ class repair_item_actor : public iuse_actor
         /** Checks if repairs are possible.
           * Doesn't just estimate - should not return true if repairs are not possible or false if they are. */
         bool can_repair( player &pl, const item &tool, const item &target, bool print_msg ) const;
-        /** Returns if components are available. Consumes them if `just_check` is false. */
-        bool handle_components( player &pl, const item &fix, bool print_msg, bool just_check ) const;
+
+        /**
+         *  Check if repair components available
+         *  @param fix item to be repaired
+         *  @param inv inventory to search for components
+         *  @param found available components output here
+         *  @param alert if set display failure messages
+         *  @note this function does not actually consume any components
+         */
+        bool has_components( const item &fix, const inventory &inv,
+                             std::vector<item_comp> &found, bool alert = false ) const;
+
+        /** Convenience wrapped when found material components not required */
+        bool has_components( const item &fix, const inventory &inv, bool alert = false ) const;
+
         /** Returns the chance to repair and to damage an item. */
         std::pair<float, float> repair_chance(
             const player &pl, const item &fix, repair_type action_type ) const;
@@ -768,6 +783,10 @@ class repair_item_actor : public iuse_actor
         iuse_actor *clone() const override;
 
         std::string get_name() const override;
+
+    private:
+        /** Consumes required materials, @see has_components */
+        void consume_components( player &pl, const item &fix ) const;
 };
 
 class heal_actor : public iuse_actor

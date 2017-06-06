@@ -2239,23 +2239,24 @@ void repair_item_actor::load( JsonObject &obj )
     trains_skill_to = obj.get_int( "trains_skill_to", 5 ) - 1;
 }
 
-bool could_repair( const player &p, const item &it, bool print_msg )
+/** Check if the tool itself is currently available for use */
+static bool repair_tool_ready( const player &p, const item &tool, bool alert )
 {
     if( p.is_underwater() ) {
-        if( print_msg ) {
-            p.add_msg_if_player(m_info, _("You can't do that while underwater."));
+        if( alert ) {
+            add_msg( m_info, _( "You can't do that while underwater." ) );
         }
         return false;
     }
     if( p.fine_detail_vision_mod() > 4 ) {
-        if( print_msg ) {
-            p.add_msg_if_player(m_info, _("You can't see to do that!"));
+        if( alert ) {
+            add_msg( m_info, _( "You can't see to do that!" ) );
         }
         return false;
     }
-    if( !it.ammo_sufficient() ) {
-        if( print_msg ) {
-            p.add_msg_if_player( m_info, _("Your tool does not have enough charges to do that.") );
+    if( !tool.ammo_sufficient() ) {
+        if( alert ) {
+            add_msg( m_info, _( "Your tool does not have enough charges to do that." ) );
         }
         return false;
     }
@@ -2265,22 +2266,37 @@ bool could_repair( const player &p, const item &it, bool print_msg )
 
 long repair_item_actor::use( player *p, item *it, bool, const tripoint & ) const
 {
-    if( !could_repair( *p, *it, true ) ) {
+    if( !repair_tool_ready( *p, *it, true ) ) {
         return 0;
     }
-    const int pos = g->inv_for_filter( _( "Repair what?" ), [this, it]( const item &itm ) {
-        return itm.made_of_any( materials ) && !itm.count_by_charges() && !itm.is_firearm() && &itm != it;
-    }, string_format( _( "You have no items that could be repaired with a %s." ), it->type_name( 1 ).c_str() ) );
 
-    if( pos == INT_MIN ) {
+    // check item for repair tool compatibility and also prevents self-repair
+    auto func = [it]( const item &e ) {
+        return e.repaired_with().count( it->typeId() ) && it != &e;
+    };
+
+    auto fail = string_format( _( "You have no items that could be repaired with a %s." ),
+                               it->type_name( 1 ).c_str() );
+
+    // query for item to repair and abort if nothing compatible was found or selected
+    auto fix = g->inv_map_splice( func, _( "Repair what?" ), 1, fail );
+    if( !fix ) {
         p->add_msg_if_player( m_info, _( "Never mind." ) );
         return 0;
     }
 
-    p->assign_activity( activity_id( "ACT_REPAIR_ITEM" ), 0, p->get_item_position( it ), pos );
+    // don't start an activity if repair is not possible
+    if( !can_repair( *p, *it, *fix, true ) ) {
+        return 0;
+    }
+
+    // setup a long action to peform the repair with all charges consumed in the activity handler
+    p->assign_activity( activity_id( "ACT_REPAIR_ITEM" ), 0, p->get_item_position( it ) );
+    p->activity.targets.push_back( std::move( fix ) );
+
     // We also need to store the repair actor subtype in the activity
     p->activity.str_values.push_back( type );
-    // All repairs are done in the activity, including charge cost
+
     return 0;
 }
 
@@ -2289,82 +2305,70 @@ iuse_actor *repair_item_actor::clone() const
     return new repair_item_actor( *this );
 }
 
-bool repair_item_actor::handle_components( player &pl, const item &fix,
-    bool print_msg, bool just_check ) const
-{
-    // Entries valid for repaired items
-    std::set<material_id> valid_entries;
-    for( const auto &mat : materials ) {
-        if( fix.made_of( mat ) ) {
-            valid_entries.insert( mat );
-        }
-    }
+bool repair_item_actor::has_components( const item &fix, const inventory &inv, bool alert ) const {
+    std::vector<item_comp> found;
+    return has_components( fix, inv, found, alert );
+}
 
-    std::vector<item_comp> comps;
-    if( valid_entries.empty() ) {
-        if( print_msg ) {
-            pl.add_msg_if_player( m_info, _("Your %s is not made of any of:"),
-                                  fix.tname().c_str());
-            for( const auto &mat_name : materials ) {
-                const auto &mat = mat_name.obj();
-                pl.add_msg_if_player( m_info, _("%s (repaired using %s)"), mat.name().c_str(),
-                                      item::nname( mat.repaired_with(), 2 ).c_str() );
+bool repair_item_actor::has_components( const item &fix, const inventory &inv,
+                                        std::vector<item_comp> &found, bool alert ) const {
+
+    // determine overlap between item materials and permitted repair tool materials
+    std::set<material_id> opts;
+    std::copy_if( materials.begin(), materials.end(), std::inserter( opts, opts.end() ),
+                  [&fix]( const material_id &e ) { return fix.made_of( e ); } );
+
+    // currently 1:1 mapping between repair tool materials and components
+    if( opts.empty() ) {
+        if( alert ) {
+            add_msg( m_info, _( "The %s is not made of any of:" ), fix.tname().c_str() );
+            for( const auto &e : materials ) {
+                add_msg( m_info, _( "%s (repaired using %s)" ), e->name().c_str(),
+                         item::nname( e->repaired_with(), 2 ).c_str() );
             }
         }
-
         return false;
     }
 
-    const inventory &crafting_inv = pl.crafting_inventory();
+    // currently one material components is required per 250ml with a minimum of one component
+    // @todo 250_ml should be moved to the JSON definition of cost scaling
+    const int qty = std::max<int>( ceil( fix.volume() / 250_ml * cost_scaling ), 1 );
 
-    // Repairing or modifying items requires at least 1 repair item,
-    //  otherwise number is related to size of item
-    // Round up if checking, but roll if actually consuming
-    // TODO: should 250_ml be part of the cost_scaling?
-    const int items_needed = std::max<int>( 1, just_check ?
-        ceil( fix.volume() / 250_ml * cost_scaling ) :
-        divide_roll_remainder( fix.volume() / 250_ml * cost_scaling, 1.0f ) );
+    // try to find potential repair materials
+    for( const auto &e : opts ) {
+        const itype_id comp = e->repaired_with();
 
-    // Go through all discovered repair items and see if we have any of them available
-    for( const auto &entry : valid_entries ) {
-        const auto component_id = entry.obj().repaired_with();
-        if( item::count_by_charges( component_id ) ) {
-            if( crafting_inv.has_charges( component_id, items_needed ) ) {
-                comps.emplace_back( component_id, items_needed );
+        if( item::count_by_charges( comp ) ) {
+            if( inv.has_charges( comp, qty ) ) {
+                found.emplace_back( comp, qty );
             }
-        } else if( crafting_inv.has_amount( component_id, items_needed ) ) {
-            comps.emplace_back( component_id, items_needed );
+        } else if( inv.has_amount( comp, qty ) ) {
+            found.emplace_back( comp, qty );
         }
     }
 
-    if( comps.empty() ) {
-        if( print_msg ) {
-            for( const auto &entry : valid_entries ) {
-                const auto &mat_comp = entry.obj().repaired_with();
-                pl.add_msg_if_player( m_info,
-                    _("You don't have enough %s to do that. Have: %d, need: %d"),
-                    item::nname( mat_comp, 2 ).c_str(),
-                    item::find_type( mat_comp )->count_by_charges() ?
-                        crafting_inv.amount_of( mat_comp, false ) :
-                        crafting_inv.charges_of( mat_comp, items_needed ),
-                    items_needed );
+    if( found.empty() ) {
+        if( alert ) {
+            for( const auto &e : opts ) {
+                const itype_id comp = e->repaired_with();
+                add_msg( m_info, _("You don't have enough %s to repair the %s. Have: %d, need: %d"),
+                         item::nname( comp, 2 ).c_str(),
+                         fix.tname( 1 ).c_str(),
+                         item::find_type( comp )->count_by_charges() ? inv.amount_of( comp, qty ) : inv.charges_of( comp, qty ),
+                         qty );
             }
         }
-
         return false;
-    }
-
-    if( !just_check ) {
-        if( comps.empty() ) {
-            // This shouldn't happen - the check in can_repair should prevent it
-            // But report it, just in case
-            debugmsg( "Attempted repair with no components" );
-        }
-
-        pl.consume_items( comps );
     }
 
     return true;
+}
+
+void repair_item_actor::consume_components( player &pl, const item &fix ) const
+{
+    std::vector<item_comp> found;
+    has_components( fix, pl.crafting_inventory(), found );
+    pl.consume_items( found );
 }
 
 
@@ -2400,41 +2404,19 @@ int repair_item_actor::repair_recipe_difficulty( const player &pl,
 
 bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fix, bool print_msg ) const
 {
-    if( !could_repair( pl, tool, print_msg ) ) {
+    if( !repair_tool_ready( pl, tool, print_msg ) ) {
         return false;
     }
 
-    // In some rare cases (indices getting scrambled after inventory overflow)
-    //  our `fix` can be a different item.
-    if( fix.is_null() ) {
+    if( !fix.repaired_with().count( tool.typeId() ) ) {
         if( print_msg ) {
-            pl.add_msg_if_player( m_info, _("You do not have that item!") );
-        }
-        return false;
-    }
-    if( fix.is_firearm() ) {
-        if( print_msg ) {
-            pl.add_msg_if_player( m_info, _("That requires gunsmithing tools.") );
-        }
-        return false;
-    }
-    if( fix.count_by_charges() || fix.has_flag( "NO_REPAIR" ) ) {
-        if( print_msg ) {
-            pl.add_msg_if_player( m_info, _("You cannot repair this type of item.") );
+            add_msg( m_info, _( "Your %s cannot be used to repair the %s." ),
+                     tool.tname().c_str(), fix.tname().c_str() );
         }
         return false;
     }
 
-    if( &fix == &tool || any_of( materials.begin(), materials.end(), [&fix]( const material_id &mat ) {
-            return mat.obj().repaired_with() == fix.typeId();
-        } ) ) {
-        if( print_msg ) {
-            pl.add_msg_if_player( m_info, _("This can be used to repair other items, not itself.") );
-        }
-        return false;
-    }
-
-    if( !handle_components( pl, fix, print_msg, true ) ) {
+    if( !has_components( fix, pl.crafting_inventory(), print_msg ) ) {
         return false;
     }
 
@@ -2446,7 +2428,7 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
         return true;
     }
 
-    if( fix.damage() < 0 ) {
+    if( fix.damage() <= fix.min_damage() ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _("Your %s is already enhanced."), fix.tname().c_str() );
         }
@@ -2521,7 +2503,7 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
         return RT_REFIT;
     }
 
-    if( fix.damage() == 0 ) {
+    if( fix.damage() > fix.min_damage() ) {
         return RT_REINFORCE;
     }
 
@@ -2597,7 +2579,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     if( action == RT_REPAIR ) {
         if( roll == SUCCESS ) {
             pl.add_msg_if_player(m_good, _("You repair your %s!"), fix.tname().c_str());
-            handle_components( pl, fix, false, false );
+            consume_components( pl, fix );
             fix.mod_damage( -1 );
             return AS_SUCCESS;
         }
@@ -2610,7 +2592,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
             pl.add_msg_if_player(m_good, _("You take your %s in, improving the fit."),
                                  fix.tname().c_str());
             fix.item_tags.insert("FIT");
-            handle_components( pl, fix, false, false );
+            consume_components( pl, fix );
             return AS_SUCCESS;
         }
 
@@ -2626,7 +2608,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
         if( roll == SUCCESS ) {
             pl.add_msg_if_player(m_good, _("You make your %s extra sturdy."), fix.tname().c_str());
             fix.mod_damage( -1 );
-            handle_components( pl, fix, false, false );
+            consume_components( pl, fix );
             return AS_SUCCESS;
         }
 
