@@ -2631,7 +2631,7 @@
     "coverage": 90,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
     "id": "flotation_vest",
@@ -4664,7 +4664,7 @@
     "storage": 9,
     "warmth": 30,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "OUTER", "POCKETS", "HOOD" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
   },
   {
     "id": "hot_pants",
@@ -5797,7 +5797,7 @@
         "text": "A t-shirt with the Debian logo on it, underneath it says \"The Universal Operating System\""
       }
     ],
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
     "id": "locket",
@@ -7107,7 +7107,7 @@
     "encumbrance": 7,
     "warmth": 15,
     "material_thickness": 2,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
     "id": "poncho",
@@ -8973,7 +8973,7 @@
     "storage": 1,
     "warmth": 8,
     "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
     "id": "technician_shirt_gray",
@@ -8992,7 +8992,7 @@
     "storage": 1,
     "warmth": 8,
     "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
     "id": "technician_shirt_ltblue",
@@ -9011,7 +9011,7 @@
     "storage": 1,
     "warmth": 8,
     "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
     "id": "thawb",
@@ -9288,7 +9288,7 @@
     "coverage": 90,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
     "id": "tshirt_text",
@@ -9311,7 +9311,7 @@
         "text": "A short-sleeved cotton shirt with the text \"chown -R us ~your/base\" printed on the front."
       }
     ],
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
     "id": "tunic",
@@ -9760,7 +9760,7 @@
     "storage": 9,
     "warmth": 45,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "OUTER", "POCKETS", "HOOD" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
   },
   {
     "id": "wool_suit",
