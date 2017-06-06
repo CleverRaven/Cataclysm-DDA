@@ -72,6 +72,7 @@
     "type": "GUN",
     "name": "combat shotgun",
     "description": "A military issue shotgun that can be fired in short bursts.  It holds eight shells in an internal magazine.",
+    "burst": 2,
     "reload": 100
   },
   {
