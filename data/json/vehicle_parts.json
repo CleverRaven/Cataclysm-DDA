@@ -2026,7 +2026,7 @@
         "color" : "light_red",
         "broken_symbol" : "#",
         "broken_color" : "red",
-        "damage_modifier" : 10,
+        "damage_modifier" : 2,
         "durability" : 100,
         "folded_volume" : 8,
         "bonus" : 24,
