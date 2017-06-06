@@ -4,9 +4,14 @@
     "name" : "GROUP_COWS",
     "is_safe" : true,
     "default" : "mon_null",
+<<<<<<< HEAD
     "monsters":[
     { "monster" : "mon_cow", "cost_multiplier" : 10, "freq": 100, "ends" : 168 },
     { "monster" : "mon_cow", "freq": 50, "cost_multiplier" : 5, "starts" :  336  }
+=======
+    "monsters":[{"monster" : "mon_cow", "cost_multiplier" : 0, "freq": 100, "ends" : 168 },
+    {"monster" : "mon_cow", "freq": 50, "cost_multiplier" : 0, "starts" :  168  }
+>>>>>>> parent of 43154725d0... Revert "Fixed time gap in monster spawn and spawn density and cost"
     ]
   },{
     "method": "json",
