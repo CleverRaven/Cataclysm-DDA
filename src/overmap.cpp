@@ -1915,7 +1915,7 @@ std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
     for (int x = 0; x < OMAPX; x++) {
         for (int y = 0; y < OMAPY; y++) {
             if (seen(x, y, zlevel) &&
-                lcmatch( ter(x, y, zlevel)->get_name(), term ) ) {
+                lcmatch( _( ter(x, y, zlevel)->get_name().c_str() ), term ) ) {
                 found.push_back( global_base_point() + point( x, y ) );
             }
         }
@@ -2089,7 +2089,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     const auto &zones = zone_manager::get_manager();
 
     if( data.iZoneIndex != -1 ) {
-        sZoneName = zones.zones[data.iZoneIndex].get_name();
+        sZoneName = _( zones.zones[data.iZoneIndex].get_name().c_str() );
         tripointZone = ms_to_omt_copy(zones.zones[data.iZoneIndex].get_center_point());
     }
 
@@ -2448,7 +2448,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             const auto &ter = ccur_ter.obj();
 
             mvwputch( wbar, 1, 1, ter.get_color(), ter.get_sym() );
-            std::vector<std::string> name = foldstring(ter.get_name(), 25);
+            std::vector<std::string> name = foldstring(_( ter.get_name().c_str() ), 25);
             for (size_t i = 0; i < name.size(); i++) {
                 mvwprintz(wbar, i + 1, 3, ter.get_color(), "%s", name[i].c_str());
             }
