@@ -128,7 +128,6 @@
       ["mac10mag", 10],
       ["mp5mag", 10],
       ["stenmag", 5],
-      ["tec9mag", 10],
       ["tdi_mag", 5],
       ["thompson_mag", 5],
       ["ump45mag", 5],
@@ -243,6 +242,7 @@
       ["rpk74mag", 10],
       ["skorpion61mag", 10],
       ["skorpion82mag", 10],
+      ["tec9mag", 10],
       ["tokarevmag", 10]
     ]
   },
