@@ -6863,7 +6863,7 @@
         "mondensity" : 3,
         "flags" : [ "NO_ROTATE" ]
     },
-{
+  {
     "id": "dairy_farm_NW",
     "type": "overmap_terrain",
     "name": "dairy farm",
