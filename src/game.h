@@ -103,7 +103,7 @@ struct WORLD;
 class save_t;
 typedef WORLD *WORLDPTR;
 class overmap;
-struct event;
+class event_manager;
 enum event_type : int;
 struct vehicle_part;
 struct ter_t;
@@ -170,6 +170,7 @@ class game
         std::unique_ptr<live_view> liveview_ptr;
         live_view& liveview;
         std::unique_ptr<scent_map> scent_ptr;
+        std::unique_ptr<event_manager> event_manager_ptr;
     public:
 
         /** Initializes the UI. */
@@ -215,27 +216,10 @@ class game
         map &m;
         player &u;
         scent_map &scent;
+        event_manager &events;
 
         std::unique_ptr<Creature_tracker> critter_tracker;
 
-        /**
-         * Add an entry to @ref game::events. For further information see event.h
-         * @param type Type of event.
-         * @param on_turn On which turn event should be happened.
-         * @param faction_id Faction of event.
-         * reality bubble. In global submap coordinates.
-         */
-        void add_event(event_type type, int on_turn, int faction_id = -1);
-        /**
-         * Add an entry to @ref game::events. For further information see event.h
-         * @param type Type of event.
-         * @param on_turn On which turn event should be happened.
-         * @param faction_id Faction of event.
-         * @param where The location of the event, optional, defaults to the center of the
-         * reality bubble. In global submap coordinates.
-         */
-        void add_event(event_type type, int on_turn, int faction_id, tripoint where);
-        bool event_queued(event_type type) const;
         /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
             Explosion intensity formula is roughly power*factor^distance.
             If factor <= 0, no blast is produced */
@@ -988,7 +972,6 @@ private:
         void cleanup_dead();     // Delete any dead NPCs/monsters
         void monmove();          // Monster movement
         void rustCheck();        // Degrades practice levels
-        void process_events();   // Processes and enacts long-term events
         void process_activity(); // Processes and enacts the player's activity
         void update_weather();   // Updates the temperature and weather patten
         int  mon_info( const catacurses::window & ); // Prints a list of nearby monsters
@@ -1055,7 +1038,6 @@ private:
         time_point nextspawn; // The time on which monsters will spawn next.
         time_point nextweather; // The time on which weather will shift next.
         int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
-        std::list<event> events;         // Game events to be processed
         std::map<mtype_id, int> kills;         // Player's kill count
         std::list<std::string> npc_kills;      // names of NPCs the player killed
         int moves_since_last_save;

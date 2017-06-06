@@ -82,7 +82,7 @@ void event::actualize()
             }
         }
         if (!one_in(25)) { // They just keep coming!
-            g->add_event(EVENT_SPAWN_WYRMS, int(calendar::turn) + rng(15, 25));
+            g->events.add( EVENT_SPAWN_WYRMS, int( calendar::turn ) + rng( 15, 25 ) );
         }
     } break;
 
@@ -214,7 +214,7 @@ void event::actualize()
     for (int y = 0; y < SEEY * MAPSIZE; y++)
        g->m.ter_set(x, y, flood_buf[x][y]);
    }
-   g->add_event(EVENT_TEMPLE_FLOOD, int(calendar::turn) + rng(2, 3));
+   g->events.add( EVENT_TEMPLE_FLOOD, int( calendar::turn ) + rng( 2, 3 ) );
   } break;
 
     case EVENT_TEMPLE_SPAWN: {
@@ -279,4 +279,44 @@ void event::per_turn()
   default:
      break; // Nothing happens for other events
  }
+}
+
+void event_manager::process()
+{
+    for( auto it = events.begin(); it != events.end(); ) {
+        it->per_turn();
+        if( it->turn <= int( calendar::turn ) ) {
+            it->actualize();
+            it = events.erase( it );
+        } else {
+            it++;
+        }
+    }
+}
+
+void event_manager::add( const event_type type, const int on_turn, const int faction_id )
+{
+    add( type, on_turn, faction_id, g->u.global_sm_location() );
+}
+
+void event_manager::add( const event_type type, const int on_turn, const int faction_id,
+                         const tripoint center )
+{
+    event tmp( type, on_turn, faction_id, center );
+    events.push_back( tmp );
+}
+
+bool event_manager::queued( const event_type type ) const
+{
+    return const_cast<event_manager&>( *this ).get( type ) != nullptr;
+}
+
+event *event_manager::get( const event_type type )
+{
+    for( auto &e : events ) {
+        if( e.type == type ) {
+            return &e;
+        }
+    }
+    return nullptr;
 }
