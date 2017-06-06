@@ -658,7 +658,8 @@
         "range" : 140,
         "dispersion" : 30,
         "recoil" : 45,
-        "effects" : ["COOKOFF", "SMOKE_BIG", "NEVER_MISFIRES"]
+        "drop": "smokebomb_act",
+        "effects" : ["COOKOFF", "SMOKE_BIG", "NO_EMBED", "NEVER_MISFIRES"]
     },
     {
         "type" : "AMMO",
