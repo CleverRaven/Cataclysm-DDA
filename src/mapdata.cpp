@@ -158,6 +158,7 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
     { "NO_FLOOR",                 TFLAG_NO_FLOOR },       // Things should fall when placed on this tile
     { "SEEN_FROM_ABOVE",          TFLAG_SEEN_FROM_ABOVE },// This should be visible if the tile above has no floor
     { "RAMP",                     TFLAG_RAMP },           // Can be used to move up a z-level
+    { "MON_AVOID",                TFLAG_MON_AVOID},
 } };
 
 static const std::unordered_map<std::string, ter_connects> ter_connects_map = { {

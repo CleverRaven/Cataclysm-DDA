@@ -88,6 +88,10 @@ bool monster::can_move_to( const tripoint &p ) const
     if( has_flag( MF_SUNDEATH ) && g->is_in_sunlight( p ) ) {
         return false;
     }
+    
+    if( has_flag( MF_RESPECT_MON_AVOID ) && g->m.has_flag( "MON_AVOID", p ) ) {
+        return false;
+    }
 
     // Various avoiding behaviors
     if( has_flag( MF_AVOID_DANGER_1 ) || has_flag( MF_AVOID_DANGER_2 ) ) {
