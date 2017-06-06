@@ -11256,6 +11256,8 @@ bool player::sees( const tripoint &t, bool ) const
 
 bool player::sees( const Creature &critter ) const
 {
+    if(critter.is_npc() && critter.posz()!=posz())
+	return false;
     // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
     const int dist = rl_dist( pos(), critter.pos() );
     if (dist <= 3 && has_trait( trait_ANTENNAE )) {
