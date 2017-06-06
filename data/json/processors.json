@@ -1,0 +1,32 @@
+[
+	{
+        "type" : "furniture",
+        "id" : "f_clay_kiln",
+        "next_type": "f_clay_kiln_on",
+        "is_processing": "false",
+		"fuel_type" : "charcoal",
+        "processes": [ "fire_clay_bricks" ],
+        "messages" : {
+            "empty" : "This clay kiln is empty...",
+            "full" : "Do you want to fire this kiln?",
+			"start" : "You fire the clay kiln!",
+            "processing" : "The clay kiln is in use!",
+			"finish" : "The bricks are ready!",
+            "fail" : "Something went wrong!"
+        },
+    },
+	{
+        "type" : "furniture",
+        "id" : "f_clay_kiln_on",
+        "next_type": "f_clay_kiln",
+        "is_processing": "true",
+		"fuel_type" : "charcoal",
+        "processes": [ "fire_clay_bricks" ],
+        "messages" : {
+            "empty" : "This clay kiln is empty...",
+            "processing" : "The clay kiln is in use!",
+			"finish" : "The bricks are ready!",
+            "fail" : "Something went wrong!"
+        },
+    }
+]

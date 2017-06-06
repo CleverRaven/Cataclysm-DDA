@@ -30,6 +30,7 @@
 #include "sounds.h"
 #include "cata_utility.h"
 #include "string_input_popup.h"
+#include "processor.h"
 
 #include <sstream>
 #include <algorithm>
@@ -3437,6 +3438,16 @@ void iexamine::climb_down( player &p, const tripoint &examp )
     g->m.creature_on_trap( p );
 }
 
+void iexamine::processor_is_off( player &p, const tripoint &examp )
+{
+    processors::interact_with_processor( examp,  p );
+}
+
+void iexamine::processor_is_on( player &p, const tripoint &examp )
+{
+    processors::interact_with_working_processor( examp,  p );
+}
+
 /**
 * Given then name of one of the above functions, returns the matching function
 * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -3511,7 +3522,10 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
         { "locked_object", &iexamine::locked_object },
         { "kiln_empty", &iexamine::kiln_empty },
         { "kiln_full", &iexamine::kiln_full },
-        { "climb_down", &iexamine::climb_down }
+        { "climb_down", &iexamine::climb_down },
+        { "processor_is_off", &iexamine::processor_is_off },
+        { "processor_is_on", &iexamine::processor_is_on }
+
     }};
 
     auto iter = function_map.find( function_name );
