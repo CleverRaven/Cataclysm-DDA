@@ -121,6 +121,10 @@ map::map( int mapsize, bool zlev )
         ptr = std::unique_ptr<pathfinding_cache>( new pathfinding_cache() );
     }
 
+    for( auto &ptr : draw_caches ) {
+        ptr = std::unique_ptr<draw_cache>( new draw_cache() );
+    }
+
     dbg(D_INFO) << "map::map(): my_MAPSIZE: " << my_MAPSIZE << " zlevels enabled:" << zlevels;
     traplocs.resize( trap::count() );
 }
@@ -1363,6 +1367,12 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
         }
     }
 
+    const auto &changed_points = veh->get_points( true );
+    for( const tripoint &pt : changed_points ) {
+        dirty_draw_cache( pt );
+        dirty_draw_cache( pt + dp );
+    }
+
     veh->shed_loose_parts();
     for( auto &prt : veh->parts ) {
         prt.precalc[0] = prt.precalc[1];
@@ -1584,6 +1594,7 @@ void map::furn_set( const tripoint &p, const furn_id new_furniture )
     tripoint above( p.x, p.y, p.z + 1 );
     // Make sure that if we supported something and no longer do so, it falls down
     support_dirty( above );
+    dirty_draw_cache( p );
 }
 
 bool map::can_move_furniture( const tripoint &pos, player *p ) {
@@ -1786,6 +1797,7 @@ void map::ter_set( const tripoint &p, const ter_id new_terrain )
     tripoint above( p.x, p.y, p.z + 1 );
     // Make sure that if we supported something and no longer do so, it falls down
     support_dirty( above );
+    dirty_draw_cache( p );
 }
 
 std::string map::tername( const tripoint &p ) const
@@ -4284,6 +4296,7 @@ std::list<item>::iterator map::i_rem( const tripoint &p, std::list<item>::iterat
     }
 
     current_submap->update_lum_rem(*it, lx, ly);
+    dirty_draw_cache( p );
 
     return current_submap->itm[lx][ly].erase( it );
 }
@@ -4314,6 +4327,7 @@ void map::i_rem( const tripoint &p, const item *it )
         //delete the item if the pointer memory addresses are the same
         if(it == &*iter) {
             map_items.erase(iter);
+            dirty_draw_cache( p );
             break;
         }
     }
@@ -4333,6 +4347,7 @@ void map::i_clear(const tripoint &p)
 
     current_submap->lum[lx][ly] = 0;
     current_submap->itm[lx][ly].clear();
+    dirty_draw_cache( p );
 }
 
 item &map::spawn_an_item(const tripoint &p, item new_item,
@@ -4463,6 +4478,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
         }
 
         support_dirty( tile );
+        dirty_draw_cache( tile );
         return add_item( tile, obj );
     };
 
@@ -5210,7 +5226,7 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
                n->contents.front().has_flag( signal ) ) {
         // A bomb is the only thing meaningfully placed in a container,
         // If that changes, this needs logic to handle the alternative.
-        n->convert( n->contents.front().typeId() );
+        n->convert( n->contents.front().typeId(), item_location( map_cursor( pos ), &(*n) ) );
         if( n->has_flag("RADIO_INVOKE_PROC") ) {
             n->process( nullptr, pos, true );
         }
@@ -5295,6 +5311,8 @@ void map::add_trap( const tripoint &p, const trap_id t)
     if( t != tr_null ) {
         traplocs[t].push_back( p );
     }
+
+    dirty_draw_cache( p );
 }
 
 void map::disarm_trap( const tripoint &p )
@@ -5344,6 +5362,8 @@ void map::disarm_trap( const tripoint &p )
             g->u.practice( skill_traps, 2*diff );
         }
     }
+
+    dirty_draw_cache( p );
 }
 
 void map::remove_trap( const tripoint &p )
@@ -5368,6 +5388,8 @@ void map::remove_trap( const tripoint &p )
             traps.erase( iter );
         }
     }
+
+    dirty_draw_cache( p );
 }
 /*
  * Get wrapper for all fields at xyz
@@ -5434,6 +5456,7 @@ int map::set_field_strength( const tripoint &p, const field_id t, const int str,
         int adj = ( isoffset ? field_ptr->getFieldDensity() : 0 ) + str;
         if( adj > 0 ) {
             field_ptr->setFieldDensity( adj );
+            dirty_draw_cache( p );
             return adj;
         } else {
             remove_field( p, t );
@@ -5501,6 +5524,8 @@ bool map::add_field(const tripoint &p, const field_id t, int density, const int 
     // Dirty the transparency cache now that field processing doesn't always do it
     // TODO: Make it skip transparent fields
     set_transparency_cache_dirty( p.z );
+    // @todo Don't do this for invisible fields
+    dirty_draw_cache( p );
 
     const field_t &ft = fieldlist[t];
     if( field_type_dangerous( t ) ) {
@@ -5541,6 +5566,8 @@ void map::remove_field( const tripoint &p, const field_id field_to_remove )
                 break;
             }
         }
+
+        dirty_draw_cache( p );
     }
 }
 
@@ -5661,14 +5688,18 @@ void map::debug()
 }
 
 void map::update_visibility_cache( const int zlev ) {
-    visibility_variables_cache.variables_set = true; // Not used yet
-    visibility_variables_cache.g_light_level = (int)g->light_level( zlev );
-    visibility_variables_cache.vision_threshold = g->u.get_vision_threshold(
+    auto &cache = visibility_variables_cache;
+    cache.variables_set = true; // Not used yet
+    cache.g_light_level = (int)g->light_level( zlev );
+    cache.vision_threshold = g->u.get_vision_threshold(
         get_cache_ref(g->u.posz()).lm[g->u.posx()][g->u.posy()] );
 
-    visibility_variables_cache.u_clairvoyance = g->u.clairvoyance();
-    visibility_variables_cache.u_sight_impaired = g->u.sight_impaired();
-    visibility_variables_cache.u_is_boomered = g->u.has_effect( effect_boomered);
+    cache.u_clairvoyance = g->u.clairvoyance();
+    cache.u_clairvoyance_squared = cache.u_clairvoyance * cache.u_clairvoyance;
+    cache.u_unimpaired_range = g->u.unimpaired_range();
+    cache.u_unimpaired_range_squared = cache.u_unimpaired_range * cache.u_unimpaired_range;
+    cache.u_sight_impaired = g->u.sight_impaired();
+    cache.u_is_boomered = g->u.has_effect( effect_boomered );
 
     int sm_squares_seen[MAPSIZE][MAPSIZE];
     std::memset(sm_squares_seen, 0, sizeof(sm_squares_seen));
@@ -5681,7 +5712,7 @@ void map::update_visibility_cache( const int zlev ) {
     int &y = p.y;
     for( x = 0; x < MAPSIZE * SEEX; x++ ) {
         for( y = 0; y < MAPSIZE * SEEY; y++ ) {
-            lit_level ll = apparent_light_at( p, visibility_variables_cache );
+            lit_level ll = apparent_light_at( p, cache );
             visibility_cache[x][y] = ll;
             sm_squares_seen[ x / SEEX ][ y / SEEY ] += (ll == LL_BRIGHT || ll == LL_LIT);
         }
@@ -5704,25 +5735,29 @@ const visibility_variables &map::get_visibility_variables_cache() const {
 }
 
 lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) const {
-    const int dist = rl_dist( g->u.pos(), p );
+    // Squared because this part is SLOW and we don't need that sqrt at the end
+    // We only compare this range to two values: would be better to just approx. it for most cases
+    const int dist_squared = rl_dist_squared( g->u.pos(), p );
 
     // Clairvoyance overrides everything.
-    if( dist <= cache.u_clairvoyance ) {
+    if( dist_squared <= cache.u_clairvoyance_squared ) {
         return LL_BRIGHT;
     }
+
     const auto &map_cache = get_cache_ref(p.z);
     bool obstructed = map_cache.seen_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID + 0.1;
-    const float apparent_light = map_cache.seen_cache[p.x][p.y] * map_cache.lm[p.x][p.y];
 
     // Unimpaired range is an override to strictly limit vision range based on various conditions,
     // but the player can still see light sources.
-    if( dist > g->u.unimpaired_range() ) {
-        if( !obstructed && map_cache.sm[p.x][p.y] > 0.0) {
+    if( dist_squared > cache.u_unimpaired_range_squared ) {
+        if( !obstructed && map_cache.sm[p.x][p.y] > 0.0 ) {
             return LL_BRIGHT_ONLY;
         } else {
             return LL_DARK;
         }
     }
+
+    const float apparent_light = map_cache.seen_cache[p.x][p.y] * map_cache.lm[p.x][p.y];
     if( obstructed ) {
         if( apparent_light > LIGHT_AMBIENT_LIT ) {
             if( apparent_light > cache.g_light_level ) {
@@ -5754,35 +5789,43 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
 }
 
 visibility_type map::get_visibility( const lit_level ll, const visibility_variables &cache ) const {
-    switch (ll) {
-    case LL_DARK: // can't see this square at all
-        if( cache.u_is_boomered ) {
-            return VIS_BOOMER_DARK;
-        } else {
-            return VIS_DARK;
-        }
-    case LL_BRIGHT_ONLY: // can only tell that this square is bright
-        if( cache.u_is_boomered ) {
-            return VIS_BOOMER;
-        } else {
-            return VIS_LIT;
-        }
-    case LL_LOW: // low light, square visible in monochrome
-    case LL_LIT: // normal light
-    case LL_BRIGHT: // bright light
-        return VIS_CLEAR;
-    case LL_BLANK:
-        return VIS_HIDDEN;
+    return get_visibility( ll, cache.u_is_boomered );
+}
+
+visibility_type map::get_visibility( const lit_level ll, bool boomered ) const {
+    switch( ll ) {
+        case LL_DARK: // can't see this square at all
+            if( boomered ) {
+                return VIS_BOOMER_DARK;
+            } else {
+                return VIS_DARK;
+            }
+        case LL_BRIGHT_ONLY: // can only tell that this square is bright
+            if( boomered ) {
+                return VIS_BOOMER;
+            } else {
+                return VIS_LIT;
+            }
+        case LL_LOW: // low light, square visible in monochrome
+        case LL_LIT: // normal light
+        case LL_BRIGHT: // bright light
+            return VIS_CLEAR;
+        case LL_BLANK:
+            return VIS_HIDDEN;
     }
     return VIS_HIDDEN;
 }
 
 bool map::apply_vision_effects( WINDOW *w, lit_level ll,
                                 const visibility_variables &cache ) const {
+    return apply_vision_effects( w, ll, cache.u_is_boomered );
+}
+
+bool map::apply_vision_effects( WINDOW *w, lit_level ll, bool boomered ) const {
     int symbol = ' ';
     nc_color color = c_black;
 
-    switch( get_visibility(ll, cache) ) {
+    switch( get_visibility( ll, boomered ) ) {
         case VIS_CLEAR:
             // Drew the tile, so bail out now.
             return false;
@@ -5808,6 +5851,22 @@ bool map::apply_vision_effects( WINDOW *w, lit_level ll,
     return true;
 }
 
+nc_color get_ter_color_override( const player &u, bool bright_light, bool low_light )
+{
+    const auto u_vision = u.get_vision_modes();
+    if( u_vision[BOOMERED] ) {
+        return c_magenta;
+    } else if( u_vision[NV_GOGGLES] ) {
+        return bright_light ? c_white : c_ltgreen;
+    } else if( low_light ) {
+        return c_dkgray;
+    } else if( u_vision[DARKNESS] ) {
+        return c_dkgray;
+    }
+
+    return 0;
+}
+
 void map::draw( WINDOW* w, const tripoint &center )
 {
     // We only need to draw anything if we're not in tiles mode.
@@ -5818,9 +5877,26 @@ void map::draw( WINDOW* w, const tripoint &center )
     g->reset_light_level();
 
     update_visibility_cache( center.z );
-    const visibility_variables &cache = g->m.get_visibility_variables_cache();
+    const visibility_variables &visibility_var_cache = g->m.get_visibility_variables_cache();
 
     const auto &visibility_cache = get_cache_ref( center.z ).visibility_cache;
+    draw_cache &cur_draw_cache = get_draw_cache( center.z );
+
+    static const std::string console_draw_caching_str( "CONSOLE_DRAW_CACHE" );
+    if( !get_option<bool>( console_draw_caching_str ) ) {
+        cur_draw_cache.all_dirty = true;
+    } else if( cur_draw_cache.all_dirty ) {
+        cur_draw_cache.all_dirty = false;
+        std::fill_n( &cur_draw_cache.dirty[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, true );
+    }
+
+    // Cached terrain color override levels for when player wears NV goggles etc.
+    // For 3 light levels: bright, medium and low
+    std::array<nc_color, 3> tcol_override_levels = {{
+        get_ter_color_override( g->u, false, true ),
+        get_ter_color_override( g->u, false, false ),
+        get_ter_color_override( g->u, true, false )
+    }};
 
     // X and y are in map coordinates, but might be out of range of the map.
     // When they are out of range, we just draw '#'s.
@@ -5858,17 +5934,21 @@ void map::draw( WINDOW* w, const tripoint &center )
                 get_submap_at( p.x, p.y, p.z - 1, lx, ly ) : cur_submap;
             while( lx < SEEX && x < maxx )  {
                 const lit_level lighting = visibility_cache[x][y];
-                if( !apply_vision_effects( w, lighting, cache ) ) {
+                if( !apply_vision_effects( w, lighting, visibility_var_cache ) ) {
                     const maptile curr_maptile = maptile( cur_submap, lx, ly );
+                    size_t light_level = ( lighting == LL_BRIGHT ? 1 : 0 ) +
+                                         ( lighting != LL_LOW ? 1 : 0 );
+                    nc_color tercolor_override = tcol_override_levels[light_level];
+
                     const bool just_this_zlevel =
-                        draw_maptile( w, g->u, p, curr_maptile,
+                        draw_cached( w, g->u, p, cur_draw_cache, curr_maptile,
                                       false, true, center,
-                                      lighting == LL_LOW, lighting == LL_BRIGHT, true );
+                                      tercolor_override, true );
                     if( !just_this_zlevel ) {
                         p.z--;
                         const maptile tile_below = maptile( sm_below, lx, ly );
                         draw_from_above( w, g->u, p, tile_below, false, center,
-                                         lighting == LL_LOW, lighting == LL_BRIGHT, false );
+                                         tercolor_override, false );
                         p.z++;
                     }
                 }
@@ -5905,14 +5985,18 @@ void map::drawsq( WINDOW* w, player &u, const tripoint &p, const bool invert_arg
     }
 
     const maptile tile = maptile_at( p );
-    const bool done = draw_maptile( w, u, p, tile, invert_arg, show_items_arg,
-                                    view_center, low_light, bright_light, inorder );
+    auto &cache = get_draw_cache( p.z );
+    update_draw_cache( u, p, tile, cache, invert_arg, show_items_arg, true );
+    nc_color tercol_override = get_ter_color_override( u, bright_light, low_light );
+
+    const bool done = draw_cached( w, u, p, cache, tile, invert_arg, show_items_arg,
+                                   view_center, tercol_override, inorder );
     if( !done ) {
         tripoint below( p.x, p.y, p.z - 1 );
         const maptile tile_below = maptile_at( below );
         draw_from_above( w, u, below, tile_below,
                          invert_arg, view_center,
-                         low_light, bright_light, false );
+                         tercol_override, false );
     }
 }
 
@@ -5922,23 +6006,97 @@ bool map::need_draw_lower_floor( const tripoint &p )
     return !( !zlevels || p.z <= -OVERMAP_DEPTH || !ter( p ).obj().has_flag( TFLAG_NO_FLOOR ) );
 }
 
-bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &curr_maptile,
-                        bool invert, bool show_items,
-                        const tripoint &view_center,
-                        const bool low_light, const bool bright_light, const bool inorder ) const
+enum class draw_cache::draw_color_effect : int {
+    none = 0,
+    invert,
+    highlight,
+    graffiti
+};
+
+bool map::draw_cached( WINDOW* w, player &u, const tripoint &p, draw_cache &cache,
+                       const maptile &curr_maptile, bool invert, bool show_items,
+                       const tripoint &view_center,
+                       nc_color tercol_override, bool inorder ) const
+{
+    size_t x = static_cast<size_t>( p.x );
+    size_t y = static_cast<size_t>( p.y );
+    if( cache.all_dirty || cache.dirty[x][y] ) {
+        // Draw cache holds tiles in "canonical form" - with items shown and colors not inverted
+        bool set_dirty = invert || !show_items;
+        update_draw_cache( u, p, curr_maptile, cache, invert, show_items, set_dirty );
+    }
+
+    long sym = cache.sym[x][y];
+    const std::string &item_sym = cache.item_sym[x][y];
+    if( cache.random_symbol[x][y] ) {
+        static const std::array<long, 5> random_symbols = {{
+            '*', '0', '8', '&', '+'
+        }};
+
+        sym = random_entry( random_symbols );
+    }
+
+    nc_color tercol = cache.color[x][y];
+    if( tercol_override != 0 ) {
+        tercol = tercol_override;
+    }
+
+    using draw_color_effect = draw_cache::draw_color_effect;
+    switch( cache.color_effect[x][y] ) {
+        case draw_color_effect::none:
+            // Most common case: nothing
+            break;
+        case draw_color_effect::invert:
+            tercol = invert_color( tercol );
+            break;
+        case draw_color_effect::highlight:
+            tercol = hilite( tercol );
+            break;
+        case draw_color_effect::graffiti:
+            tercol = red_background( tercol );
+            break;
+    }
+
+    if( inorder ) {
+        // Rastering the whole map, take advantage of automatically moving the cursor.
+        if( item_sym.empty() ) {
+            wputch( w, tercol, sym );
+        } else {
+            wprintz( w, tercol, "%s", item_sym.c_str() );
+        }
+    } else {
+        // Otherwise move the cursor before drawing.
+        const int k = p.x + getmaxx( w ) / 2 - view_center.x;
+        const int j = p.y + getmaxy( w ) / 2 - view_center.y;
+        if( item_sym.empty() ) {
+            mvwputch( w, j, k, tercol, sym );
+        } else {
+            mvwprintz( w, j, k, tercol, "%s", item_sym.c_str() );
+        }
+    }
+
+    return cache.draw_below[x][y];
+}
+
+void map::update_draw_cache( player &u, const tripoint &p,
+                             const maptile &curr_maptile, draw_cache &cache,
+                             bool invert, bool show_items, bool set_dirty ) const
 {
     nc_color tercol;
     const ter_t &curr_ter = curr_maptile.get_ter_t();
-    const furn_t &curr_furn = curr_maptile.get_furn_t();
-    const trap &curr_trap = curr_maptile.get_trap().obj();
+    const furn_id &curr_furn_id = curr_maptile.get_furn();
+    const trap_id &curr_trap_id = curr_maptile.get_trap();
     const field &curr_field = curr_maptile.get_field();
     long sym;
     bool hi = false;
     bool graf = false;
     bool draw_item_sym = false;
+    bool random_symbol = false;
+    bool underwater = true;
     static const long AUTO_WALL_PLACEHOLDER = 2; // this should never appear as a real symbol!
 
-    if( curr_furn.id ) {
+    if( curr_furn_id ) {
+        const furn_t &curr_furn = curr_furn_id.obj();
         sym = curr_furn.symbol();
         tercol = curr_furn.color();
     } else {
@@ -5952,39 +6110,32 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
         }
         tercol = curr_ter.color();
     }
-    if( curr_ter.has_flag( TFLAG_SWIMMABLE ) && curr_ter.has_flag( TFLAG_DEEP_WATER ) && !u.is_underwater() ) {
+
+    if( show_items && curr_ter.has_flag( TFLAG_SWIMMABLE ) && curr_ter.has_flag( TFLAG_DEEP_WATER ) && !u.is_underwater() ) {
         show_items = false; // Can only see underwater items if WE are underwater
     }
+
     // If there's a trap here, and we have sufficient perception, draw that instead
-    if( curr_trap.can_see( p, g->u ) ) {
-        tercol = curr_trap.color;
-        if (curr_trap.sym == '%') {
-            switch(rng(1, 5)) {
-            case 1: sym = '*'; break;
-            case 2: sym = '0'; break;
-            case 3: sym = '8'; break;
-            case 4: sym = '&'; break;
-            case 5: sym = '+'; break;
+    if( curr_trap_id ) {
+        const trap &curr_trap = curr_trap_id.obj();
+        if( curr_trap.can_see( p, g->u ) ) {
+            tercol = curr_trap.color;
+            if( curr_trap.sym == '%' ) {
+                random_symbol = true;
+            } else {
+                sym = curr_trap.sym;
             }
-        } else {
-            sym = curr_trap.sym;
         }
     }
+
     if( curr_field.fieldCount() > 0 ) {
         const field_id& fid = curr_field.fieldSymbol();
         const field_entry* fe = curr_field.findField(fid);
         const field_t& f = fieldlist[fid];
-        if (f.sym == '&' || fe == NULL) {
+        if( f.sym == '&' || fe == nullptr ) {
             // Do nothing, a '&' indicates invisible fields.
-        } else if (f.sym == '*') {
-            // A random symbol.
-            switch (rng(1, 5)) {
-            case 1: sym = '*'; break;
-            case 2: sym = '0'; break;
-            case 3: sym = '8'; break;
-            case 4: sym = '&'; break;
-            case 5: sym = '+'; break;
-            }
+        } else if( f.sym == '*' ) {
+            random_symbol = true;
         } else {
             // A field symbol '%' indicates the field should not hide
             // items/terrain. When the symbol is not '%' it will
@@ -6008,23 +6159,22 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
         }
     }
 
-    // TODO: change the local variable sym to std::string and use it instead of this hack.
-    // Currently this are different variables because terrain/... uses long as symbol type and
-    // item now use string. Ideally they should all be strings.
     std::string item_sym;
 
     // If there are items here, draw those instead
     if( show_items && curr_maptile.get_item_count() > 0 && sees_some_items( p, g->u ) ) {
-        // if there's furniture/terrain/trap/fields (sym!='.')
+        // If there's furniture/terrain/trap/fields (sym!='.')
         // and we should not override it, then only highlight the square
-        if (sym != '.' && sym != '%' && !draw_item_sym) {
+        if( sym != '.' && sym != '%' && !draw_item_sym ) {
             hi = true;
         } else {
-            // otherwise override with the symbol of the last item
+            // Otherwise override with the symbol of the last item
             item_sym = curr_maptile.get_uppermost_item().symbol();
-            if (!draw_item_sym) {
+            random_symbol = false;
+            if( !draw_item_sym ) {
                 tercol = curr_maptile.get_uppermost_item().color();
             }
+
             if( curr_maptile.get_item_count() > 1 ) {
                 invert = !invert;
             }
@@ -6036,7 +6186,9 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
     if( veh != nullptr ) {
         sym = special_symbol( veh->face.dir_symbol( veh->part_sym( veh_part ) ) );
         tercol = veh->part_color( veh_part );
-        item_sym = ""; // clear the item symbol so `sym` is used instead.
+        // Clear the item, but keep the color changes
+        item_sym = "";
+        random_symbol = false;
     }
 
     // If there's graffiti here, change background color
@@ -6049,51 +6201,36 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
         sym = determine_wall_corner( p );
     }
 
-    const auto u_vision = u.get_vision_modes();
-    if( u_vision[BOOMERED] ) {
-        tercol = c_magenta;
-    } else if( u_vision[NV_GOGGLES] ) {
-        tercol = (bright_light) ? c_white : c_ltgreen;
-    } else if( low_light ) {
-        tercol = c_dkgray;
-    } else if( u_vision[DARKNESS] ) {
-        tercol = c_dkgray;
-    }
-
+    using draw_color_effect = draw_cache::draw_color_effect;
+    draw_color_effect effect = draw_color_effect::none;
     if( invert ) {
-        tercol = invert_color(tercol);
+        effect = draw_color_effect::invert;
     } else if( hi ) {
-        tercol = hilite(tercol);
+        effect = draw_color_effect::highlight;
     } else if( graf ) {
-        tercol = red_background(tercol);
+        effect = draw_color_effect::graffiti;
     }
 
-    if( inorder ) {
-        // Rastering the whole map, take advantage of automatically moving the cursor.
-        if( item_sym.empty() ) {
-            wputch(w, tercol, sym);
-        } else {
-            wprintz( w, tercol, "%s", item_sym.c_str() );
-        }
-    } else {
-        // Otherwise move the cursor before drawing.
-        const int k = p.x + getmaxx(w) / 2 - view_center.x;
-        const int j = p.y + getmaxy(w) / 2 - view_center.y;
-        if( item_sym.empty() ) {
-            mvwputch(w, j, k, tercol, sym);
-        } else {
-            mvwprintz( w, j, k, tercol, "%s", item_sym.c_str() );
-        }
-    }
+    bool draw_below = !zlevels || sym != ' ' || !item_sym.empty() || p.z <= -OVERMAP_DEPTH || !curr_ter.has_flag( TFLAG_NO_FLOOR );
 
-    return !zlevels || sym != ' ' || !item_sym.empty() || p.z <= -OVERMAP_DEPTH || !curr_ter.has_flag( TFLAG_NO_FLOOR );
+    size_t x = static_cast<size_t>( p.x );
+    size_t y = static_cast<size_t>( p.y );
+    cache.random_symbol [x][y] = random_symbol;
+    cache.underwater    [x][y] = underwater;
+    cache.draw_below    [x][y] = draw_below;
+    cache.sym           [x][y] = sym;
+    cache.item_sym      [x][y] = item_sym;
+    cache.color         [x][y] = tercol;
+    cache.color_effect  [x][y] = effect;
+
+    cache.dirty         [x][y] = set_dirty;
 }
 
-void map::draw_from_above( WINDOW* w, player &u, const tripoint &p,
+void map::draw_from_above( WINDOW* w, player &, const tripoint &p,
                            const maptile &curr_tile,
                            const bool invert,
                            const tripoint &view_center,
-                           bool low_light, bool bright_light, bool inorder ) const
+                           nc_color tercol_override, bool inorder ) const
 {
     static const long AUTO_WALL_PLACEHOLDER = 2; // this should never appear as a real symbol!
 
@@ -6144,15 +6281,8 @@ void map::draw_from_above( WINDOW* w, player &u, const tripoint &p,
         sym = determine_wall_corner( p );
     }
 
-    const auto u_vision = u.get_vision_modes();
-    if( u_vision[BOOMERED] ) {
-        tercol = c_magenta;
-    } else if( u_vision[NV_GOGGLES] ) {
-        tercol = (bright_light) ? c_white : c_ltgreen;
-    } else if( low_light ) {
-        tercol = c_dkgray;
-    } else if( u_vision[DARKNESS] ) {
-        tercol = c_dkgray;
+    if( tercol_override != 0 ) {
+        tercol = tercol_override;
     }
 
     if( invert ) {
@@ -6424,6 +6554,8 @@ void map::load(const int wx, const int wy, const int wz, const bool update_vehic
             loadn( gridx, gridy, update_vehicle );
         }
     }
+
+    dirty_all_draw_caches();
 }
 
 void map::shift_traps( const tripoint &shift )
@@ -6546,6 +6678,8 @@ void map::shift( const int sx, const int sy )
             support_cache_dirty.insert( tripoint( pt.x - sx * SEEX, pt.y - sy * SEEY, pt.z ) );
         }
     }
+
+    dirty_all_draw_caches();
 }
 
 void map::vertical_shift( const int newz )
@@ -8150,6 +8284,11 @@ level_cache::level_cache()
     std::fill_n( &veh_exists_at[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, false );
 }
 
+draw_cache::draw_cache()
+{
+    all_dirty = true;
+}
+
 pathfinding_cache::pathfinding_cache()
 {
     dirty = true;
@@ -8278,5 +8417,21 @@ void map::clip_to_bounds( int &x, int &y, int &z ) const
         z = OVERMAP_DEPTH;
     } else if( z > OVERMAP_HEIGHT ) {
         z = OVERMAP_HEIGHT;
+    }
+}
+
+void map::dirty_draw_cache( const tripoint &p ) const
+{
+    if( !inbounds( p ) ) {
+        return;
+    }
+
+    get_draw_cache( p.z ).dirty[p.x][p.y] = true;
+}
+
+void map::dirty_all_draw_caches() const
+{
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+        get_draw_cache( z ).all_dirty = true;
     }
 }

@@ -2177,6 +2177,9 @@ void player::set_underwater( bool u )
     if( underwater != u ) {
         underwater = u;
         recalc_sight_limits();
+        if( is_player() ) {
+            g->m.dirty_all_draw_caches();
+        }
     }
 }
 
@@ -11355,6 +11358,8 @@ void player::add_known_trap( const tripoint &pos, const trap &t)
         // TODO: known_traps should map to a trap_str_id
         known_traps[p] = t.id.str();
     }
+
+    g->m.dirty_draw_cache( pos );
 }
 
 bool player::is_deaf() const

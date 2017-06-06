@@ -200,27 +200,41 @@ item::item(JsonObject &jo)
     deserialize(jo);
 }
 
-item& item::convert( const itype_id& new_type )
+item& item::convert( const itype_id& new_type, item_location loc )
 {
     type = find_type( new_type );
+    if( loc.where() == item_location::type::map ) {
+        // Item type changed so we need to update draw cache
+        g->m.dirty_draw_cache( loc.position() );
+    }
+
     return *this;
 }
 
-item& item::deactivate( const Character *ch, bool alert )
+item& item::deactivate( item_location loc, bool alert )
 {
     if( !active ) {
         return *this; // no-op
     }
 
     if( is_tool() && type->tool->revert_to != "null" ) {
-        if( ch && alert && !type->tool->revert_msg.empty() ) {
-            ch->add_msg_if_player( m_info, _( type->tool->revert_msg.c_str() ), tname().c_str() );
+        if( alert && !type->tool->revert_msg.empty() && loc.carrier() != nullptr ) {
+            loc.carrier()->add_msg_if_player( m_info, _( type->tool->revert_msg.c_str() ), tname().c_str() );
         }
-        convert( type->tool->revert_to );
+        convert( type->tool->revert_to, std::move( loc ) );
         active = false;
 
     }
     return *this;
+}
+
+item& item::deactivate( Character *carrier, bool alert )
+{
+    if( carrier != nullptr ) {
+        return deactivate( item_location( *carrier, this ), alert );
+    }
+
+    return deactivate( item_location(), alert );
 }
 
 item& item::activate()

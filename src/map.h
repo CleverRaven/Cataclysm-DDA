@@ -108,6 +108,9 @@ struct visibility_variables {
     // cached values for map visibility calculations
     int g_light_level;
     int u_clairvoyance;
+    int u_clairvoyance_squared;
+    int u_unimpaired_range;
+    int u_unimpaired_range_squared;
     bool u_sight_impaired;
     bool u_is_boomered;
     float vision_threshold;
@@ -156,6 +159,35 @@ struct level_cache {
     bool veh_exists_at[SEEX * MAPSIZE][SEEY * MAPSIZE];
     std::map< tripoint, std::pair<vehicle*,int> > veh_cached_parts;
     std::set<vehicle*> vehicle_list;
+};
+
+// Cache just for ascii drawing, which is otherwise very slow on Windows
+struct draw_cache {
+    enum class draw_color_effect : int;
+
+    // Dirties the whole cache
+    draw_cache();
+
+    // If true, disregard per-tile dirtiness and just regenerate it all
+    bool all_dirty;
+    // Full-level cache dirtying wouldn't work, we need per-tile
+    bool dirty[MAPSIZE*SEEX][MAPSIZE*SEEY];
+
+    // If true, the symbol is disregarded and rolled from a pre-set array instead
+    bool random_symbol[MAPSIZE*SEEX][MAPSIZE*SEEY];
+    // Deep water tiles hide items if player isn't underwater
+    bool underwater[MAPSIZE*SEEX][MAPSIZE*SEEY];
+    // If we have z-levels on, this means this tile is "transparent" from above
+    bool draw_below[MAPSIZE*SEEX][MAPSIZE*SEEY];
+    // Topmost symbol: the one to be displayed
+    long sym[MAPSIZE*SEEX][MAPSIZE*SEEY];
+    // Due to a quirk in drawing system, items use strings for symbols, rest uses longs
+    // We need to keep both of them, but only use item_sym if it is set
+    std::string item_sym[MAPSIZE*SEEX][MAPSIZE*SEEY];
+    // The "static" color - it will be further altered only by light and vision effects
+    nc_color color[MAPSIZE*SEEX][MAPSIZE*SEEY];
+    // Post-vision-effect color manipulation
+    draw_color_effect color_effect[MAPSIZE*SEEX][MAPSIZE*SEEY];
 };
 
 /**
@@ -241,9 +273,11 @@ class map
     lit_level apparent_light_at( const tripoint &p, const visibility_variables &cache ) const;
     visibility_type get_visibility( const lit_level ll,
                                     const visibility_variables &cache ) const;
+    visibility_type get_visibility( const lit_level ll, bool boomered ) const;
 
     bool apply_vision_effects( WINDOW *w, lit_level ll,
                                const visibility_variables &cache ) const;
+    bool apply_vision_effects( WINDOW *w, lit_level ll, bool boomered ) const;
 
     /** Draw a visible part of the map into `w`.
      *
@@ -1394,21 +1428,33 @@ private:
                               const vehicle *veh, const int part ) const;
 
     /**
-     * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
-     * Returns true if it has drawn all it should, false if `draw_from_above` should be called after.
+     * Updates draw cache for a given square (if needed), then draws it on window.
      */
-    bool draw_maptile( WINDOW* w, player &u, const tripoint &p,
-                       const maptile &tile,
-                       bool invert, bool show_items,
-                       const tripoint &view_center,
-                       bool low_light, bool bright_light, bool inorder ) const;
+    bool draw_cached( WINDOW* w, player &u, const tripoint &p, draw_cache &cache,
+                      const maptile &curr_maptile, bool invert, bool show_items,
+                      const tripoint &view_center,
+                      nc_color tercol_override, bool inorder ) const;
     /**
      * Draws the tile as seen from above.
      */
     void draw_from_above( WINDOW* w, player &u, const tripoint &p,
                           const maptile &tile, bool invert,
                           const tripoint &view_center,
-                          bool low_light, bool bright_light, bool inorder ) const;
+                          nc_color tercol_override, bool inorder ) const;
+
+    /**
+     * Updates draw cache for given tile.
+     * @param u used for underwater checks. As such, player going under/over water should dirty cache
+     * @param p position of the updated tile
+     * @param curr_maptile submap tile for faster lookups
+     * @param cache the cache to update
+     * @param invert if the saved color should be inverted
+     * @param show_items if the stored symbol+color should include items (if any and if seen)
+     * @param set_dirty if true, the tile will be set to dirty and recalculated on next display
+     */
+    void update_draw_cache( player &u, const tripoint &p,
+                            const maptile &curr_maptile, draw_cache &cache,
+                            bool invert, bool show_items, bool set_dirty ) const;
 
     long determine_wall_corner( const tripoint &p ) const;
     void cache_seen( const int fx, const int fy, const int tx, const int ty, const int max_range );
@@ -1474,6 +1520,7 @@ private:
         void function_over( int stx, int sty, int stz, int enx, int eny, int enz, Functor fun ) const;
     /*@}*/
 
+
     /**
      * The list of currently loaded submaps. The size of this should not be changed.
      * After calling @ref load or @ref generate, it should only contain non-null pointers.
@@ -1494,9 +1541,15 @@ private:
 
     mutable std::array< std::unique_ptr<pathfinding_cache>, OVERMAP_LAYERS > pathfinding_caches;
 
+    mutable std::array< std::unique_ptr<draw_cache>, OVERMAP_LAYERS > draw_caches;
+
     // Note: no bounds check
     level_cache &get_cache( int zlev ) {
         return *caches[zlev + OVERMAP_DEPTH];
+    }
+
+    draw_cache &get_draw_cache( int zlev ) const {
+        return *draw_caches[zlev + OVERMAP_DEPTH];
     }
 
     pathfinding_cache &get_pathfinding_cache( int zlev ) const;
@@ -1514,6 +1567,9 @@ private:
 
     void update_visibility_cache( int zlev );
     const visibility_variables &get_visibility_variables_cache() const;
+
+    void dirty_draw_cache( const tripoint &p ) const;
+    void dirty_all_draw_caches() const;
 
     // Clips the area to map bounds
     tripoint_range points_in_rectangle( const tripoint &from, const tripoint &to ) const;
