@@ -13,7 +13,7 @@
     "components": [
       [ [ "scrap_bronze", 4 ] ],
       [ [ "2x4", 4 ], [ "stick", 8 ] ],
-      [ [ "fur", 2 ], [ "leather", 2 ] ]
+      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
     ]
   },
   {
@@ -96,7 +96,7 @@
     "components": [
       [ [ "scrap_bronze", 2 ] ],
       [ [ "2x4", 4 ], [ "stick", 8 ] ],
-      [ [ "fur", 2 ], [ "leather", 2 ] ]
+      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
     ]
   },
   {
