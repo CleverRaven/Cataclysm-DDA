@@ -324,10 +324,10 @@
     "qualities":[
         {"id":"SAW_M_FINE","level":1},
         {"id":"SCREW_FINE","level":1},
-        {"id":"WRENCH_FINE","level":1}
+        {"id":"WRENCH_FINE","level":1},
+        {"id":"GLARE","level":2}
     ],
     "tools": [
-        [["goggles_welding", -1]],
         [["oxy_torch", 40], ["welder", 200], [ "welder_crude", 266 ], [ "toolset", 100 ], ["large_repairkit", 100], ["small_repairkit", 200], ["welder_crude", 300]]
     ],
     "components":[
