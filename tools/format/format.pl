@@ -101,8 +101,74 @@ sub encode(@) {
     return $json->encode($data);
 }
 
-my ($original, $dirty);
-my @parsed;
+sub process(@) {
+    my ($src, $srcname) = @_;
+
+    my ($original, $dirty);
+    my @parsed;
+
+    while(<$src>) {
+        $original .= $_;
+        $dirty .= $_;
+        eval {
+            $json->incr_parse($_);
+            for (my $obj; $obj = $json->incr_parse;) {
+                $dirty = $json->incr_text;
+
+                # Also supports single objects as users may paste them in to the web linter
+                push @parsed, ref($obj) eq 'ARRAY' ? @{$obj} : $obj;
+            }
+        };
+        $fail->("Syntax error on line $.") if $@;
+    }
+
+    # If we have unparsed content fail unless is insignificant whitespace
+    $fail->("Syntax error at EOF") if $dirty =~ /[^\s]/;
+
+    my @output;
+    foreach (@parsed) {
+        # Process each object with the type field providing root context
+        $fail->("Invalid JSON structure") unless ref($_) eq 'HASH' and exists $_->{type};
+        push @output, encode($_, $_->{'type'} // '' );
+    }
+
+    # Indent each entry and output wrapped as a JSON array
+    my $result = scalar @output ? "[\n" . join( ",\n", @output ) =~ s/^/  /mgr . "\n]\n" : '';
+
+    if (exists $ENV{'GATEWAY_INTERFACE'}) {
+        if (($original // '') eq $result) {
+            print header('application/json', '304 Not Modified');
+        } else {
+            print header('application/json', '200 OK');
+            print $result;
+        }
+        return 0;
+    }
+
+    print $result unless $opts{'q'};
+    return 0 unless $opts{'c'};
+
+    # If checking for canonical formatting get offset of first mismatch (if any)
+    return 0 if ($original // '') eq $result;
+
+    ($original ^ $result) =~ /^\0*/;
+    my $line = scalar split '\n', substr($result,0,$+[0]);
+    print STDERR "ERROR: Format error at $srcname line $line\n";
+    print STDERR "< " . (split '\n', $original)[$line-1] . "\n";
+    print STDERR "> " . (split '\n', $result  )[$line-1] . "\n";
+
+    if ($opts{'v'}) {
+        print STDERR "\nHINT: Canonical output for this block was:\n";
+        my @diff = split '\n', $result;
+        while ($line-- > 0 and $diff[$line] ne '  {') {}
+
+        for (my $i = $line + 1; $i < @diff; $i++) {
+            last if $diff[$i] =~ /^  },?$/;
+            print STDERR $diff[$i] . "\n";
+        }
+    }
+    return 1;
+}
 
 my $src;
 if (exists $ENV{'GATEWAY_INTERFACE'}) {
@@ -116,71 +182,16 @@ if (exists $ENV{'GATEWAY_INTERFACE'}) {
         exit 0;
     };
 
+    exit process($src, "request");
 } elsif (scalar @ARGV) {
-    open($src, '<', $ARGV[0]);
-
+    my $results = 0;
+    foreach (@ARGV) {
+        open($src, '<', $_);
+        $results = process($src, $_) || $results;
+        close($src);
+    }
+    exit $results;
 } else {
-    $src = \*STDIN;
+    exit process(\*STDIN, "stdin");
 }
 
-while(<$src>) {
-    $original .= $_;
-    $dirty .= $_;
-    eval {
-        $json->incr_parse($_);
-        for (my $obj; $obj = $json->incr_parse;) {
-            $dirty = $json->incr_text;
-
-            # Also supports single objects as users may paste them in to the web linter
-            push @parsed, ref($obj) eq 'ARRAY' ? @{$obj} : $obj;
-        }
-    };
-    $fail->("Syntax error on line $.") if $@;
-}
-
-# If we have unparsed content fail unless is insignificant whitespace
-$fail->("Syntax error at EOF") if $dirty =~ /[^\s]/;
-
-my @output;
-foreach (@parsed) {
-    # Process each object with the type field providing root context
-    $fail->("Invalid JSON structure") unless ref($_) eq 'HASH' and exists $_->{type};
-    push @output, encode($_, $_->{'type'} // '' );
-}
-
-# Indent each entry and output wrapped as a JSON array
-my $result = scalar @output ? "[\n" . join( ",\n", @output ) =~ s/^/  /mgr . "\n]\n" : '';
-
-if (exists $ENV{'GATEWAY_INTERFACE'}) {
-    if (($original // '') eq $result) {
-        print header('application/json', '304 Not Modified');
-    } else {
-        print header('application/json', '200 OK');
-        print $result;
-    }
-    exit 0;
-}
-
-print $result unless $opts{'q'};
-exit 0 unless $opts{'c'};
-
-# If checking for canonical formatting get offset of first mismatch (if any)
-exit 0 if ($original // '') eq $result;
-
-($original ^ $result) =~ /^\0*/;
-my $line = scalar split '\n', substr($result,0,$+[0]);
-print STDERR "ERROR: Format error at line $line\n";
-print STDERR "< " . (split '\n', $original)[$line-1] . "\n";
-print STDERR "> " . (split '\n', $result  )[$line-1] . "\n";
-
-if ($opts{'v'}) {
-    print STDERR "\nHINT: Canonical output for this block was:\n";
-    my @diff = split '\n', $result;
-    while ($line-- > 0 and $diff[$line] ne '  {') {}
-
-    for (my $i = $line + 1; $i < @diff; $i++) {
-        last if $diff[$i] =~ /^  },?$/;
-        print STDERR $diff[$i] . "\n";
-    }
-}
-exit 1;

@@ -937,10 +937,8 @@ lint-check: json_whitelist $(ODIR)/lint.cache
 
 $(ODIR)/lint.cache: $(shell awk '/^[^#]/ { print $$1 }' json_whitelist) | $(ODIR)
 ifeq ($(shell if perl -c tools/format/format.pl 2>/dev/null; then echo $$?; fi),0)
-	@for file in $?; do \
-	    echo "Linting $$file"; \
-	    perl tools/format/format.pl -cqv $$file || exit 65; \
-	done;
+	@echo "Linting $(shell echo $? | wc -w) json files"
+	@perl tools/format/format.pl -cqv $? || exit 65
 	@touch $@
 else
 	@echo Cannot lint JSON, missing usable perl binary and/or p5-JSON module
