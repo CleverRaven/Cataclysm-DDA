@@ -6863,15 +6863,14 @@
         "mondensity" : 3,
         "flags" : [ "NO_ROTATE" ]
     },
-  {
+{
     "id": "dairy_farm_NW",
     "type": "overmap_terrain",
     "name": "dairy farm",
     "sym": 119,
     "color": "brown",
     "see_cost": 1,
-    "rotate": false,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "NO_ROTATE" ]
   },
   {
     "id": "dairy_farm_NE",
@@ -6880,8 +6879,7 @@
     "sym": 119,
     "color": "brown",
     "see_cost": 1,
-    "rotate": false,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "NO_ROTATE" ]
   },
   {
     "id": "dairy_farm_SE",
@@ -6890,8 +6888,7 @@
     "sym": 119,
     "color": "brown",
     "see_cost": 5,
-    "rotate": false,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "NO_ROTATE" ]
   },
   {
     "id": "dairy_farm_SW",
@@ -6900,7 +6897,6 @@
     "sym": 119,
     "color": "brown",
     "see_cost": 5,
-    "rotate": false,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "NO_ROTATE" ]
   }
 ]
