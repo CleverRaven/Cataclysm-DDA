@@ -864,8 +864,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         SDL_RenderSetClipRect(renderer, &clipRect);
 
         //fill render area with black to prevent artifacts where no new pixels are drawn
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderFillRect(renderer, &clipRect);
+        handle_draw_rect(clipRect, 0, 0, 0);
     }
 
     int posx = center.x;
@@ -1108,8 +1107,7 @@ void cata_tiles::process_minimap_cache_updates()
                 fullRect.w = SEEX * minimap_tile_size.x;
                 fullRect.x = 0;
                 fullRect.y = 0;
-                SDL_SetRenderDrawColor( renderer, 12, 12, 12, 255 );
-                SDL_RenderFillRect( renderer, &fullRect );
+                handle_draw_rect(fullRect, 12, 12, 12);
             }
 
             SDL_Rect rectangle;
@@ -1120,8 +1118,7 @@ void cata_tiles::process_minimap_cache_updates()
                 rectangle.y = p.y * minimap_tile_size.y;
                 pixel &current_pix = mcp.second->minimap_colors[p.y * SEEX + p.x];
                 SDL_Color c = current_pix.getSdlColor();
-                SDL_SetRenderDrawColor( renderer, c.r, c.g, c.b, c.a );
-                SDL_RenderFillRect( renderer, &rectangle );
+                handle_draw_rect(rectangle, c.r, c.g, c.b);
             }
             mcp.second->update_list.clear();
         }
@@ -1908,8 +1905,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/
     if( tile_iso && use_tiles ) {
         belowRect.y += tile_height / 8;
     }
-    SDL_SetRenderDrawColor( renderer, tercol.r, tercol.g, tercol.b, 255 );
-    SDL_RenderFillRect( renderer, &belowRect );
+    handle_draw_rect(belowRect, tercol.r, tercol.g, tercol.b);
 
     return true;
 }
@@ -2790,6 +2786,16 @@ void cata_tiles::tile_loading_report(arraytype const & array, int array_length, 
                 []( decltype(begin) const v ) {
                     return v->id;
                 }, label, prefix );
+}
+
+inline void cata_tiles::handle_draw_rect( SDL_Rect &rect, int r, int g, int b )
+{
+    if( alternate_rect_tex_enabled ){
+        draw_alt_rect(rect, r, g, b);
+    } else {
+        SDL_SetRenderDrawColor(renderer, r, g, b, 255);
+        SDL_RenderFillRect(renderer, &rect);
+    }
 }
 
 #endif // SDL_TILES
