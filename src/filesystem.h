@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+bool cd( const char *dir );
+bool dir_exist( std::string const &path );
 bool assure_dir_exist( std::string const &path );
 bool file_exist( const std::string &path );
 // Remove a file, does not remove folders,

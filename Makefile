@@ -304,6 +304,7 @@ ifeq ($(NATIVE), osx)
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
   LDFLAGS += -mmacosx-version-min=$(OSX_MIN)
+  LDFLAGS += -rpath @executable_path/../Frameworks
   ifdef FRAMEWORK
     ifeq ($(FRAMEWORKSDIR),)
       FRAMEWORKSDIR := $(strip $(if $(shell [ -d $(HOME)/Library/Frameworks ] && echo 1), \
@@ -477,14 +478,14 @@ ifdef TILES
 		-I$(FRAMEWORKSDIR)/SDL2_image.framework/Headers \
 		-I$(FRAMEWORKSDIR)/SDL2_ttf.framework/Headers
       LDFLAGS += -F$(FRAMEWORKSDIR) \
-		 -framework SDL2 -framework SDL2_image -framework SDL2_ttf -framework Cocoa
+		 -framework SDL2 -framework SDL2_image -framework SDL2_ttf
       CXXFLAGS += $(OSX_INC)
     else # libsdl build
       DEFINES += -DOSX_SDL2_LIBS
       # handle #include "SDL2/SDL.h" and "SDL.h"
       CXXFLAGS += $(shell sdl2-config --cflags) \
 		  -I$(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
-      LDFLAGS += -framework Cocoa $(shell sdl2-config --libs) -lSDL2_ttf
+      LDFLAGS += $(shell sdl2-config --libs) -lSDL2_ttf
       LDFLAGS += -lSDL2_image
     endif
   else # not osx
@@ -801,7 +802,9 @@ endif
 
 ifeq ($(NATIVE), osx)
 APPTARGETDIR=Cataclysm.app
+APPBINDIR=$(APPTARGETDIR)/Contents/MacOS
 APPRESOURCESDIR=$(APPTARGETDIR)/Contents/Resources
+APPFRAMEWORKSDIR=$(APPTARGETDIR)/Contents/Frameworks
 APPDATADIR=$(APPRESOURCESDIR)/data
 ifndef FRAMEWORK
 SDLLIBSDIR=$(shell sdl2-config --libs | sed -n 's/.*-L\([^ ]*\) .*/\1/p')
@@ -824,10 +827,11 @@ app: appclean version data/osx/AppIcon.icns $(APPTARGET)
 endif
 	mkdir -p $(APPTARGETDIR)/Contents
 	cp data/osx/Info.plist $(APPTARGETDIR)/Contents/
-	mkdir -p $(APPTARGETDIR)/Contents/MacOS
-	cp data/osx/Cataclysm.sh $(APPTARGETDIR)/Contents/MacOS/
+	mkdir -p $(APPBINDIR)
+	cp $(APPTARGET) $(APPBINDIR)/
+	cp data/osx/Cataclysm.sh $(APPBINDIR)/
+	mkdir -p $(APPFRAMEWORKSDIR)
 	mkdir -p $(APPRESOURCESDIR)
-	cp $(APPTARGET) $(APPRESOURCESDIR)/
 	cp data/osx/AppIcon.icns $(APPRESOURCESDIR)/
 	mkdir -p $(APPDATADIR)
 	cp data/fontdata.json $(APPDATADIR)
@@ -845,13 +849,13 @@ ifdef LANGUAGES
 	cp -pR lang/mo/* $(APPRESOURCESDIR)/lang/mo/
 endif
 ifeq ($(LOCALIZE), 1)
-	LIBINTL=$$($(CROSS)otool -L $(APPTARGET) | grep libintl | sed -n 's/\(.*\.dylib\).*/\1/p') && if [ -f $$LIBINTL ]; then cp $$LIBINTL $(APPRESOURCESDIR)/; fi; \
-		if [ ! -z "$$OSXCROSS" ]; then LIBINTL=$$(basename $$LIBINTL) && if [ ! -z "$$LIBINTL" ]; then cp $(LIBSDIR)/gettext/lib/$$LIBINTL $(APPRESOURCESDIR)/; fi; fi
+	LIBINTL=$$($(CROSS)otool -L $(APPTARGET) | grep libintl | sed -n 's/\(.*\.dylib\).*/\1/p') && if [ -f $$LIBINTL ]; then cp $$LIBINTL $(APPFRAMEWORKSDIR)/; fi; \
+		if [ ! -z "$$OSXCROSS" ]; then LIBINTL=$$(basename $$LIBINTL) && if [ ! -z "$$LIBINTL" ]; then cp $(LIBSDIR)/gettext/lib/$$LIBINTL $(APPFRAMEWORKSDIR)/; fi; fi
 endif
 ifdef LUA
 	cp -R lua $(APPRESOURCESDIR)/
-	LIBLUA=$$($(CROSS)otool -L $(APPTARGET) | grep liblua | sed -n 's/\(.*\.dylib\).*/\1/p') && if [ -f $$LIBLUA ]; then cp $$LIBLUA $(APPRESOURCESDIR)/; fi; \
-		if [ ! -z "$$OSXCROSS" ]; then LIBLUA=$$(basename $$LIBLUA) && if [ ! -z "$$LIBLUA" ]; then cp $(LIBSDIR)/lua/lib/$$LIBLUA $(APPRESOURCESDIR)/; fi; fi
+	LIBLUA=$$($(CROSS)otool -L $(APPTARGET) | grep liblua | sed -n 's/\(.*\.dylib\).*/\1/p') && if [ -f $$LIBLUA ]; then cp $$LIBLUA $(APPFRAMEWORKSDIR)/; fi; \
+		if [ ! -z "$$OSXCROSS" ]; then LIBLUA=$$(basename $$LIBLUA) && if [ ! -z "$$LIBLUA" ]; then cp $(LIBSDIR)/lua/lib/$$LIBLUA $(APPFRAMEWORKSDIR)/; fi; fi
 endif # ifdef LUA
 ifdef TILES
 ifdef SOUND
@@ -859,22 +863,24 @@ ifdef SOUND
 endif  # ifdef SOUND
 	cp -R gfx $(APPRESOURCESDIR)/
 ifdef FRAMEWORK
-	cp -R $(FRAMEWORKSDIR)/SDL2.framework $(APPRESOURCESDIR)/
-	cp -R $(FRAMEWORKSDIR)/SDL2_image.framework $(APPRESOURCESDIR)/
-	cp -R $(FRAMEWORKSDIR)/SDL2_ttf.framework $(APPRESOURCESDIR)/
+	cp -R $(FRAMEWORKSDIR)/SDL2.framework $(APPFRAMEWORKSDIR)/
+	cp -R $(FRAMEWORKSDIR)/SDL2_image.framework $(APPFRAMEWORKSDIR)/
+	cp -R $(FRAMEWORKSDIR)/SDL2_ttf.framework $(APPFRAMEWORKSDIR)/
 ifdef SOUND
-	cp -R $(FRAMEWORKSDIR)/SDL2_mixer.framework $(APPRESOURCESDIR)/
-	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Vorbis.framework Vorbis.framework
-	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Ogg.framework Ogg.framework
-	cd $(APPRESOURCESDIR)/SDL2_mixer.framework/Frameworks && find . -maxdepth 1 -type d -not -name '*Vorbis.framework' -not -name '*Ogg.framework' -not -name '.' | xargs rm -rf
+	cp -R $(FRAMEWORKSDIR)/SDL2_mixer.framework $(APPFRAMEWORKSDIR)/
+	cd $(APPFRAMEWORKSDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Vorbis.framework Vorbis.framework
+	cd $(APPFRAMEWORKSDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Ogg.framework Ogg.framework
+	cd $(APPFRAMEWORKSDIR)/SDL2_mixer.framework/Frameworks && find . -maxdepth 1 -type d -not -name '*Vorbis.framework' -not -name '*Ogg.framework' -not -name '.' | xargs rm -rf
 endif  # ifdef SOUND
 else # libsdl build
-	cp $(SDLLIBSDIR)/libSDL2.dylib $(APPRESOURCESDIR)/
-	cp $(SDLLIBSDIR)/libSDL2_image.dylib $(APPRESOURCESDIR)/
-	cp $(SDLLIBSDIR)/libSDL2_ttf.dylib $(APPRESOURCESDIR)/
+	cp $(SDLLIBSDIR)/libSDL2.dylib $(APPFRAMEWORKSDIR)/
+	cp $(SDLLIBSDIR)/libSDL2_image.dylib $(APPFRAMEWORKSDIR)/
+	cp $(SDLLIBSDIR)/libSDL2_ttf.dylib $(APPFRAMEWORKSDIR)/
 endif  # ifdef FRAMEWORK
-
 endif  # ifdef TILES
+	# Update dylib dependencies to rpaths
+	for lib in $(CROSS)`otool -L $(APPBINDIR)/$(APPTARGET) | grep .dylib | sed -n 's/\(.*\.dylib\).*/\1/p' | grep -v /usr/lib/`; do $(CROSS)install_name_tool -change $$lib @rpath/`basename $$lib` $(APPBINDIR)/$(APPTARGET); done;
+
 
 dmgdistclean:
 	rm -rf Cataclysm

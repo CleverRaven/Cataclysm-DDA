@@ -7,6 +7,21 @@
 /** Map where we store filenames */
 std::map<std::string, std::string> FILENAMES;
 
+void PATH_INFO::cd_to_base_path( const std::string exe_dir )
+{
+    if( exe_dir.empty() || !dir_exist( exe_dir ) )
+        return;
+
+    cd( exe_dir.c_str() );
+
+#ifdef MACOSX
+    // handle app bundle
+    if ( dir_exist( "../Resources/data/" ) ) {
+        cd( "../Resources" );
+    }
+#endif
+}
+
 void PATH_INFO::init_base_path(std::string path)
 {
     if (!path.empty()) {
