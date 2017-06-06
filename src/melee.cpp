@@ -408,6 +408,11 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
                 }
             }
             sfx::generate_melee_sound( pos(), t.pos(), 1, t.is_monster(), material);
+
+            if( critical_hit ) {
+                sounds::sound( pos(), 10, "", true, "critical_hit", "default");
+            }
+
             int dam = dealt_dam.total_damage();
 
             // Practice melee and relevant weapon skill (if any) except when using CQB bionic
