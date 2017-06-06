@@ -118,11 +118,9 @@ cata_tiles::~cata_tiles()
 
 void cata_tiles::clear()
 {
+    textureatlas.clear();
     // release maps
-    tile_values.clear();
-    shadow_tile_values.clear();
-    night_tile_values.clear();
-    overexposed_tile_values.clear();
+    tile_rects.clear();
     tile_ids.clear();
     // release minimap
     minimap_cache.clear();
@@ -304,125 +302,105 @@ static void apply_color_filter(SDL_Surface_Ptr &surf, void (&pixel_converter)(pi
     }
 }
 
-int cata_tiles::load_tileset(std::string img_path, int R, int G, int B, int sprite_width, int sprite_height)
+int cata_tiles::load_tileset( std::string img_path, int R, int G, int B, int sprite_width,
+                              int sprite_height, SDL_Rect *atlasinfo )
 {
     /** reinit tile_atlas */
     SDL_Surface_Ptr tile_atlas( IMG_Load( img_path.c_str() ) );
 
-    if(!tile_atlas) {
-        throw std::runtime_error( std::string("Could not load tileset image at ") + img_path + ", error: " +
-                                  IMG_GetError() );
+    if( !tile_atlas ) {
+        throw std::runtime_error( std::string( "Could not load tileset image at " ) + img_path + ", error: "
+                                  + IMG_GetError() );
     }
 
-    SDL_Surface_Ptr shadow_tile_atlas = create_tile_surface(tile_atlas->w, tile_atlas->h);
-    SDL_Surface_Ptr nightvision_tile_atlas = create_tile_surface(tile_atlas->w, tile_atlas->h);
-    SDL_Surface_Ptr overexposed_tile_atlas = create_tile_surface(tile_atlas->w, tile_atlas->h);
-
-    if(!shadow_tile_atlas || !nightvision_tile_atlas || !overexposed_tile_atlas) {
-        throw std::runtime_error( std::string("Unable to create alternate colored tilesets.") );
-    }
-
-    /** copy tile atlas into alternate atlas sets */
-    if( SDL_BlitSurface( tile_atlas.get(), NULL, shadow_tile_atlas.get(), NULL ) != 0 ) {
-        dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
-    }
-    if( SDL_BlitSurface( tile_atlas.get(), NULL, nightvision_tile_atlas.get(), NULL ) != 0 ) {
-        dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
-    }
-    if( SDL_BlitSurface( tile_atlas.get(), NULL, overexposed_tile_atlas.get(), NULL ) != 0 ) {
-        dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
-    }
-
-    /** perform color filter conversion here */
-    apply_color_filter(shadow_tile_atlas, color_pixel_grayscale);
-    apply_color_filter(nightvision_tile_atlas, color_pixel_nightvision);
-    apply_color_filter(overexposed_tile_atlas, color_pixel_overexposed);
-
-    /** get dimensions of the atlas image */
     int w = tile_atlas->w;
     int h = tile_atlas->h;
-    /** sx and sy will take care of any extraneous pixels that do not add up to a full tile */
-    int sx = w / sprite_width;
-    int sy = h / sprite_height;
+    atlasinfo->x = sprite_width;
+    atlasinfo->y = sprite_height;
+    atlasinfo->w = w;
+    atlasinfo->h = h;
 
-    sx *= sprite_width;
-    sy *= sprite_height;
-
-    /** Set up initial source and destination information. Destination is going to be unchanging */
-    SDL_Rect source_rect = {0, 0, sprite_width, sprite_height};
-    SDL_Rect dest_rect = {0, 0, sprite_width, sprite_height};
-
-    /** split the atlas into tiles using SDL_Rect structs instead of slicing the atlas into individual surfaces */
-    int tilecount = 0;
-    for( int y = 0; y < sy; y += sprite_height ) {
-        for( int x = 0; x < sx; x += sprite_width ) {
-            source_rect.x = x;
-            source_rect.y = y;
-
-            SDL_Surface_Ptr tile_surf = create_tile_surface(sprite_width, sprite_height);
-            if( !tile_surf ) {
-                continue;
-            }
-
-            if( SDL_BlitSurface( tile_atlas.get(), &source_rect, tile_surf.get(), &dest_rect ) != 0 ) {
-                dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
-            }
-
-            if( R >= 0 && R <= 255 && G >= 0 && G <= 255 && B >= 0 && B <= 255 ) {
-                Uint32 key = SDL_MapRGB(tile_surf->format, 0, 0, 0);
-                SDL_SetColorKey(tile_surf.get(), SDL_TRUE, key);
-                SDL_SetSurfaceRLE(tile_surf.get(), true);
-            }
-
-            SDL_Texture_Ptr tile_tex( SDL_CreateTextureFromSurface( renderer, tile_surf.get() ) );
-
-            if( !tile_tex ) {
-                dbg( D_ERROR) << "failed to create texture: " << SDL_GetError();
-            }
-
-            /** reuse the surface to make alternate color filtered versions */
-            if( SDL_BlitSurface( shadow_tile_atlas.get(), &source_rect, tile_surf.get(), &dest_rect ) != 0 ) {
-                dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
-            }
-
-            SDL_Texture_Ptr shadow_tile_tex( SDL_CreateTextureFromSurface( renderer, tile_surf.get() ) );
-            if( !shadow_tile_tex ) {
-                dbg( D_ERROR) << "failed to create texture: " << SDL_GetError();
-            }
-
-            if( SDL_BlitSurface( nightvision_tile_atlas.get(), &source_rect, tile_surf.get(), &dest_rect ) != 0 ) {
-                dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
-            }
-
-            SDL_Texture_Ptr night_tile_tex( SDL_CreateTextureFromSurface( renderer, tile_surf.get() ) );
-            if( !night_tile_tex ) {
-                dbg( D_ERROR) << "failed to create texture: " << SDL_GetError();
-            }
-
-            if( SDL_BlitSurface( overexposed_tile_atlas.get(), &source_rect, tile_surf.get(), &dest_rect ) != 0 ) {
-                dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
-            }
-
-            SDL_Texture_Ptr overexposed_tile_tex( SDL_CreateTextureFromSurface( renderer, tile_surf.get() ) );
-            if( overexposed_tile_tex == nullptr ) {
-                dbg( D_ERROR) << "failed to create texture: " << SDL_GetError();
-            }
-
-            if( tile_tex ) {
-                tile_values.push_back( std::move( tile_tex ) );
-                tilecount++;
-            }
-            if( shadow_tile_tex ) {
-                shadow_tile_values.push_back( std::move( shadow_tile_tex ) );
-            }
-            if( night_tile_tex ) {
-                night_tile_values.push_back( std::move( night_tile_tex ) );
-            }
-            if( overexposed_tile_tex ) {
-                overexposed_tile_values.push_back( std::move( overexposed_tile_tex ) );
-            }
-        }
+    SDL_Surface_Ptr combined_atlas = create_tile_surface( w * 4, h + sprite_height );
+    if( !combined_atlas ) {
+        throw std::runtime_error( std::string( "Could not create main atlas texture: " ) + SDL_GetError() );
     }
+
+
+    SDL_Rect destrect;
+    destrect.x = 0;
+    destrect.y = 0;
+    destrect.w = w;
+    destrect.h = h;
+
+    SDL_Surface_Ptr temp_atlas = create_tile_surface( w, h );
+    if( !temp_atlas ) {
+        throw std::runtime_error(
+            std::string( "Unable to create temporary surface for tileset processing." ) );
+    }
+
+    // copy main image to combined atlas
+    if( SDL_BlitSurface( tile_atlas.get(), NULL, combined_atlas.get(), &destrect ) != 0 ) {
+        dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
+    }
+
+    // copy night image to combined atlas
+    destrect.x = w;
+    if( SDL_BlitSurface( tile_atlas.get(), NULL, temp_atlas.get(), NULL ) != 0 ) {
+        dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
+    }
+    apply_color_filter( temp_atlas, color_pixel_grayscale );
+    if( SDL_BlitSurface( temp_atlas.get(), NULL, combined_atlas.get(), &destrect ) != 0 ) {
+        dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
+    }
+
+    // copy night vision goggle image to combined atlas
+    destrect.x = w * 2;
+    if( SDL_BlitSurface( tile_atlas.get(), NULL, temp_atlas.get(), NULL ) != 0 ) {
+        dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
+    }
+    apply_color_filter( temp_atlas, color_pixel_nightvision );
+    if( SDL_BlitSurface( temp_atlas.get(), NULL, combined_atlas.get(), &destrect ) != 0 ) {
+        dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
+    }
+
+    // copy overexposed night vision image to combined atlas
+    destrect.x = w * 3;
+    if( SDL_BlitSurface( tile_atlas.get(), NULL, temp_atlas.get(), NULL ) != 0 ) {
+        dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
+    }
+    apply_color_filter( temp_atlas, color_pixel_overexposed );
+    if( SDL_BlitSurface( temp_atlas.get(), NULL, combined_atlas.get(), &destrect ) != 0 ) {
+        dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
+    }
+
+    // add highlighted item square
+    SDL_Rect hilite_rect = {0, h, sprite_width, sprite_height};
+    if( SDL_FillRect( combined_atlas.get(), &hilite_rect, SDL_MapRGBA( combined_atlas.get()->format, 0,
+                      0, 127, 127 ) ) ) {
+        dbg( D_ERROR ) << "cata_tiles::load_tileset::SDL_FillRect failed: " << SDL_GetError();
+    }
+
+    // set color key if applicable
+    if( R >= 0 && R <= 255 && G >= 0 && G <= 255 && B >= 0 && B <= 255 ) {
+        Uint32 key = SDL_MapRGB( combined_atlas->format, R, G, B );
+        SDL_SetColorKey( combined_atlas.get(), SDL_TRUE, key );
+        SDL_SetSurfaceRLE( combined_atlas.get(), true );
+    }
+
+    SDL_Texture_Ptr tile_tex( SDL_CreateTextureFromSurface( renderer, combined_atlas.get() ) );
+
+    if( !tile_tex ) {
+        dbg( D_ERROR ) << "failed to create texture: " << SDL_GetError();
+    }
+
+    if( tile_tex ) {
+        textureatlas.push_back( std::move( tile_tex ) );
+    }
+
+    // simulate old tilecount with multiplication of available sprites per image
+    int sprites_w = w / sprite_width;
+    int sprites_h = h / sprite_height;
+    int tilecount = sprites_w * sprites_h;
 
     dbg( D_INFO ) << "Tiles Created: " << tilecount;
     return tilecount;
@@ -459,10 +437,16 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
     // reset the overlay ordering from the previous loaded tileset
     tileset_mutation_overlay_ordering.clear();
 
+    // track tileset atlas loading info and size the source rectangle lookup map afterwards
+    std::vector<SDL_Rect> all_tileatlasrects;
+
+    // temporary variable for holding the atlas image info
+    SDL_Rect atlas_sizing;
+
     JsonIn config_json(f);
     JsonObject config = config_json.get_object();
 
-    // "tile_info" section must exis.
+    // "tile_info" section must exist
     if (!config.has_member("tile_info")) {
         config.throw_error( "\"tile_info\" missing" );
     }
@@ -502,7 +486,11 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
             int sprite_height = tile_part_def.get_int("sprite_height",tile_height);
             // First load the tileset image to get the number of available tiles.
             dbg( D_INFO ) << "Attempting to Load Tileset file " << tileset_image_path;
-            const int newsize = load_tileset(tileset_image_path, R, G, B, sprite_width, sprite_height);
+            const int newsize = load_tileset(tileset_image_path, R, G, B, sprite_width, sprite_height, &atlas_sizing);
+
+            //save the tile info for creating the source rectangles later
+            all_tileatlasrects.push_back(atlas_sizing);
+
             // Now load the tile definitions for the loaded tileset image.
             int sprite_offset_x = tile_part_def.get_int("sprite_offset_x",0);
             int sprite_offset_y = tile_part_def.get_int("sprite_offset_y",0);
@@ -510,6 +498,7 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
             if (tile_part_def.has_member("ascii")) {
                 load_ascii_tilejson_from_file(tile_part_def, offset, newsize, sprite_offset_x, sprite_offset_y);
             }
+
             // Make sure the tile definitions of the next tileset image don't
             // override the current ones.
             offset += newsize;
@@ -517,10 +506,60 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
     } else {
         // old system, no tile file path entry, only one array of tiles
         dbg( D_INFO ) << "Attempting to Load Tileset file " << image_path;
-        const int newsize = load_tileset(image_path, -1, -1, -1, tile_width, tile_height);
+        const int newsize = load_tileset(image_path, -1, -1, -1, tile_width, tile_height, &atlas_sizing);
+
+        //save the tile info for creating the source rectangles later
+        all_tileatlasrects.push_back(atlas_sizing);
+
         load_tilejson_from_file(config, 0, newsize);
         offset = newsize;
     }
+
+    // add highlight square to list of ids, a spare highlight tile is generated in an extra row of each loaded tileset
+    auto it = tile_ids.find( ITEM_HIGHLIGHT );
+    bool has_item_highlight = true;
+    if( it == tile_ids.end() ){
+        has_item_highlight = false;
+        tile_ids[ITEM_HIGHLIGHT].fg.add( std::vector<int>( {offset} ), 1 );
+        offset++;
+    }
+
+    tile_rects.clear();
+    tile_rects.reserve( offset ); // could include extra count of generated item highlight tile
+
+    // set up all texture source rectangles
+    int tilecounter = 0;
+    for( unsigned int i = 0; i < all_tileatlasrects.size(); i++ ) {
+        SDL_Rect &current_atlas = all_tileatlasrects[i];
+
+        for( int y = 0; y < current_atlas.h; y += current_atlas.y ) {
+            for( int x = 0; x < current_atlas.w; x += current_atlas.x ) {
+                SDL_Rect r = { x, y, current_atlas.x, current_atlas.y };
+                tile_rect_info tri;
+
+                for( int j = 0; j < 4; j++ ) {
+                    tri.source_rects[j] = r;
+                    r.x += current_atlas.w;
+                }
+
+                tri.atlas_index = i;
+                tile_rects.insert( std::pair<int, tile_rect_info>( tilecounter, tri ) );
+                tilecounter++;
+            }
+        }
+    }
+
+    // add the source rectangle for the item highlight if necessary
+    if( !has_item_highlight ) {
+        tile_rect_info hilite_info;
+        hilite_info.atlas_index = 0;
+        for( int k = 0; k < 4; k++ ) {
+            hilite_info.source_rects[k] = { 0, all_tileatlasrects[0].h, all_tileatlasrects[0].x, all_tileatlasrects[0].y };
+        }
+        tile_rects.insert( std::pair<int, tile_rect_info>( offset - 1, hilite_info ) );
+    }
+
+
 
     // allows a tileset to override the order of mutation images being applied to a character
     if( config.has_array( "overlay_ordering" ) ) {
@@ -1743,60 +1782,63 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile, const weighted_int_list<
             sprite_num = rota % spritelist.size();
         }
 
-        SDL_Texture *sprite_tex = tile_values[spritelist[sprite_num]].get();
+        auto it = tile_rects.find( spritelist[sprite_num] );
+        if(it == tile_rects.end()){
+            return false;
+        }
+
+        SDL_Texture *sprite_tex = textureatlas[it->second.atlas_index].get();
+
+        int colorindex = 0;
 
         //use night vision colors when in use
         //then use low light tile if available
-        if(apply_night_vision_goggles && spritelist[sprite_num] < static_cast<int>(night_tile_values.size())){
-            if(ll != LL_LOW){
-                //overexposed tile count should be the same size as night_tile_values.size
-                sprite_tex = overexposed_tile_values[spritelist[sprite_num]].get();
+        if( apply_night_vision_goggles ){
+            if( ll != LL_LOW ){
+                colorindex = 3;
             } else {
-                sprite_tex = night_tile_values[spritelist[sprite_num]].get();
+                colorindex = 2;
             }
         }
-        else if(ll == LL_LOW && spritelist[sprite_num] < static_cast<int>(shadow_tile_values.size())) {
-            sprite_tex = shadow_tile_values[spritelist[sprite_num]].get();
+        else if( ll == LL_LOW ) {
+            colorindex = 1;
         }
 
-        Uint32 format;
-        int access, width, height;
-        SDL_QueryTexture(sprite_tex, &format, &access, &width, &height);
-
+        SDL_Rect &sourcerect = it->second.source_rects[colorindex];
         SDL_Rect destination;
         destination.x = x + tile.offset.x * tile_width / default_tile_width;
         destination.y = y + ( tile.offset.y - height_3d ) * tile_width / default_tile_width;
-        destination.w = width * tile_width / default_tile_width;
-        destination.h = height * tile_height / default_tile_height;
+        destination.w = sourcerect.w * tile_width / default_tile_width;
+        destination.h = sourcerect.h * tile_height / default_tile_height;
 
         if ( rotate_sprite ) {
             switch ( rota ) {
                 default:
                 case 0: // unrotated (and 180, with just two sprites)
-                    ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
+                    ret = SDL_RenderCopyEx( renderer, sprite_tex, &sourcerect, &destination,
                         0, NULL, SDL_FLIP_NONE );
                     break;
                 case 1: // 90 degrees (and 270, with just two sprites)
 #if (defined _WIN32 || defined WINDOWS)
                     destination.y -= 1;
 #endif
-                    ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
+                    ret = SDL_RenderCopyEx( renderer, sprite_tex, &sourcerect, &destination,
                         -90, NULL, SDL_FLIP_NONE );
                     break;
                 case 2: // 180 degrees, implemented with flips instead of rotation
-                    ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
+                    ret = SDL_RenderCopyEx( renderer, sprite_tex, &sourcerect, &destination,
                         0, NULL, static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ) );
                     break;
                 case 3: // 270 degrees
 #if (defined _WIN32 || defined WINDOWS)
                     destination.x -= 1;
 #endif
-                    ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
+                    ret = SDL_RenderCopyEx( renderer, sprite_tex, &sourcerect, &destination,
                         90, NULL, SDL_FLIP_NONE );
                     break;
             }
         } else { // don't rotate, same as case 0 above
-            ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
+            ret = SDL_RenderCopyEx( renderer, sprite_tex, &sourcerect, &destination,
                 0, NULL, SDL_FLIP_NONE );
         }
 
@@ -2206,12 +2248,6 @@ void cata_tiles::draw_entity_with_overlays( const player &pl, const tripoint &p,
 
 bool cata_tiles::draw_item_highlight( const tripoint &pos )
 {
-    bool item_highlight_available = tile_ids.find( ITEM_HIGHLIGHT ) != tile_ids.end();
-
-    if (!item_highlight_available) {
-        create_default_item_highlight();
-        item_highlight_available = true;
-    }
     return draw_from_id_string( ITEM_HIGHLIGHT, C_NONE, empty_string, pos, 0, 0, LL_LIT, false );
 }
 
@@ -2232,29 +2268,6 @@ SDL_Surface_Ptr cata_tiles::create_tile_surface(int w, int h)
 SDL_Surface_Ptr cata_tiles::create_tile_surface()
 {
     return create_tile_surface(tile_width, tile_height);
-}
-
-void cata_tiles::create_default_item_highlight()
-{
-    const Uint8 highlight_alpha = 127;
-
-    std::string key = ITEM_HIGHLIGHT;
-    int index = tile_values.size();
-
-    SDL_Surface_Ptr surface = create_tile_surface();
-    if( !surface ) {
-        return;
-    }
-    SDL_FillRect(surface.get(), NULL, SDL_MapRGBA(surface->format, 0, 0, 127, highlight_alpha));
-    SDL_Texture_Ptr texture( SDL_CreateTextureFromSurface( renderer, surface.get() ) );
-    if( !texture ) {
-        dbg( D_ERROR ) << "Failed to create texture: " << SDL_GetError();
-    }
-
-    if( texture ) {
-        tile_values.push_back( std::move( texture ) );
-        tile_ids[key].fg.add(std::vector<int>({index}),1);
-    }
 }
 
 /* Animation Functions */
@@ -2543,13 +2556,6 @@ void cata_tiles::draw_sct_frame()
 }
 void cata_tiles::draw_zones_frame()
 {
-    bool item_highlight_available = tile_ids.find( ITEM_HIGHLIGHT ) != tile_ids.end();
-
-    if( !item_highlight_available ) {
-        create_default_item_highlight();
-        item_highlight_available = true;
-    }
-
     for( int iY = zone_start.y; iY <= zone_end.y; ++ iY) {
         for( int iX = zone_start.x; iX <= zone_end.x; ++iX ) {
             draw_from_id_string( ITEM_HIGHLIGHT, C_NONE, empty_string,
