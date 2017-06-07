@@ -1,0 +1,142 @@
+[
+  {
+    "result": "copper",
+    "type": "recipe",
+    "result_mult": 2,
+    "id_suffix": "native",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 12500,
+    "batch_time_factors": [ 90, 4 ],
+    "autolearn": true,
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "crucible", -1 ] ],
+      [
+        [ "toolset", 10 ],
+        [ "fire", -1 ]
+      ]
+    ],
+    "components": [ [ [ "chunk_copper", 1 ] ] ]
+  },
+  {
+    "result": "silver_small",
+    "type": "recipe",
+    "result_mult": 4,
+    "id_suffix": "native",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 12500,
+    "batch_time_factors": [ 90, 4 ],
+    "autolearn": true,
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "crucible", -1 ] ],
+      [
+        [ "toolset", 10 ],
+        [ "fire", -1 ]
+      ]
+    ],
+    "components": [ [ [ "chunk_silver", 1 ] ] ]
+  },
+  {
+    "result": "gold_small",
+    "type": "recipe",
+    "result_mult": 4,
+    "id_suffix": "native",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 12500,
+    "batch_time_factors": [ 90, 4 ],
+    "autolearn": true,
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "crucible", -1 ] ],
+      [
+        [ "toolset", 10 ],
+        [ "fire", -1 ]
+      ]
+    ],
+    "components": [ [ [ "chunk_gold", 1 ] ] ]
+  },
+  {
+    "result": "material_aluminium_ingot",
+    "type": "recipe",
+    "id_suffix": "native",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": 25000,
+    "batch_time_factors": [ 90, 4 ],
+    "autolearn": true,
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "crucible", -1 ] ],
+      [
+        [ "toolset", 10 ],
+        [ "fire", -1 ]
+      ]
+    ],
+    "components": [ [ [ "chunk_aluminum", 1 ] ] ]
+  },
+  {
+    "result": "lead",
+    "type": "recipe",
+    "result_mult": 4,
+    "byproducts": "silver_small",
+    "id_suffix": "smelt",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": 40000,
+    "batch_time_factors": [ 90, 4 ],
+    "book_learn": [ [ "recipe_bullets", 4 ], [ "textbook_fabrication", 5 ], [ "welding_book", 3 ] ],
+    "tools": [
+      [ [ "crucible", -1 ] ],
+      [
+        [ "forge", 60 ],
+        [ "char_forge", 60 ]
+      ]
+    ],
+    "components": [ [ [ "chunk_galena", 1 ] ] ]
+  },
+  {
+    "result": "steel_lump",
+    "type": "recipe",
+    "result_mult": 2,
+    "id_suffix": "smelt",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": 60000,
+    "batch_time_factors": [ 90, 4 ],
+    "book_learn": [ [ "textbook_armschina", 5 ], [ "textbook_fabrication", 6 ], [ "welding_book", 4 ] ],
+    "tools": [
+      [ [ "crucible", -1 ] ],
+      [
+         [ "forge", 80 ],
+         [ "char_forge", 80 ]
+      ]
+    ],
+    "components": [
+      [ [ "chunk_hematite", 1 ] ],
+      [
+        [ "material_shrd_limestone", 1 ],
+        [ "material_limestone", 10 ]
+      ],
+      [
+        [ "charcoal", 10 ],
+        [ "coal_lump", 10 ]
+      ]
+    ]
+  }
+]

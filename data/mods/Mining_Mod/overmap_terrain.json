@@ -1,0 +1,20 @@
+[
+    {
+        "type" : "overmap_terrain",
+        "id" : "vein_rock",
+        "name" : "mineral vein",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "allow_road" : true
+    },
+    {
+        "type" : "overmap_terrain",
+        "id" : "vein_maybe",
+        "name" : "mineral vein?",
+        "sym" : 37,
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "allow_road" : true
+    }
+]

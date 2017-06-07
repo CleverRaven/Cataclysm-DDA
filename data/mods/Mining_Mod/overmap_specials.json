@@ -1,0 +1,62 @@
+[
+    {
+        "type" : "overmap_special",
+        "id" : "vein_forest_shallow",
+        "overmaps" : [
+            { "point":[0,0,0], "overmap": "forest"},
+            { "point":[0,0,-1], "overmap": "vein_rock"}
+        ],
+        "locations" : [ "forest" ],
+        "city_distance" : [0, -1],
+        "occurrences" : [50, 75],
+        "rotate" : true,
+        "flags" : [ "CLASSIC" ]
+    },
+    {
+        "type" : "overmap_special",
+        "id" : "vein_field_shallow",
+        "overmaps" : [
+            { "point":[0,0,0], "overmap": "field"},
+            { "point":[0,0,-1], "overmap": "vein_rock"}
+        ],
+        "locations" : [ "field" ],
+        "city_distance" : [0, -1],
+        "occurrences" : [50, 75],
+        "rotate" : true,
+        "flags" : [ "CLASSIC" ]
+    },
+    {
+        "type" : "overmap_special",
+        "id" : "vein_forest_deep",
+        "overmaps" : [
+            { "point":[0,0,0], "overmap": "forest"},
+            { "point":[0,0,-1], "overmap": "empty_rock"},
+            { "point":[0,0,-2], "overmap": "vein_maybe"},
+            { "point":[0,0,-3], "overmap": "vein_maybe"},
+            { "point":[0,0,-4], "overmap": "vein_maybe"},
+            { "point":[0,0,-5], "overmap": "vein_maybe"}
+        ],
+        "locations" : [ "forest" ],
+        "city_distance" : [0, -1],
+        "occurrences" : [25, 50],
+        "rotate" : true,
+        "flags" : [ "CLASSIC" ]
+    },
+    {
+        "type" : "overmap_special",
+        "id" : "vein_field_deep",
+        "overmaps" : [
+            { "point":[0,0,0], "overmap": "field"},
+            { "point":[0,0,-1], "overmap": "empty_rock"},
+            { "point":[0,0,-2], "overmap": "vein_maybe"},
+            { "point":[0,0,-3], "overmap": "vein_maybe"},
+            { "point":[0,0,-4], "overmap": "vein_maybe"},
+            { "point":[0,0,-5], "overmap": "vein_maybe"}
+        ],
+        "locations" : [ "field" ],
+        "city_distance" : [0, -1],
+        "occurrences" : [25, 50],
+        "rotate" : true,
+        "flags" : [ "CLASSIC" ]
+    }
+]
