@@ -255,13 +255,43 @@ void mission_start::place_caravan_ambush( mission *miss )
 
 void mission_start::place_bandit_cabin( mission *miss )
 {
-    tripoint site = target_om_ter_random( "bandit_cabin", 1, miss, false, 50 );
+    const tripoint your_pos = g->u.global_omt_location();
+
+    const std::string special_id( "bandit_cabin" );
+    const std::string oter_id( "forest" );
+    overmap &omap = g->get_cur_om();
+
+    tripoint target_pos = overmap_buffer.find_random( your_pos, special_id.c_str(), 50, false );
+    // if no cabin is found try to find a forest tile and spawn a cabin there
+    if( target_pos == overmap::invalid_tripoint ) {
+        target_pos = overmap_buffer.find_random( your_pos, oter_id.c_str(), 50, false );
+        if( target_pos == overmap::invalid_tripoint ) {
+            debugmsg( "Couldn't find %s", oter_id.c_str() );
+            target_pos = your_pos;
+        } else {
+            auto specials = omap.get_enabled_specials();
+            auto cabin = std::find_if( specials.begin(),
+            specials.end(), [ &special_id ]( const overmap_special * special ) {
+                return special->id.str() == special_id;
+            } );
+
+            if( cabin == specials.end() ) {
+                debugmsg( "Couldn't find overmap special %s", special_id.c_str() );
+                return;
+            }
+            omap.place_special( **cabin, target_pos, om_direction::type::none, 0 );
+
+        }
+    }
+    overmap_buffer.reveal( target_pos, 2 );
+    miss->set_target( target_pos );
+
     tinymap cabin;
-    cabin.load( site.x * 2, site.y * 2, site.z, false );
-    cabin.trap_set( {SEEX - 5, SEEY - 6, site.z}, tr_landmine_buried );
-    cabin.trap_set( {SEEX - 7, SEEY - 7, site.z}, tr_landmine_buried );
-    cabin.trap_set( {SEEX - 4, SEEY - 7, site.z}, tr_landmine_buried );
-    cabin.trap_set( {SEEX - 12, SEEY - 1, site.z}, tr_landmine_buried );
+    cabin.load( target_pos.x * 2, target_pos.y * 2, target_pos.z, false );
+    cabin.trap_set( {SEEX - 5, SEEY - 6, target_pos.z}, tr_landmine_buried );
+    cabin.trap_set( {SEEX - 7, SEEY - 7, target_pos.z}, tr_landmine_buried );
+    cabin.trap_set( {SEEX - 4, SEEY - 7, target_pos.z}, tr_landmine_buried );
+    cabin.trap_set( {SEEX - 12, SEEY - 1, target_pos.z}, tr_landmine_buried );
     miss->target_npc_id = cabin.place_npc( SEEX, SEEY, "bandit" );
     cabin.save();
 }
