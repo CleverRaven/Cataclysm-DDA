@@ -42,7 +42,7 @@ TEST_CASE("Check distribution of attacks to body parts for same sized opponents.
     monster defender;
     defender.type = &smallmon;
 
-    srand(time(NULL));
+    srand( 4242424242 );
 
     calculate_bodypart_distribution(attacker, defender, 0, expected_weights_base[1]);
     calculate_bodypart_distribution(attacker, defender, 1, expected_weights_base[1]);
@@ -59,7 +59,7 @@ TEST_CASE("Check distribution of attacks to body parts for smaller attacker.") {
     monster defender;
     defender.type = &medmon;
 
-    srand(time(NULL));
+    srand( 4242424242 );
 
     calculate_bodypart_distribution(attacker, defender, 0, expected_weights_base[0]);
     calculate_bodypart_distribution(attacker, defender, 1, expected_weights_base[0]);
@@ -76,7 +76,7 @@ TEST_CASE("Check distribution of attacks to body parts for larger attacker.") {
     monster defender;
     defender.type = &smallmon;
 
-    srand(time(NULL));
+    srand( 4242424242 );
 
     calculate_bodypart_distribution(attacker, defender, 0, expected_weights_base[2]);
     calculate_bodypart_distribution(attacker, defender, 1, expected_weights_base[2]);
