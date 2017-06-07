@@ -275,9 +275,39 @@
     "replace": "jerrycan"
   },
   {
+    "id": "pda",
+    "type": "MIGRATION",
+    "replace": "cell_phone"
+  },
+  {
+    "id": "pda_flashlight",
+    "type": "MIGRATION",
+    "replace": "cell_phone"
+  },
+  {
+    "id": "pipe_shotgunsawn",
+    "type": "MIGRATION",
+    "replace": "pipe_shotgun"
+  },
+  {
+    "id": "pistol_pepperbox",
+    "type": "MIGRATION",
+    "replace": "colt_navy"
+  },
+  {
     "id": "plasma_engine",
     "type": "MIGRATION",
     "replace": "minireactor"
+  },
+  {
+    "id": "reloaded_22_cb",
+    "type": "MIGRATION",
+    "replace": "22_cb"
+  },
+  {
+    "id": "reloaded_22_ratshot",
+    "type": "MIGRATION",
+    "replace": "22_ratshot"
   },
   {
     "id": "reloaded_40mm_fletchette",
@@ -293,6 +323,11 @@
     "id": "reloaded_signal_flare",
     "type": "MIGRATION",
     "replace": "signal_flare"
+  },
+  {
+    "id": "reloaded_shot_beanbag",
+    "type": "MIGRATION",
+    "replace": "shot_beanbag"
   },
   {
     "id": "reloaded_shot_he",
@@ -312,6 +347,11 @@
     "charges": 1608
   },
   {
+    "id": "shotgun_sawn",
+    "type": "MIGRATION",
+    "replace": "shotgun_d"
+  },
+  {
     "id": "shot_scrapslug",
     "type": "MIGRATION",
     "replace": "reloaded_shot_slug"
@@ -320,20 +360,5 @@
     "id": "UPS_on",
     "type": "MIGRATION",
     "replace": "UPS_off"
-  },
-  {
-    "id": "pistol_pepperbox",
-    "type": "MIGRATION",
-    "replace": "colt_navy"
-  },
-  {
-    "id": "pda",
-    "type": "MIGRATION",
-    "replace": "cell_phone"
-  },
-  {
-    "id": "pda_flashlight",
-    "type": "MIGRATION",
-    "replace": "cell_phone"
   }
 ]
