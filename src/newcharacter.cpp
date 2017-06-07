@@ -2429,7 +2429,7 @@ void save_template( player *u )
     if( name.length() == 0 ) {
         return;
     }
-    if( name.find( '/' ) != std::string::npos ) {
+    if( name.find( '/' ) != std::string::npos || name.find( '\\' ) != std::string::npos ) {
         name.clear();
         name.insert( 0, std::to_string( ( unsigned long long ) time( nullptr ) ) );
     }
