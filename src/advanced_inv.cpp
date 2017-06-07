@@ -1404,8 +1404,6 @@ void advanced_inventory::display()
     recalc = true;
     redraw = true;
 
-    string_input_popup spopup;
-
     while( !exit ) {
         if( g->u.moves < 0 ) {
             do_return_entry();
@@ -1637,6 +1635,7 @@ void advanced_inventory::display()
             }
             redraw = true;
         } else if( action == "FILTER" ) {
+            string_input_popup spopup;
             std::string filter = spane.filter;
             filter_edit = true;
             spopup.window( spane.window, 4, w_height - 1, ( w_width / 2 ) - 4 )
