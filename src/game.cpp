@@ -365,7 +365,7 @@ bool game::check_mod_data( const std::vector<std::string> &opts )
         DynamicDataLoader::get_instance().finalize_loaded_data();
     }
 
-    return !g->game_error();
+    return true;
 }
 
 bool game::is_core_data_loaded() const
@@ -756,8 +756,6 @@ void game::setup()
     nextweather = HOURS( get_option<int>( "INITIAL_TIME" ) ) + MINUTES(30);
 
     turnssincelastmon = 0; //Auto safe mode init
-    safemodeveh =
-        get_option<bool>( "SAFEMODEVEH" ); //Vehicle safemode check, in practice didn't trigger when needed
 
     sounds::reset_sounds();
     clear_zombies();
@@ -13255,11 +13253,6 @@ void game::wait()
     player_activity new_act( actType, 100 * ( durations[as_m.ret] - 1 ), 0 );
 
     u.assign_activity( new_act, false );
-}
-
-bool game::game_error()
-{
-    return (uquit == QUIT_ERROR);
 }
 
 void game::teleport(player *p, bool add_teleglow)

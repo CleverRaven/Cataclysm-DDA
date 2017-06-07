@@ -60,7 +60,6 @@ enum quit_status {
     QUIT_NOSAVED,   // Quit without saving
     QUIT_DIED,      // Actual death
     QUIT_WATCH,     // Died, and watching aftermath
-    QUIT_ERROR
 };
 
 enum safe_mode_type {
@@ -176,8 +175,6 @@ class game
         /** Initializes the UI. */
         void init_ui();
         void setup();
-        /** Returns true if the game quits through some error. */
-        bool game_error();
         /** True if the game has just started or loaded, else false. */
         bool new_game;
         /** Used in main.cpp to determine what type of quit is being performed. */
@@ -938,7 +935,6 @@ private:
         bool safe_mode_warning_logged;
         std::vector<int> new_seen_mon;
         int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
-        bool safemodeveh; // safemode while driving?
         int turnssincelastmon; // needed for auto run mode
         //  quit_status uquit;    // Set to true if the player quits ('Q')
         bool bVMonsterLookFire;
