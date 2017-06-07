@@ -1984,6 +1984,10 @@ nc_color item::color_in_inventory() const
         } else if( has_gun || has_ammo ) {
             ret = c_ltred;
         }
+    } else if ( is_bionic() ) {
+        if ( !u->has_bionic( type->id ) ) {
+            ret = c_red;
+        }
     } else if (is_book()) {
         if(u->has_identified( typeId() )) {
             auto &tmp = *type->book;
