@@ -31,6 +31,7 @@
 #include <vector>
 #include <algorithm>
 #include <cassert>
+#include <ctime>
 
 // Colors used in this file: (Most else defaults to c_ltgray)
 #define COL_STAT_ACT        c_white   // Selected stat
@@ -2427,6 +2428,10 @@ void save_template( player *u )
                        .query_string();
     if( name.length() == 0 ) {
         return;
+    }
+    if( name.find( '/' ) != std::string::npos ) {
+        name.clear();
+        name.insert( 0, std::to_string( ( unsigned long long ) time( nullptr ) ) );
     }
     std::string playerfile = FILENAMES["templatedir"] + utf8_to_native( name ) + ".template";
     write_to_file( playerfile, [&]( std::ostream &fout ) {
