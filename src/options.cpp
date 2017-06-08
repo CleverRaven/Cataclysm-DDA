@@ -790,6 +790,10 @@ void options_manager::init()
         vPages.push_back(std::make_pair("world_default", _("World Defaults")));
     }
 
+#ifdef __ANDROID__
+    vPages.push_back(std::make_pair("android", _("Android")));
+#endif
+
     std::string tileset_names;
     tileset_names = build_tilesets_list(); //get the tileset names and set the optionNames
 
@@ -1187,7 +1191,14 @@ void options_manager::init()
 
     add("USE_TILES", "graphics", _("Use tiles"),
         _("If true, replaces some TTF rendered text with tiles."),
+#ifdef __ANDROID__
+        // On Android, we default to not using tiles, so the game will run on more lower spec devices by default.
+        // Users can try turning tiles on, but if that doesn't work, they can just delete game data and reload.
+        // Seems like a more user-friendly option than asking them to delete/mess around with the installed 'gfx' folder.
+        false, COPT_CURSES_HIDE
+#else
         true, COPT_CURSES_HIDE
+#endif
         );
 
     add("TILES", "graphics", _("Choose tileset"),
@@ -1222,6 +1233,15 @@ void options_manager::init()
         _("Sets which video display will be used to show the game.  Requires restart."),
         0, 10000, 0, COPT_CURSES_HIDE
         );
+
+#ifndef __ANDROID__
+    optionNames["fullscreen"] = _("Fullscreen");
+    optionNames["windowedbl"] = _("Windowed borderless");
+    add("FULLSCREEN", "graphics", _("Fullscreen"),
+            _("Starts Cataclysm in one of the fullscreen modes. Requires restart."),
+            "no,fullscreen,windowedbl", "no", COPT_CURSES_HIDE
+       );
+#endif
 
     optionNames["fullscreen"] = _("Fullscreen");
     optionNames["windowedbl"] = _("Windowed borderless");
@@ -1511,6 +1531,247 @@ void options_manager::init()
         _("If true, NPCs won't need to eat or drink and will only get tired enough to sleep, not to get penalties."),
         false, COPT_ALWAYS_HIDE
         );
+
+#ifdef __ANDROID__
+    add("ANDROID_SKIP_SPLASH", "android", _("Skip welcome screen"),
+            _("If true, skips the Android welcome screen on app load."),
+            false
+       );
+
+    add("ANDROID_QUICKSAVE", "android", _("Quicksave on app lose focus"),
+            _("If true, quicksave whenever the app loses focus (screen locked, app moved into background etc.) WARNING: Experimental. This may result in corrupt save games."),
+            false
+       );
+
+    mOptionsSort["android"]++;
+
+    add("ANDROID_AUTO_KEYBOARD", "android", _("Auto-manage virtual keyboard"),
+            _("If true, automatically show/hide the virtual keyboard when necessary based on context. If false, virtual keyboard must be toggled manually."),
+            true
+       );
+
+    add("ANDROID_KEYBOARD_SCREEN_SCALE", "android", _("Virtual keyboard screen scale"),
+            _("When the virtual keyboard is visible, scale the screen to prevent overlapping. Useful for text entry so you can see what you're typing."),
+            true
+       );
+
+    mOptionsSort["android"]++;
+
+    add("ANDROID_VIBRATION", "android", _("Vibration duration"),
+            _("If non-zero, vibrate the device for this long on input, in millisconds. Ignored if hardware keyboard connected."),
+            0, 200, 10
+       );
+
+    optionNames["slSensor"] = _("Sensor");
+    optionNames["slPortrait"] = _("Portrait");
+    optionNames["slLandscapeLeft"] = _("Landscape");
+    optionNames["slLandscapeRight"] = _("Rev Landscape");
+    add("ANDROID_SCREEN_ORIENTATION", "android", _("Screen orientation"),
+            _("Use the device's sensor to orient the screen automatically, or force a specific orientation."),
+            "slSensor,slPortrait,slLandscapeLeft,slLandscapeRight", "slSensor", COPT_CURSES_HIDE
+       );
+
+    mOptionsSort["android"]++;
+
+    add("ANDROID_SHOW_VIRTUAL_JOYSTICK", "android", _("Show virtual joystick"),
+            _("If true, show the virtual joystick when touching and holding the screen. Gives a visual indicator of deadzone and stick deflection."),
+            true
+       );
+
+    add("ANDROID_VIRTUAL_JOYSTICK_OPACITY", "android", _("Virtual joystick opacity"),
+            _("The opacity of the on-screen virtual joystick, as a percentage."),
+            0, 100, 20
+       );
+
+    add("ANDROID_DEADZONE_RANGE", "android", _("Virtual joystick deadzone size"),
+            _("While using the virtual joystick, deflecting the stick beyond this distance will trigger directional input. Specified as a percentage of longest screen edge."),
+            0.01f, 0.2f, 0.03f, 0.001f, COPT_NO_HIDE, "%.3f"
+       );
+
+    add("ANDROID_REPEAT_DELAY_RANGE", "android", _("Virtual joystick size"),
+            _("While using the virtual joystick, deflecting the stick by this much will repeat input at the deflected rate (see below). Specified as a percentage of longest screen edge."),
+            0.05f, 0.5f, 0.10f, 0.001f, COPT_NO_HIDE, "%.3f"
+       );
+
+    add("ANDROID_VIRTUAL_JOYSTICK_FOLLOW", "android", _("Virtual joystick follows finger"),
+            _("If true, the virtual joystick will follow when sliding beyond its range."),
+            true
+       );
+
+    add("ANDROID_REPEAT_DELAY_MAX", "android", _("Virtual joystick repeat rate (centered)"),
+            _("When the virtual joystick is centered, how fast should input events repeat, in milliseconds."),
+            50, 1000, 500
+       );
+
+    add("ANDROID_REPEAT_DELAY_MIN", "android", _("Virtual joystick repeat rate (deflected)"),
+            _("When the virtual joystick is fully deflected, how fast should input events repeat, in milliseconds."),
+            50, 1000, 100
+       );
+
+    add("ANDROID_SENSITIVITY_POWER", "android", _("Virtual joystick repeat rate sensitivity"),
+            _("As the virtual joystick moves from centered to fully deflected, this value is an exponent that controls the blend between the two repeat rates defined above. 1.0 = linear."),
+            0.1f, 5.0f, 0.75f, 0.05f, COPT_NO_HIDE, "%.2f"
+       );
+
+    add("ANDROID_INITIAL_DELAY", "android", _("Input repeat delay"),
+            _("While touching the screen, wait this long before showing the virtual joystick and repeating input, in milliseconds. Also used to determine tap/double-tap detection, flick detection and toggling quick shortcuts."),
+            150, 1000, 300
+       );
+
+    add("ANDROID_HIDE_HOLDS", "android", _("Virtual joystick hides shortcuts"),
+            _("If true, hides on-screen keyboard shortcuts while using the virtual joystick. Helps keep the view uncluttered while travelling long distances and navigating menus."),
+            true
+       );
+
+    mOptionsSort["android"]++;
+
+    add("ANDROID_SHORTCUT_DEFAULTS", "android", _("Default gameplay shortcuts"),
+            _("The default set of gameplay shortcuts to show. Used on starting a new game and whenever all gameplay shortcuts are removed."),
+            "?mi", 30
+       );
+
+    add("ANDROID_ACTIONMENU_AUTOADD", "android", _("Add shortcuts for action menu selections"),
+            _("If true, automatically add a shortcut for actions selected via the in-game action menu."),
+            true
+       );
+
+    add("ANDROID_INVENTORY_AUTOADD", "android", _("Add shortcuts for inventory selections"),
+            _("If true, automatically add a shortcut for items selected via the inventory."),
+            true
+       );
+
+    mOptionsSort["android"]++;
+
+    add("ANDROID_TAP_KEY", "android", _("Tap key (in-game)"),
+            _("The key to press when tapping during gameplay."),
+            ".", 1
+       );
+
+    add("ANDROID_2_TAP_KEY", "android", _("Two-finger tap key (in-game)"),
+            _("The key to press when tapping with two fingers during gameplay."),
+            "i", 1
+       );
+
+    add("ANDROID_2_SWIPE_UP_KEY", "android", _("Two-finger swipe up key (in-game)"),
+            _("The key to press when swiping up with two fingers during gameplay."),
+            "K", 1
+       );
+
+    add("ANDROID_2_SWIPE_DOWN_KEY", "android", _("Two-finger swipe down key (in-game)"),
+            _("The key to press when swiping down with two fingers during gameplay."),
+            "J", 1
+       );
+
+    add("ANDROID_2_SWIPE_LEFT_KEY", "android", _("Two-finger swipe left key (in-game)"),
+            _("The key to press when swiping left with two fingers during gameplay."),
+            "L", 1
+       );
+
+    add("ANDROID_2_SWIPE_RIGHT_KEY", "android", _("Two-finger swipe right key (in-game)"),
+            _("The key to press when swiping right with two fingers during gameplay."),
+            "H", 1
+       );
+
+    add("ANDROID_PINCH_IN_KEY", "android", _("Pinch in key (in-game)"),
+            _("The key to press when pinching in during gameplay."),
+            "z", 1
+       );
+
+    add("ANDROID_PINCH_OUT_KEY", "android", _("Pinch out key (in-game)"),
+            _("The key to press when pinching out during gameplay."),
+            "Z", 1
+       );
+
+    mOptionsSort["android"]++;
+
+    add("ANDROID_SHORTCUT_AUTOADD", "android", _("Auto-manage contextual gameplay shortcuts"),
+            _("If true, contextual in-game shortcuts are added and removed automatically as needed: examine, close, butcher, move up/down, control vehicle, pickup, toggle enemy + safe mode, sleep."),
+            true
+       );
+
+    add("ANDROID_SHORTCUT_AUTOADD_FRONT", "android", _("Move contextual gameplay shortcuts to front"),
+            _("If the above option is enabled, specifies whether contextual in-game shortcuts will be added to the front or back of the shortcuts list. True makes them easier to reach, False reduces shuffling of shortcut positions."),
+            false
+       );
+
+    add("ANDROID_SHORTCUT_MOVE_FRONT", "android", _("Move used shortcuts to front"),
+            _("If true, using an existing shortcut will always move it to the front of the shortcuts list. If false, only shortcuts typed via keyboard will move to the front."),
+            false
+       );
+
+    add("ANDROID_SHORTCUT_ZONE", "android", _("Separate shortcuts for No Auto Pickup zones"),
+            _("If true, separate gameplay shortcuts will be used within No Auto Pickup zones. Useful for keeping home base actions separate from exploring actions."),
+            true
+       );
+
+    add("ANDROID_SHORTCUT_REMOVE_TURNS", "android", _("Turns to remove unused gameplay shortcuts"),
+            _("If non-zero, unused gameplay shortcuts will be removed after this many turns (as in discrete player actions, not world calendar turns)."),
+            0, 1000, 0
+       );
+
+    add("ANDROID_SHORTCUT_PERSISTENCE", "android", _("Shortcuts persistence"),
+            _("If true, shortcuts are saved/restored with each save game. If false, shortcuts reset between sessions."),
+            true
+       );
+
+    mOptionsSort["android"]++;
+
+    add("ANDROID_SHORTCUT_POSITION", "android", _("Shortcuts position"),
+            _("Switch between shortcuts on the left or on the right side of the screen."),
+            "left,right", "left"
+       );
+
+    add("ANDROID_SHORTCUT_SCREEN_PERCENTAGE", "android", _("Shortcuts screen percentage"),
+            _("How much of the screen can shortcuts occupy, as a percentage of total screen width."),
+            10, 100, 100
+       );
+
+    add("ANDROID_SHORTCUT_OVERLAP", "android", _("Shortcuts overlap screen"),
+            _("If true, shortcuts will be drawn transparently overlapping the game screen. If false, the game screen size will be reduced to fit the shortcuts below."),
+            true
+       );
+
+    add("ANDROID_SHORTCUT_OPACITY_BG", "android", _("Shortcut opacity (background)"),
+            _("The background opacity of on-screen keyboard shortcuts, as a percentage."),
+            0, 100, 75
+       );
+
+    add("ANDROID_SHORTCUT_OPACITY_SHADOW", "android", _("Shortcut opacity (shadow)"),
+            _("The shadow opacity of on-screen keyboard shortcuts, as a percentage."),
+            0, 100, 100
+       );
+
+    add("ANDROID_SHORTCUT_OPACITY_FG", "android", _("Shortcut opacity (text)"),
+            _("The foreground opacity of on-screen keyboard shortcuts, as a percentage."),
+            0, 100, 100
+       );
+
+    add("ANDROID_SHORTCUT_COLOR", "android", _("Shortcut color"),
+            _("The color of on-screen keyboard shortcuts."),
+            0, 15, 15
+       );
+
+    add("ANDROID_SHORTCUT_BORDER", "android", _("Shortcut border"),
+            _("The border of each on-screen keyboard shortcut in pixels. ."),
+            0, 16, 0
+       );
+
+    add("ANDROID_SHORTCUT_WIDTH_MIN", "android", _("Shortcut width (min)"),
+            _("The minimum width of each on-screen keyboard shortcut in pixels. Only relevant when lots of shortcuts are visible at once."),
+            20, 1000, 50
+       );
+
+    add("ANDROID_SHORTCUT_WIDTH_MAX", "android", _("Shortcut width (max)"),
+            _("The maximum width of each on-screen keyboard shortcut in pixels."),
+            50, 1000, 160
+       );
+
+    add("ANDROID_SHORTCUT_HEIGHT", "android", _("Shortcut height"),
+            _("The height of each on-screen keyboard shortcut in pixels."),
+            50, 1000, 130
+       );
+
+#endif
 
     for (unsigned i = 0; i < vPages.size(); ++i) {
         mPageItems[i].resize(mOptionsSort[vPages[i].first]);
