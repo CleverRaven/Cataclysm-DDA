@@ -735,6 +735,19 @@ void player::consume_effects( item &food, bool rotten )
             fun_max = 5;
         }
     }
+    //Food is made out of meat (use ALLERGEN_MEAT, not CARNIVORE_OK (the latter has eggs and milk),
+    //Reduces bad morale penalties on food only made of meat.
+    if( has_trait( "CARNIVORE" ) && food.has_flag( "ALLERGEN_MEAT" ) &&
+        !food.has_any_flag( carnivore_blacklist ) &&
+        !( food.has_flag( "CANNIBALISM" ) && !has_trait( "CANNIBAL" ) ) ) {
+        if( fun < -2 ) {
+            fun = fun * 0.5;
+        } else if( fun > -2 && fun <= 3 ) {
+            fun = fun + 4;
+        } else if( fun > 3 ) {
+            fun = fun * 2;
+        }
+    }
 
     const bool gourmand = has_trait( trait_id( "GOURMAND" ) );
     if( gourmand ) {
