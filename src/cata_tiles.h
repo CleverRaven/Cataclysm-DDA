@@ -4,6 +4,7 @@
 
 #include <SDL.h>
 #include <SDL_ttf.h>
+#include <SDL_gpu.h>
 
 #include "animation.h"
 #include "map.h"
@@ -83,17 +84,136 @@ enum TILE_CATEGORY {
 };
 
 /** Typedefs */
-struct SDL_Texture_deleter {
+struct GPU_Image_deleter {
     // Operator overload required to leverage unique_ptr API.
-    void operator()( SDL_Texture *const ptr );
+    void operator()( GPU_Image *const ptr );
 };
-using SDL_Texture_Ptr = std::unique_ptr<SDL_Texture, SDL_Texture_deleter>;
+using GPU_Image_Ptr = std::unique_ptr<GPU_Image, GPU_Image_deleter>;
 
 struct SDL_Surface_deleter {
     // Operator overload required to leverage unique_ptr API.
     void operator()( SDL_Surface *const ptr );
 };
 using SDL_Surface_Ptr = std::unique_ptr<SDL_Surface, SDL_Surface_deleter>;
+
+// Atlas of many tiles, placed on a single texture
+class Atlas
+{
+    public:
+        /// A single sprite within a larger atlas. Knows how to blit itself
+        /// to a GPU_Target. Owned by the allocating atlas and becomes
+        /// invalid when the owner is destroyed or cleared.
+        class sprite
+        {
+            public:
+                sprite() : bounds( {
+                    -1, 0, 0, 0
+                } ) {}
+
+                int width() const {
+                    return bounds.w;
+                }
+                int height() const {
+                    return bounds.h;
+                }
+
+                static sprite make_missing( int w = 0, int h = 0 ) {
+                    return sprite( GPU_Rect { -1, 0, ( float )w, ( float )h } );
+                }
+
+                static sprite make_transparent( int w = 0, int h = 0 ) {
+                    return sprite( GPU_Rect { -2, 0, ( float )w, ( float )h } );
+                }
+
+                /// Test if this sprite is valid (is not a missing sprite)
+                operator bool() const {
+                    return ( bounds.x != -1 );
+                }
+
+                /// Test if this sprite is entirely transparent
+                bool transparent() const {
+                    return ( bounds.x == -2 );
+                }
+
+            private:
+                sprite( const GPU_Rect &bounds_ ) : bounds( bounds_ ) {}
+                GPU_Rect bounds;
+
+                friend class Atlas;
+        };
+
+        Atlas( GPU_FormatEnum format = GPU_FORMAT_RGBA );
+        virtual ~Atlas();
+
+        /// Free resources allocated. Any added sprites become invalid.
+        void clear();
+
+        /// Copy a sprite from a SDL_Surface into the atlas
+        /// @param surface surface to copy from
+        /// @param source_rect bounds to copy from, or nullptr to copy the entire surface
+        /// @return the new sprite, or the null sprite if allocation failed; never returns nullptr
+        sprite add_sprite( SDL_Surface *surface, const SDL_Rect *source_rect = nullptr );
+
+        /// Copy this sprite to a GPU_Target.
+        /// The given position is the top-left corner of the sprite.
+        void blit( const sprite &source, GPU_Target *target, float x, float y ) {
+            if( !source ) {
+                draw_placeholder( target, x, y, source.width(), source.height() );
+                return;
+            }
+
+            if( source.transparent() ) {
+                return;
+            }
+
+            GPU_Blit( tex.get(), const_cast<GPU_Rect *>( &source.bounds ), target, x, y );
+        }
+
+        /// Copy this sprite to a GPU_Target, rotating and scaling it
+        /// Either the sprite and scaling should be square, or the rotation
+        /// should be zero.
+        /// @param x left edge of the sprite, target coordinates
+        /// @param y top edge of the sprite, target coordinates
+        /// @param rotation angle to rotate by, counterclockwise degrees
+        /// @param scale_x X axis scale factor, 1.0 = no scaling
+        /// @param scale_y Y axis scale factor, 1.0 = no scaling
+        void blitScaleRotate( const sprite &source,
+                              GPU_Target *target,
+                              float x, float y,
+                              float rotation,
+                              float scale_x, float scale_y )  const {
+            if( !source ) {
+                draw_placeholder( target, x, y, source.width() * scale_x, source.height() * scale_y );
+                return;
+            }
+
+            if( source.transparent() ) {
+                return;
+            }
+
+            GPU_BlitTransformX( tex.get(), const_cast<GPU_Rect *>( &source.bounds ),
+                                target, x + scale_x * source.width() / 2.0, y + scale_y * source.height() / 2.0,
+                                source.width() / 2.0, source.height() / 2.0,
+                                rotation,
+                                scale_x, scale_y );
+        }
+
+        void save( const char *path );
+        void print_stats();
+
+    private:
+        static void draw_placeholder( GPU_Target *target, float x, float y, float w, float h );
+
+        GPU_Image_Ptr make_texture( int w, int h );
+        bool create();
+        bool expand();
+
+        GPU_FormatEnum format;
+        GPU_Image_Ptr tex;
+        int next_x, next_y;
+        int rowheight;
+        unsigned sprite_count, sprite_pixels;
+};
 
 // Cache of a single tile, used to avoid redrawing what didn't change.
 struct tile_drawing_cache {
@@ -175,46 +295,32 @@ struct pixel {
 //  (moving from submap corner to new corner) with MAPSIZE = 11
 // textures are dumped when the player moves more than one submap in one update
 //  (teleporting, z-level change) to prevent running out of the remaining pool
-struct minimap_shared_texture_pool {
-    std::vector<SDL_Texture_Ptr> texture_pool;
-    std::set<int> active_index;
-    std::vector<int> inactive_index;
-    minimap_shared_texture_pool() {
-        reinit();
-    }
+class minimap_shared_texture_pool
+{
+    private:
+        GPU_Image_Ptr shared_texture;
+        std::vector<GPU_Rect> pool;
+        std::set<int> active_index;
+        std::vector<int> inactive_index;
 
-    void reinit() {
-        inactive_index.clear();
-        texture_pool.resize( ( MAPSIZE + 1 ) * ( MAPSIZE + 1 ) );
-        for( int i = 0; i < static_cast<int>( texture_pool.size() ); i++ ) {
-            inactive_index.push_back( i );
+    public:
+        minimap_shared_texture_pool() {
+            clear();
         }
-    }
 
-    //reserves a texture from the inactive group and returns tracking info
-    SDL_Texture_Ptr request_tex( int &i ) {
-        if( inactive_index.empty() ) {
-            //shouldn't be happening, but minimap will just be default color instead of crashing
-            return nullptr;
-        }
-        int index = inactive_index.back();
-        inactive_index.pop_back();
-        active_index.insert( index );
-        i = index;
-        return std::move( texture_pool[index] );
-    }
+        void reinit( int tile_width, int tile_height );
+        void clear();
 
-    //releases the provided texture back into the inactive pool to be used again
-    //called automatically in the submap cache destructor
-    void release_tex( int i, SDL_Texture_Ptr ptr ) {
-        auto it = active_index.find( i );
-        if( it == active_index.end() ) {
-            return;
+        //reserves a (sub)texture from the inactive group and returns tracking info
+        GPU_Rect request_subtex( int &i );
+
+        //releases the provided (sub)texture back into the inactive pool to be used again
+        //called automatically in the submap cache destructor
+        void release_subtex( int i );
+
+        GPU_Image *get_texture() {
+            return shared_texture.get();
         }
-        inactive_index.push_back( i );
-        active_index.erase( i );
-        texture_pool[i] = std::move( ptr );
-    }
 };
 
 struct minimap_submap_cache {
@@ -222,8 +328,8 @@ struct minimap_submap_cache {
     std::vector< pixel > minimap_colors;
     //checks if the submap has been looked at by the minimap routine
     bool touched;
-    //the texture updates are drawn to
-    SDL_Texture_Ptr minimap_tex;
+    //the region of the shared texture that updates are drawn to
+    GPU_Rect minimap_subtex;
     //the submap being handled
     int texture_index;
     //the list of updates to apply to the texture
@@ -242,11 +348,19 @@ struct minimap_submap_cache {
 
 using minimap_cache_ptr = std::unique_ptr< minimap_submap_cache >;
 
+/// Set of sprites for a given tile ID
+struct tilesprite {
+    Atlas::sprite normal;
+    Atlas::sprite shadow;
+    Atlas::sprite nightvision;
+    Atlas::sprite overexposed;
+};
+
 class cata_tiles
 {
     public:
         /** Default constructor */
-        cata_tiles( SDL_Renderer *render );
+        cata_tiles( GPU_Target *render );
         /** Default destructor */
         ~cata_tiles();
     protected:
@@ -478,8 +592,9 @@ class cata_tiles
         void init_light();
 
         /** Variables */
-        SDL_Renderer *renderer;
-        std::vector<SDL_Texture_Ptr> tile_values;
+        GPU_Target *renderer;
+        Atlas atlas;
+        std::vector<tilesprite> tile_sprites;
         std::unordered_map<std::string, tile_type> tile_ids;
 
         int tile_height = 0, tile_width = 0, default_tile_width, default_tile_height;
@@ -532,9 +647,6 @@ class cata_tiles
     private:
         void create_default_item_highlight();
         int last_pos_x, last_pos_y;
-        std::vector<SDL_Texture_Ptr> shadow_tile_values;
-        std::vector<SDL_Texture_Ptr> night_tile_values;
-        std::vector<SDL_Texture_Ptr> overexposed_tile_values;
         /**
          * Tracks active night vision goggle status for each draw call.
          * Allows usage of night vision tilesets during sprite rendering.
@@ -542,7 +654,7 @@ class cata_tiles
         bool nv_goggles_activated;
 
         //pixel minimap cache methods
-        SDL_Texture_Ptr create_minimap_cache_texture( int tile_width, int tile_height );
+        GPU_Image_Ptr create_minimap_cache_texture( int tile_width, int tile_height );
         void process_minimap_cache_updates();
         void update_minimap_cache( const tripoint &loc, pixel &pix );
         void prepare_minimap_cache_for_updates();
@@ -568,7 +680,7 @@ class cata_tiles
         bool minimap_reinit_flag; //set to true to force a reallocation of minimap details
         //place all submaps on this texture before rendering to screen
         //replaces clipping rectangle usage while SDL still has a flipped y-coordinate bug
-        SDL_Texture_Ptr main_minimap_tex;
+        GPU_Image_Ptr main_minimap_tex;
 };
 
 #endif
