@@ -1,0 +1,16 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "no_freeform",
+    "name": "Disable Freeform Gen",
+    "authors": [ "Davis Zvejnieks" ],
+    "maintainers": [ "Davis Zvejnieks" ],
+    "description": "Disables freeform character gen for shared map play",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "type": "WORLD_OPTION",
+    "options": [ "NO_FREEFORM" ]
+  }
+]

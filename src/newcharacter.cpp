@@ -696,17 +696,35 @@ tab_direction set_points( WINDOW *w, player *, points_left &points )
     ctxt.register_action("QUIT");
     ctxt.register_action("CONFIRM");
 
+
     using point_limit_tuple = std::tuple<points_left::point_limit, std::string, std::string>;
-    const std::vector<point_limit_tuple> opts = {{
-        std::make_tuple( points_left::MULTI_POOL, _( "Multiple pools" ),
-                         _( "Stats, traits and skills have separate point pools.\n\
+    std::vector<point_limit_tuple> opts;
+
+    if (get_option<bool>("NO_FREEFORM")) {
+        opts = {{
+            std::make_tuple( points_left::MULTI_POOL, _( "Multiple pools" ),
+                      _( "Stats, traits and skills have separate point pools.\n\
 Putting stat points into traits and skills is allowed and putting trait points into skills is allowed.\n\
 Scenarios and professions affect skill point pool" ) ),
-        std::make_tuple( points_left::ONE_POOL, _( "Single pool" ),
+            std::make_tuple( points_left::ONE_POOL, _( "Single pool" ),
+                         _( "Stats, traits and skills share a single point pool." ) )
+        }};
+
+    }
+
+    else
+    {
+        opts = {{
+            std::make_tuple( points_left::MULTI_POOL, _( "Multiple pools" ),
+                      _( "Stats, traits and skills have separate point pools.\n\
+Putting stat points into traits and skills is allowed and putting trait points into skills is allowed.\n\
+Scenarios and professions affect skill point pool" ) ),
+            std::make_tuple( points_left::ONE_POOL, _( "Single pool" ),
                          _( "Stats, traits and skills share a single point pool." ) ),
-        std::make_tuple( points_left::FREEFORM, _( "Freeform" ),
-                         _( "No point limits are enforced" ) )
-    }};
+            std::make_tuple( points_left::FREEFORM, _( "Freeform" ),
+                          _( "No point limits are enforced" ) )
+        }};
+    }
 
     int highlighted = 0;
 
