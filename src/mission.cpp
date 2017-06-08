@@ -78,6 +78,13 @@ void mission::process_all()
     for( auto &e : world_missions ) {
         e.second->process();
     }
+
+    for( auto &pm : g->u.get_active_missions() ) {
+        if( ( pm->get_type().goal == mission_goal::MGOAL_GO_TO_TYPE ||
+              pm->get_type().goal == mission_goal::MGOAL_GO_TO ) && pm->is_complete( pm->get_npc_id() ) ) {
+            pm->wrap_up();
+        }
+    }
 }
 
 std::vector<mission*> mission::to_ptr_vector( const std::vector<int> &vec )
