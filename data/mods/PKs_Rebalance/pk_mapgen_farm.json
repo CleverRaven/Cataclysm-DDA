@@ -11,37 +11,6 @@
         ["heavy_plow_tractor", 1000]
     ]
     },{
-    "type":"monstergroup",
-    "name" : "GROUP_PEST",
-    "default" : "mon_crow",
-    "monsters" : [
-      { "monster" : "mon_bat", "freq" : 15, "cost_multiplier" : 0, "pack_size": [6,12], "conditions": ["DAWN", "DUSK", "NIGHT", "SPRING", "SUMMER", "AUTUMN"] },
-      { "monster" : "mon_bat_vampire", "freq" : 15, "cost_multiplier" : 1, "pack_size": [6,12], "conditions": ["DAWN", "DUSK", "NIGHT", "SPRING", "SUMMER", "AUTUMN"], "starts": 50 },
-      { "monster" : "mon_spider_widow_giant", "freq" : 30, "cost_multiplier" : 1, "pack_size": [2,4] },
-      { "monster" : "mon_giant_cockroach", "freq" : 40, "cost_multiplier" : 1, "pack_size": [3,6] },
-      { "monster" : "mon_black_rat", "freq" : 30, "cost_multiplier" : 1, "pack_size": [4,8] },
-      { "monster" : "mon_wasp", "freq" : 40, "cost_multiplier" : 1, "pack_size": [3,6] },
-      { "monster" : "mon_zombie_child", "freq" : 20, "cost_multiplier" : 1, "pack_size": [2,6] },
-      { "monster" : "mon_zombie", "freq" : 20, "cost_multiplier" : 1, "pack_size": [2,6] },
-      { "monster" : "mon_zombie_rot", "freq" : 10, "cost_multiplier" : 1, "pack_size": [1,5] },
-      { "monster" : "mon_beekeeper", "freq" : 10, "cost_multiplier" : 1, "pack_size": [1,5] },
-      { "monster": "mon_spider_web", "freq": 20, "cost_multiplier": 1, "pack_size": [1,4] },
-      { "monster": "mon_spider_web_alpha", "freq": 10, "cost_multiplier": 3, "pack_size": [1,4], "starts": 75 },
-      { "monster": "mon_spider_web_omega", "freq": 10, "cost_multiplier": 3, "pack_size": [1,4], "starts": 50 },
-      { "monster": "mon_spider_web_mu", "freq": 10, "cost_multiplier": 3, "pack_size": [2,6], "starts": 100 }
-      ]
-    },{
-    "type":"monstergroup",
-    "name" : "GROUP_PEST_FLYING",
-    "default" : "mon_crow",
-    "monsters" : [
-      { "monster" : "mon_bat", "freq" : 20, "cost_multiplier" : 0, "pack_size": [6,12], "conditions": ["DAWN", "DUSK", "NIGHT", "SPRING", "SUMMER", "AUTUMN"] },
-      { "monster" : "mon_bat_vampire", "freq" : 20, "cost_multiplier" : 0, "pack_size": [6,12], "conditions": ["DAWN", "DUSK", "NIGHT", "SPRING", "SUMMER", "AUTUMN"], "starts": 50 },
-      { "monster" : "mon_wasp", "freq" : 20, "cost_multiplier" : 0, "pack_size": [4,8] },
-      { "monster" : "mon_bee", "freq" : 20, "cost_multiplier" : 0, "pack_size": [4,8] },
-      { "monster" : "mon_crow", "freq" : 20, "cost_multiplier" : 0, "pack_size": [6,12] }
-      ]
-    },{
     "type": "item_group",
     "id": "strawpile",
     "items": [
