@@ -17,6 +17,13 @@
     "flags": [ "WHEEL" ]
   },
   {
+    "id": "metal_wheel_steerable",
+    "copy-from": "metal_wheel",
+    "type": "vehicle_part",
+    "name": "metal wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE" ] }
+  },
+  {
     "id": "roller_drum",
     "type": "vehicle_part",
     "name": "roller drum",
@@ -291,6 +298,13 @@
     "flags": [ "WHEEL", "TOOL_WRENCH", "NAILABLE" ]
   },
   {
+    "id": "wheel_wood_steerable",
+    "copy-from": "wheel_wood",
+    "type": "vehicle_part",
+    "name": "wooden cart wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE" ] }
+  },
+  {
     "id": "wheel_wood_b",
     "copy-from": "wheel_wood",
     "type": "vehicle_part",
@@ -306,5 +320,12 @@
       "durability": 2,
       "damage_modifier": 2
     }
+  },
+  {
+    "id": "wheel_wood_b_steerable",
+    "copy-from": "wheel_wood_b",
+    "type": "vehicle_part",
+    "name": "banded wooden cart wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE" ] }
   }
 ]
