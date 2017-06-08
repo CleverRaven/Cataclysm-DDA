@@ -7062,24 +7062,21 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
         return res;
 
     } else if( what == "UPS" ) {
-        if( power_level > 0 && has_active_bionic( "bio_ups" ) ) {
-            auto bio = std::min( long( power_level ), qty );
-            charge_power( -bio );
-            qty -= std::min( qty, bio );
-        }
-
         auto adv = charges_of( "adv_UPS_off", ceil( qty * 0.6 ) );
-        if( adv > 0 ) {
-            auto found = use_charges( "adv_UPS_off", adv );
-            res.splice( res.end(), found );
-            qty -= std::min( qty, long( adv / 0.6 ) );
-        }
-
         auto ups = charges_of( "UPS_off", qty );
+
         if( ups > 0 ) {
             auto found = use_charges( "UPS_off", ups );
             res.splice( res.end(), found );
             qty -= std::min( qty, ups );
+        } else if ( adv > 0 ) {
+            auto found = use_charges( "adv_UPS_off", adv );
+            res.splice( res.end(), found );
+            qty -= std::min( qty, long( adv / 0.6 ) );
+        } else if ( power_level > 0 && has_active_bionic( "bio_ups" ) ) {
+            auto bio = std::min( long( power_level ), qty );
+            charge_power( -bio );
+            qty -= std::min( qty, bio );
         }
     }
 
