@@ -4,8 +4,8 @@
 #include "translations.h"
 #include "posix_time.h"
 #include "input.h"
+#include "rng.h"
 
-#include <cstdlib>  // Needed for rand()
 #include <iostream>
 
 #define EMPTY -1
@@ -252,21 +252,21 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
     }
     /* Now we initialize the various game OBJECTs.
        * Assign a position to the player. */
-    robot.x = rand() % rfkCOLS;
-    robot.y = rand() % (rfkLINES - 3) + 3;
+    robot.x = xrand() % rfkCOLS;
+    robot.y = xrand() % (rfkLINES - 3) + 3;
     robot.character = '#';
     robot.color = c_white;
     rfkscreen[robot.x][robot.y] = ROBOT;
 
     /* Assign the kitten a unique position. */
     do {
-        kitten.x = rand() % rfkCOLS;
-        kitten.y = rand() % (rfkLINES - 3) + 3;
+        kitten.x = xrand() % rfkCOLS;
+        kitten.y = xrand() % (rfkLINES - 3) + 3;
     } while (rfkscreen[kitten.x][kitten.y] != EMPTY);
 
     /* Assign the kitten a character and a color. */
     do {
-        kitten.character = ktile[rand() % 82];
+        kitten.character = ktile[xrand() % 82];
     } while (kitten.character == '#' || kitten.character == ' ');
 
     do {
@@ -279,14 +279,14 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
     for (int c = 0; c < numbogus; c++) {
         /* Assign a unique position. */
         do {
-            bogus[c].x = rand() % rfkCOLS;
-            bogus[c].y = (rand() % (rfkLINES - 3)) + 3;
+            bogus[c].x = xrand() % rfkCOLS;
+            bogus[c].y = (xrand() % (rfkLINES - 3)) + 3;
         } while (rfkscreen[bogus[c].x][bogus[c].y] != EMPTY);
         rfkscreen[bogus[c].x][bogus[c].y] = c + 2;
 
         /* Assign a character. */
         do {
-            bogus[c].character = ktile[rand() % 82];
+            bogus[c].character = ktile[xrand() % 82];
         } while (bogus[c].character == '#' || bogus[c].character == ' ');
 
         do {
@@ -296,7 +296,7 @@ robot_finds_kitten::robot_finds_kitten(WINDOW *w)
         /* Assign a unique message. */
         int index = 0;
         do {
-            index = rand() % nummessages;
+            index = xrand() % nummessages;
         } while (used_messages[index] != 0);
         bogus_messages[c] = index;
         used_messages[index] = 1;

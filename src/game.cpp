@@ -799,7 +799,7 @@ bool game::start_game(std::string worldname)
         gamemode.reset( new special_game() );
     }
 
-    seed = rand();
+    seed = xrand();
     new_game = true;
     start_calendar();
     nextweather = calendar::turn;

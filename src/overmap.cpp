@@ -4275,7 +4275,7 @@ void overmap::place_specials()
         }
 
         if( elem->flags.count( "UNIQUE" ) > 0 ) {
-            if( rand() % max <= min ) {
+            if( int( xrand() ) % max <= min ) {
                 mandatory.emplace_back( elem, 1 );
             }
         } else {

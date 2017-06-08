@@ -7,19 +7,22 @@
 
 #define _USE_MATH_DEFINES
 #include <cmath>
+#include <climits>
+
+unsigned long long xrshr_state[2] = {};
 
 long rng( long val1, long val2 )
 {
     long minVal = ( val1 < val2 ) ? val1 : val2;
     long maxVal = ( val1 < val2 ) ? val2 : val1;
-    return minVal + long( ( maxVal - minVal + 1 ) * double( rand() / double( RAND_MAX + 1.0 ) ) );
+    return minVal + long( ( maxVal - minVal + 1 ) * double( xrand() / double( ULLONG_MAX + 1.0 ) ) );
 }
 
 double rng_float( double val1, double val2 )
 {
     double minVal = ( val1 < val2 ) ? val1 : val2;
     double maxVal = ( val1 < val2 ) ? val2 : val1;
-    return minVal + ( maxVal - minVal ) * double( rand() ) / double( RAND_MAX + 1.0 );
+    return minVal + ( maxVal - minVal ) * double( xrand() ) / double( ULLONG_MAX + 1.0 );
 }
 
 bool one_in( int chance )
@@ -35,7 +38,7 @@ bool one_in_improved( double chance )
 
 bool x_in_y( double x, double y )
 {
-    return ( ( double )rand() / RAND_MAX ) <= ( ( double )x / y );
+    return ( ( double )xrand() / ULLONG_MAX ) <= ( ( double )x / y );
 }
 
 int dice( int number, int sides )
