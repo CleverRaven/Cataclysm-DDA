@@ -40,6 +40,12 @@ addons:
 compiler: gcc
 os: linux
 
+env:
+    global:
+        matrix:
+            - CXXFLAGS=Tomatoes
+            - CXXFLAGS=DOGS
+
 matrix:
   exclude:
     - env: TRAVIS_EMPTY_JOB_WORKAROUND=true
