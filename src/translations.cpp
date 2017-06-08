@@ -13,6 +13,7 @@
 #include "options.h"
 #include "path_info.h"
 #include "debug.h"
+#include "ui.h"
 
 const char *pgettext( const char *context, const char *msgid )
 {
@@ -43,6 +44,28 @@ const char *npgettext( const char *const context, const char *const msgid,
     } else {
         return translation;
     }
+}
+
+void select_language()
+{
+    const std::vector<std::pair<std::string, std::string>> languages =
+    {
+        {"en", "Welcome"},
+        {"zh_CN", "欢迎"},
+        {"zh_TW", "歡迎"}
+    };
+    std::vector<std::string> entries;
+    for( const auto i : languages )
+    {
+        entries.push_back( i.second );
+    }
+    int ret = uimenu( false, "Select your language", entries );
+    if( ret < 1 || ret >= languages.size() ) {
+        debugmsg( "selected language out of bound" );
+        ret = 1;
+    }
+    get_options().get_option("USE_LANG").setValue( languages[ret - 1].first );
+    get_options().save();
 }
 
 void set_language()
@@ -103,6 +126,11 @@ void set_language()
 
 #include <cstring> // strcmp
 #include <map>
+
+void select_language()
+{
+    return;
+}
 
 void set_language()
 {
