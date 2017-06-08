@@ -9,6 +9,8 @@
 #include "mtype.h"
 #include "options.h"
 #include "player.h"
+#include "vehicle.h"
+
 #include "test_statistics.h"
 
 #include <fstream>
@@ -25,6 +27,10 @@ static void wipe_map_terrain()
             g->m.set(x, y, t_grass, f_null);
         }
     }
+    for( wrapped_vehicle &veh : g->m.get_vehicles( tripoint( 0, 0, 0 ), tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
+        g->m.destroy_vehicle( veh.v );
+    }
+    g->m.build_map_cache( 0, true );
 }
 
 static void clear_map()
@@ -47,7 +53,7 @@ static monster &spawn_test_monster( const std::string &monster_type, const tripo
 }
 
 static int moves_to_destination( const std::string &monster_type,
-                          const tripoint &start, const tripoint &end )
+                                 const tripoint &start, const tripoint &end )
 {
     REQUIRE( g->num_zombies() == 0 );
     monster &test_monster = spawn_test_monster( monster_type, start );
@@ -246,7 +252,7 @@ static void test_moves_to_squares( std::string monster_type, bool write_data = f
     for( const auto &stat_pair : turns_at_slope ) {
         INFO( "Monster:" << monster_type << " Slope: " << stat_pair.first <<
               " moves: " << stat_pair.second.avg() << " types: " << stat_pair.second.types() );
-        CHECK( stat_pair.second.avg() == Approx(100.0).epsilon(0.03) );
+        CHECK( stat_pair.second.avg() == Approx(100.0).epsilon(0.1) );
     }
     for( auto &stat_pair : turns_at_angle ) {
         std::stringstream sample_string;
@@ -326,14 +332,14 @@ TEST_CASE("write_slope_to_speed_map_square", "[.]") {
 
 // Characterization test for monster movement speed.
 // It's not necessarally the one true speed for monsters, we just want notice if it changes.
-TEST_CASE("monster_speed_square", "[.]") {
+TEST_CASE("monster_speed_square", "[speed]") {
     clear_map();
     get_options().get_option( "CIRCLEDIST" ).setValue("false");
     trigdist = false;
     monster_check();
 }
 
-TEST_CASE("monster_speed_trig", "[.]") {
+TEST_CASE("monster_speed_trig", "[speed]") {
     clear_map();
     get_options().get_option( "CIRCLEDIST" ).setValue("true");
     trigdist = true;
