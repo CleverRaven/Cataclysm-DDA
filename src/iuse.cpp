@@ -2259,7 +2259,7 @@ int iuse::remove_all_mods(player *p, item *, bool, const tripoint& )
     return 0;
 }
 
-int iuse::fishing_rod(player *p, item *it, bool, const tripoint& )
+int iuse::fishing_rod( player *p, item *it, bool, const tripoint& )
 {
     if( p->is_npc() ) {
         // Long actions - NPCs don't like those yet
@@ -2268,28 +2268,32 @@ int iuse::fishing_rod(player *p, item *it, bool, const tripoint& )
 
     int dirx, diry;
 
-    if (!choose_adjacent(_("Fish where?"), dirx, diry)) {
+    if( !choose_adjacent( _( "Fish where?" ), dirx, diry ) ) {
         return 0;
     }
 
-    if (!g->m.has_flag("FISHABLE", dirx, diry)) {
-        p->add_msg_if_player(m_info, _("You can't fish there!"));
+    if( !g->m.has_flag( "FISHABLE", dirx, diry ) ) {
+        p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
         return 0;
     }
     point op = ms_to_omt_copy( g->m.getabs( dirx, diry ) );
-    if( !overmap_buffer.ter(op.x, op.y, g->get_levz())->has_flag(river_tile) ) {
-        p->add_msg_if_player(m_info, _("That water does not contain any fish.  Try a river instead."));
+    if( !overmap_buffer.ter( op.x, op.y, g->get_levz() )->has_flag( river_tile ) ) {
+        p->add_msg_if_player( m_info, _( "That water does not contain any fish.  Try a river instead." ) );
         return 0;
     }
-    std::vector<monster*> fishables = g->get_fishable(60);
-    if ( fishables.size() < 1){
-        p->add_msg_if_player(m_info, _("There are no fish around.  Try another spot.")); // maybe let the player find that out by himself?
+    std::vector<monster*> fishables = g->get_fishable( 60 );
+    if( fishables.size() < 1 ) {
+        p->add_msg_if_player( m_info, _( "There are no fish around.  Try another spot." ) ); // maybe let the player find that out by himself?
         return 0;
     }
 
-    p->add_msg_if_player(_("You cast your line and wait to hook something..."));
-
-    p->assign_activity( activity_id( "ACT_FISH" ), 30000, 0, p->get_item_position( it ), it->tname() );
+    if( !p->wield( *it ) ) {
+        p->add_msg_if_player( m_info, _( "You need to wield a fishing rod to do fishing!" ) );
+        return 0;
+    } else {
+        p->add_msg_if_player( _( "You cast your line and wait to hook something..." ) );
+        p->assign_activity( activity_id( "ACT_FISH" ), 30000, 0, p->get_item_position( it ), it->tname() );
+    }
 
     return 0;
 }
