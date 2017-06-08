@@ -95,6 +95,13 @@ matrix:
 
 before_script:
   - ${COMPILER} --version
-
+  - if [ -n "${CODE_COVERAGE}" ]; then
+      pip install --user pyyaml cpp-coveralls;
+      export CXXFLAGS=--coverage;
+      export LDFLAGS=--coverage;
+    fi
 
 script: CXX="ccache $COMPILER" make -j3 RELEASE=1 && tests/cata_test
+
+after_success:
+  - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b . -i src -e tests --gcov /usr/bin/gcov-4.8; fi
