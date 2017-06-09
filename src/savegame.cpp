@@ -307,6 +307,7 @@ bool overmap::obsolete_terrain( const std::string &ter ) {
         "school_1", "school_2", "school_3",
         "school_4", "school_5", "school_6",
         "school_7", "school_8", "school_9",
+        "prison_b_entrance", "prison_b",
         "cathedral_1_entrance", "cathedral_1",
         "cathedral_b_entrance", "cathedral_b",
         "hotel_tower_1_1", "hotel_tower_1_2", "hotel_tower_1_3", "hotel_tower_1_4",
@@ -440,6 +441,41 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                 nearby.push_back( { -1, school + "6", -1, school + "8", school_1 + "9_west" } );
             }
 
+        } else if( old == "prison_b_entrance" ) {
+            if (pos.z < 0) {
+                if (is_ot_type("prison_2", get_ter(pos.x, pos.y, pos.z + 1))) {
+                    new_id = oter_id("prison_b_2");
+                }
+            }
+
+        } else if( old == "prison_b" ) {
+            if (pos.z < 0) {
+                if (is_ot_type("prison_1", get_ter(pos.x, pos.y, pos.z + 1))) {
+                    new_id = oter_id("prison_b_1");
+                }
+                else if (is_ot_type("prison_3", get_ter(pos.x, pos.y, pos.z + 1))) {
+                    new_id = oter_id("prison_b_3");
+                }
+                else if (is_ot_type("prison_4", get_ter(pos.x, pos.y, pos.z + 1))) {
+                    new_id = oter_id("prison_b_4");
+                }
+                else if (is_ot_type("prison_5", get_ter(pos.x, pos.y, pos.z + 1))) {
+                    new_id = oter_id("prison_b_5");
+                }
+                else if (is_ot_type("prison_6", get_ter(pos.x, pos.y, pos.z + 1))) {
+                    new_id = oter_id("prison_b_6");
+                }
+                else if (is_ot_type("prison_7", get_ter(pos.x, pos.y, pos.z + 1))) {
+                    new_id = oter_id("prison_b_7");
+                }
+                else if (is_ot_type("prison_8", get_ter(pos.x, pos.y, pos.z + 1))) {
+                    new_id = oter_id("prison_b_8");
+                }
+                else if (is_ot_type("prison_9", get_ter(pos.x, pos.y, pos.z + 1))) {
+                    new_id = oter_id("prison_b_9");
+                }
+            }
+
         } else if( old == "cathedral_1_entrance" ) {
             const std::string base = "cathedral_1_";
             const std::string other = "cathedral_1";
@@ -463,7 +499,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             nearby.push_back( { 1, entr, 1, old, base + "SE_south" } );
             nearby.push_back( { 1, old, -1, entr, base + "SE_east" } );
             nearby.push_back( { -1, old, 1, entr, base + "SE_west" } );
- 
+
         } else if( old == "cathedral_b_entrance" ) {
             const std::string base = "cathedral_b_";
             const std::string other = "cathedral_b";

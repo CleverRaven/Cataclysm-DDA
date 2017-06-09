@@ -208,17 +208,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["hospital"] = &mapgen_hospital;
     mapgen_cfunction_map["public_works_entrance"] = &mapgen_public_works_entrance;
     mapgen_cfunction_map["public_works"] = &mapgen_public_works;
-    mapgen_cfunction_map["prison_1"] = &mapgen_prison_1;
-    mapgen_cfunction_map["prison_2"] = &mapgen_prison_2;
-    mapgen_cfunction_map["prison_3"] = &mapgen_prison_3;
-    mapgen_cfunction_map["prison_4"] = &mapgen_prison_4;
-    mapgen_cfunction_map["prison_5"] = &mapgen_prison_5;
-    mapgen_cfunction_map["prison_6"] = &mapgen_prison_6;
-    mapgen_cfunction_map["prison_7"] = &mapgen_prison_7;
-    mapgen_cfunction_map["prison_8"] = &mapgen_prison_8;
-    mapgen_cfunction_map["prison_9"] = &mapgen_prison_9;
-    mapgen_cfunction_map["prison_b"] = &mapgen_prison_b;
-    mapgen_cfunction_map["prison_b_entrance"] = &mapgen_prison_b_entrance;
     mapgen_cfunction_map["hotel_tower_1_1"] = &mapgen_hotel_tower_1_1;
     mapgen_cfunction_map["hotel_tower_1_2"] = &mapgen_hotel_tower_1_2;
     mapgen_cfunction_map["hotel_tower_1_3"] = &mapgen_hotel_tower_1_3;
@@ -3978,105 +3967,6 @@ void mapgen_hospital_entrance(map *m, oter_id terrain_type, mapgendata dat, int 
 
 
 void mapgen_hospital(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_2(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_3(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_4(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_5(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_6(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_7(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_8(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_9(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_b(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_b_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*

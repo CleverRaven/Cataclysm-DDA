@@ -632,15 +632,15 @@
             { "point":[-1,2,0], "overmap": "prison_9"},
             { "point":[0,2,0], "overmap": "prison_8"},
             { "point":[1,2,0], "overmap": "prison_7"},
-            { "point":[-1,0,-1], "overmap": "prison_b"},
-            { "point":[0,0,-1], "overmap": "prison_b_entrance"},
-            { "point":[1,0,-1], "overmap": "prison_b"},
-            { "point":[-1,1,-1], "overmap": "prison_b"},
-            { "point":[0,1,-1], "overmap": "prison_b"},
-            { "point":[1,1,-1], "overmap": "prison_b"},
-            { "point":[-1,2,-1], "overmap": "prison_b"},
-            { "point":[0,2,-1], "overmap": "prison_b"},
-            { "point":[1,2,-1], "overmap": "prison_b"}
+            { "point":[-1,0,-1], "overmap": "prison_b_3"},
+            { "point":[0,0,-1], "overmap": "prison_b_2"},
+            { "point":[1,0,-1], "overmap": "prison_b_1"},
+            { "point":[-1,1,-1], "overmap": "prison_b_6"},
+            { "point":[0,1,-1], "overmap": "prison_b_5"},
+            { "point":[1,1,-1], "overmap": "prison_b_4"},
+            { "point":[-1,2,-1], "overmap": "prison_b_9"},
+            { "point":[0,2,-1], "overmap": "prison_b_8"},
+            { "point":[1,2,-1], "overmap": "prison_b_7"},
         ],
         "connections" : [
             { "point" : [0,-1,0] }
@@ -649,7 +649,6 @@
         "city_distance" : [3, -1],
         "city_sizes" : [4, 12],
         "occurrences" : [1, 1],
-        "rotate" : false,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",

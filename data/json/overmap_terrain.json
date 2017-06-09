@@ -1139,7 +1139,7 @@
         "sym" : 112,
         "color" : "i_ltblue",
         "see_cost" : 5,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "prison_2",
@@ -1147,7 +1147,7 @@
         "sym" : 80,
         "color" : "i_ltblue",
         "see_cost" : 5,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "prison_3",
@@ -1155,7 +1155,7 @@
         "sym" : 112,
         "color" : "i_ltblue",
         "see_cost" : 5,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "prison_4",
@@ -1163,7 +1163,7 @@
         "sym" : 112,
         "color" : "i_ltblue",
         "see_cost" : 5,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "prison_5",
@@ -1171,7 +1171,7 @@
         "sym" : 112,
         "color" : "i_ltblue",
         "see_cost" : 5,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "prison_6",
@@ -1179,7 +1179,7 @@
         "sym" : 112,
         "color" : "i_ltblue",
         "see_cost" : 5,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "prison_7",
@@ -1187,7 +1187,7 @@
         "sym" : 112,
         "color" : "i_ltblue",
         "see_cost" : 5,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "prison_8",
@@ -1195,7 +1195,7 @@
         "sym" : 112,
         "color" : "i_ltblue",
         "see_cost" : 5,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "prison_9",
@@ -1203,23 +1203,70 @@
         "sym" : 112,
         "color" : "i_ltblue",
         "see_cost" : 5,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_b",
+        "id" : "prison_b_1",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
-        "see_cost" : 5,
-        "flags" : [ "NO_ROTATE" ]
+        "see_cost" : 5
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_b_entrance",
+        "id" : "prison_b_2",
+        "name" : "prison",
+        "sym" : 80,
+        "color" : "i_ltblue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_b_3",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
-        "see_cost" : 5,
-        "flags" : [ "NO_ROTATE" ]
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_b_4",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_ltblue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_b_5",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_ltblue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_b_6",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_ltblue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_b_7",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_ltblue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_b_8",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_ltblue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_b_9",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_ltblue",
+        "see_cost" : 5
     },{
         "type" : "overmap_terrain",
         "id" : "hotel_tower_1_1",
