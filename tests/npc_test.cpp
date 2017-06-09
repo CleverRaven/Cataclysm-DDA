@@ -48,7 +48,7 @@ npc create_model()
     return model_npc;
 }
 
-TEST_CASE("on_load-sane-values")
+TEST_CASE("on_load-sane-values", "[.]")
 {
 
     npc model_npc = create_model();
@@ -101,7 +101,7 @@ TEST_CASE("on_load-sane-values")
     }
 }
 
-TEST_CASE("on_load-similar-to-per-turn")
+TEST_CASE("on_load-similar-to-per-turn", "[.]")
 {
     npc model_npc = create_model();
 
