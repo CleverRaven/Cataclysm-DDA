@@ -6046,7 +6046,7 @@ vehicle_part::operator bool() const {
     return id != vpart_id::NULL_ID();
 }
 
-item vehicle_part::get_base() const 
+const item& vehicle_part::get_base() const 
 {
     return base;
 }
