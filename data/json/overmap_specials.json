@@ -640,7 +640,7 @@
             { "point":[1,1,-1], "overmap": "prison_b_4"},
             { "point":[-1,2,-1], "overmap": "prison_b_9"},
             { "point":[0,2,-1], "overmap": "prison_b_8"},
-            { "point":[1,2,-1], "overmap": "prison_b_7"},
+            { "point":[1,2,-1], "overmap": "prison_b_7"}
         ],
         "connections" : [
             { "point" : [0,-1,0] }
