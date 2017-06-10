@@ -2426,13 +2426,21 @@ void save_template( player *u )
                        .title( title )
                        .width( FULL_SCREEN_WIDTH - utf8_width( title ) - 8 )
                        .query_string();
-    if( name.length() == 0 ) {
+    if( name.empty() ) {
         return;
     }
-    if( name.find( '/' ) != std::string::npos || name.find( '\\' ) != std::string::npos ) {
-        name.clear();
-        name.insert( 0, std::to_string( ( unsigned long long ) time( nullptr ) ) );
+    if( name.find_first_of( 
+#if (defined _WIN32 || defined __WIN32__)
+        "\"*/:<>?\\|"
+        "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F"
+#else
+        "/"
+#endif
+        ) != std::string::npos ) {
+        popup( _( "Special characters such as / are not allowed in filenames. See your filesystem documentation for details." ) );
+        return;
     }
+
     std::string playerfile = FILENAMES["templatedir"] + utf8_to_native( name ) + ".template";
     write_to_file( playerfile, [&]( std::ostream &fout ) {
         fout << u->save_info();
