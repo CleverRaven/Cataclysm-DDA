@@ -1314,24 +1314,6 @@ void options_manager::init()
         true
         );
 
-    mOptionsSort["debug"]++;
-
-    add("OVERMAP_GENERATION_TRIES", "debug", _("Overmap generation attempt count"),
-        _("Maximum number of retries in overmap generation due to inability to place mandatory special locations.  High numbers and strange world settings will lead to VERY slow generation!"),
-        1, 20, 2
-        );
-
-    //~ allow invalid (bugged, bad) maps without asking user
-    optionNames["allow_invalid"] = _("Any");
-    //~ allow any valid map, even if it's "bad"
-    optionNames["ask_invalid"] = _("Valid");
-    //~ ask for lifting restrictions
-    optionNames["ask_unlimited"] = _("Ask");
-    add("ALLOW_INVALID_OVERMAPS", "debug", _("Allow invalid overmaps"),
-        _("What to do if world settings/mods prevent valid overmaps.  Invalid maps are BUGGED and while playable, may cause errors during missions.  Unlimited maps will look ugly, but are fully functional."),
-        "allow_invalid,ask_invalid,ask_unlimited", "ask_invalid"
-        );
-
     ////////////////////////////WORLD DEFAULT////////////////////
     add("CORE_VERSION", "world_default", _("Core version data"),
         _("Controls what migrations are applied for legacy worlds"),

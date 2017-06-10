@@ -178,7 +178,6 @@ class overmap
     point const& pos() const { return loc; }
 
     void save() const;
-    void clear();
 
     /**
      * @return The (local) overmap terrain coordinates of a randomly
@@ -297,8 +296,6 @@ public:
   std::vector<city> cities;
   std::vector<city> roads_out;
 
-    std::vector<const overmap_special *> unplaced_mandatory_specials;
-
         /// Adds the npc. The overmap takes ownership of the pointer.
         void insert_npc( npc *who );
         /// Removes the npc, and deletes the pointer.
@@ -334,27 +331,9 @@ public:
     std::unordered_multimap<tripoint, monster> monster_map;
     regional_settings settings;
 
-    // "Valid" map is one that has all mandatory specials
-    // "Limited" map is one where all specials are placed only in allowed places
-    enum class overmap_valid : int {
-        // Invalid map, with no limits
-        invalid = 0,
-        // Valid map, but some parts are without limits
-        unlimited,
-        // Perfectly valid map
-        valid
-    };
-
-    // Overmaps less valid than this will trigger the query
-    overmap_valid minimum_validity;
-    // The validity of this overmap, changed by actually generating it
-    overmap_valid current_validity;
-
-    void set_validity_from_settings();
-
-  // Initialise
-  void init_layers();
-  // open existing overmap, or generate a new one
+    // Initialise
+    void init_layers();
+    // open existing overmap, or generate a new one
   void open();
  public:
   // parse data in an opened overmap file
@@ -462,12 +441,12 @@ public:
    * @param check_city_distance If false, the city distance limits of specials are not respected.
    */
   void place_specials_pass( std::vector<std::pair<const overmap_special *, int>> &to_place,
-                            std::vector<point> &sectors, bool check_city_distance );
+                            std::vector<point> &sectors );
   /**
    * As @ref place_specials_pass, but for only one sector at a time.
    */
   bool place_special_attempt( std::vector<std::pair<const overmap_special *, int>> &candidates,
-                              const point &sector, bool check_city_distance );
+                              const point &sector );
   void place_mongroups();
   void place_radios();
 
