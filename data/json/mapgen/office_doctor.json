@@ -1,0 +1,122 @@
+[
+  {
+    "id": "record_patient",
+    "type": "item_group",
+    "items": [
+      [ "record_patient", 100 ]
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "office_doctor" ],
+    "weight": 1000,
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        "                        ",
+        "   |---|----|--------|  ",
+        "   |..C|.T.s|..eccScc|  ",
+        "   |...+....+........D$ ",
+        "   |--------|.......5|r ",
+        "   |o.......|..|--X--|r ",
+        "   |d.hd.h..+..|H...6|  ",
+        "   |o.......|..|H...O|  ",
+        "   |--------|..|H...O|  ",
+        "   |I....ccS|..|HHllO|  ",
+        "   |I..t....+..|-----|  ",
+        "   |I.......|..|....I|  ",
+        "   |--|-----|..|.t..I|  ",
+        "   |T.|d.......+....I|  ",
+        "   |s.|d.h..|..|Scc..|  ",
+        "   |-+|-ccc-|++|-----|  ",
+        "   |.................|  ",
+        "   w....####....####.w  ",
+        "   w.................w  ",
+        "   |....####....####.|  ",
+        "   |.................|  ",
+        "   |-++--wwww-wwww---|  ",
+        "     $$                 ",
+        "     $$                 "
+      ],
+      "terrain": {
+        "#": "t_floor",
+        "+": "t_door_c",
+        "-": "t_wall",
+        ".": "t_floor",
+        "5": "t_console",
+        "6": "t_console",
+        "=": "t_door_locked_alarm",
+        "C": "t_floor",
+        "D": "t_door_locked",
+        "H": "t_floor",
+        "I": "t_floor",
+        "O": "t_floor",
+        "S": "t_floor",
+        "T": "t_floor",
+        "X": "t_door_metal_locked",
+        "c": "t_floor",
+        "d": "t_floor",
+        "e": "t_floor",
+        "h": "t_floor",
+        "l": "t_floor",
+        "o": "t_floor",
+        "r": "t_sidewalk",
+        "$": "t_sidewalk",
+        "t": "t_floor",
+        "w": "t_window",
+        "|": "t_wall"
+      },
+      "furniture": {
+        "#": "f_bench",
+        "C": "f_locker",
+        "H": "f_locker",
+        "I": "f_locker",
+        "O": "f_locker",
+        "S": "f_sink",
+        "T": "f_toilet",
+        "c": "f_counter",
+        "d": "f_desk",
+        "e": "f_fridge",
+        "h": "f_chair",
+        "l": "f_locker",
+        "o": "f_bookcase",
+        "r": "f_trashcan",
+        "s": "f_sink",
+        "t": "f_table"
+      },
+      "items": {
+        "C": { "item": "cleaning", "chance": 50 },
+        "H": { "item": "harddrugs", "chance": 60 },
+        "I": { "item": "dissection", "chance": 60 },
+        "O": { "item": "softdrugs", "chance": 60 },
+        "S": { "item": "gear_medical", "chance": 30 },
+        "c": { "item": "gear_medical", "chance": 30 },
+        "e": { "item": "fridge", "chance": 50 },
+        "t": { "item": "gear_medical", "chance": 30 }
+      },
+      "place_items": [
+        { "item": "record_patient", "x": 7, "y": 6, "chance": 50 }
+      ],
+      "computers": {
+        "5": {
+          "name": "Medical Supply Access", "options": [
+            { "name": "Unlock Door", "action": "unlock" }
+          ],"failures": [
+            { "action": "shutdown" },
+            { "action": "alarm" }
+          ]
+        },
+        "6": {
+          "name": "Medical Supply Access", "options": [
+            { "name": "Lock Door", "action": "lock" },
+            { "name": "Unlock Door", "action": "unlock" }
+          ],"failures": [
+            { "action": "shutdown" },
+            { "action": "alarm" }
+          ]
+        }
+      }
+    }
+  }
+]
