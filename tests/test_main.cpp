@@ -1,16 +1,18 @@
 #define CATCH_CONFIG_RUNNER
 #include "catch/catch.hpp"
 
-#include "game.h"
+#include "debug.h"
 #include "filesystem.h"
+#include "game.h"
 #include "init.h"
 #include "map.h"
+#include "mod_manager.h"
 #include "morale.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
 #include "path_info.h"
 #include "player.h"
 #include "worldfactory.h"
-#include "debug.h"
-#include "mod_manager.h"
 
 #include <algorithm>
 #include <cstring>
@@ -79,16 +81,19 @@ void init_global_game_state( const std::vector<std::string> &mods )
     world_generator->init();
     WORLDPTR test_world = world_generator->make_new_world( mods );
     assert( test_world != NULL );
-    world_generator->set_active_world(test_world);
+    world_generator->set_active_world( test_world );
     assert( world_generator->active_world != NULL );
 
     g->load_core_data();
     g->load_world_modfiles( world_generator->active_world );
 
     g->u = player();
-    g->u.create(PLTYPE_NOW);
+    g->u.create( PLTYPE_NOW );
 
     g->m = map( get_option<bool>( "ZLEVELS" ) );
+
+    std::vector<overmap_special_placement> empty_specials;
+    overmap_buffer.create_custom_overmap( 0, 0, empty_specials );
 
     g->m.load( g->get_levx(), g->get_levy(), g->get_levz(), false );
 }

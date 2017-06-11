@@ -21,6 +21,8 @@ struct oter_t;
 using oter_id = int_id<oter_t>;
 
 class overmap;
+class overmap_special;
+struct overmap_special_placement;
 struct radio_tower;
 struct regional_settings;
 class vehicle;
@@ -68,6 +70,8 @@ public:
     overmap &get( const int x, const int y );
     void save();
     void clear();
+    void create_custom_overmap( int const x, int const y,
+                                std::vector<overmap_special_placement> &specials );
 
     /**
      * Uses global overmap terrain coordinates, creates the

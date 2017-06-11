@@ -49,20 +49,21 @@ std::string overmapbuffer::player_filename(int const x, int const y)
 
 overmap &overmapbuffer::get( const int x, const int y )
 {
-    point const p {x, y};
+    point const p { x, y };
 
-    if (last_requested_overmap && last_requested_overmap->pos() == p) {
+    if( last_requested_overmap != nullptr && last_requested_overmap->pos() == p ) {
         return *last_requested_overmap;
     }
 
     auto const it = overmaps.find( p );
     if( it != overmaps.end() ) {
-        return *(last_requested_overmap = it->second.get());
+        return *( last_requested_overmap = it->second.get() );
     }
 
     // That constructor loads an existing overmap or creates a new one.
     overmap *new_om = new overmap( x, y );
     overmaps[ p ] = std::unique_ptr<overmap>( new_om );
+    new_om->populate();
     // Note: fix_mongroups might load other overmaps, so overmaps.back() is not
     // necessarily the overmap at (x,y)
     fix_mongroups( *new_om );
@@ -70,6 +71,19 @@ overmap &overmapbuffer::get( const int x, const int y )
 
     last_requested_overmap = new_om;
     return *new_om;
+}
+
+void overmapbuffer::create_custom_overmap( int const x, int const y, std::vector<overmap_special_placement> &specials )
+{
+    overmap *new_om = new overmap( x, y );
+    if( last_requested_overmap != nullptr ) {
+        auto om_iter = overmaps.find( new_om->pos() );
+        if( om_iter != overmaps.end() && om_iter->second.get() == last_requested_overmap ) {
+            last_requested_overmap = nullptr;
+        }
+    }
+    overmaps[ new_om->pos() ] = std::unique_ptr<overmap>( new_om );
+    new_om->populate( specials );
 }
 
 void overmapbuffer::fix_mongroups(overmap &new_overmap)
