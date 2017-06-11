@@ -31,7 +31,6 @@
 #include <vector>
 #include <algorithm>
 #include <cassert>
-#include <ctime>
 
 // Colors used in this file: (Most else defaults to c_ltgray)
 #define COL_STAT_ACT        c_white   // Selected stat
