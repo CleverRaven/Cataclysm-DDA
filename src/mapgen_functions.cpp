@@ -134,8 +134,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["house_generic_boxy"]      = &mapgen_generic_house_boxy;
     mapgen_cfunction_map["house_generic_big_livingroom"]      = &mapgen_generic_house_big_livingroom;
     mapgen_cfunction_map["house_generic_center_hallway"]      = &mapgen_generic_house_center_hallway;
-    mapgen_cfunction_map["church_new_england"]             = &mapgen_church_new_england;
-    mapgen_cfunction_map["church_gothic"]             = &mapgen_church_gothic;
     mapgen_cfunction_map["s_pharm"]             = &mapgen_pharm;
     mapgen_cfunction_map["spider_pit"] = mapgen_spider_pit;
     mapgen_cfunction_map["s_sports"] = mapgen_s_sports;
@@ -150,7 +148,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["basement_game"] = &mapgen_basement_game;
     */
     mapgen_cfunction_map["basement_spiders"] = &mapgen_basement_spiders;
-    mapgen_cfunction_map["office_doctor"] = &mapgen_office_doctor;
     mapgen_cfunction_map["sub_station"] = &mapgen_sub_station;
     mapgen_cfunction_map["s_garage"] = &mapgen_s_garage;
 //    mapgen_cfunction_map["farm"] = &mapgen_farm;
