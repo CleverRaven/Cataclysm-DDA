@@ -442,16 +442,14 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             }
 
         } else if( old == "prison_b_entrance" ) {
-            if (pos.z < 0) {
-                if (is_ot_type("prison_2", get_ter(pos.x, pos.y, pos.z + 1))) {
-                    new_id = oter_id("prison_b_2");
+            if( pos.z < 0 ) {
+                if( is_ot_type( "prison_2", get_ter( pos.x, pos.y, pos.z + 1 ) ) ) {
+                    new_id = oter_id( "prison_b_2" );
                 }
             }
 
         } else if( old == "prison_b" ) {
-            if (pos.z < 0) {
                 if (is_ot_type("prison_1", get_ter(pos.x, pos.y, pos.z + 1))) {
-                    new_id = oter_id("prison_b_1");
                 }
                 else if (is_ot_type("prison_3", get_ter(pos.x, pos.y, pos.z + 1))) {
                     new_id = oter_id("prison_b_3");
