@@ -3,7 +3,6 @@
 #define SUBMAP_H
 
 #include "game_constants.h"
-#include "computer.h"
 #include "basecamp.h"
 #include "item.h"
 #include "field.h"
@@ -11,14 +10,17 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "active_item_cache.h"
+#include "copyable_unique_ptr.h"
 
 #include <vector>
 #include <list>
 #include <map>
 #include <string>
+#include <memory>
 
 class map;
 class vehicle;
+class computer;
 struct trap;
 struct ter_t;
 struct furn_t;
@@ -31,18 +33,18 @@ struct mtype;
 using mtype_id = string_id<mtype>;
 
 struct spawn_point {
- int posx, posy;
- int count;
- mtype_id type;
- int faction_id;
- int mission_id;
- bool friendly;
- std::string name;
- spawn_point( const mtype_id& T = NULL_ID, int C = 0, int X = -1, int Y = -1,
-             int FAC = -1, int MIS = -1, bool F = false,
-             std::string N = "NONE") :
-             posx (X), posy (Y), count (C), type (T), faction_id (FAC),
-             mission_id (MIS), friendly (F), name (N) {}
+    int posx, posy;
+    int count;
+    mtype_id type;
+    int faction_id;
+    int mission_id;
+    bool friendly;
+    std::string name;
+    spawn_point( const mtype_id& T = mtype_id::NULL_ID(), int C = 0, int X = -1, int Y = -1,
+                 int FAC = -1, int MIS = -1, bool F = false,
+                 std::string N = "NONE") :
+                 posx( X ), posy( Y ), count( C ), type( T ), faction_id( FAC ),
+                 mission_id( MIS ), friendly( F ), name( N ) {}
 };
 
 struct submap {
@@ -177,7 +179,7 @@ struct submap {
      * TODO: submap owns these pointers, they ought to be unique_ptrs.
      */
     std::vector<vehicle*> vehicles;
-    computer comp;
+    copyable_unique_ptr<computer> comp;
     basecamp camp;  // only allowing one basecamp per submap
 
     submap();

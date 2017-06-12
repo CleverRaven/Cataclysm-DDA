@@ -335,10 +335,8 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             }
         } else if( ch == ERR ) {
             // Ignore the error
-        } else if( ch != 0 && _only_digits && !( isdigit( ch ) || ch == '-' ) ) {
-            add_to_history( ret.str() );
-            _text = ret.str();
-            return _text;
+        } else if( !ev.text.empty() && _only_digits && !( isdigit( ev.text[0] ) || ev.text[0] == '-' ) ) {
+            // ignore non-digit (and '-' is a digit as well)
         } else if( _max_length > 0 && ( int )ret.length() >= _max_length ) {
             // no further input possible, ignore key
         } else if( !ev.text.empty() ) {

@@ -45,6 +45,7 @@
     "reversible": false,
     "autolearn": true,
     "byproducts": [ [ "vpower" ] ],
+    "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
@@ -55,13 +56,11 @@
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
       [ [ "swage", -1 ] ],
-      [ [ "forge", 400 ], [ "char_forge", 100 ] ],
       [ [ "welder", 60 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 6 ] ]
     ],
     "components": [
       [ [ "vortex_stone", 1 ] ],
       [ [ "chain", 6 ] ],
-      [ [ "scrap", 27 ], [ "steel_chunk", 9 ], [ "steel_lump", 3 ] ],
       [ [ "foot_crank", 6 ] ],
       [ [ "metal_tank", 1 ] ],
       [ [ "plastic_chunk", 30 ] ]
@@ -78,6 +77,7 @@
     "time": 108000,
     "autolearn": true,
     "byproducts": [ [ "vpower" ] ],
+    "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
@@ -88,7 +88,6 @@
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
       [ [ "swage", -1 ] ],
-      [ [ "forge", 400 ], [ "char_forge", 100 ] ],
       [ [ "welder", 60 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 6 ] ]
     ],
     "components": [
@@ -96,7 +95,6 @@
       [ [ "chain", 6 ] ],
       [ [ "foot_crank", 3 ] ],
       [ [ "metal_tank", 1 ] ],
-      [ [ "scrap", 27 ], [ "steel_chunk", 9 ], [ "steel_lump", 3 ] ],
       [ [ "plastic_chunk", 30 ] ],
       [ [ "alternator_truck", 6 ], [ "alternator_car", 6 ], [ "alternator_motorbike", 6 ] ]
     ]

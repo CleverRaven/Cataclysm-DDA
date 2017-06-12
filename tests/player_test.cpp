@@ -63,7 +63,7 @@ void test_temperature_spread( player *p, std::array<int, 7> ambient_temps )
     temperature_check( p, ambient_temps[6], BODYTEMP_SCORCHING );
 }
 
-TEST_CASE("Player body temperatures converge on expected values.", "[!mayfail]") {
+TEST_CASE("Player body temperatures converge on expected values.", "[.bodytemp]") {
 
     player &dummy = g->u;
 

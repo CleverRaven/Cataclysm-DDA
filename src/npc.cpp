@@ -61,6 +61,19 @@ const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_pkill_l( "pkill_l" );
 const efftype_id effect_infection( "infection" );
 
+static const trait_id trait_BEAUTIFUL2( "BEAUTIFUL2" );
+static const trait_id trait_BEAUTIFUL3( "BEAUTIFUL3" );
+static const trait_id trait_BEAUTIFUL( "BEAUTIFUL" );
+static const trait_id trait_CANNIBAL( "CANNIBAL" );
+static const trait_id trait_DEFORMED2( "DEFORMED2" );
+static const trait_id trait_DEFORMED3( "DEFORMED3" );
+static const trait_id trait_DEFORMED( "DEFORMED" );
+static const trait_id trait_PRETTY( "PRETTY" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
+static const trait_id trait_TERRIFYING( "TERRIFYING" );
+static const trait_id trait_UGLY( "UGLY" );
+
 void starting_clothes( npc &who, const npc_class_id &type, bool male );
 void starting_inv( npc &who, const npc_class_id &type );
 
@@ -84,13 +97,13 @@ npc::npc()
     per_max = 0;
     my_fac = NULL;
     fac_id = "";
-    miss_id = NULL_ID;
+    miss_id = mission_type_id::NULL_ID();
     marked_for_death = false;
     dead = false;
     hit_by_player = false;
     moves = 100;
     mission = NPC_MISSION_NULL;
-    myclass = NULL_ID;
+    myclass = npc_class_id::NULL_ID();
     patience = 0;
     restock = -1;
     companion_mission = "";
@@ -165,7 +178,7 @@ void npc::load_npc(JsonObject &jsobj)
         guy.myclass = npc_class_id( jsobj.get_string("class") );
         if( !guy.myclass.is_valid() ) {
             debugmsg( "Invalid NPC class %s", guy.myclass.c_str() );
-            guy.myclass = NULL_ID;
+            guy.myclass = npc_class_id::NULL_ID();
         }
     }
 
@@ -175,7 +188,7 @@ void npc::load_npc(JsonObject &jsobj)
     if( jsobj.has_string( "mission_offered" ) ){
         guy.miss_id = mission_type_id( jsobj.get_string( "mission_offered" ) );
     } else {
-        guy.miss_id = NULL_ID;
+        guy.miss_id = mission_type_id::NULL_ID();
     }
     _all_npc[guy.idz] = std::move( guy );
 }
@@ -263,7 +276,7 @@ void npc::randomize( const npc_class_id &type )
 
     if( !type.is_valid() ) {
         debugmsg( "Invalid NPC class %s", type.c_str() );
-        myclass = NULL_ID;
+        myclass = npc_class_id::NULL_ID();
     } else if( type.is_null() && !one_in( 5 ) ) {
         npc_class_id typetmp;
         myclass = npc_class::random_common();
@@ -370,10 +383,10 @@ void npc::randomize( const npc_class_id &type )
 
 void npc::randomize_from_faction(faction *fac)
 {
-// Personality = aggression, bravery, altruism, collector
- my_fac = fac;
- fac_id = fac->id;
-    randomize( NULL_ID );
+    // Personality = aggression, bravery, altruism, collector
+    my_fac = fac;
+    fac_id = fac->id;
+    randomize( npc_class_id::NULL_ID() );
 
  switch (fac->goal) {
   case FACGOAL_DOMINANCE:
@@ -739,7 +752,7 @@ void npc::spawn_at_precise( const point &submap_offset, const tripoint &square )
     position.z = square.z;
     const point pos_om = sm_to_om_copy( submap_coords );
     overmap &om = overmap_buffer.get( pos_om.x, pos_om.y );
-    om.add_npc( *this );
+    om.insert_npc( this );
 }
 
 void npc::spawn_at_random_city(overmap *o)
@@ -793,7 +806,7 @@ void npc::place_on_map()
 skill_id npc::best_skill() const
 {
     int highest_level = std::numeric_limits<int>::min();
-    skill_id highest_skill( NULL_ID );
+    skill_id highest_skill( skill_id::NULL_ID() );
 
     for (auto const &p : _skills) {
         if (p.first.obj().is_combat_skill()) {
@@ -1015,29 +1028,29 @@ void npc::form_opinion( const player &u )
         }
     }
 
-    if (u.has_trait("SAPIOVORE")) {
+    if (u.has_trait( trait_SAPIOVORE )) {
         op_of_u.fear += 10; // Sapiovores = Scary
     }
 
-    if (u.has_trait("PRETTY")) {
+    if (u.has_trait( trait_PRETTY )) {
         op_of_u.fear += 1;
-    } else if (u.has_trait("BEAUTIFUL")) {
+    } else if (u.has_trait( trait_BEAUTIFUL )) {
         op_of_u.fear += 2;
-    } else if (u.has_trait("BEAUTIFUL2")) {
+    } else if (u.has_trait( trait_BEAUTIFUL2 )) {
         op_of_u.fear += 3;
-    } else if (u.has_trait("BEAUTIFUL3")) {
+    } else if (u.has_trait( trait_BEAUTIFUL3 )) {
         op_of_u.fear += 4;
-    } else if (u.has_trait("UGLY")) {
+    } else if (u.has_trait( trait_UGLY )) {
         op_of_u.fear -= 1;
-    } else if (u.has_trait("DEFORMED")) {
+    } else if (u.has_trait( trait_DEFORMED )) {
         op_of_u.fear += 3;
-    } else if (u.has_trait("DEFORMED2")) {
+    } else if (u.has_trait( trait_DEFORMED2 )) {
         op_of_u.fear += 6;
-    } else if (u.has_trait("DEFORMED3")) {
+    } else if (u.has_trait( trait_DEFORMED3 )) {
         op_of_u.fear += 9;
     }
 
-    if (u.has_trait("TERRIFYING")) {
+    if (u.has_trait( trait_TERRIFYING )) {
         op_of_u.fear += 6;
     }
 
@@ -1076,21 +1089,21 @@ void npc::form_opinion( const player &u )
         op_of_u.trust -= 1;
     }
 
-    if (u.has_trait("PRETTY")) {
+    if (u.has_trait( trait_PRETTY )) {
       op_of_u.trust += 1;
-    } else if (u.has_trait("BEAUTIFUL")) {
+    } else if (u.has_trait( trait_BEAUTIFUL )) {
         op_of_u.trust += 3;
-    } else if (u.has_trait("BEAUTIFUL2")) {
+    } else if (u.has_trait( trait_BEAUTIFUL2 )) {
         op_of_u.trust += 5;
-    } else if (u.has_trait("BEAUTIFUL3")) {
+    } else if (u.has_trait( trait_BEAUTIFUL3 )) {
         op_of_u.trust += 7;
-    } else if (u.has_trait("UGLY")) {
+    } else if (u.has_trait( trait_UGLY )) {
         op_of_u.trust -= 1;
-    } else if (u.has_trait("DEFORMED")) {
+    } else if (u.has_trait( trait_DEFORMED )) {
         op_of_u.trust -= 3;
-    } else if (u.has_trait("DEFORMED2")) {
+    } else if (u.has_trait( trait_DEFORMED2 )) {
         op_of_u.trust -= 6;
-    } else if (u.has_trait("DEFORMED3")) {
+    } else if (u.has_trait( trait_DEFORMED3 )) {
         op_of_u.trust -= 9;
     }
 
@@ -1312,7 +1325,7 @@ void npc::say( const std::string line, ... ) const
     std::string formatted_line = vstring_format(line, ap);
     va_end(ap);
     parse_tags( formatted_line, g->u, *this );
-    if( has_trait( "MUTE" ) ) {
+    if( has_trait( trait_id( "MUTE" ) ) ) {
         return;
     }
 
@@ -1739,8 +1752,8 @@ int npc::print_info(WINDOW* w, int line, int vLines, int column) const
 
     const int visibility_cap = g->u.get_per() - rl_dist( g->u.pos(), pos() );
     const std::string trait_str = enumerate_as_string( my_mutations.begin(), my_mutations.end(),
-        [ this, visibility_cap ]( const std::pair<std::string, trait_data> &pr ) -> std::string {
-        const auto &mut_branch = mutation_branch::get( pr.first );
+        [ this, visibility_cap ]( const std::pair<trait_id, trait_data> &pr ) -> std::string {
+        const auto &mut_branch = pr.first.obj();
         // Finally some use for visibility trait of mutations
         // @todo Balance this formula
         if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap ) {
@@ -1913,9 +1926,9 @@ void npc::die(Creature* nkiller) {
     }
 
     if( killer == &g->u && ( !guaranteed_hostile() || hit_by_player ) ) {
-        bool cannibal = g->u.has_trait("CANNIBAL");
-        bool psycho = g->u.has_trait("PSYCHOPATH");
-        if( g->u.has_trait( "SAPIOVORE" ) ) {
+        bool cannibal = g->u.has_trait( trait_CANNIBAL );
+        bool psycho = g->u.has_trait( trait_PSYCHOPATH );
+        if( g->u.has_trait( trait_SAPIOVORE ) ) {
             g->u.add_memorial_log(pgettext("memorial_male", "Caught and killed an ape.  Prey doesn't have a name."),
                                   pgettext("memorial_female", "Caught and killed an ape.  Prey doesn't have a name."));
         } else if( psycho && cannibal ) {
@@ -2300,7 +2313,7 @@ std::ostream& operator<< (std::ostream & os, npc_need need)
 
 bool npc::will_accept_from_player( const item &it ) const
 {
-    if( is_minion() || g->u.has_trait( "DEBUG_MIND_CONTROL" ) || it.has_flag( "NPC_SAFE" ) ) {
+    if( is_minion() || g->u.has_trait( trait_id( "DEBUG_MIND_CONTROL" ) ) || it.has_flag( "NPC_SAFE" ) ) {
         return true;
     }
 
@@ -2357,7 +2370,7 @@ mfaction_id npc::get_monster_faction() const
         return player_fac.id();
     }
 
-    if( has_trait( "BEE" ) ) {
+    if( has_trait( trait_id( "BEE" ) ) ) {
         return bee_fac.id();
     }
 
@@ -2392,4 +2405,26 @@ std::string npc::extended_description() const
     }
 
     return replace_colors( ss.str() );
+}
+
+void npc::set_companion_mission( npc &p, const std::string &id )
+{
+    //@todo store them separately
+    //@todo set time here as well.
+    companion_mission = p.name + id;
+}
+
+void npc::reset_companion_mission()
+{
+    companion_mission = "";
+}
+
+bool npc::has_companion_mission() const
+{
+    return !companion_mission.empty();
+}
+
+std::string npc::get_companion_mission() const
+{
+    return companion_mission;
 }

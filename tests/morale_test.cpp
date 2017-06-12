@@ -2,11 +2,12 @@
 
 #include "morale.h"
 #include "morale_types.h"
+
+#include "bodypart.h"
 #include "effect.h"
 #include "game.h"
 #include "itype.h"
 #include "item.h"
-#include "bodypart.h"
 
 #include <string>
 
@@ -107,24 +108,24 @@ TEST_CASE( "player_morale" )
     }
 
     GIVEN( "OPTIMISTIC trait" ) {
-        m.on_mutation_gain( "OPTIMISTIC" );
+        m.on_mutation_gain( trait_id( "OPTIMISTIC" ) );
         CHECK( m.has( MORALE_PERM_OPTIMIST ) == 4 );
         CHECK( m.get_level() == 5 );
 
         WHEN( "lost the trait" ) {
-            m.on_mutation_loss( "OPTIMISTIC" );
+            m.on_mutation_loss( trait_id( "OPTIMISTIC" ) );
             CHECK( m.has( MORALE_PERM_OPTIMIST ) == 0 );
             CHECK( m.get_level() == 0 );
         }
     }
 
     GIVEN( "BADTEMPER trait" ) {
-        m.on_mutation_gain( "BADTEMPER" );
+        m.on_mutation_gain( trait_id( "BADTEMPER" ) );
         CHECK( m.has( MORALE_PERM_BADTEMPER ) == -4 );
         CHECK( m.get_level() == -5 );
 
         WHEN( "lost the trait" ) {
-            m.on_mutation_loss( "BADTEMPER" );
+            m.on_mutation_loss( trait_id( "BADTEMPER" ) );
             CHECK( m.has( MORALE_PERM_BADTEMPER ) == 0 );
             CHECK( m.get_level() == 0 );
         }
@@ -166,7 +167,7 @@ TEST_CASE( "player_morale" )
         }
 
         WHEN( "a stylish person" ) {
-            m.on_mutation_gain( "STYLISH" );
+            m.on_mutation_gain( trait_id( "STYLISH" ) );
 
             CHECK( m.get_level() == 19 );
 
@@ -198,14 +199,14 @@ TEST_CASE( "player_morale" )
                 }
             }
             AND_WHEN( "not anymore" ) {
-                m.on_mutation_loss( "STYLISH" );
+                m.on_mutation_loss( trait_id( "STYLISH" ) );
                 CHECK( m.get_level() == 0 );
             }
         }
     }
 
     GIVEN( "masochist trait" ) {
-        m.on_mutation_gain( "MASOCHIST" );
+        m.on_mutation_gain( trait_id( "MASOCHIST" ) );
 
         CHECK( m.has( MORALE_PERM_MASOCHIST ) == 0 );
 
@@ -223,7 +224,7 @@ TEST_CASE( "player_morale" )
     }
 
     GIVEN( "cenobite trait" ) {
-        m.on_mutation_gain( "CENOBITE" );
+        m.on_mutation_gain( trait_id( "CENOBITE" ) );
 
         CHECK( m.has( MORALE_PERM_MASOCHIST ) == 0 );
 
@@ -244,9 +245,9 @@ TEST_CASE( "player_morale" )
     }
 
     GIVEN( "a humanoid plant" ) {
-        m.on_mutation_gain( "PLANT" );
-        m.on_mutation_gain( "FLOWERS" );
-        m.on_mutation_gain( "ROOTS" );
+        m.on_mutation_gain( trait_id( "PLANT" ) );
+        m.on_mutation_gain( trait_id( "FLOWERS" ) );
+        m.on_mutation_gain( trait_id( "ROOTS1" ) );
 
         CHECK( m.has( MORALE_PERM_CONSTRAINED ) == 0 );
 

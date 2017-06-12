@@ -374,6 +374,13 @@ ter_id dirt_or_pile()
  return t_dirt;
 }
 
+ter_id clay_or_sand()
+{
+ if (one_in(4))
+  return t_sand;
+ return t_clay;
+}
+
 void mapgendata::square_groundcover(const int x1, const int y1, const int x2, const int y2) {
     m->draw_square_ter( this->default_groundcover, x1, y1, x2, y2);
 }
@@ -1646,6 +1653,9 @@ void mapgen_river_curved_not(map *m, oter_id terrain_type, mapgendata dat, int, 
             if(circle_edge <= 8){
                 m->ter_set(x, y, grass_or_dirt());
             }
+            if(circle_edge == 9 && one_in(100)){
+                m->ter_set(x, y, clay_or_sand());
+            }
             else if(circle_edge <= 36){
                 m->ter_set(x, y, t_water_sh);
             }
@@ -1672,7 +1682,10 @@ void mapgen_river_straight(map *m, oter_id terrain_type, mapgendata dat, int, fl
         int ground_edge = rng(1,3);
         int shallow_edge = rng(4,6);
         line(m, grass_or_dirt(), x, 0, x, ground_edge);
-        line(m, t_water_sh, x, ground_edge, x, shallow_edge);
+        if(one_in(100)) {
+            m->ter_set(x, ++ground_edge, clay_or_sand());
+        }
+        line(m, t_water_sh, x, ++ground_edge, x, shallow_edge);
     }
 
     if (terrain_type == "river_east") {
@@ -1695,13 +1708,19 @@ void mapgen_river_curved(map *m, oter_id terrain_type, mapgendata dat, int, floa
         int ground_edge = rng(1,3);
         int shallow_edge = rng(4,6);
         line(m, grass_or_dirt(), x, 0, x, ground_edge);
-        line(m, t_water_sh, x, ground_edge, x, shallow_edge);
+        if(one_in(100)) {
+            m->ter_set(x, ++ground_edge, clay_or_sand());
+        }
+        line(m, t_water_sh, x, ++ground_edge, x, shallow_edge);
     }
     for(int y = 0; y < 24; y++){
         int ground_edge = rng(19,21);
         int shallow_edge = rng(16,18);
         line(m, grass_or_dirt(), ground_edge, y, 23, y);
-        line(m, t_water_sh, shallow_edge, y, ground_edge, y);
+        if(one_in(100)) {
+            m->ter_set(--ground_edge, y, clay_or_sand());
+        }
+        line(m, t_water_sh, shallow_edge, y, --ground_edge, y);
     }
 
     if (terrain_type == "river_se") {
@@ -1755,7 +1774,7 @@ void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int, float
     int pump_count = rng(3, 6);
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEX * 2; j++) {
-            if (j < top_w && (top_w - j) % 4 == 0 && i > left_w && i < right_w &&
+            if (j < top_w && (top_w - j) % 5 == 0 && i > left_w && i < right_w &&
                  (i - (1 + left_w)) % pump_count == 0) {
                 m->place_gas_pump(i, j, rng(1000, 10000));
             } else if ((j < 2 && i > 7 && i < 16) || (j < top_w && i > left_w && i < right_w)) {
@@ -1774,8 +1793,8 @@ void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int, float
             } else if (i > left_w + 2 && i < left_w + 12 && i < center_w && i % 2 == 1 &&
                       j > top_w + 1 && j < middle_w - 1) {
                 m->set(i, j, t_floor, f_rack);
-            } else if ((i == right_w - 5 && j > top_w + 1 && j < top_w + 4) ||
-                      (j == top_w + 3 && i > right_w - 5 && i < right_w)) {
+            } else if ((i == right_w - 5 && j > top_w + 1 && j < top_w + 5) ||
+                      (j == top_w + 4 && i > right_w - 5 && i < right_w)) {
                 m->set(i, j, t_floor, f_counter);
             } else if (i > left_w && i < right_w && j > top_w && j < bottom_w) {
                 m->ter_set(i, j, t_floor);
@@ -2567,7 +2586,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
     // For rotation
     const bool has_basement = terrain_type->get_type_id().str() == "house_base";
     if( has_basement ) {
-        const bool force = get_world_option<bool>( "ALIGN_STAIRS" );
+        const bool force = get_option<bool>( "ALIGN_STAIRS" );
         // Find the basement's stairs first
         const tripoint abs_sub_here = m->get_abs_sub();
         tinymap basement;
@@ -2738,8 +2757,8 @@ void mapgen_church_new_england(map *m, oter_id terrain_type, mapgendata dat, int
                f_null,   f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,
                f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null)
     );
-    m->spawn_item(9, 6, "brazier");
-    m->spawn_item(14, 6, "brazier");
+    madd_trap(m, 9, 6, tr_brazier);
+    madd_trap(m, 14, 6, tr_brazier);
     m->place_items("church", 40,  5,  5, 8,  16, false, 0);
     m->place_items("church", 40,  5,  5, 8,  16, false, 0);
     m->place_items("church", 85,  12,  2, 14,  2, false, 0);
@@ -2790,8 +2809,8 @@ ssssssssssssssssssssssss\n",
                f_null,       f_null,   f_null,   f_bench,      f_table,      f_null,   f_null,         f_toilet,
                f_sink,       f_chair,      f_counter,    f_locker,     f_null)
     );
-    m->spawn_item(8, 4, "brazier");
-    m->spawn_item(15, 4, "brazier");
+    madd_trap(m, 8, 4, tr_brazier);
+    madd_trap(m, 15, 4, tr_brazier);
     m->place_items("church", 70,  6,  7, 17,  16, false, 0);
     m->place_items("church", 70,  6,  7, 17,  16, false, 0);
     m->place_items("church", 60,  6,  7, 17,  16, false, 0);
@@ -3016,13 +3035,13 @@ void mapgen_shelter(map *m, oter_id, mapgendata dat, int, float) {
                 m->spawn_item(lxa, 5, "mask_gas"); // See! The gas mask is real!
             }
         }
-        if(get_world_option<bool>( "BLACK_ROAD" ) || g->scen->has_flag("SUR_START")) {
+        if(get_option<bool>( "BLACK_ROAD" ) || g->scen->has_flag("SUR_START")) {
             //place zombies outside
-            m->place_spawns( GROUP_ZOMBIE, get_world_option<float>( "SPAWN_DENSITY" ), 0, 0, SEEX * 2 - 1, 3, 0.4f);
-            m->place_spawns( GROUP_ZOMBIE, get_world_option<float>( "SPAWN_DENSITY" ), 0, 4, 3, SEEX * 2 - 4, 0.4f);
-            m->place_spawns( GROUP_ZOMBIE, get_world_option<float>( "SPAWN_DENSITY" ), SEEX * 2 - 3, 4,
+            m->place_spawns( GROUP_ZOMBIE, get_option<float>( "SPAWN_DENSITY" ), 0, 0, SEEX * 2 - 1, 3, 0.4f);
+            m->place_spawns( GROUP_ZOMBIE, get_option<float>( "SPAWN_DENSITY" ), 0, 4, 3, SEEX * 2 - 4, 0.4f);
+            m->place_spawns( GROUP_ZOMBIE, get_option<float>( "SPAWN_DENSITY" ), SEEX * 2 - 3, 4,
                          SEEX * 2 - 1, SEEX * 2 - 4, 0.4f);
-            m->place_spawns( GROUP_ZOMBIE, get_world_option<float>( "SPAWN_DENSITY" ), 0, SEEX * 2 - 3,
+            m->place_spawns( GROUP_ZOMBIE, get_option<float>( "SPAWN_DENSITY" ), 0, SEEX * 2 - 3,
                          SEEX * 2 - 1, SEEX * 2 - 1, 0.4f);
         }
 }

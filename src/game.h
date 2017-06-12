@@ -60,7 +60,6 @@ enum quit_status {
     QUIT_NOSAVED,   // Quit without saving
     QUIT_DIED,      // Actual death
     QUIT_WATCH,     // Died, and watching aftermath
-    QUIT_ERROR
 };
 
 enum safe_mode_type {
@@ -96,6 +95,7 @@ class salvage_actor;
 class input_context;
 class map_item_stack;
 struct WORLD;
+class save_t;
 typedef WORLD *WORLDPTR;
 class overmap;
 struct event;
@@ -175,8 +175,6 @@ class game
         /** Initializes the UI. */
         void init_ui();
         void setup();
-        /** Returns true if the game quits through some error. */
-        bool game_error();
         /** True if the game has just started or loaded, else false. */
         bool new_game;
         /** Used in main.cpp to determine what type of quit is being performed. */
@@ -193,10 +191,6 @@ class game
 
         /** Returns false if saving failed. */
         bool save();
-        /** Deletes the given world. If delete_folder is true delete all the files and directories
-         *  of the given world folder. Else just avoid deleting the two config files and the directory
-         *  itself. */
-        void delete_world(std::string worldname, bool delete_folder);
         /** Returns a list of currently active character saves. */
         std::vector<std::string> list_active_characters();
         void write_memorial_file(std::string sLastWords);
@@ -286,13 +280,18 @@ class game
         void scrambler_blast( const tripoint &p );
         /** Triggers an emp blast at p. */
         void emp_blast( const tripoint &p );
-        /** Returns the NPC index of the npc at p. Returns -1 if no NPC is present. */
-        int  npc_at( const tripoint &p ) const;
         /** Returns the NPC index of the npc with a matching ID. Returns -1 if no NPC is present. */
-        int  npc_by_id(const int id) const;
-        /** Returns the Creature at tripoint p */
-        Creature *critter_at( const tripoint &p, bool allow_hallucination = false );
-        Creature const* critter_at( const tripoint &p, bool allow_hallucination = false ) const;
+        npc *npc_by_id(const int id) const;
+        /**
+         * Returns the Creature at the given location. Optionally casted to the given
+         * type of creature: @ref npc, @ref player, @ref monster - if there is a creature,
+         * but it's not of the requested tpye, returns nullptr.
+         * @param allow_hallucination Whether to return monsters that are actually hallucinations.
+         */
+        template<typename T = Creature>
+        T *critter_at( const tripoint &p, bool allow_hallucination = false );
+        template<typename T = Creature>
+        T const* critter_at( const tripoint &p, bool allow_hallucination = false ) const;
 
         /** Summons a brand new monster at the current time. Returns the summoned monster. */
         bool summon_mon( const mtype_id& id, const tripoint &p );
@@ -390,8 +389,6 @@ class game
         void unload_npcs();
         /** Unloads, then loads the NPCs */
         void reload_npcs();
-        /** Pulls the NPCs that were dumped into the world map on save back into mission_npcs */
-        void load_mission_npcs();
         /** Returns the number of kills of the given mon_id by the player. */
         int kill_count( const mtype_id& id );
         /** Increments the number of kills of the given mtype_id by the player upwards. */
@@ -519,11 +516,22 @@ class game
         std::vector<npc *> allies();
 
         std::vector<npc *> active_npc;
-        std::vector<npc *> mission_npc;
         std::vector<faction> factions;
         int weight_dragged; // Computed once, when you start dragging
 
         int ter_view_x, ter_view_y, ter_view_z;
+
+    private:
+        WINDOW_PTR w_terrain_ptr;
+        WINDOW_PTR w_minimap_ptr;
+        WINDOW_PTR w_pixel_minimap_ptr;
+        WINDOW_PTR w_HP_ptr;
+        WINDOW_PTR w_messages_short_ptr;
+        WINDOW_PTR w_messages_long_ptr;
+        WINDOW_PTR w_location_ptr;
+        WINDOW_PTR w_status_ptr;
+        WINDOW_PTR w_status2_ptr;
+    public:
         WINDOW *w_terrain;
         WINDOW *w_overmap;
         WINDOW *w_omlegend;
@@ -710,7 +718,7 @@ class game
 
     private:
         // Game-start procedures
-        void load( std::string worldname, std::string name ); // Load a player-specific save file
+        void load( std::string worldname, const save_t &name ); // Load a player-specific save file
         bool load_master(std::string worldname); // Load the master data file, with factions &c
         void load_weather(std::istream &fin);
         bool start_game(std::string worldname); // Starts a new game in a world
@@ -927,7 +935,6 @@ private:
         bool safe_mode_warning_logged;
         std::vector<int> new_seen_mon;
         int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
-        bool safemodeveh; // safemode while driving?
         int turnssincelastmon; // needed for auto run mode
         //  quit_status uquit;    // Set to true if the player quits ('Q')
         bool bVMonsterLookFire;

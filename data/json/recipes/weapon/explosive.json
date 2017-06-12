@@ -140,7 +140,7 @@
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ] ],
       [ [ "canister_empty", 1 ], [ "can_drink_unsealed", 1 ], [ "clay_canister", 1], [ "can_food_unsealed", 1 ] ],
       [ [ "bb", 100 ], [ "nail", 30 ] ],
-      [ [ "gunpowder", 72 ], [ "chem_black_powder", 144 ], [ "shot_00", 3 ], [ "shot_slug", 2 ], [ "gasoline", 200 ], [ "diesel", 200 ], [ "shot_bird", 6 ] ]
+      [ [ "gunpowder", 72 ], [ "chem_black_powder", 144 ], [ "shot_00", 3 ], [ "shot_slug", 2 ], [ "shot_bird", 6 ] ]
     ]
   },
   {
@@ -212,7 +212,7 @@
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ] ],
       [ [ "bottle_glass", 1 ], [ "clay_canister", 1 ], [ "flask_glass", 1 ] ],
       [ [ "nail", 40 ] ],
-      [ [ "gunpowder", 72 ], [ "chem_black_powder", 144 ], [ "gasoline", 200 ], [ "diesel", 200 ], [ "shot_bird", 6 ] ]
+      [ [ "gunpowder", 72 ], [ "chem_black_powder", 144 ], [ "shot_bird", 6 ] ]
     ]
   },
   {
@@ -228,7 +228,7 @@
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "pipe", 1 ] ],
-      [ [ "gunpowder", 72 ], [ "chem_black_powder", 144 ], [ "gasoline", 200 ], [ "diesel", 200 ], [ "shot_bird", 6 ], [ "shot_00", 3 ], [ "shot_slug", 2 ] ],
+      [ [ "gunpowder", 72 ], [ "chem_black_powder", 144 ], [ "shot_bird", 6 ], [ "shot_00", 3 ], [ "shot_slug", 2 ] ],
       [ [ "string_6", 1 ] ]
     ]
   },

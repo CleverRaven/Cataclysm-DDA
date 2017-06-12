@@ -829,7 +829,8 @@ class place_trap_actor : public iuse_actor
         using trap_str_id = string_id<trap>;
         using ter_str_id = string_id<ter_t>;
         struct data {
-            trap_str_id trap = trap_str_id( "tr_null" ); // TODO: should be NULL_ID
+            data();
+            trap_str_id trap;
             /** The message shown when the trap has been set. */
             std::string done_message;
             /** Amount of practice of the "trap" skill. */
@@ -848,7 +849,7 @@ class place_trap_actor : public iuse_actor
          * Contains a terrain id of the terrain that must exist in a neighbor square to allow
          * placing this trap. If empty, it is ignored. This is for example for snare traps.
          */
-        ter_str_id needs_neighbor_terrain = ter_str_id( "t_null" ); // TODO: should be NULL_ID
+        ter_str_id needs_neighbor_terrain;
         /** Data that applies to unburied traps and to traps that *can * not be buried. */
         data unburied_data;
         /**
@@ -860,10 +861,10 @@ class place_trap_actor : public iuse_actor
         /**
          * The trap that makes up the outer layer of a 3x3 trap. This is not supported for buried traps!
          */
-        trap_str_id outer_layer_trap = trap_str_id( "tr_null" ); // TODO: should be NULL_ID
+        trap_str_id outer_layer_trap;
         bool is_allowed( player &p, const tripoint &pos, const std::string &name ) const;
 
-        place_trap_actor( const std::string &type = "place_trap" ) : iuse_actor( type ) {}
+        place_trap_actor( const std::string &type = "place_trap" );
         ~place_trap_actor() override { }
         void load( JsonObject &jo ) override;
         long use( player*, item*, bool, const tripoint & ) const override;

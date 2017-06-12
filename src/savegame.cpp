@@ -207,7 +207,6 @@ void game::unserialize(std::istream & fin)
         if (get_option<bool>( "SAFEMODE" ) && safe_mode == SAFE_MODE_OFF) {
             safe_mode = SAFE_MODE_ON;
         }
-        safemodeveh = get_option<bool>( "SAFEMODEVEH" );
         last_target = tmptar;
 
         linebuf="";

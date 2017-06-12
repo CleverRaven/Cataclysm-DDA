@@ -80,8 +80,6 @@ int djb2_hash( const unsigned char *str )
 
 double rng_normal( double lo, double hi )
 {
-    static std::default_random_engine eng;
-
     if( lo > hi ) {
         std::swap( lo, hi );
     }
@@ -90,7 +88,7 @@ double rng_normal( double lo, double hi )
     if( range == 0.0 ) {
         return hi;
     }
-    double val = std::normal_distribution<double>( ( hi + lo ) / 2, range )( eng );
+    double val = normal_roll( ( hi + lo ) / 2, range );
     return std::max( std::min( val, hi ), lo );
 }
 
@@ -99,29 +97,4 @@ double normal_roll( double mean, double stddev )
     static std::default_random_engine eng(
         std::chrono::system_clock::now().time_since_epoch().count() );
     return std::normal_distribution<double>( mean, stddev )( eng );
-}
-
-double erfinv( double x )
-{
-    const double epsilon = 1e-6;
-    const double m_2_sqrtpi = 2 / sqrt( M_PI );
-    double z = 0.0;
-
-    // Shortcut the most common case
-    if( x == 0.5 ) {
-        return 0.47693627620446982;
-    }
-
-    // find erf(z) - x = 0 using Newton=Raphson
-    // d/dz ( erf(z) - x ) = 2/sqrt(pi) . e^(-z^2)
-
-    for( int n = 0; n < 50; ++n ) {
-        double step = ( std::erf( z ) - x ) / ( m_2_sqrtpi * exp( -z * z ) );
-        z -= step;
-        if( std::abs( step ) < epsilon ) {
-            break;
-        }
-    }
-
-    return z;
 }
