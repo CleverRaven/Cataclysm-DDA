@@ -493,6 +493,7 @@ npc vehicle::get_targeting_npc( vehicle_part &pt )
 
     // These might all be affected by vehicle part damage, weather effects, etc.
     cpu.set_skill_level( pt.get_base().gun_skill(), 8 );
+    cpu.set_skill_level( skill_id( "gun" ), 4 );
 
     cpu.str_cur = 16;
     cpu.dex_cur = 8;
