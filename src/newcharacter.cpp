@@ -2429,7 +2429,7 @@ void save_template( player *u )
         '\x1C', '\x1D', '\x1E', '\x1F'
 #else
         '/'
-#endif   
+#endif
     };
     std::string title = _( "Name of template:" );
     std::string desc = _( "Keep in mind you may not use special characters like / in filenames" );
@@ -2449,11 +2449,11 @@ void save_template( player *u )
         popup( _( "No filename given, template not saved" ) );
         return;
     }
-    
+
     std::string playerfile = FILENAMES["templatedir"] + utf8_to_native( name ) + ".template";
     bool success = write_to_file( playerfile, [&]( std::ostream &fout ) {
         fout << u->save_info();
     }, _( "player template" ) );
     if( success )
-            popup( _( "Template successfully saved" ) );
+        popup( _( "Template successfully saved" ) );
 }
