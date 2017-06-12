@@ -2462,9 +2462,7 @@ void save_template( player *u )
     }
 #endif
     std::string playerfile = FILENAMES["templatedir"] + native + ".template";
-    bool success = write_to_file( playerfile, [&]( std::ostream &fout ) {
+    write_to_file( playerfile, [&]( std::ostream &fout ) {
         fout << u->save_info();
     }, _( "player template" ) );
-    if( success )
-        popup( _( "Template successfully saved" ) );
 }
