@@ -2446,7 +2446,6 @@ void save_template( player *u )
 
     std::string name = spop.query_string( true );
     if( name.empty() ) {
-        popup( _( "No filename given, template not saved" ) );
         return;
     }
 
