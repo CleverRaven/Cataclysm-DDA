@@ -8,12 +8,13 @@
 #include "gamemode.h"
 #include "translations.h"
 #include "input.h"
-#include "output.h"
 #include "catacharset.h"
 #include "cata_utility.h"
 #include "calendar.h"
 #include "name.h"
 #include "json.h"
+
+#include "UIHandler.h" 
 
 using namespace std::placeholders;
 
@@ -139,20 +140,29 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
     // World to return after generating
     WORLDPTR retworld = new WORLD();
     if( show_prompt ) {
-        // Window variables
-        const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
-        const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
-        // set up window
-        WINDOW *wf_win = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
-        WINDOW_PTR wf_winptr( wf_win );
+        
+        ui::window win(FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT, ui::window::location::CENTERED, false);
+        auto tab_panel = std::make_shared<ui::tab_panel>(true);
+
+        win.main_panel->set_child(tab_panel);
+        
+        for (auto tab_name : tab_strings)
+        {
+            auto this_panel = std::make_shared<ui::padding_panel>(false);
+
+            tab_panel->add_tab(tab_name, this_panel);
+        }
+
+        win.update_window_size();
 
         int curtab = 0;
         int lasttab; // give placement memory to menus, sorta.
         const int numtabs = tabs.size();
         while (curtab >= 0 && curtab < numtabs) {
             lasttab = curtab;
-            draw_worldgen_tabs(wf_win, curtab);
-            curtab += tabs[curtab](wf_win, retworld);
+            tab_panel->switch_tab(curtab);
+            win.draw_everything();
+            curtab += tabs[curtab](win, retworld);
 
             if (curtab < 0) {
                 if (!query_yn(_("Do you want to abort World Generation?"))) {
@@ -602,8 +612,9 @@ std::string worldfactory::pick_random_name()
     return get_next_valid_worldname();
 }
 
-int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
+int worldfactory::show_worldgen_tab_options(ui::window &nwin, WORLDPTR world)
 {
+    auto win = nwin.legacy_window();
     const int iTooltipHeight = 4;
     const int iContentHeight = FULL_SCREEN_HEIGHT - 5 - iTooltipHeight;
 
@@ -875,8 +886,9 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
     wrefresh(w_shift);
 }
 
-int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
+int worldfactory::show_worldgen_tab_modselection(ui::window &nwin, WORLDPTR world)
 {
+    auto win = nwin.legacy_window();
     // Use active_mod_order of the world,
     // saves us from writing 'world->active_mod_order' all the time.
     std::vector<std::string> &active_mod_order = world->active_mod_order;
@@ -919,7 +931,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                        FULL_SCREEN_WIDTH / 2 + 2 + iOffsetX);
     w_description = newwin(4, FULL_SCREEN_WIDTH - 2, 19 + iOffsetY, 1 + iOffsetX);
 
-    draw_modselection_borders(win, &ctxt);
+    draw_modselection_borders(nwin, &ctxt);
     std::vector<std::string> headers;
     headers.push_back(_("Mod List"));
     headers.push_back(_("Mod Load Order"));
@@ -1064,7 +1076,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                 if( mman->mod_map[current_tab_mods[cursel[0]]]->need_lua() ) {
                     popup(_("Can't add mod. This mod requires Lua support."));
                     redraw_active = true;
-                    draw_modselection_borders(win, &ctxt);
+                    draw_modselection_borders(nwin, &ctxt);
                     redraw_description = true;
                     continue;
                 }
@@ -1124,7 +1136,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
         } else if( action == "SAVE_DEFAULT_MODS" ) {
             if(mman->set_default_mods(active_mod_order) ) {
                 popup(_("Saved list of active mods as default"));
-                draw_modselection_borders(win, &ctxt);
+                draw_modselection_borders(nwin, &ctxt);
                 redraw_description = true;
                 redraw_headers = true;
             }
@@ -1134,8 +1146,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             redraw_description = true;
             redraw_list = true;
             redraw_active = true;
-            draw_worldgen_tabs( win, 0 );
-            draw_modselection_borders( win, &ctxt );
+            draw_modselection_borders( nwin, &ctxt );
             redraw_description = true;
         } else if( action == "QUIT" ) {
             tab_output = -999;
@@ -1189,8 +1200,9 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
     return tab_output;
 }
 
-int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
+int worldfactory::show_worldgen_tab_confirm(ui::window &nwin, WORLDPTR world)
 {
+    auto win = nwin.legacy_window();
     const int iTooltipHeight = 1;
     const int iContentHeight = FULL_SCREEN_HEIGHT - 3 - iTooltipHeight;
 
@@ -1315,8 +1327,9 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
     return 0;
 }
 
-void worldfactory::draw_modselection_borders(WINDOW *win, input_context *ctxtp)
+void worldfactory::draw_modselection_borders(ui::window &nwin, input_context *ctxtp)
 {
+    auto win = nwin.legacy_window();
     // make appropriate lines: X & Y coordinate of starting point, length, horizontal/vertical type
     std::array<int, 5> xs = {{
         1, 1, ( FULL_SCREEN_WIDTH / 2 ) + 2, ( FULL_SCREEN_WIDTH / 2 ) - 4,
@@ -1368,37 +1381,6 @@ void worldfactory::draw_modselection_borders(WINDOW *win, input_context *ctxtp)
     wrefresh(win);
     refresh();
 }
-
-void worldfactory::draw_worldgen_tabs(WINDOW *w, unsigned int current)
-{
-    werase(w);
-
-    for (int i = 1; i < FULL_SCREEN_WIDTH - 1; i++) {
-        mvwputch(w, 2, i, BORDER_COLOR, LINE_OXOX);
-        mvwputch(w, FULL_SCREEN_HEIGHT - 1, i, BORDER_COLOR, LINE_OXOX);
-
-        if (i > 2 && i < FULL_SCREEN_HEIGHT - 1) {
-            mvwputch(w, i, 0, BORDER_COLOR, LINE_XOXO);
-            mvwputch(w, i, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXO);
-        }
-    }
-
-    int x = 2;
-    for (size_t i = 0; i < tab_strings.size(); ++i) {
-        draw_tab(w, x, tab_strings[i], (i == current) ? true : false);
-        x += utf8_width( tab_strings[i] ) + 7;
-    }
-
-    mvwputch(w, 2, 0, BORDER_COLOR, LINE_OXXO); // |^
-    mvwputch(w, 2, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_OOXX); // ^|
-
-    mvwputch(w, 4, 0, BORDER_COLOR, LINE_XOXO); // |
-    mvwputch(w, 4, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXO); // |
-
-    mvwputch(w, FULL_SCREEN_HEIGHT - 1, 0, BORDER_COLOR, LINE_XXOO); // |_
-    mvwputch(w, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOOX); // _|
-}
-
 
 bool worldfactory::world_need_lua_build(std::string world_name)
 {
