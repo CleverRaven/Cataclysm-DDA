@@ -2420,28 +2420,40 @@ trait_id Character::random_bad_trait()
 
 void save_template( player *u )
 {
-    std::string title = _( "Name of template:" );
-    std::string name = string_input_popup()
-                       .title( title )
-                       .width( FULL_SCREEN_WIDTH - utf8_width( title ) - 8 )
-                       .query_string();
-    if( name.empty() ) {
-        return;
-    }
-    if( name.find_first_of( 
+    const std::set<long> fname_char_blacklist = {
 #if (defined _WIN32 || defined __WIN32__)
-        "\"*/:<>?\\|"
-        "\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0A\x0B\x0C\x0D\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F"
+        '\"'  , '*'   , '/'   , ':'   , '<'   , '>'   , '?'   , '\\'  , '|'   ,
+        '\x01', '\x02', '\x03', '\x04', '\x05', '\x06', '\x07', '\x08', '\x09',
+        '\x0A', '\x0B', '\x0C', '\x0D', '\x0E', '\x0F', '\x10', '\x11', '\x12',
+        '\x13', '\x14', '\x15', '\x16', '\x17', '\x18', '\x19', '\x1A', '\x1B',
+        '\x1C', '\x1D', '\x1E', '\x1F'
 #else
-        "/"
-#endif
-        ) != std::string::npos ) {
-        popup( _( "Special characters such as / are not allowed in filenames. See your filesystem documentation for details." ) );
+        '/'
+#endif   
+    };
+    std::string title = _( "Name of template:" );
+    std::string desc = _( "Keep in mind you may not use special characters like / in filenames" );
+
+    input_context ctxt( "default" );
+    ctxt.register_action( "ANY_INPUT" );
+
+    string_input_popup spop;
+    spop.title( title );
+    spop.description( desc );
+    spop.width( FULL_SCREEN_WIDTH - utf8_width( title ) - 8 );
+    spop.context( ctxt );
+    spop.ch_code_blacklist = fname_char_blacklist;
+
+    std::string name = spop.query_string( true );
+    if( name.empty() ) {
+        popup( _( "No filename given, template not saved" ) );
         return;
     }
-
+    
     std::string playerfile = FILENAMES["templatedir"] + utf8_to_native( name ) + ".template";
-    write_to_file( playerfile, [&]( std::ostream &fout ) {
+    bool success = write_to_file( playerfile, [&]( std::ostream &fout ) {
         fout << u->save_info();
     }, _( "player template" ) );
+    if( success )
+            popup( _( "Template successfully saved" ) );
 }
