@@ -99,15 +99,9 @@
     "name_plural": "Modified CW-24",
     "description": "Civilian version of the SVS-24.  It has a modified receiver and a new crudely crafted full-auto bolt carrier.  Don't expect the original reliability.",
     "price": 420000,
-    "ammo": "654",
     "dispersion": 120,
     "durability": 6,
-    "burst": 8,
-    "magazines": [
-        [ "654", [ "svs24_robomag", "svs24_robodrum" ] ],
-        [ "545x39", [ "cw24_robomag", "cw24_bigrobomag" ] ],
-        [ "762", [ "akmmag", "akmbigmag" ] ]
-    ]
+    "burst": 8
   },
   {
     "id": "cw-24m_hack",
