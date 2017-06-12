@@ -72,7 +72,8 @@
     "name": "CW-24M",
     "name_plural": "CW-24M",
     "description": "Civilian version of the SVS-24.  This one fires the cheaper, but still powerful, 5.45x39mm cartridge.",
-    "price": 200000
+    "price": 200000,
+    "ammo": "654"
   },
   {
     "id": "cw-24k",
