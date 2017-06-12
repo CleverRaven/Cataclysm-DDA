@@ -103,10 +103,12 @@ class panel
         virtual void draw_everything( WINDOW *wf_win, point offset ) = 0;
 };
 
+class window;
+
 class padding_panel : public panel
 {
     public:
-        padding_panel( bool new_draw_border );
+        padding_panel( bool new_draw_border, ui::window* parent_win );
         std::shared_ptr<panel> get_child() const;
         void set_child( std::shared_ptr<panel> new_child_panel );
 
@@ -114,6 +116,8 @@ class padding_panel : public panel
         void set_size( point size ) override;
         void draw_everything( WINDOW *wf_win, point offset ) override;
     private:
+        ui::window* parent_win;
+
         point this_size;
 
         std::shared_ptr<panel> child_panel;
@@ -123,7 +127,7 @@ class padding_panel : public panel
 class tab_panel : public panel
 {
     public:
-        tab_panel( bool new_draw_border );
+        tab_panel( bool new_draw_border, ui::window* parent_win );
 
         std::vector<std::pair<std::string, std::shared_ptr<panel>>> get_tabs() const;
         void add_tab( std::string name, std::shared_ptr<panel> tab_panel );
@@ -136,6 +140,8 @@ class tab_panel : public panel
 
         void switch_tab( size_t tab );
     private:
+        ui::window* parent_win;
+
         size_t current_tab = 0;
 
         point this_size;

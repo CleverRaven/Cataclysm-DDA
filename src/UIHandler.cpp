@@ -3,7 +3,7 @@
 #include "debug.h"
 
 ui::window::window( int min_size_x, int min_size_y, location new_location,
-                    bool new_draw_border ) : main_panel( new padding_panel( new_draw_border ) )
+                    bool new_draw_border ) : main_panel( new padding_panel( new_draw_border, this ) )
 {
     min_size.x = min_size_x;
     min_size.y = min_size_y;
@@ -77,6 +77,10 @@ std::shared_ptr<ui::panel> ui::padding_panel::get_child() const
 void ui::padding_panel::set_child( std::shared_ptr<panel> new_child_panel )
 {
     child_panel = new_child_panel;
+
+    auto min_size = requested_size(sizes::MINIMUM);
+    if (min_size.x > this_size.x || min_size.y > this_size.y)
+        parent_win->update_window_size();
 }
 
 point ui::padding_panel::requested_size( sizes size )
@@ -134,9 +138,11 @@ void ui::padding_panel::draw_everything( WINDOW *wf_win, point offset )
 }
 
 
-ui::padding_panel::padding_panel( bool new_draw_border )
+ui::padding_panel::padding_panel( bool new_draw_border, ui::window* parent_win )
 {
     draw_border = new_draw_border;
+
+    this->parent_win = parent_win;
 }
 
 std::vector<std::pair<std::string, std::shared_ptr<ui::panel>>> ui::tab_panel::get_tabs() const
@@ -147,12 +153,20 @@ std::vector<std::pair<std::string, std::shared_ptr<ui::panel>>> ui::tab_panel::g
 void ui::tab_panel::add_tab( std::string name, std::shared_ptr<panel> tab_panel )
 {
     child_panels.push_back( std::pair<std::string, std::shared_ptr<panel>>( name, tab_panel ) );
+
+    auto min_size = requested_size(sizes::MINIMUM);
+    if (min_size.x > this_size.x || min_size.y > this_size.y)
+        parent_win->update_window_size();
 }
 
 void ui::tab_panel::remove_tab( size_t index )
 {
     assert( child_panels.size() > index );
     child_panels.erase( child_panels.begin() + index );
+
+    auto min_size = requested_size(sizes::MINIMUM);
+    if (min_size.x > this_size.x || min_size.y > this_size.y)
+        parent_win->update_window_size();
 }
 
 point ui::tab_panel::requested_size( sizes size )
@@ -257,13 +271,18 @@ void ui::tab_panel::switch_tab( size_t tab )
 {
     current_tab = tab;
 
+    auto min_size = requested_size(sizes::MINIMUM);
+    if (min_size.x > this_size.x || min_size.y > this_size.y)
+        parent_win->update_window_size();
+
     // Regenerate size for children
     set_size( this_size );
 }
 
-ui::tab_panel::tab_panel( bool new_draw_border )
+ui::tab_panel::tab_panel( bool new_draw_border, ui::window* parent_win )
 {
     draw_border = new_draw_border;
+    this->parent_win = parent_win;
 }
 
 void ui::utils::draw_border( WINDOW *wf_win, point offset, point this_size )

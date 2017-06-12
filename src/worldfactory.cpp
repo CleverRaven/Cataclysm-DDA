@@ -142,13 +142,13 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
     if( show_prompt ) {
         
         ui::window win(FULL_SCREEN_WIDTH, FULL_SCREEN_HEIGHT, ui::window::location::CENTERED, false);
-        auto tab_panel = std::make_shared<ui::tab_panel>(true);
+        auto tab_panel = std::make_shared<ui::tab_panel>(true, &win);
 
         win.main_panel->set_child(tab_panel);
         
         for (auto tab_name : tab_strings)
         {
-            auto this_panel = std::make_shared<ui::padding_panel>(false);
+            auto this_panel = std::make_shared<ui::padding_panel>(false, &win);
 
             tab_panel->add_tab(tab_name, this_panel);
         }
