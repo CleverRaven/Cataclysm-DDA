@@ -992,6 +992,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         insert_separation_line();
 
+        int max_gun_range = mod->gun_range( &g->u );
+        if( max_gun_range > 0 ) {
+            info.emplace_back( "GUN", space + _( "Maximum range: " ), "<num>", max_gun_range );
+        }
+
         int aim_mv = g->u.gun_engagement_moves( *mod );
         if( aim_mv > 0 ) {
             info.emplace_back( "GUN", _( "Maximum aiming time: " ), _( "<num> seconds" ), int( aim_mv / 16.67 ), true, "", true, true );

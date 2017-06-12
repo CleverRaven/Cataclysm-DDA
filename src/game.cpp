@@ -365,7 +365,7 @@ bool game::check_mod_data( const std::vector<std::string> &opts )
         DynamicDataLoader::get_instance().finalize_loaded_data();
     }
 
-    return !g->game_error();
+    return true;
 }
 
 bool game::is_core_data_loaded() const
@@ -756,8 +756,6 @@ void game::setup()
     nextweather = HOURS( get_option<int>( "INITIAL_TIME" ) ) + MINUTES(30);
 
     turnssincelastmon = 0; //Auto safe mode init
-    safemodeveh =
-        get_option<bool>( "SAFEMODEVEH" ); //Vehicle safemode check, in practice didn't trigger when needed
 
     sounds::reset_sounds();
     clear_zombies();
@@ -9312,6 +9310,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                                            TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX);
     WINDOW_PTR w_monster_info_borderptr( w_monster_info_border );
 
+    const int max_gun_range = u.weapon.gun_range( &u );
+
     const tripoint stored_view_offset = u.view_offset;
     u.view_offset = tripoint_zero;
 
@@ -9393,7 +9393,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             tripoint recentered = look_around();
             iLastActivePos = recentered;
         } else if (action == "fire") {
-            if( cCurMon != nullptr ) {
+            if( cCurMon != nullptr && rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
                 last_target = mon_at( cCurMon->pos(), true );
                 u.view_offset = stored_view_offset;
                 return game::vmenu_ret::FIRE;
@@ -9487,9 +9487,11 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                 mvwprintz(w_monsters, getmaxy(w_monsters) - 1, 1, c_ltgreen, "%s", ctxt.press_x( "look" ).c_str());
                 wprintz(w_monsters, c_ltgray, " %s", _("to look around"));
 
-                wprintz(w_monsters, c_ltgray, "%s", " ");
-                wprintz(w_monsters, c_ltgreen, "%s", ctxt.press_x( "fire" ).c_str());
-                wprintz(w_monsters, c_ltgray, " %s", _("to shoot"));
+                if( rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
+                    wprintz(w_monsters, c_ltgray, "%s", " ");
+                    wprintz(w_monsters, c_ltgreen, "%s", ctxt.press_x( "fire" ).c_str());
+                    wprintz(w_monsters, c_ltgray, " %s", _("to shoot"));
+                }
             }
 
             //Only redraw trail/terrain if x/y position changed
@@ -10120,7 +10122,7 @@ bool game::plfire( item &weapon, int bp_cost )
 
     targeting_data args = {
         gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE,
-        &weapon, gun.melee() ? gun.qty : RANGE_HARD_CAP,
+        &weapon, gun.melee() ? gun.qty : gun.target->gun_range( &u ),
         bp_cost, &u.weapon == &weapon, gun->ammo_data(),
         target_callback(), target_callback(),
         firing_callback(), firing_callback()
@@ -13255,11 +13257,6 @@ void game::wait()
     player_activity new_act( actType, 100 * ( durations[as_m.ret] - 1 ), 0 );
 
     u.assign_activity( new_act, false );
-}
-
-bool game::game_error()
-{
-    return (uquit == QUIT_ERROR);
 }
 
 void game::teleport(player *p, bool add_teleglow)

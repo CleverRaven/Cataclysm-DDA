@@ -1279,7 +1279,7 @@ void inventory::json_load_items(JsonIn &jsin)
         JsonArray ja = jsin.get_array();
         while ( ja.has_more() ) {
             JsonObject jo = ja.next_object();
-            add_item(item( jo ), false, false);
+            add_item(item( jo ), true, false);
         }
     } catch( const JsonError &jsonerr ) {
         debugmsg("bad inventory json:\n%s", jsonerr.c_str() );
