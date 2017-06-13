@@ -333,7 +333,7 @@ void Messages::display_messages()
 
             // Here we seperate the unit and amount from one another so that they can be properly padded when they're drawn on the screen.
             // Note that the very first character of 'unit' is often a space (except for languages where the time unit directly follows the number.)
-            char unit[0];
+            char unit[1];
             int amount;
             sscanf( long_ago, "%d%s", &amount, unit );
             if( timepassed.get_turn() != lasttime ) {
