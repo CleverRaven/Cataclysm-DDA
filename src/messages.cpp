@@ -310,7 +310,7 @@ void Messages::display_messages()
     for( ;; ) {
         werase( w );
         draw_border( w );
-        mvwprintz( w, bottom + 1, 32, c_red, _("Press %s to return"), ctxt.get_desc("QUIT").c_str() );
+        mvwprintz( w, bottom + 1, 32, c_red, _( "Press %s to return" ), ctxt.get_desc( "QUIT" ).c_str() );
         draw_scrollbar( w, offset, bottom, msg_count, 1, 0, c_white, true );
 
         int line = 1;
@@ -332,8 +332,8 @@ void Messages::display_messages()
             // Here we seperate the unit and amount from one another so that they can be properly padded when they're drawn on the screen.
             // Note that the very first character of 'unit' is often a space (except for languages where the time unit directly follows the number.)
             const auto amount_len = long_ago.find_first_not_of( "0123456789" );
-            std::string amount = long_ago.substr(0, amount_len);
-            std::string unit = long_ago.substr(amount_len);
+            std::string amount = long_ago.substr( 0, amount_len );
+            std::string unit = long_ago.substr( amount_len );
             if( timepassed.get_turn() != lasttime ) {
                 right_print( w, line, 2, c_ltblue, _( "%-3s%-10s" ), amount.c_str(), unit.c_str() );
                 lasttime = timepassed.get_turn();
