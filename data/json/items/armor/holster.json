@@ -129,5 +129,29 @@
       "skills": ["pistol", "smg", "shotgun", "rifle"]
     },
     "flags": ["WAIST", "OVERSIZE"]
+  },
+  {
+    "id": "power_armor_holster",
+    "type": "ARMOR",
+    "name": "power armor holster",
+    "description": "A metal holster made for a power armor attachment point. Activate to holster/draw a gun.",
+    "weight": 400,
+    "volume": 1,
+    "price": 15000,
+    "rigid": false,
+    "material": "steel",
+    "symbol": "[",
+    "color": "gray",
+    "coverage": 10,
+    "encumbrance": 2,
+    "power_armor": true,
+    "material_thickness": 1,
+    "use_action": {
+      "type": "holster",
+      "min_volume": 3,
+      "max_volume": 8,
+      "skills": [ "pistol", "smg", "shotgun", "rifle" ]
+    },
+    "flags": [ "WAIST", "OVERSIZE", "WATERPROOF", "STURDY" ]
   }
 ]
