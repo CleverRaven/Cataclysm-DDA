@@ -1404,8 +1404,6 @@ void advanced_inventory::display()
     recalc = true;
     redraw = true;
 
-    string_input_popup spopup;
-
     while( !exit ) {
         if( g->u.moves < 0 ) {
             do_return_entry();
@@ -1637,6 +1635,7 @@ void advanced_inventory::display()
             }
             redraw = true;
         } else if( action == "FILTER" ) {
+            string_input_popup spopup;
             std::string filter = spane.filter;
             filter_edit = true;
             spopup.window( spane.window, 4, w_height - 1, ( w_width / 2 ) - 4 )
@@ -1648,8 +1647,13 @@ void advanced_inventory::display()
             do {
                 mvwprintz( spane.window, getmaxy( spane.window ) - 1, 2, c_cyan, "< " );
                 mvwprintz( spane.window, getmaxy( spane.window ) - 1, ( w_width / 2 ) - 3, c_cyan, " >" );
-                filter = spopup.query_string( false );
-                spane.set_filter( filter );
+                std::string new_filter = spopup.query_string( false );
+                if( spopup.context().get_raw_input().get_first_input() == KEY_ESCAPE ) {
+                    // restore original filter
+                    spane.set_filter( filter );
+                } else {
+                    spane.set_filter( new_filter );
+                }
                 redraw_pane( src );
             } while( spopup.context().get_raw_input().get_first_input() != '\n' && spopup.context().get_raw_input().get_first_input() != KEY_ESCAPE );
             filter_edit = false;

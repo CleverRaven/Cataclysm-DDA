@@ -802,10 +802,9 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 } else if( selected >= start + maxitems ) {
                     start += maxitems;
                 }
-            } else if( selected >= 0 && (
-                           ( action == "RIGHT" && !getitem[selected].pick ) ||
-                           ( action == "LEFT" && getitem[selected].pick )
-                       ) ) {
+            } else if( selected >= 0 && selected < int( matches.size() ) &&
+                       ( ( action == "RIGHT" && !getitem[matches[selected]].pick ) ||
+                         ( action == "LEFT" && getitem[matches[selected]].pick ) ) ) {
                 idx = selected;
             } else if( action == "FILTER" ) {
                 new_filter = filter;
