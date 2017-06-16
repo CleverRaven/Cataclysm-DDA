@@ -750,6 +750,7 @@ public:
     // Returns the name of the item type in the correct language and with respect to its grammatical number,
     // based on quantity (example: item type “anvil”, nname(4) would return “anvils” (as in “4 anvils”).
     std::string nname(unsigned int quantity) const;
+    const std::string &untranslated_name() const { return name; }
 
     // Allow direct access to the type id for the few cases that need it.
     itype_id get_id() const {
