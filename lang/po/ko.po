@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-03 17:04+0800\n"
-"PO-Revision-Date: 2017-06-04 02:17+0000\n"
+"POT-Creation-Date: 2017-06-11 19:01+0800\n"
+"PO-Revision-Date: 2017-06-12 14:30+0000\n"
 "Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -605,6 +605,7 @@ msgstr "사이드바 스타일"
 msgid "Switch between a narrower or wider sidebar.  Requires restart."
 msgstr ""
 
+#. ~ sidebar/message log flow direction
 #. ~ sidebar message log flow direction
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Top"
@@ -614,11 +615,11 @@ msgstr "위"
 msgid "Bottom"
 msgstr "아래"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Sidebar log flow"
 msgstr "사이드바 로그 방향"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Where new sidebar log messages should show."
 msgstr "새 로그 메시지가 나타날 때 어느 방향에서 나올지를 설정합니다."
 
@@ -28290,6 +28291,16 @@ msgid_plural "steel spears"
 msgstr[0] "강철 창"
 
 #. ~ Description for steel spear
+#: lang/json/GENERIC_from_json.py
+msgid "A stout wooden pole with a hand-forged steel spearhead."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "pipe spear"
+msgid_plural "pipe spears"
+msgstr[0] ""
+
+#. ~ Description for pipe spear
 #: lang/json/GENERIC_from_json.py
 msgid "A stout metal pole with a sharp point."
 msgstr "끝을 뾰족하게 만든, 튼튼한 강철 막대기입니다."
@@ -104265,6 +104276,10 @@ msgid_plural "Uses <stat>%i</stat> charges of UPS per shot"
 msgstr[0] "사격 당 UPS 충전량 <stat>%i</stat> 사용"
 
 #: src/item.cpp
+msgid "Maximum range: "
+msgstr ""
+
+#: src/item.cpp
 msgid "<num> seconds"
 msgstr "<num>초"
 
@@ -111611,11 +111626,6 @@ msgstr "%s x %d"
 msgid "Press %s to return"
 msgstr "%s로 돌아가기"
 
-#: src/messages.cpp
-#, c-format
-msgid "%s ago:"
-msgstr "%s 전:"
-
 #: src/mission_companion.cpp
 msgid "You have no bionics to install!"
 msgstr "설치할 바이오닉이 없다!"
@@ -117830,6 +117840,14 @@ msgstr "내가 짊어지기엔 너무 무거워."
 
 #: src/npctalk.cpp
 msgid "Select a follower"
+msgstr ""
+
+#: src/options.cpp
+msgid "Message log flow"
+msgstr ""
+
+#: src/options.cpp
+msgid "Where new log messages should show."
 msgstr ""
 
 #: src/output.cpp
