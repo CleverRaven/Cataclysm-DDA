@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-11 19:01+0800\n"
+"POT-Creation-Date: 2017-06-16 20:01+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -114804,6 +114804,11 @@ msgstr ""
 #: src/messages.cpp
 #, c-format
 msgid "Press %s to return"
+msgstr ""
+
+#: src/messages.cpp
+#, c-format
+msgid "%-3s%-10s"
 msgstr ""
 
 #: src/mission_companion.cpp
