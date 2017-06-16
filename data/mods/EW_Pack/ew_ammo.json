@@ -24,24 +24,18 @@
     {
         "type" : "AMMO",
         "id" : "654t",
+        "copy-from": "654",
         "price" : 6800,
         "name" : "6.54x42mm 9N12",
         "name_plural" : "6.54x42mm 9N12",
-        "symbol" : "=",
-        "color" : "dark_gray",
         "description" : "The 6.54x42mm 9N12 has superior armor piercing capabilities thanks to its tungsten carbide core.  Tungsten carbide was used in anti-tank rounds of the 20th and 21st century, whenever depleted uranium was unavailable or undesirable.",
         "material" : [ "steel", "powder" ],
-        "volume" : 1,
         "weight" : 6,
-        "ammo_type" : "654",
-        "casing" : "654_casing",
         "damage" : 36,
         "pierce" : 32,
         "range" : 38,
         "dispersion" : 5,
-        "recoil" : 1500,
-        "count" : 30,
-        "effects" : ["COOKOFF"]
+        "recoil" : 1500
     },
     {
         "type" : "GENERIC",
