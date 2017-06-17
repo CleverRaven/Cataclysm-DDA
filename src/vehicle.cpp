@@ -4578,7 +4578,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             if( !vert_coll ) {
                 if( fabs(vel2_a) > 10.0f ||
                     fabs(e * mass * vel1_a) > fabs(mass2 * (10.0f - vel2_a)) ) {
-                    const int angle = (100 - rng( 70, 100 )) * 2 * ( one_in( 2 ) ? 1 : -1 );
+                    const int angle = rng( -60, 60 );
                     // Also handle the weird case when we don't have enough force
                     // but still have to push (in such case compare momentum)
                     const float push_force = std::max<float>( fabs( vel2_a ), 10.1f );
