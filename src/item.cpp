@@ -1957,7 +1957,8 @@ nc_color item::color_in_inventory() const
         // ltred if you have ammo but no mags
         // Gun with integrated mag counts as both
         ammotype amtype = ammo_type();
-        bool has_ammo = !u->find_ammo( *this, false, -1 ).empty();
+        // get_ammo finds uncontained ammo, find_ammo finds ammo in magazines
+        bool has_ammo = !u->get_ammo( amtype ).empty() || !u->find_ammo( *this, false, -1 ).empty();
         bool has_mag = magazine_integral() || !u->find_ammo( *this, true, -1 ).empty();
         if( has_ammo && has_mag ) {
             ret = c_green;
