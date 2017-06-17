@@ -1,0 +1,9 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "Tree_Harvesting",
+    "name": "Tree Harvesting",
+    "description": "Enables cutting from trees and replanting said cuttings.",
+    "dependencies": [ "dda" ]
+  }
+]
