@@ -4582,8 +4582,9 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                     // Also handle the weird case when we don't have enough force
                     // but still have to push (in such case compare momentum)
                     const float push_force = std::max<float>( fabs( vel2_a ), 10.1f );
-                    const int angle_sum = vel2_a > 0 ?
-                        move.dir() + angle : -(move.dir() + angle);
+                    // move.dir is where the vehicle is facing. If velocity is negative,
+                    // we're moving backwards and have to adjust the angle accordingly.
+                    const int angle_sum = angle + move.dir() + ( vel2_a > 0 ? 0 : 180 );
                     g->fling_creature( critter, angle_sum, push_force );
                 } else if( fabs( vel2_a ) > fabs( vel2 ) ) {
                     vel2 = vel2_a;
