@@ -4442,7 +4442,6 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     // Calculate mass AFTER checking for collision
     //  because it involves iterating over all cargo
     const float mass = total_mass();
-    int degree = rng( 70, 100 );
 
     //Calculate damage resulting from d_E
     const itype *type = item::find_type( part_info( ret.part ).item );
@@ -4564,7 +4563,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                 critter->add_effect( effect_stunned, turns_stunned );
             }
 
-            const int angle = (100 - degree) * 2 * ( one_in( 2 ) ? 1 : -1 );
+            const int angle = (100 - rng( 70, 100 )) * 2 * ( one_in( 2 ) ? 1 : -1 );
             if( ph != nullptr ) {
                 ph->hitall( dam, 40, driver );
             } else {
