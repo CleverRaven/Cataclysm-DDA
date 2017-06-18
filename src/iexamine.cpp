@@ -30,6 +30,8 @@
 #include "sounds.h"
 #include "cata_utility.h"
 #include "string_input_popup.h"
+#include "monster.h"
+#include "calendar.h"
 
 #include <sstream>
 #include <algorithm>
@@ -51,6 +53,7 @@ const skill_id skill_survival( "survival" );
 
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_teleglow( "teleglow" );
+const efftype_id effect_milked( "milked" );
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -2778,6 +2781,17 @@ void iexamine::water_source(player &p, const tripoint &examp)
     item water = g->m.water_from( examp );
     (void) p; // TODO: use me
     g->handle_liquid( water, nullptr, 0, &examp );
+}
+
+void iexamine::milk_source( monster *source_mon )
+{
+    item milk( "milk", 0, 1 );
+    if( !source_mon->has_effect( effect_milked ) || (source_mon->get_effect_dur(effect_milked) < HOURS(24))) {
+        g->handle_liquid( milk, nullptr, 0, nullptr, nullptr, source_mon );
+        add_msg(_("You milk the %s."), source_mon->disp_name().c_str());
+    } else {
+        add_msg( _( "The %s's udders run dry." ), source_mon->disp_name().c_str() );
+    }
 }
 
 const itype * furn_t::crafting_pseudo_item_type() const

@@ -18,6 +18,7 @@ class game;
 class item;
 class player;
 class map;
+class monster;
 struct tripoint;
 struct itype;
 struct mtype;
@@ -109,6 +110,9 @@ void sign( player &p, const tripoint &examp );
 void pay_gas( player &p, const tripoint &examp );
 void climb_down( player &p, const tripoint &examp );
 hack_result hack_attempt( player &p );
+
+
+void milk_source( monster *source_mon );
 
 /**
  * Pour liquid into a keg (furniture) on the map. The transferred charges (if any)

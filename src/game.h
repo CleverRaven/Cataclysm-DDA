@@ -630,6 +630,7 @@ class game
          * @param radius Radius to look for liquid around pos
          * @param source_pos The source of the liquid when it's from the map.
          * @param source_veh The vehicle that currently contains the liquid in its tank.
+         * @param source_mon The source monster that is milked.
          * @return Whether the user has handled the liquid (at least part of it). `false` indicates
          * the user has rejected all possible actions. But note that `true` does *not* indicate any
          * liquid was actually consumed, the user may have chosen an option that turned out to be
@@ -639,7 +640,8 @@ class game
          */
         bool handle_liquid( item &liquid, item *source = NULL, int radius = 0,
                             const tripoint *source_pos = nullptr,
-                            const vehicle *source_veh = nullptr );
+                            const vehicle *source_veh = nullptr,
+                            const monster *source_mon = nullptr );
         /**@}*/
 
         void open_gate( const tripoint &p );
