@@ -1905,9 +1905,9 @@ int iuse::mycus(player *p, item *it, bool t, const tripoint &pos)
 // Types of petfood for each different case
 enum Petfood
 {
-	DOGFOOD,
-	CATFOOD,
-	CATTLEFODDER
+    DOGFOOD,
+    CATFOOD,
+    CATTLEFODDER
 };
 
 int petfood( player *p, item *it, Petfood animal_food_type )
@@ -1955,7 +1955,7 @@ int petfood( player *p, item *it, Petfood animal_food_type )
             case CATTLEFODDER:
                 add_msg( m_good, _( "The cow seems to like you! It lets you pat her and seems friendly." ) );
                 mon.friendly = -1;
-				mon.add_effect(effect_pet, 1, num_bp, true);
+                mon.add_effect(effect_pet, 1, num_bp, true);
                 break;
         }
     } else {
