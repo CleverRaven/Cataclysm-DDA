@@ -1652,5 +1652,12 @@
         "remove_message": "The broken limb has mended.",
         "max_duration": 2,
         "rating": "bad"
-    }
+    },
+    {
+        "type": "effect_type",
+        "id": "milked",
+        "name": [ "Milked" ],
+        "desc": [ "The creature has been partially or fully milked." ],
+        "max_duration": 14400
+     }
 ]

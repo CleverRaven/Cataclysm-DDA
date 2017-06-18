@@ -91,6 +91,7 @@
 #include "safemode_ui.h"
 #include "game_constants.h"
 #include "string_input_popup.h"
+#include "monexamine.h"
 
 #include <map>
 #include <set>
@@ -7218,12 +7219,13 @@ bool pet_menu(monster *z)
         drop_all,
         give_items,
         pheromone,
+		milk,
         rope
     };
 
     uimenu amenu;
     amenu.return_invalid = true;
-    std::string pet_name = _("dog");
+    std::string pet_name = _(z->get_name().c_str());
     if( z->type->in_species( ZOMBIE ) ) {
         pet_name = _("zombie slave");
     }
@@ -7256,6 +7258,10 @@ bool pet_menu(monster *z)
     if( z->type->in_species( ZOMBIE ) ) {
         amenu.addentry(pheromone, true, 't', _("Tear out pheromone ball"));
     }
+
+	if( z->has_flag( MF_MILKABLE ) ) {
+	    amenu.addentry( milk, true, 'm', _( "Milk %s"), pet_name.c_str());
+	}
 
     amenu.query();
     int choice = amenu.ret;
@@ -7442,7 +7448,12 @@ bool pet_menu(monster *z)
         return true;
     }
 
-    return true;
+	if( milk == choice ){
+	    monexamine::milk_source( z );
+	    return true;
+	}
+
+	return true;
 }
 
 bool game::npc_menu( npc &who )
@@ -9651,6 +9662,7 @@ bool game::handle_liquid_from_container( item &container, int radius )
 
 extern void serialize_liquid_source( player_activity &act, const vehicle &veh, const itype_id &ftype );
 extern void serialize_liquid_source( player_activity &act, const tripoint &pos, const item &liquid );
+extern void serialize_liquid_source(player_activity &act, const monster &mon, const item &liquid);
 
 extern void serialize_liquid_target( player_activity &act, const vehicle &veh );
 extern void serialize_liquid_target( player_activity &act, int container_item_pos );
@@ -9658,7 +9670,8 @@ extern void serialize_liquid_target( player_activity &act, const tripoint &pos )
 
 bool game::handle_liquid( item &liquid, item * const source, const int radius,
                           const tripoint * const source_pos,
-                          const vehicle * const source_veh )
+                          const vehicle * const source_veh,
+                          const monster * const source_mon)
 {
     if( !liquid.made_of(LIQUID) ) {
         dbg(D_ERROR) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
@@ -9676,6 +9689,10 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
             u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
             serialize_liquid_source( u.activity, *source_pos, liquid );
             return true;
+        } else if (source_mon != nullptr) {
+            u.assign_activity(activity_id("ACT_FILL_LIQUID"));
+            serialize_liquid_source(u.activity, *source_mon, liquid);
+            return true;     
         } else {
             return false;
         }
@@ -9694,7 +9711,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
     }
     std::vector<std::function<void()>> actions;
 
-    if( u.can_consume( liquid ) ) {
+    if( u.can_consume( liquid ) && !source_mon) {
         menu.addentry( -1, true, 'e', _( "Consume it" ) );
         actions.emplace_back( [&]() {
             // consume_item already consumes moves.

@@ -1902,79 +1902,83 @@ int iuse::mycus(player *p, item *it, bool t, const tripoint &pos)
     return it->type->charges_to_use();
 }
 
+enum Petfood
+{
+	DOGFOOD,
+	CATFOOD,
+	CATTLEFODDER
+};
 
-int petfood(player *p, item *it, int animal_food_type) {
-	tripoint dirp;
-	if (!choose_adjacent(string_format(_("Put the %s where?"), it->tname().c_str()), dirp)) {
-		return 0;
-	}
-	p->moves -= 15;
-	const int mon_idx = g->mon_at(dirp, true);
-
-	if( mon_idx != -1 ) {
-    monster &mon = g->zombie( mon_idx );
-
-    switch( animal_food_type ) {
-        case 1:
-            if( mon.type->id == mon_dog_thing ) {
-                p->deal_damage( &mon, bp_hand_r, damage_instance( DT_CUT, rng( 1, 10 ) ) );
-                p->add_msg_if_player( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
-                if( one_in( 5 ) ) {
-                    p->add_msg_if_player(
-                        _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
-                }
-
-            } else if( npc *const person_ = g->critter_at<npc>( dirp ) ) {
-                npc &person = *person_;
-                query_yn( _( "Are you sure you want to feed a person the dog food?" ) );
-				add_msg( _( "You put your %1$s into %2$s's mouth!" ), it->tname().c_str(),
-                                      person.name.c_str() );
-                if( person.is_friend() || x_in_y( 9, 10 ) ) {
-                    person.say(
-                        _( "Okay, but please, don't give me this again. I don't want to eat dog food in the cataclysm all day." ) );
-                } else {
-					add_msg( _( "%s knocks it out from your hand!" ), person.name.c_str() );
-                    person.make_angry();
-                }
-            } else {
-				add_msg( m_good, _( "The dog seems to like you!" ) );
-                mon.friendly = -1;
-                mon.add_effect( effect_pet, 1, num_bp, true );
-            }
-            break;
-        case 2:
-			add_msg( m_good,
-                                  _( "The cat seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with cats." ) );
-            mon.friendly = -1;
-            break;
-        case 3:
-			add_msg( m_good,
-                                  _( "The cow seems to like you! It lets you pat her and seems friendly." ) );
-            mon.friendly = -1;
-            break;
+int petfood( player *p, item *it, Petfood animal_food_type )
+{
+    tripoint dirp;
+    if( !choose_adjacent( string_format( _( "Put the %s where?" ), it->tname().c_str() ), dirp ) ) {
+        return 0;
     }
-	} else {
-		add_msg( _( "There is nothing to be fed here." ) );
-    return 0;
-	}
-	
-return 1;
+    p->moves -= 15;
+    const int mon_idx = g->mon_at( dirp, true );
+
+    if( mon_idx != -1 ) {
+        monster &mon = g->zombie( mon_idx );
+
+        switch( animal_food_type ) {
+            case DOGFOOD:
+                if( mon.type->id == mon_dog_thing ) {
+                    p->deal_damage( &mon, bp_hand_r, damage_instance( DT_CUT, rng( 1, 10 ) ) );
+                    add_msg( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
+                    if( one_in( 5 ) ) {
+                        add_msg(_( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
+                    }
+
+                } else if( npc *const person_ = g->critter_at<npc>( dirp ) ) {
+                    npc &person = *person_;
+                    query_yn( _( "Are you sure you want to feed a person the dog food?" ) );
+                    add_msg( _( "You put your %1$s into %2$s's mouth!" ), it->tname().c_str(),
+                             person.name.c_str() );
+                    if( person.is_friend() || x_in_y( 9, 10 ) ) {
+                        person.say(_( "Okay, but please, don't give me this again. I don't want to eat dog food in the cataclysm all day." ) );
+                    } else {
+                        add_msg( _( "%s knocks it out from your hand!" ), person.name.c_str() );
+                        person.make_angry();
+                    }
+                } else {
+                    add_msg( m_good, _( "The dog seems to like you!" ) );
+                    mon.friendly = -1;
+                    mon.add_effect( effect_pet, 1, num_bp, true );
+                }
+                break;
+            case CATFOOD:
+                add_msg( m_good,_( "The cat seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with cats." ) );
+                mon.friendly = -1;
+                break;
+            case CATTLEFODDER:
+                add_msg( m_good, _( "The cow seems to like you! It lets you pat her and seems friendly." ) );
+                mon.friendly = -1;
+				mon.add_effect(effect_pet, 1, num_bp, true);
+                break;
+        }
+    } else {
+        add_msg( _( "There is nothing to be fed here." ) );
+        return 0;
+    }
+
+    return 1;
 }
 
 
 int iuse::dogfood(player *p, item *it, bool, const tripoint& )
 {
-    return petfood(p, it, 1);
+    return petfood(p, it, DOGFOOD);
 }
 
 int iuse::catfood(player *p, item *it, bool, const tripoint& )
 {
-    return petfood(p, it, 2);
+    return petfood(p, it, CATFOOD);
 }
 
 int iuse::cattlefodder(player *p, item *it, bool, const tripoint&)
 {
-	return petfood(p, it, 3);
+	return petfood(p, it, CATTLEFODDER);
 }
 
 int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
