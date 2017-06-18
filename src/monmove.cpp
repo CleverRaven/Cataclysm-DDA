@@ -210,7 +210,7 @@ void monster::plan( const mfactions &factions )
     auto mood = attitude();
 
     // If we can see the player, move toward them or flee, simpleminded animals are too dumb to follow the player.
-    if( friendly == 0 && sees( g->u ) &&  !has_flag( MF_SIMPLEMINDED )  ) {
+    if( friendly == 0 && sees( g->u ) &&  !has_flag( MF_SIMPLEMINDED ) ){
         dist = rate_target( g->u, dist, smart_planning );
         fleeing = fleeing || is_fleeing( g->u );
         target = &g->u;
