@@ -83,14 +83,14 @@
         "time": 20000,
         "qualities": [ { "id": "SCREW", "level": 1 } ]
       },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "qualities": [ { "id": "SCREW", "level": 1 } ]
+      },
       "repair": {
         "skills": [ [ "mechanics", 1 ] ],
         "time": 2000,
         "using": [ [ "adhesive", 1 ] ]
-      },
-      "removal": {
-        "skills": [ [ "mechanics", 1 ] ],
-        "qualities": [ { "id": "SCREW", "level": 1 } ]
       }
     },
     "flags": [ "CIRCLE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ]
