@@ -1,21 +1,22 @@
 # 
 # Translators:
 # Aleksander Sienkiewicz <nexus.mrsep@gmail.com>, 2017
-# James Tiberius Kirk <srebnypatryk@gmail.com>, 2017
+# HAL 9000 <srebnypatryk@gmail.com>, 2017
+# HAL 9000 <srebnypatryk@gmail.com>, 2017
 # Aleksander Sienkiewicz <nexus.mrsep@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-03 17:04+0800\n"
-"PO-Revision-Date: 2017-06-11 10:07+0000\n"
-"Last-Translator: Aleksander Sienkiewicz <nexus.mrsep@gmail.com>\n"
+"POT-Creation-Date: 2017-06-11 19:01+0800\n"
+"PO-Revision-Date: 2017-06-16 09:48+0000\n"
+"Last-Translator: HAL 9000 <srebnypatryk@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pl\n"
-"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
 #: lang/extra/android/options.cpp src/auto_pickup.cpp src/options.cpp
 #: src/safemode_ui.cpp
@@ -71,7 +72,7 @@ msgstr "Deon'a"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Hoder's"
-msgstr "Holder'a"
+msgstr "Hoder'a"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Basic"
@@ -507,7 +508,7 @@ msgstr "Zamknij zaawansowany ekwipunek po przeniesieniu wszystkiego."
 msgid ""
 "If true, will close the advanced inventory when the move all items command "
 "is used."
-msgstr "Zaznaczone, zamyka zaawansowany ekwipunek po komendzie przeniesienia wszystkich przedmiotów."
+msgstr "Jeśli prawdziwe, zamyka zaawansowany ekwipunek po komendzie przeniesienia wszystkich przedmiotów."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Display actions in Use Item menu"
@@ -517,7 +518,7 @@ msgstr "Wyświetl akcje w menu Użyj Przedmiotu"
 msgid ""
 "If true, actions (like \"Read\", \"Smoke\", \"Wrap tighter\") will be "
 "displayed next to the corresponding items."
-msgstr "Zaznaczone, akcje typu Czytaj, Zapal, Owiń ciaśniej, będą wyświetlać się obok odpowiednich przedmiotów."
+msgstr "Jeśli prawdziwe, akcje typu Czytaj, Zapal, Owiń ciaśniej, będą wyświetlać się obok odpowiednich przedmiotów."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Vehicle plating changes part color"
@@ -581,6 +582,7 @@ msgstr "Styl paska bocznego"
 msgid "Switch between a narrower or wider sidebar.  Requires restart."
 msgstr "Przełącza pomiędzy węższym i szerszym paskiem bocznym. Wymaga restartu gry."
 
+#. ~ sidebar/message log flow direction
 #. ~ sidebar message log flow direction
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Top"
@@ -590,11 +592,11 @@ msgstr "Góra"
 msgid "Bottom"
 msgstr "Dół"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Sidebar log flow"
 msgstr "Pozycja wiadomości w pasku bocznym"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Where new sidebar log messages should show."
 msgstr "Ustala, gdzie powinny pokazywać się nowe wiadomości w pasku bocznym."
 
@@ -802,7 +804,7 @@ msgid ""
 "If true, shows the pixel-detail minimap in game after the save is loaded.  "
 "Use the 'Toggle Pixel Minimap' action key to change its visibility during "
 "gameplay."
-msgstr "Zaznaczone: pokazuje pikselową minimapę w grze po wczytaniu gry. Użyj klawisza 'Przełącz Pixelową Minimapę' aby przełączyć jej widoczność podczas gry."
+msgstr "Jeśli prawdziwe, pokazuje pikselową minimapę w grze po wczytaniu gry. Użyj klawisza 'Przełącz Pixelową Minimapę' aby przełączyć jej widoczność podczas gry."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Pixel Minimap height"
@@ -1050,7 +1052,7 @@ msgstr "Skasuj świat"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Delete the world when the last active character dies."
-msgstr "Skasuj świat gdy umrze ostatnia aktywna postać."
+msgstr "Skasuj świat, gdy umrze ostatnia aktywna postać."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Size of cities"
@@ -1166,7 +1168,7 @@ msgstr "Początkowa pora roku"
 msgid ""
 "Season the player starts in.  Options other than the default delay spawn of "
 "the character, so food decay and monster spawns will have advanced."
-msgstr "Pora roku w której rozpoczyna się gra. Opcje inne od podstawowej opóźniają pojawienie się gracza, więc stopień zepsucia żywności i pojawiające się potwory przesuną się w czasie."
+msgstr "Pora roku, w której rozpoczyna się gra. Opcje inne od podstawowej opóźniają pojawienie się gracza, więc stopień zepsucia żywności i pojawiające się potwory przesuną się w czasie."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Season length"
@@ -1204,7 +1206,7 @@ msgid ""
 "Emulation of zombie hordes.  Zombie spawn points wander around cities and "
 "may go to noise.  Must reset world directory after changing for it to take "
 "effect."
-msgstr "Emulacja hord zombie. Miejsca pojawiania się potworów krążą wokół miast i mogą przesuwać się w stronę hałasów. Potrzebny jest reset katalogu ze światem by odniosło skutek."
+msgstr "Emulacja hord zombie. Miejsca pojawiania się potworów krążą wokół miast i mogą przesuwać się w stronę hałasów. Potrzebny jest reset katalogu ze światem, by odniosło skutek."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Classic zombies"
@@ -1214,7 +1216,7 @@ msgstr "Klasyczne zombie"
 msgid ""
 "Only spawn classic zombies and natural wildlife.  Requires a reset of save "
 "folder to take effect.  This disables certain buildings."
-msgstr "Powoduje że pojawiają się tylko klasyczne zombie i naturalne stworzenia. Wymaga zresetowania folderu z zapisami gry by odniosło skutek. Ta opcja wyłącza niektóre budynki."
+msgstr "Powoduje że pojawiają się tylko klasyczne zombie i naturalne stworzenia. Wymaga zresetowania folderu z zapisami gry, by odniosło skutek. Ta opcja wyłącza niektóre budynki."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Surrounded start"
@@ -2121,7 +2123,7 @@ msgstr "gumowy pocisk"
 msgid ""
 "Rubber slugs from a shotgun beanbag round.  You could use them to make new "
 "beanbag rounds."
-msgstr "Gumowe pociski do produkcji specjalnych gumowych nabojów do strzelb. Możesz ich użyć do tworzenia nowych gumowych naboi."
+msgstr "Gumowe pociski do produkcji specjalnych gumowych nabojów do strzelb. Możesz ich użyć do tworzenia nowych gumowych nabojów."
 
 #: lang/json/AMMO_from_json.py
 msgid "copper"
@@ -2269,7 +2271,7 @@ msgid ""
 "A tiny glass vial filled with advanced fast-healing chemicals which can only"
 " be activated by a Rivtech jet injector device.  A label on the side warns "
 "against using more than two doses per hour."
-msgstr "Mała szklana ampułka wypełniona zaawansowanymi związkami chemicznymi przyspieszającymi procesy gojenia, która może być użyta tylko z  wstrzykiwaczem Rivtech. Opis na naklejce zakazuje stosować więcej niż dwie dawki na godzinę."
+msgstr "Mała szklana ampułka wypełniona zaawansowanymi związkami chemicznymi przyspieszającymi procesy gojenia, która może być użyta tylko z  wstrzykiwaczem Rivtech. Opis na naklejce przestrzega przed stosowaniem więcej niż dwóch dawek na godzinę."
 
 #: lang/json/AMMO_from_json.py
 msgid "RA10K stimulant module"
@@ -2281,7 +2283,7 @@ msgid ""
 "A pressurized multi-chamber glass vial filled with powerful chemical "
 "stimulants which can only be activated by a Rivtech stimulant delivery "
 "system."
-msgstr "Ciśnieniowa wielokomorowa kapsuła szklana wypełniona chemicznymi stymulantami, które mogą być dozowane wyłącznie systemem dozowania stymulantów maki RivTech."
+msgstr "Ciśnieniowa wielokomorowa kapsuła szklana wypełniona chemicznymi stymulantami, które mogą być dozowane wyłącznie systemem dozowania stymulantów maki Rivtech."
 
 #: lang/json/AMMO_from_json.py
 msgid "rebreather filter cartridge"
@@ -2572,7 +2574,7 @@ msgid ""
 "heavier than other wooden arrows, and as a result it does more damage and is"
 " more stable in flight, resulting in better accuracy over a longer range.  "
 "Stands a good chance of remaining intact once fired."
-msgstr "Ciężka drewniana strzała z metalowym grotem i lotkami. Znacznie cięższą od innych strzał, powoduje zwiększone obrażenia i jest stabilniejsza w locie przez co ma lepszą celność na dalszych dystansach. Ma spore szanse pozostać w jednym kawałku po wystrzeleniu."
+msgstr "Ciężka drewniana strzała z metalowym grotem i lotkami. Znacznie cięższa od innych strzał, powoduje zwiększone obrażenia i jest stabilniejsza w locie przez co ma lepszą celność na dalszych dystansach. Ma spore szanse pozostać w jednym kawałku po wystrzeleniu."
 
 #: lang/json/AMMO_from_json.py
 msgid "unfletched sharpened metal arrow"
@@ -2808,7 +2810,7 @@ msgid ""
 "acid, sulfur is sometimes used as fuel for explosives.  Can be burned to "
 "produce acidic smoke, that is deadly to bacteria and humans alike, or "
 "oxidized to make paper-bleaching agents."
-msgstr "Garstka żółtych ziaren czystej siarki. Głównie używana do produkcji kwasu siarkowego, ale czasami jest stosowana jako paliwo do materiałów wybuchowych. Może być spalana w celu produkcji kwaśnego dymu, który jest zabójczy zarówno dla bakterii jak i dla ludzi, lub utleniony w celu produkcji wybielaczy do papieru."
+msgstr "Garstka żółtych ziaren czystej siarki. Głównie używana do produkcji kwasu siarkowego, ale czasami jest stosowana jako paliwo do materiałów wybuchowych. Może być spalana w celu produkcji kwaśnego dymu, który jest zabójczy zarówno dla bakterii jak i dla ludzi, lub utleniona w celu produkcji wybielaczy do papieru."
 
 #: lang/json/AMMO_from_json.py
 msgid "cement"
@@ -6496,7 +6498,7 @@ msgid ""
 "10mm Auto ammunition with 155gr bullets.  The 10mm Auto round is one of the "
 "most powerful pistol cartridges available, although its usefulness is "
 "limited by high recoil."
-msgstr ""
+msgstr "Amunicja 10mm Auto z 155-gramowymi pociskami. Nabój 10mm Auto jest jednym z najmocniejszych nabojów pistoletowych, ale wysoki odrzut ogranicza jego użyteczność."
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid ".45 Long Colt"
@@ -33159,6 +33161,19 @@ msgstr[2] ""
 msgstr[3] ""
 
 #. ~ Description for steel spear
+#: lang/json/GENERIC_from_json.py
+msgid "A stout wooden pole with a hand-forged steel spearhead."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "pipe spear"
+msgid_plural "pipe spears"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#. ~ Description for pipe spear
 #: lang/json/GENERIC_from_json.py
 msgid "A stout metal pole with a sharp point."
 msgstr ""
@@ -99326,7 +99341,7 @@ msgstr ""
 #: src/activity_handlers.cpp
 #, c-format
 msgid "You discover a %s!"
-msgstr ""
+msgstr "Odkrywasz %s!"
 
 #: src/activity_handlers.cpp
 msgid "You harvest some fluid bladders!"
@@ -99538,7 +99553,7 @@ msgstr[3] ""
 #: src/activity_handlers.cpp
 #, c-format
 msgid "Can't reload the %s."
-msgstr ""
+msgstr "Nie można przeładować %s."
 
 #: src/activity_handlers.cpp src/iexamine.cpp
 #, c-format
@@ -99718,11 +99733,11 @@ msgstr ""
 
 #: src/activity_handlers.cpp
 msgid "You finish reading."
-msgstr ""
+msgstr "Kończysz czytać."
 
 #: src/activity_handlers.cpp
 msgid "You finish waiting."
-msgstr ""
+msgstr "Kończysz czekać."
 
 #: src/activity_handlers.cpp
 #, c-format
@@ -103340,7 +103355,7 @@ msgstr ""
 
 #: src/construction.cpp
 msgid "You can't build that!"
-msgstr ""
+msgstr "Nie możesz tego zbudować!"
 
 #: src/construction.cpp
 msgid "Construct where?"
@@ -110260,7 +110275,7 @@ msgstr ""
 
 #: src/game.cpp
 msgid "Wait till dawn"
-msgstr ""
+msgstr "Czekaj do świtu"
 
 #: src/game.cpp
 msgid "Wait till noon"
@@ -110370,424 +110385,424 @@ msgstr ""
 
 #: src/game.cpp src/player.cpp
 msgid "You suddenly feel sharp pain for no reason."
-msgstr ""
+msgstr "Nagle czujesz ostry ból bez powodu."
 
 #: src/game.cpp
 msgid "You feel your body decaying."
-msgstr ""
+msgstr "Czujesz, że twoje ciało się rozkłada."
 
 #: src/game.cpp
 #, c-format
 msgid "The %s emits some smoke."
-msgstr ""
+msgstr "%s emituje nieco dymu."
 
 #: src/game.cpp
 #, c-format
 msgid "You have an urge to wear the %s."
-msgstr ""
+msgstr "Czujesz impuls żeby założyć %s."
 
 #: src/game.cpp
 #, c-format
 msgid "You have an urge to wield the %s."
-msgstr ""
+msgstr "Czujesz impuls żeby dzierżyć %s."
 
 #: src/game.cpp
 msgid "Your skin feels slithery."
-msgstr ""
+msgstr "Twoja skóra wydaje się oślizgła."
 
 #: src/game.cpp
 msgid "You fade into invisibility!"
-msgstr ""
+msgstr "Zanikasz i stajesz się niewidzialny!"
 
 #: src/game.cpp
 msgid "You can see through walls!"
-msgstr ""
+msgstr "Możesz widzieć przez ściany!"
 
 #: src/game.cpp
 msgid "You can see through everything!"
-msgstr ""
+msgstr "Możesz widzieć przez każdą przeszkodę!"
 
 #: src/game.cpp
 msgid "Your steps stop making noise."
-msgstr ""
+msgstr "Twoje kroki przestają wydawać dźwięki."
 
 #: src/game.cpp
 msgid "A glow of light forms around you."
-msgstr ""
+msgstr "Otacza cię aureola światła."
 
 #: src/game.cpp
 msgid "Your mental state feels protected."
-msgstr ""
+msgstr "Twój stan umysłu wydaje się być pod ochroną."
 
 #: src/game.cpp
 msgid "You feel insulated."
-msgstr ""
+msgstr "Czujesz się ocieplony i izolowany."
 
 #: src/game.cpp
 msgid "Your back feels strengthened."
-msgstr ""
+msgstr "Twoje plecy wydają się być wzmocnione."
 
 #: src/game.cpp
 msgid "You feel hungry."
-msgstr ""
+msgstr "Czujesz się głodny."
 
 #: src/game.cpp
 msgid "You feel thirsty."
-msgstr ""
+msgstr "Czujesz się spragniony."
 
 #: src/game.cpp
 msgid "You feel an evil presence..."
-msgstr ""
+msgstr "Czujesz złą obecność..."
 
 #: src/game.cpp
 msgid "You feel a tickle of insanity."
-msgstr ""
+msgstr "Czujesz łaskotanie szaleństwa."
 
 #: src/game.cpp
 msgid "Your skin prickles with radiation."
-msgstr ""
+msgstr "Twoja skóra kłuje od promieniowania."
 
 #: src/game.cpp
 msgid "You feel your genetic makeup degrading."
-msgstr ""
+msgstr "Czujesz jak twoja budowa genetyczna się degraduje."
 
 #: src/game.cpp
 msgid "You feel an otherworldly attention upon you..."
-msgstr ""
+msgstr "Czujesz pozaziemską uwagę skupioną na tobie..."
 
 #: src/game.cpp
 msgid "You feel a force pulling you inwards."
-msgstr ""
+msgstr "Czujesz siłę ciągnącą cię do wewnątrz."
 
 #: src/game.cpp
 msgid "You hear a rattling noise coming from inside yourself."
-msgstr ""
+msgstr "Słyszysz grzechoczący dźwięk dobiegający z wewnątrz ciebie."
 
 #: src/game.cpp
 msgid "You feel storms coming."
-msgstr ""
+msgstr "Czujesz nadchodzące burze."
 
 #: src/game.cpp
 msgid "You feel unwell."
-msgstr ""
+msgstr "Czujesz się niezdrowo."
 
 #: src/game.cpp
 #, c-format
 msgid "Str %s%d! "
-msgstr ""
+msgstr "Sił %s%d!"
 
 #: src/game.cpp
 #, c-format
 msgid "Dex %s%d! "
-msgstr ""
+msgstr "Zrę %s%d!"
 
 #: src/game.cpp
 #, c-format
 msgid "Int %s%d! "
-msgstr ""
+msgstr "Int %s%d! "
 
 #: src/game.cpp
 #, c-format
 msgid "Per %s%d! "
-msgstr ""
+msgstr "Per %s%d! "
 
 #: src/game.cpp
 #, c-format
 msgid "Speed %s%d! "
-msgstr ""
+msgstr "Szybkość %s%d!"
 
 #: src/game_inventory.cpp
 msgid "You don't have the necessary item at hand."
-msgstr ""
+msgstr "Nie masz niezbędnego przedmiotu w zasięgu ręki."
 
 #: src/game_inventory.cpp
 #, c-format
 msgid ""
 "Item hotkeys assigned: <color_ltgray>%d</color>/<color_ltgray>%d</color>"
-msgstr ""
+msgstr "Przypisane klawisze przedmiotów: <color_ltgray>%d</color>/<color_ltgray>%d</color>"
 
 #: src/game_inventory.cpp src/inventory_ui.cpp
 msgid "Your inventory is empty."
-msgstr ""
+msgstr "Twój ekwipunek jest pusty."
 
 #: src/game_inventory.cpp
 #, c-format
 msgid "You don't have a %s."
-msgstr ""
+msgstr "Nie masz %s."
 
 #: src/game_inventory.cpp
 msgid "Take off item"
-msgstr ""
+msgstr "Zdejmij przedmiot"
 
 #: src/game_inventory.cpp
 msgid "You don't wear anything."
-msgstr ""
+msgstr "Niczego nie nosisz."
 
 #: src/game_inventory.cpp src/player.cpp
 msgid "Wear item"
-msgstr ""
+msgstr "Ubierz przedmiot"
 
 #: src/game_inventory.cpp
 msgid "You don't have any items to wear."
-msgstr ""
+msgstr "Nie masz przedmiotów, które mógłbyś założyć."
 
 #: src/game_inventory.cpp
 #, c-format
 msgid "Container for %s"
-msgstr ""
+msgstr "Pojemnik na%s"
 
 #: src/game_inventory.cpp
 #, c-format
 msgid "You don't have a suitable container for carrying %s."
-msgstr ""
+msgstr "Nie masz odpowiedniego pojemnika do przenoszenia %s."
 
 #: src/game_inventory.cpp
 msgid "Can't pick up liquids"
-msgstr ""
+msgstr "Nie możesz podnosić płynów"
 
 #: src/game_inventory.cpp
 msgid "Too big to pick up"
-msgstr ""
+msgstr "Zbyt duże by podnieść"
 
 #: src/game_inventory.cpp
 msgid "Too heavy to pick up"
-msgstr ""
+msgstr "Zbyt ciężkie by podnieść"
 
 #: src/game_inventory.cpp
 msgid "YIELD"
-msgstr ""
+msgstr "EFEKT"
 
 #: src/game_inventory.cpp
 msgid "TIME"
-msgstr ""
+msgstr "CZAS"
 
 #: src/game_inventory.cpp
 msgid "Disassemble item"
-msgstr ""
+msgstr "Rozłóż przedmiot"
 
 #: src/game_inventory.cpp
 msgid "You don't have any items you could disassemble."
-msgstr ""
+msgstr "Nie masz przedmiotów, które mógłbyś rozłożyć."
 
 #: src/game_inventory.cpp
 msgid "ACTION"
-msgstr ""
+msgstr "AKCJA"
 
 #: src/game_inventory.cpp
 #, c-format
 msgid "Needs at least %d charge"
-msgstr ""
+msgstr "Potrzebuje co najmniej %d ładunek"
 
 #: src/game_inventory.cpp
 #, c-format
 msgid "Needs at least %d charges"
-msgstr ""
+msgstr "Potrzebuje co najmniej %d ładunków"
 
 #: src/game_inventory.cpp
 msgid "Install bionic"
-msgstr ""
+msgstr "Zainstaluj bionikę"
 
 #: src/game_inventory.cpp
 msgid "Use item"
-msgstr ""
+msgstr "Użyj przedmiotu"
 
 #: src/game_inventory.cpp
 msgid "You don't have any items you can use."
-msgstr ""
+msgstr "Nie masz przedmiotów, których mógłbyś użyć."
 
 #: src/game_inventory.cpp
 msgid "always"
-msgstr ""
+msgstr "zawsze"
 
 #: src/game_inventory.cpp
 msgid "SUCCESS CHANCE"
-msgstr ""
+msgstr "SZANSA POWODZENIA"
 
 #: src/game_inventory.cpp
 msgid "DAMAGE RISK"
-msgstr ""
+msgstr "RYZYKO USZKODZENIA"
 
 #: src/game_inventory.cpp
 #, c-format
 msgid "requires at least %s"
-msgstr ""
+msgstr "wymaga co najmniej %s"
 
 #: src/game_inventory.cpp
 msgid "is too difficult for you to modify"
-msgstr ""
+msgstr "jest dla ciebie zbyt trudne do zmodyfikowania"
 
 #: src/game_inventory.cpp
 msgid "Select gun to modify"
-msgstr ""
+msgstr "Wybierz broń palną do zmodyfikowania"
 
 #: src/game_inventory.cpp
 msgid "You don't have any guns to modify."
-msgstr ""
+msgstr "Nie masz żadnych spluw do zmodyfikowania."
 
 #: src/game_inventory.cpp
 msgid "<color_dkgray>?</color>"
-msgstr ""
+msgstr "<color_dkgray>?</color>"
 
 #: src/game_inventory.cpp
 msgid "martial arts"
-msgstr ""
+msgstr "sztuki walki"
 
 #: src/game_inventory.cpp
 #, c-format
 msgid "%s to %d"
-msgstr ""
+msgstr "%s do%d"
 
 #: src/game_inventory.cpp
 msgid "TRAINS"
-msgstr ""
+msgstr "UCZY"
 
 #: src/game_inventory.cpp
 msgid "RECIPES"
-msgstr ""
+msgstr "RECEPTURY"
 
 #: src/game_inventory.cpp
 msgid "FUN"
-msgstr ""
+msgstr "PRZYJEMOŚĆ"
 
 #: src/game_inventory.cpp
 msgid "CHAPTER IN"
-msgstr ""
+msgstr "ROZDZIAŁÓW"
 
 #: src/game_inventory.cpp
 msgid "You have nothing to read."
-msgstr ""
+msgstr "Nie masz co czytać."
 
 #: src/game_inventory.cpp
 #, c-format
 msgid "Steal from %s"
-msgstr ""
+msgstr "Ukradnij od %s"
 
 #: src/game_inventory.cpp
 #, c-format
 msgid "%s's inventory is empty."
-msgstr ""
+msgstr "Ekwipunek %s jest pusty."
 
 #: src/game_inventory.cpp
 msgid "Multidrop"
-msgstr ""
+msgstr "Upuść wiele"
 
 #: src/game_inventory.cpp
 msgid "To drop x items, type a number before selecting."
-msgstr ""
+msgstr "By upuścić x rzeczy, wpisz numer zanim wybierzesz."
 
 #: src/game_inventory.cpp
 msgid "You have nothing to drop."
-msgstr ""
+msgstr "Nie masz nic do upuszczenia."
 
 #: src/game_inventory.cpp
 msgid "Select two items to compare them."
-msgstr ""
+msgstr "Wybierz dwa przedmioty by je porównać."
 
 #: src/game_inventory.cpp
 msgid "There are no items to compare."
-msgstr ""
+msgstr "Nie ma przedmiotów do porównania."
 
 #: src/game_inventory.cpp
 msgid "Enter new letter (press SPACE for none, ESCAPE to cancel)."
-msgstr ""
+msgstr "Wprowadź nową literę (SPACJA = brak, ESC = anuluj)."
 
 #: src/gamemode.cpp
 msgid "Tutorial"
-msgstr ""
+msgstr "Tutorial"
 
 #: src/gamemode.cpp
 msgid "Defense"
-msgstr ""
+msgstr "Obrona"
 
 #: src/gates.cpp
 msgid "There's some buffoon in the way!"
-msgstr ""
+msgstr "Jakiś bufon stoi w przejściu!"
 
 #: src/gates.cpp
 #, c-format
 msgid "The %s is in the way!"
-msgstr ""
+msgstr "%s stoi w przejściu!"
 
 #: src/gates.cpp
 #, c-format
 msgid "%s is in the way!"
-msgstr ""
+msgstr "%s stoi w przejściu!"
 
 #: src/gates.cpp
 #, c-format
 msgid "That %s can only be closed from the inside."
-msgstr ""
+msgstr "To %s może być zamknięte tylko od wewnątrz."
 
 #: src/gates.cpp
 #, c-format
 msgid "That %s is already closed."
-msgstr ""
+msgstr "To %s już jest zamknięte."
 
 #: src/gates.cpp
 #, c-format
 msgid "You cannot close the %s."
-msgstr ""
+msgstr "Nie możesz zamknąć %s."
 
 #: src/gates.cpp
 msgid "You'll need to construct a seal to close the crate!"
-msgstr ""
+msgstr "Musisz skonstruować plombę by zamknąć skrzynię!"
 
 #: src/gates.cpp
 #, c-format
 msgid ""
 "You cannot close the %s from outside.  You must be inside the building."
-msgstr ""
+msgstr "Nie możesz zamknąć %s z zewnątrz. Musisz być wewnątrz budynku."
 
 #: src/gates.cpp
 #, c-format
 msgid "The %s is too big to just nudge out of the way."
-msgstr ""
+msgstr "%s jest zbyt duże by zepchnąć to z drogi."
 
 #: src/gates.cpp
 msgid "There is too much stuff in the way."
-msgstr ""
+msgstr "Zbyt dużo rzeczy zawadza w drodze."
 
 #: src/gates.cpp
 #, c-format
 msgid "You push the %s out of the way."
-msgstr ""
+msgstr "Popychasz %s z drogi"
 
 #: src/gates.cpp
 msgid "stuff"
-msgstr ""
+msgstr "rzeczy"
 
 #: src/grab.cpp
 msgid "No vehicle at grabbed point."
-msgstr ""
+msgstr "Brak pojazdu w punkcie chwytu."
 
 #: src/grab.cpp
 #, c-format
 msgid "The %s is too bulky for you to move by hand."
-msgstr ""
+msgstr "%s jest zbyt masywny byś mógł poruszać go ręcznie."
 
 #: src/grab.cpp
 #, c-format
 msgid "You strain yourself to move the %s!"
-msgstr ""
+msgstr "Wysilasz się by poruszyć %s!"
 
 #: src/grab.cpp
 #, c-format
 msgid "It takes some time to move the %s."
-msgstr ""
+msgstr "Poruszenie %s zajmuje trochę czasu."
 
 #: src/grab.cpp
 #, c-format
 msgid "You lack the strength to move the %s"
-msgstr ""
+msgstr "Brakuje ci siły by poruszyć %s"
 
 #: src/grab.cpp
 msgid "errors in movement code"
-msgstr ""
+msgstr "błąd w kodzie ruchu"
 
 #: src/grab.cpp
 #, c-format
 msgid "The %s collides with %s."
-msgstr ""
+msgstr "%s zderza się z %s."
 
 #: src/help.cpp
 msgid ""
@@ -110796,105 +110811,105 @@ msgid ""
 "  -- --     -- --  \n"
 "   /|\\       /|\\ \n"
 "  / | \\     / | \\"
-msgstr ""
+msgstr "  \\ | /     \\ | /\n   \\|/       \\|/ \n  -- --     -- --  \n   /|\\       /|\\ \n  / | \\     / | \\"
 
 #: src/help.cpp
 msgid ""
 "Please press one of the following for help on that topic:\n"
 "Press q or ESC to return to the game."
-msgstr ""
+msgstr "Proszę wcisnąć jeden z następujących by uzyskać pomoc w temacie:\nNaciśnij q lub ESC by powrócić do gry."
 
 #: src/help.cpp
 msgid "a: Introduction"
-msgstr ""
+msgstr "a: Wstęp"
 
 #: src/help.cpp
 msgid "b: Movement"
-msgstr ""
+msgstr "b: Poruszanie Się"
 
 #: src/help.cpp
 msgid "c: Viewing"
-msgstr ""
+msgstr "c: Obserwacja"
 
 #: src/help.cpp
 msgid "d: Hunger, Thirst, and Sleep"
-msgstr ""
+msgstr "d: Głód, Pragnienie i Sen"
 
 #: src/help.cpp
 msgid "e: Pain and Stimulants"
-msgstr ""
+msgstr "e: Ból i Stymulanty"
 
 #: src/help.cpp
 msgid "f: Addiction"
-msgstr ""
+msgstr "f: Uzależnienia"
 
 #: src/help.cpp
 msgid "g: Morale and Learning"
-msgstr ""
+msgstr "g: Morale i Uczenie się"
 
 #: src/help.cpp
 msgid "h: Radioactivity and Mutation"
-msgstr ""
+msgstr "h: Radioaktywność i Mutacje"
 
 #: src/help.cpp
 msgid "i: Bionics"
-msgstr ""
+msgstr "i: Bionika"
 
 #: src/help.cpp
 msgid "j: Crafting"
-msgstr ""
+msgstr "j: Wytwarzanie"
 
 #: src/help.cpp
 msgid "k: Traps"
-msgstr ""
+msgstr "k: Pułapki"
 
 #: src/help.cpp
 msgid "l: Items Overview"
-msgstr ""
+msgstr "l:  Przegląd Przedmiotów"
 
 #: src/help.cpp
 msgid "m: Combat"
-msgstr ""
+msgstr "m: Walka"
 
 #: src/help.cpp
 msgid "n: Unarmed Styles"
-msgstr ""
+msgstr "n: Style Walk Wręcz"
 
 #: src/help.cpp
 msgid "o: Survival Tips"
-msgstr ""
+msgstr "o: Porady w Przetrwaniu"
 
 #: src/help.cpp
 msgid "p: Driving"
-msgstr ""
+msgstr "p: Prowadzenie pojazdów"
 
 #: src/help.cpp
 msgid "1: List of item types and data"
-msgstr ""
+msgstr "1: Lista typów przedmiotów i danych"
 
 #: src/help.cpp
 msgid "2: Description of map symbols"
-msgstr ""
+msgstr "2: Opis symboli na mapie"
 
 #: src/help.cpp
 msgid "3: Description of gun types"
-msgstr ""
+msgstr "3: Opis rodzajów broni palnej"
 
 #: src/help.cpp
 msgid "4: Frequently Asked Questions (Some spoilers!)"
-msgstr ""
+msgstr "4: Najczęściej Zadawane Pytania (nieco spojlerów!)"
 
 #: src/help.cpp
 msgid " "
-msgstr ""
+msgstr " "
 
 #: src/help.cpp
 msgid "q: Return to game"
-msgstr ""
+msgstr "q: Powrót do gry"
 
 #: src/help.cpp
 msgid "Movement is performed using the numpad, or vikeys."
-msgstr ""
+msgstr "Ruch następuje za pomocą klawiatury numerycznej lub strzałek."
 
 #: src/help.cpp
 #, c-format
@@ -110902,11 +110917,11 @@ msgid ""
 "Each step will take 100 movement points (or more, depending on the terrain);"
 " you will then replenish a variable amount of movement points, depending on "
 "many factors (press %s to see the exact amount)."
-msgstr ""
+msgstr "Każdy krok to 100 punktów ruchu (lub więcej, w zależności od terenu; następnie pula punktów ruchu odnowi się o zmienną wartość, zależną od wielu czynników (naciśnij %s by zobaczyć dokładną wartosć)."
 
 #: src/help.cpp
 msgid "To attempt to hit a monster with your weapon, simply move into it."
-msgstr ""
+msgstr "By podjąć się ataku na potwora twoją bronią po prostu 'wejdź' na niego."
 
 #: src/help.cpp
 #, c-format
@@ -112414,7 +112429,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "You fall asleep..."
-msgstr ""
+msgstr "Zasypiasz..."
 
 #: src/iexamine.cpp
 msgid "Your legs are covered in the poppy's roots!"
@@ -112527,11 +112542,11 @@ msgstr ""
 #: src/iexamine.cpp
 #, c-format
 msgid "Fertilize the %s"
-msgstr ""
+msgstr "Nawieź %s"
 
 #: src/iexamine.cpp
 msgid "Use which fertilizer?"
-msgstr ""
+msgstr "Użyć którego nawozu?"
 
 #: src/iexamine.cpp
 msgid "This kiln already contains charcoal."
@@ -112604,7 +112619,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "Start fermenting cycle?"
-msgstr ""
+msgstr "Rozpocząć fermentację?"
 
 #: src/iexamine.cpp
 msgid "The vat is full, so you close the lid and start the fermenting cycle."
@@ -113517,6 +113532,10 @@ msgstr[2] ""
 msgstr[3] ""
 
 #: src/item.cpp
+msgid "Maximum range: "
+msgstr ""
+
+#: src/item.cpp
 msgid "<num> seconds"
 msgstr ""
 
@@ -113824,24 +113843,24 @@ msgstr ""
 
 #: src/item.cpp
 msgid "This container "
-msgstr ""
+msgstr "Ten pojemnik"
 
 #: src/item.cpp
 msgid "can be <info>resealed</info>, "
-msgstr ""
+msgstr "może być <info>ponownie uszczelniony</info>,"
 
 #: src/item.cpp
 msgid "is <info>watertight</info>, "
-msgstr ""
+msgstr "jest <info>wodoszczelny</info>m"
 
 #: src/item.cpp
 msgid "<good>preserves spoiling</good>, "
-msgstr ""
+msgstr "<good>zapobiega psuciu się jedzenia</good>,"
 
 #: src/item.cpp
 #, c-format
 msgid "can store <info>%s %s</info>."
-msgstr ""
+msgstr "może przechować<info>%s%s</info>."
 
 #: src/item.cpp
 #, c-format
@@ -113914,11 +113933,11 @@ msgstr ""
 
 #: src/item.cpp
 msgid "* This item is <bad>not repairable</bad>."
-msgstr ""
+msgstr "* Tego przedmiotu <bad>nie można naprawić</bad>."
 
 #: src/item.cpp
 msgid "* This item <good>does not conduct</good> electricity."
-msgstr ""
+msgstr "* Ten przedmiot <good>nie przewodzi</good> prądu elektrycznego."
 
 #: src/item.cpp
 msgid ""
@@ -114319,23 +114338,23 @@ msgstr ""
 
 #: src/item.cpp
 msgid "left"
-msgstr ""
+msgstr "lewy"
 
 #: src/item.cpp
 msgid "right"
-msgstr ""
+msgstr "prawy"
 
 #: src/item.cpp
 msgid "++"
-msgstr ""
+msgstr "++"
 
 #: src/item.cpp
 msgid "||"
-msgstr ""
+msgstr "||"
 
 #: src/item.cpp
 msgid ".."
-msgstr ""
+msgstr ".."
 
 #: src/item.cpp
 msgid "\\."
@@ -114343,52 +114362,52 @@ msgstr ""
 
 #: src/item.cpp
 msgid "|."
-msgstr ""
+msgstr "|."
 
 #: src/item.cpp
 msgid "|\\"
-msgstr ""
+msgstr "|\\"
 
 #: src/item.cpp
 msgid "isn't a weapon"
-msgstr ""
+msgstr "nie jest bronią"
 
 #: src/item.cpp
 msgid "is a gunmod and cannot be modded"
-msgstr ""
+msgstr "jest modem broni palnej i nie może być zmodyfikowany"
 
 #: src/item.cpp
 #, c-format
 msgid "already has a %s"
-msgstr ""
+msgstr "już posiada %s"
 
 #: src/item.cpp
 msgid "doesn't have a slot for this mod"
-msgstr ""
+msgstr "nie ma miejsca montażowego na ten mod"
 
 #: src/item.cpp
 #, c-format
 msgid "doesn't have enough room for another %s mod"
-msgstr ""
+msgstr "nie ma wystarczająco miejsca na kolejny %s mod"
 
 #: src/item.cpp
 #, c-format
 msgid "cannot have a %s"
-msgstr ""
+msgstr "nie może mieć %s"
 
 #: src/item.cpp
 msgid "isn't big enough to use that mod"
-msgstr ""
+msgstr "nie jest wystarczająco duży by używać tego moda"
 
 #. ~ %1$s - name of the gunmod, %2$s - name of the ammo
 #: src/item.cpp
 #, c-format
 msgid "%1$s cannot be used on %2$s"
-msgstr ""
+msgstr "%1$s nie może być użyty na %2$s"
 
 #: src/item.cpp
 msgid "is already waterproof"
-msgstr ""
+msgstr "już jest wodoodporny"
 
 #: src/item.cpp
 msgid "is already eminently reliable"
@@ -114554,669 +114573,669 @@ msgstr[3] ""
 
 #: src/item_action.cpp
 msgid "You do not have an item that can perform this action."
-msgstr ""
+msgstr "Nie masz przedmiotu który mógłby wykonać taką akcję."
 
 #: src/item_action.cpp
 msgid "You don't have any items with registered uses"
-msgstr ""
+msgstr "Nie masz żadnych przedmiotów z zarejestrowanymi użyciami"
 
 #: src/item_action.cpp
 msgid "Execute which action?"
-msgstr ""
+msgstr "Wykonać jaką akcję?"
 
 #: src/item_factory.cpp
 msgid "cannot specify revert_msg without revert_to"
-msgstr ""
+msgstr "nie można określić revert_msg bez revert_to"
 
 #: src/item_factory.cpp
 msgid "Invalid tool subtype"
-msgstr ""
+msgstr "Nieprawidłowy podtyp narzędzia"
 
 #: src/item_factory.cpp
 msgid "Test which group?"
-msgstr ""
+msgstr "Testuj którą grupę?"
 
 #. ~ Spawn group menu: Menu entry to exit menu
 #: src/item_factory.cpp src/iuse.cpp src/iuse.cpp
 msgid "cancel"
-msgstr ""
+msgstr "anuluj"
 
 #: src/item_factory.cpp
 msgid "Result of 100 spawns:"
-msgstr ""
+msgstr "Rezultat 100 spawnów:"
 
 #: src/item_location.cpp
 msgid "worn"
-msgstr ""
+msgstr "noszone"
 
 #: src/item_location.cpp
 msgid "inventory"
-msgstr ""
+msgstr "ekwipunek"
 
 #: src/itype.h
 msgid "click."
-msgstr ""
+msgstr "klik."
 
 #: src/iuse.cpp
 #, c-format
 msgid "You remove the radio modification from your %s!"
-msgstr ""
+msgstr "Zdejmujesz radio ze swojej %s!"
 
 #: src/iuse.cpp
 #, c-format
 msgid "You're already smoking a %s!"
-msgstr ""
+msgstr "Już teraz palisz %s!"
 
 #: src/iuse.cpp
 #, c-format
 msgid "You can't %s an item that's not solid!"
-msgstr ""
+msgstr "Nie możesz %s rzeczy która nie jest stała!"
 
 #: src/iuse.cpp src/iuse_actor.cpp
 #, c-format
 msgid "You can't %1$s %2$s because of the material it is made of."
-msgstr ""
+msgstr "Nie możesz %1$s %2$s z uwagi na materiał z którego jest ta rzecz wykonana."
 
 #: src/iuse.cpp src/iuse_actor.cpp
 msgid "(To delete, input one '.')\n"
-msgstr ""
+msgstr "(By skasować, wprowadź jedną '.')\n"
 
 #: src/iuse.cpp src/iuse_actor.cpp
 #, c-format
 msgid "%s what?"
-msgstr ""
+msgstr "%s co?"
 
 #: src/iuse.cpp src/iuse_actor.cpp
 #, c-format
 msgid "%s on what?"
-msgstr ""
+msgstr "%s na czym?"
 
 #: src/iuse.cpp src/iuse_actor.cpp
 msgid "You do not have that item!"
-msgstr ""
+msgstr "Nie masz tego przedmiotu!"
 
 #: src/iuse.cpp
 msgid "Are you sure you want to drink... this?"
-msgstr ""
+msgstr "Jesteś pewien że chcesz wypić... to coś?"
 
 #: src/iuse.cpp
 msgctxt "memorial_male"
 msgid "Ate a sewage sample."
-msgstr ""
+msgstr "Spożyłeś próbkę ścieków."
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
 msgid "Ate a sewage sample."
-msgstr ""
+msgstr "Spożyłaś próbkę ścieków."
 
 #: src/iuse.cpp
 #, c-format
 msgid "You take some %s."
-msgstr ""
+msgstr "Zażywasz trochę %s."
 
 #: src/iuse.cpp
 #, c-format
 msgid "Wow!  This %s has a kick."
-msgstr ""
+msgstr "Wow! Ten %s ma kopa."
 
 #: src/iuse.cpp
 msgid "You don't have anything to light it with!"
-msgstr ""
+msgstr "Nie masz niczego czym mógłbyś to zapalić!"
 
 #: src/iuse.cpp
 #, c-format
 msgid ""
 "Please let the devs know you should be able to smoke a %s but the smoking "
 "code does not know how."
-msgstr ""
+msgstr "Powiadom deweloperów że powinieneś móc palić %s ale kod palenia nie wie jak."
 
 #: src/iuse.cpp
 #, c-format
 msgid "You light a %s."
-msgstr ""
+msgstr "Zapalasz %s."
 
 #: src/iuse.cpp
 msgid "Ugh, too much smoke... you feel nasty."
-msgstr ""
+msgstr "Ugh, za dużo dymu... czujesz się paskudnie."
 
 #: src/iuse.cpp
 msgid "You take a puff from your electronic cigarette."
-msgstr ""
+msgstr "Zaciągasz się elektronicznym papierosem."
 
 #: src/iuse.cpp
 msgid "You inhale some vapor from your advanced electronic cigarette."
-msgstr ""
+msgstr "Wciągasz nieco oparu z twojego zaawansowanego elektronicznego papierosa."
 
 #: src/iuse.cpp
 msgid "You don't have any nicotine liquid!"
-msgstr ""
+msgstr "Nie masz płynu nikotynowego!"
 
 #: src/iuse.cpp
 msgid "Ugh, too much nicotine... you feel nasty."
-msgstr ""
+msgstr "Ugh, za dużo nikotyny... czujesz się paskudnie."
 
 #: src/iuse.cpp
 msgid "You take some antibiotics."
-msgstr ""
+msgstr "Bierzesz nieco antybiotyków."
 
 #: src/iuse.cpp
 msgid "<npcname> takes some antibiotics."
-msgstr ""
+msgstr "<npcname> bierze nieco antybiotyków."
 
 #: src/iuse.cpp
 msgid "The muscle spasms start to go away."
-msgstr ""
+msgstr "Spazmy mięśni zaczynają ustawać."
 
 #: src/iuse.cpp
 msgid "The medication does nothing to help the spasms."
-msgstr ""
+msgstr "Lek nie pomaga by załagodzić spazmy."
 
 #: src/iuse.cpp
 #, c-format
 msgid "You're out of %s."
-msgstr ""
+msgstr "Skończyły ci się %s."
 
 #: src/iuse.cpp src/iuse_actor.cpp
 #, c-format
 msgid "You use your %s."
-msgstr ""
+msgstr "Używasz swojego %s."
 
 #: src/iuse.cpp
 msgid "You wash the slime from your eyes."
-msgstr ""
+msgstr "Zmywasz śluz ze swoich oczu."
 
 #: src/iuse.cpp
 msgid "<npcname> uses some fungicide"
-msgstr ""
+msgstr "<npcname> używa nieco preparatu grzybobójczego"
 
 #: src/iuse.cpp
 msgid "You use your fungicide."
-msgstr ""
+msgstr "Używasz swojego preparatu grzybobójczego."
 
 #: src/iuse.cpp
 msgid "You feel a burning sensation under your skin that quickly fades away."
-msgstr ""
+msgstr "Masz uczucie rozpalenia pod swoją skórą, które szybko znika."
 
 #: src/iuse.cpp
 msgid "Your skin grows warm for a moment."
-msgstr ""
+msgstr "Twoja skóra rozgrzewa się na moment."
 
 #: src/iuse.cpp
 msgid "You take some antifungal medication."
-msgstr ""
+msgstr "Zażywasz nieco leków grzybobójczych."
 
 #: src/iuse.cpp
 msgid "You take some antiparasitic medication."
-msgstr ""
+msgstr "Zażywasz nieco leków przeciwpasożytniczych."
 
 #: src/iuse.cpp
 msgid "The itching sensation under your skin fades away."
-msgstr ""
+msgstr "Swędzenie pod twoją skórą zanika."
 
 #: src/iuse.cpp
 msgid "Your bowels clench as something inside them dies."
-msgstr ""
+msgstr "Twoje jelita ściskają się gdy coś w nich umiera."
 
 #: src/iuse.cpp
 msgid "Your bowels spasm painfully as something inside them dies."
-msgstr ""
+msgstr "Twoje jelita łapie skurcz gdy coś w nich umiera."
 
 #: src/iuse.cpp
 msgid "Your skin prickles and your veins itch for a few moments."
-msgstr ""
+msgstr "Twoja skóra szczypie, a żyły swędzą przez kilka chwil."
 
 #: src/iuse.cpp
 msgid "The pressure inside your head feels better already."
-msgstr ""
+msgstr "Ciśnienie wewnątrz twojej głowy od razu wydaje się lepsze."
 
 #: src/iuse.cpp
 msgid "Your head pounds like a sore tooth as something inside of it dies."
-msgstr ""
+msgstr "Twoja głowa łupie jak bolący ząb, gdy coś wewnątrz niej umiera."
 
 #: src/iuse.cpp
 msgid "The stiffness in your joints goes away."
-msgstr ""
+msgstr "Sztywność w twoich stawach znika."
 
 #: src/iuse.cpp
 msgid "The pain in your joints goes away."
-msgstr ""
+msgstr "Ból stawów znika."
 
 #: src/iuse.cpp
 msgid "You take some anticonvulsant medication."
-msgstr ""
+msgstr "Zażywasz nieco leków przeciw konwulsjom."
 
 #: src/iuse.cpp
 msgid "You stop shaking."
-msgstr ""
+msgstr "Przestajesz drżeć."
 
 #: src/iuse.cpp
 msgid ""
 "You scarf down the delicious brownie.  It tastes a little funny though..."
-msgstr ""
+msgstr "Pałaszujesz pyszne ciacho. Smakuje nieco zabawnie..."
 
 #: src/iuse.cpp
 msgid "You snort a bump of coke."
-msgstr ""
+msgstr "Wciągasz grudkę koki."
 
 #: src/iuse.cpp
 msgid "You smoke your meth."
-msgstr ""
+msgstr "Palisz swoją metę."
 
 #: src/iuse.cpp
 msgid "The world seems to sharpen."
-msgstr ""
+msgstr "Świat się wyostrza."
 
 #: src/iuse.cpp
 msgid "You snort some crystal meth."
-msgstr ""
+msgstr "Wciągasz nieco kryształowej mety."
 
 #: src/iuse.cpp
 msgid "You inject the vaccine."
-msgstr ""
+msgstr "Wstrzykujesz szczepionkę."
 
 #: src/iuse.cpp
 msgid "You feel tough."
-msgstr ""
+msgstr "Czujesz się mocny."
 
 #: src/iuse.cpp
 msgid "You no longer need to fear the flu."
-msgstr ""
+msgstr "Nie musisz się już bać grypy."
 
 #: src/iuse.cpp
 msgid "Are you sure you want to eat this? It looks poisonous..."
-msgstr ""
+msgstr "Jesteś pewien, że chcesz to zjeść? Wygląda na trujące..."
 
 #: src/iuse.cpp
 #, c-format
 msgid "This %s probably meant a lot to someone at one time."
-msgstr ""
+msgstr "Ten %s prawdopodobnie wiele dla kogoś znaczył swego czasu."
 
 #: src/iuse.cpp
 msgid "You feel completely exhausted."
-msgstr ""
+msgstr "Czujesz się kompletnie wyczerpany."
 
 #: src/iuse.cpp
 msgid "You feel a bit wobbly."
-msgstr ""
+msgstr "Czujesz się nieco chwiejnie."
 
 #: src/iuse.cpp
 msgid "You suddenly feel hollow inside."
-msgstr ""
+msgstr "Nagle czujesz się pusty w środku."
 
 #: src/iuse.cpp
 msgid "You feel very sleepy..."
-msgstr ""
+msgstr "Jesteś bardzo śpiący..."
 
 #: src/iuse.cpp
 msgid "You eat the datura seed."
-msgstr ""
+msgstr "Zjadasz nasiono datury."
 
 #: src/iuse.cpp
 #, c-format
 msgid "You take some %s"
-msgstr ""
+msgstr "Bierzesz nieco %s"
 
 #: src/iuse.cpp
 msgid "You take a puff from your inhaler."
-msgstr ""
+msgstr "Wciągasz haust z inhalatora."
 
 #: src/iuse.cpp
 #, c-format
 msgid "You breathe deeply from the %s"
-msgstr ""
+msgstr "Oddychasz głęboko z %s"
 
 #: src/iuse.cpp
 msgid "This looks unhealthy, sure you want to drink it?"
-msgstr ""
+msgstr "To wygląda niezdrowo, jesteś pewien że chcesz to wypić?"
 
 #: src/iuse.cpp
 msgid "This looks unhealthy, sure you want to eat it?"
-msgstr ""
+msgstr "To wygląda niezdrowo, jesteś pewien że chcesz to zjeść?"
 
 #: src/iuse.cpp
 msgid "Blech, that burns your throat!"
-msgstr ""
+msgstr "Blech, to pali twoje gardło!"
 
 #: src/iuse.cpp
 msgid "The meal is revitalizing."
-msgstr ""
+msgstr "Posiłek jest ożywiający."
 
 #: src/iuse.cpp
 msgid "Oddly enough, this doesn't taste so bad."
-msgstr ""
+msgstr "Co dziwne, to nie smakuje źle."
 
 #: src/iuse.cpp
 #, c-format
 msgid "You chew your %s."
-msgstr ""
+msgstr "Żujesz swój %s."
 
 #: src/iuse.cpp
 #, c-format
 msgid "The %s sears your insides white-hot, and you collapse to the ground!"
-msgstr ""
+msgstr "%s rozpala twoje wnętrzności do białości, i padasz na ziemię!"
 
 #: src/iuse.cpp
 msgid "<npcname> writhes in agony and collapses to the ground!"
-msgstr ""
+msgstr "<npcname> wije się w agonii i upada na ziemię!"
 
 #: src/iuse.cpp
 #, c-format
 msgid ""
 "That was some toxic %s!  Let's stick with Marloss next time, that's safe."
-msgstr ""
+msgstr "To był toksyczny %s! Lepiej się trzymać Marloss następnym razem, jest bezpieczne."
 
 #: src/iuse.cpp
 msgctxt "memorial_male"
 msgid "Suffered a toxic marloss/mutagen reaction."
-msgstr ""
+msgstr "Odniosłeś skutki toksycznej reakcji na marloss/mutagen."
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
 msgid "Suffered a toxic marloss/mutagen reaction."
-msgstr ""
+msgstr "Odniosłaś skutki toksycznej reakcji na marloss/mutagen."
 
 #: src/iuse.cpp
 msgid "This is a contaminant.  We reject it from the Mycus."
-msgstr ""
+msgstr "To jest skażenie. Odrzucamy to z dala od Mykus."
 
 #: src/iuse.cpp
 #, c-format
 msgid "We empty the %s and reflexively dispense spores onto the mess."
-msgstr ""
+msgstr "Opróżniamy %s i instynktownie wydzielamy zarodniki na ten kłopot."
 
 #: src/iuse.cpp
 msgctxt "memorial_male"
 msgid "Destroyed a harmful invader."
-msgstr ""
+msgstr "Zniszczyłeś szkodliwego najeźdźcę."
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
 msgid "Destroyed a harmful invader."
-msgstr ""
+msgstr "Zniszczyłaś szkodliwego najeźdźcę."
 
 #: src/iuse.cpp
 msgid "We must eliminate this contaminant at the earliest opportunity."
-msgstr ""
+msgstr "Musimy wyeliminować skażenie przy najbliższej okazji."
 
 #. ~ Recall that Marloss mutations made you feel warmth spreading throughout
 #. your body.  That's gone.
 #: src/iuse.cpp
 msgid "You feel a cold burn inside, as though everything warm has left you."
-msgstr ""
+msgstr "Czujesz wewnątrz zimny ogień, jakby całe ciepło cię opuściło."
 
 #: src/iuse.cpp
 msgid ""
 "It was probably that marloss -- how did you know to call it \"marloss\" "
 "anyway?"
-msgstr ""
+msgstr "To prawdopodobnie był ten marloss - i jak w ogóle wiesz, że nazywa się \"marloss\"?"
 
 #: src/iuse.cpp
 msgid "Best to stay clear of that alien crap in future."
-msgstr ""
+msgstr "Lepiej się trzymać z dala od tego obcego gówna w przyszłości."
 
 #: src/iuse.cpp
 msgctxt "memorial_male"
 msgid "Burned out a particularly nasty fungal infestation."
-msgstr ""
+msgstr "Wypaliłeś niezwykle paskudną infekcję grzybiczą."
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
 msgid "Burned out a particularly nasty fungal infestation."
-msgstr ""
+msgstr "Wypaliłaś niezwykle paskudną infekcję grzybiczą."
 
 #. ~"Uh-uh" is a sound used for "nope", "no", etc.
 #: src/iuse.cpp
 msgid ""
 "After what happened that last time?  uh-uh.  You're not drinking that "
 "chemical stuff."
-msgstr ""
+msgstr "Po tym co się stało ostatnim razem? a-ha. Nie wypijesz tego chemicznego świństwa."
 
 #: src/iuse.cpp
 msgctxt "memorial_male"
 msgid "Consumed mutagen."
-msgstr ""
+msgstr "Skonsumowałeś mutagen."
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
 msgid "Consumed mutagen."
-msgstr ""
+msgstr "Skonsumowałaś mutagen."
 
 #: src/iuse.cpp
 msgid "You quiver with anticipation..."
-msgstr ""
+msgstr "Drżysz z oczekiwania..."
 
 #: src/iuse.cpp
 msgid "Oops.  You must've blacked out for a minute there."
-msgstr ""
+msgstr "Oops. Chyba straciłeś przytomność na chwilę."
 
 #: src/iuse.cpp
 msgid "<npcname> suddenly collapses!"
-msgstr ""
+msgstr "<npcname> nagle upada!"
 
 #: src/iuse.cpp
 msgid "You suddenly feel dizzy, and collapse to the ground."
-msgstr ""
+msgstr "Czujesz nagłe zawroty głowy, i upadasz na ziemię."
 
 #: src/iuse.cpp
 msgid "<npcname> suddenly collapses to the ground!"
-msgstr ""
+msgstr "<npcname> nagle upada na ziemię!"
 
 #: src/iuse.cpp
 msgid "Something strains mightily for a moment...and then..you're...FREE!"
-msgstr ""
+msgstr "Coś wysila się potężnie przez moment... i wtedy... jesteś... WOLNY!"
 
 #: src/iuse.cpp
 msgid "Your appetite for blood fades."
-msgstr ""
+msgstr "Twój apetyt na krew zanika."
 
 #: src/iuse.cpp
 msgid "You feel extremely Bugged."
-msgstr ""
+msgstr "Czujesz się ekstremalnie Zbugowany."
 
 #: src/iuse.cpp
 msgid "You stagger with a piercing headache!"
-msgstr ""
+msgstr "Słaniasz się na nogach z przeszywającego bólu głowy!"
 
 #: src/iuse.cpp
 msgid "You feel very Bugged."
-msgstr ""
+msgstr "Czujesz się bardzo Zbugowany."
 
 #: src/iuse.cpp
 msgid "Your head throbs with memories of your life, before all this..."
-msgstr ""
+msgstr "Twoja głowa pęka od wspomnień twojego życia, sprzed tego wszystkiego..."
 
 #: src/iuse.cpp
 msgid "You feel Bugged."
-msgstr ""
+msgstr "Czujesz się Zbugowany."
 
 #: src/iuse.cpp
 msgid "Images of your past life flash before you."
-msgstr ""
+msgstr "Obrazy twojego dawnego życia przelatują ci przed oczami."
 
 #. ~"Uh-uh" is a sound used for "nope", "no", etc.
 #: src/iuse.cpp
 msgid ""
 "After what happened that last time?  uh-uh.  You're not injecting that "
 "chemical stuff."
-msgstr ""
+msgstr "Po tym co się stało ostatnim razem? a-ha. Nie wstrzykniesz sobie tego chemicznego świństwa."
 
 #: src/iuse.cpp
 msgctxt "memorial_male"
 msgid "Injected mutagen."
-msgstr ""
+msgstr "Wstrzyknąłeś sobie mutagen."
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
 msgid "Injected mutagen."
-msgstr ""
+msgstr "Wstrzyknęłaś sobie mutagen."
 
 #: src/iuse.cpp
 msgid "Oh, yeah! That's the stuff!"
-msgstr ""
+msgstr "Ooo, tak! To jest TO!"
 
 #: src/iuse.cpp
 msgid "YES!  YES!  YESSS!!!"
-msgstr ""
+msgstr "TAK! TAK! TAKKKK!!!"
 
 #: src/iuse.cpp
 msgid "You inject yourself."
-msgstr ""
+msgstr "Aplikujesz sobie zastrzyk."
 
 #: src/iuse.cpp
 msgid "You inject yoursel-arRGH!"
-msgstr ""
+msgstr "Aplikujesz sobie zastrzy-arRGH!."
 
 #: src/iuse.cpp
 msgid "You scream in agony!!"
-msgstr ""
+msgstr "Wrzeszczysz w agonii!"
 
 #: src/iuse.cpp
 msgid "an agonized scream!"
-msgstr ""
+msgstr "wrzask agonii!"
 
 #: src/iuse.cpp
 msgid "You writhe and collapse to the ground."
-msgstr ""
+msgstr "Wijesz się i padasz na ziemię."
 
 #: src/iuse.cpp
 msgid "<npcname> writhes and collapses to the ground."
-msgstr ""
+msgstr "<npcname> wije się i upada na ziemię!"
 
 #: src/iuse.cpp
 msgid "It all goes dark..."
-msgstr ""
+msgstr "Wszystko staje się czarne..."
 
 #: src/iuse.cpp
 msgid "<npcname> suddenly falls over!"
-msgstr ""
+msgstr "<npcname> nagle przewraca się!"
 
 #: src/iuse.cpp
 msgid "You feel cleansed."
-msgstr ""
+msgstr "Czujesz się oczyszczony."
 
 #: src/iuse.cpp
 msgid "You feel a slight itching inside, but it passes."
-msgstr ""
+msgstr "Czujesz lekkie swędzenie wewnątrz, ale to mija."
 
 #: src/iuse.cpp
 msgctxt "memorial_male"
 msgid "Consumed purifier."
-msgstr ""
+msgstr "Skonsumowałeś czyścik."
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
 msgid "Consumed purifier."
-msgstr ""
+msgstr "Skonsumowałaś czyścik."
 
 #: src/iuse.cpp
 msgctxt "memorial_male"
 msgid "Injected purifier."
-msgstr ""
+msgstr "Wstrzyknąłeś sobie czyścik."
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
 msgid "Injected purifier."
-msgstr ""
+msgstr "Wstrzyknęłaś sobie czyścik."
 
 #: src/iuse.cpp
 msgid "You feel a distinct burning inside, but it passes."
-msgstr ""
+msgstr "Czujesz wyraźne palenie wewnątrz, ale to mija."
 
 #: src/iuse.cpp
 msgid "Feels like you're on fire, but you're OK."
-msgstr ""
+msgstr "Czujesz jakby cię podpalono, ale wszystko jest OK."
 
 #. ~"Uh-uh" is a sound used for "nope", "no", etc.
 #: src/iuse.cpp
 msgid ""
 "After what happened that last time?  uh-uh.  You're not eating that alien "
 "poison sac."
-msgstr ""
+msgstr "Po tym co się stało ostatnim razem? a-ha. Nie zjesz tego obcego pęcherza z trucizną."
 
 #: src/iuse.cpp
 msgid "We no longer require this scaffolding.  We reserve it for other uses."
-msgstr ""
+msgstr "Nie potrzebujemy więcej tego rusztowania. Rezerwujemy je na inne potrzeby."
 
 #: src/iuse.cpp
 msgctxt "memorial_male"
 msgid "Ate a marloss berry."
-msgstr ""
+msgstr "Zjadłeś jagodę marloss."
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
 msgid "Ate a marloss berry."
-msgstr ""
+msgstr "Zjadłaś jagodę marloss."
 
 #: src/iuse.cpp
 msgid ""
 "As you eat the berry, you have a near-religious experience, feeling at one "
 "with your surroundings..."
-msgstr ""
+msgstr "Gdy zjadasz jagodę, masz niemal religijne przeżycie, czując zjednoczenie ze swoim otoczeniem..."
 
 #: src/iuse.cpp
 msgid "This berry tastes extremely strange!"
-msgstr ""
+msgstr "Ta jagoda smakuje niezwykle osobliwie!"
 
 #: src/iuse.cpp
 msgid "This berry makes you feel better all over."
-msgstr ""
+msgstr "Ta jagoda sprawia, że cały czujesz się lepiej."
 
 #: src/iuse.cpp
 msgid "This berry is delicious, and very filling!"
-msgstr ""
+msgstr "Ta jagoda jest przepyszna, i bardzo pożywna!"
 
 #: src/iuse.cpp
 msgid "You take one bite, and immediately vomit!"
-msgstr ""
+msgstr "Bierzesz jeden gryz, i natychmiast wymiotujesz!"
 
 #: src/iuse.cpp
 msgid ""
 "You feel a familiar warmth, but suddenly it surges into an excruciating burn"
 " as you convulse, vomiting, and black out..."
-msgstr ""
+msgstr "Czujesz znajome ciepło, ale nagle napływa nieznośne pieczenie, konwulsje, wymioty i utrata przytomności..."
 
 #: src/iuse.cpp
 msgctxt "memorial_male"
 msgid "Suffered Marloss Rejection."
-msgstr ""
+msgstr "Odniosłeś skutki Odrzucenia Marloss."
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
 msgid "Suffered Marloss Rejection."
-msgstr ""
+msgstr "Odniosłaś skutki Odrzucenia Marloss."
 
 #: src/iuse.cpp
 msgid ""
 "You feel a familiar warmth, but suddenly it surges into painful burning as "
 "you convulse and collapse to the ground..."
-msgstr ""
+msgstr "Czujesz znajome ciepło, które nagle zmienia się w bolesne pieczenie powodujące konwulsje, i upadasz na ziemię..."
 
 #: src/iuse.cpp
 msgctxt "memorial_male"
 msgid "Opened the Marloss Gateway."
-msgstr ""
+msgstr "Otworzyłeś Bramę Marloss."
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
 msgid "Opened the Marloss Gateway."
-msgstr ""
+msgstr "Otworzyłaś Bramę Marloss."
 
 #: src/iuse.cpp src/monattack.cpp
 msgid ""
 "You wake up in a marloss bush.  Almost *cradled* in it, actually, as though "
 "it grew there for you."
-msgstr ""
+msgstr "Budzisz się w krzaku marloss. Prawie jak w kołysce, jakby wyrósł tam dla ciebie."
 
 #. ~ Beginning to hear the Mycus while conscious: that's it speaking
 #: src/iuse.cpp
 msgid ""
 "unity.  together we have reached the door.  we provide the final key.  now "
 "to pass through..."
-msgstr ""
+msgstr "zjednoczenie. razem dotarliśmy do drzwi. zapewniamy ostatni klucz. teraz tylko przejść przezeń..."
 
 #: src/iuse.cpp
 msgid "You feel a strange warmth spreading throughout your body..."
-msgstr ""
+msgstr "Czujesz dziwne ciepło rozpraszające się po twoim ciele..."
 
 #. ~"Uh-uh" is a sound used for "nope", "no", etc.  "Drek" is a borrowed
 #. synonym for "shit".
@@ -115224,107 +115243,107 @@ msgstr ""
 msgid ""
 "After what happened that last time?  uh-uh.  You're not eating that alien "
 "drek."
-msgstr ""
+msgstr "Po tym co się stało ostatnim razem? a-ha. Nie zjesz tej obcej lipy."
 
 #: src/iuse.cpp
 #, c-format
 msgid "Sure you want to eat the %s? You could plant it in a mound of dirt."
-msgstr ""
+msgstr "Na pewno chcesz zjeść %s? Mógłbyś to zasiać w kopcu ziemi."
 
 #: src/iuse.cpp
 msgctxt "memorial_male"
 msgid "Ate a marloss seed."
-msgstr ""
+msgstr "Zjadłeś nasiono marloss."
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
 msgid "Ate a marloss seed."
-msgstr ""
+msgstr "Zjadłaś nasiono marloss."
 
 #: src/iuse.cpp
 msgid ""
 "As you eat the seed, you have a near-religious experience, feeling at one "
 "with your surroundings..."
-msgstr ""
+msgstr "Gdy zjadasz nasiono, masz niemal religijne przeżycie, czując zjednoczenie ze swoim otoczeniem..."
 
 #: src/iuse.cpp
 msgid "This seed tastes extremely strange!"
-msgstr ""
+msgstr "To nasiono smakuje niezwykle osobliwie!"
 
 #: src/iuse.cpp
 msgid "This seed makes you feel better all over."
-msgstr ""
+msgstr "To nasiono sprawia, że cały czujesz się lepiej."
 
 #: src/iuse.cpp
 msgid "This seed is delicious, and very filling!"
-msgstr ""
+msgstr "To nasiono jest przepyszne, i bardzo pożywne!"
 
 #. ~"Uh-uh" is a sound used for "nope", "no", etc.
 #: src/iuse.cpp
 msgid ""
 "After what happened that last time? uh-uh.  You're not eating that alien "
 "slime."
-msgstr ""
+msgstr "Po tym co się stało ostatnim razem? a-ha. Nie zjesz tego obcego śluzu."
 
 #: src/iuse.cpp
 msgctxt "memorial_male"
 msgid "Ate some marloss jelly."
-msgstr ""
+msgstr "Zjadłeś galaretkę marloss."
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
 msgid "Ate some marloss jelly."
-msgstr ""
+msgstr "Zjadłaś galaretkę marloss."
 
 #: src/iuse.cpp
 msgid ""
 "As you eat the jelly, you have a near-religious experience, feeling at one "
 "with your surroundings..."
-msgstr ""
+msgstr "Gdy zjadasz jagodę, masz niemal religijne przeżycie, czując zjednoczenie ze swoim otoczeniem..."
 
 #: src/iuse.cpp
 msgid "This jelly tastes extremely strange!"
-msgstr ""
+msgstr "Ta galaretka smakuje niezwykle osobliwie!"
 
 #: src/iuse.cpp
 msgid "This jelly makes you feel better all over."
-msgstr ""
+msgstr "Ta galaretka sprawia, że cały czujesz się lepiej."
 
 #: src/iuse.cpp
 msgid "This jelly is delicious, and very filling!"
-msgstr ""
+msgstr "Ta galaretka jest przepyszna, i bardzo pożywna!"
 
 #: src/iuse.cpp
 msgctxt "memorial_male"
 msgid "Became one with the Mycus."
-msgstr ""
+msgstr "Stałeś się jednością z Mykus."
 
 #: src/iuse.cpp
 msgctxt "memorial_female"
 msgid "Became one with the Mycus."
-msgstr ""
+msgstr "Stałaś się jednością z Mykus."
 
 #: src/iuse.cpp
 msgid ""
 "The apple tastes amazing, and you finish it quickly, not even noticing the "
 "lack of any core or seeds."
-msgstr ""
+msgstr "Jabłko smakuje wyśmienicie, i szybko je kończysz, nie zauważając nawet braku jakiegokolwiek jądra lub nasion."
 
 #: src/iuse.cpp
 msgid "You feel better all over."
-msgstr ""
+msgstr "Czujesz się ogólnie lepiej."
 
 #: src/iuse.cpp
 msgid ""
 "As the apple settles in, you feel ecstasy radiating through every part of "
 "your body..."
-msgstr ""
+msgstr "Gdy jabłko sadowi się w żołądku, czujesz ekstazę promieniującą z każdej części ciała..."
 
 #: src/iuse.cpp
 msgid ""
 "Your eyes roll back in your head.  Everything dissolves into a blissful "
 "haze..."
-msgstr ""
+msgstr "Twoje oczy wywijają koziołka. Wszystko rozmywa się w błogiej mgle..."
 
 #. ~ The Mycus does not use the term (or encourage the concept of) "you".  The
 #. PC is a local/native organism, but is now the Mycus.
@@ -115333,677 +115352,677 @@ msgstr ""
 #. ~ We are the Mycus.
 #: src/iuse.cpp
 msgid "We welcome into us.  We have endured long in this forbidding world."
-msgstr ""
+msgstr "Witamy cię w sobie. Przetrwaliśmy długo w tym nieprzyjaznym świecie."
 
 #: src/iuse.cpp
 msgid "The natives have a saying: \"E Pluribus Unum\"  Out of many, one."
-msgstr ""
+msgstr "Miejscowi mają powiedzenie: \"E Pluribus Unum\"  Z wielu, jeden."
 
 #: src/iuse.cpp
 msgid ""
 "We welcome the union of our lines in our local guide.  We will prosper, and "
 "unite this world."
-msgstr ""
+msgstr "Witamy unię naszych linii w naszym lokalnym przewodniku. Będziemy się rozwijać i zjednoczymy ten świat."
 
 #: src/iuse.cpp
 msgid "Even now, our fruits adapt to better serve local physiology."
-msgstr ""
+msgstr "Nawet teraz, nasze owoce adaptują się by lepiej służyć lokalnej fizjologii."
 
 #: src/iuse.cpp
 msgid ""
 "As, in time, shall we adapt to better welcome those who have not received "
 "us."
-msgstr ""
+msgstr "A z upływem czasu zaadaptujemy się by lepiej przywitać tych co nasz dotąd nie otrzymali."
 
 #: src/iuse.cpp
 msgid "This apple tastes really weird!  You're not sure it's good for you..."
-msgstr ""
+msgstr "To jabłko smakuje naprawdę dziwnie! Nie jesteś pewien czy jest dla ciebie dobre..."
 
 #: src/iuse.cpp
 #, c-format
 msgid "Put the %s where?"
-msgstr ""
+msgstr "Położyć %s gdzie?"
 
 #: src/iuse.cpp
 msgid "The dog seems to like you!"
-msgstr ""
+msgstr "Piesek chyba cię lubi!"
 
 #: src/iuse.cpp
 msgid ""
 "The cat seems to like you!  Or maybe it just tolerates your presence better."
 "  It's hard to tell with cats."
-msgstr ""
+msgstr "Kotek chyba cię lubi. Lub może bardziej toleruje twoją obecność. Trudno powiedzieć w przypadku kotów."
 
 #: src/iuse.cpp
 msgid "You want to feed it the dog food, but it bites your fingers!"
-msgstr ""
+msgstr "Chcesz nakarmić go psim żarciem, ale gryzie cię w palce!"
 
 #: src/iuse.cpp
 msgid ""
 "Apparently it's more interested in your flesh than the dog food in your "
 "hand!"
-msgstr ""
+msgstr "Najwyraźniej bardziej interesuje go toje ciało niż psie żarcie w twojej ręce!"
 
 #: src/iuse.cpp
 #, c-format
 msgid "The %s seems quite unimpressed!"
-msgstr ""
+msgstr "%s wydaje się być niewzruszony!"
 
 #: src/iuse.cpp
 msgid "Are you sure you want to feed a person the dog food?"
-msgstr ""
+msgstr "Jesteś pewien, że chcesz nakarmić osobę psim żarciem?"
 
 #: src/iuse.cpp
 msgid "Are you sure you want to feed a person the cat food?"
-msgstr ""
+msgstr "Jesteś pewien, że chcesz nakarmić osobę kocim żarciem?"
 
 #: src/iuse.cpp
 #, c-format
 msgid "You put your %1$s into %2$s's mouth!"
-msgstr ""
+msgstr "Wkładasz swoje %1$s w usta %2$s!"
 
 #: src/iuse.cpp
 msgid ""
 "Okay, but please, don't give me this again. I don't want to eat dog food in "
 "the cataclysm all day."
-msgstr ""
+msgstr "Okej, ale proszę nie dawaj mi tego więcej. Nawet mimo kataklizmu nie będę całymi dniami wcinać psiego żarcia."
 
 #: src/iuse.cpp
 #, c-format
 msgid "%s knocks it out from your hand!"
-msgstr ""
+msgstr "%s wytrąca ci je z ręki!"
 
 #: src/iuse.cpp
 msgid "There is nothing to be fed here."
-msgstr ""
+msgstr "Nie m tu niczego do nakarmienia."
 
 #: src/iuse.cpp
 msgid "You can't see to sew!"
-msgstr ""
+msgstr "Nie widzisz by szyć!"
 
 #: src/iuse.cpp
 msgid "Enhance what?"
-msgstr ""
+msgstr "Ulepszyć co?"
 
 #: src/iuse.cpp
 msgid "You can only tailor your clothes!"
-msgstr ""
+msgstr "Możesz zszywać tylko swoje ubrania!"
 
 #: src/iuse.cpp
 msgid "You can't use a tailor's kit on a firearm!"
-msgstr ""
+msgstr "Nie możesz użyć zestawu krawieckiego na broni palnej!"
 
 #: src/iuse.cpp
 msgid "You can't modify your power armor!"
-msgstr ""
+msgstr "Nie możesz zmodyfikować swojego pancerza wspomaganego!"
 
 #: src/iuse.cpp
 #, c-format
 msgid "Your %s is not made of fabric, leather, fur, Kevlar, wool or plastic."
-msgstr ""
+msgstr "Twój %s nie jest z materiału, skóry, futra, kevlaru, wełny lub plastiku."
 
 #: src/iuse.cpp
 msgid "This can be used to repair or modify other items, not itself."
-msgstr ""
+msgstr "To może być użyte do naprawy i modyfikacji innych przedmiotów lecz nie samego siebie."
 
 #: src/iuse.cpp
 msgid "How do you want to modify it?"
-msgstr ""
+msgstr "Jak chcesz to zmodyfikować?"
 
 #: src/iuse.cpp
 msgid "Not enough thread to modify. Which modification do you want to remove?"
-msgstr ""
+msgstr "Nie wystarczy nici do modyfikacji. Jaką modyfikację chcesz usunąć?"
 
 #: src/iuse.cpp
 #, c-format
 msgid "%s (Warmth: %d->%d, Encumbrance: %d->%d)"
-msgstr ""
+msgstr "%s (Ciepłota: %d->%d, Skrępowanie: %d->%d)"
 
 #: src/iuse.cpp
 msgid "Destroy wool lining"
-msgstr ""
+msgstr "Zniszcz wełniane podbicie"
 
 #: src/iuse.cpp
 msgid "Line it with wool"
-msgstr ""
+msgstr "Wszyj wełniane podbicie"
 
 #: src/iuse.cpp
 msgid "Destroy fur lining"
-msgstr ""
+msgstr "Zniszcz futrzane podbicie"
 
 #: src/iuse.cpp
 msgid "Line it with fur"
-msgstr ""
+msgstr "Wszyj futrzane podbicie"
 
 #: src/iuse.cpp
 #, c-format
 msgid "%s (Bash/Cut: %d/%d->%d/%d, Encumbrance: %d->%d)"
-msgstr ""
+msgstr "%s (Miażdżone/Cięte: %d/%d->%d/%d, Skrępowanie: %d->%d)"
 
 #: src/iuse.cpp
 msgid "Destroy leather padding"
-msgstr ""
+msgstr "Zniszcz skórzane podbicie"
 
 #: src/iuse.cpp
 msgid "Pad with leather"
-msgstr ""
+msgstr "Wszyj skórzane podbicie"
 
 #: src/iuse.cpp
 msgid "Destroy Kevlar padding"
-msgstr ""
+msgstr "Zniszcz kevlarowe podbicie"
 
 #: src/iuse.cpp
 msgid "Pad with Kevlar"
-msgstr ""
+msgstr "Wszyj kevlarowe podbicie"
 
 #: src/iuse.cpp
 msgid "Are you sure?  You will not gain any materials back."
-msgstr ""
+msgstr "Jesteś pewny? Nie odzyskasz żadnych materiałów."
 
 #: src/iuse.cpp
 #, c-format
 msgid "You damage your %s trying to modify it!"
-msgstr ""
+msgstr "Uszkadzasz %s próbując modyfikacji!"
 
 #: src/iuse.cpp src/iuse_actor.cpp
 msgid "You destroy it!"
-msgstr ""
+msgstr "Niszczysz je!"
 
 #: src/iuse.cpp
 msgid "You fail to modify the clothing, and you waste thread and materials."
-msgstr ""
+msgstr "Nie udaje ci się zmodyfikować ubrania, oraz tracisz nici i materiały."
 
 #: src/iuse.cpp
 #, c-format
 msgid "You modify your %s, but waste a lot of thread."
-msgstr ""
+msgstr "Modyfikujesz %s, ale marnujesz dużo nici."
 
 #: src/iuse.cpp
 #, c-format
 msgid "You modify your %s!"
-msgstr ""
+msgstr "Modyfikujesz %s!"
 
 #: src/iuse.cpp
 msgid "Modify what?"
-msgstr ""
+msgstr "Zmodyfikować co?"
 
 #: src/iuse.cpp
 msgid "\"Red\""
-msgstr ""
+msgstr "\"Czerwony\""
 
 #: src/iuse.cpp
 msgid "Which signal should activate the item?:"
-msgstr ""
+msgstr "Jaki sygnał powinien aktywować przedmiot?:"
 
 #: src/iuse.cpp
 msgid "\"Blue\""
-msgstr ""
+msgstr "\"Niebieski\""
 
 #: src/iuse.cpp
 msgid "\"Green\""
-msgstr ""
+msgstr "\"Zielony\""
 
 #: src/iuse.cpp
 msgid "This item has been modified this way already."
-msgstr ""
+msgstr "Ten przedmiot był już w ten sposób modyfikowany."
 
 #: src/iuse.cpp
 #, c-format
 msgid ""
 "You modify your %1$s to listen for %2$s activation signal on the radio."
-msgstr ""
+msgstr "Modyfikujesz %1$s by nasłuchiwał w radiu na %2$s sygnał aktywacyjny."
 
 #: src/iuse.cpp
 msgid "Remove mods from tool?"
-msgstr ""
+msgstr "Usunąć mody z narzędzia?"
 
 #: src/iuse.cpp
 msgid "You don't have any modified tools."
-msgstr ""
+msgstr "Nie posiadasz zmodyfikowanych narzędzi."
 
 #: src/iuse.cpp
 msgid "Fish where?"
-msgstr ""
+msgstr "Wędkować gdzie?"
 
 #: src/iuse.cpp
 msgid "You can't fish there!"
-msgstr ""
+msgstr "Nie możesz tu wędkować!"
 
 #: src/iuse.cpp
 msgid "That water does not contain any fish.  Try a river instead."
-msgstr ""
+msgstr "W tej wodzie nie ma ryb. Spróbuj w rzece."
 
 #: src/iuse.cpp
 msgid "There are no fish around.  Try another spot."
-msgstr ""
+msgstr "Nie ma w pobliżu żadnych ryb. Spróbuj w innym miejscu."
 
 #: src/iuse.cpp
 msgid "You cast your line and wait to hook something..."
-msgstr ""
+msgstr "Zarzucasz wędkę i czekasz aż coś się złapie na haczyk..."
 
 #: src/iuse.cpp
 msgid "Fish are not foolish enough to go in here without bait."
-msgstr ""
+msgstr "Ryby nie są na tyle głupie, żeby złapać się bez przynęty."
 
 #: src/iuse.cpp
 msgid "Put fish trap where?"
-msgstr ""
+msgstr "Położyć pułapkę na ryby gdzie?"
 
 #: src/iuse.cpp
 msgid "That water does not contain any fish, try a river instead."
-msgstr ""
+msgstr "W tej wodzie nie ma ryb. Spróbuj w rzece."
 
 #: src/iuse.cpp
 msgid "There is no fish around.  Try another spot."
-msgstr ""
+msgstr "Nie ma w pobliżu żadnych ryb. Spróbuj w innym miejscu."
 
 #: src/iuse.cpp
 msgid "You place the fish trap, in three hours or so you may catch some fish."
-msgstr ""
+msgstr "Zakładasz pułapkę na ryby, za jakieś trzy godziny warto sprawdzić czy złapałeś jakieś."
 
 #: src/iuse.cpp
 msgid "Spray where?"
-msgstr ""
+msgstr "Rozpylić gdzie?"
 
 #: src/iuse.cpp
 #, c-format
 msgid "The %s is sprayed!"
-msgstr ""
+msgstr "%s jest spryskany!"
 
 #: src/iuse.cpp
 #, c-format
 msgid "The %s looks blinded."
-msgstr ""
+msgstr "%s wygląda na oślepiony."
 
 #: src/iuse.cpp
 #, c-format
 msgid "The %s is frozen!"
-msgstr ""
+msgstr "%s jest zamrożony!"
 
 #: src/iuse.cpp
 msgid "The RM13 combat armor's fuel cells are dead."
-msgstr ""
+msgstr "Baterie paliwowe zbroi bojowej RM13 są martwe."
 
 #: src/iuse.cpp
 msgid "You activate your RM13 combat armor."
-msgstr ""
+msgstr "Aktywujesz zbroję bojową RM13."
 
 #: src/iuse.cpp
 msgid "Rivtech Model 13 RivOS v2.19:   ONLINE."
-msgstr ""
+msgstr "Rivtech Model 13 RivOS v2.19:   ONLINE."
 
 #: src/iuse.cpp
 msgid "CBRN defense system:            ONLINE."
-msgstr ""
+msgstr "CBRN system obrony:            ONLINE."
 
 #: src/iuse.cpp
 msgid "Acoustic dampening system:      ONLINE."
-msgstr ""
+msgstr "System ochrony akustycznej:      ONLINE."
 
 #: src/iuse.cpp
 msgid "Thermal regulation system:      ONLINE."
-msgstr ""
+msgstr "System regulacji termalnej:      ONLINE."
 
 #: src/iuse.cpp
 msgid "Vision enhancement system:      ONLINE."
-msgstr ""
+msgstr "System wspomagania obrazu:      ONLINE."
 
 #: src/iuse.cpp
 msgid "Electro-reactive armor system:  ONLINE."
-msgstr ""
+msgstr "Electro-reaktywny system pancerza:  ONLINE."
 
 #: src/iuse.cpp
 msgid "All systems nominal."
-msgstr ""
+msgstr "Wszystkie systemy w normie."
 
 #: src/iuse.cpp
 msgid "RivOS v2.19 shutdown sequence initiated."
-msgstr ""
+msgstr "Sekwencja zamknięcia RivOS v2.19 zainicjowana."
 
 #: src/iuse.cpp
 msgid "Shutting down."
-msgstr ""
+msgstr "Wyłączanie systemów."
 
 #: src/iuse.cpp
 msgid "Your RM13 combat armor turns off."
-msgstr ""
+msgstr "Twoja zbroja bojowa RM13 wyłącza się."
 
 #: src/iuse.cpp
 #, c-format
 msgid "You unpack your %s for use."
-msgstr ""
+msgstr "Wypakowujesz %s celem użycia."
 
 #: src/iuse.cpp
 #, c-format
 msgid "You can't pack your %s until you take it off."
-msgstr ""
+msgstr "Nie możesz spakować %s dopóki go nie zdejmiesz."
 
 #: src/iuse.cpp
 #, c-format
 msgid "You pack your %s for storage."
-msgstr ""
+msgstr "Pakujesz %s do przechowania."
 
 #: src/iuse.cpp
 msgid "You need batteries to cauterize wounds."
-msgstr ""
+msgstr "Potrzebujesz baterii by kauteryzować rany."
 
 #: src/iuse.cpp src/iuse_actor.cpp
 msgid "Cauterize yourself for fun?"
-msgstr ""
+msgstr "Kauteryzować się dla zabawy?"
 
 #: src/iuse.cpp src/iuse_actor.cpp
 msgid ""
 "You are not bleeding or bitten, there is no need to cauterize yourself."
-msgstr ""
+msgstr "Nie krwawisz anie nie masz pogryzień, i nie ma potrzeby się kauteryzować."
 
 #: src/iuse.cpp
 msgid "Cauterize any open wounds?"
-msgstr ""
+msgstr "Kauteryzować otwarte rany?"
 
 #: src/iuse.cpp
 msgid "Purify what?"
-msgstr ""
+msgstr "Oczyścić co?"
 
 #: src/iuse.cpp
 msgid "You don't have water to purify."
-msgstr ""
+msgstr "Nie masz wody do oczyszczenia."
 
 #: src/iuse.cpp
 msgid "That volume of water is too large to purify."
-msgstr ""
+msgstr "Ta ilość wody jest zbyt wielka żeby ją oczyścić."
 
 #: src/iuse.cpp
 msgid "It's dead."
-msgstr ""
+msgstr "Jest martwe."
 
 #: src/iuse.cpp
 msgid "You turn the radio on."
-msgstr ""
+msgstr "Włączasz radio."
 
 #: src/iuse.cpp
 msgid "Must have an active radio to check for signal direction."
-msgstr ""
+msgstr "Musisz mieć aktywne radio by sprawdzać wykrycie kierunku sygnału."
 
 #: src/iuse.cpp
 msgid "You can't find the direction if your radio isn't tuned."
-msgstr ""
+msgstr "Nie znajdziesz kierunku jeśli twoje radio nie jest włączone."
 
 #: src/iuse.cpp
 #, c-format
 msgid "The signal seems strongest to the %s."
-msgstr ""
+msgstr "Sygnał wydaje się być silniejszy w kierunku %s."
 
 #: src/iuse.cpp
 msgid "Radio: Kssssssssssssh."
-msgstr ""
+msgstr "Radio: Kssssssssssssh."
 
 #: src/iuse.cpp
 #, c-format
 msgid "radio: %s"
-msgstr ""
+msgstr "radio: %s"
 
 #: src/iuse.cpp
 msgid "Radio:"
-msgstr ""
+msgstr "Radio:"
 
 #: src/iuse.cpp
 msgid "Scan"
-msgstr ""
+msgstr "Skan"
 
 #: src/iuse.cpp
 msgid "The radio dies."
-msgstr ""
+msgstr "Radio padło."
 
 #: src/iuse.cpp
 msgid "You turn the noise emitter on."
-msgstr ""
+msgstr "Włączasz emiter dźwięku."
 
 #. ~ the sound of a noise emitter when turned on
 #: src/iuse.cpp
 msgid "KXSHHHHRRCRKLKKK!"
-msgstr ""
+msgstr "KXSHHHHRRCRKLKKK!"
 
 #: src/iuse.cpp
 msgid "The infernal racket dies as the noise emitter turns off."
-msgstr ""
+msgstr "Piekielne głosy milkną gdy emiter dźwięku wyłącza się."
 
 #: src/iuse.cpp
 msgid "You already know all this book has to teach."
-msgstr ""
+msgstr "Wiesz już wszystko to, co ta książka ma do nauczenia."
 
 #: src/iuse.cpp
 msgid "You learn what you can, and stow the book for further study."
-msgstr ""
+msgstr "Uczysz się czego się da i odkładasz książkę na dalszą naukę."
 
 #: src/iuse.cpp
 msgid "You pry out the fence post."
-msgstr ""
+msgstr "Wyważasz palik płotu."
 
 #: src/iuse.cpp
 msgid "You pry the boards from the window."
-msgstr ""
+msgstr "Wyważasz deski z okna."
 
 #: src/iuse.cpp
 msgid "You pry the boards from the window frame."
-msgstr ""
+msgstr "Wyważasz deski z ramy okiennej."
 
 #: src/iuse.cpp
 msgid "You pry the boards from the door."
-msgstr ""
+msgstr "Wyważasz deski z drzwi."
 
 #: src/iuse.cpp
 msgid "Pry where?"
-msgstr ""
+msgstr "Wyważyć gdzie?"
 
 #: src/iuse.cpp
 msgid "You try to hit yourself with the hammer."
-msgstr ""
+msgstr "Próbujesz uderzyć się młotkiem. Se-puk-u?"
 
 #: src/iuse.cpp
 msgid "But you can't touch this."
-msgstr ""
+msgstr "Ale nie możesz tego dotknąć."
 
 #: src/iuse.cpp
 msgid "There's nothing to pry there."
-msgstr ""
+msgstr "Nie mu tu czego wyważać."
 
 #: src/iuse.cpp
 msgid "You attempt to pry open your wallet"
-msgstr ""
+msgstr "Próbujesz wyważyć swój portfel"
 
 #: src/iuse.cpp
 msgid "but alas. You are just too miserly."
-msgstr ""
+msgstr "ale niestety. Jesteś zbyt biedny."
 
 #: src/iuse.cpp
 msgid "You pry open the door."
-msgstr ""
+msgstr "Wyważasz drzwi na oścież."
 
 #: src/iuse.cpp
 msgid "You pry, but cannot pry open the door."
-msgstr ""
+msgstr "Próbujesz wyważać, ale nie możesz wyważyć drzwi."
 
 #: src/iuse.cpp
 msgid "You lift the manhole cover."
-msgstr ""
+msgstr "Podnosisz właz studzienki."
 
 #: src/iuse.cpp
 msgid "You pry, but cannot lift the manhole cover."
-msgstr ""
+msgstr "Próbujesz wyważać, ale nie możesz wyważyć pokrywy studzienki."
 
 #: src/iuse.cpp
 msgid "You pop open the crate."
-msgstr ""
+msgstr "Wyważasz skrzynię i otwierasz ją."
 
 #: src/iuse.cpp
 msgid "You pry, but cannot pop open the crate."
-msgstr ""
+msgstr "Próbujesz wyważać, ale nie możesz wyważyć skrzyni."
 
 #: src/iuse.cpp
 msgid "You wedge open the coffin."
-msgstr ""
+msgstr "Wyważasz i uchylasz wieko trumny."
 
 #: src/iuse.cpp
 msgid "You pry, but the coffin remains closed."
-msgstr ""
+msgstr "Próbujesz wyważać, ale nie możesz wyważyć wieka trumny."
 
 #: src/iuse.cpp
 msgid "You pry open the window."
-msgstr ""
+msgstr "Wyważasz okno na oścież."
 
 #: src/iuse.cpp
 msgid "You pry, but cannot pry open the window."
-msgstr ""
+msgstr "Próbujesz wyważać, ale nie możesz wyważyć okna."
 
 #: src/iuse.cpp
 msgid "You break the glass."
-msgstr ""
+msgstr "Tłuczesz szkło."
 
 #: src/iuse.cpp
 msgid "You churn up the earth here."
-msgstr ""
+msgstr "Ryjesz tutaj w ziemi."
 
 #: src/iuse.cpp
 msgid "You can't churn up this ground."
-msgstr ""
+msgstr "Nie możesz zryć tej ziemi."
 
 #: src/iuse.cpp
 msgid "There's no rubble to clear."
-msgstr ""
+msgstr "Nie ma gruzu do oczyszczenia."
 
 #: src/iuse.cpp
 msgid "Siphon from where?"
-msgstr ""
+msgstr "Spuść skąd?"
 
 #: src/iuse.cpp
 msgid "There's no vehicle there."
-msgstr ""
+msgstr "Nie ma tam pojazdu."
 
 #: src/iuse.cpp
 msgid "With a snarl, the combat chainsaw screams to life!"
-msgstr ""
+msgstr "Z kaszlnięciem, łańcuchowa piła bojowa wskakuje na wysokie obroty!"
 
 #: src/iuse.cpp
 msgid "You yank the cord, but nothing happens."
-msgstr ""
+msgstr "Szarpiesz sznur, ale nic się nie dzieje."
 
 #: src/iuse.cpp
 msgid "With a roar, the chainsaw leaps to life!"
-msgstr ""
+msgstr "Z warkotem, piła łańcuchowa ożywa!"
 
 #: src/iuse.cpp
 msgid "With a roar, the electric chainsaw leaps to life!"
-msgstr ""
+msgstr "Z warkotem, elektryczna piła łańcuchowa ożywa!"
 
 #: src/iuse.cpp
 msgid "You flip the switch, but nothing happens."
-msgstr ""
+msgstr "Przełączasz włącznik ale nic się nie dzieje."
 
 #: src/iuse.cpp
 msgid "With a roar, the chainsaws leap to life!"
-msgstr ""
+msgstr "Z warkotem, piły łańcuchowe ożywają!"
 
 #: src/iuse.cpp
 msgid "You yank the cords, but nothing happens."
-msgstr ""
+msgstr "Szarpiesz sznury, ale nic się nie dzieje."
 
 #: src/iuse.cpp
 msgid "The electric carver's serrated blades start buzzing!"
-msgstr ""
+msgstr "Zębate ostrza elektrycznej wyrzynarki zaczynają brzęczeć!"
 
 #: src/iuse.cpp
 msgid "You pull the trigger, but nothing happens."
-msgstr ""
+msgstr "Naciskasz spust ale nic się nie dzieje."
 
 #: src/iuse.cpp
 msgid "With a roar, the hedge trimmer leaps to life!"
-msgstr ""
+msgstr "Z warkotem, przycinacz do żywopłotów ożywa!"
 
 #: src/iuse.cpp
 #, c-format
 msgid "Your %s gurgles in the water and stops."
-msgstr ""
+msgstr "Twój %s bulgocze w wodzi i zatrzymuje się."
 
 #: src/iuse.cpp
 #, c-format
 msgid "Your %s goes quiet."
-msgstr ""
+msgstr "Twój %s cichnie."
 
 #: src/iuse.cpp
 msgid "combat chainsaw"
-msgstr ""
+msgstr "łańcuchowa piła bojowa"
 
 #: src/iuse.cpp
 msgid "Your combat chainsaw growls."
-msgstr ""
+msgstr "Twoja łańcuchowa piła bojowa warczy."
 
 #: src/iuse.cpp
 msgid "chainsaw"
-msgstr ""
+msgstr "piła łańcuchowa"
 
 #: src/iuse.cpp
 msgid "Your chainsaw rumbles."
-msgstr ""
+msgstr "Twoja piła łańcuchowa warczy."
 
 #: src/iuse.cpp
 msgid "electric chainsaw"
-msgstr ""
+msgstr "elektryczna piła łańcuchowa"
 
 #: src/iuse.cpp
 msgid "Your electric chainsaw rumbles."
-msgstr ""
+msgstr "Twoja elektryczna piła łańcuchowa warczy."
 
 #: src/iuse.cpp
 msgid "chainsaw lajatang"
-msgstr ""
+msgstr "lajatang z pił łańcuchowych"
 
 #: src/iuse.cpp
 msgid "Your chainsaws rumble."
-msgstr ""
+msgstr "Twoje piły łańcuchowe warczą."
 
 #: src/iuse.cpp
 msgid "electric carver"
-msgstr ""
+msgstr "elektryczna wyżynarka"
 
 #: src/iuse.cpp
 msgid "Your electric carver buzzes."
-msgstr ""
+msgstr "Twoja elektryczna wyrzynarka brzęczy."
 
 #: src/iuse.cpp
 msgid "hedge trimmer"
-msgstr ""
+msgstr "przycinacz żywopłotów"
 
 #: src/iuse.cpp
 msgid "Your hedge trimmer rumbles."
-msgstr ""
+msgstr "Twój przycinacz żywopłotów warczy."
 
 #: src/iuse.cpp
 msgid "circular saw"
-msgstr ""
+msgstr "piła tarczowa"
 
 #: src/iuse.cpp
 msgid "Your circular saw buzzes."
-msgstr ""
+msgstr "Twoja piła tarczowa świszczy."
 
 #: src/iuse.cpp
 msgid "Drill where?"
-msgstr ""
+msgstr "Przewierć gdzie?"
 
 #: src/iuse.cpp
 msgid "My god! Let's talk it over OK?"
-msgstr ""
+msgstr "Mój Boże! Przegadajmy to, OK?"
 
 #: src/iuse.cpp
 msgid "Don't do anything rash."
-msgstr ""
+msgstr "Nie działaj pochopnie."
 
 #: src/iuse.cpp
 msgid "TATATATATATATAT!"
-msgstr ""
+msgstr "TATATATATATATAT!"
 
 #: src/iuse.cpp
 msgid "You can't drill there."
-msgstr ""
+msgstr "Nie możesz tego przewiercić."
 
 #: src/iuse.cpp
 msgid "Mine where?"
@@ -118393,7 +118412,7 @@ msgstr ""
 #: src/iuse_actor.cpp
 #, c-format
 msgid "Repair %s"
-msgstr ""
+msgstr "Napraw %s"
 
 #: src/iuse_actor.cpp
 msgid "You can't use filthy items for healing."
@@ -120923,54 +120942,49 @@ msgstr ""
 msgid "Press %s to return"
 msgstr ""
 
-#: src/messages.cpp
-#, c-format
-msgid "%s ago:"
-msgstr ""
-
 #: src/mission_companion.cpp
 msgid "You have no bionics to install!"
-msgstr ""
+msgstr "Nie masz bioniki do zainstalowania!"
 
 #: src/mission_companion.cpp
 msgid "Which bionic do you wish to have installed?"
-msgstr ""
+msgstr "Którą bionikę chcesz zainstalować?"
 
 #: src/mission_companion.cpp
 msgid "You decide to hold off..."
-msgstr ""
+msgstr "Postanawiasz się wstrzymać.."
 
 #: src/mission_companion.cpp
 msgid "You can't afford the procedure..."
-msgstr ""
+msgstr "Nie możesz sobie pozwolić na przeprowadzenie procedury..."
 
 #: src/mission_companion.cpp
 msgid "You don't have any bionics installed..."
-msgstr ""
+msgstr "Nie masz żadnych zainstalowanych bionik..."
 
 #: src/mission_companion.cpp
 msgid "Which bionic do you wish to uninstall?"
-msgstr ""
+msgstr "Którą bionikę chcesz odinstalować? "
 
 #: src/mission_companion.cpp
 msgid "Outpost Missions"
-msgstr ""
+msgstr "Misje Posterunku"
 
 #: src/mission_companion.cpp
 msgid "Junkshop Missions"
-msgstr ""
+msgstr "Misje Złomiarzy"
 
 #: src/mission_companion.cpp
 msgid "Agricultural Missions"
-msgstr ""
+msgstr "Misje Rolnicze"
 
 #: src/mission_companion.cpp
 msgid "Construction Missions"
-msgstr ""
+msgstr "Misje Budowlane"
 
 #: src/mission_companion.cpp
 msgid "Free Merchant Missions"
-msgstr ""
+msgstr "Misje Wolnych Kupców"
 
 #: src/mission_companion.cpp
 msgid ""
@@ -120979,7 +120993,7 @@ msgid ""
 "Time: 10 hour missions\n"
 " \n"
 "Assigning one of your allies to patrol the surrounding wilderness and isolated buildings presents the opportunity to build survival skills while engaging in relatively safe combat against isolated creatures."
-msgstr ""
+msgstr "Profit: $25-$500\nRyzyko: Małe\nCzas: 10 godzinna misja\n\nPrzypisując jednego z sojuszników do patrolu otaczającej dziczy i wyizolowanych budynków daje szansę na naukę umiejętności przetrwania, jednocześnie walcząc w relatywnie bezpiecznych warunkach z odosobnionymi stworzeniami."
 
 #: src/mission_companion.cpp
 msgid ""
@@ -120988,14 +121002,14 @@ msgid ""
 "Time: 10 hour missions\n"
 " \n"
 "Patrol Roster:\n"
-msgstr ""
+msgstr "Profit: $25-$500\nRyzyko: Małe\nCzas: 10 godzinna misja\n\nGrafik Patrolu:\n"
 
 #: src/mission_companion.cpp
 msgid ""
 "\n"
 " \n"
 "Do you wish to bring your allies back into your party?"
-msgstr ""
+msgstr "\n\nCzy chcesz przywrócić sojuszników z powrotem do twojej grupy?"
 
 #: src/mission_companion.cpp
 msgid ""
@@ -121004,7 +121018,7 @@ msgid ""
 "Time: 10 hour missions\n"
 " \n"
 "Scavenging raids target formerly populated areas to loot as many valuable items as possible before being surrounded by the undead.  Combat is to be expected and assistance from the rest of the party can't be guaranteed.  The rewards are greater and there is a chance of the companion bringing back items."
-msgstr ""
+msgstr "Profit: $200-$1000\nRyzyko: Średnie\nCzas: 10 godzinna misja\n\nWypady zbierackie, nacelowane na dawniej zamieszkałe tereny, w celu wyszabrowania jak największego pryzu przed otoczeniem przez hordę zombi. Spodziewana walka, z niegwarantowaną asystą reszty drużyny. Nagrody są większe i jest szansa, że towarzysz wróci z przedmiotami."
 
 #: src/mission_companion.cpp
 msgid ""
@@ -121013,7 +121027,7 @@ msgid ""
 "Time: 10 hour missions\n"
 " \n"
 "Raid Roster:\n"
-msgstr ""
+msgstr "Profit: $200-$1000\nRyzyko: Średnie\nCzas: 10 godzinna misja\n\nGrafik Wypadu:\n"
 
 #: src/mission_companion.cpp
 msgid ""
@@ -121022,7 +121036,7 @@ msgid ""
 "Time: 1 hour minimum\n"
 " \n"
 "Assigning one of your allies to menial labor is a safe way to teach them basic skills and build reputation with the outpost.  Don't expect much of a reward though."
-msgstr ""
+msgstr "Profit: $8 / godzinę\nRyzyko: Minimalne\nCzas: 1 godzina minimum\n\nPrzypisanie towarzysza do prac fizycznych to bezpieczna droga do nauczenia go podstawowych umiejętności i zbudowania reputacji w posterunku. Nie spodziewaj się jednak dużej wypłaty."
 
 #: src/mission_companion.cpp
 msgid ""
@@ -121031,7 +121045,7 @@ msgid ""
 "Time: 1 hour minimum\n"
 " \n"
 "Labor Roster:\n"
-msgstr ""
+msgstr "Profit: $8 / godzinę\nRyzyko: Minimalne\nCzas: 1 godzina minimum\n\nGrafik Pracy:\n"
 
 #: src/mission_companion.cpp
 msgid ""
@@ -121040,7 +121054,7 @@ msgid ""
 "Time: 1 hour minimum\n"
 " \n"
 "Carpentry work requires more skill than menial labor while offering modestly improved pay.  It is unlikely that your companions will face combat but there are hazards working on makeshift buildings."
-msgstr ""
+msgstr "Profit: $12 / godzinę\nRyzyko: Minimalne\nCzas: 1 godzina minimum\n\nPraca stolarska wymaga więcej umiejętności niż praca fizyczna, oferując za to przyzwoicie większe wynagrodzenie. Jest wątpliwe, że dojdzie do walk, ale istnieją pewne ryzyka na budowie prowizorycznych budynków."
 
 #: src/mission_companion.cpp
 msgid ""
@@ -121049,7 +121063,7 @@ msgid ""
 "Time: 1 hour minimum\n"
 " \n"
 "Labor Roster:\n"
-msgstr ""
+msgstr "Profit: $12 / godzinę\nRyzyko: Minimalne\nCzas: 1 godzina minimum\n\nGrafik Pracy:\n"
 
 #: src/mission_companion.cpp
 msgid ""
@@ -121067,7 +121081,7 @@ msgid ""
 "              ...O|....\n"
 " \n"
 "We're willing to let you purchase a field at a substantial discount to use for your own agricultural enterprises.  We'll plow it for you so you know exactly what is yours... after you have a field you can hire workers to plant or harvest crops for you.  If the crop is something we have a demand for, we'll be willing to liquidate it."
-msgstr ""
+msgstr "Koszt: $1000\n \n\n              .........\n              .........\n              .........\n              .........\n              .........\n              .........\n              ..#....**\n              ..#Ov..**\n              ...O|....\n\nChcemy zezwolić ci na kupno pola po okazyjnej cenie do wykorzystania na własne zamierzenia rolnicze. Zaoramy je dla ciebie żebyś dokładnie wiedział co twoje... a jak już je będziesz miał, to możesz nająć robotników żeby sadzili albo zbierali plon dla ciebie. A jak twoje zbiory znajdą u nas wzięcie to chętnie je upłynnimy."
 
 #: src/mission_companion.cpp
 msgid ""
@@ -121085,7 +121099,7 @@ msgid ""
 "              ...O|....\n"
 " \n"
 "Protecting your field with a sturdy picket fence will keep most wildlife from nibbling your crops apart.  You can expect yields to increase."
-msgstr ""
+msgstr "Koszt: $5500\n \n\n              .........\n              .........\n              .........\n              .........\n              .........\n              .........\n              ..#....**\n              ..#Ov..**\n              ...O|....\n \nOchrona twojego pola solidnym płotem ze sztachet utrzyma większość dzikiej zwierzyny na dystans, i nie będą wchodzić ci w szkodę. Spodziewaj się poprawy wydajności plonów."
 
 #: src/mission_companion.cpp
 msgid ""
@@ -121103,7 +121117,7 @@ msgid ""
 "              ...O|....\n"
 " \n"
 "We'll plant the field with your choice of crop if you are willing to finance it.  When the crop is ready to harvest you can have us liquidate it or harvest it for you."
-msgstr ""
+msgstr "Koszt: $3.00 / poletko\n \n\n              .........\n              .........\n              .........\n              .........\n              .........\n              .........\n              ..#....**\n              ..#Ov..**\n              ...O|....\n \nObsiejemy twoje pole czym sobie zażyczysz, jeżeli chcesz to sfinansować. Jak siew będzie gotowy do żniw, możemy upłynnić go, lub zebrać go dla twoich potrzeb."
 
 #: src/mission_companion.cpp
 msgid ""
@@ -121121,7 +121135,7 @@ msgid ""
 "              ...O|....\n"
 " \n"
 "You can either have us liquidate the crop and give you the cash or pay us to harvest it for you."
-msgstr ""
+msgstr "Cost: $2.00 / poletko\n \n\n              .........\n              .........\n              .........\n              .........\n              .........\n              .........\n              ..#....**\n              ..#Ov..**\n              ...O|....\n \nMożesz polecić nam upłynnienie plonu za żywą gotówkę, lub przeprowadzenie zbioru i pozostawienie go tobie na własne potrzeby."
 
 #: src/mission_companion.cpp
 msgid ""
@@ -121130,7 +121144,7 @@ msgid ""
 "Time: 4 hour minimum\n"
 " \n"
 "Foraging for food involves dispatching a companion to search the surrounding wilderness for wild edibles.  Combat will be avoided but encounters with wild animals are to be expected.  The low pay is supplemented with the odd item as a reward for particularly large hauls."
-msgstr ""
+msgstr "Profit: $10 / godzinę\nRyzyko: Małe\nCzas: 4 godziny minimum\n\nZbieractwo w poszukiwaniu żywności wymaga oddelegowania towarzysza do poszukiwań dziko rosnącej żywności w otaczającej dziczy. Walki można uniknąć, ale należy spodziewać się natknięcia na dziką zwierzynę. Niska płaca jest uzupełniana znalezionym tu i ówdzie przedmiotem za wysoki urobek."
 
 #: src/mission_companion.cpp
 msgid ""
@@ -121139,7 +121153,7 @@ msgid ""
 "Time: 4 hour minimum\n"
 " \n"
 "Labor Roster:\n"
-msgstr ""
+msgstr "Profit: $10 / godzinę\nRyzyko: Niskie\nCzas: 4 godziny minimum\n\nGrafik Pracy:\n"
 
 #: src/mission_companion.cpp
 msgid ""
@@ -121150,7 +121164,7 @@ msgid ""
 "Adding companions to the caravan team increases the likelihood of success.  By nature, caravans are extremely tempting targets for raiders or hostile groups so only a strong party is recommended.  The rewards are significant for those participating but are even more important for the factions that profit.\n"
 " \n"
 "The commune is sending food to the Free Merchants in the Refugee Center as part of a tax and in exchange for skilled labor."
-msgstr ""
+msgstr "Profit: $18 / godzinę\nRyzyko: Duże\nCzas: NIEZNANY\n\nOddelegowując towarzyszy do karawany zwiększają się jej szanse na sukces. Z natury rzeczy karawany to łakomy kąsek dla bandytów i wrogich grup, stąd rekomendowany jest silny zespół. Zarobki są znaczące dla uczestników, ale jeszcze znaczniejsze dla zaangażowanych frakcji.\n\nGmina wysyła żywność do Wolnych Kupców w Centrum dla Uchodźców, częściowo jako daninę oraz w zamian za wykwalifikowaną siłę roboczą."
 
 #: src/mission_companion.cpp
 msgid ""
@@ -121160,846 +121174,846 @@ msgid ""
 " \n"
 " \n"
 "Roster:\n"
-msgstr ""
+msgstr "Profit: $18 / godzinę\nRyzyko: Duże\nCzas: NIEZNANY\n\nGrafik:\n"
 
 #: src/mission_companion.cpp
 msgid " [READY] \n"
-msgstr ""
+msgstr "[GOTOWE]\n"
 
 #: src/mission_companion.cpp
 msgid " [COMPLETE] \n"
-msgstr ""
+msgstr "[WYKONANE]\n"
 
 #: src/mission_companion.cpp
 msgid ""
 "\n"
 " \n"
 "The caravan will contain two or three additional members from the commune, are you ready to depart?"
-msgstr ""
+msgstr "\n\nKarawana będzie liczyć dwóch lub trzech dodatkowych członków gminy, czy jesteś gotowy wyruszyć?"
 
 #: src/mission_companion.cpp
 msgid "There are no missions at this colony.  Press Spacebar..."
-msgstr ""
+msgstr "W tej kolonii nie ma misji. Naciśnij Spację..."
 
 #: src/mission_companion.cpp
 msgid "joins the caravan team..."
-msgstr ""
+msgstr "dołącza do karawany..."
 
 #: src/mission_companion.cpp
 msgid "departs on the scavenging patrol..."
-msgstr ""
+msgstr "udaje się na patrol zbieracki..."
 
 #: src/mission_companion.cpp
 msgid "departs on the scavenging raid..."
-msgstr ""
+msgstr "udaje się na wypad zbieracki..."
 
 #: src/mission_companion.cpp
 msgid "departs to work as a laborer..."
-msgstr ""
+msgstr "udaje się do pracy jako robotnik..."
 
 #: src/mission_companion.cpp
 msgid "departs to work as a carpenter..."
-msgstr ""
+msgstr "udaje się do pracy jako stolarz..."
 
 #: src/mission_companion.cpp
 msgid "departs to forage for food..."
-msgstr ""
+msgstr "udaje się na zbieranie żywności..."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid "The caravan departs with an estimated total travel time of %d hours..."
-msgstr ""
+msgstr "Karawana wyprawia się w drogę, z przewidywanym czasem podróży %d  godzin..."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid "%s returns to your party."
-msgstr ""
+msgstr "%s wraca do drużyny."
 
 #: src/mission_companion.cpp
 msgid "A bandit party approaches the caravan in the open!"
-msgstr ""
+msgstr "Zgraja bandytów napada karawanę na otwartej przestrzeni!"
 
 #: src/mission_companion.cpp
 msgid "A bandit party attacks the caravan while it it's camped!"
-msgstr ""
+msgstr "Zgraja bandytów napada karawanę podczas biwakowania!"
 
 #: src/mission_companion.cpp
 msgid "The caravan walks into a bandit ambush!"
-msgstr ""
+msgstr "Karawana wpada w zasadzkę bandytów!"
 
 #: src/mission_companion.cpp
 #, c-format
 msgid "The caravan party has returned.  Your share of the profits are $%d!"
-msgstr ""
+msgstr "Karawana powróciła. Twój udział w zyskach to %d$ !"
 
 #: src/mission_companion.cpp
 msgid "The caravan was a disaster and your companions never made it home..."
-msgstr ""
+msgstr "Karawana okazała się katastrofą i twoi towarzysze nigdy nie wrócili do domu..."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid "%s is wasted by %s!"
-msgstr ""
+msgstr "%s zostaje zmieciony przez %s!"
 
 #: src/mission_companion.cpp
 #, c-format
 msgid "%s dodges %s's attack!"
-msgstr ""
+msgstr "%s unika ataku %s!"
 
 #: src/mission_companion.cpp
 msgid "I'm sorry, you don't have enough money."
-msgstr ""
+msgstr "Przykro mi, nie masz wystarczająco dużo pieniędzy."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid ""
 "%s jots your name down on a ledger and yells out to nearby laborers to begin"
 " plowing your new field."
-msgstr ""
+msgstr "%s wpisuje twoje imię do rejestru i krzyczy na robotników by zaorali twoje nowe pole."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid ""
 "After counting your money %s directs a nearby laborer to begin constructing "
 "a fence around your plot..."
-msgstr ""
+msgstr "Po przeliczeniu gotówki %s oddelegowuje pobliskiego robotnika do konstrukcji płotu wokół twojej działki..."
 
 #: src/mission_companion.cpp
 msgid "You have no seeds to plant!"
-msgstr ""
+msgstr "Nie masz nasion do zasiewu!"
 
 #: src/mission_companion.cpp
 msgid "Which seeds do you wish to have planted?"
-msgstr ""
+msgstr "Jakie nasiona chcesz by były posiane na polu?"
 
 #: src/mission_companion.cpp
 msgid "You have no room to plant seeds..."
-msgstr ""
+msgstr "Nie masz miejsca do zasiania nasion..."
 
 #: src/mission_companion.cpp
 msgid "I'm sorry, you don't have enough money to plant those seeds..."
-msgstr ""
+msgstr "Przykro mi, ale nie starczy ci pieniędzy na sfinansowanie siewu tych nasion..."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid "Do you wish to have %d %s planted here for $%d?"
-msgstr ""
+msgstr "Czy chcesz obsiać pole %d %s za %d$?"
 
 #: src/mission_companion.cpp
 #, c-format
 msgid ""
 "After counting your money and collecting your seeds, %s calls forth a labor "
 "party to plant your field."
-msgstr ""
+msgstr "Po przeliczeniu gotówki i zabraniu twojego ziarna, %s zwołuje grupę roboczą do obsiania twojego pola."
 
 #: src/mission_companion.cpp
 msgid "There aren't any plants that are ready to harvest..."
-msgstr ""
+msgstr "Nie ma żadnych roślin gotowych na żniwa."
 
 #: src/mission_companion.cpp
 msgid "Which plants do you want to have harvested?"
-msgstr ""
+msgstr "Które plony mają zostać zebrane?"
 
 #: src/mission_companion.cpp
 msgid "You decided to hold off for now..."
-msgstr ""
+msgstr "Postanowiłeś powstrzymać się na razie..."
 
 #: src/mission_companion.cpp
 msgid ""
 "You don't have enough to pay the workers to harvest the crop so you are "
 "forced to liquidate..."
-msgstr ""
+msgstr "Nie wystarcza ci pieniędzy na wynajęcie robotników do zbioru, więc zmuszony jesteś go upłynnić..."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid "Do you wish to liquidate the crop of %d %s for a profit of $%d?"
-msgstr ""
+msgstr "Czy chcesz upłynnić plon %d %s za kwotę %d$ zysku?"
 
 #: src/mission_companion.cpp
 #, c-format
 msgid "The %s are liquidated for $%d..."
-msgstr ""
+msgstr "Plon %s został upłynniony za %d$..."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid "You receive %d %s..."
-msgstr ""
+msgstr "Otrzymujesz %d %s..."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid ""
 "While scavenging, %s's party suddenly found itself set upon by a large mob "
 "of undead..."
-msgstr ""
+msgstr "Podczas szabrowania, grupa %s nagle znalazła się w obliczu dużego tłumu nieumarłych..."
 
 #: src/mission_companion.cpp
 msgid "Through quick thinking the group was able to evade combat!"
-msgstr ""
+msgstr "Dzięki szybkiemu myśleniu grupa uniknęła walki!"
 
 #: src/mission_companion.cpp
 msgid "Combat took place in close quarters, focusing on melee skills..."
-msgstr ""
+msgstr "Nawiązano walkę w zamkniętej przestrzeni, skupiając się na umiejętnościach wali wręcz..."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid "Through brute force the party smashed through the group of %d undead!"
-msgstr ""
+msgstr "Brutalną siłą wyprawa przebiła się przez grupę %dnieumarłych!"
 
 #: src/mission_companion.cpp
 msgid "Unfortunately they were overpowered by the undead... I'm sorry."
-msgstr ""
+msgstr "Niestety ulegli sile nieumarłych... Przykro mi."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid ""
 "%s returns from patrol having earned $%d and a fair bit of experience..."
-msgstr ""
+msgstr "%s powraca z patrolu zarabiając %d$ i zdobywając garść doświadczenia..."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid ""
 "%s was impressed with %s's performance and gave you a small bonus ($100)"
-msgstr ""
+msgstr "%s był pod wrażeniem dokonań %s i dał ci mały bonus (100$)"
 
 #: src/mission_companion.cpp
 #, c-format
 msgid ""
 "%s feels more confident in your abilities and is willing to let you "
 "participate in daring raids."
-msgstr ""
+msgstr "%s ma większe zaufanie do twoich umiejętności i jest gotów dopuścić cię do udziału w bardziej ryzykownych wypadach."
 
 #: src/mission_companion.cpp
 msgid "Unfortunatly they were overpowered by the undead... I'm sorry."
-msgstr ""
+msgstr "Niestety ulegli sile nieumarłych... Przykro mi."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid ""
 "%s returns from the raid having earned $%d and a fair bit of experience..."
-msgstr ""
+msgstr "%s powraca z wypadu zarabiając %d$ i z garścią nowych doświadczeń."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid "%s returned with a %s for you!"
-msgstr ""
+msgstr "%s powraca przynosząc ci %s!"
 
 #: src/mission_companion.cpp
 #, c-format
 msgid ""
 "%s returns from working as a laborer having earned $%d and a bit of "
 "experience..."
-msgstr ""
+msgstr "%s powraca z pracy jako robotnik zarabiając %d$ i zdobywając szczyptę doświadczenia..."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid ""
 "%s feels more confident in your companions and is willing to let them "
 "participate in advanced tasks."
-msgstr ""
+msgstr "%s ma większe zaufanie do twoich towarzyszy i jest gotów dopuścić ich do bardziej złożonych zadań."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid "While %s was framing a building one of the walls began to collapse..."
-msgstr ""
+msgstr "Podczas gdy %s budował szkielet budynku jedna ze ścian zaczęła się przewracać.."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid "In the blink of an eye, %s threw a brace up and averted a disaster."
-msgstr ""
+msgstr "W mgnieniu oka %s przytrzymał konstrukcję powstrzymując wypadek."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid "Darting out a window, %s escaped the collapse."
-msgstr ""
+msgstr "Wyskakując przez okno, %s uciekł przed zawałem."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid "%s didn't make it out in time..."
-msgstr ""
+msgstr "%s nie zdążył na czas..."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid "but %s was rescued from the debris with only minor injuries!"
-msgstr ""
+msgstr "ale %s został wyciągnięty z gruzu jedynie z kilkoma otarciami!"
 
 #: src/mission_companion.cpp
 msgid "Everyone who was trapped under the collapsing roof died..."
-msgstr ""
+msgstr "Wszyscy uwięzieni pod upadającym dachem zginęli..."
 
 #: src/mission_companion.cpp
 msgid "I'm sorry, there is nothing we could do."
-msgstr ""
+msgstr "Przykro mi, nic nie można było zrobić."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid ""
 "%s returns from working as a carpenter having earned $%d and a bit of "
 "experience..."
-msgstr ""
+msgstr "%s powraca z pracy jako stolarz zarabiając %d$ i zdobywając szczyptę doświadczenia..."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid "While foraging, a beast began to stalk %s..."
-msgstr ""
+msgstr "Podczas przeszukiwania dziczy, bestia zaczęła tropić %s ..."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid "Alerted by a rustle, %s fled to the safety of the outpost!"
-msgstr ""
+msgstr "Zaniepokojony szmerem %s uciekł na bezpieczny teren posterunku!"
 
 #: src/mission_companion.cpp
 #, c-format
 msgid "As soon as the cougar sprang %s darted to the safety of the outpost!"
-msgstr ""
+msgstr "Jak tylko puma wyskoczyła, %s umknął na bezpieczny teren posterunku!"
 
 #: src/mission_companion.cpp
 #, c-format
 msgid ""
 "%s was caught unaware and was forced to fight the creature at close range!"
-msgstr ""
+msgstr "%s został zaskoczony i był zmuszony walczyć w zwarciu!"
 
 #: src/mission_companion.cpp
 #, c-format
 msgid "%s was able to scare off the bear after delivering a nasty blow!"
-msgstr ""
+msgstr "%s zdołał odstraszyć niedźwiedzia zadając mu paskudny cios!"
 
 #: src/mission_companion.cpp
 #, c-format
 msgid "%s beat the cougar into a bloody pulp!"
-msgstr ""
+msgstr "%s zrobił z pumy krwawą sieczkę!"
 
 #: src/mission_companion.cpp
 #, c-format
 msgid ""
 "%s was able to hold off the first wolf but the others that were sulking in "
 "the tree line caught up..."
-msgstr ""
+msgstr "%s zdołał obronić się przed pierwszym wilkiem, ale inne które trzymały się linii drzew dołączyły..."
 
 #: src/mission_companion.cpp
 msgid "I'm sorry, there wasn't anything we could do..."
-msgstr ""
+msgstr "Przykro mi, nic nie można było zrobić."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid ""
 "We... we don't know what exactly happened but we found %s's gear ripped and "
 "bloody..."
-msgstr ""
+msgstr "My... nie wiemy co dokładnie się stało, ale znaleźliśmy podarty i zakrwawiony sprzęt %s..."
 
 #: src/mission_companion.cpp
 msgid "I fear your companion won't be returning."
-msgstr ""
+msgstr "Obawiam się że twój towarzysz już nie wróci."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid ""
 "%s returns from working as a forager having earned $%d and a bit of "
 "experience..."
-msgstr ""
+msgstr "%s powraca z pracy jako zbieracz zarabiając %d$ i zdobywając szczyptę doświadczenia..."
 
 #: src/mission_companion.cpp
 #, c-format
 msgid "Engagement between %d members of %s %s and %d members of %s %s%s!"
-msgstr ""
+msgstr "Starcie pomiędzy %d członkami %s %s i %d członkami %s %s %s!"
 
 #: src/mission_companion.cpp
 #, c-format
 msgid "%s forces are destroyed!"
-msgstr ""
+msgstr "Siły %s zostają zniszczone!"
 
 #: src/mission_companion.cpp
 #, c-format
 msgid "%s forces retreat from combat!"
-msgstr ""
+msgstr "Siły %s wycofują się z walki!"
 
 #: src/mission_companion.cpp
 msgid "You don't have any companions to send out..."
-msgstr ""
+msgstr "Nie masz towarzyszy których mógłbyś wysłać..."
 
 #: src/mission_companion.cpp
 msgid "Who do you want to send?"
-msgstr ""
+msgstr "Kogo chcesz wysłać?"
 
 #: src/mission_companion.cpp
 msgid "You don't have any companions ready to return..."
-msgstr ""
+msgstr "Nie masz towarzyszy gotowych do powrotu..."
 
 #: src/mission_companion.cpp
 msgid "Who should return?"
-msgstr ""
+msgstr "Kto ma wrócić?"
 
 #: src/mission_companion.cpp
 msgid "No one returns to your party..."
-msgstr ""
+msgstr "Nikt nie wraca do twojej drużyny..."
 
 #: src/mission_end.cpp
 #, c-format
 msgid "%s gave you an item from the deposit box."
-msgstr ""
+msgstr "%s dał ci przedmiot z depozytu."
 
 #: src/mission_start.cpp
 #, c-format
 msgid "%s gave you a dog whistle."
-msgstr ""
+msgstr "%s dał ci psi gwizdek."
 
 #: src/mission_start.cpp
 #, c-format
 msgid "%s has instated you as a marshal!"
-msgstr ""
+msgstr "%s ogłosił cię marszalem!"
 
 #: src/mission_start.cpp
 #, c-format
 msgid "%s gave you a USB drive."
-msgstr ""
+msgstr "%s dał ci nośnik USB."
 
 #: src/mission_start.cpp
 #, c-format
 msgid "%s's Terminal"
-msgstr ""
+msgstr "Terminal %s"
 
 #: src/mission_start.cpp
 msgid "Download Software"
-msgstr ""
+msgstr "Pobierz Program Komputerowy"
 
 #: src/mission_start.cpp
 #, c-format
 msgid "%s gave you back the black box."
-msgstr ""
+msgstr "%s oddaje ci czarną skrzynkę."
 
 #: src/mission_start.cpp
 #, c-format
 msgid "%s gave you sarcophagus access code."
-msgstr ""
+msgstr "%s daje ci kody dostępu sarkofagu."
 
 #: src/mission_start.cpp
 #, c-format
 msgid "%s gave you a vacutainer."
-msgstr ""
+msgstr "%s daje ci  próbówkę vacutainer."
 
 #: src/mission_start.cpp
 #, c-format
 msgid "%s marks as well the road that leads to it..."
-msgstr ""
+msgstr "%s zaznacza także prowadzącą tam drogę ..."
 
 #: src/mission_start.cpp
 #, c-format
 msgid "%s have marked the only %s known to them on your map."
-msgstr ""
+msgstr "%s zaznacza jedyny znany im %s na twojej mapie."
 
 #: src/mission_start.cpp
 msgid "You don't know where the address could be..."
-msgstr ""
+msgstr "Nie wiesz gdzie mógłby być ten adres..."
 
 #: src/mission_start.cpp
 msgid "You already know that address..."
-msgstr ""
+msgstr "Już znasz ten adres..."
 
 #: src/mission_start.cpp
 msgid "It takes you forever to find the address on your map..."
-msgstr ""
+msgstr "Znalezienie adresu na mapie zajmuje ci całą wieczność..."
 
 #: src/mission_start.cpp
 msgid "You mark the refugee center and the road that leads to it..."
-msgstr ""
+msgstr "Zaznaczasz centrum dla uchodźców i drogę, która tam prowadzi..."
 
 #: src/mission_start.cpp
 msgid ""
 "You mark the refugee center, but you have no idea how to get there by "
 "road..."
-msgstr ""
+msgstr "Zaznaczasz centrum dla uchodźców ale nie masz pojęcia jak dostać się tam drogą..."
 
 #: src/mission_ui.cpp
 msgid "ACTIVE MISSIONS"
-msgstr ""
+msgstr "AKTYWNE MISJE"
 
 #: src/mission_ui.cpp
 msgid "COMPLETED MISSIONS"
-msgstr ""
+msgstr "UKOŃCZONE MISJE"
 
 #: src/mission_ui.cpp
 msgid "FAILED MISSIONS"
-msgstr ""
+msgstr "NIEUDANE MISJE"
 
 #: src/mission_ui.cpp
 #, c-format
 msgid "Deadline: %s"
-msgstr ""
+msgstr "Termin: %s"
 
 #: src/mission_ui.cpp src/newcharacter.cpp
 msgid "None!"
-msgstr ""
+msgstr "Brak!"
 
 #: src/mission_ui.cpp
 #, c-format
 msgid "Time remaining: %s"
-msgstr ""
+msgstr "Pozostały czas: %s"
 
 #: src/mission_ui.cpp
 #, c-format
 msgid "Target: (%d, %d)   You: (%d, %d)"
-msgstr ""
+msgstr "Cel: (%d, %d)   Ty: (%d, %d)"
 
 #: src/mission_ui.cpp
 msgid "You have no active missions!"
-msgstr ""
+msgstr "Nie masz aktywnych misji!"
 
 #: src/mission_ui.cpp
 msgid "You haven't completed any missions!"
-msgstr ""
+msgstr "Nie ukończyłeś żadnych misji!"
 
 #: src/mission_ui.cpp
 msgid "You haven't failed any missions!"
-msgstr ""
+msgstr "Nie zawiodłeś w żadnej misji!"
 
 #: src/mod_manager.cpp
 msgid "CORE CONTENT PACKS"
-msgstr ""
+msgstr "PAKIETY ZAWARTOŚCI RDZENIA"
 
 #: src/mod_manager.cpp
 msgid "ITEM ADDITION MODS"
-msgstr ""
+msgstr "MODY DODATKOWYCH PRZEDMIOTÓW"
 
 #: src/mod_manager.cpp
 msgid "CREATURE MODS"
-msgstr ""
+msgstr "MODY STWORZEŃ"
 
 #: src/mod_manager.cpp
 msgid "MISC ADDITIONS"
-msgstr ""
+msgstr "RÓŻNE MODY"
 
 #: src/mod_manager.cpp
 msgid "BUILDINGS MODS"
-msgstr ""
+msgstr "MODY BUDYNKÓW"
 
 #: src/mod_manager.cpp
 msgid "VEHICLE MODS"
-msgstr ""
+msgstr "MODY POJAZDÓW"
 
 #: src/mod_manager.cpp
 msgid "REBALANCING MODS"
-msgstr ""
+msgstr "MODY BALANSU"
 
 #: src/mod_manager.cpp
 msgid "MAGICAL MODS"
-msgstr ""
+msgstr "MODY MAGII"
 
 #: src/mod_manager.cpp
 msgid "ITEM EXCLUSION MODS"
-msgstr ""
+msgstr "MODY WYKLUCZENIA PRZEDMIOTÓW"
 
 #: src/mod_manager.cpp
 msgid "MONSTER EXCLUSION MODS"
-msgstr ""
+msgstr "MODY WYKLUCZENIA POTWORÓW"
 
 #: src/mod_manager.cpp
 msgid "NO CATEGORY"
-msgstr ""
+msgstr "BEZ KATEGORII"
 
 #: src/mod_manager.cpp
 msgid "Default"
-msgstr ""
+msgstr "Domyślne"
 
 #: src/mod_manager.cpp src/safemode_ui.cpp
 msgid "Blacklist"
-msgstr ""
+msgstr "Czarna Lista"
 
 #: src/mod_manager.cpp
 msgid "Balance"
-msgstr ""
+msgstr "Balans"
 
 #. ~ name of a mod that has no name entry, (%s is the mods identifier)
 #: src/mod_manager.cpp
 #, c-format
 msgid "No name (%s)"
-msgstr ""
+msgstr "Bez nazwy (%s)"
 
 #: src/mod_manager.cpp
 msgid "list of default mods"
-msgstr ""
+msgstr "lista domyślnych modów"
 
 #: src/mod_manager.cpp
 msgid "list of mods"
-msgstr ""
+msgstr "lista modów"
 
 #: src/mod_manager_ui.cpp
 msgid "Author"
 msgid_plural "Authors"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Autor"
+msgstr[1] "Autorzy"
+msgstr[2] "Autorzy"
+msgstr[3] "Autorzy"
 
 #: src/mod_manager_ui.cpp
 msgid "Maintainer"
 msgid_plural "Maintainers"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Opiekun"
+msgstr[1] "Opiekuni"
+msgstr[2] "Opiekuni"
+msgstr[3] "Opiekuni"
 
 #: src/mod_manager_ui.cpp
 msgid "Dependency"
 msgid_plural "Dependencies"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Zależność"
+msgstr[1] "Zależności"
+msgstr[2] "Zależności"
+msgstr[3] "Zależności"
 
 #: src/mod_manager_ui.cpp
 msgid "This mod requires <color_green>Lua support</color>"
-msgstr ""
+msgstr "Ten mod wymaga <color_green>wsparcia Lua</color>"
 
 #: src/mod_manager_ui.cpp
 msgid "This mod requires <color_red>Lua support</color>"
-msgstr ""
+msgstr "Ten mod wymaga <color_red>wsparcia Lua</color>"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %1$s feeds an %2$s and it grows!"
-msgstr ""
+msgstr "%1$s karmi %2$s i on rośnie!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s lays an egg!"
-msgstr ""
+msgstr "%s znosi jajko!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s tends nearby eggs, and they hatch!"
-msgstr ""
+msgstr "%s wysiaduje pobliskie jajka i wykluwają się z nich piskęta!"
 
 #: src/monattack.cpp
 msgid "a terrible shriek!"
-msgstr ""
+msgstr "okropny skrzek!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s begins shrieking!"
-msgstr ""
+msgstr "%s zaczyna skrzeczeć!"
 
 #: src/monattack.cpp
 msgid "a piercing wail!"
-msgstr ""
+msgstr "przeszywający wizg!"
 
 #: src/monattack.cpp
 msgid "an ear-piercing howl!"
-msgstr ""
+msgstr "przeszywający uszy skowyt!"
 
 #: src/monattack.cpp
 msgid "a sibilant rattling sound!"
-msgstr ""
+msgstr "sycząco grzechoczący dźwięk!"
 
 #: src/monattack.cpp
 msgid "a spitting noise."
-msgstr ""
+msgstr "plujący odgłos."
 
 #: src/monattack.cpp
 #, c-format
 msgid "A glob of acid hits the %s!"
-msgstr ""
+msgstr "Kula kwasu trafia %s!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s barfs acid at you, but you dodge!"
-msgstr ""
+msgstr "%s rzyga kwasem na ciebie, ale robisz unik!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s barfs acid at <npcname>, but they dodge!"
-msgstr ""
+msgstr "%s rzyga kwasem na <npcname>, ale cel robi unik!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %1$s barfs acid on your %2$s for %3$d damage!"
-msgstr ""
+msgstr "%1$s rzyga kwasem na twoją %2$s zadając %3$dobrażeń!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %1$s barfs acid on <npcname>'s %2$s for %3$d damage!"
-msgstr ""
+msgstr "%1$s rzyga kwasem na %2$s <npcname> zadając %3$dobrażeń!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %1$s barfs acid on your %2$s, but it washes off the armor!"
-msgstr ""
+msgstr "%1$s rzyga kwasem na twoją %2$s, ale kwas spływa po pancerzu!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %1$s barfs acid on <npcname>'s %2$s, but it washes off the armor!"
-msgstr ""
+msgstr "%1$s rzyga kwasem na %2$s <npcname>, ale kwas spływa po pancerzu!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "A bolt of electricity arcs towards %s!"
-msgstr ""
+msgstr "Łuk elektryczny przeskakuje w kierunku %s!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "%s is pulled away from your hands!"
-msgstr ""
+msgstr "%s wyrywa się z twoich rąk!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "%s is pulled away from <npcname>'s hands!"
-msgstr ""
+msgstr "%s wyrywa się z rąk <npcname>!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s unsuccessfully attempts to pull your weapon away."
-msgstr ""
+msgstr "%s zawodzi w próbie wyrwania ci broni z rąk."
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s unsuccessfully attempts to pull <npcname>'s weapon away."
-msgstr ""
+msgstr "%s zawodzi w próbie wyrwania broni z rąk <npcname>."
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s spews bile!"
-msgstr ""
+msgstr "%s bluzga żółcią!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "Bile splatters on the %s!"
-msgstr ""
+msgstr "Żółć obryzguje %s!"
 
 #: src/monattack.cpp
 msgid "You dodge it!"
-msgstr ""
+msgstr "Uchylasz się!"
 
 #: src/monattack.cpp
 msgid "<npcname> dodges it!"
-msgstr ""
+msgstr "<npcname> uchyla się!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s throws its arms wide."
-msgstr ""
+msgstr "%s wymachuje szeroko ramionami."
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s gesticulates wildly."
-msgstr ""
+msgstr "%s dziko gestykuluje."
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s gestures at a nearby corpse."
-msgstr ""
+msgstr "%s gestykuluje w kierunku pobliskiego ciała."
 
 #: src/monattack.cpp
 #, c-format
 msgid "A nearby %s rises from the dead!"
-msgstr ""
+msgstr "Pobliski %s wstaje z martwych!"
 
 #: src/monattack.cpp
 msgid "But nothing seems to happen."
-msgstr ""
+msgstr "Ale wygląda na to, że nic się nie dzieje."
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s takes a powerful swing at you, but you dodge it!"
-msgstr ""
+msgstr "%s bierze potężny zamach, ale unikasz go!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s takes a powerful swing at <npcname>, who dodges it!"
-msgstr ""
+msgstr "%s bierze potężny zamach, ale <npcname> unika go!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "A blow from the %1$s sends %2$s flying!"
-msgstr ""
+msgstr "Uderzenie %1$s posyła %2$s w powietrze!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "A blow from the %s sends <npcname> flying!"
-msgstr ""
+msgstr "Uderzenie %s posyła <npcname> w powietrze!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s gesticulates wildly!"
-msgstr ""
+msgstr "%s dziko gestykuluje!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s coughs up a strange dust."
-msgstr ""
+msgstr "%s wykasłuje dziwny pył."
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s moans softly."
-msgstr ""
+msgstr "%s jęczy lekko."
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s's skin crackles with electricity."
-msgstr ""
+msgstr "Skóra %s trzeszczy od elektryczności."
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %1$s opens its mouth and a beam shoots towards %2$s!"
-msgstr ""
+msgstr "%1$s otwiera swoje usta i promień strzela w kierunku %2$s!"
 
 #: src/monattack.cpp
 msgid "You dodge the beam!"
-msgstr ""
+msgstr "Uchylasz się przed promieniem!"
 
 #: src/monattack.cpp
 msgid "<npcname> dodges the beam!"
-msgstr ""
+msgstr "<npcname> uchyla się przed promieniem!"
 
 #: src/monattack.cpp
 msgid "You get pins and needles all over."
-msgstr ""
+msgstr "Czujesz mrowienie całego ciała."
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s opens its coat, and a manhack flies out!"
-msgstr ""
+msgstr "%s uchyla swój fartuch i młynek wylatuje w powietrze!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s drops a flask of acid!"
-msgstr ""
+msgstr "%s upuszcza zlewkę z kwasem!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "A tree bursts forth from the earth and pierces your %s!"
-msgstr ""
+msgstr "Drzewo wyrywa się spod ziemi i przebija twoją %s!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "A tree bursts forth from the earth and pierces <npcname>'s %s!"
-msgstr ""
+msgstr "Drzewo wyrywa się spod ziemi i przebija %s <npcname>!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The underbrush beneath your feet grows and pierces your %s!"
-msgstr ""
+msgstr "Poszycie pod twoimi stopami rośnie i przebija twoją %s!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "Underbrush grows into a tree, and it pierces <npcname>'s %s!"
-msgstr ""
+msgstr "Poszycie wyrasta w drzewo i przebija %s <npcname>!"
 
 #. ~ 1$s monster name(vine), 2$s bodypart in accusative
 #: src/monattack.cpp
 #, c-format
 msgid "The %1$s lashes your %2$s!"
-msgstr ""
+msgstr "%1$s smaga twoją %2$s!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %1$s lashes <npcname>'s %2$s!"
-msgstr ""
+msgstr "%1$s smaga %2$s <npcname>!"
 
 #: src/monattack.cpp
 msgid "thu-THUMP."
-msgstr ""
+msgstr "thu-THUMP."
 
 #: src/monattack.cpp
 msgid "The root walls creak around you."
-msgstr ""
+msgstr "Ściany z korzeniu trzeszczą wokół ciebie."
 
 #. ~ the sound of a fungus releasing spores
 #. ~ That spore sound again
@@ -122007,42 +122021,42 @@ msgstr ""
 #. ~spore-release sound
 #: src/monattack.cpp src/mondeath.cpp src/player.cpp
 msgid "Pouf!"
-msgstr ""
+msgstr "Pouf!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "Spores are released from the %s!"
-msgstr ""
+msgstr "Zarodniki zostały rozpylone przez %s!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s pulses, and fresh fungal material bursts forth."
-msgstr ""
+msgstr "%spulsuje i świeży materiał grzybiczny wybucha naprzód."
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s suddenly inhales!"
-msgstr ""
+msgstr "%s robi nagły wdech!"
 
 #. ~Sound of a giant fungal blossom inhaling
 #: src/monattack.cpp
 msgid "WOOOSH!"
-msgstr ""
+msgstr "WOOOSH!"
 
 #: src/monattack.cpp
 #, c-format
 msgid "The %s discharges an immense flow of spores, smothering the flames!"
-msgstr ""
+msgstr "%s uwalnia gęsty strumień zarodników, dusząc płomienie!"
 
 #. ~Sound of a giant fungal blossom blowing out the dangerous fire!
 #: src/monattack.cpp
 msgid "POUFF!"
-msgstr ""
+msgstr "POUFF!"
 
 #. ~ That spore sound, much louder
 #: src/monattack.cpp
 msgid "POUF."
-msgstr ""
+msgstr "POUF."
 
 #: src/monattack.cpp
 #, c-format
@@ -124524,696 +124538,696 @@ msgstr ""
 
 #: src/npc.cpp
 msgid "Completely untrusting"
-msgstr ""
+msgstr "Zupełnie nieufny"
 
 #: src/npc.cpp
 msgid "Very untrusting"
-msgstr ""
+msgstr "Bardzo nieufny"
 
 #: src/npc.cpp
 msgid "Untrusting"
-msgstr ""
+msgstr "Nieufny"
 
 #: src/npc.cpp
 msgid "Uneasy"
-msgstr ""
+msgstr "Niepewny"
 
 #: src/npc.cpp
 msgid "Trusting"
-msgstr ""
+msgstr "Ufny"
 
 #: src/npc.cpp
 msgid "Very trusting"
-msgstr ""
+msgstr "Bardzo ufny"
 
 #: src/npc.cpp
 msgid "Completely trusting"
-msgstr ""
+msgstr "Całkowicie ufny"
 
 #: src/npc.cpp
 msgid "Trust: "
-msgstr ""
+msgstr "Zaufanie:"
 
 #: src/npc.cpp
 msgid "Thinks you're laughably harmless"
-msgstr ""
+msgstr "Myśli, że jesteś zabawnie bezbronny"
 
 #: src/npc.cpp
 msgid "Thinks you're harmless"
-msgstr ""
+msgstr "Myśli, że jesteś bezbronny"
 
 #: src/npc.cpp
 msgid "Unafraid"
-msgstr ""
+msgstr "Nie obawia się"
 
 #: src/npc.cpp
 msgid "Wary"
-msgstr ""
+msgstr "Ostrożny"
 
 #: src/npc.cpp
 msgid "Afraid"
-msgstr ""
+msgstr "Przestraszony"
 
 #: src/npc.cpp
 msgid "Very afraid"
-msgstr ""
+msgstr "Bardzo przestraszony"
 
 #: src/npc.cpp
 msgid "Terrified"
-msgstr ""
+msgstr "Przerażony"
 
 #: src/npc.cpp
 msgid "Fear: "
-msgstr ""
+msgstr "Strach:"
 
 #: src/npc.cpp
 msgid "Considers you a major liability"
-msgstr ""
+msgstr "Uważa, że jesteś poważnym ciężarem"
 
 #: src/npc.cpp
 msgid "Considers you a burden"
-msgstr ""
+msgstr "Uważa, że jesteś ciężarem"
 
 #: src/npc.cpp
 msgid "Considers you an annoyance"
-msgstr ""
+msgstr "Uważa cię za zawadę"
 
 #: src/npc.cpp
 msgid "Doesn't care about you"
-msgstr ""
+msgstr "Nie obchodzisz go"
 
 #: src/npc.cpp
 msgid "Values your presence"
-msgstr ""
+msgstr "Ceni twoją obecność"
 
 #: src/npc.cpp
 msgid "Treasures you"
-msgstr ""
+msgstr "Docenia cię"
 
 #: src/npc.cpp
 msgid "Best Friends Forever!"
-msgstr ""
+msgstr "Najlepsi Kumple na Wieczność!"
 
 #: src/npc.cpp
 msgid "Value: "
-msgstr ""
+msgstr "Ocena:"
 
 #: src/npc.cpp
 msgid "You can do no wrong!"
-msgstr ""
+msgstr "Nie możesz się mylić!"
 
 #: src/npc.cpp
 msgid "You're good people"
-msgstr ""
+msgstr "Jesteś dobry człek"
 
 #: src/npc.cpp
 msgid "Thinks well of you"
-msgstr ""
+msgstr "Dobrze o tobie myśli"
 
 #: src/npc.cpp
 msgid "Ambivalent"
-msgstr ""
+msgstr "Obojętny"
 
 #: src/npc.cpp
 msgid "Pissed off"
-msgstr ""
+msgstr "Wkurzony"
 
 #: src/npc.cpp
 msgid "Angry"
-msgstr ""
+msgstr "Zły"
 
 #: src/npc.cpp
 msgid "About to kill you"
-msgstr ""
+msgstr "Zaraz cię zabije"
 
 #: src/npc.cpp
 msgid "Anger: "
-msgstr ""
+msgstr "Gniew:"
 
 #: src/npc.cpp
 #, c-format
 msgid "%s dies!"
-msgstr ""
+msgstr "%s umiera!"
 
 #: src/npc.cpp
 msgctxt "memorial_male"
 msgid "Caught and killed an ape.  Prey doesn't have a name."
-msgstr ""
+msgstr "Złapałeś i zabiłeś małpę. Zwierzyna nie ma imion."
 
 #: src/npc.cpp
 msgctxt "memorial_female"
 msgid "Caught and killed an ape.  Prey doesn't have a name."
-msgstr ""
+msgstr "Złapałaś i zabiłaś małpę. Zwierzyna nie ma imion."
 
 #: src/npc.cpp
 #, c-format
 msgctxt "memorial_male"
 msgid "Killed a delicious-looking innocent, %s, in cold blood."
-msgstr ""
+msgstr "Zabiłeś smakowicie wyglądającego niewinnego, %s, z zimną krwią."
 
 #: src/npc.cpp
 #, c-format
 msgctxt "memorial_female"
 msgid "Killed a delicious-looking innocent, %s, in cold blood."
-msgstr ""
+msgstr "Zabiłaś smakowicie wyglądającego niewinnego, %s, z zimną krwią."
 
 #: src/npc.cpp
 #, c-format
 msgctxt "memorial_male"
 msgid "Killed an innocent, %s, in cold blood. They were weak."
-msgstr ""
+msgstr "Zabiłeś niewinnego, %s, z zimną krwią. Był słaby."
 
 #: src/npc.cpp
 #, c-format
 msgctxt "memorial_female"
 msgid "Killed an innocent, %s, in cold blood. They were weak."
-msgstr ""
+msgstr "Zabiłaś niewinnego, %s, z zimną krwią. Był słaby."
 
 #: src/npc.cpp
 #, c-format
 msgctxt "memorial_male"
 msgid "Killed an innocent, %s."
-msgstr ""
+msgstr "Zabiłeś niewinnego, %s."
 
 #: src/npc.cpp
 #, c-format
 msgctxt "memorial_female"
 msgid "Killed an innocent, %s."
-msgstr ""
+msgstr "Zabiłaś niewinnego, %s."
 
 #: src/npc.cpp
 #, c-format
 msgctxt "memorial_male"
 msgid ""
 "Killed an innocent person, %s, in cold blood and felt terrible afterwards."
-msgstr ""
+msgstr "Zabiłeś niewinnego, %s, z zimną krwią i poczułeś się po tym źle."
 
 #: src/npc.cpp
 #, c-format
 msgctxt "memorial_female"
 msgid ""
 "Killed an innocent person, %s, in cold blood and felt terrible afterwards."
-msgstr ""
+msgstr "Zabiłaś niewinnego, %s, z zimną krwią i poczułaś się po tym źle."
 
 #: src/npc.cpp
 msgid "Ignoring"
-msgstr ""
+msgstr "Ignoruje"
 
 #: src/npc.cpp
 msgid "Wants to talk"
-msgstr ""
+msgstr "Chce rozmawiać"
 
 #: src/npc.cpp
 msgid "Following"
-msgstr ""
+msgstr "Podąża za tobą"
 
 #: src/npc.cpp
 msgid "Leading"
-msgstr ""
+msgstr "Przewodzi"
 
 #: src/npc.cpp
 msgid "Waiting for you"
-msgstr ""
+msgstr "Czeka na ciebie"
 
 #: src/npc.cpp
 msgid "Mugging you"
-msgstr ""
+msgstr "Napada na ciebie"
 
 #: src/npc.cpp
 msgid "Waiting for you to leave"
-msgstr ""
+msgstr "Czeka aż odejdziesz"
 
 #: src/npc.cpp
 msgid "Attacking to kill"
-msgstr ""
+msgstr "Atakuje by zabić"
 
 #: src/npc.cpp
 msgid "Fleeing"
-msgstr ""
+msgstr "Ucieka"
 
 #: src/npc.cpp
 msgid "Healing you"
-msgstr ""
+msgstr "Leczy cię"
 
 #: src/npc.cpp
 msgid "Is trying to kill you."
-msgstr ""
+msgstr "Próbuje cię zabić."
 
 #: src/npc.cpp
 msgid "Is trying to flee from you."
-msgstr ""
+msgstr "Próbuje uciec przed tobą."
 
 #: src/npc.cpp
 msgid "Is your friend."
-msgstr ""
+msgstr "Jest twoim przyjacielem."
 
 #: src/npc.cpp
 msgid "Is following you."
-msgstr ""
+msgstr "Podąża za tobą."
 
 #: src/npc.cpp
 msgid "Will try to kill you or flee from you if you reveal yourself."
-msgstr ""
+msgstr "Będzie chciał cię zabić lub ucieknie przed tobą jeśli się ujawnisz."
 
 #: src/npc.cpp
 msgid "Is neutral."
-msgstr ""
+msgstr "Jest nautralny."
 
 #: src/npc.cpp
 msgid "Is still innocent and killing them will be considered murder."
-msgstr ""
+msgstr "Jest nadal niewinny i zabicie go będzie uznawane za morderstwo."
 
 #: src/npcmove.cpp
 #, c-format
 msgid "%s lies down to sleep."
-msgstr ""
+msgstr "%s kładzie się do snu."
 
 #: src/npcmove.cpp
 msgid "Don't move a <swear> muscle..."
-msgstr ""
+msgstr "Nie rusz <swear> nawet palcem..."
 
 #: src/npcmove.cpp
 #, c-format
 msgid "%1$s falls tries to climb the %2$s but slips."
-msgstr ""
+msgstr "%1$s upada próbując wspiąć się na %2$s i poślizgując się."
 
 #: src/npcmove.cpp
 #, c-format
 msgid "%1$s climbs over the %2$s."
-msgstr ""
+msgstr "%1$s wspina się przez %2$s."
 
 #: src/npcmove.cpp
 #, c-format
 msgid "Hold on, I want to pick up that %s."
-msgstr ""
+msgstr "Zaczekaj, chcę podnieść %s."
 
 #: src/npcmove.cpp
 #, c-format
 msgid "%1$s picks up a %2$s."
-msgstr ""
+msgstr "%1$s podnosi %2$s."
 
 #: src/npcmove.cpp
 #, c-format
 msgid "%1$s picks up a %2$s and a %3$s."
-msgstr ""
+msgstr "%1$s podnosi %2$s i %3$s."
 
 #: src/npcmove.cpp
 #, c-format
 msgid "%s picks up several items."
-msgstr ""
+msgstr "%s podnosi kilka przedmiotów."
 
 #: src/npcmove.cpp
 #, c-format
 msgid "%s looks around nervously, as if searching for something."
-msgstr ""
+msgstr "%s rozgląda się nerwowo, jakby szukając czegoś."
 
 #: src/npcmove.cpp src/output.h
 msgid " and "
-msgstr ""
+msgstr "i"
 
 #: src/npcmove.cpp
 #, c-format
 msgid "%s drops %d item."
 msgid_plural "%s drops %d items."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%s upuszcza %d przedmiot."
+msgstr[1] " %s upuszcza %d przedmioty."
+msgstr[2] "%s upuszcza %d przedmioty."
+msgstr[3] "%s upuszcza %d przedmioty."
 
 #: src/npcmove.cpp
 #, c-format
 msgid "%1$s drops a %2$s."
-msgstr ""
+msgstr "%1$s upuszcza %2$s."
 
 #: src/npcmove.cpp
 #, c-format
 msgid "Hold on, I want to pulp that %s."
-msgstr ""
+msgstr "Zaczekaj, chcę zmiażdżyć to %s."
 
 #: src/npcmove.cpp
 #, c-format
 msgid "%1$s throws a %2$s."
-msgstr ""
+msgstr "%1$s rzuca %2$s."
 
 #: src/npcmove.cpp
 #, c-format
 msgid "%1$s heals %2$s."
-msgstr ""
+msgstr "%1$s leczy %2$s."
 
 #: src/npcmove.cpp
 msgid "That's all the healing I can do."
-msgstr ""
+msgstr "To tyle ile mogę wyleczyć."
 
 #: src/npcmove.cpp
 msgid "Hold still, I can heal you more."
-msgstr ""
+msgstr "Nie ruszaj cię, jeszcze mogę cię leczyć."
 
 #: src/npcmove.cpp
 #, c-format
 msgid "%s applies a %s"
-msgstr ""
+msgstr "%s aplikuje %s"
 
 #: src/npcmove.cpp
 #, c-format
 msgid "%1$s takes some %2$s."
-msgstr ""
+msgstr "%1$s bierze nieco %2$s."
 
 #: src/npcmove.cpp
 #, c-format
 msgid "%1$s takes %2$s's money!"
-msgstr ""
+msgstr "%1$s bierze pieniądze %2$s!"
 
 #: src/npcmove.cpp
 #, c-format
 msgid "%s takes your money!"
-msgstr ""
+msgstr "%s bierze twoje pieniądze!"
 
 #: src/npcmove.cpp
 #, c-format
 msgid "%1$s takes %2$s's %3$s."
-msgstr ""
+msgstr "%1$s bierze %3$s %2$s."
 
 #: src/npcmove.cpp
 #, c-format
 msgid "%1$s takes your %2$s."
-msgstr ""
+msgstr "%1$s bierze twoje %2$s."
 
 #: src/npcmove.cpp
 msgid "Undecided"
-msgstr ""
+msgstr "Niezdecydowany"
 
 #: src/npcmove.cpp
 msgid "Pick up items"
-msgstr ""
+msgstr "Podnoś rzeczy"
 
 #: src/npcmove.cpp
 msgid "Wield melee weapon"
-msgstr ""
+msgstr "Dzierż broń do walki wręcz"
 
 #: src/npcmove.cpp
 msgid "Wield loaded gun"
-msgstr ""
+msgstr "Dzierż załadowaną broń palną"
 
 #: src/npcmove.cpp
 msgid "Wield empty gun"
-msgstr ""
+msgstr "Dzierż pustą broń palną"
 
 #: src/npcmove.cpp
 msgid "Heal self"
-msgstr ""
+msgstr "Lecz siebie"
 
 #: src/npcmove.cpp
 msgid "Use painkillers"
-msgstr ""
+msgstr "Używaj środków przeciwbólowych"
 
 #: src/npcmove.cpp
 msgid "Drop items"
-msgstr ""
+msgstr "Upuść przedmioty"
 
 #: src/npcmove.cpp
 msgid "Flee"
-msgstr ""
+msgstr "Uciekaj"
 
 #: src/npcmove.cpp
 msgid "Melee"
-msgstr ""
+msgstr "Walka wręcz"
 
 #: src/npcmove.cpp
 msgid "Reach attack"
-msgstr ""
+msgstr "Atak dystansowy"
 
 #: src/npcmove.cpp
 msgid "Shoot"
-msgstr ""
+msgstr "Strzelaj"
 
 #: src/npcmove.cpp
 msgid "Look for player"
-msgstr ""
+msgstr "Szukaj gracza"
 
 #: src/npcmove.cpp
 msgid "Heal player"
-msgstr ""
+msgstr "Lecz gracza"
 
 #: src/npcmove.cpp
 msgid "Follow player"
-msgstr ""
+msgstr "Podążaj za graczem"
 
 #: src/npcmove.cpp
 msgid "Follow player (embarked)"
-msgstr ""
+msgstr "Podążaj za graczem (na pokładzie)"
 
 #: src/npcmove.cpp
 msgid "Talk to player"
-msgstr ""
+msgstr "Rozmawiaj z graczem"
 
 #: src/npcmove.cpp
 msgid "Mug player"
-msgstr ""
+msgstr "Obrabuj gracza"
 
 #: src/npcmove.cpp
 msgid "Go to destination"
-msgstr ""
+msgstr "Idź do celu"
 
 #: src/npcmove.cpp
 msgid "Avoid friendly fire"
-msgstr ""
+msgstr "Unikaj przyjacielskiego ostrzału"
 
 #: src/npcmove.cpp
 #, c-format
 msgid "My %s wound is infected..."
-msgstr ""
+msgstr "Moja rana %s jest zainfekowana..."
 
 #: src/npcmove.cpp
 #, c-format
 msgid "The bite wound on my %s looks bad."
-msgstr ""
+msgstr "Ugryzienie na mojej %s wygląda paskudnie."
 
 #: src/npcmove.cpp
 msgid "I'm suffering from radiation sickness..."
-msgstr ""
+msgstr "Cierpię na chorobę popromienną..."
 
 #: src/npcmove.cpp
 msgid "<hungry>"
-msgstr ""
+msgstr "<hungry>"
 
 #: src/npcmove.cpp
 msgid "<thirsty>"
-msgstr ""
+msgstr "<thirsty>"
 
 #: src/npcmove.cpp
 #, c-format
 msgid "%1$s reloads their %2$s."
-msgstr ""
+msgstr "%1$s przeładowuje swój %2$s."
 
 #: src/npctalk.cpp
 msgid "INTIMIDATE"
-msgstr ""
+msgstr "ZASTRASZ"
 
 #: src/npctalk.cpp
 msgid "LIE"
-msgstr ""
+msgstr "SKŁAM"
 
 #: src/npctalk.cpp
 msgid "PERSUADE"
-msgstr ""
+msgstr "PERSWADUJ"
 
 #: src/npctalk.cpp
 #, c-format
 msgid "%s is fleeing from you!"
-msgstr ""
+msgstr "%s ucieka przed tobą!"
 
 #: src/npctalk.cpp
 #, c-format
 msgid "Dialogue with %s"
-msgstr ""
+msgstr "Dialog z %s"
 
 #: src/npctalk.cpp
 msgid "Your response:"
-msgstr ""
+msgstr "Twoja odpowiedź:"
 
 #: src/npctalk.cpp
 #, c-format
 msgid "%s talked to you."
-msgstr ""
+msgstr "%s rozmawiał z tobą."
 
 #: src/npctalk.cpp
 msgid "&You are deaf and can't talk."
-msgstr ""
+msgstr "&Jesteś głuchy i nie możesz rozmawiać."
 
 #: src/npctalk.cpp
 #, c-format
 msgid ""
 "&You are deaf and can't talk. When you don't respond, %s becomes angry!"
-msgstr ""
+msgstr "&Jesteś głuchy i nie możesz rozmawiać. Gdy nie odpowiadasz, %s ogarnia złość!"
 
 #: src/npctalk.cpp
 msgid "  And I have more I'd like you to do."
-msgstr ""
+msgstr "I jest więcej co chciałbym żebyś zrobił."
 
 #: src/npctalk.cpp
 msgid "  I could use a hand with something else if you are interested."
-msgstr ""
+msgstr "Przydała by mi się jeszcze pomoc w pewnej sprawie."
 
 #: src/npctalk.cpp
 msgid "  If you are interested, I have another job for you."
-msgstr ""
+msgstr "Jak jesteś zainteresowany, to miałbym jeszcze robotę do zrobienia."
 
 #: src/npctalk.cpp
 msgid "Bye."
-msgstr ""
+msgstr "Żegnaj."
 
 #: src/npctalk.cpp
 msgid "I'm not in charge here, you're looking for someone else..."
-msgstr ""
+msgstr "Ja tu nie dowodzę, szukasz kogoś innego..."
 
 #: src/npctalk.cpp
 msgid "Keep civil or I'll bring the pain."
-msgstr ""
+msgstr "Zachowuj się, bo inaczej przyprowadzę cię do porządku."
 
 #: src/npctalk.cpp
 msgid "Just on watch, move along."
-msgstr ""
+msgstr "Tylko stróżuję, ruszaj dalej."
 
 #: src/npctalk.cpp
 msgid "Sir."
-msgstr ""
+msgstr "Sir."
 
 #: src/npctalk.cpp
 msgid "Ma'am"
-msgstr ""
+msgstr "Pani."
 
 #: src/npctalk.cpp
 msgid "Rough out there, isn't it?"
-msgstr ""
+msgstr "Ostro tam na zewnątrz, nie?"
 
 #: src/npctalk.cpp
 msgid "Ma'am, you really shouldn't be traveling out there."
-msgstr ""
+msgstr "Psze pani, naprawdę nie powinna pani podróżować tam na zewnątrz."
 
 #: src/npctalk.cpp
 msgid "I don't have any jobs for you."
-msgstr ""
+msgstr "Nie mam żadnych prac dla ciebie."
 
 #: src/npctalk.cpp
 msgid "I don't have any more jobs for you."
-msgstr ""
+msgstr "Nie mam już więcej prac dla ciebie."
 
 #: src/npctalk.cpp
 msgid "I just have one job for you.  Want to hear about it?"
-msgstr ""
+msgstr "Mam tylko jedną robotę. Chcesz posłuchać?"
 
 #: src/npctalk.cpp
 msgid "I have another job for you.  Want to hear about it?"
-msgstr ""
+msgstr "Mam kolejną robotę dla ciebie. Chcesz o niej usłyszeć?"
 
 #: src/npctalk.cpp
 msgid "I have several jobs for you.  Which should I describe?"
-msgstr ""
+msgstr "Mam kilka prac dla ciebie. Którą mam opisać?"
 
 #: src/npctalk.cpp
 msgid "I have several more jobs for you.  Which should I describe?"
-msgstr ""
+msgstr "Mam jeszcze kilka prac dla ciebie. Którą mam opisać?"
 
 #: src/npctalk.cpp
 msgid "You're not working on anything for me right now."
-msgstr ""
+msgstr "Nie pracujesz teraz nad żadnym moim zleceniem."
 
 #: src/npctalk.cpp
 msgid "What about it?"
-msgstr ""
+msgstr "Co ty na to?"
 
 #: src/npctalk.cpp
 msgid "Which job?"
-msgstr ""
+msgstr "Która praca?"
 
 #: src/npctalk.cpp
 msgid "Sure, here you go!"
-msgstr ""
+msgstr "Pewnie, proszę bardzo!"
 
 #: src/npctalk.cpp
 msgid ""
 "Feed a man a fish, he's full for a day. Feed a man a bullet, he's full for "
 "the rest of his life."
-msgstr ""
+msgstr "Nakarm człowieka rybą, będzie pełny na dzień. Nakarm go kulą, będzie pełny do końca swojego życia."
 
 #: src/npctalk.cpp
 msgid "Spot your prey before something nastier spots you."
-msgstr ""
+msgstr "Wytrop swoją zwierzynę, zanim coś gorszego nie wytropi ciebie."
 
 #: src/npctalk.cpp
 msgid "I've heard that cougars sometimes leap. Maybe it's just a myth."
-msgstr ""
+msgstr "Słyszałem że pumy potrafią czasem skakać na dystans. Może to tylko mit."
 
 #: src/npctalk.cpp
 msgid ""
 "The Jabberwock is real, don't listen to what anybody else says. If you see "
 "it, RUN."
-msgstr ""
+msgstr "Żaberzwłok jest prawdziwy, nie słuchaj co ludzie gadają. Jak go zobaczysz WIEJ."
 
 #: src/npctalk.cpp
 msgid ""
 "Zombie animal meat isn't good for eating, but sometimes you might find "
 "usable fur on 'em."
-msgstr ""
+msgstr "Mięso zwierząt zombie jest do niczego, ale czasem możesz na nich znaleźć zdatne futro."
 
 #: src/npctalk.cpp
 msgid ""
 "A steady diet of cooked meat and clean water will keep you alive forever, "
 "but your taste buds and your colon may start to get angry at you. Eat a "
 "piece of fruit every once in a while."
-msgstr ""
+msgstr "Stabilna dieta z gotowanego mięsa i czystej wody utrzyma cię przy życiu przez wieczność, ale twoje kubki smakowe i kiszki mogą zacząć się na ciebie złościć. Zjedz jakiś owoc od czasu do czasu."
 
 #: src/npctalk.cpp
 msgid "Smoke crack to get more shit done."
-msgstr ""
+msgstr "Pal krak jak chcesz odwalić więcej gówna."
 
 #: src/npctalk.cpp
 msgid "Marshal, I'm afraid I can't talk now."
-msgstr ""
+msgstr "Marszalu, obawiam się że nie mogę teraz rozmawiać."
 
 #: src/npctalk.cpp
 msgid "I'm not in charge here marshal."
-msgstr ""
+msgstr "Ja tu nie dowodzę marszalu."
 
 #: src/npctalk.cpp
 msgid "I'm supposed to direct all questions to my leadership, marshal."
-msgstr ""
+msgstr "Mam polecenie odsyłać wszelkie pytania do mojego dowództwa, marszalu."
 
 #: src/npctalk.cpp
 msgid "Hey, citizen... I'm not sure you belong here."
-msgstr ""
+msgstr "Hej, obywatelu... nie jestem pewien czy powinieneś tu być."
 
 #: src/npctalk.cpp
 msgid "You should mind your own business, nothing to see here."
-msgstr ""
+msgstr "Powinieneś pilnować własnego nosa, nic tu nie ma do oglądania."
 
 #: src/npctalk.cpp
 msgid "If you need something you'll need to talk to someone else."
-msgstr ""
+msgstr "Jak czegoś chcesz to pogadaj z kimś innym."
 
 #: src/npctalk.cpp
 msgid "Dude, if you can hold your own you should look into enlisting."
-msgstr ""
+msgstr "Koleś, jak dajesz radę ogarniać, to powinieneś się zaciągnąć."
 
 #: src/npctalk.cpp
 msgid "Hey miss, don't you think it would be safer if you stuck with me?"
-msgstr ""
+msgstr "Hej panienko, nie sądzisz że będzie bezpieczniej jak się będziesz trzymać ze mną?"
 
 #: src/npctalk.cpp
 msgid "Marshal, I hope you're here to assist us."
-msgstr ""
+msgstr "Marszalu, mam nadzieję że jesteś tu by nas wesprzeć."
 
 #: src/npctalk.cpp
 msgid ""
 "Sir, I don't know how the hell you got down here but if you have any sense "
 "you'll get out while you can."
-msgstr ""
+msgstr "Sir, nie wiem jak u licha się tu Pan dostał ale jeśli ma Pan choć trochę oleju w głowie to zabierze się Pan stąd puki może."
 
 #: src/npctalk.cpp
 msgid ""
 "Ma'am, I don't know how the hell you got down here but if you have any sense"
 " you'll get out while you can."
-msgstr ""
+msgstr "Psze Pani, nie wiem jak u licha się tu Pani dostała ale jeśli ma Pani choć trochę oleju w głowie to zabierze się Pani stąd puki może."
 
 #: src/npctalk.cpp
 msgid ""
@@ -125528,7 +125542,7 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "Welcome to the junk shop..."
-msgstr ""
+msgstr "Witaj w sklepie ze złomem..."
 
 #: src/npctalk.cpp
 msgid ""
@@ -125537,17 +125551,17 @@ msgid ""
 "teams... its dangerous work but keeps our outpost alive.  Selling anything "
 "we can't use helps keep us afloat with the traders.  If you wanted to drop "
 "off a companion or two to assist in one of the runs, I'd appreciate it."
-msgstr ""
+msgstr "Organizuję wypady zbierackie by zdobyć zapasy których sami nie wyprodukujemy. Staram się zachęcać migrantów do przyłączenia się do jednej z grup... to niebezpieczna praca ale trzyma posterunek przy życiu. Sprzedając czego nie zużyjemy sami pozwala nam trzymać się na powierzchni w relacjach z kupcami. Jakbyś pożyczył towarzysza lub dwóch do pomocy w takim wypadzie, to byłbym zobowiązany."
 
 #: src/npctalk.cpp
 msgid ""
 "Are you interested in the scavenging runs or one of the other tasks that I "
 "might have for you?"
-msgstr ""
+msgstr "Byłbyś zainteresowany wypadem zbierackim albo innymi zadaniami jakie mógłbym mieć dla ciebie?"
 
 #: src/npctalk.cpp
 msgid "Want a drink?"
-msgstr ""
+msgstr "Chcesz drinka?"
 
 #: src/npctalk.cpp
 msgid ""
@@ -125555,195 +125569,195 @@ msgid ""
 "world alcohol that we sell for special occasions.  For most that come "
 "through here though, the drinks we brew ourselves are the only thing they "
 "can afford."
-msgstr ""
+msgstr "Jeżeli to nie jest oczywiste, to zarządzam tym barem. Zbieracze ściągają to alkohol ze starego świata, który serwujemy na specjalne okazje. Dla większości jednak tych, co tędy przechodzą, jedyne co oferujemy na ich kieszeń, to nasze własne miejscowo warzone trunki."
 
 #: src/npctalk.cpp
 msgid ""
 "We have a policy of keeping information to ourselves.  Ask the patrons if "
 "you want to hear rumors or news."
-msgstr ""
+msgstr "Mamy tu zasadę, że trzymamy informacje dla siebie. Popytaj klientów, jak chcesz posłuchać plotek lub wieści."
 
 #: src/npctalk.cpp
 msgid "Our selection is a bit limited at the moment."
-msgstr ""
+msgstr "Nasz wybór jest chwilowo ograniczony."
 
 #: src/npctalk.cpp
 msgid "Can I interest you in a trim?"
-msgstr ""
+msgstr "Może zainteresuję cię przycięciem?"
 
 #: src/npctalk.cpp
 msgid ""
 "What?  I'm a barber... I cut hair.  There's demand for cheap cuts and a "
 "shave out here."
-msgstr ""
+msgstr "Co? Jestem fryzjerem... przycinam włosy. W tej okolicy jest wzięcie na tanie strzyżenie i golenie."
 
 #: src/npctalk.cpp
 msgid "I can't imagine what I'd need your assistance with."
-msgstr ""
+msgstr "Nie mam pojęcia w czym mógłbyś mi potencjalnie pomóc."
 
 #: src/npctalk.cpp
 msgid "Stand still while I get my clippers..."
-msgstr ""
+msgstr "Nie ruszaj się, już się biorę za maszynkę do strzyżenia..."
 
 #: src/npctalk.cpp
 msgid "Well, I guess it's just us."
-msgstr ""
+msgstr "Cóż, zgaduję że tylko my."
 
 #: src/npctalk.cpp
 msgid "At least we've got shelter."
-msgstr ""
+msgstr "Przynajmniej mamy schronienie."
 
 #: src/npctalk.cpp
 msgid "I don't know, look for supplies and other survivors I guess."
-msgstr ""
+msgstr "Nie wiem, poszukaj zapasów lub innych ocalonych, jak myślę."
 
 #: src/npctalk.cpp
 msgid "Maybe we should start boarding up this place."
-msgstr ""
+msgstr "Może powinniśmy zabić to miejsce dechami."
 
 #: src/npctalk.cpp
 msgid ""
 "I suppose getting a car up and running should really be useful if we have to"
 " disappear quickly from here."
-msgstr ""
+msgstr "Zgaduję, że jakiś wóz na chodzie byłby nie od rzeczy, gdyby trzeba było szybko stąd wiać."
 
 #: src/npctalk.cpp
 msgid ""
 "We could look for one of those farms out here. They can provide plenty of "
 "food and aren't close to the cities."
-msgstr ""
+msgstr "Powinniśmy rozejrzeć się za jakimś gospodarstwem rolniczym. Mogą być źródłem masy jedzenia i są oddalone od miast."
 
 #: src/npctalk.cpp
 msgid ""
 "We should probably stay away from those cities, even if there's plenty of "
 "useful stuff there."
-msgstr ""
+msgstr "Powinniśmy się raczej trzymać z dala od miast, choć jest w nich wiele przydatnych rzeczy. "
 
 #: src/npctalk.cpp
 msgid "You just asked me for stuff; ask later."
-msgstr ""
+msgstr "Dopiero mnie pytałeś o sprzęt. Zapytaj później."
 
 #: src/npctalk.cpp
 msgid "Why should I share my equipment with you?"
-msgstr ""
+msgstr "Czemu mam się dzielić ekwipunkiem?"
 
 #: src/npctalk.cpp
 msgid "Okay, here you go."
-msgstr ""
+msgstr "Okej, proszę bardzo."
 
 #: src/npctalk.cpp
 msgid "<no>, and if you ask again, <ill_kill_you>!"
-msgstr ""
+msgstr "<no>, i jeśli zapytasz ponownie, <ill_kill_you>!"
 
 #: src/npctalk.cpp
 msgid "<no><punc> <fuck_you>!"
-msgstr ""
+msgstr "<no><punc> <fuck_you>!"
 
 #: src/npctalk.cpp
 msgid "Shall we resume?"
-msgstr ""
+msgstr "Wznawiamy?"
 
 #: src/npctalk.cpp
 msgid "Sorry, but it doesn't seem I have anything to teach you."
-msgstr ""
+msgstr "Przepraszam, ale chyba nie mam czego cię uczyć."
 
 #: src/npctalk.cpp
 msgid "Here's what I can teach you..."
-msgstr ""
+msgstr "Mogę cię nauczyć następujących rzeczy..."
 
 #: src/npctalk.cpp
 msgid "Alright, let's begin."
-msgstr ""
+msgstr "W porządku, zaczynamy."
 
 #: src/npctalk.cpp
 msgid "Not until I get some antibiotics..."
-msgstr ""
+msgstr "Nie, dopóki nie dostanę antybiotyków..."
 
 #: src/npctalk.cpp
 msgid "You asked me recently; ask again later."
-msgstr ""
+msgstr "Niedawno mnie o to pytałeś. Poproś później."
 
 #: src/npctalk.cpp
 msgid "Why should I travel with you?"
-msgstr ""
+msgstr "Czemu mam z tobą podróżować?"
 
 #: src/npctalk.cpp
 msgid "You got it, I'm with you!"
-msgstr ""
+msgstr "Rozumiem, jestem z tobą!"
 
 #: src/npctalk.cpp
 msgid "Yeah... I don't think so."
-msgstr ""
+msgstr "Taaak... nie sądzę."
 
 #: src/npctalk.cpp
 msgid "What is it?"
-msgstr ""
+msgstr "O co chodzi?"
 
 #: src/npctalk.cpp
 msgid "You're really leaving?"
-msgstr ""
+msgstr "Naprawdę odchodzisz?"
 
 #: src/npctalk.cpp
 msgid "Alright.  You can lead now."
-msgstr ""
+msgstr "W porządku. Prowadzisz."
 
 #: src/npctalk.cpp
 msgid "No.  I'm the leader here."
-msgstr ""
+msgstr "Nie. Ja tu dowodzę."
 
 #: src/npctalk.cpp
 #, c-format
 msgid "%d.%d miles."
-msgstr ""
+msgstr "%d.%d mil."
 
 #: src/npctalk.cpp
 #, c-format
 msgid "%d foot."
 msgid_plural "%d feet."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%d stopa."
+msgstr[1] " %d stóp."
+msgstr[2] "%d stóp."
+msgstr[3] "%d stóp."
 
 #: src/npctalk.cpp
 msgid "I'm on watch."
-msgstr ""
+msgstr "Stoję na straży."
 
 #: src/npctalk.cpp
 msgid "Not a bloody chance, I'm going to get left behind!"
-msgstr ""
+msgstr "Nie ma bata, nie zostanę porzucony w tyle!"
 
 #: src/npctalk.cpp
 msgid "I'd prefer to keep that to myself."
-msgstr ""
+msgstr "Wolę zachować to dla siebie."
 
 #: src/npctalk.cpp
 msgid "I really don't feel comfortable doing so..."
-msgstr ""
+msgstr "Naprawdę nie czuję się z tym komfortowo..."
 
 #: src/npctalk.cpp
 msgid "*is not engaging enemies."
-msgstr ""
+msgstr "*nie walczy z wrogami."
 
 #: src/npctalk.cpp
 msgid "*is engaging nearby enemies."
-msgstr ""
+msgstr "*walczy z pobliskimi wrogami."
 
 #: src/npctalk.cpp
 msgid "*is engaging weak enemies."
-msgstr ""
+msgstr "*walczy ze słabymi wrogami."
 
 #: src/npctalk.cpp
 msgid "*is engaging enemies you attack."
-msgstr ""
+msgstr "*walczy z wrogami, których zaatakujesz."
 
 #: src/npctalk.cpp
 msgid "*is engaging enemies close enough to attack without moving."
-msgstr ""
+msgstr "*walczy z wrogami, których dosięgnie bez poruszania się."
 
 #: src/npctalk.cpp
 msgid "*is engaging all enemies."
-msgstr ""
+msgstr "*walczy ze wszystkimi wrogami"
 
 #: src/npctalk.cpp
 msgctxt "npc"
@@ -127183,6 +127197,14 @@ msgstr "To zbyt ciężkie bym to uniósł."
 msgid "Select a follower"
 msgstr "Wybierz towarzysza"
 
+#: src/options.cpp
+msgid "Message log flow"
+msgstr "Kierunek wiadomości w logu"
+
+#: src/options.cpp
+msgid "Where new log messages should show."
+msgstr "Gdzie będą się pojawiać nowe wiadomości w logu."
+
 #: src/output.cpp
 msgid "Press any key for more..."
 msgstr "Naciśnij dowolny klawisz dla kolejnych..."
@@ -127795,7 +127817,7 @@ msgstr "Wiatr jest bardzo silny, powinieneś znaleźć coś co ochroni przed nim
 #, c-format
 msgid ""
 "Your clothing is not providing enough protection from the wind for your %s!"
-msgstr ""
+msgstr "Twój ubiór nie zapewnia dostatecznej ochrony przed wiatrem dla twojej %s!"
 
 #: src/player.cpp
 msgid "He"
@@ -129004,7 +129026,7 @@ msgstr "Potrzebujesz pasującego magazynka żeby przeładować %s!"
 
 #: src/player.cpp
 msgid "Nothing to reload!"
-msgstr ""
+msgstr "Nie ma nic do przeładowania!"
 
 #: src/player.cpp
 #, c-format
@@ -129316,10 +129338,10 @@ msgstr[3] "Twój %s potrzebuje %d ładunków elektrycznych z jakiegoś UPS-a."
 #, c-format
 msgid "Your %s has %d charge but needs %d."
 msgid_plural "Your %s has %d charges but needs %d."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Twój %s ma %d ładunek a potrzebuje %d."
+msgstr[1] "Twój %s ma %d ładunków a potrzebuje %d."
+msgstr[2] "Twój %s ma %d ładunków a potrzebuje %d."
+msgstr[3] "Twój %s ma %d ładunków a potrzebuje %d."
 
 #: src/player.cpp
 #, c-format
@@ -129655,11 +129677,11 @@ msgstr "Ciężko będzie spać na tym %s."
 
 #: src/player.cpp src/player_hardcoded_effects.cpp
 msgid "It looks like you've slept through your internal alarm..."
-msgstr ""
+msgstr "Wygląda na to, że przespałeś alarm w wewnętrznym budziku...."
 
 #: src/player.cpp src/player_hardcoded_effects.cpp
 msgid "It looks like you've slept through the alarm..."
-msgstr ""
+msgstr "Wygląda na to, że przespałeś alarm w budziku...."
 
 #. ~ %s is armor name
 #: src/player.cpp
@@ -130621,7 +130643,7 @@ msgstr "Jest za gorąco na sen."
 
 #: src/player_hardcoded_effects.cpp
 msgid "Your internal chronometer finally wakes you up."
-msgstr ""
+msgstr "Twój wewnętrzny zegar w końcu cię budzi."
 
 #: src/player_hardcoded_effects.cpp
 msgid "Your internal chronometer wakes you up."
@@ -130954,10 +130976,10 @@ msgstr[3] "%s (%d ładunków)"
 #, c-format
 msgid "%d %s"
 msgid_plural "%d %s"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "%d %s"
+msgstr[1] "%d %s"
+msgstr[2] "%d %s"
+msgstr[3] "%d %s"
 
 #: src/requirements.cpp
 msgid "and "
@@ -131094,7 +131116,7 @@ msgstr "Ustawia który wyświetlacz zostanie użyty do wyświetlenia gry. Wymaga
 
 #: src/sdltiles.cpp src/wincurse.cpp
 msgid "base colors"
-msgstr ""
+msgstr "bazowe kolory"
 
 #: src/sounds.cpp
 msgid "Your eardrums suddenly ache!"
@@ -131125,11 +131147,11 @@ msgstr "Z kierunku %s słyszysz %s"
 
 #: src/sounds.cpp
 msgid "Your alarm-clock finally wakes you up."
-msgstr ""
+msgstr "Twój budzik w końcu cię budzi."
 
 #: src/sounds.cpp
 msgid "Your alarm-clock wakes you up."
-msgstr ""
+msgstr "Twój budzik cię budzi."
 
 #: src/sounds.cpp
 msgid "You turn off your alarm-clock."
@@ -133256,7 +133278,7 @@ msgstr "Burza Śnieżna"
 
 #: src/wish.cpp
 msgid "Nonvalid"
-msgstr "NieWłaściwe"
+msgstr "Niewłaściwe"
 
 #: src/wish.cpp
 msgid "Prereqs:"
@@ -133289,7 +133311,7 @@ msgstr "Kategoria:"
 #: src/wish.cpp
 #, c-format
 msgid "[%s] find, [%s] quit"
-msgstr ""
+msgstr "[%s] znajdź, [%s] wyjdź"
 
 #: src/wish.cpp
 #, c-format
@@ -133305,12 +133327,12 @@ msgstr "(halucynacja)"
 msgid ""
 "[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, "
 "[%s] quit"
-msgstr ""
+msgstr "[%s] znajdź, [f] przyjacielski, [h]alucnacja, [i] zwiększ grupę, [d] zmniejsz grupę, [%s]wyjdź"
 
 #: src/wish.cpp
 #, c-format
 msgid "Spawned %d/%d monsters, choose another or [%s] to quit."
-msgstr ""
+msgstr "Umieszczono %d/%d potworów, wybierz inną lub [%s] by wyjść."
 
 #: src/wish.cpp
 msgid " (contained)"
@@ -133319,7 +133341,7 @@ msgstr "(zawarty)"
 #: src/wish.cpp
 #, c-format
 msgid "[%s] find, [f] container, [%s] quit"
-msgstr ""
+msgstr "[%s] znajdź, [f] pojemnik, [%s] wyjdź"
 
 #: src/wish.cpp
 #, c-format
@@ -133333,7 +133355,7 @@ msgstr "How many?"
 #: src/wish.cpp
 #, c-format
 msgid "Wish granted. Wish for more or hit [%s] to quit."
-msgstr ""
+msgstr "Życzenie spełnione. Życz sobie więcej lub [%s] wyjdź."
 
 #: src/wish.cpp
 msgid "Select a skill to modify"
