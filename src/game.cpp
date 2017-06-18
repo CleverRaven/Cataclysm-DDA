@@ -7449,7 +7449,7 @@ bool pet_menu(monster *z)
     }
 
     if( milk == choice ){
-        monexamine::milk_source( z );
+        monexamine::milk_source( *z );
         return true;
     }
 
