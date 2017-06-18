@@ -447,7 +447,7 @@ void MonsterGenerator::init_flags()
     flag_map["PRIORITIZE_TARGETS"] = MF_PRIORITIZE_TARGETS;
     flag_map["NOT_HALLUCINATION"] = MF_NOT_HALLU;
     flag_map["MILKABLE"] = MF_MILKABLE;
-    flag_map["SIMPLEMINDED"] = MF_PET_WONT_FOLLOW;
+    flag_map["PET_WONT_FOLLOW"] = MF_PET_WONT_FOLLOW;
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )
