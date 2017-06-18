@@ -731,5 +731,9 @@
         "type" : "item_action",
         "id" : "ups_based_armor",
         "name" : "Activate/deactivate"
+    },{
+        "type" : "item_action",
+        "id" : "CATTLEFODDER",
+        "name" : "Place"
     }
 ]

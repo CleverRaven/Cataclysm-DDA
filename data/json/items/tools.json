@@ -8270,5 +8270,20 @@
     "ammo": "battery",
     "initial_charges": 100,
     "max_charges": 100
+  },
+  {
+    "id": "cattlefodder",
+    "type": "TOOL",
+    "name": "cattle fodder",
+    "name_plural": "cattle fodder",
+    "description": "What cattle eats. Mainly made of grass, silages or legumes, is perfect for rumiants",
+    "weight": 300,
+    "volume": 1,
+    "price": 100,
+    "to_hit": -5,
+    "material": "veggy",
+    "symbol": ";",
+    "color": "brown",
+    "use_action": "CATTLEFODDER"
   }
 ]
