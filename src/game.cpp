@@ -7219,7 +7219,7 @@ bool pet_menu(monster *z)
         drop_all,
         give_items,
         pheromone,
-		milk,
+        milk,
         rope
     };
 
@@ -7259,9 +7259,9 @@ bool pet_menu(monster *z)
         amenu.addentry(pheromone, true, 't', _("Tear out pheromone ball"));
     }
 
-	if( z->has_flag( MF_MILKABLE ) ) {
-	    amenu.addentry( milk, true, 'm', _( "Milk %s" ), pet_name.c_str());
-	}
+    if( z->has_flag( MF_MILKABLE ) ) {
+        amenu.addentry( milk, true, 'm', _( "Milk %s" ), pet_name.c_str());
+    }
 
     amenu.query();
     int choice = amenu.ret;
@@ -7448,12 +7448,12 @@ bool pet_menu(monster *z)
         return true;
     }
 
-	if( milk == choice ){
-	    monexamine::milk_source( z );
-	    return true;
-	}
+    if( milk == choice ){
+        monexamine::milk_source( z );
+        return true;
+    }
 
-	return true;
+    return true;
 }
 
 bool game::npc_menu( npc &who )

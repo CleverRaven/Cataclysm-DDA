@@ -734,7 +734,7 @@
     },
     {
         "type" : "item_action",
-        "id" : "CATTLEFODDER",
+        "id" : "FEEDCATTLE",
         "name" : "Place"
     }
 ]

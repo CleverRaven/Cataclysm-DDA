@@ -10067,9 +10067,7 @@
     "time": 10000,
     "autolearn": true,
     "components": [
-      [ [ "oats", 1 ], [ "buckwheat", 1 ], [ "wheat", 1 ], [ "potato_raw", 1 ], [ "barley", 1 ], [ "raw_beans", 1 ], [ "cabbage", 1 ], [ "veggy_wild", 1 ], [ "veggy", 1 ] ],
-      [ [ "oats", 1 ], [ "buckwheat", 1 ], [ "wheat", 1 ], [ "potato_raw", 1 ], [ "barley", 1 ], [ "raw_beans", 1 ], [ "cabbage", 1 ], [ "veggy_wild", 1 ], [ "veggy", 1 ] ],
-      [ [ "oats", 1 ], [ "buckwheat", 1 ], [ "wheat", 1 ], [ "potato_raw", 1 ], [ "barley", 1 ], [ "raw_beans", 1 ], [ "cabbage", 1 ], [ "veggy_wild", 1 ], [ "veggy", 1 ] ]
+      [ [ "oats", 5 ], [ "buckwheat", 5 ], [ "wheat", 5 ], [ "potato_raw", 5 ], [ "barley", 5 ], [ "raw_beans", 5 ], [ "cabbage", 5 ], [ "veggy_wild", 5 ], [ "veggy", 5 ] ],
     ]
   }
 ]
