@@ -7260,7 +7260,7 @@ bool pet_menu(monster *z)
     }
 
 	if( z->has_flag( MF_MILKABLE ) ) {
-	    amenu.addentry( milk, true, 'm', _( "Milk %s"), pet_name.c_str());
+	    amenu.addentry( milk, true, 'm', _( "Milk %s" ), pet_name.c_str());
 	}
 
     amenu.query();
