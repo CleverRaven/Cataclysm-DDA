@@ -1,0 +1,44 @@
+[
+  {
+    "result": "357",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "ammo_357", 1 ], [ "ammo_bullet", 3 ] ],
+    "components": [ [ [ "gunpowder", 7 ] ] ]
+  },
+  {
+    "result": "357_P",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "ammo_357", 1 ], [ "ammo_bullet", 3 ] ],
+    "components": [ [ [ "gunpowder", 11 ] ] ]
+  },
+  {
+    "result": "45_long_colt",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "ammo_45lc", 1 ], [ "ammo_bullet", 6 ] ],
+    "components": [ [ [ "gunpowder", 4 ] ] ]
+  },
+  {
+    "result": "410_birdshot",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "ammo_410", 1 ], [ "ammo_bullet", 3 ] ],
+    "components": [ [ [ "gunpowder", 2 ] ] ]
+  },
+  {
+    "result": "410_shot",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "ammo_410", 1 ], [ "ammo_bullet", 3 ] ],
+    "components": [ [ [ "gunpowder", 3 ] ] ]
+  },
+  {
+    "result": "410_slug",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "ammo_410", 1 ], [ "ammo_bullet", 6 ] ],
+    "components": [ [ [ "gunpowder", 4 ] ] ]
+  }
+]

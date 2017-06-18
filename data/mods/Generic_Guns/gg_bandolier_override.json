@@ -1,0 +1,49 @@
+[
+  {
+    "id": "bandolier_pistol",
+    "copy-from": "bandolier_pistol",
+    "type": "ARMOR",
+    "name": "pistol bandolier",
+    "description": "An embroidered leather bandolier for keeping revolver and pistol cartridges close to hand.  If this doesn't make you feel like a cowboy, nothing will.",
+    "use_action": {
+      "type": "bandolier",
+      "capacity": 18,
+      "ammo": [ "44", "9mm" ]
+    }
+  },
+  {
+    "id": "bandolier_rifle",
+    "copy-from": "bandolier_rifle",
+    "type": "ARMOR",
+    "name": "rifle bandolier",
+    "description": "A leather bandolier for keeping rifle cartridges close to hand.",
+    "use_action": {
+      "type": "bandolier",
+      "capacity": 16,
+      "ammo": [ "223", "308", "50" ]
+    }
+  },
+  {
+    "id": "bandolier_shotgun",
+    "copy-from": "bandolier_shotgun",
+    "type": "ARMOR",
+    "name": "shotgun bandolier",
+    "use_action": {
+      "type": "bandolier",
+      "capacity": 12,
+      "ammo": [ "shot" ]
+    }
+  },
+  {
+    "id": "bandolier_wrist",
+    "copy-from": "bandolier_wrist",
+    "type": "ARMOR",
+    "name": "wrist bandolier",
+    "description": "A small fabric bandolier for rifle cartridges designed to be worn around the wrist.",
+    "use_action": {
+      "type": "bandolier",
+      "capacity": 4,
+      "ammo": [ "223", "308", "50" ]
+    }
+  }
+]

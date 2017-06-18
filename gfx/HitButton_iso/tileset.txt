@@ -1,0 +1,4 @@
+NAME: HitButton_iso
+VIEW: HitButton iso
+JSON: tile_config.json
+TILESET: HitButton_iso.png

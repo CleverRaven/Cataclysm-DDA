@@ -3,6 +3,7 @@
 #include "output.h"
 #include "color.h"
 #include "catacharset.h"
+#include "animation.h"
 
 #include <cstring> // strlen
 
@@ -30,8 +31,11 @@
 
 WINDOW *mainwin;
 WINDOW *stdscr;
-pairs *colorpairs;   //storage for pair'ed colored, should be dynamic, meh
+std::array<pairs, 100> colorpairs;   //storage for pair'ed colored
 int echoOn;     //1 = getnstr shows input, 0 = doesn't show. needed for echo()-ncurses compatibility.
+
+// allow extra logic for framebuffer clears
+extern void handle_additional_window_clear( WINDOW* win );
 
 //***********************************
 //Pseudo-Curses Functions           *
@@ -120,6 +124,9 @@ inline void addedchar(WINDOW *win)
 int wborder(WINDOW *win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
             chtype bl, chtype br)
 {
+    if( win == nullptr ) {
+        return 1;
+    }
     int i, j;
     int oldx = win->cursorx; //methods below move the cursor, save the value!
     int oldy = win->cursory; //methods below move the cursor, save the value!
@@ -259,7 +266,7 @@ int mvwvline(WINDOW *win, int y, int x, chtype ch, int n)
 //Refreshes a window, causing it to redraw on top.
 int wrefresh(WINDOW *win)
 {
-    if (win->draw) {
+    if( win != nullptr && win->draw ) {
         curses_drawwindow(win);
     }
     return 1;
@@ -271,64 +278,14 @@ int refresh(void)
     return wrefresh(mainwin);
 }
 
-int getch(void)
-{
-    return wgetch(mainwin);
-}
-
-int wgetch(WINDOW *win)
-{
-    return curses_getch(win);
-}
-
-int mvgetch(int y, int x)
-{
-    move(y, x);
-    return getch();
-}
-
-int mvwgetch(WINDOW *win, int y, int x)
-{
-    move(y, x);
-    return wgetch(win);
-}
-
-int getnstr(char *str, int size)
-{
-    int startX = mainwin->cursorx;
-    int count = 0;
-    char input;
-    while(true) {
-        input = getch();
-        // Carriage return, Line feed and End of File terminate the input.
-        if( input == '\r' || input == '\n' || input == '\x04' ) {
-            str[count] = '\x00';
-            return count;
-        } else if( input == 127 ) { // Backspace, remapped from \x8 in ProcessMessages()
-            if( count == 0 ) {
-                continue;
-            }
-            str[count] = '\x00';
-            if(echoOn == 1) {
-                mvaddch(mainwin->cursory, startX + count, ' ');
-            }
-            --count;
-            if(echoOn == 1) {
-                move(mainwin->cursory, startX + count);
-            }
-        } else {
-            if( count >= size - 1 ) { // Still need space for trailing 0x00
-                continue;
-            }
-            str[count] = input;
-            ++count;
-            if(echoOn == 1) {
-                move(mainwin->cursory, startX + count);
-                mvaddch(mainwin->cursory, startX + count, input);
-            }
-        }
-    }
-    return count;
+int wredrawln( WINDOW* /*win*/, int /*beg_line*/, int /*num_lines*/ ) {
+    /**
+     * This is a no-op for non-curses implementations. wincurse.cpp doesn't
+     * use windows console for rendering, and sdltiles.cpp doesn't either.
+     * If we had a console-based windows implementation, we'd need to do
+     * something here to force the line to redraw.
+     */
+    return OK;
 }
 
 // Get a sequence of Unicode code points, store them in target
@@ -340,7 +297,7 @@ inline int fill(const char *&fmt, int &len, std::string &target)
     const char *tmpptr = fmt; // pointer for UTF8_getch, which increments it
     int tmplen = len;
     while( tmplen > 0 ) {
-        const unsigned ch = UTF8_getch(&tmpptr, &tmplen);
+        const uint32_t ch = UTF8_getch(&tmpptr, &tmplen);
         // UNKNOWN_UNICODE is most likely a (vertical/horizontal) line or similar
         const int cw = (ch == UNKNOWN_UNICODE) ? 1 : mk_wcwidth(ch);
         if( cw > 0 && dlen > 0 ) {
@@ -467,6 +424,10 @@ inline int printstring(WINDOW *win, const std::string &text)
 //Prints a formatted string to a window at the current cursor, base function
 int wprintw(WINDOW *win, const char *fmt, ...)
 {
+    if( win == nullptr ) {
+        return 1;
+    }
+
     va_list args;
     va_start(args, fmt);
     const std::string printbuf = vstring_format(fmt, args);
@@ -477,6 +438,10 @@ int wprintw(WINDOW *win, const char *fmt, ...)
 //Prints a formatted string to a window, moves the cursor
 int mvwprintw(WINDOW *win, int y, int x, const char *fmt, ...)
 {
+    if( win == nullptr ) {
+        return 1;
+    }
+
     va_list args;
     va_start(args, fmt);
     const std::string printbuf = vstring_format(fmt, args);
@@ -513,6 +478,10 @@ int printw(const char *fmt, ...)
 //erases a window of all text and attributes
 int werase(WINDOW *win)
 {
+    if( win == nullptr ) {
+        return 1;
+    }
+
     for (int j = 0; j < win->height; j++) {
         win->line[j].chars.assign(win->width, cursecell());
         win->line[j].touched = true;
@@ -520,6 +489,8 @@ int werase(WINDOW *win)
     win->draw = true;
     wmove(win, 0, 0);
     //    wrefresh(win);
+    handle_additional_window_clear( win );
+
     return 1;
 }
 
@@ -540,6 +511,10 @@ int init_pair(short pair, short f, short b)
 //moves the cursor in a window
 int wmove(WINDOW *win, int y, int x)
 {
+    if( win == nullptr ) {
+        return 1;
+    }
+
     if (x >= win->width) {
         return 0;   //FIXES MAP CRASH -> >= vs > only
     }
@@ -588,6 +563,10 @@ int wclear(WINDOW *win)
 
 int clearok(WINDOW *win)
 {
+    if( win == nullptr ) {
+        return 1;
+    }
+
     for (int i = 0; i < win->y && i < stdscr->height; i++) {
         stdscr->line[i].touched = true;
     }
@@ -597,37 +576,37 @@ int clearok(WINDOW *win)
 //gets the max x of a window (the width)
 int getmaxx(WINDOW *win)
 {
-    return win->width;
+    return win != nullptr ? win->width : 0;
 }
 
 //gets the max y of a window (the height)
 int getmaxy(WINDOW *win)
 {
-    return win->height;
+    return win != nullptr ? win->height : 0;
 }
 
 //gets the beginning x of a window (the x pos)
 int getbegx(WINDOW *win)
 {
-    return win->x;
+    return win != nullptr ? win->x : 0;
 }
 
 //gets the beginning y of a window (the y pos)
 int getbegy(WINDOW *win)
 {
-    return win->y;
+    return win != nullptr ? win->y : 0;
 }
 
 //gets the current cursor x position in a window
 int getcurx(WINDOW *win)
 {
-    return win->cursorx;
+    return win != nullptr ? win->cursorx : 0;
 }
 
 //gets the current cursor y position in a window
 int getcury(WINDOW *win)
 {
-    return win->cursory;
+    return win != nullptr ? win->cursory : 0;
 }
 
 int start_color(void)
@@ -666,6 +645,10 @@ int mvaddch(int y, int x, const chtype ch)
 
 int wattron(WINDOW *win, int attrs)
 {
+    if( win == nullptr ) {
+        return 1;
+    }
+
     bool isBold = !!(attrs & A_BOLD);
     bool isBlink = !!(attrs & A_BLINK);
     int pairNumber = (attrs & A_COLOR) >> 17;
@@ -681,6 +664,10 @@ int wattron(WINDOW *win, int attrs)
 }
 int wattroff(WINDOW *win, int)
 {
+    if( win == nullptr ) {
+        return 1;
+    }
+
     win->FG = 8;                                //reset to white
     win->BG = 0;                                //reset to black
     return 1;
@@ -746,11 +733,6 @@ int move(int y, int x)
     return wmove(mainwin, y, x);
 }
 
-//Set the amount of time getch waits for input
-void timeout(int delay)
-{
-    curses_timeout(delay);
-}
 void set_escdelay(int) { } //PORTABILITY, DUMMY FUNCTION
 
 

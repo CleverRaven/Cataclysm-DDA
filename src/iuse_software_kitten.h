@@ -1,19 +1,10 @@
+#pragma once
 #ifndef SOFTWARE_KITTEN_H
 #define SOFTWARE_KITTEN_H
 
 #include "cursesdef.h"
 #include "color.h"
-
 #include <string>
-#include <cassert>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <iosfwd>
-#include <iterator>
-#include <map>
-#include <vector>
 
 struct kobject {
     int x;
@@ -28,12 +19,12 @@ class robot_finds_kitten
 {
     public:
         bool ret;
-        std::string getmessage(int idx);
-        robot_finds_kitten(WINDOW *w);
-        void instructions(WINDOW *w);
-        void draw_robot(WINDOW *w);
-        void draw_kitten(WINDOW *w);
-        void process_input(int input, WINDOW *w);
+        std::string getmessage( int idx );
+        robot_finds_kitten( WINDOW *w );
+        void instructions( WINDOW *w );
+        void draw_robot( WINDOW *w );
+        void draw_kitten( WINDOW *w );
+        void process_input( int input, WINDOW *w );
         kobject robot;
         kobject kitten;
         kobject empty;

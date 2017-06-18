@@ -1,0 +1,16 @@
+[
+  {
+    "result": "762_25",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "ammo_762_25", 1 ], [ "ammo_bullet", 2 ] ],
+    "components": [ [ [ "gunpowder", 4 ] ] ]
+  },
+  {
+    "result": "762_25hot",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "ammo_762_25", 1 ], [ "ammo_bullet", 2 ] ],
+    "components": [ [ [ "gunpowder", 5 ] ] ]
+  }
+]

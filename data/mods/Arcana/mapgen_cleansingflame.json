@@ -1,0 +1,348 @@
+[
+    {
+    "type" : "item_group",
+    "id" : "cleansing_flame_books",
+    "items":[
+      ["essay_book", 6],
+      ["poetry_book", 6],
+      ["philosophy_book", 2],
+      ["holybook_bible1", 4],
+      ["holybook_bible2", 3],
+      ["holybook_quran", 3],
+      ["holybook_hadith", 3],
+      ["holybook_talmud", 2],
+      ["holybook_tanakh", 2],
+      ["holybook_vedas", 3],
+      ["holybook_upanishads", 3],
+      ["holybook_tripitaka", 3],
+      ["holybook_sutras", 3],
+      ["holybook_granth", 2],
+      ["holybook_mormon", 1],
+      ["holybook_kojiki", 1],
+      ["holybook_pastafarian", 1],
+      ["holybook_slack", 1],
+      ["holybook_kallisti", 1],
+      ["holybook_scientology", 1],
+      ["book_hexenhammer", 10],
+      ["book_scrollcraft", 1],
+      ["book_potioncraft", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cleansing_flame_gear",
+    "items":[
+      ["warhammer", 15],
+      ["mace", 10],
+      ["morningstar", 10],
+      ["broadsword", 5],
+      ["zweihander", 5],
+      ["crossbow", 15],
+      ["bolt_steel", 15],
+      ["helmet_barbute", 5],
+      ["helmet_plate", 5],
+      ["chainmail_suit", 10],
+      ["armor_plate", 5],
+      ["armor_lightplate", 5],
+      ["boots_plate", 5],
+      ["gloves_plate", 5],
+      ["holy_symbol", 25]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cleansing_flame_gear_magic",
+    "items":[
+      ["sun_sword", 5],
+      ["ethereal_crossbow", 5],
+      ["gilded_aegis", 5],
+      ["somen_clairvoyance", 5],
+      ["hexenhammer", 10],
+      ["healing_potion", 5],
+      ["scroll_sun", 1],
+      ["essence_dull", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cleansing_flame_crafting",
+    "items":[
+      ["gold_small", 1],
+      ["gold_small", 10],
+      ["silver_small", 2],
+      ["silver_small", 20],
+      ["scrap", 15],
+      ["copper", 15]
+    ]
+  },{
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "cleansing_flame_casualties",
+        "entries":
+        [
+            { "group": "underwear", "damage": [1, 4]},
+            { "group": "shirts", "damage": [1, 4]},
+            { "group": "pants", "damage": [1, 4]},
+            { "group": "shoes", "damage": [1, 4]},
+            { "group": "cleansing_flame_gear", "damage": [1, 4], "prob": 10 },
+            { "group": "cleansing_flame_gear_magic", "prob": 25 },
+            { "item": "corpse"}
+        ]
+  },{
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "add_apprentice",
+        "entries": [ { "item": "book_magicfordummies"} ]
+  },{
+        "type": "mapgen",
+        "om_terrain": [
+            "curious_structure"
+        ],
+        "method": "json",
+        "weight": 300,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+                "                        ",
+                "         |-----|        ",
+                "   |-----|_____|-----|  ",
+                "   |nnfsn|_____|T_|tt|  ",
+                "   |____o|__>__|__|__|  ",
+                "   |____c|_____|-+|+-|  ",
+                "   |__v_c|_____|s____|  ",
+                "  ||+-------X-------+|| ",
+                "  |....._________.....| ",
+                "  3...C._u__c__u_.C...2 ",
+                "  3....._________.....2 ",
+                "  |........,,,........| ",
+                "  |.bbbbbbb,,,bbbbbbb.| ",
+                "  2........,,,........3 ",
+                "  2.bbbbbbb,,,bbbbbbb.3 ",
+                "  |........,,,........| ",
+                "  ||-+-+-|++-++|-+-+-|| ",
+                "   |B.B.B|,,.,,|B.B.B|  ",
+                "   |d...d|,,.,,|d...d|  ",
+                "   |B.B.B|,,.,,|B.B.B|  ",
+                "   |d...d|,,.,,|d...d|  ",
+                "   |B.B.B|++-++|B.B.B|  ",
+                "   |-111-|     |-111-|  ",
+                "                        "
+            ],
+            "add": [
+                { "item": "holy_symbol",  "x": 12, "y": 9, "amount":1 },
+                { "item": "note_flame",  "x": [4, 20], "y": [9, 14], "amount":1 }
+            ],
+            "terrain": {
+                " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+                "1": "t_window_stained_red",
+                "2": "t_window_stained_green",
+                "3": "t_window_stained_blue",
+                "+": "t_door_c",
+                "X": "t_door_locked_interior",
+                ".": "t_floor",
+                "_": "t_rock_floor",
+                ",": "t_carpet_red",
+                "C": "t_column",
+                "-": "t_wall",
+                "|": "t_wall",
+                "u": "t_rock_floor",
+                "B": "t_floor",
+                "t": "t_floor",
+                "c": "t_rock_floor",
+                "b": "t_rock_floor",
+                "n": "t_rock_floor",
+                "f": "t_rock_floor",
+                "s": "t_rock_floor",
+                "o": "t_rock_floor",
+                "v": "t_rock_floor",
+                "T": "t_rock_floor",
+                ">": "t_stairs_down"
+            },
+            "furniture": {
+                "B": "f_bed",
+                "d": "f_dresser",
+                "c": "f_counter",
+                "b": "f_bench",
+                "n": "f_cupboard",
+                "f": "f_fridge",
+                "s": "f_sink",
+                "o": "f_oven",
+                "v": "f_woodstove",
+                "t": "f_bathtub"
+            },
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [ 3, 21 ], "y": [ 8, 21 ], "density": 0.15 }
+            ],
+            "toilets": {
+                "T": { }
+            },
+            "mapping": {
+                "n": {
+                    "items": { "item": "cannedfood", "chance": 30 },
+                    "furniture": "f_cupboard"
+                },
+                "o": {
+                    "items": { "item": "oven", "chance": 40 },
+                    "furniture": "f_oven"
+                },
+                "e": {
+                    "items": { "item": "fridge", "chance": 30 },
+                    "furniture": "f_fridge"
+                },
+                "d": {
+                    "items": { "item": "dresser", "chance": 40 },
+                    "furniture": "f_dresser"
+                },
+                "B": {
+                    "items": [
+                        { "item": "bed", "chance": 60 }
+                    ],
+                    "furniture": "f_bed"
+                }
+            },
+            "set": [
+                { "point": "trap", "id": "tr_brazier", "x": 9, "y": 9},
+                { "point": "trap", "id": "tr_brazier", "x": 15, "y": 9}
+            ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "curious_structure_b"
+        ],
+        "method": "json",
+        "weight": 300,
+        "object": {
+            "fill_ter": "t_dirtfloor",
+            "rows": [
+                "########################",
+                "##......###...###......#",
+                "##B.B.B.##.....##.htth.#",
+                "##B.B.B.#.......#.htth.#",
+                "##B.B.B.+...<...+.htth.#",
+                "##B.B.B.#.......#.htth.#",
+                "##B.B.B.##.....##.htth.#",
+                "##......###...###......#",
+                "############+###########",
+                "###...................##",
+                "##..CCCCCCCCCCCCCCCCC..#",
+                "##.CC...............CC.#",
+                "##.C.................C.#",
+                "##.C.................C.#",
+                "##.C.................C.#",
+                "##.C.................C.#",
+                "##.CC.......S.......CC.#",
+                "##..C..CCC.....CCC..C..#",
+                "###......###X###......##",
+                "#####++#####.#####++####",
+                "##rrr..rr##...##rr..rrr#",
+                "##.......##.T.##.......#",
+                "##rrrrrrr##...##rrrrrrr#",
+                "########################"
+            ],
+            "place_items": [
+                { "item": "cleansing_flame_casualties", "chance": 100, "x": [ 5,19 ], "y": [ 11,15 ], "repeat": [ 1,7 ] },
+                { "item": "add_apprentice", "chance": 50, "x": [ 19,20 ], "y": [ 2,6 ], "repeat": [ 1,3 ] }
+            ],
+            "terrain": {
+                "#": "t_rock",
+                ".": "t_rock_floor",
+                "+": "t_door_c",
+                "X": "t_door_boarded",
+                "C": "t_column",
+                "B": "t_rock_floor",
+                "h": "t_rock_floor",
+                "t": "t_rock_floor",
+                "S": "t_rock_floor",
+                "r": "t_rock_floor",
+                "<": "t_stairs_up",
+                "T": "t_stairs_down"
+            },
+            "furniture": {
+                "B": "f_bookcase",
+                "h": "f_chair",
+                "t": "f_desk",
+                "S": "f_statue",
+                "r": "f_rack",
+                "T": "f_blade_upright"
+            },
+            "mapping": {
+                "B": {
+                    "items": { "item": "cleansing_flame_books", "chance": 30 },
+                    "furniture": "f_bookcase"
+                },
+                "r": {
+                    "items": [{ "item": "cleansing_flame_gear", "chance": 20 }, { "item": "cleansing_flame_gear_magic", "chance": 10 }, { "item": "cleansing_flame_crafting", "chance": 10 }],
+                    "furniture": "f_rack"
+                }
+            },
+            "place_monsters": [
+                { "monster": "GROUP_NETHER", "x": [ 2, 22 ], "y": [ 9, 18 ], "density": 0.15 }
+            ]
+        }
+    },
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "curious_structure_b2"
+        ],
+        "method": "json",
+        "weight": 300,
+        "object": {
+            "fill_ter": "t_dirtfloor",
+            "rows": [
+                "########################",
+                "##__...___________...__#",
+                "##_..O..__#####__..O.._#",
+                "##__...__#.....#__...__#",
+                "###______#.....#______##",
+                "###.....__#.#.#__.....##",
+                "##......._#...#_.......#",
+                "##.......__.#.__.......#",
+                "##.....................#",
+                "##......##.....##......#",
+                "##.....................#",
+                "###.........O.........##",
+                "##.......#.....#.......#",
+                "##.....................#",
+                "##.....#.........#.....#",
+                "##.....................#",
+                "##..........#..........#",
+                "##......#########......#",
+                "##_....##.......##...._#",
+                "##___..#..##.##..#..___#",
+                "##_.__.#.##...##.#.__._#",
+                "##.O._.#.#..<..#.#._.O.#",
+                "##_.__...##...##...__._#",
+                "########################"
+            ],
+            "add": [
+                { "item": "hand_of_armok",  "x": 12, "y": 4, "amount":1 }
+            ],
+            "terrain": {
+                "#": "t_rock",
+                ".": "t_rock_floor",
+                "_": "t_lava",
+                "O": "t_rock_floor",
+                "<": "t_stairs_up"
+            },
+            "furniture": {
+                "B": "f_bookcase",
+                "h": "f_chair",
+                "t": "f_desk",
+                "r": "f_rack"
+            },
+            "set": [
+                { "point": "trap", "id": "tr_portal", "x": 5, "y": 2},
+                { "point": "trap", "id": "tr_portal", "x": 19, "y": 2},
+                { "point": "trap", "id": "tr_portal", "x": 3, "y": 21},
+                { "point": "trap", "id": "tr_portal", "x": 21, "y": 21},
+                { "point": "trap", "id": "tr_portal", "x": 12, "y": 11}
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_NETHER_LAVA", "x": [ 2, 22 ], "y": [ 5, 17 ], "density": 0.25 }
+            ],
+            "place_monster": [
+                { "x": 12, "y": 4, "monster": "mon_spirit_of_fire" }
+            ]
+        }
+    }
+]

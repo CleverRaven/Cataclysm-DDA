@@ -1,0 +1,43 @@
+[
+    {
+        "type" : "material",
+        "ident" : "essencemat",
+        "name" : "Magical Essence",
+        "bash_resist" : 20,
+        "cut_resist" : 20,
+        "bash_dmg_verb" : "damaged",
+        "cut_dmg_verb" : "damaged",
+        "dmg_adj" : [
+            "lightly damaged",
+            "damaged",
+            "very damaged",
+            "thoroughly damaged"
+        ],
+        "acid_resist" : 99,
+        "elec_resist" : 99,
+        "fire_resist" : 99,
+        "chip_resist" : 99,
+        "density" : 1
+    },{
+        "type" : "material",
+        "//" : "identical save for acid resistance",
+        "ident" : "wyrmskin",
+        "name" : "Wyrmskin",
+        "salvaged_into" : "leather",
+        "bash_resist" : 2,
+        "cut_resist" : 2,
+        "bash_dmg_verb" : "ripped",
+        "cut_dmg_verb" : "sliced",
+        "dmg_adj" : [
+            "scratched",
+            "cut",
+            "shredded",
+            "tattered"
+        ],
+        "acid_resist" : 36,
+        "elec_resist" : 2,
+        "fire_resist" : 2,
+        "chip_resist" : 10,
+        "density" : 6
+    }
+]

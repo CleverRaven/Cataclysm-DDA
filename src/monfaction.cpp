@@ -12,6 +12,7 @@ void add_to_attitude_map( const std::set< std::string > &keys, mfaction_att_map 
 
 void apply_base_faction( const monfaction &base, monfaction &faction );
 
+/** @relates int_id */
 template<>
 const monfaction &int_id<monfaction>::obj() const
 {
@@ -23,12 +24,14 @@ const monfaction &int_id<monfaction>::obj() const
     return faction_list[_id];
 }
 
+/** @relates int_id */
 template<>
 const string_id<monfaction> &int_id<monfaction>::id() const
 {
     return obj().id;
 }
 
+/** @relates string_id */
 template<>
 int_id<monfaction> string_id<monfaction>::id() const
 {
@@ -40,21 +43,24 @@ int_id<monfaction> string_id<monfaction>::id() const
     return iter->second;
 }
 
+/** @relates string_id */
 template<>
 const monfaction &string_id<monfaction>::obj() const
 {
     return id().obj();
 }
 
+/** @relates string_id */
 template<>
 bool string_id<monfaction>::is_valid() const
 {
     return faction_map.count( *this ) > 0;
 }
 
+/** @relates int_id */
 template<>
 int_id<monfaction>::int_id( const string_id<monfaction> &id )
-: _id( id.id() )
+    : _id( id.id() )
 {
 }
 
@@ -190,7 +196,7 @@ void monfactions::finalize()
 }
 
 // Non-const monfaction reference
-monfaction &get_faction( const mfaction_str_id &id ) 
+monfaction &get_faction( const mfaction_str_id &id )
 {
     return faction_list[id.id()];
 }
@@ -205,7 +211,7 @@ void prealloc( const std::set< std::string > &facs )
 
 // Get pointers to factions from 'keys' and add them to 'map' with value == 'value'
 void add_to_attitude_map( const std::set< std::string > &keys, mfaction_att_map &map,
-                                            mf_attitude value )
+                          mf_attitude value )
 {
     for( const auto &k : keys ) {
         const auto &faction = mfaction_str_id( k ).id();
@@ -213,7 +219,7 @@ void add_to_attitude_map( const std::set< std::string > &keys, mfaction_att_map 
     }
 }
 
-void monfactions::load_monster_faction(JsonObject &jo)
+void monfactions::load_monster_faction( JsonObject &jo )
 {
     // Factions inherit values from their parent factions - this is set during finalization
     std::set< std::string > by_mood, neutral, friendly;

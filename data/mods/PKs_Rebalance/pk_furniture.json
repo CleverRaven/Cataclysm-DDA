@@ -1,0 +1,37 @@
+[
+    {
+        "type" : "furniture",
+        "id" : "f_spike",
+        "name": "hooked spike",
+        "symbol": "J",
+        "color": "ltgray",
+        "move_cost_mod": 1.5,
+        "required_str": -1,
+        "flags": ["SHARP", "NO_ITEM", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "MOUNTABLE"],
+        "bash": {
+            "str_min": 18, "str_max": 60,
+            "sound": "smash!",
+            "sound_fail": "tyyyng.",
+            "items": [
+                { "item": "spike", "count": [0, 1] }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_blade",
+        "name": "mounted blade",
+        "symbol": "/",
+        "color": "ltgray",
+        "move_cost_mod": 1.5,
+        "required_str": -1,
+        "flags": ["SHARP", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "MOUNTABLE", "ROUGH"],
+        "bash": {
+            "str_min": 12, "str_max": 30,
+            "sound": "smash!",
+            "sound_fail": "tyyyng.",
+            "items": [
+                { "item": "blade", "count": [1, 2] }
+            ]
+        }
+    }
+]

@@ -1,0 +1,241 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "garage_gas_1" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "ss______________________",
+        "ss______________________",
+        "ss______________________",
+        "ss______________________",
+        "ss______________________",
+        "ss__________________ssss",
+        "ss________I________sssss",
+        "ss________&________sss|-",
+        "ss________I________ssswr",
+        "ss________s________sssw ",
+        "ss________s________ssD|r",
+        "ss________s________sss[ ",
+        "ss________I________sss[ ",
+        "ss________&________ssD|r",
+        "_s________I________sssw ",
+        "___________________sssw ",
+        "___________________sss| ",
+        "___________________sssw ",
+        "___________________sssw ",
+        "___________________sss|[",
+        "___________________sss|r",
+        "____________________ss| ",
+        "___________________...|-",
+        "_s......................"
+      ],
+      "set": [ { "point": "terrain", "id": "t_dirt", "x": [ 2, 23 ], "y": 23, "repeat": [ 4, 7 ] } ],
+      "terrain": {
+        "&": "t_sidewalk",
+        "-": "t_wall",
+        ".": "t_grass",
+        "D": "t_sidewalk",
+        "I": "t_column",
+        "[": "t_door_glass_c",
+        "_": "t_pavement",
+        "r": "t_floor",
+        "s": "t_sidewalk",
+        "w": "t_window",
+        "|": "t_wall"
+      },
+      "furniture": {
+        "D": "f_trashcan",
+        "r": "f_rack"
+      },
+      "gaspumps": {
+        "&": {}
+      },
+      "place_loot": [
+        { "group": "magazines", "x": [ 23, 23 ], "y": [ 10, 10 ], "chance": 80, "repeat": [ 1, 2 ] },
+        { "group": "magazines", "x": [ 23, 23 ], "y": [ 13, 13 ], "chance": 80, "repeat": [ 1, 2 ] },
+        { "group": "floor_trash", "x": [ 21, 21 ], "y": [ 10, 10 ], "chance": 90, "repeat": [ 1, 4 ] },
+        { "group": "floor_trash", "x": [ 21, 21 ], "y": [ 13, 13 ], "chance": 90, "repeat": [ 1, 4 ] },
+        { "group": "alcohol", "x": [ 23, 23 ], "y": [ 20, 20 ], "chance": 20 },
+        { "group": "snacks", "x": [ 23, 23 ], "y": [ 8, 8 ], "chance": 20 }
+      ],
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 21 ], "chance": 5 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "garage_gas_2" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "________________________",
+        "ssssssssss__________s___",
+        "sssssssllss________sss__",
+        "www-www-|--========---==",
+        "rrr rrrr| e             ",
+        "        [           I   ",
+        " cc     [               ",
+        "     cc |               ",
+        "     6  |r              ",
+        "     c  |r          I   ",
+        "     c r|r              ",
+        "rrr  c r|r              ",
+        "rrr  |+-|               ",
+        "     |  +           I   ",
+        "     | z|-www-+-|       ",
+        "[[[[[| z| kkk  P|rrcccrr",
+        "rrrrr| z|  h    |--www--",
+        "     +  |    ooo|.......",
+        "--------|-------|.......",
+        "........................"
+      ],
+      "set": [
+        { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": [ 23, 23 ], "repeat": [ 4, 8 ] },
+        { "point": "terrain", "id": "t_dirt", "x": [ 17, 23 ], "y": [ 21, 22 ], "repeat": [ 1, 4 ] }
+      ],
+      "terrain": {
+        "+": "t_door_c",
+        "-": "t_wall",
+        ".": "t_grass",
+        "6": "t_console_broken",
+        "=": "t_door_metal_locked",
+        "I": "t_column",
+        "P": "t_floor",
+        "[": "t_door_glass_c",
+        "_": "t_pavement",
+        "c": "t_floor",
+        "e": "t_gates_mech_control",
+        "h": "t_floor",
+        "k": "t_floor",
+        "l": "t_sidewalk",
+        "o": "t_floor",
+        "r": "t_floor",
+        "s": "t_sidewalk",
+        "w": "t_window",
+        "z": "t_floor",
+        "|": "t_wall"
+      },
+      "furniture": {
+        "P": "f_indoor_plant",
+        "c": "f_counter",
+        "h": "f_chair",
+        "k": "f_desk",
+        "l": "f_vending_c",
+        "o": "f_bookcase",
+        "r": "f_rack",
+        "z": "f_crate_c"
+      },
+      "place_vendingmachines": [
+        { "item_group": "vending_food", "x": 7, "y": 6 },
+        { "item_group": "vending_drink", "x": 8, "y": 6 }
+      ],
+      "place_loot": [
+        { "group": "alcohol", "x": [ 0, 4 ], "y": [ 20, 20 ], "chance": 75, "repeat": [ 1, 2 ] },
+        { "group": "snacks", "x": [ 0, 2 ], "y": [ 8, 8 ], "chance": 70, "repeat": [ 1, 2 ] },
+        { "group": "mechanics", "x": [ 4, 7 ], "y": [ 8, 8 ], "chance": 65, "repeat": [ 1, 2 ] },
+        { "group": "snacks", "x": [ 0, 2 ], "y": [ 15, 16 ], "chance": 80, "repeat": [ 1, 3 ] },
+        { "group": "snacks", "x": [ 7, 7 ], "y": [ 18, 20 ], "chance": 50, "repeat": [ 1, 4 ] },
+        { "group": "smoke_shop", "x": [ 7, 7 ], "y": [ 14, 15 ], "chance": 70, "repeat": [ 1, 2 ] },
+        { "group": "office", "x": [ 10, 12 ], "y": [ 19, 19 ], "chance": 75, "repeat": [ 1, 2 ] },
+        { "group": "manuals", "x": [ 13, 15 ], "y": [ 21, 21 ], "chance": 60, "repeat": [ 1, 2 ] },
+        { "group": "mechanics", "x": [ 9, 9 ], "y": [ 12, 15 ], "chance": 65, "repeat": [ 1, 2 ] },
+        { "group": "mechanics", "x": [ 17, 23 ], "y": [ 19, 19 ], "chance": 75, "repeat": [ 1, 3 ] }
+      ],
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 21 ], "chance": 5 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "garage", "x": [ 14, 15 ], "y": [ 12, 13 ], "chance": 20, "rotation": 270 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "garage_gas_3" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "_________s..............",
+        "_________s..............",
+        "_________s..............",
+        "_________s..............",
+        "________ss..............",
+        "_______sss..............",
+        "______ssssss............",
+        "======---|sssss.........",
+        "      e  |ssssss........",
+        "        r|---|ss........",
+        "        r|  S|ss........",
+        "        r|t  +ss........",
+        "        c|---|ss........",
+        "        c|t  +ss........",
+        "        r|  S|s.........",
+        "        r|---|s.........",
+        "         +sssss.........",
+        "         w..............",
+        "         w..............",
+        "rrcccrrrr|..............",
+        "--www----|..............",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "set": [
+        { "point": "terrain", "id": "t_dirt", "x": [ 16, 23 ], "y": [ 0, 23 ], "repeat": [ 32, 64 ] },
+        { "point": "terrain", "id": "t_dirt", "x": [ 10, 15 ], "y": [ 0, 5 ], "repeat": [ 6, 12 ] },
+        { "point": "terrain", "id": "t_dirt", "x": [ 10, 15 ], "y": [ 17, 23 ], "repeat": [ 7, 14 ] },
+        { "point": "terrain", "id": "t_dirt", "x": [ 0, 9 ], "y": [ 21, 23 ], "repeat": [ 5, 10 ] },
+        { "point": "terrain", "id": "t_shrub", "x": [ 16, 23 ], "y": [ 0, 23 ], "repeat": [ 0, 2 ] },
+        { "point": "furniture", "id": "f_dandelion", "x": [ 16, 23 ], "y": [ 0, 23 ], "repeat": [ 0, 1 ] },
+        { "point": "furniture", "id": "f_bluebell", "x": [ 16, 23 ], "y": [ 0, 23 ], "repeat": [ 0, 1 ] },
+        { "point": "furniture", "id": "f_mutpoppy", "x": [ 16, 23 ], "y": [ 0, 23 ], "repeat": [ 0, 1 ] }
+      ],
+      "terrain": {
+        "+": "t_door_c",
+        "-": "t_wall",
+        ".": "t_grass",
+        "=": "t_door_metal_locked",
+        "S": "t_floor",
+        "_": "t_pavement",
+        "c": "t_floor",
+        "e": "t_gates_mech_control",
+        "r": "t_floor",
+        "s": "t_sidewalk",
+        "t": "t_floor",
+        "w": "t_window",
+        "|": "t_wall"
+      },
+      "furniture": {
+        "S": "f_sink",
+        "c": "f_counter",
+        "r": "f_rack"
+      },
+      "toilets": {
+        "t": {}
+      },
+      "place_loot": [
+        { "group": "mechanics", "x": [ 8, 8 ], "y": [ 9, 15 ], "chance": 70, "repeat": [ 1, 2 ] },
+        { "group": "mechanics", "x": [ 0, 8 ], "y": [ 19, 19 ], "chance": 75, "repeat": [ 1, 3 ] },
+        { "group": "field", "x": [ 15, 23 ], "y": [ 2, 23 ], "chance": 90, "repeat": [ 0, 2 ] }
+      ],
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE", "x": [ 0, 12 ], "y": [ 0, 19 ], "chance": 5 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "garage", "x": [ 1, 2 ], "y": [ 12, 13 ], "chance": 20, "rotation": 270 }
+      ]
+    }
+  }
+]

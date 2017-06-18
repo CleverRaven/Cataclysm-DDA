@@ -1,0 +1,36 @@
+[
+  {
+    "id": "mag_smg",
+    "type": "BOOK",
+    "name": "Submachine Gun Enthusiast",
+    "name_plural": "Submachine Gun Enthusiast",
+    "description": "An in-depth magazine about submachine guns and shooting.  There is an exhaustive article about close quarter combat techniques in the front.",
+    "weight": 90,
+    "volume": 1,
+    "price": 450,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "pink",
+    "skill": "smg",
+    "max_level": 1,
+    "intelligence": 5,
+    "time": 8,
+    "fun": 1
+  },
+  {
+    "id": "manual_smg",
+    "type": "BOOK",
+    "name": "The Submachine Gun Handbook",
+    "description": "This concise guide details the proper care and operation of most forms of machine pistols and submachine guns currently used by regular armed and reserve forces as well as several obsolete weapons.",
+    "weight": 362,
+    "volume": 2,
+    "price": 2100,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "green",
+    "skill": "smg",
+    "max_level": 3,
+    "intelligence": 3,
+    "time": 15
+  }
+]

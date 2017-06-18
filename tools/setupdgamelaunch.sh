@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 if (pwd | grep "Cataclysm-DDA/tools")
 then

@@ -12,10 +12,7 @@
         "price": 0,
         "material": "paper",
         "weight": 3,
-        "volume": 0,
-        "bashing": 0,
-        "cutting": 0,
-        "to_hit": 0
+        "volume": 0
     },
     {
         "type":"GENERIC",
@@ -29,11 +26,9 @@
         "description": "A scrap of paper.  Something's written on it, scrawled in bad handwriting.",
         "price": 0,
         "material": "paper",
+        "flags": "TRADER_AVOID",
         "weight": 3,
-        "volume": 0,
-        "bashing": 0,
-        "cutting": 0,
-        "to_hit": 0
+        "volume": 0
     },
         {
         "type":"GENERIC",
@@ -48,10 +43,7 @@
         "price": 0,
         "material": "paper",
         "weight": 3,
-        "volume": 0,
-        "bashing": 0,
-        "cutting": 0,
-        "to_hit": 0
+        "volume": 0
     },
         {
         "type":"GENERIC",
@@ -66,10 +58,7 @@
         "price": 0,
         "material": "paper",
         "weight": 3,
-        "volume": 0,
-        "bashing": 0,
-        "cutting": 0,
-        "to_hit": 0
+        "volume": 0
     },
         {
         "type":"GENERIC",
@@ -84,10 +73,7 @@
         "price": 0,
         "material": "paper",
         "weight": 3,
-        "volume": 0,
-        "bashing": 0,
-        "cutting": 0,
-        "to_hit": 0
+        "volume": 0
     },
         {
         "type":"GENERIC",
@@ -102,10 +88,7 @@
         "price": 0,
         "material": "paper",
         "weight": 3,
-        "volume": 0,
-        "bashing": 0,
-        "cutting": 0,
-        "to_hit": 0
+        "volume": 0
     },
         {
         "type":"GENERIC",
@@ -120,10 +103,7 @@
         "price": 0,
         "material": "paper",
         "weight": 3,
-        "volume": 0,
-        "bashing": 0,
-        "cutting": 0,
-        "to_hit": 0
+        "volume": 0
     },
         {
         "type":"GENERIC",
@@ -138,10 +118,7 @@
         "price": 0,
         "material": "paper",
         "weight": 3,
-        "volume": 0,
-        "bashing": 0,
-        "cutting": 0,
-        "to_hit": 0
+        "volume": 0
     },
         {
         "type":"GENERIC",
@@ -156,9 +133,6 @@
         "price": 0,
         "material": "paper",
         "weight": 1,
-        "volume": 0,
-        "bashing": 0,
-        "cutting": 0,
-        "to_hit": 0
+        "volume": 0
     }
     ]

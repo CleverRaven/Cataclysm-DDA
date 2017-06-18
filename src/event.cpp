@@ -9,21 +9,20 @@
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "sounds.h"
-#include "morale.h"
+#include "morale_types.h"
 #include "mapdata.h"
 
 #include <climits>
 
 const mtype_id mon_amigara_horror( "mon_amigara_horror" );
-const mtype_id mon_centipede( "mon_centipede" );
 const mtype_id mon_copbot( "mon_copbot" );
 const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 const mtype_id mon_dermatik( "mon_dermatik" );
 const mtype_id mon_eyebot( "mon_eyebot" );
-const mtype_id mon_null( "mon_null" );
 const mtype_id mon_riotbot( "mon_riotbot" );
 const mtype_id mon_sewer_snake( "mon_sewer_snake" );
 const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
+const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 
 event::event( event_type e_t, int t, int f_id, tripoint p )
 : type( e_t )
@@ -38,44 +37,6 @@ void event::actualize()
     switch( type ) {
         case EVENT_HELP:
             debugmsg("Currently disabled while NPC and monster factions are being rewritten.");
-        /*
-        {
-            int num = 1;
-            if( faction_id >= 0 ) {
-                num = rng( 1, 6 );
-            }
-            for( int i = 0; i < num; i++ ) {
-                npc *temp = new npc();
-                temp->normalize();
-                if( faction_id != -1 ) {
-                    faction *fac = g->faction_by_id( faction_id );
-                    if( fac ) {
-                        temp->randomize_from_faction( fac );
-                    } else {
-                        debugmsg( "EVENT_HELP run with invalid faction_id" );
-                        temp->randomize();
-                    }
-                } else {
-                    temp->randomize();
-                }
-                temp->attitude = NPCATT_DEFEND;
-                // important: npc::spawn_at must be called to put the npc into the overmap
-                temp->spawn_at( g->get_levx(), g->get_levy(), g->get_levz() );
-                // spawn at the border of the reality bubble, outside of the players view
-                if( one_in( 2 ) ) {
-                    temp->setx( rng( 0, SEEX * MAPSIZE - 1 ) );
-                    temp->sety( rng( 0, 1 ) * SEEY * MAPSIZE );
-                } else {
-                    temp->setx( rng( 0, 1 ) * SEEX * MAPSIZE );
-                    temp->sety( rng( 0, SEEY * MAPSIZE - 1 ) );
-                }
-                // And tell the npc to go to the player.
-                temp->goal.x = g->u.global_omt_location().x;
-                temp->goal.y = g->u.global_omt_location().y;
-                // The npcs will be loaded later by game::load_npcs()
-            }
-        }
-        */
         break;
 
     case EVENT_ROBOT_ATTACK: {
@@ -114,9 +75,11 @@ void event::actualize()
         }
         // You could drop the flag, you know.
         if (g->u.has_amount("petrified_eye", 1)) {
-            add_msg(_("The eye you're carrying lets out a tortured scream!"));
             sounds::sound(g->u.pos(), 60, "");
-            g->u.add_morale(MORALE_SCREAM, -15, 0, 300, 5);
+            if (!g->u.is_deaf()) {
+                add_msg(_("The eye you're carrying lets out a tortured scream!"));
+                g->u.add_morale(MORALE_SCREAM, -15, 0, 300, 5);
+            }
         }
         if (!one_in(25)) { // They just keep coming!
             g->add_event(EVENT_SPAWN_WYRMS, int(calendar::turn) + rng(15, 25));
@@ -243,7 +206,7 @@ void event::actualize()
      add_msg(m_warning, _("Water fills nearly to the ceiling!"));
      g->u.add_memorial_log(pgettext("memorial_male", "Water level reached the ceiling."),
                            pgettext("memorial_female", "Water level reached the ceiling."));
-     g->plswim(g->u.posx(), g->u.posy());
+     g->plswim(g->u.pos());
     }
    }
 // flood_buf is filled with correct tiles; now copy them back to g->m
@@ -256,7 +219,7 @@ void event::actualize()
 
     case EVENT_TEMPLE_SPAWN: {
         static const std::array<mtype_id, 4> temple_monsters = { {
-            mon_sewer_snake, mon_centipede, mon_dermatik, mon_spider_widow_giant
+            mon_sewer_snake, mon_dermatik, mon_spider_widow_giant, mon_spider_cellar_giant
         } };
         const mtype_id &montype = random_entry( temple_monsters );
         int tries = 0, x, y;
@@ -281,7 +244,7 @@ void event::per_turn()
     switch (type) {
     case EVENT_WANTED: {
         // About once every 5 minutes. Suppress in classic zombie mode.
-        if (g->get_levz() >= 0 && one_in(50) && !ACTIVE_WORLD_OPTIONS["CLASSIC_ZOMBIES"]) {
+        if (g->get_levz() >= 0 && one_in(50) && !get_option<bool>( "CLASSIC_ZOMBIES" )) {
             point place = g->m.random_outdoor_tile();
             if (place.x == -1 && place.y == -1) {
                 return; // We're safely indoors!

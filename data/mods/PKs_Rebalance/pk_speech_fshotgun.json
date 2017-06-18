@@ -1,0 +1,128 @@
+[
+    {
+        "type" : "speech",
+        "speaker" : "mon_furvivor_shotgun",
+        "sound" : "\"H-Hello?\"",
+        "volume" : 15
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_shotgun",
+        "sound" : "\"Hey you!\"",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_shotgun",
+        "sound" : "You put the lime in the coco nuts and shake your body round!",
+        "volume" : 10
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_shotgun",
+        "sound" : "\"When the fourth wall is torn down, THEN!\"",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_shotgun",
+        "sound" : "\"when I find that little somnabitch, I'll show 'em who's boss\"",
+        "volume" : 10
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_shotgun",
+        "sound" : "\"IT BURNS!\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_shotgun",
+        "sound" : "\"So . . . itchy\"",
+        "volume" : 15
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_shotgun",
+        "sound" : "\"!!Cleanse me in flames!!\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_shotgun",
+        "sound" : "\"You!  Come here!\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_shotgun",
+        "sound" : "\"I'm dying for a leg of meat . . .\"",
+        "volume" : 10
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_shotgun",
+        "sound" : "\"They told me it was safe, why would they lie to me?\"",
+        "volume" : 15
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_shotgun",
+        "sound" : "\"Gonna get me a chainsaw, strap it to my arm.\"",
+        "volume" : 15
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_shotgun",
+        "sound" : "\"Shop Smart, Shop S-MART!\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_shotgun",
+        "sound" : "\"THIS IS MY BOOMSTICK!!\"",
+        "volume" : 40
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_shotgun",
+        "sound" : "\"Groovy\"",
+        "volume" : 10
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_shotgun",
+        "sound" : "\"KLAATU -- BARADA -- NIKTO!\"",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_shotgun",
+        "sound" : "\"If wanted to kill people all you idiots would be dead already!\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_shotgun",
+        "sound" : "\"Soldier Be Prepared, Prepared\"",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_shotgun",
+        "sound" : "\"Fight for our Cause\"",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_shotgun",
+        "sound" : "\"Die for our King!\"",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_shotgun",
+        "sound" : "\"Be Worth of our Cause!\"",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_shotgun",
+        "sound" : "\"This is all because those PINKOS at the megastore wouldn't sell good, honest citizens MACHINE RIFLES!\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_shotgun",
+        "sound" : "\"I just wanna go home now\"",
+        "volume" : 15
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_shotgun",
+        "sound" : "\"So tired . . .\"",
+        "volume" : 10
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_shotgun",
+        "sound" : "\"Oink like a Piggy for me!\"",
+        "volume" : 30
+    }
+]

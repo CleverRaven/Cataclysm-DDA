@@ -1,0 +1,36 @@
+[
+  {
+    "id": "mag_rifle",
+    "type": "BOOK",
+    "name": "Modern Rifleman",
+    "name_plural": "Modern Rifleman",
+    "description": "An informative magazine all about rifles and shooting.  There is an excellent article about proper maintenance in this issue.",
+    "weight": 100,
+    "volume": 1,
+    "price": 450,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "pink",
+    "skill": "rifle",
+    "max_level": 1,
+    "intelligence": 5,
+    "time": 8,
+    "fun": 1
+  },
+  {
+    "id": "manual_rifle",
+    "type": "BOOK",
+    "name": "FM 23-16 Army marksmanship manual",
+    "description": "A hefty military field manual about automatic rifle usage and techniques which improve marksmanship and proper weapons-handling.",
+    "weight": 454,
+    "volume": 1,
+    "price": 2000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "green",
+    "skill": "rifle",
+    "max_level": 3,
+    "intelligence": 4,
+    "time": 18
+  }
+]

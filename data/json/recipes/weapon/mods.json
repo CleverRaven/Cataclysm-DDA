@@ -1,0 +1,69 @@
+[
+  {
+    "result": "beltfeed",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "rifle", 2 ],
+    "time": 200000,
+    "book_learn": [ [ "manual_rifle", 3 ], [ "manual_fabrication", 5 ], [ "textbook_fabrication", 5 ] ],
+    "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 2 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "pipe", 2 ] ],
+      [ [ "spring", 4 ] ]
+    ]
+  },
+  {
+    "result": "improve_sights",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ [ "gun", 3 ] ],
+    "time": 30000,
+    "book_learn": [ [ "mag_guns", 3 ], [ "mag_pistol", 3 ], [ "mag_shotgun", 3 ], [ "mag_smg", 3 ], [ "mag_rifle", 3 ], [ "manual_gun", 3 ], [ "manual_pistol", 3 ], [ "manual_shotgun", 3 ], [ "manual_smg", 3 ], [ "manual_rifle", 3 ] ],
+    "qualities": [
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 }
+    ],
+    "tools": [
+      [ [ "large_repairkit", 10 ], [ "small_repairkit", 30 ] ],
+      [ [ "soldering_iron", 15 ], [ "toolset", 15 ] ]
+    ],
+    "components": [
+      [ [ "scrap", 1 ] ],
+      [ [ "plastic_chunk", 1 ] ]
+    ]
+  },
+  {
+    "result": "offset_sights",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ [ "gun", 4 ] ],
+    "time": 30000,
+    "book_learn": [ [ "mag_guns", 4 ], [ "mag_pistol", 4 ], [ "mag_shotgun", 4 ], [ "mag_smg", 4 ], [ "mag_rifle", 4 ], [ "manual_gun", 4 ], [ "manual_pistol", 4 ], [ "manual_shotgun", 4 ], [ "manual_smg", 4 ], [ "manual_rifle", 4 ] ],
+    "qualities": [
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 }
+    ],
+    "tools": [
+      [ [ "large_repairkit", 10 ], [ "small_repairkit", 30 ] ],
+      [ [ "soldering_iron", 15 ], [ "toolset", 15 ] ]
+    ],
+    "components": [
+      [ [ "scrap", 1 ] ],
+      [ [ "plastic_chunk", 1 ] ]
+    ]
+  }
+]

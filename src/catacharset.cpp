@@ -3,15 +3,17 @@
 #include "debug.h"
 #include "cursesdef.h"
 #include "wcwidth.h"
+#include "options.h"
 
 //copied from SDL2_ttf code
-unsigned UTF8_getch(const char **src, int *srclen)
+//except type changed from unsigned to uint32_t
+uint32_t UTF8_getch(const char **src, int *srclen)
 {
     const unsigned char *p = *(const unsigned char **)src;
     int left = 0;
     bool overlong = false;
     bool underflow = false;
-    unsigned ch = UNKNOWN_UNICODE;
+    uint32_t ch = UNKNOWN_UNICODE;
 
     if (*srclen == 0) {
         return UNKNOWN_UNICODE;
@@ -21,7 +23,7 @@ unsigned UTF8_getch(const char **src, int *srclen)
             if (p[0] == 0xFC && (p[1] & 0xFC) == 0x80) {
                 overlong = true;
             }
-            ch = (unsigned) (p[0] & 0x01);
+            ch = (uint32_t) (p[0] & 0x01);
             left = 5;
         }
     } else if (p[0] >= 0xF8) {
@@ -29,7 +31,7 @@ unsigned UTF8_getch(const char **src, int *srclen)
             if (p[0] == 0xF8 && (p[1] & 0xF8) == 0x80) {
                 overlong = true;
             }
-            ch = (unsigned) (p[0] & 0x03);
+            ch = (uint32_t) (p[0] & 0x03);
             left = 4;
         }
     } else if (p[0] >= 0xF0) {
@@ -37,7 +39,7 @@ unsigned UTF8_getch(const char **src, int *srclen)
             if (p[0] == 0xF0 && (p[1] & 0xF0) == 0x80) {
                 overlong = true;
             }
-            ch = (unsigned) (p[0] & 0x07);
+            ch = (uint32_t) (p[0] & 0x07);
             left = 3;
         }
     } else if (p[0] >= 0xE0) {
@@ -45,7 +47,7 @@ unsigned UTF8_getch(const char **src, int *srclen)
             if (p[0] == 0xE0 && (p[1] & 0xE0) == 0x80) {
                 overlong = true;
             }
-            ch = (unsigned) (p[0] & 0x0F);
+            ch = (uint32_t) (p[0] & 0x0F);
             left = 2;
         }
     } else if (p[0] >= 0xC0) {
@@ -53,12 +55,12 @@ unsigned UTF8_getch(const char **src, int *srclen)
             if ((p[0] & 0xDE) == 0xC0) {
                 overlong = true;
             }
-            ch = (unsigned) (p[0] & 0x1F);
+            ch = (uint32_t) (p[0] & 0x1F);
             left = 1;
         }
     } else {
         if ((p[0] & 0x80) == 0x00) {
-            ch = (unsigned) p[0];
+            ch = (uint32_t) p[0];
         }
     }
     ++*src;
@@ -86,7 +88,7 @@ unsigned UTF8_getch(const char **src, int *srclen)
     return ch;
 }
 
-std::string utf32_to_utf8(unsigned ch)
+std::string utf32_to_utf8(uint32_t ch)
 {
     char out[5];
     char *buf = out;
@@ -133,7 +135,7 @@ int utf8_width(const char *s, const bool ignore_tags)
     int w = 0;
     bool inside_tag = false;
     while(len > 0) {
-        unsigned ch = UTF8_getch(&ptr, &len);
+        uint32_t ch = UTF8_getch(&ptr, &len);
         if (ch == UNKNOWN_UNICODE) {
             continue;
         }
@@ -153,6 +155,16 @@ int utf8_width(const char *s, const bool ignore_tags)
     return w;
 }
 
+int utf8_width(const std::string &str, const bool ignore_tags)
+{
+    return utf8_width(str.c_str(), ignore_tags);
+}
+
+int utf8_width(const utf8_wrapper &str, const bool ignore_tags)
+{
+    return utf8_width(str.c_str(), ignore_tags);
+}
+
 //Convert cursor position to byte offset
 //returns the first character position in bytes behind the cursor position.
 //If the cursor is not on the first half of the character,
@@ -169,7 +181,7 @@ int cursorx_to_position(const char *line, int cursorx, int *prevpos, int maxlen)
         if ( utf8str[0] == 0 ) {
             break;
         }
-        unsigned ch = UTF8_getch(&utf8str, &len);
+        uint32_t ch = UTF8_getch(&utf8str, &len);
         int cw = mk_wcwidth(ch);
         len = ANY_LENGTH - len;
         if( len <= 0 ) {
@@ -200,7 +212,7 @@ int erease_utf8_by_cw( char *t, int cw, int clen, int maxlen)
     while(c < cw) {
         const char *utf8str = t + i;
         int len = ANY_LENGTH;
-        unsigned ch = UTF8_getch(&utf8str, &len);
+        uint32_t ch = UTF8_getch(&utf8str, &len);
         int cw = mk_wcwidth(ch);
         len = ANY_LENGTH - len;
 
@@ -243,7 +255,7 @@ std::string utf8_substr(std::string s, int start, int size)
     if(begin != pos) {
         const char *ts = buf + pos;
         int l = ANY_LENGTH;
-        unsigned tc = UTF8_getch(&ts, &l);
+        uint32_t tc = UTF8_getch(&ts, &l);
         int tw = mk_wcwidth(tc);
         erease_utf8_by_cw(buf + pos, tw, tw, len - pos - 1);
     }
@@ -253,7 +265,7 @@ std::string utf8_substr(std::string s, int start, int size)
         if(end != pos) {
             const char *ts = buf + pos;
             int l = ANY_LENGTH;
-            unsigned tc = UTF8_getch(&ts, &l);
+            uint32_t tc = UTF8_getch(&ts, &l);
             int tw = mk_wcwidth(tc);
             erease_utf8_by_cw(buf + pos, tw, tw, len - pos - 1);
             end = pos + tw - 1;
@@ -277,7 +289,7 @@ std::string utf8_truncate(std::string s, size_t length)
     return s.substr(0, last_pos);
 }
 
-static const char base64_encoding_table[] = {
+static const std::array<char, 64> base64_encoding_table = {{
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
     'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
     'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
@@ -286,10 +298,10 @@ static const char base64_encoding_table[] = {
     'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
     'w', 'x', 'y', 'z', '0', '1', '2', '3',
     '4', '5', '6', '7', '8', '9', '+', '-'
-};
+}};
 
-static char base64_decoding_table[256];
-static const  int mod_table[] = {0, 2, 1};
+static       std::array<char, 256> base64_decoding_table;
+static const std::array<int, 3> mod_table = {{0, 2, 1}};
 
 static void build_base64_decoding_table()
 {
@@ -312,7 +324,7 @@ std::string base64_encode(std::string str)
     int input_length = str.length();
     int output_length = 4 * ((input_length + 2) / 3);
 
-    char *encoded_data = new char[output_length + 1];
+    std::string encoded_data( output_length, '\0' );
     const unsigned char *data = (const unsigned char *)str.c_str();
 
     for (int i = 0, j = 0; i < input_length;) {
@@ -333,12 +345,7 @@ std::string base64_encode(std::string str)
         encoded_data[output_length - 1 - i] = '=';
     }
 
-    encoded_data[output_length] = '\0';
-    std::string ret = "#";
-    ret += encoded_data;
-    delete[] encoded_data;
-
-    return ret;
+    return "#" + encoded_data;
 }
 
 
@@ -369,7 +376,7 @@ std::string base64_decode(std::string str)
         output_length--;
     }
 
-    unsigned char *decoded_data = new unsigned char[output_length + 1];
+    std::string decoded_data( output_length, '\0' );
 
     for (int i = 0, j = 0; i < input_length;) {
 
@@ -394,18 +401,119 @@ std::string base64_decode(std::string str)
         }
     }
 
-    decoded_data[output_length] = 0;
+    return decoded_data;
+}
 
-    std::string ret = (char *)decoded_data;
-    delete[] decoded_data;
+inline void strip_trailing_nulls( std::wstring &str )
+{
+    while( !str.empty() && str.back() == '\0' ) {
+        str.pop_back();
+    }
+}
 
-    return ret;
+inline void strip_trailing_nulls( std::string &str )
+{
+    while( !str.empty() && str.back() == '\0' ) {
+        str.pop_back();
+    }
+}
+
+std::wstring utf8_to_wstr( const std::string &str )
+{
+#if defined(_WIN32) || defined(WINDOWS)
+    int sz = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, NULL, 0 ) + 1;
+    std::wstring wstr( sz, '\0' );
+    MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, &wstr[0], sz );
+    strip_trailing_nulls( wstr );
+    return wstr;
+#else
+    std::size_t sz = std::mbstowcs( NULL, str.c_str(), str.size() );
+    std::wstring wstr( sz, '\0' );
+    std::mbstowcs( &wstr[0], str.c_str(), sz );
+    strip_trailing_nulls( wstr );
+    return wstr;
+#endif
+}
+
+std::string wstr_to_utf8( const std::wstring &wstr )
+{
+#if defined(_WIN32) || defined(WINDOWS)
+    int sz = WideCharToMultiByte( CP_UTF8, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL );
+    std::string str( sz, '\0' );
+    WideCharToMultiByte( CP_UTF8, 0, wstr.c_str(), -1, &str[0], sz, NULL, NULL );
+    strip_trailing_nulls( str );
+    return str;
+#else
+    std::size_t sz = std::wcstombs( NULL, wstr.c_str(), wstr.size() );
+    std::string str( sz, '\0' );
+    std::wcstombs( &str[0], wstr.c_str(), sz );
+    strip_trailing_nulls( str );
+    return str;
+#endif
+}
+
+std::string native_to_utf8( const std::string &str )
+{
+    if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
+        return str;
+    }
+#if defined(_WIN32) || defined(WINDOWS)
+    // native encoded string --> Unicode sequence --> UTF-8 string
+    int unicode_size = MultiByteToWideChar( CP_ACP, 0, str.c_str(), -1, NULL, 0 ) + 1;
+    std::wstring unicode( unicode_size, '\0' );
+    MultiByteToWideChar( CP_ACP, 0, str.c_str(), -1, &unicode[0], unicode_size );
+    int utf8_size = WideCharToMultiByte( CP_UTF8, 0, &unicode[0], -1, NULL, 0, NULL, 0 ) + 1;
+    std::string result( utf8_size, '\0' );
+    WideCharToMultiByte( CP_UTF8, 0, &unicode[0], -1, &result[0], utf8_size, NULL, 0 );
+    strip_trailing_nulls( result );
+    return result;
+#else
+    return str;
+#endif
+}
+
+std::string utf8_to_native( const std::string &str )
+{
+    if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
+        return str;
+    }
+#if defined(_WIN32) || defined(WINDOWS)
+    // UTF-8 string --> Unicode sequence --> native encoded string
+    int unicode_size = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, NULL, 0 ) + 1;
+    std::wstring unicode( unicode_size, '\0' );
+    MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, &unicode[0], unicode_size );
+    int native_size = WideCharToMultiByte( CP_ACP, 0, &unicode[0], -1, NULL, 0, NULL, 0 ) + 1;
+    std::string result( native_size, '\0' );
+    WideCharToMultiByte( CP_ACP, 0, &unicode[0], -1, &result[0], native_size, NULL, 0 );
+    strip_trailing_nulls( result );
+    return result;
+#else
+    return str;
+#endif
 }
 
 int center_text_pos(const char *text, int start_pos, int end_pos)
 {
     int full_screen = end_pos - start_pos + 1;
     int str_len = utf8_width(text);
+    int position = (full_screen - str_len) / 2;
+
+    if (position <= 0) {
+        return start_pos;
+    }
+
+    return start_pos + position;
+}
+
+int center_text_pos( const std::string &text, int start_pos, int end_pos )
+{
+    return center_text_pos( text.c_str(), start_pos, end_pos );
+}
+
+int center_text_pos( const utf8_wrapper &text, int start_pos, int end_pos )
+{
+    int full_screen = end_pos - start_pos + 1;
+    int str_len = text.display_width();
     int position = (full_screen - str_len) / 2;
 
     if (position <= 0) {
@@ -423,7 +531,7 @@ void utf8_wrapper::init_utf8_wrapper()
     const char *utf8str = _data.c_str();
     int len = _data.length();
     while(len > 0) {
-        const unsigned ch = UTF8_getch(&utf8str, &len);
+        const uint32_t ch = UTF8_getch(&utf8str, &len);
         if(ch == UNKNOWN_UNICODE) {
             continue;
         }
@@ -451,7 +559,7 @@ size_t utf8_wrapper::byte_start(size_t bstart, size_t start) const
     const char *utf8str = _data.c_str() + bstart;
     int len = _data.length() - bstart;
     while(len > 0 && start > 0) {
-        const unsigned ch = UTF8_getch(&utf8str, &len);
+        const uint32_t ch = UTF8_getch(&utf8str, &len);
         if(ch == UNKNOWN_UNICODE) {
             continue;
         }
@@ -472,7 +580,7 @@ size_t utf8_wrapper::byte_start_display(size_t bstart, size_t start) const
     int len = _data.length() - bstart;
     while(len > 0) {
         const char *prevstart = utf8str;
-        const unsigned ch = UTF8_getch(&utf8str, &len);
+        const uint32_t ch = UTF8_getch(&utf8str, &len);
         if(ch == UNKNOWN_UNICODE) {
             continue;
         }
@@ -529,7 +637,7 @@ long utf8_wrapper::at(size_t start) const
     const char *utf8str = _data.c_str() + bstart;
     int len = _data.length() - bstart;
     while(len > 0) {
-        const unsigned ch = UTF8_getch(&utf8str, &len);
+        const uint32_t ch = UTF8_getch(&utf8str, &len);
         if(ch != UNKNOWN_UNICODE) {
             return ch;
         }
@@ -551,6 +659,18 @@ void utf8_wrapper::append(const utf8_wrapper &other)
     _data.append(other._data);
     _length += other._length;
     _display_width += other._display_width;
+}
+
+utf8_wrapper& utf8_wrapper::replace_all( const utf8_wrapper &search, const utf8_wrapper &replace )
+{
+    for(std::string::size_type i = _data.find(search._data); i != std::string::npos;
+            i = _data.find(search._data, i) ) {
+        erase(i, search.length());
+        insert(i, replace);
+        i += replace._data.length();
+    }
+
+    return *this;
 }
 
 std::string utf8_wrapper::shorten( size_t maxlength ) const

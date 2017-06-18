@@ -11,10 +11,13 @@
 #include <cstdlib>
 #include <fstream>
 #include <sstream>
+#include "catacharset.h"
 #include "init.h"
+#include "input.h"
 #include "path_info.h"
 #include "filesystem.h"
 #include "debug.h"
+#include "cata_utility.h"
 
 //***********************************
 //Globals                           *
@@ -37,7 +40,7 @@ int fontheight;         //the height of the font, background is always this size
 int halfwidth;          //half of the font width, used for centering lines
 int halfheight;          //half of the font height, used for centering lines
 HFONT font;             //Handle to the font created by CreateFont
-RGBQUAD *windowsPalette;  //The coor palette, 16 colors emulates a terminal
+std::array<RGBQUAD, 16> windowsPalette;  //The coor palette, 16 colors emulates a terminal
 unsigned char *dcbits;  //the bits of the screen image, for direct access
 bool CursorVisible = true; // Showcursor is a somewhat weird function
 std::map< std::string, std::vector<int> > consolecolors;
@@ -191,6 +194,12 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
             case VK_PRIOR:
                 lastchar = KEY_PPAGE;
                 break;
+            case VK_HOME:
+                lastchar = KEY_HOME;
+                break;
+            case VK_END:
+                lastchar = KEY_END;
+                break;
             case VK_F1:
                 lastchar = KEY_F(1);
                 break;
@@ -251,7 +260,7 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
 
     case WM_SETCURSOR:
         MouseOver = LOWORD(lParam);
-        if (OPTIONS["HIDE_CURSOR"] == "hide")
+        if (get_option<std::string>( "HIDE_CURSOR" ) == "hide")
         {
             if (MouseOver==HTCLIENT && CursorVisible)
             {
@@ -310,7 +319,7 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
 void curses_drawwindow(WINDOW *win)
 {
     int i,j,drawx,drawy;
-    unsigned tmp;
+    wchar_t tmp;
     RECT update = {win->x * fontwidth, -1,
                    (win->x + win->width) * fontwidth, -1};
 
@@ -336,13 +345,20 @@ void curses_drawwindow(WINDOW *win)
                     // Outside of the display area, would not render anyway
                     continue;
                 }
-                const char* utf8str = cell.ch.c_str();
-                int len = cell.ch.length();
-                tmp = UTF8_getch(&utf8str, &len);
+
                 int FG = cell.FG;
                 int BG = cell.BG;
                 FillRectDIB(drawx,drawy,fontwidth,fontheight,BG);
+                static const std::string space_string = " ";
+                // Spaces don't need any drawing except background
+                if( cell.ch == space_string ) {
+                    continue;
+                }
 
+                const char* utf8str = cell.ch.c_str();
+                int len = cell.ch.length();
+
+                tmp = UTF8_getch(&utf8str, &len);
                 if (tmp != UNKNOWN_UNICODE) {
 
                     int color = RGB(windowsPalette[FG].rgbRed,windowsPalette[FG].rgbGreen,windowsPalette[FG].rgbBlue);
@@ -428,13 +444,13 @@ void CheckMessages()
 // Calculates the new width of the window, given the number of columns.
 int projected_window_width(int)
 {
-    return OPTIONS["TERMINAL_X"] * fontwidth;
+    return get_option<int>( "TERMINAL_X" ) * fontwidth;
 }
 
 // Calculates the new height of the window, given the number of rows.
 int projected_window_height(int)
 {
-    return OPTIONS["TERMINAL_Y"] * fontheight;
+    return get_option<int>( "TERMINAL_Y" ) * fontheight;
 }
 
 //***********************************
@@ -458,7 +474,7 @@ WINDOW *curses_init(void)
     int overmap_fontheight = 16;
     int overmap_fontsize = 16;
     std::string overmap_typeface;
-    bool fontblending;
+    bool fontblending = false;
 
     std::ifstream jsonstream(FILENAMES["fontdata"].c_str(), std::ifstream::binary);
     if (jsonstream.good()) {
@@ -524,8 +540,8 @@ WINDOW *curses_init(void)
 
     halfwidth=fontwidth / 2;
     halfheight=fontheight / 2;
-    WindowWidth= OPTIONS["TERMINAL_X"] * fontwidth;
-    WindowHeight = OPTIONS["TERMINAL_Y"] * fontheight;
+    WindowWidth= get_option<int>( "TERMINAL_X" ) * fontwidth;
+    WindowHeight = get_option<int>( "TERMINAL_Y" ) * fontheight;
 
     WinCreate();    //Create the actual window, register it, etc
     timeBeginPeriod(1); // Set Sleep resolution to 1ms
@@ -574,7 +590,7 @@ WINDOW *curses_init(void)
 
     init_colors();
 
-    mainwin = newwin(OPTIONS["TERMINAL_Y"],OPTIONS["TERMINAL_X"],0,0);
+    mainwin = newwin(get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ),0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
 }
 
@@ -585,9 +601,7 @@ uint64_t GetPerfCount(){
     return Count;
 }
 
-//Not terribly sure how this function is suppose to work,
-//but jday helped to figure most of it out
-int curses_getch(WINDOW* win)
+input_event input_manager::get_input_event( WINDOW *win )
 {
     // standards note: getch is sometimes required to call refresh
     // see, e.g., http://linux.die.net/man/3/getch
@@ -616,14 +630,45 @@ int curses_getch(WINDOW* win)
         CheckMessages();
     }
 
-    if (lastchar!=ERR && OPTIONS["HIDE_CURSOR"] == "hidekb" && CursorVisible) {
+    if (lastchar!=ERR && get_option<std::string>( "HIDE_CURSOR" ) == "hidekb" && CursorVisible) {
         CursorVisible = false;
         ShowCursor(false);
     }
 
-    return lastchar;
+    previously_pressed_key = 0;
+    input_event rval;
+    if( lastchar == ERR ) {
+        if( input_timeout > 0 ) {
+            rval.type = CATA_INPUT_TIMEOUT;
+        } else {
+            rval.type = CATA_INPUT_ERROR;
+        }
+    } else {
+        if( lastchar == 127 ) { // == Unicode DELETE
+            previously_pressed_key = KEY_BACKSPACE;
+            return input_event( KEY_BACKSPACE, CATA_INPUT_KEYBOARD );
+        }
+        rval.type = CATA_INPUT_KEYBOARD;
+        rval.text = utf32_to_utf8( lastchar );
+        previously_pressed_key = lastchar;
+        // for compatibility only add the first byte, not the code point
+        // as it would  conflict with the special keys defined by ncurses
+        rval.add_input( lastchar );
+    }
+
+    return rval;
 }
 
+bool gamepad_available()
+{
+    return false;
+}
+
+bool input_context::get_coordinates( WINDOW *, int &, int & )
+{
+    // TODO: implement this properly
+    return false;
+}
 
 //Ends the terminal, destroy everything
 int curses_destroy(void)
@@ -665,39 +710,40 @@ int curses_start_color(void)
 {
     //TODO: this should be reviewed in the future.
 
-    colorpairs = new pairs[100];
-    windowsPalette = new RGBQUAD[16];
-
     //Load the console colors from colors.json
-    std::ifstream colorfile(FILENAMES["colors"].c_str(), std::ifstream::in | std::ifstream::binary);
-    try{
-        JsonIn jsin(colorfile);
-        char ch;
-        // Manually load the colordef object because the json handler isn't loaded yet.
-        jsin.eat_whitespace();
-        ch = jsin.peek();
-        if( ch == '[' ) {
+    const std::string default_path = FILENAMES["colors"];
+    const std::string custom_path = FILENAMES["base_colors"];
+
+    if ( !file_exist(custom_path) ){
+        std::ifstream src(default_path.c_str(), std::ifstream::in | std::ios::binary);
+        write_to_file_exclusive(custom_path, [&src]( std::ostream &dst ) {
+            dst << src.rdbuf();
+        }, _("base colors") );
+    }
+
+    auto load_colorfile = []( const std::string &path ) {
+        std::ifstream colorfile( path.c_str(), std::ifstream::in | std::ifstream::binary );
+        try{
+            JsonIn jsin(colorfile);
+            // Manually load the colordef object because the json handler isn't loaded yet.
             jsin.start_array();
             // find type and dispatch each object until array close
             while (!jsin.end_array()) {
-                jsin.eat_whitespace();
-                char ch = jsin.peek();
-                if (ch != '{') {
-                    jsin.error( string_format( "expected array of objects but found '%c', not '{'", ch ) );
-                }
                 JsonObject jo = jsin.get_object();
                 load_colors(jo);
                 jo.finish();
             }
-        } else {
-            // not an array?
-            jsin.error( string_format( "expected object or array, but found '%c'", ch ) );
+            return OK;
+        } catch( const JsonError &e ){
+            DebugLog( D_ERROR, DC_ALL ) << "Failed to load color definitions from " << path << ": " << e;
+            return ERR;
         }
-    } catch( const JsonError &err ){
-        throw std::runtime_error( FILENAMES["colors"] + ": " + err.what() );
-    }
+    };
 
-    if(consolecolors.empty())return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);
+    if ( load_colorfile(custom_path) == ERR ){
+        load_colorfile(default_path);
+    }
+    if(consolecolors.empty())return SetDIBColorTable(backbuffer, 0, 16, windowsPalette.data());
     windowsPalette[0]  = BGR(ccolor("BLACK"));
     windowsPalette[1]  = BGR(ccolor("RED"));
     windowsPalette[2]  = BGR(ccolor("GREEN"));
@@ -714,12 +760,17 @@ int curses_start_color(void)
     windowsPalette[13] = BGR(ccolor("LMAGENTA"));
     windowsPalette[14] = BGR(ccolor("LCYAN"));
     windowsPalette[15] = BGR(ccolor("WHITE"));
-    return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);
+    return SetDIBColorTable(backbuffer, 0, 16, windowsPalette.data());
 }
 
-void curses_timeout(int t)
+void input_manager::set_timeout( const int t )
 {
+    input_timeout = t;
     inputdelay = t;
+}
+
+void handle_additional_window_clear(WINDOW*)
+{
 }
 
 #endif

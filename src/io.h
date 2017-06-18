@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CATA_IO_H
 #define CATA_IO_H
 
@@ -287,13 +288,15 @@ public:
      *         }
      *     };
      *
+     * @param name Name of requested member
+     * @param pointer
      * @param load The function gets the string that was loaded from JSON and should set the pointer
      * in the object accordingly. One would usually use a lambda for this function.
      * @param save The inverse of the load function, it converts the pointer to a string which is
      * later stored in the JSON.
      * @param required If `true`, an error will be raised if the requested member does not exist
      * in the JSON data.
-     * @ref JsonOutputArchive, so it can be used when the the archive type is a template parameter.
+     * JsonOutputArchive, so it can be used when the the archive type is a template parameter.
      */
     template<typename T>
     bool io( const std::string& name, T* & pointer, const std::function<void(const std::string&)>& load,

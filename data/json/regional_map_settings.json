@@ -2,7 +2,7 @@
    {
       "type": "region_settings",
       "id": "default",                      "//": "identifier, when region_map is in it will determine alternatives ('desert' etc)",
-      "house_basement_chance": 2,           "//": "one_in(n) houses with basements",
+      "house_basement_chance": 3,           "//": "one_in(n) houses with basements",
       "default_oter": "field",              "//": "default oter_id (anything that isn't a house/road/etc) some become forests",
       "default_groundcover": {              "//": "biome settings for generic 'grass_or_dirt' (which is reproduced below",
           "primary": "t_grass",             "//": "default ter_id on ground",
@@ -12,14 +12,17 @@
       "field_coverage": {                   "//": "biome settings for builtin field mapgen. The values below replicate results of hardcoded 'field' mapgen",
           "percent_coverage": 0.9333,       "//": "% of tiles that have a plant: one_in(120)",
           "default_ter": "t_shrub",         "//": "default plant",
-          "other": {                        "//": "% of plants that aren't default_ter",
+          "other": {                        "//": "% of plants/features that aren't default_ter",
               "t_shrub_blueberry": 0.4166,
               "t_shrub_strawberry": 0.4166,
               "f_mutpoppy": 8.3333,
               "f_bluebell": 8.3333,
               "f_dahlia": 8.3333,
               "f_datura": 4.3333,
-              "f_dandelion": 8.3333
+              "f_dandelion": 8.3333,
+              "f_boulder_small": 1,
+              "f_boulder_medium": 0.6666,
+              "f_boulder_large": 0.3333
           },
           "boost_chance": 0.833,            "//": "% of fields with boosted plant growth",
           "boosted_percent_coverage": 2.5,  "//": "for the above: total percent coverage jumps to this amount",
@@ -138,6 +141,7 @@
               "office_doctor": 2,
               "s_restaurant_fast": 4,
               "s_restaurant_coffee": 3,
+              "s_teashop": 1,
               "bowling_alley": 2,
               "church": 2,
               "office_cubical": 2,
@@ -153,8 +157,16 @@
               "s_gardening": 2,
               "museum": 1,
               "s_music": 2,
-              "s_laundromat": 1
+              "s_laundromat": 1,
+              "veterinarian": 2,
+              "mortuary": 1
           }
+      },
+      "weather": {
+        "base_temperature" : 6.5,
+        "base_humidity" : 66.0,
+        "base_pressure" : 1015.0,
+        "base_acid" : 0.0
       }
    }
 ]

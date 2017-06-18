@@ -1,0 +1,38 @@
+[
+  {
+    "id": "batter",
+    "type": "requirement",
+    "//": "Bread type food usable as batter for frying.",
+    "components": [ [ [ "flour", 1 ], [ "cornmeal", 1 ], [ "flatbread", 1 ], [ "tortilla_corn", 1 ], [ "bread", 1 ], [ "wastebread", 1 ], [ "cornbread", 1 ], [ "biscuit", 1 ], [ "hardtack", 1 ], [ "crackers", 1 ] ] ]
+  },
+  {
+    "id": "hard_liquor",
+    "type": "requirement",
+    "//": "Hard liquor - necessarily comestible and high proof, not necessarily high quality.",
+    "components": [ [ [ "moonshine", 1 ], [ "vodka", 1 ], [ "whiskey", 1 ], [ "single_malt_whiskey", 1 ], [ "brandy", 1 ], [ "rum", 1 ], [ "gin", 1 ], [ "tequila", 1 ], [ "mixed_alcohol_strong", 1 ] ] ]
+  },
+  {
+    "id": "sweet_fruit_fresh",
+    "type": "requirement",
+    "//": "Sweet, unprocessed fruit, roughly by mass.",
+    "components": [ [ [ "apple", 1 ], [ "apricot", 1 ], [ "banana", 1 ], [ "blackberries", 1 ], [ "blueberries", 1 ], [ "cherries", 1 ], [ "cranberries", 3 ], [ "grapefruit", 1 ], [ "grapes", 2 ], [ "kiwi", 1 ], [ "mango", 1 ], [ "melon", 2 ], [ "orange", 1 ], [ "papaya", 1 ], [ "peach", 1 ], [ "pear", 1 ], [ "pineapple", 1 ], [ "plums", 1 ], [ "pomegranate", 1 ], [ "raspberries", 1 ], [ "strawberries", 1 ], [ "watermelon", 1 ] ] ]
+  },
+  {
+    "id": "sweet_fruit_irradiated",
+    "type": "requirement",
+    "//": "Sweet, irradiated fruit, roughly by mass.",
+    "components": [ [ [ "irradiated_apple", 1 ], [ "irradiated_apricot", 1 ], [ "irradiated_banana", 1 ], [ "irradiated_blackberries", 1 ], [ "irradiated_blueberries", 1 ], [ "irradiated_cherries", 1 ], [ "irradiated_cranberries", 3 ], [ "irradiated_grapefruit", 1 ], [ "irradiated_grapes", 2 ], [ "irradiated_kiwi", 1 ], [ "irradiated_mango", 1 ], [ "irradiated_melon", 2 ], [ "irradiated_orange", 1 ], [ "irradiated_papaya", 1 ], [ "irradiated_peach", 1 ], [ "irradiated_pear", 1 ], [ "irradiated_pineapple", 1 ], [ "irradiated_plums", 1 ], [ "irradiated_pomegranate", 1 ], [ "irradiated_raspberries", 1 ], [ "irradiated_strawberries", 1 ], [ "irradiated_watermelon", 1 ] ] ]
+  },
+  {
+    "id": "sweet_fruit",
+    "type": "requirement",
+    "//": "Sweet, unprocessed or irradiated, roughly by mass.",
+    "components": [ [ [ "sweet_fruit_fresh", 1, "LIST" ], [ "sweet_fruit_irradiated", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "sweet_fruit_like",
+    "type": "requirement",
+    "//": "Similar to sweet_fruit, but allows processed fruit and vegetables that can pretend to be fruit.",
+    "components": [ [ [ "sweet_fruit", 1, "LIST" ], [ "lemon", 1 ], [ "irradiated_lemon", 1 ], [ "apple_canned", 1 ], [ "apple_vac", 1 ], [ "dry_fruit", 1 ], [ "can_peach", 1 ], [ "juice_pulp", 2 ], [ "rehydrated_fruit", 1 ], [ "rhubarb", 2 ] ] ]
+  }
+]

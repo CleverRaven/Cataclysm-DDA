@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "makeshift",
+    "name": "Makeshift Items Mod",
+    "authors": [ "Noctifer-de-Mortem" ],
+    "maintainers": [ "Noctifer-de-Mortem" ],
+    "description": "Adds more improvised item variants and rebalances existing ones.",
+    "category": "items",
+    "dependencies": [ "dda" ]
+  }
+]

@@ -1,0 +1,83 @@
+[
+  {
+    "id": "mon_secubot",
+    "type": "MONSTER",
+    "name": "security bot",
+    "description": "The Northrop Watchman X-1 is a production series of heavily armored combat robots.  Initially designed for military patrol and escort service, it rolls on a set of hydraulic treads and is armed with a 9x19mm SMG.",
+    "default_faction": "defense_bot",
+    "species": [ "ROBOT" ],
+    "diff": 19,
+    "size": "SMALL",
+    "hp": 80,
+    "speed": 70,
+    "material": [ "steel" ],
+    "symbol": "R",
+    "color": "dkgray",
+    "aggression": 100,
+    "morale": 100,
+    "armor_bash": 14,
+    "armor_cut": 14,
+    "vision_day": 50,
+    "starting_ammo": { "9mm": 100 },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 2,
+        "gun_type": "hk_mp5",
+        "ranges": [
+          [ 0, 6, "AUTO" ],
+          [ 7, 12, "DEFAULT" ]
+        ]
+      }
+    ],
+    "death_drops": {
+      "groups": [
+        [ "robots", 4 ],
+        [ "secubot", 1 ]
+      ]
+    },
+    "death_function": [ "EXPLODE" ],
+    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PATH_AVOID_DANGER_1" ]
+  },
+  {
+    "id": "mon_turret",
+    "type": "MONSTER",
+    "name": "turret",
+    "description": "The General Atomics TX-1 Guardian, a small, pill-shaped automated gun turret using state of the art ATR systems to dynamically reorient itself to new friends and enemies alike.  The two SMG barrels can swivel a full 360 degrees.",
+    "default_faction": "defense_bot",
+    "species": [ "ROBOT" ],
+    "diff": 14,
+    "size": "SMALL",
+    "hp": 30,
+    "speed": 100,
+    "material": [ "steel" ],
+    "symbol": "2",
+    "color": "ltgray",
+    "aggression": 100,
+    "morale": 100,
+    "armor_bash": 14,
+    "armor_cut": 16,
+    "luminance": 200,
+    "revert_to_itype": "bot_turret",
+    "starting_ammo": { "9mm": 100 },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 1,
+        "gun_type": "hk_mp5",
+        "ranges": [
+          [ 0, 6, "AUTO" ],
+          [ 7, 12, "DEFAULT" ]
+        ]
+      }
+    ],
+    "death_drops": {
+      "groups": [
+        [ "robots", 10 ],
+        [ "turret", 1 ]
+      ]
+    },
+    "death_function": [ "EXPLODE" ],
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
+  }
+]

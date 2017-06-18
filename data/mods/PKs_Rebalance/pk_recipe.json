@@ -1,0 +1,962 @@
+[
+    {
+    "type" : "recipe",
+    "result": "water_clean",
+    "id_suffix": "from plant",
+    "byproducts": [ [ "sac_empty", 3 ] ],
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 0,
+    "time": 5500,
+    "reversible": false,
+    "autolearn": true,
+    "batch_time_factors":[80, 4],
+    "qualities":[
+        {"id":"CUT","level":1},
+        {"id":"BOIL","level":1,"amount":1}
+    ],
+    "tools": [
+        [[ "hotplate", 5 ], [ "char_smoker", 3 ], [ "toolset", 5 ], [ "coffeemaker", 5], [ "atomic_coffeepot", -1 ], [ "fire", -1 ]]
+    ],
+    "components": [
+        [[ "plant_sac", 3 ]]
+    ]
+    },{
+    "type" : "recipe",
+    "result": "water",
+    "id_suffix": "from plant",
+    "byproducts": [ [ "sac_empty", 3 ] ],
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 0,
+    "time": 1200,
+    "reversible": false,
+    "autolearn": true,
+    "batch_time_factors":[60, 8],
+    "qualities":[
+        {"id":"CUT","level":1}
+    ],
+    "components": [
+        [[ "plant_sac", 3 ]]
+    ]
+    },{
+    "type" : "recipe",
+    "result": "sac_treated",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "skills_required": [[ "cooking", 1 ]],
+    "time": 56000,
+    "reversible": false,
+    "autolearn": true,
+    "batch_time_factors":[50, 8],
+    "qualities":[
+        {"id":"BOIL","level":1,"amount":1},
+        {"id":"CUT","level":1}
+    ],
+    "components": [
+        [[ "sac_empty", 1 ]],
+        [[ "salt", 10 ], [ "salt_water", 1 ], ["saline", 3],  [ "seasoning_salt", 25]]
+    ]
+    },{
+    "type" : "recipe",
+    "result": "sac_purse",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [[ "survival", 2 ], [ "tailor", 2 ]],
+    "time": 68000,
+    "reversible": false,
+    "autolearn": true,
+    "batch_time_factors":[75, 15],
+    "qualities":[ ],
+    "components": [
+        [[ "sac_treated", 3 ]],
+        [[ "sinew", 50 ], [ "thread", 50 ], [ "plant_fibre", 50], [ "yarn", 25], [ "string_6", 1]],
+        [[ "wax", 1 ], [ "tallow", 2 ], [ "tallow_tainted", 2 ], [ "lamp_oil", 25 ], [ "cooking_oil", 2 ]]
+    ]
+    },{
+  "type" : "recipe",
+  "result": "sac_purse_clean_water",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 3500,
+  "reversible": true,
+  "autolearn": true,
+  "qualities": [
+      {"id":"CONTAIN","level":1,"amount":1}
+  ],
+  "components": [
+    [[ "water_clean", 1 ]],
+    [[ "sac_purse", 1 ]]
+    ]
+    },{
+    "result": "broken_mechaspider",
+    "type": "uncraft",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "time": 1200,
+    "qualities": [{"id":"BUTCHER","level":12}],
+    "components": [
+        [["spider_brain", 1 ]],
+        [["arachnotron_guts", 1]]
+    ]
+    },{
+    "result": "spider_steak",
+    "type": "recipe",
+    "result_mult": 6,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_MEAT",
+    "skill_used": "cooking",
+    "skills_required": [[ "survival", 1 ]],
+    "difficulty": 2,
+    "time": 10000,
+    "reversible": false,
+    "autolearn": true,
+    "qualities": [{"id":"BUTCHER","level":7}],
+    "components": [
+        [["spider_brain", 1 ]]
+    ]
+    },{
+    "result": "arachnotron_guts",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "time": 480000,
+    "qualities": [
+        {"id":"SCREW","level":1},
+        {"id":"WRENCH","level":1},
+        {"id":"SAW_M","level":1}
+    ],
+    "tools": [
+        [[ "soldering_iron", 40 ], [ "toolset", 40 ]],
+        [[ "oxy_torch", 50 ], [ "welder", 250 ], [ "toolset", 333 ], [ "welder_crude", 333 ]]
+    ],
+    "components": [
+        [["burnt_out_bionic", 3]],
+        [["lens", 4]],
+        [["adv_UPS_off", 1 ]],
+        [["reinforced_glass_sheet", 1]],
+        [["e_scrap", 25]],
+        [["power_supply", 8]],
+        [["processor", 5]],
+        [["plut_slurry", 4]],
+        [["steel_chunk", 8]],
+        [["steel_plate", 2]],
+        [["pipe_solid", 4]],
+        [["robot_controls", 1]],
+        [["meat_tainted", 4]]
+    ]
+    },{
+    "type": "recipe",
+    "result": "spider_steak_cooked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": 16000,
+    "reversible": false,
+    "autolearn": true,
+    "batch_time_factors":[67, 5],
+    "qualities":[{"id":"COOK","level":1}],
+    "tools": [
+    [[ "hotplate", 7 ], [ "char_smoker", 7 ], [ "toolset", 7 ], [ "fire", -1 ]]
+    ],
+    "components": [
+    [[ "spider_steak", 1]]
+    ]
+    },{
+    "type": "recipe",
+    "result": "spider_steak_fried",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": 16500,
+    "reversible": false,
+    "autolearn": true,
+    "note": "the cooking oil isn't supposed to be expended since you can recycle it after frying the fish",
+    "qualities": [
+        {"id":"CUT","level":1},
+        {"id":"COOK","level":2}
+    ],
+    "tools": [
+        [[ "hotplate", 8 ], [ "char_smoker", 8 ], [ "toolset", 8 ], [ "fire", -1 ]],
+        [[ "cooking_oil", -1 ], [ "tallow", -1 ], [ "lard", -1 ]]
+    ],
+    "components": [
+        [[ "spider_steak", 2 ]],
+        [[ "flour", 1 ], [ "cornmeal", 1 ], [ "flatbread", 1 ], [ "tortilla_corn", 1 ], [ "bread", 1 ], [ "wastebread", 1 ], [ "cornbread", 1 ], [ "biscuit", 1 ], [ "hardtack", 1 ], [ "crackers", 1 ]]
+    ]
+    },{
+    "type": "recipe",
+    "result": "spider_steak_soup",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": 28000,
+    "reversible": false,
+    "autolearn": true,
+    "batch_time_factors":[80, 4],
+    "qualities":[
+        {"id":"COOK","level":3}],
+    "tools": [
+        [[ "hotplate", 12 ], [ "char_smoker", 12 ], [ "toolset", 12 ], [ "fire", -1 ]]
+    ],
+    "components": [
+        [[ "broth", 1 ], [ "broth_bone", 1]],
+        [[ "spaghetti_raw", 1 ], [ "macaroni_raw", 1], [ "noodles_fast", 1], [ "potato_irradiated", 1], [ "potato_raw", 1 ], [ "celery", 1 ], [ "irradiated_celery", 1],
+          [ "cabbage", 1 ], [ "irradiated_cabbage", 1 ], [ "sauerkraut", 2 ], [ "can_corn", 1 ], [ "corn", 1 ], [ "irradiated_corn", 1 ], [ "onion", 1 ], [ "irradiated_onion", 1 ],
+          [ "carrot", 6 ], [ "irradiated_carrot", 6 ], [ "pumpkin", 1 ], [ "irradiated_pumpkin", 1 ], [ "veggy_wild", 1 ], [ "veggy", 1 ], [ "dry_veggy", 1 ], [ "con_milk", 1 ],
+          [ "flatbread", 1 ], [ "tortilla_corn", 1 ], [ "bread", 1 ], [ "cornbread", 1 ], [ "biscuit", 1 ], [ "hardtack", 1 ], [ "wastebread", 1 ], [ "flour", 1 ], [ "cornmeal", 1 ],
+          [ "milk_powder", 1 ], [ "crackers", 2 ], [ "powder_eggs", 5 ], [ "egg_bird", 1 ], [ "egg_reptile", 1 ], [ "dry_beans", 1 ], [ "raw_beans", 1 ], [ "dry_rice", 1 ],
+          [ "can_beans", 1 ], [ "beans_cooked", 1 ], [ "dandelion_cooked", 1 ], [ "mushroom", 1 ], [ "dry_mushroom", 1 ], [ "mushroom_cooked", 1 ], [ "morel_cooked", 1 ],
+          [ "acorns_cooked", 1 ]],
+        [[ "spider_steak", 2], [ "spider_steak_cooked", 2 ], ["spider_steak_fried", 2], ["spider_steak_sandwich", 2], ["spider_steak_pickled", 1]]
+    ]
+    },{
+    "type": "recipe",
+    "result": "spider_steak_sandwich",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": 4000,
+    "reversible": false,
+    "autolearn": true,
+    "qualities": [
+        {"id":"CUT","level":1}
+    ],
+    "components": [
+        [[ "spider_steak_cooked", 1 ], ["spider_steak_fried", 1 ]],
+        [[ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ]],
+        [[ "pickle", 1], [ "veggy_pickled", 1], [ "onion", 1], [ "irradiated_onion", 1], [ "can_tomato", 1 ], [ "irradiated_tomato", 1 ], [ "tomato", 1]],
+        [[ "ketchup", 1 ], [ "mustard", 1], [ "horseradish", 1 ], [ "mayonnaise", 1], [ "bacon", 2 ],  [ "seasoning_salt", 15], [ "soysauce", 1 ]]
+    ]
+    },{
+    "type": "recipe",
+    "result": "jar_spider_steak_pickled",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 7,
+    "time": 30000,
+    "reversible": false,
+    "autolearn": true,
+    "batch_time_factors":[83, 5],
+    "qualities": [
+        {"id":"CUT","level":1},
+        {"id":"COOK","level":3}
+    ],
+    "tools": [
+    [[ "hotplate", 20 ], [ "char_smoker", 20 ], [ "toolset", 20 ], [ "fire", -1 ]]
+    ],
+    "components": [
+        [[ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ]],
+        [[ "jar_glass", 1 ]],
+        [[ "spider_steak", 1]],
+        [[ "vinegar", 1 ]]
+    ]
+    },{
+    "type": "recipe",
+    "result": "bot_manhack_fire",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "mechanics",
+    "skills_required": [[ "electronics", 5 ], [ "computer", 5 ]],
+    "difficulty": 7,
+    "time": 8000,
+    "reversible": true,
+    "decomp_learn": 7,
+    "autolearn": false,
+    "book_learn": [[ "recipe_lab_elec", 6 ] , [ "textbook_robots", 7]],
+    "qualities": [
+        {"id":"SCREW","level":1}
+    ],
+    "tools": [[[ "soldering_iron", 10 ], [ "toolset", 10 ], [ "welder", 10 ], [ "welder_crude", 14 ]]],
+    "components": [
+        [[ "gasoline", 50], ["diesel", 50]],
+        [[ "grenade_inc", 1 ]],
+        [[ "processor", 1 ]],
+        [[ "RAM", 1 ]],
+        [[ "power_supply", 1 ], [ "plut_cell", 1 ]],
+        [[ "scrap", 2 ]]
+    ]
+    },{
+    "type": "recipe",
+    "result": "bomblet_launcher_single",
+    "note": "standalone_weapon",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "launcher", 2 ],
+    "difficulty": 5,
+    "time": 60000,
+    "reversible": false,
+    "autolearn": true,
+    "qualities":[
+        {"id":"SAW_M_FINE","level":1}
+    ],
+    "components": [
+        [[ "pipe", 1 ]],
+        [[ "2x4", 1 ], [ "stick", 2 ]],
+        [[ "nail", 3 ]]
+    ]
+    },{
+    "type": "recipe",
+    "result": "bomblet_launcher_double",
+    "note": "standalone_weapon",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "launcher", 4 ],
+    "difficulty": 6,
+    "time": 80000,
+    "reversible": false,
+    "autolearn": true,
+    "qualities":[
+        {"id":"SAW_M_FINE","level":1},
+        {"id":"SCREW_FINE","level":1},
+        {"id":"WRENCH_FINE","level":1}
+    ],
+    "tools": [
+        [["goggles_welding", -1]],
+        [["oxy_torch", 40], ["welder", 200], [ "welder_crude", 266 ], [ "toolset", 100 ], ["large_repairkit", 100], ["small_repairkit", 200], ["welder_crude", 300]]
+    ],
+    "components":[
+        [[ "pipe", 2 ]],
+        [[ "nail", 4 ]],
+        [[ "scrap", 3 ]],
+        [[ "2x4", 1 ]]
+    ]
+    },{
+    "type": "recipe",
+    "result": "bomblet_undermod",
+    "note": "underbarrel_mount",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "mechanics",
+    "skills_required": [ "launcher", 4 ],
+    "difficulty": 6,
+    "time": 55000,
+    "reversible": false,
+    "autolearn": false,
+    "book_learn": [[ "manual_launcher", 3 ] , [ "mag_launcher", 4 ]],
+    "qualities":[
+    {"id":"SAW_M","level":1}
+    ],
+    "tools": [[[ "soldering_iron", 100 ], [ "welder", 100 ], [ "welder_crude", 133 ], [ "toolset", 100 ], ["large_repairkit", 10], ["small_repairkit", 20]]],
+    "components": [
+        [[ "pipe", 1 ]],
+        [[ "duct_tape", 50 ]],
+        [[ "nail", 2 ]],
+        [[ "spring", 1 ]]
+    ]
+    },{
+    "type": "recipe",
+    "result": "bomblet_explosive",
+    "note": "crafted explosive bomblets",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 2 ],
+    "difficulty": 4,
+    "time": 15000,
+    "reversible": false,
+    "autolearn": false,
+    "book_learn": [["manual_launcher" , 3 ] , [ "manual_shotgun", 6 ]],
+    "qualities": [
+    {"id":"SCREW","level":1}
+    ],
+    "tools": [[[ "soldering_iron", 200 ], [ "welder", 200 ], [ "welder_crude", 266 ], [ "toolset", 200 ], ["large_repairkit", 20], ["small_repairkit", 40]]],
+    "components": [
+        [[ "lgpistol_primer", 4 ]],
+        [[ "gunpowder", 80 ]],
+        [[ "lead", 80 ], [ "gold_small", 80 ], [ "silver_small", 80 ], [ "tin", 80 ], [ "bismuth", 80 ], [ "solder_wire", 80 ]],
+        [[ "bomblet_casing", 4 ]]
+    ]
+    },{
+    "type": "recipe",
+    "result": "bomblet_frag",
+    "note": "crafted frag bomblets",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 2 ],
+    "difficulty": 5,
+    "time": 15000,
+    "reversible": false,
+    "autolearn": false,
+    "book_learn": [["manual_launcher" , 4 ] , [ "manual_shotgun", 6 ]],
+    "qualities": [
+    {"id":"SCREW","level":1}
+    ],
+    "tools": [[[ "soldering_iron", 200 ], [ "welder", 200 ], [ "welder_crude", 266 ], [ "toolset", 200 ], ["large_repairkit", 20], ["small_repairkit", 40]]],
+    "components": [
+        [[ "shotgun_primer", 4 ]],
+        [[ "gunpowder", 100 ]],
+        [[ "lead", 120 ], [ "gold_small", 120 ], [ "silver_small", 120 ], [ "tin", 120 ], [ "bismuth", 120 ], [ "solder_wire", 120 ]],
+        [[ "bomblet_casing", 4 ]]
+    ]
+    },{
+    "type": "recipe",
+    "result": "bomblet_fire",
+    "note": "crafted fire bomblets",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 3 ],
+    "difficulty": 6,
+    "time": 20000,
+    "reversible": false,
+    "autolearn": false,
+    "book_learn":  [[ "textbook_gaswarfare", 5, "" ] , [ "manual_launcher", 5 ]],
+    "qualities": [
+    {"id":"SCREW","level":1}
+    ],
+    "tools": [[[ "soldering_iron", 200 ], [ "welder", 200 ], [ "welder_crude", 266 ], [ "toolset", 200 ], ["large_repairkit", 20], ["small_repairkit", 40]]],
+    "components": [
+        [[ "lgpistol_primer", 4 ]],
+        [[ "gunpowder", 60 ]],
+        [[ "gasoline", 400], ["diesel", 400], [ "denat_alcohol", 200 ], [ "chem_ethanol", 200 ]],
+        [[ "bismuth", 50 ], [ "incendiary", 50 ], ["gasoline", 200], ["diesel", 200], [ "denat_alcohol", 200 ], [ "chem_ethanol", 200 ]],
+        [[ "bomblet_casing", 4 ]]
+    ]
+    },{
+    "type": "recipe",
+    "result": "bomblet_acid",
+    "note": "crafted acid bomblets",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 3 ],
+    "difficulty": 6,
+    "time": 20000,
+    "reversible": false,
+    "autolearn": false,
+    "book_learn":  [[ "textbook_gaswarfare", 5 ] , [ "manual_launcher", 5 ]],
+    "qualities": [
+    {"id":"SCREW","level":1}
+    ],
+    "tools": [[[ "soldering_iron", 200 ], [ "welder", 200 ], [ "welder_crude", 266 ], [ "toolset", 200 ], ["large_repairkit", 20], ["small_repairkit", 40]]],
+    "components": [
+        [[ "smpistol_primer", 4 ], [ "lgpistol_primer", 4 ]],
+        [[ "gunpowder", 60 ]],
+        [[ "bomblet_casing", 4 ]],
+        [[ "acid", 6 ], [ "acidbomb", 1 ]]
+    ]
+    },{
+    "type": "recipe",
+    "result": "bomblet_stun",
+    "note": "crafted stun bomblets",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 3, "cooking", 5 ],
+    "difficulty": 7,
+    "time": 15000,
+    "reversible": false,
+    "autolearn": false,
+    "book_learn": [["manual_launcher" , 5 ] , [ "recipe_labchem", 6 ] , [ "textbook_anarch", 6, "" ]],
+    "qualities": [
+        {"id":"SCREW","level":1}
+    ],
+    "tools": [[[ "soldering_iron", 200 ], [ "welder", 200 ], [ "welder_crude", 266 ], [ "toolset", 200 ], ["large_repairkit", 20], ["small_repairkit", 40]]],
+    "components": [
+        [[ "lgpistol_primer", 4 ]],
+        [[ "gunpowder", 60 ], [ "oxy_powder", 60 ]],
+        [[ "incendiary", 60 ], [ "bismuth", 60 ]],
+        [[ "lead", 80 ], [ "gold_small", 80 ], [ "silver_small", 80 ], [ "tin", 80 ], [ "solder_wire", 80 ]],
+        [[ "bomblet_casing", 4 ]]
+    ]
+    },{
+    "type": "recipe",
+    "result": "bomblet_casing",
+    "note": "crafted bomblet cases",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 2 ],
+    "difficulty": 4,
+    "time": 90000,
+    "reversible": false,
+    "autolearn": true,
+    "book_learn": [["manual_launcher" , 3 ]],
+    "qualities": [
+        {"id":"BOIL","level":2},
+        {"id":"SCREW_FINE","level":1}
+    ],
+    "tools": [
+    [[ "hotplate", 40 ], [ "toolset", 40 ], [ "fire", -1 ], [ "char_smoker", 10 ]],
+    [["mold_plastic", -1]]
+    ],
+    "components": [
+        [[ "plastic_chunk", 10 ]],
+        [[ "scrap", 10 ]]
+    ]
+    },
+
+    {
+    "type": "uncraft",
+    "result": "megaarmor_torso_1",
+    "skill_used": "fabrication",
+    "skills_required": [ "tailor", 7 ],
+    "difficulty": 6,
+    "time": 132000,
+    "qualities": [
+        {"id":"CUT","level":1},
+        {"id":"SCREW_FINE","level":1},
+        {"id":"SAW_M","level":1}
+    ],
+    "components": [
+        [[ "spess_chunk", 22 ]],
+        [[ "scrap", 8 ]],
+        [[ "string_6", 4]],
+        [[ "ceramic_plate", 10 ]],
+        [[ "shoulder_strap", 2 ]]
+    ]
+    },{
+    "type": "uncraft",
+    "result": "megaarmor_leggings_1",
+    "skill_used": "fabrication",
+    "skills_required": [ "tailor", 3 ],
+    "difficulty": 3,
+    "time": 8200,
+    "qualities": [
+    {"id":"CUT","level":1}
+    ],
+    "components": [
+        [[ "spess_chunk", 10 ]],
+        [[ "neoprene", 8 ]]
+    ]
+    },{
+    "type": "uncraft",
+    "result": "megaarmor_boots_1",
+    "skill_used": "fabrication",
+    "skills_required": [ "tailor", 4 ],
+    "difficulty": 5,
+    "time": 23200,
+    "qualities": [
+        {"id":"CUT","level":1},
+        {"id":"SCREW_FINE","level":1},
+        {"id":"SAW_M","level":1}
+    ],
+    "components": [
+        [[ "spess_chunk", 12 ]],
+        [[ "steel_chunk", 2 ]],
+        [[ "scrap", 4 ]],
+        [[ "rag", 2 ]]
+    ]
+    },{
+    "type": "uncraft",
+    "result": "megaarmor_gloves_1",
+    "skill_used": "fabrication",
+    "skills_required": [ "tailor", 2 ],
+    "difficulty": 3,
+    "time": 1000,
+    "qualities": [
+    {"id":"CUT","level":1}
+    ],
+    "components": [
+        [[ "spess_chunk", 2 ]],
+        [[ "leather", 2 ]]
+    ]
+    },{
+    "type": "uncraft",
+    "result": "megaarmor_armguards_1",
+    "skill_used": "fabrication",
+    "skills_required": [ "tailor", 2 ],
+    "difficulty": 3,
+    "time": 5400,
+    "qualities": [
+    {"id":"CUT","level":1}
+    ],
+    "components": [
+        [[ "spess_chunk", 4 ]],
+        [[ "neoprene", 6 ]]
+    ]
+    },{
+    "type": "recipe",
+    "result": "molotov_micro",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 700,
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+        [[ "clay_canister", 1 ], [ "flask_glass", 1 ]],
+        [[ "gasoline", 250 ]],
+        [[ "string_6", 1 ]],
+        [[ "rag", 1 ]]
+    ]
+    },{
+    "type": "recipe",
+    "result": "acidbomb_micro",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": 900,
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+        [[ "clay_canister", 1 ], [ "flask_glass", 1 ]],
+        [[ "acid", 1 ]],
+        [[ "string_6", 1 ]],
+        [[ "rag", 1 ]]
+    ]
+    },{
+    "type": "recipe",
+    "result": "acidbomb_small",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 1200,
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+        [[ "jar_glass", 1 ], [ "clay_canister", 2 ], [ "flask_glass", 2 ]],
+        [[ "acid", 2 ]],
+        [[ "string_6", 2 ]],
+        [[ "rag", 1 ]]
+    ]
+    },{
+    "type": "recipe",
+    "result": "acidbomb_medium",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 1500,
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+        [[ "bottle_glass", 1 ], [ "clay_canister", 3 ], [ "flask_glass", 3 ]],
+        [[ "acid", 3 ]],
+        [[ "string_6", 2 ]],
+        [[ "rag", 2 ]]
+    ]
+    },{
+    "type": "recipe",
+    "result": "acidbomb_large",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": 1800,
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+        [[ "bottle_glass", 1 ]],
+        [[ "clay_canister", 1 ], [ "flask_glass", 1 ]],
+        [[ "acid", 4 ]],
+        [[ "string_36", 1 ]],
+        [[ "rag", 2 ]]
+    ]
+    },{
+    "type": "recipe",
+    "result": "acidbomb_large",
+    "id_suffix": "jar",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": 1800,
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+        [[ "jar_glass", 2 ], [ "clay_canister", 4 ], [ "flask_glass", 4 ]],
+        [[ "acid", 4 ]],
+        [[ "string_36", 1 ]],
+        [[ "rag", 3 ]]
+    ]
+    },{
+    "type": "recipe",
+    "result": "bot_fungal_boil_egg",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "skills_required": [["fabrication", 3], [ "survival", 3 ]],
+    "difficulty": 4,
+    "time": 6500,
+    "autolearn": [ ["fabrication", 4], ["survival", 5], ["cooking", 3] ],
+    "reversible": false,
+    "book_learn": [["textbook_anarch", 7], ["adv_chemistry", 5], ["recipe_labchem", 4]],
+    "qualities":[
+        {"id":"CHEM","level":1},
+        {"id":"CUT","level":1}
+    ],
+    "components": [
+        [[ "canister_empty", 1 ], [ "can_food", 2 ], [ "can_drink", 2 ], [ "clay_canister", 2 ]],
+        [[ "veggy_tainted", 2 ]],
+        [[ "string_36", 1 ]],
+        [[ "fertilizer_commercial", 3 ], [ "fertilizer_liquid", 3 ], [ "marloss_seed", 1 ]]
+    ]
+    },{
+    "type": "recipe",
+    "result": "megabear_skull_clean",
+    "byproducts": [ [ "fat", 2 ] ],
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "survival",
+    "skills_required": [["fabrication", 1]],
+    "difficulty": 4,
+    "time": 175000,
+    "autolearn": [["survival", 6], ["fabrication", 3], ["cooking", 3]],
+    "reversible": false,
+    "book_learn": [["survival_book", 5], ["textbook_survival", 6], ["scots_cookbook", 6]],
+    "qualities": [
+        {"id":"CUT","level":1}, {"id":"BUTCHER","level":7},
+        [ {"id":"SAW_M","level":1}, {"id":"SAW_M","level":1} ],
+        {"id":"COOK","level":3}, {"id":"BOIL","level":2}, {"id":"CONTAIN","level":1}
+    ],
+    "tools": [[[ "hotplate", 60 ], [ "toolset", 60 ], [ "fire", -1 ]]],
+    "components": [
+        [[ "megabear_skull_unclean", 1 ]],
+        [[ "soap", 2 ]],
+        [[ "water", 4 ], ["water_clean", 4]],
+        [[ "rag", 2 ]]
+    ]
+    },{
+    "type": "recipe",
+    "result": "megabear_skull_clean",
+    "id_suffix": "picked",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "survival",
+    "skills_required": [["fabrication", 1]],
+    "difficulty": 4,
+    "time": 145000,
+    "autolearn": [["survival", 2], ["fabrication", 2], ["cooking", 2]],
+    "reversible": false,
+    "qualities": [
+        {"id":"CUT","level":1}, {"id":"BUTCHER","level":7},
+        [ {"id":"SAW_M","level":1}, {"id":"SAW_M","level":1} ],
+        {"id":"COOK","level":3}, {"id":"BOIL","level":2}, {"id":"CONTAIN","level":1}
+    ],
+    "tools": [[[ "hotplate", 35 ], [ "toolset", 35 ], [ "fire", -1 ]]],
+    "components": [
+        [[ "megabear_skull_picked", 1 ]],
+        [[ "soap", 2 ]],
+        [[ "water", 2 ], ["water_clean", 2]],
+        [[ "rag", 1 ]]
+    ]
+    },{
+    "type": "recipe",
+    "result": "helmet_bone_megabear",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "skills_required": [["fabrication", 3], [ "survival", 4 ]],
+    "difficulty": 5,
+    "time": 210000,
+    "autolearn": [["fabrication", 5], ["survival", 5]],
+    "reversible": false,
+    "book_learn": [["survival_book", 5], ["textbook_survival", 6], ["scots_cookbook", 6]],
+    "qualities":[
+        {"id":"CHEM","level":1}, {"id":"BOIL","level":1}, {"id":"CONTAIN","level":1},
+        [ {"id":"SAW_M","level":1}, {"id":"SAW_M","level":1} ],
+        {"id":"HAMMER_FINE","level":1}
+    ],
+    "tools": [
+        [[ "hotplate", 30 ], [ "toolset", 30 ], [ "fire", -1 ]]
+    ],
+    "components": [
+        [[ "megabear_skull_clean", 1 ]],
+        [[ "salt", 25 ], [ "salt_water", 3 ], ["saline", 25], ["chem_hydrogen_peroxide_conc", 1], ["chem_hydrogen_peroxide", 5]],
+        [[ "salt_water", 1 ], ["water", 3], ["water_clean", 3]],
+        [[ "rag", 1 ]]
+    ]
+    },{
+    "result": "triffid_sap",
+    "result_mult": 3,
+    "type": "recipe",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_DRUGS",
+    "skill_used": "cooking",
+    "skills_required": [[ "cooking", 2 ], [ "survival", 2 ]],
+    "difficulty": 3,
+    "time": 27000,
+    "autolearn": true,
+    "reversible": false,
+    "book_learn": [["survival_book", 3], [ "recipe_creepy", 4]],
+    "qualities": [
+        {"id":"CUT","level":1},
+        {"id":"COOK","level":1}, {"id":"BOIL","level":1},
+        {"id":"HAMMER","level":1}
+    ],
+    "tools": [[[ "hotplate", 12 ], [ "toolset", 12 ], [ "fire", -1 ]]],
+    "components": [
+        [["biollante_bud", 1]],
+        [["plant_sac", 1], ["water_clean", 1], ["water", 1]],
+        [["paper", 3], ["wrapper", 3], ["bag_plastic", 3]]
+    ]
+    },{
+    "result": "triffid_sap_grenade",
+    "type": "recipe",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_DRUGS",
+    "skill_used": "cooking",
+    "skills_required": [[ "cooking", 2 ], [ "survival", 3 ]],
+    "difficulty": 3,
+    "time": 41000,
+    "autolearn": true,
+    "reversible": false,
+    "book_learn": [["survival_book", 5], [ "recipe_creepy", 6]],
+    "qualities": [
+        {"id":"COOK","level":1}, {"id":"BOIL","level":2}
+    ],
+    "tools": [[[ "hotplate", 17 ], [ "toolset", 17 ], [ "fire", -1 ]]],
+    "components": [
+        [["triffid_sap", 2], ["triffid_sap_thrown", 2]],
+        [["plant_sac", 1], ["water_clean", 1], ["water", 1]],
+        [["water_acid", 1], ["water_acid_weak", 2]],
+        [[ "clay_canister", 1 ], [ "flask_glass", 1 ], [ "bottle_glass", 1 ]]
+    ]
+    },{
+    "result": "royal_jelly_sap",
+    "type": "recipe",
+    "result_mult": 2,
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_DRUGS",
+    "skill_used": "cooking",
+    "skills_required": [[ "cooking", 3 ], [ "survival", 5 ]],
+    "difficulty": 6,
+    "time": 96000,
+    "reversible": false,
+    "book_learn": [["survival_book", 5], [ "recipe_creepy", 6 ]],
+    "qualities": [
+        {"id":"CUT","level":1},
+        {"id":"COOK","level":3}, {"id":"BOIL","level":2},
+        {"id":"CHEM","level":1}, {"id":"CONTAIN","level":1, "amount":2}
+    ],
+    "tools": [[[ "hotplate", 20 ], [ "toolset", 20 ], [ "fire", -1 ]]],
+    "components": [
+        [["royal_jelly", 1]],
+        [["triffid_sap", 2], ["triffid_sap_thrown", 2]],
+        [["water_clean", 2]],
+        [["chem_hydrogen_peroxide", 2]]
+    ]
+    },{
+    "result": "fighter_sting_juice",
+    "type": "recipe",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "skills_required": [[ "survival", 3 ]],
+    "time": 65000,
+    "autolearn": [[ "cooking", 3 ], [ "survival", 5 ]],
+    "reversible": false,
+    "book_learn": [["survival_book", 3], [ "recipe_creepy", 3 ], ["atomic_survival", 5]],
+    "qualities": [
+        {"id":"CUT","level":1},
+        {"id":"COOK","level":1}, {"id":"BOIL","level":1},
+        {"id":"HAMMER_FINE","level":1},
+        {"id":"CHEM","level":1}
+    ],
+    "tools": [[[ "hotplate", 14 ], [ "toolset", 14 ], [ "fire", -1 ]]],
+    "components": [
+        [["fighter_sting", 4]],
+        [["water_clean", 1], ["water", 1]],
+        [["salt_water", 1]]
+    ]
+    },{
+    "result": "antidote_posion",
+    "result_mult": 2,
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "skills_required": [[ "survival", 3 ], ["firstaid", 3]],
+    "time": 52000,
+    "reversible": false,
+    "autolearn": [[ "cooking", 4 ], ["firstaid", 4 ], [ "fabrication", 2 ]],
+    "book_learn": [["survival_book", 3], [ "recipe_creepy", 3], ["atomic_survival", 5]],
+    "qualities": [
+        {"id":"COOK","level":3}, {"id":"BOIL","level":2},
+        {"id":"CHEM","level":1}
+    ],
+    "tools": [[[ "hotplate", 21 ], [ "toolset", 21 ], [ "fire", -1 ]]],
+    "components": [
+        [["fighter_sting_juice", 2]],
+        [["royal_jelly_sap", 1], ["royal_jelly", 1]],
+        [["water_acid", 2], ["water_acid_weak", 2]]
+    ]
+    },{
+    "result": "antidote_badpoison",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "cooking",
+    "difficulty": 8,
+    "skills_required": [[ "survival", 6], ["firstaid", 5 ]],
+    "time": 89000,
+    "reversible": false,
+    "autolearn": false,
+    "book_learn": [["textbook_survival", 7], [ "recipe_creepy", 6], ["atomic_survival", 8]],
+    "qualities": [
+        {"id":"COOK","level":3}, {"id":"BOIL","level":2},
+        {"id":"CHEM","level":1}
+    ],
+    "tools": [[[ "hotplate", 21 ], [ "toolset", 21 ], [ "fire", -1 ]]],
+    "components": [
+        [["fighter_sting_juice", 3]],
+        [["royal_jelly_sap", 1], ["royal_jelly", 1]],
+        [["disinfectant", 3], ["chem_hydrogen_peroxide_conc", 1], ["chem_hydrogen_peroxide", 3]],
+        [["water_acid", 2], ["water_acid_weak", 2]]
+    ]
+    },{
+    "type" : "recipe",
+    "result": "pipe_solid_spear",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": 136000,
+    "reversible": false,
+    "autolearn": true,
+    "qualities":[
+        {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [
+        [[ "pipe_solid", 1 ]],
+        [[ "leather", 1 ]],
+        [[ "string_36", 1 ], [ "string_6", 6 ]]
+    ]
+    },{
+    "type" : "recipe",
+    "result": "bot_turret_shockcannon",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "mechanics",
+    "skills_required": [[ "electronics", 7 ], [ "computer", 6 ], [ "gun", 2 ]],
+    "difficulty": 8,
+    "time": 9000,
+    "reversible": true,
+    "decomp_learn": 8,
+    "autolearn": false,
+    "book_learn": [[ "recipe_lab_elec", 7 ] , [ "textbook_robots", 9 ]],
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "tools": [
+        [[ "soldering_iron", 28 ], [ "toolset", 28 ]]
+    ],
+    "components": [
+        [[ "shockcannon", 1 ]],
+        [[ "processor", 2 ]],
+        [[ "RAM", 2 ]],
+        [[ "power_supply", 1 ], [ "plut_cell", 1 ]],
+        [[ "scrap", 15 ]]
+    ]
+    }
+]

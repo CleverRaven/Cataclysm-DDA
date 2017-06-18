@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CLZONES_H
 #define CLZONES_H
 
@@ -24,7 +25,7 @@ private:
 
 public:
     zone_manager();
-    ~zone_manager() {};
+    ~zone_manager() override {};
     zone_manager( zone_manager && ) = default;
     zone_manager( const zone_manager & ) = default;
     zone_manager &operator=( zone_manager && ) = default;

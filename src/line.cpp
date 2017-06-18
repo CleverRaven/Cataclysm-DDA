@@ -1,9 +1,11 @@
 #include "line.h"
 #include "game.h"
 #include "translations.h"
-#include <stdlib.h>
+#include <cstdlib>
 
-#define SGN(a) (((a)<0) ? -1 : 1)
+#include "output.h"
+
+#define SGN(a) (((a)<0) ? -1 : (((a)>0) ? 1 : 0))
 
 void bresenham( const int x1, const int y1, const int x2, const int y2, int t,
                 const std::function<bool(const point &)> &interact )
@@ -226,16 +228,16 @@ std::vector <tripoint> line_to(const tripoint &loc1, const tripoint &loc2, int t
     return line;
 }
 
-int trig_dist(const int x1, const int y1, const int x2, const int y2)
+float trig_dist(const int x1, const int y1, const int x2, const int y2)
 {
     return trig_dist(tripoint(x1, y1, 0), tripoint(x2, y2, 0));
 }
 
-int trig_dist(const tripoint &loc1, const tripoint &loc2)
+float trig_dist(const tripoint &loc1, const tripoint &loc2)
 {
-    return int (sqrt(double((loc1.x - loc2.x) * (loc1.x - loc2.x)) +
-                     ((loc1.y - loc2.y) * (loc1.y - loc2.y)) +
-                     ((loc1.z - loc2.z) * (loc1.z - loc2.z))));
+    return sqrt(double((loc1.x - loc2.x) * (loc1.x - loc2.x)) +
+                ((loc1.y - loc2.y) * (loc1.y - loc2.y)) +
+                ((loc1.z - loc2.z) * (loc1.z - loc2.z)));
 }
 
 int square_dist(const int x1, const int y1, const int x2, const int y2)
@@ -312,21 +314,12 @@ unsigned make_xyz(int const x, int const y, int const z)
    }
 }
 
-// returns normalized dx and dy for the current line vector.
-std::pair<double, double> slope_of(const std::vector<point> &line)
-{
-    const double len = line.size();
-    double normDx = (line.back().x - line.front().x) / len;
-    double normDy = (line.back().y - line.front().y) / len;
-    std::pair<double, double> ret = std::make_pair(normDx, normDy); // slope of x, y
-    return ret;
-}
-
 // returns the normalized dx, dy, dz for the current line vector.
 // ret.second contains z and can be ignored if unused.
 std::pair<std::pair<double, double>, double> slope_of(const std::vector<tripoint> &line)
 {
-    const double len = line.size();
+    assert(!line.empty() && line.front() != line.back());
+    const double len = trig_dist(line.front(), line.back());
     double normDx = (line.back().x - line.front().x) / len;
     double normDy = (line.back().y - line.front().y) / len;
     double normDz = (line.back().z - line.front().z) / len;
@@ -336,29 +329,34 @@ std::pair<std::pair<double, double>, double> slope_of(const std::vector<tripoint
     return ret;
 }
 
-std::vector<point> continue_line(const std::vector<point> &line, const int distance)
+float get_normalized_angle( const point &start, const point &end )
 {
-    const point start = line.back();
-    point end = line.back();
-    const std::pair<double, double> slope = slope_of(line);
-    end.x += distance * slope.first;
-    end.y += distance * slope.second;
-    return line_to( start, end, 0 );
+    // Taking the abs value of the difference puts the values in the first quadrant.
+    const float absx = std::abs( std::max(start.x, end.x) - std::min(start.x, end.x) );
+    const float absy = std::abs( std::max(start.y, end.y) - std::min(start.y, end.y) );
+    const float max = std::max( absx, absy );
+    if( max == 0 ) {
+        return 0;
+    }
+    const float min = std::min( absx, absy );
+    return min / max;
+}
+
+tripoint move_along_line( const tripoint &loc, const std::vector<tripoint> &line, const int distance )
+{
+    // May want to optimize this, but it's called fairly infrequently as part of specific attack
+    // routines, erring on the side of readability.
+    tripoint res( loc );
+    const auto slope = slope_of( line );
+    res.x += distance * slope.first.first;
+    res.y += distance * slope.first.second;
+    res.z += distance * slope.second;
+    return res;
 }
 
 std::vector<tripoint> continue_line(const std::vector<tripoint> &line, const int distance)
 {
-    // May want to optimize this, but it's called fairly infrequently as part of specific attack
-    // routines, erring on the side of readability.
-    tripoint start( line.back() );
-    tripoint end( line.back() );
-    // slope <<x,y>,z>
-    std::pair<std::pair<double, double>, double> slope;
-    slope = slope_of(line);
-    end.x += int(distance * slope.first.first);
-    end.y += int(distance * slope.first.second);
-    end.z += int(distance * slope.second);
-    return line_to(start, end, 0, 0);
+    return line_to( line.back(), move_along_line( line.back(), line, distance ) );
 }
 
 direction direction_from(int const x, int const y, int const z) noexcept
@@ -452,6 +450,57 @@ std::string const& direction_name(direction const dir)
 std::string const& direction_name_short(direction const dir)
 {
     return direction_name_impl(dir, true);
+}
+
+std::string direction_suffix( const tripoint& p, const tripoint& q )
+{
+    int dist = square_dist( p, q );
+    if ( dist <= 0 ) {
+        return std::string();
+    }
+    return string_format( "%d%s", dist, trim( direction_name_short( direction_from( p, q ) ) ).c_str() );
+}
+
+// Cardinals are cardinals. Result is cardinal and adjacent sub-cardinals.
+// Sub-Cardinals are sub-cardinals && abs(x) == abs(y). Result is sub-cardinal and adjacent cardinals.
+// Sub-sub-cardinals are direction && abs(x) > abs(y) or vice versa.
+// Result is adjacent cardinal and sub-cardinals, plus the nearest other cardinal.
+// e.g. if the direction is NNE, also include E.
+std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to )
+{
+    std::vector<tripoint> adjacent_closer_squares;
+    const int dx = to.x - from.x;
+    const int dy = to.y - from.y;
+    const int dz = to.z - from.z;
+    const int ax = std::abs( dx );
+    const int ay = std::abs( dy );
+    if( dz != 0 ) {
+        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y + SGN(dy), from.z + SGN(dz) } );
+    }
+    if( ax > ay ) {
+        // X dominant.
+        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y, from.z } );
+        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y + 1, from.z } );
+        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y - 1, from.z } );
+        if( dy != 0 ) {
+            adjacent_closer_squares.push_back( { from.x, from.y + SGN(dy), from.z } );
+        }
+    } else if( ax < ay ) {
+        // Y dominant.
+        adjacent_closer_squares.push_back( { from.x, from.y + SGN(dy), from.z } );
+        adjacent_closer_squares.push_back( { from.x + 1, from.y + SGN(dy), from.z } );
+        adjacent_closer_squares.push_back( { from.x - 1, from.y + SGN(dy), from.z } );
+        if( dx != 0 ) {
+            adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y, from.z } );
+        }
+    } else if( dx != 0 ) {
+        // Pure diagonal.
+        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y + SGN(dy), from.z } );
+        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y, from.z } );
+        adjacent_closer_squares.push_back( { from.x, from.y + SGN(dy), from.z } );
+    }
+
+    return adjacent_closer_squares;
 }
 
 // Returns a vector of the adjacent square in the direction of the target,

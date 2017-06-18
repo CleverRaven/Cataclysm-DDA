@@ -1,0 +1,420 @@
+[
+    {
+        "type" : "snippet",
+        "category" : "<name_b>",
+        "text" : [
+            "punk",
+            "loser",
+            "dickhead",
+            "asshole",
+            "fucker",
+            "sucker",
+            "fuckwad",
+            "jerk",
+            "motherfucker",
+            "shithead"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<thirsty>",
+        "text" : [
+            "When we drinkin'?",
+            "When was the last time I had a drink?",
+            "I'm parched, I need to drink something.",
+            "I'm thirsty...",
+            "I'm <swear> thirsty.",
+            "Can you give me something to drink, <name_g>?",
+            "I <really> need to get some water.",
+            "<ill_die> if I don't drink something.",
+            "Water... Is there an oasis nearby?",
+            "Did you know that lack of water kills faster than lack of rest?"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<swear!>",
+        "text" : [
+            "fuck",
+            "damn",
+            "damnit",
+            "shit",
+            "fuckit",
+            "crap",
+            "motherfucker",
+            "<swear><punc> <swear!>",
+            "<very> <swear!>",
+            "son of an ass"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<sad>",
+        "text" : [
+            "sad",
+            "bummed",
+            "depressed",
+            "pissed",
+            "unhappy",
+            "<very> <sad>",
+            "dejected",
+            "down",
+            "glum"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<greet>",
+        "text" : [
+            "Hey <name_g>.",
+            "Greetings <name_g>.",
+            "Hi <name_g><punc> You okay?",
+            "<name_g><punc>  Let's talk.",
+            "Well hey there.",
+            "<name_g><punc>  Hello.",
+            "What's up, <name_g>?",
+            "You okay, <name_g>?",
+            "Hello, <name_g>.",
+            "Hi <name_g>"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<no>",
+        "text" : [
+            "no",
+            "fuck no",
+            "hell no",
+            "no way",
+            "not a chance",
+            "I don't think so",
+            "no way in hell",
+            "nuh uh",
+            "nope",
+            "fat chance"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<im_leaving_you>",
+        "text" : [
+            "So long, <name_b>!",
+            "Hasta luego, <name_g>!",
+            "I'm outta here!",
+            "Bye bye, <name_b>!",
+            "So long, <name_b>!",
+            "Hasta luego, <name_g>!",
+            "I'm outta here!",
+            "Bye bye, <name_b>!",
+            "I'm outta here!",
+            "Bye bye, <name_b>!"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<ill_kill_you>",
+        "text" : [
+            "I'll kill you",
+            "you're dead",
+            "I'll <swear> kill you",
+            "you're dead meat",
+            "<ill_kill_you>, <name_b>",
+            "you're a dead <man>",
+            "you'll taste my <mywp>",
+            "you're <swear> dead",
+            "<name_b>, <ill_kill_you>"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<ill_die>",
+        "text" : [
+            "I'm not gonna last much longer",
+            "I'll be dead soon",
+            "I'll be a goner",
+            "I'm dead, <name_g>,",
+            "I'm dead meat",
+            "I'm in <very> serious trouble",
+            "I'm <very> doomed",
+            "I'm done for",
+            "I won't last much longer",
+            "my days are <really> numbered"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<wait>",
+        "text" : [
+            "Hey, where are you?",
+            "Wait up, <name_g>!",
+            "<name_g>, wait for me!",
+            "Hey, wait up, <okay>?",
+            "You <really> need to wait for me!",
+            "You <swear> need to wait!",
+            "<name_g>, where are you?",
+            "Hey <name_g><punc> Wait for me!",
+            "Where are you?!",
+            "Hey, I'm over here!"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<no_faction>",
+        "text" : [
+            "I'm unaffiliated.",
+            "I don't run with a crew.",
+            "I'm a solo artist, <okay>?",
+            "I don't kowtow to any group, <okay>?",
+            "I'm a freelancer.",
+            "I work alone, <name_g>.",
+            "I'm a free agent, more money that way.",
+            "I prefer to work uninhibited by that kind of connection.",
+            "I haven't found one that's good enough for me.",
+            "I don't belong to a faction, <name_g>."
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<name_g>",
+        "text" : [
+            "stranger",
+            "friend",
+            "pilgrim",
+            "traveler",
+            "pal",
+            "fella",
+            "you",
+            "dude",
+            "buddy",
+            "man"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<keep_up>",
+        "text" : [
+            "Catch up!",
+            "Get over here!",
+            "Catch up, <name_g>!",
+            "Keep up!",
+            "Come on, <catch_up>!",
+            "Keep it moving!",
+            "Stay with me!",
+            "Keep close!",
+            "Stay close!",
+            "Let's keep going!"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<yawn>",
+        "text" : [
+            "When we sleepin'?",
+            "*Yawn*",
+            "What time is it?",
+            "I'm tired...",
+            "I'm <swear> tired.",
+            "Can we rest for a while, <name_g>?",
+            "I <really> need to rest.",
+            "<ill_die> if we don't stop for a moment.",
+            "Did you know that lack of rest kills faster than lack of food?",
+            "I'll just go to sleep, <okay>?"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<very>",
+        "text" : [
+            "really",
+            "fucking",
+            "super",
+            "wicked",
+            "very",
+            "mega",
+            "uber",
+            "ultra",
+            "so <very>",
+            "<very> <very>"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<okay>",
+        "text" : [
+            "okay",
+            "get it",
+            "you dig",
+            "dig",
+            "got it",
+            "you see",
+            "see, <name_g>",
+            "alright",
+            "that clear"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<catch_up>",
+        "text" : [
+            "Catch up!",
+            "Get over here!",
+            "Catch up, <name_g>!",
+            "Keep up!",
+            "Come on, <catch_up>!",
+            "Keep it moving!",
+            "Stay with me!",
+            "Keep close!",
+            "Stay close!",
+            "Let's keep going!"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<really>",
+        "text" : [
+            "really",
+            "fucking",
+            "absolutely",
+            "definitely",
+            "for real",
+            "honestly",
+            "<really> <really>",
+            "most <really>",
+            "urgently",
+            "REALLY"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<let_me_pass>",
+        "text" : [
+            "Excuse me, let me pass.",
+            "Hey <name_g>, can I get through?",
+            "Let me get past you, <name_g>.",
+            "Let me through, <okay>?",
+            "Can I get past you, <name_g>?",
+            "I need to get past you, <name_g>.",
+            "Move your <swear> ass, <name_b>!",
+            "Out of my way, <name_b>!",
+            "Move it, <name_g>!",
+            "You need to move, <name_g>, <okay>?"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<done_mugging>",
+        "text" : [
+            "Thanks for the cash, <name_b>!",
+            "So long, <name_b>!",
+            "Thanks a lot, <name_g>!",
+            "Catch you later, <name_g>!",
+            "See you later, <name_b>!",
+            "See you in hell, <name_b>!",
+            "Hasta luego, <name_g>!",
+            "I'm outta here! <done_mugging>",
+            "Bye bye, <name_b>!",
+            "Thanks, <name_g>!"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<happy>",
+        "text" : [
+            "glad",
+            "happy",
+            "overjoyed",
+            "ecstatic",
+            "thrilled",
+            "stoked",
+            "<very> <happy>",
+            "tickled pink",
+            "delighted",
+            "pumped"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<drop_it>",
+        "text" : [
+            "Drop your <swear> weapon!",
+            "Okay <name_b>, drop your weapon!",
+            "Put your <swear> weapon down!",
+            "Drop the <yrwp>, <name_b>!",
+            "Drop the <swear> <yrwp>!",
+            "Drop your <yrwp>!",
+            "Put down the <yrwp>!",
+            "Drop your <swear> weapon, <name_b>!",
+            "Put down your <yrwp>!",
+            "Alright, drop the <yrwp>!"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<swear>",
+        "text" : [
+            "fucking",
+            "goddamn",
+            "motherfucking",
+            "freaking",
+            "damn",
+            "<swear> <swear>",
+            "fucking",
+            "fuckin'",
+            "god damn",
+            "mafuckin'"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<lets_talk>",
+        "text" : [
+            "Wait up, let's talk!",
+            "Hey, I <really> want to talk to you!",
+            "Come on, talk to me!",
+            "Hey <name_g>, let's talk!",
+            "<name_g>, we <really> need to talk!",
+            "Hey, we should talk, <okay>?",
+            "<name_g>!  Wait up!",
+            "Wait up, <okay>?",
+            "Let's talk, <name_g>!",
+            "Look, <name_g><punc> let's talk!"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<hands_up>",
+        "text" : [
+            "Put your <swear> hands up!",
+            "Put your hands up, <name_b>!",
+            "Reach for the sky!",
+            "Hands up!",
+            "Hands in the air!",
+            "Hands up, <name_b>!",
+            "Hands where I can see them!",
+            "Okay <name_b>, hands up!",
+            "Okay <name_b><punc> hands up!",
+            "Hands in the air, <name_b>!"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<move>",
+        "text" : [
+            "Move",
+            "Move your ass",
+            "Get out of the way",
+            "You need to move",
+            "Hey <name_g>, move",
+            "<swear> move it",
+            "Move your <swear> ass",
+            "Get out of my way, <name_b>,",
+            "Move to the side",
+            "Get out of my line of fire"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<hungry>",
+        "text" : [
+            "When we eatin'?",
+            "I'd eat a burger if I had one.",
+            "Perfect time for a lunch break.",
+            "I'm hungry...",
+            "I'm <swear> hungry.",
+            "So, <name_g>, when we eatin'?",
+            "I <really> need to eat something.",
+            "<ill_die> if I don't get some food.",
+            "Consider this idea: you give me food and I eat it.",
+            "Did you know that lack of food kills faster than chain smoking?"
+        ]
+    },{
+        "type" : "snippet",
+        "category" : "<fuck_you>",
+        "text" : [
+            "fuck you",
+            "fuck off",
+            "go fuck yourself",
+            "<fuck_you>, <name_b>",
+            "<fuck_you>, <swear> <name_b>",
+            "<name_b>",
+            "<swear> <name_b>",
+            "fuck you",
+            "fuck off",
+            "go fuck yourself"
+        ]
+    }
+]

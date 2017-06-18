@@ -1,0 +1,84 @@
+[
+  {
+    "result": "battletorch",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": 2000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "rag", 1 ] ],
+      [ [ "bat", 1 ] ],
+      [ [ "nomex", 5 ] ],
+      [ [ "lamp_oil", 50 ], [ "chem_ethanol", 100 ], [ "denat_alcohol", 100 ], [ "gasoline", 250 ], [ "diesel", 250 ] ]
+    ]
+  },
+  {
+    "result": "crowbar",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": 300000,
+    "autolearn": true,
+    "using": [ [ "forging_standard", 8 ], [ "steel_standard", 2 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "anvil", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
+    ]
+  },
+  {
+    "result": "halligan",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": 420000,
+    "book_learn": [ [ "textbook_fireman", 8 ] ],
+    "using": [ [ "forging_standard", 20 ], [ "steel_standard", 3 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "anvil", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
+    ]
+  },
+  {
+    "result": "makeshift_crowbar",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": 1000,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "pipe", 1 ] ] ]
+  },
+  {
+    "result": "torch",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": 2000,
+    "autolearn": true,
+    "components": [
+      [ [ "rag", 1 ] ],
+      [ [ "stick", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "torch_done", 1 ] ],
+      [ [ "lamp_oil", 50 ], [ "chem_ethanol", 100 ], [ "denat_alcohol", 100 ], [ "gasoline", 250 ], [ "diesel", 250 ] ]
+    ],
+    "flags": [ "BLIND_HARD" ]
+  }
+]

@@ -1,28 +1,26 @@
-#include <stdlib.h>
-
 #include "overmapbuffer.h"
+#include "coordinate_conversions.h"
+#include "overmap_types.h"
 #include "overmap.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"
 #include "monster.h"
 #include "mongroup.h"
+#include "simple_pathfinding.h"
 #include "worldfactory.h"
 #include "catacharset.h"
 #include "npc.h"
 #include "vehicle.h"
+#include "filesystem.h"
+#include "cata_utility.h"
 
-#include <fstream>
-#include <sstream>
-#include <cassert>
 #include <algorithm>
+#include <cassert>
+#include <sstream>
+#include <stdlib.h>
 
 overmapbuffer overmap_buffer;
-
-/** Mathematical modulo (only for positive m): 0 <= result < m */
-inline int modulo(int v, int m);
-inline int divide(int v, int m);
-inline int divide(int v, int m, int &r);
 
 overmapbuffer::overmapbuffer()
 : last_requested_overmap( nullptr )
@@ -31,7 +29,7 @@ overmapbuffer::overmapbuffer()
 
 std::string overmapbuffer::terrain_filename(int const x, int const y)
 {
-    std::stringstream filename;
+    std::ostringstream filename;
 
     filename << world_generator->active_world->world_path << "/";
     filename << "o." << x << "." << y;
@@ -41,7 +39,7 @@ std::string overmapbuffer::terrain_filename(int const x, int const y)
 
 std::string overmapbuffer::player_filename(int const x, int const y)
 {
-    std::stringstream filename;
+    std::ostringstream filename;
 
     filename << world_generator->active_world->world_path << "/" << base64_encode(
                  g->u.name) << ".seen." << x << "." << y;
@@ -69,6 +67,7 @@ overmap &overmapbuffer::get( const int x, const int y )
     // Note: fix_mongroups might load other overmaps, so overmaps.back() is not
     // necessarily the overmap at (x,y)
     fix_mongroups( result );
+    fix_npcs( result );
 
     last_requested_overmap = &result;
     return result;
@@ -80,7 +79,7 @@ void overmapbuffer::fix_mongroups(overmap &new_overmap)
         auto &mg = it->second;
         // spawn related code simply sets population to 0 when they have been
         // transformed into spawn points on a submap, the group can then be removed
-        if( mg.population <= 0 ) {
+        if( mg.empty() ) {
             new_overmap.zg.erase( it++ );
             continue;
         }
@@ -106,6 +105,40 @@ void overmapbuffer::fix_mongroups(overmap &new_overmap)
     }
 }
 
+void overmapbuffer::fix_npcs( overmap &new_overmap )
+{
+    for( auto it = new_overmap.npcs.begin(); it != new_overmap.npcs.end(); ) {
+        npc &np = **it;
+        const tripoint npc_omt_pos = np.global_omt_location();
+        const point npc_om_pos = omt_to_om_copy( npc_omt_pos.x, npc_omt_pos.y );
+        const point &loc = new_overmap.pos();
+        if( npc_om_pos == loc ) {
+            // Nothing to do
+            ++it;
+            continue;
+        }
+
+        if( !has( npc_om_pos.x, npc_om_pos.y ) ) {
+            // This can't really happen without save editing
+            // We have no sane option here, just place the NPC on the edge
+            debugmsg( "NPC %s is out of bounds, on ungenerated overmap %d,%d",
+                      np.name.c_str(), loc.x, loc.y );
+            point npc_sm = om_to_sm_copy( npc_om_pos );
+            point min = om_to_sm_copy( loc );
+            point max = om_to_sm_copy( loc + point( 1, 1 ) ) - point( 1, 1 );
+            npc_sm.x = clamp( npc_sm.x, min.x, max.x );
+            npc_sm.y = clamp( npc_sm.y, min.y, max.y );
+            np.spawn_at_sm( npc_sm.x, npc_sm.y, np.posz() );
+            ++it;
+            continue;
+        }
+
+        // Simplest case: just move the pointer
+        get( npc_om_pos.x, npc_om_pos.y ).insert_npc( &np );
+        it = new_overmap.npcs.erase( it );
+    }
+}
+
 void overmapbuffer::save()
 {
     for( auto &omp : overmaps ) {
@@ -123,8 +156,9 @@ void overmapbuffer::clear()
 
 const regional_settings& overmapbuffer::get_settings(int x, int y, int z)
 {
+    (void)z;
     overmap &om = get_om_global(x, y);
-    return om.get_settings(x, y, z);
+    return om.get_settings();
 }
 
 void overmapbuffer::add_note(int x, int y, int z, const std::string& message)
@@ -157,12 +191,9 @@ overmap *overmapbuffer::get_existing(int x, int y)
         // checked in a previous call of this function).
         return NULL;
     }
-    // Check if the overmap exist on disk,
-    std::ifstream tmp(terrain_filename( x, y ).c_str(), std::ios::in);
-    if(tmp.is_open()) {
+    if( file_exist( terrain_filename( x, y ) ) ) {
         // File exists, load it normally (the get function
         // indirectly call overmap::open to do so).
-        tmp.close();
         return &get( x, y );
     }
     // File does not exist (or not readable which is essentially
@@ -175,30 +206,42 @@ overmap *overmapbuffer::get_existing(int x, int y)
     return NULL;
 }
 
-bool overmapbuffer::has(int x, int y)
+bool overmapbuffer::has( int x, int y )
 {
-    return get_existing(x, y) != NULL;
+    return get_existing( x, y ) != NULL;
 }
 
-overmap *overmapbuffer::get_existing_om_global(int &x, int &y)
+overmap &overmapbuffer::get_om_global( int &x, int &y )
 {
-    const point om_pos = omt_to_om_remain(x, y);
-    return get_existing(om_pos.x, om_pos.y);
+    const point om_pos = omt_to_om_remain( x, y );
+    return get( om_pos.x, om_pos.y );
 }
 
-overmap &overmapbuffer::get_om_global(int &x, int &y)
+overmap &overmapbuffer::get_om_global( const point& p )
 {
-    const point om_pos = omt_to_om_remain(x, y);
-    return get(om_pos.x, om_pos.y);
+    const point om_pos = omt_to_om_copy( p );
+    return get( om_pos.x, om_pos.y );
 }
 
-overmap *overmapbuffer::get_existing_om_global(const point& p)
+overmap &overmapbuffer::get_om_global( const tripoint& p )
 {
-    const point om_pos = omt_to_om_copy(p);
-    return get_existing(om_pos.x, om_pos.y);
+    const point om_pos = omt_to_om_copy( { p.x, p.y } );
+    return get( om_pos.x, om_pos.y );
 }
 
-overmap *overmapbuffer::get_existing_om_global(const tripoint& p)
+overmap *overmapbuffer::get_existing_om_global( int &x, int &y )
+{
+    const point om_pos = omt_to_om_remain( x, y );
+    return get_existing( om_pos.x, om_pos.y );
+}
+
+overmap *overmapbuffer::get_existing_om_global( const point& p )
+{
+    const point om_pos = omt_to_om_copy( p );
+    return get_existing( om_pos.x, om_pos.y );
+}
+
+overmap *overmapbuffer::get_existing_om_global( const tripoint& p )
 {
     const tripoint om_pos = omt_to_om_copy( p );
     return get_existing( om_pos.x, om_pos.y );
@@ -242,30 +285,9 @@ bool overmapbuffer::has_horde(int const x, int const y, int const z) {
     return false;
 }
 
-bool overmapbuffer::has_npc(int const x, int const y, int const z)
-{
-    overmap const *const om = get_existing_om_global(point(x, y));
-    if (!om) {
-        return false;
-    }
-
-    for (auto const &npc : om->npcs) {
-        if (npc->global_omt_location() == tripoint(x, y, z)) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-bool overmapbuffer::has_vehicle(int x, int y, int z, bool require_pda)
+bool overmapbuffer::has_vehicle( int x, int y, int z )
 {
     if (z) {
-        return false;
-    }
-
-    // if the player is not carrying a PDA then he cannot see the vehicle.
-    if (require_pda && !g->u.has_pda()) {
         return false;
     }
 
@@ -283,14 +305,10 @@ bool overmapbuffer::has_vehicle(int x, int y, int z, bool require_pda)
     return false;;
 }
 
-std::vector<om_vehicle> overmapbuffer::get_vehicle(int x, int y, int z, bool require_pda)
+std::vector<om_vehicle> overmapbuffer::get_vehicle( int x, int y, int z )
 {
     std::vector<om_vehicle> result;
     if( z != 0 ) {
-        return result;
-    }
-    // if the player is not carrying a PDA then he cannot see the vehicle.
-    if( require_pda && !g->u.has_pda() ) {
         return result;
     }
     overmap *om = get_existing_om_global(x, y);
@@ -364,12 +382,44 @@ std::vector<mongroup*> overmapbuffer::groups_at(int x, int y, int z)
     overmap &om = get( omp.x, omp.y );
     for( auto it = om.zg.lower_bound( dpos ), end = om.zg.upper_bound( dpos ); it != end; ++it ) {
         auto &mg = it->second;
-        if( mg.population <= 0 ) {
+        if( mg.empty() ) {
             continue;
         }
         result.push_back( &mg );
     }
     return result;
+}
+
+std::array<std::array<scent_trace, 3>, 3> overmapbuffer::scents_near( const tripoint &origin )
+{
+    std::array<std::array<scent_trace, 3>, 3> found_traces;
+    tripoint iter;
+    int x;
+    int y;
+
+    for( x = 0, iter.x = origin.x - 1; x <= 2 ; ++iter.x, ++x ) {
+        for( y = 0, iter.y = origin.y - 1; y <= 2; ++iter.y, ++y ) {
+            found_traces[x][y] = scent_at( iter );
+        }
+    }
+
+    return found_traces;
+}
+
+scent_trace overmapbuffer::scent_at( const tripoint &pos )
+{
+    overmap *found_omap = get_existing_om_global( pos );
+    if( found_omap != nullptr ) {
+        return found_omap->scent_at( pos );
+    }
+    return scent_trace();
+}
+
+void overmapbuffer::set_scent( const tripoint &loc, int strength )
+{
+    overmap &found_omap = get_om_global( loc );
+    scent_trace new_scent( calendar::turn, strength );
+    found_omap.set_scent( loc, new_scent );
 }
 
 void overmapbuffer::move_vehicle( vehicle *veh, const point &old_msp )
@@ -424,12 +474,6 @@ void overmapbuffer::set_seen(int x, int y, int z, bool seen)
     om.seen(x, y, z) = seen;
 }
 
-overmap &overmapbuffer::get_om_global(const point& p)
-{
-    const point om_pos = omt_to_om_copy(p);
-    return get(om_pos.x, om_pos.y);
-}
-
 oter_id& overmapbuffer::ter(int x, int y, int z) {
     overmap &om = get_om_global(x, y);
     return om.ter(x, y, z);
@@ -452,6 +496,55 @@ bool overmapbuffer::reveal( const tripoint &center, int radius )
         }
     }
     return result;
+}
+
+bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, int radius, bool road_only )
+{
+    static const int RADIUS = 4;            // Maximal radius of search (in overmaps)
+    static const int OX = RADIUS * OMAPX;   // half-width of the area to search in
+    static const int OY = RADIUS * OMAPY;   // half-height of the area to search in
+
+    const tripoint start( OX, OY, source.z );   // Local source - center of the local area
+    const tripoint base( source - start );      // To convert local coordinates to global ones
+    const tripoint finish( dest - base );       // Local destination - relative to source
+
+    const auto estimate = [ this, &base, &finish, road_only ]( const pf::node &, const pf::node &cur ) {
+        int res = 0;
+        int omx = base.x + cur.x;
+        int omy = base.y + cur.y;
+
+        const auto &oter = get_om_global( omx, omy ).get_ter( omx, omy, base.z );
+
+        if( !is_ot_type( "road", oter ) && !is_ot_type ( "bridge", oter ) && !is_ot_type( "hiway", oter ) ) {
+            if( road_only ) {
+                return -1;
+            }
+
+            if( is_river( oter ) ) {
+                return -1; // Can't walk on water
+            }
+            // Allow going slightly off-road to overcome small obstacles (e.g. craters),
+            // but heavily penalize that to make roads preferable
+            res += 250;
+        }
+
+        res += std::abs( finish.x - cur.x ) +
+               std::abs( finish.y - cur.y );
+
+        return res;
+    };
+
+    const auto path = pf::find_path( point( start.x, start.y ), point( finish.x, finish.y ), 2*OX, 2*OY, estimate );
+
+    if( path.empty() ) {
+        return false;
+    }
+
+    for( const auto &node : path ) {
+        reveal( base + tripoint( node.x, node.y, base.z ), radius );
+    }
+
+    return true;
 }
 
 bool overmapbuffer::check_ot_type(const std::string& type, int x, int y, int z)
@@ -528,12 +621,16 @@ std::vector<tripoint> overmapbuffer::find_all( const tripoint& origin, const std
     return result;
 }
 
+tripoint overmapbuffer::find_random( const tripoint &origin, const std::string &type,
+                                     int dist, bool must_be_seen )
+{
+    return random_entry( find_all( origin, type, dist, must_be_seen ), overmap::invalid_tripoint );
+}
+
 npc* overmapbuffer::find_npc(int id) {
     for( auto &it : overmaps ) {
-        for( auto &elem : it.second->npcs ) {
-            if( elem->getID() == id ) {
-                return elem;
-            }
+        if( const auto p = it.second->find_npc( id ) ) {
+            return p;
         }
     }
     return NULL;
@@ -542,16 +639,12 @@ npc* overmapbuffer::find_npc(int id) {
 void overmapbuffer::remove_npc(int id)
 {
     for( auto &it : overmaps ) {
-        for (size_t i = 0; i < it.second->npcs.size(); i++) {
-            npc *p = it.second->npcs[i];
-            if (p->getID() == id) {
-                if( !p->is_dead() ) {
-                    debugmsg("overmapbuffer::remove_npc: NPC (%d) is not dead.", id);
-                }
-                it.second->npcs.erase(it.second->npcs.begin() + i);
-                delete p;
-                return;
+        if( const auto p = it.second->find_npc( id ) ) {
+            if( !p->is_dead() ) {
+                debugmsg("overmapbuffer::remove_npc: NPC (%d) is not dead.", id);
             }
+            it.second->erase_npc( p );
+            return;
         }
     }
     debugmsg("overmapbuffer::remove_npc: NPC (%d) not found.", id);
@@ -608,23 +701,35 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const point &p, const i
     return get_overmaps_near( tripoint( p.x, p.y, 0 ), radius );
 }
 
+std::vector<npc *> overmapbuffer::get_companion_mission_npcs()
+{
+    std::vector<npc *> available;
+    //@todo this is an arbitrary radius, replace with something sane.
+    for( npc *const guy : get_npcs_near_player( 100 ) ) {
+        if( guy->has_companion_mission() ) {
+            available.push_back( guy );
+        }
+    }
+    return available;
+}
+
 // If z == INT_MIN, allow all z-levels
 std::vector<npc*> overmapbuffer::get_npcs_near(int x, int y, int z, int radius)
 {
     std::vector<npc*> result;
     tripoint p{ x, y, z };
     for( auto &it : get_overmaps_near( p, radius ) ) {
-        for( auto &np : it->npcs ) {
+        it->for_each_npc( [&]( npc &guy ) {
             // Global position of NPC, in submap coordiantes
-            const tripoint pos = np->global_sm_location();
+            const tripoint pos = guy.global_sm_location();
             if( z != INT_MIN && pos.z != z ) {
-                continue;
+                return;
             }
             const int npc_offset = square_dist( x, y, pos.x, pos.y );
             if (npc_offset <= radius) {
-                result.push_back( np );
+                result.push_back( &guy );
             }
-        }
+        } );
     }
     return result;
 }
@@ -634,17 +739,17 @@ std::vector<npc*> overmapbuffer::get_npcs_near_omt(int x, int y, int z, int radi
 {
     std::vector<npc*> result;
     for( auto &it : get_overmaps_near( omt_to_sm_copy( x, y ), radius ) ) {
-        for( auto &np : it->npcs ) {
+        it->for_each_npc( [&]( npc &guy ) {
             // Global position of NPC, in submap coordiantes
-            tripoint pos = np->global_omt_location();
+            tripoint pos = guy.global_omt_location();
             if( z != INT_MIN && pos.z != z) {
-                continue;
+                return;
             }
             const int npc_offset = square_dist( x, y, pos.x, pos.y );
             if (npc_offset <= radius) {
-                result.push_back(np);
+                result.push_back( &guy );
             }
-        }
+        } );
     }
     return result;
 }
@@ -652,7 +757,7 @@ std::vector<npc*> overmapbuffer::get_npcs_near_omt(int x, int y, int z, int radi
 radio_tower_reference create_radio_tower_reference( overmap &om, radio_tower &t, const tripoint &center )
 {
     // global submap coordinates, same as center is
-    const point pos = point( t.x, t.y ) + overmapbuffer::om_to_sm_copy( om.pos() );
+    const point pos = point( t.x, t.y ) + om_to_sm_copy( om.pos() );
     const int strength = t.strength - rl_dist( tripoint( pos, 0 ), center );
     return radio_tower_reference{ &om, &t, pos, strength };
 }
@@ -713,6 +818,14 @@ city_reference overmapbuffer::closest_city( const tripoint &center )
     return result;
 }
 
+static int modulo(int v, int m) {
+    // C++11: negative v and positive m result in negative v%m (or 0),
+    // but this is supposed to be mathematical modulo: 0 <= v%m < m,
+    const int r = v % m;
+    // Adding m in that (and only that) case.
+    return r >= 0 ? r : r + m;
+}
+
 void overmapbuffer::spawn_monster(const int x, const int y, const int z)
 {
     // Create a copy, so we can reuse x and y later
@@ -746,7 +859,7 @@ void overmapbuffer::spawn_monster(const int x, const int y, const int z)
 void overmapbuffer::despawn_monster(const monster &critter)
 {
     // Get absolute coordinates of the monster in map squares, translate to submap position
-    tripoint sm = ms_to_sm_copy( g->m.getabs( critter.pos3() ) );
+    tripoint sm = ms_to_sm_copy( g->m.getabs( critter.pos() ) );
     // Get the overmap coordinates and get the overmap, sm is now local to that overmap
     const point omp = sm_to_om_remain( sm.x, sm.y );
     overmap &om = get( omp.x, omp.y );
@@ -754,7 +867,6 @@ void overmapbuffer::despawn_monster(const monster &critter)
     om.monster_map.insert( std::make_pair( sm, critter ) );
 }
 
-extern bool lcmatch(const std::string& text, const std::string& pattern);
 overmapbuffer::t_notes_vector overmapbuffer::get_notes(int z, const std::string* pattern)
 {
     t_notes_vector result;
@@ -790,169 +902,4 @@ bool overmapbuffer::is_safe(int x, int y, int z)
         }
     }
     return true;
-}
-
-inline int modulo(int v, int m) {
-    // C++11: negative v and positive m result in negative v%m (or 0),
-    // but this is supposed to be mathematical modulo: 0 <= v%m < m,
-    const int r = v % m;
-    // Adding m in that (and only that) case.
-    return r >= 0 ? r : r + m;
-}
-
-inline int divide(int v, int m) {
-    if (v >= 0) {
-        return v / m;
-    }
-    return (v - m + 1) / m;
-}
-
-inline int divide(int v, int m, int &r) {
-    const int result = divide(v, m);
-    r = v - result * m;
-    return result;
-}
-
-point overmapbuffer::omt_to_om_copy(int x, int y) {
-    return point(divide(x, OMAPX), divide(y, OMAPY));
-}
-
-tripoint overmapbuffer::omt_to_om_copy(const tripoint& p) {
-    return tripoint(divide(p.x, OMAPX), divide(p.y, OMAPY), p.z);
-}
-
-void overmapbuffer::omt_to_om(int &x, int &y) {
-    x = divide(x, OMAPX);
-    y = divide(y, OMAPY);
-}
-
-point overmapbuffer::omt_to_om_remain(int &x, int &y) {
-    return point(divide(x, OMAPX, x), divide(y, OMAPY, y));
-}
-
-
-
-point overmapbuffer::sm_to_omt_copy(int x, int y) {
-    return point(divide(x, 2), divide(y, 2));
-}
-
-tripoint overmapbuffer::sm_to_omt_copy(const tripoint& p) {
-    return tripoint(divide(p.x, 2), divide(p.y, 2), p.z);
-}
-
-void overmapbuffer::sm_to_omt(int &x, int &y) {
-    x = divide(x, 2);
-    y = divide(y, 2);
-}
-
-point overmapbuffer::sm_to_omt_remain(int &x, int &y) {
-    return point(divide(x, 2, x), divide(y, 2, y));
-}
-
-
-
-point overmapbuffer::sm_to_om_copy(int x, int y) {
-    return point(divide(x, 2 * OMAPX), divide(y, 2 * OMAPY));
-}
-
-tripoint overmapbuffer::sm_to_om_copy(const tripoint& p) {
-    return tripoint(divide(p.x, 2 * OMAPX), divide(p.y, 2 * OMAPY), p.z);
-}
-
-void overmapbuffer::sm_to_om(int &x, int &y) {
-    x = divide(x, 2 * OMAPX);
-    y = divide(y, 2 * OMAPY);
-}
-
-point overmapbuffer::sm_to_om_remain(int &x, int &y) {
-    return point(divide(x, 2 * OMAPX, x), divide(y, 2 * OMAPY, y));
-}
-
-
-
-point overmapbuffer::omt_to_sm_copy(int x, int y) {
-    return point(x * 2, y * 2);
-}
-
-tripoint overmapbuffer::omt_to_sm_copy(const tripoint& p) {
-    return tripoint(p.x * 2, p.y * 2, p.z);
-}
-
-void overmapbuffer::omt_to_sm(int &x, int &y) {
-    x *= 2;
-    y *= 2;
-}
-
-
-
-point overmapbuffer::om_to_sm_copy(int x, int y) {
-    return point(x * 2 * OMAPX, y * 2 * OMAPX);
-}
-
-tripoint overmapbuffer::om_to_sm_copy(const tripoint& p) {
-    return tripoint(p.x * 2 * OMAPX, p.y * 2 * OMAPX, p.z);
-}
-
-void overmapbuffer::om_to_sm(int &x, int &y) {
-    x *= 2 * OMAPX;
-    y *= 2 * OMAPY;
-}
-
-
-
-point overmapbuffer::ms_to_sm_copy(int x, int y) {
-    return point(divide(x, SEEX), divide(y, SEEY));
-}
-
-tripoint overmapbuffer::ms_to_sm_copy(const tripoint& p) {
-    return tripoint(divide(p.x, SEEX), divide(p.y, SEEY), p.z);
-}
-
-void overmapbuffer::ms_to_sm(int &x, int &y) {
-    x = divide(x, SEEX);
-    y = divide(y, SEEY);
-}
-
-point overmapbuffer::ms_to_sm_remain(int &x, int &y) {
-    return point(divide(x, SEEX, x), divide(y, SEEY, y));
-}
-
-
-
-point overmapbuffer::sm_to_ms_copy(int x, int y) {
-    return point(x * SEEX, y * SEEY);
-}
-
-tripoint overmapbuffer::sm_to_ms_copy(const tripoint& p) {
-    return tripoint(p.x * SEEX, p.y * SEEY, p.z);
-}
-
-void overmapbuffer::sm_to_ms(int &x, int &y) {
-    x *= SEEX;
-    y *= SEEY;
-}
-
-
-
-point overmapbuffer::ms_to_omt_copy(int x, int y) {
-    return point(divide(x, SEEX * 2), divide(y, SEEY * 2));
-}
-
-tripoint overmapbuffer::ms_to_omt_copy(const tripoint& p) {
-    return tripoint(divide(p.x, SEEX * 2), divide(p.y, SEEY * 2), p.z);
-}
-
-void overmapbuffer::ms_to_omt(int &x, int &y) {
-    x = divide(x, SEEX * 2);
-    y = divide(y, SEEY * 2);
-}
-
-point overmapbuffer::ms_to_omt_remain(int &x, int &y) {
-    return point(divide(x, SEEX * 2, x), divide(y, SEEY * 2, y));
-}
-
-
-
-tripoint overmapbuffer::omt_to_seg_copy(const tripoint& p) {
-    return tripoint(divide(p.x, 32), divide(p.y, 32), p.z);
 }

@@ -1,0 +1,17 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "no_faults",
+    "name": "Perfect Reliability",
+    "authors": [ "mugling" ],
+    "maintainers": [ "mugling" ],
+    "description": "Vehicle parts are perfectly reliable and never spawn with faults or develop them during use",
+    "category": "rebalance",
+    "dependencies": [ "dda" ],
+    "obsolete": true
+  },
+  {
+    "type": "WORLD_OPTION",
+    "options": [ "NO_FAULTS" ]
+  }
+]

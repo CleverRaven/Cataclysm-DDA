@@ -1,6 +1,7 @@
 #include <iostream>
-#include <fstream>
 #include <sstream>
+#include <algorithm>
+#include <cmath>
 
 #include "scenario.h"
 
@@ -8,194 +9,134 @@
 #include "json.h"
 #include "player.h"
 #include "bionics.h"
-#include "start_location.h"
 #include "game.h"
 #include "map.h"
 #include "translations.h"
 #include "pldata.h"
 #include "addiction.h"
-#include "skill.h"
 #include "profession.h"
 #include "mutation.h"
 #include "mapgen.h"
+#include "generic_factory.h"
+
+namespace
+{
+generic_factory<scenario> all_scenarios( "scenario", "ident" );
+const string_id<scenario> generic_scenario_id( "evacuee" );
+}
+
+/** @relates string_id */
+template<>
+const scenario &string_id<scenario>::obj() const
+{
+    return all_scenarios.obj( *this );
+}
+
+/** @relates string_id */
+template<>
+bool string_id<scenario>::is_valid() const
+{
+    return all_scenarios.is_valid( *this );
+}
 
 scenario::scenario()
-   : _ident(""), _name_male("null"), _name_female("null"),
-     _description_male("null"), _description_female("null")
+    : id( "" ), _name_male( "null" ), _name_female( "null" ),
+      _description_male( "null" ), _description_female( "null" )
 {
 }
-scenario::scenario(std::string ident, std::string name, std::string description, int mission)
+
+void scenario::load_scenario( JsonObject &jo, const std::string &src )
 {
-    _ident = ident;
-    _name_male = name;
-    _name_female = name;
-    _description_male = description;
-    _description_female = description;
-    _mission = mission;
-    _point_cost = 0;
+    all_scenarios.load( jo, src );
 }
 
-scenmap scenario::_all_scens;
-
-void scenario::load_scenario(JsonObject &jsobj)
+void scenario::load( JsonObject &jo, const std::string & )
 {
-    scenario scen;
-    JsonArray jsarr;
-
-    scen._ident = jsobj.get_string("ident");
-    //If the "name" is an object then we have to deal with gender-specific titles,
-    if(jsobj.has_object("name")) {
-        JsonObject name_obj=jsobj.get_object("name");
-        scen._name_male = pgettext("scenario_male", name_obj.get_string("male").c_str());
-        scen._name_female = pgettext("scenario_female", name_obj.get_string("female").c_str());
-    }
-    else {
-        // Same scenario names for male and female in English.
-        // Still need to different names in other languages.
-        const std::string name = jsobj.get_string("name");
-        scen._name_female = pgettext("scenario_female", name.c_str());
-        scen._name_male = pgettext("scenario_male", name.c_str());
+    // TODO: pretty much the same as in profession::load, but different contexts for pgettext.
+    // TODO: maybe combine somehow?
+    if( !was_loaded || jo.has_string( "name" ) ) {
+        // These may differ depending on the language settings!
+        const std::string name = jo.get_string( "name" );
+        _name_female = pgettext( "scenario_female", name.c_str() );
+        _name_male = pgettext( "scenario_male", name.c_str() );
     }
 
-    const std::string desc = jsobj.get_string("description").c_str();
-    scen._description_male = pgettext("scen_desc_male", desc.c_str());
-    scen._description_female = pgettext("scen_desc_female", desc.c_str());
+    if( !was_loaded || jo.has_string( "description" ) ) {
+        // These also may differ depending on the language settings!
+        const std::string desc = jo.get_string( "description" );
+        _description_male = pgettext( "scen_desc_male", desc.c_str() );
+        _description_female = pgettext( "scen_desc_female", desc.c_str() );
+    }
 
-    const std::string stame = jsobj.get_string("start_name").c_str();
-    scen._start_name = pgettext("start_name", stame.c_str());
+    if( !was_loaded || jo.has_string( "start_name" ) ) {
+        _start_name = pgettext( "start_name", jo.get_string( "start_name" ).c_str() );
+    }
 
+    mandatory( jo, was_loaded, "points", _point_cost );
 
-    scen._point_cost = jsobj.get_int("points");
+    optional( jo, was_loaded, "blacklist_professions", blacklist );
+    optional( jo, was_loaded, "professions", professions,
+              auto_flags_reader<string_id<profession>> {} );
 
-    JsonObject items_obj=jsobj.get_object("items");
-    scen.add_items_from_jsonarray(items_obj.get_array("both"), "both");
-    scen.add_items_from_jsonarray(items_obj.get_array("male"), "male");
-    scen.add_items_from_jsonarray(items_obj.get_array("female"), "female");
-
-    bool first = false;
-    jsarr = jsobj.get_array("professions");
-    while (jsarr.has_more()) {
-        if (first == true){
-            scen._allowed_professions.insert(jsarr.next_string());
-        }
-        else{
-            scen._profession = jsarr.next_string();
-            scen._allowed_professions.insert(scen._profession);
-            first = true;
-        }
+    optional( jo, was_loaded, "traits", _allowed_traits, auto_flags_reader<trait_id> {} );
+    optional( jo, was_loaded, "forced_traits", _forced_traits, auto_flags_reader<trait_id> {} );
+    optional( jo, was_loaded, "forbidden_traits", _forbidden_traits, auto_flags_reader<trait_id> {} );
+    optional( jo, was_loaded, "allowed_locs", _allowed_locs, auto_flags_reader<start_location_id> {} );
+    if( _allowed_locs.empty() ) {
+        jo.throw_error( "at least one starting location (member \"allowed_locs\") must be defined" );
     }
-    if (scen._allowed_professions.size() < 1){
-        scen._profession = profession::generic()->ident();
-    }
-    jsarr = jsobj.get_array("traits");
-    while (jsarr.has_more()) {
-        scen._allowed_traits.insert(jsarr.next_string());
-    }
-    jsarr = jsobj.get_array("forced_traits");
-    while (jsarr.has_more()) {
-        scen._forced_traits.insert(jsarr.next_string());
-    }
-    jsarr = jsobj.get_array("forbidden_traits");
-    while (jsarr.has_more()) {
-        scen._forbidden_traits.insert(jsarr.next_string());
-    }
-    jsarr = jsobj.get_array("allowed_locs");
-    while (jsarr.has_more()) {
-        if (scen._default_loc.size() < 1){
-            scen._default_loc = jsarr.next_string();
-            scen._allowed_locs.insert(scen._default_loc);
-        }
-        else{
-            scen._allowed_locs.insert(jsarr.next_string());
-        }
-    }
-    jsarr = jsobj.get_array("flags");
-    while (jsarr.has_more()) {
-        scen.flags.insert(jsarr.next_string());
-    }
-    scen._map_special = jsobj.get_string( "map_special", "mx_null" );
-
-    _all_scens[scen._ident] = scen;
-    DebugLog( D_INFO, DC_ALL ) << "Loaded scenario: " << scen._ident;
+    optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
+    optional( jo, was_loaded, "map_special", _map_special, "mx_null" );
 }
 
-scenario* scenario::scen(std::string ident)
+const scenario *scenario::generic()
 {
-    scenmap::iterator scen = _all_scens.find(ident);
-    if (scen != _all_scens.end())
-    {
-        return &(scen->second);
-    }
-    else
-    {
-        debugmsg("Tried to get invalid scenario: %s", ident.c_str());
-        return NULL;
-    }
-}
-
-scenario* scenario::generic()
-{
-    return scenario::scen("evacuee");
+    return &generic_scenario_id.obj();
 }
 
 // Strategy: a third of the time, return the generic scenario.  Otherwise, return a scenario,
 // weighting 0 cost scenario more likely--the weight of a scenario with cost n is 2/(|n|+2),
 // e.g., cost 1 is 2/3rds as likely, cost -2 is 1/2 as likely.
-scenario* scenario::weighted_random()
+const scenario *scenario::weighted_random()
 {
-    if (one_in(3)) {
+    if( one_in( 3 ) ) {
         return generic();
-    } else {
-        scenario* retval = 0;
-        while(retval == 0) {
-            scenmap::iterator iter = _all_scens.begin();
-            for (int i = rng(0, _all_scens.size() - 1); i > 0; --i) {
-                ++iter;
-            }
-            if (x_in_y(2, abs(iter->second.point_cost()) + 2)) {
-                retval = &(iter->second);
-            }  // else reroll in the while loop.
+    }
+
+    const auto &list = all_scenarios.get_all();
+    while( true ) {
+        auto iter = list.begin();
+        std::advance( iter, rng( 0, list.size() - 1 ) );
+        const scenario &scen = *iter;
+
+        if( x_in_y( 2, abs( scen.point_cost() ) + 2 ) ) {
+            return &scen;
         }
-        return retval;
+        // else reroll in the while loop.
     }
 }
 
-bool scenario::exists(std::string ident)
+const std::vector<scenario> &scenario::get_all()
 {
-    return _all_scens.find(ident) != _all_scens.end();
-}
-
-scenmap::const_iterator scenario::begin()
-{
-    return _all_scens.begin();
-}
-
-scenmap::const_iterator scenario::end()
-{
-    return _all_scens.end();
-}
-
-int scenario::count()
-{
-    return _all_scens.size();
+    return all_scenarios.get_all();
 }
 
 void scenario::reset()
 {
-    _all_scens.clear();
+    all_scenarios.reset();
 }
 
 void scenario::check_definitions()
 {
-    for (scenmap::const_iterator a = _all_scens.begin(); a != _all_scens.end(); ++a) {
-        a->second.check_definition();
+    for( const auto &scen : all_scenarios.get_all() ) {
+        scen.check_definition();
     }
 }
 
-void check_traits( const std::set<std::string> &traits, const std::string &ident )
+void check_traits( const std::set<trait_id> &traits, const string_id<scenario> &ident )
 {
     for( auto &t : traits ) {
-        if( !mutation_branch::has( t ) ) {
+        if( !t.is_valid() ) {
             debugmsg( "trait %s for scenario %s does not exist", t.c_str(), ident.c_str() );
         }
     }
@@ -203,74 +144,56 @@ void check_traits( const std::set<std::string> &traits, const std::string &ident
 
 void scenario::check_definition() const
 {
-    for (std::vector<std::string>::const_iterator a = _starting_items.begin(); a != _starting_items.end(); ++a) {
-        if( !item::type_is_defined( *a ) ) {
-            debugmsg("item %s for scenario %s does not exist", a->c_str(), _ident.c_str());
+    for( auto &p : professions ) {
+        if( !p.is_valid() ) {
+            debugmsg( "profession %s for scenario %s does not exist", p.c_str(), id.c_str() );
         }
     }
-    for (std::vector<std::string>::const_iterator a = _starting_items_female.begin(); a != _starting_items_female.end(); ++a) {
-        if( !item::type_is_defined( *a ) ) {
-            debugmsg("item %s for scenario %s does not exist", a->c_str(), _ident.c_str());
+    if( std::any_of( professions.begin(), professions.end(), [&]( const string_id<profession> &p ) {
+    return std::count( professions.begin(), professions.end(), p ) > 1;
+    } ) ) {
+        debugmsg( "Duplicate entries in the professions array." );
+    }
+
+    for( auto &l : _allowed_locs ) {
+        if( !l.is_valid() ) {
+            debugmsg( "starting location %s for scenario %s does not exist", l.c_str(), id.c_str() );
         }
     }
-    for (std::vector<std::string>::const_iterator a = _starting_items_male.begin(); a != _starting_items_male.end(); ++a) {
-        if( !item::type_is_defined( *a ) ) {
-            debugmsg("item %s for scenario %s does not exist", a->c_str(), _ident.c_str());
+
+    if( blacklist ) {
+        if( professions.empty() ) {
+            debugmsg( "Scenario %s: Use an empty whitelist to whitelist everything.", id.c_str() );
+        } else {
+            permitted_professions(); // Debug msg if every profession is blacklisted
         }
     }
-    check_traits( _allowed_traits, _ident );
-    check_traits( _forced_traits, _ident );
-    check_traits( _forbidden_traits, _ident );
+
+    check_traits( _allowed_traits, id );
+    check_traits( _forced_traits, id );
+    check_traits( _forbidden_traits, id );
     MapExtras::get_function( _map_special ); // triggers a debug message upon invalid input
 }
 
-bool scenario::has_initialized()
+const string_id<scenario> &scenario::ident() const
 {
-    return exists("evacuee");
+    return id;
 }
 
-void scenario::add_items_from_jsonarray(JsonArray jsarr, std::string gender)
+std::string scenario::gender_appropriate_name( bool male ) const
 {
-    while (jsarr.has_more()) {
-        add_item(jsarr.next_string(), gender);
-    }
-}
-
-void scenario::add_item(std::string item, std::string gender)
-{
-    if(gender=="male") {
-        _starting_items_male.push_back(item);
-    }
-    else if(gender=="female") {
-        _starting_items_female.push_back(item);
-    }
-    else {
-        _starting_items.push_back(item);
-    }
-}
-
-
-std::string scenario::ident() const
-{
-    return _ident;
-}
-
-std::string scenario::gender_appropriate_name(bool male) const
-{
-    if(male) {
+    if( male ) {
         return _name_male;
-    }
-    else {
+    } else {
         return _name_female;
     }
 }
 
-std::string scenario::description(bool male) const
+std::string scenario::description( bool male ) const
 {
-    if(male) {
+    if( male ) {
         return _description_male;
-    }
-    else {
+    } else {
         return _description_female;
     }
 }
@@ -280,79 +203,108 @@ signed int scenario::point_cost() const
     return _point_cost;
 }
 
-std::string scenario::start_location() const
+start_location_id scenario::start_location() const
 {
-    return _default_loc;
+    return _allowed_locs.front();
 }
-std::string scenario::random_start_location() const
+start_location_id scenario::random_start_location() const
 {
-   return random_entry( _allowed_locs, start_location() );
+    return random_entry( _allowed_locs );
 }
-profession* scenario::get_profession() const
+
+std::vector<string_id<profession>> scenario::permitted_professions() const
 {
-    return profession::prof(_profession);;
+    if( !cached_permitted_professions.empty() ) {
+        return cached_permitted_professions;
+    }
+
+    const auto all = profession::get_all();
+    std::vector<string_id<profession>> &res = cached_permitted_professions;
+    for( const profession &p : all ) {
+        const bool present = std::find( professions.begin(), professions.end(),
+                                        p.ident() ) != professions.end();
+        if( blacklist || professions.empty() ) {
+            if( !present && !p.has_flag( "SCEN_ONLY" ) ) {
+                res.push_back( p.ident() );
+            }
+        } else if( present ) {
+            res.push_back( p.ident() );
+        }
+    }
+
+    if( res.empty() ) {
+        debugmsg( "Why would you blacklist every profession?" );
+        res.push_back( profession::generic()->ident() );
+    }
+    return res;
 }
-profession* scenario::random_profession() const
+
+const profession *scenario::weighted_random_profession() const
 {
-    std::vector<std::string> allowed_professions(_allowed_professions.begin(), _allowed_professions.end());
-    if (allowed_professions.size() == 0) {
+    // Strategy: 1/3 of the time, return the generic profession (if it's permitted).
+    // Otherwise, the weight of each permitted profession is 2 / ( |point cost| + 2 )
+    const auto choices = permitted_professions();
+    if( one_in( 3 ) && choices.front() == profession::generic()->ident() ) {
         return profession::generic();
     }
-    return profession::prof(allowed_professions[rng(0, allowed_professions.size()-1)]);
+
+    while( true ) {
+        const string_id<profession> &candidate = random_entry_ref( choices );
+        if( x_in_y( 2, 2 + std::abs( candidate->point_cost() ) ) ) {
+            return &candidate.obj();
+        }
+    }
+    return profession::generic(); // Suppress warnings
 }
+
+std::string scenario::prof_count_str() const
+{
+    if( professions.empty() ) {
+        return _( "All" );
+    }
+    return blacklist ? _( "Almost all" ) : _( "Limited" );
+}
+
 std::string scenario::start_name() const
 {
     return _start_name;
 }
-int scenario::mission() const
+
+bool scenario::traitquery( const trait_id &trait ) const
 {
-    return _mission;
-}
-std::vector<std::string> scenario::items() const
-{
-    return _starting_items;
+    return _allowed_traits.count( trait ) != 0 || is_locked_trait( trait ) ||
+           ( !is_forbidden_trait( trait ) && trait->startingtrait );
 }
 
-std::vector<std::string> scenario::items_male() const
+std::set<trait_id> scenario::get_locked_traits() const
 {
-    return _starting_items_male;
+    return _forced_traits;
 }
 
-std::vector<std::string> scenario::items_female() const
+bool scenario::is_locked_trait( const trait_id &trait ) const
 {
-    return _starting_items_female;
+    return _forced_traits.count( trait ) != 0;
 }
-bool scenario::profquery(const profession* proff) const
+
+bool scenario::is_forbidden_trait( const trait_id &trait ) const
 {
-    return _allowed_professions.count(proff->ident()) != 0;
+    return _forbidden_traits.count( trait ) != 0;
 }
-bool scenario::traitquery(std::string trait) const
+
+bool scenario::has_flag( std::string flag ) const
 {
-    return _allowed_traits.count(trait) != 0;
+    return flags.count( flag ) != 0;
 }
-bool scenario::locked_traits(std::string trait) const
+
+bool scenario::allowed_start( const start_location_id &loc ) const
 {
-    return _forced_traits.count(trait) != 0;
+    auto &vec = _allowed_locs;
+    return std::find( vec.begin(), vec.end(), loc ) != vec.end();
 }
-bool scenario::forbidden_traits(std::string trait) const
+
+bool scenario::can_pick( int points ) const
 {
-    return _forbidden_traits.count(trait) != 0;
-}
-int scenario::profsize() const
-{
-    return _allowed_professions.size();
-}
-bool scenario::has_flag(std::string flag) const
-{
-    return flags.count(flag) != 0;
-}
-bool scenario::allowed_start(std::string loc) const
-{
-    return _allowed_locs.count(loc) != 0;
-}
-bool scenario::can_pick(int points) const
-{
-    if (point_cost() - g->scen->point_cost() > points) {
+    if( point_cost() - g->scen->point_cost() > points ) {
         return false;
     }
 
@@ -362,8 +314,8 @@ bool scenario::has_map_special() const
 {
     return _map_special != "mx_null";
 }
-const std::string& scenario::get_map_special() const
+const std::string &scenario::get_map_special() const
 {
     return _map_special;
 }
-// vim:ts=4:sw=4:et:tw=0:fdm=marker:fdl=0:
+// vim:ts=4:sw=4:et:tw=0:fdm=marker:

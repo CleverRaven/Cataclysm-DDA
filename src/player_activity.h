@@ -1,63 +1,30 @@
+#pragma once
 #ifndef PLAYER_ACTIVITY_H
 #define PLAYER_ACTIVITY_H
 
 #include "enums.h"
 #include "json.h"
+#include "item_location.h"
+#include "string_id.h"
 
 #include <climits>
 #include <vector>
 
-enum activity_type : int {    // expanded this enum for readability
-    ACT_NULL = 0,
-    ACT_RELOAD,
-    ACT_READ,
-    ACT_GAME,
-    ACT_WAIT,
-    ACT_CRAFT,
-    ACT_LONGCRAFT,
-    ACT_DISASSEMBLE,
-    ACT_BUTCHER,
-    ACT_LONGSALVAGE,
-    ACT_FORAGE,
-    ACT_BUILD,
-    ACT_VEHICLE,
-    ACT_REFILL_VEHICLE,
-    ACT_TRAIN,
-    ACT_WAIT_WEATHER,
-    ACT_FIRSTAID,
-    ACT_FISH,
-    ACT_PICKAXE,
-    ACT_BURROW,
-    ACT_PULP,
-    ACT_VIBE,
-    ACT_MAKE_ZLAVE,
-    ACT_DROP,
-    ACT_STASH,
-    ACT_PICKUP,
-    ACT_MOVE_ITEMS,
-    ACT_ADV_INVENTORY,
-    ACT_ARMOR_LAYERS,
-    ACT_START_FIRE,
-    ACT_FILL_LIQUID,
-    ACT_HOTWIRE_CAR,
-    ACT_AIM,
-    ACT_ATM,
-    ACT_START_ENGINES,
-    ACT_OXYTORCH,
-    ACT_CRACKING,
-    ACT_WAIT_NPC,
-    NUM_ACTIVITIES
-};
-
 class player;
+class Character;
+class player_activity;
+class activity_type;
+
+using activity_id = string_id<activity_type>;
 
 class player_activity : public JsonSerializer, public JsonDeserializer
 {
     private:
         void finish( player *p );
+        activity_id type;
     public:
-        /** The type of this activity. */
-        activity_type type;
+        /** Total number of moves required to complete the activity */
+        int moves_total;
         /** The number of moves remaining in this activity before it is complete. */
         int moves_left;
         /** An activity specific value. */
@@ -66,6 +33,7 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         int position;
         /** An activity specific value. */
         std::string name;
+        std::vector<item_location> targets;
         bool ignore_trivial;
         std::vector<int> values;
         std::vector<std::string> str_values;
@@ -80,29 +48,39 @@ class player_activity : public JsonSerializer, public JsonDeserializer
          */
         bool auto_resume;
 
-        player_activity(activity_type t = ACT_NULL, int turns = 0, int Index = -1, int pos = INT_MIN,
-                        std::string name_in = "");
-        player_activity(player_activity &&) = default;
-        player_activity(const player_activity &) = default;
-        player_activity &operator=(player_activity && ) = default;
-        player_activity &operator=(const player_activity &) = default;
+        player_activity();
+        player_activity( activity_id, int turns = 0, int Index = -1, int pos = INT_MIN,
+                         std::string name_in = "" );
+        player_activity( player_activity && ) = default;
+        player_activity( const player_activity & );
+        player_activity &operator=( player_activity && ) = default;
+        player_activity &operator=( const player_activity & );
+
+        explicit operator bool() const {
+            return !type.is_null();
+        }
+        bool is_null() const {
+            return type.is_null();
+        }
+        /** This replaces the former usage `act.type = ACT_NULL` */
+        void set_to_null();
+
+        const activity_id &id() const {
+            return type;
+        }
+        bool rooted() const;
 
         // Question to ask when the activity is to be stoped,
-        // e.g. " Stop doing something?", already translated.
-        const std::string &get_stop_phrase() const;
+        // e.g. "Stop doing something?", already translated.
+        std::string get_stop_phrase() const;
+
         /**
          * If this returns true, the activity can be aborted with
          * the ACTION_PAUSE key (see game::handle_key_blocking_activity)
          */
         bool is_abortable() const;
-        /**
-         * If this returns true, the activity does not finish. This is
-         * the type of activities that use UI trickery, but must be cancelled
-         * manually!
-         */
-        bool never_completes() const;
-        int get_value(size_t index, int def = 0) const;
-        std::string get_str_value(size_t index, const std::string def = "") const;
+        int get_value( size_t index, int def = 0 ) const;
+        std::string get_str_value( size_t index, const std::string def = "" ) const;
         /**
          * If this returns true, the action can be continued without
          * starting from scratch again (see player::backlog). This is only
@@ -112,9 +90,11 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         bool is_suspendable() const;
 
         using JsonSerializer::serialize;
-        void serialize(JsonOut &jsout) const override;
+        void serialize( JsonOut &jsout ) const override;
         using JsonDeserializer::deserialize;
-        void deserialize(JsonIn &jsin) override;
+        void deserialize( JsonIn &jsin ) override;
+        /** Convert from the old enumeration to the new string_id */
+        void deserialize_legacy_type( int legacy_type, activity_id &dest );
 
         /**
          * Performs the activity for a single turn. If the activity is complete
@@ -124,9 +104,10 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         void do_turn( player *p );
 
         /**
-         * Returns true if the activity is complete.
+         * Returns true if activities are similar enough that this activity
+         * can be resumed instead of starting the other activity.
          */
-        bool is_complete() const;
+        bool can_resume_with( const player_activity &other, const Character &who ) const;
 };
 
 #endif

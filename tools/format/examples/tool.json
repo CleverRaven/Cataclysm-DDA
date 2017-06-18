@@ -1,0 +1,105 @@
+[
+  {
+    "id": "crowbar",
+    "type": "TOOL",
+    "name": "crowbar",
+    "description": "This is a hefty prying tool.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
+    "weight": 500,
+    "volume": 4,
+    "price": 1300,
+    "to_hit": 2,
+    "bashing": 14,
+    "cutting": 1,
+    "material": "steel",
+    "symbol": ";",
+    "color": "dark_gray",
+    "qualities": [ [ "PRY", 2 ] ],
+    "use_action": "CROWBAR",
+    "flags": [ "BELT_CLIP" ]
+  },
+  {
+    "id": "gasbomb_act",
+    "copy-from": "gasbomb",
+    "type": "GENERIC",
+    "name": "armed tear gas canister",
+    "description": "This smoke bomb has had its pin removed and is expelling highly toxic gas.",
+    "emits": [ "emit_tear_gas_stream" ],
+    "countdown_interval": 50,
+    "countdown_action": {
+      "target": "canister_empty",
+      "type": "transform"
+    },
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "lighter",
+    "type": "TOOL",
+    "name": "lighter",
+    "description": "This is a disposable plastic lighter.  A lighter must be carried to use various drugs, like cigarettes, or to light things like Molotov cocktails.  You can also use a lighter to light nearby items on fire.",
+    "weight": 14,
+    "volume": 0,
+    "price": 100,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ",",
+    "color": "blue",
+    "initial_charges": 100,
+    "rand_charges": [ 1, 10, 12, 15, 16, 22, 44, 50, 67, 75, 82, 100 ],
+    "max_charges": 100,
+    "charges_per_use": 1,
+    "use_action": {
+      "type": "firestarter",
+      "moves": 15
+    }
+  },
+  {
+    "id": "survivormap",
+    "type": "GENERIC",
+    "category": "books",
+    "name": "survivor's map",
+    "description": "This is a hand-drawn map of the local area.  Whomever created it has marked down the locations of nearby supply sources including gun stores and gas stations.  Using it will add points of interest to your map.",
+    "weight": 30,
+    "volume": 1,
+    "price": 1000,
+    "to_hit": -1,
+    "material": "paper",
+    "symbol": ";",
+    "color": "white",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 180,
+      "terrain": [ "hiway", "road", "bridge", "s_pharm", "s_gun", "s_grocery", "mil_surplus", "s_gas" ],
+      "message": "You add roads and possible supply points to your map."
+    }
+  },
+  {
+    "id": "tailors_kit",
+    "type": "TOOL",
+    "name": "tailor's kit",
+    "description": "This is a high quality, plastic kit with a variety of needles, some plastic spools for thread, some small scissors, even a small heating element for melting and joining plastic.  Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.",
+    "weight": 100,
+    "volume": 2,
+    "price": 1000,
+    "to_hit": -2,
+    "material": [ "plastic", "steel" ],
+    "symbol": ";",
+    "color": "red",
+    "ammo": "thread",
+    "sub": "sewing_kit",
+    "initial_charges": 50,
+    "max_charges": 400,
+    "charges_per_use": 1,
+    "qualities": [ [ "CUT", 1 ] ],
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_fabric",
+        "materials": [ "cotton", "leather", "wool", "fur", "nomex", "neoprene" ],
+        "skill": "tailor",
+        "tool_quality": 1,
+        "cost_scaling": 0.1,
+        "move_cost": 800
+      },
+      "SEW_ADVANCED"
+    ]
+  }
+]

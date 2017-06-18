@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 oldpwd=`pwd`
 
@@ -14,8 +14,8 @@ then
 fi
 
 # try to extract translatable strings from .json files
-echo "Extracting strings from json..."
-if ! python lang/extract_json_strings.py
+echo "> Extracting strings from json"
+if ! lang/extract_json_strings.py
 then
     echo "Error in extract_json_strings.py. Aborting"
     cd $oldpwd
@@ -23,16 +23,17 @@ then
 fi
 
 # Update cataclysm-dda.pot
-echo "Running xgettext to create .pot file..."
+echo "> Running xgettext to create .pot file"
 xgettext --default-domain="cataclysm-dda" \
-         --sort-by-file \
          --add-comments="~" \
+         --sort-by-file \
          --output="lang/po/cataclysm-dda.pot" \
          --keyword="_" \
+         --keyword="gettext_noop" \
          --keyword="pgettext:1c,2" \
          --keyword="ngettext:1,2" \
          --from-code="UTF-8" \
-         src/*.cpp src/*.h lang/json/*.py
+         src/*.cpp src/*.h lang/json/*.py lang/extra/android/*.cpp
 if [ $? -ne 0 ]; then
     echo "Error in xgettext. Aborting"
     cd $oldpwd
@@ -40,9 +41,9 @@ if [ $? -ne 0 ]; then
 fi
 
 # Fix msgfmt errors
-if [ "`head -n1 lang/po/cataclysm-dda.pot`" == "# SOME DESCRIPTIVE TITLE." ]
+if [ "`head -n1 lang/po/cataclysm-dda.pot`" = "# SOME DESCRIPTIVE TITLE." ]
 then
-    echo "Fixing .pot file headers..."
+    echo "> Fixing .pot file headers"
     package="cataclysm-dda"
     version=$(grep '^VERSION *= *' Makefile | tr -d [:space:] | cut -f 2 -d '=')
     pot_file="lang/po/cataclysm-dda.pot"
@@ -53,7 +54,7 @@ then
 fi
 
 # strip line-numbers from the .pot file
-echo "Stripping .pot file from unneeded comments..."
+echo "> Stripping .pot file from unneeded comments"
 if ! python lang/strip_line_numbers.py lang/po/cataclysm-dda.pot
 then
     echo "Error in strip_line_numbers.py. Aborting"
@@ -62,7 +63,7 @@ then
 fi
 
 # Final compilation check
-echo "Check pot-file compilation..."
+echo "> Testing to compile the .pot file"
 if ! msgfmt -c -o /dev/null lang/po/cataclysm-dda.pot
 then
     echo "Updated pot file contain gettext errors. Aborting."
@@ -71,7 +72,7 @@ then
 fi
 
 # Check for broken Unicode symbols
-echo "Check for wrong Unicode symbols..."
+echo "> Checking for wrong Unicode symbols"
 if ! python lang/unicode_check.py lang/po/cataclysm-dda.pot
 then
     echo "Updated pot file contain broken Unicode symbols. Aborting."
@@ -79,6 +80,5 @@ then
     exit 1
 fi
 
-echo "---"
-echo "Update finished. It's safe to commit."
+echo "ALL DONE!"
 cd $oldpwd

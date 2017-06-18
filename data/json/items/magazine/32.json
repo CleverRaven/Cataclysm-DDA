@@ -1,0 +1,50 @@
+[
+  {
+    "id": "ppkmag",
+    "type": "MAGAZINE",
+    "name": "Walther PPK magazine",
+    "description": "A standard 8-round steel box magazine for the Walther PPK.",
+    "weight": 80,
+    "volume": 1,
+    "price": 2600,
+    "material": "steel",
+    "symbol": "#",
+    "color": "ltgray",
+    "ammo_type": "32",
+    "capacity": 8,
+    "reliability": 9,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "sigp230mag",
+    "type": "MAGAZINE",
+    "name": "SIG P230 magazine",
+    "description": "A factory specification 8-round magazine for the SIG Sauer P230.",
+    "weight": 70,
+    "volume": 1,
+    "price": 1900,
+    "material": "steel",
+    "symbol": "#",
+    "color": "ltgray",
+    "ammo_type": "32",
+    "capacity": 8,
+    "reliability": 9,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "skorpion61mag",
+    "type": "MAGAZINE",
+    "name": "Skorpion Vz. 61 magazine",
+    "description": "A standard 20-round magazine for the Skorpion Vz. 61, in .32 ACP.",
+    "weight": 120,
+    "volume": 1,
+    "price": 2300,
+    "material": "steel",
+    "symbol": "#",
+    "color": "ltgray",
+    "ammo_type": "32",
+    "capacity": 20,
+    "reliability": 8,
+    "flags": [ "MAG_COMPACT" ]
+  }
+]

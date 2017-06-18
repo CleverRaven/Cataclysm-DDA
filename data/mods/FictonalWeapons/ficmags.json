@@ -1,0 +1,18 @@
+[
+  {
+    "id": "e1776mag",
+    "type": "MAGAZINE",
+    "name": "Eagle 1776 magazine",
+    "description": "An american-made box magazine, designed to deliver 24 .44 Magnum cartridges to the Eagle 1776.",
+    "weight": 195,
+    "volume": 2,
+    "price": 1776,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "44",
+    "capacity": 24,
+    "reliability": 7,
+    "flags": [ "MAG_COMPACT" ]
+  }
+]

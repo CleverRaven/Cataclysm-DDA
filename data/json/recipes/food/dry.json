@@ -1,0 +1,228 @@
+[
+  {
+    "type" : "recipe",
+    "result": "dry_fish",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 18000,
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [
+      [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
+    ],
+    "components": [ [ [ "fish", 2 ] ] ]
+  },
+  {
+    "type" : "recipe",
+    "result": "dry_beans",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 18000,
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [
+      [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
+    ],
+    "components": [ [ [ "raw_beans", 8 ] ] ]
+  },
+  {
+    "type" : "recipe",
+    "result": "dry_fruit",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 18000,
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [
+      [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
+    ],
+    "components": [
+      [
+        [ "sweet_fruit", 2, "LIST" ],
+        [ "coconut", 2 ],
+        [ "can_coconut", 2 ]
+      ]
+    ]
+  },
+  {
+    "result": "dry_hflesh",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 18000,
+    "batch_time_factors": [ 67, 5 ],
+    "book_learn": [ [ "cookbook_human", 4 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
+    "components": [ [ [ "human_flesh", 2 ] ] ]
+  },
+  {
+    "type" : "recipe",
+    "result": "dry_meat",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 18000,
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [
+      [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
+    ],
+    "components": [ [ [ "meat", 2 ] ] ]
+  },
+  {
+    "result": "dry_meat_tainted",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 18000,
+    "batch_time_factors": [ 67, 5 ],
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
+    "components": [ [ [ "meat_tainted", 2 ] ] ]
+  },
+  {
+    "type" : "recipe",
+    "result": "dry_mushroom",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 18000,
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [
+      [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
+    ],
+    "components": [ [ [ "mushroom", 4 ], [ "mushroom_morel", 4 ] ] ]
+  },
+  {
+    "result": "dry_mushroom_magic",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 18000,
+    "batch_time_factors": [ 67, 5 ],
+    "autolearn": true,
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
+    "components": [ [ [ "mushroom_magic", 4 ] ] ]
+  },
+  {
+    "type" : "recipe",
+    "result": "dry_veggy",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 18000,
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [
+      [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
+    ],
+    "components": [
+      [ [ "broccoli",   2 ], [ "irradiated_broccoli", 2 ],
+        [ "tomato",     2 ], [ "irradiated_tomato",   2 ],
+        [ "pumpkin",    2 ], [ "irradiated_pumpkin",  2 ],
+        [ "zucchini",   2 ], [ "irradiated_zucchini", 2 ],
+        [ "celery",     2 ], [ "irradiated_celery",   2 ],
+        [ "potato_raw", 2 ], [ "potato_irradiated",   2 ],
+        [ "onion",      2 ], [ "irradiated_onion",    2 ],
+        [ "carrot",    12 ], [ "irradiated_carrot",  12 ],
+        [ "cabbage",    2 ], [ "irradiated_cabbage",  2 ],
+        [ "lettuce",    8 ], [ "irradiated_lettuce",  8 ],
+        [ "veggy",      2 ],
+        [ "veggy_wild", 2 ],
+        [ "dandelion_cooked", 2 ],
+        [ "wild_herbs", 40 ]
+      ]
+    ]
+  },
+  {
+    "result": "dry_veggy_tainted",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 18000,
+    "batch_time_factors": [ 67, 5 ],
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
+    "components": [ [ [ "veggy_tainted", 2 ] ] ]
+  },
+  {
+    "result": "hflesh_powder",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": 12000,
+    "batch_time_factors": [ 83, 3 ],
+    "book_learn": [ [ "cookbook_human", 4 ] ],
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "hotplate", 25 ], [ "toolset", 25 ], [ "fire", -1 ] ] ],
+    "components": [ [ [ "dry_hflesh", 2 ] ] ]
+  },
+  {
+    "type" : "recipe",
+    "result": "milk_powder",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 18000,
+    "autolearn": true,
+    "tools": [
+      [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
+    ],
+    "components": [
+      [ [ "milk", 10 ] ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "powder_eggs",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 18000,
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [
+      [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
+    ],
+    "components": [ [ [ "egg_bird", 12 ], [ "egg_reptile", 12 ], [ "spider_egg", 4 ], [ "ant_egg", 1 ] ] ]
+  },
+  {
+    "result": "protein_powder",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": 12000,
+    "batch_time_factors": [ 83, 3 ],
+    "autolearn": true,
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "hotplate", 25 ], [ "toolset", 25 ], [ "fire", -1 ] ] ],
+    "components": [ [ [ "dry_meat", 2 ], [ "dry_fish", 2 ] ] ]
+  }
+]

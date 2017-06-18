@@ -1,0 +1,189 @@
+[
+  {
+    "id": "akmmag",
+    "copy-from": "akmmag",
+    "type": "MAGAZINE",
+    "name": "imported rifle magazine",
+    "description": "An uncommon 30-round magazine made for imported automatic rifles.",
+    "ammo_type": "308",
+    "capacity": 30,
+    "reliability": 9,
+    "reload_time": 100,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "akmbigmag",
+    "copy-from": "akmbigmag",
+    "type": "MAGAZINE",
+    "name": "imported drum magazine",
+    "description": "An uncommon 40-round drum magazine for imported automatic rifles.",
+    "ammo_type": "308",
+    "capacity": 40,
+    "reliability": 8,
+    "reload_time": 120
+  },
+  {
+    "id": "belt223",
+    "copy-from": "belt223",
+    "type": "MAGAZINE",
+    "name": "ammo belt",
+    "description": "An belt of light rifle ammunition consisting of metal linkages which disintegrate upon firing.",
+    "default_ammo": "223",
+    "linkage": "ammolink308"
+  },
+  {
+    "id": "belt308",
+    "copy-from": "belt308",
+    "type": "MAGAZINE",
+    "name": "ammo belt",
+    "description": "An ammo belt designed for heavier machineguns consisting of metal linkages which disintegrate upon firing.",
+    "default_ammo": "308",
+    "linkage": "ammolink308"
+  },
+  {
+    "id": "belt50",
+    "copy-from": "belt50",
+    "type": "MAGAZINE",
+    "name": "ammo belt",
+    "description": "An ammo belt designed for mounted machineguns consisting of metal linkages which disintegrate upon firing.",
+    "default_ammo": "50bmg",
+    "linkage": "ammolink308"
+  },
+  {
+    "id": "calicomag",
+    "copy-from": "calicomag",
+    "type": "MAGAZINE",
+    "name": "advanced SMG magazine",
+    "description": "A surprisingly compact 50-round magazine for use with the advanced SMG.",
+    "ammo_type": "9mm",
+    "capacity": 50,
+    "reliability": 7,
+    "reload_time": 160,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "glockbigmag",
+    "copy-from": "glockbigmag",
+    "type": "MAGAZINE",
+    "name": "extended pistol magazine",
+    "description": "An extended 30-round magazine for use with semi-automatic pistols.",
+    "ammo_type": "9mm",
+    "capacity": 30,
+    "reliability": 7,
+    "reload_time": 140,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "glockmag",
+    "copy-from": "glockmag",
+    "type": "MAGAZINE",
+    "name": "pistol magazine",
+    "description": "An factory issue 15-round magazine for use with semi-automatic pistols",
+    "ammo_type": "9mm",
+    "capacity": 15,
+    "reliability": 8,
+    "reload_time": 100,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "mp5bigmag",
+    "copy-from": "mp5bigmag",
+    "type": "MAGAZINE",
+    "name": "extended SMG magazine",
+    "description": "A 50-round drum magazine for use with submachineguns.  Much greater capacity but less reliable than factory specification magazines.",
+    "ammo_type": "9mm",
+    "capacity": 50,
+    "reliability": 7,
+    "reload_time": 160,
+    "flags": [ "MAG_BULKY" ]
+  },
+  {
+    "id": "mp5mag",
+    "copy-from": "mp5mag",
+    "type": "MAGAZINE",
+    "name": "submachinegun magazine",
+    "description": "A standard capacity 30-round magazine for use with submachineguns.",
+    "ammo_type": "9mm",
+    "capacity": 30,
+    "reliability": 9,
+    "reload_time": 100,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "scarhmag",
+    "copy-from": "scarhmag",
+    "type": "MAGAZINE",
+    "name": "battle rifle magazine",
+    "description": "A standard 20-round magazine for military issue battle rifles.",
+    "capacity": 20,
+    "reliability": 9,
+    "reload_time": 100,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "scarhbigmag",
+    "copy-from": "scarhbigmag",
+    "type": "MAGAZINE",
+    "name": "extended battle rifle magazine",
+    "description": "An extended 30-round magazine for military issue battle rifles.",
+    "capacity": 30,
+    "reliability": 8,
+    "reload_time": 120,
+    "flags": [ "MAG_BULKY" ]
+  },
+  {
+    "id": "stanag10",
+    "copy-from": "stanag10",
+    "type": "MAGAZINE",
+    "name": "small light rifle magazine",
+    "description": "A compact 10-round magazine commonly usable with both semi-automatic and automatic rifles.",
+    "capacity": 10,
+    "reliability": 9,
+    "reload_time": 100,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "stanag30",
+    "copy-from": "stanag30",
+    "type": "MAGAZINE",
+    "name": "light rifle magazine",
+    "description": "A 30-round box magazines for use with automatic rifles.",
+    "capacity": 30,
+    "reliability": 8,
+    "reload_time": 100,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "stanag50",
+    "copy-from": "stanag50",
+    "type": "MAGAZINE",
+    "name": "light rifle drum magazine",
+    "description": "A 50-round magazine with a bulky green drum for use with automatic rifles and machine guns.",
+    "capacity": 50,
+    "reliability": 7,
+    "reload_time": 200,
+    "flags": [ "MAG_BULKY" ]
+  },
+  {
+    "id": "m107a1mag",
+    "copy-from": "m107a1mag",
+    "type": "MAGAZINE",
+    "name": "antimateriel rifle magazine",
+    "description": "A 10-round magazine which holds heavy rifle ammo for use with an antimateriel rifle",
+    "ammo_type": "50",
+    "capacity": 10,
+    "reliability": 9,
+    "reload_time": 100,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "deaglemag",
+    "copy-from": "deaglemag",
+    "type": "MAGAZINE",
+    "name": "magnum pistol magazine",
+    "description": "A 7-round magazine which holds revolver ammo for use with a magnum pistol",
+    "ammo_type": "44",
+    "capacity": 7,
+    "flags": [ "MAG_COMPACT" ]
+  }
+]

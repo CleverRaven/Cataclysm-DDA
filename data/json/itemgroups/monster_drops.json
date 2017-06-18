@@ -1,0 +1,11 @@
+[
+  {
+    "type" : "item_group",
+    "id" : "shia_stuff",
+    "items":[
+      ["knife_steak", 3],
+      ["ax", 1]
+    ]
+  }
+ ]
+ 

@@ -1,28 +1,29 @@
 [
-{
+  {
     "type": "MOD_INFO",
-    "mod-type": "SUPPLEMENTAL",
     "ident": "no_flaming_weapons",
     "name": "No Flaming Weapons",
-    "author": "tungtn",
+    "authors": [ "tungtn" ],
     "description": "Removes flaming melee weapons.",
-    "path": "modinfo.json"
-},{
+    "category": "item_exclude",
+    "dependencies": [ "dda" ]
+  },
+  {
     "type": "ITEM_BLACKLIST",
     "items": [
-        "shishkebab_off",
-        "shishkebab_on",
-        "firemachete_off",
-        "firemachete_on",
-        "firekatana_off",
-        "firekatana_on",
-        "broadfire_off",
-        "broadfire_on",
-        "zweifire_off",
-        "zweifire_on",
-        "battletorch",
-        "battletorch_lit",
-        "battletorch_done"
+      "shishkebab_off",
+      "shishkebab_on",
+      "firemachete_off",
+      "firemachete_on",
+      "firekatana_off",
+      "firekatana_on",
+      "broadfire_off",
+      "broadfire_on",
+      "zweifire_off",
+      "zweifire_on",
+      "battletorch",
+      "battletorch_lit",
+      "battletorch_done"
     ]
-}
+  }
 ]

@@ -1,0 +1,491 @@
+[
+    {
+        "type": "profession",
+        "ident": "bio_specops",
+        "name": "Bionic Spec-Op",
+        "description": "Once bionic augmentation proved safe, you were choosen for a top secret soldier augmentation program.  As if being a top-tier special forces operator before the procedure wasn't enough, your new enhancememts allow you to handle any combat scenario be it human or not.",
+        "points": 12,
+        "CBMs":[
+            "bio_targeting",
+            "bio_purifier",
+            "bio_carbon",
+            "bio_shock",
+            "bio_adrenaline",
+            "bio_night_vision",
+            "bio_ups",
+            "bio_nanobots",
+            "bio_painkiller",
+            "bio_metabolics",
+            "bio_power_storage_mkII"
+        ],
+        "skills": [
+            {
+                "level": 3,
+                "name": "gun"
+            },
+            {
+                "level": 3,
+                "name": "rifle"
+            },
+            {
+                "level": 2,
+                "name": "pistol"
+            },
+            {
+                "level": 2,
+                "name": "melee"
+            },
+            {
+                "level": 2,
+                "name": "stabbing"
+            },
+            {
+                "level": 2,
+                "name": "dodge"
+            }
+        ],
+        "items": {
+            "both": {
+                "items": [
+                "balclava",
+                "army_top",
+                "arm_warmers",
+                "gloves_liner",
+                "leg_warmers",
+                "socks",
+                "beret",
+                "gloves_tactical",
+                "pants_army",
+                "boots_combat",
+                "jacket_army"
+            ],
+                "entries": [
+                    { "item": "knife_combat", "container-item": "sheath" },
+                    { "item": "v29", "container-item": "sholster" },
+                    { "item": "rm51_assault_rifle", "ammo-item": "8mm_fmj", "charges": 50, "contents-item": "shoulder_strap" },
+                    { "item": "8mm_fmj", "charges": 50 }
+                ]
+            },
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boxer_shorts"
+            ]
+        },
+        "flags" : ["SCEN_ONLY"]
+    },
+    {
+        "type" : "profession",
+        "ident": "wasteland_cyborg",
+        "name": "Wasteland Cyborg",
+        "description": "After months of reading, experimentation, severe injuries, and countless supply raids you emerge a self-made cyborg with the some of the best crafted weapons and armor in the wasteland.",
+        "points": 8,
+        "CBMs":[
+            "bio_flashlight",
+            "bio_tools",
+            "bio_ups",
+            "bio_sunglasses",
+            "bio_ears",
+            "bio_carbon",
+            "bio_targeting",
+            "bio_metabolics",
+            "bio_power_storage_mkII",
+            "bio_power_storage_mkII"
+        ],
+        "skills": [
+            {
+                "level": 6,
+                "name": "fabrication"
+            },
+            {
+                "level": 5,
+                "name": "mechanics"
+            },
+            {
+                "level": 5,
+                "name": "electronics"
+            },
+            {
+                "level": 4,
+                "name": "firstaid"
+            },
+            {
+                "level": 5,
+                "name": "tailor"
+            },
+            {
+                "level" : 2,
+                "name" : "gun"
+            },
+            {
+                "level": 2,
+                "name": "rifle"
+            },
+            {
+                "level" : 2,
+                "name" : "melee"
+            },
+            {
+                "level": 2,
+                "name": "bashing"
+            }
+        ],
+        "items": {
+            "both": [
+                "socks",
+                "hood_lsurvivor",
+                "mask_lsurvivor",
+                "lsurvivor_suit",
+                "chestpouch",
+                "survivor_vest",
+                "gloves_lsurvivor",
+                "legpouch_large",
+                "legpouch_large",
+                "boots_lsurvivor",
+                "shoulder_strap",
+                "coilgun",
+                "nailmag",
+                "nailmag",
+                "nailmag",
+                "nailmag",
+                "combatnail",
+                "combatnail",
+                "shocktonfa_off",
+                "battery_ups"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        },
+        "flags" : ["SCEN_ONLY"]
+    },
+    {
+        "type": "profession",
+        "ident": "seasoned_tourist",
+        "name": "Seasoned Tourist",
+        "description": "Due to your thirst for adventure, hunger for good food, and disposable income, you have been able to travel extensively.  You've traveled here to get a taste of New England; now you hope New England won't get a taste of you!",
+        "points": 5,
+        "skills": [
+            {
+                "level": 3,
+                "name": "speech"
+            },
+            {
+                "level": 2,
+                "name": "barter"
+            },
+            {
+                "level": 2,
+                "name": "cooking"
+            },
+            {
+                "level": 1,
+                "name": "firstaid"
+            }
+        ],
+        "items": {
+            "both": [
+                "knit_scarf",
+                "undershirt",
+                "dress_shirt",
+                "jacket_light",
+                "gloves_light",
+                "pants",
+                "fanny",
+                "socks",
+                "sneakers",
+                "roadmap",
+                "restaurantmap",
+                "shavingkit",
+                "mess_kit",
+                "aluminum_foil",
+                "cell_phone",
+                "can_chowder",
+                "apple_cider",
+                "fruit_leather",
+                "suitcase_m"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type" : "profession",
+        "ident": "trans_human",
+        "name": "Post-Human Cyborg",
+        "description": "As a wealthy trans-humanist you decided to put yourself on the frontline of augmentative technology to bring forth the future.  You are now a walking example of what humanity could had become.",
+        "points": 8,
+        "CBMs":[
+            "bio_str_enhancer",
+            "bio_dex_enhancer",
+            "bio_int_enhancer",
+            "bio_eye_enhancer",
+            "bio_speed",
+            "bio_eye_optic",
+            "bio_sunglasses",
+            "bio_ears",
+            "bio_digestion",
+            "bio_recycler",
+            "bio_purifier"
+        ],
+        "items": {
+            "both": [
+                "hat_knit",
+                "tshirt",
+                "jacket_light",
+                "knit_scarf",
+                "gloves_light",
+                "boots"
+            ],
+            "male": [
+                "briefs",
+                "socks",
+                "pants"
+            ],
+            "female": [
+                "bra",
+                "panties",
+                "stockings",
+                "skirt"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "janitor",
+        "name": "Janitor",
+        "description": "You earned a living from sweeping up chocolate wrappers and picking chewing gum from under tables.  Now the only thing you'll be sweeping are the brains of the dead.",
+        "points": -1,
+        "items": {
+            "both": [
+                "jumpsuit",
+                "socks",
+                "boots",
+                "mop"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "boxer_shorts"
+            ]
+        }
+    },
+    {
+            "type": "profession",
+            "ident": "poor_student",
+            "name": "Poor Student",
+            "description": "You come from a low-income family, and got mocked for your old hand-me-down clothes and for getting free school lunches in the cafeteria.  Even worse, your ratty old backpack finally fell apart at the worst time.  At least no one's mocking you now.",
+            "points": -1,
+            "items": {
+                "both": [
+                    "tshirt",
+                    "socks",
+                    "lowtops",
+                    "shorts"
+                ],
+                "male": [
+                    "briefs"
+                ],
+                "female": [
+                    "panties"
+                ]
+            }
+    },
+    {
+            "type": "profession",
+            "ident": "elementary_student",
+            "name": "Elementary Student",
+            "description": "You're just a kid, and now the world has turned into something out of one of your bad dreams.  The grown-ups you relied on are all dead--or undead--now.  What are you going to do?",
+            "points": 0,
+            "items": {
+                "both": [
+                    "tshirt",
+                    "socks",
+                    "slingpack",
+                    "sneakers",
+                    "jeans",
+                    "jacket_light",
+                    "knit_scarf",
+                    "juice",
+                    "sandwich_pbj",
+                    "fairy_tales"
+                ],
+                "male": [
+                    "briefs"
+                ],
+                "female": [
+                    "panties"
+                ]
+            }
+    },
+    {
+        "type": "profession",
+        "ident": "goalie",
+        "name": "Hockey Player",
+        "description": "You were a minor-league hockey goalie before the rest of your team became zombies.  It's just you and your hockey equipment versus the undead, but at least you can cross-check them now.",
+        "points": 0,
+        "traits": [
+            "PROF_SKATER"
+        ],
+        "items": {
+            "both": [
+                "mask_hockey",
+                "hockey_stick",
+                "jersey",
+                "pants",
+                "socks",
+                "sneakers",
+                "mouthpiece",
+                "puck"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "sports_bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "batter",
+        "name": "Baseball Player",
+        "description": "You were a batter on a local minor league team before the cataclysm.  You escaped with your equipment, but how long can you survive until your innings are up?",
+        "points": 0,
+        "skills": [
+            {
+                "level": 1,
+                "name": "bashing"
+            }
+        ],
+        "items": {
+            "both": [
+                "bat",
+                "helmet_ball",
+                "dress_shirt",
+                "pants",
+                "socks",
+                "cleats",
+                "mouthpiece",
+                "baseball"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "sports_bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "linebacker",
+        "name": "Football Player",
+        "description": "You were the star player for the local football team, adored by teammates and fans alike.  Now they just adore your brain.  You've still got your bulky football gear on.",
+        "points": 0,
+        "skills": [
+            {
+                "level": 2,
+                "name": "dodge"
+            }
+        ],
+        "items": {
+            "both": [
+                "football_armor",
+                "tank_top",
+                "helmet_football",
+                "pants",
+                "socks",
+                "cleats",
+                "mouthpiece",
+                "football",
+                "sports_drink"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "sports_bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "golfer",
+        "name": "Golfer",
+        "description": "A birdie is one under par, but how much is a zombie?  Your clubhouse was overrun by the undead, and you fled with your trusty driving wedge.",
+        "points": 0,
+        "items": {
+            "both": [
+                "hat_ball",
+                "dress_shirt",
+                "pants",
+                "socks",
+                "sneakers",
+                "golf_club"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "sports_bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "prep_student",
+        "name": "Preppy Student",
+        "description": "Your parents were busy, important people, who wanted you to have every advantage and pushed you to be \"successful,\" whatever that meant.  If only they'd ever let you experience childhood, or ever shown you their love.  You're certainly not getting either one now.",
+        "points": 1,
+        "skills": [
+            {
+                "level": 1,
+                "name": "speech"
+            }
+        ],
+        "items": {
+            "both": [
+                "dress_shirt",
+                "jacket_light",
+                "pants",
+                "socks",
+                "dress_shoes",
+                "skinny_tie",
+                "tieclip",
+                "fancy_sunglasses",
+                "knit_scarf",
+                "wristwatch",
+                "mbag",
+                "water_mineral",
+                "cell_phone",
+                "money_bundle",
+                "adderall",
+                "manual_business"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "panties"
+            ]
+        }
+    }
+]

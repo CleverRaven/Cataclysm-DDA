@@ -1,0 +1,51 @@
+# These options are mirrored in .astylerc and doc/CODE_STYLE.txt
+
+# "One True Brace Style"
+--style=1tbs
+
+# Attach brackets to class and struct inline function definitions.
+--attach-inlines
+
+# 4 spaces per indentation level and per tab stop
+--indent=spaces=4
+
+# 'char *foo' instead of 'char* foo'
+--align-pointer=name
+
+# maximum length for a single unbroken line
+--max-code-length=100
+
+# 'foo ||\nbar' instead of 'foo\n|| bar'
+--break-after-logical
+
+# indent 'public:' 'protected:' 'private:' deeper than 'class' or 'struct'
+--indent-classes
+
+# indent 'case' lines deeper than 'switch'
+--indent-switches
+
+# indent later lines of multi-line preprocessor directives
+# to be deprecated by --indent-preproc-define
+--indent-preprocessor
+
+# indent comments on column 1 to match the code block they are in
+--indent-col1-comments
+
+# indent multi-line control block headers like 'if (foo\nbar)'
+--min-conditional-indent=0
+
+# add space around operators with two operands
+--pad-oper
+
+# add brackets to unbracketed one line conditional statements
+--add-brackets
+
+# replaces tabs with spaces in non-indent sections, except in strings
+--convert-tabs
+
+# remove extra space padding around parentheses
+--unpad-paren
+
+# insert space padding around parentheses on the inside only
+--pad-paren-in
+

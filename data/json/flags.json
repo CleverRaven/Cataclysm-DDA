@@ -1,0 +1,333 @@
+[
+  {
+    "id": "ALARMCLOCK",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has an <info>alarm clock</info> feature."
+  },
+  {
+    "id": "ALLOWS_NATURAL_ATTACKS",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing won't hinder special attacks that involve <info>mutated anatomy</info>."
+  },
+  {
+    "id": "BAROMETER",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "This gear is equipped with an accurate barometer (which is used to measure atmospheric pressure)."
+  },
+  {
+    "id": "BELT_CLIP",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "description": "This item can be clipped on to a <info>belt loop</info> of the appropriate size."
+  },
+  {
+    "id": "BELTED",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Layer for backpacks and things worn over outerwear.",
+    "info": "This gear is <info>strapped</info> onto you.",
+    "conflicts": [ "OUTER", "SKINTIGHT", "WAIST" ]
+  },
+  {
+    "id": "BLIND",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Blinds the wearer while worn, and provides nominal protection vs flashbang flashes.",
+    "info": "This gear <bad>prevents</bad> you from <info>seeing</info> anything."
+  },
+  {
+    "id": "BLOCK_WHILE_WORN",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This item can be used to block attacks when worn."
+  },
+  {
+    "id": "COLLAR",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This piece of clothing has a <info>wide collar</info> that can keep your mouth warm if it is unencumbered."
+  },
+  {
+    "id": "DEAF",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear <bad>prevents</bad> you from <info>hearing any sounds</info>.",
+    "conflicts": [ "PARTIAL_DEAF" ]
+  },
+  {
+    "id": "DIAMOND",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "info": "This item has a <good>diamond coating</good> improving it's <info>cutting damage</info>.",
+    "inherit": false
+  },
+  {
+    "id": "ELECTRIC_IMMUNE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear <good>completely protects</good> you from <info>electric discharges</info>."
+  },
+  {
+    "id": "FANCY",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Wearing this clothing gives a morale bonus if the player has the Stylish trait.",
+    "info": "This piece of clothing is <info>fancy</info>.",
+    "conflicts": [ "SUPER_FANCY" ]
+  },
+  {
+    "id": "FILTHY",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Zombie-dropped clothing giving various penalties if Filthy mod is active.",
+    "info": "This piece of clothing is <bad>filthy</bad>."
+  },
+  {
+    "id": "FLASH_PROTECTION",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Used for eyes protection from flashbang."
+  },
+  {
+    "id": "FLOTATION",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing <info>prevents going underwater</info> including both <good>drowning</good> and <bad>diving</bad>."
+  },
+  {
+    "id": "FRAGILE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear is <bad>fragile</bad> and <info>won't protect you for long</info>.",
+    "conflicts": [ "STURDY" ]
+  },
+  {
+    "id": "GAS_PROOF",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear <good>completely protects</good> you from <info>any gas</info>."
+  },
+  {
+    "id": "HOOD",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This piece of clothing has a <info>hood</info> to keep your head warm if your head is unencumbered."
+  },
+  {
+    "id": "HYGROMETER",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "This gear is equipped with an accurate hygrometer (which is used to measure humidity)."
+  },
+  {
+    "id": "IRREMOVABLE",
+    "type": "json_flag",
+    "context": [ "GUNMOD" ],
+    "description": "This item is a component of the gun it is attached to.  It can't be removed without destroying it.",
+    "inherit": false
+  },
+  {
+    "id": "NO_CVD",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "description": "Item can never be used with a CVD machine."
+  },
+  {
+    "id": "NO_QUICKDRAW",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Don't offer to draw items from this holster when the fire key is pressed whilst the players hands are empty."
+  },
+  {
+    "id": "NO_REPAIR",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "description": "Prevents repairing of this item even if otherwise suitable tools exist.",
+    "inherit": false
+  },
+  {
+    "id": "OUTER",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Outer garment layer.",
+    "info": "This gear is generally <info>worn over</info> clothing.",
+    "conflicts": [ "BELTED", "SKINTIGHT", "WAIST" ]
+  },
+  {
+    "id": "OVERSIZE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Can always be worn no matter encumbrance/mutations/bionics/etc., but prevents any other clothing being worn over this.",
+    "info": "This clothing is large enough to accommodate <info>mutated anatomy</info>."
+  },
+  {
+    "id": "PARTIAL_DEAF",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear <good>reduces</good> the volume of <info>sounds</info> to a safe level.",
+    "conflicts": [ "DEAF" ]
+  },
+  {
+    "id": "POCKETS",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Increases warmth for hands if the player's hands are cold and the player is wielding nothing.",
+    "info": "This clothing has <info>pockets</info> to warm your hands when you are wielding nothing."
+  },
+  {
+    "id": "RAD_PROOF",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing <good>completely protects</good> you from <info>radiation</info>.",
+    "conflicts": [ "RAD_RESIST" ]
+  },
+  {
+    "id": "RAD_RESIST",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing <good>partially protects</good> you from <info>radiation</info>.",
+    "conflicts": [ "RAD_PROOF" ]
+  },
+  {
+    "id": "RAINPROOF",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Prevents the covered body-part(s) from getting wet in the rain.",
+    "info": "This piece of clothing is designed to keep you <info>dry</info> in the rain."
+  },
+  {
+    "id": "RESTRICT_HANDS",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Prevents the player from wielding a weapon two-handed, forcing one-handed use if the weapon permits it."
+  },
+  {
+    "id": "SHEATH_KNIFE",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "description": "This item can be stored in a sheath of the appropriate size."
+  },
+  {
+    "id": "SHEATH_SWORD",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "description": "This item can be stored in a scabbard of the appropriate size."
+  },
+  {
+    "id": "SKINTIGHT",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Undergarment layer.",
+    "info": "This clothing <info>lies close</info> to the skin.",
+    "conflicts": [ "BELTED", "OUTER", "WAIST" ]
+  },
+  {
+    "id": "STURDY",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing will <good>protect</good> you from harm and withstand <info>a lot of abuse</info>.",
+    "conflicts": [ "FRAGILE" ]
+  },
+  {
+    "id": "SUN_GLASSES",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Prevents glaring when in sunlight.",
+    "info": "This clothing keeps the <info>glare</info> out of your eyes."
+  },
+  {
+    "id": "SUPER_FANCY",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Gives an additional moral bonus over FANCY if the player has the Stylish trait.",
+    "info": "This clothing is <info>very fancy</info>.",
+    "conflicts": [ "FANCY" ]
+  },
+  {
+    "id": "SWIM_GOGGLES",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Allows you to see much further under water.",
+    "info": "This clothing allows you to <good>see much further</good> <info>under water</info>."
+  },
+  {
+    "id": "THERMOMETER",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "This gear is equipped with an accurate thermometer (which is used to measure temperature).",
+    "info": "This gear is equipped with an <info>accurate thermometer</info>."
+  },
+  {
+    "id": "VARSIZE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Can be made to fit via tailoring."
+  },
+  {
+    "id": "WAIST",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Layer for belts other things worn on the waist.",
+    "info": "This gear is worn on or around your <info>waist</info>.",
+    "conflicts": [ "BELTED", "OUTER", "SKINTIGHT" ]
+  },
+  {
+    "id": "WATCH",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Acts as a watch and allows the player to see actual time.",
+    "info": "This gear allows to see <info>actual time</info>."
+  },
+  {
+    "id": "WATERPROOF",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Prevents the covered body-part(s) from getting wet in any circumstance.",
+    "info": "This clothing <info>won't let water through</info>.  Unless you jump in the river or something like that."
+  },
+  {
+    "id": "WATER_FRIENDLY",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Prevents the item from making the body part count as unfriendly to water and thus causing negative morale from being wet.",
+    "info": "This clothing <good>performs well</good> even when <info>soaking wet</info>. This can feel good."
+  },
+  {
+    "id": "furred",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing has a fur lining sewn into it to <good>increase</good> its overall <info>warmth</info>.",
+    "pseudo": true
+  },
+  {
+    "id": "kevlar_padded",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has Kevlar inserted into strategic locations to <good>increase protection</good> with some <bad>increase to encumbrance</bad>.",
+    "pseudo": true
+  },
+  {
+    "id": "leather_padded",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has certain parts padded with leather to <good>increase protection</good> with moderate <bad>increase to encumbrance</bad>.",
+    "pseudo": true
+  },
+  {
+    "id": "wooled",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": " This clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth</info>.",
+    "pseudo": true
+  },
+  {
+    "id": "UNARMED_WEAPON",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "description": "Allows wielding with unarmed fighting styles and trains unarmed when used.",
+    "info": "This weapon <good>can be used with</good> <info>unarmed fighting styles</info>." 
+  }
+]

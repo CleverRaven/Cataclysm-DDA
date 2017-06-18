@@ -102,7 +102,6 @@
                 { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] }
             ],
             "add": [
-
                 { "item": "roadmap", "x": 8, "y": 8, "chance": 4 },
                 { "item": "roadmap", "x": 8, "y": 8, "chance": 4 },
                 { "item": "touristmap", "x": 8, "y": 8, "chance": 2 },
@@ -324,8 +323,6 @@
                 "W": "t_water_dp",
                 "~": "t_fence_h",
                 "x": "t_fencegate_c"
-
-
             },
             "furniture": {
                 "6": "f_table",
@@ -1136,7 +1133,7 @@
                 "S": "t_bridge",
                 "^": "t_tree",
                 "M": "t_door_glass_c",
-                "#": "t_shrub",
+                "#": "t_flat_roof",
                 "g": "t_wall_glass",
                 "X": "t_gates_mech_control",
                 "[": "t_fence_v",
@@ -1229,7 +1226,7 @@
                 "S": "t_bridge",
                 "^": "t_tree",
                 "M": "t_door_glass_c",
-                "#": "t_shrub",
+                "#": "t_flat_roof",
                 "g": "t_wall_glass",
                 "X": "t_gates_mech_control",
                 "[": "t_fence_v",

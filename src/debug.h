@@ -1,5 +1,8 @@
+#pragma once
 #ifndef DEBUG_H
 #define DEBUG_H
+
+#include "printf_check.h"
 
 /**
  *      debugmsg(msg, ...)
@@ -29,7 +32,9 @@
  * Usually a single source contains only debug messages for a single debug class
  * (e.g. mapgen.cpp contains only messages for D_MAP_GEN, npcmove.cpp only D_NPC).
  * Those files contain a macro at top:
+@code
 #define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
+@endcode
  * It allows to call the debug system and just supply the debug level, the debug
  * class is automatically inserted as it is the same for the whole file. Also this
  * adds the file name and the line of the statement to the debug message.
@@ -47,15 +52,23 @@
 #define STRING2(x) #x
 #define STRING(x) STRING2(x)
 
+#if defined(__GNUC__)
+#define __FUNCTION_NAME__ __PRETTY_FUNCTION__
+#else
+#define __FUNCTION_NAME__ __func__
+#endif
+
 /**
  * Debug message of level D_ERROR and class D_MAIN, also includes the source
  * file name and line, uses varg style arguments, teh first argument must be
  * a printf style format string.
  */
-#define debugmsg(...) realDebugmsg(__FILE__, STRING(__LINE__), __VA_ARGS__)
+
+#define debugmsg(...) realDebugmsg(__FILE__, STRING(__LINE__), __FUNCTION_NAME__, __VA_ARGS__)
 
 // Don't use this, use debugmsg instead.
-void realDebugmsg( const char *name, const char *line, const char *mes, ... );
+void realDebugmsg( const char *filename, const char *line, const char *funcname, const char *mes,
+                   ... ) PRINTF_LIKE( 4, 5 );
 
 // Enumerations                                                     {{{1
 // ---------------------------------------------------------------------

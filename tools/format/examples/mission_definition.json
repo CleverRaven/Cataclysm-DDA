@@ -1,0 +1,29 @@
+[
+  {
+    "id": "MISSION_GET_ANTIBIOTICS",
+    "type": "mission_definition",
+    "name": "Find Antibiotics",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 150000,
+    "urgent": true,
+    "item": "antibiotics",
+    "start": "infect_npc",
+    "end": "heal_infection",
+    "fail": "kill_npc",
+    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "deadline_low": 24,
+    "deadline_high": 48,
+    "dialogue": {
+      "describe": "This infection is bad, <very> bad...",
+      "offer": "I'm infected.  Badly.  I need you to get some antibiotics for me...",
+      "accepted": "Oh, thank god, thank you so much!  I won't last more than a couple of days, so hurry...",
+      "rejected": "What?!  Please, <ill_die> without your help!",
+      "advice": "There's a town nearby.  Check pharmacies; it'll be behind the counter.",
+      "inquire": "Find any antibiotics yet?",
+      "success": "Oh thank god!  I'll be right as rain in no time.",
+      "success_lie": "What?!  You're lying, I can tell!  Ugh, forget it!",
+      "failure": "How am I not dead already?!"
+    }
+  }
+]

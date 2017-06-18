@@ -1,0 +1,14 @@
+[
+  {
+    "result": "fish_bait",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": 1000,
+    "book_learn": [ [ "mag_survival", 1 ], [ "textbook_survival", 1 ], [ "survival_book", 1 ], [ "pocket_survival", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "meat", 1 ], [ "fish", 1 ], [ "corn", 1 ], [ "irradiated_corn", 1 ], [ "irradiated_carrot", 1 ], [ "carrot", 1 ], [ "bread", 1 ], [ "wastebread", 1 ], [ "cornbread", 1 ], [ "macaroni_raw", 1 ], [ "spaghetti_raw", 1 ] ] ]
+  }
+]

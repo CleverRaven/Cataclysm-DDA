@@ -1,16 +1,23 @@
+#pragma once
 #ifndef CATA_FILE_SYSTEM_H
 #define CATA_FILE_SYSTEM_H
 
 #include <string>
 #include <vector>
 
-bool assure_dir_exist(std::string const &path);
-bool file_exist(const std::string &path);
+bool assure_dir_exist( std::string const &path );
+bool file_exist( const std::string &path );
 // Remove a file, does not remove folders,
 // returns true on success
-bool remove_file(const std::string &path);
+bool remove_file( const std::string &path );
+bool remove_directory( const std::string &path );
 // Rename a file, overriding the target!
-bool rename_file(const std::string &old_path, const std::string &new_path);
+bool rename_file( const std::string &old_path, const std::string &new_path );
+
+namespace cata_files
+{
+const char *eol();
+}
 
 //--------------------------------------------------------------------------------------------------
 /**
@@ -25,9 +32,9 @@ bool rename_file(const std::string &old_path, const std::string &new_path);
  * @param match_extension If true, match pattern at the end of file names. Otherwise, match anywhere
  *                        in the file name.
  */
-std::vector<std::string> get_files_from_path(std::string const &pattern,
+std::vector<std::string> get_files_from_path( std::string const &pattern,
         std::string const &root_path = "", bool recursive_search = false,
-        bool match_extension = false);
+        bool match_extension = false );
 
 //--------------------------------------------------------------------------------------------------
 /**
@@ -36,9 +43,9 @@ std::vector<std::string> get_files_from_path(std::string const &pattern,
  * @param patterns A vector or patterns to match.
  * @see get_files_from_path
  */
-std::vector<std::string> get_directories_with(std::vector<std::string> const &patterns,
-        std::string const &root_path = "", bool recursive_search = false);
+std::vector<std::string> get_directories_with( std::vector<std::string> const &patterns,
+        std::string const &root_path = "", bool recursive_search = false );
 
-std::vector<std::string> get_directories_with(std::string const &pattern,
-        std::string const &root_path = "", bool const recurse = false);
+std::vector<std::string> get_directories_with( std::string const &pattern,
+        std::string const &root_path = "", bool const recurse = false );
 #endif //CATA_FILE_SYSTEM_H

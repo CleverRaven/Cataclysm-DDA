@@ -1,0 +1,17 @@
+[
+  {
+    "id": "BELTED",
+    "type": "json_flag",
+    "context": [ "ARMOR", "armor_data" ],
+    "description": "Layer for backpacks and things worn over outerwear.",
+    "info": "This gear is <info>strapped</info> onto you.",
+    "conflicts": [ "OUTER", "SKINTIGHT", "WAIST" ]
+  },
+  {
+    "id": "kevlar_padded",
+    "type": "json_flag",
+    "context": [ "ARMOR", "armor_data" ],
+    "info": "This gear has Kevlar inserted into strategic locations to <good>increase protection</good> with some <bad>increase to encumbrance</bad>.",
+    "pseudo": true
+  }
+]

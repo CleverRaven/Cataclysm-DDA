@@ -52,19 +52,23 @@
               "police": 1,
               "s_lot": 6
           }
+      },
+      "weather": {
+          "base_temperature" : 8.0,
+          "base_humidity" : 40.0,
+          "base_pressure" : 1015.0,
+          "base_acid" : 0.0
       }
    },
    {
       "type" : "overmap_terrain",
       "id" : "s_restaurant_deserted_test",
       "name" : "abandoned drive-through",
-      "rotate" : true,
-      "sym" : [94, 62, 118, 60],
+      "sym" : 94,
       "color" : "dkgray_magenta",
       "see_cost" : 5,
       "extras" : "build",
       "mondensity" : 2,
-      "sidewalk" : true,
       "mapgen": [
           { "weight": 1000,
               "method": "json", "object": {
@@ -142,7 +146,8 @@
                   ]
               }
           }
-      ]
+      ],
+      "flags" : [ "SIDEWALK" ]
    },
    {
       "type" : "terrain",

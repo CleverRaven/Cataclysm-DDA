@@ -1,0 +1,339 @@
+[
+  {
+    "id": "40mm_acidbomb",
+    "type": "MIGRATION",
+    "replace": "40mm_teargas"
+  },
+  {
+    "id": "40mm_toxicgas",
+    "type": "MIGRATION",
+    "replace": "40mm_teargas"
+  },
+  {
+    "id": "8mm_bootleg_jsp",
+    "type": "MIGRATION",
+    "replace": "8mm_bootleg"
+  },
+  {
+    "id": "adv_UPS_on",
+    "type": "MIGRATION",
+    "replace": "adv_UPS_off"
+  },
+  {
+    "id": "battery_truck",
+    "type": "MIGRATION",
+    "replace": "battery_car"
+  },
+  {
+    "id": "bayonet",
+    "type": "MIGRATION",
+    "replace": "knife_combat"
+  },
+  {
+    "id": "diamond_bayonet",
+    "type": "MIGRATION",
+    "replace": "knife_combat",
+    "flags": [ "DIAMOND" ]
+  },
+  {
+    "id": "diamond_broadsword",
+    "type": "MIGRATION",
+    "replace": "broadsword",
+    "flags": [ "DIAMOND" ]
+  },
+  {
+    "id": "diamond_katana",
+    "type": "MIGRATION",
+    "replace": "katana",
+    "flags": [ "DIAMOND" ]
+  },
+  {
+    "id": "diamond_knife",
+    "type": "MIGRATION",
+    "replace": "knife_combat",
+    "flags": [ "DIAMOND" ]
+  },
+  {
+    "id": "diamond_kukri",
+    "type": "MIGRATION",
+    "replace": "kukri",
+    "flags": [ "DIAMOND" ]
+  },
+  {
+    "id": "diamond_machete",
+    "type": "MIGRATION",
+    "replace": "machete",
+    "flags": [ "DIAMOND" ]
+  },
+  {
+    "id": "diamond_nodachi",
+    "type": "MIGRATION",
+    "replace": "nodachi",
+    "flags": [ "DIAMOND" ]
+  },
+  {
+    "id": "diamond_pistol_bayonet",
+    "type": "MIGRATION",
+    "replace": "pistol_bayonet",
+    "flags": [ "DIAMOND" ]
+  },
+  {
+    "id": "diamond_punch_dagger",
+    "type": "MIGRATION",
+    "replace": "punch_dagger",
+    "flags": [ "DIAMOND" ]
+  },
+  {
+    "id": "diamond_rapier",
+    "type": "MIGRATION",
+    "replace": "rapier",
+    "flags": [ "DIAMOND" ]
+  },
+  {
+    "id": "diamond_sword_bayonet",
+    "type": "MIGRATION",
+    "replace": "sword_bayonet",
+    "flags": [ "DIAMOND" ]
+  },
+  {
+    "id": "diamond_wakizashi",
+    "type": "MIGRATION",
+    "replace": "wakizashi",
+    "flags": [ "DIAMOND" ]
+  },
+  {
+    "id": "diamond_zweihander",
+    "type": "MIGRATION",
+    "replace": "zweihander",
+    "flags": [ "DIAMOND" ]
+  },
+  {
+      "id": "fish_bait_bread",
+      "type": "MIGRATION",
+      "replace": "fish_bait"
+  },
+  {
+      "id": "fish_bait_fish",
+      "type": "MIGRATION",
+      "replace": "fish_bait"
+  },
+  {
+      "id": "fish_bait_meat",
+      "type": "MIGRATION",
+      "replace": "fish_bait"
+  },
+  {
+      "id": "fish_bait_veggy",
+      "type": "MIGRATION",
+      "replace": "fish_bait"
+  },
+  {
+    "id": "gold",
+    "type": "MIGRATION",
+    "replace": "gold_small",
+    "charges": 1930
+  },
+  {
+    "id": "jacqueshammer",
+    "type": "MIGRATION",
+    "replace": "jackhammer"
+  },
+  {
+    "id": "jar_V8",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "V8" ]
+  },
+  {
+    "id": "jar_apple_canned",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "apple_canned" ]
+  },
+  {
+    "id": "jar_broth",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "broth" ]
+  },
+  {
+    "id": "jar_broth_bone",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "broth_bone" ]
+  },
+  {
+    "id": "jar_broth_human",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "broth_human" ]
+  },
+  {
+    "id": "jar_fish_canned",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "fish_canned" ]
+  },
+  {
+    "id": "jar_fish_pickled",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "fish_pickled" ]
+  },
+  {
+    "id": "jar_human_canned",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "human_canned" ]
+  },
+  {
+    "id": "jar_human_pickled",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "human_pickled" ]
+  },
+  {
+    "id": "jar_kompot",
+    "type": "MIGRATION",
+    "replace": "jar_3l_glass_sealed",
+    "contents": [ "kompot" ]
+  },
+  {
+    "id": "jar_meat_canned",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "meat_canned" ]
+  },
+  {
+    "id": "jar_meat_pickled",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "meat_pickled" ]
+  },
+  {
+    "id": "jar_soup_fish",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "soup_fish" ]
+  },
+  {
+    "id": "jar_soup_human",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "soup_human" ]
+  },
+  {
+    "id": "jar_soup_meat",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "soup_meat" ]
+  },
+  {
+    "id": "jar_soup_mushroom",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "soup_mushroom" ]
+  },
+  {
+    "id": "jar_soup_veggy",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "soup_veggy" ]
+  },
+  {
+    "id": "jar_soup_woods",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "soup_woods" ]
+  },
+  {
+    "id": "jar_tomato_canned",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "can_tomato" ]
+  },
+  {
+    "id": "jar_veggy_canned",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "veggy_canned" ]
+  },
+  {
+    "id": "jar_veggy_pickled",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "veggy_pickled" ]
+  },
+  {
+    "id": "m14a",
+    "type": "MIGRATION",
+    "replace": "m1a"
+  },
+  {
+    "id": "metal_tank_small",
+    "type": "MIGRATION",
+    "replace": "jerrycan"
+  },
+  {
+    "id": "plasma_engine",
+    "type": "MIGRATION",
+    "replace": "minireactor"
+  },
+  {
+    "id": "reloaded_40mm_fletchette",
+    "type": "MIGRATION",
+    "replace": "40mm_flechette"
+  },
+  {
+    "id": "reloaded_40mm_shot",
+    "type": "MIGRATION",
+    "replace": "40mm_shot"
+  },
+  {
+    "id": "reloaded_signal_flare",
+    "type": "MIGRATION",
+    "replace": "signal_flare"
+  },
+  {
+    "id": "reloaded_shot_he",
+    "type": "MIGRATION",
+    "replace": "shot_he"
+  },
+  {
+    "id": "saiga_sawn",
+    "type": "MIGRATION",
+    "replace": "saiga_12",
+    "contents": [ "barrel_small" ]
+  },
+  {
+    "id": "silver",
+    "type": "MIGRATION",
+    "replace": "silver_small",
+    "charges": 1608
+  },
+  {
+    "id": "shot_scrapslug",
+    "type": "MIGRATION",
+    "replace": "reloaded_shot_slug"
+  },
+  {
+    "id": "UPS_on",
+    "type": "MIGRATION",
+    "replace": "UPS_off"
+  },
+  {
+    "id": "pistol_pepperbox",
+    "type": "MIGRATION",
+    "replace": "colt_navy"
+  },
+  {
+    "id": "pda",
+    "type": "MIGRATION",
+    "replace": "cell_phone"
+  },
+  {
+    "id": "pda_flashlight",
+    "type": "MIGRATION",
+    "replace": "cell_phone"
+  }
+]

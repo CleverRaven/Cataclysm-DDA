@@ -88,7 +88,7 @@
         "dynamic_line": "Death is pretty blunt.",
         "responses": [
             {
-                "text": "So no negotiating? No, 'If you do this quest then we'll let you in?'",
+                "text": "So no negotiating?  No, 'If you do this quest then we'll let you in?'",
                 "topic": "TALK_EVAC_GUARD1_JOIN3"
             }
         ]

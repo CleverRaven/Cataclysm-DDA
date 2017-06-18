@@ -59,7 +59,7 @@
         ]
     },
     {
-        "type"  : "item_group", 
+        "type"  : "item_group",
         "id"    : "pizza_soda",
         "items" : [
             ["purple_drink",   3],
@@ -123,13 +123,13 @@
     {
         "type"  : "item_group",
         "id"    : "pizza_trash",
-        "guns_with_ammo": true,
+        "ammo": 100,
         "items" : [
             ["cup_plastic",  40],
             ["wrapper",      34],
             ["bag_plastic",  20],
             ["bottle_glass", 30],
-            ["can_drink",    30],
+            ["can_drink_unsealed",    30],
             ["rag",          10],
             ["news_regional", 7],
             ["mag_news",      7],
@@ -171,13 +171,11 @@
         "type": "overmap_terrain",
         "id" : "bankruptpizzeria",
         "name" : "Bankrupt Pizzeria",
-        "rotate" : true,
-        "sym" : [94, 62, 118, 60],
+        "sym" : 94,
         "color" : "dark_gray",
         "see_cost" : 5,
         "extras" : "build",
         "mondensity" : 2,
-        "sidewalk" : true,
         "mapgen": [
             {
             "method": "json",
@@ -260,7 +258,6 @@
                 "comment": "randomly picked from a group ---v",
                 "place_items": [
 { "item": "pizza_display", "x": 11,      "y": 5,  "chance": 60 }
-
 ,
                 { "item": "pizza_kitchen", "x": 17, "y": 16,    "chance": 60  }
 ,
@@ -271,7 +268,6 @@
                 { "item": "pizza_kitchen", "x": 18, "y": 18,    "chance": 60  }
 ,
                 { "item": "pizza_display", "x": 19, "y": 18,    "chance": 60  }
-
 ,               { "item": "pizza_fridge",  "x": 19, "y": 16,    "chance": 60  }
 ,
                 { "item": "pizza_fridge",  "x": 19, "y": 16,    "chance": 60  }
@@ -330,7 +326,8 @@
                     { "monster": "GROUP_PIZZAPARLOR_ROBOT", "chance": 1, "x": 1, "y": 13, "density": 0.10 }                ],
             "comment": "end of mapgen json definition ---v"
         },
-        "comment": "end of mapgen entry ---v"
+        "comment": "end of mapgen entry ---v",
+        "flags" : [ "SIDEWALK" ]
     }
     ]
     }

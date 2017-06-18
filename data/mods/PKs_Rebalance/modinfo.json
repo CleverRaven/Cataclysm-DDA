@@ -1,0 +1,19 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "PK_REBALANCE",
+    "name": "PKs Reimagining",
+    "authors": [ "pisskop" ],
+    "description": "Adds many new creatures and rebalances existing spawns to make the game more challenging.",
+    "category": "creatures",
+    "dependencies": [ "dda", "crazy_cataclysm" ],
+    "obsolete": true
+  },
+  {
+    "type": "ITEM_BLACKLIST",
+    "items": [
+      "acidbomb",
+      "acidbomb_act"
+    ]
+  }
+]

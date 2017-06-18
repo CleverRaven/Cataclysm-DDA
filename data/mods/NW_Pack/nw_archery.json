@@ -1,31 +1,17 @@
 [
-   {
-      "id" : "ichaival_replica",
-      "type" : "GUN",
-      "symbol" : "(",
-      "color" : "yellow",
-      "name" : "Ichaival",
-      "description" : "This is a replica of the bow possessed by Odin, Ichaival, which is rumored to fire 10 arrows with every pull of the string.  It has gold and silver ornaments on it.",
-      "price" : 160000,
-      "material" : ["wood", "gold"],
-      "flags" : ["ALWAYS_TWOHAND", "STR12_DRAW", "RELOAD_AND_SHOOT"],
-      "skill" : "archery",
-      "ammo" : "arrow",
-      "weight" : 740,
-      "volume" : 7,
-      "bashing" : 14,
-      "cutting" : 0,
-      "to_hit" : 0,
-      "ranged_damage" : 18,
-      "range" : 19,
-      "dispersion" : 110,
-      "sight_dispersion": 150,
-      "aim_speed" : 0,
-      "recoil" : 0,
-      "durability" : 6,
-      "burst" : 0,
-      "clip_size" : 1,
-      "reload" : 80,
-      "valid_mod_locations": [["underbarrel", 1]]
-   }
+  {
+    "id" : "ichaival_replica",
+    "copy-from": "reflexrecurvebow",
+    "type" : "GUN",
+    "name" : "Ichaival",
+    "description" : "This is a replica of the bow possessed by Odin, Ichaival, which is rumored to fire 10 arrows with every pull of the string.  It has gold and silver ornaments on it.",
+    "price" : 160000,
+    "material" : ["wood", "gold"],
+    "weight" : 740,
+    "volume" : 7,
+    "bashing" : 14,
+    "ranged_damage" : 18,
+    "range" : 19,
+    "dispersion" : 110
+  }
 ]

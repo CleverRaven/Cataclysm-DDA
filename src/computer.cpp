@@ -17,29 +17,29 @@
 #include "trap.h"
 #include "mtype.h"
 #include "field.h"
+#include "player.h"
+#include "text_snippets.h"
+#include "input.h"
 
-#include <fstream>
 #include <string>
 #include <sstream>
+#include <algorithm>
 
 const mtype_id mon_manhack( "mon_manhack" );
-const mtype_id mon_null( "mon_null" );
 const mtype_id mon_secubot( "mon_secubot" );
 
-std::vector<std::string> computer::lab_notes;
+const skill_id skill_computer( "computer" );
+
+const species_id ZOMBIE( "ZOMBIE" );
+
+const efftype_id effect_amigara( "amigara" );
+const efftype_id effect_stemcell_treatment( "stemcell_treatment" );
+
 int alerts = 0;
 
-computer::computer(): name(DEFAULT_COMPUTER_NAME)
+computer::computer( const std::string &new_name, int new_security ): name( new_name )
 {
-    security = 0;
-    w_terminal = NULL;
-    w_border = NULL;
-    mission_id = -1;
-}
-
-computer::computer(std::string Name, int Security): name(Name)
-{
-    security = Security;
+    security = new_security;
     w_terminal = NULL;
     w_border = NULL;
     mission_id = -1;
@@ -169,7 +169,8 @@ void computer::use()
 
         char ch;
         do {
-            ch = getch();
+            // TODO: use input context
+            ch = inp_mngr.get_input_event().get_first_input();
         } while (ch != 'q' && ch != 'Q' && (ch < '1' || ch - '1' >= (char)options_size));
         if (ch == 'q' || ch == 'Q') {
             break; // Exit from main computer loop
@@ -205,7 +206,7 @@ bool computer::hack_attempt(player *p, int Security)
     if (Security == -1) {
         Security = security;    // Set to main system security if no value passed
     }
-    const int hack_skill = p->get_skill_level( "computer" );
+    const int hack_skill = p->get_skill_level( skill_computer );
 
     // Every time you dig for lab notes, (or, in future, do other suspicious stuff?)
     // +2 dice to the system's hack-resistance
@@ -216,20 +217,23 @@ bool computer::hack_attempt(player *p, int Security)
 
     p->moves -= 10 * (5 + Security * 2) / std::max( 1, hack_skill + 1 );
     int player_roll = hack_skill;
+    ///\EFFECT_INT <8 randomly penalizes hack attempts, 50% of the time
     if (p->int_cur < 8 && one_in(2)) {
         player_roll -= rng(0, 8 - p->int_cur);
+    ///\EFFECT_INT >8 randomly benefits hack attempts, 33% of the time
     } else if (p->int_cur > 8 && one_in(3)) {
         player_roll += rng(0, p->int_cur - 8);
     }
 
+    ///\EFFECT_COMPUTER increases chance of successful hack attempt, vs Security level
     bool successful_attempt = (dice(player_roll, 6) >= dice(Security, 6));
-    p->practice( "computer", (successful_attempt ? (15 + Security * 3) : 7));
+    p->practice( skill_computer, (successful_attempt ? (15 + Security * 3) : 7));
     return successful_attempt;
 }
 
 std::string computer::save_data()
 {
-    std::stringstream data;
+    std::ostringstream data;
     std::string savename = name; // Replace " " with "_"
     size_t found = savename.find(" ");
     while (found != std::string::npos) {
@@ -305,7 +309,7 @@ void computer::activate_function(computer_action action, char ch)
         break;
 
     case COMPACT_OPEN:
-        g->m.translate_radius(t_door_metal_locked, t_floor, 25.0, g->u.pos3());
+        g->m.translate_radius(t_door_metal_locked, t_floor, 25.0, g->u.pos());
         query_any(_("Doors opened.  Press any key..."));
         break;
 
@@ -315,12 +319,12 @@ void computer::activate_function(computer_action action, char ch)
     //Simply uses translate_radius which take a given radius and
     // player position to determine which terrain tiles to edit.
     case COMPACT_LOCK:
-        g->m.translate_radius(t_door_metal_c, t_door_metal_locked, 8.0, g->u.pos3());
+        g->m.translate_radius(t_door_metal_c, t_door_metal_locked, 8.0, g->u.pos());
         query_any(_("Lock enabled.  Press any key..."));
         break;
 
     case COMPACT_UNLOCK:
-        g->m.translate_radius(t_door_metal_locked, t_door_metal_c, 8.0, g->u.pos3());
+        g->m.translate_radius(t_door_metal_locked, t_door_metal_c, 8.0, g->u.pos());
         query_any(_("Lock disabled.  Press any key..."));
         break;
 
@@ -351,9 +355,9 @@ void computer::activate_function(computer_action action, char ch)
                                     capa = std::min( sewage.charges, capa );
                                     if( elem.contents.empty() ) {
                                         elem.put_in( sewage );
-                                        elem.contents[0].charges = capa;
+                                        elem.contents.front().charges = capa;
                                     } else {
-                                        elem.contents[0].charges += capa;
+                                        elem.contents.front().charges += capa;
                                     }
                                     found_item = true;
                                     break;
@@ -372,14 +376,14 @@ void computer::activate_function(computer_action action, char ch)
     case COMPACT_RELEASE:
         g->u.add_memorial_log(pgettext("memorial_male", "Released subspace specimens."),
                               pgettext("memorial_female", "Released subspace specimens."));
-        sounds::sound(g->u.pos(), 40, _("An alarm sounds!"));
-        g->m.translate_radius(t_reinforced_glass, t_floor, 25.0, g->u.pos3());
+        sounds::sound(g->u.pos(), 40, _("an alarm sound!"));
+        g->m.translate_radius(t_reinforced_glass, t_floor, 25.0, g->u.pos());
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
     case COMPACT_RELEASE_BIONICS:
-        sounds::sound(g->u.pos(), 40, _("An alarm sounds!"));
-        g->m.translate_radius(t_reinforced_glass, t_floor, 2.0, g->u.pos3());
+        sounds::sound(g->u.pos(), 40, _("an alarm sound!"));
+        g->m.translate_radius(t_reinforced_glass, t_floor, 3.0, g->u.pos());
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
@@ -453,13 +457,14 @@ void computer::activate_function(computer_action action, char ch)
     break;
 
     case COMPACT_RESEARCH: {
-        std::string log;
-        if (lab_notes.empty()) {
+        // TODO: seed should probably be a member of the computer, or better: of the computer action.
+        // It is here to ensure one computer reporting the same text on each invocation.
+        const int seed = g->get_levx() + g->get_levy() + g->get_levz() + alerts;
+        std::string log = SNIPPET.get( SNIPPET.assign( "lab_notes", seed ) );
+        if( log.empty() ) {
             log = _("No data found.");
         } else {
             g->u.moves -= 70;
-            log = lab_notes[(g->get_levx() + g->get_levy() + g->get_levz() + alerts) %
-                            lab_notes.size()];
         }
 
         print_text("%s", log.c_str());
@@ -527,7 +532,7 @@ void computer::activate_function(computer_action action, char ch)
                 }
         }
 
-        g->explosion( tripoint( g->u.posx() + 10, g->u.posx() + 21, g->get_levz() ), 200, 0, true); //Only explode once. But make it large.
+        g->explosion( tripoint( g->u.posx() + 10, g->u.posx() + 21, g->get_levz() ), 200, 0.7, true ); //Only explode once. But make it large.
 
         //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
         // For each level between here and the surface, remove the missile
@@ -547,7 +552,7 @@ void computer::activate_function(computer_action action, char ch)
         //~ %s is terrain name
         g->u.add_memorial_log( pgettext("memorial_male", "Launched a nuke at a %s."),
                                pgettext("memorial_female", "Launched a nuke at a %s."),
-                               otermap[oter].name.c_str() );
+                               oter->get_name().c_str() );
         for(int x = target.x - 2; x <= target.x + 2; x++) {
             for(int y = target.y - 2; y <= target.y + 2; y++) {
                 // give it a nice rounded shape
@@ -718,14 +723,14 @@ INITIATING STANDARD TREMOR TEST..."));
         print_gibberish_line();
         print_newline();
         print_error(_("FILE CORRUPTED, PRESS ANY KEY..."));
-        getch();
+        inp_mngr.wait_for_any_key();
         reset_terminal();
         break;
 
     case COMPACT_AMIGARA_START:
         g->add_event(EVENT_AMIGARA, int(calendar::turn) + 10);
         if (!g->u.has_artifact_with(AEP_PSYSHIELD)) {
-            g->u.add_effect("amigara", 20);
+            g->u.add_effect( effect_amigara, 20);
         }
         // Disable this action to prevent further amigara events, which would lead to
         // further amigara monster, which would lead to further artifacts.
@@ -734,7 +739,7 @@ INITIATING STANDARD TREMOR TEST..."));
 
     case COMPACT_STEMCELL_TREATMENT:
         g->u.moves -= 70;
-        g->u.add_effect("stemcell_treatment", 120);
+        g->u.add_effect( effect_stemcell_treatment, 120);
         print_line(_("The machine injects your eyeball with the solution \n\
 of pureed bone & LSD."));
         query_any(_("Press any key..."));
@@ -747,24 +752,26 @@ of pureed bone & LSD."));
                 print_error(_("--ACCESS GRANTED--"));
                 print_error(_("Mission Complete!"));
                 miss->step_complete( 1 );
-                getch();
+                inp_mngr.wait_for_any_key();
                 return;
                 //break;
             }
         }
         print_error(_("ACCESS DENIED"));
-        getch();
+        inp_mngr.wait_for_any_key();
         break;
 
     case COMPACT_REPEATER_MOD:
         if (g->u.has_amount("radio_repeater_mod", 1)) {
             for( auto miss : g->u.get_active_missions() ) {
-                if (miss->name() == "Install Repeater Mod"){
+                static const mission_type_id commo_3 = mission_type_id("MISSION_OLD_GUARD_NEC_COMMO_3"),
+                    commo_4 = mission_type_id("MISSION_OLD_GUARD_NEC_COMMO_4");
+                if (miss->mission_id() == commo_3 || miss->mission_id() == commo_4) {
                     miss->step_complete( 1 );
                     print_error(_("Repeater mod installed..."));
                     print_error(_("Mission Complete!"));
                     g->u.use_amount("radio_repeater_mod", 1);
-                    getch();
+                    inp_mngr.wait_for_any_key();
                     options.clear();
                     activate_failure(COMPFAIL_SHUTDOWN);
                     break;
@@ -772,7 +779,7 @@ of pureed bone & LSD."));
             }
         }else{
             print_error(_("You do not have a repeater mod to install..."));
-            getch();
+            inp_mngr.wait_for_any_key();
             break;
         }
         break;
@@ -794,7 +801,7 @@ of pureed bone & LSD."));
             usb->put_in(software);
             print_line(_("Software downloaded."));
         }
-        getch();
+        inp_mngr.wait_for_any_key();
         break;
 
     case COMPACT_BLOOD_ANAL:
@@ -806,18 +813,18 @@ of pureed bone & LSD."));
                         print_error(_("ERROR: Please place sample in centrifuge."));
                     } else if (g->m.i_at(x, y).size() > 1) {
                         print_error(_("ERROR: Please remove all but one sample from centrifuge."));
-                    } else if (g->m.i_at(x, y)[0].type->id != "vacutainer") {
+                    } else if (g->m.i_at(x, y)[0].typeId() != "vacutainer") {
                         print_error(_("ERROR: Please use vacutainer-contained samples."));
                     } else if (g->m.i_at(x, y)[0].contents.empty()) {
                         print_error(_("ERROR: Vacutainer empty."));
-                    } else if (g->m.i_at(x, y)[0].contents[0].type->id != "blood") {
+                    } else if (g->m.i_at(x, y)[0].contents.front().typeId() != "blood") {
                         print_error(_("ERROR: Please only use blood samples."));
                     } else { // Success!
-                        const item &blood = g->m.i_at(x, y).front().contents[0];
+                        const item &blood = g->m.i_at(x, y).front().contents.front();
                         const mtype *mt = blood.get_mtype();
-                        if( mt == nullptr || mt->id == mon_null ) {
+                        if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
                             print_line(_("Result:  Human blood, no pathogens found."));
-                        } else if( mt->in_species( "ZOMBIE" ) ) {
+                        } else if( mt->in_species( ZOMBIE ) ) {
                             if( mt->sym == "Z" ) {
                                 print_line(_("Result:  Human blood.  Unknown pathogen found."));
                             } else {
@@ -855,13 +862,13 @@ of pureed bone & LSD."));
                         print_error(_("ERROR: Please place memory bank in scan area."));
                     } else if (g->m.i_at(x, y).size() > 1) {
                         print_error(_("ERROR: Please only scan one item at a time."));
-                    } else if (g->m.i_at(x, y)[0].type->id != "usb_drive" &&
-                               g->m.i_at(x, y)[0].type->id != "black_box") {
+                    } else if (g->m.i_at(x, y)[0].typeId() != "usb_drive" &&
+                               g->m.i_at(x, y)[0].typeId() != "black_box") {
                         print_error(_("ERROR: Memory bank destroyed or not present."));
-                    } else if (g->m.i_at(x, y)[0].type->id == "usb_drive" && g->m.i_at(x, y)[0].contents.empty()) {
+                    } else if (g->m.i_at(x, y)[0].typeId() == "usb_drive" && g->m.i_at(x, y)[0].contents.empty()) {
                         print_error(_("ERROR: Memory bank is empty."));
                     } else { // Success!
-                        if (g->m.i_at(x, y)[0].type->id == "black_box") {
+                        if (g->m.i_at(x, y)[0].typeId() == "black_box") {
                             print_line(_("Memory Bank:  Military Hexron Encryption\nPrinting Transcript\n"));
                             item transcript("black_box_transcript", calendar::turn);
                             g->m.add_item_or_charges(g->u.posx(), g->u.posy(), transcript);
@@ -904,18 +911,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
 
     case COMPACT_EMERG_REF_CENTER:
         reset_terminal();
-        print_line(_("\
-IF YOU HAVE ANY FEEDBACK CONCERNING YOUR VISIT PLEASE CONTACT \n\
-THE DEPARTMENT OF EMERGENCY MANAGEMENT PUBLIC AFFAIRS OFFICE.  \n\
-THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND \n\
-4PM AT 1-800-255-5678.                                      \n\
-\n\
-IF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\n\
-TO WRITE US A LETTER PLEASE SEND IT TO...\n\
-\n\
-It takes you forever to find the address on your map...\n"));
-        overmap_buffer.reveal(overmap_buffer.find_closest( g->u.global_omt_location(), "evac_center_13", 0, false ), 3);
-        query_any(_("You mark the refugee center..."));
+        mark_refugee_center();
         reset_terminal();
         break;
 
@@ -1132,7 +1128,7 @@ It takes you forever to find the address on your map...\n"));
                 tripoint p( x, y, g->get_levz() );
                 if (g->m.ter(x, y) == t_elevator || g->m.ter(x, y) == t_vat) {
                     g->m.make_rubble( p, f_rubble_rock, true);
-                    g->explosion( p, 40, 0, true );
+                    g->explosion( p, 40, 0.7, true );
                 }
                 if (g->m.ter(x, y) == t_wall_glass) {
                     g->m.make_rubble( p, f_rubble_rock, true );
@@ -1142,7 +1138,7 @@ It takes you forever to find the address on your map...\n"));
                 }
                 if (g->m.ter(x, y) == t_sewage_pump) {
                     g->m.make_rubble( p, f_rubble_rock, true );
-                    g->explosion( p, 50, 0, true);
+                    g->explosion( p, 50, 0.7, true );
                 }
             }
         }
@@ -1215,7 +1211,7 @@ void computer::activate_failure(computer_failure fail)
     case COMPFAIL_ALARM:
         g->u.add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                               pgettext("memorial_female", "Set off an alarm."));
-        sounds::sound(g->u.pos(), 60, _("An alarm sounds!"));
+        sounds::sound(g->u.pos(), 60, _("an alarm sound!"));
         if (g->get_levz() > 0 && !g->event_queued(EVENT_WANTED)) {
             g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, g->u.global_sm_location());
         }
@@ -1258,7 +1254,7 @@ void computer::activate_failure(computer_failure fail)
     break;
 
     case COMPFAIL_DAMAGE:
-        add_msg(m_neutral, _("The console electrocutes you."));
+        add_msg(m_neutral, _("The console shocks you."));
         if( g->u.is_elec_immune() ) {
             add_msg( m_good, _("You're protected from electric shocks.") );
         } else {
@@ -1274,7 +1270,7 @@ void computer::activate_failure(computer_failure fail)
                 if (g->m.ter(x, y) == t_sewage_pump) {
                     tripoint p( x, y, g->get_levz() );
                     g->m.make_rubble( p );
-                    g->explosion( p, 10, 0, false);
+                    g->explosion( p, 10 );
                 }
             }
         }
@@ -1289,16 +1285,16 @@ void computer::activate_failure(computer_failure fail)
                     int leak_size = rng(4, 10);
                     for (int i = 0; i < leak_size; i++) {
                         std::vector<point> next_move;
-                        if (g->m.move_cost(p.x, p.y - 1) > 0) {
+                        if (g->m.passable(p.x, p.y - 1)) {
                             next_move.push_back( point(p.x, p.y - 1) );
                         }
-                        if (g->m.move_cost(p.x + 1, p.y) > 0) {
+                        if (g->m.passable(p.x + 1, p.y)) {
                             next_move.push_back( point(p.x + 1, p.y) );
                         }
-                        if (g->m.move_cost(p.x, p.y + 1) > 0) {
+                        if (g->m.passable(p.x, p.y + 1)) {
                             next_move.push_back( point(p.x, p.y + 1) );
                         }
-                        if (g->m.move_cost(p.x - 1, p.y) > 0) {
+                        if (g->m.passable(p.x - 1, p.y)) {
                             next_move.push_back( point(p.x - 1, p.y) );
                         }
 
@@ -1316,9 +1312,9 @@ void computer::activate_failure(computer_failure fail)
 
     case COMPFAIL_AMIGARA:
         g->add_event(EVENT_AMIGARA, int(calendar::turn) + 5);
-        g->u.add_effect("amigara", 20);
-        g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 10, false );
-        g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 10, false );
+        g->u.add_effect( effect_amigara, 20);
+        g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 0.7, false, 10 );
+        g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 0.7, false, 10 );
         remove_option( COMPACT_AMIGARA_START );
         break;
 
@@ -1331,11 +1327,11 @@ void computer::activate_failure(computer_failure fail)
                         print_error(_("ERROR: Please place sample in centrifuge."));
                     } else if (g->m.i_at(x, y).size() > 1) {
                         print_error(_("ERROR: Please remove all but one sample from centrifuge."));
-                    } else if (g->m.i_at(x, y)[0].type->id != "vacutainer") {
+                    } else if (g->m.i_at(x, y)[0].typeId() != "vacutainer") {
                         print_error(_("ERROR: Please use vacutainer-contained samples."));
                     } else if (g->m.i_at(x, y)[0].contents.empty()) {
                         print_error(_("ERROR: Vacutainer empty."));
-                    } else if (g->m.i_at(x, y)[0].contents[0].type->id != "blood") {
+                    } else if (g->m.i_at(x, y)[0].contents.front().typeId() != "blood") {
                         print_error(_("ERROR: Please only use blood samples."));
                     } else {
                         print_error(_("ERROR: Blood sample destroyed."));
@@ -1344,7 +1340,7 @@ void computer::activate_failure(computer_failure fail)
                 }
             }
         }
-        getch();
+        inp_mngr.wait_for_any_key();
         break;
 
     case COMPFAIL_DESTROY_DATA:
@@ -1356,7 +1352,7 @@ void computer::activate_failure(computer_failure fail)
                         print_error(_("ERROR: Please place memory bank in scan area."));
                     } else if (g->m.i_at(x, y).size() > 1) {
                         print_error(_("ERROR: Please only scan one item at a time."));
-                    } else if (g->m.i_at(x, y)[0].type->id != "usb_drive") {
+                    } else if (g->m.i_at(x, y)[0].typeId() != "usb_drive") {
                         print_error(_("ERROR: Memory bank destroyed or not present."));
                     } else if (g->m.i_at(x, y)[0].contents.empty()) {
                         print_error(_("ERROR: Memory bank is empty."));
@@ -1367,7 +1363,7 @@ void computer::activate_failure(computer_failure fail)
                 }
             }
         }
-        getch();
+        inp_mngr.wait_for_any_key();
         break;
 
     }// switch (fail)
@@ -1383,6 +1379,30 @@ void computer::remove_option( computer_action const action )
     }
 }
 
+void computer::mark_refugee_center()
+{
+    //~555-0164 is a fake phone number in the US, please replace it with a number that will not cause issues in your locale if possible.
+    print_line( _( "\
+IF YOU HAVE ANY FEEDBACK CONCERNING YOUR VISIT PLEASE CONTACT \n\
+THE DEPARTMENT OF EMERGENCY MANAGEMENT PUBLIC AFFAIRS OFFICE. \n\
+THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND  \n\
+4PM AT 555-0164.                                              \n\
+\n\
+IF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\n\
+TO WRITE US A LETTER PLEASE SEND IT TO...\n" ) );
+
+    const mission_type_id &mission_type = mission_type_id( "MISSION_REACH_REFUGEE_CENTER" );
+    const std::vector<mission *> missions = g->u.get_active_missions();
+    if( !std::any_of( missions.begin(), missions.end(), [ &mission_type ]( mission * mission ) {
+        return mission->get_type().id == mission_type;
+    } ) ) {
+        const auto mission = mission::reserve_new( mission_type, -1 );
+        mission->assign( g->u );
+    }
+
+    query_any( _( "Press any key to continue..." ) );
+}
+
 bool computer::query_bool(const char *mes, ...)
 {
     va_list ap;
@@ -1392,7 +1412,8 @@ bool computer::query_bool(const char *mes, ...)
     print_line("%s (Y/N/Q)", text.c_str());
     char ret;
     do {
-        ret = getch();
+        // TODO: use input context
+        ret = inp_mngr.get_input_event().get_first_input();
     } while (ret != 'y' && ret != 'Y' && ret != 'n' && ret != 'N' && ret != 'q' &&
              ret != 'Q');
     return (ret == 'y' || ret == 'Y');
@@ -1405,7 +1426,7 @@ bool computer::query_any(const char *mes, ...)
     const std::string text = vstring_format(mes, ap);
     va_end(ap);
     print_line("%s", text.c_str());
-    getch();
+    inp_mngr.wait_for_any_key();
     return true;
 }
 
@@ -1418,7 +1439,8 @@ char computer::query_ynq(const char *mes, ...)
     print_line("%s (Y/N/Q)", text.c_str());
     char ret;
     do {
-        ret = getch();
+        // TODO: use input context
+        ret = inp_mngr.get_input_event().get_first_input();
     } while (ret != 'y' && ret != 'Y' && ret != 'n' && ret != 'N' && ret != 'q' &&
              ret != 'Q');
     return ret;
@@ -1494,14 +1516,4 @@ void computer::reset_terminal()
 void computer::print_newline()
 {
     wprintz(w_terminal, c_green, "\n");
-}
-
-void computer::load_lab_note(JsonObject &jsobj)
-{
-    lab_notes.push_back(_(jsobj.get_string("text").c_str()));
-}
-
-void computer::clear_lab_notes()
-{
-    lab_notes.clear();
 }

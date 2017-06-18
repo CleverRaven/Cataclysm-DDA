@@ -3,15 +3,20 @@
 #include "text_snippets.h"
 #include "translations.h"
 
+#include <string>
+#include <random>
+
+static const std::string null_string( "" );
+
 snippet_library SNIPPET;
 
 snippet_library::snippet_library() {}
 
-void snippet_library::load_snippet(JsonObject &jsobj)
+void snippet_library::load_snippet( JsonObject &jsobj )
 {
-    std::string category = jsobj.get_string("category");
-    if (jsobj.has_array("text")) {
-        JsonArray jarr = jsobj.get_array("text");
+    std::string category = jsobj.get_string( "category" );
+    if( jsobj.has_array( "text" ) ) {
+        JsonArray jarr = jsobj.get_array( "text" );
         add_snippets_from_json( category, jarr );
     } else {
         add_snippet_from_json( category, jsobj );
@@ -41,11 +46,11 @@ void snippet_library::add_snippet_from_json( const std::string &category, JsonOb
     }
 }
 
-int snippet_library::add_snippet(const std::string &category, const std::string &text)
+int snippet_library::add_snippet( const std::string &category, const std::string &text )
 {
-    int hash = djb2_hash( (const unsigned char *)text.c_str() );
-    snippets.insert( std::pair<int, std::string>(hash, text) );
-    categories.insert( std::pair<std::string, int>(category, hash) );
+    int hash = djb2_hash( ( const unsigned char * )text.c_str() );
+    snippets.insert( std::pair<int, std::string>( hash, text ) );
+    categories.insert( std::pair<std::string, int>( category, hash ) );
     return hash;
 }
 
@@ -70,25 +75,62 @@ int snippet_library::get_snippet_by_id( const std::string &id ) const
     return 0;
 }
 
-int snippet_library::assign( const std::string category ) const
+int snippet_library::assign( const std::string &category ) const
 {
-    std::multimap<std::string, int>::const_iterator category_start = categories.lower_bound(category);
-    if( category_start == categories.end() ) {
+    return assign( category, rand() );
+}
+
+int snippet_library::assign( const std::string &category, const int seed ) const
+{
+    const int count = categories.count( category );
+    if( count == 0 ) {
         return 0;
     }
-    const int selected_text = rng( 0, categories.count(category) - 1 );
-    std::multimap<std::string, int>::const_iterator it = category_start;
+    std::mt19937 generator( seed );
+    std::uniform_int_distribution<int> dis( 0, count - 1 );
+    const int selected_text = dis( generator );
+    std::multimap<std::string, int>::const_iterator it = categories.lower_bound( category );
     for( int index = 0; index < selected_text; ++index ) {
         ++it;
     }
     return it->second;
 }
 
-std::string snippet_library::get( const int index ) const
+const std::string &snippet_library::get( const int index ) const
 {
-    std::map<int, std::string>::const_iterator chosen_snippet = snippets.find(index);
+    std::map<int, std::string>::const_iterator chosen_snippet = snippets.find( index );
     if( chosen_snippet == snippets.end() ) {
-        return "";
+        return null_string;
     }
     return chosen_snippet->second;
 }
+
+const std::string &snippet_library::random_from_category( const std::string &cat ) const
+{
+    const auto iters = categories.equal_range( cat );
+    if( iters.first == iters.second ) {
+        return null_string;
+    }
+
+    int count = std::distance( iters.first, iters.second );
+    int index = rng( 0, count - 1 );
+    auto iter = iters.first;
+    std::advance( iter, index );
+    return get( iter->second );
+}
+
+const std::vector<int> snippet_library::all_ids_from_category( const std::string &cat ) const
+{
+    std::vector<int> ret;
+    const auto iters = categories.equal_range( cat );
+    if( iters.first == categories.end() ) {
+        return ret;
+    }
+
+    for( auto iter = iters.first; iter != iters.second; iter++ ) {
+        ret.push_back( iter->second );
+    }
+
+    return ret;
+}
+

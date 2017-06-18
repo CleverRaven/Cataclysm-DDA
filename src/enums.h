@@ -1,13 +1,15 @@
+#pragma once
 #ifndef ENUMS_H
 #define ENUMS_H
 
 #include <climits>
 #include <cassert>
+#include <ostream>
 
 #include "json.h" // (de)serialization for points
 
 #ifndef sgn
-#define sgn(x) (((x) < 0) ? -1 : 1)
+#define sgn(x) (((x) < 0) ? -1 : (((x)>0) ? 1 : 0))
 #endif
 
 // By default unordered_map doesn't have a hash for tuple or pairs, so we need to include some.
@@ -76,6 +78,22 @@ namespace std{
     };
 }
 
+//Used for autopickup and safemode rules
+enum rule_state : int {
+    RULE_NONE,
+    RULE_WHITELISTED,
+    RULE_BLACKLISTED
+};
+
+enum visibility_type {
+  VIS_HIDDEN,
+  VIS_CLEAR,
+  VIS_LIT,
+  VIS_BOOMER,
+  VIS_DARK,
+  VIS_BOOMER_DARK
+};
+
 enum special_game_id {
     SGAME_NULL = 0,
     SGAME_TUTORIAL,
@@ -83,7 +101,7 @@ enum special_game_id {
     NUM_SPECIAL_GAMES
 };
 
-enum art_effect_passive {
+enum art_effect_passive : int {
     AEP_NULL = 0,
     // Good
     AEP_STR_UP, // Strength + 4
@@ -92,7 +110,7 @@ enum art_effect_passive {
     AEP_INT_UP, // Intelligence + 4
     AEP_ALL_UP, // All stats + 2
     AEP_SPEED_UP, // +20 speed
-    AEP_IODINE, // Reduces radiation
+    AEP_PBLUE, // Reduces radiation
     AEP_SNAKES, // Summons friendly snakes when you're hit
     AEP_INVISIBLE, // Makes you invisible
     AEP_CLAIRVOYANCE, // See through walls
@@ -151,7 +169,7 @@ enum artifact_natural_property {
     ARTPROP_MAX
 };
 
-enum phase_id {
+enum phase_id : int {
     PNULL, SOLID, LIQUID, GAS, PLASMA
 };
 
@@ -182,7 +200,7 @@ struct point : public JsonSerializer, public JsonDeserializer {
     point(const point &) = default;
     point &operator=(point &&) = default;
     point &operator=(const point &) = default;
-    ~point() {}
+    ~point() override {}
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const override
     {
@@ -256,7 +274,7 @@ struct tripoint : public JsonSerializer, public JsonDeserializer {
     tripoint &operator=(tripoint &&) = default;
     tripoint &operator=(const tripoint &) = default;
     explicit tripoint(const point &p, int Z) : x (p.x), y (p.y), z (Z) {}
-    ~tripoint() {}
+    ~tripoint() override {}
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const override
     {
@@ -314,7 +332,19 @@ struct tripoint : public JsonSerializer, public JsonDeserializer {
         y -= rhs.y;
         return *this;
     }
+    tripoint &operator-=( const tripoint &rhs )
+    {
+        x -= rhs.x;
+        y -= rhs.y;
+        z -= rhs.z;
+        return *this;
+    }
 };
+
+inline std::ostream &operator<<( std::ostream &os, const tripoint &pos )
+{
+    return os << pos.x << "," << pos.y << "," << pos.z;
+}
 
 // Make tripoint hashable so it can be used as an unordered_set or unordered_map key,
 // or a component of one.
@@ -353,5 +383,6 @@ inline bool operator<(const tripoint &a, const tripoint &b)
 }
 
 static const tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
+static const tripoint tripoint_zero { 0, 0, 0 };
 
 #endif

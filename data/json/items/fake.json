@@ -1,0 +1,41 @@
+[
+    {
+        "abstract": "fake_item",
+        "type": "GENERIC",
+        "name": "fake item",
+        "description": "Dummy item.  If you see this, then something went wrong.",
+        "symbol": "@",
+        "color": "red"
+    },
+    {
+        "id": "toolset",
+        "copy-from": "fake_item",
+        "type": "TOOL",
+        "name": "integrated toolset",
+        "flags": "TRADER_AVOID",
+        "max_charges": 10000,
+        "use_action": [ "HAMMER", "CROWBAR" ],
+        "qualities": [
+            [ "HAMMER", 3 ], [ "HAMMER_FINE", 1 ],
+            [ "SAW_W", 1 ], [ "SAW_M", 2 ], [ "SAW_M_FINE", 1 ],
+            [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ],
+            [ "SCREW", 1 ], [ "SCREW_FINE", 1 ],
+            [ "CUT", 2 ], [ "PRY", 1 ], ["DRILL", 1 ],
+            [ "BUTCHER", -38 ]
+        ]
+    },
+    {
+        "id": "fake_goggles",
+        "copy-from": "fake_item",
+        "type": "TOOL",
+        "name": "bionic goggles",
+        "qualities": [ ["GLARE", 2] ]
+    },
+    {
+        "id": "fake_razor",
+        "copy-from": "fake_item",
+        "type": "TOOL",
+        "name": "bionic razor",
+        "qualities": [ ["BUTCHER", 8] ]
+    }
+]

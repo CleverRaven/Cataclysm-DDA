@@ -1,46 +1,106 @@
+#pragma once
 #ifndef ITEM_LOCATION_H
 #define ITEM_LOCATION_H
 
 #include <memory>
 
-struct point;
+#include "json.h"
+
 struct tripoint;
 class item;
 class Character;
-class vehicle;
+class map_cursor;
+class vehicle_cursor;
 
 /**
- * A class for easy removal of used items.
- * Ensures the item exists, but not that the character/vehicle does.
- * Should not be kept, but removed before the end of turn.
+ * A lightweight handle to an item independent of it's location
+ * Unlike a raw pointer can be (de-)serialized to/from JSON
+ * Provides a generic interface of querying, obtaining and removing an item
+ * Is invalidated by many operations (including copying of the item)
  */
-class item_location
+class item_location : public JsonSerializer, public JsonDeserializer
 {
-private:
-    class impl;
-    class item_is_null;
-    class item_on_map;
-    class item_on_person;
-    class item_on_vehicle;
-    std::unique_ptr<impl> ptr;
-    item_location( impl* );
-public:
-    item_location( item_location&& );
-    ~item_location();
-    /** Factory functions for readability */
-    /*@{*/
-    static item_location nowhere();
-    static item_location on_map( const tripoint &p, const item *which );
-    static item_location on_character( Character &ch, const item *which );
-    static item_location on_vehicle( vehicle &v, const point &where, const item *which );
-    /*@}*/
+    public:
+        enum class type : int {
+            invalid = 0,
+            character = 1,
+            map = 2,
+            vehicle = 3
+        };
 
-    /** Removes the selected item from the game */
-    void remove_item();
-    /** Gets the selected item or nullptr */
-    item *get_item();
-    /** Gets the position of item in character's inventory or INT_MIN */
-    int get_inventory_position();
+        item_location();
+        item_location( const item_location & ) = delete;
+        item_location &operator= ( const item_location & ) = delete;
+        item_location( item_location && );
+        item_location &operator=( item_location && );
+        ~item_location();
+
+        static const item_location nowhere;
+
+        item_location( Character &ch, item *which );
+        item_location( const map_cursor &mc, item *which );
+        item_location( const vehicle_cursor &vc, item *which );
+
+        void serialize( JsonOut &js ) const;
+        void deserialize( JsonIn &js );
+
+        bool operator==( const item_location &rhs ) const;
+        bool operator!=( const item_location &rhs ) const;
+
+        operator bool() const;
+
+        item &operator*();
+        const item &operator*() const;
+
+        item *operator->();
+        const item *operator->() const;
+
+        /** Returns the type of location where the item is found */
+        type where() const;
+
+        /** Returns the position where the item is found */
+        tripoint position() const;
+
+        /** Describes the item location
+         *  @param ch if set description is relative to character location */
+        std::string describe( const Character *ch = nullptr ) const;
+
+        /** Move an item from the location to the character inventory
+         *  @param ch Character who's inventory gets the item
+         *  @param qty if specified limits maximum obtained charges
+         *  @warning caller should restack inventory if item is to remain in it
+         *  @warning all further operations using this class are invalid
+         *  @warning it is unsafe to call this within unsequenced operations (see #15542)
+         *  @return inventory position for the item */
+        int obtain( Character &ch, long qty = -1 );
+
+        /** Calculate (but do not deduct) number of moves required to obtain an item
+         *  @see item_location::obtain */
+        int obtain_cost( const Character &ch, long qty = -1 ) const;
+
+        /** Removes the selected item from the game
+         *  @warning all further operations using this class are invalid */
+        void remove_item();
+
+        /** Gets the selected item or nullptr */
+        item *get_item();
+        const item *get_item() const;
+
+        /**
+         * Clones this instance
+         * @warning usage should be restricted to implementing custom copy-constructors
+         */
+        item_location clone() const;
+
+    private:
+        class impl;
+        std::shared_ptr<impl> ptr;
+
+        /* Not implemented on purpose. This triggers a compiler / linker
+         * error when used in any implicit conversion. It prevents the
+         * implicit conversion to int. */
+        template<typename T>
+        operator T() const;
 };
 
 #endif

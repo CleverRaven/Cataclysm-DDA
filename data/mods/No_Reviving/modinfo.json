@@ -1,8 +1,10 @@
-    {
-        "type": "MOD_INFO",
-        "mod-type": "SUPPLEMENTAL",
-        "ident": "no_reviving_zombies",
-        "name": "Prevent Zombie Revivication",
-        "description": "Disables zombie revival.",
-        "path": ""
-    }
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "no_reviving_zombies",
+    "name": "Prevent Zombie Revivication",
+    "description": "Disables zombie revival.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  }
+]

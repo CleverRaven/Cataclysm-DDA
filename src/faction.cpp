@@ -164,80 +164,81 @@ faction_value_datum faction::facval_data[NUM_FACVALS];
 //TODO move them to json
 void game::init_faction_data()
 {
-    std::string tmp_pos[] = {
+    const int elements = 15;
+    std::array<std::string, elements> tmp_pos = {{
         _("Shining"), _("Sacred"), _("Golden"), _("Holy"), _("Righteous"), _("Devoted"),
         _("Virtuous"), _("Splendid"), _("Divine"), _("Radiant"), _("Noble"), _("Venerable"),
         _("Immaculate"), _("Heroic"), _("Bright")
-    };
-    for(int i = 0; i < 15; i++) {
+    }};
+    for(int i = 0; i < elements; i++) {
         faction::faction_adj_pos[i] = tmp_pos[i];
     }
 
-    std::string tmp_neu[] = {
+    std::array<std::string, elements> tmp_neu = {{
         _("Original"), _("Crystal"), _("Metal"), _("Mighty"), _("Powerful"), _("Solid"),
         _("Stone"), _("Firey"), _("Colossal"), _("Famous"), _("Supreme"), _("Invincible"),
         _("Unlimited"), _("Great"), _("Electric")
-    };
-    for(int i = 0; i < 15; i++) {
+    }};
+    for(int i = 0; i < elements; i++) {
         faction::faction_adj_neu[i] = tmp_neu[i];
     }
 
-    std::string tmp_bad[] = {
+    std::array<std::string, elements> tmp_bad = {{
         _("Poisonous"), _("Deadly"), _("Foul"), _("Nefarious"), _("Wicked"), _("Vile"),
         _("Ruinous"), _("Horror"), _("Devastating"), _("Vicious"), _("Sinister"), _("Baleful"),
         _("Pestilent"), _("Pernicious"), _("Dread")
-    };
-    for(int i = 0; i < 15; i++) {
+    }};
+    for(int i = 0; i < elements; i++) {
         faction::faction_adj_bad[i] = tmp_bad[i];
     }
 
-    std::string tmp_strong[] = {
+    std::array<std::string, elements> tmp_strong = {{
         _("Fists"), _("Slayers"), _("Furies"), _("Dervishes"), _("Tigers"), _("Destroyers"),
         _("Berserkers"), _("Samurai"), _("Valkyries"), _("Army"), _("Killers"), _("Paladins"),
         _("Knights"), _("Warriors"), _("Huntsmen")
-    };
-    for(int i = 0; i < 15; i++) {
+    }};
+    for(int i = 0; i < elements; i++) {
         faction::faction_noun_strong[i] = tmp_strong[i];
     }
 
-    std::string tmp_sneak[] = {
+    std::array<std::string, elements> tmp_sneak = {{
         _("Snakes"), _("Rats"), _("Assassins"), _("Ninja"), _("Agents"), _("Shadows"),
         _("Guerillas"), _("Eliminators"), _("Snipers"), _("Smoke"), _("Arachnids"), _("Creepers"),
         _("Shade"), _("Stalkers"), _("Eels")
-    };
-    for(int i = 0; i < 15; i++) {
+    }};
+    for(int i = 0; i < elements; i++) {
         faction::faction_noun_sneak[i] = tmp_sneak[i];
     }
 
-    std::string tmp_crime[] = {
+    std::array<std::string, elements> tmp_crime = {{
         _("Bandits"), _("Punks"), _("Family"), _("Mafia"), _("Mob"), _("Gang"), _("Vandals"),
         _("Sharks"), _("Muggers"), _("Cutthroats"), _("Guild"), _("Faction"), _("Thugs"),
         _("Racket"), _("Crooks")
-    };
-    for(int i = 0; i < 15; i++) {
+    }};
+    for(int i = 0; i < elements; i++) {
         faction::faction_noun_crime[i] = tmp_crime[i];
     }
 
-    std::string tmp_cult[] = {
+    std::array<std::string, elements> tmp_cult = {{
         _("Brotherhood"), _("Church"), _("Ones"), _("Crucible"), _("Sect"), _("Creed"),
         _("Doctrine"), _("Priests"), _("Tenet"), _("Monks"), _("Clerics"), _("Pastors"),
         _("Gnostics"), _("Elders"), _("Inquisitors")
-    };
-    for(int i = 0; i < 15; i++) {
+    }};
+    for(int i = 0; i < elements; i++) {
         faction::faction_noun_cult[i] = tmp_cult[i];
     }
 
-    std::string tmp_none[] = {
+    std::array<std::string, elements> tmp_none = {{
         _("Settlers"), _("People"), _("Men"), _("Faction"), _("Tribe"), _("Clan"), _("Society"),
         _("Folk"), _("Nation"), _("Republic"), _("Colony"), _("State"), _("Kingdom"), _("Party"),
         _("Company")
-    };
-    for(int i = 0; i < 15; i++) {
+    }};
+    for(int i = 0; i < elements; i++) {
         faction::faction_noun_none[i] = tmp_none[i];
     }
 
 
-    faction_value_datum tmp_goal[] = {
+    std::array<faction_value_datum, NUM_FACGOALS> tmp_goal = {{
         // "Their ultimate goal is <name>"
         //Name                               Good Str Sneak Crime Cult
         {"Null",                             0,   0,  0,    0,    0},
@@ -252,13 +253,13 @@ void game::init_faction_data()
         {_("harmony with nature"),           2,  -2,  0,   -1,    2},
         {_("rebuilding civilization"),       2,   1, -2,   -2,   -4},
         {_("spreading the fungus"),         -2,   1,  1,    0,    4}
-    };
+    }};
     // TOTAL:                               -5    3  -2     0     7
     for(int i = 0; i < NUM_FACGOALS; i++) {
         faction::facgoal_data[i] = tmp_goal[i];
     }
 
-    faction_value_datum tmp_job[] = {
+    std::array<faction_value_datum, NUM_FACJOBS> tmp_job = {{
         // "They earn money via <name>"
         //Name                              Good Str Sneak Crime Cult
         {"Null",                            0,   0,  0,    0,    0},
@@ -276,13 +277,13 @@ void game::init_faction_data()
         {_("farming & selling food"),       3,  -4, -2,   -4,    1},
         {_("drug dealing"),                -2,   0, -1,    2,    0},
         {_("selling manufactured goods"),   1,   0, -1,   -2,    0}
-    };
+    }};
     // TOTAL:                              -5   -3  -5     0    -6
     for(int i = 0; i < NUM_FACJOBS; i++) {
         faction::facjob_data[i] = tmp_job[i];
     }
 
-    faction_value_datum tmp_val[] = {
+    std::array<faction_value_datum, NUM_FACVALS> tmp_val = {{
         // "They are known for <name>"
         //Name                            Good Str Sneak Crime Cult
         {"Null",                          0,   0,  0,    0,    0},
@@ -298,7 +299,7 @@ void game::init_faction_data()
         {_("the avoidance of drugs"),     1,   0,  0,   -1,    1},
         {_("their adherance to the law"), 2,  -1, -1,   -4,   -1},
         {_("their cruelty"),             -3,   1, -1,    4,    1}
-    };
+    }};
     // TOTALS:                            5    4   1    -3     4
     for(int i = 0; i < NUM_FACVALS; i++) {
         faction::facval_data[i] = tmp_val[i];
@@ -436,11 +437,11 @@ void faction::randomize()
     if (one_in(4)) {
         do {
             name = string_format(_("The %1$s of %2$s"), noun.c_str(), invent_name().c_str());
-        } while (utf8_width(name.c_str()) > MAX_FAC_NAME_SIZE);
+        } while (utf8_width(name) > MAX_FAC_NAME_SIZE);
     } else if (one_in(2)) {
         do {
             name = string_format(_("The %1$s %2$s"), invent_adj().c_str(), noun.c_str());
-        } while (utf8_width(name.c_str()) > MAX_FAC_NAME_SIZE);
+        } while (utf8_width(name) > MAX_FAC_NAME_SIZE);
     } else {
         do {
             std::string adj;
@@ -455,7 +456,7 @@ void faction::randomize()
             if (one_in(4)) {
                 name = string_format(_("%1$s of %2$s"), name.c_str(), invent_name().c_str());
             }
-        } while (utf8_width(name.c_str()) > MAX_FAC_NAME_SIZE);
+        } while (utf8_width(name) > MAX_FAC_NAME_SIZE);
     }
 }
 
@@ -496,17 +497,17 @@ void faction::make_army()
     id = "army";
 }
 
-bool faction::has_job(faction_job j)
+bool faction::has_job(faction_job j) const
 {
     return (job1 == j || job2 == j);
 }
 
-bool faction::has_value(faction_value v)
+bool faction::has_value(faction_value v) const
 {
     return values & mfb(v);
 }
 
-bool faction::matches_us(faction_value v)
+bool faction::matches_us(faction_value v) const
 {
     int numvals = 2;
     if (job2 != FACJOB_NULL) {
@@ -552,7 +553,7 @@ bool faction::matches_us(faction_value v)
     return false;
 }
 
-std::string faction::describe()
+std::string faction::describe() const
 {
     std::string ret;
     ret = desc + "\n \n" + string_format( _("%1$s have the ultimate goal of %2$s."), name.c_str(),
@@ -564,26 +565,24 @@ std::string faction::describe()
                               facjob_data[job1].name.c_str(),
                               facjob_data[job2].name.c_str());
     }
-    if (values != 0) {
-        ret += _(" They are known for ");
-        for (int i = 0; i < NUM_FACVALS; i++) {
-            if (has_value(faction_value(i))) {
-                ret += facval_data[i].name + _(", ");
-            }
-        }
+    if( values == 0 ) {
+        return ret;
     }
-    size_t pos = ret.rfind(_(", "));
-    if (pos != std::string::npos) {
-        ret.replace(pos, std::string(_(", ")).length(), _("."));
-        pos = ret.rfind(_(", "));
-        if (pos != std::string::npos) {
-            ret.replace(pos, std::string(_(", ")).length(), _(", and "));
-        }
+    std::vector<faction_value> vals;
+    vals.reserve( NUM_FACVALS );
+    for( int i = 0; i < NUM_FACVALS; i++ ) {
+        vals.push_back( faction_value( i ) );
+    }
+    const std::string known_vals = enumerate_as_string( vals.begin(), vals.end(), [ this ]( const faction_value val ) {
+        return has_value( val ) ? facval_data[val].name : "";
+    } );
+    if( !known_vals.empty() ) {
+        ret += _( " They are known for " ) + known_vals + ".";
     }
     return ret;
 }
 
-int faction::response_time()
+int faction::response_time() const
 {
     int base = abs(mapx - g->get_levx());
     if (abs(mapy - g->get_levy()) > base) {
@@ -639,85 +638,85 @@ std::string invent_name()
     for (int i = 0; i < syllables; i++) {
         switch (rng(0, 25)) {
         case  0:
-            tmp = _("<fac_name>ab");
+            tmp = pgettext( "faction name", "ab" );
             break;
         case  1:
-            tmp = _("<fac_name>bon");
+            tmp = pgettext( "faction name", "bon" );
             break;
         case  2:
-            tmp = _("<fac_name>cor");
+            tmp = pgettext( "faction name", "cor" );
             break;
         case  3:
-            tmp = _("<fac_name>den");
+            tmp = pgettext( "faction name", "den" );
             break;
         case  4:
-            tmp = _("<fac_name>el");
+            tmp = pgettext( "faction name", "el" );
             break;
         case  5:
-            tmp = _("<fac_name>fes");
+            tmp = pgettext( "faction name", "fes" );
             break;
         case  6:
-            tmp = _("<fac_name>gun");
+            tmp = pgettext( "faction name", "gun" );
             break;
         case  7:
-            tmp = _("<fac_name>hit");
+            tmp = pgettext( "faction name", "hit" );
             break;
         case  8:
-            tmp = _("<fac_name>id");
+            tmp = pgettext( "faction name", "id" );
             break;
         case  9:
-            tmp = _("<fac_name>jan");
+            tmp = pgettext( "faction name", "jan" );
             break;
         case 10:
-            tmp = _("<fac_name>kal");
+            tmp = pgettext( "faction name", "kal" );
             break;
         case 11:
-            tmp = _("<fac_name>ler");
+            tmp = pgettext( "faction name", "ler" );
             break;
         case 12:
-            tmp = _("<fac_name>mal");
+            tmp = pgettext( "faction name", "mal" );
             break;
         case 13:
-            tmp = _("<fac_name>nor");
+            tmp = pgettext( "faction name", "nor" );
             break;
         case 14:
-            tmp = _("<fac_name>or");
+            tmp = pgettext( "faction name", "or" );
             break;
         case 15:
-            tmp = _("<fac_name>pan");
+            tmp = pgettext( "faction name", "pan" );
             break;
         case 16:
-            tmp = _("<fac_name>qua");
+            tmp = pgettext( "faction name", "qua" );
             break;
         case 17:
-            tmp = _("<fac_name>ros");
+            tmp = pgettext( "faction name", "ros" );
             break;
         case 18:
-            tmp = _("<fac_name>sin");
+            tmp = pgettext( "faction name", "sin" );
             break;
         case 19:
-            tmp = _("<fac_name>tor");
+            tmp = pgettext( "faction name", "tor" );
             break;
         case 20:
-            tmp = _("<fac_name>urr");
+            tmp = pgettext( "faction name", "urr" );
             break;
         case 21:
-            tmp = _("<fac_name>ven");
+            tmp = pgettext( "faction name", "ven" );
             break;
         case 22:
-            tmp = _("<fac_name>wel");
+            tmp = pgettext( "faction name", "wel" );
             break;
         case 23:
-            tmp = _("<fac_name>oxo");
+            tmp = pgettext( "faction name", "oxo" );
             break;
         case 24:
-            tmp = _("<fac_name>yen");
+            tmp = pgettext( "faction name", "yen" );
             break;
         case 25:
-            tmp = _("<fac_name>zu");
+            tmp = pgettext( "faction name", "zu" );
             break;
         }
-        ret += rm_prefix(tmp);
+        ret += tmp;
     }
 
     return capitalize_letter(ret);
@@ -729,222 +728,221 @@ std::string invent_adj()
     std::string ret,  tmp;
     switch (rng(0, 25)) {
     case  0:
-        ret = _("<fac_adj>Ald");
+        ret = pgettext( "faction adjective", "Ald" );
         break;
     case  1:
-        ret = _("<fac_adj>Brogg");
+        ret = pgettext( "faction adjective", "Brogg" );
         break;
     case  2:
-        ret = _("<fac_adj>Cald");
+        ret = pgettext( "faction adjective", "Cald" );
         break;
     case  3:
-        ret = _("<fac_adj>Dredd");
+        ret = pgettext( "faction adjective", "Dredd" );
         break;
     case  4:
-        ret = _("<fac_adj>Eld");
+        ret = pgettext( "faction adjective", "Eld" );
         break;
     case  5:
-        ret = _("<fac_adj>Forr");
+        ret = pgettext( "faction adjective", "Forr" );
         break;
     case  6:
-        ret = _("<fac_adj>Gugg");
+        ret = pgettext( "faction adjective", "Gugg" );
         break;
     case  7:
-        ret = _("<fac_adj>Horr");
+        ret = pgettext( "faction adjective", "Horr" );
         break;
     case  8:
-        ret = _("<fac_adj>Ill");
+        ret = pgettext( "faction adjective", "Ill" );
         break;
     case  9:
-        ret = _("<fac_adj>Jov");
+        ret = pgettext( "faction adjective", "Jov" );
         break;
     case 10:
-        ret = _("<fac_adj>Kok");
+        ret = pgettext( "faction adjective", "Kok" );
         break;
     case 11:
-        ret = _("<fac_adj>Lill");
+        ret = pgettext( "faction adjective", "Lill" );
         break;
     case 12:
-        ret = _("<fac_adj>Moom");
+        ret = pgettext( "faction adjective", "Moom" );
         break;
     case 13:
-        ret = _("<fac_adj>Nov");
+        ret = pgettext( "faction adjective", "Nov" );
         break;
     case 14:
-        ret = _("<fac_adj>Orb");
+        ret = pgettext( "faction adjective", "Orb" );
         break;
     case 15:
-        ret = _("<fac_adj>Perv");
+        ret = pgettext( "faction adjective", "Perv" );
         break;
     case 16:
-        ret = _("<fac_adj>Quot");
+        ret = pgettext( "faction adjective", "Quot" );
         break;
     case 17:
-        ret = _("<fac_adj>Rar");
+        ret = pgettext( "faction adjective", "Rar" );
         break;
     case 18:
-        ret = _("<fac_adj>Suss");
+        ret = pgettext( "faction adjective", "Suss" );
         break;
     case 19:
-        ret = _("<fac_adj>Torr");
+        ret = pgettext( "faction adjective", "Torr" );
         break;
     case 20:
-        ret = _("<fac_adj>Umbr");
+        ret = pgettext( "faction adjective", "Umbr" );
         break;
     case 21:
-        ret = _("<fac_adj>Viv");
+        ret = pgettext( "faction adjective", "Viv" );
         break;
     case 22:
-        ret = _("<fac_adj>Warr");
+        ret = pgettext( "faction adjective", "Warr" );
         break;
     case 23:
-        ret = _("<fac_adj>Xen");
+        ret = pgettext( "faction adjective", "Xen" );
         break;
     case 24:
-        ret = _("<fac_adj>Yend");
+        ret = pgettext( "faction adjective", "Yend" );
         break;
     case 25:
-        ret = _("<fac_adj>Zor");
+        ret = pgettext( "faction adjective", "Zor" );
         break;
     }
-    ret = rm_prefix(ret);
     for (int i = 0; i < syllables - 2; i++) {
         switch (rng(0, 17)) {
         case  0:
-            tmp = _("<fac_adj>al");
+            tmp = pgettext( "faction adjective", "al" );
             break;
         case  1:
-            tmp = _("<fac_adj>arn");
+            tmp = pgettext( "faction adjective", "arn" );
             break;
         case  2:
-            tmp = _("<fac_adj>astr");
+            tmp = pgettext( "faction adjective", "astr" );
             break;
         case  3:
-            tmp = _("<fac_adj>antr");
+            tmp = pgettext( "faction adjective", "antr" );
             break;
         case  4:
-            tmp = _("<fac_adj>ent");
+            tmp = pgettext( "faction adjective", "ent" );
             break;
         case  5:
-            tmp = _("<fac_adj>ell");
+            tmp = pgettext( "faction adjective", "ell" );
             break;
         case  6:
-            tmp = _("<fac_adj>ev");
+            tmp = pgettext( "faction adjective", "ev" );
             break;
         case  7:
-            tmp = _("<fac_adj>emm");
+            tmp = pgettext( "faction adjective", "emm" );
             break;
         case  8:
-            tmp = _("<fac_adj>empr");
+            tmp = pgettext( "faction adjective", "empr" );
             break;
         case  9:
-            tmp = _("<fac_adj>ill");
+            tmp = pgettext( "faction adjective", "ill" );
             break;
         case 10:
-            tmp = _("<fac_adj>ial");
+            tmp = pgettext( "faction adjective", "ial" );
             break;
         case 11:
-            tmp = _("<fac_adj>ior");
+            tmp = pgettext( "faction adjective", "ior" );
             break;
         case 12:
-            tmp = _("<fac_adj>ordr");
+            tmp = pgettext( "faction adjective", "ordr" );
             break;
         case 13:
-            tmp = _("<fac_adj>oth");
+            tmp = pgettext( "faction adjective", "oth" );
             break;
         case 14:
-            tmp = _("<fac_adj>omn");
+            tmp = pgettext( "faction adjective", "omn" );
             break;
         case 15:
-            tmp = _("<fac_adj>uv");
+            tmp = pgettext( "faction adjective", "uv" );
             break;
         case 16:
-            tmp = _("<fac_adj>ulv");
+            tmp = pgettext( "faction adjective", "ulv" );
             break;
         case 17:
-            tmp = _("<fac_adj>urn");
+            tmp = pgettext( "faction adjective", "urn" );
             break;
         }
-        ret += rm_prefix(tmp);
+        ret += tmp;
     }
     switch (rng(0, 24)) {
     case  0:
         tmp = "";
         break;
     case  1:
-        tmp = _("<fac_adj>al");
+        tmp = pgettext( "faction adjective", "al" );
         break;
     case  2:
-        tmp = _("<fac_adj>an");
+        tmp = pgettext( "faction adjective", "an" );
         break;
     case  3:
-        tmp = _("<fac_adj>ard");
+        tmp = pgettext( "faction adjective", "ard" );
         break;
     case  4:
-        tmp = _("<fac_adj>ate");
+        tmp = pgettext( "faction adjective", "ate" );
         break;
     case  5:
-        tmp = _("<fac_adj>e");
+        tmp = pgettext( "faction adjective", "e" );
         break;
     case  6:
-        tmp = _("<fac_adj>ed");
+        tmp = pgettext( "faction adjective", "ed" );
         break;
     case  7:
-        tmp = _("<fac_adj>en");
+        tmp = pgettext( "faction adjective", "en" );
         break;
     case  8:
-        tmp = _("<fac_adj>er");
+        tmp = pgettext( "faction adjective", "er" );
         break;
     case  9:
-        tmp = _("<fac_adj>ial");
+        tmp = pgettext( "faction adjective", "ial" );
         break;
     case 10:
-        tmp = _("<fac_adj>ian");
+        tmp = pgettext( "faction adjective", "ian" );
         break;
     case 11:
-        tmp = _("<fac_adj>iated");
+        tmp = pgettext( "faction adjective", "iated" );
         break;
     case 12:
-        tmp = _("<fac_adj>ier");
+        tmp = pgettext( "faction adjective", "ier" );
         break;
     case 13:
-        tmp = _("<fac_adj>ious");
+        tmp = pgettext( "faction adjective", "ious" );
         break;
     case 14:
-        tmp = _("<fac_adj>ish");
+        tmp = pgettext( "faction adjective", "ish" );
         break;
     case 15:
-        tmp = _("<fac_adj>ive");
+        tmp = pgettext( "faction adjective", "ive" );
         break;
     case 16:
-        tmp = _("<fac_adj>oo");
+        tmp = pgettext( "faction adjective", "oo" );
         break;
     case 17:
-        tmp = _("<fac_adj>or");
+        tmp = pgettext( "faction adjective", "or" );
         break;
     case 18:
-        tmp = _("<fac_adj>oth");
+        tmp = pgettext( "faction adjective", "oth" );
         break;
     case 19:
-        tmp = _("<fac_adj>old");
+        tmp = pgettext( "faction adjective", "old" );
         break;
     case 20:
-        tmp = _("<fac_adj>ous");
+        tmp = pgettext( "faction adjective", "ous" );
         break;
     case 21:
-        tmp = _("<fac_adj>ul");
+        tmp = pgettext( "faction adjective", "ul" );
         break;
     case 22:
-        tmp = _("<fac_adj>un");
+        tmp = pgettext( "faction adjective", "un" );
         break;
     case 23:
-        tmp = _("<fac_adj>ule");
+        tmp = pgettext( "faction adjective", "ule" );
         break;
     case 24:
-        tmp = _("<fac_adj>y");
+        tmp = pgettext( "faction adjective", "y" );
         break;
     }
-    ret += rm_prefix(tmp);
+    ret += tmp;
     return ret;
 }
 
@@ -1071,7 +1069,7 @@ std::string fac_wealth_text(int val, int size)
     if (val >= 50000) {
         return _("Impoverished");
     }
-    return _("Destitue");
+    return _("Destitute");
 }
 
 std::string fac_food_supply_text(int val, int size)

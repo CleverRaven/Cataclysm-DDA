@@ -1,0 +1,45 @@
+[
+    {
+        "type":"GENERIC",
+        "id": "silver_glyph",
+        "symbol": ",",
+        "color": "light_gray",
+        "name": "silver glyph",
+        "category": "other",
+        "description": "A silver emblem resembling a 16-pointed star in a circle.  You feel as though it could be a powerful arcane device, but there is no magic in it.  Yet.",
+        "price": 8400,
+        "material": "silver",
+        "weight": 285,
+        "volume": 1,
+        "bashing": 1,
+        "to_hit": -3
+    },{
+        "type":"GENERIC",
+        "id": "scroll_blank",
+        "symbol": "!",
+        "color": "light_gray",
+        "name": "blank scroll",
+        "category": "other",
+        "description": "A simple sheet of paper, with wooden rollers to support it.  You feel as if it was meant to have ancient, eldritch text written on it.  But sadly, it's blank.",
+        "price": 2000,
+        "material": "paper",
+        "weight": 415,
+        "volume": 1
+    },
+    {
+        "type":"GENERIC",
+        "id": "sword_forged",
+        "symbol" : "!",
+        "color": "dark_gray",
+        "name": "forged sword",
+        "description": "A common short sword, forged from several pieces of steel.  The pointy end is the dangerous one.",
+        "material": "steel",
+        "volume": 8,
+        "weight": 700,
+        "bashing": 4,
+        "cutting": 14,
+        "to_hit": 2,
+        "flags": ["SHEATH_SWORD"],
+        "techniques": ["WBLOCK_2"]
+    }
+]

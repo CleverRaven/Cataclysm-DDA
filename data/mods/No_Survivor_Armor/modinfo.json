@@ -1,9 +1,11 @@
-{
+[
+  {
     "type": "MOD_INFO",
-    "mod-type": "SUPPLEMENTAL",
     "ident": "no_survivor_armor",
     "name": "No Survivor Armor",
-    "author": "tungtn",
+    "authors": [ "tungtn" ],
     "description": "Removes survivor armor.",
-    "path": ""
-}
+    "category": "item_exclude",
+    "dependencies": [ "dda" ]
+  }
+]

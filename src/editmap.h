@@ -1,3 +1,4 @@
+#pragma once
 #ifndef EDITMAP_H
 #define EDITMAP_H
 
@@ -15,7 +16,7 @@
 struct real_coords;
 enum field_id : int;
 
-enum shapetype {
+    enum shapetype {
     editmap_rect, editmap_rect_filled, editmap_line, editmap_circle,
 };
 
@@ -26,8 +27,7 @@ struct editmap_hilight {
     nc_color color;
     std::map<tripoint, char> points;
     nc_color( *getbg )( nc_color );
-    void setup()
-    {
+    void setup() {
         getbg = ( color == c_red ? &red_background :
                   ( color == c_magenta ? &magenta_background :
                     ( color == c_cyan ? &cyan_background :
@@ -70,6 +70,7 @@ class editmap
         WINDOW *w_help;
         int width;
         int height;
+        int offsetX;
         int infoHeight;
 
         int ter_frn_mode;
@@ -112,7 +113,6 @@ class editmap
         int tmaxx;
         int tmaxy;
         bool uberdraw;
-        std::map<oter_id, int> oter_special;
 
         editmap();
         ~editmap();

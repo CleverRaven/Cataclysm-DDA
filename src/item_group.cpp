@@ -4,6 +4,7 @@
 #include "item.h"
 #include "debug.h"
 #include "itype.h"
+#include "game_constants.h"
 #include <map>
 #include <algorithm>
 #include <cassert>
@@ -39,9 +40,9 @@ item Single_item_creator::create_single(int birthday, RecursionList &rec) const
     item tmp;
     if (type == S_ITEM) {
         if (id == "corpse") {
-            tmp.make_corpse( mtype_id( "mon_null" ), birthday );
+            tmp = item::make_corpse( mtype_id::NULL_ID(), birthday );
         } else {
-            tmp = item(id, birthday);
+            tmp = item( id, birthday );
         }
     } else if (type == S_ITEM_GROUP) {
         if (std::find(rec.begin(), rec.end(), id) != rec.end()) {
@@ -155,7 +156,17 @@ bool Single_item_creator::has_item(const Item_tag &itemid) const
     return type == S_ITEM && itemid == id;
 }
 
-
+void Single_item_creator::inherit_ammo_mag_chances( const int ammo, const int mag )
+{
+    if( ammo != 0 || mag != 0 ) {
+        if( !modifier ) {
+            std::unique_ptr<Item_modifier> mod( new Item_modifier() );
+            modifier = std::move( mod );
+        }
+        modifier->with_ammo = ammo;
+        modifier->with_magazine = mag;
+    }
+}
 
 Item_modifier::Item_modifier()
     : damage(0, 0)
@@ -163,6 +174,8 @@ Item_modifier::Item_modifier()
     , charges(-1, -1)
     , ammo()
     , container()
+    , with_ammo( 0 )
+    , with_magazine( 0 )
 {
 }
 
@@ -176,54 +189,67 @@ void Item_modifier::modify(item &new_item) const
     if(new_item.is_null()) {
         return;
     }
-    int dm = (damage.first == damage.second) ? damage.first : rng(damage.first, damage.second);
-    if(dm >= -1 && dm <= 4) {
-        new_item.damage = dm;
-    }
+
+    new_item.set_damage( rng( damage.first, damage.second ) );
+
     long ch = (charges.first == charges.second) ? charges.first : rng(charges.first, charges.second);
-    const auto g = new_item.type->gun.get();
-    const auto t = dynamic_cast<const it_tool *>(new_item.type);
-   
+
     if(ch != -1) {
         if( new_item.count_by_charges() || new_item.made_of( LIQUID ) ) {
             // food, ammo
             // count_by_charges requires that charges is at least 1. It makes no sense to
             // spawn a "water (0)" item.
             new_item.charges = std::max( 1l, ch );
-        } else if(t != NULL) {
-            new_item.charges = std::min(ch, t->max_charges);
-        } else if (g == nullptr){
-            //not gun, food, ammo or tool. 
+        } else if( new_item.is_tool() ) {
+            const auto qty = std::min( ch, new_item.ammo_capacity() );
+            new_item.charges = qty;
+            if( new_item.ammo_type() && qty > 0 ) {
+                new_item.ammo_set( default_ammo( new_item.ammo_type() ), qty );
+            }
+        } else if( !new_item.is_gun() ) {
+            //not gun, food, ammo or tool.
             new_item.charges = ch;
         }
     }
-    
-    if( g != nullptr && ( ammo.get() != nullptr || ch > 0 ) ) {
+
+    if( ch > 0 && ( new_item.is_gun() || new_item.is_magazine() ) ) {
         if( ammo.get() == nullptr ) {
             // In case there is no explicit ammo item defined, use the default ammo
-            const auto ammoid = default_ammo( g->ammo );
-            if ( !ammoid.empty() ) {
-                new_item.set_curammo( ammoid );
-                new_item.charges = ch;
+            if( new_item.ammo_type() ) {
+                new_item.ammo_set( default_ammo( new_item.ammo_type() ), ch );
             }
         } else {
             const item am = ammo->create_single( new_item.bday );
-            new_item.set_curammo( am );
-            // Prefer explicit charges of the gun, else take the charges of the ammo item,
-            // Gun charges are easier to define: {"item":"gun","charge":10,"ammo-item":"ammo"}
-            if( ch > 0 ) {
-                new_item.charges = ch;
-            } else {
-                new_item.charges = am.charges;
-            }
+            new_item.ammo_set( am.typeId(), ch );
         }
-        // Make sure the item is in a valid state curammo==0 <=> charges==0 and respect clip size
-        if( !new_item.has_curammo() ) {
-            new_item.charges = 0;
+        // Make sure the item is in valid state
+        if( new_item.ammo_data() && new_item.magazine_integral() ) {
+            new_item.charges = std::min( new_item.charges, new_item.ammo_capacity() );
         } else {
-            new_item.charges = std::min<long>( new_item.charges, new_item.clip_size() );
+            new_item.charges = 0;
         }
     }
+
+    if( new_item.is_tool() || new_item.is_gun() || new_item.is_magazine() ) {
+        bool spawn_ammo = rng( 0, 99 ) < with_ammo && new_item.ammo_remaining() == 0 && ch == -1 &&
+                          ( !new_item.is_tool() || new_item.type->tool->rand_charges.empty() );
+        bool spawn_mag  = rng( 0, 99 ) < with_magazine && !new_item.magazine_integral() && !new_item.magazine_current();
+
+        if( spawn_mag ) {
+            new_item.contents.emplace_back( new_item.magazine_default(), new_item.bday );
+        }
+
+        if( spawn_ammo ) {
+            if( ammo.get() ) {
+                const item am = ammo->create_single( new_item.bday );
+                new_item.ammo_set( am.typeId() );
+            } else {
+                new_item.ammo_set( default_ammo( new_item.ammo_type() ) );
+            }
+        }
+    }
+
+
     if(container.get() != NULL) {
         item cont = container->create_single(new_item.bday);
         if (!cont.is_null()) {
@@ -253,6 +279,12 @@ void Item_modifier::check_consistency() const
     if (container.get() != NULL) {
         container->check_consistency();
     }
+    if( with_ammo < 0 || with_ammo > 100 ) {
+        debugmsg( "Item modifier's ammo chance %d is out of range", with_ammo );
+    }
+    if( with_magazine < 0 || with_magazine > 100 ) {
+        debugmsg( "Item modifier's magazine chance %d is out of range", with_magazine );
+    }
 }
 
 bool Item_modifier::remove_item(const Item_tag &itemid)
@@ -273,13 +305,23 @@ bool Item_modifier::remove_item(const Item_tag &itemid)
 
 
 
-Item_group::Item_group(Type t, int probability)
+Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_chance )
     : Item_spawn_data(probability)
     , type(t)
+    , with_ammo( ammo_chance )
+    , with_magazine( magazine_chance )
     , sum_prob(0)
     , items()
-    , with_ammo(false)
 {
+    if( probability <= 0 || ( t != Type::G_DISTRIBUTION && probability > 100 ) ) {
+        debugmsg( "Probability %d out of range", probability );
+    }
+    if( ammo_chance < 0 || ammo_chance > 100 ) {
+        debugmsg( "Ammo chance %d is out of range.", ammo_chance );
+    }
+    if( magazine_chance < 0 || magazine_chance > 100 ) {
+        debugmsg( "Magazine chance %d is out of range.", magazine_chance );
+    }
 }
 
 Item_group::~Item_group()
@@ -313,8 +355,15 @@ void Item_group::add_entry(std::unique_ptr<Item_spawn_data> &ptr)
     if (type == G_COLLECTION) {
         ptr->probability = std::min(100, ptr->probability);
     }
-    items.push_back(ptr.get());
     sum_prob += ptr->probability;
+
+    // Make the ammo and magazine probabilities from the outer entity apply to the nested entity:
+    // If ptr is an Item_group, it already inherited its parent's ammo/magazine chances in its constructor.
+    Single_item_creator *sic = dynamic_cast<Single_item_creator *>( ptr.get() );
+    if( sic ) {
+        sic->inherit_ammo_mag_chances( with_ammo, with_magazine );
+    }
+    items.push_back( ptr.get() );
     ptr.release();
 }
 
@@ -341,18 +390,7 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
             break;
         }
     }
-    if (with_ammo && !result.empty()) {
-        const auto t = result.front().type;
-        if( t->gun ) {
-            const std::string ammoid = default_ammo( t->gun->ammo );
-            if ( !ammoid.empty() ) {
-                item ammo( ammoid, birthday );
-                // TODO: change the spawn lists to contain proper references to containers
-                ammo = ammo.in_its_container();
-                result.push_back( ammo );
-            }
-        }
-    }
+
     return result;
 }
 
@@ -495,7 +533,7 @@ Group_tag item_group::load_item_group( JsonIn& stream, const std::string& defaul
         if( default_subtype != "collection" && default_subtype != "distribution" ) {
             debugmsg( "invalid subtype for item group: %s", default_subtype.c_str() );
         }
-        item_controller->load_item_group( jarr, group, default_subtype == "collection" );
+        item_controller->load_item_group( jarr, group, default_subtype == "collection", 0, 0 );
 
         return group;
     } else {

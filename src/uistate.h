@@ -1,3 +1,4 @@
+#pragma once
 #ifndef UISTATE_H
 #define UISTATE_H
 
@@ -6,10 +7,14 @@
 
 #include "json.h"
 #include "enums.h"
+#include "omdata.h"
 
 #include <map>
 #include <vector>
 #include <string>
+
+class ammunition_type;
+using ammotype = string_id<ammunition_type>;
 
 class item;
 
@@ -57,7 +62,9 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         tripoint adv_inv_last_coords = {-999, -999, -999};
         int last_inv_start = -2;
         int last_inv_sel = -2;
-        int list_item_mon = -1;
+
+        // V Menu Stuff
+        bool vmenu_show_items = true; // false implies show monsters
         int list_item_sort = 0;
         std::string list_item_filter;
         std::string list_item_downvote;
@@ -67,13 +74,22 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         bool list_item_priority_active = false;
         bool list_item_init = false;
 
+        // construction menu selections
+        std::string construction_filter;
+        std::string last_construction;
+
+        // overmap editor selections
+        const oter_t *place_terrain = nullptr;
+        const overmap_special *place_special = nullptr;
+        om_direction::type omedit_rotation = om_direction::type::none;
+
         /* to save input history and make accessible via 'up', you don't need to edit this file, just run:
            output = string_input_popup(str, int, str, str, std::string("set_a_unique_identifier_here") );
         */
 
         std::map<std::string, std::vector<std::string>> input_history;
 
-        std::map<std::string, std::string> lastreload; // last typeid used when reloading ammotype
+        std::map<ammotype, itype_id> lastreload; // id of ammo last used when reloading ammotype
 
         // internal stuff
         bool _testing_save = true; // internal: whine on json errors. set false if no complaints in 2 weeks.
@@ -120,7 +136,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             json.member("editmap_nsa_viewmode", editmap_nsa_viewmode);
             json.member("overmap_blinking", overmap_blinking);
             json.member("overmap_show_overlays", overmap_show_overlays);
-            json.member("list_item_mon", list_item_mon);
+            json.member( "vmenu_show_items", vmenu_show_items );
             json.member("list_item_sort", list_item_sort);
             json.member("list_item_filter_active", list_item_filter_active);
             json.member("list_item_downvote_active", list_item_downvote_active);
@@ -200,7 +216,13 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             jo.read("adv_inv_container_content_type", adv_inv_container_content_type);
             jo.read("overmap_blinking", overmap_blinking);
             jo.read("overmap_show_overlays", overmap_show_overlays);
-            jo.read("list_item_mon", list_item_mon);
+
+            if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
+                // This is an old save: 1 means view items, 2 means view monsters,
+                // -1 means uninitialized
+                vmenu_show_items = jo.get_int( "list_item_mon", -1 ) != 2;
+            }
+
             jo.read("list_item_sort", list_item_sort);
             jo.read("list_item_filter_active", list_item_filter_active);
             jo.read("list_item_downvote_active", list_item_downvote_active);

@@ -1,0 +1,117 @@
+[
+    {
+        "type": "effect_type",
+        "id": "offering",
+        "name": ["Offering"],
+        "desc": ["Something is sapping the life from your body."],
+        "miss_messages": [["Your will to fight fades for a moment.", 2]],
+        "rating": "bad",
+        "pain_sizing": true,
+        "hurt_sizing": true,
+        "main_parts_only": true,
+        "base_mods": {
+            "pain_min": [5],
+            "pain_chance": [1, 1],
+            "hurt_min": [10],
+            "hurt_max": [20],
+            "hurt_chance": [1, 1]
+        }
+    },{
+        "type": "effect_type",
+        "id": "potion_numbness",
+        "name": ["Intense Numbness"],
+        "desc": ["Your body feels incredibly numb."],
+        "remove_message": "The numbness fades.",
+        "max_duration": 150,
+        "base_mods": {
+            "pkill_tick": [7],
+            "pkill_min": [25],
+            "pkill_max_val": [50],
+            "speed_mod": [-15]
+        }
+    },{
+        "type": "effect_type",
+        "id": "potion_strength",
+        "name": ["Strengthed"],
+        "desc": ["You feel mighty, like you could take on the world."],
+        "remove_message": "The unnatural strength leaves your body.",
+        "max_duration": 150,
+        "base_mods": {
+            "pain_min": [1],
+            "pain_max_val": [10, 5],
+            "str_mod": [3],
+            "dex_mod": [-1],
+            "int_mod": [-1],
+            "per_mod": [-1],
+            "speed_mod": [5]
+        }
+    },{
+        "type": "effect_type",
+        "id": "potion_speed",
+        "name": ["Speedy"],
+        "desc": ["Your heart feels like it's beating dangerously fast."],
+        "remove_message": "Your heartbeat slows back down to a normal pace.",
+        "max_duration": 150,
+        "base_mods": {
+            "pain_min": [1],
+            "pain_max_val": [10, 5],
+            "str_mod": [-2],
+            "dex_mod": [2],
+            "int_mod": [-2],
+            "per_mod": [2],
+            "speed_mod": [25]
+        }
+    },{
+        "type": "effect_type",
+        "id": "potion_healing",
+        "name": ["Elixir"],
+        "desc": ["Not immortality, but it still feels nice."],
+        "remove_message": "The healing effect fades.",
+        "removes_effects": ["infected", "bite", "bleed", "common_cold", "flu", "tetanus"],
+        "max_duration": 150,
+        "base_mods": {
+            "pkill_tick": [3],
+            "pkill_min": [5],
+            "pkill_max_val": [25],
+            "speed_mod": [-10]
+        }
+    },{
+        "//": "Dummied out for the moment, on the off chance someone ports a save with this effect active.",
+        "type": "effect_type",
+        "id": "aegiscure",
+        "name": ["Aegis Cure"],
+        "desc": ["Illness and infection shall be purged."],
+        "removes_effects": ["fungus", "tetanus", "infected", "common_cold", "flu"],
+        "base_mods": {
+            "pain_min": [10],
+            "pain_chance": [1, 1],
+            "fatigue_min": [5],
+            "fatigue_chance": [1, 1]
+        }
+    },{
+        "type": "effect_type",
+        "id": "revenant_hunger",
+        "name": ["Revenant Hunger"],
+        "desc": ["Immunity to food poisoning and parasites, increased hunger gain."],
+        "remove_message": "Your craving for rotten food subsides.",
+        "blocks_effects": ["poison", "badpoison", "foodpoison", "paralyzepoison", "bloodworms", "paincysts", "brainworms", "tapeworm"],
+        "max_duration": 100,
+        "base_mods": {
+            "hunger_min": [1],
+            "fatigue_chance": [1, 6]
+        }
+    },{
+        "//": "Will be relevant once cleric ring is obtainable.",
+        "type": "effect_type",
+        "id": "cleric_warding",
+        "name": ["Ward Against Evil"],
+        "desc": ["Protects against various anomalous effects."],
+        "remove_message": "The ring's magical protection fades.",
+        "removes_effects": ["darkness", "rat", "evil", "attention", "teleglow", "amigara"],
+        "blocks_effects": ["darkness", "rat", "evil", "attention", "teleglow", "amigara"],
+        "max_duration": 250,
+        "base_mods": {
+            "speed_mod": [-20]
+        }
+    }
+]

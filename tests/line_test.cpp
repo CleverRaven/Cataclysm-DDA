@@ -70,6 +70,17 @@ std::vector <point> canonical_line_to(const int x1, const int y1, const int x2, 
     return ret;
 }
 
+TEST_CASE("test_normalized_angle") {
+    CHECK( get_normalized_angle( {0, 0}, {10, 0} ) == Approx(0.0) );
+    CHECK( get_normalized_angle( {0, 0}, {0, 10} ) == Approx(0.0) );
+    CHECK( get_normalized_angle( {0, 0}, {-10, 0} ) == Approx(0.0) );
+    CHECK( get_normalized_angle( {0, 0}, {0, -10} ) == Approx(0.0) );
+    CHECK( get_normalized_angle( {0, 0}, {10, 10} ) == Approx(1.0) );
+    CHECK( get_normalized_angle( {0, 0}, {-10, 10} ) == Approx(1.0) );
+    CHECK( get_normalized_angle( {0, 0}, {10, -10} ) == Approx(1.0) );
+    CHECK( get_normalized_angle( {0, 0}, {-10, -10} ) == Approx(1.0) );
+}
+
 TEST_CASE("Test bounds for mapping x/y/z/ offsets to direction enum") {
 
   // Test the unit cube, which are the only values this function is valid for.
@@ -226,6 +237,45 @@ TEST_CASE("Test bounds for mapping x/y/z/ offsets to direction enum") {
   REQUIRE( make_xyz(30, 60, 1) == BELOWSOUTHEAST );
   REQUIRE( make_xyz(60, 60, 1) == BELOWSOUTHEAST );
   REQUIRE( make_xyz(60, 30, 1) == BELOWSOUTHEAST );
+}
+
+TEST_CASE("squares_closer_to_test") {
+    // TODO: make this ordering agnostic.
+    auto actual = squares_closer_to( {0, 0, 0}, {10, 0, 0} );
+    std::vector<tripoint> expected = {tripoint(1, 0, 0),tripoint(1, 1, 0),tripoint(1, -1, 0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {0, 0, 0}, {-10, -10, 0} );
+    expected = {tripoint(-1, -1, 0),tripoint(-1, 0, 0),tripoint(0, -1, 0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {0, 0, 0}, {10, 10, 0} );
+    expected = {tripoint(1, 1, 0),tripoint(1, 0, 0),tripoint(0, 1, 0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {0, 0, 0}, {10, 9, 0} );
+    expected = {tripoint(1, 0, 0),tripoint(1, 1, 0),tripoint(1, -1, 0),tripoint(0, 1, 0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {0, 0, 0}, {10, 1, 0} );
+    expected = {tripoint(1, 0, 0),tripoint(1, 1, 0),tripoint(1, -1, 0),tripoint(0, 1, 0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {10, 9, 0}, {0, 0, 0} );
+    expected = {tripoint(9, 9, 0),tripoint(9, 10, 0),tripoint(9, 8, 0),tripoint(10,8,0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {0, 0, 0}, {-10, -9, 0} );
+    expected = {tripoint(-1, 0, 0),tripoint(-1, 1, 0),tripoint(-1, -1, 0),tripoint(0,-1,0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {10, -10, 0}, {10, 10, 0} );
+    expected = {tripoint(10, -9, 0),tripoint(11, -9, 0),tripoint(9, -9, 0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {10, -10, 0}, {-10, -5, 0} );
+    expected = {tripoint(9, -10, 0),tripoint(9, -9, 0),tripoint(9, -11, 0),tripoint(10,-9,0)};
+    CHECK( actual == expected );
 }
 
 #define RANDOM_TEST_NUM 1000

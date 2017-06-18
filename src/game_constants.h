@@ -1,3 +1,4 @@
+#pragma once
 #ifndef GAME_CONSTANTS_H
 #define GAME_CONSTANTS_H
 
@@ -19,26 +20,24 @@
 #define STATUS_HEIGHT 4
 #define STATUS_WIDTH 55
 
-#define LONG_RANGE 10
 #define BLINK_SPEED 300
 #define EXPLOSION_MULTIPLIER 7
 
-#define MAX_ITEM_IN_SQUARE 4096 // really just a sanity check for functions not tested beyond this. in theory 4096 works (`InvletInvlet)
-#define MAX_VOLUME_IN_SQUARE 4000 // 6.25 dead bears is enough for everybody!
-#define MAX_ITEM_IN_VEHICLE_STORAGE MAX_ITEM_IN_SQUARE // no reason to differ
-#define MAX_WORN_PER_TYPE 2 // only can wear a maximum of two of any type of clothing
+// Really just a sanity check for functions not tested beyond this. in theory 4096 works (`InvletInvlet)
+#define MAX_ITEM_IN_SQUARE 4096
+// no reason to differ
+#define MAX_ITEM_IN_VEHICLE_STORAGE MAX_ITEM_IN_SQUARE
+// only can wear a maximum of two of any type of clothing
+#define MAX_WORN_PER_TYPE 2
 
 #define MAPSIZE 11
 
-//More importantly: SEEX defines the size of a nonant, or grid. Same with SEEY.
-                // SEEX is how far the player can see in the X direction (at
-#define SEEX 12 // least, without scrolling).  All map segments will need to be
-                // at least this wide. The map therefore needs to be 3x as wide.
+// SEEX/SEEY define the size of a nonant, or grid.
+// All map segments will need to be at least this wide.
+#define SEEX 12
+#define SEEY SEEX
 
-                // Same as SEEX
-#define SEEY 12 // Requires 2*SEEY+1= 25 vertical squares
-                // Nuts to 80x24 terms. Mostly exists in graphical clients, and
-                // those fatcats can resize.
+#define MAX_VIEW_DISTANCE ( SEEX * int( MAPSIZE / 2 ) )
 
 // Size of the overmap. This is the number of overmap terrain tiles per dimension in one overmap,
 // it's just like SEEX/SEEY for submaps.
@@ -55,5 +54,56 @@
 #define OVERMAP_HEIGHT 10
 /** Total number of z-levels */
 #define OVERMAP_LAYERS (1 + OVERMAP_DEPTH + OVERMAP_HEIGHT)
+
+/** Maximum move cost when handling an item */
+#define MAX_HANDLING_COST 400
+/** Move cost of accessign an item in inventory. */
+#define INVENTORY_HANDLING_PENALTY 100
+/** Move cost of accessing an item lying on the map. @todo Less if player is crouching */
+#define MAP_HANDLING_PENALTY 80
+/** Move cost of accessing an item lying on a vehicle. */
+#define VEHICLE_HANDLING_PENALTY 80
+
+/** Amount by which to charge an item for each unit of plutonium cell */
+#define PLUTONIUM_CHARGES 500
+
+///\EFFECT_STR allows lifting of heavier objects */
+#define STR_LIFT_FACTOR 50000 // 50kg/STR @todo revert to 10kg/STR
+
+/** Weight per level of LIFT/JACK tool quality */
+#define TOOL_LIFT_FACTOR 500000 // 500kg/level
+
+/** Cap JACK requirements to support arbritrarily large vehicles */
+#define JACK_LIMIT 8500000 // 8500kg (8.5 metric tonnes)
+
+/** Maximum density of a map field */
+#define MAX_FIELD_DENSITY 3
+
+/** Slowest speed at which a gun can be aimed */
+#define MAX_AIM_COST 10
+
+/** Maximum (effective) level for a skill */
+#define MAX_SKILL 10
+
+/** Maximum (effective) level for a stat */
+#define MAX_STAT 20
+
+/** Maximum range at which only standard dispersion applies */
+#define RANGE_SOFT_CAP 30
+/** Maximum range at which ranged attacks can be executed */
+#define RANGE_HARD_CAP 60
+
+/** Accuracy levels which a shots tangent must be below */
+constexpr double accuracy_headshot = 0.1;
+constexpr double accuracy_critical = 0.2;
+constexpr double accuracy_goodhit  = 0.5;
+constexpr double accuracy_standard = 0.8;
+constexpr double accuracy_grazing  = 1.0;
+
+/** Minimum item damage output of relevant type to allow using with relevant weapon skill */
+#define MELEE_STAT 5
+
+/** Effective lower bound to combat skill levels when CQB bionic is active */
+#define BIO_CQB_LEVEL 5
 
 #endif

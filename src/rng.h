@@ -1,3 +1,4 @@
+#pragma once
 #ifndef RNG_H
 #define RNG_H
 
@@ -5,17 +6,28 @@
 
 #include <functional>
 
-long rng(long val1, long val2);
-double rng_float(double val1, double val2);
-bool one_in(int chance);
-bool one_in_improved(double chance);
-bool x_in_y(double x, double y);
-int dice(int number, int sides);
+long rng( long val1, long val2 );
+double rng_float( double val1, double val2 );
+bool one_in( int chance );
+bool one_in_improved( double chance );
+bool x_in_y( double x, double y );
+int dice( int number, int sides );
 
+// Returns x + x_in_y( x-int(x), 1 )
+int roll_remainder( double value );
 // Returns x/y + x_in_y( (x/y)-int(x/y), 1 )
 int divide_roll_remainder( double dividend, double divisor );
 
-int djb2_hash(const unsigned char *input);
+int djb2_hash( const unsigned char *input );
+
+double rng_normal( double lo, double hi );
+
+inline double rng_normal( double hi )
+{
+    return rng_normal( 0.0, hi );
+}
+
+double normal_roll( double mean, double stddev );
 
 /**
  * Returns a random entry in the container.
@@ -29,7 +41,7 @@ int djb2_hash(const unsigned char *input);
  * \code random_entry( vect, std::string("default") ); \endcode
  */
 template<typename C, typename D, typename V = typename C::value_type>
-inline V random_entry( const C& container, D default_value )
+inline V random_entry( const C &container, D default_value )
 {
     if( container.empty() ) {
         return default_value;
@@ -40,11 +52,25 @@ inline V random_entry( const C& container, D default_value )
 }
 /**
  * Same as above, but returns a default constructed value if the container
- * is empty. This allows to return a reference, either into the given container or to the
- * (statically allocated and therefor always valid) default value.
+ * is empty.
  */
 template<typename C, typename V = typename C::value_type>
-inline const V& random_entry( const C& container )
+inline V random_entry( const C &container )
+{
+    if( container.empty() ) {
+        return V();
+    }
+    auto iter = container.begin();
+    std::advance( iter, rng( 0, container.size() - 1 ) );
+    return *iter;
+}
+/**
+ * Same as above, but with a statically allocated default value (using the default
+ * constructor). This allows to return a reference, either into the given container
+ * or to the default value.
+ */
+template<typename C, typename V = typename C::value_type>
+inline const V & random_entry_ref( const C &container )
 {
     if( container.empty() ) {
         static const V default_value = V();
@@ -59,7 +85,7 @@ inline const V& random_entry( const C& container )
  * The container must not be empty!
  */
 template<typename C, typename V = typename C::value_type>
-inline V random_entry_removed( C& container )
+inline V random_entry_removed( C &container )
 {
     auto iter = container.begin();
     std::advance( iter, rng( 0, container.size() - 1 ) );

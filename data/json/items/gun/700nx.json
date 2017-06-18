@@ -1,0 +1,25 @@
+[
+  {
+    "id": "trex_gun",
+    "type": "GUN",
+    "name": "Elephant gun",
+    "description": "A custom-made single shot rifle specially designed for the hunting of huge game.  You could obviously kill everything with this, EVERYTHING.  If you ever find enough ammo of course.",
+    "weight": 8082,
+    "volume": 12,
+    "price": 2000000,
+    "to_hit": 1,
+    "bashing": 12,
+    "material": [ "steel", "wood" ],
+    "symbol": "(",
+    "color": "light_blue",
+    "ammo": "700nx",
+    "skill": "rifle",
+    "dispersion": 90,
+    "durability": 8,
+    "clip_size": 1,
+    "reload": 600,
+    "barrel_length": 4,
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
+  }
+]

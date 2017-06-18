@@ -1,9 +1,12 @@
-{
+[
+  {
     "type": "MOD_INFO",
-    "mod_type": "SUPPLEMENTAL",
     "ident": "blazemod",
     "name": "Vehicle Additions Pack",
-    "description": "Adds more possible dakka to your vehicles.",
-    "author": "Blaze",
-    "path": ""
-}
+    "authors": [ "Blaze-whatdoyoumeanitsalreadytaken" ],
+    "maintainers": [ "Blaze-whatdoyoumeanitsalreadytaken" ],
+    "description": "Please see the included PAQ.txt in the mod folder if you encounter any issues.",
+    "category": "vehicles",
+    "dependencies": [ "dda" ]
+  }
+]

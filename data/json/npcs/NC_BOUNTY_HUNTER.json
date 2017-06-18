@@ -32,6 +32,7 @@
       ["null", 20],
       ["hoodie", 20],
       ["jacket_light", 20],
+      ["jacket_windbreaker", 10],
       ["jacket_leather", 80],
       ["trenchcoat", 20],
       ["jacket_jean", 20],

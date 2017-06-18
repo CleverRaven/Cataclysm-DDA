@@ -10,8 +10,8 @@
     "reversible": true,
     "autolearn": true,
     "qualities":[
-      {"id":"HAMMER","level":2,"amount":1},
-      {"id":"SAW_W","level":1,"amount":1}
+      {"id":"HAMMER","level":2},
+      {"id":"SAW_W","level":1}
     ],
     "components": [
       [ [ "2x4", 5 ] ],
@@ -29,8 +29,8 @@
     "reversible": true,
     "autolearn": true,
     "qualities":[
-      {"id":"HAMMER","level":2,"amount":1},
-      {"id":"SAW_W","level":1,"amount":1}
+      {"id":"HAMMER","level":2},
+      {"id":"SAW_W","level":1}
     ],
     "components": [
       [ [ "2x4", 1 ] ],

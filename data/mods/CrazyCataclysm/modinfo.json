@@ -1,0 +1,20 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "crazy_cataclysm",
+    "name": "Crazy Cataclysm",
+    "authors": [ "Kevin" ],
+    "description": "Want a little crazy in your Cataclysm?  Try this one.",
+    "category": "misc_additions",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "type": "MONSTER_WHITELIST",
+    "monsters": [
+      "mon_zombie_dancer",
+      "mon_zombie_jackson",
+      "mon_shia",
+      "mon_bear_smoky"
+    ]
+  }
+]

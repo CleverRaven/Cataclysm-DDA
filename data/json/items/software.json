@@ -1,112 +1,56 @@
 [
     {
-        "type":"GENERIC",
+        "id": "software",
+        "type": "GENERIC",
+        "name": "software",
+        "symbol": "#",
+        "container": "usb_drive",
+        "description": "IF YOU ARE SEEING THIS IT IS A BUG.",
+        "flags": [ "IRREMOVABLE", "NO_DROP" ]
+    },
+    {
         "id": "software_useless",
-        "symbol": " ",
-        "color": "white",
+        "copy-from": "software",
+        "type":"GENERIC",
         "name": "misc software",
-        "name_plural": "none",
+        "name_plural": "misc software",
         "description": "A miscellaneous piece of hobby software.  Probably useless.",
-        "price": 300,
-        "weight": 0,
-        "volume": 0,
-        "bashing": 0,
-        "cutting": 0,
-        "to_hit": 0,
-        "software_data": {
-            "power": 0,
-            "type": "USELESS"
-        },
-        "spawn_data": {
-            "container": "usb_drive"
-        }
+        "price": 300
     },
     {
-        "type":"GENERIC",
         "id": "software_hacking",
-        "symbol": " ",
-        "color": "white",
+        "copy-from": "software",
+        "type":"GENERIC",
         "name": "hackPRO",
-        "name_plural": "none",
+        "name_plural": "hackPRO",
         "description": "A piece of hacking software.",
-        "price": 800,
-        "weight": 0,
-        "volume": 0,
-        "bashing": 0,
-        "cutting": 0,
-        "to_hit": 0,
-        "software_data": {
-            "power": 2,
-            "type": "HACKING"
-        },
-        "spawn_data": {
-            "container": "usb_drive"
-        }
+        "price": 800
     },
     {
-        "type":"GENERIC",
         "id": "software_medical",
-        "symbol": " ",
-        "color": "white",
+        "copy-from": "software",
+        "type":"GENERIC",
         "name": "MediSoft",
-        "name_plural": "none",
+        "name_plural": "MediSoft",
         "description": "A piece of medical software.",
-        "price": 600,
-        "weight": 0,
-        "volume": 0,
-        "bashing": 0,
-        "cutting": 0,
-        "to_hit": 0,
-        "software_data": {
-            "power": 2,
-            "type": "MEDICAL"
-        },
-        "spawn_data": {
-            "container": "usb_drive"
-        }
+        "price": 600
     },
     {
-        "type":"GENERIC",
         "id": "software_math",
-        "symbol": " ",
-        "color": "white",
+        "copy-from": "software",
+        "type":"GENERIC",
         "name": "MatheMAX",
-        "name_plural": "none",
+        "name_plural": "MatheMAX",
         "description": "A piece of mathematical software.",
-        "price": 500,
-        "weight": 0,
-        "volume": 0,
-        "bashing": 0,
-        "cutting": 0,
-        "to_hit": 0,
-        "software_data": {
-            "power": 3,
-            "type": "SCIENCE"
-        },
-        "spawn_data": {
-            "container": "usb_drive"
-        }
+        "price": 500
     },
     {
-        "type":"GENERIC",
         "id": "software_blood_data",
-        "symbol": " ",
-        "color": "white",
+        "copy-from": "software",
+        "type":"GENERIC",
         "name": "infection data",
-        "name_plural": "none",
+        "name_plural": "infection data",
         "description": "Medical data on zombie blood.",
-        "price": 200,
-        "weight": 0,
-        "volume": 0,
-        "bashing": 0,
-        "cutting": 0,
-        "to_hit": 0,
-        "software_data": {
-            "power": 5,
-            "type": "DATA"
-        },
-        "spawn_data": {
-            "container": "usb_drive"
-        }
+        "price": 200
     }
 ]
