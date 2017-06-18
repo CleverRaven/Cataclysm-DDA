@@ -1902,6 +1902,7 @@ int iuse::mycus(player *p, item *it, bool t, const tripoint &pos)
     return it->type->charges_to_use();
 }
 
+// Types of petfood for each different case
 enum Petfood
 {
 	DOGFOOD,

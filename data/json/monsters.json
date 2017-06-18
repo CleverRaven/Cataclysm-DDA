@@ -1180,7 +1180,7 @@
       "//": "25% chance of an item from group cow"
     },
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES", "FAT", "MILKABLE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES", "FAT", "MILKABLE", "SIMPLEMINDED" ]
   },
   {
     "id": "mon_coyote",

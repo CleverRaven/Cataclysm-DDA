@@ -158,6 +158,7 @@ enum m_flag : int {
     MF_PRIORITIZE_TARGETS,  // This monster will prioritize targets depending on their danger levels
     MF_NOT_HALLU,           // Monsters that will NOT appear when player's producing hallucinations
 	MF_MILKABLE,            // This monster is milkable.
+	MF_SIMPLEMINDED,		// This monster is simpleminded.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
