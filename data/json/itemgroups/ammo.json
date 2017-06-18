@@ -368,6 +368,7 @@
     "//": "Ammo issued to paramilitary forces in addition to standard police issue.",
     "items": [
       { "group": "ammo_cop", "prob": 100 },
+      [ "300_winmag", 5 ],
       [ "40mm_concussive", 5 ],
       [ "40mm_flashbang", 20 ],
       [ "40mm_smoke", 5 ],
@@ -397,6 +398,7 @@
       { "item": "5x50_hull", "prob": 60, "count": 20 },
       { "item": "700nx_casing", "prob": 40, "count": 5 },
       { "item": "762_casing", "prob": 80, "count": 20 },
+      { "item": "762_25_casing", "prob": 60, "count": 20 },
       { "item": "9mm_casing", "prob": 100, "count": 20 },
       { "item": "9x18mm_casing", "prob": 80, "count": 20 },
       { "item": "shot_hull", "prob": 100, "count": 20 }

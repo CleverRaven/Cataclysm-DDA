@@ -270,6 +270,8 @@ public:
     /** Get part definition common to all parts of this type */
     const vpart_info &info() const;
 
+    const item& get_base() const;
+
     // json saving/loading
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const override;

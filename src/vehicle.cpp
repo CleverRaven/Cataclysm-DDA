@@ -6046,6 +6046,11 @@ vehicle_part::operator bool() const {
     return id != vpart_id::NULL_ID();
 }
 
+const item& vehicle_part::get_base() const 
+{
+    return base;
+}
+
 item vehicle_part::properties_to_item() const
 {
     item tmp = base;
