@@ -1979,7 +1979,7 @@ int iuse::catfood(player *p, item *it, bool, const tripoint& )
 
 int iuse::feedcattle(player *p, item *it, bool, const tripoint&)
 {
-	return petfood(p, it, CATTLEFODDER);
+    return petfood(p, it, CATTLEFODDER);
 }
 
 int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
