@@ -10056,7 +10056,8 @@
     "autolearn": true,
     "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [ [ [ "bone_tainted", 1 ] ] ]
-  },{
+  },
+  {
     "result": "cattlefodder",
     "type": "recipe",
     "category": "CC_FOOD",
@@ -10066,8 +10067,6 @@
     "skills_required": [ "survival", 1 ],
     "time": 10000,
     "autolearn": true,
-    "components": [
-      [ [ "oats", 5 ], [ "buckwheat", 5 ], [ "wheat", 5 ], [ "potato_raw", 5 ], [ "barley", 5 ], [ "raw_beans", 5 ], [ "cabbage", 5 ], [ "veggy_wild", 5 ], [ "veggy", 5 ] ],
-    ]
+    "components": [ [ [ "oats", 5 ], [ "buckwheat", 5 ], [ "wheat", 5 ], [ "potato_raw", 5 ], [ "barley", 5 ], [ "raw_beans", 5 ], [ "cabbage", 5 ], [ "veggy_wild", 5 ], [ "veggy", 5 ] ] ]
   }
 ]
