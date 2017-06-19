@@ -957,7 +957,8 @@
                 { "item": "sheet_metal", "count": [2, 6] },
                 { "item": "cable", "charges": [1, 15] },
                 { "item": "hose", "count": [1, 2] },
-                { "item": "cu_pipe", "count": [2, 5] }
+                { "item": "cu_pipe", "count": [2, 5] },
+                { "item": "element", "count": [2, 3] }
             ]
         },
         "bash": {
@@ -971,7 +972,8 @@
                 { "item": "cable", "charges": [1, 15] },
                 { "item": "hose", "count": [0, 2] },
                 { "item": "cu_pipe", "count": [1, 4] },
-                { "item": "scrap_copper", "count": [0, 2] }
+                { "item": "scrap_copper", "count": [0, 2] },
+                { "item": "element", "count": [1, 3] }
             ]
         }
     },{
