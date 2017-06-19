@@ -8284,6 +8284,6 @@
     "material": "veggy",
     "symbol": ";",
     "color": "brown",
-    "use_action": "CATTLEFODDER"
+    "use_action": "FEEDCATTLE"
   }
 ]
