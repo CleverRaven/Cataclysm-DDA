@@ -759,23 +759,33 @@ int iuse::meth(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::vaccine(player *p, item *it, bool, const tripoint& )
+int iuse::vaccine( player *p, item *it, bool, const tripoint& )
 {
-    p->add_msg_if_player(_("You inject the vaccine."));
-    p->add_msg_if_player(m_good, _("You feel tough."));
-    p->mod_healthy_mod(200, 200);
-    p->mod_pain(3);
+    if( p->get_skill_level( skill_firstaid ).level() < 1 ) {
+        p->add_msg_if_player( _( "You have no idea about how and where you should inject the vaccine." ) );
+        return 0;
+    }
+
+    p->add_msg_if_player( _( "You inject the vaccine." ) );
+    p->add_msg_if_player( m_good, _( "You feel tough." ) );
+    p->mod_healthy_mod( 200, 200 );
+    p->mod_pain( 3 );
     item syringe( "syringe", it->bday );
     p->i_add( syringe );
     return it->type->charges_to_use();
 }
 
-int iuse::flu_vaccine(player *p, item *it, bool, const tripoint& )
+int iuse::flu_vaccine( player *p, item *it, bool, const tripoint& )
 {
-    p->add_msg_if_player(_("You inject the vaccine."));
-    p->add_msg_if_player(m_good, _("You no longer need to fear the flu."));
-    p->add_effect( effect_flushot, 1, num_bp, true);
-    p->mod_pain(3);
+    if( p->get_skill_level( skill_firstaid ).level() < 1 ) {
+        p->add_msg_if_player( _( "You have no idea about how and where you should inject the vaccine." ) );
+        return 0;
+    }
+
+    p->add_msg_if_player( _( "You inject the vaccine." ) );
+    p->add_msg_if_player( m_good, _( "You no longer need to fear the flu." ) );
+    p->add_effect( effect_flushot, 1, num_bp, true );
+    p->mod_pain( 3 );
     item syringe( "syringe", it->bday );
     p->i_add( syringe );
     return it->type->charges_to_use();
@@ -1260,6 +1270,11 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
+    if( p->get_skill_level( skill_firstaid ).level() < 1 ) {
+        p->add_msg_if_player( _( "You have no idea about how and where you should inject this chemical stuff." ) );
+        return 0;
+    }
+
     if (!p->is_npc() && !(p->has_trait( trait_THRESH_MYCUS ))) {
         p->add_memorial_log(pgettext("memorial_male", "Injected mutagen."),
                             pgettext("memorial_female", "Injected mutagen."));
@@ -1451,6 +1466,11 @@ int iuse::purify_iv(player *p, item *it, bool, const tripoint& )
     if (p->has_trait( trait_MUTAGEN_AVOID )) {
          //~"Uh-uh" is a sound used for "nope", "no", etc.
         p->add_msg_if_player(m_warning, _("After what happened that last time?  uh-uh.  You're not injecting that chemical stuff."));
+        return 0;
+    }
+
+    if( p->get_skill_level( skill_firstaid ).level() < 1 ) {
+        p->add_msg_if_player( _( "You have no idea about how and where you should inject this chemical stuff." ) );
         return 0;
     }
 
@@ -5323,20 +5343,25 @@ int iuse::unfold_generic(player *p, item *it, bool, const tripoint& )
     return 1;
 }
 
-int iuse::adrenaline_injector(player *p, item *it, bool, const tripoint& )
+int iuse::adrenaline_injector( player *p, item *it, bool, const tripoint& )
 {
     if( p->is_npc() && p->get_effect_dur( effect_adrenaline ) >= 300 ) {
         return 0;
     }
 
+    if( p->get_skill_level( skill_firstaid ).level() < 1 ) {
+        p->add_msg_if_player( _( "You have no idea about how and where you should inject the adrenaline." ) );
+        return 0;
+    }
+
     p->moves -= 100;
-    p->add_msg_player_or_npc( _("You inject yourself with adrenaline."),
-                              _("<npcname> injects themselves with adrenaline.") );
+    p->add_msg_player_or_npc( _( "You inject yourself with adrenaline." ),
+                              _( "<npcname> injects themselves with adrenaline." ) );
 
     item syringe( "syringe", it->bday );
     p->i_add( syringe );
     if( p->has_effect( effect_adrenaline ) ) {
-        p->add_msg_if_player( m_bad, _("Your heart spasms!") );
+        p->add_msg_if_player( m_bad, _( "Your heart spasms!" ) );
         // Note: not the mod, the health
         p->mod_healthy( -20 );
     }
@@ -5346,23 +5371,28 @@ int iuse::adrenaline_injector(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::jet_injector(player *p, item *it, bool, const tripoint& )
+int iuse::jet_injector( player *p, item *it, bool, const tripoint& )
 {
-    if( !it->ammo_sufficient() ) {
-        p->add_msg_if_player(m_info, _("The jet injector is empty."), it->tname().c_str());
+    if( p->get_skill_level( skill_firstaid ).level() < 1 ) {
+        p->add_msg_if_player( _( "You have no idea about how and where you should apply the injector." ) );
         return 0;
-    } else {
-        p->add_msg_if_player(_("You inject yourself with the jet injector."));
-        // Intensity is 2 here because intensity = 1 is the comedown
-        p->add_effect( effect_jetinjector, 200, num_bp, false, 2);
-        p->mod_painkiller(20);
-        p->stim += 10;
-        p->healall(20);
     }
 
-    if (p->has_effect( effect_jetinjector)) {
-        if (p->get_effect_dur( effect_jetinjector ) > 200) {
-            p->add_msg_if_player(m_warning, _("Your heart is beating alarmingly fast!"));
+    if( !it->ammo_sufficient() ) {
+        p->add_msg_if_player(m_info, _( "The jet injector is empty." ), it->tname().c_str() );
+        return 0;
+    } else {
+        p->add_msg_if_player( _( "You inject yourself with the jet injector." ) );
+        // Intensity is 2 here because intensity = 1 is the comedown
+        p->add_effect( effect_jetinjector, 200, num_bp, false, 2 );
+        p->mod_painkiller( 20 );
+        p->stim += 10;
+        p->healall( 20 );
+    }
+
+    if( p->has_effect( effect_jetinjector ) ) {
+        if( p->get_effect_dur( effect_jetinjector ) > 200 ) {
+            p->add_msg_if_player(m_warning, _( "Your heart is beating alarmingly fast!" ) );
         }
     }
     return it->type->charges_to_use();
