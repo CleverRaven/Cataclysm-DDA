@@ -7225,7 +7225,7 @@ bool pet_menu(monster *z)
 
     uimenu amenu;
     amenu.return_invalid = true;
-    std::string pet_name = _(z->get_name().c_str());
+    std::string pet_name = (z->get_name());
     if( z->type->in_species( ZOMBIE ) ) {
         pet_name = _("zombie slave");
     }
@@ -7448,7 +7448,7 @@ bool pet_menu(monster *z)
         return true;
     }
 
-    if( milk == choice ){
+    if( milk == choice ) {
         monexamine::milk_source( *z );
         return true;
     }
@@ -9662,7 +9662,7 @@ bool game::handle_liquid_from_container( item &container, int radius )
 
 extern void serialize_liquid_source( player_activity &act, const vehicle &veh, const itype_id &ftype );
 extern void serialize_liquid_source( player_activity &act, const tripoint &pos, const item &liquid );
-extern void serialize_liquid_source(player_activity &act, const monster &mon, const item &liquid);
+extern void serialize_liquid_source( player_activity &act, const monster &mon, const item &liquid );
 
 extern void serialize_liquid_target( player_activity &act, const vehicle &veh );
 extern void serialize_liquid_target( player_activity &act, int container_item_pos );

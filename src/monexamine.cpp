@@ -1,11 +1,7 @@
 #include "monexamine.h"
 #include "monster.h"
-#include "string_input_popup.h"
-#include "monster.h"
-#include "calendar.h"
 #include "game.h"
 #include "map.h"
-#include "string_input_popup.h"
 #include "messages.h"
 
 const efftype_id effect_milked( "milked" );
