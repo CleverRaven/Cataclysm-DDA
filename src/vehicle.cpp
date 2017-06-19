@@ -4442,7 +4442,6 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     // Calculate mass AFTER checking for collision
     //  because it involves iterating over all cargo
     const float mass = total_mass();
-    int degree = rng( 70, 100 );
 
     //Calculate damage resulting from d_E
     const itype *type = item::find_type( part_info( ret.part ).item );
@@ -4564,7 +4563,6 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                 critter->add_effect( effect_stunned, turns_stunned );
             }
 
-            const int angle = (100 - degree) * 2 * ( one_in( 2 ) ? 1 : -1 );
             if( ph != nullptr ) {
                 ph->hitall( dam, 40, driver );
             } else {
@@ -4580,11 +4578,13 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             if( !vert_coll ) {
                 if( fabs(vel2_a) > 10.0f ||
                     fabs(e * mass * vel1_a) > fabs(mass2 * (10.0f - vel2_a)) ) {
+                    const int angle = rng( -60, 60 );
                     // Also handle the weird case when we don't have enough force
                     // but still have to push (in such case compare momentum)
                     const float push_force = std::max<float>( fabs( vel2_a ), 10.1f );
-                    const int angle_sum = vel2_a > 0 ?
-                        move.dir() + angle : -(move.dir() + angle);
+                    // move.dir is where the vehicle is facing. If velocity is negative,
+                    // we're moving backwards and have to adjust the angle accordingly.
+                    const int angle_sum = angle + move.dir() + ( vel2_a > 0 ? 0 : 180 );
                     g->fling_creature( critter, angle_sum, push_force );
                 } else if( fabs( vel2_a ) > fabs( vel2 ) ) {
                     vel2 = vel2_a;
