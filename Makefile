@@ -358,6 +358,8 @@ endif
 # MXE cross-compile to win32
 ifneq (,$(findstring mingw32,$(CROSS)))
   DEFINES += -DCROSS_LINUX
+  # MinGW gcc 5.4.0 version throws this warning, and probably without need
+  CXXFLAGS += -Wno-strict-overflow
   TARGETSYSTEM=WINDOWS
 endif
 
