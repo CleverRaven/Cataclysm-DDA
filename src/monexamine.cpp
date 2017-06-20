@@ -9,7 +9,6 @@ const efftype_id effect_milked( "milked" );
 void monexamine::milk_source( monster *source_mon )
 {
     if( source_mon == nullptr ) {
-
         debugmsg( "could not find creature to milk" );
     } else {
         item milk( "milk", 0, 1 );
