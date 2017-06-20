@@ -20,5 +20,3 @@ void monexamine::milk_source( monster *source_mon )
         }
     }
 }
-
-
