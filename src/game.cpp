@@ -7449,7 +7449,7 @@ bool pet_menu(monster *z)
     }
 
     if( milk == choice ) {
-        monexamine::milk_source( *z );
+        monexamine::milk_source( z );
         return true;
     }
 
@@ -9667,6 +9667,7 @@ extern void serialize_liquid_source( player_activity &act, const monster &mon, c
 extern void serialize_liquid_target( player_activity &act, const vehicle &veh );
 extern void serialize_liquid_target( player_activity &act, int container_item_pos );
 extern void serialize_liquid_target( player_activity &act, const tripoint &pos );
+extern void serialize_liquid_target( player_activity &act, const monster &mon );
 
 bool game::handle_liquid( item &liquid, item * const source, const int radius,
                           const tripoint * const source_pos,
@@ -9689,10 +9690,10 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
             u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
             serialize_liquid_source( u.activity, *source_pos, liquid );
             return true;
-        } else if (source_mon != nullptr) {
-            u.assign_activity(activity_id("ACT_FILL_LIQUID"));
-            serialize_liquid_source(u.activity, *source_mon, liquid);
-            return true;     
+        } else if( source_mon != nullptr ) {
+            u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
+            serialize_liquid_source( u.activity, *source_mon, liquid );
+            return true;   
         } else {
             return false;
         }
@@ -9706,6 +9707,8 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         menu.text = string_format( _( "What to do with the %s from %s?" ), liquid_name.c_str(), m.name( *source_pos ).c_str() );
     } else if( source_veh != nullptr ) {
         menu.text = string_format( _( "What to do with the %s from the %s?" ), liquid_name.c_str(), source_veh->name.c_str() );
+    } else if( source_mon != nullptr ) {
+        menu.text = string_format( _( "What to do with the %s from the %s?" ), liquid_name.c_str(), source_mon->get_name().c_str() );
     } else {
         menu.text = string_format( _( "What to do with the %s?" ), liquid_name.c_str() );
     }

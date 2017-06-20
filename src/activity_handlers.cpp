@@ -676,6 +676,13 @@ void serialize_liquid_target( player_activity &act, const tripoint &pos )
     act.coords.push_back( pos );
 }
 
+void serialize_liquid_target( player_activity &act, const monster &mon )
+{
+    act.values.push_back( LTT_MAP );
+    act.values.push_back( 0 ); // dummy
+    act.coords.push_back( mon.pos() );
+}
+
 void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
 {
     player_activity &act = *act_;
@@ -716,7 +723,6 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
                 debugmsg( "could not find source creature for liquid transfer" );
                 act.set_to_null();
             }
-           
             liquid.deserialize( act.str_values.at( 0 ) );
             liquid.charges = 1;
             break;
@@ -787,18 +793,17 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             // nothing, the liquid source is infinite
             break;
         case LST_MONSTER:
+            current_dur == source_mon->get_effect_dur( effect_milked );
             if( !source_mon->has_effect( effect_milked ) ) {
-                current_dur = source_mon->get_effect_dur( effect_milked );
-            } else if ( source_mon->has_effect( effect_milked ) ) {
-                source_mon->add_effect( effect_milked, HOURS( 6 ) );
-            } else if( HOURS( 24 ) - current_dur <= HOURS( 24 ) && HOURS( 24 ) - current_dur > HOURS( 6 )) {
-                 source_mon->add_effect( effect_milked, current_dur + HOURS( 6 ) );
+                source_mon->add_effect( effect_milked, HOURS( 6 ) );;
+            } else if( HOURS( 24 ) - current_dur >= HOURS( 6 ) ) {
+                source_mon->add_effect( effect_milked, current_dur + HOURS( 6 ) );
             } else {
-                 act.set_to_null();
+                act.set_to_null();
             }
-            
+
             if( liquid.charges == 0 ) {
-                 act.set_to_null();
+                act.set_to_null();
             }
             break;
 		}

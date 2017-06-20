@@ -1902,7 +1902,7 @@ int iuse::mycus(player *p, item *it, bool t, const tripoint &pos)
     return it->type->charges_to_use();
 }
 
-// Types of petfood for each different case
+// Types of petfood for taming each different monster.
 enum Petfood
 {
     DOGFOOD,
@@ -1919,67 +1919,71 @@ int petfood( player *p, item *it, Petfood animal_food_type )
     p->moves -= 15;
     const int mon_idx = g->mon_at( dirp, true );
 
-    if( npc *const person_ = g->critter_at<npc>( dirp ) ) {
-        npc &person = *person_;
-        query_yn( _( "Are you sure you want to feed a person the dog food?" ) );
-        add_msg( _( "You put your %1$s into %2$s's mouth!" ), it->tname().c_str(), person.name.c_str() );
+    // First a check to see if we are trying to feed a NPC dog food.
+    if( animal_food_type == DOGFOOD ) {
+        if( npc *const person_ = g->critter_at<npc>( dirp ) ) {
+            npc &person = *person_;
+            query_yn( _( "Are you sure you want to feed a person the dog food?" ) );
+            add_msg( _( "You put your %1$s into %2$s's mouth!" ), it->tname().c_str(), person.name.c_str() );
 
-        if( person.is_friend() || x_in_y( 9, 10 ) ) {
-            person.say(
-                _( "Okay, but please, don't give me this again. I don't want to eat dog food in the cataclysm all day." ) );
-            return 1;
-        } else {
-            add_msg( _( "%s knocks it out from your hand!" ), person.name.c_str() );
-            person.make_angry();
-            return 1;
+            if( person.is_friend() || x_in_y( 9, 10 ) ) {
+                person.say(
+                    _( "Okay, but please, don't give me this again. I don't want to eat dog food in the cataclysm all day." ) );
+                return 1;
+            } else {
+                add_msg( _( "%s knocks it out from your hand!" ), person.name.c_str() );
+                person.make_angry();
+                return 1;
+            }
         }
+    // Then monsters.
     } else if( mon_idx != -1 ) {
 
         monster &mon = g->zombie( mon_idx );
-
+        // This switch handles each petfood for each type of tameable monster.
         switch( animal_food_type ) {
-            case DOGFOOD:
+        case DOGFOOD:
 
-                if( mon.type->id == mon_dog_thing ) {
-                    p->deal_damage( &mon, bp_hand_r, damage_instance( DT_CUT, rng( 1, 10 ) ) );
-                    add_msg( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
-                    if( one_in( 5 ) ) {
-                        add_msg( _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
-                        return 1;
-                    }
-                } else if( mon.type->id == mon_dog ) {
-                    add_msg( m_good, _( "The dog seems to like you!" ) );
-                    mon.friendly = -1;
-                    mon.add_effect( effect_pet, 1, num_bp, true );
+            if( mon.type->id == mon_dog_thing ) {
+                p->deal_damage( &mon, bp_hand_r, damage_instance( DT_CUT, rng( 1, 10 ) ) );
+                add_msg( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
+                if( one_in( 5 ) ) {
+                    add_msg( _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
                     return 1;
-                } else {
-                    add_msg( _( "There is nothing to be fed here." ) );
-                    return 0;
                 }
+            } else if( mon.type->id == mon_dog ) {
+                add_msg( m_good, _( "The dog seems to like you!" ) );
+                mon.friendly = -1;
+                mon.add_effect( effect_pet, 1, num_bp, true );
+                return 1;
+            } else {
+                add_msg( _( "There is nothing to be fed here." ) );
+                return 0;
+            }
 
-                break;
-            case CATFOOD:
-                if( mon.type->id == mon_cat ) {
-                    add_msg( m_good,
-                             _( "The cat seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with cats." ) );
-                    mon.friendly = -1;
-                    return 1;
-                } else {
-                    add_msg( _( "There is nothing to be fed here." ) );
-                    return 0;
-                }
-                break;
-            case CATTLEFODDER:
-                if( mon.type->id == mon_cow ) {
-                    add_msg( m_good, _( "The cow seems to like you! It lets you pat her and seems friendly." ) );
-                    mon.friendly = -1;
-                    mon.add_effect( effect_pet, 1, num_bp, true );
-                    return 1;
-                } else {
-                    add_msg( _( "There is nothing to be fed here." ) );
-                    return 0;
-                }
-                break;
+            break;
+        case CATFOOD:
+            if( mon.type->id == mon_cat ) {
+                add_msg( m_good,
+                         _( "The cat seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with cats." ) );
+                mon.friendly = -1;
+                return 1;
+            } else {
+                add_msg( _( "There is nothing to be fed here." ) );
+                return 0;
+            }
+            break;
+        case CATTLEFODDER:
+            if( mon.type->id == mon_cow ) {
+                add_msg( m_good, _( "The cow seems to like you! It lets you pat her and seems friendly." ) );
+                mon.friendly = -1;
+                mon.add_effect( effect_pet, 1, num_bp, true );
+                return 1;
+            } else {
+                add_msg( _( "There is nothing to be fed here." ) );
+                return 0;
+            }
+            break;
         }
 
     } else {

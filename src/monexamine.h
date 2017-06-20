@@ -6,6 +6,6 @@ class monster;
 
 namespace monexamine
 {
-void milk_source( monster &source_mon );
+void milk_source( monster *source_mon );
 }
 #endif
