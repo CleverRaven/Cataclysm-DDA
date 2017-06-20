@@ -1123,6 +1123,7 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
                         compare_neswx( fourways_neswx, {0, 1, 1, 1, 0, 1, 1, 0} ) ? 0 :
                         -1;
             if( plaza_dir > -1 ) { rot = plaza_dir % 4; }
+            break;
         case 3: // tee
             if( !roads_nesw[0] ) { rot = 2; break; } // E/S/W, rotate 180 degrees
             if( !roads_nesw[1] ) { rot = 3; break; } // N/S/W, rotate 270 degrees

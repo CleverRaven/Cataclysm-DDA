@@ -4909,6 +4909,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                         }
                     }
                 }
+                break;
 
             case AEA_ENTRANCE:
                 for (int x = p->posx() - 8; x <= p->posx() + 8; x++) {
