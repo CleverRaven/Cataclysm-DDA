@@ -594,12 +594,15 @@ bool player::eat( item &food, bool force )
                     if( !has_trait( trait_id( "EATHEALTH" ) ) ) {
                         add_effect( effect_tapeworm, 1, num_bp, true );
                     }
+                    break;
                 case 1:
                     if( !has_trait( trait_id( "ACIDBLOOD" ) ) ) {
                         add_effect( effect_bloodworms, 1, num_bp, true );
                     }
+                    break;
                 case 2:
                     add_effect( effect_brainworms, 1, num_bp, true );
+                    break;
                 case 3:
                     add_effect( effect_paincysts, 1, num_bp, true );
             }

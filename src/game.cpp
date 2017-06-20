@@ -13584,6 +13584,7 @@ void game::process_artifact(item *it, player *p)
                     m.adjust_field_age( tripoint( x, y, p->posz() ), fd_fire, -1);
                 }
             }
+            break;
 
         case AEP_HUNGER:
             if (one_in(100)) {

@@ -353,7 +353,7 @@ void player::randomize( const bool random_scenario, points_left &points )
                 }
                 break;
             }
-            // Otherwise fallthrough
+            /* fallthrough */
         case 5:
             if( allow_stats ) {
                 switch (rng(1, 4)) {
@@ -396,7 +396,7 @@ void player::randomize( const bool random_scenario, points_left &points )
                 }
                 break;
             }
-            // Otherwise fallthrough
+            /* fallthrough */
         case 6:
         case 7:
         case 8:

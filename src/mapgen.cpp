@@ -8133,10 +8133,13 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             switch (rng(1, 4)) {
             case 1:
                 ter_set(rng(0, 2), rng(0, 2), t_slope_up);
+                break;
             case 2:
                 ter_set(rng(0, 2), SEEY * 2 - rng(1, 3), t_slope_up);
+                break;
             case 3:
                 ter_set(SEEX * 2 - rng(1, 3), rng(0, 2), t_slope_up);
+                break;
             case 4:
                 ter_set(SEEX * 2 - rng(1, 3), SEEY * 2 - rng(1, 3), t_slope_up);
             }
