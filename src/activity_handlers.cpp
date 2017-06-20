@@ -793,7 +793,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             // nothing, the liquid source is infinite
             break;
         case LST_MONSTER:
-            current_dur == source_mon->get_effect_dur( effect_milked );
+            current_dur = source_mon->get_effect_dur( effect_milked );
             if( !source_mon->has_effect( effect_milked ) ) {
                 source_mon->add_effect( effect_milked, HOURS( 6 ) );;
             } else if( HOURS( 24 ) - current_dur >= HOURS( 6 ) ) {
