@@ -7225,7 +7225,7 @@ bool pet_menu(monster *z)
 
     uimenu amenu;
     amenu.return_invalid = true;
-    std::string pet_name = (z->get_name());
+    std::string pet_name = z->get_name();
     if( z->type->in_species( ZOMBIE ) ) {
         pet_name = _("zombie slave");
     }
