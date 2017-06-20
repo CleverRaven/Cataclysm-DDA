@@ -1097,7 +1097,7 @@
   {
     "id": "bio_storage",
     "type": "bionic",
-    "name": "Internal Storage",
+    "name": "Chest Hole",
     "description": "Space inside your chest cavity has been converted into a storage area.  You may carry an extra 2 liters of volume.",
     "occupied_bodyparts": [ [ "TORSO", 32 ] ]
   },
