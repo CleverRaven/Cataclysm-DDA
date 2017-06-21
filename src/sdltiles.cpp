@@ -2240,6 +2240,16 @@ void play_music(std::string playlist) {
 #endif
 }
 
+void update_music_volume( const int volume ) {
+#ifdef SDL_SOUND
+    Mix_VolumeMusic( volume * get_option<int>( "MUSIC_VOLUME" ) / 100 );
+#endif
+}
+
+void update_music_volume() {
+    update_music_volume( 100 );
+}
+
 #ifdef SDL_SOUND
 void sfx::load_sound_effects( JsonObject &jsobj ) {
     const id_and_variant key( jsobj.get_string( "id" ), jsobj.get_string( "variant", "default" ) );
