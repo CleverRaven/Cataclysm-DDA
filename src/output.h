@@ -634,8 +634,6 @@ bool is_draw_tiles_mode();
 
 void play_music( std::string playlist );
 
-void update_music_volume( const int volume );
-
 void update_music_volume();
 
 /**
