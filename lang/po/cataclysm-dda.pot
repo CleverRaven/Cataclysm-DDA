@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-03 17:04+0800\n"
+"POT-Creation-Date: 2017-06-16 20:01+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -584,6 +584,7 @@ msgstr ""
 msgid "Switch between a narrower or wider sidebar.  Requires restart."
 msgstr ""
 
+#. ~ sidebar/message log flow direction
 #. ~ sidebar message log flow direction
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Top"
@@ -593,11 +594,11 @@ msgstr ""
 msgid "Bottom"
 msgstr ""
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Sidebar log flow"
 msgstr ""
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Where new sidebar log messages should show."
 msgstr ""
 
@@ -29870,6 +29871,17 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for steel spear
+#: lang/json/GENERIC_from_json.py
+msgid "A stout wooden pole with a hand-forged steel spearhead."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "pipe spear"
+msgid_plural "pipe spears"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for pipe spear
 #: lang/json/GENERIC_from_json.py
 msgid "A stout metal pole with a sharp point."
 msgstr ""
@@ -107441,6 +107453,10 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/item.cpp
+msgid "Maximum range: "
+msgstr ""
+
+#: src/item.cpp
 msgid "<num> seconds"
 msgstr ""
 
@@ -114792,7 +114808,7 @@ msgstr ""
 
 #: src/messages.cpp
 #, c-format
-msgid "%s ago:"
+msgid "%-3s%-10s"
 msgstr ""
 
 #: src/mission_companion.cpp
@@ -121050,6 +121066,14 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "Select a follower"
+msgstr ""
+
+#: src/options.cpp
+msgid "Message log flow"
+msgstr ""
+
+#: src/options.cpp
+msgid "Where new log messages should show."
 msgstr ""
 
 #: src/output.cpp

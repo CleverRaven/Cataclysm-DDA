@@ -1123,6 +1123,7 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
                         compare_neswx( fourways_neswx, {0, 1, 1, 1, 0, 1, 1, 0} ) ? 0 :
                         -1;
             if( plaza_dir > -1 ) { rot = plaza_dir % 4; }
+            break;
         case 3: // tee
             if( !roads_nesw[0] ) { rot = 2; break; } // E/S/W, rotate 180 degrees
             if( !roads_nesw[1] ) { rot = 3; break; } // N/S/W, rotate 270 degrees
@@ -1774,7 +1775,7 @@ void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int, float
     int pump_count = rng(3, 6);
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEX * 2; j++) {
-            if (j < top_w && (top_w - j) % 4 == 0 && i > left_w && i < right_w &&
+            if (j < top_w && (top_w - j) % 5 == 0 && i > left_w && i < right_w &&
                  (i - (1 + left_w)) % pump_count == 0) {
                 m->place_gas_pump(i, j, rng(1000, 10000));
             } else if ((j < 2 && i > 7 && i < 16) || (j < top_w && i > left_w && i < right_w)) {
@@ -1793,8 +1794,8 @@ void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int, float
             } else if (i > left_w + 2 && i < left_w + 12 && i < center_w && i % 2 == 1 &&
                       j > top_w + 1 && j < middle_w - 1) {
                 m->set(i, j, t_floor, f_rack);
-            } else if ((i == right_w - 5 && j > top_w + 1 && j < top_w + 4) ||
-                      (j == top_w + 3 && i > right_w - 5 && i < right_w)) {
+            } else if ((i == right_w - 5 && j > top_w + 1 && j < top_w + 5) ||
+                      (j == top_w + 4 && i > right_w - 5 && i < right_w)) {
                 m->set(i, j, t_floor, f_counter);
             } else if (i > left_w && i < right_w && j > top_w && j < bottom_w) {
                 m->ter_set(i, j, t_floor);

@@ -269,7 +269,6 @@ void Messages::display_messages()
      * The game (likely) shan't segfault, though the text may appear a bit messed up if these variables aren't set properly.
      */
     const int max_padlength = 10;
-    const char epoch_format[] = "%-3d%-10s";
 
     /* Dealing With Screen Extremities
      * ===============================
@@ -307,18 +306,17 @@ void Messages::display_messages()
      */
     int offset = log_from_top ? 0 : ( msg_count - bottom );
     const int flip = log_from_top ? 0 : msg_count - 1;
-    int retrieve_history;
 
     for( ;; ) {
         werase( w );
         draw_border( w );
-        mvwprintz( w, bottom + 1, 32, c_red, _("Press %s to return"), ctxt.get_desc("QUIT").c_str() );
+        mvwprintz( w, bottom + 1, 32, c_red, _( "Press %s to return" ), ctxt.get_desc( "QUIT" ).c_str() );
         draw_scrollbar( w, offset, bottom, msg_count, 1, 0, c_white, true );
 
         int line = 1;
         int lasttime = -1;
         for( int i = offset; i < msg_count; ++i ) {
-            retrieve_history = abs( i - flip );
+            const int retrieve_history = abs( i - flip );
             if( line > bottom ) {
                 break;
                 // This statement makes it so that no non-existent messages are printed (which usually results in a segfault)
@@ -328,16 +326,16 @@ void Messages::display_messages()
 
             const game_message &m     = player_messages.impl_->history( retrieve_history );
             const calendar timepassed = calendar::turn - m.timestamp_in_turns;
-            const char *long_ago      = timepassed.textify_period().c_str();
+            std::string long_ago      = timepassed.textify_period();
             nc_color col              = msgtype_to_color( m.type, false );
 
             // Here we seperate the unit and amount from one another so that they can be properly padded when they're drawn on the screen.
             // Note that the very first character of 'unit' is often a space (except for languages where the time unit directly follows the number.)
-            char unit[0];
-            int amount;
-            sscanf( long_ago, "%d%s", &amount, unit );
+            const auto amount_len = long_ago.find_first_not_of( "0123456789" );
+            std::string amount = long_ago.substr( 0, amount_len );
+            std::string unit = long_ago.substr( amount_len );
             if( timepassed.get_turn() != lasttime ) {
-                right_print( w, line, 2, c_ltblue, _( epoch_format ), amount, unit );
+                right_print( w, line, 2, c_ltblue, _( "%-3s%-10s" ), amount.c_str(), unit.c_str() );
                 lasttime = timepassed.get_turn();
             }
 

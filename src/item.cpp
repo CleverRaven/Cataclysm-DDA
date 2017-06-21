@@ -992,6 +992,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         insert_separation_line();
 
+        int max_gun_range = mod->gun_range( &g->u );
+        if( max_gun_range > 0 ) {
+            info.emplace_back( "GUN", space + _( "Maximum range: " ), "<num>", max_gun_range );
+        }
+
         int aim_mv = g->u.gun_engagement_moves( *mod );
         if( aim_mv > 0 ) {
             info.emplace_back( "GUN", _( "Maximum aiming time: " ), _( "<num> seconds" ), int( aim_mv / 16.67 ), true, "", true, true );
@@ -1952,7 +1957,8 @@ nc_color item::color_in_inventory() const
         // ltred if you have ammo but no mags
         // Gun with integrated mag counts as both
         ammotype amtype = ammo_type();
-        bool has_ammo = !u->find_ammo( *this, false, -1 ).empty();
+        // get_ammo finds uncontained ammo, find_ammo finds ammo in magazines
+        bool has_ammo = !u->get_ammo( amtype ).empty() || !u->find_ammo( *this, false, -1 ).empty();
         bool has_mag = magazine_integral() || !u->find_ammo( *this, true, -1 ).empty();
         if( has_ammo && has_mag ) {
             ret = c_green;
@@ -1963,9 +1969,13 @@ nc_color item::color_in_inventory() const
         // Likewise, ammo is green if you have guns that use it
         // ltred if you have the gun but no mags
         // Gun with integrated mag counts as both
-        ammotype amtype = ammo_type();
-        bool has_gun = u->has_gun_for_ammo( amtype );
-        bool has_mag = u->has_magazine_for_ammo( amtype );
+        bool has_gun = u->has_item_with( [this]( const item &i ) {
+            return i.is_gun() && type->ammo->type.count( i.ammo_type() );
+        } );
+        bool has_mag = u->has_item_with( [this]( const item &i ) {
+            return ( i.is_gun() && i.magazine_integral() && type->ammo->type.count( i.ammo_type() ) ) ||
+                ( i.is_magazine() && type->ammo->type.count( i.ammo_type() ) );
+        } );
         if( has_gun && has_mag ) {
             ret = c_green;
         } else if( has_gun || has_mag ) {

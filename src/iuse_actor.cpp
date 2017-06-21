@@ -2487,7 +2487,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
             // Skill gain scales with recipe difficulty, so practice difficulty should too
             action_difficulty = recipe_difficulty;
         default:
-            std::make_pair( 0.0f, 0.0f );
+            ;
     }
 
     const int difficulty = recipe_difficulty + action_difficulty;

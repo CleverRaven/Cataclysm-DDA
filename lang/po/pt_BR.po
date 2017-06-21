@@ -1,14 +1,15 @@
 # 
 # Translators:
-# Douglas Onofre Rosas dos Santos <douglas12ds@hotmail.com>, 2016
+# Douglas Onofre Rosas dos Santos <douglas12ds@hotmail.com>, 2016-2017
+# Joao Pedro de Campos Magalhaes <dragon530698@gmail.com>, 2017
 # Anti-Seis Joga <arbitrium.vincit.omnia@hotmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-19 17:08+0800\n"
-"PO-Revision-Date: 2017-05-20 13:16+0000\n"
-"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
+"POT-Creation-Date: 2017-06-11 19:01+0800\n"
+"PO-Revision-Date: 2017-06-14 19:41+0000\n"
+"Last-Translator: Douglas Onofre Rosas dos Santos <douglas12ds@hotmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,212 +20,212 @@ msgstr ""
 #: lang/extra/android/options.cpp src/auto_pickup.cpp src/options.cpp
 #: src/safemode_ui.cpp
 msgid "False"
-msgstr ""
+msgstr "Falso"
 
 #: lang/extra/android/options.cpp src/auto_pickup.cpp src/options.cpp
 #: src/safemode_ui.cpp
 msgid "True"
-msgstr ""
+msgstr "Verdadeiro"
 
 #: lang/extra/android/options.cpp src/options.cpp
 #, c-format
 msgid "%d: %s"
-msgstr ""
+msgstr "%d: %s"
 
 #: lang/extra/android/options.cpp src/options.cpp
 #, c-format
 msgid "Default: %s - Values: %s"
-msgstr ""
+msgstr "Padrão: %s - Valores: %s"
 
 #: lang/extra/android/options.cpp src/options.cpp
 #, c-format
 msgid "Default: %s"
-msgstr ""
+msgstr "Padrão: %s"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Default: False"
-msgstr ""
+msgstr "Padrão: Falso"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Default: True"
-msgstr ""
+msgstr "Padrão: Verdadeiro"
 
 #: lang/extra/android/options.cpp src/options.cpp
 #, c-format
 msgid "Default: %d - Min: %d, Max: %d"
-msgstr ""
+msgstr "Padrão: %d - Min: %d, Máx: %d"
 
 #: lang/extra/android/options.cpp src/options.cpp
 #, c-format
 msgid "Default: %d: %s"
-msgstr ""
+msgstr "Padrão: %d: %s"
 
 #: lang/extra/android/options.cpp src/options.cpp
 #, c-format
 msgid "Default: %.2f - Min: %.2f, Max: %.2f"
-msgstr ""
+msgstr "Padrão: %.2f - Min: %.2f, Máx: %.2f"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Deon's"
-msgstr ""
+msgstr "Deon's"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Hoder's"
-msgstr ""
+msgstr "Hoder's"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Basic"
-msgstr ""
+msgstr "Básico"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "General"
-msgstr ""
+msgstr "Geral"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Interface"
-msgstr ""
+msgstr "Interface"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Graphics"
-msgstr ""
+msgstr "Gráficos"
 
 #: lang/extra/android/options.cpp src/action.cpp src/options.cpp
 msgid "Debug"
-msgstr ""
+msgstr "Debug"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "World Defaults"
-msgstr ""
+msgstr "Padrões do Mundo"
 
 #: lang/extra/android/options.cpp
 msgid "Android"
-msgstr ""
+msgstr "Android"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Default character name"
-msgstr ""
+msgstr "Nome padrão do personagem"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "Set a default character name that will be used instead of a random name on "
 "character creation."
-msgstr ""
+msgstr "Escolha um nome padrão de personagem que será usado em vez de um nome aleatório na criação de personagem."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Auto pickup enabled"
-msgstr ""
+msgstr "Auto coleta ligada"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "Enable item auto pickup.  Change pickup rules with the Auto Pickup Manager "
 "in the Help Menu ?3"
-msgstr ""
+msgstr "Permitir coleta automática. Mude as regras de coleta com o Gerenciador de Coleta Automatica no Menu de Ajuda."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Auto pickup adjacent"
-msgstr ""
+msgstr "Auto coletar adjacente"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, will enable to pickup items one tile around to the player.  You can"
 " assign No Auto Pickup zones with the Zones Manager 'Y' key for eg.  your "
 "homebase."
-msgstr ""
+msgstr "Se verdadeiro, irá permitir a coleta de itens a um piso em volta do jogador. Você pode estabelecer zonas Sem Auto Coleta com o Gerenciador de Zonas tecla 'Y' por ex. sua base principal. "
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Auto pickup light items"
-msgstr ""
+msgstr "Auto coletar itens leves"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "Auto pickup items with weight less than or equal to [option] * 50 grams.  "
 "You must also set the small items option.  '0' disables this option"
-msgstr ""
+msgstr "Automaticamente coletar itens de peso menor ou igual a [opção] * 50 gramas. Você tambem deve escolher a opção de itens pequenos. '0' desativa essa opção."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Auto pickup small items"
-msgstr ""
+msgstr "Auto coletar itens pequenos"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "Auto pickup items with volume less than or equal to [option] * 50 "
 "milliliters.  You must also set the light items option.  '0' disables this "
 "option"
-msgstr ""
+msgstr "Auto coleta itens com um volume menor ou igual a [opção] * 50 milímetros. Você deve também definir a opção de itens leves. 'O' desativa essa opção"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Auto pickup safe mode"
-msgstr ""
+msgstr "Auto coleta no modo seguro"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "Auto pickup is disabled as long as you can see monsters nearby.  This is "
 "affected by 'Safe Mode proximity distance'."
-msgstr ""
+msgstr "Auto coleta está desativado desde que você possa ver monstros por perto. Isso é afetado pela 'Distância de aproximação do modo seguro'"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Dangerous pickups"
-msgstr ""
+msgstr "Coletas arriscadas"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If false, will cause player to drop new items that cause them to exceed the "
 "weight limit."
-msgstr ""
+msgstr "Se falso, irá fazer com que o jogador largue itens novos que o façam ultrapassar o limite de peso."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Auto-safe mode"
-msgstr ""
+msgstr "Modo seguro automático"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, turns safemode automatically back on after it being disabled "
 "beforehand.  See option 'Turns to re-enable safe mode'"
-msgstr ""
+msgstr "Se verdadeiro, liga o modo seguro automaticamente logo quando ele for desligado. Veja a opção 'Turnos para reativar o modo seguro'"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Turns to re-enable safe mode"
-msgstr ""
+msgstr "Turnos para reativar o modo seguro"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "Number of turns after safe mode is re-enabled if no hostiles are in 'Safe "
 "Mode proximity distance'."
-msgstr ""
+msgstr "Número de turnos para o modo seguro ser ativado se não houver inimigos que estão 'distância de proximidade do modo seguro\""
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Safe Mode"
-msgstr ""
+msgstr "Modo Seguro"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If true, will hold the game and display a warning if a hostile monster/npc "
 "is approaching."
-msgstr ""
+msgstr "Se ativado, irá pausar o jogo e mostrar um aviso se houver algum monstro/npc se aproximando."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Safe Mode proximity distance"
-msgstr ""
+msgstr "Distância de proximidade do Modo Seguro"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "If safe mode is enabled, distance to hostiles at which safe mode should show"
 " a warning.  0 = Max player viewdistance."
-msgstr ""
+msgstr "Se o modo seguro estiver ativado, define a distância do inimigo para o jogador no qual se deve acionar o aviso. 0= Visão máxima do jogador"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Safe Mode when driving"
-msgstr ""
+msgstr "Modo Seguro enquanto estiver dirigindo"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "When true, safe mode will alert you of hostiles while you are driving a "
 "vehicle."
-msgstr ""
+msgstr "Quando verdadeiro, modo seguro vai te avisar sobre inimigos enquanto você dirige um veículo."
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Realtime turn progression"
-msgstr ""
+msgstr "Progressão de turnos em tempo real"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
@@ -580,6 +581,7 @@ msgstr ""
 msgid "Switch between a narrower or wider sidebar.  Requires restart."
 msgstr ""
 
+#. ~ sidebar/message log flow direction
 #. ~ sidebar message log flow direction
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Top"
@@ -589,11 +591,11 @@ msgstr ""
 msgid "Bottom"
 msgstr ""
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Sidebar log flow"
 msgstr ""
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Where new sidebar log messages should show."
 msgstr ""
 
@@ -2055,7 +2057,7 @@ msgstr "Oxidante volátil químico em pó."
 
 #: lang/json/AMMO_from_json.py
 msgid "lye powder"
-msgstr "pó detergente"
+msgstr "soda cáustica"
 
 #. ~ Description for lye powder
 #: lang/json/AMMO_from_json.py
@@ -2120,7 +2122,7 @@ msgstr "Balas de borracha de um bala de espingarda. Você pode usar elas para fa
 
 #: lang/json/AMMO_from_json.py
 msgid "copper"
-msgstr "cobres"
+msgstr "cobre"
 
 #. ~ Description for copper
 #: lang/json/AMMO_from_json.py
@@ -2131,7 +2133,7 @@ msgstr "Sucatas de cobre. Podem ser usadas para criar algo, cartuchos de espinga
 
 #: lang/json/AMMO_from_json.py
 msgid "solder"
-msgstr "soldas"
+msgstr "solda"
 
 #. ~ Description for solder
 #: lang/json/AMMO_from_json.py
@@ -2141,7 +2143,7 @@ msgstr "Um pequeno carretel de solda, capas de ser usado como munição e eletr�
 
 #: lang/json/AMMO_from_json.py
 msgid "tin"
-msgstr "alumínios"
+msgstr "alumínio"
 
 #. ~ Description for tin
 #: lang/json/AMMO_from_json.py
@@ -3142,6 +3144,15 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
+msgid "detergent"
+msgstr ""
+
+#. ~ Description for detergent
+#: lang/json/AMMO_from_json.py
+msgid "A popular pre-cataclysm washing powder."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
 msgid "fungal seed"
 msgstr ""
 
@@ -4052,7 +4063,7 @@ msgstr ".44 FMJ"
 msgid ""
 "A brass-jacketed variant of the .44 Magnum round.  This increases "
 "penetration slightly at the cost of reduced damage from expansion."
-msgstr "Uma variante da bala .44 Magnum. Ela aumenta a penetração levemente a custo de expansão reduzida."
+msgstr "Uma variante da bala .44 Magnum, 'encamisada' em latão. Isso aumenta levemente a penetração, ao custo de dano reduzido por causa da expansão."
 
 #: lang/json/AMMO_from_json.py
 msgid ".44 Magnum"
@@ -4792,7 +4803,7 @@ msgid ""
 "A shotgun shell filled with tiny steel darts.  Extremely damaging, plus the "
 "spread makes it very accurate at short range.  Slices through most forms of "
 "armor with ease."
-msgstr "Um cartucho cheio de dardos perfurantes. Extremamente danoso, mais seu espalhamento a torna muito precisa a curta distancia. Atravessa a maioria das armaduras com facilidade."
+msgstr "Um cartucho de espingarda cheio de pequenos dados perfurantes feitos de aço. Alto poder destrutivo, e o espalhamento dos dardos tornam essa munição muito precisa a curta distância. Atravessa a maior parte das armaduras com facilidade."
 
 #: lang/json/AMMO_from_json.py
 msgid "explosive slug"
@@ -7210,6 +7221,19 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A simple bra.  For protecting those bits you don't want zombies to look at."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "breeches"
+msgid_plural "breeches"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for breeches
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A well-made pair of old-fashioned pants, made of stiff yet baggy material.  "
+"Comfortable, but lacks pockets."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -20706,6 +20730,30 @@ msgid "Some corn seeds."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "chili pepper"
+msgstr ""
+
+#. ~ Description for chili pepper
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Spicy chili pepper."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "chili pepper seed"
+msgid_plural "chili pepper seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for chili pepper seed
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Some chili pepper seeds."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "chili_pepper"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "irradiated lettuce"
 msgstr ""
 
@@ -29577,7 +29625,7 @@ msgstr[1] ""
 #. ~ Description for pointy stick
 #: lang/json/GENERIC_from_json.py
 msgid "A simple wood pole with one end sharpened."
-msgstr "Um simples polo de madeiro com a ponta afiada."
+msgstr "Um simples bastão de madeira com uma das pontas afiadas."
 
 #: lang/json/GENERIC_from_json.py
 msgid "2-by-sword"
@@ -29590,7 +29638,7 @@ msgstr[1] ""
 msgid ""
 "A two by four with a cross guard and whittled down point; not much for "
 "slashing, but much better than your bare hands."
-msgstr "Uma tábua em formato de cruz com a ponta reduzida; não muito para cortar, mas muito melhor que suas mãos."
+msgstr "Uma tábua pontiaguda com uma cruzeta; não muito boa para cortar, mas muito melhor que suas mãos."
 
 #: lang/json/GENERIC_from_json.py
 msgid "nord"
@@ -29604,7 +29652,7 @@ msgid ""
 "The nail sword, or nord for short.  This wooden sword has a dozen nails "
 "sticking at jagged angles from edge of the blade, making it much better at "
 "chopping than slashing."
-msgstr "A espada de prego, ou esprego. Esta espada de madeira tem uma dezena de pregos martelados em diversos ângulos na lâmina, a tornando muito melhor em lenhar do que em cortar."
+msgstr "A espada de prego, ou esprego. Esta espada de madeira tem uma dezena de pregos martelados de forma denticulada na lamina, a tornando muito melhor em estilhaçar do que em cortar."
 
 #: lang/json/GENERIC_from_json.py
 msgid "crude sword"
@@ -29850,6 +29898,17 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. ~ Description for steel spear
+#: lang/json/GENERIC_from_json.py
+msgid "A stout wooden pole with a hand-forged steel spearhead."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "pipe spear"
+msgid_plural "pipe spears"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for pipe spear
 #: lang/json/GENERIC_from_json.py
 msgid "A stout metal pole with a sharp point."
 msgstr ""
@@ -30469,6 +30528,19 @@ msgid ""
 "This is a dull, cheaply made replica of an early modern sword seeing use in "
 "the 16th, 17th, and 18th centuries.  Called 'broad' to contrast with the "
 "slimmer rapiers."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py lang/json/TOOL_from_json.py
+msgid "cavalry saber"
+msgid_plural "cavalry sabers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for cavalry saber
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This is a dull, cheap replica of a curved sword associated with cavalry, "
+"from the Early Modern period onwards."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/TOOL_from_json.py
@@ -35827,6 +35899,17 @@ msgid "Adds recipes for replicas of mythological weapons."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
+msgid "Beta National Guard Camp"
+msgstr ""
+
+#. ~ Description for Beta National Guard Camp
+#: lang/json/MOD_INFO_from_json.py
+msgid ""
+"Help test the national guard camp before inclusion into the base game.  "
+"Provide feedback in the thread under 'The Lab'"
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
 msgid "No Acid Zombies"
 msgstr ""
 
@@ -39633,6 +39716,65 @@ msgid "A medium dinosaur with a sticky green bile dripping from its teeth."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
+msgid "W11B10"
+msgstr ""
+
+#. ~ Description for W11B10
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"Wraitheon (11B) Infantry 10 Level.  Part of Wraitheon's series of one-to-one"
+" auxiliaries designed to seamlessly integrate with more traditional forces."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "W11B10B4"
+msgstr ""
+
+#. ~ Description for W11B10B4
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"Wraitheon (11B) Infantry 20 Level (B4) Sniper.  Part of Wraitheon's series "
+"of one-to-one auxiliaries designed to seamlessly integrate with more "
+"traditional forces.  "
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "W12B10"
+msgstr ""
+
+#. ~ Description for W12B10
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"Wraitheon (12B) Combat Engineer 10 Level.  Part of Wraitheon's series of "
+"one-to-one auxiliaries designed to seamlessly integrate with more "
+"traditional forces."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "W11H10"
+msgstr ""
+
+#. ~ Description for W11H10
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"Wraitheon (11H) Anti-Tank Infantry 10 Level.  Part of Wraitheon's series of "
+"one-to-one auxiliaries designed to seamlessly integrate with more "
+"traditional forces."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "W12N10"
+msgstr ""
+
+#. ~ Description for W12N10
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"Wraitheon (12N) Construction Engineer 10 Level.  Part of Wraitheon's series "
+"of one-to-one auxiliaries designed to seamlessly integrate with more "
+"traditional forces."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
 msgid "kwama"
 msgstr ""
 
@@ -41235,8 +41377,8 @@ msgstr[1] ""
 #. ~ Description for battery compartment mod
 #: lang/json/TOOLMOD_from_json.py
 msgid ""
-"A battery compartment mod that allows using high-density, rechargeable "
-"vehicle batteries in regular tools."
+"A battery compartment mod that allows using high-density, rechargeable small"
+" and medium vehicle batteries in regular tools."
 msgstr ""
 
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -43880,6 +44022,13 @@ msgstr[1] ""
 #. ~ Description for cat food
 #: lang/json/TOOL_from_json.py
 msgid "This is food for cats.  It smells strange, but cats seem to love it."
+msgstr ""
+
+#. ~ Description for cavalry saber
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a curved sword associated with cavalry from the Early Modern period "
+"onwards.  Lightweight but a deadly slashing weapon."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -48335,10 +48484,11 @@ msgstr[1] ""
 #: lang/json/TOOL_from_json.py
 msgid ""
 "This is a wooden washboard.  You can use it to wash filthy clothing if it's "
-"supplied with soap.  It requires 1 unit of soap per use."
+"supplied with cleansing agent."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py lang/json/vehicle_part_from_json.py
+#: src/vehicle.cpp
 msgid "water purifier"
 msgid_plural "water purifiers"
 msgstr[0] ""
@@ -48526,6 +48676,19 @@ msgstr ""
 #. ~ Description for zweihänder
 #: lang/json/TOOL_from_json.py
 msgid "This is a huge two-handed sword from Germany.  It packs a real wallop."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "food processor"
+msgid_plural "food processors"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for food processor
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a kitchen appliance capable of slicing, chopping, shredding, "
+"grinding, pureeing and mixing."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py lang/json/vehicle_part_from_json.py
@@ -51487,6 +51650,10 @@ msgstr ""
 msgid "Stop meditating?"
 msgstr ""
 
+#: lang/json/activity_type_from_json.py
+msgid "Stop washing?"
+msgstr ""
+
 #: lang/json/ammunition_type_from_json.py
 msgid ".700 Nitro Express"
 msgstr ""
@@ -51501,7 +51668,7 @@ msgstr "pregos"
 
 #: lang/json/ammunition_type_from_json.py
 msgid "BBs"
-msgstr "BBs"
+msgstr "chumbinhos"
 
 #: lang/json/ammunition_type_from_json.py
 msgid "bolts"
@@ -51656,7 +51823,7 @@ msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
 msgid "throwing weapon"
-msgstr "arma de arremesso\\"
+msgstr "arma de arremesso"
 
 #: lang/json/ammunition_type_from_json.py
 msgid "chemical ampoule"
@@ -52730,7 +52897,7 @@ msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Deconstruct Furniture"
-msgstr "Desmonta Móvel"
+msgstr "Desmontar Móvel"
 
 #: lang/json/construction_from_json.py
 msgid "Dig Pit"
@@ -52770,7 +52937,7 @@ msgstr "Cortar Troncos Em Tábuas"
 
 #: lang/json/construction_from_json.py
 msgid "Build Improvised Shelter"
-msgstr "Construir Cabana Improvisada"
+msgstr "Construir Abrigo Improvisado"
 
 #: lang/json/construction_from_json.py
 msgid "Build Door Curtain"
@@ -52790,7 +52957,7 @@ msgstr "Consertar Porta de Madeira"
 
 #: lang/json/construction_from_json.py
 msgid "Board Up Wood Door"
-msgstr "Tampar Porta de Madeira"
+msgstr "Barricar Porta de Madeira"
 
 #: lang/json/construction_from_json.py
 msgid "Reinforce Wood Door"
@@ -52806,7 +52973,7 @@ msgstr "Construir Janela"
 
 #: lang/json/construction_from_json.py
 msgid "Clean Broken Window"
-msgstr "Limpar Janela de Vidro"
+msgstr "Limpar Janela de Vidro Quebrada"
 
 #: lang/json/construction_from_json.py
 msgid "Tape Up Window"
@@ -52955,6 +53122,14 @@ msgstr "Tampar Caixa"
 #: lang/json/construction_from_json.py
 msgid "Build Crate"
 msgstr "Construir  Caixa"
+
+#: lang/json/construction_from_json.py
+msgid "Seal Coffin"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Build Coffin"
+msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Build Bulletin Board"
@@ -53137,11 +53312,11 @@ msgid "Cut Down Grass"
 msgstr "Cortar Grama"
 
 #: lang/json/construction_from_json.py
-msgid "Extract Clay Mound"
-msgstr "Extrair Punhado de Argila"
+msgid "Extract Sand"
+msgstr ""
 
 #: lang/json/construction_from_json.py
-msgid "Extract Sand Mound"
+msgid "Extract Clay"
 msgstr ""
 
 #: lang/json/construction_from_json.py
@@ -56121,12 +56296,12 @@ msgstr ""
 msgid "oven"
 msgstr ""
 
-#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
+#: lang/json/furniture_from_json.py lang/json/furniture_from_json.py
+#: lang/json/terrain_from_json.py lang/json/terrain_from_json.py
 msgid "metal screeching!"
 msgstr ""
 
-#: lang/json/furniture_from_json.py lang/json/furniture_from_json.py
-#: lang/json/terrain_from_json.py lang/json/terrain_from_json.py
+#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 msgid "clang!"
 msgstr ""
 
@@ -56616,6 +56791,10 @@ msgstr ""
 
 #: lang/json/furniture_from_json.py
 msgid "fire ring"
+msgstr ""
+
+#: lang/json/furniture_from_json.py
+msgid "tank trap"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
@@ -64207,6 +64386,10 @@ msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Toggle stereo"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Toggle water purifiers"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -74300,6 +74483,111 @@ msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "attached garage"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "National Guard Camp"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "Heliport"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "motor pool"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "repair bay"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "barracks"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "fuel point"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "company ops facility"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "arms room"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "dining facility"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "adv. warfare center"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "range"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "aid station"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "commo building"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "battalion HQ"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "flag pole"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "shoppette"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "gym"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "ammunition supply point"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "Launch Station"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "helipad"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "Military Complex"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+#: lang/json/overmap_terrain_from_json.py src/vehicle.cpp
+msgid "reactor"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "weapons lab"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "genetics lab"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "microbiology lab"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "rocketry lab"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -89091,6 +89379,10 @@ msgid "thump"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
+msgid "clay"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
 msgid "mound of dirt"
 msgstr ""
 
@@ -93333,6 +93625,10 @@ msgstr ""
 msgid "You feel much better."
 msgstr ""
 
+#: src/activity_handlers.cpp
+msgid "You washed your clothing."
+msgstr ""
+
 #: src/activity_item_handling.cpp
 #, c-format
 msgid "To avoid spilling its contents, you set your %1$s on the %2$s."
@@ -96993,6 +97289,14 @@ msgid "After boarding up the window the curtains and curtain rod are left."
 msgstr ""
 
 #: src/construction.cpp
+msgid "You gather some sand."
+msgstr ""
+
+#: src/construction.cpp
+msgid "You gather some clay."
+msgstr ""
+
+#: src/construction.cpp
 msgid "You cannot build there!"
 msgstr "Você não bonde construir aí!"
 
@@ -97425,10 +97729,9 @@ msgid_plural "You need a %s with %d charges."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/crafting.cpp src/game.cpp src/game.cpp src/game.cpp src/iexamine.cpp
-#: src/iexamine.cpp src/iexamine.cpp src/iuse.cpp src/iuse.cpp src/iuse.cpp
-#: src/iuse_actor.cpp src/iuse_actor.cpp src/npctalk.cpp src/npctalk.cpp
-#: src/npctalk.cpp src/pickup.cpp src/player.cpp src/player.cpp
+#: src/crafting.cpp src/game.cpp src/game.cpp src/iexamine.cpp src/iuse.cpp
+#: src/iuse.cpp src/iuse_actor.cpp src/iuse_actor.cpp src/npctalk.cpp
+#: src/npctalk.cpp src/pickup.cpp src/player.cpp src/player.cpp src/player.cpp
 #: src/veh_interact.cpp
 msgid "Never mind."
 msgstr ""
@@ -101882,15 +102185,15 @@ msgstr ""
 msgid "%s's head implodes!"
 msgstr ""
 
+#: src/game.cpp
+msgid "Choose vehicle to spawn"
+msgstr ""
+
 #. ~ Menu entry in vehicle wish menu: 1st string: displayed name, 2nd string:
 #. internal name of vehicle
 #: src/game.cpp
 #, c-format
 msgid "%1$s (%2$s)"
-msgstr ""
-
-#: src/game.cpp
-msgid "Choose vehicle to spawn"
 msgstr ""
 
 #: src/game.cpp
@@ -106842,20 +107145,6 @@ msgid "Moves per attack: "
 msgstr ""
 
 #: src/item.cpp
-msgid "* This weapon <good>does not conduct</good> electricity."
-msgstr ""
-
-#: src/item.cpp
-msgid ""
-"* This weapon effectively <bad>conducts</bad> electricity, as it has no "
-"guard."
-msgstr ""
-
-#: src/item.cpp
-msgid "* This weapon <bad>conducts</bad> electricity."
-msgstr ""
-
-#: src/item.cpp
 msgid "<bold>Minimum requirements:</bold>"
 msgstr ""
 
@@ -107054,6 +107343,10 @@ msgid "Uses <stat>%i</stat> charge of UPS per shot"
 msgid_plural "Uses <stat>%i</stat> charges of UPS per shot"
 msgstr[0] ""
 msgstr[1] ""
+
+#: src/item.cpp
+msgid "Maximum range: "
+msgstr ""
 
 #: src/item.cpp
 msgid "<num> seconds"
@@ -107441,6 +107734,19 @@ msgstr ""
 
 #: src/item.cpp
 msgid "* This item is <bad>not repairable</bad>."
+msgstr ""
+
+#: src/item.cpp
+msgid "* This item <good>does not conduct</good> electricity."
+msgstr ""
+
+#: src/item.cpp
+msgid ""
+"* This item effectively <bad>conducts</bad> electricity, as it has no guard."
+msgstr ""
+
+#: src/item.cpp
+msgid "* This item <bad>conducts</bad> electricity."
 msgstr ""
 
 #: src/item.cpp
@@ -111335,7 +111641,8 @@ msgid "You need %1$i charges of water or clean water to wash your %2$s."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "You washed your clothing."
+#, c-format
+msgid "You need %1$i charges of cleansing agent to wash your %2$s."
 msgstr ""
 
 #: src/iuse_actor.cpp
@@ -113469,7 +113776,7 @@ msgstr ""
 msgid "The %1$s's %2$s collides with %3$s's %4$s."
 msgstr ""
 
-#: src/map.cpp src/melee.cpp src/monster.cpp src/vehicle.cpp
+#: src/map.cpp src/monster.cpp src/vehicle.cpp
 #, c-format
 msgid "the %s"
 msgstr ""
@@ -114406,11 +114713,6 @@ msgstr ""
 #: src/messages.cpp
 #, c-format
 msgid "Press %s to return"
-msgstr ""
-
-#: src/messages.cpp
-#, c-format
-msgid "%s ago:"
 msgstr ""
 
 #: src/mission_companion.cpp
@@ -120642,6 +120944,14 @@ msgstr ""
 msgid "Select a follower"
 msgstr ""
 
+#: src/options.cpp
+msgid "Message log flow"
+msgstr ""
+
+#: src/options.cpp
+msgid "Where new log messages should show."
+msgstr ""
+
 #: src/output.cpp
 msgid "Press any key for more..."
 msgstr ""
@@ -122458,6 +122768,10 @@ msgid "You need a compatible magazine to reload the %s!"
 msgstr ""
 
 #: src/player.cpp
+msgid "Nothing to reload!"
+msgstr ""
+
+#: src/player.cpp
 #, c-format
 msgid "Out of %s!"
 msgstr ""
@@ -123094,6 +123408,14 @@ msgstr ""
 #: src/player.cpp
 #, c-format
 msgid "It's hard to get to sleep on this %s."
+msgstr ""
+
+#: src/player.cpp src/player_hardcoded_effects.cpp
+msgid "It looks like you've slept through your internal alarm..."
+msgstr ""
+
+#: src/player.cpp src/player_hardcoded_effects.cpp
+msgid "It looks like you've slept through the alarm..."
 msgstr ""
 
 #. ~ %s is armor name
@@ -124047,11 +124369,11 @@ msgid "It's too hot to sleep."
 msgstr ""
 
 #: src/player_hardcoded_effects.cpp
-msgid "Your internal chronometer wakes you up."
+msgid "Your internal chronometer finally wakes you up."
 msgstr ""
 
 #: src/player_hardcoded_effects.cpp
-msgid "You turn off your alarm-clock."
+msgid "Your internal chronometer wakes you up."
 msgstr ""
 
 #: src/ranged.cpp
@@ -124509,6 +124831,10 @@ msgid ""
 "Sets which video display will be used to show the game. Requires restart."
 msgstr ""
 
+#: src/sdltiles.cpp src/wincurse.cpp
+msgid "base colors"
+msgstr ""
+
 #: src/sounds.cpp
 msgid "Your eardrums suddenly ache!"
 msgstr ""
@@ -124534,6 +124860,18 @@ msgstr ""
 #: src/sounds.cpp
 #, c-format
 msgid "From the %s you hear %s"
+msgstr ""
+
+#: src/sounds.cpp
+msgid "Your alarm-clock finally wakes you up."
+msgstr ""
+
+#: src/sounds.cpp
+msgid "Your alarm-clock wakes you up."
+msgstr ""
+
+#: src/sounds.cpp
+msgid "You turn off your alarm-clock."
 msgstr ""
 
 #: src/sounds.cpp
@@ -126020,10 +126358,6 @@ msgid "Turned on %s"
 msgstr ""
 
 #: src/vehicle.cpp
-msgid "reactor"
-msgstr ""
-
-#: src/vehicle.cpp
 msgid "headlights"
 msgstr ""
 
@@ -126690,8 +127024,9 @@ msgid "Category:"
 msgstr "Categoria:"
 
 #: src/wish.cpp
-msgid "[/] find, [q]uit"
-msgstr "[/] procurar, [q] sair"
+#, c-format
+msgid "[%s] find, [%s] quit"
+msgstr ""
 
 #: src/wish.cpp
 #, c-format
@@ -126703,14 +127038,15 @@ msgid " (hallucination)"
 msgstr "(alucinação)"
 
 #: src/wish.cpp
+#, c-format
 msgid ""
-"[/] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, "
-"[q]uit"
+"[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, "
+"[%s] quit"
 msgstr ""
 
 #: src/wish.cpp
 #, c-format
-msgid "Spawned %d/%d monsters, choose another or 'q' to quit."
+msgid "Spawned %d/%d monsters, choose another or [%s] to quit."
 msgstr ""
 
 #: src/wish.cpp
@@ -126718,8 +127054,9 @@ msgid " (contained)"
 msgstr "(contido)"
 
 #: src/wish.cpp
-msgid "[/] find, [f] container, [q]uit"
-msgstr "[/] procurar, [f] recipiente, [q] sair"
+#, c-format
+msgid "[%s] find, [f] container, [%s] quit"
+msgstr ""
 
 #: src/wish.cpp
 #, c-format
@@ -126731,8 +127068,9 @@ msgid "How many?"
 msgstr "Quantos?"
 
 #: src/wish.cpp
-msgid "Wish granted. Wish for more or hit 'q' to quit."
-msgstr "Desejo realizado. Deseje por mais ou aperte \"q\" para sair."
+#, c-format
+msgid "Wish granted. Wish for more or hit [%s] to quit."
+msgstr ""
 
 #: src/wish.cpp
 msgid "Select a skill to modify"

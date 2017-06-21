@@ -4190,24 +4190,28 @@ void player::heal(body_part healed, int dam)
         case bp_hand_l:
             // Shouldn't happen, but fall through to arms
             debugmsg("Heal against hands!");
+            /* fallthrough */
         case bp_arm_l:
             healpart = hp_arm_l;
             break;
         case bp_hand_r:
             // Shouldn't happen, but fall through to arms
             debugmsg("Heal against hands!");
+            /* fallthrough */
         case bp_arm_r:
             healpart = hp_arm_r;
             break;
         case bp_foot_l:
             // Shouldn't happen, but fall through to legs
             debugmsg("Heal against feet!");
+            /* fallthrough */
         case bp_leg_l:
             healpart = hp_leg_l;
             break;
         case bp_foot_r:
             // Shouldn't happen, but fall through to legs
             debugmsg("Heal against feet!");
+            /* fallthrough */
         case bp_leg_r:
             healpart = hp_leg_r;
             break;
@@ -7831,6 +7835,9 @@ bool player::wield( item& target )
 
     weapon.on_wield( *this, mv );
 
+    inv.update_invlet( weapon );
+    inv.update_cache_with_item( weapon );
+
     return true;
 }
 
@@ -8321,18 +8328,24 @@ bool player::wear( int pos, bool interactive )
         return false;
     }
 
-    if( !wear_item( to_wear, interactive ) ) {
-        return false;
-    }
-
+    bool was_weapon;
+    item to_wear_copy( to_wear );
     if( &to_wear == &weapon ) {
         weapon = ret_null;
+        was_weapon = true;
     } else {
-        // it has been copied into worn vector, but assigned an invlet,
-        // in case it's a stack, reset the invlet to avoid duplicates
-        to_wear.invlet = 0;
         inv.remove_item( &to_wear );
         inv.restack( this );
+        was_weapon = false;
+    }
+
+    if( !wear_item( to_wear_copy, interactive ) ) {
+        if( was_weapon ) {
+            weapon = to_wear_copy;
+        } else {
+            inv.add_item( to_wear_copy, true );
+        }
+        return false;
     }
 
     return true;
@@ -8371,9 +8384,9 @@ bool player::wear_item( const item &to_wear, bool interactive )
 
     item &new_item = worn.back();
     new_item.on_wear( *this );
-    if( new_item.invlet == 0 ) {
-        inv.assign_empty_invlet( new_item, false );
-    }
+
+    inv.update_invlet( new_item );
+    inv.update_cache_with_item( new_item );
 
     recalc_sight_limits();
     reset_encumbrance();
@@ -8836,10 +8849,12 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
 
 void player::reassign_item( item &it, long invlet )
 {
+    bool remove_old = true;
     if( invlet ) {
         item &prev = i_at( invlet_to_position( invlet ) );
         if( !prev.is_null() ) {
-            inv.reassign_item( prev, it.invlet );
+            remove_old = it.typeId() != prev.typeId();
+            inv.reassign_item( prev, it.invlet, remove_old );
         }
     }
 
@@ -8852,7 +8867,7 @@ void player::reassign_item( item &it, long invlet )
         if( invlet && ( !found || it.invlet != invlet ) ) {
             assigned_invlet[invlet] = it.typeId();
         }
-        inv.reassign_item( it, invlet );
+        inv.reassign_item( it, invlet, remove_old );
     }
 }
 

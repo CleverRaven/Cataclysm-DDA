@@ -8,6 +8,7 @@
     "difficulty": 9,
     "time": 480000,
     "book_learn": [[ "book_asgard", 10 ]],
+    "using": [ [ "forging_standard", 3 ] ],
     "qualities": [
       {"id":"HAMMER","level":3},
       {"id":"CHISEL","level":3}
@@ -15,8 +16,7 @@
     "tools": [
       [ ["tongs", -1] ],
       [ ["anvil", -1] ],
-      [ ["swage", -1] ],
-      [ ["forge", 350], [ "char_forge", 70], [ "oxy_torch", 70] ]
+      [ ["swage", -1] ]
     ],
     "components": [
       [ [ "warhammer", 1 ] ],
@@ -33,6 +33,7 @@
     "difficulty": 9,
     "time": 480000,
     "book_learn": [[ "book_asgard", 10 ]],
+    "using": [ [ "forging_standard", 3 ] ],
     "qualities": [
       {"id":"HAMMER","level":3},
       {"id":"CHISEL","level":3}
@@ -40,8 +41,7 @@
     "tools": [
       [ ["tongs", -1] ],
       [ ["anvil", -1] ],
-      [ ["swage", -1] ],
-      [ ["forge", 350], [ "char_forge", 70], [ "oxy_torch", 70] ]
+      [ ["swage", -1] ]
     ],
     "components": [
       [ [ "spear_steel", 1 ] ],
@@ -57,6 +57,7 @@
     "difficulty": 9,
     "time": 480000,
     "book_learn": [[ "book_asgard", 10 ]],
+    "using": [ [ "forging_standard", 3 ] ],
     "qualities": [
       {"id":"HAMMER","level":3},
       {"id":"CHISEL","level":3}
@@ -64,8 +65,7 @@
     "tools": [
       [ ["tongs", -1] ],
       [ ["anvil", -1] ],
-      [ ["swage", -1] ],
-      [ ["forge", 350], [ "char_forge", 70], [ "oxy_torch", 70] ]
+      [ ["swage", -1] ]
     ],
     "components": [
       [ [ "reflexrecurvebow", 1 ] ],
@@ -81,6 +81,7 @@
     "difficulty": 9,
     "time": 480000,
     "book_learn": [[ "book_asgard", 10 ]],
+    "using": [ [ "forging_standard", 3 ] ],
     "qualities": [
       {"id":"HAMMER","level":3},
       {"id":"CHISEL","level":3}
@@ -88,8 +89,7 @@
     "tools": [
       [ ["tongs", -1] ],
       [ ["anvil", -1] ],
-      [ ["swage", -1] ],
-      [ ["forge", 350], [ "char_forge", 70], [ "oxy_torch", 70] ]
+      [ ["swage", -1] ]
     ],
     "components": [
       [ [ "arming_sword", 1 ] ],

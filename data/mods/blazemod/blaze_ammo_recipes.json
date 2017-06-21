@@ -258,6 +258,7 @@
     "difficulty": 3,
     "time": 20000,
     "autolearn": true,
+    "using": [ [ "forging_standard", 1 ], [ "steel_standard", 1 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1, "amount": 1 },
       { "id": "CUT", "level": 1, "amount": 1 },
@@ -266,10 +267,8 @@
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
-      [ [ "swage", -1 ] ],
-      [ [ "forge", 100 ], [ "char_forge", 10 ], [ "oxy_torch", 10 ] ]
-    ],
-    "components": [ [ [ "scrap", 9 ], [ "steel_chunk", 3 ], [ "steel_lump", 1 ] ] ]
+      [ [ "swage", -1 ] ]
+    ]
   },
   {
     "result": "shards",

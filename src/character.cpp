@@ -920,7 +920,7 @@ units::volume Character::volume_capacity_reduced_by( units::volume mod ) const
 bool Character::can_pickVolume( const item &it, bool ) const
 {
     inventory projected = inv;
-    projected.add_item( it );
+    projected.add_item( it, true );
     return projected.volume() <= volume_capacity();
 }
 
