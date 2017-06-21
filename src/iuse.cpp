@@ -760,40 +760,50 @@ int iuse::meth(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-bool successful_injection( player *p ) {
-    int med_exp = p->get_skill_level( skill_firstaid ).level();
+float successful_injection_chance( player *p ) {
+    float success_chance = p->get_skill_level( skill_firstaid ).level();
 
     if( p->has_trait( trait_PROF_MED ) ) {
-        med_exp += 3;
+        success_chance += 3;
     }
 
-    if( one_in( 2 * med_exp + 2 ) ) {
+    if( p->has_effect( effect_shakes ) ) {
+        success_chance -= 2;
+        p->add_msg_if_player( _( "Your shaking hands are a real problem for a proper injection." ) );
+    }
+
+    if ( p->has_effect( effect_tetanus ) ) {
+        success_chance -= 2;
+        p->add_msg_if_player( _( "Spasms in your muscles are a real problem for a proper injection." ) );
+    }
+
+    if( one_in( success_chance + 5 ) ) {
         p->add_msg_if_player( _( "The injection was really painful." ) );
         p->mod_pain( rng( 10, 20 ) );
-        return true;
-    }
-
-    if( one_in( 3 * med_exp + 3 ) ) {
+        return 1.0f;
+    } else if( one_in( 3 * success_chance + 3 ) ) {
         p->add_msg_if_player( _( "It seems that you hit some nerve during the injection." ) );
         p->mod_pain( rng( 10, 20 ) );
         p->apply_damage( nullptr, bp_torso, rng( 5, 10 ) );
-        return true;
-    }
-
-    if( one_in( 4 * med_exp + 4 ) ) {
+        return 1.0f;
+    } else if( one_in( 4 * success_chance + 4 ) ) {
         p->add_msg_if_player( _( "Due to your inapt handling you failed the injection and waste materials." ) );
-        return false;
+        return 0.0f;
+    } else if( one_in( 5 * success_chance + 5 ) ) {
+        p->add_msg_if_player( _( "It seems that you set the wrong dosage for the injection." ) );
+        return rng_float( 0.1f, 0.9f );
     }
 
-    return true;
+    return 1.0f;
 }
 
 int iuse::vaccine( player *p, item *it, bool, const tripoint& )
 {
-    if( successful_injection( p ) ) {
+    float sic = successful_injection_chance( p );
+    if( sic > 0.0f ) {
         p->add_msg_if_player( _( "You inject the vaccine." ) );
         p->add_msg_if_player( m_good, _( "You feel tough." ) );
-        p->mod_healthy_mod( 200, 200 );
+        p->mod_healthy_mod( sic * 200, 200 );
         item syringe( "syringe", it->bday );
         p->i_add( syringe );
         return it->type->charges_to_use();
