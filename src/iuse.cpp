@@ -759,20 +759,44 @@ int iuse::meth(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::vaccine( player *p, item *it, bool, const tripoint& )
-{
-    if( p->get_skill_level( skill_firstaid ).level() < 1 ) {
-        p->add_msg_if_player( _( "You have no idea about how and where you should inject the vaccine." ) );
-        return 0;
+bool successful_injection( player *p ) {
+    int med_exp = p->get_skill_level( skill_firstaid ).level();
+
+    if( p->has_trait( trait_PROF_MED ) ) {
+        med_exp += 3;
     }
 
-    p->add_msg_if_player( _( "You inject the vaccine." ) );
-    p->add_msg_if_player( m_good, _( "You feel tough." ) );
-    p->mod_healthy_mod( 200, 200 );
-    p->mod_pain( 3 );
-    item syringe( "syringe", it->bday );
-    p->i_add( syringe );
-    return it->type->charges_to_use();
+    if( one_in( 2 * med_exp + 2 ) ) {
+        p->add_msg_if_player( _( "The injection was really painful." ) );
+        p->mod_pain( rng( 10, 20 ) );
+        return true;
+    }
+
+    if( one_in( 3 * med_exp + 3 ) ) {
+        p->add_msg_if_player( _( "It seems that you hit some nerve during the injection." ) );
+        p->mod_pain( rng( 10, 20 ) );
+        p->apply_damage( nullptr, bp_torso, rng( 5, 10 ) );
+        return true;
+    }
+
+    if( one_in( 4 * med_exp + 4 ) ) {
+        p->add_msg_if_player( _( "Due to your inapt handling you failed the injection and waste materials." ) );
+        return false;
+    }
+
+    return true;
+}
+
+int iuse::vaccine( player *p, item *it, bool, const tripoint& )
+{
+    if( successful_injection( p ) ) {
+        p->add_msg_if_player( _( "You inject the vaccine." ) );
+        p->add_msg_if_player( m_good, _( "You feel tough." ) );
+        p->mod_healthy_mod( 200, 200 );
+        item syringe( "syringe", it->bday );
+        p->i_add( syringe );
+        return it->type->charges_to_use();
+    } else return it->type->charges_to_use();
 }
 
 int iuse::flu_vaccine( player *p, item *it, bool, const tripoint& )
