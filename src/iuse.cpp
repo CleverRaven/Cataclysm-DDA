@@ -812,11 +812,6 @@ int iuse::vaccine( player *p, item *it, bool, const tripoint& )
 
 int iuse::flu_vaccine( player *p, item *it, bool, const tripoint& )
 {
-    if( p->get_skill_level( skill_firstaid ).level() < 1 ) {
-        p->add_msg_if_player( _( "You have no idea about how and where you should inject the vaccine." ) );
-        return 0;
-    }
-
     p->add_msg_if_player( _( "You inject the vaccine." ) );
     p->add_msg_if_player( m_good, _( "You no longer need to fear the flu." ) );
     p->add_effect( effect_flushot, 1, num_bp, true );
@@ -1305,11 +1300,6 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    if( p->get_skill_level( skill_firstaid ).level() < 1 ) {
-        p->add_msg_if_player( _( "You have no idea about how and where you should inject this chemical stuff." ) );
-        return 0;
-    }
-
     if (!p->is_npc() && !(p->has_trait( trait_THRESH_MYCUS ))) {
         p->add_memorial_log(pgettext("memorial_male", "Injected mutagen."),
                             pgettext("memorial_female", "Injected mutagen."));
@@ -1501,11 +1491,6 @@ int iuse::purify_iv(player *p, item *it, bool, const tripoint& )
     if (p->has_trait( trait_MUTAGEN_AVOID )) {
          //~"Uh-uh" is a sound used for "nope", "no", etc.
         p->add_msg_if_player(m_warning, _("After what happened that last time?  uh-uh.  You're not injecting that chemical stuff."));
-        return 0;
-    }
-
-    if( p->get_skill_level( skill_firstaid ).level() < 1 ) {
-        p->add_msg_if_player( _( "You have no idea about how and where you should inject this chemical stuff." ) );
         return 0;
     }
 
@@ -5384,11 +5369,6 @@ int iuse::adrenaline_injector( player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    if( p->get_skill_level( skill_firstaid ).level() < 1 ) {
-        p->add_msg_if_player( _( "You have no idea about how and where you should inject the adrenaline." ) );
-        return 0;
-    }
-
     p->moves -= 100;
     p->add_msg_player_or_npc( _( "You inject yourself with adrenaline." ),
                               _( "<npcname> injects themselves with adrenaline." ) );
@@ -5408,10 +5388,6 @@ int iuse::adrenaline_injector( player *p, item *it, bool, const tripoint& )
 
 int iuse::jet_injector( player *p, item *it, bool, const tripoint& )
 {
-    if( p->get_skill_level( skill_firstaid ).level() < 1 ) {
-        p->add_msg_if_player( _( "You have no idea about how and where you should apply the injector." ) );
-        return 0;
-    }
 
     if( !it->ammo_sufficient() ) {
         p->add_msg_if_player(m_info, _( "The jet injector is empty." ), it->tname().c_str() );
