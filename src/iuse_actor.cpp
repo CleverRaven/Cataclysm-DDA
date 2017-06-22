@@ -808,8 +808,7 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
         return 0;
     }
     const ter_id type = g->m.ter( dirp );
-    const int npcdex = g->npc_at( dirp );
-    if( npcdex != -1 ) {
+    if( g->critter_at<npc>( dirp ) ) {
         p->add_msg_if_player( m_info,
                               _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose" ) );
         return 0;
@@ -2488,7 +2487,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
             // Skill gain scales with recipe difficulty, so practice difficulty should too
             action_difficulty = recipe_difficulty;
         default:
-            std::make_pair( 0.0f, 0.0f );
+            ;
     }
 
     const int difficulty = recipe_difficulty + action_difficulty;
@@ -2698,18 +2697,14 @@ player &get_patient( player &healer, const tripoint &pos )
         return healer;
     }
 
-    if( g->u.pos() == pos ) {
-        return g->u;
-    }
-
-    const int npc_index = g->npc_at( pos );
-    if( npc_index == -1 ) {
+    player *const person = g->critter_at<player>( pos );
+    if( !person ) {
         // Default to heal self on failure not to break old functionality
         add_msg( m_debug, "No heal target at position %d,%d,%d", pos.x, pos.y, pos.z );
         return healer;
     }
 
-    return (player&)(*g->active_npc[npc_index]);
+    return *person;
 }
 
 long heal_actor::use( player *p, item *it, bool, const tripoint &pos ) const
@@ -3015,7 +3010,10 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
     dump.emplace_back( "TOOL", _( "<bold>Moves to use</bold>:" ), "", move_cost );
 }
 
+place_trap_actor::place_trap_actor( const std::string &type ) :
+  iuse_actor( type ), needs_neighbor_terrain( ter_str_id::NULL_ID() ), outer_layer_trap( trap_str_id::NULL_ID() ) {}
 
+place_trap_actor::data::data() : trap( trap_str_id::NULL_ID() ) {}
 
 void place_trap_actor::data::load( JsonObject obj )
 {

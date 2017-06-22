@@ -1411,6 +1411,36 @@
         "post_terrain" : "f_crate_o"
     },{
         "type" : "construction",
+        "description" : "Seal Coffin",
+        "category" : "FURN",
+        "required_skills" : [ [ "mechanics", 0 ] ],
+        "time" : 10,
+        "components" : [
+        [ ["nail", 6] ]
+        ],
+        "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
+        "pre_terrain" : "f_coffin_o",
+        "post_terrain" : "f_coffin_c"
+    },{
+        "type" : "construction",
+        "description" : "Build Coffin",
+        "category" : "FURN",
+        "required_skills" : [ [ "fabrication", 1 ] ],
+        "time" : 60,
+        "qualities": [
+            [
+            { "id": "HAMMER", "level": 2 }
+            ]
+            ],
+        "components" : [
+            [ [ "2x4", 12 ] ],
+            [ [ "sheet", 2 ], [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1] ],
+            [ [ "nail", 24 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_coffin_o"
+    },{
+        "type" : "construction",
         "description" : "Build Bulletin Board",
         "category" : "FURN",
         "required_skills" : [ [ "fabrication", 0 ] ],
@@ -2157,22 +2187,22 @@
         "post_terrain" : "t_dirt"
     },{
         "type" : "construction",
-        "description" : "Extract Clay Mound",
+        "description" : "Extract Sand",
         "category" : "OTHER",
         "required_skills" : [ [ "survival", 0 ] ],
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-        "pre_terrain" : "t_water_sh",
-        "post_terrain" : "t_claymound"
+        "pre_terrain" : "t_sand",
+        "post_special" : "done_extract_sand"
     },{
         "type" : "construction",
-        "description" : "Extract Sand Mound",
+        "description" : "Extract Clay",
         "category" : "OTHER",
         "required_skills" : [ [ "survival", 0 ] ],
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-        "pre_terrain" : "t_water_sh",
-        "post_terrain" : "t_sandmound"
+        "pre_terrain" : "t_clay",
+        "post_special" : "done_extract_clay"
     },{
         "type" : "construction",
         "description" : "Build Charcoal Kiln",

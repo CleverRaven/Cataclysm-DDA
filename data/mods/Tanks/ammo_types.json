@@ -17,7 +17,7 @@
 },{
      "type" : "ammunition_type",
      "id" : "atgm",
-     "name" : "anti-tank guided missile",
+     "name" : "152mm anti-tank guided missile",
      "default" : "atgm_heat"
   }
 ]

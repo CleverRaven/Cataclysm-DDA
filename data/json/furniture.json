@@ -1133,8 +1133,8 @@
                   "ORGANIC", "MOUNTABLE", "SHORT"],
         "deconstruct": {
             "items": [
-                { "item": "2x4", "count": 6 },
-                { "item": "nail", "charges": [6, 10] },
+                { "item": "2x4", "count": 12 },
+                { "item": "nail", "charges": [12, 24] },
                 { "item": "rag", "count": [15, 20] }
             ]
         },
@@ -1145,6 +1145,7 @@
             "sound_fail": "wham!",
             "items": [
                 { "item": "2x4", "count": [1, 5] },
+                { "item": "splinter", "count": [2, 6] },
                 { "item": "nail", "charges": [2, 10] },
                 { "item": "rag", "count": [ 8, 12] }
             ]
@@ -1161,8 +1162,8 @@
           "SHORT"],
         "deconstruct": {
             "items": [
-                { "item": "2x4", "count": 6 },
-                { "item": "nail", "charges": [6, 10] },
+                { "item": "2x4", "count": 12 },
+                { "item": "nail", "charges": [12, 24] },
                 { "item": "rag", "count": [15, 20] }
             ]
         },
@@ -1173,8 +1174,9 @@
             "sound_fail": "wham!",
             "items": [
                 { "item": "2x4", "count": [1, 5] },
+                { "item": "splinter", "count": [2, 6] },
                 { "item": "nail", "charges": [2, 10] },
-                { "item": "rag", "count": [ 6, 12] }
+                { "item": "rag", "count": [ 8, 12] }
             ]
         }
     },{
@@ -2086,7 +2088,7 @@
         "flags": ["SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "FLAMMABLE_HARD"],
         "examine_action": "vending",
         "bash": {
-            "str_min": 40, "str_max": 200,
+            "str_min": 150, "str_max": 520,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "furn_set": "f_vending_o",

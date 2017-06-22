@@ -5,12 +5,9 @@
 
 void mission_fail::kill_npc( mission *miss )
 {
-    for( auto &elem : g->active_npc ) {
-        if( elem->getID() == miss->get_npc_id() ) {
-            elem->die( nullptr );
-            // Actuall removoal of the npc is done in game::cleanup_dead
-            break;
-        }
+    if( npc *const elem = g->npc_by_id( miss->get_npc_id() ) ) {
+        elem->die( nullptr );
+        // Actuall removoal of the npc is done in game::cleanup_dead
     }
     npc *n = overmap_buffer.find_npc( miss->get_npc_id() );
     if( n != nullptr && !n->is_dead() ) {

@@ -569,7 +569,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 skill_id( "bashing" ), skill_id( "stabbing" ),
             }
         };
-        if( has_active_bionic( "bio_cqb" ) &&
+        if( has_active_bionic( bionic_id( "bio_cqb" ) ) &&
             std::find( cqb_skills.begin(), cqb_skills.end(), elem->ident() ) != cqb_skills.end() ) {
             level_num = 5;
             exercise = 0;
@@ -700,7 +700,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
     int quick_bonus = int( newmoves - ( newmoves / 1.1 ) );
     int bio_speed_bonus = quick_bonus;
-    if( has_trait( trait_id( "QUICK" ) ) && has_bionic( "bio_speed" ) ) {
+    if( has_trait( trait_id( "QUICK" ) ) && has_bionic( bionic_id( "bio_speed" ) ) ) {
         bio_speed_bonus = int( newmoves / 1.1 - ( newmoves / 1.1 / 1.1 ) );
         std::swap( quick_bonus, bio_speed_bonus );
     }
@@ -709,7 +709,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                    ( quick_bonus < 10 ? " " : "" ), quick_bonus );
         line++;
     }
-    if( has_bionic( "bio_speed" ) ) {
+    if( has_bionic( bionic_id( "bio_speed" ) ) ) {
         mvwprintz( w_speed, line, 1, c_green, _( "Bionic Speed        +%s%d%%" ),
                    ( bio_speed_bonus < 10 ? " " : "" ), bio_speed_bonus );
     }

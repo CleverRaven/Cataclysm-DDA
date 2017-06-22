@@ -13,10 +13,6 @@
 #include <vector>
 #include <memory>
 
-template<>
-/** @relates string_id */
-const string_id<trap> string_id<trap>::NULL_ID( "tr_null" );
-
 namespace
 {
 
@@ -273,7 +269,7 @@ void trap::finalize()
     const auto trapfind = []( const char *id ) {
         return trap_str_id( id ).id();
     };
-    tr_null = trap_str_id::NULL_ID.id();
+    tr_null = trap_str_id::NULL_ID().id();
     tr_bubblewrap = trapfind( "tr_bubblewrap" );
     tr_cot = trapfind( "tr_cot" );
     tr_brazier = trapfind( "tr_brazier" );

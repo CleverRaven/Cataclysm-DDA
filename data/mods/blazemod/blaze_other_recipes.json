@@ -76,8 +76,8 @@
     "time": 15000,
     "reversible": true,
     "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
     "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "forge", 100 ], [ "char_forge", 20 ], [ "oxy_torch", 20 ] ] ],
     "components": [
       [ [ "steel_plate", 1 ] ],
       [ [ "spring", 3 ] ]
@@ -116,6 +116,7 @@
     "skills_required": [ "mechanics", 6 ],
     "time": 420000,
     "autolearn": true,
+    "using": [ [ "forging_standard", 10 ], [ "steel_standard", 10 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "CUT", "level": 1 },
@@ -124,11 +125,9 @@
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
-      [ [ "swage", -1 ] ],
-      [ [ "forge", 400 ], [ "char_forge", 100 ], [ "oxy_torch", 200 ] ]
+      [ [ "swage", -1 ] ]
     ],
     "components": [
-      [ [ "steel_lump", 10 ], [ "steel_chunk", 30 ] ],
       [ [ "wire", 20 ] ],
       [ [ "plastic_chunk", 200 ] ],
       [ [ "chain", 6 ] ]
@@ -144,6 +143,7 @@
     "skills_required": [ "mechanics", 7 ],
     "time": 520000,
     "autolearn": true,
+    "using": [ [ "forging_standard", 15 ], [ "steel_standard", 15 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "CUT", "level": 1 },
@@ -152,11 +152,9 @@
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
-      [ [ "swage", -1 ] ],
-      [ [ "forge", 400 ], [ "char_forge", 100 ], [ "oxy_torch", 200 ] ]
+      [ [ "swage", -1 ] ]
     ],
     "components": [
-      [ [ "steel_lump", 15 ], [ "steel_chunk", 45 ] ],
       [ [ "steel_plate", 10 ] ],
       [ [ "chain", 6 ] ]
     ]
@@ -171,6 +169,7 @@
     "skills_required": [ "mechanics", 7 ],
     "time": 720000,
     "autolearn": true,
+    "using": [ [ "forging_standard", 20 ], [ "steel_standard", 20 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "CUT", "level": 1 },
@@ -179,11 +178,9 @@
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
-      [ [ "swage", -1 ] ],
-      [ [ "forge", 400 ], [ "char_forge", 100 ], [ "oxy_torch", 200 ] ]
+      [ [ "swage", -1 ] ]
     ],
     "components": [
-      [ [ "steel_lump", 20 ], [ "steel_chunk", 60 ] ],
       [ [ "hard_plate", 10 ] ],
       [ [ "chain", 8 ] ]
     ]

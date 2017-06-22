@@ -1,5 +1,8 @@
-#include "mondeath.h"
 #include "monster.h"
+#include "mondeath.h"
+
+#include "ballistics.h"
+#include "dispersion.h"
 #include "game.h"
 #include "debug.h"
 #include "map.h"
@@ -191,19 +194,16 @@ bool mattack::none(monster *)
 bool mattack::antqueen(monster *z)
 {
     std::vector<tripoint> egg_points;
-    std::vector<int> ants;
+    std::vector<monster*> ants;
     // Count up all adjacent tiles the contain at least one egg.
     for( const auto &dest : g->m.points_in_radius( z->pos(), 2 ) ) {
         if( g->m.impassable( dest ) ) {
             continue;
         }
 
-        const int mondex = g->mon_at( dest );
-        if( mondex != -1 ) {
-            monster &mon = g->zombie( mondex );
-            if( mon.type->id == mon_ant_larva ||
-                mon.type->id == mon_ant ) {
-                ants.push_back(mondex);
+        if( monster * const mon = g->critter_at<monster>( dest ) ) {
+            if( mon->type->id == mon_ant_larva || mon->type->id == mon_ant ) {
+                ants.push_back( mon );
             }
 
             continue;
@@ -222,7 +222,7 @@ bool mattack::antqueen(monster *z)
 
     if( !ants.empty() ) {
         z->moves -= 100; // It takes a while
-        monster *ant = &(g->zombie( random_entry( ants ) ) );
+        monster *ant = random_entry( ants );
         if( g->u.sees( *z ) && g->u.sees( *ant ) )
             add_msg(m_warning, _("The %1$s feeds an %2$s and it grows!"), z->name().c_str(),
                     ant->name().c_str());
@@ -411,7 +411,7 @@ bool mattack::acid(monster *z)
     proj.impact.add_damage( DT_ACID, 5 ); // Mostly just for momentum
     proj.range = 10;
     proj.proj_effects.insert( "NO_OVERSHOOT" );
-    auto dealt = z->projectile_attack( proj, target->pos(), 5400 );
+    auto dealt = projectile_attack( proj, z->pos(), target->pos(), { 5400 }, z );
     const tripoint &hitp = dealt.end_point;
     const Creature *hit_critter = dealt.hit_critter;
     if( hit_critter == nullptr && g->m.hit_with_acid( hitp ) && g->u.sees( hitp ) ) {
@@ -523,7 +523,7 @@ bool mattack::acid_accurate(monster *z)
     proj.proj_effects.insert( "NO_DAMAGE_SCALING" );
     proj.impact.add_damage( DT_ACID, rng( 3, 5 ) );
     // Make it arbitrarily less accurate at close ranges
-    z->projectile_attack( proj, target->pos(), 8000 / range );
+    projectile_attack( proj, z->pos(), target->pos(), { 8000.0 * (double)range }, z );
 
     return true;
 }
@@ -1305,9 +1305,8 @@ bool mattack::vine(monster *z)
 
         if( g->is_empty(dest) ) {
             grow.push_back(dest);
-        } else {
-            const int zid = g->mon_at(dest);
-            if( zid > -1 && g->zombie(zid).type->id == mon_creeper_vine ) {
+        } else if( monster * const z = g->critter_at<monster>( dest ) ) {
+            if( z->type->id == mon_creeper_vine ) {
                 vine_neighbors++;
             }
         }
@@ -1356,7 +1355,7 @@ bool mattack::spit_sap(monster *z)
     proj.range = 12;
     proj.proj_effects.insert( "APPLY_SAP" );
     proj.impact.add_damage( DT_ACID, rng( 5, 10 ) );
-    z->projectile_attack( proj, target->pos(), 150 );
+    projectile_attack( proj, z->pos(), target->pos(), { 150 }, z );
 
     return true;
 }
@@ -4076,7 +4075,7 @@ bool mattack::riotbot(monster *z)
             handcuffs.set_var( "HANDCUFFS_X", foe->posx() );
             handcuffs.set_var( "HANDCUFFS_Y", foe->posy() );
 
-            const bool is_uncanny = foe->has_active_bionic("bio_uncanny_dodge") && foe->power_level > 74 &&
+            const bool is_uncanny = foe->has_active_bionic( bionic_id( "bio_uncanny_dodge" ) ) && foe->power_level > 74 &&
                                     !one_in(3);
             ///\EFFECT_DEX >13 allows and increases chance to slip out of riot bot handcuffs
             const bool is_dex = foe->dex_cur > 13 && !one_in(foe->dex_cur - 11);

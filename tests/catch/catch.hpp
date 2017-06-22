@@ -71,6 +71,8 @@
 #define INTERNAL_CATCH_STRINGIFY2( expr ) #expr
 #define INTERNAL_CATCH_STRINGIFY( expr ) INTERNAL_CATCH_STRINGIFY2( expr )
 
+#define __USE_MINGW_ANSI_STDIO 0  // fix mingw error about multiple definitions of vsnprintf
+
 #include <sstream>
 #include <stdexcept>
 #include <algorithm>

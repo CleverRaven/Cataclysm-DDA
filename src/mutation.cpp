@@ -565,7 +565,7 @@ trait_id Character::trait_by_invlet( const long ch ) const
             return mut.first;
         }
     }
-    return trait_id::NULL_ID;
+    return trait_id::NULL_ID();
 }
 
 bool player::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const
@@ -868,7 +868,7 @@ bool player::mutate_towards( const trait_id &mut )
     }
 
     // Check if one of the prereqs that we have TURNS INTO this one
-    trait_id replacing = trait_id::NULL_ID;
+    trait_id replacing = trait_id::NULL_ID();
     prereq = mdata.prereqs; // Reset it
     for( auto &elem : prereq ) {
         if( has_trait( elem ) ) {
@@ -883,7 +883,7 @@ bool player::mutate_towards( const trait_id &mut )
     }
 
     // Loop through again for prereqs2
-    trait_id replacing2 = trait_id::NULL_ID;
+    trait_id replacing2 = trait_id::NULL_ID();
     prereq = mdata.prereqs2; // Reset it
     for( auto &elem : prereq ) {
         if( has_trait( elem ) ) {
@@ -1008,7 +1008,7 @@ void player::remove_mutation( const trait_id &mut )
 {
     const auto &mdata = mut.obj();
     // Check if there's a prereq we should shrink back into
-    trait_id replacing = trait_id::NULL_ID;
+    trait_id replacing = trait_id::NULL_ID();
     std::vector<trait_id> originals = mdata.prereqs;
     for (size_t i = 0; !replacing && i < originals.size(); i++) {
         trait_id pre = originals[i];
@@ -1020,7 +1020,7 @@ void player::remove_mutation( const trait_id &mut )
         }
     }
 
-    trait_id replacing2 = trait_id::NULL_ID;
+    trait_id replacing2 = trait_id::NULL_ID();
     std::vector<trait_id> originals2 = mdata.prereqs2;
     for (size_t i = 0; !replacing2 && i < originals2.size(); i++) {
         trait_id pre2 = originals2[i];
@@ -1079,7 +1079,7 @@ void player::remove_mutation( const trait_id &mut )
 
     // make sure we don't toggle a mutation or trait twice, or it will cancel itself out.
     if(replacing == replacing2) {
-        replacing2 = trait_id::NULL_ID;
+        replacing2 = trait_id::NULL_ID();
     }
 
     // This should revert back to a removed base trait rather than simply removing the mutation

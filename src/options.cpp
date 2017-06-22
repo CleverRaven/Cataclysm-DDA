@@ -1071,11 +1071,11 @@ void options_manager::init()
         "wider,narrow", "narrow"
         );
 
-    //~ sidebar message log flow direction
+    //~ sidebar/message log flow direction
     optionNames["new_top"] = _("Top");
     optionNames["new_bottom"] = _("Bottom");
-    add("SIDEBAR_LOG_FLOW", "interface", _("Sidebar log flow"),
-        _("Where new sidebar log messages should show."),
+    add("LOG_FLOW", "interface", _("Message log flow"),
+        _("Where new log messages should show."),
         "new_top,new_bottom", "new_bottom"
         );
 
@@ -1984,7 +1984,7 @@ bool options_manager::save()
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
-    log_from_top = ::get_option<std::string>( "SIDEBAR_LOG_FLOW" ) == "new_top";
+    log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
 
@@ -2010,7 +2010,7 @@ void options_manager::load()
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
-    log_from_top = ::get_option<std::string>( "SIDEBAR_LOG_FLOW" ) == "new_top";
+    log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
 }
@@ -2053,19 +2053,19 @@ options_manager::cOpt &options_manager::get_option( const std::string &name )
     if( global_options.count( name ) == 0 ) {
         debugmsg( "requested non-existing option %s", name.c_str() );
     }
-    return global_options[name];
-}
-
-options_manager::cOpt &options_manager::get_world_option( const std::string &name )
-{
-    if( !world_generator->active_world ) {
+    if( !world_generator || !world_generator->active_world ) {
         // Global options contains the default for new worlds, which is good enough here.
-        return get_option( name );
+        return global_options[name];
     }
     auto &wopts = world_generator->active_world->WORLD_OPTIONS;
     if( wopts.count( name ) == 0 ) {
+        auto &opt = global_options[name];
+        if( opt.getPage() != "world_default" ) {
+            // Requested a non-world option, deliver it.
+            return opt;
+        }
         // May be a new option and an old world - import default from global options.
-        wopts[name] = get_option( name );
+        wopts[name] = opt;
     }
     return wopts[name];
 }

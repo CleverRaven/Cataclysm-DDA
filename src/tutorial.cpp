@@ -216,7 +216,7 @@ void tutorial_game::post_action( action_id act )
 
         case ACTION_EXAMINE:
             add_message( LESSON_INTERACT );
-        // Fall through to...
+        /* fallthrough */
         case ACTION_PICKUP: {
             item it( g->u.last_item, 0 );
             if( it.is_armor() ) {

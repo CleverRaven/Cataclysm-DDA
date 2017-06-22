@@ -1234,14 +1234,7 @@ void map::unboard_vehicle( const tripoint &p )
     if( !veh ) {
         debugmsg ("map::unboard_vehicle: vehicle not found");
         // Try and force unboard the player anyway.
-        if( g->u.pos() == p ) {
-            passenger = &(g->u);
-        } else {
-            int npcdex = g->npc_at( p );
-            if( npcdex != -1 ) {
-                passenger = g->active_npc[npcdex];
-            }
-        }
+        passenger = g->critter_at<player>( p );
         if( passenger ) {
             passenger->in_vehicle = false;
             passenger->controlling_vehicle = false;
@@ -1671,12 +1664,11 @@ ter_id map::ter( const tripoint &p ) const
  */
 const harvest_id &map::get_harvest( const tripoint &pos ) const
 {
-    static const harvest_id null_harvest( NULL_ID );
     const auto furn_here = furn( pos );
     if( furn_here->examine != iexamine::none ) {
         // Note: if furniture can be examined, the terrain can NOT (until furniture is removed)
         if( furn_here->has_flag( TFLAG_HARVESTED ) ) {
-            return null_harvest;
+            return harvest_id::NULL_ID();
         }
 
         return furn_here->get_harvest();
@@ -1684,7 +1676,7 @@ const harvest_id &map::get_harvest( const tripoint &pos ) const
 
     const auto ter_here = ter( pos );
     if( ter_here->has_flag( TFLAG_HARVESTED ) ) {
-        return null_harvest;
+        return harvest_id::NULL_ID();
     }
 
     return ter_here->get_harvest();
@@ -3638,13 +3630,7 @@ void map::destroy_furn( const tripoint &p, const bool silent )
 void map::crush( const tripoint &p )
 {
     int veh_part;
-    player *crushed_player = nullptr;
-    int npc_index = g->npc_at( p );
-    if( g->u.pos() == p ) {
-        crushed_player = &(g->u);
-    } else if( npc_index != -1 ) {
-        crushed_player = static_cast<player *>(g->active_npc[npc_index]);
-    }
+    player *crushed_player = g->critter_at<player>( p );
 
     if( crushed_player != nullptr ) {
         bool player_inside = false;

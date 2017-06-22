@@ -94,9 +94,4 @@ inline V random_entry_removed( C &container )
     return result;
 }
 
-/**
- * Returns z such that std::erf( z ) == x
- */
-double erfinv( double x );
-
 #endif

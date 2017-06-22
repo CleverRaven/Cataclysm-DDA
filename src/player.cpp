@@ -140,6 +140,7 @@ const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_recover( "recover" );
 const efftype_id effect_shakes( "shakes" );
 const efftype_id effect_sleep( "sleep" );
+const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 const efftype_id effect_spores( "spores" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tapeworm( "tapeworm" );
@@ -152,6 +153,54 @@ const efftype_id effect_nausea( "nausea" );
 const efftype_id effect_cough_suppress( "cough_suppress" );
 
 const matype_id style_none( "style_none" );
+
+static const bionic_id bio_ads( "bio_ads" );
+static const bionic_id bio_advreactor( "bio_advreactor" );
+static const bionic_id bio_armor_arms( "bio_armor_arms" );
+static const bionic_id bio_armor_eyes( "bio_armor_eyes" );
+static const bionic_id bio_armor_head( "bio_armor_head" );
+static const bionic_id bio_armor_legs( "bio_armor_legs" );
+static const bionic_id bio_armor_torso( "bio_armor_torso" );
+static const bionic_id bio_blaster( "bio_blaster" );
+static const bionic_id bio_carbon( "bio_carbon" );
+static const bionic_id bio_climate( "bio_climate" );
+static const bionic_id bio_cloak( "bio_cloak" );
+static const bionic_id bio_cqb( "bio_cqb" );
+static const bionic_id bio_dis_acid( "bio_dis_acid" );
+static const bionic_id bio_dis_shock( "bio_dis_shock" );
+static const bionic_id bio_drain( "bio_drain" );
+static const bionic_id bio_earplugs( "bio_earplugs" );
+static const bionic_id bio_ears( "bio_ears" );
+static const bionic_id bio_eye_optic( "bio_eye_optic" );
+static const bionic_id bio_faraday( "bio_faraday" );
+static const bionic_id bio_flashlight( "bio_flashlight" );
+static const bionic_id bio_geiger( "bio_geiger" );
+static const bionic_id bio_gills( "bio_gills" );
+static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
+static const bionic_id bio_heatsink( "bio_heatsink" );
+static const bionic_id bio_itchy( "bio_itchy" );
+static const bionic_id bio_laser( "bio_laser" );
+static const bionic_id bio_leaky( "bio_leaky" );
+static const bionic_id bio_lighter( "bio_lighter" );
+static const bionic_id bio_membrane( "bio_membrane" );
+static const bionic_id bio_metabolics( "bio_metabolics" );
+static const bionic_id bio_noise( "bio_noise" );
+static const bionic_id bio_ods( "bio_ods" );
+static const bionic_id bio_plut_filter( "bio_plut_filter" );
+static const bionic_id bio_power_weakness( "bio_power_weakness" );
+static const bionic_id bio_purifier( "bio_purifier" );
+static const bionic_id bio_reactor( "bio_reactor" );
+static const bionic_id bio_recycler( "bio_recycler" );
+static const bionic_id bio_shakes( "bio_shakes" );
+static const bionic_id bio_sleepy( "bio_sleepy" );
+static const bionic_id bio_solar( "bio_solar" );
+static const bionic_id bio_spasm( "bio_spasm" );
+static const bionic_id bio_speed( "bio_speed" );
+static const bionic_id bio_tools( "bio_tools" );
+static const bionic_id bio_trip( "bio_trip" );
+static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
+static const bionic_id bio_ups( "bio_ups" );
+static const bionic_id bio_watch( "bio_watch" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
@@ -783,7 +832,7 @@ void player::process_turn()
     // Didn't just pick something up
     last_item = itype_id( "null" );
 
-    if( has_active_bionic( "bio_metabolics" ) && power_level + 25 <= max_power_level &&
+    if( has_active_bionic( bio_metabolics ) && power_level + 25 <= max_power_level &&
         get_hunger() < 100 && calendar::once_every( 5 ) ) {
         mod_hunger( 2 );
         charge_power( 25 );
@@ -1052,7 +1101,7 @@ void player::update_bodytemp()
     const bool has_bark = has_trait( trait_BARK );
     const bool has_sleep = has_effect( effect_sleep );
     const bool has_sleep_state = has_sleep || in_sleep_state();
-    const bool has_heatsink = has_bionic( "bio_heatsink" ) || is_wearing( "rm13_armor_on" );
+    const bool has_heatsink = has_bionic( bio_heatsink ) || is_wearing( "rm13_armor_on" );
     const bool has_common_cold = has_effect( effect_common_cold );
     const bool has_climate_control = in_climate_control();
     const bool use_floor_warmth = can_use_floor_warmth();
@@ -1776,7 +1825,7 @@ void player::recalc_speed_bonus()
 {
     // Minus some for weight...
     int carry_penalty = 0;
-    if( weight_carried() > weight_capacity() ) {
+    if( weight_carried() > weight_capacity() && !has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
         carry_penalty = 25 * ( weight_carried() - weight_capacity() ) / ( weight_capacity() );
     }
     mod_speed_bonus( -carry_penalty );
@@ -1858,7 +1907,7 @@ void player::recalc_speed_bonus()
     if( has_trait( trait_QUICK ) ) { // multiply by 1.1
         set_speed_bonus( int( get_speed() * 1.1 ) - get_speed_base() );
     }
-    if( has_bionic( "bio_speed" ) ) { // multiply by 1.1
+    if( has_bionic( bio_speed ) ) { // multiply by 1.1
         set_speed_bonus( int( get_speed() * 1.1 ) - get_speed_base() );
     }
 
@@ -2091,7 +2140,7 @@ bool player::is_immune_effect( const efftype_id &eff ) const
     } else if( eff == effect_onfire ) {
         return is_immune_damage( DT_HEAT );
     } else if( eff == effect_deaf ) {
-        return worn_with_flag( "DEAF" ) || worn_with_flag( "PARTIAL_DEAF" ) || has_bionic( "bio_ears" ) || is_wearing( "rm13_armor_on" );
+        return worn_with_flag( "DEAF" ) || worn_with_flag( "PARTIAL_DEAF" ) || has_bionic( bio_ears ) || is_wearing( "rm13_armor_on" );
     } else if( eff == effect_corroding ) {
         return is_immune_damage( DT_ACID ) || has_trait( trait_SLIMY ) || has_trait( trait_VISCOUS );
     } else if( eff == effect_nausea ) {
@@ -2135,7 +2184,7 @@ bool player::is_immune_damage( const damage_type dt ) const
         case DT_COLD:
             return false;
         case DT_ELECTRIC:
-            return has_active_bionic( "bio_faraday" ) ||
+            return has_active_bionic( bio_faraday ) ||
                    worn_with_flag( "ELECTRIC_IMMUNE" ) ||
                    has_artifact_with( AEP_RESIST_ELECTRICITY );
         default:
@@ -2197,7 +2246,7 @@ nc_color player::basic_symbol_color() const
     if( underwater ) {
         return c_blue;
     }
-    if( has_active_bionic( "bio_cloak" ) || has_artifact_with( AEP_INVISIBLE ) ||
+    if( has_active_bionic( bio_cloak ) || has_artifact_with( AEP_INVISIBLE ) ||
         has_active_optcloak() || has_trait( trait_DEBUG_CLOAK ) ) {
         return c_dkgray;
     }
@@ -2430,7 +2479,7 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     memorial_file << _( "Bionics:" ) << eol;
     int total_bionics = 0;
     for( size_t i = 0; i < my_bionics.size(); ++i ) {
-        memorial_file << indent << ( i + 1 ) << ": " << bionic_info( my_bionics[i].id ).name << eol;
+        memorial_file << indent << ( i + 1 ) << ": " << my_bionics[i].id->name << eol;
         total_bionics++;
     }
     if( total_bionics == 0 ) {
@@ -3105,7 +3154,7 @@ bool player::in_climate_control()
 {
     bool regulated_area = false;
     // Check
-    if( has_active_bionic( "bio_climate" ) ) {
+    if( has_active_bionic( bio_climate ) ) {
         return true;
     }
     for( auto &w : worn ) {
@@ -3208,7 +3257,7 @@ float player::active_light() const
 
     lumination = ( float )maxlum;
 
-    if( lumination < 60 && has_active_bionic( "bio_flashlight" ) ) {
+    if( lumination < 60 && has_active_bionic( bio_flashlight ) ) {
         lumination = 60;
     } else if( lumination < 25 && has_artifact_with( AEP_GLOW ) ) {
         lumination = 25;
@@ -3296,7 +3345,7 @@ int player::overmap_sight_range( int light_level ) const
         return ( sight / ( SEEX / 2 ) );
     }
     sight = has_trait( trait_BIRD_EYE ) ? 15 : 10;
-    bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( "bio_eye_optic" ) );
+    bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( bio_eye_optic ) );
     if( has_optic && has_trait( trait_EAGLEEYED ) ) {
         sight += 15;
     } else if( has_optic != has_trait( trait_EAGLEEYED ) ) {
@@ -3323,7 +3372,7 @@ bool player::sight_impaired() const
 {
     return ( ( ( has_effect( effect_boomered ) || has_effect( effect_darkness ) ) &&
                ( !( has_trait( trait_PER_SLIME_OK ) ) ) ) ||
-             ( underwater && !has_bionic( "bio_membrane" ) && !has_trait( trait_MEMBRANE ) &&
+             ( underwater && !has_bionic( bio_membrane ) && !has_trait( trait_MEMBRANE ) &&
                !worn_with_flag( "SWIM_GOGGLES" ) && !has_trait( trait_PER_SLIME_OK ) &&
                !has_trait( trait_CEPH_EYES ) ) ||
              ( ( has_trait( trait_MYOPIC ) || has_trait( trait_URSINE_EYE ) ) &&
@@ -3331,7 +3380,7 @@ bool player::sight_impaired() const
                !is_wearing( "glasses_monocle" ) &&
                !is_wearing( "glasses_bifocal" ) &&
                !has_effect( effect_contacts ) &&
-               !has_bionic( "bio_eye_optic") ) ||
+               !has_bionic( bio_eye_optic ) ) ||
                 has_trait( trait_PER_SLIME ) );
 }
 
@@ -3339,7 +3388,7 @@ bool player::has_two_arms() const
 {
     // If you've got a blaster arm, low hp arm, or you're inside a shell then you don't have two
     // arms to use.
-    return !( ( has_bionic( "bio_blaster" ) || hp_cur[hp_arm_l] < 10 || hp_cur[hp_arm_r] < 10 ) ||
+    return !( ( has_bionic( bio_blaster ) || hp_cur[hp_arm_l] < 10 || hp_cur[hp_arm_r] < 10 ) ||
               has_active_mutation( trait_id( "SHELL2" ) ) );
 }
 
@@ -3374,7 +3423,7 @@ bool player::has_alarm_clock() const
                  ( g->m.veh_at( pos() ) != nullptr ) &&
                  !g->m.veh_at( pos() )->all_parts_with_feature( "ALARMCLOCK", true ).empty()
              ) ||
-             has_bionic( "bio_watch" )
+             has_bionic( bio_watch )
            );
 }
 
@@ -3385,7 +3434,7 @@ bool player::has_watch() const
                  ( g->m.veh_at( pos() ) != nullptr ) &&
                  !g->m.veh_at( pos() )->all_parts_with_feature( "WATCH", true ).empty()
              ) ||
-             has_bionic( "bio_watch" )
+             has_bionic( bio_watch )
            );
 }
 
@@ -3744,7 +3793,7 @@ void player::on_hit( Creature *source, body_part bp_hit,
     }
 
     bool u_see = g->u.sees( *this );
-    if (has_active_bionic("bio_ods")) {
+    if (has_active_bionic( bio_ods ) ) {
         if (is_player()) {
             add_msg(m_good, _("Your offensive defense system shocks %s in mid-attack!"),
                             source->disp_name().c_str());
@@ -3809,7 +3858,7 @@ void player::on_hit( Creature *source, body_part bp_hit,
 void player::on_hurt( Creature *source, bool disturb /*= true*/ )
 {
     if( has_trait( trait_ADRENALINE ) && !has_effect( effect_adrenaline ) &&
-        (hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15) ) {
+        ( hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15 ) ) {
         add_effect( effect_adrenaline, 200 );
     }
 
@@ -3819,9 +3868,9 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
         }
         if( !is_npc() ) {
             if( source != nullptr ) {
-                g->cancel_activity_query(_("You were attacked by %s!"), source->disp_name().c_str());
+                g->cancel_activity_query( _( "You were attacked by %s!" ), source->disp_name().c_str() );
             } else {
-                g->cancel_activity_query(_("You were hurt!"));
+                g->cancel_activity_query( _( "You were hurt!" ) );
             }
         }
     }
@@ -4019,7 +4068,7 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
         }
     }
 
-    if( get_world_option<bool>( "FILTHY_WOUNDS" ) ) {
+    if( get_option<bool>( "FILTHY_WOUNDS" ) ) {
         int sum_cover = 0;
         for( const item &i : worn ) {
             if( i.covers( bp ) && i.is_filthy() ) {
@@ -4189,24 +4238,28 @@ void player::heal(body_part healed, int dam)
         case bp_hand_l:
             // Shouldn't happen, but fall through to arms
             debugmsg("Heal against hands!");
+            /* fallthrough */
         case bp_arm_l:
             healpart = hp_arm_l;
             break;
         case bp_hand_r:
             // Shouldn't happen, but fall through to arms
             debugmsg("Heal against hands!");
+            /* fallthrough */
         case bp_arm_r:
             healpart = hp_arm_r;
             break;
         case bp_foot_l:
             // Shouldn't happen, but fall through to legs
             debugmsg("Heal against feet!");
+            /* fallthrough */
         case bp_leg_l:
             healpart = hp_leg_l;
             break;
         case bp_foot_r:
             // Shouldn't happen, but fall through to legs
             debugmsg("Heal against feet!");
+            /* fallthrough */
         case bp_leg_r:
             healpart = hp_leg_r;
             break;
@@ -4428,9 +4481,7 @@ void player::knock_back_from( const tripoint &p )
     to.y += sgn( dp.y );
 
     // First, see if we hit a monster
-    int mondex = g->mon_at( to );
-    if (mondex != -1) {
-        monster *critter = &(g->zombie(mondex));
+    if( monster * const critter = g->critter_at<monster>( to ) ) {
         deal_damage( critter, bp_torso, damage_instance( DT_BASH, critter->type->size ) );
         add_effect( effect_stunned, 1 );
         /** @EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters */
@@ -4449,9 +4500,7 @@ void player::knock_back_from( const tripoint &p )
         return;
     }
 
-    int npcdex = g->npc_at( to );
-    if (npcdex != -1) {
-        npc *np = g->active_npc[npcdex];
+    if( npc * const np = g->critter_at<npc>( to ) ) {
         deal_damage( np, bp_torso, damage_instance( DT_BASH, np->get_size() ) );
         add_effect( effect_stunned, 1 );
         np->deal_damage( this, bp_torso, damage_instance( DT_BASH, 3 ) );
@@ -4746,9 +4795,9 @@ void player::update_needs( int rate_multiplier )
     // No food/thirst/fatigue clock at all
     const bool debug_ls = has_trait( trait_DEBUG_LS );
     // No food/thirst, capped fatigue clock (only up to tired)
-    const bool npc_no_food = is_npc() && get_world_option<bool>( "NO_NPC_FOOD" );
+    const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
     const bool foodless = debug_ls || npc_no_food;
-    const bool has_recycler = has_bionic("bio_recycler");
+    const bool has_recycler = has_bionic( bio_recycler );
     const bool asleep = !sleep.is_null();
     const bool lying = asleep || has_effect( effect_lying_down );
     const bool hibernating = asleep && is_hibernating();
@@ -4845,7 +4894,7 @@ void player::update_needs( int rate_multiplier )
         mod_painkiller( -std::min( get_painkiller(), rate_multiplier ) );
     }
 
-    if( has_bionic("bio_solar") && g->is_in_sunlight( pos() ) ) {
+    if( has_bionic( bio_solar ) && g->is_in_sunlight( pos() ) ) {
         charge_power( rate_multiplier * 25 );
     }
 
@@ -4914,7 +4963,7 @@ void player::update_stamina( int turns )
     }
 
     const int max_stam = get_stamina_max();
-    if( power_level >= 3 && has_active_bionic( "bio_gills" ) ) {
+    if( power_level >= 3 && has_active_bionic( bio_gills ) ) {
         int bonus = std::min<int>( power_level / 3, max_stam - stamina - stamina_recovery * turns );
         bonus = std::min( bonus, 3 );
         if( bonus > 0 ) {
@@ -5552,7 +5601,7 @@ void player::suffer()
                 oxygen += 12;
             }
         if (oxygen <= 5) {
-            if (has_bionic("bio_gills") && power_level >= 25) {
+            if (has_bionic( bio_gills ) && power_level >= 25) {
                 oxygen += 5;
                 charge_power(-25);
             } else {
@@ -5595,9 +5644,9 @@ void player::suffer()
         }
     }
 
-    if (!in_sleep_state()) {
-        if (weight_carried() > 4 * weight_capacity()) {
-            if (has_effect( effect_downed )) {
+    if( !in_sleep_state() ) {
+        if ( !has_trait( trait_id( "DEBUG_STORAGE" ) ) && ( weight_carried() > 4 * weight_capacity() ) ) {
+            if( has_effect( effect_downed ) ) {
                 add_effect( effect_downed, 1, num_bp, false, 0, true );
             } else {
                 add_effect( effect_downed, 2, num_bp, false, 0, true );
@@ -5627,14 +5676,14 @@ void player::suffer()
                 }
             }
         }
-        if (has_trait( trait_CHEMIMBALANCE )) {
-            if (one_in(3600) && (!(has_trait( trait_NOPAIN )))) {
-                add_msg_if_player(m_bad, _("You suddenly feel sharp pain for no reason."));
-                mod_pain( 3 * rng(1, 3) );
+        if( has_trait( trait_CHEMIMBALANCE ) ) {
+            if( one_in( 3600 ) && !has_trait( trait_NOPAIN ) ) {
+                add_msg_if_player( m_bad, _( "You suddenly feel sharp pain for no reason." ) );
+                mod_pain( 3 * rng( 1, 3 ) );
             }
-            if (one_in(3600)) {
-                int pkilladd = 5 * rng(-1, 2);
-                if (pkilladd > 0) {
+            if( one_in( 3600 ) ) {
+                int pkilladd = 5 * rng( -1, 2 );
+                if( pkilladd > 0 ) {
                     add_msg_if_player(m_bad, _("You suddenly feel numb."));
                 } else if ((pkilladd < 0) && (!(has_trait( trait_NOPAIN )))) {
                     add_msg_if_player(m_bad, _("You suddenly ache."));
@@ -6007,7 +6056,7 @@ void player::suffer()
             rads *= 0.3f + 0.1f * rad_mut;
         }
 
-        if( rads > 0.0f && calendar::once_every(MINUTES(3)) && has_bionic("bio_geiger") ) {
+        if( rads > 0.0f && calendar::once_every(MINUTES(3)) && has_bionic( bio_geiger ) ) {
             add_msg_if_player(m_warning, _("You feel an anomalous sensation coming from your radiation sensors."));
         }
 
@@ -6058,7 +6107,7 @@ void player::suffer()
         } else if (radiation > 2000) {
             radiation = 2000;
         }
-        if( get_world_option<bool>( "RAD_MUTATION" ) && rng(100, 10000) < radiation ) {
+        if( get_option<bool>( "RAD_MUTATION" ) && rng(100, 10000) < radiation ) {
             mutate();
             radiation -= 50;
         } else if( radiation > 50 && rng(1, 3000) < radiation &&
@@ -6097,12 +6146,12 @@ void player::suffer()
 
     if (reactor_plut || tank_plut || slow_rad) {
         // Microreactor CBM and supporting bionics
-        if (has_bionic("bio_reactor") || has_bionic("bio_advreactor")) {
+        if (has_bionic( bio_reactor ) || has_bionic( bio_advreactor ) ) {
             //first do the filtering of plutonium from storage to reactor
             int plut_trans;
             plut_trans = 0;
             if (tank_plut > 0) {
-                if (has_active_bionic("bio_plut_filter")) {
+                if (has_active_bionic( bio_plut_filter ) ) {
                     plut_trans = (tank_plut * 0.025);
                 } else {
                     plut_trans = (tank_plut * 0.005);
@@ -6119,7 +6168,7 @@ void player::suffer()
             if (reactor_plut > 0) {
                 int power_gen;
                 power_gen = 0;
-                if (has_bionic("bio_advreactor")){
+                if (has_bionic( bio_advreactor ) ) {
                     if ((reactor_plut * 0.05) > 2000){
                         power_gen = 2000;
                     } else {
@@ -6138,7 +6187,7 @@ void player::suffer()
                         break;
                         }
                     }
-                } else if (has_bionic("bio_reactor")) {
+                } else if (has_bionic( bio_reactor ) ) {
                     if ((reactor_plut * 0.025) > 500){
                         power_gen = 500;
                     } else {
@@ -6172,7 +6221,7 @@ void player::suffer()
     }
 
     // Negative bionics effects
-    if (has_bionic("bio_dis_shock") && one_in(1200)) {
+    if (has_bionic( bio_dis_shock ) && one_in(1200)) {
         add_msg_if_player(m_bad, _("You suffer a painful electrical discharge!"));
         mod_pain(1);
         moves -= 150;
@@ -6187,18 +6236,18 @@ void player::suffer()
         }
         sfx::play_variant_sound( "bionics", "elec_discharge", 100 );
     }
-    if (has_bionic("bio_dis_acid") && one_in(1500)) {
+    if (has_bionic( bio_dis_acid ) && one_in(1500)) {
         add_msg_if_player(m_bad, _("You suffer a burning acidic discharge!"));
         hurtall(1, nullptr);
         sfx::play_variant_sound( "bionics", "acid_discharge", 100 );
         sfx::do_player_death_hurt( g->u, 0 );
     }
-    if (has_bionic("bio_drain") && power_level > 24 && one_in(600)) {
+    if (has_bionic( bio_drain ) && power_level > 24 && one_in(600)) {
         add_msg_if_player(m_bad, _("Your batteries discharge slightly."));
         charge_power(-25);
         sfx::play_variant_sound( "bionics", "elec_crackle_low", 100 );
     }
-    if (has_bionic("bio_noise") && one_in(500)) {
+    if (has_bionic( bio_noise ) && one_in(500)) {
         // TODO: NPCs with said bionic
         if(!is_deaf()) {
             add_msg(m_bad, _("A bionic emits a crackle of noise!"));
@@ -6209,35 +6258,35 @@ void player::suffer()
         }
         sounds::sound( pos(), 60, "");
     }
-    if (has_bionic("bio_power_weakness") && max_power_level > 0 &&
+    if (has_bionic( bio_power_weakness ) && max_power_level > 0 &&
         power_level >= max_power_level * .75) {
         mod_str_bonus(-3);
     }
-    if (has_bionic("bio_trip") && one_in(500) && !has_effect( effect_visuals )) {
+    if (has_bionic( bio_trip ) && one_in(500) && !has_effect( effect_visuals )) {
         add_msg_if_player(m_bad, _("Your vision pixelates!"));
         add_effect( effect_visuals, 100 );
         sfx::play_variant_sound( "bionics", "pixelated", 100 );
     }
-    if (has_bionic("bio_spasm") && one_in(3000) && !has_effect( effect_downed )) {
+    if (has_bionic( bio_spasm ) && one_in(3000) && !has_effect( effect_downed )) {
         add_msg_if_player(m_bad, _("Your malfunctioning bionic causes you to spasm and fall to the floor!"));
         mod_pain(1);
         add_effect( effect_stunned, 1);
         add_effect( effect_downed, 1, num_bp, false, 0, true );
         sfx::play_variant_sound( "bionics", "elec_crackle_high", 100 );
     }
-    if (has_bionic("bio_shakes") && power_level > 24 && one_in(1200)) {
+    if (has_bionic( bio_shakes ) && power_level > 24 && one_in(1200)) {
         add_msg_if_player(m_bad, _("Your bionics short-circuit, causing you to tremble and shiver."));
         charge_power(-25);
         add_effect( effect_shakes, 50 );
         sfx::play_variant_sound( "bionics", "elec_crackle_med", 100 );
     }
-    if (has_bionic("bio_leaky") && one_in(500)) {
+    if (has_bionic( bio_leaky ) && one_in(500)) {
         mod_healthy_mod(-50, -200);
     }
-    if (has_bionic("bio_sleepy") && one_in(500) && !in_sleep_state()) {
+    if (has_bionic( bio_sleepy ) && one_in(500) && !in_sleep_state()) {
         mod_fatigue(1);
     }
-    if (has_bionic("bio_itchy") && one_in(500) && !has_effect( effect_formication )) {
+    if (has_bionic( bio_itchy ) && one_in(500) && !has_effect( effect_formication )) {
         add_msg_if_player(m_bad, _("Your malfunctioning bionic itches!"));
         body_part bp = random_body_part(true);
         add_effect( effect_formication, 100, bp );
@@ -6956,11 +7005,11 @@ bool player::has_fire(const int quantity) const
         return true;
     } else if (has_charges("zweifire_on", quantity)) {
         return true;
-    } else if (has_active_bionic("bio_tools") && power_level > quantity * 5 ) {
+    } else if (has_active_bionic( bio_tools ) && power_level > quantity * 5 ) {
         return true;
-    } else if (has_bionic("bio_lighter") && power_level > quantity * 5 ) {
+    } else if (has_bionic( bio_lighter ) && power_level > quantity * 5 ) {
         return true;
-    } else if (has_bionic("bio_laser") && power_level > quantity * 5 ) {
+    } else if (has_bionic( bio_laser ) && power_level > quantity * 5 ) {
         return true;
     } else if( is_npc() ) {
         // A hack to make NPCs use their molotovs
@@ -7037,13 +7086,13 @@ void player::use_fire(const int quantity)
     } else if (has_charges("zweifire_off", quantity)) {
         use_charges("zweifire_off", quantity);
         return;
-    } else if (has_active_bionic("bio_tools") && power_level > quantity * 5 ) {
+    } else if (has_active_bionic( bio_tools ) && power_level > quantity * 5 ) {
         charge_power( -quantity * 5 );
         return;
-    } else if (has_bionic("bio_lighter") && power_level > quantity * 5 ) {
+    } else if (has_bionic( bio_lighter ) && power_level > quantity * 5 ) {
         charge_power( -quantity * 5 );
         return;
-    } else if (has_bionic("bio_laser") && power_level > quantity * 5 ) {
+    } else if (has_bionic( bio_laser ) && power_level > quantity * 5 ) {
         charge_power( -quantity * 5 );
         return;
     }
@@ -7065,7 +7114,7 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
         return res;
 
     } else if( what == "UPS" ) {
-        if( power_level > 0 && has_active_bionic( "bio_ups" ) ) {
+        if( power_level > 0 && has_active_bionic( bio_ups ) ) {
             auto bio = std::min( long( power_level ), qty );
             charge_power( -bio );
             qty -= std::min( qty, bio );
@@ -7552,9 +7601,13 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
         opts.push_back( base.magazine_current() );
     }
 
+    bool ammo_match_found = false;
     for( const auto e : opts ) {
         for( item_location& ammo : find_ammo( *e ) ) {
             auto id = ammo->is_ammo_container() ? ammo->contents.front().typeId() : ammo->typeId();
+            if( e->can_reload_with( id ) ) {
+                ammo_match_found = true;
+            }
             if( can_reload( *e, id ) || e->has_flag( "RELOAD_AND_SHOOT" ) ) {
                 ammo_list.emplace_back( this, e, &base, std::move( ammo ) );
             }
@@ -7565,6 +7618,8 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
         if( !base.is_magazine() && !base.magazine_integral() && !base.magazine_current() ) {
             add_msg_if_player( m_info, _( "You need a compatible magazine to reload the %s!" ), base.tname().c_str() );
 
+        } else if ( ammo_match_found ) {
+            add_msg_if_player( m_info, _( "Nothing to reload!" ) );
         } else {
             auto name = base.ammo_data() ? base.ammo_data()->nname( 1 ) : ammo_name( base.ammo_type() );
             add_msg_if_player( m_info, _( "Out of %s!" ), name.c_str() );
@@ -7828,6 +7883,9 @@ bool player::wield( item& target )
 
     weapon.on_wield( *this, mv );
 
+    inv.update_invlet( weapon );
+    inv.update_cache_with_item( weapon );
+
     return true;
 }
 
@@ -7845,7 +7903,7 @@ public:
         }
         matype_id style_selected;
         const size_t index = entnum;
-        if( g->u.has_active_bionic( "bio_cqb" ) && index < menu->entries.size() ) {
+        if( g->u.has_active_bionic( bio_cqb ) && index < menu->entries.size() ) {
             const size_t id = menu->entries[index].retval - 2;
             if( id < bio_cqb_styles.size() ) {
                 style_selected = bio_cqb_styles[id];
@@ -7904,7 +7962,7 @@ bool player::pick_style() // Style selection menu
       kmenu.addentry_desc( 1, true, 'h', _("Keep hands free (off)"), _("When this is enabled, player won't wield things unless explicitly told to."));
     }
 
-    if (has_active_bionic("bio_cqb")) {
+    if (has_active_bionic( bio_cqb ) ) {
         for(size_t i = 0; i < bio_cqb_styles.size(); i++) {
             if( bio_cqb_styles[i].is_valid() ) {
                 auto &style = bio_cqb_styles[i].obj();
@@ -8318,18 +8376,24 @@ bool player::wear( int pos, bool interactive )
         return false;
     }
 
-    if( !wear_item( to_wear, interactive ) ) {
-        return false;
-    }
-
+    bool was_weapon;
+    item to_wear_copy( to_wear );
     if( &to_wear == &weapon ) {
         weapon = ret_null;
+        was_weapon = true;
     } else {
-        // it has been copied into worn vector, but assigned an invlet,
-        // in case it's a stack, reset the invlet to avoid duplicates
-        to_wear.invlet = 0;
         inv.remove_item( &to_wear );
         inv.restack( this );
+        was_weapon = false;
+    }
+
+    if( !wear_item( to_wear_copy, interactive ) ) {
+        if( was_weapon ) {
+            weapon = to_wear_copy;
+        } else {
+            inv.add_item( to_wear_copy, true );
+        }
+        return false;
     }
 
     return true;
@@ -8368,9 +8432,9 @@ bool player::wear_item( const item &to_wear, bool interactive )
 
     item &new_item = worn.back();
     new_item.on_wear( *this );
-    if( new_item.invlet == 0 ) {
-        inv.assign_empty_invlet( new_item, false );
-    }
+
+    inv.update_invlet( new_item );
+    inv.update_cache_with_item( new_item );
 
     recalc_sight_limits();
     reset_encumbrance();
@@ -8833,10 +8897,12 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
 
 void player::reassign_item( item &it, long invlet )
 {
+    bool remove_old = true;
     if( invlet ) {
         item &prev = i_at( invlet_to_position( invlet ) );
         if( !prev.is_null() ) {
-            inv.reassign_item( prev, it.invlet );
+            remove_old = it.typeId() != prev.typeId();
+            inv.reassign_item( prev, it.invlet, remove_old );
         }
     }
 
@@ -8849,7 +8915,7 @@ void player::reassign_item( item &it, long invlet )
         if( invlet && ( !found || it.invlet != invlet ) ) {
             assigned_invlet[invlet] = it.typeId();
         }
-        inv.reassign_item( it, invlet );
+        inv.reassign_item( it, invlet, remove_old );
     }
 }
 
@@ -9040,7 +9106,7 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
     if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
         reasons.push_back( _( "You're illiterate!" ) );
     } else if( has_trait( trait_HYPEROPIC ) && !is_wearing( "glasses_reading" ) &&
-               !is_wearing( "glasses_bifocal" ) && !has_effect( effect_contacts ) && !has_bionic( "bio_eye_optic") ) {
+               !is_wearing( "glasses_bifocal" ) && !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
         reasons.push_back( _( "Your eyes won't focus without reading glasses." ) );
     } else if( fine_detail_vision_mod() > 4 ) {
         // Too dark to read only applies if the player can read to himself
@@ -9910,9 +9976,17 @@ void player::wake_up()
         if(calendar::turn - get_effect( effect_sleep ).get_start_turn() > HOURS(2) ) {
             print_health();
         }
+        if( has_effect( effect_slept_through_alarm ) ) {
+            if( has_bionic( bio_watch ) ) {
+                add_msg_if_player( m_warning, _( "It looks like you've slept through your internal alarm..." ) );
+            } else {
+                add_msg_if_player( m_warning, _( "It looks like you've slept through the alarm..." ) );
+            }
+        }
     }
 
     remove_effect( effect_sleep );
+    remove_effect( effect_slept_through_alarm );
     remove_effect( effect_lying_down );
 }
 
@@ -10136,22 +10210,22 @@ int player::get_armor_bash_base(body_part bp) const
             ret += i.bash_resist();
         }
     }
-    if (has_bionic("bio_carbon")) {
+    if (has_bionic( bio_carbon ) ) {
         ret += 2;
     }
-    if (bp == bp_head && has_bionic("bio_armor_head")) {
+    if (bp == bp_head && has_bionic( bio_armor_head ) ) {
         ret += 3;
     }
-    if ((bp == bp_arm_l || bp == bp_arm_r) && has_bionic("bio_armor_arms")) {
+    if ((bp == bp_arm_l || bp == bp_arm_r) && has_bionic( bio_armor_arms ) ) {
         ret += 3;
     }
-    if (bp == bp_torso && has_bionic("bio_armor_torso")) {
+    if (bp == bp_torso && has_bionic( bio_armor_torso ) ) {
         ret += 3;
     }
-    if ((bp == bp_leg_l || bp == bp_leg_r) && has_bionic("bio_armor_legs")) {
+    if ((bp == bp_leg_l || bp == bp_leg_r) && has_bionic( bio_armor_legs ) ) {
         ret += 3;
     }
-    if (bp == bp_eyes && has_bionic("bio_armor_eyes")) {
+    if (bp == bp_eyes && has_bionic( bio_armor_eyes ) ) {
         ret += 3;
     }
 
@@ -10167,18 +10241,18 @@ int player::get_armor_cut_base(body_part bp) const
             ret += i.cut_resist();
         }
     }
-    if (has_bionic("bio_carbon")) {
+    if (has_bionic( bio_carbon ) ) {
         ret += 4;
     }
-    if (bp == bp_head && has_bionic("bio_armor_head")) {
+    if (bp == bp_head && has_bionic( bio_armor_head ) ) {
         ret += 3;
-    } else if ((bp == bp_arm_l || bp == bp_arm_r) && has_bionic("bio_armor_arms")) {
+    } else if ((bp == bp_arm_l || bp == bp_arm_r) && has_bionic( bio_armor_arms ) ) {
         ret += 3;
-    } else if (bp == bp_torso && has_bionic("bio_armor_torso")) {
+    } else if (bp == bp_torso && has_bionic( bio_armor_torso ) ) {
         ret += 3;
-    } else if ((bp == bp_leg_l || bp == bp_leg_r) && has_bionic("bio_armor_legs")) {
+    } else if ((bp == bp_leg_l || bp == bp_leg_r) && has_bionic( bio_armor_legs ) ) {
         ret += 3;
-    } else if (bp == bp_eyes && has_bionic("bio_armor_eyes")) {
+    } else if (bp == bp_eyes && has_bionic( bio_armor_eyes ) ) {
         ret += 3;
     }
 
@@ -10273,7 +10347,7 @@ float player::bionic_armor_bonus( body_part bp, damage_type dt ) const
 {
     float result = 0.0f;
     // We only check the passive bionics
-    if( has_bionic( "bio_carbon" ) ) {
+    if( has_bionic( bio_carbon ) ) {
         if( dt == DT_BASH ) {
             result += 2;
         } else if( dt == DT_CUT ) {
@@ -10285,14 +10359,14 @@ float player::bionic_armor_bonus( body_part bp, damage_type dt ) const
     //all the other bionic armors reduce bash/cut/stab by 3/3/2.4
     // Map body parts to a set of bionics that protect it
     // @todo: JSONize passive bionic armor instead of hardcoding it
-    static const std::map< body_part, std::string > armor_bionics = {
-    { bp_head, { "bio_armor_head" } },
-    { bp_arm_l, { "bio_armor_arms" } },
-    { bp_arm_r, { "bio_armor_arms" } },
-    { bp_torso, { "bio_armor_torso" } },
-    { bp_leg_l, { "bio_armor_legs" } },
-    { bp_leg_r, { "bio_armor_legs" } },
-    { bp_eyes, { "bio_armor_eyes" } }
+    static const std::map< body_part, bionic_id > armor_bionics = {
+    { bp_head, { bio_armor_head } },
+    { bp_arm_l, { bio_armor_arms } },
+    { bp_arm_r, { bio_armor_arms } },
+    { bp_torso, { bio_armor_torso } },
+    { bp_leg_l, { bio_armor_legs } },
+    { bp_leg_r, { bio_armor_legs } },
+    { bp_eyes, { bio_armor_eyes } }
     };
     auto iter = armor_bionics.find( bp );
     if( iter != armor_bionics.end() ) {
@@ -10338,7 +10412,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
         }
 
         // The bio_ads CBM absorbs damage before hitting armor
-        if( has_active_bionic("bio_ads") ) {
+        if( has_active_bionic( bio_ads ) ) {
             if( elem.amount > 0 && power_level > 24 ) {
                 if( elem.type == DT_BASH ) {
                     elem.amount -= rng( 1, 8 );
@@ -10435,14 +10509,14 @@ int player::get_env_resist(body_part bp) const
         }
     }
 
-    if (bp == bp_mouth && has_bionic("bio_purifier") && ret < 5) {
+    if (bp == bp_mouth && has_bionic( bio_purifier ) && ret < 5) {
         ret += 2;
         if (ret > 5) {
             ret = 5;
         }
     }
 
-    if (bp == bp_eyes && has_bionic("bio_armor_eyes") && ret < 5) {
+    if (bp == bp_eyes && has_bionic( bio_armor_eyes ) && ret < 5) {
         ret += 2;
         if (ret > 5) {
             ret = 5;
@@ -10587,7 +10661,7 @@ void player::practice( const skill_id &id, int amount, int cap )
 
     bool isSavant = has_trait( trait_SAVANT );
 
-    skill_id savantSkill( NULL_ID );
+    skill_id savantSkill( skill_id::NULL_ID() );
     SkillLevel savantSkillLevel = SkillLevel();
 
     if (isSavant) {
@@ -10927,7 +11001,7 @@ bool player::uncanny_dodge()
 {
     bool is_u = this == &g->u;
     bool seen = g->u.sees( *this );
-    if( this->power_level < 74 || !this->has_active_bionic("bio_uncanny_dodge") ) { return false; }
+    if( this->power_level < 74 || !this->has_active_bionic( bio_uncanny_dodge ) ) { return false; }
     tripoint adjacent = adjacent_tile();
     charge_power(-75);
     if( adjacent.x != posx() || adjacent.y != posy()) {
@@ -10960,7 +11034,7 @@ tripoint player::adjacent_tile() const
             continue;
         }
         const trap &curtrap = g->m.tr_at( p );
-        if( g->mon_at( p ) == -1 && g->npc_at( p ) == -1 && g->m.passable( p ) &&
+        if( g->critter_at( p ) == nullptr && g->m.passable( p ) &&
             (curtrap.is_null() || curtrap.is_benign()) ) {
             // Only consider tile if unoccupied, passable and has no traps
             dangerous_fields = 0;
@@ -11021,8 +11095,8 @@ void player::environmental_revert_effect()
 
 bool player::is_invisible() const
 {
-    static const std::string str_bio_cloak("bio_cloak"); // This function used in monster::plan_moves
-    static const std::string str_bio_night("bio_night");
+    static const bionic_id str_bio_cloak("bio_cloak"); // This function used in monster::plan_moves
+    static const bionic_id str_bio_night("bio_night");
     return (
         has_active_bionic(str_bio_cloak) ||
         has_active_bionic(str_bio_night) ||
@@ -11223,7 +11297,7 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
 
 bool player::sees( const tripoint &t, bool ) const
 {
-    static const std::string str_bio_night("bio_night");
+    static const bionic_id str_bio_night("bio_night");
     const int wanted_range = rl_dist( pos(), t );
     bool can_see = is_player() ? g->m.pl_sees( t, wanted_range ) :
         Creature::sees( t );
@@ -11250,7 +11324,7 @@ bool player::sees( const Creature &critter ) const
     if (dist <= 3 && has_trait( trait_ANTENNAE )) {
         return true;
     }
-    if( critter.digging() && has_active_bionic( "bio_ground_sonar" ) ) {
+    if( critter.digging() && has_active_bionic( bio_ground_sonar ) ) {
         // Bypass the check below, the bionic sonar also bypasses the sees(point) check because
         // walls don't block sonar which is transmitted in the ground, not the air.
         // TODO: this might need checks whether the player is in the air, or otherwise not connected
@@ -11349,7 +11423,7 @@ void player::add_known_trap( const tripoint &pos, const trap &t)
 bool player::is_deaf() const
 {
     return get_effect_int( effect_deaf ) > 2 || worn_with_flag("DEAF") ||
-           (has_active_bionic("bio_earplugs") && !has_active_bionic("bio_ears"));
+           (has_active_bionic( bio_earplugs ) && !has_active_bionic( bio_ears ) );
 }
 
 bool player::can_hear( const tripoint &source, const int volume ) const
@@ -11375,7 +11449,7 @@ float player::hearing_ability() const
     float volume_multiplier = 1.0;
 
     // Mutation/Bionic volume modifiers
-    if( has_active_bionic("bio_ears") && !has_active_bionic("bio_earplugs") ) {
+    if( has_active_bionic( bio_ears ) && !has_active_bionic( bio_earplugs ) ) {
         volume_multiplier *= 3.5;
     }
     if( has_trait( trait_PER_SLIME ) ) {
@@ -11472,13 +11546,13 @@ std::vector<Creature *> player::get_hostile_creatures( int range ) const
 void player::place_corpse()
 {
     std::vector<item *> tmp = inv_dump();
-    item body = item::make_corpse( NULL_ID, calendar::turn, name );
+    item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, name );
     for( auto itm : tmp ) {
         g->m.add_item_or_charges( pos(), *itm );
     }
     for( auto & bio : my_bionics ) {
-        if( item::type_is_defined( bio.id ) ) {
-            body.put_in( item( bio.id, calendar::turn ) );
+        if( item::type_is_defined( bio.id.str() ) ) {
+            body.put_in( item( bio.id.str(), calendar::turn ) );
         }
     }
 

@@ -822,7 +822,7 @@ of pureed bone & LSD."));
                     } else { // Success!
                         const item &blood = g->m.i_at(x, y).front().contents.front();
                         const mtype *mt = blood.get_mtype();
-                        if( mt == nullptr || mt->id == NULL_ID ) {
+                        if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
                             print_line(_("Result:  Human blood, no pathogens found."));
                         } else if( mt->in_species( ZOMBIE ) ) {
                             if( mt->sym == "Z" ) {

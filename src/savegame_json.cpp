@@ -483,21 +483,21 @@ void player::load(JsonObject &data)
     }
 
     // Add the earplugs.
-    if( has_bionic( "bio_ears" ) && !has_bionic( "bio_earplugs" ) ) {
-        add_bionic("bio_earplugs");
+    if( has_bionic( bionic_id( "bio_ears" ) ) && !has_bionic( bionic_id( "bio_earplugs" ) ) ) {
+        add_bionic( bionic_id( "bio_earplugs" ) );
     }
 
     // Add the blindfold.
-    if( has_bionic( "bio_sunglasses" ) && !has_bionic( "bio_blindfold" ) ) {
-        add_bionic( "bio_blindfold" );
+    if( has_bionic( bionic_id( "bio_sunglasses" ) ) && !has_bionic( bionic_id( "bio_blindfold" ) ) ) {
+        add_bionic( bionic_id( "bio_blindfold" ) );
     }
 
     // Fixes bugged characters for telescopic eyes CBM.
-    if( has_bionic( "bio_eye_optic" ) && has_trait( trait_HYPEROPIC ) ) {
+    if( has_bionic( bionic_id( "bio_eye_optic" ) ) && has_trait( trait_HYPEROPIC ) ) {
         remove_mutation( trait_HYPEROPIC );
     }
 
-    if( has_bionic( "bio_eye_optic" ) && has_trait( trait_MYOPIC ) ) {
+    if( has_bionic( bionic_id( "bio_eye_optic" ) ) && has_trait( trait_MYOPIC ) ) {
         remove_mutation( trait_MYOPIC );
     }
 
@@ -1009,7 +1009,7 @@ void npc_favor::deserialize(JsonIn &jsin)
     } else if (jo.has_string("skill_id")) {
         skill = skill_id( jo.get_string("skill_id") );
     } else {
-        skill = skill_id( NULL_ID );
+        skill = skill_id::NULL_ID();
     }
 }
 
@@ -1279,7 +1279,7 @@ void inventory::json_load_items(JsonIn &jsin)
         JsonArray ja = jsin.get_array();
         while ( ja.has_more() ) {
             JsonObject jo = ja.next_object();
-            add_item(item( jo ), false, false);
+            add_item(item( jo ), true, false);
         }
     } catch( const JsonError &jsonerr ) {
         debugmsg("bad inventory json:\n%s", jsonerr.c_str() );

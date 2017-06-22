@@ -152,7 +152,6 @@ class options_manager : public JsonSerializer, public JsonDeserializer
         bool has_option( const std::string &name ) const;
 
         cOpt &get_option( const std::string &name );
-        cOpt &get_world_option( const std::string &name );
 
         //add string select option
         void add( const std::string sNameIn, const std::string sPageIn,
@@ -217,12 +216,6 @@ template<typename T>
 inline T get_option( const std::string &name )
 {
     return get_options().get_option( name ).value_as<T>();
-}
-
-template<typename T>
-inline T get_world_option( const std::string &name )
-{
-    return get_options().get_world_option( name ).value_as<T>();
 }
 
 #endif

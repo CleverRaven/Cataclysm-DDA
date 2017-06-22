@@ -174,7 +174,9 @@ class inventory : public visitable<inventory>
         // true, empty (invlet = 0) otherwise.
         void assign_empty_invlet(item &it, bool force = false);
         // Assigns the item with the given invlet, and updates the favourite invlet cache. Does not check for uniqueness
-        void reassign_item(item &it, char invlet);
+        void reassign_item( item &it, char invlet, bool remove_old = true );
+        // Removes invalid invlets, and assigns new ones if assign_invlet is true. Does not update the invlet cache.
+        void update_invlet( item &it, bool assign_invlet = true );
 
         std::set<char> allocated_invlets() const;
 
@@ -184,10 +186,11 @@ class inventory : public visitable<inventory>
          */
         const itype_bin &get_binned_items() const;
 
+        void update_cache_with_item( item &newit );
+
     private:
         // For each item ID, store a set of "favorite" inventory letters.
         std::map<std::string, std::vector<char> > invlet_cache;
-        void update_cache_with_item(item &newit);
         char find_usable_cached_invlet(const std::string &item_type);
 
         // Often items can be located using typeid, position, or invlet.  To reduce code duplication,

@@ -204,7 +204,7 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "BLOCK_WHILE_WORN" ]
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "armguard_chitin",
@@ -269,7 +269,7 @@
     "encumbrance": 16,
     "warmth": 25,
     "material_thickness": 4,
-    "flags": [ "STURDY", "BLOCK_WHILE_WORN" ]
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "armguard_lightplate",
@@ -1260,6 +1260,26 @@
     "warmth": 5,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
+  },
+  {
+    "id": "breeches",
+    "type": "ARMOR",
+    "name": "breeches",
+    "name_plural": "breeches",
+    "description": "A well-made pair of old-fashioned pants, made of stiff yet baggy material.  Comfortable, but lacks pockets.",
+    "weight": 520,
+    "volume": 7,
+    "price": 4900,
+    "to_hit": 1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "brown",
+    "covers": [ "LEGS" ],
+    "coverage": 80,
+    "encumbrance": 8,
+    "warmth": 10,
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "FANCY" ]
   },
   {
     "id": "briefcase",

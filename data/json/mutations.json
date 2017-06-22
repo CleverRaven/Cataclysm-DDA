@@ -844,7 +844,7 @@
         "points" : -3,
         "description" : "You can't move as fast as most, resulting in a 15% speed penalty on flat ground.",
         "starting_trait" : true,
-        "cancels" : ["FLEET"]
+        "cancels" : ["FLEET", "FLEET2"]
     },{
         "type" : "mutation",
         "id" : "WEAKSTOMACH",
@@ -2450,7 +2450,7 @@
         "points" : 3,
         "description" : "Your legs are extremely limber and fast-moving.  You move 30% faster on flat surfaces.",
         "prereqs" : ["FLEET"],
-        "cancels" : ["PONDEROUS1", "PONDEROUS2", "PONDEROUS3"],
+        "cancels" : ["PONDEROUS1", "PONDEROUS2", "PONDEROUS3", "SLOWRUNNER"],
         "category" : ["MUTCAT_BIRD"]
     },{
         "type" : "mutation",
