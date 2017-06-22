@@ -804,6 +804,7 @@ int iuse::vaccine( player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player( _( "You inject the vaccine." ) );
         p->add_msg_if_player( m_good, _( "You feel tough." ) );
         p->mod_healthy_mod( sic * 200, 200 );
+        p->mod_pain( 3 );
         item syringe( "syringe", it->bday );
         p->i_add( syringe );
         return it->type->charges_to_use();
