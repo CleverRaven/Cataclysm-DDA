@@ -54,7 +54,7 @@
     "price": 5000,
     "price_postapoc": 1000,
     "bashing": 7,
-    "capacity": 500
+    "capacity": 300
   },
   {
     "id": "storage_battery",
