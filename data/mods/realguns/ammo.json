@@ -88,7 +88,8 @@
     "type": "AMMO",
     "name": ".38 Super",
     "name_plural": ".38 Super",
-    "extend": { "ammo_type": [ "357_mag", "38_super" ] }
+    "extend": { "ammo_type": [ "357_mag", "38_super" ] },
+    "delete": { "ammo_type": [ "38" ] }
   },
   {
     "id": "reloaded_38_fmj",
@@ -112,7 +113,8 @@
     "type": "AMMO",
     "name": "reloaded .38 Super",
     "name_plural": "reloaded .38 Super",
-    "extend": { "ammo_type": [ "357_mag", "38_super" ] }
+    "extend": { "ammo_type": [ "357_mag", "38_super" ] },
+    "delete": { "ammo_type": [ "38" ] }
   },
   {
     "id": "40sw",
