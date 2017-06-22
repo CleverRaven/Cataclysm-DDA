@@ -300,9 +300,9 @@ class Character : public Creature, public visitable<Character>
 
         // --------------- Bionic Stuff ---------------
         /** Returns true if the player has the entered bionic id */
-        bool has_bionic(const std::string &b) const;
+        bool has_bionic(const bionic_id &b) const;
         /** Returns true if the player has the entered bionic id and it is powered on */
-        bool has_active_bionic(const std::string &b) const;
+        bool has_active_bionic(const bionic_id &b) const;
 
         // --------------- Generic Item Stuff ---------------
 

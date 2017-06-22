@@ -415,7 +415,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
 
-    bool do_railgun = has_active_bionic( "bio_railgun" ) && thrown.made_of_any( ferric );
+    bool do_railgun = has_active_bionic( bionic_id( "bio_railgun" ) ) && thrown.made_of_any( ferric );
 
     // The damage dealt due to item's weight and player's strength
     // Up to str/2 or weight/100g (lower), so 10 str is 5 damage before multipliers
@@ -1493,7 +1493,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj, float range )
         dispersion.add_range( std::max( vol - get_skill_level( skill_driving ), 1 ) * 20 );
     }
 
-    if( has_bionic( "bio_targeting" ) ) {
+    if( has_bionic( bionic_id( "bio_targeting" ) ) ) {
         dispersion.add_multiplier( 0.75 );
     }
 

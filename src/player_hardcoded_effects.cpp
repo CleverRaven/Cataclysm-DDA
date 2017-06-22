@@ -1329,7 +1329,7 @@ void player::hardcoded_effects( effect &it )
                 print_health();
             }
             if( has_effect( effect_slept_through_alarm ) ) {
-                if( has_bionic( "bio_watch" ) ) {
+                if( has_bionic( bionic_id( "bio_watch" ) ) ) {
                     add_msg_if_player( m_warning, _( "It looks like you've slept through your internal alarm..." ) );
                 } else {
                     add_msg_if_player( m_warning, _( "It looks like you've slept through the alarm..." ) );
@@ -1339,7 +1339,7 @@ void player::hardcoded_effects( effect &it )
         }
     } else if( id == effect_alarm_clock ) {
         if( has_effect( effect_sleep ) ) {
-            if( has_bionic( "bio_watch" ) ) {
+            if( has_bionic( bionic_id( "bio_watch" ) ) ) {
                 if( dur == 1 ) {
                     // Normal alarm is volume 12, tested against (2/3/6)d15 for
                     // normal/HEAVYSLEEPER/HEAVYSLEEPER2.

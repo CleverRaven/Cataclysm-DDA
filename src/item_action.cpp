@@ -219,7 +219,7 @@ void game::item_action_menu()
     // A bit of a hack for now. If more pseudos get implemented, this should be un-hacked
     std::vector<item *> pseudos;
     item toolset( "toolset", calendar::turn );
-    if( u.has_active_bionic( "bio_tools" ) ) {
+    if( u.has_active_bionic( bionic_id( "bio_tools" ) ) ) {
         pseudos.push_back( &toolset );
     }
 

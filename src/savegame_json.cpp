@@ -483,21 +483,21 @@ void player::load(JsonObject &data)
     }
 
     // Add the earplugs.
-    if( has_bionic( "bio_ears" ) && !has_bionic( "bio_earplugs" ) ) {
-        add_bionic("bio_earplugs");
+    if( has_bionic( bionic_id( "bio_ears" ) ) && !has_bionic( bionic_id( "bio_earplugs" ) ) ) {
+        add_bionic( bionic_id( "bio_earplugs" ) );
     }
 
     // Add the blindfold.
-    if( has_bionic( "bio_sunglasses" ) && !has_bionic( "bio_blindfold" ) ) {
-        add_bionic( "bio_blindfold" );
+    if( has_bionic( bionic_id( "bio_sunglasses" ) ) && !has_bionic( bionic_id( "bio_blindfold" ) ) ) {
+        add_bionic( bionic_id( "bio_blindfold" ) );
     }
 
     // Fixes bugged characters for telescopic eyes CBM.
-    if( has_bionic( "bio_eye_optic" ) && has_trait( trait_HYPEROPIC ) ) {
+    if( has_bionic( bionic_id( "bio_eye_optic" ) ) && has_trait( trait_HYPEROPIC ) ) {
         remove_mutation( trait_HYPEROPIC );
     }
 
-    if( has_bionic( "bio_eye_optic" ) && has_trait( trait_MYOPIC ) ) {
+    if( has_bionic( bionic_id( "bio_eye_optic" ) ) && has_trait( trait_MYOPIC ) ) {
         remove_mutation( trait_MYOPIC );
     }
 

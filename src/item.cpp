@@ -828,7 +828,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         info.push_back( iteminfo( "FOOD", _( "Portions: " ), "", abs( int( food_item->charges ) ) ) );
         if( food_item->corpse != NULL && ( debug == true || ( g != NULL &&
-                                           ( g->u.has_bionic( "bio_scent_vision" ) || g->u.has_trait( trait_id( "CARNIVORE" ) ) ||
+                                           ( g->u.has_bionic( bionic_id( "bio_scent_vision" ) ) || g->u.has_trait( trait_id( "CARNIVORE" ) ) ||
                                              g->u.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) ) ) {
             info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
         }
@@ -871,7 +871,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                string_format( _( "* This food is <neutral>perishable</neutral>, and takes <info>%s</info> to rot from full freshness, at room temperature." ),
                                               rot_time.c_str() ) );
             if( food_item->rotten() ) {
-                if( g->u.has_bionic( "bio_digestion" ) ) {
+                if( g->u.has_bionic( bionic_id( "bio_digestion" ) ) ) {
                     info.push_back( iteminfo( "DESCRIPTION",
                                               _( "This food has started to <neutral>rot</neutral>, but <info>your bionic digestion can tolerate it</info>." ) ) );
                 } else if( g->u.has_trait( trait_id( "SAPROVORE" ) ) ) {
@@ -1641,7 +1641,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         // @todo Unhide when enforcing limits
         if( is_bionic() && g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
-            info.push_back( iteminfo( "DESCRIPTION", list_occupied_bps( typeId(),
+            info.push_back( iteminfo( "DESCRIPTION", list_occupied_bps( type->bionic->id,
                 _( "This bionic is installed in the following body part(s):" ) ) ) );
         }
 
@@ -2013,8 +2013,8 @@ nc_color item::color_in_inventory() const
             ret = c_red; // Book hasn't been identified yet: red
         }
     } else if (is_bionic()) {
-        if (!u->has_bionic(typeId())) {
-            ret = u->bionic_installation_issues( typeId() ).empty() ? c_green : c_red;
+        if( !u->has_bionic( type->bionic->id ) ) {
+            ret = u->bionic_installation_issues( type->bionic->id ).empty() ? c_green : c_red;
         }
     }
     return ret;

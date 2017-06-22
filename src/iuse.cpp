@@ -6728,7 +6728,7 @@ int iuse::ehandcuffs(player *p, item *it, bool t, const tripoint &pos)
         }
 
         if( p->has_item( *it ) ) {
-            if (p->has_active_bionic("bio_shock") && p->power_level >= 2 && one_in(5)) {
+            if (p->has_active_bionic( bionic_id( "bio_shock" ) ) && p->power_level >= 2 && one_in(5)) {
                 p->charge_power(-2);
 
                 it->item_tags.erase("NO_UNWIELD");

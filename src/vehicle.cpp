@@ -3460,7 +3460,7 @@ void vehicle::consume_fuel( double load = 1.0 )
     if( load > 0 && one_in( (int) (1 / load) ) &&
         fuel_left( fuel_type_muscle ) > 0 ) {
         //charge bionics when using muscle engine
-        if (g->u.has_bionic("bio_torsionratchet")) {
+        if (g->u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             g->u.charge_power(1);
         }
         //cost proportional to strain
