@@ -959,5 +959,25 @@
         "range" : 4,
         "count" : 100,
         "effects" : [ "TOXICGAS", "NEVER_MISFIRES" , "JET"]
+    },
+    {
+        "id": "baseball",
+        "type": "AMMO",
+        "name": "baseball",
+        "description": "A baseball, good for throwing at enemies.  Getting hit with one of these hurts a lot more than you might think.",
+        "weight": 150,
+        "volume": 1,
+        "price": 1000,
+        "to_hit": 3,
+        "bashing": 6,
+        "material": "leather",
+        "symbol": "*",
+        "color": "white",
+        "ammo_type": "baseball",
+        "range": 10,
+        "damage": 2,
+        "dispersion": 14,
+        "loudness": 0,
+        "effects" : ["RECOVER_15"]
     }
 ]
