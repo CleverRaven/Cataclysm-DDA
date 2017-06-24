@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-11 19:01+0800\n"
-"PO-Revision-Date: 2017-06-14 19:41+0000\n"
-"Last-Translator: Douglas Onofre Rosas dos Santos <douglas12ds@hotmail.com>\n"
+"POT-Creation-Date: 2017-06-16 20:01+0800\n"
+"PO-Revision-Date: 2017-06-17 09:48+0000\n"
+"Last-Translator: Brett Dong <brett.browning.dong@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -114713,6 +114713,11 @@ msgstr ""
 #: src/messages.cpp
 #, c-format
 msgid "Press %s to return"
+msgstr ""
+
+#: src/messages.cpp
+#, c-format
+msgid "%-3s%-10s"
 msgstr ""
 
 #: src/mission_companion.cpp

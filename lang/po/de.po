@@ -8,15 +8,16 @@
 # Larson März <larson@protonmail.ch>, 2016
 # Marcel Dregger <hopflash@gmx.de>, 2015
 # marc s <hornochse89@gmail.com>, 2017
+# Nico Brandt <nicobaustandere@web.de>, 2017
 # Phil Mait <pmaitrot@gmail.com>, 2016
 # Wuzzy <almikes@aol.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-11 19:01+0800\n"
-"PO-Revision-Date: 2017-06-12 14:30+0000\n"
-"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
+"POT-Creation-Date: 2017-06-16 20:01+0800\n"
+"PO-Revision-Date: 2017-06-17 09:48+0000\n"
+"Last-Translator: Brett Dong <brett.browning.dong@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -106,7 +107,7 @@ msgstr "Welt-Standard"
 
 #: lang/extra/android/options.cpp
 msgid "Android"
-msgstr ""
+msgstr "Android"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Default character name"
@@ -114722,6 +114723,11 @@ msgstr "%s (×%d)"
 msgid "Press %s to return"
 msgstr "Drücke %s zum Zurückkehren"
 
+#: src/messages.cpp
+#, c-format
+msgid "%-3s%-10s"
+msgstr ""
+
 #: src/mission_companion.cpp
 msgid "You have no bionics to install!"
 msgstr ""
@@ -118084,11 +118090,11 @@ msgstr ""
 
 #: src/newcharacter.cpp
 msgid "Fire nearby"
-msgstr ""
+msgstr "Feuer in der nähe"
 
 #: src/newcharacter.cpp
 msgid "Zombies nearby"
-msgstr ""
+msgstr "Zombies in der nähe"
 
 #: src/newcharacter.cpp
 msgid "Various limb wounds"

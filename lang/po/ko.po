@@ -31,9 +31,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-11 19:01+0800\n"
-"PO-Revision-Date: 2017-06-12 14:30+0000\n"
-"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
+"POT-Creation-Date: 2017-06-16 20:01+0800\n"
+"PO-Revision-Date: 2017-06-17 09:48+0000\n"
+"Last-Translator: Brett Dong <brett.browning.dong@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -111625,6 +111625,11 @@ msgstr "%s x %d"
 #, c-format
 msgid "Press %s to return"
 msgstr "%s로 돌아가기"
+
+#: src/messages.cpp
+#, c-format
+msgid "%-3s%-10s"
+msgstr ""
 
 #: src/mission_companion.cpp
 msgid "You have no bionics to install!"
