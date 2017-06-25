@@ -3,7 +3,7 @@
 ## Translators
 
 The official location for translating Cataclysm: DDA is the
-[Transifex translations project](https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/).
+[Transifex translations project][1].
 
 Some of the currently supported languages are:
 
@@ -30,7 +30,53 @@ Don't see your language in the list above? You can add it into the project at
 Transifex!
 
 If you have any questions or comments about translation, feel free to post in
-the [Translations Team Discussion](http://smf.cataclysmdda.com/index.php?board=14.0) subforum.
+the [Translations Team Discussion][2] subforum.
+
+### Getting Started
+
+To begin translating, head over the [translation project][1] and click on the
+"Help Translate Cataclysm: DDA" button.
+This should take you to a page where you can either create a free account on
+Transifex, or login using GitHub, Google+ or LinkedIn.
+
+![Start translating](img/translating-start.png)
+
+After you've created your account, return to the [translation project][1] and
+click on the "Join team" button.
+This will open a window where you can choose the language you are interested on
+translating, so pick one and click the "Join" button.
+
+![Join project](img/translating-join.png)
+
+After this, the most straightforward thing to do is to reload the page,
+which should redirect you to the translation project's dashboard.
+Here, you can click the "Languages" link on the sidebar to see the list of
+supported languages and the current progress of the translation effort.
+
+Note that you can request for the inclusion of additional languages,
+if the one you are interested in is not available on the list.
+
+![Language list](img/translating-list.png)
+
+From this list, you can click on the language of your choice, and then click on
+the "Translate" to get started right away. Otherwise, you can click on any
+other language and click on the "Join team" button, if you are interested in
+translating for that language as well.
+
+After clicking on the "Translate" button, you will be taken to the web editor.
+To begin, you need to choose a resource to translate. Most of the in-game text
+is contained in the `master-cataclysm-dda` resource, so click on it to start.
+
+![Choose a resource](img/translating-resource.png)
+
+At this point, the editor should show you the list of text available for
+translation, now you only need to click on the string you want to translate and
+type your translation on the translation area on the right side of the screen.
+Click on the "Save" button when you are satisfied with your translation.
+
+![Web editor](img/translating-editor.png)
+
+See [Transifex's documentation][3] for more information.
 
 ### Tips
 
@@ -39,7 +85,7 @@ These include the use of terms like `%s` and `%3$d` (leave them as they are),
 and the use of tags like `<name>`, which shouldn't be translated.
 
 Information about these and any other issues specific to individual languages,
-can be found in Cataclysm: DDA's [language notes folder](../lang/notes).
+can be found in Cataclysm: DDA's [language notes folder][4].
 
 General notes for all translators are in `README_all_translators.txt`,
 and notes specific to a language may be stored as `<lang_id>.txt`,
@@ -50,8 +96,7 @@ The more translators there are, the easier it becomes 😄.
 
 ## Developers
 
-Cataclysm: DDA uses [GNU gettext](https://www.gnu.org/software/gettext/) to
-display translated texts.
+Cataclysm: DDA uses [GNU gettext][5] to display translated texts.
 
 Using `gettext` requires two actions:
 
@@ -137,8 +182,7 @@ Error and debug messages must not be marked for translation.
 When they appear, the player is expected to report them *exactly* as they are
 printed by the game.
 
-See the [gettext manual](https://www.gnu.org/software/gettext/manual/index.html)
-for more information.
+See the [gettext manual][6] for more information.
 
 ## Maintainers
 
@@ -164,3 +208,11 @@ After compiling the appropriate .mo file, if your system is using that language,
 If your system locale is different from the one you want to test, the easiest way to do so is to find out your locale identifier, compile the translation you want to test, then rename the directory in `lang/mo/` to your locale identifier.
 
 So for example if your local language is New Zealand English (en_NZ), and you want to test the Russian (ru) translation, the steps would be `lang/compile_mo.sh ru`, `mv lang/mo/ru lang/mo/en_NZ`, `./cataclysm`.
+
+
+[1]: https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/
+[2]: http://smf.cataclysmdda.com/index.php?board=14.0
+[3]: https://docs.transifex.com/
+[4]: ../lang/notes
+[5]: https://www.gnu.org/software/gettext/
+[6]: https://www.gnu.org/software/gettext/manual/index.html
