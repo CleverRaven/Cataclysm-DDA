@@ -363,8 +363,8 @@
     "type": "CONTAINER",
     "name": "opened tin can",
     "description": "A tin can, like what beans come in.  This one is opened and can't be easily sealed.",
-    "symbol": ")",
     "weight": 165,
+    "symbol": ")",
     "color": "blue",
     "preserves": false,
     "unseals_into": "null"
