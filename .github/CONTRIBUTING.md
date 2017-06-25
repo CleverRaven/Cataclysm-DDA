@@ -22,6 +22,14 @@ Current policy is to only update code to the standard style when changing a subs
 
 ## Translations
 
+The translation of Cataclysm: DDA is done using Transifex.
+Look at the [translation project](https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/) for an up-to-date list of supported languages.
+
+See [TRANSLATING](doc/TRANSLATING.md) for more information:
+
+* [For translators](doc/TRANSLATING.md#translators)
+* [For maintainers](doc/TRANSLATING.md#maintainers)
+
 The game uses [gettext](https://www.gnu.org/software/gettext/) to display translated texts.
 
 This requires two actions:
