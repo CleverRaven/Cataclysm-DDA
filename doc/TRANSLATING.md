@@ -7,14 +7,24 @@ The official location for translating Cataclysm: DDA is the
 
 Some of the currently supported languages are:
 
-* Chinese (China)
-* Chinese (Taiwan)
+* Arabic
+* Bulgarian
+* Chinese (Simplified)
+* Chinese (Traditional)
+* Dutch
+* Esperanto
+* French
 * German
+* Italian (Italy)
 * Japanese
 * Korean
+* Polish
+* Portuguese (Brazil)
 * Russian
+* Serbian
 * Spanish (Argentina)
 * Spanish (Spain)
+* Turkish
 
 Don't see your language in the list above? You can add it into the project at
 Transifex!
