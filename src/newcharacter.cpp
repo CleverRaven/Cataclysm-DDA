@@ -235,7 +235,14 @@ void player::randomize( const bool random_scenario, points_left &points )
     // Reset everything to the defaults to have a clean state.
     *this = player();
 
-    g->u.male = (rng(1, 100) > 50);
+    if (get_option<std::string>( "DEF_CHAR_SEX" ) == "male" ) {
+      g->u.male = true;
+    } else if (get_option<std::string>( "DEF_CHAR_SEX" ) == "female" ) {
+      g->u.male = false;
+    } else {
+      g->u.male = (rng(1, 100) > 50);
+    }
+
     if(!MAP_SHARING::isSharing()) {
         g->u.pick_name(true);
     } else {
