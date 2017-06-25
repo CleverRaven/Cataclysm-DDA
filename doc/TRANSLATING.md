@@ -1,47 +1,42 @@
-# Translating Cataclysm-DDA
+# Translating Cataclysm: DDA
 
 ## Translators
 
-The current official locations for translating Cataclysm-DDA are [Launchpad Translations](https://translations.launchpad.net/cdda) and [Transifex Translations](https://www.transifex.com/projects/p/cataclysm-dda).
+The official location for translating Cataclysm: DDA is the
+[Transifex translations project](https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/).
 
-You can lend your support to a language translation project:
+Some of the currently supported languages are:
 
-On [Transifex](https://www.transifex.com/projects/p/cataclysm-dda/):
-* Argentinian
-* Chinese (Simplified)
-* Chinese (Traditional)
+* Chinese (China)
+* Chinese (Taiwan)
 * German
-* Italian
-* Russian
-* Spanish
-
-On [Launchpad](https://translations.launchpad.net/cdda):
-* French
 * Japanese
 * Korean
-* Brazilian (inative)
-* Czech (inactive)
-* Polish (inactive)
-* Portuguese (inactive)
-* Serbian (inactive)
-* Vietnamese (inactive)
+* Russian
+* Spanish (Argentina)
+* Spanish (Spain)
 
-Don't see your language in the list above? You can add it into any translation project on launchpad.net or transifex.com (prefered).
+Don't see your language in the list above? You can add it into the project at
+Transifex!
 
-All you need to do is set up a Launchpad account, and tell it your preferred language. After that, your language should show up for translation - even if you are starting a new translation from scratch!
-
-If you have any questions or comments about translation, feel free to post in the "Translations Team Discussion" subforum of [the Cataclysm-DDA forums](http://smf.cataclysmdda.com/).
+If you have any questions or comments about translation, feel free to post in
+the [Translations Team Discussion](http://smf.cataclysmdda.com/index.php?board=14.0) subforum.
 
 ### Tips
 
-There are some issues specific to Cataclysm-DDA, (and some specific to translating computer programs in general) which translators should be aware of. These include the use of terms like `%s` and `%3$d` (leave them as they are), and the use of tags like `<name>` (don't translate the tags).
+There are issues specific to Cataclysm: DDA which translators should be aware of.
+These include the use of terms like `%s` and `%3$d` (leave them as they are),
+and the use of tags like `<name>`, which shouldn't be translated.
 
-Information about these, and any other issues specific to individual languages, can be found in Cataclysm-DDA's `lang/notes/` folder.
+Information about these and any other issues specific to individual languages,
+can be found in Cataclysm: DDA's [language notes folder](../lang/notes).
 
-General notes for all translators are in `lang/notes/README_all_translators.txt`, and notes specific to a language may be stored as `<lang_id>.txt`, for example `lang/notes/de.txt` for German.
+General notes for all translators are in `README_all_translators.txt`,
+and notes specific to a language may be stored as `<lang_id>.txt`,
+for example `de.txt` for German.
 
-Cataclysm-DDA has more than 14,000 translatable strings, but don't be discouraged. The more translators there are, the easier it becomes 😄
-
+Cataclysm: DDA has more than 14000 translatable strings, but don't be discouraged.
+The more translators there are, the easier it becomes 😄.
 
 ## Maintainers
 
