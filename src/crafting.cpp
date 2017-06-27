@@ -12,6 +12,8 @@
 #include "catacharset.h"
 #include "messages.h"
 #include "itype.h"
+
+#include <cmath>
 #include <queue>
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
