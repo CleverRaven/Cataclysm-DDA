@@ -3631,7 +3631,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     }
 
     // Just exchanging items, no barter involved
-    const bool ex = p.is_friend();
+    const bool ex = p.is_friend() && p.op_of_u.trust > 10;
 
     // How much cash you get in the deal (negative = losing money)
     long cash = cost + p.op_of_u.owed;
@@ -3681,7 +3681,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                        format_volume( volume_left ).c_str(), volume_units_abbr(),
                        convert_weight( weight_left ), weight_units() );
 
-            std::string cost_string = ex ? _("Exchange") : ( cash >= 0 ? _("Profit $%.2f") : _("Cost $%.2f") );
+            std::string cost_string = ex ? _("Exchange") : ( cash >= 0 ? _("NPC owes you $%.2f") : _("You owe NPC $%.2f") );
             mvwprintz( w_head, 3, TERMX / 2 + ( TERMX / 2 - cost_string.length() ) / 2,
                        ( cash < 0 && (int)g->u.cash >= cash * -1) || (cash >= 0 && (int)p.cash  >= cash) ? c_green : c_red,
                        cost_string.c_str(), (double)std::abs(cash)/100 );
