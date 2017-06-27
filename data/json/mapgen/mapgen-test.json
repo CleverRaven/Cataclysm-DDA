@@ -77,6 +77,7 @@
       },
       "furniture": {
         ",": "f_table",
+        "g": "f_brazier",
         "-": [ "f_chair", { "furn": "f_bed" } ]
       },
       "place_furniture": [
@@ -88,7 +89,7 @@
       "traps": {
         "F": "tr_cot",
         "f": { "trap": "tr_funnel" },
-        "g": [ "tr_funnel", { "trap": "tr_brazier" } ]
+        "g": { "trap": "tr_funnel" }
       },
       "fields": {
         "B": { "field": "fd_blood", "density": 1, "age": 10 }
