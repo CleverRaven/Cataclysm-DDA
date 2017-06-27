@@ -2733,7 +2733,7 @@ void mapgen_church_new_england(map *m, oter_id terrain_type, mapgendata dat, int
     |l...+.........Dsss \n\
   ^^|--+-|------+--|^^s \n\
   ^||..............||^s \n\
-   w.......tt.......w s \n\
+   w.....b.tt.b.....w s \n\
    |................| s \n\
   ^w................w^s \n\
   ^|.######..######.|^s \n\
@@ -2751,15 +2751,13 @@ void mapgen_church_new_england(map *m, oter_id terrain_type, mapgendata dat, int
          O ss O       s \n\
      ^^    ss    ^^   s \n\
      ^^    ss    ^^   s \n",
-       mapf::ter_bind("O 6 ^ . - | # t + = D w T S e o h c d l s", t_column, t_console, t_shrub, t_floor,
+       mapf::ter_bind("O 6 ^ . - | # t + = D w T S e o h c d l s b", t_column, t_console, t_shrub, t_floor,
                t_wall, t_wall, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window,
-               t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
-       mapf::furn_bind("O 6 ^ . - | # t + = D w T S e o h c d l s", f_null,   f_null,    f_null,  f_null,
+               t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk, t_floor),
+       mapf::furn_bind("O 6 ^ . - | # t + = D w T S e o h c d l s b", f_null,   f_null,    f_null,  f_null,
                f_null,   f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,
-               f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null)
+               f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null, f_brazier)
     );
-    madd_trap(m, 9, 6, tr_brazier);
-    madd_trap(m, 14, 6, tr_brazier);
     m->place_items("church", 40,  5,  5, 8,  16, false, 0);
     m->place_items("church", 40,  5,  5, 8,  16, false, 0);
     m->place_items("church", 85,  12,  2, 14,  2, false, 0);
@@ -2780,7 +2778,7 @@ void mapgen_church_gothic(map *m, oter_id terrain_type, mapgendata dat, int, flo
  $$    W        W    $$ \n\
  $$  WWWWGVBBVGWWWW  $$ \n\
      W..h.cccc.h..W     \n\
- WWVWWR..........RWWBWW \n\
+ WWVWWRb........bRWWBWW \n\
 WW#.#.R....cc....R.#.#WW\n\
  G#.#.R..........R.#.#V \n\
  V#.#.Rrrrr..rrrrR.#.#B \n\
@@ -2801,17 +2799,15 @@ s W..WWWWWW++WWWWWW6.W s\n\
 s W.CWW$$WWssWW$$WW..W s\n\
 s WWWWW    ss    WWWWW s\n\
 ssssssssssssssssssssssss\n",
-       mapf::ter_bind("C V G B W R r 6 $ . - | # t + g T S h c l s", t_floor,   t_window_stained_red,
+       mapf::ter_bind("C V G B W R r 6 $ . - | # t + g T S h c l s b", t_floor,   t_window_stained_red,
                t_window_stained_green, t_window_stained_blue, t_rock, t_railing_v, t_railing_h, t_console, t_shrub,
                t_rock_floor, t_wall, t_wall, t_rock_floor, t_rock_floor, t_door_c, t_door_glass_c,
-               t_rock_floor, t_rock_floor, t_rock_floor, t_rock_floor, t_rock_floor, t_sidewalk),
-       mapf::furn_bind("C V G B W R r 6 $ . - | # t + g T S h c l s", f_crate_c, f_null,
+               t_rock_floor, t_rock_floor, t_rock_floor, t_rock_floor, t_rock_floor, t_sidewalk, t_rock_floor),
+       mapf::furn_bind("C V G B W R r 6 $ . - | # t + g T S h c l s b", f_crate_c, f_null,
                f_null,                 f_null,                f_null, f_null,      f_null,      f_null,    f_null,
                f_null,       f_null,   f_null,   f_bench,      f_table,      f_null,   f_null,         f_toilet,
-               f_sink,       f_chair,      f_counter,    f_locker,     f_null)
+               f_sink,       f_chair,      f_counter,    f_locker,     f_null, f_brazier)
     );
-    madd_trap(m, 8, 4, tr_brazier);
-    madd_trap(m, 15, 4, tr_brazier);
     m->place_items("church", 70,  6,  7, 17,  16, false, 0);
     m->place_items("church", 70,  6,  7, 17,  16, false, 0);
     m->place_items("church", 60,  6,  7, 17,  16, false, 0);
