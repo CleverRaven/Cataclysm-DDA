@@ -57,7 +57,7 @@
         "              ###.....ccccc.....###             ",
         "                w..h.........h..w               ",
         "                ##.............##               ",
-        "                 ##....ccc....##                ",
+        "                 ##..B.ccc.B..##                ",
         "                  ###wwwwwww###                 ",
         "                   ##       ##                  ",
         "################################################",
@@ -173,7 +173,8 @@
         "r": "f_rack",
         "t": "f_table",
         "u": "f_locker",
-        "v": "f_table"
+        "v": "f_table",
+        "B": "f_brazier"
       },
       "toilets": {
         "T": {}
@@ -192,8 +193,6 @@
       },
       "place_items": [],
       "add": [
-        { "item": "brazier", "x": 21, "y": 45 },
-        { "item": "brazier", "x": 27, "y": 45 },
         { "item": "small_relic", "x": 24, "y": 92 }
       ],
       "place_monsters": [
