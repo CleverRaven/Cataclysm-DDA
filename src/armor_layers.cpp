@@ -539,7 +539,8 @@ void player::sort_armor()
                     takeoff( *tmp_worn[leftListIndex] );
                     wrefresh( w_sort_armor );
                     // prevent out of bounds in subsequent tmp_worn[leftListIndex]
-                    leftListIndex = std::min( (unsigned long) leftListIndex , tmp_worn.size() - 2);
+                    int new_index_upper_bound = std::max( 0, ( ( int ) tmp_worn.size() ) - 2 );
+                    leftListIndex = std::min( leftListIndex, new_index_upper_bound );
                     selected = -1;
                 }
             }
