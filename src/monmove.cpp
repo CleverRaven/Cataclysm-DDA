@@ -1455,10 +1455,12 @@ int monster::turns_to_reach( int x, int y )
 tripoint monster::on_idle()
 {
     const int range = 10;
+    tripoint nest_pos;
     for( tripoint &p : closest_tripoints_first( range, pos() ) ) {
         if( sees( p ) && g->m.has_flag( TFLAG_NEST, p ) ) {
-            return p;
+            nest_pos = p;
         }
     }
+    return nest_pos;
 }
 
