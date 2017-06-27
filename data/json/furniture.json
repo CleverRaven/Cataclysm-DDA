@@ -2780,9 +2780,7 @@
         "flags": ["PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER"],
         "deconstruct": {
             "items": [
-                { "item": "sheet_metal", "count": [0, 2] },
-                { "item": "scrap", "count": [2, 3] },
-                { "item": "steel_chunk", "count": [1, 2] }
+                { "item": "brazier", "count": 1 }
             ]
         },
         "max_volume": 4000,
