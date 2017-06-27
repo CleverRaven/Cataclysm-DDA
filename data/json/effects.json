@@ -1652,5 +1652,12 @@
         "remove_message": "The broken limb has mended.",
         "max_duration": 2,
         "rating": "bad"
+    },
+    {
+        "type": "effect_type",
+        "id": "laid_egg",
+        "name": [ "Disabled" ],
+        "desc": [ "This creature has laid an egg" ],
+        "max_duration": 2400
     }
 ]

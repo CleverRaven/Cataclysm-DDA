@@ -881,6 +881,7 @@ private:
         bool handle_action();
         bool try_get_right_click_action( action_id &act, const tripoint &mouse_target );
         bool try_get_left_click_action( action_id &act, const tripoint &mouse_target );
+        void mon_lay_egg();
 
         void item_action_menu(); // Displays item action menu
 

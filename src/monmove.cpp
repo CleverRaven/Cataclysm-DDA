@@ -35,6 +35,7 @@ const efftype_id effect_downed( "downed" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_pushed( "pushed" );
 const efftype_id effect_stunned( "stunned" );
+const efftype_id effect_laid_egg( "laid_egg" );
 
 bool monster::wander()
 {
@@ -532,6 +533,11 @@ void monster::move()
             destination = wander_pos;
             moved = true;
         }
+    }
+
+    if( has_flag( MF_EGGLAYING ) && !has_effect( effect_laid_egg ) ) {
+        destination = on_idle();
+        moved = true;
     }
 
     if( !g->m.has_zlevels() ) {
@@ -1445,3 +1451,18 @@ int monster::turns_to_reach( int x, int y )
 
     return int( turns + .9 ); // Halve (to get turns) and round up
 }
+
+tripoint monster::on_idle()
+{
+    const int range = 6;
+    tripoint *tile_of_interest = nullptr;
+
+    const furn_id f_makeshift_nest( "f_makeshift_nest" );
+    for( tripoint &p : closest_tripoints_first( range, pos() ) ) {
+        const furn_id furn_at_pos = g->m.furn( p );;
+        if( sees( p ) && furn_at_pos == f_makeshift_nest ) {
+            return p;
+        }
+    }
+}
+

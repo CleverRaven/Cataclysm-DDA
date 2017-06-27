@@ -166,6 +166,7 @@ const efftype_id effect_tetanus( "tetanus" );
 const efftype_id effect_tied( "tied" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_winded( "winded" );
+const efftype_id effect_laid_egg( "laid_egg" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
@@ -1571,6 +1572,7 @@ bool game::do_turn()
     sfx::remove_hearing_loss();
     sfx::do_danger_music();
     sfx::do_fatigue();
+    mon_lay_egg();
 
     return false;
 }
@@ -13885,4 +13887,23 @@ std::vector<npc *> game::allies()
         return !e->is_dead_state() && e->is_friend();
     } );
     return res;
+}
+
+void game::mon_lay_egg()
+{
+    add_msg( "Egglaying function called" );
+    for( size_t i = 0; i < num_zombies(); i++ ) {
+        monster &critter = critter_tracker->find( i );
+        const furn_t &furn = g->m.furn( critter.pos() ).obj();
+        add_msg( "Critter found" );
+        if( !critter.is_dead() && critter.has_flag( MF_EGGLAYING ) && furn.has_flag( TFLAG_NEST ) &&
+            !critter.has_effect( effect_laid_egg ) ) {
+
+            item egg( "egg_bird", 0, 1 );
+            g->m.add_item_or_charges( critter.pos(), egg );
+            critter.add_effect( effect_laid_egg, ( HOURS( 4 ) ) );
+            add_msg( "The chicken laid an egg laid" );
+
+        }
+    }
 }
