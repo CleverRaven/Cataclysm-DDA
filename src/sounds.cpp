@@ -324,7 +324,7 @@ void sounds::process_sound_markers( player *p )
             }
         }
         
-        if( !p->has_effect( effect_sleep ) && p->has_effect( effect_alarm_clock ) && !p->has_bionic( "bio_watch" ) ) {
+        if( !p->has_effect( effect_sleep ) && p->has_effect( effect_alarm_clock ) && !p->has_bionic( bionic_id( "bio_watch" ) ) ) {
             if ( p->get_effect( effect_alarm_clock ).get_duration() < 2 ) {
                 if( slept_through ) {
                     p->add_msg_if_player( _( "Your alarm-clock finally wakes you up." ) );

@@ -281,14 +281,29 @@
     "broken_symbol": "x",
     "color": "brown",
     "broken_color": "brown",
-    "difficulty": 2,
     "durability": 30,
     "damage_modifier": 50,
     "breaks_into": [
       { "item": "2x4", "count": [ 0, 4 ] },
       { "item": "nail", "charges": [ 5, 15 ] }
     ],
-    "flags": [ "WHEEL", "TOOL_WRENCH", "NAILABLE" ]
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": 30000,
+        "using": "vehicle_bolt"
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "using": "vehicle_bolt"
+      },
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": 5000,
+        "using": [ [ "adhesive", 1 ] ]
+      }
+    },
+    "flags": [ "WHEEL" ]
   },
   {
     "id": "wheel_wood_b",

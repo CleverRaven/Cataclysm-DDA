@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-03 17:04+0800\n"
-"PO-Revision-Date: 2017-06-04 02:17+0000\n"
-"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
+"POT-Creation-Date: 2017-06-16 20:01+0800\n"
+"PO-Revision-Date: 2017-06-17 09:48+0000\n"
+"Last-Translator: Brett Dong <brett.browning.dong@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -587,6 +587,7 @@ msgstr "Style de la barre"
 msgid "Switch between a narrower or wider sidebar.  Requires restart."
 msgstr "Alterner entre une barre latérale large ou étroite. Nécessite un redémarrage."
 
+#. ~ sidebar/message log flow direction
 #. ~ sidebar message log flow direction
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Top"
@@ -596,11 +597,11 @@ msgstr "Haut"
 msgid "Bottom"
 msgstr "Bas"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Sidebar log flow"
 msgstr "Sens du journal de la barre"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Where new sidebar log messages should show."
 msgstr "Dans quel sens apparaissent les nouveaux messages dans la barre."
 
@@ -29903,6 +29904,17 @@ msgstr[0] "lance en acier"
 msgstr[1] "lances en acier"
 
 #. ~ Description for steel spear
+#: lang/json/GENERIC_from_json.py
+msgid "A stout wooden pole with a hand-forged steel spearhead."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "pipe spear"
+msgid_plural "pipe spears"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for pipe spear
 #: lang/json/GENERIC_from_json.py
 msgid "A stout metal pole with a sharp point."
 msgstr "Un bâton de métal résistant dont l'une des pointes est affûtée."
@@ -107339,6 +107351,10 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/item.cpp
+msgid "Maximum range: "
+msgstr ""
+
+#: src/item.cpp
 msgid "<num> seconds"
 msgstr "<num> secondes"
 
@@ -114707,8 +114723,8 @@ msgstr "Presser %s pour revenir"
 
 #: src/messages.cpp
 #, c-format
-msgid "%s ago:"
-msgstr "Il y a %s:"
+msgid "%-3s%-10s"
+msgstr ""
 
 #: src/mission_companion.cpp
 msgid "You have no bionics to install!"
@@ -120937,6 +120953,14 @@ msgstr ""
 
 #: src/npctalk.cpp
 msgid "Select a follower"
+msgstr ""
+
+#: src/options.cpp
+msgid "Message log flow"
+msgstr ""
+
+#: src/options.cpp
+msgid "Where new log messages should show."
 msgstr ""
 
 #: src/output.cpp

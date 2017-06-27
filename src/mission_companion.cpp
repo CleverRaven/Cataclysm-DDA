@@ -59,7 +59,7 @@ void talk_function::bionic_install(npc &p)
     std::vector<std::string> bionic_names;
     for( auto &bio : bionic_inv ) {
         if( std::find( bionic_types.begin(), bionic_types.end(), bio->typeId() ) == bionic_types.end() ) {
-            if (!g->u.has_bionic(bio->typeId()) || bio->typeId() ==  "bio_power_storage" ||
+            if (!g->u.has_bionic( bionic_id( bio->typeId() ) ) || bio->typeId() ==  "bio_power_storage" ||
                 bio->typeId() ==  "bio_power_storage_mkII"){
 
                 bionic_types.push_back( bio->typeId() );
@@ -110,14 +110,14 @@ void talk_function::bionic_remove(npc &p)
     std::vector<itype_id> bionic_types;
     std::vector<std::string> bionic_names;
     for( auto &bio : all_bio ) {
-        if( std::find( bionic_types.begin(), bionic_types.end(), bio.id ) == bionic_types.end() ) {
-            if (bio.id !=  "bio_power_storage" || bio.id !=  "bio_power_storage_mkII"){
-                bionic_types.push_back( bio.id );
-                if( item::type_is_defined( bio.id ) ) {
-                    tmp = item(bio.id, 0);
+        if( std::find( bionic_types.begin(), bionic_types.end(), bio.id.str() ) == bionic_types.end() ) {
+            if (bio.id != bionic_id( "bio_power_storage" ) || bio.id != bionic_id( "bio_power_storage_mkII" ) ) {
+                bionic_types.push_back( bio.id.str() );
+                if( item::type_is_defined( bio.id.str() ) ) {
+                    tmp = item(bio.id.str(), 0);
                     bionic_names.push_back( tmp.tname() +" - $"+to_string(500+(tmp.price( true )/400)));
                 } else {
-                    bionic_names.push_back( bio.id +" - $"+to_string(500));
+                    bionic_names.push_back( bio.id.str() +" - $"+to_string(500));
                 }
             }
         }
@@ -148,10 +148,10 @@ void talk_function::bionic_remove(npc &p)
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if (g->u.uninstall_bionic(bionic_types[bionic_index], 20)){
+    if (g->u.uninstall_bionic(bionic_id( bionic_types[bionic_index] ), 20)){
         g->u.cash -= price;
         p.cash += price;
-        g->u.amount_of( bionic_types[bionic_index] );
+        g->u.amount_of( bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
     }
 
 }

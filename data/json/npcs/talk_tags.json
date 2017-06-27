@@ -4,6 +4,7 @@
         "category" : "<name_b>",
         "text" : [
             "punk",
+            "cunt",
             "loser",
             "dickhead",
             "asshole",
@@ -22,6 +23,7 @@
             "When was the last time I had a drink?",
             "I'm parched, I need to drink something.",
             "I'm thirsty...",
+            "I'm <very> thirsty.",
             "I'm <swear> thirsty.",
             "Can you give me something to drink, <name_g>?",
             "I <really> need to get some water.",
@@ -94,12 +96,6 @@
         "text" : [
             "So long, <name_b>!",
             "Hasta luego, <name_g>!",
-            "I'm outta here!",
-            "Bye bye, <name_b>!",
-            "So long, <name_b>!",
-            "Hasta luego, <name_g>!",
-            "I'm outta here!",
-            "Bye bye, <name_b>!",
             "I'm outta here!",
             "Bye bye, <name_b>!"
         ]
@@ -200,6 +196,7 @@
             "*Yawn*",
             "What time is it?",
             "I'm tired...",
+            "I'm <very> tired.",
             "I'm <swear> tired.",
             "Can we rest for a while, <name_g>?",
             "I <really> need to rest.",
@@ -336,7 +333,6 @@
             "freaking",
             "damn",
             "<swear> <swear>",
-            "fucking",
             "fuckin'",
             "god damn",
             "mafuckin'"
@@ -394,6 +390,7 @@
             "I'd eat a burger if I had one.",
             "Perfect time for a lunch break.",
             "I'm hungry...",
+            "I'm <very> hungry.",
             "I'm <swear> hungry.",
             "So, <name_g>, when we eatin'?",
             "I <really> need to eat something.",
@@ -411,10 +408,7 @@
             "<fuck_you>, <name_b>",
             "<fuck_you>, <swear> <name_b>",
             "<name_b>",
-            "<swear> <name_b>",
-            "fuck you",
-            "fuck off",
-            "go fuck yourself"
+            "<swear> <name_b>"
         ]
     }
 ]

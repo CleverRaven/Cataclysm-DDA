@@ -315,6 +315,7 @@ void player::hardcoded_effects( effect &it )
                         if( !sleeping && msg_trig ) {
                             add_msg_if_player( _( "Your thoughts are unclear." ) );
                         }
+                    /* fallthrough */
                     case 2:
                         mod_int_bonus( -1 );
                     default:
@@ -325,6 +326,7 @@ void player::hardcoded_effects( effect &it )
                 switch( intense ) {
                     case 3:
                         mod_per_bonus( -2 );
+                    /* fallthrough */
                     case 2:
                         mod_per_bonus( -1 );
                         if( !sleeping && msg_trig ) {
@@ -343,6 +345,7 @@ void player::hardcoded_effects( effect &it )
                             add_msg_if_player( m_bad,
                                                _( "Your torso is freezing cold. You should put on a few more layers." ) );
                         }
+                    /* fallthrough */
                     case 2:
                         mod_dex_bonus( -2 );
                         add_miss_reason( _( "Your shivering makes you unsteady." ), 2 );
@@ -352,6 +355,7 @@ void player::hardcoded_effects( effect &it )
                 switch( intense ) {
                     case 3:
                         mod_dex_bonus( -1 );
+                    /* fallthrough */
                     case 2:
                         mod_dex_bonus( -1 );
                         add_miss_reason( _( "Your left arm trembles from the cold." ), 1 );
@@ -366,6 +370,7 @@ void player::hardcoded_effects( effect &it )
                 switch( intense ) {
                     case 3:
                         mod_dex_bonus( -1 );
+                    /* fallthrough */
                     case 2:
                         mod_dex_bonus( -1 );
                         add_miss_reason( _( "Your right arm trembles from the cold." ), 1 );
@@ -380,6 +385,7 @@ void player::hardcoded_effects( effect &it )
                 switch( intense ) {
                     case 3:
                         mod_dex_bonus( -1 );
+                    /* fallthrough */
                     case 2:
                         mod_dex_bonus( -1 );
                         add_miss_reason( _( "Your left hand quivers in the cold." ), 1 );
@@ -394,6 +400,7 @@ void player::hardcoded_effects( effect &it )
                 switch( intense ) {
                     case 3:
                         mod_dex_bonus( -1 );
+                    /* fallthrough */
                     case 2:
                         mod_dex_bonus( -1 );
                         add_miss_reason( _( "Your right hand trembles in the cold." ), 1 );
@@ -413,6 +420,7 @@ void player::hardcoded_effects( effect &it )
                         if( !sleeping && msg_trig && one_in( 2 ) ) {
                             add_msg_if_player( m_bad, _( "Your left leg trembles against the relentless cold." ) );
                         }
+                    /* fallthrough */
                     case 2:
                         mod_dex_bonus( -1 );
                         add_miss_reason( _( "Your legs unsteadily shiver against the cold." ), 1 );
@@ -429,6 +437,7 @@ void player::hardcoded_effects( effect &it )
                         if( !sleeping && msg_trig && one_in( 2 ) ) {
                             add_msg_if_player( m_bad, _( "Your right leg trembles against the relentless cold." ) );
                         }
+                    /* fallthrough */
                     case 2:
                         mod_dex_bonus( -1 );
                         mod_str_bonus( -1 );
@@ -481,7 +490,7 @@ void player::hardcoded_effects( effect &it )
                         if( !sleeping && msg_trig ) {
                             add_msg_if_player( m_bad, _( "Your head is pounding from the heat." ) );
                         }
-                    // Fall-through
+                    /* fallthrough */
                     case 2:
                         // Hallucinations handled in game.cpp
                         if( one_in( std::min( 14500, 15000 - temp_cur[bp_head] ) ) ) {
@@ -618,6 +627,7 @@ void player::hardcoded_effects( effect &it )
                 switch( intense ) {
                     case 2:
                         mod_per_bonus( -2 );
+                    /* fallthrough */
                     case 1:
                         mod_per_bonus( -1 );
                         if( !sleeping && msg_trig ) {
@@ -1319,7 +1329,7 @@ void player::hardcoded_effects( effect &it )
                 print_health();
             }
             if( has_effect( effect_slept_through_alarm ) ) {
-                if( has_bionic( "bio_watch" ) ) {
+                if( has_bionic( bionic_id( "bio_watch" ) ) ) {
                     add_msg_if_player( m_warning, _( "It looks like you've slept through your internal alarm..." ) );
                 } else {
                     add_msg_if_player( m_warning, _( "It looks like you've slept through the alarm..." ) );
@@ -1329,7 +1339,7 @@ void player::hardcoded_effects( effect &it )
         }
     } else if( id == effect_alarm_clock ) {
         if( has_effect( effect_sleep ) ) {
-            if( has_bionic( "bio_watch" ) ) {
+            if( has_bionic( bionic_id( "bio_watch" ) ) ) {
                 if( dur == 1 ) {
                     // Normal alarm is volume 12, tested against (2/3/6)d15 for
                     // normal/HEAVYSLEEPER/HEAVYSLEEPER2.

@@ -499,7 +499,7 @@ void npc::execute_action( npc_action action )
             reach_attack( tar );
             break;
         }
-        // Otherwise fallthrough to npc_melee
+        /* fallthrough */
     case npc_melee:
         update_path( tar );
         if( path.size() > 1 ) {
@@ -2870,6 +2870,7 @@ void npc::set_destination()
     switch(needs[0]) {
     case need_ammo:
         options.push_back("house");
+        /* fallthrough */
     case need_gun:
         options.push_back("s_gun");
         break;
@@ -2884,6 +2885,7 @@ void npc::set_destination()
         options.push_back("s_gas");
         options.push_back("s_pharm");
         options.push_back("s_liquor");
+        /* fallthrough */
     case need_food:
         options.push_back("s_grocery");
         break;
