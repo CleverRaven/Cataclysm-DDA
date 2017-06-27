@@ -2769,5 +2769,34 @@
                 { "item": "rock", "count": [18, 30] }
             ]
         }
+    },
+    {
+        "type" : "furniture",
+        "id" : "f_makeshift_nest",
+        "name": "makefhist nest",
+        "symbol": "O",
+        "color": "brown",
+        "move_cost_mod": 1,
+        "required_str": 5,
+        "deconstruct": {
+            "items": [
+                { "item": "2x4", "count": 10 },
+                { "item": "rag", "count": [30, 33] },
+                { "item": "nail", "charges": [6, 8] }
+            ]
+        },
+        "max_volume": 4000,
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "NEST"],
+        "bash": {
+            "str_min": 12, "str_max": 40,
+            "sound": "smash!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "2x4", "count": [1, 3] },
+                { "item": "nail", "charges": [2, 6] },
+                { "item": "splinter", "count": 1 },
+                { "item": "rag", "count": [20, 30] }
+            ]
+        }
     }
 ]
