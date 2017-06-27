@@ -240,7 +240,7 @@ void player::randomize( const bool random_scenario, points_left &points )
     } else if (get_option<std::string>( "DEF_CHAR_SEX" ) == "female" ) {
       g->u.male = false;
     } else {
-      g->u.male = (rng(1, 100) > 50);
+      g->u.male = one_in(2);
     }
 
     if(!MAP_SHARING::isSharing()) {
