@@ -810,7 +810,8 @@ furn_id f_null,
     f_floor_canvas,
     f_tatami,
     f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
-    f_robotic_arm;
+    f_robotic_arm,
+    f_brazier;
 
 void set_furn_ids() {
     f_null = furn_id( "f_null" );
@@ -909,6 +910,7 @@ void set_furn_ids() {
     f_kiln_metal_empty = furn_id( "f_kiln_metal_empty" );
     f_kiln_metal_full = furn_id( "f_kiln_metal_full" );
     f_robotic_arm = furn_id( "f_robotic_arm" );
+    f_brazier = furn_id( "f_brazier" );
 }
 
 size_t ter_t::count()
