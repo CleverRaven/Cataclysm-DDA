@@ -1454,13 +1454,9 @@ int monster::turns_to_reach( int x, int y )
 
 tripoint monster::on_idle()
 {
-    const int range = 6;
-    tripoint *tile_of_interest = nullptr;
-
-    const furn_id f_makeshift_nest( "f_makeshift_nest" );
+    const int range = 10;
     for( tripoint &p : closest_tripoints_first( range, pos() ) ) {
-        const furn_id furn_at_pos = g->m.furn( p );;
-        if( sees( p ) && furn_at_pos == f_makeshift_nest ) {
+        if( sees( p ) && g->m.has_flag( TFLAG_NEST, p ) ) {
             return p;
         }
     }

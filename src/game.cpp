@@ -13891,19 +13891,18 @@ std::vector<npc *> game::allies()
 
 void game::mon_lay_egg()
 {
-    add_msg( "Egglaying function called" );
+
+
     for( size_t i = 0; i < num_zombies(); i++ ) {
         monster &critter = critter_tracker->find( i );
         const furn_t &furn = g->m.furn( critter.pos() ).obj();
-        add_msg( "Critter found" );
+
         if( !critter.is_dead() && critter.has_flag( MF_EGGLAYING ) && furn.has_flag( TFLAG_NEST ) &&
             !critter.has_effect( effect_laid_egg ) ) {
 
             item egg( "egg_bird", 0, 1 );
             g->m.add_item_or_charges( critter.pos(), egg );
-            critter.add_effect( effect_laid_egg, ( HOURS( 4 ) ) );
-            add_msg( "The chicken laid an egg laid" );
-
+            critter.add_effect( effect_laid_egg, ( HOURS( 48 ) ) );
         }
     }
 }
