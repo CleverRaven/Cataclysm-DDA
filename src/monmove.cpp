@@ -342,7 +342,10 @@ void monster::plan( const mfactions &factions )
     } else if( friendly < 0 && sees( g->u ) ) {
         if( rl_dist( pos(), g->u.pos() ) > 2 ) {
             set_dest( g->u.pos() );
-        } else {
+        }
+        else if( has_flag( MF_EGGLAYING ) ) {
+            on_idle();
+        } {
             unset_dest();
         }
     }
