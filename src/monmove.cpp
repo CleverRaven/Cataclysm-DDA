@@ -343,8 +343,8 @@ void monster::plan( const mfactions &factions )
         if( rl_dist( pos(), g->u.pos() ) > 2 ) {
             set_dest( g->u.pos() );
         }
-        else if( has_flag( MF_EGGLAYING ) ) {
-            on_idle();
+        else if( has_flag( MF_EGGLAYING ) && has_effect( effect_laid_egg ) ) {
+            set_dest( on_idle() );
         } {
             unset_dest();
         }
