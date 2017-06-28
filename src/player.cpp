@@ -10102,6 +10102,20 @@ int player::get_wind_resistance(body_part bp) const
     return totalCoverage;
 }
 
+int player::get_weight() const
+{
+    int ret = 0;
+    int wornWeight = 0;
+    for (auto itm : worn) {
+        wornWeight += itm.weight();
+    }
+    ret += Creature::get_weight(); // The base weight of the player's body
+    ret += inv.weight();           // Weight of the stored inventory
+    ret += wornWeight;             // Weight of worn items
+    ret += weapon.weight();        // Weight of wielded item
+    return ret;
+}
+
 int player::warmth(body_part bp) const
 {
     int ret = 0, warmth = 0;
