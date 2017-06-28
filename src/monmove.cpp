@@ -241,6 +241,8 @@ void monster::plan( const mfactions &factions )
         return;
     }
 
+    on_idle();
+
     for( size_t i = 0; i < g->active_npc.size(); i++ ) {
         npc &who = *g->active_npc[i];
         auto faction_att = faction.obj().attitude( who.get_monster_faction() );
@@ -342,10 +344,7 @@ void monster::plan( const mfactions &factions )
     } else if( friendly < 0 && sees( g->u ) ) {
         if( rl_dist( pos(), g->u.pos() ) > 2 ) {
             set_dest( g->u.pos() );
-        }
-        else if( has_flag( MF_EGGLAYING ) && has_effect( effect_laid_egg ) ) {
-            set_dest( on_idle() );
-        } {
+        } else {
             unset_dest();
         }
     }
@@ -536,11 +535,6 @@ void monster::move()
             destination = wander_pos;
             moved = true;
         }
-    }
-
-    if( has_flag( MF_EGGLAYING ) && !has_effect( effect_laid_egg ) ) {
-        destination = on_idle();
-        moved = true;
     }
 
     if( !g->m.has_zlevels() ) {
@@ -1455,13 +1449,17 @@ int monster::turns_to_reach( int x, int y )
     return int( turns + .9 ); // Halve (to get turns) and round up
 }
 
-tripoint monster::on_idle()
+void monster::on_idle()
 {
-    const int range = 10;
-    for( tripoint &p : closest_tripoints_first( range, pos() ) ) {
-        if( sees( p ) && g->m.has_flag( TFLAG_NEST, p ) ) {
-            return p;
+    if( has_flag( MF_EGGLAYING ) && !has_effect( effect_laid_egg ) ) {
+        const int range = 10;
+        tripoint nest_pos;
+        for( tripoint &p : closest_tripoints_first( range, pos() ) ) {
+            if( sees( p ) && g->m.has_flag( TFLAG_NEST, p ) ) {
+                nest_pos = p;
+            }
         }
+        set_dest( nest_pos );
     }
 }
 

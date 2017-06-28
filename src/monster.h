@@ -324,7 +324,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         /*
         * Decides what to do in case the monster is idle.
         */
-        tripoint on_idle();
+        void on_idle();
 
         /** Resets a given special to its monster type cooldown value */
         void reset_special( const std::string &special_name );
