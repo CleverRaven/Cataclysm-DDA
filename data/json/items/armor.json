@@ -160,10 +160,10 @@
     "color": "white",
     "covers": [ "ARM_EITHER" ],
     "coverage": 75,
-    "encumbrance": 70,
+    "encumbrance": 140,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "WATER_FRIENDLY", "OUTER", "SPLINT" ]
+    "flags": [ "WATER_FRIENDLY", "OUTER", "SPLINT", "VARSIZE" ]
   },
   {
     "id": "arm_warmers",
@@ -5564,10 +5564,10 @@
     "color": "white",
     "covers": [ "LEG_EITHER" ],
     "coverage": 75,
-    "encumbrance": 70,
+    "encumbrance": 140,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "WATER_FRIENDLY", "OUTER", "SPLINT" ]
+    "flags": [ "WATER_FRIENDLY", "OUTER", "SPLINT", "VARSIZE" ]
   },
   {
     "id": "leg_warmers",
