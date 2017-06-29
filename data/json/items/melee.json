@@ -526,7 +526,7 @@
         "ammo" : "baseball",
         "ranged_damage" : 5,
         "range" : 10,
-        "dispersion" : 150,
+        "dispersion" : 300,
         "durability" : 6,
         "clip_size" : 1,
         "price" : 16000
@@ -581,7 +581,7 @@
         "ammo" : "baseball",
         "ranged_damage" : 5,
         "range" : 10,
-        "dispersion" : 150,
+        "dispersion" : 300,
         "durability" : 6,
         "clip_size" : 1,
         "price" : 16000
