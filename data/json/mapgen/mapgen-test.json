@@ -77,8 +77,8 @@
       },
       "furniture": {
         ",": "f_table",
-        "g": "f_brazier",
-        "-": [ "f_chair", { "furn": "f_bed" } ]
+        "-": [ "f_chair", { "furn": "f_bed" } ],
+        "g": "f_brazier"
       },
       "place_furniture": [
         { "furn": "f_rack", "x": 9, "y": 3 }
