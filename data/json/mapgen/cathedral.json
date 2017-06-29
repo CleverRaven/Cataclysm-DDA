@@ -157,6 +157,7 @@
       "furniture": {
         "7": "f_rack",
         "8": "f_desk",
+        "B": "f_brazier",
         "C": "f_crate_c",
         "M": "f_makeshift_bed",
         "O": "f_oven",
@@ -173,8 +174,7 @@
         "r": "f_rack",
         "t": "f_table",
         "u": "f_locker",
-        "v": "f_table",
-        "B": "f_brazier"
+        "v": "f_table"
       },
       "toilets": {
         "T": {}
