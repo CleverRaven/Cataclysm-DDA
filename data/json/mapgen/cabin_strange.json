@@ -198,10 +198,10 @@
       "furniture": {
         "A": "f_armchair",
         "B": "f_bed",
+        "b": "f_brazier",
         "d": "f_desk",
         "h": "f_chair",
-        "t": "f_table",
-        "b": "f_brazier"
+        "t": "f_table"
       },
       "toilets": {
         "T": {}
