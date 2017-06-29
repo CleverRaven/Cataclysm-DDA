@@ -49,9 +49,9 @@
         "+": "t_grass",
         "-": "t_dirt",
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "b": "t_dirt",
         "d": "t_dirt",
         "r": "t_dirt",
-        "b": "t_dirt",
         "t": "t_tree"
       },
       "furniture": {
@@ -59,8 +59,8 @@
         "'": "f_groundsheet",
         "+": "f_canvas_door",
         "-": "f_chair",
-        "r": "f_table",
-        "b": "f_brazier"
+        "b": "f_brazier",
+        "r": "f_table"
       },
       "place_items": [
         { "item": "cannedfood", "x": [ 16, 4 ], "y": [ 21, 7 ], "chance": 75 },
@@ -111,11 +111,11 @@
         "+": "t_grass",
         "-": "t_dirt",
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "b": "t_dirt",
         "d": "t_dirt",
         "f": "t_floor",
         "k": "t_trunk",
         "r": "t_dirt",
-        "b": "t_dirt",
         "t": "t_tree",
         "w": "t_window",
         "x": "t_wall_log"
@@ -125,8 +125,8 @@
         "'": "f_groundsheet",
         "+": "f_canvas_door",
         "-": "f_chair",
-        "r": "f_table",
-        "b": "f_brazier"
+        "b": "f_brazier",
+        "r": "f_table"
       },
       "place_items": [
         { "item": "cannedfood", "x": 2, "y": 3, "chance": 90 },
@@ -179,9 +179,9 @@
         "+": "t_grass",
         "-": "t_dirt",
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "b": "t_dirt",
         "d": "t_dirt",
         "r": "t_dirt",
-        "b": "t_dirt",
         "t": "t_tree"
       },
       "furniture": {
@@ -189,8 +189,8 @@
         "'": "f_groundsheet",
         "+": "f_canvas_door",
         "-": "f_chair",
-        "r": "f_table",
-        "b": "f_brazier"
+        "b": "f_brazier",
+        "r": "f_table"
       },
       "place_items": [
         { "item": "cannedfood", "x": [ 7, 18 ], "y": [ 7, 13 ], "chance": 90 },
@@ -246,9 +246,9 @@
         "+": "t_grass",
         "-": "t_dirt",
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "b": "t_dirt",
         "d": "t_dirt",
         "r": "t_dirt",
-        "b": "t_dirt",
         "t": "t_tree"
       },
       "furniture": {
@@ -256,8 +256,8 @@
         "'": "f_groundsheet",
         "+": "f_canvas_door",
         "-": "f_chair",
-        "r": "f_table",
-        "b": "f_brazier"
+        "b": "f_brazier",
+        "r": "f_table"
       },
       "place_items": [
         { "item": "cannedfood", "x": [ 15, 3 ], "y": [ 20, 8 ], "chance": 90 },
@@ -315,6 +315,7 @@
         "-": "t_dirt",
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "D": "t_door_c",
+        "b": "t_dirt",
         "d": "t_dirt",
         "f": "t_floor",
         "i": "t_fence_v",
@@ -325,18 +326,17 @@
         "t": "t_tree",
         "w": "t_window",
         "x": "t_wall",
-        "|": "t_dirt",
-        "b": "t_dirt"
+        "|": "t_dirt"
       },
       "furniture": {
         "#": "f_canvas_wall",
         "'": "f_groundsheet",
         "+": "f_canvas_door",
         "-": "f_chair",
+        "b": "f_brazier",
         "f": "f_toilet",
         "r": "f_table",
-        "|": "f_crate_o",
-        "b": "f_brazier"
+        "|": "f_crate_o"
       },
       "place_items": [
         { "item": "cannedfood", "x": 3, "y": 3, "chance": 90 },
