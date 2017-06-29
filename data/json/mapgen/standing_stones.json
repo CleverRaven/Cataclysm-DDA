@@ -46,9 +46,9 @@
         "s": "t_dirt"
       },
       "furniture": {
+        "#": "f_brazier",
         "O": "f_boulder_large",
-        "o": "f_boulder_small",
-        "#": "f_brazier"
+        "o": "f_boulder_small"
       },
       "loot": {
         "#": { "item": "stick", "repeat": [ 1, 2 ] }
