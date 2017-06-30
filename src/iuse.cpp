@@ -4365,14 +4365,18 @@ void iuse::cut_log_into_planks(player *p)
     item scrap("splinter", int(calendar::turn));
     const int max_planks = 10;
     /** @EFFECT_FABRICATION increases number of planks cut from a log */
-    int planks = rng_normal( 2 + p->get_skill_level( skill_fabrication ), 1 );
+    int planks = normal_roll( 2 + p->get_skill_level( skill_fabrication ), 1 );
     int wasted_planks = max_planks - planks;
     int scraps = rng( wasted_planks, wasted_planks * 3 );
     planks = std::min( planks, max_planks );
-    p->i_add_or_drop( plank, planks );
-    p->i_add_or_drop( scrap, scraps );
-    p->add_msg_if_player( m_good, _( "You produce %d planks." ), planks );
-    p->add_msg_if_player( m_good, _( "You produce %d splinters." ), scraps );
+    if( planks > 0 ) {
+        p->i_add_or_drop( plank, planks );
+        p->add_msg_if_player( m_good, _( "You produce %d planks." ), planks );
+    }
+    if( scraps > 0 ) {
+        p->i_add_or_drop( scrap, scraps );
+        p->add_msg_if_player( m_good, _( "You produce %d splinters." ), scraps );
+    }
     if( planks < max_planks / 2 ) {
         add_msg( m_bad, _("You waste a lot of the wood.") );
     }
