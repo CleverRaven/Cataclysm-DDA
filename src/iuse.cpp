@@ -4365,7 +4365,7 @@ void iuse::cut_log_into_planks(player *p)
     item scrap("splinter", int(calendar::turn));
     const int max_planks = 10;
     /** @EFFECT_FABRICATION increases number of planks cut from a log */
-    int planks = rng_normal( 2 + p->get_skill_level( skill_fabrication ), 2 );
+    int planks = rng_normal( 2 + p->get_skill_level( skill_fabrication ), 1 );
     int wasted_planks = max_planks - planks;
     int scraps = rng( wasted_planks, wasted_planks * 3 );
     planks = std::min( planks, max_planks );
