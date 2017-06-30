@@ -120,6 +120,12 @@
     <PreBuildEvent>
       <Message>Get version string and generate lua bindings</Message>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>copydll.bat $(PlatformTarget)</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copy the DLLs for the build we just did ready for distribute.bat</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -148,6 +154,12 @@
     <PreBuildEvent>
       <Message>Get version string and generate lua bindings</Message>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>copydll.bat $(PlatformTarget)</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copy the DLLs for the build we just did ready for distribute.bat</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -179,6 +191,12 @@
     <PreBuildEvent>
       <Message>Get version string and generate lua bindings</Message>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>copydll.bat $(PlatformTarget)</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copy the DLLs for the build we just did ready for distribute.bat</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -210,6 +228,12 @@
     <PreBuildEvent>
       <Message>Get version string and generate lua bindings</Message>
     </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>copydll.bat $(PlatformTarget)</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copy the DLLs for the build we just did ready for distribute.bat</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\src\*.h" />
