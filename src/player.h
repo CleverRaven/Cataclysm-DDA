@@ -1065,8 +1065,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         hint_rating rate_action_mend( const item &it ) const;
         hint_rating rate_action_disassemble( const item &it );
 
-        /** Returns body weight plus weight of inventory and worn/wielded items */
-        int get_weight() const override;
         /** Returns warmth provided by armor, etc. */
         int warmth(body_part bp) const;
         /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
