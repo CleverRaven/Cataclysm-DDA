@@ -865,6 +865,11 @@ bool game::start_game(std::string worldname)
     // Spawn the monsters
     const bool spawn_near =
         get_option<bool>( "BLACK_ROAD" ) || g->scen->has_flag("SUR_START");
+    // Surrounded start ones
+    if( spawn_near ) {
+        start_loc.surround_with_monsters( omtstart, mongroup_id( "GROUP_ZOMBIE" ), 70 );
+    }
+
     m.spawn_monsters( !spawn_near ); // Static monsters
 
     // Make sure that no monsters are near the player

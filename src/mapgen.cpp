@@ -8476,32 +8476,31 @@ void map::place_spawns(const mongroup_id& group, const int chance,
         return;
     }
 
-    float multiplier = get_option<float>( "SPAWN_DENSITY" );
-
-    if( multiplier == 0.0 ) {
+    if( !one_in( chance ) ) {
         return;
     }
 
-    if (one_in(chance / multiplier)) {
-        int num = density * (float)rng(10, 50) * multiplier;
+    float multiplier = density * get_option<float>( "SPAWN_DENSITY" );
+    float thenum = ( multiplier * rng_float( 10.0f, 50.0f ) );
+    int num = roll_remainder( thenum );
 
-        for (int i = 0; i < num; i++) {
-            int tries = 10;
-            int x = 0;
-            int y = 0;
+    // GetResultFromGroup decrements num
+    while( num > 0 ) {
+        int tries = 10;
+        int x = 0;
+        int y = 0;
 
-            // Pick a spot for the spawn
-            do {
-                x = rng(x1, x2);
-                y = rng(y1, y2);
-                tries--;
-            } while( impassable(x, y) && tries );
+        // Pick a spot for the spawn
+        do {
+            x = rng( x1, x2 );
+            y = rng( y1, y2 );
+            tries--;
+        } while( impassable( x, y ) && tries > 0 );
 
-            // Pick a monster type
-            MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &num );
+        // Pick a monster type
+        MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &num );
 
-            add_spawn(spawn_details.name, spawn_details.pack_size, x, y);
-        }
+        add_spawn( spawn_details.name, spawn_details.pack_size, x, y );
     }
 }
 
