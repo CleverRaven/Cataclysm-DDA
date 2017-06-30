@@ -69,9 +69,9 @@ class start_location
 
         /**
          * Adds surround start monsters.
-         * @param expected_count Expected value of count of monsters (actual value varies linearly from 33% to to 166% of that).
+         * @param expected_count Expected value of "monster points" (map tiles times density from @ref map::add_spawn).
          */
-        void surround_with_monsters( const tripoint &omtstart, const mongroup_id& type, float expected_count ) const;
+        void surround_with_monsters( const tripoint &omtstart, const mongroup_id& type, float expected_points ) const;
     private:
         friend class generic_factory<start_location>;
         string_id<start_location> id;
