@@ -2417,6 +2417,11 @@ int item::weight( bool include_contents ) const
         return 0;
     }
 
+    // Items that don't drop aren't really there, they're items just for ease of implementation
+    if( has_flag( "NO_DROP" ) ) {
+        return 0;
+    }
+
     int ret = get_var( "weight", type->weight );
     if( has_flag( "REDUCED_WEIGHT" ) ) {
         ret *= 0.75;
