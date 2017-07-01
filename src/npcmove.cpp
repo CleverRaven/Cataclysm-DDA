@@ -844,8 +844,7 @@ void npc::choose_target()
     if( is_friend() ) {
         ai_cache.friends.emplace_back( npc_target::player() );
     } else if( is_enemy() ) {
-        // Hostile characters can always find the player
-        if( ai_cache.target.get() == nullptr || check_hostile_character( g->u ) ) {
+        if( sees( g->u ) && check_hostile_character( g->u ) ) {
             ai_cache.target = npc_target::player();
             ai_cache.danger = std::max( 1.0f, ai_cache.danger );
         }
