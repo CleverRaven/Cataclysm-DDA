@@ -1293,9 +1293,9 @@ int Character::get_weight() const
 {
     int ret = 0;
     int wornWeight = std::accumulate( worn.begin(), worn.end(), 0,
-                                     []( int sum, const item& itm ) {
-                                        return sum + itm.weight();
-                                     } );
+                     []( int sum, const item& itm ) {
+                        return sum + itm.weight();
+                     } );
 
     ret += Creature::get_weight(); // The base weight of the player's body
     ret += inv.weight();           // Weight of the stored inventory
