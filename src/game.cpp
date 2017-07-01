@@ -11485,6 +11485,16 @@ bool game::walk_move( const tripoint &dest_loc )
     }
     u.set_underwater(false);
 
+    const tripoint furn_pos = u.pos() + u.grab_point;
+    const tripoint furn_dest = dest_loc + u.grab_point;
+    const int fire_str = m.get_field_strength( furn_pos, fd_fire );
+    const int fire_age = m.get_field_age( furn_pos, fd_fire );
+    if( m.get_field( furn_pos, fd_fire ) != nullptr ) {
+        m.remove_field( furn_pos, fd_fire );
+        m.set_field_strength( furn_dest, fd_fire, fire_str );
+        m.set_field_age( furn_dest, fd_fire, fire_age );
+    }
+
     if( !shifting_furniture && !prompt_dangerous_tile( dest_loc ) ) {
         return true;
     }
