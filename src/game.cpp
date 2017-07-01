@@ -5915,8 +5915,6 @@ void game::monmove()
 
         m.creature_in_field( critter );
 
-        mattack::lay_egg( &critter );
-
         while (critter.moves > 0 && !critter.is_dead()) {
             critter.made_footstep = false;
             // Controlled critters don't make their own plans

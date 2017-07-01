@@ -964,6 +964,7 @@
     "speed": 80,
     "material": [ "flesh" ],
     "symbol": "v",
+    "special_attacks": [ [ "LAY_EGG", 1 ] ],
     "color": "white",
     "aggression": -99,
     "morale": -8,

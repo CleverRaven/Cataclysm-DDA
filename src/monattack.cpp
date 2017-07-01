@@ -108,7 +108,7 @@ const efftype_id effect_slimed( "slimed" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_targeted( "targeted" );
 const efftype_id effect_teleglow( "teleglow" );
-const efftype_id effect_laid_egg("laid_egg");
+const efftype_id effect_laid_egg( "laid_egg" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
@@ -4649,17 +4649,19 @@ bool mattack::dodge_check( monster *z, Creature *target ) {
     return false;
 }
 
-void mattack::lay_egg( monster *z )
+bool mattack::lay_egg( monster *z )
 {
     monster &critter = *z;
     const furn_t &furn = g->m.furn( critter.pos() ).obj();
 
-    if( !critter.is_dead() && critter.has_flag( MF_EGGLAYING ) && furn.has_flag( TFLAG_NEST ) &&
-        !critter.has_effect( effect_laid_egg ) ) {
+    if( !critter.is_dead() && furn.has_flag( TFLAG_NEST ) ) {
 
         item egg( "egg_bird", 0, 1 );
         g->m.add_item_or_charges( critter.pos(), egg );
         critter.add_effect( effect_laid_egg, ( HOURS( 48 ) ) );
+        return true;
+    } else {
+        return false;
     }
 
 

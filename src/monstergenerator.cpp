@@ -337,6 +337,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "RANGED_PULL", mattack::ranged_pull );
     add_hardcoded_attack( "GRAB", mattack::grab );
     add_hardcoded_attack( "GRAB_DRAG", mattack::grab_drag );
+    add_hardcoded_attack("LAY_EGG", mattack::lay_egg);
 }
 
 void MonsterGenerator::init_defense()

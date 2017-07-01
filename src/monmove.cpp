@@ -1458,8 +1458,7 @@ void monster::on_idle()
             }
         }
         set_dest( nest_pos );
-    }
-    else {
+    } else {
         unset_dest();
     }
 }
