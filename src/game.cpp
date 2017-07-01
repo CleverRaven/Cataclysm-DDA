@@ -166,7 +166,6 @@ const efftype_id effect_tetanus( "tetanus" );
 const efftype_id effect_tied( "tied" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_winded( "winded" );
-const efftype_id effect_laid_egg( "laid_egg" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
@@ -1572,7 +1571,6 @@ bool game::do_turn()
     sfx::remove_hearing_loss();
     sfx::do_danger_music();
     sfx::do_fatigue();
-    mon_lay_egg();
 
     return false;
 }
@@ -5916,6 +5914,8 @@ void game::monmove()
         }
 
         m.creature_in_field( critter );
+
+        mattack::lay_egg( &critter );
 
         while (critter.moves > 0 && !critter.is_dead()) {
             critter.made_footstep = false;
@@ -13889,20 +13889,3 @@ std::vector<npc *> game::allies()
     return res;
 }
 
-void game::mon_lay_egg()
-{
-
-
-    for( size_t i = 0; i < num_zombies(); i++ ) {
-        monster &critter = critter_tracker->find( i );
-        const furn_t &furn = g->m.furn( critter.pos() ).obj();
-
-        if( !critter.is_dead() && critter.has_flag( MF_EGGLAYING ) && furn.has_flag( TFLAG_NEST ) &&
-            !critter.has_effect( effect_laid_egg ) ) {
-
-            item egg( "egg_bird", 0, 1 );
-            g->m.add_item_or_charges( critter.pos(), egg );
-            critter.add_effect( effect_laid_egg, ( HOURS( 48 ) ) );
-        }
-    }
-}

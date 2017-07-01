@@ -89,6 +89,7 @@ void rifle              (monster *z, Creature *target); // Automated M4
 void frag               (monster *z, Creature *target); // Automated MGL
 void tankgun            (monster *z, Creature *target); // Tankbot primary.
 void flame              (monster *z, Creature *target);
+void lay_egg            ( monster *z );
 
 bool dodge_check        (monster *z, Creature *target);
 } //namespace mattack
