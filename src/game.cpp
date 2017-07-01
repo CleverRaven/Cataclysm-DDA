@@ -11927,6 +11927,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
                          !m.has_flag("SWIMMABLE", fdest) &&
                          !m.has_flag("DESTROY_ITEM", fdest) );
     bool src_item_ok = ( m.furn(fpos).obj().has_flag("CONTAINER") ||
+                         m.furn(fpos).obj().has_flag("FIRE_CONTAINER") ||
                          m.furn(fpos).obj().has_flag("SEALED") );
 
     int str_req = furntype.move_str_req;
