@@ -447,7 +447,7 @@ void start_location::handle_heli_crash( player &u ) const
     }
 }
 
-static void add_monsters( const tripoint &omtstart, const mongroup_id& type, float expected_points )
+static void add_monsters( const tripoint &omtstart, const mongroup_id &type, float expected_points )
 {
     const tripoint spawn_location = omt_to_sm_copy( omtstart );
     tinymap m;
@@ -458,12 +458,14 @@ static void add_monsters( const tripoint &omtstart, const mongroup_id& type, flo
     m.save();
 }
 
-void start_location::surround_with_monsters( const tripoint &omtstart, const mongroup_id& type, float expected_points ) const
+void start_location::surround_with_monsters( const tripoint &omtstart, const mongroup_id &type,
+        float expected_points ) const
 {
     for( int x_offset = -1; x_offset <= 1; x_offset++ ) {
         for( int y_offset = -1; y_offset <= 1; y_offset++ ) {
             if( x_offset != 0 || y_offset != 0 ) {
-                add_monsters( omtstart + point( x_offset, y_offset ), type, roll_remainder( expected_points / 8.0f ) );
+                add_monsters( omtstart + point( x_offset, y_offset ), type,
+                              roll_remainder( expected_points / 8.0f ) );
             }
         }
     }
