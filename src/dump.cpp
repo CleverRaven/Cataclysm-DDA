@@ -252,8 +252,8 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
 
             std::vector<std::string> r;
             r.push_back( veh_empty.name );
-            r.push_back( to_string( veh_empty.total_mass() ) );
-            r.push_back( to_string( veh_fueled.total_mass() ) );
+            r.push_back( to_string( veh_empty.total_mass() / 1000 ) );
+            r.push_back( to_string( veh_fueled.total_mass() / 1000 ) );
             r.push_back( to_string( veh_fueled.max_velocity() / 100 ) );
             r.push_back( to_string( veh_fueled.safe_velocity() / 100 ) );
             r.push_back( to_string( veh_fueled.acceleration() / 100 ) );
