@@ -23,6 +23,7 @@
 #include "cata_utility.h"
 #include "item_search.h"
 #include "string_input_popup.h"
+#include "pickup.h"
 
 #include <map>
 #include <set>
@@ -1532,6 +1533,7 @@ void advanced_inventory::display()
             // but are potentially at a different place).
             recalc = true;
             assert( amount_to_move > 0 );
+            int move_cost = 0;
             if( destarea == AIM_CONTAINER ) {
                 if( !move_content( *sitem->items.front(), *squares[destarea].get_container( dpane.in_vehicle() ) ) ) {
                     redraw = true;
@@ -1547,6 +1549,7 @@ void advanced_inventory::display()
                 if(by_charges) {
                     item moving_item = g->u.reduce_charges(idx, amount_to_move);
                     assert(!moving_item.is_null());
+                    move_cost = Pickup::cost_to_move_item( g->u, moving_item );
                     int items_left = add_item(destarea, moving_item);
                     // take care of charging back any items as well
                     if(items_left > 0) {
@@ -1586,6 +1589,7 @@ void advanced_inventory::display()
                 }
                 // add the item, and note any items that might be leftover
                 int items_left = add_item(destarea, new_item, (by_charges) ? 1 : amount_to_move);
+                move_cost = Pickup::cost_to_move_item( g->u, new_item );
                 // only remove item or charges if the add succeeded
                 if(items_left == 0) {
                     if(by_charges) {
@@ -1618,7 +1622,7 @@ void advanced_inventory::display()
                 }
             }
             // This is only reached when at least one item has been moved.
-            g->u.moves -= 100; // In pickup/move functions this depends on item stats
+            g->u.mod_moves( -move_cost );
             // Just in case the items have moved from/to the inventory
             g->u.inv.sort();
             g->u.inv.restack( &g->u );

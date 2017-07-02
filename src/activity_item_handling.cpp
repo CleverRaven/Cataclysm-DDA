@@ -15,6 +15,7 @@
 #include "veh_type.h"
 #include "player.h"
 #include "debug.h"
+#include "pickup.h"
 
 #include <list>
 #include <vector>
@@ -480,19 +481,7 @@ static void move_items( const tripoint &src, bool from_vehicle,
 
         // Check that we can pick it up.
         if( !temp_item->made_of( LIQUID ) ) {
-            // Is it too bulky? We'll have to use our hands, then.
-            if( !g->u.can_pickVolume( *temp_item ) && g->u.is_armed() ) {
-                g->u.moves -= 20; // Pretend to be unwielding our gun.
-            }
-
-            // Is it too heavy? It'll take a while...
-            if( !g->u.can_pickWeight( *temp_item, true ) ) {
-                int overweight = temp_item->weight() - ( g->u.weight_capacity() - g->u.weight_carried() );
-
-                // ...like one move cost per 100 grams over your leftover carry capacity.
-                g->u.moves -= int( overweight / 100 );
-            }
-
+            g->u.mod_moves( -Pickup::cost_to_move_item( g->u, *temp_item ) );
             if( to_vehicle ) {
                 put_into_vehicle_or_drop( g->u, { *temp_item }, destination );
             } else {
@@ -504,7 +493,6 @@ static void move_items( const tripoint &src, bool from_vehicle,
             } else {
                 g->m.i_rem( source, index );
             }
-            g->u.mod_moves( -200 ); // I kept the logic. -100 from 'drop' and -100 was here.
         }
 
         // If we didn't pick up a whole stack, put the remainder back where it came from.

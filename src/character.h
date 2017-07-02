@@ -438,6 +438,8 @@ class Character : public Creature, public visitable<Character>
          * @param context optionally override effective item when checking contextual skills
          */
         bool can_use( const item& it, const item &context = item() ) const;
+        /** Returns true if the character is wielding something */
+        bool is_armed() const;
 
         void drop_inventory_overflow();
 
