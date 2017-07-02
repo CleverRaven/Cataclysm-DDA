@@ -86,7 +86,7 @@ struct advanced_inv_area {
     std::string flags;
     // total volume and weight of items currently there
     units::volume volume;
-    int weight;
+    units::mass weight;
     // maximal count / volume of items there.
     int max_size;
 
@@ -168,7 +168,7 @@ struct advanced_inv_listitem {
     /**
      * The weight of all the items in this stack, used for sorting.
      */
-    int weight;
+    units::mass weight;
     /**
      * The item category, or the category header.
      */

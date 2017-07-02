@@ -2063,7 +2063,7 @@ int player::run_cost( int base_cost, bool diag ) const
 
 int player::swim_speed() const
 {
-    int ret = 440 + weight_carried() / 60 - 50 * get_skill_level( skill_swimming );
+    int ret = 440 + weight_carried() / 60_gram - 50 * get_skill_level( skill_swimming );
     const auto usable = exclusive_flag_coverage( "ALLOWS_NATURAL_ATTACKS" );
     float hand_bonus_mult = ( usable.test( bp_hand_l ) ? 0.5f : 0.0f ) +
                             ( usable.test( bp_hand_r ) ? 0.5f : 0.0f );
@@ -3510,7 +3510,7 @@ void player::pause()
         veh = v.v;
         if( veh && veh->velocity != 0 && veh->player_in_control( *this ) ) {
             if( one_in( 8 ) ) {
-                double exp_temp = 1 + veh->total_mass() / 1000 / 400.0 + std::abs( veh->velocity / 3200.0 );
+                double exp_temp = 1 + veh->total_mass() / 400.0_kilogram + std::abs( veh->velocity / 3200.0 );
                 int experience = int( exp_temp );
                 if( exp_temp - experience > 0 && x_in_y( exp_temp - experience, 1.0 ) ) {
                     experience++;
@@ -11236,8 +11236,8 @@ int player::get_stamina_max() const
 void player::burn_move_stamina( int moves )
 {
     int overburden_percentage = 0;
-    int current_weight = weight_carried();
-    int max_weight = weight_capacity();
+    units::mass current_weight = weight_carried();
+    units::mass max_weight = weight_capacity();
     if (current_weight > max_weight) {
         overburden_percentage = (current_weight - max_weight) * 100 / max_weight;
     }
@@ -11255,7 +11255,7 @@ void player::burn_move_stamina( int moves )
     if ((current_weight > max_weight) && (has_trait( trait_BADBACK ) || stamina == 0) && one_in(35 - 5 * current_weight / (max_weight / 2))) {
         add_msg_if_player(m_bad, _("Your body strains under the weight!"));
         // 1 more pain for every 800 grams more (5 per extra STR needed)
-        if ( ((current_weight - max_weight) / 800 > get_pain() && get_pain() < 100)) {
+        if ( ( ( current_weight - max_weight ) / 800_gram > get_pain() && get_pain() < 100 ) ) {
             mod_pain(1);
         }
     }

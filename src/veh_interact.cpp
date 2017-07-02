@@ -48,7 +48,7 @@ static inline const char * status_color( bool status )
 // cap JACK requirements to support arbitrarily large vehicles
 static double jack_qality( const vehicle &veh )
 {
-    const double mass = std::min( veh.total_mass(), JACK_LIMIT );
+    const units::quantity<double, units::mass::unit_type> mass = std::min( veh.total_mass(), JACK_LIMIT );
     return ceil( mass / TOOL_LIFT_FACTOR );
 }
 
@@ -602,7 +602,7 @@ bool veh_interact::can_install_part() {
         use_str = g->u.can_lift( *veh );
     } else {
         qual = LIFT;
-        lvl = std::ceil( double( base.weight() ) / TOOL_LIFT_FACTOR );
+        lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) / TOOL_LIFT_FACTOR );
         str = base.lift_strength();
         use_aid = max_lift >= lvl;
         use_str = g->u.can_lift( base );
@@ -1292,7 +1292,7 @@ bool veh_interact::can_remove_part( int idx ) {
         use_str = g->u.can_lift( *veh );
     } else {
         qual = LIFT;
-        lvl = ceil( double( base.weight() ) / TOOL_LIFT_FACTOR );
+        lvl = ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) / TOOL_LIFT_FACTOR );
         str = base.lift_strength();
         use_aid = max_lift >= lvl;
         use_str = g->u.can_lift( base );
@@ -2043,7 +2043,7 @@ void veh_interact::display_details( const vpart_info *part )
     fold_and_print(w_details, line+2, col_1, column_width, c_white,
                    "%s: <color_ltgray>%.1f%s</color>",
                    small_mode ? _("Wgt") : _("Weight"),
-                   convert_weight(item::find_type( part->item )->weight),
+                   convert_weight( item::find_type( part->item )->weight ),
                    weight_units());
     if ( part->folded_volume != 0 ) {
         fold_and_print(w_details, line+2, col_2, column_width, c_white,

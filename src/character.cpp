@@ -836,9 +836,9 @@ std::vector<item_location> Character::find_ammo( const item& obj, bool empty, in
     return res;
 }
 
-int Character::weight_carried() const
+units::mass Character::weight_carried() const
 {
-    int ret = 0;
+    units::mass ret = 0;
     ret += weapon.weight();
     for (auto &i : worn) {
         ret += i.weight();
@@ -852,31 +852,31 @@ units::volume Character::volume_carried() const
     return inv.volume();
 }
 
-int Character::weight_capacity() const
+units::mass Character::weight_capacity() const
 {
     if( has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
         // Infinite enough
-        return INT_MAX;
+        return units::mass_max;
     }
     // Get base capacity from creature,
     // then apply player-only mutation and trait effects.
-    int ret = Creature::weight_capacity();
+    units::mass ret = Creature::weight_capacity();
     /** @EFFECT_STR increases carrying capacity */
-    ret += get_str() * 4000;
+    ret += get_str() * 4_kilogram;
     if( has_trait( trait_id( "BADBACK" ) ) ) {
-        ret = int(ret * .65);
+        ret = ret * .65;
     }
     if( has_trait( trait_id( "STRONGBACK" ) ) ) {
-        ret = int(ret * 1.35);
+        ret = ret * 1.35;
     }
     if( has_trait( trait_id( "LIGHT_BONES" ) ) ) {
-        ret = int(ret * .80);
+        ret = ret * .80;
     }
     if( has_trait( trait_id( "HOLLOW_BONES" ) ) ) {
-        ret = int(ret * .60);
+        ret = ret * .60;
     }
     if (has_artifact_with(AEP_CARRY_MORE)) {
-        ret += 22500;
+        ret += 22500_gram;
     }
     if (ret < 0) {
         ret = 0;
@@ -929,7 +929,7 @@ bool Character::can_pickWeight( const item &it, bool safe ) const
     if (!safe)
     {
         // Character can carry up to four times their maximum weight
-        return ( weight_carried() + it.weight() <= ( has_trait( trait_id( "DEBUG_STORAGE" ) ) ? INT_MAX : weight_capacity() * 4 ) );
+        return ( weight_carried() + it.weight() <= ( has_trait( trait_id( "DEBUG_STORAGE" ) ) ? units::mass_max : weight_capacity() * 4 ) );
     }
     else
     {
@@ -1289,11 +1289,11 @@ std::array<encumbrance_data, num_bp> Character::calc_encumbrance( const item &ne
     return ret;
 }
 
-int Character::get_weight() const
+units::mass Character::get_weight() const
 {
-    int ret = 0;
-    int wornWeight = std::accumulate( worn.begin(), worn.end(), 0,
-                     []( int sum, const item &itm ) {
+    units::mass ret = 0;
+    units::mass wornWeight = std::accumulate( worn.begin(), worn.end(), units::mass( 0 ),
+                     []( units::mass sum, const item &itm ) {
                         return sum + itm.weight();
                      } );
 
@@ -2049,12 +2049,12 @@ int Character::throw_range( const item &it ) const
     }
 
     /** @EFFECT_STR determines maximum weight that can be thrown */
-    if( (tmp.weight() / 113) > int(str_cur * 15) ) {
+    if( ( tmp.weight() / 113_gram ) > int( str_cur * 15 ) ) {
         return 0;
     }
     // Increases as weight decreases until 150 g, then decreases again
     /** @EFFECT_STR increases throwing range, vs item weight (high or low) */
-    int ret = (str_cur * 8) / (tmp.weight() >= 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
+    int ret = ( str_cur * 8 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 - int( tmp.weight() / 15_gram ) );
     ret -= tmp.volume() / 1000_ml;
     static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
     if( has_active_bionic( bionic_id( "bio_railgun" ) ) && tmp.made_of_any( affected_materials ) ) {

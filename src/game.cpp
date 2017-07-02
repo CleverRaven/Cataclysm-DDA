@@ -6942,7 +6942,7 @@ void game::smash()
     if( didit ) {
         u.handle_melee_wear();
         u.moves -= move_cost;
-        const int mod_sta = ( (u.weapon.weight() / 100 ) + 20) * -1;
+        const int mod_sta = ( ( u.weapon.weight() / 100_gram ) + 20 ) * -1;
         u.mod_stat("stamina", mod_sta);
 
         if (u.get_skill_level( skill_melee ) == 0) {
@@ -7405,7 +7405,7 @@ bool pet_menu(monster *z)
         }
 
         units::volume max_cap = it->get_storage();
-        int max_weight = z->weight_capacity() - it->weight();
+        units::mass max_weight = z->weight_capacity() - it->weight();
 
         if (z->inv.size() > 1) {
             for (auto &i : z->inv) {
@@ -11949,11 +11949,11 @@ bool game::grabbed_furn_move( const tripoint &dp )
 
     int str_req = furntype.move_str_req;
     // Factor in weight of items contained in the furniture.
-    int furniture_contents_weight = 0;
+    units::mass furniture_contents_weight = 0;
     for( auto contained_item : m.i_at( fpos ) ) {
         furniture_contents_weight += contained_item.weight();
     }
-    str_req += furniture_contents_weight / 4000;
+    str_req += furniture_contents_weight / 4_kilogram;
 
     if( !canmove ) {
         // TODO: What is something?

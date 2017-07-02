@@ -630,7 +630,7 @@ class holster_actor : public iuse_actor
         /** Minimum volume of each item that can be holstered or 1/3 max_volume if unspecified */
         units::volume min_volume;
         /** Maximum weight of each item. If unspecified no weight limit is imposed */
-        int max_weight = -1;
+        units::mass max_weight = units::mass( -1, units::mass::unit_type{} );
         /** Total number of items that holster can contain **/
         int multi = 1;
         /** Base cost of accessing/storing an item. Scales down to half of that with skills. */

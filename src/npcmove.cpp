@@ -2030,7 +2030,7 @@ void npc::drop_items(int weight, int volume)
             wgt_ratio = 99999;
             vol_ratio = 99999;
         } else {
-            wgt_ratio = it.weight() / value(it);
+            wgt_ratio = it.weight() / 1_gram / value( it );
             vol_ratio = it.volume() / units::legacy_volume_factor / value(it);
         }
         bool added_wgt = false, added_vol = false;
@@ -2086,7 +2086,7 @@ void npc::drop_items(int weight, int volume)
                 }
             }
         }
-        weight_dropped += slice[index]->front().weight();
+        weight_dropped += slice[index]->front().weight() / 1_gram;
         volume_dropped += slice[index]->front().volume() / units::legacy_volume_factor;
         item dropped = i_rem(index);
         num_items_dropped++;
