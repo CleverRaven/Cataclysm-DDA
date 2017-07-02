@@ -4654,7 +4654,7 @@ bool mattack::lay_egg( monster *z )
     monster &critter = *z;
     const furn_t &furn = g->m.furn( critter.pos() ).obj();
 
-    if( !critter.is_dead() && furn.has_flag( TFLAG_NEST ) ) {
+    if( furn.has_flag( TFLAG_NEST ) ) {
 
         item egg( "egg_bird", 0, 1 );
         g->m.add_item_or_charges( critter.pos(), egg );
