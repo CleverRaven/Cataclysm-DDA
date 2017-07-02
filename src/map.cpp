@@ -7822,12 +7822,6 @@ tinymap::tinymap( int mapsize, bool zlevels )
 {
 }
 
-furn_id find_furn_id( const furn_str_id id, bool complain = true )
-{
-    ( void )complain; //FIXME: complain unused
-    return id.id();
-}
-
 void map::draw_line_ter( const ter_id type, int x1, int y1, int x2, int y2 )
 {
     draw_line( [this, type]( int x, int y ) {
