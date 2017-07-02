@@ -10066,6 +10066,12 @@ bool game::plfire()
             // At low stamina levels, firing starts getting slow.
             int sta_percent = ( 100 * u.stamina ) / u.get_stamina_max();
             reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
+
+            // Update targeting data to include ammo's range bonus
+            args.range = gun.melee() ? gun.qty : gun.target->gun_range( &u );
+            args.ammo = gun->ammo_data();
+            u.set_targeting_data( args );
+
             refresh_all();
         }
     }
