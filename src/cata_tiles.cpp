@@ -17,6 +17,7 @@
 #include "options.h"
 #include "overmapbuffer.h"
 #include "player.h"
+#include "npc.h"
 #include "catacharset.h"
 #include "itype.h"
 #include "vehicle.h"
@@ -1665,9 +1666,8 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
             }
             // NPC
             if( id.substr(4) == "npc_" ) {
-                const int nindex = g->npc_at( pos );
-                if( nindex != -1 ) {
-                    seed = nindex;
+                if( npc * const guy = g->critter_at<npc>( pos ) ) {
+                    seed = guy->getID();
                     break;
                 }
             }

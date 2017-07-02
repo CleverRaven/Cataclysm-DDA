@@ -31,6 +31,7 @@
       [ "royal_beef", 3 ],
       [ "can_sardine", 18 ],
       [ "onion", 14 ],
+      [ "chili_pepper", 14 ],
       [ "can_chicken", 13 ],
       [ "bacon", 15 ],
       [ "cheese", 38 ],
@@ -97,6 +98,7 @@
     "items": [
       [ "towel", 15 ],
       [ "soap", 15 ],
+      [ "detergent", 15 ],
       [ "bleach", 15 ],
       [ "broom", 13 ],
       [ "dinosuit", 7 ],

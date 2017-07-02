@@ -360,8 +360,8 @@
   ],
   "tools": [
     [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
+      [ "fire", -1 ],
+      [ "toolset", 10 ]
     ]
   ],
   "components": [
@@ -708,8 +708,8 @@
   ],
   "tools": [
       [
-        [ "toolset", 10 ],
-        [ "fire", -1 ]
+        [ "fire", -1 ],
+        [ "toolset", 10 ]
       ]
       ],
   "components":
@@ -734,8 +734,8 @@
   ],
   "tools": [
       [
-        [ "toolset", 10 ],
-        [ "fire", -1 ]
+        [ "fire", -1 ],
+        [ "toolset", 10 ]
       ]
       ],
   "components": [
@@ -1062,10 +1062,8 @@
   "time": 8000,
   "reversible": true,
   "autolearn": true,
-  "components": [
-    [ [ "snare_trigger", 1 ] ],
-    [ [ "rope_6", 1 ] ]
-  ]
+  "using": [ [ "rope_natural_short", 1 ] ],
+  "components": [ [ [ "snare_trigger", 1 ] ] ]
 },{
   "type" : "recipe",
   "result": "crossbow_makeshift",

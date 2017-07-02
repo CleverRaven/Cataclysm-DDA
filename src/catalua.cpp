@@ -31,6 +31,7 @@
 #include "field.h"
 #include "filesystem.h"
 #include "string_input_popup.h"
+#include "mutation.h"
 extern "C" {
 #include "lua.h"
 #include "lualib.h"

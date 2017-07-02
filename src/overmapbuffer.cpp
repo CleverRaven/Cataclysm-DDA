@@ -123,19 +123,18 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
             // We have no sane option here, just place the NPC on the edge
             debugmsg( "NPC %s is out of bounds, on ungenerated overmap %d,%d",
                       np.name.c_str(), loc.x, loc.y );
-            hide_npc( np.getID() );
             point npc_sm = om_to_sm_copy( npc_om_pos );
             point min = om_to_sm_copy( loc );
             point max = om_to_sm_copy( loc + point( 1, 1 ) ) - point( 1, 1 );
             npc_sm.x = clamp( npc_sm.x, min.x, max.x );
             npc_sm.y = clamp( npc_sm.y, min.y, max.y );
-            np.spawn_at( npc_sm.x, npc_sm.y, np.posz() );
+            np.spawn_at_sm( npc_sm.x, npc_sm.y, np.posz() );
             ++it;
             continue;
         }
 
         // Simplest case: just move the pointer
-        get( npc_om_pos.x, npc_om_pos.y ).add_npc( np );
+        get( npc_om_pos.x, npc_om_pos.y ).insert_npc( &np );
         it = new_overmap.npcs.erase( it );
     }
 }
@@ -630,10 +629,8 @@ tripoint overmapbuffer::find_random( const tripoint &origin, const std::string &
 
 npc* overmapbuffer::find_npc(int id) {
     for( auto &it : overmaps ) {
-        for( auto &elem : it.second->npcs ) {
-            if( elem->getID() == id ) {
-                return elem;
-            }
+        if( const auto p = it.second->find_npc( id ) ) {
+            return p;
         }
     }
     return NULL;
@@ -642,16 +639,12 @@ npc* overmapbuffer::find_npc(int id) {
 void overmapbuffer::remove_npc(int id)
 {
     for( auto &it : overmaps ) {
-        for (size_t i = 0; i < it.second->npcs.size(); i++) {
-            npc *p = it.second->npcs[i];
-            if (p->getID() == id) {
-                if( !p->is_dead() ) {
-                    debugmsg("overmapbuffer::remove_npc: NPC (%d) is not dead.", id);
-                }
-                it.second->npcs.erase(it.second->npcs.begin() + i);
-                delete p;
-                return;
+        if( const auto p = it.second->find_npc( id ) ) {
+            if( !p->is_dead() ) {
+                debugmsg("overmapbuffer::remove_npc: NPC (%d) is not dead.", id);
             }
+            it.second->erase_npc( p );
+            return;
         }
     }
     debugmsg("overmapbuffer::remove_npc: NPC (%d) not found.", id);
@@ -708,23 +701,35 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const point &p, const i
     return get_overmaps_near( tripoint( p.x, p.y, 0 ), radius );
 }
 
+std::vector<npc *> overmapbuffer::get_companion_mission_npcs()
+{
+    std::vector<npc *> available;
+    //@todo this is an arbitrary radius, replace with something sane.
+    for( npc *const guy : get_npcs_near_player( 100 ) ) {
+        if( guy->has_companion_mission() ) {
+            available.push_back( guy );
+        }
+    }
+    return available;
+}
+
 // If z == INT_MIN, allow all z-levels
 std::vector<npc*> overmapbuffer::get_npcs_near(int x, int y, int z, int radius)
 {
     std::vector<npc*> result;
     tripoint p{ x, y, z };
     for( auto &it : get_overmaps_near( p, radius ) ) {
-        for( auto &np : it->npcs ) {
+        it->for_each_npc( [&]( npc &guy ) {
             // Global position of NPC, in submap coordiantes
-            const tripoint pos = np->global_sm_location();
+            const tripoint pos = guy.global_sm_location();
             if( z != INT_MIN && pos.z != z ) {
-                continue;
+                return;
             }
             const int npc_offset = square_dist( x, y, pos.x, pos.y );
             if (npc_offset <= radius) {
-                result.push_back( np );
+                result.push_back( &guy );
             }
-        }
+        } );
     }
     return result;
 }
@@ -734,17 +739,17 @@ std::vector<npc*> overmapbuffer::get_npcs_near_omt(int x, int y, int z, int radi
 {
     std::vector<npc*> result;
     for( auto &it : get_overmaps_near( omt_to_sm_copy( x, y ), radius ) ) {
-        for( auto &np : it->npcs ) {
+        it->for_each_npc( [&]( npc &guy ) {
             // Global position of NPC, in submap coordiantes
-            tripoint pos = np->global_omt_location();
+            tripoint pos = guy.global_omt_location();
             if( z != INT_MIN && pos.z != z) {
-                continue;
+                return;
             }
             const int npc_offset = square_dist( x, y, pos.x, pos.y );
             if (npc_offset <= radius) {
-                result.push_back(np);
+                result.push_back( &guy );
             }
-        }
+        } );
     }
     return result;
 }

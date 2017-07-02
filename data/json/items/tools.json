@@ -1337,6 +1337,25 @@
     "use_action": "CATFOOD"
   },
   {
+    "id": "cavalry_sabre",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "cavalry saber",
+    "description": "This is a curved sword associated with cavalry from the Early Modern period onwards.  Lightweight but a deadly slashing weapon.",
+    "weight": 910,
+    "volume": 5,
+    "price": 97000,
+    "to_hit": 2,
+    "bashing": 2,
+    "cutting": 26,
+    "material": "steel",
+    "symbol": "/",
+    "color": "dark_gray",
+    "techniques": [ "WBLOCK_2", "RAPID" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+  },
+  {
     "id": "cell_phone",
     "type": "TOOL",
     "name": "cell phone",
@@ -3936,7 +3955,7 @@
     "color": "dark_gray",
     "gunmod_data": {
       "location": "underbarrel",
-      "mod_targets": [ "shotgun", "rifle" ],
+      "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
       "dispersion_modifier": 10,
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
       "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]
@@ -5148,7 +5167,7 @@
       "menu_text": "Turn off",
       "type": "transform"
     },
-    "flags": [ "LIGHT_10", "TRADER_AVOID" ]
+    "flags": [ "LIGHT_10", "TRADER_AVOID", "FIRE" ]
   },
   {
     "id": "oxygen_tank",
@@ -5622,10 +5641,7 @@
     "bashing": 6,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
-    "color": "dark_gray",
-    "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100
+    "color": "dark_gray"
   },
   {
     "id": "primitive_adze",
@@ -7956,7 +7972,7 @@
     "id": "washboard",
     "type": "TOOL",
     "name": "washboard",
-    "description": "This is a wooden washboard.  You can use it to wash filthy clothing if it's supplied with soap.  It requires 1 unit of soap per use.",
+    "description": "This is a wooden washboard.  You can use it to wash filthy clothing if it's supplied with cleansing agent.",
     "weight": 90,
     "volume": 1,
     "price": 1000,
@@ -7964,10 +7980,6 @@
     "material": "wood",
     "symbol": ";",
     "color": "white",
-    "ammo": "soap",
-    "initial_charges": 5,
-    "max_charges": 10,
-    "charges_per_use": 1,
     "use_action": "WASHCLOTHES"
   },
   {
@@ -8240,5 +8252,23 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+  },
+  {
+    "id": "food_processor",
+    "type": "TOOL",
+    "category": "tools",
+    "name": "food processor",
+    "description": "This is a kitchen appliance capable of slicing, chopping, shredding, grinding, pureeing and mixing.",
+    "weight": 3000,
+    "volume": 8,
+    "price": 50,
+    "to_hit": -1,
+    "bashing": 10,
+    "material": [ "iron" ],
+    "symbol": "%",
+    "color": "white",
+    "ammo": "battery",
+    "initial_charges": 100,
+    "max_charges": 100
   }
 ]

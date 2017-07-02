@@ -1160,6 +1160,7 @@ bool advanced_inventory::move_all_items(bool nested_call)
         switch(static_cast<aim_entry>(entry++)) {
             case ENTRY_START:
                 ++entry;
+                /* fallthrough */
             case ENTRY_VEHICLE:
                 if(squares[loc].can_store_in_vehicle()) {
                     // either do the inverse of the pane (if it is the one we are transferring to),
@@ -1255,7 +1256,7 @@ bool advanced_inventory::move_all_items(bool nested_call)
                 const auto &it = stack.front();
 
                 if( !spane.is_filtered( &it ) ) {
-                    dropped.emplace_back( static_cast<int>( index ), it.count_by_charges() ? it.charges : stack.size() );
+                    dropped.emplace_back( static_cast<int>( index ), it.count_by_charges() ? static_cast<int>( it.charges ) : static_cast<int>( stack.size() ) );
                 }
             }
         } else if( spane.get_area() == AIM_WORN ) {
@@ -1404,8 +1405,6 @@ void advanced_inventory::display()
     recalc = true;
     redraw = true;
 
-    string_input_popup spopup;
-
     while( !exit ) {
         if( g->u.moves < 0 ) {
             do_return_entry();
@@ -1421,7 +1420,7 @@ void advanced_inventory::display()
             werase( minimap );
             werase( mm_border );
             draw_border( head );
-            Messages::display_messages( head, 2, 1, w_width - 1, 4 );
+            Messages::display_messages( head, 2, 1, w_width - 1, head_height - 2 );
             draw_minimap();
             const std::string msg = _( "< [?] show help >" );
             mvwprintz( head, 0,
@@ -1637,6 +1636,7 @@ void advanced_inventory::display()
             }
             redraw = true;
         } else if( action == "FILTER" ) {
+            string_input_popup spopup;
             std::string filter = spane.filter;
             filter_edit = true;
             spopup.window( spane.window, 4, w_height - 1, ( w_width / 2 ) - 4 )
@@ -1648,8 +1648,13 @@ void advanced_inventory::display()
             do {
                 mvwprintz( spane.window, getmaxy( spane.window ) - 1, 2, c_cyan, "< " );
                 mvwprintz( spane.window, getmaxy( spane.window ) - 1, ( w_width / 2 ) - 3, c_cyan, " >" );
-                filter = spopup.query_string( false );
-                spane.set_filter( filter );
+                std::string new_filter = spopup.query_string( false );
+                if( spopup.context().get_raw_input().get_first_input() == KEY_ESCAPE ) {
+                    // restore original filter
+                    spane.set_filter( filter );
+                } else {
+                    spane.set_filter( new_filter );
+                }
                 redraw_pane( src );
             } while( spopup.context().get_raw_input().get_first_input() != '\n' && spopup.context().get_raw_input().get_first_input() != KEY_ESCAPE );
             filter_edit = false;
@@ -2112,7 +2117,8 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     // Inventory has a weight capacity, map and vehicle don't have that
     if( destarea == AIM_INVENTORY  || destarea == AIM_WORN ) {
         const long unitweight = it.weight() * 1000 / ( by_charges ? it.charges : 1 );
-        const long max_weight = ( g->u.weight_capacity() * 4 - g->u.weight_carried() ) * 1000;
+        const long max_weight = ( g->u.has_trait( trait_id( "DEBUG_STORAGE" ) ) ?
+                                  INT_MAX : ( g->u.weight_capacity() * 4 - g->u.weight_carried() ) * 1000 );
         if( unitweight > 0 && ( unitweight * amount > max_weight ) ) {
             const long weightmax = max_weight / unitweight;
             if( weightmax <= 0 ) {

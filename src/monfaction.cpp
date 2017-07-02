@@ -12,6 +12,7 @@ void add_to_attitude_map( const std::set< std::string > &keys, mfaction_att_map 
 
 void apply_base_faction( const monfaction &base, monfaction &faction );
 
+/** @relates int_id */
 template<>
 const monfaction &int_id<monfaction>::obj() const
 {
@@ -23,12 +24,14 @@ const monfaction &int_id<monfaction>::obj() const
     return faction_list[_id];
 }
 
+/** @relates int_id */
 template<>
 const string_id<monfaction> &int_id<monfaction>::id() const
 {
     return obj().id;
 }
 
+/** @relates string_id */
 template<>
 int_id<monfaction> string_id<monfaction>::id() const
 {
@@ -40,18 +43,21 @@ int_id<monfaction> string_id<monfaction>::id() const
     return iter->second;
 }
 
+/** @relates string_id */
 template<>
 const monfaction &string_id<monfaction>::obj() const
 {
     return id().obj();
 }
 
+/** @relates string_id */
 template<>
 bool string_id<monfaction>::is_valid() const
 {
     return faction_map.count( *this ) > 0;
 }
 
+/** @relates int_id */
 template<>
 int_id<monfaction>::int_id( const string_id<monfaction> &id )
     : _id( id.id() )

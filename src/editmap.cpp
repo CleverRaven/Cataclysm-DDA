@@ -242,7 +242,7 @@ void editmap_hilight::draw( editmap *hm, bool update )
             const tripoint &p = elem.first;
             int vpart = 0;
             // but only if there's no vehicles/mobs/npcs on a point
-            if( ! g->m.veh_at( p, vpart ) && ( g->mon_at( p ) == -1 ) && ( g->npc_at( p ) == -1 ) ) {
+            if( ! g->m.veh_at( p, vpart ) && !g->critter_at( p ) ) {
                 const ter_t &terrain = g->m.ter( p ).obj();
                 char t_sym = terrain.symbol();
                 nc_color t_col = terrain.color();
@@ -409,13 +409,11 @@ tripoint editmap::edit()
         } else if( action == "EDITMAP_SHOW_ALL" ) {
             uberdraw = !uberdraw;
         } else if( action == "EDIT_MONSTER" ) {
-            int mon_index = g->mon_at( target );
-            int npc_index = g->npc_at( target );
             int veh_part = -1;
             vehicle *veh = g->m.veh_at( target, veh_part );
-            if( mon_index >= 0 ) {
+            if( g->critter_at<monster>( target ) ) {
                 edit_mon();
-            } else if( npc_index >= 0 ) {
+            } else if( g->critter_at<npc>( target ) ) {
                 edit_npc();
             } else if( veh ) {
                 edit_veh();
@@ -550,7 +548,7 @@ void editmap::update_view( bool update_info )
             const tripoint &p = elem;
             int vpart = 0;
             // but only if there's no vehicles/mobs/npcs on a point
-            if( ! g->m.veh_at( p, vpart ) && ( g->mon_at( p ) == -1 ) && ( g->npc_at( p ) == -1 ) ) {
+            if( ! g->m.veh_at( p, vpart ) && !g->critter_at( p ) ) {
                 const ter_t &terrain = g->m.ter( p ).obj();
                 char t_sym = terrain.symbol();
                 nc_color t_col = terrain.color();
@@ -1542,9 +1540,9 @@ bool editmap::move_target( const std::string &action, int moveorigin )
 int editmap::edit_npc()
 {
     int ret = 0;
-    int npc_index = g->npc_at( target );
-    npc *it = g->active_npc[npc_index];
-    edit_json( it );
+    if( npc *const it = g->critter_at<npc>( target ) ) {
+        edit_json( it );
+    }
     return ret;
 }
 

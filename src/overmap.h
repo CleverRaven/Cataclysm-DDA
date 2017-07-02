@@ -17,6 +17,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <functional>
 #include <memory>
 
 class input_context;
@@ -243,7 +244,7 @@ class overmap
      * Interactive point choosing; used as the map screen.
      * The map is initially center at the players position.
      * @returns The absolute coordinates of the chosen point or
-     * @ref invalid_point if canceled with escape (or similar key).
+     * invalid_point if canceled with escape (or similar key).
      */
     static tripoint draw_overmap();
     /**
@@ -290,18 +291,33 @@ public:
     bool mongroup_check(const mongroup &candidate) const;
     bool monster_check(const std::pair<tripoint, monster> &candidate) const;
 
-    void add_npc( npc &who );
     // TODO: make private
   std::vector<radio_tower> radios;
-  std::vector<npc *> npcs;
   std::map<int, om_vehicle> vehicles;
   std::vector<city> cities;
   std::vector<city> roads_out;
 
     std::vector<const overmap_special *> unplaced_mandatory_specials;
 
+        /// Adds the npc. The overmap takes ownership of the pointer.
+        void insert_npc( npc *who );
+        /// Removes the npc, and deletes the pointer.
+        void erase_npc( npc *who );
+
+        void for_each_npc( std::function<void( npc & )> callback );
+        void for_each_npc( std::function<void( const npc & )> callback ) const;
+
+        npc *find_npc( int id );
+
+        const std::vector<npc*> &get_npcs() const {
+            return npcs;
+        }
+
  private:
     friend class overmapbuffer;
+        friend class npc; //@todo get rid of this.
+
+        std::vector<npc*> npcs;
 
     bool nullbool = false;
     point loc{ 0, 0 };
@@ -384,12 +400,16 @@ public:
     static tripoint draw_overmap(const tripoint& center, const draw_data_t &data);
   /**
    * Draws the overmap terrain.
-   * @param w The window to draw in.
+   * @param w The window to draw map in.
+   * @param wbar Window containing status bar
    * @param center The global overmap terrain coordinate of the center
    * of the view. The z-component is used to determine the z-level.
    * @param orig The global overmap terrain coordinates of the player.
    * It will be marked specially.
-   * @param debug_monstergroups Displays monster groups on the overmap.
+   * @param blink Whether blinking is enabled
+   * @param showExplored Whether display of explored territory is enabled
+   * @param inp_ctxt Input context in this screen
+   * @param data Various other drawing flags, largely regarding debug information
    */
   static void draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             const tripoint &orig, bool blink, bool showExplored,
@@ -458,12 +478,6 @@ public:
     void save_monster_groups( JsonOut &jo ) const;
 };
 
-// TODO: readd the stream operators
-//std::ostream & operator<<(std::ostream &, const overmap *);
-//std::ostream & operator<<(std::ostream &, const overmap &);
-//std::ostream & operator<<(std::ostream &, const city &);
-
-//extern const regional_settings default_region_settings;
 typedef std::unordered_map<std::string, regional_settings> t_regional_settings_map;
 typedef t_regional_settings_map::const_iterator t_regional_settings_map_citr;
 extern t_regional_settings_map region_settings_map;

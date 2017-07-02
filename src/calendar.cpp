@@ -19,12 +19,23 @@ season_type calendar::initial_season;
 
 // Internal constants, not part of the calendar interface.
 // Times for sunrise, sunset at equinoxes
+
+/** Hour of sunrise at winter solstice */
 #define SUNRISE_WINTER   7
-#define SUNRISE_SOLSTICE 6
+
+/** Hour of sunrise at fall and spring equinox */
+#define SUNRISE_EQUINOX 6
+
+/** Hour of sunrise at summer solstice */
 #define SUNRISE_SUMMER   5
 
+/** Hour of sunset at winter solstice */
 #define SUNSET_WINTER   17
-#define SUNSET_SOLSTICE 19
+
+/** Hour of sunset at fall and spring equinox */
+#define SUNSET_EQUINOX 19
+
+/** Hour of setset at summer solstice */
 #define SUNSET_SUMMER   21
 
 // How long, in seconds, does sunrise/sunset last?
@@ -190,20 +201,20 @@ calendar calendar::sunrise() const
     int start_hour = 0, end_hour = 0, newhour = 0, newminute = 0;
     switch (season) {
     case SPRING:
-        start_hour = SUNRISE_SOLSTICE;
+        start_hour = SUNRISE_EQUINOX;
         end_hour   = SUNRISE_SUMMER;
         break;
     case SUMMER:
         start_hour = SUNRISE_SUMMER;
-        end_hour   = SUNRISE_SOLSTICE;
+        end_hour   = SUNRISE_EQUINOX;
         break;
     case AUTUMN:
-        start_hour = SUNRISE_SOLSTICE;
+        start_hour = SUNRISE_EQUINOX;
         end_hour   = SUNRISE_WINTER;
         break;
     case WINTER:
         start_hour = SUNRISE_WINTER;
-        end_hour   = SUNRISE_SOLSTICE;
+        end_hour   = SUNRISE_EQUINOX;
         break;
     }
     double percent = double(double(day) / season_length());
@@ -221,20 +232,20 @@ calendar calendar::sunset() const
     int start_hour = 0, end_hour = 0, newhour = 0, newminute = 0;
     switch (season) {
     case SPRING:
-        start_hour = SUNSET_SOLSTICE;
+        start_hour = SUNSET_EQUINOX;
         end_hour   = SUNSET_SUMMER;
         break;
     case SUMMER:
         start_hour = SUNSET_SUMMER;
-        end_hour   = SUNSET_SOLSTICE;
+        end_hour   = SUNSET_EQUINOX;
         break;
     case AUTUMN:
-        start_hour = SUNSET_SOLSTICE;
+        start_hour = SUNSET_EQUINOX;
         end_hour   = SUNSET_WINTER;
         break;
     case WINTER:
         start_hour = SUNSET_WINTER;
-        end_hour   = SUNSET_SOLSTICE;
+        end_hour   = SUNSET_EQUINOX;
         break;
     }
     double percent = double(double(day) / season_length());
@@ -293,7 +304,7 @@ float calendar::sunlight() const
         current_phase = int(MOON_PHASE_MAX) - current_phase;
     }
 
-    int moonlight = 1 + int(current_phase * MOONLIGHT_PER_QUATER);
+    int moonlight = 1 + int(current_phase * MOONLIGHT_PER_QUARTER);
 
     if( seconds > sunset_seconds + TWILIGHT_SECONDS || seconds < sunrise_seconds ) { // Night
         return moonlight;
@@ -434,7 +445,7 @@ std::string calendar::textify_period() const
     if (year > 0) {
         am = year;
         tx = ngettext("%d year", "%d years", am);
-    } else if ( season > 0 && !get_world_option<bool>( "ETERNAL_SEASON" ) ) {
+    } else if ( season > 0 && !get_option<bool>( "ETERNAL_SEASON" ) ) {
         am = season;
         tx = ngettext("%d season", "%d seasons", am);
     } else if (day > 0) {
@@ -524,7 +535,7 @@ int calendar::season_length()
 {
     static const std::string s = "SEASON_LENGTH";
     // Avoid returning 0 as this value is used in division and expected to be non-zero.
-    return std::max( get_world_option<int>( s ), 1 );
+    return std::max( get_option<int>( s ), 1 );
 }
 
 int calendar::turn_of_year() const
@@ -549,7 +560,7 @@ void calendar::sync()
     year = turn_number / DAYS(sl * 4);
 
     static const std::string eternal = "ETERNAL_SEASON";
-    if( get_world_option<bool>( eternal ) ) {
+    if( get_option<bool>( eternal ) ) {
         // If we use calendar::start to determine the initial season, and the user shortens the season length
         // mid-game, the result could be the wrong season!
         season = initial_season;

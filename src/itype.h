@@ -34,6 +34,8 @@ class recipe;
 struct itype;
 class Skill;
 using skill_id = string_id<Skill>;
+struct bionic_data;
+using bionic_id = string_id<bionic_data>;
 class player;
 class item;
 class ma_technique;
@@ -58,8 +60,32 @@ std::string ammo_name( const ammotype &ammo );
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
 const itype_id &default_ammo( const ammotype &ammo );
 
+class gunmod_location
+{
+    private:
+        std::string _id;
+
+    public:
+        gunmod_location() = default;
+        gunmod_location( const std::string &id ) : _id( id ) { }
+
+        /// Returns the translated name.
+        std::string name() const;
+        /// Returns the location id.
+        std::string str() const {
+            return _id;
+        }
+
+        bool operator==( const gunmod_location &rhs ) const {
+            return _id == rhs._id;
+        }
+        bool operator<( const gunmod_location &rhs ) const {
+            return _id < rhs._id;
+        }
+};
+
 struct islot_tool {
-    ammotype ammo_id = NULL_ID;
+    ammotype ammo_id = ammotype::NULL_ID();
 
     itype_id revert_to = "null";
     std::string revert_msg;
@@ -199,7 +225,7 @@ struct islot_book {
     /**
      * Which skill it upgrades, if any. Can be @ref skill_id::NULL_ID.
      */
-    skill_id skill = NULL_ID;
+    skill_id skill = skill_id::NULL_ID();
     /**
      * The skill level the book provides.
      */
@@ -263,7 +289,7 @@ struct islot_mod {
     std::set<ammotype> acceptable_ammo;
 
     /** If set modifies parent ammo to this type */
-    ammotype ammo_modifier = NULL_ID;
+    ammotype ammo_modifier = ammotype::NULL_ID();
 
     /** If non-empty replaces the compatible magazines for the parent item */
     std::map< ammotype, std::set<itype_id> > magazine_adaptor;
@@ -332,11 +358,11 @@ struct islot_gun : common_ranged_data {
     /**
      * What skill this gun uses.
      */
-    skill_id skill_used = NULL_ID;
+    skill_id skill_used = skill_id::NULL_ID();
     /**
      * What type of ammo this gun uses.
      */
-    ammotype ammo = NULL_ID;
+    ammotype ammo = ammotype::NULL_ID();
     /**
      * Gun durability, affects gun being damaged during shooting.
      */
@@ -381,7 +407,7 @@ struct islot_gun : common_ranged_data {
      * Key is the location (untranslated!), value is the number of mods
      * that the location can have. The value should be > 0.
      */
-    std::map<std::string, int> valid_mod_locations;
+    std::map<gunmod_location, int> valid_mod_locations;
     /**
     *Built in mods. string is id of mod. These mods will get the IRREMOVABLE flag set.
     */
@@ -409,7 +435,7 @@ struct islot_gun : common_ranged_data {
 
 struct islot_gunmod : common_ranged_data {
     /** Where is this guunmod installed (eg. "stock", "rail")? */
-    std::string location;
+    gunmod_location location;
 
     /** What kind of weapons can this gunmod be used with (eg. "rifle", "crossbow")? */
     std::set<std::string> usable;
@@ -439,7 +465,7 @@ struct islot_gunmod : common_ranged_data {
 
 struct islot_magazine {
     /** What type of ammo this magazine can be loaded with */
-    ammotype type = NULL_ID;
+    ammotype type = ammotype::NULL_ID();
 
     /** Capacity of magazine (in equivalent units to ammo charges) */
     int capacity = 0;
@@ -524,9 +550,9 @@ struct islot_bionic {
      */
     int difficulty = 0;
     /**
-     * Id of the bionic, see @ref bionics.
+     * Id of the bionic, see bionics.cpp for its usage.
      */
-    std::string bionic_id;
+    bionic_id id;
 };
 
 struct islot_seed {
@@ -674,6 +700,8 @@ public:
 
     /** Damage output in melee for zero or more damage types */
     std::array<int, NUM_DT> melee;
+    /** Base damage output when thrown */
+    damage_instance thrown_damage;
 
     int m_to_hit  = 0;  // To-hit bonus for melee combat; -5 to 5 is reasonable
 

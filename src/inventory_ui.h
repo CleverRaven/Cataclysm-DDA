@@ -4,6 +4,7 @@
 
 #include <limits>
 #include <memory>
+#include <functional>
 
 #include "color.h"
 #include "cursesdef.h"
@@ -296,7 +297,6 @@ class inventory_column
         void select( size_t new_index, scroll_direction dir );
         /**
          * Move the selection.
-         * @param step Same as one in @ref select().
          */
         void move_selection( scroll_direction dir );
         void move_selection_page( scroll_direction dir );
@@ -307,11 +307,14 @@ class inventory_column
         size_t page_of( const inventory_entry &entry ) const;
         /**
          * Indentation of the entry.
-         * @param cell_index Either left indent when it's zero, or a gap between cells.
+         * @param entry The entry to check
+         * @returns Either left indent when it's zero, or a gap between cells.
          */
         size_t get_entry_indent( const inventory_entry &entry ) const;
-        /** Overall cell width. If corresponding cell is not empty (its width is greater than zero),
-         *  then a value returned by @ref get_entry_indent() is added to the result.
+        /**
+         *  Overall cell width.
+         *  If corresponding cell is not empty (its width is greater than zero),
+         *  then a value returned by  inventory_column::get_entry_indent() is added to the result.
          */
         size_t get_entry_cell_width( const inventory_entry &entry, size_t cell_index ) const;
         /** Sum of the cell widths */
@@ -413,7 +416,6 @@ class inventory_selector
 
         /**
          * The input context for navigation, already contains some actions for movement.
-         * See @ref on_action.
          */
         input_context ctxt;
 
@@ -430,7 +432,8 @@ class inventory_selector
                         const std::vector<std::list<item *>> &stacks,
                         const item_category *custom_category = nullptr );
         /**
-         * Selects the @param loc.
+         * Select a location
+         * @param loc Location to select
          * @return true on success.
          */
         bool select( const item_location &loc );
@@ -471,7 +474,7 @@ class inventory_selector
         void draw_columns( WINDOW *w ) const;
         void draw_frame( WINDOW *w ) const;
 
-        /** @return an entry from @ref entries by its invlet */
+        /** @return an entry from all entries by its invlet */
         inventory_entry *find_entry_by_invlet( long invlet ) const;
 
         const std::vector<inventory_column *> &get_all_columns() const {

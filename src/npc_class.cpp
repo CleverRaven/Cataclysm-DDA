@@ -49,15 +49,14 @@ npc_class_id NC_JUNK_SHOPKEEP( "NC_JUNK_SHOPKEEP" );
 
 generic_factory<npc_class> npc_class_factory( "npc_class" );
 
-template<>
-const npc_class_id string_id<npc_class>::NULL_ID( "NC_NONE" );
-
+/** @relates string_id */
 template<>
 const npc_class &string_id<npc_class>::obj() const
 {
     return npc_class_factory.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<npc_class>::is_valid() const
 {
@@ -147,7 +146,7 @@ void npc_class::check_consistency()
         }
 
         for( const auto &pr : cl.traits ) {
-            if( !mutation_branch::has( pr.first ) ) {
+            if( !pr.first.is_valid() ) {
                 debugmsg( "Invalid trait %s", pr.first.c_str() );
             }
         }
@@ -241,7 +240,7 @@ void npc_class::load( JsonObject &jo, const std::string & )
         JsonArray jarr = jo.get_array( "traits" );
         while( jarr.has_more() ) {
             JsonArray jarr_in = jarr.next_array();
-            traits[ jarr_in.get_string( 0 ) ] = jarr_in.get_int( 1 );
+            traits[ trait_id( jarr_in.get_string( 0 ) ) ] = jarr_in.get_int( 1 );
         }
     }
 
@@ -269,7 +268,7 @@ const npc_class_id &npc_class::from_legacy_int( int i )
 {
     if( i < 0 || ( size_t )i >= legacy_ids.size() ) {
         debugmsg( "Invalid legacy class id: %d", i );
-        return NULL_ID;
+        return npc_class_id::NULL_ID();
     }
 
     return legacy_ids[ i ];

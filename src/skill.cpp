@@ -11,9 +11,6 @@
 std::vector<Skill> Skill::skills;
 std::map<skill_id, Skill> Skill::contextual_skills;
 
-template<>
-const skill_id string_id<Skill>::NULL_ID( "none" );
-
 static const Skill invalid_skill;
 
 const Skill &Skill::get( const skill_id &id )
@@ -32,20 +29,21 @@ const Skill &Skill::get( const skill_id &id )
     return invalid_skill;
 }
 
+/** @relates string_id */
 template<>
 const Skill &string_id<Skill>::obj() const
 {
     return Skill::get( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<Skill>::is_valid() const
 {
     return Skill::get( *this ) != invalid_skill;
 }
 
-Skill::Skill()
-  : Skill(NULL_ID, "nothing", "The zen-most skill there is.", std::set<std::string> {})
+Skill::Skill() : Skill( skill_id::NULL_ID(), "nothing", "The zen-most skill there is.", std::set<std::string> {})
 {
 }
 
@@ -101,11 +99,11 @@ void Skill::load_skill(JsonObject &jsobj)
 skill_id Skill::from_legacy_int( const int legacy_id )
 {
     static const std::array<skill_id, 28> legacy_skills = { {
-        skill_id::NULL_ID, skill_id("dodge"), skill_id("melee"), skill_id("unarmed"),
+        skill_id::NULL_ID(), skill_id("dodge"), skill_id("melee"), skill_id("unarmed"),
         skill_id("bashing"), skill_id("cutting"), skill_id("stabbing"), skill_id("throw"),
         skill_id("gun"), skill_id("pistol"), skill_id("shotgun"), skill_id("smg"),
         skill_id("rifle"), skill_id("archery"), skill_id("launcher"), skill_id("mechanics"),
-        skill_id("electronics"), skill_id("cooking"), skill_id("tailor"), skill_id("carpentry"),
+        skill_id("electronics"), skill_id("cooking"), skill_id("tailor"), skill_id::NULL_ID(),
         skill_id("firstaid"), skill_id("speech"), skill_id("barter"), skill_id("computer"),
         skill_id("survival"), skill_id("traps"), skill_id("swimming"), skill_id("driving"),
     } };
@@ -141,7 +139,7 @@ SkillLevel::SkillLevel(int level, int exercise, bool isTraining, int lastPractic
   : _level(level), _exercise(exercise), _lastPracticed(lastPracticed), _isTraining(isTraining)
 {
     if (lastPracticed <= 0) {
-        _lastPracticed = HOURS(get_world_option<int>( "INITIAL_TIME" ) );
+        _lastPracticed = HOURS(get_option<int>( "INITIAL_TIME" ) );
     }
 }
 

@@ -303,7 +303,7 @@ void mission_start::place_bandit_camp( mission *miss )
     // Ideally this would happen at the end of the mission
     // (you're told that they entered your image into the databases, etc)
     // but better to get it working.
-    g->u.set_mutation( "PROF_FED" );
+    g->u.set_mutation( trait_id( "PROF_FED" ) );
 
     tripoint site = target_om_ter_random( "bandit_camp_1", 1, miss, false, 50 );
     tinymap bay1;
@@ -624,9 +624,7 @@ void mission_start::recruit_tracker( mission *miss )
     temp->normalize();
     temp->randomize( NC_COWBOY );
     // NPCs spawn with submap coordinates, site is in overmap terrain coords
-    temp->spawn_at( site.x * 2, site.y * 2, site.z );
-    temp->setx( 11 );
-    temp->sety( 11 );
+    temp->spawn_at_precise( { site.x * 2, site.y * 2 }, tripoint( 11, 11, site.z ) );
     temp->attitude = NPCATT_TALK;
     temp->mission = NPC_MISSION_SHOPKEEP;
     temp->personality.aggression -= 1;
@@ -650,7 +648,7 @@ void mission_start::start_commune(mission *miss)
  bay.place_npc(SEEX-3, SEEY+5, "ranch_construction_1");
  bay.save();
  npc *p = g->find_npc( miss->npc_id );
- p->set_mutation( "NPC_MISSION_LEV_1" );
+ p->set_mutation( trait_id( "NPC_MISSION_LEV_1" ) );
 }
 
 const int RANCH_SIZE = 5;
@@ -1556,7 +1554,7 @@ void mission_start::ranch_bartender_1(mission *miss)
 {
  npc *p = g->find_npc( miss->npc_id );
  p->my_fac->wealth += rng(500,2500);
- p->set_mutation( "NPC_BRANDY" );
+ p->set_mutation( trait_id( "NPC_BRANDY" ) );
 
  tripoint site = target_om_ter_random("ranch_camp_51", 1, miss, false, RANCH_SIZE);
  tinymap bay;
@@ -1578,7 +1576,7 @@ void mission_start::ranch_bartender_2(mission *miss)
 {
  npc *p = g->find_npc( miss->npc_id );
  p->my_fac->wealth += rng(500,2500);
- p->set_mutation( "NPC_RUM" );
+ p->set_mutation( trait_id( "NPC_RUM" ) );
 
  tripoint site = target_om_ter_random("ranch_camp_51", 1, miss, false, RANCH_SIZE);
  tinymap bay;
@@ -1602,7 +1600,7 @@ void mission_start::ranch_bartender_3(mission *miss)
 {
  npc *p = g->find_npc( miss->npc_id );
  p->my_fac->wealth += rng(500,2500);
- p->set_mutation( "NPC_WHISKEY" );
+ p->set_mutation( trait_id( "NPC_WHISKEY" ) );
 
  tripoint site = target_om_ter_random("ranch_camp_51", 1, miss, false, RANCH_SIZE);
  tinymap bay;

@@ -29,6 +29,9 @@ void active_item_cache::remove( std::list<item>::iterator it, point location )
 
 void active_item_cache::add( std::list<item>::iterator it, point location )
 {
+    if( has( it, location ) ) {
+        return;
+    }
     active_items[it->processing_speed()].push_back( item_reference{ location, it, &*it } );
     active_item_set[ &*it ] = false;
 }

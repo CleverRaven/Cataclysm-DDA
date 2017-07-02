@@ -9,6 +9,7 @@ class player;
 
 #include "cursesdef.h"
 #include "input.h"
+#include "worldfactory.h"
 
 class main_menu
 {
@@ -60,23 +61,31 @@ class main_menu
         int iMenuOffsetY;
         std::vector<std::string> templates;
         int extra_w;
-        std::vector<std::string> savegames;
+        std::vector<save_t> savegames;
 
         /**
          * Prints a horizontal list of options
          *
-         * @param iSel: Which index of vItems is selected. This menu item will be highlighted to
-         *              make it stand out from the other menu items.
+         * @param w_in Window we are printing in
+         * @param vItems Main menu items
+         * @param iSel Which index of vItems is selected. This menu item will be highlighted to
+         * make it stand out from the other menu items.
+         * @param iOffsetY Offset of menu items, y coordinate
+         * @param iOffsetX Offset of menu items, x coordinate
          * @param spacing: How many spaces to print between each menu item
-        */
+         */
         void print_menu_items( WINDOW *w_in, std::vector<std::string> vItems, size_t iSel,
                                int iOffsetY, int iOffsetX, int spacing = 1 );
 
         /**
-         * Called by @opening_screen, this prints all the text that you see on the main menu
+         * Called by @ref opening_screen, this prints all the text that you see on the main menu
          *
-         * @param iSel: which index in @vMenuItems is selected
-        */
+         * @param w_open Window to print menu in
+         * @param iSel which index in vMenuItems is selected
+         * @param iMenuOffsetX Menu location in window, x coordinate
+         * @param iMenuOffsetY Menu location in window, y coordinate
+         * @param bShowDDA Whether to show "Dark Days Ahead" banner
+         */
         void print_menu( WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
                          bool bShowDDA = true );
 

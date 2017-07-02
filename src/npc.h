@@ -440,7 +440,7 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
     /**
      * The skill this NPC offers to train.
      */
-    skill_id skill = skill_id( NULL_ID );
+    skill_id skill = skill_id::NULL_ID();
     /**
      * The martial art style this NPC offers to train.
      */
@@ -480,7 +480,7 @@ public:
  void load_npc_template( const std::string &ident );
 
     // Generating our stats, etc.
-    void randomize( const npc_class_id &type = NULL_ID );
+    void randomize( const npc_class_id &type = npc_class_id::NULL_ID() );
  void randomize_from_faction(faction *fac);
  void set_fac(std::string fac_name);
     /**
@@ -488,9 +488,15 @@ public:
      * @param mx,my,mz are global submap coordinates.
      * This function also adds the npc object to the overmap.
      */
-    void spawn_at(int mx, int my, int mz);
+    void spawn_at_sm(int mx, int my, int mz);
     /**
-     * Calls @ref spawn_at, spawns in a random city in
+     * As spawn_at, but also sets position within the submap.
+     * Note: final submap may differ from submap_offset if @ref square has
+     * x/y values outside [0, SEEX-1]/[0, SEEY-1] range.
+     */
+    void spawn_at_precise( const point &submap_offset, const tripoint &square );
+    /**
+     * Calls spawn_at, spawns in a random city in
      * the given overmap on z-level 0.
      */
     void spawn_at_random_city(overmap *o);
@@ -651,7 +657,7 @@ public:
     double confidence_mult() const;
     int confident_shoot_range( const item &it ) const;
     int confident_gun_mode_range( const item::gun_mode &gun, int at_recoil = -1 ) const;
-    int confident_throw_range( const item & ) const;
+    int confident_throw_range( const item &, Creature * ) const;
     bool wont_hit_friend( const tripoint &p, const item &it, bool throwing ) const;
     bool enough_time_to_reload( const item &gun ) const;
     /** Can reload currently wielded gun? */
@@ -671,6 +677,7 @@ public:
 // Physical movement from one tile to the next
     /**
      * Tries to find path to p. If it can, updates path to it.
+     * @param p Destination of pathing
      * @param no_bashing Don't allow pathing through tiles that require bashing.
      * @param force If there is no valid path, empty the current path.
      * @returns If it updated the path.
@@ -747,6 +754,10 @@ public:
     // Because they can't run yet
     float speed_rating() const override;
 
+    /**
+     * Note: this places NPC on a given position in CURRENT MAP coords.
+     * Do not use when placing a NPC in mapgen.
+     */
     void setpos( const tripoint &pos ) override;
 
 // #############   VALUES   ################
@@ -819,7 +830,6 @@ public:
 // Personality & other defining characteristics
  std::string fac_id; // A temp variable used to inform the game which faction to link
  faction *my_fac;
- std::string companion_mission;
  int companion_mission_time;
  npc_mission mission;
  npc_personality personality;
@@ -843,6 +853,13 @@ public:
      */
     void on_load();
 
+        /// Set up (start) a companion mission.
+        void set_companion_mission( npc &p, const std::string &id );
+        /// Unset a companion mission. Precondition: `!has_companion_mission()`
+        void reset_companion_mission();
+        bool has_companion_mission() const;
+        std::string get_companion_mission() const;
+
     protected:
         void store(JsonOut &jsout) const;
         void load(JsonObject &jsin);
@@ -853,6 +870,8 @@ private:
 
     bool sees_dangerous_field( const tripoint &p ) const;
     bool could_move_onto( const tripoint &p ) const;
+
+        std::string companion_mission;
 };
 
 /** An NPC with standard stats */

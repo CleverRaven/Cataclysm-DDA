@@ -137,6 +137,8 @@ vehicle_part &veh_interact::select_part( const vehicle &veh, const part_selector
     return *res;
 }
 
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+
 /**
  * Creates a blank veh_interact window.
  */
@@ -610,7 +612,7 @@ bool veh_interact::can_install_part() {
     werase( w_msg );
     fold_and_print( w_msg, 0, 1, getmaxx( w_msg ) - 2, c_ltgray, msg.str() );
     wrefresh( w_msg );
-    return ok || g->u.has_trait( "DEBUG_HS" );
+    return ok || g->u.has_trait( trait_DEBUG_HS );
 }
 
 /**
@@ -708,7 +710,8 @@ bool veh_interact::do_install( std::string &msg )
                                                    part.has_flag("SECURITY") ||
                                                    part.has_flag("SEAT") ||
                                                    part.has_flag("BED") ||
-                                                   part.has_flag("DOOR_MOTOR"); };
+                                                   part.has_flag("DOOR_MOTOR") ||
+                                                   part.has_flag("WATER_PURIFIER"); };
     tab_filters[4] = [&](const vpart_info *p) { auto &part = *p;
                                                    return(part.has_flag(VPFLAG_OBSTACLE) || // Hull
                                                    part.has_flag("ROOF") ||
@@ -1304,7 +1307,7 @@ bool veh_interact::can_remove_part( int idx ) {
     werase( w_msg );
     fold_and_print( w_msg, 0, 1, getmaxx( w_msg ) - 2, c_ltgray, msg.str() );
     wrefresh( w_msg );
-    return ok || g->u.has_trait( "DEBUG_HS" );
+    return ok || g->u.has_trait( trait_DEBUG_HS );
 }
 
 bool veh_interact::do_remove( std::string &msg )
@@ -1466,7 +1469,7 @@ bool veh_interact::do_assign_crew( std::string &msg )
         if( menu.ret == 0 ) {
             pt.unset_crew();
         } else if( menu > 0 ) {
-            const auto &who = *g->active_npc[g->npc_by_id( menu.ret )];
+            const auto &who = *g->npc_by_id( menu.ret );
             veh->assign_seat( pt, who );
         }
 
@@ -1535,7 +1538,7 @@ int veh_interact::part_at (int dx, int dy)
  */
 bool veh_interact::can_potentially_install(const vpart_info &vpart)
 {
-    return g->u.has_trait( "DEBUG_HS" ) || vpart.install_requirements().can_make_with_inventory( crafting_inv );
+    return g->u.has_trait( trait_DEBUG_HS ) || vpart.install_requirements().can_make_with_inventory( crafting_inv );
 }
 
 /**
@@ -1890,7 +1893,6 @@ void veh_interact::display_name()
 
 /**
  * Prints the list of usable commands, and highlights the hotkeys used to activate them.
- * @param mode What command we are currently using. ' ' for no command.
  */
 void veh_interact::display_mode()
 {
@@ -1955,6 +1957,7 @@ size_t veh_interact::display_esc(WINDOW *win)
  * when installing new parts or changing tires.
  * @param pos The current cursor position in the list.
  * @param list The list to display parts from.
+ * @param header Number of lines occupied by the list header
  */
 void veh_interact::display_list(size_t pos, std::vector<const vpart_info*> list, const int header)
 {
@@ -2153,7 +2156,7 @@ item consume_vpart_item( const vpart_id &vpid )
     std::vector<bool> candidates;
     const itype_id itid = vpid.obj().item;
 
-    if(g->u.has_trait("DEBUG_HS")) {
+    if(g->u.has_trait( trait_DEBUG_HS )) {
         return item(itid, calendar::turn);
     }
 
@@ -2286,7 +2289,7 @@ void veh_interact::complete_vehicle()
             }
         }
         if( base.is_null() ) {
-            if( !g->u.has_trait( "DEBUG_HS" ) ) {
+            if( !g->u.has_trait( trait_DEBUG_HS ) ) {
                 add_msg( m_info, _( "Could not find base part in requirements for %s." ), vpinfo.name().c_str() );
                 break;
             } else {
@@ -2316,7 +2319,7 @@ void veh_interact::complete_vehicle()
             int py = g->u.view_offset.y;
             g->u.view_offset.x = veh->global_x() + q.x - g->u.posx();
             g->u.view_offset.y = veh->global_y() + q.y - g->u.posy();
-            popup(_("Choose a facing direction for the new headlight."));
+            popup(_("Choose a facing direction for the new headlight.  Press space to continue."));
             tripoint headlight_target = g->look_around(); // Note: no way to cancel
             // Restore previous view offsets.
             g->u.view_offset.x = px;

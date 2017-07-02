@@ -300,5 +300,11 @@
     "stop_phrase": "Stop meditating?",
     "rooted": true,
     "based_on": "speed"
+  },
+  {
+    "id": "ACT_WASH",
+    "type": "activity_type",
+    "stop_phrase": "Stop washing?",
+    "based_on": "speed"
   }
 ]

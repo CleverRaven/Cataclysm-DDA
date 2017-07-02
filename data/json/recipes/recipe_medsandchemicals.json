@@ -30,11 +30,7 @@
   "qualities":[
     {"id":"BOIL","level":1}
   ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 3, "LIST" ] ]
   ],
   "components": [
     [
@@ -56,11 +52,7 @@
   "qualities":[
     {"id":"BOIL","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 3, "LIST" ] ]
   ],
   "components": [
     [
@@ -115,14 +107,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ],
-  "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
       [ "fat_tainted", 4 ]
@@ -183,11 +168,7 @@
   "qualities":[
     {"id":"CHEM","level":1}
   ], "tools": [
-    [
-      [ "hotplate", 15 ],
-      [ "toolset", 15 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 15, "LIST" ] ]
   ],
   "components": [
     [
@@ -215,11 +196,7 @@
   "qualities":[
     {"id":"CHEM","level":1}
   ], "tools": [
-    [
-      [ "fire", -1 ],
-      [ "hotplate", 8 ],
-      [ "toolset", 8 ]
-    ]
+    [ [ "surface_heat", 8, "LIST" ] ]
   ],
   "components": [
     [
@@ -246,11 +223,7 @@
   "qualities":[
     {"id":"CHEM","level":1}
   ], "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "hotplate", 2 ]
-    ]
+    [ [ "surface_heat", 2, "LIST" ] ]
   ],
   "components": [
     [
@@ -270,11 +243,7 @@
   "qualities":[
     {"id":"CHEM","level":1}
   ], "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "hotplate", 2 ]
-    ]
+    [ [ "surface_heat", 2, "LIST" ] ]
   ],
   "components": [
     [
@@ -294,11 +263,7 @@
   "qualities":[
     {"id":"CHEM","level":1}
   ], "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "hotplate", 2 ]
-    ]
+    [ [ "surface_heat", 2, "LIST" ] ]
   ],
   "components": [
     [
@@ -322,11 +287,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 20 ],
-      [ "hotplate", 20 ]
-    ]
+    [ [ "surface_heat", 20, "LIST" ] ]
   ],
   "components": [
     [
@@ -352,11 +313,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 20 ],
-      [ "hotplate", 20 ]
-    ]
+    [ [ "surface_heat", 20, "LIST" ] ]
   ],
   "components": [
     [
@@ -386,11 +343,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 20 ],
-      [ "hotplate", 20 ]
-    ]
+    [ [ "surface_heat", 20, "LIST" ] ]
   ],
   "components": [
     [
@@ -424,11 +377,7 @@
   "qualities":[
     {"id":"CHEM","level":1}
   ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 3, "LIST" ] ]
   ],
   "components": [
     [
@@ -452,11 +401,7 @@
   "qualities":[
     {"id":"CHEM","level":1}
   ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 3, "LIST" ] ]
   ],
   "components": [
     [
@@ -483,11 +428,7 @@
   "qualities":[
     {"id":"CHEM","level":1}
   ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 3, "LIST" ] ]
   ],
   "components": [
     [
@@ -514,11 +455,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 20 ],
-      [ "hotplate", 20 ]
-    ]
+    [ [ "surface_heat", 20, "LIST" ] ]
   ],
   "components": [
     [
@@ -552,11 +489,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [
@@ -590,11 +523,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 37 ],
-      [ "toolset", 37 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 37, "LIST" ] ]
   ],
   "components": [
     [
@@ -614,11 +543,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [
@@ -647,11 +572,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 37 ],
-      [ "toolset", 37 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 37, "LIST" ] ]
   ],
   "components": [
     [
@@ -671,11 +592,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [
@@ -705,11 +622,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 37 ],
-      [ "toolset", 37 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 37, "LIST" ] ]
   ],
   "components": [
     [
@@ -729,11 +642,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [
@@ -761,11 +670,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 37 ],
-      [ "toolset", 37 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 37, "LIST" ] ]
   ],
   "components": [
     [
@@ -785,11 +690,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [
@@ -817,11 +718,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 37 ],
-      [ "toolset", 37 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 37, "LIST" ] ]
   ],
   "components": [
     [
@@ -841,11 +738,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [
@@ -876,11 +769,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 37 ],
-      [ "toolset", 37 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 37, "LIST" ] ]
   ],
   "components": [
     [
@@ -900,11 +789,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [
@@ -932,11 +817,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 37 ],
-      [ "toolset", 37 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 37, "LIST" ] ]
   ],
   "components": [
     [
@@ -956,11 +837,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [
@@ -987,11 +864,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 37 ],
-      [ "toolset", 37 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 37, "LIST" ] ]
   ],
   "components": [
     [
@@ -1011,11 +884,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [
@@ -1042,11 +911,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 37 ],
-      [ "toolset", 37 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 37, "LIST" ] ]
   ],
   "components": [
     [
@@ -1066,11 +931,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [
@@ -1097,11 +958,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 37 ],
-      [ "toolset", 37 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 37, "LIST" ] ]
   ],
   "components": [
     [
@@ -1121,11 +978,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [
@@ -1152,11 +1005,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 37 ],
-      [ "toolset", 37 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 37, "LIST" ] ]
   ],
   "components": [
     [
@@ -1176,11 +1025,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [
@@ -1207,11 +1052,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 37 ],
-      [ "toolset", 37 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 37, "LIST" ] ]
   ],
   "components": [
     [
@@ -1231,11 +1072,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [
@@ -1265,11 +1102,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 37 ],
-      [ "toolset", 37 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 37, "LIST" ] ]
   ],
   "components": [
     [
@@ -1289,11 +1122,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [
@@ -1320,11 +1149,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 37 ],
-      [ "toolset", 37 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 37, "LIST" ] ]
   ],
   "components": [
     [
@@ -1344,11 +1169,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [
@@ -1375,11 +1196,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 37 ],
-      [ "toolset", 37 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 37, "LIST" ] ]
   ],
   "components": [
     [
@@ -1399,11 +1216,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [
@@ -1430,11 +1243,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 37 ],
-      [ "toolset", 37 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 37, "LIST" ] ]
   ],
   "components": [
     [
@@ -1454,11 +1263,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [
@@ -1502,11 +1307,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 37 ],
-      [ "toolset", 37 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 37, "LIST" ] ]
   ],
   "components": [
     [
@@ -1546,11 +1347,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [
@@ -1579,11 +1376,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 37 ],
-      [ "toolset", 37 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 37, "LIST" ] ]
   ],
   "components": [
     [
@@ -1603,11 +1396,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 50 ],
-      [ "toolset", 50 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 50, "LIST" ] ]
   ],
   "components": [
     [
@@ -1640,11 +1429,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 37 ],
-      [ "toolset", 37 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 37, "LIST" ] ]
   ],
   "components": [
     [
@@ -1664,11 +1449,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 31 ],
-      [ "toolset", 31 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 31, "LIST" ] ]
   ],
   "components": [
     [
@@ -1695,11 +1476,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 37 ],
-      [ "toolset", 37 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 37, "LIST" ] ]
   ],
   "components": [
     [
@@ -1719,11 +1496,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 37 ],
-      [ "toolset", 37 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 37, "LIST" ] ]
   ],
   "components": [
     [
@@ -1752,11 +1525,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 37 ],
-      [ "toolset", 37 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 37, "LIST" ] ]
   ],
   "components": [
     [
@@ -1776,11 +1545,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 31 ],
-      [ "toolset", 31 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 31, "LIST" ] ]
   ],
   "components": [
     [
@@ -1806,11 +1571,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 37 ],
-      [ "toolset", 37 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 37, "LIST" ] ]
   ],
   "components": [
     [
@@ -1821,7 +1582,7 @@
   "type" : "recipe",
   "result": "iodine",
   "category": "CC_CHEM",
-  "subcategory": "CSC_CHEM_CHEMICALS",
+  "subcategory": "CSC_CHEM_DRUGS",
   "skill_used": "cooking",
   "skills_required": [ "firstaid", 1 ],
   "difficulty": 6,
@@ -1830,11 +1591,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [
@@ -1849,7 +1606,7 @@
   "type" : "recipe",
   "result": "prussian_blue",
   "category": "CC_CHEM",
-  "subcategory": "CSC_CHEM_CHEMICALS",
+  "subcategory": "CSC_CHEM_DRUGS",
   "skill_used": "cooking",
   "skills_required": [ "firstaid", 1 ],
   "difficulty": 7,
@@ -1859,11 +1616,7 @@
     {"id":"CHEM","level":2},
     {"id":"CONTAIN","level":1}
   ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [
@@ -1896,11 +1649,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [
@@ -1925,11 +1674,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [
@@ -2003,11 +1748,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [
@@ -2031,11 +1772,7 @@
   "qualities":[
     {"id":"CHEM","level":1}
   ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [
@@ -2060,11 +1797,7 @@
     {"id":"CHEM","level":2},
     {"id":"SEW","level":1}
   ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 2, "LIST" ] ]
   ],
   "components": [
     [
@@ -2081,43 +1814,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "superglue",
-  "category": "CC_CHEM",
-  "subcategory": "CSC_CHEM_OTHER",
-  "skill_used": "cooking",
-  "difficulty": 2,
-  "time": 12000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"CHEM","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "water", 1 ],
-      [ "water_clean", 1 ]
-    ],
-    [
-      [ "bleach", 1 ],
-      [ "lye_powder", 100 ],
-      [ "bone", 20 ],
-      [ "bone_human", 20 ],
-      [ "bone_tainted", 40 ],
-      [ "cured_hide", 2 ],
-      [ "pine_bough", 10 ],
-      [ "raw_dandelion", 20 ],
-      [ "biollante_bud", 1],
-      [ "ant_egg", 1 ],
-      [ "slime_scrap", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "pheromone",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
@@ -2127,11 +1823,7 @@
   "time": 1200,
   "book_learn": [["adv_chemistry", 6] , ["textbook_chemistry", 6] , ["recipe_labchem", 3]],
   "tools": [
-    [
-      [ "hotplate", 18 ],
-      [ "toolset", 18 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 18, "LIST" ] ]
   ],
   "components": [
     [
@@ -2156,7 +1848,7 @@
   "qualities":[
     {"id":"CHEM","level":1}
   ], "tools": [
-    [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ]
+    [ [ "surface_heat", 5, "LIST" ] ]
   ],
   "components": [
     [ [ "water", 4 ], [ "water_clean", 4 ] ],
@@ -2174,11 +1866,7 @@
   "time": 30000,
   "autolearn": true,
   "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 7, "LIST" ] ]
   ],
   "components": [
     [
@@ -2227,11 +1915,7 @@
     {"id":"CUT","level":1},
     {"id":"CHEM","level":2}],
   "tools": [
-      [
-        [ "hotplate", 20 ],
-        [ "toolset", 20 ],
-        [ "fire", -1 ]
-      ]
+      [ [ "surface_heat", 20, "LIST" ] ]
     ],
   "components": [
       [
@@ -2251,11 +1935,7 @@
     {"id":"CHEM","level":1}],
   "autolearn": true,
   "tools": [
-    [
-     [ "hotplate", 18 ],
-     [ "toolset", 18 ],
-     [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 18, "LIST" ] ]
     ],
   "components": [
     [
@@ -2284,11 +1964,7 @@
   "qualities":[
     {"id":"CHEM","level":1}
   ], "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "hotplate", 2 ]
-    ]
+    [ [ "surface_heat", 2, "LIST" ] ]
   ],
   "components": [
     [
@@ -2307,11 +1983,7 @@
   "book_learn": [[ "recipe_labchem", 7 ], ["textbook_chemistry", 7]],
   "qualities":[ {"id":"BOIL","level":2} ],
     "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 25 ],
-      [ "hotplate", 25 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
     ],
   "components": [ [ [ "chem_hydrogen_peroxide", 5 ] ] ]
 },
@@ -2328,7 +2000,7 @@
     "autolearn": true,
     "book_learn": [["recipe_labchem", 3 ], ["textbook_chemistry", 3]],
     "qualities": [{"id":"BOIL","level":2}, {"id":"CHEM","level":1}],
-    "tools": [[[ "hotplate", 10 ], [ "toolset", 10 ], [ "fire", -1 ]]],
+    "tools": [[ [ "surface_heat", 10, "LIST" ] ]],
     "components": [
       [[ "chem_hydrogen_peroxide_conc", 1 ]],
       [[ "water", 5 ], ["water_clean", 5]]
@@ -2346,11 +2018,7 @@
   "qualities":[{"id":"BOIL","level":2}],
   "tools": [
     [[ "chemistry_set", 25 ]],
-    [
-      [ "hotplate", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 10, "LIST" ] ]
   ],
   "components": [
     [ [ "chem_hydrogen_peroxide_conc", 1 ] ],
@@ -2369,11 +2037,7 @@
 {"id":"BOIL","level":2},
 {"id":"CHEM","level":2}
 ], "tools": [
-[
-[ "fire", -1 ],
-[ "toolset", 50 ],
-[ "hotplate", 50 ]
-]
+[ [ "surface_heat", 50, "LIST" ] ]
 ],
 "components": [
 [
@@ -2397,11 +2061,7 @@
 {"id":"BOIL","level":2},
 {"id":"CHEM","level":2}
 ], "tools": [
-[
-[ "fire", -1 ],
-[ "toolset", 25 ],
-[ "hotplate", 25 ]
-]
+[ [ "surface_heat", 25, "LIST" ] ]
 ],
 "components": [
 [
@@ -2429,11 +2089,7 @@
 {"id":"BOIL","level":2},
 {"id":"CHEM","level":2}
 ], "tools": [
-[
-[ "fire", -1 ],
-[ "toolset", 25 ],
-[ "hotplate", 25 ]
-]
+[ [ "surface_heat", 25, "LIST" ] ]
 ],
 "components": [
 [
@@ -2459,11 +2115,7 @@
       { "id":"CHEM","level":2 }
   ],
   "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 25 ],
-      [ "hotplate", 25 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [ [ "chem_ammonium_nitrate", 25 ] ],
@@ -2486,11 +2138,7 @@
       { "id":"CONTAIN","level":1 }
   ],
   "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 25 ],
-      [ "hotplate", 25 ]
-    ]
+    [ [ "surface_heat", 25, "LIST" ] ]
   ],
   "components": [
     [ [ "material_niter", 1 ] ],
@@ -2591,11 +2239,7 @@
 "qualities":[
 {"id":"BOIL","level":2}
 ], "tools": [
-[
-[ "fire", -1 ],
-[ "toolset", 10 ],
-[ "hotplate", 10 ]
-]
+[ [ "surface_heat", 10, "LIST" ] ]
 ],
 "components": [
 [
@@ -2616,11 +2260,7 @@
 {"id":"BOIL","level":2},
 {"id":"CHEM","level":2}
 ], "tools": [
-[
-[ "fire", -1 ],
-[ "toolset", 20 ],
-[ "hotplate", 20 ]
-]
+[ [ "surface_heat", 20, "LIST" ] ]
 ],
 "components": [
 [
@@ -2729,31 +2369,5 @@
 [ "sugar", 50 ]
 ]
 ]
-},{
-  "type" : "recipe",
-  "result": "thyme_oil",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MEDICAL",
-  "skill_used": "cooking",
-  "skills_required": [ "survival", 4 ],
-  "difficulty": 4,
-  "time": 60000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1},
-    {"id":"CUT","level":1},
-    {"id":"BOIL","level":2}
-  ],
-  "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [ [ "cooking_oil", 2 ] ],
-    [ [ "thyme", 2 ] ]
-  ]
 }
 ]

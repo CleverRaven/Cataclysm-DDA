@@ -155,6 +155,7 @@
     "type": "AMMO",
     "name": "10mm Auto",
     "name_plural": "10mm Auto",
+    "description": "10mm Auto ammunition with 155gr bullets.  The 10mm Auto round is one of the most powerful pistol cartridges available, although its usefulness is limited by high recoil.",
     "relative": {
         "range": 2,
         "damage": 2,
@@ -165,20 +166,12 @@
   },
   {
     "id": "reloaded_10mm",
-    "copy-from": "10mm",
+    "copy-from": "reloaded_10mm",
     "type": "AMMO",
     "name": "reloaded 10mm Auto",
     "name_plural": "reloaded 10mm Auto",
-    "proportional": {
-      "price": 0.7,
-      "damage": 0.9,
-      "dispersion": 1.1
-    },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": {
-      "ammo_type": [ "40" ],
-      "effects": [ "NEVER_MISFIRES" ]
-    }
+    "description": "10mm Auto ammunition with 155gr bullets.  The 10mm Auto round is one of the most powerful pistol cartridges available, although its usefulness is limited by high recoil.",
+    "delete": { "ammo_type": [ "40" ] }
   },
   {
     "id": "357_mag_casing",
@@ -221,7 +214,7 @@
     "weight": 12,
     "volume": 1,
     "price": 2200,
-    "material": [ "steel", "powder" ],
+    "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "yellow",
     "count": 30,

@@ -1217,7 +1217,7 @@ void jmapgen_objects::load_objects<jmapgen_loot>( JsonArray parray )
         }
 
         auto loot = new jmapgen_loot( jsi );
-        auto rate = get_world_option<float>( "ITEM_SPAWNRATE" );
+        auto rate = get_option<float>( "ITEM_SPAWNRATE" );
 
         if( where.repeat.valmax != 1 ) {
             // if loot can repeat scale according to rate
@@ -1539,13 +1539,13 @@ bool mapgen_function_json::setup() {
         if ( jo.read("fill_ter", tmpval) ) {
             fill_ter = tmpval.id();
             qualifies = true;
-            tmpval = NULL_ID;
+            tmpval = ter_str_id::NULL_ID();
         }
 
         format.resize( mapgensize * mapgensize );
         // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
         if ( jo.has_array("rows") ) {
-            mapgen_palette palette = mapgen_palette::load_temp( jo, "core" );
+            mapgen_palette palette = mapgen_palette::load_temp( jo, "dda" );
             auto &format_terrain = palette.format_terrain;
             auto &format_furniture = palette.format_furniture;
             auto &format_placings = palette.format_placings;
@@ -8181,10 +8181,13 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             switch (rng(1, 4)) {
             case 1:
                 ter_set(rng(0, 2), rng(0, 2), t_slope_up);
+                break;
             case 2:
                 ter_set(rng(0, 2), SEEY * 2 - rng(1, 3), t_slope_up);
+                break;
             case 3:
                 ter_set(SEEX * 2 - rng(1, 3), rng(0, 2), t_slope_up);
+                break;
             case 4:
                 ter_set(SEEX * 2 - rng(1, 3), SEEY * 2 - rng(1, 3), t_slope_up);
             }
@@ -8521,32 +8524,31 @@ void map::place_spawns(const mongroup_id& group, const int chance,
         return;
     }
 
-    float multiplier = get_world_option<float>( "SPAWN_DENSITY" );
-
-    if( multiplier == 0.0 ) {
+    if( !one_in( chance ) ) {
         return;
     }
 
-    if (one_in(chance / multiplier)) {
-        int num = density * (float)rng(10, 50) * multiplier;
+    float multiplier = density * get_option<float>( "SPAWN_DENSITY" );
+    float thenum = ( multiplier * rng_float( 10.0f, 50.0f ) );
+    int num = roll_remainder( thenum );
 
-        for (int i = 0; i < num; i++) {
-            int tries = 10;
-            int x = 0;
-            int y = 0;
+    // GetResultFromGroup decrements num
+    while( num > 0 ) {
+        int tries = 10;
+        int x = 0;
+        int y = 0;
 
-            // Pick a spot for the spawn
-            do {
-                x = rng(x1, x2);
-                y = rng(y1, y2);
-                tries--;
-            } while( impassable(x, y) && tries );
+        // Pick a spot for the spawn
+        do {
+            x = rng( x1, x2 );
+            y = rng( y1, y2 );
+            tries--;
+        } while( impassable( x, y ) && tries > 0 );
 
-            // Pick a monster type
-            MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &num );
+        // Pick a monster type
+        MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &num );
 
-            add_spawn(spawn_details.name, spawn_details.pack_size, x, y);
-        }
+        add_spawn( spawn_details.name, spawn_details.pack_size, x, y );
     }
 }
 
@@ -8598,15 +8600,13 @@ void map::place_vending(int x, int y, std::string type)
 
 int map::place_npc( int x, int y, const std::string &type )
 {
-    if(!get_world_option<bool>( "STATIC_NPC" ) ) {
+    if(!get_option<bool>( "STATIC_NPC" ) ) {
         return -1; //Do not generate an npc.
     }
     npc *temp = new npc();
     temp->normalize();
     temp->load_npc_template(type);
-    temp->spawn_at(abs_sub.x, abs_sub.y, abs_sub.z);
-    temp->setx( x );
-    temp->sety( y );
+    temp->spawn_at_precise( { abs_sub.x, abs_sub.y }, { x, y, abs_sub.z } );
     return temp->getID();
 }
 
@@ -8617,8 +8617,6 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
                                       int magazine, int ammo )
 {
     std::vector<item *> res;
-
-    const float spawn_rate = get_world_option<float>( "ITEM_SPAWNRATE" );
 
     if (chance > 100 || chance <= 0) {
         debugmsg("map::place_items() called with an invalid chance (%d)", chance);
@@ -8632,33 +8630,28 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
         return res;
     }
 
-    int px, py;
-    while (chance == 100 || rng(0, 99) < chance) {
-        float lets_spawn = spawn_rate;
-        while( rng_float( 0.0, 1.0 ) <= lets_spawn ) {
-            lets_spawn -= 1.0;
+    const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
+    int spawn_count = roll_remainder( chance * spawn_rate / 100.0f );
+    for( int i = 0; i < spawn_count; i++ ) {
+        // Might contain one item or several that belong together like guns & their ammo
+        int tries = 0;
+        auto is_valid_terrain = [this,ongrass](int x,int y){
+            auto &terrain = ter( x, y ).obj();
+            return terrain.movecost == 0           &&
+                   !terrain.has_flag("PLACE_ITEM") &&
+                   !ongrass                                   &&
+                   !terrain.has_flag("FLAT");
+        };
 
-            // Might contain one item or several that belong together like guns & their ammo
-            int tries = 0;
-            auto is_valid_terrain = [this,ongrass](int x,int y){
-                auto &terrain = ter( x, y ).obj();
-                return terrain.movecost == 0           &&
-                       !terrain.has_flag("PLACE_ITEM") &&
-                       !ongrass                                   &&
-                       !terrain.has_flag("FLAT");
-            };
-            do {
-                px = rng(x1, x2);
-                py = rng(y1, y2);
-                tries++;
-            } while ( is_valid_terrain(px,py) && tries < 20 );
-            if (tries < 20) {
-                auto put = put_items_from_loc( loc, tripoint( px, py, abs_sub.z ), turn );
-                res.insert( res.end(), put.begin(), put.end() );
-            }
-        }
-        if (chance == 100) {
-            break;
+        int px, py;
+        do {
+            px = rng(x1, x2);
+            py = rng(y1, y2);
+            tries++;
+        } while ( is_valid_terrain(px,py) && tries < 20 );
+        if (tries < 20) {
+            auto put = put_items_from_loc( loc, tripoint( px, py, abs_sub.z ), turn );
+            res.insert( res.end(), put.begin(), put.end() );
         }
     }
     for( auto e : res ) {
@@ -8695,7 +8688,7 @@ void map::add_spawn(const mtype_id& type, int count, int x, int y, bool friendly
                  type.c_str(), count, x, y);
         return;
     }
-    if( get_world_option<bool>( "CLASSIC_ZOMBIES" ) ) {
+    if( get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
         const mtype& mt = type.obj();
         if( !mt.in_category("CLASSIC") && !mt.in_category("WILDLIFE") ) {
             // Don't spawn non-classic monsters in classic zombie mode.
@@ -8780,6 +8773,7 @@ vehicle *map::add_vehicle(const vproto_id &type, const tripoint &p, const int di
  * otherwise returns a pointer to the placed vehicle, which may not necessarily
  * be the one passed in (if wreckage is created by fusing cars).
  * @param veh The vehicle to place on the map.
+ * @param merge_wrecks Whether crashed vehicles become part of each other
  * @return The vehicle that was finally placed.
  */
 vehicle *map::add_vehicle_to_map( std::unique_ptr<vehicle> veh, const bool merge_wrecks )
@@ -8917,41 +8911,53 @@ void map::rotate(int turns)
     }
 
     real_coords rc;
-    rc.fromabs(get_abs_sub().x*SEEX, get_abs_sub().y*SEEY);
+    const tripoint &abs_sub = get_abs_sub();
+    rc.fromabs( abs_sub.x * SEEX, abs_sub.y * SEEY );
 
+    // @todo This radius can be smaller - how small?
     const int radius = int(MAPSIZE / 2) + 3;
     // uses submap coordinates
-    std::vector<npc*> npcs = overmap_buffer.get_npcs_near_player(radius);
-    for (auto &i : npcs) {
-        npc *act_npc = i;
-        if (act_npc->global_omt_location().x*2 == get_abs_sub().x &&
-            act_npc->global_omt_location().y*2 == get_abs_sub().y ){
-                rc.fromabs(act_npc->global_square_location().x, act_npc->global_square_location().y);
-                int old_x = rc.sub_pos.x;
-                int old_y = rc.sub_pos.y;
-                if ( rc.om_sub.x % 2 != 0 )
-                    old_x += SEEX;
-                if ( rc.om_sub.y % 2 != 0 )
-                    old_y += SEEY;
-                int new_x = old_x;
-                int new_y = old_y;
-                switch(turns) {
-                    case 3:
-                        new_x = old_y;
-                        new_y = SEEX * 2 - 1 - old_x;
-                        break;
-                    case 2:
-                        new_x = SEEX * 2 - 1 - old_x;
-                        new_y = SEEY * 2 - 1 - old_y;
-                        break;
-                    case 1:
-                        new_x = SEEY * 2 - 1 - old_y;
-                        new_y = old_x;
-                        break;
-                    }
-                i->setx( i->posx() + new_x - old_x );
-                i->sety( i->posy() + new_y - old_y );
-            }
+    std::vector<npc*> npcs = overmap_buffer.get_npcs_near( abs_sub.x, abs_sub.y, abs_sub.z, radius );
+    for( npc *i : npcs ) {
+        npc &np = *i;
+        const tripoint sq = np.global_square_location();
+        real_coords np_rc;
+        np_rc.fromabs( sq.x, sq.y );
+        // Note: We are rotating the entire overmap square (2x2 of submaps)
+        if( np_rc.om_pos != rc.om_pos || sq.z != abs_sub.z ){
+            continue;
+        }
+
+        // OK, this is ugly: we remove the NPC from the whole map
+        // Then we place it back from scratch
+        // It could be rewritten to utilize the fact that rotation shouldn't cross overmaps
+        overmap_buffer.hide_npc( np.getID() );
+
+        int old_x = np_rc.sub_pos.x;
+        int old_y = np_rc.sub_pos.y;
+        if( np_rc.om_sub.x % 2 != 0 ) {
+            old_x += SEEX;
+        }
+        if( np_rc.om_sub.y % 2 != 0 ) {
+            old_y += SEEY;
+        }
+        int new_x = old_x;
+        int new_y = old_y;
+        switch( turns ) {
+            case 3:
+                new_x = old_y;
+                new_y = SEEX * 2 - 1 - old_x;
+                break;
+            case 2:
+                new_x = SEEX * 2 - 1 - old_x;
+                new_y = SEEY * 2 - 1 - old_y;
+                break;
+            case 1:
+                new_x = SEEY * 2 - 1 - old_y;
+                new_y = old_x;
+                break;
+        }
+        np.spawn_at_precise( { abs_sub.x, abs_sub.y }, { new_x, new_y, abs_sub.z } );
     }
     ter_id rotated [SEEX * 2][SEEY * 2];
     furn_id furnrot [SEEX * 2][SEEY * 2];
@@ -10636,11 +10642,7 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
             } while (tries < 10 && m.impassable(x, y));
 
             if (tries < 10) { // We found a valid spot!
-                if (one_in(8)) {
-                    m.add_spawn(mon_zombie_soldier, 1, x, y);
-                } else {
-                    m.place_items("map_extra_military", 100, x, y, x, y, true, 0);
-                }
+                m.place_items("map_extra_military", 100, x, y, x, y, true, 0);
 
                 int splatter_range = rng(1, 3);
                 for (int j = 0; j <= splatter_range; j++) {
@@ -10668,11 +10670,7 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
             } while (tries < 10 && m.impassable(x, y));
 
             if (tries < 10) { // We found a valid spot!
-                if (one_in(8)) {
-                    m.add_spawn(mon_zombie_cop, 1, x, y);
-                } else {
-                    m.place_items("map_extra_police", 100, x, y, x, y, true, 0);
-                }
+                m.place_items("map_extra_police", 100, x, y, x, y, true, 0);
 
                 int splatter_range = rng(1, 3);
                 for (int j = 0; j <= splatter_range; j++) {

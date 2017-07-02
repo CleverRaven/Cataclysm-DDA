@@ -924,7 +924,10 @@
         "volume" : 1,
         "weight" : 268,
         "bashing" : 1,
-        "cutting" : 12,
+        "cutting" : 10,
+        "thrown_damage" : [
+            { "damage_type": "cut", "amount": 14 }
+        ],
         "ammo_type" : "thrown",
         "count" : 5
     },
@@ -942,6 +945,10 @@
         "weight" : 792,
         "bashing" : 6,
         "cutting" : 16,
+        "thrown_damage" : [
+            { "damage_type": "bash", "amount": 6 },
+            { "damage_type": "cut", "amount": 16 }
+        ],
         "ammo_type" : "thrown",
         "count" : 3
     },
@@ -957,8 +964,11 @@
         "material" : ["plastic", "iron"],
         "volume" : 2,
         "weight" : 175,
-        "cutting" : 16,
         "to_hit" : -1,
+        "cutting" : 8,
+        "thrown_damage" : [
+            { "damage_type": "stab", "amount": 16 }
+        ],
         "ammo_type" : "thrown",
         "count" : 2
     },

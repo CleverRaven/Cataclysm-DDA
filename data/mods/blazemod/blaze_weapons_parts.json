@@ -136,7 +136,7 @@
     "damage_modifier": 80,
     "folded_volume": 19,
     "breaks_into": [ { "item": "rm451_flamethrower", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET", "FOLDABLE", "TOOL_NONE" ]
+    "flags": [ "TURRET", "MANUAL", "FOLDABLE", "TOOL_NONE", "USE_TANKS" ]
   },
   {
     "id": "nailer",

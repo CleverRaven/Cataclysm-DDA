@@ -23,6 +23,7 @@
 
 class map;
 class player;
+class npc;
 class vehicle;
 class vpart_info;
 enum vpart_bitflags : int;
@@ -126,7 +127,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
      * Consume fuel, charges or ammunition (if available)
      * @param qty maximum amount of ammo that should be consumed
      * @param pos current global location of part from which ammo is being consumed
-     * @return amount consumed which will be between 0 and @ref qty
+     * @return amount consumed which will be between 0 and specified qty
      */
     long ammo_consume( long qty, const tripoint& pos );
 
@@ -138,7 +139,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
      */
     float consume_energy( const itype_id &ftype, float energy );
 
-    /* Can part in current state be reloaded optionally with specific @ref obj */
+    /* @retun true if part in current state be reloaded optionally with specific itype_id */
     bool can_reload( const itype_id &obj = "" ) const;
 
     /**
@@ -179,6 +180,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     /** Remove any currently assigned crew member for this part */
     void unset_crew();
+
+    /** Reset the target for this part. */
+    void reset_target( tripoint pos );
 
     /**
      * @name Part capabilities
@@ -266,6 +270,8 @@ public:
     /** Get part definition common to all parts of this type */
     const vpart_info &info() const;
 
+    const item& get_base() const;
+
     // json saving/loading
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const override;
@@ -340,7 +346,7 @@ class turret_data {
         void post_fire( player &p, int shots );
 
         /**
-         * Fire the turret's gun at a given @ref target.
+         * Fire the turret's gun at a given target.
          * @param p the player firing the turret, passed to pre_fire and post_fire calls.
          * @param target coordinates that will be fired on.
          * @return the number of shots actually fired (may be zero).
@@ -526,7 +532,7 @@ private:
     /**
      * Traverses the graph of connected vehicles, starting from start_veh, and continuing
      * along all vehicles connected by some kind of POWER_TRANSFER part.
-     * @param start_vehicle The vehicle to start traversing from. NB: the start_vehicle is
+     * @param start_veh The vehicle to start traversing from. NB: the start_vehicle is
      * assumed to have been already visited!
      * @param amount An amount of power to traverse with. This is passed back to the visitor,
      * and reset to the visitor's return value at each step.
@@ -550,8 +556,9 @@ public:
 
     /**
      * Apply damage to part constrained by range [0,durability] possibly destroying it
+     * @param pt Part being damaged
      * @param qty maximum amount by which to adjust damage (negative permissible)
-     * @param dmg type of damage which may be passed to base @ref item::on_damage callback
+     * @param dt type of damage which may be passed to base @ref item::on_damage callback
      * @return whether part was destroyed as a result of the damage
      */
     bool mod_hp( vehicle_part &pt, int qty, damage_type dt = DT_NULL );
@@ -617,7 +624,7 @@ public:
     // Install a copy of the given part, skips possibility check
     int install_part (int dx, int dy, const vehicle_part &part);
 
-    /** install item @ref obj to vehicle as a vehicle part */
+    /** install item specified item to vehicle as a vehicle part */
     int install_part( int dx, int dy, const vpart_id& id, item&& obj, bool force = false );
 
     bool remove_part (int p);
@@ -649,34 +656,40 @@ public:
     int part_with_feature (int p, vpart_bitflags f, bool unbroken = true) const;
 
     /**
-     *  Check if vehicle has at least one unbroken part with @ref flag
+     *  Check if vehicle has at least one unbroken part with specified flag
+     *  @param flag Specified flag to search parts for
      *  @param enabled if set part must also be enabled to be considered
+     *  @returns true if part is found
      */
     bool has_part( const std::string &flag, bool enabled = false ) const;
 
     /**
-     *  Check if vehicle has at least one unbroken part with @ref flag
+     *  Check if vehicle has at least one unbroken part with specified flag
      *  @param pos limit check for parts to this global position
+     *  @param flag The specified flag
      *  @param enabled if set part must also be enabled to be considered
      */
     bool has_part( const tripoint &pos, const std::string &flag, bool enabled = false ) const;
 
     /**
-     *  Get all unbroken vehicle parts with @ref flag
+     *  Get all unbroken vehicle parts with specified flag
+     *  @param flag Flag to get parts for
      *  @param enabled if set part must also be enabled to be considered
      */
     std::vector<vehicle_part *> get_parts( const std::string &flag, bool enabled = false );
     std::vector<const vehicle_part *> get_parts( const std::string &flag, bool enabled = false ) const;
 
     /**
-     *  Get all unbroken vehicle parts with cached bitflag @ref flag
+     *  Get all unbroken vehicle parts with cached with a given bitflag
+     *  @param flag Flag to check for
      *  @param enabled if set part must also be enabled to be considered
      */
     std::vector<vehicle_part *> get_parts( vpart_bitflags flag, bool enabled = false );
     std::vector<const vehicle_part *> get_parts( vpart_bitflags flag, bool enabled = false ) const;
 
     /**
-     *  Get all unbroken vehicle parts at @ref pos
+     *  Get all unbroken vehicle parts at specified position
+     *  @param pos position to check
      *  @param flag if set only flags with this part will be considered
      *  @param enabled if set part must also be enabled to be considered
      */
@@ -692,6 +705,7 @@ public:
      *  The next part to open is the first unopened part in the reversed list of
      *  parts at part `p`'s coordinates.
      *
+     *  @param p Part who's coordinates provide the location to check
      *  @param outside If true, give parts that can be opened from outside only
      *  @return part index or -1 if no part
      */
@@ -703,6 +717,7 @@ public:
      *  The next part to open is the first opened part in the list of
      *  parts at part `p`'s coordinates. Returns -1 for no more to close.
      *
+     *  @param p Part who's coordinates provide the location to check
      *  @param outside If true, give parts that can be closed from outside only
      *  @return part index or -1 if no part
      */
@@ -996,9 +1011,14 @@ public:
     units::volume free_volume(int part) const;
     units::volume stored_volume(int part) const;
     /**
+     * Update an item's active status, for example when adding
+     * hot or perishable liquid to a container.
+     */
+    void make_active( item_location &loc );
+    /**
      * Try to add an item to part's cargo.
      *
-     * @ret False if it can't be put here (not a cargo part, adding this would violate
+     * @returns False if it can't be put here (not a cargo part, adding this would violate
      * the volume limit or item count limit, not all charges can fit, etc.)
      */
     bool add_item( int part, const item &obj );
@@ -1007,7 +1027,7 @@ public:
     /**
      * Add an item counted by charges to the part's cargo.
      *
-     * @ret The number of charges added.
+     * @returns The number of charges added.
      */
     long add_charges( int part, const item &itm );
     /**
@@ -1061,7 +1081,7 @@ public:
     /** Get all vehicle turrets (excluding any that are destroyed) */
     std::vector<vehicle_part *> turrets();
 
-    /** Get all vehicle turrets loaded and ready to fire at @ref target */
+    /** Get all vehicle turrets loaded and ready to fire at target */
     std::vector<vehicle_part *> turrets( const tripoint &target );
 
     /** Get firing data for a turret */
@@ -1079,10 +1099,36 @@ public:
 
     /*
      * Set specific target for automatic turret fire
-     * @returns whether a valid target was selected
+     * @param manual if true, allows target assignment for manually controlled turrets.
+     * @param automatic if true, allows target assignment for automatically controlled turrets.
+     * @param tur_part pointer to a turret aimed regardless of target mode filters, if not nullptr.
+     * @returns whether a valid target was selected.
      */
-    bool turrets_aim();
+    bool turrets_aim( bool manual = true, bool automatic = false,
+                      vehicle_part *tur_part = nullptr );
 
+    /*
+     * Call turrets_aim and then fire turrets if we get a valid target.
+     * @param manual if true, allows targeting and firing for manual turrets.
+     * @param automatic if true, allows targeting and firing for automatic turrets.
+     * @param tur_part pointer to a turret aimed regardless of target mode filters, if not nullptr.
+     * @return the number of shots fired.
+     */
+    int turrets_aim_and_fire( bool manual = true, bool automatic = false,
+                              vehicle_part *tur_part = nullptr );
+
+    /*
+     * Call turrets_aim and then fire a selected single turret if we have a valid target.
+     * @param tur_part if not null, this turret is aimed instead of bringing up the selection menu.
+     * @return the number of shots fired.
+     */
+    int turrets_aim_single( vehicle_part *tur_part = nullptr );
+    
+    /*
+     * @param pt the vehicle part containing the turret we're trying to target.
+     * @return npc object with suitable attributes for targeting a vehicle turret.
+     */
+    npc get_targeting_npc( vehicle_part &pt );
     /*@}*/
 
     /**
