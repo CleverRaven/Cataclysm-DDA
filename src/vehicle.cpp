@@ -567,7 +567,7 @@ const std::string vehicle::disp_name() const
 
 int vehicle::lift_strength() const
 {
-    int mass = total_mass() * 1000;
+    int mass = total_mass();
     return mass / STR_LIFT_FACTOR + ( mass % STR_LIFT_FACTOR != 0 );
 }
 
@@ -1103,7 +1103,7 @@ bool vehicle::fold_up() {
     }
 
     if (can_be_folded) {
-        bicycle.set_var( "weight", total_mass() * 1000 );
+        bicycle.set_var( "weight", total_mass() );
         bicycle.set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
         bicycle.set_var( "name", string_format(_("folded %s"), name.c_str()) );
         bicycle.set_var( "vehicle_name", name );
@@ -3008,7 +3008,7 @@ int vehicle::acceleration(bool const fueled) const
 
     } else if ((has_engine_type(fuel_type_muscle, true))){
         //limit vehicle weight for muscle engines
-        int mass = total_mass();
+        int mass = total_mass() / 1000;
         ///\EFFECT_STR caps vehicle weight for muscle engines
         int move_mass = std::max((g->u).str_cur * 25, 150);
         if (mass <= move_mass) {
@@ -3253,7 +3253,7 @@ float vehicle::k_mass() const
 
     float ma0 = 50.0;
     // calculate safe speed reduction due to mass
-    float km = ma0 / ( ma0 + total_mass() / ( wa * 8.0f / 9.0f ) );
+    float km = ma0 / ( ma0 + total_mass() / 1000 / ( wa * 8.0f / 9.0f ) );
 
     return km;
 }
@@ -3264,7 +3264,7 @@ float vehicle::k_traction( float wheel_traction_area ) const
         return 0.0f;
     }
 
-    const float mass_penalty = ( 1.0f - wheel_traction_area / wheel_area( !floating.empty() ) ) * total_mass();
+    const float mass_penalty = ( 1.0f - wheel_traction_area / wheel_area( !floating.empty() ) ) * total_mass() / 1000;
 
     float traction = std::min( 1.0f, wheel_traction_area / mass_penalty );
     add_msg( m_debug, "%s has traction %.2f", name.c_str(), traction );
@@ -4444,7 +4444,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
     // Calculate mass AFTER checking for collision
     //  because it involves iterating over all cargo
-    const float mass = total_mass();
+    const float mass = total_mass() / 1000;
 
     //Calculate damage resulting from d_E
     const itype *type = item::find_type( part_info( ret.part ).item );
@@ -6441,17 +6441,17 @@ void vehicle::calc_mass_center( bool use_precalc ) const
         }
 
         if( use_precalc ) {
-            xf += parts[i].precalc[0].x * m_part / 1000.0f;
-            yf += parts[i].precalc[0].y * m_part / 1000.0f;
+            xf += parts[i].precalc[0].x * m_part;
+            yf += parts[i].precalc[0].y * m_part;
         } else {
-            xf += parts[i].mount.x * m_part / 1000.0f;
-            yf += parts[i].mount.y * m_part / 1000.0f;
+            xf += parts[i].mount.x * m_part;
+            yf += parts[i].mount.y * m_part;
         }
 
         m_total += m_part;
     }
 
-    mass_cache = m_total / 1000;
+    mass_cache = m_total;
     mass_dirty = false;
 
     xf /= mass_cache;

@@ -375,7 +375,7 @@ void veh_interact::cache_tool_availability()
                            vehicle_selector(g->u.pos(), 2, true, *veh ).max_quality( JACK ) } );
 
     // cap JACK requirements at 8500kg to support arbritrarily large vehicles
-    double qual = ceil( double( std::min( veh->total_mass(), 8500 ) * 1000 ) / TOOL_LIFT_FACTOR );
+    double qual = ceil( double( std::min( veh->total_mass() / 1000, 8500 ) * 1000 ) / TOOL_LIFT_FACTOR );
 
     has_jack = g->u.has_quality( JACK, qual ) ||
                map_selector( g->u.pos(), PICKUP_RANGE ).has_quality( JACK, qual ) ||
@@ -590,7 +590,7 @@ bool veh_interact::can_install_part() {
     item base( sel_vpart_info->item );
     if( base.is_wheel() ) {
         qual = JACK;
-        lvl = std::ceil( double( std::min( veh->total_mass() * 1000, JACK_LIMIT ) ) / TOOL_LIFT_FACTOR );
+        lvl = std::ceil( double( std::min( veh->total_mass(), JACK_LIMIT ) ) / TOOL_LIFT_FACTOR );
         str = veh->lift_strength();
         use_aid = max_jack >= lvl;
         use_str = g->u.can_lift( *veh );
@@ -1280,7 +1280,7 @@ bool veh_interact::can_remove_part( int idx ) {
     item base( sel_vpart_info->item );
     if( base.is_wheel() ) {
         qual = JACK;
-        lvl = std::ceil( double( std::min( veh->total_mass() * 1000, JACK_LIMIT ) ) / TOOL_LIFT_FACTOR );
+        lvl = std::ceil( double( std::min( veh->total_mass(), JACK_LIMIT ) ) / TOOL_LIFT_FACTOR );
         str = veh->lift_strength();
         use_aid = max_jack >= lvl;
         use_str = g->u.can_lift( *veh );
@@ -1812,7 +1812,7 @@ void veh_interact::display_stats()
                     velocity_units( VU_VEHICLE ) );
     fold_and_print( w_stats, y[2], x[2], w[2], c_ltgray,
                     _( "Mass: <color_ltblue>%5.0f</color> %s" ),
-                    convert_weight( veh->total_mass() * 1000.0f ), weight_units() );
+                    convert_weight( veh->total_mass() ), weight_units() );
     fold_and_print( w_stats, y[3], x[3], w[3], c_ltgray,
                     _( "Cargo Volume: <color_ltgray>%s/%s</color> %s" ),
                     format_volume( total_cargo - free_cargo ).c_str(),
