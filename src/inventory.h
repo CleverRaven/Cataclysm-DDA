@@ -153,7 +153,7 @@ class inventory : public visitable<inventory>
 
         void rust_iron_items();
 
-        int weight() const;
+        units::mass weight() const;
         units::volume volume() const;
 
         void dump(std::vector<item *> &dest); // dumps contents into dest (does not delete contents)

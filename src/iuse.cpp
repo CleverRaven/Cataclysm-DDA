@@ -6835,7 +6835,7 @@ int iuse::radiocar(player *p, item *it, bool, const tripoint& )
                 return 0;
             }
 
-            if (put->has_flag("RADIOCARITEM") && (put->volume() <= 1250_ml || (put->weight() <= 2000))) {
+            if ( put->has_flag( "RADIOCARITEM" ) && ( put->volume() <= 1250_ml || ( put->weight() <= 2_kilogram ) ) ) {
                 p->moves -= 300;
                 p->add_msg_if_player(_("You armed your RC car with %s."),
                                      put->tname().c_str());

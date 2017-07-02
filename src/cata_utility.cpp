@@ -13,6 +13,7 @@
 #include "filesystem.h"
 #include "item_search.h"
 #include "rng.h"
+#include "units.h"
 
 #include <algorithm>
 #include <cmath>
@@ -231,10 +232,9 @@ double convert_velocity( int velocity, const units_type vel_units )
     return ret;
 }
 
-double convert_weight( int weight )
+double convert_weight( const units::mass &weight )
 {
-    double ret;
-    ret = double( weight );
+    double ret = to_gram( weight );
     if( get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "kg" ) {
         ret /= 1000;
     } else {

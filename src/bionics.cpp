@@ -447,7 +447,7 @@ bool player::activate_bionic( int b, bool eff_only )
         for( const auto &pr : affected ) {
             projectile proj;
             proj.speed  = 50;
-            proj.impact = damage_instance::physical( pr.first.weight() / 250, 0, 0, 0 );
+            proj.impact = damage_instance::physical( pr.first.weight() / 250_gram, 0, 0, 0 );
             proj.range = rl_dist( pr.second, pos() );
             proj.proj_effects = {{ "NO_ITEM_DAMAGE", "DRAW_AS_LINE", "NO_DAMAGE_SCALING", "JET" }};
 
