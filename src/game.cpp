@@ -11506,9 +11506,6 @@ bool game::walk_move( const tripoint &dest_loc )
         fire_str = m.get_field_strength( furn_pos, fd_fire );
         m.remove_field( furn_pos, fd_fire );
         fire_removed = true;
-        if( fire_str_at_dest == 1 ) {
-            m.remove_field( furn_dest, fd_fire );
-        }
         if( shifting_furniture ) {
             m.set_field_strength( furn_dest, fd_fire, fire_str );
             m.set_field_age( furn_dest, fd_fire, fire_age );
