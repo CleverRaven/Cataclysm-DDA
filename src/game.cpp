@@ -11492,7 +11492,17 @@ bool game::walk_move( const tripoint &dest_loc )
     int fire_str = 0;
     const int fire_str_at_dest = m.get_field_strength( furn_dest, fd_fire );
 
-    if( m.get_field_strength( furn_pos, fd_fire ) == 1 ) {
+    const bool canmove = (
+    m.passable( furn_dest ) &&
+    critter_at<npc>( furn_dest ) == nullptr &&
+    critter_at<monster>( furn_dest ) == nullptr &&
+    ( !m.has_floor( furn_dest ) || m.has_flag( "FLAT", furn_dest ) ) &&
+    ( !m.has_floor( furn_dest ) || m.tr_at( furn_dest ).is_null() ) &&
+    !m.has_furn( furn_dest ) &&
+    m.veh_at( furn_dest ) == nullptr
+    );
+
+    if( m.get_field_strength( furn_pos, fd_fire ) == 1 && canmove ) {
         fire_str = m.get_field_strength( furn_pos, fd_fire );
         m.remove_field( furn_pos, fd_fire );
         fire_removed = true;
@@ -11605,7 +11615,7 @@ bool game::walk_move( const tripoint &dest_loc )
 
     place_player( dest_loc );
 
-    if( fire_removed && fire_str_at_dest < fire_str ) {
+    if( fire_removed && ( fire_str_at_dest < fire_str ) && canmove ) {
         m.set_field_strength( furn_dest, fd_fire, fire_str );
         m.set_field_age( furn_dest, fd_fire, fire_age );
     }
