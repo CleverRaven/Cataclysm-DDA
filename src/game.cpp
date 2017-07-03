@@ -11488,16 +11488,25 @@ bool game::walk_move( const tripoint &dest_loc )
     bool fire_removed = false;
     const tripoint furn_pos = u.pos() + u.grab_point;
     const tripoint furn_dest = dest_loc + u.grab_point;
-    const int fire_str = m.get_field_strength( furn_pos, fd_fire );
     const int fire_age = m.get_field_age( furn_pos, fd_fire );
-    if( m.get_field( furn_pos, fd_fire ) != nullptr || m.get_field_strength( furn_dest, fd_fire ) > 1 ) {
+    int fire_str = 0;
+    const int fire_str_at_dest = m.get_field_strength( furn_dest, fd_fire );
+
+    if( m.get_field_strength( furn_pos, fd_fire ) == 1 ) {
+        fire_str = m.get_field_strength( furn_pos, fd_fire );
         m.remove_field( furn_pos, fd_fire );
-        m.remove_field( furn_dest, fd_fire );
         fire_removed = true;
+        if( fire_str_at_dest == 1 ) {
+            m.remove_field( furn_dest, fd_fire );
+        }
         if( shifting_furniture ) {
             m.set_field_strength( furn_dest, fd_fire, fire_str );
             m.set_field_age( furn_dest, fd_fire, fire_age );
         }
+    }
+
+    if( !shifting_furniture && !prompt_dangerous_tile( dest_loc ) ) {
+        return true;
     }
 
     // Used to decide whether to print a 'moving is slow message
@@ -11596,7 +11605,7 @@ bool game::walk_move( const tripoint &dest_loc )
 
     place_player( dest_loc );
 
-    if( fire_removed ) {
+    if( fire_removed && fire_str_at_dest < fire_str ) {
         m.set_field_strength( furn_dest, fd_fire, fire_str );
         m.set_field_age( furn_dest, fd_fire, fire_age );
     }
