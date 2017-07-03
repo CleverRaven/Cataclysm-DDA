@@ -278,9 +278,11 @@ struct temperature_effect {
     int dex_pen;
     int int_pen;
     int per_pen;
+    // Not translated (static string should not be translated)
     std::string msg;
     int msg_chance;
     // Note: NOT std::string because the pointer is stored so c_str() is not OK
+    // Also not translated
     const char *miss_msg;
 
     temperature_effect( int sp, int dp, int ip, int pp, const std::string &ms, int mc,
@@ -294,17 +296,17 @@ struct temperature_effect {
             u.mod_str_bonus( -str_pen );
         }
         if( dex_pen > 0 ) {
-            u.mod_str_bonus( -dex_pen );
-            u.add_miss_reason( miss_msg, dex_pen );
+            u.mod_dex_bonus( -dex_pen );
+            u.add_miss_reason( _( miss_msg ), dex_pen );
         }
         if( int_pen > 0 ) {
-            u.mod_str_bonus( -int_pen );
+            u.mod_int_bonus( -int_pen );
         }
         if( per_pen > 0 ) {
-            u.mod_str_bonus( -per_pen );
+            u.mod_per_bonus( -per_pen );
         }
         if( !msg.empty() && !u.has_effect( effect_sleep ) && one_in( msg_chance ) ) {
-            u.add_msg_if_player( m_warning, "%s", msg.c_str() );
+            u.add_msg_if_player( m_warning, "%s", _( msg.c_str() ) );
         }
     }
 };
@@ -313,28 +315,28 @@ static void eff_fun_cold( player &u, effect &it )
 {
     // { body_part, intensity }, { str_pen, dex_pen, int_pen, per_pen, msg, msg_chance, miss_msg }
     const std::map<std::pair<body_part, int>, temperature_effect> effs = {{
-            { { bp_head, 3 }, { 0, 0, 3, 0, _( "Your thoughts are unclear." ), 400, "" } },
+            { { bp_head, 3 }, { 0, 0, 3, 0, "Your thoughts are unclear.", 400, "" } },
             { { bp_head, 2 }, { 0, 0, 1, 0, "", 0, "" } },
-            { { bp_mouth, 3 }, { 0, 0, 0, 3, _( "Your face is stiff from the cold." ), 400, "" } },
+            { { bp_mouth, 3 }, { 0, 0, 0, 3, "Your face is stiff from the cold.", 400, "" } },
             { { bp_mouth, 2 }, { 0, 0, 0, 1, "", 0, "" } },
-            { { bp_torso, 3 }, { 0, 4, 0, 0, _( "Your torso is freezing cold. You should put on a few more layers." ), 400, _( "You quiver from the cold." ) } },
-            { { bp_torso, 2 }, { 0, 2, 0, 0, "", 0, _( "Your shivering makes you unsteady." ) } },
-            { { bp_arm_l, 3 }, { 0, 2, 0, 0, _( "Your left arm is shivering." ), 800, _( "Your left arm trembles from the cold." ) } },
-            { { bp_arm_l, 2 }, { 0, 1, 0, 0, _( "Your left arm is shivering." ), 800, _( "Your left arm trembles from the cold." ) } },
-            { { bp_arm_r, 3 }, { 0, 2, 0, 0, _( "Your right arm is shivering." ), 800, _( "Your right arm trembles from the cold." ) } },
-            { { bp_arm_r, 2 }, { 0, 1, 0, 0, _( "Your right arm is shivering." ), 800, _( "Your right arm trembles from the cold." ) } },
-            { { bp_hand_l, 3 }, { 0, 2, 0, 0, _( "Your left hand feels like ice." ), 800, _( "Your left hand quivers in the cold." ) } },
-            { { bp_hand_l, 2 }, { 0, 1, 0, 0, _( "Your left hand feels like ice." ), 800, _( "Your left hand quivers in the cold." ) } },
-            { { bp_hand_r, 3 }, { 0, 2, 0, 0, _( "Your right hand feels like ice." ), 800, _( "Your right hand quivers in the cold." ) } },
-            { { bp_hand_r, 2 }, { 0, 1, 0, 0, _( "Your right hand feels like ice." ), 800, _( "Your right hand quivers in the cold." ) } },
-            { { bp_leg_l, 3 }, { 2, 2, 0, 0, _( "Your left leg trembles against the relentless cold." ), 800, _( "Your legs uncontrollably shake from the cold." ) } },
-            { { bp_leg_l, 2 }, { 1, 1, 0, 0, _( "Your left leg trembles against the relentless cold." ), 800, _( "Your legs uncontrollably shake from the cold." ) } },
-            { { bp_leg_r, 3 }, { 2, 2, 0, 0, _( "Your right leg trembles against the relentless cold." ), 800, _( "Your legs uncontrollably shake from the cold." ) } },
-            { { bp_leg_r, 2 }, { 1, 1, 0, 0, _( "Your right leg trembles against the relentless cold." ), 800, _( "Your legs uncontrollably shake from the cold." ) } },
-            { { bp_foot_l, 3 }, { 2, 2, 0, 0, _( "Your left foot feels frigid." ), 800, _( "Your left foot is as nimble as a block of ice." ) } },
-            { { bp_foot_l, 2 }, { 1, 1, 0, 0, _( "Your left foot feels frigid." ), 800, _( "Your freezing left foot messes up your balance." ) } },
-            { { bp_foot_r, 3 }, { 2, 2, 0, 0, _( "Your right foot feels frigid." ), 800, _( "Your right foot is as nimble as a block of ice." ) } },
-            { { bp_foot_r, 2 }, { 1, 1, 0, 0, _( "Your right foot feels frigid." ), 800, _( "Your freezing right foot messes up your balance." ) } },
+            { { bp_torso, 3 }, { 0, 4, 0, 0, "Your torso is freezing cold. You should put on a few more layers.", 400, "You quiver from the cold." } },
+            { { bp_torso, 2 }, { 0, 2, 0, 0, "", 0, "Your shivering makes you unsteady." } },
+            { { bp_arm_l, 3 }, { 0, 2, 0, 0, "Your left arm is shivering.", 800, "Your left arm trembles from the cold." } },
+            { { bp_arm_l, 2 }, { 0, 1, 0, 0, "Your left arm is shivering.", 800, "Your left arm trembles from the cold." } },
+            { { bp_arm_r, 3 }, { 0, 2, 0, 0, "Your right arm is shivering.", 800, "Your right arm trembles from the cold." } },
+            { { bp_arm_r, 2 }, { 0, 1, 0, 0, "Your right arm is shivering.", 800, "Your right arm trembles from the cold." } },
+            { { bp_hand_l, 3 }, { 0, 2, 0, 0, "Your left hand feels like ice.", 800, "Your left hand quivers in the cold." } },
+            { { bp_hand_l, 2 }, { 0, 1, 0, 0, "Your left hand feels like ice.", 800, "Your left hand quivers in the cold." } },
+            { { bp_hand_r, 3 }, { 0, 2, 0, 0, "Your right hand feels like ice.", 800, "Your right hand quivers in the cold." } },
+            { { bp_hand_r, 2 }, { 0, 1, 0, 0, "Your right hand feels like ice.", 800, "Your right hand quivers in the cold." } },
+            { { bp_leg_l, 3 }, { 2, 2, 0, 0, "Your left leg trembles against the relentless cold.", 800, "Your legs uncontrollably shake from the cold." } },
+            { { bp_leg_l, 2 }, { 1, 1, 0, 0, "Your left leg trembles against the relentless cold.", 800, "Your legs uncontrollably shake from the cold." } },
+            { { bp_leg_r, 3 }, { 2, 2, 0, 0, "Your right leg trembles against the relentless cold.", 800, "Your legs uncontrollably shake from the cold." } },
+            { { bp_leg_r, 2 }, { 1, 1, 0, 0, "Your right leg trembles against the relentless cold.", 800, "Your legs uncontrollably shake from the cold." } },
+            { { bp_foot_l, 3 }, { 2, 2, 0, 0, "Your left foot feels frigid.", 800, "Your left foot is as nimble as a block of ice." } },
+            { { bp_foot_l, 2 }, { 1, 1, 0, 0, "Your left foot feels frigid.", 800, "Your freezing left foot messes up your balance." } },
+            { { bp_foot_r, 3 }, { 2, 2, 0, 0, "Your right foot feels frigid.", 800, "Your right foot is as nimble as a block of ice." } },
+            { { bp_foot_r, 2 }, { 1, 1, 0, 0, "Your right foot feels frigid.", 800, "Your freezing right foot messes up your balance." } },
         }
     };
     const auto iter = effs.find( { it.get_bp(), it.get_intensity() } );
@@ -347,21 +349,21 @@ static void eff_fun_hot( player &u, effect &it )
 {
     // { body_part, intensity }, { str_pen, dex_pen, int_pen, per_pen, msg, msg_chance, miss_msg }
     const std::map<std::pair<body_part, int>, temperature_effect> effs = {{
-            { { bp_head, 3 }, { 0, 0, 0, 0, _( "Your head is pounding from the heat." ), 400, "" } },
+            { { bp_head, 3 }, { 0, 0, 0, 0, "Your head is pounding from the heat.", 400, "" } },
             { { bp_head, 2 }, { 0, 0, 0, 0, "", 0, "" } },
-            { { bp_torso, 3 }, { 2, 0, 0, 0, _( "You are sweating profusely." ), 400, "" } },
+            { { bp_torso, 3 }, { 2, 0, 0, 0, "You are sweating profusely.", 400, "" } },
             { { bp_torso, 2 }, { 1, 0, 0, 0, "", 0, "" } },
-            { { bp_hand_l, 3 }, { 0, 2, 0, 0, "", 0, _( "Your left hand's too sweaty to grip well." ) } },
-            { { bp_hand_l, 2 }, { 0, 1, 0, 0, "", 0, _( "Your left hand's too sweaty to grip well." ) } },
-            { { bp_hand_r, 3 }, { 0, 2, 0, 0, "", 0, _( "Your right hand's too sweaty to grip well." ) } },
-            { { bp_hand_r, 2 }, { 0, 1, 0, 0, "", 0, _( "Your right hand's too sweaty to grip well." ) } },
-            { { bp_leg_l, 3 }, { 0, 0, 0, 0, _( "Your left leg is cramping up." ), 800, "" } },
+            { { bp_hand_l, 3 }, { 0, 2, 0, 0, "", 0, "Your left hand's too sweaty to grip well." } },
+            { { bp_hand_l, 2 }, { 0, 1, 0, 0, "", 0, "Your left hand's too sweaty to grip well." } },
+            { { bp_hand_r, 3 }, { 0, 2, 0, 0, "", 0, "Your right hand's too sweaty to grip well." } },
+            { { bp_hand_r, 2 }, { 0, 1, 0, 0, "", 0, "Your right hand's too sweaty to grip well." } },
+            { { bp_leg_l, 3 }, { 0, 0, 0, 0, "Your left leg is cramping up.", 800, "" } },
             { { bp_leg_l, 2 }, { 0, 0, 0, 0, "", 0, "" } },
-            { { bp_leg_r, 3 }, { 0, 0, 0, 0, _( "Your right leg is cramping up." ), 800, "" } },
+            { { bp_leg_r, 3 }, { 0, 0, 0, 0, "Your right leg is cramping up.", 800, "" } },
             { { bp_leg_r, 2 }, { 0, 0, 0, 0, "", 0, "" } },
-            { { bp_foot_l, 3 }, { 0, 0, 0, 0, _( "Your left foot is swelling in the heat." ), 800, "" } },
+            { { bp_foot_l, 3 }, { 0, 0, 0, 0, "Your left foot is swelling in the heat.", 800, "" } },
             { { bp_foot_l, 2 }, { 0, 0, 0, 0, "", 0, "" } },
-            { { bp_foot_r, 3 }, { 0, 0, 0, 0, _( "Your right foot is swelling in the heat." ), 800, "" } },
+            { { bp_foot_r, 3 }, { 0, 0, 0, 0, "Your right foot is swelling in the heat.", 800, "" } },
             { { bp_foot_r, 2 }, { 0, 0, 0, 0, "", 0, "" } },
         }
     };
@@ -386,14 +388,14 @@ static void eff_fun_frostbite( player &u, effect &it )
 {
     // { body_part, intensity }, { str_pen, dex_pen, int_pen, per_pen, msg, msg_chance, miss_msg }
     const std::map<std::pair<body_part, int>, temperature_effect> effs = {{
-            { { bp_hand_l, 2 }, { 0, 2, 0, 0, "", 0, _( "You have trouble grasping with your numb fingers." ) } },
-            { { bp_hand_r, 2 }, { 0, 2, 0, 0, "", 0, _( "You have trouble grasping with your numb fingers." ) } },
-            { { bp_foot_l, 2 }, { 0, 0, 0, 0, _( "Your foot has gone numb." ), 800, "" } },
-            { { bp_foot_l, 1 }, { 0, 0, 0, 0, _( "Your foot has gone numb." ), 800, "" } },
-            { { bp_foot_r, 2 }, { 0, 0, 0, 0, _( "Your foot has gone numb." ), 800, "" } },
-            { { bp_foot_r, 1 }, { 0, 0, 0, 0, _( "Your foot has gone numb." ), 800, "" } },
-            { { bp_mouth, 2 }, { 0, 0, 0, 3, _( "Your face feels numb." ), 800, "" } },
-            { { bp_mouth, 1 }, { 0, 0, 0, 1, _( "Your face feels numb." ), 800, "" } },
+            { { bp_hand_l, 2 }, { 0, 2, 0, 0, "", 0, "You have trouble grasping with your numb fingers." } },
+            { { bp_hand_r, 2 }, { 0, 2, 0, 0, "", 0, "You have trouble grasping with your numb fingers." } },
+            { { bp_foot_l, 2 }, { 0, 0, 0, 0, "Your foot has gone numb.", 800, "" } },
+            { { bp_foot_l, 1 }, { 0, 0, 0, 0, "Your foot has gone numb.", 800, "" } },
+            { { bp_foot_r, 2 }, { 0, 0, 0, 0, "Your foot has gone numb.", 800, "" } },
+            { { bp_foot_r, 1 }, { 0, 0, 0, 0, "Your foot has gone numb.", 800, "" } },
+            { { bp_mouth, 2 }, { 0, 0, 0, 3, "Your face feels numb.", 800, "" } },
+            { { bp_mouth, 1 }, { 0, 0, 0, 1, "Your face feels numb.", 800, "" } },
         }
     };
     const auto iter = effs.find( { it.get_bp(), it.get_intensity() } );
@@ -437,341 +439,7 @@ void player::hardcoded_effects( effect &it )
     int intense = it.get_intensity();
     body_part bp = it.get_bp();
     bool sleeping = has_effect( effect_sleep );
-    bool msg_trig = one_in( 400 );
-    if( id == effect_hot ) {
-        switch( bp ) {
-            case bp_head:
-                switch( intense ) {
-                    case 3:
-                        if( !sleeping && msg_trig ) {
-                            add_msg_if_player( _( "Your thoughts are unclear." ) );
-                        }
-                    /* fallthrough */
-                    case 2:
-                        mod_int_bonus( -1 );
-                    default:
-                        break;
-                }
-                break;
-            case bp_mouth:
-                switch( intense ) {
-                    case 3:
-                        mod_per_bonus( -2 );
-                    /* fallthrough */
-                    case 2:
-                        mod_per_bonus( -1 );
-                        if( !sleeping && msg_trig ) {
-                            add_msg_if_player( m_bad, _( "Your face is stiff from the cold." ) );
-                        }
-                    default:
-                        break;
-                }
-                break;
-            case bp_torso:
-                switch( intense ) {
-                    case 3:
-                        mod_dex_bonus( -2 );
-                        add_miss_reason( _( "You quiver from the cold." ), 2 );
-                        if( !sleeping && msg_trig ) {
-                            add_msg_if_player( m_bad,
-                                               _( "Your torso is freezing cold. You should put on a few more layers." ) );
-                        }
-                    /* fallthrough */
-                    case 2:
-                        mod_dex_bonus( -2 );
-                        add_miss_reason( _( "Your shivering makes you unsteady." ), 2 );
-                }
-                break;
-            case bp_arm_l:
-                switch( intense ) {
-                    case 3:
-                        mod_dex_bonus( -1 );
-                    /* fallthrough */
-                    case 2:
-                        mod_dex_bonus( -1 );
-                        add_miss_reason( _( "Your left arm trembles from the cold." ), 1 );
-                        if( !sleeping && msg_trig && one_in( 2 ) ) {
-                            add_msg_if_player( m_bad, _( "Your left arm is shivering." ) );
-                        }
-                    default:
-                        break;
-                }
-                break;
-            case bp_arm_r:
-                switch( intense ) {
-                    case 3:
-                        mod_dex_bonus( -1 );
-                    /* fallthrough */
-                    case 2:
-                        mod_dex_bonus( -1 );
-                        add_miss_reason( _( "Your right arm trembles from the cold." ), 1 );
-                        if( !sleeping && msg_trig && one_in( 2 ) ) {
-                            add_msg_if_player( m_bad, _( "Your right arm is shivering." ) );
-                        }
-                    default:
-                        break;
-                }
-                break;
-            case bp_hand_l:
-                switch( intense ) {
-                    case 3:
-                        mod_dex_bonus( -1 );
-                    /* fallthrough */
-                    case 2:
-                        mod_dex_bonus( -1 );
-                        add_miss_reason( _( "Your left hand quivers in the cold." ), 1 );
-                        if( !sleeping && msg_trig && one_in( 2 ) ) {
-                            add_msg_if_player( m_bad, _( "Your left hand feels like ice." ) );
-                        }
-                    default:
-                        break;
-                }
-                break;
-            case bp_hand_r:
-                switch( intense ) {
-                    case 3:
-                        mod_dex_bonus( -1 );
-                    /* fallthrough */
-                    case 2:
-                        mod_dex_bonus( -1 );
-                        add_miss_reason( _( "Your right hand trembles in the cold." ), 1 );
-                        if( !sleeping && msg_trig && one_in( 2 ) ) {
-                            add_msg_if_player( m_bad, _( "Your right hand feels like ice." ) );
-                        }
-                    default:
-                        break;
-                }
-                break;
-            case bp_leg_l:
-                switch( intense ) {
-                    case 3:
-                        mod_dex_bonus( -1 );
-                        add_miss_reason( _( "Your legs uncontrollably shake from the cold." ), 1 );
-                        mod_str_bonus( -1 );
-                        if( !sleeping && msg_trig && one_in( 2 ) ) {
-                            add_msg_if_player( m_bad, _( "Your left leg trembles against the relentless cold." ) );
-                        }
-                    /* fallthrough */
-                    case 2:
-                        mod_dex_bonus( -1 );
-                        add_miss_reason( _( "Your legs unsteadily shiver against the cold." ), 1 );
-                        mod_str_bonus( -1 );
-                    default:
-                        break;
-                }
-                break;
-            case bp_leg_r:
-                switch( intense ) {
-                    case 3:
-                        mod_dex_bonus( -1 );
-                        mod_str_bonus( -1 );
-                        if( !sleeping && msg_trig && one_in( 2 ) ) {
-                            add_msg_if_player( m_bad, _( "Your right leg trembles against the relentless cold." ) );
-                        }
-                    /* fallthrough */
-                    case 2:
-                        mod_dex_bonus( -1 );
-                        mod_str_bonus( -1 );
-                    default:
-                        break;
-                }
-                break;
-            case bp_foot_l:
-                switch( intense ) {
-                    case 3:
-                        mod_dex_bonus( -1 );
-                        add_miss_reason( _( "Your left foot is as nimble as a block of ice." ), 1 );
-                        mod_str_bonus( -1 );
-                        break;
-                    case 2:
-                        mod_dex_bonus( -1 );
-                        add_miss_reason( _( "Your freezing left foot messes up your balance." ), 1 );
-                        if( !sleeping && msg_trig && one_in( 2 ) ) {
-                            add_msg_if_player( m_bad, _( "Your left foot feels frigid." ) );
-                        }
-                    default:
-                        break;
-                }
-                break;
-            case bp_foot_r:
-                switch( intense ) {
-                    case 3:
-                        mod_dex_bonus( -1 );
-                        add_miss_reason( _( "Your right foot is as nimble as a block of ice." ), 1 );
-                        mod_str_bonus( -1 );
-                        break;
-                    case 2:
-                        mod_dex_bonus( -1 );
-                        add_miss_reason( _( "Your freezing right foot messes up your balance." ), 1 );
-                        if( !sleeping && msg_trig && one_in( 2 ) ) {
-                            add_msg_if_player( m_bad, _( "Your right foot feels frigid." ) );
-                        }
-                    default:
-                        break;
-                }
-                break;
-            default: // Suppress compiler warning [-Wswitch]
-                break;
-        }
-    } else if( id == effect_hot ) {
-        switch( bp ) {
-            case bp_head:
-                switch( intense ) {
-                    case 3:
-                        if( !sleeping && msg_trig ) {
-                            add_msg_if_player( m_bad, _( "Your head is pounding from the heat." ) );
-                        }
-                    /* fallthrough */
-                    case 2:
-                        // Hallucinations handled in game.cpp
-                        if( one_in( std::min( 14500, 15000 - temp_cur[bp_head] ) ) ) {
-                            vomit();
-                        }
-                        if( !sleeping && msg_trig ) {
-                            add_msg_if_player( m_bad, _( "The heat is making you see things." ) );
-                        }
-                        break;
-                    default: // Suppress compiler warning [-Wswitch]
-                        break;
-                }
-                break;
-            case bp_torso:
-                switch( intense ) {
-                    case 3:
-                        mod_str_bonus( -1 );
-                        if( !sleeping && msg_trig ) {
-                            add_msg_if_player( m_bad, _( "You are sweating profusely." ) );
-                        }
-                    // Fall-through
-                    case 2:
-                        mod_str_bonus( -1 );
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case bp_hand_l:
-                switch( intense ) {
-                    case 3:
-                        mod_dex_bonus( -1 );
-                    // Fall-through
-                    case 2:
-                        add_miss_reason( _( "Your left hand's too sweaty to grip well." ), 1 );
-                        mod_dex_bonus( -1 );
-                    default:
-                        break;
-                }
-                break;
-            case bp_hand_r:
-                switch( intense ) {
-                    case 3:
-                        mod_dex_bonus( -1 );
-                    // Fall-through
-                    case 2:
-                        mod_dex_bonus( -1 );
-                        add_miss_reason( _( "Your right hand's too sweaty to grip well." ), 1 );
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case bp_leg_l:
-                switch( intense ) {
-                    case 3 :
-                        if( one_in( 2 ) ) {
-                            if( !sleeping && msg_trig ) {
-                                add_msg_if_player( m_bad, _( "Your left leg is cramping up." ) );
-                            }
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case bp_leg_r:
-                switch( intense ) {
-                    case 3 :
-                        if( one_in( 2 ) ) {
-                            if( !sleeping && msg_trig ) {
-                                add_msg_if_player( m_bad, _( "Your right leg is cramping up." ) );
-                            }
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case bp_foot_l:
-                switch( intense ) {
-                    case 3:
-                        if( one_in( 2 ) ) {
-                            if( !sleeping && msg_trig ) {
-                                add_msg_if_player( m_bad, _( "Your left foot is swelling in the heat." ) );
-                            }
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case bp_foot_r:
-                switch( intense ) {
-                    case 3:
-                        if( one_in( 2 ) ) {
-                            if( !sleeping && msg_trig ) {
-                                add_msg_if_player( m_bad, _( "Your right foot is swelling in the heat." ) );
-                            }
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            default: // Suppress compiler warning [-Wswitch]
-                break;
-        }
-    } else if( id == effect_frostbite ) {
-        switch( bp ) {
-            case bp_hand_l:
-            case bp_hand_r:
-                switch( intense ) {
-                    case 2:
-                        add_miss_reason( _( "You have trouble grasping with your numb fingers." ), 2 );
-                        mod_dex_bonus( -2 );
-                    default:
-                        break;
-                }
-                break;
-            case bp_foot_l:
-            case bp_foot_r:
-                switch( intense ) {
-                    case 2:
-                    case 1:
-                        if( !sleeping && msg_trig && one_in( 2 ) ) {
-                            add_msg_if_player( m_bad, _( "Your foot has gone numb." ) );
-                        }
-                    default:
-                        break;
-                }
-                break;
-            case bp_mouth:
-                switch( intense ) {
-                    case 2:
-                        mod_per_bonus( -2 );
-                    /* fallthrough */
-                    case 1:
-                        mod_per_bonus( -1 );
-                        if( !sleeping && msg_trig ) {
-                            add_msg_if_player( m_bad, _( "Your face feels numb." ) );
-                        }
-                    default:
-                        break;
-                }
-                break;
-            default: // Suppress compiler warnings [-Wswitch]
-                break;
-        }
-    } else if( id == effect_dermatik ) {
+    if( id == effect_dermatik ) {
         bool triggered = false;
         int formication_chance = 600;
         if( dur < 2400 ) {

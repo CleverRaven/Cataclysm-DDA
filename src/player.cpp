@@ -664,8 +664,6 @@ std::string player::skin_name() const
 
 void player::reset_stats()
 {
-    clear_miss_reasons();
-
     // Trait / mutation buffs
     if( has_trait( trait_THICK_SCALES ) ) {
         add_miss_reason( _( "Your thick scales get in the way." ), 2 );
@@ -823,6 +821,9 @@ void player::reset_stats()
 
 void player::process_turn()
 {
+    // Has to happen before reset_stats
+    clear_miss_reasons();
+
     Character::process_turn();
 
     // Didn't just pick something up
