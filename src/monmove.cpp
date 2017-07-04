@@ -338,7 +338,6 @@ void monster::plan( const mfactions &factions )
         }
     } else if( friendly > 0 && one_in( 3 ) ) {
         // Grow restless with no targets
-        add_msg("No targets");
         friendly--;
     } else if( friendly < 0 && sees( g->u ) ) {
         if( rl_dist( pos(), g->u.pos() ) > 2 ) {
