@@ -1454,7 +1454,7 @@ void monster::on_idle()
         const int range = 15;
         for( tripoint &p : closest_tripoints_first( range, pos() ) ) {
             if( sees( p ) && g->m.has_flag( TFLAG_NEST, p ) ) {
-                set_dest(p);
+                set_dest( p );
             }
         }
     } else {
