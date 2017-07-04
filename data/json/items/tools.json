@@ -8270,5 +8270,21 @@
     "ammo": "battery",
     "initial_charges": 100,
     "max_charges": 100
+  },{
+    "id": "animal_box",
+    "type": "TOOL",
+    "name": "animal box",
+    "description": "A wooden box with a crude hatch and holes, to transport small animals",
+    "weight": 1500,
+    "volume": 20,
+    "price": 1000,
+    "bashing": 1,
+    "cutting": 1,
+    "material": [ "wood" ],
+    "symbol": "#",
+    "color": "light_brown",
+    "properties": [ [ "monster_size_capacity", "SMALL" ] ],
+    "use_action": "CAPTURE_MONSTER_ACT",
+    "flags": [ "TRADER_AVOID" ]
   }
 ]
