@@ -3623,6 +3623,7 @@ void game::load_uistate(std::string worldname)
 }
 
 bool game::load( const std::string &world ) {
+    world_generator->init();
     const WORLDPTR wptr = world_generator->get_world( world );
     if( !wptr ) {
         return false;
