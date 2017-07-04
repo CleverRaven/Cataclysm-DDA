@@ -538,6 +538,10 @@ void player::sort_armor()
                     // remove the item, asking to drop it if necessary
                     takeoff( *tmp_worn[leftListIndex] );
                     wrefresh( w_sort_armor );
+                    // prevent out of bounds in subsequent tmp_worn[leftListIndex]
+                    int new_index_upper_bound = std::max( 0, ( ( int ) tmp_worn.size() ) - 2 );
+                    leftListIndex = std::min( leftListIndex, new_index_upper_bound );
+                    selected = -1;
                 }
             }
         } else if( action == "ASSIGN_INVLETS" ) {
