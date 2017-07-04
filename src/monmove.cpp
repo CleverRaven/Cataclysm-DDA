@@ -320,7 +320,6 @@ void monster::plan( const mfactions &factions )
             }
         }
     }
-    
     if( target != nullptr ) {
 
         tripoint dest = target->pos();
@@ -1457,7 +1456,7 @@ void monster::on_idle()
                 set_dest( p );
             }
         }
-    // if there's no special action to do, stumble
+        // if there's no special action to do, stumble
     } else {
         stumble();
     }
