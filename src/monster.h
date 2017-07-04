@@ -323,6 +323,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         /*
         * Decides what to do in case the monster is idle.
+        * If more idle actions are added change if loop for switch case.
         */
         void on_idle();
 

@@ -1452,11 +1452,13 @@ void monster::on_idle()
 {
     if( has_flag( MF_EGGLAYING ) && !has_effect( effect_laid_egg ) ) {
         const int range = 15;
+        // Loop to find the closest furniture with NEST flag and set it as destination
         for( tripoint &p : closest_tripoints_first( range, pos() ) ) {
             if( sees( p ) && g->m.has_flag( TFLAG_NEST, p ) ) {
                 set_dest( p );
             }
         }
+    // if there's no special action to do, stumble
     } else {
         stumble();
     }
