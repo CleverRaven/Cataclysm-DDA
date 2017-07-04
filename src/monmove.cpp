@@ -320,7 +320,7 @@ void monster::plan( const mfactions &factions )
             }
         }
     }
-
+    
     if( target != nullptr ) {
 
         tripoint dest = target->pos();
@@ -338,12 +338,13 @@ void monster::plan( const mfactions &factions )
         }
     } else if( friendly > 0 && one_in( 3 ) ) {
         // Grow restless with no targets
+        add_msg("No targets");
         friendly--;
     } else if( friendly < 0 && sees( g->u ) ) {
         if( rl_dist( pos(), g->u.pos() ) > 2 ) {
             set_dest( g->u.pos() );
         } else {
-            on_idle();
+            unset_dest();
         }
     }
 }
@@ -649,7 +650,7 @@ void monster::move()
         }
     } else {
         moves -= 100;
-        stumble();
+        on_idle();
         path.clear();
     }
 }
@@ -1451,15 +1452,14 @@ void monster::on_idle()
 {
     if( has_flag( MF_EGGLAYING ) && !has_effect( effect_laid_egg ) ) {
         const int range = 15;
-        tripoint nest_pos;
         for( tripoint &p : closest_tripoints_first( range, pos() ) ) {
             if( sees( p ) && g->m.has_flag( TFLAG_NEST, p ) ) {
-                nest_pos = p;
+                set_dest(p);
             }
         }
-        set_dest( nest_pos );
     } else {
-        unset_dest();
+        stumble();
     }
+
 }
 
