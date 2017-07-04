@@ -8270,7 +8270,8 @@
     "ammo": "battery",
     "initial_charges": 100,
     "max_charges": 100
-  },{
+  },
+  {
     "id": "animal_box",
     "type": "TOOL",
     "name": "animal box",
