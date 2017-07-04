@@ -2453,5 +2453,20 @@
       [ [ "e_scrap", 1 ] ],
       [ [ "motor_small", 1 ] ]    
     ]
+  },
+  {
+    "result": "animal_box",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 9000,
+    "qualities": [
+      { "id": "SCREW", "level": 1, "amount": 1 },
+      { "id": "HAMMER", "level": 2, "amount": 1 }
+    ],
+    "components": [
+      [ [ "nail", 8 ] ],
+      [ [ "2x4", 4 ] ]
+    ]
   }
 ]
