@@ -11,7 +11,7 @@
     "symbol": "=",
     "color": "light_gray",
     "count": 10,
-    "stack_size": 10,
+    "stack_size": 15,
     "ammo_type": "454",
     "casing": "454_casing",
     "range": 16,
