@@ -2585,7 +2585,7 @@ void map::emit_field( const tripoint &pos, const emit_id &src, float mul )
 void map::propagate_field( const tripoint &center, field_id fid, int amount,
                       int max_density )
 {
-    using gas_blast = std::pair<int, tripoint>;
+    using gas_blast = std::pair<float, tripoint>;
     std::priority_queue<gas_blast, std::vector<gas_blast>, pair_greater_cmp> open;
     std::set<tripoint> closed;
     open.push( { 0.0f, center } );
