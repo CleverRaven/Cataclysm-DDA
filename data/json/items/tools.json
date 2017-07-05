@@ -8270,7 +8270,8 @@
     "ammo": "battery",
     "initial_charges": 100,
     "max_charges": 100
-  },{
+  },
+  {
     "result": "washboard",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -8281,7 +8282,8 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ] ] ]
-  },{
+  },
+  {
     "id": "animal_box",
     "type": "TOOL",
     "name": "animal box",
