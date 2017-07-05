@@ -1082,7 +1082,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 count -= num_picked;
             } else {
                 size_t num_picked = 1;
-                pick_values.push_back( { it.idx, 0 } );
+                pick_values.push_back( { static_cast<int>( it.idx ), 0 } );
                 count -= num_picked;
             }
         }
