@@ -15,7 +15,7 @@
     "ammo_type": "500",
     "casing": "500_casing",
     "range": 16,
-    "damage": 48,
+    "damage": 55,
     "pierce": 8,
     "dispersion": 30,
     "recoil": 3000,
