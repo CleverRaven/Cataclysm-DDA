@@ -1293,7 +1293,7 @@ int Character::get_weight() const
 {
     int ret = 0;
     int wornWeight = std::accumulate( worn.begin(), worn.end(), 0,
-                     []( int sum, const item& itm ) {
+                     []( int sum, const item &itm ) {
                         return sum + itm.weight();
                      } );
 
