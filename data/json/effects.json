@@ -1638,7 +1638,7 @@
         "desc": [ "This damaged limb is slowly regaining its functions." ],
         "//": "Duration is 10 days, but the actual time taken is probabilistic.",
         "max_duration": 144000,
-        "int_dur_factor": 36000,
+        "int_dur_factor": 48000,
         "max_intensity": 3,
         "rating": "good"
     },
