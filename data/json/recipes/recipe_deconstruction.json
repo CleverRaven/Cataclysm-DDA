@@ -2453,8 +2453,7 @@
       [ [ "e_scrap", 1 ] ],
       [ [ "motor_small", 1 ] ]
     ]
-  },
-  {
+  },{
     "result": "animal_box",
     "type": "uncraft",
     "skill_used": "fabrication",
