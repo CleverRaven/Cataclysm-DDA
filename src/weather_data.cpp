@@ -1,6 +1,7 @@
 #include "weather.h"
 #include "translations.h"
 #include "color.h"
+#include "catacharset.h"
 
 #include <map>
 #include <vector>
@@ -57,9 +58,10 @@ const std::string season_name_upper(int const season)
         return season_name(season);
     }
 
-    std::string name = season_name( season );
-    name[0] = toupper( name[0] );
-    return name;
+    std::wstring name_wide = utf8_to_wstr( season_name( season ) );
+    // Operate on a wide-char basis to prevent corrupted multi-byte string
+    name_wide[0] = towupper( name_wide[0] );
+    return wstr_to_utf8( name_wide );
 }
 
 weather_datum const& weather_data(weather_type const type)
