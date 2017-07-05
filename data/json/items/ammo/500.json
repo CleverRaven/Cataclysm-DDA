@@ -11,7 +11,7 @@
     "symbol": "=",
     "color": "light_gray",
     "count": 15,
-    "stack_size": 15,
+    "stack_size": 10,
     "ammo_type": "500",
     "casing": "500_casing",
     "range": 16,
