@@ -15,7 +15,7 @@
     "ammo_type": "454",
     "casing": "454_casing",
     "range": 16,
-    "damage": 56,
+    "damage": 48,
     "pierce": 8,
     "dispersion": 30,
     "recoil": 2500,
