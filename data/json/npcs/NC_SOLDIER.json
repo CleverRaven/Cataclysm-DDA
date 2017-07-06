@@ -80,7 +80,7 @@
     "id" : "NC_SOLDIER_extra",
     "items":[
       ["null", 5],
-      ["backpack", 40],
+      ["molle_pack", 40],
       ["rucksack", 10]
     ]
   },{
@@ -112,7 +112,7 @@
     "id" : "NC_SOLDIER_rifle",
     "items":[
       ["m4a1", 90],
-      ["m1a", 10]
+      ["m14ebr", 10]
     ]
   },{
     "type" : "item_group",
@@ -133,7 +133,7 @@
         ["UPS_off", 5],
         ["adv_UPS_off", 3],
         ["chestrig", 10],
-        ["molle_pack", 8],
+        ["backpack", 8],
         ["dump_pouch", 20],
         ["legrig", 10],
         ["under_armor", 20],

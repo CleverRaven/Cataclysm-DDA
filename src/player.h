@@ -20,6 +20,7 @@ static const std::string DEFAULT_HOTKEYS("1234567890abcdefghijklmnopqrstuvwxyz")
 
 enum action_id : int;
 
+class dispersion_sources;
 class monster;
 class game;
 struct trap;
@@ -266,13 +267,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player has a conflicting trait to the entered trait
          *  Uses has_opposite_trait(), has_lower_trait(), and has_higher_trait() to determine conflicts.
          */
-        bool has_conflicting_trait(const std::string &flag) const;
+        bool has_conflicting_trait( const trait_id &flag ) const;
         /** Returns true if the player has a trait which cancels the entered trait */
-        bool has_opposite_trait(const std::string &flag) const;
+        bool has_opposite_trait( const trait_id &flag ) const;
         /** Returns true if the player has a trait which upgrades into the entered trait */
-        bool has_lower_trait(const std::string &flag) const;
+        bool has_lower_trait( const trait_id &flag ) const;
         /** Returns true if the player has a trait which is an upgrade of the entered trait */
-        bool has_higher_trait(const std::string &flag) const;
+        bool has_higher_trait( const trait_id &flag ) const;
         /** Returns true if the player has crossed a mutation threshold
          *  Player can only cross one mutation threshold.
          */
@@ -280,9 +281,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the entered trait may be purified away
          *  Defaults to true
          */
-        bool purifiable(const std::string &flag) const;
+        bool purifiable( const trait_id &flag ) const;
         /** Modifies mutation_category_level[] based on the entered trait */
-        void set_cat_level_rec(const std::string &sMut);
+        void set_cat_level_rec( const trait_id &sMut );
         /** Recalculates mutation_category_level[] values for the player */
         void set_highest_cat_level();
         /** Returns the highest mutation category */
@@ -296,11 +297,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player is wearing an active optical cloak */
         bool has_active_optcloak() const;
         /** Adds a bionic to my_bionics[] */
-        void add_bionic(std::string const &b);
+        void add_bionic(bionic_id const &b);
         /** Removes a bionic from my_bionics[] */
-        void remove_bionic(std::string const &b);
+        void remove_bionic(bionic_id const &b);
         /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
-        bool uninstall_bionic(std::string const &b_id, int skill_level = -1);
+        bool uninstall_bionic(bionic_id const &b_id, int skill_level = -1);
         /** Adds the entered amount to the player's bionic power_level */
         void charge_power(int amount);
         /** Generates and handles the UI for player interaction with installed bionics */
@@ -326,19 +327,19 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         float active_light() const;
 
         /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
-        bool mutation_ok( const std::string &mutation, bool force_good, bool force_bad ) const;
+        bool mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const;
         /** Picks a random valid mutation and gives it to the player, possibly removing/changing others along the way */
         void mutate();
         /** Picks a random valid mutation in a category and mutate_towards() it */
         void mutate_category( const std::string &mut_cat );
         /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
-        bool mutate_towards( const std::string &mut );
+        bool mutate_towards( const trait_id &mut );
         /** Removes a mutation, downgrading to the previous level if possible */
-        void remove_mutation( const std::string &mut );
+        void remove_mutation( const trait_id &mut );
         /** Returns true if the player has the entered mutation child flag */
-        bool has_child_flag( const std::string &mut ) const;
+        bool has_child_flag( const trait_id &mut ) const;
         /** Removes the mutation's child flag from the player's list */
-        void remove_child_flag( const std::string &mut );
+        void remove_child_flag( const trait_id &mut );
 
         const tripoint &pos() const override;
         /** Returns the player's sight range */
@@ -510,7 +511,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param obj Weapon to check dispersion on
          * @param range Distance to target against which we're calculating the dispersion
          */
-        double get_weapon_dispersion( const item &obj, float range ) const;
+        dispersion_sources get_weapon_dispersion( const item &obj, float range ) const;
 
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( item &firing );
@@ -520,34 +521,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Current total maximum recoil penalty from all sources */
         double recoil_total() const;
-
-        /**
-         *  Calculate range at which given chance of hit considering player stats, clothing and recoil
-         *  @param gun ranged weapon which must have sufficient ammo for at least one shot
-         *  @param penalty if set (non-negative) use this value instead of @ref recoil_total()
-         *  @param chance probability of hit, range [0-100) with zero returning absolute maximum range
-         *  @param accuracy minimum accuracy required
-         */
-        double gun_current_range( const item &gun, double penalty = -1,
-                                  unsigned chance = 50, double accuracy = accuracy_goodhit ) const;
-        /**
-         *  Calculate range at which given chance of hit considering player stats, clothing and recoil
-         *  @param to_throw item that will be thrown
-         *  @param chance probability of hit, range [0-100) with zero returning absolute maximum range
-         *  @param accuracy minimum accuracy required
-         *  @param target the target creature (can be null) who may try to dodge the thrown item
-         */
-        double thrown_current_range( const item& to_throw, unsigned chance = 50,
-                                     double accuracy = accuracy_goodhit, Creature *target = nullptr ) const;
-
-        enum class engagement {
-            snapshot,   // 50% chance of good hit with no aiming
-            effective,  // 50% chance of good hit at maximum aim
-            maximum,    // 10% chance of any hit at maximum aim
-        };
-
-        /** Get engagement ranges for gun */
-        double gun_engagement_range( const item &gun, engagement opt ) const;
 
         /** How many moves does it take to aim gun to maximum accuracy? */
         int gun_engagement_moves( const item &gun ) const;
@@ -872,9 +845,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool can_lift( const T& obj ) const {
             // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
             int str = get_str();
-            if( has_trait( "STRONGBACK" ) ) {
+            if( has_trait( trait_id( "STRONGBACK" ) ) ) {
                 str *= 1.35;
-            } else if( has_trait( "BADBACK" ) ) {
+            } else if( has_trait( trait_id( "BADBACK" ) ) ) {
                 str /= 1.35;
             }
             return get_str() >= obj.lift_strength();
@@ -1413,7 +1386,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int get_used_bionics_slots( const body_part bp ) const;
         int get_total_bionics_slots( const body_part bp ) const;
         int get_free_bionics_slots( const body_part bp ) const;
-        std::map<body_part, int> bionic_installation_issues( const std::string &bioid );
+        std::map<body_part, int> bionic_installation_issues( const bionic_id &bioid );
 
         //Dumps all memorial events into a single newline-delimited string
         std::string dump_memorial() const;
@@ -1508,11 +1481,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /**
          * Called when a mutation is gained
          */
-        void on_mutation_gain( const std::string &mid ) override;
+        void on_mutation_gain( const trait_id &mid ) override;
         /**
          * Called when a mutation is lost
          */
-        void on_mutation_loss( const std::string &mid ) override;
+        void on_mutation_loss( const trait_id &mid ) override;
         /**
          * Called when a stat is changed
          */
@@ -1590,7 +1563,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Check if an area-of-effect technique has valid targets */
         bool valid_aoe_technique( Creature &t, const ma_technique &technique );
         bool valid_aoe_technique( Creature &t, const ma_technique &technique,
-                                  std::vector<int> &mon_targets, std::vector<int> &npc_targets );
+                                  std::vector<Creature*> &targets );
         /**
          * Check whether the other creature is in range and can be seen by this creature.
          * @param critter Creature to check for visiblity
@@ -1622,8 +1595,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int blood_loss( body_part bp ) const;
 
         // Trigger and disable mutations that can be so toggled.
-        void activate_mutation( const std::string &mutation );
-        void deactivate_mutation( const std::string &mut );
+        void activate_mutation( const trait_id &mutation );
+        void deactivate_mutation( const trait_id &mut );
         bool has_fire(const int quantity) const;
         void use_fire(const int quantity);
 

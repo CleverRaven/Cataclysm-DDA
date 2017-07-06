@@ -78,7 +78,9 @@
     "symbol": "#",
     "color": "ltgray",
     "ammo_type": "654",
+    "capacity": 135,
     "reliability": 9,
+    "reload_time": 20,
     "flags": [ "MAG_BULKY" ]
   },
   {

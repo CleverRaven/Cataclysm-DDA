@@ -15,11 +15,9 @@
 #include <algorithm>
 #include "generic_factory.h"
 
-static std::map<requirement_id, requirement_data> requirements_all;
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
-/** @relates string_id */
-template <>
-const requirement_id string_id<requirement_data>::NULL_ID( "null" );
+static std::map<requirement_id, requirement_data> requirements_all;
 
 /** @relates string_id */
 template<>
@@ -215,7 +213,7 @@ requirement_data requirement_data::operator+( const requirement_data &rhs ) cons
     res.qualities.insert( res.qualities.end(), rhs.qualities.begin(), rhs.qualities.end() );
 
     // combined result is temporary which caller could store via @ref save_requirement
-    res.id_ = requirement_id::NULL_ID;
+    res.id_ = requirement_id::NULL_ID();
 
     // @todo deduplicate qualites and combine other requirements
 
@@ -518,7 +516,7 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
 
 bool requirement_data::can_make_with_inventory( const inventory &crafting_inv, int batch ) const
 {
-    if( g->u.has_trait( "DEBUG_HS" ) ) {
+    if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
 
@@ -564,7 +562,7 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
 
 bool quality_requirement::has( const inventory &crafting_inv, int ) const
 {
-    if( g->u.has_trait( "DEBUG_HS" ) ) {
+    if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
 
@@ -578,7 +576,7 @@ std::string quality_requirement::get_color( bool, const inventory &, int ) const
 
 bool tool_comp::has( const inventory &crafting_inv, int batch ) const
 {
-    if( g->u.has_trait( "DEBUG_HS" ) ) {
+    if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
 
@@ -603,7 +601,7 @@ std::string tool_comp::get_color( bool has_one, const inventory &crafting_inv, i
 
 bool item_comp::has( const inventory &crafting_inv, int batch ) const
 {
-    if( g->u.has_trait( "DEBUG_HS" ) ) {
+    if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
 

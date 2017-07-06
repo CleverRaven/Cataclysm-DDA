@@ -1171,7 +1171,7 @@ void jmapgen_objects::load_objects<jmapgen_loot>( JsonArray parray )
         }
 
         auto loot = new jmapgen_loot( jsi );
-        auto rate = get_world_option<float>( "ITEM_SPAWNRATE" );
+        auto rate = get_option<float>( "ITEM_SPAWNRATE" );
 
         if( where.repeat.valmax != 1 ) {
             // if loot can repeat scale according to rate
@@ -1492,7 +1492,7 @@ bool mapgen_function_json::setup() {
         if ( jo.read("fill_ter", tmpval) ) {
             fill_ter = tmpval.id();
             qualifies = true;
-            tmpval = NULL_ID;
+            tmpval = ter_str_id::NULL_ID();
         }
 
         format.resize( mapgensize * mapgensize );
@@ -8133,10 +8133,13 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             switch (rng(1, 4)) {
             case 1:
                 ter_set(rng(0, 2), rng(0, 2), t_slope_up);
+                break;
             case 2:
                 ter_set(rng(0, 2), SEEY * 2 - rng(1, 3), t_slope_up);
+                break;
             case 3:
                 ter_set(SEEX * 2 - rng(1, 3), rng(0, 2), t_slope_up);
+                break;
             case 4:
                 ter_set(SEEX * 2 - rng(1, 3), SEEY * 2 - rng(1, 3), t_slope_up);
             }
@@ -8473,7 +8476,7 @@ void map::place_spawns(const mongroup_id& group, const int chance,
         return;
     }
 
-    float multiplier = get_world_option<float>( "SPAWN_DENSITY" );
+    float multiplier = get_option<float>( "SPAWN_DENSITY" );
 
     if( multiplier == 0.0 ) {
         return;
@@ -8550,7 +8553,7 @@ void map::place_vending(int x, int y, std::string type)
 
 int map::place_npc( int x, int y, const std::string &type )
 {
-    if(!get_world_option<bool>( "STATIC_NPC" ) ) {
+    if(!get_option<bool>( "STATIC_NPC" ) ) {
         return -1; //Do not generate an npc.
     }
     npc *temp = new npc();
@@ -8580,7 +8583,7 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
         return res;
     }
 
-    const float spawn_rate = get_world_option<float>( "ITEM_SPAWNRATE" );
+    const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
     int spawn_count = roll_remainder( chance * spawn_rate / 100.0f );
     for( int i = 0; i < spawn_count; i++ ) {
         // Might contain one item or several that belong together like guns & their ammo
@@ -8638,7 +8641,7 @@ void map::add_spawn(const mtype_id& type, int count, int x, int y, bool friendly
                  type.c_str(), count, x, y);
         return;
     }
-    if( get_world_option<bool>( "CLASSIC_ZOMBIES" ) ) {
+    if( get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
         const mtype& mt = type.obj();
         if( !mt.in_category("CLASSIC") && !mt.in_category("WILDLIFE") ) {
             // Don't spawn non-classic monsters in classic zombie mode.
@@ -10592,11 +10595,7 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
             } while (tries < 10 && m.impassable(x, y));
 
             if (tries < 10) { // We found a valid spot!
-                if (one_in(8)) {
-                    m.add_spawn(mon_zombie_soldier, 1, x, y);
-                } else {
-                    m.place_items("map_extra_military", 100, x, y, x, y, true, 0);
-                }
+                m.place_items("map_extra_military", 100, x, y, x, y, true, 0);
 
                 int splatter_range = rng(1, 3);
                 for (int j = 0; j <= splatter_range; j++) {
@@ -10624,11 +10623,7 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
             } while (tries < 10 && m.impassable(x, y));
 
             if (tries < 10) { // We found a valid spot!
-                if (one_in(8)) {
-                    m.add_spawn(mon_zombie_cop, 1, x, y);
-                } else {
-                    m.place_items("map_extra_police", 100, x, y, x, y, true, 0);
-                }
+                m.place_items("map_extra_police", 100, x, y, x, y, true, 0);
 
                 int splatter_range = rng(1, 3);
                 for (int j = 0; j <= splatter_range; j++) {

@@ -52,6 +52,21 @@ const skill_id skill_survival( "survival" );
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_teleglow( "teleglow" );
 
+static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
+static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
+static const trait_id trait_BADKNEES( "BADKNEES" );
+static const trait_id trait_BEAK_HUM( "BEAK_HUM" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
+static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
+static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
+static const trait_id trait_M_FERTILE( "M_FERTILE" );
+static const trait_id trait_M_SPORES( "M_SPORES" );
+static const trait_id trait_PARKOUR( "PARKOUR" );
+static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
+static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
+static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+
 static void pick_plant( player &p, const tripoint &examp, std::string itemType, ter_id new_ter,
                         bool seeds = false );
 
@@ -734,20 +749,20 @@ void iexamine::chainfence( player &p, const tripoint &examp )
         none( p, examp );
         return;
     }
-    if( p.has_trait( "ARACHNID_ARMS_OK" ) && !p.wearing_something_on( bp_torso ) ) {
+    if( p.has_trait( trait_ARACHNID_ARMS_OK ) && !p.wearing_something_on( bp_torso ) ) {
         add_msg( _( "Climbing the fence is trivial for one such as you." ) );
         p.moves -= 75; // Yes, faster than walking.  6-8 limbs are impressive.
-    } else if( p.has_trait( "INSECT_ARMS_OK" ) && !p.wearing_something_on( bp_torso ) ) {
+    } else if( p.has_trait( trait_INSECT_ARMS_OK ) && !p.wearing_something_on( bp_torso ) ) {
         add_msg( _( "You quickly scale the fence." ) );
         p.moves -= 90;
-    } else if( p.has_trait( "PARKOUR" ) ) {
+    } else if( p.has_trait( trait_PARKOUR ) ) {
         add_msg( _( "The fence is no match for your freerunning abilities." ) );
         p.moves -= 100;
     } else {
         p.moves -= 400;
         ///\EFFECT_DEX decreases chances of slipping while climbing
         int climb = p.dex_cur;
-        if (p.has_trait( "BADKNEES" )) {
+        if (p.has_trait( trait_BADKNEES )) {
             climb = climb / 2;
         }
         if( one_in( climb ) ) {
@@ -774,7 +789,7 @@ void iexamine::chainfence( player &p, const tripoint &examp )
 
 void iexamine::bars(player &p, const tripoint &examp)
 {
-    if(!(p.has_trait("AMORPHOUS"))) {
+    if(!(p.has_trait(trait_AMORPHOUS))) {
         none( p, examp );
         return;
     }
@@ -1043,7 +1058,7 @@ void iexamine::slot_machine( player &p, const tripoint& )
 
 void iexamine::safe(player &p, const tripoint &examp)
 {
-    if ( !( p.has_amount("stethoscope", 1) || p.has_bionic("bio_ears") ) ) {
+    if ( !( p.has_amount("stethoscope", 1) || p.has_bionic( bionic_id( "bio_ears" ) ) ) ) {
         p.moves -= 100;
         // one_in(30^3) chance of guessing
         if (one_in(27000)) {
@@ -1078,7 +1093,7 @@ void iexamine::gunsafe_ml(player &p, const tripoint &examp)
 {
     std::string furn_name = g->m.tername(examp).c_str();
     if( !( p.has_amount("crude_picklock", 1) || p.has_amount("hairpin", 1) || p.has_amount("fc_hairpin", 1) ||
-           p.has_amount("picklocks", 1) || p.has_bionic("bio_lockpick") ) ) {
+           p.has_amount("picklocks", 1) || p.has_bionic( bionic_id( "bio_lockpick" ) ) ) ) {
         add_msg(m_info, _("You need a lockpick to open this gun safe."));
         return;
     } else if( !query_yn(_("Pick the gun safe?")) ) {
@@ -1086,7 +1101,7 @@ void iexamine::gunsafe_ml(player &p, const tripoint &examp)
     }
 
     int pick_quality = 1;
-    if( p.has_amount("picklocks", 1) || p.has_bionic("bio_lockpick") ) {
+    if( p.has_amount("picklocks", 1) || p.has_bionic( bionic_id( "bio_lockpick" ) ) ) {
         pick_quality = 5;
     } else if (p.has_amount("fc_hairpin",1)) {
         pick_quality = 1;
@@ -1288,7 +1303,8 @@ void iexamine::fswitch(player &p, const tripoint &examp)
     }
     ter_id terid = g->m.ter(examp);
     p.moves -= 100;
-    tripoint tmp = examp;
+    tripoint tmp;
+    tmp.z = examp.z;
     for (tmp.y = examp.y; tmp.y <= examp.y + 5; tmp.y++ ) {
         for (tmp.x = 0; tmp.x < SEEX * MAPSIZE; tmp.x++) {
             if ( terid == t_switch_rg ) {
@@ -1362,7 +1378,7 @@ bool dead_plant( bool flower, player &p, const tripoint &examp )
 
 bool can_drink_nectar( const player &p )
 {
-    return ((p.has_active_mutation("PROBOSCIS")) || (p.has_active_mutation("BEAK_HUM"))) &&
+    return (p.has_active_mutation( trait_id( "PROBOSCIS" ) )  || p.has_active_mutation( trait_id( "BEAK_HUM" ) ) ) &&
         ((p.get_hunger()) > 0) && (!(p.wearing_something_on(bp_mouth)));
 }
 
@@ -1758,14 +1774,14 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
         } else if (seedType == "marloss_seed") {
             fungus(p, examp);
             g->m.i_clear(examp);
-            if (p.has_trait("M_DEPENDENT") && ((p.get_hunger() > 500) || p.get_thirst() > 300 )) {
+            if (p.has_trait(trait_M_DEPENDENT) && ((p.get_hunger() > 500) || p.get_thirst() > 300 )) {
                 g->m.ter_set(examp, t_marloss);
                 add_msg(m_info, _("We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides."));
-            } else if ( (p.has_trait("M_DEFENDER")) || ( (p.has_trait("M_SPORES") || p.has_trait("M_FERTILE")) &&
+            } else if ( (p.has_trait(trait_M_DEFENDER)) || ( (p.has_trait(trait_M_SPORES) || p.has_trait(trait_M_FERTILE)) &&
                 one_in(2)) ) {
                 g->summon_mon( mon_fungal_blossom, examp );
                 add_msg(m_info, _("The seed blooms forth!  We have brought true beauty to this world."));
-            } else if ( (p.has_trait("THRESH_MYCUS")) || one_in(4)) {
+            } else if ( (p.has_trait(trait_THRESH_MYCUS)) || one_in(4)) {
                 g->m.furn_set(examp, f_flower_marloss);
                 add_msg(m_info, _("The seed blossoms rather rapidly..."));
             } else {
@@ -2535,9 +2551,9 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
 
 void iexamine::shrub_marloss(player &p, const tripoint &examp)
 {
-    if (p.has_trait("THRESH_MYCUS")) {
+    if (p.has_trait(trait_THRESH_MYCUS)) {
         pick_plant(p, examp, "mycus_fruit", t_shrub_fungal);
-    } else if (p.has_trait("THRESH_MARLOSS")) {
+    } else if (p.has_trait(trait_THRESH_MARLOSS)) {
         g->m.spawn_item( examp, "mycus_fruit" );
         g->m.ter_set(examp, t_fungus);
         add_msg( m_info, _("The shrub offers up a fruit, then crumbles into a fungal bed."));
@@ -2548,15 +2564,15 @@ void iexamine::shrub_marloss(player &p, const tripoint &examp)
 
 void iexamine::tree_marloss(player &p, const tripoint &examp)
 {
-    if (p.has_trait("THRESH_MYCUS")) {
+    if (p.has_trait(trait_THRESH_MYCUS)) {
         pick_plant(p, examp, "mycus_fruit", t_tree_fungal);
-        if (p.has_trait("M_DEPENDENT") && one_in(3)) {
+        if (p.has_trait(trait_M_DEPENDENT) && one_in(3)) {
             // Folks have a better shot at keeping fed.
             add_msg(m_info, _("We have located a particularly vital nutrient deposit underneath this location."));
             add_msg(m_good, _("Additional nourishment is available."));
             g->m.ter_set(examp, t_marloss_tree);
         }
-    } else if (p.has_trait("THRESH_MARLOSS")) {
+    } else if (p.has_trait(trait_THRESH_MARLOSS)) {
         g->m.spawn_item( p.pos(), "mycus_fruit" );
         g->m.ter_set(examp, t_tree_fungal);
         add_msg(m_info, _("The tree offers up a fruit, then shrivels into a fungal tree."));
@@ -3013,7 +3029,7 @@ static int findBestGasDiscount(player &p)
 
 static std::string str_to_illiterate_str(std::string s)
 {
-    if (!g->u.has_trait("ILLITERATE")) {
+    if (!g->u.has_trait( trait_ILLITERATE )) {
         return s;
     } else {
         for (auto &i : s) {
@@ -3093,7 +3109,7 @@ static bool toPumpFuel( const tripoint &src, const tripoint &dst, long units )
             item liq_d( item_it->type, calendar::turn, units );
 
             const auto backup_pump = g->m.ter( dst );
-            g->m.ter_set( dst, ter_id( NULL_ID ) );
+            g->m.ter_set( dst, ter_str_id::NULL_ID() );
             g->m.add_item_or_charges( dst, liq_d );
             g->m.ter_set( dst, backup_pump );
 
@@ -3122,7 +3138,7 @@ static long fromPumpFuel( const tripoint &dst, const tripoint &src )
 
             // add the charges to the destination
             const auto backup_tank = g->m.ter( dst );
-            g->m.ter_set( dst, ter_id( NULL_ID ) );
+            g->m.ter_set( dst, ter_str_id::NULL_ID() );
             g->m.add_item_or_charges( dst, liq_d );
             g->m.ter_set( dst, backup_tank );
 
@@ -3167,7 +3183,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     const int refund = 4;
     const int cancel = 5;
 
-    if( p.has_trait( "ILLITERATE" ) ) {
+    if( p.has_trait( trait_ILLITERATE ) ) {
         popup( _( "You're illiterate, and can't read the screen." ) );
     }
 
@@ -3200,8 +3216,8 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     long pricePerUnit = getGasPricePerLiter( discount );
     std::string unitPriceStr = string_format( _( "$%0.2f" ), pricePerUnit / 100.0f );
 
-    bool can_hack = ( !p.has_trait( "ILLITERATE" ) && ( ( p.has_charges( "electrohack", 25 ) ) ||
-                      ( p.has_bionic( "bio_fingerhack" ) && p.power_level > 24 ) ) );
+    bool can_hack = ( !p.has_trait( trait_ILLITERATE ) && ( ( p.has_charges( "electrohack", 25 ) ) ||
+                      ( p.has_bionic( bionic_id( "bio_fingerhack" ) ) && p.power_level > 24 ) ) );
 
     uimenu amenu;
     amenu.selected = 1;
@@ -3510,12 +3526,12 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
 }
 
 hack_result iexamine::hack_attempt( player &p ) {
-    if( p.has_trait( "ILLITERATE" ) ) {
+    if( p.has_trait( trait_ILLITERATE ) ) {
         return HACK_UNABLE;
     }
     bool using_electrohack = ( p.has_charges( "electrohack", 25 ) &&
                                query_yn( _( "Use electrohack?" ) ) );
-    bool using_fingerhack = ( !using_electrohack && p.has_bionic( "bio_fingerhack" ) &&
+    bool using_fingerhack = ( !using_electrohack && p.has_bionic( bionic_id( "bio_fingerhack" ) ) &&
                               p.power_level  > 24  && query_yn( _( "Use fingerhack?" ) ) );
 
     if( !( using_electrohack || using_fingerhack ) ) {

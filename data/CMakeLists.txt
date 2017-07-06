@@ -7,7 +7,6 @@ SET(CATACLYSM_DATA_DIRS
 	${CMAKE_SOURCE_DIR}/data/mods
 	${CMAKE_SOURCE_DIR}/data/names
 	${CMAKE_SOURCE_DIR}/data/raw
-	${CMAKE_SOURCE_DIR}/data/recycling
 	${CMAKE_SOURCE_DIR}/data/motd
 	${CMAKE_SOURCE_DIR}/data/credits
 	${CMAKE_SOURCE_DIR}/data/title

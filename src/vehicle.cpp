@@ -388,6 +388,10 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         for( auto e : get_parts( "FRIDGE" ) ) {
             e->enabled = true;
         }
+
+        for( auto e : get_parts( "WATER_PURIFIER" ) ) {
+            e->enabled = true;
+        }
     }
 
     bool blood_inside_set = false;
@@ -798,8 +802,8 @@ void vehicle::smash_security_system(){
         }
         if (percent_alarm > rand) {
             damage_direct (s, part_info(s).durability / 5);
-            //chance to disable alarm immediately
-            if (percent_alarm / 4 > rand) {
+            // chance to disable alarm immediately, or disable on destruction
+            if( percent_alarm / 4 > rand || parts[ s ].is_broken() ) {
                 is_alarm_on = false;
             }
         }
@@ -931,6 +935,7 @@ void vehicle::use_controls( const tripoint &pos )
         add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
         add_toggle( _( "planter" ), keybind( "TOGGLE_PLANTER" ), "PLANTER" );
         add_toggle( _( "scoop" ), keybind( "TOGGLE_SCOOP" ), "SCOOP" );
+        add_toggle( _( "water purifier" ), keybind( "TOGGLE_WATER_PURIFIER" ), "WATER_PURIFIER" );
 
         if( has_part( "DOOR_MOTOR" ) ) {
             options.emplace_back( _( "Toggle doors" ), keybind( "TOGGLE_DOORS" ) );
@@ -991,9 +996,17 @@ void vehicle::use_controls( const tripoint &pos )
 
         options.emplace_back( _( "Set turret firing modes" ), keybind( "TURRET_FIRE_MODE" ) );
         actions.push_back( [&]{ turrets_set_mode(); } );
-
+        
+        // We can also fire manual turrets with ACTION_FIRE while standing at the controls.
         options.emplace_back( _( "Aim turrets manually" ), keybind( "TURRET_MANUAL_AIM" ) );
-        actions.push_back( [&]{ turrets_aim(); } );
+        actions.push_back( [&]{ turrets_aim_and_fire( true, false ); } );
+        
+        // This lets us manually override and set the target for the automatic turrets instead.
+        options.emplace_back( _( "Aim automatic turrets" ), keybind( "TURRET_MANUAL_OVERRIDE" ) );
+        actions.push_back( [&]{ turrets_aim( false, true ); } );
+        
+        options.emplace_back( _( "Aim individual turret" ), keybind( "TURRET_SINGLE_FIRE" ) );
+        actions.push_back( [&]{ turrets_aim_single(); } );
     }
 
     if( has_electronic_controls && (camera_on || ( has_part( "CAMERA" ) && has_part( "CAMERA_CONTROL" ) ) ) ) {
@@ -1324,7 +1337,7 @@ const vpart_info& vehicle::part_info (int index, bool include_removed) const
             return parts[index].info();
         }
     }
-    return vpart_id::NULL_ID.obj();
+    return vpart_id::NULL_ID().obj();
 }
 
 // engines & alternators all have power.
@@ -1824,7 +1837,8 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
             "PLOW",
             "REAPER",
             "PLANTER",
-            "SCOOP"
+            "SCOOP",
+            "WATER_PURIFIER"
         }};
 
         for( const std::string &flag : enable_like ) {
@@ -2462,7 +2476,7 @@ vpart_id vehicle::part_id_string(int const p, char &part_mod) const
 {
     part_mod = 0;
     if( p < 0 || p >= (int)parts.size() || parts[p].removed ) {
-        return vpart_id::NULL_ID;
+        return vpart_id::NULL_ID();
     }
 
     int displayed_part = part_displayed_at(parts[p].mount.x, parts[p].mount.y);
@@ -2756,10 +2770,7 @@ player *vehicle::get_passenger(int p) const
      if( player_id == g->u.getID()) {
       return &g->u;
      }
-     int npcdex = g->npc_by_id (player_id);
-     if (npcdex >= 0) {
-      return g->active_npc[npcdex];
-     }
+        return g->npc_by_id( player_id );
     }
     return 0;
 }
@@ -3449,7 +3460,7 @@ void vehicle::consume_fuel( double load = 1.0 )
     if( load > 0 && one_in( (int) (1 / load) ) &&
         fuel_left( fuel_type_muscle ) > 0 ) {
         //charge bionics when using muscle engine
-        if (g->u.has_bionic("bio_torsionratchet")) {
+        if (g->u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             g->u.charge_power(1);
         }
         //cost proportional to strain
@@ -3836,24 +3847,24 @@ void vehicle::operate_reaper(){
         const int plant_produced =  rng( 1, parts[ reaper_id ].info().bonus );
         const int seed_produced = rng( 1, 3 );
         const units::volume max_pickup_volume = parts[ reaper_id ].info().size / 20;
-        if( g->m.furn( reaper_pos ) == f_plant_harvest &&
-            g->m.has_items( reaper_pos ) ){
-            const item& seed = g->m.i_at( reaper_pos ).front();
-            if( seed.typeId() == "fungal_seeds" ||
-                seed.typeId() == "marloss_seed" ) {
-                // Otherworldly plants, the earth-made reaper can not handle those.
-                continue;
-            }
-            g->m.furn_set( reaper_pos, f_null );
-            g->m.i_clear( reaper_pos );
-            for( auto &i : iexamine::get_harvest_items(
-                     *seed.type, plant_produced, seed_produced, false ) ) {
-                g->m.add_item_or_charges( reaper_pos, i );
-            }
-            sounds::sound( reaper_pos, rng( 10, 25 ), _("Swish") );
+        if( g->m.furn( reaper_pos ) != f_plant_harvest ||
+            !g->m.has_items( reaper_pos ) ) {
+            continue;
         }
-        if( part_flag(reaper_id, "CARGO") &&
-            g->m.ter( reaper_pos ) == t_dirtmound ) {
+        const item& seed = g->m.i_at( reaper_pos ).front();
+        if( seed.typeId() == "fungal_seeds" ||
+            seed.typeId() == "marloss_seed" ) {
+            // Otherworldly plants, the earth-made reaper can not handle those.
+            continue;
+        }
+        g->m.furn_set( reaper_pos, f_null );
+        g->m.i_clear( reaper_pos );
+        for( auto &i : iexamine::get_harvest_items(
+                 *seed.type, plant_produced, seed_produced, false ) ) {
+            g->m.add_item_or_charges( reaper_pos, i );
+        }
+        sounds::sound( reaper_pos, rng( 10, 25 ), _("Swish") );
+        if( part_flag( reaper_id, "CARGO" ) ) {
             map_stack stack( g->m.i_at( reaper_pos ) );
             for( auto iter = stack.begin(); iter != stack.end(); ) {
                 if( ( iter->volume() <= max_pickup_volume ) &&
@@ -4431,7 +4442,6 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     // Calculate mass AFTER checking for collision
     //  because it involves iterating over all cargo
     const float mass = total_mass();
-    int degree = rng( 70, 100 );
 
     //Calculate damage resulting from d_E
     const itype *type = item::find_type( part_info( ret.part ).item );
@@ -4553,7 +4563,6 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                 critter->add_effect( effect_stunned, turns_stunned );
             }
 
-            const int angle = (100 - degree) * 2 * ( one_in( 2 ) ? 1 : -1 );
             if( ph != nullptr ) {
                 ph->hitall( dam, 40, driver );
             } else {
@@ -4569,11 +4578,13 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             if( !vert_coll ) {
                 if( fabs(vel2_a) > 10.0f ||
                     fabs(e * mass * vel1_a) > fabs(mass2 * (10.0f - vel2_a)) ) {
+                    const int angle = rng( -60, 60 );
                     // Also handle the weird case when we don't have enough force
                     // but still have to push (in such case compare momentum)
                     const float push_force = std::max<float>( fabs( vel2_a ), 10.1f );
-                    const int angle_sum = vel2_a > 0 ?
-                        move.dir() + angle : -(move.dir() + angle);
+                    // move.dir is where the vehicle is facing. If velocity is negative,
+                    // we're moving backwards and have to adjust the angle accordingly.
+                    const int angle_sum = angle + move.dir() + ( vel2_a > 0 ? 0 : 180 );
                     g->fling_creature( critter, angle_sum, push_force );
                 } else if( fabs( vel2_a ) > fabs( vel2 ) ) {
                     vel2 = vel2_a;
@@ -5009,7 +5020,7 @@ void vehicle::gain_moves()
     // turrets which are enabled will try to reload and then automatically fire
     // Turrets which are disabled but have targets set are a special case
     for( auto e : turrets() ) {
-        if( e->enabled || e->target.second != tripoint_min ) {
+        if( e->enabled || e->target.second != e->target.first ) {
             automatic_fire_turret( *e );
         }
     }
@@ -5968,7 +5979,7 @@ void vehicle::update_time( const calendar &update_to )
 
         // we need an empty tank (or one already containing water) below the funnel
         auto tank = std::find_if( parts.begin(), parts.end(), [&pt]( const vehicle_part &e ) {
-            return pt.mount == e.mount && e.is_tank() && e.can_reload( "water" );
+            return pt.mount == e.mount && e.is_tank() && ( e.can_reload( "water" ) || e.can_reload( "water_clean" ) );
         } );
 
         if( tank == parts.end() ) {
@@ -5977,9 +5988,16 @@ void vehicle::update_time( const calendar &update_to )
 
         double area = pow( pt.info().size / units::legacy_volume_factor, 2 ) * M_PI;
         int qty = divide_roll_remainder( funnel_charges_per_turn( area, accum_weather.rain_amount ), 1.0 );
+        double cost_to_purify = epower_to_power( ( qty + ( tank->can_reload( "water_clean" ) ? tank->ammo_remaining() : 0 ) )
+                                  * item::find_type( "water_purifier" )->charges_to_use() );
 
         if( qty > 0 ) {
-            tank->ammo_set( "water", tank->ammo_remaining() + qty );
+            if( has_part( global_part_pos3( pt ), "WATER_PURIFIER", true ) && ( fuel_left( "battery" ) > cost_to_purify  ) ) {
+                tank->ammo_set( "water_clean", tank->ammo_remaining() + qty );
+                discharge_battery( cost_to_purify );
+            } else {
+                tank->ammo_set( "water", tank->ammo_remaining() + qty );
+            }
             invalidate_mass();
         }
     }
@@ -6010,7 +6028,7 @@ void vehicle::update_time( const calendar &update_to )
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
 vehicle_part::vehicle_part()
-    : mount( 0, 0 ), id( NULL_ID ) {}
+    : mount( 0, 0 ), id( vpart_id::NULL_ID() ) {}
 
 vehicle_part::vehicle_part( const vpart_id& vp, int const dx, int const dy, item&& obj )
     : mount( dx, dy ), id( vp ), base( std::move( obj ) )
@@ -6025,7 +6043,12 @@ vehicle_part::vehicle_part( const vpart_id& vp, int const dx, int const dy, item
 }
 
 vehicle_part::operator bool() const {
-    return id != vpart_id( NULL_ID );
+    return id != vpart_id::NULL_ID();
+}
+
+const item& vehicle_part::get_base() const 
+{
+    return base;
 }
 
 item vehicle_part::properties_to_item() const
@@ -6241,7 +6264,7 @@ bool vehicle_part::can_reload( const itype_id &obj ) const
 
 bool vehicle_part::fill_with( item &liquid, long qty )
 {
-    if( liquid.active ) {
+    if( liquid.active || liquid.rotten() ) {
         // cannot refill using active liquids (those that rot) due to #18570
         return false;
     }
@@ -6296,11 +6319,10 @@ npc * vehicle_part::crew() const
         return nullptr;
     }
 
-    int idx = g->npc_by_id( crew_id );
-    if( idx < 0 ) {
+    npc *const res = g->npc_by_id( crew_id );
+    if( !res ) {
         return nullptr;
     }
-    npc *res = g->active_npc[idx];
     return !res->is_dead_state() && res->is_friend() ? res : nullptr;
 }
 
@@ -6319,6 +6341,12 @@ bool vehicle_part::set_crew( const npc &who )
 void vehicle_part::unset_crew()
 {
     crew_id = -1;
+}
+
+void vehicle_part::reset_target( tripoint pos )
+{
+    target.first = pos;
+    target.second = pos;
 }
 
 bool vehicle_part::is_engine() const

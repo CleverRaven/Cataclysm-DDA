@@ -10,6 +10,7 @@
 #include <bitset>
 #include <memory>
 #include <list>
+#include <functional>
 
 #include "json.h"
 #include "itype.h"

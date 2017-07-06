@@ -246,11 +246,11 @@ int visitable<Character>::max_quality( const quality_id &qual ) const
 
     static const quality_id BUTCHER( "BUTCHER" );
     if( qual == BUTCHER ) {
-        if( self->has_trait( "CLAWS_ST" ) ) {
+        if( self->has_trait( trait_id( "CLAWS_ST" ) ) ) {
             res = std::max( res, 8 );
-        } else if( self->has_trait( "TALONS" ) || self->has_trait( "MANDIBLES" ) ||
-                   self->has_trait( "CLAWS" ) || self->has_trait( "CLAWS_RETRACT" ) ||
-                   self->has_trait( "CLAWS_RAT" ) ) {
+        } else if( self->has_trait( trait_id( "TALONS" ) ) || self->has_trait( trait_id( "MANDIBLES" ) ) ||
+                   self->has_trait( trait_id( "CLAWS" ) ) || self->has_trait( trait_id( "CLAWS_RETRACT" ) ) ||
+                   self->has_trait( trait_id( "CLAWS_RAT" ) ) ) {
             res = std::max( res, 4 );
         }
     }
@@ -799,7 +799,7 @@ long visitable<Character>::charges_of( const std::string &what, long limit ) con
     auto p = dynamic_cast<const player *>( self );
 
     if( what == "toolset") {
-        if( p && p->has_active_bionic( "bio_tools" ) ) {
+        if( p && p->has_active_bionic( bionic_id( "bio_tools" ) ) ) {
             return std::min( (long)p->power_level, limit );
         } else {
             return 0;
@@ -810,7 +810,7 @@ long visitable<Character>::charges_of( const std::string &what, long limit ) con
         long qty = 0;
         qty = sum_no_wrap( qty, charges_of( "UPS_off" ) );
         qty = sum_no_wrap( qty, long( charges_of( "adv_UPS_off" ) / 0.6 ) );
-        if ( p && p->has_active_bionic( "bio_ups" ) ) {
+        if ( p && p->has_active_bionic( bionic_id( "bio_ups" ) ) ) {
             qty = sum_no_wrap( qty, long( p->power_level ) );
         }
         return std::min( qty, limit );
@@ -863,7 +863,7 @@ int visitable<Character>::amount_of( const std::string& what, bool pseudo, int l
 {
     auto self = static_cast<const Character *>( this );
 
-    if( what == "toolset" && pseudo && self->has_active_bionic( "bio_tools" ) ) {
+    if( what == "toolset" && pseudo && self->has_active_bionic( bionic_id( "bio_tools" ) ) ) {
         return 1;
     }
 

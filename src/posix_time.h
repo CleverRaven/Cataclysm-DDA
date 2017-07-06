@@ -18,7 +18,8 @@ extern "C" {
 
 // Apparently this is defined by pthread.h, if that header had been included.
 // _INC_TIME is defined in time.h for MSVC
-#if !defined(_TIMESPEC_DEFINED) && !defined(_INC_TIME)
+// __struct_timespec_defined is defined in time.h for MinGW on Windows
+#if !defined(_TIMESPEC_DEFINED) && !defined(_INC_TIME) && ! __struct_timespec_defined
 #define _TIMESPEC_DEFINED
 struct timespec {
     time_t tv_sec;

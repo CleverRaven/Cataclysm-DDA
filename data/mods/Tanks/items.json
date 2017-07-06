@@ -262,7 +262,7 @@
   "type" : "AMMO",
   "id" : "atgm_heat",
   "price" : 70000,
-  "name" : "anti-tank guided missile",
+  "name" : "152mm anti-tank guided missile",
   "symbol" : "=",
   "color" : "dark_gray",
   "description" : "A tube-launched, optically tracked, wire-guided missile.  Designed to be highly effective against vehicles and structures.",

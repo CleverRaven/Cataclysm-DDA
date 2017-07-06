@@ -7,6 +7,7 @@
 #include "json.h"
 #include "enums.h"
 #include "int_id.h"
+#include "mongroup.h"
 #include "string_id.h"
 
 #include <string>
@@ -77,7 +78,7 @@ type random();
 };
 
 struct overmap_spawns : public JsonDeserializer {
-    overmap_spawns() : group( "GROUP_NULL" ) {} // @fixme Replace it with NULL_ID.
+    overmap_spawns() : group( mongroup_id::NULL_ID() ) {}
 
     string_id<MonsterGroup> group;
     numeric_interval<int> population;

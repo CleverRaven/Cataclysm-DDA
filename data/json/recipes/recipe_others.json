@@ -835,8 +835,8 @@
   ],
   "tools": [
     [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
+      [ "fire", -1 ],
+      [ "toolset", 10 ]
     ]
   ],
   "components": [
@@ -3097,8 +3097,8 @@
   "qualities":[{"id":"HAMMER","level":1}],
   "tools": [
     [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
+      [ "fire", -1 ],
+      [ "toolset", 10 ]
     ]
   ],
   "components": [ [ [ "copper", 100 ] ] ]

@@ -74,8 +74,8 @@
   ],
   "tools": [
     [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
+      [ "fire", -1 ],
+      [ "toolset", 10 ]
     ]
   ],
   "components": [
@@ -277,6 +277,7 @@
     ],
     [
       [ "rag", 1 ],
+      [ "felt_patch", 1 ],
       [ "leather", 1 ],
       [ "fur", 1 ]
     ],
@@ -304,8 +305,8 @@
   ],
   "tools": [
     [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
+      [ "fire", -1 ],
+      [ "toolset", 10 ]
     ]
   ],
   "components": [
@@ -359,8 +360,8 @@
     ],
     [
       [ "rag", 1 ],
+      [ "felt_patch", 1 ],
       [ "leather", 1 ],
-      [ "duct_tape", 20 ],
       [ "fur", 1 ]
     ],
     [
@@ -396,6 +397,7 @@
     ],
     [
       [ "rag", 1 ],
+      [ "felt_patch", 1 ],
       [ "leather", 1 ],
       [ "fur", 1 ]
     ],
@@ -461,6 +463,7 @@
     ],
     [
       [ "rag", 1 ],
+      [ "felt_patch", 1 ],
       [ "leather", 1 ],
       [ "fur", 1 ]
     ],
@@ -469,38 +472,6 @@
       [ "duct_tape", 50 ]
     ]
   ]
-},{
-  "type" : "recipe",
-  "result": "spear_steel",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
-  "skill_used": "fabrication",
-  "skills_required": [ "melee", 1 ],
-  "difficulty": 1,
-  "time": 60000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":3},
-    {"id":"SAW_M","level":1},
-    { "id" : "GLARE", "level" : 2 }
-  ], "tools": [
-      [
-      [ "oxy_torch", 4 ],
-      [ "welder", 20 ],
-      [ "welder_crude", 30 ],
-      [ "toolset", 30 ]
-      ]
-      ],
-  "components":
-     [
-     [
-      [ "pipe", 1 ]
-     ],
-     [
-     [ "steel_chunk", 1 ],
-     [ "scrap", 3 ]
-     ]
-    ]
 },{
   "type" : "recipe",
   "result": "longbow",
@@ -4060,7 +4031,7 @@
   "type" : "recipe",
   "result": "estoc",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 8,
   "time": 490000,
