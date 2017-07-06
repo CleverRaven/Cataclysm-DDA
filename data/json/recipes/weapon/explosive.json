@@ -75,6 +75,7 @@
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
     "time": 3000,
+    "reversible": true,
     "autolearn": true,
     "qualities" : [ { "id": "CUT", "level": 1 } ],
     "components": [
