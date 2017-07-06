@@ -2517,10 +2517,10 @@ int talk_trial::calc_chance( const dialogue &d ) const
         if ((u.has_trait( trait_WINGS_BUTTERFLY )) || (u.has_trait( trait_FLOWERS ))) {
           chance += 10;
         }
-        if (u.has_bionic("bio_voice")) { //come on, who would suspect a robot of lying?
+        if (u.has_bionic( bionic_id( "bio_voice" ) ) ) { //come on, who would suspect a robot of lying?
           chance += 10;
         }
-        if (u.has_bionic("bio_face_mask")) {
+        if (u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
         chance += 20;
         }
         break;
@@ -2536,7 +2536,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
         if (u.has_trait( trait_WINGS_BUTTERFLY )) {
           chance += 15; // Flutter your wings at 'em
         }
-        if (u.has_bionic("bio_face_mask")) {
+        if (u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
           chance += 10;
         }
         if (u.has_trait( trait_GROWL )) {
@@ -2548,10 +2548,10 @@ int talk_trial::calc_chance( const dialogue &d ) const
         if (u.has_trait( trait_SNARL )) {
           chance -= 60;
         }
-        if (u.has_bionic("bio_deformity")) {
+        if (u.has_bionic( bionic_id( "bio_deformity" ) ) ) {
           chance -= 50;
         }
-        if (u.has_bionic("bio_voice")) {
+        if (u.has_bionic( bionic_id( "bio_voice" ) ) ) {
           chance -= 20;
         }
         break;
@@ -2588,16 +2588,16 @@ int talk_trial::calc_chance( const dialogue &d ) const
         if (u.has_trait( trait_WINGS_BUTTERFLY )) {
           chance -= 20; // Butterflies are not terribly threatening.  :-(
         }
-        if (u.has_bionic("bio_face_mask")) {
+        if (u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
           chance += 10;
         }
-        if (u.has_bionic("bio_armor_eyes")) {
+        if (u.has_bionic( bionic_id( "bio_armor_eyes" ) ) ) {
           chance += 10;
         }
-        if (u.has_bionic("bio_deformity")) {
+        if (u.has_bionic( bionic_id( "bio_deformity" ) ) ) {
           chance += 20;
         }
-        if (u.has_bionic("bio_voice")) {
+        if (u.has_bionic( bionic_id( "bio_voice" ) ) ) {
           chance += 20;
         }
         break;
@@ -4433,7 +4433,7 @@ bool npc::item_whitelisted( const item &it )
 
 npc_follower_rules::npc_follower_rules()
 {
-    engagement = ENGAGE_ALL;
+    engagement = ENGAGE_CLOSE;
     aim = AIM_WHEN_CONVENIENT;
     use_guns = true;
     use_grenades = true;

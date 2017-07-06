@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-11 19:01+0800\n"
-"PO-Revision-Date: 2017-06-12 14:30+0000\n"
-"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
+"POT-Creation-Date: 2017-06-30 20:35+0800\n"
+"PO-Revision-Date: 2017-07-01 06:16+0000\n"
+"Last-Translator: Brett Dong <brett.browning.dong@gmail.com>\n"
 "Language-Team: Italian (Italy) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/it_IT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2203,19 +2203,19 @@ msgid ""
 msgstr "Un proiettile fumogeno 84x246mm  per il fucile senza rinculo Carl Gustav M3. Comunemente usato per segnalazioni, indicare obiettivi e coprire i movimenti delle truppe."
 
 #: lang/json/AMMO_from_json.py
-msgid "PG-7VL rocket"
+msgid "PG-7VL 93mm rocket"
 msgstr ""
 
-#. ~ Description for PG-7VL rocket
+#. ~ Description for PG-7VL 93mm rocket
 #: lang/json/AMMO_from_json.py
 msgid "93mm single-stage high-explosive ammunition for the RPG-7."
 msgstr "Munizione 93mm HE altamente esplosiva a stage singolo per RPG-7."
 
 #: lang/json/AMMO_from_json.py
-msgid "M235 TPA rocket"
+msgid "M235 66mm TPA rocket"
 msgstr ""
 
-#. ~ Description for M235 TPA rocket
+#. ~ Description for M235 66mm TPA rocket
 #: lang/json/AMMO_from_json.py
 msgid ""
 "66mm incendiary rockets used in the M202 FLASH rocket launcher.  Their "
@@ -4063,10 +4063,10 @@ msgid ""
 msgstr "Una granata da 40mm caricata con lacrimogeno. Esplode in una nuvola di gas altamente debilitante."
 
 #: lang/json/AMMO_from_json.py
-msgid ".44 FMJ"
-msgstr ".44 FMJ"
+msgid ".44 Magnum FMJ"
+msgstr ""
 
-#. ~ Description for .44 FMJ
+#. ~ Description for .44 Magnum FMJ
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A brass-jacketed variant of the .44 Magnum round.  This increases "
@@ -4086,7 +4086,7 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded .44 FMJ"
+msgid "reloaded .44 Magnum FMJ"
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -4221,16 +4221,16 @@ msgid ""
 msgstr "Variante del .50 BMG che usa un nucleo denso di tungsteno indurito. La penetrazione è aumentata, ma il danno è diminuito."
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded .50 BMG API"
-msgstr ".50 BMG API artigianali"
+msgid "reloaded .50 BMG tracer"
+msgstr ""
 
-#. ~ Description for reloaded .50 BMG API
+#. ~ Description for reloaded .50 BMG tracer
 #: lang/json/AMMO_from_json.py
 msgid ""
-"An armor-piercing incendiary variant of the powerful .50 BMG sniper round.  "
-"Incendiary rounds are designed to burn hotly upon impact, piercing armor and"
-" igniting flammable substances.  This one has been hand-reloaded."
-msgstr "Una variante incendiaria e perforante del potente proiettile .50 BMG. I proiettili incendiari sono ideati per bruciare ad alte temperature all'impatto, perforare armature e dare fuoco alle sostanze infiammabili."
+"A tracer variant of the powerful .50 BMG sniper round.  Tracer rounds to "
+"help keep the weapon they are fired from on target at the risk of igniting "
+"flammable substances.  This one has been hand-reloaded."
+msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .50 BMG Ball"
@@ -5904,10 +5904,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
-msgid "anti-tank guided missile"
+msgid "152mm anti-tank guided missile"
 msgstr ""
 
-#. ~ Description for anti-tank guided missile
+#. ~ Description for 152mm anti-tank guided missile
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A tube-launched, optically tracked, wire-guided missile.  Designed to be "
@@ -34516,6 +34516,10 @@ msgid "A standard capacity magazine for the popular S&W 22A pistol."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
+msgid "ammo belt 5.56x45mm"
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
 msgid "LW-56 magazine"
 msgstr ""
 
@@ -34528,10 +34532,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
-msgid "LW-30 magazine"
+msgid "LW-32 magazine"
 msgstr ""
 
-#. ~ Description for LW-30 magazine
+#. ~ Description for LW-32 magazine
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
 "A 32-round polymer magazine for Leadworks LLC 223 firearms.  Lightweight and"
@@ -34629,6 +34633,10 @@ msgstr ""
 msgid ""
 "A standard capacity magazine for use with the Browning Automatic Rifle, "
 "holds 20 rounds."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "ammo belt 7.62x51mm"
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
@@ -34909,6 +34917,10 @@ msgstr ""
 msgid ""
 "A standard capacity 20-round magazine for use with H&K's proprietary "
 "4.6x30mm round."
+msgstr ""
+
+#: lang/json/MAGAZINE_from_json.py
+msgid "ammo belt .50 BMG"
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
@@ -39562,8 +39574,8 @@ msgstr ""
 #. ~ Description for Compsognathus
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"A bipedal dinosaur about the size of a small cat.  Its teeth and claws look "
-"quite sharp."
+"A bipedal dinosaur about the size of a turkey.  Its teeth and claws are "
+"small but sharp."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -51774,8 +51786,8 @@ msgid "84mm recoilless projectile"
 msgstr "proiettili senza rinculo 84 mm"
 
 #: lang/json/ammunition_type_from_json.py
-msgid "M235 Incendiary TPA"
-msgstr "M235 Incendiaria TPA"
+msgid "M235 66mm Incendiary TPA"
+msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
 msgid "soap"
@@ -51845,12 +51857,9 @@ msgstr ""
 msgid "components"
 msgstr "componenti"
 
-#: lang/json/ammunition_type_from_json.py lang/json/gun_from_json.py
-#: lang/json/gun_from_json.py
-msgid "RPG-7"
-msgid_plural "RPG-7"
-msgstr[0] ""
-msgstr[1] ""
+#: lang/json/ammunition_type_from_json.py
+msgid "93mm RPG-7"
+msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
 msgid "rebreather filter"
@@ -57233,6 +57242,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/gun_from_json.py
+msgid "RPG-7"
+msgid_plural "RPG-7"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gun_from_json.py
 msgid ""
 "The emblematic RPG-7 launcher.  Its simple, inexpensive, and reliable design"
 " made it a popular choice among armies and insurgent groups worldwide."
@@ -59326,8 +59341,8 @@ msgid ""
 msgstr ""
 
 #: lang/json/gun_from_json.py
-msgid "double-barrel flintlock carbine"
-msgid_plural "double-barrel flintlock carbines"
+msgid "survivor's double-barrel flintlock"
+msgid_plural "survivor's double-barrel flintlocks"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -59934,8 +59949,8 @@ msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
-"Civilian version of the SVS-24.  This one fires the cheaper, but still "
-"powerful, 5.45x39mm cartridge."
+"Civilian version of the SVS-24.  This one fires the same 6.54x42mm cartridge"
+" as the SVS-24."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -83890,6 +83905,10 @@ msgid "punk"
 msgstr ""
 
 #: lang/json/snippet_from_json.py
+msgid "cunt"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
 msgid "loser"
 msgstr ""
 
@@ -83939,6 +83958,10 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid "I'm thirsty..."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "I'm <very> thirsty."
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -84386,6 +84409,10 @@ msgid "I'm tired..."
 msgstr ""
 
 #: lang/json/snippet_from_json.py
+msgid "I'm <very> tired."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
 msgid "I'm <swear> tired."
 msgstr ""
 
@@ -84827,6 +84854,10 @@ msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid "I'm hungry..."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid "I'm <very> hungry."
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -111980,8 +112011,8 @@ msgstr ""
 
 #: src/iuse_actor.cpp
 msgid ""
-"The prospect of cutting up the copse and letting it rise again as a slave is"
-" too much for you to deal with right now."
+"The prospect of cutting up the corpse and letting it rise again as a slave "
+"is too much for you to deal with right now."
 msgstr ""
 
 #: src/iuse_actor.cpp
@@ -114722,6 +114753,11 @@ msgstr "%s x %d"
 #, c-format
 msgid "Press %s to return"
 msgstr "Premi %s per uscire."
+
+#: src/messages.cpp
+#, c-format
+msgid "%-3s%-10s"
+msgstr ""
 
 #: src/mission_companion.cpp
 msgid "You have no bionics to install!"

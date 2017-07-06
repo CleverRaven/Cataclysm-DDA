@@ -4363,17 +4363,23 @@ void iuse::cut_log_into_planks(player *p)
     p->add_msg_if_player(_("You cut the log into planks."));
     item plank("2x4", int(calendar::turn));
     item scrap("splinter", int(calendar::turn));
+    const int max_planks = 10;
     /** @EFFECT_FABRICATION increases number of planks cut from a log */
-    int planks = (rng(1, 3) + (p->get_skill_level( skill_fabrication ) * 2));
-    int scraps = 12 - planks;
-    if (planks >= 12) {
-        planks = 12;
+    int planks = normal_roll( 2 + p->get_skill_level( skill_fabrication ), 1 );
+    int wasted_planks = max_planks - planks;
+    int scraps = rng( wasted_planks, wasted_planks * 3 );
+    planks = std::min( planks, max_planks );
+    if( planks > 0 ) {
+        p->i_add_or_drop( plank, planks );
+        p->add_msg_if_player( m_good, _( "You produce %d planks." ), planks );
     }
-    if (scraps >= planks) {
-        add_msg(m_bad, _("You waste a lot of the wood."));
+    if( scraps > 0 ) {
+        p->i_add_or_drop( scrap, scraps );
+        p->add_msg_if_player( m_good, _( "You produce %d splinters." ), scraps );
     }
-    p->i_add_or_drop(plank, planks);
-    p->i_add_or_drop(scrap, scraps);
+    if( planks < max_planks / 2 ) {
+        add_msg( m_bad, _("You waste a lot of the wood.") );
+    }
 }
 
 int iuse::lumber(player *p, item *it, bool t, const tripoint& )
@@ -6728,7 +6734,7 @@ int iuse::ehandcuffs(player *p, item *it, bool t, const tripoint &pos)
         }
 
         if( p->has_item( *it ) ) {
-            if (p->has_active_bionic("bio_shock") && p->power_level >= 2 && one_in(5)) {
+            if (p->has_active_bionic( bionic_id( "bio_shock" ) ) && p->power_level >= 2 && one_in(5)) {
                 p->charge_power(-2);
 
                 it->item_tags.erase("NO_UNWIELD");

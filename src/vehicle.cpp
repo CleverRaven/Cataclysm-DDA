@@ -3460,7 +3460,7 @@ void vehicle::consume_fuel( double load = 1.0 )
     if( load > 0 && one_in( (int) (1 / load) ) &&
         fuel_left( fuel_type_muscle ) > 0 ) {
         //charge bionics when using muscle engine
-        if (g->u.has_bionic("bio_torsionratchet")) {
+        if (g->u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             g->u.charge_power(1);
         }
         //cost proportional to strain
@@ -3847,24 +3847,24 @@ void vehicle::operate_reaper(){
         const int plant_produced =  rng( 1, parts[ reaper_id ].info().bonus );
         const int seed_produced = rng( 1, 3 );
         const units::volume max_pickup_volume = parts[ reaper_id ].info().size / 20;
-        if( g->m.furn( reaper_pos ) == f_plant_harvest &&
-            g->m.has_items( reaper_pos ) ){
-            const item& seed = g->m.i_at( reaper_pos ).front();
-            if( seed.typeId() == "fungal_seeds" ||
-                seed.typeId() == "marloss_seed" ) {
-                // Otherworldly plants, the earth-made reaper can not handle those.
-                continue;
-            }
-            g->m.furn_set( reaper_pos, f_null );
-            g->m.i_clear( reaper_pos );
-            for( auto &i : iexamine::get_harvest_items(
-                     *seed.type, plant_produced, seed_produced, false ) ) {
-                g->m.add_item_or_charges( reaper_pos, i );
-            }
-            sounds::sound( reaper_pos, rng( 10, 25 ), _("Swish") );
+        if( g->m.furn( reaper_pos ) != f_plant_harvest ||
+            !g->m.has_items( reaper_pos ) ) {
+            continue;
         }
-        if( part_flag(reaper_id, "CARGO") &&
-            g->m.ter( reaper_pos ) == t_dirtmound ) {
+        const item& seed = g->m.i_at( reaper_pos ).front();
+        if( seed.typeId() == "fungal_seeds" ||
+            seed.typeId() == "marloss_seed" ) {
+            // Otherworldly plants, the earth-made reaper can not handle those.
+            continue;
+        }
+        g->m.furn_set( reaper_pos, f_null );
+        g->m.i_clear( reaper_pos );
+        for( auto &i : iexamine::get_harvest_items(
+                 *seed.type, plant_produced, seed_produced, false ) ) {
+            g->m.add_item_or_charges( reaper_pos, i );
+        }
+        sounds::sound( reaper_pos, rng( 10, 25 ), _("Swish") );
+        if( part_flag( reaper_id, "CARGO" ) ) {
             map_stack stack( g->m.i_at( reaper_pos ) );
             for( auto iter = stack.begin(); iter != stack.end(); ) {
                 if( ( iter->volume() <= max_pickup_volume ) &&

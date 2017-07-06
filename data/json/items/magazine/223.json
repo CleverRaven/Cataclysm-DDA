@@ -3,7 +3,7 @@
     "id": "belt223",
     "copy-from": "magazine_belt",
     "type": "MAGAZINE",
-    "name": "ammo belt",
+    "name": "ammo belt 5.56x45mm",
     "ammo_type": "223",
     "capacity": 500,
     "count": 100,

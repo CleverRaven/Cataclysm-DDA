@@ -14,12 +14,12 @@ void clear_bionics( player &p ) {
     return;
 }
 
-void give_and_activate( player &p, std::string const &bioid ) {
-    INFO( "bionic " + bioid + " is valid" );
-    REQUIRE( is_valid_bionic( bioid ) );
+void give_and_activate( player &p, bionic_id const &bioid ) {
+    INFO( "bionic " + bioid.str() + " is valid" );
+    REQUIRE( bioid.is_valid() );
     
     p.add_bionic( bioid );
-    INFO( "dummy has gotten " + bioid + " bionic " );
+    INFO( "dummy has gotten " + bioid.str() + " bionic " );
     REQUIRE( p.has_bionic( bioid ) );
 
     // get bionic's index - might not be "last added" due to "integrated" ones
@@ -36,9 +36,9 @@ void give_and_activate( player &p, std::string const &bioid ) {
     REQUIRE( bio.id == bioid );
 
     // turn on if possible
-    if( bionic_info( bio.id ).toggled && !bio.powered ) {
+    if( bio.id->toggled && !bio.powered ) {
         p.activate_bionic( bioindex );
-        INFO( "bionic " + bio.id + " with index " + std::to_string( bioindex ) + " is active " );
+        INFO( "bionic " + bio.id.str() + " with index " + std::to_string( bioindex ) + " is active " );
         REQUIRE( p.has_active_bionic( bioid ) );
     }
 
@@ -86,14 +86,14 @@ TEST_CASE( "bionics", "[bionics] [item]" ) {
     INFO( "no power capacity at first" );
     CHECK( dummy.max_power_level == 0 );
 
-    dummy.add_bionic( "bio_power_storage" );
+    dummy.add_bionic( bionic_id( "bio_power_storage" ) );
 
     INFO( "adding Power Storage CBM only increases capacity" );
     CHECK( dummy.power_level == 0 );
     REQUIRE( dummy.max_power_level > 0 );
 
     SECTION( "bio_advreactor" ) {
-        give_and_activate( dummy, "bio_advreactor" );
+        give_and_activate( dummy, bionic_id( "bio_advreactor" ) );
 
         static const std::list<std::string> always = {
             "plut_cell",  // solid
@@ -113,7 +113,7 @@ TEST_CASE( "bionics", "[bionics] [item]" ) {
     }
 
     SECTION( "bio_batteries" ) {
-        give_and_activate( dummy, "bio_batteries" );
+        give_and_activate( dummy, bionic_id( "bio_batteries" ) );
 
         static const std::list<std::string> always = {
             "battery" // old-school

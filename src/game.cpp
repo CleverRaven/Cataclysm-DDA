@@ -167,6 +167,8 @@ const efftype_id effect_tied( "tied" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_winded( "winded" );
 
+static const bionic_id bio_remote( "bio_remote" );
+
 static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_INCONSPICUOUS( "INCONSPICUOUS" );
@@ -1497,7 +1499,7 @@ bool game::do_turn()
     }
 
     // No-scent debug mutation has to be processed here or else it takes time to start working
-    if( !u.has_active_bionic( "bio_scent_mask" ) &&
+    if( !u.has_active_bionic( bionic_id( "bio_scent_mask" ) ) &&
         !u.has_trait( trait_id( "DEBUG_NOSCENT" ) ) ) {
         scent.set( u.pos(), u.scent );
         overmap_buffer.set_scent( u.global_omt_location(),  u.scent );
@@ -1613,7 +1615,7 @@ void game::rustCheck()
             continue;
         }
 
-        bool charged_bio_mem = u.has_active_bionic("bio_memory") && u.power_level > 25;
+        bool charged_bio_mem = u.has_active_bionic( bionic_id( "bio_memory" ) ) && u.power_level > 25;
         int oldSkillLevel = u.get_skill_level(aSkill.ident());
 
         if (u.get_skill_level(aSkill.ident()).rust(charged_bio_mem)) {
@@ -2433,7 +2435,7 @@ vehicle *game::remoteveh()
     remoteveh_cache_turn = calendar::turn;
     std::stringstream remote_veh_string( u.get_value( "remote_controlling_vehicle" ) );
     if( remote_veh_string.str().empty() ||
-        ( !u.has_active_bionic( "bio_remote" ) && !u.has_active_item( "remotevehcontrol" ) ) ) {
+        ( !u.has_active_bionic( bio_remote ) && !u.has_active_item( "remotevehcontrol" ) ) ) {
         remoteveh_cache = nullptr;
     } else {
         tripoint vp;
@@ -2452,7 +2454,7 @@ void game::setremoteveh(vehicle *veh)
 {
     remoteveh_cache_turn = calendar::turn;
     remoteveh_cache = veh;
-    if( veh != nullptr && !u.has_active_bionic( "bio_remote" ) && !u.has_active_item( "remotevehcontrol" ) ) {
+    if( veh != nullptr && !u.has_active_bionic( bio_remote ) && !u.has_active_item( "remotevehcontrol" ) ) {
         debugmsg( "Tried to set remote vehicle without bio_remote or remotevehcontrol" );
         veh = nullptr;
     }
@@ -2664,7 +2666,7 @@ bool game::handle_action()
         case ACTION_MOVE_N:
             moveCount++;
 
-            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic("bio_remote") ) ) ) {
+            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(0, -1);
             } else if (veh_ctrl) {
                 pldrive(0, -1);
@@ -2676,7 +2678,7 @@ bool game::handle_action()
         case ACTION_MOVE_NE:
             moveCount++;
 
-            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic("bio_remote") ) ) ) {
+            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(1, -1);
             } else if (veh_ctrl) {
                 pldrive(1, -1);
@@ -2688,7 +2690,7 @@ bool game::handle_action()
         case ACTION_MOVE_E:
             moveCount++;
 
-            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic("bio_remote") ) ) ) {
+            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(1, 0);
             } else if (veh_ctrl) {
                 pldrive(1, 0);
@@ -2700,7 +2702,7 @@ bool game::handle_action()
         case ACTION_MOVE_SE:
             moveCount++;
 
-            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic("bio_remote") ) ) ) {
+            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(1, 1);
             } else if (veh_ctrl) {
                 pldrive(1, 1);
@@ -2712,7 +2714,7 @@ bool game::handle_action()
         case ACTION_MOVE_S:
             moveCount++;
 
-            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic("bio_remote") ) ) ) {
+            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(0, 1);
             } else if (veh_ctrl) {
                 pldrive(0, 1);
@@ -2724,7 +2726,7 @@ bool game::handle_action()
         case ACTION_MOVE_SW:
             moveCount++;
 
-            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic("bio_remote") ) ) ) {
+            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(-1, 1);
             } else if (veh_ctrl) {
                 pldrive(-1, 1);
@@ -2736,7 +2738,7 @@ bool game::handle_action()
         case ACTION_MOVE_W:
             moveCount++;
 
-            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic("bio_remote") ) ) ) {
+            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(-1, 0);
             } else if (veh_ctrl) {
                 pldrive(-1, 0);
@@ -2748,7 +2750,7 @@ bool game::handle_action()
         case ACTION_MOVE_NW:
             moveCount++;
 
-            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic("bio_remote") ) ) ) {
+            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(-1, -1);
             } else if (veh_ctrl) {
                 pldrive(-1, -1);
@@ -3164,7 +3166,7 @@ bool game::handle_action()
 
                     // bio_alarm is usefull for waking up during sleeping
                     // turning off bio_leukocyte has 'unpleasant side effects'
-                    if( bio.id == "bio_alarm" || bio.id == "bio_leukocyte" ) {
+                    if( bio.id == bionic_id( "bio_alarm" ) || bio.id == bionic_id( "bio_leukocyte" ) ) {
                         continue;
                     }
 
@@ -3621,6 +3623,7 @@ void game::load_uistate(std::string worldname)
 }
 
 bool game::load( const std::string &world ) {
+    world_generator->init();
     const WORLDPTR wptr = world_generator->get_world( world );
     if( !wptr ) {
         return false;
@@ -4880,7 +4883,7 @@ void game::draw_sidebar()
         mvwprintz(w_location, 0, 18, weather_data(weather).color, "%s", weather_data(weather).name.c_str());
     }
 
-    if( u.worn_with_flag( "THERMOMETER" ) || u.has_bionic( "bio_meteorologist" ) ) {
+    if( u.worn_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
         wprintz( w_location, c_white, " %s", print_temperature( get_temperature() ).c_str());
     }
 
@@ -5013,7 +5016,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
     // Draw player last
     draw_critter( u, center );
 
-    if( u.has_active_bionic("bio_scent_vision") && u.view_offset.z == 0 ) {
+    if( u.has_active_bionic( bionic_id( "bio_scent_vision" ) ) && u.view_offset.z == 0 ) {
         tripoint tmp = center;
         int &realx = tmp.x;
         int &realy = tmp.y;
@@ -5926,7 +5929,7 @@ void game::monmove()
         }
 
         if (!critter.is_dead() &&
-            u.has_active_bionic("bio_alarm") &&
+            u.has_active_bionic( bionic_id( "bio_alarm" ) ) &&
             u.power_level >= 25 &&
             rl_dist( u.pos(), critter.pos() ) <= 5 &&
             !critter.is_hallucination()) {
@@ -6002,7 +6005,7 @@ void game::flashbang( const tripoint &p, bool player_immune)
     draw_explosion( p, 8, c_white );
     int dist = rl_dist( u.pos(), p );
     if (dist <= 8 && !player_immune) {
-        if (!u.has_bionic("bio_ears") && !u.is_wearing("rm13_armor_on")) {
+        if (!u.has_bionic( bionic_id( "bio_ears" ) ) && !u.is_wearing("rm13_armor_on")) {
             u.add_effect( effect_deaf, 40 - dist * 4);
         }
         if( m.sees( u.pos(), p, 8 ) ) {
@@ -6013,7 +6016,7 @@ void game::flashbang( const tripoint &p, bool player_immune)
                 }
             } else if( u.has_trait( trait_PER_SLIME_OK ) ) {
                 flash_mod = 8; // Just retract those and extrude fresh eyes
-            } else if( u.has_bionic( "bio_sunglasses" ) || u.is_wearing( "rm13_armor_on" ) ) {
+            } else if( u.has_bionic( bionic_id( "bio_sunglasses" ) ) || u.is_wearing( "rm13_armor_on" ) ) {
                 flash_mod = 6;
             } else if( u.worn_with_flag( "BLIND" ) || u.worn_with_flag( "FLASH_PROTECTION" ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
@@ -10003,7 +10006,7 @@ bool game::plfire_check( const targeting_data &args ) {
 
             if( !( u.has_charges( "UPS_off", ups_drain ) ||
                 u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
-                (u.has_active_bionic( "bio_ups" ) && u.power_level >= ups_drain ) ) ) {
+                (u.has_active_bionic( bionic_id( "bio_ups" ) ) && u.power_level >= ups_drain ) ) ) {
                 add_msg( m_info,
                          _( "You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!" ),
                          ups_drain, adv_ups_drain );
@@ -10064,6 +10067,12 @@ bool game::plfire()
             // At low stamina levels, firing starts getting slow.
             int sta_percent = ( 100 * u.stamina ) / u.get_stamina_max();
             reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
+
+            // Update targeting data to include ammo's range bonus
+            args.range = gun.melee() ? gun.qty : gun.target->gun_range( &u );
+            args.ammo = gun->ammo_data();
+            u.set_targeting_data( args );
+
             refresh_all();
         }
     }
@@ -11563,7 +11572,7 @@ bool game::walk_move( const tripoint &dest_loc )
             } else if( u.has_trait( trait_id( "CLUMSY" ) ) ) {
                 sounds::sound( dest_loc, 10, "", true, "none", "none" );
                 sfx::do_footstep();
-            } else if( u.has_bionic( "bio_ankles" ) ) {
+            } else if( u.has_bionic( bionic_id( "bio_ankles" ) ) ) {
                 sounds::sound( dest_loc, 12, "", true, "none", "none" );
                 sfx::do_footstep();
             } else {
@@ -11807,7 +11816,7 @@ void game::place_player_overmap( const tripoint &om_dest )
 
 bool game::phasing_move( const tripoint &dest_loc )
 {
-    if( !u.has_active_bionic("bio_probability_travel") || u.power_level < 250 ) {
+    if( !u.has_active_bionic( bionic_id( "bio_probability_travel" ) ) || u.power_level < 250 ) {
         return false;
     }
 
@@ -12041,7 +12050,7 @@ void game::on_move_effects()
 {
     // TODO: Move this to a character method
     if (moveCount % 2 == 0) {
-        if (u.has_bionic("bio_torsionratchet")) {
+        if (u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             u.charge_power(1);
         }
     }
