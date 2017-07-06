@@ -37,7 +37,7 @@
     },{
         "type" : "technique",
         "id" : "DEF_DISARM",
-        "name" : "disarm",
+        "name" : "Disarm",
         "min_unarmed" : 0,
         "melee_allowed" : true,
         "disarms" : true
