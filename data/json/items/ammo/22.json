@@ -20,11 +20,13 @@
     "id": "22_fmj",
     "copy-from": "22_lr",
     "type": "AMMO",
-    "name": ".22 FMJ",
-    "description": ".22 Long Rifle ammunition with 30gr FMJ bullets.  The .22LR round is extremely weak with very low stopping power, short range, and negligible recoil.  It is most useful for rifle training, and hunting small animals.",
+    "name": ".22 LR hypervelocity",
+    "description": ".22 Long Rifle ammunition with 30gr copper patched bullets.  Far superior to .22 LR cartridges, if your firearm can handle them.",
     "relative": {
-      "damage": -1,
-      "pierce": 2
+      "damage": 4,
+      "pierce": 2,
+      "range": 1,
+      "recoil": 100
     }
   },
   {
