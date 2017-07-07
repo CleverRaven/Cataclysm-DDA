@@ -1231,12 +1231,12 @@ void options_manager::init()
         );
 
     add("SOFTWARE_RENDERING", "graphics", _("Software rendering"),
-        _("Use software renderer instead of graphics card acceleration."),
+        _("Use software renderer instead of graphics card acceleration.  Requires restart."),
         false, COPT_CURSES_HIDE
         );
 
     add("FRAMEBUFFER_ACCEL", "graphics", _("Software framebuffer acceleration"),
-        _("Use hardware acceleration for the framebuffer when using software rendering."),
+        _("Use hardware acceleration for the framebuffer when using software rendering.  Requires restart."),
         false, COPT_CURSES_HIDE
         );
 
