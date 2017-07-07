@@ -2083,3 +2083,10 @@ std::unordered_map<std::string, options_manager::cOpt> options_manager::get_worl
     }
     return result;
 }
+
+std::vector<std::string> options_manager::getWorldOptPageItems() const
+{
+    // @todo mPageItems is const here, so we can not use its operator[], therefor the copy
+    auto temp = mPageItems;
+    return temp[iWorldOptPage];
+}

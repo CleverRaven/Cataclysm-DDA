@@ -623,8 +623,7 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
     WINDOW_PTR w_options_headerptr( w_options_header );
 
     std::ostringstream sTemp;
-    auto mPageItems = get_options().getPageItems();
-    auto iWorldOptPage = get_options().getWorldOptPage();
+    auto pageItems = get_options().getWorldOptPageItems();
 
     std::map<int, bool> mapLines;
     mapLines[4] = true;
@@ -672,15 +671,15 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
             }
         }
 
-        calcStartPos(iStartPos, iCurrentLine, iContentHeight, mPageItems[iWorldOptPage].size());
+        calcStartPos( iStartPos, iCurrentLine, iContentHeight, pageItems.size() );
 
         //Draw options
         int iBlankOffset = 0;
-        for (int i = iStartPos; i < iStartPos + ((iContentHeight > (int)mPageItems[iWorldOptPage].size()) ?
-                (int)mPageItems[iWorldOptPage].size() : iContentHeight); i++) {
+        for ( int i = iStartPos; i < iStartPos + ( ( iContentHeight > ( int )pageItems.size() ) ?
+                ( int )pageItems.size() : iContentHeight ); i++ ) {
             nc_color cLineColor = c_ltgreen;
 
-            if (world->WORLD_OPTIONS[mPageItems[iWorldOptPage][i]].getMenuText() == "") {
+            if( world->WORLD_OPTIONS[pageItems[i]].getMenuText() == "" ) {
                 iBlankOffset++;
                 continue;
             }
@@ -696,23 +695,23 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
                 wprintz(w_options, c_yellow, "   ");
             }
             wprintz(w_options, c_white, "%s",
-                    (world->WORLD_OPTIONS[mPageItems[iWorldOptPage][i]].getMenuText()).c_str());
+                    world->WORLD_OPTIONS[pageItems[i]].getMenuText().c_str() );
 
-            if (world->WORLD_OPTIONS[mPageItems[iWorldOptPage][i]].getValue() == "false") {
+            if( world->WORLD_OPTIONS[pageItems[i]].getValue() == "false" ) {
                 cLineColor = c_ltred;
             }
 
             mvwprintz(w_options, i - iStartPos, 62, (iCurrentLine == i) ? hilite(cLineColor) :
-                      cLineColor, "%s", (world->WORLD_OPTIONS[mPageItems[iWorldOptPage][i]].getValueName()).c_str());
+                      cLineColor, "%s", world->WORLD_OPTIONS[pageItems[i]].getValueName().c_str() );
         }
 
         draw_scrollbar(win, iCurrentLine, iContentHeight,
-                       mPageItems[iWorldOptPage].size(), iTooltipHeight + 4, 0, BORDER_COLOR);
+                       pageItems.size(), iTooltipHeight + 4, 0, BORDER_COLOR );
         wrefresh(win);
 
         fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s #%s",
-                       world->WORLD_OPTIONS[mPageItems[iWorldOptPage][iCurrentLine]].getTooltip().c_str(),
-                       world->WORLD_OPTIONS[mPageItems[iWorldOptPage][iCurrentLine]].getDefaultText().c_str());
+                       world->WORLD_OPTIONS[pageItems[iCurrentLine]].getTooltip().c_str(),
+                       world->WORLD_OPTIONS[pageItems[iCurrentLine]].getDefaultText().c_str() );
 
         wrefresh(w_options_tooltip);
         wrefresh(w_options);
@@ -722,24 +721,24 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
         if (action == "DOWN") {
             do {
                 iCurrentLine++;
-                if (iCurrentLine >= (int)mPageItems[iWorldOptPage].size()) {
+                if( iCurrentLine >= ( int )pageItems.size() ) {
                     iCurrentLine = 0;
                 }
-            } while(world->WORLD_OPTIONS[mPageItems[iWorldOptPage][iCurrentLine]].getMenuText() == "");
+            } while( world->WORLD_OPTIONS[pageItems[iCurrentLine]].getMenuText() == "" );
 
         } else if (action == "UP") {
             do {
                 iCurrentLine--;
                 if (iCurrentLine < 0) {
-                    iCurrentLine = mPageItems[iWorldOptPage].size() - 1;
+                    iCurrentLine = pageItems.size() - 1;
                 }
-            } while(world->WORLD_OPTIONS[mPageItems[iWorldOptPage][iCurrentLine]].getMenuText() == "");
+            } while( world->WORLD_OPTIONS[pageItems[iCurrentLine]].getMenuText() == "" );
 
-        } else if (!mPageItems[iWorldOptPage].empty() && action == "RIGHT") {
-            world->WORLD_OPTIONS[mPageItems[iWorldOptPage][iCurrentLine]].setNext();
+        } else if( !pageItems.empty() && action == "RIGHT" ) {
+            world->WORLD_OPTIONS[pageItems[iCurrentLine]].setNext();
 
-        } else if (!mPageItems[iWorldOptPage].empty() && action == "LEFT") {
-            world->WORLD_OPTIONS[mPageItems[iWorldOptPage][iCurrentLine]].setPrev();
+        } else if( !pageItems.empty() && action == "LEFT" ) {
+            world->WORLD_OPTIONS[pageItems[iCurrentLine]].setPrev();
 
         } else if (action == "PREV_TAB") {
             return -1;

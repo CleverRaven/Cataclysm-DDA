@@ -147,8 +147,7 @@ class options_manager : public JsonSerializer, public JsonDeserializer
          * current value, which acts as the default for new worlds.
          */
         std::unordered_map<std::string, cOpt> get_world_defaults() const;
-        const std::map<int, std::vector<std::string>> &getPageItems() const { return mPageItems; }
-        int getWorldOptPage() const;
+        std::vector<std::string> getWorldOptPageItems() const;
 
         /** Check if an option exists? */
         bool has_option( const std::string &name ) const;
