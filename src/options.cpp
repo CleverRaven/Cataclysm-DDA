@@ -41,7 +41,6 @@ extern std::unique_ptr<cata_tiles> tilecontext;
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
 std::vector<std::pair<std::string, std::string> > vPages;
-std::map<int, std::vector<std::string> > mPageItems;
 std::map<std::string, int> mOptionsSort;
 std::map<std::string, std::string> optionNames;
 int iWorldOptPage;
@@ -1940,6 +1939,8 @@ void options_manager::serialize(JsonOut &json) const
 {
     json.start_array();
 
+    // @todo mPageItems is const here, so we can not use its operator[], therefor the copy
+    auto mPageItems = this->mPageItems;
     for( size_t j = 0; j < vPages.size(); ++j ) {
         for( auto &elem : mPageItems[j] ) {
             // Skip blanks between option groups

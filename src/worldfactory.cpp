@@ -623,6 +623,7 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
     WINDOW_PTR w_options_headerptr( w_options_header );
 
     std::ostringstream sTemp;
+    auto mPageItems = get_options().getPageItems();
 
     std::map<int, bool> mapLines;
     mapLines[4] = true;
