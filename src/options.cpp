@@ -40,7 +40,6 @@ extern std::unique_ptr<cata_tiles> tilecontext;
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
-std::vector<std::pair<std::string, std::string> > vPages;
 std::map<std::string, int> mOptionsSort;
 std::map<std::string, std::string> optionNames;
 
