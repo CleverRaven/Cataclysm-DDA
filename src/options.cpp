@@ -82,8 +82,8 @@ void options_manager::add_value( const std::string &lvar, const std::string &lva
 {
     std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
     if ( it != post_json_verify.end() ) {
-        auto ot = global_options.find(lvar);
-        if ( ot != global_options.end() && ot->second.sType == "string_select" ) {
+        auto ot = options.find( lvar );
+        if( ot != options.end() && ot->second.sType == "string_select" ) {
             for(std::vector<std::string>::const_iterator eit = ot->second.vItems.begin();
                 eit != ot->second.vItems.end(); ++eit) {
                 if ( *eit == lval ) { // already in
@@ -96,7 +96,7 @@ void options_manager::add_value( const std::string &lvar, const std::string &lva
             }
             // our value was saved, then set to default, so set it again.
             if ( it->second == lval ) {
-                global_options[ lvar ].setValue( lval );
+                options[ lvar ].setValue( lval );
             }
         }
 
@@ -141,7 +141,7 @@ void options_manager::add(const std::string sNameIn, const std::string sPageIn,
 
     thisOpt.setSortPos(sPageIn);
 
-    global_options[sNameIn] = thisOpt;
+    options[sNameIn] = thisOpt;
 }
 
 //add string input option
@@ -166,7 +166,7 @@ void options_manager::add(const std::string sNameIn, const std::string sPageIn,
 
     thisOpt.setSortPos(sPageIn);
 
-    global_options[sNameIn] = thisOpt;
+    options[sNameIn] = thisOpt;
 }
 
 //add bool option
@@ -189,7 +189,7 @@ void options_manager::add(const std::string sNameIn, const std::string sPageIn,
 
     thisOpt.setSortPos(sPageIn);
 
-    global_options[sNameIn] = thisOpt;
+    options[sNameIn] = thisOpt;
 }
 
 //add int option
@@ -226,7 +226,7 @@ void options_manager::add(const std::string sNameIn, const std::string sPageIn,
 
     thisOpt.setSortPos(sPageIn);
 
-    global_options[sNameIn] = thisOpt;
+    options[sNameIn] = thisOpt;
 }
 
 //add int map option
@@ -262,7 +262,7 @@ void options_manager::add(const std::string sNameIn, const std::string sPageIn,
 
     thisOpt.setSortPos(sPageIn);
 
-    global_options[sNameIn] = thisOpt;
+    options[sNameIn] = thisOpt;
 }
 
 //add float option
@@ -300,7 +300,7 @@ void options_manager::add(const std::string sNameIn, const std::string sPageIn,
 
     thisOpt.setSortPos(sPageIn);
 
-    global_options[sNameIn] = thisOpt;
+    options[sNameIn] = thisOpt;
 }
 
 //helper functions
@@ -771,7 +771,7 @@ std::string options_manager::build_soundpacks_list()
 
 void options_manager::init()
 {
-    global_options.clear();
+    options.clear();
     vPages.clear();
     mPageItems.clear();
     mOptionsSort.clear();
@@ -1518,7 +1518,7 @@ void options_manager::init()
         mPageItems[i].resize(mOptionsSort[vPages[i].first]);
     }
 
-    for( auto &elem : global_options ) {
+    for( auto &elem : options ) {
         for (unsigned i = 0; i < vPages.size(); ++i) {
             if( vPages[i].first == ( elem.second ).getPage() &&
                 ( elem.second ).getSortPos() > -1 ) {
@@ -1616,7 +1616,7 @@ void draw_borders_internal( WINDOW *w, std::map<int, bool> &mapLines )
 void options_manager::show(bool ingame)
 {
     // temporary alias so the code below does not need to be changed
-    auto &OPTIONS = global_options;
+    auto &OPTIONS = options;
     auto &ACTIVE_WORLD_OPTIONS = world_generator->active_world ? world_generator->active_world->WORLD_OPTIONS : OPTIONS;
 
     auto OPTIONS_OLD = OPTIONS;
@@ -1947,8 +1947,8 @@ void options_manager::serialize(JsonOut &json) const
             if( elem.empty() ) {
                 continue;
             }
-            const auto iter = global_options.find( elem );
-            if( iter != global_options.end() ) {
+            const auto iter = options.find( elem );
+            if( iter != options.end() ) {
                 const auto &opt = iter->second;
                 json.start_object();
 
@@ -1975,7 +1975,7 @@ void options_manager::deserialize(JsonIn &jsin)
         const std::string value = joOptions.get_string("value");
 
         add_retry(name, value);
-        global_options[ name ].setValue( value );
+        options[ name ].setValue( value );
     }
 }
 
@@ -2033,7 +2033,7 @@ bool options_manager::load_legacy()
                 // option with values from post init() might get clobbered
                 add_retry(loadedvar, loadedval); // stash it until update();
 
-                global_options[ loadedvar ].setValue( loadedval );
+                options[ loadedvar ].setValue( loadedval );
             }
         }
     };
@@ -2049,21 +2049,21 @@ bool use_narrow_sidebar()
 
 bool options_manager::has_option( const std::string &name ) const
 {
-    return global_options.count( name );
+    return options.count( name );
 }
 
 options_manager::cOpt &options_manager::get_option( const std::string &name )
 {
-    if( global_options.count( name ) == 0 ) {
+    if( options.count( name ) == 0 ) {
         debugmsg( "requested non-existing option %s", name.c_str() );
     }
     if( !world_generator || !world_generator->active_world ) {
         // Global options contains the default for new worlds, which is good enough here.
-        return global_options[name];
+        return options[name];
     }
     auto &wopts = world_generator->active_world->WORLD_OPTIONS;
     if( wopts.count( name ) == 0 ) {
-        auto &opt = global_options[name];
+        auto &opt = options[name];
         if( opt.getPage() != "world_default" ) {
             // Requested a non-world option, deliver it.
             return opt;
@@ -2077,7 +2077,7 @@ options_manager::cOpt &options_manager::get_option( const std::string &name )
 std::unordered_map<std::string, options_manager::cOpt> options_manager::get_world_defaults() const
 {
     std::unordered_map<std::string, cOpt> result;
-    for( auto &elem : global_options ) {
+    for( auto &elem : options ) {
         if( elem.second.getPage() == "world_default" ) {
             result.insert( elem );
         }

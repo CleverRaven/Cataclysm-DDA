@@ -192,7 +192,7 @@ class options_manager : public JsonSerializer, public JsonDeserializer
                   const std::string &format = "%.2f" );
 
     private:
-        std::unordered_map<std::string, cOpt> global_options;
+        std::unordered_map<std::string, cOpt> options;
 };
 
 bool use_narrow_sidebar(); // short-circuits to on if terminal is too small
