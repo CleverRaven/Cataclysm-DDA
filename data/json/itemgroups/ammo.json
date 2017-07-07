@@ -195,6 +195,8 @@
     "id": "ammo_rifle_reloaded",
     "//": "Reloaded rifle ammo balanced according to rarity.",
     "items": [
+      [ "flintlock_ammo", 10 ],
+      [ "flintlock_shot", 10 ],
       [ "reloaded_223", 60 ],
       [ "reloaded_22_fmj", 20 ],
       [ "reloaded_22_lr", 70 ],
