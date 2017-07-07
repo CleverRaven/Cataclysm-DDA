@@ -411,16 +411,17 @@ bool map::vehact( vehicle &veh )
         veh.falling = false;
     }
 
-    // Mph lost per tile when coasting
-    int base_slowdown = veh.skidding ? 200 : 20;
+    // Mph lost per tile when coasting, by an ideal vehicle
+    int base_slowdown = veh.skidding ? 100 : 10;
     if( should_fall ) {
         // Just air resistance
-        base_slowdown = 2;
+        base_slowdown = 1;
     }
 
-    // k slowdown second.
-    const float k_slowdown = (0.1 + veh.k_dynamics()) / ((0.1) + veh.k_mass());
+    // "Anti-ideal" vehicle slows down up to 10 times faster than ideal one
+    const float k_slowdown = 20.0f / ( 2.0f + 9 * ( veh.k_dynamics() * veh.k_mass() ) );
     const int slowdown = veh.drag() + (int)ceil( k_slowdown * base_slowdown );
+    add_msg( m_debug, "%s vel: %d, slowdown: %d", veh.name.c_str(), veh.velocity, slowdown );
     if( slowdown > abs( veh.velocity ) ) {
         veh.stop();
     } else if( veh.velocity < 0 ) {
