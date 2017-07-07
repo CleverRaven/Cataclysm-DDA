@@ -23,9 +23,9 @@
     "name": ".22 LR hypervelocity",
     "description": ".22 Long Rifle ammunition with 30gr copper patched bullets.  Far superior to .22 LR cartridges, if your firearm can handle them.",
     "relative": {
+      "range": 1,
       "damage": 4,
       "pierce": 2,
-      "range": 1,
       "recoil": 100
     }
   },
