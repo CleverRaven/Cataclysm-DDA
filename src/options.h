@@ -148,6 +148,7 @@ class options_manager : public JsonSerializer, public JsonDeserializer
          */
         std::unordered_map<std::string, cOpt> get_world_defaults() const;
         const std::map<int, std::vector<std::string>> &getPageItems() const { return mPageItems; }
+        int getWorldOptPage() const;
 
         /** Check if an option exists? */
         bool has_option( const std::string &name ) const;
@@ -195,6 +196,7 @@ class options_manager : public JsonSerializer, public JsonDeserializer
     private:
         std::unordered_map<std::string, cOpt> options;
         std::map<int, std::vector<std::string>> mPageItems;
+        int iWorldOptPage;
 };
 
 bool use_narrow_sidebar(); // short-circuits to on if terminal is too small
@@ -209,7 +211,6 @@ extern std::map<std::string, std::string> TILESETS;
  * Second string is directory that contains soundpack.
  */
 extern std::map<std::string, std::string> SOUNDPACKS;
-extern int iWorldOptPage;
 
 options_manager &get_options();
 

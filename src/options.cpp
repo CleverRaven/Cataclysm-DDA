@@ -43,7 +43,6 @@ std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, s
 std::vector<std::pair<std::string, std::string> > vPages;
 std::map<std::string, int> mOptionsSort;
 std::map<std::string, std::string> optionNames;
-int iWorldOptPage;
 
 options_manager &get_options()
 {
