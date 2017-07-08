@@ -1,4 +1,5 @@
-[
+
+
     {
         "type" : "COMESTIBLE",
         "id" : "testcomest",
@@ -382,6 +383,28 @@
         "nutrition" : 8,
         "description" : "Baby cow food, appropriated for adult humans.  Spoils rapidly.",
         "price" : 38, "//" : "A 12-charge gallon currently goes for around US$4.",
+        "material" : "milk",
+        "volume" : 1,
+        "phase" : "liquid",
+        "flags" : ["EATEN_COLD"],
+        "fun" : 1
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "soymilk",
+        "name" : "soymilk",
+        "name_plural": "soymilk",
+        "weight" : 258,
+        "color" : "white",
+        "spoils_in" : 8,
+        "container" : "jug_plastic",
+        "comestible_type" : "DRINK",
+        "symbol" : "~",
+        "quench" : 27,
+        "healthy" : 1,
+        "nutrition" : 5,
+        "description" : "yeah,you made it.",
+        "price" : 300,
         "material" : "milk",
         "volume" : 1,
         "phase" : "liquid",
@@ -3099,8 +3122,8 @@
     {
         "type" : "COMESTIBLE",
         "id" : "nachoshf",
-        "name" : "niño nachos",
-        "name_plural" : "niño nachos",
+        "name" : "ni帽o nachos",
+        "name_plural" : "ni帽o nachos",
         "weight" : 100,
         "color" : "yellow",
         "spoils_in" : 24,
@@ -3141,8 +3164,8 @@
     {
         "type" : "COMESTIBLE",
         "id" : "nachoshc",
-        "name" : "niño nachos with cheese",
-        "name_plural" : "niño nachos with cheese",
+        "name" : "ni帽o nachos with cheese",
+        "name_plural" : "ni帽o nachos with cheese",
         "weight" : 180,
         "color" : "yellow",
         "spoils_in" : 20,
