@@ -106,7 +106,8 @@ class options_manager : public JsonSerializer, public JsonDeserializer
 
                 //sType == "string"
                 std::string sSet;
-                std::vector<std::string> vItems;
+                // first is internal value, second is translated text
+                std::vector<std::pair<std::string, std::string>> vItems;
                 std::string sDefault;
 
                 int iMaxLength;

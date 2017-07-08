@@ -41,7 +41,6 @@ extern std::unique_ptr<cata_tiles> tilecontext;
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
 std::map<std::string, int> mOptionsSort;
-std::map<std::string, std::string> optionNames;
 
 options_manager &get_options()
 {
@@ -81,16 +80,13 @@ void options_manager::add_value( const std::string &lvar, const std::string &lva
     if ( it != post_json_verify.end() ) {
         auto ot = options.find( lvar );
         if( ot != options.end() && ot->second.sType == "string_select" ) {
-            for(std::vector<std::string>::const_iterator eit = ot->second.vItems.begin();
+            for( auto eit = ot->second.vItems.begin();
                 eit != ot->second.vItems.end(); ++eit) {
-                if ( *eit == lval ) { // already in
+                if( eit->first == lval ) { // already in
                     return;
                 }
             }
-            ot->second.vItems.push_back(lval);
-            if ( optionNames.find(lval) == optionNames.end() ) {
-                optionNames[ lval ] = ( lvalname == "" ? lval : lvalname );
-            }
+            ot->second.vItems.emplace_back( lval, lvalname.empty() ? lval : lvalname );
             // our value was saved, then set to default, so set it again.
             if ( it->second == lval ) {
                 options[ lvar ].setValue( lval );
@@ -122,14 +118,10 @@ void options_manager::add(const std::string sNameIn, const std::string sPageIn,
     thisOpt.sType = "string_select";
 
     thisOpt.hide = opt_hide;
-
-    for( const auto &e : sItemsIn ) {
-        thisOpt.vItems.push_back( e.first );
-        optionNames[e.first] = e.second;
-    }
+    thisOpt.vItems = sItemsIn;
 
     if (thisOpt.getItemPos(sDefaultIn) == -1) {
-        sDefaultIn = thisOpt.vItems[0];
+        sDefaultIn = thisOpt.vItems[0].first;
     }
 
     thisOpt.sDefault = sDefaultIn;
@@ -465,7 +457,12 @@ int options_manager::cOpt::value_as<int>() const
 std::string options_manager::cOpt::getValueName() const
 {
     if (sType == "string_select") {
-        return optionNames[sSet];
+        const auto iter = std::find_if( vItems.begin(), vItems.end(), [&]( const std::pair<std::string, std::string> &e ) {
+            return e.first == sSet;
+        } );
+        if( iter != vItems.end() ) {
+            return iter->second;
+        }
 
     } else if (sType == "bool") {
         return (bSet) ? _("True") : _("False");
@@ -480,12 +477,20 @@ std::string options_manager::cOpt::getValueName() const
 std::string options_manager::cOpt::getDefaultText(const bool bTranslated) const
 {
     if (sType == "string_select") {
+        const std::string defaultName = [bTranslated, this]() {
+            for( const auto &elem : vItems ) {
+                if( elem.first == sDefault ) {
+                    return bTranslated ? elem.second : elem.first;
+                }
+            }
+            return std::string();
+        } ();
         const std::string sItems = enumerate_as_string( vItems.begin(), vItems.end(),
-        [bTranslated ]( const std::string &elem ) {
-            return bTranslated ? optionNames[elem] : elem;
+        [bTranslated]( const std::pair<std::string, std::string> &elem ) {
+            return bTranslated ? elem.second : elem.first;
         }, false );
         return string_format(_("Default: %s - Values: %s"),
-                             (bTranslated) ? optionNames[sDefault].c_str() : sDefault.c_str(), sItems.c_str());
+                             defaultName.c_str(), sItems.c_str() );
 
     } else if (sType == "string_input") {
         return string_format(_("Default: %s"), sDefault.c_str());
@@ -510,7 +515,7 @@ int options_manager::cOpt::getItemPos(const std::string sSearch) const
 {
     if (sType == "string_select") {
         for (size_t i = 0; i < vItems.size(); i++) {
-            if (vItems[i] == sSearch) {
+            if( vItems[i].first == sSearch ) {
                 return i;
             }
         }
@@ -537,7 +542,7 @@ void options_manager::cOpt::setNext()
             iNext = 0;
         }
 
-        sSet = vItems[iNext];
+        sSet = vItems[iNext].first;
 
     } else if (sType == "string_input") {
         int iMenuTextLength = sMenuText.length();
@@ -581,7 +586,7 @@ void options_manager::cOpt::setPrev()
             iPrev = vItems.size() - 1;
         }
 
-        sSet = vItems[iPrev];
+        sSet = vItems[iPrev].first;
 
     } else if (sType == "string_select") {
         setNext();
@@ -762,7 +767,6 @@ void options_manager::init()
     vPages.clear();
     mPageItems.clear();
     mOptionsSort.clear();
-    optionNames.clear();
 
     vPages.push_back(std::make_pair("general", _("General")));
     vPages.push_back(std::make_pair("interface", _("Interface")));
