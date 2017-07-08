@@ -4652,12 +4652,12 @@ bool mattack::dodge_check( monster *z, Creature *target ) {
 bool mattack::lay_egg( monster *z )
 {
     monster &critter = *z;
-    const furn_t &furn = g->m.furn( critter.pos() ).obj();
     // If the monster is in a tile with the NEST flag, lay egg
-    if( furn.has_flag( TFLAG_NEST ) ) {
+    // Second has_effect check to avoid laying more than one egg while stumble() is called
+    if( g->m.has_flag_furn( TFLAG_NEST, critter.pos() ) && !critter.has_effect( effect_laid_egg ) ) {
         item egg( "egg_bird", 0, 1 );
         g->m.add_item_or_charges( critter.pos(), egg );
-        critter.add_effect( effect_laid_egg, ( HOURS( 48 ) ) );
+        critter.add_effect( effect_laid_egg, HOURS( 48 ) );
         return true;
     } else {
         return false;

@@ -1452,8 +1452,9 @@ void monster::on_idle()
         const int range = 15;
         // Loop to find the closest furniture with NEST flag and set it as destination
         for( tripoint &p : closest_tripoints_first( range, pos() ) ) {
-            if( sees( p ) && g->m.has_flag( TFLAG_NEST, p ) ) {
+            if( sees( p ) && g->m.has_flag_furn( TFLAG_NEST, p ) ) {
                 set_dest( p );
+                break;
             }
         }
         // if there's no special action to do, stumble
