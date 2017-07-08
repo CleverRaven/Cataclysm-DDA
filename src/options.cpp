@@ -686,12 +686,11 @@ void options_manager::cOpt::setValue(std::string sSetIn)
  * a file named FILENAMES[filename_label].
  * All found values added to resource_option as name, resource_dir.
  * Furthermore, it builds possible values list for cOpt class.
- * @return string containing all found resources in form "resource1,resource2,resource3,..."
  */
-static std::string build_resource_list(
+static std::vector<std::pair<std::string, std::string>> build_resource_list( 
     std::map<std::string, std::string> &resource_option, std::string operation_name,
     std::string dirname_label, std::string filename_label ) {
-    std::string resource_names;
+    std::vector<std::pair<std::string, std::string>> resource_names;
 
     resource_option.clear();
     auto const resource_dirs = get_directories_with( FILENAMES[filename_label],
@@ -700,6 +699,7 @@ static std::string build_resource_list(
     for( auto &resource_dir : resource_dirs ) {
         read_from_file( resource_dir + "/" + FILENAMES[filename_label], [&]( std::istream &fin ) {
             std::string resource_name;
+            std::string view_name;
             // should only have 2 values inside it, otherwise is going to only load the last 2 values
             while( !fin.eof() ) {
                 std::string sOption;
@@ -713,23 +713,16 @@ static std::string build_resource_list(
                     if( sOption.find( "NAME" ) != std::string::npos ) {
                         resource_name = "";
                         getline( fin, resource_name );
-                        resource_name.erase( std::remove( resource_name.begin(), resource_name.end(), ',' ), resource_name.end() );
                         resource_name = trim( resource_name );
-                        if( resource_names.empty() ) {
-                            resource_names += resource_name;
-                        } else {
-                            resource_names += std::string( "," );
-                            resource_names += resource_name;
-                        }
                     } else if( sOption.find( "VIEW" ) != std::string::npos ) {
-                        std::string viewName = "";
-                        getline( fin, viewName );
-                        viewName = trim( viewName );
-                        optionNames[resource_name] = viewName;
+                        view_name = "";
+                        getline( fin, view_name );
+                        view_name = trim( view_name );
                         break;
                     }
                 }
             }
+            resource_names.emplace_back( resource_name, view_name.empty() ? resource_name : view_name );
             if( resource_option.count( resource_name ) != 0 ) {
                 DebugLog( D_ERROR, DC_ALL ) << "Found " << operation_name << " duplicate with name " << resource_name;
             } else {
@@ -741,26 +734,24 @@ static std::string build_resource_list(
     return resource_names;
 }
 
-std::string options_manager::build_tilesets_list()
+std::vector<std::pair<std::string, std::string>> options_manager::build_tilesets_list()
 {
-    std::string tileset_names = build_resource_list( TILESETS, "tileset",
+    auto tileset_names = build_resource_list( TILESETS, "tileset",
                                                      "gfxdir", "tileset-conf");
 
     if( tileset_names.empty() ) {
-        optionNames["deon"] = _("Deon's");
-        optionNames["hoder"] = _("Hoder's");
-        return "hoder,deon";
+        tileset_names.emplace_back( "hoder", _( "Hoder's" ) );
+        tileset_names.emplace_back( "deon", _( "Deon's" ) );
     }
     return tileset_names;
 }
 
-std::string options_manager::build_soundpacks_list()
+std::vector<std::pair<std::string, std::string>> options_manager::build_soundpacks_list()
 {
-    const std::string soundpack_names = build_resource_list( SOUNDPACKS, "soundpack",
+    auto soundpack_names = build_resource_list( SOUNDPACKS, "soundpack",
                                                              "sounddir", "soundpack-conf");
     if( soundpack_names.empty() ) {
-        optionNames["basic"] = _("Basic");
-        return "basic";
+        soundpack_names.emplace_back( "basic", _( "Basic" ) );
     }
     return soundpack_names;
 }
@@ -784,19 +775,6 @@ void options_manager::init()
     // when sharing maps only admin is allowed to change these.
     if(!MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin()) {
         vPages.push_back(std::make_pair("world_default", _("World Defaults")));
-    }
-
-    std::vector<std::pair<std::string, std::string>> tileset_names;
-    std::istringstream temp_stream( build_tilesets_list() );
-    std::string e;
-    while( std::getline( temp_stream, e, ',' ) ) {
-        tileset_names.emplace_back( e, e );
-    }
-
-    std::vector<std::pair<std::string, std::string>> soundpack_names;
-    temp_stream.str( build_soundpacks_list() );
-    while( std::getline( temp_stream, e, ',' ) ) {
-        soundpack_names.emplace_back( e, e );
     }
 
     ////////////////////////////GENERAL//////////////////////////
@@ -916,7 +894,7 @@ void options_manager::init()
 
     add("SOUNDPACKS", "general", _("Choose soundpack"),
         _("Choose the soundpack you want to use."),
-        soundpack_names, "basic", COPT_NO_SOUND_HIDE
+        build_soundpacks_list(), "basic", COPT_NO_SOUND_HIDE
         ); // populate the options dynamically
 
     add("MUSIC_VOLUME", "general", _("Music Volume"),
@@ -1169,7 +1147,7 @@ void options_manager::init()
 
     add("TILES", "graphics", _("Choose tileset"),
         _("Choose the tileset you want to use."),
-        tileset_names, "ChestHole", COPT_CURSES_HIDE
+        build_tilesets_list(), "ChestHole", COPT_CURSES_HIDE
         ); // populate the options dynamically
 
     add("PIXEL_MINIMAP", "graphics", _("Pixel Minimap"),

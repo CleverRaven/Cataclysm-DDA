@@ -11,8 +11,8 @@
 class options_manager : public JsonSerializer, public JsonDeserializer
 {
     private:
-        static std::string build_tilesets_list();
-        static std::string build_soundpacks_list();
+        static std::vector<std::pair<std::string, std::string>> build_tilesets_list();
+        static std::vector<std::pair<std::string, std::string>> build_soundpacks_list();
 
         bool load_legacy();
 
