@@ -205,25 +205,26 @@ void npc::load_npc_template( const std::string &ident )
         debugmsg("Tried to get invalid npc: %s", ident.c_str());
         return;
     }
+    const npc &tguy = found->second;
 
-    idz = found->second.idz;
-    myclass = npc_class_id( found->second.myclass );
+    idz = tguy.idz;
+    myclass = npc_class_id( tguy.myclass );
     randomize( myclass );
-    std::string tmpname = found->second.name.c_str();
+    std::string tmpname = tguy.name.c_str();
     if( tmpname[0] == ',' ){
-        name = name + found->second.name;
+        name = name + tguy.name;
     } else {
-        name = found->second.name;
+        name = tguy.name;
         //Assume if the name is unique, the gender might also be.
-        male = found->second.male;
+        male = tguy.male;
     }
-    fac_id = found->second.fac_id;
+    fac_id = tguy.fac_id;
     set_fac( fac_id );
-    attitude = found->second.attitude;
-    mission = found->second.mission;
-    chatbin.first_topic = found->second.chatbin.first_topic;
-    if( !found->second.miss_id.is_null() ){
-        add_new_mission( mission::reserve_new( found->second.miss_id, getID() ) );
+    attitude = tguy.attitude;
+    mission = tguy.mission;
+    chatbin.first_topic = tguy.chatbin.first_topic;
+    if( !tguy.miss_id.is_null() ){
+        add_new_mission( mission::reserve_new( tguy.miss_id, getID() ) );
     }
 }
 
