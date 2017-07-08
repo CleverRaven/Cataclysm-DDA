@@ -390,28 +390,6 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "soymilk",
-        "name" : "soymilk",
-        "name_plural": "soymilk",
-        "weight" : 258,
-        "color" : "white",
-        "spoils_in" : 8,
-        "container" : "jug_plastic",
-        "comestible_type" : "DRINK",
-        "symbol" : "~",
-        "quench" : 27,
-        "healthy" : 1,
-        "nutrition" : 5,
-        "description" : "yeah,you made it.",
-        "price" : 300,
-        "material" : "milk",
-        "volume" : 1,
-        "phase" : "liquid",
-        "flags" : ["EATEN_COLD"],
-        "fun" : 1
-    },
-    {
-        "type" : "COMESTIBLE",
         "id" : "con_milk",
         "name" : "condensed milk",
         "name_plural" : "condensed milk",
@@ -11335,4 +11313,3 @@
         "flags": [ "EATEN_HOT" ]
     }
 ]
-
