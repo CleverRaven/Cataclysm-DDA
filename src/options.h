@@ -157,7 +157,8 @@ class options_manager : public JsonSerializer, public JsonDeserializer
         //add string select option
         void add( const std::string sNameIn, const std::string sPageIn,
                   const std::string sMenuTextIn, const std::string sTooltipIn,
-                  const std::string sItemsIn, std::string sDefaultIn,
+                  // first is option value, second is display name of that value
+                  std::vector<std::pair<std::string, std::string>> sItemsIn, std::string sDefaultIn,
                   copt_hide_t opt_hide = COPT_NO_HIDE );
 
         //add string input option

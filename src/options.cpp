@@ -110,7 +110,7 @@ options_manager::cOpt::cOpt()
 //add string select option
 void options_manager::add(const std::string sNameIn, const std::string sPageIn,
                             const std::string sMenuTextIn, const std::string sTooltipIn,
-                            const std::string sItemsIn, std::string sDefaultIn,
+                            std::vector<std::pair<std::string, std::string>> sItemsIn, std::string sDefaultIn,
                             copt_hide_t opt_hide)
 {
     cOpt thisOpt;
@@ -123,10 +123,9 @@ void options_manager::add(const std::string sNameIn, const std::string sPageIn,
 
     thisOpt.hide = opt_hide;
 
-    std::stringstream ssTemp(sItemsIn);
-    std::string sItem;
-    while (std::getline(ssTemp, sItem, ',')) {
-        thisOpt.vItems.push_back(sItem);
+    for( const auto &e : sItemsIn ) {
+        thisOpt.vItems.push_back( e.first );
+        optionNames[e.first] = e.second;
     }
 
     if (thisOpt.getItemPos(sDefaultIn) == -1) {
@@ -787,11 +786,18 @@ void options_manager::init()
         vPages.push_back(std::make_pair("world_default", _("World Defaults")));
     }
 
-    std::string tileset_names;
-    tileset_names = build_tilesets_list(); //get the tileset names and set the optionNames
+    std::vector<std::pair<std::string, std::string>> tileset_names;
+    std::istringstream temp_stream( build_tilesets_list() );
+    std::string e;
+    while( std::getline( temp_stream, e, ',' ) ) {
+        tileset_names.emplace_back( e, e );
+    }
 
-    std::string soundpack_names;
-    soundpack_names = build_soundpacks_list(); //get the soundpack names and set the optionNames
+    std::vector<std::pair<std::string, std::string>> soundpack_names;
+    temp_stream.str( build_soundpacks_list() );
+    while( std::getline( temp_stream, e, ',' ) ) {
+        soundpack_names.emplace_back( e, e );
+    }
 
     ////////////////////////////GENERAL//////////////////////////
     add("DEF_CHAR_NAME", "general", _("Default character name"),
@@ -891,13 +897,9 @@ void options_manager::init()
         false
         );
 
-    optionNames["no"] = _("No");
-    //~ containers
-    optionNames["watertight"] = _("Watertight");
-    optionNames["all"] = _("All");
     add("DROP_EMPTY", "general", _("Drop empty containers"),
         _("Set to drop empty containers after use.  No: Don't drop any. - Watertight: All except watertight containers. - All: Drop all containers."),
-        "no,watertight,all", "no"
+        { { "no", _( "No" ) }, { "watertight", _( "Watertight" ) }, { "all", _( "All" ) } }, "no"
         );
 
     add("AUTO_NOTES", "general", _("Auto notes"),
@@ -905,12 +907,9 @@ void options_manager::init()
         true
         );
 
-    optionNames["ask"]      = _("Ask");
-    optionNames["always"]   = _("Always");
-    optionNames["never"]    = _("Never");
     add("DEATHCAM", "general", _("DeathCam"),
         _("Always: Always start deathcam.  Ask: Query upon death.  Never: Never show deathcam."),
-        "always,ask,never", "ask"
+        { { "always", _( "Always" ) }, { "ask", _( "Ask" ) }, { "never", _( "Never" ) } }, "ask"
         );
 
     mOptionsSort["general"]++;
@@ -932,69 +931,57 @@ void options_manager::init()
 
     ////////////////////////////INTERFACE////////////////////////
     // TODO: scan for languages like we do for tilesets.
-    optionNames[""] = _("System language");
-    // Note: language names are in their own language and are *not* translated at all.
-    // Note: Somewhere in github PR was better link to msdn.microsoft.com with language names.
-    // http://en.wikipedia.org/wiki/List_of_language_names
-    optionNames["en"] = R"(English)";
-    optionNames["fr"] =  R"(Français)";
-    optionNames["de"] = R"(Deutsch)";
-    optionNames["it_IT"] = R"(Italiano)";
-    optionNames["es_AR"] = R"(Español (Argentina))";
-    optionNames["es_ES"] = R"(Español (España))";
-    optionNames["ja"] = R"(日本語)";
-    optionNames["ko"] = R"(한국어)";
-    optionNames["pl"] = R"(Polskie)";
-    optionNames["pt_BR"] = R"(Português (Brasil))";
-    optionNames["ru"] = R"(Русский)";
-    optionNames["zh_CN"] = R"(中文(天朝))";
-    optionNames["zh_TW"] = R"(中文(台灣))";
     add("USE_LANG", "interface", _("Language"), _("Switch Language."),
-        ",en,fr,de,it_IT,es_AR,es_ES,ja,ko,pl,pt_BR,ru,zh_CN,zh_TW",
-        ""
-        );
+        { { "", _( "System language" ) },
+        // Note: language names are in their own language and are *not* translated at all.
+        // Note: Somewhere in github PR was better link to msdn.microsoft.com with language names.
+        // http://en.wikipedia.org/wiki/List_of_language_names
+          { "en", R"( English )" },
+          { "fr",  R"( Français )" },
+          { "de", R"( Deutsch )" },
+          { "it_IT", R"( Italiano )" },
+          { "es_AR", R"( Español ( Argentina ) )" },
+          { "es_ES", R"( Español ( España ) )" },
+          { "ja", R"( 日本語 )" },
+          { "ko", R"( 한국어 )" },
+          { "pl", R"( Polskie )" },
+          { "pt_BR", R"( Português ( Brasil ) )" },
+          { "ru", R"( Русский )" },
+          { "zh_CN", R"( 中文( 天朝 ) )" },
+          { "zh_TW", R"( 中文( 台灣 ) )" },
+        }, "" );
 
     mOptionsSort["interface"]++;
 
-    optionNames["fahrenheit"] = _("Fahrenheit");
-    optionNames["celsius"] = _("Celsius");
     add("USE_CELSIUS", "interface", _("Temperature units"),
         _("Switch between Celsius and Fahrenheit."),
-        "fahrenheit,celsius", "fahrenheit"
+        { { "fahrenheit", _( "Fahrenheit" ) }, { "celsius", _( "Celsius" ) } }, "fahrenheit"
         );
 
-    optionNames["mph"] = _("mph");
-    optionNames["km/h"] = _("km/h");
     add("USE_METRIC_SPEEDS", "interface", _("Speed units"),
         _("Switch between km/h and mph."),
-        "mph,km/h", "mph"
+        { { "mph", _( "mph" ) }, { "km/h", _( "km/h" ) } }, "mph"
         );
 
-    optionNames["lbs"] = _("lbs");
-    optionNames["kg"] = _("kg");
     add("USE_METRIC_WEIGHTS", "interface", _("Mass units"),
         _("Switch between kg and lbs."),
-        "lbs,kg", "lbs"
+        { { "lbs", _( "lbs" ) }, { "kg", _( "kg" ) } }, "lbs"
         );
 
-    optionNames["c"] = _("Cup");
-    optionNames["l"] = _("Liter");
-    optionNames["qt"] = _("Quart");
     add("VOLUME_UNITS", "interface", _("Volume units"),
         _("Switch between the Cup (c), Liter (L) or Quart (qt)."),
-        "c,l,qt", "l"
+        { { "c", _( "Cup" ) }, { "l", _( "Liter" ) }, { "qt", _( "Quart" ) } }, "l"
         );
 
-    //~ 12h time, e.g.  11:59pm
-    optionNames["12h"] = _("12h");
-    //~ Military time, e.g.  2359
-    optionNames["military"] = _("Military");
-    //~ 24h time, e.g.  23:59
-    optionNames["24h"] = _("24h");
     add("24_HOUR", "interface", _("Time format"),
         _("12h: AM/PM, eg: 7:31 AM - Military: 24h Military, eg: 0731 - 24h: Normal 24h, eg: 7:31"),
-        "12h,military,24h", "12h"
-        );
+        //~ 12h time, e.g.  11:59pm
+        { { "12h", _( "12h" ) },
+        //~ Military time, e.g.  2359
+          { "military", _( "Military" ) },
+        //~ 24h time, e.g.  23:59
+          { "24h", _( "24h" ) } },
+        "12h" );
 
     mOptionsSort["interface"]++;
 
@@ -1057,28 +1044,22 @@ void options_manager::init()
 
     mOptionsSort["interface"]++;
 
-    //~ sidebar position
-    optionNames["left"] = _("Left");
-    optionNames["right"] = _("Right");
     add("SIDEBAR_POSITION", "interface", _("Sidebar position"),
         _("Switch between sidebar on the left or on the right side.  Requires restart."),
-        "left,right", "right"
+        //~ sidebar position
+        { { "left", _( "Left" ) }, { "right", _( "Right" ) } }, "right"
         );
 
-    //~ sidebar style
-    optionNames["wider"] = _("Wider");
-    optionNames["narrow"] = _("Narrow");
     add("SIDEBAR_STYLE", "interface", _("Sidebar style"),
         _("Switch between a narrower or wider sidebar.  Requires restart."),
-        "wider,narrow", "narrow"
+        //~ sidebar style
+        { { "wider", _( "Wider" ) }, { "narrow", _( "Narrow" ) } }, "narrow"
         );
 
-    //~ sidebar/message log flow direction
-    optionNames["new_top"] = _("Top");
-    optionNames["new_bottom"] = _("Bottom");
     add("LOG_FLOW", "interface", _("Message log flow"),
         _("Where new log messages should show."),
-        "new_top,new_bottom", "new_bottom"
+        //~ sidebar/message log flow direction
+        { { "new_top", _( "Top" ) }, { "new_bottom", _( "Bottom" ) } }, "new_bottom"
         );
 
     add("MESSAGE_TTL", "interface", _("Sidebar log message display duration"),
@@ -1086,12 +1067,10 @@ void options_manager::init()
         0, 1000, 0
         );
 
-    //~ aim bar style - bars or numbers
-    optionNames["numbers"] = _("Numbers");
-    optionNames["bars"] = _("Bars");
     add("ACCURACY_DISPLAY", "interface", _("Aim window display style"),
         _("How should confidence and steadiness be communicated to the player."),
-        "numbers,bars", "bars"
+        //~ aim bar style - bars or numbers
+        { { "numbers", _( "Numbers" ) }, { "bars", _( "Bars" ) } }, "bars"
         );
 
     mOptionsSort["interface"]++;
@@ -1106,12 +1085,9 @@ void options_manager::init()
         true
         );
 
-    optionNames["false"] = _("False");
-    optionNames["centered"] = _("Centered");
-    optionNames["edge"] = _("To edge");
     add("SHIFT_LIST_ITEM_VIEW", "interface", _("Shift list item view"),
         _("Centered or to edge, shift the view toward the selected item if it is outside of your current viewport."),
-        "false,centered,edge",  "centered"
+        { { "false", _( "False" ) }, { "centered", _( "Centered" ) }, { "edge", _( "To edge" ) } },  "centered"
         );
 
     add("AUTO_INV_ASSIGN", "interface", _("Auto inventory letters"),
@@ -1136,16 +1112,15 @@ void options_manager::init()
         true, COPT_CURSES_HIDE
         );
 
-    //~ show mouse cursor
-    optionNames["show"] = _("Show");
-    //~ hide mouse cursor
-    optionNames["hide"] = _("Hide");
-    //~ hide mouse cursor when keyboard is used
-    optionNames["hidekb"] = _("HideKB");
     add("HIDE_CURSOR", "interface", _("Hide mouse cursor"),
         _("Show: Cursor is always shown.  Hide: Cursor is hidden.  HideKB: Cursor is hidden on keyboard input and unhidden on mouse movement."),
-        "show,hide,hidekb", "show", COPT_CURSES_HIDE
-        );
+        //~ show mouse cursor
+        { { "show", _( "Show" ) },
+        //~ hide mouse cursor
+          { "hide", _( "Hide" ) },
+        //~ hide mouse cursor when keyboard is used
+          { "hidekb", _( "HideKB" ) } },
+        "show", COPT_CURSES_HIDE );
 
     ////////////////////////////GRAPHICS/////////////////////////
     add("ANIMATIONS", "graphics", _("Animations"),
@@ -1225,11 +1200,9 @@ void options_manager::init()
         0, 10000, 0, COPT_CURSES_HIDE
         );
 
-    optionNames["fullscreen"] = _("Fullscreen");
-    optionNames["windowedbl"] = _("Windowed borderless");
     add("FULLSCREEN", "graphics", _("Fullscreen"),
         _("Starts Cataclysm in one of the fullscreen modes.  Requires restart."),
-        "no,fullscreen,windowedbl", "no", COPT_CURSES_HIDE
+        { { "no", _( "No" ) }, { "fullscreen", _( "Fullscreen" ) }, { "windowedbl", _( "Windowed borderless" ) } }, "no", COPT_CURSES_HIDE
         );
 
     add("SOFTWARE_RENDERING", "graphics", _("Software rendering"),
@@ -1242,16 +1215,15 @@ void options_manager::init()
         false, COPT_CURSES_HIDE
         );
 
-    //~ Do not scale the game image to the window size.
-    optionNames["none"] = _("No scaling");
-    //~ An algorithm for image scaling.
-    optionNames["nearest"] = _("Nearest neighbor");
-    //~ An algorithm for image scaling.
-    optionNames["linear"] = _("Linear filtering");
     add("SCALING_MODE", "graphics", _("Scaling mode"),
         _("Sets the scaling mode, 'none' (default) displays at the game's native resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' provides high-quality scaling."),
-        "none,nearest,linear", "none", COPT_CURSES_HIDE
-        );
+        //~ Do not scale the game image to the window size.
+        { { "none", _( "No scaling" ) },
+        //~ An algorithm for image scaling.
+          { "nearest", _( "Nearest neighbor" ) },
+        //~ An algorithm for image scaling.
+          { "linear", _( "Linear filtering" ) } },
+        "none", COPT_CURSES_HIDE );
 
     ////////////////////////////DEBUG////////////////////////////
     add("DISTANCE_INITIAL_VISIBILITY", "debug", _("Distance initial visibility"),
@@ -1290,19 +1262,18 @@ void options_manager::init()
 
     mOptionsSort["debug"]++;
 
-    //~ plain, default, normal
-    optionNames["vanilla"] = _("Vanilla");
-    //~ capped at a value
-    optionNames["capped"] = _("Capped");
-    //~ based on intelligence
-    optionNames["int"] = _("Int");
-    //~ based on intelligence and capped
-    optionNames["intcap"] = _("IntCap");
-    optionNames["off"] = _("Off");
     add("SKILL_RUST", "debug", _("Skill rust"),
         _("Set the level of skill rust.  Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all."),
-        "vanilla,capped,int,intcap,off", "off"
-        );
+        //~ plain, default, normal
+        { { "vanilla", _( "Vanilla" ) },
+        //~ capped at a value
+          { "capped", _( "Capped" ) },
+        //~ based on intelligence
+          { "int", _( "Int" ) },
+        //~ based on intelligence and capped
+          { "intcap", _( "IntCap" ) },
+          { "off", _( "Off" ) } },
+        "off" );
 
     mOptionsSort["debug"]++;
 
@@ -1324,12 +1295,9 @@ void options_manager::init()
 
     mOptionsSort["world_default"]++;
 
-    optionNames["no"] = _("No");
-    optionNames["yes"] = _("Yes");
-    optionNames["query"] = _("Query");
     add("DELETE_WORLD", "world_default", _("Delete world"),
         _("Delete the world when the last active character dies."),
-        "no,yes,query", "no"
+        { { "no", _( "No" ) }, { "yes", _( "Yes" ) }, { "query", _( "Query" ) } }, "no"
         );
 
     mOptionsSort["world_default"]++;
@@ -1378,11 +1346,9 @@ void options_manager::init()
 
     mOptionsSort["world_default"]++;
 
-    std::string region_ids("default");
-    optionNames["default"] = "default";
     add("DEFAULT_REGION", "world_default", _("Default region type"),
         _("(WIP feature) Determines terrain, shops, plants, and more."),
-        region_ids, "default"
+        { { "default", "default" } }, "default"
         );
 
     mOptionsSort["world_default"]++;
@@ -1392,13 +1358,9 @@ void options_manager::init()
         0, 23, 8
         );
 
-    optionNames["spring"] = _("Spring");
-    optionNames["summer"] = _("Summer");
-    optionNames["autumn"] = _("Autumn");
-    optionNames["winter"] = _("Winter");
     add("INITIAL_SEASON", "world_default", _("Initial season"),
         _("Season the player starts in.  Options other than the default delay spawn of the character, so food decay and monster spawns will have advanced."),
-        "spring,summer,autumn,winter", "spring"
+        { { "spring", _( "Spring" ) }, { "summer", _( "Summer" ) }, { "autumn", _( "Autumn" ) }, { "winter", _( "Winter" ) } }, "spring"
         );
 
     add("SEASON_LENGTH", "world_default", _("Season length"),
@@ -1468,12 +1430,9 @@ void options_manager::init()
 
     mOptionsSort["world_default"]++;
 
-    optionNames["any"] = _("Any");
-    optionNames["multi_pool"] = _("Multi-pool only");
-    optionNames["no_freeform"] = _("No freeform");
     add("CHARACTER_POINT_POOLS", "world_default", _("Character point pools"),
         _("Allowed point pools for character generation."),
-        "any,multi_pool,no_freeform", "any"
+        { { "any", _( "Any" ) }, { "multi_pool", _( "Multi-pool only" ) }, { "no_freeform", _( "No freeform" ) } }, "any"
         );
 
     mOptionsSort["world_default"]++;
