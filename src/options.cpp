@@ -477,20 +477,18 @@ std::string options_manager::cOpt::getValueName() const
 std::string options_manager::cOpt::getDefaultText(const bool bTranslated) const
 {
     if (sType == "string_select") {
-        const std::string defaultName = [bTranslated, this]() {
-            for( const auto &elem : vItems ) {
-                if( elem.first == sDefault ) {
-                    return bTranslated ? _( elem.second.c_str() ) : elem.first;
-                }
-            }
-            return std::string();
-        } ();
+        const auto iter = std::find_if( vItems.begin(), vItems.end(),
+        [this]( const std::pair<std::string, std::string> &elem ) {
+            return elem.first == sDefault;
+        } );
+        const std::string defaultName = iter == vItems.end() ? std::string() :
+                                        ( bTranslated ? _( iter->second.c_str() ) : iter->first );
         const std::string sItems = enumerate_as_string( vItems.begin(), vItems.end(),
         [bTranslated]( const std::pair<std::string, std::string> &elem ) {
             return bTranslated ? _( elem.second.c_str() ) : elem.first;
         }, false );
-        return string_format(_("Default: %s - Values: %s"),
-                             defaultName.c_str(), sItems.c_str() );
+        return string_format( _( "Default: %s - Values: %s" ),
+                              defaultName.c_str(), sItems.c_str() );
 
     } else if (sType == "string_input") {
         return string_format(_("Default: %s"), sDefault.c_str());
