@@ -1756,7 +1756,7 @@ get_hp_bar( const int cur_hp, const int max_hp, const bool is_mon )
            ( ratio >  0.0 )            ? strings[10] : strings[11];
 }
 
-std::pair<std::string, nc_color> const &get_light_level( const float light )
+std::pair<std::string, nc_color> const get_light_level( const float light )
 {
     using pair_t = std::pair<std::string, nc_color>;
     int light_level = ceil( light );

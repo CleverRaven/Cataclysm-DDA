@@ -418,7 +418,7 @@ void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile );
 
 std::pair<std::string, nc_color> const &get_hp_bar( int cur_hp, int max_hp, bool is_mon = false );
 
-std::pair<std::string, nc_color> const &get_light_level( const float light );
+std::pair<std::string, nc_color> const get_light_level( const float light );
 
 /**
  * @return String containing the bar. Example: "Label [********    ]".
