@@ -191,7 +191,7 @@ struct oter_t {
         oter_id get_rotated( om_direction::type dir ) const;
 
         const std::string &get_name() const {
-            return type->name;
+            return _( type->name.c_str() );
         }
 
         long get_sym() const {
