@@ -5135,10 +5135,6 @@ void game::draw_HP()
     }
 
     const size_t num_parts = 7;
-    /*static const std::array<std::string, num_parts> body_parts = {{
-        _("HEAD"), _("TORSO"), _("L ARM"),
-        _("R ARM"), _("L LEG"), _("R LEG"), _("POWER")
-    }};*/
     static std::array<body_part, num_parts> part = {{
         bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r, num_bp
     }};
