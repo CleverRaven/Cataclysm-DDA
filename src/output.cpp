@@ -1785,6 +1785,8 @@ std::pair<std::string, nc_color> const get_light_level( const float light )
             return pair_t{ _( "very dark" ), c_black_white };
             break;
     }
+    // error: control may reach end of non-void function [-Werror,-Wreturn-type]
+    return pair_t{ _( "unknown" ), c_pink };
 }
 
 std::string get_labeled_bar( const double val, const int width, const std::string &label, char c )
