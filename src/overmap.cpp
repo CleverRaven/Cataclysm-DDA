@@ -437,10 +437,7 @@ void oter_type_t::load( JsonObject &jo, const std::string &src )
     const bool strict = src == "dda";
 
     assign( jo, "sym", sym, strict );
-    if( assign( jo, "name", name, strict ) ) {
-        // Store localized name if assign() succeeds
-        name = _( name.c_str() );
-    }
+    assign( jo, "name", name, strict );
     assign( jo, "see_cost", see_cost, strict );
     assign( jo, "extras", extras, strict );
     assign( jo, "mondensity", mondensity, strict );

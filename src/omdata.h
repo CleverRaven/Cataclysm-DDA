@@ -132,7 +132,7 @@ struct oter_type_t {
 
     public:
         string_id<oter_type_t> id;
-        std::string name;               // Localized name
+        std::string name;               // Untranslated name
         long sym = '\0';                // This is a long, so we can support curses linedrawing
         nc_color color = c_black;
         unsigned char see_cost = 0;     // Affects how far the player can see in the overmap
