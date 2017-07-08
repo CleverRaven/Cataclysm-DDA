@@ -1759,25 +1759,32 @@ get_hp_bar( const int cur_hp, const int max_hp, const bool is_mon )
 std::pair<std::string, nc_color> const &get_light_level( const float light )
 {
     using pair_t = std::pair<std::string, nc_color>;
-    static std::array<pair_t, 6> const strings {
-        {
-            pair_t {_( "unknown" ), c_pink},
-            pair_t {_( "bright" ), c_yellow},
-            pair_t {_( "cloudy" ), c_white},
-            pair_t {_( "shady" ), c_ltgray},
-            pair_t {_( "dark" ), c_dkgray},
-            pair_t {_( "very dark" ), c_black_white}
-        }
-    };
-
-    const int light_level = ceil( light );
+    int light_level = ceil( light );
     if( light_level < 0 ) {
-        return strings[0];
+        light_level = 0;
     } else if( light_level > 5 ) {
-        return strings[5];
+        light_level = 5;
     }
-
-    return strings[light_level];
+    switch( light_level ) {
+        case 0:
+            return pair_t{ _( "unknown" ), c_pink };
+            break;
+        case 1:
+            return pair_t{ _( "bright" ), c_yellow };
+            break;
+        case 2:
+            return pair_t{ _( "cloudy" ), c_white };
+            break;
+        case 3:
+            return pair_t{ _( "shady" ), c_ltgray };
+            break;
+        case 4:
+            return pair_t{ _( "dark" ), c_dkgray };
+            break;
+        case 5:
+            return pair_t{ _( "very dark" ), c_black_white };
+            break;
+    }
 }
 
 std::string get_labeled_bar( const double val, const int width, const std::string &label, char c )
