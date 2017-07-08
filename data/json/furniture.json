@@ -2780,9 +2780,9 @@
         "required_str": 5,
         "deconstruct": {
             "items": [
-                { "item": "2x4", "count": 10 },
-                { "item": "rag", "count": [30, 33] },
-                { "item": "nail", "charges": [6, 8] }
+                { "item": "2x4", "count": 6 },
+                { "item": "rag", "count": 10 },
+                { "item": "nail", "charges": [6, 12] }
             ]
         },
         "max_volume": 4000,
@@ -2793,9 +2793,9 @@
             "sound_fail": "whump.",
             "items": [
                 { "item": "2x4", "count": [1, 6] },
-                { "item": "nail", "charges": [2, 10] },
+                { "item": "nail", "charges": [2, 12] },
                 { "item": "splinter", "count": [5, 10] },
-                { "item": "rag", "count": [15, 20] }
+                { "item": "rag", "count": [5, 10] }
             ]
         }
     }
