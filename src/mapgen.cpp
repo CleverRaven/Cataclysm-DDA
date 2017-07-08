@@ -656,11 +656,11 @@ public:
  */
 class jmapgen_npc : public jmapgen_piece {
 public:
-    std::string npc_class;
+    string_id<npc_template> npc_class;
     jmapgen_npc( JsonObject &jsi ) : jmapgen_piece()
     , npc_class( jsi.get_string( "class" ) )
     {
-        if( !npc::has_npc_template( npc_class ) ) {
+        if( !npc_class.is_valid() ) {
             jsi.throw_error( "unknown npc class", "class" );
         }
     }
@@ -8550,7 +8550,7 @@ void map::place_vending(int x, int y, std::string type)
     place_items( type, broken ? 40 : 99, x, y, x, y, false, 0 );
 }
 
-int map::place_npc( int x, int y, const std::string &type )
+int map::place_npc( int x, int y, const string_id<npc_template> &type )
 {
     if(!get_option<bool>( "STATIC_NPC" ) ) {
         return -1; //Do not generate an npc.

@@ -456,9 +456,9 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
 };
 
 class npc;
+class npc_template;
 struct epilogue;
 
-typedef std::map<std::string, npc> npc_map;
 typedef std::map<std::string, epilogue> epilogue_map;
 
 class npc : public player
@@ -475,10 +475,7 @@ public:
  bool is_player() const override { return false; }
  bool is_npc() const override { return true; }
 
- static void load_npc(JsonObject &jsobj);
- static bool has_npc_template( const std::string &ident );
-
- void load_npc_template( const std::string &ident );
+ void load_npc_template( const string_id<npc_template> &ident );
 
     // Generating our stats, etc.
     void randomize( const npc_class_id &type = npc_class_id::NULL_ID() );
@@ -783,8 +780,6 @@ private:
 
     npc_short_term_cache ai_cache;
 public:
-
-    static npc_map _all_npc;
     /**
      * Global position, expressed in map square coordinate system
      * (the most detailed coordinate system), used by the @ref map.
@@ -880,6 +875,15 @@ class standard_npc : public npc {
     public:
         standard_npc( const std::string &name = "", const std::vector<itype_id> &clothing = {},
                       int skill = 4, int s_str = 8, int s_dex = 8, int s_int = 8, int s_per = 8 );
+};
+
+// instances of this can be accessed via string_id<npc_template>.
+class npc_template {
+    public:
+        npc guy;
+
+        static void load( JsonObject &jsobj );
+        static void reset();
 };
 
 struct epilogue {

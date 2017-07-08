@@ -148,9 +148,9 @@ npc::npc(npc &&) = default;
 npc &npc::operator=(const npc &) = default;
 npc &npc::operator=(npc &&) = default;
 
-npc_map npc::_all_npc;
+static std::map<string_id<npc_template>, npc_template> npc_templates;
 
-void npc::load_npc(JsonObject &jsobj)
+void npc_template::load( JsonObject &jsobj )
 {
     npc guy;
     guy.idz = jsobj.get_string("id");
@@ -190,22 +190,40 @@ void npc::load_npc(JsonObject &jsobj)
     } else {
         guy.miss_id = mission_type_id::NULL_ID();
     }
-    _all_npc[guy.idz] = std::move( guy );
+    npc_templates[string_id<npc_template>( guy.idz )].guy = std::move( guy );
 }
 
-bool npc::has_npc_template( const std::string &ident )
+void npc_template::reset()
 {
-    return _all_npc.count( ident ) > 0;
+    npc_templates.clear();
 }
 
-void npc::load_npc_template( const std::string &ident )
+template<>
+bool string_id<npc_template>::is_valid() const
 {
-    auto found = _all_npc.find( ident );
-    if( found == _all_npc.end() ){
+    return npc_templates.count( *this ) > 0;
+}
+
+template<>
+const npc_template &string_id<npc_template>::obj() const
+{
+    const auto found = npc_templates.find( *this );
+    if( found == npc_templates.end() ) {
+        debugmsg( "Tried to get invalid npc: %s", c_str() );
+        static const npc_template dummy{};
+        return dummy;
+    }
+    return found->second;
+}
+
+void npc::load_npc_template( const string_id<npc_template> &ident )
+{
+    auto found = npc_templates.find( ident );
+    if( found == npc_templates.end() ){
         debugmsg("Tried to get invalid npc: %s", ident.c_str());
         return;
     }
-    const npc &tguy = found->second;
+    const npc &tguy = found->second.guy;
 
     idz = tguy.idz;
     myclass = npc_class_id( tguy.myclass );
