@@ -37,6 +37,10 @@ struct point;
 struct tripoint;
 struct trap;
 typedef int nc_color;
+template<typename T>
+class int_id;
+struct oter_t;
+using oter_id = int_id<oter_t>;
 
 /**
  * Weather type enum.
@@ -139,7 +143,7 @@ std::string print_pressure( double pressure, int decimals = 0 );
 
 int get_local_windchill( double temperature, double humidity, double windpower );
 int get_local_humidity( double humidity, weather_type weather, bool sheltered = false );
-int get_local_windpower( double windpower, std::string const &omtername = "no name",
+int get_local_windpower( double windpower, const oter_id &omter,
                          bool sheltered = false );
 
 weather_sum sum_conditions( const calendar &startturn,
