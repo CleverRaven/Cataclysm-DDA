@@ -476,6 +476,7 @@ public:
  bool is_npc() const override { return true; }
 
  static void load_npc(JsonObject &jsobj);
+ static bool has_npc_template( const std::string &ident );
 
  void load_npc_template( const std::string &ident );
 

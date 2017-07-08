@@ -660,7 +660,7 @@ public:
     jmapgen_npc( JsonObject &jsi ) : jmapgen_piece()
     , npc_class( jsi.get_string( "class" ) )
     {
-        if( npc::_all_npc.count( npc_class ) == 0 ) {
+        if( !npc::has_npc_template( npc_class ) ) {
             jsi.throw_error( "unknown npc class", "class" );
         }
     }

@@ -193,6 +193,11 @@ void npc::load_npc(JsonObject &jsobj)
     _all_npc[guy.idz] = std::move( guy );
 }
 
+bool npc::has_npc_template( const std::string &ident )
+{
+    return _all_npc.count( ident ) > 0;
+}
+
 void npc::load_npc_template( const std::string &ident )
 {
     auto found = _all_npc.find( ident );
