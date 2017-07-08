@@ -1134,7 +1134,7 @@ int Pickup::cost_to_move_item( const Character &who, const item &it )
 {
     // Do not involve inventory capacity, it's not like you put it in backpack
     int ret = 50;
-    if( who.is_armed() ) { 
+    if( who.is_armed() ) {
         // No free hand? That will cost you extra
         ret += 20;
     }
