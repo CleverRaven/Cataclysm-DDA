@@ -193,18 +193,6 @@ void npc::load_npc(JsonObject &jsobj)
     _all_npc[guy.idz] = std::move( guy );
 }
 
-npc* npc::find_npc(std::string ident)
-{
-    npc_map::iterator found = _all_npc.find(ident);
-    if (found != _all_npc.end()){
-        return &(found->second);
-    } else {
-        debugmsg("Tried to get invalid npc template: %s", ident.c_str());
-        static npc null_npc;
-    return &null_npc;
-    }
-}
-
 void npc::load_npc_template( const std::string &ident )
 {
     auto found = _all_npc.find( ident );
