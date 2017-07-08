@@ -215,7 +215,7 @@
     "magazines": [ [ "38_super", [ "m1991_38smag" ] ] ]
   },
   {
-    "id": "raging_bull",
+    "id": "raging_judge",
     "copy-from": "raging_bull",
     "type": "GUN",
     "name": "Taurus Raging Judge Magnum",
