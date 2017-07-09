@@ -1759,7 +1759,7 @@ get_hp_bar( const int cur_hp, const int max_hp, const bool is_mon )
 std::pair<std::string, nc_color> get_light_level( const float light )
 {
     using pair_t = std::pair<std::string, nc_color>;
-    const int light_level = clamp( ceil( light ), 0, 5 );
+    const int light_level = clamp( ( int )ceil( light ), 0, 5 );
     switch( light_level ) {
         case 0:
             return pair_t{ _( "unknown" ), c_pink };
