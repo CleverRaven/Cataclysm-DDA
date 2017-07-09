@@ -2702,9 +2702,6 @@
     "material": "paper",
     "symbol": "*",
     "color": "red",
-    "initial_charges": 25,
-    "max_charges": 25,
-    "charges_per_use": 1,
     "use_action": "FIRECRACKER_PACK"
   },
   {
