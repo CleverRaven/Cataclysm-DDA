@@ -402,7 +402,7 @@
         "quench" : 30,
         "healthy" : 1,
         "nutrition" : 4,
-        "description" : "a substitute for milk, made from beans.",
+        "description" : "A substitute for milk, made from beans.",
         "price" : 300,
         "material" : "bean",
         "volume" : 1,
