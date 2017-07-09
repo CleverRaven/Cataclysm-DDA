@@ -481,7 +481,7 @@ bool player::activate_bionic( int b, bool eff_only )
         const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
         /* windpower defined in internal velocity units (=.01 mph) */
         double windpower = 100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
-                                                         cur_om_ter->get_name(), g->is_sheltered( g->u.pos() ) );
+                                                         cur_om_ter, g->is_sheltered( g->u.pos() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ),
                            print_temperature( g->get_temperature() ).c_str() );
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),

@@ -7712,7 +7712,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint& )
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         /* windpower defined in internal velocity units (=.01 mph) */
         int windpower = int(100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
-                                                          cur_om_ter->get_name(), g->is_sheltered( g->u.pos() ) ) );
+                                                          cur_om_ter, g->is_sheltered( g->u.pos() ) ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
                               convert_velocity( windpower, VU_WIND ),

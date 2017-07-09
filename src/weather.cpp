@@ -676,7 +676,7 @@ int get_local_humidity( double humidity, weather_type weather, bool sheltered )
     return tmphumidity;
 }
 
-int get_local_windpower(double windpower, std::string const &omtername, bool sheltered)
+int get_local_windpower(double windpower, const oter_id &omter, bool sheltered)
 {
     /**
     *  A player is sheltered if he is underground, in a car, or indoors.
@@ -687,11 +687,11 @@ int get_local_windpower(double windpower, std::string const &omtername, bool she
     // Over map terrain may modify the effect of wind.
     if (sheltered) {
         tmpwind  = 0.0;
-    } else if ( omtername == "forest_water") {
+    } else if ( omter.id() == "forest_water") {
         tmpwind *= 0.7;
-    } else if ( omtername == "forest" ) {
+    } else if ( omter.id() == "forest" ) {
         tmpwind *= 0.5;
-    } else if ( omtername == "forest_thick" || omtername == "hive") {
+    } else if ( omter.id() == "forest_thick" || omter.id() == "hive") {
         tmpwind *= 0.4;
     }
 
