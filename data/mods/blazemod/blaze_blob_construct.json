@@ -36,7 +36,7 @@
       "sound_fail": "squish!",
       "items": [ { "item": "bfeed", "count": [ 250, 500 ] } ]
     },
-    "flags": [ "WALL", "TRANSPARENT" ]
+    "flags": [ "WALL", "TRANSPARENT", "EASY_DECONSTRUCT" ]
   },
   {
     "id": "blob_pit_slime",
@@ -53,6 +53,6 @@
       "sound_fail": "squish!",
       "items": [ { "item": "bfeed", "count": [ 50, 250 ] } ]
     },
-    "flags": [ "WALL", "TRANSPARENT" ]
+    "flags": [ "WALL", "TRANSPARENT", "EASY_DECONSTRUCT" ]
   }
 ]

@@ -17,6 +17,15 @@
         "post_special" : "done_deconstruct"
     },{
         "type" : "construction",
+        "description" : "Take Down Simple Furniture",
+        "category" : "FURN",
+        "required_skills" : [ [ "fabrication", 0 ] ],
+        "time" : 10,
+        "pre_flags" : "EASY_DECONSTRUCT",
+        "pre_special" : "check_deconstruct",
+        "post_special" : "done_deconstruct"
+    },{
+        "type" : "construction",
         "description" : "Dig Pit", "//": "Step 1: shallow pit",
         "category" : "DIG",
         "required_skills" : [ [ "survival", 0 ] ],
