@@ -9730,6 +9730,25 @@ const recipe_subset player::get_recipes_from_books( const inventory &crafting_in
     return res;
 }
 
+const std::set<itype_id> player::get_books_for_recipe( const inventory &crafting_inv, const recipe *r ) const
+{
+    std::set<itype_id> book_ids;
+    auto &skill_level = get_skill_level( r->skill_used );
+    for( auto &book_lvl : r->booksets ) {
+        itype_id book_id = book_lvl.first;
+        int required_skill_level = book_lvl.second;
+        // NPCs don't need to identify books
+        if( is_player() && !items_identified.count( book_id ) ) {
+            continue;
+        }
+
+        if( skill_level >= required_skill_level && crafting_inv.amount_of( book_id ) > 0 ) {
+            book_ids.insert( book_id );
+        }
+    }
+    return book_ids;
+}
+
 const recipe_subset player::get_available_recipes( const inventory &crafting_inv, const std::vector<npc *> *helpers ) const
 {
     recipe_subset res( get_learned_recipes() );
