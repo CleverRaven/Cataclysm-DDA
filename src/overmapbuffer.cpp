@@ -61,16 +61,15 @@ overmap &overmapbuffer::get( const int x, const int y )
     }
 
     // That constructor loads an existing overmap or creates a new one.
-    std::unique_ptr<overmap> new_om( new overmap( x, y ) );
-    overmap &result = *new_om;
-    overmaps[ new_om->pos() ] = std::move( new_om );
+    overmap *new_om = new overmap( x, y );
+    overmaps[ p ] = std::unique_ptr<overmap>( new_om );
     // Note: fix_mongroups might load other overmaps, so overmaps.back() is not
     // necessarily the overmap at (x,y)
-    fix_mongroups( result );
-    fix_npcs( result );
+    fix_mongroups( *new_om );
+    fix_npcs( *new_om );
 
-    last_requested_overmap = &result;
-    return result;
+    last_requested_overmap = new_om;
+    return *new_om;
 }
 
 void overmapbuffer::fix_mongroups(overmap &new_overmap)
@@ -151,7 +150,7 @@ void overmapbuffer::clear()
 {
     overmaps.clear();
     known_non_existing.clear();
-    last_requested_overmap = NULL;
+    last_requested_overmap = nullptr;
 }
 
 const regional_settings& overmapbuffer::get_settings(int x, int y, int z)
@@ -189,7 +188,7 @@ overmap *overmapbuffer::get_existing(int x, int y)
     if (known_non_existing.count(p) > 0) {
         // This overmap does not exist on disk (this has already been
         // checked in a previous call of this function).
-        return NULL;
+        return nullptr;
     }
     if( file_exist( terrain_filename( x, y ) ) ) {
         // File exists, load it normally (the get function
@@ -203,12 +202,12 @@ overmap *overmapbuffer::get_existing(int x, int y)
     // If the overmap had been created in the mean time, the previous
     // loop would have found and returned it.
     known_non_existing.insert(p);
-    return NULL;
+    return nullptr;
 }
 
 bool overmapbuffer::has( int x, int y )
 {
-    return get_existing( x, y ) != NULL;
+    return get_existing( x, y ) != nullptr;
 }
 
 overmap &overmapbuffer::get_om_global( int &x, int &y )
@@ -250,13 +249,13 @@ overmap *overmapbuffer::get_existing_om_global( const tripoint& p )
 bool overmapbuffer::has_note(int x, int y, int z)
 {
     const overmap *om = get_existing_om_global(x, y);
-    return (om != NULL) && om->has_note(x, y, z);
+    return (om != nullptr) && om->has_note(x, y, z);
 }
 
 const std::string& overmapbuffer::note(int x, int y, int z)
 {
     const overmap *om = get_existing_om_global(x, y);
-    if (om == NULL) {
+    if (om == nullptr) {
         static const std::string empty_string;
         return empty_string;
     }
@@ -266,7 +265,7 @@ const std::string& overmapbuffer::note(int x, int y, int z)
 bool overmapbuffer::is_explored(int x, int y, int z)
 {
     const overmap *om = get_existing_om_global(x, y);
-    return (om != NULL) && om->is_explored(x, y, z);
+    return (om != nullptr) && om->is_explored(x, y, z);
 }
 
 void overmapbuffer::toggle_explored(int x, int y, int z)
@@ -465,7 +464,7 @@ void overmapbuffer::add_vehicle( vehicle *veh )
 bool overmapbuffer::seen(int x, int y, int z)
 {
     const overmap *om = get_existing_om_global(x, y);
-    return (om != NULL) && const_cast<overmap*>(om)->seen(x, y, z);
+    return (om != nullptr) && const_cast<overmap*>(om)->seen(x, y, z);
 }
 
 void overmapbuffer::set_seen(int x, int y, int z, bool seen)
@@ -633,7 +632,7 @@ npc* overmapbuffer::find_npc(int id) {
             return p;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 void overmapbuffer::remove_npc(int id)
@@ -880,7 +879,7 @@ overmapbuffer::t_notes_vector overmapbuffer::get_notes(int z, const std::string*
                 if (note.empty()) {
                     continue;
                 }
-                if (pattern != NULL && lcmatch( note, *pattern ) ) {
+                if (pattern != nullptr && lcmatch( note, *pattern ) ) {
                     // pattern not found in note text
                     continue;
                 }
