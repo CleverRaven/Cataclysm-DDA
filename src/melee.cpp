@@ -115,7 +115,7 @@ std::string melee_message( const ma_technique &tech, player &p, const dealt_dama
  *   skills, torso encumbrance penalties and drunken master bonuses.
  */
 
-bool player::is_armed() const
+bool Character::is_armed() const
 {
     return !weapon.is_null();
 }
