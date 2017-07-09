@@ -2720,6 +2720,7 @@
     "material": "paper",
     "symbol": "*",
     "color": "red",
+    "turns_per_charge": 7,
     "use_action": "FIRECRACKER_PACK_ACT",
     "flags": [ "TRADER_AVOID" ]
   },
