@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-06-30 20:35+0800\n"
-"PO-Revision-Date: 2017-07-03 20:34+0000\n"
+"PO-Revision-Date: 2017-07-04 20:37+0000\n"
 "Last-Translator: Aleksander Sienkiewicz <nexus.mrsep@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -40337,29 +40337,29 @@ msgstr "Owad wielkości psa z żądłem wielkości kuchennego noża, którego ż
 
 #: lang/json/MONSTER_from_json.py
 msgid "scarred zombie"
-msgstr ""
+msgstr "zabliźniony zombie"
 
 #. ~ Description for scarred zombie
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A deformed human body, its skin has been transformed into one thick, "
 "calloused envelope of scar tissue."
-msgstr ""
+msgstr "Zdeformowane ludzkie ciało, którego skóra przeobraziła się w grubą zrogowaciałą warstwę z tkanki bliznowatej."
 
 #: lang/json/MONSTER_from_json.py
 msgid "biollante"
-msgstr ""
+msgstr "biollante"
 
 #. ~ Description for biollante
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A drooped, quivering plant with a thick stalk adorned by a purple flower.  "
 "Its petals are closed, and pulsate ominously."
-msgstr ""
+msgstr "Więdnąca, drgająca roślina z grubą łodygą, na której rośnie fioletowy kwiat. Jego płatki są zamknięte, i pulsują złowieszczo."
 
 #: lang/json/MONSTER_from_json.py
 msgid "black rat"
-msgstr ""
+msgstr "czarny szczur"
 
 #. ~ Description for black rat
 #: lang/json/MONSTER_from_json.py
@@ -40367,70 +40367,70 @@ msgid ""
 "The black rat, an omnivorous rodent with sheer black fur and a long, rough "
 "tail.  Harbinger of pestilence, famine, and mange, it will sometimes swarm "
 "over the dead or dying."
-msgstr ""
+msgstr "Czarny szczur, wszystkożerny gryzoń z czysto czarnym futrem i długim, szorstkim ogonem. Zwiastun zarazy, głodu i świerzbu, czasem roi się na martwych lub umierających."
 
 #: lang/json/MONSTER_from_json.py
 msgid "blank body"
 msgid_plural "blank bodies"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "puste ciało"
+msgstr[1] "puste ciała"
+msgstr[2] "puste ciała"
+msgstr[3] "puste ciała"
 
 #. ~ Description for blank body
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "This looks like a human body, but its flesh is snow-white, and its face is "
 "featureless save for a perfectly round mouth."
-msgstr ""
+msgstr "To wygląda na ludzką postać, ale jej ciało jest śnieżnobiałe, a twarz jest pozbawiona cech, z wyjątkiem doskonale okrągłych ust."
 
 #: lang/json/MONSTER_from_json.py
 msgid "blob"
-msgstr ""
+msgstr "glut"
 
 #. ~ Description for blob
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A black blob of viscous goo, oozing across the ground like a glob of living "
 "oil."
-msgstr ""
+msgstr "Czarny glut z lepiej mazi, sączący się po ziemi jak mięsista kałuża żywego oleju."
 
 #: lang/json/MONSTER_from_json.py
 msgid "brain blob"
-msgstr ""
+msgstr "mózgowy glut"
 
 #. ~ Description for brain blob
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A gigantic black blob of viscous goo, oozing across the ground like a glob "
 "of living oil.  Other blobs seem to swarm around it."
-msgstr ""
+msgstr "Gigantyczny czarny glut z lepiej mazi, sączący się po ziemi jak mięsista kałuża żywego oleju. Inne gluty wydają się roić wokół niego."
 
 #: lang/json/MONSTER_from_json.py
 msgid "big blob"
-msgstr ""
+msgstr "duży glut"
 
 #. ~ Description for big blob
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A large black blob of viscous goo, oozing across the ground like a glob of "
 "living oil."
-msgstr ""
+msgstr "Czarny glut z lepiej mazi, sączący się po ziemi jak mięsista kałuża żywego oleju."
 
 #: lang/json/MONSTER_from_json.py
 msgid "small blob"
-msgstr ""
+msgstr "mały glut"
 
 #. ~ Description for small blob
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A small black blob of viscous goo, oozing across the ground like a glob of "
 "living oil."
-msgstr ""
+msgstr "Czarny glut z lepiej mazi, sączący się po ziemi jak mięsista kałuża żywego oleju."
 
 #: lang/json/MONSTER_from_json.py
 msgid "blood sacrifice"
-msgstr ""
+msgstr "krwawa ofiara"
 
 #. ~ Description for blood sacrifice
 #: lang/json/MONSTER_from_json.py
@@ -40438,44 +40438,44 @@ msgid ""
 "A defiled human body, once living.  Tortured to death long ago, it remains "
 "chained to the altar, the putrescent flays of its peeled skin quivering like"
 " so much flotsam upon a murky pond."
-msgstr ""
+msgstr "Zbezczeszczone ludzkie ciało, kiedyś żyjące. Torturowane aż do śmierci dawno temu, nadal pozostaje przykute do ołtarza, a gnijące płaty jego zdartej skóry drżą jak szczątki łodzi na mętnym stawie."
 
 #: lang/json/MONSTER_from_json.py
 msgid "bobcat"
-msgstr ""
+msgstr "ryś"
 
 #. ~ Description for bobcat
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A spotted wild cat living across much of North America.  It is not a serious"
 " threat to humans, but it can be aggressive if not left alone."
-msgstr ""
+msgstr "Cętkowany dziki kot żyjący w poprzek całej Ameryki Północnej. Nie jest poważnym zagrożeniem dla ludzi, ale może być agresywny jak się go nie zostawi w spokoju."
 
 #: lang/json/MONSTER_from_json.py
 msgid "boomer"
-msgstr ""
+msgstr "wybuchacz"
 
 #. ~ Description for boomer
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A rotund human body, bloated beyond belief and layered in rolls of fat.  It "
 "emits a horrible odor, and a putrid pink sludge dribbles from its mouth."
-msgstr ""
+msgstr "Zaokrąglone ludzkie ciało, opuchłe niewyobrażalnie i pokryte wałkami tłuszczu. Roztacza okropny smród, a z ust kapie mu różowy trupi szlam."
 
 #: lang/json/MONSTER_from_json.py
 msgid "fungal boomer"
-msgstr ""
+msgstr "grzybiczny wybuchacz"
 
 #. ~ Description for fungal boomer
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A rotund and bloated human body with pasty, fungus-ridden flesh.  Its mouth "
 "drips with a frothing gray sludge."
-msgstr ""
+msgstr "Okrągłe i spuchnięte ludzkie ciało z ziemistym, zagrzybionym ciałem. Z ust kapie mu spieniony szary szlam."
 
 #: lang/json/MONSTER_from_json.py
 msgid "huge boomer"
-msgstr ""
+msgstr "wielki wybuchacz"
 
 #. ~ Description for huge boomer
 #: lang/json/MONSTER_from_json.py
@@ -40483,20 +40483,20 @@ msgid ""
 "This boomer, normally swollen and ready to burst, has strengthened and "
 "solidified.  The bile dribbling from its mouth also appears to have "
 "changed..."
-msgstr ""
+msgstr "Ten wybuchacz, normalnie opuchnięty i gotowy by wybuchnąć, wzmocnił się i skrzepnął. Żółć kapiąca mu z ust także wygląda na odmienioną..."
 
 #: lang/json/MONSTER_from_json.py
 msgid "breather"
-msgstr ""
+msgstr "dychacz"
 
 #. ~ Description for breather
 #: lang/json/MONSTER_from_json.py
 msgid "A weird mass of immobile pink goo.  It seems to breathe."
-msgstr ""
+msgstr "Dziwaczna masa nieruchomej różowej brei. Wydaje się oddychać."
 
 #: lang/json/MONSTER_from_json.py
 msgid "broken cyborg"
-msgstr ""
+msgstr "zepsuty cyborg"
 
 #. ~ Description for broken cyborg
 #: lang/json/MONSTER_from_json.py
@@ -40505,11 +40505,11 @@ msgid ""
 "devices are implanted in its head.  Patches of skin look diseased or "
 "rotting.  This cyborg moves erratically and has a confused and deranged look"
 " in its eyes."
-msgstr ""
+msgstr "Robotyczne ciało z ludzką głową, w której implantowane są różne kable elektryczne i urządzenia. Płaty skóry wyglądają na zakażone i przegniłe. Ten cyborg porusza się nieregularnie a w oczach ma zdezorientowany, obłąkany błysk."
 
 #: lang/json/MONSTER_from_json.py
 msgid "cat"
-msgstr ""
+msgstr "kot"
 
 #. ~ Description for cat
 #: lang/json/MONSTER_from_json.py
@@ -40517,33 +40517,33 @@ msgid ""
 "A small domesticated predator gone feral in the absence of human "
 "stewardship.  Harried by the elements and the rigors of survival, it is "
 "scruffy and skittish."
-msgstr ""
+msgstr "Mały udomowiony drapieżnik zdziczały pod nieobecność ludzkiego przewodnictwa. Niesiony żywiołem i rygorem przetrwania, jest cały brudny i obszarpany."
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant centipede"
-msgstr ""
+msgstr "gigantyczna stonoga"
 
 #. ~ Description for giant centipede
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A meter-long centipede with a menacing pair of pincers, moving swiftly on "
 "dozens of spindly legs."
-msgstr ""
+msgstr "Metrowej długości stonoga z groźną parą szczypiec, szybko krocząca na tuzinach swoich patykowatych nóg."
 
 #: lang/json/MONSTER_from_json.py
 msgid "charred nightmare"
-msgstr ""
+msgstr "zwęglony koszmar"
 
 #. ~ Description for charred nightmare
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "Intense radiation has spurred a unique form of necrosis and regeneration, it"
 " is impossible to tell if this creature was ever human."
-msgstr ""
+msgstr "Intensywna radiacja wytworzyła tak unikalną formę nekrozy i regeneracji, że niemożliwe jest nawet stwierdzenie czy to stworzenie w ogóle wcześniej było człowiekiem."
 
 #: lang/json/MONSTER_from_json.py
 msgid "chicken"
-msgstr ""
+msgstr "kurczak"
 
 #. ~ Description for chicken
 #: lang/json/MONSTER_from_json.py
@@ -40551,11 +40551,11 @@ msgid ""
 "A domesticated descendant of junglefowl, it may still be the most numerous "
 "bird in the world.  Before the Cataclysm, it was raised by humans as a "
 "source of meat, eggs, and early morning wakeup calls."
-msgstr ""
+msgstr "Udomowiony potomek kura, ptaka z rodziny kurowatych. Może nadal jest najliczniejszym ptakiem na świecie. Przed Kataklizmem hodowany przez ludzi dla mięsa, jaj i porannego piania na pobudkę."
 
 #: lang/json/MONSTER_from_json.py
 msgid "chicken walker"
-msgstr ""
+msgstr "kurzy koczarz"
 
 #. ~ Description for chicken walker
 #: lang/json/MONSTER_from_json.py
@@ -40565,11 +40565,11 @@ msgid ""
 "launcher, 5.56 anti-personnel gun, and the ability to electrify itself "
 "against attackers, it is an effective automated sentry, though production "
 "was limited due to a legal dispute."
-msgstr ""
+msgstr "Northrup ATSV, masywny, silnie uzbrojony i opancerzony robot kroczący na nogach z wstecznie skierowanymi stawami kolanowymi. Uzbrojony w 40mm wyrzutnię granatów przeciw pojazdom, karabin 5.56mm przeciw piechocie, oraz posiadający zdolność zelektryfikowania się przeciwko atakującym. Jest efektywnym automatycznym strażnikiem, choć jego produkcję ograniczyły dysputy prawne."
 
 #: lang/json/MONSTER_from_json.py
 msgid "chipmunk"
-msgstr ""
+msgstr "pręgowiec"
 
 #. ~ Description for chipmunk
 #: lang/json/MONSTER_from_json.py
@@ -40577,7 +40577,7 @@ msgid ""
 "The eastern chipmunk, a tiny omnivorous rodent with a characteristic striped"
 " coat.  It spends much of the day patrolling its elaborate burrow and the "
 "precious stores of foraged food within."
-msgstr ""
+msgstr "Pręgowiec wschodni, mały wszystkożerny gryzoń z rodziny wiewiórkowatych, z charakterystycznym pasiastym futrem. Spędza większość dnia patrolując swoją rozbudowaną norę i schowane w niej cenne zapasy zgromadzonej żywności."
 
 #: lang/json/MONSTER_from_json.py
 msgid "C.H.U.D."
@@ -40592,7 +40592,7 @@ msgstr ""
 
 #: lang/json/MONSTER_from_json.py
 msgid "police bot"
-msgstr ""
+msgstr "bot policyjny"
 
 #. ~ Description for police bot
 #: lang/json/MONSTER_from_json.py
@@ -40601,11 +40601,11 @@ msgid ""
 "before the collapse of civilization.  Solar powered like many other robots, "
 "it maintains its programmed pursuit of law and order, propelled on a trio of"
 " omni wheels."
-msgstr ""
+msgstr "Jeden z wielu modeli opancerzonych robotów sił porządkowych zatrudnionych na krótko przed upadkiem cywilizacji. Jest zasilany słonecznie jak wiele innych robotów, porusza się na trzech omni kołach, i jest posłuszny swojemu oprogramowaniu nakazującemu mu utrzymywać prawo i porządek."
 
 #: lang/json/MONSTER_from_json.py
 msgid "cougar"
-msgstr ""
+msgstr "puma"
 
 #. ~ Description for cougar
 #: lang/json/MONSTER_from_json.py
@@ -40613,11 +40613,11 @@ msgid ""
 "The Eastern cougar, a large feline predator.  Once thought extinct in this "
 "region, conservation efforts were successful in restoring a thriving "
 "population."
-msgstr ""
+msgstr "Wschodnia puma, duży koci drapieżnik. Dawniej uważana za wymarłą w tych regionach, została przywrócona do stanu prosperującej populacji przez projekty zachowania gatunków."
 
 #: lang/json/MONSTER_from_json.py
 msgid "cow"
-msgstr ""
+msgstr "krowa"
 
 #. ~ Description for cow
 #: lang/json/MONSTER_from_json.py
@@ -40625,11 +40625,11 @@ msgid ""
 "The domestic cow, a baleful, ruminating farm animal.  It is quite muscular, "
 "and the males can have a violent streak to accompany their nasty-looking "
 "horns."
-msgstr ""
+msgstr "Udomowiana krowa, groźne przeżuwające zwierzę farmerskie. Jest dość muskularna, a samce mają skłonności do agresji, w czym pomagają im paskudnie wyglądające rogi."
 
 #: lang/json/MONSTER_from_json.py
 msgid "coyote"
-msgstr ""
+msgstr "kojot"
 
 #. ~ Description for coyote
 #: lang/json/MONSTER_from_json.py
@@ -40637,7 +40637,7 @@ msgid ""
 "The Eastern coyote, also called the tweed wolf, is a territorial canine "
 "descended from the offspring of gray wolves and true coyotes.  It is "
 "intimidated by humans and other predators, but will fight if threatened."
-msgstr ""
+msgstr "Wschodni kojot, zwany też wełnianym wilkiem, to terytorialny psowaty potomek szarego wilka i kojota właściwego. Strachliwy w obecności ludzi i innych drapieżników, ale będzie walczył gdy zagrożony."
 
 #. ~ Description for coyote
 #: lang/json/MONSTER_from_json.py
@@ -40645,53 +40645,53 @@ msgid ""
 "The Northeastern coyote, a widespread canine pack hunter.  More timid than a"
 " wolf, it is an opportunistic feeder and prefers to hunt smaller and weaker "
 "prey."
-msgstr ""
+msgstr "Północno-wschodni kojot, rozpowszechniony łowca stadny. Bardziej płochliwy od wilka, i jest oportunistą, jeśli chodzi o pożywienie, preferując mniejsze i słabsze ofiary."
 
 #: lang/json/MONSTER_from_json.py
 msgid "crawler"
-msgstr ""
+msgstr "pełzacz"
 
 #. ~ Description for crawler
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A conglomeration of human parts fused together in a horrible mishmash of "
 "function, slowly dragging its eldritch body across the ground."
-msgstr ""
+msgstr "Konglomerat ludzkich kończyn i innych części ciał stopionych razem w upiorny zlepek funkcji, wolno wlekący po ziemi swoje nieziemskie cielsko."
 
 #: lang/json/MONSTER_from_json.py
 msgid "creeper hub"
-msgstr ""
+msgstr "węzeł pnączy"
 
 #. ~ Description for creeper hub
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A thick stalk, rooted to the ground.  It rapidly sprouts thorny vines in all"
 " directions."
-msgstr ""
+msgstr "Gruba łodyga zakorzeniona w ziemi. We wszystkich kierunkach wyrastają z niej gwałtownie cierniste pnącza."
 
 #: lang/json/MONSTER_from_json.py
 msgid "creeper vine"
-msgstr ""
+msgstr "cierniste pnącze"
 
 #. ~ Description for creeper vine
 #: lang/json/MONSTER_from_json.py
 msgid "A thorny vine, twisting wildly as it grows with incredible speed."
-msgstr ""
+msgstr "Cierniste pnącze, które wije się dziko rosnąc w zastraszającym tempie."
 
 #: lang/json/MONSTER_from_json.py
 msgid "crow"
-msgstr ""
+msgstr "kruk"
 
 #. ~ Description for crow
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A small, elegant black bird, famous for its distinctive call.  An "
 "intelligent bird, there is a glitter of mischief behind its eyes."
-msgstr ""
+msgstr "Mały, elegancki czarny ptak, znany z charakterystycznego odgłosu krakania. Inteligentne zwierzę, z błyskiem szelmostwa w czarnych oczach."
 
 #: lang/json/MONSTER_from_json.py
 msgid "dark wyrm"
-msgstr ""
+msgstr "mroczny żmij"
 
 #. ~ Description for dark wyrm
 #: lang/json/MONSTER_from_json.py
@@ -40699,154 +40699,154 @@ msgid ""
 "A huge mutated worm found deep underground.  It has a gaping round mouth "
 "lined with dagger-like teeth, and its flesh is slick with bubbling blue "
 "slime."
-msgstr ""
+msgstr "Wielki zmutowany robal żyjący głęboko pod ziemią. Jego ziejąca okrągła paszcza upstrzona jest liniami ostrych jak sztylety zębów, a ciało plami spieniony niebieski śluz."
 
 #: lang/json/MONSTER_from_json.py
 msgid "wraith"
-msgstr ""
+msgstr "upiór"
 
 #. ~ Description for wraith
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A gigantic shadow, chaotically changing in shape and volume , two piercing "
 "orbs of light dominate what can only be described as its head."
-msgstr ""
+msgstr "Gigantyczny cień, którego kształt i objętość zmieniają się chaotycznie, z dwoma przeszywającymi kulami światła wieńczącymi coś co może być opisane tylko jako jego głowa."
 
 #: lang/json/MONSTER_from_json.py
 msgid "deer"
-msgstr ""
+msgstr "sarna"
 
 #. ~ Description for deer
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "The northern woodland white-tailed deer, a quick and strong grazing animal."
 "  Favored prey of coyotes, wolves, and giant spider mutants."
-msgstr ""
+msgstr "Północny jeleń wirgiński, szybki i silny przeżuwacz. Ulubiona zdobycz kojotów, wilków, i zmutowanych gigantycznych pająków."
 
 #: lang/json/MONSTER_from_json.py
 msgid "dementia"
-msgstr ""
+msgstr "demencja"
 
 #. ~ Description for dementia
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A crazed individual, the bloody scars on the side of its shaved head suggest"
 " some sort of partial lobotomy"
-msgstr ""
+msgstr "Oszalałe indywiduum, którego krwawe pręgi na ogolonej głowie sugerują jakiś rodzaj częściowej lobotomii."
 
 #: lang/json/MONSTER_from_json.py
 msgid "dermatik"
-msgstr ""
+msgstr "dermatik"
 
 #. ~ Description for dermatik
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A mutated wasp nearly the size of a cat, with a barbed ovipositor extruding "
 "from the abdomen."
-msgstr ""
+msgstr "Zmutowana osa niemal wielkości kota, z kolczastym pokładełkiem wystającym z odwłoka. "
 
 #: lang/json/MONSTER_from_json.py
 msgid "dermatik larva"
-msgstr ""
+msgstr "larwa dermatika"
 
 #. ~ Description for dermatik larva
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A fat white grub as big as a squirrel, with a pair of large, spadelike "
 "mandibles."
-msgstr ""
+msgstr "Tłusty biały pędrak wilki jak wiewiórka, z parą dużych podobnych do szpadli żuwaczek."
 
 #: lang/json/MONSTER_from_json.py src/game.cpp
 msgid "dog"
-msgstr ""
+msgstr "pies"
 
 #. ~ Description for dog
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "With mangy fur and hungry eyes, it's clear that this once domesticated dog "
 "has gone feral."
-msgstr ""
+msgstr "Zwichrzone futro i głody wzrok wyraźnie wskazują, że ten niegdyś udomowiony pies zdziczał."
 
 #: lang/json/MONSTER_from_json.py
 msgid "skeletal dog"
-msgstr ""
+msgstr "szkieletowy pies"
 
 #. ~ Description for skeletal dog
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "This canines see-through thin, black veined and scab riddled skin, is "
 "tightly compressed around its skeletal frame."
-msgstr ""
+msgstr "Szkielet tego psa jest ciasno obciągnięty prześwitującą, pokrytą strupami i czarnymi żyłami skórą."
 
 #. ~ Description for dog
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A domesticated mongrel of the canine persuasion.  In the absence of human "
 "society, it has turned feral.  You feel a sudden urge to destroy it."
-msgstr ""
+msgstr "Udomowiony kundel z psiego boomu. W nieobecności człowieczego społeczeństwa zdziczał. Czujesz nagłe pragnienie by go zniszczyć."
 
 #: lang/json/MONSTER_from_json.py
 msgid "Z-9"
-msgstr ""
+msgstr "Z-9"
 
 #. ~ Description for Z-9
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A zombified version of one of the German shepherd dogs used in law "
 "enforcement.  Its deformed body is encased in a protective Kevlar harness."
-msgstr ""
+msgstr "Zzombifikowana wersja owczarka niemieckiego służącego w siłach policyjnych. Jego zdeformowane ciało zapięte jest w ochronnej kevlarowej uprzęży."
 
 #: lang/json/MONSTER_from_json.py
 msgid "rot-weiler"
-msgstr ""
+msgstr "rot-weiler"
 
 #. ~ Description for rot-weiler
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "Acrid smell accompanies this corpse of canine.  Its whole body is covered in"
 " chains of pulsing cysts and slime dribbling ulcers."
-msgstr ""
+msgstr "Gryzący zapach towarzyszy tym psim zwłokom. Całe jego ciało pokrywają serie pulsujących cyst i sączących ropę wrzodów."
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant dragonfly"
 msgid_plural "giant dragonflies"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "gigantyczna ważka"
+msgstr[1] "gigantyczne ważki"
+msgstr[2] "gigantyczne ważki"
+msgstr[3] "gigantyczne ważki"
 
 #. ~ Description for giant dragonfly
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A ferocious mutant dragonfly as big as a cat, darting through the air with a"
 " cluster of fangs for a mouth."
-msgstr ""
+msgstr "Zaciekła zmutowana ważka wielka jak kot, przeszywająca powietrze zestawem kłów służących za usta."
 
 #: lang/json/MONSTER_from_json.py
 msgid "duck"
-msgstr ""
+msgstr "kaczka"
 
 #. ~ Description for duck
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A mallard duck, often seen around rivers and other bodies of water.  It "
 "feeds primarily on insects, seeds, roots, and, pre-cataclysm, bread scraps."
-msgstr ""
+msgstr "Kaczka krzyżówka, często widywana w pobliżu rzek i innych zbiorników wodnych. Żywi się głównie owadami, nasionami, korzeniami roślin a przed kataklizmem także okruchami chleba."
 
 #: lang/json/MONSTER_from_json.py
 msgid "exploder"
-msgstr ""
+msgstr "detonator"
 
 #. ~ Description for exploder
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A small, round turret which extends from the floor.  Two SMG barrels swivel "
 "360 degrees."
-msgstr ""
+msgstr "Mała okrągła wieżyczka wystająca z podłogi. Dwie lufy peemów obracają się w 360 stopniach."
 
 #: lang/json/MONSTER_from_json.py
 msgid "eyebot"
-msgstr ""
+msgstr "okobot"
 
 #. ~ Description for eyebot
 #: lang/json/MONSTER_from_json.py
@@ -40854,103 +40854,103 @@ msgid ""
 "A fusion-driven UAV largely comprised of a high-resolution camera lens, this"
 " spheroid robot hovers above the ground, silent witness to the carnage and "
 "mayhem around it."
-msgstr ""
+msgstr "Zasilany fuzją dron latający złożony z wysokiej rozdzielczości soczewek fotograficznych. Ten sferyczny robot unosi się nad ziemią, jako cichy świadek rzezi i chaosu, który go otacza."
 
 #: lang/json/MONSTER_from_json.py
 msgid "flaming eye"
-msgstr ""
+msgstr "płonące oko"
 
 #. ~ Description for flaming eye
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "An eyeball the size of an easy chair, covered in rolling blue flames.  It "
 "floats through the air, spinning slowly to draw its gaze in every direction."
-msgstr ""
+msgstr "Gałka oczna wielkości fotela, otoczona falującymi błękitnymi płomieniami. Unosi się w powietrzu, obracając się powoli by objąć spojrzeniem każdy kierunek."
 
 #: lang/json/MONSTER_from_json.py
 msgid "flesh angel"
-msgstr ""
+msgstr "mięsny anioł"
 
 #. ~ Description for flesh angel
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A tall and slender man lacking skin and any normalcy of countenance.  Wings "
 "of muscle curl forth from its back and a third eye dominates the forehead."
-msgstr ""
+msgstr "Wysoki i szczupły człowiek pozbawiony skóry i jakiegokolwiek normalnego oblicza. Skrzydła z mięśni rozwijają się z jego pleców, a trzecie oko wyrasta na jego czole."
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant fly"
 msgid_plural "giant flies"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "gigantyczna mucha"
+msgstr[1] "gigantyczne muchy"
+msgstr[2] "gigantyczne muchy"
+msgstr[3] "gigantyczne muchy"
 
 #. ~ Description for giant fly
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A tremendous housefly the size of a small dog, predictably accompanied by a "
 "loud, incessant buzzing sound."
-msgstr ""
+msgstr "Olbrzymia mucha domowa wielkości małego psa, oczywiście z nieodłącznie towarzyszącym bezustannym głośnym bzyczeniem."
 
 #: lang/json/MONSTER_from_json.py
 msgid "flying polyp"
-msgstr ""
+msgstr "latający polip"
 
 #. ~ Description for flying polyp
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "An amorphous mound of twisting black flesh that flits through the air at "
 "incredible speeds."
-msgstr ""
+msgstr "Amorficzny kopiec skręconego czarnego ciała, który lata w powietrzu z niesamowitą prędkością."
 
 #: lang/json/MONSTER_from_json.py
 msgid "fox"
 msgid_plural "foxes"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "lis"
+msgstr[1] "lisy"
+msgstr[2] "lisy"
+msgstr[3] "lisy"
 
 #. ~ Description for fox
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A small omnivorous canine with an almost cat-like manner.  It is a solitary "
 "hunter, and one of the only canids able to climb trees."
-msgstr ""
+msgstr "Mały wszystkożerny psowaty z niemal kocimi manierami. Samotny łowca, i niemal jedyny psowaty potrafiący wdrapywać się na drzewa."
 
 #. ~ Description for fox
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "The red fox, an omnivorous canine and largest of the true foxes, it is a "
 "wily hunter with a combative, suspicious temperament."
-msgstr ""
+msgstr "Rudy lis, wszystkożerny psowaty i największy z prawdziwych lisów. Przebiegły łowca, z bojowym, podejrzliwym temperamentem."
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant frog"
-msgstr ""
+msgstr "gigantyczna żaba"
 
 #. ~ Description for giant frog
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A mutated bullfrog taller than you are.  It stares with amber eyes as it "
 "considers the easiest way to swallow you whole."
-msgstr ""
+msgstr "Zmutowana żaba rycząca, wyższa wzrostem od ciebie. Gapi się bursztynowymi oczyma, rozważając najłatwiejszy sposób na połknięcie cię żywcem."
 
 #: lang/json/MONSTER_from_json.py
 msgid "fungal blossom"
-msgstr ""
+msgstr "grzybiczy kwiat"
 
 #. ~ Description for fungal blossom
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A broad fungus, looking much like a glowing blue sunflower.  It appears to "
 "emit finer spores than the typical fungal emission."
-msgstr ""
+msgstr "Rozłożysty grzyb, bardzo przypominający świecący niebieski słonecznik. Wygląda na to że rozprzestrzenia zarodniki drobniejsze w porównaniu do typowych grzybicznych emisji."
 
 #: lang/json/MONSTER_from_json.py
 msgid "fungal fighter"
-msgstr ""
+msgstr "grzybiczy wojownik"
 
 #. ~ Description for fungal fighter
 #: lang/json/MONSTER_from_json.py
@@ -40958,43 +40958,43 @@ msgid ""
 "A stout woody plant that can dig through the ground and flick spines from "
 "its branches.  The thorns carry a fungicidal compound with paralytic "
 "effects."
-msgstr ""
+msgstr "Korpulentna zdrewniała roślina, która może przekopywać się przez ziemię, i uderzać kolcami ze swoich gałęzi. Ciernie te przenoszą fungicyd z właściwościami paralitycznymi."
 
 #: lang/json/MONSTER_from_json.py
 msgid "fungal hedgerow"
-msgstr ""
+msgstr "grzybiczy żywopłot"
 
 #. ~ Description for fungal hedgerow
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "Looking at first glance like a dull gray privet, this \"hedge\" is really a "
 "mass of barbed fungal tendrils, defending the fungal tower."
-msgstr ""
+msgstr "Wyglądający na pierwszy rzut oka na nudny szary ligustr, \"żywopłot\" ten jest w rzeczywistości masą ciernistych grzybicznych splotów chroniących grzybiczą wieżę."
 
 #: lang/json/MONSTER_from_json.py
 msgid "fungal tendril"
-msgstr ""
+msgstr "grzybicza wić"
 
 #. ~ Description for fungal tendril
 #: lang/json/MONSTER_from_json.py
 msgid "A long and delicate-looking tendril with a sharp tip."
-msgstr ""
+msgstr "Długi i wyglądający na delikatny grzybiczna wić z ostrym czubkiem."
 
 #: lang/json/MONSTER_from_json.py lang/json/terrain_from_json.py
 #: lang/json/terrain_from_json.py
 msgid "fungal wall"
-msgstr ""
+msgstr "grzybicza ściana"
 
 #. ~ Description for fungal wall
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A veritable wall of fungus, grown as a natural defense by the fungal spire."
 "  New spores erupt from the surface every few seconds."
-msgstr ""
+msgstr "Prawdziwa ściana grzybów, rozrośnięta jako naturalna bariera ochronna grzybiczej iglicy. Nowe chmury zarodników buchają z jej powierzchni co kilka sekund."
 
 #: lang/json/MONSTER_from_json.py
 msgid "fungaloid"
-msgstr ""
+msgstr "grzyboloid"
 
 #. ~ Description for fungaloid
 #: lang/json/MONSTER_from_json.py
@@ -41002,33 +41002,33 @@ msgid ""
 "A pale white fungus, one meaty gray stalk supporting a bloom at the top.  "
 "Spores are periodically expelled from its gills, and a few tendrils extend "
 "from the base, allowing mobility and some basic means of defense."
-msgstr ""
+msgstr "Blady biały grzyb, z mięsistą szarą nogą podtrzymującą wykwit na górze. Zarodniki co jakiś czas buchają z jego skrzeli, a kilka wici wyrasta z podstawy zapewniając mobilność i podstawowe środki obrony."
 
 #: lang/json/MONSTER_from_json.py
 msgid "fungal spire"
-msgstr ""
+msgstr "grzybicza iglica"
 
 #. ~ Description for fungal spire
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "An enormous fungal spire, towering over the ground.  It pulsates slowly, "
 "continuously growing new defenses."
-msgstr ""
+msgstr "Olbrzymia grzybicza iglica, górująca nad ziemią. Pulsuje wolno, stale porastając w nowe środki obrony."
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant fungal blossom"
-msgstr ""
+msgstr "gigantyczny grzybiczy kwiat"
 
 #. ~ Description for giant fungal blossom
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "An immense fungal blossom, towering over its surroundings.  It pulses with a"
 " soft blue glow, continuously pumping its spores into the air."
-msgstr ""
+msgstr "Olbrzymi grzybiczy kwiat, górujący nad otoczeniem. Pulsuje wolno emitując blady błękitny blask, bezustannie pompując zarodniki w powietrze."
 
 #: lang/json/MONSTER_from_json.py lang/json/overmap_terrain_from_json.py
 msgid "fungal tower"
-msgstr ""
+msgstr "grzybicza wieża"
 
 #. ~ Description for fungal tower
 #: lang/json/MONSTER_from_json.py
@@ -41038,11 +41038,11 @@ msgid ""
 "bristling tendrils at ground level.  Between this redundancy and their "
 "noticeable movement creating frequent gaps, it's tough to get a solid shot "
 "on the thing."
-msgstr ""
+msgstr "Olbrzymia grzybicza wieża. Po bliższemu przyjrzeniu się, kapelusz podtrzymywany jest WIELOMA grzybiczymi wiciami różnej grubości, wyrastających z gęstej szczeciny podobnych wici na poziomie ziemi. Trudno będzie się wstrzelić pomiędzy te zwielokrotnione podpory pomimo ich zauważalnego ruchu tworzącego częste szczeliny."
 
 #: lang/json/MONSTER_from_json.py
 msgid "fungal sporeling"
-msgstr ""
+msgstr "grzybiczy zarodnikowiec"
 
 #. ~ Description for fungal sporeling
 #: lang/json/MONSTER_from_json.py
@@ -41050,11 +41050,11 @@ msgid ""
 "A fungal stalk several feet in height.  Two vicious looking tendrils extend "
 "from its thorned and leathery exterior, and it moves about faster than the "
 "larger fungaloids."
-msgstr ""
+msgstr "Noga grzyba wysokości kilku stóp. Dwie groźne wici wyrastają z kolczastego skórzastego cielska, i porusza się szybciej niż większe grzyboidy."
 
 #: lang/json/MONSTER_from_json.py
 msgid "sewer gator"
-msgstr ""
+msgstr "aligator kanałowy"
 
 #. ~ Description for sewer gator
 #: lang/json/MONSTER_from_json.py
@@ -41063,46 +41063,46 @@ msgid ""
 "getting flushed down the toilet and growing to adulthood in sewers.  This "
 "large specimen doesn't look like it is used to humans as anything other than"
 " a meal."
-msgstr ""
+msgstr "W późnym 20-tym wieku krążyły miejskie legendy o udomowionych aligatorach spuszczanych w toaletach, które w kanałach osiągały dojrzałość. Ten duży okaz nie wygląda na takiego, który zna ludzi z innej strony jak tylko jako posiłek."
 
 #: lang/json/MONSTER_from_json.py
 msgid "amoebic mold"
-msgstr ""
+msgstr "pleśniowa ameba"
 
 #. ~ Description for amoebic mold
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A formless slime mold the size of a cow.  Crusty bits of cytoplasm fall away"
 " as it oozes across the ground."
-msgstr ""
+msgstr "Bezkształtna oślizła plecha pleśni wielkości krowy. Obrzydliwe kawałki cytoplazmy odpadają po drodze gdy pełznie po ziemi."
 
 #: lang/json/MONSTER_from_json.py
 msgid "generator"
-msgstr ""
+msgstr "generator"
 
 #. ~ Description for generator
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "Your precious generator, noisily humming away.  Defend it at all costs!"
-msgstr ""
+msgstr "Twój cenny generator, głośno mruczący swoją pieśń. Broń go za wszelką cenę!"
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant cockroach"
-msgstr ""
+msgstr "gigantyczny karaluch"
 
 #. ~ Description for giant cockroach
 #: lang/json/MONSTER_from_json.py
 msgid "A mutant cockroach the size of a small dog."
-msgstr ""
+msgstr "Zmutowany karaluch wielkości małego psa. Ktoś powiedział, że karaluchy przetrwają każdą apokalipsę, no i proszę!"
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant cockroach nymph"
-msgstr ""
+msgstr "nimfa gigantycznego karalucha"
 
 #. ~ Description for giant cockroach nymph
 #: lang/json/MONSTER_from_json.py
 msgid "A baby mutant cockroach about the size of a rat."
-msgstr ""
+msgstr "Dziecko zmutowanego karalucha wielkości szczura."
 
 #: lang/json/MONSTER_from_json.py
 msgid "giant crayfish"
@@ -47208,7 +47208,7 @@ msgid ""
 "This is an early modern sword seeing use in the 16th, 17th, and 18th "
 "centuries.  This sword appears to be made very poorly, but it should still "
 "stand up to a few swings."
-msgstr ""
+msgstr "Miecz używany pomiędzy 16-tym a 18-tym wiekiem. Szerokie ostrze odróżnia go od cieńszych rapierów. Ten miecz wygląda na bardzo niskiej jakości produkcję, ale kilka machnięć powinien wytrzymać."
 
 #. ~ Description for cutlass
 #: lang/json/TOOL_from_json.py
@@ -47216,35 +47216,35 @@ msgid ""
 "This is a broad saber known for its use by sailors and pirates.  This sword "
 "appears to be made very poorly, but it should still stand up to a few "
 "swings."
-msgstr ""
+msgstr "Szeroka szabla używana przez marynarzy i piratów. Ten miecz wygląda na bardzo niskiej jakości produkcję, ale kilka machnięć powinien wytrzymać.  "
 
 #. ~ Description for katana
 #: lang/json/TOOL_from_json.py
 msgid ""
 "This is a rare sword from Japan.  While it's got the right edge and weight, "
 "the pommel just snaps off, and the blade seems pretty worn."
-msgstr ""
+msgstr "To rzadki miecz z Japonii. Pomimo właściwego ostrza i wyważenia, uchwyt się odrywa, a ostrze wygląda na mocno zużyte."
 
 #. ~ Description for zweihänder
 #: lang/json/TOOL_from_json.py
 msgid ""
 "This is a huge two-handed sword from Germany.  You're not quite sure it's "
 "supposed to be that bendy."
-msgstr ""
+msgstr "To wielki miecz dwuręczny z Niemiec. Nie jesteś pewien czy powinien być tak pogięty,"
 
 #. ~ Description for wakizashi
 #: lang/json/TOOL_from_json.py
 msgid ""
 "This is a comparatively-common Japanese short sword.  There's something not "
 "quite right about this sword."
-msgstr ""
+msgstr "To relatywnie powszechny krótki miecz japoński. Coś jest z nim nie tak."
 
 #. ~ Description for battle axe
 #: lang/json/TOOL_from_json.py
 msgid ""
 "This is a huge axe designed for warfare.  You notice that the axe heads "
 "aren't seated properly at all."
-msgstr ""
+msgstr "To wielki topór zaprojektowany do walki. Wygląda na to, że ostrze jest nieprawidłowo osadzone na trzonku."
 
 #. ~ Description for jian
 #: lang/json/TOOL_from_json.py
@@ -47252,14 +47252,14 @@ msgid ""
 "This is an ancient Chinese doubled-edged straight sword, with an ornate "
 "guard and a tassel attatched to the pommel.  One of the four major weapons "
 "in folklore, alongside the dao sabre, qiang spear, and gun staff."
-msgstr ""
+msgstr "Starożytny chiński miecz, z ozdobnym jelcem i z przyłączonym frędzlem. Jedna z czterech podstawowych broni w folklorze, razem z szablą dao, włócznią qiang, i laską gun."
 
 #. ~ Description for jian
 #: lang/json/TOOL_from_json.py
 msgid ""
 "This is an ancient Chinese doubled-edged straight sword.  The sword is quite"
 " worn, and bent at an odd angle."
-msgstr ""
+msgstr "Starożytny chiński miecz o prostym obusiecznym ostrzu z ornamentowym jelcem. Ten jest mocno zużyty i wygięty pod dziwnym kątem."
 
 #. ~ Description for scimitar
 #: lang/json/TOOL_from_json.py
@@ -47267,14 +47267,14 @@ msgid ""
 "This is a curved sword associated with various Middle Eastern and Central "
 "Asian countries.  Designed for slashing, and quite deadly against unarmored "
 "targets."
-msgstr ""
+msgstr "Zakrzywiony miecz kojarzony wieloma państwami Środkowego Wschodu i centralnej Azji. Zaprojektowany do cięcia, i dość zabójczy w walce z nieopancerzonymi wrogami."
 
 #. ~ Description for scimitar
 #: lang/json/TOOL_from_json.py
 msgid ""
 "This is a curved sword associated with various Middle Eastern and Central "
 "Asian countries.  This one seems oddly dull and worn."
-msgstr ""
+msgstr "Zakrzywiony miecz kojarzony wieloma państwami Środkowego Wschodu i centralnej Azji. Ten jest dziwnie tępy i zużyty."
 
 #. ~ Description for longsword
 #: lang/json/TOOL_from_json.py
@@ -47282,7 +47282,7 @@ msgid ""
 "This is a classic medieval sword, in between the lighter arming sword and "
 "later two-handed swords in size.  It requires a larger baldric or scabbard, "
 "compared to smaller swords."
-msgstr ""
+msgstr "Klasyczny średniowieczny miecz, w rozmiarze pomiędzy mieczem jednoręcznym a późniejszym mieczem dwuręcznym. Wymaga większej pochwy w porównaniu z mniejszymi mieczami."
 
 #. ~ Description for longsword
 #: lang/json/TOOL_from_json.py
@@ -47290,20 +47290,20 @@ msgid ""
 "This is a classic medieval sword, in between the lighter arming sword and "
 "later two-handed swords in size.  You feel like the pommel could just snap "
 "off if you used it."
-msgstr ""
+msgstr "Klasyczny średniowieczny miecz, w rozmiarze pomiędzy mieczem jednoręcznym a późniejszym mieczem dwuręcznym. Czujesz jakby jelec miał się odłamać gdybyś zaczął go używać."
 
 #. ~ Description for arming sword
 #: lang/json/TOOL_from_json.py
 msgid ""
 "This is a classic medieval sword, just the right size to use one-handed."
-msgstr ""
+msgstr "Klasyczny średniowieczny miecz o długości odpowiedniej do jednoręcznego użycia."
 
 #. ~ Description for arming sword
 #: lang/json/TOOL_from_json.py
 msgid ""
 "This is a classic medieval sword, just the right size to use one-handed.  "
 "This one doesn't seem to have been made right."
-msgstr ""
+msgstr "Klasyczny średniowieczny miecz o długości odpowiedniej do jednoręcznego użycia. Tech chyba nie został właściwie zrobiony."
 
 #: lang/json/TOOL_from_json.py
 msgid "folded poncho"
