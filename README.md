@@ -48,7 +48,7 @@ http://webchat.freenode.net/?channels=#CataclysmDDA
 
 #### Is there a tutorial?
 
-Yes, you can find the tutorial in the **Special** menu at the main menu. You can also access documentation in-game via the `?` key.
+Yes, you can find the tutorial in the **Special** menu at the main menu (be aware that due to many code changes the tutorial may not function). You can also access documentation in-game via the `?` key.
 
 #### How can I change the key bindings?
 
