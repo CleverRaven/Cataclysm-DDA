@@ -55,6 +55,8 @@
     "id": "guns_pistol_obscure",
     "//": "Imported or otherwise very obscure pistols.",
     "items": [
+      [ "colt_army", 100 ],
+      [ "colt_navy", 100 ],
       [ "cop_38", 100 ],
       [ "lemat_revolver", 150 ],
       [ "makarov", 100 ],
