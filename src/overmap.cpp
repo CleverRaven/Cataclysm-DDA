@@ -4289,8 +4289,33 @@ void overmap::place_specials( std::vector<overmap_special_placement> &enabled_sp
     }
     std::vector<point> sectors = get_sectors();
 
-    // First a regular mandatory pass
+    // First insure that all minimum instance counts are met.
     place_specials_pass( enabled_specials, sectors, false );
+    if( std::any_of( enabled_specials.begin(), enabled_specials.end(),
+                     []( overmap_special_placement placement ) {
+                         return placement.instances_placed < placement.special_details->occurrences.min;
+                     } ) ) {
+        // Randomly select from among the nearest uninitialized overmap positions.
+        int previous_distance = 0;
+        std::vector<point> nearest_candidates;
+        for( point candidate_addr : closest_points_first( 10, pos() ) ) {
+            if( !overmap_buffer.has( candidate_addr.x, candidate_addr.y ) ) {
+                int current_distance = square_dist( pos().x, pos().y, candidate_addr.x, candidate_addr.y );
+                if( nearest_candidates.empty() || current_distance == previous_distance ) {
+                    nearest_candidates.push_back( candidate_addr );
+                    previous_distance = current_distance;
+                } else {
+                    break;
+                }
+            }
+        }
+        if( !nearest_candidates.empty() ) {
+            std::random_shuffle( nearest_candidates.begin(), nearest_candidates.end() );
+            point new_om_addr = nearest_candidates.front();
+            overmap_buffer.create_custom_overmap( new_om_addr.x, new_om_addr.y, enabled_specials );
+        }
+    }
+    // Then fill in non-mandatory specials.
     place_specials_pass( enabled_specials, sectors, true );
 }
 
