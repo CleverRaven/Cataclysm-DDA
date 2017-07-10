@@ -94,7 +94,7 @@
             { "point":[19,3,0], "overmap": "national_guard_camp_86_north"},
             { "point":[20,3,0], "overmap": "national_guard_camp_87_north"},
             { "point":[21,3,0], "overmap": "national_guard_camp_88_north"},
-	
+
             { "point":[0,4,0], "overmap": "national_guard_camp_89_north"},
             { "point":[1,4,0], "overmap": "national_guard_camp_90_north"},
             { "point":[2,4,0], "overmap": "national_guard_camp_91_north"},
@@ -372,7 +372,7 @@
             { "point":[19,3,-1], "overmap": "national_guard_camp_b1_86_north"},
             { "point":[20,3,-1], "overmap": "national_guard_camp_b1_87_north"},
             { "point":[21,3,-1], "overmap": "national_guard_camp_b1_88_north"},
-	
+
             { "point":[0,4,-1], "overmap": "national_guard_camp_b1_89_north"},
             { "point":[1,4,-1], "overmap": "national_guard_camp_b1_90_north"},
             { "point":[2,4,-1], "overmap": "national_guard_camp_b1_91_north"},
