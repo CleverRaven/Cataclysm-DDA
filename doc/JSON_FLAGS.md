@@ -63,6 +63,7 @@ Example: `-` and `|` is terrain with the `CONNECT_TO_WALL` flag, `O` does not ha
 - ```DESTROY_ITEM``` Items that land here are destroyed. See also NOITEM
 - ```DIGGABLE``` Digging monsters, seeding monster, digging with shovel, etc.
 - ```DOOR``` Can be opened (used for NPC path-finding).
+- ```EASY_DECONSTRUCT``` Player can deconstruct this without tools.
 - ```EXPLODES``` Explodes when on fire.
 - ```FIRE_CONTAINER``` Stops fire from spreading (brazier, wood stove, etc.)
 - ```FLAMMABLE``` Can be lit on fire.

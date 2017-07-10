@@ -2353,7 +2353,7 @@
         "examine_action": "kiln_empty",
         "max_volume": 500,
         "crafting_pseudo_item": "char_kiln",
-        "flags": ["CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM"],
+        "flags": ["CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT"],
         "deconstruct": {
             "items": [
                 { "item": "rock", "count": [30, 30] }
