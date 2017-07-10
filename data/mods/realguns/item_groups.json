@@ -26,6 +26,11 @@
     "items": [ [ "357_P", 50 ] ]
   },
   {
+    "id": "ammo_pistol_obscure",
+    "type": "item_group",
+    "items": [ [ "45_long_colt", 50 ] ]
+  },
+  {
     "id": "ammo_pistol_reloaded",
     "type": "item_group",
     "items": [
@@ -69,6 +74,7 @@
     "type": "item_group",
     "items": [
       [ "af2011a1_38super", 100 ],
+      [ "colt_saa", 150 ],
       [ "m1991a1_38super", 150 ]
     ]
   },
