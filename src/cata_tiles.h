@@ -39,23 +39,6 @@ struct tile_type {
     std::vector<std::string> available_subtiles;
 };
 
-struct tile {
-    /** Screen coordinates as tile number */
-    int sx, sy;
-    /** World coordinates */
-    int wx, wy;
-
-    tile() {
-        sx = wx = wy = 0;
-    }
-    tile( int x, int y, int x2, int y2 ) {
-        sx = x;
-        sy = y;
-        wx = x2;
-        wy = y2;
-    }
-};
-
 /* Enums */
 enum MULTITILE_TYPE {
     center,
