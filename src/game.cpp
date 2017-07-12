@@ -1816,6 +1816,11 @@ void game::increase_kill_count( const mtype_id& id )
     kills[id]++;
 }
 
+void game::record_npc_kill( const npc *p )
+{
+   npc_kills.push_back( p->get_name() );
+}
+
 void game::handle_key_blocking_activity()
 {
     // If player is performing a task and a monster is dangerously close, warn them
@@ -4399,6 +4404,17 @@ void game::disp_kills()
         buffer.width( w - 3 ); // gap between cols, monster sym, space
         buffer.fill(' ');
         buffer << entry.second;
+        buffer.width( 0 );
+        data.push_back( buffer.str() );
+    }
+    for( const auto &npc_name : npc_kills ) {
+        totalkills += 1;
+        std::ostringstream buffer;
+        buffer << "<color_magenta>@ " << npc_name << "</color>";
+        const int w = colum_width - utf8_width( npc_name );
+        buffer.width( w - 3 ); // gap between cols, monster sym, space
+        buffer.fill(' ');
+        buffer << "1";
         buffer.width( 0 );
         data.push_back( buffer.str() );
     }
