@@ -568,7 +568,9 @@ bool overmapbuffer::check_ot_type(const std::string& type, int x, int y, int z)
 
 tripoint overmapbuffer::find_closest(const tripoint& origin, const std::string& type, int const radius, bool must_be_seen)
 {
-    int max = (radius == 0 ? OMAPX : radius);
+    // By default search overmaps within a radius of 3,
+    // i.e. current overmap, adjacent overmaps, and overmaps adjacent to those.
+    int max = (radius == 0 ? OMAPX * 3 : radius);
     const int z = origin.z;
     // expanding box
     for( int dist = 0; dist <= max; dist++) {
