@@ -3,6 +3,7 @@
 #include "coordinate_conversions.h"
 #include "generic_factory.h"
 #include "overmap_types.h"
+#include "overmap_location.h"
 #include "rng.h"
 #include "line.h"
 #include "game.h"
@@ -71,47 +72,6 @@ oter_id  ot_null,
          ot_forest_water,
          ot_river_center;
 
-struct overmap_special_location {
-    public:
-        overmap_special_location( const std::vector<std::string> &allowed,
-                                  const std::vector<std::string> &disallowed ) {
-            const auto convert = []( const std::string &str ) {
-                return string_id<oter_type_t>( str );
-            };
-
-            std::transform( allowed.begin(), allowed.end(), std::back_inserter( this->allowed ), convert );
-            std::transform( disallowed.begin(), disallowed.end(), std::back_inserter( this->disallowed ), convert );
-        }
-
-        // Test if oter meets the terrain restrictions.
-        bool test( const oter_id &oter ) const {
-            const auto matches = [ &oter ]( const string_id<oter_type_t> &type ) {
-                return oter->type_is( *type );
-            };
-
-            if( !allowed.empty() && std::none_of( allowed.begin(), allowed.end(), matches ) ) {
-                return false;
-            }
-
-            return std::none_of( disallowed.begin(), disallowed.end(), matches );
-        }
-
-    private:
-        std::vector<string_id<oter_type_t>> allowed;
-        std::vector<string_id<oter_type_t>> disallowed;
-};
-
-// Map of allowed and disallowed terrain for locations of overmap specials.
-// Format: { location, { { list of allowed terrains }, { list of disallowed terrains } } }
-// @todo Jsonize this map.
-static const std::map<std::string, overmap_special_location> special_locations = {
-    { "field",      { { "field"            }, {                  } } },
-    { "forest",     { { "forest"           }, {                  } } },
-    { "swamp",      { { "forest_water"     }, {                  } } },
-    { "land",       { {                    }, { "river" , "road" } } },
-    { "water",      { { "river"            }, {                  } } },
-    { "wilderness", { { "forest" , "field" }, {                  } } }
-};
 
 const oter_type_t oter_type_t::null_type;
 
@@ -176,7 +136,6 @@ namespace
 
 generic_factory<oter_type_t> terrain_types( "overmap terrain type" );
 generic_factory<oter_t> terrains( "overmap terrain" );
-
 generic_factory<overmap_special> specials( "overmap special" );
 
 }
@@ -573,12 +532,12 @@ oter_id oter_t::get_rotated( om_direction::type dir ) const
         : type->get_rotated( om_direction::add( this->dir, dir ) );
 }
 
-inline bool oter_t::type_is( const int_id<oter_type_t> &type_id ) const
+bool oter_t::type_is( const int_id<oter_type_t> &type_id ) const
 {
     return type->id.id() == type_id;
 }
 
-inline bool oter_t::type_is( const oter_type_t &type ) const
+bool oter_t::type_is( const oter_type_t &type ) const
 {
     return this->type == &type;
 }
@@ -1112,7 +1071,7 @@ const overmap_special_terrain &overmap_special::get_terrain_at( const tripoint &
 bool overmap_special::can_be_placed_on( const oter_id &oter ) const
 {
     return std::any_of( locations.begin(), locations.end(),
-    [ &oter ]( const overmap_special_location *loc ) {
+    [ &oter ]( const string_id<overmap_location> &loc ) {
         return loc->test( oter );
     } );
 }
@@ -1138,20 +1097,7 @@ void overmap_special::load( JsonObject &jo, const std::string &src )
     const bool strict = src == "dda";
 
     mandatory( jo, was_loaded, "overmaps", terrains );
-
-    std::vector<std::string> tmp_locations;
-    mandatory( jo, was_loaded, "locations", tmp_locations );
-    for( const std::string &elem : tmp_locations ) {
-        const auto iter = special_locations.find( elem );
-
-        if( iter != special_locations.end() ) {
-            locations.insert( &iter->second );
-        } else {
-            debugmsg( "Overmap special \"%s\" has invalid location \"%s\".",
-                      id.c_str(), elem.c_str() );
-        }
-    }
-
+    mandatory( jo, was_loaded, "locations", locations );
     mandatory( jo, was_loaded, "occurrences", occurrences );
 
     optional( jo, was_loaded, "connections", connections );
@@ -1179,6 +1125,13 @@ void overmap_special::check() const
     std::set<int> invalid_terrains;
     std::set<int> fixed_terrains;
     std::set<tripoint> points;
+
+    for( const auto &element : locations ) {
+        if( !element.is_valid() ) {
+            debugmsg( "In overmap special \"%s\", location \"%s\" is invalid.",
+                      id.c_str(), element.c_str() );
+        }
+    }
 
     for( const auto &elem : terrains ) {
         const auto &oter = elem.terrain;
@@ -4156,8 +4109,9 @@ void overmap::place_special( const overmap_special &special, const tripoint &p, 
         if( blob ) {
             for (int x = -2; x <= 2; x++) {
                 for (int y = -2; y <= 2; y++) {
-                    if (one_in(1 + abs(x) + abs(y))) {
-                        ter( location.x + x, location.y + y, location.z ) = tid;
+                    auto &cur_ter = ter( location.x + x, location.y + y, location.z );
+                    if (one_in(1 + abs(x) + abs(y)) && special.can_be_placed_on(cur_ter)) {
+                        cur_ter = tid;
                     }
                 }
             }

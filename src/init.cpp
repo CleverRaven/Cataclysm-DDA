@@ -29,6 +29,7 @@
 #include "tutorial.h"
 #include "overmap.h"
 #include "artifact.h"
+#include "overmap_location.h"
 #include "mapgen.h"
 #include "speech.h"
 #include "construction.h"
@@ -224,6 +225,7 @@ void DynamicDataLoader::initialize()
     add( "overmap_terrain", &overmap_terrains::load );
     add( "construction", &load_construction );
     add( "mapgen", &load_mapgen );
+    add( "overmap_location", &overmap_locations::load );
     add( "overmap_special", &overmap_specials::load );
 
     add( "region_settings", &load_region_settings );
@@ -374,6 +376,7 @@ void DynamicDataLoader::unload_data()
     reset_mapgens();
     reset_effect_types();
     reset_speech();
+    overmap_locations::reset();
     overmap_specials::reset();
     ammunition_type::reset();
     unload_talk_topics();
@@ -439,6 +442,7 @@ void DynamicDataLoader::check_consistency()
     check_martialarts();
     mutation_branch::check_consistency();
     overmap_terrains::check_consistency();
+    overmap_locations::check_consistency();
     overmap_specials::check_consistency();
     ammunition_type::check_consistency();
     trap::check_consistency();
