@@ -130,26 +130,15 @@
         "flags" : [ "KNOWN_DOWN", "ALLOW_OVERRIDE", "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "bridge_ns",
+        "id" : "bridge",
         "name" : "bridge",
-        "sym" : 124,
-        "color" : "dark_gray",
+        "sym" : 4194424,
+        "color" : "white",
         "see_cost" : 2,
         "mapgen": [
             { "method": "builtin", "name": "bridge" }
         ],
-        "flags" : [ "RIVER", "ALLOW_OVERRIDE", "NO_ROTATE" ]
-    },{
-        "type" : "overmap_terrain",
-        "id" : "bridge_ew",
-        "name" : "bridge",
-        "sym" : 45,
-        "color" : "dark_gray",
-        "see_cost" : 2,
-        "mapgen": [
-            { "method": "builtin", "name": "bridge" }
-        ],
-        "flags" : [ "RIVER", "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "RIVER", "ALLOW_OVERRIDE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_center",

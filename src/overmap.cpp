@@ -3709,8 +3709,7 @@ void overmap::build_connection( const point &source, const point &dest, int z, c
         return res;
     };
 
-    const oter_id bridge_ns( "bridge_ns" );
-    const oter_id bridge_ew( "bridge_ew" );
+    const oter_type_id bridge( "bridge" );
 
     for( const auto &node : pf::find_path( source, dest, OMAPX, OMAPY, estimate ) ) {
         auto &id( ter( node.x, node.y, z ) );
@@ -3718,8 +3717,7 @@ void overmap::build_connection( const point &source, const point &dest, int z, c
         const om_direction::type dir( static_cast<om_direction::type>( node.dir ) );
 
         if( is_river( id ) ) {
-            id = dir == om_direction::type::north
-              || dir == om_direction::type::south ? bridge_ns : bridge_ew;
+            id = bridge->get_rotated( dir );
         } else {
             const size_t prev_line( id->type_is( type_id ) ? id->get_line() : 0 );
             id = type_id->get_linear( om_lines::set_segment( prev_line, om_direction::opposite( dir ) ) );
@@ -3757,16 +3755,10 @@ void overmap::polish(const int z, const std::string &terrain_type)
     const oter_type_t &target_type( *oter_type_id( check_all ? std::string() : terrain_type ) );
     const oter_type_t &road_type( *oter_type_id( "road" ) );
 
-    const oter_type_t &bridge_ns_type( *oter_type_id( "bridge_ns" ) );
-    const oter_type_t &bridge_ew_type( *oter_type_id( "bridge_ew" ) );
+    const oter_type_t &bridge_type( *oter_type_id( "bridge" ) );
 
     const oter_id road_nesw( "road_nesw" );
     const oter_id road_mahole( "road_nesw_manhole" );
-
-    // @todo Get rid of the special case.
-    const auto is_bridge = [&]( const oter_t &ter ) {
-        return ter.type_is( bridge_ns_type ) || ter.type_is( bridge_ew_type );
-    };
 
     // Main loop--checks roads and rivers that aren't on the borders of the map
     for (int x = 0; x < OMAPX; x++) {
@@ -3781,23 +3773,30 @@ void overmap::polish(const int z, const std::string &terrain_type)
                     if( one_in( 4 ) && oter == road_nesw ) {
                         oter = road_mahole;
                     }
-                } else if( is_bridge( oter_obj ) ) {
-                    if( is_bridge( *ter( x - 1, y, z ) ) &&
-                        is_bridge( *ter( x + 1, y, z ) ) &&
-                        is_bridge( *ter( x, y - 1, z ) ) &&
-                        is_bridge( *ter( x, y + 1, z ) ) ) {
+                } else if( oter_obj.type_is( bridge_type ) ) {
+                    if( ter( x + 1, y, z )->type_is( bridge_type ) &&
+                        ter( x - 1, y, z )->type_is( bridge_type ) &&
+                        ter( x, y - 1, z )->type_is( bridge_type ) &&
+                        ter( x, y + 1, z )->type_is( bridge_type ) ) {
 
                         oter = road_nesw;
-                    } else if( ( oter_obj.type_is( bridge_ns_type ) && ( !is_river( ter( x - 1, y, z ) ) ||
-                                                                         !is_river( ter( x + 1, y, z ) ) ) ) ||
-                               ( oter_obj.type_is( bridge_ew_type ) && ( !is_river( ter( x, y - 1, z ) ) ||
-                                                                         !is_river( ter( x, y + 1, z ) ) ) ) ) {
+                    } else {
+                        const auto dir = oter_obj.get_dir();
+                        const auto p = tripoint( x, y, z );
+                        const auto l_p = p + om_direction::displace( om_direction::turn_left( dir ) );
+                        const auto r_p = p + om_direction::displace( om_direction::turn_right( dir ) );
+
                         // Sometimes a bridge will start at the edge of a river,
                         // and this looks ugly.
                         // So, fix it by making that square normal road;
                         // also taking other road pieces that may be next
                         // to it into account. A bit of a kludge but it works.
-                        oter = good_connection( *oter_id( "road_isolated" ), tripoint( x, y, z ) );
+
+                        if( !is_river( ter( l_p.x, l_p.y, l_p.z ) ) ||
+                            !is_river( ter( r_p.x, r_p.y, r_p.z ) ) ) {
+
+                            oter = good_connection( *oter_id( "road_isolated" ), tripoint( x, y, z ) );
+                        }
                     }
                 } else if( is_ot_type( "river", oter ) ) {
                     good_river(x, y, z);
