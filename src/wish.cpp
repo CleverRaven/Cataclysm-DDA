@@ -17,6 +17,7 @@
 #include "string_input_popup.h"
 
 #include <sstream>
+#include <algorithm>
 
 #define LESS(a, b) ((a)<(b)?(a):(b))
 
@@ -458,7 +459,10 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
         debugmsg( "game::wishitem(): invalid parameters" );
         return;
     }
-    const auto opts = item_controller->all();
+    auto opts = item_controller->all();
+    std::sort( opts.begin(), opts.end(), []( const itype * const a, const itype * const b ) {
+        return a->untranslated_name() < b->untranslated_name();
+    } );
 
     int prev_amount, amount = 1;
     uimenu wmenu;
