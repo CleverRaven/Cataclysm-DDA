@@ -1544,7 +1544,7 @@
     "sub": "hotplate",
     "max_charges": 200,
     "charges_per_use": 1,
-    "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 2 ], [ "BOIL", 1 ] ],
+    "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
     "use_action": "HOTPLATE"
   },
   {
