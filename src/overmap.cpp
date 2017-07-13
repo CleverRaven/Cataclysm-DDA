@@ -3686,7 +3686,7 @@ void overmap::build_connection( const point &source, const point &dest, int z, c
 {
     const int disp = type_id == oter_type_id( "road" ) ? 5 : 2;
 
-    const auto estimate = [&]( const pf::node &prev, const pf::node &cur ) {
+    const auto estimate = [&]( const pf::node &cur, const pf::node *prev ) {
         // Reject nodes that don't allow roads to cross them (e.g. buildings)
         const auto &id( ter( cur.x, cur.y, z ) );
 
@@ -3694,8 +3694,8 @@ void overmap::build_connection( const point &source, const point &dest, int z, c
             return -1;
         }
         // Reject nodes that make corners on the river
-        if( prev.dir != cur.dir && ( is_river( ter( prev.x, prev.y, z ) ) ||
-                                     is_river( ter( cur.x, cur.y, z ) ) ) ) {
+        if( prev && prev->dir != cur.dir && ( is_river( ter( prev->x, prev->y, z ) ) ||
+                                              is_river( ter( cur.x, cur.y, z ) ) ) ) {
             return -1;
         }
 
