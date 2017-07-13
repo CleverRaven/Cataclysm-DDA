@@ -3714,15 +3714,15 @@ void overmap::build_connection( const point &source, const point &dest, int z, c
 
     for( const auto &node : pf::find_path( source, dest, OMAPX, OMAPY, estimate ) ) {
         auto &id( ter( node.x, node.y, z ) );
+        // @todo Make 'node' support 'om_direction'.
+        const om_direction::type dir( static_cast<om_direction::type>( node.dir ) );
 
         if( is_river( id ) ) {
-            id = node.dir == 1 || node.dir == 3 ? bridge_ns : bridge_ew;
+            id = dir == om_direction::type::north
+              || dir == om_direction::type::south ? bridge_ns : bridge_ew;
         } else {
-            // @todo Eliminate discrepancy which requires casting and rotation. That is, make 'node' support 'om_direction'.
-            const om_direction::type dir( om_direction::turn_left( static_cast<om_direction::type>( node.dir ) ) );
             const size_t prev_line( id->type_is( type_id ) ? id->get_line() : 0 );
-
-            id = type_id->get_linear( om_lines::set_segment( prev_line, dir ) );
+            id = type_id->get_linear( om_lines::set_segment( prev_line, om_direction::opposite( dir ) ) );
         }
     }
 }

@@ -45,8 +45,8 @@ std::vector<node> find_path( const point &source,
                              const int max_y,
                              BinaryPredicate estimator )
 {
-    static const int dx[4] = { 1, 0, -1, 0 };
-    static const int dy[4] = { 0, 1, 0, -1 };
+    static const int dx[4] = {  0, 1, 0, -1 };
+    static const int dy[4] = { -1, 0, 1,  0 };
 
     const auto inbounds = [ max_x, max_y ]( const int x, const int y ) {
         return x >= 0 && x < max_x && y >= 0 && y <= max_y;
