@@ -172,8 +172,6 @@ WINDOW *curses_init();
 int curses_destroy();
 void curses_drawwindow( WINDOW *win );
 void curses_delay( int delay );
-// may throw std::exception
-int curses_start_color();
 
 // Add interface specific (SDL/ncurses/wincurses) initializations here
 void init_interface();

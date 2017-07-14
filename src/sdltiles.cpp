@@ -1733,7 +1733,7 @@ SDL_Color color_loader<SDL_Color>::from_rgb( const int r, const int g, const int
 
 // This function mimics the ncurses interface. It must not throw.
 // Instead it should return ERR or OK, see man curs_color
-int curses_start_color( void )
+int start_color()
 {
     return color_loader<SDL_Color>().load( windowsPalette ) ? OK : ERR;
 }

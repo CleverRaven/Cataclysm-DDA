@@ -690,7 +690,9 @@ RGBQUAD color_loader<RGBQUAD>::from_rgb( const int r, const int g, const int b )
     return result;
 }
 
-int curses_start_color(void)
+// This function mimics the ncurses interface. It must not throw.
+// Instead it should return ERR or OK, see man curs_color
+int start_color()
 {
     if( !color_loader<RGBQUAD>().load( windowsPalette ) ) {
         return ERR;
