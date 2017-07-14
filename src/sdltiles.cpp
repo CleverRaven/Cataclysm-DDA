@@ -28,6 +28,7 @@
 #include "rng.h"
 #include <algorithm>
 #include "cata_utility.h"
+#include "color_loader.h"
 
 //TODO replace these includes with filesystem.h
 #ifdef _MSC_VER
@@ -190,7 +191,7 @@ static std::unique_ptr<Font> font;
 static std::unique_ptr<Font> map_font;
 static std::unique_ptr<Font> overmap_font;
 
-static std::array<SDL_Color, 256> windowsPalette;
+static std::array<SDL_Color, 16> windowsPalette;
 static SDL_Window *window = NULL;
 static SDL_Renderer* renderer = NULL;
 static SDL_PixelFormat *format;
@@ -1718,8 +1719,8 @@ int curses_destroy(void)
     return 1;
 }
 
-//copied from gdi version and don't bother to rename it
-inline SDL_Color BGR(int b, int g, int r)
+template<>
+SDL_Color color_loader<SDL_Color>::from_rgb( const int r, const int g, const int b )
 {
     SDL_Color result;
     result.b=b;    //Blue
@@ -1729,71 +1730,12 @@ inline SDL_Color BGR(int b, int g, int r)
     return result;
 }
 
-void load_colors( JsonObject &jsobj, std::map<std::string, SDL_Color> &consolecolors )
-{
-    JsonArray jsarr;
-    for( size_t c = 0; c < main_color_names.size(); c++ ) {
-        const std::string &color = main_color_names[c];
-        auto &bgr = consolecolors[color];
-        jsarr = jsobj.get_array( color );
-        // Strange ordering, isn't it? Entries in consolecolors are BGR,
-        // the json contains them as RGB.
-        bgr = BGR( jsarr.get_int( 2 ), jsarr.get_int( 1 ), jsarr.get_int( 0 ) );
-    }
-}
-
-// translate color entry in consolecolors to SDL_Color
-inline SDL_Color ccolor( const std::string &color, std::map<std::string, SDL_Color> &consolecolors )
-{
-    const auto it = consolecolors.find( color );
-    if( it == consolecolors.end() ) {
-        dbg( D_ERROR ) << "requested non-existing color " << color << "\n";
-        return SDL_Color { 0, 0, 0, 0 };
-    }
-    return it->second;
-}
 
 // This function mimics the ncurses interface. It must not throw.
 // Instead it should return ERR or OK, see man curs_color
 int curses_start_color( void )
 {
-    const std::string default_path = FILENAMES["colors"];
-    const std::string custom_path = FILENAMES["base_colors"];
-
-    if ( !file_exist(custom_path) ){
-        std::ifstream src(default_path.c_str(), std::ifstream::in | std::ios::binary);
-        write_to_file_exclusive(custom_path, [&src]( std::ostream &dst ) {
-            dst << src.rdbuf();
-        }, _("base colors") );
-    }
-
-    std::map<std::string, SDL_Color> consolecolors;
-
-    auto load_colorfile = [&consolecolors]( const std::string &path ) {
-        std::ifstream colorfile( path.c_str(), std::ifstream::in | std::ifstream::binary );
-        try {
-            JsonIn jsin( colorfile );
-            // Manually load the colordef object because the json handler isn't loaded yet.
-            jsin.start_array();
-            while( !jsin.end_array() ) {
-                JsonObject jo = jsin.get_object();
-                load_colors( jo, consolecolors );
-                jo.finish();
-            }
-            return OK;
-        } catch( const JsonError &e ) {
-            dbg( D_ERROR ) << "Failed to load color definitions from " << path << ": " << e;
-            return ERR;
-        }
-    };
-
-    if ( load_colorfile(custom_path) == ERR ){
-        load_colorfile(default_path);
-    }
-    for( size_t c = 0; c < main_color_names.size(); c++ ) {
-        windowsPalette[c]  = ccolor( main_color_names[c], consolecolors );
-    }
-    return OK;
+    return color_loader<SDL_Color>().load( windowsPalette ) ? OK : ERR;
 }
 
 void input_manager::set_timeout( const int t )

@@ -18,6 +18,7 @@
 #include "filesystem.h"
 #include "debug.h"
 #include "cata_utility.h"
+#include "color_loader.h"
 
 //***********************************
 //Globals                           *
@@ -678,7 +679,8 @@ int curses_destroy(void)
     return 1;
 }
 
-inline RGBQUAD BGR(int b, int g, int r)
+template<>
+RGBQUAD color_loader<RGBQUAD>::from_rgb( const int r, const int g, const int b )
 {
     RGBQUAD result;
     result.rgbBlue=b;    //Blue
@@ -688,58 +690,10 @@ inline RGBQUAD BGR(int b, int g, int r)
     return result;
 }
 
-void load_colors(JsonObject &jsobj, std::map<std::string, RGBQUAD> &consolecolors )
-{
-    JsonArray jsarr;
-    for(int c=0;c<main_color_names.size();c++)
-    {
-        jsarr = jsobj.get_array( main_color_names[c] );
-        consolecolors[main_color_names[c]] = BGR( jsarr.get_int( 2 ), jsarr.get_int( 1 ), jsarr.get_int( 0 ) );
-    }
-}
-
 int curses_start_color(void)
 {
-    //TODO: this should be reviewed in the future.
-
-    //Load the console colors from colors.json
-    const std::string default_path = FILENAMES["colors"];
-    const std::string custom_path = FILENAMES["base_colors"];
-
-    if ( !file_exist(custom_path) ){
-        std::ifstream src(default_path.c_str(), std::ifstream::in | std::ios::binary);
-        write_to_file_exclusive(custom_path, [&src]( std::ostream &dst ) {
-            dst << src.rdbuf();
-        }, _("base colors") );
-    }
-
-    std::map<std::string, RGBQUAD> consolecolors;
-
-    auto load_colorfile = [&consolecolors]( const std::string &path ) {
-        std::ifstream colorfile( path.c_str(), std::ifstream::in | std::ifstream::binary );
-        try{
-            JsonIn jsin(colorfile);
-            // Manually load the colordef object because the json handler isn't loaded yet.
-            jsin.start_array();
-            // find type and dispatch each object until array close
-            while (!jsin.end_array()) {
-                JsonObject jo = jsin.get_object();
-                load_colors( jo, consolecolors );
-                jo.finish();
-            }
-            return OK;
-        } catch( const JsonError &e ){
-            DebugLog( D_ERROR, DC_ALL ) << "Failed to load color definitions from " << path << ": " << e;
-            return ERR;
-        }
-    };
-
-    if ( load_colorfile(custom_path) == ERR ){
-        load_colorfile(default_path);
-    }
-    if(consolecolors.empty())return SetDIBColorTable(backbuffer, 0, 16, windowsPalette.data());
-    for( size_t i = 0; i < main_color_names.size(); ++i ) {
-        windowsPalette[i]  = RGBQUAD[main_color_names[i]];
+    if( !color_loader<RGBQUAD>().load( windowsPalette ) ) {
+        return ERR;
     }
     return SetDIBColorTable(backbuffer, 0, 16, windowsPalette.data());
 }
