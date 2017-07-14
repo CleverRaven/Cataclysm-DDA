@@ -17,6 +17,10 @@ color_manager &get_all_colors()
 
 std::unordered_map<std::string, note_color> color_by_string_map;
 
+const std::array<std::string, 16> main_color_names{ { "BLACK", "RED", "GREEN",
+    "BROWN", "BLUE", "MAGENTA", "CYAN", "GRAY", "DGRAY", "LRED", "LGREEN", "YELLOW",
+    "LBLUE", "LMAGENTA", "LCYAN", "WHITE" } };
+
 void color_manager::finalize()
 {
     static const std::array<std::string, NUM_HL> hilights = {{

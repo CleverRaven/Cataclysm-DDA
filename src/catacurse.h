@@ -167,8 +167,6 @@ int noecho( void );
 //non-curses functions, Do not call these in the main game code
 extern WINDOW *mainwin;
 extern std::array<pairs, 100> colorpairs;
-// color names as read from the json file
-extern std::array<std::string, 16> main_color_names;
 // may throw std::exception
 WINDOW *curses_init();
 int curses_destroy();
