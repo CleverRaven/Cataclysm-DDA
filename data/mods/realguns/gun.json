@@ -201,6 +201,7 @@
     "ammo": "38_super",
     "dispersion": 520,
     "durability": 7,
+    "modes": [ [ "DEFAULT", "multi", 2 ] ],
     "valid_mod_locations": [ [ "grip", 1 ] ],
     "magazine_well": 2,
     "magazines": [ [ "38_super", [ "af2011a1mag" ] ] ]
