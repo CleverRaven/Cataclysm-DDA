@@ -1729,31 +1729,28 @@ inline SDL_Color BGR(int b, int g, int r)
     return result;
 }
 
-void load_colors( JsonObject &jsobj, std::map<std::string,std::vector<int>> &consolecolors )
+void load_colors( JsonObject &jsobj, std::map<std::string, SDL_Color> &consolecolors )
 {
     JsonArray jsarr;
     for( size_t c = 0; c < main_color_names.size(); c++ ) {
         const std::string &color = main_color_names[c];
         auto &bgr = consolecolors[color];
         jsarr = jsobj.get_array( color );
-        bgr.resize( 3 );
         // Strange ordering, isn't it? Entries in consolecolors are BGR,
         // the json contains them as RGB.
-        bgr[0] = jsarr.get_int( 2 );
-        bgr[1] = jsarr.get_int( 1 );
-        bgr[2] = jsarr.get_int( 0 );
+        bgr = BGR( jsarr.get_int( 2 ), jsarr.get_int( 1 ), jsarr.get_int( 0 ) );
     }
 }
 
 // translate color entry in consolecolors to SDL_Color
-inline SDL_Color ccolor( const std::string &color, std::map<std::string,std::vector<int>> &consolecolors )
+inline SDL_Color ccolor( const std::string &color, std::map<std::string, SDL_Color> &consolecolors )
 {
     const auto it = consolecolors.find( color );
     if( it == consolecolors.end() ) {
         dbg( D_ERROR ) << "requested non-existing color " << color << "\n";
         return SDL_Color { 0, 0, 0, 0 };
     }
-    return BGR( it->second[0], it->second[1], it->second[2] );
+    return it->second;
 }
 
 // This function mimics the ncurses interface. It must not throw.
@@ -1770,7 +1767,7 @@ int curses_start_color( void )
         }, _("base colors") );
     }
 
-    std::map<std::string,std::vector<int>> consolecolors;
+    std::map<std::string, SDL_Color> consolecolors;
 
     auto load_colorfile = [&consolecolors]( const std::string &path ) {
         std::ifstream colorfile( path.c_str(), std::ifstream::in | std::ifstream::binary );

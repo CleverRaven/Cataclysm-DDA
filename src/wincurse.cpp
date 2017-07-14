@@ -688,21 +688,16 @@ inline RGBQUAD BGR(int b, int g, int r)
     return result;
 }
 
-void load_colors(JsonObject &jsobj, std::map<std::string,std::vector<int>> &consolecolors )
+void load_colors(JsonObject &jsobj, std::map<std::string, RGBQUAD> &consolecolors )
 {
     JsonArray jsarr;
     for(int c=0;c<main_color_names.size();c++)
     {
         jsarr = jsobj.get_array( main_color_names[c] );
-        if(jsarr.size()<3)continue;
-        consolecolors[main_color_names[c]].clear();
-        consolecolors[main_color_names[c]].push_back(jsarr.get_int(2));
-        consolecolors[main_color_names[c]].push_back(jsarr.get_int(1));
-        consolecolors[main_color_names[c]].push_back(jsarr.get_int(0));
+        consolecolors[main_color_names[c]] = BGR( jsarr.get_int( 2 ), jsarr.get_int( 1 ), jsarr.get_int( 0 ) );
     }
 }
 
-#define ccolor(s) consolecolors[s][0],consolecolors[s][1],consolecolors[s][2]
 int curses_start_color(void)
 {
     //TODO: this should be reviewed in the future.
@@ -718,7 +713,7 @@ int curses_start_color(void)
         }, _("base colors") );
     }
 
-    std::map<std::string,std::vector<int>> consolecolors;
+    std::map<std::string, RGBQUAD> consolecolors;
 
     auto load_colorfile = [&consolecolors]( const std::string &path ) {
         std::ifstream colorfile( path.c_str(), std::ifstream::in | std::ifstream::binary );
@@ -744,7 +739,7 @@ int curses_start_color(void)
     }
     if(consolecolors.empty())return SetDIBColorTable(backbuffer, 0, 16, windowsPalette.data());
     for( size_t i = 0; i < main_color_names.size(); ++i ) {
-        windowsPalette[i]  = BGR( ccolor( main_color_names[i] ) );
+        windowsPalette[i]  = RGBQUAD[main_color_names[i]];
     }
     return SetDIBColorTable(backbuffer, 0, 16, windowsPalette.data());
 }
