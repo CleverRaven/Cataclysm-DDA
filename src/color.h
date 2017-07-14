@@ -429,8 +429,6 @@ nc_color bgcolor_from_string( std::string color );
 nc_color get_color_from_tag( const std::string &s, const nc_color base_color );
 std::string get_tag_from_color( const nc_color color );
 
-void setattr( nc_color &col, col_attribute attr );
-
 nc_color get_note_color( std::string const &note_id );
 std::list<std::pair<std::string, std::string>> get_note_color_names();
 
