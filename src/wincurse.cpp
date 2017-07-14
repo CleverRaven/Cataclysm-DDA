@@ -690,17 +690,15 @@ inline RGBQUAD BGR(int b, int g, int r)
 
 void load_colors(JsonObject &jsobj, std::map<std::string,std::vector<int>> &consolecolors )
 {
-    std::string colors[16]={"BLACK","RED","GREEN","BROWN","BLUE","MAGENTA","CYAN","GRAY",
-    "DGRAY","LRED","LGREEN","YELLOW","LBLUE","LMAGENTA","LCYAN","WHITE"};
     JsonArray jsarr;
-    for(int c=0;c<16;c++)
+    for(int c=0;c<main_color_names.size();c++)
     {
-        jsarr = jsobj.get_array(colors[c]);
+        jsarr = jsobj.get_array( main_color_names[c] );
         if(jsarr.size()<3)continue;
-        consolecolors[colors[c]].clear();
-        consolecolors[colors[c]].push_back(jsarr.get_int(2));
-        consolecolors[colors[c]].push_back(jsarr.get_int(1));
-        consolecolors[colors[c]].push_back(jsarr.get_int(0));
+        consolecolors[main_color_names[c]].clear();
+        consolecolors[main_color_names[c]].push_back(jsarr.get_int(2));
+        consolecolors[main_color_names[c]].push_back(jsarr.get_int(1));
+        consolecolors[main_color_names[c]].push_back(jsarr.get_int(0));
     }
 }
 
@@ -745,22 +743,9 @@ int curses_start_color(void)
         load_colorfile(default_path);
     }
     if(consolecolors.empty())return SetDIBColorTable(backbuffer, 0, 16, windowsPalette.data());
-    windowsPalette[0]  = BGR(ccolor("BLACK"));
-    windowsPalette[1]  = BGR(ccolor("RED"));
-    windowsPalette[2]  = BGR(ccolor("GREEN"));
-    windowsPalette[3]  = BGR(ccolor("BROWN"));
-    windowsPalette[4]  = BGR(ccolor("BLUE"));
-    windowsPalette[5]  = BGR(ccolor("MAGENTA"));
-    windowsPalette[6]  = BGR(ccolor("CYAN"));
-    windowsPalette[7]  = BGR(ccolor("GRAY"));
-    windowsPalette[8]  = BGR(ccolor("DGRAY"));
-    windowsPalette[9]  = BGR(ccolor("LRED"));
-    windowsPalette[10] = BGR(ccolor("LGREEN"));
-    windowsPalette[11] = BGR(ccolor("YELLOW"));
-    windowsPalette[12] = BGR(ccolor("LBLUE"));
-    windowsPalette[13] = BGR(ccolor("LMAGENTA"));
-    windowsPalette[14] = BGR(ccolor("LCYAN"));
-    windowsPalette[15] = BGR(ccolor("WHITE"));
+    for( size_t i = 0; i < main_color_names.size(); ++i ) {
+        windowsPalette[i]  = BGR( ccolor( main_color_names[i] ) );
+    }
     return SetDIBColorTable(backbuffer, 0, 16, windowsPalette.data());
 }
 
