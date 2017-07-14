@@ -43,7 +43,6 @@ HFONT font;             //Handle to the font created by CreateFont
 std::array<RGBQUAD, 16> windowsPalette;  //The coor palette, 16 colors emulates a terminal
 unsigned char *dcbits;  //the bits of the screen image, for direct access
 bool CursorVisible = true; // Showcursor is a somewhat weird function
-std::map< std::string, std::vector<int> > consolecolors;
 
 //***********************************
 //Non-curses, Window functions      *
@@ -689,7 +688,7 @@ inline RGBQUAD BGR(int b, int g, int r)
     return result;
 }
 
-void load_colors(JsonObject &jsobj)
+void load_colors(JsonObject &jsobj, std::map<std::string,std::vector<int>> &consolecolors )
 {
     std::string colors[16]={"BLACK","RED","GREEN","BROWN","BLUE","MAGENTA","CYAN","GRAY",
     "DGRAY","LRED","LGREEN","YELLOW","LBLUE","LMAGENTA","LCYAN","WHITE"};
@@ -721,7 +720,9 @@ int curses_start_color(void)
         }, _("base colors") );
     }
 
-    auto load_colorfile = []( const std::string &path ) {
+    std::map<std::string,std::vector<int>> consolecolors;
+
+    auto load_colorfile = [&consolecolors]( const std::string &path ) {
         std::ifstream colorfile( path.c_str(), std::ifstream::in | std::ifstream::binary );
         try{
             JsonIn jsin(colorfile);
@@ -730,7 +731,7 @@ int curses_start_color(void)
             // find type and dispatch each object until array close
             while (!jsin.end_array()) {
                 JsonObject jo = jsin.get_object();
-                load_colors(jo);
+                load_colors( jo, consolecolors );
                 jo.finish();
             }
             return OK;

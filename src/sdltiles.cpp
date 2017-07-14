@@ -216,7 +216,6 @@ int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
 static int TERMINAL_WIDTH;
 static int TERMINAL_HEIGHT;
-std::map< std::string,std::vector<int> > consolecolors;
 
 static SDL_Joystick *joystick; // Only one joystick for now.
 
@@ -1732,7 +1731,7 @@ inline SDL_Color BGR(int b, int g, int r)
     return result;
 }
 
-void load_colors( JsonObject &jsobj )
+void load_colors( JsonObject &jsobj, std::map<std::string,std::vector<int>> &consolecolors )
 {
     JsonArray jsarr;
     for( size_t c = 0; c < main_color_names.size(); c++ ) {
@@ -1749,7 +1748,7 @@ void load_colors( JsonObject &jsobj )
 }
 
 // translate color entry in consolecolors to SDL_Color
-inline SDL_Color ccolor( const std::string &color )
+inline SDL_Color ccolor( const std::string &color, std::map<std::string,std::vector<int>> &consolecolors )
 {
     const auto it = consolecolors.find( color );
     if( it == consolecolors.end() ) {
@@ -1773,7 +1772,9 @@ int curses_start_color( void )
         }, _("base colors") );
     }
 
-    auto load_colorfile = []( const std::string &path ) {
+    std::map<std::string,std::vector<int>> consolecolors;
+
+    auto load_colorfile = [&consolecolors]( const std::string &path ) {
         std::ifstream colorfile( path.c_str(), std::ifstream::in | std::ifstream::binary );
         try {
             JsonIn jsin( colorfile );
@@ -1781,7 +1782,7 @@ int curses_start_color( void )
             jsin.start_array();
             while( !jsin.end_array() ) {
                 JsonObject jo = jsin.get_object();
-                load_colors( jo );
+                load_colors( jo, consolecolors );
                 jo.finish();
             }
             return OK;
@@ -1795,7 +1796,7 @@ int curses_start_color( void )
         load_colorfile(default_path);
     }
     for( size_t c = 0; c < main_color_names.size(); c++ ) {
-        windowsPalette[c]  = ccolor( main_color_names[c] );
+        windowsPalette[c]  = ccolor( main_color_names[c], consolecolors );
     }
     return OK;
 }
