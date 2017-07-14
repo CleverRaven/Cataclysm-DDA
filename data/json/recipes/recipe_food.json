@@ -10082,5 +10082,5 @@
     "autolearn": true,
     "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [ [ [ "chili_pepper", 1 ] ] ]
-    }
+  }
 ]
