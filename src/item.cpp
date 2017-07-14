@@ -4809,7 +4809,7 @@ bool item::reload( player &u, item_location loc, long qty )
     return true;
 }
 
-bool item::burn( fire_data &frd )
+bool item::burn( fire_data &frd, bool can_spread)
 {
     const auto &mats = made_of();
     float smoke_added = 0.0f;
@@ -4823,8 +4823,15 @@ bool item::burn( fire_data &frd )
             return false;
         }
 
-        if( bd.chance_in_volume == 0 || bd.chance_in_volume >= vol ||
-            x_in_y( bd.chance_in_volume, vol ) ) {
+        // If fire is contained, burn all of it continously
+        if( !can_spread ) {
+            time_added += bd.fuel;
+            smoke_added += bd.smoke;
+            burn_added += bd.burn;
+
+        } else if( bd.chance_in_volume == 0 || bd.chance_in_volume >= vol ||
+                   x_in_y( bd.chance_in_volume, vol ) )
+        {
             time_added += bd.fuel;
             smoke_added += bd.smoke;
             burn_added += bd.burn;

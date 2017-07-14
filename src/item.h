@@ -21,6 +21,8 @@
 #include "debug.h"
 #include "units.h"
 #include "cata_utility.h"
+#include "mapdata.h"
+#include "map.h"
 
 class gunmod_location;
 class game;
@@ -354,7 +356,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     std::string info( bool showtext, std::vector<iteminfo> &dump ) const;
 
     /** Burns the item. Returns true if the item was destroyed. */
-    bool burn( fire_data &bd );
+    bool burn( fire_data &bd, bool can_spread = false );
 
     // Returns the category of this item.
     const item_category &get_category() const;

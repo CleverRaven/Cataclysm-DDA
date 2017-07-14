@@ -857,6 +857,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         int consumed = 0;
                         // How much time to add to the fire's life due to burned items/terrain/furniture
                         int time_added = 0;
+                        // Checks if the fire can spread
+                        const bool can_spread = tr_brazier != trp &&
+                            !ter_furn_has_flag(ter, frn, TFLAG_FIRE_CONTAINER);
+
                         // The huge indent below should probably be somehow moved away from here
                         // without forcing the function to use i_at( p ) for fires without items
                         if( !is_sealed && map_tile.get_item_count() > 0 ) {
@@ -882,7 +886,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             for( auto fuel = items_here.begin(); fuel != items_here.end() && consumed < max_consume; ) {
 
-                                bool destroyed = fuel->burn( frd );
+                                bool destroyed = fuel->burn( frd, can_spread);
 
                                 if( destroyed ) {
                                     // If we decided the item was destroyed by fire, remove it.
@@ -909,8 +913,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
                         // If the flames are in a brazier, they're fully contained,
                         // so skip consuming terrain
-                        const bool can_spread = tr_brazier != trp &&
-                                                !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER );
                         if( can_spread ) {
                             if( ter.has_flag( TFLAG_SWIMMABLE ) ) {
                                 // Flames die quickly on water
