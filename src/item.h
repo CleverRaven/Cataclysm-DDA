@@ -21,8 +21,6 @@
 #include "debug.h"
 #include "units.h"
 #include "cata_utility.h"
-#include "mapdata.h"
-#include "map.h"
 
 class gunmod_location;
 class game;
