@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-30 20:35+0800\n"
-"PO-Revision-Date: 2017-07-01 06:16+0000\n"
-"Last-Translator: Brett Dong <brett.browning.dong@gmail.com>\n"
+"POT-Creation-Date: 2017-07-07 18:25+0800\n"
+"PO-Revision-Date: 2017-07-08 15:04+0000\n"
+"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -58027,9 +58027,8 @@ msgstr[1] ""
 msgid ""
 "The M134D-H Minigun is a (relatively) lightweight heavy rotary machine gun."
 "  Its six barrels are rotated by an electric motor, powered by UPS or "
-"vehicle.  Its weight, recoil and rotational torque are too powerful for "
-"firing unmounted, but if you could attach it to a vehicle and find enough "
-"ammo for it, it would become a devastating weapon."
+"vehicle.  If you could find enough ammo for it, it would become a "
+"devastating weapon.  It must be mounted on a vehicle before use."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -88062,8 +88061,8 @@ msgstr ""
 msgid "<npcname> shields against %s"
 msgstr ""
 
-#: lang/json/technique_from_json.py
-msgid "disarm"
+#: lang/json/technique_from_json.py src/game.cpp
+msgid "Disarm"
 msgstr ""
 
 #: lang/json/technique_from_json.py
@@ -88200,10 +88199,6 @@ msgstr ""
 #: lang/json/technique_from_json.py
 #, python-format
 msgid "<npcname> precisely hits %s"
-msgstr ""
-
-#: lang/json/technique_from_json.py src/game.cpp
-msgid "Disarm"
 msgstr ""
 
 #: lang/json/technique_from_json.py
@@ -88372,6 +88367,10 @@ msgstr ""
 #: lang/json/technique_from_json.py
 #, python-format
 msgid "<npcname> feints at %s"
+msgstr ""
+
+#: lang/json/technique_from_json.py
+msgid "disarm"
 msgstr ""
 
 #: lang/json/technique_from_json.py
@@ -110297,6 +110296,16 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "You cut the log into planks."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You produce %d planks."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "You produce %d splinters."
 msgstr ""
 
 #: src/iuse.cpp
