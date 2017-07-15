@@ -1,6 +1,9 @@
 # this file is HEAVILY influenced by https://github.com/boostorg/hana/blob/master/.travis.yml
 
-sudo: false
+# sudo is required for travis-ci to use ubuntu trusty
+# ubuntu trusty is required for libsdl2-dev
+sudo: required
+dist: trusty
 language: c++
 
 cache: ccache
@@ -85,6 +88,13 @@ matrix:
           packages: ["g++-6",   "g++-6-multilib",   "libc6-dbg", "libc6-dbg:i386"]
           sources: *apt_sources
 
+    # GCC MinGW
+    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine'
+      compiler: gcc
+      addons: &gcc
+        apt:
+          packages: ["wine"]
+
     # Clang 3.8
     - env: COMPILER=clang++-3.8 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
       addons: &clang38
@@ -109,13 +119,9 @@ matrix:
 
 before_script:
   - ${COMPILER} --version
-  - if [ -n "${CODE_COVERAGE}" ]; then
-      pip install --user pyyaml cpp-coveralls;
-      export CXXFLAGS=--coverage;
-      export LDFLAGS=--coverage;
-    fi
+  - source requirements.sh
 
-script: CXX="ccache $COMPILER" make -j3 RELEASE=1 && tests/cata_test
+script: CXX="ccache $COMPILER" make -j3 RELEASE=1 CROSS="$CROSS_COMPILATION" && $WINE ./tests/cata_test
 
 after_success:
   - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b . -i src -e tests --gcov /usr/bin/gcov-4.8; fi
