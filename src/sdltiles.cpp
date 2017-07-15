@@ -183,7 +183,7 @@ public:
     void OutputChar(long t, int x, int y, unsigned char color);
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
 protected:
-    SDL_Texture *ascii[16];
+    std::array<SDL_Texture*, 16> ascii;
     int tilewidth;
 };
 
@@ -1879,7 +1879,6 @@ int get_terminal_height() {
 BitmapFont::BitmapFont(int w, int h)
 : Font(w, h)
 {
-    memset(ascii, 0x00, sizeof(ascii));
 }
 
 BitmapFont::~BitmapFont()
@@ -1889,7 +1888,7 @@ BitmapFont::~BitmapFont()
 
 void BitmapFont::clear()
 {
-    for (size_t a = 0; a < 16; a++) {
+    for (size_t a = 0; a < ascii.size(); a++) {
         if (ascii[a] != NULL) {
             SDL_DestroyTexture(ascii[a]);
             ascii[a] = NULL;
