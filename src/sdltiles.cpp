@@ -137,7 +137,7 @@ public:
     void load_font(std::string typeface, int fontsize);
     virtual void OutputChar(std::string ch, int x, int y, unsigned char color);
 protected:
-    SDL_Texture *create_glyph(const std::string &ch, int color);
+    SDL_Texture_Ptr create_glyph( const std::string &ch, int color );
 
     TTF_Font* font;
     // Maps (character code, color) to SDL_Texture*
@@ -153,7 +153,7 @@ protected:
     };
 
     struct cached_t {
-        SDL_Texture* texture;
+        SDL_Texture_Ptr texture;
         int          width;
     };
 
@@ -175,7 +175,7 @@ public:
     void OutputChar(long t, int x, int y, unsigned char color);
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
 protected:
-    std::array<SDL_Texture*, color_loader<SDL_Color>::COLOR_NAMES_COUNT> ascii;
+    std::array<SDL_Texture_Ptr, color_loader<SDL_Color>::COLOR_NAMES_COUNT> ascii;
     int tilewidth;
 };
 
@@ -187,7 +187,7 @@ static std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> windows
 static SDL_Window *window = NULL;
 static SDL_Renderer* renderer = NULL;
 static SDL_PixelFormat *format;
-static SDL_Texture *display_buffer;
+static SDL_Texture_Ptr display_buffer;
 int WindowWidth;        //Width of the actual window, not the curses window
 int WindowHeight;       //Height of the actual window, not the curses window
 // input from various input sources. Each input source sets the type and
@@ -285,12 +285,12 @@ bool SetupRenderTarget()
         dbg( D_ERROR ) << "SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE) failed: " << SDL_GetError();
         // Ignored for now, rendering could still work
     }
-    display_buffer = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, WindowWidth, WindowHeight);
-    if( display_buffer == nullptr ) {
+    display_buffer.reset( SDL_CreateTexture( renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, WindowWidth, WindowHeight ) );
+    if( !display_buffer ) {
         dbg( D_ERROR ) << "Failed to create window buffer: " << SDL_GetError();
         return false;
     }
-    if( SDL_SetRenderTarget( renderer, display_buffer ) != 0 ) {
+    if( SDL_SetRenderTarget( renderer, display_buffer.get() ) != 0 ) {
         dbg( D_ERROR ) << "Failed to select render target: " << SDL_GetError();
         return false;
     }
@@ -374,10 +374,7 @@ bool WinCreate()
         } else if( !SetupRenderTarget() ) {
             dbg( D_ERROR ) << "Failed to initialize display buffer under accelerated rendering, falling back to software rendering.";
             software_renderer = true;
-            if (display_buffer != NULL) {
-                SDL_DestroyTexture(display_buffer);
-                display_buffer = NULL;
-            }
+            display_buffer.reset();
             if( renderer != NULL ) {
                 SDL_DestroyRenderer( renderer );
                 renderer = NULL;
@@ -471,10 +468,7 @@ void WinDestroy()
     if(format)
         SDL_FreeFormat(format);
     format = NULL;
-    if (display_buffer != NULL) {
-        SDL_DestroyTexture(display_buffer);
-        display_buffer = NULL;
-    }
+    display_buffer.reset();
     if( renderer != NULL ) {
         SDL_DestroyRenderer( renderer );
         renderer = NULL;
@@ -524,7 +518,7 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
 }
 
 
-SDL_Texture *CachedTTFFont::create_glyph(const std::string &ch, int color)
+SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int color )
 {
     const auto function = fontblending ? TTF_RenderUTF8_Blended : TTF_RenderUTF8_Solid;
     SDL_Surface_Ptr sglyph( function( font, ch.c_str(), windowsPalette[color] ) );
@@ -552,8 +546,7 @@ SDL_Texture *CachedTTFFont::create_glyph(const std::string &ch, int color)
                                                    rmask, gmask, bmask, amask ) );
     if( !surface ) {
         dbg( D_ERROR ) << "CreateRGBSurface failed: " << SDL_GetError();
-        SDL_Texture *glyph = SDL_CreateTextureFromSurface( renderer, sglyph.get() );
-        return glyph;
+        return SDL_Texture_Ptr( SDL_CreateTextureFromSurface( renderer, sglyph.get() ) );
     }
     SDL_Rect src_rect = { 0, 0, sglyph->w, sglyph->h };
     SDL_Rect dst_rect = { 0, 0, fontwidth * wf, fontheight };
@@ -578,8 +571,7 @@ SDL_Texture *CachedTTFFont::create_glyph(const std::string &ch, int color)
         sglyph = std::move( surface );
     }
 
-    SDL_Texture *glyph = SDL_CreateTextureFromSurface( renderer, sglyph.get() );
-    return glyph;
+    return SDL_Texture_Ptr( SDL_CreateTextureFromSurface( renderer, sglyph.get() ) );
 }
 
 void CachedTTFFont::OutputChar(std::string ch, int const x, int const y, unsigned char const color)
@@ -601,7 +593,7 @@ void CachedTTFFont::OutputChar(std::string ch, int const x, int const y, unsigne
         return;
     }
     SDL_Rect rect {x, y, value.width, fontheight};
-    if (SDL_RenderCopy( renderer, value.texture, nullptr, &rect)) {
+    if ( SDL_RenderCopy( renderer, value.texture.get(), nullptr, &rect ) ) {
         dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
     }
 }
@@ -626,7 +618,7 @@ void BitmapFont::OutputChar(long t, int x, int y, unsigned char color)
     src.h = fontheight;
     SDL_Rect rect;
     rect.x = x; rect.y = y; rect.w = fontwidth; rect.h = fontheight;
-    if( SDL_RenderCopy( renderer, ascii[color], &src, &rect ) != 0 ) {
+    if( SDL_RenderCopy( renderer, ascii[color].get(), &src, &rect ) != 0 ) {
         dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
     }
 }
@@ -642,11 +634,11 @@ void refresh_display()
         dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
     }
     SDL_RenderSetLogicalSize( renderer, WindowWidth, WindowHeight );
-    if( SDL_RenderCopy( renderer, display_buffer, NULL, NULL ) != 0 ) {
+    if( SDL_RenderCopy( renderer, display_buffer.get(), NULL, NULL ) != 0 ) {
         dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
     }
     SDL_RenderPresent(renderer);
-    if( SDL_SetRenderTarget( renderer, display_buffer ) != 0 ) {
+    if( SDL_SetRenderTarget( renderer, display_buffer.get() ) != 0 ) {
         dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
     }
 }
@@ -665,7 +657,7 @@ static void try_sdl_update()
 //for resetting the render target after updating texture caches in cata_tiles.cpp
 void set_displaybuffer_rendertarget()
 {
-    if( SDL_SetRenderTarget( renderer, display_buffer ) != 0 ) {
+    if( SDL_SetRenderTarget( renderer, display_buffer.get() ) != 0 ) {
         dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
     }
 }
@@ -1854,10 +1846,7 @@ BitmapFont::~BitmapFont()
 void BitmapFont::clear()
 {
     for (size_t a = 0; a < ascii.size(); a++) {
-        if (ascii[a] != NULL) {
-            SDL_DestroyTexture(ascii[a]);
-            ascii[a] = NULL;
-        }
+        ascii[a].reset();
     }
 }
 
@@ -1900,7 +1889,7 @@ void BitmapFont::load_font(const std::string &typeface)
 
     //convert ascii_surf to SDL_Texture
     for( size_t a = 0; a < std::tuple_size<decltype( ascii )>::value; ++a) {
-        ascii[a] = SDL_CreateTextureFromSurface( renderer,ascii_surf[a].get() );
+        ascii[a].reset( SDL_CreateTextureFromSurface( renderer, ascii_surf[a].get() ) );
     }
 }
 
@@ -1965,11 +1954,6 @@ void CachedTTFFont::clear()
     if (font != NULL) {
         TTF_CloseFont(font);
         font = NULL;
-    }
-    for( auto &a : glyph_cache_map ) {
-        if( a.second.texture ) {
-            SDL_DestroyTexture( a.second.texture );
-        }
     }
     glyph_cache_map.clear();
 }
