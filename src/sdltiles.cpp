@@ -107,6 +107,12 @@ struct SDL_Renderer_deleter {
     }
 };
 using SDL_Renderer_Ptr = std::unique_ptr<SDL_Renderer, SDL_Renderer_deleter>;
+struct SDL_Window_deleter {
+    void operator()( SDL_Window * const window ) {
+        SDL_DestroyWindow( window );
+    }
+};
+using SDL_Window_Ptr = std::unique_ptr<SDL_Window, SDL_Window_deleter>;
 
 /**
  * A class that draws a single character on screen.
@@ -191,7 +197,7 @@ static std::unique_ptr<Font> map_font;
 static std::unique_ptr<Font> overmap_font;
 
 static std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> windowsPalette;
-static SDL_Window *window = NULL;
+static SDL_Window_Ptr window;
 static SDL_Renderer_Ptr renderer;
 static SDL_PixelFormat *format;
 static SDL_Texture_Ptr display_buffer;
@@ -332,20 +338,20 @@ bool WinCreate()
         display = 0;
     }
 
-    window = SDL_CreateWindow(version.c_str(),
+    window.reset( SDL_CreateWindow( version.c_str(),
             SDL_WINDOWPOS_CENTERED_DISPLAY( display ),
             SDL_WINDOWPOS_CENTERED_DISPLAY( display ),
             WindowWidth,
             WindowHeight,
             window_flags
-        );
+        ) );
 
-    if (window == NULL) {
+    if( !window ) {
         dbg(D_ERROR) << "SDL_CreateWindow failed: " << SDL_GetError();
         return false;
     }
     if (window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP) {
-        SDL_GetWindowSize(window, &WindowWidth, &WindowHeight);
+        SDL_GetWindowSize( window.get(), &WindowWidth, &WindowHeight );
         // Ignore previous values, use the whole window, but nothing more.
         TERMINAL_WIDTH = WindowWidth / fontwidth;
         TERMINAL_HEIGHT = WindowHeight / fontheight;
@@ -362,7 +368,7 @@ bool WinCreate()
         oversized_framebuffer[i].chars.assign(TERMINAL_WIDTH, cursecell(""));
     }
 
-    const Uint32 wformat = SDL_GetWindowPixelFormat(window);
+    const Uint32 wformat = SDL_GetWindowPixelFormat( window.get() );
     format = SDL_AllocFormat(wformat);
     if(format == 0) {
         dbg(D_ERROR) << "SDL_AllocFormat(" << wformat << ") failed: " << SDL_GetError();
@@ -373,7 +379,7 @@ bool WinCreate()
     if( !software_renderer ) {
         dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
 
-        renderer.reset( SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED |
+        renderer.reset( SDL_CreateRenderer( window.get(), -1, SDL_RENDERER_ACCELERATED |
                                             SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE ) );
         if( !renderer ) {
             dbg( D_ERROR ) << "Failed to initialize accelerated renderer, falling back to software rendering: " << SDL_GetError();
@@ -389,7 +395,7 @@ bool WinCreate()
         if( get_option<bool>( "FRAMEBUFFER_ACCEL" ) ) {
             SDL_SetHint( SDL_HINT_FRAMEBUFFER_ACCELERATION, "1" );
         }
-        renderer.reset( SDL_CreateRenderer( window, -1, SDL_RENDERER_SOFTWARE | SDL_RENDERER_TARGETTEXTURE ) );
+        renderer.reset( SDL_CreateRenderer( window.get(), -1, SDL_RENDERER_SOFTWARE | SDL_RENDERER_TARGETTEXTURE ) );
         if( !renderer ) {
             dbg( D_ERROR ) << "Failed to initialize software renderer: " << SDL_GetError();
             return false;
@@ -474,9 +480,7 @@ void WinDestroy()
     format = NULL;
     display_buffer.reset();
     renderer.reset();
-    if(window)
-        SDL_DestroyWindow(window);
-    window = NULL;
+    window.reset();
 }
 
 inline void FillRectDIB(SDL_Rect &rect, unsigned char color) {
