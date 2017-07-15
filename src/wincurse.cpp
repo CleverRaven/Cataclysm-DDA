@@ -41,7 +41,7 @@ int fontheight;         //the height of the font, background is always this size
 int halfwidth;          //half of the font width, used for centering lines
 int halfheight;          //half of the font height, used for centering lines
 HFONT font;             //Handle to the font created by CreateFont
-std::array<RGBQUAD, 16> windowsPalette;  //The coor palette, 16 colors emulates a terminal
+std::array<RGBQUAD, color_loader<RGBQUAD>::COLOR_NAMES_COUNT> windowsPalette;
 unsigned char *dcbits;  //the bits of the screen image, for direct access
 bool CursorVisible = true; // Showcursor is a somewhat weird function
 
@@ -558,8 +558,8 @@ WINDOW *curses_init(void)
     bmi.bmiHeader.biBitCount     = 8;
     bmi.bmiHeader.biCompression  = BI_RGB; // Raw RGB
     bmi.bmiHeader.biSizeImage    = WindowWidth * WindowHeight * 1;
-    bmi.bmiHeader.biClrUsed      = 16; // Colors in the palette
-    bmi.bmiHeader.biClrImportant = 16; // Colors in the palette
+    bmi.bmiHeader.biClrUsed      = color_loader<RGBQUAD>::COLOR_NAMES_COUNT; // Colors in the palette
+    bmi.bmiHeader.biClrImportant = color_loader<RGBQUAD>::COLOR_NAMES_COUNT; // Colors in the palette
     backbit = CreateDIBSection(0, &bmi, DIB_RGB_COLORS, (void**)&dcbits, NULL, 0);
     DeleteObject(SelectObject(backbuffer, backbit));//load the buffer into DC
 
@@ -697,7 +697,7 @@ int start_color()
     if( !color_loader<RGBQUAD>().load( windowsPalette ) ) {
         return ERR;
     }
-    return SetDIBColorTable(backbuffer, 0, 16, windowsPalette.data());
+    return SetDIBColorTable(backbuffer, 0, windowsPalette.size(), windowsPalette.data());
 }
 
 void input_manager::set_timeout( const int t )

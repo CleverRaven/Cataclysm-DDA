@@ -183,7 +183,7 @@ public:
     void OutputChar(long t, int x, int y, unsigned char color);
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
 protected:
-    std::array<SDL_Texture*, 16> ascii;
+    std::array<SDL_Texture*, color_loader<SDL_Color>::COLOR_NAMES_COUNT> ascii;
     int tilewidth;
 };
 
@@ -191,7 +191,7 @@ static std::unique_ptr<Font> font;
 static std::unique_ptr<Font> map_font;
 static std::unique_ptr<Font> overmap_font;
 
-static std::array<SDL_Color, 16> windowsPalette;
+static std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> windowsPalette;
 static SDL_Window *window = NULL;
 static SDL_Renderer* renderer = NULL;
 static SDL_PixelFormat *format;
@@ -1910,17 +1910,17 @@ void BitmapFont::load_font(const std::string &typeface)
     }
     Uint32 key = SDL_MapRGB(asciiload->format, 0xFF, 0, 0xFF);
     SDL_SetColorKey(asciiload,SDL_TRUE,key);
-    SDL_Surface *ascii_surf[16];
+    SDL_Surface *ascii_surf[std::tuple_size<decltype( ascii )>::value];
     ascii_surf[0] = SDL_ConvertSurface(asciiload,format,0);
     SDL_SetSurfaceRLE(ascii_surf[0], true);
     SDL_FreeSurface(asciiload);
 
-    for (size_t a = 1; a < 16; ++a) {
+    for (size_t a = 1; a < std::tuple_size<decltype( ascii )>::value; ++a) {
         ascii_surf[a] = SDL_ConvertSurface(ascii_surf[0],format,0);
         SDL_SetSurfaceRLE(ascii_surf[a], true);
     }
 
-    for (size_t a = 0; a < 16 - 1; ++a) {
+    for (size_t a = 0; a < std::tuple_size<decltype( ascii )>::value - 1; ++a) {
         SDL_LockSurface(ascii_surf[a]);
         int size = ascii_surf[a]->h * ascii_surf[a]->w;
         Uint32 *pixels = (Uint32 *)ascii_surf[a]->pixels;
@@ -1935,7 +1935,7 @@ void BitmapFont::load_font(const std::string &typeface)
     tilewidth = ascii_surf[0]->w / fontwidth;
 
     //convert ascii_surf to SDL_Texture
-    for(int a = 0; a < 16; ++a) {
+    for( size_t a = 0; a < std::tuple_size<decltype( ascii )>::value; ++a) {
         ascii[a] = SDL_CreateTextureFromSurface(renderer,ascii_surf[a]);
         SDL_FreeSurface(ascii_surf[a]);
     }
