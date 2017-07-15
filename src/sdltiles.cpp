@@ -588,16 +588,16 @@ SDL_Texture *CachedTTFFont::create_glyph(const std::string &ch, int color)
 void CachedTTFFont::OutputChar(std::string ch, int const x, int const y, unsigned char const color)
 {
     key_t    key {std::move(ch), static_cast<unsigned char>(color & 0xf)};
-    cached_t value;
 
-    auto const it = glyph_cache_map.lower_bound(key);
-    if (it != std::end(glyph_cache_map) && !glyph_cache_map.key_comp()(key, it->first)) {
-        value = it->second;
-    } else {
-        value.texture = create_glyph(key.codepoints, key.color);
-        value.width = fontwidth * utf8_wrapper(key.codepoints).display_width();
-        glyph_cache_map.insert(it, std::make_pair(std::move(key), value));
+    auto it = glyph_cache_map.find( key );
+    if( it == std::end( glyph_cache_map ) ) {
+        cached_t new_entry {
+            create_glyph( key.codepoints, key.color ),
+            static_cast<int>( fontwidth * utf8_wrapper( key.codepoints ).display_width() )
+        };
+        it = glyph_cache_map.insert( std::make_pair( std::move( key ), std::move( new_entry ) ) ).first;
     }
+    const cached_t &value = it->second;
 
     if (!value.texture) {
         // Nothing we can do here )-:
