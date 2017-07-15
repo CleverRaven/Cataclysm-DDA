@@ -59,7 +59,6 @@ static unsigned long lastupdate = 0;
 static unsigned long interval = 25;
 static bool needupdate = false;
 extern bool tile_iso;
-extern WINDOW *w_hit_animation;
 
 #ifdef SDL_SOUND
 /** The music we're currently playing. */
