@@ -408,9 +408,6 @@ struct note_color {
 extern std::unordered_map<std::string, note_color> color_by_string_map;
 extern std::unordered_map<std::string, note_color> color_shortcuts;
 
-// color names as read from the json file
-extern const std::array<std::string, 16> main_color_names;
-
 nc_color hilite( nc_color c );
 nc_color invert_color( nc_color c );
 nc_color red_background( nc_color c );

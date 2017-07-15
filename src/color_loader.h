@@ -2,7 +2,6 @@
 #ifndef COLOR_LOADER_H
 #define COLOR_LOADER_H
 
-#include "color.h"
 #include "json.h"
 #include "debug.h"
 #include "cata_utility.h"
@@ -22,9 +21,19 @@ class color_loader
 
         std::map<std::string, ColorType> consolecolors;
 
+        static constexpr size_t COLOR_NAMES_COUNT = 16;
+        // color names as read from the json file
+        static const std::array<std::string, COLOR_NAMES_COUNT> &main_color_names() {
+            static const std::array<std::string, COLOR_NAMES_COUNT> names{ { "BLACK", "RED", "GREEN",
+                    "BROWN", "BLUE", "MAGENTA", "CYAN", "GRAY", "DGRAY", "LRED", "LGREEN", "YELLOW",
+                    "LBLUE", "LMAGENTA", "LCYAN", "WHITE"
+                } };
+            return names;
+        }
+
         void load_colors( JsonObject &jsobj ) {
-            for( size_t c = 0; c < main_color_names.size(); c++ ) {
-                const std::string &color = main_color_names[c];
+            for( size_t c = 0; c < main_color_names().size(); c++ ) {
+                const std::string &color = main_color_names()[c];
                 JsonArray jsarr = jsobj.get_array( color );
                 consolecolors[color] = from_rgb( jsarr.get_int( 0 ), jsarr.get_int( 1 ), jsarr.get_int( 2 ) );
             }
@@ -48,8 +57,7 @@ class color_loader
             }
         }
 
-        void load_throws( std::array<ColorType, std::tuple_size<decltype( main_color_names )>::value>
-                          &windowsPalette ) {
+        void load_throws( std::array<ColorType, COLOR_NAMES_COUNT> &windowsPalette ) {
             const std::string default_path = FILENAMES["colors"];
             const std::string custom_path = FILENAMES["base_colors"];
 
@@ -69,15 +77,14 @@ class color_loader
             // this should succeed, otherwise the installation is botched
             load_colorfile( default_path );
 
-            for( size_t c = 0; c < main_color_names.size(); c++ ) {
-                windowsPalette[c] = ccolor( main_color_names[c] );
+            for( size_t c = 0; c < main_color_names().size(); c++ ) {
+                windowsPalette[c] = ccolor( main_color_names()[c] );
             }
         }
 
     public:
         // does not throw anything
-        bool load( std::array<ColorType, std::tuple_size<decltype( main_color_names )>::value>
-                   &windowsPalette ) {
+        bool load( std::array<ColorType, COLOR_NAMES_COUNT> &windowsPalette ) {
             try {
                 load_throws( windowsPalette );
                 return true;
