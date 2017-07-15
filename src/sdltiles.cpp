@@ -101,6 +101,13 @@ std::map<std::string, music_playlist> playlists;
 std::string current_soundpack_path = "";
 #endif
 
+struct SDL_Renderer_deleter {
+    void operator()( SDL_Renderer * const renderer ) {
+        SDL_DestroyRenderer( renderer );
+    }
+};
+using SDL_Renderer_Ptr = std::unique_ptr<SDL_Renderer, SDL_Renderer_deleter>;
+
 /**
  * A class that draws a single character on screen.
  */
@@ -185,7 +192,7 @@ static std::unique_ptr<Font> overmap_font;
 
 static std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> windowsPalette;
 static SDL_Window *window = NULL;
-static SDL_Renderer* renderer = NULL;
+static SDL_Renderer_Ptr renderer;
 static SDL_PixelFormat *format;
 static SDL_Texture_Ptr display_buffer;
 int WindowWidth;        //Width of the actual window, not the curses window
@@ -236,7 +243,7 @@ void init_interface()
 
 void ClearScreen()
 {
-    SDL_RenderClear(renderer);
+    SDL_RenderClear( renderer.get() );
 }
 
 bool InitSDL()
@@ -281,16 +288,16 @@ bool InitSDL()
 
 bool SetupRenderTarget()
 {
-    if( SDL_SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE ) != 0 ) {
+    if( SDL_SetRenderDrawBlendMode( renderer.get(), SDL_BLENDMODE_NONE ) != 0 ) {
         dbg( D_ERROR ) << "SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE) failed: " << SDL_GetError();
         // Ignored for now, rendering could still work
     }
-    display_buffer.reset( SDL_CreateTexture( renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, WindowWidth, WindowHeight ) );
+    display_buffer.reset( SDL_CreateTexture( renderer.get(), SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, WindowWidth, WindowHeight ) );
     if( !display_buffer ) {
         dbg( D_ERROR ) << "Failed to create window buffer: " << SDL_GetError();
         return false;
     }
-    if( SDL_SetRenderTarget( renderer, display_buffer.get() ) != 0 ) {
+    if( SDL_SetRenderTarget( renderer.get(), display_buffer.get() ) != 0 ) {
         dbg( D_ERROR ) << "Failed to select render target: " << SDL_GetError();
         return false;
     }
@@ -366,27 +373,24 @@ bool WinCreate()
     if( !software_renderer ) {
         dbg( D_INFO ) << "Attempting to initialize accelerated SDL renderer.";
 
-        renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED |
-                                       SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE );
-        if( renderer == NULL ) {
+        renderer.reset( SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED |
+                                            SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE ) );
+        if( !renderer ) {
             dbg( D_ERROR ) << "Failed to initialize accelerated renderer, falling back to software rendering: " << SDL_GetError();
             software_renderer = true;
         } else if( !SetupRenderTarget() ) {
             dbg( D_ERROR ) << "Failed to initialize display buffer under accelerated rendering, falling back to software rendering.";
             software_renderer = true;
             display_buffer.reset();
-            if( renderer != NULL ) {
-                SDL_DestroyRenderer( renderer );
-                renderer = NULL;
-            }
+            renderer.reset();
         }
     }
     if( software_renderer ) {
         if( get_option<bool>( "FRAMEBUFFER_ACCEL" ) ) {
             SDL_SetHint( SDL_HINT_FRAMEBUFFER_ACCELERATION, "1" );
         }
-        renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_SOFTWARE | SDL_RENDERER_TARGETTEXTURE );
-        if( renderer == NULL ) {
+        renderer.reset( SDL_CreateRenderer( window, -1, SDL_RENDERER_SOFTWARE | SDL_RENDERER_TARGETTEXTURE ) );
+        if( !renderer ) {
             dbg( D_ERROR ) << "Failed to initialize software renderer: " << SDL_GetError();
             return false;
         } else if( !SetupRenderTarget() ) {
@@ -469,21 +473,18 @@ void WinDestroy()
         SDL_FreeFormat(format);
     format = NULL;
     display_buffer.reset();
-    if( renderer != NULL ) {
-        SDL_DestroyRenderer( renderer );
-        renderer = NULL;
-    }
+    renderer.reset();
     if(window)
         SDL_DestroyWindow(window);
     window = NULL;
 }
 
 inline void FillRectDIB(SDL_Rect &rect, unsigned char color) {
-    if( SDL_SetRenderDrawColor( renderer, windowsPalette[color].r, windowsPalette[color].g,
+    if( SDL_SetRenderDrawColor( renderer.get(), windowsPalette[color].r, windowsPalette[color].g,
                                 windowsPalette[color].b, 255 ) != 0 ) {
         dbg(D_ERROR) << "SDL_SetRenderDrawColor failed: " << SDL_GetError();
     }
-    if( SDL_RenderFillRect( renderer, &rect ) != 0 ) {
+    if( SDL_RenderFillRect( renderer.get(), &rect ) != 0 ) {
         dbg(D_ERROR) << "SDL_RenderFillRect failed: " << SDL_GetError();
     }
 }
@@ -546,7 +547,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
                                                    rmask, gmask, bmask, amask ) );
     if( !surface ) {
         dbg( D_ERROR ) << "CreateRGBSurface failed: " << SDL_GetError();
-        return SDL_Texture_Ptr( SDL_CreateTextureFromSurface( renderer, sglyph.get() ) );
+        return SDL_Texture_Ptr( SDL_CreateTextureFromSurface( renderer.get(), sglyph.get() ) );
     }
     SDL_Rect src_rect = { 0, 0, sglyph->w, sglyph->h };
     SDL_Rect dst_rect = { 0, 0, fontwidth * wf, fontheight };
@@ -571,7 +572,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int co
         sglyph = std::move( surface );
     }
 
-    return SDL_Texture_Ptr( SDL_CreateTextureFromSurface( renderer, sglyph.get() ) );
+    return SDL_Texture_Ptr( SDL_CreateTextureFromSurface( renderer.get(), sglyph.get() ) );
 }
 
 void CachedTTFFont::OutputChar(std::string ch, int const x, int const y, unsigned char const color)
@@ -593,7 +594,7 @@ void CachedTTFFont::OutputChar(std::string ch, int const x, int const y, unsigne
         return;
     }
     SDL_Rect rect {x, y, value.width, fontheight};
-    if ( SDL_RenderCopy( renderer, value.texture.get(), nullptr, &rect ) ) {
+    if( SDL_RenderCopy( renderer.get(), value.texture.get(), nullptr, &rect ) ) {
         dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
     }
 }
@@ -618,7 +619,7 @@ void BitmapFont::OutputChar(long t, int x, int y, unsigned char color)
     src.h = fontheight;
     SDL_Rect rect;
     rect.x = x; rect.y = y; rect.w = fontwidth; rect.h = fontheight;
-    if( SDL_RenderCopy( renderer, ascii[color].get(), &src, &rect ) != 0 ) {
+    if( SDL_RenderCopy( renderer.get(), ascii[color].get(), &src, &rect ) != 0 ) {
         dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
     }
 }
@@ -630,15 +631,15 @@ void refresh_display()
 
     // Select default target (the window), copy rendered buffer
     // there, present it, select the buffer as target again.
-    if( SDL_SetRenderTarget( renderer, NULL ) != 0 ) {
+    if( SDL_SetRenderTarget( renderer.get(), NULL ) != 0 ) {
         dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
     }
-    SDL_RenderSetLogicalSize( renderer, WindowWidth, WindowHeight );
-    if( SDL_RenderCopy( renderer, display_buffer.get(), NULL, NULL ) != 0 ) {
+    SDL_RenderSetLogicalSize( renderer.get(), WindowWidth, WindowHeight );
+    if( SDL_RenderCopy( renderer.get(), display_buffer.get(), NULL, NULL ) != 0 ) {
         dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
     }
-    SDL_RenderPresent(renderer);
-    if( SDL_SetRenderTarget( renderer, display_buffer.get() ) != 0 ) {
+    SDL_RenderPresent( renderer.get() );
+    if( SDL_SetRenderTarget( renderer.get(), display_buffer.get() ) != 0 ) {
         dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
     }
 }
@@ -657,7 +658,7 @@ static void try_sdl_update()
 //for resetting the render target after updating texture caches in cata_tiles.cpp
 void set_displaybuffer_rendertarget()
 {
-    if( SDL_SetRenderTarget( renderer, display_buffer.get() ) != 0 ) {
+    if( SDL_SetRenderTarget( renderer.get(), display_buffer.get() ) != 0 ) {
         dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
     }
 }
@@ -1609,7 +1610,7 @@ WINDOW *curses_init(void)
     }
 
     dbg( D_INFO ) << "Initializing SDL Tiles context";
-    tilecontext.reset(new cata_tiles(renderer));
+    tilecontext.reset( new cata_tiles( renderer.get() ) );
     try {
         tilecontext->init();
         dbg( D_INFO ) << "Tiles initialized successfully.";
@@ -1889,7 +1890,7 @@ void BitmapFont::load_font(const std::string &typeface)
 
     //convert ascii_surf to SDL_Texture
     for( size_t a = 0; a < std::tuple_size<decltype( ascii )>::value; ++a) {
-        ascii[a].reset( SDL_CreateTextureFromSurface( renderer, ascii_surf[a].get() ) );
+        ascii[a].reset( SDL_CreateTextureFromSurface( renderer.get(), ascii_surf[a].get() ) );
     }
 }
 
