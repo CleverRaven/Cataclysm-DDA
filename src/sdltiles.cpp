@@ -269,6 +269,13 @@ static std::weak_ptr<void> winBuffer; //tracking last drawn window to fix the fr
 static int fontScaleBuffer; //tracking zoom levels to fix framebuffer w/tiles
 extern catacurses::window w_hit_animation; //this window overlays w_terrain which can be oversized
 
+static void printErrorIf( const bool condition, const char * const message )
+{
+    if( !condition ) {
+        return;
+    }
+    dbg( D_ERROR ) << message << ": " << SDL_GetError();
+}
 /**
  * Attempt to initialize an audio device.  Returns false if initialization fails.
  */
@@ -710,9 +717,8 @@ void CachedTTFFont::OutputChar(std::string ch, int const x, int const y, unsigne
     if (opacity != 1.0f)
         SDL_SetTextureAlphaMod(value.texture.get(), opacity * 255.0f);
 #endif
-    if( SDL_RenderCopy( renderer.get(), value.texture.get(), nullptr, &rect ) ) {
-        dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
-    }
+    const auto result = SDL_RenderCopy( renderer.get(), value.texture.get(), nullptr, &rect);
+    printErrorIf( result != 0, "SDL_RenderCopy failed" );
 #ifdef __ANDROID__
     if (opacity != 1.0f)
         SDL_SetTextureAlphaMod(value.texture.get(), 255);
@@ -743,9 +749,8 @@ void BitmapFont::OutputChar(long t, int x, int y, unsigned char color)
     if (opacity != 1.0f)
         SDL_SetTextureAlphaMod(ascii[color].get(), opacity * 255);
 #endif
-    if( SDL_RenderCopy( renderer.get(), ascii[color].get(), &src, &rect ) != 0 ) {
-        dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
-    }
+    const auto result = SDL_RenderCopy( renderer.get(), ascii[color].get(), &src, &rect );
+    printErrorIf( result != 0, "SDL_RenderCopy failed" );
 #ifdef __ANDROID__
     if (opacity != 1.0f)
         SDL_SetTextureAlphaMod(ascii[color].get(), 255);
@@ -831,28 +836,22 @@ void refresh_display()
 
     // Select default target (the window), copy rendered buffer
     // there, present it, select the buffer as target again.
-    if( SDL_SetRenderTarget( renderer.get(), NULL ) != 0 ) {
-        dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
-    }
+    printErrorIf( SDL_SetRenderTarget( renderer.get(), NULL ) != 0, "SDL_SetRenderTarget failed" );
 #ifdef __ANDROID__
     SDL_Rect dstrect = get_android_render_rect( TERMINAL_WIDTH * fontwidth, TERMINAL_HEIGHT * fontheight );
     SDL_SetRenderDrawColor(renderer.get(), 0, 0, 0, 255);
     SDL_RenderClear( renderer.get() );
-	if( SDL_RenderCopy( renderer.get(), display_buffer.get(), NULL, &dstrect ) != 0 ) {
+    printErrorIf( SDL_RenderCopy( renderer.get(), display_buffer.get(), NULL, &dstrect ) != 0, "SDL_RenderCopy failed" );
 #else
-	if( SDL_RenderCopy( renderer.get(), display_buffer.get(), NULL, NULL ) != 0 ) {
+    printErrorIf( SDL_RenderCopy( renderer.get(), display_buffer.get(), NULL, NULL ) != 0, "SDL_RenderCopy failed" );
 #endif
-        dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
-    }
 #ifdef __ANDROID__
     draw_terminal_size_preview();
     draw_quick_shortcuts();
     draw_virtual_joystick();
 #endif
     SDL_RenderPresent( renderer.get() );
-    if( SDL_SetRenderTarget( renderer.get(), display_buffer.get() ) != 0 ) {
-        dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
-    }
+    printErrorIf( SDL_SetRenderTarget( renderer.get(), display_buffer.get() ) != 0, "SDL_SetRenderTarget failed" );
 }
 
 // only update if the set interval has elapsed
@@ -869,9 +868,8 @@ static void try_sdl_update()
 //for resetting the render target after updating texture caches in cata_tiles.cpp
 void set_displaybuffer_rendertarget()
 {
-    if( SDL_SetRenderTarget( renderer.get(), display_buffer.get() ) != 0 ) {
-        dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
-    }
+    const auto result = SDL_SetRenderTarget( renderer.get(), display_buffer.get() );
+    printErrorIf( result != 0, "SDL_SetRenderTarget failed" );
 }
 
 // Populate a map with the available video displays and their name
