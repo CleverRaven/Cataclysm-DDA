@@ -327,12 +327,6 @@ class JsonObject;
 
 void init_colors();
 
-enum col_attribute {
-    WA_NULL = 0,
-    HI = 1,
-    INV = 2
-};
-
 // Index for highlight cache
 enum hl_enum {
     HL_BLUE = 0,
