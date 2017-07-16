@@ -27,6 +27,7 @@
 #include "output.h"
 #include "mutation.h"
 #include "requirements.h"
+#include "options.h"
 
 #include <algorithm> //std::min
 #include <sstream>
