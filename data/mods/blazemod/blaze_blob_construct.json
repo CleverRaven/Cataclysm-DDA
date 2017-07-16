@@ -2,10 +2,9 @@
   {
     "type": "construction",
     "category": "OTHER",
-    "description": "Harvest Blob Feed from Corpse Pit",
+    "description": "Harvest Blob Feed from Corpse Pit: Smash to Harvest",
     "difficulty": 0,
     "time": 60,
-    "pre_note" : "Can be deconstructed without tools.  Smash afterwards to harvest.",
     "pre_terrain": "t_pit_corpsed",
     "post_terrain": "blob_pit",
     "tools": [ [ [ "gloople", -1 ], [ "glooplegrow", -1 ], [ "oozle", -1 ], [ "oozlegrow", -1 ], [ "gray", -1 ], [ "graygrow", -1 ] ] ]
@@ -13,10 +12,9 @@
   {
     "type": "construction",
     "category": "OTHER",
-    "description": "Harvest Blob Feed from Slime",
+    "description": "Harvest Blob Feed from Slime: Smash to Harvest",
     "difficulty": 0,
     "time": 5,
-    "pre_note" : "Can be deconstructed without tools.  Smash afterwards to harvest.",
     "pre_terrain": "t_slime",
     "post_terrain": "blob_pit_slime",
     "tools": [ [ [ "gloople", -1 ], [ "glooplegrow", -1 ], [ "oozle", -1 ], [ "oozlegrow", -1 ], [ "gray", -1 ], [ "graygrow", -1 ] ] ]
