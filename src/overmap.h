@@ -169,6 +169,43 @@ struct overmap_special_placement {
     const overmap_special *special_details;
 };
 
+// A batch of overmap specials to place.
+class overmap_special_batch {
+    public:
+    overmap_special_batch( point origin ) : origin_overmap( origin ) {}
+    overmap_special_batch( point origin, std::vector<const overmap_special *> &specials ) :
+            origin_overmap( origin ) {
+        for( auto special : specials ) {
+            placements.push_back( { 0, special } );
+        }
+    }
+
+    // Wrapper methods that make overmap_special_batch act like
+    // the underlying vector of overmap placements.
+    std::vector<overmap_special_placement>::iterator begin() {
+        return placements.begin();
+    }
+    std::vector<overmap_special_placement>::iterator end() {
+        return placements.end();
+    }
+    std::vector<overmap_special_placement>::iterator erase( std::vector<overmap_special_placement>::iterator pos ) {
+        return placements.erase( pos );
+    }
+    bool empty() {
+        return placements.empty();
+    }
+
+    void set_origin( point new_origin ) {
+        origin_overmap = new_origin;
+    }
+    point get_origin() const {
+        return origin_overmap;
+    }
+    private:
+    std::vector<overmap_special_placement> placements;
+    point origin_overmap;
+};
+
 class overmap
 {
  public:
@@ -184,7 +221,7 @@ class overmap
     /**
      * Create content in the overmap.
      **/
-    void populate( std::vector<overmap_special_placement> &enabled_specials );
+    void populate( overmap_special_batch &enabled_specials );
     void populate();
 
     point const& pos() const { return loc; }
@@ -295,8 +332,8 @@ class overmap
         return settings;
     }
 
-    // Returns a vector of enabled overmap specials.
-    std::vector<const overmap_special *> get_enabled_specials() const;
+    // Returns a batch of the default enabled specials.
+    overmap_special_batch get_enabled_specials() const;
 
     void clear_mon_groups();
 private:
@@ -350,7 +387,7 @@ public:
     // Initialise
     void init_layers();
     // open existing overmap, or generate a new one
-    void open( std::vector<overmap_special_placement> &enabled_specials );
+    void open( overmap_special_batch &enabled_specials );
  public:
   // parse data in an opened overmap file
   void unserialize(std::istream &fin);
@@ -366,7 +403,7 @@ public:
  private:
     void generate( const overmap* north, const overmap* east,
                    const overmap* south, const overmap* west,
-                   std::vector<overmap_special_placement> &enabled_specials );
+                   overmap_special_batch &enabled_specials );
     bool generate_sub( int const z );
 
     const city &get_nearest_city( const tripoint &p ) const;
@@ -452,14 +489,14 @@ public:
      * and continue placing specials there.
      * @param enabled_specials specifies what specials to place, and tracks how many have been placed.
      **/
-    void place_specials( std::vector<overmap_special_placement> &enabled_specials );
+    void place_specials( overmap_special_batch &enabled_specials );
     /**
      * Walk over the overmap and attempt to place specials.
      * @param enabled_specials vector of objects that track specials being placed.
      * @param sectors sectors in which to attempt placement.
      * @param place_optional restricts attempting to place specials that have met their minimum count in the first pass.
      */
-    void place_specials_pass( std::vector<overmap_special_placement> &enabled_specials,
+    void place_specials_pass( overmap_special_batch &enabled_specials,
                               std::vector<point> &sectors, bool place_optional );
 
     /**
@@ -468,7 +505,7 @@ public:
      * @param sector sector identifies the location where specials are being placed.
      * @param place_optional restricts attempting to place specials that have met their minimum count in the first pass.
      */
-    bool place_special_attempt( std::vector<overmap_special_placement> &enabled_specials,
+    bool place_special_attempt( overmap_special_batch &enabled_specials,
                                 const point &sector, bool place_optional );
 
     void place_mongroups();

@@ -1222,7 +1222,7 @@ overmap::~overmap()
     }
 }
 
-void overmap::populate( std::vector<overmap_special_placement> &enabled_specials )
+void overmap::populate( overmap_special_batch &enabled_specials )
 {
     try {
         open( enabled_specials );
@@ -1233,10 +1233,7 @@ void overmap::populate( std::vector<overmap_special_placement> &enabled_specials
 
 void overmap::populate()
 {
-    std::vector<overmap_special_placement> enabled_specials;
-    for( auto special : get_enabled_specials() ) {
-        enabled_specials.push_back( { 0, special } );
-    }
+    overmap_special_batch enabled_specials = get_enabled_specials();
     populate( enabled_specials );
 }
 
@@ -1513,7 +1510,7 @@ void overmap::set_scent( const tripoint &loc, scent_trace &new_scent )
 
 void overmap::generate( const overmap *north, const overmap *east,
                         const overmap *south, const overmap *west,
-                        std::vector<overmap_special_placement> &enabled_specials )
+                        overmap_special_batch &enabled_specials )
 {
     dbg(D_INFO) << "overmap::generate start...";
     std::vector<point> river_start;// West/North endpoints of rivers
@@ -4168,7 +4165,7 @@ void overmap::place_special( const overmap_special &special, const tripoint &p, 
     }
 }
 
-std::vector<const overmap_special *> overmap::get_enabled_specials() const
+overmap_special_batch overmap::get_enabled_specials() const
 {
     const bool only_classic = get_option<bool>( "CLASSIC_ZOMBIES" );
     std::vector<const overmap_special *> res;
@@ -4179,7 +4176,8 @@ std::vector<const overmap_special *> overmap::get_enabled_specials() const
             res.push_back( &elem );
         }
     }
-    return res;
+
+    return overmap_special_batch( loc, res );
 }
 
 std::vector<point> overmap::get_sectors() const
@@ -4196,7 +4194,7 @@ std::vector<point> overmap::get_sectors() const
     return res;
 }
 
-bool overmap::place_special_attempt( std::vector<overmap_special_placement> &enabled_specials,
+bool overmap::place_special_attempt( overmap_special_batch &enabled_specials,
                                      const point &sector, const bool place_optional )
 {
     const int x = sector.x;
@@ -4235,7 +4233,7 @@ bool overmap::place_special_attempt( std::vector<overmap_special_placement> &ena
     return false;
 }
 
-void overmap::place_specials_pass( std::vector<overmap_special_placement> &enabled_specials,
+void overmap::place_specials_pass( overmap_special_batch &enabled_specials,
                                    std::vector<point> &sectors, const bool place_optional )
 {
     // Walk over sectors in random order, to minimize "clumping".
@@ -4264,7 +4262,7 @@ void overmap::place_specials_pass( std::vector<overmap_special_placement> &enabl
 // check if special is valid  pick & place special.
 // When a sector is populated it's removed from the list,
 // and when a special reaches max instances it is also removed.
-void overmap::place_specials( std::vector<overmap_special_placement> &enabled_specials )
+void overmap::place_specials( overmap_special_batch &enabled_specials )
 {
 
     for( auto iter = enabled_specials.begin(); iter != enabled_specials.end(); ) {
@@ -4293,14 +4291,18 @@ void overmap::place_specials( std::vector<overmap_special_placement> &enabled_sp
     place_specials_pass( enabled_specials, sectors, false );
     if( std::any_of( enabled_specials.begin(), enabled_specials.end(),
                      []( overmap_special_placement placement ) {
-                         return placement.instances_placed < placement.special_details->occurrences.min;
+                         return placement.instances_placed <
+                                placement.special_details->occurrences.min;
                      } ) ) {
         // Randomly select from among the nearest uninitialized overmap positions.
         int previous_distance = 0;
         std::vector<point> nearest_candidates;
-        for( point candidate_addr : closest_points_first( 10, pos() ) ) {
+        // Since this starts at enabled_specials::origin, it will only place new overmaps
+        // in the 5x5 area surrounding the initial overmap, bounding the amount of work we will do.
+        for( point candidate_addr : closest_points_first( 2, enabled_specials.get_origin() ) ) {
             if( !overmap_buffer.has( candidate_addr.x, candidate_addr.y ) ) {
-                int current_distance = square_dist( pos().x, pos().y, candidate_addr.x, candidate_addr.y );
+                int current_distance = square_dist( pos().x, pos().y,
+                                                    candidate_addr.x, candidate_addr.y );
                 if( nearest_candidates.empty() || current_distance == previous_distance ) {
                     nearest_candidates.push_back( candidate_addr );
                     previous_distance = current_distance;
@@ -4313,7 +4315,9 @@ void overmap::place_specials( std::vector<overmap_special_placement> &enabled_sp
             std::random_shuffle( nearest_candidates.begin(), nearest_candidates.end() );
             point new_om_addr = nearest_candidates.front();
             overmap_buffer.create_custom_overmap( new_om_addr.x, new_om_addr.y, enabled_specials );
-        }
+        } else {
+            add_msg( _( "Unable to place all configured specials, some missions may fail to initialize." ) );
+	}
     }
     // Then fill in non-mandatory specials.
     place_specials_pass( enabled_specials, sectors, true );
@@ -4425,7 +4429,7 @@ void overmap::place_radios()
     }
 }
 
-void overmap::open( std::vector<overmap_special_placement> &enabled_specials )
+void overmap::open( overmap_special_batch &enabled_specials )
 {
     std::string const plrfilename = overmapbuffer::player_filename(loc.x, loc.y);
     std::string const terfilename = overmapbuffer::terrain_filename(loc.x, loc.y);

@@ -73,7 +73,7 @@ overmap &overmapbuffer::get( const int x, const int y )
     return *new_om;
 }
 
-void overmapbuffer::create_custom_overmap( int const x, int const y, std::vector<overmap_special_placement> &specials )
+void overmapbuffer::create_custom_overmap( int const x, int const y, overmap_special_batch &specials )
 {
     overmap *new_om = new overmap( x, y );
     if( last_requested_overmap != nullptr ) {
@@ -568,9 +568,23 @@ bool overmapbuffer::check_ot_type(const std::string& type, int x, int y, int z)
 
 tripoint overmapbuffer::find_closest(const tripoint& origin, const std::string& type, int const radius, bool must_be_seen)
 {
-    // By default search overmaps within a radius of 3,
-    // i.e. current overmap, adjacent overmaps, and overmaps adjacent to those.
-    int max = (radius == 0 ? OMAPX * 3 : radius);
+    // By default search overmaps within a radius of 4,
+    // i.e. C = current overmap, X = overmaps searched:
+    // XXXXXXXXX
+    // XXXXXXXXX
+    // XXXXXXXXX
+    // XXXXXXXXX
+    // XXXXCXXXX
+    // XXXXXXXXX
+    // XXXXXXXXX
+    // XXXXXXXXX
+    // XXXXXXXXX
+    //
+    // See overmap::place_specials for how we attempt to insure specials are placed within this range.
+    // The actual number is 5 becuase 1 covers the current overmap,
+    // and each additional one expends the search to the next concentric circle of overmaps.
+
+    int max = ( radius == 0 ? OMAPX * 5 : radius );
     const int z = origin.z;
     // expanding box
     for( int dist = 0; dist <= max; dist++) {

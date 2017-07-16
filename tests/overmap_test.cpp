@@ -23,21 +23,17 @@ TEST_CASE( "set_and_get_overmap_scents" ) {
 }
 
 TEST_CASE( "default_overmap_generation_always_succeeds" ) {
-    // List of specials to generate, overmap should consume them all.
-    std::vector<const overmap_special *> default_specials = overmap( 0, 0 ).get_enabled_specials();
     int overmaps_to_construct = 10;
     for( point candidate_addr : closest_points_first( 10, { 0, 0 } ) ) {
          // Skip populated overmaps.
       if( overmap_buffer.has( candidate_addr.x, candidate_addr.y ) ) {
             continue;
         }
-        std::vector<overmap_special_placement> test_specials;
-        for( auto special : default_specials ) {
-            test_specials.push_back( { 0, special } );
-        }
+        overmap_special_batch test_specials = overmap( 0, 0 ).get_enabled_specials();
+	test_specials.set_origin( candidate_addr );
         overmap_buffer.create_custom_overmap( candidate_addr.x, candidate_addr.y, test_specials );
         std::stringstream remaining_specials;
-        for( auto &special_placement : test_specials ) {
+        for( const auto &special_placement : test_specials ) {
             auto special = special_placement.special_details;
             INFO( "In attempt #" << overmaps_to_construct
                   << " failed to place " << special->id.str() );
