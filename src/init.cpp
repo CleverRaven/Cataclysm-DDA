@@ -404,11 +404,7 @@ void DynamicDataLoader::finalize_loaded_data()
     overmap_terrains::finalize();
     overmap_specials::finalize();
     vehicle_prototype::finalize();
-    try {
-        calculate_mapgen_weights();
-    } catch( const std::exception &err ) {
-        DebugLog( D_ERROR, D_GAME ) << err.what();
-    }
+    calculate_mapgen_weights();
     MonsterGenerator::generator().finalize_mtypes();
     MonsterGroupManager::FinalizeMonsterGroups();
     monfactions::finalize();
