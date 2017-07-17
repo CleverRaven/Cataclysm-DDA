@@ -112,6 +112,7 @@ src/catalua.h
 src/cata_utility.h
 src/char_validity_check.h
 src/color.h
+src/color_loader.h
 src/common_types.h
 src/compatibility.h
 src/computer.h

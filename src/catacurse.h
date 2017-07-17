@@ -167,19 +167,11 @@ int noecho( void );
 //non-curses functions, Do not call these in the main game code
 extern WINDOW *mainwin;
 extern std::array<pairs, 100> colorpairs;
-// key is a color name from main_color_names,
-// value is a color in *BGR*. each vector has exactly 3 values.
-// see load_colors(Json...)
-extern std::map< std::string, std::vector<int> > consolecolors;
-// color names as read from the json file
-extern std::array<std::string, 16> main_color_names;
 // may throw std::exception
 WINDOW *curses_init();
 int curses_destroy();
 void curses_drawwindow( WINDOW *win );
 void curses_delay( int delay );
-// may throw std::exception
-int curses_start_color();
 
 // Add interface specific (SDL/ncurses/wincurses) initializations here
 void init_interface();

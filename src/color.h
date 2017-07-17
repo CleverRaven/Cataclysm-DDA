@@ -327,12 +327,6 @@ class JsonObject;
 
 void init_colors();
 
-enum col_attribute {
-    WA_NULL = 0,
-    HI = 1,
-    INV = 2
-};
-
 // Index for highlight cache
 enum hl_enum {
     HL_BLUE = 0,
@@ -428,9 +422,6 @@ std::string string_from_color( const nc_color color );
 nc_color bgcolor_from_string( std::string color );
 nc_color get_color_from_tag( const std::string &s, const nc_color base_color );
 std::string get_tag_from_color( const nc_color color );
-
-void setattr( nc_color &col, col_attribute attr );
-void load_colors( JsonObject &jo );
 
 nc_color get_note_color( std::string const &note_id );
 std::list<std::pair<std::string, std::string>> get_note_color_names();
