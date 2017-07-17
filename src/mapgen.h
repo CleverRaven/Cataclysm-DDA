@@ -25,7 +25,7 @@ class mapgen_function {
     mapgen_function( const int w ) : weight( w ) { }
     public:
     virtual ~mapgen_function() { }
-    virtual bool setup() { return true; }
+    virtual void setup() { } // throws
     virtual void generate(map*, const oter_id &, const mapgendata &, int, float) = 0;
 };
 
@@ -240,7 +240,7 @@ class mapgen_function_json : public virtual mapgen_function {
     public:
     bool check_inbounds( const jmapgen_int &var ) const;
     void setup_setmap( JsonArray &parray );
-    bool setup() override;
+    void setup() override;
     void generate(map *, const oter_id &, const mapgendata &, int, float) override;
 
     mapgen_function_json( const std::string s, int w = 1000, const int x_grid_offset = 0, const int y_grid_offset = 0 );
