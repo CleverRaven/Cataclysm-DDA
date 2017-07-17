@@ -975,14 +975,14 @@ bool player::install_bionics( const itype &type, int skill_level )
 
     const int pk = get_painkiller();
     int pain_cap = 100;
-    if( has_trait( "PAINRESIST_TROGLO" ) ) {
+    if( has_trait( trait_PAINRESIST_TROGLO ) ) {
         pain_cap = pain_cap / 2;
-    } else if( has_trait( "PAINRESIST" ) ) {
+    } else if( has_trait( trait_PAINRESIST ) ) {
         pain_cap = pain_cap / 1.5;
     }
 
-    if( !has_trait( "NOPAIN" ) && !has_trait( "CENOBITE" ) &&
-        !has_trait( "MASOCHIST_MED" ) && !has_bionic( "bio_painkiller" ) ) {
+    if( !has_trait( trait_NOPAIN ) && !has_trait( trait_CENOBITE ) &&
+        !has_trait( trait_MASOCHIST_MED ) && !has_bionic( "bio_painkiller" ) ) {
         if( pk == 0 ) {
             popup( _( "You need to take painkillers to make installing bionics tolerable." ) );
             return false;
