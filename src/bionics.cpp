@@ -66,9 +66,13 @@ const efftype_id effect_took_xanax( "took_xanax" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 
-static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
-static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
+static const trait_id trait_PAINRESIST( "PAINRESIST" );
+static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_MASOCHIST( "MASOCHIST" );
+static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 
 namespace
 {
@@ -977,7 +981,9 @@ bool player::install_bionics( const itype &type, int skill_level )
         pain_cap = pain_cap / 1.5;
     }
 
-    if( !has_trait( trait_id( "NOPAIN" ) ) && !has_trait( trait_id( "CENOBITE" ) ) ) {
+    if( !has_trait( trait_id( "NOPAIN" ) ) && !has_trait( trait_id( "CENOBITE" ) ) &&
+        !has_trait( trait_id( "MASOCHIST" ) ) && !has_trait( trait_id( "MASOCHIST_MED" ) ) &&
+        !has_active_bionic( "bio_painkiller" ) ) {
         if( pk == 0 ) {
             popup( _( "You need to take painkillers to make installing bionics tolerable." ) );
             return false;
