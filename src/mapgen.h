@@ -302,7 +302,7 @@ extern std::map<std::string, std::map<int, int> > oter_mapgen_weights;
 /*
  * Sets the above after init, and initializes mapgen_function_json instances as well
  */
-void calculate_mapgen_weights();
+void calculate_mapgen_weights(); // throws
 
 /// move to building_generation
 enum room_type {

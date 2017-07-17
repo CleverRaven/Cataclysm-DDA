@@ -249,14 +249,7 @@ void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup 
                 ++funcnum;
                 continue; // rejected!
             }
-            try {
-                (*fit)->setup();
-            } catch( const std::exception &err ) {
-                dbg( D_ERROR ) << err.what();
-                dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): (rej(2), " << weight << ") = " << wtotal;
-                ++funcnum;
-                continue; // disqualify! doesn't get to play in the pool
-            }
+            (*fit)->setup();
             wtotal += weight;
             oter_mapgen_weights[ oit->first ][ wtotal ] = funcnum;
             dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): +" << weight << " = " << wtotal;
