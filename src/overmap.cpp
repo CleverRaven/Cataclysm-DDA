@@ -3520,6 +3520,21 @@ void overmap::build_anthill(int x, int y, int z, int s)
     }
     const point target = random_entry( queenpoints );
     ter(target.x, target.y, z) = oter_id( "ants_queen" );
+
+    // Connect the queen chamber, as it gets placed before polish()
+    for( auto dir : om_direction::all ) {
+        const point p = point( target.x, target.y ) + om_direction::displace( dir );
+        if( check_ot_type( "ants", p.x, p.y, z ) ) {
+            auto &neighbor = ter( p.x, p.y, z );
+            if( neighbor->has_flag( line_drawing ) ) {
+                size_t line = neighbor->get_line();
+                line = om_lines::set_segment( line, om_direction::opposite( dir ) );
+                if( line != neighbor->get_line() ) {
+                    neighbor = neighbor->get_type_id()->get_linear( line );
+                }
+            }
+        }
+    }
 }
 
 void overmap::build_tunnel( int x, int y, int z, int s, om_direction::type dir )
@@ -3527,14 +3542,18 @@ void overmap::build_tunnel( int x, int y, int z, int s, om_direction::type dir )
     if (s <= 0) {
         return;
     }
-    if (!check_ot_type("ants", x, y, z)) {
-        ter(x, y, z) = oter_id( "ants_ns" );
+
+    const oter_id root_id( "ants_isolated" );
+    if( check_ot_type( "ants", x, y, z ) && root_id != get_ter( x, y, z )->id ) {
+        return;
     }
+
+    ter( x, y, z ) = oter_id( root_id );
 
     std::vector<om_direction::type> valid;
     valid.reserve( om_direction::size );
     for( auto r : om_direction::all ) {
-        const point p = om_direction::displace( r );
+        const point p = point( x, y ) + om_direction::displace( r );
         if( !check_ot_type( "ants", p.x, p.y, z ) ) {
             valid.push_back( r );
         }
@@ -3549,12 +3568,23 @@ void overmap::build_tunnel( int x, int y, int z, int s, om_direction::type dir )
 
         if( p.x != next.x || p.y != next.y ) {
             if (one_in(s * 2)) {
+                // Spawn a special chamber
                 if (one_in(2)) {
                     ter( p.x, p.y, z ) = ants_food;
                 } else {
                     ter( p.x, p.y, z ) = ants_larvae;
                 }
+
+                // Connect newly-spawned chamber to this tunnel segment
+                auto &oter = ter( x, y, z );
+                size_t line = oter->get_line();
+                line = om_lines::set_segment( line, r );
+                if( line != oter->get_line() ) {
+                    oter = oter->get_type_id()->get_linear( line );
+                }
+
             } else if (one_in(5)) {
+                // Branch off a side tunnel
                 build_tunnel( p.x, p.y, z, s - rng( 0, 3 ), r );
             }
         }
