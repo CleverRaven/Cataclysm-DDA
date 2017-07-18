@@ -16,7 +16,7 @@ if [ -n "${MXE_TARGET}" ]; then
 
   MXE2_TARGET=$(echo "$MXE_TARGET" | sed 's/_/-/g')
   export MXE_DIR=/usr/lib/mxe/usr/bin
-  sudo apt-get --yes install mxe-${MXE2_TARGET}-gcc mxe-${MXE2_TARGET}-gettext
+  sudo apt-get --yes install mxe-${MXE2_TARGET}-gcc mxe-${MXE2_TARGET}-gettext mxe-${MXE2_TARGET}-glib
   export PLATFORM='i686-w64-mingw32.static'
   export CROSS_COMPILATION='${MXE_DIR}/${PLATFORM}-'
 fi
