@@ -412,7 +412,7 @@ bool map::vehact( vehicle &veh )
     }
 
     // Mph lost per tile when coasting, by an ideal vehicle
-    int base_slowdown = veh.skidding ? 100 : 10;
+    int base_slowdown = veh.skidding ? 50 : 5;
     if( should_fall ) {
         // Just air resistance
         base_slowdown = 1;
