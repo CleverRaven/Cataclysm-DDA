@@ -5619,7 +5619,7 @@
   "tools": [ [ ["sheet_metal", -1 ] ] ],
   "components": [
     [ [ "splinter", 10 ], [ "stick", 4 ], [ "2x4", 4 ], [ "withered", 20 ] ],
-    [ [ "water", 4 ], [ "water_clean", 4 ] ]
+,    [ [ "water", 4 ], [ "water_clean", 4 ] ]
   ]
   },
   {
@@ -5634,6 +5634,9 @@
   "reversible": true,
   "autolearn": true,
   "components": [
+    [ [ "sheet_metal", 2 ] ],
+    [ [ "nail", 11 ] ],
+    [ [ "wire", 1 ] ],
     [ ["pockknife", 1], ["primitive_knife", 1], ["switchblade", 1], ["knife_steak", 1] ],
     [ [ "screwdriver_set", 1 ] ],
     [ [ "hacksaw", 1 ] ],
