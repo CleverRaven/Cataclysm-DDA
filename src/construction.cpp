@@ -879,13 +879,13 @@ void construct::done_tree( const tripoint &p )
 
 void construct::done_trunk_log( const tripoint &p )
 {
-    g->m.spawn_item( p.x, p.y, "log", rng( 5, 15 ), 0, calendar::turn );
+    g->m.spawn_item( p.x, p.y, "log", rng( 2, 3 ), 0, calendar::turn );
 }
 
 void construct::done_trunk_plank( const tripoint &p )
 {
     ( void )p; //unused
-    int num_logs = rng( 5, 15 );
+    int num_logs = rng( 2, 3 );
     for( int i = 0; i < num_logs; ++i ) {
         iuse::cut_log_into_planks( &( g->u ) );
     }

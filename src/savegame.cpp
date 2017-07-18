@@ -100,6 +100,13 @@ void game::serialize(std::ostream & fout) {
         }
         json.end_object();
 
+        json.member( "npc_kills" );
+        json.start_array();
+        for( auto &elem : npc_kills ) {
+            json.write( elem );
+        }
+        json.end_array();
+
         json.member( "player", u );
         Messages::serialize( json );
 
@@ -236,6 +243,13 @@ void game::unserialize(std::istream & fin)
         std::set<std::string> members = odata.get_member_names();
         for( const auto &member : members ) {
             kills[mtype_id( member )] = odata.get_int( member );
+        }
+
+        vdata = data.get_array("npc_kills");
+        while( vdata.has_more() ) {
+           std::string npc_name;
+           vdata.read_next(npc_name);
+           npc_kills.push_back(npc_name);
         }
 
         data.read("player", u);

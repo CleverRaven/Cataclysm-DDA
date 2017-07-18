@@ -18,6 +18,7 @@
 #include "filesystem.h"
 #include "debug.h"
 #include "cata_utility.h"
+#include "color_loader.h"
 
 //***********************************
 //Globals                           *
@@ -40,10 +41,9 @@ int fontheight;         //the height of the font, background is always this size
 int halfwidth;          //half of the font width, used for centering lines
 int halfheight;          //half of the font height, used for centering lines
 HFONT font;             //Handle to the font created by CreateFont
-std::array<RGBQUAD, 16> windowsPalette;  //The coor palette, 16 colors emulates a terminal
+std::array<RGBQUAD, color_loader<RGBQUAD>::COLOR_NAMES_COUNT> windowsPalette;
 unsigned char *dcbits;  //the bits of the screen image, for direct access
 bool CursorVisible = true; // Showcursor is a somewhat weird function
-std::map< std::string, std::vector<int> > consolecolors;
 
 //***********************************
 //Non-curses, Window functions      *
@@ -558,8 +558,8 @@ WINDOW *curses_init(void)
     bmi.bmiHeader.biBitCount     = 8;
     bmi.bmiHeader.biCompression  = BI_RGB; // Raw RGB
     bmi.bmiHeader.biSizeImage    = WindowWidth * WindowHeight * 1;
-    bmi.bmiHeader.biClrUsed      = 16; // Colors in the palette
-    bmi.bmiHeader.biClrImportant = 16; // Colors in the palette
+    bmi.bmiHeader.biClrUsed      = color_loader<RGBQUAD>::COLOR_NAMES_COUNT; // Colors in the palette
+    bmi.bmiHeader.biClrImportant = color_loader<RGBQUAD>::COLOR_NAMES_COUNT; // Colors in the palette
     backbit = CreateDIBSection(0, &bmi, DIB_RGB_COLORS, (void**)&dcbits, NULL, 0);
     DeleteObject(SelectObject(backbuffer, backbit));//load the buffer into DC
 
@@ -679,7 +679,8 @@ int curses_destroy(void)
     return 1;
 }
 
-inline RGBQUAD BGR(int b, int g, int r)
+template<>
+RGBQUAD color_loader<RGBQUAD>::from_rgb( const int r, const int g, const int b )
 {
     RGBQUAD result;
     result.rgbBlue=b;    //Blue
@@ -689,78 +690,14 @@ inline RGBQUAD BGR(int b, int g, int r)
     return result;
 }
 
-void load_colors(JsonObject &jsobj)
+// This function mimics the ncurses interface. It must not throw.
+// Instead it should return ERR or OK, see man curs_color
+int start_color()
 {
-    std::string colors[16]={"BLACK","RED","GREEN","BROWN","BLUE","MAGENTA","CYAN","GRAY",
-    "DGRAY","LRED","LGREEN","YELLOW","LBLUE","LMAGENTA","LCYAN","WHITE"};
-    JsonArray jsarr;
-    for(int c=0;c<16;c++)
-    {
-        jsarr = jsobj.get_array(colors[c]);
-        if(jsarr.size()<3)continue;
-        consolecolors[colors[c]].clear();
-        consolecolors[colors[c]].push_back(jsarr.get_int(2));
-        consolecolors[colors[c]].push_back(jsarr.get_int(1));
-        consolecolors[colors[c]].push_back(jsarr.get_int(0));
+    if( !color_loader<RGBQUAD>().load( windowsPalette ) ) {
+        return ERR;
     }
-}
-
-#define ccolor(s) consolecolors[s][0],consolecolors[s][1],consolecolors[s][2]
-int curses_start_color(void)
-{
-    //TODO: this should be reviewed in the future.
-
-    //Load the console colors from colors.json
-    const std::string default_path = FILENAMES["colors"];
-    const std::string custom_path = FILENAMES["base_colors"];
-
-    if ( !file_exist(custom_path) ){
-        std::ifstream src(default_path.c_str(), std::ifstream::in | std::ios::binary);
-        write_to_file_exclusive(custom_path, [&src]( std::ostream &dst ) {
-            dst << src.rdbuf();
-        }, _("base colors") );
-    }
-
-    auto load_colorfile = []( const std::string &path ) {
-        std::ifstream colorfile( path.c_str(), std::ifstream::in | std::ifstream::binary );
-        try{
-            JsonIn jsin(colorfile);
-            // Manually load the colordef object because the json handler isn't loaded yet.
-            jsin.start_array();
-            // find type and dispatch each object until array close
-            while (!jsin.end_array()) {
-                JsonObject jo = jsin.get_object();
-                load_colors(jo);
-                jo.finish();
-            }
-            return OK;
-        } catch( const JsonError &e ){
-            DebugLog( D_ERROR, DC_ALL ) << "Failed to load color definitions from " << path << ": " << e;
-            return ERR;
-        }
-    };
-
-    if ( load_colorfile(custom_path) == ERR ){
-        load_colorfile(default_path);
-    }
-    if(consolecolors.empty())return SetDIBColorTable(backbuffer, 0, 16, windowsPalette.data());
-    windowsPalette[0]  = BGR(ccolor("BLACK"));
-    windowsPalette[1]  = BGR(ccolor("RED"));
-    windowsPalette[2]  = BGR(ccolor("GREEN"));
-    windowsPalette[3]  = BGR(ccolor("BROWN"));
-    windowsPalette[4]  = BGR(ccolor("BLUE"));
-    windowsPalette[5]  = BGR(ccolor("MAGENTA"));
-    windowsPalette[6]  = BGR(ccolor("CYAN"));
-    windowsPalette[7]  = BGR(ccolor("GRAY"));
-    windowsPalette[8]  = BGR(ccolor("DGRAY"));
-    windowsPalette[9]  = BGR(ccolor("LRED"));
-    windowsPalette[10] = BGR(ccolor("LGREEN"));
-    windowsPalette[11] = BGR(ccolor("YELLOW"));
-    windowsPalette[12] = BGR(ccolor("LBLUE"));
-    windowsPalette[13] = BGR(ccolor("LMAGENTA"));
-    windowsPalette[14] = BGR(ccolor("LCYAN"));
-    windowsPalette[15] = BGR(ccolor("WHITE"));
-    return SetDIBColorTable(backbuffer, 0, 16, windowsPalette.data());
+    return SetDIBColorTable(backbuffer, 0, windowsPalette.size(), windowsPalette.data());
 }
 
 void input_manager::set_timeout( const int t )

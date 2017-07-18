@@ -596,10 +596,10 @@ std::string print_temperature( double fahrenheit, int decimals )
 
     if(get_option<std::string>( "USE_CELSIUS" ) == "celsius") {
         ret << temp_to_celsius( fahrenheit );
-        return string_format( pgettext( "temperatur in Celsius", "%sC" ), ret.str().c_str() );
+        return string_format( pgettext( "temperature in Celsius", "%sC" ), ret.str().c_str() );
     } else {
         ret << fahrenheit;
-        return string_format( pgettext( "temperatur in Fahrenheit", "%sF" ), ret.str().c_str() );
+        return string_format( pgettext( "temperature in Fahrenheit", "%sF" ), ret.str().c_str() );
     }
 }
 
@@ -676,7 +676,7 @@ int get_local_humidity( double humidity, weather_type weather, bool sheltered )
     return tmphumidity;
 }
 
-int get_local_windpower(double windpower, std::string const &omtername, bool sheltered)
+int get_local_windpower(double windpower, const oter_id &omter, bool sheltered)
 {
     /**
     *  A player is sheltered if he is underground, in a car, or indoors.
@@ -687,11 +687,11 @@ int get_local_windpower(double windpower, std::string const &omtername, bool she
     // Over map terrain may modify the effect of wind.
     if (sheltered) {
         tmpwind  = 0.0;
-    } else if ( omtername == "forest_water") {
+    } else if ( omter.id() == "forest_water") {
         tmpwind *= 0.7;
-    } else if ( omtername == "forest" ) {
+    } else if ( omter.id() == "forest" ) {
         tmpwind *= 0.5;
-    } else if ( omtername == "forest_thick" || omtername == "hive") {
+    } else if ( omter.id() == "forest_thick" || omter.id() == "hive") {
         tmpwind *= 0.4;
     }
 

@@ -1129,3 +1129,19 @@ void show_pickup_message( const PickupMap &mapPickup )
         }
     }
 }
+
+int Pickup::cost_to_move_item( const Character &who, const item &it )
+{
+    // Do not involve inventory capacity, it's not like you put it in backpack
+    int ret = 50;
+    if( who.is_armed() ) {
+        // No free hand? That will cost you extra
+        ret += 20;
+    }
+
+    // Is it too heavy? It'll take 10 moves per kg over limit
+    ret += std::max( 0, ( it.weight() - who.weight_capacity() ) / 100 );
+
+    // Keep it sane - it's not a long activity
+    return std::min( 400, ret );
+}

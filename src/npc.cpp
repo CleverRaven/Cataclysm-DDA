@@ -1926,6 +1926,7 @@ void npc::die(Creature* nkiller) {
     }
 
     if( killer == &g->u && ( !guaranteed_hostile() || hit_by_player ) ) {
+        g->record_npc_kill(this);
         bool cannibal = g->u.has_trait( trait_CANNIBAL );
         bool psycho = g->u.has_trait( trait_PSYCHOPATH );
         if( g->u.has_trait( trait_SAPIOVORE ) ) {
