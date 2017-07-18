@@ -5619,7 +5619,7 @@
   "tools": [ [ ["sheet_metal", -1 ] ] ],
   "components": [
     [ [ "splinter", 10 ], [ "stick", 4 ], [ "2x4", 4 ], [ "withered", 20 ] ],
-,    [ [ "water", 4 ], [ "water_clean", 4 ] ]
+    [ [ "water", 4 ], [ "water_clean", 4 ] ]
   ]
   },
   {
