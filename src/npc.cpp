@@ -176,10 +176,6 @@ void npc_template::load( JsonObject &jsobj )
         guy.myclass = npc_class::from_legacy_int( jsobj.get_int("class") );
     } else if( jsobj.has_string( "class" ) ) {
         guy.myclass = npc_class_id( jsobj.get_string("class") );
-        if( !guy.myclass.is_valid() ) {
-            debugmsg( "Invalid NPC class %s", guy.myclass.c_str() );
-            guy.myclass = npc_class_id::NULL_ID();
-        }
     }
 
     guy.attitude = npc_attitude(jsobj.get_int("attitude"));
@@ -196,6 +192,16 @@ void npc_template::load( JsonObject &jsobj )
 void npc_template::reset()
 {
     npc_templates.clear();
+}
+
+void npc_template::check_consistency()
+{
+    for( const auto &e : npc_templates ) {
+        const auto &guy = e.second.guy;
+        if( !guy.myclass.is_valid() ) {
+            debugmsg( "Invalid NPC class %s", guy.myclass.c_str() );
+        }
+    }
 }
 
 template<>

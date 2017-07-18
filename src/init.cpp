@@ -448,4 +448,5 @@ void DynamicDataLoader::check_consistency()
     mission_type::check_consistency();
     item_action_generator::generator().check_consistency();
     harvest_list::check_consistency();
+    npc_template::check_consistency();
 }

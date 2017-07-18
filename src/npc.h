@@ -884,6 +884,7 @@ class npc_template {
 
         static void load( JsonObject &jsobj );
         static void reset();
+        static void check_consistency();
 };
 
 struct epilogue {
