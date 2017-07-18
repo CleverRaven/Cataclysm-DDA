@@ -8,8 +8,6 @@ language: c++
 
 cache: ccache
 
-script: make
-
 notifications:
   email: false
   irc: "irc.freenode.org#Cataclysm-DDA"
