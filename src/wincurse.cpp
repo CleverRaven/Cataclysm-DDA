@@ -33,8 +33,6 @@ int WindowWidth;        //Width of the actual window, not the curses window
 int WindowHeight;       //Height of the actual window, not the curses window
 int lastchar;          //the last character that was pressed, resets in getch
 int inputdelay;         //How long getch will wait for a character to be typed
-//WINDOW *_windows;  //Probably need to change this to dynamic at some point
-//int WindowCount;        //The number of curses windows currently in use
 HDC backbuffer;         //an off-screen DC to prevent flickering, lower cpu
 HBITMAP backbit;        //the bitmap that is used in conjunction wth the above
 int fontwidth;          //the width of the font, background is always this size
@@ -422,9 +420,9 @@ void curses_drawwindow(WINDOW *win)
                         break;
                     };//switch (tmp)
                 }//(tmp < 0)
-            };//for (i=0;i<_windows[w].width;i++)
+            }//for (i=0;i<win->width;i++)
         }
-    };// for (j=0;j<_windows[w].height;j++)
+    }// for (j=0;j<win->height;j++)
     win->draw=false;                //We drew the window, mark it as so
     if (update.top != -1)
     {
@@ -461,7 +459,6 @@ int projected_window_height(int)
 //Basic Init, create the font, backbuffer, etc
 WINDOW *curses_init(void)
 {
-   // _windows = new WINDOW[20];         //initialize all of our variables
     lastchar=-1;
     inputdelay=-1;
 
@@ -519,7 +516,6 @@ WINDOW *curses_init(void)
 
     SetBkMode(backbuffer, TRANSPARENT);//Transparent font backgrounds
     SelectObject(backbuffer, font);//Load our font into the DC
-//    WindowCount=0;
 
     init_colors();
 
