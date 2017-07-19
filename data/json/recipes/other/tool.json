@@ -18,7 +18,7 @@
       [ [ "mold_plastic", -1 ] ],
       [ [ "fire", -1 ], [ "hotplate", 50 ], [ "toolset", 50 ] ]
     ],
-    "components": [ 
+    "components": [
         [ [ "plastic_chunk", 3 ] ],
         [ [ "wire", 1 ] ],
         [ [ "scrap", 1 ] ],
@@ -128,7 +128,7 @@
       [ [ "pot_copper", 1 ] ],
       [ [ "hose", 2 ] ]
     ]
-  }, 
+  },
   {
     "result": "food_processor",
     "type": "recipe",

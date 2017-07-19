@@ -147,7 +147,7 @@
             "skills": [ [ "mechanics", 2 ] ],
             "qualities": [ { "id": "SCREW", "level": 1 } ]
           }
-        },        
+        },
         "flags": ["TRACK", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "ENABLED_DRAINS_EPOWER"],
         "breaks_into": [
             {"item": "scrap", "count": [0, 2]}
