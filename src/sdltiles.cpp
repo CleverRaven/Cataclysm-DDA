@@ -1844,10 +1844,7 @@ BitmapFont::BitmapFont(int w, int h)
 {
 }
 
-BitmapFont::~BitmapFont()
-{
-    clear();
-}
+BitmapFont::~BitmapFont() = default;
 
 void BitmapFont::clear()
 {
