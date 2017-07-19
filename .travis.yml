@@ -117,7 +117,7 @@ matrix:
 
 before_script:
   - ${COMPILER} --version
-  - source requirements.sh
+  - source build-scripts/requirements.sh
 
 script: make -j3 CCACHE=1 RELEASE=1 CROSS="$CROSS_COMPILATION" && $WINE ./tests/cata_test
 
