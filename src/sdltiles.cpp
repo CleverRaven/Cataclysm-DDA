@@ -1451,11 +1451,9 @@ static std::string find_system_font(std::string name, int& faceIndex)
         std::string fname;
         std::string fpath;
         std::string iline;
-        int index = 0;
         while( getline( fin, fname ) && getline( fin, fpath ) && getline( fin, iline ) ) {
-            index = atoi(iline.c_str());
             if (0 == strcasecmp(fname.c_str(), name.c_str())) {
-                faceIndex = index;
+                faceIndex = atoi( iline.c_str() );
                 return fpath;
             }
         }
