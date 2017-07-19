@@ -1121,7 +1121,7 @@ bool jmapgen_objects::check_bounds( const jmapgen_place place, JsonObject &jso )
     return true;
 }
 
-void jmapgen_objects::add(const jmapgen_place &place, std::shared_ptr<jmapgen_piece> &piece)
+void jmapgen_objects::add( const jmapgen_place &place, std::shared_ptr<jmapgen_piece> piece )
 {
     objects.emplace_back(place, piece);
 }
@@ -1136,8 +1136,7 @@ void jmapgen_objects::load_objects( JsonArray parray )
         where.offset( x_offset, y_offset );
 
         if( check_bounds( where, jsi ) ) {
-            std::shared_ptr<jmapgen_piece> what( new PieceType( jsi ) );
-            add( where, what );
+            add( where, std::make_shared<PieceType>( jsi ) );
         }
     }
 }
@@ -1154,7 +1153,7 @@ void jmapgen_objects::load_objects<jmapgen_loot>( JsonArray parray )
             continue;
         }
 
-        auto loot = new jmapgen_loot( jsi );
+        auto loot = std::make_shared<jmapgen_loot>( jsi );
         auto rate = get_option<float>( "ITEM_SPAWNRATE" );
 
         if( where.repeat.valmax != 1 ) {
@@ -1167,8 +1166,7 @@ void jmapgen_objects::load_objects<jmapgen_loot>( JsonArray parray )
             loot->chance = std::max( std::min( int( loot->chance * rate ), 100 ), 1 );
         }
 
-        std::shared_ptr<jmapgen_piece> ptr( loot );
-        add( where, ptr );
+        add( where, loot );
     }
 }
 
