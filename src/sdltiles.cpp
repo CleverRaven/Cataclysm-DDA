@@ -1932,10 +1932,7 @@ CachedTTFFont::CachedTTFFont(int w, int h)
 {
 }
 
-CachedTTFFont::~CachedTTFFont()
-{
-    clear();
-}
+CachedTTFFont::~CachedTTFFont() = default;
 
 void CachedTTFFont::clear()
 {
