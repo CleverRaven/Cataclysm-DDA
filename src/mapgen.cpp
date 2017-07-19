@@ -225,7 +225,7 @@ void mapgen_function_builtin::generate( map *m, const oter_id &o, const mapgenda
 /*
  * ptr storage.
  */
-std::map<std::string, std::vector<mapgen_function*> > oter_mapgen;
+std::map<std::string, std::vector<std::shared_ptr<mapgen_function>> > oter_mapgen;
 
 /*
  * index to the above, adjusted to allow for rarity
@@ -237,11 +237,11 @@ std::map<std::string, std::map<int, int> > oter_mapgen_weights;
  */
 void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup too
     oter_mapgen_weights.clear();
-    for( std::map<std::string, std::vector<mapgen_function*> >::const_iterator oit = oter_mapgen.begin(); oit != oter_mapgen.end(); ++oit ) {
+    for( auto oit = oter_mapgen.begin(); oit != oter_mapgen.end(); ++oit ) {
         int funcnum = 0;
         int wtotal = 0;
         oter_mapgen_weights[ oit->first ] = std::map<int, int>();
-        for( std::vector<mapgen_function*>::const_iterator fit = oit->second.begin(); fit != oit->second.end(); ++fit ) {
+        for( auto fit = oit->second.begin(); fit != oit->second.end(); ++fit ) {
             //
             int weight = (*fit)->weight;
             if ( weight < 1 ) {
@@ -266,10 +266,10 @@ void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup 
  * load a single mapgen json structure; this can be inside an overmap_terrain, or on it's own.
  */
 
-mapgen_function *load_mapgen_function( JsonObject &jio, const std::string id_base,
+std::shared_ptr<mapgen_function> load_mapgen_function( JsonObject &jio, const std::string id_base,
                                        int default_idx, const int x_offset, const int y_offset ) {
     int mgweight = jio.get_int( "weight", 1000 );
-    mapgen_function *ret = NULL;
+    std::shared_ptr<mapgen_function> ret;
     if( mgweight <= 0 || jio.get_bool( "disabled", false ) ) {
         const std::string mgtype = jio.get_string( "method" );
         if( default_idx != -1 && mgtype == "builtin" ) {
@@ -288,7 +288,7 @@ mapgen_function *load_mapgen_function( JsonObject &jio, const std::string id_bas
                 const std::string mgname = jio.get_string( "name" );
                 const auto iter = mapgen_cfunction_map.find( mgname );
                 if( iter != mapgen_cfunction_map.end() ) {
-                    ret = new mapgen_function_builtin( iter->second, mgweight );
+                    ret = std::make_shared<mapgen_function_builtin>( iter->second, mgweight );
                     oter_mapgen[id_base].push_back( ret );
                 } else {
                     debugmsg( "oter_t[%s]: builtin mapgen function \"%s\" does not exist.", id_base.c_str(), mgname.c_str() );
@@ -299,7 +299,7 @@ mapgen_function *load_mapgen_function( JsonObject &jio, const std::string id_bas
         } else if( mgtype == "lua" ) { // lua script
             if( jio.has_string("script") ) { // minified into one\nline
                 const std::string mgscript = jio.get_string( "script" );
-                ret = new mapgen_function_lua( mgscript, mgweight );
+                ret = std::make_shared<mapgen_function_lua>( mgscript, mgweight );
                 oter_mapgen[id_base].push_back( ret );
             } else if( jio.has_array("script") ) { // or 1 line per entry array
                 std::string mgscript = "";
@@ -308,7 +308,7 @@ mapgen_function *load_mapgen_function( JsonObject &jio, const std::string id_bas
                     mgscript += jascr.next_string();
                     mgscript += "\n";
                 }
-                ret = new mapgen_function_lua( mgscript, mgweight );
+                ret = std::make_shared<mapgen_function_lua>( mgscript, mgweight );
                 oter_mapgen[id_base].push_back( ret );
             // todo; pass dirname current.json, because the latter two are icky
             // } else if ( jio.has_string("file" ) { // or "same-dir-as-this/json/something.lua
@@ -322,7 +322,7 @@ mapgen_function *load_mapgen_function( JsonObject &jio, const std::string id_bas
             if( jio.has_object( "object" ) ) {
                 JsonObject jo = jio.get_object( "object" );
                 std::string jstr = jo.str();
-                ret = new mapgen_function_json( jstr, mgweight, x_offset, y_offset );
+                ret = std::make_shared<mapgen_function_json>( jstr, mgweight, x_offset, y_offset );
                 oter_mapgen[id_base].push_back( ret );
             } else {
                 debugmsg( "oter_t[%s]: Invalid mapgen function (missing \"object\" object)", id_base.c_str() );
@@ -350,8 +350,8 @@ void load_mapgen( JsonObject &jo )
                 JsonArray row_items = ja.next_array();
                 while( row_items.has_more() ) {
                     const std::string mapgenid = row_items.next_string();
-                    mapgen_function *mgfunc = load_mapgen_function( jo, mapgenid, -1, x_offset, y_offset );
-                    if( mgfunc != nullptr ) {
+                    const auto mgfunc = load_mapgen_function( jo, mapgenid, -1, x_offset, y_offset );
+                    if( mgfunc ) {
                        oter_mapgen[ mapgenid ].push_back( mgfunc );
                     }
                     x_offset++;
@@ -366,8 +366,8 @@ void load_mapgen( JsonObject &jo )
             }
             if( !mapgenid_list.empty() ) {
                 const std::string mapgenid = mapgenid_list[0];
-                mapgen_function *mgfunc = load_mapgen_function( jo, mapgenid, -1 );
-                if( mgfunc != nullptr ) {
+                const auto mgfunc = load_mapgen_function( jo, mapgenid, -1 );
+                if( mgfunc ) {
                    for( auto &i : mapgenid_list ) {
                        oter_mapgen[ i ].push_back( mgfunc );
                    }
@@ -383,18 +383,6 @@ void load_mapgen( JsonObject &jo )
 
 void reset_mapgens()
 {
-    // Because I don't know where that pointer is stored
-    // might be at multiple locations, but we must only delete it once!
-    typedef std::set<mapgen_function*> xset;
-    xset s;
-    for( auto &elem : oter_mapgen ) {
-        for( auto &_b : elem.second ) {
-            s.insert( _b );
-        }
-    }
-    for( const auto &elem : s ) {
-        delete elem;
-    }
     oter_mapgen.clear();
 }
 
@@ -1829,7 +1817,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     bool terrain_type_found = true;
     const std::string function_key = terrain_type->get_mapgen_id();
 
-    std::map<std::string, std::vector<mapgen_function*> >::const_iterator fmapit = oter_mapgen.find( function_key );
+    const auto fmapit = oter_mapgen.find( function_key );
     if ( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
         // int fidx = rng(0, fmapit->second.size() - 1); // simple unwieghted list
         std::map<std::string, std::map<int,int> >::const_iterator weightit = oter_mapgen_weights.find( function_key );
