@@ -212,7 +212,6 @@ src/start_location.h
 src/string_id.h
 src/string_input_popup.h
 src/text_snippets.h
-src/tile_id_data.h
 src/tileray.h
 src/translations.h
 src/trap.h

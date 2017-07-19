@@ -39,8 +39,6 @@
 #include "weather_gen.h"
 #include "npc.h"
 
-#include "tile_id_data.h"
-
 /*
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
