@@ -430,7 +430,7 @@ void load_overmap_terrain_mapgens(JsonObject &jo, const std::string id_base,
     if ( default_mapgen ) {
         auto const iter = mapgen_cfunction_map.find( fmapkey );
         if ( iter != mapgen_cfunction_map.end() ) {
-            oter_mapgen[fmapkey].push_back( new mapgen_function_builtin( iter->second ) );
+            oter_mapgen[fmapkey].push_back( std::make_shared<mapgen_function_builtin>( iter->second ) );
             default_idx = oter_mapgen[fmapkey].size() - 1;
         }
     }
