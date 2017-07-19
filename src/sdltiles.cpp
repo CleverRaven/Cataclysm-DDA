@@ -1646,9 +1646,7 @@ std::unique_ptr<Font> Font::load_font(const std::string &typeface, int fontsize,
         // Seems to be an image file, not a font.
         // Try to load as bitmap font.
         try {
-            std::unique_ptr<BitmapFont> bm_font( new BitmapFont( fontwidth, fontheight, FILENAMES["fontdir"] + typeface ) );
-            // It worked, tell the world to use bitmap_font.
-            return std::unique_ptr<Font>( std::move( bm_font ) );
+            return std::unique_ptr<Font>( new BitmapFont( fontwidth, fontheight, FILENAMES["fontdir"] + typeface ) );
         } catch(std::exception &err) {
             dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
             // Continue to load as truetype font
@@ -1656,9 +1654,7 @@ std::unique_ptr<Font> Font::load_font(const std::string &typeface, int fontsize,
     }
     // Not loaded as bitmap font (or it failed), try to load as truetype
     try {
-        std::unique_ptr<CachedTTFFont> ttf_font( new CachedTTFFont( fontwidth, fontheight, typeface, fontsize ) );
-        // It worked, tell the world to use cached_ttf_font
-        return std::unique_ptr<Font>( std::move( ttf_font ) );
+        return std::unique_ptr<Font>( new CachedTTFFont( fontwidth, fontheight, typeface, fontsize ) );
     } catch(std::exception &err) {
         dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
     }
