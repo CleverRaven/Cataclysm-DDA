@@ -155,11 +155,9 @@ public:
  */
 class CachedTTFFont : public Font {
 public:
-    CachedTTFFont(int w, int h);
+    CachedTTFFont( int w, int h, std::string typeface, int fontsize );
     virtual ~CachedTTFFont();
 
-    void clear();
-    void load_font(std::string typeface, int fontsize);
     virtual void OutputChar(std::string ch, int x, int y, unsigned char color);
 protected:
     SDL_Texture_Ptr create_glyph( const std::string &ch, int color );
@@ -1657,9 +1655,8 @@ std::unique_ptr<Font> Font::load_font(const std::string &typeface, int fontsize,
         }
     }
     // Not loaded as bitmap font (or it failed), try to load as truetype
-    std::unique_ptr<CachedTTFFont> ttf_font( new CachedTTFFont(fontwidth, fontheight) );
     try {
-        ttf_font->load_font(typeface, fontsize);
+        std::unique_ptr<CachedTTFFont> ttf_font( new CachedTTFFont( fontwidth, fontheight, typeface, fontsize ) );
         // It worked, tell the world to use cached_ttf_font
         return std::unique_ptr<Font>( std::move( ttf_font ) );
     } catch(std::exception &err) {
@@ -1925,24 +1922,11 @@ void BitmapFont::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, i
 
 
 
-
-CachedTTFFont::CachedTTFFont(int w, int h)
-: Font(w, h)
-, font()
-{
-}
-
 CachedTTFFont::~CachedTTFFont() = default;
 
-void CachedTTFFont::clear()
+CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, int fontsize )
+: Font( w, h )
 {
-    font.reset();
-    glyph_cache_map.clear();
-}
-
-void CachedTTFFont::load_font(std::string typeface, int fontsize)
-{
-    clear();
     int faceIndex = 0;
     const std::string sysfnt = find_system_font(typeface, faceIndex);
     if (!sysfnt.empty()) {
