@@ -1471,15 +1471,13 @@ static int test_face_size(std::string f, int size, int faceIndex)
         char* style = TTF_FontFaceStyleName( fnt.get() );
         if(style != NULL) {
             int faces = TTF_FontFaces( fnt.get() );
-            bool found = false;
-            for(int i = faces - 1; i >= 0 && !found; i--) {
+            for(int i = faces - 1; i >= 0; i--) {
                 const TTF_Font_Ptr tf( TTF_OpenFontIndex( f.c_str(), size, i ) );
                 char* ts = NULL;
                 if( tf ) {
                    if( NULL != ( ts = TTF_FontFaceStyleName( tf.get() ) ) ) {
                        if( 0 == strcasecmp( ts, style ) && TTF_FontHeight( tf.get() ) <= size ) {
-                           faceIndex = i;
-                           found = true;
+                           return i;
                        }
                    }
                 }
