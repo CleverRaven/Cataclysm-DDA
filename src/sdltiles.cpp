@@ -191,11 +191,9 @@ protected:
  */
 class BitmapFont : public Font {
 public:
-    BitmapFont(int w, int h);
+    BitmapFont( int w, int h, const std::string &path );
     virtual ~BitmapFont();
 
-    void clear();
-    void load_font(const std::string &path);
     virtual void OutputChar(std::string ch, int x, int y, unsigned char color);
     void OutputChar(long t, int x, int y, unsigned char color);
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
@@ -1649,9 +1647,8 @@ std::unique_ptr<Font> Font::load_font(const std::string &typeface, int fontsize,
     if (ends_with(typeface, ".bmp") || ends_with(typeface, ".png")) {
         // Seems to be an image file, not a font.
         // Try to load as bitmap font.
-        std::unique_ptr<BitmapFont> bm_font( new BitmapFont(fontwidth, fontheight) );
         try {
-            bm_font->load_font(FILENAMES["fontdir"] + typeface);
+            std::unique_ptr<BitmapFont> bm_font( new BitmapFont( fontwidth, fontheight, FILENAMES["fontdir"] + typeface ) );
             // It worked, tell the world to use bitmap_font.
             return std::unique_ptr<Font>( std::move( bm_font ) );
         } catch(std::exception &err) {
@@ -1839,23 +1836,11 @@ int get_terminal_height() {
     return TERMINAL_HEIGHT;
 }
 
-BitmapFont::BitmapFont(int w, int h)
-: Font(w, h)
-{
-}
-
 BitmapFont::~BitmapFont() = default;
 
-void BitmapFont::clear()
+BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface )
+: Font( w, h )
 {
-    for (size_t a = 0; a < ascii.size(); a++) {
-        ascii[a].reset();
-    }
-}
-
-void BitmapFont::load_font(const std::string &typeface)
-{
-    clear();
     dbg( D_INFO ) << "Loading bitmap font [" + typeface + "]." ;
     SDL_Surface_Ptr asciiload( IMG_Load( typeface.c_str() ) );
     if( !asciiload ) {
