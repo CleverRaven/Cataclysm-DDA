@@ -1424,8 +1424,6 @@ static void save_font_list()
 #endif
 
     bitmap_fonts.clear();
-
-    fout << "end of list" << std::endl;
 }
 
 static std::string find_system_font(std::string name, int& faceIndex)
@@ -1454,17 +1452,13 @@ static std::string find_system_font(std::string name, int& faceIndex)
         std::string fpath;
         std::string iline;
         int index = 0;
-        do {
-            getline(fin, fname);
-            if (fname == "end of list") break;
-            getline(fin, fpath);
-            getline(fin, iline);
+        while( getline( fin, fname ) && getline( fin, fpath ) && getline( fin, iline ) ) {
             index = atoi(iline.c_str());
             if (0 == strcasecmp(fname.c_str(), name.c_str())) {
                 faceIndex = index;
                 return fpath;
             }
-        } while (!fin.eof());
+        }
     }
 
     return "";
