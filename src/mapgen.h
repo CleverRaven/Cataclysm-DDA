@@ -206,7 +206,7 @@ struct jmapgen_objects {
 
     bool check_bounds( const jmapgen_place place, JsonObject &jso );
 
-    void add(const jmapgen_place &place, std::shared_ptr<jmapgen_piece> &piece);
+    void add( const jmapgen_place &place, std::shared_ptr<jmapgen_piece> piece );
 
     /**
      * PieceType must be inheriting from jmapgen_piece. It must have constructor that accepts a
