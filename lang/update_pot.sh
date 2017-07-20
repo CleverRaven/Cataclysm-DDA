@@ -32,6 +32,7 @@ xgettext --default-domain="cataclysm-dda" \
          --keyword="gettext_noop" \
          --keyword="pgettext:1c,2" \
          --keyword="ngettext:1,2" \
+         --keyword="translate_marker" \
          --from-code="UTF-8" \
          src/*.cpp src/*.h lang/json/*.py lang/extra/android/*.cpp
 if [ $? -ne 0 ]; then
