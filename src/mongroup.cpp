@@ -179,6 +179,11 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
         }
     }
 
+    // Force quantity to decrement regardless of whether we found a monster.
+    if( quantity && !monster_found ) {
+        (*quantity)--;
+    }
+
     return spawn_details;
 }
 
