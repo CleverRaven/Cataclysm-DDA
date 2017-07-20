@@ -14,6 +14,7 @@
 #include "emit.h"
 #include "units.h"
 #include "damage.h"
+#include "translations.h"
 
 #include <string>
 #include <vector>
