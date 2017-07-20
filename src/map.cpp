@@ -5101,6 +5101,8 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
                 ftype = "battery";
             } else if (type == "dehydrator") {
                 ftype = "battery";
+            } else if (type == "food_processor") {
+                ftype = "battery";
             }
 
             item tmp(type, 0); //TODO add a sane birthday arg
