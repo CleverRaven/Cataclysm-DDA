@@ -11,7 +11,8 @@
       ["atgm_heat", 1],
       ["120mm_usable_heat", 3],
       ["120mm_usable_ap", 1],
-      ["155mm_heat", 2]
+      ["155mm_frag", 2],
+      ["155mm_heat", 1]
     ]
   },{
     "type" : "item_group",
@@ -26,7 +27,8 @@
       ["atgm_heat", 1],
       ["120mm_usable_heat", 3],
       ["120mm_usable_ap", 1],
-      ["155mm_heat", 3]
+      ["155mm_frag", 2],
+      ["155mm_heat", 1]
     ]
   },{
     "type" : "item_group",
@@ -40,7 +42,8 @@
       ["atgm_heat", 1],
       ["120mm_usable_heat", 3],
       ["120mm_usable_ap", 1],
-      ["155mm_heat", 3]
+      ["155mm_frag", 2],
+      ["155mm_heat", 1]
     ]
   },{
     "type" : "item_group",
