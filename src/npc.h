@@ -184,7 +184,7 @@ enum aim_rule {
 struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
 {
     combat_engagement engagement;
-    aim_rule aim;
+    aim_rule aim = AIM_WHEN_CONVENIENT;
     bool use_guns;
     bool use_grenades;
     bool use_silent;

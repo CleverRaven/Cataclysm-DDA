@@ -228,7 +228,7 @@ void map::update_vehicle_cache( vehicle *veh, const int old_zlevel )
     const auto end = ch.veh_cached_parts.end();
     while( it != end ) {
         if( it->second.first == veh ) {
-            const auto &p = it->first;
+            const tripoint p = it->first;
             if( inbounds( p.x, p.y ) ) {
                 ch.veh_exists_at[p.x][p.y] = false;
             }
@@ -8144,10 +8144,20 @@ const level_cache &map::access_cache( int zlev ) const
 
 level_cache::level_cache()
 {
+    const int map_dimensions = SEEX * MAPSIZE * SEEY * MAPSIZE;
     transparency_cache_dirty = true;
     outside_cache_dirty = true;
+    floor_cache_dirty = false;
+    std::fill_n( &lm[0][0], map_dimensions, 0.0f );
+    std::fill_n( &sm[0][0], map_dimensions, 0.0f );
+    std::fill_n( &light_source_buffer[0][0], map_dimensions, 0.0f );
+    std::fill_n( &outside_cache[0][0], map_dimensions, false );
+    std::fill_n( &floor_cache[0][0], map_dimensions, false );
+    std::fill_n( &transparency_cache[0][0], map_dimensions, 0.0f );
+    std::fill_n( &seen_cache[0][0], map_dimensions, 0.0f );
+    std::fill_n( &visibility_cache[0][0], map_dimensions, LL_DARK );
     veh_in_active_range = false;
-    std::fill_n( &veh_exists_at[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, false );
+    std::fill_n( &veh_exists_at[0][0], map_dimensions, false );
 }
 
 pathfinding_cache::pathfinding_cache()

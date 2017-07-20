@@ -259,6 +259,7 @@ game::game() :
     w_blackspace(NULL),
     dangerous_proximity(5),
     pixel_minimap_option(0),
+    last_target( -1 ),
     safe_mode(SAFE_MODE_ON),
     safe_mode_warning_logged(false),
     mostseen(0),
@@ -268,6 +269,9 @@ game::game() :
     tileset_zoom(16),
     weather_override( WEATHER_NULL )
 {
+    remoteveh_cache_turn = INT_MIN;
+    temperature = 0;
+    reset_light_level();
     world_generator.reset( new worldfactory() );
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
