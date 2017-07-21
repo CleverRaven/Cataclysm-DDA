@@ -8108,7 +8108,7 @@
     "type": "TOOL",
     "category": "spare_parts",
     "name": "wool staple",
-    "description": "The natural cluster of wool fibres.  Could be processed to the felt patches or yarns.",
+    "description": "The natural cluster of wool fibers.  Could be processed to the felt patches or yarns.",
     "weight": 200,
     "volume": 2,
     "price": 0,
