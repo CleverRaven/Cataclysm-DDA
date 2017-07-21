@@ -1180,6 +1180,7 @@
       "//": "25% chance of an item from group cow"
     },
     "death_function": [ "NORMAL" ],
+    "starting_ammo": { "milk": 4 },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES", "FAT", "MILKABLE", "PET_WONT_FOLLOW" ]
   },
   {
