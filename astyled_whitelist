@@ -229,3 +229,6 @@ src/vitamin.h
 src/weather.h
 src/weighted_list.h
 src/worldfactory.h
+src/monexamine.h
+src/monexamine.cpp
+
