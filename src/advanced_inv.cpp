@@ -1402,6 +1402,9 @@ void advanced_inventory::display()
     ctxt.register_action( "ITEMS_DRAGGED_CONTAINER" );
     ctxt.register_action( "ITEMS_CONTAINER" );
 
+    ctxt.register_action( "ITEMS_DEFAULT" );
+    ctxt.register_action( "SAVE_DEFAULT" );
+
     exit = false;
     recalc = true;
     redraw = true;
@@ -1447,7 +1450,16 @@ void advanced_inventory::display()
         if( action == "CATEGORY_SELECTION" ) {
             inCategoryMode = !inCategoryMode;
             spane.redraw = true; // We redraw to force the color change of the highlighted line and header text.
-        } else if( action == "HELP_KEYBINDINGS" ) {
+        } else if (action == "HELP_KEYBINDINGS") {
+            redraw = true;
+        } else if (action == "ITEMS_DEFAULT") {
+            panes[left].set_area(squares[uistate.adv_inv_default_areas[left]]);
+            panes[right].set_area(squares[uistate.adv_inv_default_areas[right]]);
+            redraw = true;
+        } else if (action == "SAVE_DEFAULT") {
+            uistate.adv_inv_default_areas[left] = panes[left].get_area();
+            uistate.adv_inv_default_areas[right] = panes[right].get_area();
+            popup( _( "Default layout was saved" ) );
             redraw = true;
         } else if( get_square( action, changeSquare ) ) {
             if( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) {
