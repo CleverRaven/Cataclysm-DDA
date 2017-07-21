@@ -1147,7 +1147,7 @@
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES", "FAT" ]
   },
-  {
+    {
     "id": "mon_cow",
     "type": "MONSTER",
     "name": "cow",
@@ -1170,6 +1170,7 @@
     "melee_cut": 6,
     "dodge": 2,
     "armor_bash": 2,
+    "starting_ammo": { "milk": 4 },
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
@@ -1180,7 +1181,6 @@
       "//": "25% chance of an item from group cow"
     },
     "death_function": [ "NORMAL" ],
-    "starting_ammo": { "milk": 4 },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES", "FAT", "MILKABLE", "PET_WONT_FOLLOW" ]
   },
   {

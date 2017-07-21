@@ -13,7 +13,8 @@ void monexamine::milk_source( monster &source_mon )
     monster *mon = &source_mon;
     const auto milked_item = mon->type->starting_ammo;
     item milk( milked_item.begin()->first, 0, 1 );
-
+    
+    // Milked items must be liquids.
     if( !milk.made_of( LIQUID ) ) {
         debugmsg( "milked item must be a liquid" );
     } else {
