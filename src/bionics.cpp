@@ -34,6 +34,7 @@
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );
 const skill_id skilll_mechanics( "mechanics" );
+const skill_id skill_firstaid( "firstaid" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
@@ -977,15 +978,33 @@ bool player::install_bionics( const itype &type, int skill_level )
         pain_cap = pain_cap / 1.5;
     }
 
+    int fa_level = get_skill_level( skill_firstaid );
+
+    if( has_trait( trait_PROF_MED ) ) {
+        fa_level =+5;
+    }
+
     if( !has_trait( trait_id( "NOPAIN" ) ) && !has_trait( trait_id( "CENOBITE" ) ) ) {
         if( pk == 0 ) {
             popup( _( "You need to take painkillers to make installing bionics tolerable." ) );
             return false;
         } else if( pk < pain_cap / 2 ) {
-            popup( _( "You need to be a lot more numb to tolerate installing bionics.  Note that painkillers you've already taken might not be fully working yet." ) );
+            if( fa_level < 2 ) {
+                popup( _( "You need to be a lot more numb to tolerate installing bionics.  Note that painkillers you've already taken might not be fully working yet." ) );
+            } else if( fa_level <= 4 ) {
+                popup( _( "Intensity of painkillers you've already taken is %i, and it's less than half of the threshold that will allow you to install bionics." ), pk );
+            } else {
+                popup( _( "You need %i more painkiller intensity to install bionics." ), 100 - pk);
+            }
             return false;
         } else if( pk < pain_cap ) {
-            popup( _( "You aren't quite numb enough to tolerate installing bionics.  Note that painkillers you've already taken might not be fully working yet." ) );
+            if( fa_level < 2 ) {
+                popup( _( "You aren't quite numb enough to tolerate installing bionics.  Note that painkillers you've already taken might not be fully working yet." ) );
+            } else if( fa_level <= 4 ) {
+                popup( _( "Intensity of painkillers you've already taken is %i, and it's more than half of the threshold that will allow you to install bionics." ), pk );
+            } else {
+                popup( _( "You need %i more painkiller intensity to install bionics." ), 100 - pk );
+            }
             return false;
         }
     }
