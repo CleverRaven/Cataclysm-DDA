@@ -173,7 +173,6 @@ static const std::map<std::string, oter_flags> oter_flags_map = {
     { "KNOWN_UP",       known_up       },
     { "RIVER",          river_tile     },
     { "SIDEWALK",       has_sidewalk   },
-    { "ALLOW_OVERRIDE", allow_override },
     { "NO_ROTATE",      no_rotate      },
     { "LINEAR",         line_drawing   }
 };
