@@ -693,7 +693,6 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         map_stack source_stack = g->m.i_at( source_pos );
         std::list<item>::iterator on_ground;
         monster *source_mon = nullptr;
-        int current_dur = 0;
         item liquid;
         const auto source_type = static_cast<liquid_source_type>( act.values.at( 0 ) );
         switch( source_type ) {
