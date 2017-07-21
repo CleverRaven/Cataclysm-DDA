@@ -446,3 +446,27 @@ void start_location::handle_heli_crash( player &u ) const
         }
     }
 }
+
+static void add_monsters( const tripoint &omtstart, const mongroup_id &type, float expected_points )
+{
+    const tripoint spawn_location = omt_to_sm_copy( omtstart );
+    tinymap m;
+    m.load( spawn_location.x, spawn_location.y, spawn_location.z, false );
+    // map::place_spawns internally multiplies density by rng(10, 50)
+    float density = expected_points / ( ( 10 + 50 ) / 2 );
+    m.place_spawns( type, 1, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, density );
+    m.save();
+}
+
+void start_location::surround_with_monsters( const tripoint &omtstart, const mongroup_id &type,
+        float expected_points ) const
+{
+    for( int x_offset = -1; x_offset <= 1; x_offset++ ) {
+        for( int y_offset = -1; y_offset <= 1; y_offset++ ) {
+            if( x_offset != 0 || y_offset != 0 ) {
+                add_monsters( omtstart + point( x_offset, y_offset ), type,
+                              roll_remainder( expected_points / 8.0f ) );
+            }
+        }
+    }
+}

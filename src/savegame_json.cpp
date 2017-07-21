@@ -36,7 +36,6 @@
 #include "recipe_dictionary.h"
 #include "player_activity.h"
 
-#include "tile_id_data.h" // for monster::json_save
 #include <ctime>
 #include <bitset>
 

@@ -490,7 +490,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "Well damn, you must be the guys here to pick me up...",
-      "offer": "I got the brief so I know what I'm getting into.  Let me be upfront, treat me like shit and I'm going to cover my own hide.  Without a strong band a man doesn't stand a chance in this world.  You ready to take charge boss?",
+      "offer": "I got the brief so I know what I'm getting into.  Let me be upfront, treat me like shit and I'm going to cover my own hide.  However, you treat me well and give me something to believe in, even if it's just a shiny bit of metal, and I'll do you right.  Without a strong band a man doesn't stand a chance in this world.  You ready to take charge boss?  This world could use a Sheriff just about now.",
       "accepted": "Before we get into a major fight just make sure we have the gear we need, boss.",
       "rejected": "I don't think you're going to find many other survivors who haven't taken up a faction yet.",
       "advice": "I'm a pretty good shot with a rifle or pistol.",

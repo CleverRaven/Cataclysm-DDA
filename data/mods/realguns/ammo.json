@@ -171,6 +171,8 @@
     "name": "reloaded 10mm Auto",
     "name_plural": "reloaded 10mm Auto",
     "description": "10mm Auto ammunition with 155gr bullets.  The 10mm Auto round is one of the most powerful pistol cartridges available, although its usefulness is limited by high recoil.",
+    "range": 16,
+    "recoil": 915,
     "delete": { "ammo_type": [ "40" ] }
   },
   {

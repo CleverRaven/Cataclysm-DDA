@@ -969,6 +969,27 @@ bool player::install_bionics( const itype &type, int skill_level )
         return false;
     }
 
+    const int pk = get_painkiller();
+    int pain_cap = 100;
+    if( has_trait( trait_id( "PAINRESIST_TROGLO" ) ) ) {
+        pain_cap = pain_cap / 2;
+    } else if( has_trait( trait_id( "PAINRESIST" ) ) ) {
+        pain_cap = pain_cap / 1.5;
+    }
+
+    if( !has_trait( trait_id( "NOPAIN" ) ) && !has_trait( trait_id( "CENOBITE" ) ) ) {
+        if( pk == 0 ) {
+            popup( _( "You need to take painkillers to make installing bionics tolerable." ) );
+            return false;
+        } else if( pk < pain_cap / 2 ) {
+            popup( _( "You need to be a lot more numb to tolerate installing bionics.  Note that painkillers you've already taken might not be fully working yet." ) );
+            return false;
+        } else if( pk < pain_cap ) {
+            popup( _( "You aren't quite numb enough to tolerate installing bionics.  Note that painkillers you've already taken might not be fully working yet." ) );
+            return false;
+        }
+    }
+
     if( !query_yn( _( "WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Continue anyway?" ),
                    ( 100 - int( chance_of_success ) ) ) ) {
         return false;

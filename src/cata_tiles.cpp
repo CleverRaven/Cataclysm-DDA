@@ -35,12 +35,25 @@
 #include <fstream>
 #include <stdlib.h>     /* srand, rand */
 #include <sstream>
+#include <array>
 
 #include <SDL_image.h>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 #define ITEM_HIGHLIGHT "highlight_item"
+
+static const std::array<std::string, 8> multitile_keys = {{
+        "center",
+        "corner",
+        "edge",
+        "t_connection",
+        "end_piece",
+        "unconnected",
+        "open",
+        "broken"
+    }
+};
 
 extern int WindowHeight, WindowWidth;
 extern int fontwidth, fontheight;

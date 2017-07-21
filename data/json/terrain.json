@@ -4101,7 +4101,7 @@
         "color": "blue",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER", "FISHABLE"],
-        "connects_to": "WATER",        
+        "connects_to": "WATER",
         "examine_action": "water_source"
     },{
         "type" : "terrain",

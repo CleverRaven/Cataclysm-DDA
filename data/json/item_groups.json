@@ -8477,7 +8477,7 @@
 "id" : "museum_guns",
 "items" : [
       ["pistol_flintlock", 60],
-      ["carbine_flintlock", 4],
+      ["carbine_flintlock", 40],
       ["rifle_flintlock", 60],
       ["flintlock_pouch", 30],
       ["flintlock_ammo", 60],
