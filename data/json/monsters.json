@@ -1147,7 +1147,7 @@
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES", "FAT" ]
   },
-    {
+  {
     "id": "mon_cow",
     "type": "MONSTER",
     "name": "cow",
