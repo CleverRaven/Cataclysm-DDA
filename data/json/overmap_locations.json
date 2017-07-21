@@ -23,11 +23,36 @@
         "type": "overmap_location",
         "id": "water",
         "mode": "allow",
-        "terrains": [ "river" ]
+        "terrains": [
+            "river",
+            "river_center",
+            "river_c_not_ne",
+            "river_c_not_nw",
+            "river_c_not_se",
+            "river_c_not_sw",
+            "river_ne",
+            "river_se",
+            "river_sw",
+            "river_nw"
+        ]
     },{
         "type": "overmap_location",
         "id": "wilderness",
         "mode": "allow",
         "terrains": [ "forest", "forest_thick", "field" ]
+    },{
+        "type": "overmap_location",
+        "id": "subterranean",
+        "mode": "allow",
+        "terrains": [
+            "cavern",
+            "empty_rock",
+            "hellmouth",
+            "rift",
+            "rock",
+            "slimepit",
+            "sewer",
+            "subway"
+        ]
     }
 ]

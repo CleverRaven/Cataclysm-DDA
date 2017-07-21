@@ -22,6 +22,7 @@ struct oter_t;
 struct oter_type_t;
 struct overmap_location;
 
+class overmap_connection;
 class overmap_special_batch;
 
 /** Direction on the overmap. */
@@ -76,6 +77,9 @@ type opposite( type dir );
 
 /** Returns a random direction. */
 type random();
+
+/** Whether these directions are parralell. */
+bool are_parallel( type dir1, type dir2 );
 
 };
 
@@ -166,6 +170,10 @@ struct oter_type_t {
             return !has_flag( no_rotate ) && !has_flag( line_drawing );
         }
 
+        bool is_linear() const {
+            return has_flag( line_drawing );
+        }
+
     private:
         std::bitset<num_oter_flags> flags;
         std::vector<oter_id> directional_peers;
@@ -231,7 +239,6 @@ struct oter_t {
         bool type_is( const int_id<oter_type_t> &type_id ) const;
         bool type_is( const oter_type_t &type ) const;
 
-        bool can_connect_to( const int_id<oter_t> &oter ) const;
         bool has_connection( om_direction::type dir ) const;
 
         bool has_flag( oter_flags flag ) const {
@@ -242,6 +249,10 @@ struct oter_t {
 
         bool is_rotatable() const {
             return type->is_rotatable();
+        }
+
+        bool is_linear() const {
+            return type->is_linear();
         }
 
         bool is_river() const {
@@ -301,7 +312,8 @@ struct overmap_special_terrain : public JsonDeserializer {
 
 struct overmap_special_connection : public JsonDeserializer {
     tripoint p;
-    string_id<oter_type_t> terrain;
+    string_id<oter_type_t> terrain; // TODO: Remove it.
+    string_id<overmap_connection> connection;
     bool existing = false;
 
     void deserialize( JsonIn &jsin ) override {
@@ -346,6 +358,18 @@ class overmap_special
         void finalize();
         void check() const;
 };
+
+namespace overmap_terrains
+{
+
+void load( JsonObject &jo, const std::string &src );
+void check_consistency();
+void finalize();
+void reset();
+
+size_t count();
+
+}
 
 namespace overmap_specials
 {
