@@ -1974,7 +1974,7 @@ int petfood( player *p, item *it, Petfood animal_food_type )
             break;
         case CATTLEFODDER:
             if( mon.has_flag( MF_MILKABLE ) ) {
-                add_msg( m_good, _( "The cow seems to like you! It lets you pat her and seems friendly." ) );
+                add_msg( m_good, _( "The %s seems to like you! It lets you pat its head and seems friendly." ), mon.get_name().c_str() );
                 mon.friendly = -1;
                 mon.add_effect( effect_pet, 1, num_bp, true );
                 return 1;
