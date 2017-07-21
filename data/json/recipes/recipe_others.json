@@ -191,6 +191,19 @@
   "components": [ [ ["chitin_piece", 1] ] ]
 },{
   "type" : "recipe",
+  "result": "meal_chitin_piece",
+  "id_suffix": "with_food_processor",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 15000,
+  "autolearn": true,
+  "batch_time_factors":[83, 3],
+  "tools": [ [ [ "food_processor", 20 ] ] ],
+  "components": [ [ ["chitin_piece", 1] ] ]
+},{
+  "type" : "recipe",
   "result": "reinforced_glass_sheet",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
