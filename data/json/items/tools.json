@@ -8276,7 +8276,7 @@
     "type": "TOOL",
     "name": "cattle fodder",
     "name_plural": "cattle fodder",
-    "description": "What cattle eats. Mainly made of grass, silages or legumes, is perfect for rumiants.",
+    "description": "What cattle eats. Mainly made of grass, silages or legumes, is perfect for ruminants.",
     "weight": 300,
     "volume": 1,
     "price": 100,

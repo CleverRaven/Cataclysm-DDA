@@ -1943,7 +1943,6 @@ int petfood( player *p, item *it, Petfood animal_food_type )
         // This switch handles each petfood for each type of tameable monster.
         switch( animal_food_type ) {
         case DOGFOOD:
-
             if( mon.type->id == mon_dog_thing ) {
                 p->deal_damage( &mon, bp_hand_r, damage_instance( DT_CUT, rng( 1, 10 ) ) );
                 add_msg( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
@@ -1974,7 +1973,7 @@ int petfood( player *p, item *it, Petfood animal_food_type )
             }
             break;
         case CATTLEFODDER:
-            if( mon.has_flag( MF_MILKABLE )  ) {
+            if( mon.has_flag( MF_MILKABLE ) ) {
                 add_msg( m_good, _( "The cow seems to like you! It lets you pat her and seems friendly." ) );
                 mon.friendly = -1;
                 mon.add_effect( effect_pet, 1, num_bp, true );
