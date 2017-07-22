@@ -1544,7 +1544,7 @@
     "sub": "hotplate",
     "max_charges": 200,
     "charges_per_use": 1,
-    "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 2 ], [ "BOIL", 1 ] ],
+    "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
     "use_action": "HOTPLATE"
   },
   {
@@ -2203,6 +2203,7 @@
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "CUT", 1 ], [ "PRY", 1 ], [ "BUTCHER", 15 ] ],
+    "use_action": "CROWBAR",
     "flags": [ "SHEATH_KNIFE" ]
   },
   {
@@ -2720,6 +2721,7 @@
     "material": "paper",
     "symbol": "*",
     "color": "red",
+    "turns_per_charge": 7,
     "use_action": "FIRECRACKER_PACK_ACT",
     "flags": [ "TRADER_AVOID" ]
   },
@@ -8107,7 +8109,7 @@
     "type": "TOOL",
     "category": "spare_parts",
     "name": "wool staple",
-    "description": "The natural cluster of wool fibres.  Could be processed to the felt patches or yarns.",
+    "description": "The natural cluster of wool fibers.  Could be processed to the felt patches or yarns.",
     "weight": 200,
     "volume": 2,
     "price": 0,

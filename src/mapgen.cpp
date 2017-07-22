@@ -249,11 +249,7 @@ void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup 
                 ++funcnum;
                 continue; // rejected!
             }
-            if( !(*fit)->setup() ) {
-                dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): (rej(2), " << weight << ") = " << wtotal;
-                ++funcnum;
-                continue; // disqualify! doesn't get to play in the pool
-            }
+            (*fit)->setup();
             wtotal += weight;
             oter_mapgen_weights[ oit->first ][ wtotal ] = funcnum;
             dbg(D_INFO) << "wcalc " << oit->first << "(" << funcnum << "): +" << weight << " = " << wtotal;
@@ -656,11 +652,11 @@ public:
  */
 class jmapgen_npc : public jmapgen_piece {
 public:
-    std::string npc_class;
+    string_id<npc_template> npc_class;
     jmapgen_npc( JsonObject &jsi ) : jmapgen_piece()
     , npc_class( jsi.get_string( "class" ) )
     {
-        if( npc::_all_npc.count( npc_class ) == 0 ) {
+        if( !npc_class.is_valid() ) {
             jsi.throw_error( "unknown npc class", "class" );
         }
     }
@@ -1469,135 +1465,124 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
 /*
  * Parse json, pre-calculating values for stuff, then cheerfully throw json away. Faster than regular mapf, in theory
  */
-bool mapgen_function_json::setup() {
+void mapgen_function_json::setup() {
     if ( is_ready ) {
-        return true;
-    }
-    if ( jdata.empty() ) {
-        return false;
+        return;
     }
     std::istringstream iss( jdata );
-    try {
-        JsonIn jsin(iss);
-        JsonObject jo = jsin.get_object();
-        bool qualifies = false;
-        ter_str_id tmpval;
-        JsonArray parray;
-        JsonArray sparray;
-        JsonObject pjo;
+    JsonIn jsin(iss);
+    JsonObject jo = jsin.get_object();
+    bool qualifies = false;
+    ter_str_id tmpval;
+    JsonArray parray;
+    JsonArray sparray;
+    JsonObject pjo;
 
-        // mapgensize = jo.get_int("mapgensize", 24); // eventually..
+    // mapgensize = jo.get_int("mapgensize", 24); // eventually..
 
-        // something akin to mapgen fill_background.
-        if ( jo.read("fill_ter", tmpval) ) {
-            fill_ter = tmpval.id();
-            qualifies = true;
-            tmpval = ter_str_id::NULL_ID();
-        }
-
-        format.resize( mapgensize * mapgensize );
-        // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
-        if ( jo.has_array("rows") ) {
-            mapgen_palette palette = mapgen_palette::load_temp( jo, "dda" );
-            auto &format_terrain = palette.format_terrain;
-            auto &format_furniture = palette.format_furniture;
-            auto &format_placings = palette.format_placings;
-
-            if( format_terrain.empty() ) {
-                jsin.error( "format: no terrain map" );
-            }
-
-            // mandatory: 24 rows of 24 character lines, each of which must have a matching key in "terrain",
-            // unless fill_ter is set
-            // "rows:" [ "aaaajustlikeinmapgen.cpp", "this.must!be!exactly.24!", "and_must_match_terrain_", .... ]
-            parray = jo.get_array( "rows" );
-            if ( parray.size() < mapgensize + y_offset ) {
-                parray.throw_error( string_format( "  format: rows: must have at least %d rows, not %d",
-                                                   mapgensize + y_offset, parray.size() ));
-            }
-            for( size_t c = y_offset; c < mapgensize + y_offset; c++ ) {
-                const auto tmpval = parray.get_string( c );
-                if ( tmpval.size() < mapgensize + x_offset ) {
-                    parray.throw_error( string_format( "  format: row %d must have at least %d columns, not %d",
-                                                       c + 1, mapgensize + x_offset, tmpval.size()));
-                }
-                for ( size_t i = x_offset; i < mapgensize + x_offset; i++ ) {
-                    const int tmpkey = tmpval[i];
-                    auto iter_ter = format_terrain.find( tmpkey );
-                    if ( iter_ter != format_terrain.end() ) {
-                        format[ calc_index( i - x_offset, c - y_offset ) ].ter = iter_ter->second;
-                    } else if ( ! qualifies ) { // fill_ter should make this kosher
-                        parray.throw_error( string_format( "  format: rows: row %d column %d: '%c' is not in 'terrain', and no 'fill_ter' is set!",
-                                                           c + 1, i + 1, (char)tmpkey ) );
-                    }
-                    auto iter_furn = format_furniture.find( tmpkey );
-                    if ( iter_furn != format_furniture.end() ) {
-                        format[ calc_index( i - x_offset, c - y_offset ) ].furn = iter_furn->second;
-                    }
-                    const auto fpi = format_placings.find( tmpkey );
-                    if( fpi != format_placings.end() ) {
-                        jmapgen_place where( i - x_offset, c - y_offset );
-                        for( auto &what: fpi->second ) {
-                            objects.add(where, what);
-                        }
-                    }
-                }
-            }
-            qualifies = true;
-            do_format = true;
-       }
-
-       // No fill_ter? No format? GTFO.
-       if ( ! qualifies ) {
-           jo.throw_error("  Need either 'fill_terrain' or 'rows' + 'terrain' (RTFM)");
-           // todo: write TFM.
-       }
-
-       if ( jo.has_array("set") ) {
-            parray = jo.get_array("set");
-            setup_setmap( parray );
-       }
-        if( jo.has_member( "rotation" ) ) {
-            rotation = jmapgen_int( jo, "rotation" );
-        }
-        // this is for backwards compatibility, it should better be named place_items
-        objects.load_objects<jmapgen_spawn_item>( jo, "add" );
-        objects.load_objects<jmapgen_field>( jo, "place_fields" );
-        objects.load_objects<jmapgen_npc>( jo, "place_npcs" );
-        objects.load_objects<jmapgen_sign>( jo, "place_signs" );
-        objects.load_objects<jmapgen_vending_machine>( jo, "place_vendingmachines" );
-        objects.load_objects<jmapgen_toilet>( jo, "place_toilets" );
-        objects.load_objects<jmapgen_liquid_item>( jo, "place_liquids" );
-        objects.load_objects<jmapgen_gaspump>( jo, "place_gaspumps" );
-        objects.load_objects<jmapgen_item_group>( jo, "place_items" );
-        objects.load_objects<jmapgen_loot>( jo, "place_loot" );
-        objects.load_objects<jmapgen_monster_group>( jo, "place_monsters" );
-        objects.load_objects<jmapgen_vehicle>( jo, "place_vehicles" );
-        objects.load_objects<jmapgen_trap>( jo, "place_traps" );
-        objects.load_objects<jmapgen_furniture>( jo, "place_furniture" );
-        objects.load_objects<jmapgen_terrain>( jo, "place_terrain" );
-        objects.load_objects<jmapgen_monster>( jo, "place_monster" );
-        objects.load_objects<jmapgen_make_rubble>( jo, "place_rubble" );
-
-       if ( jo.has_string("lua") ) { // minified into one\nline
-           luascript = jo.get_string("lua");
-       } else if ( jo.has_array("lua") ) { // or 1 line per entry array
-           luascript = "";
-           JsonArray jascr = jo.get_array("lua");
-           while ( jascr.has_more() ) {
-               luascript += jascr.next_string();
-               luascript += "\n";
-           }
-       }
-
-    } catch( const JsonError &e ) {
-        debugmsg("Bad JSON mapgen, discarding:\n  %s\n", e.c_str() );
-        jdata.clear(); // silently fail further attempts
-        return false;
+    // something akin to mapgen fill_background.
+    if ( jo.read("fill_ter", tmpval) ) {
+        fill_ter = tmpval.id();
+        qualifies = true;
+        tmpval = ter_str_id::NULL_ID();
     }
-    jdata.clear(); // ssh, we're not -really- a json function <.<
+
+    format.resize( mapgensize * mapgensize );
+    // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
+    if ( jo.has_array("rows") ) {
+        mapgen_palette palette = mapgen_palette::load_temp( jo, "dda" );
+        auto &format_terrain = palette.format_terrain;
+        auto &format_furniture = palette.format_furniture;
+        auto &format_placings = palette.format_placings;
+
+        if( format_terrain.empty() ) {
+            jsin.error( "format: no terrain map" );
+        }
+
+        // mandatory: 24 rows of 24 character lines, each of which must have a matching key in "terrain",
+        // unless fill_ter is set
+        // "rows:" [ "aaaajustlikeinmapgen.cpp", "this.must!be!exactly.24!", "and_must_match_terrain_", .... ]
+        parray = jo.get_array( "rows" );
+        if ( parray.size() < mapgensize + y_offset ) {
+            parray.throw_error( string_format( "  format: rows: must have at least %d rows, not %d",
+                                               mapgensize + y_offset, parray.size() ));
+        }
+        for( size_t c = y_offset; c < mapgensize + y_offset; c++ ) {
+            const auto tmpval = parray.get_string( c );
+            if ( tmpval.size() < mapgensize + x_offset ) {
+                parray.throw_error( string_format( "  format: row %d must have at least %d columns, not %d",
+                                                   c + 1, mapgensize + x_offset, tmpval.size()));
+            }
+            for ( size_t i = x_offset; i < mapgensize + x_offset; i++ ) {
+                const int tmpkey = tmpval[i];
+                auto iter_ter = format_terrain.find( tmpkey );
+                if ( iter_ter != format_terrain.end() ) {
+                    format[ calc_index( i - x_offset, c - y_offset ) ].ter = iter_ter->second;
+                } else if ( ! qualifies ) { // fill_ter should make this kosher
+                    parray.throw_error( string_format( "  format: rows: row %d column %d: '%c' is not in 'terrain', and no 'fill_ter' is set!",
+                                                       c + 1, i + 1, (char)tmpkey ) );
+                }
+                auto iter_furn = format_furniture.find( tmpkey );
+                if ( iter_furn != format_furniture.end() ) {
+                    format[ calc_index( i - x_offset, c - y_offset ) ].furn = iter_furn->second;
+                }
+                const auto fpi = format_placings.find( tmpkey );
+                if( fpi != format_placings.end() ) {
+                    jmapgen_place where( i - x_offset, c - y_offset );
+                    for( auto &what: fpi->second ) {
+                        objects.add(where, what);
+                    }
+                }
+            }
+        }
+        qualifies = true;
+        do_format = true;
+   }
+
+   // No fill_ter? No format? GTFO.
+   if ( ! qualifies ) {
+       jo.throw_error("  Need either 'fill_terrain' or 'rows' + 'terrain' (RTFM)");
+       // todo: write TFM.
+   }
+
+   if ( jo.has_array("set") ) {
+        parray = jo.get_array("set");
+        setup_setmap( parray );
+   }
+    if( jo.has_member( "rotation" ) ) {
+        rotation = jmapgen_int( jo, "rotation" );
+    }
+    // this is for backwards compatibility, it should better be named place_items
+    objects.load_objects<jmapgen_spawn_item>( jo, "add" );
+    objects.load_objects<jmapgen_field>( jo, "place_fields" );
+    objects.load_objects<jmapgen_npc>( jo, "place_npcs" );
+    objects.load_objects<jmapgen_sign>( jo, "place_signs" );
+    objects.load_objects<jmapgen_vending_machine>( jo, "place_vendingmachines" );
+    objects.load_objects<jmapgen_toilet>( jo, "place_toilets" );
+    objects.load_objects<jmapgen_liquid_item>( jo, "place_liquids" );
+    objects.load_objects<jmapgen_gaspump>( jo, "place_gaspumps" );
+    objects.load_objects<jmapgen_item_group>( jo, "place_items" );
+    objects.load_objects<jmapgen_loot>( jo, "place_loot" );
+    objects.load_objects<jmapgen_monster_group>( jo, "place_monsters" );
+    objects.load_objects<jmapgen_vehicle>( jo, "place_vehicles" );
+    objects.load_objects<jmapgen_trap>( jo, "place_traps" );
+    objects.load_objects<jmapgen_furniture>( jo, "place_furniture" );
+    objects.load_objects<jmapgen_terrain>( jo, "place_terrain" );
+    objects.load_objects<jmapgen_monster>( jo, "place_monster" );
+    objects.load_objects<jmapgen_make_rubble>( jo, "place_rubble" );
+
+    if ( jo.has_string("lua") ) { // minified into one\nline
+        luascript = jo.get_string("lua");
+    } else if ( jo.has_array("lua") ) { // or 1 line per entry array
+        luascript = "";
+        JsonArray jascr = jo.get_array("lua");
+        while ( jascr.has_more() ) {
+            luascript += jascr.next_string();
+            luascript += "\n";
+        }
+    }
+
     is_ready = true; // skip setup attempts from any additional pointers
-    return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -8476,32 +8461,31 @@ void map::place_spawns(const mongroup_id& group, const int chance,
         return;
     }
 
-    float multiplier = get_option<float>( "SPAWN_DENSITY" );
-
-    if( multiplier == 0.0 ) {
+    if( !one_in( chance ) ) {
         return;
     }
 
-    if (one_in(chance / multiplier)) {
-        int num = density * (float)rng(10, 50) * multiplier;
+    float multiplier = density * get_option<float>( "SPAWN_DENSITY" );
+    float thenum = ( multiplier * rng_float( 10.0f, 50.0f ) );
+    int num = roll_remainder( thenum );
 
-        for (int i = 0; i < num; i++) {
-            int tries = 10;
-            int x = 0;
-            int y = 0;
+    // GetResultFromGroup decrements num
+    while( num > 0 ) {
+        int tries = 10;
+        int x = 0;
+        int y = 0;
 
-            // Pick a spot for the spawn
-            do {
-                x = rng(x1, x2);
-                y = rng(y1, y2);
-                tries--;
-            } while( impassable(x, y) && tries );
+        // Pick a spot for the spawn
+        do {
+            x = rng( x1, x2 );
+            y = rng( y1, y2 );
+            tries--;
+        } while( impassable( x, y ) && tries > 0 );
 
-            // Pick a monster type
-            MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &num );
+        // Pick a monster type
+        MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &num );
 
-            add_spawn(spawn_details.name, spawn_details.pack_size, x, y);
-        }
+        add_spawn( spawn_details.name, spawn_details.pack_size, x, y );
     }
 }
 
@@ -8551,7 +8535,7 @@ void map::place_vending(int x, int y, std::string type)
     place_items( type, broken ? 40 : 99, x, y, x, y, false, 0 );
 }
 
-int map::place_npc( int x, int y, const std::string &type )
+int map::place_npc( int x, int y, const string_id<npc_template> &type )
 {
     if(!get_option<bool>( "STATIC_NPC" ) ) {
         return -1; //Do not generate an npc.

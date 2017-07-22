@@ -2583,7 +2583,7 @@
             "bio_power_storage_mkII"
         ],
         "skills": [
-            
+
             {
                 "level": 3,
                 "name": "dodge"
@@ -4292,7 +4292,7 @@
         ],
         "items": {
             "both": {
-                "items": [			              
+                "items": [
                 "gold_ear",
                 "pants_survivor",
                 "motorbike_boots",

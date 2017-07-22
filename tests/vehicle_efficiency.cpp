@@ -361,27 +361,26 @@ TEST_CASE( "vehicle_make_efficiency_case", "[.]" ) {
 // Amount of cruising range for a fixed amount of fuel.
 // Fix test for electric vehicles
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" ) {
-    test_vehicle( "beetle", 124100, 120300, 12580, 12330 );
-    test_vehicle( "car", 122400, 103000, 12650, 8434 );
-    test_vehicle( "car_sports", 285800, 184900, 15780, 9458 );
-    test_vehicle( "suv", 326800, 232000, 28420, 15720 );
-    test_vehicle( "motorcycle", 13890, 11480, 2304, 1302 );
-    test_vehicle( "quad_bike", 11060, 10030, 1963, 1302 );
-    test_vehicle( "scooter", 9053, 9053, 1723, 1723 );
-    test_vehicle( "superbike", 25490, 18240, 3152, 1576 );
-    test_vehicle( "ambulance", 357900, 334800, 22430, 20000 );
-    test_vehicle( "fire_engine", 379900, 372300, 25660, 24510 );
-    test_vehicle( "fire_truck", 303100, 101800, 19610, 4804 );
-    test_vehicle( "truck_swat", 252000, 69850, 21020, 4691 );
-    test_vehicle( "tractor_plow", 172500, 172500, 14120, 14120 );
-    test_vehicle( "apc", 901700, 864600, 70900, 65660 );
-    test_vehicle( "humvee", 368900, 270600, 25160, 13580 );
+    test_vehicle( "beetle", 117600, 113600, 12580, 12580 );
+    test_vehicle( "car", 115300, 95760, 12650, 8434 );
+    test_vehicle( "car_sports", 243500, 165100, 15780, 9458 );
+    test_vehicle( "suv", 294300, 228400, 27040, 15720 );
+    test_vehicle( "motorcycle", 15700, 14020, 2304, 1322 );
+    test_vehicle( "quad_bike", 11400, 10610, 1963, 1302 );
+    test_vehicle( "scooter", 9692, 9692, 1723, 1723 );
+    test_vehicle( "superbike", 32140, 24510, 3322, 1576 );
+    test_vehicle( "ambulance", 253600, 234500, 22430, 19610 );
+    test_vehicle( "fire_engine", 296300, 287300, 24740, 23760 );
+    test_vehicle( "fire_truck", 220100, 67040, 18700, 4804 );
+    test_vehicle( "truck_swat", 198100, 69170, 21020, 4691 );
+    test_vehicle( "tractor_plow", 145500, 145500, 14120, 14120 );
+    test_vehicle( "apc", 623700, 625000, 65960, 60720 );
+    test_vehicle( "humvee", 293100, 189800, 25160, 13580 );
+
 }
 
 TEST_CASE( "electric_vehicle_efficiency", "[.vehicle]" ) {
-    // The tests for electric veh are inaccurate:
-    // Real tests show it draining ~12.5% of all charge per overmap made of dirt
-    // While same test for car shows ~5%
-    // Meaning car range should be 250% the electric car here, but is 200%
-    test_vehicle( "electric_car", 70950, 51480, 3709, 2519 );
+    // Electric vehicle tests are currently inaccurate
+    // due to battery charge having weight
+    test_vehicle( "electric_car", 63080, 45410, 3629, 2519 );
 }

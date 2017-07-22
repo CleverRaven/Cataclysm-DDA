@@ -22,60 +22,14 @@ Current policy is to only update code to the standard style when changing a subs
 
 ## Translations
 
-The game uses [gettext](https://www.gnu.org/software/gettext/) to display translated texts.
+The translation of Cataclysm: DDA is done using Transifex.
+Look at the [translation project](https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/) for an up-to-date list of supported languages.
 
-This requires two actions:
-- Marking strings that should be translated in the source.
-- Calling translation functions at run time.
+See [TRANSLATING](doc/TRANSLATING.md) for more information:
 
-The first action allows automatically extracting those strings, which are given to the translator team. They return a file that maps the original string (usually in English) as it appears in the code to the translated string. This is used at run time by the translation functions (the second action).
-
-Note that only extracted strings can get translated. The original string is used to request the translation, in other words: the original string is the identifier used for a specific translation. If the function doesn't know the translation, it returns the original string.
-
-The empty string is always translated into some debug information, not into an empty string. In most situations, the string can be expected to be non-empty, so you can always translate it. If the string *could* be empty (and it needs to remain empty after the translation), you'll have to check for this and only translate if non-empty.
-
-Error messages (which indicate a bug in the program) and debug messages should not be translated. If they appear, the player is expected to report them *exactly* as they were printed by the game.
-
-In practice, you should use one of the following three functions in the source code to get a translation.
-
-String *literals* that are used in any of these functions are automatically extracted. Non-literal strings are translated at run time, but they won't get extracted.
-```C++
-const char *translated = _("text"); // marked for extraction
-const char *untranslated = "text"; // same string as the original above.
-// This translates because the input string "text" has been marked
-// and a translation for it will be available
-const char *translated_again = _(untranslated);
-untranslated = "other text";
-// This does not translate, the string "other text" was never marked for translation
-// and the translation system therefor doesn't know how to translate it.
-translated_again = _(untranslated);
-```
-
-Strings from the JSON data files are extracted via the "lang/extract_json_strings.py" script. They can be translated at run time using `_()`.
-
-### Using `_()`
-
-For simple C-strings:
-```c++
-const char *translated = _( "original text" );
-// also works directly:
-add_msg( _( "You drop the %s." ), the_item_name );
-```
-
-### Using `pgettext()`
-
-If the original string is short or its meaning in isolation is ambiguous (e.g. "blue" can be a color or an emotion), one can add a context to the string. The context is provided to the translators, but is not part of the translated string itself. This is done by calling `pgettext`.  This function's first parameter is the context, the second is the string to be translated.
-```c++
-const char *translated = pgettext("The direction: East", "E");
-```
-
-### Using `ngettext()`
-
-Many languages have plural forms.  Some have complex rules for how to form these. To translate the plural form correctly, use `ngettext`.  Its first parameter is the untranslated string in singular, the second parameter is the untranslated string in plural form and the third is used to determine the required plural form.
-```c++
-const char *translated = ngettext( "one zombie.", "many zombies", num_zombies );
-```
-Some classes (like `itype` and `mtype`) provide a wrapper for these functions, named `nname`.
+* [For translators](doc/TRANSLATING.md#translators)
+* [For developers](doc/TRANSLATING.md#developers)
+* [For maintainers](doc/TRANSLATING.md#maintainers)
 
 ## Doxygen Comments
 
@@ -294,7 +248,7 @@ With these commands, you should be able to recreate the proper conditions to tes
 
 ## Frequently Asked Questions
 
-####Why does `git pull --ff-only` result in an error?
+#### Why does `git pull --ff-only` result in an error?
 
 If `git pull --ff-only` shows an error, it means that you've committed directly to your local `master` branch. To fix this, we create a new branch with these commits, find the point at which we diverged from `upstream/master`, and then reset `master` to that point.
 

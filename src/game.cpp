@@ -327,10 +327,10 @@ bool game::check_mod_data( const std::vector<std::string> &opts )
         // if no loadable mods then test core data only
         try {
             load_core_data();
+            DynamicDataLoader::get_instance().finalize_loaded_data();
         } catch( const std::exception &err ) {
             std::cerr << "Error loading data from json: " << err.what() << std::endl;
         }
-        DynamicDataLoader::get_instance().finalize_loaded_data();
     }
 
     for( const auto &e : check ) {
@@ -360,11 +360,10 @@ bool game::check_mod_data( const std::vector<std::string> &opts )
 
             // Load mod itself
             load_data_from_dir( mod.path, mod.ident );
+            DynamicDataLoader::get_instance().finalize_loaded_data();
         } catch( const std::exception &err ) {
             std::cerr << "Error loading data: " << err.what() << std::endl;
         }
-
-        DynamicDataLoader::get_instance().finalize_loaded_data();
     }
 
     return true;
@@ -865,6 +864,11 @@ bool game::start_game(std::string worldname)
     // Spawn the monsters
     const bool spawn_near =
         get_option<bool>( "BLACK_ROAD" ) || g->scen->has_flag("SUR_START");
+    // Surrounded start ones
+    if( spawn_near ) {
+        start_loc.surround_with_monsters( omtstart, mongroup_id( "GROUP_ZOMBIE" ), 70 );
+    }
+
     m.spawn_monsters( !spawn_near ); // Static monsters
 
     // Make sure that no monsters are near the player
@@ -1814,6 +1818,11 @@ int game::kill_count( const mtype_id& mon )
 void game::increase_kill_count( const mtype_id& id )
 {
     kills[id]++;
+}
+
+void game::record_npc_kill( const npc *p )
+{
+   npc_kills.push_back( p->get_name() );
 }
 
 void game::handle_key_blocking_activity()
@@ -4402,6 +4411,17 @@ void game::disp_kills()
         buffer.width( 0 );
         data.push_back( buffer.str() );
     }
+    for( const auto &npc_name : npc_kills ) {
+        totalkills += 1;
+        std::ostringstream buffer;
+        buffer << "<color_magenta>@ " << npc_name << "</color>";
+        const int w = colum_width - utf8_width( npc_name );
+        buffer.width( w - 3 ); // gap between cols, monster sym, space
+        buffer.fill(' ');
+        buffer << "1";
+        buffer.width( 0 );
+        data.push_back( buffer.str() );
+    }
     std::ostringstream buffer;
     if( data.empty() ) {
         buffer << _( "You haven't killed any monsters yet!" );
@@ -5135,15 +5155,11 @@ void game::draw_HP()
     }
 
     const size_t num_parts = 7;
-    static const std::array<std::string, num_parts> body_parts = {{
-        _("HEAD"), _("TORSO"), _("L ARM"),
-        _("R ARM"), _("L LEG"), _("R LEG"), _("POWER")
-    }};
     static std::array<body_part, num_parts> part = {{
         bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r, num_bp
     }};
     for (size_t i = 0; i < num_parts; i++) {
-        const std::string &str = body_parts[i];
+        const std::string str = ( i == num_parts - 1 ) ? _( "POWER" ) : body_part_hp_bar_ui_text( part[i] );
         wmove(w_HP, i * dy, 0);
         if (wide) {
             wprintz(w_HP, u.limb_color(part[i], true, true, true), " ");
@@ -10846,7 +10862,9 @@ void game::chat()
 {
     std::vector<npc *> available;
     for( auto &elem : active_npc ) {
-        if( u.sees( elem->pos() ) &&
+        // @todo Get rid of the z-level check when z-level vision gets "better"
+        if( u.posz() == elem->posz() &&
+            u.sees( elem->pos() ) &&
             rl_dist( u.pos(), elem->pos() ) <= 24 ) {
             available.push_back( elem );
         }

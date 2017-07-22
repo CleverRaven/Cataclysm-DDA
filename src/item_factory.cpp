@@ -1664,7 +1664,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     }
 
     if( jo.has_string( "description" ) ) {
-        def.description = _( jo.get_string( "description" ).c_str() );
+        def.description = jo.get_string( "description" );
     }
 
     if( jo.has_string( "symbol" ) ) {

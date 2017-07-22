@@ -2288,6 +2288,10 @@ void play_music( std::string )
 {
 }
 
+void update_music_volume()
+{
+}
+
 void refresh_display()
 {
 }

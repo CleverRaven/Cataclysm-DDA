@@ -9,7 +9,7 @@
     "time": 164062,
     "autolearn": true,
     "using": [ [ "forging_standard", 8 ], [ "steel_standard", 13 ] ],
-    "qualities": [ 
+    "qualities": [
         { "id": "HAMMER", "level": 3 },
         { "id": "CHISEL", "level": 3 }
     ],

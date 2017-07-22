@@ -3726,77 +3726,12 @@ int iuse::firecracker_pack(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You need a source of fire!"));
         return 0;
     }
-    WINDOW *w = newwin(5, 41, (TERMY - 5) / 2, (TERMX - 41) / 2);
-    WINDOW_PTR wptr( w );
-    draw_border(w);
-    int mid_x = getmaxx(w) / 2;
-    int tmpx = 5;
-    // TODO: Should probably be a input box anyway.
-    mvwprintz(w, 1, 2, c_white, _("How many do you want to light? (1-%d)"), it->charges);
-    mvwprintz(w, 2, mid_x, c_white, "1");
-    tmpx += shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<I>ncrease")) + 1;
-    tmpx += shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<D>ecrease")) + 1;
-    tmpx += shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<A>ccept")) + 1;
-    shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<C>ancel"));
-    wrefresh(w);
-    bool close = false;
-    long charges = 1;
-    // TODO: use input context
-    char ch = inp_mngr.get_input_event().get_first_input();
-    while (!close) {
-        if (ch == 'I') {
-            charges++;
-            if (charges > it->charges) {
-                charges = it->charges;
-            }
-            mvwprintz(w, 2, mid_x, c_white, "%d", charges);
-            wrefresh(w);
-        } else if (ch == 'D') {
-            charges--;
-            if (charges < 1) {
-                charges = 1;
-            }
-            mvwprintz(w, 2, mid_x, c_white, "%d ",
-                      charges); //Trailing space clears the second digit when decreasing from 10 to 9
-            wrefresh(w);
-        } else if (ch == 'A') {
-            p->use_charges("fire", 1);
-            if (charges == it->charges) {
-                p->add_msg_if_player(_("You light the pack of firecrackers."));
-                it->convert( "firecracker_pack_act" );
-                it->charges = charges;
-                it->bday = calendar::turn;
-                it->active = true;
-                return 0; // don't use any charges at all. it has became a new item
-            } else {
-                if (charges == 1) {
-                    p->add_msg_if_player(_("You light one firecracker."));
-                    item new_it = item("firecracker_act", int(calendar::turn));
-                    new_it.charges = 2;
-                    new_it.active = true;
-                    p->i_add(new_it);
-                } else {
-                    p->add_msg_if_player(ngettext("You light a string of %d firecracker.",
-                                                  "You light a string of %d firecrackers.", charges), charges);
-                    item new_it = item("firecracker_pack_act", int(calendar::turn));
-                    new_it.charges = charges;
-                    new_it.active = true;
-                    p->i_add(new_it);
-                }
-                if (it->charges == 1) {
-                    it->convert( "firecracker" );
-                }
-            }
-            close = true;
-        } else if (ch == 'C') {
-            return 0; // don't use any charges at all
-        }
-        if (!close) {
-            // TODO: rewrite loop so this is only called at one place
-            ch = inp_mngr.get_input_event().get_first_input();
-        }
-    }
-    return charges;
+    p->add_msg_if_player(_("You light the pack of firecrackers."));
+    it->convert( "firecracker_pack_act" );
+    it->charges = 26;
+    it->bday = calendar::turn;
+    it->active = true;
+    return 0; // don't use any charges at all. it has became a new item
 }
 
 int iuse::firecracker_pack_act(player *, item *it, bool, const tripoint &pos)
@@ -3807,7 +3742,7 @@ int iuse::firecracker_pack_act(player *, item *it, bool, const tripoint &pos)
         sounds::sound(pos, 0, _("ssss..."));
         it->inc_damage();
     } else if (it->charges > 0) {
-        int ex = rng(3, 5);
+        int ex = rng(4, 6);
         int i = 0;
         if (ex > it->charges) {
             ex = it->charges;
@@ -7712,7 +7647,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint& )
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         /* windpower defined in internal velocity units (=.01 mph) */
         int windpower = int(100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
-                                                          cur_om_ter->get_name(), g->is_sheltered( g->u.pos() ) ) );
+                                                          cur_om_ter, g->is_sheltered( g->u.pos() ) ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
                               convert_velocity( windpower, VU_WIND ),
@@ -7912,7 +7847,7 @@ int iuse::saw_barrel( player *p, item *, bool t, const tripoint& )
 int iuse::washclothes( player *p, item *it, bool, const tripoint& )
 {
     if( it->charges < it->type->charges_to_use() ) {
-        p->add_msg_if_player( _( "You need a soap to use this." ) );
+        p->add_msg_if_player( _( "You need a cleansing agent to use this." ) );
         return 0;
     }
 
