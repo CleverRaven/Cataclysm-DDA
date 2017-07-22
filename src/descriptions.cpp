@@ -90,8 +90,8 @@ c to describe creatures, f to describe furniture, t to describe terrain, esc/ent
 
         std::string signage = m.get_signage( p );
         if (signage.size() > 0) {
-            desc += string_format( _("\nSign: %s") , signage.c_str());
-        } 
+            desc += string_format( _("\nSign: %s"), signage.c_str());
+        }
 
         werase( w_main );
         fold_and_print_from( w_main, 0, 0, width, 0, c_ltgray, desc );
