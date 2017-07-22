@@ -4,6 +4,7 @@
 #include "map.h"
 #include "messages.h"
 #include "mtype.h"
+#include "calendar.h"
 #include <utility>
 
 const efftype_id effect_milked( "milked" );
@@ -12,7 +13,7 @@ void monexamine::milk_source( monster &source_mon )
 {
     monster *mon = &source_mon;
     const auto milked_item = mon->type->starting_ammo;
-    item milk( milked_item.begin()->first, 0, 1 );
+    item milk( milked_item.begin()->first, calendar::turn.get_turn(), 1 );
 
     // Milked items must be liquids.
     if( !milk.made_of( LIQUID ) ) {
