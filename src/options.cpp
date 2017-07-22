@@ -1231,7 +1231,12 @@ void options_manager::init()
         );
 
     add("SOFTWARE_RENDERING", "graphics", _("Software rendering"),
-        _("Use software renderer instead of graphics card acceleration."),
+        _("Use software renderer instead of graphics card acceleration.  Requires restart."),
+        false, COPT_CURSES_HIDE
+        );
+
+    add("FRAMEBUFFER_ACCEL", "graphics", _("Software framebuffer acceleration"),
+        _("Use hardware acceleration for the framebuffer when using software rendering.  Requires restart."),
         false, COPT_CURSES_HIDE
         );
 
@@ -1308,9 +1313,9 @@ void options_manager::init()
         _("If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK Windows users."),
         true
         );
-    
+
     mOptionsSort["debug"]++;
-    
+
     add("OVERMAP_GENERATION_TRIES", "debug", _("Overmap generation attempt count"),
         _("Maximum number of retries in overmap generation due to inability to place mandatory special locations.  High numbers and strange world settings will lead to VERY slow generation!"),
         1, 20, 2
