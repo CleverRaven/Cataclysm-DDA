@@ -26,7 +26,7 @@ void monexamine::milk_source( monster &source_mon )
             mon->add_effect( effect_milked, HOURS( milk_per_day ) );
             add_msg( _( "You milk the %s." ), source_mon.get_name().c_str() );
 
-        } else if( ( HOURS( 24 ) - mon->get_effect_dur( effect_milked ) ) >= milk_per_day ) {
+        } else if( ( HOURS( 24 ) - mon->get_effect_dur( effect_milked ) ) >= HOURS( milk_per_day ) ) {
             mon->add_effect( effect_milked, HOURS( milk_per_day ) );
             g->handle_liquid( milk, nullptr, 0, nullptr, nullptr, mon );
             add_msg( _( "You milk the %s." ), source_mon.get_name().c_str() );
