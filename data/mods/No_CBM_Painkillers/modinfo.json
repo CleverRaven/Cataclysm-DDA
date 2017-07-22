@@ -1,0 +1,16 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "no_cbm_painkillers",
+    "name": "Painkillers-free CBM installation",
+    "authors": [ "BrettD" ],
+    "maintainers": [ "BrettD" ],
+    "description": "Installing CBMs will not need painkillers.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "type": "WORLD_OPTION",
+    "options": [ "NO_CBM_PAINKILLERS" ]
+  }
+]

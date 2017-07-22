@@ -1512,6 +1512,13 @@ void options_manager::init()
         false, COPT_ALWAYS_HIDE
         );
 
+    mOptionsSort["world_default"]++;
+
+    add("NO_CBM_PAINKILLERS", "world_default", _("Disables installing CBMs requiring painkillers."),
+        _("If true, painkillers won't be needed to install a CBM."),
+        false, COPT_ALWAYS_HIDE
+        );
+
     for (unsigned i = 0; i < vPages.size(); ++i) {
         mPageItems[i].resize(mOptionsSort[vPages[i].first]);
     }
