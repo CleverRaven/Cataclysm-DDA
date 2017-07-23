@@ -126,6 +126,8 @@ class DynamicDataLoader
          * It must be called once after loading all data.
          * It also checks the consistency of the loaded data with
          * @ref check_consistency
+         * @throw std::exception if the loaded data is not valid. The
+         * game should *not* proceed in that case.
          */
         void finalize_loaded_data();
 

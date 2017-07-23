@@ -7847,7 +7847,7 @@ int iuse::saw_barrel( player *p, item *, bool t, const tripoint& )
 int iuse::washclothes( player *p, item *it, bool, const tripoint& )
 {
     if( it->charges < it->type->charges_to_use() ) {
-        p->add_msg_if_player( _( "You need a soap to use this." ) );
+        p->add_msg_if_player( _( "You need a cleansing agent to use this." ) );
         return 0;
     }
 

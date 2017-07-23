@@ -64,7 +64,8 @@ void put_into_vehicle( player &p, const std::list<item> &items, vehicle &veh, in
             p.add_msg_player_or_npc(
                 _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
                 _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
-                it.display_name().c_str(), ter_name.c_str() );
+                it.display_name().c_str(), ter_name.c_str()
+            );
             g->m.add_item_or_charges( where, it );
             continue;
         }
@@ -83,11 +84,20 @@ void put_into_vehicle( player &p, const std::list<item> &items, vehicle &veh, in
     if( same_type( items ) ) {
         const item &it = items.front();
         const int dropcount = items.size() * ( it.count_by_charges() ? it.charges : 1 );
-        add_msg( ngettext( "You put your %1$s in the %2$s's %3$s.",
-                           "You put your %1$s in the %2$s's %3$s.", dropcount ),
-                 it.tname( dropcount ).c_str(), veh.name.c_str(), part_name.c_str() );
+
+        p.add_msg_player_or_npc(
+            ngettext( "You put your %1$s in the %2$s's %3$s.",
+                      "You put your %1$s in the %2$s's %3$s.", dropcount ),
+            ngettext( "<npcname> puts their %1$s in the %2$s's %3$s.",
+                      "<npcname> puts their %1$s in the %2$s's %3$s.", dropcount ),
+            it.tname( dropcount ).c_str(), veh.name.c_str(), part_name.c_str()
+        );
     } else {
-        add_msg( _( "You put several items in the %1$s's %2$s." ), veh.name.c_str(), part_name.c_str() );
+        p.add_msg_player_or_npc(
+            _( "You put several items in the %1$s's %2$s." ),
+            _( "<npcname> puts several items in the %1$s's %2$s." ),
+            veh.name.c_str(), part_name.c_str()
+        );
     }
 
     if( fallen_count > 0 ) {
@@ -124,7 +134,7 @@ void stash_on_pet( const std::list<item> &items, monster &pet )
     }
 }
 
-void drop_on_map( const std::list<item> &items, const tripoint &where )
+void drop_on_map( const player &p, const std::list<item> &items, const tripoint &where )
 {
     if( items.empty() ) {
         return;
@@ -138,17 +148,35 @@ void drop_on_map( const std::list<item> &items, const tripoint &where )
         const std::string it_name = it.tname( dropcount );
 
         if( can_move_there ) {
-            add_msg( ngettext( "You drop your %1$s on the %2$s.",
-                               "You drop your %1$s on the %2$s.", dropcount ), it_name.c_str(), ter_name.c_str() );
+            p.add_msg_player_or_npc(
+                ngettext( "You drop your %1$s on the %2$s.",
+                          "You drop your %1$s on the %2$s.", dropcount ),
+                ngettext( "<npcname> drops their %1$s on the %2$s.",
+                          "<npcname> drops their %1$s on the %2$s.", dropcount ),
+                it_name.c_str(), ter_name.c_str()
+            );
         } else {
-            add_msg( ngettext( "You put your %1$s in the %2$s.",
-                               "You put your %1$s in the %2$s.", dropcount ), it_name.c_str(), ter_name.c_str() );
+            p.add_msg_player_or_npc(
+                ngettext( "You put your %1$s in the %2$s.",
+                          "You put your %1$s in the %2$s.", dropcount ),
+                ngettext( "<npcname> puts their %1$s in the %2$s.",
+                          "<npcname> puts their %1$s in the %2$s.", dropcount ),
+                it_name.c_str(), ter_name.c_str()
+            );
         }
     } else {
         if( can_move_there ) {
-            add_msg( _( "You drop several items on the %s." ), ter_name.c_str() );
+            p.add_msg_player_or_npc(
+                _( "You drop several items on the %s." ),
+                _( "<npcname> drops several items on the %s." ),
+                ter_name.c_str()
+            );
         } else {
-            add_msg( _( "You put several items in the %s." ), ter_name.c_str() );
+            p.add_msg_player_or_npc(
+                _( "You put several items in the %s." ),
+                _( "<npcname> puts several items in the %s." ),
+                ter_name.c_str()
+            );
         }
     }
     for( const auto &it : items ) {
@@ -156,7 +184,8 @@ void drop_on_map( const std::list<item> &items, const tripoint &where )
     }
 }
 
-void put_into_vehicle_or_drop( player &p, const std::list<item> &items, const tripoint &where )
+void put_into_vehicle_or_drop( player &p, const std::list<item> &items,
+                               const tripoint &where )
 {
     int veh_part = 0;
     vehicle *veh = g->m.veh_at( where, veh_part );
@@ -167,7 +196,7 @@ void put_into_vehicle_or_drop( player &p, const std::list<item> &items, const tr
             return;
         }
     }
-    drop_on_map( items, where );
+    drop_on_map( p, items, where );
 }
 
 drop_indexes convert_to_indexes( const player_activity &act )
@@ -485,7 +514,7 @@ static void move_items( const tripoint &src, bool from_vehicle,
             if( to_vehicle ) {
                 put_into_vehicle_or_drop( g->u, { *temp_item }, destination );
             } else {
-                drop_on_map( { *temp_item }, destination );
+                drop_on_map( g->u, { *temp_item }, destination );
             }
             // Remove from map or vehicle.
             if( from_vehicle == true ) {

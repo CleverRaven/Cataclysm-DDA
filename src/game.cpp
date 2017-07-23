@@ -327,10 +327,10 @@ bool game::check_mod_data( const std::vector<std::string> &opts )
         // if no loadable mods then test core data only
         try {
             load_core_data();
+            DynamicDataLoader::get_instance().finalize_loaded_data();
         } catch( const std::exception &err ) {
             std::cerr << "Error loading data from json: " << err.what() << std::endl;
         }
-        DynamicDataLoader::get_instance().finalize_loaded_data();
     }
 
     for( const auto &e : check ) {
@@ -360,11 +360,10 @@ bool game::check_mod_data( const std::vector<std::string> &opts )
 
             // Load mod itself
             load_data_from_dir( mod.path, mod.ident );
+            DynamicDataLoader::get_instance().finalize_loaded_data();
         } catch( const std::exception &err ) {
             std::cerr << "Error loading data: " << err.what() << std::endl;
         }
-
-        DynamicDataLoader::get_instance().finalize_loaded_data();
     }
 
     return true;

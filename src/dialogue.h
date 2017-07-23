@@ -13,6 +13,9 @@ class JsonObject;
 class mission;
 class npc;
 class player;
+class npc_template;
+template<typename T>
+class string_id;
 
 namespace talk_function {
     void nothing              ( npc & );
@@ -93,7 +96,7 @@ namespace talk_function {
         std::vector<npc *> attacker, std::string att_desc, int advantage);
     int combat_score    (std::vector<npc *> group);//Used to determine retreat
     void attack_random  (std::vector<npc *> attacker, std::vector<npc *> defender);
-    npc *temp_npc       (std::string type);
+    npc *temp_npc       ( const string_id<npc_template> &type );
 
     //Utility functions
     /// Returns npcs that have the given companion mission.

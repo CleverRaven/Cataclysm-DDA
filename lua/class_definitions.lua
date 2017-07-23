@@ -1307,7 +1307,7 @@ classes = {
             { name = "pl_sees", rval = "bool", args = { "tripoint", "int" } },
             { name = "place_gas_pump", rval = nil, args = { "int", "int", "int" } },
             { name = "place_gas_pump", rval = nil, args = { "int", "int", "int", "string" } },
-            { name = "place_npc", rval = "int", args = { "int", "int", "string" } },
+            { name = "place_npc", rval = "int", args = { "int", "int", "npc_template_id" } },
             { name = "place_spawns", rval = nil, args = { "mongroup_id", "int", "int", "int", "int", "int", "float" } },
             { name = "place_toilet", rval = nil, args = { "int", "int" } },
             { name = "place_toilet", rval = nil, args = { "int", "int", "int" } },
@@ -1753,6 +1753,13 @@ classes = {
         string_id = "quality_id",
         attributes = {
             name = { type = "string", writable = false }
+        },
+        functions = {
+        }
+    },
+    npc_template = {
+        string_id = "npc_template_id",
+        attributes = {
         },
         functions = {
         }

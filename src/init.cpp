@@ -237,7 +237,7 @@ void DynamicDataLoader::initialize()
     add( "MOD_INFO", &load_ignored_type );
 
     add( "faction", &faction::load_faction );
-    add( "npc", &npc::load_npc );
+    add( "npc", &npc_template::load );
     add( "npc_class", &npc_class::load_npc_class );
     add( "talk_topic", &load_talk_topic );
     add( "epilogue", &epilogue::load_epilogue );
@@ -384,6 +384,7 @@ void DynamicDataLoader::unload_data()
     npc_class::reset_npc_classes();
     rotatable_symbols::reset();
     body_part_struct::reset();
+    npc_template::reset();
 
     // TODO:
     //    NameGenerator::generator().clear_names();
@@ -447,4 +448,5 @@ void DynamicDataLoader::check_consistency()
     mission_type::check_consistency();
     item_action_generator::generator().check_consistency();
     harvest_list::check_consistency();
+    npc_template::check_consistency();
 }
