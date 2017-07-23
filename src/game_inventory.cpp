@@ -331,31 +331,7 @@ class comestible_inventory_preset : public pickup_inventory_preset
                 return freshness > 0;
             }
 
-            const auto &com_a = get_edible_comestible( a );
-            const auto &com_b = get_edible_comestible( b );
-
-            const int nutrition = com_a.nutr   - com_b.nutr;
-            const int quench    = com_a.quench - com_b.quench;
-            const int joy       = com_a.fun    - com_b.fun;
-            const int energy    = p.get_acquirable_energy( a ) - p.get_acquirable_energy( b );
-
-            const auto sort_order = []( const std::vector<int> &vec ) {
-                for( const int &elem : vec ) {
-                    if( elem != 0 ) {
-                        return elem;
-                    }
-                }
-                return 0;
-            };
-
-            int res;
-            if( p.get_hunger() >= p.get_thirst() ) {
-                res = sort_order( { nutrition, quench, joy, energy } );
-            } else {
-                res = sort_order( { quench, nutrition, joy, energy } );
-            }
-
-            return res != 0 ? res > 0 : pickup_inventory_preset::sort_compare( lhs, rhs );
+            return pickup_inventory_preset::sort_compare( lhs, rhs );
         }
 
     protected:
