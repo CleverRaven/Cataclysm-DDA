@@ -745,7 +745,7 @@ public:
 // The preceding are in npcmove.cpp
 
  bool query_yn( const char *mes, ... ) const override PRINTF_LIKE( 2, 3 );
- 
+
     std::string extended_description() const override;
 
     // Note: NPCs use a different speed rating than players
@@ -880,6 +880,8 @@ class standard_npc : public npc {
 // instances of this can be accessed via string_id<npc_template>.
 class npc_template {
     public:
+        npc_template() : guy() {}
+
         npc guy;
 
         static void load( JsonObject &jsobj );
