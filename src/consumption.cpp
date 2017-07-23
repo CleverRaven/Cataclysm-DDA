@@ -19,6 +19,9 @@
 #include <string>
 #include <algorithm>
 
+namespace
+{
+
 const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_poison( "poison" );
 const efftype_id effect_tapeworm( "tapeworm" );
@@ -29,27 +32,24 @@ const efftype_id effect_nausea( "nausea" );
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 
-namespace
-{
+const bionic_id bio_advreactor( "bio_advreactor" );
+const bionic_id bio_batteries( "bio_batteries" );
+const bionic_id bio_digestion( "bio_digestion" );
+const bionic_id bio_ethanol( "bio_ethanol" );
+const bionic_id bio_furnace( "bio_furnace" );
+const bionic_id bio_reactor( "bio_reactor" );
 
-static const bionic_id bio_advreactor( "bio_advreactor" );
-static const bionic_id bio_batteries( "bio_batteries" );
-static const bionic_id bio_digestion( "bio_digestion" );
-static const bionic_id bio_ethanol( "bio_ethanol" );
-static const bionic_id bio_furnace( "bio_furnace" );
-static const bionic_id bio_reactor( "bio_reactor" );
-
-static const std::vector<std::string> carnivore_blacklist {{
+const std::vector<std::string> carnivore_blacklist {{
         "ALLERGEN_VEGGY", "ALLERGEN_FRUIT", "ALLERGEN_WHEAT",
     }
 };
 // This ugly temp array is here because otherwise it goes
 // std::vector(char*, char*)->vector(InputIterator,InputIterator) or some such
 const std::array<std::string, 2> temparray {{"ALLERGEN_MEAT", "ALLERGEN_EGG"}};
-static const std::vector<std::string> herbivore_blacklist( temparray.begin(), temparray.end() );
+const std::vector<std::string> herbivore_blacklist( temparray.begin(), temparray.end() );
 
 // @todo JSONize.
-static const std::map<itype_id, int> plut_charges = {
+const std::map<itype_id, int> plut_charges = {
     { "plut_cell",         PLUTONIUM_CHARGES * 10 },
     { "plut_slurry_dense", PLUTONIUM_CHARGES },
     { "plut_slurry",       PLUTONIUM_CHARGES / 2 }
