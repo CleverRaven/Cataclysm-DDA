@@ -7229,8 +7229,7 @@ void game::control_vehicle()
 bool pet_menu(monster *z)
 {
     enum choices {
-        cancel,
-        swap_pos,
+        swap_pos = 0,
         push_zlave,
         rename,
         attach_bag,
@@ -7249,7 +7248,6 @@ bool pet_menu(monster *z)
 
     amenu.selected = 0;
     amenu.text = string_format(_("What to do with your %s?"), pet_name.c_str());
-    amenu.addentry(cancel, true, 'q', _("Cancel"));
 
     amenu.addentry(swap_pos, true, 's', _("Swap positions"));
     amenu.addentry(push_zlave, true, 'p', _("Push %s"), pet_name.c_str());
@@ -7278,10 +7276,6 @@ bool pet_menu(monster *z)
 
     amenu.query();
     int choice = amenu.ret;
-
-    if (cancel == choice || choice < 0) {
-        return false;
-    }
 
     if (swap_pos == choice) {
         g->u.moves -= 150;
