@@ -293,10 +293,8 @@
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 6 ] ],
-    "components": [
-      [ [ "string_36", 2 ], [ "string_6", 12 ] ],
-      [ [ "scrap", 15 ] ]
-    ]
+    "using": [ [ "cordage", 2 ] ],
+    "components": [ [ [ "scrap", 15 ] ] ]
   },
   {
     "result": "chainmail_suit",
@@ -431,10 +429,11 @@
     "skill_used": "tailor",
     "difficulty": 4,
     "time": 60000,
+    "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
     "using": [ [ "filament", 30 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 20 ] ] ]
+    "components": [ [ [ "rag", 26 ] ] ]
   },
   {
     "result": "h20survivor_suit",
@@ -671,10 +670,8 @@
     "time": 6000,
     "reversible": true,
     "autolearn": true,
-    "components": [
-      [ [ "sheet", 1 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 4 ] ]
-    ]
+    "using": [ [ "cordage", 1 ] ],
+    "components": [ [ [ "sheet", 1 ] ] ]
   },
   {
     "result": "union_suit",

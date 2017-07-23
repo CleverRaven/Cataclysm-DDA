@@ -7,8 +7,6 @@
 #include <vector>
 #include <string>
 
-#define DEFAULT_COMPUTER_NAME ""
-
 class game;
 class player;
 class JsonObject;
@@ -87,14 +85,13 @@ struct computer_option {
 class computer
 {
     public:
-        computer();
-        computer( std::string Name, int Security );
+        computer( const std::string &name, int Security );
         ~computer();
 
         computer &operator=( const computer &rhs );
         // Initialization
         void set_security( int Security );
-        void add_option( std::string opt_name, computer_action action, int Security );
+        void add_option( std::string opt_name, computer_action action, int security );
         void add_failure( computer_failure failure );
         // Basic usage
         /** Shutdown (free w_terminal, etc.) */

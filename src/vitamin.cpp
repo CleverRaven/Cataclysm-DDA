@@ -8,12 +8,14 @@
 
 static std::map<vitamin_id, vitamin> vitamins_all;
 
+/** @relates string_id */
 template<>
 bool string_id<vitamin>::is_valid() const
 {
     return vitamins_all.count( *this );
 }
 
+/** @relates string_id */
 template<>
 const vitamin &string_id<vitamin>::obj() const
 {

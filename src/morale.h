@@ -48,8 +48,8 @@ class player_morale
          *  Only permanent morale is checked */
         bool consistent_with( const player_morale &morale ) const;
 
-        void on_mutation_gain( const std::string &mid );
-        void on_mutation_loss( const std::string &mid );
+        void on_mutation_gain( const trait_id &mid );
+        void on_mutation_loss( const trait_id &mid );
         void on_stat_change( const std::string &stat, int value );
         void on_item_wear( const item &it );
         void on_item_takeoff( const item &it );
@@ -120,8 +120,8 @@ class player_morale
         void set_prozac( bool new_took_prozac );
         void set_stylish( bool new_stylish );
         void set_worn( const item &it, bool worn );
-        void set_mutation( const std::string &mid, bool active );
-        bool has_mutation( const std::string &mid );
+        void set_mutation( const trait_id &mid, bool active );
+        bool has_mutation( const trait_id &mid );
 
         void remove_if( const std::function<bool( const morale_point & )> &func );
         void remove_expired();
@@ -173,7 +173,7 @@ class player_morale
                 mutation_handler on_loss;
                 bool active;
         };
-        std::map<std::string, mutation_data> mutations;
+        std::map<trait_id, mutation_data> mutations;
 
         std::map<std::string, int> super_fancy_items;
 

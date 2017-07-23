@@ -63,7 +63,7 @@
   "type" : "recipe",
   "result": "copper_knife",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
+  "subcategory": "CSC_WEAPON_CUTTING",
   "skill_used": "fabrication",
   "difficulty": 1,
   "time": 5000,
@@ -74,8 +74,8 @@
   ],
   "tools": [
     [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
+      [ "fire", -1 ],
+      [ "toolset", 10 ]
     ]
   ],
   "components": [
@@ -83,12 +83,11 @@
       [ "rag", 1 ],
       [ "felt_patch", 1 ],
       [ "duct_tape", 50 ],
-      [ "string_6", 2 ],
+      [ "cordage_short", 2, "LIST" ],
       [ "sinew", 50 ],
       [ "thread", 50 ],
       [ "yarn", 50 ],
-      [ "plant_fibre", 50 ],
-      [ "withered", 1 ]
+      [ "plant_fibre", 50 ]
     ],
     [
       [ "scrap_copper", 2 ],
@@ -99,7 +98,7 @@
   "type" : "recipe",
   "result": "makeshift_knife",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
+  "subcategory": "CSC_WEAPON_CUTTING",
   "skill_used": "fabrication",
   "time": 5000,
   "reversible": true,
@@ -110,7 +109,7 @@
     [
       [ "rag", 1 ],
       [ "duct_tape", 50 ],
-      [ "string_6", 2 ],
+      [ "cordage_short", 2, "LIST" ],
       [ "sinew", 100 ],
       [ "thread", 100 ],
       [ "plant_fibre", 100 ],
@@ -208,12 +207,7 @@
   "time": 3000,
   "reversible": true,
   "autolearn": true,
-  "components": [
-    [
-      [ "string_36", 3 ],
-      [ "string_6", 18 ]
-    ]
-  ]
+  "using": [ [ "cordage", 3 ] ]
 },{
   "type" : "recipe",
   "result": "slingshot",
@@ -283,6 +277,7 @@
     ],
     [
       [ "rag", 1 ],
+      [ "felt_patch", 1 ],
       [ "leather", 1 ],
       [ "fur", 1 ]
     ],
@@ -310,8 +305,8 @@
   ],
   "tools": [
     [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
+      [ "fire", -1 ],
+      [ "toolset", 10 ]
     ]
   ],
   "components": [
@@ -334,7 +329,7 @@
       [ "thread", 20 ],
       [ "yarn", 20 ],
       [ "duct_tape", 20 ],
-      [ "withered", 1 ]
+      [ "cordage_short", 1, "LIST" ]
     ],
     [
       [ "scrap_copper", 3 ],
@@ -365,13 +360,12 @@
     ],
     [
       [ "rag", 1 ],
+      [ "felt_patch", 1 ],
       [ "leather", 1 ],
-      [ "duct_tape", 20 ],
       [ "fur", 1 ]
     ],
     [
-      [ "string_6", 9 ],
-      [ "string_36", 2 ],
+      [ "cordage", 2, "LIST" ],
       [ "duct_tape", 75 ]
     ],
     [
@@ -403,6 +397,7 @@
     ],
     [
       [ "rag", 1 ],
+      [ "felt_patch", 1 ],
       [ "leather", 1 ],
       [ "fur", 1 ]
     ],
@@ -468,47 +463,15 @@
     ],
     [
       [ "rag", 1 ],
+      [ "felt_patch", 1 ],
       [ "leather", 1 ],
       [ "fur", 1 ]
     ],
     [
-      [ "string_6", 6 ],
-      [ "string_36", 1 ],
+      [ "cordage", 1, "LIST" ],
       [ "duct_tape", 50 ]
     ]
   ]
-},{
-  "type" : "recipe",
-  "result": "spear_steel",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
-  "skill_used": "fabrication",
-  "skills_required": [ "melee", 1 ],
-  "difficulty": 1,
-  "time": 60000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":3},
-    {"id":"SAW_M","level":1},
-    { "id" : "GLARE", "level" : 2 }
-  ], "tools": [
-      [
-      [ "oxy_torch", 4 ],
-      [ "welder", 20 ],
-      [ "welder_crude", 30 ],
-      [ "toolset", 30 ]
-      ]
-      ],
-  "components":
-     [
-     [
-      [ "pipe", 1 ]
-     ],
-     [
-     [ "steel_chunk", 1 ],
-     [ "scrap", 3 ]
-     ]
-    ]
 },{
   "type" : "recipe",
   "result": "longbow",
@@ -557,7 +520,7 @@
       [ "2x4", 1 ]
     ],
     [
-      [ "string_36", 2 ],
+      [ "cordage", 2, "LIST" ],
       [ "thread", 200 ],
       [ "sinew", 200 ],
       [ "plant_fibre", 200 ],
@@ -651,10 +614,8 @@
   "time": 5000,
   "reversible": true,
   "autolearn": true,
+  "using": [ [ "cordage", 8 ] ],
   "components": [
-    [
-      [ "string_36", 8 ]
-    ],
     [
       [ "steel_chunk", 4 ]
     ],
@@ -1687,14 +1648,9 @@
   "time": 500,
   "reversible": true,
   "autolearn": true,
+  "using": [ [ "cordage", 1 ] ],
   "components": [
-    [
-      [ "spike", 1 ]
-    ],
-    [
-      [ "string_36", 1 ]
-    ]
-  ]
+    [ [ "spike", 1 ] ] ]
 },{
   "type" : "recipe",
   "result": "sword_bayonet",
@@ -1740,14 +1696,8 @@
   "time": 500,
   "reversible": true,
   "autolearn": true,
-  "components": [
-    [
-      [ "spike", 1 ]
-    ],
-    [
-      [ "string_6", 2 ]
-    ]
-  ]
+  "using": [ [ "cordage_short", 2 ] ],
+  "components": [ [ [ "spike", 1 ] ] ]
 },{
   "type" : "recipe",
   "result": "crafted_suppressor",
@@ -2861,12 +2811,10 @@
   "time": 5000,
   "reversible": true,
   "autolearn": true,
+  "using": [ [ "cordage", 4 ] ],
   "qualities":[
     {"id":"HAMMER","level":1}
   ], "components": [
-    [
-      [ "string_36", 4 ]
-    ],
     [
       [ "nail", 16 ]
     ],
@@ -3262,7 +3210,7 @@
   "type" : "recipe",
   "result": "switchblade",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
+  "subcategory": "CSC_WEAPON_CUTTING",
   "skill_used": "fabrication",
   "difficulty": 8,
   "time": 460000,
@@ -3959,7 +3907,7 @@
   "type" : "recipe",
   "result": "rapier",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
+  "subcategory": "CSC_WEAPON_CUTTING",
   "skill_used": "fabrication",
   "difficulty": 9,
   "time": 420000,

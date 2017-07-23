@@ -7,6 +7,7 @@
 #include "json.h"
 #include "enums.h"
 #include "int_id.h"
+#include "mongroup.h"
 #include "string_id.h"
 
 #include <string>
@@ -44,7 +45,7 @@ const size_t bits = size_t( -1 ) >> ( CHAR_BIT *sizeof( size_t ) - size );
 /** Identifier for serialization purposes. */
 const std::string &id( type dir );
 
-/** Human readable name of @param dir. */
+/** Get Human readable name of a direction */
 const std::string &name( type dir );
 
 /** Various rotations. */
@@ -52,10 +53,15 @@ point rotate( const point &p, type dir );
 tripoint rotate( const tripoint &p, type dir );
 long rotate_symbol( long sym, type dir );
 
-/** Returns point(0, 0) displaced in direction @param dir by the @param dist. */
+/** Returns point(0, 0) displaced in specified direction by a specified distance
+ * @param dir Direction of displacement
+ * @param dist Distance of displacement
+ */
 point displace( type dir, int dist = 1 );
 
-/** Returns a sum of @param dir1 and @param dir2. */
+/** Returns a sum of two numbers
+ *  @param dir1 first number
+ *  @param dir2 second number */
 type add( type dir1, type dir2 );
 
 /** Turn by 90 degrees to the left, to the right, or randomly (either left or right). */
@@ -72,7 +78,7 @@ type random();
 };
 
 struct overmap_spawns : public JsonDeserializer {
-    overmap_spawns() : group( "GROUP_NULL" ) {} // @fixme Replace it with NULL_ID.
+    overmap_spawns() : group( mongroup_id::NULL_ID() ) {}
 
     string_id<MonsterGroup> group;
     numeric_interval<int> population;
@@ -126,7 +132,7 @@ struct oter_type_t {
 
     public:
         string_id<oter_type_t> id;
-        std::string name;               // Localized name
+        std::string name;               // Untranslated name
         long sym = '\0';                // This is a long, so we can support curses linedrawing
         nc_color color = c_black;
         unsigned char see_cost = 0;     // Affects how far the player can see in the overmap
@@ -184,8 +190,8 @@ struct oter_t {
         std::string get_mapgen_id() const;
         oter_id get_rotated( om_direction::type dir ) const;
 
-        const std::string &get_name() const {
-            return type->name;
+        const std::string get_name() const {
+            return _( type->name.c_str() );
         }
 
         long get_sym() const {
@@ -306,12 +312,12 @@ class overmap_special
         const overmap_special_terrain &get_terrain_at( const tripoint &p ) const;
         /**
          * Returns whether the special can be placed on the specified terrain.
-         * It's true if @ref oter meets any of @ref locations.
+         * It's true if oter meets any of locations.
          */
         bool can_be_placed_on( const oter_id &oter ) const;
-        /** Returns whether this special requires a city at all. */
+        /** @returns true if this special requires a city */
         bool requires_city() const;
-        /** Returns whether the special at @ref p can belong to the specified city. */
+        /** @returns whether the special at specified tripoint can belong to the specified city. */
         bool can_belong_to_city( const tripoint &p, const city &cit ) const;
 
         string_id<overmap_special> id;

@@ -13,6 +13,9 @@ class JsonObject;
 class mission;
 class npc;
 class player;
+class npc_template;
+template<typename T>
+class string_id;
 
 namespace talk_function {
     void nothing              ( npc & );
@@ -29,7 +32,6 @@ namespace talk_function {
     void bionic_install       ( npc & );
     void bionic_remove        ( npc & );
 
-    void construction_tips    ( npc & );
     void buy_haircut          ( npc & );
     void buy_shave            ( npc & );
     void buy_10_logs          ( npc & );
@@ -94,15 +96,14 @@ namespace talk_function {
         std::vector<npc *> attacker, std::string att_desc, int advantage);
     int combat_score    (std::vector<npc *> group);//Used to determine retreat
     void attack_random  (std::vector<npc *> attacker, std::vector<npc *> defender);
-    npc *temp_npc       (std::string type);
+    npc *temp_npc       ( const string_id<npc_template> &type );
 
     //Utility functions
-    std::vector<npc *> companion_list   (std::string id);//List of NPCs found in game->mission_npc
+    /// Returns npcs that have the given companion mission.
+    std::vector<npc *> companion_list   ( const npc &p, const std::string &id );
     npc *companion_choose               ();
     npc *companion_choose_return        (std::string id, int deadline);
-    void companion_leave                (npc *comp);//Pulls the NPC from
     void companion_return               (npc *comp);//Return NPC to your party
-    void companion_lost                 (npc *comp);//Kills the NPC off-screen
     std::vector<item*> loot_building    (const tripoint site);//Smash stuff, steal valuables, and change map maker
 };
 

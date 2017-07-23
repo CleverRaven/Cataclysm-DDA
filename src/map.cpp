@@ -38,6 +38,7 @@
 #include "cata_utility.h"
 #include "harvest.h"
 #include "input.h"
+#include "computer.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -410,16 +411,17 @@ bool map::vehact( vehicle &veh )
         veh.falling = false;
     }
 
-    // Mph lost per tile when coasting
-    int base_slowdown = veh.skidding ? 200 : 20;
+    // Mph lost per tile when coasting, by an ideal vehicle
+    int base_slowdown = veh.skidding ? 50 : 5;
     if( should_fall ) {
         // Just air resistance
-        base_slowdown = 2;
+        base_slowdown = 1;
     }
 
-    // k slowdown second.
-    const float k_slowdown = (0.1 + veh.k_dynamics()) / ((0.1) + veh.k_mass());
+    // "Anti-ideal" vehicle slows down up to 10 times faster than ideal one
+    const float k_slowdown = 20.0f / ( 2.0f + 9 * ( veh.k_dynamics() * veh.k_mass() ) );
     const int slowdown = veh.drag() + (int)ceil( k_slowdown * base_slowdown );
+    add_msg( m_debug, "%s vel: %d, slowdown: %d", veh.name.c_str(), veh.velocity, slowdown );
     if( slowdown > abs( veh.velocity ) ) {
         veh.stop();
     } else if( veh.velocity < 0 ) {
@@ -1233,14 +1235,7 @@ void map::unboard_vehicle( const tripoint &p )
     if( !veh ) {
         debugmsg ("map::unboard_vehicle: vehicle not found");
         // Try and force unboard the player anyway.
-        if( g->u.pos() == p ) {
-            passenger = &(g->u);
-        } else {
-            int npcdex = g->npc_at( p );
-            if( npcdex != -1 ) {
-                passenger = g->active_npc[npcdex];
-            }
-        }
+        passenger = g->critter_at<player>( p );
         if( passenger ) {
             passenger->in_vehicle = false;
             passenger->controlling_vehicle = false;
@@ -1563,6 +1558,13 @@ void map::furn_set( const tripoint &p, const furn_id new_furniture )
     const furn_t &old_t = old_id.obj();
     const furn_t &new_t = new_furniture.obj();
 
+    // If player has grabbed this furniture and it's no longer grabbable, release the grab.
+    if( g->u.grab_type == OBJECT_FURNITURE && g->u.grab_point == p && new_t.move_str_req < 0 ) {
+        add_msg( _( "The %s you were grabbing is destroyed!" ), old_t.name.c_str() );
+        g->u.grab_type = OBJECT_NONE;
+        g->u.grab_point = tripoint_zero;
+    }
+
     if( old_t.transparent != new_t.transparent ) {
         set_transparency_cache_dirty( p.z );
     }
@@ -1663,12 +1665,11 @@ ter_id map::ter( const tripoint &p ) const
  */
 const harvest_id &map::get_harvest( const tripoint &pos ) const
 {
-    static const harvest_id null_harvest( NULL_ID );
     const auto furn_here = furn( pos );
     if( furn_here->examine != iexamine::none ) {
         // Note: if furniture can be examined, the terrain can NOT (until furniture is removed)
         if( furn_here->has_flag( TFLAG_HARVESTED ) ) {
-            return null_harvest;
+            return harvest_id::NULL_ID();
         }
 
         return furn_here->get_harvest();
@@ -1676,7 +1677,7 @@ const harvest_id &map::get_harvest( const tripoint &pos ) const
 
     const auto ter_here = ter( pos );
     if( ter_here->has_flag( TFLAG_HARVESTED ) ) {
-        return null_harvest;
+        return harvest_id::NULL_ID();
     }
 
     return ter_here->get_harvest();
@@ -1822,6 +1823,9 @@ std::string map::features( const tripoint &p )
     }
     if (has_flag("FLAT", p)) {
         ret += _("Flat. ");
+    }
+    if (has_flag("EASY_DECONSTRUCT", p)) {
+        ret += _("Simple. ");
     }
     return ret;
 }
@@ -3630,13 +3634,7 @@ void map::destroy_furn( const tripoint &p, const bool silent )
 void map::crush( const tripoint &p )
 {
     int veh_part;
-    player *crushed_player = nullptr;
-    int npc_index = g->npc_at( p );
-    if( g->u.pos() == p ) {
-        crushed_player = &(g->u);
-    } else if( npc_index != -1 ) {
-        crushed_player = static_cast<player *>(g->active_npc[npc_index]);
-    }
+    player *crushed_player = g->critter_at<player>( p );
 
     if( crushed_player != nullptr ) {
         bool player_inside = false;
@@ -3693,12 +3691,12 @@ void map::crush( const tripoint &p )
 void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 {
     // TODO: Make bashing count fully, but other types much less
-    const int initial_damage = proj.impact.total_damage();
+    const float initial_damage = proj.impact.total_damage();
     if( initial_damage < 0 ) {
         return;
     }
 
-    int dam = initial_damage;
+    float dam = initial_damage;
     const auto &ammo_effects = proj.proj_effects;
 
     if( has_flag("ALARMED", p) && !g->event_queued(EVENT_WANTED) ) {
@@ -3872,7 +3870,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         bash( p, dam, false );
         dam = 0; // TODO: Preserve some residual damage when it makes sense.
     } else {
-        dam -= (rng(0, 1) * rng(0, 1) * rng(0, 1));
+        dam -= proj.momentum_loss;
     }
 
     if (ammo_effects.count("TRAIL") && !one_in(4)) {
@@ -3903,10 +3901,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         add_field(p, fd_laser, 2, 0 );
     }
 
-    // Set damage to 0 if it's less
-    if( dam < 0 ) {
-        dam = 0;
-    }
+    dam = std::max( 0.0f, dam );
 
     // Check fields?
     const field_entry *fieldhit = get_field( p, fd_web );
@@ -4595,6 +4590,23 @@ item map::water_from( const tripoint &p )
         return ret;
     }
     return item();
+}
+
+void map::make_active( item_location &loc )
+{
+    item *target = loc.get_item();
+
+    // Trust but verify, don't let stinking callers set items active when they shouldn't be.
+    if( !target->needs_processing() ) {
+        return;
+    }
+    int lx, ly;
+    submap *const current_submap = get_submap_at( loc.position(), lx, ly );
+    auto &item_stack = current_submap->itm[lx][ly];
+    auto iter = std::find_if( item_stack.begin(), item_stack.end(),
+                              [&target]( const item &i ) { return &i == target; } );
+
+    current_submap->active_items.add( iter, point(lx, ly) );
 }
 
 // Check if it's in a fridge and is food, set the fridge
@@ -5593,13 +5605,7 @@ computer* map::computer_at( const tripoint &p )
         return nullptr;
     }
 
-    submap * const current_submap = get_submap_at( p );
-
-    if( current_submap->comp.name.empty() ) {
-        return nullptr;
-    }
-
-    return &(current_submap->comp);
+    return get_submap_at( p )->comp.get();
 }
 
 bool map::allow_camp( const tripoint &p, const int radius)

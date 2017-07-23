@@ -154,6 +154,10 @@ std::vector<std::string> foldstring( std::string str, int width );
  * The text is not word wrapped, but may automatically be wrapped on new line characters or
  * when it reaches the border of the window (both is done by the curses system).
  * If the text contains no color tags, it's equivalent to a simple mvprintz.
+ *
+ * @param w Window we are drawing in
+ * @param y Curses-style Y coordinate to print text at.
+ * @param x Curses-style X coordinate to print text at.
  * @param text The text to print.
  * @param cur_color The current color (could have been set by a previously encountered color tag),
  * change to a color according to the color tags that are in the text.
@@ -163,7 +167,10 @@ void print_colored_text( WINDOW *w, int y, int x, nc_color &cur_color, nc_color 
                          const std::string &text );
 /**
  * Print word wrapped text (with @ref color_tags) into the window.
+ *
+ * @param w Window we are printing in
  * @param begin_line Line in the word wrapped text that is printed first (lines before that are not printed at all).
+ * @param text Text to print
  * @param base_color Color used outside of any color tags.
  * @param scroll_msg Optional, can be empty. If not empty and the text does not fit the window, the string is printed
  * on the last line (in light green), it should show how to scroll the text.
@@ -176,12 +183,15 @@ int print_scrollable( WINDOW *w, int begin_line, const std::string &text, nc_col
  * Format, fold and print text in the given window. The function handles @ref color_tags and
  * uses them while printing. It expects a printf-like format string and matching
  * arguments to that format (see @ref string_format).
- * @param begin_x The row index on which to print the first line.
+ *
+ * @param w Window we are printing in
  * @param begin_y The column index on which to start each line.
+ * @param begin_x The row index on which to print the first line.
  * @param width The width used to fold the text (see @ref foldstring). `width + begin_y` should be
  * less than the window width, otherwise the lines will be wrapped by the curses system, which
  * defeats the purpose of using `foldstring`.
  * @param color The initially used color. This can be overridden using color tags.
+ * @param mes Actual message to print
  * @return The number of lines of the formatted text (after folding). This may be larger than
  * the height of the window.
  */
@@ -196,9 +206,16 @@ int fold_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color col
  * Like @ref fold_and_print, but starts the output with the N-th line of the folded string.
  * This can be used for scrolling large texts. Parameters have the same meaning as for
  * @ref fold_and_print, the function therefor handles @ref color_tags correctly.
+ *
+ * @param w Window we are printing in
+ * @param begin_y The column index on which to start each line.
+ * @param begin_x The row index on which to print the first line.
+ * @param width The width used to fold the text (see @ref foldstring). `width + begin_y` should be
  * @param begin_line The index of the first line (of the folded string) that is to be printed.
  * The function basically removes all lines before this one and prints the remaining lines
  * with `fold_and_print`.
+ * @param color The initially used color. This can be overridden using color tags.
+ * @param mes Actual message to print
  * @return Same as `fold_and_print`: the number of lines of the text (after folding). This is
  * always the same value, regardless of `begin_line`, it can be used to determine the maximal
  * value for `begin_line`.
@@ -213,9 +230,13 @@ int fold_and_print_from( WINDOW *w, int begin_y, int begin_x, int width, int beg
 /**
  * Prints a single line of formatted text. The text is automatically trimmed to fit into the given
  * width. The function handles @ref color_tags correctly.
- * @param begin_x,begin_y The row and column index on which to start the line.
+ *
+ * @param w Window we are printing in
+ * @param begin_x The x coordinate of line start (curses coordinates)
+ * @param begin_y The y coordinate of line start (curses coordinates)
  * @param width Maximal width of the printed line, if the text is longer, it is cut off.
  * @param base_color The initially used color. This can be overridden using color tags.
+ * @param mes Actual message to print
  */
 void trim_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
                      const char *mes, ... ) PRINTF_LIKE(6,7);
@@ -335,8 +356,10 @@ enum class item_filter_type: int {
 /**
  * Write some tips (such as precede items with - to exclude them) onto the window.
  *
- * @param starty: Where to start relative to the top of the window.
- * @param height: Every row from starty to starty + height - 1 will be cleared before printing the rules.
+ * @param win Window we are drawing in
+ * @param starty Where to start relative to the top of the window.
+ * @param height Every row from starty to starty + height - 1 will be cleared before printing the rules.
+ * @param type Filter to use when drawing
 */
 void draw_item_filter_rules( WINDOW *win, int starty, int height, item_filter_type type );
 
@@ -498,8 +521,8 @@ void draw_tab( WINDOW *w, int iOffsetX, std::string sText, bool bSelected );
 void draw_subtab( WINDOW *w, int iOffsetX, std::string sText, bool bSelected,
                   bool bDecorate = true );
 void draw_scrollbar( WINDOW *window, const int iCurrentLine, const int iContentHeight,
-                     const int iNumEntries, const int iOffsetY = 0, const int iOffsetX = 0,
-                     nc_color bar_color = c_white, const bool bTextScroll = false );
+                     const int iNumLines, const int iOffsetY = 0, const int iOffsetX = 0,
+                     nc_color bar_color = c_white, const bool bDoNotScrollToEnd = false );
 void calcStartPos( int &iStartPos, const int iCurrentLine,
                    const int iContentHeight, const int iNumEntries );
 
@@ -611,6 +634,8 @@ bool is_draw_tiles_mode();
 
 void play_music( std::string playlist );
 
+void update_music_volume();
+
 /**
  * Make changes made to the display visible to the user immediately.
  *
@@ -622,8 +647,10 @@ void refresh_display();
 
 /**
  * Assigns a custom color to each symbol.
- * @return Colorized string.
+ *
+ * @param str String to colorize symbols in
  * @param func Function that accepts symbols (std::string::value_type) and returns colors.
+ * @return Colorized string.
  */
 template<typename Pred>
 std::string colorize_symbols( const std::string &str, Pred func )

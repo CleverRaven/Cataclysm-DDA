@@ -557,9 +557,8 @@ action_id handle_action_menu()
 #define REGISTER_ACTION(name) entries.push_back(uimenu_entry(name, true, hotkey_for_action(name), \
         ctxt.get_action_name(action_ident(name))));
 #define REGISTER_CATEGORY(name)  categories_by_int[last_category] = name; \
-    catgname = _(name);\
-    catgname += "...";\
-    capitalize_letter(catgname,0);\
+    catgname = name; \
+    catgname += "..."; \
     entries.push_back(uimenu_entry(last_category, true, -1, catgname)); \
     last_category++;
 
@@ -654,13 +653,13 @@ action_id handle_action_menu()
                 }
             }
 
-            REGISTER_CATEGORY( "look" );
-            REGISTER_CATEGORY( "interact" );
-            REGISTER_CATEGORY( "inventory" );
-            REGISTER_CATEGORY( "combat" );
-            REGISTER_CATEGORY( "craft" );
-            REGISTER_CATEGORY( "info" );
-            REGISTER_CATEGORY( "misc" );
+            REGISTER_CATEGORY( _( "Look" ) );
+            REGISTER_CATEGORY( _( "Interact" ) );
+            REGISTER_CATEGORY( _( "Inventory" ) );
+            REGISTER_CATEGORY( _( "Combat" ) );
+            REGISTER_CATEGORY( _( "Craft" ) );
+            REGISTER_CATEGORY( _( "Info" ) );
+            REGISTER_CATEGORY( _( "Misc" ) );
             if( hotkey_for_action( ACTION_QUICKSAVE ) > -1 ) {
                 REGISTER_ACTION( ACTION_QUICKSAVE );
             }
@@ -676,18 +675,18 @@ action_id handle_action_menu()
                 entry->txt += "...";        // help _is_a menu.
             }
             if( hotkey_for_action( ACTION_DEBUG ) > -1 ) {
-                REGISTER_CATEGORY( "debug" ); // register with globalkey
+                REGISTER_CATEGORY( _( "Debug" ) ); // register with globalkey
                 if( ( entry = &entries.back() ) ) {
                     entry->hotkey = hotkey_for_action( ACTION_DEBUG );
                 }
             }
-        } else if( category == "look" ) {
+        } else if( category == _( "Look" ) ) {
             REGISTER_ACTION( ACTION_LOOK );
             REGISTER_ACTION( ACTION_PEEK );
             REGISTER_ACTION( ACTION_LIST_ITEMS );
             REGISTER_ACTION( ACTION_ZONES );
             REGISTER_ACTION( ACTION_MAP );
-        } else if( category == "inventory" ) {
+        } else if( category == _( "Inventory" ) ) {
             REGISTER_ACTION( ACTION_INVENTORY );
             REGISTER_ACTION( ACTION_ADVANCEDINV );
             REGISTER_ACTION( ACTION_SORT_ARMOR );
@@ -706,7 +705,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_READ );
             REGISTER_ACTION( ACTION_WIELD );
             REGISTER_ACTION( ACTION_UNLOAD );
-        } else if( category == "debug" ) {
+        } else if( category == _( "Debug" ) ) {
             REGISTER_ACTION( ACTION_DEBUG );
             if( ( entry = &entries.back() ) ) {
                 entry->txt += "..."; // debug _is_a menu.
@@ -720,7 +719,7 @@ action_id handle_action_menu()
 #endif // TILES
             REGISTER_ACTION( ACTION_DISPLAY_SCENT );
             REGISTER_ACTION( ACTION_TOGGLE_DEBUG_MODE );
-        } else if( category == "interact" ) {
+        } else if( category == _( "Interact" ) ) {
             REGISTER_ACTION( ACTION_EXAMINE );
             REGISTER_ACTION( ACTION_SMASH );
             REGISTER_ACTION( ACTION_MOVE_DOWN );
@@ -731,7 +730,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_PICKUP );
             REGISTER_ACTION( ACTION_GRAB );
             REGISTER_ACTION( ACTION_BUTCHER );
-        } else if( category == "combat" ) {
+        } else if( category == _( "Combat" ) ) {
             REGISTER_ACTION( ACTION_TOGGLE_MOVE );
             REGISTER_ACTION( ACTION_FIRE );
             REGISTER_ACTION( ACTION_RELOAD );
@@ -742,20 +741,20 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_TOGGLE_SAFEMODE );
             REGISTER_ACTION( ACTION_TOGGLE_AUTOSAFE );
             REGISTER_ACTION( ACTION_IGNORE_ENEMY );
-        } else if( category == "craft" ) {
+        } else if( category == _( "Craft" ) ) {
             REGISTER_ACTION( ACTION_CRAFT );
             REGISTER_ACTION( ACTION_RECRAFT );
             REGISTER_ACTION( ACTION_LONGCRAFT );
             REGISTER_ACTION( ACTION_CONSTRUCT );
             REGISTER_ACTION( ACTION_DISASSEMBLE );
-        } else if( category == "info" ) {
+        } else if( category == _( "Info" ) ) {
             REGISTER_ACTION( ACTION_PL_INFO );
             REGISTER_ACTION( ACTION_MISSIONS );
             REGISTER_ACTION( ACTION_KILLS );
             REGISTER_ACTION( ACTION_FACTIONS );
             REGISTER_ACTION( ACTION_MORALE );
             REGISTER_ACTION( ACTION_MESSAGES );
-        } else if( category == "misc" ) {
+        } else if( category == _( "Misc" ) ) {
             REGISTER_ACTION( ACTION_WAIT );
             REGISTER_ACTION( ACTION_SLEEP );
             REGISTER_ACTION( ACTION_BIONICS );

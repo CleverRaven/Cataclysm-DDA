@@ -1,6 +1,10 @@
 # JSON file contents
 
-##raw
+## File descriptions
+Here's a quick summary of what each of the JSON files contain, broken down by folder.
+
+## `raw/`
+
 * bionics.json       - bionics, does NOT include bionic effects
 * dreams.json        - dream text and linked mutation categories
 * item_groups.json   - item spawn groups
@@ -18,8 +22,10 @@
 * vehicle_groups.json - vehicle spawn groups
 * vehicle_parts.json - vehicle parts, does NOT affect flag effects
 
-##raw/vehicles
-groups of vehicle definitions with self-explanatory names of files:
+## `raw/vehicles/`
+
+Groups of vehicle definitions with self-explanatory names of files:
+
 * bikes.json
 * cars.json
 * carts.json
@@ -31,7 +37,8 @@ groups of vehicle definitions with self-explanatory names of files:
 * vans_busses.json
 * vehicles.json
 
-##raw/items
+## `raw/items/`
+
 * archery.json       - bows and arrows
 * ranged.json        - guns
 * tools.json         - tools and items that can be (a)ctivated
@@ -39,21 +46,24 @@ groups of vehicle definitions with self-explanatory names of files:
 * books.json         - books
 * comestibles.json   - food/drinks
 * containers.json    - containers
-* instruments.json   - instruments
 * melee.json         - anything that doesn't go in the other item jsons, melee weapons
 * mods.json          - gunmods
 
-##json
+## `json/`
 * furniture.json     - furniture, and features treated like furniture
 * terrain.json       - terrain types and definitions
 
-#raw jsons
+# Raw JS
 
-###All files
+### All Files
+
+```json
 "//" : "comment", // Preferred method of leaving comments inside json files.
+```
 
-###BIONICS
-```C++
+### Bionics
+
+```json
 "id"           : "bio_batteries",  // Unique ID. Must be one continuous word,
                                    // use underscores if necessary.
 "name"         : "Battery System", // In-game name displayed
@@ -67,8 +77,10 @@ groups of vehicle definitions with self-explanatory names of files:
 "canceled_mutations": ["HYPEROPIC"] // (optional) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
 "included_bionics": ["bio_blindfold"] // (optional) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
 ```
-###DREAMS
-```C++
+
+### Dreams
+
+```json
 "messages" : [                // List of potential dreams
     "You have a strange dream about birds.",
     "Your dreams give you a strange feathered feeling."
@@ -79,10 +91,13 @@ groups of vehicle definitions with self-explanatory names of files:
                                      2 = 35 - 49
                                      3 = 50+
 ```
-###ITEM GROUPS
+
+### Item Groups
+
 Item groups have been expanded, look at doc/ITEM_SPAWN.md to their new description.
 The syntax listed here is still valid.
-```C++
+
+```json
 "id":"forest",            // Unique ID. Must be one continuous word, use underscores if necessary
 "items":[                 // List of potential item ID's. Chance of an item spawning is x/T, where
   ["rock", 40],           //    X is the value linked to the specific item and T is the total of all
@@ -94,8 +109,10 @@ The syntax listed here is still valid.
 ],
 "groups":[]               // ?
 ```
-###MATERIALS
-```C++
+
+### Materials
+
+```json
 "ident"         : "hflesh",       // Unique ID. Must be one continuous word, use underscores if necessary
 "name"          : "Human Flesh",  // In-game name displayed
 "bash_resist"   :   1,            // How well a material resists bashing damage
@@ -108,8 +125,10 @@ The syntax listed here is still valid.
 "fire_resist"   :   0,            // Ability of a material to resist fire
 "density"       :   5             // Density of a material
 ```
-###MONSTER GROUPS
-```C++
+
+### Monster Groups
+
+```json
 "name" : "GROUP_ANT",             // Unique ID. Must be one continuous word, use underscores if necessary
 "default" : "mon_ant",            // Default monster, automatically fills in any remaining spawn chances
 "monsters" : [                    // To choose monster spawned game creates 1000 entries and picks one.
@@ -127,25 +146,32 @@ The syntax listed here is still valid.
     "conditions" : ["DUSK","DAWN","SUMMER"]
   }
 ```
-###MONSTER FACTIONS
-```C++
+
+### Monster Factions
+
+```json
 "name" : "cult",            // Unique ID. Must be one continuous word, use underscores when necessary
 "base_faction" : "zombie",  // Optional base faction. Relations to other factions are inherited from it and relations of other factions to this one check this
 "by_mood" : ["blob"],       // Be hostile towards this faction when angry, neutral otherwise. Default attitude to all other factions
 "neutral" : ["nether"],     // Always be neutral towards this faction
 "friendly" : ["blob"],      // Always be friendly towards this faction. By default a faction is friendly towards itself
 ```
-###MONSTERS
+
+### Monsters
+
 See MONSTERS.md
-###NAMES
-```C++
+
+### Names
+
+```json
 { "name" : "Aaliyah", "gender" : "female", "usage" : "given" }, // Name, gender, "given"/"family"/"city" (first/last/city name).
 // NOTE: Please refrain from adding name PR's in order to maintain kickstarter exclusivity
 ```
 
-# Professions
+### Professions
 
 Professions are specified as JSON object with "type" member set to "profession":
+
 ```JSON
 {
     "type": "profession",
@@ -158,12 +184,12 @@ The ident member should be the unique id of the profession.
 
 The following properties (mandatory, except if noted otherwise) are supported:
 
-## "description"
+#### `description`
 (string)
 
 The in-game description.
 
-## "name"
+#### `name`
 (string or object with members "male" and "female")
 
 The in-game name, either one gender-neutral string, or an object with gender specific names. Example:
@@ -174,12 +200,12 @@ The in-game name, either one gender-neutral string, or an object with gender spe
 }
 ```
 
-## "points"
+#### `points`
 (integer)
 
 Point cost of profession. Positive values cost points and negative values grant points.
 
-## "addictions"
+#### `addictions`
 (optional, array of addictions)
 
 List of starting addictions. Each entry in the list should be an object with the following members:
@@ -208,7 +234,8 @@ Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "a
 }
 ```
 
-## "skills"
+#### `skills`
+
 (optional, array of skill levels)
 
 List of starting skills. Each entry in the list should be an object with the following members:
@@ -237,7 +264,8 @@ Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "a
 }
 ```
 
-## "items"
+#### `items`
+
 (optional, object with optional members "both", "male" and "female")
 
 Items the player starts with when selecting this profession. One can specify different items based on the gender of the character. Each lists of items should be an array of items ids, or pairs of item ids and snippet ids. Item ids may appear multiple times, in which case the item is created multiple times. The syntax for each of the three lists is identical.
@@ -260,11 +288,13 @@ Example:
     ]
 }
 ```
+
 This gives the player pants, two rocks, a t-shirt with the snippet id "allyourbase" (giving it a special description), socks and (depending on the gender) briefs or panties.
 
 Mods can modify the lists of existing professions. This requires the "edit-mode" member with value "modify" (see example). Adding items to the lists can be done with via "add:both" / "add:male" / "add:female". It allows the same content (it allows adding items with snippet ids). Removing items is done via "remove:both" / "remove:male" / "remove:female", which may only contain items ids.
 
 Example for mods:
+
 ```JSON
 {
     "type": "profession",
@@ -282,31 +312,36 @@ Example for mods:
     }
 }
 ```
+
 This mod removes one of the rocks (the other rock is still created), the t-shirt, adds a 2x4 item and gives female characters a t-shirt with the the special snippet id.
 
-## "flags"
+#### `flags`
+
 (optional, array of strings)
 
 A list of flags. TODO: document those flags here.
 
-Mods can modify this via "add:flags" and "remove:flags".
+Mods can modify this via `add:flags` and `remove:flags`.
 
-## "CBMs"
+#### `cbms`
+
 (optional, array of strings)
 
 A list of CBM ids that are implanted in the character.
 
-Mods can modify this via "add:CBMs" and "remove:CBMs".
+Mods can modify this via `add:CBMs` and `remove:CBMs`.
 
-## "traits"
+#### `traits`
+
 (optional, array of strings)
 
 A list of trait/mutation ids that are applied to the character.
 
-Mods can modify this via "add:traits" and "remove:traits".
+Mods can modify this via `add:traits` and `remove:traits`.
 
-###RECIPES
-```C++
+### Recipes
+
+```json
 "result": "javelin",         // ID of resulting item
 "category": "CC_WEAPON",     // Category of crafting recipe. CC_NONCRAFT used for disassembly recipes
 "id_suffix": "",             // Optional (default: empty string). Some suffix to make the ident of the recipe unique. The ident of the recipe is "<id-of-result><id_suffix>".
@@ -360,15 +395,19 @@ Mods can modify this via "add:traits" and "remove:traits".
 ]
 ]
 ```
-###SKILLS
-```C++
+
+## Skills
+
+```json
 "ident" : "smg",  // Unique ID. Must be one continuous word, use underscores if necessary
 "name" : "submachine guns",  // In-game name displayed
 "description" : "Your skill with submachine guns and machine pistols. Halfway between a pistol and an assault rifle, these weapons fire and reload quickly, and may fire in bursts, but they are not very accurate.", // In-game description
 "tags" : ["gun_type"]  // Special flags (default: none)
 ```
-###TRAITS/MUTATIONS
-```C++
+
+### Traits/Mutations
+
+```json
 "id": "LIGHTEATER",  // Unique ID
 "name": "Optimist",  // In-game name displayed
 "points": 2,         // Point cost of the trait. Positive values cost points and negative values give points
@@ -427,8 +466,11 @@ Mods can modify this via "add:traits" and "remove:traits".
 "thirst" : true, //If true, activated mutation increases thirst by cost. (default: false)
 "fatigue" : true, //If true, activated mutation increases fatigue by cost. (default: false)
 ```
-###VEHICLE GROUPS
-```C++
+
+### Vehicle Groups
+
+
+```json
 "id":"city_parked",            // Unique ID. Must be one continuous word, use underscores if necessary
 "vehicles":[                 // List of potential vehicle ID's. Chance of a vehicle spawning is X/T, where
   ["suv", 600],           //    X is the value linked to the specific vehicle and T is the total of all
@@ -437,8 +479,10 @@ Mods can modify this via "add:traits" and "remove:traits".
   ["road_roller", 300]
 ]
 ```
-###VEHICLE PARTS
-```C++
+
+### Vehicle Parts
+
+```json
 "id": "wheel",                // Unique identifier
 "name": "wheel",              // Displayed name
 "symbol": "0",                // ASCII character displayed when part is working
@@ -469,8 +513,10 @@ Mods can modify this via "add:traits" and "remove:traits".
     "physical" : 5
 }
 ```
-###PART RESISTANCE
-```C++
+
+### Part Resistance
+
+```json
 "all" : 0.0f,        // Initial value of all resistances, overriden by more specific types
 "physical" : 10,     // Initial value for bash, cut and stab
 "non_physical" : 10, // Initial value for acid, heat, cold, electricity and biological
@@ -483,8 +529,9 @@ Mods can modify this via "add:traits" and "remove:traits".
 "cold" : 3,
 "electric" : 3
 ```
-###VEHICLE PLACEMENT
-```C++
+
+### Vehicle Placement
+```json
 "id":"road_straight_wrecks",  // Unique ID. Must be one continuous word, use underscores if necessary
 "locations":[ {               // List of potential vehicle locations. When this placement is used, one of those locations will be chosen at random.
   "x" : [0,19],               // The x placement. Can be a single value or a range of possibilities.
@@ -492,13 +539,15 @@ Mods can modify this via "add:traits" and "remove:traits".
   "facing" : [90,270]         // The facing of the vehicle. Can be a single value or an array of possible values.
 } ]
 ```
-###VEHICLE SPAWN
-```C++
+
+### Vehicle Spawn
+
+```json
 "id":"default_city",            // Unique ID. Must be one continuous word, use underscores if necessary
 "spawn_types":[ {       // List of spawntypes. When this vehicle_spawn is applied, it will choose from one of the spawntypes randomly, based on the weight.
   "description" : "Clear section of road",           //    A description of this spawntype
   "weight" : 33,          //    The chance of this spawn type being used.
-  "vehicle_function" : ""jack-knifed_semi" // This is only needed if the spawntype uses a built-in c++ function.
+  "vehicle_function" : ""jack-knifed_semi" // This is only needed if the spawntype uses a built-in json function.
   "vehicle_json" : {      // This is only needed for a json-specified spawntype.
   "vehicle" : "car",      // The vehicle or vehicle_group to spawn.
   "placement" : "%t_parked",  // The vehicle_placement to use when spawning the vehicle. This is not needed if the x, y, and facing are specified.
@@ -510,8 +559,10 @@ Mods can modify this via "add:traits" and "remove:traits".
   "status" : 1,  // The status of the new vehicles.
 } } ]
 ```
-###VEHICLES
-```C++
+
+### Vehicles
+
+```json
 "id": "shopping_cart",                     // Internally-used name.
 "name": "Shopping Cart",                   // Display name, subject to i18n.
 "blueprint": "#",                          // Preview of vehicle - ignored by the code, so use only as documentation
@@ -524,10 +575,12 @@ Mods can modify this via "add:traits" and "remove:traits".
                                             * You also cannot break the normal rules of installation
                                             * (you can't stack non-stackable part flags). */
 ```
-#raw/items jsons
 
-###GENERIC ITEMS
-```C++
+# `raw/items/` JSONs
+
+### Generic Items
+
+```json
 "type" : "GENERIC",               // Defines this as some generic item
 "id" : "socks",                   // Unique ID. Must be one continuous word, use underscores if necessary
 "name" : "socks",                 // The name appearing in the examine box.  Can be more than one word separated by spaces
@@ -566,8 +619,9 @@ Mods can modify this via "add:traits" and "remove:traits".
 },
 ```
 
-###AMMO
-```C++
+### Ammo
+
+```json
 "type" : "AMMO",      // Defines this as ammo
 ...                   // same entries as above for the generic item.
                       // additional some ammo specific entries:
@@ -582,8 +636,9 @@ Mods can modify this via "add:traits" and "remove:traits".
 "effects" : ["COOKOFF", "SHOT"] // Special effects
 ```
 
-###MAGAZINE
-```C++
+### Magazine
+
+```json
 "type": "MAGAZINE",   // Defines this as a MAGAZINE
 ...                   // same entries as above for the generic item.
                       // additional some magazine specific entries:
@@ -596,9 +651,11 @@ Mods can modify this via "add:traits" and "remove:traits".
 "linkage" : "ammolink"// If set one linkage (of given type) is dropped for each unit of ammo consumed (set for disintegrating ammo belts)
 ```
 
-###ARMOR
-Armor can be define like this:
-```C++
+### Armor
+
+Armor can be defined like this:
+
+```json
 "type" : "ARMOR",     // Defines this as armor
 ...                   // same entries as above for the generic item.
                       // additional some armor specific entries:
@@ -612,7 +669,7 @@ Armor can be define like this:
 "power_armor" : false, // If this is a power armor item (those are special).
 ```
 Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:
-```C++
+```json
 "type" : "TOOL",      // Or any other item type
 ...                   // same entries as for the type (e.g. same entries as for any tool),
 "armor_data" : {      // additionally the same armor data like above
@@ -627,9 +684,11 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
 }
 ```
 
-###BOOKS
-Books can be define like this:
-```C++
+### Books
+
+Books can be defined like this:
+
+```json
 "type" : "BOOK",      // Defines this as a BOOK
 ...                   // same entries as above for the generic item.
                       // additional some book specific entries:
@@ -642,7 +701,7 @@ Books can be define like this:
 "required_level" : 2  // Minimum skill level required to learn
 ```
 Alternately, every item (tool, gun, even food) can be used as book if it has book_data:
-```C++
+```json
 "type" : "TOOL",      // Or any other item type
 ...                   // same entries as for the type (e.g. same entries as for any tool),
 "book_data" : {       // additionally the same book data like above
@@ -657,7 +716,8 @@ Alternately, every item (tool, gun, even food) can be used as book if it has boo
 }
 ```
 
-####Color key
+#### Color Key
+
 When adding a new book, please use this color key:
 
 * Magazines: `pink`
@@ -672,8 +732,9 @@ When adding a new book, please use this color key:
 A few exceptions to this color key may apply, for example for books that don’t are what they seem to be.
 Never use `yellow` and `red`, those colors are reserved for sounds and infrared vision.
 
-###COMESTIBLES
-```C++
+### Comestibles
+
+```json
 "type" : "COMESTIBLE",      // Defines this as a COMESTIBLE
 ...                         // same entries as above for the generic item.
                             // additional some comestible specific entries:
@@ -692,8 +753,9 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 "fun" : 50                  // Morale effects when used
 ```
 
-###CONTAINERS
-```C++
+### Containers
+
+```json
 "type": "CONTAINER",  // Defines this as a container
 ...                   // same data as for the generic item (see above).
 "contains": 200,      // How much volume this container can hold
@@ -702,7 +764,7 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 "preserves": false,   // Contents do not spoil. (optional, default: false)
 ```
 Alternately, every item can be used as container:
-```C++
+```json
 "type": "ARMOR",      // Any type is allowed here
 ...                   // same data as for the type
 "container_data" : {  // The container specific data goes here.
@@ -712,8 +774,9 @@ Alternately, every item can be used as container:
 This defines a armor (you need to add all the armor specific entries), but makes it usable as container.
 It could also be written as a generic item ("type": "GENERIC") with "armor_data" and "container_data" entries.
 
-###MELEE
-```C++
+### Melee
+
+```json
 "id": "hatchet",       // Unique ID. Must be one continuous word, use underscores if necessary
 "symbol": ";",         // ASCII character used in-game
 "color": "light_gray", // ASCII character color
@@ -729,9 +792,11 @@ It could also be written as a generic item ("type": "GENERIC") with "armor_data"
 "to_hit": 1            // To-hit bonus if using it as a melee weapon
 ```
 
-###GUN
-Guns can be define like this:
-```C++
+### Gun
+
+Guns can be defined like this:
+
+```json
 "type": "GUN",        // Defines this as a GUN
 ...                   // same entries as above for the generic item.
                       // additional some gun specific entries:
@@ -755,7 +820,7 @@ Guns can be define like this:
 "default_mods": ["m203"] //An array of mods that will be added to a weapon on spawn.
 ```
 Alternately, every item (book, tool, armor, even food) can be used as gun if it has gun_data:
-```C++
+```json
 "type" : "TOOL",      // Or any other item type
 ...                   // same entries as for the type (e.g. same entries as for any tool),
 "gun_data" : {        // additionally the same gun data like above
@@ -765,9 +830,11 @@ Alternately, every item (book, tool, armor, even food) can be used as gun if it 
 }
 ```
 
-###GUNMOD
-Gun mods can be define like this:
-```C++
+### Gunmod
+
+Gun mods can be defined like this:
+
+```json
 "type": "GUNMOD",              // Defines this as a GUNMOD
 ...                            // Same entries as above for the generic item.
                                // Additionally some gunmod specific entries:
@@ -785,8 +852,9 @@ Gun mods can be define like this:
 "ups_charges": 200,            // Optional field increasing or decreasing base gun UPS consumption (per shot)
 ```
 
-###TOOLS
-```C++
+### Tools
+
+```json
 "id": "torch_lit",    // Unique ID. Must be one continuous word, use underscores if necessary
 "type": "TOOL",       // Defines this as a TOOL
 "symbol": "/",        // ASCII character used in-game
@@ -812,8 +880,10 @@ Gun mods can be define like this:
 "use_action": "TORCH_LIT" // Action performed when tool is used, see special definition below
 ```
 
-###SEED DATA
+### Seed Data
+
 Every item type can have optional seed data, if the item has seed data, it's considered a seed and can be planted:
+
 ```
 "seed_data" : {
     "fruits": "weed", // The item id of the fruits that this seed will produce.
@@ -827,8 +897,10 @@ Every item type can have optional seed data, if the item has seed data, it's con
 }
 ```
 
-###ARTIFACT DATA
+### Artifact Data
+
 Every item type can have optional artifact properties (which makes it an artifact):
+
 ```JSON
 "artifact_data" : {
     "charge_type": "ARTC_PAIN",
@@ -839,10 +911,12 @@ Every item type can have optional artifact properties (which makes it an artifac
 }
 ```
 
-###BREWING DATA
+### Brewing Data
+
 Every item type can have optional brewing data, if the item has brewing data, it can be placed in a vat and will ferment into a different item type.
 
 Currently only vats can only accept and produce liquid items.
+
 ```JSON
 "brewable" : {
     "time": 3600, // Time (in turns) the fermentation will take.
@@ -850,93 +924,122 @@ Currently only vats can only accept and produce liquid items.
 }
 ```
 
-#### charge_type
-(optional, default: "ARTC_NULL") How the item is recharged. For this to work, the item needs to be a tool that consumes charges upon invocation and has non-zero max_charges. Possible values (see src/artifact.h for an up-to-date list):
-- "ARTC_NULL" Never recharges!
-- "ARTC_TIME" Very slowly recharges with time
-- "ARTC_SOLAR" Recharges in sunlight
-- "ARTC_PAIN" Creates pain to recharge
-- "ARTC_HP" Drains HP to recharge
+#### `Charge_type`
 
-#### effects_carried
-(optional, default: empty list) Effects of the artifact when it's in the inventory (main inventory, wielded, or worn) of the player. Possible values (see src/enums.h for an up-to-date list):
-- "AEP_STR_UP" Strength + 4
-- "AEP_DEX_UP" Dexterity + 4
-- "AEP_PER_UP" Perception + 4
-- "AEP_INT_UP" Intelligence + 4
-- "AEP_ALL_UP" All stats + 2
-- "AEP_SPEED_UP" +20 speed
-- "AEP_IODINE" Reduces radiation
-- "AEP_SNAKES" Summons friendly snakes when you're hit
-- "AEP_INVISIBLE" Makes you invisible
-- "AEP_CLAIRVOYANCE" See through walls
-- "AEP_SUPER_CLAIRVOYANCE" See through walls to a great distance
-- "AEP_STEALTH" Your steps are quieted
-- "AEP_EXTINGUISH" May extinguish nearby flames
-- "AEP_GLOW" Four-tile light source
-- "AEP_PSYSHIELD" Protection from stare attacks
-- "AEP_RESIST_ELECTRICITY" Protection from electricity
-- "AEP_CARRY_MORE" Increases carrying capacity by 200
-- "AEP_SAP_LIFE" Killing non-zombie monsters may heal you
-- "AEP_HUNGER" Increases hunger
-- "AEP_THIRST" Increases thirst
-- "AEP_SMOKE" Emits smoke occasionally
-- "AEP_EVIL" Addiction to the power
-- "AEP_SCHIZO" Mimicks schizophrenia
-- "AEP_RADIOACTIVE" Increases your radiation
-- "AEP_MUTAGENIC" Mutates you slowly
-- "AEP_ATTENTION" Draws netherworld attention slowly
-- "AEP_STR_DOWN" Strength - 3
-- "AEP_DEX_DOWN" Dex - 3
-- "AEP_PER_DOWN" Per - 3
-- "AEP_INT_DOWN" Int - 3
-- "AEP_ALL_DOWN" All stats - 2
-- "AEP_SPEED_DOWN" -20 speed
-- "AEP_FORCE_TELEPORT" Occasionally force a teleport
-- "AEP_MOVEMENT_NOISE" Makes noise when you move
-- "AEP_BAD_WEATHER" More likely to experience bad weather
-- "AEP_SICK" Decreases health over time
+(optional, default: `ARTC_NULL`)
 
-#### effects_worn
-(optional, default: empty list) Effects of the artifact when it's worn (it must be an armor item to be worn). Possible values are the same as for effects_carried.
+How the item is recharged.
 
-#### effects_wielded
-(optional, default: empty list) Effects of the artifact when it's wielded. Possible values are the same as for effects_carried.
+For this to work, the item needs to be a tool that consumes charges upon invocation and has non-zero max_charges. Possible values (see src/artifact.h for an up-to-date list):
 
-#### effects_activated
-(optional, default: empty list) Effects of the artifact when it's activated (which require it to have a `"use_action": "ARTIFACT"` and it must have a non-zero max_charges value). Possible values (see src/artifact.h for an up-to-date list):
-- "AEA_STORM" Emits shock fields
-- "AEA_FIREBALL" Targeted
-- "AEA_ADRENALINE" Adrenaline rush
-- "AEA_MAP" Maps the area around you
-- "AEA_BLOOD" Shoots blood all over
-- "AEA_FATIGUE" Creates interdimensional fatigue
-- "AEA_ACIDBALL" Targeted acid
-- "AEA_PULSE" Destroys adjacent terrain
-- "AEA_HEAL" Heals minor damage
-- "AEA_CONFUSED" Confuses all monsters in view
-- "AEA_ENTRANCE" Chance to make nearby monsters friendly
-- "AEA_BUGS" Chance to summon friendly insects
-- "AEA_TELEPORT" Teleports you
-- "AEA_LIGHT" Temporary light source
-- "AEA_GROWTH" Grow plants, a la triffid queen
-- "AEA_HURTALL" Hurts all monsters!
-- "AEA_RADIATION" Spew radioactive gas
-- "AEA_PAIN" Increases player pain
-- "AEA_MUTATE" Chance of mutation
-- "AEA_PARALYZE" You lose several turns
-- "AEA_FIRESTORM" Spreads minor fire all around you
-- "AEA_ATTENTION" Attention from sub-prime denizens
-- "AEA_TELEGLOW" Teleglow disease
-- "AEA_NOISE" Loud noise
-- "AEA_SCREAM" Noise & morale penalty
-- "AEA_DIM" Darkens the sky slowly
-- "AEA_FLASH" Flashbang
-- "AEA_VOMIT" User vomits
-- "AEA_SHADOWS" Summon shadow creatures
+- `ARTC_NULL` Never recharges!
+- `ARTC_TIME` Very slowly recharges with time
+- `ARTC_SOLAR` Recharges in sunlight
+- `ARTC_PAIN` Creates pain to recharge
+- `ARTC_HP` Drains HP to recharge
 
-###SOFTWARE DATA
+#### `Effects_carried`
+
+(optional, default: empty list)
+
+Effects of the artifact when it's in the inventory (main inventory, wielded, or worn) of the player.
+
+Possible values (see src/enums.h for an up-to-date list):
+
+- `AEP_STR_UP` Strength + 4
+- `AEP_DEX_UP` Dexterity + 4
+- `AEP_PER_UP` Perception + 4
+- `AEP_INT_UP` Intelligence + 4
+- `AEP_ALL_UP` All stats + 2
+- `AEP_SPEED_UP` +20 speed
+- `AEP_IODINE` Reduces radiation
+- `AEP_SNAKES` Summons friendly snakes when you're hit
+- `AEP_INVISIBLE` Makes you invisible
+- `AEP_CLAIRVOYANCE` See through walls
+- `AEP_SUPER_CLAIRVOYANCE` See through walls to a great distance
+- `AEP_STEALTH` Your steps are quieted
+- `AEP_EXTINGUISH` May extinguish nearby flames
+- `AEP_GLOW` Four-tile light source
+- `AEP_PSYSHIELD` Protection from stare attacks
+- `AEP_RESIST_ELECTRICITY` Protection from electricity
+- `AEP_CARRY_MORE` Increases carrying capacity by 200
+- `AEP_SAP_LIFE` Killing non-zombie monsters may heal you
+- `AEP_HUNGER` Increases hunger
+- `AEP_THIRST` Increases thirst
+- `AEP_SMOKE` Emits smoke occasionally
+- `AEP_EVIL` Addiction to the power
+- `AEP_SCHIZO` Mimicks schizophrenia
+- `AEP_RADIOACTIVE` Increases your radiation
+- `AEP_MUTAGENIC` Mutates you slowly
+- `AEP_ATTENTION` Draws netherworld attention slowly
+- `AEP_STR_DOWN` Strength - 3
+- `AEP_DEX_DOWN` Dex - 3
+- `AEP_PER_DOWN` Per - 3
+- `AEP_INT_DOWN` Int - 3
+- `AEP_ALL_DOWN` All stats - 2
+- `AEP_SPEED_DOWN` -20 speed
+- `AEP_FORCE_TELEPORT` Occasionally force a teleport
+- `AEP_MOVEMENT_NOISE` Makes noise when you move
+- `AEP_BAD_WEATHER` More likely to experience bad weather
+- `AEP_SICK` Decreases health over time
+
+#### `effects_worn`
+(optional, default: empty list)
+
+Effects of the artifact when it's worn (it must be an armor item to be worn).
+
+Possible values are the same as for effects_carried.
+
+#### `effects_wielded`
+
+(optional, default: empty list)
+
+Effects of the artifact when it's wielded.
+
+Possible values are the same as for effects_carried.
+
+#### `effects_activated`
+
+(optional, default: empty list)
+
+Effects of the artifact when it's activated (which require it to have a `"use_action": "ARTIFACT"` and it must have a non-zero max_charges value).
+
+Possible values (see src/artifact.h for an up-to-date list):
+
+- `AEA_STORM` Emits shock fields
+- `AEA_FIREBALL` Targeted
+- `AEA_ADRENALINE` Adrenaline rush
+- `AEA_MAP` Maps the area around you
+- `AEA_BLOOD` Shoots blood all over
+- `AEA_FATIGUE` Creates interdimensional fatigue
+- `AEA_ACIDBALL` Targeted acid
+- `AEA_PULSE` Destroys adjacent terrain
+- `AEA_HEAL` Heals minor damage
+- `AEA_CONFUSED` Confuses all monsters in view
+- `AEA_ENTRANCE` Chance to make nearby monsters friendly
+- `AEA_BUGS` Chance to summon friendly insects
+- `AEA_TELEPORT` Teleports you
+- `AEA_LIGHT` Temporary light source
+- `AEA_GROWTH` Grow plants, a la triffid queen
+- `AEA_HURTALL` Hurts all monsters!
+- `AEA_RADIATION` Spew radioactive gas
+- `AEA_PAIN` Increases player pain
+- `AEA_MUTATE` Chance of mutation
+- `AEA_PARALYZE` You lose several turns
+- `AEA_FIRESTORM` Spreads minor fire all around you
+- `AEA_ATTENTION` Attention from sub-prime denizens
+- `AEA_TELEGLOW` Teleglow disease
+- `AEA_NOISE` Loud noise
+- `AEA_SCREAM` Noise & morale penalty
+- `AEA_DIM` Darkens the sky slowly
+- `AEA_FLASH` Flashbang
+- `AEA_VOMIT` User vomits
+- `AEA_SHADOWS` Summon shadow creatures
+
+### Software Data
+
 Every item type can have software data, it does not have any behavior:
+
 ```
 "software_data" : {
     "type": "USELESS", // unused
@@ -944,9 +1047,11 @@ Every item type can have software data, it does not have any behavior:
 }
 ```
 
-###USE ACTIONS
+### Use Actions
+
 The contents of use_action fields can either be a string indicating a built-in function to call when the item is activated (defined in iuse.cpp), or one of several special definitions that invoke a more structured function.
-```C++
+
+```json
 "use_action": {
     "type": "transform",  // The type of method, in this case one that transforms the item.
     "target": "gasoline_lantern_on", // The item to transform to.
@@ -1007,7 +1112,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "moves": 60 // how many move points the action takes.
 },
 "use_action": {
-    "type": "ups_based_armor", // Armor that can be activated and uses power from an UPS, needs additional C++ code to work
+    "type": "ups_based_armor", // Armor that can be activated and uses power from an UPS, needs additional json code to work
     "activate_msg": "You activate your foo.", // Message when the player activates the item.
     "deactive_msg": "You deactivate your foo.", // Message when the player deactivates the item.
     "out_of_power_msg": "Your foo runs out of power and deactivates itself." // Message when the UPS runs out of power and the item is deactivated automatically.
@@ -1157,7 +1262,9 @@ The contents of use_action fields can either be a string indicating a built-in f
     "moves": 10 // (optional, default is 100): the move points that are used by placing the trap.
 }
 ```
-###Random descriptions
+
+###random Descriptions
+
 Any item with a "snippet_category" entry will have random descriptions, based on that snippet category:
 ```
 "snippet_category": "newspaper",
@@ -1194,9 +1301,9 @@ One can also put the snippets directly in the item definition:
 This will automatically create a snippet category specific to that item and populate that category with the given snippets.
 The format also support snippet ids like above.
 
-#json jsons
+# `json/` JSONs
 
-### FURNITURE
+### Furniture
 
 ```JSON
 {
@@ -1218,22 +1325,27 @@ The format also support snippet ids like above.
 }
 ```
 
-#### "type"
-Fixed string, must be "furniture" to identify the JSON object as such.
+#### `type`
 
-#### "id", "name", "symbol", "color", "bgcolor", "max_volume", "open", "close", "bash", "deconstruct", "examine_action", "flags"
+Fixed string, must be `furniture` to identify the JSON object as such.
+
+`"id", "name", "symbol", "color", "bgcolor", "max_volume", "open", "close", "bash", "deconstruct", "examine_action", "flgs`
+
 Same as for terrain, see below in the chapter "Common to furniture and terrain".
 
-#### "move_cost_mod"
-Movement cost modifier (-10 = impassable, 0 = no change). This is added to the movecost of the underlying terrain.
+#### `move_cost_mod`
 
-#### "required_str"
+Movement cost modifier (`-10` = impassable, `0` = no change). This is added to the movecost of the underlying terrain.
+
+#### `required_str`
+
 Strength required to move the furniture around. Negative values indicate an unmovable furniture.
 
-#### "crafting_pseudo_item"
+#### `crafting_pseudo_item`
+
 (Optional) Id of an item (tool) that will be available for crafting when this furniture is range (the furniture acts as an item of that type).
 
-###TERRAIN
+### Terrain
 
 ```JSON
 {
@@ -1259,77 +1371,104 @@ Strength required to move the furniture around. Negative values indicate an unmo
 }
 ```
 
-#### "type"
+#### `type`
+
 Fixed string, must be "terrain" to identify the JSON object as such.
 
-#### "id", "name", "symbol", "color", "bgcolor", "max_volume", "open", "close", "bash", "deconstruct", "examine_action", "flags"
+`"id", "name", "symbol", "color", "bgcolor", "max_volume", "open", "close", "bash", "deconstruct", "examine_action", "flgs`
+
 Same as for furniture, see below in the chapter "Common to furniture and terrain".
 
-#### "move_cost"
+#### `move_cost`
+
 Move cost to move through. A value of 0 means it's impassable (e.g. wall). You should not use negative values. The positive value is multiple of 50 move points, e.g. value 2 means the player uses 2*50 = 100 move points when moving across the terrain.
 
-#### "trap"
-(Optional) Id of the build-in trap of that terrain. For example the terrain "t_pit" has the build in trap "tr_pit". Every tile in the game that has the terrain "t_pit" has therefor also an implicit trap "tr_pit" on it. Both are inseparable (the player can not deactivate the build-in trap, but changing the terrain will also deactivate the built-in trap).
+#### `trap`
 
-A built-in trap prevents adding any other trap explicitly (by the player nor through mapgen).
+(Optional) Id of the build-in trap of that terrain.
 
-#### "harvestable"
-(Optional) If defined, the terrain is harvestable. This entry defines the item type of the harvested fruits (or similar). To make this work, you also have to set one of the "harvest_*" examine_action functions.
+For example the terrain `t_pit` has the built-in trap `tr_pit`. Every tile in the game that has the terrain `t_pit` also has, therefore, an implicit trap `tr_pit` on it. The two are inseparable (the player can not deactivate the built-in trap, and changing the terrain will also deactivate the built-in trap).
 
-#### "transforms_into"
+A built-in trap prevents adding any other trap explicitly (by the player and through mapgen).
+
+#### `harvestable`
+
+(Optional) If defined, the terrain is harvestable. This entry defines the item type of the harvested fruits (or similar). To make this work, you also have to set one of the `harvest_*` `examine_action` functions.
+
+#### `transforms_into`
+
 (Optional) Used for various transformation of the terrain. If defined, it must be a valid terrain id. Used for example:
-- When harvesting fruits (to change into the harvested form of the terrain).
-- In combination with the "HARVESTED" flag and "harvest_season" to change the harvested terrain back into a terrain with fruits.
 
-#### "harvest_season"
+- When harvesting fruits (to change into the harvested form of the terrain).
+- In combination with the `HARVESTED` flag and `harvest_season` to change the harvested terrain back into a terrain with fruits.
+
+#### `harvest_season`
+
 (Optional) On of "SUMMER", "AUTUMN", "WINTER", "SPRING", used in combination with the "HARVESTED" flag to revert the terrain back into a terrain that can be harvested.
 
-#### "roof"
+#### `roof`
+
 (Optional) The terrain of the terrain on top of this (the roof).
 
-### Common to furniture and terrain
+### Common To Furniture And Terrain
+
 Some values can/must be set for terrain and furniture. They have the same meaning in each case.
 
-#### "id"
+#### `id`
+
 Id of the object, this should be unique among all object of that type (all terrain or all furniture types). By convention (but technically not needed), the id should have the "f_" prefix for furniture and the "t_" prefix for terrain. This is not translated. It must not be changed later as that would break save compatibility.
 
-#### "name"
+#### `name`
+
 Displayed name of the object. This will be translated.
 
-#### "flags"
+#### `flags`
+
 (Optional) Various additional flags, see "doc/JSON_FLAGS.md".
 
-#### "connects_to"
+#### `connects_to`
+
 (Optional) The group of terrains to which this terrain connects. This affects tile rotation and connections, and the ASCII symbol drawn by terrain with the flag "AUTO_WALL_SYMBOL". Current values are "WALL", "CHAINFENCE", "WOODFENCE" and "RAILING".
 
 Example: `-` , `|` , `X` and `Y` are terrain which share the same `connects_to` value. `O` does not have it. `X` and `Y` also have the `AUTO_WALL_SYMBOL` flag. `X` will be drawn as a T-intersection (connected to west, south and east), `Y` will be drawn as a horizontal line (going from west to east, no connection to south).
+
 ```
 -X-    -Y-
  |      O
 ```
 
-#### "symbol"
+#### `symbol`
+
 ASCII symbol of the object as it appears in the game. The symbol string must be exactly one character long. This can also be an array of 4 strings, which define the symbol during the different seasons. The first entry defines the symbol during spring. If it's not an array, the same symbol is used all year round.
 
-#### "color" or "bgcolor"
-Color of the object as it appears in the game. "color" defines the the foreground color (no background color), "bgcolor" defines a solid background color. You must use EXACTLY ONE of "color" or "bgcolor". As with the "symbol" value, this can be an array with 4 entries, each entry being the color during the different seasons.
+#### `color` or `bgcolor`
 
-#### "max_volume"
+Color of the object as it appears in the game. "color" defines the the foreground color (no background color), "bgcolor" defines a solid background color. As with the "symbol" value, this can be an array with 4 entries, each entry being the color during the different seasons.
+
+> **NOTE**: You must use ONLY ONE of "color" or "bgcolor"
+
+#### `max_volume`
+
 (Optional) Maximal volume that can be used to store items here.
 
-#### "examine_action"
-(Optional) The C++ function that is called when the object is examined. See "src/iexamine.h".
+#### `examine_action`
 
-#### "close" and "open"
+(Optional) The json function that is called when the object is examined. See "src/iexamine.h".
+
+#### `close" And "open`
+
 (Optional) The value should be a terrain id (inside a terrain entry) or a furniture id (in a furniture entry). If either is defined, the player can open / close the object. Opening / closing will change the object at the affected tile to the given one. For example one could have object "safe_c", which "open"s to "safe_o" and "safe_o" in turn "close"s to "safe_c". Here "safe_c" and "safe_o" are two different terrain (or furniture) types that have different properties.
 
-#### "bash"
+#### `bash`
+
 (Optional) Defines whether the object can be bashed and if so, what happens. See "map_bash_info".
 
-#### "deconstruct"
+#### `deconstruct`
+
 (Optional) Defines whether the object can be deconstructed and if so, what the results shall be. See "map_deconstruct_info".
 
-### map_bash_info
+#### `map_bash_info`
+
 Defines the various things that happen when the player or something else bashes terrain or furniture.
 
 ```JSON
@@ -1355,31 +1494,34 @@ Defines the various things that happen when the player or something else bashes 
 }
 ```
 
-#### "str_min", "str_max", "str_min_blocked", "str_max_blocked", "str_min_supported", "str_max_supported"
+#### `str_min`, `str_max`, `str_min_blocked`, `str_max_blocked`, `str_min_supported`, `str_max_supported`
+
 TODO
 
-#### "sound", "sound_fail", "sound_vol", "sound_fail_vol"
+#### `sound`, `sound_fail`, `sound_vol`, `sound_fail_vol`
 (Optional) Sound and volume of the sound that appears upon destroying the bashed object or upon unsuccessfully bashing it (failing). The sound strings are translated (and displayed to the player).
 
-#### "furn_set", "ter_set"
+#### `furn_set`, `ter_set`
+
 The terrain / furniture that will be set when the original is destroyed. This is mandatory for bash entries in terrain, but optional for entries in furniture (it defaults to no furniture).
 
-#### "explosive"
+#### `explosive`
 (Optional) If greater than 0, destroying the object causes an explosion with this strength (see `game::explosion`).
 
-#### "destroy_only"
+#### `destroy_only`
 TODO
 
-#### "bash_below"
+#### `bash_below`
 TODO
 
-#### "tent_centers", "collapse_radius"
+#### `tent_centers`, `collapse_radius`
 (Optional) For furniture that is part of tents, this defines the id of the center part, which will be destroyed as well when other parts of the tent get bashed. The center is searched for in the given "collapse_radius" radius, it should match the size of the tent.
 
-#### "items"
+#### `items`
+
 (Optional) An item group (inline) or an id of an item group, see doc/ITEM_SPAWN.md. The default subtype is "collection". Upon successful bashing, items from that group will be spawned.
 
-### map_deconstruct_info
+#### `map_deconstruct_info`
 
 ```JSON
 {
@@ -1389,15 +1531,18 @@ TODO
 }
 ```
 
-#### "furn_set", "ter_set"
+#### `furn_set`, `ter_set`
+
 The terrain / furniture that will be set after the original has been deconstructed. "furn_set" is optional (it defaults to no furniture), "ter_set" is only used upon "deconstruct" entries in terrain and is mandatory there.
 
-#### "items"
+### `items`
+
 (Optional) An item group (inline) or an id of an item group, see doc/ITEM_SPAWN.md. The default subtype is "collection". Upon deconstruction the object, items from that group will be spawned.
 
 # Scenarios
 
-Scenarios are specified as JSON object with "type" member set to "scenario":
+Scenarios are specified as JSON object with `type` member set to `scenario`.
+
 ```JSON
 {
     "type": "scenario",
@@ -1411,12 +1556,12 @@ The ident member should be the unique id of the scenario.
 The following properties (mandatory, except if noted otherwise) are supported:
 
 
-## "description"
+## `description`
 (string)
 
 The in-game description.
 
-## "name"
+## `name`
 (string or object with members "male" and "female")
 
 The in-game name, either one gender-neutral string, or an object with gender specific names. Example:
@@ -1427,12 +1572,12 @@ The in-game name, either one gender-neutral string, or an object with gender spe
 }
 ```
 
-## "points"
+## `points`
 (integer)
 
 Point cost of scenario. Positive values cost points and negative values grant points.
 
-## "items"
+## `items`
 (optional, object with optional members "both", "male" and "female")
 
 Items the player starts with when selecting this scenario. One can specify different items based on the gender of the character. Each lists of items should be an array of items ids. Ids may appear multiple times, in which case the item is created multiple times.
@@ -1466,43 +1611,43 @@ Example for mods:
 }
 ```
 
-## "flags"
+## `flags`
 (optional, array of strings)
 
 A list of flags. TODO: document those flags here.
 
 Mods can modify this via "add:flags" and "remove:flags".
 
-## "CBMs"
+## `cbms`
 (optional, array of strings)
 
 A list of CBM ids that are implanted in the character.
 
 Mods can modify this via "add:CBMs" and "remove:CBMs".
 
-## "traits", "forced_traits", "forbidden_traits"
+## `traits", "forced_traits", "forbidden_traits`
 (optional, array of strings)
 
 Lists of trait/mutation ids. Traits in "forbidden_traits" are forbidden and can't be selected during the character creation. Traits in "forced_traits" are automatically added to character. Traits in "traits" enables them to be chosen, even if they are not starting traits.
 
 Mods can modify this via "add:traits" / "add:forced_traits" / "add:forbidden_traits" and "remove:traits" / "remove:forced_traits" / "remove:forbidden_traits".
 
-## "allowed_locs"
+## `allowed_locs`
 (optional, array of strings)
 
 A list of starting location ids (see start_locations.json) that can be chosen when using this scenario.
 
-## "start_name"
+## `start_name`
 (string)
 
 The name that is shown for the starting location. This is useful if the scenario allows several starting locations, but the game can not list them all at once in the scenario description. Example: if the scenario allows to start somewhere in the wilderness, the starting locations would contain forest and fields, but its "start_name" may simply be "wilderness".
 
-## "professions"
+## `professions`
 (optional, array of strings)
 
 A list of allowed professions that can be chosen when using this scenario. The first entry is the default profession. If this is empty, all professions are allowed.
 
-## "map_special"
+## `map_special`
 (optional, string)
 
 Add a map special to the starting location, see JSON_FLAGS for the possible specials.
@@ -1524,23 +1669,24 @@ The ident member should be the unique id of the location.
 
 The following properties (mandatory, except if noted otherwise) are supported:
 
-## "name"
+## `name`
 (string)
 
 The in-game name of the location.
 
-## "target"
+## `target`
 (string)
 
 The id of an overmap terrain type (see overmap_terrain.json) of the starting location. The game will chose a random place with that terrain.
 
-## "flags"
+## `flags`
 (optional, array of strings)
 
 Arbitrary flags. Mods can modify this via "add:flags" / "remove:flags". TODO: document them.
 
-###TILE_CONFIG
+### `tile_config`
 Each tileset has a tile_config.json describing how to map the contents of a sprite sheet to various tile identifiers, different orientations, etc. The ordering of the overlays used for displaying mutations can be controlled as well. The ordering can be used to override the default ordering provided in `mutation_ordering.json`. Example:
+
 ```JSON
   {                                             // whole file is a single object
     "tile_info": [                              // tile_info is mandatory
@@ -1668,12 +1814,12 @@ Example:
 ]
 ```
 
-## "id"
+## `id`
 (string)
 
 The internal ID of the mutation. Can be provided as a single string, or an array of strings. The order value provided will be applied to all items in the array.
 
-## "order"
+## `order`
 (integer)
 
 The ordering value of the mutation overlay. Values range from 0 - 9999, 9999 being the topmost drawn layer. Mutations that are not in any list will default to 9999.

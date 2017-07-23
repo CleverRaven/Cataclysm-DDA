@@ -8,6 +8,7 @@
 
 class vehicle;
 class item;
+class Character;
 
 namespace Pickup
 {
@@ -20,6 +21,8 @@ bool do_pickup( const tripoint &pickup_target, bool from_vehicle,
 
 /** Pick up items; ',' or via examine() */
 void pick_up( const tripoint &p, int min );
+/** Determines the cost of moving an item by a character. */
+int cost_to_move_item( const Character &who, const item &it );
 };
 
 #endif

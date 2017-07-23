@@ -155,7 +155,7 @@ item_location game_menus::inv::container_for( player &p, const item &liquid, int
 {
     const auto filter = [ &liquid ]( const item_location & location ) {
         if( location.where() == item_location::type::character ) {
-            Character *character = dynamic_cast<Character *>( g->critter_at( location.position() ) );
+            Character *character = g->critter_at<Character>( location.position() );
             if( character == nullptr ) {
                 debugmsg( "Invalid location supplied to the liquid filter: no character found." );
                 return false;

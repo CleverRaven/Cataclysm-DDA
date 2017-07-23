@@ -6,7 +6,7 @@
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
       [ [ "lead", 2 ] ],
-      [ [ "9mm_casing", 1 ] ],
+      [ [ "40_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder", 5 ] ]
     ],
@@ -19,7 +19,7 @@
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
       [ [ "lead", 2 ] ],
-      [ [ "9mm_casing", 1 ] ],
+      [ [ "40_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder", 4 ] ]
     ],
@@ -32,7 +32,7 @@
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
       [ [ "lead", 2 ] ],
-      [ [ "9mm_casing", 1 ] ],
+      [ [ "40_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder", 4 ] ]
     ],

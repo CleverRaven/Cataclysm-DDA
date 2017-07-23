@@ -9,9 +9,9 @@
     "time": 5000,
     "reversible": true,
     "autolearn": true,
+    "using": [ [ "cordage", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "string_36", 2 ] ],
       [ [ "2x4", 1 ] ],
       [ [ "rag", 4 ] ]
     ]
@@ -57,6 +57,19 @@
     "using": [ [ "filament", 10 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [ [ [ "rag", 5 ] ] ]
+  },
+  {
+    "result": "breeches",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 40000,
+    "book_learn": [ [ "textbook_tailor", 2 ], [ "tailor_portfolio", 2 ] ],
+    "using": [ [ "filament", 20 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "rag", 7 ] ] ]
   },
   {
     "result": "briefs",
@@ -261,9 +274,9 @@
     "time": 45000,
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
+    "using": [ [ "cordage", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [
-      [ [ "string_36", 4 ], [ "string_6", 16 ] ],
       [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ],
       [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
     ]

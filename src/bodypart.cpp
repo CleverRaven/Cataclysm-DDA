@@ -113,6 +113,7 @@ void body_part_struct::load_this( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "heading_singular", name_as_heading_singular );
     mandatory( jo, was_loaded, "heading_plural", name_as_heading_multiple );
+    optional( jo, was_loaded, "hp_bar_ui_text", hp_bar_ui_text );
     mandatory( jo, was_loaded, "encumbrance_text", encumb_text );
     mandatory( jo, was_loaded, "hit_size", hit_size );
 
@@ -210,6 +211,11 @@ std::string body_part_name_as_heading( body_part bp, int number )
     const auto &bdy = get_bp( bp );
     return ngettext( bdy.name_as_heading_singular.c_str(), bdy.name_as_heading_multiple.c_str(),
                      number );
+}
+
+std::string body_part_hp_bar_ui_text( body_part bp )
+{
+    return _( get_bp( bp ).hp_bar_ui_text.c_str() );
 }
 
 std::string encumb_text( body_part bp )

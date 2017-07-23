@@ -12,6 +12,7 @@
 #include "mondeath.h"
 #include "mondefense.h"
 #include "monfaction.h"
+#include "mongroup.h"
 #include "mtype.h"
 #include "output.h"
 #include "rng.h"
@@ -26,30 +27,28 @@ extern bool test_mode;
 
 const mtype_id mon_generator( "mon_generator" );
 
-template<>
-const mtype_id string_id<mtype>::NULL_ID( "mon_null" );
-
+/** @relates string_id */
 template<>
 const mtype& string_id<mtype>::obj() const
 {
     return MonsterGenerator::generator().mon_templates->obj( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<mtype>::is_valid() const
 {
     return MonsterGenerator::generator().mon_templates->is_valid( *this );
 }
 
-template<>
-const species_id string_id<species_type>::NULL_ID( "spec_null" );
-
+/** @relates string_id */
 template<>
 const species_type& string_id<species_type>::obj() const
 {
     return MonsterGenerator::generator().mon_species->obj( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<species_type>::is_valid() const
 {
@@ -136,8 +135,8 @@ void MonsterGenerator::finalize_mtypes()
         }
 
         // adjust for worldgen difficulty parameters
-        mon.speed *= get_world_option<int>( "MONSTER_SPEED" )      / 100.0;
-        mon.hp    *= get_world_option<int>( "MONSTER_RESILIENCE" ) / 100.0;
+        mon.speed *= get_option<int>( "MONSTER_SPEED" )      / 100.0;
+        mon.hp    *= get_option<int>( "MONSTER_RESILIENCE" ) / 100.0;
 
         mon.hp = std::max( mon.hp, 1 ); // lower bound for hp scaling
 
@@ -612,18 +611,18 @@ void mtype::load( JsonObject &jo, const std::string &src )
     // Disable upgrading when JSON contains `"upgrades": false`, but fallback to the
     // normal behavior (including error checking) if "upgrades" is not boolean or not `false`.
     if( jo.has_bool( "upgrades" ) && !jo.get_bool( "upgrades" ) ) {
-        upgrade_group = mongroup_id::NULL_ID;
-        upgrade_into = mtype_id::NULL_ID;
+        upgrade_group = mongroup_id::NULL_ID();
+        upgrade_into = mtype_id::NULL_ID();
         upgrades = false;
     } else if( jo.has_member( "upgrades" ) ) {
         JsonObject up = jo.get_object( "upgrades" );
         optional( up, was_loaded, "half_life", half_life, -1 );
-        optional( up, was_loaded, "into_group", upgrade_group, auto_flags_reader<mongroup_id> {}, mongroup_id::NULL_ID );
-        optional( up, was_loaded, "into", upgrade_into, auto_flags_reader<mtype_id> {}, mtype_id::NULL_ID );
+        optional( up, was_loaded, "into_group", upgrade_group, auto_flags_reader<mongroup_id> {}, mongroup_id::NULL_ID() );
+        optional( up, was_loaded, "into", upgrade_into, auto_flags_reader<mtype_id> {}, mtype_id::NULL_ID() );
         upgrades = true;
     }
 
-    optional( jo, was_loaded, "burn_into", burn_into, auto_flags_reader<mtype_id> {}, mtype_id::NULL_ID );
+    optional( jo, was_loaded, "burn_into", burn_into, auto_flags_reader<mtype_id> {}, mtype_id::NULL_ID() );
 
     const typed_flag_reader<decltype( gen.flag_map )> flag_reader{ gen.flag_map, "invalid monster flag" };
     optional( jo, was_loaded, "flags", flags, flag_reader );

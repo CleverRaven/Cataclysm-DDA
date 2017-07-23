@@ -1,4 +1,3 @@
-src/action.cpp
 src/active_item_cache.cpp
 src/activity_item_handling.cpp
 src/addiction.cpp
@@ -26,7 +25,6 @@ src/drawing_primitives.cpp
 src/editmap.cpp
 src/emit.cpp
 src/explosion.cpp
-src/fault.cpp
 src/flag.cpp
 src/fungal_effects.cpp
 src/game_inventory.cpp
@@ -48,6 +46,7 @@ src/map_selector.cpp
 src/mapsharing.cpp
 src/material.cpp
 src/mattack_actors.cpp
+src/messages.cpp
 src/mission_end.cpp
 src/mission_fail.cpp
 src/mission_place.cpp
@@ -56,7 +55,6 @@ src/mod_manager_ui.cpp
 src/mondefense.cpp
 src/monfaction.cpp
 src/monmove.cpp
-src/morale.cpp
 src/morale_types.cpp
 src/mtype.cpp
 src/mutation_ui.cpp
@@ -67,8 +65,8 @@ src/pathfinding.cpp
 src/pickup.cpp
 src/player_activity.cpp
 src/player_display.cpp
+src/player_hardcoded_effects.cpp
 src/posix_time.cpp
-src/profession.cpp
 src/projectile.cpp
 src/recipe.cpp
 src/recipe_dictionary.cpp
@@ -98,7 +96,6 @@ src/wish.cpp
 src/action.h
 src/active_item_cache.h
 src/activity_handlers.h
-src/addiction.h
 src/advanced_inv.h
 src/ammo.h
 src/animation.h
@@ -108,15 +105,14 @@ src/auto_pickup.h
 src/basecamp.h
 src/bionics.h
 src/bodypart.h
-src/bonuses.h
 src/calendar.h
 src/catacharset.h
 src/catacurse.h
 src/catalua.h
-src/cata_tiles.h
 src/cata_utility.h
 src/char_validity_check.h
 src/color.h
+src/color_loader.h
 src/common_types.h
 src/compatibility.h
 src/computer.h
@@ -128,12 +124,10 @@ src/craft_command.h
 src/crafting_gui.h
 src/creature_tracker.h
 src/cursesdef.h
-src/damage.h
 src/debug.h
 src/debug_menu.h
 src/dependency_tree.h
 src/drawing_primitives.h
-src/editmap.h
 src/emit.h
 src/event.h
 src/explosion.h
@@ -201,7 +195,6 @@ src/player_activity.h
 src/pldata.h
 src/posix_time.h
 src/printf_check.h
-src/profession.h
 src/projectile.h
 src/recipe.h
 src/recipe_dictionary.h
@@ -219,7 +212,6 @@ src/start_location.h
 src/string_id.h
 src/string_input_popup.h
 src/text_snippets.h
-src/tile_id_data.h
 src/tileray.h
 src/translations.h
 src/trap.h

@@ -192,7 +192,7 @@
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
       [ [ "lead", 5 ] ],
-      [ [ "38_casing", 1 ] ],
+      [ [ "32_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder", 4 ] ]
     ],
@@ -1236,7 +1236,7 @@
     "type": "uncraft",
     "time": 1200,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "tools": [ [ [ "toolset", 10 ], [ "fire", -1 ] ] ],
+    "tools": [ [ [ "fire", -1 ], [ "toolset", 10 ] ] ],
     "components": [ [ [ "copper", 200 ] ] ]
   },
   {
@@ -2434,5 +2434,24 @@
     "time": 500,
     "components": [ [ [ "paper", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "food_processor",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": 9000,
+    "qualities": [
+      { "id": "SCREW", "level": 1, "amount": 1 },
+      { "id": "HAMMER", "level": 3, "amount": 1 }
+    ],
+    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
+    "components": [
+      [ [ "scrap", 4 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "pot", 1 ] ],
+      [ [ "e_scrap", 1 ] ],
+      [ [ "motor_small", 1 ] ]
+    ]
   }
 ]

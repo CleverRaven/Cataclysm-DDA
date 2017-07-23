@@ -132,7 +132,7 @@ bool craft_command::query_continue( const std::vector<comp_selection<item_comp>>
 std::list<item> craft_command::consume_components()
 {
     std::list<item> used;
-    if( crafter->has_trait( "DEBUG_HS" ) ) {
+    if( crafter->has_trait( trait_id( "DEBUG_HS" ) ) ) {
         return used;
     }
 

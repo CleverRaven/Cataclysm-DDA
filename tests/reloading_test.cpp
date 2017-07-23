@@ -2,10 +2,11 @@
 
 #include "game.h"
 #include "item.h"
-#include "player.h"
 #include "item_location.h"
+#include "itype.h"
+#include "player.h"
 
-TEST_CASE( "reload_gun_with_integral_magazine" ) {
+TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" ) {
     player &dummy = g->u;
 
     // Remove first worn item until there are none left.
@@ -29,7 +30,7 @@ TEST_CASE( "reload_gun_with_integral_magazine" ) {
     REQUIRE( gun.ammo_remaining() == gun.ammo_capacity() );
 }
 
-TEST_CASE( "reload_gun_with_swappable_magazine" ) {
+TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" ) {
     player &dummy = g->u;
 
     // Remove first worn item until there are none left.
@@ -40,10 +41,19 @@ TEST_CASE( "reload_gun_with_swappable_magazine" ) {
 
     dummy.remove_weapon();
 
-    // TODO: inline the gun and ammo definitions so this test doesn't rely on json.
     item &ammo = dummy.i_add( item( "9mm", 0, item::default_charges_tag{} ) );
+    const islot_ammo *ammo_type = ammo.type->ammo.get();
+    REQUIRE( ammo_type != nullptr );
+
+    item mag( "glockmag", 0, 0 );
+    const islot_magazine *magazine_type = mag.type->magazine.get();
+    REQUIRE( magazine_type != nullptr );
+    REQUIRE( ammo_type->type.count( magazine_type->type ) != 0 );
+
     item &gun = dummy.i_add( item( "glock_19", 0, false ) );
-    gun.emplace_back( "glockmag" );
+    REQUIRE( ammo_type->type.count( gun.ammo_type() ) != 0 );
+
+    gun.put_in( mag );
 
     int gun_pos = dummy.inv.position_by_type( "glock_19" );
     REQUIRE( gun_pos != INT_MIN );

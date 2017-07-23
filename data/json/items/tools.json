@@ -18,6 +18,7 @@
       "msg": "You pull the pin on the EMP grenade.",
       "target_charges": 3,
       "active": true,
+      "menu_text": "Pull pin",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
@@ -69,6 +70,7 @@
       "msg": "You pull the activating lever, readying the LAW to fire.",
       "target_charges": 1,
       "target_ammo": "66mm_HEAT",
+      "menu_text": "Activate",
       "type": "transform"
     }
   },
@@ -237,6 +239,7 @@
     "use_action": {
       "target": "atomic_lamp_off",
       "msg": "You close the lamp's cover.",
+      "menu_text": "Close cover",
       "type": "transform"
     },
     "flags": [ "LIGHT_15", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
@@ -259,6 +262,7 @@
     "use_action": {
       "target": "atomic_lamp",
       "msg": "You open the lamp's cover.",
+      "menu_text": "Open cover",
       "type": "transform"
     },
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
@@ -280,6 +284,7 @@
     "use_action": {
       "target": "atomic_light_off",
       "msg": "You close the nightlight's cover.",
+      "menu_text": "Close cover",
       "type": "transform"
     },
     "flags": [ "LIGHT_5", "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
@@ -302,6 +307,7 @@
     "use_action": {
       "target": "atomic_light",
       "msg": "You open the nightlight's cover.",
+      "menu_text": "Open cover",
       "type": "transform"
     },
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
@@ -340,6 +346,7 @@
       "target": "apple_vac",
       "msg": "You open the vacuum pack, exposing it to the atmosphere.",
       "container": "bag_plastic",
+      "menu_text": "Open bag",
       "type": "transform"
     }
   },
@@ -360,6 +367,7 @@
       "target": "fish_vac",
       "msg": "You open the vacuum pack, exposing it to the atmosphere.",
       "container": "bag_plastic",
+      "menu_text": "Open bag",
       "type": "transform"
     }
   },
@@ -380,6 +388,7 @@
       "target": "hflesh_vac",
       "msg": "You open the vacuum pack, exposing it to the atmosphere.",
       "container": "bag_plastic",
+      "menu_text": "Open bag",
       "type": "transform"
     }
   },
@@ -401,6 +410,7 @@
       "target": "meat_vac",
       "msg": "You open the vacuum pack, exposing it to the atmosphere.",
       "container": "bag_plastic",
+      "menu_text": "Open bag",
       "type": "transform"
     }
   },
@@ -422,6 +432,7 @@
       "target": "veggy_vac",
       "msg": "You open the vacuum pack, exposing it to the atmosphere.",
       "container": "bag_plastic",
+      "menu_text": "Open bag",
       "type": "transform"
     }
   },
@@ -514,6 +525,7 @@
       "msg": "You light the Louisville Slaughterer.",
       "active": true,
       "need_fire": 1,
+      "menu_text": "Light",
       "type": "transform"
     },
     "flags": [ "DURABLE_MELEE" ]
@@ -1204,6 +1216,7 @@
       "msg": "You light the candle.",
       "active": true,
       "need_fire": 1,
+      "menu_text": "Light",
       "type": "transform"
     }
   },
@@ -1227,6 +1240,7 @@
     "use_action": {
       "target": "candle",
       "msg": "The candle winks out.",
+      "menu_text": "Extinguish",
       "type": "transform"
     },
     "flags": [ "LIGHT_8", "TRADER_AVOID" ]
@@ -1323,6 +1337,25 @@
     "use_action": "CATFOOD"
   },
   {
+    "id": "cavalry_sabre",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "cavalry saber",
+    "description": "This is a curved sword associated with cavalry from the Early Modern period onwards.  Lightweight but a deadly slashing weapon.",
+    "weight": 910,
+    "volume": 5,
+    "price": 97000,
+    "to_hit": 2,
+    "bashing": 2,
+    "cutting": 26,
+    "material": "steel",
+    "symbol": "/",
+    "color": "dark_gray",
+    "techniques": [ "WBLOCK_2", "RAPID" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+  },
+  {
     "id": "cell_phone",
     "type": "TOOL",
     "name": "cell phone",
@@ -1360,6 +1393,7 @@
     "use_action": {
       "target": "cell_phone",
       "msg": "You deactivate the flashlight app.",
+      "menu_text": "Turn off",
       "type": "transform"
     },
     "flags": [ "LIGHT_20", "CHARGEDIM", "TRADER_AVOID" ]
@@ -1510,7 +1544,7 @@
     "sub": "hotplate",
     "max_charges": 200,
     "charges_per_use": 1,
-    "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 2 ], [ "BOIL", 1 ] ],
+    "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
     "use_action": "HOTPLATE"
   },
   {
@@ -2169,6 +2203,7 @@
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "CUT", 1 ], [ "PRY", 1 ], [ "BUTCHER", 15 ] ],
+    "use_action": "CROWBAR",
     "flags": [ "SHEATH_KNIFE" ]
   },
   {
@@ -2224,6 +2259,7 @@
       "target_charges": 20,
       "active": true,
       "need_fire": 1,
+      "menu_text": "Light fuse",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
@@ -2283,6 +2319,7 @@
       "msg": "You arm your radio-detonated dynamite.",
       "target_charges": 1,
       "active": true,
+      "menu_text": "Arm detonator",
       "type": "transform"
     }
   },
@@ -2526,6 +2563,7 @@
       "target_charges": 10,
       "active": true,
       "need_fire": 1,
+      "menu_text": "Light fuse",
       "type": "transform"
     }
   },
@@ -2683,6 +2721,7 @@
     "material": "paper",
     "symbol": "*",
     "color": "red",
+    "turns_per_charge": 7,
     "use_action": "FIRECRACKER_PACK_ACT",
     "flags": [ "TRADER_AVOID" ]
   },
@@ -2935,6 +2974,7 @@
       "msg": "You pull the pin on the flashbang.",
       "target_charges": 5,
       "active": true,
+      "menu_text": "Pull pin",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
@@ -3135,6 +3175,7 @@
       "msg": "You arm the makeshift gas canister.",
       "target_charges": 10,
       "active": true,
+      "menu_text": "Arm",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
@@ -3239,6 +3280,7 @@
     "use_action": {
       "target": "gasoline_lantern",
       "msg": "The lantern is extinguished.",
+      "menu_text": "Turn off",
       "type": "transform"
     },
     "flags": [ "LIGHT_15", "TRADER_AVOID" ]
@@ -3312,6 +3354,7 @@
       "target": "glowstick_lit",
       "msg": "You activate the glowstick.",
       "active": true,
+      "menu_text": "Activate",
       "type": "transform"
     }
   },
@@ -3386,6 +3429,7 @@
       "msg": "You pull the pin on the grenade.",
       "target_charges": 5,
       "active": true,
+      "menu_text": "Pull pin",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
@@ -3438,6 +3482,7 @@
       "msg": "You pull the pin on the grenade.",
       "target_charges": 5,
       "active": true,
+      "menu_text": "Pull pin",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ACT_IN_FIRE" ]
@@ -3779,6 +3824,7 @@
       "msg": "You open the jar, exposing it to the atmosphere.",
       "container": "jar_glass",
       "target_charges": 4,
+      "menu_text": "Open jar",
       "type": "transform"
     }
   },
@@ -3847,6 +3893,7 @@
       "msg": "You light the wood.",
       "need_fire": 1,
       "need_fire_msg": "You need something to light it with!",
+      "menu_text": "Light wood",
       "type": "transform"
     }
   },
@@ -3910,7 +3957,7 @@
     "color": "dark_gray",
     "gunmod_data": {
       "location": "underbarrel",
-      "mod_targets": [ "shotgun", "rifle" ],
+      "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
       "dispersion_modifier": 10,
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
       "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]
@@ -4148,6 +4195,7 @@
     "use_action": {
       "target": "l-stick",
       "msg": "The l-stick(tm)'s light fades away.",
+      "menu_text": "Turn off",
       "type": "transform"
     },
     "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID" ]
@@ -4537,6 +4585,7 @@
       "target_charges": 20,
       "active": true,
       "need_fire": 1,
+      "menu_text": "Light fuse",
       "type": "transform"
     }
   },
@@ -4788,6 +4837,7 @@
       "active": true,
       "moves": 75,
       "need_fire": 1,
+      "menu_text": "Light rag",
       "type": "transform"
     },
     "flags": [ "NPC_ACTIVATE", "NO_REPAIR" ]
@@ -5116,9 +5166,10 @@
     "use_action": {
       "target": "oil_lamp",
       "msg": "The lantern is extinguished.",
+      "menu_text": "Turn off",
       "type": "transform"
     },
-    "flags": [ "LIGHT_10", "TRADER_AVOID" ]
+    "flags": [ "LIGHT_10", "TRADER_AVOID", "FIRE" ]
   },
   {
     "id": "oxygen_tank",
@@ -5346,6 +5397,7 @@
       "target_charges": 3,
       "active": true,
       "need_fire": 1,
+      "menu_text": "Light fuse",
       "type": "transform"
     },
     "flags": [ "NPC_ACTIVATE" ]
@@ -5390,6 +5442,7 @@
       "msg": "You arm your radio-detonated pipe bomb.",
       "target_charges": 1,
       "active": true,
+      "menu_text": "Arm detonator",
       "type": "transform"
     }
   },
@@ -5590,10 +5643,7 @@
     "bashing": 6,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
-    "color": "dark_gray",
-    "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100
+    "color": "dark_gray"
   },
   {
     "id": "primitive_adze",
@@ -6044,6 +6094,7 @@
       "msg": "You pull the pin on the scrambler grenade.",
       "target_charges": 3,
       "active": true,
+      "menu_text": "Pull pin",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
@@ -6484,6 +6535,7 @@
     "use_action": {
       "target": "smart_lamp",
       "msg": "Your smart lamp turned off",
+      "menu_text": "Turn off",
       "type": "transform"
     },
     "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ]
@@ -7146,6 +7198,7 @@
       "target_charges": 20,
       "active": true,
       "need_fire": 1,
+      "menu_text": "Light fuse",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
@@ -7209,6 +7262,7 @@
       "target_charges": 2,
       "active": true,
       "need_fire": 1,
+      "menu_text": "Light fuse",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
@@ -7274,6 +7328,7 @@
       "msg": "You light the fuse on the black gunpowder charge.  Get rid of it quickly!",
       "target_charges": 5,
       "active": true,
+      "menu_text": "Light fuse",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
@@ -7351,6 +7406,7 @@
       "msg": "You light the fuse on the explosive charge.  Clear the area!",
       "target_charges": 30,
       "active": true,
+      "menu_text": "Light fuse",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
@@ -7426,6 +7482,7 @@
       "target_charges": 5,
       "active": true,
       "need_fire": 1,
+      "menu_text": "Light fuse",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
@@ -7483,6 +7540,7 @@
       "msg": "You light the rocket candy on fire.  Throw it!",
       "target_charges": 2,
       "active": true,
+      "menu_text": "Light candy",
       "type": "transform"
     },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
@@ -7556,6 +7614,7 @@
       "msg": "You light the torch.",
       "active": true,
       "need_fire": 1,
+      "menu_text": "Light torch",
       "type": "transform"
     }
   },
@@ -7915,7 +7974,7 @@
     "id": "washboard",
     "type": "TOOL",
     "name": "washboard",
-    "description": "This is a wooden washboard.  You can use it to wash filthy clothing if it's supplied with soap.  It requires 1 unit of soap per use.",
+    "description": "This is a wooden washboard.  You can use it to wash filthy clothing if it's supplied with cleansing agent.",
     "weight": 90,
     "volume": 1,
     "price": 1000,
@@ -7923,10 +7982,6 @@
     "material": "wood",
     "symbol": ";",
     "color": "white",
-    "ammo": "soap",
-    "initial_charges": 5,
-    "max_charges": 10,
-    "charges_per_use": 1,
     "use_action": "WASHCLOTHES"
   },
   {
@@ -8054,7 +8109,7 @@
     "type": "TOOL",
     "category": "spare_parts",
     "name": "wool staple",
-    "description": "The natural cluster of wool fibres.  Could be processed to the felt patches or yarns.",
+    "description": "The natural cluster of wool fibers.  Could be processed to the felt patches or yarns.",
     "weight": 200,
     "volume": 2,
     "price": 0,
@@ -8078,6 +8133,7 @@
     "use_action": {
       "target": "rad_badge",
       "msg": "You remove the badge from its wrapper, exposing it to ambient radiation.",
+      "menu_text": "Unwrap badge",
       "type": "transform"
     }
   },
@@ -8198,5 +8254,23 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+  },
+  {
+    "id": "food_processor",
+    "type": "TOOL",
+    "category": "tools",
+    "name": "food processor",
+    "description": "This is a kitchen appliance capable of slicing, chopping, shredding, grinding, pureeing and mixing.",
+    "weight": 3000,
+    "volume": 8,
+    "price": 50,
+    "to_hit": -1,
+    "bashing": 10,
+    "material": [ "iron" ],
+    "symbol": "%",
+    "color": "white",
+    "ammo": "battery",
+    "initial_charges": 100,
+    "max_charges": 100
   }
 ]

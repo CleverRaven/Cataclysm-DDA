@@ -35,17 +35,20 @@ npc create_model()
     npc model_npc;
     model_npc.normalize();
     model_npc.randomize( NC_NONE );
+    for( trait_id tr : model_npc.get_mutations() ) {
+        model_npc.unset_mutation( tr );
+    }
     model_npc.set_hunger( 0 );
     model_npc.set_thirst( 0 );
     model_npc.set_fatigue( 0 );
     model_npc.remove_effect( efftype_id( "sleep" ) );
     // An ugly hack to prevent NPC falling asleep during testing due to massive fatigue
-    model_npc.set_mutation( "WEB_WEAVER" );
+    model_npc.set_mutation( trait_id( "WEB_WEAVER" ) );
 
     return model_npc;
 }
 
-TEST_CASE("on_load-sane-values")
+TEST_CASE("on_load-sane-values", "[.]")
 {
 
     npc model_npc = create_model();
@@ -54,7 +57,7 @@ TEST_CASE("on_load-sane-values")
         npc test_npc = model_npc;
         const int five_min_ticks = 2;
         on_load_test( test_npc, 0, MINUTES(5 * five_min_ticks) );
-        const int margin = 1;
+        const int margin = 2;
 
         const numeric_interval<int> hunger( five_min_ticks / 4, margin, margin );
         const numeric_interval<int> thirst( five_min_ticks / 4, margin, margin );
@@ -98,7 +101,7 @@ TEST_CASE("on_load-sane-values")
     }
 }
 
-TEST_CASE("on_load-similar-to-per-turn")
+TEST_CASE("on_load-similar-to-per-turn", "[.]")
 {
     npc model_npc = create_model();
 
@@ -111,7 +114,7 @@ TEST_CASE("on_load-similar-to-per-turn")
             iterated_npc.update_body( turn, turn + 1 );
         }
 
-        const int margin = 1;
+        const int margin = 2;
         const numeric_interval<int> hunger( iterated_npc.get_hunger(), margin, margin );
         const numeric_interval<int> thirst( iterated_npc.get_thirst(), margin, margin );
         const numeric_interval<int> fatigue( iterated_npc.get_fatigue(), margin, margin );

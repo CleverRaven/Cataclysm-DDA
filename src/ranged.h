@@ -43,7 +43,13 @@ class target_handler {
     public:
         /**
          *  Prompts for target and returns trajectory to it.
+         *  @param pc The player doing the targeting
          *  @param args structure containing arguments passed to the overloaded form.
+         */
+        std::vector<tripoint> target_ui( player &pc, const targeting_data &args );
+        /**
+         *  Prompts for target and returns trajectory to it.
+         *  @param pc The player doing the targeting
          *  @param mode targeting mode, which affects UI display among other things.
          *  @param relevant active item, if any (for instance, a weapon to be aimed).
          *  @param range the maximum distance to which we're allowed to draw a target.
@@ -51,7 +57,6 @@ class target_handler {
          *  @param on_mode_change callback when user attempts changing firing mode.
          *  @param on_ammo_change callback when user attempts changing ammo.
          */
-        std::vector<tripoint> target_ui( player &pc, const targeting_data &args );
         std::vector<tripoint> target_ui( player &pc, target_mode mode,
                                          item *relevant, int range,
                                          const itype *ammo = nullptr,

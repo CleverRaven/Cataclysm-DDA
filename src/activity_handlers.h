@@ -4,6 +4,8 @@
 
 #include "player_activity.h"
 
+#include <functional>
+
 class player;
 
 // activity_item_handling.cpp
@@ -82,6 +84,7 @@ void vibe_finish( player_activity *act, player *p );
 void move_items_finish( player_activity *act, player *p );
 void atm_finish( player_activity *act, player *p );
 void aim_finish( player_activity *act, player *p );
+void washing_finish( player_activity *act, player *p );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, player * )> >

@@ -31,8 +31,8 @@ const skill_id skill_cutting( "cutting" );
 const skill_id skill_stabbing( "stabbing" );
 const skill_id skill_bashing( "bashing" );
 const skill_id skill_melee( "melee" );
+const skill_id skill_fabrication( "fabrication" );
 const skill_id skill_survival( "survival" );
-const skill_id skill_carpentry( "carpentry" );
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_electronics( "electronics" );
 const skill_id skill_firstaid( "firstaid" );
@@ -40,6 +40,10 @@ const skill_id skill_speech( "speech" );
 const skill_id skill_cooking( "cooking" );
 const skill_id skill_traps( "traps" );
 const skill_id skill_archery( "archery" );
+
+static const trait_id trait_NPC_CONSTRUCTION_LEV_1( "NPC_CONSTRUCTION_LEV_1" );
+static const trait_id trait_NPC_CONSTRUCTION_LEV_2( "NPC_CONSTRUCTION_LEV_2" );
+static const trait_id trait_NPC_MISSION_LEV_1( "NPC_MISSION_LEV_1" );
 
 void talk_function::bionic_install(npc &p)
 {
@@ -55,7 +59,7 @@ void talk_function::bionic_install(npc &p)
     std::vector<std::string> bionic_names;
     for( auto &bio : bionic_inv ) {
         if( std::find( bionic_types.begin(), bionic_types.end(), bio->typeId() ) == bionic_types.end() ) {
-            if (!g->u.has_bionic(bio->typeId()) || bio->typeId() ==  "bio_power_storage" ||
+            if (!g->u.has_bionic( bionic_id( bio->typeId() ) ) || bio->typeId() ==  "bio_power_storage" ||
                 bio->typeId() ==  "bio_power_storage_mkII"){
 
                 bionic_types.push_back( bio->typeId() );
@@ -106,14 +110,14 @@ void talk_function::bionic_remove(npc &p)
     std::vector<itype_id> bionic_types;
     std::vector<std::string> bionic_names;
     for( auto &bio : all_bio ) {
-        if( std::find( bionic_types.begin(), bionic_types.end(), bio.id ) == bionic_types.end() ) {
-            if (bio.id !=  "bio_power_storage" || bio.id !=  "bio_power_storage_mkII"){
-                bionic_types.push_back( bio.id );
-                if( item::type_is_defined( bio.id ) ) {
-                    tmp = item(bio.id, 0);
+        if( std::find( bionic_types.begin(), bionic_types.end(), bio.id.str() ) == bionic_types.end() ) {
+            if (bio.id != bionic_id( "bio_power_storage" ) || bio.id != bionic_id( "bio_power_storage_mkII" ) ) {
+                bionic_types.push_back( bio.id.str() );
+                if( item::type_is_defined( bio.id.str() ) ) {
+                    tmp = item(bio.id.str(), 0);
                     bionic_names.push_back( tmp.tname() +" - $"+to_string(500+(tmp.price( true )/400)));
                 } else {
-                    bionic_names.push_back( bio.id +" - $"+to_string(500));
+                    bionic_names.push_back( bio.id.str() +" - $"+to_string(500));
                 }
             }
         }
@@ -144,10 +148,10 @@ void talk_function::bionic_remove(npc &p)
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if (g->u.uninstall_bionic(bionic_types[bionic_index], 20)){
+    if (g->u.uninstall_bionic(bionic_id( bionic_types[bionic_index] ), 20)){
         g->u.cash -= price;
         p.cash += price;
-        g->u.amount_of( bionic_types[bionic_index] );
+        g->u.amount_of( bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
     }
 
 }
@@ -190,7 +194,7 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
             "the opportunity to build survival skills while engaging in relatively safe combat against isolated "
             "creatures.");
         keys.push_back("Assign Scavenging Patrol");
-        npc_list = companion_list(p->name+"_scavenging_patrol");
+        npc_list = companion_list( *p, "_scavenging_patrol" );
         if (npc_list.size()>0){
             entry = _("Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \nPatrol Roster:\n");
             for( auto &elem : npc_list ) {
@@ -202,13 +206,13 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
         }
     }
 
-    if (id == "SCAVENGER" && p->has_trait("NPC_MISSION_LEV_1")){
+    if (id == "SCAVENGER" && p->has_trait( trait_NPC_MISSION_LEV_1 )){
         col_missions["Assign Scavenging Raid"] = _("Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \n"
             "Scavenging raids target formerly populated areas to loot as many valuable items as possible before "
             "being surrounded by the undead.  Combat is to be expected and assistance from the rest of the party "
             "can't be guaranteed.  The rewards are greater and there is a chance of the companion bringing back items.");
         keys.push_back("Assign Scavenging Raid");
-        npc_list = companion_list(p->name+"_scavenging_raid");
+        npc_list = companion_list( *p, "_scavenging_raid");
         if (npc_list.size()>0){
             entry = _("Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \nRaid Roster:\n");
             for( auto &elem : npc_list ) {
@@ -225,7 +229,7 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
             "Assigning one of your allies to menial labor is a safe way to teach them basic skills and build "
             "reputation with the outpost.  Don't expect much of a reward though.");
         keys.push_back("Assign Ally to Menial Labor");
-        npc_list = companion_list(p->name+"_labor");
+        npc_list = companion_list( *p, "_labor" );
         if (npc_list.size()>0){
             entry = _("Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n");
             for( auto &elem : npc_list ) {
@@ -237,12 +241,12 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
         }
     }
 
-    if (id == "FOREMAN" && p->has_trait("NPC_MISSION_LEV_1")){
+    if (id == "FOREMAN" && p->has_trait( trait_NPC_MISSION_LEV_1 )){
         col_missions["Assign Ally to Carpentry Work"] = _("Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
             "Carpentry work requires more skill than menial labor while offering modestly improved pay.  It is "
             "unlikely that your companions will face combat but there are hazards working on makeshift buildings.");
         keys.push_back("Assign Ally to Carpentry Work");
-        npc_list = companion_list(p->name+"_carpenter");
+        npc_list = companion_list( *p, "_carpenter" );
         if (npc_list.size()>0){
             entry = _("Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n");
             for( auto &elem : npc_list ) {
@@ -254,7 +258,7 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
         }
     }
 
-    if (id == "COMMUNE CROPS" && !p->has_trait("NPC_CONSTRUCTION_LEV_1")){
+    if (id == "COMMUNE CROPS" && !p->has_trait( trait_NPC_CONSTRUCTION_LEV_1 )){
         col_missions["Purchase East Field"] = _("Cost: $1000\n \n"
             "\n              .........\n              .........\n              .........\n              "
             ".........\n              .........\n              .........\n              ..#....**\n     "
@@ -266,7 +270,7 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
         keys.push_back("Purchase East Field");
     }
 
-    if (id == "COMMUNE CROPS" && p->has_trait("NPC_CONSTRUCTION_LEV_1") && !p->has_trait("NPC_CONSTRUCTION_LEV_2")){
+    if (id == "COMMUNE CROPS" && p->has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) && !p->has_trait( trait_NPC_CONSTRUCTION_LEV_2 )){
         col_missions["Upgrade East Field I"] = _("Cost: $5500\n \n"
             "\n              .........\n              .........\n              .........\n              "
             ".........\n              .........\n              .........\n              ..#....**\n     "
@@ -276,7 +280,7 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
         keys.push_back("Upgrade East Field I");
     }
 
-    if (id == "COMMUNE CROPS" && p->has_trait("NPC_CONSTRUCTION_LEV_1")){
+    if (id == "COMMUNE CROPS" && p->has_trait( trait_NPC_CONSTRUCTION_LEV_1 )){
         col_missions["Plant East Field"] = _("Cost: $3.00/plot\n \n"
         "\n              .........\n              .........\n              .........\n              .........\n"
         "              .........\n              .........\n              ..#....**\n              ..#Ov..**\n  "
@@ -298,7 +302,7 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
             "edibles.  Combat will be avoided but encounters with wild animals are to be expected.  The low pay is "
             "supplemented with the odd item as a reward for particularly large hauls.");
         keys.push_back("Assign Ally to Forage for Food");
-        npc_list = companion_list(p->name+"_forage");
+        npc_list = companion_list( *p, "_forage" );
         if (npc_list.size()>0){
             entry = _("Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n \nLabor Roster:\n");
             for( auto &elem : npc_list ) {
@@ -318,7 +322,7 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
             "The commune is sending food to the Free Merchants in the Refugee Center as part of a tax and in exchange "
             "for skilled labor.");
         keys.push_back("Caravan Commune-Refugee Center");
-        npc_list = companion_list(p->name+"_commune_refugee_caravan");
+        npc_list = companion_list( *p, "_commune_refugee_caravan" );
         std::vector<npc *> npc_list_aux;
         if (npc_list.size()>0){
             entry = _("Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
@@ -485,18 +489,19 @@ void talk_function::individual_mission(npc *p, std::string desc, std::string id,
         return;
     }
     popup("%s %s", comp->name.c_str(), desc.c_str());
-    comp->companion_mission = p->name + id;
+    comp->set_companion_mission( *p, id );
     if (group){
         comp->companion_mission_time = -1;
     } else {
         comp->companion_mission_time = calendar::turn.get_turn();
     }
-    companion_leave(comp);
+    g->reload_npcs();
+    assert( !comp->is_active() );
 }
 
 void talk_function::caravan_depart(npc *p, std::string dest, std::string id)
 {
-    std::vector<npc *> npc_list = companion_list(p->name+id);
+    std::vector<npc *> npc_list = companion_list( *p, id );
     int distance = caravan_dist(dest);
     int time = 200 + distance * 100;
     popup(_("The caravan departs with an estimated total travel time of %d hours..."), int(time/600));
@@ -534,9 +539,9 @@ void talk_function::caravan_return(npc *p, std::string dest, std::string id)
     //Everyone who was on the mission will have the same companion_mission_time
     //and will simulate the mission and return together
     std::vector<npc *> caravan_party, bandit_party;
-    std::vector<npc *> npc_list = companion_list(p->name+id);
+    std::vector<npc *> npc_list = companion_list( *p, id );
     for (int i = 0; i < rng(1,3); i++){
-        caravan_party.push_back(temp_npc("commune_guard"));
+        caravan_party.push_back(temp_npc(string_id<npc_template>( "commune_guard" )));
     }
     for( auto &elem : npc_list ) {
         if (elem->companion_mission_time == comp->companion_mission_time){
@@ -549,8 +554,8 @@ void talk_function::caravan_return(npc *p, std::string dest, std::string id)
     int experience = rng( 10, time / 300 );
 
     for (int i = 0; i < rng( 1, 3 ); i++){
-        bandit_party.push_back(temp_npc("bandit"));
-        bandit_party.push_back(temp_npc("thug"));
+        bandit_party.push_back(temp_npc(string_id<npc_template>( "bandit" )));
+        bandit_party.push_back(temp_npc(string_id<npc_template>( "thug" )));
     }
 
 
@@ -571,10 +576,10 @@ void talk_function::caravan_return(npc *p, std::string dest, std::string id)
     int money = 0;
     for( auto *elem : caravan_party ) {
         //Scrub temporary party members and the dead
-        if (elem->hp_cur[hp_torso] == 0 && elem->companion_mission != ""){
-            companion_lost(comp);
+        if (elem->hp_cur[hp_torso] == 0 && elem->has_companion_mission() ) {
+            overmap_buffer.remove_npc( comp->getID() );
             money += (time/600) * 9;
-        } else if (elem->companion_mission != ""){
+        } else if( elem->has_companion_mission() ){
             money += (time/600) * 18;
             i = 0;
             while (i < experience){
@@ -660,7 +665,7 @@ int talk_function::combat_score(std::vector<npc *> group)
     return score;
 }
 
-npc *talk_function::temp_npc(std::string type)
+npc *talk_function::temp_npc( const string_id<npc_template> &type )
 {
     npc *temp = new npc();
     temp->normalize();
@@ -675,7 +680,7 @@ void talk_function::field_build_1(npc *p)
         popup(_("I'm sorry, you don't have enough money."));
         return;
     }
-    p->set_mutation( "NPC_CONSTRUCTION_LEV_1" );
+    p->set_mutation( trait_NPC_CONSTRUCTION_LEV_1 );
     g->u.cash += -100000;
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), "ranch_camp_63", 20, false );
     tinymap bay;
@@ -697,7 +702,7 @@ void talk_function::field_build_2(npc *p)
         popup(_("I'm sorry, you don't have enough money."));
         return;
     }
-    p->set_mutation( "NPC_CONSTRUCTION_LEV_2" );
+    p->set_mutation( trait_NPC_CONSTRUCTION_LEV_2 );
     g->u.cash += -550000;
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), "ranch_camp_63", 20, false );
     tinymap bay;
@@ -867,7 +872,7 @@ void talk_function::field_harvest(npc *p, std::string place)
     int number_plants = 0;
     int number_seeds = 0;
     int skillLevel = 2;
-    if (p->has_trait("NPC_CONSTRUCTION_LEV_2"))
+    if (p->has_trait( trait_NPC_CONSTRUCTION_LEV_2 ))
         skillLevel += 2;
 
     for (int x = 0; x < 23; x++){
@@ -976,7 +981,7 @@ bool talk_function::scavenging_patrol_return(npc *p)
                 experience += rng ( 2, 10 );
             } else {
                 popup(_("Unfortunately they were overpowered by the undead... I'm sorry."));
-                companion_lost(comp);
+                overmap_buffer.remove_npc( comp->getID() );
                 return false;
             }
         }
@@ -1019,8 +1024,8 @@ bool talk_function::scavenging_patrol_return(npc *p)
         popup(_("%s was impressed with %s's performance and gave you a small bonus ($100)"), p->name.c_str(), comp->name.c_str());
         g->u.cash += 10000;
     }
-    if (one_in(10) && !p->has_trait("NPC_MISSION_LEV_1")){
-        p->set_mutation( "NPC_MISSION_LEV_1" );
+    if (one_in(10) && !p->has_trait( trait_NPC_MISSION_LEV_1 )){
+        p->set_mutation( trait_NPC_MISSION_LEV_1 );
         popup(_("%s feels more confident in your abilities and is willing to let you participate in daring raids."), p->name.c_str());
     }
     companion_return(comp);
@@ -1066,7 +1071,7 @@ bool talk_function::scavenging_raid_return(npc *p)
                 experience += rng( 2, 10 );
             } else {
                 popup(_("Unfortunatly they were overpowered by the undead... I'm sorry."));
-                companion_lost(comp);
+                overmap_buffer.remove_npc( comp->getID() );
                 return false;
             }
         }
@@ -1146,7 +1151,7 @@ bool talk_function::labor_return(npc *p)
     while (i < exp){
         y = rng( 0, 100 );
         if (y < 50){
-            comp->practice( skill_carpentry, 5);
+            comp->practice( skill_fabrication, 5);
         } else if (y < 70){
             comp->practice( skill_survival, 5);
         } else if (y < 85){
@@ -1161,8 +1166,8 @@ bool talk_function::labor_return(npc *p)
 
     popup(_("%s returns from working as a laborer having earned $%d and a bit of experience..."), comp->name.c_str(),money);
     companion_return(comp);
-    if (turns >= 8 && one_in(8) && !p->has_trait("NPC_MISSION_LEV_1")){
-        p->set_mutation( "NPC_MISSION_LEV_1" );
+    if (turns >= 8 && one_in(8) && !p->has_trait( trait_NPC_MISSION_LEV_1 )){
+        p->set_mutation( trait_NPC_MISSION_LEV_1 );
         popup(_("%s feels more confident in your companions and is willing to let them participate in advanced tasks."), p->name.c_str());
     }
 
@@ -1179,12 +1184,12 @@ bool talk_function::carpenter_return(npc *p)
     if (one_in(20)){
         // the following doxygen aliases do not yet exist. this is marked for future reference
 
-        ///\EFFECT_CARPENTRY_NPC affects carpenter mission results
+        ///\EFFECT_FABRICATION_NPC affects carpenter mission results
 
         ///\EFFECT_DODGE_NPC affects carpenter mission results
 
         ///\EFFECT_SURVIVAL_NPC affects carpenter mission results
-        int skill_1 = comp->get_skill_level( skill_carpentry );
+        int skill_1 = comp->get_skill_level( skill_fabrication );
         int skill_2 = comp->get_skill_level( skill_dodge );
         int skill_3 = comp->get_skill_level( skill_survival );
         popup(_("While %s was framing a building one of the walls began to collapse..."), comp->name.c_str());
@@ -1199,7 +1204,7 @@ bool talk_function::carpenter_return(npc *p)
             popup(_("%s didn't make it out in time..."), comp->name.c_str());
             popup(_("Everyone who was trapped under the collapsing roof died..."));
             popup(_("I'm sorry, there is nothing we could do."));
-            companion_lost(comp);
+            overmap_buffer.remove_npc( comp->getID() );
             return false;
         }
     }
@@ -1213,7 +1218,7 @@ bool talk_function::carpenter_return(npc *p)
     while (i < exp){
         y = rng( 0, 100 );
         if (y < 70){
-            comp->practice( skill_carpentry, 10);
+            comp->practice( skill_fabrication, 10 );
         } else if (y < 80){
             comp->practice( skill_survival, 10);
         } else if (y < 90){
@@ -1285,7 +1290,7 @@ bool talk_function::forage_return(npc *p)
                     popup(_("We... we don't know what exactly happened but we found %s's gear ripped and bloody..."), comp->name.c_str());
                     popup(_("I fear your companion won't be returning."));
                 }
-                companion_lost(comp);
+                overmap_buffer.remove_npc( comp->getID() );
                 return false;
             }
         }
@@ -1341,8 +1346,8 @@ bool talk_function::forage_return(npc *p)
                 popup(_("%s returned with a %s for you!"),comp->name.c_str(),result.tname().c_str());
                 g->u.i_add( result );
         }
-        if (one_in(6) && !p->has_trait("NPC_MISSION_LEV_1")){
-            p->set_mutation( "NPC_MISSION_LEV_1" );
+        if (one_in(6) && !p->has_trait( trait_NPC_MISSION_LEV_1 )){
+            p->set_mutation( trait_NPC_MISSION_LEV_1 );
             popup(_("%s feels more confident in your companions and is willing to let them participate in advanced tasks."), p->name.c_str());
         }
 
@@ -1411,57 +1416,20 @@ void talk_function::force_on_force(std::vector<npc *> defender, std::string def_
     }
 }
 
-void talk_function::companion_leave(npc *comp){
-    g->mission_npc.push_back(comp);
-    overmap_buffer.hide_npc( comp->getID() );
-    g->unload_npcs();
-    g->load_npcs();
-}
-
-
-void talk_function::companion_lost(npc *comp){
-    std::vector<npc *> new_mission_npc;
-    for( auto *elem : g->mission_npc ) {
-        if( elem->getID() == comp->getID() ) {
-            delete elem;
-        } else {
-            new_mission_npc.push_back(elem);
-        }
-    }
-    g->mission_npc = new_mission_npc;
-    g->unload_npcs();
-    g->load_npcs();
-}
-
-
 void talk_function::companion_return(npc *comp){
-    std::vector<npc *> new_mission_npc;
-    for( auto *elem : g->mission_npc ) {
-        if( elem == comp) {
-            elem->companion_mission = "";
-            elem->companion_mission_time = 0;
-            elem->spawn_at(g->get_levx(), g->get_levy(), g->get_levz());
-            elem->setx( g->u.posx() + rng( -2, 2 ));
-            if (one_in(2)){
-                elem->sety( g->u.posy() + rng( -2, 2 ) );
-            }else{
-                elem->sety( g->u.posy() - rng( -2, 2 ) );
-            }
-            elem->setz( g->u.posz() );
-        } else {
-            new_mission_npc.push_back(elem);
-        }
-    }
-    g->mission_npc = new_mission_npc;
-    g->unload_npcs();
-    g->load_npcs();
+    assert( comp );
+    assert( !comp->is_active() );
+    comp->reset_companion_mission();
+    comp->companion_mission_time = 0;
+    // npc *may* be active, or not if outside the reality bubble
+    g->reload_npcs();
 }
 
-std::vector<npc *> talk_function::companion_list(std::string id)
+std::vector<npc *> talk_function::companion_list( const npc &p, const std::string &id )
 {
     std::vector<npc *> available;
-    for( auto *elem : g->mission_npc ) {
-        if( elem->companion_mission == id ) {
+    for( auto *elem : overmap_buffer.get_companion_mission_npcs() ) {
+        if( elem->get_companion_mission() == p.name + id ) {
             available.push_back( elem );
         }
     }
@@ -1497,9 +1465,9 @@ npc *talk_function::companion_choose(){
 
 npc *talk_function::companion_choose_return(std::string id, int deadline){
     std::vector<npc *> available;
-    for( auto *elem : g->mission_npc ) {
-        if( elem->companion_mission == id && elem->companion_mission_time <= deadline) {
-            available.push_back( elem );
+    for( npc *const guy : overmap_buffer.get_companion_mission_npcs() ) {
+        if( guy->get_companion_mission() == id && guy->companion_mission_time <= deadline) {
+            available.push_back( guy );
         }
     }
 

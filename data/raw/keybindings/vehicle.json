@@ -161,6 +161,13 @@
     "bindings":[ { "input_method": "keyboard", "key": "m" } ]
   },
   {
+    "id": "TOGGLE_WATER_PURIFIER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle water purifiers",
+    "bindings":[ { "input_method": "keyboard", "key": "p" } ]
+  },
+  {
     "id": "TOGGLE_TRACKING",
     "type": "keybinding",
     "category": "VEHICLE",
@@ -180,6 +187,20 @@
     "category": "VEHICLE",
     "name": "Aim turrets manually",
     "bindings":[ { "input_method": "keyboard", "key": "X" } ]
+  },
+  {
+    "id": "TURRET_MANUAL_OVERRIDE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Aim automatic turrets",
+    "bindings":[ { "input_method": "keyboard", "key": "V" } ]
+  },
+  {
+    "id": "TURRET_SINGLE_FIRE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Aim individual turret",
+    "bindings":[ { "input_method": "keyboard", "key": "T" } ]
   },
   {
     "id": "TURRET_TARGET_MODE",

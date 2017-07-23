@@ -50,7 +50,6 @@ struct damage_instance {
     std::vector<damage_unit> damage_units;
     damage_instance();
     static damage_instance physical( float bash, float cut, float stab, float arpen = 0.0f );
-    void add_damage( damage_type dt, float a, float rp = 0.0f, float rm = 1.0f, float mul = 1.0f );
     damage_instance( damage_type dt, float a, float rp = 0.0f, float rm = 1.0f, float mul = 1.0f );
     void mult_damage( double multiplier, bool pre_armor = false );
     float type_damage( damage_type dt ) const;
@@ -58,8 +57,16 @@ struct damage_instance {
     void clear();
     bool empty() const;
 
-    /** Adds a damage instance to this one. Normalizes multipliers, which makes it very lossy. */
+    /**
+     * Adds damage to the instance.
+     * If the damage type already exists in the instance, the old and new instance are normalized.
+     * The normalization means that the effective damage can actually decrease (depending on target's armor).
+     */
+    /*@{*/
+    void add_damage( damage_type dt, float a, float rp = 0.0f, float rm = 1.0f, float mul = 1.0f );
     void add( const damage_instance &b );
+    void add( const damage_unit &b );
+    /*@}*/
 };
 
 struct dealt_damage_instance {

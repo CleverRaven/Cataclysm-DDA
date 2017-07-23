@@ -13,24 +13,26 @@
 #include <stdlib.h>
 #include <string>
 #include <unordered_map>
+
+class field;
+class field_entry;
 class game;
 class JsonObject;
 class JsonOut;
-struct projectile;
-struct damage_instance;
-struct dealt_damage_instance;
-struct damage_unit;
-struct dealt_projectile_attack;
-struct trap;
-enum m_flag : int;
-enum field_id : int;
-enum damage_type : int;
 class material_type;
-using material_id = string_id<material_type>;
-class field;
-class field_entry;
+enum damage_type : int;
 enum field_id : int;
+enum m_flag : int;
+struct damage_instance;
+struct damage_unit;
+struct dealt_damage_instance;
+struct dealt_projectile_attack;
 struct pathfinding_settings;
+struct projectile;
+struct trap;
+
+using material_id = string_id<material_type>;
+using trait_id = string_id<mutation_branch>;
 
 enum m_size : int {
     MS_TINY = 0,    // Squirrel
@@ -38,13 +40,6 @@ enum m_size : int {
     MS_MEDIUM,    // Human
     MS_LARGE,    // Cow
     MS_HUGE     // TAAAANK
-};
-
-/** Aim result for a single projectile attack */
-struct projectile_attack_aim {
-    double missed_by;       ///< Hit quality, where 0.0 is a perfect hit and 1.0 is a miss
-    double missed_by_tiles; ///< Number of tiles the attack missed by
-    double dispersion;      ///< Dispersion of this particular shot in arcminutes
 };
 
 class Creature
@@ -163,7 +158,7 @@ class Creature
          * chooses a target. This is for creatures that are friendly towards
          * the player and therefor choose a target that is hostile
          * to the player.
-         * @param pos Position of the fake-player
+         *
          * @param range The maximal range to look for monsters, anything
          * outside of that range is ignored.
          * @param boo_hoo The number of targets that have been skipped
@@ -189,38 +184,10 @@ class Creature
         void melee_attack(Creature &t, bool allow_special);
 
         /**
-         *  Fires a projectile at the target point from the source point with total_dispersion
-         *  dispersion.
-         *  Returns the rolled dispersion of the shot and the actually hit point.
-         */
-        dealt_projectile_attack projectile_attack( const projectile &proj, const tripoint &source,
-                                                   const tripoint &target, double total_dispersion );
-        /** Overloaded version that assumes the projectile comes from this Creature's postion. */
-        dealt_projectile_attack projectile_attack( const projectile &proj, const tripoint &target,
-                                                   double total_dispersion );
-
-        /**
-         * Makes an aiming/attack roll for a single projectile attack shot
-         * @param target_size Ease of hitting target. 1.0 means target occupies entire tile and doesn't dodge.
-         */
-        projectile_attack_aim projectile_attack_roll( double dispersion, double range, double target_size ) const;
-
-        /**
          * Size of the target this creature presents to ranged weapons.
          * 0.0 means unhittable, 1.0 means all projectiles going through this creature's tile will hit it.
          */
         double ranged_target_size() const;
-
-        /**
-         * Probability that a projectile attack will hit with at least the given accuracy.
-         *
-         * @param total_dispersion nominal shot dispersion of gun + shooter
-         * @param range range of the attack
-         * @param accuracy the required accuracy, in the range [0..1]
-         * @return the probability, in the range (0..1]
-         */
-        double projectile_attack_chance( double total_dispersion, double range,
-                                         double accuracy, double target_size ) const;
 
         // handles blocking of damage instance. mutates &dam
         virtual bool block_hit(Creature *source, body_part &bp_hit,
@@ -248,12 +215,15 @@ class Creature
 
         /**
          * Deals the damage via an attack. Allows armor mitigation etc.
+         *
          * Most sources of external damage should use deal_damage
          * Mutates the damage_instance& object passed in to reflect the
          * post-mitigation object.
          * Does nothing if this creature is already dead.
-         * Does not call @ref check_dead_state (see there).
-         * @ref source The attacking creature, can be null.
+         * Does not call @ref check_dead_state.
+         * @param source The attacking creature, can be null.
+         * @param bp The attacked body part
+         * @param d The damage dealt
          */
         virtual dealt_damage_instance deal_damage(Creature *source, body_part bp,
                 const damage_instance &d);
@@ -368,7 +338,7 @@ class Creature
         virtual void process_effects();
 
         /** Returns true if the player has the entered trait, returns false for non-humans */
-        virtual bool has_trait(const std::string &flag) const;
+        virtual bool has_trait( const trait_id &flag ) const;
 
         // not-quite-stats, maybe group these with stats later
         virtual void mod_pain(int npain);

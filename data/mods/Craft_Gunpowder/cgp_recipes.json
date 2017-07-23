@@ -35,7 +35,6 @@
   "qualities":[ {"id":"CHEM","level":2} ],
   "tools": [
     [
-      [ "press", 50 ],
       [ "hotplate", 50 ],
       [ "toolset", 50 ],
       [ "fire", -1 ]
@@ -70,7 +69,6 @@
   "qualities":[ {"id":"CHEM","level":2} ],
   "tools": [
     [
-      [ "press", 50 ],
       [ "hotplate", 50 ],
       [ "toolset", 50 ],
       [ "fire", -1 ]
@@ -104,7 +102,6 @@
   "qualities":[ {"id":"CHEM","level":2} ],
   "tools": [
     [
-      [ "press", 50 ],
       [ "hotplate", 50 ],
       [ "toolset", 50 ],
       [ "fire", -1 ]
@@ -132,7 +129,6 @@
   "qualities":[ {"id":"CHEM","level":2} ],
   "tools": [
     [
-      [ "press", 50 ],
       [ "hotplate", 50 ],
       [ "toolset", 50 ],
       [ "fire", -1 ]

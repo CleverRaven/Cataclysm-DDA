@@ -2,16 +2,20 @@
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
 
-#include "enums.h"
 #include "damage.h"
+#include "enums.h"
+#include "explosion.h"
+
 #include <string>
 #include <vector>
 #include <set>
 #include <memory>
 
-struct itype;
-struct explosion_data;
 class Creature;
+class dispersion_sources;
+class vehicle;
+struct explosion_data;
+struct itype;
 
 struct projectile {
         damage_instance impact;
@@ -19,6 +23,8 @@ struct projectile {
         // bullets have arbitrarily high values but thrown objects have dodgeable values.
         int speed;
         int range;
+        // Momentum loss in impact damage points per tile traveled
+        float momentum_loss;
 
         std::set<std::string> proj_effects;
 

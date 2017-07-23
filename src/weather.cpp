@@ -21,6 +21,11 @@
 const efftype_id effect_glare( "glare" );
 const efftype_id effect_blind( "blind" );
 
+static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
+static const trait_id trait_FEATHERS( "FEATHERS" );
+static const trait_id trait_GOODHEARING( "GOODHEARING" );
+static const trait_id trait_BADHEARING( "BADHEARING" );
+
 /**
  * \defgroup Weather "Weather and its implications."
  * @{
@@ -38,15 +43,15 @@ void weather_effect::glare()
 {
     if( PLAYER_OUTSIDE && g->is_in_sunlight( g->u.pos() ) && !g->u.in_sleep_state() &&
         !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() &&
-        !g->u.has_bionic( "bio_sunglasses" ) ) {
+        !g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
         if( !g->u.has_effect( effect_glare ) ) {
-            if( g->u.has_trait( "CEPH_VISION" ) ) {
+            if( g->u.has_trait( trait_CEPH_VISION ) ) {
                 g->u.add_env_effect( effect_glare, bp_eyes, 2, 4 );
             } else {
                 g->u.add_env_effect( effect_glare, bp_eyes, 2, 2 );
             }
         } else {
-            if( g->u.has_trait( "CEPH_VISION" ) ) {
+            if( g->u.has_trait( trait_CEPH_VISION ) ) {
                 g->u.add_env_effect( effect_glare, bp_eyes, 2, 2 );
             } else {
                 g->u.add_env_effect( effect_glare, bp_eyes, 2, 1 );
@@ -322,7 +327,7 @@ void fill_water_collectors(int mmPerHour, bool acid)
 void wet_player( int amount )
 {
     if( !PLAYER_OUTSIDE ||
-        g->u.has_trait("FEATHERS") ||
+        g->u.has_trait( trait_FEATHERS ) ||
         g->u.weapon.has_flag("RAIN_PROTECT") ||
         ( !one_in(50) && g->u.worn_with_flag("RAINPROOF") ) ) {
         return;
@@ -399,10 +404,10 @@ void weather_effect::thunder()
         if (g->get_levz() >= 0) {
             add_msg(_("You hear a distant rumble of thunder."));
             sfx::play_variant_sound("environment", "thunder_far", 80, rng(0, 359));
-        } else if (g->u.has_trait("GOODHEARING") && one_in(1 - 2 * g->get_levz())) {
+        } else if (g->u.has_trait( trait_GOODHEARING ) && one_in(1 - 2 * g->get_levz())) {
             add_msg(_("You hear a rumble of thunder from above."));
             sfx::play_variant_sound("environment", "thunder_far", 100, rng(0, 359));
-        } else if (!g->u.has_trait("BADHEARING") && one_in(1 - 3 * g->get_levz())) {
+        } else if (!g->u.has_trait( trait_BADHEARING ) && one_in(1 - 3 * g->get_levz())) {
             add_msg(_("You hear a rumble of thunder from above."));
             sfx::play_variant_sound("environment", "thunder_far", 60, rng(0, 359));
         }
@@ -591,10 +596,10 @@ std::string print_temperature( double fahrenheit, int decimals )
 
     if(get_option<std::string>( "USE_CELSIUS" ) == "celsius") {
         ret << temp_to_celsius( fahrenheit );
-        return string_format( pgettext( "temperatur in Celsius", "%sC" ), ret.str().c_str() );
+        return string_format( pgettext( "temperature in Celsius", "%sC" ), ret.str().c_str() );
     } else {
         ret << fahrenheit;
-        return string_format( pgettext( "temperatur in Fahrenheit", "%sF" ), ret.str().c_str() );
+        return string_format( pgettext( "temperature in Fahrenheit", "%sF" ), ret.str().c_str() );
     }
 }
 
@@ -671,7 +676,7 @@ int get_local_humidity( double humidity, weather_type weather, bool sheltered )
     return tmphumidity;
 }
 
-int get_local_windpower(double windpower, std::string const &omtername, bool sheltered)
+int get_local_windpower(double windpower, const oter_id &omter, bool sheltered)
 {
     /**
     *  A player is sheltered if he is underground, in a car, or indoors.
@@ -682,11 +687,11 @@ int get_local_windpower(double windpower, std::string const &omtername, bool she
     // Over map terrain may modify the effect of wind.
     if (sheltered) {
         tmpwind  = 0.0;
-    } else if ( omtername == "forest_water") {
+    } else if ( omter.id() == "forest_water") {
         tmpwind *= 0.7;
-    } else if ( omtername == "forest" ) {
+    } else if ( omter.id() == "forest" ) {
         tmpwind *= 0.5;
-    } else if ( omtername == "forest_thick" || omtername == "hive") {
+    } else if ( omter.id() == "forest_thick" || omter.id() == "hive") {
         tmpwind *= 0.4;
     }
 

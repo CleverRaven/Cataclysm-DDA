@@ -7,7 +7,7 @@
 #include <limits>
 
 /**
- * An interval of numeric values between @var min and @var max (including both).
+ * An interval of numeric values between @ref min and @ref max (including both).
  * By default it's [0, 0].
  */
 template<typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>

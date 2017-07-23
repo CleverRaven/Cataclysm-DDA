@@ -1,5 +1,6 @@
-#include <sstream>
 #include "npc.h"
+
+#include "dispersion.h"
 #include "rng.h"
 #include "game.h"
 #include "map.h"
@@ -20,6 +21,7 @@
 #include "gates.h"
 
 #include <algorithm>
+#include <sstream>
 
 // @todo Get rid of this include
 #include "mapdata.h"
@@ -497,7 +499,7 @@ void npc::execute_action( npc_action action )
             reach_attack( tar );
             break;
         }
-        // Otherwise fallthrough to npc_melee
+        /* fallthrough */
     case npc_melee:
         update_path( tar );
         if( path.size() > 1 ) {
@@ -629,7 +631,7 @@ void npc::execute_action( npc_action action )
                 my_spot = priority;
             }
 
-            seats.push_back( std::make_pair( priority, p2 ) );
+            seats.push_back( std::make_pair( priority, static_cast<int>( p2 ) ) );
         }
 
         if( my_spot >= 3 ) {
@@ -842,8 +844,7 @@ void npc::choose_target()
     if( is_friend() ) {
         ai_cache.friends.emplace_back( npc_target::player() );
     } else if( is_enemy() ) {
-        // Hostile characters can always find the player
-        if( ai_cache.target.get() == nullptr || check_hostile_character( g->u ) ) {
+        if( sees( g->u ) && check_hostile_character( g->u ) ) {
             ai_cache.target = npc_target::player();
             ai_cache.danger = std::max( 1.0f, ai_cache.danger );
         }
@@ -1261,44 +1262,31 @@ int npc::confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) co
         return 0;
     }
 
-    double ret = gun_current_range( *gun.target, at_recoil, 50 / confidence_mult(), accuracy_goodhit );
+    double average_dispersion = get_weapon_dispersion( *( gun.target ), RANGE_SOFT_CAP ).avg() +
+      (double)at_recoil;
+    double even_chance_range = 0.5 / average_dispersion;
     // 5 round burst equivalent to ~2 individually aimed shots
-    ret /= std::max( sqrt( gun.qty / 1.5 ), 1.0 );
+    even_chance_range /= std::max( sqrt( gun.qty / 1.5 ), 1.0 );
+    double confident_range = even_chance_range * confidence_mult();
 
-    add_msg( m_debug, "confident_gun_mode_range (%s=%d)", gun.mode.c_str(), (int)ret );
-    return std::max<int>( ret, 1 );
+    add_msg( m_debug, "confident_gun_mode_range (%s=%d)", gun.mode.c_str(), (int)confident_range );
+    return std::max<int>( confident_range, 1 );
 }
 
-int npc::confident_throw_range( const item &thrown ) const
+int npc::confident_throw_range( const item &thrown, Creature *target ) const
 {
-    ///\EFFECT_THROW_NPC increases throwing confidence of all items
-    double deviation = 10 - get_skill_level( skill_throw );
-
-    ///\EFFECT_PER_NPC increases throwing confidence of all items
-    deviation += 10 - per_cur;
-
-    ///\EFFECT_DEX_NPC increases throwing confidence of all items
-    deviation += throw_dex_mod();
-
-    ///\EFFECT_STR_NPC increases throwing confidence of heavy items
-    deviation += std::min( ( thrown.weight() / 100 ) - str_cur, 0 );
-
-    deviation += thrown.volume() / units::legacy_volume_factor / 4;
-
-    deviation += encumb( bp_hand_r ) + encumb( bp_hand_l ) + encumb( bp_eyes );
-
-    deviation = std::max( 1.0, deviation );
-
-    const int ret = std::min( int( confidence_mult() * 360 / deviation ), throw_range( thrown ) );
-    add_msg( m_debug, "confident_throw_range == %d", ret );
-    return ret;
+    double average_dispersion = throwing_dispersion( thrown, target ) / 2.0;
+    double even_chance_range = ( target == nullptr ? 0.5 : target->ranged_target_size() ) / average_dispersion;
+    double confident_range = even_chance_range * confidence_mult();
+    add_msg( m_debug, "confident_throw_range == %d", (int)confident_range );
+    return (int)confident_range;
 }
 
 // Index defaults to -1, i.e., wielded weapon
 bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) const
 {
     // @todo Get actual dispersion instead of extracting it (badly) from confident range
-    int confident = throwing ? confident_throw_range( it ) : confident_shoot_range( it );
+    int confident = throwing ? confident_throw_range( it, nullptr ) : confident_shoot_range( it );
     // if there is no confidence at using weapon, it's not used at range
     // zero confidence leads to divide by zero otherwise
     if( confident < 1 ) {
@@ -2408,7 +2396,7 @@ bool npc::alt_attack()
     }
 
     // We are throwing it!
-    int conf = confident_throw_range( *used );
+    int conf = confident_throw_range( *used, critter );
     const bool wont_hit = wont_hit_friend( tar, *used, true );
     if( dist <= conf && wont_hit ) {
         npc_throw( *this, *used, weapon_index, tar );
@@ -2881,6 +2869,7 @@ void npc::set_destination()
     switch(needs[0]) {
     case need_ammo:
         options.push_back("house");
+        /* fallthrough */
     case need_gun:
         options.push_back("s_gun");
         break;
@@ -2895,6 +2884,7 @@ void npc::set_destination()
         options.push_back("s_gas");
         options.push_back("s_pharm");
         options.push_back("s_liquor");
+        /* fallthrough */
     case need_food:
         options.push_back("s_grocery");
         break;

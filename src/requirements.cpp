@@ -15,17 +15,18 @@
 #include <algorithm>
 #include "generic_factory.h"
 
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+
 static std::map<requirement_id, requirement_data> requirements_all;
 
-template <>
-const requirement_id string_id<requirement_data>::NULL_ID( "null" );
-
+/** @relates string_id */
 template<>
 bool string_id<requirement_data>::is_valid() const
 {
     return requirements_all.count( *this );
 }
 
+/** @relates string_id */
 template<>
 const requirement_data &string_id<requirement_data>::obj() const
 {
@@ -66,12 +67,14 @@ void quality::load( JsonObject &jo, const std::string & )
     }
 }
 
+/** @relates string_id */
 template<>
 const quality &string_id<quality>::obj() const
 {
     return quality_factory.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<quality>::is_valid() const
 {
@@ -210,7 +213,7 @@ requirement_data requirement_data::operator+( const requirement_data &rhs ) cons
     res.qualities.insert( res.qualities.end(), rhs.qualities.begin(), rhs.qualities.end() );
 
     // combined result is temporary which caller could store via @ref save_requirement
-    res.id_ = requirement_id::NULL_ID;
+    res.id_ = requirement_id::NULL_ID();
 
     // @todo deduplicate qualites and combine other requirements
 
@@ -513,7 +516,7 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
 
 bool requirement_data::can_make_with_inventory( const inventory &crafting_inv, int batch ) const
 {
-    if( g->u.has_trait( "DEBUG_HS" ) ) {
+    if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
 
@@ -559,7 +562,7 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
 
 bool quality_requirement::has( const inventory &crafting_inv, int ) const
 {
-    if( g->u.has_trait( "DEBUG_HS" ) ) {
+    if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
 
@@ -573,7 +576,7 @@ std::string quality_requirement::get_color( bool, const inventory &, int ) const
 
 bool tool_comp::has( const inventory &crafting_inv, int batch ) const
 {
-    if( g->u.has_trait( "DEBUG_HS" ) ) {
+    if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
 
@@ -598,7 +601,7 @@ std::string tool_comp::get_color( bool has_one, const inventory &crafting_inv, i
 
 bool item_comp::has( const inventory &crafting_inv, int batch ) const
 {
-    if( g->u.has_trait( "DEBUG_HS" ) ) {
+    if( g->u.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
 

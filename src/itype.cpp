@@ -9,6 +9,12 @@
 #include <algorithm>
 #include <cmath>
 
+std::string gunmod_location::name() const
+{
+    // Yes, currently the name is just the translated id.
+    return _( _id.c_str() );
+}
+
 std::string itype::nname( unsigned int const quantity ) const
 {
     return ngettext( name.c_str(), name_plural.c_str(), quantity );

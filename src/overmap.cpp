@@ -61,15 +61,6 @@ const efftype_id effect_pet( "pet" );
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
 
-template<>
-const string_id<oter_type_t> string_id<oter_type_t>::NULL_ID( "", 0 );
-
-template<>
-const string_id<oter_t> string_id<oter_t>::NULL_ID( "", 0 );
-
-template<>
-const string_id<overmap_special> string_id<overmap_special>::NULL_ID( "", 0 );
-
 #include "omdata.h"
 ////////////////
 oter_id  ot_null,
@@ -226,18 +217,21 @@ int city::get_distance_from( const tripoint &p ) const
 std::map<enum radio_type, std::string> radio_type_names =
 {{ {MESSAGE_BROADCAST, "broadcast"}, {WEATHER_RADIO, "weather"} }};
 
+/** @relates string_id */
 template<>
 bool string_id<oter_type_t>::is_valid() const
 {
     return terrain_types.is_valid( *this );
 }
 
+/** @relates string_id */
 template<>
 int_id<oter_type_t> string_id<oter_type_t>::id() const
 {
     return terrain_types.convert( *this, int_id<oter_type_t>( 0 ) );
 }
 
+/** @relates int_id */
 template<>
 int_id<oter_type_t>::int_id( const string_id<oter_type_t> &id ) : _id( id.id() ) {}
 
@@ -247,45 +241,53 @@ const oter_type_t &int_id<oter_type_t>::obj() const
     return terrain_types.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 const oter_type_t &string_id<oter_type_t>::obj() const
 {
     return terrain_types.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<oter_t>::is_valid() const
 {
     return terrains.is_valid( *this );
 }
 
+/** @relates string_id */
 template<>
 const oter_t &string_id<oter_t>::obj() const
 {
     return terrains.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 int_id<oter_t> string_id<oter_t>::id() const
 {
     return terrains.convert( *this, ot_null );
 }
 
+/** @relates int_id */
 template<>
 int_id<oter_t>::int_id( const string_id<oter_t> &id ) : _id( id.id() ) {}
 
+/** @relates int_id */
 template<>
 inline bool int_id<oter_t>::is_valid() const
 {
     return terrains.is_valid( *this );
 }
 
+/** @relates int_id */
 template<>
 const oter_t &int_id<oter_t>::obj() const
 {
     return terrains.obj( *this );
 }
 
+/** @relates int_id */
 template<>
 const string_id<oter_t> &int_id<oter_t>::id() const
 {
@@ -304,7 +306,7 @@ bool operator!=( const int_id<oter_t> &lhs, const char *rhs )
 
 void set_oter_ids()   // fixme constify
 {
-    ot_null         = oter_id( NULL_ID );
+    ot_null         = oter_str_id::NULL_ID();
     // NOT required.
     ot_crater       = oter_id( "crater" );
     ot_field        = oter_id( "field" );
@@ -329,9 +331,9 @@ void overmap_specials::finalize()
 void overmap_specials::check_consistency()
 {
     const size_t max_count = ( OMAPX / OMSPEC_FREQ ) * ( OMAPY / OMSPEC_FREQ ) / 2;
-    const size_t actual_count = std::accumulate(  specials.get_all().begin(), specials.get_all().end(), 0,
+    const size_t actual_count = std::accumulate(  specials.get_all().begin(), specials.get_all().end(), static_cast< size_t >( 0 ),
     []( size_t sum, const overmap_special &elem ) {
-        return sum + ( elem.flags.count( "UNIQUE" ) == 0 ? std::max( elem.occurrences.min, 0 ) : 1 );
+        return sum + ( elem.flags.count( "UNIQUE" ) == ( size_t )0 ? ( size_t )std::max( elem.occurrences.min, 0 ) : ( size_t )1 );
     } );
 
     if( actual_count > max_count ) {
@@ -435,10 +437,7 @@ void oter_type_t::load( JsonObject &jo, const std::string &src )
     const bool strict = src == "dda";
 
     assign( jo, "sym", sym, strict );
-    if( assign( jo, "name", name, strict ) ) {
-        // Store localized name if assign() succeeds
-        name = _( name.c_str() );
-    }
+    assign( jo, "name", name, strict );
     assign( jo, "see_cost", see_cost, strict );
     assign( jo, "extras", extras, strict );
     assign( jo, "mondensity", mondensity, strict );
@@ -848,7 +847,7 @@ void load_region_settings( JsonObject &jo )
                     std::set<std::string> keys = exjo.get_member_names();
                     for( const auto &key : keys ) {
                         if(key != "//" ) {
-                            if (get_world_option<bool>( "CLASSIC_ZOMBIES" )
+                            if (get_option<bool>( "CLASSIC_ZOMBIES" )
                                 && classic_extras.count(key) == 0) {
                                 continue;
                             }
@@ -1046,7 +1045,7 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
             std::set<std::string> extrakeys = extrasjo.get_member_names();
             for( const auto &key : extrakeys ) {
                 if( key != "//" ) {
-                    if (get_world_option<bool>( "CLASSIC_ZOMBIES" )
+                    if (get_option<bool>( "CLASSIC_ZOMBIES" )
                         && classic_extras.count(key) == 0) {
                         continue;
                     }
@@ -1121,7 +1120,7 @@ bool overmap_special::can_belong_to_city( const tripoint &p, const city &cit ) c
 
 void overmap_special::load( JsonObject &jo, const std::string &src )
 {
-    const bool strict = src == "core";
+    const bool strict = src == "dda";
 
     mandatory( jo, was_loaded, "overmaps", terrains );
 
@@ -1206,7 +1205,7 @@ void overmap_special::check() const
 
 overmap::overmap( int const x, int const y ) : loc( x, y )
 {
-    const std::string rsettings_id = get_world_option<std::string>( "DEFAULT_REGION" );
+    const std::string rsettings_id = get_option<std::string>( "DEFAULT_REGION" );
     t_regional_settings_map_citr rsit = region_settings_map.find( rsettings_id );
 
     if ( rsit == region_settings_map.end() ) {
@@ -1346,9 +1345,18 @@ bool overmap::monster_check(const std::pair<tripoint, monster> &candidate) const
         } ) != matching_range.second;
 }
 
-void overmap::add_npc( npc &who )
+void overmap::insert_npc( npc *who )
 {
-    npcs.push_back( &who );
+    npcs.push_back( who );
+    g->set_npcs_dirty();
+}
+
+void overmap::erase_npc( npc *who )
+{
+    const auto iter = std::find( npcs.begin(), npcs.end(), who );
+    assert( iter != npcs.end() );
+    npcs.erase( iter );
+    delete who;
     g->set_npcs_dirty();
 }
 
@@ -2067,7 +2075,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     bool csee = false;
     oter_id ccur_ter = ot_null;
     // Debug vision allows seeing everything
-    const bool has_debug_vision = g->u.has_trait( "DEBUG_NIGHTVISION" );
+    const bool has_debug_vision = g->u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
     // sight_points is hoisted for speed reasons.
     const int sight_points = !has_debug_vision ?
                              g->u.overmap_sight_range( g->light_level( g->u.posz() ) ) :
@@ -2310,38 +2318,42 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         }
     }
     if (has_target && blink &&
-        (target.x < cursx - om_half_width ||
-         target.x >= cursx + om_half_width  ||
-         target.y < cursy - om_half_height ||
-         target.y >= cursy + om_half_height)) {
+        (target.x < offset_x ||
+         target.x >= offset_x + om_map_width ||
+         target.y < offset_y ||
+         target.y >= offset_y + om_map_height)) {
+        int marker_x = std::max( 0, std::min( om_map_width  - 1, target.x - offset_x ) );
+        int marker_y = std::max( 0, std::min( om_map_height - 1, target.y - offset_y ) );
+        long marker_sym = ' ';
         switch (direction_from(cursx, cursy, target.x, target.y)) {
         case NORTH:
-            mvwputch(w, 0,                  om_half_width - 1,  c_red, '^');
+            marker_sym = '^';
             break;
         case NORTHEAST:
-            mvwputch(w, 0,                  om_map_width - 1,   c_red, LINE_OOXX);
+            marker_sym = LINE_OOXX;
             break;
         case EAST:
-            mvwputch(w, om_half_height - 1, om_map_width - 1,   c_red, '>');
+            marker_sym = '>';
             break;
         case SOUTHEAST:
-            mvwputch(w, om_map_height - 1,  om_map_width - 1,   c_red, LINE_XOOX);
+            marker_sym = LINE_XOOX;
             break;
         case SOUTH:
-            mvwputch(w, om_map_height - 1,  om_half_width - 1,  c_red, 'v');
+            marker_sym = 'v';
             break;
         case SOUTHWEST:
-            mvwputch(w, om_map_height - 1,  0,                  c_red, LINE_XXOO);
+            marker_sym = LINE_XXOO;
             break;
         case WEST:
-            mvwputch(w, om_half_height - 1, 0,                  c_red, '<');
+            marker_sym = '<';
             break;
         case NORTHWEST:
-            mvwputch(w, 0,                  0,                  c_red, LINE_OXXO);
+            marker_sym = LINE_OXXO;
             break;
         default:
             break; //Do nothing
         }
+        mvwputch(w, marker_y, marker_x, c_red, marker_sym);
     }
 
     std::vector<std::pair<nc_color, std::string>> corner_text;
@@ -2972,7 +2984,7 @@ void overmap::move_hordes()
     zg.insert( tmpzg.begin(), tmpzg.end() );
 
 
-    if(get_world_option<bool>( "WANDER_SPAWNS" ) ) {
+    if(get_option<bool>( "WANDER_SPAWNS" ) ) {
         static const mongroup_id GROUP_ZOMBIE("GROUP_ZOMBIE");
 
         // Re-absorb zombies into hordes.
@@ -3032,6 +3044,7 @@ void overmap::move_hordes()
 }
 
 /**
+* @param p location of signal
 * @param sig_power - power of signal or max distantion for reaction of zombies
 */
 void overmap::signal_hordes( const tripoint &p, const int sig_power)
@@ -3255,11 +3268,11 @@ spawns happen at... <cue Clue music>
 20:56 <kevingranade>: game:pawn_mon() in game.cpp:7380*/
 void overmap::place_cities()
 {
-    int op_city_size = get_world_option<int>( "CITY_SIZE" );
+    int op_city_size = get_option<int>( "CITY_SIZE" );
     if( op_city_size <= 0 ) {
         return;
     }
-    int op_city_spacing = get_world_option<int>( "CITY_SPACING" );
+    int op_city_spacing = get_option<int>( "CITY_SPACING" );
 
     // spacing dictates how much of the map is covered in cities
     //   city  |  cities  |   size N cities per overmap
@@ -3507,6 +3520,21 @@ void overmap::build_anthill(int x, int y, int z, int s)
     }
     const point target = random_entry( queenpoints );
     ter(target.x, target.y, z) = oter_id( "ants_queen" );
+
+    // Connect the queen chamber, as it gets placed before polish()
+    for( auto dir : om_direction::all ) {
+        const point p = point( target.x, target.y ) + om_direction::displace( dir );
+        if( check_ot_type( "ants", p.x, p.y, z ) ) {
+            auto &neighbor = ter( p.x, p.y, z );
+            if( neighbor->has_flag( line_drawing ) ) {
+                size_t line = neighbor->get_line();
+                line = om_lines::set_segment( line, om_direction::opposite( dir ) );
+                if( line != neighbor->get_line() ) {
+                    neighbor = neighbor->get_type_id()->get_linear( line );
+                }
+            }
+        }
+    }
 }
 
 void overmap::build_tunnel( int x, int y, int z, int s, om_direction::type dir )
@@ -3514,14 +3542,18 @@ void overmap::build_tunnel( int x, int y, int z, int s, om_direction::type dir )
     if (s <= 0) {
         return;
     }
-    if (!check_ot_type("ants", x, y, z)) {
-        ter(x, y, z) = oter_id( "ants_ns" );
+
+    const oter_id root_id( "ants_isolated" );
+    if( check_ot_type( "ants", x, y, z ) && root_id != get_ter( x, y, z )->id ) {
+        return;
     }
+
+    ter( x, y, z ) = oter_id( root_id );
 
     std::vector<om_direction::type> valid;
     valid.reserve( om_direction::size );
     for( auto r : om_direction::all ) {
-        const point p = om_direction::displace( r );
+        const point p = point( x, y ) + om_direction::displace( r );
         if( !check_ot_type( "ants", p.x, p.y, z ) ) {
             valid.push_back( r );
         }
@@ -3536,12 +3568,23 @@ void overmap::build_tunnel( int x, int y, int z, int s, om_direction::type dir )
 
         if( p.x != next.x || p.y != next.y ) {
             if (one_in(s * 2)) {
+                // Spawn a special chamber
                 if (one_in(2)) {
                     ter( p.x, p.y, z ) = ants_food;
                 } else {
                     ter( p.x, p.y, z ) = ants_larvae;
                 }
+
+                // Connect newly-spawned chamber to this tunnel segment
+                auto &oter = ter( x, y, z );
+                size_t line = oter->get_line();
+                line = om_lines::set_segment( line, r );
+                if( line != oter->get_line() ) {
+                    oter = oter->get_type_id()->get_linear( line );
+                }
+
             } else if (one_in(5)) {
+                // Branch off a side tunnel
                 build_tunnel( p.x, p.y, z, s - rng( 0, 3 ), r );
             }
         }
@@ -4140,7 +4183,7 @@ void overmap::place_special( const overmap_special &special, const tripoint &p, 
 
 std::vector<const overmap_special *> overmap::get_enabled_specials() const
 {
-    const bool only_classic = get_world_option<bool>( "CLASSIC_ZOMBIES" );
+    const bool only_classic = get_option<bool>( "CLASSIC_ZOMBIES" );
     std::vector<const overmap_special *> res;
 
     res.reserve( specials.size() );
@@ -4326,7 +4369,7 @@ void overmap::place_mongroups()
 {
     // Cities are full of zombies
     for( auto &elem : cities ) {
-        if( get_world_option<bool>( "WANDER_SPAWNS" ) ) {
+        if( get_option<bool>( "WANDER_SPAWNS" ) ) {
             if( !one_in( 16 ) || elem.s > 5 ) {
                 mongroup m( mongroup_id( "GROUP_ZOMBIE" ), ( elem.x * 2 ), ( elem.y * 2 ), 0, int( elem.s * 2.5 ),
                             elem.s * 80 );
@@ -4338,7 +4381,7 @@ void overmap::place_mongroups()
         }
     }
 
-    if (!get_world_option<bool>( "CLASSIC_ZOMBIES" ) ) {
+    if (!get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
         // Figure out where swamps are, and place swamp monsters
         for (int x = 3; x < OMAPX - 3; x += 7) {
             for (int y = 3; y < OMAPY - 3; y += 7) {
@@ -4357,7 +4400,7 @@ void overmap::place_mongroups()
         }
     }
 
-    if (!get_world_option<bool>( "CLASSIC_ZOMBIES" ) ) {
+    if (!get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
         // Figure out where rivers are, and place swamp monsters
         for (int x = 3; x < OMAPX - 3; x += 7) {
             for (int y = 3; y < OMAPY - 3; y += 7) {
@@ -4376,7 +4419,7 @@ void overmap::place_mongroups()
         }
     }
 
-    if (!get_world_option<bool>( "CLASSIC_ZOMBIES" ) ) {
+    if (!get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
         // Place the "put me anywhere" groups
         int numgroups = rng(0, 3);
         for (int i = 0; i < numgroups; i++) {
@@ -4718,6 +4761,30 @@ void overmap::add_mon_group(const mongroup &group)
         }
     }
     DebugLog( D_ERROR, D_GAME ) << group.type.str() << ": " << group.population << " => " << xpop;
+}
+
+void overmap::for_each_npc( const std::function<void( npc & )> callback )
+{
+    for( auto &guy : npcs ) {
+        callback( *guy );
+    }
+}
+
+void overmap::for_each_npc( const std::function<void( const npc & )> callback ) const
+{
+    for( auto &guy : npcs ) {
+        callback( *guy );
+    }
+}
+
+npc* overmap::find_npc( const int id )
+{
+    for( auto &guy : npcs ) {
+        if( guy->getID() == id ) {
+            return guy;
+        }
+    }
+    return nullptr;
 }
 
 const tripoint overmap::invalid_tripoint = tripoint(INT_MIN, INT_MIN, INT_MIN);

@@ -41,7 +41,7 @@ void fungal_effects::fungalize( const tripoint &sporep, Creature *origin, double
         ///\EFFECT_DEX increases chance of knocking fungal spores away with your TAIL_CATTLE
 
         ///\EFFECT_MELEE increases chance of knocking fungal sports away with your TAIL_CATTLE
-        if( pl.has_trait( "TAIL_CATTLE" ) &&
+        if( pl.has_trait( trait_id( "TAIL_CATTLE" ) ) &&
             one_in( 20 - pl.dex_cur - pl.get_skill_level( skill_id( "melee" ) ) ) ) {
             pl.add_msg_if_player(
                 _( "The spores land on you, but you quickly swat them off with your tail!" ) );
@@ -64,7 +64,8 @@ void fungal_effects::fungalize( const tripoint &sporep, Creature *origin, double
             monster *origin_mon = dynamic_cast<monster *>( origin );
             if( origin_mon != nullptr ) {
                 spore->make_ally( origin_mon );
-            } else if( origin != nullptr && origin->is_player() && gm.u.has_trait( "THRESH_MYCUS" ) ) {
+            } else if( origin != nullptr && origin->is_player() &&
+                       gm.u.has_trait( trait_id( "THRESH_MYCUS" ) ) ) {
                 spore->friendly = 1000;
             }
         }

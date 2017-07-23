@@ -7,7 +7,7 @@
 #include "field.h"
 
 projectile::projectile() :
-    speed( 0 ), range( 0 ), drop( nullptr ), custom_explosion( nullptr )
+    speed( 0 ), range( 0 ), momentum_loss( 0.125f ), drop( nullptr ), custom_explosion( nullptr )
 { }
 
 projectile::~projectile()
@@ -24,6 +24,7 @@ projectile &projectile::operator=( const projectile &other )
     impact = other.impact;
     speed = other.speed;
     range = other.range;
+    momentum_loss = other.momentum_loss;
     proj_effects = other.proj_effects;
     set_drop( other.get_drop() );
     set_custom_explosion( other.get_custom_explosion() );

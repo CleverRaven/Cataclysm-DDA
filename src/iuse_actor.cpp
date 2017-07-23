@@ -52,6 +52,21 @@ const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_asthma( "asthma" );
 
+static const trait_id trait_CENOBITE( "CENOBITE" );
+static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
+static const trait_id trait_MASOCHIST( "MASOCHIST" );
+static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_PACIFIST( "PACIFIST" );
+static const trait_id trait_PRED1( "PRED1" );
+static const trait_id trait_PRED2( "PRED2" );
+static const trait_id trait_PRED3( "PRED3" );
+static const trait_id trait_PRED4( "PRED4" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
+static const trait_id trait_SELFAWARE( "SELFAWARE" );
+static const trait_id trait_TOLERANCE( "TOLERANCE" );
+
 iuse_transform::~iuse_transform()
 {
 }
@@ -538,9 +553,9 @@ long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
     // Apply the various effects.
     for( auto eff : effects ) {
         int dur = eff.duration;
-        if (p->has_trait("TOLERANCE")) {
+        if (p->has_trait( trait_TOLERANCE )) {
             dur *= .8;
-        } else if (p->has_trait("LIGHTWEIGHT")) {
+        } else if (p->has_trait( trait_LIGHTWEIGHT )) {
             dur *= 1.2;
         }
         p->add_effect( eff.id, dur, eff.bp, eff.permanent );
@@ -683,7 +698,7 @@ long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) c
     if( skill2 ) {
         skill_offset += p->get_skill_level( skill2 );
     }
-    ///\EFFECT_INT increases chance of a placed turret being friendly
+    /** @EFFECT_INT increases chance of a placed turret being friendly */
     if( rng( 0, p->int_cur / 2 ) + skill_offset < rng( 0, difficulty ) ) {
         if( hostile_msg.empty() ) {
             p->add_msg_if_player( m_bad, _( "The %s scans you and makes angry beeping noises!" ),
@@ -793,8 +808,7 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
         return 0;
     }
     const ter_id type = g->m.ter( dirp );
-    const int npcdex = g->npc_at( dirp );
-    if( npcdex != -1 ) {
+    if( g->critter_at<npc>( dirp ) ) {
         p->add_msg_if_player( m_info,
                               _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose" ) );
         return 0;
@@ -828,15 +842,15 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
     }
 
     p->practice( skill_mechanics, 1 );
-    ///\EFFECT_DEX speeds up door lock picking
+    /** @EFFECT_DEX speeds up door lock picking */
 
-    ///\EFFECT_MECHANICS speeds up door lock picking
+    /** @EFFECT_MECHANICS speeds up door lock picking */
     p->moves -= std::max(0, ( 1000 - ( pick_quality * 100 ) ) - ( p->dex_cur + p->get_skill_level( skill_mechanics ) ) * 5);
-    ///\EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes
+    /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
 
     bool destroy = false;
 
-    ///\EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes
+    /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
     int pick_roll = ( dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2, p->dex_cur ) - it->damage() / 2 ) * pick_quality;
     int door_roll = dice( 4, 30 );
     if( pick_roll >= door_roll ) {
@@ -1036,7 +1050,7 @@ long firestarter_actor::use( player *p, item *it, bool t, const tripoint &spos )
     }
 
     double skill_level = p->get_skill_level( skill_survival );
-    ///\EFFECT_SURVIVAL speeds up fire starting
+    /** @EFFECT_SURVIVAL speeds up fire starting */
     float moves_modifier = std::pow( 0.8, std::min( 5.0, skill_level ) );
     const int moves_base = moves_cost_by_fuel( pos );
     const int min_moves = std::min<int>( moves_base, sqrt( 1 + moves_base / MOVES( 1 ) ) * MOVES( 1 ) );
@@ -1180,7 +1194,7 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
     // This can go awry if there is a volume / recipe mismatch.
     int count = cut->volume() / minimal_volume_to_cut;
     // Chance of us losing a material component to entropy.
-    ///\EFFECT_FABRICATION reduces chance of losing components when cutting items up
+    /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
     int entropy_threshold = std::max(5, 10 - p->get_skill_level( skill_fabrication ) );
     // What material components can we get back?
     std::vector<material_id> cut_material_components = cut->made_of();
@@ -1208,7 +1222,7 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
         count -= 1;
     }
     // Fail dex roll, potentially lose more parts.
-    ///\EFFECT_DEX randomly reduces component loss when cutting items up
+    /** @EFFECT_DEX randomly reduces component loss when cutting items up */
     if (dice(3, 4) > p->dex_cur) {
         count -= rng(0, 2);
     }
@@ -1434,7 +1448,7 @@ bool cauterize_actor::cauterize_effect( player *p, item *it, bool force )
     hp_part hpart = dummy.use_healing_item( *p, *p, *it, force );
     if( hpart != num_hp_parts ) {
         p->add_msg_if_player(m_neutral, _("You cauterize yourself."));
-        if (!(p->has_trait("NOPAIN"))) {
+        if (!(p->has_trait( trait_NOPAIN ))) {
             p->mod_pain(15);
             p->add_msg_if_player(m_bad, _("It hurts like hell!"));
         } else {
@@ -1472,7 +1486,7 @@ long cauterize_actor::use( player *p, item *it, bool t, const tripoint& ) const
     } else if( has_disease ) {
         did_cauterize = cauterize_effect( p, it, !has_disease );
     } else {
-        if( ( p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE") ) &&
+        if( ( p->has_trait( trait_MASOCHIST ) || p->has_trait( trait_MASOCHIST_MED ) || p->has_trait( trait_CENOBITE ) ) &&
             query_yn(_("Cauterize yourself for fun?"))) {
             did_cauterize = cauterize_effect( p, it, true );
         } else {
@@ -1503,7 +1517,7 @@ bool cauterize_actor::can_use( const player *p, const item *it, bool, const trip
         return false;
     } else if( p->has_effect( effect_bite ) || p->has_effect( effect_bleed ) ) {
         return true;
-    } else if( p->has_trait("MASOCHIST") || p->has_trait("MASOCHIST_MED") || p->has_trait("CENOBITE") ) {
+    } else if( p->has_trait( trait_MASOCHIST ) || p->has_trait( trait_MASOCHIST_MED ) || p->has_trait( trait_CENOBITE ) ) {
         return true;
     }
 
@@ -1545,19 +1559,19 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
     }
 
     int tolerance_level = 9;
-    if( p->has_trait("PSYCHOPATH") || p->has_trait("SAPIOVORE") ) {
+    if( p->has_trait( trait_PSYCHOPATH ) || p->has_trait( trait_SAPIOVORE ) ) {
         tolerance_level = 0;
-    } else if( p->has_trait("PRED4") ) {
+    } else if( p->has_trait( trait_PRED4 ) ) {
         tolerance_level = 5;
-    } else if( p->has_trait("PRED3") ) {
+    } else if( p->has_trait( trait_PRED3 ) ) {
         tolerance_level = 7;
     }
 
     // Survival skill increases your willingness to get things done,
     // but it doesn't make you feel any less bad about it.
-    ///\EFFECT_SURVIVAL increases tolerance for enzlavement
+    /** @EFFECT_SURVIVAL increases tolerance for enzlavement */
     if( p->get_morale_level() <= ( 15 * ( tolerance_level - p->get_skill_level( skill_survival ) ) ) - 150 ) {
-        add_msg(m_neutral, _("The prospect of cutting up the copse and letting it rise again as a slave is too much for you to deal with right now."));
+        add_msg(m_neutral, _("The prospect of cutting up the corpse and letting it rise again as a slave is too much for you to deal with right now."));
         return 0;
     }
 
@@ -1584,18 +1598,18 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
     } else {
         add_msg(m_bad, _("You feel horrible for mutilating and enslaving someone's corpse."));
 
-        ///\EFFECT_SURVIVAL decreases moral penalty and duration for enzlavement
+        /** @EFFECT_SURVIVAL decreases moral penalty and duration for enzlavement */
         int moraleMalus = -50 * (5.0 / (float) p->get_skill_level( skill_survival ));
         int maxMalus = -250 * (5.0 / (float)p->get_skill_level( skill_survival ));
         int duration = 300 * (5.0 / (float)p->get_skill_level( skill_survival ));
         int decayDelay = 30 * (5.0 / (float)p->get_skill_level( skill_survival ));
 
-        if (p->has_trait("PACIFIST")) {
+        if (p->has_trait( trait_PACIFIST )) {
             moraleMalus *= 5;
             maxMalus *= 3;
-        } else if (p->has_trait("PRED1")) {
+        } else if (p->has_trait( trait_PRED1 )) {
             moraleMalus /= 4;
-        } else if (p->has_trait("PRED2")) {
+        } else if (p->has_trait( trait_PRED2 )) {
             moraleMalus /= 5;
         }
 
@@ -1613,17 +1627,17 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
     // An average zombie with an undamaged corpse is 0 + 8 + 14 = 22.
     int difficulty = ( body->damage() * 5 ) + ( mt->hp / 10 ) + ( mt->speed / 5 );
     // 0 - 30
-    ///\EFFECT_DEX increases chance of success for enzlavement
+    /** @EFFECT_DEX increases chance of success for enzlavement */
 
-    ///\EFFECT_SURVIVAL increases chance of success for enzlavement
+    /** @EFFECT_SURVIVAL increases chance of success for enzlavement */
 
-    ///\EFFECT_FIRSTAID increases chance of success for enzlavement
+    /** @EFFECT_FIRSTAID increases chance of success for enzlavement */
     int skills = p->get_skill_level( skill_survival ) + p->get_skill_level( skill_firstaid ) + (p->dex_cur / 2);
     skills *= 2;
 
     int success = rng(0, skills) - rng(0, difficulty);
 
-    ///\EFFECT_FIRSTAID speeds up enzlavement
+    /** @EFFECT_FIRSTAID speeds up enzlavement */
     const int moves = difficulty * 1200 / p->get_skill_level( skill_firstaid );
 
     p->assign_activity( activity_id( "ACT_MAKE_ZLAVE" ), moves);
@@ -1635,9 +1649,9 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
 
 bool enzlave_actor::can_use( const player *p, const item*, bool, const tripoint& ) const
 {
-    ///\EFFECT_SURVIVAL >1 allows enzlavement
+    /** @EFFECT_SURVIVAL >1 allows enzlavement */
 
-    ///\EFFECT_FIRSTAID >1 allows enzlavement
+    /** @EFFECT_FIRSTAID >1 allows enzlavement */
     return p->get_skill_level( skill_survival ) > 1 && p->get_skill_level( skill_firstaid ) > 1;
 }
 
@@ -1847,7 +1861,7 @@ long musical_instrument_actor::use( player *p, item *it, bool t, const tripoint&
     }
 
     std::string desc = "";
-    ///\EFFECT_PER increases morale bonus when playing an instrument
+    /** @EFFECT_PER increases morale bonus when playing an instrument */
     const int morale_effect = fun + fun_bonus * p->per_cur;
     if( morale_effect >= 0 && calendar::turn.once_every( description_frequency ) ) {
         if( !descriptions.empty() ) {
@@ -2010,7 +2024,9 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
 
 void holster_actor::info( const item&, std::vector<iteminfo>& dump ) const
 {
-    dump.emplace_back( "TOOL", _( "Can contain items up to " ), string_format( "<num> %s", volume_units_abbr() ),
+    dump.emplace_back( "TOOL", _( "Can contain items from " ), string_format( "<num> %s", volume_units_abbr() ),
+                       convert_volume( min_volume.value() ), false, "", max_weight <= 0 );
+    dump.emplace_back( "TOOL", _( "Up to " ), string_format( "<num> %s", volume_units_abbr() ),
                        convert_volume( max_volume.value() ), false, "", max_weight <= 0 );
 
     if( max_weight > 0 ) {
@@ -2452,8 +2468,8 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
 std::pair<float, float> repair_item_actor::repair_chance(
     const player &pl, const item &fix, repair_item_actor::repair_type action_type ) const
 {
-    ///\EFFECT_TAILOR randomly improves clothing repair efforts
-    ///\EFFECT_MECHANICS randomly improves metal repair efforts
+    /** @EFFECT_TAILOR randomly improves clothing repair efforts */
+    /** @EFFECT_MECHANICS randomly improves metal repair efforts */
     const int skill = pl.get_skill_level( used_skill );
     const int recipe_difficulty = repair_recipe_difficulty( pl, fix );
     int action_difficulty = 0;
@@ -2473,7 +2489,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
             // Skill gain scales with recipe difficulty, so practice difficulty should too
             action_difficulty = recipe_difficulty;
         default:
-            std::make_pair( 0.0f, 0.0f );
+            ;
     }
 
     const int difficulty = recipe_difficulty + action_difficulty;
@@ -2487,7 +2503,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
     // Duster |    2   |   2   |  10 |   4%    |   1%
     // Duster | Refit  |   2   |  10 |   0%    |   N/A
     float success_chance = (10 + 2 * skill - 2 * difficulty + tool_quality / 5.0f) / 100.0f;
-    ///\EFFECT_DEX reduces the chances of damaging an item when repairing
+    /** @EFFECT_DEX reduces the chances of damaging an item when repairing */
     float damage_chance = (difficulty - skill - (tool_quality + pl.dex_cur) / 5.0f) / 100.0f;
 
     damage_chance = std::max( 0.0f, std::min( 1.0f, damage_chance ) );
@@ -2683,18 +2699,14 @@ player &get_patient( player &healer, const tripoint &pos )
         return healer;
     }
 
-    if( g->u.pos() == pos ) {
-        return g->u;
-    }
-
-    const int npc_index = g->npc_at( pos );
-    if( npc_index == -1 ) {
+    player *const person = g->critter_at<player>( pos );
+    if( !person ) {
         // Default to heal self on failure not to break old functionality
         add_msg( m_debug, "No heal target at position %d,%d,%d", pos.x, pos.y, pos.z );
         return healer;
     }
 
-    return (player&)(*g->active_npc[npc_index]);
+    return *person;
 }
 
 long heal_actor::use( player *p, item *it, bool, const tripoint &pos ) const
@@ -2703,7 +2715,7 @@ long heal_actor::use( player *p, item *it, bool, const tripoint &pos ) const
         p->add_msg_if_player( m_info, _("You can't do that while underwater.") );
         return 0;
     }
-    
+
     if( get_option<bool>( "FILTHY_WOUNDS" ) && it->is_filthy() ) {
         p->add_msg_if_player( m_info, _( "You can't use filthy items for healing." ) );
         return 0;
@@ -2725,7 +2737,7 @@ long heal_actor::use( player *p, item *it, bool, const tripoint &pos ) const
     // NPCs can use first aid now, but they can't perform long actions
     if( long_action && &patient == p && !p->is_npc() ) {
         // Assign first aid long action.
-        ///\EFFECT_FIRSTAID speeds up firstaid activity
+        /** @EFFECT_FIRSTAID speeds up firstaid activity */
         p->assign_activity( activity_id( "ACT_FIRSTAID" ), cost, 0, p->get_item_position( it ), it->tname() );
         p->activity.values.push_back( hpp );
         p->moves = 0;
@@ -2758,7 +2770,7 @@ int heal_actor::get_heal_value( const player &healer, hp_part healed ) const
     }
 
     if( heal_base > 0 ) {
-        ///\EFFECT_FIRSTAID increases healing item effects
+        /** @EFFECT_FIRSTAID increases healing item effects */
         return heal_base + bonus_mult * healer.get_skill_level( skill_firstaid );
     }
 
@@ -2864,10 +2876,10 @@ hp_part pick_part_to_heal(
     const bool bite = bite_chance > 0.0f;
     const bool infect = infect_chance > 0.0f;
     const bool precise = &healer == &patient ?
-        patient.has_trait( "SELFAWARE" ) :
-        ///\EFFECT_PER slightly increases precision when using first aid on someone else
+        patient.has_trait( trait_SELFAWARE ) :
+        /** @EFFECT_PER slightly increases precision when using first aid on someone else */
 
-        ///\EFFECT_FIRSTAID increases precision when using first aid on someone else
+        /** @EFFECT_FIRSTAID increases precision when using first aid on someone else */
         (healer.get_skill_level( skill_firstaid ) * 4 + healer.per_cur >= 20);
     while( true ) {
         hp_part healed_part = patient.body_window( menu_header, force, precise,
@@ -3000,7 +3012,10 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
     dump.emplace_back( "TOOL", _( "<bold>Moves to use</bold>:" ), "", move_cost );
 }
 
+place_trap_actor::place_trap_actor( const std::string &type ) :
+  iuse_actor( type ), needs_neighbor_terrain( ter_str_id::NULL_ID() ), outer_layer_trap( trap_str_id::NULL_ID() ) {}
 
+place_trap_actor::data::data() : trap( trap_str_id::NULL_ID() ) {}
 
 void place_trap_actor::data::load( JsonObject obj )
 {

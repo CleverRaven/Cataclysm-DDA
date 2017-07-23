@@ -147,7 +147,7 @@
     "skills_required": [ "tailor", 3 ],
     "time": 30000,
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_armschina", 4 ] ],
-    "using": [ [ "filament", 68 ] ],
+    "using": [ [ "filament", 68 ]],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }

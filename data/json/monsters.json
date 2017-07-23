@@ -998,6 +998,7 @@
     "armor_bash": 18,
     "armor_cut": 14,
     "vision_day": 50,
+    "vision_night": 35,
     "starting_ammo": { "40mm_frag": 100, "556": 1000 },
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "CHICKENBOT", 4 ] ],

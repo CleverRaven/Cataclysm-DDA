@@ -527,11 +527,13 @@
       ["salted_fish", 15],
       ["charcoal", 5],
       ["soap", 70],
+      ["detergent", 50],
       ["dry_beans", 40],
       ["dry_rice", 40],
       ["survnote", 1],
       ["cookbook_sushi", 5],
-      ["scots_cookbook", 6]
+      ["scots_cookbook", 6],
+	  [ "food_processor", 30 ]
     ]
   },{
     "type" : "item_group",
@@ -599,6 +601,7 @@
       ["zucchini", 7],
       ["irradiated_zucchini", 3],
       ["onion", 3],
+      ["chili_pepper", 3],
       ["irradiated_onion", 1],
       ["carrot", 3],
       ["irradiated_carrot", 1],
@@ -1009,6 +1012,7 @@
       ["pants_leather", 60],
       ["pants_cargo", 70],
       ["shorts_cargo", 50],
+      ["breeches", 5],
       ["skirt", 75],
       ["dress", 70],
       ["sundress", 50],
@@ -1760,6 +1764,7 @@
       ["charcoal", 5],
       ["fungicide", 2],
       ["soap", 80],
+      ["detergent", 80],
       ["chem_hydrogen_peroxide", 20]
     ]
   },{
@@ -2655,7 +2660,8 @@
       ["tophat", 30],
       ["tux", 50],
       ["gown", 50],
-      ["long_glove_white", 30]
+      ["long_glove_white", 30],
+      ["breeches", 10]
     ]
   },{
     "type" : "item_group",
@@ -2840,6 +2846,7 @@
       ["shorts", 70],
       ["shorts_denim", 35],
       ["pants", 75],
+      ["breeches", 10],
       ["leather_belt", 30],
       ["suit", 60],
       ["waistcoat", 30],
@@ -3391,7 +3398,7 @@
   },{
     "type" : "item_group",
     "id" : "contraband",
-    "note": "concealable items only plz",
+    "//": "concealable items only plz",
     "items":[
       ["caffeine", 25],
       ["oxycodone", 4],
@@ -3448,6 +3455,7 @@
       ["sharp_toothbrush", 10],
       ["razor_blade", 20],
       ["soap", 5],
+      ["detergent", 5],
       ["knitting_needles", 1],
       ["survnote", 2]
     ]
@@ -4170,6 +4178,7 @@
       ["nodachi", 1],
       ["katana", 2],
       ["rapier", 3],
+      ["cavalry_sabre", 2],
       ["sf_watch", 5]
     ]
   },{
@@ -4183,6 +4192,7 @@
       ["morningstar", 10],
       ["glaive", 10],
       ["rapier", 3],
+      ["cavalry_sabre", 3],
       ["estoc", 3],
       ["cutlass", 3],
       ["cutlass_inferior", 3],
@@ -4201,6 +4211,7 @@
       ["warhammer", 10],
       ["halberd", 5],
       ["pike", 5],
+      ["spear_steel", 5],
       ["helmet_plate", 1],
       ["armor_plate", 2],
       ["huge_crossbow", 2],
@@ -4549,6 +4560,7 @@
       ["cutlass", 1],
       ["scimitar", 1],
       ["rapier", 1],
+      ["cavalry_sabre", 1],
       ["estoc", 1],
       ["wakizashi", 1],
       ["jian_inferior", 30],
@@ -5183,6 +5195,7 @@
       ["seed_corn", 1],
       ["seed_hops", 1],
       ["raw_beans", 1],
+      ["seed_chili_pepper", 1],
       ["seed_garlic", 1],
       ["tomato", 9],
       ["pumpkin", 6],
@@ -5537,7 +5550,7 @@
     "type" : "item_group",
     "id" : "bionics_sci",
     "subtype": "distribution",
-    "note" : "High-tech bionics, handy for the harried researcher.  They get access to classified toys too.",
+    "//" : "High-tech bionics, handy for the harried researcher.  They get access to classified toys too.",
     "items":[
       ["bio_solar", 5],
       ["bio_batteries", 20],
@@ -5623,7 +5636,7 @@
     "items":[
       { "group" : "mags_milspec", "prob" : 40 },
       ["flamethrower", 20],
-      ["rm451_flamethrower", 5],
+      ["rm451_flamethrower", 10],
       ["m249", 30],
       ["m240", 20],
       ["m27iar", 30],
@@ -5917,7 +5930,7 @@
       "type" : "item_group",
     "id" : "bionics_op",
     "subtype": "distribution",
-    "note" : "What the commandos get.",
+    "//" : "What the commandos get.",
     "items":[
       ["bio_power_storage_mkII", 10],
       ["bio_solar", 15],
@@ -6004,6 +6017,7 @@
       ["baton", 8],
       ["tazer", 3],
       ["rapier", 3],
+      ["cavalry_sabre", 2],
       ["bat_metal", 60],
       ["e_tool", 2],
       ["knife_trench", 7],
@@ -8264,6 +8278,7 @@
       ["katana", 2],
       ["kris", 2],
       ["rapier", 2],
+      ["cavalry_sabre", 2],
       ["glaive", 2],
       ["naginata", 2],
       ["estoc", 2],
@@ -8289,6 +8304,7 @@
       ["longsword_fake", 4],
       ["longsword_inferior", 8],
       ["rapier_fake", 4],
+      ["cavalry_sabre_fake", 4],
       ["wakizashi_fake", 4],
       ["wakizashi_inferior", 8],
       ["kris_fake", 8],
@@ -8324,6 +8340,7 @@
       ["seed_zucchini", 60],
       ["seed_cotton_boll", 10],
       ["raw_beans", 60 ],
+      ["seed_chili_pepper", 60 ],
       ["seed_tomato", 60]
     ]
   },{
@@ -8424,6 +8441,8 @@
       ["jian_inferior", 10],
       ["rapier", 4],
       ["rapier_fake", 8],
+      ["cavalry_sabre", 4],
+      ["cavalry_sabre_fake", 8],
       ["estoc", 3],
       ["estoc_fake", 5],
       ["kris", 3],
@@ -8450,14 +8469,15 @@
       ["morningstar", 2],
       ["warhammer", 2],
       ["scythe_war", 2],
-      ["pike", 2]
+      ["pike", 2],
+      ["spear_steel", 2]
     ]
   },{
 "type" : "item_group",
 "id" : "museum_guns",
 "items" : [
       ["pistol_flintlock", 60],
-      ["carbine_flintlock", 4],
+      ["carbine_flintlock", 40],
       ["rifle_flintlock", 60],
       ["flintlock_pouch", 30],
       ["flintlock_ammo", 60],
@@ -8493,81 +8513,10 @@
       ["camera_control", 5]
     ]
   },{
-"type" : "item_group",
-"id" : "forage_spring",
-"subtype": "distribution",
-"entries" : [
-      { "item": "veggy_wild", "prob": 100, "count-min": 1, "count-max": 2 },
-      { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
-      { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
-      { "item": "rhubarb", "prob": 5, "count-min": 2, "count-max": 5 },
-      { "item": "wild_herbs", "prob": 10 },
-      { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 2 },
-      { "item": "garlic", "prob": 1 },
-      { "item": "seed_garlic", "prob": 4, "count-min": 1, "count-max": 6 },
-      { "item": "seed_canola", "prob": 5, "count-min": 1, "count-max": 2 },
-      { "item": "dogbane", "prob": 5, "count-min": 1, "count-max": 2 },
-      { "item": "bee_balm", "prob": 5, "count-min": 1, "count-max": 2 },
-      { "item": "mugwort", "prob": 5, "count-min": 1, "count-max": 2 }
-    ]
-  },{
-"type" : "item_group",
-"id" : "forage_summer",
-"subtype": "distribution",
-"entries" : [
-      { "item": "veggy_wild", "prob": 50, "count-min": 1, "count-max": 2 },
-      { "group": "forage_mushroom", "prob": 25 },
-      { "item": "egg_bird", "prob": 5, "count-min": 2, "count-max": 5 },
-      { "item": "egg_reptile", "prob": 5, "count-min": 1, "count-max": 3 },
-      { "item": "wild_herbs", "prob": 20 },
-      { "item": "blackberries", "prob": 20, "count-min": 2, "count-max": 5 },
-      { "item": "buckwheat", "prob": 5, "count-min": 1, "count-max": 4 },
-      { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 3 },
-      { "item": "garlic", "prob": 1 },
-      { "item": "seed_garlic", "prob": 4, "count-min": 1, "count-max": 6 },
-      { "item": "seed_canola", "prob": 10, "count-min": 1, "count-max": 3 },
-      { "item": "dogbane", "prob": 10, "count-min": 1, "count-max": 3 },
-      { "item": "bee_balm", "prob": 10, "count-min": 1, "count-max": 3 },
-      { "item": "mugwort", "prob": 10, "count-min": 1, "count-max": 3 }
-    ]
-  },{
-"type" : "item_group",
-"id" : "forage_autumn",
-"subtype": "distribution",
-"entries" : [
-      { "group": "forage_mushroom", "prob": 50 },
-      { "item": "wild_herbs", "prob": 10 },
-      { "item": "acorns", "prob": 100, "count-min": 2, "count-max": 3 },
-      { "item": "buckwheat", "prob": 15, "count-min": 2, "count-max": 4 },
-      { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 3 },
-      { "item": "garlic", "prob": 1 },
-      { "item": "seed_garlic", "prob": 4, "count-min": 1, "count-max": 6 },
-      { "item": "seed_canola", "prob": 5, "count-min": 1, "count-max": 3 },
-      { "item": "dogbane", "prob": 5, "count-min": 1, "count-max": 3 },
-      { "item": "bee_balm", "prob": 5, "count-min": 1, "count-max": 3 },
-      { "item": "mugwort", "prob": 5, "count-min": 1, "count-max": 3 }
-    ]
-  },{
-"type" : "item_group",
-"id" : "forage_winter",
-"subtype": "distribution",
-"entries" : [
-    ]
-  },{
-"type" : "item_group",
-"id" : "forage_mushroom",
-"subtype": "distribution",
-"entries":[
-      { "item": "mushroom", "prob": 4, "count-min": 1, "count-max": 3 },
-      { "item": "mushroom_poison", "prob": 3, "count-min": 1, "count-max": 3 },
-      { "item": "mushroom_morel", "prob": 2, "count-min": 1, "count-max": 4 },
-      { "item": "mushroom_magic", "prob": 1, "count-min": 1, "count-max": 3 }
-    ]
-  },{
     "type" : "item_group",
     "id" : "bionics_tech",
     "subtype": "distribution",
-    "note" : "Bionics used by technicians.",
+    "//" : "Bionics used by technicians.",
     "items":[
       ["bio_torsionratchet", 20],
       ["bio_memory", 20],
@@ -8580,7 +8529,7 @@
     "type" : "item_group",
     "id" : "bionics_subs",
     "subtype": "distribution",
-    "note" : "Bionics dropped by substation mini-boss.",
+    "//" : "Bionics dropped by substation mini-boss.",
     "items":[
       ["bio_power_storage", 20],
       ["bio_batteries", 20],

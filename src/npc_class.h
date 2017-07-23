@@ -18,6 +18,9 @@ using npc_class_id = string_id<npc_class>;
 class Skill;
 using skill_id = string_id<Skill>;
 
+struct mutation_branch;
+using trait_id = string_id<mutation_branch>;
+
 typedef std::string Group_tag;
 
 // @todo Move to better suited file (rng.h/.cpp?)
@@ -69,7 +72,7 @@ class npc_class
         Group_tag carry_override;
         Group_tag weapon_override;
 
-        std::map<std::string, int> traits;
+        std::map<trait_id, int> traits;
 
         npc_class();
 

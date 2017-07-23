@@ -204,12 +204,11 @@
     [
       [ "rag", 1 ],
       [ "felt_patch", 1 ],
-      [ "string_6", 2 ],
+      [ "cordage_short", 2, "LIST" ],
       [ "plant_fibre", 50 ],
       [ "sinew", 50 ],
       [ "thread", 50 ],
-      [ "yarn", 50 ],
-      [ "withered", 2 ]
+      [ "yarn", 50 ]
     ]
   ]
 },{
@@ -300,7 +299,7 @@
       [ "yarn", 20 ],
       [ "duct_tape", 20 ],
       [ "resin_cord", 1 ],
-      [ "withered", 1 ]
+      [ "cordage_short", 1, "LIST" ]
     ],
     [
       [ "rock", 1 ],
@@ -347,97 +346,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "copper_ax",
-  "override": true,
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TOOLS",
-  "skill_used": "fabrication",
-  "difficulty": 4,
-  "time": 60000,
-  "reversible": true,
-  "autolearn": true,
-  "book_learn": [["mag_survival", 1] , ["atomic_survival", 1] , ["textbook_carpentry", 2]],
-  "qualities":[
-    {"id":"HAMMER","level":1}
-  ],
-  "tools": [
-    [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "stick", 1 ],
-      [ "2x4", 1 ]
-    ],
-    [
-      [ "scrap_copper", 10 ],
-      [ "copper", 1000 ]
-    ],
-    [
-      [ "string_6", 2 ],
-      [ "resin_cord", 2 ],
-      [ "duct_tape", 40 ],
-      [ "sinew", 40 ],
-      [ "thread", 40 ],
-      [ "yarn", 40 ],
-      [ "plant_fibre", 40 ],
-      [ "withered", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "spear_copper",
-  "override": true,
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
-  "skill_used": "fabrication",
-  "difficulty": 3,
-  "time": 2400,
-  "reversible": true,
-  "autolearn": true,
-  "qualities":[
-    {"id":"CUT","level":1},
-    {"id":"HAMMER","level":1}
-  ],
-  "tools": [
-    [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "stick", 1 ],
-      [ "broom", 1 ],
-      [ "mop", 1 ],
-      [ "2x4", 1 ],
-      [ "pool_cue", 1 ],
-      [ "pointy_stick", 1 ]
-    ],
-    [
-      [ "rag", 1 ],
-      [ "felt_patch", 1 ],
-      [ "leather", 1 ],
-      [ "fur", 1 ]
-    ],
-    [
-      [ "plant_fibre", 20 ],
-      [ "sinew", 20 ],
-      [ "thread", 20 ],
-      [ "yarn", 20 ],
-      [ "duct_tape", 20 ],
-      [ "resin_cord", 1 ],
-      [ "withered", 1 ]
-    ],
-    [
-      [ "scrap_copper", 3 ],
-      [ "copper", 300 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "javelin_copper",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_PIERCING",
@@ -452,8 +360,8 @@
   ],
   "tools": [
     [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
+      [ "fire", -1 ],
+      [ "toolset", 10 ]
     ]
   ],
   "components": [
@@ -506,45 +414,50 @@
      ]
   ]
 },{
-        "type" : "recipe",
-  "result": "bandages",
-  "id_suffix": "improvised",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MEDICAL",
-  "skill_used": "survival",
-  "skills_required": ["firstaid", 3],
-  "difficulty": 4,
-  "time": 600,
-  "autolearn": true,
-  "tools": [
-    [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "rag", 3 ],
-      [ "felt_patch", 3 ],
-      [ "leather", 3 ],
-      [ "fur", 3 ]
+    "result": "1st_aid_survivor",
+    "type" : "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "firstaid",
+    "time": 50000,
+    "autolearn": true,
+    "qualities": [
+      { "id":"CUT","level":1 },
+      { "id":"BOIL","level":1 }
     ],
-    [
-      [ "resin_cord", 3 ],
-      [ "string_6", 3 ],
-      [ "plant_fibre", 60 ],
-      [ "sinew", 60 ],
-      [ "thread", 60 ],
-      [ "yarn", 60 ]
-    ],
-    [
-      [ "garlic", 3 ],
-      [ "thyme_oil", 1 ],
-      [ "wild_herbs", 100 ],
-      [ "honey_glassed", 3 ],
-      [ "honey_bottled", 6 ]
+    "tools" : [ [ [ "hotplate", 20 ], [ "toolset", 20 ], [ "fire", -1 ] ] ],
+    "components": [
+      [
+        [ "rag", 3 ],
+        [ "felt_patch", 3 ],
+        [ "leather", 3 ],
+        [ "fur", 3 ]
+      ],
+      [
+        [ "thread", 300 ],
+        [ "sinew", 300 ],
+        [ "plant_fibre", 300 ],
+        [ "cordage", 1, "LIST" ],
+        [ "superglue", 1 ],
+        [ "resin_cord", 2 ]
+      ],
+      [
+        [ "moonshine", 14 ],
+        [ "vodka", 14 ],
+        [ "whiskey", 14 ],
+        [ "single_malt_whiskey", 14 ],
+        [ "brandy", 14 ],
+        [ "rum", 14 ],
+        [ "gin", 14 ],
+        [ "tequila", 14 ],
+        [ "mixed_alcohol_strong", 14 ],
+        [ "garlic", 3 ],
+        [ "wild_herbs", 100 ],
+        [ "thyme_oil", 1 ],
+        [ "honey_glassed", 3 ],
+        [ "honey_bottled", 6 ]
+      ]
     ]
-  ]
 },{
   "type" : "recipe",
   "result": "leg_warmers_f",
@@ -748,7 +661,7 @@
   ],
   "components": [
     [
-      [ "string_6", 2 ],
+      [ "cordage_short", 2, "LIST" ],
       [ "thread", 100 ],
       [ "sinew", 100 ],
       [ "plant_fibre", 100 ],
@@ -795,8 +708,8 @@
   ],
   "tools": [
       [
-        [ "toolset", 10 ],
-        [ "fire", -1 ]
+        [ "fire", -1 ],
+        [ "toolset", 10 ]
       ]
       ],
   "components":
@@ -821,8 +734,8 @@
   ],
   "tools": [
       [
-        [ "toolset", 10 ],
-        [ "fire", -1 ]
+        [ "fire", -1 ],
+        [ "toolset", 10 ]
       ]
       ],
   "components": [
@@ -872,12 +785,11 @@
       [ "sheet_metal", 1 ]
     ],
     [
-      [ "string_6", 2 ],
+      [ "cordage_short", 2, "LIST" ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
-      [ "yarn", 40 ],
-      [ "withered", 2 ]
+      [ "yarn", 40 ]
     ]
   ]
 },{
@@ -903,12 +815,11 @@
       [ "steel_lump", 1 ]
     ],
     [
-      [ "string_6", 2 ],
+      [ "cordage_short", 2, "LIST" ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
-      [ "yarn", 40 ],
-      [ "withered", 1 ]
+      [ "yarn", 40 ]
     ]
   ]
 },{
@@ -1137,10 +1048,8 @@
   "time": 5000,
   "reversible": true,
   "autolearn": true,
-  "components": [
-    [ [ "snare_trigger", 1 ] ],
-    [ [ "string_36", 1 ] ]
-  ]
+  "using": [ [ "cordage", 1 ] ],
+  "components": [ [ [ "snare_trigger", 1 ] ] ]
 },{
   "type" : "recipe",
   "result": "heavy_snare_kit",
@@ -1153,10 +1062,8 @@
   "time": 8000,
   "reversible": true,
   "autolearn": true,
-  "components": [
-    [ [ "snare_trigger", 1 ] ],
-    [ [ "rope_6", 1 ] ]
-  ]
+  "using": [ [ "rope_natural_short", 1 ] ],
+  "components": [ [ [ "snare_trigger", 1 ] ] ]
 },{
   "type" : "recipe",
   "result": "crossbow_makeshift",
@@ -1169,6 +1076,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities" : [ {"id":"CUT","level":1} ],
+  "using": [ [ "cordage", 3 ] ],
   "components": [
     [
       [ "2x4", 2 ],
@@ -1176,9 +1084,6 @@
     ],
     [
       [ "splinter", 1 ]
-    ],
-    [
-      [ "string_36", 3 ]
     ]
   ]
 }

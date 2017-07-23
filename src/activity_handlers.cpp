@@ -35,7 +35,6 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-const skill_id skill_carpentry( "carpentry" );
 const skill_id skill_survival( "survival" );
 const skill_id skill_firstaid( "firstaid" );
 
@@ -100,7 +99,8 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_VIBE" ), vibe_finish },
     { activity_id( "ACT_MOVE_ITEMS" ), move_items_finish },
     { activity_id( "ACT_ATM" ), atm_finish },
-    { activity_id( "ACT_AIM" ), aim_finish }
+    { activity_id( "ACT_AIM" ), aim_finish },
+    { activity_id( "ACT_WASH" ), washing_finish }
 };
 
 void activity_handlers::burrow_do_turn( player_activity *act, player *p )
@@ -135,8 +135,6 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
         p->mod_thirst( 10 );
         p->mod_fatigue( 15 );
         p->mod_pain( 3 * rng( 1, 3 ) );
-        // Mining is construction work!
-        p->practice( skill_carpentry, 5 );
     } else if( g->m.move_cost( pos ) == 2 && g->get_levz() == 0 &&
                g->m.ter( pos ) != t_dirt && g->m.ter( pos ) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
@@ -1120,14 +1118,12 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
         // Betcha wish you'd opted for the J-Hammer ;P
         p->mod_hunger( 15 );
         p->mod_thirst( 15 );
-        if( p->has_trait( "STOCKY_TROGLO" ) ) {
+        if( p->has_trait( trait_id( "STOCKY_TROGLO" ) ) ) {
             p->mod_fatigue( 20 ); // Yep, dwarves can dig longer before tiring
         } else {
             p->mod_fatigue( 30 );
         }
         p->mod_pain( 2 * rng( 1, 3 ) );
-        // Mining is construction work!
-        p->practice( skill_carpentry, 5 );
     } else if( g->m.move_cost(pos) == 2 && g->get_levz() == 0 &&
                g->m.ter(pos) != t_dirt && g->m.ter(pos) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
@@ -1852,7 +1848,7 @@ void activity_handlers::atm_do_turn( player_activity *, player *p )
 
 void activity_handlers::cracking_do_turn( player_activity *act, player *p )
 {
-    if( !( p->has_amount( "stethoscope", 1 ) || p->has_bionic( "bio_ears" ) ) ) {
+    if( !( p->has_amount( "stethoscope", 1 ) || p->has_bionic( bionic_id( "bio_ears" ) ) ) ) {
         // We lost our cracking tool somehow, bail out.
         act->set_to_null();
         return;
@@ -1950,4 +1946,19 @@ void activity_handlers::aim_finish( player_activity *, player * )
     // Aim bails itself by resetting itself every turn,
     // you only re-enter if it gets set again.
     return;
+}
+
+void activity_handlers::washing_finish( player_activity *act, player *p )
+{
+    item &filthy_item = p->i_at( act->position );
+
+    if( p->is_worn( filthy_item ) ) {
+        filthy_item.on_takeoff( *p );
+        filthy_item.item_tags.erase( "FILTHY" );
+        filthy_item.on_wear( *p );
+    }
+    filthy_item.item_tags.erase( "FILTHY" );
+
+    p->add_msg_if_player( m_good, _( "You washed your clothing." ) );
+    act->set_to_null();
 }

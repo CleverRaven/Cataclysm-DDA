@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <locale.h>
 
-// create map where we will store the FILENAMES
+/** Map where we store filenames */
 std::map<std::string, std::string> FILENAMES;
 
 void PATH_INFO::init_base_path(std::string path)
@@ -92,7 +92,6 @@ void PATH_INFO::update_datadir()
     update_pathname("defaulttilejson", FILENAMES["gfx"] + "tile_config.json");
     update_pathname("defaulttilepng", FILENAMES["gfx"] + "tinytile.png");
     update_pathname("mods-dev-default", FILENAMES["moddir"] + "default.json");
-    update_pathname("mods-user-default", FILENAMES["moddir"] + "user-default-mods.json");
     update_pathname("mods-replacements", FILENAMES["moddir"] + "replacements.json");
     update_pathname("defaultsounddir", FILENAMES["datadir"] + "sound");
 }
@@ -106,7 +105,9 @@ void PATH_INFO::update_config_dir()
     update_pathname("fontdata", FILENAMES["config_dir"] + "fonts.json");
     update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.json");
     update_pathname("safemode", FILENAMES["config_dir"] + "safemode.json");
+    update_pathname("base_colors", FILENAMES["config_dir"] + "base_colors.json");
     update_pathname("custom_colors", FILENAMES["config_dir"] + "custom_colors.json");
+    update_pathname("mods-user-default", FILENAMES["config_dir"] + "user-default-mods.json");
 }
 
 void PATH_INFO::set_standard_filenames(void)
@@ -135,7 +136,6 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("rawdir", FILENAMES["datadir"] + "raw/");
     update_pathname("jsondir", FILENAMES["datadir"] + "core/");
     update_pathname("moddir", FILENAMES["datadir"] + "mods/");
-    update_pathname("recycledir", FILENAMES["datadir"] + "recycling/");
     update_pathname("namesdir", FILENAMES["datadir"] + "names/");
     update_pathname("titledir", FILENAMES["datadir"] + "title/");
     update_pathname("motddir", FILENAMES["datadir"] + "motd/");
@@ -155,7 +155,6 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("defaulttilejson", FILENAMES["gfx"] + "tile_config.json");
     update_pathname("defaulttilepng", FILENAMES["gfx"] + "tinytile.png");
     update_pathname("mods-dev-default", FILENAMES["moddir"] + "default.json");
-    update_pathname("mods-user-default", FILENAMES["moddir"] + "user-default-mods.json");
     update_pathname("mods-replacements", FILENAMES["moddir"] + "replacements.json");
     update_pathname("defaultsounddir", FILENAMES["datadir"] + "sound");
 
@@ -185,7 +184,9 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("fontdata", FILENAMES["config_dir"] + "fonts.json");
     update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.json");
     update_pathname("safemode", FILENAMES["config_dir"] + "safemode.json");
+    update_pathname("base_colors", FILENAMES["config_dir"] + "base_colors.json");
     update_pathname("custom_colors", FILENAMES["config_dir"] + "custom_colors.json");
+    update_pathname("mods-user-default", FILENAMES["config_dir"] + "user-default-mods.json");
     update_pathname("worldoptions", "worldoptions.json");
 
     // Needed to move files from these legacy locations to the new config directory.

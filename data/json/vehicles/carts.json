@@ -59,6 +59,7 @@
       { "x": 0, "y": 0, "chance": 20, "items": [ "mustard" ] },
       { "x": 0, "y": 0, "chance": 20, "items": [ "mayonnaise" ] },
       { "x": 0, "y": 0, "chance": 20, "items": [ "onion" ] },
+      { "x": 0, "y": 0, "chance": 20, "items": [ "chili_pepper" ] },
       { "x": 0, "y": 0, "chance": 20, "items": [ "lettuce" ] },
       { "x": 0, "y": 0, "chance": 20, "items": [ "tomato" ] },
       { "x": 0, "y": 0, "chance": 20, "items": [ "cheese" ] }

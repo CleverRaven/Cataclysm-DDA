@@ -31,23 +31,6 @@ for file in "$@"; do
         exit 66; # EX_NOINPUT
     fi
 
-    key='' # default is unsorted
-
-    IFS=$'\n' # read one line at a time excluding comments
-    for line in $(awk '/^[^#]/' json_whitelist); do
-
-        # expand any shell globs in json_whitelist
-        for opt in $(echo $line | awk '{print $1}'); do
-
-            # check if any expansions match current file
-            if [ "$file" -ef $(readlink -f $opt) ]; then
-
-                # if so then set sort key (if any)
-                key=$(echo $line | awk '{print $2}')
-            fi
-        done
-    done
-
     # Check validity via JQ
     $JQ '.' $file >/dev/null;
     if [ $? -ne 0 ]; then
@@ -55,12 +38,8 @@ for file in "$@"; do
         exit 65; # EX_DATAERR
     fi
 
-    # Lint to canonical format, optionally sorting by key
-    if [ -z $key ]; then
-        output=$($PERL $LINTER $file)
-    else
-        output=$($JQ "sort_by(.$key)" $file | $PERL $LINTER)
-    fi
+    # Lint to canonical format
+    output=$($PERL $LINTER $file)
     if [ $? -ne 0 ]; then
         echo "Invalid definition in $file"
         exit 65; # EX_DATAERR

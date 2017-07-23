@@ -84,7 +84,7 @@
             "sound_fail": "whump.",
             "items": [
                 { "item": "2x4", "count": [2, 6] },
-                { "item": "nail", "charges": [4, 12] },
+                { "item": "nail", "charges": [4, 8] },
                 { "item": "splinter", "count": 1 }
             ]
         }
@@ -96,7 +96,7 @@
         "bgcolor": "brown",
         "move_cost_mod": 3,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "MOUNTABLE", "BLOCKSDOOR", "SHORT"],
+        "flags": ["TRANSPARENT", "MOUNTABLE", "BLOCKSDOOR", "SHORT", "EASY_DECONSTRUCT"],
         "deconstruct": {
             "items": [
                 { "item": "bag_canvas", "count": 2 },
@@ -120,7 +120,7 @@
         "bgcolor": "brown",
         "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["NOITEM", "BLOCKSDOOR"],
+        "flags": ["NOITEM", "BLOCKSDOOR", "EASY_DECONSTRUCT"],
         "deconstruct": {
             "items": [
                 { "item": "bag_canvas", "count": 4 },
@@ -278,7 +278,7 @@
             ]
         },
         "max_volume": 4000,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT"],
         "bash": {
             "str_min": 6, "str_max": 20,
             "sound": "crunch!",
@@ -323,6 +323,7 @@
                 { "item": "scrap", "count": [2, 6] },
                 { "item": "steel_chunk", "count": [2, 3] },
                 { "item": "element", "count": [1, 4] },
+                { "item": "cable", "charges": [1, 3] },
                 { "item": "pilot_light", "count": 1 }
             ]
         },
@@ -689,7 +690,7 @@
             "sound_fail": "whump.",
             "items": [
                 { "item": "2x4", "count": [2, 6] },
-                { "item": "nail", "charges": [4, 12] },
+                { "item": "nail", "charges": [4, 8] },
                 { "item": "splinter", "count": 1 }
             ]
         }
@@ -769,7 +770,7 @@
             "sound_fail": "whump.",
             "items": [
                 { "item": "2x4", "count": [2, 6] },
-                { "item": "nail", "charges": [4, 12] },
+                { "item": "nail", "charges": [4, 8] },
                 { "item": "splinter", "count": 1 }
             ]
         }
@@ -857,7 +858,7 @@
             "sound_fail": "whump.",
             "items": [
                 { "item": "2x4", "count": [2, 6] },
-                { "item": "nail", "charges": [4, 12] },
+                { "item": "nail", "charges": [4, 8] },
                 { "item": "splinter", "count": 1 }
             ]
         }
@@ -955,6 +956,7 @@
                 { "item": "steel_chunk", "count": [1, 3] },
                 { "item": "sheet_metal", "count": [2, 6] },
                 { "item": "cable", "charges": [1, 15] },
+                { "item": "hose", "count": [1, 2] },
                 { "item": "cu_pipe", "count": [2, 5] }
             ]
         },
@@ -986,6 +988,7 @@
             "items": [
                 { "item": "scrap", "count": [2, 6] },
                 { "item": "steel_chunk", "count": [1, 3] },
+                { "item": "element", "count": [2, 3] },
                 { "item": "sheet_metal", "count": [2, 6] },
                 { "item": "cable", "charges": [1, 15] },
                 { "item": "cu_pipe", "count": [1, 3] }
@@ -1130,8 +1133,8 @@
                   "ORGANIC", "MOUNTABLE", "SHORT"],
         "deconstruct": {
             "items": [
-                { "item": "2x4", "count": 6 },
-                { "item": "nail", "charges": [6, 10] },
+                { "item": "2x4", "count": 12 },
+                { "item": "nail", "charges": [12, 24] },
                 { "item": "rag", "count": [15, 20] }
             ]
         },
@@ -1142,6 +1145,7 @@
             "sound_fail": "wham!",
             "items": [
                 { "item": "2x4", "count": [1, 5] },
+                { "item": "splinter", "count": [2, 6] },
                 { "item": "nail", "charges": [2, 10] },
                 { "item": "rag", "count": [ 8, 12] }
             ]
@@ -1158,8 +1162,8 @@
           "SHORT"],
         "deconstruct": {
             "items": [
-                { "item": "2x4", "count": 6 },
-                { "item": "nail", "charges": [6, 10] },
+                { "item": "2x4", "count": 12 },
+                { "item": "nail", "charges": [12, 24] },
                 { "item": "rag", "count": [15, 20] }
             ]
         },
@@ -1170,8 +1174,9 @@
             "sound_fail": "wham!",
             "items": [
                 { "item": "2x4", "count": [1, 5] },
+                { "item": "splinter", "count": [2, 6] },
                 { "item": "nail", "charges": [2, 10] },
-                { "item": "rag", "count": [ 6, 12] }
+                { "item": "rag", "count": [ 8, 12] }
             ]
         }
     },{
@@ -1949,7 +1954,7 @@
         "move_cost_mod": -1,
         "required_str": -1,
         "crafting_pseudo_item": "char_forge",
-        "flags": ["TRANSPARENT", "SEALED", "CONTAINER", "NOITEM"],
+        "flags": ["TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT"],
         "deconstruct": {
             "items": [
                 { "item": "char_forge", "count": 1 }
@@ -1978,7 +1983,7 @@
                 { "item": "anvil", "count": 1 }
             ]
         },
-        "flags": ["TRANSPARENT", "NOITEM"],
+        "flags": ["TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT"],
         "bash": {
             "str_min": 4, "str_max": 8,
             "sound": "crunch!",
@@ -2001,7 +2006,7 @@
                 { "item": "still", "count": 1 }
             ]
         },
-        "flags": ["TRANSPARENT", "NOITEM"],
+        "flags": ["TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT"],
         "bash": {
             "str_min": 4, "str_max": 8,
             "sound": "crunch!",
@@ -2083,7 +2088,7 @@
         "flags": ["SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "FLAMMABLE_HARD"],
         "examine_action": "vending",
         "bash": {
-            "str_min": 40, "str_max": 200,
+            "str_min": 150, "str_max": 520,
             "sound": "glass breaking!",
             "sound_fail": "whack!",
             "furn_set": "f_vending_o",
@@ -2240,7 +2245,7 @@
                 { "item": "scrap", "count": [0, 3] },
                 { "item": "pipe", "count": [0, 4] },
                 { "item": "small_lcd_screen", "prob": 50 },
-                { "item": "RAM", "count": [4, 1] },
+                { "item": "RAM", "count": [0, 1] },
                 { "item": "nail", "charges": [2, 6] }
             ]
         }
@@ -2348,7 +2353,7 @@
         "examine_action": "kiln_empty",
         "max_volume": 500,
         "crafting_pseudo_item": "char_kiln",
-        "flags": ["CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM"],
+        "flags": ["CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT"],
         "deconstruct": {
             "items": [
                 { "item": "rock", "count": [30, 30] }
@@ -2371,7 +2376,7 @@
         "move_cost_mod": -1,
         "required_str": -1,
         "examine_action": "kiln_full",
-        "flags": ["NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM"],
+        "flags": ["NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "EASY_DECONSTRUCT"],
         "deconstruct": {
             "items": [
                 { "item": "rock", "count": [30, 30] }
@@ -2523,7 +2528,7 @@
     "bgcolor": "brown",
     "move_cost_mod": 2,
     "required_str": -1,
-    "flags": ["TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM"],
+    "flags": ["TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT"],
     "crafting_pseudo_item": "char_smoker",
     "examine_action": "reload_furniture",
     "deconstruct": {
@@ -2550,7 +2555,7 @@
     "move_cost_mod": -1,
     "required_str": -1,
     "crafting_pseudo_item": "char_forge",
-    "flags": ["SEALED", "CONTAINER", "NOITEM"],
+    "flags": ["SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT"],
     "deconstruct": {
       "items": [
         { "item": "rock", "count": 40 }
@@ -2574,7 +2579,7 @@
         "move_cost_mod": -1,
         "required_str": -1,
         "crafting_pseudo_item": "brick_kiln",
-        "flags": [ "SEALED", "CONTAINER", "NOITEM"],
+        "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT"],
         "deconstruct": {
             "items": [
                 { "item": "rock", "count": 40 }

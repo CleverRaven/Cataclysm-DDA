@@ -265,11 +265,7 @@
   "book_learn": [["recipe_bullets", 6] , ["textbook_fabrication", 7]],
   "tools" : [
      [ ["mold_plastic", -1] ],
-     [
-      ["hotplate", 10],
-      ["toolset", 10],
-      ["fire", -1]
-     ],
+     [ [ "surface_heat", 10, "LIST" ] ],
      [
       [ "swage", -1 ]
      ],
@@ -374,8 +370,7 @@
     [
       [ "rag", 2 ],
       [ "leather", 2 ],
-      [ "string_6", 6 ],
-      [ "string_36", 1 ],
+      [ "cordage", 1, "LIST" ],
       [ "duct_tape", 10 ],
       [ "medical_tape", 20 ]
     ]
@@ -418,8 +413,7 @@
     [
       [ "rag", 4 ],
       [ "leather", 4 ],
-      [ "string_6", 12 ],
-      [ "string_36", 2 ],
+      [ "cordage", 1, "LIST" ],
       [ "duct_tape", 20 ],
       [ "medical_tape", 40 ]
     ]
@@ -662,12 +656,11 @@
     ],
     [ [ "rock", 1 ] ],
     [
-      [ "string_6", 2 ],
+      [ "cordage_short", 2, "LIST" ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
-      [ "yarn", 40 ],
-      [ "withered", 2 ]
+      [ "yarn", 40 ]
     ]
   ]
 },{
@@ -683,12 +676,11 @@
     [[ "stick", 1 ], [ "2x4", 1 ]],
     [[ "steel_chunk", 1 ], [ "steel_lump", 1 ]],
     [
-      [ "string_6", 2 ],
+      [ "cordage_short", 2, "LIST" ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
-      [ "yarn", 40 ],
-      [ "withered", 2 ]
+      [ "yarn", 40 ]
     ]
   ]
 },{
@@ -748,12 +740,11 @@
       [ "sharp_rock", 1 ]
     ],
     [
-      [ "string_6", 1 ],
+      [ "cordage_short", 1, "LIST" ],
       [ "sinew", 20 ],
       [ "thread", 20 ],
       [ "plant_fibre", 20 ],
-      [ "yarn", 20 ],
-      [ "withered", 1 ]
+      [ "yarn", 20 ]
     ]
   ]
 },{
@@ -795,7 +786,7 @@
       [ "thread", 80 ],
       [ "plant_fibre", 80 ],
       [ "yarn", 80 ],
-      [ "string_36", 1 ]
+      [ "cordage", 1, "LIST" ]
     ]
   ]
 },{
@@ -821,12 +812,11 @@
       [ "sharp_rock", 1 ]
     ],
     [
-      [ "string_6", 2 ],
+      [ "cordage_short", 2, "LIST" ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
-      [ "yarn", 40 ],
-      [ "withered", 2 ]
+      [ "yarn", 40 ]
     ]
   ]
 },{
@@ -845,8 +835,8 @@
   ],
   "tools": [
     [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
+      [ "fire", -1 ],
+      [ "toolset", 10 ]
     ]
   ],
   "components": [
@@ -859,13 +849,12 @@
       [ "copper", 1000 ]
     ],
     [
-      [ "string_6", 2 ],
+      [ "cordage_short", 2, "LIST" ],
       [ "duct_tape", 40 ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "yarn", 40 ],
-      [ "plant_fibre", 40 ],
-      [ "withered", 2 ]
+      [ "plant_fibre", 40 ]
     ]
   ]
 },{
@@ -892,12 +881,11 @@
       [ "sharp_rock", 1 ]
     ],
     [
-      [ "string_6", 2 ],
+      [ "cordage_short", 2, "LIST" ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
-      [ "yarn", 40 ],
-      [ "withered", 1 ]
+      [ "yarn", 40 ]
     ]
   ]
 },{
@@ -925,12 +913,11 @@
         [ "sharp_rock", 1 ]
       ],
       [
-        [ "string_6", 2 ],
+        [ "cordage_short", 2, "LIST" ],
         [ "sinew", 40 ],
         [ "thread", 40 ],
         [ "plant_fibre", 40 ],
-        [ "yarn", 40 ],
-        [ "withered", 2 ]
+        [ "yarn", 40 ]
       ]
     ]
 },{
@@ -942,6 +929,7 @@
   "difficulty": 2,
   "time": 5000,
   "autolearn": true,
+  "using": [ [ "cordage_short", 1 ] ],
   "qualities" : [
     {"id":"CUT","level":1}
   ],
@@ -952,9 +940,6 @@
     ],
     [
       [ "splinter", 1 ]
-    ],
-    [
-      [ "string_6", 3 ]
     ]
   ]
 },{
@@ -966,6 +951,7 @@
   "difficulty": 2,
   "time": 10000,
   "autolearn": true,
+  "using": [ [ "cordage", 2 ] ],
   "qualities" : [
     {"id":"CUT","level":1}
   ],
@@ -977,9 +963,6 @@
     [
       [ "rock", 1 ],
       [ "ceramic_shard", 1 ]
-    ],
-    [
-      [ "string_36", 3 ]
     ]
   ]
 },{
@@ -1073,13 +1056,7 @@
     {"id":"BOIL","level":1}
   ],
   "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "toolset", 3 ],
-      [ "coffeemaker", 3],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "water_boiling_heat", 3, "LIST" ] ]
   ],
   "components": [
     [
@@ -1091,11 +1068,11 @@
       [ "hstomach", 1]
     ],
     [
+      [ "cordage_short", 2, "LIST" ],
       [ "sinew", 50 ],
       [ "thread", 50 ],
       [ "plant_fibre", 50],
-      [ "yarn", 25],
-      [ "string_6", 1]
+      [ "yarn", 25]
     ],
     [
       [ "pine_bough", 2 ]
@@ -1114,15 +1091,7 @@
     {"id":"CUT","level":1},
     {"id":"BOIL","level":1}
   ],
-  "tools": [
-    [
-      [ "hotplate", 4 ],
-      [ "toolset", 4 ],
-      [ "coffeemaker", 4],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "water_boiling_heat", 4, "LIST" ] ] ],
   "components": [
     [
       [ "water", 8 ],
@@ -1133,11 +1102,11 @@
       [ "hstomach_large", 1]
     ],
     [
+      [ "cordage_short", 3, "LIST" ],
       [ "sinew", 150 ],
       [ "thread", 150 ],
       [ "plant_fibre", 150],
-      [ "yarn", 75],
-      [ "string_6", 3]
+      [ "yarn", 75]
     ],
     [
       [ "pine_bough", 4 ]
@@ -1165,7 +1134,7 @@
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
       [ "yarn", 40 ],
-      [ "string_36", 1 ]
+      [ "cordage", 1, "LIST" ]
     ],
     [
       [ "leather", 6 ],
@@ -1196,7 +1165,7 @@
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
       [ "yarn", 40 ],
-      [ "string_36", 1 ]
+      [ "cordage", 1, "LIST" ]
     ],
     [
       [ "leather", 14 ],
@@ -1227,7 +1196,7 @@
       [ "thread", 40 ],
       [ "plant_fibre", 40 ],
       [ "yarn", 40 ],
-      [ "string_36", 1 ]
+      [ "cordage", 1, "LIST" ]
     ],
     [
       [ "leather", 24 ],
@@ -1282,7 +1251,7 @@
       [ "tanned_hide", 4 ]
     ],
     [
-      [ "string_6", 10 ],
+      [ "cordage", 2, "LIST" ],
       [ "sinew", 500 ],
       [ "thread", 500 ],
       [ "plant_fibre", 500 ],
@@ -1319,7 +1288,7 @@
       [ "thread", 60 ],
       [ "plant_fibre", 60 ],
       [ "yarn", 60 ],
-      [ "string_6", 1 ]
+      [ "cordage_short", 2, "LIST" ]
     ],
     [
       [ "damaged_shelter_kit", 1 ]
@@ -1349,64 +1318,7 @@
       [ "sinew", 360 ],
       [ "plant_fibre", 360 ],
       [ "yarn", 360 ],
-      [ "string_6", 6 ],
-      [ "string_36", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "snare_trigger",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TRAPS",
-  "skill_used": "traps",
-  "skills_required": [ "survival", 1 ],
-  "time": 2000,
-  "note": "believed removed-from-game",
-  "qualities" : [
-    {"id":"CUT","level":1}
-  ],
-  "components": [
-    [
-      [ "stick", 1 ],
-      [ "2x4", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "light_snare_kit",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TRAPS",
-  "skill_used": "traps",
-  "skills_required": [ "survival", 1 ],
-  "difficulty": 1,
-  "time": 5000,
-  "reversible": true,
-  "note": "believed removed-from-game",
-  "components": [
-    [
-      [ "snare_trigger", 1 ]
-    ],
-    [
-      [ "string_36", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "heavy_snare_kit",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TRAPS",
-  "skill_used": "traps",
-  "skills_required": [ "survival", 1 ],
-  "difficulty": 3,
-  "time": 8000,
-  "reversible": true,
-  "note": "believed removed-from-game",
-  "components": [
-    [
-      [ "snare_trigger", 1 ]
-    ],
-    [
-      [ "rope_6", 1 ]
+      [ "cordage", 1, "LIST" ]
     ]
   ]
 },{
@@ -1443,6 +1355,7 @@
   "difficulty": 4,
   "time": 60000,
   "autolearn": true,
+  "using": [ [ "rope_natural", 4 ] ],
   "qualities":[
     {"id":"HAMMER","level":2},
     {"id":"SAW_M","level":1},
@@ -1459,10 +1372,6 @@
   "components": [
     [
       [ "frame", 4 ]
-    ],
-    [
-      ["rope_30", 4],
-      ["vine_30", 4]
     ],
     [
       [ "steel_chunk", 4 ],
@@ -1698,11 +1607,7 @@
   "time": 3000,
   "autolearn": true,
   "tools": [
-    [
-      [ "fire", -1 ],
-      [ "hotplate", 3 ],
-      [ "toolset", 3 ]
-    ]
+    [ [ "surface_heat", 3, "LIST" ] ]
   ],
   "components": [
     [
@@ -1929,6 +1834,37 @@
   ]
 },{
   "type" : "recipe",
+  "result": "rope_makeshift_6",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "survival",
+  "time": 7500,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "withered", 36 ],
+      [ "straw_pile", 36 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "rope_makeshift_30",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "survival",
+  "time": 7500,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "rope_makeshift_6", 5 ],
+      [ "withered", 180 ],
+      [ "straw_pile", 180 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "wire",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -2020,6 +1956,7 @@
   "skill_used": "fabrication",
   "time": 30000,
   "autolearn": true,
+  "using": [ [ "cordage_short", 3 ] ],
   "qualities" : [
     {"id":"CUT","level":1}
   ],
@@ -2028,9 +1965,6 @@
       [ "splinter", 1 ],
       [ "stick", 1 ],
       [ "2x4", 1 ]
-    ],
-    [
-      [ "string_6", 3 ]
     ]
   ]
 },{
@@ -2099,11 +2033,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 5, "LIST" ] ]
   ],
   "components": [
     [
@@ -2374,15 +2304,8 @@
   "time": 4000,
   "reversible": true,
   "autolearn": true,
-  "components": [
-    [
-      [ "2x4", 3 ],
-      [ "stick", 6 ]
-    ],
-    [
-      [ "rope_6", 3 ]
-    ]
-  ]
+  "using": [ [ "rope_natural_short", 3 ] ],
+  "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ] ]
 },{
   "type" : "recipe",
   "result": "wheel_wood",
@@ -2438,14 +2361,8 @@
   "time": 6000,
   "reversible": true,
   "autolearn": true,
-  "components": [
-    [
-      [ "2x4", 6 ]
-    ],
-    [
-      [ "rope_6", 2]
-    ]
-  ]
+  "using": [ [ "rope_natural_short", 2 ] ],
+  "components": [ [ [ "2x4", 6 ] ] ]
 },{
   "type" : "recipe",
   "result": "steel_plate",
@@ -2569,13 +2486,8 @@
   "difficulty": 1,
   "time": 500,
   "autolearn": true,
-  "components": [
-    [
-      [ "string_36", 1 ]
-    ],
-    [
-      [ "superglue", 1 ]
-    ]
+  "using": [ [ "cordage", 1 ] ],
+  "components": [ [ [ "superglue", 1 ] ]
   ]
 },{
   "type" : "recipe",
@@ -2631,6 +2543,7 @@
   "reversible": true,
   "decomp_learn": 2,
   "autolearn": true,
+  "using": [ [ "cordage", 1 ] ],
   "components": [
     [
       [ "crossbow", 1 ]
@@ -2638,10 +2551,6 @@
     [
       [ "bolt_steel", 1 ],
       [ "bolt_wood", 4 ]
-    ],
-    [
-      [ "string_6", 6 ],
-      [ "string_36", 1 ]
     ]
   ]
 },{
@@ -2656,16 +2565,13 @@
   "reversible": true,
   "decomp_learn": 2,
   "autolearn": true,
+  "using": [ [ "cordage", 1 ] ],
   "components": [
     [
       [ "shotgun_s", 1 ]
     ],
     [
       [ "shot_00", 2 ]
-    ],
-    [
-      [ "string_36", 1 ],
-      [ "string_6", 2 ]
     ]
   ]
 },{
@@ -2696,27 +2602,6 @@
 },{
   "type" : "recipe",
   "result": "boobytrap",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TRAPS",
-  "skill_used": "traps",
-  "difficulty": 3,
-  "time": 5000,
-  "book_learn": [["textbook_traps", 2] , ["manual_traps", 3] , ["howto_traps", 3]],
-  "components": [
-    [
-      [ "grenade", 1 ]
-    ],
-    [
-      [ "string_6", 1 ]
-    ],
-    [
-      [ "clay_canister", 1 ],
-      [ "can_food_unsealed", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "boobytrap",
   "id_suffix" : "closed_cans_such_as_drinks",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TRAPS",
@@ -2724,6 +2609,7 @@
   "difficulty": 3,
   "time": 5000,
   "book_learn": [["textbook_traps", 2] , ["manual_traps", 3] , ["howto_traps", 3]],
+  "using": [ [ "cordage_short", 1 ] ],
   "qualities" : [
     {"id":"CUT","level":1}
   ],
@@ -2732,10 +2618,9 @@
       [ "grenade", 1 ]
     ],
     [
-      [ "string_6", 1 ]
-    ],
-    [
-      [ "can_drink_unsealed", 1 ]
+      [ "clay_canister", 1 ],
+      [ "can_drink_unsealed", 1 ],
+      [ "can_food_unsealed", 1 ]
     ]
   ]
 },{
@@ -2896,8 +2781,7 @@
       [ "medical_gauze", 2 ]
     ],
     [
-      [ "string_6", 6 ],
-      [ "string_36", 1 ],
+      [ "cordage", 1, "LIST" ],
       [ "duct_tape", 50 ],
       [ "medical_tape", 25 ]
     ],
@@ -2924,8 +2808,7 @@
       [ "medical_gauze", 4 ]
     ],
     [
-      [ "string_6", 12 ],
-      [ "string_36", 2 ],
+      [ "cordage", 1, "LIST" ],
       [ "duct_tape", 100 ],
       [ "medical_tape", 50 ]
     ],
@@ -3214,8 +3097,8 @@
   "qualities":[{"id":"HAMMER","level":1}],
   "tools": [
     [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
+      [ "fire", -1 ],
+      [ "toolset", 10 ]
     ]
   ],
   "components": [ [ [ "copper", 100 ] ] ]
@@ -3249,13 +3132,11 @@
   "difficulty": 1,
   "time": 30000,
   "autolearn": true,
+  "using": [ [ "cordage", 1 ] ],
   "qualities" : [
     {"id":"CUT","level":1}
   ],
   "components": [
-    [
-      [ "string_36", 1 ]
-    ],
     [
       [ "duct_tape", 50 ]
     ],
@@ -3272,13 +3153,11 @@
   "difficulty": 2,
   "time": 30000,
   "autolearn": true,
+  "using": [ [ "cordage", 1 ] ],
   "qualities":[
     {"id":"SAW_M","level":1},
     {"id":"SCREW","level":1}
   ], "components": [
-    [
-      [ "string_36", 1 ]
-    ],
     [
       [ "metal_tank", 1 ]
     ],
@@ -3332,11 +3211,7 @@
   "time": 12000,
   "autolearn": true,
   "tools": [
-    [
-      ["hotplate", 2],
-      ["toolset", 2],
-      ["fire", -1]
-    ]
+    [ [ "surface_heat", 2, "LIST" ] ]
   ],
   "components": [
     [
@@ -3353,11 +3228,7 @@
   "time": 20000,
   "autolearn": true,
   "tools": [
-    [
-      ["hotplate", 5],
-      ["toolset", 5],
-      ["fire", -1]
-    ]
+    [ [ "surface_heat", 5, "LIST" ] ]
   ],
   "components": [
     [
@@ -3377,11 +3248,7 @@
     [
       ["mold_plastic", -1]
     ],
-    [
-      ["hotplate", 5],
-      ["toolset", 5],
-      ["fire", -1]
-    ]
+    [ [ "surface_heat", 5, "LIST" ] ]
   ],
   "components": [
     [
@@ -3401,11 +3268,7 @@
     [
       ["mold_plastic", -1]
     ],
-    [
-      ["hotplate", 3],
-      ["toolset", 3],
-      ["fire", -1]
-    ]
+    [ [ "surface_heat", 3, "LIST" ] ]
   ],
   "components": [
     [
@@ -3470,11 +3333,8 @@
   "time": 2000,
   "reversible": true,
   "autolearn": true,
+  "using": [ [ "cordage", 1 ] ],
   "components": [
-    [
-      ["string_36", 1],
-      ["string_6", 6]
-    ],
     [
       ["chisel", 1]
     ],
@@ -4586,11 +4446,7 @@
   "qualities":[
     {"id":"CHEM","level":1}
   ], "tools": [
-    [
-      [ "hotplate", 18 ],
-      [ "toolset", 18 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 18, "LIST" ] ]
   ],
   "components": [
     [
@@ -4615,11 +4471,7 @@
   "qualities":[
     {"id":"CHEM","level":1}
   ], "tools": [
-    [
-      [ "hotplate", 18 ],
-      [ "toolset", 18 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 18, "LIST" ] ]
   ],
   "components": [
     [
@@ -5118,6 +4970,7 @@
   "time": 10000,
   "reversible": true,
   "autolearn": true,
+  "using": [ [ "cordage", 1 ] ],
   "qualities" : [
     {"id":"CUT","level":1}
   ],
@@ -5128,9 +4981,6 @@
     ],
     [
       [ "rag", 4 ]
-    ],
-    [
-      [ "string_36", 1]
     ]
   ]
 },{
@@ -5158,9 +5008,7 @@
      [
       [ "forge", 25]
      ],
-     [
-      [ "hotplate", 15], [ "toolset", 15], [ "fire", -1 ]
-     ]
+     [ [ "surface_heat", 15, "LIST" ] ]
     ],
   "components": [
      [
@@ -5500,13 +5348,11 @@
     "time": 1000,
     "reversible": true,
     "autolearn": true,
+    "using": [ [ "cordage", 6 ] ],
     "tools": [ ],
     "components": [
       [
         [ "stick", 1 ]
-      ],
-      [
-        [ "string_36", 6 ]
       ],
       [
         [ "fishing_hook_bone", 1 ],
@@ -5616,8 +5462,7 @@
       [ "bottle_plastic_small", 20 ]
     ],
     [
-      [ "string_6", 6 ],
-      [ "string_36", 1 ],
+      [ "cordage", 1, "LIST" ],
       [ "duct_tape", 50 ],
       [ "medical_tape", 25 ]
     ]
@@ -5632,19 +5477,12 @@
   "difficulty": 1,
   "time": 10000,
   "autolearn": true,
-  "using": [ [ "filament", 20 ] ],
+  "using": [ [ "filament", 20 ], [ "cordage_short", 1 ] ],
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"SEW","level":1}
   ],
-  "components": [
-    [
-      [ "rag", 2 ]
-    ],
-    [
-      [ "string_6", 1 ]
-    ]
-  ]
+  "components": [ [ [ "rag", 2 ] ] ]
 },
 {
   "type" : "recipe",
@@ -5655,7 +5493,7 @@
   "difficulty": 3,
   "time": 50000,
   "autolearn": true,
-  "using": [ [ "filament", 80 ] ],
+  "using": [ [ "filament", 80 ], [ "cordage", 1 ] ],
   "qualities": [{
           "id": "CUT",
           "level": 1
@@ -5664,15 +5502,7 @@
           "level": 1
       }
   ],
-  "components": [
-    [
-      [ "rag", 12 ]
-    ],
-    [
-      [ "string_36", 1 ],
-      [ "string_6", 6 ]
-    ]
-  ]
+  "components": [ [ [ "rag", 12 ] ] ]
   },{
   "type" : "recipe",
   "result": "material_quicklime",
@@ -5804,6 +5634,9 @@
   "reversible": true,
   "autolearn": true,
   "components": [
+    [ [ "sheet_metal", 2 ] ],
+    [ [ "nail", 11 ] ],
+    [ [ "wire", 1 ] ],
     [ ["pockknife", 1], ["primitive_knife", 1], ["switchblade", 1], ["knife_steak", 1] ],
     [ [ "screwdriver_set", 1 ] ],
     [ [ "hacksaw", 1 ] ],
@@ -5847,7 +5680,7 @@
     {"id":"CUT","level":1}
   ],
   "tools": [
-    [ ["hotplate", 15], ["toolset", 15], ["fire", -1] ]
+    [ [ "surface_heat", 15, "LIST" ] ]
   ],
   "components": [
      [ [ "milk", 15 ] ],
@@ -5897,7 +5730,7 @@
   "time": 10000,
   "autolearn": true,
   "tools": [
-    [ ["hotplate", 4], ["toolset", 4], ["fire", -1] ],
+    [ [ "surface_heat", 4, "LIST" ] ],
     [ ["mold_plastic", -1] ]
     ],
   "components": [ [ [ "bag_plastic", 3 ] ] ]
@@ -5914,6 +5747,7 @@
   "components": [
     [ [ "chitin_piece", 20 ] ],
     [
+        [ "rope_makeshift_6", 2 ],
         [ "rope_6", 2 ],
         [ "superglue", 2 ],
         [ "bone_glue", 4 ]
@@ -5936,6 +5770,7 @@
         [ "bone_tainted", 50 ]
     ],
     [
+        [ "rope_makeshift_6", 4 ],
         [ "rope_6", 4 ],
         [ "superglue", 2 ],
         [ "bone_glue", 4 ]
@@ -6119,14 +5954,8 @@
   "time": 30000,
   "autolearn": true,
   "tools": [
-    [
-      ["mold_plastic", -1]
-    ],
-    [
-      ["hotplate", 5],
-      ["toolset", 5],
-      ["fire", -1]
-    ]
+    [ ["mold_plastic", -1]  ],
+    [ [ "surface_heat", 5, "LIST" ] ]
     ],
     "components": [
     [
@@ -6147,11 +5976,7 @@
     [
       ["mold_plastic", -1]
     ],
-    [
-      ["hotplate", 15],
-      ["toolset", 15],
-      ["fire", -1]
-    ]
+    [ [ "surface_heat", 15, "LIST" ] ]
   ],
   "components": [
     [
@@ -6261,11 +6086,7 @@
     {"id":"CONTAIN","level":1}
   ],
   "tools": [
-    [
-      [ "hotplate", 20 ],
-      [ "toolset", 20 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 20, "LIST" ] ]
   ],
   "components": [
     [
@@ -6334,11 +6155,7 @@
     {"id":"CONTAIN","level":1}
   ],
   "tools": [
-    [
-      [ "hotplate", 20 ],
-      [ "toolset", 20 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 20, "LIST" ] ]
   ],
   "components": [
     [
@@ -6384,11 +6201,7 @@
     {"id":"CONTAIN","level":1}
   ],
   "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 10, "LIST" ] ]
   ],
   "components": [
     [
@@ -6422,11 +6235,7 @@
     {"id":"CONTAIN","level":1}
   ],
   "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 10, "LIST" ] ]
   ],
   "components": [
     [
@@ -6533,6 +6342,7 @@
   "difficulty": 2,
   "time": 25000,
   "autolearn": true,
+  "using": [ [ "cordage_short", 2 ] ],
   "tools": [
     [ [ "brick_kiln", 50 ] ]
   ],
@@ -6547,9 +6357,6 @@
     [
       [ "leather", 3 ],
       [ "fur", 3 ]
-    ],
-    [
-      [ "string_6", 2 ]
     ],
     [
       [ "tallow", 1 ],
@@ -6568,6 +6375,7 @@
   "difficulty": 2,
   "time": 20000,
   "autolearn": true,
+  "using": [ [ "cordage_short", 1 ] ],
   "tools": [
     [ [ "brick_kiln", 40 ] ]
   ],
@@ -6582,9 +6390,6 @@
     [
       [ "leather", 2 ],
       [ "fur", 2 ]
-    ],
-    [
-      [ "string_6", 1 ]
     ],
     [
       [ "tallow", 1 ],
@@ -6625,6 +6430,7 @@
   "difficulty": 2,
   "time": 80000,
   "autolearn": true,
+  "using": [ [ "cordage_short", 2 ] ],
   "tools": [
     [ [ "brick_kiln", 160 ] ]
   ],
@@ -6639,9 +6445,6 @@
     [
       [ "leather", 3 ],
       [ "fur", 3 ]
-    ],
-    [
-      [ "string_6", 2 ]
     ],
     [
       [ "tallow", 1 ],
@@ -6660,6 +6463,7 @@
   "difficulty": 2,
   "time": 45000,
   "autolearn": true,
+  "using": [ [ "cordage_short", 2 ] ],
   "tools": [
     [ [ "brick_kiln", 120 ] ]
   ],
@@ -6674,9 +6478,6 @@
     [
       [ "leather", 3 ],
       [ "fur", 3 ]
-    ],
-    [
-      [ "string_6", 2 ]
     ],
     [
       [ "tallow", 1 ],
@@ -6695,6 +6496,7 @@
   "difficulty": 2,
   "time": 30000,
   "autolearn": true,
+  "using": [ [ "cordage_short", 1 ] ],
   "tools": [
     [ [ "brick_kiln", 60 ] ]
   ],
@@ -6709,9 +6511,6 @@
     [
       [ "leather", 2 ],
       [ "fur", 2 ]
-    ],
-    [
-      [ "string_6", 1 ]
     ],
     [
       [ "tallow", 1 ],
@@ -6945,11 +6744,7 @@
     [
       ["mold_plastic", -1]
     ],
-    [
-      ["hotplate", 10],
-      ["toolset", 10],
-      ["fire", -1]
-    ]
+    [ [ "surface_heat", 10, "LIST" ] ]
   ],
   "components": [
     [
@@ -6979,11 +6774,7 @@
     [
       ["mold_plastic", -1]
     ],
-    [
-      ["hotplate", 15],
-      ["toolset", 15],
-      ["fire", -1]
-    ]
+    [ [ "surface_heat", 15, "LIST" ] ]
   ],
   "components": [
     [
@@ -7046,6 +6837,7 @@
   "time": 1000,
   "reversible": true,
   "autolearn": true,
+  "using": [ [ "cordage_short", 2 ] ],
   "components": [
     [
       [ "leather", 1 ],
@@ -7059,9 +6851,6 @@
     ],
     [
       [ "mirror", 1 ]
-    ],
-    [
-      [ "string_6", 2 ]
     ],
     [
       [ "plastic_chunk", 1 ],
@@ -7079,6 +6868,7 @@
   "time": 1000,
   "reversible": true,
   "autolearn": true,
+  "using": [ [ "cordage_short", 4 ] ],
   "components": [
     [
       [ "leather", 1 ],
@@ -7086,8 +6876,7 @@
     ],
     [ [ "rag", 1 ] ],
     [ [ "scissors", 1 ] ],
-    [ [ "mirror", 1 ] ],
-    [ [ "string_6", 4 ] ]
+    [ [ "mirror", 1 ] ]
   ]
 },{
   "type" : "recipe",

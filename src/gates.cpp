@@ -52,7 +52,7 @@ gate_id get_gate_id( const tripoint &pos )
 
 generic_factory<gate_data> gates_data( "gate type", "handle", "other_handles" );
 
-}
+} // namespace
 
 void gate_data::load( JsonObject &jo, const std::string & )
 {

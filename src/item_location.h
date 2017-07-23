@@ -66,6 +66,7 @@ class item_location : public JsonSerializer, public JsonDeserializer
         std::string describe( const Character *ch = nullptr ) const;
 
         /** Move an item from the location to the character inventory
+         *  @param ch Character who's inventory gets the item
          *  @param qty if specified limits maximum obtained charges
          *  @warning caller should restack inventory if item is to remain in it
          *  @warning all further operations using this class are invalid

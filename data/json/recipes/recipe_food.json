@@ -1360,8 +1360,9 @@
   "components": [
     [
       [ "spaghetti_raw", 1 ],
-      [ "macaroni_raw", 1],
-      [ "noodles_fast", 1]
+      [ "macaroni_raw", 1 ],
+      [ "noodles_fast", 1 ],
+      [ "lasagne_raw", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -2431,7 +2432,9 @@
         [ "fish_cooked", 2 ],
         [ "can_tuna", 2 ],
         [ "can_sardine", 2 ],
-        [ "can_clams", 2]
+        [ "can_clams", 2 ],
+        [ "meat_canned", 1 ],
+        [ "fish_canned", 2 ]
     ],
     [
         [ "water_clean", 1],
@@ -4149,6 +4152,21 @@
     ]
   ]
 },{
+  "type": "recipe",
+  "result": "chilly-p",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 45000,
+  "autolearn": true,
+  "batch_time_factors":[83, 3],
+  "tools": [
+    [ [ "surface_heat", 5, "LIST" ] ],
+    [ ["rock_quern", -1], ["clay_quern", -1] ]
+  ],
+  "components": [ [ ["chili_pepper", 2] ] ]
+},{
   "type" : "recipe",
   "result": "buckwheat_cooked",
   "category": "CC_FOOD",
@@ -5170,7 +5188,8 @@
     ],
     [
       [ "sauce_red", 1 ],
-      [ "chilly-p", 25]
+      [ "chilly-p", 25],
+      [ "chili_pepper", 1]
     ]
   ]
 },{
@@ -5215,7 +5234,8 @@
     ],
     [
       [ "sauce_red", 1 ],
-      [ "chilly-p", 25]
+      [ "chilly-p", 25],
+      [ "chili_pepper", 1]
     ]
   ]
 },{
@@ -9861,26 +9881,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "mugwort_oil",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
-  "skill_used": "cooking",
-  "skills_required": [ "survival", 4 ],
-  "difficulty": 4,
-  "time": 60000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1},
-    {"id":"CUT","level":1},
-    {"id":"BOIL","level":2}
-  ],
-  "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-  "components": [
-    [ [ "cooking_oil", 2 ] ],
-    [ [ "mugwort", 2 ] ]
-  ]
-},{
-  "type" : "recipe",
   "result": "eggnog",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -9991,5 +9991,96 @@
     [ [ "chilly-p", 5 ] ],
     [ [ "cinnamon", 5 ] ]
   ]
-}
+},
+   {
+    "result": "oatmeal",
+    "type": "recipe",
+    "id_suffix": "with_food_processor",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 11250,
+    "autolearn": true,
+    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "components": [ [ [ "oats", 2 ] ] ]
+  },
+  {
+    "result": "cornmeal",
+    "type": "recipe",
+    "id_suffix": "with_from_food_processor",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 11250,
+    "autolearn": true,
+    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "components": [ [ [ "corn", 2 ] ] ]
+  },
+  {
+    "result": "flour",
+    "type": "recipe",
+    "id_suffix": "with_from_food_processor",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 11250,
+    "autolearn": true,
+    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "components": [ [ [ "wheat", 2 ], [ "buckwheat", 2 ], [ "barley", 2 ], [ "acorns_cooked", 2 ], [ "oats", 2 ], [ "starch", 2 ], [ "dry_rice", 6 ] ] ]
+  },
+  {
+    "result": "meal_bone",
+    "type": "recipe",
+    "id_suffix": "with_from_food_processor",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 15000,
+    "autolearn": true,
+    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "components": [ [ [ "bone", 1 ] ] ]
+  },
+  {
+    "result": "meal_bone_tainted",
+    "type": "recipe",
+    "id_suffix": "with_from_food_processor",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 15000,
+    "autolearn": true,
+    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "components": [ [ [ "bone_tainted", 1 ] ] ]
+  },
+  {
+    "result": "meal_chitin_piece",
+    "type": "recipe",
+    "id_suffix": "with_from_food_processor",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 15000,
+    "autolearn": true,
+    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "components": [ [ [ "chitin_piece", 1 ] ] ]
+  },
+  {
+    "result": "chilly-p",
+    "type": "recipe",
+    "id_suffix": "with_from_food_processor",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 11250,
+    "autolearn": true,
+    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "components": [ [ [ "chili_pepper", 1 ] ] ]
+  }
 ]

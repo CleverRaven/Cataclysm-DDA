@@ -13,12 +13,20 @@
 #include <algorithm>
 #include <unordered_map>
 
-static std::vector<std::string> next_subset( const std::vector<std::string> &set )
+std::ostream &operator<<( std::ostream &s, const std::vector<trait_id> &v )
+{
+    for( const auto &e : v ) {
+        s << e.c_str() << " ";
+    }
+    return s;
+}
+
+static std::vector<trait_id> next_subset( const std::vector<trait_id> &set )
 {
     // Doing it this way conveniently returns a vector containing solely set[foo] before
     // it returns any other vectors with set[foo] in it
     static unsigned bitset = 0;
-    std::vector<std::string> ret;
+    std::vector<trait_id> ret;
 
     ++bitset;
     // Check each bit position for a match
@@ -30,11 +38,11 @@ static std::vector<std::string> next_subset( const std::vector<std::string> &set
     return ret;
 }
 
-static bool try_set_traits( const std::vector<std::string> &traits )
+static bool try_set_traits( const std::vector<trait_id> &traits )
 {
     g->u.empty_traits();
     g->u.add_traits(); // mandatory prof/scen traits
-    for( const std::string &tr : traits ) {
+    for( const trait_id &tr : traits ) {
         if( g->u.has_conflicting_trait( tr ) || !g->scen->traitquery( tr ) ) {
             return false;
         } else if( !g->u.has_trait( tr ) ) {
@@ -64,24 +72,24 @@ static player get_sanitized_player()
 
 TEST_CASE( "starting_items" ) {
     // Every starting trait that interferes with food/clothing
-    const std::vector<std::string> mutations = {
-        "ANTIFRUIT",
-        "ANTIJUNK",
-        "ANTIWHEAT",
-        //"ARM_TENTACLES",
-        //"BEAK",
-        "CANNIBAL",
-        //"CARNIVORE",
-        //"HERBIVORE",
-        //"HOOVES",
-        "LACTOSE",
-        //"LEG_TENTACLES",
-        "MEATARIAN",
-        //"RAP_TALONS",
-        //"TAIL_FLUFFY",
-        //"TAIL_LONG",
-        "VEGETARIAN",
-        "WOOLALLERGY"
+    const std::vector<trait_id> mutations = {
+        trait_id( "ANTIFRUIT" ),
+        trait_id( "ANTIJUNK" ),
+        trait_id( "ANTIWHEAT" ),
+        //trait_id( "ARM_TENTACLES" ),
+        //trait_id( "BEAK" ),
+        trait_id( "CANNIBAL" ),
+        //trait_id( "CARNIVORE" ),
+        //trait_id( "HERBIVORE" ),
+        //trait_id( "HOOVES" ),
+        trait_id( "LACTOSE" ),
+        //trait_id( "LEG_TENTACLES" ),
+        trait_id( "MEATARIAN" ),
+        //trait_id( "RAP_TALONS" ),
+        //trait_id( "TAIL_FLUFFY" ),
+        //trait_id( "TAIL_LONG" ),
+        trait_id( "VEGETARIAN" ),
+        trait_id( "WOOLALLERGY" )
     };
     // Prof/scen combinations that need to be checked.
     std::unordered_map<const scenario *, std::vector<string_id<profession>>> scen_prof_combos;
@@ -90,7 +98,7 @@ TEST_CASE( "starting_items" ) {
     }
     /*for( const scenario &scen : scenario::get_all() ) {
         const bool special = std::any_of( mutation_branch::get_all().begin(), mutation_branch::get_all().end(),
-            [&scen]( const std::pair<std::string, mutation_branch> &elem ) {
+            [&scen]( const std::pair<trait_id, mutation_branch> &elem ) {
             return !elem.second.startingtrait && scen.traitquery( elem.first );
         } );
         if( !special && &scen != scenario::generic() ) {
@@ -105,13 +113,13 @@ TEST_CASE( "starting_items" ) {
 
     struct failure {
         string_id<profession> prof;
-        std::vector<std::string> mut;
+        std::vector<trait_id> mut;
         itype_id item_name;
         std::string reason;
     };
     std::vector<failure> failures;
 
-    auto add_failure = [&]( const profession &prof, const std::vector<std::string> &traits,
+    auto add_failure = [&]( const profession &prof, const std::vector<trait_id> &traits,
                             const std::string &item_name, const std::string &reason ) {
         if( !std::any_of( failures.begin(), failures.end(), [&item_name]( const failure &f ) {
             return f.item_name == item_name;
@@ -123,7 +131,7 @@ TEST_CASE( "starting_items" ) {
     g->u = get_sanitized_player();
     const player control = get_sanitized_player(); // Avoid false positives from ingredients like salt and cornmeal
 
-    std::vector<std::string> traits = next_subset( mutations );
+    std::vector<trait_id> traits = next_subset( mutations );
     for( ; !traits.empty(); traits = next_subset( mutations ) ) {
         for( const auto &pair : scen_prof_combos ) {
             g->scen = pair.first;

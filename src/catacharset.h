@@ -24,9 +24,9 @@ int utf8_width( const utf8_wrapper &str, const bool ignore_tags = false );
 
 /**
  * Center text inside whole line.
- * @param Text to be centered.
- * @param First printable position on line.
- * @param Last printable position on line.
+ * @param text to be centered.
+ * @param start_pos printable position on line.
+ * @param end_pos printable position on line.
  * @return First char position of centered text or start_pos if text is too big.
 */
 int center_text_pos( const char *text, int start_pos, int end_pos );
@@ -38,6 +38,12 @@ std::string utf8_truncate( std::string s, size_t length );
 
 std::string base64_encode( std::string str );
 std::string base64_decode( std::string str );
+
+std::wstring utf8_to_wstr( const std::string &str );
+std::string wstr_to_utf8( const std::wstring &wstr );
+
+std::string native_to_utf8( const std::string &str );
+std::string utf8_to_native( const std::string &str );
 
 /**
  * UTF8-Wrapper over std::string.

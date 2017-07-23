@@ -1072,7 +1072,7 @@ bool Creature::resists_effect(effect e)
     return false;
 }
 
-bool Creature::has_trait(const std::string &flag) const
+bool Creature::has_trait( const trait_id &flag ) const
 {
     (void)flag;
     return false;

@@ -43,7 +43,7 @@ const vpart_info *biggest_tank( const ammotype ammo ) {
     } );
 }
 
-TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [!mayfail]" ) {
+TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" ) {
     for( auto e : turret_types() ) {
         SECTION( e->name() ) {
             vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), 65, 65, 270, 0, 0 );

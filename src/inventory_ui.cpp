@@ -35,7 +35,10 @@ static const int min_denial_gap = 2;
 static const int min_column_gap = 2;
 /** The gap between two columns when there's enough space, but they are not centered */
 static const int normal_column_gap = 8;
-/** The minimal occupancy ratio (see @refer get_columns_occupancy_ratio()) to align columns to the center */
+/**
+ * The minimal occupancy ratio to align columns to the center
+ * @see inventory_selector::get_columens_occupancy_ratio()
+ */
 static const double min_ratio_to_center = 0.85;
 
 /** These categories should keep their original order and can't be re-sorted by inventory presets */
@@ -1360,7 +1363,7 @@ void inventory_selector::set_active_column( size_t index )
 
 size_t inventory_selector::get_columns_width( const std::vector<inventory_column *> &columns ) const
 {
-    return std::accumulate( columns.begin(), columns.end(), 0,
+    return std::accumulate( columns.begin(), columns.end(), static_cast< size_t >( 0 ),
     []( const size_t &lhs, const inventory_column *column ) {
         return lhs + column->get_width();
     } );

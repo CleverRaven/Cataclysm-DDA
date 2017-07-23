@@ -36,7 +36,6 @@
 #include "recipe_dictionary.h"
 #include "player_activity.h"
 
-#include "tile_id_data.h" // for monster::json_save
 #include <ctime>
 #include <bitset>
 
@@ -44,6 +43,9 @@
 
 #include "debug.h"
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+
+static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+static const trait_id trait_MYOPIC( "MYOPIC" );
 
 const std::string obj_type_name[11]={ "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
     "OBJECT_NPC", "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD",
@@ -277,7 +279,7 @@ void Character::load(JsonObject &data)
     data.read("traits", my_traits);
     for( auto it = my_traits.begin(); it != my_traits.end(); ) {
         const auto &tid = *it;
-        if( mutation_branch::has( tid ) ) {
+        if( tid.is_valid() ) {
             ++it;
         } else {
             debugmsg( "character %s has invalid trait %s, it will be ignored", name.c_str(), tid.c_str() );
@@ -286,17 +288,17 @@ void Character::load(JsonObject &data)
     }
 
     if( savegame_loading_version <= 23 ) {
-        std::unordered_set<std::string> old_my_mutations;
+        std::unordered_set<trait_id> old_my_mutations;
         data.read( "mutations", old_my_mutations );
         for( const auto & mut : old_my_mutations ) {
             my_mutations[mut]; // Creates a new entry with default values
         }
-        std::map<std::string, char> trait_keys;
+        std::map<trait_id, char> trait_keys;
         data.read( "mutation_keys", trait_keys );
         for( const auto & k : trait_keys ) {
             my_mutations[k.first].key = k.second;
         }
-        std::set<std::string> active_muts;
+        std::set<trait_id> active_muts;
         data.read( "active_mutations_hacky", active_muts );
         for( const auto & mut : active_muts ) {
             my_mutations[mut].powered = true;
@@ -306,9 +308,9 @@ void Character::load(JsonObject &data)
     }
     for( auto it = my_mutations.begin(); it != my_mutations.end(); ) {
         const auto &mid = it->first;
-        if( mutation_branch::has( mid ) ) {
+        if( mid.is_valid() ) {
             on_mutation_gain( mid );
-            cached_mutations.push_back( &mutation_branch::get( mid ) );
+            cached_mutations.push_back( &mid.obj() );
             ++it;
         } else {
             debugmsg( "character %s has invalid mutation %s, it will be ignored", name.c_str(), mid.c_str() );
@@ -480,22 +482,22 @@ void player::load(JsonObject &data)
     }
 
     // Add the earplugs.
-    if( has_bionic( "bio_ears" ) && !has_bionic( "bio_earplugs" ) ) {
-        add_bionic("bio_earplugs");
+    if( has_bionic( bionic_id( "bio_ears" ) ) && !has_bionic( bionic_id( "bio_earplugs" ) ) ) {
+        add_bionic( bionic_id( "bio_earplugs" ) );
     }
 
     // Add the blindfold.
-    if( has_bionic( "bio_sunglasses" ) && !has_bionic( "bio_blindfold" ) ) {
-        add_bionic( "bio_blindfold" );
+    if( has_bionic( bionic_id( "bio_sunglasses" ) ) && !has_bionic( bionic_id( "bio_blindfold" ) ) ) {
+        add_bionic( bionic_id( "bio_blindfold" ) );
     }
 
     // Fixes bugged characters for telescopic eyes CBM.
-    if( has_bionic( "bio_eye_optic" ) && has_trait( "HYPEROPIC" ) ) {
-        remove_mutation( "HYPEROPIC" );
+    if( has_bionic( bionic_id( "bio_eye_optic" ) ) && has_trait( trait_HYPEROPIC ) ) {
+        remove_mutation( trait_HYPEROPIC );
     }
 
-    if( has_bionic( "bio_eye_optic" ) && has_trait( "MYOPIC" ) ) {
-        remove_mutation( "MYOPIC" );
+    if( has_bionic( bionic_id( "bio_eye_optic" ) ) && has_trait( trait_MYOPIC ) ) {
+        remove_mutation( trait_MYOPIC );
     }
 
     on_stat_change( "pkill", pkill );
@@ -878,8 +880,9 @@ void npc_follower_rules::deserialize(JsonIn &jsin)
     int tmpeng;
     data.read("engagement", tmpeng);
     engagement = (combat_engagement)tmpeng;
-    data.read("aim", tmpeng);
-    aim = (aim_rule)aim;
+    int tmpaim;
+    data.read("aim", tmpaim);
+    aim = (aim_rule)tmpaim;
     data.read( "use_guns", use_guns);
     data.read( "use_grenades", use_grenades);
     data.read( "use_silent", use_silent);
@@ -1005,7 +1008,7 @@ void npc_favor::deserialize(JsonIn &jsin)
     } else if (jo.has_string("skill_id")) {
         skill = skill_id( jo.get_string("skill_id") );
     } else {
-        skill = skill_id( NULL_ID );
+        skill = skill_id::NULL_ID();
     }
 }
 
@@ -1275,7 +1278,7 @@ void inventory::json_load_items(JsonIn &jsin)
         JsonArray ja = jsin.get_array();
         while ( ja.has_more() ) {
             JsonObject jo = ja.next_object();
-            add_item(item( jo ), false, false);
+            add_item(item( jo ), true, false);
         }
     } catch( const JsonError &jsonerr ) {
         debugmsg("bad inventory json:\n%s", jsonerr.c_str() );

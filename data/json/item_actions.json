@@ -222,7 +222,7 @@
     },{
         "type" : "item_action",
         "id" : "CAFF",
-        "name" : "Drink"
+        "name" : "Consume"
     },{
         "type" : "item_action",
         "id" : "CAMERA",
@@ -254,7 +254,7 @@
     },{
         "type" : "item_action",
         "id" : "COKE",
-        "name" : "Drink"
+        "name" : "Snort coke"
     },{
         "type" : "item_action",
         "id" : "COMBATSAW_OFF",

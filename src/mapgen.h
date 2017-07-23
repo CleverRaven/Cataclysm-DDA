@@ -25,7 +25,7 @@ class mapgen_function {
     mapgen_function( const int w ) : weight( w ) { }
     public:
     virtual ~mapgen_function() { }
-    virtual bool setup() { return true; }
+    virtual void setup() { } // throws
     virtual void generate(map*, const oter_id &, const mapgendata &, int, float) = 0;
 };
 
@@ -159,7 +159,7 @@ public:
     palette_id id;
     /**
      * The mapping from character code (key) to a list of things that should be placed. This is
-     * similar to @ref objects, but it uses key to get the actual position where to place things
+     * similar to objects, but it uses key to get the actual position where to place things
      * out of the json "bitmap" (which is used to paint the terrain/furniture).
      */
     using placing_map = std::map< int, std::vector< std::shared_ptr<jmapgen_piece> > >;
@@ -240,7 +240,7 @@ class mapgen_function_json : public virtual mapgen_function {
     public:
     bool check_inbounds( const jmapgen_int &var ) const;
     void setup_setmap( JsonArray &parray );
-    bool setup() override;
+    void setup() override;
     void generate(map *, const oter_id &, const mapgendata &, int, float) override;
 
     mapgen_function_json( const std::string s, int w = 1000, const int x_grid_offset = 0, const int y_grid_offset = 0 );
@@ -302,7 +302,7 @@ extern std::map<std::string, std::map<int, int> > oter_mapgen_weights;
 /*
  * Sets the above after init, and initializes mapgen_function_json instances as well
  */
-void calculate_mapgen_weights();
+void calculate_mapgen_weights(); // throws
 
 /// move to building_generation
 enum room_type {
