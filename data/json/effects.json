@@ -1652,5 +1652,109 @@
         "remove_message": "The broken limb has mended.",
         "max_duration": 2,
         "rating": "bad"
+    },
+    {
+        "type": "effect_type",
+        "id": "pkill",
+        "name": [ "Painkillers" ],
+        "max_intensity": 30,
+        "int_dur_factor": 10,
+        "scaling_mods": {
+            "speed_mod": [-1]
+        }
+    },
+    {
+        "type": "effect_type",
+        "id": "happy",
+        "name": [ "Happy", "Happy", "Happy", "Happy", "Happy",
+                  "Joyful", "Joyful", "Joyful", "Joyful", "Joyful",
+                  "Elated" ],
+        "max_duration": 250,
+        "int_dur_factor": 10,
+        "scaling_mods": {
+            "speed_mod": [0.4],
+            "str_mod": [0.0555],
+            "dex_mod": [0.05],
+            "int_mod": [0.08],
+            "per_mod": [0.1]
+        }
+    },
+    {
+        "type": "effect_type",
+        "id": "sad",
+        "name": [ "Unhappy", "Unhappy", "Unhappy", "Unhappy", "Unhappy",
+                  "Sad", "Sad", "Sad", "Sad", "Sad",
+                  "Depressed" ],
+        "max_intensity": 1000,
+        "int_dur_factor": 10,
+        "scaling_mods": {
+            "speed_mod": [-0.4],
+            "str_mod": [-0.0555],
+            "dex_mod": [-0.05],
+            "int_mod": [-0.08],
+            "per_mod": [-0.1]
+        },
+        "miss_messages": [ [ "What's the point of fighting?", 1 ] ]
+    },
+    {
+        "type": "effect_type",
+        "id": "irradiated",
+        "name": [ "Irradiated" ],
+        "max_intensity": 2000,
+        "int_dur_factor": 10,
+        "scaling_mods": {
+            "speed_mod": [-0.2],
+            "str_mod": [-0.125],
+            "dex_mod": [-0.09],
+            "int_mod": [-0.1],
+            "per_mod": [-0.083]
+        },
+        "miss_messages": [ [ "Radiation weakens you.", 1 ] ]
+    },
+    {
+        "type": "effect_type",
+        "id": "stim",
+        "name": [ "Stimulants" ],
+        "max_intensity": 1000,
+        "int_dur_factor": 1,
+        "scaling_mods": {
+            "speed_mod": [0.33],
+            "dex_mod": [0.1],
+            "int_mod": [0.16],
+            "per_mod": [0.14]
+        }
+    },
+    {
+        "type": "effect_type",
+        "id": "depressants",
+        "name": [ "Depressants" ],
+        "max_intensity": 1000,
+        "int_dur_factor": 1,
+        "scaling_mods": {
+            "speed_mod": [-0.25],
+            "dex_mod": [-0.1],
+            "int_mod": [-0.16],
+            "per_mod": [-0.14]
+        },
+        "miss_messages": [ [ "You feel woozy.", 1 ] ]
+    },
+    {
+        "type": "effect_type",
+        "id": "stim_overdose",
+        "name": [ "Stimulant Overdose" ],
+        "max_intensity": 1000,
+        "int_dur_factor": 1,
+        "base_mods": {
+            "dex_mod": [-1.88],
+            "int_mod": [-1.1],
+            "per_mod": [-1.25]
+        },
+        "scaling_mods": {
+            "speed_mod": [-0.25],
+            "dex_mod": [-0.125],
+            "int_mod": [-0.0833],
+            "per_mod": [-0.071]
+        },
+        "miss_messages": [ [ "You shake with the excess stimulation.", 1 ] ]
     }
 ]

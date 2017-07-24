@@ -109,6 +109,7 @@ const efftype_id effect_corroding( "corroding" );
 const efftype_id effect_darkness( "darkness" );
 const efftype_id effect_datura( "datura" );
 const efftype_id effect_deaf( "deaf" );
+const efftype_id effect_depressants( "depressants" );
 const efftype_id effect_dermatik( "dermatik" );
 const efftype_id effect_disabled( "disabled" );
 const efftype_id effect_downed( "downed" );
@@ -124,9 +125,11 @@ const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_hallu( "hallu" );
+const efftype_id effect_happy( "happy" );
 const efftype_id effect_hot( "hot" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_iodine( "iodine" );
+const efftype_id effect_irradiated( "irradiated" );
 const efftype_id effect_jetinjector( "jetinjector" );
 const efftype_id effect_lack_sleep( "lack_sleep" );
 const efftype_id effect_lying_down( "lying_down" );
@@ -134,14 +137,18 @@ const efftype_id effect_mending( "mending" );
 const efftype_id effect_meth( "meth" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_paincysts( "paincysts" );
+const efftype_id effect_pkill( "pkill" );
 const efftype_id effect_pkill1( "pkill1" );
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_recover( "recover" );
+const efftype_id effect_sad( "sad" );
 const efftype_id effect_shakes( "shakes" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 const efftype_id effect_spores( "spores" );
+const efftype_id effect_stim( "stim" );
+const efftype_id effect_stim_overdose( "stim_overdose" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_took_prozac( "took_prozac" );
@@ -705,6 +712,22 @@ void player::reset_stats()
             add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
         }
     }
+    const auto set_fake_effect_dur = [this]( const efftype_id &type, int dur ) {
+        effect &eff = get_effect( type );
+        if( eff.get_duration() == dur ) {
+            return;
+        }
+
+        if( eff.is_null() && dur > 0 ) {
+            add_effect( type, dur, num_bp, true );
+        } else if( dur > 0 ) {
+            eff.set_duration( dur );
+        } else {
+            remove_effect( type, num_bp );
+        }
+    };
+    // Painkiller
+    set_fake_effect_dur( effect_pkill, pkill );
 
     // Pain
     if( get_perceived_pain() > 0 ) {
@@ -717,41 +740,18 @@ void player::reset_stats()
             add_miss_reason( _( "Your pain distracts you!" ), unsigned( ppen.dexterity ) );
         }
     }
-    // Morale
-    if( abs( get_morale_level() ) >= 100 ) {
-        mod_str_bonus( get_morale_level() / 180 );
-        int dex_mod = get_morale_level() / 200;
-        mod_dex_bonus( dex_mod );
-        if( dex_mod < 0 ) {
-            add_miss_reason( _( "What's the point of fighting?" ), unsigned( -dex_mod ) );
-        }
-        mod_per_bonus( get_morale_level() / 125 );
-        mod_int_bonus( get_morale_level() / 100 );
-    }
+
     // Radiation
-    if( radiation > 0 ) {
-        mod_str_bonus( -radiation / 80 );
-        int dex_mod = -radiation / 110;
-        mod_dex_bonus( dex_mod );
-        if( dex_mod < 0 ) {
-            add_miss_reason( _( "Radiation weakens you." ), unsigned( -dex_mod ) );
-        }
-        mod_per_bonus( -radiation / 100 );
-        mod_int_bonus( -radiation / 120 );
-    }
+    set_fake_effect_dur( effect_irradiated, radiation );
+    // Morale
+    const int morale = get_morale_level();
+    set_fake_effect_dur( effect_happy, morale );
+    set_fake_effect_dur( effect_sad, -morale );
+
     // Stimulants
-    mod_dex_bonus( stim / 10 );
-    mod_per_bonus( stim /  7 );
-    mod_int_bonus( stim /  6 );
-    if( stim >= 30 ) {
-        int dex_mod = -1 * abs( stim - 15 ) / 8;
-        mod_dex_bonus( dex_mod );
-        add_miss_reason( _( "You shake with the excess stimulation." ), unsigned( -dex_mod ) );
-        mod_per_bonus( -1 * abs( stim - 15 ) / 12 );
-        mod_int_bonus( -1 * abs( stim - 15 ) / 14 );
-    } else if( stim < 0 ) {
-        add_miss_reason( _( "You feel woozy." ), unsigned( -stim / 10 ) );
-    }
+    set_fake_effect_dur( effect_stim, stim );
+    set_fake_effect_dur( effect_depressants, -stim );
+    set_fake_effect_dur( effect_stim_overdose, stim - 30 );
     // Hunger
     if( get_hunger() >= 500 ) {
         // We die at 6000
@@ -1832,40 +1832,12 @@ void player::recalc_speed_bonus()
 
     mod_speed_bonus( -get_pain_penalty().speed );
 
-    if( get_painkiller() >= 10 ) {
-        int pkill_penalty = int( get_painkiller() * .1 );
-        if( pkill_penalty > 30 ) {
-            pkill_penalty = 30;
-        }
-        mod_speed_bonus( -pkill_penalty );
-    }
-
-    if( abs( get_morale_level() ) >= 100 ) {
-        int morale_bonus = get_morale_level() / 25;
-        if( morale_bonus < -10 ) {
-            morale_bonus = -10;
-        } else if( morale_bonus > 10 ) {
-            morale_bonus = 10;
-        }
-        mod_speed_bonus( morale_bonus );
-    }
-
-    if( radiation >= 40 ) {
-        int rad_penalty = radiation / 40;
-        if( rad_penalty > 20 ) {
-            rad_penalty = 20;
-        }
-        mod_speed_bonus( -rad_penalty );
-    }
-
     if( get_thirst() > 40 ) {
         mod_speed_bonus( thirst_speed_penalty( get_thirst() ) );
     }
     if( get_hunger() > 100 ) {
         mod_speed_bonus( hunger_speed_penalty( get_hunger() ) );
     }
-
-    mod_speed_bonus( stim > 10 ? 10 : stim / 4 );
 
     for( auto maps : effects ) {
         for( auto i : maps.second ) {
@@ -2443,32 +2415,9 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     //Effects (illnesses)
     memorial_file << _( "Ongoing Effects:" ) << eol;
     bool had_effect = false;
-    if( get_morale_level() >= 100 ) {
-        had_effect = true;
-        memorial_file << indent << _( "Elated" ) << eol;
-    }
-    if( get_morale_level() <= -100 ) {
-        had_effect = true;
-        memorial_file << indent << _( "Depressed" ) << eol;
-    }
     if( get_perceived_pain() > 0 ) {
         had_effect = true;
         memorial_file << indent << _( "Pain" ) << " (" << get_perceived_pain() << ")";
-    }
-    if( stim > 0 ) {
-        had_effect = true;
-        int dexbonus = stim / 10;
-        if( abs( stim ) >= 30 ) {
-            dexbonus -= abs( stim - 15 ) /  8;
-        }
-        if( dexbonus < 0 ) {
-            memorial_file << indent << _( "Stimulant Overdose" ) << eol;
-        } else {
-            memorial_file << indent << _( "Stimulant" ) << eol;
-        }
-    } else if( stim < 0 ) {
-        had_effect = true;
-        memorial_file << indent << _( "Depressants" ) << eol;
     }
     if( !had_effect ) {
         memorial_file << indent << _( "(None)" ) << eol;

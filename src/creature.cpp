@@ -838,10 +838,13 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
             if( e.is_permanent() ) {
                 e.pause_effect();
             }
-            // Set intensity if value is given
-            if (intensity > 0) {
+            // int_dur_factor overrides all other intensity settings
+            // ...but it's handled in set_duration, so explicitly do nothing here
+            if( e.get_int_dur_factor() > 0 ) {
+                // Set intensity if value is given
+            } else if (intensity > 0) {
                 e.set_intensity(intensity);
-            // Else intensity uses the type'd step size if it already exists
+                // Else intensity uses the type'd step size if it already exists
             } else if (e.get_int_add_val() != 0) {
                 e.mod_intensity(e.get_int_add_val());
             }
