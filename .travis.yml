@@ -1,8 +1,6 @@
 # this file is HEAVILY influenced by https://github.com/boostorg/hana/blob/master/.travis.yml
 
-# sudo is required for travis-ci to use ubuntu trusty
-# ubuntu trusty is required for libsdl2-dev
-sudo: required
+sudo: false
 dist: trusty
 language: c++
 
@@ -89,6 +87,7 @@ matrix:
     # GCC MinGW
     - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine'
       compiler: gcc
+      sudo: required
       addons: &gcc
         apt:
           packages: ["wine"]
