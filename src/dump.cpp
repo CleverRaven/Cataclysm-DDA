@@ -20,11 +20,11 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
     try {
         load_core_data();
         load_packs( _( "Loading content packs" ), { "dda" } );
+        DynamicDataLoader::get_instance().finalize_loaded_data();
     } catch( const std::exception &err ) {
         std::cerr << "Error loading data from json: " << err.what() << std::endl;
         return false;
     }
-    DynamicDataLoader::get_instance().finalize_loaded_data();
 
     std::vector<std::string> header;
     std::vector<std::vector<std::string>> rows;

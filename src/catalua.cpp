@@ -46,6 +46,7 @@ extern "C" {
 
 using item_stack_iterator = std::list<item>::iterator;
 using volume = units::volume;
+using npc_template_id = string_id<npc_template>;
 
 lua_State *lua_state = nullptr;
 

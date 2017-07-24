@@ -1,7 +1,6 @@
 [
   {
     "type": "construction",
-    "//": "Smash afterwards to harvest.",
     "category": "OTHER",
     "description": "Harvest Blob Feed from Corpse Pit: Smash to Harvest",
     "difficulty": 0,
@@ -12,7 +11,6 @@
   },
   {
     "type": "construction",
-    "//": "Smash afterwards to harvest.",
     "category": "OTHER",
     "description": "Harvest Blob Feed from Slime: Smash to Harvest",
     "difficulty": 0,
@@ -36,7 +34,7 @@
       "sound_fail": "squish!",
       "items": [ { "item": "bfeed", "count": [ 250, 500 ] } ]
     },
-    "flags": [ "WALL", "TRANSPARENT" ]
+    "flags": [ "WALL", "TRANSPARENT", "EASY_DECONSTRUCT" ]
   },
   {
     "id": "blob_pit_slime",
@@ -53,6 +51,6 @@
       "sound_fail": "squish!",
       "items": [ { "item": "bfeed", "count": [ 50, 250 ] } ]
     },
-    "flags": [ "WALL", "TRANSPARENT" ]
+    "flags": [ "WALL", "TRANSPARENT", "EASY_DECONSTRUCT" ]
   }
 ]

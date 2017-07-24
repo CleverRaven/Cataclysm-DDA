@@ -1,11 +1,12 @@
 # this file is HEAVILY influenced by https://github.com/boostorg/hana/blob/master/.travis.yml
 
-sudo: false
+# sudo is required for travis-ci to use ubuntu trusty
+# ubuntu trusty is required for libsdl2-dev
+sudo: required
+dist: trusty
 language: c++
 
 cache: ccache
-
-script: make
 
 notifications:
   email: false
@@ -85,22 +86,29 @@ matrix:
           packages: ["g++-6",   "g++-6-multilib",   "libc6-dbg", "libc6-dbg:i386"]
           sources: *apt_sources
 
+    # GCC MinGW
+    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine'
+      compiler: gcc
+      addons: &gcc
+        apt:
+          packages: ["wine"]
+
     # Clang 3.8
-    - env: COMPILER=clang++-3.8 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
+    - env: COMPILER=clang++-3.8 CXXFLAGS='-D__extern_always_inline="extern __always_inline"'
       addons: &clang38
         apt:
           packages: ["clang-3.8", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
           sources: *apt_sources
 
     # Clang 3.9
-    - env: COMPILER=clang++-3.9 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
+    - env: COMPILER=clang++-3.9 CXXFLAGS='-D__extern_always_inline="extern __always_inline"'
       addons: &clang39
         apt:
           packages: ["clang-3.9", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
           sources: *apt_sources
 
     # Clang 4.0
-    - env: COMPILER=clang++-4.0 CXXFLAGS=-Wno-error=unused-command-line-argument
+    - env: COMPILER=clang++-4.0
       dist: trusty
       addons: &clang40
         apt:
@@ -109,13 +117,9 @@ matrix:
 
 before_script:
   - ${COMPILER} --version
-  - if [ -n "${CODE_COVERAGE}" ]; then
-      pip install --user pyyaml cpp-coveralls;
-      export CXXFLAGS=--coverage;
-      export LDFLAGS=--coverage;
-    fi
+  - source build-scripts/requirements.sh
 
-script: CXX="ccache $COMPILER" make -j3 RELEASE=1 && tests/cata_test
+script: make -j3 CCACHE=1 RELEASE=1 CROSS="$CROSS_COMPILATION" && $WINE ./tests/cata_test
 
 after_success:
   - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b . -i src -e tests --gcov /usr/bin/gcov-4.8; fi

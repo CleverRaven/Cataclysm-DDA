@@ -6,6 +6,7 @@
 #include "overmap.h"
 
 #include <fstream>
+#include <memory>
 #include <ostream>
 
 // Intentionally ignoring the name member.
@@ -204,30 +205,31 @@ TEST_CASE("Reading a legacy overmap save.") {
     std::string legacy_save_name = "tests/data/legacy_0.C_overmap.sav";
     std::string new_save_name = "tests/data/jsionized_overmap.sav";
 
-    overmap test_map;
+    std::unique_ptr<overmap> test_map = std::unique_ptr<overmap>( new overmap() );
     std::ifstream fin;
 
     fin.open( legacy_save_name.c_str(), std::ifstream::binary );
     REQUIRE( fin.is_open() );
-    test_map.unserialize( fin );
+    test_map->unserialize( fin );
     fin.close();
-    check_test_overmap_data( test_map );
+    check_test_overmap_data( *test_map );
 
     std::ofstream fout;
 
     fout.open( new_save_name.c_str(), std::ofstream::binary );
     REQUIRE( fout.is_open() );
-    test_map.serialize(fout);
+    test_map->serialize( fout );
     fout.close();
 
-    overmap test_map_2;
+    std::unique_ptr<overmap> test_map_2 = std::unique_ptr<overmap>( new overmap() );
 
     fin.open( new_save_name.c_str(), std::ifstream::binary );
     REQUIRE( fin.is_open() );
-    test_map_2.unserialize( fin );
+    test_map_2->unserialize( fin );
     fin.close();
 
-    check_test_overmap_data( test_map_2 );
+    check_test_overmap_data( *test_map_2 );
+
     // Now clean up.
     remove_file( new_save_name.c_str() );
 }
