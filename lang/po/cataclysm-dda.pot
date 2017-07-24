@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-16 17:40+0800\n"
+"POT-Creation-Date: 2017-07-24 17:19+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27259,8 +27259,7 @@ msgid_plural "oozing tanks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lang/json/CONTAINER_from_json.py
-#: lang/json/vehicle_part_from_json.py
+#: lang/json/CONTAINER_from_json.py lang/json/vehicle_part_from_json.py
 msgid "vortex engine"
 msgid_plural "vortex engines"
 msgstr[0] ""
@@ -27278,8 +27277,7 @@ msgid ""
 "due to its sensitivity."
 msgstr ""
 
-#: lang/json/CONTAINER_from_json.py
-#: lang/json/vehicle_part_from_json.py
+#: lang/json/CONTAINER_from_json.py lang/json/vehicle_part_from_json.py
 msgid "vortex generator"
 msgid_plural "vortex generators"
 msgstr[0] ""
@@ -48566,7 +48564,7 @@ msgstr[1] ""
 #. ~ Description for wool staple
 #: lang/json/TOOL_from_json.py
 msgid ""
-"The natural cluster of wool fibres.  Could be processed to the felt patches "
+"The natural cluster of wool fibers.  Could be processed to the felt patches "
 "or yarns."
 msgstr ""
 
@@ -52688,6 +52686,11 @@ msgid_plural "Torso"
 msgstr[0] ""
 msgstr[1] ""
 
+#. ~ Crafting recipes subcategory of 'ARMOR' category
+#: lang/json/bodypart_from_json.py lang/json/recipe_category_from_json.py
+msgid "TORSO"
+msgstr ""
+
 #: lang/json/bodypart_from_json.py
 msgid "head"
 msgstr ""
@@ -52703,6 +52706,11 @@ msgid "Head"
 msgid_plural "Head"
 msgstr[0] ""
 msgstr[1] ""
+
+#. ~ Crafting recipes subcategory of 'ARMOR' category
+#: lang/json/bodypart_from_json.py lang/json/recipe_category_from_json.py
+msgid "HEAD"
+msgstr ""
 
 #: lang/json/bodypart_from_json.py
 msgid "eyes"
@@ -52762,6 +52770,10 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/bodypart_from_json.py
+msgid "L ARM"
+msgstr ""
+
+#: lang/json/bodypart_from_json.py
 msgid "right arm"
 msgstr ""
 
@@ -52775,6 +52787,10 @@ msgid "R. Arm"
 msgid_plural "Arms"
 msgstr[0] ""
 msgstr[1] ""
+
+#: lang/json/bodypart_from_json.py
+msgid "R ARM"
+msgstr ""
 
 #: lang/json/bodypart_from_json.py
 msgid "left hand"
@@ -52830,6 +52846,10 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/bodypart_from_json.py
+msgid "L LEG"
+msgstr ""
+
+#: lang/json/bodypart_from_json.py
 msgid "right leg"
 msgstr ""
 
@@ -52843,6 +52863,10 @@ msgid "R. Leg"
 msgid_plural "Legs"
 msgstr[0] ""
 msgstr[1] ""
+
+#: lang/json/bodypart_from_json.py
+msgid "R LEG"
+msgstr ""
 
 #: lang/json/bodypart_from_json.py
 msgid "left foot"
@@ -57493,7 +57517,7 @@ msgstr[1] ""
 
 #: lang/json/gun_from_json.py
 msgid ""
-"The first gun produced by O.F. Mossberg & Sons. A small pocket pistol, "
+"The first gun produced by O.F. Mossberg & Sons.  A small pocket pistol, "
 "marketed to trappers during the early 20th century.  Its four barrels can "
 "accept .22 Short and .22 LR cartridges."
 msgstr ""
@@ -62733,7 +62757,7 @@ msgid "Drill"
 msgstr ""
 
 #: lang/json/item_action_from_json.py
-#: lang/json/keybinding_from_json.py src/game_inventory.cpp
+#: lang/json/item_action_from_json.py lang/json/keybinding_from_json.py
 #: src/game_inventory.cpp
 msgid "Read"
 msgstr ""
@@ -63538,8 +63562,7 @@ msgstr ""
 msgid "Next Target"
 msgstr ""
 
-#: lang/json/keybinding_from_json.py src/npcmove.cpp
-#: src/ranged.cpp
+#: lang/json/keybinding_from_json.py src/npcmove.cpp src/ranged.cpp
 msgid "Aim"
 msgstr ""
 
@@ -64421,8 +64444,7 @@ msgstr ""
 msgid "Toggle tracking"
 msgstr ""
 
-#: lang/json/keybinding_from_json.py src/turret.cpp
-#: src/vehicle.cpp
+#: lang/json/keybinding_from_json.py src/turret.cpp src/vehicle.cpp
 msgid "Set turret firing modes"
 msgstr ""
 
@@ -66425,8 +66447,11 @@ msgstr ""
 #: lang/json/mission_def_from_json.py
 msgid ""
 "I got the brief so I know what I'm getting into.  Let me be upfront, treat "
-"me like shit and I'm going to cover my own hide.  Without a strong band a "
-"man doesn't stand a chance in this world.  You ready to take charge boss?"
+"me like shit and I'm going to cover my own hide.  However, you treat me well "
+"and give me something to believe in, even if it's just a shiny bit of metal, "
+"and I'll do you right.  Without a strong band a man doesn't stand a chance "
+"in this world.  You ready to take charge boss?  This world could use a "
+"Sheriff just about now."
 msgstr ""
 
 #: lang/json/mission_def_from_json.py
@@ -71051,7 +71076,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "You're accustomed to eating plants directly, and can get nutrition from "
-"grass as well as underbrush.  Eat either one by activating this,  standing "
+"grass as well as underbrush.  Eat either one by activating this, standing "
 "over your target, and pressing E."
 msgstr ""
 
@@ -72847,7 +72872,7 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "You've *finally* sprouted a pair of arms from your midsection.  They flail "
-"more-or-less uncontrollably,  making you feel rather larval."
+"more-or-less uncontrollably, making you feel rather larval."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -79242,16 +79267,6 @@ msgid "SUIT"
 msgstr ""
 
 #. ~ Crafting recipes subcategory of 'ARMOR' category
-#: lang/json/recipe_category_from_json.py src/game.cpp
-msgid "HEAD"
-msgstr ""
-
-#. ~ Crafting recipes subcategory of 'ARMOR' category
-#: lang/json/recipe_category_from_json.py src/game.cpp
-msgid "TORSO"
-msgstr ""
-
-#. ~ Crafting recipes subcategory of 'ARMOR' category
 #: lang/json/recipe_category_from_json.py
 msgid "ARMS"
 msgstr ""
@@ -83655,7 +83670,7 @@ msgstr ""
 msgid ""
 "READY FOR THE WORST: The government has proven it is ready to deal with "
 "China's threats.  In the event of an actual attack, we have established "
-"evacuation centres, within a short distance of most towns."
+"evacuation centers, within a short distance of most towns."
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -96409,6 +96424,10 @@ msgstr ""
 msgid "custom colors"
 msgstr ""
 
+#: src/color_loader.h
+msgid "base colors"
+msgstr ""
+
 #: src/computer.cpp
 #, c-format
 msgid "Logging into %s..."
@@ -97380,9 +97399,9 @@ msgstr ""
 
 #: src/consumption.cpp src/iuse.cpp
 #: src/iuse.cpp
+#: src/iuse.cpp src/iuse_actor.cpp
 #: src/iuse_actor.cpp
-#: src/iuse_actor.cpp src/mutation.cpp
-#: src/player.cpp
+#: src/iuse_actor.cpp src/mutation.cpp src/player.cpp
 msgid "You can't do that while underwater."
 msgstr ""
 
@@ -97954,7 +97973,6 @@ msgid "Nothing selected!"
 msgstr ""
 
 #: src/crafting_gui.cpp src/newcharacter.cpp
-#: src/newcharacter.cpp
 msgid "Search:"
 msgstr ""
 
@@ -102434,23 +102452,7 @@ msgid "%s, day %d"
 msgstr ""
 
 #: src/game.cpp
-msgid "L ARM"
-msgstr ""
-
-#: src/game.cpp
-msgid "L LEG"
-msgstr ""
-
-#: src/game.cpp
 msgid "POWER"
-msgstr ""
-
-#: src/game.cpp
-msgid "R ARM"
-msgstr ""
-
-#: src/game.cpp
-msgid "R LEG"
 msgstr ""
 
 #: src/game.cpp
@@ -108311,27 +108313,27 @@ msgid "right"
 msgstr ""
 
 #: src/item.cpp
-msgid "(++)"
+msgid "++"
 msgstr ""
 
 #: src/item.cpp
-msgid "(||)"
+msgid "||"
 msgstr ""
 
 #: src/item.cpp
-msgid "(..)"
+msgid ".."
 msgstr ""
 
 #: src/item.cpp
-msgid "(.)"
+msgid "\\."
 msgstr ""
 
 #: src/item.cpp
-msgid "(|.)"
+msgid "|."
 msgstr ""
 
 #: src/item.cpp
-msgid "(|)"
+msgid "|\\"
 msgstr ""
 
 #: src/item.cpp
@@ -109179,8 +109181,7 @@ msgctxt "memorial_female"
 msgid "Opened the Marloss Gateway."
 msgstr ""
 
-#: src/iuse.cpp
-#: src/monattack.cpp
+#: src/iuse.cpp src/monattack.cpp
 msgid ""
 "You wake up in a marloss bush.  Almost *cradled* in it, actually, as though "
 "it grew there for you."
@@ -110126,8 +110127,7 @@ msgstr ""
 msgid "You've already released the handle, try throwing it instead."
 msgstr ""
 
-#: src/iuse.cpp
-#: src/iuse_actor.cpp
+#: src/iuse.cpp src/iuse_actor.cpp
 msgid "You need a source of fire!"
 msgstr ""
 
@@ -117850,7 +117850,7 @@ msgid "STATS"
 msgstr ""
 
 #: src/newcharacter.cpp
-#: src/newcharacter.cpp src/player_display.cpp
+#: src/player_display.cpp
 msgid "SKILLS"
 msgstr ""
 
@@ -124987,10 +124987,6 @@ msgstr ""
 #: src/sdltiles.cpp
 msgid ""
 "Sets which video display will be used to show the game. Requires restart."
-msgstr ""
-
-#: src/sdltiles.cpp src/wincurse.cpp
-msgid "base colors"
 msgstr ""
 
 #: src/sounds.cpp
