@@ -126,7 +126,7 @@
       [ "stethoscope", 50 ],
       [ "syringe", 50 ],
       [ "thermometer", 50 ],
-      [ "vacutainer", 50 ]
+      [ "blood_draw_kit", 50 ]
     ]
   },
   {

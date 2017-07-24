@@ -74,7 +74,7 @@
     "id" : "hospital_samples",
     "items":[
       ["blood", 20],
-      ["vacutainer", 10]
+      ["blood_draw_kit", 10]
     ]
   },{
     "type" : "item_group",
