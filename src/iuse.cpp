@@ -4245,7 +4245,7 @@ int iuse::dog_whistle(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::vacutainer(player *p, item *it, bool, const tripoint& )
+int iuse::blood_draw(player *p, item *it, bool, const tripoint& )
 {
     if (p->is_npc()) {
         return 0;    // No NPCs for now!

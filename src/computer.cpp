@@ -813,10 +813,10 @@ of pureed bone & LSD."));
                         print_error(_("ERROR: Please place sample in centrifuge."));
                     } else if (g->m.i_at(x, y).size() > 1) {
                         print_error(_("ERROR: Please remove all but one sample from centrifuge."));
-                    } else if (g->m.i_at(x, y)[0].typeId() != "vacutainer") {
-                        print_error(_("ERROR: Please use vacutainer-contained samples."));
+                    } else if (g->m.i_at(x, y)[0].typeId() != "blood_draw_kit") {
+                        print_error(_("ERROR: Please use blood-contained samples."));
                     } else if (g->m.i_at(x, y)[0].contents.empty()) {
-                        print_error(_("ERROR: Vacutainer empty."));
+                        print_error(_("ERROR: Blood draw kit is empty."));
                     } else if (g->m.i_at(x, y)[0].contents.front().typeId() != "blood") {
                         print_error(_("ERROR: Please only use blood samples."));
                     } else { // Success!
@@ -1327,10 +1327,10 @@ void computer::activate_failure(computer_failure fail)
                         print_error(_("ERROR: Please place sample in centrifuge."));
                     } else if (g->m.i_at(x, y).size() > 1) {
                         print_error(_("ERROR: Please remove all but one sample from centrifuge."));
-                    } else if (g->m.i_at(x, y)[0].typeId() != "vacutainer") {
-                        print_error(_("ERROR: Please use vacutainer-contained samples."));
+                    } else if (g->m.i_at(x, y)[0].typeId() != "blood_draw_kit") {
+                        print_error(_("ERROR: Please use blood-contained samples."));
                     } else if (g->m.i_at(x, y)[0].contents.empty()) {
-                        print_error(_("ERROR: Vacutainer empty."));
+                        print_error(_("ERROR: Blood draw kit, empty."));
                     } else if (g->m.i_at(x, y)[0].contents.front().typeId() != "blood") {
                         print_error(_("ERROR: Please only use blood samples."));
                     } else {
