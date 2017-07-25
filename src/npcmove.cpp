@@ -1438,17 +1438,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         }
     }
 
-    if (recoil > 0) { // Start by dropping recoil a little
-        ///\EFFECT_STR_NPC increases recoil recovery speed
-
-        ///\EFFECT_GUN_NPC increases recoil recovery speed
-        if (int(str_cur / 2) + get_skill_level( skill_gun ) >= (int)recoil) {
-            recoil = MIN_RECOIL;
-        } else {
-            recoil -= int(str_cur / 2) + get_skill_level( skill_gun );
-            recoil = int(recoil / 2);
-        }
-    }
+    recoil = MAX_RECOIL;
 
     if (has_effect( effect_stunned)) {
         p.x = rng(posx() - 1, posx() + 1);
@@ -1688,16 +1678,11 @@ void npc::move_pause()
         return;
     }
 
-    aim();
-
-    // Player can cheese the pause recoil drop to speed up aiming, let npcs do it too
-    double pause_recoil = recoil - str_cur + 2 * get_skill_level( skill_gun );
-    pause_recoil = std::max( MIN_RECOIL * 2, pause_recoil );
-    pause_recoil = pause_recoil / 2;
-    if( pause_recoil < recoil ) {
+    // Stop, drop, and roll
+    if( has_effect( effect_onfire ) ) {
         pause();
     } else {
-        moves = 0;
+        aim();
     }
 }
 
@@ -3176,7 +3161,7 @@ void npc::do_reload( item &it )
     }
 
     moves -= reload_time;
-    recoil = MIN_RECOIL;
+    recoil = MAX_RECOIL;
 
     if( g->u.sees( *this ) ) {
         add_msg( _( "%1$s reloads their %2$s." ), name.c_str(), it.tname().c_str() );

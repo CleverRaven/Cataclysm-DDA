@@ -91,9 +91,9 @@ class player_morale_ptr : public std::unique_ptr<player_morale> {
         ~player_morale_ptr();
 };
 
-// The minimum level recoil will reach without aiming.
-// Sets the floor for accuracy of a "snap" or "hip" shot.
-extern const double MIN_RECOIL;
+// The maximum level recoil will ever reach.
+// This corresponds to the level of accuracy of a "snap" or "hip" shot.
+extern const double MAX_RECOIL;
 
 //Don't forget to add new memorial counters
 //to the save and load functions in savegame_json.cpp
@@ -1346,7 +1346,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int tank_plut, reactor_plut, slow_rad;
         int oxygen;
         int stamina;
-        double recoil = MIN_RECOIL;
+        double recoil = MAX_RECOIL;
         int scent;
         int dodges_left, blocks_left;
         int stim, radiation;
