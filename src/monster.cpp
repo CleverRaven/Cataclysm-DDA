@@ -434,9 +434,7 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
     wprintz(w, color, "%s", attitude.c_str());
 
     std::string effects = get_effect_status();
-    size_t width, height;
-    getmaxyx(w, height, width);
-    size_t left_space = width - attitude.length() - name().length() - 3;
+    size_t left_space = getmaxx(w) - attitude.length() - name().length() - 3;
 
     if( effects.length() > left_space ) {
         wprintz( w, h_white, "%s...", effects.substr( 0, left_space - 3 ).c_str() );
@@ -512,6 +510,28 @@ std::string monster::extended_description() const
         ss << string_format( "It can %s.",
                              enumerate_as_string( abilities ).c_str() ) << std::endl;
     }
+
+    std::vector<std::string> dangers;
+    if( type->has_flag( m_flag::MF_GRABS ) ) {
+        dangers.emplace_back( "grab" );
+    }
+    if( type->has_flag( m_flag::MF_VENOM ) ) {
+        dangers.emplace_back( "poison" );
+    }
+    if( type->has_flag( m_flag::MF_PARALYZE ) ) {
+        dangers.emplace_back( "paralyze" );
+    }
+    if( type->has_flag( m_flag::MF_BLEED ) ) {
+        dangers.emplace_back( "cause bleed" );
+    }
+    if( type->has_flag( m_flag::MF_ELECTRIC ) ) {
+        dangers.emplace_back( "shock" );
+    }
+    if( !dangers.empty() ) {
+        ss << string_format( "<bad>In fight it can %s.</bad>",
+                             enumerate_as_string( dangers ).c_str() ) << std::endl;
+    }
+
 
     if( !type->has_flag( m_flag::MF_NOHEAD ) ) {
         ss << _( "It has head." ) << std::endl;
@@ -1408,7 +1428,9 @@ std::string monster::get_effect_status() const
     for( auto &elem : effects ) {
         for( auto &_it : elem.second ) {
             effect e = _it.second;
-            effect_status.push_back( e.disp_name() );
+            if( elem.first.obj().is_show_in_info() ) {
+                effect_status.push_back( e.disp_name() );
+            }
         }
     }
 
