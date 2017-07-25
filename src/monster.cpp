@@ -434,7 +434,9 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
     wprintz(w, color, "%s", attitude.c_str());
 
     std::string effects = get_effect_status();
-    size_t left_space = w->width - attitude.length() - name().length() - 2;
+    size_t width, height;
+    getmaxyx(w, height, width);
+    size_t left_space = width - attitude.length() - name().length() - 3;
 
     if( effects.length() > left_space ) {
         wprintz( w, h_white, "%s...", effects.substr( 0, left_space - 3 ).c_str() );
