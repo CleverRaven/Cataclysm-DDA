@@ -433,7 +433,14 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
     get_Attitude(color, attitude);
     wprintz(w, color, "%s", attitude.c_str());
 
-    wprintz( w, h_white, get_effect_status().c_str() );
+    std::string effects = get_effect_status();
+    size_t left_space = w->width - attitude.length() - name().length() - 2;
+
+    if( effects.length() > left_space ) {
+        wprintz( w, h_white, "%s...", effects.substr( 0, left_space - 3 ).c_str() );
+    } else {
+        wprintz( w, h_white, "%s", effects.c_str() );
+    }
 
     const auto hp_desc = hp_description( hp, type->hp );
     mvwprintz( w, vStart++, column, hp_desc.second, "%s", hp_desc.first.c_str() );
@@ -456,44 +463,56 @@ std::string monster::extended_description() const
     get_Attitude( color, attitude );
     attitude = get_tag_from_color( color ) + attitude;
 
-    ss << string_format(
-           _( "This is a %s %s <stat>%s</stat>" ),
-           name().c_str(),
-           attitude.c_str(),
-           get_effect_status().c_str()
-       ) << std::endl;
+    ss << string_format( _( "This is a %s %s" ), name().c_str(), attitude.c_str() ) << std::endl;
+    if( !get_effect_status().empty() ) {
+        ss << string_format( "<stat>It is %s</stat>", get_effect_status().c_str() ) << std::endl;
+    }
 
     ss << "--" << std::endl;
     auto hp_bar = hp_description( hp, type->hp );
     ss << get_tag_from_color( hp_bar.second ) << hp_bar.first << std::endl;
 
-    ss << "--" << std:: endl;
+    ss << "--" << std::endl;
     ss << string_format( "<dark>%s</dark>", type->description.c_str() ) << std::endl;
-
     ss << "--" << std::endl;
 
+    std::vector<std::string> senses;
     if( type->has_flag( m_flag::MF_HEARS ) ) {
-        ss << _( "It can hear" ) << std::endl;
-    } else {
-        ss << _( "It can't hear" ) << std::endl;
+        senses.emplace_back( "hearing" );
     }
-
     if( type->has_flag( m_flag::MF_SEES ) ) {
-        ss << _( "It can see" ) << std::endl;;
-    } else {
-        ss << _( "It can't see" ) << std::endl;
+        senses.emplace_back( "sight" );
     }
-
     if( type->has_flag( m_flag::MF_SMELLS ) ) {
-        ss << _( "It can sense smell" ) << std::endl;
+        senses.emplace_back( "smell" );
+    }
+    if( senses.empty() ) {
+        ss << _( "It doesn't have senses." ) << std::endl;
     } else {
-        ss << _( "It can't sense smell" ) << std::endl;
+        ss << string_format( "It has the following senses: %s.",
+                             enumerate_as_string( senses ).c_str() ) << std::endl;
     }
 
-    if( type->has_flag( m_flag::MF_NOHEAD ) ) {
-        ss << _( "It doesn't have head" ) << std::endl;
-    } else {
-        ss << _( "It has head" ) << std::endl;
+    std::vector<std::string> abilities;
+    if( type->has_flag( m_flag::MF_SWIMS ) ) {
+        abilities.emplace_back( "swim" );
+    }
+    if( type->has_flag( m_flag::MF_FLIES ) ) {
+        abilities.emplace_back( "fly" );
+    }
+    if( type->has_flag( m_flag::MF_CAN_DIG ) ) {
+        abilities.emplace_back( "dig" );
+    }
+    if( type->has_flag( m_flag::MF_CLIMBS ) ) {
+        abilities.emplace_back( "climb" );
+    }
+    if( !abilities.empty() ) {
+        ss << string_format( "It can %s.",
+                             enumerate_as_string( abilities ).c_str() ) << std::endl;
+    }
+
+    if( !type->has_flag( m_flag::MF_NOHEAD ) ) {
+        ss << _( "It has head." ) << std::endl;
     }
 
     return replace_colors( ss.str() );
@@ -1383,40 +1402,15 @@ void monster::add_effect( const efftype_id &eff_id, int dur, body_part bp,
 
 std::string monster::get_effect_status() const
 {
-    std::vector<std::string> effect;
-    if( has_effect( effect_downed ) ) {
-        effect.emplace_back( _( "On ground" ) );
-    }
-    if( has_effect( effect_stunned ) ) {
-        effect.emplace_back( _( "Stunned" ) );
-    }
-    if( has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) ||
-        has_effect( effect_beartrap ) ) {
-        effect.emplace_back( _( "Trapped" ) );
-    }
-    if( has_effect( effect_tied ) ) {
-        effect.emplace_back( _( "Tied" ) );
-    }
-    if( has_effect( effect_shrieking ) ) {
-        effect.emplace_back( _( "Shrieking" ) );
-    }
-    if( has_effect( effect_onfire ) ) {
-        effect.emplace_back( _( "On fire" ) );
-    }
-    if( has_effect( effect_in_pit ) ) {
-        effect.emplace_back( _( "In pit" ) );
-    }
-    if( has_effect( effect_grabbed ) ) {
-        effect.emplace_back( _( "Grabbed" ) );
+    std::vector<std::string> effect_status;
+    for( auto &elem : effects ) {
+        for( auto &_it : elem.second ) {
+            effect e = _it.second;
+            effect_status.push_back( e.disp_name() );
+        }
     }
 
-    return std::accumulate( effect.begin(), effect.end(), std::string(), []( std::string a,
-    std::string b ) {
-        if( a.empty() ) {
-            return b;
-        }
-        return a + ", " + b;
-    } );
+    return enumerate_as_string( effect_status );
 }
 
 int monster::get_armor_cut(body_part bp) const
