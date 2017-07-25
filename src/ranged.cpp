@@ -289,6 +289,8 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
     // apply delayed recoil
     recoil += delay;
+    // Cap
+    recoil = std::min( MAX_RECOIL, recoil );
 
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_fire( *this, *gun.type );
