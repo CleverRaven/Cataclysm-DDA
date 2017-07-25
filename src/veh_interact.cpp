@@ -45,6 +45,13 @@ static inline const char * status_color( bool status )
     return status ? good : bad;
 }
 
+// cap JACK requirements to support arbitrarily large vehicles
+static double jack_qality( const vehicle &veh )
+{
+    const double mass = std::min( veh.total_mass(), JACK_LIMIT );
+    return ceil( mass / TOOL_LIFT_FACTOR );
+}
+
 /** Can part currently be reloaded with anything? */
 static auto can_refill = []( const vehicle_part &pt ) { return pt.can_reload(); };
 
@@ -374,8 +381,7 @@ void veh_interact::cache_tool_availability()
                            map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( JACK ),
                            vehicle_selector(g->u.pos(), 2, true, *veh ).max_quality( JACK ) } );
 
-    // cap JACK requirements to support arbritrarily large vehicles
-    double qual = ceil( double( std::min( veh->total_mass(), JACK_LIMIT ) ) / TOOL_LIFT_FACTOR );
+    const double qual = jack_qality( *veh );
 
     has_jack = g->u.has_quality( JACK, qual ) ||
                map_selector( g->u.pos(), PICKUP_RANGE ).has_quality( JACK, qual ) ||
@@ -590,7 +596,7 @@ bool veh_interact::can_install_part() {
     item base( sel_vpart_info->item );
     if( base.is_wheel() ) {
         qual = JACK;
-        lvl = std::ceil( double( std::min( veh->total_mass(), JACK_LIMIT ) ) / TOOL_LIFT_FACTOR );
+        lvl = jack_qality( *veh );
         str = veh->lift_strength();
         use_aid = max_jack >= lvl;
         use_str = g->u.can_lift( *veh );
@@ -1280,7 +1286,7 @@ bool veh_interact::can_remove_part( int idx ) {
     item base( sel_vpart_info->item );
     if( base.is_wheel() ) {
         qual = JACK;
-        lvl = std::ceil( double( std::min( veh->total_mass(), JACK_LIMIT ) ) / TOOL_LIFT_FACTOR );
+        lvl = jack_qality( *veh );
         str = veh->lift_strength();
         use_aid = max_jack >= lvl;
         use_str = g->u.can_lift( *veh );
