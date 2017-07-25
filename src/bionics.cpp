@@ -987,7 +987,7 @@ bool player::install_bionics( const itype &type, int skill_level )
     int fa_level = get_skill_level( skill_firstaid );
 
     if( has_trait( trait_PROF_MED ) ) {
-        fa_level =+5;
+        fa_level = 5;
     }
 
     if( !has_trait( trait_NOPAIN ) && !has_trait( trait_CENOBITE ) &&
