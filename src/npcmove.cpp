@@ -43,6 +43,7 @@ const efftype_id effect_infection( "infection" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_stunned( "stunned" );
+const efftype_id effect_onfire( "onfire" );
 
 enum npc_action : int {
     npc_undecided = 0,
