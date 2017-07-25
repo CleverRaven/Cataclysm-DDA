@@ -287,6 +287,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void add_effect( const efftype_id &eff_id, int dur, body_part bp = num_bp,
                          bool permanent = false,
                          int intensity = 0, bool force = false ) override;
+        /** Returns a std::string containing effects for descriptions */
+        std::string get_effect_status() const;
 
         float power_rating() const override;
         float speed_rating() const override;
