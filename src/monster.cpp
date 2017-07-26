@@ -434,7 +434,7 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
     wprintz(w, color, "%s", attitude.c_str());
 
     std::string effects = get_effect_status();
-    size_t left_space = getmaxx(w) - attitude.length() - name().length() - 3;
+    size_t left_space = getmaxx( w ) - attitude.length() - name().length() - 3;
 
     if( effects.length() > left_space ) {
         wprintz( w, h_white, "%s...", effects.substr( 0, left_space - 3 ).c_str() );
@@ -465,7 +465,7 @@ std::string monster::extended_description() const
 
     ss << string_format( _( "This is a %s %s" ), name().c_str(), attitude.c_str() ) << std::endl;
     if( !get_effect_status().empty() ) {
-        ss << string_format( "<stat>It is %s</stat>", get_effect_status().c_str() ) << std::endl;
+        ss << string_format( _( "<stat>It is %s</stat>" ), get_effect_status().c_str() ) << std::endl;
     }
 
     ss << "--" << std::endl;
@@ -473,65 +473,64 @@ std::string monster::extended_description() const
     ss << get_tag_from_color( hp_bar.second ) << hp_bar.first << std::endl;
 
     ss << "--" << std::endl;
-    ss << string_format( "<dark>%s</dark>", type->description.c_str() ) << std::endl;
+    ss << string_format( _( "<dark>%s</dark>" ), type->description.c_str() ) << std::endl;
     ss << "--" << std::endl;
 
     std::vector<std::string> senses;
     if( type->has_flag( m_flag::MF_HEARS ) ) {
-        senses.emplace_back( "hearing" );
+        senses.emplace_back( _( "hearing" ) );
     }
     if( type->has_flag( m_flag::MF_SEES ) ) {
-        senses.emplace_back( "sight" );
+        senses.emplace_back( _( "sight" ) );
     }
     if( type->has_flag( m_flag::MF_SMELLS ) ) {
-        senses.emplace_back( "smell" );
+        senses.emplace_back( _( "smell" ) );
     }
     if( senses.empty() ) {
         ss << _( "It doesn't have senses." ) << std::endl;
     } else {
-        ss << string_format( "It has the following senses: %s.",
+        ss << string_format( _( "It has the following senses: %s." ),
                              enumerate_as_string( senses ).c_str() ) << std::endl;
     }
 
     std::vector<std::string> abilities;
     if( type->has_flag( m_flag::MF_SWIMS ) ) {
-        abilities.emplace_back( "swim" );
+        abilities.emplace_back( _( "swim" ) );
     }
     if( type->has_flag( m_flag::MF_FLIES ) ) {
-        abilities.emplace_back( "fly" );
+        abilities.emplace_back( _( "fly" ) );
     }
     if( type->has_flag( m_flag::MF_CAN_DIG ) ) {
-        abilities.emplace_back( "dig" );
+        abilities.emplace_back( _( "dig" ) );
     }
     if( type->has_flag( m_flag::MF_CLIMBS ) ) {
-        abilities.emplace_back( "climb" );
+        abilities.emplace_back( _( "climb" ) );
     }
     if( !abilities.empty() ) {
-        ss << string_format( "It can %s.",
+        ss << string_format( _( "It can %s." ),
                              enumerate_as_string( abilities ).c_str() ) << std::endl;
     }
 
     std::vector<std::string> dangers;
     if( type->has_flag( m_flag::MF_GRABS ) ) {
-        dangers.emplace_back( "grab" );
+        dangers.emplace_back( _( "grab" ) );
     }
     if( type->has_flag( m_flag::MF_VENOM ) ) {
-        dangers.emplace_back( "poison" );
+        dangers.emplace_back( _( "poison" ) );
     }
     if( type->has_flag( m_flag::MF_PARALYZE ) ) {
-        dangers.emplace_back( "paralyze" );
+        dangers.emplace_back( _( "paralyze" ) );
     }
     if( type->has_flag( m_flag::MF_BLEED ) ) {
-        dangers.emplace_back( "cause bleed" );
+        dangers.emplace_back( _( "cause bleed" ) );
     }
     if( type->has_flag( m_flag::MF_ELECTRIC ) ) {
-        dangers.emplace_back( "shock" );
+        dangers.emplace_back( _( "shock" ) );
     }
     if( !dangers.empty() ) {
-        ss << string_format( "<bad>In fight it can %s.</bad>",
+        ss << string_format( _( "<bad>In fight it can %s.</bad>" ),
                              enumerate_as_string( dangers ).c_str() ) << std::endl;
     }
-
 
     if( !type->has_flag( m_flag::MF_NOHEAD ) ) {
         ss << _( "It has head." ) << std::endl;
