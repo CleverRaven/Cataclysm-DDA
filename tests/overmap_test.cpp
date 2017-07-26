@@ -26,11 +26,10 @@ TEST_CASE( "default_overmap_generation_always_succeeds" ) {
     int overmaps_to_construct = 10;
     for( point candidate_addr : closest_points_first( 10, { 0, 0 } ) ) {
          // Skip populated overmaps.
-      if( overmap_buffer.has( candidate_addr.x, candidate_addr.y ) ) {
+        if( overmap_buffer.has( candidate_addr.x, candidate_addr.y ) ) {
             continue;
         }
-        overmap_special_batch test_specials = overmap( 0, 0 ).get_enabled_specials();
-	test_specials.set_origin( candidate_addr );
+        overmap_special_batch test_specials = overmap_specials::get_default_batch( candidate_addr );
         overmap_buffer.create_custom_overmap( candidate_addr.x, candidate_addr.y, test_specials );
         std::stringstream remaining_specials;
         for( const auto &special_placement : test_specials ) {

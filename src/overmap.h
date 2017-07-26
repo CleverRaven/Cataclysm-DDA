@@ -195,9 +195,6 @@ class overmap_special_batch {
         return placements.empty();
     }
 
-    void set_origin( point new_origin ) {
-        origin_overmap = new_origin;
-    }
     point get_origin() const {
         return origin_overmap;
     }

@@ -348,6 +348,21 @@ void overmap_specials::reset()
     specials.reset();
 }
 
+overmap_special_batch overmap_specials::get_default_batch( point origin )
+{
+    const bool only_classic = get_option<bool>( "CLASSIC_ZOMBIES" );
+    std::vector<const overmap_special *> res;
+
+    res.reserve( specials.size() );
+    for( const auto &elem : specials.get_all() ) {
+        if( !elem.locations.empty() && ( !only_classic || elem.flags.count( "CLASSIC" ) > 0 ) ) {
+            res.push_back( &elem );
+        }
+    }
+
+    return overmap_special_batch( origin, res );
+}
+
 bool is_river(const oter_id &ter)
 {
     // if the id starts with "river" or "bridge", count as a river, but this
@@ -1233,7 +1248,7 @@ void overmap::populate( overmap_special_batch &enabled_specials )
 
 void overmap::populate()
 {
-    overmap_special_batch enabled_specials = get_enabled_specials();
+    overmap_special_batch enabled_specials = overmap_specials::get_default_batch( loc );
     populate( enabled_specials );
 }
 
@@ -4163,21 +4178,6 @@ void overmap::place_special( const overmap_special &special, const tripoint &p, 
         const int rad = rng( spawns.radius.min, spawns.radius.max );
         add_mon_group(mongroup(spawns.group, p.x * 2, p.y * 2, p.z, rad, pop));
     }
-}
-
-overmap_special_batch overmap::get_enabled_specials() const
-{
-    const bool only_classic = get_option<bool>( "CLASSIC_ZOMBIES" );
-    std::vector<const overmap_special *> res;
-
-    res.reserve( specials.size() );
-    for( const auto &elem : specials.get_all() ) {
-        if( !elem.locations.empty() && ( !only_classic || elem.flags.count( "CLASSIC" ) > 0 ) ) {
-            res.push_back( &elem );
-        }
-    }
-
-    return overmap_special_batch( loc, res );
 }
 
 std::vector<point> overmap::get_sectors() const

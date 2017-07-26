@@ -21,6 +21,7 @@ struct city;
 struct oter_t;
 struct oter_type_t;
 struct overmap_special_location;
+class overmap_special_batch;
 
 /** Direction on the overmap. */
 namespace om_direction
@@ -347,6 +348,7 @@ void load( JsonObject &jo, const std::string &src );
 void finalize();
 void check_consistency();
 void reset();
+overmap_special_batch get_default_batch( point origin );
 
 }
 
