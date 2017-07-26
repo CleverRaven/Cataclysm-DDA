@@ -498,9 +498,6 @@ std::string monster::extended_description() const
     if( type->has_flag( MF_ANIMAL ) ) {
         types.emplace_back( _( "animal") );
     }
-    if( type->in_species( MAMMAL ) ) {
-        types.emplace_back( _( "mammal" ) );
-    }
     if( type->in_species( ZOMBIE ) ) {
         types.emplace_back( _( "zombie" ) );
     }
