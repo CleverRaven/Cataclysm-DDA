@@ -259,6 +259,7 @@ game::game() :
     w_blackspace(NULL),
     dangerous_proximity(5),
     pixel_minimap_option(0),
+    last_target( -1 ),
     safe_mode(SAFE_MODE_ON),
     safe_mode_warning_logged(false),
     mostseen(0),
@@ -268,6 +269,9 @@ game::game() :
     tileset_zoom(16),
     weather_override( WEATHER_NULL )
 {
+    remoteveh_cache_turn = INT_MIN;
+    temperature = 0;
+    reset_light_level();
     world_generator.reset( new worldfactory() );
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
@@ -4890,7 +4894,7 @@ void game::draw_sidebar()
         wprintz(time_window, c_white, "]");
     } else {
         wprintz( time_window, c_white, _( "Time: ???") );
-    } 
+    }
 
     const oter_id &cur_ter = overmap_buffer.ter(u.global_omt_location());
 
@@ -7229,8 +7233,7 @@ void game::control_vehicle()
 bool pet_menu(monster *z)
 {
     enum choices {
-        cancel,
-        swap_pos,
+        swap_pos = 0,
         push_zlave,
         rename,
         attach_bag,
@@ -7249,7 +7252,6 @@ bool pet_menu(monster *z)
 
     amenu.selected = 0;
     amenu.text = string_format(_("What to do with your %s?"), pet_name.c_str());
-    amenu.addentry(cancel, true, 'q', _("Cancel"));
 
     amenu.addentry(swap_pos, true, 's', _("Swap positions"));
     amenu.addentry(push_zlave, true, 'p', _("Push %s"), pet_name.c_str());
@@ -7278,10 +7280,6 @@ bool pet_menu(monster *z)
 
     amenu.query();
     int choice = amenu.ret;
-
-    if (cancel == choice || choice < 0) {
-        return false;
-    }
 
     if (swap_pos == choice) {
         g->u.moves -= 150;
@@ -7467,7 +7465,7 @@ bool pet_menu(monster *z)
 bool game::npc_menu( npc &who )
 {
     enum choices : int {
-        cancel = 0,
+        talk = 0,
         swap_pos,
         push,
         examine_wounds,
@@ -7478,14 +7476,14 @@ bool game::npc_menu( npc &who )
         steal
     };
 
+    const bool obeys = debug_mode || ( who.is_friend() && !who.in_sleep_state() );
+
     uimenu amenu;
     amenu.return_invalid = true;
 
     amenu.selected = 0;
     amenu.text = string_format( _("What to do with %s?"), who.disp_name().c_str() );
-    amenu.addentry( cancel, true, 'q', _("Cancel") );
-
-    const bool obeys = debug_mode || (who.is_friend() && !who.in_sleep_state());
+    amenu.addentry( talk, true, 't', _( "Talk" ) );
     amenu.addentry( swap_pos, obeys, 's', _("Swap positions") );
     amenu.addentry( push, obeys, 'p', _("Push away") );
     amenu.addentry( examine_wounds, true, 'w', _("Examine wounds") );
@@ -7500,11 +7498,9 @@ bool game::npc_menu( npc &who )
     amenu.query();
 
     const int choice = amenu.ret;
-    if( choice == cancel ) {
-        return false;
-    }
-
-    if( choice == swap_pos ) {
+    if( choice == talk ) {
+        who.talk_to_u();
+    } else if( choice == swap_pos ) {
         if( !prompt_dangerous_tile( who.pos() ) ) {
             return true;
         }
@@ -9972,8 +9968,8 @@ bool game::plfire_check( const targeting_data &args ) {
 
     item &weapon = *args.relevant;
     if( weapon.is_gunmod() ) {
-        add_msg( m_info, 
-            _( "The %s must be attached to a gun, it can not be fired separately." ), 
+        add_msg( m_info,
+            _( "The %s must be attached to a gun, it can not be fired separately." ),
             weapon.tname().c_str() );
         return false;
     }
@@ -9990,7 +9986,7 @@ bool game::plfire_check( const targeting_data &args ) {
         add_msg( m_info, _( "You need a free arm to drive!" ) );
         return false;
     }
-    
+
     // skip the remaining checks if we are firing a melee weapon.
     if( gun.melee() ) {
         return true;

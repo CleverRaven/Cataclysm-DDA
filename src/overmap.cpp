@@ -1240,6 +1240,9 @@ overmap::overmap()
 
 overmap::~overmap()
 {
+    for( npc *npc_to_delete : npcs ) {
+        delete npc_to_delete;
+    }
 }
 
 void overmap::set_validity_from_settings()
