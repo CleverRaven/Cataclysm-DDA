@@ -459,7 +459,7 @@ std::string monster::extended_description() const
     std::ostringstream ss;
 
     nc_color color = c_white;
-    std::string attitude = "";
+    std::string attitude;
     get_Attitude( color, attitude );
     attitude = get_tag_from_color( color ) + attitude;
 
@@ -523,9 +523,6 @@ std::string monster::extended_description() const
     }
     if( type->has_flag( m_flag::MF_BLEED ) ) {
         dangers.emplace_back( _( "cause bleed" ) );
-    }
-    if( type->has_flag( m_flag::MF_ELECTRIC ) ) {
-        dangers.emplace_back( _( "shock" ) );
     }
     if( !dangers.empty() ) {
         ss << string_format( _( "<bad>In fight it can %s.</bad>" ),
@@ -1427,7 +1424,7 @@ std::string monster::get_effect_status() const
     for( auto &elem : effects ) {
         for( auto &_it : elem.second ) {
             effect e = _it.second;
-            if( elem.first.obj().is_show_in_info() ) {
+            if( elem.first->is_show_in_info() ) {
                 effect_status.push_back( e.disp_name() );
             }
         }
