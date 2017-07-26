@@ -476,6 +476,31 @@ std::string monster::extended_description() const
     ss << string_format( _( "<dark>%s</dark>" ), type->description.c_str() ) << std::endl;
     ss << "--" << std::endl;
 
+    std::vector<std::string> types;
+    if( type->has_flag( MF_ANIMAL ) ) {
+        types.emplace_back( _( "animal") );
+    }
+    if( type->in_species( MAMMAL ) ) {
+        types.emplace_back( _( "mammal" ) );
+    }
+    if( type->in_species( ZOMBIE ) ) {
+        types.emplace_back( _( "zombie" ) );
+    }
+    if( type->in_species( FUNGUS ) ) {
+        types.emplace_back( _( "fungus" ) );
+    }
+    if( type->in_species( INSECT ) ) {
+        types.emplace_back( _( "insect" ) );
+    }
+    if( type->in_species( ABERRATION ) ) {
+        types.emplace_back( _( "aberration" ) );
+    }
+    if( !types.empty() ) {
+        ss << string_format( _( "It is %s." ),
+                             enumerate_as_string( types ).c_str() ) << std::endl;
+    }
+
+
     std::vector<std::string> senses;
     if( type->has_flag( m_flag::MF_HEARS ) ) {
         senses.emplace_back( _( "hearing" ) );
