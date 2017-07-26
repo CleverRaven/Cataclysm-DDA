@@ -1468,7 +1468,7 @@
         "scaling_mods": {
             "speed_mod": [-5]
         },
-        "show_in_ifno": true
+        "show_in_info": true
     },
     {
         "type": "effect_type",
