@@ -1031,6 +1031,11 @@ void options_manager::init()
         false
         );
 
+    add("OPEN_DEFAULT_ADV_INV", "interface", _("Open default advanced inventory layout"),
+        _("Open default advanced inventory layout instead of last opened layout"),
+        false
+        );
+
     add( "INV_USE_ACTION_NAMES", "interface", _( "Display actions in Use Item menu" ),
         _( "If true, actions (like \"Read\", \"Smoke\", \"Wrap tighter\") will be displayed next to the corresponding items." ),
         true
