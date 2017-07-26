@@ -476,6 +476,24 @@ std::string monster::extended_description() const
     ss << string_format( _( "<dark>%s</dark>" ), type->description.c_str() ) << std::endl;
     ss << "--" << std::endl;
 
+    std::string size_name;
+    if( get_size() == MS_TINY ) {
+        size_name = _( "tiny" );
+    }
+    if( get_size() == MS_SMALL ) {
+        size_name = _( "small" );
+    }
+    if( get_size() == MS_MEDIUM ) {
+        size_name = _( "medium" );
+    }
+    if( get_size() == MS_LARGE ) {
+        size_name = _( "large" );
+    }
+    if( get_size() == MS_HUGE ) {
+        size_name = _( "huge" );
+    }
+    ss << string_format( _( "It is %s in size" ), size_name.c_str() ) << std::endl;
+
     std::vector<std::string> types;
     if( type->has_flag( MF_ANIMAL ) ) {
         types.emplace_back( _( "animal") );
