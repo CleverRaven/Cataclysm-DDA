@@ -274,7 +274,6 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 4,
-    "skill_required": [ "survival", 2 ],
     "time": 150000,
     "autolearn": true,
     "using": [ [ "filament", 360 ] ],
