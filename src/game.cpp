@@ -10872,24 +10872,45 @@ void game::chat()
     }
 
     uimenu nmenu;
-    nmenu.text = std::string( _("Who do you want to talk to?") );
-
+    nmenu.text = std::string( _( "Who do you want to talk to or yell?" ) );
+    
     int i = 0;
+
     for( auto &elem : available ) {
         nmenu.addentry( i++, true, MENU_AUTOASSIGN, ( elem )->name );
     }
 
     nmenu.return_invalid = true;
-    nmenu.addentry( i++, true, 'a', _( "Yell" ) );
-    nmenu.addentry( i++, true, 'q', _( "Cancel" ) );
+
+    int yell, yell_sentence, cancel;
+
+    nmenu.addentry( yell = i++, true, 'a', _( "Yell" ) );
+    nmenu.addentry( yell_sentence = i++, true, 'b', _( "Yell a sentence" ) );
+    nmenu.addentry( cancel = i++, true, 'q', _( "Cancel" ) );
 
     nmenu.query();
-    if( nmenu.ret < 0 || nmenu.ret > (int)available.size() ) {
+    if( nmenu.ret < 0 || nmenu.ret == cancel ) {
         return;
-    } else if( nmenu.ret == (int)available.size() ) {
+    } else if( nmenu.ret == yell ) {
         u.shout();
-    } else {
+    } else if( nmenu.ret == yell_sentence ) {
+        std::string popupdesc = string_format( _( "Enter a sentence to yell" ) );
+        string_input_popup popup;
+        popup.title( string_format( _( "Yell a sentence" ) ) )
+        .width( 64 )
+        .description( popupdesc )
+        .identifier( "sentence" )
+        .max_length( 128 )
+        .query();
+
+        std::string sentence = popup.text();
+        add_msg( _( "You yell %s" ), sentence.c_str() );
+        u.shout();
+
+    } else if( nmenu.ret <= ( int )available.size() ) {
         available[nmenu.ret]->talk_to_u();
+    } else {
+    return;
     }
 
     u.moves -= 100;
