@@ -65,6 +65,8 @@
 // #included from: catch_compiler_capabilities.h
 #define TWOBLUECUBES_CATCH_COMPILER_CAPABILITIES_HPP_INCLUDED
 
+#define __USE_MINGW_ANSI_STDIO 0  // fix mingw error about multiple definitions of vsnprintf
+
 // Detect a number of compiler features - mostly C++11/14 conformance - by compiler
 // The following features are defined:
 //
