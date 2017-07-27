@@ -16,7 +16,7 @@
     "id": "ammo_pistol_common",
     "type": "item_group",
     "items": [
-      [ "357", 30 ],
+      [ "357", 20 ],
       [ "45_long_colt", 30 ]
     ]
   },

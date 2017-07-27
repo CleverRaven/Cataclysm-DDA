@@ -1594,7 +1594,7 @@
         "move_cost": 0,
         "roof": "t_flat_roof",
         "flags": [
-            "FLAMMABLE_ASH", "DOOR", "NOITEM", "CONNECT_TO_WALL"
+            "FLAMMABLE_ASH", "DOOR", "NOITEM", "CONNECT_TO_WALL", "EASY_DECONSTRUCT"
         ],
         "open": "t_door_curtain_o",
         "deconstruct": {
@@ -1628,7 +1628,7 @@
         "move_cost": 0,
         "roof": "t_flat_roof",
         "flags": [
-            "FLAMMABLE_ASH", "DOOR", "NOITEM", "CONNECT_TO_WALL"
+            "FLAMMABLE_ASH", "DOOR", "NOITEM", "CONNECT_TO_WALL", "EASY_DECONSTRUCT"
         ],
         "open": "t_door_makeshift_o",
         "deconstruct": {
@@ -1661,7 +1661,7 @@
         "flags": [
             "FLAMMABLE_ASH", "TRANSPARENT",
             "FLAT", "CONNECT_TO_WALL",
-            "ROAD"
+            "ROAD", "EASY_DECONSTRUCT"
         ],
         "deconstruct": {
             "ter_set": "t_dirt",
@@ -1697,7 +1697,7 @@
         "flags": [
             "FLAMMABLE_ASH", "TRANSPARENT",
             "FLAT", "CONNECT_TO_WALL",
-            "ROAD"
+            "ROAD", "EASY_DECONSTRUCT"
         ],
         "deconstruct": {
             "ter_set": "t_door_frame",
@@ -4101,7 +4101,7 @@
         "color": "blue",
         "move_cost": 8,
         "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER", "FISHABLE"],
-        "connects_to": "WATER",        
+        "connects_to": "WATER",
         "examine_action": "water_source"
     },{
         "type" : "terrain",
@@ -4684,7 +4684,7 @@
         "symbol": "|",
         "color": "brown",
         "move_cost": 0,
-        "flags": ["TRANSPARENT", "NOITEM", "SHORT", "PERMEABLE"],
+        "flags": ["TRANSPARENT", "NOITEM", "SHORT", "PERMEABLE", "EASY_DECONSTRUCT"],
         "examine_action": "controls_gate",
         "bash": {
             "str_min": 8, "str_max": 40,

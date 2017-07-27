@@ -324,6 +324,7 @@ bool main_menu::opening_screen()
         }
     }
     closedir( dir );
+    std::sort( templates.begin(), templates.end(), std::greater<std::string>() );
 
     ctxt.register_cardinal();
     ctxt.register_action( "QUIT" );

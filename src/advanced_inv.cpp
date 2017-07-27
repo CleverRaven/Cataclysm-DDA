@@ -136,7 +136,12 @@ void advanced_inventory::load_settings()
 {
     aim_exit aim_code = static_cast<aim_exit>(uistate.adv_inv_exit_code);
     for(int i = 0; i < NUM_PANES; ++i) {
-        auto location = static_cast<aim_location>(uistate.adv_inv_area[i]);
+        aim_location location;
+        if (get_option<bool>("OPEN_DEFAULT_ADV_INV")) {
+            location = static_cast<aim_location>(uistate.adv_inv_default_areas[i]);
+        } else {
+            location = static_cast<aim_location>(uistate.adv_inv_area[i]);
+        }
         auto square = squares[location];
         // determine the square's veh/map item presence
         bool has_veh_items = (square.can_store_in_vehicle()) ?
@@ -1402,6 +1407,9 @@ void advanced_inventory::display()
     ctxt.register_action( "ITEMS_DRAGGED_CONTAINER" );
     ctxt.register_action( "ITEMS_CONTAINER" );
 
+    ctxt.register_action( "ITEMS_DEFAULT" );
+    ctxt.register_action( "SAVE_DEFAULT" );
+
     exit = false;
     recalc = true;
     redraw = true;
@@ -1447,7 +1455,16 @@ void advanced_inventory::display()
         if( action == "CATEGORY_SELECTION" ) {
             inCategoryMode = !inCategoryMode;
             spane.redraw = true; // We redraw to force the color change of the highlighted line and header text.
-        } else if( action == "HELP_KEYBINDINGS" ) {
+        } else if (action == "HELP_KEYBINDINGS") {
+            redraw = true;
+        } else if (action == "ITEMS_DEFAULT") {
+            panes[left].set_area(squares[uistate.adv_inv_default_areas[left]]);
+            panes[right].set_area(squares[uistate.adv_inv_default_areas[right]]);
+            redraw = true;
+        } else if (action == "SAVE_DEFAULT") {
+            uistate.adv_inv_default_areas[left] = panes[left].get_area();
+            uistate.adv_inv_default_areas[right] = panes[right].get_area();
+            popup( _( "Default layout was saved" ) );
             redraw = true;
         } else if( get_square( action, changeSquare ) ) {
             if( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) {

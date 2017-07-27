@@ -8,7 +8,6 @@
 #include "animation.h"
 #include "map.h"
 #include "weather.h"
-#include "tile_id_data.h"
 #include "enums.h"
 #include "weighted_list.h"
 

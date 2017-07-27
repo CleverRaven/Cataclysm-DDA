@@ -1497,7 +1497,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         } else if( idescription != item_vars.end() ) {
             info.push_back( iteminfo( "DESCRIPTION", idescription->second ) );
         } else {
-            info.push_back( iteminfo( "DESCRIPTION", type->description ) );
+            info.push_back( iteminfo( "DESCRIPTION", _( type->description.c_str() ) ) );
         }
         auto all_techniques = type->techniques;
         all_techniques.insert( techniques.begin(), techniques.end() );
@@ -1795,10 +1795,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 }
                 insert_separation_line();
                 info.emplace_back( "DESCRIPTION", temp1.str() );
-                info.emplace_back( "DESCRIPTION", mod->type->description );
+                info.emplace_back( "DESCRIPTION", _( mod->type->description.c_str() ) );
             }
             if( !contents.front().type->mod ) {
-                info.emplace_back( "DESCRIPTION", contents.front().type->description );
+                info.emplace_back( "DESCRIPTION", _( contents.front().type->description.c_str() ) );
             }
         }
 

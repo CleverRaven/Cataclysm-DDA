@@ -113,6 +113,9 @@ vehicle::vehicle(const vproto_id &type_id, int init_veh_fuel, int init_veh_statu
 
 vehicle::vehicle() : vehicle( vproto_id() )
 {
+    smx = 0;
+    smy = 0;
+    smz = 0;
 }
 
 vehicle::~vehicle()
