@@ -332,7 +332,7 @@
                 "bash_below": true
         }
     },{
-		"type" : "terrain",
+        "type" : "terrain",
         "id" : "t_clay",
         "name": "clay",
         "symbol": ".",

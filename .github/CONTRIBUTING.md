@@ -244,7 +244,7 @@ Bring up the keybindings menu (press `Escape` then `1`), scroll down almost to t
 └────────────────────────────────────────────┘
 ```
 
-With these commands, you should be able to recreate the proper conditions to test your changes. You can find some more information about the debug menu on [the official wiki](http://www.wiki.cataclysmdda.com/index.php?title=Cheating#The_Debug_Menu).
+With these commands, you should be able to recreate the proper conditions to test your changes. You can find some more information about the debug menu on [the official wiki](http://tools.cataclysmdda.com/wiki).
 
 ## Frequently Asked Questions
 
