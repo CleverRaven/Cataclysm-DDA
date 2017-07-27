@@ -12,10 +12,10 @@
     "color": "light_gray",
     "location": "lens",
     "mod_targets": [ "rifle", "pistol" ],
-    "min_skills": [ [ "weapon", 4 ] ],
     "damage_modifier": 10,
     "range_modifier": -25,    
-    "ammo_effects" : [ "SHOT" ]
+    "ammo_effects" : [ "SHOT" ],
+    "min_skills": [ [ "weapon", 4 ] ]
   },
   {
     "id": "electrolaser_conversion",
@@ -30,17 +30,17 @@
     "color": "light_gray",
     "location": "lens",
     "mod_targets": [ "pistol" ],
-    "min_skills": [ [ "weapon", 4 ], [ "electronics", 5 ] ],
     "damage_modifier": -8,
     "range_modifier": -25,    
     "ups_charges": 10,
-    "ammo_effects" : [ "BEANBAG" ]
+    "ammo_effects" : [ "BEANBAG" ],
+    "min_skills": [ [ "weapon", 4 ], [ "electronics", 5 ] ]
   },
   {
     "id": "high_density_capacitor",
     "type": "GUNMOD",
     "name": "high density capacitor",
-    "description": "A capacitor with a higher energy density increases range, damage, and the likelihood of setting the target on fire;  at the cost of a markedly increased power consumption.",
+    "description": "A capacitor with a higher energy density increases range and damage;  at the cost of a markedly increased power consumption.",
     "weight": 380,
     "volume": 1,
     "integral_volume": 0,
@@ -48,12 +48,11 @@
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_gray",
-    "location": "emmitter",
+    "location": "emitter",
     "mod_targets": [ "pistol", "rifle" ],
-    "min_skills": [ [ "weapon", 4 ], [ "electronics", 5 ] ],
     "damage_modifier": 10,
     "range_modifier": 5,    
     "ups_charges": 20,
-    "ammo_effects" : [ "FLARE" ]
+    "min_skills": [ [ "weapon", 4 ], [ "electronics", 5 ] ]
   } 
 ]
