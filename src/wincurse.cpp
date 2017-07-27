@@ -722,7 +722,7 @@ int curses_start_color(void)
     }
 
     auto load_colorfile = []( const std::string &path ) {
-        std::ifstream colorfile( path.c_str(), std::ifstream::in | std::ifstream::binary );
+        std::ifstream colorfile( custom_path.c_str(), std::ifstream::in | std::ifstream::binary );
         try{
             JsonIn jsin(colorfile);
             // Manually load the colordef object because the json handler isn't loaded yet.
