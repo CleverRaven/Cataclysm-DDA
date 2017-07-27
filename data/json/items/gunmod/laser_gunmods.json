@@ -14,7 +14,7 @@
     "mod_targets": [ "rifle", "pistol" ],
     "range_modifier": -25,
     "damage_modifier": 10,
-    "ammo_effects" : [ "SHOT" ],
+    "ammo_effects": [ "SHOT" ],
     "min_skills": [ [ "weapon", 4 ] ]
   },
   {
@@ -33,7 +33,7 @@
     "range_modifier": -25,
     "damage_modifier": -8,
     "ups_charges": 10,
-    "ammo_effects" : [ "BEANBAG" ],
+    "ammo_effects": [ "BEANBAG" ],
     "min_skills": [ [ "weapon", 4 ], [ "electronics", 5 ] ]
   },
   {
