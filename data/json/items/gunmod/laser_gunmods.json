@@ -12,8 +12,8 @@
     "color": "light_gray",
     "location": "lens",
     "mod_targets": [ "rifle", "pistol" ],
-    "damage_modifier": 10,
     "range_modifier": -25,    
+    "damage_modifier": 10,
     "ammo_effects" : [ "SHOT" ],
     "min_skills": [ [ "weapon", 4 ] ]
   },
@@ -30,8 +30,8 @@
     "color": "light_gray",
     "location": "lens",
     "mod_targets": [ "pistol" ],
-    "damage_modifier": -8,
     "range_modifier": -25,    
+    "damage_modifier": -8,
     "ups_charges": 10,
     "ammo_effects" : [ "BEANBAG" ],
     "min_skills": [ [ "weapon", 4 ], [ "electronics", 5 ] ]
@@ -50,8 +50,8 @@
     "color": "light_gray",
     "location": "emitter",
     "mod_targets": [ "pistol", "rifle" ],
-    "damage_modifier": 10,
-    "range_modifier": 5,    
+    "range_modifier": 5,
+    "damage_modifier": 10,    
     "ups_charges": 20,
     "min_skills": [ [ "weapon", 4 ], [ "electronics", 5 ] ]
   } 
