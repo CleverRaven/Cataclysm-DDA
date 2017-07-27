@@ -612,6 +612,8 @@ endif
 
 SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
 HEADERS = $(wildcard $(SRC_DIR)/*.h)
+TESTSRC = $(wildcard tests/*.cpp)
+TESTHDR = $(wildcard tests/*.h)
 _OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)
 ifeq ($(TARGETSYSTEM),WINDOWS)
   RSRC = $(wildcard $(SRC_DIR)/*.rc)
@@ -917,8 +919,9 @@ etags: $(SOURCES) $(HEADERS)
 astyle:
 	$(ASTYLE_BINARY) --options=.astylerc -n $(shell cat astyled_whitelist)
 
-astyle-all: $(SOURCES) $(HEADERS)
+astyle-all: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(SOURCES) $(HEADERS)
+	$(ASTYLE_BINARY) --options=.astylerc -n $(TESTSRC) $(TESTHDR)
 
 # Test whether the system has a version of astyle that supports --dry-run
 ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
