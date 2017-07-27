@@ -1210,7 +1210,14 @@ bool player::can_weapon_block() const
 int blocking_ability( const item &shield )
 {
     int block_bonus = 2;
-    if (shield.has_technique( WBLOCK_3 )) {
+    if (shield.has_technique( WBLOCK_3 ) && shield.has_flag( "BLOCK_WHILE_WORN" ) && shield.has_flag( "RESTRICT_HANDS" )) {
+        block_bonus = 11;
+    } else if (shield.has_technique( WBLOCK_2 ) && shield.has_flag( "BLOCK_WHILE_WORN" ) && shield.has_flag( "RESTRICT_HANDS" )) {
+        block_bonus = 7;
+    } else if (shield.has_technique( WBLOCK_1 ) && shield.has_flag( "BLOCK_WHILE_WORN" ) && shield.has_flag( "RESTRICT_HANDS" )) {
+        block_bonus = 5;
+    }
+    else if (shield.has_technique( WBLOCK_3 )) {
         block_bonus = 10;
     } else if (shield.has_technique( WBLOCK_2 )) {
         block_bonus = 6;
