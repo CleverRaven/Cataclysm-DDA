@@ -54,5 +54,5 @@
     "damage_modifier": 10,
     "ups_charges": 20,
     "min_skills": [ [ "weapon", 4 ], [ "electronics", 5 ] ]
-  } 
+  }
 ]

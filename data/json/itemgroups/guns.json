@@ -203,7 +203,7 @@
     "type": "item_group",
     "id": "guns_energy",
     "//": "Assorted factory crafted energy weapons.",
-    "items": [
+    "items":[
       [ "laser_rifle", 30 ],
       [ "emp_gun", 10 ],
       [ "v29", 70 ],
