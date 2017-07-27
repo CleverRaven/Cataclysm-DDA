@@ -1458,8 +1458,14 @@ void advanced_inventory::display()
         } else if (action == "HELP_KEYBINDINGS") {
             redraw = true;
         } else if (action == "ITEMS_DEFAULT") {
-            panes[left].set_area(squares[uistate.adv_inv_default_areas[left]]);
-            panes[right].set_area(squares[uistate.adv_inv_default_areas[right]]);
+            for( side cside : { left, right } ) {
+                auto &pane = panes[cside];
+                aim_location location = ( aim_location )uistate.adv_inv_default_areas[cside];
+                if( pane.get_area() != location || location == AIM_ALL ) {
+                    pane.recalc = true;
+                }
+                pane.set_area( squares[location] );
+            }
             redraw = true;
         } else if (action == "SAVE_DEFAULT") {
             uistate.adv_inv_default_areas[left] = panes[left].get_area();
