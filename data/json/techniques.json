@@ -36,6 +36,26 @@
         ]
     },{
         "type" : "technique",
+        "id" : "WBLOCK_4",
+        "name" : "Deflect",
+        "dummy" : true,
+        "mult_bonuses" : [["movecost", 0.0]],
+        "messages" : [
+            "You deftly deflect %s",
+            "<npcname> deftly deflect %s"
+        ]
+    },{
+        "type" : "technique",
+        "id" : "WBLOCK_5",
+        "name" : "Defend",
+        "dummy" : true,
+        "mult_bonuses" : [["movecost", 0.0]],
+        "messages" : [
+            "You defend against %s",
+            "<npcname> defend against %s"
+        ]
+    },{
+        "type" : "technique",
         "id" : "DEF_DISARM",
         "name" : "Disarm",
         "min_unarmed" : 0,

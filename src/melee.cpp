@@ -31,6 +31,8 @@ static const matec_id tec_none( "tec_none" );
 static const matec_id WBLOCK_1( "WBLOCK_1" );
 static const matec_id WBLOCK_2( "WBLOCK_2" );
 static const matec_id WBLOCK_3( "WBLOCK_3" );
+static const matec_id WBLOCK_4( "WBLOCK_4" );
+static const matec_id WBLOCK_5( "WBLOCK_5" );
 
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_cutting( "cutting" );
@@ -1204,21 +1206,20 @@ bool player::can_weapon_block() const
 {
     return (weapon.has_technique( WBLOCK_1 ) ||
             weapon.has_technique( WBLOCK_2 ) ||
-            weapon.has_technique( WBLOCK_3 ));
+            weapon.has_technique( WBLOCK_3 ) ||
+            weapon.has_technique( WBLOCK_4 ) ||
+            weapon.has_technique( WBLOCK_5 ));
 }
 
 int blocking_ability( const item &shield )
 {
     int block_bonus = 2;
-    if (shield.has_technique( WBLOCK_3 ) && shield.has_flag( "BLOCK_WHILE_WORN" ) && shield.has_flag( "RESTRICT_HANDS" )) {
-        block_bonus = 11;
-    } else if (shield.has_technique( WBLOCK_2 ) && shield.has_flag( "BLOCK_WHILE_WORN" ) && shield.has_flag( "RESTRICT_HANDS" )) {
-        block_bonus = 7;
-    } else if (shield.has_technique( WBLOCK_1 ) && shield.has_flag( "BLOCK_WHILE_WORN" ) && shield.has_flag( "RESTRICT_HANDS" )) {
-        block_bonus = 5;
-    }
-    else if (shield.has_technique( WBLOCK_3 )) {
+    if (shield.has_technique( WBLOCK_5 )) {
+        block_bonus = 12;
+    } else if (shield.has_technique( WBLOCK_4 )) {
         block_bonus = 10;
+    } else if (shield.has_technique( WBLOCK_3 )) {
+        block_bonus = 8;
     } else if (shield.has_technique( WBLOCK_2 )) {
         block_bonus = 6;
     } else if (shield.has_technique( WBLOCK_1 )) {
