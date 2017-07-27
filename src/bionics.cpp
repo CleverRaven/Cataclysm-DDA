@@ -999,7 +999,7 @@ bool player::install_bionics( const itype &type, int skill_level )
             if( fa_level < 2 ) {
                 popup( _( "You need to be a lot more numb to tolerate installing bionics.  Note that painkillers you've already taken could take up to an hour to achieve full effect." ) );
             } else if( fa_level <= 4 ) {
-                popup( _( "Intensity of painkillers you've already taken is %i, and it's less than half of the threshold that will allow you to install bionics.  It will take %i minutes for painkillers you've already taken to achieve maximum effect." ), pk, overall_pk_dur );
+                popup( _( "Intensity of painkillers you've already taken is less than half of the threshold that will allow you to install bionics.  It will take %i minutes for painkillers you've already taken to achieve maximum effect." ), overall_pk_dur );
             } else {
                 popup( _( "You need %i more painkiller intensity to install bionics.  It will take %i minutes for painkillers you've already taken to achieve maximum effect." ), 100 - pk, overall_pk_dur );
             }
@@ -1008,7 +1008,7 @@ bool player::install_bionics( const itype &type, int skill_level )
             if( fa_level < 2 ) {
                 popup( _( "You aren't quite numb enough to tolerate installing bionics.  Note that painkillers you've already taken could take up to an hour to achieve full effect." ) );
             } else if( fa_level <= 4 ) {
-                popup( _( "Intensity of painkillers you've already taken is %i, and it's more than half of the threshold that will allow you to install bionics.  It will take %i minutes for painkillers you've already taken to achieve maximum effect." ), pk, overall_pk_dur );
+                popup( _( "Intensity of painkillers you've already taken is more than half of the threshold that will allow you to install bionics.  It will take %i minutes for painkillers you've already taken to achieve maximum effect." ), overall_pk_dur );
             } else {
                 popup( _( "You need %i more painkiller intensity to install bionics.  It will take %i minutes for painkillers you've already taken to achieve maximum effect." ), 100 - pk, overall_pk_dur );
             }
