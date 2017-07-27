@@ -10872,7 +10872,7 @@ void game::chat()
     }
 
     uimenu nmenu;
-    nmenu.text = std::string( _( "Who do you want to talk to or yell?" ) );
+    nmenu.text = std::string( _( "Who do you want to talk to or yell at?" ) );
     
     int i = 0;
 
@@ -10910,7 +10910,7 @@ void game::chat()
     } else if( nmenu.ret <= ( int )available.size() ) {
         available[nmenu.ret]->talk_to_u();
     } else {
-    return;
+        return;
     }
 
     u.moves -= 100;
