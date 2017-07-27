@@ -426,7 +426,7 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
 {
     const int vEnd = vStart + vLines;
 
-    mvwprintz(w, vStart++, column, c_white, "%s ", name().c_str());
+    mvwprintz(w, vStart, column, c_white, "%s ", name().c_str());
     nc_color color = c_white;
     std::string attitude = "";
 
@@ -434,13 +434,9 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
     wprintz(w, color, "%s", attitude.c_str());
 
     std::string effects = get_effect_status();
-    size_t left_space = getmaxx( w ) - attitude.length() - name().length() - 3;
-
-    if( effects.length() > left_space ) {
-        wprintz( w, h_white, "%s...", effects.substr( 0, left_space - 3 ).c_str() );
-    } else {
-        wprintz( w, h_white, "%s", effects.c_str() );
-    }
+    long long used_space = attitude.length() + name().length() + 2;
+    trim_and_print( w, vStart++, used_space, getmaxx( w ) - used_space - 2,
+                    h_white, "%s", effects.c_str() );
 
     const auto hp_desc = hp_description( hp, type->hp );
     mvwprintz( w, vStart++, column, hp_desc.second, "%s", hp_desc.first.c_str() );
@@ -492,7 +488,7 @@ std::string monster::extended_description() const
     if( get_size() == MS_HUGE ) {
         size_name = _( "huge" );
     }
-    ss << string_format( _( "It is %s in size" ), size_name.c_str() ) << std::endl;
+    ss << string_format( _( "It is %s in size." ), size_name.c_str() ) << std::endl;
 
     std::vector<std::string> types;
     if( type->has_flag( MF_ANIMAL ) ) {
@@ -1463,9 +1459,8 @@ std::string monster::get_effect_status() const
     std::vector<std::string> effect_status;
     for( auto &elem : effects ) {
         for( auto &_it : elem.second ) {
-            effect e = _it.second;
             if( elem.first->is_show_in_info() ) {
-                effect_status.push_back( e.disp_name() );
+                effect_status.push_back( _it.second.disp_name() );
             }
         }
     }
