@@ -4286,6 +4286,11 @@ std::set<std::string> item::ammo_effects( bool with_ammo ) const
     if( with_ammo && ammo_data() ) {
         res.insert( ammo_data()->ammo->ammo_effects.begin(), ammo_data()->ammo->ammo_effects.end() );
     }
+
+    for( const auto mod : gunmods() ) {
+            res.insert( mod->type->gunmod->ammo_effects.begin(), mod->type->gunmod->ammo_effects.end() );
+    }
+
     return res;
 }
 

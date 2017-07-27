@@ -457,6 +457,8 @@ struct islot_gunmod : common_ranged_data {
     /** Firing modes added to or replacing those of the base gun */
     std::map<std::string, std::tuple<std::string, int, std::set<std::string>>> mode_modifier;
 
+    std::set<std::string> ammo_effects;
+
     /** Relative adjustment to base gun handling */
     int handling = 0;
 };
