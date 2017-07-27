@@ -205,45 +205,6 @@ int cursorx_to_position(const char *line, int cursorx, int *prevpos, int maxlen)
     return i;
 }
 
-//Erase character by unicode char width.
-//Fill the characters with spaces.
-//returns length modified
-int erease_utf8_by_cw( char *t, int cw, int clen, int maxlen)
-{
-    static char buf[8000]; //LOL
-    int c = 0, i = 0;
-    while(c < cw) {
-        const char *utf8str = t + i;
-        int len = ANY_LENGTH;
-        uint32_t ch = UTF8_getch(&utf8str, &len);
-        int cw = mk_wcwidth(ch);
-        len = ANY_LENGTH - len;
-
-        if( len <= 0 ) {
-            len = 1;
-        }
-        if( maxlen < (i + len) ) {
-            break;
-        }
-        i += len;
-        if(cw <= 0) {
-            cw = 1;
-        }
-        c += cw;
-    }
-    if(cw == c && clen == i) {
-        memset(t, ' ', clen);
-        return 0;
-    } else {
-        int filled = clen + c - cw;
-        memcpy(buf, t + i, maxlen - i);
-        memset(t, ' ', filled);
-        memcpy(t + filled, buf, maxlen - filled);
-        return filled - i;
-    }
-
-}
-
 std::string utf8_truncate(std::string s, size_t length)
 {
     int last_pos;
