@@ -1001,7 +1001,7 @@ bool player::install_bionics( const itype &type, int skill_level )
             } else if( fa_level <= 4 ) {
                 popup( _( "Intensity of painkillers you've already taken is less than half of the threshold that will allow you to install bionics.  It will take %i minutes for painkillers you've already taken to achieve maximum effect." ), overall_pk_dur );
             } else {
-                popup( _( "You need %i more painkiller intensity to install bionics.  It will take %i minutes for painkillers you've already taken to achieve maximum effect." ), 100 - pk, overall_pk_dur );
+                popup( _( "Intensity of painkillers you've already taken is %i percent of the threshold that will allow you to install bionics.  It will take %i minutes for painkillers you've already taken to achieve maximum effect." ), 100 * pk / pain_cap, overall_pk_dur );
             }
             return false;
         } else if( pk < pain_cap ) {
@@ -1010,7 +1010,7 @@ bool player::install_bionics( const itype &type, int skill_level )
             } else if( fa_level <= 4 ) {
                 popup( _( "Intensity of painkillers you've already taken is more than half of the threshold that will allow you to install bionics.  It will take %i minutes for painkillers you've already taken to achieve maximum effect." ), overall_pk_dur );
             } else {
-                popup( _( "You need %i more painkiller intensity to install bionics.  It will take %i minutes for painkillers you've already taken to achieve maximum effect." ), 100 - pk, overall_pk_dur );
+                popup( _( "Intensity of painkillers you've already taken is %i percent of the threshold that will allow you to install bionics.  It will take %i minutes for painkillers you've already taken to achieve maximum effect." ), 100 * pk / pain_cap, overall_pk_dur );
             }
             return false;
         }
