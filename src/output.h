@@ -332,6 +332,9 @@ void popup_status( const char *title, const char *msg, ... ) PRINTF_LIKE( 2, 3 )
 void popup( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
 long popup( const std::string &text, PopupFlags flags );
 void full_screen_popup( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
+
+WINDOW_PTR create_popup_window( const std::string &text, PopupFlags flags );
+
 /*@}*/
 
 input_event draw_item_info( WINDOW *win, const std::string sItemName, const std::string sTypeName,

@@ -6,6 +6,7 @@
 #include <sstream>
 #include <algorithm>
 #include <map>
+#include <memory>
 #include <errno.h>
 
 #include "output.h"
@@ -764,6 +765,52 @@ void popup_top( const char *mes, ... )
     popup( text, PF_ON_TOP );
 }
 
+static WINDOW_PTR create_popup_window( int width, int height, PopupFlags flags )
+{
+    if( ( flags & PF_FULLSCREEN ) != 0 ) {
+        return WINDOW_PTR( newwin(
+            FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+            std::max( ( TERMY - FULL_SCREEN_HEIGHT ) / 2, 0 ),
+            std::max( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0 )
+        ) );
+    } else if( ( flags & PF_ON_TOP ) != 0 ) {
+        return WINDOW_PTR( newwin(
+            height, width,
+            0,
+            std::max( ( TERMX - width ) / 2, 0 )
+        ) );
+    } else {
+        return WINDOW_PTR( newwin(
+            height, width,
+            std::max( ( TERMY - ( height + 1 ) ) / 2, 0 ),
+            std::max( ( TERMX - width ) / 2, 0 )
+        ) );
+    }
+}
+
+WINDOW_PTR create_popup_window( const std::string &text, PopupFlags flags )
+{
+    const auto folded = foldstring( text, FULL_SCREEN_WIDTH - 2 );
+
+    int text_width = 0;
+    for( const auto &elem : folded ) {
+        text_width = std::max( text_width, utf8_width( elem, true ) );
+    }
+
+    const int height = std::min<int>( folded.size() + 2, FULL_SCREEN_HEIGHT );
+    const int width = text_width + 2;
+
+    WINDOW_PTR result = create_popup_window( width, height, flags );
+
+    draw_border( result.get() );
+
+    for( size_t i = 0; i < folded.size(); ++i ) {
+        fold_and_print( result.get(), i + 1, 1, width, c_white, "%s", folded[i].c_str() );
+    }
+
+    return result;
+}
+
 long popup( const std::string &text, PopupFlags flags )
 {
     if( test_mode ) {
@@ -771,56 +818,19 @@ long popup( const std::string &text, PopupFlags flags )
         return 0;
     }
 
-    int width = 0;
-    int height = 2;
-    std::vector<std::string> folded = foldstring( text, FULL_SCREEN_WIDTH - 2 );
-    height += folded.size();
-    for( auto &elem : folded ) {
-        int cw = utf8_width( elem, true );
-        if( cw > width ) {
-            width = cw;
-        }
-    }
-    width += 2;
-    WINDOW *w;
-    if( ( flags & PF_FULLSCREEN ) != 0 ) {
-        w = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                    ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                    ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
-    } else if( ( flags & PF_ON_TOP ) == 0 ) {
-        if( height > FULL_SCREEN_HEIGHT ) {
-            height = FULL_SCREEN_HEIGHT;
-        }
-        w = newwin( height, width, ( TERMY - ( height + 1 ) ) / 2,
-                    ( TERMX > width ) ? ( TERMX - width ) / 2 : 0 );
-    } else {
-        w = newwin( height, width, 0, ( TERMX > width ) ? ( TERMX - width ) / 2 : 0 );
-    }
-    draw_border( w );
-
-    for( size_t i = 0; i < folded.size(); ++i ) {
-        fold_and_print( w, i + 1, 1, width, c_white, "%s", folded[i].c_str() );
-    }
-
+    WINDOW_PTR w = create_popup_window( text, flags );
     long ch = 0;
     // Don't wait if not required.
     while( ( flags & PF_NO_WAIT ) == 0 ) {
-        wrefresh( w );
+        wrefresh( w.get() );
         // TODO: use input context
         ch = inp_mngr.get_input_event().get_first_input();
-        if( ( flags & PF_GET_KEY ) != 0 ) {
-            // return the first key that got pressed.
-            werase( w );
-            break;
-        }
-        if( ch == ' ' || ch == '\n' || ch == KEY_ESCAPE ) {
-            // The usuall "escape menu/window" keys.
-            werase( w );
-            break;
+        if( ch == ' ' || ch == '\n' || ch == KEY_ESCAPE || ( flags & PF_GET_KEY ) != 0 ) {
+            werase( w.get() );
+            break; // return the first key that got pressed.
         }
     }
-    wrefresh( w );
-    delwin( w );
+    wrefresh( w.get() );
     refresh();
     refresh_display();
     return ch;
