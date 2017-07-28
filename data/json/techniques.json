@@ -8,6 +8,7 @@
         "type" : "technique",
         "id" : "WBLOCK_1",
         "name" : "Block",
+        "//": "Block bonus of 4. Used by most basic weapons a competent combatant could put between themselves and an attack.",
         "dummy" : true,
         "mult_bonuses" : [["movecost", 0.0]],
         "messages" : [
@@ -18,6 +19,7 @@
         "type" : "technique",
         "id" : "WBLOCK_2",
         "name" : "Parry",
+        "//": "Block bonus of 6. Used primarily for weapons that are easier to maneuver and intercept attacks with, such as fencing weapons.",
         "dummy" : true,
         "mult_bonuses" : [["movecost", 0.0]],
         "messages" : [
@@ -28,6 +30,7 @@
         "type" : "technique",
         "id" : "WBLOCK_3",
         "name" : "Shield",
+        "//": "Block bonus of 8. Used primarily by shields, or other items where users could intercept attacks without high skill.",
         "dummy" : true,
         "mult_bonuses" : [["movecost", 0.0]],
         "messages" : [
@@ -38,6 +41,7 @@
         "type" : "technique",
         "id" : "WBLOCK_4",
         "name" : "Deflect",
+        "//": "Block bonus of 10. Used primarily by bucklers, or other items that combine size with easy maneuverability.",
         "dummy" : true,
         "mult_bonuses" : [["movecost", 0.0]],
         "messages" : [
@@ -48,6 +52,7 @@
         "type" : "technique",
         "id" : "WBLOCK_5",
         "name" : "Defend",
+        "//": "Block bonus of 12. Used primarily by large shields, or other items that are likely to intercept some attacks without deliberate action by the user.",
         "dummy" : true,
         "mult_bonuses" : [["movecost", 0.0]],
         "messages" : [
