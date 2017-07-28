@@ -279,8 +279,8 @@
     "using": [ [ "filament", 360 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
-        [ [ "leather", 56 ], [ "tanned_hide", 9 ], [ "fur", 56 ], [ "tanned_pelt", 9 ] ],
-        [ [ "rope_6", 2 ] ]
+      [ [ "leather", 56 ], [ "tanned_hide", 9 ], [ "fur", 56 ], [ "tanned_pelt", 9 ] ],
+      [ [ "rope_6", 2 ] ]
     ]
   },
   {
