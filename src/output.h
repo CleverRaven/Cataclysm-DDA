@@ -334,6 +334,7 @@ long popup( const std::string &text, PopupFlags flags );
 void full_screen_popup( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
 
 WINDOW_PTR create_popup_window( const std::string &text, PopupFlags flags );
+WINDOW_PTR create_wait_popup_window( const std::string &text, nc_color bar_color = c_ltgreen );
 
 /*@}*/
 

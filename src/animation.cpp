@@ -30,9 +30,7 @@ public:
     }
 
     void draw() const {
-        const std::string featured_text( string_format(
-            " <color_red>%s</color> %s", phase_icons[phase].c_str(), _( "Hold on..." ) ) );
-        const WINDOW_PTR window( create_popup_window( featured_text, PF_ON_TOP ) );
+        auto window = create_wait_popup_window( _( "Hang on a bit..." ) );
 
         wrefresh( g->w_terrain );
         wrefresh( window.get() );
@@ -43,20 +41,14 @@ public:
     void progress() const {
         draw();
 
-        phase = ( phase + 1 ) % phase_icons.size();
-
         if( delay.tv_nsec > 0 ) {
             nanosleep( &delay, nullptr );
         }
     }
 
 private:
-    const std::array<std::string, 4> phase_icons = {{ "|", "/", "-", "\\" }};
-    static size_t phase;
     timespec delay;
 };
-
-size_t basic_animation::phase = 1;
 
 class explosion_animation : public basic_animation
 {
@@ -66,7 +58,6 @@ public:
     {
     }
 };
-
 
 class bullet_animation : public basic_animation
 {

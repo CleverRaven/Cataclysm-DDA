@@ -811,6 +811,22 @@ WINDOW_PTR create_popup_window( const std::string &text, PopupFlags flags )
     return result;
 }
 
+WINDOW_PTR create_wait_popup_window( const std::string &text, nc_color bar_color )
+{
+    static size_t phase = 0;
+
+    const std::array<std::string, 4> phase_icons = {{ "|", "/", "-", "\\" }};
+    const std::string featured_text = string_format(
+        " <color_%s>%s</color> %s",
+        string_from_color( bar_color ).c_str(),
+        phase_icons[phase].c_str(),
+        text.c_str() );
+
+    phase = ( phase + 1 ) % phase_icons.size();
+
+    return create_popup_window( featured_text, PF_ON_TOP );
+}
+
 long popup( const std::string &text, PopupFlags flags )
 {
     if( test_mode ) {
