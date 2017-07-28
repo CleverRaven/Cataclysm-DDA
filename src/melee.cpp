@@ -1201,16 +1201,6 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
     }
 }
 
-// this would be i2amroy's fix, but it's kinda handy
-bool player::can_weapon_block() const
-{
-    return (weapon.has_technique( WBLOCK_1 ) ||
-            weapon.has_technique( WBLOCK_2 ) ||
-            weapon.has_technique( WBLOCK_3 ) ||
-            weapon.has_technique( WBLOCK_4 ) ||
-            weapon.has_technique( WBLOCK_5 ));
-}
-
 int blocking_ability( const item &shield )
 {
     int block_bonus = 2;
@@ -1226,6 +1216,12 @@ int blocking_ability( const item &shield )
         block_bonus = 4;
     }
     return block_bonus;
+}
+
+// this would be i2amroy's fix, but it's kinda handy
+bool player::can_weapon_block() const
+{
+    return (blocking_ability( weapon ) > 2);
 }
 
 item &player::best_shield()
@@ -1413,6 +1409,13 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     if( tec != tec_none ) {
         melee_attack( *source, false, tec );
     }
+
+    // give stamina penalty for blocking, heavier weapons and arm encumbrance
+    // are more tiring, while higher block bonus means less effort expended
+    int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 5.0f );
+    int weight_cost = weapon.weight() / ( 20 * std::max( 1, str_cur ) );
+    int mod_sta_block = ( weight_cost + encumbrance_cost + 20 - ( blocking_ability( shield ) / 2 ) ) * -1;
+    mod_stat( "stamina", std::min( -5, mod_sta_block ) );
 
     return true;
 }
