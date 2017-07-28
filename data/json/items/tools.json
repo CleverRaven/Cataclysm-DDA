@@ -7820,7 +7820,7 @@
     "max_charges": 200
   },
   {
-    "id": "blood_draw_kit",
+    "id": "vacutainer",
     "type": "CONTAINER",
     "category": "tools",
     "name": "blood draw kit",

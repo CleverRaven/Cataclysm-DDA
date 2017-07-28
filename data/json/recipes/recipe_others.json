@@ -5646,7 +5646,7 @@
   ]
   },{
   "type" : "recipe",
-  "result": "blood_draw_kit",
+  "result": "vacutainer",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MEDICAL",
   "skill_used": "firstaid",

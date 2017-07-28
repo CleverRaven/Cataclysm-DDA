@@ -813,7 +813,7 @@ of pureed bone & LSD."));
                         print_error(_("ERROR: Please place sample in centrifuge."));
                     } else if (g->m.i_at(x, y).size() > 1) {
                         print_error(_("ERROR: Please remove all but one sample from centrifuge."));
-                    } else if (g->m.i_at(x, y)[0].typeId() != "blood_draw_kit") {
+                    } else if (g->m.i_at(x, y)[0].typeId() != "vacutainer") {
                         print_error(_("ERROR: Please use blood-contained samples."));
                     } else if (g->m.i_at(x, y)[0].contents.empty()) {
                         print_error(_("ERROR: Blood draw kit is empty."));
@@ -1327,7 +1327,7 @@ void computer::activate_failure(computer_failure fail)
                         print_error(_("ERROR: Please place sample in centrifuge."));
                     } else if (g->m.i_at(x, y).size() > 1) {
                         print_error(_("ERROR: Please remove all but one sample from centrifuge."));
-                    } else if (g->m.i_at(x, y)[0].typeId() != "blood_draw_kit") {
+                    } else if (g->m.i_at(x, y)[0].typeId() != "vacutainer") {
                         print_error(_("ERROR: Please use blood-contained samples."));
                     } else if (g->m.i_at(x, y)[0].contents.empty()) {
                         print_error(_("ERROR: Blood draw kit, empty."));
