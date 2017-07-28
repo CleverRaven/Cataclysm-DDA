@@ -1413,8 +1413,8 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     // give stamina penalty for blocking, heavier weapons and arm encumbrance
     // are more tiring, while higher block bonus means less effort expended
     int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 5.0f );
-    int weight_cost = weapon.weight() / ( 20 * std::max( 1, str_cur ) );
-    int mod_sta_block = ( weight_cost + encumbrance_cost + 20 - ( blocking_ability( shield ) / 2 ) ) * -1;
+    int weight_cost = shield.weight() / ( 20 * std::max( 1, str_cur ) );
+    int mod_sta_block = ( weight_cost + encumbrance_cost + 20 - blocking_ability( shield ) ) * -1;
     mod_stat( "stamina", std::min( -5, mod_sta_block ) );
 
     return true;
