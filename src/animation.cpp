@@ -8,14 +8,94 @@
 #include "player.h"
 #ifdef TILES
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
+
 #include <memory>
 
 extern std::unique_ptr<cata_tiles> tilecontext; // obtained from sdltiles.cpp
 #endif
 
+#include <algorithm>
+#include <array>
+
 bool is_valid_in_w_terrain(int x, int y); // see game.cpp
 
 namespace {
+
+class basic_animation
+{
+public:
+    basic_animation( long const scale ) :
+        delay{ 0, get_option<int>( "ANIMATION_DELAY" ) * scale * 1000000l }
+    {
+    }
+
+    void draw() const {
+        const std::string featured_text( string_format(
+            " <color_red>%s</color> %s", phase_icons[phase].c_str(), _( "Hold on..." ) ) );
+        const WINDOW_PTR window( create_popup_window( featured_text, PF_ON_TOP ) );
+
+        wrefresh( g->w_terrain );
+        wrefresh( window.get() );
+
+        refresh_display();
+    }
+
+    void progress() const {
+        draw();
+
+        phase = ( phase + 1 ) % phase_icons.size();
+
+        if( delay.tv_nsec > 0 ) {
+            nanosleep( &delay, nullptr );
+        }
+    }
+
+private:
+    const std::array<std::string, 4> phase_icons = {{ "|", "/", "-", "\\" }};
+    static size_t phase;
+    timespec delay;
+};
+
+size_t basic_animation::phase = 1;
+
+class explosion_animation : public basic_animation
+{
+public:
+    explosion_animation() :
+        basic_animation( EXPLOSION_MULTIPLIER )
+    {
+    }
+};
+
+
+class bullet_animation : public basic_animation
+{
+public:
+    bullet_animation() : basic_animation( 1 )
+    {
+    }
+};
+
+
+bool is_point_visible( const tripoint &p, int margin = 0 )
+{
+    return g->is_in_viewport( p, margin ) && g->u.sees( p );
+}
+
+bool is_radius_visible( const tripoint &center, int radius )
+{
+    return is_point_visible( center, -radius );
+}
+
+bool is_layer_visible( const std::map<tripoint, explosion_tile> &layer )
+{
+    return std::any_of( layer.begin(), layer.end(),
+    [](const std::pair<tripoint, explosion_tile>& element) {
+        return is_point_visible( element.first );
+    } );
+}
+
+
 //! Get (x, y) relative to u's current position and view
 tripoint relative_view_pos( player const &u, int const x, int const y, int const z ) noexcept
 {
@@ -29,26 +109,19 @@ tripoint relative_view_pos( player const &u, tripoint const &p ) noexcept
     return relative_view_pos( u, p.x, p.y, p.z );
 }
 
-void draw_animation_delay(long const scale = 1)
-{
-    refresh_display();
-
-    auto const delay = get_option<int>( "ANIMATION_DELAY" ) * scale * 1000000l;
-
-    timespec const ts = {0, delay};
-    if (ts.tv_nsec > 0) {
-        nanosleep(&ts, nullptr);
-    }
-}
-
 void draw_explosion_curses(game &g, const tripoint &center, int const r, nc_color const col)
 {
+    if( !is_radius_visible( center, r ) ) {
+        return;
+    }
     // TODO: Make it look different from above/below
     tripoint const p = relative_view_pos( g.u, center );
 
     if (r == 0) { // TODO why not always print '*'?
         mvwputch(g.w_terrain, p.x, p.y, col, '*');
     }
+
+    explosion_animation anim;
 
     for (int i = 1; i <= r; ++i) {
         mvwputch(g.w_terrain, p.y - i, p.x - i, col, '/');  // corner: top left
@@ -62,8 +135,7 @@ void draw_explosion_curses(game &g, const tripoint &center, int const r, nc_colo
             mvwputch(g.w_terrain, p.y + j, p.x + i, col, '|'); // edge: right
         }
 
-        wrefresh(g.w_terrain);
-        draw_animation_delay(EXPLOSION_MULTIPLIER);
+        anim.progress();
     }
 }
 
@@ -83,6 +155,8 @@ void draw_custom_explosion_curses( game &g,
     // calculate screen offset relative to player + view offset position
     const tripoint center = g.u.pos() + g.u.view_offset;
     const tripoint topleft( center.x - getmaxx( g.w_terrain ) / 2, center.y - getmaxy( g.w_terrain ) / 2, 0 );
+
+    explosion_animation anim;
 
     for( const auto &layer : layers ) {
         for( const auto &pr : layer ) {
@@ -134,8 +208,9 @@ void draw_custom_explosion_curses( game &g,
             }
         }
 
-        wrefresh( g.w_terrain );
-        draw_animation_delay( EXPLOSION_MULTIPLIER );
+        if( is_layer_visible( layer ) ) {
+            anim.progress();
+        }
     }
 }
 } // namespace
@@ -152,10 +227,18 @@ void game::draw_explosion( const tripoint &p, int const r, nc_color const col )
         return;
     }
 
+    if( !is_radius_visible( p, r ) ) {
+        return;
+    }
+
+    explosion_animation anim;
+
+    bool visible = is_radius_visible( p, r );
     for (int i = 1; i <= r; i++) {
         tilecontext->init_explosion( p, i ); // TODO not xpos ypos?
-        wrefresh(w_terrain);
-        draw_animation_delay(EXPLOSION_MULTIPLIER);
+        if (visible) {
+            anim.progress();
+        }
     }
 
     if (r > 0) {
@@ -288,13 +371,15 @@ void game::draw_custom_explosion( const tripoint &, const std::map<tripoint, nc_
         return;
     }
 
+    explosion_animation anim;
     // We need to draw all explosions up to now
     std::map<tripoint, explosion_tile> combined_layer;
     for( const auto &layer : layers ) {
         combined_layer.insert( layer.begin(), layer.end() );
         tilecontext->init_custom_explosion_layer( combined_layer );
-        wrefresh(w_terrain);
-        draw_animation_delay(EXPLOSION_MULTIPLIER);
+        if( is_layer_visible( layer ) ) {
+            anim.progress();
+        }
     }
 
     tilecontext->void_custom_explosion();
@@ -304,25 +389,25 @@ void game::draw_custom_explosion( const tripoint &, const std::map<tripoint, nc_
 }
 
 namespace {
-void draw_bullet_curses(WINDOW *const w, player &u, map &m, const tripoint &t,
-    char const bullet, tripoint const *const p, bool const wait)
+
+void draw_bullet_curses(map &m, const tripoint &t, char const bullet, const tripoint *const p)
 {
-    const tripoint vp = u.pos() + u.view_offset;
+    if ( !is_point_visible( t ) ) {
+        return;
+    }
+
+    const tripoint vp = g->u.pos() + g->u.view_offset;
 
     if( p != nullptr && p->z == vp.z ) {
-        m.drawsq( w, u, *p, false, true, vp );
+        m.drawsq( g->w_terrain, g->u, *p, false, true, vp );
     }
 
     if( vp.z != t.z ) {
         return;
     }
 
-    mvwputch(w, POSY + (t.y - vp.y), POSX + (t.x - vp.x), c_red, bullet);
-    wrefresh(w);
-
-    if (wait) {
-        draw_animation_delay();
-    }
+    mvwputch(g->w_terrain, POSY + (t.y - vp.y), POSX + (t.x - vp.x), c_red, bullet);
+    bullet_animation().progress();
 }
 
 } ///namespace
@@ -330,20 +415,19 @@ void draw_bullet_curses(WINDOW *const w, player &u, map &m, const tripoint &t,
 #if defined(TILES)
 /* Bullet Animation -- Maybe change this to animate the ammo itself flying through the air?*/
 // need to have a version where there is no player defined, possibly. That way shrapnel works as intended
-void game::draw_bullet(Creature const &p, const tripoint &t, int const i,
-    std::vector<tripoint> const &trajectory, char const bullet)
+void game::draw_bullet(const tripoint &t, int const i, const std::vector<tripoint> &trajectory, char const bullet)
 {
     //TODO signature and impl could be changed to eliminate these params
 
     (void)i;          //unused
     (void)trajectory; //unused
 
-    if( !u.sees( t ) ) {
+    if (!use_tiles) {
+        draw_bullet_curses(m, t, bullet, nullptr);
         return;
     }
 
-    if (!use_tiles) {
-        draw_bullet_curses(w_terrain, u, m, t, bullet, nullptr, p.is_player());
+    if( !is_point_visible( t ) ) {
         return;
     }
 
@@ -359,23 +443,13 @@ void game::draw_bullet(Creature const &p, const tripoint &t, int const i,
       : bullet_unknown;
 
     tilecontext->init_draw_bullet( t, bullet_type );
-    wrefresh(w_terrain);
-
-    if( p.is_player() ) {
-        draw_animation_delay();
-    }
-
+    bullet_animation().progress();
     tilecontext->void_bullet();
 }
 #else
-void game::draw_bullet(Creature const &p, const tripoint &t, int const i,
-    std::vector<tripoint> const &trajectory, char const bullet)
+void game::draw_bullet(const tripoint &t, int const i, const std::vector<tripoint> &trajectory, char const bullet)
 {
-    if( !u.sees( t ) ) {
-        return;
-    }
-
-    draw_bullet_curses(w_terrain, u, m, t, bullet, &trajectory[i], p.is_player());
+    draw_bullet_curses( m, t, bullet, &trajectory[i] );
 }
 #endif
 
@@ -397,8 +471,8 @@ void game::draw_hit_mon( const tripoint &p, const monster &m, bool const dead )
     }
 
     tilecontext->init_draw_hit( p, m.type->id.str() );
-    wrefresh(w_terrain);
-    draw_animation_delay();
+
+    bullet_animation().progress();
 }
 #else
 void game::draw_hit_mon( const tripoint &p, const monster &m, bool const dead )
@@ -435,10 +509,8 @@ void game::draw_hit_player(player const &p, const int dam)
 
     std::string const& type = p.is_player() ? (p.male ? player_male : player_female)
                                             : (p.male ? npc_male    : npc_female);
-
     tilecontext->init_draw_hit( p.pos(), type );
-    wrefresh(w_terrain);
-    draw_animation_delay();
+    bullet_animation().progress();
 }
 #else
 void game::draw_hit_player(player const &p, const int dam)

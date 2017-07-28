@@ -5003,6 +5003,14 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
     }
 }
 
+bool game::is_in_viewport( const tripoint& p, int margin ) const
+{
+    const tripoint diff( u.pos() + u.view_offset - p );
+
+    return ( std::abs( diff.x ) <= getmaxx( w_terrain ) / 2 - margin ) &&
+           ( std::abs( diff.y ) <= getmaxy( w_terrain ) / 2 - margin );
+}
+
 void game::draw_ter( const bool draw_sounds )
 {
     draw_ter( u.pos() + u.view_offset, false, draw_sounds );
