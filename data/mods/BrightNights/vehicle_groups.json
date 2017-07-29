@@ -4,9 +4,8 @@
     "type": "vehicle_group",
     "vehicles": [
       [ "car_atomic", 1000 ],
-      [ "car_sports_atomic", 500 ],
       [ "suv_atomic", 1000 ],
-      [ "beetle_atomic", 500 ]
+      [ "compact_atomic", 500 ]
     ]
   },
   {
@@ -14,9 +13,8 @@
     "type": "vehicle_group",
     "vehicles": [
       [ "car_atomic", 1000 ],
-      [ "car_sports_atomic", 100 ],
       [ "suv_atomic", 1000 ],
-      [ "beetle_atomic", 300 ]
+      [ "compact_atomic", 300 ]
     ]
   },
   {
@@ -24,9 +22,8 @@
     "type": "vehicle_group",
     "vehicles": [
       [ "car_atomic", 1500 ],
-      [ "car_sports_atomic", 300 ],
       [ "suv_atomic", 1500 ],
-      [ "beetle_atomic", 300 ]
+      [ "compact_atomic", 300 ]
     ]
   },
   {
@@ -34,9 +31,8 @@
     "type": "vehicle_group",
     "vehicles": [
       [ "car_atomic", 1000 ],
-      [ "car_sports_atomic", 100 ],
       [ "suv_atomic", 1000 ],
-      [ "beetle_atomic", 300 ]
+      [ "compact_atomic", 300 ]
     ]
   },
   {

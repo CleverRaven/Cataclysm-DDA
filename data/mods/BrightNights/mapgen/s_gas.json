@@ -40,8 +40,7 @@
         { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": [ 0, 4 ], "repeat": [ 8, 2 ] }
       ],
       "terrain": {
-        "T": "t_atm",
-        "k": "f_rack"
+        "T": "t_atm"
       },
       "furniture": {
         "V": "f_vending_reinforced",

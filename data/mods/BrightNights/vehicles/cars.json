@@ -1,8 +1,8 @@
 [
   {
-    "id": "beetle_atomic",
+    "id": "compact_atomic",
     "type": "vehicle",
-    "name": "Brightbug",
+    "name": "Atomic Compact",
     "blueprint": [
       [ "o-+-" ],
       [ "=##o" ],
