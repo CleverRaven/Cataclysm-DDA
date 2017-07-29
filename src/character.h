@@ -606,8 +606,8 @@ class Character : public Creature, public visitable<Character>
         int int_bonus;
 
         /** How healthy the character is. */
-        float healthy;
-        float healthy_mod;
+        int healthy;
+        int healthy_mod;
 
         std::array<encumbrance_data, num_bp> encumbrance_cache;
 
