@@ -500,35 +500,19 @@ std::string calendar::day_of_week() const
     };
 
     // calendar::day gets mangled by season transitions, so recalculate days since start.
-    int current_day = turn_number / DAYS(1) % 7;
+    const int current_day = turn_number / DAYS(1) % 7;
 
-    std::string day_string;
+    static const std::map<weekday, std::string> weekday_names = {
+        std::pair<weekday, std::string>{THURSDAY, translate_marker( "Thursday" )},
+        std::pair<weekday, std::string>{FRIDAY, translate_marker( "Friday" )},
+        std::pair<weekday, std::string>{SATURDAY, translate_marker( "Saturday" )},
+        std::pair<weekday, std::string>{SUNDAY, translate_marker( "Sunday" )},
+        std::pair<weekday, std::string>{MONDAY, translate_marker( "Monday" )},
+        std::pair<weekday, std::string>{TUESDAY, translate_marker( "Tuesday" )},
+        std::pair<weekday, std::string>{WEDNESDAY, translate_marker( "Wednesday" )}
+    };
 
-    switch (current_day) {
-    case SUNDAY:
-        day_string = _("Sunday");
-        break;
-    case MONDAY:
-        day_string = _("Monday");
-        break;
-    case TUESDAY:
-        day_string = _("Tuesday");
-        break;
-    case WEDNESDAY:
-        day_string = _("Wednesday");
-        break;
-    case THURSDAY:
-        day_string = _("Thursday");
-        break;
-    case FRIDAY:
-        day_string = _("Friday");
-        break;
-    case SATURDAY:
-        day_string = _("Saturday");
-        break;
-    }
-
-    return day_string;
+    return _( weekday_names.at( current_day ).c_str() );
 }
 
 int calendar::season_length()
