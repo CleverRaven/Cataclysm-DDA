@@ -61,17 +61,6 @@ static health_distribution propagate_health( const health_distribution &cur, int
             next_iteration[cur.size() - 1] += cur[index] * ( 1.0 - goes_down - stays );
         }
     }
-    /*
-    // Need to normalize or else rounding errors will ruin everything
-    double sum = std::accumulate( next_iteration.begin() + min_index - 1, next_iteration.begin() + max_index + 1, 0.0 );
-    std::transform( next_iteration.begin() + min_index - 1,
-                    next_iteration.begin() + max_index + 1,
-                    next_iteration.begin() + min_index - 1,
-    [sum]( const double &f ) {
-        // Clamp to range to avoid rounding errors
-        return std::max( 0.0, std::min( 1.0, f / sum ) );
-    } );
-    */
     return next_iteration;
 }
 
@@ -96,15 +85,6 @@ static health_distribution brute_health_probability( size_t iterations, int star
 
         health_distribution next = propagate_health( ret, get_healthy_mod( i ), min_index, max_index );
         ret = next;
-/*
-//health_distribution cdf = calc_cdf( ret );
-const health_distribution &dis = ret;
-size_t first = std::distance( dis.begin(), std::find_if( dis.begin(), dis.end(), []( const double &d ){ return d > 0; } ) );
-size_t last = std::distance( dis.begin(), std::find_if( dis.begin() + first, dis.end(), []( const double &d ){ return d <= 0; } ) );
-debugmsg("%d-%d", first + min_health, last + min_health);
-int itr = -1;
-debugmsg( "%s", enumerate_as_string( dis.begin() + first, dis.begin() + last, [&]( const double &f ) { itr++; return string_format( "%d:%.3f", itr + (int)first + min_health, f ); } ).c_str() );
-*/
     }
     return ret;
 }
