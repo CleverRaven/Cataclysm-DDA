@@ -1759,23 +1759,18 @@ get_hp_bar( const int cur_hp, const int max_hp, const bool is_mon )
 std::pair<std::string, nc_color> get_light_level( const float light )
 {
     using pair_t = std::pair<std::string, nc_color>;
+    static std::array<pair_t, 6> const strings {
+         {
+             pair_t {translate_marker( "unknown" ), c_pink},
+             pair_t {translate_marker( "bright" ), c_yellow},
+             pair_t {translate_marker( "cloudy" ), c_white},
+             pair_t {translate_marker( "shady" ), c_ltgray},
+             pair_t {translate_marker( "dark" ), c_dkgray},
+             pair_t {translate_marker( "very dark" ), c_black_white}
+         }
+     };
     const int light_level = clamp( ( int )ceil( light ), 0, 5 );
-    switch( light_level ) {
-        case 0:
-            return pair_t{ _( "unknown" ), c_pink };
-        case 1:
-            return pair_t{ _( "bright" ), c_yellow };
-        case 2:
-            return pair_t{ _( "cloudy" ), c_white };
-        case 3:
-            return pair_t{ _( "shady" ), c_ltgray };
-        case 4:
-            return pair_t{ _( "dark" ), c_dkgray };
-        case 5:
-            return pair_t{ _( "very dark" ), c_black_white };
-    }
-    // error: control may reach end of non-void function [-Werror,-Wreturn-type]
-    return pair_t{ _( "unknown" ), c_pink };
+    return strings[light_level];
 }
 
 std::string get_labeled_bar( const double val, const int width, const std::string &label, char c )
