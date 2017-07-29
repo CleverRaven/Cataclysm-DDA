@@ -1592,6 +1592,9 @@ void Character::mod_healthy_mod(int nhealthy_mod, int cap)
     // Cap indicates how far the mod is allowed to shift in this direction.
     // It can have a different sign to the mod, e.g. for items that treat
     // extremely low health, but can't make you healthy.
+    if( nhealthy_mod == 0 || cap == 0 ) {
+        return;
+    }
     int low_cap;
     int high_cap;
     if( nhealthy_mod < 0 ) {
@@ -1738,7 +1741,8 @@ void Character::update_health(int external_modifiers)
     mod_healthy( sgn( health_change ) * std::max( 1, abs( health_change ) / 10 ) );
 
     // And healthy_mod decays over time.
-    set_healthy_mod( get_healthy_mod() * 3 / 4 );
+    // Slowly near 0, but it's hard to overpower it near +/-100
+    set_healthy_mod( round( get_healthy_mod() * 0.95f ) );
 
     add_msg( m_debug, "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod() );
 }
