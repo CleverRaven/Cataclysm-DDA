@@ -292,7 +292,15 @@ edible_rating player::will_eat( const item &food, bool interactive ) const
     }
     std::vector<std::pair<edible_rating, std::string>> consequences;
 
+    const bool saprophage = has_trait( trait_id( "SAPROPHAGE" ) );
     const auto comest = food.type->comestible.get();
+
+    if( food.rotten() ) {
+        const bool saprovore = has_trait( trait_id( "SAPROVORE" ) );
+        if( !saprophage && !saprovore ) {
+            consequences.emplace_back( ROTTEN, _( "This is rotten and smells awful!" ) );
+        }
+    }
 
     const bool carnivore = has_trait( trait_id( "CARNIVORE" ) );
     if( food.has_flag( "CANNIBALISM" ) && !has_trait_flag( "CANNIBAL" ) ) {
@@ -300,30 +308,24 @@ edible_rating player::will_eat( const item &food, bool interactive ) const
                                    _( "The thought of eating human flesh makes you feel sick." ) );
     }
 
+    const bool edible = comest->comesttype == "FOOD" || food.has_flag( "USE_EAT_VERB" );
+
+    if( edible && has_effect( effect_nausea ) ) {
+        consequences.emplace_back( ALLERGY,
+                                   _( "You still feel nauseous and will probably puke it all up again." ) );
+    }
+
     if( ( allergy_type( food ) != MORALE_NULL ) || ( carnivore && food.has_flag( "ALLERGEN_JUNK" ) &&
             !food.has_flag( "CARNIVORE_OK" ) ) ) {
         consequences.emplace_back( ALLERGY, _( "Your stomach won't be happy (allergy)." ) );
     }
 
-    const bool edible    = comest->comesttype == "FOOD" || food.has_flag( "USE_EAT_VERB" );
-    const bool saprophage = has_trait( trait_id( "SAPROPHAGE" ) );
-
-    if( food.rotten() ) {
-        const bool saprovore = has_trait( trait_id( "SAPROVORE" ) );
-        if( !saprophage && !saprovore ) {
-            consequences.emplace_back( ROTTEN, _( "This is rotten and smells awful!" ) );
-        }
-    } else if( saprophage && edible && !food.has_flag( "FERTILIZER" ) ) {
+    if( saprophage && edible && food.rotten() && !food.has_flag( "FERTILIZER" ) ) {
         // Note: We're allowing all non-solid "food". This includes drugs
         // Hardcoding fertilizer for now - should be a separate flag later
         //~ No, we don't eat "rotten" food. We eat properly aged food, like a normal person.
         //~ Semantic difference, but greatly facilitates people being proud of their character.
-        consequences.emplace_back( ROTTEN, _( "Your stomach won't be happy (not rotten enough)." ) );
-    }
-
-    if( edible && has_effect( effect_nausea ) ) {
-        consequences.emplace_back( ALLERGY,
-                                   _( "You still feel nauseous and will probably puke it all up again." ) );
+        consequences.emplace_back( ALLERGY_WEAK, _( "Your stomach won't be happy (not rotten enough)." ) );
     }
 
     const int nutr = nutrition_for( food.type );
