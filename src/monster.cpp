@@ -362,11 +362,11 @@ void monster::get_Attitude(nc_color &color, std::string &text) const
     switch (attitude(&(g->u))) {
         case MATT_FRIEND:
             color = h_white;
-            text = _("Friendly ");
+            text = _("Friendly. ");
             break;
         case MATT_FPASSIVE:
             color = h_white;
-            text = _("Passive ");
+            text = _("Passive. ");
             break;
         case MATT_FLEE:
             color = c_green;
@@ -374,11 +374,11 @@ void monster::get_Attitude(nc_color &color, std::string &text) const
             break;
         case MATT_IGNORE:
             color = c_ltgray;
-            text = _("Ignoring ");
+            text = _("Ignoring. ");
             break;
         case MATT_FOLLOW:
             color = c_yellow;
-            text = _("Tracking ");
+            text = _("Tracking. ");
             break;
         case MATT_ATTACK:
             color = c_red;
@@ -386,7 +386,7 @@ void monster::get_Attitude(nc_color &color, std::string &text) const
             break;
         case MATT_ZLAVE:
             color = c_green;
-            text = _("Zombie slave ");
+            text = _("Zombie slave. ");
             break;
         default:
             color = h_red;
@@ -400,22 +400,22 @@ std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
     std::string damage_info;
     nc_color col;
     if( cur_hp >= max_hp ) {
-        damage_info = _("It is uninjured");
+        damage_info = _("It is uninjured.");
         col = c_green;
     } else if( cur_hp >= max_hp * 0.8 ) {
-        damage_info = _("It is lightly injured");
+        damage_info = _("It is lightly injured.");
         col = c_ltgreen;
     } else if( cur_hp >= max_hp * 0.6 ) {
-        damage_info = _("It is moderately injured");
+        damage_info = _("It is moderately injured.");
         col = c_yellow;
     } else if( cur_hp >= max_hp * 0.3 ) {
-        damage_info = _("It is heavily injured");
+        damage_info = _("It is heavily injured.");
         col = c_yellow;
     } else if( cur_hp >= max_hp * 0.1 ) {
-        damage_info = _("It is severely injured");
+        damage_info = _("It is severely injured.");
         col = c_ltred;
     } else {
-        damage_info = _("it is nearly dead");
+        damage_info = _("it is nearly dead!");
         col = c_red;
     }
 
