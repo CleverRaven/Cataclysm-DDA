@@ -10439,7 +10439,7 @@ void game::eat(int pos)
             return false; // temporary fix for #12991
         }
         return it.made_of( SOLID ) && u.can_consume( it );
-    }, _( "Consume item" ), 1, _( "You have nothing to consume." ) );
+    }, _( "Consume item" ), 1, _( "You have nothing to consume." ), food_hint_provider );
 
     item *it = item_loc.get_item();
     if( !it ) {
@@ -10814,7 +10814,8 @@ void game::wield( int pos )
         const auto filter = []( const item &it ) {
             return it.made_of( SOLID );
         };
-        loc = inv_map_splice( filter, _( "Wield item" ), 1, _( "You have nothing to wield." ) );
+        loc = inv_map_splice( filter, _( "Wield item" ), 1, _( "You have nothing to wield." ),
+                              wield_hint_provider );
     }
 
     if( !loc ) {

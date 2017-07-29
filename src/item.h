@@ -1806,5 +1806,8 @@ enum hint_rating {
     HINT_GOOD = -999
 };
 
+std::string wield_hint_provider(const item& it);
+std::string food_hint_provider(const item& it);
+
 #endif
 
