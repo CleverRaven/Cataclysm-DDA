@@ -1331,16 +1331,6 @@ bool monster::move_effects(bool)
     return true;
 }
 
-void monster::add_eff_effects(effect e, bool reduced)
-{
-    int val = e.get_amount("HURT", reduced);
-    if (val > 0) {
-        if(e.activated(calendar::turn, "HURT", val, reduced)) {
-            apply_damage(nullptr, bp_torso, val);
-        }
-    }
-    Creature::add_eff_effects(e, reduced);
-}
 void monster::add_effect( const efftype_id &eff_id, int dur, body_part bp,
                           bool permanent, int intensity, bool force )
 {
@@ -1717,46 +1707,49 @@ void monster::drop_items_on_death()
     }
 }
 
+void monster::process_one_effect( effect &it )
+{
+    // Monsters don't get trait-based reduction, but they do get effect based reduction
+    bool reduced = resists_effect(it);
+
+    mod_speed_bonus(it.get_mod("SPEED", reduced));
+
+    int val = it.get_mod("HURT", reduced);
+    if (val > 0) {
+        if(it.activated(calendar::turn, "HURT", val, reduced, 1)) {
+            apply_damage(nullptr, bp_torso, val);
+        }
+    }
+
+    const efftype_id &id = it.get_id();
+    // MATERIALS-TODO: use fire resistance
+    if( it.impairs_movement() ) {
+        effect_cache[MOVEMENT_IMPAIRED] = true;
+    } else if( id == effect_onfire ) {
+        int dam = 0;
+        if( made_of( material_id( "veggy" ) ) ) {
+            dam = rng( 10, 20 );
+        } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) {
+            dam = rng( 5, 10 );
+        }
+
+        dam -= get_armor_type( DT_HEAT, bp_torso );
+        if( dam > 0 ) {
+            apply_damage( nullptr, bp_torso, dam );
+        } else {
+            it.set_duration( 0 );
+        }
+    } else if( id == effect_run ) {
+        effect_cache[FLEEING] = true;
+    }
+}
+
 void monster::process_effects()
 {
     // Monster only effects
-    int mod = 1;
     for( auto &elem : effects ) {
         for( auto &_effect_it : elem.second ) {
-            auto &it = _effect_it.second;
-            // Monsters don't get trait-based reduction, but they do get effect based reduction
-            bool reduced = resists_effect(it);
-
-            mod_speed_bonus(it.get_mod("SPEED", reduced));
-
-            int val = it.get_mod("HURT", reduced);
-            if (val > 0) {
-                if(it.activated(calendar::turn, "HURT", val, reduced, mod)) {
-                    apply_damage(nullptr, bp_torso, val);
-                }
-            }
-
-            const efftype_id &id = _effect_it.second.get_id();
-            // MATERIALS-TODO: use fire resistance
-            if( it.impairs_movement() ) {
-                effect_cache[MOVEMENT_IMPAIRED] = true;
-            } else if( id == effect_onfire ) {
-                int dam = 0;
-                if( made_of( material_id( "veggy" ) ) ) {
-                    dam = rng( 10, 20 );
-                } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) {
-                    dam = rng( 5, 10 );
-                }
-
-                dam -= get_armor_type( DT_HEAT, bp_torso );
-                if( dam > 0 ) {
-                    apply_damage( nullptr, bp_torso, dam );
-                } else {
-                    it.set_duration( 0 );
-                }
-            } else if( id == effect_run ) {
-                effect_cache[FLEEING] = true;
-            }
+            process_one_effect( _effect_it.second );
         }
     }
 

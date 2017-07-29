@@ -281,8 +281,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         /** Processes effects which may prevent the monster from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
-        /** Handles any monster-specific effect application effects before calling Creature::add_eff_effects(). */
-        void add_eff_effects( effect e, bool reduced ) override;
         /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
         void add_effect( const efftype_id &eff_id, int dur, body_part bp = num_bp,
                          bool permanent = false,
@@ -453,6 +451,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
     protected:
         void store( JsonOut &jsout ) const;
         void load( JsonObject &jsin );
+
+        /** Processes monster-specific effects of an effect. */
+        void process_one_effect( effect &e ) override;
 };
 
 #endif

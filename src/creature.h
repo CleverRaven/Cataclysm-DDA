@@ -300,9 +300,6 @@ class Creature
         /** Processes move stopping effects. Returns false if movement is stopped. */
         virtual bool move_effects(bool attacking) = 0;
 
-        /** Handles effect application effects. */
-        virtual void add_eff_effects(effect e, bool reduced);
-
         /** Adds or modifies an effect. If intensity is given it will set the effect intensity
             to the given value, or as close as max_intensity values permit. */
         virtual void add_effect( const efftype_id &eff_id, int dur, body_part bp = num_bp, bool permanent = false,
@@ -509,6 +506,12 @@ class Creature
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
         void set_killer( Creature *killer );
+
+        /**
+         * Processes one effect on the Creature.
+         * Must not remove the effect, but can set it up for removal.
+         */
+        virtual void process_one_effect( effect &e ) = 0;
 
         // Storing body_part as an int to make things easier for hash and JSON
         std::unordered_map<efftype_id, std::unordered_map<body_part, effect, std::hash<int>>> effects;

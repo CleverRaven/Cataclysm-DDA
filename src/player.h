@@ -175,9 +175,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
             return true;
         }
 
-        /** Handles human-specific effect application effects before calling Creature::add_eff_effects(). */
-        void add_eff_effects(effect e, bool reduced) override;
-        /** Processes human-specific effects effects before calling Creature::process_effects(). */
+        /** Processes human-specific effects of effects before calling Creature::process_effects(). */
         void process_effects() override;
         /** Handles the still hard-coded effects. */
         void hardcoded_effects(effect &it);
@@ -1552,6 +1550,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         void store(JsonOut &jsout) const;
         void load(JsonObject &jsin);
+
+        /** Processes human-specific effects of an effect. */
+        void process_one_effect( effect &e ) override;
 
     private:
         friend class debug_menu::mission_debug;
