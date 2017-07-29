@@ -127,7 +127,7 @@ struct weather_sum {
 
 const std::string season_name( int season );
 const std::string season_name_upper( int season );
-weather_datum const &weather_data( weather_type type );
+weather_datum const weather_data( weather_type const type );
 
 std::string weather_forecast( point const &abs_sm_pos );
 

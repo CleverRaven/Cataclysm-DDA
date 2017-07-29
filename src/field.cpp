@@ -1726,7 +1726,7 @@ void map::player_in_field( player &u )
                 burn_part( bp_hand_r, 2 );
                 burn_part( bp_torso,  2 );
                 // Less arms = less ability to keep upright
-                if( ( u.has_two_arms() && one_in( 4 ) ) || one_in( 2 ) ) {
+                if( ( !u.has_two_arms() && one_in( 4 ) ) || one_in( 2 ) ) {
                     burn_part( bp_arm_l, 1 );
                     burn_part( bp_arm_r, 1 );
                     burn_part( bp_head,  1 );
