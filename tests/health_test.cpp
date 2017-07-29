@@ -47,29 +47,31 @@ static health_distribution propagate_health( const health_distribution &cur, int
         // cdf(modified_health) - chance that modified_health >= roll
         // chance that roll < modified_health = 1.0-cdf(modified_health)
         const int clamped_health = std::max( roll_min - 1, std::min( roll_max, modified_health ) );
-        const double goes_down = std::max( 0.0, ( clamped_health - roll_min + 1.0 ) / roll_n );
+        const double goes_down = ( clamped_health - roll_min + 1.0 ) / roll_n - stays;
         // Could be optimized a bit by extracting edge cases
         if( index > 0 ) {
             next_iteration[index - 1] += cur[index] * goes_down;
         } else {
-            next_iteration[index] += cur[index] * goes_down;
+            next_iteration[0] += cur[index] * goes_down;
         }
         next_iteration[index] += cur[index] * stays;
-        if( index < cur.size() - 2 ) {
+        if( index < cur.size() - 1 ) {
             next_iteration[index + 1] += cur[index] * ( 1.0 - goes_down - stays );
         } else {
-            next_iteration[index] += cur[index] * ( 1.0 - goes_down - stays );
+            next_iteration[cur.size() - 1] += cur[index] * ( 1.0 - goes_down - stays );
         }
     }
+    /*
     // Need to normalize or else rounding errors will ruin everything
-    double sum = std::accumulate( next_iteration.begin() + min_index, next_iteration.begin() + max_index, 0.0 );
-    std::transform( next_iteration.begin() + min_index,
-                    next_iteration.begin() + max_index,
-                    next_iteration.begin() + min_index,
+    double sum = std::accumulate( next_iteration.begin() + min_index - 1, next_iteration.begin() + max_index + 1, 0.0 );
+    std::transform( next_iteration.begin() + min_index - 1,
+                    next_iteration.begin() + max_index + 1,
+                    next_iteration.begin() + min_index - 1,
     [sum]( const double &f ) {
         // Clamp to range to avoid rounding errors
         return std::max( 0.0, std::min( 1.0, f / sum ) );
     } );
+    */
     return next_iteration;
 }
 
@@ -86,14 +88,23 @@ static health_distribution brute_health_probability( size_t iterations, int star
     ret[-min_health + starting_health] = 1.0;
     for( size_t i = 0; i < iterations; i++ ) {
         // No need to calculate chances for elements that certainly have 0% chance
-        int min_index_signed = -min_health + starting_health - ( int )i;
-        int max_index_signed = -min_health + starting_health + ( int )i;
+        int min_index_signed = -min_health + starting_health - ( int )i - 1;
+        int max_index_signed = -min_health + starting_health + ( int )i + 1;
 
         size_t min_index = ( size_t )std::max<int>( 0, min_index_signed );
         size_t max_index = ( size_t )std::min<int>( ret.size() - 1, max_index_signed );
 
         health_distribution next = propagate_health( ret, get_healthy_mod( i ), min_index, max_index );
         ret = next;
+/*
+//health_distribution cdf = calc_cdf( ret );
+const health_distribution &dis = ret;
+size_t first = std::distance( dis.begin(), std::find_if( dis.begin(), dis.end(), []( const double &d ){ return d > 0; } ) );
+size_t last = std::distance( dis.begin(), std::find_if( dis.begin() + first, dis.end(), []( const double &d ){ return d <= 0; } ) );
+debugmsg("%d-%d", first + min_health, last + min_health);
+int itr = -1;
+debugmsg( "%s", enumerate_as_string( dis.begin() + first, dis.begin() + last, [&]( const double &f ) { itr++; return string_format( "%d:%.3f", itr + (int)first + min_health, f ); } ).c_str() );
+*/
     }
     return ret;
 }
@@ -112,15 +123,38 @@ static void compare_distributions( const health_distribution &real_distribution,
     CHECK( calc_cdf( model_distribution )[ model_distribution.size() - 1 ] == Approx( 1.0 ).epsilon( 0.01 ) );
 }
 
+static double chance_health_exceeds( const health_distribution &cdf, int health )
+{
+    if( health < min_health ) {
+        return 1.0;
+    }
+
+    if( health > max_health ) {
+        return 0.0;
+    }
+
+    return 1.0 - cdf[ health - min_health ];
+}
+
 // Check if the model above matches real (RNG) results
 TEST_CASE("health_model_ok", "[health]") {
-    SECTION( "At 0 healthy_mod, -80 and 80 health are possible in 100 iterations" ) {
+    SECTION( "After one iteration, chance to get -1, 0, and 1 is 100/201, 1/201, 100/201 respectively" ) {
         const auto get_healthy_mod = []( size_t ) {
             return 0;
         };
-        health_distribution model_distribution = brute_health_probability( 100, 0, get_healthy_mod );
-        CHECK( model_distribution[ -100 - min_health ] > 0.0 );
-        CHECK( model_distribution[ 100 - min_health ] > 0.0 );
+        health_distribution model_distribution = brute_health_probability( 1, 0, get_healthy_mod );
+        CHECK( model_distribution[ -1 - min_health ] == Approx( 100.0 / 201.0 ).epsilon( 0.01 ) );
+        CHECK( model_distribution[  0 - min_health ] == Approx( 1.0  / 201.0 ).epsilon( 0.01 ) );
+        CHECK( model_distribution[  1 - min_health ] == Approx( 100.0 / 201.0 ).epsilon( 0.01 ) );
+    }
+    SECTION( "After 10 iterations, chances are symmetric for positive and negative health" ) {
+        const auto get_healthy_mod = []( size_t ) {
+            return 0;
+        };
+        health_distribution model_distribution = brute_health_probability( 10, 0, get_healthy_mod );
+        for( int health = -10; health <= 10; health++ ) {
+            CHECK( model_distribution[ health - min_health ] == Approx( model_distribution[ -health - min_health ] ).epsilon( 0.01 ) );
+        }
     }
     SECTION( "Constant 10 healthy_mod" ) {
         // Number of RNG simulations
@@ -179,19 +213,6 @@ TEST_CASE("health_model_ok", "[health]") {
     }
 }
 
-static double chance_health_exceeds( const health_distribution &cdf, int health )
-{
-    if( health < min_health ) {
-        return 1.0;
-    }
-
-    if( health > max_health ) {
-        return 0.0;
-    }
-
-    return 1.0 - cdf[ health - min_health ];
-}
-
 TEST_CASE("constant_health_mod", "[health]") {
     // 4 weeks of health updates
     size_t num_iters = DAYS( 28 ) / HOURS( 6 );
@@ -238,48 +259,47 @@ TEST_CASE("long_term_healthy_diet_no_night_snacks", "[health]") {
     size_t num_iters = DAYS( 56 ) / HOURS( 6 );
     int hmod = 0;
     const auto get_healthy_mod = [&hmod]( size_t iter ) {
-        // Breakfast, dinner and supper of raspberries
+        // Breakfast, dinner and supper of pears
         if( iter % 4 != 3 ) {
-            // 300 nutrition points / 15 nut per raspberry = 20 rberries
-            // 20 rberies * 2 health per berry = 40 healthy_mod
-            hmod = std::min( 200, hmod + 40 );
+            // 300 nutrition points / 13 nut per pears, round up = 24 pears
+            // 24 pears / 3 meals = 6 pears per meal
+            // 6 pears * 3 health per pear = 18 healthy_mod
+            hmod = std::min( 200, hmod + 18 );
         }
-        // hmod goes like: 100, 75, 86, 94, 100...
-        // Average hmod during the day is 88.75
+        // hmod goes like: 33, 38, 42, 45, 33...
+        // Average hmod during the day is 39.5
         hmod = hmod * 3 / 4;
         return hmod;
     };
     health_distribution model_distribution = brute_health_probability( num_iters, 0, get_healthy_mod );
     health_distribution cdf = calc_cdf( model_distribution );
     INFO( "Number of health updates:" << num_iters );
-    CHECK( chance_health_exceeds( cdf, 0 ) > 0.999 );
-    CHECK( chance_health_exceeds( cdf, 30 ) > 0.8 );
-    CHECK( chance_health_exceeds( cdf, 70 ) > 0.1 );
-    CHECK( chance_health_exceeds( cdf, 110 ) < 0.1 );
+    CHECK( chance_health_exceeds( cdf, 20 ) > 0.98 );
+    CHECK( chance_health_exceeds( cdf, 30 ) > 0.65 );
+    CHECK( chance_health_exceeds( cdf, 50 ) < 0.1 );
     CHECK( chance_health_exceeds( cdf, num_iters + 1 ) <= 0.0 );
 }
 
 TEST_CASE("long_term_typical_diet", "[health]") {
-    size_t num_iters = DAYS( 56 ) / HOURS( 6 );
+    size_t num_iters = DAYS( 500 ) / HOURS( 6 );
     int hmod = 0;
     const auto get_healthy_mod = [&hmod]( size_t iter ) {
-        // Breakfast, dinner of oatmeal
-        if( iter % 4 < 2 ) {
+        // Breakfast, dinner and supper of oatmeal
+        if( iter % 2 == 0 ) {
             // 300 nutrition points / 50 nut per oat = 6 oats
-            // 6 oats * 1 health per oat = 6 healthy_mod
-            hmod = std::min( 200, hmod + 6 );
+            // 6 oats / 3 meals = 2 oats per meal
+            // 2 oats * 1 health per oat = 2 healthy_mod
+            hmod = std::min( 200, hmod + 2 );
         }
-        // hmod goes like: 10, 12, 13, 14, 10...
-        // Average hmod during the day is 12.25
+        // hmod goes like: 2, 3, 3, 3...
+        // Average hmod during the day is 2.75
         hmod = hmod * 3 / 4;
         return hmod;
     };
     health_distribution model_distribution = brute_health_probability( num_iters, 0, get_healthy_mod );
     health_distribution cdf = calc_cdf( model_distribution );
     INFO( "Number of health updates:" << num_iters );
-    CHECK( chance_health_exceeds( cdf, 0 ) > 0.7 );
-    CHECK( chance_health_exceeds( cdf, 5 ) > 0.3 );
-    CHECK( chance_health_exceeds( cdf, 10 ) > 0.1 );
-    CHECK( chance_health_exceeds( cdf, 20 ) < 0.1 );
-    CHECK( chance_health_exceeds( cdf, num_iters + 1 ) <= 0.0 );
+    CHECK( chance_health_exceeds( cdf, -5 ) > 0.7 );
+    CHECK( chance_health_exceeds( cdf, -1 ) > 0.5 );
+    CHECK( chance_health_exceeds( cdf, 5 ) < 0.5 );
 }
