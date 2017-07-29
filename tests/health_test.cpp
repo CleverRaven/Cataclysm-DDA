@@ -251,12 +251,35 @@ TEST_CASE("long_term_healthy_diet_no_night_snacks", "[health]") {
     };
     health_distribution model_distribution = brute_health_probability( num_iters, 0, get_healthy_mod );
     health_distribution cdf = calc_cdf( model_distribution );
-    size_t itr = 0;
-    INFO( enumerate_as_string( cdf.begin(), cdf.end(), [&itr]( const double &f ) { return string_format( "%d:%.3f", itr++ + min_health, f ); } ) );
     INFO( "Number of health updates:" << num_iters );
     CHECK( chance_health_exceeds( cdf, 0 ) > 0.999 );
     CHECK( chance_health_exceeds( cdf, 30 ) > 0.8 );
     CHECK( chance_health_exceeds( cdf, 70 ) > 0.1 );
     CHECK( chance_health_exceeds( cdf, 110 ) < 0.1 );
+    CHECK( chance_health_exceeds( cdf, num_iters + 1 ) <= 0.0 );
+}
+
+TEST_CASE("long_term_typical_diet", "[health]") {
+    size_t num_iters = DAYS( 56 ) / HOURS( 6 );
+    int hmod = 0;
+    const auto get_healthy_mod = [&hmod]( size_t iter ) {
+        // Breakfast, dinner of oatmeal
+        if( iter % 4 < 2 ) {
+            // 300 nutrition points / 50 nut per oat = 6 oats
+            // 6 oats * 1 health per oat = 6 healthy_mod
+            hmod = std::min( 200, hmod + 6 );
+        }
+        // hmod goes like: 10, 12, 13, 14, 10...
+        // Average hmod during the day is 12.25
+        hmod = hmod * 3 / 4;
+        return hmod;
+    };
+    health_distribution model_distribution = brute_health_probability( num_iters, 0, get_healthy_mod );
+    health_distribution cdf = calc_cdf( model_distribution );
+    INFO( "Number of health updates:" << num_iters );
+    CHECK( chance_health_exceeds( cdf, 0 ) > 0.7 );
+    CHECK( chance_health_exceeds( cdf, 5 ) > 0.3 );
+    CHECK( chance_health_exceeds( cdf, 10 ) > 0.1 );
+    CHECK( chance_health_exceeds( cdf, 20 ) < 0.1 );
     CHECK( chance_health_exceeds( cdf, num_iters + 1 ) <= 0.0 );
 }
