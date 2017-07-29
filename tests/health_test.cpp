@@ -261,7 +261,7 @@ TEST_CASE("long_term_healthy_diet_no_night_snacks", "[health]") {
 }
 
 TEST_CASE("long_term_typical_diet", "[health]") {
-    size_t num_iters = DAYS( 500 ) / HOURS( 6 );
+    size_t num_iters = DAYS( 56 ) / HOURS( 6 );
     int hmod = 0;
     const auto get_healthy_mod = [&hmod]( size_t iter ) {
         // Breakfast, dinner and supper of oatmeal
