@@ -488,12 +488,12 @@ std::string calendar::day_of_week() const
      * <wito> kevingranade: add four for thursday. ;)
      * <kevingranade> sounds like consensus to me
      * <kevingranade> Thursday it is */
-    static const std::array<std::string, 7> weekday_names = {
+    static const std::array<std::string, 7> weekday_names = {{
         translate_marker( "Sunday" ), translate_marker( "Monday" )
         translate_marker( "Tuesday" ), translate_marker( "Wednesday" )
         translate_marker( "Thursday" ), translate_marker( "Friday" )
         translate_marker( "Saturday" )
-    };
+    }};
 
     // calendar::day gets mangled by season transitions, so recalculate days since start.
     static const int start_day = 4; // Thursday is the start day
