@@ -1711,6 +1711,10 @@ void Character::reset_bonuses()
 
 void Character::update_health(int external_modifiers)
 {
+    if( has_artifact_with( AEP_SICK ) ) {
+        // Carrying a sickness artifact makes your health 50 points worse on average
+        external_modifiers -= 50;
+    }
     // Limit healthy_mod to [-200, 200].
     // This also sets approximate bounds for the character's health.
     if( get_healthy_mod() > 200 ) {
@@ -1727,16 +1731,11 @@ void Character::update_health(int external_modifiers)
         effective_healthy_mod = 100;
     }
 
-    // Over the long run, health tends toward healthy_mod.
-    int break_even = get_healthy() - effective_healthy_mod + external_modifiers;
-
-    // But we allow some random variation.
-    const long roll = rng( -100, 100 );
-    if( roll > break_even ) {
-        mod_healthy( 1 );
-    } else if( roll < break_even ) {
-        mod_healthy( -1 );
-    }
+    // Health tends toward healthy_mod.
+    // For small differences, it changes 4 points per day
+    // For large ones, up to ~40% of the difference per day
+    int health_change = effective_healthy_mod - get_healthy() + external_modifiers;
+    mod_healthy( sgn( health_change ) * std::max( 1, abs( health_change ) / 10 ) );
 
     // And healthy_mod decays over time.
     set_healthy_mod( get_healthy_mod() * 3 / 4 );
