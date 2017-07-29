@@ -22,7 +22,7 @@ class item_location;
 class player;
 
 // Copied from game.h
-typedef std::function<std::string(const item&)> item_hint_provider;
+typedef std::function<std::string( const item & )> item_hint_provider;
 
 enum class navigation_mode : int {
     ITEM = 0,
