@@ -1770,7 +1770,7 @@ std::pair<std::string, nc_color> get_light_level( const float light )
          }
      };
     const int light_level = clamp( ( int )ceil( light ), 0, 5 );
-    return strings[light_level];
+    return pair_t{ _( strings[light_level].first.c_str() ), string[light_level].second };
 }
 
 std::string get_labeled_bar( const double val, const int width, const std::string &label, char c )
