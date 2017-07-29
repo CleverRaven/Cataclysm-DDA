@@ -311,7 +311,7 @@ edible_rating player::will_eat( const item &food, bool interactive ) const
     if( food.rotten() ) {
         const bool saprovore = has_trait( trait_id( "SAPROVORE" ) );
         if( !saprophage && !saprovore ) {
-            consequences.emplace_back( ROTTEN, _( "This is rotten an smells awful!" ) );
+            consequences.emplace_back( ROTTEN, _( "This is rotten and smells awful!" ) );
         }
     } else if( saprophage && edible && !food.has_flag( "FERTILIZER" ) ) {
         // Note: We're allowing all non-solid "food". This includes drugs
@@ -331,16 +331,13 @@ edible_rating player::will_eat( const item &food, bool interactive ) const
     const int temp_hunger = get_hunger() - nutr;
     const int temp_thirst = get_thirst() - quench;
 
-    if( has_active_mutation( trait_id( "HIBERNATE" ) ) ) {
-        if( ( get_hunger() >= -60 && get_thirst() >= -60 ) &&
-            ( temp_hunger < -60 || temp_thirst < -60 ) ) {
-            consequences.emplace_back( TOO_FULL, _( "You're adequately fueled. Prepare for hibernation?" ) );
-        }
-    } else if( !has_active_mutation( trait_id( "EATHEALTH" ) ) &&
-               !has_trait( trait_id( "SLIMESPAWNER" ) ) ) {
+    if( !has_active_mutation( trait_id( "EATHEALTH" ) ) &&
+        !has_active_mutation( trait_id( "HIBERNATE" ) ) &&
+        !has_trait( trait_id( "SLIMESPAWNER" ) ) ) {
+
         if( get_hunger() < 0 && nutr >= 5 && !has_active_mutation( trait_id( "GOURMAND" ) ) ) {
             consequences.emplace_back( TOO_FULL, _( "You're full already." ) );
-        } else if( ( ( nutr > 0 && temp_hunger < stomach_capacity() ) ||
+        } else if( ( ( nutr > 0           && temp_hunger < stomach_capacity() ) ||
                      ( comest->quench > 0 && temp_thirst < stomach_capacity() ) ) &&
                    !food.has_infinite_charges() ) {
             consequences.emplace_back( TOO_FULL, _( "You will not be able to finish it all." ) );

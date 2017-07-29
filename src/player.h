@@ -777,7 +777,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
         bool eat( item &food, bool force = false );
 
-        /** The food can be (theoretically) eaten. No matter the consquences. */
+        /** Can the food be [theoretically] eaten no matter the consquences? */
         edible_rating can_eat( const item &food, std::string *err = nullptr ) const;
         /**
          * Same as @ref can_eat, but takes consequences into account.
