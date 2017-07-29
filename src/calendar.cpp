@@ -488,30 +488,17 @@ std::string calendar::day_of_week() const
      * <wito> kevingranade: add four for thursday. ;)
      * <kevingranade> sounds like consensus to me
      * <kevingranade> Thursday it is */
-
-    enum weekday {
-        THURSDAY = 0,
-        FRIDAY = 1,
-        SATURDAY = 2,
-        SUNDAY = 3,
-        MONDAY = 4,
-        TUESDAY = 5,
-        WEDNESDAY = 6
-    };
-
-    static const std::map<weekday, std::string> weekday_names = {
-        std::pair<weekday, std::string>{THURSDAY, translate_marker( "Thursday" )},
-        std::pair<weekday, std::string>{FRIDAY, translate_marker( "Friday" )},
-        std::pair<weekday, std::string>{SATURDAY, translate_marker( "Saturday" )},
-        std::pair<weekday, std::string>{SUNDAY, translate_marker( "Sunday" )},
-        std::pair<weekday, std::string>{MONDAY, translate_marker( "Monday" )},
-        std::pair<weekday, std::string>{TUESDAY, translate_marker( "Tuesday" )},
-        std::pair<weekday, std::string>{WEDNESDAY, translate_marker( "Wednesday" )}
+    static const std::array<std::string, 7> weekday_names = {
+        translate_marker( "Sunday" ), translate_marker( "Monday" )
+        translate_marker( "Tuesday" ), translate_marker( "Wednesday" )
+        translate_marker( "Thursday" ), translate_marker( "Friday" )
+        translate_marker( "Saturday" )
     };
 
     // calendar::day gets mangled by season transitions, so recalculate days since start.
-    const weekday current_day = static_cast< weekday >( turn_number / DAYS(1) % 7 );
-    return _( weekday_names.at( current_day ).c_str() );
+    static const int start_day = 4; // Thursday is the start day
+    const int current_day = ( turn_number / DAYS(1) + start_day ) % 7;
+    return _( weekday_names[ current_day ].c_str() );
 }
 
 int calendar::season_length()
