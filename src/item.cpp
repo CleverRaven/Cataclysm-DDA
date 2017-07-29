@@ -1949,6 +1949,9 @@ nc_color item::color_in_inventory() const
             case ROTTEN:
                 ret = c_brown;
                 break;
+            case NAUSEA:
+                ret = c_pink;
+                break;
             case NO_TOOL:
                 break;
         }

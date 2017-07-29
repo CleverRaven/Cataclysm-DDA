@@ -68,6 +68,8 @@ enum edible_rating {
     CANNIBALISM,
     // Rotten or not rotten enough (for saprophages)
     ROTTEN,
+    // Can provoke vomiting if you already feel nauseous.
+    NAUSEA,
     // We can eat this, but we'll overeat
     TOO_FULL,
     // Some weird stuff that requires a tool we don't have

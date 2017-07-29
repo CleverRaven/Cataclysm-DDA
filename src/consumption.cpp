@@ -311,7 +311,7 @@ edible_rating player::will_eat( const item &food, bool interactive ) const
     const bool edible = comest->comesttype == "FOOD" || food.has_flag( "USE_EAT_VERB" );
 
     if( edible && has_effect( effect_nausea ) ) {
-        consequences.emplace_back( ALLERGY,
+        consequences.emplace_back( NAUSEA,
                                    _( "You still feel nauseous and will probably puke it all up again." ) );
     }
 
