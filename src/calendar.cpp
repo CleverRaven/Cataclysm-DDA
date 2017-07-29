@@ -510,7 +510,7 @@ std::string calendar::day_of_week() const
     };
 
     // calendar::day gets mangled by season transitions, so recalculate days since start.
-    const weekday current_day = static_const< weekday >( turn_number / DAYS(1) % 7 );
+    const weekday current_day = static_cast< weekday >( turn_number / DAYS(1) % 7 );
     return _( weekday_names.at( current_day ).c_str() );
 }
 
