@@ -7118,7 +7118,7 @@
     "material": "steel",
     "symbol": "/",
     "color": "light_gray",
-    "techniques": [ "WBLOCK_5", "WIDE" ],
+    "techniques": [ "WBLOCK_4", "WIDE" ],
     "flags": [ "FIRE", "LIGHT_240", "FLAMING", "TRADER_AVOID" ]
   },
   {

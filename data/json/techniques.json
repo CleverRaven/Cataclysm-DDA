@@ -40,24 +40,13 @@
     },{
         "type" : "technique",
         "id" : "WBLOCK_4",
-        "name" : "Deflect",
-        "//": "Block bonus of 10. Used primarily by bucklers, or other items that combine size with easy maneuverability.",
-        "dummy" : true,
-        "mult_bonuses" : [["movecost", 0.0]],
-        "messages" : [
-            "You deftly deflect %s",
-            "<npcname> deftly deflect %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "WBLOCK_5",
         "name" : "Defend",
-        "//": "Block bonus of 12. Used primarily by large shields, or other items that are likely to intercept some attacks without deliberate action by the user.",
+        "//": "Block bonus of 10. Used primarily by large shields, or other items that are likely to intercept some attacks without deliberate action by the user.",
         "dummy" : true,
         "mult_bonuses" : [["movecost", 0.0]],
         "messages" : [
             "You defend against %s",
-            "<npcname> defend against %s"
+            "<npcname> defends against %s"
         ]
     },{
         "type" : "technique",

@@ -36,7 +36,7 @@
     "coverage": 70,
     "encumbrance": 28,
     "material_thickness": 2,
-    "techniques": [ "WBLOCK_5" ],
+    "techniques": [ "WBLOCK_4" ],
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
   },
   {
@@ -77,7 +77,7 @@
     "coverage": 60,
     "encumbrance": 24,
     "material_thickness": 3,
-    "techniques": [ "WBLOCK_5" ],
+    "techniques": [ "WBLOCK_4" ],
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
   },
   {
@@ -137,7 +137,7 @@
     "coverage": 70,
     "encumbrance": 28,
     "material_thickness": 4,
-    "techniques": [ "WBLOCK_5" ],
+    "techniques": [ "WBLOCK_4" ],
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
   },
   {
@@ -156,7 +156,7 @@
     "coverage": 30,
     "encumbrance": 8,
     "material_thickness": 3,
-    "techniques": [ "WBLOCK_4" ],
+    "techniques": [ "WBLOCK_3" ],
     "flags": [ "OVERSIZE", "STURDY", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
   }
 ]
