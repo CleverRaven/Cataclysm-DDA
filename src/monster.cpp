@@ -459,9 +459,9 @@ std::string monster::extended_description() const
     get_Attitude( color, attitude );
     attitude = get_tag_from_color( color ) + attitude;
 
-    ss << string_format( _( "This is a %s %s" ), name().c_str(), attitude.c_str() ) << std::endl;
+    ss << string_format( _( "This is a %s. %s" ), name().c_str(), attitude.c_str() ) << std::endl;
     if( !get_effect_status().empty() ) {
-        ss << string_format( _( "<stat>It is %s</stat>" ), get_effect_status().c_str() ) << std::endl;
+        ss << string_format( _( "<stat>It is %s.</stat>" ), get_effect_status().c_str() ) << std::endl;
     }
 
     ss << "--" << std::endl;
