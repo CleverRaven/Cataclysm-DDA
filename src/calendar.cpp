@@ -499,9 +499,6 @@ std::string calendar::day_of_week() const
         WEDNESDAY = 6
     };
 
-    // calendar::day gets mangled by season transitions, so recalculate days since start.
-    const int current_day = turn_number / DAYS(1) % 7;
-
     static const std::map<weekday, std::string> weekday_names = {
         std::pair<weekday, std::string>{THURSDAY, translate_marker( "Thursday" )},
         std::pair<weekday, std::string>{FRIDAY, translate_marker( "Friday" )},
@@ -512,6 +509,8 @@ std::string calendar::day_of_week() const
         std::pair<weekday, std::string>{WEDNESDAY, translate_marker( "Wednesday" )}
     };
 
+    // calendar::day gets mangled by season transitions, so recalculate days since start.
+    const weekday current_day = static_const< weekday >( turn_number / DAYS(1) % 7 );
     return _( weekday_names.at( current_day ).c_str() );
 }
 
