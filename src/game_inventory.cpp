@@ -181,7 +181,7 @@ class pickup_inventory_preset : public inventory_selector_preset
         std::string get_denial( const item_location &loc ) const override {
             if( !p.has_item( *loc ) ) {
                 if( loc->made_of( LIQUID ) ) {
-                    return _( "Can't pick up liquids" );
+                    return _( "Can't pick up spilt liquids" );
                 } else if( !p.can_pickVolume( *loc ) ) {
                     return _( "Too big to pick up" );
                 } else if( !p.can_pickWeight( *loc ) ) {
@@ -248,10 +248,10 @@ item_location game_menus::inv::disassemble( player &p )
                          _( "You don't have any items you could disassemble." ) );
 };
 
-class comestible_inventory_preset : public pickup_inventory_preset
+class comestible_inventory_preset : public inventory_selector_preset
 {
     public:
-        comestible_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {
+        comestible_inventory_preset( const player &p ) : inventory_selector_preset(), p( p ) {
 
             append_cell( [ this, &p ]( const item_location & loc ) {
                 return good_bad_none( get_edible_comestible( loc ).nutr );
@@ -312,6 +312,10 @@ class comestible_inventory_preset : public pickup_inventory_preset
         std::string get_denial( const item_location &loc ) const override {
             std::string res;
 
+            if( loc->made_of( LIQUID ) ) {
+                return _( "Can't drink spilt liquids" );
+            }
+
             const auto &it = get_comestible_item( loc );
 
             if( p.can_eat( it, &res ) != EDIBLE &&
@@ -319,7 +323,7 @@ class comestible_inventory_preset : public pickup_inventory_preset
                 return res;
             }
 
-            return pickup_inventory_preset::get_denial( loc );
+            return inventory_selector_preset::get_denial( loc );
         }
 
         bool sort_compare( const item_location &lhs, const item_location &rhs ) const override {
@@ -331,7 +335,7 @@ class comestible_inventory_preset : public pickup_inventory_preset
                 return freshness > 0;
             }
 
-            return pickup_inventory_preset::sort_compare( lhs, rhs );
+            return inventory_selector_preset::sort_compare( lhs, rhs );
         }
 
     protected:
