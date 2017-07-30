@@ -900,7 +900,7 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
         }
         on_effect_int_change( eff_id, e.get_intensity(), bp );
         // Perform any effect addition effects.
-        process_one_effect( e );
+        process_one_effect( e, true );
     }
 }
 bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int strength, int dur,

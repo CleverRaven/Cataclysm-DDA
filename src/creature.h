@@ -511,7 +511,7 @@ class Creature
          * Processes one effect on the Creature.
          * Must not remove the effect, but can set it up for removal.
          */
-        virtual void process_one_effect( effect &e ) = 0;
+        virtual void process_one_effect( effect &e, bool is_new ) = 0;
 
         // Storing body_part as an int to make things easier for hash and JSON
         std::unordered_map<efftype_id, std::unordered_map<body_part, effect, std::hash<int>>> effects;

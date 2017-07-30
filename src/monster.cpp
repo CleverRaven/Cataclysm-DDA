@@ -1707,17 +1707,23 @@ void monster::drop_items_on_death()
     }
 }
 
-void monster::process_one_effect( effect &it )
+void monster::process_one_effect( effect &it, bool is_new )
 {
     // Monsters don't get trait-based reduction, but they do get effect based reduction
     bool reduced = resists_effect(it);
+    const auto get_effect = [&it, is_new]( const std::string &arg, bool reduced ) {
+        if( is_new ) {
+            return it.get_amount( arg, reduced );
+        }
+        return it.get_mod( arg, reduced );
+    };
 
-    mod_speed_bonus(it.get_mod("SPEED", reduced));
+    mod_speed_bonus(get_effect("SPEED", reduced));
 
-    int val = it.get_mod("HURT", reduced);
+    int val = get_effect("HURT", reduced);
     if (val > 0) {
-        if(it.activated(calendar::turn, "HURT", val, reduced, 1)) {
-            apply_damage(nullptr, bp_torso, val);
+        if( is_new || it.activated( calendar::turn, "HURT", val, reduced, 1 ) ) {
+            apply_damage( nullptr, bp_torso, val );
         }
     }
 
@@ -1749,7 +1755,7 @@ void monster::process_effects()
     // Monster only effects
     for( auto &elem : effects ) {
         for( auto &_effect_it : elem.second ) {
-            process_one_effect( _effect_it.second );
+            process_one_effect( _effect_it.second, false );
         }
     }
 

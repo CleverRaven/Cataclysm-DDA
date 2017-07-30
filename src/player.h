@@ -1552,7 +1552,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void load(JsonObject &jsin);
 
         /** Processes human-specific effects of an effect. */
-        void process_one_effect( effect &e ) override;
+        void process_one_effect( effect &e, bool is_new ) override;
 
     private:
         friend class debug_menu::mission_debug;

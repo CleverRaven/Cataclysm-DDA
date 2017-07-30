@@ -5183,7 +5183,7 @@ void player::print_health() const
     }
 }
 
-void player::process_one_effect( effect &it )
+void player::process_one_effect( effect &it, bool is_new )
 {
     bool reduced = resists_effect(it);
     double mod = 1;
@@ -5192,6 +5192,13 @@ void player::process_one_effect( effect &it )
 
     // Still hardcoded stuff, do this first since some modify their other traits
     hardcoded_effects(it);
+
+    const auto get_effect = [&it, is_new]( const std::string &arg, bool reduced ) {
+        if( is_new ) {
+            return it.get_amount( arg, reduced );
+        }
+        return it.get_mod( arg, reduced );
+    };
 
     // Handle miss messages
     auto msgs = it.get_miss_msgs();
@@ -5202,10 +5209,10 @@ void player::process_one_effect( effect &it )
     }
 
     // Handle health mod
-    val = it.get_mod("H_MOD", reduced);
+    val = get_effect("H_MOD", reduced);
     if (val != 0) {
         mod = 1;
-        if(it.activated(calendar::turn, "H_MOD", val, reduced, mod)) {
+        if(is_new || it.activated(calendar::turn, "H_MOD", val, reduced, mod)) {
             int bounded = bound_mod_to_vals(
                     get_healthy_mod(), val, it.get_max_val("H_MOD", reduced),
                     it.get_min_val("H_MOD", reduced));
@@ -5215,62 +5222,62 @@ void player::process_one_effect( effect &it )
     }
 
     // Handle health
-    val = it.get_mod("HEALTH", reduced);
+    val = get_effect("HEALTH", reduced);
     if (val != 0) {
         mod = 1;
-        if(it.activated(calendar::turn, "HEALTH", val, reduced, mod)) {
+        if(is_new || it.activated(calendar::turn, "HEALTH", val, reduced, mod)) {
             mod_healthy(bound_mod_to_vals(get_healthy(), val,
                         it.get_max_val("HEALTH", reduced), it.get_min_val("HEALTH", reduced)));
         }
     }
 
     // Handle stim
-    val = it.get_mod("STIM", reduced);
+    val = get_effect("STIM", reduced);
     if (val != 0) {
         mod = 1;
-        if(it.activated(calendar::turn, "STIM", val, reduced, mod)) {
+        if(is_new || it.activated(calendar::turn, "STIM", val, reduced, mod)) {
             stim += bound_mod_to_vals(stim, val, it.get_max_val("STIM", reduced),
                                         it.get_min_val("STIM", reduced));
         }
     }
 
     // Handle hunger
-    val = it.get_mod("HUNGER", reduced);
+    val = get_effect("HUNGER", reduced);
     if (val != 0) {
         mod = 1;
-        if(it.activated(calendar::turn, "HUNGER", val, reduced, mod)) {
+        if(is_new || it.activated(calendar::turn, "HUNGER", val, reduced, mod)) {
             mod_hunger(bound_mod_to_vals(get_hunger(), val, it.get_max_val("HUNGER", reduced),
                                         it.get_min_val("HUNGER", reduced)));
         }
     }
 
     // Handle thirst
-    val = it.get_mod("THIRST", reduced);
+    val = get_effect("THIRST", reduced);
     if (val != 0) {
         mod = 1;
-        if(it.activated(calendar::turn, "THIRST", val, reduced, mod)) {
+        if(is_new || it.activated(calendar::turn, "THIRST", val, reduced, mod)) {
             mod_thirst(bound_mod_to_vals(get_thirst(), val, it.get_max_val("THIRST", reduced),
                                         it.get_min_val("THIRST", reduced)));
         }
     }
 
     // Handle fatigue
-    val = it.get_mod("FATIGUE", reduced);
+    val = get_effect("FATIGUE", reduced);
     // Prevent ongoing fatigue effects while asleep.
     // These are meant to change how fast you get tired, not how long you sleep.
     if (val != 0 && !in_sleep_state()) {
         mod = 1;
-        if(it.activated(calendar::turn, "FATIGUE", val, reduced, mod)) {
+        if(is_new || it.activated(calendar::turn, "FATIGUE", val, reduced, mod)) {
             mod_fatigue(bound_mod_to_vals(get_fatigue(), val, it.get_max_val("FATIGUE", reduced),
                                         it.get_min_val("FATIGUE", reduced)));
         }
     }
 
     // Handle Radiation
-    val = it.get_mod("RAD", reduced);
+    val = get_effect("RAD", reduced);
     if (val != 0) {
         mod = 1;
-        if(it.activated(calendar::turn, "RAD", val, reduced, mod)) {
+        if(is_new || it.activated(calendar::turn, "RAD", val, reduced, mod)) {
             radiation += bound_mod_to_vals(radiation, val, it.get_max_val("RAD", reduced), 0);
             // Radiation can't go negative
             if (radiation < 0) {
@@ -5280,7 +5287,7 @@ void player::process_one_effect( effect &it )
     }
 
     // Handle Pain
-    val = it.get_mod("PAIN", reduced);
+    val = get_effect("PAIN", reduced);
     if (val != 0) {
         mod = 1;
         if (it.get_sizing("PAIN")) {
@@ -5294,7 +5301,7 @@ void player::process_one_effect( effect &it )
                 mod *= 3;
             }
         }
-        if(it.activated(calendar::turn, "PAIN", val, reduced, mod)) {
+        if(is_new || it.activated(calendar::turn, "PAIN", val, reduced, mod)) {
             int pain_inc = bound_mod_to_vals(get_pain(), val, it.get_max_val("PAIN", reduced), 0);
             mod_pain(pain_inc);
             if (pain_inc > 0) {
@@ -5304,7 +5311,7 @@ void player::process_one_effect( effect &it )
     }
 
     // Handle Damage
-    val = it.get_mod("HURT", reduced);
+    val = get_effect("HURT", reduced);
     if (val != 0) {
         mod = 1;
         if (it.get_sizing("HURT")) {
@@ -5318,7 +5325,7 @@ void player::process_one_effect( effect &it )
                 mod *= 3;
             }
         }
-        if(it.activated(calendar::turn, "HURT", val, reduced, mod)) {
+        if(is_new || it.activated(calendar::turn, "HURT", val, reduced, mod)) {
             if (bp == num_bp) {
                 if (val > 5) {
                     add_msg_if_player(_("Your %s HURTS!"), body_part_name_accusative(bp_torso).c_str());
@@ -5338,20 +5345,20 @@ void player::process_one_effect( effect &it )
     }
 
     // Handle Sleep
-    val = it.get_mod("SLEEP", reduced);
+    val = get_effect("SLEEP", reduced);
     if (val != 0) {
         mod = 1;
-        if(it.activated(calendar::turn, "SLEEP", val, reduced, mod)) {
+        if(is_new || it.activated(calendar::turn, "SLEEP", val, reduced, mod)) {
             add_msg_if_player(_("You pass out!"));
             fall_asleep(val);
         }
     }
 
     // Handle painkillers
-    val = it.get_mod("PKILL", reduced);
+    val = get_effect("PKILL", reduced);
     if (val != 0) {
         mod = it.get_addict_mod("PKILL", addiction_level(ADD_PKILLER));
-        if(it.activated(calendar::turn, "PKILL", val, reduced, mod)) {
+        if(is_new || it.activated(calendar::turn, "PKILL", val, reduced, mod)) {
             mod_painkiller(bound_mod_to_vals(pkill, val, it.get_max_val("PKILL", reduced), 0));
         }
     }
@@ -5359,22 +5366,22 @@ void player::process_one_effect( effect &it )
     // Handle coughing
     mod = 1;
     val = 0;
-    if (it.activated(calendar::turn, "COUGH", val, reduced, mod)) {
+    if (is_new || it.activated(calendar::turn, "COUGH", val, reduced, mod)) {
         cough(it.get_harmful_cough());
     }
 
     // Handle vomiting
     mod = vomit_mod();
     val = 0;
-    if (it.activated(calendar::turn, "VOMIT", val, reduced, mod)) {
+    if (is_new || it.activated(calendar::turn, "VOMIT", val, reduced, mod)) {
         vomit();
     }
 
     // Handle stamina
-    val = it.get_mod("STAMINA", reduced);
+    val = get_effect("STAMINA", reduced);
     if (val != 0) {
         mod = 1;
-        if(it.activated(calendar::turn, "STAMINA", val, reduced, mod)) {
+        if(is_new || it.activated(calendar::turn, "STAMINA", val, reduced, mod)) {
             stamina += bound_mod_to_vals( stamina, val,
                                           it.get_max_val("STAMINA", reduced),
                                           it.get_min_val("STAMINA", reduced) );
@@ -5432,7 +5439,7 @@ void player::process_effects() {
     //Human only effects
     for( auto &elem : effects ) {
         for( auto &_effect_it : elem.second ) {
-            process_one_effect( _effect_it.second );
+            process_one_effect( _effect_it.second, false );
         }
     }
 

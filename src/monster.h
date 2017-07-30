@@ -453,7 +453,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void load( JsonObject &jsin );
 
         /** Processes monster-specific effects of an effect. */
-        void process_one_effect( effect &e ) override;
+        void process_one_effect( effect &e, bool is_new ) override;
 };
 
 #endif
