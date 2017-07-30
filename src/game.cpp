@@ -1470,7 +1470,7 @@ bool game::do_turn()
                 cleanup_dead();
                 // Process any new sounds the player caused during their turn.
                 sounds::process_sound_markers( &u );
-                if( !u.activity ) {
+                if( !u.activity && uquit != QUIT_WATCH ) {
                     draw();
                 }
 
@@ -2247,6 +2247,7 @@ input_context game::get_player_input(std::string &action)
         }
 #endif //TILES
 
+        // TODO: Move the weather calculations out of here.
         const bool bWeatherEffect = ( weather_info.glyph != '?' );
         const int dropCount = int( iEndX * iEndY * weather_info.factor );
 
@@ -2364,18 +2365,31 @@ input_context game::get_player_input(std::string &action)
                     }
                 }
             }
-            draw_weather(wPrint);
-            if(uquit != QUIT_WATCH) {
+
+            werase( w_terrain );
+
+            draw_ter();
+            draw_weather( wPrint );
+
+            if( uquit != QUIT_WATCH ) {
                 draw_sct();
             }
+
+            wrefresh( w_terrain );
+
             if( uquit == QUIT_WATCH ) {
-                // Display "press X to continue" text at top of main window
-                std::string message = string_format( _("Press %s to accept your fate..."),
-                        ctxt.get_desc("QUIT").c_str() );
-                popup(message, PF_NO_WAIT_ON_TOP);
+                draw_sidebar();
+
+                WINDOW_PTR popup = create_wait_popup_window(
+                    string_format( _( "Press %s to accept your fate..." ),
+                    ctxt.get_desc( "QUIT" ).c_str() ),
+                    c_red
+                );
+
+                wrefresh( popup.get() );
+
                 break;
             }
-            wrefresh(w_terrain);
 
             //updating the pixel minimap here allows red flashing indicators for enemies to actually flicker
             draw_pixel_minimap();
@@ -4802,19 +4816,16 @@ void game::draw()
         return;
     }
 
-    // Draw map
-    werase(w_terrain);
-
     //temporary fix for updating visibility for minimap
     ter_view_z = ( u.pos() + u.view_offset ).z;
     m.build_map_cache( ter_view_z );
     m.update_visibility_cache( ter_view_z );
 
     draw_sidebar();
+
+    werase( w_terrain );
     draw_ter();
-    if( !is_draw_tiles_mode() ) {
-        wrefresh(w_terrain);
-    }
+    wrefresh( w_terrain );
 }
 
 void game::draw_pixel_minimap()
@@ -4828,6 +4839,7 @@ void game::draw_pixel_minimap()
         wrefresh(w_pixel_minimap);
     }
 }
+
 
 void game::draw_sidebar()
 {
@@ -5086,19 +5098,9 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         draw_veh_dir_indicator( false );
         draw_veh_dir_indicator( true );
     }
-    if(uquit == QUIT_WATCH) {
-        // This should remove the flickering the bar receives
-        input_context ctxt("DEFAULTMODE");
-        std::string message = string_format( _("Press %s to accept your fate..."),
-                ctxt.get_desc("QUIT").c_str() );
-        popup(message, PF_NO_WAIT_ON_TOP);
-    }
 
     // Place the cursor over the player as is expected by screen readers.
     wmove( w_terrain, POSY + g->u.pos().y - center.y, POSX + g->u.pos().x - center.x );
-
-    wrefresh(w_terrain);
-
 }
 
 tripoint game::get_veh_dir_indicator_location( bool next ) const
@@ -9716,7 +9718,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         } else if( source_mon != nullptr ) {
             u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
             serialize_liquid_source( u.activity, *source_mon, liquid );
-            return true;   
+            return true;
         } else {
             return false;
         }
