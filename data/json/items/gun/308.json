@@ -72,11 +72,11 @@
     "ranged_damage": -1,
     "dispersion": 200,
     "durability": 9,
-    "ups_charges": 1,
+    "ups_charges": 10,
     "reload": 400,
     "modes": [ [ "DEFAULT", "auto", 100 ] ],
     "magazines": [ [ "308", [ "belt308" ] ] ],
-    "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
+    "flags": [ "NEVER_JAMS" ]
   },
   {
     "id": "m14ebr",
