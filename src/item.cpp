@@ -6019,11 +6019,16 @@ std::string food_hint_provider( const item &it )
 {
     int nutrition = g->u.nutrition_for( it.type );
     int quench = it.type->comestible ? it.type->comestible->quench : 0;
-    return string_format(
+    std::string hint = string_format(
                _( "Volume: <color_ltgray>%s</color> Nutrition: <color_ltgray>%d</color> Quench: <color_ltgray>%d</color>" ),
                format_volume( it.volume() ).c_str(),
                nutrition,
                quench );
+    if (it.goes_bad()) {
+        const std::string rot_time = calendar( it.type->comestible->spoils ).textify_period();
+        hint += string_format(_(" Spoils in <color_ltgray>%s</color>"), rot_time.c_str());
+    }
+    return hint;
 }
 
 std::string wield_hint_provider( const item &it )
