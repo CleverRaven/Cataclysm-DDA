@@ -1164,6 +1164,13 @@ void player::update_bodytemp()
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
     const int water_temperature = 100 * temp_to_celsius( g->get_cur_weather_gen().get_water_temperature() );
 
+    // Correction of body temperature due to traits and mutations
+    // Lower heat is applied always
+    const int mutation_heat_low = bodytemp_modifier_traits( false );
+    const int mutation_heat_high = bodytemp_modifier_traits( true );
+    // Difference between high and low is the "safe" heat - one we only apply if it's beneficial
+    const int mutation_heat_bonus = mutation_heat_high - mutation_heat_low;
+
     // Current temperature and converging temperature calculations
     for( int i = 0 ; i < num_bp; i++ ) {
         // Skip eyes
@@ -1209,6 +1216,8 @@ void player::update_bodytemp()
         temp_conv[i] += hunger_warmth;
         // FATIGUE
         temp_conv[i] += fatigue_warmth;
+        // Mutations
+        temp_conv[i] += mutation_heat_low;
         // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
         // Bark : lowers blister count to -10; harder to get blisters
         int blister_count = ( has_bark ? -10 : 0 ); // If the counter is high, your skin starts to burn
@@ -1293,9 +1302,6 @@ void player::update_bodytemp()
                 break;
         }
 
-        // Correction of body temperature due to traits and mutations
-        temp_conv[i] += bodytemp_modifier_traits( temp_cur[i] > BODYTEMP_NORM );
-
         // Climate Control eases the effects of high and low ambient temps
         if( has_climate_control ) {
             temp_conv[i] = temp_corrected_by_climate_control( temp_conv[i] );
@@ -1337,7 +1343,7 @@ void player::update_bodytemp()
         }
 
         const int comfortable_warmth = bonus_fire_warmth + lying_warmth;
-        const int bonus_warmth = comfortable_warmth + metabolism_warmth;
+        const int bonus_warmth = comfortable_warmth + metabolism_warmth + mutation_heat_bonus;
         if( bonus_warmth > 0 ) {
             // Approximate temp_conv needed to reach comfortable temperature in this very turn
             // Basically inverted formula for temp_cur below
@@ -4811,8 +4817,9 @@ void player::update_needs( int rate_multiplier )
 
     // Note: intentionally not in metabolic rate
     if( has_recycler ) {
-        hunger_rate *= 0.5f;
-        thirst_rate = std::min( thirst_rate, std::max( 0.5f, thirst_rate * 0.5f ) );
+        // Recycler won't help much with mutant metabolism - it is indended for human one
+        hunger_rate = std::min( hunger_rate, std::max( 0.5f, hunger_rate - 0.5f ) );
+        thirst_rate = std::min( thirst_rate, std::max( 0.5f, thirst_rate - 0.5f ) );
     }
 
     if( asleep && !hibernating ) {
@@ -4942,9 +4949,12 @@ void player::update_stamina( int turns )
 {
     float stamina_recovery = 0.0f;
     // Recover some stamina every turn.
-    if( !has_effect( effect_winded ) ) {
-        // But mouth encumberance interferes.
-        stamina_recovery += std::max( 1.0f, 10.0f - ( encumb( bp_mouth ) / 10.0f ) );
+    // Mutated stamina works even when winded
+    float stamina_multiplier = ( !has_effect( effect_winded ) ? 1.0f : 0.0f ) +
+                               mutation_value( "stamina_regen_modifier" );
+    if( stamina_multiplier > 0.0f ) {
+        // But mouth encumberance interferes, even with mutated stamina.
+        stamina_recovery += stamina_multiplier * std::max( 1.0f, 10.0f - ( encumb( bp_mouth ) / 10.0f ) );
         // TODO: recovering stamina causes hunger/thirst/fatigue.
         // TODO: Tiredness slowing recovery
     }

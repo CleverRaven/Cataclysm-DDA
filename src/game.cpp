@@ -12073,8 +12073,8 @@ void game::on_move_effects()
         if( u.stamina <= 0 ) {
             u.toggle_move_mode();
         }
-        if( one_in( u.stamina ) ) {
-            u.add_effect( effect_winded, 3);
+        if( u.stamina < u.get_stamina_max() / 2 && one_in( u.stamina ) ) {
+            u.add_effect( effect_winded, 3 );
         }
     }
 
