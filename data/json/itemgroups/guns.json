@@ -201,6 +201,17 @@
   },
   {
     "type": "item_group",
+    "id": "guns_energy",
+    "//": "Assorted factory crafted energy weapons.",
+    "items":[
+      [ "laser_rifle", 30 ],
+      [ "emp_gun", 10 ],
+      [ "v29", 70 ],
+      [ "ftk93", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_rifle_obscure",
     "//": "Imported or otherwise very obscure rifles.",
     "items": [
