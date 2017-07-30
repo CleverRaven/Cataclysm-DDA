@@ -63,9 +63,9 @@
 #  make MSYS2=1
 # Enable printf format checks (disables localization, might break on Windows)
 #  make PRINTF_CHECKS=1
-# Astyle the currently whitelisted source files.
+# Astyle the source files that aren't blacklisted. (maintain current level of styling)
 #  make astyle
-# Check if the currently whitelisted source files are styled properly (regression test).
+# Check if source files are styled properly (regression test, astyle_blacklist tracks un-styled files)
 #  make astyle-check
 # Astyle all source files using the current rules (don't PR this, it's too many changes at once).
 #  make astyle-all
@@ -612,6 +612,8 @@ endif
 
 SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
 HEADERS = $(wildcard $(SRC_DIR)/*.h)
+TESTSRC = $(wildcard tests/*.cpp)
+TESTHDR = $(wildcard tests/*.h)
 _OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)
 ifeq ($(TARGETSYSTEM),WINDOWS)
   RSRC = $(wildcard $(SRC_DIR)/*.rc)
@@ -907,25 +909,29 @@ endif
 
 export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS
 
-ctags: $(SOURCES) $(HEADERS)
-	ctags $(SOURCES) $(HEADERS)
+ctags: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
+	ctags $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
 
-etags: $(SOURCES) $(HEADERS)
-	etags $(SOURCES) $(HEADERS)
+etags: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
+	etags $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
 	find data -name "*.json" -print0 | xargs -0 -L 50 etags --append
 
-astyle:
-	$(ASTYLE_BINARY) --options=.astylerc -n $(shell cat astyled_whitelist)
+# Generate a list of files to check based on the difference between the blacklist and the existing source files.
+ASTYLED_WHITELIST = $(filter-out $(shell cat astyle_blacklist), $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR))
 
-astyle-all: $(SOURCES) $(HEADERS)
+astyle: $(ASTYLED_WHITELIST)
+	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLED_WHITELIST)
+
+astyle-all: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(SOURCES) $(HEADERS)
+	$(ASTYLE_BINARY) --options=.astylerc -n $(TESTSRC) $(TESTHDR)
 
 # Test whether the system has a version of astyle that supports --dry-run
 ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
-ASTYLE_CHECK=$(shell LC_ALL=C $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q $(shell cat astyled_whitelist))
+ASTYLE_CHECK=$(shell LC_ALL=C $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q $(ASTYLED_WHITELIST))
 endif
 
-astyle-check: $(SOURCES) $(HEADERS)
+astyle-check:
 ifdef ASTYLE_CHECK
 	@if [ "$(findstring Formatted,$(ASTYLE_CHECK))" = "" ]; then echo "no astyle regressions";\
         else printf "astyle regressions found.\n$(ASTYLE_CHECK)\n" && false; fi
