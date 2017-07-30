@@ -423,7 +423,7 @@
     "dialogue": {
       "describe": "It could be very informative to perform an analysis of zombie blood...",
       "offer": "I need someone to get a sample of zombie blood, take it to a hospital, and perform a centrifuge analysis of it.",
-      "accepted": "Excellent.  Take this vacutainer; once you've produced a zombie corpse, use it to extract blood from the body, then take it to a hospital for analysis.",
+      "accepted": "Excellent.  Take this blood draw kit; once you've produced a zombie corpse, use it to extract blood from the body, then take it to a hospital for analysis.",
       "rejected": "Are you sure?  The scientific value of that blood data could be priceless...",
       "advice": "The centrifuge is a bit technical; you might want to study up on the usage of computers before completing that part.",
       "inquire": "Well, do you have the data yet?",

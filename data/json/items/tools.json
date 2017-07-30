@@ -7823,8 +7823,8 @@
     "id": "vacutainer",
     "type": "CONTAINER",
     "category": "tools",
-    "name": "vacutainer",
-    "description": "This is a tool for drawing blood, including a test tube for holding the sample.  Use this tool to draw blood, either from yourself or from a corpse you are standing on.",
+    "name": "blood draw kit",
+    "description": "This is a kit for drawing blood, including a test tube for holding the sample.  Use this tool to draw blood, either from yourself or from a corpse you are standing on.",
     "weight": 13,
     "volume": 1,
     "price": 3000,
@@ -7836,7 +7836,7 @@
     "contains": 1,
     "seals": true,
     "watertight": true,
-    "use_action": "VACUTAINER",
+    "use_action": "BLOOD_DRAW",
     "flags": [ "SPEAR" ]
   },
   {
