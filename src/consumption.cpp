@@ -338,7 +338,8 @@ edible_rating player::will_eat( const item &food, bool interactive ) const
         !has_trait( trait_id( "SLIMESPAWNER" ) ) ) {
 
         if( get_hunger() < 0 && nutr >= 5 && !has_active_mutation( trait_id( "GOURMAND" ) ) ) {
-            consequences.emplace_back( TOO_FULL, _( "You're full already." ) );
+            consequences.emplace_back( TOO_FULL,
+                                       _( "You're full already and will be forcing yourself to eat." ) );
         } else if( ( ( nutr > 0           && temp_hunger < stomach_capacity() ) ||
                      ( comest->quench > 0 && temp_thirst < stomach_capacity() ) ) &&
                    !food.has_infinite_charges() ) {
@@ -355,7 +356,15 @@ edible_rating player::will_eat( const item &food, bool interactive ) const
         for( const auto &elem : consequences ) {
             req << elem.second << std::endl;
         }
-        req << _( "Consume anyway?" );
+
+        const bool eat_verb  = food.has_flag( "USE_EAT_VERB" );
+        if( eat_verb || comest->comesttype == "FOOD" ) {
+            req << string_format( _( "Eat your %s anyway?" ), food.tname().c_str() );
+        } else if( !eat_verb && comest->comesttype == "DRINK" ) {
+            req << string_format( _( "Drink your %s anyway?" ), food.tname().c_str() );
+        } else {
+            req << string_format( _( "Consume your %s anyway?" ), food.tname().c_str() );
+        }
 
         if( !query_yn( "%s", req.str().c_str() ) ) {
             return res;
@@ -834,7 +843,8 @@ hint_rating player::rate_action_eat( const item &it ) const
 
 bool player::can_feed_battery_with( const item &it ) const
 {
-    if( !it.is_ammo() || can_eat( it ) == EDIBLE || !has_active_bionic( bio_batteries ) ) {
+    if( !it.is_ammo() || can_eat( it ) == EDIBLE || !has_active_bionic( bio_batteries ) ||
+        get_acquirable_energy( it, rechargeable_cbm::battery ) == 0 ) {
         return false;
     }
 
@@ -847,18 +857,21 @@ bool player::feed_battery_with( item &it )
         return false;
     }
 
-    const int amount = get_acquirable_energy( it, rechargeable_cbm::battery );
+    const int energy = get_acquirable_energy( it, rechargeable_cbm::battery );
+    const int profitable_energy = std::min( energy, max_power_level - power_level );
 
-    if( amount <= 0 ) {
-        add_msg_player_or_npc( m_info, _( "Your internal power storage is fully powered." ),
+    if( profitable_energy <= 0 ) {
+        add_msg_player_or_npc( m_info,
+                               _( "Your internal power storage is fully powered." ),
                                _( "<npcname>'s internal power storage is fully powered." ) );
         return false;
     }
 
     charge_power( it.charges );
-    it.charges -= amount;
+    it.charges -= profitable_energy;
 
-    add_msg_player_or_npc( m_info, _( "You recharge your battery system with the %s." ),
+    add_msg_player_or_npc( m_info,
+                           _( "You recharge your battery system with the %s." ),
                            _( "<npcname> recharges their battery system with the %s." ),
                            it.tname().c_str() );
     mod_moves( -250 );
@@ -930,30 +943,36 @@ bool player::feed_furnace_with( item &it )
         return false;
     }
 
-    const int amount = get_acquirable_energy( it, rechargeable_cbm::furnace );
+    const int energy = get_acquirable_energy( it, rechargeable_cbm::furnace );
 
-    if( is_player() ) {
-        if( amount <= 0 ) {
-            if( !query_yn(
-                    _( "Burning this %s in your internal furnace won't give you more energy.  Do it anyway?" ),
-                    it.tname().c_str() ) ) {
-                return false;
-            }
-        } else {
-            if( !query_yn( _( "Burn this %s in your internal furnace (provides %d points of energy)?" ),
-                           it.tname().c_str(), amount ) ) {
-                return false;
-            }
-        }
+    if( energy == 0 ) {
+        add_msg_player_or_npc( m_info,
+                               _( "You digest your %s, but fail to acquire energy from it." ),
+                               _( "<npcname> digests their %s for energy, but fails to acquire energy from it." ),
+                               it.tname().c_str() );
+    } else if( power_level >= max_power_level ) {
+        add_msg_player_or_npc(
+            _( "You digest your %s, but you're fully powered already, so the energy is wasted." ),
+            _( "<npcname> digests a %s for energy, they're fully powered already, so the energy is wasted." ),
+            it.tname().c_str() );
+    } else {
+        const int profitable_energy = std::min( energy, max_power_level - power_level );
+        add_msg_player_or_npc( m_info,
+                               ngettext( _( "You digest your %s and recharge %d point of energy." ),
+                                         _( "You digest your %s and recharge %d points of energy." ),
+                                         profitable_energy
+                                       ),
+                               ngettext( _( "<npcname> digests a %s and recharges %d point of energy." ),
+                                         _( "<npcname> digests a %s and recharges %d points of energy." ),
+                                         profitable_energy
+                                       ), it.tname().c_str()
+                             );
+        charge_power( profitable_energy );
     }
 
-    add_msg_player_or_npc( _( "You digest your %s for energy." ),
-                           _( "<npcname> digests a %s for energy." ), it.tname().c_str() );
-
-    charge_power( amount );
     it.charges = 0;
-
     mod_moves( -250 );
+
     return true;
 }
 

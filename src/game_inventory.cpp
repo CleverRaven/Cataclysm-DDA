@@ -317,10 +317,13 @@ class comestible_inventory_preset : public inventory_selector_preset
             }
 
             const auto &it = get_comestible_item( loc );
+            const bool edible = p.can_eat( it, &res ) == EDIBLE;
+            const auto cbm = p.get_cbm_rechargeable_with( it );
 
-            if( p.can_eat( it, &res ) != EDIBLE &&
-                p.get_cbm_rechargeable_with( it ) == rechargeable_cbm::none ) {
+            if( !edible && cbm == rechargeable_cbm::none ) {
                 return res;
+            } else if( cbm == rechargeable_cbm::battery && p.power_level >= p.max_power_level ) {
+                return _( "You're fully charged" );
             }
 
             return inventory_selector_preset::get_denial( loc );
