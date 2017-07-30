@@ -6055,3 +6055,12 @@ std::string wield_hint_provider( const item &it )
 
     return hint;
 }
+
+std::string generic_hint_provider( const item &it )
+{
+    if ( it.is_food() )
+    {
+        return food_hint_provider(it);
+    }
+    return wield_hint_provider(it);
+}
