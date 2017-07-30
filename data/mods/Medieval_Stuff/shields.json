@@ -14,7 +14,7 @@
     "color": "brown",
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 40,
-    "encumbrance": 12,
+    "encumbrance": 30,
     "material_thickness": 2,
     "techniques": [ "WBLOCK_3" ],
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
@@ -34,7 +34,7 @@
     "color": "light_gray",
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 70,
-    "encumbrance": 28,
+    "encumbrance": 40,
     "material_thickness": 2,
     "techniques": [ "WBLOCK_4" ],
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
@@ -54,7 +54,7 @@
     "color": "light_gray",
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 40,
-    "encumbrance": 12,
+    "encumbrance": 18,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_3" ],
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
@@ -75,7 +75,7 @@
     "color": "light_gray",
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 60,
-    "encumbrance": 24,
+    "encumbrance": 32,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_4" ],
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
@@ -94,7 +94,7 @@
     "color": "blue",
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 45,
-    "encumbrance": 16,
+    "encumbrance": 22,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_3" ],
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
@@ -114,7 +114,7 @@
     "color": "yellow",
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 50,
-    "encumbrance": 20,
+    "encumbrance": 26,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_3" ],
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
@@ -135,7 +135,7 @@
     "color": "red",
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 70,
-    "encumbrance": 28,
+    "encumbrance": 36,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_4" ],
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]
@@ -154,7 +154,7 @@
     "color": "dark_gray",
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 30,
-    "encumbrance": 8,
+    "encumbrance": 14,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_3" ],
     "flags": [ "OVERSIZE", "STURDY", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ]

@@ -1407,6 +1407,8 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
         melee_attack( *source, false, tec );
     }
 
+    add_msg( m_debug, "blocked damage percentage: %.1f", 1.0 - blocked_ratio );
+
     return true;
 }
 
