@@ -18,7 +18,7 @@ TEST_CASE( "base64" ) {
 
 TEST_CASE( "utf8_to_wstr" ) {
     // std::mbstowcs' returning -1 workaround
-    std::setlocale( LC_ALL, "" );
+    setlocale( LC_ALL, "" );
     std::string src( u8"Hello, 世界!" );
     std::wstring dest( L"Hello, 世界!" );
     CHECK( utf8_to_wstr( src ) == dest );
@@ -26,7 +26,7 @@ TEST_CASE( "utf8_to_wstr" ) {
 
 TEST_CASE( "wstr_to_utf8" ) {
     // std::wcstombs' returning -1 workaround
-    std::setlocale( LC_ALL, "" );
+    setlocale( LC_ALL, "" );
     std::wstring src( L"Hello, 世界!" );
     std::string dest( u8"Hello, 世界!" );
     CHECK( wstr_to_utf8( src ) == dest );
