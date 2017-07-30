@@ -346,14 +346,6 @@ edible_rating player::will_eat( const item &food, bool interactive ) const
         }
     }
 
-    const int energy = get_acquirable_energy( food );
-
-    if( energy ) {
-        consequences.emplace_back( INEDIBLE,
-                                   string_format( _( "Instead of eating it, you could get %d points of energy." ),
-                                           energy ) );
-    }
-
     if( !consequences.empty() ) {
         const auto res = consequences.front().first;
         if( !interactive ) {
@@ -842,7 +834,7 @@ hint_rating player::rate_action_eat( const item &it ) const
 
 bool player::can_feed_battery_with( const item &it ) const
 {
-    if( !it.is_ammo() || !has_active_bionic( bio_batteries ) ) {
+    if( !it.is_ammo() || can_eat( it ) == EDIBLE || !has_active_bionic( bio_batteries ) ) {
         return false;
     }
 
@@ -881,7 +873,7 @@ bool player::can_feed_reactor_with( const item &it ) const
         }
     };
 
-    if( !it.is_ammo() ) {
+    if( !it.is_ammo() || can_eat( it ) == EDIBLE ) {
         return false;
     }
 
@@ -921,10 +913,15 @@ bool player::feed_reactor_with( item &it )
 
 bool player::can_feed_furnace_with( const item &it ) const
 {
+    if( !it.flammable() || it.has_flag( "RADIOACTIVE" ) || can_eat( it ) == EDIBLE ) {
+        return false;
+    }
+
     if( !has_active_bionic( bio_furnace ) ) {
         return false;
     }
-    return it.flammable() && !it.has_flag( "RADIOACTIVE" ) && it.typeId() != "corpse";
+
+    return it.typeId() != "corpse"; // @todo Eliminate the hard-coded special case.
 }
 
 bool player::feed_furnace_with( item &it )
