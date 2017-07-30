@@ -1322,12 +1322,12 @@ inventory_selector::inventory_selector( const player &u, const inventory_selecto
     , preset( preset )
     , ctxt( "INVENTORY" )
     , columns()
+    , hint_provider( generic_hint_provider )
     , active_column_index( 0 )
     , mode( navigation_mode::ITEM )
     , own_inv_column( preset )
     , own_gear_column( preset )
     , map_column( preset )
-    , hint_provider( generic_hint_provider )
 {
     ctxt.register_action( "DOWN", _( "Next item" ) );
     ctxt.register_action( "UP", _( "Previous item" ) );
