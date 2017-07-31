@@ -178,6 +178,8 @@ class Character : public Creature, public visitable<Character>
         /** Returns ENC provided by armor, etc. */
         int encumb( body_part bp ) const;
 
+        /** Returns body weight plus weight of inventory and worn/wielded items */
+        int get_weight() const override;
         /** Get encumbrance for all body parts. */
         std::array<encumbrance_data, num_bp> get_encumbrance() const;
         /** Get encumbrance for all body parts as if `new_item` was also worn. */
@@ -438,6 +440,8 @@ class Character : public Creature, public visitable<Character>
          * @param context optionally override effective item when checking contextual skills
          */
         bool can_use( const item& it, const item &context = item() ) const;
+        /** Returns true if the character is wielding something */
+        bool is_armed() const;
 
         void drop_inventory_overflow();
 

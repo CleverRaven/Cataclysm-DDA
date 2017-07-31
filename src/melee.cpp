@@ -51,12 +51,6 @@ const efftype_id effect_lightsnare( "lightsnare" );
 const efftype_id effect_poison( "poison" );
 const efftype_id effect_stunned( "stunned" );
 
-static const trait_id trait_ANTLERS( "ANTLERS" );
-static const trait_id trait_ARM_TENTACLES_4( "ARM_TENTACLES_4" );
-static const trait_id trait_ARM_TENTACLES_8( "ARM_TENTACLES_8" );
-static const trait_id trait_ARM_TENTACLES( "ARM_TENTACLES" );
-static const trait_id trait_BEAK( "BEAK" );
-static const trait_id trait_BEAK_PECK( "BEAK_PECK" );
 static const trait_id trait_CLAWS( "CLAWS" );
 static const trait_id trait_CLAWS_RAT( "CLAWS_RAT" );
 static const trait_id trait_CLAWS_RETRACT( "CLAWS_RETRACT" );
@@ -65,35 +59,16 @@ static const trait_id trait_CLAWS_TENTACLE( "CLAWS_TENTACLE" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_DRUNKEN( "DRUNKEN" );
-static const trait_id trait_FANGS( "FANGS" );
-static const trait_id trait_FANGS_SPIDER( "FANGS_SPIDER" );
 static const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
-static const trait_id trait_HOOVES( "HOOVES" );
-static const trait_id trait_HORNS_CURLED( "HORNS_CURLED" );
-static const trait_id trait_HORNS( "HORNS" );
-static const trait_id trait_HORNS_POINTED( "HORNS_POINTED" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
-static const trait_id trait_INCISORS( "INCISORS" );
 static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
-static const trait_id trait_MANDIBLES( "MANDIBLES" );
-static const trait_id trait_MUZZLE_BEAR( "MUZZLE_BEAR" );
-static const trait_id trait_MUZZLE_LONG( "MUZZLE_LONG" );
-static const trait_id trait_MUZZLE( "MUZZLE" );
-static const trait_id trait_MUZZLE_RAT( "MUZZLE_RAT" );
 static const trait_id trait_NAILS( "NAILS" );
 static const trait_id trait_POISONOUS2( "POISONOUS2" );
 static const trait_id trait_POISONOUS( "POISONOUS" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
-static const trait_id trait_RAP_TALONS( "RAP_TALONS" );
-static const trait_id trait_SABER_TEETH( "SABER_TEETH" );
 static const trait_id trait_SLIME_HANDS( "SLIME_HANDS" );
-static const trait_id trait_TAIL_CLUB( "TAIL_CLUB" );
-static const trait_id trait_TAIL_STING( "TAIL_STING" );
-static const trait_id trait_TAIL_THICK( "TAIL_THICK" );
 static const trait_id trait_TALONS( "TALONS" );
 static const trait_id trait_THORNS( "THORNS" );
-static const trait_id trait_VINES2( "VINES2" );
-static const trait_id trait_VINES3( "VINES3" );
 
 void player_hit_message(player* attacker, std::string message,
                         Creature &t, int dam, bool crit = false);
@@ -115,7 +90,7 @@ std::string melee_message( const ma_technique &tech, player &p, const dealt_dama
  *   skills, torso encumbrance penalties and drunken master bonuses.
  */
 
-bool player::is_armed() const
+bool Character::is_armed() const
 {
     return !weapon.is_null();
 }

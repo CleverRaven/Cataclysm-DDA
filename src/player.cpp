@@ -1095,7 +1095,7 @@ void player::update_bodytemp()
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
     bool sheltered = g->is_sheltered( pos() );
-    int total_windpower = get_local_windpower( weather.windpower + vehwindspeed, cur_om_ter->get_name(), sheltered );
+    int total_windpower = get_local_windpower( weather.windpower + vehwindspeed, cur_om_ter, sheltered );
 
     // Let's cache this not to check it num_bp times
     const bool has_bark = has_trait( trait_BARK );
@@ -4569,6 +4569,8 @@ void player::update_body( int from, int to )
 
     const int thirty_mins = ticks_between( from, to, MINUTES(30) );
     if( thirty_mins > 0 ) {
+        // Radiation kills health even at low doses
+        update_health( has_trait( trait_RADIOGENIC ) ? 0 : -radiation );
         get_sick();
     }
 
@@ -4587,11 +4589,6 @@ void player::update_body( int from, int to )
                 vitamin_mod( v.first, qty );
             }
         }
-    }
-
-    if( ticks_between( from, to, HOURS(6) ) ) {
-        // Radiation kills health even at low doses
-        update_health( has_trait( trait_RADIOGENIC ) ? 0 : -radiation );
     }
 }
 
@@ -4672,15 +4669,6 @@ void player::get_sick()
             add_env_effect( effect_common_cold, bp_mouth, 3, duration );
         }
     }
-}
-
-void player::update_health(int external_modifiers)
-{
-    if( has_artifact_with( AEP_SICK ) ) {
-        // Carrying a sickness artifact makes your health 50 points worse on average
-        external_modifiers -= 50;
-    }
-    Character::update_health( external_modifiers );
 }
 
 void player::check_needs_extremes()
@@ -10448,7 +10436,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
             if( outermost && elem.type == DT_HEAT && elem.amount >= 1.0f ) {
                 // @todo Different fire intensity values based on damage
                 fire_data frd{ 2, 0.0f, 0.0f };
-                destroy = armor.burn( frd );
+                destroy = armor.burn( frd, true );
                 int fuel = roll_remainder( frd.fuel_produced );
                 if( fuel > 0 ) {
                     add_effect( effect_onfire, fuel + 1, bp );

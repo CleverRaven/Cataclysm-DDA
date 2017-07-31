@@ -4433,7 +4433,7 @@ bool npc::item_whitelisted( const item &it )
 
 npc_follower_rules::npc_follower_rules()
 {
-    engagement = ENGAGE_ALL;
+    engagement = ENGAGE_CLOSE;
     aim = AIM_WHEN_CONVENIENT;
     use_guns = true;
     use_grenades = true;

@@ -1571,7 +1571,7 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
     // but it doesn't make you feel any less bad about it.
     /** @EFFECT_SURVIVAL increases tolerance for enzlavement */
     if( p->get_morale_level() <= ( 15 * ( tolerance_level - p->get_skill_level( skill_survival ) ) ) - 150 ) {
-        add_msg(m_neutral, _("The prospect of cutting up the copse and letting it rise again as a slave is too much for you to deal with right now."));
+        add_msg(m_neutral, _("The prospect of cutting up the corpse and letting it rise again as a slave is too much for you to deal with right now."));
         return 0;
     }
 
@@ -2024,7 +2024,9 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
 
 void holster_actor::info( const item&, std::vector<iteminfo>& dump ) const
 {
-    dump.emplace_back( "TOOL", _( "Can contain items up to " ), string_format( "<num> %s", volume_units_abbr() ),
+    dump.emplace_back( "TOOL", _( "Can contain items from " ), string_format( "<num> %s", volume_units_abbr() ),
+                       convert_volume( min_volume.value() ), false, "", max_weight <= 0 );
+    dump.emplace_back( "TOOL", _( "Up to " ), string_format( "<num> %s", volume_units_abbr() ),
                        convert_volume( max_volume.value() ), false, "", max_weight <= 0 );
 
     if( max_weight > 0 ) {
@@ -2713,7 +2715,7 @@ long heal_actor::use( player *p, item *it, bool, const tripoint &pos ) const
         p->add_msg_if_player( m_info, _("You can't do that while underwater.") );
         return 0;
     }
-    
+
     if( get_option<bool>( "FILTHY_WOUNDS" ) && it->is_filthy() ) {
         p->add_msg_if_player( m_info, _( "You can't use filthy items for healing." ) );
         return 0;

@@ -36,7 +36,6 @@
 #include "recipe_dictionary.h"
 #include "player_activity.h"
 
-#include "tile_id_data.h" // for monster::json_save
 #include <ctime>
 #include <bitset>
 
@@ -168,7 +167,7 @@ void player_activity::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
     std::string tmptype;
-    int tmppos;
+    int tmppos = 0;
     if ( !data.read( "type", tmptype ) ) {
         // Then it's a legacy save.
         int tmp_type_legacy;
@@ -791,7 +790,7 @@ void player::deserialize(JsonIn &jsin)
         completed_missions = mission::to_ptr_vector( tmpmissions );
     }
 
-    int tmpactive_mission;
+    int tmpactive_mission = 0;
     if( data.read( "active_mission", tmpactive_mission ) ) {
         if( savegame_loading_version <= 23 ) {
             // In 0.C, active_mission was an index of the active_missions array (-1 indicated no active mission).
@@ -878,10 +877,10 @@ void npc_follower_rules::serialize(JsonOut &json) const
 void npc_follower_rules::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
-    int tmpeng;
+    int tmpeng = 0;
     data.read("engagement", tmpeng);
     engagement = (combat_engagement)tmpeng;
-    int tmpaim;
+    int tmpaim = 0;
     data.read("aim", tmpaim);
     aim = (aim_rule)tmpaim;
     data.read( "use_guns", use_guns);
@@ -920,7 +919,7 @@ void npc_chatbin::deserialize(JsonIn &jsin)
     std::string skill_ident;
 
     if( data.has_int( "first_topic" ) ) {
-        int tmptopic;
+        int tmptopic = 0;
         data.read("first_topic", tmptopic);
         first_topic = convert_talk_topic( talk_topic_enum(tmptopic) );
     } else {
@@ -936,7 +935,7 @@ void npc_chatbin::deserialize(JsonIn &jsin)
     data.read( "missions_assigned", tmpmissions_assigned );
     missions_assigned = mission::to_ptr_vector( tmpmissions_assigned );
 
-    int tmpmission_selected;
+    int tmpmission_selected = 0;
     mission_selected = nullptr;
     if( data.read( "mission_selected", tmpmission_selected ) && tmpmission_selected != -1 ) {
         if( savegame_loading_version <= 23 ) {
@@ -953,7 +952,10 @@ void npc_chatbin::deserialize(JsonIn &jsin)
 void npc_personality::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
-    int tmpagg, tmpbrav, tmpcol, tmpalt;
+    int tmpagg = 0;
+    int tmpbrav = 0;
+    int tmpcol = 0;
+    int tmpalt = 0;
     if ( data.read("aggression", tmpagg) &&
          data.read("bravery", tmpbrav) &&
          data.read("collector", tmpcol) &&
@@ -1038,8 +1040,14 @@ void npc::load(JsonObject &data)
     // this should call load on the parent class of npc (probably Character).
     player::load( data );
 
-    int misstmp, classtmp, atttmp, comp_miss_t, stock;
-    std::string facID, comp_miss, classid;
+    int misstmp = 0;
+    int classtmp = 0;
+    int atttmp = 0;
+    int comp_miss_t = 0;
+    int stock = 0;;
+    std::string facID;
+    std::string comp_miss;
+    std::string classid;
 
     data.read("name", name);
     data.read("marked_for_death", marked_for_death);
@@ -1065,7 +1073,7 @@ void npc::load(JsonObject &data)
         point old_coords;
         data.read( "mapx", old_coords.x );
         data.read( "mapy", old_coords.y );
-        int o;
+        int o = 0;
         if( data.read( "omx", o ) ) {
             old_coords.x += o * OMAPX * 2;
         }
@@ -1626,10 +1634,10 @@ static void migrate_toolmod( item &it )
     if( it.is_tool() ) {
         // duplication would add an extra toolmod inside each tool on load;
         // delete the duplicates so there is only one copy of each toolmod
-        int n_atomic = 0,
-            n_compartment = 0,
-            n_ups = 0,
-            n_plutonium = 0;
+        int n_atomic = 0;
+        int n_compartment = 0;
+        int n_ups = 0;
+        int n_plutonium = 0;
 
         // not safe to use remove_if with a stateful predicate
         for( auto i = it.contents.begin(); i != it.contents.end(); ) {
@@ -1840,7 +1848,8 @@ void vehicle::deserialize(JsonIn &jsin)
 {
     JsonObject data = jsin.get_object();
 
-    int fdir, mdir;
+    int fdir = 0;
+    int mdir = 0;
 
     data.read("type", type);
     data.read("posx", posx);
@@ -2117,7 +2126,7 @@ void faction::deserialize(JsonIn &jsin)
     jo.read("mapx", mapx);
     jo.read("mapy", mapy);
     // omx,omy are obsolete, use them (if present) to make mapx,mapy global coordinates
-    int o;
+    int o = 0;
     if(jo.read("omx", o)) {
         mapx += o * OMAPX * 2;
     }
@@ -2234,7 +2243,7 @@ void Creature::load( JsonObject &jsin )
             // Because JSON requires string keys we need to convert back to our bp keys
             std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
             jsin.read( "effects", tmp_map );
-            int key_num;
+            int key_num = 0;
             for (auto maps : tmp_map) {
                 const efftype_id id( maps.first );
                 if( !id.is_valid() ) {

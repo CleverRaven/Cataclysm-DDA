@@ -541,7 +541,7 @@ void talk_function::caravan_return(npc *p, std::string dest, std::string id)
     std::vector<npc *> caravan_party, bandit_party;
     std::vector<npc *> npc_list = companion_list( *p, id );
     for (int i = 0; i < rng(1,3); i++){
-        caravan_party.push_back(temp_npc("commune_guard"));
+        caravan_party.push_back(temp_npc(string_id<npc_template>( "commune_guard" )));
     }
     for( auto &elem : npc_list ) {
         if (elem->companion_mission_time == comp->companion_mission_time){
@@ -554,8 +554,8 @@ void talk_function::caravan_return(npc *p, std::string dest, std::string id)
     int experience = rng( 10, time / 300 );
 
     for (int i = 0; i < rng( 1, 3 ); i++){
-        bandit_party.push_back(temp_npc("bandit"));
-        bandit_party.push_back(temp_npc("thug"));
+        bandit_party.push_back(temp_npc(string_id<npc_template>( "bandit" )));
+        bandit_party.push_back(temp_npc(string_id<npc_template>( "thug" )));
     }
 
 
@@ -665,7 +665,7 @@ int talk_function::combat_score(std::vector<npc *> group)
     return score;
 }
 
-npc *talk_function::temp_npc(std::string type)
+npc *talk_function::temp_npc( const string_id<npc_template> &type )
 {
     npc *temp = new npc();
     temp->normalize();

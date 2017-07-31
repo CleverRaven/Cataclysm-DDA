@@ -356,8 +356,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool sight_impaired() const;
         /** Returns true if the player has two functioning arms */
         bool has_two_arms() const;
-        /** Returns true if the player is wielding something */
-        bool is_armed() const;
         /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */
         bool handle_melee_wear( float wear_multiplier = 1.0f );
         bool handle_melee_wear( item &shield, float wear_multiplier = 1.0f );
@@ -728,8 +726,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Handles the chance to be infected by random diseases */
         void get_sick();
-        /** Handles health fluctuations over time, redirects into Creature::update_health */
-        void update_health(int external_modifiers = 0) override;
         /** Returns list of rc items in player inventory. **/
         std::list<item *> get_radio_items();
 

@@ -1289,6 +1289,21 @@ std::array<encumbrance_data, num_bp> Character::calc_encumbrance( const item &ne
     return ret;
 }
 
+int Character::get_weight() const
+{
+    int ret = 0;
+    int wornWeight = std::accumulate( worn.begin(), worn.end(), 0,
+                     []( int sum, const item &itm ) {
+                        return sum + itm.weight();
+                     } );
+
+    ret += Creature::get_weight(); // The base weight of the player's body
+    ret += inv.weight();           // Weight of the stored inventory
+    ret += wornWeight;             // Weight of worn items
+    ret += weapon.weight();        // Weight of wielded item
+    return ret;
+}
+
 std::array<encumbrance_data, num_bp> Character::get_encumbrance() const
 {
     return encumbrance_cache;
@@ -1577,6 +1592,9 @@ void Character::mod_healthy_mod(int nhealthy_mod, int cap)
     // Cap indicates how far the mod is allowed to shift in this direction.
     // It can have a different sign to the mod, e.g. for items that treat
     // extremely low health, but can't make you healthy.
+    if( nhealthy_mod == 0 || cap == 0 ) {
+        return;
+    }
     int low_cap;
     int high_cap;
     if( nhealthy_mod < 0 ) {
@@ -1696,6 +1714,10 @@ void Character::reset_bonuses()
 
 void Character::update_health(int external_modifiers)
 {
+    if( has_artifact_with( AEP_SICK ) ) {
+        // Carrying a sickness artifact makes your health 50 points worse on average
+        external_modifiers -= 50;
+    }
     // Limit healthy_mod to [-200, 200].
     // This also sets approximate bounds for the character's health.
     if( get_healthy_mod() > 200 ) {
@@ -1712,19 +1734,15 @@ void Character::update_health(int external_modifiers)
         effective_healthy_mod = 100;
     }
 
-    // Over the long run, health tends toward healthy_mod.
-    int break_even = get_healthy() - effective_healthy_mod + external_modifiers;
-
-    // But we allow some random variation.
-    const long roll = rng( -100, 100 );
-    if( roll > break_even ) {
-        mod_healthy( 1 );
-    } else if( roll < break_even ) {
-        mod_healthy( -1 );
-    }
+    // Health tends toward healthy_mod.
+    // For small differences, it changes 4 points per day
+    // For large ones, up to ~40% of the difference per day
+    int health_change = effective_healthy_mod - get_healthy() + external_modifiers;
+    mod_healthy( sgn( health_change ) * std::max( 1, abs( health_change ) / 10 ) );
 
     // And healthy_mod decays over time.
-    set_healthy_mod( get_healthy_mod() * 3 / 4 );
+    // Slowly near 0, but it's hard to overpower it near +/-100
+    set_healthy_mod( round( get_healthy_mod() * 0.95f ) );
 
     add_msg( m_debug, "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod() );
 }
