@@ -24,6 +24,8 @@ struct overmap_location;
 
 class overmap_connection;
 class overmap_special_batch;
+class overmap_special;
+using overmap_special_id = string_id<overmap_special>;
 
 /** Direction on the overmap. */
 namespace om_direction
@@ -338,7 +340,7 @@ class overmap_special
         /** @returns whether the special at specified tripoint can belong to the specified city. */
         bool can_belong_to_city( const tripoint &p, const city &cit ) const;
 
-        string_id<overmap_special> id;
+        overmap_special_id id;
         std::list<overmap_special_terrain> terrains;
         std::vector<overmap_special_connection> connections;
 
@@ -378,6 +380,10 @@ void finalize();
 void check_consistency();
 void reset();
 overmap_special_batch get_default_batch( point origin );
+/**
+ * Generates a simple special from a building id.
+ */
+void create_building_from( const oter_id &base );
 
 }
 
