@@ -6,7 +6,8 @@
 
 #include <sstream>
 
-static void test_diet( size_t num_days, npc &dude, const std::array<int, 4> hmod_changes_per_day, int min, int max )
+static void test_diet( size_t num_days, npc &dude, const std::array<int, 4> hmod_changes_per_day,
+                       int min, int max )
 {
     size_t num_iters = DAYS( num_days ) / HOURS( 6 );
     std::vector<int> health_samples;
@@ -29,7 +30,8 @@ static void test_diet( size_t num_days, npc &dude, const std::array<int, 4> hmod
 }
 
 // Maximum possible health in feasible environment
-TEST_CASE("max_healthy_mod_feasible", "[health]") {
+TEST_CASE( "max_healthy_mod_feasible", "[health]" )
+{
     // 1 year = 4 seasons = 8 weeks (on default settings) = 56 days
     size_t num_days = 56;
     standard_npc dude( "healthy eater" );
@@ -42,7 +44,8 @@ TEST_CASE("max_healthy_mod_feasible", "[health]") {
 }
 
 // Terrible diet, worst feasible without hardcore drugs
-TEST_CASE("junk_food_diet", "[health]") {
+TEST_CASE( "junk_food_diet", "[health]" )
+{
     size_t num_days = 56;
     standard_npc dude( "junk eater" );
     // French fries are -1 healthy, 8 nutrition
@@ -53,7 +56,8 @@ TEST_CASE("junk_food_diet", "[health]") {
 }
 
 // Typical diet of an established character
-TEST_CASE("oat_diet", "[health]") {
+TEST_CASE( "oat_diet", "[health]" )
+{
     size_t num_days = 56;
     standard_npc dude( "oat eater" );
     // Oatmeal is 1 healthy, 48 nutriton
@@ -64,7 +68,8 @@ TEST_CASE("oat_diet", "[health]") {
 
 // A character that eats one meal per day, like that fad diet
 // But make the meal healthy
-TEST_CASE("fasting_breakfast", "[health]") {
+TEST_CASE( "fasting_breakfast", "[health]" )
+{
     size_t num_days = 56;
     standard_npc dude( "fasting eater" );
     // Cooked buckwheats are 2 healthy / 50 nutrition
@@ -74,7 +79,8 @@ TEST_CASE("fasting_breakfast", "[health]") {
 }
 
 // A junk food junkie who switched to a healthy diet for a week
-TEST_CASE("recovering_health", "[health]") {
+TEST_CASE( "recovering_health", "[health]" )
+{
     size_t num_days = 7;
     standard_npc dude( "recovering junk eater" );
     dude.set_healthy( -100 );
