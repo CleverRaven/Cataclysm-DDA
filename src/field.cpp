@@ -855,10 +855,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         int consumed = 0;
                         // How much time to add to the fire's life due to burned items/terrain/furniture
                         int time_added = 0;
-                        // Checks if the fire can spread
-                        const bool can_spread = tr_brazier != trp &&
-                                                !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER );
-
                         // The huge indent below should probably be somehow moved away from here
                         // without forcing the function to use i_at( p ) for fires without items
                         if( !is_sealed && map_tile.get_item_count() > 0 ) {
