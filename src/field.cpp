@@ -855,6 +855,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         int consumed = 0;
                         // How much time to add to the fire's life due to burned items/terrain/furniture
                         int time_added = 0;
+                        // Checks if the fire can spread
+                        // If the flames are in furniture with fire_container flag like brazier or oven,
+                        // they're fully contained, so skip consuming terrain
+                        const bool can_spread = !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER );
                         // The huge indent below should probably be somehow moved away from here
                         // without forcing the function to use i_at( p ) for fires without items
                         if( !is_sealed && map_tile.get_item_count() > 0 ) {
@@ -905,9 +909,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             veh->damage(part, cur->getFieldDensity() * 10, DT_HEAT, true);
                             //Damage the vehicle in the fire.
                         }
-                        // If the flames are in furniture with fire_container flag like brazier or oven,
-                        // they're fully contained, so skip consuming terrain
-                        const bool can_spread = !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER );
                         if( can_spread ) {
                             if( ter.has_flag( TFLAG_SWIMMABLE ) ) {
                                 // Flames die quickly on water
