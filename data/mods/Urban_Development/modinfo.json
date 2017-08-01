@@ -1,0 +1,10 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "Urban_Development",
+    "name": "Urban Development",
+    "description": "Holder for suburban and urban buildings.",
+    "category": "buildings",
+    "dependencies": [ "dda" ]
+  }
+]
