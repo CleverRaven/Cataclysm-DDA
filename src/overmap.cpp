@@ -4731,7 +4731,6 @@ void building_bin::finalize()
 
     for( const std::pair<overmap_special_id, int> &pr : unfinalized_buildings ) {
         bool skip = false;
-        building_size cur_size;
         overmap_special_id current_id = pr.first;
         if( !current_id.is_valid() ) {
             // First, try to convert oter to special
@@ -4751,8 +4750,6 @@ void building_bin::finalize()
                 skip = true;
                 break;
             }
-            cur_size.height = std::max( p.z, cur_size.height );
-            cur_size.depth = std::max( -p.z, cur_size.depth );
         }
         if( skip ) {
             continue;
