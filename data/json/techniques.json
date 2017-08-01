@@ -268,6 +268,7 @@
         "min_unarmed" : 5,
         "unarmed_allowed" : true,
         "crit_tec" : true,
+        "dodge_counter": true,
         "knockback_dist" : 1,
         "knockback_spread" : 1,
         "req_buffs" : [
