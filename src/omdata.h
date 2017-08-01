@@ -383,7 +383,7 @@ overmap_special_batch get_default_batch( point origin );
 /**
  * Generates a simple special from a building id.
  */
-void create_building_from( const oter_id &base );
+overmap_special_id create_building_from( const string_id<oter_type_t> &base );
 
 }
 
