@@ -157,7 +157,7 @@ endif
 # This sets CXX and so must be up here
 ifdef CLANG
   # Allow setting specific CLANG version
-  ifneq ($(CLANG), 1)
+  ifeq ($(CLANG), 1)
     CLANG = clang++
   endif
   ifeq ($(NATIVE), osx)
