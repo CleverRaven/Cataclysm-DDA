@@ -154,23 +154,46 @@ ifneq ($(findstring BSD,$(OS)),)
   BSD = 1
 endif
 
-# Compiler version & target machine - used later for MXE ICE workaround
-ifdef CROSS
-  CXXVERSION := $(shell $(CROSS)$(CXX) --version | grep -i gcc | sed 's/^.* //g')
-  CXXMACHINE := $(shell $(CROSS)$(CXX) -dumpmachine)
+# This sets CXX and so must be up here
+ifdef CLANG
+  # Allow setting specific CLANG version
+  ifneq ($(CLANG), 1)
+    CLANG = clang++
+  endif
+  ifeq ($(NATIVE), osx)
+    USE_LIBCXX = 1
+  endif
+  ifdef USE_LIBCXX
+    OTHERS += -stdlib=libc++
+    LDFLAGS += -stdlib=libc++
+  endif
+  ifdef CCACHE
+    CXX = CCACHE_CPP2=1 ccache $(CROSS)$(CLANG)
+    LD  = CCACHE_CPP2=1 ccache $(CROSS)$(CLANG)
+  else
+    CXX = $(CROSS)$(CLANG)
+    LD  = $(CROSS)$(CLANG)
+  endif
+else
+  # Compiler version & target machine - used later for MXE ICE workaround
+  ifdef CROSS
+    CXXVERSION := $(shell $(CROSS)$(CXX) --version | grep -i gcc | sed 's/^.* //g')
+    CXXMACHINE := $(shell $(CROSS)$(CXX) -dumpmachine)
+  endif
+
+  # Expand at reference time to avoid recursive reference
+  OS_COMPILER := $(CXX)
+  # Appears that the default value of $LD is unsuitable on most systems
+  OS_LINKER := $(CXX)
+  ifdef CCACHE
+    CXX = ccache $(CROSS)$(OS_COMPILER)
+    LD  = ccache $(CROSS)$(OS_LINKER)
+  else
+    CXX = $(CROSS)$(OS_COMPILER)
+    LD  = $(CROSS)$(OS_LINKER)
+  endif
 endif
 
-# Expand at reference time to avoid recursive reference
-OS_COMPILER := $(CXX)
-# Appears that the default value of $LD is unsuitable on most systems
-OS_LINKER := $(CXX)
-ifdef CCACHE
-  CXX = ccache $(CROSS)$(OS_COMPILER)
-  LD  = ccache $(CROSS)$(OS_LINKER)
-else
-  CXX = $(CROSS)$(OS_COMPILER)
-  LD  = $(CROSS)$(OS_LINKER)
-endif
 STRIP = $(CROSS)strip
 RC  = $(CROSS)windres
 AR  = $(CROSS)ar
@@ -225,23 +248,6 @@ ifdef RELEASE
   DEFINES += -DRELEASE
   # Check for astyle or JSON regressions on release builds.
   CHECKS = astyle-check lint-check
-endif
-
-ifdef CLANG
-  ifeq ($(NATIVE), osx)
-    USE_LIBCXX = 1
-  endif
-  ifdef USE_LIBCXX
-    OTHERS += -stdlib=libc++
-    LDFLAGS += -stdlib=libc++
-  endif
-  ifdef CCACHE
-    CXX = CCACHE_CPP2=1 ccache $(CROSS)clang++
-    LD  = CCACHE_CPP2=1 ccache $(CROSS)clang++
-  else
-    CXX = $(CROSS)clang++
-    LD  = $(CROSS)clang++
-  endif
 endif
 
 ifndef RELEASE
