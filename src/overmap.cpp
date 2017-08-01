@@ -4755,11 +4755,19 @@ overmap_special_id building_bin::pick( const building_size &max_size ) const
 
     const auto iter = allowed_size_map.find( max_size );
     if( iter == allowed_size_map.end() ) {
-        if( max_size != bounds && max_size.height >= bounds.height && max_size.depth >= bounds.depth ) {
-            return pick( bounds );
+        building_size smaller_size{ std::min( max_size.height, bounds.height ),
+                                    std::min( max_size.depth, bounds.depth ) };
+        if( max_size != smaller_size ) {
+            return pick( smaller_size );
         }
         
-        debugmsg( "Tried to pick a special out of a bugged bin: bounds %d,%d, max_size %d,%d",
+        debugmsg( "Tried to pick a special out of a bugged (missing entry) bin: bounds %d,%d, max_size %d,%d",
+                  bounds.height, bounds.depth, max_size.height, max_size.depth );
+        return null_special;
+    }
+
+    if( iter->second->empty() ) {
+        debugmsg( "Tried to pick a special out of a bugged (entry exists, but is empty) bin: bounds %d,%d, max_size %d,%d",
                   bounds.height, bounds.depth, max_size.height, max_size.depth );
         return null_special;
     }
@@ -4862,6 +4870,16 @@ void building_bin::finalize()
                     allowed_size_map[ cur_bounds ] = allowed_size_map[ copy_from ];
                 } else {
                     unique = true;
+                }
+            } else if( !unique && ( ( height > 0 && depth == 0 ) ||
+                                    ( height == 0 && depth > 0 ) ) ) {
+                // The "borders" - they weren't handled above
+                if( height > 0 ) {
+                    building_size copy_from{ height - 1, depth };
+                    allowed_size_map[ cur_bounds ] = allowed_size_map[ copy_from ];
+                } else {
+                    building_size copy_from{ height, depth - 1 };
+                    allowed_size_map[ cur_bounds ] = allowed_size_map[ copy_from ];
                 }
             }
             if( unique ) {

@@ -106,6 +106,7 @@
           "shop_radius": 80,                "//": "determine radial frequency of shops / parks / houses for towns. tldr: less means more",
           "park_radius": 130,               "//": "this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;",
           "houses": {
+              "house_two_story_basement": 100,
               "house": 2,
               "house_base": 1
           },
