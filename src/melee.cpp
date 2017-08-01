@@ -1781,8 +1781,8 @@ std::string melee_message( const ma_technique &tec, player &p, const dealt_damag
 }
 
 // display the hit message for an attack
-void player_hit_message(player* attacker, std::string message,
-                        Creature &t, int dam, bool crit)
+void player_hit_message( player* attacker, std::string message,
+                        Creature &t, int dam, bool crit )
 {
     std::string msg;
     game_message_type msgtype;
@@ -1790,52 +1790,52 @@ void player_hit_message(player* attacker, std::string message,
     std::string sSCTmod = "";
     game_message_type gmtSCTcolor = m_good;
 
-    if (dam <= 0) {
-        if (attacker->is_npc()) {
+    if( dam <= 0 ) {
+        if( attacker->is_npc() ) {
             //~ NPC hits something but does no damage
-            msg = string_format(_("%s but does no damage."), message.c_str());
+            msg = string_format( _( "%s but does no damage." ), message.c_str() );
         } else {
             //~ someone hits something but do no damage
-            msg = string_format(_("%s but do no damage."), message.c_str());
+            msg = string_format( _( "%s but do no damage." ), message.c_str() );
         }
         msgtype = m_neutral;
-    } else if (crit) {
-        if (attacker->is_npc()) {
+    } else if( crit ) {
+        if( attacker->is_npc() ) {
             //~ NPC hits something (critical)
-            msg = string_format(_("%s. Critical!"), message.c_str());
+            msg = string_format( _( "%s. Critical!" ), message.c_str() );
         } else {
             //~ someone hits something for %d damage (critical)
-            msg = string_format(_("%s for %d damage. Critical!"),
-                            message.c_str(), dam);
+            msg = string_format( _( "%s for %d damage. Critical!" ),
+                            message.c_str(), dam );
         }
-        sSCTmod = _("Critical!");
+        sSCTmod = _( "Critical!" );
         gmtSCTcolor = m_critical;
     } else {
-        if (attacker->is_npc()) {
+        if( attacker->is_npc() ) {
             //~ NPC hits something
-            msg = string_format(_("%s."), message.c_str());
+            msg = string_format( _( "%s." ), message.c_str() );
         } else {
             //~ someone hits something for %d damage
-            msg = string_format(_("%s for %d damage."), message.c_str(), dam);
+            msg = string_format( _( "%s for %d damage." ), message.c_str(), dam );
         }
     }
 
-    if (dam > 0 && attacker->is_player()) {
+    if( dam > 0 && attacker->is_player() ) {
         //player hits monster melee
-        SCT.add(t.posx(),
+        SCT.add( t.posx(),
                 t.posy(),
-                direction_from(0, 0, t.posx() - attacker->posx(), t.posy() - attacker->posy()),
-                get_hp_bar(dam, t.get_hp_max(), true).first, m_good,
-                sSCTmod, gmtSCTcolor);
+                direction_from( 0, 0, t.posx() - attacker->posx(), t.posy() - attacker->posy() ),
+                get_hp_bar( dam, t.get_hp_max(), true ).first, m_good,
+                sSCTmod, gmtSCTcolor );
 
-        if (t.get_hp() > 0) {
-            SCT.add(t.posx(),
+        if( t.get_hp() > 0 ) {
+            SCT.add( t.posx(),
                     t.posy(),
-                    direction_from(0, 0, t.posx() - attacker->posx(), t.posy() - attacker->posy()),
-                    get_hp_bar(t.get_hp(), t.get_hp_max(), true).first, m_good,
+                    direction_from( 0, 0, t.posx() - attacker->posx(), t.posy() - attacker->posy() ),
+                    get_hp_bar( t.get_hp(), t.get_hp_max(), true ).first, m_good,
                     //~ "hit points", used in scrolling combat text
-                    _("hp"), m_neutral,
-                    "hp");
+                    _( "hp" ), m_neutral,
+                    "hp" );
         } else {
             SCT.removeCreatureHP();
         }
@@ -1843,8 +1843,8 @@ void player_hit_message(player* attacker, std::string message,
 
     // same message is used for player and npc,
     // just using this for the <npcname> substitution.
-    attacker->add_msg_player_or_npc(msgtype, msg.c_str(), msg.c_str(),
-                                    t.disp_name().c_str());
+    attacker->add_msg_player_or_npc( msgtype, msg.c_str(), msg.c_str(),
+                                    t.disp_name().c_str() );
 }
 
 int player::attack_speed( const item &weap ) const
