@@ -416,6 +416,16 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             if( !g->u.knows_recipe( current[line] ) ) {
                 component_print_buffer.push_back( _( "Recipe not memorized yet" ) );
+                auto books_with_recipe = g->u.get_books_for_recipe( crafting_inv, current[line] );
+                std::string enumerated_books =
+                    enumerate_as_string( books_with_recipe.begin(), books_with_recipe.end(),
+                []( itype_id type_id ) {
+                    return item::find_type( type_id )->nname( 1 );
+                } );
+                const std::string text = string_format( _( "Written in: %s" ), enumerated_books.c_str() );
+                std::vector<std::string> folded_lines = foldstring( text, pane );
+                component_print_buffer.insert(
+                    component_print_buffer.end(), folded_lines.begin(), folded_lines.end() );
             }
 
             //handle positioning of component list if it needed to be scrolled
