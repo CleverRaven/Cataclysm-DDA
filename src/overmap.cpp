@@ -3380,6 +3380,7 @@ building_size overmap::find_max_size( const tripoint &center, const building_siz
         }
         ret.height++;
     }
+    current.z = center.z;
     ret.depth = 0;
     static const oter_str_id empty_rock( "empty_rock" );
     while( ret.depth < limits.depth ) {
