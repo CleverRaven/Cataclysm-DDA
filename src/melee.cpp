@@ -1795,19 +1795,29 @@ void player_hit_message(player* attacker, std::string message,
             //~ NPC hits something but does no damage
             msg = string_format(_("%s but does no damage."), message.c_str());
         } else {
-            //~ you hit something but do no damage
+            //~ someone hits something but do no damage
             msg = string_format(_("%s but do no damage."), message.c_str());
         }
         msgtype = m_neutral;
     } else if (crit) {
-        //~ someone hits something for %d damage (critical)
-        msg = string_format(_("%s for %d damage. Critical!"),
+        if (attacker->is_npc()) {
+            //~ NPC hits something (critical)
+            msg = string_format(_("%s. Critical!"), message.c_str());
+        } else {
+            //~ someone hits something for %d damage (critical)
+            msg = string_format(_("%s for %d damage. Critical!"),
                             message.c_str(), dam);
+        }
         sSCTmod = _("Critical!");
         gmtSCTcolor = m_critical;
     } else {
-        //~ someone hits something for %d damage
-        msg = string_format(_("%s for %d damage."), message.c_str(), dam);
+        if (attacker->is_npc()) {
+            //~ NPC hits something
+            msg = string_format(_("%s."), message.c_str());
+        } else {
+            //~ someone hits something for %d damage
+            msg = string_format(_("%s for %d damage."), message.c_str(), dam);
+        }
     }
 
     if (dam > 0 && attacker->is_player()) {
