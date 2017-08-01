@@ -488,47 +488,17 @@ std::string calendar::day_of_week() const
      * <wito> kevingranade: add four for thursday. ;)
      * <kevingranade> sounds like consensus to me
      * <kevingranade> Thursday it is */
-
-    enum weekday {
-        THURSDAY = 0,
-        FRIDAY = 1,
-        SATURDAY = 2,
-        SUNDAY = 3,
-        MONDAY = 4,
-        TUESDAY = 5,
-        WEDNESDAY = 6
-    };
+    static const std::array<std::string, 7> weekday_names = {{
+        translate_marker( "Sunday" ), translate_marker( "Monday" )
+        translate_marker( "Tuesday" ), translate_marker( "Wednesday" )
+        translate_marker( "Thursday" ), translate_marker( "Friday" )
+        translate_marker( "Saturday" )
+    }};
 
     // calendar::day gets mangled by season transitions, so recalculate days since start.
-    int current_day = turn_number / DAYS(1) % 7;
-
-    std::string day_string;
-
-    switch (current_day) {
-    case SUNDAY:
-        day_string = _("Sunday");
-        break;
-    case MONDAY:
-        day_string = _("Monday");
-        break;
-    case TUESDAY:
-        day_string = _("Tuesday");
-        break;
-    case WEDNESDAY:
-        day_string = _("Wednesday");
-        break;
-    case THURSDAY:
-        day_string = _("Thursday");
-        break;
-    case FRIDAY:
-        day_string = _("Friday");
-        break;
-    case SATURDAY:
-        day_string = _("Saturday");
-        break;
-    }
-
-    return day_string;
+    static const int start_day = 4; // Thursday is the start day
+    const int current_day = ( turn_number / DAYS(1) + start_day ) % 7;
+    return _( weekday_names[ current_day ].c_str() );
 }
 
 int calendar::season_length()
