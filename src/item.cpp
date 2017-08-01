@@ -778,7 +778,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         if( !mat_types.empty() ) {
             const std::string material_list = enumerate_as_string( mat_types.begin(), mat_types.end(),
             []( const material_type *material ) {
-                return string_format( "<stat>%s</stat>", material->name().c_str() );
+                return string_format( "<stat>%s</stat>", _( material->name().c_str() ) );
             }, false );
             info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list.c_str() ) ) );
         }
