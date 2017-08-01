@@ -3393,23 +3393,41 @@ building_size overmap::find_max_size( const tripoint &center, const building_siz
     return ret;
 }
 
+building_size find_special_size( const overmap_special &sp )
+{
+    building_size ret;
+    for( const overmap_special_terrain &ter : sp.terrains ) {
+        const tripoint &p = ter.p;
+        if( p.x != 0 || p.y != 0 ) {
+            debugmsg( "Tried to add city building %s, but it has a part with non-zero x or y coords (not supported yet)",
+                      sp.id.c_str() );
+            break;
+        }
+        ret.height = std::max( p.z, ret.height );
+        ret.depth = std::max( -p.z, ret.depth );
+    }
+    return ret;
+}
+
 void overmap::put_building( const tripoint &p, om_direction::type dir, const city &town )
 {
     const point offset = om_direction::displace( dir );
     const tripoint building_pos = p + offset;
-    building_size max_size = find_max_size( building_pos, settings.city_spec.max_bounds );
-    if( max_size.height < 0 ) {
-        return;
-    }
 
     const int town_dist = trig_dist( p.x, p.y, town.x, town.y ) / ( town.s > 0 ? town.s : 1 );
-    overmap_special_id building_tid;
-    if( rng( 0, 99 ) > settings.city_spec.shop_radius * town_dist ) {
-        building_tid = settings.city_spec.pick_shop( max_size );
-    } else if( rng( 0, 99 ) > settings.city_spec.park_radius * town_dist ) {
-        building_tid = settings.city_spec.pick_park( max_size );
-    } else {
-        building_tid = settings.city_spec.pick_house( max_size );
+    overmap_special_id building_tid = overmap_special_id::NULL_ID();
+    for( size_t retries = 10; retries > 0; retries-- ) {
+        if( rng( 0, 99 ) > settings.city_spec.shop_radius * town_dist ) {
+            building_tid = settings.city_spec.pick_shop();
+        } else if( rng( 0, 99 ) > settings.city_spec.park_radius * town_dist ) {
+            building_tid = settings.city_spec.pick_park();
+        } else {
+            building_tid = settings.city_spec.pick_house();
+        }
+        building_size special_size = find_special_size( building_tid.obj() );
+        if( find_max_size( p, special_size ) == special_size ) {
+            break;
+        }
     }
 
     if( !building_tid.is_null() ) {
@@ -4723,8 +4741,6 @@ void city_settings::finalize()
     houses.finalize();
     shops.finalize();
     parks.finalize();
-    max_bounds = building_size::max( houses.get_bounds(),
-                                     building_size::max( shops.get_bounds(), parks.get_bounds() ) );
 }
 
 building_size building_size::max( const building_size &a, const building_size &b )
@@ -4742,46 +4758,22 @@ void building_bin::add( const overmap_special_id &building, int weight )
     unfinalized_buildings[ building ] = weight;
 }
 
-overmap_special_id building_bin::pick( const building_size &max_size ) const
+overmap_special_id building_bin::pick() const
 {
     overmap_special_id null_special( "null" );
     if( !finalized ) {
         debugmsg( "Tried to pick a special out of a non-finalized bin" );
         return null_special;
     }
-    if( allowed_size_map.empty() ) {
-        debugmsg( "Tried to pick a special out of an empty bin" );
-        return null_special;
-    }
 
-    const auto iter = allowed_size_map.find( max_size );
-    if( iter == allowed_size_map.end() ) {
-        building_size smaller_size{ std::min( max_size.height, bounds.height ),
-                                    std::min( max_size.depth, bounds.depth ) };
-        if( max_size != smaller_size ) {
-            return pick( smaller_size );
-        }
-        
-        debugmsg( "Tried to pick a special out of a bugged (missing entry) bin: bounds %d,%d, max_size %d,%d",
-                  bounds.height, bounds.depth, max_size.height, max_size.depth );
-        return null_special;
-    }
-
-    if( iter->second->empty() ) {
-        debugmsg( "Tried to pick a special out of a bugged (entry exists, but is empty) bin: bounds %d,%d, max_size %d,%d",
-                  bounds.height, bounds.depth, max_size.height, max_size.depth );
-        return null_special;
-    }
-
-    return *iter->second->pick();
+    return *buildings.pick();
 }
 
 void building_bin::clear()
 {
     finalized = false;
-    allowed_size_map.clear();
+    buildings.clear();
     unfinalized_buildings.clear();
-    bounds = { -1, -1 };
 }
 
 void building_bin::finalize()
@@ -4795,7 +4787,6 @@ void building_bin::finalize()
         return;
     }
 
-    std::unordered_map<building_size, weighted_int_list<overmap_special_id>> proper_size_map;
     for( const std::pair<overmap_special_id, int> &pr : unfinalized_buildings ) {
         bool skip = false;
         building_size cur_size;
@@ -4824,93 +4815,7 @@ void building_bin::finalize()
         if( skip ) {
             continue;
         }
-        proper_size_map[ cur_size ].add( current_id, pr.second );
-        bounds = building_size::max( bounds, cur_size );
-    }
-
-    // Search for duplicate lists, to avoid storing max_height*max_depth of them.
-    // That is, if they have identical maximum height and maximum depth.
-    // Dynamic programming: treat the set of heights and depths as a 2D array,
-    // where one coord corresponds to height, other to depth.
-    // This array is sparse: many size pairs don't have any buildings tied to them.
-    // This array is "densified" like this:
-    // A list on point (x,y) on dense array is a duplicate if list at (x-1,y) is identical to one at (x,y-1),
-    // and point (x,y) on sparse array has no buildings.
-    // Two building lists (of the same category) are identical if maxima of their bounds are identical.
-    std::vector<std::vector<building_size>> bound_sizes;
-    bound_sizes.resize( bounds.height + 1 );
-    for( std::vector<building_size> &row : bound_sizes ) {
-        row.resize( bounds.depth + 1 );
-    }
-    building_size cur_bounds;
-    int &height = cur_bounds.height;
-    int &depth = cur_bounds.depth;
-    for( height = 0; height <= bounds.height; height++ ) {
-        for( depth = 0; depth <= bounds.depth; depth++ ) {
-            // First list must always be created
-            bool unique = height == 0 && depth == 0;
-            // If there are any buildings with bounds exactly like ones we're checking
-            // then they certainly weren't handled before
-            const auto &new_buildings = proper_size_map.find( cur_bounds );
-            if( new_buildings != proper_size_map.end() ) {
-                unique = true;
-            }
-            if( !unique && height > 0 && depth > 0 &&
-                bound_sizes[ height - 1 ][ depth ] != bound_sizes[ height ][ depth - 1 ] ) {
-                // Hardest case: neighbor "up" has non-equal bounds to one on the "left"
-                // If one is larger than the other, we need to copy the larger one
-                // Otherwise they must be non-comparable and thus we're unique
-                if( bound_sizes[ height - 1 ][ depth ].depth ==
-                    bound_sizes[ height ][ depth - 1 ].depth ) {
-                    // Equal depth in depth direction means height must be unequal
-                    building_size copy_from{ height, depth - 1 };
-                    allowed_size_map[ cur_bounds ] = allowed_size_map[ copy_from ];
-                } else if( bound_sizes[ height - 1 ][ depth ].height ==
-                           bound_sizes[ height ][ depth - 1 ].height ) {
-                    building_size copy_from{ height - 1, depth };
-                    allowed_size_map[ cur_bounds ] = allowed_size_map[ copy_from ];
-                } else {
-                    unique = true;
-                }
-            } else if( !unique && ( ( height > 0 && depth == 0 ) ||
-                                    ( height == 0 && depth > 0 ) ) ) {
-                // The "borders" - they weren't handled above
-                if( height > 0 ) {
-                    building_size copy_from{ height - 1, depth };
-                    allowed_size_map[ cur_bounds ] = allowed_size_map[ copy_from ];
-                } else {
-                    building_size copy_from{ height, depth - 1 };
-                    allowed_size_map[ cur_bounds ] = allowed_size_map[ copy_from ];
-                }
-            }
-            if( unique ) {
-                unique_lists.emplace_back();
-                weighted_int_list<overmap_special_id> &new_unique = unique_lists.back();
-                building_size currently_checked;
-                int &current_height = currently_checked.height;
-                int &current_depth = currently_checked.depth;
-                for( current_height = 0; current_height <= height; current_height++ ) {
-                    for( current_depth = 0; current_depth <= depth; current_depth++ ) {
-                        auto new_buildings = proper_size_map.find( currently_checked );
-                        if( new_buildings == proper_size_map.end() ) {
-                            continue;
-                        }
-
-                        for( const auto &weighted_pair : new_buildings->second ) {
-                            new_unique.add( weighted_pair.obj, weighted_pair.weight );
-                        }
-                    }
-                }
-                allowed_size_map[ cur_bounds ] = &new_unique;
-                if( height > 0 && depth > 0 ) {
-                    const building_size &a = bound_sizes[ height - 1 ][ depth ];
-                    const building_size &b = bound_sizes[ height ][ depth - 1 ];
-                    bound_sizes[ height ][ depth ] = building_size::max( a, b );
-                } else {
-                    bound_sizes[ height ][ depth ] = building_size{ height, depth };
-                }
-            }
-        }
+        buildings.add( current_id, pr.second );
     }
 
     finalized = true;

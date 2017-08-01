@@ -48,30 +48,15 @@ struct building_size {
     static building_size max( const building_size &a, const building_size &b );
 };
 
-namespace std {
-  template <>
-  struct hash<building_size> {
-      std::size_t operator()( const building_size& k ) const {
-          return std::hash<int>()(k.height) ^
-              std::hash<int>()( (k.depth << 10) | (k.depth >> 10) );
-      }
-  };
-}
-
 class building_bin {
     private:
         bool finalized = false;
-        building_size bounds;
+        weighted_int_list<overmap_special_id> buildings;
         std::map<overmap_special_id, int> unfinalized_buildings;
-        std::list<weighted_int_list<overmap_special_id>> unique_lists;
-        std::unordered_map<building_size, const weighted_int_list<overmap_special_id> *> allowed_size_map;
     public:
         building_bin() {};
         void add( const overmap_special_id &building, int weight );
-        overmap_special_id pick( const building_size &max_size ) const;
-        const building_size get_bounds() const {
-            return bounds;
-        }
+        overmap_special_id pick() const;
         void clear();
         void finalize();
 };
@@ -82,18 +67,17 @@ struct city_settings {
     building_bin houses;
     building_bin shops;
     building_bin parks;
-    building_size max_bounds;
 
-    overmap_special_id pick_house( const building_size &max_size ) const {
-        return houses.pick( max_size )->id;
+    overmap_special_id pick_house() const {
+        return houses.pick()->id;
     }
 
-    overmap_special_id pick_shop( const building_size &max_size ) const {
-        return shops.pick( max_size )->id;
+    overmap_special_id pick_shop() const {
+        return shops.pick()->id;
     }
 
-    overmap_special_id pick_park( const building_size &max_size ) const {
-        return parks.pick( max_size )->id;
+    overmap_special_id pick_park() const {
+        return parks.pick()->id;
     }
 
     void finalize();
