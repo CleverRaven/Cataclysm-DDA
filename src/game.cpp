@@ -9475,7 +9475,9 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     mvwprintz(w_monsters, y, 22, color, "%s", sText.c_str());
 
                     if( m != nullptr ) {
-                        m->get_Attitude(color, sText);
+                        const auto att = m->get_attitude();
+                        sText = att.first;
+                        color = att.second;
                     } else if( p != nullptr ) {
                         sText = npc_attitude_name( p->attitude );
                         color = p->symbol_color();

@@ -92,7 +92,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         std::string disp_name( bool possessive = false ) const override;
         std::string skin_name() const override;
         void get_HP_Bar( nc_color &color, std::string &text ) const;
-        void get_Attitude( nc_color &color, std::string &text ) const;
+        std::pair<std::string, nc_color> get_attitude() const;
         int print_info( WINDOW *w, int vStart, int vLines, int column ) const override;
 
         // Information on how our symbol should appear

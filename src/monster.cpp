@@ -122,6 +122,25 @@ static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
 static const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 
+static const std::map<m_size, std::string> size_names {
+    {m_size::MS_TINY, translate_marker( "tiny" )},
+    {m_size::MS_SMALL, translate_marker( "small" )},
+    {m_size::MS_MEDIUM, translate_marker( "medium" )},
+    {m_size::MS_LARGE, translate_marker( "large" )},
+    {m_size::MS_HUGE, translate_marker( "huge" )},
+};
+
+static const std::map<monster_attitude, std::pair<std::string, color_id>> attitude_names {
+    {monster_attitude::MATT_FRIEND, {translate_marker( "Friendly." ), def_h_white}},
+    {monster_attitude::MATT_FPASSIVE, {translate_marker( "Passive." ), def_h_white}},
+    {monster_attitude::MATT_FLEE, {translate_marker( "Fleeing!" ), def_c_green}},
+    {monster_attitude::MATT_FOLLOW, {translate_marker( "Tracking." ), def_c_yellow}},
+    {monster_attitude::MATT_IGNORE, {translate_marker( "Ignoring." ), def_c_ltgray}},
+    {monster_attitude::MATT_ZLAVE, {translate_marker( "Zombie slave." ), def_c_green}},
+    {monster_attitude::MATT_ATTACK, {translate_marker( "Hostile!" ), def_c_red}},
+    {monster_attitude::MATT_NULL, {translate_marker( "BUG: Behavior unnamed." ), def_h_red}},
+};
+
 monster::monster()
 {
     position.x = 20;
@@ -357,42 +376,13 @@ void monster::get_HP_Bar(nc_color &color, std::string &text) const
     std::tie(text, color) = ::get_hp_bar(hp, type->hp, true);
 }
 
-void monster::get_Attitude(nc_color &color, std::string &text) const
+std::pair<std::string, nc_color> monster::get_attitude() const
 {
-    switch (attitude(&(g->u))) {
-        case MATT_FRIEND:
-            color = h_white;
-            text = _("Friendly. ");
-            break;
-        case MATT_FPASSIVE:
-            color = h_white;
-            text = _("Passive. ");
-            break;
-        case MATT_FLEE:
-            color = c_green;
-            text = _("Fleeing! ");
-            break;
-        case MATT_IGNORE:
-            color = c_ltgray;
-            text = _("Ignoring. ");
-            break;
-        case MATT_FOLLOW:
-            color = c_yellow;
-            text = _("Tracking. ");
-            break;
-        case MATT_ATTACK:
-            color = c_red;
-            text = _("Hostile! ");
-            break;
-        case MATT_ZLAVE:
-            color = c_green;
-            text = _("Zombie slave. ");
-            break;
-        default:
-            color = h_red;
-            text = "BUG: Behavior unnamed. (monster.cpp:get_Attitude)";
-            break;
-    }
+    const auto att = attitude_names.at( attitude( &( g->u ) ) );
+    return {
+        att.first,
+        all_colors.get( att.second )
+    };
 }
 
 std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
@@ -427,14 +417,12 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
     const int vEnd = vStart + vLines;
 
     mvwprintz(w, vStart, column, c_white, "%s ", name().c_str());
-    nc_color color = c_white;
-    std::string attitude = "";
 
-    get_Attitude(color, attitude);
-    wprintz(w, color, "%s", attitude.c_str());
+    const auto att = get_attitude();
+    wprintz( w, att.second, "%s", att.first.c_str() );
 
     std::string effects = get_effect_status();
-    long long used_space = attitude.length() + name().length() + 2;
+    long long used_space = att.first.length() + name().length() + 3;
     trim_and_print( w, vStart++, used_space, getmaxx( w ) - used_space - 2,
                     h_white, "%s", effects.c_str() );
 
@@ -453,13 +441,10 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
 std::string monster::extended_description() const
 {
     std::ostringstream ss;
+    const auto att = get_attitude();
+    std::string att_colored = get_tag_from_color( att.second ) + att.first;
 
-    nc_color color = c_white;
-    std::string attitude;
-    get_Attitude( color, attitude );
-    attitude = get_tag_from_color( color ) + attitude;
-
-    ss << string_format( _( "This is a %s. %s" ), name().c_str(), attitude.c_str() ) << std::endl;
+    ss << string_format( _( "This is a %s. %s" ), name().c_str(), att_colored.c_str() ) << std::endl;
     if( !get_effect_status().empty() ) {
         ss << string_format( _( "<stat>It is %s.</stat>" ), get_effect_status().c_str() ) << std::endl;
     }
@@ -472,98 +457,64 @@ std::string monster::extended_description() const
     ss << string_format( _( "<dark>%s</dark>" ), type->description.c_str() ) << std::endl;
     ss << "--" << std::endl;
 
-    std::string size_name;
-    if( get_size() == MS_TINY ) {
-        size_name = _( "tiny" );
-    }
-    if( get_size() == MS_SMALL ) {
-        size_name = _( "small" );
-    }
-    if( get_size() == MS_MEDIUM ) {
-        size_name = _( "medium" );
-    }
-    if( get_size() == MS_LARGE ) {
-        size_name = _( "large" );
-    }
-    if( get_size() == MS_HUGE ) {
-        size_name = _( "huge" );
-    }
-    ss << string_format( _( "It is %s in size." ), size_name.c_str() ) << std::endl;
+    ss << string_format( _( "It is %s in size." ), size_names.at( get_size() ).c_str() ) << std::endl;
 
     std::vector<std::string> types;
     if( type->has_flag( MF_ANIMAL ) ) {
-        types.emplace_back( _( "animal") );
+        types.emplace_back( _( "an animal" ) );
     }
     if( type->in_species( ZOMBIE ) ) {
-        types.emplace_back( _( "zombie" ) );
+        types.emplace_back( _( "a zombie" ) );
     }
     if( type->in_species( FUNGUS ) ) {
-        types.emplace_back( _( "fungus" ) );
+        types.emplace_back( _( "a fungus" ) );
     }
     if( type->in_species( INSECT ) ) {
-        types.emplace_back( _( "insect" ) );
+        types.emplace_back( _( "an insect" ) );
     }
     if( type->in_species( ABERRATION ) ) {
-        types.emplace_back( _( "aberration" ) );
+        types.emplace_back( _( "an aberration" ) );
     }
     if( !types.empty() ) {
         ss << string_format( _( "It is %s." ),
                              enumerate_as_string( types ).c_str() ) << std::endl;
     }
 
+    using flag_description = std::pair<m_flag, std::string>;
+    const auto describe_flags = [this, &ss](
+                                    const std::string &format,
+                                    const std::vector<flag_description> &flags_names,
+                                    const std::string &if_empty = "" ) {
+        std::string flag_descriptions = enumerate_as_string( flags_names.begin(),
+        flags_names.end(), [this]( const flag_description & fd ) {
+            return type->has_flag( fd.first ) ? fd.second : "";
+        } );
+        if( !flag_descriptions.empty() ) {
+            ss << string_format( format, flag_descriptions.c_str() ) << std::endl;
+        } else if( !if_empty.empty() ) {
+            ss << if_empty << std::endl;
+        }
+    };
 
-    std::vector<std::string> senses;
-    if( type->has_flag( m_flag::MF_HEARS ) ) {
-        senses.emplace_back( _( "hearing" ) );
-    }
-    if( type->has_flag( m_flag::MF_SEES ) ) {
-        senses.emplace_back( _( "sight" ) );
-    }
-    if( type->has_flag( m_flag::MF_SMELLS ) ) {
-        senses.emplace_back( _( "smell" ) );
-    }
-    if( senses.empty() ) {
-        ss << _( "It doesn't have senses." ) << std::endl;
-    } else {
-        ss << string_format( _( "It has the following senses: %s." ),
-                             enumerate_as_string( senses ).c_str() ) << std::endl;
-    }
+    describe_flags( _( "It has the following senses: %s." ), {
+        {m_flag::MF_HEARS, _( "hearing" )},
+        {m_flag::MF_SEES, _( "sight" )},
+        {m_flag::MF_SMELLS, _( "smell" )},
+    }, _( "It doesn't have senses." ) );
 
-    std::vector<std::string> abilities;
-    if( type->has_flag( m_flag::MF_SWIMS ) ) {
-        abilities.emplace_back( _( "swim" ) );
-    }
-    if( type->has_flag( m_flag::MF_FLIES ) ) {
-        abilities.emplace_back( _( "fly" ) );
-    }
-    if( type->has_flag( m_flag::MF_CAN_DIG ) ) {
-        abilities.emplace_back( _( "dig" ) );
-    }
-    if( type->has_flag( m_flag::MF_CLIMBS ) ) {
-        abilities.emplace_back( _( "climb" ) );
-    }
-    if( !abilities.empty() ) {
-        ss << string_format( _( "It can %s." ),
-                             enumerate_as_string( abilities ).c_str() ) << std::endl;
-    }
+    describe_flags( _( "It can %s." ), {
+        {m_flag::MF_SWIMS, _( "swim" )},
+        {m_flag::MF_FLIES, _( "fly" )},
+        {m_flag::MF_CAN_DIG, _( "dig" )},
+        {m_flag::MF_CLIMBS, _( "climb" )}
+    } );
 
-    std::vector<std::string> dangers;
-    if( type->has_flag( m_flag::MF_GRABS ) ) {
-        dangers.emplace_back( _( "grab" ) );
-    }
-    if( type->has_flag( m_flag::MF_VENOM ) ) {
-        dangers.emplace_back( _( "poison" ) );
-    }
-    if( type->has_flag( m_flag::MF_PARALYZE ) ) {
-        dangers.emplace_back( _( "paralyze" ) );
-    }
-    if( type->has_flag( m_flag::MF_BLEED ) ) {
-        dangers.emplace_back( _( "cause bleed" ) );
-    }
-    if( !dangers.empty() ) {
-        ss << string_format( _( "<bad>In fight it can %s.</bad>" ),
-                             enumerate_as_string( dangers ).c_str() ) << std::endl;
-    }
+    describe_flags( _( "<bad>In fight it can %s.</bad>" ), {
+        {m_flag::MF_GRABS, _( "grab" )},
+        {m_flag::MF_VENOM, _( "poison" )},
+        {m_flag::MF_PARALYZE, _( "paralyze" )},
+        {m_flag::MF_BLEED, _( "cause bleed" )}
+    } );
 
     if( !type->has_flag( m_flag::MF_NOHEAD ) ) {
         ss << _( "It has head." ) << std::endl;
