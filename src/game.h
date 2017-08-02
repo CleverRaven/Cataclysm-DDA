@@ -15,7 +15,6 @@
 #include <unordered_map>
 #include <list>
 #include <memory>
-#include <stdarg.h>
 
 extern const int savegame_version;
 extern int save_loading_version;
