@@ -2,12 +2,12 @@
 #include <vector>
 
 #include "rng.h"
-#include "game.h"
 #include "debug.h"
 #include "options.h"
 #include "monstergenerator.h"
 #include "json.h"
 #include "mtype.h"
+#include "calendar.h"
 
 // Default start time, this is the only place it's still used.
 #define STARTING_MINUTES 480
