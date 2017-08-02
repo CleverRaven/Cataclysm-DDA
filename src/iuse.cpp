@@ -2979,12 +2979,12 @@ int iuse::dig(player *p, item *it, bool, const tripoint &pos )
     for( const tripoint &pt : closest_tripoints_first( 1, pos ) ) {
         if( g->m.furn( pt ).obj().examine == iexamine::rubble ) {
             // costs per tile are (30 minutes/dig quality), with +66% hunger and +100% thirst, so:
-            // DIG 2 = 15  minutes,  2 hunger,  3 thirst
-            // DIG 3 = 10  minutes,  1 hunger,  2 thirst
-            // DIG 4 = 7.5 minutes,  1 hunger,  1 thirst
-            // DIG 5 = 5   minutes,  0 hunger,  1 thirst
+            // DIG 2 = 150  seconds
+            // DIG 3 = 75   seconds
+            // DIG 4 = 50   seconds
+            // DIG 5 = 37.5 seconds
             int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
-            player_activity act( activity_id( "ACT_CLEAR_RUBBLE" ), 30000 / ( bonus + 1 ) , bonus );
+            player_activity act( activity_id( "ACT_CLEAR_RUBBLE" ), 2500 / bonus, bonus );
             act.coords.push_back( pt );
             p->assign_activity( act );
 
