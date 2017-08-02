@@ -482,12 +482,6 @@ public:
  void randomize_from_faction(faction *fac);
  void set_fac(std::string fac_name);
     /**
-     * Set @ref submap_coords and @ref pos.
-     * @param mx,my,mz are global submap coordinates.
-     * This function also adds the npc object to the overmap.
-     */
-    void spawn_at_sm(int mx, int my, int mz);
-    /**
      * As spawn_at, but also sets position within the submap.
      * Note: final submap may differ from submap_offset if @ref square has
      * x/y values outside [0, SEEX-1]/[0, SEEY-1] range.

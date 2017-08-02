@@ -150,7 +150,7 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
             point max = om_to_sm_copy( loc + point( 1, 1 ) ) - point( 1, 1 );
             npc_sm.x = clamp( npc_sm.x, min.x, max.x );
             npc_sm.y = clamp( npc_sm.y, min.y, max.y );
-            np.spawn_at_sm( npc_sm.x, npc_sm.y, np.posz() );
+            np.spawn_at_precise( point( npc_sm.x, npc_sm.y ), tripoint( rng( 0, SEEX - 1 ), rng( 0, SEEY - 1 ), np.posz() ) );
             ++it;
             continue;
         }
