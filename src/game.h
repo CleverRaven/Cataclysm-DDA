@@ -937,8 +937,7 @@ private:
 
         // ########################## DATA ################################
 
-        int last_target; // The last monster targeted
-        bool last_target_was_npc;
+        std::weak_ptr<Creature> last_target;
         safe_mode_type safe_mode;
         bool safe_mode_warning_logged;
         std::vector<int> new_seen_mon;

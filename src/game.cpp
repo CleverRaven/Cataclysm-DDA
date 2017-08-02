@@ -259,7 +259,6 @@ game::game() :
     w_blackspace(nullptr),
     dangerous_proximity(5),
     pixel_minimap_option(0),
-    last_target( -1 ),
     safe_mode(SAFE_MODE_ON),
     safe_mode_warning_logged(false),
     mostseen(0),
@@ -742,8 +741,6 @@ void game::setup()
     next_npc_id = 1;
     next_faction_id = 1;
     next_mission_id = 1;
-    last_target = -1;  // We haven't targeted any monsters yet
-    last_target_was_npc = false;
     new_game = true;
     uquit = QUIT_NO;   // We haven't quit the game
     bVMonsterLookFire = true;
@@ -6646,11 +6643,6 @@ bool game::update_zombie_pos( const monster &critter, const tripoint &pos )
 
 void game::remove_zombie(const int idx)
 {
-    if( last_target == idx && !last_target_was_npc ) {
-        last_target = -1;
-    } else if( last_target > idx && !last_target_was_npc ) {
-        last_target--;
-    }
     critter_tracker->remove(idx);
 }
 
@@ -9425,7 +9417,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             iLastActivePos = recentered;
         } else if (action == "fire") {
             if( cCurMon != nullptr && rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
-                last_target = mon_at( cCurMon->pos(), true );
+                last_target = critter_tracker->find( mon_at( cCurMon->pos(), true ) );
                 u.view_offset = stored_view_offset;
                 return game::vmenu_ret::FIRE;
             }

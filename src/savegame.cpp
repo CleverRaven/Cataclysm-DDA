@@ -70,7 +70,16 @@ void game::serialize(std::ostream & fout) {
         json.member("turn", (int)calendar::turn);
         json.member("calendar_start", (int)calendar::start);
         json.member("initial_season", (int)calendar::initial_season);
-        json.member( "last_target", (int)last_target );
+        if( const auto lt_ptr = last_target.lock() ) {
+            if( const npc * const guy = dynamic_cast<const npc*>( lt_ptr.get() ) ) {
+                json.member( "last_target", guy->getID() );
+                json.member( "last_target_type", +1 );
+            } else if( const monster * const mon = dynamic_cast<const monster*>( lt_ptr.get() ) ) {
+                // monsters don't have IDs, so get its index in the Creature_tracker instead
+                json.member( "last_target", mon_at( mon->pos() ) );
+                json.member( "last_target_type", -1 );
+            }
+        }
         json.member( "run_mode", (int)safe_mode );
         json.member( "mostseen", mostseen );
         json.member( "nextspawn", (int)nextspawn );
@@ -184,7 +193,7 @@ void game::unserialize(std::istream & fin)
     std::string linebuf;
     std::stringstream linein;
 
-    int tmpturn, tmpcalstart = 0, tmpspawn, tmprun, tmptar, levx, levy, levz, comx, comy;
+    int tmpturn, tmpcalstart = 0, tmpspawn, tmprun, tmptar, tmptartyp = 0, levx, levy, levz, comx, comy;
     JsonIn jsin(fin);
     try {
         JsonObject data = jsin.get_object();
@@ -193,6 +202,7 @@ void game::unserialize(std::istream & fin)
         data.read("calendar_start",tmpcalstart);
         calendar::initial_season = (season_type)data.get_int("initial_season",(int)SPRING);
         data.read("last_target",tmptar);
+        data.read( "last_target_type", tmptartyp );
         data.read("run_mode", tmprun);
         data.read("mostseen", mostseen);
         data.read("nextspawn",tmpspawn);
@@ -212,7 +222,6 @@ void game::unserialize(std::istream & fin)
         if (get_option<bool>( "SAFEMODE" ) && safe_mode == SAFE_MODE_OFF) {
             safe_mode = SAFE_MODE_ON;
         }
-        last_target = tmptar;
 
         linebuf="";
         if ( data.read("grscent",linebuf) ) {
@@ -227,6 +236,14 @@ void game::unserialize(std::istream & fin)
             monster montmp;
             vdata.read_next(montmp);
             add_zombie(montmp);
+        }
+
+        if( tmptartyp == +1 ) {
+            // Use overmap_buffer because game::active_npc is not filled yet.
+            last_target = overmap_buffer.find_npc( tmptar );
+        } else if( tmptartyp == -1 ) {
+            // Need to do this *after* the monsters have been loaded!
+            last_target = critter_tracker->find( tmptar );
         }
 
         vdata = data.get_array("stair_monsters");

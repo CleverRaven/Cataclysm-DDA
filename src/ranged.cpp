@@ -10,6 +10,7 @@
 #include "line.h"
 #include "skill.h"
 #include "rng.h"
+#include "creature_tracker.h"
 #include "item.h"
 #include "options.h"
 #include "action.h"
@@ -824,17 +825,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             return rl_dist( lhs->pos(), pc.pos() ) < rl_dist( rhs->pos(), pc.pos() );
         } );
 
-        const Creature *last = nullptr;
         // @todo: last_target should be member of target_handler
-        if( g->last_target >= 0 ) {
-            if( g->last_target_was_npc ) {
-                last = size_t( g->last_target ) < g->active_npc.size() ? g->active_npc[ g->last_target ].get() : nullptr;
-            } else {
-                last = size_t( g->last_target ) < g->num_zombies() ? &g->zombie( g->last_target ) : nullptr;
-            }
-        }
-
-        auto found = std::find( targets.begin(), targets.end(), last );
+        const auto found = std::find( targets.begin(), targets.end(), g->last_target.lock().get() );
         idx = found != targets.end() ? std::distance( targets.begin(), found ) : 0;
         dst = targets[ target ]->pos();
     };
@@ -939,13 +931,17 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     }
 
     const auto set_last_target = []( const tripoint &dst ) {
-        if( const auto np = g->critter_at<npc>( dst ) ) {
-            auto &a = g->active_npc;
-            // Convert the npc pointer into an index in game::active_npc
-            g->last_target = std::distance( a.begin(), std::find_if( a.begin(), a.end(), [&]( const std::shared_ptr<npc> &n ) { return n.get() == np; } ) );
-            g->last_target_was_npc = true;
-        } else if( ( g->last_target = g->mon_at( dst, true ) ) >= 0 ) {
-            g->last_target_was_npc = false;
+        for( const auto &guy : g->active_npc ) {
+            if( guy->pos() == dst ) {
+                g->last_target = guy;
+                return;
+            }
+        }
+        const int mondex = g->mon_at( dst, true );
+        if( mondex >= 0 ) {
+            // @todo add and use a function in game that returns a
+            // shared_ptr<Creature>, as not to expose the Creature_tracker
+            g->last_target = g->critter_tracker->find( mondex );
         }
     };
 
@@ -1257,17 +1253,18 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
     set_last_target( ret.back() );
 
-    if( g->last_target >= 0 && g->last_target_was_npc ) {
-        if( !g->active_npc[ g->last_target ]->guaranteed_hostile() ) {
+    const auto lt_ptr = g->last_target.lock();
+    if( npc * const guy = dynamic_cast<npc*>( lt_ptr.get() ) ) {
+        if( !guy->guaranteed_hostile() ) {
             // TODO: get rid of this. Or combine it with effect_hit_by_player
-            g->active_npc[ g->last_target ]->hit_by_player = true; // used for morale penalty
+            guy->hit_by_player = true; // used for morale penalty
         }
         // TODO: should probably go into the on-hit code?
-        g->active_npc[ g->last_target ]->make_angry();
+        guy->make_angry();
 
-    } else if( g->last_target >= 0 && !g->last_target_was_npc ) {
+    } else if( monster * const mon = dynamic_cast<monster*>( lt_ptr.get() ) ) {
         // TODO: get rid of this. Or move into the on-hit code?
-        g->zombie( g->last_target ).add_effect( effect_hit_by_player, 100 );
+        mon->add_effect( effect_hit_by_player, 100 );
     }
 
     return ret;
