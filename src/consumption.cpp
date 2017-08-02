@@ -843,8 +843,7 @@ hint_rating player::rate_action_eat( const item &it ) const
 
 bool player::can_feed_battery_with( const item &it ) const
 {
-    if( !it.is_ammo() || can_eat( it ) == EDIBLE || !has_active_bionic( bio_batteries ) ||
-        get_acquirable_energy( it, rechargeable_cbm::battery ) == 0 ) {
+    if( !it.is_ammo() || can_eat( it ) == EDIBLE || !has_active_bionic( bio_batteries ) ) {
         return false;
     }
 
