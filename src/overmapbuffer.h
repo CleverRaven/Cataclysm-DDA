@@ -179,10 +179,9 @@ public:
     npc* find_npc(int id);
     /**
      * Find npc by id and if found, erase it from the npc list
-     * and delete the npc object. This assumes that the npc is
-     * already dead and not contained in game::active_npc anymore.
+     * and return it ( or return nullptr if not found ).
      */
-    void remove_npc(int id);
+    npc *remove_npc( int id );
         /**
          * Adds the npc to an overmap ( based on the npcs current location )
          * and stores it there. The overmap takes ownership of the pointer.

@@ -1308,13 +1308,16 @@ void overmap::insert_npc( npc *who )
     g->set_npcs_dirty();
 }
 
-void overmap::erase_npc( npc *who )
+npc *overmap::erase_npc( const int id )
 {
-    const auto iter = std::find( npcs.begin(), npcs.end(), who );
-    assert( iter != npcs.end() );
+    const auto iter = std::find_if( npcs.begin(), npcs.end(), [id]( const npc * const n ) { return n->getID() == id; } );
+    if( iter == npcs.end() ) {
+        return nullptr;
+    }
+    auto ptr = *iter;
     npcs.erase( iter );
-    delete who;
     g->set_npcs_dirty();
+    return ptr;
 }
 
 bool overmap::has_note(int const x, int const y, int const z) const

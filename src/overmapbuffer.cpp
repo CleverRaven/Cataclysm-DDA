@@ -694,18 +694,15 @@ void overmapbuffer::insert_npc( npc * const who )
     get( npc_om_pos.x, npc_om_pos.y ).insert_npc( who );
 }
 
-void overmapbuffer::remove_npc(int id)
+npc *overmapbuffer::remove_npc( const int id )
 {
     for( auto &it : overmaps ) {
-        if( const auto p = it.second->find_npc( id ) ) {
-            if( !p->is_dead() ) {
-                debugmsg("overmapbuffer::remove_npc: NPC (%d) is not dead.", id);
-            }
-            it.second->erase_npc( p );
-            return;
+        if( const auto p = it.second->erase_npc( id ) ) {
+            return p;
         }
     }
     debugmsg("overmapbuffer::remove_npc: NPC (%d) not found.", id);
+    return nullptr;
 }
 
 void overmapbuffer::hide_npc(int id)

@@ -358,8 +358,8 @@ public:
 
         /// Adds the npc. The overmap takes ownership of the pointer.
         void insert_npc( npc *who );
-        /// Removes the npc, and deletes the pointer.
-        void erase_npc( npc *who );
+        /// Removes the npc and returns it ( or returns nullptr if not found ).
+        npc *erase_npc( const int id );
 
         void for_each_npc( std::function<void( npc & )> callback );
         void for_each_npc( std::function<void( const npc & )> callback ) const;

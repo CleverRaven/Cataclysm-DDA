@@ -578,7 +578,7 @@ void talk_function::caravan_return( npc &p, std::string dest, std::string id )
     for( auto *elem : caravan_party ) {
         //Scrub temporary party members and the dead
         if (elem->hp_cur[hp_torso] == 0 && elem->has_companion_mission() ) {
-            overmap_buffer.remove_npc( comp->getID() );
+            delete overmap_buffer.remove_npc( comp->getID() );
             money += (time/600) * 9;
         } else if( elem->has_companion_mission() ){
             money += (time/600) * 18;
@@ -982,7 +982,7 @@ bool talk_function::scavenging_patrol_return( npc &p )
                 experience += rng ( 2, 10 );
             } else {
                 popup(_("Unfortunately they were overpowered by the undead... I'm sorry."));
-                overmap_buffer.remove_npc( comp->getID() );
+                delete overmap_buffer.remove_npc( comp->getID() );
                 return false;
             }
         }
@@ -1072,7 +1072,7 @@ bool talk_function::scavenging_raid_return( npc &p )
                 experience += rng( 2, 10 );
             } else {
                 popup(_("Unfortunatly they were overpowered by the undead... I'm sorry."));
-                overmap_buffer.remove_npc( comp->getID() );
+                delete overmap_buffer.remove_npc( comp->getID() );
                 return false;
             }
         }
@@ -1205,7 +1205,7 @@ bool talk_function::carpenter_return( npc &p )
             popup(_("%s didn't make it out in time..."), comp->name.c_str());
             popup(_("Everyone who was trapped under the collapsing roof died..."));
             popup(_("I'm sorry, there is nothing we could do."));
-            overmap_buffer.remove_npc( comp->getID() );
+            delete overmap_buffer.remove_npc( comp->getID() );
             return false;
         }
     }
@@ -1291,7 +1291,7 @@ bool talk_function::forage_return( npc &p )
                     popup(_("We... we don't know what exactly happened but we found %s's gear ripped and bloody..."), comp->name.c_str());
                     popup(_("I fear your companion won't be returning."));
                 }
-                overmap_buffer.remove_npc( comp->getID() );
+                delete overmap_buffer.remove_npc( comp->getID() );
                 return false;
             }
         }
