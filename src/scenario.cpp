@@ -299,9 +299,9 @@ bool scenario::allowed_start( const start_location_id &loc ) const
     return std::find( vec.begin(), vec.end(), loc ) != vec.end();
 }
 
-bool scenario::can_pick( int points ) const
+bool scenario::can_pick( const scenario &current_scenario, const int points ) const
 {
-    if( point_cost() - g->scen->point_cost() > points ) {
+    if( point_cost() - current_scenario.point_cost() > points ) {
         return false;
     }
 
