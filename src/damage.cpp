@@ -3,7 +3,6 @@
 #include "monster.h"
 #include "debug.h"
 #include "map_iterator.h"
-#include "field.h"
 #include "mtype.h"
 #include "json.h"
 #include "itype.h"
