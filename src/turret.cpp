@@ -8,6 +8,7 @@
 #include "veh_type.h"
 #include "vehicle_selector.h"
 #include "npc.h"
+#include "ranged.h"
 #include "projectile.h"
 #include "messages.h"
 #include "translations.h"

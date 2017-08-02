@@ -8,7 +8,6 @@
 #include "posix_time.h"
 #include "int_id.h"
 #include "cursesdef.h"
-#include "ranged.h"
 
 #include <array>
 #include <vector>
@@ -63,8 +62,11 @@ enum safe_mode_type {
 enum body_part : int;
 enum weather_type : int;
 enum action_id : int;
+enum target_mode : int;
 
 class item_location;
+class item;
+struct targeting_data;
 struct special_game;
 struct itype;
 struct mtype;
