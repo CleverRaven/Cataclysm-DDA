@@ -293,12 +293,18 @@ ifeq ($(NATIVE), linux64)
   CXXFLAGS += -m64
   LDFLAGS += -m64
   TARGETSYSTEM=LINUX
+  ifdef GOLD
+    CXXFLAGS += -fuse-gold
+  endif
 else
   # Linux 32-bit
   ifeq ($(NATIVE), linux32)
     CXXFLAGS += -m32
     LDFLAGS += -m32
     TARGETSYSTEM=LINUX
+    ifdef GOLD
+      CXXFLAGS += -fuse-gold
+    endif
   endif
 endif
 
