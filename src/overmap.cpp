@@ -1320,6 +1320,17 @@ npc *overmap::erase_npc( const int id )
     return ptr;
 }
 
+std::vector<npc*> overmap::get_npcs( const std::function<bool( const npc & )> &predicate ) const
+{
+    std::vector<npc*> result;
+    for( const auto &g : npcs ) {
+        if( predicate( *g ) ) {
+            result.push_back( g );
+        }
+    }
+    return result;
+}
+
 bool overmap::has_note(int const x, int const y, int const z) const
 {
     if (z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {

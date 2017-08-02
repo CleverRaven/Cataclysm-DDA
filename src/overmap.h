@@ -369,6 +369,7 @@ public:
         const std::vector<npc*> &get_npcs() const {
             return npcs;
         }
+        std::vector<npc*> get_npcs( const std::function<bool( const npc & )> &predicate ) const;
 
  private:
     friend class overmapbuffer;
