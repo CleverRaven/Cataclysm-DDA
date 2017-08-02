@@ -113,6 +113,12 @@ struct SDL_Window_deleter {
     }
 };
 using SDL_Window_Ptr = std::unique_ptr<SDL_Window, SDL_Window_deleter>;
+struct SDL_PixelFormat_deleter {
+    void operator()( SDL_PixelFormat * const format ) {
+        SDL_FreeFormat( format );
+    }
+};
+using SDL_PixelFormat_Ptr = std::unique_ptr<SDL_PixelFormat, SDL_PixelFormat_deleter>;
 
 /**
  * A class that draws a single character on screen.
@@ -199,7 +205,7 @@ static std::unique_ptr<Font> overmap_font;
 static std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> windowsPalette;
 static SDL_Window_Ptr window;
 static SDL_Renderer_Ptr renderer;
-static SDL_PixelFormat *format;
+static SDL_PixelFormat_Ptr format;
 static SDL_Texture_Ptr display_buffer;
 int WindowWidth;        //Width of the actual window, not the curses window
 int WindowHeight;       //Height of the actual window, not the curses window
@@ -369,8 +375,8 @@ bool WinCreate()
     }
 
     const Uint32 wformat = SDL_GetWindowPixelFormat( window.get() );
-    format = SDL_AllocFormat(wformat);
-    if(format == 0) {
+    format.reset( SDL_AllocFormat( wformat ) );
+    if( !format ) {
         dbg(D_ERROR) << "SDL_AllocFormat(" << wformat << ") failed: " << SDL_GetError();
         return false;
     }
@@ -475,9 +481,7 @@ void WinDestroy()
         SDL_JoystickClose(joystick);
         joystick = 0;
     }
-    if(format)
-        SDL_FreeFormat(format);
-    format = NULL;
+    format.reset();
     display_buffer.reset();
     renderer.reset();
     window.reset();
@@ -1869,12 +1873,12 @@ void BitmapFont::load_font(const std::string &typeface)
     Uint32 key = SDL_MapRGB(asciiload->format, 0xFF, 0, 0xFF);
     SDL_SetColorKey( asciiload.get(),SDL_TRUE,key );
     SDL_Surface_Ptr ascii_surf[std::tuple_size<decltype( ascii )>::value];
-    ascii_surf[0].reset( SDL_ConvertSurface( asciiload.get(), format, 0 ) );
+    ascii_surf[0].reset( SDL_ConvertSurface( asciiload.get(), format.get(), 0 ) );
     SDL_SetSurfaceRLE( ascii_surf[0].get(), true );
     asciiload.reset();
 
     for (size_t a = 1; a < std::tuple_size<decltype( ascii )>::value; ++a) {
-        ascii_surf[a].reset( SDL_ConvertSurface( ascii_surf[0].get(), format, 0 ) );
+        ascii_surf[a].reset( SDL_ConvertSurface( ascii_surf[0].get(), format.get(), 0 ) );
         SDL_SetSurfaceRLE( ascii_surf[a].get(), true );
     }
 
