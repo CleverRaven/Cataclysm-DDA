@@ -7,7 +7,6 @@
 #include "calendar.h"
 #include "posix_time.h"
 #include "int_id.h"
-#include "item_location.h"
 #include "cursesdef.h"
 #include "ranged.h"
 
@@ -65,6 +64,7 @@ enum body_part : int;
 enum weather_type : int;
 enum action_id : int;
 
+class item_location;
 struct special_game;
 struct itype;
 struct mtype;
