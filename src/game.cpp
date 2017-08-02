@@ -3285,7 +3285,7 @@ bool game::handle_action()
             if (safe_mode == SAFE_MODE_STOP) {
                 add_msg(m_info, _("Ignoring enemy!"));
                 for( auto &elem : new_seen_mon ) {
-                    monster &critter = critter_tracker->find( elem );
+                    monster &critter = zombie( elem );
                     critter.ignoring = rl_dist( u.pos(), critter.pos() );
                 }
                 set_safe_mode( SAFE_MODE_ON );
@@ -3516,7 +3516,7 @@ bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_tar
     const bool is_self = square_dist( mouse_target.x, mouse_target.y, u.posx(), u.posy() ) <= 0;
     int mouse_selected_mondex = mon_at( mouse_target );
     if (mouse_selected_mondex != -1) {
-        monster &critter = critter_tracker->find(mouse_selected_mondex);
+        monster &critter = zombie( mouse_selected_mondex );
         if (!u.sees(critter)) {
             add_msg(_("Nothing relevant here."));
             return false;
@@ -5046,7 +5046,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
 
     // Draw monsters
     for( size_t i = 0; i < num_zombies(); i++ ) {
-        draw_critter( critter_tracker->find( i ), center );
+        draw_critter( zombie( i ), center );
     }
 
     // Draw NPCs
@@ -5523,7 +5523,7 @@ std::vector<monster*> game::get_fishable(int distance)
 {
     std::vector<monster*> unique_fish;
     for (size_t i = 0; i < num_zombies(); i++) {
-        monster &critter = critter_tracker->find(i);
+        monster &critter = zombie( i );
 
         if (critter.has_flag(MF_FISHABLE)) {
             int mondist = rl_dist( u.pos(), critter.pos() );
@@ -5682,7 +5682,7 @@ int game::mon_info(WINDOW *w)
     if (newseen > mostseen) {
         if (newseen - mostseen == 1) {
             if (!new_seen_mon.empty()) {
-                monster &critter = critter_tracker->find(new_seen_mon.back());
+                monster &critter = zombie( new_seen_mon.back() );
                 cancel_activity_query(_("%s spotted!"), critter.name().c_str());
                 if (u.has_trait( trait_id( "M_DEFENDER" ) ) && critter.type->in_species( PLANT )) {
                     add_msg(m_warning, _("We have detected a %s."), critter.name().c_str());
@@ -5861,7 +5861,7 @@ void game::cleanup_dead()
     if( monster_is_dead ) {
         // From here on, pointers to creatures get invalidated as dead creatures get removed.
         for( size_t i = 0; i < num_zombies(); ) {
-            if( critter_tracker->find( i ).is_dead() ) {
+            if( zombie( i ).is_dead() ) {
                 remove_zombie( i );
             } else {
                 i++;
@@ -5910,7 +5910,7 @@ void game::monmove()
             cached_lev = m.get_abs_sub();
         }
 
-        monster &critter = critter_tracker->find(i);
+        monster &critter = zombie( i );
         while (!critter.is_dead() && !critter.can_move_to(critter.pos())) {
             // If we can't move to our current position, assign us to a new one
                 dbg(D_ERROR) << "game:monmove: " << critter.name().c_str()
@@ -5977,7 +5977,7 @@ void game::monmove()
     // If so, despawn them. This is not the same as dying, they will be stored for later and the
     // monster::die function is not called.
     for( size_t i = 0; i < num_zombies(); ) {
-        monster &critter = critter_tracker->find( i );
+        monster &critter = zombie( i );
         if( critter.posx() < 0 - ( SEEX * MAPSIZE ) / 6 ||
             critter.posy() < 0 - ( SEEY * MAPSIZE ) / 6 ||
             critter.posx() > ( SEEX * MAPSIZE * 7 ) / 6 ||
@@ -6054,7 +6054,7 @@ void game::flashbang( const tripoint &p, bool player_immune)
         }
     }
     for( size_t i = 0; i < num_zombies(); i++ ) {
-        monster &critter = critter_tracker->find(i);
+        monster &critter = zombie( i );
         dist = rl_dist( critter.pos(), p );
         if( dist <= 8 ) {
             if( dist <= 4 ) {
@@ -6079,7 +6079,7 @@ void game::shockwave( const tripoint &p, int radius, int force, int stun, int da
 
     sounds::sound( p, force * force * dam_mult / 2, _("Crack!") );
     for (size_t i = 0; i < num_zombies(); i++) {
-        monster &critter = critter_tracker->find(i);
+        monster &critter = zombie( i );
         if( rl_dist( critter.pos(), p ) <= radius ) {
             add_msg(_("%s is caught in the shockwave!"), critter.name().c_str());
             knockback( p, critter.pos(), force, stun, dam_mult);
@@ -6133,7 +6133,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
     }
     int force_remaining = 0;
     if (zid != -1) {
-        monster *targ = &critter_tracker->find(zid);
+        monster *targ = &zombie( zid );
         if (stun > 0) {
             targ->add_effect( effect_stunned, stun);
             add_msg(_("%s was stunned!"), targ->name().c_str());
@@ -6454,7 +6454,7 @@ void game::scrambler_blast( const tripoint &p )
 {
     int mondex = mon_at( p );
     if (mondex != -1) {
-        monster &critter = critter_tracker->find(mondex);
+        monster &critter = zombie( mondex );
         if (critter.has_flag(MF_ELECTRONIC)) {
             critter.make_friendly();
         }
@@ -6496,7 +6496,7 @@ void game::emp_blast( const tripoint &p )
     }
     int mondex = mon_at(p);
     if (mondex != -1) {
-        monster &critter = critter_tracker->find(mondex);
+        monster &critter = zombie( mondex );
         if (critter.has_flag(MF_ELECTRONIC)) {
             int deact_chance = 0;
             const auto mon_item_id = critter.type->revert_to_itype;
@@ -6634,7 +6634,7 @@ size_t game::num_zombies() const
     return critter_tracker->size();
 }
 
-monster &game::zombie(const int idx)
+monster &game::zombie( const int idx ) const
 {
     return critter_tracker->find(idx);
 }
@@ -6683,7 +6683,7 @@ int game::mon_at( const tripoint &p, bool allow_hallucination ) const
 {
     const int mon_index = critter_tracker->mon_at( p );
     if( mon_index == -1 ||
-        allow_hallucination || !critter_tracker->find( mon_index ).is_hallucination() ) {
+        allow_hallucination || !zombie( mon_index ).is_hallucination() ) {
         return mon_index;
     }
 
