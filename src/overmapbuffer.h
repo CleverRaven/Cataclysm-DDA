@@ -153,40 +153,40 @@ public:
      * A radius of 0 returns only those npcs that are on the
      * specifc submap.
      */
-    std::vector<npc*> get_npcs_near(int x, int y, int z, int radius);
+    std::vector<std::shared_ptr<npc>> get_npcs_near( int x, int y, int z, int radius );
         /**
          * Get all (currently loaded!) npcs that have a companion
          * mission set.
          */
-        std::vector<npc *> get_companion_mission_npcs();
+        std::vector<std::shared_ptr<npc>> get_companion_mission_npcs();
     /**
      * Uses overmap terrain coords, this also means radius is
      * in overmap terrain.
      * A radius of 0 returns all npcs that are on that specifc
      * overmap terrain tile.
      */
-    std::vector<npc*> get_npcs_near_omt(int x, int y, int z, int radius);
+    std::vector<std::shared_ptr<npc>> get_npcs_near_omt( int x, int y, int z, int radius );
     /**
      * Same as @ref get_npcs_near(int,int,int,int) but uses
      * player position as center.
      */
-    std::vector<npc*> get_npcs_near_player(int radius);
+    std::vector<std::shared_ptr<npc>> get_npcs_near_player( int radius );
     /**
      * Find the npc with the given ID.
      * Returns NULL if the npc could not be found.
      * Searches all loaded overmaps.
      */
-    npc* find_npc(int id);
+    std::shared_ptr<npc> find_npc( int id );
     /**
      * Find npc by id and if found, erase it from the npc list
      * and return it ( or return nullptr if not found ).
      */
-    npc *remove_npc( int id );
+    std::shared_ptr<npc> remove_npc( int id );
         /**
          * Adds the npc to an overmap ( based on the npcs current location )
          * and stores it there. The overmap takes ownership of the pointer.
          */
-        void insert_npc( npc *who );
+        void insert_npc( std::shared_ptr<npc> who );
 
     /**
      * Find all places with the specific overmap terrain type.

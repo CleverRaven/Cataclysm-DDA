@@ -15,6 +15,7 @@
 #include <map>
 #include <unordered_map>
 #include <list>
+#include <memory>
 #include <stdarg.h>
 
 extern const int savegame_version;
@@ -520,7 +521,7 @@ class game
         /** Get all living player allies */
         std::vector<npc *> allies();
 
-        std::vector<npc *> active_npc;
+        std::vector<std::shared_ptr<npc>> active_npc;
         std::vector<faction> factions;
         int weight_dragged; // Computed once, when you start dragging
 

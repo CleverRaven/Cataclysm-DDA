@@ -356,25 +356,25 @@ public:
   std::vector<city> cities;
   std::vector<city> roads_out;
 
-        /// Adds the npc. The overmap takes ownership of the pointer.
-        void insert_npc( npc *who );
+        /// Adds the npc to the contained list of npcs ( @ref npcs ).
+        void insert_npc( std::shared_ptr<npc> who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).
-        npc *erase_npc( const int id );
+        std::shared_ptr<npc> erase_npc( const int id );
 
         void for_each_npc( std::function<void( npc & )> callback );
         void for_each_npc( std::function<void( const npc & )> callback ) const;
 
-        npc *find_npc( int id );
+        std::shared_ptr<npc> find_npc( int id ) const;
 
-        const std::vector<npc*> &get_npcs() const {
+        const std::vector<std::shared_ptr<npc>> &get_npcs() const {
             return npcs;
         }
-        std::vector<npc*> get_npcs( const std::function<bool( const npc & )> &predicate ) const;
+        std::vector<std::shared_ptr<npc>> get_npcs( const std::function<bool( const npc & )> &predicate ) const;
 
  private:
     friend class overmapbuffer;
 
-        std::vector<npc*> npcs;
+        std::vector<std::shared_ptr<npc>> npcs;
 
     bool nullbool = false;
     point loc{ 0, 0 };

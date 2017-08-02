@@ -274,7 +274,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
             // friendly to the player, not a target for us
             continue;
         }
-        targets.push_back( p );
+        targets.push_back( p.get() );
     }
     for( auto &m : targets ) {
         if( !sees( *m ) ) {

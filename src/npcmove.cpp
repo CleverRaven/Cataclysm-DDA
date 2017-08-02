@@ -827,7 +827,7 @@ void npc::choose_target()
     };
 
     for( size_t i = 0; i < g->active_npc.size(); i++ ) {
-        if( g->active_npc[ i ] == this ) {
+        if( g->active_npc[ i ].get() == this ) {
             continue;
         }
 
@@ -3184,7 +3184,7 @@ const Creature *npc_target::get() const
         case TARGET_MONSTER:
             return index < g->num_zombies() ? &g->zombie( index ) : nullptr;
         case TARGET_NPC:
-            return index < g->active_npc.size() ? g->active_npc[ index ] : nullptr;
+            return index < g->active_npc.size() ? g->active_npc[ index ].get() : nullptr;
         case TARGET_NONE:
             return nullptr;
     }

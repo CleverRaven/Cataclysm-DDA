@@ -8477,7 +8477,7 @@ int map::place_npc( int x, int y, const string_id<npc_template> &type )
     if(!get_option<bool>( "STATIC_NPC" ) ) {
         return -1; //Do not generate an npc.
     }
-    npc *temp = new npc();
+    std::shared_ptr<npc> temp = std::make_shared<npc>();
     temp->normalize();
     temp->load_npc_template(type);
     temp->spawn_at_precise( { abs_sub.x, abs_sub.y }, { x, y, abs_sub.z } );
@@ -8800,8 +8800,8 @@ void map::rotate(int turns)
     // @todo This radius can be smaller - how small?
     const int radius = int(MAPSIZE / 2) + 3;
     // uses submap coordinates
-    std::vector<npc*> npcs = overmap_buffer.get_npcs_near( abs_sub.x, abs_sub.y, abs_sub.z, radius );
-    for( npc *i : npcs ) {
+    const std::vector<std::shared_ptr<npc>> npcs = overmap_buffer.get_npcs_near( abs_sub.x, abs_sub.y, abs_sub.z, radius );
+    for( const std::shared_ptr<npc> &i : npcs ) {
         npc &np = *i;
         const tripoint sq = np.global_square_location();
         real_coords np_rc;

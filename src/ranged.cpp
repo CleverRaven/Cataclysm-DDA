@@ -828,7 +828,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         // @todo: last_target should be member of target_handler
         if( g->last_target >= 0 ) {
             if( g->last_target_was_npc ) {
-                last = size_t( g->last_target ) < g->active_npc.size() ? g->active_npc[ g->last_target ] : nullptr;
+                last = size_t( g->last_target ) < g->active_npc.size() ? g->active_npc[ g->last_target ].get() : nullptr;
             } else {
                 last = size_t( g->last_target ) < g->num_zombies() ? &g->zombie( g->last_target ) : nullptr;
             }
@@ -942,7 +942,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         if( const auto np = g->critter_at<npc>( dst ) ) {
             auto &a = g->active_npc;
             // Convert the npc pointer into an index in game::active_npc
-            g->last_target = std::distance( a.begin(), std::find( a.begin(), a.end(), np ) );
+            g->last_target = std::distance( a.begin(), std::find_if( a.begin(), a.end(), [&]( const std::shared_ptr<npc> &n ) { return n.get() == np; } ) );
             g->last_target_was_npc = true;
         } else if( ( g->last_target = g->mon_at( dst, true ) ) >= 0 ) {
             g->last_target_was_npc = false;

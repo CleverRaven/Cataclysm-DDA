@@ -1677,7 +1677,7 @@ bool npc::emergency( float danger ) const
 //Active npcs are the npcs near the player that are actively simulated.
 bool npc::is_active() const
 {
-    return std::find(g->active_npc.begin(), g->active_npc.end(), this) != g->active_npc.end();
+    return std::find_if( g->active_npc.begin(), g->active_npc.end(), [&]( const std::shared_ptr<npc> &n ) { return n->getID() == getID(); } ) != g->active_npc.end();
 }
 
 int npc::follow_distance() const
@@ -1866,7 +1866,7 @@ void npc::setpos( const tripoint &pos )
     if( !is_fake() && pos_om_old != pos_om_new ) {
         overmap &om_old = overmap_buffer.get( pos_om_old.x, pos_om_old.y );
         overmap &om_new = overmap_buffer.get( pos_om_new.x, pos_om_new.y );
-        if( npc * const ptr = om_old.erase_npc( getID() ) ) {
+        if( const auto ptr = om_old.erase_npc( getID() ) ) {
             om_new.insert_npc( ptr );
         } else {
             // Don't move the npc pointer around to avoid having two overmaps
@@ -2346,7 +2346,7 @@ std::set<tripoint> npc::get_path_avoid() const
         ret.insert( g->zombie( i ).pos() );
     }
 
-    for( const npc *np : g->active_npc ) {
+    for( const auto &np : g->active_npc ) {
         ret.insert( np->pos() );
     }
 

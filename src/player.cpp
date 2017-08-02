@@ -11488,9 +11488,9 @@ std::vector<Creature *> get_creatures_if( std::function<bool (const Creature &)>
             result.push_back( &critter );
         }
     }
-    for( auto & n : g->active_npc ) {
+    for( const auto &n : g->active_npc ) {
         if( pred( *n ) ) {
-            result.push_back( n );
+            result.push_back( n.get() );
         }
     }
     if( pred( g->u ) ) {
@@ -11829,7 +11829,7 @@ const pathfinding_settings &player::get_pathfinding_settings() const
 std::set<tripoint> player::get_path_avoid() const
 {
     std::set<tripoint> ret;
-    for( const npc *np : g->active_npc ) {
+    for( const auto &np : g->active_npc ) {
         if( sees( *np ) ) {
             ret.insert( np->pos() );
         }

@@ -1184,12 +1184,7 @@ overmap::overmap( int const x, int const y ) : loc( x, y )
     init_layers();
 }
 
-overmap::~overmap()
-{
-    for( npc *npc_to_delete : npcs ) {
-        delete npc_to_delete;
-    }
-}
+overmap::~overmap() = default;
 
 void overmap::populate( overmap_special_batch &enabled_specials )
 {
@@ -1302,15 +1297,15 @@ bool overmap::monster_check(const std::pair<tripoint, monster> &candidate) const
         } ) != matching_range.second;
 }
 
-void overmap::insert_npc( npc *who )
+void overmap::insert_npc( std::shared_ptr<npc> who )
 {
     npcs.push_back( who );
     g->set_npcs_dirty();
 }
 
-npc *overmap::erase_npc( const int id )
+std::shared_ptr<npc> overmap::erase_npc( const int id )
 {
-    const auto iter = std::find_if( npcs.begin(), npcs.end(), [id]( const npc * const n ) { return n->getID() == id; } );
+    const auto iter = std::find_if( npcs.begin(), npcs.end(), [id]( const std::shared_ptr<npc> &n ) { return n->getID() == id; } );
     if( iter == npcs.end() ) {
         return nullptr;
     }
@@ -1320,9 +1315,9 @@ npc *overmap::erase_npc( const int id )
     return ptr;
 }
 
-std::vector<npc*> overmap::get_npcs( const std::function<bool( const npc & )> &predicate ) const
+std::vector<std::shared_ptr<npc>> overmap::get_npcs( const std::function<bool( const npc & )> &predicate ) const
 {
-    std::vector<npc*> result;
+    std::vector<std::shared_ptr<npc>> result;
     for( const auto &g : npcs ) {
         if( predicate( *g ) ) {
             result.push_back( g );
@@ -2115,7 +2110,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     std::unordered_map<tripoint, npc_coloring> npc_color;
     if( blink ) {
         const auto &npcs = overmap_buffer.get_npcs_near_player( sight_points );
-        for( const npc *np : npcs ) {
+        for( const auto &np : npcs ) {
             if( np->posz() != z ) {
                 continue;
             }
@@ -4713,9 +4708,9 @@ void overmap::for_each_npc( const std::function<void( const npc & )> callback ) 
     }
 }
 
-npc* overmap::find_npc( const int id )
+std::shared_ptr<npc> overmap::find_npc( const int id ) const
 {
-    for( auto &guy : npcs ) {
+    for( const auto &guy : npcs ) {
         if( guy->getID() == id ) {
             return guy;
         }

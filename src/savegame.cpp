@@ -829,7 +829,7 @@ void overmap::unserialize( std::istream &fin ) {
         } else if( name == "npcs" ) {
             jsin.start_array();
             while( !jsin.end_array() ) {
-                npc *new_npc = new npc();
+                std::shared_ptr<npc> new_npc = std::make_shared<npc>();
                 new_npc->deserialize( jsin );
                 if( !new_npc->fac_id.empty() ) {
                     new_npc->set_fac( new_npc->fac_id );

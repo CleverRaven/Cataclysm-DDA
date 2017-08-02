@@ -929,9 +929,8 @@ void game::load_npcs()
 {
     const int radius = int(MAPSIZE / 2) - 1;
     // uses submap coordinates
-    std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(radius);
-    std::vector<npc *> just_added;
-    for( auto temp : npcs ) {
+    std::vector<std::shared_ptr<npc>> just_added;
+    for( const auto &temp : overmap_buffer.get_npcs_near_player( radius ) ) {
         if( temp->is_active() ) {
             continue;
         }
@@ -966,7 +965,7 @@ void game::load_npcs()
         }
     }
 
-    for( auto npc : just_added ) {
+    for( const auto &npc : just_added ) {
         npc->on_load();
     }
 
@@ -975,7 +974,7 @@ void game::load_npcs()
 
 void game::unload_npcs()
 {
-    for( auto npc : active_npc ) {
+    for( const auto &npc : active_npc ) {
         npc->on_unload();
     }
 
@@ -998,16 +997,15 @@ void game::create_starting_npcs()
 
     //We don't want more than one starting npc per shelter
     const int radius = 1;
-    std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(radius);
-    if (!npcs.empty()) {
+    if( !overmap_buffer.get_npcs_near_player( radius ).empty() ) {
         return; //There is already an NPC in this shelter
     }
 
-    npc *tmp = new npc();
+    std::shared_ptr<npc> tmp = std::make_shared<npc>();
     tmp->normalize();
     tmp->randomize( one_in(2) ? NC_DOCTOR : NC_NONE );
     tmp->spawn_at_precise( { get_levx(), get_levy() }, u.pos() - point( 1, 1 ) );
-    overmap_buffer.insert( tmp );
+    overmap_buffer.insert_npc( tmp );
     tmp->form_opinion( u );
     tmp->attitude = NPCATT_NULL;
     //This sets the npc mission. This NPC remains in the shelter.
@@ -1814,7 +1812,7 @@ int game::assign_mission_id()
 
 npc *game::find_npc(int id)
 {
-    return overmap_buffer.find_npc(id);
+    return overmap_buffer.find_npc( id ).get();
 }
 
 int game::kill_count( const mtype_id& mon )
@@ -4047,11 +4045,11 @@ void game::debug()
         break;
 
         case 5: {
-            npc *temp = new npc();
+            std::shared_ptr<npc> temp = std::make_shared<npc>();
             temp->normalize();
             temp->randomize();
             temp->spawn_at_precise( { get_levx(), get_levy() }, u.pos() + point( -4, -4 ) );
-            overmap_buffer.insert( temp );
+            overmap_buffer.insert_npc( temp );
             temp->form_opinion( u );
             temp->mission = NPC_MISSION_NULL;
             temp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, temp->global_omt_location(),
@@ -4080,7 +4078,7 @@ void game::debug()
                   _( "NPCs are NOT going to spawn." ) ),
                 num_zombies(), active_npc.size(), events.size() );
             if( !active_npc.empty() ) {
-                for( auto & elem : active_npc ) {
+                for( const auto &elem : active_npc ) {
                     tripoint t = ( elem )->global_sm_location();
                     add_msg( m_info, _( "%s: map (%d:%d) pos (%d:%d)" ), ( elem )->name.c_str(), t.x,
                              t.y, ( elem )->posx(), ( elem )->posy() );
@@ -4092,7 +4090,7 @@ void game::debug()
             break;
         }
         case 8:
-            for( auto & elem : active_npc ) {
+            for( const auto &elem : active_npc ) {
                 add_msg( _( "%s's head implodes!" ), ( elem )->name.c_str() );
                 ( elem )->hp_cur[bp_head] = 0;
             }
@@ -4461,7 +4459,7 @@ void game::disp_NPC_epilogues()
     std::vector<std::string> data;
     epilogue epi;
     //This search needs to be expanded to all NPCs
-    for( auto &elem : active_npc ) {
+    for( const auto &elem : active_npc ) {
         if(elem->is_friend()) {
             if (elem->male){
                 epi.random_by_group("male", elem->name);
@@ -4663,7 +4661,7 @@ struct npc_dist_to_player {
     const tripoint ppos;
     npc_dist_to_player() : ppos( g->u.global_omt_location() ) { }
     // Operator overload required to leverage sort API.
-    bool operator()( const npc *a, const npc *b ) const {
+    bool operator()( const std::shared_ptr<npc> &a, const std::shared_ptr<npc> &b ) const {
         const tripoint apos = a->global_omt_location();
         const tripoint bpos = b->global_omt_location();
         return square_dist( ppos.x, ppos.y, apos.x, apos.y ) <
@@ -4681,7 +4679,7 @@ void game::disp_NPCs()
     const tripoint &lpos = u.pos();
     mvwprintz( w, 0, 0, c_white, _("Your overmap position: %d, %d, %d"), ppos.x, ppos.y, ppos.z );
     mvwprintz( w, 1, 0, c_white, _("Your local position: %d, %d, %d"), lpos.x, lpos.y, lpos.z );
-    std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(100);
+    std::vector<std::shared_ptr<npc>> npcs = overmap_buffer.get_npcs_near_player( 100 );
     std::sort(npcs.begin(), npcs.end(), npc_dist_to_player() );
     size_t i;
     for( i = 0; i < 20 && i < npcs.size(); i++ ) {
@@ -5052,7 +5050,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
     }
 
     // Draw NPCs
-    for( const npc* n : active_npc ) {
+    for( const auto &n : active_npc ) {
         draw_critter( *n, center );
     }
 
@@ -5853,7 +5851,7 @@ void game::cleanup_dead()
     bool monster_is_dead = critter_tracker->kill_marked_for_death();
 
     bool npc_is_dead = false;
-    for( auto &n : active_npc ) {
+    for( const auto &n : active_npc ) {
         if( n->is_dead() ) {
             n->die( nullptr ); // make sure this has been called to create corpses etc.
             npc_is_dead = true;
@@ -5874,7 +5872,7 @@ void game::cleanup_dead()
     if( npc_is_dead ) {
         for( auto it = active_npc.begin(); it != active_npc.end(); ) {
             if( (*it)->is_dead() ) {
-                delete overmap_buffer.remove_npc( ( *it )->getID() );
+                overmap_buffer.remove_npc( ( *it )->getID() );
                 it = active_npc.erase( it );
             } else {
                 it++;
@@ -5991,7 +5989,7 @@ void game::monmove()
     }
 
     // Now, do active NPCs.
-    for( auto np : active_npc ) {
+    for( const auto &np : active_npc ) {
         if( np->is_dead() ) {
             continue;
         }
@@ -6087,7 +6085,7 @@ void game::shockwave( const tripoint &p, int radius, int force, int stun, int da
             knockback( p, critter.pos(), force, stun, dam_mult);
         }
     }
-    for( auto &elem : active_npc ) {
+    for( const auto &elem : active_npc ) {
         if( rl_dist( ( elem )->pos(), p ) <= radius ) {
             add_msg( _( "%s is caught in the shockwave!" ), ( elem )->name.c_str() );
             knockback( p, ( elem )->pos(), force, stun, dam_mult );
@@ -6564,7 +6562,7 @@ npc *game::npc_by_id(const int id) const
 {
     for( auto &cur_npc : active_npc ) {
         if( cur_npc->getID() == id ) {
-            return cur_npc;
+            return cur_npc.get();
         }
     }
     return nullptr;
@@ -6582,7 +6580,7 @@ T *game::critter_at( const tripoint &p, bool allow_hallucination )
     }
     for( auto &cur_npc : active_npc ) {
         if( cur_npc->pos() == p && !cur_npc->is_dead() ) {
-            return dynamic_cast<T*>( cur_npc );
+            return dynamic_cast<T*>( cur_npc.get() );
         }
     }
     return nullptr;
@@ -10881,12 +10879,12 @@ void game::read()
 void game::chat()
 {
     std::vector<npc *> available;
-    for( auto &elem : active_npc ) {
+    for( const auto &elem : active_npc ) {
         // @todo Get rid of the z-level check when z-level vision gets "better"
         if( u.posz() == elem->posz() &&
             u.sees( elem->pos() ) &&
             rl_dist( u.pos(), elem->pos() ) <= 24 ) {
-            available.push_back( elem );
+            available.push_back( elem.get() );
         }
     }
 
@@ -12578,11 +12576,11 @@ void game::vertical_move(int movez, bool force)
         shift_monsters( 0, 0, movez );
     }
 
-    std::vector<npc *> npcs_to_bring;
+    std::vector<std::shared_ptr<npc>> npcs_to_bring;
     std::vector<monster *> monsters_following;
     if( !m.has_zlevels() && abs( movez ) == 1 ) {
         std::copy_if( active_npc.begin(), active_npc.end(), back_inserter( npcs_to_bring ),
-                      [this]( npc *np ) {
+                      [this]( const std::shared_ptr<npc> &np ) {
             return np->is_friend() && rl_dist( np->pos(), u.pos() ) < 2;
         } );
     }
@@ -12611,7 +12609,7 @@ void game::vertical_move(int movez, bool force)
             return !is_empty( c );
         } );
 
-        for( npc *np : npcs_to_bring ) {
+        for( const auto &np : npcs_to_bring ) {
             const auto found = std::find_if( candidates.begin(), candidates.end(),
                 [this, np]( const tripoint &c ) {
                 return !np->is_dangerous_fields( m.field_at( c ) ) && m.tr_at( c ).is_benign();
@@ -12881,8 +12879,7 @@ void game::update_map(int &x, int &y)
     u.shift_destination(-shiftx * SEEX, -shifty * SEEY);
 
     // Shift NPCs
-    for (auto it = active_npc.begin();
-         it != active_npc.end();) {
+    for( auto it = active_npc.begin(); it != active_npc.end(); ) {
         (*it)->shift(shiftx, shifty);
         if( (*it)->posx() < 0 - SEEX * 2 || (*it)->posy() < 0 - SEEX * 2 ||
             (*it)->posx() > SEEX * (MAPSIZE + 2) || (*it)->posy() > SEEY * (MAPSIZE + 2) ) {
@@ -13234,7 +13231,7 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
     }
 
     if( x_in_y( density, 100 ) ) {
-        npc *tmp = new npc();
+        std::shared_ptr<npc> tmp = std::make_shared<npc>();
         tmp->normalize();
         tmp->randomize();
         //tmp->stock_missions();
@@ -13265,7 +13262,7 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
         }
         // adds the npc to the correct overmap.
         tmp->spawn_at_precise( point( msx, msy ), tripoint( rng( 0, SEEX - 1 ), rng( 0, SEEY - 1 ), 0 ) );
-        overmap_buffer.insert_npc( temp );
+        overmap_buffer.insert_npc( tmp );
         tmp->form_opinion( u );
         tmp->mission = NPC_MISSION_NULL;
         tmp->add_new_mission( mission::reserve_random(ORIGIN_ANY_NPC, tmp->global_omt_location(), tmp->getID()) );
@@ -13414,8 +13411,7 @@ void game::nuke( const tripoint &p )
     tmpmap.save();
     overmap_buffer.ter(x, y, 0) = oter_id( "crater" );
     // Kill any npcs on that omap location.
-    std::vector<npc *> npcs = overmap_buffer.get_npcs_near_omt(x, y, 0, 0);
-    for( auto &npc : npcs ) {
+    for( const auto &npc : overmap_buffer.get_npcs_near_omt( x, y, 0, 0 ) ) {
         npc->marked_for_death = true;
     }
 }
@@ -13954,8 +13950,10 @@ overmap &game::get_cur_om() const
 std::vector<npc *> game::allies()
 {
     std::vector<npc *> res;
-    std::copy_if( active_npc.begin(), active_npc.end(), std::back_inserter( res ), []( const npc *e ) {
-        return !e->is_dead_state() && e->is_friend();
-    } );
+    for( const auto &e : active_npc ) {
+        if( !e->is_dead_state() && e->is_friend() ) {
+            res.push_back( e.get() );
+        }
+    }
     return res;
 }

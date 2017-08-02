@@ -620,7 +620,7 @@ void mission_start::recruit_tracker( mission *miss )
     tripoint site = target_om_ter( "cabin", 2, miss, false );
     miss->recruit_class = NC_COWBOY;
 
-    npc *temp = new npc();
+    std::shared_ptr<npc> temp = std::make_shared<npc>();
     temp->normalize();
     temp->randomize( NC_COWBOY );
     // NPCs spawn with submap coordinates, site is in overmap terrain coords
@@ -1268,10 +1268,10 @@ void mission_start::ranch_construct_16(mission *miss)
  bay.draw_square_furn(f_wood_keg, 16, 19, 17, 19);
  bay.draw_square_furn(f_fvat_empty, 16, 21, 17, 21);
  //Do a check to prevent duplicate NPCs in the last mission of each version
- std::vector<npc*> all_npcs = overmap_buffer.get_npcs_near(site.x*2,site.y*2,site.z,3);
+    const std::vector<std::shared_ptr<npc>> all_npcs = overmap_buffer.get_npcs_near( site.x*2,site.y*2,site.z,3 );
  bool already_has = false;
  unsigned int a = -1;
- for( auto *elem : all_npcs) {
+ for( auto &elem : all_npcs ) {
     if (elem->name.find(", Bartender") != a){
         already_has = true;
     }
