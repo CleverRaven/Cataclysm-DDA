@@ -5,7 +5,6 @@
 #include "map_iterator.h"
 #include "mtype.h"
 #include "json.h"
-#include "itype.h"
 
 #include <map>
 #include <algorithm>
