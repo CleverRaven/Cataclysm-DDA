@@ -769,22 +769,6 @@ void npc::spawn_at_precise( const point &submap_offset, const tripoint &square )
     om.insert_npc( this );
 }
 
-void npc::spawn_at_random_city(overmap *o)
-{
-    int x, y;
-    if(o->cities.empty()) {
-        x = rng(0, OMAPX * 2 - 1);
-        y = rng(0, OMAPY * 2 - 1);
-    } else {
-        const city& c = random_entry( o->cities );
-        x = c.x + rng(-c.s, +c.s);
-        y = c.y + rng(-c.s, +c.s);
-    }
-    x += o->pos().x * OMAPX * 2;
-    y += o->pos().y * OMAPY * 2;
-    spawn_at_precise( point( x, y ), tripoint( rng( 0, SEEX - 1 ), rng( 0, SEEY - 1 ), 0 ) );
-}
-
 tripoint npc::global_square_location() const
 {
     return tripoint( submap_coords.x * SEEX + posx() % SEEX, submap_coords.y * SEEY + posy() % SEEY, position.z );

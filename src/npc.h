@@ -488,11 +488,6 @@ public:
      */
     void spawn_at_precise( const point &submap_offset, const tripoint &square );
     /**
-     * Calls spawn_at, spawns in a random city in
-     * the given overmap on z-level 0.
-     */
-    void spawn_at_random_city(overmap *o);
-    /**
      * Places the NPC on the @ref map. This update its
      * pos values to fit the current offset of
      * map (g->levx, g->levy).
