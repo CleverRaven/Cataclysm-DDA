@@ -6636,7 +6636,7 @@ size_t game::num_zombies() const
 
 monster &game::zombie( const int idx ) const
 {
-    return critter_tracker->find(idx);
+    return *critter_tracker->find( idx );
 }
 
 bool game::update_zombie_pos( const monster &critter, const tripoint &pos )
