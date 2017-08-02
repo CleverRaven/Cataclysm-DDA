@@ -1948,7 +1948,7 @@ classes = {
             { name = "is_benign", rval = "bool", args = { } },
             { name = "is_funnel", rval = "bool", args = { } },
             { name = "is_null", rval = "bool", args = { } },
-            { name = "on_disarmed", rval = nil, args = { "tripoint" } },
+            { name = "on_disarmed", rval = nil, args = { "map", "tripoint" } },
             { name = "trigger", rval = nil, args = { "tripoint", "Creature" } },
             { name = "triggered_by_item", rval = "bool", args = { "item" } },
         }
