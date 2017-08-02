@@ -52,12 +52,6 @@ enum tut_type {
     TUT_MAX
 };
 
-enum input_ret {
-    IR_GOOD,
-    IR_BAD,
-    IR_TIMEOUT
-};
-
 enum quit_status {
     QUIT_NO = 0,    // Still playing
     QUIT_SUICIDE,   // Quit with 'Q'
