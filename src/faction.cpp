@@ -5,7 +5,6 @@
 #include "math.h"
 #include "string_formatter.h"
 #include "output.h"
-#include "omdata.h"
 #include "debug.h"
 #include "enums.h"
 #include "game_constants.h"
