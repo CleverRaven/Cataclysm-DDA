@@ -57,6 +57,7 @@ static const trait_id trait_CLAWS_RETRACT( "CLAWS_RETRACT" );
 static const trait_id trait_CLAWS_ST( "CLAWS_ST" );
 static const trait_id trait_CLAWS_TENTACLE( "CLAWS_TENTACLE" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
+static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 static const trait_id trait_DEFT( "DEFT" );
 static const trait_id trait_DRUNKEN( "DRUNKEN" );
 static const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
@@ -1799,8 +1800,8 @@ void player_hit_message( player* attacker, std::string message,
             msg = string_format( _( "%s but do no damage." ), message.c_str() );
         }
         msgtype = m_neutral;
-    } else if( crit ) {
-        if( attacker->is_npc() ) {
+    } else if( crit ) { //Player won't see exact numbers of damage dealt by NPC unless player has DEBUG_NIGHTVISION trait
+        if( attacker->is_npc() && !g->u.has_trait( trait_DEBUG_NIGHTVISION ) ) {
             //~ NPC hits something (critical)
             msg = string_format( _( "%s. Critical!" ), message.c_str() );
         } else {
@@ -1811,7 +1812,7 @@ void player_hit_message( player* attacker, std::string message,
         sSCTmod = _( "Critical!" );
         gmtSCTcolor = m_critical;
     } else {
-        if( attacker->is_npc() ) {
+        if( attacker->is_npc() && !g->u.has_trait( trait_DEBUG_NIGHTVISION ) ) {
             //~ NPC hits something
             msg = string_format( _( "%s." ), message.c_str() );
         } else {
