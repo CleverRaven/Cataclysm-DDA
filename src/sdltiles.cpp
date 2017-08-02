@@ -119,6 +119,12 @@ struct SDL_PixelFormat_deleter {
     }
 };
 using SDL_PixelFormat_Ptr = std::unique_ptr<SDL_PixelFormat, SDL_PixelFormat_deleter>;
+struct TTF_Font_deleter {
+    void operator()( TTF_Font * const font ) {
+        TTF_CloseFont( font );
+    }
+};
+using TTF_Font_Ptr = std::unique_ptr<TTF_Font, TTF_Font_deleter>;
 
 /**
  * A class that draws a single character on screen.
@@ -158,7 +164,7 @@ public:
 protected:
     SDL_Texture_Ptr create_glyph( const std::string &ch, int color );
 
-    TTF_Font* font;
+    TTF_Font_Ptr font;
     // Maps (character code, color) to SDL_Texture*
 
     struct key_t {
@@ -530,7 +536,7 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
 SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int color )
 {
     const auto function = fontblending ? TTF_RenderUTF8_Blended : TTF_RenderUTF8_Solid;
-    SDL_Surface_Ptr sglyph( function( font, ch.c_str(), windowsPalette[color] ) );
+    SDL_Surface_Ptr sglyph( function( font.get(), ch.c_str(), windowsPalette[color] ) );
     if( !sglyph ) {
         dbg( D_ERROR ) << "Failed to create glyph for " << ch << ": " << TTF_GetError();
         return NULL;
@@ -1333,32 +1339,30 @@ static bool ends_with(const std::string &text, const std::string &suffix) {
 static void font_folder_list(std::ofstream& fout, std::string path)
 {
     for( const auto &f : get_files_from_path( "", path, true, false ) ) {
-            TTF_Font* fnt = TTF_OpenFont(f.c_str(), 12);
-            if (fnt == NULL) {
+            TTF_Font_Ptr fnt( TTF_OpenFont( f.c_str(), 12 ) );
+            if( !fnt ) {
                 continue;
             }
             long nfaces = 0;
-            nfaces = TTF_FontFaces(fnt);
-            TTF_CloseFont(fnt);
-            fnt = NULL;
+            nfaces = TTF_FontFaces( fnt.get() );
+            fnt.reset();
 
             for(long i = 0; i < nfaces; i++) {
-                fnt = TTF_OpenFontIndex(f.c_str(), 12, i);
-                if (fnt == NULL) {
+                const TTF_Font_Ptr fnt( TTF_OpenFontIndex( f.c_str(), 12, i ) );
+                if( !fnt ) {
                     continue;
                 }
 
                 // Add font family
-                char *fami = TTF_FontFaceFamilyName(fnt);
+                char *fami = TTF_FontFaceFamilyName( fnt.get() );
                 if (fami != NULL) {
                     fout << fami;
                 } else {
-                    TTF_CloseFont(fnt);
                     continue;
                 }
 
                 // Add font style
-                char *style = TTF_FontFaceStyleName(fnt);
+                char *style = TTF_FontFaceStyleName( fnt.get() );
                 bool isbitmap = ends_with(f, ".fon");
                 if (style != NULL && !isbitmap && strcasecmp(style, "Regular") != 0) {
                     fout << " " << style;
@@ -1384,9 +1388,6 @@ static void font_folder_list(std::ofstream& fout, std::string path)
                 // Add filename and font index
                 fout << f << std::endl;
                 fout << i << std::endl;
-
-                TTF_CloseFont(fnt);
-                fnt = NULL;
 
                 // We use only 1 style in bitmap fonts.
                 if (isbitmap) {
@@ -1479,29 +1480,25 @@ static std::string find_system_font(std::string name, int& faceIndex)
 // return face index that has this size or below
 static int test_face_size(std::string f, int size, int faceIndex)
 {
-    TTF_Font* fnt = TTF_OpenFontIndex(f.c_str(), size, faceIndex);
-    if(fnt != NULL) {
-        char* style = TTF_FontFaceStyleName(fnt);
+    const TTF_Font_Ptr fnt( TTF_OpenFontIndex( f.c_str(), size, faceIndex ) );
+    if( fnt ) {
+        char* style = TTF_FontFaceStyleName( fnt.get() );
         if(style != NULL) {
-            int faces = TTF_FontFaces(fnt);
+            int faces = TTF_FontFaces( fnt.get() );
             bool found = false;
             for(int i = faces - 1; i >= 0 && !found; i--) {
-                TTF_Font* tf = TTF_OpenFontIndex(f.c_str(), size, i);
+                const TTF_Font_Ptr tf( TTF_OpenFontIndex( f.c_str(), size, i ) );
                 char* ts = NULL;
-                if(NULL != tf) {
-                   if( NULL != (ts = TTF_FontFaceStyleName(tf))) {
-                       if(0 == strcasecmp(ts, style) && TTF_FontHeight(tf) <= size) {
+                if( tf ) {
+                   if( NULL != ( ts = TTF_FontFaceStyleName( tf.get() ) ) ) {
+                       if( 0 == strcasecmp( ts, style ) && TTF_FontHeight( tf.get() ) <= size ) {
                            faceIndex = i;
                            found = true;
                        }
                    }
-                   TTF_CloseFont(tf);
-                   tf = NULL;
                 }
             }
         }
-        TTF_CloseFont(fnt);
-        fnt = NULL;
     }
 
     return faceIndex;
@@ -1949,7 +1946,7 @@ void BitmapFont::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, i
 
 CachedTTFFont::CachedTTFFont(int w, int h)
 : Font(w, h)
-, font(NULL)
+, font()
 {
 }
 
@@ -1960,10 +1957,7 @@ CachedTTFFont::~CachedTTFFont()
 
 void CachedTTFFont::clear()
 {
-    if (font != NULL) {
-        TTF_CloseFont(font);
-        font = NULL;
-    }
+    font.reset();
     glyph_cache_map.clear();
 }
 
@@ -1997,11 +1991,11 @@ void CachedTTFFont::load_font(std::string typeface, int fontsize)
         strcasecmp(typeface.substr(typeface.length() - 4).c_str(), ".fon") == 0 ) {
         faceIndex = test_face_size(typeface, fontsize, faceIndex);
     }
-    font = TTF_OpenFontIndex(typeface.c_str(), fontsize, faceIndex);
-    if (font == NULL) {
+    font.reset( TTF_OpenFontIndex( typeface.c_str(), fontsize, faceIndex ) );
+    if( !font ) {
         throw std::runtime_error(TTF_GetError());
     }
-    TTF_SetFontStyle(font, TTF_STYLE_NORMAL);
+    TTF_SetFontStyle( font.get(), TTF_STYLE_NORMAL );
 }
 
 int map_font_width() {
