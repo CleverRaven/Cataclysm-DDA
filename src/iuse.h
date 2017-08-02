@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "enums.h"
 
 class item;
 class player;
@@ -14,6 +13,7 @@ class JsonObject;
 class MonsterGenerator;
 struct iteminfo;
 typedef std::string itype_id;
+struct tripoint;
 
 // iuse methods returning a bool indicating whether to consume a charge of the item being used.
 class iuse
