@@ -183,6 +183,11 @@ public:
      * already dead and not contained in game::active_npc anymore.
      */
     void remove_npc(int id);
+        /**
+         * Adds the npc to an overmap ( based on the npcs current location )
+         * and stores it there. The overmap takes ownership of the pointer.
+         */
+        void insert_npc( npc *who );
 
     /**
      * Find npc by id and if found, erase it from the npc list

@@ -1007,6 +1007,7 @@ void game::create_starting_npcs()
     tmp->normalize();
     tmp->randomize( one_in(2) ? NC_DOCTOR : NC_NONE );
     tmp->spawn_at_precise( { get_levx(), get_levy() }, u.pos() - point( 1, 1 ) );
+    overmap_buffer.insert( tmp );
     tmp->form_opinion( u );
     tmp->attitude = NPCATT_NULL;
     //This sets the npc mission. This NPC remains in the shelter.
@@ -4050,6 +4051,7 @@ void game::debug()
             temp->normalize();
             temp->randomize();
             temp->spawn_at_precise( { get_levx(), get_levy() }, u.pos() + point( -4, -4 ) );
+            overmap_buffer.insert( temp );
             temp->form_opinion( u );
             temp->mission = NPC_MISSION_NULL;
             temp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, temp->global_omt_location(),
@@ -13263,6 +13265,7 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
         }
         // adds the npc to the correct overmap.
         tmp->spawn_at_precise( point( msx, msy ), tripoint( rng( 0, SEEX - 1 ), rng( 0, SEEY - 1 ), 0 ) );
+        overmap_buffer.insert_npc( temp );
         tmp->form_opinion( u );
         tmp->mission = NPC_MISSION_NULL;
         tmp->add_new_mission( mission::reserve_random(ORIGIN_ANY_NPC, tmp->global_omt_location(), tmp->getID()) );

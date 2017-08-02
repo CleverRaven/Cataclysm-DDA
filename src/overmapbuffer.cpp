@@ -686,6 +686,14 @@ npc* overmapbuffer::find_npc(int id) {
     return nullptr;
 }
 
+void overmapbuffer::insert_npc( npc * const who )
+{
+    assert( who );
+    const tripoint npc_omt_pos = who->global_omt_location();
+    const point npc_om_pos = omt_to_om_copy( npc_omt_pos.x, npc_omt_pos.y );
+    get( npc_om_pos.x, npc_om_pos.y ).insert_npc( who );
+}
+
 void overmapbuffer::remove_npc(int id)
 {
     for( auto &it : overmaps ) {

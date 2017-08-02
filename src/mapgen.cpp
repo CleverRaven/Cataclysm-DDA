@@ -8481,6 +8481,7 @@ int map::place_npc( int x, int y, const string_id<npc_template> &type )
     temp->normalize();
     temp->load_npc_template(type);
     temp->spawn_at_precise( { abs_sub.x, abs_sub.y }, { x, y, abs_sub.z } );
+    overmap_buffer.insert_npc( temp );
     return temp->getID();
 }
 
@@ -8840,6 +8841,7 @@ void map::rotate(int turns)
                 break;
         }
         np.spawn_at_precise( { abs_sub.x, abs_sub.y }, { new_x, new_y, abs_sub.z } );
+        overmap_buffer.insert_npc( *np );
     }
     ter_id rotated [SEEX * 2][SEEY * 2];
     furn_id furnrot [SEEX * 2][SEEY * 2];

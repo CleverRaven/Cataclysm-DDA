@@ -764,9 +764,6 @@ void npc::spawn_at_precise( const point &submap_offset, const tripoint &square )
     position.x = square.x % SEEX;
     position.y = square.y % SEEY;
     position.z = square.z;
-    const point pos_om = sm_to_om_copy( submap_coords );
-    overmap &om = overmap_buffer.get( pos_om.x, pos_om.y );
-    om.insert_npc( this );
 }
 
 tripoint npc::global_square_location() const
