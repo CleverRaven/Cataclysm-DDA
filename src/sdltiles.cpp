@@ -224,8 +224,6 @@ static Uint32 dpad_delay = 100;   // Delay in milli-seconds between registering 
 static bool dpad_continuous = false;  // Whether we're currently moving continously with the dpad.
 static int lastdpad = ERR;      // Keeps track of the last dpad press.
 static int queued_dpad = ERR;   // Queued dpad press, for individual button presses.
-//WINDOW *_windows;  //Probably need to change this to dynamic at some point
-//int WindowCount;        //The number of curses windows currently in use
 int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
 static int TERMINAL_WIDTH;
