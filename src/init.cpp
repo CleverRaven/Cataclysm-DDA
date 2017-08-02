@@ -43,7 +43,6 @@
 #include "scenario.h"
 #include "omdata.h"
 #include "options.h"
-#include "game.h"
 #include "faction.h"
 #include "npc.h"
 #include "item_action.h"
