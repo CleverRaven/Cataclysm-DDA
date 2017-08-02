@@ -1,7 +1,8 @@
 #include "catch/catch.hpp"
 #include "char_validity_check.h"
 
-TEST_CASE( "char_validity_check" ) {
+TEST_CASE( "char_validity_check" )
+{
     CHECK( is_char_allowed( '\0' ) == false );
     CHECK( is_char_allowed( '\b' ) == false );
     CHECK( is_char_allowed( '\t' ) == false );
