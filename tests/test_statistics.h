@@ -28,6 +28,16 @@ class statistics
             _min = std::min( _min, new_val );
             samples.push_back( new_val );
         }
+        float adj_wald_error() {
+            // Implementation of outline from https://measuringu.com/ci-five-steps/
+            float adj_numerator = 2.0 + sum();
+            float adj_denominator = 4.0 + n();
+            float adj_proportion = adj_numerator / adj_denominator;
+            float a = adj_proportion * ( 1.0 - adj_proportion );
+            float b = a / adj_denominator;
+            float c = sqrt( b );
+            return c * 2.0;
+        }
         int types() const {
             return _types;
         }
