@@ -46,12 +46,6 @@ enum class dump_mode {
     HTML
 };
 
-enum tut_type {
-    TUT_NULL,
-    TUT_BASIC, TUT_COMBAT,
-    TUT_MAX
-};
-
 enum quit_status {
     QUIT_NO = 0,    // Still playing
     QUIT_SUICIDE,   // Quit with 'Q'
