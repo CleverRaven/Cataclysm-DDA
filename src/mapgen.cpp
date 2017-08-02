@@ -8814,7 +8814,7 @@ void map::rotate(int turns)
         // OK, this is ugly: we remove the NPC from the whole map
         // Then we place it back from scratch
         // It could be rewritten to utilize the fact that rotation shouldn't cross overmaps
-        overmap_buffer.hide_npc( np.getID() );
+        auto npc_ptr = overmap_buffer.remove_npc( np.getID() );
 
         int old_x = np_rc.sub_pos.x;
         int old_y = np_rc.sub_pos.y;
@@ -8841,7 +8841,7 @@ void map::rotate(int turns)
                 break;
         }
         np.spawn_at_precise( { abs_sub.x, abs_sub.y }, { new_x, new_y, abs_sub.z } );
-        overmap_buffer.insert_npc( *np );
+        overmap_buffer.insert_npc( npc_ptr );
     }
     ter_id rotated [SEEX * 2][SEEY * 2];
     furn_id furnrot [SEEX * 2][SEEY * 2];
