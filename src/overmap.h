@@ -373,7 +373,6 @@ public:
 
  private:
     friend class overmapbuffer;
-        friend class npc; //@todo get rid of this.
 
         std::vector<npc*> npcs;
 

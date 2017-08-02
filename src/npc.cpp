@@ -1866,10 +1866,8 @@ void npc::setpos( const tripoint &pos )
     if( !is_fake() && pos_om_old != pos_om_new ) {
         overmap &om_old = overmap_buffer.get( pos_om_old.x, pos_om_old.y );
         overmap &om_new = overmap_buffer.get( pos_om_new.x, pos_om_new.y );
-        auto a = std::find( om_old.npcs.begin(), om_old.npcs.end(), this );
-        if( a != om_old.npcs.end() ) {
-            om_old.npcs.erase( a );
-            om_new.npcs.push_back( this );
+        if( npc * const ptr = om_old.erase_npc( getID() ) ) {
+            om_new.insert_npc( ptr );
         } else {
             // Don't move the npc pointer around to avoid having two overmaps
             // with the same npc pointer
