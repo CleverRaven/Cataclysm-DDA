@@ -6,9 +6,9 @@
 #include "string_formatter.h"
 #include "output.h"
 #include "omdata.h"
-#include "game.h"
 #include "debug.h"
 #include "enums.h"
+#include "game_constants.h"
 #include "catacharset.h"
 
 #include "json.h"
