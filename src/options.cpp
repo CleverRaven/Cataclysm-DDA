@@ -33,6 +33,7 @@ bool log_from_top;
 int message_ttl;
 bool fov_3d;
 bool tile_iso;
+bool proper_stairs;
 
 #ifdef TILES
 extern std::unique_ptr<cata_tiles> tilecontext;
@@ -1314,6 +1315,11 @@ void options_manager::init()
         false
         );
 
+    add("ENFORCE_STAIRS", "debug", _("Enforce aligned up/down stairs"),
+        _("If true, stairs will not teleport in x/y coordinates.  Currently many locations rely on this behavior so it is not recommended to turn this on for a regular game."),
+        false
+        );
+
     add("ENCODING_CONV", "debug", _("Experimental path name encoding conversion"),
         _("If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK Windows users."),
         true
@@ -1989,6 +1995,7 @@ bool options_manager::save()
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
+    proper_stairs = ::get_option<bool>( "ENFORCE_STAIRS" );
 
     update_music_volume();
 
@@ -2017,6 +2024,7 @@ void options_manager::load()
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
+    proper_stairs = ::get_option<bool>( "ENFORCE_STAIRS" );
 }
 
 bool options_manager::load_legacy()
