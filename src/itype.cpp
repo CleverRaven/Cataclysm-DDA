@@ -1,6 +1,5 @@
 #include "itype.h"
 #include "debug.h"
-#include "item_factory.h"
 #include "translations.h"
 
 #include <stdexcept>
