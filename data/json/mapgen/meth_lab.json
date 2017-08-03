@@ -1,13 +1,5 @@
 [
   {
-    "id": "methchef",
-    "type": "item_group",
-    "items": [
-      [ "meth", 90 ],
-      [ "pan", 50 ]
-    ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "abstorefront" ],

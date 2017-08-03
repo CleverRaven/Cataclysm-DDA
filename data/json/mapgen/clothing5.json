@@ -1,25 +1,5 @@
 [
   {
-    "id": "wedding_dresses",
-    "type": "item_group",
-    "items": [
-      [ "dress", 50 ],
-      [ "veil_wedding", 150 ],
-      [ "dress_wedding", 150 ]
-    ]
-  },
-  {
-    "id": "wedding_suits",
-    "type": "item_group",
-    "items": [
-      [ "tux", 100 ],
-      [ "suit", 80 ],
-      [ "waistcoat", 50 ],
-      [ "dress_shirt", 100 ],
-      [ "undershirt", 50 ]
-    ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_clothes" ],

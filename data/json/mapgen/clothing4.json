@@ -1,30 +1,5 @@
 [
   {
-    "id": "dress_shop",
-    "type": "item_group",
-    "items": [
-      [ "skirt", 40 ],
-      [ "skirt_leather", 5 ],
-      [ "dress", 120 ],
-      [ "sundress", 50 ],
-      [ "nanoskirt", 30 ],
-      [ "camisole", 60 ],
-      [ "corset", 20 ],
-      [ "stockings", 50 ],
-      [ "leggings", 20 ],
-      [ "tights", 50 ]
-    ]
-  },
-  {
-    "id": "dress_shoes",
-    "type": "item_group",
-    "items": [
-      [ "dress_shoes", 50 ],
-      [ "heels", 50 ],
-      [ "leathersandals", 20 ]
-    ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_clothes" ],

@@ -1,17 +1,5 @@
 [
   {
-    "name": "CAMPERS",
-    "type": "monstergroup",
-    "default": "mon_null",
-    "monsters": [
-      { "monster": "mon_zombie", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_child", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_rot", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_dog", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_dog_skeleton", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 2 ] }
-    ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "campsite" ],

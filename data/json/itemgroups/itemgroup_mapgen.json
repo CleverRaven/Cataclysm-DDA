@@ -1,0 +1,2591 @@
+[
+  {
+    "id": "stash_water",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "funnel" },
+      { "item": "water_clean", "container-item": "bottle_plastic" },
+      { "item": "water_clean", "container-item": "jug_plastic", "charges-min": 7, "charges-max": 15 },
+      { "item": "water_clean", "container-item": "30gal_drum", "charges-min": 150, "charges-max": 350 }
+    ]
+  },
+  {
+    "id": "cabin_suicide",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "usp_45", "charges": 11, "ammo-item": "45_acp" },
+      { "item": "45_casing", "charges-min": 1, "charges-max": 1 },
+      { "item": "corpse" },
+      { "group": "underwear" },
+      { "group": "cabin_suicide_over" },
+      { "group": "cabin_suicide_shirt" },
+      { "group": "cabin_suicide_legs" },
+      { "group": "cabin_suicide_shoes" },
+      { "group": "cabin_suicide_extras", "count-min": 3, "count-max": 6 }
+    ]
+  },
+  {
+    "id": "cabin_suicide_shirt",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "hoodie", 30 ],
+      [ "kevlar", 10 ],
+      [ "longshirt", 40 ],
+      [ "undershirt", 20 ]
+    ]
+  },
+  {
+    "id": "cabin_suicide_over",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "chestrig", 20 ],
+      [ "jacket_light", 30 ],
+      [ "jacket_leather", 30 ],
+      [ "jacket_evac", 30 ],
+      [ "jacket_army", 30 ],
+      [ "jacket_flannel", 30 ],
+      [ "vest", 10 ]
+    ]
+  },
+  {
+    "id": "cabin_suicide_legs",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "jeans", 35 ],
+      [ "pants", 40 ],
+      [ "pants_cargo", 20 ],
+      [ "pants_survivor", 5 ]
+    ]
+  },
+  {
+    "id": "cabin_suicide_shoes",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "boots", 35 ],
+      [ "boots_combat", 6 ],
+      [ "boots_hiking", 15 ],
+      [ "boots_survivor", 5 ],
+      [ "sneakers", 40 ]
+    ]
+  },
+  {
+    "id": "cabin_suicide_extras",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "water_clean", "prob": 10, "container-item": "canteen", "charges-min": 1, "charges-max": 5 },
+      [ "3006", 25 ],
+      [ "45_acp", 25 ],
+      [ "bandages", 15 ],
+      [ "bandana", 10 ],
+      [ "cig", 5 ],
+      [ "cell_phone", 15 ],
+      [ "gloves_fingerless", 5 ],
+      [ "holster", 5 ],
+      [ "hatchet", 5 ],
+      [ "hat_ball", 5 ],
+      [ "knife_combat", 5 ],
+      [ "locket", 5 ],
+      [ "mask_gas", 10 ],
+      [ "molotov", 5 ],
+      [ "matches", 25 ],
+      [ "mbag", 10 ],
+      [ "machete", 2 ],
+      [ "photo_album", 5 ],
+      [ "pipe", 5 ],
+      [ "poncho", 5 ],
+      [ "sheath", 5 ],
+      [ "scarf", 10 ],
+      [ "survivormap", 2 ],
+      [ "wristwatch", 15 ]
+    ]
+  },
+  {
+    "id": "bar_alcohol",
+    "type": "item_group",
+    "items": [
+      [ "beer", 70 ],
+      [ "european_pilsner", 60 ],
+      [ "pale_ale", 60 ],
+      [ "india_pale_ale", 57 ],
+      [ "stout", 56 ],
+      [ "belgian_ale", 50 ],
+      [ "imperial_stout", 45 ],
+      [ "whiskey", 20 ],
+      [ "vodka", 12 ],
+      [ "gin", 15 ],
+      [ "rum", 12 ],
+      [ "tequila", 17 ],
+      [ "triple_sec", 10 ],
+      [ "fruit_wine", 5 ],
+      [ "wine_riesling", 7 ],
+      [ "wine_chardonnay", 4 ],
+      [ "wine_cabernet", 1 ],
+      [ "wine_noir", 1 ],
+      [ "brandy", 5 ],
+      [ "drink_rumcola", 50 ],
+      [ "drink_screwdriver", 45 ],
+      [ "drink_wild_apple", 20 ],
+      [ "long_island", 27 ]
+    ]
+  },
+  {
+    "id": "bar_food",
+    "type": "item_group",
+    "items": [
+      [ "mayonnaise", 3 ],
+      [ "mustard", 3 ],
+      [ "ketchup", 3 ],
+      [ "pickle", 5 ],
+      [ "cheeseburger", 10 ],
+      [ "hamburger", 7 ],
+      [ "bobburger", 1 ],
+      [ "sloppyjoe", 6 ],
+      [ "fries", 10 ],
+      [ "cheese_fries", 7 ],
+      [ "onion_rings", 8 ]
+    ]
+  },
+  {
+    "id": "bar_fridge",
+    "type": "item_group",
+    "items": [
+      [ "water_clean", 50 ],
+      [ "water_mineral", 20 ],
+      [ "oj", 40 ],
+      [ "juice", 35 ],
+      [ "cranberry_juice", 35 ],
+      [ "cola", 50 ],
+      [ "lemonlime", 45 ],
+      [ "V8", 15 ],
+      [ "fries", 7 ],
+      [ "cheese_fries", 5 ],
+      [ "onion_rings", 7 ],
+      [ "pizza_veggy", 7 ],
+      [ "pizza_meat", 7 ]
+    ]
+  },
+  {
+    "id": "bar_table",
+    "type": "item_group",
+    "items": [
+      [ "cig", 50 ],
+      [ "matches", 45 ],
+      [ "rolling_paper", 10 ],
+      [ "bottle_glass", 70 ],
+      [ "bucket", 5 ],
+      [ "can_drink_unsealed", 65 ],
+      [ "wrapper", 50 ],
+      [ "ceramic_plate", 40 ],
+      [ "news_regional", 20 ],
+      [ "mag_news", 20 ]
+    ]
+  },
+  {
+    "id": "bar_bathroom",
+    "type": "item_group",
+    "items": [
+      [ "weed", 40 ],
+      [ "coke", 40 ],
+      [ "aspirin", 40 ],
+      [ "cig", 20 ],
+      [ "syringe", 30 ],
+      [ "meth", 20 ],
+      [ "heroin", 7 ],
+      [ "mag_porn", 35 ],
+      [ "hairpin", 5 ],
+      [ "purse", 15 ]
+    ]
+  },
+  {
+    "id": "bar_trash",
+    "type": "item_group",
+    "items": [
+      [ "wrapper", 50 ],
+      [ "bottle_glass", 70 ],
+      [ "can_drink_unsealed", 60 ],
+      [ "flyer", 30 ],
+      [ "box_small", 30 ],
+      [ "rag", 20 ],
+      [ "bag_plastic", 20 ],
+      [ "news_regional", 15 ],
+      [ "mag_news", 15 ],
+      [ "hairpin", 15 ],
+      [ "jar_glass", 10 ]
+    ]
+  },
+  {
+    "id": "basement_survival_last_stand",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "group": "clothing_outdoor_set", "prob": 100, "damage": [ 1, 4 ] },
+      {
+        "distribution": [
+          { "item": "m240", "damage": [ 2, 4 ] },
+          { "item": "m60", "damage": [ 2, 4 ] }
+        ]
+      },
+      { "item": "corpse", "prob": 50, "damage": 4 }
+    ]
+  },
+  {
+    "id": "basement_survival_last_stand_casing",
+    "type": "item_group",
+    "items": [
+      { "item": "308_casing", "charges": [ 1, 1 ] },
+      { "item": "ammolink308", "charges": [ 1, 1 ] }
+    ]
+  },
+  {
+    "id": "bowling_alcohol",
+    "type": "item_group",
+    "items": [
+      [ "beer", 60 ],
+      [ "european_pilsner", 50 ],
+      [ "pale_ale", 50 ],
+      [ "india_pale_ale", 47 ],
+      [ "stout", 46 ],
+      [ "belgian_ale", 40 ],
+      [ "imperial_stout", 35 ],
+      [ "whiskey", 10 ],
+      [ "vodka", 10 ],
+      [ "gin", 10 ],
+      [ "rum", 10 ],
+      [ "tequila", 10 ],
+      [ "triple_sec", 5 ],
+      [ "fruit_wine", 5 ],
+      [ "brandy", 5 ],
+      [ "drink_rumcola", 40 ],
+      [ "drink_screwdriver", 35 ],
+      [ "drink_wild_apple", 10 ],
+      [ "long_island", 17 ]
+    ]
+  },
+  {
+    "id": "bowling_food",
+    "type": "item_group",
+    "items": [
+      [ "water_clean", 50 ],
+      [ "water_mineral", 20 ],
+      [ "oj", 40 ],
+      [ "juice", 35 ],
+      [ "cranberry_juice", 35 ],
+      [ "cola", 50 ],
+      [ "lemonlime", 45 ],
+      [ "V8", 15 ],
+      [ "gum", 15 ]
+    ]
+  },
+  {
+    "id": "bowling_fridge",
+    "type": "item_group",
+    "items": [
+      [ "water_clean", 50 ],
+      [ "water_mineral", 20 ],
+      [ "oj", 40 ],
+      [ "juice", 35 ],
+      [ "cranberry_juice", 35 ],
+      [ "cola", 50 ],
+      [ "lemonlime", 45 ],
+      [ "V8", 15 ],
+      [ "fries", 7 ],
+      [ "cheese_fries", 5 ],
+      [ "onion_rings", 7 ],
+      [ "mayonnaise", 3 ],
+      [ "mustard", 3 ],
+      [ "ketchup", 3 ],
+      [ "pickle", 5 ],
+      [ "cheeseburger", 10 ],
+      [ "hamburger", 7 ],
+      [ "bobburger", 1 ],
+      [ "sloppyjoe", 6 ],
+      [ "hotdogs_frozen", 6 ]
+    ]
+  },
+  {
+    "id": "bowling_table",
+    "type": "item_group",
+    "items": [
+      [ "cig", 50 ],
+      [ "matches", 45 ],
+      [ "rolling_paper", 10 ],
+      [ "bottle_glass", 50 ],
+      [ "bottle_plastic", 70 ],
+      [ "can_drink_unsealed", 65 ],
+      [ "wrapper", 50 ],
+      [ "ceramic_plate", 40 ],
+      [ "news_regional", 20 ],
+      [ "mag_news", 20 ]
+    ]
+  },
+  {
+    "id": "bowling_bathroom",
+    "type": "item_group",
+    "items": [
+      [ "weed", 30 ],
+      [ "coke", 30 ],
+      [ "aspirin", 40 ],
+      [ "cig", 20 ],
+      [ "syringe", 20 ],
+      [ "meth", 10 ],
+      [ "heroin", 5 ],
+      [ "mag_porn", 35 ],
+      [ "hairpin", 5 ],
+      [ "purse", 15 ]
+    ]
+  },
+  {
+    "id": "bowling_trash",
+    "type": "item_group",
+    "items": [
+      [ "wrapper", 50 ],
+      [ "bottle_glass", 50 ],
+      [ "bottle_plastic", 70 ],
+      [ "can_drink_unsealed", 60 ],
+      [ "flyer", 30 ],
+      [ "box_small", 30 ],
+      [ "rag", 20 ],
+      [ "bag_plastic", 20 ],
+      [ "news_regional", 15 ],
+      [ "mag_news", 15 ]
+    ]
+  },
+  {
+    "id": "bowling_item",
+    "type": "item_group",
+    "items": [
+      [ "socks_bowling", 100 ],
+      [ "shoes_bowling", 100 ],
+      [ "bowling_pin", 100 ],
+      [ "bowling_ball", 100 ]
+    ]
+  },
+  {
+    "id": "bowling_balls",
+    "type": "item_group",
+    "items": [ [ "bowling_ball", 100 ] ]
+  },
+  {
+    "id": "boxing_clothes",
+    "type": "item_group",
+    "items": [
+      [ "tank_top", 40 ],
+      [ "shorts", 40 ],
+      [ "boxing_gloves", 50 ],
+      [ "headgear", 50 ],
+      [ "mouthpiece", 50 ],
+      [ "jersey", 40 ],
+      [ "coat_rain", 15 ],
+      [ "hood_rain", 15 ],
+      [ "gloves_wraps", 45 ],
+      [ "jeans", 30 ],
+      [ "sports_bra", 25 ],
+      [ "jacket_leather", 20 ],
+      [ "aspirin", 30 ],
+      [ "water_clean", 30 ],
+      [ "sports_drink", 30 ],
+      [ "1st_aid", 20 ]
+    ]
+  },
+  {
+    "id": "boxing_books",
+    "type": "item_group",
+    "items": [
+      [ "mag_unarmed", 40 ],
+      [ "manual_boxing", 50 ],
+      [ "mag_melee", 25 ],
+      [ "mag_bashing", 10 ],
+      [ "manual_melee", 15 ],
+      [ "recipe_melee", 10 ],
+      [ "manual_taekwondo", 10 ],
+      [ "manual_karate", 10 ],
+      [ "manual_muay_thai", 2 ],
+      [ "manual_krav_maga", 10 ]
+    ]
+  },
+  {
+    "id": "boxing_misc",
+    "type": "item_group",
+    "items": [
+      [ "aspirin", 50 ],
+      [ "1st_aid", 40 ],
+      [ "bandages", 30 ],
+      [ "duct_tape", 20 ],
+      [ "sewing_kit", 10 ],
+      [ "mouthpiece", 10 ],
+      [ "cigar", 20 ],
+      [ "cig", 15 ],
+      [ "matches", 10 ]
+    ]
+  },
+  {
+    "id": "bunker_basement_loot",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "entries": [
+      { "group": "bots", "prob": 1 },
+      { "group": "guns_launcher_milspec", "prob": 1 },
+      { "group": "guns_rifle_milspec", "prob": 2 },
+      { "group": "mags_milspec", "prob": 1 },
+      { "group": "ammo_milspec", "prob": 3 },
+      { "group": "grenades", "prob": 1 },
+      { "group": "mil_armor", "prob": 1 },
+      { "group": "mil_hw", "prob": 1 },
+      { "group": "mil_food", "prob": 2 },
+      { "group": "bionics_mil", "prob": 1 }
+    ]
+  },
+  {
+    "id": "jewelry_furshop",
+    "type": "item_group",
+    "items": [
+      [ "gold_watch", 50 ],
+      [ "sf_watch", 50 ],
+      [ "brooch", 80 ],
+      [ "pearl_collar", 50 ],
+      [ "silver_bracelet", 30 ],
+      [ "gold_bracelet", 20 ]
+    ]
+  },
+  {
+    "id": "grave_memories",
+    "type": "item_group",
+    "items": [
+      [ "barrette", 5 ],
+      [ "boots_combat", 10 ],
+      [ "cassock", 1 ],
+      [ "child_book", 5 ],
+      [ "fancy_sunglasses", 5 ],
+      [ "flask_hip", 5 ],
+      [ "jedi_cloak", 1 ],
+      [ "jersey", 1 ],
+      [ "kittel", 1 ],
+      [ "kufi", 1 ],
+      [ "kippah", 1 ],
+      [ "locket", 10 ],
+      [ "long_glove_white", 1 ],
+      [ "necklace", 1 ],
+      [ "photo_album", 15 ],
+      [ "ref_lighter", 5 ],
+      [ "ring", 10 ],
+      [ "roadmap", 3 ],
+      [ "spray_can", 5 ],
+      [ "story_book", 5 ],
+      [ "syringe", 3 ],
+      [ "tall_tales", 5 ],
+      [ "teddy", 15 ],
+      [ "teleumbrella", 2 ],
+      [ "thawb", 1 ],
+      [ "umbrella", 10 ],
+      [ "many_years_old_newspaper", 2 ],
+      [ "years_old_newspaper", 5 ],
+      [ "one_year_old_newspaper", 4 ],
+      [ "months_old_newspaper", 3 ],
+      [ "weeks_old_newspaper", 3 ],
+      [ "newest_newspaper", 1 ],
+      [ "survnote", 3 ],
+      [ "cig_butt", 5 ],
+      [ "cigar_butt", 10 ]
+    ]
+  },
+  {
+    "id": "tailorbooks",
+    "type": "item_group",
+    "items": [
+      [ "tailor_portfolio", 30 ],
+      [ "mag_tailor", 50 ],
+      [ "manual_tailor", 30 ],
+      [ "textbook_tailor", 30 ]
+    ]
+  },
+  {
+    "id": "dress_shop",
+    "type": "item_group",
+    "items": [
+      [ "skirt", 40 ],
+      [ "skirt_leather", 5 ],
+      [ "dress", 120 ],
+      [ "sundress", 50 ],
+      [ "nanoskirt", 30 ],
+      [ "camisole", 60 ],
+      [ "corset", 20 ],
+      [ "stockings", 50 ],
+      [ "leggings", 20 ],
+      [ "tights", 50 ]
+    ]
+  },
+  {
+    "id": "dress_shoes",
+    "type": "item_group",
+    "items": [
+      [ "dress_shoes", 50 ],
+      [ "heels", 50 ],
+      [ "leathersandals", 20 ]
+    ]
+  },
+  {
+    "id": "wedding_dresses",
+    "type": "item_group",
+    "items": [
+      [ "dress", 50 ],
+      [ "veil_wedding", 150 ],
+      [ "dress_wedding", 150 ]
+    ]
+  },
+  {
+    "id": "wedding_suits",
+    "type": "item_group",
+    "items": [
+      [ "tux", 100 ],
+      [ "suit", 80 ],
+      [ "waistcoat", 50 ],
+      [ "dress_shirt", 100 ],
+      [ "undershirt", 50 ]
+    ]
+  },
+  {
+    "id": "coffee_locker",
+    "type": "item_group",
+    "items": [
+      [ "apron_leather", 25 ],
+      [ "sm_extinguisher", 10 ],
+      [ "hat_ball", 25 ],
+      [ "towel", 10 ],
+      [ "soap", 8 ],
+      [ "detergent", 8 ],
+      [ "rag", 15 ],
+      [ "broom", 8 ],
+      [ "bleach", 8 ],
+      [ "hotplate", 1 ],
+      [ "vinegar", 3 ]
+    ]
+  },
+  {
+    "id": "coffee_dishes",
+    "type": "item_group",
+    "items": [
+      [ "ceramic_cup", 70 ],
+      [ "ceramic_plate", 50 ],
+      [ "cup_plastic", 20 ]
+    ]
+  },
+  {
+    "id": "coffee_trash",
+    "type": "item_group",
+    "items": [
+      [ "wrapper", 17 ],
+      [ "bag_plastic", 15 ],
+      [ "bottle_glass", 10 ],
+      [ "can_drink_unsealed", 10 ],
+      [ "rag", 10 ],
+      [ "news_regional", 20 ],
+      [ "mag_news", 20 ],
+      [ "hairpin", 10 ],
+      [ "flyer", 7 ]
+    ]
+  },
+  {
+    "id": "coffee_bathroom",
+    "type": "item_group",
+    "items": [
+      [ "weed", 10 ],
+      [ "coke", 10 ],
+      [ "aspirin", 45 ],
+      [ "mag_news", 30 ],
+      [ "purse", 10 ],
+      [ "hairpin", 25 ]
+    ]
+  },
+  {
+    "id": "coffee_display_2",
+    "type": "item_group",
+    "items": [
+      [ "bottle_glass", 5 ],
+      [ "ceramic_cup", 15 ],
+      [ "ceramic_plate", 15 ],
+      [ "chips", 25 ],
+      [ "chips2", 25 ],
+      [ "chips3", 25 ],
+      [ "choco_coffee_beans", 50 ],
+      [ "coffee_raw", 50 ],
+      [ "coffee_syrup", 15 ],
+      [ "cookies", 35 ],
+      [ "tea_raw", 50 ]
+    ]
+  },
+  {
+    "id": "coffee_condiments",
+    "type": "item_group",
+    "items": [
+      [ "bag_plastic", 25 ],
+      [ "box_small", 30 ],
+      [ "honey_bottled", 10 ],
+      [ "honey_glassed", 10 ],
+      [ "milk", 10 ],
+      [ "milk_powder", 65 ],
+      [ "salt", 15 ],
+      [ "sugar", 70 ],
+      [ "tea_raw", 15 ],
+      [ "wrapper", 75 ]
+    ]
+  },
+  {
+    "id": "coffee_counter",
+    "type": "item_group",
+    "items": [
+      [ "atomic_coffee", 3 ],
+      [ "bottle_glass", 5 ],
+      [ "ceramic_cup", 30 ],
+      [ "choco_coffee_beans", 40 ],
+      [ "coffee", 55 ],
+      [ "cookies", 5 ],
+      [ "cup_plastic", 70 ],
+      [ "tea", 15 ]
+    ]
+  },
+  {
+    "id": "coffee_newsstand",
+    "type": "item_group",
+    "items": [
+      [ "mag_news", 35 ],
+      [ "news_regional", 35 ],
+      [ "newest_newspaper", 55 ]
+    ]
+  },
+  {
+    "id": "coffee_prep",
+    "type": "item_group",
+    "items": [
+      [ "atomic_coffeepot", 1 ],
+      [ "bottle_glass", 15 ],
+      [ "coffee_raw", 25 ],
+      [ "coffee_syrup", 25 ],
+      [ "cup_plastic", 35 ],
+      [ "jug_plastic", 15 ]
+    ]
+  },
+  {
+    "id": "coffee_freezer",
+    "type": "item_group",
+    "items": [
+      [ "blt", 40 ],
+      [ "insta_salad", 60 ],
+      [ "pudding", 40 ],
+      [ "sandwich_pb", 35 ],
+      [ "sandwich_pbh", 35 ],
+      [ "sandwich_pbj", 40 ],
+      [ "sandwich_pbm", 10 ],
+      [ "sandwich_t", 45 ],
+      [ "yoghurt", 40 ]
+    ]
+  },
+  {
+    "id": "diner_food",
+    "type": "item_group",
+    "items": [
+      [ "cheeseburger", 6 ],
+      [ "hamburger", 8 ],
+      [ "sloppyjoe", 6 ],
+      [ "blt", 6 ],
+      [ "fries", 10 ],
+      [ "onion_rings", 8 ],
+      [ "fchicken", 8 ],
+      [ "sausage", 8 ],
+      [ "sweet_sausage", 2 ],
+      [ "hotdogs_cooked", 8 ],
+      [ "chilidogs", 6 ],
+      [ "corndogs_cooked", 8 ],
+      [ "scrambled_eggs", 8 ],
+      [ "deluxe_eggs", 5 ],
+      [ "pancakes", 12 ],
+      [ "fruit_pancakes", 6 ],
+      [ "choc_pancakes", 6 ],
+      [ "waffles", 10 ],
+      [ "fruit_waffles", 6 ],
+      [ "choc_waffles", 6 ],
+      [ "pie", 9 ],
+      [ "pie_meat", 8 ],
+      [ "pan", 30 ]
+    ]
+  },
+  {
+    "id": "diner_back",
+    "type": "item_group",
+    "items": [
+      [ "pickle", 20 ],
+      [ "bacon", 20 ],
+      [ "fries", 20 ],
+      [ "onion_rings", 20 ],
+      [ "sausage", 20 ],
+      [ "sweet_sausage", 5 ],
+      [ "hotdogs_frozen", 20 ],
+      [ "corndogs_frozen", 20 ],
+      [ "pancakes", 20 ],
+      [ "waffles", 20 ],
+      [ "tomato", 20 ],
+      [ "lettuce", 20 ],
+      [ "soup_veggy", 20 ],
+      [ "soup_meat", 20 ],
+      [ "soup_tomato", 20 ]
+    ]
+  },
+  {
+    "id": "doctors_books",
+    "type": "item_group",
+    "items": [
+      [ "mag_firstaid", 50 ],
+      [ "textbook_firstaid", 200 ],
+      [ "manual_swimming", 50 ],
+      [ "manual_first_aid", 200 ],
+      [ "pocket_firstaid", 100 ],
+      [ "textbook_chemistry", 200 ],
+      [ "adv_chemistry", 200 ],
+      [ "emergency_book", 200 ],
+      [ "record_patient", 100 ],
+      [ "recipe_medicalmut", 50 ],
+      [ "recipe_serum", 10 ],
+      [ "recipe_labchem", 100 ],
+      [ "recipe_augs", 100 ]
+    ]
+  },
+  {
+    "id": "judo_belts",
+    "type": "item_group",
+    "items": [
+      [ "judo_belt_white", 100 ],
+      [ "judo_belt_yellow", 50 ],
+      [ "judo_belt_orange", 25 ],
+      [ "judo_belt_green", 15 ],
+      [ "judo_belt_blue", 5 ],
+      [ "judo_belt_brown", 4 ],
+      [ "judo_belt_black", 1 ]
+    ]
+  },
+  {
+    "id": "gi",
+    "type": "item_group",
+    "items": [
+      [ "karate_gi", 100 ],
+      [ "tabi_gi", 25 ],
+      [ "judo_gi", 50 ],
+      [ "keikogi", 25 ],
+      [ "zubon_gi", 25 ],
+      [ "hakama_gi", 10 ],
+      [ "mouthpiece", 5 ],
+      [ "obi_gi", 10 ]
+    ]
+  },
+  {
+    "id": "dojo_manuals",
+    "type": "item_group",
+    "items": [
+      [ "manual_karate", 15 ],
+      [ "manual_judo", 15 ],
+      [ "manual_aikido", 15 ],
+      [ "manual_taekwondo", 15 ],
+      [ "manual_tai_chi", 15 ],
+      [ "mag_melee", 20 ],
+      [ "manual_melee", 10 ],
+      [ "mag_unarmed", 20 ],
+      [ "manual_brawl", 10 ],
+      [ "mag_cutting", 5 ],
+      [ "manual_niten", 1 ],
+      [ "textbook_weapeast", 1 ]
+    ]
+  },
+  {
+    "id": "elecsto_cameras",
+    "type": "item_group",
+    "items": [
+      [ "camera", 75 ],
+      [ "camera_pro", 25 ]
+    ]
+  },
+  {
+    "id": "elecsto_lights",
+    "type": "item_group",
+    "items": [
+      [ "flashlight", 95 ],
+      [ "wearable_light", 65 ],
+      [ "floodlight", 10 ],
+      [ "atomic_light", 1 ]
+    ]
+  },
+  {
+    "id": "elecsto_pcs",
+    "type": "item_group",
+    "items": [
+      [ "eink_tablet_pc", 60 ],
+      [ "laptop", 75 ]
+    ]
+  },
+  {
+    "id": "elecsto_entapl",
+    "type": "item_group",
+    "items": [
+      [ "television", 50 ],
+      [ "radio", 20 ],
+      [ "stereo", 40 ]
+    ]
+  },
+  {
+    "id": "elecsto_persele",
+    "type": "item_group",
+    "items": [
+      [ "portable_game", 65 ],
+      [ "cell_phone", 60 ],
+      [ "mp3", 65 ],
+      [ "radio_car_box", 35 ],
+      [ "vibrator", 1 ]
+    ]
+  },
+  {
+    "id": "elecsto_homapl",
+    "type": "item_group",
+    "items": [
+      [ "microwave", 65 ],
+      [ "toaster", 65 ],
+      [ "mess_kit", 25 ],
+      [ "hotplate", 30 ],
+      [ "multi_cooker", 15 ],
+      [ "coffeemaker", 45 ],
+      [ "water_purifier", 15 ],
+      [ "dehydrator", 30 ],
+      [ "vac_sealer", 45 ],
+      [ "forge", 5 ],
+      [ "atomic_coffeepot", 2 ]
+    ]
+  },
+  {
+    "id": "elecsto_diy",
+    "type": "item_group",
+    "items": [
+      [ "cable", 95 ],
+      [ "battery", 85 ],
+      [ "scrap", 70 ],
+      [ "e_scrap", 95 ],
+      [ "antenna", 50 ],
+      [ "circuit", 35 ],
+      [ "small_lcd_screen", 20 ],
+      [ "RAM", 35 ],
+      [ "processor", 10 ],
+      [ "amplifier", 7 ],
+      [ "transponder", 5 ],
+      [ "receiver", 5 ],
+      [ "soldering_iron", 65 ],
+      [ "solder_wire", 50 ],
+      [ "superglue", 55 ],
+      [ "screwdriver", 60 ],
+      [ "motor_small", 30 ]
+    ]
+  },
+  {
+    "id": "elecsto_displ",
+    "type": "item_group",
+    "items": [
+      [ "television", 50 ],
+      [ "eink_tablet_pc", 50 ],
+      [ "stereo", 30 ],
+      [ "microwave", 40 ]
+    ]
+  },
+  {
+    "id": "elecsto_books",
+    "type": "item_group",
+    "items": [
+      [ "mag_electronics", 60 ],
+      [ "manual_electronics", 50 ],
+      [ "advanced_electronics", 35 ],
+      [ "textbook_electronics", 30 ],
+      [ "radio_book", 40 ]
+    ]
+  },
+  {
+    "id": "elecsto_stor",
+    "type": "item_group",
+    "items": [
+      [ "usb_drive", 65 ],
+      [ "mobile_memory_card", 95 ],
+      [ "software_math", 15 ],
+      [ "software_useless", 25 ],
+      [ "software_medical", 5 ],
+      [ "software_hacking", 1 ]
+    ]
+  },
+  {
+    "id": "football_items",
+    "type": "item_group",
+    "items": [
+      [ "whistle", 10 ],
+      [ "sports_drink", 60 ],
+      [ "bottle_plastic", 80 ],
+      [ "towel", 80 ],
+      [ "towel_soiled", 20 ],
+      [ "heatpack", 40 ],
+      [ "heatpack_used", 60 ],
+      [ "bandages", 40 ],
+      [ "mouthpiece", 40 ],
+      [ "football", 60 ],
+      [ "football_armor", 60 ],
+      [ "helmet_football", 60 ],
+      [ "armguard_soft", 30 ],
+      [ "legguard_hard", 30 ],
+      [ "jersey", 60 ],
+      [ "cleats", 60 ],
+      [ "duffelbag", 30 ],
+      [ "backpack", 40 ],
+      [ "energy_drink", 30 ],
+      [ "cell_phone", 50 ],
+      [ "mp3", 50 ],
+      [ "inhaler", 10 ]
+    ]
+  },
+  {
+    "id": "fireman_doc",
+    "type": "item_group",
+    "items": [
+      [ "textbook_fireman", 100 ],
+      [ "emergency_book", 100 ],
+      [ "manual_first_aid", 50 ],
+      [ "manual_swimming", 50 ],
+      [ "textbook_firstaid", 10 ],
+      [ "mag_computer", 50 ]
+    ]
+  },
+  {
+    "id": "groce_bread",
+    "type": "item_group",
+    "items": [
+      [ "bread", 65 ],
+      [ "cornbread", 35 ],
+      [ "brioche", 50 ],
+      [ "hardtack", 30 ],
+      [ "biscuit", 50 ],
+      [ "crackers", 40 ]
+    ]
+  },
+  {
+    "id": "groce_premade",
+    "type": "item_group",
+    "items": [
+      [ "blt", 50 ],
+      [ "sandwich_pbj", 50 ],
+      [ "sandwich_pbh", 20 ],
+      [ "sandwich_pbm", 10 ],
+      [ "sandwich_pb", 35 ],
+      [ "fish_sandwich", 20 ],
+      [ "sandwich_t", 50 ],
+      [ "frozen_burrito", 30 ],
+      [ "taco", 40 ],
+      [ "insta_salad", 60 ],
+      [ "yoghurt", 50 ],
+      [ "macaroni_cooked", 20 ]
+    ]
+  },
+  {
+    "id": "groce_cereal",
+    "type": "item_group",
+    "items": [
+      [ "oatmeal", 50 ],
+      [ "cereal", 65 ],
+      [ "cereal2", 55 ],
+      [ "cereal3", 65 ],
+      [ "toastem", 30 ],
+      [ "toastem2", 25 ],
+      [ "toastem3", 20 ]
+    ]
+  },
+  {
+    "id": "groce_pasta",
+    "type": "item_group",
+    "items": [
+      [ "spaghetti_raw", 60 ],
+      [ "lasagne_raw", 50 ],
+      [ "macaroni_raw", 60 ],
+      [ "noodles_fast", 50 ]
+    ]
+  },
+  {
+    "id": "groce_ingredient",
+    "type": "item_group",
+    "items": [
+      [ "flour", 65 ],
+      [ "cornmeal", 50 ],
+      [ "yeast", 40 ],
+      [ "powder_eggs", 55 ],
+      [ "milk_powder", 45 ],
+      [ "salt", 50 ],
+      [ "sugar", 60 ],
+      [ "dry_rice", 65 ]
+    ]
+  },
+  {
+    "id": "groce_softdrink",
+    "type": "item_group",
+    "items": [
+      [ "lemonade", 30 ],
+      [ "sports_drink", 40 ],
+      [ "energy_drink", 40 ],
+      [ "energy_drink_atomic", 5 ],
+      [ "cola", 65 ],
+      [ "creamsoda", 50 ],
+      [ "lemonlime", 60 ],
+      [ "orangesoda", 50 ],
+      [ "colamdew", 50 ],
+      [ "rootbeer", 50 ],
+      [ "spezi", 10 ],
+      [ "crispycran", 35 ],
+      [ "purple_drink", 50 ]
+    ]
+  },
+  {
+    "id": "groce_condiment",
+    "type": "item_group",
+    "//": "might split this into two categories; condiments and seasonings, and preserves",
+    "items": [
+      [ "mayonnaise", 40 ],
+      [ "ketchup", 60 ],
+      [ "mustard", 60 ],
+      [ "honey_bottled", 35 ],
+      [ "honey_glassed", 35 ],
+      [ "peanutbutter", 60 ],
+      [ "pickle", 40 ],
+      [ "coffee_syrup", 35 ],
+      [ "coffee_raw", 45 ],
+      [ "salt", 50 ],
+      [ "pepper", 50 ],
+      [ "cinnamon", 20 ],
+      [ "syrup", 50 ],
+      [ "seasoning_salt", 45 ],
+      [ "seasoning_italian", 50 ],
+      [ "curry_powder", 40 ],
+      [ "can_cheese", 30 ],
+      [ "sauce_red", 40 ],
+      [ "sauce_pesto", 20 ]
+    ]
+  },
+  {
+    "id": "groce_frozen",
+    "type": "item_group",
+    "items": [
+      [ "frozen_dinner", 80 ],
+      [ "pizza_veggy", 50 ],
+      [ "pizza_meat", 50 ],
+      [ "frozen_burrito", 50 ]
+    ]
+  },
+  {
+    "id": "groce_meat",
+    "type": "item_group",
+    "items": [
+      [ "bologna", 50 ],
+      [ "sausage", 50 ],
+      [ "sweet_sausage", 10 ],
+      [ "hotdogs_frozen", 50 ],
+      [ "lunchmeat", 60 ],
+      [ "meat", 60 ]
+    ]
+  },
+  {
+    "id": "groce_dairyegg",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "egg_bird", "prob": 65, "count-min": 6, "count-max": 12 },
+      { "item": "milk", "prob": 80 },
+      { "item": "cheese", "prob": 60 },
+      { "item": "yoghurt", "prob": 40 },
+      { "item": "pudding", "prob": 30 }
+    ]
+  },
+  {
+    "id": "gym",
+    "type": "item_group",
+    "items": [
+      [ "water_clean", 12 ],
+      [ "lemonade", 12 ],
+      [ "sports_drink", 12 ],
+      [ "V8", 12 ],
+      [ "tank_top", 30 ],
+      [ "towel", 40 ],
+      [ "under_armor_shorts", 20 ],
+      [ "under_armor", 20 ],
+      [ "protein_shake", 8 ],
+      [ "tshirt", 30 ],
+      [ "sneakers", 30 ],
+      [ "hot_pants", 14 ],
+      [ "undershirt", 30 ],
+      [ "hoodie", 20 ],
+      [ "shorts", 30 ],
+      [ "coke", 3 ],
+      [ "longshirt", 30 ],
+      [ "bandages", 10 ],
+      [ "heatpack", 10 ],
+      [ "gum", 12 ],
+      [ "soap", 10 ],
+      [ "sports_bra", 30 ],
+      [ "briefs", 30 ],
+      [ "yoghurt", 12 ],
+      [ "vitamins", 10 ],
+      [ "aspirin", 10 ]
+    ]
+  },
+  {
+    "id": "plumbing_bulk",
+    "type": "item_group",
+    "items": [
+      [ "pipe", 100 ],
+      [ "cu_pipe", 100 ],
+      [ "hose", 100 ],
+      [ "mop", 20 ],
+      [ "shovel", 40 ],
+      [ "hammer_sledge", 5 ],
+      [ "metal_tank_little", 50 ],
+      [ "jerrycan", 10 ]
+    ]
+  },
+  {
+    "id": "paint",
+    "type": "item_group",
+    "items": [
+      [ "r_paint", 45 ],
+      [ "b_paint", 45 ],
+      [ "w_paint", 45 ],
+      [ "g_paint", 45 ],
+      [ "p_paint", 45 ],
+      [ "y_paint", 45 ],
+      [ "chipper", 55 ],
+      [ "paint_brush", 55 ]
+    ]
+  },
+  {
+    "id": "rug",
+    "type": "item_group",
+    "items": [
+      [ "r_carpet", 45 ],
+      [ "g_carpet", 45 ],
+      [ "y_carpet", 45 ],
+      [ "p_carpet", 45 ]
+    ]
+  },
+  {
+    "id": "hardware_clothing",
+    "type": "item_group",
+    "items": [
+      [ "hat_hard", 100 ],
+      [ "boots", 50 ],
+      [ "glasses_safety", 50 ],
+      [ "tool_belt", 25 ]
+    ]
+  },
+  {
+    "id": "vending_drink",
+    "type": "item_group",
+    "items": [
+      [ "water_clean", 50 ],
+      [ "water_mineral", 20 ],
+      [ "oj", 40 ],
+      [ "juice", 35 ],
+      [ "cranberry_juice", 35 ],
+      [ "cola", 50 ],
+      [ "lemonlime", 45 ],
+      [ "V8", 15 ],
+      [ "gum", 15 ]
+    ]
+  },
+  {
+    "id": "hardware_trash",
+    "type": "item_group",
+    "items": [
+      [ "wrapper", 50 ],
+      [ "bottle_glass", 50 ],
+      [ "bottle_plastic", 70 ],
+      [ "can_drink_unsealed", 60 ],
+      [ "flyer", 30 ],
+      [ "box_small", 30 ],
+      [ "rag", 20 ],
+      [ "bag_plastic", 20 ],
+      [ "news_regional", 15 ],
+      [ "mag_news", 15 ]
+    ]
+  },
+  {
+    "id": "paint",
+    "type": "item_group",
+    "items": [
+      [ "r_paint", 45 ],
+      [ "b_paint", 45 ],
+      [ "w_paint", 45 ],
+      [ "g_paint", 45 ],
+      [ "p_paint", 45 ],
+      [ "y_paint", 45 ],
+      [ "paint_brush", 55 ]
+    ]
+  },
+  {
+    "id": "hand_tools",
+    "type": "item_group",
+    "items": [
+      [ "flashlight", 35 ],
+      [ "wrench", 50 ],
+      [ "hammer", 40 ],
+      [ "saw", 50 ],
+      [ "ax", 20 ],
+      [ "hacksaw", 50 ],
+      [ "chipper", 60 ],
+      [ "boltcutters", 50 ],
+      [ "screwdriver", 35 ]
+    ]
+  },
+  {
+    "id": "power_tools",
+    "type": "item_group",
+    "items": [
+      [ "chainsaw_off", 10 ],
+      [ "elec_chainsaw_off", 10 ],
+      [ "trimmer_off", 40 ],
+      [ "jackhammer", 50 ],
+      [ "elec_jackhammer", 50 ],
+      [ "circsaw_off", 10 ]
+    ]
+  },
+  {
+    "id": "elec_parts",
+    "type": "item_group",
+    "items": [
+      [ "cable", 65 ],
+      [ "power_supply", 50 ],
+      [ "amplifier", 50 ]
+    ]
+  },
+  {
+    "id": "raw_materials",
+    "type": "item_group",
+    "items": [
+      [ "2x4", 40 ],
+      [ "nail", 80 ],
+      [ "material_cement", 60 ],
+      [ "material_sand", 60 ]
+    ]
+  },
+  {
+    "id": "hotel_coffee_bar",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "coffeemaker", "prob": 60, "charges": [ 0, 200 ] },
+      { "group": "coffee_display", "prob": 60, "count": [ 1, 3 ] }
+    ]
+  },
+  {
+    "id": "hotel_luggage",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "bags_trip", "prob": 25 },
+      { "group": "dresser", "prob": 25, "count": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "dogfight",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "postman_shirt" },
+      { "item": "postman_shorts" },
+      { "item": "postman_hat" },
+      { "group": "underwear" },
+      { "item": "dress_shoes" },
+      { "item": "corpse" }
+    ]
+  },
+  {
+    "id": "barbecue",
+    "type": "item_group",
+    "items": [
+      [ "beer", 15 ],
+      [ "meat", 65 ],
+      [ "fish", 10 ],
+      [ "fish_smoked", 5 ],
+      [ "meat_smoked", 60 ],
+      [ "sausage", 35 ],
+      [ "hotdogs_frozen", 65 ],
+      [ "hotdogs_cooked", 65 ],
+      [ "chilidogs", 30 ],
+      [ "currywurst", 15 ],
+      [ "lettuce", 45 ],
+      [ "tomato", 45 ],
+      [ "onion", 30 ],
+      [ "chili_pepper", 30 ],
+      [ "corn", 20 ],
+      [ "irradiated_lettuce", 20 ],
+      [ "irradiated_tomato", 20 ],
+      [ "irradiated_onion", 5 ],
+      [ "irradiated_corn", 10 ],
+      [ "bacon", 20 ],
+      [ "potato_baked", 15 ],
+      [ "bread", 40 ],
+      [ "ketchup", 80 ],
+      [ "mustard", 75 ],
+      [ "pickle", 20 ],
+      [ "cheeseburger", 30 ],
+      [ "hamburger", 70 ],
+      [ "cheese", 45 ],
+      [ "ceramic_plate", 30 ],
+      [ "knife_steak", 45 ],
+      [ "tongs", 60 ]
+    ]
+  },
+  {
+    "id": "laundry",
+    "type": "item_group",
+    "items": [
+      [ "jeans", 90 ],
+      [ "pants_checkered", 5 ],
+      [ "shorts", 70 ],
+      [ "shorts_denim", 35 ],
+      [ "pants", 75 ],
+      [ "suit", 60 ],
+      [ "waistcoat", 30 ],
+      [ "bowhat", 10 ],
+      [ "pants_leather", 60 ],
+      [ "pants_cargo", 70 ],
+      [ "shorts_cargo", 50 ],
+      [ "skirt", 75 ],
+      [ "skirt_leather", 5 ],
+      [ "tshirt", 70 ],
+      [ "longshirt", 80 ],
+      [ "polo_shirt", 65 ],
+      [ "dress_shirt", 60 ],
+      [ "tank_top", 50 ],
+      [ "camisole", 30 ],
+      [ "bra", 30 ],
+      [ "undershirt", 30 ],
+      [ "boxer_shorts", 30 ],
+      [ "briefs", 15 ],
+      [ "panties", 30 ],
+      [ "boy_shorts", 25 ],
+      [ "sweatshirt", 75 ],
+      [ "sweater", 75 ],
+      [ "hoodie", 65 ],
+      [ "jacket_light", 50 ],
+      [ "jacket_jean", 35 ],
+      [ "blazer", 35 ],
+      [ "jacket_leather", 30 ],
+      [ "coat_winter", 50 ],
+      [ "peacoat", 30 ],
+      [ "gloves_light", 35 ],
+      [ "mittens", 30 ],
+      [ "gloves_wool", 33 ],
+      [ "gloves_winter", 40 ],
+      [ "gloves_liner", 25 ],
+      [ "gloves_leather", 45 ],
+      [ "scarf", 45 ],
+      [ "knit_scarf", 35 ],
+      [ "long_knit_scarf", 5 ],
+      [ "scarf_long", 1 ],
+      [ "hat_cotton", 45 ],
+      [ "hat_knit", 25 ],
+      [ "hat_newsboy", 20 ],
+      [ "hat_fur", 15 ],
+      [ "under_armor", 20 ],
+      [ "under_armor_shorts", 20 ],
+      [ "tights", 20 ],
+      [ "leggings", 20 ],
+      [ "stockings", 20 ],
+      [ "balclava", 15 ],
+      [ "pants_ski", 60 ],
+      [ "long_underpants", 40 ],
+      [ "long_undertop", 40 ],
+      [ "union_suit", 20 ],
+      [ "arm_warmers", 20 ],
+      [ "leg_warmers", 20 ],
+      [ "trenchcoat_leather", 12 ],
+      [ "sleeveless_trenchcoat", 2 ],
+      [ "sleeveless_trenchcoat_leather", 2 ],
+      [ "sleeveless_trenchcoat_fur", 1 ],
+      [ "duster_leather", 12 ],
+      [ "sleeveless_duster", 2 ],
+      [ "sleeveless_duster_leather", 2 ],
+      [ "sleeveless_duster_fur", 1 ],
+      [ "cloak", 5 ],
+      [ "house_coat", 25 ],
+      [ "flotation_vest", 1 ],
+      [ "fishing_waders", 5 ],
+      [ "wetsuit", 5 ],
+      [ "wetsuit_spring", 5 ],
+      [ "wetsuit_gloves", 10 ],
+      [ "wetsuit_booties", 10 ],
+      [ "wetsuit_hood", 5 ],
+      [ "apron_leather", 1 ],
+      [ "clown_suit", 1 ],
+      [ "clownshoes", 1 ],
+      [ "bondage_suit", 1 ],
+      [ "corset", 10 ],
+      [ "pants_army", 10 ],
+      [ "jacket_army", 10 ],
+      [ "winter_pants_army", 10 ],
+      [ "winter_jacket_army", 10 ],
+      [ "winter_gloves_army", 10 ],
+      [ "army_top", 20 ],
+      [ "tux", 1 ],
+      [ "dress_wedding", 1 ],
+      [ "porkpie", 5 ],
+      [ "skinny_tie", 5 ],
+      [ "tieclip", 2 ],
+      [ "collarpin", 2 ],
+      [ "jersey", 40 ],
+      [ "postman_shorts", 5 ],
+      [ "postman_shirt", 5 ],
+      [ "postman_hat", 5 ],
+      [ "maid_dress", 3 ],
+      [ "maid_hat", 3 ],
+      [ "halter_top", 50 ],
+      [ "linuxtshirt", 20 ],
+      [ "kilt", 5 ],
+      [ "nanoskirt", 10 ],
+      [ "sleeveless_tunic", 5 ],
+      [ "ear_spool", 30 ],
+      [ "fedora", 5 ],
+      [ "straw_hat", 5 ],
+      [ "straw_fedora", 5 ],
+      [ "kufi", 2 ],
+      [ "kippah", 2 ],
+      [ "thawb", 1 ],
+      [ "kittel", 1 ],
+      [ "cassock", 1 ],
+      [ "robe", 5 ],
+      [ "eboshi", 1 ],
+      [ "kariginu", 1 ],
+      [ "kimono", 3 ]
+    ]
+  },
+  {
+    "id": "laundromat_bleach",
+    "type": "item_group",
+    "items": [ [ "bleach", 50 ] ]
+  },
+  {
+    "id": "laundromat_containers",
+    "type": "item_group",
+    "items": [
+      [ "duffelbag", 5 ],
+      [ "backpack", 5 ],
+      [ "bag_plastic", 30 ]
+    ]
+  },
+  {
+    "id": "library_elec",
+    "type": "item_group",
+    "items": [
+      [ "superglue", 30 ],
+      [ "processor", 15 ],
+      [ "RAM", 22 ],
+      [ "power_supply", 16 ],
+      [ "amplifier", 8 ],
+      [ "transponder", 5 ],
+      [ "receiver", 10 ],
+      [ "antenna", 18 ],
+      [ "screwdriver", 40 ],
+      [ "battery", 50 ],
+      [ "manual_electronics", 20 ],
+      [ "mobile_memory_card", 20 ],
+      [ "usb_drive", 5 ],
+      [ "software_useless", 10 ],
+      [ "survnote", 1 ]
+    ]
+  },
+  {
+    "id": "floor_trash",
+    "type": "item_group",
+    "items": [
+      [ "flyer", 10 ],
+      [ "bag_plastic", 10 ],
+      [ "bottle_plastic", 10 ],
+      [ "cup_plastic", 10 ],
+      [ "bottle_glass", 10 ],
+      [ "can_drink_unsealed", 10 ],
+      [ "can_food_unsealed", 10 ],
+      [ "box_small", 10 ],
+      [ "jug_plastic", 10 ],
+      [ "jar_glass", 5 ],
+      [ "wrapper", 10 ],
+      [ "string_6", 5 ],
+      [ "cig_butt", 10 ],
+      [ "string_36", 5 ],
+      [ "scrap", 10 ],
+      [ "glass_shard", 10 ],
+      [ "wire", 5 ],
+      [ "splinter", 10 ],
+      [ "rag", 15 ],
+      [ "rag_bloody", 10 ],
+      [ "plastic_shopping_bag", 10 ]
+    ]
+  },
+  {
+    "id": "candy_shop",
+    "type": "item_group",
+    "items": [
+      [ "chocolate", 50 ],
+      [ "cookies", 50 ],
+      [ "candy", 60 ],
+      [ "candy2", 60 ],
+      [ "candy3", 60 ],
+      [ "maple_candy", 25 ],
+      [ "powder_candy", 40 ],
+      [ "neccowafers", 60 ],
+      [ "candycigarette", 45 ],
+      [ "mintpatties", 60 ]
+    ]
+  },
+  {
+    "id": "tux_shop",
+    "type": "item_group",
+    "items": [
+      [ "blazer", 75 ],
+      [ "skinny_tie", 65 ],
+      [ "tieclip", 25 ],
+      [ "polo_shirt", 35 ],
+      [ "dress_shirt", 70 ],
+      [ "pants", 75 ],
+      [ "dress_shoes", 50 ],
+      [ "briefcase", 35 ],
+      [ "gold_watch", 20 ],
+      [ "pocketwatch", 20 ],
+      [ "collarpin", 10 ],
+      [ "tailors_kit", 40 ]
+    ]
+  },
+  {
+    "id": "flower_shop",
+    "type": "item_group",
+    "items": [
+      [ "trimmer_off", 30 ],
+      [ "fertilizer_liquid", 50 ],
+      [ "dahlia_root", 30 ],
+      [ "fertilizer_commercial", 25 ]
+    ]
+  },
+  {
+    "id": "music_shop",
+    "type": "item_group",
+    "items": [
+      [ "battery", 30 ],
+      [ "radio", 30 ],
+      [ "mp3", 30 ]
+    ]
+  },
+  {
+    "id": "vitamin_shop",
+    "type": "item_group",
+    "items": [
+      [ "bandages", 25 ],
+      [ "1st_aid", 20 ],
+      [ "vitamins", 75 ],
+      [ "calcium_tablet", 75 ],
+      [ "aspirin", 45 ],
+      [ "caffeine", 50 ],
+      [ "pills_sleep", 45 ],
+      [ "disinfectant", 15 ],
+      [ "vaccine_shot", 10 ],
+      [ "protein_powder", 85 ],
+      [ "caff_gum", 30 ],
+      [ "nic_gum", 25 ]
+    ]
+  },
+  {
+    "id": "toy_store",
+    "type": "item_group",
+    "items": [
+      [ "portable_game", 60 ],
+      [ "bat", 60 ],
+      [ "backpack", 40 ],
+      [ "pockknife", 20 ],
+      [ "wristwatch", 20 ],
+      [ "teleumbrella", 5 ],
+      [ "novel_coa", 10 ],
+      [ "child_book", 50 ],
+      [ "tall_tales", 20 ],
+      [ "story_book", 5 ],
+      [ "novel_pulp", 20 ],
+      [ "fairy_tales", 20 ],
+      [ "mag_comic", 40 ],
+      [ "folding_bicycle", 5 ],
+      [ "sunglasses", 25 ],
+      [ "cowboy_hat", 25 ],
+      [ "mp3", 40 ],
+      [ "wolfsuit", 5 ],
+      [ "dinosuit", 5 ],
+      [ "gum", 10 ],
+      [ "talking_doll", 50 ],
+      [ "creepy_doll", 1 ],
+      [ "jedi_cloak", 5 ],
+      [ "clown_suit", 5 ],
+      [ "clownshoes", 5 ],
+      [ "radio_car_box", 10 ]
+    ]
+  },
+  {
+    "id": "glasses",
+    "type": "item_group",
+    "items": [
+      [ "glasses_monocle", 5 ],
+      [ "glasses_bal", 10 ],
+      [ "sunglasses", 30 ],
+      [ "glasses_bifocal", 30 ],
+      [ "glasses_safety", 30 ],
+      [ "fancy_sunglasses", 5 ],
+      [ "glasses_reading", 50 ],
+      [ "glasses_eye", 85 ]
+    ]
+  },
+  {
+    "id": "victoria_shop",
+    "type": "item_group",
+    "items": [
+      [ "bra", 70 ],
+      [ "panties", 70 ],
+      [ "boy_shorts", 50 ],
+      [ "boxer_shorts", 70 ],
+      [ "briefs", 50 ]
+    ]
+  },
+  {
+    "id": "knife_shop",
+    "type": "item_group",
+    "items": [
+      [ "knife_butcher", 20 ],
+      [ "knife_combat", 35 ],
+      [ "throwing_knife", 10 ],
+      [ "pockknife", 50 ],
+      [ "punch_dagger", 10 ],
+      [ "knife_trench", 7 ],
+      [ "switchblade", 20 ],
+      [ "knife_hunting", 20 ],
+      [ "knife_rambo", 5 ]
+    ]
+  },
+  {
+    "id": "key_shop",
+    "type": "item_group",
+    "items": [
+      [ "screwdriver", 40 ],
+      [ "hammer", 35 ],
+      [ "wrench", 30 ],
+      [ "hacksaw", 50 ],
+      [ "xacto", 10 ],
+      [ "flashlight", 40 ],
+      [ "crowbar", 30 ],
+      [ "carver_off", 25 ],
+      [ "press", 40 ],
+      [ "puller", 20 ],
+      [ "boltcutters", 35 ],
+      [ "chisel", 20 ],
+      [ "misc_repairkit", 45 ],
+      [ "tool_belt", 35 ],
+      [ "multitool", 20 ]
+    ]
+  },
+  {
+    "id": "smoke_shop",
+    "type": "item_group",
+    "items": [
+      [ "pipe_tobacco", 60 ],
+      [ "tobacco", 70 ],
+      [ "weed", 5 ],
+      [ "joint", 5 ],
+      [ "seed_weed", 5 ],
+      [ "rolling_paper", 45 ],
+      [ "pipe_glass", 20 ],
+      [ "coke", 5 ],
+      [ "meth", 2 ],
+      [ "heroin", 1 ],
+      [ "crack", 4 ],
+      [ "crackpipe", 7 ],
+      [ "cig", 60 ],
+      [ "chaw", 60 ]
+    ]
+  },
+  {
+    "id": "cell_shop",
+    "type": "item_group",
+    "items": [
+      [ "portable_game", 20 ],
+      [ "antenna", 25 ],
+      [ "battery", 70 ],
+      [ "mp3", 40 ],
+      [ "usb_drive", 10 ],
+      [ "manual_electronics", 20 ],
+      [ "cable", 60 ],
+      [ "cell_phone", 70 ],
+      [ "wristwatch", 60 ],
+      [ "mobile_memory_card_used", 10 ]
+    ]
+  },
+  {
+    "id": "beauty",
+    "type": "item_group",
+    "items": [
+      [ "mag_glam", 40 ],
+      [ "mag_beauty", 30 ],
+      [ "hairpin", 40 ],
+      [ "scarf", 10 ],
+      [ "scarf_long", 5 ],
+      [ "knit_scarf", 10 ],
+      [ "long_knit_scarf", 5 ],
+      [ "barrette", 5 ],
+      [ "eyedrops", 35 ],
+      [ "candle", 50 ],
+      [ "scissors", 30 ],
+      [ "soap", 45 ],
+      [ "tailors_kit", 25 ]
+    ]
+  },
+  {
+    "id": "methchef",
+    "type": "item_group",
+    "items": [
+      [ "meth", 90 ],
+      [ "pan", 50 ]
+    ]
+  },
+  {
+    "id": "corpse_male",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "male_underwear_top" },
+      { "group": "male_underwear_bottom" },
+      { "item": "corpse" },
+      { "item": "sheet" }
+    ]
+  },
+  {
+    "id": "corpse_female",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "female_underwear_top" },
+      { "group": "female_underwear_bottom" },
+      { "item": "corpse" },
+      { "item": "sheet" }
+    ]
+  },
+  {
+    "id": "corpse_viewing",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "female_underwear_top" },
+      { "group": "female_underwear_bottom" },
+      { "item": "ring" },
+      { "item": "veil_wedding" },
+      { "item": "dress_wedding" },
+      { "item": "corpse" }
+    ]
+  },
+  {
+    "id": "mussto_windinst",
+    "type": "item_group",
+    "items": [
+      [ "tuba", 10 ],
+      [ "trumpet", 25 ],
+      [ "flute", 25 ],
+      [ "clarinet", 25 ],
+      [ "saxophone", 25 ],
+      [ "harmonica_holder", 25 ],
+      [ "bagpipes", 5 ]
+    ]
+  },
+  {
+    "id": "mussto_stringinst",
+    "type": "item_group",
+    "items": [
+      [ "acoustic_guitar", 100 ],
+      [ "violin", 80 ],
+      [ "ukulele", 90 ],
+      [ "banjo", 100 ]
+    ]
+  },
+  {
+    "id": "light_reading",
+    "type": "item_group",
+    "items": [
+      [ "novel_coa", 10 ],
+      [ "child_book", 50 ],
+      [ "tall_tales", 20 ],
+      [ "story_book", 4 ],
+      [ "novel_pulp", 16 ],
+      [ "fairy_tales", 20 ],
+      [ "mag_comic", 20 ]
+    ]
+  },
+  {
+    "id": "building_rubble",
+    "type": "item_group",
+    "items": [
+      [ "rock", 25 ],
+      [ "scrap", 10 ],
+      [ "splinter", 10 ],
+      [ "rebar", 25 ],
+      [ "nail", 5 ],
+      [ "glass_shard", 15 ],
+      [ "wire", 5 ],
+      [ "splinter", 20 ]
+    ]
+  },
+  {
+    "id": "vehicle_scrapped",
+    "type": "item_group",
+    "items": [
+      [ "chain", 10 ],
+      [ "steel_chunk", 30 ],
+      [ "spring", 5 ],
+      [ "steel_lump", 30 ],
+      [ "steel_plate", 30 ],
+      [ "hard_plate", 30 ],
+      [ "frame", 20 ],
+      [ "bearing", 5 ],
+      [ "cu_pipe", 5 ],
+      [ "scrap", 20 ],
+      [ "glass_shard", 10 ],
+      [ "wire", 5 ]
+    ]
+  },
+  {
+    "id": "vault_survival",
+    "type": "item_group",
+    "magazine": 100,
+    "ammo": 90,
+    "items": [
+      { "group": "guns_rare", "prob": 35 },
+      { "item": "mask_filter", "prob": 20 },
+      { "item": "battery", "prob": 15 },
+      { "item": "radio", "prob": 10 },
+      { "item": "bandages", "prob": 10 },
+      { "item": "knife_combat", "prob": 20 },
+      { "item": "vest", "prob": 15 },
+      { "item": "cleansuit", "prob": 20 },
+      { "item": "rad_monitor", "prob": 10 },
+      { "item": "geiger_off", "prob": 10 },
+      { "item": "tool_belt", "prob": 15 }
+    ]
+  },
+  {
+    "id": "necropolis_visitors",
+    "type": "item_group",
+    "items": [
+      [ "newest_newspaper", 10 ],
+      [ "necropolis_leaflet", 50 ]
+    ]
+  },
+  {
+    "id": "file_room",
+    "type": "item_group",
+    "items": [
+      [ "file", 99 ],
+      [ "file", 99 ],
+      [ "record_accounting", 10 ],
+      [ "paper", 80 ],
+      [ "safe_box", 1 ]
+    ]
+  },
+  {
+    "id": "office_mess",
+    "type": "item_group",
+    "items": [
+      [ "file", 99 ],
+      [ "paper", 60 ],
+      [ "laptop", 2 ],
+      [ "inhaler", 1 ],
+      [ "mbag", 2 ],
+      [ "mop", 5 ],
+      [ "cell_phone", 10 ],
+      [ "duct_tape", 5 ],
+      [ "battery", 5 ],
+      [ "flashlight", 10 ],
+      [ "umbrella", 5 ],
+      [ "teleumbrella", 10 ],
+      [ "survnote", 1 ],
+      [ "clock", 2 ],
+      [ "coffeemaker", 2 ],
+      [ "bubblewrap", 10 ],
+      [ "glowstick", 10 ],
+      [ "radio", 2 ],
+      [ "fan", 5 ],
+      [ "fan", 5 ],
+      [ "cola", 10 ],
+      [ "can_drink_unsealed", 5 ],
+      [ "cig", 5 ],
+      [ "purse", 2 ],
+      [ "pipe_tobacco", 1 ],
+      [ "permanent_marker", 5 ]
+    ]
+  },
+  {
+    "id": "pizza_display",
+    "type": "item_group",
+    "items": [
+      [ "pizza_human", 2 ],
+      [ "pizza_meat", 48 ],
+      [ "pizza_veggy", 50 ]
+    ]
+  },
+  {
+    "id": "pizza_kitchen",
+    "type": "item_group",
+    "items": [
+      [ "seasoning_italian", 23 ],
+      [ "seasoning_salt", 13 ],
+      [ "pepper", 5 ],
+      [ "yeast", 10 ],
+      [ "sugar", 9 ],
+      [ "cornmeal", 8 ],
+      [ "flour", 25 ],
+      [ "cookbook", 3 ],
+      [ "cookbook_italian", 2 ]
+    ]
+  },
+  {
+    "id": "pizza_fridge",
+    "type": "item_group",
+    "items": [
+      [ "sauce_red", 29 ],
+      [ "royal_beef", 3 ],
+      [ "can_sardine", 18 ],
+      [ "onion", 14 ],
+      [ "chili_pepper", 14 ],
+      [ "can_chicken", 13 ],
+      [ "bacon", 15 ],
+      [ "cheese", 38 ],
+      [ "sauce_pesto", 12 ],
+      [ "zucchini", 13 ],
+      [ "tomato", 10 ],
+      [ "mushroom_magic", 2 ],
+      [ "mushroom_poison", 1 ],
+      [ "mushroom", 27 ],
+      [ "sausage", 25 ],
+      [ "pineapple", 20 ]
+    ]
+  },
+  {
+    "id": "pizza_beer",
+    "type": "item_group",
+    "items": [
+      [ "imperial_stout", 15 ],
+      [ "belgian_ale", 10 ],
+      [ "stout", 20 ],
+      [ "india_pale_ale", 20 ],
+      [ "pale_ale", 15 ],
+      [ "european_pilsner", 17 ],
+      [ "mead", 5 ],
+      [ "beer", 18 ]
+    ]
+  },
+  {
+    "id": "pizza_soda",
+    "type": "item_group",
+    "items": [
+      [ "purple_drink", 3 ],
+      [ "crispycran", 7 ],
+      [ "rootbeer", 15 ],
+      [ "colamdew", 9 ],
+      [ "orangesoda", 10 ],
+      [ "lemonlime", 9 ],
+      [ "creamsoda", 9 ],
+      [ "cola", 9 ],
+      [ "energy_drink", 5 ],
+      [ "lemonade", 8 ]
+    ]
+  },
+  {
+    "id": "pizza_table",
+    "type": "item_group",
+    "items": [
+      [ "cig", 15 ],
+      [ "rolling_paper", 7 ],
+      [ "wrapper", 35 ],
+      [ "ceramic_plate", 40 ],
+      [ "cup_plastic", 40 ],
+      [ "portable_game", 10 ],
+      [ "chips", 15 ],
+      [ "chips2", 3 ],
+      [ "chips3", 3 ],
+      [ "news_regional", 12 ],
+      [ "flyer", 7 ]
+    ]
+  },
+  {
+    "id": "pizza_locker",
+    "type": "item_group",
+    "items": [
+      [ "towel", 15 ],
+      [ "soap", 15 ],
+      [ "detergent", 15 ],
+      [ "bleach", 15 ],
+      [ "broom", 13 ],
+      [ "dinosuit", 7 ],
+      [ "hat_ball", 19 ],
+      [ "jacket_light", 15 ],
+      [ "mbag", 10 ],
+      [ "rag", 6 ]
+    ]
+  },
+  {
+    "id": "pizza_bathroom",
+    "type": "item_group",
+    "items": [
+      [ "weed", 40 ],
+      [ "coke", 20 ],
+      [ "meth", 1 ],
+      [ "aspirin", 15 ],
+      [ "mag_porn", 30 ],
+      [ "purse", 10 ],
+      [ "hairpin", 3 ]
+    ]
+  },
+  {
+    "id": "pizza_trash",
+    "type": "item_group",
+    "ammo": 100,
+    "items": [
+      [ "cup_plastic", 40 ],
+      [ "wrapper", 34 ],
+      [ "bag_plastic", 20 ],
+      [ "bottle_glass", 30 ],
+      [ "can_drink_unsealed", 30 ],
+      [ "rag", 10 ],
+      [ "news_regional", 7 ],
+      [ "mag_news", 7 ],
+      [ "hairpin", 10 ],
+      [ "flyer", 7 ],
+      [ "glock_19", 5 ],
+      [ "9mm", 3 ]
+    ]
+  },
+  {
+    "id": "restaur_table",
+    "type": "item_group",
+    "items": [
+      [ "candlestick", 50 ],
+      [ "ceramic_plate", 70 ],
+      [ "ceramic_bowl", 50 ],
+      [ "glass", 70 ],
+      [ "spoon", 50 ],
+      [ "fork", 50 ],
+      [ "knife_butter", 40 ],
+      [ "knife_steak", 35 ],
+      [ "spork", 10 ],
+      [ "foon", 10 ],
+      [ "bottle_glass", 15 ],
+      [ "fruit_wine", 10 ],
+      [ "wine_riesling", 7 ],
+      [ "wine_chardonnay", 8 ],
+      [ "wine_cabernet", 8 ],
+      [ "wine_noir", 6 ],
+      [ "currywurst", 5 ],
+      [ "macaroni_cooked", 5 ],
+      [ "lasagne", 5 ],
+      [ "spaghetti_pesto", 5 ],
+      [ "glazed_tenderloin", 5 ]
+    ]
+  },
+  {
+    "id": "restaur_fridge",
+    "type": "item_group",
+    "items": [
+      [ "water_clean", 10 ],
+      [ "water_mineral", 10 ],
+      [ "milk", 20 ],
+      [ "yoghurt", 10 ],
+      [ "pudding", 15 ],
+      [ "apple", 10 ],
+      [ "sandwich_t", 15 ],
+      [ "mushroom", 20 ],
+      [ "tomato", 20 ],
+      [ "lettuce", 15 ],
+      [ "zucchini", 15 ],
+      [ "onion", 15 ],
+      [ "chili_pepper", 15 ],
+      [ "carrot", 15 ],
+      [ "potato_raw", 15 ],
+      [ "irradiated_tomato", 4 ],
+      [ "irradiated_lettuce", 4 ],
+      [ "irradiated_zucchini", 4 ],
+      [ "irradiated_onion", 4 ],
+      [ "irradiated_carrot", 4 ],
+      [ "chili", 10 ],
+      [ "fruit_wine", 10 ],
+      [ "wine_riesling", 7 ],
+      [ "wine_chardonnay", 8 ],
+      [ "wine_cabernet", 8 ],
+      [ "wine_noir", 6 ],
+      [ "fish_fried", 7 ],
+      [ "cheese", 10 ],
+      [ "lemon", 15 ],
+      [ "pickle", 10 ],
+      [ "lutefisk", 15 ],
+      [ "fries", 15 ],
+      [ "cheese_fries", 10 ],
+      [ "onion_rings", 10 ],
+      [ "royal_beef", 1 ],
+      [ "sauce_red", 8 ],
+      [ "sausage", 10 ],
+      [ "syrup", 10 ],
+      [ "sweet_sausage", 2 ],
+      [ "soup_meat", 10 ]
+    ]
+  },
+  {
+    "id": "restaur_kitchen",
+    "type": "item_group",
+    "items": [
+      [ "vinegar", 20 ],
+      [ "jam_fruit", 5 ],
+      [ "jam_strawberries", 5 ],
+      [ "jam_blueberries", 5 ],
+      [ "bread", 17 ],
+      [ "meat", 20 ],
+      [ "cornbread", 7 ],
+      [ "biscuit", 8 ],
+      [ "seasoning_salt", 15 ],
+      [ "seasoning_italian", 15 ],
+      [ "garlic", 10 ],
+      [ "thyme", 10 ],
+      [ "can_chicken", 10 ],
+      [ "pepper", 15 ],
+      [ "salt", 20 ],
+      [ "sugar", 5 ],
+      [ "flour", 17 ],
+      [ "cooking_oil", 20 ],
+      [ "cookbook", 8 ],
+      [ "cookbook_italian", 9 ],
+      [ "cornmeal", 3 ],
+      [ "knife_steak", 15 ],
+      [ "chilly-p", 15 ],
+      [ "curry_powder", 15 ],
+      [ "spaghetti_raw", 20 ],
+      [ "lasagne_raw", 20 ],
+      [ "macaroni_raw", 20 ],
+      [ "knife_butcher", 10 ]
+    ]
+  },
+  {
+    "id": "restaur_bath",
+    "type": "item_group",
+    "items": [
+      [ "coke", 5 ],
+      [ "restaurantmap", 2 ],
+      [ "touristmap", 2 ],
+      [ "purse", 10 ],
+      [ "hairpin", 10 ],
+      [ "cig", 10 ],
+      [ "news_regional", 10 ],
+      [ "mag_news", 10 ]
+    ]
+  },
+  {
+    "id": "restaur_trash",
+    "type": "item_group",
+    "items": [
+      [ "wrapper", 40 ],
+      [ "bag_plastic", 35 ],
+      [ "bottle_glass", 35 ],
+      [ "rag", 30 ],
+      [ "flyer", 15 ],
+      [ "mag_news", 15 ],
+      [ "news_regional", 15 ],
+      [ "glass_shard", 30 ],
+      [ "jug_plastic", 25 ],
+      [ "fetus", 1 ]
+    ]
+  },
+  {
+    "id": "restaur_rack",
+    "type": "item_group",
+    "items": [
+      [ "ceramic_plate", 50 ],
+      [ "glass", 50 ],
+      [ "knife_butter", 30 ],
+      [ "knife_steak", 15 ],
+      [ "spoon", 20 ],
+      [ "fork", 20 ],
+      [ "spork", 5 ],
+      [ "foon", 5 ],
+      [ "fruit_wine", 20 ],
+      [ "wine_riesling", 10 ],
+      [ "wine_chardonnay", 13 ],
+      [ "wine_cabernet", 13 ],
+      [ "wine_noir", 9 ],
+      [ "hat_chef", 30 ],
+      [ "jacket_chef", 30 ],
+      [ "pants_checkered", 28 ]
+    ]
+  },
+  {
+    "id": "restaur_sink",
+    "type": "item_group",
+    "items": [
+      [ "ceramic_plate", 50 ],
+      [ "glass", 50 ],
+      [ "knife_butter", 50 ],
+      [ "knife_steak", 25 ],
+      [ "spoon", 50 ],
+      [ "fork", 50 ],
+      [ "spork", 5 ],
+      [ "foon", 5 ]
+    ]
+  },
+  {
+    "id": "fast_table",
+    "type": "item_group",
+    "items": [
+      [ "cup_plastic", 60 ],
+      [ "wrapper", 60 ],
+      [ "bag_plastic", 45 ],
+      [ "rag", 10 ],
+      [ "fries", 25 ],
+      [ "cheese_fries", 15 ],
+      [ "onion_rings", 20 ],
+      [ "cheeseburger", 15 ],
+      [ "hamburger", 15 ],
+      [ "fish_sandwich", 10 ],
+      [ "cola", 15 ],
+      [ "lemonlime", 10 ],
+      [ "orangesoda", 10 ],
+      [ "crispycran", 10 ],
+      [ "rootbeer", 13 ],
+      [ "colamdew", 10 ],
+      [ "lemonade", 7 ]
+    ]
+  },
+  {
+    "id": "fast_kitchen",
+    "type": "item_group",
+    "items": [
+      [ "knife_butcher", 30 ],
+      [ "bread", 50 ],
+      [ "seasoning_salt", 50 ],
+      [ "seasoning_italian", 50 ],
+      [ "can_chicken", 30 ],
+      [ "sugar", 40 ],
+      [ "flour", 40 ],
+      [ "curry_powder", 40 ],
+      [ "cornmeal", 52 ]
+    ]
+  },
+  {
+    "id": "fast_trash",
+    "type": "item_group",
+    "items": [
+      [ "cup_plastic", 50 ],
+      [ "wrapper", 50 ],
+      [ "bag_plastic", 50 ],
+      [ "rag", 50 ],
+      [ "syringe", 5 ],
+      [ "restaurantmap", 1 ],
+      [ "hairpin", 25 ],
+      [ "flyer", 25 ]
+    ]
+  },
+  {
+    "id": "fast_fridge",
+    "type": "item_group",
+    "items": [
+      [ "hotdogs_frozen", 30 ],
+      [ "cheese", 60 ],
+      [ "fries", 40 ],
+      [ "can_chicken", 40 ],
+      [ "can_spam", 40 ],
+      [ "lettuce", 50 ],
+      [ "irradiated_lettuce", 10 ],
+      [ "tomato", 50 ],
+      [ "irradiated_tomato", 10 ],
+      [ "onion", 50 ],
+      [ "irradiated_onion", 10 ],
+      [ "chili_pepper", 50 ]
+    ]
+  },
+  {
+    "id": "fast_bath",
+    "type": "item_group",
+    "items": [
+      [ "hairpin", 10 ],
+      [ "briefs", 10 ],
+      [ "tieclip", 10 ]
+    ]
+  },
+  {
+    "id": "fast_locker",
+    "type": "item_group",
+    "items": [
+      [ "hat_ball", 30 ],
+      [ "knife_steak", 20 ],
+      [ "sm_extinguisher", 40 ],
+      [ "towel", 40 ],
+      [ "soap", 30 ],
+      [ "detergent", 30 ],
+      [ "rag", 30 ],
+      [ "bleach", 30 ],
+      [ "vinegar", 30 ],
+      [ "backpack", 5 ]
+    ]
+  },
+  {
+    "id": "sugar_house_items",
+    "type": "item_group",
+    "items": [
+      [ "syrup", 60 ],
+      [ "sandwich_pbm", 20 ],
+      [ "maple_candy", 90 ],
+      [ "pancakes", 50 ],
+      [ "fruit_pancakes", 30 ],
+      [ "choc_pancakes", 20 ],
+      [ "fruit_waffles", 20 ],
+      [ "choc_waffles", 20 ],
+      [ "pie_maple", 70 ],
+      [ "pork_beans", 15 ],
+      [ "glazed_tenderloin", 5 ],
+      [ "cell_phone", 3 ],
+      [ "glass", 40 ],
+      [ "spoon", 25 ],
+      [ "fork", 25 ],
+      [ "knife_butter", 20 ],
+      [ "knife_steak", 15 ],
+      [ "spork", 5 ],
+      [ "foon", 5 ]
+    ]
+  },
+  {
+    "id": "sugar_house_kitchen_items",
+    "type": "item_group",
+    "items": [
+      [ "thermometer", 90 ],
+      [ "family_cookbook", 90 ],
+      [ "maple_sap", 50 ],
+      [ "syrup", 100 ],
+      [ "maple_candy", 10 ],
+      [ "flour", 30 ],
+      [ "milk_powder", 30 ],
+      [ "powder_eggs", 10 ],
+      [ "egg_bird", 10 ],
+      [ "cooking_oil", 20 ],
+      [ "irradiated_apple", 5 ],
+      [ "irradiated_banana", 5 ],
+      [ "irradiated_strawberries", 5 ],
+      [ "chocolate", 20 ],
+      [ "waffleiron", 60 ],
+      [ "bread", 30 ],
+      [ "peanutbutter", 20 ],
+      [ "pot", 80 ]
+    ]
+  },
+  {
+    "id": "sugar_house_tools",
+    "type": "item_group",
+    "items": [
+      [ "hammer", 100 ],
+      [ "hand_drill", 100 ],
+      [ "screwdriver", 20 ],
+      [ "screwdriver_set", 10 ],
+      [ "cordless_drill", 70 ],
+      [ "thermometer", 60 ],
+      [ "saw", 90 ],
+      [ "chainsaw_off", 10 ],
+      [ "bucket", 100 ],
+      [ "tree_spile", 100 ],
+      [ "pot", 100 ]
+    ]
+  },
+  {
+    "id": "sugar_house_furnace",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "maple_sap", "container-item": "metal_tank", "charges-min": 2, "charges-max": 15 } ]
+  },
+  {
+    "id": "sugar_house_drum",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "syrup", "container-item": "55gal_drum", "charges-min": 2, "charges-max": 150 } ]
+  },
+  {
+    "id": "tea_dishes",
+    "type": "item_group",
+    "items": [
+      [ "ceramic_cup", 70 ],
+      [ "ceramic_plate", 50 ],
+      [ "spoon", 20 ]
+    ]
+  },
+  {
+    "id": "chair_hat",
+    "type": "item_group",
+    "items": [
+      [ "hat_newsboy", 10 ],
+      [ "bowhat", 40 ],
+      [ "porkpie", 20 ]
+    ]
+  },
+  {
+    "id": "chair_torso",
+    "type": "item_group",
+    "items": [
+      [ "suit", 70 ],
+      [ "waistcoat", 70 ],
+      [ "dress_shirt", 70 ]
+    ]
+  },
+  {
+    "id": "chair_pants",
+    "type": "item_group",
+    "items": [ [ "pants", 70 ] ]
+  },
+  {
+    "id": "chair_feet",
+    "type": "item_group",
+    "items": [ [ "dress_shoes", 70 ] ]
+  },
+  {
+    "id": "chair_extra",
+    "type": "item_group",
+    "items": [
+      [ "cane", 70 ],
+      [ "pocketwatch", 70 ],
+      [ "umbrella", 70 ],
+      [ "manual_fencing", 10 ]
+    ]
+  },
+  {
+    "id": "corner_reader",
+    "type": "item_group",
+    "items": [
+      [ "mag_cutting", 70 ],
+      [ "mag_stabbing", 70 ],
+      [ "mag_unarmed", 70 ],
+      [ "manual_dodge", 70 ],
+      [ "novel_spy", 70 ],
+      [ "novel_thriller", 70 ],
+      [ "novel_crime", 70 ],
+      [ "novel_adventure", 70 ],
+      [ "novel_war", 70 ],
+      [ "poetry_book", 30 ],
+      [ "cookbook_human", 10 ]
+    ]
+  },
+  {
+    "id": "corner_weapon",
+    "type": "item_group",
+    "items": [
+      [ "tazer", 70 ],
+      [ "knuckle_brass", 70 ]
+    ]
+  },
+  {
+    "id": "displays",
+    "type": "item_group",
+    "items": [
+      [ "tea", 70 ],
+      [ "tea_raw", 70 ],
+      [ "ceramic_cup", 70 ],
+      [ "teapot", 70 ],
+      [ "clay_teapot", 70 ]
+    ]
+  },
+  {
+    "id": "teashop_fridge",
+    "type": "item_group",
+    "items": [ [ "milk", 70 ] ]
+  },
+  {
+    "id": "teashop_kitchen_counter",
+    "type": "item_group",
+    "items": [
+      [ "sugar", 30 ],
+      [ "tea_raw", 40 ],
+      [ "teapot", 20 ],
+      [ "spoon", 20 ]
+    ]
+  },
+  {
+    "id": "vet_softdrug",
+    "type": "item_group",
+    "items": [
+      [ "bandages", 50 ],
+      [ "1st_aid", 10 ],
+      [ "saline", 20 ],
+      [ "vitamins", 15 ],
+      [ "calcium_tablet", 15 ],
+      [ "nyquil", 5 ],
+      [ "disinfectant", 15 ],
+      [ "vaccine_shot", 10 ],
+      [ "protein_powder", 30 ],
+      [ "smoxygen_tank", 20 ],
+      [ "elec_hairtrimmer", 15 ],
+      [ "survnote", 5 ],
+      [ "mask_dust", 65 ],
+      [ "glasses_safety", 10 ],
+      [ "towel", 50 ],
+      [ "scissors", 50 ],
+      [ "fungicide", 10 ],
+      [ "soap", 20 ],
+      [ "chem_hydrogen_peroxide", 10 ],
+      [ "canister_empty", 5 ],
+      [ "stethoscope", 50 ],
+      [ "scalpel", 50 ],
+      [ "gloves_medical", 50 ],
+      [ "medical_gauze", 25 ],
+      [ "quikclot", 10 ],
+      [ "hacksaw", 5 ],
+      [ "gloves_rubber", 25 ],
+      [ "rag_bloody", 10 ],
+      [ "bag_plastic", 20 ],
+      [ "string_6", 5 ]
+    ]
+  },
+  {
+    "id": "vet_utility",
+    "type": "item_group",
+    "items": [
+      [ "dog_whistle", 10 ],
+      [ "pet_carrier", 30 ],
+      [ "dogfood", 30 ],
+      [ "catfood", 30 ],
+      [ "towel", 20 ],
+      [ "soap", 10 ],
+      [ "gloves_medical", 20 ],
+      [ "rag", 15 ],
+      [ "rag_bloody", 2 ],
+      [ "bag_plastic", 20 ],
+      [ "jerky", 40 ]
+    ]
+  },
+  {
+    "id": "vet_hardrug",
+    "type": "item_group",
+    "items": [
+      [ "syringe", 10 ],
+      [ "diazepam", 10 ],
+      [ "antifungal", 30 ],
+      [ "antiparasitic", 30 ],
+      [ "antibiotics", 20 ],
+      [ "thorazine", 7 ],
+      [ "morphine", 10 ],
+      [ "codeine", 15 ],
+      [ "saline", 15 ],
+      [ "smoxygen_tank", 10 ],
+      [ "1st_aid", 30 ],
+      [ "medical_tape", 35 ],
+      [ "blood", 5 ],
+      [ "vaccine_shot", 15 ]
+    ]
+  }
+]

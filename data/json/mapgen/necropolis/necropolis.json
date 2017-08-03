@@ -1,48 +1,5 @@
 [
   {
-    "name": "GROUP_NECROPOLIS",
-    "type": "monstergroup",
-    "default": "mon_zombie",
-    "monsters": [
-      { "monster": "mon_zombie", "freq": 10, "cost_multiplier": 1 },
-      { "monster": "mon_irradiated_wanderer_1", "freq": 90, "cost_multiplier": 1 },
-      { "monster": "mon_irradiated_wanderer_2", "freq": 10, "cost_multiplier": 1 },
-      { "monster": "mon_irradiated_wanderer_3", "freq": 1, "cost_multiplier": 1 }
-    ]
-  },
-  {
-    "id": "building_rubble",
-    "type": "item_group",
-    "items": [
-      [ "rock", 25 ],
-      [ "scrap", 10 ],
-      [ "splinter", 10 ],
-      [ "rebar", 25 ],
-      [ "nail", 5 ],
-      [ "glass_shard", 15 ],
-      [ "wire", 5 ],
-      [ "splinter", 20 ]
-    ]
-  },
-  {
-    "id": "vehicle_scrapped",
-    "type": "item_group",
-    "items": [
-      [ "chain", 10 ],
-      [ "steel_chunk", 30 ],
-      [ "spring", 5 ],
-      [ "steel_lump", 30 ],
-      [ "steel_plate", 30 ],
-      [ "hard_plate", 30 ],
-      [ "frame", 20 ],
-      [ "bearing", 5 ],
-      [ "cu_pipe", 5 ],
-      [ "scrap", 20 ],
-      [ "glass_shard", 10 ],
-      [ "wire", 5 ]
-    ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "necropolis_a_1" ],

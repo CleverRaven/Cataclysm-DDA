@@ -1,17 +1,5 @@
 [
   {
-    "id": "jewelry_furshop",
-    "type": "item_group",
-    "items": [
-      [ "gold_watch", 50 ],
-      [ "sf_watch", 50 ],
-      [ "brooch", 80 ],
-      [ "pearl_collar", 50 ],
-      [ "silver_bracelet", 30 ],
-      [ "gold_bracelet", 20 ]
-    ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_clothes" ],
