@@ -10,6 +10,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <memory>
 
 class item;
 class overmap;
@@ -208,43 +209,17 @@ struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
     void deserialize(JsonIn &jsin) override;
 };
 
-struct npc_target {
-    private:
-        enum target_type : int {
-            TARGET_PLAYER,
-            TARGET_MONSTER,
-            TARGET_NPC,
-            TARGET_NONE
-        };
-
-        target_type type;
-        size_t index;
-
-        npc_target( target_type, size_t );
-
-    public:
-        npc_target();
-
-        Creature *get();
-        const Creature *get() const;
-
-        static npc_target monster( size_t index );
-        static npc_target npc( size_t index );
-        static npc_target player();
-        static npc_target none();
-};
-
 // Data relevant only for this action
 struct npc_short_term_cache
 {
     float danger;
     float total_danger;
     float danger_assessment;
-    npc_target target;
+    std::shared_ptr<Creature> target;
 
     double my_weapon_value;
 
-    std::vector<npc_target> friends;
+    std::vector<std::shared_ptr<Creature>> friends;
 };
 
 // DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
