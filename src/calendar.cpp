@@ -548,19 +548,19 @@ bool calendar::once_every(int event_frequency) {
     return (calendar::turn % event_frequency) == 0;
 }
 
-const std::string &calendar::name_season( season_type s )
+const std::string calendar::name_season( season_type s )
 {
-    static const std::array<std::string, 5> season_names = {{
-        std::string( _( "Spring" ) ),
-        std::string( _( "Summer" ) ),
-        std::string( _( "Autumn" ) ),
-        std::string( _( "Winter" ) ),
-        std::string( _( "End times" ) )
+    static const std::array<std::string, 5> season_names_untranslated = {{
+        std::string( translate_marker( "Spring" ) ),
+        std::string( translate_marker( "Summer" ) ),
+        std::string( translate_marker( "Autumn" ) ),
+        std::string( translate_marker( "Winter" ) ),
+        std::string( translate_marker( "End times" ) )
     }};
     if( s >= SPRING && s <= WINTER ) {
-        return season_names[ s ];
+        return _( season_names_untranslated[ s ].c_str() );
     }
 
-    return season_names[ 4 ];
+    return _( season_names_untranslated[ 4 ].c_str() );
 }
 
