@@ -30,14 +30,6 @@
 #include "cata_utility.h"
 #include "color_loader.h"
 
-//TODO replace these includes with filesystem.h
-#ifdef _MSC_VER
-#   include "wdirent.h"
-#   include <direct.h>
-#else
-#   include <dirent.h>
-#endif
-
 #if (defined _WIN32 || defined WINDOWS)
 #   include "platform_win.h"
 #   include <shlwapi.h>
@@ -1342,32 +1334,7 @@ static bool ends_with(const std::string &text, const std::string &suffix) {
 
 static void font_folder_list(std::ofstream& fout, std::string path)
 {
-    DIR *dir;
-    struct dirent *ent;
-    if ((dir = opendir (path.c_str())) != NULL) {
-        bool found = false;
-        while (!found && (ent = readdir (dir)) != NULL) {
-            if( 0 == strcmp( ent->d_name, "." ) ||
-                0 == strcmp( ent->d_name, ".." ) ) {
-                continue;
-            }
-            char path_last = *path.rbegin();
-            std::string f;
-            if (is_filesep(path_last)) {
-                f = path + ent->d_name;
-            } else {
-                f = path + FILE_SEP + ent->d_name;
-            }
-
-            struct stat stat_buffer;
-            if( stat( f.c_str(), &stat_buffer ) == -1 ) {
-                continue;
-            }
-            if( S_ISDIR(stat_buffer.st_mode) ) {
-                font_folder_list( fout, f );
-                continue;
-            }
-
+    for( const auto &f : get_files_from_path( "", path, true, false ) ) {
             TTF_Font* fnt = TTF_OpenFont(f.c_str(), 12);
             if (fnt == NULL) {
                 continue;
@@ -1428,8 +1395,6 @@ static void font_folder_list(std::ofstream& fout, std::string path)
                     break;
                 }
             }
-        }
-        closedir (dir);
     }
 }
 
