@@ -1004,6 +1004,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** @return Odds for success (pair.first) and gunmod damage (pair.second) */
         std::pair<int, int> gunmod_installation_odds( const item& gun, const item& mod ) const;
 
+        /** Starts activity to install toolmod */
+        void toolmod_add( item& tool, item& mod );
+
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
         bool install_bionics(const itype &type, int skill_level = -1);
         /**
