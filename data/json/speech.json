@@ -1122,17 +1122,17 @@
     },{
         "type" : "speech",
         "speaker" : "mon_mi_go",
-        "sound" : "a beeping sound.",
+        "sound" : "beep!",
         "volume" : 20
     },{
         "type" : "speech",
         "speaker" : "mon_mi_go",
-        "sound" : "a loud beeping sound.",
+        "sound" : "beep-beep-beep!",
         "volume" : 30
     },{
         "type" : "speech",
         "speaker" : "mon_mi_go",
-        "sound" : "a very loud beeping sound.",
+        "sound" : "BEEP!",
         "volume" : 40
     },{
         "type" : "speech",
@@ -1147,7 +1147,7 @@
     },{
         "type" : "speech",
         "speaker" : "mon_mi_go",
-        "sound" : "gunfire!",
+        "sound" : "bang!",
         "volume" : 90
     },{
         "type" : "speech",

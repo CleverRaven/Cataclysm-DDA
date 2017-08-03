@@ -393,6 +393,8 @@ class game
         int kill_count( const mtype_id& id );
         /** Increments the number of kills of the given mtype_id by the player upwards. */
         void increase_kill_count( const mtype_id& id );
+        /** Record the fact that the player murdered an NPC. */
+        void record_npc_kill( const npc *p );
 
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport(player *p = NULL, bool add_teleglow = true);
@@ -943,6 +945,7 @@ private:
         int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
         std::list<event> events;         // Game events to be processed
         std::map<mtype_id, int> kills;         // Player's kill count
+        std::list<std::string> npc_kills;      // names of NPCs the player killed
         int moves_since_last_save;
         time_t last_save_timestamp;
         mutable std::array<float, OVERMAP_LAYERS> latest_lightlevels;

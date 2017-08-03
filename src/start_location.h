@@ -17,6 +17,8 @@ struct tripoint;
 class start_location;
 template<typename T>
 class generic_factory;
+struct MonsterGroup;
+using mongroup_id = string_id<MonsterGroup>;
 
 class start_location
 {
@@ -64,6 +66,13 @@ class start_location
         void add_map_special( const tripoint &omtstart, const std::string &map_special ) const;
 
         void handle_heli_crash( player &u ) const;
+
+        /**
+         * Adds surround start monsters.
+         * @param expected_count Expected value of "monster points" (map tiles times density from @ref map::add_spawn).
+         */
+        void surround_with_monsters( const tripoint &omtstart, const mongroup_id &type,
+                                     float expected_points ) const;
     private:
         friend class generic_factory<start_location>;
         string_id<start_location> id;

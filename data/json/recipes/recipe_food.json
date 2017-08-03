@@ -10056,5 +10056,31 @@
     "autolearn": true,
     "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [ [ [ "bone_tainted", 1 ] ] ]
+  },
+  {
+    "result": "meal_chitin_piece",
+    "type": "recipe",
+    "id_suffix": "with_from_food_processor",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 15000,
+    "autolearn": true,
+    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "components": [ [ [ "chitin_piece", 1 ] ] ]
+  },
+  {
+    "result": "chilly-p",
+    "type": "recipe",
+    "id_suffix": "with_from_food_processor",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 11250,
+    "autolearn": true,
+    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "components": [ [ [ "chili_pepper", 1 ] ] ]
   }
 ]

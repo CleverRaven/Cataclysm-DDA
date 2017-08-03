@@ -52,7 +52,7 @@ mat_burn_data load_mat_burn_data( JsonObject &jsobj )
 
 void material_type::load( JsonObject &jsobj, const std::string & )
 {
-    mandatory( jsobj, was_loaded, "name", _name, translated_string_reader );
+    mandatory( jsobj, was_loaded, "name", _name );
 
     mandatory( jsobj, was_loaded, "bash_resist", _bash_resist );
     mandatory( jsobj, was_loaded, "cut_resist", _cut_resist );

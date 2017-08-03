@@ -233,7 +233,8 @@ void sounds::process_sound_markers( player *p )
         const tripoint &pos = sound_event_pair.first;
         const sound_event &sound = sound_event_pair.second;
 
-        const int distance_to_sound = rl_dist( p->pos(), pos );
+        const int distance_to_sound = rl_dist( p->pos().x, p->pos().y, pos.x, pos.y ) +
+            abs( p->pos().z - pos.z ) * 10;
         const int raw_volume = sound.volume;
 
         // The felt volume of a sound is not affected by negative multipliers, such as already
@@ -324,7 +325,7 @@ void sounds::process_sound_markers( player *p )
             }
         }
         
-        if( !p->has_effect( effect_sleep ) && p->has_effect( effect_alarm_clock ) && !p->has_bionic( "bio_watch" ) ) {
+        if( !p->has_effect( effect_sleep ) && p->has_effect( effect_alarm_clock ) && !p->has_bionic( bionic_id( "bio_watch" ) ) ) {
             if ( p->get_effect( effect_alarm_clock ).get_duration() < 2 ) {
                 if( slept_through ) {
                     p->add_msg_if_player( _( "Your alarm-clock finally wakes you up." ) );
