@@ -499,7 +499,7 @@ void npc::execute_action( npc_action action )
             reach_attack( tar );
             break;
         }
-        // Otherwise fallthrough to npc_melee
+        /* fallthrough */
     case npc_melee:
         update_path( tar );
         if( path.size() > 1 ) {
@@ -844,8 +844,7 @@ void npc::choose_target()
     if( is_friend() ) {
         ai_cache.friends.emplace_back( npc_target::player() );
     } else if( is_enemy() ) {
-        // Hostile characters can always find the player
-        if( ai_cache.target.get() == nullptr || check_hostile_character( g->u ) ) {
+        if( sees( g->u ) && check_hostile_character( g->u ) ) {
             ai_cache.target = npc_target::player();
             ai_cache.danger = std::max( 1.0f, ai_cache.danger );
         }
@@ -2870,6 +2869,7 @@ void npc::set_destination()
     switch(needs[0]) {
     case need_ammo:
         options.push_back("house");
+        /* fallthrough */
     case need_gun:
         options.push_back("s_gun");
         break;
@@ -2884,6 +2884,7 @@ void npc::set_destination()
         options.push_back("s_gas");
         options.push_back("s_pharm");
         options.push_back("s_liquor");
+        /* fallthrough */
     case need_food:
         options.push_back("s_grocery");
         break;

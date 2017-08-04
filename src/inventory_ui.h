@@ -145,10 +145,9 @@ class inventory_selector_preset
         /** Color that will be used to display the entry string. */
         virtual nc_color get_color( const inventory_entry &entry ) const;
 
+        std::string get_denial( const inventory_entry &entry ) const;
         /** Text in the cell */
         std::string get_cell_text( const inventory_entry &entry, size_t cell_index ) const;
-        /** Width of the cell */
-        size_t get_cell_width( const inventory_entry &entry, size_t cell_index ) const;
         /** @return Whether the cell is a stub */
         bool is_stub_cell( const inventory_entry &entry, size_t cell_index ) const;
         /** Number of cells in the preset. */
@@ -173,16 +172,25 @@ class inventory_selector_preset
                           const std::string &stub = std::string() );
 
     private:
-        struct cell_t {
-            std::function<std::string( const inventory_entry & )> func;
-            std::string title;
-            std::string stub;
+        class cell_t
+        {
+            public:
+                cell_t( const std::function<std::string( const inventory_entry & )> &func,
+                        const std::string &title, const std::string &stub ) :
+                    title( title ),
+                    stub( stub ),
+                    func( func ) {}
 
-            cell_t( const std::function<std::string( const inventory_entry & )> &func,
-                    const std::string &title, const std::string &stub ) :
-                func( func ),
-                title( title ),
-                stub( stub ) {}
+
+                std::string get_text( const inventory_entry &entry ) const {
+                    return replace_colors( func( entry ) );
+                }
+
+                std::string title;
+                std::string stub;
+
+            private:
+                std::function<std::string( const inventory_entry & )> func;
         };
 
         std::vector<cell_t> cells;
@@ -227,6 +235,7 @@ class inventory_column
             return page_of( entries.size() + entries_per_page - 1 );
         }
 
+        bool has_available_choices() const;
         bool is_selected( const inventory_entry &entry ) const;
 
         /**
@@ -289,6 +298,13 @@ class inventory_column
         }
 
     protected:
+        struct entry_cell_cache_t {
+            bool assigned = false;
+            nc_color color = c_unset;
+            std::string denial;
+            std::vector<std::string> text;
+        };
+
         /**
          * Change the selection.
          * @param new_index Index of the entry to select.
@@ -316,12 +332,13 @@ class inventory_column
          *  If corresponding cell is not empty (its width is greater than zero),
          *  then a value returned by  inventory_column::get_entry_indent() is added to the result.
          */
+        size_t get_entry_cell_width( size_t index, size_t cell_index ) const;
         size_t get_entry_cell_width( const inventory_entry &entry, size_t cell_index ) const;
         /** Sum of the cell widths */
         size_t get_cells_width() const;
 
-        std::string get_denial( const item_location &loc ) const;
-        std::string get_denial( const inventory_entry &entry ) const;
+        const entry_cell_cache_t make_entry_cell_cache( const inventory_entry &entry ) const;
+        const entry_cell_cache_t &get_entry_cell_cache( size_t index ) const;
 
         const inventory_selector_preset &preset;
 
@@ -353,6 +370,7 @@ class inventory_column
         };
 
         std::vector<cell_t> cells;
+        mutable std::vector<entry_cell_cache_t> entries_cell_cache;
 
         /** @return Number of visible cells */
         size_t visible_cells() const;

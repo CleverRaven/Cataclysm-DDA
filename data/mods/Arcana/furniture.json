@@ -7,7 +7,7 @@
         "bgcolor": "yellow",
         "move_cost_mod": -2,
         "required_str": -1,
-        "flags": ["TRANSPARENT"],
+        "flags": ["TRANSPARENT", "EASY_DECONSTRUCT"],
         "deconstruct": {
             "items": [
                 { "item": "sun_sword", "count": 1 }

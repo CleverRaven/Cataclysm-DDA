@@ -609,17 +609,6 @@ int getcury(WINDOW *win)
     return win != nullptr ? win->cursory : 0;
 }
 
-int start_color(void)
-{
-    // start_color is a ncurses function, it is not supposed to throw.
-    try {
-        return curses_start_color();
-    } catch( const std::exception &err ) {
-        fprintf( stderr, "Error loading color definitions: %s\n", err.what() );
-        return -1;
-    }
-}
-
 int keypad(WINDOW *, bool)
 {
     return 1;

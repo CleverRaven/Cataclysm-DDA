@@ -536,7 +536,7 @@ bool can_interact_at( action_id action, const tripoint &p )
         case ACTION_BUTCHER:
             return can_butcher_at( p );
         case ACTION_MOVE_UP:
-            return can_move_vertical_at( p , 1 );
+            return can_move_vertical_at( p, 1 );
         case ACTION_MOVE_DOWN:
             return can_move_vertical_at( p, -1 );
             break;

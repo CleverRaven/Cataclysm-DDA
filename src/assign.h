@@ -68,6 +68,32 @@ bool assign( JsonObject &jo, const std::string &name, T &val, bool strict = fals
     return true;
 }
 
+// Overload assign specifically for bool to avoid warnings,
+// and also to avoid potentially nonsensical interactions between relative and proportional.
+inline bool assign( JsonObject &jo, const std::string &name, bool &val, bool strict = false )
+{
+    bool out;
+
+    // Object via which to report errors which differs for proportional/relative values
+    JsonObject err = jo;
+
+    if( !jo.read( name, out ) ) {
+        return false;
+    }
+
+    if( out != true && out != false ) {
+        err.throw_error( "value outside supported range", name );
+    }
+
+    if( strict && out == val ) {
+        report_strict_violation( err, "assignment does not update value", name );
+    }
+
+    val = out;
+
+    return true;
+}
+
 template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, int>::type = 0>
 bool assign( JsonObject &jo, const std::string &name, std::pair<T, T> &val,
              bool strict = false, T lo = std::numeric_limits<T>::min(), T hi = std::numeric_limits<T>::max() )

@@ -135,7 +135,7 @@ public:
     int vibe                ( player*, item*, bool, const tripoint& );
     int vortex              ( player*, item*, bool, const tripoint& );
     int dog_whistle         ( player*, item*, bool, const tripoint& );
-    int vacutainer          ( player*, item*, bool, const tripoint& );
+    int blood_draw          ( player*, item*, bool, const tripoint& );
     static void cut_log_into_planks(player *);
     int lumber              ( player*, item*, bool, const tripoint& );
     int oxytorch            ( player*, item*, bool, const tripoint& );
