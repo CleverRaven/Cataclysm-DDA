@@ -164,6 +164,7 @@ void mutation_branch::load( JsonObject &jsobj )
     new_mut.fatigue = jsobj.get_bool("fatigue",false);
     new_mut.valid = jsobj.get_bool("valid", true);
     new_mut.purifiable = jsobj.get_bool("purifiable", true);
+    new_mut.spawn_item = _(jsobj.get_string("spawn_item", "").c_str());
     for( auto & s : jsobj.get_string_array( "initial_ma_styles" ) ) {
         new_mut.initial_ma_styles.push_back( matype_id( s ) );
     }
