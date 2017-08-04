@@ -5568,11 +5568,13 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint& ) {
     }
 
     if( loc->ammo_remaining() ) {
-        g->unload( *loc );
+        if( !g->unload( *loc ) ) {
+            p->add_msg_if_player( m_info, _( "You cancel unloading the tool." ) );
+            return 0;
+        }
     }
 
     p->toolmod_add( *loc, *it );
-
     return 0;
 }
 
