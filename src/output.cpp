@@ -1768,9 +1768,12 @@ std::pair<std::string, nc_color> get_light_level( const float light )
              pair_t {translate_marker( "dark" ), c_dkgray},
              pair_t {translate_marker( "very dark" ), c_black_white}
          }
-     };
-    const int light_level = clamp( ( int )ceil( light ), 0, 5 );
-    return pair_t{ _( strings[light_level].first.c_str() ), strings[light_level].second };
+    };
+    // Avoid magic number
+    static const int maximum_light_level = static_cast< int >( strings.size() ) - 1;
+    const int light_level = clamp( static_cast< int >( ceil( light ) ), 0, maximum_light_level );
+    const size_t array_index = static_cast< size_t >( light_level );
+    return pair_t{ _( strings[array_index].first.c_str() ), strings[array_index].second };
 }
 
 std::string get_labeled_bar( const double val, const int width, const std::string &label, char c )
