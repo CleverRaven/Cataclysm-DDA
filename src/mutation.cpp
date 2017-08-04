@@ -519,7 +519,7 @@ void player::activate_mutation( const trait_id &mut )
         tdata.powered = false;
         return;
     } else if ( !mdata.spawn_item.empty() ) {
-        item tmpitem( mdata.spawn_item.c_str() );
+        item tmpitem( mdata.spawn_item );
         i_add_or_drop( tmpitem );
         add_msg_if_player( _( "You create a %s." ), tmpitem.display_name().c_str() );
         tdata.powered = false;
