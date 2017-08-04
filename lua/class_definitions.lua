@@ -190,11 +190,9 @@ classes = {
             { name = "get_turn_died", rval = "int", args = { } },
             { name = "get_vision_threshold", rval = "float", args = { "int" } },
             { name = "gibType", rval = "field_id", args = { } },
-            { name = "has_active_bionic", rval = "bool", args = { "string" } },
             { name = "has_active_item", rval = "bool", args = { "string" } },
             { name = "has_active_mutation", rval = "bool", args = { "trait_id" } },
             { name = "has_base_trait", rval = "bool", args = { "trait_id" } },
-            { name = "has_bionic", rval = "bool", args = { "string" } },
             { name = "has_nv", rval = "bool", args = { } },
             { name = "has_trait", rval = "bool", args = { "trait_id" } },
             { name = "has_trait_flag", rval = "bool", args = { "string" } },
@@ -466,7 +464,6 @@ classes = {
             { name = "activate_bionic", rval = "bool", args = { "int", "bool" } },
             { name = "active_light", rval = "float", args = { } },
             { name = "add_addiction", rval = nil, args = { "add_type", "int" } },
-            { name = "add_bionic", rval = nil, args = { "string" } },
             { name = "add_known_trap", rval = nil, args = { "tripoint", "trap" } },
             { name = "add_martialart", rval = nil, args = { "matype_id" } },
             { name = "add_pain_msg", rval = nil, args = { "int", "body_part" } },
@@ -744,7 +741,6 @@ classes = {
             { name = "reduce_charges", rval = "item", args = { "item", "int" } },
             { name = "regen", rval = nil, args = { "int" } },
             { name = "rem_addiction", rval = nil, args = { "add_type" } },
-            { name = "remove_bionic", rval = nil, args = { "string" } },
             { name = "remove_child_flag", rval = nil, args = { "trait_id" } },
             { name = "remove_mutation", rval = nil, args = { "trait_id" } },
             { name = "remove_random_bionic", rval = "bool", args = { } },
@@ -802,8 +798,6 @@ classes = {
             { name = "unarmed_value", rval = "float", args = { } },
             { name = "uncanny_dodge", rval = "bool", args = { } },
             { name = "unimpaired_range", rval = "int", args = { } },
-            { name = "uninstall_bionic", rval = "bool", args = { "string" } },
-            { name = "uninstall_bionic", rval = "bool", args = { "string", "int" } },
             { name = "update_body_wetness", rval = nil, args = { "w_point" } },
             { name = "update_bodytemp", rval = nil, args = { } },
             { name = "update_health", rval = nil, args = { "int" } },
@@ -1313,7 +1307,7 @@ classes = {
             { name = "pl_sees", rval = "bool", args = { "tripoint", "int" } },
             { name = "place_gas_pump", rval = nil, args = { "int", "int", "int" } },
             { name = "place_gas_pump", rval = nil, args = { "int", "int", "int", "string" } },
-            { name = "place_npc", rval = "int", args = { "int", "int", "string" } },
+            { name = "place_npc", rval = "int", args = { "int", "int", "npc_template_id" } },
             { name = "place_spawns", rval = nil, args = { "mongroup_id", "int", "int", "int", "int", "int", "float" } },
             { name = "place_toilet", rval = nil, args = { "int", "int" } },
             { name = "place_toilet", rval = nil, args = { "int", "int", "int" } },
@@ -1759,6 +1753,13 @@ classes = {
         string_id = "quality_id",
         attributes = {
             name = { type = "string", writable = false }
+        },
+        functions = {
+        }
+    },
+    npc_template = {
+        string_id = "npc_template_id",
+        attributes = {
         },
         functions = {
         }

@@ -61,6 +61,7 @@ struct veh_collision;
 class tileray;
 class harvest_list;
 using harvest_id = string_id<harvest_list>;
+class npc_template;
 
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle{
@@ -1119,7 +1120,7 @@ public:
  void place_gas_pump(const int x, const int y, const int charges, std::string fuel_type);
  void place_toilet(const int x, const int y, const int charges = 6 * 4); // 6 liters at 250 ml per charge
  void place_vending(int x, int y, std::string type);
- int place_npc( int x, int y, const std::string &type );
+        int place_npc( int x, int y, const string_id<npc_template> &type );
 
  void add_spawn(const mtype_id& type, const int count, const int x, const int y, bool friendly = false,
                 const int faction_id = -1, const int mission_id = -1,

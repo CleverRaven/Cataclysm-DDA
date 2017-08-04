@@ -39,8 +39,6 @@
 #include "weather_gen.h"
 #include "npc.h"
 
-#include "tile_id_data.h"
-
 /*
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
@@ -99,6 +97,13 @@ void game::serialize(std::ostream & fout) {
             json.member( elem.first.str(), elem.second );
         }
         json.end_object();
+
+        json.member( "npc_kills" );
+        json.start_array();
+        for( auto &elem : npc_kills ) {
+            json.write( elem );
+        }
+        json.end_array();
 
         json.member( "player", u );
         Messages::serialize( json );
@@ -236,6 +241,13 @@ void game::unserialize(std::istream & fin)
         std::set<std::string> members = odata.get_member_names();
         for( const auto &member : members ) {
             kills[mtype_id( member )] = odata.get_int( member );
+        }
+
+        vdata = data.get_array("npc_kills");
+        while( vdata.has_more() ) {
+           std::string npc_name;
+           vdata.read_next(npc_name);
+           npc_kills.push_back(npc_name);
         }
 
         data.read("player", u);

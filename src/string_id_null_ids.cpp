@@ -11,7 +11,7 @@ template<> const string_id<type> &string_id<type>::NULL_ID() { \
 }
 
 MAKE_NULL_ID(activity_type, "ACT_NULL", -1);
-MAKE_NULL_ID(harvest_list);
+MAKE_NULL_ID(harvest_list, "null");
 MAKE_NULL_ID(effect_type, "null");
 MAKE_NULL_ID(material_type, "null", 0);
 

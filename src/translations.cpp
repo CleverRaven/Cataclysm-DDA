@@ -79,10 +79,10 @@ void set_language()
 #endif
 
     // Step 2. Bind to gettext domain.
-    const char *locale_dir;
+    std::string locale_dir;
 #if (defined __linux__ || (defined MACOSX && !defined TILES))
     if( !FILENAMES["base_path"].empty() ) {
-        locale_dir = std::string( FILENAMES["base_path"] + "share/locale" ).c_str();
+        locale_dir = FILENAMES["base_path"] + "share/locale";
     } else {
         locale_dir = "lang/mo";
     }
@@ -90,7 +90,8 @@ void set_language()
     locale_dir = "lang/mo";
 #endif // __linux__
 
-    bindtextdomain( "cataclysm-dda", locale_dir );
+    const char *locale_dir_char = locale_dir.c_str();
+    bindtextdomain( "cataclysm-dda", locale_dir_char );
     bind_textdomain_codeset( "cataclysm-dda", "UTF-8" );
     textdomain( "cataclysm-dda" );
 

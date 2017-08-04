@@ -1636,6 +1636,7 @@
     [ ["vac_sealer", 1], ["makeshift_sealer", 1] ],
     [ [ "dehydrator", 1 ] ],
     [ [ "water_purifier", 1 ] ],
+    [ [ "food_processor", 1 ] ],
     [ [ "press", 1 ] ],
     [ ["cable", 5] ]
   ]

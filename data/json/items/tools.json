@@ -1544,7 +1544,7 @@
     "sub": "hotplate",
     "max_charges": 200,
     "charges_per_use": 1,
-    "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 2 ], [ "BOIL", 1 ] ],
+    "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
     "use_action": "HOTPLATE"
   },
   {
@@ -2203,6 +2203,7 @@
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "CUT", 1 ], [ "PRY", 1 ], [ "BUTCHER", 15 ] ],
+    "use_action": "CROWBAR",
     "flags": [ "SHEATH_KNIFE" ]
   },
   {
@@ -2720,6 +2721,7 @@
     "material": "paper",
     "symbol": "*",
     "color": "red",
+    "turns_per_charge": 7,
     "use_action": "FIRECRACKER_PACK_ACT",
     "flags": [ "TRADER_AVOID" ]
   },
@@ -7821,8 +7823,8 @@
     "id": "vacutainer",
     "type": "CONTAINER",
     "category": "tools",
-    "name": "vacutainer",
-    "description": "This is a tool for drawing blood, including a test tube for holding the sample.  Use this tool to draw blood, either from yourself or from a corpse you are standing on.",
+    "name": "blood draw kit",
+    "description": "This is a kit for drawing blood, including a test tube for holding the sample.  Use this tool to draw blood, either from yourself or from a corpse you are standing on.",
     "weight": 13,
     "volume": 1,
     "price": 3000,
@@ -7834,7 +7836,7 @@
     "contains": 1,
     "seals": true,
     "watertight": true,
-    "use_action": "VACUTAINER",
+    "use_action": "BLOOD_DRAW",
     "flags": [ "SPEAR" ]
   },
   {
@@ -8107,7 +8109,7 @@
     "type": "TOOL",
     "category": "spare_parts",
     "name": "wool staple",
-    "description": "The natural cluster of wool fibres.  Could be processed to the felt patches or yarns.",
+    "description": "The natural cluster of wool fibers.  Could be processed to the felt patches or yarns.",
     "weight": 200,
     "volume": 2,
     "price": 0,

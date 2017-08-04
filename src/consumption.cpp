@@ -29,6 +29,13 @@ const efftype_id effect_nausea( "nausea" );
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 
+static const bionic_id bio_advreactor( "bio_advreactor" );
+static const bionic_id bio_batteries( "bio_batteries" );
+static const bionic_id bio_digestion( "bio_digestion" );
+static const bionic_id bio_ethanol( "bio_ethanol" );
+static const bionic_id bio_furnace( "bio_furnace" );
+static const bionic_id bio_reactor( "bio_reactor" );
+
 static const std::vector<std::string> carnivore_blacklist {{
         "ALLERGEN_VEGGY", "ALLERGEN_FRUIT", "ALLERGEN_WHEAT",
     }
@@ -437,7 +444,7 @@ bool player::eat( item &food, bool force )
     if( spoiled && !saprophage ) {
         add_msg_if_player( m_bad, _( "Ick, this %s doesn't taste so good..." ), food.tname().c_str() );
         if( !has_trait( trait_id( "SAPROVORE" ) ) && !has_trait( trait_id( "EATDEAD" ) ) &&
-            ( !has_bionic( "bio_digestion" ) || one_in( 3 ) ) ) {
+            ( !has_bionic( bio_digestion ) || one_in( 3 ) ) ) {
             add_effect( effect_foodpoison, rng( 60, ( nutr + 1 ) * 60 ) );
         }
         consume_effects( food, spoiled );
@@ -502,13 +509,13 @@ bool player::eat( item &food, bool force )
         use_charges( food.type->comestible->tool, 1 );
     }
 
-    if( has_bionic( "bio_ethanol" ) && food.type->can_use( "ALCOHOL" ) ) {
+    if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL" ) ) {
         charge_power( rng( 50, 200 ) );
     }
-    if( has_bionic( "bio_ethanol" ) && food.type->can_use( "ALCOHOL_WEAK" ) ) {
+    if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL_WEAK" ) ) {
         charge_power( rng( 25, 100 ) );
     }
-    if( has_bionic( "bio_ethanol" ) && food.type->can_use( "ALCOHOL_STRONG" ) ) {
+    if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL_STRONG" ) ) {
         charge_power( rng( 75, 300 ) );
     }
 
@@ -587,19 +594,22 @@ bool player::eat( item &food, bool force )
     }
 
     // chance to become parasitised
-    if( !( has_bionic( "bio_digestion" ) || has_trait( trait_id( "PARAIMMUNE" ) ) ) ) {
+    if( !( has_bionic( bio_digestion ) || has_trait( trait_id( "PARAIMMUNE" ) ) ) ) {
         if( food.type->comestible->parasites > 0 && one_in( food.type->comestible->parasites ) ) {
             switch( rng( 0, 3 ) ) {
                 case 0:
                     if( !has_trait( trait_id( "EATHEALTH" ) ) ) {
                         add_effect( effect_tapeworm, 1, num_bp, true );
                     }
+                    break;
                 case 1:
                     if( !has_trait( trait_id( "ACIDBLOOD" ) ) ) {
                         add_effect( effect_bloodworms, 1, num_bp, true );
                     }
+                    break;
                 case 2:
                     add_effect( effect_brainworms, 1, num_bp, true );
+                    break;
                 case 3:
                     add_effect( effect_paincysts, 1, num_bp, true );
             }
@@ -683,13 +693,13 @@ void player::consume_effects( item &food, bool rotten )
         // everyone else only gets a portion of the nutrition
         hunger_factor *= rng_float( 0, 1 );
         // and takes a health penalty if they aren't adapted
-        if( !has_trait( trait_id( "SAPROVORE" ) ) && !has_bionic( "bio_digestion" ) ) {
+        if( !has_trait( trait_id( "SAPROVORE" ) ) && !has_bionic( bio_digestion ) ) {
             mod_healthy_mod( -30, -200 );
         }
     }
 
     // Bio-digestion gives extra nutrition
-    if( has_bionic( "bio_digestion" ) ) {
+    if( has_bionic( bio_digestion ) ) {
         hunger_factor += rng_float( 0, 1 );
     }
 
@@ -854,7 +864,7 @@ hint_rating player::rate_action_eat( const item &it ) const
 
 bool player::can_feed_battery_with( const item &it ) const
 {
-    if( !has_active_bionic( "bio_batteries" ) ) {
+    if( !has_active_bionic( bio_batteries ) ) {
         return false;
     }
     return it.is_ammo() && it.type->ammo->type.count( ammotype( "battery" ) );
@@ -896,7 +906,7 @@ bool player::can_feed_reactor_with( const item &it ) const
         return false;
     }
 
-    if( !has_active_bionic( "bio_reactor" ) && !has_active_bionic( "bio_advreactor" ) ) {
+    if( !has_active_bionic( bio_reactor ) && !has_active_bionic( bio_advreactor ) ) {
         return false;
     }
 
@@ -941,7 +951,7 @@ bool player::feed_reactor_with( item &it )
 
 bool player::can_feed_furnace_with( const item &it ) const
 {
-    if( !has_active_bionic( "bio_furnace" ) ) {
+    if( !has_active_bionic( bio_furnace ) ) {
         return false;
     }
     return it.flammable() && !it.has_flag( "RADIOACTIVE" ) && it.typeId() != "corpse";

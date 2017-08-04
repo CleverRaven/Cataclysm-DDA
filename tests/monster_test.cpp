@@ -66,6 +66,7 @@ static int moves_to_destination( const std::string &monster_type,
     for( int turn = 0; turn < 1000; ++turn ) {
         test_monster.mod_moves( monster_speed );
         while( test_monster.moves >= 0 ) {
+            test_monster.anger = 100;
             int moves_before = test_monster.moves;
             test_monster.move();
             moves_spent += moves_before - test_monster.moves;

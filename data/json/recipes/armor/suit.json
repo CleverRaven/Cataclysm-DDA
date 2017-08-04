@@ -429,10 +429,11 @@
     "skill_used": "tailor",
     "difficulty": 4,
     "time": 60000,
+    "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
     "using": [ [ "filament", 30 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 20 ] ] ]
+    "components": [ [ [ "rag", 26 ] ] ]
   },
   {
     "result": "h20survivor_suit",

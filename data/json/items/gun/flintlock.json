@@ -22,11 +22,15 @@
     "id": "carbine_flintlock_double",
     "copy-from": "carbine_flintlock",
     "type": "GUN",
-    "name": "double-barrel flintlock carbine",
+    "name": "survivor's double-barrel flintlock",
     "description": "This is a compact muzzle-loading rifle combining a pair of rudimentary flintlock actions and two barrels.  Whereas an antique multiple-barrel flintlock is an intricate work of gunsmithing, this weapon is simpler yet still serviceable.",
     "clip_size": 2,
-    "relative": { "weight": 400 },
-    "proportional": { "dispersion": 1.2 },
+    "relative": {
+      "weight": 400,
+      "range": -1,
+      "ranged_damage": -2
+    },
+    "proportional": { "dispersion": 1.3 },
     "extend": { "flags": [ "RELOAD_ONE" ] }
   },
   {

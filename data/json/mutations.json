@@ -2270,7 +2270,7 @@
         "id" : "GRAZER",
         "name" : "Grazer",
         "points" : 3,
-        "description" : "You're accustomed to eating plants directly, and can get nutrition from grass as well as underbrush.  Eat either one by activating this,  standing over your target, and pressing E.",
+        "description" : "You're accustomed to eating plants directly, and can get nutrition from grass as well as underbrush.  Eat either one by activating this, standing over your target, and pressing E.",
         "prereqs" : ["RUMINANT"],
         "threshreq" : ["THRESH_CATTLE"],
         "cancels" : ["CARNIVORE", "SAPROVORE"],
@@ -4469,7 +4469,7 @@
         "points" : -5,
         "visibility" : 8,
         "ugliness" : 5,
-        "description" : "You've *finally* sprouted a pair of arms from your midsection.  They flail more-or-less uncontrollably,  making you feel rather larval.",
+        "description" : "You've *finally* sprouted a pair of arms from your midsection.  They flail more-or-less uncontrollably, making you feel rather larval.",
         "purifiable" : false,
         "encumbrance_always" : [
             [ "ARM_L", 30 ],

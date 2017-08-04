@@ -3,7 +3,7 @@
     "id": "belt223",
     "copy-from": "magazine_belt",
     "type": "MAGAZINE",
-    "name": "ammo belt",
+    "name": "ammo belt 5.56x45mm",
     "ammo_type": "223",
     "capacity": 500,
     "count": 100,
@@ -30,7 +30,7 @@
   {
     "id": "lw223mag",
     "type": "MAGAZINE",
-    "name": "LW-30 magazine",
+    "name": "LW-32 magazine",
     "description": "A 32-round polymer magazine for Leadworks LLC 223 firearms.  Lightweight and reliable but somewhat more difficult to reload.",
     "weight": 190,
     "volume": 2,

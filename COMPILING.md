@@ -465,7 +465,11 @@ We've prepared an archive containing all the headers and libraries required to b
 
 Extract the 'WinDepend' folder and put it in the root folder of Cataclysm project.
 
-All the thing you need to do next is to install lua. Download x86 32-bit `lua.exe` from [http://lua-users.org/wiki/LuaBinaries](http://lua-users.org/wiki/LuaBinaries) and put it in `C:\Windows\System32` if you are using a 32-bit Windows, or `C:\Windows\SysWOW64` if you are using a 64-bit Windows.
+### Lua
+
+The next thing you need to do is to install lua. Download the appropriate x86 or x64 lua from [http://lua-users.org/wiki/LuaBinaries](http://lua-users.org/wiki/LuaBinaries), and extract it to `C:\Windows\System32` or somewhere else on your path.
+
+Once you have it installed, go to the project directory, then go to `src/lua`, and run `lua53 generate_bindings.lua catabindings.cpp`. This will generate the `catabindings.cpp` file which is necessary for compilation.
 
 ### Building
 
