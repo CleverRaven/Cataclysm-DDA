@@ -714,7 +714,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             on_ground = source_stack.begin();
             std::advance( on_ground, act.values.at( 1 ) );
             liquid = *on_ground;
-			break;
+            break;
         case LST_MONSTER:
             Creature *c = g->critter_at( source_pos );
             source_mon = dynamic_cast<monster *>( c );
