@@ -1789,7 +1789,7 @@ void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
 {
     act->set_to_null();
     if( act->values.size() != 1 ) {
-        debugmsg( "Insufficient arguments to ACT_TOOLMOD_ADD" );
+        debugmsg( "Incompatible arguments to ACT_TOOLMOD_ADD" );
         return;
     }
     item &tool = p->i_at( act->position );
