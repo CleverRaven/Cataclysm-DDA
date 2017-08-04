@@ -1923,17 +1923,20 @@ int petfood( player *p, item *it, Petfood animal_food_type )
     if( animal_food_type == DOGFOOD ) {
         if( npc *const person_ = g->critter_at<npc>( dirp ) ) {
             npc &person = *person_;
-            query_yn( _( "Are you sure you want to feed a person the dog food?" ) );
-            add_msg( _( "You put your %1$s into %2$s's mouth!" ), it->tname().c_str(), person.name.c_str() );
-
-            if( person.is_friend() || x_in_y( 9, 10 ) ) {
-                person.say(
-                    _( "Okay, but please, don't give me this again.  I don't want to eat dog food in the cataclysm all day." ) );
-                return 1;
+            if( query_yn( _( "Are you sure you want to feed a person the dog food?" ) ) ) {
+                add_msg( _( "You put your %1$s into %2$s's mouth!" ), it->tname().c_str(), person.name.c_str() );
+                if( person.is_friend() || x_in_y( 9, 10 ) ) {
+                    person.say(
+                        _( "Okay, but please, don't give me this again.  I don't want to eat dog food in the cataclysm all day." ) );
+                    return 1;
+                } else {
+                    add_msg( _( "%s knocks it out from your hand!" ), person.name.c_str() );
+                    person.make_angry();
+                    return 1;
+                }
             } else {
-                add_msg( _( "%s knocks it out from your hand!" ), person.name.c_str() );
-                person.make_angry();
-                return 1;
+                add_msg( _( "Never mind." ) );
+                return 0;
             }
         }
     // Then monsters.
