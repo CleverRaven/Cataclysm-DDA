@@ -45,7 +45,6 @@
 #include <iostream>
 
 #include <limits>  // std::numeric_limits
-#define SKIPLINE(stream) stream.ignore(std::numeric_limits<std::streamsize>::max(), '\n')
 
 const mtype_id mon_ant( "mon_ant" );
 const mtype_id mon_ant_acid( "mon_ant_acid" );
