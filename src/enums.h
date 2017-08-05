@@ -353,4 +353,10 @@ inline bool operator<(const tripoint &a, const tripoint &b)
 static const tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
 static const tripoint tripoint_zero { 0, 0, 0 };
 
+constexpr inline unsigned long mfb( const int v )
+{
+    return 1 << v;
+}
+
+
 #endif
