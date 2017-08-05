@@ -353,31 +353,34 @@ int iuse::atomic_caff(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-#define STR(weak, medium, strong) (strength == 0 ? (weak) : strength == 1 ? (medium) : (strong))
+constexpr static int alc_strength( const int strength, const int weak, const int medium, const int strong )
+{
+    return strength == 0 ? weak : strength == 1 ? medium : strong;
+}
+
 int alcohol(player *p, item *it, int strength)
 {
     // Weaker characters are cheap drunks
     /** @EFFECT_STR_MAX reduces drunkenness duration */
-    int duration = STR(340, 680, 900) - (STR(6, 10, 12) * p->str_max);
+    int duration = alc_strength( strength, 340, 680, 900) - (alc_strength( strength, 6, 10, 12) * p->str_max);
     if (p->has_trait(trait_ALCMET)) {
-        duration = STR(90, 180, 250) - (STR(6, 10, 10) * p->str_max);
+        duration = alc_strength( strength, 90, 180, 250) - (alc_strength( strength, 6, 10, 10) * p->str_max);
         // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
         p->mod_hunger( -( abs( it->type->comestible ? it->type->comestible->stim : 0 ) ) );
         // Metabolizing it cancels out the depressant
         p->stim += abs( it->type->comestible ? it->type->comestible->stim : 0 );
     } else if (p->has_trait(trait_TOLERANCE)) {
-        duration -= STR(120, 300, 450);
+        duration -= alc_strength( strength, 120, 300, 450);
     } else if (p->has_trait( trait_LIGHTWEIGHT )) {
-        duration += STR(120, 300, 450);
+        duration += alc_strength( strength, 120, 300, 450);
     }
     if (!(p->has_trait(trait_ALCMET))) {
-        p->mod_painkiller( STR(4, 8, 12) );
+        p->mod_painkiller( alc_strength( strength, 4, 8, 12) );
     }
     p->add_effect( effect_drunk, duration);
     return it->type->charges_to_use();
 }
-#undef STR
 
 int iuse::alcohol_weak(player *p, item *it, bool, const tripoint& )
 {
