@@ -43,6 +43,8 @@ int wear( player &p );
  */
 std::list<std::pair<int, int>> multidrop( player &p );
 
+/** Consuming an item. */
+item_location consume( player &p );
 /** Choosing a container for liquid. */
 item_location container_for( player &p, const item &liquid, int radius = 0 );
 /** Item disassembling menu. */

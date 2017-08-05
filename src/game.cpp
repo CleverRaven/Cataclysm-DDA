@@ -10433,20 +10433,13 @@ void game::eat(int pos)
         return;
     }
 
-    // Can consume items from inventory or within one tile (including in vehicles)
-    auto item_loc = inv_map_splice( [&]( const item &it ) {
-        if( it.typeId() == "1st_aid" ) {
-            return false; // temporary fix for #12991
-        }
-        return it.made_of( SOLID ) && u.can_consume( it );
-    }, _( "Consume item" ), 1, _( "You have nothing to consume." ) );
-
-    item *it = item_loc.get_item();
-    if( !it ) {
+    auto item_loc = game_menus::inv::consume( u );
+    if( !item_loc ) {
         add_msg( _( "Never mind." ) );
         return;
     }
 
+    item *it = item_loc.get_item();
     pos = u.get_item_position( it );
     if( pos != INT_MIN ) {
         u.consume( pos );

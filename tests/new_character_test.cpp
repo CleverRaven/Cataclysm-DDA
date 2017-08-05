@@ -151,8 +151,8 @@ TEST_CASE( "starting_items" ) {
 
                     for( const item &it : items ) {
                         // Seeds don't count- they're for growing things, not eating
-                        if( !it.is_seed() && it.is_food() && g->u.can_eat( it, false, false ) != EDIBLE &&
-                            control.can_eat( it, false, false ) == EDIBLE ) {
+                        if( !it.is_seed() && it.is_food() && g->u.can_eat( it ) != EDIBLE &&
+                            control.can_eat( it ) == EDIBLE ) {
                             add_failure( *prof, g->u.get_mutations(), it.typeId(), "Couldn't eat it" );
                         } else if( it.is_armor() && !g->u.wear_item( it, false ) ) {
                             add_failure( *prof, g->u.get_mutations(), it.typeId(), "Couldn't wear it" );

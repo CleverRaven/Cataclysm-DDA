@@ -2648,8 +2648,8 @@ bool npc::consume_food()
         const item &food_item = it.is_food_container() ?
                                 it.contents.front() : it;
         float cur_weight = rate_food( food_item, want_hunger, want_quench );
-        // Note: can_eat is expensive, avoid calling it if possible
-        if( cur_weight > best_weight && can_eat( food_item ) == EDIBLE ) {
+        // Note: will_eat is expensive, avoid calling it if possible
+        if( cur_weight > best_weight && will_eat( food_item ) == EDIBLE ) {
             best_weight = cur_weight;
             index = i;
         }

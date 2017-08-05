@@ -53,7 +53,6 @@
 #include "iuse_actor.h"
 #include "catalua.h"
 #include "npc.h"
-#include "cata_utility.h"
 #include "overlay_ordering.h"
 #include "vitamin.h"
 #include "fault.h"
@@ -3226,13 +3225,7 @@ bool player::has_active_optcloak() const
 
 void player::charge_power( int amount )
 {
-    power_level += amount;
-    if( power_level > max_power_level ) {
-        power_level = max_power_level;
-    }
-    if( power_level < 0 ) {
-        power_level = 0;
-    }
+    power_level = clamp( power_level + amount, 0, max_power_level );
 }
 
 
@@ -4091,7 +4084,7 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
                 add_effect( effect_bite, 1, bp, true );
             }
             add_msg_if_player( "Filth from your clothing has implanted deep in the wound." );
-        } 
+        }
     }
 
     on_hurt( source );
@@ -6897,7 +6890,7 @@ int player::invlet_to_position( const long linvlet ) const
 }
 
 bool player::can_interface_armor() const {
-    bool okay = std::any_of( my_bionics.begin(), my_bionics.end(), 
+    bool okay = std::any_of( my_bionics.begin(), my_bionics.end(),
         []( const bionic &b ) { return b.powered && b.info().armor_interface; } );
     return okay;
 }
