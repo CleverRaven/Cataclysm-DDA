@@ -20,9 +20,6 @@
 
 #include <sstream>
 
-#define LESS(a, b) ((a)<(b)?(a):(b))
-
-
 class wish_mutate_callback: public uimenu_callback
 {
     public:
