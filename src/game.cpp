@@ -1558,10 +1558,19 @@ bool game::do_turn()
         weather_data(weather).effect();
     }
 
-    if( u.has_effect( effect_sleep) && calendar::once_every(MINUTES(30)) ) {
-        draw();
-        refresh();
-        refresh_display();
+    if( u.has_effect( effect_sleep ) ) {
+        if( calendar::once_every( MINUTES( 30 ) ) ) {
+            draw();
+        }
+
+        if( calendar::once_every( MINUTES( 1 ) ) ) {
+            WINDOW_PTR popup = create_wait_popup_window( string_format( _( "Wait till you wake up..." ) ) );
+
+            wrefresh( popup.get() );
+
+            refresh();
+            refresh_display();
+        }
     }
 
     u.update_bodytemp();
