@@ -20,7 +20,7 @@
 
 using namespace std::placeholders;
 
-#define SAVE_MASTER "master.gsav"
+static const std::string SAVE_MASTER( "master.gsav" );
 #define SAVE_EXTENSION ".sav"
 
 // single instance of world generator
