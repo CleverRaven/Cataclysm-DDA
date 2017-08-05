@@ -21,7 +21,7 @@
 using namespace std::placeholders;
 
 static const std::string SAVE_MASTER( "master.gsav" );
-#define SAVE_EXTENSION ".sav"
+static const std::string SAVE_EXTENSION( ".sav" );
 
 // single instance of world generator
 std::unique_ptr<worldfactory> world_generator;
