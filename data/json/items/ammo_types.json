@@ -436,5 +436,11 @@
         "id" : "chemical_spray",
         "name" : "sprayable chemical",
         "default" : "gas_fungicidal"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "baseball",
+        "name" : "baseballs",
+        "default" : "baseball"
     }
 ]
