@@ -2331,7 +2331,6 @@ void tileset_loader::ensure_default_item_highlight()
     }
     const Uint8 highlight_alpha = 127;
 
-    std::string key = ITEM_HIGHLIGHT;
     int index = ts.tile_values.size();
 
     const SDL_Surface_Ptr surface = create_tile_surface( ts.tile_width, ts.tile_height );
@@ -2340,7 +2339,7 @@ void tileset_loader::ensure_default_item_highlight()
     SDL_Texture_Ptr texture( SDL_CreateTextureFromSurface( renderer, surface.get() ) );
     throwErrorIf( !texture, "Failed to create texture for default item highlight" );
     ts.tile_values.emplace_back( std::move( texture ), SDL_Rect{ 0, 0, ts.tile_width, ts.tile_height } );
-    ts.tile_ids[key].fg.add(std::vector<int>({index}),1);
+    ts.tile_ids[ITEM_HIGHLIGHT].fg.add(std::vector<int>({index}),1);
 }
 
 /* Animation Functions */
