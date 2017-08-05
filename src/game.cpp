@@ -91,6 +91,7 @@
 #include "safemode_ui.h"
 #include "game_constants.h"
 #include "string_input_popup.h"
+#include "monexamine.h"
 
 #include <map>
 #include <set>
@@ -7240,12 +7241,13 @@ bool pet_menu(monster *z)
         drop_all,
         give_items,
         pheromone,
+        milk,
         rope
     };
 
     uimenu amenu;
     amenu.return_invalid = true;
-    std::string pet_name = _("dog");
+    std::string pet_name = z->get_name();
     if( z->type->in_species( ZOMBIE ) ) {
         pet_name = _("zombie slave");
     }
@@ -7276,6 +7278,10 @@ bool pet_menu(monster *z)
 
     if( z->type->in_species( ZOMBIE ) ) {
         amenu.addentry(pheromone, true, 't', _("Tear out pheromone ball"));
+    }
+
+    if( z->has_flag( MF_MILKABLE ) ) {
+        amenu.addentry( milk, true, 'm', _( "Milk %s" ), pet_name.c_str());
     }
 
     amenu.query();
@@ -7456,6 +7462,11 @@ bool pet_menu(monster *z)
             g->u.use_amount( "rope_6", 1 );
         }
 
+        return true;
+    }
+
+    if( milk == choice ) {
+        monexamine::milk_source( *z );
         return true;
     }
 
@@ -9666,14 +9677,17 @@ bool game::handle_liquid_from_container( item &container, int radius )
 
 extern void serialize_liquid_source( player_activity &act, const vehicle &veh, const itype_id &ftype );
 extern void serialize_liquid_source( player_activity &act, const tripoint &pos, const item &liquid );
+extern void serialize_liquid_source( player_activity &act, const monster &mon, const item &liquid );
 
 extern void serialize_liquid_target( player_activity &act, const vehicle &veh );
 extern void serialize_liquid_target( player_activity &act, int container_item_pos );
 extern void serialize_liquid_target( player_activity &act, const tripoint &pos );
+extern void serialize_liquid_target( player_activity &act, const monster &mon );
 
 bool game::handle_liquid( item &liquid, item * const source, const int radius,
                           const tripoint * const source_pos,
-                          const vehicle * const source_veh )
+                          const vehicle * const source_veh,
+                          const monster * const source_mon)
 {
     if( !liquid.made_of(LIQUID) ) {
         dbg(D_ERROR) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
@@ -9691,6 +9705,10 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
             u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
             serialize_liquid_source( u.activity, *source_pos, liquid );
             return true;
+        } else if( source_mon != nullptr ) {
+            u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
+            serialize_liquid_source( u.activity, *source_mon, liquid );
+            return true;   
         } else {
             return false;
         }
@@ -9704,12 +9722,14 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         menu.text = string_format( _( "What to do with the %s from %s?" ), liquid_name.c_str(), m.name( *source_pos ).c_str() );
     } else if( source_veh != nullptr ) {
         menu.text = string_format( _( "What to do with the %s from the %s?" ), liquid_name.c_str(), source_veh->name.c_str() );
+    } else if( source_mon != nullptr ) {
+        menu.text = string_format( _( "What to do with the %s from the %s?" ), liquid_name.c_str(), source_mon->get_name().c_str() );
     } else {
         menu.text = string_format( _( "What to do with the %s?" ), liquid_name.c_str() );
     }
     std::vector<std::function<void()>> actions;
 
-    if( u.can_consume( liquid ) ) {
+    if( u.can_consume( liquid ) && !source_mon ) {
         menu.addentry( -1, true, 'e', _( "Consume it" ) );
         actions.emplace_back( [&]() {
             // consume_item already consumes moves.
@@ -10433,20 +10453,13 @@ void game::eat(int pos)
         return;
     }
 
-    // Can consume items from inventory or within one tile (including in vehicles)
-    auto item_loc = inv_map_splice( [&]( const item &it ) {
-        if( it.typeId() == "1st_aid" ) {
-            return false; // temporary fix for #12991
-        }
-        return it.made_of( SOLID ) && u.can_consume( it );
-    }, _( "Consume item" ), 1, _( "You have nothing to consume." ) );
-
-    item *it = item_loc.get_item();
-    if( !it ) {
+    auto item_loc = game_menus::inv::consume( u );
+    if( !item_loc ) {
         add_msg( _( "Never mind." ) );
         return;
     }
 
+    item *it = item_loc.get_item();
     pos = u.get_item_position( it );
     if( pos != INT_MIN ) {
         u.consume( pos );
@@ -12073,8 +12086,8 @@ void game::on_move_effects()
         if( u.stamina <= 0 ) {
             u.toggle_move_mode();
         }
-        if( one_in( u.stamina ) ) {
-            u.add_effect( effect_winded, 3);
+        if( u.stamina < u.get_stamina_max() / 2 && one_in( u.stamina ) ) {
+            u.add_effect( effect_winded, 3 );
         }
     }
 

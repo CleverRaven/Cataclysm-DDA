@@ -1924,7 +1924,7 @@ nc_color item::color_in_inventory() const
         // Red: morale penalty
         // Yellow: will rot soon
         // Cyan: will rot eventually
-        const auto rating = u->can_eat( to_color );
+        const auto rating = u->will_eat( to_color );
         // TODO: More colors
         switch( rating ) {
             case EDIBLE:
@@ -1948,6 +1948,9 @@ nc_color item::color_in_inventory() const
                 break;
             case ROTTEN:
                 ret = c_brown;
+                break;
+            case NAUSEA:
+                ret = c_pink;
                 break;
             case NO_TOOL:
                 break;

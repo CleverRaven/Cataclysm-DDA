@@ -10058,6 +10058,18 @@
     "components": [ [ [ "bone_tainted", 1 ] ] ]
   },
   {
+    "result": "cattlefodder",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "skills_required": [ "survival", 1 ],
+    "time": 10000,
+    "autolearn": true,
+    "components": [ [ [ "oats", 5 ], [ "buckwheat", 5 ], [ "wheat", 5 ], [ "potato_raw", 5 ], [ "barley", 5 ], [ "raw_beans", 5 ], [ "cabbage", 5 ], [ "veggy_wild", 5 ], [ "veggy", 5 ] ] ]
+  },
+  {
     "result": "meal_chitin_piece",
     "type": "recipe",
     "id_suffix": "with_from_food_processor",

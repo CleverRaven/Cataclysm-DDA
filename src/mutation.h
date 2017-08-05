@@ -113,7 +113,9 @@ struct mutation_branch {
     float fatigue_modifier = 0.0f;
     // Modifier for the rate at which fatigue drops when resting.
     float fatigue_regen_modifier = 0.0f;
-
+    // Modifier for the rate at which stamina regenerates.
+    float stamina_regen_modifier = 0.0f;
+    
     /** The item, if any, spawned by the mutation */
     std::string spawn_item;
 

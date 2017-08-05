@@ -2391,6 +2391,8 @@ float Character::mutation_value( const std::string &val ) const
         return calc_mutation_value<&mutation_branch::fatigue_regen_modifier>( cached_mutations );
     } else if( val == "fatigue_modifier" ) {
         return calc_mutation_value<&mutation_branch::fatigue_modifier>( cached_mutations );
+    } else if( val == "stamina_regen_modifier" ) {
+        return calc_mutation_value<&mutation_branch::stamina_regen_modifier>( cached_mutations );
     }
 
     debugmsg( "Invalid mutation value name %s", val.c_str() );
