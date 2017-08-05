@@ -73,10 +73,6 @@ enum monster_trigger : int {
 
 // Feel free to add to m_flags.  Order shouldn't matter, just keep it tidy!
 // And comment them well. ;)
-// mfb(n) converts a flag to its appropriate position in mtype's bitfield
-#ifndef mfb
-#define mfb(n) static_cast <unsigned long> (1 << (n))
-#endif
 enum m_flag : int {
     MF_NULL = 0,            //
     MF_SEES,                // It can see you (and will run/follow)
