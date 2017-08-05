@@ -272,6 +272,7 @@ game::game() :
 {
     remoteveh_cache_turn = INT_MIN;
     temperature = 0;
+    player_was_sleeping = false;
     reset_light_level();
     world_generator.reset( new worldfactory() );
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
@@ -1558,8 +1559,10 @@ bool game::do_turn()
         weather_data(weather).effect();
     }
 
-    if( u.has_effect( effect_sleep ) ) {
-        if( calendar::once_every( MINUTES( 30 ) ) ) {
+    const bool player_is_sleeping = u.has_effect( effect_sleep );
+
+    if( player_is_sleeping ) {
+        if( calendar::once_every( MINUTES( 30 ) ) || !player_was_sleeping ) {
             draw();
         }
 
@@ -1572,6 +1575,8 @@ bool game::do_turn()
             refresh_display();
         }
     }
+
+    player_was_sleeping = player_is_sleeping;
 
     u.update_bodytemp();
     u.update_body_wetness( *weather_precise );

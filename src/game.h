@@ -958,6 +958,8 @@ private:
         bool npcs_dirty;
         /** Has anything died in this turn and needs to be cleaned up? */
         bool critter_died;
+        /** Was the player sleeping during this turn. */
+        bool player_was_sleeping;
 
         std::unique_ptr<special_game> gamemode;
 
