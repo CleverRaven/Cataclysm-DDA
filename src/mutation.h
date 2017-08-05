@@ -104,7 +104,7 @@ struct mutation_branch {
     float hp_modifier_secondary = 0.0f;
     // Flat bonus/penalty to hp.
     float hp_adjustment = 0.0f;
-
+    
     // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
     float metabolism_modifier = 0.0f;
     // As above but for thirst.
@@ -118,13 +118,13 @@ struct mutation_branch {
     
     /** The item, if any, spawned by the mutation */
     std::string spawn_item;
-
+    
     /** Attacks granted by this mutation */
     std::vector<mut_attack> attacks_granted;
-
+    
     /** Mutations may adjust one or more of the default vitamin usage rates */
     std::map<vitamin_id, int> vitamin_rates;
-
+    
     std::vector<trait_id> prereqs; // Prerequisites; Only one is required
     std::vector<trait_id> prereqs2; // Prerequisites; need one from here too
     std::vector<trait_id> threshreq; // Prerequisites; dedicated slot to needing thresholds
