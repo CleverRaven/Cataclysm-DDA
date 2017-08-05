@@ -1182,7 +1182,7 @@ void jmapgen_objects::load_objects( JsonObject &jsi, const std::string &member_n
 template<typename PieceType>
 void load_place_mapings( JsonObject jobj, mapgen_palette::placing_map::mapped_type &vect )
 {
-    vect.emplace_back( new PieceType( jobj ) );
+    vect.push_back( std::make_shared<PieceType>( jobj ) );
 }
 
 /*
@@ -1215,7 +1215,7 @@ void load_place_mapings_string( JsonObject &pjo, const std::string &key, mapgen_
 {
     if( pjo.has_string( key ) ) {
         try {
-            vect.emplace_back( new PieceType( pjo.get_string( key ) ) );
+            vect.push_back( std::make_shared<PieceType>( pjo.get_string( key ) ) );
         } catch( const std::runtime_error &err ) {
             // Using the json object here adds nice formatting and context information
             pjo.throw_error( err.what(), key );
@@ -1227,7 +1227,7 @@ void load_place_mapings_string( JsonObject &pjo, const std::string &key, mapgen_
         while( jarr.has_more() ) {
             if( jarr.test_string() ) {
                 try {
-                    vect.emplace_back( new PieceType( jarr.next_string() ) );
+                    vect.push_back( std::make_shared<PieceType>( jarr.next_string() ) );
                 } catch( const std::runtime_error &err ) {
                     // Using the json object here adds nice formatting and context information
                     jarr.throw_error( err.what() );
