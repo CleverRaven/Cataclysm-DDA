@@ -34,7 +34,11 @@ static const trait_id trait_BADHEARING( "BADHEARING" );
  * @{
  */
 
-#define PLAYER_OUTSIDE (g->m.is_outside(g->u.posx(), g->u.posy()) && g->get_levz() >= 0)
+static bool is_player_outside()
+{
+    return g->m.is_outside( g->u.posx(), g->u.posy() ) && g->get_levz() >= 0;
+}
+
 #define THUNDER_CHANCE 50
 #define LIGHTNING_CHANCE 600
 
@@ -44,7 +48,7 @@ static const trait_id trait_BADHEARING( "BADHEARING" );
  */
 void weather_effect::glare()
 {
-    if( PLAYER_OUTSIDE && g->is_in_sunlight( g->u.pos() ) && !g->u.in_sleep_state() &&
+    if( is_player_outside() && g->is_in_sunlight( g->u.pos() ) && !g->u.in_sleep_state() &&
         !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() &&
         !g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
         if( !g->u.has_effect( effect_glare ) ) {
@@ -326,7 +330,7 @@ void fill_water_collectors(int mmPerHour, bool acid)
  */
 void wet_player( int amount )
 {
-    if( !PLAYER_OUTSIDE ||
+    if( !is_player_outside() ||
         g->u.has_trait( trait_FEATHERS ) ||
         g->u.weapon.has_flag("RAIN_PROTECT") ||
         ( !one_in(50) && g->u.worn_with_flag("RAINPROOF") ) ) {
@@ -443,7 +447,7 @@ void weather_effect::lightning()
 void weather_effect::light_acid()
 {
     generic_wet(true);
-    if( calendar::once_every( 1_minutes ) && PLAYER_OUTSIDE ) {
+    if( calendar::once_every( 1_minutes ) && is_player_outside() ) {
         if (g->u.weapon.has_flag("RAIN_PROTECT") && !one_in(3)) {
             add_msg(_("Your %s protects you from the acidic drizzle."), g->u.weapon.tname().c_str());
         } else {
@@ -470,7 +474,7 @@ void weather_effect::light_acid()
  */
 void weather_effect::acid()
 {
-    if( calendar::once_every( 2_turns ) && PLAYER_OUTSIDE ) {
+    if( calendar::once_every( 2_turns ) && is_player_outside() ) {
         if (g->u.weapon.has_flag("RAIN_PROTECT") && one_in(4)) {
             add_msg(_("Your umbrella protects you from the acid rain."));
         } else {
