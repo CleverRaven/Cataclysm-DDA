@@ -407,7 +407,7 @@ void player::activate_mutation( const trait_id &mut )
     if( mut == trait_WEB_WEAVER ) {
         g->m.add_field(pos(), fd_web, 1, 0);
         add_msg_if_player(_("You start spinning web with your spinnerets!"));
-    }  else if (mut == "BURROW"){
+    } else if (mut == "BURROW"){
         if( is_underwater() ) {
             add_msg_if_player(m_info, _("You can't do that while underwater."));
             tdata.powered = false;
@@ -494,19 +494,20 @@ void player::activate_mutation( const trait_id &mut )
         blossoms();
         tdata.powered = false;
         return;
-    }  else if( mut == trait_SELFAWARE ) {
+    } else if( mut == trait_SELFAWARE ) {
         print_health();
         tdata.powered = false;
         return;
-    } else if ( !mdata.spawn_item.empty() ) {
+    } else if( !mdata.spawn_item.empty() )
+    {
         item tmpitem( mdata.spawn_item );
         i_add_or_drop( tmpitem );
-        if (mut == "WEB_ROPE") {
-            add_msg_if_player( _("You spin a rope from your silk.") );
-        } else if (mut == "VINES3") {
-            add_msg_if_player(_("You detach a vine from your body."));
+        if( mut == "WEB_ROPE") {
+            add_msg_if_player( _( "You spin a rope from your silk." ) );
+        } else if( mut == "VINES3" ) {
+            add_msg_if_player( _( "You detach a vine from your body." ) );
         } else {
-            add_msg_if_player(_("You create a %s."), tmpitem.display_name().c_str());
+            add_msg_if_player( _( "You create a %s." ), tmpitem.display_name().c_str() );
         }
         tdata.powered = false;
         return;
