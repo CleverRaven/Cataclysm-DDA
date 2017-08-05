@@ -1776,9 +1776,11 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     unsigned int loc_rand = 0;
     // only bother mixing up a hash/random value if the tile has some sprites to randomly pick between
     if(display_tile.fg.size()>1 || display_tile.bg.size()>1) {
+        static const auto rot32 = []( const unsigned int x, const int k ) {
+            return ( x << k ) | ( x >> ( 32 - k ) );
+        };
         // use a fair mix function to turn the "random" seed into a random int
         // taken from public domain code at http://burtleburtle.net/bob/c/lookup3.c 2015/12/11
-#define rot32(x,k) (((x)<<(k)) | ((x)>>(32-(k))))
         unsigned int a = seed, b = -seed, c = seed*seed;
         c ^= b; c -= rot32(b,14);
         a ^= c; a -= rot32(c,11);
