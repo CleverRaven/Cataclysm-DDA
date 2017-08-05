@@ -502,7 +502,7 @@ void player::activate_mutation( const trait_id &mut )
     {
         item tmpitem( mdata.spawn_item );
         i_add_or_drop( tmpitem );
-        if( mut == "WEB_ROPE") {
+        if( mut == "WEB_ROPE" ) {
             add_msg_if_player( _( "You spin a rope from your silk." ) );
         } else if( mut == "VINES3" ) {
             add_msg_if_player( _( "You detach a vine from your body." ) );
