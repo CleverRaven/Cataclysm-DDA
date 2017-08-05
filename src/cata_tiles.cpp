@@ -45,7 +45,7 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
-#define ITEM_HIGHLIGHT "highlight_item"
+static const std::string ITEM_HIGHLIGHT( "highlight_item" );
 
 static const std::array<std::string, 8> multitile_keys = {{
         "center",
