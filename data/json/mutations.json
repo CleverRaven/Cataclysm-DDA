@@ -3003,7 +3003,7 @@
         "cost"       :    30,
         "hunger"     :    true,
         "thirst"     :    true,
-        "spawn_item" : "rope_30"
+        "spawn_item" :    "rope_30"
     },{
         "type" : "mutation",
         "id" : "WHISKERS",
@@ -4275,7 +4275,7 @@
         "cost"       :    10,
         "hunger"     :    true,
         "thirst"     :    true,
-        "spawn_item" : "vine_30",
+        "spawn_item" :    "vine_30",
         "attacks": [
             {
                 "attack_text_u" : "You lash %s with a vine",
