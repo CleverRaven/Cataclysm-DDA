@@ -16,7 +16,7 @@
 #include <fstream>
 #include <unordered_set>
 
-#define MOD_SEARCH_FILE "modinfo.json"
+static const std::string MOD_SEARCH_FILE( "modinfo.json" );
 
 /** Second field is optional replacement mod */
 static std::map<std::string, std::string> mod_replacements;
