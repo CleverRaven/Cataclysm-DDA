@@ -7,8 +7,6 @@
 
 #include <cassert>
 
-#define SGN(a) (((a)<0) ? -1 : (((a)>0) ? 1 : 0))
-
 extern bool trigdist;
 
 void bresenham( const int x1, const int y1, const int x2, const int y2, int t,
@@ -18,8 +16,8 @@ void bresenham( const int x1, const int y1, const int x2, const int y2, int t,
     const int dx = x2 - x1;
     const int dy = y2 - y1;
     // Signs of slope values.
-    const int sx = (dx == 0) ? 0 : SGN(dx);
-    const int sy = (dy == 0) ? 0 : SGN(dy);
+    const int sx = (dx == 0) ? 0 : sgn(dx);
+    const int sy = (dy == 0) ? 0 : sgn(dy);
     // Absolute values of slopes x2 to avoid rounding errors.
     const int ax = abs(dx) * 2;
     const int ay = abs(dy) * 2;
@@ -69,9 +67,9 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
     const int dy = loc2.y - loc1.y;
     const int dz = loc2.z - loc1.z;
     // The signs of the slopes.
-    const int sx = (dx == 0 ? 0 : SGN(dx));
-    const int sy = (dy == 0 ? 0 : SGN(dy));
-    const int sz = (dz == 0 ? 0 : SGN(dz));
+    const int sx = (dx == 0 ? 0 : sgn(dx));
+    const int sy = (dy == 0 ? 0 : sgn(dy));
+    const int sz = (dz == 0 ? 0 : sgn(dz));
     // Absolute values of slope components, x2 to avoid rounding errors.
     const int ax = abs(dx) * 2;
     const int ay = abs(dy) * 2;
@@ -476,29 +474,29 @@ std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &t
     const int ax = std::abs( dx );
     const int ay = std::abs( dy );
     if( dz != 0 ) {
-        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y + SGN(dy), from.z + SGN(dz) } );
+        adjacent_closer_squares.push_back( { from.x + sgn(dx), from.y + sgn(dy), from.z + sgn(dz) } );
     }
     if( ax > ay ) {
         // X dominant.
-        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y, from.z } );
-        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y + 1, from.z } );
-        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y - 1, from.z } );
+        adjacent_closer_squares.push_back( { from.x + sgn(dx), from.y, from.z } );
+        adjacent_closer_squares.push_back( { from.x + sgn(dx), from.y + 1, from.z } );
+        adjacent_closer_squares.push_back( { from.x + sgn(dx), from.y - 1, from.z } );
         if( dy != 0 ) {
-            adjacent_closer_squares.push_back( { from.x, from.y + SGN(dy), from.z } );
+            adjacent_closer_squares.push_back( { from.x, from.y + sgn(dy), from.z } );
         }
     } else if( ax < ay ) {
         // Y dominant.
-        adjacent_closer_squares.push_back( { from.x, from.y + SGN(dy), from.z } );
-        adjacent_closer_squares.push_back( { from.x + 1, from.y + SGN(dy), from.z } );
-        adjacent_closer_squares.push_back( { from.x - 1, from.y + SGN(dy), from.z } );
+        adjacent_closer_squares.push_back( { from.x, from.y + sgn(dy), from.z } );
+        adjacent_closer_squares.push_back( { from.x + 1, from.y + sgn(dy), from.z } );
+        adjacent_closer_squares.push_back( { from.x - 1, from.y + sgn(dy), from.z } );
         if( dx != 0 ) {
-            adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y, from.z } );
+            adjacent_closer_squares.push_back( { from.x + sgn(dx), from.y, from.z } );
         }
     } else if( dx != 0 ) {
         // Pure diagonal.
-        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y + SGN(dy), from.z } );
-        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y, from.z } );
-        adjacent_closer_squares.push_back( { from.x, from.y + SGN(dy), from.z } );
+        adjacent_closer_squares.push_back( { from.x + sgn(dx), from.y + sgn(dy), from.z } );
+        adjacent_closer_squares.push_back( { from.x + sgn(dx), from.y, from.z } );
+        adjacent_closer_squares.push_back( { from.x, from.y + sgn(dy), from.z } );
     }
 
     return adjacent_closer_squares;
