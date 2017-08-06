@@ -1282,7 +1282,7 @@
         "flags": ["SHEATH_KNIFE", "CONDUCTIVE"],
         "qualities": [["BUTCHER", -18]]
     },{
-        "comment": "Id retained to avoid breaking anything, same reason as with the makeshift glaive.",
+        "//": "Id retained to avoid breaking anything, same reason as with the makeshift glaive.",
         "type":"GENERIC",
         "id" : "glass_macuahuitl",
         "name" : "makeshift macuahuitl",

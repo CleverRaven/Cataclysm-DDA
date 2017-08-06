@@ -44,7 +44,7 @@
     },{
         "type" : "technique",
         "id" : "GRAB",
-        "name" : "", "comment": "not imeplemented -> empty name",
+        "name" : "", "//": "not imeplemented -> empty name",
         "messages" : [
             "You grab %s",
             "<npcname> grabs %s"
