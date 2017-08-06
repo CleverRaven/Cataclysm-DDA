@@ -136,16 +136,11 @@ src/wdirent.h
 tests/invlet_test.cpp
 tests/line_test.cpp
 tests/map_iterator_test.cpp
-tests/melee_test.cpp
 tests/monster_test.cpp
 tests/new_character_test.cpp
-tests/npc_test.cpp
 tests/player_test.cpp
-tests/positional_arguments_test.cpp
-tests/rewrite_vsnprintf_test.cpp
 tests/savegame_test.cpp
 tests/shadowcasting_test.cpp
 tests/vehicle_efficiency.cpp
 tests/visitable_remove.cpp
-tests/wield_times_test.cpp
 tests/test_statistics.h

@@ -27,9 +27,9 @@ enum field_id : int;
 enum body_part : int;
 enum m_size : int;
 
-using mon_action_death  = void (*)(monster*);
-using mon_action_attack = bool (*)(monster*);
-using mon_action_defend = void (*)(monster&, Creature*, dealt_projectile_attack const*);
+using mon_action_death  = void ( * )( monster * );
+using mon_action_attack = bool ( * )( monster * );
+using mon_action_defend = void ( * )( monster &, Creature *, dealt_projectile_attack const * );
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
 struct mtype;
@@ -163,8 +163,7 @@ enum m_flag : int {
 };
 
 /** Used to store monster effects placed on attack */
-struct mon_effect_data
-{
+struct mon_effect_data {
     efftype_id id;
     int duration;
     bool affect_hit_bp;
@@ -172,8 +171,10 @@ struct mon_effect_data
     bool permanent;
     int chance;
 
-    mon_effect_data(const efftype_id &nid, int dur, bool ahbp, body_part nbp, bool perm, int nchance) :
-                    id(nid), duration(dur), affect_hit_bp(ahbp), bp(nbp), permanent(perm), chance(nchance) {};
+    mon_effect_data( const efftype_id &nid, int dur, bool ahbp, body_part nbp, bool perm,
+                     int nchance ) :
+        id( nid ), duration( dur ), affect_hit_bp( ahbp ), bp( nbp ), permanent( perm ),
+        chance( nchance ) {};
 };
 
 struct mtype {
@@ -182,10 +183,11 @@ struct mtype {
         std::string name;
         std::string name_plural;
 
-        std::set< const species_type* > species_ptrs;
+        std::set< const species_type * > species_ptrs;
 
         void add_special_attacks( JsonObject &jo, const std::string &member_name, const std::string &src );
-        void remove_special_attacks( JsonObject &jo, const std::string &member_name, const std::string &src );
+        void remove_special_attacks( JsonObject &jo, const std::string &member_name,
+                                     const std::string &src );
 
         void add_special_attack( JsonArray jarr, const std::string &src );
         void add_special_attack( JsonObject jo, const std::string &src );
@@ -268,7 +270,7 @@ struct mtype {
         int bash_skill;
 
         // Default constructor
-        mtype ();
+        mtype();
         /**
          * Check if this type is of the same species as the other one, because
          * species is a set and can contain several species, one entry that is
@@ -287,21 +289,21 @@ struct mtype {
         pathfinding_settings path_settings;
 
         // Used to fetch the properly pluralized monster type name
-        std::string nname(unsigned int quantity = 1) const;
+        std::string nname( unsigned int quantity = 1 ) const;
         bool has_special_attack( const std::string &attack_name ) const;
-        bool has_flag(m_flag flag) const;
-        bool has_flag(std::string flag) const;
+        bool has_flag( m_flag flag ) const;
+        bool has_flag( std::string flag ) const;
         bool made_of( const material_id &material ) const;
-        void set_flag(std::string flag, bool state);
-        bool has_anger_trigger(monster_trigger trigger) const;
-        bool has_fear_trigger(monster_trigger trigger) const;
-        bool has_placate_trigger(monster_trigger trigger) const;
-        bool in_category(std::string category) const;
+        void set_flag( std::string flag, bool state );
+        bool has_anger_trigger( monster_trigger trigger ) const;
+        bool has_fear_trigger( monster_trigger trigger ) const;
+        bool has_placate_trigger( monster_trigger trigger ) const;
+        bool in_category( std::string category ) const;
         bool in_species( const species_id &spec ) const;
         bool in_species( const species_type &spec ) const;
         //Used for corpses.
-        field_id bloodType () const;
-        field_id gibType () const;
+        field_id bloodType() const;
+        field_id gibType() const;
         // The item id of the meat items that are produced by this monster (or "null")
         // if there is no matching item type. e.g. "veggy" for plant monsters.
         itype_id get_meat_itype() const;

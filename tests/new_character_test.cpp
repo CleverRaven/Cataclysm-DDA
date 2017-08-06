@@ -75,13 +75,14 @@ struct failure {
     std::string reason;
 };
 
-namespace std {
-    template<>
-    struct less<failure> {
-        bool operator()(const failure &lhs, const failure &rhs) const {
-            return lhs.prof < rhs.prof;
-        }
-    };
+namespace std
+{
+template<>
+struct less<failure> {
+    bool operator()( const failure &lhs, const failure &rhs ) const {
+        return lhs.prof < rhs.prof;
+    }
+};
 }
 
 // TODO: According to profiling (interrupt, backtrace, wait a few seconds, repeat) with a sample
@@ -141,9 +142,9 @@ TEST_CASE( "starting_items" )
                     }
 
                     for( const item &it : items ) {
-		        bool is_food =  !it.is_seed() && it.is_food() &&
-                            g->u.can_eat( it ) != EDIBLE && control.can_eat( it ) == EDIBLE;
-			bool is_armor = it.is_armor() && !g->u.wear_item( it, false );
+                        bool is_food =  !it.is_seed() && it.is_food() &&
+                                        g->u.can_eat( it ) != EDIBLE && control.can_eat( it ) == EDIBLE;
+                        bool is_armor = it.is_armor() && !g->u.wear_item( it, false );
                         // Seeds don't count- they're for growing things, not eating
                         if( is_food || is_armor ) {
                             failures.insert( failure{ prof->ident(), g->u.get_mutations(), it.typeId(), is_food ? "Couldn't eat it" : "Couldn't wear it." } );
@@ -155,7 +156,8 @@ TEST_CASE( "starting_items" )
     }
     std::stringstream failure_messages;
     for( const failure &f : failures ) {
-        failure_messages << f.prof.c_str() << " " << f.mut << " " << f.item_name << ": " << f.reason << "\n";
+        failure_messages << f.prof.c_str() << " " << f.mut <<
+	  " " << f.item_name << ": " << f.reason << "\n";
     }
     INFO( failure_messages.str() );
     REQUIRE( failures.empty() );
