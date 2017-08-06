@@ -10882,14 +10882,13 @@ void game::chat()
 
     nmenu.return_invalid = true;
 
-    int yell, yell_sentence, cancel;
+    int yell, yell_sentence;
 
     nmenu.addentry( yell = i++, true, 'a', _( "Yell" ) );
     nmenu.addentry( yell_sentence = i++, true, 'b', _( "Yell a sentence" ) );
-    nmenu.addentry( cancel = i++, true, 'q', _( "Cancel" ) );
 
     nmenu.query();
-    if( nmenu.ret < 0 || nmenu.ret == cancel ) {
+    if( nmenu.ret < 0 ) {
         return;
     } else if( nmenu.ret == yell ) {
         u.shout();
