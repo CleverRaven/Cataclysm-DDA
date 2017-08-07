@@ -57,7 +57,7 @@ int terrain_type_to_nesw_array( oter_id terrain_type, bool array[4] );
 
 // @todo pass mapgendata by reference.
 typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,int,float);
-extern std::map<std::string, building_gen_pointer> mapgen_cfunction_map;
+building_gen_pointer get_mapgen_cfunction( const std::string &ident );
 ter_id grass_or_dirt();
 ter_id dirt_or_pile();
 ter_id clay_or_sand();

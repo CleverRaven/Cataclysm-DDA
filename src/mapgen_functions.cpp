@@ -103,7 +103,9 @@ tripoint rotate_point( const tripoint &p, int rotations )
     return ret;
 }
 
-std::map<std::string, building_gen_pointer> mapgen_cfunction_map = { {
+building_gen_pointer get_mapgen_cfunction( const std::string &ident )
+{
+    static const std::map<std::string, building_gen_pointer> pointers = { {
     { "null",             &mapgen_null },
     { "crater",           &mapgen_crater },
     { "field",            &mapgen_field },
@@ -274,7 +276,10 @@ std::map<std::string, building_gen_pointer> mapgen_cfunction_map = { {
 
 */
     { "tutorial", &mapgen_tutorial },
-} };
+    } };
+    const auto iter = pointers.find( ident );
+    return iter == pointers.end() ? nullptr : iter->second;
+}
 
 void mapgendata::set_dir(int dir_in, int val)
 {
