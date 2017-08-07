@@ -742,7 +742,6 @@ class game
         void load_uistate(std::string worldname);
         // Data Initialization
         void init_autosave();     // Initializes autosave parameters
-        void init_savedata_translation_tables();
         void init_lua();          // Initializes lua interpreter.
         void create_factions(); // Creates new factions (for a new game world)
         void create_starting_npcs(); // Creates NPCs that start near you

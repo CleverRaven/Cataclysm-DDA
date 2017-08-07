@@ -299,7 +299,6 @@ void game::load_static_data()
     // If this changes (if they load data from json), they have to
     // be moved to game::load_mod or game::load_core_data
     init_mapgen_builtin_functions();
-    init_savedata_translation_tables();
 
     get_auto_pickup().load_global();
     get_safemode().load_global();
