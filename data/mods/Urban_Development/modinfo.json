@@ -1,3 +1,4 @@
+//avoid leading line linting error 
 [
   {
     "type": "MOD_INFO",
