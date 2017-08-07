@@ -203,7 +203,7 @@ enum artifact_armor_mod {
 
 struct artifact_armor_form_datum {
     std::string name;
-    nc_color color;
+    deferred_color color;
     // Most things had 0 to 1 material.
     material_id material;
     units::volume volume;
@@ -423,7 +423,75 @@ artifact_weapon_datum artifact_weapon_data[NUM_ARTWEAPS] = {
     { translate_marker( "Edged" ),   500_ml,  450_gram,  0,  0, 20, 50,  0,  0, -1, 2, "SHEATH_SWORD" },
     { translate_marker( "Bladed" ),  250_ml, 2250_gram,  0,  0,  0,  0, 12, 30, -1, 1, "SHEATH_KNIFE" }
 };
-artifact_armor_form_datum artifact_armor_form_data[NUM_ARTARMFORMS];
+artifact_armor_form_datum artifact_armor_form_data[NUM_ARTARMFORMS] = {
+    {
+        "", def_c_white, material_id( "null" ),        0_ml,  0_gram,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
+        0, false,
+        {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
+    },
+    // Name    color  Material         Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
+    {
+        translate_marker( "Robe" ),   def_c_red, material_id( "wool" ),    1500_ml, 700_gram,  1,  90,  3,  0,  2,  0_ml, -8,  0, -3,
+        mfb(bp_torso) | mfb(bp_leg_l) | mfb(bp_leg_r), false,
+        {
+            ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_POCKETED, ARMORMOD_FURRED,
+            ARMORMOD_PADDED
+        }
+    },
+
+    {
+        translate_marker( "Coat" ),   def_c_brown, material_id( "leather" ),   3500_ml, 1600_gram,  2,  80, 2,  1,  4,  1000_ml, -6,  0, -3,
+        mfb(bp_torso), false,
+        {
+            ARMORMOD_LIGHT, ARMORMOD_POCKETED, ARMORMOD_FURRED, ARMORMOD_PADDED,
+            ARMORMOD_PLATED
+        }
+    },
+
+    {
+        translate_marker( "Mask" ),   def_c_white, material_id( "wood" ),      1000_ml, 100_gram,  2,  50, 2,  1,  2,  0_ml,  2,  0, -2,
+        mfb(bp_eyes) | mfb(bp_mouth), false,
+        {
+            ARMORMOD_FURRED, ARMORMOD_FURRED, ARMORMOD_NULL, ARMORMOD_NULL,
+            ARMORMOD_NULL
+        }
+    },
+
+    // Name    color  Materials             Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
+    {
+        translate_marker( "Helm" ),   def_c_dkgray, material_id( "silver" ),    1500_ml, 700_gram,  2,  85, 3,  0,  1,  0_ml,  8,  0, -2,
+        mfb(bp_head), false,
+        {
+            ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
+            ARMORMOD_NULL
+        }
+    },
+
+    {
+        translate_marker( "Gloves" ), def_c_ltblue, material_id( "leather" ), 500_ml, 100_gram,  1,  90,  3,  1,  2,  0_ml, -4,  0, -2,
+        mfb(bp_hand_l) | mfb(bp_hand_r), true,
+        {
+            ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
+            ARMORMOD_NULL
+        }
+    },
+
+    // Name    color  Materials            Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
+    {
+        translate_marker( "Boots" ), def_c_blue, material_id( "leather" ),     1500_ml, 250_gram,  1,  75,  3,  1,  3,  0_ml,  4,  0, -1,
+        mfb(bp_foot_l) | mfb(bp_foot_r), true,
+        {
+            ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_PADDED, ARMORMOD_PLATED,
+            ARMORMOD_NULL
+        }
+    },
+
+    {
+        translate_marker( "Ring" ), def_c_ltgreen, material_id( "silver" ),   0_ml,  4_gram,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
+        0, true,
+        {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
+    }
+};
 /*
  * Armor mods alter the normal values of armor.
  * If the basic armor type has "null" as its second material, and the mod has a
@@ -473,80 +541,6 @@ it_artifact_armor::it_artifact_armor( JsonObject &jo ) : itype()
 
 void init_artifacts()
 {
-    artifact_armor_form_datum tmp_artifact_armor_form_data[NUM_ARTARMFORMS] = {
-        {
-            "", c_white, material_id( "null" ),        0_ml,  0_gram,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
-            0, false,
-            {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
-        },
-        // Name    color  Material         Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
-        {
-            translate_marker( "Robe" ),   c_red, material_id( "wool" ),    1500_ml, 700_gram,  1,  90,  3,  0,  2,  0_ml, -8,  0, -3,
-            mfb(bp_torso) | mfb(bp_leg_l) | mfb(bp_leg_r), false,
-            {
-                ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_POCKETED, ARMORMOD_FURRED,
-                ARMORMOD_PADDED
-            }
-        },
-
-        {
-            translate_marker( "Coat" ),   c_brown, material_id( "leather" ),   3500_ml, 1600_gram,  2,  80, 2,  1,  4,  1000_ml, -6,  0, -3,
-            mfb(bp_torso), false,
-            {
-                ARMORMOD_LIGHT, ARMORMOD_POCKETED, ARMORMOD_FURRED, ARMORMOD_PADDED,
-                ARMORMOD_PLATED
-            }
-        },
-
-        {
-            translate_marker( "Mask" ),   c_white, material_id( "wood" ),      1000_ml, 100_gram,  2,  50, 2,  1,  2,  0_ml,  2,  0, -2,
-            mfb(bp_eyes) | mfb(bp_mouth), false,
-            {
-                ARMORMOD_FURRED, ARMORMOD_FURRED, ARMORMOD_NULL, ARMORMOD_NULL,
-                ARMORMOD_NULL
-            }
-        },
-
-        // Name    color  Materials             Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
-        {
-            translate_marker( "Helm" ),   c_dkgray, material_id( "silver" ),    1500_ml, 700_gram,  2,  85, 3,  0,  1,  0_ml,  8,  0, -2,
-            mfb(bp_head), false,
-            {
-                ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
-                ARMORMOD_NULL
-            }
-        },
-
-        {
-            translate_marker( "Gloves" ), c_ltblue, material_id( "leather" ), 500_ml, 100_gram,  1,  90,  3,  1,  2,  0_ml, -4,  0, -2,
-            mfb(bp_hand_l) | mfb(bp_hand_r), true,
-            {
-                ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
-                ARMORMOD_NULL
-            }
-        },
-
-        // Name    color  Materials            Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
-        {
-            translate_marker( "Boots" ), c_blue, material_id( "leather" ),     1500_ml, 250_gram,  1,  75,  3,  1,  3,  0_ml,  4,  0, -1,
-            mfb(bp_foot_l) | mfb(bp_foot_r), true,
-            {
-                ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_PADDED, ARMORMOD_PLATED,
-                ARMORMOD_NULL
-            }
-        },
-
-        {
-            translate_marker( "Ring" ), c_ltgreen, material_id( "silver" ),   0_ml,  4_gram,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
-            0, true,
-            {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
-        }
-
-    };
-    for(int i = 0; i < NUM_ARTARMFORMS; i++) {
-        artifact_armor_form_data[i] = tmp_artifact_armor_form_data[i];
-    }
-
     artifact_armor_form_datum tmp_artifact_armor_mod_data[NUM_ARMORMODS] = {
 
         {
