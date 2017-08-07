@@ -35,7 +35,6 @@
 #include "mapgen.h"
 #include "speech.h"
 #include "construction.h"
-#include "name.h"
 #include "ammo.h"
 #include "debug.h"
 #include "path_info.h"
@@ -333,13 +332,6 @@ void DynamicDataLoader::load_all_from_json( JsonIn &jsin, const std::string &src
         // not an object or an array?
         jsin.error( "expected object or array" );
     }
-}
-
-void init_names()
-{
-    const std::string filename = PATH_INFO::find_translated_file( "namesdir",
-                                 ".json", "names" );
-    Name::load_from_file(filename);
 }
 
 void DynamicDataLoader::unload_data()
