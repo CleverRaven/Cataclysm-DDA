@@ -143,6 +143,8 @@ public:
 
     nc_color color() const;
 
+    char symbol() const;
+
     //returns the move cost of this field
     int move_cost() const;
 

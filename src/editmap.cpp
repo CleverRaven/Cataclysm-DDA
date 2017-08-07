@@ -258,7 +258,7 @@ void editmap_hilight::draw( editmap *hm, bool update )
                     const field_entry *t_fld = t_field->findField( t_ftype );
                     if( t_fld != NULL ) {
                         t_col = t_fld->color();
-                        t_sym = fieldlist[t_ftype].sym;
+                        t_sym = t_fld->symbol();
                     }
                 }
                 if( blink_interval[ cur_blink ] == true ) {
@@ -565,7 +565,7 @@ void editmap::update_view( bool update_info )
                     const field_entry *t_fld = t_field->findField( t_ftype );
                     if( t_fld != NULL ) {
                         t_col = t_fld->color();
-                        t_sym = fieldlist[t_ftype].sym;
+                        t_sym = t_fld->symbol();
                     }
                 }
                 t_col = ( altblink == true ? green_background( t_col ) : cyan_background( t_col ) );

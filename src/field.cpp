@@ -2399,6 +2399,11 @@ nc_color field_entry::color() const
     return fieldlist[type].color[density - 1];
 }
 
+char field_entry::symbol() const
+{
+    return fieldlist[type].sym;
+}
+
 field_id field_entry::getFieldType() const{
     return type;
 }
