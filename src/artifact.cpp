@@ -497,7 +497,50 @@ artifact_armor_form_datum artifact_armor_form_data[NUM_ARTARMFORMS] = {
  * If the basic armor type has "null" as its second material, and the mod has a
  * material attached, the second material will be changed.
  */
-artifact_armor_form_datum artifact_armor_mod_data[NUM_ARMORMODS];
+artifact_armor_form_datum artifact_armor_mod_data[NUM_ARMORMODS] = {
+    {
+        "", def_c_white, material_id( "null" ), 0_ml,  0_gram,  0,  0,  0,  0,  0,  0_ml,  0, 0, 0, 0, false,
+        {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
+    },
+    // Description; "It is ..." or "They are ..."
+    {
+        translate_marker("very thin and light."), def_c_white, material_id( "null" ),
+        // Vol   Wgt Enc Cov Thk Env Wrm Sto
+        -1000_ml, -950_gram, -2, -1, -1, -1, -1,  0_ml, 0, 0, 0, 0,  false,
+        {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
+    },
+
+    {
+        translate_marker("extremely bulky."), def_c_white, material_id( "null" ),
+        2000_ml, 1150_gram,  2,  1,  1,  0,  1,  0_ml, 0, 0, 0, 0,  false,
+        {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
+    },
+
+    {
+        translate_marker("covered in pockets."), def_c_white, material_id( "null" ),
+        250_ml, 150_gram,  1,  0,  0,  0,  0, 4000_ml, 0, 0, 0, 0,  false,
+        {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
+    },
+
+    {
+        translate_marker("disgustingly furry."), def_c_white, material_id( "wool" ),
+        // Vol  Wgt Enc Dmg Cut Env Wrm Sto
+        1000_ml, 250_gram,  1,  1,  1,  1,  3,  0_ml, 0, 0, 0, 0,  false,
+        {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
+    },
+
+    {
+        translate_marker("leather-padded."), def_c_white, material_id( "leather" ),
+        1000_ml, 450_gram,  1, 1,  1,  0,  1, -750_ml, 0, 0, 0, 0,  false,
+        {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
+    },
+
+    {
+        translate_marker("plated in iron."), def_c_white, material_id( "iron" ),
+        1000_ml, 1400_gram,  3,  2, 2,  0,  1, -1000_ml, 0, 0, 0, 0, false,
+        {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
+    },
+};
 #define NUM_ART_ADJS 20
 std::string artifact_adj[NUM_ART_ADJS];
 #define NUM_ART_NOUNS 20
@@ -541,56 +584,6 @@ it_artifact_armor::it_artifact_armor( JsonObject &jo ) : itype()
 
 void init_artifacts()
 {
-    artifact_armor_form_datum tmp_artifact_armor_mod_data[NUM_ARMORMODS] = {
-
-        {
-            "", c_white, material_id( "null" ), 0_ml,  0_gram,  0,  0,  0,  0,  0,  0_ml,  0, 0, 0, 0, false,
-            {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
-        },
-        // Description; "It is ..." or "They are ..."
-        {
-            translate_marker("very thin and light."), c_white, material_id( "null" ),
-            // Vol   Wgt Enc Cov Thk Env Wrm Sto
-            -1000_ml, -950_gram, -2, -1, -1, -1, -1,  0_ml, 0, 0, 0, 0,  false,
-            {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
-        },
-
-        {
-            translate_marker("extremely bulky."), c_white, material_id( "null" ),
-            2000_ml, 1150_gram,  2,  1,  1,  0,  1,  0_ml, 0, 0, 0, 0,  false,
-            {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
-        },
-
-        {
-            translate_marker("covered in pockets."), c_white, material_id( "null" ),
-            250_ml, 150_gram,  1,  0,  0,  0,  0, 4000_ml, 0, 0, 0, 0,  false,
-            {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
-        },
-
-        {
-            translate_marker("disgustingly furry."), c_white, material_id( "wool" ),
-            // Vol  Wgt Enc Dmg Cut Env Wrm Sto
-            1000_ml, 250_gram,  1,  1,  1,  1,  3,  0_ml, 0, 0, 0, 0,  false,
-            {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
-        },
-
-        {
-            translate_marker("leather-padded."), c_white, material_id( "leather" ),
-            1000_ml, 450_gram,  1, 1,  1,  0,  1, -750_ml, 0, 0, 0, 0,  false,
-            {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
-        },
-
-        {
-            translate_marker("plated in iron."), c_white, material_id( "iron" ),
-            1000_ml, 1400_gram,  3,  2, 2,  0,  1, -1000_ml, 0, 0, 0, 0, false,
-            {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
-        },
-
-    };
-    for(int i = 0; i < NUM_ARMORMODS; i++) {
-        artifact_armor_mod_data[i] = tmp_artifact_armor_mod_data[i];
-    }
-
     std::string tmp_artifact_adj[NUM_ART_ADJS] = {
         translate_marker("Forbidden"), translate_marker("Unknown"), translate_marker("Forgotten"), translate_marker("Hideous"), translate_marker("Eldritch"),
         translate_marker("Gelatinous"), translate_marker("Ancient"), translate_marker("Cursed"), translate_marker("Bloody"), translate_marker("Undying"),
