@@ -541,15 +541,13 @@ static const std::array<artifact_armor_form_datum, NUM_ARMORMODS> artifact_armor
         {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
     },
 } };
-#define NUM_ART_ADJS 20
-static const std::array<std::string, NUM_ART_ADJS> artifact_adj = { {
+static const std::array<std::string, 20> artifact_adj = { {
     translate_marker( "Forbidden" ), translate_marker( "Unknown" ), translate_marker( "Forgotten" ), translate_marker( "Hideous" ), translate_marker( "Eldritch" ),
     translate_marker( "Gelatinous" ), translate_marker( "Ancient" ), translate_marker( "Cursed" ), translate_marker( "Bloody" ), translate_marker( "Undying" ),
     translate_marker( "Shadowy" ), translate_marker( "Silent" ), translate_marker( "Cyclopean" ), translate_marker( "Fungal" ), translate_marker( "Unspeakable" ),
     translate_marker( "Grotesque" ), translate_marker( "Frigid" ), translate_marker( "Shattered" ), translate_marker( "Sleeping" ), translate_marker( "Repellent" )
 } };
-#define NUM_ART_NOUNS 20
-static const std::array<std::string, NUM_ART_NOUNS> artifact_noun = { {
+static const std::array<std::string, 20> artifact_noun = { {
     translate_marker( "%s Technique" ), translate_marker( "%s Dreams" ), translate_marker( "%s Beasts" ), translate_marker( "%s Evil" ), translate_marker( "%s Miasma" ),
     translate_marker( "the %s Abyss" ), translate_marker( "the %s City" ), translate_marker( "%s Shadows" ), translate_marker( "%s Shade" ), translate_marker( "%s Illusion" ),
     translate_marker( "%s Justice" ), translate_marker( "the %s Necropolis" ), translate_marker( "%s Ichor" ), translate_marker( "the %s Monolith" ), translate_marker( "%s Aeons" ),
@@ -1018,8 +1016,8 @@ std::vector<art_effect_active> fill_bad_active()
 std::string artifact_name(std::string type)
 {
     std::string ret;
-    std::string noun = _( artifact_noun[rng(0, NUM_ART_NOUNS - 1)].c_str() );
-    std::string adj = _( artifact_adj[rng(0, NUM_ART_ADJS - 1)].c_str() );
+    std::string noun = _( random_entry_ref( artifact_noun ).c_str() );
+    std::string adj = _( random_entry_ref( artifact_adj ).c_str() );
     ret = string_format(noun, adj.c_str());
     ret = string_format( pgettext( "artifact name (type, noun)", "%1$s of %2$s" ), type.c_str(), ret.c_str() );
     return ret;
