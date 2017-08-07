@@ -47,7 +47,7 @@
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 
-const std::string obj_type_name[11]={ "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
+const std::array<std::string, 11> obj_type_name = { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
     "OBJECT_NPC", "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD",
     "OBJECT_TERRAIN", "OBJECT_FURNITURE"
 };
