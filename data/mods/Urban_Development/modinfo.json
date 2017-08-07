@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "Urban_Development",
+    "name": "Urban Development",
+    "authors": [ "acidia" ],
+    "description": "Holder for suburban and urban buildings.",
+    "category": "buildings",
+    "dependencies": [ "dda" ]
+  }
+]
