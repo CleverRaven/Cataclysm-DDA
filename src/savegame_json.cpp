@@ -715,9 +715,8 @@ void player::deserialize(JsonIn &jsin)
         data.read( "grab_type", grab_typestr);
     }
 
-    if ( obj_type_id.find(grab_typestr) != obj_type_id.end() ) {
-        grab_type = (object_type)obj_type_id[grab_typestr];
-    }
+    const auto iter = std::find( obj_type_name.begin(), obj_type_name.end(), grab_typestr );
+    grab_type = static_cast<object_type>( std::distance( obj_type_name.begin(), iter ) );
 
     data.read( "focus_pool", focus_pool);
     data.read( "style_selected", style_selected );
