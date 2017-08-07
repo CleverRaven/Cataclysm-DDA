@@ -542,7 +542,12 @@ artifact_armor_form_datum artifact_armor_mod_data[NUM_ARMORMODS] = {
     },
 };
 #define NUM_ART_ADJS 20
-std::string artifact_adj[NUM_ART_ADJS];
+std::string artifact_adj[NUM_ART_ADJS] = {
+    translate_marker( "Forbidden" ), translate_marker( "Unknown" ), translate_marker( "Forgotten" ), translate_marker( "Hideous" ), translate_marker( "Eldritch" ),
+    translate_marker( "Gelatinous" ), translate_marker( "Ancient" ), translate_marker( "Cursed" ), translate_marker( "Bloody" ), translate_marker( "Undying" ),
+    translate_marker( "Shadowy" ), translate_marker( "Silent" ), translate_marker( "Cyclopean" ), translate_marker( "Fungal" ), translate_marker( "Unspeakable" ),
+    translate_marker( "Grotesque" ), translate_marker( "Frigid" ), translate_marker( "Shattered" ), translate_marker( "Sleeping" ), translate_marker( "Repellent" )
+};
 #define NUM_ART_NOUNS 20
 std::string artifact_noun[NUM_ART_NOUNS];
 std::string artifact_name(std::string type);
@@ -584,16 +589,6 @@ it_artifact_armor::it_artifact_armor( JsonObject &jo ) : itype()
 
 void init_artifacts()
 {
-    std::string tmp_artifact_adj[NUM_ART_ADJS] = {
-        translate_marker("Forbidden"), translate_marker("Unknown"), translate_marker("Forgotten"), translate_marker("Hideous"), translate_marker("Eldritch"),
-        translate_marker("Gelatinous"), translate_marker("Ancient"), translate_marker("Cursed"), translate_marker("Bloody"), translate_marker("Undying"),
-        translate_marker("Shadowy"), translate_marker("Silent"), translate_marker("Cyclopean"), translate_marker("Fungal"), translate_marker("Unspeakable"),
-        translate_marker("Grotesque"), translate_marker("Frigid"), translate_marker("Shattered"), translate_marker("Sleeping"), translate_marker("Repellent")
-    };
-    for(int i = 0; i < NUM_ART_ADJS; i++) {
-        artifact_adj[i] = tmp_artifact_adj[i];
-    }
-
     std::string tmp_artifact_noun[NUM_ART_NOUNS] = {
         translate_marker("%s Technique"), translate_marker("%s Dreams"), translate_marker("%s Beasts"), translate_marker("%s Evil"), translate_marker("%s Miasma"),
         translate_marker("the %s Abyss"), translate_marker("the %s City"), translate_marker("%s Shadows"), translate_marker("%s Shade"), translate_marker("%s Illusion"),
