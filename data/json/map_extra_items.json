@@ -5,9 +5,9 @@
         "id": "map_extra_science",
         "entries":
         [
-            { "item": "corpse", "damage": 3, "c":"always a corpse, pulped!" },
-            { "item": "id_science", "prob": 50, "c":"half the time an id card" },
-            { "item": "coat_lab", "damage-min": 1, "damage-max": 3, "c":"all the time a lab coat" },
+            { "item": "corpse", "damage": 3, "//":"always a corpse, pulped!" },
+            { "item": "id_science", "prob": 50, "//":"half the time an id card" },
+            { "item": "coat_lab", "damage-min": 1, "damage-max": 3, "//":"all the time a lab coat" },
             { "group": "science" },
             { "group": "lab_pants", "damage-min": 1, "damage-max": 3 },
             { "group": "lab_shoes", "damage-min": 1, "damage-max": 3 },
