@@ -950,8 +950,6 @@ std::string new_natural_artifact(artifact_natural_property prop)
 // Make a special debugging artifact.
 std::string architects_cube()
 {
-    std::string artifact_name(std::string type);
-
     it_artifact_tool def;
     auto art = &def;
 
