@@ -7868,7 +7868,7 @@ void game::print_fields_info( const tripoint &lp, WINDOW *w_look, int column, in
         const field_entry *cur = &fld.second;
         mvwprintz( w_look, line++, column, cur->color(),
                   "%s",
-                  fieldlist[cur->getFieldType()].name[cur->getFieldDensity() - 1].c_str());
+                  cur->name().c_str() );
     }
 }
 

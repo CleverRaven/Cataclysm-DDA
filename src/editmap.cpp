@@ -650,7 +650,7 @@ void editmap::update_view( bool update_info )
             const field_entry *cur = &fld.second;
             mvwprintz( w_info, off, 1, cur->color(),
                        _( "field: %s (%d) density %d age %d" ),
-                       fieldlist[cur->getFieldType()].name[cur->getFieldDensity() - 1].c_str(), cur->getFieldType(),
+                       cur->name().c_str(), cur->getFieldType(),
                        cur->getFieldDensity(), cur->getFieldAge()
                      );
             off++; // 5ish
