@@ -134,13 +134,7 @@ std::vector<item> item::magazine_convert() {
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ///// on runtime populate lookup tables.
-std::map<std::string, int> obj_type_id;
-
 void game::init_savedata_translation_tables() {
-  obj_type_id.clear();
-  for(int i = 0; i < NUM_OBJECTS; i++) {
-    obj_type_id[ obj_type_name[i] ] = i;
-  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
