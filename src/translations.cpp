@@ -94,10 +94,6 @@ void set_language()
     bindtextdomain( "cataclysm-dda", locale_dir_char );
     bind_textdomain_codeset( "cataclysm-dda", "UTF-8" );
     textdomain( "cataclysm-dda" );
-
-    // Step 3. Reload options strings with right language
-    get_options().init();
-    get_options().load();
 }
 
 #else // !LOCALIZE
