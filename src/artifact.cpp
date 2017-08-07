@@ -233,7 +233,26 @@ enum artifact_armor_form {
 };
 
 //see below, move them so gettext and be applied properly
-artifact_shape_datum artifact_shape_data[ARTSHAPE_MAX];
+artifact_shape_datum artifact_shape_data[ARTSHAPE_MAX] = {
+    {"BUG", "BUG", 0_ml, 0_ml, 0_gram, 0_gram},
+    {translate_marker( "sphere" ), translate_marker( "smooth sphere" ), 500_ml, 1000_ml, 1_gram, 1150_gram},
+    {translate_marker( "rod" ), translate_marker( "tapered rod" ), 250_ml, 1750_ml, 1_gram, 800_gram},
+    {translate_marker( "teardrop" ), translate_marker( "teardrop-shaped stone" ), 500_ml, 1500_ml, 1_gram, 950_gram},
+    {translate_marker( "lamp" ), translate_marker( "hollow, transparent cube" ), 1000_ml, 225_ml, 1_gram, 350_gram},
+    {translate_marker( "snake" ), translate_marker( "winding, flexible rod" ), 0_ml, 2000_ml, 1_gram, 950_gram},
+    {translate_marker( "disc" ), translate_marker( "smooth disc" ), 1000_ml, 1500_ml, 200_gram, 400_gram},
+    {translate_marker( "beads" ), translate_marker( "string of beads" ), 750_ml, 1750_ml, 1_gram, 700_gram},
+    {translate_marker( "napkin" ), translate_marker( "very thin sheet" ), 0_ml, 750_ml, 1_gram, 350_gram},
+    {translate_marker( "urchin" ), translate_marker( "spiked sphere" ), 750_ml, 1250_ml, 200_gram, 700_gram},
+    {translate_marker( "jelly" ), translate_marker( "malleable blob" ), 500_ml, 2000_ml, 200_gram, 450_gram},
+    {translate_marker( "spiral" ), translate_marker( "spiraling rod" ), 1250_ml, 1500_ml, 200_gram, 350_gram},
+    {translate_marker( "pin" ), translate_marker( "pointed rod" ), 250_ml, 1250_ml, 100_gram, 1050_gram},
+    {translate_marker( "tube" ), translate_marker( "hollow tube" ), 500_ml, 1250_ml, 350_gram, 700_gram},
+    {translate_marker( "pyramid" ), translate_marker( "regular tetrahedron" ), 750_ml, 1750_ml, 200_gram, 450_gram},
+    {translate_marker( "crystal" ), translate_marker( "translucent crystal" ), 250_ml, 1500_ml, 200_gram, 800_gram},
+    {translate_marker( "knot" ), translate_marker( "twisted, knotted cord" ), 500_ml, 1500_ml, 100_gram, 800_gram},
+    {translate_marker( "crescent" ), translate_marker( "crescent-shaped stone" ), 500_ml, 1500_ml, 200_gram, 700_gram}
+};
 artifact_property_datum artifact_property_data[ARTPROP_MAX];
 artifact_tool_form_datum artifact_tool_form_data[NUM_ARTTOOLFORMS];
 artifact_weapon_datum artifact_weapon_data[NUM_ARTWEAPS];
@@ -287,30 +306,6 @@ it_artifact_armor::it_artifact_armor( JsonObject &jo ) : itype()
 
 void init_artifacts()
 {
-    artifact_shape_datum tmp_artifact_shape_data[ARTSHAPE_MAX] = {
-        {"BUG", "BUG", 0_ml, 0_ml, 0_gram, 0_gram},
-        {translate_marker( "sphere" ), translate_marker( "smooth sphere" ), 500_ml, 1000_ml, 1_gram, 1150_gram},
-        {translate_marker( "rod" ), translate_marker( "tapered rod" ), 250_ml, 1750_ml, 1_gram, 800_gram},
-        {translate_marker( "teardrop" ), translate_marker( "teardrop-shaped stone" ), 500_ml, 1500_ml, 1_gram, 950_gram},
-        {translate_marker( "lamp" ), translate_marker( "hollow, transparent cube" ), 1000_ml, 225_ml, 1_gram, 350_gram},
-        {translate_marker( "snake" ), translate_marker( "winding, flexible rod" ), 0_ml, 2000_ml, 1_gram, 950_gram},
-        {translate_marker( "disc" ), translate_marker( "smooth disc" ), 1000_ml, 1500_ml, 200_gram, 400_gram},
-        {translate_marker( "beads" ), translate_marker( "string of beads" ), 750_ml, 1750_ml, 1_gram, 700_gram},
-        {translate_marker( "napkin" ), translate_marker( "very thin sheet" ), 0_ml, 750_ml, 1_gram, 350_gram},
-        {translate_marker( "urchin" ), translate_marker( "spiked sphere" ), 750_ml, 1250_ml, 200_gram, 700_gram},
-        {translate_marker( "jelly" ), translate_marker( "malleable blob" ), 500_ml, 2000_ml, 200_gram, 450_gram},
-        {translate_marker( "spiral" ), translate_marker( "spiraling rod" ), 1250_ml, 1500_ml, 200_gram, 350_gram},
-        {translate_marker( "pin" ), translate_marker( "pointed rod" ), 250_ml, 1250_ml, 100_gram, 1050_gram},
-        {translate_marker( "tube" ), translate_marker( "hollow tube" ), 500_ml, 1250_ml, 350_gram, 700_gram},
-        {translate_marker( "pyramid" ), translate_marker( "regular tetrahedron" ), 750_ml, 1750_ml, 200_gram, 450_gram},
-        {translate_marker( "crystal" ), translate_marker( "translucent crystal" ), 250_ml, 1500_ml, 200_gram, 800_gram},
-        {translate_marker( "knot" ), translate_marker( "twisted, knotted cord" ), 500_ml, 1500_ml, 100_gram, 800_gram},
-        {translate_marker( "crescent" ), translate_marker( "crescent-shaped stone" ), 500_ml, 1500_ml, 200_gram, 700_gram}
-    };
-    for(int i = 0; i < ARTSHAPE_MAX; i++) {
-        artifact_shape_data[i] = tmp_artifact_shape_data[i];
-    }
-
     artifact_property_datum tmp_artifact_property_data[ARTPROP_MAX] = {
         {
             "BUG", "BUG",
