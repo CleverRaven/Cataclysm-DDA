@@ -201,7 +201,7 @@ class options_manager : public JsonSerializer, public JsonDeserializer
 
     private:
         std::unordered_map<std::string, cOpt> options;
-        // first is page id, second is ( translated ) page name
+        // first is page id, second is untranslated page name
         std::vector<std::pair<std::string, std::string>> vPages;
         std::map<int, std::vector<std::string>> mPageItems;
         int iWorldOptPage;

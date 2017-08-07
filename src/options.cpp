@@ -768,17 +768,17 @@ void options_manager::init()
     mPageItems.clear();
     mOptionsSort.clear();
 
-    vPages.push_back(std::make_pair("general", _("General")));
-    vPages.push_back(std::make_pair("interface", _("Interface")));
-    vPages.push_back(std::make_pair("graphics", _("Graphics")));
+    vPages.push_back( std::make_pair( "general", translate_marker( "General" ) ) );
+    vPages.push_back( std::make_pair( "interface", translate_marker( "Interface" ) ) );
+    vPages.push_back( std::make_pair( "graphics", translate_marker( "Graphics" ) ) );
     // when sharing maps only admin is allowed to change these.
     if(!MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin()) {
-        vPages.push_back(std::make_pair("debug", _("Debug")));
+        vPages.push_back( std::make_pair( "debug", translate_marker( "Debug" ) ) );
     }
     iWorldOptPage = vPages.size();
     // when sharing maps only admin is allowed to change these.
     if(!MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin()) {
-        vPages.push_back(std::make_pair("world_default", _("World Defaults")));
+        vPages.push_back( std::make_pair( "world_default", translate_marker( "World Defaults" ) ) );
     }
 
     ////////////////////////////GENERAL//////////////////////////
@@ -1674,7 +1674,7 @@ void options_manager::show(bool ingame)
                             (iCurrentPage == i) ? hilite(c_ltgreen) : c_ltgreen, _("Current world"));
                 } else {
                     wprintz(w_options_header, (iCurrentPage == i) ?
-                            hilite(c_ltgreen) : c_ltgreen, (vPages[i].second).c_str());
+                            hilite( c_ltgreen ) : c_ltgreen, "%s", _( vPages[i].second.c_str() ) );
                 }
                 wprintz(w_options_header, c_white, "]");
                 wputch(w_options_header, BORDER_COLOR, LINE_OXOX);
