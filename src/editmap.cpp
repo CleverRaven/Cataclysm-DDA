@@ -257,7 +257,7 @@ void editmap_hilight::draw( editmap *hm, bool update )
                     field_id t_ftype = t_field->fieldSymbol();
                     const field_entry *t_fld = t_field->findField( t_ftype );
                     if( t_fld != NULL ) {
-                        t_col =  fieldlist[t_ftype].color[t_fld->getFieldDensity() - 1];
+                        t_col = t_fld->color();
                         t_sym = fieldlist[t_ftype].sym;
                     }
                 }
@@ -564,7 +564,7 @@ void editmap::update_view( bool update_info )
                     field_id t_ftype = t_field->fieldSymbol();
                     const field_entry *t_fld = t_field->findField( t_ftype );
                     if( t_fld != NULL ) {
-                        t_col =  fieldlist[t_ftype].color[t_fld->getFieldDensity() - 1];
+                        t_col = t_fld->color();
                         t_sym = fieldlist[t_ftype].sym;
                     }
                 }
@@ -648,7 +648,7 @@ void editmap::update_view( bool update_info )
 
         for( auto &fld : *cur_field ) {
             const field_entry *cur = &fld.second;
-            mvwprintz( w_info, off, 1, fieldlist[cur->getFieldType()].color[cur->getFieldDensity() - 1],
+            mvwprintz( w_info, off, 1, cur->color(),
                        _( "field: %s (%d) density %d age %d" ),
                        fieldlist[cur->getFieldType()].name[cur->getFieldDensity() - 1].c_str(), cur->getFieldType(),
                        cur->getFieldDensity(), cur->getFieldAge()

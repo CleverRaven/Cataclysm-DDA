@@ -7866,7 +7866,7 @@ void game::print_fields_info( const tripoint &lp, WINDOW *w_look, int column, in
     const field &tmpfield = m.field_at( lp );
     for( auto &fld : tmpfield ) {
         const field_entry *cur = &fld.second;
-        mvwprintz(w_look, line++, column, fieldlist[cur->getFieldType()].color[cur->getFieldDensity() - 1],
+        mvwprintz( w_look, line++, column, cur->color(),
                   "%s",
                   fieldlist[cur->getFieldType()].name[cur->getFieldDensity() - 1].c_str());
     }

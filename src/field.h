@@ -141,6 +141,8 @@ public:
         is_alive = true;
     }
 
+    nc_color color() const;
+
     //returns the move cost of this field
     int move_cost() const;
 

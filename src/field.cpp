@@ -2394,6 +2394,11 @@ int field_entry::move_cost() const{
   return fieldlist[type].move_cost[ getFieldDensity() - 1 ];
 }
 
+nc_color field_entry::color() const
+{
+    return fieldlist[type].color[density - 1];
+}
+
 field_id field_entry::getFieldType() const{
     return type;
 }
