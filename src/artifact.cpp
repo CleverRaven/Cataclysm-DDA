@@ -501,7 +501,7 @@ void init_artifacts()
         },
         // Name    color  Material         Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            _( "Robe" ),   c_red, material_id( "wool" ),    1500_ml, 700_gram,  1,  90,  3,  0,  2,  0_ml, -8,  0, -3,
+            translate_marker( "Robe" ),   c_red, material_id( "wool" ),    1500_ml, 700_gram,  1,  90,  3,  0,  2,  0_ml, -8,  0, -3,
             mfb(bp_torso) | mfb(bp_leg_l) | mfb(bp_leg_r), false,
             {
                 ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_POCKETED, ARMORMOD_FURRED,
@@ -510,7 +510,7 @@ void init_artifacts()
         },
 
         {
-            _( "Coat" ),   c_brown, material_id( "leather" ),   3500_ml, 1600_gram,  2,  80, 2,  1,  4,  1000_ml, -6,  0, -3,
+            translate_marker( "Coat" ),   c_brown, material_id( "leather" ),   3500_ml, 1600_gram,  2,  80, 2,  1,  4,  1000_ml, -6,  0, -3,
             mfb(bp_torso), false,
             {
                 ARMORMOD_LIGHT, ARMORMOD_POCKETED, ARMORMOD_FURRED, ARMORMOD_PADDED,
@@ -519,7 +519,7 @@ void init_artifacts()
         },
 
         {
-            _( "Mask" ),   c_white, material_id( "wood" ),      1000_ml, 100_gram,  2,  50, 2,  1,  2,  0_ml,  2,  0, -2,
+            translate_marker( "Mask" ),   c_white, material_id( "wood" ),      1000_ml, 100_gram,  2,  50, 2,  1,  2,  0_ml,  2,  0, -2,
             mfb(bp_eyes) | mfb(bp_mouth), false,
             {
                 ARMORMOD_FURRED, ARMORMOD_FURRED, ARMORMOD_NULL, ARMORMOD_NULL,
@@ -529,7 +529,7 @@ void init_artifacts()
 
         // Name    color  Materials             Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            _( "Helm" ),   c_dkgray, material_id( "silver" ),    1500_ml, 700_gram,  2,  85, 3,  0,  1,  0_ml,  8,  0, -2,
+            translate_marker( "Helm" ),   c_dkgray, material_id( "silver" ),    1500_ml, 700_gram,  2,  85, 3,  0,  1,  0_ml,  8,  0, -2,
             mfb(bp_head), false,
             {
                 ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -538,7 +538,7 @@ void init_artifacts()
         },
 
         {
-            _( "Gloves" ), c_ltblue, material_id( "leather" ), 500_ml, 100_gram,  1,  90,  3,  1,  2,  0_ml, -4,  0, -2,
+            translate_marker( "Gloves" ), c_ltblue, material_id( "leather" ), 500_ml, 100_gram,  1,  90,  3,  1,  2,  0_ml, -4,  0, -2,
             mfb(bp_hand_l) | mfb(bp_hand_r), true,
             {
                 ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -548,7 +548,7 @@ void init_artifacts()
 
         // Name    color  Materials            Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            _( "Boots" ), c_blue, material_id( "leather" ),     1500_ml, 250_gram,  1,  75,  3,  1,  3,  0_ml,  4,  0, -1,
+            translate_marker( "Boots" ), c_blue, material_id( "leather" ),     1500_ml, 250_gram,  1,  75,  3,  1,  3,  0_ml,  4,  0, -1,
             mfb(bp_foot_l) | mfb(bp_foot_r), true,
             {
                 ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -557,7 +557,7 @@ void init_artifacts()
         },
 
         {
-            _( "Ring" ), c_ltgreen, material_id( "silver" ),   0_ml,  4_gram,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
+            translate_marker( "Ring" ), c_ltgreen, material_id( "silver" ),   0_ml,  4_gram,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
             0, true,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         }
@@ -575,39 +575,39 @@ void init_artifacts()
         },
         // Description; "It is ..." or "They are ..."
         {
-            _("very thin and light."), c_white, material_id( "null" ),
+            translate_marker("very thin and light."), c_white, material_id( "null" ),
             // Vol   Wgt Enc Cov Thk Env Wrm Sto
             -1000_ml, -950_gram, -2, -1, -1, -1, -1,  0_ml, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
-            _("extremely bulky."), c_white, material_id( "null" ),
+            translate_marker("extremely bulky."), c_white, material_id( "null" ),
             2000_ml, 1150_gram,  2,  1,  1,  0,  1,  0_ml, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
-            _("covered in pockets."), c_white, material_id( "null" ),
+            translate_marker("covered in pockets."), c_white, material_id( "null" ),
             250_ml, 150_gram,  1,  0,  0,  0,  0, 4000_ml, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
-            _("disgustingly furry."), c_white, material_id( "wool" ),
+            translate_marker("disgustingly furry."), c_white, material_id( "wool" ),
             // Vol  Wgt Enc Dmg Cut Env Wrm Sto
             1000_ml, 250_gram,  1,  1,  1,  1,  3,  0_ml, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
-            _("leather-padded."), c_white, material_id( "leather" ),
+            translate_marker("leather-padded."), c_white, material_id( "leather" ),
             1000_ml, 450_gram,  1, 1,  1,  0,  1, -750_ml, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
-            _("plated in iron."), c_white, material_id( "iron" ),
+            translate_marker("plated in iron."), c_white, material_id( "iron" ),
             1000_ml, 1400_gram,  3,  2, 2,  0,  1, -1000_ml, 0, 0, 0, 0, false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
@@ -788,7 +788,7 @@ std::string new_artifact()
         int form = rng(ARTARMFORM_NULL + 1, NUM_ARTARMFORMS - 1);
         artifact_armor_form_datum *info = &(artifact_armor_form_data[form]);
 
-        art->create_name(info->name);
+        art->create_name( _( info->name.c_str() ) );
         art->sym = "["; // Armor is always [
         art->color = info->color;
         art->materials.push_back(info->material);
@@ -858,7 +858,7 @@ std::string new_artifact()
                 description << string_format(info->plural ?
                                              _("\nThey are %s") :
                                              _("\nIt is %s"),
-                                             modinfo->name.c_str());
+                                             _( modinfo->name.c_str() ) );
             }
         }
 
