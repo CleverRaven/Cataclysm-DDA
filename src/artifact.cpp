@@ -549,7 +549,12 @@ std::string artifact_adj[NUM_ART_ADJS] = {
     translate_marker( "Grotesque" ), translate_marker( "Frigid" ), translate_marker( "Shattered" ), translate_marker( "Sleeping" ), translate_marker( "Repellent" )
 };
 #define NUM_ART_NOUNS 20
-std::string artifact_noun[NUM_ART_NOUNS];
+std::string artifact_noun[NUM_ART_NOUNS] = {
+    translate_marker( "%s Technique" ), translate_marker( "%s Dreams" ), translate_marker( "%s Beasts" ), translate_marker( "%s Evil" ), translate_marker( "%s Miasma" ),
+    translate_marker( "the %s Abyss" ), translate_marker( "the %s City" ), translate_marker( "%s Shadows" ), translate_marker( "%s Shade" ), translate_marker( "%s Illusion" ),
+    translate_marker( "%s Justice" ), translate_marker( "the %s Necropolis" ), translate_marker( "%s Ichor" ), translate_marker( "the %s Monolith" ), translate_marker( "%s Aeons" ),
+    translate_marker( "%s Graves" ), translate_marker( "%s Horrors" ), translate_marker( "%s Suffering" ), translate_marker( "%s Death" ), translate_marker( "%s Horror" )
+};
 std::string artifact_name(std::string type);
 
 // Constructrs for artifact itypes.
@@ -589,15 +594,6 @@ it_artifact_armor::it_artifact_armor( JsonObject &jo ) : itype()
 
 void init_artifacts()
 {
-    std::string tmp_artifact_noun[NUM_ART_NOUNS] = {
-        translate_marker("%s Technique"), translate_marker("%s Dreams"), translate_marker("%s Beasts"), translate_marker("%s Evil"), translate_marker("%s Miasma"),
-        translate_marker("the %s Abyss"), translate_marker("the %s City"), translate_marker("%s Shadows"), translate_marker("%s Shade"), translate_marker("%s Illusion"),
-        translate_marker("%s Justice"), translate_marker("the %s Necropolis"), translate_marker("%s Ichor"), translate_marker("the %s Monolith"), translate_marker("%s Aeons"),
-        translate_marker("%s Graves"), translate_marker("%s Horrors"), translate_marker("%s Suffering"), translate_marker("%s Death"), translate_marker("%s Horror")
-    };
-    for(int i = 0; i < NUM_ART_NOUNS; i++) {
-        artifact_noun[i] = tmp_artifact_noun[i];
-    }
 
 }
 
