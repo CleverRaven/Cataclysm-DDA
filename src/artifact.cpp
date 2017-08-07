@@ -452,27 +452,27 @@ void init_artifacts()
         },
 
         {
-            _( "Harp" ), ';', c_yellow, material_id( "wood" ), 5000_ml, 7500_ml, 1150_gram, 2100_gram, ARTWEAP_BULK,
+            translate_marker( "Harp" ), ';', c_yellow, material_id( "wood" ), 5000_ml, 7500_ml, 1150_gram, 2100_gram, ARTWEAP_BULK,
             {ARTWEAP_SPEAR, ARTWEAP_SWORD, ARTWEAP_KNIFE}
         },
 
         {
-            _( "Staff" ), '/', c_brown, material_id( "wood" ), 1500_ml, 3000_ml, 450_gram, 1150_gram, ARTWEAP_CLUB,
+            translate_marker( "Staff" ), '/', c_brown, material_id( "wood" ), 1500_ml, 3000_ml, 450_gram, 1150_gram, ARTWEAP_CLUB,
             {ARTWEAP_BULK, ARTWEAP_SPEAR, ARTWEAP_KNIFE}
         },
 
         {
-            _( "Sword" ), '/', c_ltblue, material_id( "steel" ), 2000_ml, 3500_ml, 900_gram, 3259_gram, ARTWEAP_SWORD,
+            translate_marker( "Sword" ), '/', c_ltblue, material_id( "steel" ), 2000_ml, 3500_ml, 900_gram, 3259_gram, ARTWEAP_SWORD,
             {ARTWEAP_BULK, ARTWEAP_NULL, ARTWEAP_NULL}
         },
 
         {
-            _( "Dagger" ), ';', c_ltblue, material_id( "steel" ), 250_ml, 1000_ml, 100_gram, 700_gram, ARTWEAP_KNIFE,
+            translate_marker( "Dagger" ), ';', c_ltblue, material_id( "steel" ), 250_ml, 1000_ml, 100_gram, 700_gram, ARTWEAP_KNIFE,
             {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}
         },
 
         {
-            _( "Cube" ), '*', c_white, material_id( "steel" ), 250_ml, 750_ml, 100_gram, 2300_gram, ARTWEAP_BULK,
+            translate_marker( "Cube" ), '*', c_white, material_id( "steel" ), 250_ml, 750_ml, 100_gram, 2300_gram, ARTWEAP_BULK,
             {ARTWEAP_SPEAR, ARTWEAP_NULL, ARTWEAP_NULL}
         }
     };
@@ -668,7 +668,7 @@ std::string new_artifact()
         int form = rng(ARTTOOLFORM_NULL + 1, NUM_ARTTOOLFORMS - 1);
 
         artifact_tool_form_datum *info = &(artifact_tool_form_data[form]);
-        art->create_name(info->name);
+        art->create_name( _( info->name.c_str() ) );
         art->color = info->color;
         art->sym = std::string( 1, info->sym );
         art->materials.push_back(info->material);
@@ -698,7 +698,7 @@ std::string new_artifact()
                     art->item_tags.insert(weapon->tag);
                 }
                 std::ostringstream newname;
-                newname << weapon->adjective << " " << info->name;
+                newname << weapon->adjective << " " << _( info->name.c_str() );
                 art->create_name(newname.str());
             }
         }
@@ -1005,7 +1005,7 @@ std::string architects_cube()
     auto art = &def;
 
     artifact_tool_form_datum *info = &(artifact_tool_form_data[ARTTOOLFORM_CUBE]);
-    art->create_name(info->name);
+    art->create_name( _( info->name.c_str() ) );
     art->color = info->color;
     art->sym = std::string( 1, info->sym );
       art->materials.push_back(info->material);
