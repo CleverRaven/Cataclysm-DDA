@@ -1068,7 +1068,7 @@ int editmap::edit_ter()
 void editmap::update_fmenu_entry( uimenu *fmenu, field *field, const field_id idx )
 {
     int fdens = 1;
-    field_t ftype = fieldlist[idx];
+    const field_t &ftype = fieldlist[idx];
     field_entry *fld = field->findField( ( field_id )idx );
     if( fld != NULL ) {
         fdens = fld->getFieldDensity();
@@ -1087,7 +1087,7 @@ void editmap::setup_fmenu( uimenu *fmenu )
     fmenu->entries.clear();
     for( int i = 0; i < num_fields; i++ ) {
         const field_id fid = static_cast<field_id>( i );
-        field_t ftype = fieldlist[fid];
+        const field_t &ftype = fieldlist[fid];
         int fdens = 1;
         fname = ftype.name( fdens - 1 );
         fmenu->addentry( fid, true, -2, "%s", fname.c_str() );
@@ -1136,7 +1136,7 @@ int editmap::edit_fld()
                 femenu.w_x = offsetX;
 
                 femenu.return_invalid = true;
-                field_t ftype = fieldlist[idx];
+                const field_t &ftype = fieldlist[idx];
                 femenu.text = ftype.name( fdens == 0 ? 0 : fdens - 1 );
                 femenu.addentry( pgettext( "map editor: used to describe a clean field (eg. without blood)",
                                            "-clear-" ) );
