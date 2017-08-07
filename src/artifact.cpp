@@ -289,23 +289,23 @@ void init_artifacts()
 {
     artifact_shape_datum tmp_artifact_shape_data[ARTSHAPE_MAX] = {
         {"BUG", "BUG", 0_ml, 0_ml, 0_gram, 0_gram},
-        {_( "sphere" ), _( "smooth sphere" ), 500_ml, 1000_ml, 1_gram, 1150_gram},
-        {_( "rod" ), _( "tapered rod" ), 250_ml, 1750_ml, 1_gram, 800_gram},
-        {_( "teardrop" ), _( "teardrop-shaped stone" ), 500_ml, 1500_ml, 1_gram, 950_gram},
-        {_( "lamp" ), _( "hollow, transparent cube" ), 1000_ml, 225_ml, 1_gram, 350_gram},
-        {_( "snake" ), _( "winding, flexible rod" ), 0_ml, 2000_ml, 1_gram, 950_gram},
-        {_( "disc" ), _( "smooth disc" ), 1000_ml, 1500_ml, 200_gram, 400_gram},
-        {_( "beads" ), _( "string of beads" ), 750_ml, 1750_ml, 1_gram, 700_gram},
-        {_( "napkin" ), _( "very thin sheet" ), 0_ml, 750_ml, 1_gram, 350_gram},
-        {_( "urchin" ), _( "spiked sphere" ), 750_ml, 1250_ml, 200_gram, 700_gram},
-        {_( "jelly" ), _( "malleable blob" ), 500_ml, 2000_ml, 200_gram, 450_gram},
-        {_( "spiral" ), _( "spiraling rod" ), 1250_ml, 1500_ml, 200_gram, 350_gram},
-        {_( "pin" ), _( "pointed rod" ), 250_ml, 1250_ml, 100_gram, 1050_gram},
-        {_( "tube" ), _( "hollow tube" ), 500_ml, 1250_ml, 350_gram, 700_gram},
-        {_( "pyramid" ), _( "regular tetrahedron" ), 750_ml, 1750_ml, 200_gram, 450_gram},
-        {_( "crystal" ), _( "translucent crystal" ), 250_ml, 1500_ml, 200_gram, 800_gram},
-        {_( "knot" ), _( "twisted, knotted cord" ), 500_ml, 1500_ml, 100_gram, 800_gram},
-        {_( "crescent" ), _( "crescent-shaped stone" ), 500_ml, 1500_ml, 200_gram, 700_gram}
+        {translate_marker( "sphere" ), translate_marker( "smooth sphere" ), 500_ml, 1000_ml, 1_gram, 1150_gram},
+        {translate_marker( "rod" ), translate_marker( "tapered rod" ), 250_ml, 1750_ml, 1_gram, 800_gram},
+        {translate_marker( "teardrop" ), translate_marker( "teardrop-shaped stone" ), 500_ml, 1500_ml, 1_gram, 950_gram},
+        {translate_marker( "lamp" ), translate_marker( "hollow, transparent cube" ), 1000_ml, 225_ml, 1_gram, 350_gram},
+        {translate_marker( "snake" ), translate_marker( "winding, flexible rod" ), 0_ml, 2000_ml, 1_gram, 950_gram},
+        {translate_marker( "disc" ), translate_marker( "smooth disc" ), 1000_ml, 1500_ml, 200_gram, 400_gram},
+        {translate_marker( "beads" ), translate_marker( "string of beads" ), 750_ml, 1750_ml, 1_gram, 700_gram},
+        {translate_marker( "napkin" ), translate_marker( "very thin sheet" ), 0_ml, 750_ml, 1_gram, 350_gram},
+        {translate_marker( "urchin" ), translate_marker( "spiked sphere" ), 750_ml, 1250_ml, 200_gram, 700_gram},
+        {translate_marker( "jelly" ), translate_marker( "malleable blob" ), 500_ml, 2000_ml, 200_gram, 450_gram},
+        {translate_marker( "spiral" ), translate_marker( "spiraling rod" ), 1250_ml, 1500_ml, 200_gram, 350_gram},
+        {translate_marker( "pin" ), translate_marker( "pointed rod" ), 250_ml, 1250_ml, 100_gram, 1050_gram},
+        {translate_marker( "tube" ), translate_marker( "hollow tube" ), 500_ml, 1250_ml, 350_gram, 700_gram},
+        {translate_marker( "pyramid" ), translate_marker( "regular tetrahedron" ), 750_ml, 1750_ml, 200_gram, 450_gram},
+        {translate_marker( "crystal" ), translate_marker( "translucent crystal" ), 250_ml, 1500_ml, 200_gram, 800_gram},
+        {translate_marker( "knot" ), translate_marker( "twisted, knotted cord" ), 500_ml, 1500_ml, 100_gram, 800_gram},
+        {translate_marker( "crescent" ), translate_marker( "crescent-shaped stone" ), 500_ml, 1500_ml, 200_gram, 700_gram}
     };
     for(int i = 0; i < ARTSHAPE_MAX; i++) {
         artifact_shape_data[i] = tmp_artifact_shape_data[i];
@@ -914,9 +914,9 @@ std::string new_natural_artifact(artifact_natural_property prop)
     art->melee[DT_CUT] = 0;
     art->m_to_hit = 0;
 
-    art->create_name(property_data->name, shape_data->name);
+    art->create_name(property_data->name, _( shape_data->name.c_str() ) );
     art->description = string_format( pgettext( "artifact description", "This %1$s %2$s." ),
-                                      shape_data->desc.c_str(), property_data->desc.c_str() );
+                                      _( shape_data->desc.c_str() ), property_data->desc.c_str() );
 
     // Three possibilities: good passive + bad passive, good active + bad active,
     // and bad passive + good active
