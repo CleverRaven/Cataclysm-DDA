@@ -483,11 +483,11 @@ void init_artifacts()
     artifact_weapon_datum tmp_artifact_weapon_data[NUM_ARTWEAPS] = {
         { "", 0_ml, 0_gram, 0, 0, 0, 0, 0, 0, 0, 0, ""},
         // Adjective      Vol   Weight    Bashing Cutting Stabbing To-hit Flag
-        { _( "Heavy" ),   0_ml,   1400_gram, 10, 20,  0,  0,  0,  0, -2, 0, "" },
-        { _( "Knobbed" ), 250_ml,  250_gram, 14, 30,  0,  0,  0,  0, -1, 1, "" },
-        { _( "Spiked" ),  250_ml,  100_gram,  0,  0,  0,  0, 20, 40, -1, 1, "" },
-        { _( "Edged" ),   500_ml,  450_gram,  0,  0, 20, 50,  0,  0, -1, 2, "SHEATH_SWORD" },
-        { _( "Bladed" ),  250_ml, 2250_gram,  0,  0,  0,  0, 12, 30, -1, 1, "SHEATH_KNIFE" }
+        { translate_marker( "Heavy" ),   0_ml,   1400_gram, 10, 20,  0,  0,  0,  0, -2, 0, "" },
+        { translate_marker( "Knobbed" ), 250_ml,  250_gram, 14, 30,  0,  0,  0,  0, -1, 1, "" },
+        { translate_marker( "Spiked" ),  250_ml,  100_gram,  0,  0,  0,  0, 20, 40, -1, 1, "" },
+        { translate_marker( "Edged" ),   500_ml,  450_gram,  0,  0, 20, 50,  0,  0, -1, 2, "SHEATH_SWORD" },
+        { translate_marker( "Bladed" ),  250_ml, 2250_gram,  0,  0,  0,  0, 12, 30, -1, 1, "SHEATH_KNIFE" }
     };
     for(int i = 0; i < NUM_ARTWEAPS; i++) {
         artifact_weapon_data[i] = tmp_artifact_weapon_data[i];
@@ -698,7 +698,7 @@ std::string new_artifact()
                     art->item_tags.insert(weapon->tag);
                 }
                 std::ostringstream newname;
-                newname << weapon->adjective << " " << _( info->name.c_str() );
+                newname << _( weapon->adjective.c_str() ) << " " << _( info->name.c_str() );
                 art->create_name(newname.str());
             }
         }
