@@ -218,9 +218,6 @@ void mapgen_ants_larvae(map *m, oter_id terrain_type, mapgendata dat, int turn, 
 void mapgen_ants_queen(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_tutorial(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 
-//
-void init_mapgen_builtin_functions();
-
 // Temporary wrappers
 void madd_trap( map *m, int x, int y, trap_id t );
 void mremove_trap( map *m, int x, int y );
