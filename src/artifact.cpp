@@ -233,7 +233,6 @@ enum artifact_armor_form {
     NUM_ARTARMFORMS
 };
 
-//see below, move them so gettext and be applied properly
 static const std::array<artifact_shape_datum, ARTSHAPE_MAX> artifact_shape_data = { {
     {"BUG", "BUG", 0_ml, 0_ml, 0_gram, 0_gram},
     {translate_marker( "sphere" ), translate_marker( "smooth sphere" ), 500_ml, 1000_ml, 1_gram, 1150_gram},
