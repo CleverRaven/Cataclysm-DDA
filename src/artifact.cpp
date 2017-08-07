@@ -10,6 +10,7 @@
 
 #include <bitset>
 #include <cmath>
+#include <array>
 #include <sstream>
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
@@ -28,7 +29,7 @@ std::vector<art_effect_passive> fill_bad_passive();
 std::vector<art_effect_active>  fill_good_active();
 std::vector<art_effect_active>  fill_bad_active();
 
-int passive_effect_cost[NUM_AEPS] = {
+static const std::array<int, NUM_AEPS> passive_effect_cost = {
     0, // AEP_NULL
 
     3, // AEP_STR_UP
@@ -72,7 +73,7 @@ int passive_effect_cost[NUM_AEPS] = {
     -1  // AEP_SICK
 };
 
-int active_effect_cost[NUM_AEAS] = {
+static const std::array<int, NUM_AEAS> active_effect_cost = {
     0, // AEA_NULL
 
     2, // AEA_STORM
@@ -141,10 +142,10 @@ struct artifact_shape_datum {
 struct artifact_property_datum {
     std::string name;
     std::string desc;
-    art_effect_passive passive_good[4];
-    art_effect_passive passive_bad[4];
-    art_effect_active active_good[4];
-    art_effect_active active_bad[4];
+    std::array<art_effect_passive, 4> passive_good;
+    std::array<art_effect_passive, 4> passive_bad;
+    std::array<art_effect_active, 4> active_good;
+    std::array<art_effect_active, 4> active_bad;
 };
 
 enum artifact_weapon_type {
@@ -166,7 +167,7 @@ struct artifact_tool_form_datum {
     units::volume volume_min, volume_max;
     units::mass weight_min, weight_max;
     artifact_weapon_type base_weapon;
-    artifact_weapon_type extra_weapons[3];
+    std::array<artifact_weapon_type, 3> extra_weapons;
 };
 
 enum artifact_tool_form {
@@ -217,7 +218,7 @@ struct artifact_armor_form_datum {
     int melee_bash, melee_cut, melee_hit;
     std::bitset<num_bp> covers;
     bool plural;
-    artifact_armor_mod available_mods[5];
+    std::array<artifact_armor_mod, 5> available_mods;
 };
 
 enum artifact_armor_form {
@@ -233,7 +234,7 @@ enum artifact_armor_form {
 };
 
 //see below, move them so gettext and be applied properly
-artifact_shape_datum artifact_shape_data[ARTSHAPE_MAX] = {
+static const std::array<artifact_shape_datum, ARTSHAPE_MAX> artifact_shape_data = { {
     {"BUG", "BUG", 0_ml, 0_ml, 0_gram, 0_gram},
     {translate_marker( "sphere" ), translate_marker( "smooth sphere" ), 500_ml, 1000_ml, 1_gram, 1150_gram},
     {translate_marker( "rod" ), translate_marker( "tapered rod" ), 250_ml, 1750_ml, 1_gram, 800_gram},
@@ -252,8 +253,8 @@ artifact_shape_datum artifact_shape_data[ARTSHAPE_MAX] = {
     {translate_marker( "crystal" ), translate_marker( "translucent crystal" ), 250_ml, 1500_ml, 200_gram, 800_gram},
     {translate_marker( "knot" ), translate_marker( "twisted, knotted cord" ), 500_ml, 1500_ml, 100_gram, 800_gram},
     {translate_marker( "crescent" ), translate_marker( "crescent-shaped stone" ), 500_ml, 1500_ml, 200_gram, 700_gram}
-};
-artifact_property_datum artifact_property_data[ARTPROP_MAX] = {
+} };
+static const std::array<artifact_property_datum, ARTPROP_MAX> artifact_property_data = { {
     {
         "BUG", "BUG",
         {AEP_NULL, AEP_NULL, AEP_NULL, AEP_NULL},
@@ -382,8 +383,8 @@ artifact_property_datum artifact_property_data[ARTPROP_MAX] = {
         {AEA_STORM, AEA_FATIGUE, AEA_TELEPORT, AEA_NULL},
         {AEA_RADIATION, AEA_MUTATE, AEA_TELEGLOW, AEA_TELEGLOW}
     }
-};
-artifact_tool_form_datum artifact_tool_form_data[NUM_ARTTOOLFORMS] = {
+} };
+static const std::array<artifact_tool_form_datum, NUM_ARTTOOLFORMS> artifact_tool_form_data = { {
     {
         "", '*', def_c_white, material_id( "null" ), 0_ml, 0_ml, 0_gram, 0_gram, ARTWEAP_BULK,
         {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}
@@ -413,8 +414,8 @@ artifact_tool_form_datum artifact_tool_form_data[NUM_ARTTOOLFORMS] = {
         translate_marker( "Cube" ), '*', def_c_white, material_id( "steel" ), 250_ml, 750_ml, 100_gram, 2300_gram, ARTWEAP_BULK,
         {ARTWEAP_SPEAR, ARTWEAP_NULL, ARTWEAP_NULL}
     }
-};
-artifact_weapon_datum artifact_weapon_data[NUM_ARTWEAPS] = {
+} };
+static const std::array<artifact_weapon_datum, NUM_ARTWEAPS> artifact_weapon_data = { {
     { "", 0_ml, 0_gram, 0, 0, 0, 0, 0, 0, 0, 0, ""},
     // Adjective      Vol   Weight    Bashing Cutting Stabbing To-hit Flag
     { translate_marker( "Heavy" ),   0_ml,   1400_gram, 10, 20,  0,  0,  0,  0, -2, 0, "" },
@@ -422,8 +423,8 @@ artifact_weapon_datum artifact_weapon_data[NUM_ARTWEAPS] = {
     { translate_marker( "Spiked" ),  250_ml,  100_gram,  0,  0,  0,  0, 20, 40, -1, 1, "" },
     { translate_marker( "Edged" ),   500_ml,  450_gram,  0,  0, 20, 50,  0,  0, -1, 2, "SHEATH_SWORD" },
     { translate_marker( "Bladed" ),  250_ml, 2250_gram,  0,  0,  0,  0, 12, 30, -1, 1, "SHEATH_KNIFE" }
-};
-artifact_armor_form_datum artifact_armor_form_data[NUM_ARTARMFORMS] = {
+} };
+static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_armor_form_data = { {
     {
         "", def_c_white, material_id( "null" ),        0_ml,  0_gram,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
         0, false,
@@ -491,13 +492,13 @@ artifact_armor_form_datum artifact_armor_form_data[NUM_ARTARMFORMS] = {
         0, true,
         {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
     }
-};
+} };
 /*
  * Armor mods alter the normal values of armor.
  * If the basic armor type has "null" as its second material, and the mod has a
  * material attached, the second material will be changed.
  */
-artifact_armor_form_datum artifact_armor_mod_data[NUM_ARMORMODS] = {
+static const std::array<artifact_armor_form_datum, NUM_ARMORMODS> artifact_armor_mod_data = { {
     {
         "", def_c_white, material_id( "null" ), 0_ml,  0_gram,  0,  0,  0,  0,  0,  0_ml,  0, 0, 0, 0, false,
         {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
@@ -540,21 +541,21 @@ artifact_armor_form_datum artifact_armor_mod_data[NUM_ARMORMODS] = {
         1000_ml, 1400_gram,  3,  2, 2,  0,  1, -1000_ml, 0, 0, 0, 0, false,
         {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
     },
-};
+} };
 #define NUM_ART_ADJS 20
-std::string artifact_adj[NUM_ART_ADJS] = {
+static const std::array<std::string, NUM_ART_ADJS> artifact_adj = { {
     translate_marker( "Forbidden" ), translate_marker( "Unknown" ), translate_marker( "Forgotten" ), translate_marker( "Hideous" ), translate_marker( "Eldritch" ),
     translate_marker( "Gelatinous" ), translate_marker( "Ancient" ), translate_marker( "Cursed" ), translate_marker( "Bloody" ), translate_marker( "Undying" ),
     translate_marker( "Shadowy" ), translate_marker( "Silent" ), translate_marker( "Cyclopean" ), translate_marker( "Fungal" ), translate_marker( "Unspeakable" ),
     translate_marker( "Grotesque" ), translate_marker( "Frigid" ), translate_marker( "Shattered" ), translate_marker( "Sleeping" ), translate_marker( "Repellent" )
-};
+} };
 #define NUM_ART_NOUNS 20
-std::string artifact_noun[NUM_ART_NOUNS] = {
+static const std::array<std::string, NUM_ART_NOUNS> artifact_noun = { {
     translate_marker( "%s Technique" ), translate_marker( "%s Dreams" ), translate_marker( "%s Beasts" ), translate_marker( "%s Evil" ), translate_marker( "%s Miasma" ),
     translate_marker( "the %s Abyss" ), translate_marker( "the %s City" ), translate_marker( "%s Shadows" ), translate_marker( "%s Shade" ), translate_marker( "%s Illusion" ),
     translate_marker( "%s Justice" ), translate_marker( "the %s Necropolis" ), translate_marker( "%s Ichor" ), translate_marker( "the %s Monolith" ), translate_marker( "%s Aeons" ),
     translate_marker( "%s Graves" ), translate_marker( "%s Horrors" ), translate_marker( "%s Suffering" ), translate_marker( "%s Death" ), translate_marker( "%s Horror" )
-};
+} };
 std::string artifact_name(std::string type);
 
 // Constructrs for artifact itypes.
@@ -620,7 +621,7 @@ std::string new_artifact()
 
         int form = rng(ARTTOOLFORM_NULL + 1, NUM_ARTTOOLFORMS - 1);
 
-        artifact_tool_form_datum *info = &(artifact_tool_form_data[form]);
+        const artifact_tool_form_datum *info = &(artifact_tool_form_data[form]);
         art->create_name( _( info->name.c_str() ) );
         art->color = info->color;
         art->sym = std::string( 1, info->sym );
@@ -628,7 +629,7 @@ std::string new_artifact()
         art->volume = rng(info->volume_min, info->volume_max);
         art->weight = rng(info->weight_min, info->weight_max);
         // Set up the basic weapon type
-        artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
+        const artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
         art->melee[DT_BASH] = rng(weapon->bash_min, weapon->bash_max);
         art->melee[DT_CUT] = rng(weapon->cut_min, weapon->cut_max);
         art->melee[DT_STAB] = rng(weapon->stab_min, weapon->stab_max);
@@ -739,7 +740,7 @@ std::string new_artifact()
         auto art = &def; // avoid huge number of line changes
 
         int form = rng(ARTARMFORM_NULL + 1, NUM_ARTARMFORMS - 1);
-        artifact_armor_form_datum *info = &(artifact_armor_form_data[form]);
+        const artifact_armor_form_datum *info = &(artifact_armor_form_data[form]);
 
         art->create_name( _( info->name.c_str() ) );
         art->sym = "["; // Armor is always [
@@ -768,7 +769,7 @@ std::string new_artifact()
             int index = rng(0, 4);
             if (info->available_mods[index] != ARMORMOD_NULL) {
                 artifact_armor_mod mod = info->available_mods[index];
-                artifact_armor_form_datum *modinfo = &(artifact_armor_mod_data[mod]);
+                const artifact_armor_form_datum *modinfo = &(artifact_armor_mod_data[mod]);
                 if( modinfo->volume >= 0 || art->volume > -modinfo->volume ) {
                     art->volume += modinfo->volume;
                 } else {
@@ -851,12 +852,12 @@ std::string new_natural_artifact(artifact_natural_property prop)
     // Pick a form
     artifact_natural_shape shape =
         artifact_natural_shape(rng(ARTSHAPE_NULL + 1, ARTSHAPE_MAX - 1));
-    artifact_shape_datum *shape_data = &(artifact_shape_data[shape]);
+    const artifact_shape_datum *shape_data = &(artifact_shape_data[shape]);
     // Pick a property
     artifact_natural_property property = (prop > ARTPROP_NULL ? prop :
                                           artifact_natural_property(rng(ARTPROP_NULL + 1,
                                                   ARTPROP_MAX - 1)));
-    artifact_property_datum *property_data = &(artifact_property_data[property]);
+    const artifact_property_datum *property_data = &(artifact_property_data[property]);
 
     art->sym = ":";
     art->color = c_yellow;
@@ -957,7 +958,7 @@ std::string architects_cube()
     it_artifact_tool def;
     auto art = &def;
 
-    artifact_tool_form_datum *info = &(artifact_tool_form_data[ARTTOOLFORM_CUBE]);
+    const artifact_tool_form_datum *info = &(artifact_tool_form_data[ARTTOOLFORM_CUBE]);
     art->create_name( _( info->name.c_str() ) );
     art->color = info->color;
     art->sym = std::string( 1, info->sym );
@@ -965,7 +966,7 @@ std::string architects_cube()
     art->volume = rng(info->volume_min, info->volume_max);
     art->weight = rng(info->weight_min, info->weight_max);
     // Set up the basic weapon type
-    artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
+    const artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
     art->melee[DT_BASH] = rng(weapon->bash_min, weapon->bash_max);
     art->melee[DT_CUT] = rng(weapon->cut_min, weapon->cut_max);
     art->m_to_hit = rng(weapon->to_hit_min, weapon->to_hit_max);
