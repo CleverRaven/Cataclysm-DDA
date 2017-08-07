@@ -160,7 +160,7 @@ enum artifact_weapon_type {
 struct artifact_tool_form_datum {
     std::string name;
     char sym;
-    nc_color color;
+    deferred_color color;
     // Most things had 0 to 1 material.
     material_id material;
     units::volume volume_min, volume_max;
@@ -383,7 +383,37 @@ artifact_property_datum artifact_property_data[ARTPROP_MAX] = {
         {AEA_RADIATION, AEA_MUTATE, AEA_TELEGLOW, AEA_TELEGLOW}
     }
 };
-artifact_tool_form_datum artifact_tool_form_data[NUM_ARTTOOLFORMS];
+artifact_tool_form_datum artifact_tool_form_data[NUM_ARTTOOLFORMS] = {
+    {
+        "", '*', def_c_white, material_id( "null" ), 0_ml, 0_ml, 0_gram, 0_gram, ARTWEAP_BULK,
+        {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}
+    },
+
+    {
+        translate_marker( "Harp" ), ';', def_c_yellow, material_id( "wood" ), 5000_ml, 7500_ml, 1150_gram, 2100_gram, ARTWEAP_BULK,
+        {ARTWEAP_SPEAR, ARTWEAP_SWORD, ARTWEAP_KNIFE}
+    },
+
+    {
+        translate_marker( "Staff" ), '/', def_c_brown, material_id( "wood" ), 1500_ml, 3000_ml, 450_gram, 1150_gram, ARTWEAP_CLUB,
+        {ARTWEAP_BULK, ARTWEAP_SPEAR, ARTWEAP_KNIFE}
+    },
+
+    {
+        translate_marker( "Sword" ), '/', def_c_ltblue, material_id( "steel" ), 2000_ml, 3500_ml, 900_gram, 3259_gram, ARTWEAP_SWORD,
+        {ARTWEAP_BULK, ARTWEAP_NULL, ARTWEAP_NULL}
+    },
+
+    {
+        translate_marker( "Dagger" ), ';', def_c_ltblue, material_id( "steel" ), 250_ml, 1000_ml, 100_gram, 700_gram, ARTWEAP_KNIFE,
+        {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}
+    },
+
+    {
+        translate_marker( "Cube" ), '*', def_c_white, material_id( "steel" ), 250_ml, 750_ml, 100_gram, 2300_gram, ARTWEAP_BULK,
+        {ARTWEAP_SPEAR, ARTWEAP_NULL, ARTWEAP_NULL}
+    }
+};
 artifact_weapon_datum artifact_weapon_data[NUM_ARTWEAPS];
 artifact_armor_form_datum artifact_armor_form_data[NUM_ARTARMFORMS];
 /*
@@ -435,41 +465,6 @@ it_artifact_armor::it_artifact_armor( JsonObject &jo ) : itype()
 
 void init_artifacts()
 {
-    artifact_tool_form_datum tmp_artifact_tool_form_data[NUM_ARTTOOLFORMS] = {
-        {
-            "", '*', c_white, material_id( "null" ), 0_ml, 0_ml, 0_gram, 0_gram, ARTWEAP_BULK,
-            {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}
-        },
-
-        {
-            translate_marker( "Harp" ), ';', c_yellow, material_id( "wood" ), 5000_ml, 7500_ml, 1150_gram, 2100_gram, ARTWEAP_BULK,
-            {ARTWEAP_SPEAR, ARTWEAP_SWORD, ARTWEAP_KNIFE}
-        },
-
-        {
-            translate_marker( "Staff" ), '/', c_brown, material_id( "wood" ), 1500_ml, 3000_ml, 450_gram, 1150_gram, ARTWEAP_CLUB,
-            {ARTWEAP_BULK, ARTWEAP_SPEAR, ARTWEAP_KNIFE}
-        },
-
-        {
-            translate_marker( "Sword" ), '/', c_ltblue, material_id( "steel" ), 2000_ml, 3500_ml, 900_gram, 3259_gram, ARTWEAP_SWORD,
-            {ARTWEAP_BULK, ARTWEAP_NULL, ARTWEAP_NULL}
-        },
-
-        {
-            translate_marker( "Dagger" ), ';', c_ltblue, material_id( "steel" ), 250_ml, 1000_ml, 100_gram, 700_gram, ARTWEAP_KNIFE,
-            {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}
-        },
-
-        {
-            translate_marker( "Cube" ), '*', c_white, material_id( "steel" ), 250_ml, 750_ml, 100_gram, 2300_gram, ARTWEAP_BULK,
-            {ARTWEAP_SPEAR, ARTWEAP_NULL, ARTWEAP_NULL}
-        }
-    };
-    for(int i = 0; i < NUM_ARTTOOLFORMS; i++) {
-        artifact_tool_form_data[i] = tmp_artifact_tool_form_data[i];
-    }
-
     artifact_weapon_datum tmp_artifact_weapon_data[NUM_ARTWEAPS] = {
         { "", 0_ml, 0_gram, 0, 0, 0, 0, 0, 0, 0, 0, ""},
         // Adjective      Vol   Weight    Bashing Cutting Stabbing To-hit Flag
