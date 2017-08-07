@@ -618,10 +618,10 @@ void init_artifacts()
     }
 
     std::string tmp_artifact_adj[NUM_ART_ADJS] = {
-        _("Forbidden"), _("Unknown"), _("Forgotten"), _("Hideous"), _("Eldritch"),
-        _("Gelatinous"), _("Ancient"), _("Cursed"), _("Bloody"), _("Undying"),
-        _("Shadowy"), _("Silent"), _("Cyclopean"), _("Fungal"), _("Unspeakable"),
-        _("Grotesque"), _("Frigid"), _("Shattered"), _("Sleeping"), _("Repellent")
+        translate_marker("Forbidden"), translate_marker("Unknown"), translate_marker("Forgotten"), translate_marker("Hideous"), translate_marker("Eldritch"),
+        translate_marker("Gelatinous"), translate_marker("Ancient"), translate_marker("Cursed"), translate_marker("Bloody"), translate_marker("Undying"),
+        translate_marker("Shadowy"), translate_marker("Silent"), translate_marker("Cyclopean"), translate_marker("Fungal"), translate_marker("Unspeakable"),
+        translate_marker("Grotesque"), translate_marker("Frigid"), translate_marker("Shattered"), translate_marker("Sleeping"), translate_marker("Repellent")
     };
     for(int i = 0; i < NUM_ART_ADJS; i++) {
         artifact_adj[i] = tmp_artifact_adj[i];
@@ -1066,7 +1066,7 @@ std::string artifact_name(std::string type)
 {
     std::string ret;
     std::string noun = artifact_noun[rng(0, NUM_ART_NOUNS - 1)];
-    std::string adj = artifact_adj[rng(0, NUM_ART_ADJS - 1)];
+    std::string adj = _( artifact_adj[rng(0, NUM_ART_ADJS - 1)].c_str() );
     ret = string_format(noun, adj.c_str());
     ret = string_format( pgettext( "artifact name (type, noun)", "%1$s of %2$s" ), type.c_str(), ret.c_str() );
     return ret;
