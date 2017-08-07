@@ -305,10 +305,6 @@ void game::load_static_data()
 
     get_auto_pickup().load_global();
     get_safemode().load_global();
-
-    // --- move/delete everything below
-    // TODO: move this to player class
-    moveCount = 0;
 }
 
 bool game::check_mod_data( const std::vector<std::string> &opts )
@@ -2678,8 +2674,6 @@ bool game::handle_action()
             break;
 
         case ACTION_MOVE_N:
-            moveCount++;
-
             if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(0, -1);
             } else if (veh_ctrl) {
@@ -2690,8 +2684,6 @@ bool game::handle_action()
             break;
 
         case ACTION_MOVE_NE:
-            moveCount++;
-
             if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(1, -1);
             } else if (veh_ctrl) {
@@ -2702,8 +2694,6 @@ bool game::handle_action()
             break;
 
         case ACTION_MOVE_E:
-            moveCount++;
-
             if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(1, 0);
             } else if (veh_ctrl) {
@@ -2714,8 +2704,6 @@ bool game::handle_action()
             break;
 
         case ACTION_MOVE_SE:
-            moveCount++;
-
             if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(1, 1);
             } else if (veh_ctrl) {
@@ -2726,8 +2714,6 @@ bool game::handle_action()
             break;
 
         case ACTION_MOVE_S:
-            moveCount++;
-
             if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(0, 1);
             } else if (veh_ctrl) {
@@ -2738,8 +2724,6 @@ bool game::handle_action()
             break;
 
         case ACTION_MOVE_SW:
-            moveCount++;
-
             if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(-1, 1);
             } else if (veh_ctrl) {
@@ -2750,8 +2734,6 @@ bool game::handle_action()
             break;
 
         case ACTION_MOVE_W:
-            moveCount++;
-
             if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(-1, 0);
             } else if (veh_ctrl) {
@@ -2762,8 +2744,6 @@ bool game::handle_action()
             break;
 
         case ACTION_MOVE_NW:
-            moveCount++;
-
             if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(-1, -1);
             } else if (veh_ctrl) {
@@ -12076,7 +12056,7 @@ bool game::grabbed_move( const tripoint &dp )
 void game::on_move_effects()
 {
     // TODO: Move this to a character method
-    if (moveCount % 2 == 0) {
+    if( u.lifetime_stats()->squares_walked % 2 == 0 ) {
         if (u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             u.charge_power(1);
         }
