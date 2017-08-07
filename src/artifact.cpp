@@ -320,121 +320,121 @@ void init_artifacts()
             {AEA_NULL, AEA_NULL, AEA_NULL, AEA_NULL}
         },
         {
-            _("wriggling"), _("is constantly wriggling"),
+            translate_marker("wriggling"), translate_marker("is constantly wriggling"),
             {AEP_SPEED_UP, AEP_SNAKES, AEP_NULL, AEP_NULL},
             {AEP_DEX_DOWN, AEP_FORCE_TELEPORT, AEP_SICK, AEP_NULL},
             {AEA_TELEPORT, AEA_ADRENALINE, AEA_NULL, AEA_NULL},
             {AEA_MUTATE, AEA_ATTENTION, AEA_VOMIT, AEA_NULL}
         },
         {
-            _("glowing"), _("glows faintly"),
+            translate_marker("glowing"), translate_marker("glows faintly"),
             {AEP_INT_UP, AEP_GLOW, AEP_CLAIRVOYANCE, AEP_NULL},
             {AEP_RADIOACTIVE, AEP_MUTAGENIC, AEP_ATTENTION, AEP_NULL},
             {AEA_LIGHT, AEA_LIGHT, AEA_LIGHT, AEA_NULL},
             {AEA_ATTENTION, AEA_TELEGLOW, AEA_FLASH, AEA_SHADOWS}
         },
         {
-            _("humming"), _("hums very quietly"),
+            translate_marker("humming"), translate_marker("hums very quietly"),
             {AEP_ALL_UP, AEP_PSYSHIELD, AEP_NULL, AEP_NULL},
             {AEP_SCHIZO, AEP_PER_DOWN, AEP_INT_DOWN, AEP_NULL},
             {AEA_PULSE, AEA_ENTRANCE, AEA_NULL, AEA_NULL},
             {AEA_NOISE, AEA_NOISE, AEA_SCREAM, AEA_NULL}
         },
         {
-            _("moving"), _("shifts from side to side slowly"),
+            translate_marker("moving"), translate_marker("shifts from side to side slowly"),
             {AEP_STR_UP, AEP_DEX_UP, AEP_SPEED_UP, AEP_NULL},
             {AEP_HUNGER, AEP_PER_DOWN, AEP_FORCE_TELEPORT, AEP_NULL},
             {AEA_TELEPORT, AEA_TELEPORT, AEA_MAP, AEA_NULL},
             {AEA_PARALYZE, AEA_VOMIT, AEA_VOMIT, AEA_NULL}
         },
         {
-            _("whispering"), _("makes very faint whispering sounds"),
+            translate_marker("whispering"), translate_marker("makes very faint whispering sounds"),
             {AEP_CLAIRVOYANCE, AEP_EXTINGUISH, AEP_STEALTH, AEP_NULL},
             {AEP_EVIL, AEP_SCHIZO, AEP_ATTENTION, AEP_NULL},
             {AEA_FATIGUE, AEA_ENTRANCE, AEA_ENTRANCE, AEA_NULL},
             {AEA_ATTENTION, AEA_SCREAM, AEA_SCREAM, AEA_SHADOWS}
         },
         {
-            _("breathing"),
-            _("shrinks and grows very slightly with a regular pulse, as if breathing"),
+            translate_marker("breathing"),
+            translate_marker("shrinks and grows very slightly with a regular pulse, as if breathing"),
             {AEP_SAP_LIFE, AEP_ALL_UP, AEP_SPEED_UP, AEP_CARRY_MORE},
             {AEP_HUNGER, AEP_THIRST, AEP_SICK, AEP_BAD_WEATHER},
             {AEA_ADRENALINE, AEA_HEAL, AEA_ENTRANCE, AEA_GROWTH},
             {AEA_MUTATE, AEA_ATTENTION, AEA_SHADOWS, AEA_NULL}
         },
         {
-            _("dead"), _("is icy cold to the touch"),
+            translate_marker("dead"), translate_marker("is icy cold to the touch"),
             {AEP_INVISIBLE, AEP_CLAIRVOYANCE, AEP_EXTINGUISH, AEP_SAP_LIFE},
             {AEP_HUNGER, AEP_EVIL, AEP_ALL_DOWN, AEP_SICK},
             {AEA_BLOOD, AEA_HURTALL, AEA_NULL, AEA_NULL},
             {AEA_PAIN, AEA_SHADOWS, AEA_DIM, AEA_VOMIT}
         },
         {
-            _("itchy"), _("makes your skin itch slightly when it is close"),
+            translate_marker("itchy"), translate_marker("makes your skin itch slightly when it is close"),
             {AEP_DEX_UP, AEP_SPEED_UP, AEP_PSYSHIELD, AEP_NULL},
             {AEP_RADIOACTIVE, AEP_MUTAGENIC, AEP_SICK, AEP_NULL},
             {AEA_ADRENALINE, AEA_BLOOD, AEA_HEAL, AEA_BUGS},
             {AEA_RADIATION, AEA_PAIN, AEA_PAIN, AEA_VOMIT}
         },
         {
-            _("glittering"), _("glitters faintly under direct light"),
+            translate_marker("glittering"), translate_marker("glitters faintly under direct light"),
             {AEP_INT_UP, AEP_EXTINGUISH, AEP_GLOW, AEP_NULL},
             {AEP_SMOKE, AEP_ATTENTION, AEP_NULL, AEP_NULL},
             {AEA_MAP, AEA_LIGHT, AEA_CONFUSED, AEA_ENTRANCE},
             {AEA_RADIATION, AEA_MUTATE, AEA_ATTENTION, AEA_FLASH}
         },
         {
-            _("electric"), _("very weakly shocks you when touched"),
+            translate_marker("electric"), translate_marker("very weakly shocks you when touched"),
             {AEP_RESIST_ELECTRICITY, AEP_DEX_UP, AEP_SPEED_UP, AEP_PSYSHIELD},
             {AEP_THIRST, AEP_SMOKE, AEP_STR_DOWN, AEP_BAD_WEATHER},
             {AEA_STORM, AEA_ADRENALINE, AEA_LIGHT, AEA_NULL},
             {AEA_PAIN, AEA_PARALYZE, AEA_FLASH, AEA_FLASH}
         },
         {
-            _("slimy"), _("feels slimy"),
+            translate_marker("slimy"), translate_marker("feels slimy"),
             {AEP_SNAKES, AEP_STEALTH, AEP_EXTINGUISH, AEP_SAP_LIFE},
             {AEP_THIRST, AEP_DEX_DOWN, AEP_SPEED_DOWN, AEP_SICK},
             {AEA_BLOOD, AEA_ACIDBALL, AEA_GROWTH, AEA_ACIDBALL},
             {AEA_MUTATE, AEA_MUTATE, AEA_VOMIT, AEA_VOMIT}
         },
         {
-            _("engraved"), _("is covered with odd etchings"),
+            translate_marker("engraved"), translate_marker("is covered with odd etchings"),
             {AEP_CLAIRVOYANCE, AEP_INVISIBLE, AEP_PSYSHIELD, AEP_SAP_LIFE},
             {AEP_EVIL, AEP_ATTENTION, AEP_NULL, AEP_NULL},
             {AEA_FATIGUE, AEA_TELEPORT, AEA_HEAL, AEA_FATIGUE},
             {AEA_ATTENTION, AEA_ATTENTION, AEA_TELEGLOW, AEA_DIM}
         },
         {
-            _("crackling"), _("occasionally makes a soft crackling sound"),
+            translate_marker("crackling"), translate_marker("occasionally makes a soft crackling sound"),
             {AEP_EXTINGUISH, AEP_RESIST_ELECTRICITY, AEP_NULL, AEP_NULL},
             {AEP_SMOKE, AEP_RADIOACTIVE, AEP_MOVEMENT_NOISE, AEP_NULL},
             {AEA_STORM, AEA_FIREBALL, AEA_PULSE, AEA_NULL},
             {AEA_PAIN, AEA_PARALYZE, AEA_NOISE, AEA_NOISE}
         },
         {
-            _("warm"), _("is warm to the touch"),
+            translate_marker("warm"), translate_marker("is warm to the touch"),
             {AEP_STR_UP, AEP_EXTINGUISH, AEP_GLOW, AEP_NULL},
             {AEP_SMOKE, AEP_RADIOACTIVE, AEP_NULL, AEP_NULL},
             {AEA_FIREBALL, AEA_FIREBALL, AEA_FIREBALL, AEA_LIGHT},
             {AEA_FIRESTORM, AEA_FIRESTORM, AEA_TELEGLOW, AEA_NULL}
         },
         {
-            _("rattling"), _("makes a rattling sound when moved"),
+            translate_marker("rattling"), translate_marker("makes a rattling sound when moved"),
             {AEP_DEX_UP, AEP_SPEED_UP, AEP_SNAKES, AEP_CARRY_MORE},
             {AEP_ATTENTION, AEP_INT_DOWN, AEP_MOVEMENT_NOISE, AEP_MOVEMENT_NOISE},
             {AEA_BLOOD, AEA_PULSE, AEA_BUGS, AEA_NULL},
             {AEA_PAIN, AEA_ATTENTION, AEA_NOISE, AEA_NULL}
         },
         {
-            _("scaled"), _("has a surface reminiscent of reptile scales"),
+            translate_marker("scaled"), translate_marker("has a surface reminiscent of reptile scales"),
             {AEP_SNAKES, AEP_SNAKES, AEP_SNAKES, AEP_STEALTH},
             {AEP_THIRST, AEP_MUTAGENIC, AEP_SPEED_DOWN, AEP_NULL},
             {AEA_ADRENALINE, AEA_BUGS, AEA_GROWTH, AEA_NULL},
             {AEA_MUTATE, AEA_SCREAM, AEA_DIM, AEA_NULL}
         },
         {
-            _("fractal"),
-            _("has a self-similar pattern which repeats until it is too small for you to see"),
+            translate_marker("fractal"),
+            translate_marker("has a self-similar pattern which repeats until it is too small for you to see"),
             {AEP_ALL_UP, AEP_ALL_UP, AEP_CLAIRVOYANCE, AEP_PSYSHIELD},
             {AEP_SCHIZO, AEP_ATTENTION, AEP_FORCE_TELEPORT, AEP_BAD_WEATHER},
             {AEA_STORM, AEA_FATIGUE, AEA_TELEPORT, AEA_NULL},
@@ -914,9 +914,9 @@ std::string new_natural_artifact(artifact_natural_property prop)
     art->melee[DT_CUT] = 0;
     art->m_to_hit = 0;
 
-    art->create_name(property_data->name, _( shape_data->name.c_str() ) );
+    art->create_name( _( property_data->name.c_str() ), _( shape_data->name.c_str() ) );
     art->description = string_format( pgettext( "artifact description", "This %1$s %2$s." ),
-                                      _( shape_data->desc.c_str() ), property_data->desc.c_str() );
+                                      _( shape_data->desc.c_str() ), _( property_data->desc.c_str() ) );
 
     // Three possibilities: good passive + bad passive, good active + bad active,
     // and bad passive + good active
