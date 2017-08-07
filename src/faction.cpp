@@ -150,9 +150,6 @@ faction::~faction()
 }
 
 //TODO move them to json
-void game::init_faction_data()
-{
-}
 
 static const std::array<std::string, 15> faction_adj_pos = { {
     translate_marker("Shining"), translate_marker("Sacred"), translate_marker("Golden"), translate_marker("Holy"), translate_marker("Righteous"), translate_marker("Devoted"),
