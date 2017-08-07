@@ -300,7 +300,6 @@ void game::load_static_data()
     // be moved to game::load_mod or game::load_core_data
     init_mapgen_builtin_functions();
     init_savedata_translation_tables();
-    init_artifacts();
     init_faction_data();
 
     get_auto_pickup().load_global();

@@ -592,11 +592,6 @@ it_artifact_armor::it_artifact_armor( JsonObject &jo ) : itype()
     deserialize( jo );
 }
 
-void init_artifacts()
-{
-
-}
-
 void it_artifact_tool::create_name(const std::string &type)
 {
     name = artifact_name(type);
