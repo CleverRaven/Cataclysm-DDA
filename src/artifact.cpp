@@ -628,10 +628,10 @@ void init_artifacts()
     }
 
     std::string tmp_artifact_noun[NUM_ART_NOUNS] = {
-        _("%s Technique"), _("%s Dreams"), _("%s Beasts"), _("%s Evil"), _("%s Miasma"),
-        _("the %s Abyss"), _("the %s City"), _("%s Shadows"), _("%s Shade"), _("%s Illusion"),
-        _("%s Justice"), _("the %s Necropolis"), _("%s Ichor"), _("the %s Monolith"), _("%s Aeons"),
-        _("%s Graves"), _("%s Horrors"), _("%s Suffering"), _("%s Death"), _("%s Horror")
+        translate_marker("%s Technique"), translate_marker("%s Dreams"), translate_marker("%s Beasts"), translate_marker("%s Evil"), translate_marker("%s Miasma"),
+        translate_marker("the %s Abyss"), translate_marker("the %s City"), translate_marker("%s Shadows"), translate_marker("%s Shade"), translate_marker("%s Illusion"),
+        translate_marker("%s Justice"), translate_marker("the %s Necropolis"), translate_marker("%s Ichor"), translate_marker("the %s Monolith"), translate_marker("%s Aeons"),
+        translate_marker("%s Graves"), translate_marker("%s Horrors"), translate_marker("%s Suffering"), translate_marker("%s Death"), translate_marker("%s Horror")
     };
     for(int i = 0; i < NUM_ART_NOUNS; i++) {
         artifact_noun[i] = tmp_artifact_noun[i];
@@ -1065,7 +1065,7 @@ std::vector<art_effect_active> fill_bad_active()
 std::string artifact_name(std::string type)
 {
     std::string ret;
-    std::string noun = artifact_noun[rng(0, NUM_ART_NOUNS - 1)];
+    std::string noun = _( artifact_noun[rng(0, NUM_ART_NOUNS - 1)].c_str() );
     std::string adj = _( artifact_adj[rng(0, NUM_ART_ADJS - 1)].c_str() );
     ret = string_format(noun, adj.c_str());
     ret = string_format( pgettext( "artifact name (type, noun)", "%1$s of %2$s" ), type.c_str(), ret.c_str() );
