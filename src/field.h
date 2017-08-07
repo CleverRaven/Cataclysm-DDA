@@ -9,6 +9,7 @@
 #include <string>
 #include <map>
 #include <iosfwd>
+#include <array>
 
 enum phase_id : int;
 
@@ -110,7 +111,7 @@ enum field_id : int {
 /*
 Controls the master listing of all possible field effects, indexed by a field_id. Does not store active fields, just metadata.
 */
-extern field_t fieldlist[num_fields];
+extern const std::array<field_t, num_fields> fieldlist;
 /**
  * Returns the field_id of the field whose ident (field::id) matches the given ident.
  * Returns fd_null (and prints a debug message!) if the field ident is unknown.
