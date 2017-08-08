@@ -84,6 +84,7 @@
     "fire_resist": 3,
     "elec_resist": 0,
     "chip_resist": 11,
+    "repaired_with": "scrap",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched"
