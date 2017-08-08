@@ -17,6 +17,31 @@
   ]
 },{
   "type" : "recipe",
+  "result": "soymilk",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "difficulty": 3,
+  "skill_used": "cooking",
+  "time": 20000,
+  "autolearn": true,
+  "batch_time_factors":[80, 4],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": 
+   [ 
+      [ [ "water_boiling_heat", 12, "LIST" ] ],
+      [ ["rock_quern", -1], ["clay_quern", -1] ]
+   ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      ["dry_beans", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "salt",
   "id_suffix": "from_salt_water",
   "category": "CC_FOOD",
