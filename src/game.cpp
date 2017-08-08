@@ -13272,11 +13272,14 @@ void game::wait()
         add_menu_item( 6, '6', "", HOURS( 6 ) );
     }
 
-    add_menu_item( 7,  'd', _( "Wait till dawn" ),     calendar::turn.diurnal_time_before( calendar::turn.sunrise() ) );
-    add_menu_item( 8,  'n', _( "Wait till noon" ),     calendar::turn.diurnal_time_before( HOURS( 12 ) ) );
-    add_menu_item( 9,  'k', _( "Wait till dusk" ),     calendar::turn.diurnal_time_before( calendar::turn.sunset() ) );
-    add_menu_item( 10, 'm', _( "Wait till midnight" ), calendar::turn.diurnal_time_before( HOURS( 0 ) ) );
-    add_menu_item( 11, 'w', _( "Wait till weather changes" ) );
+    if( get_levz() >= 0 || has_watch ) {
+        add_menu_item( 7,  'd', _( "Wait till dawn" ),     calendar::turn.diurnal_time_before( calendar::turn.sunrise() ) );
+        add_menu_item( 8,  'n', _( "Wait till noon" ),     calendar::turn.diurnal_time_before( HOURS( 12 ) ) );
+        add_menu_item( 9,  'k', _( "Wait till dusk" ),     calendar::turn.diurnal_time_before( calendar::turn.sunset() ) );
+        add_menu_item( 10, 'm', _( "Wait till midnight" ), calendar::turn.diurnal_time_before( HOURS( 0 ) ) );
+        add_menu_item( 11, 'w', _( "Wait till weather changes" ) );
+    }
+
     add_menu_item( 12, 'q', _( "Exit" ) );
 
     as_m.text = ( has_watch ) ? string_format( _( "It's %s now. " ), calendar::turn.print_time().c_str() ) : "";
