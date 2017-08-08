@@ -5115,6 +5115,8 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
 
     // Place the cursor over the player as is expected by screen readers.
     wmove( w_terrain, POSY + g->u.pos().y - center.y, POSX + g->u.pos().x - center.x );
+
+    wrefresh( w_terrain);
 }
 
 tripoint game::get_veh_dir_indicator_location( bool next ) const
