@@ -7881,26 +7881,29 @@ bool player::wield( item& target )
 }
 
 // ids of martial art styles that are available with the bio_cqb bionic.
-static const std::array<matype_id, 4> bio_cqb_styles {{
+static const std::vector<matype_id> bio_cqb_styles {{
     matype_id{ "style_karate" }, matype_id{ "style_judo" }, matype_id{ "style_muay_thai" }, matype_id{ "style_biojutsu" }
 }};
 
 class ma_style_callback : public uimenu_callback
 {
+private:
+    size_t offset;
+    const std::vector<matype_id> &styles;
 public:
+    ma_style_callback( int style_offset, const std::vector<matype_id> &selectable_styles )
+        : offset( style_offset )
+        , styles( selectable_styles )
+    {}
+
     bool key(const input_event &event, int entnum, uimenu *menu) override {
         if( event.get_first_input() != '?' ) {
             return false;
         }
         matype_id style_selected;
         const size_t index = entnum;
-        if( g->u.has_active_bionic( bio_cqb ) && index < menu->entries.size() ) {
-            const size_t id = menu->entries[index].retval - 2;
-            if( id < bio_cqb_styles.size() ) {
-                style_selected = bio_cqb_styles[id];
-            }
-        } else if( index >= 3 && index - 3 < g->u.ma_styles.size() ) {
-            style_selected = g->u.ma_styles[index - 3];
+        if( index >= offset && index - offset < styles.size() ) {
+            style_selected = styles[index - offset];
         }
         if( !style_selected.str().empty() ) {
             const martialart &ma = style_selected.obj();
@@ -7911,6 +7914,10 @@ public:
                 buffer << enumerate_as_string( ma.techniques.begin(), ma.techniques.end(), []( const matec_id &mid ) {
                     return mid.obj().name;
                 } );
+            }
+            if( ma.force_unarmed ) {
+                buffer << "\n\n \n\n";
+                buffer << _( "This style forces you to use unarmed strikes, even if wielding a weapon." );
             }
             if( !ma.weapons.empty() ) {
                 buffer << "\n\n \n\n";
@@ -7931,8 +7938,6 @@ bool player::pick_style() // Style selection menu
 {
     enum style_selection {
         KEEP_HANDS_FREE = 0,
-        NO_STYLE,
-        FORCE_UNARMED,
         STYLE_OFFSET
     };
 
@@ -7940,25 +7945,22 @@ bool player::pick_style() // Style selection menu
     // if no selected styles, cursor starts from no-style
 
     // Any other keys quit the menu
+    std::vector<matype_id> selectable_styles = {{
+        matype_id( "style_none" ), matype_id( "style_kicks" )
+    }};
+    const std::vector<matype_id> &real_styles = has_active_bionic( bio_cqb ) ? bio_cqb_styles : ma_styles;
+    selectable_styles.insert( selectable_styles.end(), real_styles.begin(), real_styles.end() );
 
     uimenu kmenu;
     kmenu.return_invalid = true;
     kmenu.text = _("Select a style (press ? for more info)");
-    std::unique_ptr<ma_style_callback> ma_style_info( new ma_style_callback() );
+    std::unique_ptr<ma_style_callback> ma_style_info( new ma_style_callback( ( size_t )STYLE_OFFSET, selectable_styles ) );
     kmenu.callback = ma_style_info.get();
     kmenu.desc_enabled = true;
     kmenu.addentry_desc( KEEP_HANDS_FREE, true, 'h', keep_hands_free ? _( "Keep hands free (on)" ) : _( "Keep hands free (off)" ),
                          _( "When this is enabled, player won't wield things unless explicitly told to." ) );
 
-    const std::vector<matype_id> &selectable_styles =
-        has_active_bionic( bio_cqb ) ?
-        std::vector<matype_id>( bio_cqb_styles.begin(), bio_cqb_styles.end() ) :
-        ma_styles;
-
-
-    kmenu.addentry( NO_STYLE, true, 'n', _( "No style" ), matype_id( "style_none" ).obj().description );
-    kmenu.addentry( FORCE_UNARMED, true, 'f', _( "Force unarmed" ), matype_id( "style_kicks" ).obj().description );
-    kmenu.selected = style_selected == matype_id( "style_kicks" ) ? FORCE_UNARMED : NO_STYLE;
+    kmenu.selected = STYLE_OFFSET;
     kmenu.return_invalid = true; //cancel with any other keys
 
     for( size_t i = 0; i < selectable_styles.size(); i++ ) {
@@ -7967,7 +7969,7 @@ bool player::pick_style() // Style selection menu
         if( selectable_styles[i] == style_selected ) {
             kmenu.selected = i + STYLE_OFFSET;
         }
-        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, style.name , style.description );
+        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, style.name, style.description );
     }
 
     kmenu.query();
@@ -7976,10 +7978,6 @@ bool player::pick_style() // Style selection menu
     //debugmsg("selected %d",choice);
     if( selection >= STYLE_OFFSET ) {
         style_selected = selectable_styles[selection - STYLE_OFFSET];
-    } else if( selection == NO_STYLE ) {
-        style_selected = matype_id( "style_none" );
-    } else if( selection == FORCE_UNARMED ) {
-        style_selected = matype_id( "style_kicks" );
     } else if( selection == KEEP_HANDS_FREE ) {
         keep_hands_free = !keep_hands_free;
     } else {
