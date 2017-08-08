@@ -727,7 +727,7 @@ void npc::choose_target()
 
     constexpr static int def_radius = 6;
 
-    const auto ok_by_rules = [this, cur_range]( const Creature &c, int dist, int scaled_dist ) {
+    const auto ok_by_rules = [cur_range, this]( const Creature &c, int dist, int scaled_dist ) {
         if( !is_following() ) {
             return true;
         }
@@ -1620,7 +1620,7 @@ void npc::avoid_friendly_fire()
     auto candidates = closest_tripoints_first( 1, pos() );
     candidates.erase( candidates.begin() );
     std::sort( candidates.begin(), candidates.end(),
-        [&tar, &center, this]( const tripoint &l, const tripoint &r ) {
+        [&tar, &center]( const tripoint &l, const tripoint &r ) {
         return ( rl_dist( l, tar ) - rl_dist( l, center ) ) <
                ( rl_dist( r, tar ) - rl_dist( r, center ) );
     } );
@@ -2248,7 +2248,7 @@ bool npc::wield_better_weapon()
     // Fists aren't checked below
     compare_weapon( ret_null );
 
-    visit_items( [this, &compare_weapon]( item *node ) {
+    visit_items( [&compare_weapon]( item *node ) {
         // Skip some bad items
         if( !node->is_melee() ) {
             return VisitResponse::SKIP;
