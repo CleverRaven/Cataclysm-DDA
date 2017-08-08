@@ -39,6 +39,8 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
 static const trait_id trait_PAWS( "PAWS" );
 
+const skill_id skill_tailor( "tailor" );
+
 static bool crafting_allowed( const player &p, const recipe &rec )
 {
     if( !p.has_morale_to_craft() ) {
@@ -521,6 +523,7 @@ void player::complete_craft()
     float used_age_tally = 0;
     int used_age_count = 0;
     size_t newit_counter = 0;
+    int tailor_level = get_skill_level( skill_tailor );
     for( item &newit : newits ) {
         // messages, learning of recipe, food spoilage calc only once
         if( first ) {
@@ -565,6 +568,11 @@ void player::complete_craft()
             newit_counter++;
         }
         finalize_crafted_item( newit, used_age_tally, used_age_count );
+
+        if( newit.has_flag( "VARSIZE" ) && x_in_y( ( tailor_level + 10 - making->difficulty ), tailor_level + 10 ) ) {
+            newit.item_tags.insert( "FIT" );
+        }
+
         set_item_inventory( newit );
     }
 
