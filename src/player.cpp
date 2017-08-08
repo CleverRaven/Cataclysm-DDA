@@ -152,6 +152,7 @@ const efftype_id effect_nausea( "nausea" );
 const efftype_id effect_cough_suppress( "cough_suppress" );
 
 const matype_id style_none( "style_none" );
+const matype_id style_kicks( "style_kicks" );
 
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_advreactor( "bio_advreactor" );
@@ -577,7 +578,7 @@ player::player() : Character()
     grab_point = {0, 0, 0};
     grab_type = OBJECT_NONE;
     move_mode = "walk";
-    style_selected = matype_id( "style_none" );
+    style_selected = style_none;
     keep_hands_free = false;
     focus_pool = 100;
     last_item = itype_id( "null" );
@@ -634,7 +635,7 @@ void player::normalize()
 {
     Character::normalize();
 
-    style_selected = matype_id( "style_none" );
+    style_selected = style_none;
 
     recalc_hp();
 
@@ -2705,7 +2706,7 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
     std::string style = "";
     const auto style_color = is_armed() ? c_red : c_blue;
     const auto &cur_style = style_selected.obj();
-    if( cur_style.weapon_valid( weapon ) ) {
+    if( cur_style.force_unarmed || cur_style.weapon_valid( weapon ) ) {
         style = cur_style.name;
     } else if( is_armed() ) {
         style = _( "Normal" );
@@ -7946,7 +7947,7 @@ bool player::pick_style() // Style selection menu
 
     // Any other keys quit the menu
     std::vector<matype_id> selectable_styles = {{
-        matype_id( "style_none" ), matype_id( "style_kicks" )
+        style_none, style_kicks
     }};
     const std::vector<matype_id> &real_styles = has_active_bionic( bio_cqb ) ? bio_cqb_styles : ma_styles;
     selectable_styles.insert( selectable_styles.end(), real_styles.begin(), real_styles.end() );
