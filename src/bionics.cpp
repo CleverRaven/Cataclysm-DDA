@@ -34,7 +34,6 @@
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );
 const skill_id skilll_mechanics( "mechanics" );
-const skill_id skill_firstaid( "firstaid" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
@@ -984,7 +983,7 @@ bool player::install_bionics( const itype &type, int skill_level )
         pain_cap = pain_cap / 1.5;
     }
 
-    int fa_level = get_skill_level( skill_firstaid );
+    int fa_level = get_skill_level( skilll_firstaid );
 
     if( has_trait( trait_PROF_MED ) ) {
         fa_level = 5;
