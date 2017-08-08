@@ -6940,7 +6940,7 @@ void game::smash()
 
     didit = m.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
     if( didit ) {
-        u.handle_melee_wear();
+        u.handle_melee_wear( u.weapon );
         u.moves -= move_cost;
         const int mod_sta = ( (u.weapon.weight() / 100 ) + 20) * -1;
         u.mod_stat("stamina", mod_sta);
