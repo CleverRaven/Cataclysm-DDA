@@ -7518,7 +7518,7 @@ bool game::npc_menu( npc &who )
         who.body_window( precise );
     } else if( choice == use_item ) {
         static const std::string heal_string( "heal" );
-        const auto will_accept = [&who]( const item &it ) {
+        const auto will_accept = []( const item &it ) {
             const auto use_fun = it.get_use( heal_string );
             if( use_fun == nullptr ) {
                 return false;
