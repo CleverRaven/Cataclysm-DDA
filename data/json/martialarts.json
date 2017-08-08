@@ -8,6 +8,14 @@
         "leg_block" : 99
     },{
         "type" : "martial_art",
+        "id" : "style_kicks",
+        "name" : "Force unarmed",
+        "description" : "Not a martial art, setting this style will prevent weapon attacks and force punches (with free hand) or kicks.",
+        "arm_block" : 1,
+        "leg_block" : 99,
+        "force_unarmed" : true
+    },{
+        "type" : "martial_art",
         "id" : "style_brawling",
         "name" : "Brawling",
         "description" : "You're used to hand-to-creature fighting.  Not stylish or sporting, but it gets the job done.",

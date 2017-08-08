@@ -92,7 +92,7 @@ std::string melee_message( const ma_technique &tech, player &p, const dealt_dama
 
 const item &Character::used_weapon() const
 {
-    return weapon;
+    return dynamic_cast<const player &>( *this ).get_combat_style().force_unarmed ? ret_null : weapon;
 }
 
 item &Character::used_weapon()
@@ -292,7 +292,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
 
     item &cur_weapon = used_weapon();
     const bool critical_hit = scored_crit( t.dodge_roll(), cur_weapon );
-    int move_cost = attack_speed( weapon );
+    int move_cost = attack_speed( cur_weapon );
 
     if( hit_spread < 0 ) {
         int stumble_pen = stumble( *this, cur_weapon );
@@ -305,7 +305,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
                     add_msg(reason_for_miss);
             }
 
-            if( has_miss_recovery_tec( )) {
+            if( has_miss_recovery_tec( cur_weapon ) ) {
                 add_msg( _( "You feint." ) );
             } else if( stumble_pen >= 60 ) {
                 add_msg( m_bad, _( "You miss and stumble with the momentum." ) );
@@ -333,7 +333,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
 
         // Cap stumble penalty, heavy weapons are quite weak already
         move_cost += std::min( 60, stumble_pen );
-        if( has_miss_recovery_tec() ) {
+        if( has_miss_recovery_tec( cur_weapon ) ) {
             move_cost /= 2;
         }
     } else {
@@ -348,7 +348,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
         // Pick one or more special attacks
         matec_id technique_id;
         if( allow_special && !has_force_technique ) {
-            technique_id = pick_technique(t, critical_hit, false, false);
+            technique_id = pick_technique( t, cur_weapon, critical_hit, false, false );
         } else if ( has_force_technique ) {
             technique_id = force_technique;
         } else {
@@ -473,7 +473,7 @@ void player::reach_attack( const tripoint &p )
 
     if( critter == nullptr ) {
         add_msg_if_player( _("You swing at the air.") );
-        if( has_miss_recovery_tec() ) {
+        if( has_miss_recovery_tec( weapon ) ) {
             move_cost /= 3; // "Probing" is faster than a regular miss
         }
 
@@ -862,11 +862,11 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average, con
     di.add_damage( DT_STAB, cut_dam, 0, armor_mult, stab_mul );
 }
 
-matec_id player::pick_technique(Creature &t,
-                                bool crit, bool dodge_counter, bool block_counter)
+matec_id player::pick_technique( Creature &t, const item &weap,
+                                 bool crit, bool dodge_counter, bool block_counter )
 {
 
-    std::vector<matec_id> all = get_all_techniques();
+    std::vector<matec_id> all = get_all_techniques( weap );
 
     std::vector<matec_id> possible;
 
@@ -1393,7 +1393,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
                            damage_blocked_description.c_str(), thing_blocked_with.c_str() );
 
     // Check if we have any block counters
-    matec_id tec = pick_technique( *source, false, false, true );
+    matec_id tec = pick_technique( *source, shield, false, false, true );
 
     if( tec != tec_none ) {
         melee_attack( *source, false, tec );

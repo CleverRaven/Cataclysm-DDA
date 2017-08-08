@@ -478,7 +478,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool is_immune_damage( const damage_type ) const override;
 
         /** Returns true if the player has technique-based miss recovery */
-        bool has_miss_recovery_tec() const;
+        bool has_miss_recovery_tec( const item &weap ) const;
         /** Returns true if the player has a grab breaking technique available */
         bool has_grab_break_tec() const override;
         /** Returns true if the player has the leg block technique available */
@@ -608,13 +608,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Adds player's total stab damage to the damage instance */
         void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
 
-        std::vector<matec_id> get_all_techniques() const;
+        std::vector<matec_id> get_all_techniques( const item &weap ) const;
 
         /** Returns true if the player has a weapon or martial arts skill available with the entered technique */
         bool has_technique( const matec_id &tec, const item &weap ) const;
         /** Returns a random valid technique */
-        matec_id pick_technique(Creature &t,
-                                bool crit, bool dodge_counter, bool block_counter);
+        matec_id pick_technique( Creature &t, const item &weap,
+                                 bool crit, bool dodge_counter, bool block_counter );
         void perform_technique(const ma_technique &technique, Creature &t, damage_instance &di, int &move_cost);
         /** Performs special attacks and their effects (poisonous, stinger, etc.) */
         void perform_special_attacks(Creature &t);
