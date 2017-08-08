@@ -114,7 +114,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
         for( const auto& v : vitamin::all() ) {
              header.push_back( v.second.name() );
         }
-        auto dump = [&rows,&test_npcs]( const item& obj ) {
+        auto dump = [&rows]( const item& obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( false ) );
             r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
