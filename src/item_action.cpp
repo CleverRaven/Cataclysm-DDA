@@ -243,7 +243,7 @@ void game::item_action_menu()
     std::vector<std::tuple<item_action_id, std::string, std::string>> menu_items;
     // Sorts menu items by action.
     typedef decltype( menu_items )::iterator Iter;
-    const auto sort_menu = [&menu_items]( Iter from, Iter to ) {
+    const auto sort_menu = []( Iter from, Iter to ) {
         std::sort( from, to, []( const std::tuple<item_action_id, std::string, std::string> &lhs,
         const std::tuple<item_action_id, std::string, std::string> &rhs ) {
             return std::get<1>( lhs ).compare( std::get<1>( rhs ) ) < 0;
