@@ -938,7 +938,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                                             t.size()), t.size());
     }
 
-    const auto set_last_target = [this]( const tripoint &dst ) {
+    const auto set_last_target = []( const tripoint &dst ) {
         if( const auto np = g->critter_at<npc>( dst ) ) {
             auto &a = g->active_npc;
             // Convert the npc pointer into an index in game::active_npc
@@ -949,7 +949,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         }
     };
 
-    const auto confirm_non_enemy_target = [this, &pc]( const tripoint &dst ) {
+    const auto confirm_non_enemy_target = [&pc]( const tripoint &dst ) {
         if( dst == pc.pos() ) {
             return true;
         }

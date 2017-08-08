@@ -304,7 +304,7 @@ item& item::ammo_set( const itype_id& ammo, long qty )
                 // as above call to magazine_default successful can infer minimum one option exists
                 auto iter = type->magazines.find( ammo_type() );
                 std::vector<itype_id> opts( iter->second.begin(), iter->second.end() );
-                std::sort( opts.begin(), opts.end(), [qty]( const itype_id &lhs, const itype_id &rhs ) {
+                std::sort( opts.begin(), opts.end(), []( const itype_id &lhs, const itype_id &rhs ) {
                     return find_type( lhs )->magazine->capacity < find_type( rhs )->magazine->capacity;
                 } );
                 mag = find_type( opts.back() );
