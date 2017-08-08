@@ -288,10 +288,6 @@ item recipe::create_result() const
         newit.charges *= result_mult;
     }
 
-    if( newit.has_flag( "VARSIZE" ) ) {
-        newit.item_tags.insert( "FIT" );
-    }
-
     if( contained == true ) {
         newit = newit.in_container( container );
     }
