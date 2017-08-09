@@ -1,15 +1,5 @@
 [
   {
-    "id": "tailorbooks",
-    "type": "item_group",
-    "items": [
-      [ "tailor_portfolio", 30 ],
-      [ "mag_tailor", 50 ],
-      [ "manual_tailor", 30 ],
-      [ "textbook_tailor", 30 ]
-    ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_clothes" ],

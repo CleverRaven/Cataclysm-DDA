@@ -1,19 +1,5 @@
 [
   {
-    "id": "plumbing_bulk",
-    "type": "item_group",
-    "items": [
-      [ "pipe", 100 ],
-      [ "cu_pipe", 100 ],
-      [ "hose", 100 ],
-      [ "mop", 20 ],
-      [ "shovel", 40 ],
-      [ "hammer_sledge", 5 ],
-      [ "metal_tank_little", 50 ],
-      [ "jerrycan", 10 ]
-    ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_hardware" ],

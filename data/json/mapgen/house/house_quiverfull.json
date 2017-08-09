@@ -1,11 +1,5 @@
 [
   {
-    "name": "GROUP_QUIVERFULL",
-    "type": "monstergroup",
-    "default": "mon_null",
-    "monsters": [ { "monster": "mon_zombie_child", "freq": 100, "cost_multiplier": 0, "pack_size": [ 6, 10 ] } ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "house" ],

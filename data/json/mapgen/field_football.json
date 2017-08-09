@@ -1,49 +1,5 @@
 [
   {
-    "id": "football_items",
-    "type": "item_group",
-    "items": [
-      [ "whistle", 10 ],
-      [ "sports_drink", 60 ],
-      [ "bottle_plastic", 80 ],
-      [ "towel", 80 ],
-      [ "towel_soiled", 20 ],
-      [ "heatpack", 40 ],
-      [ "heatpack_used", 60 ],
-      [ "bandages", 40 ],
-      [ "mouthpiece", 40 ],
-      [ "football", 60 ],
-      [ "football_armor", 60 ],
-      [ "helmet_football", 60 ],
-      [ "armguard_soft", 30 ],
-      [ "legguard_hard", 30 ],
-      [ "jersey", 60 ],
-      [ "cleats", 60 ],
-      [ "duffelbag", 30 ],
-      [ "backpack", 40 ],
-      [ "energy_drink", 30 ],
-      [ "cell_phone", 50 ],
-      [ "mp3", 50 ],
-      [ "inhaler", 10 ]
-    ]
-  },
-  {
-    "id": "football_vehicles",
-    "type": "vehicle_group",
-    "vehicles": [ [ "water_cart", 100 ] ]
-  },
-  {
-    "name": "GROUP_FOOTBALL",
-    "type": "monstergroup",
-    "default": "mon_null",
-    "monsters": [
-      { "monster": "mon_zombie_brute", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zombie_runner", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 1 ] },
-      { "monster": "mon_zombie_master", "freq": 100, "cost_multiplier": 0, "pack_size": [ 1, 1 ] },
-      { "monster": "mon_zombie_fat", "freq": 100, "cost_multiplier": 1, "pack_size": [ 4, 6 ] }
-    ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "football_field_a1" ],

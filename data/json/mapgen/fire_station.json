@@ -1,26 +1,5 @@
 [
   {
-    "id": "fireman_doc",
-    "type": "item_group",
-    "items": [
-      [ "textbook_fireman", 100 ],
-      [ "emergency_book", 100 ],
-      [ "manual_first_aid", 50 ],
-      [ "manual_swimming", 50 ],
-      [ "textbook_firstaid", 10 ],
-      [ "mag_computer", 50 ]
-    ]
-  },
-  {
-    "name": "GROUP_FIRE",
-    "type": "monstergroup",
-    "default": "mon_zombie_fireman",
-    "monsters": [
-      { "monster": "mon_zombie_fireman", "freq": 100, "cost_multiplier": 2, "pack_size": [ 3, 5 ] },
-      { "monster": "mon_zombie", "freq": 40, "cost_multiplier": 1 }
-    ]
-  },
-  {
     "id": "fire_station",
     "type": "overmap_terrain",
     "name": "fire station",

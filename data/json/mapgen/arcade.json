@@ -1,11 +1,5 @@
 [
   {
-    "name": "GROUP_ARCADE",
-    "type": "monstergroup",
-    "default": "mon_null",
-    "monsters": [ { "monster": "mon_zombie_child", "freq": 600, "cost_multiplier": 1, "pack_size": [ 2, 5 ] } ]
-  },
-  {
     "id": "s_arcade",
     "type": "overmap_terrain",
     "name": "arcade",

@@ -109,23 +109,5 @@
         { "item": "bunker_basement_loot", "x": [ 15, 21 ], "y": [ 16, 21 ], "chance": 80 }
       ]
     }
-  },
-  {
-    "id": "bunker_basement_loot",
-    "type": "item_group",
-    "subtype": "distribution",
-    "ammo": 100,
-    "entries": [
-      { "group": "bots", "prob": 1 },
-      { "group": "guns_launcher_milspec", "prob": 1 },
-      { "group": "guns_rifle_milspec", "prob": 2 },
-      { "group": "mags_milspec", "prob": 1 },
-      { "group": "ammo_milspec", "prob": 3 },
-      { "group": "grenades", "prob": 1 },
-      { "group": "mil_armor", "prob": 1 },
-      { "group": "mil_hw", "prob": 1 },
-      { "group": "mil_food", "prob": 2 },
-      { "group": "bionics_mil", "prob": 1 }
-    ]
   }
 ]

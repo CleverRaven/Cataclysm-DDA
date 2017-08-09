@@ -1,58 +1,5 @@
 [
   {
-    "id": "coffee_locker",
-    "type": "item_group",
-    "items": [
-      [ "apron_leather", 25 ],
-      [ "sm_extinguisher", 10 ],
-      [ "hat_ball", 25 ],
-      [ "towel", 10 ],
-      [ "soap", 8 ],
-      [ "detergent", 8 ],
-      [ "rag", 15 ],
-      [ "broom", 8 ],
-      [ "bleach", 8 ],
-      [ "hotplate", 1 ],
-      [ "vinegar", 3 ]
-    ]
-  },
-  {
-    "id": "coffee_dishes",
-    "type": "item_group",
-    "items": [
-      [ "ceramic_cup", 70 ],
-      [ "ceramic_plate", 50 ],
-      [ "cup_plastic", 20 ]
-    ]
-  },
-  {
-    "id": "coffee_trash",
-    "type": "item_group",
-    "items": [
-      [ "wrapper", 17 ],
-      [ "bag_plastic", 15 ],
-      [ "bottle_glass", 10 ],
-      [ "can_drink_unsealed", 10 ],
-      [ "rag", 10 ],
-      [ "news_regional", 20 ],
-      [ "mag_news", 20 ],
-      [ "hairpin", 10 ],
-      [ "flyer", 7 ]
-    ]
-  },
-  {
-    "id": "coffee_bathroom",
-    "type": "item_group",
-    "items": [
-      [ "weed", 10 ],
-      [ "coke", 10 ],
-      [ "aspirin", 45 ],
-      [ "mag_news", 30 ],
-      [ "purse", 10 ],
-      [ "hairpin", 25 ]
-    ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_restaurant_coffee" ],
