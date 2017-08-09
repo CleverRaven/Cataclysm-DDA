@@ -99,7 +99,7 @@
         "color" : "dark_gray",
         "see_cost" : 2,
         "extras" : "road",
-        "comment" : "the entries below are optional and serve as an example of mapgen for line_drawing tiles",
+        "//" : "the entries below are optional and serve as an example of mapgen for line_drawing tiles",
         "mapgen_straight": [
             { "method": "builtin", "name": "road_straight" }
         ],
@@ -3498,7 +3498,7 @@
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
     },{
-        "comment" : "xxx Bookmark for necropolis sewers",
+        "//" : "xxx Bookmark for necropolis sewers",
         "type" : "overmap_terrain",
         "id" : "necropolis_b_1",
         "name" : "solid rock",
