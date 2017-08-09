@@ -16,7 +16,7 @@ class JsonObject;
 
 enum game_message_type : int;
 
-class Messages
+    class Messages
 {
     public:
         Messages();
