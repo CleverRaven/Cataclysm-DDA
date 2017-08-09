@@ -3643,7 +3643,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     // Make a temporary copy of the NPC to make sure volume calculations are correct
     npc temp = p;
     units::volume volume_left = temp.volume_capacity() - temp.volume_carried();
-    int weight_left = temp.weight_capacity() - temp.weight_carried();
+    units::mass weight_left = temp.weight_capacity() - temp.weight_carried();
 
     do {
         auto &target_list = focus_them ? theirs : yours;

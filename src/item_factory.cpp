@@ -481,6 +481,7 @@ void Item_factory::init()
     add_iuse( "ELEC_CHAINSAW_ON", &iuse::elec_chainsaw_on );
     add_iuse( "EXTINGUISHER", &iuse::extinguisher );
     add_iuse( "EYEDROPS", &iuse::eyedrops );
+    add_iuse( "FEEDCATTLE", &iuse::feedcattle );
     add_iuse( "FIRECRACKER", &iuse::firecracker );
     add_iuse( "FIRECRACKER_ACT", &iuse::firecracker_act );
     add_iuse( "FIRECRACKER_PACK", &iuse::firecracker_pack );
@@ -1648,7 +1649,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     } else {
         // @todo Move to finalization
         def.thrown_damage.clear();
-        def.thrown_damage.add_damage( DT_BASH, def.melee[DT_BASH] + def.weight / 1000.0f );
+        def.thrown_damage.add_damage( DT_BASH, def.melee[DT_BASH] + def.weight / 1.0_kilogram );
     }
 
     if( jo.has_member( "damage_states" ) ) {

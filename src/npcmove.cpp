@@ -2030,7 +2030,7 @@ void npc::drop_items(int weight, int volume)
             wgt_ratio = 99999;
             vol_ratio = 99999;
         } else {
-            wgt_ratio = it.weight() / value(it);
+            wgt_ratio = it.weight() / 1_gram / value( it );
             vol_ratio = it.volume() / units::legacy_volume_factor / value(it);
         }
         bool added_wgt = false, added_vol = false;
@@ -2086,7 +2086,7 @@ void npc::drop_items(int weight, int volume)
                 }
             }
         }
-        weight_dropped += slice[index]->front().weight();
+        weight_dropped += slice[index]->front().weight() / 1_gram;
         volume_dropped += slice[index]->front().volume() / units::legacy_volume_factor;
         item dropped = i_rem(index);
         num_items_dropped++;
@@ -2648,8 +2648,8 @@ bool npc::consume_food()
         const item &food_item = it.is_food_container() ?
                                 it.contents.front() : it;
         float cur_weight = rate_food( food_item, want_hunger, want_quench );
-        // Note: can_eat is expensive, avoid calling it if possible
-        if( cur_weight > best_weight && can_eat( food_item ) == EDIBLE ) {
+        // Note: will_eat is expensive, avoid calling it if possible
+        if( cur_weight > best_weight && will_eat( food_item ) == EDIBLE ) {
             best_weight = cur_weight;
             index = i;
         }

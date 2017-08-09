@@ -414,7 +414,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
 
     const int melee = get_skill_level( skill_melee );
     /** @EFFECT_STR reduces stamina cost for melee attack with heavier weapons */
-    const int weight_cost = weapon.weight() / ( 20 * std::max( 1, str_cur ) );
+    const int weight_cost = weapon.weight() / ( 20_gram * std::max( 1, str_cur ) );
     const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 5.0f );
     const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 5 : 0;
     /** @EFFECT_MELEE reduces stamina cost of melee attacks */
@@ -496,7 +496,7 @@ int stumble(player &u)
 
     /** @EFFECT_STR reduces chance of stumbling with heavier weapons */
     return ( u.weapon.volume() / 125_ml ) +
-           ( u.weapon.weight() / ( u.str_cur * 10 + 13.0f ) );
+           ( u.weapon.weight() / ( u.str_cur * 10_gram + 13.0_gram ) );
 }
 
 bool player::scored_crit( float target_dodge ) const

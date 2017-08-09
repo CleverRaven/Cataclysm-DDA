@@ -93,7 +93,7 @@
                 "min_unarmed" : 4,
                 "buff_duration" : 2,
                 "max_stacks" : 2,
-                "dodges_bonus" : 1
+                "bonus_dodges" : 1
             }
         ],
         "ondodge_buffs" : [
@@ -358,7 +358,7 @@
                 "description" : "Unlimited dodges after attacking",
                 "buff_duration" : 4,
                 "unarmed_allowed" : true,
-                "dodges_bonus" : 100
+                "bonus_dodges" : 100
             }
         ],
         "ondodge_buffs" : [

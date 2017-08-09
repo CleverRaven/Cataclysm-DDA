@@ -54,7 +54,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
     //vehicle movement: strength check
     int mc = 0;
-    int str_req = ( grabbed_vehicle->total_mass() / 25 ); //strengh reqired to move vehicle.
+    int str_req = ( grabbed_vehicle->total_mass() / 25_kilogram ); //strengh reqired to move vehicle.
 
     //if vehicle is rollable we modify str_req based on a function of movecost per wheel.
 
