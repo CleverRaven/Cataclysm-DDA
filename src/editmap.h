@@ -16,7 +16,7 @@
 struct real_coords;
 enum field_id : int;
 
-enum shapetype {
+    enum shapetype {
     editmap_rect, editmap_rect_filled, editmap_line, editmap_circle,
 };
 
