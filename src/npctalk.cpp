@@ -1590,8 +1590,10 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 SUCCESS_OPINION( mission_value / 4, -1,
                                  mission_value / 3, -1, 0 );
                 SUCCESS_ACTION(&talk_function::clear_mission);
-        add_response( _("How about some items as payment?"), "TALK_MISSION_REWARD",
-                      &talk_function::mission_reward );
+        if( !p->is_friend() ) {
+            add_response( _("How about some items as payment?"), "TALK_MISSION_REWARD",
+                          &talk_function::mission_reward );
+        }
         if( !p->skills_offered_to(g->u).empty() || !p->styles_offered_to(g->u).empty() ) {
             RESPONSE(_("Maybe you can teach me something as payment."));
                 SUCCESS("TALK_TRAIN");
@@ -3639,6 +3641,12 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     bool update = true;     // Re-draw the screen?
     size_t them_off = 0, you_off = 0; // Offset from the start of the list
     size_t ch, help;
+
+    if( ex ) {
+        // Sometimes owed money fails to reset for friends
+        // NPC AI is way too weak to manage money, so let's just make them give stuff away for free
+        cash = 0;
+    }
 
     // Make a temporary copy of the NPC to make sure volume calculations are correct
     npc temp = p;
