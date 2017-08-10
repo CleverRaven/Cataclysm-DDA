@@ -1834,10 +1834,6 @@ void activity_handlers::clear_rubble_finish( player_activity *act, player *p )
                               g->m.furnname( target ).c_str(), direction.c_str() );
     }
     g->m.furn_set( target, f_null );
-
-    const int bonus = act->index * act->index;
-    p->mod_hunger ( 10 / bonus );
-    p->mod_thirst ( 10 / bonus );
     
     act->set_to_null();
 }
