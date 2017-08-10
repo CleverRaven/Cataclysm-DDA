@@ -10,7 +10,7 @@
     ]
   },
   {
-    "id": "vending_drink",
+    "id": "vending_drink_home_impr",
     "type": "item_group",
     "items": [
       [ "water_clean", 50 ],
@@ -234,7 +234,7 @@
       "place_items": [
         { "item": "power_tools", "x": [ 1, 7 ], "y": 0, "chance": 40 },
         { "item": "hardware_clothing", "x": [ 1, 7 ], "y": 2, "chance": 70, "repeat": [ 1, 2 ] },
-        { "item": "vending_drink", "x": 10, "y": 10, "chance": 80, "repeat": [ 5, 8 ] },
+        { "item": "vending_drink_home_impr", "x": 10, "y": 10, "chance": 80, "repeat": [ 5, 8 ] },
         { "item": "hardware_trash", "x": 17, "y": 11, "chance": 100, "repeat": [ 2, 8 ] }
       ],
       "place_monsters": [
@@ -487,7 +487,7 @@
         { "item": "power_tools", "x": 15, "y": 15, "chance": 80 },
         { "item": "hardware_clothing", "x": [ 16, 17 ], "y": [ 14, 16 ], "chance": 70, "repeat": [ 1, 2 ] },
         { "item": "hardware_trash", "x": 19, "y": 22, "chance": 100, "repeat": [ 2, 8 ] },
-        { "item": "vending_drink", "x": 1, "y": 22, "chance": 90, "repeat": [ 1, 2 ] }
+        { "item": "vending_drink_home_impr", "x": 1, "y": 22, "chance": 90, "repeat": [ 1, 2 ] }
       ],
       "place_monsters": [
         { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 1 }
