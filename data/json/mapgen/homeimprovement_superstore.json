@@ -6,7 +6,14 @@
       [ "hat_hard", 100 ],
       [ "boots", 50 ],
       [ "glasses_safety", 50 ],
-      [ "tool_belt", 25 ]
+      [ "tool_belt", 25 ],
+      [ "elbow_pads", 50 ],
+      [ "knee_pads", 50 ],
+      [ "gloves_work", 45 ],
+      [ "ear_plugs", 75 ],
+      [ "mask_dust", 75 ],
+      [ "miner_hat", 5 ],
+      [ "cleansuit", 5 ]
     ]
   },
   {
