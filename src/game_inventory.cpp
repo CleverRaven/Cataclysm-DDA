@@ -253,19 +253,19 @@ class comestible_inventory_preset : public inventory_selector_preset
     public:
         comestible_inventory_preset( const player &p ) : inventory_selector_preset(), p( p ) {
 
-            append_cell( [ this, &p ]( const item_location & loc ) {
+            append_cell( [ this ]( const item_location & loc ) {
                 return good_bad_none( get_edible_comestible( loc ).nutr );
             }, _( "NUTRITION" ) );
 
-            append_cell( [ this, &p ]( const item_location & loc ) {
+            append_cell( [ this ]( const item_location & loc ) {
                 return good_bad_none( get_edible_comestible( loc ).quench );
             }, _( "QUENCH" ) );
 
-            append_cell( [ this, &p ]( const item_location & loc ) {
+            append_cell( [ this ]( const item_location & loc ) {
                 return good_bad_none( get_edible_comestible( loc ).fun );
             }, _( "JOY" ) );
 
-            append_cell( [ this, &p ]( const item_location & loc ) {
+            append_cell( [ this ]( const item_location & loc ) {
                 const int spoils = get_edible_comestible( loc ).spoils;
                 if( spoils > 0 ) {
                     return calendar( spoils ).textify_period();

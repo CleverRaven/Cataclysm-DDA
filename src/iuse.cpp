@@ -2300,7 +2300,7 @@ int iuse::remove_all_mods(player *p, item *, bool, const tripoint& )
     }
 
     if( !loc->ammo_remaining() || g->unload( *loc ) ) {
-        auto mod = std::find_if( loc->contents.begin(), loc->contents.end(), [&loc]( const item& e ) {
+        auto mod = std::find_if( loc->contents.begin(), loc->contents.end(), []( const item& e ) {
             return e.is_toolmod();
         } );
         p->i_add_or_drop( *mod );
