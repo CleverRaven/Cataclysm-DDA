@@ -76,6 +76,7 @@
     "copy-from": "40mm_grenade",
     "type": "AMMO",
     "name": "40mm incendiary",
+    "name_plural": "40mm incendiaries",
     "description": "A 40mm grenade with a small napalm load, designed to create a burst of flame.",
     "extend": { "effects": [ "NAPALM" ] }
   },
@@ -104,6 +105,7 @@
     "copy-from": "40mm_grenade",
     "type": "AMMO",
     "name": "40mm teargas",
+    "name_plural": "40mm teargas grenades",
     "description": "A 40mm grenade with a teargas load.  It will burst in a cloud of highly incapacitating gas.",
     "drop": "gasbomb_act",
     "extend": { "effects": [ "NO_EMBED" ] }
