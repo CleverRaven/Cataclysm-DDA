@@ -438,6 +438,7 @@ classes = {
             last_climate_control_ret = { type = "bool", writable = true },
             lastconsumed = { type = "string", writable = true },
             lastrecipe = { type = "string", writable = true },
+            lifetime_stats = { type = "stats", writable = true },
             max_power_level = { type = "int", writable = true },
             move_mode = { type = "string", writable = true },
             movecounter = { type = "int", writable = true },
