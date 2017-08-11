@@ -11596,7 +11596,7 @@ bool game::walk_move( const tripoint &dest_loc )
     }
 
     if( dest_loc != u.pos() ) {
-        u.lifetime_stats()->squares_walked++;
+        u.lifetime_stats.squares_walked++;
     }
 
     place_player( dest_loc );
@@ -12058,7 +12058,7 @@ bool game::grabbed_move( const tripoint &dp )
 void game::on_move_effects()
 {
     // TODO: Move this to a character method
-    if( u.lifetime_stats()->squares_walked % 2 == 0 ) {
+    if( u.lifetime_stats.squares_walked % 2 == 0 ) {
         if (u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             u.charge_power(1);
         }

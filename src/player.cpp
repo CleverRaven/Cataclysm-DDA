@@ -469,8 +469,6 @@ static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 static const trait_id trait_WINGS_INSECT( "WINGS_INSECT" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
-stats player_stats;
-
 static const itype_id OPTICAL_CLOAK_ITEM_ID( "optical_cloak" );
 
 player_morale_ptr::player_morale_ptr( const player_morale_ptr &rhs ) :
@@ -602,7 +600,7 @@ player::player() : Character()
     }
 
     memorial_log.clear();
-    player_stats.reset();
+    lifetime_stats.reset();
 
     drench_capacity[bp_eyes] = 1;
     drench_capacity[bp_mouth] = 1;
@@ -2537,13 +2535,13 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     //Lifetime stats
     memorial_file << _( "Lifetime Stats" ) << eol;
     memorial_file << indent << string_format( _( "Distance walked: %d squares" ),
-                  player_stats.squares_walked ) << eol;
+                  lifetime_stats.squares_walked ) << eol;
     memorial_file << indent << string_format( _( "Damage taken: %d damage" ),
-                  player_stats.damage_taken ) << eol;
+                  lifetime_stats.damage_taken ) << eol;
     memorial_file << indent << string_format( _( "Damage healed: %d damage" ),
-                  player_stats.damage_healed ) << eol;
+                  lifetime_stats.damage_healed ) << eol;
     memorial_file << indent << string_format( _( "Headshots: %d" ),
-                  player_stats.headshots ) << eol;
+                  lifetime_stats.headshots ) << eol;
     memorial_file << eol;
 
     //History
@@ -2622,25 +2620,6 @@ std::string player::dump_memorial() const
     }
 
     return output.str();
-}
-
-/**
- * Returns a pointer to the stat-tracking struct. Its fields should be edited
- * as necessary to track ongoing counters, which will be added to the memorial
- * file. For single events, rather than cumulative counters, see
- * add_memorial_log.
- * @return A pointer to the stats struct being used to track this player's
- *         lifetime stats.
- */
-stats *player::lifetime_stats()
-{
-    return &player_stats;
-}
-
-// copy of stats, for saving
-stats player::get_stats() const
-{
-    return player_stats;
 }
 
 void player::mod_stat( const std::string &stat, float modifier )
@@ -4207,7 +4186,7 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
 
     hp_cur[hurtpart] -= dam;
     if (hp_cur[hurtpart] < 0) {
-        lifetime_stats()->damage_taken += hp_cur[hurtpart];
+        lifetime_stats.damage_taken += hp_cur[hurtpart];
         hp_cur[hurtpart] = 0;
     }
 
@@ -4216,7 +4195,7 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
         add_effect( effect_disabled, 1, hurt, true );
     }
 
-    lifetime_stats()->damage_taken += dam;
+    lifetime_stats.damage_taken += dam;
     if( dam > get_painkiller() ) {
         on_hurt( source );
     }
@@ -4274,10 +4253,10 @@ void player::heal(hp_part healed, int dam)
     if (hp_cur[healed] > 0) {
         hp_cur[healed] += dam;
         if (hp_cur[healed] > hp_max[healed]) {
-            lifetime_stats()->damage_healed -= hp_cur[healed] - hp_max[healed];
+            lifetime_stats.damage_healed -= hp_cur[healed] - hp_max[healed];
             hp_cur[healed] = hp_max[healed];
         }
-        lifetime_stats()->damage_healed += dam;
+        lifetime_stats.damage_healed += dam;
     }
 }
 
@@ -4298,9 +4277,9 @@ void player::hurtall(int dam, Creature *source, bool disturb /*= true*/)
         const hp_part bp = static_cast<hp_part>( i );
         // Don't use apply_damage here or it will annoy the player with 6 queries
         hp_cur[bp] -= dam;
-        lifetime_stats()->damage_taken += dam;
+        lifetime_stats.damage_taken += dam;
         if( hp_cur[bp] < 0 ) {
-            lifetime_stats()->damage_taken += hp_cur[bp];
+            lifetime_stats.damage_taken += hp_cur[bp];
             hp_cur[bp] = 0;
         }
     }

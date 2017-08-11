@@ -1425,8 +1425,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::vector <std::string> memorial_log;
 
         //Record of player stats, for posterity only
-        stats *lifetime_stats();
-        stats get_stats() const; // for serialization
+        stats lifetime_stats;
+
         void mod_stat( const std::string &stat, float modifier ) override;
 
         int getID () const;

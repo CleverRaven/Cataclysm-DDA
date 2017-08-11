@@ -241,7 +241,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
 
         if( shot.missed_by <= .1 ) {
-            lifetime_stats()->headshots++; // @todo check head existence for headshot
+            lifetime_stats.headshots++; // @todo check head existence for headshot
         }
 
         if( shot.hit_critter ) {
@@ -492,7 +492,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     if( missed_by <= 0.1 && dealt_attack.hit_critter != nullptr ) {
         practice( skill_used, final_xp_mult, MAX_SKILL );
         // TODO: Check target for existence of head
-        lifetime_stats()->headshots++;
+        lifetime_stats.headshots++;
     } else if( dealt_attack.hit_critter != nullptr && missed_by > 0.0f ) {
         practice( skill_used, final_xp_mult / ( 1.0f + missed_by ), MAX_SKILL );
     } else {
