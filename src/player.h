@@ -107,22 +107,14 @@ extern const double MIN_RECOIL;
 //Don't forget to add new memorial counters
 //to the save and load functions in savegame_json.cpp
 struct stats : public JsonSerializer, public JsonDeserializer {
-    int squares_walked;
-    int damage_taken;
-    int damage_healed;
-    int headshots;
+    int squares_walked = 0;
+    int damage_taken = 0;
+    int damage_healed = 0;
+    int headshots = 0;
 
     void reset()
     {
-        squares_walked = 0;
-        damage_taken = 0;
-        damage_healed = 0;
-        headshots = 0;
-    }
-
-    stats()
-    {
-        reset();
+        *this = stats();
     }
 
     using JsonSerializer::serialize;
