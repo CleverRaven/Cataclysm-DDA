@@ -158,7 +158,9 @@ endif
 ifdef CLANG
   # Allow setting specific CLANG version
   ifeq ($(CLANG), 1)
-    CLANG = clang++
+    CLANGCMD = clang++
+  else
+    CLANGCMD = $(CLANG)
   endif
   ifeq ($(NATIVE), osx)
     USE_LIBCXX = 1
@@ -168,11 +170,11 @@ ifdef CLANG
     LDFLAGS += -stdlib=libc++
   endif
   ifdef CCACHE
-    CXX = CCACHE_CPP2=1 ccache $(CROSS)$(CLANG)
-    LD  = CCACHE_CPP2=1 ccache $(CROSS)$(CLANG)
+    CXX = CCACHE_CPP2=1 ccache $(CROSS)$(CLANGCMD)
+    LD  = CCACHE_CPP2=1 ccache $(CROSS)$(CLANGCMD)
   else
-    CXX = $(CROSS)$(CLANG)
-    LD  = $(CROSS)$(CLANG)
+    CXX = $(CROSS)$(CLANGCMD)
+    LD  = $(CROSS)$(CLANGCMD)
   endif
 else
   # Compiler version & target machine - used later for MXE ICE workaround
