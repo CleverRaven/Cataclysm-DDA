@@ -34,7 +34,7 @@ struct node {
  * @param dest End point of path
  * @param max_x Max permissable x coordinate for a point on the path
  * @param max_y Max permissable y coordinate for a point on the path
- * @param estimator BinaryPredicate( node &previous, node &current ) returns
+ * @param estimator BinaryPredicate( node &previous, node *current ) returns
  * integer estimation (smaller - better) for the current node or a negative value
  * if the node is unsuitable.
  */
@@ -45,8 +45,8 @@ std::vector<node> find_path( const point &source,
                              const int max_y,
                              BinaryPredicate estimator )
 {
-    static const int dx[4] = { 1, 0, -1, 0 };
-    static const int dy[4] = { 0, 1, 0, -1 };
+    static const int dx[4] = {  0, 1, 0, -1 };
+    static const int dy[4] = { -1, 0, 1,  0 };
 
     const auto inbounds = [ max_x, max_y ]( const int x, const int y ) {
         return x >= 0 && x < max_x && y >= 0 && y <= max_y;
@@ -71,15 +71,21 @@ std::vector<node> find_path( const point &source,
         return res;
     }
 
+    const node first_node( x1, y1, 5, 1000 );
+
+    if( estimator( first_node, nullptr ) < 0 ) {
+        return res;
+    }
+
     const size_t map_size = max_x * max_y;
 
-    std::priority_queue<node, std::deque<node> > nodes[2];
     std::vector<bool> closed( map_size, false );
     std::vector<int> open( map_size, 0 );
     std::vector<short> dirs( map_size, 0 );
-    int i = 0;
+    std::priority_queue<node, std::deque<node>> nodes[2];
 
-    nodes[i].emplace( x1, y1, 5, 1000 );
+    int i = 0;
+    nodes[i].push( first_node );
     open[map_index( x1, y1 )] = 1000;
 
     // use A* to find the shortest path from (x1,y1) to (x2,y2)
@@ -120,7 +126,7 @@ std::vector<node> find_path( const point &source,
             }
 
             node cn( x, y, d );
-            cn.priority = estimator( mn, cn );
+            cn.priority = estimator( cn, &mn );
 
             if( cn.priority < 0 ) {
                 continue; // rejected by the estimator
