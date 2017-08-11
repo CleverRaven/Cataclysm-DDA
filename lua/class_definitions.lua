@@ -421,7 +421,6 @@ classes = {
             squares_walked = { type = "int", writable = true },
         },
         functions = {
-            { name = "reset", rval = nil, args = { } },
         }
     },
     player = {

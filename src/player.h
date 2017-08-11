@@ -112,11 +112,6 @@ struct stats : public JsonSerializer, public JsonDeserializer {
     int damage_healed = 0;
     int headshots = 0;
 
-    void reset()
-    {
-        *this = stats();
-    }
-
     using JsonSerializer::serialize;
     void serialize(JsonOut &json) const override
     {

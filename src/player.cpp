@@ -600,7 +600,6 @@ player::player() : Character()
     }
 
     memorial_log.clear();
-    lifetime_stats.reset();
 
     drench_capacity[bp_eyes] = 1;
     drench_capacity[bp_mouth] = 1;
