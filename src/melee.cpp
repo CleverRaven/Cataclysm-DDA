@@ -31,6 +31,7 @@ static const matec_id tec_none( "tec_none" );
 static const matec_id WBLOCK_1( "WBLOCK_1" );
 static const matec_id WBLOCK_2( "WBLOCK_2" );
 static const matec_id WBLOCK_3( "WBLOCK_3" );
+static const matec_id WBLOCK_4( "WBLOCK_4" );
 
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_cutting( "cutting" );
@@ -1200,25 +1201,25 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
     }
 }
 
-// this would be i2amroy's fix, but it's kinda handy
-bool player::can_weapon_block() const
-{
-    return (weapon.has_technique( WBLOCK_1 ) ||
-            weapon.has_technique( WBLOCK_2 ) ||
-            weapon.has_technique( WBLOCK_3 ));
-}
-
 int blocking_ability( const item &shield )
 {
     int block_bonus = 2;
-    if (shield.has_technique( WBLOCK_3 )) {
+    if (shield.has_technique( WBLOCK_4 )) {
         block_bonus = 10;
+    } else if (shield.has_technique( WBLOCK_3 )) {
+        block_bonus = 8;
     } else if (shield.has_technique( WBLOCK_2 )) {
         block_bonus = 6;
     } else if (shield.has_technique( WBLOCK_1 )) {
         block_bonus = 4;
     }
     return block_bonus;
+}
+
+// this would be i2amroy's fix, but it's kinda handy
+bool player::can_weapon_block() const
+{
+    return (blocking_ability( weapon ) > 2);
 }
 
 item &player::best_shield()
@@ -1406,6 +1407,8 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     if( tec != tec_none ) {
         melee_attack( *source, false, tec );
     }
+
+    add_msg( m_debug, "blocked damage percentage: %.1f", 1.0 - blocked_ratio );
 
     return true;
 }
