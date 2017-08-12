@@ -142,11 +142,7 @@
     "durability": 9,
     "reload": 200,
     "barrel_length": 2,
-    "modes": [
-      [ "DEFAULT", "semi-auto", 1 ],
-      [ "BURST", "4 rd.", 4 ],
-      [ "AUTO", "auto", 20 ]
-    ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "4 rd.", 4 ], [ "AUTO", "auto", 20 ] ],
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 2,
     "magazines": [ [ "8x40mm", [ "8x40_250_mag", "8x40_500_mag" ] ] ],

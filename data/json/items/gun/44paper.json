@@ -16,6 +16,8 @@
     "dispersion": 400,
     "durability": 7,
     "clip_size": 5,
-    "proportional": { "reload": 2 }
+    "proportional": {
+      "reload": 2
+    }
   }
 ]

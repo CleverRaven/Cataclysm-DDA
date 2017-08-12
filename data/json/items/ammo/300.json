@@ -32,7 +32,11 @@
       "damage": 0.9,
       "dispersion": 1.1
     },
-    "extend": { "effects": [ "RECYCLED" ] },
-    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+    "extend": {
+      "effects": [ "RECYCLED" ]
+    },
+    "delete": {
+      "effects": [ "NEVER_MISFIRES" ]
+    }
   }
 ]

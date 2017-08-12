@@ -19,10 +19,7 @@
     "durability": 8,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
-    "magazines": [
-      [ "57", [ "fn57mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ]
-    ]
+    "magazines": [ [ "57", [ "fn57mag" ] ], [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ] ]
   },
   {
     "id": "fn_p90",
@@ -44,9 +41,6 @@
     "burst": 20,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 2,
-    "magazines": [
-      [ "57", [ "fnp90mag" ] ],
-      [ "22", [ "a180mag" ] ]
-    ]
+    "magazines": [ [ "57", [ "fnp90mag" ] ], [ "22", [ "a180mag" ] ] ]
   }
 ]

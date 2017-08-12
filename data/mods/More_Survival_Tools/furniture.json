@@ -12,9 +12,17 @@
       "str_max": 105,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "items": [ { "item": "rock", "count": [ 5, 15 ] } ]
+      "items": [ {
+        "item": "rock",
+        "count": [ 5, 15 ]
+      } ]
     },
-    "deconstruct": { "items": [ { "item": "rock", "count": 20 } ] },
+    "deconstruct": {
+      "items": [ {
+        "item": "rock",
+        "count": 20
+      } ]
+    },
     "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "EASY_DECONSTRUCT" ]
   }
 ]
