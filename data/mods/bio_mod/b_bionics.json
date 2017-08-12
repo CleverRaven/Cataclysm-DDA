@@ -16,7 +16,7 @@
     "act_cost": 20,
     "gun_bionic": true,
     "fake_item": "bio_emp_gun",
-    "description": "A  ranged emp generator system is implanted on the palm of the user's right hand and arm.  Fires super-concentrated electric pulses for a short distance.  Extremely effective against electronic targets but mostly useless otherwise."
+    "description": "A ranged emp generator system is implanted on the palm of the user's right hand and arm.  Fires super-concentrated electric pulses for a short distance.  Extremely effective against electronic targets but mostly useless otherwise."
   },
   {
     "type": "bionic",
@@ -37,7 +37,7 @@
     "id": "bio_surgical_razor",
     "type": "bionic",
     "name": "Autonomous Surgical Razors",
-    "description": "You have implanted on your fingers a system of surgical grade razors. While activated, they will continously drain power to make automated pricise cuts but you will be unable to wield anything.",
+    "description": "You have implanted on your fingers a system of surgical grade razors.  While activated, they will continously drain power to make automated precise cuts but you will be unable to wield anything.",
     "occupied_bodyparts": [
       [ "ARM_R", 1 ],
       [ "ARM_L", 1 ]
