@@ -3,7 +3,7 @@
     "id": "bio_scalpel",
     "type": "TOOL",
     "name": "autonomous surgical razors",
-    "description": "You have implanted on your fingers a system of surgical grade razors. While activated, they will continously drain power to make automated pricise cuts but you will be unable to wield anything.",
+    "description": "You have implanted on your fingers a system of surgical grade razors.  While activated, they will continously drain power to make automated precise cuts but you will be unable to wield anything.",
     "weight": 10,
     "volume": 1,
     "price": 1000,
