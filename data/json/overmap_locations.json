@@ -1,0 +1,33 @@
+[
+    {
+        "type": "overmap_location",
+        "id": "field",
+        "mode": "allow",
+        "terrains": [ "field" ]
+    },{
+        "type": "overmap_location",
+        "id": "forest",
+        "mode": "allow",
+        "terrains": [ "forest", "forest_thick" ]
+    },{
+        "type": "overmap_location",
+        "id": "swamp",
+        "mode": "allow",
+        "terrains": [ "forest_water" ]
+    },{
+        "type": "overmap_location",
+        "id": "land",
+        "mode": "allow",
+        "terrains": [ "forest", "forest_thick", "forest_water", "field" ]
+    },{
+        "type": "overmap_location",
+        "id": "water",
+        "mode": "allow",
+        "terrains": [ "river" ]
+    },{
+        "type": "overmap_location",
+        "id": "wilderness",
+        "mode": "allow",
+        "terrains": [ "forest", "forest_thick", "field" ]
+    }
+]

@@ -1578,11 +1578,19 @@ void mapgen_sewer_four_way(map *m, oter_id, mapgendata dat, int, float)
 ///////////////////
 void mapgen_bridge(map *m, oter_id terrain_type, mapgendata dat, int turn, float)
 {
-    (void)dat;
+    const auto is_river = [&]( const om_direction::type dir ) {
+        return dat.t_nesw[static_cast<int>(om_direction::add(dir, terrain_type->get_dir()))]->is_river();
+    };
+
+    const bool river_west = is_river(om_direction::type::west);
+    const bool river_east = is_river(om_direction::type::east);
+
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
-            if (i < 2 || i >= SEEX * 2 - 2) {
-                m->ter_set(i, j, t_water_dp);
+            if (i < 2) {
+                m->ter_set(i, j, river_west ? t_water_dp : grass_or_dirt());
+            } else if (i >= SEEX * 2 - 2) {
+                m->ter_set(i, j, river_east ? t_water_dp : grass_or_dirt());
             } else if (i == 2 || i == SEEX * 2 - 3) {
                 m->ter_set(i, j, t_guardrail_bg_dp);
             } else if (i == 3 || i == SEEX * 2 - 4) {
@@ -1600,9 +1608,7 @@ void mapgen_bridge(map *m, oter_id terrain_type, mapgendata dat, int turn, float
     // spawn regular road out of fuel vehicles
     VehicleSpawn::apply(vspawn_id("default_bridge"), *m, "bridge");
 
-    if (terrain_type == "bridge_ew") {
-        m->rotate(1);
-    }
+    m->rotate( static_cast<int>( terrain_type->get_dir() ) );
     m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
 }
 

@@ -306,7 +306,7 @@ static bool select_autopickup_items( std::vector<std::list<item_idx>> &here,
                     int volume_limit = get_option<int>( "AUTO_PICKUP_VOL_LIMIT" );
                     if( weight_limit && volume_limit ) {
                         if( here[i].begin()->_item.volume() <= units::from_milliliter( volume_limit * 50 ) &&
-                            here[i].begin()->_item.weight() <= weight_limit * 50 &&
+                            here[i].begin()->_item.weight() <= weight_limit * 50_gram &&
                             get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
                             bPickup = true;
                         }
@@ -996,7 +996,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 for( int i = 9; i < pickupW; ++i ) {
                     mvwaddch( w_pickup, 0, i, ' ' );
                 }
-                int weight_picked_up = 0;
+                units::mass weight_picked_up = 0;
                 units::volume volume_picked_up = 0;
                 for( size_t i = 0; i < getitem.size(); i++ ) {
                     if( getitem[i].pick ) {
@@ -1140,7 +1140,7 @@ int Pickup::cost_to_move_item( const Character &who, const item &it )
     }
 
     // Is it too heavy? It'll take 10 moves per kg over limit
-    ret += std::max( 0, ( it.weight() - who.weight_capacity() ) / 100 );
+    ret += std::max( 0, ( it.weight() - who.weight_capacity() ) / 100_gram );
 
     // Keep it sane - it's not a long activity
     return std::min( 400, ret );

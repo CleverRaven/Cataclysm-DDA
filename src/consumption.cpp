@@ -1011,7 +1011,7 @@ int player::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
             break;
 
         case rechargeable_cbm::furnace: {
-            int amount = ( it.volume() / 250_ml + it.weight() ) / 9;
+            int amount = ( it.volume() / 250_ml + it.weight() / 1_gram ) / 9;
 
             // @todo JSONize.
             if( it.made_of( material_id( "leather" ) ) ) {

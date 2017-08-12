@@ -485,7 +485,7 @@ std::string options_manager::cOpt::getDefaultText(const bool bTranslated) const
 {
     if (sType == "string_select") {
         const std::string sItems = enumerate_as_string( vItems.begin(), vItems.end(),
-        [ this, bTranslated ]( const std::string &elem ) {
+        [bTranslated ]( const std::string &elem ) {
             return bTranslated ? optionNames[elem] : elem;
         }, false );
         return string_format(_("Default: %s - Values: %s"),

@@ -861,7 +861,7 @@ public:
     void invalidate_mass();
 
     // get the total mass of vehicle, including cargo and passengers
-    int total_mass () const;
+    units::mass total_mass () const;
 
     // Gets the center of mass calculated for precalc[0] coordinates
     const point &rotated_center_of_mass() const;
@@ -1327,7 +1327,7 @@ private:
     mutable bool mass_center_precalc_dirty      = true;
     mutable bool mass_center_no_precalc_dirty   = true;
 
-    mutable int mass_cache;
+    mutable units::mass mass_cache;
     mutable point mass_center_precalc;
     mutable point mass_center_no_precalc;
 };

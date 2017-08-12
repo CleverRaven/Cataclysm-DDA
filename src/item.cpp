@@ -304,7 +304,7 @@ item& item::ammo_set( const itype_id& ammo, long qty )
                 // as above call to magazine_default successful can infer minimum one option exists
                 auto iter = type->magazines.find( ammo_type() );
                 std::vector<itype_id> opts( iter->second.begin(), iter->second.end() );
-                std::sort( opts.begin(), opts.end(), [qty]( const itype_id &lhs, const itype_id &rhs ) {
+                std::sort( opts.begin(), opts.end(), []( const itype_id &lhs, const itype_id &rhs ) {
                     return find_type( lhs )->magazine->capacity < find_type( rhs )->magazine->capacity;
                 } );
                 mag = find_type( opts.back() );
@@ -1080,7 +1080,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 return e.second.qty > 1 && !e.second.melee();
         } ) ) {
             info.emplace_back( "GUN", _( "Recommended strength (burst): "), "",
-                               ceil( mod->type->weight / 333.0 ), true, "", true, true );
+                               ceil( mod->type->weight / 333.0_gram ), true, "", true, true );
         }
 
         info.emplace_back( "GUN", _( "Reload time: " ),
@@ -2414,7 +2414,7 @@ int item::price( bool practical ) const
 }
 
 // MATERIALS-TODO: add a density field to materials.json
-int item::weight( bool include_contents ) const
+units::mass item::weight( bool include_contents ) const
 {
     if( is_null() ) {
         return 0;
@@ -2425,7 +2425,7 @@ int item::weight( bool include_contents ) const
         return 0;
     }
 
-    int ret = get_var( "weight", type->weight );
+    units::mass ret = units::from_gram( get_var( "weight", to_gram( type->weight ) ) );
     if( has_flag( "REDUCED_WEIGHT" ) ) {
         ret *= 0.75;
     }
@@ -2435,11 +2435,11 @@ int item::weight( bool include_contents ) const
 
     } else if( is_corpse() ) {
         switch( corpse->size ) {
-            case MS_TINY:   ret =   1000;  break;
-            case MS_SMALL:  ret =  40750;  break;
-            case MS_MEDIUM: ret =  81500;  break;
-            case MS_LARGE:  ret = 120000;  break;
-            case MS_HUGE:   ret = 200000;  break;
+            case MS_TINY:   ret =   1000_gram;  break;
+            case MS_SMALL:  ret =  40750_gram;  break;
+            case MS_MEDIUM: ret =  81500_gram;  break;
+            case MS_LARGE:  ret = 120000_gram;  break;
+            case MS_HUGE:   ret = 200000_gram;  break;
         }
         if( made_of( material_id( "veggy" ) ) ) {
             ret /= 3;
@@ -2468,8 +2468,8 @@ int item::weight( bool include_contents ) const
     // reduce weight for sawn-off weepons capped to the apportioned weight of the barrel
     if( gunmod_find( "barrel_small" ) ) {
         const units::volume b = type->gun->barrel_length;
-        const int max_barrel_weight = to_milliliter( b );
-        const int barrel_weight = b * type->weight / type->volume;
+        const units::mass max_barrel_weight = units::from_gram( to_milliliter( b ) );
+        const units::mass barrel_weight = units::from_gram( b.value() * type->weight.value() / type->volume.value() );
         ret -= std::min( max_barrel_weight, barrel_weight );
     }
 
@@ -2572,12 +2572,12 @@ units::volume item::volume( bool integral ) const
 
 int item::lift_strength() const
 {
-    return weight() / STR_LIFT_FACTOR + ( weight() % STR_LIFT_FACTOR != 0 );
+    return weight() / STR_LIFT_FACTOR + ( weight().value() % STR_LIFT_FACTOR.value() != 0 );
 }
 
 int item::attack_time() const
 {
-    int ret = 65 + volume() / 62.5_ml + weight() / 60;
+    int ret = 65 + volume() / 62.5_ml + weight() / 60_gram;
     return ret;
 }
 
@@ -3398,7 +3398,7 @@ bool item::is_two_handed( const player &u ) const
         return true;
     }
     ///\EFFECT_STR determines which weapons can be wielded with one hand
-    return ((weight() / 113) > u.str_cur * 4);
+    return ( ( weight() / 113_gram ) > u.str_cur * 4 );
 }
 
 const std::vector<material_id> &item::made_of() const
@@ -4045,7 +4045,7 @@ int item::gun_recoil( const player &p, bool bipod ) const
 
     ///\EFFECT_STR improves the handling of heavier weapons
     // we consider only base weight to avoid exploits
-    double wt = std::min( type->weight, p.str_cur * 333 ) / 333.0;
+    double wt = std::min( type->weight, p.str_cur * 333_gram ) / 333.0_gram;
 
     double handling = type->gun->handling;
     for( const auto mod : gunmods() ) {

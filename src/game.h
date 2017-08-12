@@ -960,7 +960,6 @@ private:
 
         std::unique_ptr<special_game> gamemode;
 
-        int moveCount; //Times the player has moved (not pause, sleep, etc)
         int user_action_counter; // Times the user has input an action
         const int lookHeight; // Look Around window height
 

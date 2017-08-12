@@ -2300,7 +2300,7 @@ int iuse::remove_all_mods(player *p, item *, bool, const tripoint& )
     }
 
     if( !loc->ammo_remaining() || g->unload( *loc ) ) {
-        auto mod = std::find_if( loc->contents.begin(), loc->contents.end(), [&loc]( const item& e ) {
+        auto mod = std::find_if( loc->contents.begin(), loc->contents.end(), []( const item& e ) {
             return e.is_toolmod();
         } );
         p->i_add_or_drop( *mod );
@@ -3030,14 +3030,13 @@ int iuse::dig(player *p, item *it, bool, const tripoint &pos )
 {
     for( const tripoint &pt : closest_tripoints_first( 1, pos ) ) {
         if( g->m.furn( pt ).obj().examine == iexamine::rubble ) {
-            // costs per tile:
-            // DIG 2 = 300 seconds, 10 hunger and thirst
-            // DIG 3 =  75 seconds,  2 hunger and thirst
-            // DIG 4 =  33 seconds,  1 hunger and thirst
-            // DIG 5 =  18 seconds,  0 hunger and thirst
+            // costs per tile are (30 minutes/dig quality), with +66% hunger and +100% thirst, so:
+            // DIG 2 = 150  seconds
+            // DIG 3 = 75   seconds
+            // DIG 4 = 50   seconds
+            // DIG 5 = 37.5 seconds
             int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
-            bonus *= bonus;
-            player_activity act( activity_id( "ACT_CLEAR_RUBBLE" ), 5000 / ( bonus * bonus ), bonus );
+            player_activity act( activity_id( "ACT_CLEAR_RUBBLE" ), 2500 / bonus, bonus );
             act.coords.push_back( pt );
             p->assign_activity( act );
 
@@ -6835,7 +6834,7 @@ int iuse::radiocar(player *p, item *it, bool, const tripoint& )
                 return 0;
             }
 
-            if (put->has_flag("RADIOCARITEM") && (put->volume() <= 1250_ml || (put->weight() <= 2000))) {
+            if ( put->has_flag( "RADIOCARITEM" ) && ( put->volume() <= 1250_ml || ( put->weight() <= 2_kilogram ) ) ) {
                 p->moves -= 300;
                 p->add_msg_if_player(_("You armed your RC car with %s."),
                                      put->tname().c_str());

@@ -101,7 +101,7 @@
                 "min_unarmed" : 4,
                 "buff_duration" : 2,
                 "max_stacks" : 2,
-                "dodges_bonus" : 1
+                "bonus_dodges" : 1
             }
         ],
         "ondodge_buffs" : [
@@ -368,7 +368,7 @@
                 "description" : "Unlimited dodges after attacking",
                 "buff_duration" : 4,
                 "unarmed_allowed" : true,
-                "dodges_bonus" : 100
+                "bonus_dodges" : 100
             }
         ],
         "ondodge_buffs" : [
@@ -438,6 +438,7 @@
             "javelin_iron",
             "knife_combat",
             "knife_hunting",
+            "knife_trench",
             "kris",
             "machete",
             "makeshift_halberd",
@@ -647,6 +648,7 @@
             "hammer",
             "knife_combat",
             "knife_hunting",
+            "knife_trench",
             "machete",
             "survivor_machete",
             "makeshift_knife",

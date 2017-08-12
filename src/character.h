@@ -179,7 +179,7 @@ class Character : public Creature, public visitable<Character>
         int encumb( body_part bp ) const;
 
         /** Returns body weight plus weight of inventory and worn/wielded items */
-        int get_weight() const override;
+        units::mass get_weight() const override;
         /** Get encumbrance for all body parts. */
         std::array<encumbrance_data, num_bp> get_encumbrance() const;
         /** Get encumbrance for all body parts as if `new_item` was also worn. */
@@ -434,9 +434,9 @@ class Character : public Creature, public visitable<Character>
         /** How much dispersion does one point of target's dodge add when throwing at said target? */
         int throw_dispersion_per_dodge( bool add_encumbrance = true ) const;
 
-        int weight_carried() const;
+        units::mass weight_carried() const;
         units::volume volume_carried() const;
-        int weight_capacity() const override;
+        units::mass weight_capacity() const override;
         units::volume volume_capacity() const;
         units::volume volume_capacity_reduced_by( units::volume mod ) const;
 
