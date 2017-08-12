@@ -457,6 +457,9 @@ class JsonOut
         void write_indent();
         void write_separator();
         void write_member_separator();
+        void start_pretty();
+        void end_pretty();
+
         void start_object();
         void end_object();
         void start_array();
