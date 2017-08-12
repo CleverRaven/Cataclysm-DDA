@@ -448,6 +448,7 @@ class JsonOut
         std::ostream *stream;
         bool pretty_print;
         bool need_separator = false;
+        std::vector<bool> need_wrap;
         int indent_level = 0;
 
     public:
@@ -457,6 +458,8 @@ class JsonOut
         void write_indent();
         void write_separator();
         void write_member_separator();
+        void need_seperator() { need_separator = true; }
+        std::ostream *get_stream() { return stream; }
         void start_pretty();
         void end_pretty();
 
