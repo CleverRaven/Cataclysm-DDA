@@ -5,7 +5,9 @@
     "type": "GUNMOD",
     "name": ".22 caliber conversion kit",
     "description": "Replacing several key parts of a 9mm, .38, .40, 10mm, .45 Colt, 5.7mm, 4.6mm, 7.62x39mm or .223 firearm converts it to a .22 firearm.  The conversion results in a slight reduction to accuracy.",
-    "extend": { "acceptable_ammo": [ "10mm_auto", "45lc" ] }
+    "extend": {
+      "acceptable_ammo": [ "10mm_auto", "45lc" ]
+    }
   },
   {
     "id": "retool_45",
@@ -13,7 +15,9 @@
     "type": "GUNMOD",
     "name": ".45 caliber conversion kit",
     "description": "Replacing several key parts of a 9mm, .38, .40, 10mm, or .44 or .45 Colt firearm converts it to a .45 ACP firearm.  The conversion results in a slight reduction to accuracy.",
-    "extend": { "acceptable_ammo": [ "10mm_auto", "45lc" ] }
+    "extend": {
+      "acceptable_ammo": [ "10mm_auto", "45lc" ]
+    }
   },
   {
     "id": "retool_9mm",
@@ -21,7 +25,9 @@
     "type": "GUNMOD",
     "name": "9mm caliber conversion kit",
     "description": "Replacing several key parts of a 9x18mm, .38, .40, 10mm, .44 or .45 firearm converts it to a 9mm firearm.  The conversion results in a slight reduction to accuracy.",
-    "extend": { "acceptable_ammo": [ "10mm_auto", "45lc" ] }
+    "extend": {
+      "acceptable_ammo": [ "10mm_auto", "45lc" ]
+    }
   },
   {
     "id": "retool_410",

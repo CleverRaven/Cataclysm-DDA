@@ -16,7 +16,11 @@
     "name_plural": "mineral water",
     "description": "Fancy mineral water, so fancy it makes you feel fancy just holding it.",
     "container": "bottle_plastic",
-    "proportional": { "quench": 1.2 },
-    "relative": { "fun": 1 }
+    "proportional": {
+      "quench": 1.2
+    },
+    "relative": {
+      "fun": 1
+    }
   }
 ]

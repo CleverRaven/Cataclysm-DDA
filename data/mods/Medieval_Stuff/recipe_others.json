@@ -11,9 +11,6 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 1 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [
-      [ [ "tin", 10 ], [ "solder_wire", 10 ] ],
-      [ [ "copper", 50 ] ]
-    ]
+    "components": [ [ [ "tin", 10 ], [ "solder_wire", 10 ] ], [ [ "copper", 50 ] ] ]
   }
 ]

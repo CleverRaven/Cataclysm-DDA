@@ -34,10 +34,7 @@
     "type": "GUN",
     "name": "Saiga-12",
     "name_plural": "Saiga-12",
-    "magazines": [
-      [ "410", [ "saiga10mag_410", "saiga30mag_410" ] ],
-      [ "shot", [ "saiga10mag", "saiga30mag" ] ]
-    ]
+    "magazines": [ [ "410", [ "saiga10mag_410", "saiga30mag_410" ] ], [ "shot", [ "saiga10mag", "saiga30mag" ] ] ]
   },
   {
     "id": "saiga_410",
@@ -96,7 +93,9 @@
     "dispersion": 360,
     "durability": 8,
     "clip_size": 6,
-    "proportional": { "reload": 1.5 }
+    "proportional": {
+      "reload": 1.5
+    }
   },
   {
     "id": "colt_lightning",
