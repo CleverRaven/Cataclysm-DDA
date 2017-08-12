@@ -624,10 +624,13 @@ ifdef MSYS2
   DEFINES += -D_GLIBCXX_USE_C99_MATH_TR1
 endif
 
+# Enumerations of all the source files and headers.
 SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
 HEADERS = $(wildcard $(SRC_DIR)/*.h)
 TESTSRC = $(wildcard tests/*.cpp)
 TESTHDR = $(wildcard tests/*.h)
+TOOLSRC = $(wildcard tools/json_tools/format/*.cpp)
+
 _OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)
 ifeq ($(TARGETSYSTEM),WINDOWS)
   RSRC = $(wildcard $(SRC_DIR)/*.rc)
@@ -931,12 +934,12 @@ etags: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
 	find data -name "*.json" -print0 | xargs -0 -L 50 etags --append
 
 # Generate a list of files to check based on the difference between the blacklist and the existing source files.
-ASTYLED_WHITELIST = $(filter-out $(shell cat astyle_blacklist), $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR))
+ASTYLED_WHITELIST = $(filter-out $(shell cat astyle_blacklist), $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR) $(TOOLSRC) )
 
 astyle: $(ASTYLED_WHITELIST)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLED_WHITELIST)
 
-astyle-all: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
+astyle-all: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR) $(TOOLSRC)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(SOURCES) $(HEADERS)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(TESTSRC) $(TESTHDR)
 
@@ -952,6 +955,15 @@ ifdef ASTYLE_CHECK
 else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
+
+style-json: new_json_whitelist json_formatter
+	xargs -a new_json_whitelist -L 1 ./json_formatter
+
+style-all-json: json_formatter
+	find data -name "*.json" -print0 | xargs -0 -L 1 ./json_formatter
+
+json_formatter: tools/json_tools/format/format.cpp src/json.cpp
+	$(CXX) $(CXXFLAGS) -Itools/json_tools/format -Isrc tools/json_tools/format/format.cpp src/json.cpp -o json_formatter
 
 lint-check: json_whitelist $(ODIR)/lint.cache
 

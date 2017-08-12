@@ -1586,10 +1586,13 @@ void JsonOut::write_indent()
 
 void JsonOut::write_separator()
 {
+    if( !need_separator ) {
+        return;
+    }
     stream->put( ',' );
     if( pretty_print ) {
         // Wrap after seperator between objects and between members of top-level objects.
-        if( indent_level <= 2 ) {
+        if( indent_level < 2 || need_wrap.back() ) {
             stream->put( '\n' );
             write_indent();
         } else {
@@ -1602,10 +1605,10 @@ void JsonOut::write_separator()
 
 void JsonOut::write_member_separator()
 {
-    if (pretty_print) {
+    if( pretty_print ) {
         stream->write( ": ", 2 );
     } else {
-        stream->put(':');
+        stream->put( ':' );
     }
     need_separator = false;
 }
@@ -1613,10 +1616,10 @@ void JsonOut::write_member_separator()
 void JsonOut::start_pretty()
 {
     if( pretty_print ) {
-        indent_level += 1;
         // Wrap after top level object and array opening.
-        if( indent_level <= 2 ) {
-            stream->put('\n');
+        if( indent_level < 2 || need_wrap.back() ) {
+            indent_level += 1;
+            stream->put( '\n' );
             write_indent();
         } else {
             // Otherwise pad after opening.
@@ -1628,10 +1631,10 @@ void JsonOut::start_pretty()
 void JsonOut::end_pretty()
 {
     if( pretty_print ) {
-        indent_level -= 1;
         // Wrap after ending top level array and object.
-        if( indent_level < 2 ) {
-            stream->put('\n');
+        if( indent_level < 2 || need_wrap.back() ) {
+            indent_level -= 1;
+            stream->put( '\n' );
             write_indent();
         } else {
             // Otherwise pad after ending.
@@ -1646,6 +1649,7 @@ void JsonOut::start_object()
         write_separator();
     }
     stream->put('{');
+    need_wrap.push_back( true );
     start_pretty();
     need_separator = false;
 }
@@ -1653,6 +1657,7 @@ void JsonOut::start_object()
 void JsonOut::end_object()
 {
     end_pretty();
+    need_wrap.pop_back();
     stream->put('}');
     need_separator = true;
 }
@@ -1663,6 +1668,7 @@ void JsonOut::start_array()
         write_separator();
     }
     stream->put('[');
+    need_wrap.push_back( false );
     start_pretty();
     need_separator = false;
 }
@@ -1670,6 +1676,7 @@ void JsonOut::start_array()
 void JsonOut::end_array()
 {
     end_pretty();
+    need_wrap.pop_back();
     stream->put(']');
     need_separator = true;
 }
@@ -1755,7 +1762,7 @@ void JsonOut::write(const JsonSerializer &thing)
 
 void JsonOut::member(const std::string &name)
 {
-    write(name);
+    write( name );
     write_member_separator();
 }
 
