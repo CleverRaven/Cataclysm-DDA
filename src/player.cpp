@@ -7962,7 +7962,6 @@ bool player::pick_style() // Style selection menu
                          _( "When this is enabled, player won't wield things unless explicitly told to." ) );
 
     kmenu.selected = STYLE_OFFSET;
-    kmenu.return_invalid = true; //cancel with any other keys
 
     for( size_t i = 0; i < selectable_styles.size(); i++ ) {
         auto &style = selectable_styles[i].obj();
