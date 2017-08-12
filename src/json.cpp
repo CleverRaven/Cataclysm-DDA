@@ -1586,10 +1586,16 @@ void JsonOut::write_indent()
 
 void JsonOut::write_separator()
 {
-    stream->put(',');
-    if (pretty_print) {
-        stream->put('\n');
-        write_indent();
+    stream->put( ',' );
+    if( pretty_print ) {
+        // Wrap after seperator between objects and between members of top-level objects.
+        if( indent_level <= 2 ) {
+            stream->put( '\n' );
+            write_indent();
+        } else {
+            // Otherwise pad after commas.
+            stream->put( ' ' );
+        }
     }
     need_separator = false;
 }
@@ -1604,27 +1610,49 @@ void JsonOut::write_member_separator()
     need_separator = false;
 }
 
+void JsonOut::start_pretty()
+{
+    if( pretty_print ) {
+        indent_level += 1;
+        // Wrap after top level object and array opening.
+        if( indent_level <= 2 ) {
+            stream->put('\n');
+            write_indent();
+        } else {
+            // Otherwise pad after opening.
+            stream->put( ' ' );
+        }
+    }
+}
+
+void JsonOut::end_pretty()
+{
+    if( pretty_print ) {
+        indent_level -= 1;
+        // Wrap after ending top level array and object.
+        if( indent_level < 2 ) {
+            stream->put('\n');
+            write_indent();
+        } else {
+            // Otherwise pad after ending.
+            stream->put( ' ' );
+        }
+    }
+}
+
 void JsonOut::start_object()
 {
     if (need_separator) {
         write_separator();
     }
     stream->put('{');
-    if (pretty_print) {
-        indent_level += 1;
-        stream->put('\n');
-        write_indent();
-    }
+    start_pretty();
     need_separator = false;
 }
 
 void JsonOut::end_object()
 {
-    if (pretty_print) {
-        indent_level -= 1;
-        stream->put('\n');
-        write_indent();
-    }
+    end_pretty();
     stream->put('}');
     need_separator = true;
 }
@@ -1635,21 +1663,13 @@ void JsonOut::start_array()
         write_separator();
     }
     stream->put('[');
-    if (pretty_print) {
-        indent_level += 1;
-        stream->put('\n');
-        write_indent();
-    }
+    start_pretty();
     need_separator = false;
 }
 
 void JsonOut::end_array()
 {
-    if (pretty_print) {
-        indent_level -= 1;
-        stream->put('\n');
-        write_indent();
-    }
+    end_pretty();
     stream->put(']');
     need_separator = true;
 }
