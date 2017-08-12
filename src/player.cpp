@@ -7955,8 +7955,8 @@ bool player::pick_style() // Style selection menu
     uimenu kmenu;
     kmenu.return_invalid = true;
     kmenu.text = _("Select a style (press ? for more info)");
-    std::unique_ptr<ma_style_callback> ma_style_info( new ma_style_callback( ( size_t )STYLE_OFFSET, selectable_styles ) );
-    kmenu.callback = ma_style_info.get();
+    ma_style_callback callback( ( size_t )STYLE_OFFSET, selectable_styles );
+    kmenu.callback = &callback;
     kmenu.desc_enabled = true;
     kmenu.addentry_desc( KEEP_HANDS_FREE, true, 'h', keep_hands_free ? _( "Keep hands free (on)" ) : _( "Keep hands free (off)" ),
                          _( "When this is enabled, player won't wield things unless explicitly told to." ) );
