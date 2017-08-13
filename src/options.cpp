@@ -768,17 +768,17 @@ void options_manager::init()
     mPageItems.clear();
     mOptionsSort.clear();
 
-    vPages.push_back( std::make_pair( "general", translate_marker( "General" ) ) );
-    vPages.push_back( std::make_pair( "interface", translate_marker( "Interface" ) ) );
-    vPages.push_back( std::make_pair( "graphics", translate_marker( "Graphics" ) ) );
+    vPages.emplace_back( "general", translate_marker( "General" ) );
+    vPages.emplace_back( "interface", translate_marker( "Interface" ) );
+    vPages.emplace_back( "graphics", translate_marker( "Graphics" ) );
     // when sharing maps only admin is allowed to change these.
     if(!MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin()) {
-        vPages.push_back( std::make_pair( "debug", translate_marker( "Debug" ) ) );
+        vPages.emplace_back( "debug", translate_marker( "Debug" ) );
     }
     iWorldOptPage = vPages.size();
     // when sharing maps only admin is allowed to change these.
     if(!MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin()) {
-        vPages.push_back( std::make_pair( "world_default", translate_marker( "World Defaults" ) ) );
+        vPages.emplace_back( "world_default", translate_marker( "World Defaults" ) );
     }
 
     ////////////////////////////GENERAL//////////////////////////
