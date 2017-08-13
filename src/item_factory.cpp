@@ -407,9 +407,9 @@ class iuse_function_wrapper : public iuse_actor
             : iuse_actor( type ), cpp_function( f ) { }
 
         ~iuse_function_wrapper() override = default;
-        long use( player &p, item *it, bool a, const tripoint &pos ) const override {
+        long use( player &p, item &it, bool a, const tripoint &pos ) const override {
             iuse tmp;
-            return ( tmp.*cpp_function )( &p, it, a, pos );
+            return ( tmp.*cpp_function )( &p, &it, a, pos );
         }
         iuse_actor *clone() const override {
             return new iuse_function_wrapper( *this );

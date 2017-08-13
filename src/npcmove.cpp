@@ -2462,9 +2462,9 @@ bool npc::alt_attack()
 void npc::activate_item(int item_index)
 {
     const int oldmoves = moves;
-    item *it = &i_at(item_index);
-    if( it->is_tool() || it->is_food() ) {
-        it->type->invoke( *this, it, pos() );
+    item &it = i_at( item_index );
+    if( it.is_tool() || it.is_food() ) {
+        it.type->invoke( *this, it, pos() );
     }
 
     if( moves == oldmoves ) {
@@ -2497,7 +2497,7 @@ void npc::heal_player( player &patient )
         return;
     }
 
-    long charges_used = used.type->invoke( *this, &used, patient.pos(), "heal" );
+    long charges_used = used.type->invoke( *this, used, patient.pos(), "heal" );
     consume_charges( used, charges_used );
 
     if( !patient.is_npc() ) {
@@ -2525,7 +2525,7 @@ void npc::heal_self()
         add_msg( _("%s applies a %s"), name.c_str(), used.tname().c_str() );
     }
 
-    long charges_used = used.type->invoke( *this, &used, pos(), "heal" );
+    long charges_used = used.type->invoke( *this, used, pos(), "heal" );
     if( used.is_medication() ) {
         consume_charges( used, charges_used );
     }

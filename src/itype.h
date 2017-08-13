@@ -791,9 +791,9 @@ public:
     const use_function *get_use( const std::string &iuse_name ) const;
 
     // Here "invoke" means "actively use". "Tick" means "active item working"
-    long invoke( player &p, item *it, const tripoint &pos ) const; // Picks first method or returns 0
-    long invoke( player &p, item *it, const tripoint &pos, const std::string &iuse_name ) const;
-    long tick( player &p, item *it, const tripoint &pos ) const;
+    long invoke( player &p, item &it, const tripoint &pos ) const; // Picks first method or returns 0
+    long invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const;
+    long tick( player &p, item &it, const tripoint &pos ) const;
 
     virtual ~itype() { };
 };

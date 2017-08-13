@@ -1041,8 +1041,8 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
     }
 
     for( auto it = items.begin(); it != items.end(); ++it ) {
-        if( actor->valid_to_cut_up( &*it ) ) {
-            actor->cut_up( *p, salvage_tool, &*it );
+        if( actor->valid_to_cut_up( *it ) ) {
+            actor->cut_up( *p, *salvage_tool, *it );
             return;
         }
     }
@@ -1299,7 +1299,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 void activity_handlers::start_fire_finish( player_activity *act, player *p )
 {
     item &it = p->i_at(act->position);
-    firestarter_actor::resolve_firestarter_use( *p, &it, act->placement );
+    firestarter_actor::resolve_firestarter_use( *p, it, act->placement );
     act->set_to_null();
 }
 
