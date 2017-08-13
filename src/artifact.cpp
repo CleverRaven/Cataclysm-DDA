@@ -29,7 +29,7 @@ std::vector<art_effect_passive> fill_bad_passive();
 std::vector<art_effect_active>  fill_good_active();
 std::vector<art_effect_active>  fill_bad_active();
 
-static const std::array<int, NUM_AEPS> passive_effect_cost = {
+static const std::array<int, NUM_AEPS> passive_effect_cost = { {
     0, // AEP_NULL
 
     3, // AEP_STR_UP
@@ -71,9 +71,9 @@ static const std::array<int, NUM_AEPS> passive_effect_cost = {
     -3, // AEP_MOVEMENT_NOISE
     -2, // AEP_BAD_WEATHER
     -1  // AEP_SICK
-};
+} };
 
-static const std::array<int, NUM_AEAS> active_effect_cost = {
+static const std::array<int, NUM_AEAS> active_effect_cost = { {
     0, // AEA_NULL
 
     2, // AEA_STORM
@@ -108,7 +108,7 @@ static const std::array<int, NUM_AEAS> active_effect_cost = {
     -4, // AEA_FLASH
     -2, // AEA_VOMIT
     -5  // AEA_SHADOWS
-};
+} };
 
 enum artifact_natural_shape {
     ARTSHAPE_NULL,
@@ -256,162 +256,162 @@ static const std::array<artifact_shape_datum, ARTSHAPE_MAX> artifact_shape_data 
 static const std::array<artifact_property_datum, ARTPROP_MAX> artifact_property_data = { {
     {
         "BUG", "BUG",
-        {AEP_NULL, AEP_NULL, AEP_NULL, AEP_NULL},
-        {AEP_NULL, AEP_NULL, AEP_NULL, AEP_NULL},
-        {AEA_NULL, AEA_NULL, AEA_NULL, AEA_NULL},
-        {AEA_NULL, AEA_NULL, AEA_NULL, AEA_NULL}
+        {{AEP_NULL, AEP_NULL, AEP_NULL, AEP_NULL}},
+        {{AEP_NULL, AEP_NULL, AEP_NULL, AEP_NULL}},
+        {{AEA_NULL, AEA_NULL, AEA_NULL, AEA_NULL}},
+        {{AEA_NULL, AEA_NULL, AEA_NULL, AEA_NULL}}
     },
     {
         translate_marker( "wriggling" ), translate_marker( "is constantly wriggling" ),
-        {AEP_SPEED_UP, AEP_SNAKES, AEP_NULL, AEP_NULL},
-        {AEP_DEX_DOWN, AEP_FORCE_TELEPORT, AEP_SICK, AEP_NULL},
-        {AEA_TELEPORT, AEA_ADRENALINE, AEA_NULL, AEA_NULL},
-        {AEA_MUTATE, AEA_ATTENTION, AEA_VOMIT, AEA_NULL}
+        {{AEP_SPEED_UP, AEP_SNAKES, AEP_NULL, AEP_NULL}},
+        {{AEP_DEX_DOWN, AEP_FORCE_TELEPORT, AEP_SICK, AEP_NULL}},
+        {{AEA_TELEPORT, AEA_ADRENALINE, AEA_NULL, AEA_NULL}},
+        {{AEA_MUTATE, AEA_ATTENTION, AEA_VOMIT, AEA_NULL}}
     },
     {
         translate_marker( "glowing" ), translate_marker( "glows faintly" ),
-        {AEP_INT_UP, AEP_GLOW, AEP_CLAIRVOYANCE, AEP_NULL},
-        {AEP_RADIOACTIVE, AEP_MUTAGENIC, AEP_ATTENTION, AEP_NULL},
-        {AEA_LIGHT, AEA_LIGHT, AEA_LIGHT, AEA_NULL},
-        {AEA_ATTENTION, AEA_TELEGLOW, AEA_FLASH, AEA_SHADOWS}
+        {{AEP_INT_UP, AEP_GLOW, AEP_CLAIRVOYANCE, AEP_NULL}},
+        {{AEP_RADIOACTIVE, AEP_MUTAGENIC, AEP_ATTENTION, AEP_NULL}},
+        {{AEA_LIGHT, AEA_LIGHT, AEA_LIGHT, AEA_NULL}},
+        {{AEA_ATTENTION, AEA_TELEGLOW, AEA_FLASH, AEA_SHADOWS}}
     },
     {
         translate_marker( "humming" ), translate_marker( "hums very quietly" ),
-        {AEP_ALL_UP, AEP_PSYSHIELD, AEP_NULL, AEP_NULL},
-        {AEP_SCHIZO, AEP_PER_DOWN, AEP_INT_DOWN, AEP_NULL},
-        {AEA_PULSE, AEA_ENTRANCE, AEA_NULL, AEA_NULL},
-        {AEA_NOISE, AEA_NOISE, AEA_SCREAM, AEA_NULL}
+        {{AEP_ALL_UP, AEP_PSYSHIELD, AEP_NULL, AEP_NULL}},
+        {{AEP_SCHIZO, AEP_PER_DOWN, AEP_INT_DOWN, AEP_NULL}},
+        {{AEA_PULSE, AEA_ENTRANCE, AEA_NULL, AEA_NULL}},
+        {{AEA_NOISE, AEA_NOISE, AEA_SCREAM, AEA_NULL}}
     },
     {
         translate_marker( "moving" ), translate_marker( "shifts from side to side slowly" ),
-        {AEP_STR_UP, AEP_DEX_UP, AEP_SPEED_UP, AEP_NULL},
-        {AEP_HUNGER, AEP_PER_DOWN, AEP_FORCE_TELEPORT, AEP_NULL},
-        {AEA_TELEPORT, AEA_TELEPORT, AEA_MAP, AEA_NULL},
-        {AEA_PARALYZE, AEA_VOMIT, AEA_VOMIT, AEA_NULL}
+        {{AEP_STR_UP, AEP_DEX_UP, AEP_SPEED_UP, AEP_NULL}},
+        {{AEP_HUNGER, AEP_PER_DOWN, AEP_FORCE_TELEPORT, AEP_NULL}},
+        {{AEA_TELEPORT, AEA_TELEPORT, AEA_MAP, AEA_NULL}},
+        {{AEA_PARALYZE, AEA_VOMIT, AEA_VOMIT, AEA_NULL}}
     },
     {
         translate_marker( "whispering" ), translate_marker( "makes very faint whispering sounds" ),
-        {AEP_CLAIRVOYANCE, AEP_EXTINGUISH, AEP_STEALTH, AEP_NULL},
-        {AEP_EVIL, AEP_SCHIZO, AEP_ATTENTION, AEP_NULL},
-        {AEA_FATIGUE, AEA_ENTRANCE, AEA_ENTRANCE, AEA_NULL},
-        {AEA_ATTENTION, AEA_SCREAM, AEA_SCREAM, AEA_SHADOWS}
+        {{AEP_CLAIRVOYANCE, AEP_EXTINGUISH, AEP_STEALTH, AEP_NULL}},
+        {{AEP_EVIL, AEP_SCHIZO, AEP_ATTENTION, AEP_NULL}},
+        {{AEA_FATIGUE, AEA_ENTRANCE, AEA_ENTRANCE, AEA_NULL}},
+        {{AEA_ATTENTION, AEA_SCREAM, AEA_SCREAM, AEA_SHADOWS}}
     },
     {
         translate_marker( "breathing" ),
         translate_marker( "shrinks and grows very slightly with a regular pulse, as if breathing" ),
-        {AEP_SAP_LIFE, AEP_ALL_UP, AEP_SPEED_UP, AEP_CARRY_MORE},
-        {AEP_HUNGER, AEP_THIRST, AEP_SICK, AEP_BAD_WEATHER},
-        {AEA_ADRENALINE, AEA_HEAL, AEA_ENTRANCE, AEA_GROWTH},
-        {AEA_MUTATE, AEA_ATTENTION, AEA_SHADOWS, AEA_NULL}
+        {{AEP_SAP_LIFE, AEP_ALL_UP, AEP_SPEED_UP, AEP_CARRY_MORE}},
+        {{AEP_HUNGER, AEP_THIRST, AEP_SICK, AEP_BAD_WEATHER}},
+        {{AEA_ADRENALINE, AEA_HEAL, AEA_ENTRANCE, AEA_GROWTH}},
+        {{AEA_MUTATE, AEA_ATTENTION, AEA_SHADOWS, AEA_NULL}}
     },
     {
         translate_marker( "dead" ), translate_marker( "is icy cold to the touch" ),
-        {AEP_INVISIBLE, AEP_CLAIRVOYANCE, AEP_EXTINGUISH, AEP_SAP_LIFE},
-        {AEP_HUNGER, AEP_EVIL, AEP_ALL_DOWN, AEP_SICK},
-        {AEA_BLOOD, AEA_HURTALL, AEA_NULL, AEA_NULL},
-        {AEA_PAIN, AEA_SHADOWS, AEA_DIM, AEA_VOMIT}
+        {{AEP_INVISIBLE, AEP_CLAIRVOYANCE, AEP_EXTINGUISH, AEP_SAP_LIFE}},
+        {{AEP_HUNGER, AEP_EVIL, AEP_ALL_DOWN, AEP_SICK}},
+        {{AEA_BLOOD, AEA_HURTALL, AEA_NULL, AEA_NULL}},
+        {{AEA_PAIN, AEA_SHADOWS, AEA_DIM, AEA_VOMIT}}
     },
     {
         translate_marker( "itchy" ), translate_marker( "makes your skin itch slightly when it is close" ),
-        {AEP_DEX_UP, AEP_SPEED_UP, AEP_PSYSHIELD, AEP_NULL},
-        {AEP_RADIOACTIVE, AEP_MUTAGENIC, AEP_SICK, AEP_NULL},
-        {AEA_ADRENALINE, AEA_BLOOD, AEA_HEAL, AEA_BUGS},
-        {AEA_RADIATION, AEA_PAIN, AEA_PAIN, AEA_VOMIT}
+        {{AEP_DEX_UP, AEP_SPEED_UP, AEP_PSYSHIELD, AEP_NULL}},
+        {{AEP_RADIOACTIVE, AEP_MUTAGENIC, AEP_SICK, AEP_NULL}},
+        {{AEA_ADRENALINE, AEA_BLOOD, AEA_HEAL, AEA_BUGS}},
+        {{AEA_RADIATION, AEA_PAIN, AEA_PAIN, AEA_VOMIT}}
     },
     {
         translate_marker( "glittering" ), translate_marker( "glitters faintly under direct light" ),
-        {AEP_INT_UP, AEP_EXTINGUISH, AEP_GLOW, AEP_NULL},
-        {AEP_SMOKE, AEP_ATTENTION, AEP_NULL, AEP_NULL},
-        {AEA_MAP, AEA_LIGHT, AEA_CONFUSED, AEA_ENTRANCE},
-        {AEA_RADIATION, AEA_MUTATE, AEA_ATTENTION, AEA_FLASH}
+        {{AEP_INT_UP, AEP_EXTINGUISH, AEP_GLOW, AEP_NULL}},
+        {{AEP_SMOKE, AEP_ATTENTION, AEP_NULL, AEP_NULL}},
+        {{AEA_MAP, AEA_LIGHT, AEA_CONFUSED, AEA_ENTRANCE}},
+        {{AEA_RADIATION, AEA_MUTATE, AEA_ATTENTION, AEA_FLASH}}
     },
     {
         translate_marker( "electric" ), translate_marker( "very weakly shocks you when touched" ),
-        {AEP_RESIST_ELECTRICITY, AEP_DEX_UP, AEP_SPEED_UP, AEP_PSYSHIELD},
-        {AEP_THIRST, AEP_SMOKE, AEP_STR_DOWN, AEP_BAD_WEATHER},
-        {AEA_STORM, AEA_ADRENALINE, AEA_LIGHT, AEA_NULL},
-        {AEA_PAIN, AEA_PARALYZE, AEA_FLASH, AEA_FLASH}
+        {{AEP_RESIST_ELECTRICITY, AEP_DEX_UP, AEP_SPEED_UP, AEP_PSYSHIELD}},
+        {{AEP_THIRST, AEP_SMOKE, AEP_STR_DOWN, AEP_BAD_WEATHER}},
+        {{AEA_STORM, AEA_ADRENALINE, AEA_LIGHT, AEA_NULL}},
+        {{AEA_PAIN, AEA_PARALYZE, AEA_FLASH, AEA_FLASH}}
     },
     {
         translate_marker( "slimy" ), translate_marker( "feels slimy" ),
-        {AEP_SNAKES, AEP_STEALTH, AEP_EXTINGUISH, AEP_SAP_LIFE},
-        {AEP_THIRST, AEP_DEX_DOWN, AEP_SPEED_DOWN, AEP_SICK},
-        {AEA_BLOOD, AEA_ACIDBALL, AEA_GROWTH, AEA_ACIDBALL},
-        {AEA_MUTATE, AEA_MUTATE, AEA_VOMIT, AEA_VOMIT}
+        {{AEP_SNAKES, AEP_STEALTH, AEP_EXTINGUISH, AEP_SAP_LIFE}},
+        {{AEP_THIRST, AEP_DEX_DOWN, AEP_SPEED_DOWN, AEP_SICK}},
+        {{AEA_BLOOD, AEA_ACIDBALL, AEA_GROWTH, AEA_ACIDBALL}},
+        {{AEA_MUTATE, AEA_MUTATE, AEA_VOMIT, AEA_VOMIT}}
     },
     {
         translate_marker( "engraved" ), translate_marker( "is covered with odd etchings" ),
-        {AEP_CLAIRVOYANCE, AEP_INVISIBLE, AEP_PSYSHIELD, AEP_SAP_LIFE},
-        {AEP_EVIL, AEP_ATTENTION, AEP_NULL, AEP_NULL},
-        {AEA_FATIGUE, AEA_TELEPORT, AEA_HEAL, AEA_FATIGUE},
-        {AEA_ATTENTION, AEA_ATTENTION, AEA_TELEGLOW, AEA_DIM}
+        {{AEP_CLAIRVOYANCE, AEP_INVISIBLE, AEP_PSYSHIELD, AEP_SAP_LIFE}},
+        {{AEP_EVIL, AEP_ATTENTION, AEP_NULL, AEP_NULL}},
+        {{AEA_FATIGUE, AEA_TELEPORT, AEA_HEAL, AEA_FATIGUE}},
+        {{AEA_ATTENTION, AEA_ATTENTION, AEA_TELEGLOW, AEA_DIM}}
     },
     {
         translate_marker( "crackling" ), translate_marker( "occasionally makes a soft crackling sound" ),
-        {AEP_EXTINGUISH, AEP_RESIST_ELECTRICITY, AEP_NULL, AEP_NULL},
-        {AEP_SMOKE, AEP_RADIOACTIVE, AEP_MOVEMENT_NOISE, AEP_NULL},
-        {AEA_STORM, AEA_FIREBALL, AEA_PULSE, AEA_NULL},
-        {AEA_PAIN, AEA_PARALYZE, AEA_NOISE, AEA_NOISE}
+        {{AEP_EXTINGUISH, AEP_RESIST_ELECTRICITY, AEP_NULL, AEP_NULL}},
+        {{AEP_SMOKE, AEP_RADIOACTIVE, AEP_MOVEMENT_NOISE, AEP_NULL}},
+        {{AEA_STORM, AEA_FIREBALL, AEA_PULSE, AEA_NULL}},
+        {{AEA_PAIN, AEA_PARALYZE, AEA_NOISE, AEA_NOISE}}
     },
     {
         translate_marker( "warm" ), translate_marker( "is warm to the touch" ),
-        {AEP_STR_UP, AEP_EXTINGUISH, AEP_GLOW, AEP_NULL},
-        {AEP_SMOKE, AEP_RADIOACTIVE, AEP_NULL, AEP_NULL},
-        {AEA_FIREBALL, AEA_FIREBALL, AEA_FIREBALL, AEA_LIGHT},
-        {AEA_FIRESTORM, AEA_FIRESTORM, AEA_TELEGLOW, AEA_NULL}
+        {{AEP_STR_UP, AEP_EXTINGUISH, AEP_GLOW, AEP_NULL}},
+        {{AEP_SMOKE, AEP_RADIOACTIVE, AEP_NULL, AEP_NULL}},
+        {{AEA_FIREBALL, AEA_FIREBALL, AEA_FIREBALL, AEA_LIGHT}},
+        {{AEA_FIRESTORM, AEA_FIRESTORM, AEA_TELEGLOW, AEA_NULL}}
     },
     {
         translate_marker( "rattling" ), translate_marker( "makes a rattling sound when moved" ),
-        {AEP_DEX_UP, AEP_SPEED_UP, AEP_SNAKES, AEP_CARRY_MORE},
-        {AEP_ATTENTION, AEP_INT_DOWN, AEP_MOVEMENT_NOISE, AEP_MOVEMENT_NOISE},
-        {AEA_BLOOD, AEA_PULSE, AEA_BUGS, AEA_NULL},
-        {AEA_PAIN, AEA_ATTENTION, AEA_NOISE, AEA_NULL}
+        {{AEP_DEX_UP, AEP_SPEED_UP, AEP_SNAKES, AEP_CARRY_MORE}},
+        {{AEP_ATTENTION, AEP_INT_DOWN, AEP_MOVEMENT_NOISE, AEP_MOVEMENT_NOISE}},
+        {{AEA_BLOOD, AEA_PULSE, AEA_BUGS, AEA_NULL}},
+        {{AEA_PAIN, AEA_ATTENTION, AEA_NOISE, AEA_NULL}}
     },
     {
         translate_marker( "scaled" ), translate_marker( "has a surface reminiscent of reptile scales" ),
-        {AEP_SNAKES, AEP_SNAKES, AEP_SNAKES, AEP_STEALTH},
-        {AEP_THIRST, AEP_MUTAGENIC, AEP_SPEED_DOWN, AEP_NULL},
-        {AEA_ADRENALINE, AEA_BUGS, AEA_GROWTH, AEA_NULL},
-        {AEA_MUTATE, AEA_SCREAM, AEA_DIM, AEA_NULL}
+        {{AEP_SNAKES, AEP_SNAKES, AEP_SNAKES, AEP_STEALTH}},
+        {{AEP_THIRST, AEP_MUTAGENIC, AEP_SPEED_DOWN, AEP_NULL}},
+        {{AEA_ADRENALINE, AEA_BUGS, AEA_GROWTH, AEA_NULL}},
+        {{AEA_MUTATE, AEA_SCREAM, AEA_DIM, AEA_NULL}}
     },
     {
         translate_marker( "fractal" ),
         translate_marker( "has a self-similar pattern which repeats until it is too small for you to see" ),
-        {AEP_ALL_UP, AEP_ALL_UP, AEP_CLAIRVOYANCE, AEP_PSYSHIELD},
-        {AEP_SCHIZO, AEP_ATTENTION, AEP_FORCE_TELEPORT, AEP_BAD_WEATHER},
-        {AEA_STORM, AEA_FATIGUE, AEA_TELEPORT, AEA_NULL},
-        {AEA_RADIATION, AEA_MUTATE, AEA_TELEGLOW, AEA_TELEGLOW}
+        {{AEP_ALL_UP, AEP_ALL_UP, AEP_CLAIRVOYANCE, AEP_PSYSHIELD}},
+        {{AEP_SCHIZO, AEP_ATTENTION, AEP_FORCE_TELEPORT, AEP_BAD_WEATHER}},
+        {{AEA_STORM, AEA_FATIGUE, AEA_TELEPORT, AEA_NULL}},
+        {{AEA_RADIATION, AEA_MUTATE, AEA_TELEGLOW, AEA_TELEGLOW}}
     }
 } };
 static const std::array<artifact_tool_form_datum, NUM_ARTTOOLFORMS> artifact_tool_form_data = { {
     {
         "", '*', def_c_white, material_id( "null" ), 0_ml, 0_ml, 0_gram, 0_gram, ARTWEAP_BULK,
-        {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}
+        {{ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}}
     },
 
     {
         translate_marker( "Harp" ), ';', def_c_yellow, material_id( "wood" ), 5000_ml, 7500_ml, 1150_gram, 2100_gram, ARTWEAP_BULK,
-        {ARTWEAP_SPEAR, ARTWEAP_SWORD, ARTWEAP_KNIFE}
+        {{ARTWEAP_SPEAR, ARTWEAP_SWORD, ARTWEAP_KNIFE}}
     },
 
     {
         translate_marker( "Staff" ), '/', def_c_brown, material_id( "wood" ), 1500_ml, 3000_ml, 450_gram, 1150_gram, ARTWEAP_CLUB,
-        {ARTWEAP_BULK, ARTWEAP_SPEAR, ARTWEAP_KNIFE}
+        {{ARTWEAP_BULK, ARTWEAP_SPEAR, ARTWEAP_KNIFE}}
     },
 
     {
         translate_marker( "Sword" ), '/', def_c_ltblue, material_id( "steel" ), 2000_ml, 3500_ml, 900_gram, 3259_gram, ARTWEAP_SWORD,
-        {ARTWEAP_BULK, ARTWEAP_NULL, ARTWEAP_NULL}
+        {{ARTWEAP_BULK, ARTWEAP_NULL, ARTWEAP_NULL}}
     },
 
     {
         translate_marker( "Dagger" ), ';', def_c_ltblue, material_id( "steel" ), 250_ml, 1000_ml, 100_gram, 700_gram, ARTWEAP_KNIFE,
-        {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}
+        {{ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}}
     },
 
     {
         translate_marker( "Cube" ), '*', def_c_white, material_id( "steel" ), 250_ml, 750_ml, 100_gram, 2300_gram, ARTWEAP_BULK,
-        {ARTWEAP_SPEAR, ARTWEAP_NULL, ARTWEAP_NULL}
+        {{ARTWEAP_SPEAR, ARTWEAP_NULL, ARTWEAP_NULL}}
     }
 } };
 static const std::array<artifact_weapon_datum, NUM_ARTWEAPS> artifact_weapon_data = { {
@@ -427,69 +427,69 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
     {
         "", def_c_white, material_id( "null" ),        0_ml,  0_gram,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
         0, false,
-        {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
+        {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
     },
     // Name    color  Material         Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
     {
         translate_marker( "Robe" ),   def_c_red, material_id( "wool" ),    1500_ml, 700_gram,  1,  90,  3,  0,  2,  0_ml, -8,  0, -3,
         mfb(bp_torso) | mfb(bp_leg_l) | mfb(bp_leg_r), false,
-        {
+        {{
             ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_POCKETED, ARMORMOD_FURRED,
             ARMORMOD_PADDED
-        }
+        }}
     },
 
     {
         translate_marker( "Coat" ),   def_c_brown, material_id( "leather" ),   3500_ml, 1600_gram,  2,  80, 2,  1,  4,  1000_ml, -6,  0, -3,
         mfb(bp_torso), false,
-        {
+        {{
             ARMORMOD_LIGHT, ARMORMOD_POCKETED, ARMORMOD_FURRED, ARMORMOD_PADDED,
             ARMORMOD_PLATED
-        }
+        }}
     },
 
     {
         translate_marker( "Mask" ),   def_c_white, material_id( "wood" ),      1000_ml, 100_gram,  2,  50, 2,  1,  2,  0_ml,  2,  0, -2,
         mfb(bp_eyes) | mfb(bp_mouth), false,
-        {
+        {{
             ARMORMOD_FURRED, ARMORMOD_FURRED, ARMORMOD_NULL, ARMORMOD_NULL,
             ARMORMOD_NULL
-        }
+        }}
     },
 
     // Name    color  Materials             Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
     {
         translate_marker( "Helm" ),   def_c_dkgray, material_id( "silver" ),    1500_ml, 700_gram,  2,  85, 3,  0,  1,  0_ml,  8,  0, -2,
         mfb(bp_head), false,
-        {
+        {{
             ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
             ARMORMOD_NULL
-        }
+        }}
     },
 
     {
         translate_marker( "Gloves" ), def_c_ltblue, material_id( "leather" ), 500_ml, 100_gram,  1,  90,  3,  1,  2,  0_ml, -4,  0, -2,
         mfb(bp_hand_l) | mfb(bp_hand_r), true,
-        {
+        {{
             ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
             ARMORMOD_NULL
-        }
+        }}
     },
 
     // Name    color  Materials            Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
     {
         translate_marker( "Boots" ), def_c_blue, material_id( "leather" ),     1500_ml, 250_gram,  1,  75,  3,  1,  3,  0_ml,  4,  0, -1,
         mfb(bp_foot_l) | mfb(bp_foot_r), true,
-        {
+        {{
             ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_PADDED, ARMORMOD_PLATED,
             ARMORMOD_NULL
-        }
+        }}
     },
 
     {
         translate_marker( "Ring" ), def_c_ltgreen, material_id( "silver" ),   0_ml,  4_gram,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
         0, true,
-        {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
+        {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
     }
 } };
 /*
@@ -500,45 +500,45 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
 static const std::array<artifact_armor_form_datum, NUM_ARMORMODS> artifact_armor_mod_data = { {
     {
         "", def_c_white, material_id( "null" ), 0_ml,  0_gram,  0,  0,  0,  0,  0,  0_ml,  0, 0, 0, 0, false,
-        {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
+        {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
     },
     // Description; "It is ..." or "They are ..."
     {
         translate_marker("very thin and light."), def_c_white, material_id( "null" ),
         // Vol   Wgt Enc Cov Thk Env Wrm Sto
         -1000_ml, -950_gram, -2, -1, -1, -1, -1,  0_ml, 0, 0, 0, 0,  false,
-        {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
+        {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
     },
 
     {
         translate_marker("extremely bulky."), def_c_white, material_id( "null" ),
         2000_ml, 1150_gram,  2,  1,  1,  0,  1,  0_ml, 0, 0, 0, 0,  false,
-        {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
+        {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
     },
 
     {
         translate_marker("covered in pockets."), def_c_white, material_id( "null" ),
         250_ml, 150_gram,  1,  0,  0,  0,  0, 4000_ml, 0, 0, 0, 0,  false,
-        {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
+        {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
     },
 
     {
         translate_marker("disgustingly furry."), def_c_white, material_id( "wool" ),
         // Vol  Wgt Enc Dmg Cut Env Wrm Sto
         1000_ml, 250_gram,  1,  1,  1,  1,  3,  0_ml, 0, 0, 0, 0,  false,
-        {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
+        {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
     },
 
     {
         translate_marker("leather-padded."), def_c_white, material_id( "leather" ),
         1000_ml, 450_gram,  1, 1,  1,  0,  1, -750_ml, 0, 0, 0, 0,  false,
-        {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
+        {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
     },
 
     {
         translate_marker("plated in iron."), def_c_white, material_id( "iron" ),
         1000_ml, 1400_gram,  3,  2, 2,  0,  1, -1000_ml, 0, 0, 0, 0, false,
-        {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
+        {{ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}}
     },
 } };
 static const std::array<std::string, 20> artifact_adj = { {
