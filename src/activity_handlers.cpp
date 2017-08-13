@@ -88,6 +88,7 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_REPAIR_ITEM" ), repair_item_finish },
     { activity_id( "ACT_MEND_ITEM" ), mend_item_finish },
     { activity_id( "ACT_GUNMOD_ADD" ), gunmod_add_finish },
+    { activity_id( "ACT_TOOLMOD_ADD" ), toolmod_add_finish },
     { activity_id( "ACT_CLEAR_RUBBLE" ), clear_rubble_finish },
     { activity_id( "ACT_MEDITATE" ), meditate_finish },
     { activity_id( "ACT_READ" ), read_finish },
@@ -1820,6 +1821,20 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
     } else {
         add_msg( m_info, _( "You failed at installing the %s." ), mod.tname().c_str() );
     }
+}
+
+void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
+{
+    act->set_to_null();
+    if( act->values.size() != 1 ) {
+        debugmsg( "Incompatible arguments to ACT_TOOLMOD_ADD" );
+        return;
+    }
+    item &tool = p->i_at( act->position );
+    item &mod = p->i_at( act->values[0] );
+    add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname().c_str(),
+                tool.tname().c_str() );
+    tool.contents.push_back( p->i_rem( &mod ) );
 }
 
 void activity_handlers::clear_rubble_finish( player_activity *act, player *p )

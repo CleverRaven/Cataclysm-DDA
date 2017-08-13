@@ -6010,7 +6010,7 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
                 // non-default field symbol -> field symbol overrides terrain
                 sym = f.sym;
             }
-            tercol = f.color[fe->getFieldDensity() - 1];
+            tercol = fe->color();
         }
     }
 

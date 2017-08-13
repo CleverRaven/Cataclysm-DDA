@@ -280,6 +280,13 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_TOOLMOD_ADD",
+    "type": "activity_type",
+    "stop_phrase": "Stop modifying tool?",
+    "suspendable": false,
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_WAIT_NPC",
     "type": "activity_type",
     "stop_phrase": "Stop interacting with the NPC?",
