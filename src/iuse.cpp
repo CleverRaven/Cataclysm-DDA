@@ -2614,14 +2614,14 @@ static int cauterize_elec(player *p, item *it)
     } else if (!p->has_effect( effect_bite ) && !p->has_effect( effect_bleed ) && !p->is_underwater()) {
         if ((p->has_trait( trait_MASOCHIST ) || p->has_trait( trait_MASOCHIST_MED ) || p->has_trait( trait_CENOBITE )) &&
             p->query_yn(_("Cauterize yourself for fun?"))) {
-            return cauterize_actor::cauterize_effect(p, it, true) ? it->type->charges_to_use() : 0;
+            return cauterize_actor::cauterize_effect( *p, it, true ) ? it->type->charges_to_use() : 0;
         } else {
             p->add_msg_if_player(m_info,
                                  _("You are not bleeding or bitten, there is no need to cauterize yourself."));
             return 0;
         }
     } else if (p->is_npc() || query_yn(_("Cauterize any open wounds?"))) {
-        return cauterize_actor::cauterize_effect(p, it, true) ? it->type->charges_to_use() : 0;
+        return cauterize_actor::cauterize_effect( *p, it, true ) ? it->type->charges_to_use() : 0;
     }
     return 0;
 }
@@ -4630,9 +4630,9 @@ int iuse::torch_lit(player *p, item *it, bool t, const tripoint &pos)
             break;
             case 2: {
                 tripoint temp = pos;
-                if( firestarter_actor::prep_firestarter_use(p, it, temp) ) {
+                if( firestarter_actor::prep_firestarter_use( *p, it, temp ) ) {
                     p->moves -= 5;
-                    firestarter_actor::resolve_firestarter_use(p, it, temp);
+                    firestarter_actor::resolve_firestarter_use( *p, it, temp );
                     return it->type->charges_to_use();
                 }
             }
@@ -4673,9 +4673,9 @@ int iuse::battletorch_lit(player *p, item *it, bool t, const tripoint &pos)
             break;
             case 2: {
                 tripoint temp = pos;
-                if( firestarter_actor::prep_firestarter_use(p, it, temp) ) {
+                if( firestarter_actor::prep_firestarter_use( *p, it, temp ) ) {
                     p->moves -= 5;
-                    firestarter_actor::resolve_firestarter_use(p, it, temp);
+                    firestarter_actor::resolve_firestarter_use( *p, it, temp );
                     return it->type->charges_to_use();
                 }
             }
@@ -6911,12 +6911,12 @@ void sendRadioSignal(player *p, std::string signal)
 
             if( it.has_flag("RADIO_INVOKE_PROC") ) {
                 // Invoke twice: first to transform, then later to proc
-                it.type->invoke( p, &it, p->pos() );
+                it.type->invoke( *p, &it, p->pos() );
                 it.ammo_unset();
                 // The type changed
             }
 
-            it.type->invoke(p, &it, p->pos());
+            it.type->invoke( *p, &it, p->pos() );
         }
     }
 
@@ -7925,7 +7925,7 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash your %2$s." ), required_cleanser, mod.tname().c_str() );
         return 0;
     }
-    
+
     std::vector<item_comp> comps;
     comps.push_back( item_comp( "water", required_water ) );
     comps.push_back( item_comp( "water_clean", required_water ) );

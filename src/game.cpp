@@ -10423,7 +10423,7 @@ void game::butcher()
     case BUTCHER_SALVAGE:
         {
             size_t index = salvageables[indexer_index];
-            salvage_iuse->cut_up( &u, salvage_tool, &items[index] );
+            salvage_iuse->cut_up( u, salvage_tool, &items[index] );
         }
         break;
     }
@@ -10812,7 +10812,7 @@ bool game::unload( item &it )
 
     // Turn off any active tools
     if( target->is_tool() && target->active && target->ammo_remaining() == 0 ) {
-        target->type->invoke( &u, target, u.pos() );
+        target->type->invoke( u, target, u.pos() );
     }
 
     add_msg( _( "You unload your %s." ), target->tname().c_str() );

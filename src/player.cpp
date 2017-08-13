@@ -7237,7 +7237,7 @@ bool player::consume_med( item &target )
 
     long amount_used = 1;
     if( target.type->has_use() ) {
-        amount_used = target.type->invoke( this, &target, pos() );
+        amount_used = target.type->invoke( *this, &target, pos() );
         if( amount_used <= 0 ) {
             return false;
         }
@@ -8819,7 +8819,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
     }
 
     if( used->type->use_methods.size() < 2 ) {
-        const long charges_used = used->type->invoke( this, used, pt );
+        const long charges_used = used->type->invoke( *this, used, pt );
         return used->is_tool() && consume_charges( *used, charges_used );
     }
 
@@ -8827,7 +8827,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
     umenu.text = string_format( _("What to do with your %s?"), used->tname().c_str() );
     umenu.return_invalid = true;
     for( const auto &e : used->type->use_methods ) {
-        umenu.addentry( MENU_AUTOASSIGN, e.second.can_call( this, used, false, pt ),
+        umenu.addentry( MENU_AUTOASSIGN, e.second.can_call( *this, used, false, pt ),
                         MENU_AUTOASSIGN, e.second.get_name() );
     }
 
@@ -8838,7 +8838,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
     }
 
     const std::string &method = std::next( used->type->use_methods.begin(), choice )->first;
-    long charges_used = used->type->invoke( this, used, pt, method );
+    long charges_used = used->type->invoke( *this, used, pt, method );
 
     return ( used->is_tool() || used->is_medication() || used->is_container() ) && consume_charges( *used, charges_used );
 }
@@ -8860,7 +8860,7 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
                   method.c_str(), used->tname().c_str() );
     }
 
-    long charges_used = actually_used->type->invoke( this, actually_used, pt, method );
+    long charges_used = actually_used->type->invoke( *this, actually_used, pt, method );
     return ( used->is_tool() || used->is_medication() || used->is_container() ) && consume_charges( *actually_used, charges_used );
 }
 
@@ -9656,7 +9656,7 @@ void player::do_read( item *book )
     // NPCs can't learn martial arts from manuals (yet).
     auto m = book->type->use_methods.find( "MA_MANUAL" );
     if( m != book->type->use_methods.end() ) {
-        m->second.call( this, book, false, pos() );
+        m->second.call( *this, book, false, pos() );
     }
 
     activity.set_to_null();
