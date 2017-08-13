@@ -32,7 +32,7 @@ struct field_t {
  int priority; //Inferior numbers have lower priority. 0 is "ground" (splatter), 2 is "on the ground", 4 is "above the ground" (fire), 6 is reserved for furniture, and 8 is "in the air" (smoke).
 
      /** Color the field will be drawn as on the screen at a given density */
-     nc_color color[ MAX_FIELD_DENSITY ];
+     deferred_color color[ MAX_FIELD_DENSITY ];
 
      /**
       * If false this field may block line of sight.
