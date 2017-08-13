@@ -296,7 +296,8 @@ std::vector<item *> visitable<T>::items_with( const std::function<bool( const it
 
 /** @relates visitable */
 template <typename T>
-std::vector<const item *> visitable<T>::items_with( const std::function<bool( const item & )> &filter ) const
+std::vector<const item *> visitable<T>::items_with( const std::function<bool( const item & )>
+        &filter ) const
 {
     std::vector<const item *> res;
     visit_items( [&res, &filter]( const item * node, const item * ) {
