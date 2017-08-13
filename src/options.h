@@ -63,11 +63,14 @@ class options_manager : public JsonSerializer, public JsonDeserializer
 
                 std::string getName() const;
                 std::string getPage() const;
+                /// The translated displayed option name.
                 std::string getMenuText() const;
+                /// The translated displayed option tool tip.
                 std::string getTooltip() const;
                 std::string getType() const;
 
                 std::string getValue() const;
+                /// The translated currently selected option value.
                 std::string getValueName() const;
                 std::string getDefaultText( const bool bTranslated = true ) const;
 
@@ -95,7 +98,9 @@ class options_manager : public JsonSerializer, public JsonDeserializer
             private:
                 std::string sName;
                 std::string sPage;
+                // The *untranslated* displayed option name ( short string ).
                 std::string sMenuText;
+                // The *untranslated* displayed option tool tip ( longer string ).
                 std::string sTooltip;
                 std::string sType;
 
@@ -106,7 +111,7 @@ class options_manager : public JsonSerializer, public JsonDeserializer
 
                 //sType == "string"
                 std::string sSet;
-                // first is internal value, second is translated text
+                // first is internal value, second is untranslated text
                 std::vector<std::pair<std::string, std::string>> vItems;
                 std::string sDefault;
 
