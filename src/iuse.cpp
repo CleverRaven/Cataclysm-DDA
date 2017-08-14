@@ -67,6 +67,7 @@ const mtype_id mon_shadow( "mon_shadow" );
 const mtype_id mon_spore( "mon_spore" );
 const mtype_id mon_vortex( "mon_vortex" );
 const mtype_id mon_wasp( "mon_wasp" );
+const mtype_id mon_cow( "mon_cow" );
 
 const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_tailor( "tailor" );
@@ -1901,63 +1902,114 @@ int iuse::mycus(player *p, item *it, bool t, const tripoint &pos)
     return it->type->charges_to_use();
 }
 
-// TOOLS below this point!
+// Types of petfood for taming each different monster.
+enum Petfood
+{
+    DOGFOOD,
+    CATFOOD,
+    CATTLEFODDER
+};
 
-int petfood(player *p, item *it, bool is_dogfood)
+int petfood( player *p, item *it, Petfood animal_food_type )
 {
     tripoint dirp;
-    if (!choose_adjacent(string_format(_("Put the %s where?"), it->tname().c_str()), dirp)) {
+    if( !choose_adjacent( string_format( _( "Put the %s where?" ), it->tname().c_str() ), dirp ) ) {
         return 0;
     }
     p->moves -= 15;
     const int mon_idx = g->mon_at( dirp, true );
-    if(mon_idx != -1) {
-        monster &mon = g->zombie( mon_idx );
-        if(mon.type->id == (is_dogfood ? mon_dog : mon_cat)) {
-            p->add_msg_if_player(m_good, is_dogfood
-                ? _("The dog seems to like you!")
-                : _("The cat seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with cats."));
-            mon.friendly = -1;
-            if( is_dogfood ) {
-                mon.add_effect( effect_pet, 1, num_bp, true );
-            }
-        } else if( is_dogfood && mon.type->id == mon_dog_thing ) {
-            p->deal_damage( &mon, bp_hand_r, damage_instance( DT_CUT, rng( 1, 10 ) ) );
-            p->add_msg_if_player( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
-            if( one_in( 5 ) ) {
-                p->add_msg_if_player( _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
-            }
-        } else {
-            p->add_msg_if_player( _( "The %s seems quite unimpressed!" ), mon.name().c_str() );
-        }
-    } else if( npc * const person_ = g->critter_at<npc>( dirp ) ) {
-        npc &person = *person_;
-        if( query_yn( is_dogfood ?
-            _( "Are you sure you want to feed a person the dog food?" ) :
-            _( "Are you sure you want to feed a person the cat food?" ) ) ) {
-            p->add_msg_if_player( _( "You put your %1$s into %2$s's mouth!" ), it->tname().c_str(), person.name.c_str() );
-            if( person.is_friend() || x_in_y( 9, 10 ) ) {
-                person.say( _( "Okay, but please, don't give me this again. I don't want to eat dog food in the cataclysm all day." ) );
+
+    // First a check to see if we are trying to feed a NPC dog food.
+    if( animal_food_type == DOGFOOD ) {
+        if( npc *const person_ = g->critter_at<npc>( dirp ) ) {
+            npc &person = *person_;
+            if( query_yn( _( "Are you sure you want to feed a person the dog food?" ) ) ) {
+                p->add_msg_if_player( _( "You put your %1$s into %2$s's mouth!" ), it->tname().c_str(), person.name.c_str() );
+                if( person.is_friend() || x_in_y( 9, 10 ) ) {
+                    person.say(
+                        _( "Okay, but please, don't give me this again.  I don't want to eat dog food in the cataclysm all day." ) );
+                    return 1;
+                } else {
+                    p->add_msg_if_player( _( "%s knocks it out from your hand!" ), person.name.c_str() );
+                    person.make_angry();
+                    return 1;
+                }
             } else {
-                p->add_msg_if_player( _( "%s knocks it out from your hand!" ), person.name.c_str() );
-                person.make_angry();
+                p->add_msg_if_player( _( "Never mind." ) );
+                return 0;
             }
         }
+    // Then monsters.
+    } else if( mon_idx != -1 ) {
+
+        monster &mon = g->zombie( mon_idx );
+        // This switch handles each petfood for each type of tameable monster.
+        switch( animal_food_type ) {
+        case DOGFOOD:
+            if( mon.type->id == mon_dog_thing ) {
+                p->deal_damage( &mon, bp_hand_r, damage_instance( DT_CUT, rng( 1, 10 ) ) );
+                p->add_msg_if_player( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
+                if( one_in( 5 ) ) {
+                    p->add_msg_if_player( _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
+                    return 1;
+                }
+            } else if( mon.type->id == mon_dog ) {
+                p->add_msg_if_player( m_good, _( "The dog seems to like you!" ) );
+                mon.friendly = -1;
+                mon.add_effect( effect_pet, 1, num_bp, true );
+                return 1;
+            } else {
+                p->add_msg_if_player( _( "There is nothing to be fed here." ) );
+                return 0;
+            }
+
+            break;
+        case CATFOOD:
+            if( mon.type->id == mon_cat ) {
+                p->add_msg_if_player( m_good,
+                         _( "The cat seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with cats." ) );
+                mon.friendly = -1;
+                return 1;
+            } else {
+                p->add_msg_if_player( _( "There is nothing to be fed here." ) );
+                return 0;
+            }
+            break;
+        case CATTLEFODDER:
+            if( mon.has_flag( MF_MILKABLE ) ) {
+                p->add_msg_if_player( m_good, _( "The %s seems to like you!  It lets you pat its head and seems friendly." ), mon.get_name().c_str() );
+                mon.friendly = -1;
+                mon.add_effect( effect_pet, 1, num_bp, true );
+                return 1;
+            } else {
+                p->add_msg_if_player( _( "There is nothing to be fed here." ) );
+                return 0;
+            }
+            break;
+        }
+
     } else {
         p->add_msg_if_player( _( "There is nothing to be fed here." ) );
         return 0;
     }
+
     return 1;
 }
 
+
 int iuse::dogfood(player *p, item *it, bool, const tripoint& )
 {
-    return petfood(p, it, true);
+    return petfood(p, it, DOGFOOD);
 }
 
 int iuse::catfood(player *p, item *it, bool, const tripoint& )
 {
-    return petfood(p, it, false);
+    return petfood(p, it, CATFOOD);
+}
+
+int iuse::feedcattle(player *p, item *it, bool, const tripoint&)
+{
+    return petfood(p, it, CATTLEFODDER);
 }
 
 int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
@@ -2248,7 +2300,7 @@ int iuse::remove_all_mods(player *p, item *, bool, const tripoint& )
     }
 
     if( !loc->ammo_remaining() || g->unload( *loc ) ) {
-        auto mod = std::find_if( loc->contents.begin(), loc->contents.end(), [&loc]( const item& e ) {
+        auto mod = std::find_if( loc->contents.begin(), loc->contents.end(), []( const item& e ) {
             return e.is_toolmod();
         } );
         p->i_add_or_drop( *mod );
@@ -2978,14 +3030,13 @@ int iuse::dig(player *p, item *it, bool, const tripoint &pos )
 {
     for( const tripoint &pt : closest_tripoints_first( 1, pos ) ) {
         if( g->m.furn( pt ).obj().examine == iexamine::rubble ) {
-            // costs per tile:
-            // DIG 2 = 300 seconds, 10 hunger and thirst
-            // DIG 3 =  75 seconds,  2 hunger and thirst
-            // DIG 4 =  33 seconds,  1 hunger and thirst
-            // DIG 5 =  18 seconds,  0 hunger and thirst
+            // costs per tile are (30 minutes/dig quality), with +66% hunger and +100% thirst, so:
+            // DIG 2 = 150  seconds
+            // DIG 3 = 75   seconds
+            // DIG 4 = 50   seconds
+            // DIG 5 = 37.5 seconds
             int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
-            bonus *= bonus;
-            player_activity act( activity_id( "ACT_CLEAR_RUBBLE" ), 5000 / ( bonus * bonus ), bonus );
+            player_activity act( activity_id( "ACT_CLEAR_RUBBLE" ), 2500 / bonus, bonus );
             act.coords.push_back( pt );
             p->assign_activity( act );
 
@@ -3726,77 +3777,12 @@ int iuse::firecracker_pack(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You need a source of fire!"));
         return 0;
     }
-    WINDOW *w = newwin(5, 41, (TERMY - 5) / 2, (TERMX - 41) / 2);
-    WINDOW_PTR wptr( w );
-    draw_border(w);
-    int mid_x = getmaxx(w) / 2;
-    int tmpx = 5;
-    // TODO: Should probably be a input box anyway.
-    mvwprintz(w, 1, 2, c_white, _("How many do you want to light? (1-%d)"), it->charges);
-    mvwprintz(w, 2, mid_x, c_white, "1");
-    tmpx += shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<I>ncrease")) + 1;
-    tmpx += shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<D>ecrease")) + 1;
-    tmpx += shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<A>ccept")) + 1;
-    shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<C>ancel"));
-    wrefresh(w);
-    bool close = false;
-    long charges = 1;
-    // TODO: use input context
-    char ch = inp_mngr.get_input_event().get_first_input();
-    while (!close) {
-        if (ch == 'I') {
-            charges++;
-            if (charges > it->charges) {
-                charges = it->charges;
-            }
-            mvwprintz(w, 2, mid_x, c_white, "%d", charges);
-            wrefresh(w);
-        } else if (ch == 'D') {
-            charges--;
-            if (charges < 1) {
-                charges = 1;
-            }
-            mvwprintz(w, 2, mid_x, c_white, "%d ",
-                      charges); //Trailing space clears the second digit when decreasing from 10 to 9
-            wrefresh(w);
-        } else if (ch == 'A') {
-            p->use_charges("fire", 1);
-            if (charges == it->charges) {
-                p->add_msg_if_player(_("You light the pack of firecrackers."));
-                it->convert( "firecracker_pack_act" );
-                it->charges = charges;
-                it->bday = calendar::turn;
-                it->active = true;
-                return 0; // don't use any charges at all. it has became a new item
-            } else {
-                if (charges == 1) {
-                    p->add_msg_if_player(_("You light one firecracker."));
-                    item new_it = item("firecracker_act", int(calendar::turn));
-                    new_it.charges = 2;
-                    new_it.active = true;
-                    p->i_add(new_it);
-                } else {
-                    p->add_msg_if_player(ngettext("You light a string of %d firecracker.",
-                                                  "You light a string of %d firecrackers.", charges), charges);
-                    item new_it = item("firecracker_pack_act", int(calendar::turn));
-                    new_it.charges = charges;
-                    new_it.active = true;
-                    p->i_add(new_it);
-                }
-                if (it->charges == 1) {
-                    it->convert( "firecracker" );
-                }
-            }
-            close = true;
-        } else if (ch == 'C') {
-            return 0; // don't use any charges at all
-        }
-        if (!close) {
-            // TODO: rewrite loop so this is only called at one place
-            ch = inp_mngr.get_input_event().get_first_input();
-        }
-    }
-    return charges;
+    p->add_msg_if_player(_("You light the pack of firecrackers."));
+    it->convert( "firecracker_pack_act" );
+    it->charges = 26;
+    it->bday = calendar::turn;
+    it->active = true;
+    return 0; // don't use any charges at all. it has became a new item
 }
 
 int iuse::firecracker_pack_act(player *, item *it, bool, const tripoint &pos)
@@ -3807,7 +3793,7 @@ int iuse::firecracker_pack_act(player *, item *it, bool, const tripoint &pos)
         sounds::sound(pos, 0, _("ssss..."));
         it->inc_damage();
     } else if (it->charges > 0) {
-        int ex = rng(3, 5);
+        int ex = rng(4, 6);
         int i = 0;
         if (ex > it->charges) {
             ex = it->charges;
@@ -4310,7 +4296,7 @@ int iuse::dog_whistle(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::vacutainer(player *p, item *it, bool, const tripoint& )
+int iuse::blood_draw(player *p, item *it, bool, const tripoint& )
 {
     if (p->is_npc()) {
         return 0;    // No NPCs for now!
@@ -4363,17 +4349,23 @@ void iuse::cut_log_into_planks(player *p)
     p->add_msg_if_player(_("You cut the log into planks."));
     item plank("2x4", int(calendar::turn));
     item scrap("splinter", int(calendar::turn));
+    const int max_planks = 10;
     /** @EFFECT_FABRICATION increases number of planks cut from a log */
-    int planks = (rng(1, 3) + (p->get_skill_level( skill_fabrication ) * 2));
-    int scraps = 12 - planks;
-    if (planks >= 12) {
-        planks = 12;
+    int planks = normal_roll( 2 + p->get_skill_level( skill_fabrication ), 1 );
+    int wasted_planks = max_planks - planks;
+    int scraps = rng( wasted_planks, wasted_planks * 3 );
+    planks = std::min( planks, max_planks );
+    if( planks > 0 ) {
+        p->i_add_or_drop( plank, planks );
+        p->add_msg_if_player( m_good, _( "You produce %d planks." ), planks );
     }
-    if (scraps >= planks) {
-        add_msg(m_bad, _("You waste a lot of the wood."));
+    if( scraps > 0 ) {
+        p->i_add_or_drop( scrap, scraps );
+        p->add_msg_if_player( m_good, _( "You produce %d splinters." ), scraps );
     }
-    p->i_add_or_drop(plank, planks);
-    p->i_add_or_drop(scrap, scraps);
+    if( planks < max_planks / 2 ) {
+        add_msg( m_bad, _("You waste a lot of the wood.") );
+    }
 }
 
 int iuse::lumber(player *p, item *it, bool t, const tripoint& )
@@ -5626,14 +5618,14 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint& ) {
         return 0;
     }
 
-    if( !loc->ammo_remaining() || g->unload( *loc ) ) {
-        //~ $1 - toolmod, $2 - base item
-        p->add_msg_if_player( m_good, _( "You attach the %1$s to the %2$s" ),
-                              it->tname().c_str(), loc->tname().c_str() );
-
-        loc->contents.push_back( p->i_rem( it ) );
+    if( loc->ammo_remaining() ) {
+        if( !g->unload( *loc ) ) {
+            p->add_msg_if_player( m_info, _( "You cancel unloading the tool." ) );
+            return 0;
+        }
     }
 
+    p->toolmod_add( *loc, *it );
     return 0;
 }
 
@@ -6842,7 +6834,7 @@ int iuse::radiocar(player *p, item *it, bool, const tripoint& )
                 return 0;
             }
 
-            if (put->has_flag("RADIOCARITEM") && (put->volume() <= 1250_ml || (put->weight() <= 2000))) {
+            if ( put->has_flag( "RADIOCARITEM" ) && ( put->volume() <= 1250_ml || ( put->weight() <= 2_kilogram ) ) ) {
                 p->moves -= 300;
                 p->add_msg_if_player(_("You armed your RC car with %s."),
                                      put->tname().c_str());
@@ -7706,7 +7698,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint& )
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         /* windpower defined in internal velocity units (=.01 mph) */
         int windpower = int(100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
-                                                          cur_om_ter->get_name(), g->is_sheltered( g->u.pos() ) ) );
+                                                          cur_om_ter, g->is_sheltered( g->u.pos() ) ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
                               convert_velocity( windpower, VU_WIND ),
@@ -7906,7 +7898,7 @@ int iuse::saw_barrel( player *p, item *, bool t, const tripoint& )
 int iuse::washclothes( player *p, item *it, bool, const tripoint& )
 {
     if( it->charges < it->type->charges_to_use() ) {
-        p->add_msg_if_player( _( "You need a soap to use this." ) );
+        p->add_msg_if_player( _( "You need a cleansing agent to use this." ) );
         return 0;
     }
 

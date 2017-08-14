@@ -727,7 +727,7 @@ void npc::choose_target()
 
     constexpr static int def_radius = 6;
 
-    const auto ok_by_rules = [this, cur_range]( const Creature &c, int dist, int scaled_dist ) {
+    const auto ok_by_rules = [cur_range, this]( const Creature &c, int dist, int scaled_dist ) {
         if( !is_following() ) {
             return true;
         }
@@ -844,8 +844,7 @@ void npc::choose_target()
     if( is_friend() ) {
         ai_cache.friends.emplace_back( npc_target::player() );
     } else if( is_enemy() ) {
-        // Hostile characters can always find the player
-        if( ai_cache.target.get() == nullptr || check_hostile_character( g->u ) ) {
+        if( sees( g->u ) && check_hostile_character( g->u ) ) {
             ai_cache.target = npc_target::player();
             ai_cache.danger = std::max( 1.0f, ai_cache.danger );
         }
@@ -1621,7 +1620,7 @@ void npc::avoid_friendly_fire()
     auto candidates = closest_tripoints_first( 1, pos() );
     candidates.erase( candidates.begin() );
     std::sort( candidates.begin(), candidates.end(),
-        [&tar, &center, this]( const tripoint &l, const tripoint &r ) {
+        [&tar, &center]( const tripoint &l, const tripoint &r ) {
         return ( rl_dist( l, tar ) - rl_dist( l, center ) ) <
                ( rl_dist( r, tar ) - rl_dist( r, center ) );
     } );
@@ -2031,7 +2030,7 @@ void npc::drop_items(int weight, int volume)
             wgt_ratio = 99999;
             vol_ratio = 99999;
         } else {
-            wgt_ratio = it.weight() / value(it);
+            wgt_ratio = it.weight() / 1_gram / value( it );
             vol_ratio = it.volume() / units::legacy_volume_factor / value(it);
         }
         bool added_wgt = false, added_vol = false;
@@ -2087,7 +2086,7 @@ void npc::drop_items(int weight, int volume)
                 }
             }
         }
-        weight_dropped += slice[index]->front().weight();
+        weight_dropped += slice[index]->front().weight() / 1_gram;
         volume_dropped += slice[index]->front().volume() / units::legacy_volume_factor;
         item dropped = i_rem(index);
         num_items_dropped++;
@@ -2249,7 +2248,7 @@ bool npc::wield_better_weapon()
     // Fists aren't checked below
     compare_weapon( ret_null );
 
-    visit_items( [this, &compare_weapon]( item *node ) {
+    visit_items( [&compare_weapon]( item *node ) {
         // Skip some bad items
         if( !node->is_melee() ) {
             return VisitResponse::SKIP;
@@ -2649,8 +2648,8 @@ bool npc::consume_food()
         const item &food_item = it.is_food_container() ?
                                 it.contents.front() : it;
         float cur_weight = rate_food( food_item, want_hunger, want_quench );
-        // Note: can_eat is expensive, avoid calling it if possible
-        if( cur_weight > best_weight && can_eat( food_item ) == EDIBLE ) {
+        // Note: will_eat is expensive, avoid calling it if possible
+        if( cur_weight > best_weight && will_eat( food_item ) == EDIBLE ) {
             best_weight = cur_weight;
             index = i;
         }

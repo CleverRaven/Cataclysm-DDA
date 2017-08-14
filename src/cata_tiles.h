@@ -8,7 +8,6 @@
 #include "animation.h"
 #include "map.h"
 #include "weather.h"
-#include "tile_id_data.h"
 #include "enums.h"
 #include "weighted_list.h"
 
@@ -360,7 +359,7 @@ class cata_tiles
 
         /* Tile Picking */
         void get_tile_values( const int t, const int *tn, int &subtile, int &rotation );
-        void get_connect_values( const tripoint &p, int &subtile, int &rotation , int connect_group );
+        void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group );
         void get_terrain_orientation( const tripoint &p, int &rota, int &subtype );
         void get_rotation_and_subtile( const char val, const int num_connects, int &rota, int &subtype );
 

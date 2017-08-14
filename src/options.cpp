@@ -485,7 +485,7 @@ std::string options_manager::cOpt::getDefaultText(const bool bTranslated) const
 {
     if (sType == "string_select") {
         const std::string sItems = enumerate_as_string( vItems.begin(), vItems.end(),
-        [ this, bTranslated ]( const std::string &elem ) {
+        [bTranslated ]( const std::string &elem ) {
             return bTranslated ? optionNames[elem] : elem;
         }, false );
         return string_format(_("Default: %s - Values: %s"),
@@ -1031,6 +1031,11 @@ void options_manager::init()
         false
         );
 
+    add("OPEN_DEFAULT_ADV_INV", "interface", _("Open default advanced inventory layout"),
+        _("Open default advanced inventory layout instead of last opened layout"),
+        false
+        );
+
     add( "INV_USE_ACTION_NAMES", "interface", _( "Display actions in Use Item menu" ),
         _( "If true, actions (like \"Read\", \"Smoke\", \"Wrap tighter\") will be displayed next to the corresponding items." ),
         true
@@ -1231,7 +1236,12 @@ void options_manager::init()
         );
 
     add("SOFTWARE_RENDERING", "graphics", _("Software rendering"),
-        _("Use software renderer instead of graphics card acceleration."),
+        _("Use software renderer instead of graphics card acceleration.  Requires restart."),
+        false, COPT_CURSES_HIDE
+        );
+
+    add("FRAMEBUFFER_ACCEL", "graphics", _("Software framebuffer acceleration"),
+        _("Use hardware acceleration for the framebuffer when using software rendering.  Requires restart."),
         false, COPT_CURSES_HIDE
         );
 
@@ -1307,24 +1317,6 @@ void options_manager::init()
     add("ENCODING_CONV", "debug", _("Experimental path name encoding conversion"),
         _("If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK Windows users."),
         true
-        );
-    
-    mOptionsSort["debug"]++;
-    
-    add("OVERMAP_GENERATION_TRIES", "debug", _("Overmap generation attempt count"),
-        _("Maximum number of retries in overmap generation due to inability to place mandatory special locations.  High numbers and strange world settings will lead to VERY slow generation!"),
-        1, 20, 2
-        );
-
-    //~ allow invalid (bugged, bad) maps without asking user
-    optionNames["allow_invalid"] = _("Any");
-    //~ allow any valid map, even if it's "bad"
-    optionNames["ask_invalid"] = _("Valid");
-    //~ ask for lifting restrictions
-    optionNames["ask_unlimited"] = _("Ask");
-    add("ALLOW_INVALID_OVERMAPS", "debug", _("Allow invalid overmaps"),
-        _("What to do if world settings/mods prevent valid overmaps.  Invalid maps are BUGGED and while playable, may cause errors during missions.  Unlimited maps will look ugly, but are fully functional."),
-        "allow_invalid,ask_invalid,ask_unlimited", "ask_invalid"
         );
 
     ////////////////////////////WORLD DEFAULT////////////////////
@@ -1475,6 +1467,16 @@ void options_manager::init()
     add("ALIGN_STAIRS", "world_default", _("Align up and down stairs"),
         _("If true, downstairs will be placed directly above upstairs, even if this results in uglier maps."),
         false
+        );
+
+    mOptionsSort["world_default"]++;
+
+    optionNames["any"] = _("Any");
+    optionNames["multi_pool"] = _("Multi-pool only");
+    optionNames["no_freeform"] = _("No freeform");
+    add("CHARACTER_POINT_POOLS", "world_default", _("Character point pools"),
+        _("Allowed point pools for character generation."),
+        "any,multi_pool,no_freeform", "any"
         );
 
     mOptionsSort["world_default"]++;
@@ -1987,6 +1989,8 @@ bool options_manager::save()
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
+
+    update_music_volume();
 
     return write_to_file( savefile, [&]( std::ostream &fout ) {
         JsonOut jout( fout, true );

@@ -114,6 +114,9 @@ struct mutation_branch {
     // Modifier for the rate at which fatigue drops when resting.
     float fatigue_regen_modifier = 0.0f;
 
+    // Modifier for the rate at which stamina regenerates.
+    float stamina_regen_modifier = 0.0f;
+
     /** Attacks granted by this mutation */
     std::vector<mut_attack> attacks_granted;
 

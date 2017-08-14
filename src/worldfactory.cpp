@@ -773,8 +773,9 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
         mSortCategory[0] = sLastCategoryName;
 
         for( size_t i = 0; i < mods.size(); ++i ) {
-            if ( sLastCategoryName != mman->mod_map[mods[i]]->category.second ) {
-                sLastCategoryName = mman->mod_map[mods[i]]->category.second;
+            const std::string category_name = _( mman->mod_map[mods[i]]->category.second.c_str() );
+            if ( sLastCategoryName != category_name ) {
+                sLastCategoryName = category_name;
                 mSortCategory[ i + iCatSortNum++ ] = sLastCategoryName;
                 iModNum++;
                 if( i == 0 ) {
@@ -969,7 +970,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
 
                 std::string sCatTab = "tab_default";
                 if( iter != get_mod_list_cat_tab().end() ) {
-                    sCatTab = iter->second;
+                    sCatTab = _( iter->second.c_str() );
                 }
 
                 if( sCatTab == get_mod_list_tabs()[iCurrentTab].first ) {
@@ -1014,7 +1015,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             mvwprintz(win, 4, 2, c_white, "");
             for( size_t i = 0; i < get_mod_list_tabs().size(); i++ ) {
                 wprintz(win, c_white, "[");
-                wprintz(win, (iCurrentTab == (int)i) ? hilite(c_ltgreen) : c_ltgreen, (get_mod_list_tabs()[i].second).c_str());
+                wprintz(win, (iCurrentTab == (int)i) ? hilite(c_ltgreen) : c_ltgreen, _((get_mod_list_tabs()[i].second).c_str()));
                 wprintz(win, c_white, "]");
                 wputch(win, BORDER_COLOR, LINE_OXOX);
             }

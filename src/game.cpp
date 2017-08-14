@@ -91,6 +91,7 @@
 #include "safemode_ui.h"
 #include "game_constants.h"
 #include "string_input_popup.h"
+#include "monexamine.h"
 
 #include <map>
 #include <set>
@@ -259,6 +260,7 @@ game::game() :
     w_blackspace(NULL),
     dangerous_proximity(5),
     pixel_minimap_option(0),
+    last_target( -1 ),
     safe_mode(SAFE_MODE_ON),
     safe_mode_warning_logged(false),
     mostseen(0),
@@ -268,6 +270,10 @@ game::game() :
     tileset_zoom(16),
     weather_override( WEATHER_NULL )
 {
+    remoteveh_cache_turn = INT_MIN;
+    temperature = 0;
+    player_was_sleeping = false;
+    reset_light_level();
     world_generator.reset( new worldfactory() );
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
@@ -293,17 +299,12 @@ void game::load_static_data()
     // If this changes (if they load data from json), they have to
     // be moved to game::load_mod or game::load_core_data
     init_mapgen_builtin_functions();
-    init_fields();
     init_savedata_translation_tables();
     init_artifacts();
     init_faction_data();
 
     get_auto_pickup().load_global();
     get_safemode().load_global();
-
-    // --- move/delete everything below
-    // TODO: move this to player class
-    moveCount = 0;
 }
 
 bool game::check_mod_data( const std::vector<std::string> &opts )
@@ -327,10 +328,10 @@ bool game::check_mod_data( const std::vector<std::string> &opts )
         // if no loadable mods then test core data only
         try {
             load_core_data();
+            DynamicDataLoader::get_instance().finalize_loaded_data();
         } catch( const std::exception &err ) {
             std::cerr << "Error loading data from json: " << err.what() << std::endl;
         }
-        DynamicDataLoader::get_instance().finalize_loaded_data();
     }
 
     for( const auto &e : check ) {
@@ -360,11 +361,10 @@ bool game::check_mod_data( const std::vector<std::string> &opts )
 
             // Load mod itself
             load_data_from_dir( mod.path, mod.ident );
+            DynamicDataLoader::get_instance().finalize_loaded_data();
         } catch( const std::exception &err ) {
             std::cerr << "Error loading data: " << err.what() << std::endl;
         }
-
-        DynamicDataLoader::get_instance().finalize_loaded_data();
     }
 
     return true;
@@ -1466,7 +1466,7 @@ bool game::do_turn()
                 cleanup_dead();
                 // Process any new sounds the player caused during their turn.
                 sounds::process_sound_markers( &u );
-                if( !u.activity ) {
+                if( !u.activity && uquit != QUIT_WATCH ) {
                     draw();
                 }
 
@@ -1554,11 +1554,24 @@ bool game::do_turn()
         weather_data(weather).effect();
     }
 
-    if( u.has_effect( effect_sleep) && calendar::once_every(MINUTES(30)) ) {
-        draw();
-        refresh();
-        refresh_display();
+    const bool player_is_sleeping = u.has_effect( effect_sleep );
+
+    if( player_is_sleeping ) {
+        if( calendar::once_every( MINUTES( 30 ) ) || !player_was_sleeping ) {
+            draw();
+        }
+
+        if( calendar::once_every( MINUTES( 1 ) ) ) {
+            WINDOW_PTR popup = create_wait_popup_window( string_format( _( "Wait till you wake up..." ) ) );
+
+            wrefresh( popup.get() );
+
+            refresh();
+            refresh_display();
+        }
     }
+
+    player_was_sleeping = player_is_sleeping;
 
     u.update_bodytemp();
     u.update_body_wetness( *weather_precise );
@@ -1819,6 +1832,11 @@ int game::kill_count( const mtype_id& mon )
 void game::increase_kill_count( const mtype_id& id )
 {
     kills[id]++;
+}
+
+void game::record_npc_kill( const npc *p )
+{
+   npc_kills.push_back( p->get_name() );
 }
 
 void game::handle_key_blocking_activity()
@@ -2238,6 +2256,7 @@ input_context game::get_player_input(std::string &action)
         }
 #endif //TILES
 
+        // TODO: Move the weather calculations out of here.
         const bool bWeatherEffect = ( weather_info.glyph != '?' );
         const int dropCount = int( iEndX * iEndY * weather_info.factor );
 
@@ -2355,18 +2374,31 @@ input_context game::get_player_input(std::string &action)
                     }
                 }
             }
-            draw_weather(wPrint);
-            if(uquit != QUIT_WATCH) {
+
+            werase( w_terrain );
+
+            draw_ter();
+            draw_weather( wPrint );
+
+            if( uquit != QUIT_WATCH ) {
                 draw_sct();
             }
+
+            wrefresh( w_terrain );
+
             if( uquit == QUIT_WATCH ) {
-                // Display "press X to continue" text at top of main window
-                std::string message = string_format( _("Press %s to accept your fate..."),
-                        ctxt.get_desc("QUIT").c_str() );
-                popup(message, PF_NO_WAIT_ON_TOP);
+                draw_sidebar();
+
+                WINDOW_PTR popup = create_wait_popup_window(
+                    string_format( _( "Press %s to accept your fate..." ),
+                    ctxt.get_desc( "QUIT" ).c_str() ),
+                    c_red
+                );
+
+                wrefresh( popup.get() );
+
                 break;
             }
-            wrefresh(w_terrain);
 
             //updating the pixel minimap here allows red flashing indicators for enemies to actually flicker
             draw_pixel_minimap();
@@ -2669,8 +2701,6 @@ bool game::handle_action()
             break;
 
         case ACTION_MOVE_N:
-            moveCount++;
-
             if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(0, -1);
             } else if (veh_ctrl) {
@@ -2681,8 +2711,6 @@ bool game::handle_action()
             break;
 
         case ACTION_MOVE_NE:
-            moveCount++;
-
             if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(1, -1);
             } else if (veh_ctrl) {
@@ -2693,8 +2721,6 @@ bool game::handle_action()
             break;
 
         case ACTION_MOVE_E:
-            moveCount++;
-
             if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(1, 0);
             } else if (veh_ctrl) {
@@ -2705,8 +2731,6 @@ bool game::handle_action()
             break;
 
         case ACTION_MOVE_SE:
-            moveCount++;
-
             if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(1, 1);
             } else if (veh_ctrl) {
@@ -2717,8 +2741,6 @@ bool game::handle_action()
             break;
 
         case ACTION_MOVE_S:
-            moveCount++;
-
             if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(0, 1);
             } else if (veh_ctrl) {
@@ -2729,8 +2751,6 @@ bool game::handle_action()
             break;
 
         case ACTION_MOVE_SW:
-            moveCount++;
-
             if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(-1, 1);
             } else if (veh_ctrl) {
@@ -2741,8 +2761,6 @@ bool game::handle_action()
             break;
 
         case ACTION_MOVE_W:
-            moveCount++;
-
             if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(-1, 0);
             } else if (veh_ctrl) {
@@ -2753,8 +2771,6 @@ bool game::handle_action()
             break;
 
         case ACTION_MOVE_NW:
-            moveCount++;
-
             if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(-1, -1);
             } else if (veh_ctrl) {
@@ -3628,6 +3644,7 @@ void game::load_uistate(std::string worldname)
 }
 
 bool game::load( const std::string &world ) {
+    world_generator->init();
     const WORLDPTR wptr = world_generator->get_world( world );
     if( !wptr ) {
         return false;
@@ -4406,6 +4423,17 @@ void game::disp_kills()
         buffer.width( 0 );
         data.push_back( buffer.str() );
     }
+    for( const auto &npc_name : npc_kills ) {
+        totalkills += 1;
+        std::ostringstream buffer;
+        buffer << "<color_magenta>@ " << npc_name << "</color>";
+        const int w = colum_width - utf8_width( npc_name );
+        buffer.width( w - 3 ); // gap between cols, monster sym, space
+        buffer.fill(' ');
+        buffer << "1";
+        buffer.width( 0 );
+        data.push_back( buffer.str() );
+    }
     std::ostringstream buffer;
     if( data.empty() ) {
         buffer << _( "You haven't killed any monsters yet!" );
@@ -4781,19 +4809,16 @@ void game::draw()
         return;
     }
 
-    // Draw map
-    werase(w_terrain);
-
     //temporary fix for updating visibility for minimap
     ter_view_z = ( u.pos() + u.view_offset ).z;
     m.build_map_cache( ter_view_z );
     m.update_visibility_cache( ter_view_z );
 
     draw_sidebar();
+
+    werase( w_terrain );
     draw_ter();
-    if( !is_draw_tiles_mode() ) {
-        wrefresh(w_terrain);
-    }
+    wrefresh( w_terrain );
 }
 
 void game::draw_pixel_minimap()
@@ -4807,6 +4832,7 @@ void game::draw_pixel_minimap()
         wrefresh(w_pixel_minimap);
     }
 }
+
 
 void game::draw_sidebar()
 {
@@ -4874,7 +4900,7 @@ void game::draw_sidebar()
         wprintz(time_window, c_white, "]");
     } else {
         wprintz( time_window, c_white, _( "Time: ???") );
-    } 
+    }
 
     const oter_id &cur_ter = overmap_buffer.ter(u.global_omt_location());
 
@@ -4982,6 +5008,14 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
     }
 }
 
+bool game::is_in_viewport( const tripoint& p, int margin ) const
+{
+    const tripoint diff( u.pos() + u.view_offset - p );
+
+    return ( std::abs( diff.x ) <= getmaxx( w_terrain ) / 2 - margin ) &&
+           ( std::abs( diff.y ) <= getmaxy( w_terrain ) / 2 - margin );
+}
+
 void game::draw_ter( const bool draw_sounds )
 {
     draw_ter( u.pos() + u.view_offset, false, draw_sounds );
@@ -5057,19 +5091,11 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         draw_veh_dir_indicator( false );
         draw_veh_dir_indicator( true );
     }
-    if(uquit == QUIT_WATCH) {
-        // This should remove the flickering the bar receives
-        input_context ctxt("DEFAULTMODE");
-        std::string message = string_format( _("Press %s to accept your fate..."),
-                ctxt.get_desc("QUIT").c_str() );
-        popup(message, PF_NO_WAIT_ON_TOP);
-    }
 
     // Place the cursor over the player as is expected by screen readers.
     wmove( w_terrain, POSY + g->u.pos().y - center.y, POSX + g->u.pos().x - center.x );
 
-    wrefresh(w_terrain);
-
+    wrefresh( w_terrain);
 }
 
 tripoint game::get_veh_dir_indicator_location( bool next ) const
@@ -5139,15 +5165,11 @@ void game::draw_HP()
     }
 
     const size_t num_parts = 7;
-    static const std::array<std::string, num_parts> body_parts = {{
-        _("HEAD"), _("TORSO"), _("L ARM"),
-        _("R ARM"), _("L LEG"), _("R LEG"), _("POWER")
-    }};
     static std::array<body_part, num_parts> part = {{
         bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r, num_bp
     }};
     for (size_t i = 0; i < num_parts; i++) {
-        const std::string &str = body_parts[i];
+        const std::string str = ( i == num_parts - 1 ) ? _( "POWER" ) : body_part_hp_bar_ui_text( part[i] );
         wmove(w_HP, i * dy, 0);
         if (wide) {
             wprintz(w_HP, u.limb_color(part[i], true, true, true), " ");
@@ -6925,7 +6947,7 @@ void game::smash()
     if( didit ) {
         u.handle_melee_wear();
         u.moves -= move_cost;
-        const int mod_sta = ( (u.weapon.weight() / 100 ) + 20) * -1;
+        const int mod_sta = ( ( u.weapon.weight() / 100_gram ) + 20 ) * -1;
         u.mod_stat("stamina", mod_sta);
 
         if (u.get_skill_level( skill_melee ) == 0) {
@@ -7217,27 +7239,26 @@ void game::control_vehicle()
 bool pet_menu(monster *z)
 {
     enum choices {
-        cancel,
-        swap_pos,
+        swap_pos = 0,
         push_zlave,
         rename,
         attach_bag,
         drop_all,
         give_items,
         pheromone,
+        milk,
         rope
     };
 
     uimenu amenu;
     amenu.return_invalid = true;
-    std::string pet_name = _("dog");
+    std::string pet_name = z->get_name();
     if( z->type->in_species( ZOMBIE ) ) {
         pet_name = _("zombie slave");
     }
 
     amenu.selected = 0;
     amenu.text = string_format(_("What to do with your %s?"), pet_name.c_str());
-    amenu.addentry(cancel, true, 'q', _("Cancel"));
 
     amenu.addentry(swap_pos, true, 's', _("Swap positions"));
     amenu.addentry(push_zlave, true, 'p', _("Push %s"), pet_name.c_str());
@@ -7264,12 +7285,12 @@ bool pet_menu(monster *z)
         amenu.addentry(pheromone, true, 't', _("Tear out pheromone ball"));
     }
 
+    if( z->has_flag( MF_MILKABLE ) ) {
+        amenu.addentry( milk, true, 'm', _( "Milk %s" ), pet_name.c_str());
+    }
+
     amenu.query();
     int choice = amenu.ret;
-
-    if (cancel == choice || choice < 0) {
-        return false;
-    }
 
     if (swap_pos == choice) {
         g->u.moves -= 150;
@@ -7389,7 +7410,7 @@ bool pet_menu(monster *z)
         }
 
         units::volume max_cap = it->get_storage();
-        int max_weight = z->weight_capacity() - it->weight();
+        units::mass max_weight = z->weight_capacity() - it->weight();
 
         if (z->inv.size() > 1) {
             for (auto &i : z->inv) {
@@ -7449,13 +7470,18 @@ bool pet_menu(monster *z)
         return true;
     }
 
+    if( milk == choice ) {
+        monexamine::milk_source( *z );
+        return true;
+    }
+
     return true;
 }
 
 bool game::npc_menu( npc &who )
 {
     enum choices : int {
-        cancel = 0,
+        talk = 0,
         swap_pos,
         push,
         examine_wounds,
@@ -7466,14 +7492,14 @@ bool game::npc_menu( npc &who )
         steal
     };
 
+    const bool obeys = debug_mode || ( who.is_friend() && !who.in_sleep_state() );
+
     uimenu amenu;
     amenu.return_invalid = true;
 
     amenu.selected = 0;
     amenu.text = string_format( _("What to do with %s?"), who.disp_name().c_str() );
-    amenu.addentry( cancel, true, 'q', _("Cancel") );
-
-    const bool obeys = debug_mode || (who.is_friend() && !who.in_sleep_state());
+    amenu.addentry( talk, true, 't', _( "Talk" ) );
     amenu.addentry( swap_pos, obeys, 's', _("Swap positions") );
     amenu.addentry( push, obeys, 'p', _("Push away") );
     amenu.addentry( examine_wounds, true, 'w', _("Examine wounds") );
@@ -7488,11 +7514,9 @@ bool game::npc_menu( npc &who )
     amenu.query();
 
     const int choice = amenu.ret;
-    if( choice == cancel ) {
-        return false;
-    }
-
-    if( choice == swap_pos ) {
+    if( choice == talk ) {
+        who.talk_to_u();
+    } else if( choice == swap_pos ) {
         if( !prompt_dangerous_tile( who.pos() ) ) {
             return true;
         }
@@ -7519,7 +7543,7 @@ bool game::npc_menu( npc &who )
         who.body_window( precise );
     } else if( choice == use_item ) {
         static const std::string heal_string( "heal" );
-        const auto will_accept = [&who]( const item &it ) {
+        const auto will_accept = []( const item &it ) {
             const auto use_fun = it.get_use( heal_string );
             if( use_fun == nullptr ) {
                 return false;
@@ -7847,9 +7871,9 @@ void game::print_fields_info( const tripoint &lp, WINDOW *w_look, int column, in
     const field &tmpfield = m.field_at( lp );
     for( auto &fld : tmpfield ) {
         const field_entry *cur = &fld.second;
-        mvwprintz(w_look, line++, column, fieldlist[cur->getFieldType()].color[cur->getFieldDensity() - 1],
+        mvwprintz( w_look, line++, column, cur->color(),
                   "%s",
-                  fieldlist[cur->getFieldType()].name[cur->getFieldDensity() - 1].c_str());
+                  cur->name().c_str() );
     }
 }
 
@@ -9467,7 +9491,9 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     mvwprintz(w_monsters, y, 22, color, "%s", sText.c_str());
 
                     if( m != nullptr ) {
-                        m->get_Attitude(color, sText);
+                        const auto att = m->get_attitude();
+                        sText = att.first;
+                        color = att.second;
                     } else if( p != nullptr ) {
                         sText = npc_attitude_name( p->attitude );
                         color = p->symbol_color();
@@ -9658,14 +9684,17 @@ bool game::handle_liquid_from_container( item &container, int radius )
 
 extern void serialize_liquid_source( player_activity &act, const vehicle &veh, const itype_id &ftype );
 extern void serialize_liquid_source( player_activity &act, const tripoint &pos, const item &liquid );
+extern void serialize_liquid_source( player_activity &act, const monster &mon, const item &liquid );
 
 extern void serialize_liquid_target( player_activity &act, const vehicle &veh );
 extern void serialize_liquid_target( player_activity &act, int container_item_pos );
 extern void serialize_liquid_target( player_activity &act, const tripoint &pos );
+extern void serialize_liquid_target( player_activity &act, const monster &mon );
 
 bool game::handle_liquid( item &liquid, item * const source, const int radius,
                           const tripoint * const source_pos,
-                          const vehicle * const source_veh )
+                          const vehicle * const source_veh,
+                          const monster * const source_mon)
 {
     if( !liquid.made_of(LIQUID) ) {
         dbg(D_ERROR) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
@@ -9683,6 +9712,10 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
             u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
             serialize_liquid_source( u.activity, *source_pos, liquid );
             return true;
+        } else if( source_mon != nullptr ) {
+            u.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
+            serialize_liquid_source( u.activity, *source_mon, liquid );
+            return true;
         } else {
             return false;
         }
@@ -9696,12 +9729,14 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         menu.text = string_format( _( "What to do with the %s from %s?" ), liquid_name.c_str(), m.name( *source_pos ).c_str() );
     } else if( source_veh != nullptr ) {
         menu.text = string_format( _( "What to do with the %s from the %s?" ), liquid_name.c_str(), source_veh->name.c_str() );
+    } else if( source_mon != nullptr ) {
+        menu.text = string_format( _( "What to do with the %s from the %s?" ), liquid_name.c_str(), source_mon->get_name().c_str() );
     } else {
         menu.text = string_format( _( "What to do with the %s?" ), liquid_name.c_str() );
     }
     std::vector<std::function<void()>> actions;
 
-    if( u.can_consume( liquid ) ) {
+    if( u.can_consume( liquid ) && !source_mon ) {
         menu.addentry( -1, true, 'e', _( "Consume it" ) );
         actions.emplace_back( [&]() {
             // consume_item already consumes moves.
@@ -9960,8 +9995,8 @@ bool game::plfire_check( const targeting_data &args ) {
 
     item &weapon = *args.relevant;
     if( weapon.is_gunmod() ) {
-        add_msg( m_info, 
-            _( "The %s must be attached to a gun, it can not be fired separately." ), 
+        add_msg( m_info,
+            _( "The %s must be attached to a gun, it can not be fired separately." ),
             weapon.tname().c_str() );
         return false;
     }
@@ -9978,7 +10013,7 @@ bool game::plfire_check( const targeting_data &args ) {
         add_msg( m_info, _( "You need a free arm to drive!" ) );
         return false;
     }
-    
+
     // skip the remaining checks if we are firing a melee weapon.
     if( gun.melee() ) {
         return true;
@@ -10071,6 +10106,12 @@ bool game::plfire()
             // At low stamina levels, firing starts getting slow.
             int sta_percent = ( 100 * u.stamina ) / u.get_stamina_max();
             reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
+
+            // Update targeting data to include ammo's range bonus
+            args.range = gun.melee() ? gun.qty : gun.target->gun_range( &u );
+            args.ammo = gun->ammo_data();
+            u.set_targeting_data( args );
+
             refresh_all();
         }
     }
@@ -10419,20 +10460,13 @@ void game::eat(int pos)
         return;
     }
 
-    // Can consume items from inventory or within one tile (including in vehicles)
-    auto item_loc = inv_map_splice( [&]( const item &it ) {
-        if( it.typeId() == "1st_aid" ) {
-            return false; // temporary fix for #12991
-        }
-        return it.made_of( SOLID ) && u.can_consume( it );
-    }, _( "Consume item" ), 1, _( "You have nothing to consume." ) );
-
-    item *it = item_loc.get_item();
-    if( !it ) {
+    auto item_loc = game_menus::inv::consume( u );
+    if( !item_loc ) {
         add_msg( _( "Never mind." ) );
         return;
     }
 
+    item *it = item_loc.get_item();
     pos = u.get_item_position( it );
     if( pos != INT_MIN ) {
         u.consume( pos );
@@ -10844,7 +10878,9 @@ void game::chat()
 {
     std::vector<npc *> available;
     for( auto &elem : active_npc ) {
-        if( u.sees( elem->pos() ) &&
+        // @todo Get rid of the z-level check when z-level vision gets "better"
+        if( u.posz() == elem->posz() &&
+            u.sees( elem->pos() ) &&
             rl_dist( u.pos(), elem->pos() ) <= 24 ) {
             available.push_back( elem );
         }
@@ -11585,7 +11621,7 @@ bool game::walk_move( const tripoint &dest_loc )
     }
 
     if( dest_loc != u.pos() ) {
-        u.lifetime_stats()->squares_walked++;
+        u.lifetime_stats.squares_walked++;
     }
 
     place_player( dest_loc );
@@ -11920,11 +11956,11 @@ bool game::grabbed_furn_move( const tripoint &dp )
 
     int str_req = furntype.move_str_req;
     // Factor in weight of items contained in the furniture.
-    int furniture_contents_weight = 0;
+    units::mass furniture_contents_weight = 0;
     for( auto contained_item : m.i_at( fpos ) ) {
         furniture_contents_weight += contained_item.weight();
     }
-    str_req += furniture_contents_weight / 4000;
+    str_req += furniture_contents_weight / 4_kilogram;
 
     if( !canmove ) {
         // TODO: What is something?
@@ -12047,7 +12083,7 @@ bool game::grabbed_move( const tripoint &dp )
 void game::on_move_effects()
 {
     // TODO: Move this to a character method
-    if (moveCount % 2 == 0) {
+    if( u.lifetime_stats.squares_walked % 2 == 0 ) {
         if (u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             u.charge_power(1);
         }
@@ -12057,8 +12093,8 @@ void game::on_move_effects()
         if( u.stamina <= 0 ) {
             u.toggle_move_mode();
         }
-        if( one_in( u.stamina ) ) {
-            u.add_effect( effect_winded, 3);
+        if( u.stamina < u.get_stamina_max() / 2 && one_in( u.stamina ) ) {
+            u.add_effect( effect_winded, 3 );
         }
     }
 
@@ -13243,11 +13279,14 @@ void game::wait()
         add_menu_item( 6, '6', "", HOURS( 6 ) );
     }
 
-    add_menu_item( 7,  'd', _( "Wait till dawn" ),     calendar::turn.diurnal_time_before( calendar::turn.sunrise() ) );
-    add_menu_item( 8,  'n', _( "Wait till noon" ),     calendar::turn.diurnal_time_before( HOURS( 12 ) ) );
-    add_menu_item( 9,  'k', _( "Wait till dusk" ),     calendar::turn.diurnal_time_before( calendar::turn.sunset() ) );
-    add_menu_item( 10, 'm', _( "Wait till midnight" ), calendar::turn.diurnal_time_before( HOURS( 0 ) ) );
-    add_menu_item( 11, 'w', _( "Wait till weather changes" ) );
+    if( get_levz() >= 0 || has_watch ) {
+        add_menu_item( 7,  'd', _( "Wait till dawn" ),     calendar::turn.diurnal_time_before( calendar::turn.sunrise() ) );
+        add_menu_item( 8,  'n', _( "Wait till noon" ),     calendar::turn.diurnal_time_before( HOURS( 12 ) ) );
+        add_menu_item( 9,  'k', _( "Wait till dusk" ),     calendar::turn.diurnal_time_before( calendar::turn.sunset() ) );
+        add_menu_item( 10, 'm', _( "Wait till midnight" ), calendar::turn.diurnal_time_before( HOURS( 0 ) ) );
+        add_menu_item( 11, 'w', _( "Wait till weather changes" ) );
+    }
+
     add_menu_item( 12, 'q', _( "Exit" ) );
 
     as_m.text = ( has_watch ) ? string_format( _( "It's %s now. " ), calendar::turn.print_time().c_str() ) : "";

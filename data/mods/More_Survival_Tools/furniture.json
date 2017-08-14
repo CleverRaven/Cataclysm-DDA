@@ -14,6 +14,7 @@
       "sound_fail": "whump!",
       "items": [ { "item": "rock", "count": [ 5, 15 ] } ]
     },
-    "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM" ]
+    "deconstruct": { "items": [ { "item": "rock", "count": 20 } ] },
+    "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "EASY_DECONSTRUCT" ]
   }
 ]

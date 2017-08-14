@@ -139,7 +139,8 @@
         "type": "effect_type",
         "id": "shrieking",
         "name": ["Shrieking"],
-        "desc": ["AI tag used for screecher sounds.  This is a bug if you have it."]
+        "desc": ["AI tag used for screecher sounds.  This is a bug if you have it."],
+        "show_in_info": true
     },
     {
         "type": "effect_type",
@@ -166,7 +167,8 @@
         "name": ["Downed"],
         "desc": ["You're knocked to the ground.  You have to get up before you can move."],
         "apply_message": "You're knocked to the floor!",
-        "rating": "bad"
+        "rating": "bad",
+        "show_in_info": true
     },
     {
         "type": "effect_type",
@@ -204,7 +206,8 @@
         "name": ["Stunned"],
         "desc": ["Your movement is randomized."],
         "apply_message": "You're stunned!",
-        "rating": "bad"
+        "rating": "bad",
+        "show_in_info": true
     },
     {
         "type": "effect_type",
@@ -221,7 +224,8 @@
         },
         "scaling_mods": {
             "speed_mod": [-3]
-        }
+        },
+        "show_in_info": true
     },
     {
         "type": "effect_type",
@@ -234,7 +238,8 @@
         "rating": "bad",
         "max_intensity": 3,
         "int_dur_factor": 5,
-        "max_duration": 50
+        "max_duration": 50,
+        "show_in_info": true
     },
     {
         "type": "effect_type",
@@ -252,7 +257,8 @@
         "removes_effects": ["glare", "darkness"],
         "apply_message": "You're blinded!",
         "remove_message": "Your sight returns!",
-        "rating": "bad"
+        "rating": "bad",
+        "show_in_info": true
     },
     {
         "type": "effect_type",
@@ -297,7 +303,8 @@
         "rating": "bad",
         "base_mods": {
             "pain_min": [1]
-        }
+        },
+        "show_in_info": true
     },
     {
         "type": "effect_type",
@@ -318,7 +325,8 @@
             "pain_chance": [150, 900],
             "hurt_min": [1],
             "hurt_chance": [450, 2700]
-        }
+        },
+        "show_in_info": true
     },
     {
         "type": "effect_type",
@@ -341,7 +349,8 @@
             "hurt_min": [1],
             "hurt_max": [2],
             "hurt_chance": [300, 1800]
-        }
+        },
+        "show_in_info": true
     },
     {
         "type": "effect_type",
@@ -385,7 +394,8 @@
         "scaling_mods": {
             "dex_mod": [-0.34, -0.17],
             "speed_mod": [-5, -3]
-        }
+        },
+        "show_in_info": true
     },
     {
         "type": "effect_type",
@@ -407,7 +417,8 @@
         "name": ["Stuck in a light snare"],
         "desc": ["You can't move until you get free!"],
         "apply_message": "You are snared!",
-        "rating": "bad"
+        "rating": "bad",
+        "show_in_info": true
     },
     {
         "type": "effect_type",
@@ -415,7 +426,8 @@
         "name": ["Stuck in a heavy snare"],
         "desc": ["You can't move until you get free!"],
         "apply_message": "You are snared!",
-        "rating": "bad"
+        "rating": "bad",
+        "show_in_info": true
     },
     {
         "type": "effect_type",
@@ -423,7 +435,8 @@
         "name": ["Stuck in beartrap"],
         "desc": ["You can't move until you get free!"],
         "apply_message": "You are caught!",
-        "rating": "bad"
+        "rating": "bad",
+        "show_in_info": true
     },
     {
         "type": "effect_type",
@@ -468,7 +481,8 @@
             "str_mod": [-1],
             "dex_mod": [-1],
             "cough_chance": [10]
-        }
+        },
+        "show_in_info": true
     },
     {
         "type": "effect_type",
@@ -484,7 +498,8 @@
             "dex_mod": [-2],
             "per_mod": [-5],
             "cough_chance": [3]
-        }
+        },
+        "show_in_info": true
     },
     {
         "type": "effect_type",
@@ -531,7 +546,8 @@
         "type": "effect_type",
         "id": "in_pit",
         "name": ["Stuck in Pit"],
-        "desc": ["You're stuck in a pit.  Sight distance is limited and you have to climb out."]
+        "desc": ["You're stuck in a pit.  Sight distance is limited and you have to climb out."],
+        "show_in_info": true
     },
     {
         "type": "effect_type",
@@ -585,7 +601,8 @@
         },
         "scaling_mods": {
             "speed_mod": [-5]
-        }
+        },
+        "show_in_info": true
     },
     {
         "type": "effect_type",
@@ -784,7 +801,8 @@
         "base_mods": {
             "str_mod": [-1],
             "per_mod": [-1]
-        }
+        },
+        "show_in_info": true
     },
     {
         "type": "effect_type",
@@ -798,7 +816,8 @@
             "dex_mod": [-2],
             "speed_mod": [-25],
             "vomit_chance": [2100]
-        }
+        },
+        "show_in_info": true
     },
     {
         "type": "effect_type",
@@ -1295,7 +1314,8 @@
         "id": "fearparalyze",
         "name": ["Feared"],
         "desc": ["You have been paralyzed by the fear."],
-        "rating": "bad"
+        "rating": "bad",
+        "show_in_info": true
     },
     {
         "type": "effect_type",
@@ -1447,7 +1467,8 @@
         },
         "scaling_mods": {
             "speed_mod": [-5]
-        }
+        },
+        "show_in_info": true
     },
     {
         "type": "effect_type",
@@ -1524,7 +1545,8 @@
         },
         "scaling_mods": {
             "hurt_chance": [1]
-        }
+        },
+        "show_in_info": true
     },
     {
         "type": "effect_type",
@@ -1538,7 +1560,8 @@
         "base_mods": {
             "speed_mod": [-1000],
             "dex_mod": [-100]
-        }
+        },
+        "show_in_info": true
     },
     {
         "type": "effect_type",
@@ -1652,5 +1675,12 @@
         "remove_message": "The broken limb has mended.",
         "max_duration": 2,
         "rating": "bad"
-    }
+    },
+    {
+        "type": "effect_type",
+        "id": "milked",
+        "name": [ "Milked" ],
+        "desc": [ "The creature has been partially or fully milked." ],
+        "max_duration": 14400
+     }
 ]

@@ -1907,7 +1907,7 @@ void holster_actor::load( JsonObject &obj )
         min_volume = max_volume / 3;
     }
 
-    max_weight = obj.get_int( "max_weight", max_weight );
+    assign( obj, "max_weight", max_weight );
     multi      = obj.get_int( "multi",      multi );
     draw_cost  = obj.get_int( "draw_cost",  draw_cost );
 
@@ -2024,7 +2024,9 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
 
 void holster_actor::info( const item&, std::vector<iteminfo>& dump ) const
 {
-    dump.emplace_back( "TOOL", _( "Can contain items up to " ), string_format( "<num> %s", volume_units_abbr() ),
+    dump.emplace_back( "TOOL", _( "Can contain items from " ), string_format( "<num> %s", volume_units_abbr() ),
+                       convert_volume( min_volume.value() ), false, "", max_weight <= 0 );
+    dump.emplace_back( "TOOL", _( "Up to " ), string_format( "<num> %s", volume_units_abbr() ),
                        convert_volume( max_volume.value() ), false, "", max_weight <= 0 );
 
     if( max_weight > 0 ) {

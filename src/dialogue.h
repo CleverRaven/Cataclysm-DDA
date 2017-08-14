@@ -13,6 +13,9 @@ class JsonObject;
 class mission;
 class npc;
 class player;
+class npc_template;
+template<typename T>
+class string_id;
 
 namespace talk_function {
     void nothing              ( npc & );
@@ -71,36 +74,36 @@ namespace talk_function {
     //Identifies which mission set the NPC draws from
     void companion_mission          ( npc & );
     //Primary Loop
-    bool outpost_missions           (npc *p, std::string id, std::string title);
+    bool outpost_missions           ( npc &p, std::string id, std::string title );
     //Send a companion on an individual mission or attaches them to a group to depart later
-    void individual_mission         (npc *p, std::string desc, std::string id, bool group = false);
+    void individual_mission         ( npc &p, std::string desc, std::string id, bool group = false );
 
-    void caravan_return             (npc *p, std::string dest, std::string id);
-    void caravan_depart             (npc *p, std::string dest, std::string id);
+    void caravan_return             ( npc &p, std::string dest, std::string id );
+    void caravan_depart             ( npc &p, std::string dest, std::string id );
     int caravan_dist                (std::string dest);
-    void field_build_1              (npc *p);
-    void field_build_2              (npc *p);
-    void field_plant                (npc *p, std::string place);
-    void field_harvest              (npc *p, std::string place);
-    bool scavenging_patrol_return   (npc *p);
-    bool scavenging_raid_return     (npc *p);
-    bool labor_return               (npc *p);
-    bool carpenter_return           (npc *p);
-    bool forage_return              (npc *p);
+    void field_build_1              ( npc &p );
+    void field_build_2              ( npc &p );
+    void field_plant                ( npc &p, std::string place );
+    void field_harvest              ( npc &p, std::string place );
+    bool scavenging_patrol_return   ( npc &p );
+    bool scavenging_raid_return     ( npc &p );
+    bool labor_return               ( npc &p );
+    bool carpenter_return           ( npc &p );
+    bool forage_return              ( npc &p );
 
     //Combat functions
     void force_on_force(std::vector<npc *> defender, std::string def_desc,
         std::vector<npc *> attacker, std::string att_desc, int advantage);
     int combat_score    (std::vector<npc *> group);//Used to determine retreat
     void attack_random  (std::vector<npc *> attacker, std::vector<npc *> defender);
-    npc *temp_npc       (std::string type);
+    npc *temp_npc       ( const string_id<npc_template> &type );
 
     //Utility functions
     /// Returns npcs that have the given companion mission.
     std::vector<npc *> companion_list   ( const npc &p, const std::string &id );
     npc *companion_choose               ();
     npc *companion_choose_return        (std::string id, int deadline);
-    void companion_return               (npc *comp);//Return NPC to your party
+    void companion_return               ( npc &comp );//Return NPC to your party
     std::vector<item*> loot_building    (const tripoint site);//Smash stuff, steal valuables, and change map maker
 };
 

@@ -61,6 +61,8 @@ void map::build_transparency_cache( const int zlev )
     std::uninitialized_fill_n(
         &transparency_cache[0][0], MAPSIZE*SEEX * MAPSIZE*SEEY, static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR ) );
 
+    float sight_penalty = weather_data(g->weather).sight_penalty;
+
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
@@ -80,7 +82,7 @@ void map::build_transparency_cache( const int zlev )
                     }
 
                     if( outside_cache[x][y] ) {
-                        value *= weather_data(g->weather).sight_penalty;
+                        value *= sight_penalty;
                     }
 
                     for( auto const &fld : cur_submap->fld[sx][sy] ) {

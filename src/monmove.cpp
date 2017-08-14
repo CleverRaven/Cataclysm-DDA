@@ -209,8 +209,8 @@ void monster::plan( const mfactions &factions )
     bool swarms = has_flag( MF_SWARMS );
     auto mood = attitude();
 
-    // If we can see the player, move toward them or flee.
-    if( friendly == 0 && sees( g->u ) ) {
+    // If we can see the player, move toward them or flee, simpleminded animals are too dumb to follow the player.
+    if( friendly == 0 && sees( g->u ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
         dist = rate_target( g->u, dist, smart_planning );
         fleeing = fleeing || is_fleeing( g->u );
         target = &g->u;
@@ -1005,12 +1005,12 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
         // This adjustment is to make it so that monster movement speed relative to the player
         // is consistent even if the monster stumbles,
         // and the same regardless of the distance measurement mode.
-        const int cost = stagger_adjustment *
-                         ( float )( climbs ? calc_climb_cost( pos(), p ) :
-                                    calc_movecost( pos(), p ) );
-
-        if( cost > 0 ) {
-            moves -= cost;
+        // Note: Keep this as float here or else it will cancel valid moves
+        const float cost = stagger_adjustment *
+                           ( float )( climbs ? calc_climb_cost( pos(), p ) :
+                                      calc_movecost( pos(), p ) );
+        if( cost > 0.0f ) {
+            moves -= ( int )ceil( cost );
         } else {
             return false;
         }

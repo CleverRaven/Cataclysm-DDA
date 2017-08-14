@@ -481,6 +481,11 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
             dehydrator.item_tags.insert("PSEUDO");
             add_item(dehydrator);
 
+            item food_processor("food_processor", 0);
+            food_processor.charges = veh->fuel_left("battery", true);
+            food_processor.item_tags.insert("PSEUDO");
+            add_item(food_processor);
+
             item press("press", 0);
             press.charges = veh->fuel_left("battery", true);
             press.item_tags.insert("PSEUDO");
@@ -886,9 +891,9 @@ void inventory::rust_iron_items()
     }
 }
 
-int inventory::weight() const
+units::mass inventory::weight() const
 {
-    int ret = 0;
+    units::mass ret = 0;
     for( const auto &elem : items ) {
         for( const auto &elem_stack_iter : elem ) {
             ret += elem_stack_iter.weight();

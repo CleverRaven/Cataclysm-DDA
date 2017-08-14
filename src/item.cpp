@@ -304,7 +304,7 @@ item& item::ammo_set( const itype_id& ammo, long qty )
                 // as above call to magazine_default successful can infer minimum one option exists
                 auto iter = type->magazines.find( ammo_type() );
                 std::vector<itype_id> opts( iter->second.begin(), iter->second.end() );
-                std::sort( opts.begin(), opts.end(), [qty]( const itype_id &lhs, const itype_id &rhs ) {
+                std::sort( opts.begin(), opts.end(), []( const itype_id &lhs, const itype_id &rhs ) {
                     return find_type( lhs )->magazine->capacity < find_type( rhs )->magazine->capacity;
                 } );
                 mag = find_type( opts.back() );
@@ -778,7 +778,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         if( !mat_types.empty() ) {
             const std::string material_list = enumerate_as_string( mat_types.begin(), mat_types.end(),
             []( const material_type *material ) {
-                return string_format( "<stat>%s</stat>", material->name().c_str() );
+                return string_format( "<stat>%s</stat>", _( material->name().c_str() ) );
             }, false );
             info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list.c_str() ) ) );
         }
@@ -1080,7 +1080,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 return e.second.qty > 1 && !e.second.melee();
         } ) ) {
             info.emplace_back( "GUN", _( "Recommended strength (burst): "), "",
-                               ceil( mod->type->weight / 333.0 ), true, "", true, true );
+                               ceil( mod->type->weight / 333.0_gram ), true, "", true, true );
         }
 
         info.emplace_back( "GUN", _( "Reload time: " ),
@@ -1497,7 +1497,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         } else if( idescription != item_vars.end() ) {
             info.push_back( iteminfo( "DESCRIPTION", idescription->second ) );
         } else {
-            info.push_back( iteminfo( "DESCRIPTION", type->description ) );
+            info.push_back( iteminfo( "DESCRIPTION", _( type->description.c_str() ) ) );
         }
         auto all_techniques = type->techniques;
         all_techniques.insert( techniques.begin(), techniques.end() );
@@ -1795,10 +1795,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 }
                 insert_separation_line();
                 info.emplace_back( "DESCRIPTION", temp1.str() );
-                info.emplace_back( "DESCRIPTION", mod->type->description );
+                info.emplace_back( "DESCRIPTION", _( mod->type->description.c_str() ) );
             }
             if( !contents.front().type->mod ) {
-                info.emplace_back( "DESCRIPTION", contents.front().type->description );
+                info.emplace_back( "DESCRIPTION", _( contents.front().type->description.c_str() ) );
             }
         }
 
@@ -1924,7 +1924,7 @@ nc_color item::color_in_inventory() const
         // Red: morale penalty
         // Yellow: will rot soon
         // Cyan: will rot eventually
-        const auto rating = u->can_eat( to_color );
+        const auto rating = u->will_eat( to_color );
         // TODO: More colors
         switch( rating ) {
             case EDIBLE:
@@ -1948,6 +1948,9 @@ nc_color item::color_in_inventory() const
                 break;
             case ROTTEN:
                 ret = c_brown;
+                break;
+            case NAUSEA:
+                ret = c_pink;
                 break;
             case NO_TOOL:
                 break;
@@ -2411,13 +2414,18 @@ int item::price( bool practical ) const
 }
 
 // MATERIALS-TODO: add a density field to materials.json
-int item::weight( bool include_contents ) const
+units::mass item::weight( bool include_contents ) const
 {
     if( is_null() ) {
         return 0;
     }
 
-    int ret = get_var( "weight", type->weight );
+    // Items that don't drop aren't really there, they're items just for ease of implementation
+    if( has_flag( "NO_DROP" ) ) {
+        return 0;
+    }
+
+    units::mass ret = units::from_gram( get_var( "weight", to_gram( type->weight ) ) );
     if( has_flag( "REDUCED_WEIGHT" ) ) {
         ret *= 0.75;
     }
@@ -2427,11 +2435,11 @@ int item::weight( bool include_contents ) const
 
     } else if( is_corpse() ) {
         switch( corpse->size ) {
-            case MS_TINY:   ret =   1000;  break;
-            case MS_SMALL:  ret =  40750;  break;
-            case MS_MEDIUM: ret =  81500;  break;
-            case MS_LARGE:  ret = 120000;  break;
-            case MS_HUGE:   ret = 200000;  break;
+            case MS_TINY:   ret =   1000_gram;  break;
+            case MS_SMALL:  ret =  40750_gram;  break;
+            case MS_MEDIUM: ret =  81500_gram;  break;
+            case MS_LARGE:  ret = 120000_gram;  break;
+            case MS_HUGE:   ret = 200000_gram;  break;
         }
         if( made_of( material_id( "veggy" ) ) ) {
             ret /= 3;
@@ -2460,8 +2468,8 @@ int item::weight( bool include_contents ) const
     // reduce weight for sawn-off weepons capped to the apportioned weight of the barrel
     if( gunmod_find( "barrel_small" ) ) {
         const units::volume b = type->gun->barrel_length;
-        const int max_barrel_weight = to_milliliter( b );
-        const int barrel_weight = b * type->weight / type->volume;
+        const units::mass max_barrel_weight = units::from_gram( to_milliliter( b ) );
+        const units::mass barrel_weight = units::from_gram( b.value() * type->weight.value() / type->volume.value() );
         ret -= std::min( max_barrel_weight, barrel_weight );
     }
 
@@ -2564,12 +2572,12 @@ units::volume item::volume( bool integral ) const
 
 int item::lift_strength() const
 {
-    return weight() / STR_LIFT_FACTOR + ( weight() % STR_LIFT_FACTOR != 0 );
+    return weight() / STR_LIFT_FACTOR + ( weight().value() % STR_LIFT_FACTOR.value() != 0 );
 }
 
 int item::attack_time() const
 {
-    int ret = 65 + volume() / 62.5_ml + weight() / 60;
+    int ret = 65 + volume() / 62.5_ml + weight() / 60_gram;
     return ret;
 }
 
@@ -3390,7 +3398,7 @@ bool item::is_two_handed( const player &u ) const
         return true;
     }
     ///\EFFECT_STR determines which weapons can be wielded with one hand
-    return ((weight() / 113) > u.str_cur * 4);
+    return ( ( weight() / 113_gram ) > u.str_cur * 4 );
 }
 
 const std::vector<material_id> &item::made_of() const
@@ -4037,7 +4045,7 @@ int item::gun_recoil( const player &p, bool bipod ) const
 
     ///\EFFECT_STR improves the handling of heavier weapons
     // we consider only base weight to avoid exploits
-    double wt = std::min( type->weight, p.str_cur * 333 ) / 333.0;
+    double wt = std::min( type->weight, p.str_cur * 333_gram ) / 333.0_gram;
 
     double handling = type->gun->handling;
     for( const auto mod : gunmods() ) {
@@ -4294,6 +4302,11 @@ std::set<std::string> item::ammo_effects( bool with_ammo ) const
     if( with_ammo && ammo_data() ) {
         res.insert( ammo_data()->ammo->ammo_effects.begin(), ammo_data()->ammo->ammo_effects.end() );
     }
+
+    for( const auto mod : gunmods() ) {
+            res.insert( mod->type->gunmod->ammo_effects.begin(), mod->type->gunmod->ammo_effects.end() );
+    }
+
     return res;
 }
 
@@ -4809,7 +4822,7 @@ bool item::reload( player &u, item_location loc, long qty )
     return true;
 }
 
-bool item::burn( fire_data &frd )
+bool item::burn( fire_data &frd, bool contained)
 {
     const auto &mats = made_of();
     float smoke_added = 0.0f;
@@ -4823,8 +4836,13 @@ bool item::burn( fire_data &frd )
             return false;
         }
 
-        if( bd.chance_in_volume == 0 || bd.chance_in_volume >= vol ||
-            x_in_y( bd.chance_in_volume, vol ) ) {
+        // If fire is contained, burn all of it continously
+        if( bd.chance_in_volume == 0 ||  !contained ) {
+            time_added += bd.fuel;
+            smoke_added += bd.smoke;
+            burn_added += bd.burn;
+
+        } else if( bd.chance_in_volume >= vol || x_in_y( bd.chance_in_volume, vol ) ){
             time_added += bd.fuel;
             smoke_added += bd.smoke;
             burn_added += bd.burn;

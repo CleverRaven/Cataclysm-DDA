@@ -55,7 +55,7 @@
     "type": "GUN",
     "name": "Mossberg Brownie",
     "name_plural": "Mossberg Brownie",
-    "description": "The first gun produced by O.F. Mossberg & Sons. A small pocket pistol, marketed to trappers during the early 20th century.  Its four barrels can accept .22 Short and .22 LR cartridges.",
+    "description": "The first gun produced by O.F. Mossberg & Sons.  A small pocket pistol, marketed to trappers during the early 20th century.  Its four barrels can accept .22 Short and .22 LR cartridges.",
     "weight": 364,
     "volume": 2,
     "price": 110000,
