@@ -11,15 +11,16 @@
 
 recipe::recipe() : skill_used( "none" ) {}
 
-int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
+int recipe::batch_time( int batch, float multiplier, size_t assistants, int penalty ) const
 {
+    const int penalized_time = time + penalty;
     // 1.0f is full speed
     // 0.33f is 1/3 speed
     if( multiplier == 0.0f ) {  // TODO: Don't compare floats this way!
-        return time * batch; // how did we even get here?
+        return penalized_time * batch; // how did we even get here?
     }
 
-    const float local_time = float( time ) / multiplier;
+    const float local_time = float( penalized_time ) / multiplier;
 
     // if recipe does not benefit from batching and we have no assistants, don't do unnecessary additional calculations
     if( batch_rscale == 0.0 && assistants == 0 ) {

@@ -43,59 +43,68 @@ struct quality {
 };
 
 struct component {
-    itype_id type = "null";
-    int count = 0;
-    // -1 means the player doesn't have the item, 1 means they do,
-    // 0 means they have item but not enough for both tool and component
-    mutable available_status available = a_false;
-    bool recoverable = true;
-    // If true, it's not actually a component but a requirement (list of components)
-    bool requirement = false;
+    public:
+        itype_id type = "null";
+        int count = 0;
+        // -1 means the player doesn't have the item, 1 means they do,
+        // 0 means they have item but not enough for both tool and component
+        mutable available_status available = a_false;
+        bool recoverable = true;
+        // If true, it's not actually a component but a requirement (list of components)
+        bool requirement = false;
 
-    component() { }
-    component( const itype_id &TYPE, int COUNT ) : type( TYPE ), count( COUNT ) { }
-    component( const itype_id &TYPE, int COUNT, bool RECOVERABLE ) :
-        type( TYPE ), count( COUNT ), recoverable( RECOVERABLE ) { }
-    void check_consistency( const std::string &display_name ) const;
+        component() { }
+        component( const itype_id &TYPE, int COUNT ) : type( TYPE ), count( COUNT ) { }
+        component( const itype_id &TYPE, int COUNT, bool RECOVERABLE ) :
+            type( TYPE ), count( COUNT ), recoverable( RECOVERABLE ) { }
+        void check_consistency( const std::string &display_name ) const;
+        std::string to_string( int batch = 1 ) const;
+    protected:
+        virtual std::string to_string_internal( int batch = 1 ) const = 0;
 };
 
 struct tool_comp : public component {
-    tool_comp() : component() { }
-    tool_comp( const itype_id &TYPE, int COUNT ) : component( TYPE, COUNT ) { }
+    public:
+        tool_comp() : component() { }
+        tool_comp( const itype_id &TYPE, int COUNT ) : component( TYPE, COUNT ) { }
 
-    void load( JsonArray &jarr );
-    bool has( const inventory &crafting_inv, int batch = 1 ) const;
-    std::string to_string( int batch = 1 ) const;
-    std::string get_color( bool has_one, const inventory &crafting_inv, int batch = 1 ) const;
-    bool by_charges() const;
+        void load( JsonArray &jarr );
+        bool has( const inventory &crafting_inv, int batch = 1 ) const;
+        std::string get_color( bool has_one, const inventory &crafting_inv, int batch = 1 ) const;
+        bool by_charges() const;
+    protected:
+        std::string to_string_internal( int batch = 1 ) const;
 };
 
 struct item_comp : public component {
-    item_comp() : component() { }
-    item_comp( const itype_id &TYPE, int COUNT ) : component( TYPE, COUNT ) { }
+    public:
+        item_comp() : component() { }
+        item_comp( const itype_id &TYPE, int COUNT ) : component( TYPE, COUNT ) { }
 
-    void load( JsonArray &jarr );
-    bool has( const inventory &crafting_inv, int batch = 1 ) const;
-    std::string to_string( int batch = 1 ) const;
-    std::string get_color( bool has_one, const inventory &crafting_inv, int batch = 1 ) const;
+        void load( JsonArray &jarr );
+        bool has( const inventory &crafting_inv, int batch = 1 ) const;
+        std::string get_color( bool has_one, const inventory &crafting_inv, int batch = 1 ) const;
+    protected:
+        std::string to_string_internal( int batch = 1 ) const;
 };
 
 struct quality_requirement {
-    quality_id type = quality_id( "UNKNOWN" );
-    int count = 1;
-    int level = 1;
-    mutable available_status available = a_false;
-    bool requirement = false; // Currently unused, but here for consistency and templates
+    public:
+        quality_id type = quality_id( "UNKNOWN" );
+        int count = 1;
+        int level = 1;
+        mutable available_status available = a_false;
+        bool requirement = false; // Currently unused, but here for consistency and templates
 
-    quality_requirement() { }
-    quality_requirement( const quality_id &TYPE, int COUNT, int LEVEL ) : type( TYPE ), count( COUNT ),
-        level( LEVEL ) { }
+        quality_requirement() { }
+        quality_requirement( const quality_id &TYPE, int COUNT, int LEVEL ) : type( TYPE ), count( COUNT ),
+            level( LEVEL ) { }
 
-    void load( JsonArray &jarr );
-    bool has( const inventory &crafting_inv, int = 0 ) const;
-    std::string to_string( int = 0 ) const;
-    void check_consistency( const std::string &display_name ) const;
-    std::string get_color( bool has_one, const inventory &crafting_inv, int = 0 ) const;
+        void load( JsonArray &jarr );
+        bool has( const inventory &crafting_inv, int = 0 ) const;
+        void check_consistency( const std::string &display_name ) const;
+        std::string get_color( bool has_one, const inventory &crafting_inv, int = 0 ) const;
+        std::string to_string( int batch = 1 ) const;
 };
 
 /**

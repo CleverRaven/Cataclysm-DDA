@@ -818,6 +818,10 @@ long visitable<Character>::charges_of( const std::string &what, long limit ) con
         return std::min( qty, limit );
     }
 
+    if( what == "time" ) {
+        return limit;
+    }
+
     return charges_of_internal( *this, what, limit );
 }
 
@@ -865,11 +869,11 @@ int visitable<Character>::amount_of( const std::string &what, bool pseudo, int l
 {
     auto self = static_cast<const Character *>( this );
 
-    if( what == "toolset" && pseudo && self->has_active_bionic( bionic_id( "bio_tools" ) ) ) {
+    if( pseudo && what == "toolset" && self->has_active_bionic( bionic_id( "bio_tools" ) ) ) {
         return 1;
     }
 
-    if( what == "apparatus" && pseudo ) {
+    if( pseudo && what == "apparatus" ) {
         int qty = 0;
         visit_items( [&qty, &limit] ( const item *e ) {
             if( e->get_quality( quality_id( "SMOKE_PIPE" ) ) >= 1 ) {
@@ -878,6 +882,10 @@ int visitable<Character>::amount_of( const std::string &what, bool pseudo, int l
             return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
         } );
         return std::min( qty, limit );
+    }
+
+    if( what == "time" ) {
+        return limit;
     }
 
     return amount_of_internal( *this, what, pseudo, limit );

@@ -77,7 +77,7 @@ class recipe
 
         bool has_byproducts() const;
 
-        int batch_time( int batch, float multiplier, size_t assistants ) const;
+        int batch_time( int batch, float multiplier, size_t assistants, int penalty ) const;
 
         bool has_flag( const std::string &flag_name ) const;
 

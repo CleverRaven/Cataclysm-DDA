@@ -16,6 +16,7 @@
 #include "generic_factory.h"
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const itype_id itype_time( "time" );
 
 static std::map<requirement_id, requirement_data> requirements_all;
 
@@ -82,6 +83,16 @@ bool string_id<quality>::is_valid() const
     return quality_factory.is_valid( *this );
 }
 
+std::string component::to_string( int batch ) const
+{
+    if( type == itype_time ) {
+        return string_format( _( "Extra time: %s" ),
+                              calendar::print_duration( count / MOVES( 1 ) ).c_str() );
+    }
+
+    return to_string_internal( batch );
+}
+
 std::string quality_requirement::to_string( int ) const
 {
     return string_format( ngettext( "%d tool with %s of %d or more.",
@@ -94,7 +105,7 @@ bool tool_comp::by_charges() const
     return count > 0;
 }
 
-std::string tool_comp::to_string( int batch ) const
+std::string tool_comp::to_string_internal( int batch ) const
 {
     if( by_charges() ) {
         //~ <tool-name> (<numer-of-charges> charges)
@@ -105,7 +116,7 @@ std::string tool_comp::to_string( int batch ) const
     }
 }
 
-std::string item_comp::to_string( int batch ) const
+std::string item_comp::to_string_internal( int batch ) const
 {
     const int c = std::abs( count ) * batch;
     const auto type_ptr = item::find_type( type );
