@@ -481,6 +481,7 @@ void Item_factory::init()
     add_iuse( "ELEC_CHAINSAW_ON", &iuse::elec_chainsaw_on );
     add_iuse( "EXTINGUISHER", &iuse::extinguisher );
     add_iuse( "EYEDROPS", &iuse::eyedrops );
+    add_iuse( "FEEDCATTLE", &iuse::feedcattle );
     add_iuse( "FIRECRACKER", &iuse::firecracker );
     add_iuse( "FIRECRACKER_ACT", &iuse::firecracker_act );
     add_iuse( "FIRECRACKER_PACK", &iuse::firecracker_pack );
@@ -582,7 +583,7 @@ void Item_factory::init()
     add_iuse( "UNFOLD_GENERIC", &iuse::unfold_generic );
     add_iuse( "UNPACK_ITEM", &iuse::unpack_item );
     add_iuse( "VACCINE", &iuse::vaccine );
-    add_iuse( "VACUTAINER", &iuse::vacutainer );
+    add_iuse( "BLOOD_DRAW", &iuse::blood_draw );
     add_iuse( "VIBE", &iuse::vibe );
     add_iuse( "VORTEX", &iuse::vortex );
     add_iuse( "WASHCLOTHES", &iuse::washclothes );
@@ -1455,6 +1456,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     assign( jo, "aim_cost", slot.aim_cost, strict, 0 );
     assign( jo, "handling_modifier", slot.handling, strict );
     assign( jo, "range_modifier", slot.range );
+    assign( jo, "ammo_effects", slot.ammo_effects, strict );
     assign( jo, "ups_charges", slot.ups_charges );
     assign( jo, "install_time", slot.install_time );
 
@@ -1647,7 +1649,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     } else {
         // @todo Move to finalization
         def.thrown_damage.clear();
-        def.thrown_damage.add_damage( DT_BASH, def.melee[DT_BASH] + def.weight / 1000.0f );
+        def.thrown_damage.add_damage( DT_BASH, def.melee[DT_BASH] + def.weight / 1.0_kilogram );
     }
 
     if( jo.has_member( "damage_states" ) ) {

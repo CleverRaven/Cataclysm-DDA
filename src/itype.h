@@ -456,6 +456,8 @@ struct islot_gunmod : common_ranged_data {
     /** Firing modes added to or replacing those of the base gun */
     std::map<std::string, std::tuple<std::string, int, std::set<std::string>>> mode_modifier;
 
+    std::set<std::string> ammo_effects;
+
     /** Relative adjustment to base gun handling */
     int handling = 0;
 };
@@ -685,7 +687,7 @@ public:
 
     /** After loading from JSON these properties guaranteed to be zero or positive */
     /*@{*/
-    int weight          =  0; // Weight in grams for item (or each stack member)
+    units::mass weight  =  0; // Weight for item ( or each stack member )
     units::volume volume = 0; // Space occupied by items of this type
     int price           =  0; // Value before cataclysm
     int price_post      = -1; // Value after cataclysm (dependent upon practical usages)

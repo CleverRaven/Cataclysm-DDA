@@ -626,7 +626,7 @@
     "symbol": "(",
     "color": "green",
     "ammo": "bolt",
-    "skill": "archery",
+    "skill": "rifle",
     "range": 6,
     "ranged_damage": 7,
     "dispersion": 250,

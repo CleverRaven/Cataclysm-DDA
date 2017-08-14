@@ -961,7 +961,7 @@
         "type":"GENERIC",
         "id" : "javelin",
         "name" : "wooden javelin",
-        "description" : "A wooden spear, honed to a sharper point and fire hardened for toughness.  The grip area has also be carved and covered for better grip.",
+        "description" : "A fire-hardened wooden spear honed to a sharper point.  The grip area has been carved and covered for better grip.",
         "weight" : 600,
         "to_hit" : 2,
         "color" : "brown",
@@ -983,7 +983,7 @@
         "type":"GENERIC",
         "id" : "javelin_iron",
         "name" : "iron javelin",
-        "description" : "An iron-tipped wooden throwing spear.  The grip area has also be carved and covered for better grip.",
+        "description" : "An iron-tipped wooden throwing spear.  The grip area has been carved and covered for better grip.",
         "weight" : 960,
         "to_hit" : 2,
         "color" : "light_gray",
@@ -1282,7 +1282,7 @@
         "flags": ["SHEATH_KNIFE", "CONDUCTIVE"],
         "qualities": [["BUTCHER", -18]]
     },{
-        "comment": "Id retained to avoid breaking anything, same reason as with the makeshift glaive.",
+        "//": "Id retained to avoid breaking anything, same reason as with the makeshift glaive.",
         "type":"GENERIC",
         "id" : "glass_macuahuitl",
         "name" : "makeshift macuahuitl",

@@ -8,7 +8,7 @@ class calendar;
 class JsonObject;
 enum weather_type : int;
 
-struct w_point {
+    struct w_point {
     double temperature;
     double humidity;
     double pressure;

@@ -92,7 +92,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         std::string disp_name( bool possessive = false ) const override;
         std::string skin_name() const override;
         void get_HP_Bar( nc_color &color, std::string &text ) const;
-        void get_Attitude( nc_color &color, std::string &text ) const;
+        std::pair<std::string, nc_color> get_attitude() const;
         int print_info( WINDOW *w, int vStart, int vLines, int column ) const override;
 
         // Information on how our symbol should appear
@@ -287,6 +287,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void add_effect( const efftype_id &eff_id, int dur, body_part bp = num_bp,
                          bool permanent = false,
                          int intensity = 0, bool force = false ) override;
+        /** Returns a std::string containing effects for descriptions */
+        std::string get_effect_status() const;
 
         float power_rating() const override;
         float speed_rating() const override;
@@ -365,8 +367,10 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         field_id gibType() const override;
 
         void add_msg_if_npc( const char *msg, ... ) const override PRINTF_LIKE( 2, 3 );
-        void add_msg_if_npc( game_message_type type, const char *msg, ... ) const override PRINTF_LIKE( 3, 4 );
-        void add_msg_player_or_npc( const char *, const char *npc_str, ... ) const override PRINTF_LIKE( 3, 4 );
+        void add_msg_if_npc( game_message_type type, const char *msg,
+                             ... ) const override PRINTF_LIKE( 3, 4 );
+        void add_msg_player_or_npc( const char *, const char *npc_str,
+                                    ... ) const override PRINTF_LIKE( 3, 4 );
         void add_msg_player_or_npc( game_message_type type, const char *, const char *npc_str,
                                     ... ) const override PRINTF_LIKE( 4, 5 );
 

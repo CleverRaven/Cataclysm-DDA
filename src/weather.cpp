@@ -236,7 +236,7 @@ double funnel_charges_per_turn( const double surface_area_mm2, const double rain
 
     // Calculate once, because that part is expensive
     static const item water("water", 0);
-    static const double charge_ml = (double) (water.weight()) / water.charges; // 250ml
+    static const double charge_ml = ( double ) to_gram( water.weight() ) / water.charges; // 250ml
 
     const double vol_mm3_per_hour = surface_area_mm2 * rain_depth_mm_per_hour;
     const double vol_mm3_per_turn = vol_mm3_per_hour / HOURS(1);

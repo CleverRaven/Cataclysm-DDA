@@ -20,7 +20,8 @@ struct MonsterGroup;
 struct city;
 struct oter_t;
 struct oter_type_t;
-struct overmap_special_location;
+struct overmap_location;
+
 class overmap_special_batch;
 
 /** Direction on the overmap. */
@@ -227,8 +228,8 @@ struct oter_t {
             return type->static_spawns;
         }
 
-        inline bool type_is( const int_id<oter_type_t> &type_id ) const;
-        inline bool type_is( const oter_type_t &type ) const;
+        bool type_is( const int_id<oter_type_t> &type_id ) const;
+        bool type_is( const oter_type_t &type ) const;
 
         bool can_connect_to( const int_id<oter_t> &oter ) const;
         bool has_connection( om_direction::type dir ) const;
@@ -243,6 +244,10 @@ struct oter_t {
             return type->is_rotatable();
         }
 
+        bool is_river() const {
+            return type->has_flag( river_tile );
+        }
+
     private:
         om_direction::type dir = om_direction::type::none;
         long sym = '\0';         // This is a long, so we can support curses linedrawing.
@@ -252,6 +257,7 @@ struct oter_t {
 // @todo: Deprecate these operators
 bool operator==( const oter_id &lhs, const char *rhs );
 bool operator!=( const oter_id &lhs, const char *rhs );
+
 
 // LINE_**** corresponds to the ACS_**** macros in ncurses, and are patterned
 // the same way; LINE_NESW, where X indicates a line and O indicates no line
@@ -331,7 +337,7 @@ class overmap_special
 
         bool rotatable = true;
         overmap_special_spawns spawns;
-        std::set<const overmap_special_location *> locations;
+        std::set<string_id<overmap_location>> locations;
         std::set<std::string> flags;
 
         // Used by generic_factory

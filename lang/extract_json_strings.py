@@ -77,6 +77,7 @@ ignorable = {
     "monstergroup",
     "MONSTER_WHITELIST",
     "overlay_order",
+    "overmap_location",
     "overmap_special",
     "profession_item_substitutions",
     "palette",

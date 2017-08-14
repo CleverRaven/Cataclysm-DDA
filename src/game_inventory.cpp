@@ -9,10 +9,26 @@
 #include "item.h"
 #include "itype.h"
 
+#include <algorithm>
 #include <functional>
 
 typedef std::function<bool( const item & )> item_filter;
 typedef std::function<bool( const item_location & )> item_location_filter;
+
+namespace
+{
+
+std::string good_bad_none( int value )
+{
+    if( value > 0 ) {
+        return string_format( "<good>+%d</good>", value );
+    } else if( value < 0 ) {
+        return string_format( "<bad>%d</bad>", value );
+    }
+    return std::string();
+}
+
+}
 
 class inventory_filter_preset : public inventory_selector_preset
 {
@@ -165,7 +181,7 @@ class pickup_inventory_preset : public inventory_selector_preset
         std::string get_denial( const item_location &loc ) const override {
             if( !p.has_item( *loc ) ) {
                 if( loc->made_of( LIQUID ) ) {
-                    return _( "Can't pick up liquids" );
+                    return _( "Can't pick up spilt liquids" );
                 } else if( !p.can_pickVolume( *loc ) ) {
                     return _( "Too big to pick up" );
                 } else if( !p.can_pickWeight( *loc ) ) {
@@ -230,6 +246,143 @@ item_location game_menus::inv::disassemble( player &p )
     return inv_internal( p, disassemble_inventory_preset( p, p.crafting_inventory() ),
                          _( "Disassemble item" ), 1,
                          _( "You don't have any items you could disassemble." ) );
+};
+
+class comestible_inventory_preset : public inventory_selector_preset
+{
+    public:
+        comestible_inventory_preset( const player &p ) : inventory_selector_preset(), p( p ) {
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return good_bad_none( get_edible_comestible( loc ).nutr );
+            }, _( "NUTRITION" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return good_bad_none( get_edible_comestible( loc ).quench );
+            }, _( "QUENCH" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return good_bad_none( get_edible_comestible( loc ).fun );
+            }, _( "JOY" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                const int spoils = get_edible_comestible( loc ).spoils;
+                if( spoils > 0 ) {
+                    return calendar( spoils ).textify_period();
+                }
+                return std::string();
+            }, _( "SPOILS IN" ) );
+
+            append_cell( [ this, &p ]( const item_location & loc ) {
+                std::string cbm_name;
+
+                switch( p.get_cbm_rechargeable_with( get_comestible_item( loc ) ) ) {
+                    case rechargeable_cbm::none:
+                        break;
+                    case rechargeable_cbm::battery:
+                        cbm_name = _( "Battery" );
+                        break;
+                    case rechargeable_cbm::reactor:
+                        cbm_name = _( "Reactor" );
+                        break;
+                    case rechargeable_cbm::furnace:
+                        cbm_name = _( "Furnace" );
+                        break;
+                }
+
+                if( !cbm_name.empty() ) {
+                    return string_format( "<color_cyan>%s</color>", cbm_name.c_str() );
+                }
+
+                return std::string();
+            }, _( "CBM" ) );
+
+            append_cell( [ this, &p ]( const item_location & loc ) {
+                return good_bad_none( p.get_acquirable_energy( get_comestible_item( loc ) ) );
+            }, _( "ENERGY" ) );
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            if( loc->typeId() == "1st_aid" ) {
+                return false; // temporary fix for #12991
+            }
+            return p.can_consume( *loc );
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            std::string res;
+
+            if( loc->made_of( LIQUID ) ) {
+                return _( "Can't drink spilt liquids" );
+            }
+
+            const auto &it = get_comestible_item( loc );
+            const bool edible = p.can_eat( it, &res ) == EDIBLE;
+            const auto cbm = p.get_cbm_rechargeable_with( it );
+
+            if( !edible && cbm == rechargeable_cbm::none ) {
+                return res;
+            } else if( cbm == rechargeable_cbm::battery && p.power_level >= p.max_power_level ) {
+                return _( "You're fully charged" );
+            }
+
+            return inventory_selector_preset::get_denial( loc );
+        }
+
+        bool sort_compare( const item_location &lhs, const item_location &rhs ) const override {
+            const auto &a = get_comestible_item( lhs );
+            const auto &b = get_comestible_item( rhs );
+
+            const int freshness = rate_freshness( a, *lhs ) - rate_freshness( b, *rhs );
+            if( freshness != 0 ) {
+                return freshness > 0;
+            }
+
+            return inventory_selector_preset::sort_compare( lhs, rhs );
+        }
+
+    protected:
+        int rate_freshness( const item &it, const item &container ) const {
+            if( p.will_eat( it ) == edible_rating::ROTTEN ) {
+                return -1;
+            } else if( !container.type->container || !container.type->container->preserves ) {
+                if( it.is_fresh() ) {
+                    return 1;
+                } else if( it.is_going_bad() ) {
+                    return 3;
+                } else if( it.goes_bad() ) {
+                    return 2;
+                }
+            }
+
+            return 0;
+        }
+
+        const item &get_comestible_item( const item_location &loc ) const {
+            return p.get_comestible_from( const_cast<item &>( *loc ) );
+        }
+
+        const islot_comestible &get_edible_comestible( const item_location &loc ) const {
+            return get_edible_comestible( get_comestible_item( loc ) );
+        }
+
+        const islot_comestible &get_edible_comestible( const item &it ) const {
+            if( it.is_comestible() && p.can_eat( it ) == EDIBLE ) {
+                return *it.type->comestible;
+            }
+            static const islot_comestible dummy {};
+            return dummy;
+        }
+
+    private:
+        const player &p;
+};
+
+item_location game_menus::inv::consume( player &p )
+{
+    return inv_internal( p, comestible_inventory_preset( p ),
+                         _( "Consume item" ), 1,
+                         _( "You have nothing to consume." ) );
 }
 
 class activatable_inventory_preset : public pickup_inventory_preset
@@ -309,8 +462,7 @@ class gunmod_inventory_preset : public inventory_selector_preset
             }, _( "SUCCESS CHANCE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                const auto odds = get_odds( loc );
-                return odds.second > 0 ? string_format( "<color_red>%d%%</color>", odds.second ) : std::string();
+                return good_bad_none( get_odds( loc ).second );
             }, _( "DAMAGE RISK" ) );
         }
 
@@ -401,13 +553,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
-                const int fun = get_book( loc ).fun;
-                if( fun > 0 ) {
-                    return string_format( "<good>+%d</good>", fun );
-                } else if( fun < 0 ) {
-                    return string_format( "<bad>%d</bad>", fun );
-                }
-                return std::string();
+                return good_bad_none( get_book( loc ).fun );
             }, _( "FUN" ), unknown );
 
             append_cell( [ this, &p ]( const item_location & loc ) -> std::string {

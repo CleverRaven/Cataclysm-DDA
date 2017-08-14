@@ -44,7 +44,7 @@
     },{
         "type" : "technique",
         "id" : "GRAB",
-        "name" : "", "comment": "not imeplemented -> empty name",
+        "name" : "", "//": "not imeplemented -> empty name",
         "messages" : [
             "You grab %s",
             "<npcname> grabs %s"
@@ -268,6 +268,7 @@
         "min_unarmed" : 5,
         "unarmed_allowed" : true,
         "crit_tec" : true,
+        "dodge_counter": true,
         "knockback_dist" : 1,
         "knockback_spread" : 1,
         "req_buffs" : [
@@ -1267,7 +1268,7 @@
             "You stun %s with the force of the blow!",
             "<npcname> stuns %s with the force of the blow!"
         ],
-        "stun_dir" : 2
+        "stun_dur" : 2
    },{
         "type" : "technique",
         "id" : "niten_timing_attack",
@@ -1287,7 +1288,7 @@
             ["damage", "cut", 1.5]
         ],
         "//" : "Minimum effective time for a status in combat is two turns, as you have one deducted on the same turn its applied.",
-        "stun_dir" : 2
+        "stun_dur" : 2
    },{
        "type" : "technique",
       "id" : "niten_feint",

@@ -547,7 +547,7 @@ void mission_start::reveal_hospital( mission *miss )
     npc *dev = g->find_npc( miss->npc_id );
     if( dev != NULL ) {
         g->u.i_add( item( "vacutainer", 0 ) );
-        add_msg( _( "%s gave you a vacutainer." ), dev->name.c_str() );
+        add_msg( _( "%s gave you a blood draw kit." ), dev->name.c_str() );
     }
     target_om_ter( "hospital", 3, miss, false );
 }

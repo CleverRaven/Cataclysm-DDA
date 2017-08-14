@@ -12,6 +12,13 @@ class item;
 class Creature;
 class map_item_stack;
 struct tripoint;
+namespace units
+{
+template<typename V, typename U>
+class quantity;
+class mass_in_gram_tag;
+using mass = quantity<int, mass_in_gram_tag>;
+}
 
 /**
  * Greater-than comparison operator; required by the sort interface
@@ -184,7 +191,7 @@ double convert_velocity( int velocity, const units_type vel_units );
  *
  * @returns Weight converted to user selected unit
  */
-double convert_weight( int weight );
+double convert_weight( const units::mass &weight );
 
 /**
  * Convert volume from ml to units defined by user.

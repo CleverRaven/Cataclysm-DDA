@@ -1458,8 +1458,14 @@ void advanced_inventory::display()
         } else if (action == "HELP_KEYBINDINGS") {
             redraw = true;
         } else if (action == "ITEMS_DEFAULT") {
-            panes[left].set_area(squares[uistate.adv_inv_default_areas[left]]);
-            panes[right].set_area(squares[uistate.adv_inv_default_areas[right]]);
+            for( side cside : { left, right } ) {
+                auto &pane = panes[cside];
+                aim_location location = ( aim_location )uistate.adv_inv_default_areas[cside];
+                if( pane.get_area() != location || location == AIM_ALL ) {
+                    pane.recalc = true;
+                }
+                pane.set_area( squares[location] );
+            }
             redraw = true;
         } else if (action == "SAVE_DEFAULT") {
             uistate.adv_inv_default_areas[left] = panes[left].get_area();
@@ -2137,9 +2143,9 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     }
     // Inventory has a weight capacity, map and vehicle don't have that
     if( destarea == AIM_INVENTORY  || destarea == AIM_WORN ) {
-        const long unitweight = it.weight() * 1000 / ( by_charges ? it.charges : 1 );
-        const long max_weight = ( g->u.has_trait( trait_id( "DEBUG_STORAGE" ) ) ?
-                                  INT_MAX : ( g->u.weight_capacity() * 4 - g->u.weight_carried() ) * 1000 );
+        const units::mass unitweight = it.weight() / ( by_charges ? it.charges : 1 );
+        const units::mass max_weight = g->u.has_trait( trait_id( "DEBUG_STORAGE" ) ) ?
+                                  units::mass_max : g->u.weight_capacity() * 4 - g->u.weight_carried();
         if( unitweight > 0 && ( unitweight * amount > max_weight ) ) {
             const long weightmax = max_weight / unitweight;
             if( weightmax <= 0 ) {

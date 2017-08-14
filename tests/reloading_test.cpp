@@ -6,7 +6,8 @@
 #include "itype.h"
 #include "player.h"
 
-TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" ) {
+TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
+{
     player &dummy = g->u;
 
     // Remove first worn item until there are none left.
@@ -30,7 +31,8 @@ TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" ) {
     REQUIRE( gun.ammo_remaining() == gun.ammo_capacity() );
 }
 
-TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" ) {
+TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
+{
     player &dummy = g->u;
 
     // Remove first worn item until there are none left.

@@ -194,6 +194,8 @@ void mutation_branch::load( JsonObject &jsobj )
     new_mut.fatigue_modifier = jsobj.get_float( "fatigue_modifier", 0.0f );
     new_mut.fatigue_regen_modifier = jsobj.get_float( "fatigue_regen_modifier", 0.0f );
 
+    new_mut.stamina_regen_modifier = jsobj.get_float( "stamina_regen_modifier", 0.0f );
+
     load_mutation_mods(jsobj, "passive_mods", new_mut.mods);
     /* Not currently supported due to inability to save active mutation state
     load_mutation_mods(jsobj, "active_mods", new_mut.mods); */

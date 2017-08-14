@@ -1907,7 +1907,7 @@ void holster_actor::load( JsonObject &obj )
         min_volume = max_volume / 3;
     }
 
-    max_weight = obj.get_int( "max_weight", max_weight );
+    assign( obj, "max_weight", max_weight );
     multi      = obj.get_int( "multi",      multi );
     draw_cost  = obj.get_int( "draw_cost",  draw_cost );
 

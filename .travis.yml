@@ -93,21 +93,21 @@ matrix:
           packages: ["wine"]
 
     # Clang 3.8
-    - env: COMPILER=clang++-3.8 CXXFLAGS='-D__extern_always_inline="extern __always_inline"'
+    - env: CLANG=clang++-3.8 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
       addons: &clang38
         apt:
           packages: ["clang-3.8", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
           sources: *apt_sources
 
     # Clang 3.9
-    - env: COMPILER=clang++-3.9 CXXFLAGS='-D__extern_always_inline="extern __always_inline"'
+    - env: CLANG=clang++-3.9 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
       addons: &clang39
         apt:
           packages: ["clang-3.9", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
           sources: *apt_sources
 
     # Clang 4.0
-    - env: COMPILER=clang++-4.0
+    - env: CLANG=clang++-4.0 CXXFLAGS=-Wno-error=unused-command-line-argument
       dist: trusty
       addons: &clang40
         apt:
@@ -115,7 +115,9 @@ matrix:
           sources: *apt_sources
 
 before_script:
+  - if [ -n "${CLANG}" ]; then COMPILER="$CLANG"; fi
   - ${COMPILER} --version
+  - CXX="$COMPILER"
   - source build-scripts/requirements.sh
 
 script: make -j3 CCACHE=1 RELEASE=1 CROSS="$CROSS_COMPILATION" && $WINE ./tests/cata_test
