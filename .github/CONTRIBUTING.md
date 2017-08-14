@@ -18,18 +18,18 @@ There are a couple of guidelines we suggest sticking to:
 
 ## Code Style
 
-Current policy is to only update code to the standard style when changing a substantial portion of it, but **please** do this in a separate commit. See doc/CODE_STYLE.txt for details
+Current policy is to only update code to the standard style when changing a substantial portion of it, but **please** do this in a separate commit. See [CODE_STYLE](../doc/CODE_STYLE.md) for details
 
 ## Translations
 
 The translation of Cataclysm: DDA is done using Transifex.
 Look at the [translation project](https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/) for an up-to-date list of supported languages.
 
-See [TRANSLATING](doc/TRANSLATING.md) for more information:
+See [TRANSLATING](../doc/TRANSLATING.md) for more information:
 
-* [For translators](doc/TRANSLATING.md#translators)
-* [For developers](doc/TRANSLATING.md#developers)
-* [For maintainers](doc/TRANSLATING.md#maintainers)
+* [For translators](../doc/TRANSLATING.md#translators)
+* [For developers](../doc/TRANSLATING.md#developers)
+* [For maintainers](../doc/TRANSLATING.md#maintainers)
 
 ## Doxygen Comments
 
@@ -244,7 +244,7 @@ Bring up the keybindings menu (press `Escape` then `1`), scroll down almost to t
 └────────────────────────────────────────────┘
 ```
 
-With these commands, you should be able to recreate the proper conditions to test your changes. You can find some more information about the debug menu on [the official wiki](http://www.wiki.cataclysmdda.com/index.php?title=Cheating#The_Debug_Menu).
+With these commands, you should be able to recreate the proper conditions to test your changes. You can find some more information about the debug menu on [the official wiki](http://tools.cataclysmdda.com/wiki).
 
 ## Frequently Asked Questions
 

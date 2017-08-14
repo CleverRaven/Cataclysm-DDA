@@ -867,7 +867,7 @@
     "material": [ "flesh" ],
     "symbol": "c",
     "color": "ltgray",
-    "aggression": -40,
+    "aggression": -99,
     "morale": 2,
     "melee_skill": 6,
     "melee_dice": 1,
@@ -1162,7 +1162,7 @@
     "material": [ "flesh" ],
     "symbol": "C",
     "color": "brown",
-    "aggression": 10,
+    "aggression": -50,
     "morale": 60,
     "melee_skill": 6,
     "melee_dice": 2,
@@ -1170,6 +1170,7 @@
     "melee_cut": 6,
     "dodge": 2,
     "armor_bash": 2,
+    "starting_ammo": { "milk": 4 },
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
@@ -1180,7 +1181,7 @@
       "//": "25% chance of an item from group cow"
     },
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES", "FAT" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES", "FAT", "MILKABLE", "PET_WONT_FOLLOW" ]
   },
   {
     "id": "mon_coyote",

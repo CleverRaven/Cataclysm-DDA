@@ -1387,9 +1387,9 @@ void Creature::set_throw_resist(int nthrowres)
     throw_resist = nthrowres;
 }
 
-int Creature::weight_capacity() const
+units::mass Creature::weight_capacity() const
 {
-    int base_carry = 13000;
+    units::mass base_carry = 13_kilogram;
     switch( get_size() ) {
     case MS_TINY:
         base_carry /= 4;
@@ -1411,19 +1411,19 @@ int Creature::weight_capacity() const
     return base_carry;
 }
 
-int Creature::get_weight() const
+units::mass Creature::get_weight() const
 {
     switch( get_size() ) {
         case MS_TINY:
-            return 1000;
+            return 1000_gram;
         case MS_SMALL:
-            return 40750;
+            return 40750_gram;
         case MS_MEDIUM:
-            return 81500;
+            return 81500_gram;
         case MS_LARGE:
-            return 120000;
+            return 120_kilogram;
         case MS_HUGE:
-            return 200000;
+            return 200_kilogram;
     }
 
     return 0;

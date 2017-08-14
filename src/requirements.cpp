@@ -39,7 +39,8 @@ const requirement_data &string_id<requirement_data>::obj() const
     return found->second;
 }
 
-namespace {
+namespace
+{
 generic_factory<quality> quality_factory( "tool quality" );
 } // namespace
 
@@ -253,7 +254,7 @@ void requirement_data::save_requirement( const requirement_data &req, const std:
         dup.id_ = requirement_id( id );
     }
 
-    if( requirements_all.find( req.id_  ) != requirements_all.end() ) {
+    if( requirements_all.find( req.id_ ) != requirements_all.end() ) {
         DebugLog( D_INFO, DC_ALL ) << "Updated requirement: " << dup.id_.c_str();
     } else {
         DebugLog( D_INFO, DC_ALL ) << "Added requirement: " << dup.id_.c_str();
@@ -401,7 +402,8 @@ void inline_requirements( std::vector< std::vector<T> > &list, Getter getter )
             // @todo Remove the requirement to separate tools and components
             // @todo Remove the requirement to have only one component "family" per inlined requirement
             if( req.get_components().size() + req.get_tools().size() != 1 ) {
-                debugmsg( "Tried to inline requirement %s which has more than one set of elements", req_id.c_str() );
+                debugmsg( "Tried to inline requirement %s which has more than one set of elements",
+                          req_id.c_str() );
                 return;
             }
 

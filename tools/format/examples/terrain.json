@@ -1,10 +1,10 @@
 [
   {
-    "id": "t_oil_circ_brkr_l",
-    "type": "terrain",
     "name": "HV oil circuit breaker",
-    "symbol": "B",
     "color": [ "ltgray" ],
+    "type": "terrain",
+    "id": "t_oil_circ_brkr_l",
+    "symbol": "B",
     "move_cost": 0,
     "bash": {
       "str_min": 20,
@@ -34,12 +34,12 @@
     "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "WALL", "PERMEABLE" ]
   },
   {
-    "id": "t_tree_hickory",
-    "type": "terrain",
     "name": "hickory tree",
-    "//": "barren in winter, harvestable in autum",
-    "symbol": "7",
     "color": [ "light_green", "light_green", "brown_green", "brown" ],
+    "type": "terrain",
+    "//": "barren in winter, harvestable in autum",
+    "id": "t_tree_hickory",
+    "symbol": "7",
     "move_cost": 0,
     "harvest_season": "AUTUMN",
     "harvestable": "hickory_nut",
@@ -57,5 +57,113 @@
       ]
     },
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ]
+  },
+  {
+    "name": "apple tree",
+    "color": [ "light_green", "light_green", "red_green", "brown" ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "autumn" ],
+        "entries": [
+          { "drop": "apple", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] }
+        ]
+      }
+    ],
+    "type": "terrain",
+    "//": "barren in winter, fruits in autum",
+    "id": "t_tree_apple",
+    "symbol": "7",
+    "move_cost": 0,
+    "transforms_into": "t_tree_apple_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "ter_set": "t_dirt",
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "stick", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] }
+      ]
+    },
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ]
+  },
+  {
+    "name": "apple tree",
+    "color": [ "light_green", "light_green", "light_green", "brown" ],
+    "type": "terrain",
+    "//": "barren in winter, no fruits anymore",
+    "id": "t_tree_apple_harvested",
+    "symbol": "7",
+    "move_cost": 0,
+    "transforms_into": "t_tree_apple",
+    "examine_action": "harvested_plant",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "ter_set": "t_dirt",
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "stick", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] }
+      ]
+    },
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ]
+  },
+  {
+    "name": "pear tree",
+    "color": [ "light_green", "light_green", "ltgreen_green", "brown" ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "autumn" ],
+        "entries": [
+          { "drop": "pear", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] }
+        ]
+      }
+    ],
+    "type": "terrain",
+    "//": "barren in winter, fruits in autum",
+    "id": "t_tree_pear",
+    "symbol": "7",
+    "move_cost": 0,
+    "transforms_into": "t_tree_pear_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "ter_set": "t_dirt",
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "stick", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] }
+      ]
+    },
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ]
+  },
+  {
+    "name": "pear tree",
+    "color": [ "light_green", "light_green", "light_green", "brown" ],
+    "type": "terrain",
+    "//": "barren in winter, no fruits anymore",
+    "id": "t_tree_pear_harvested",
+    "symbol": "7",
+    "move_cost": 0,
+    "transforms_into": "t_tree_pear",
+    "examine_action": "harvested_plant",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "ter_set": "t_dirt",
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "stick", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] }
+      ]
+    },
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ]
   }
 ]

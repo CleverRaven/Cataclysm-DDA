@@ -19,4 +19,7 @@ if [ -n "${MXE_TARGET}" ]; then
   sudo apt-get --yes install mxe-${MXE2_TARGET}-gcc mxe-${MXE2_TARGET}-gettext mxe-${MXE2_TARGET}-glib
   export PLATFORM='i686-w64-mingw32.static'
   export CROSS_COMPILATION='${MXE_DIR}/${PLATFORM}-'
+  # Need to overwrite CXX to make the Makefile $CROSS logic work right.
+  export CXX="$COMPILER"
+  export CCACHE=1
 fi

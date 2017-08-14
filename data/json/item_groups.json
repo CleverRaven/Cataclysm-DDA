@@ -533,7 +533,7 @@
       ["survnote", 1],
       ["cookbook_sushi", 5],
       ["scots_cookbook", 6],
-	  [ "food_processor", 30 ]
+      [ "food_processor", 30 ]
     ]
   },{
     "type" : "item_group",

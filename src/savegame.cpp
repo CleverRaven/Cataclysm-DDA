@@ -315,6 +315,7 @@ bool overmap::obsolete_terrain( const std::string &ter ) {
     static const std::unordered_set<std::string> obsolete = {
         "apartments_con_tower_1", "apartments_con_tower_1_entrance",
         "apartments_mod_tower_1", "apartments_mod_tower_1_entrance",
+        "bridge_ew", "bridge_ns",
         "public_works", "public_works_entrance",
         "school_1", "school_2", "school_3",
         "school_4", "school_5", "school_6",
@@ -377,6 +378,12 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             nearby.push_back( { 1, entr, 1, old, base + "SE_south" } );
             nearby.push_back( { 1, old, -1, entr, base + "SE_east" } );
             nearby.push_back( { -1, old, 1, entr, base + "SE_west" } );
+
+        } else if( old == "bridge_ew" ) {
+            new_id = oter_id( "bridge_east" );
+
+        } else if( old == "bridge_ns" ) {
+            new_id = oter_id( "bridge_north" );
 
         } else if( old == "public_works_entrance" ) {
             const std::string base = "public_works_";

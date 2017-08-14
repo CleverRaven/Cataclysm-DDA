@@ -135,7 +135,7 @@ struct artifact_shape_datum {
     std::string name;
     std::string desc;
     units::volume volume_min, volume_max;
-    int weight_min, weight_max;
+    units::mass weight_min, weight_max;
 };
 
 struct artifact_property_datum {
@@ -164,7 +164,7 @@ struct artifact_tool_form_datum {
     // Most things had 0 to 1 material.
     material_id material;
     units::volume volume_min, volume_max;
-    int weight_min, weight_max;
+    units::mass weight_min, weight_max;
     artifact_weapon_type base_weapon;
     artifact_weapon_type extra_weapons[3];
 };
@@ -182,7 +182,7 @@ enum artifact_tool_form {
 struct artifact_weapon_datum {
     std::string adjective;
     units::volume volume;
-    int weight; // Only applicable if this is an *extra* weapon
+    units::mass weight; // Only applicable if this is an *extra* weapon
     int bash_min, bash_max;
     int cut_min, cut_max;
     int stab_min, stab_max;
@@ -207,7 +207,7 @@ struct artifact_armor_form_datum {
     // Most things had 0 to 1 material.
     material_id material;
     units::volume volume;
-    int weight;
+    units::mass weight;
     int encumb;
     int coverage;
     int thickness;
@@ -288,24 +288,24 @@ it_artifact_armor::it_artifact_armor( JsonObject &jo ) : itype()
 void init_artifacts()
 {
     artifact_shape_datum tmp_artifact_shape_data[ARTSHAPE_MAX] = {
-        {"BUG", "BUG", 0_ml, 0_ml, 0, 0},
-        {_("sphere"), _("smooth sphere"), 500_ml, 1000_ml, 1, 1150},
-        {_("rod"), _("tapered rod"), 250_ml, 1750_ml, 1, 800},
-        {_("teardrop"), _("teardrop-shaped stone"), 500_ml, 1500_ml, 1, 950},
-        {_("lamp"), _("hollow, transparent cube"), 1000_ml, 225_ml, 1, 350},
-        {_("snake"), _("winding, flexible rod"), 0_ml, 2000_ml, 1, 950},
-        {_("disc"), _("smooth disc"), 1000_ml, 1500_ml, 200, 400},
-        {_("beads"), _("string of beads"), 750_ml, 1750_ml, 1, 700},
-        {_("napkin"), _("very thin sheet"), 0_ml, 750_ml, 1, 350},
-        {_("urchin"), _("spiked sphere"), 750_ml, 1250_ml, 200, 700},
-        {_("jelly"), _("malleable blob"), 500_ml, 2000_ml, 200, 450},
-        {_("spiral"), _("spiraling rod"), 1250_ml, 1500_ml, 200, 350},
-        {_("pin"), _("pointed rod"), 250_ml, 1250_ml, 100, 1050},
-        {_("tube"), _("hollow tube"), 500_ml, 1250_ml, 350, 700},
-        {_("pyramid"), _("regular tetrahedron"), 750_ml, 1750_ml, 200, 450},
-        {_("crystal"), _("translucent crystal"), 250_ml, 1500_ml, 200, 800},
-        {_("knot"), _("twisted, knotted cord"), 500_ml, 1500_ml, 100, 800},
-        {_("crescent"), _("crescent-shaped stone"), 500_ml, 1500_ml, 200, 700}
+        {"BUG", "BUG", 0_ml, 0_ml, 0_gram, 0_gram},
+        {_( "sphere" ), _( "smooth sphere" ), 500_ml, 1000_ml, 1_gram, 1150_gram},
+        {_( "rod" ), _( "tapered rod" ), 250_ml, 1750_ml, 1_gram, 800_gram},
+        {_( "teardrop" ), _( "teardrop-shaped stone" ), 500_ml, 1500_ml, 1_gram, 950_gram},
+        {_( "lamp" ), _( "hollow, transparent cube" ), 1000_ml, 225_ml, 1_gram, 350_gram},
+        {_( "snake" ), _( "winding, flexible rod" ), 0_ml, 2000_ml, 1_gram, 950_gram},
+        {_( "disc" ), _( "smooth disc" ), 1000_ml, 1500_ml, 200_gram, 400_gram},
+        {_( "beads" ), _( "string of beads" ), 750_ml, 1750_ml, 1_gram, 700_gram},
+        {_( "napkin" ), _( "very thin sheet" ), 0_ml, 750_ml, 1_gram, 350_gram},
+        {_( "urchin" ), _( "spiked sphere" ), 750_ml, 1250_ml, 200_gram, 700_gram},
+        {_( "jelly" ), _( "malleable blob" ), 500_ml, 2000_ml, 200_gram, 450_gram},
+        {_( "spiral" ), _( "spiraling rod" ), 1250_ml, 1500_ml, 200_gram, 350_gram},
+        {_( "pin" ), _( "pointed rod" ), 250_ml, 1250_ml, 100_gram, 1050_gram},
+        {_( "tube" ), _( "hollow tube" ), 500_ml, 1250_ml, 350_gram, 700_gram},
+        {_( "pyramid" ), _( "regular tetrahedron" ), 750_ml, 1750_ml, 200_gram, 450_gram},
+        {_( "crystal" ), _( "translucent crystal" ), 250_ml, 1500_ml, 200_gram, 800_gram},
+        {_( "knot" ), _( "twisted, knotted cord" ), 500_ml, 1500_ml, 100_gram, 800_gram},
+        {_( "crescent" ), _( "crescent-shaped stone" ), 500_ml, 1500_ml, 200_gram, 700_gram}
     };
     for(int i = 0; i < ARTSHAPE_MAX; i++) {
         artifact_shape_data[i] = tmp_artifact_shape_data[i];
@@ -447,32 +447,32 @@ void init_artifacts()
 
     artifact_tool_form_datum tmp_artifact_tool_form_data[NUM_ARTTOOLFORMS] = {
         {
-            "", '*', c_white, material_id( "null" ), 0_ml, 0_ml, 0, 0, ARTWEAP_BULK,
+            "", '*', c_white, material_id( "null" ), 0_ml, 0_ml, 0_gram, 0_gram, ARTWEAP_BULK,
             {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}
         },
 
         {
-            _("Harp"), ';', c_yellow, material_id( "wood" ), 5000_ml, 7500_ml, 1150, 2100, ARTWEAP_BULK,
+            _( "Harp" ), ';', c_yellow, material_id( "wood" ), 5000_ml, 7500_ml, 1150_gram, 2100_gram, ARTWEAP_BULK,
             {ARTWEAP_SPEAR, ARTWEAP_SWORD, ARTWEAP_KNIFE}
         },
 
         {
-            _("Staff"), '/', c_brown, material_id( "wood" ), 1500_ml, 3000_ml, 450, 1150, ARTWEAP_CLUB,
+            _( "Staff" ), '/', c_brown, material_id( "wood" ), 1500_ml, 3000_ml, 450_gram, 1150_gram, ARTWEAP_CLUB,
             {ARTWEAP_BULK, ARTWEAP_SPEAR, ARTWEAP_KNIFE}
         },
 
         {
-            _("Sword"), '/', c_ltblue, material_id( "steel" ), 2000_ml, 3500_ml, 900, 3259, ARTWEAP_SWORD,
+            _( "Sword" ), '/', c_ltblue, material_id( "steel" ), 2000_ml, 3500_ml, 900_gram, 3259_gram, ARTWEAP_SWORD,
             {ARTWEAP_BULK, ARTWEAP_NULL, ARTWEAP_NULL}
         },
 
         {
-            _("Dagger"), ';', c_ltblue, material_id( "steel" ), 250_ml, 1000_ml, 100, 700, ARTWEAP_KNIFE,
+            _( "Dagger" ), ';', c_ltblue, material_id( "steel" ), 250_ml, 1000_ml, 100_gram, 700_gram, ARTWEAP_KNIFE,
             {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}
         },
 
         {
-            _("Cube"), '*', c_white, material_id( "steel" ), 250_ml, 750_ml, 100, 2300, ARTWEAP_BULK,
+            _( "Cube" ), '*', c_white, material_id( "steel" ), 250_ml, 750_ml, 100_gram, 2300_gram, ARTWEAP_BULK,
             {ARTWEAP_SPEAR, ARTWEAP_NULL, ARTWEAP_NULL}
         }
     };
@@ -481,13 +481,13 @@ void init_artifacts()
     }
 
     artifact_weapon_datum tmp_artifact_weapon_data[NUM_ARTWEAPS] = {
-        { "", 0_ml, 0, 0, 0, 0, 0, 0, 0, 0, 0, ""},
-        // Adjective      Vol   Weight Bashing Cutting Stabbing To-hit Flag
-        { _( "Heavy" ),   0_ml,   1400, 10, 20,  0,  0,  0,  0, -2, 0, "" },
-        { _( "Knobbed" ), 250_ml,  250, 14, 30,  0,  0,  0,  0, -1, 1, "" },
-        { _( "Spiked" ),  250_ml,  100,  0,  0,  0,  0, 20, 40, -1, 1, "" },
-        { _( "Edged" ),   500_ml,  450,  0,  0, 20, 50,  0,  0, -1, 2, "SHEATH_SWORD" },
-        { _( "Bladed" ),  250_ml, 2250,  0,  0,  0,  0, 12, 30, -1, 1, "SHEATH_KNIFE" }
+        { "", 0_ml, 0_gram, 0, 0, 0, 0, 0, 0, 0, 0, ""},
+        // Adjective      Vol   Weight    Bashing Cutting Stabbing To-hit Flag
+        { _( "Heavy" ),   0_ml,   1400_gram, 10, 20,  0,  0,  0,  0, -2, 0, "" },
+        { _( "Knobbed" ), 250_ml,  250_gram, 14, 30,  0,  0,  0,  0, -1, 1, "" },
+        { _( "Spiked" ),  250_ml,  100_gram,  0,  0,  0,  0, 20, 40, -1, 1, "" },
+        { _( "Edged" ),   500_ml,  450_gram,  0,  0, 20, 50,  0,  0, -1, 2, "SHEATH_SWORD" },
+        { _( "Bladed" ),  250_ml, 2250_gram,  0,  0,  0,  0, 12, 30, -1, 1, "SHEATH_KNIFE" }
     };
     for(int i = 0; i < NUM_ARTWEAPS; i++) {
         artifact_weapon_data[i] = tmp_artifact_weapon_data[i];
@@ -495,13 +495,13 @@ void init_artifacts()
 
     artifact_armor_form_datum tmp_artifact_armor_form_data[NUM_ARTARMFORMS] = {
         {
-            "", c_white, material_id( "null" ),        0_ml,  0,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
+            "", c_white, material_id( "null" ),        0_ml,  0_gram,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
             0, false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
         // Name    color  Material         Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            _("Robe"),   c_red, material_id( "wool" ),    1500_ml, 700,  1,  90,  3,  0,  2,  0_ml, -8,  0, -3,
+            _( "Robe" ),   c_red, material_id( "wool" ),    1500_ml, 700_gram,  1,  90,  3,  0,  2,  0_ml, -8,  0, -3,
             mfb(bp_torso) | mfb(bp_leg_l) | mfb(bp_leg_r), false,
             {
                 ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_POCKETED, ARMORMOD_FURRED,
@@ -510,7 +510,7 @@ void init_artifacts()
         },
 
         {
-            _("Coat"),   c_brown, material_id( "leather" ),   3500_ml, 1600,  2,  80, 2,  1,  4,  1000_ml, -6,  0, -3,
+            _( "Coat" ),   c_brown, material_id( "leather" ),   3500_ml, 1600_gram,  2,  80, 2,  1,  4,  1000_ml, -6,  0, -3,
             mfb(bp_torso), false,
             {
                 ARMORMOD_LIGHT, ARMORMOD_POCKETED, ARMORMOD_FURRED, ARMORMOD_PADDED,
@@ -519,7 +519,7 @@ void init_artifacts()
         },
 
         {
-            _("Mask"),   c_white, material_id( "wood" ),      1000_ml, 100,  2,  50, 2,  1,  2,  0_ml,  2,  0, -2,
+            _( "Mask" ),   c_white, material_id( "wood" ),      1000_ml, 100_gram,  2,  50, 2,  1,  2,  0_ml,  2,  0, -2,
             mfb(bp_eyes) | mfb(bp_mouth), false,
             {
                 ARMORMOD_FURRED, ARMORMOD_FURRED, ARMORMOD_NULL, ARMORMOD_NULL,
@@ -529,7 +529,7 @@ void init_artifacts()
 
         // Name    color  Materials             Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            _("Helm"),   c_dkgray, material_id( "silver" ),    1500_ml, 700,  2,  85, 3,  0,  1,  0_ml,  8,  0, -2,
+            _( "Helm" ),   c_dkgray, material_id( "silver" ),    1500_ml, 700_gram,  2,  85, 3,  0,  1,  0_ml,  8,  0, -2,
             mfb(bp_head), false,
             {
                 ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -538,7 +538,7 @@ void init_artifacts()
         },
 
         {
-            _("Gloves"), c_ltblue, material_id( "leather" ), 500_ml, 100,  1,  90,  3,  1,  2,  0_ml, -4,  0, -2,
+            _( "Gloves" ), c_ltblue, material_id( "leather" ), 500_ml, 100_gram,  1,  90,  3,  1,  2,  0_ml, -4,  0, -2,
             mfb(bp_hand_l) | mfb(bp_hand_r), true,
             {
                 ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -548,7 +548,7 @@ void init_artifacts()
 
         // Name    color  Materials            Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            _("Boots"), c_blue, material_id( "leather" ),     1500_ml, 250,  1,  75,  3,  1,  3,  0_ml,  4,  0, -1,
+            _( "Boots" ), c_blue, material_id( "leather" ),     1500_ml, 250_gram,  1,  75,  3,  1,  3,  0_ml,  4,  0, -1,
             mfb(bp_foot_l) | mfb(bp_foot_r), true,
             {
                 ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -557,7 +557,7 @@ void init_artifacts()
         },
 
         {
-            _("Ring"), c_ltgreen, material_id( "silver" ),   0_ml,  4,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
+            _( "Ring" ), c_ltgreen, material_id( "silver" ),   0_ml,  4_gram,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
             0, true,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         }
@@ -570,45 +570,45 @@ void init_artifacts()
     artifact_armor_form_datum tmp_artifact_armor_mod_data[NUM_ARMORMODS] = {
 
         {
-            "", c_white, material_id( "null" ), 0_ml,  0,  0,  0,  0,  0,  0,  0_ml,  0, 0, 0, 0, false,
+            "", c_white, material_id( "null" ), 0_ml,  0_gram,  0,  0,  0,  0,  0,  0_ml,  0, 0, 0, 0, false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
         // Description; "It is ..." or "They are ..."
         {
             _("very thin and light."), c_white, material_id( "null" ),
             // Vol   Wgt Enc Cov Thk Env Wrm Sto
-            -1000_ml, -950, -2, -1, -1, -1, -1,  0_ml, 0, 0, 0, 0,  false,
+            -1000_ml, -950_gram, -2, -1, -1, -1, -1,  0_ml, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
             _("extremely bulky."), c_white, material_id( "null" ),
-            2000_ml, 1150,  2,  1,  1,  0,  1,  0_ml, 0, 0, 0, 0,  false,
+            2000_ml, 1150_gram,  2,  1,  1,  0,  1,  0_ml, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
             _("covered in pockets."), c_white, material_id( "null" ),
-            250_ml, 150,  1,  0,  0,  0,  0, 4000_ml, 0, 0, 0, 0,  false,
+            250_ml, 150_gram,  1,  0,  0,  0,  0, 4000_ml, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
             _("disgustingly furry."), c_white, material_id( "wool" ),
             // Vol  Wgt Enc Dmg Cut Env Wrm Sto
-            1000_ml, 250,  1,  1,  1,  1,  3,  0_ml, 0, 0, 0, 0,  false,
+            1000_ml, 250_gram,  1,  1,  1,  1,  3,  0_ml, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
             _("leather-padded."), c_white, material_id( "leather" ),
-            1000_ml, 450,  1, 1,  1,  0,  1, -750_ml, 0, 0, 0, 0,  false,
+            1000_ml, 450_gram,  1, 1,  1,  0,  1, -750_ml, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
             _("plated in iron."), c_white, material_id( "iron" ),
-            1000_ml, 1400,  3,  2, 2,  0,  1, -1000_ml, 0, 0, 0, 0, false,
+            1000_ml, 1400_gram,  3,  2, 2,  0,  1, -1000_ml, 0, 0, 0, 0, false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
@@ -822,10 +822,10 @@ std::string new_artifact()
                     art->volume = 250_ml;
                 }
 
-                if( modinfo->weight >= 0 || art->weight > std::abs( modinfo->weight ) ) {
+                if( modinfo->weight >= 0 || art->weight.value() > std::abs( modinfo->weight.value() ) ) {
                     art->weight += modinfo->weight;
                 } else {
-                    art->weight = 1;
+                    art->weight = 1_gram;
                 }
 
                 art->armor->encumber += modinfo->encumb;
@@ -1124,7 +1124,7 @@ void it_artifact_tool::deserialize(JsonObject &jo)
         }
     }
     volume = jo.get_int("volume") * units::legacy_volume_factor;
-    weight = jo.get_int("weight");
+    weight = units::from_gram( jo.get_int( "weight" ) );
     melee[DT_BASH] = jo.get_int("melee_dam");
     melee[DT_CUT] = jo.get_int("melee_cut");
     m_to_hit = jo.get_int("m_to_hit");
@@ -1187,7 +1187,7 @@ void it_artifact_armor::deserialize(JsonObject &jo)
         }
     }
     volume = jo.get_int("volume") * units::legacy_volume_factor;
-    weight = jo.get_int("weight");
+    weight = units::from_gram( jo.get_int( "weight" ) );
     melee[DT_BASH] = jo.get_int("melee_dam");
     melee[DT_CUT] = jo.get_int("melee_cut");
     m_to_hit = jo.get_int("m_to_hit");
@@ -1260,7 +1260,7 @@ void it_artifact_tool::serialize(JsonOut &json) const
     }
     json.end_array();
     json.member("volume", volume / units::legacy_volume_factor);
-    json.member("weight", weight);
+    json.member( "weight", to_gram( weight ) );
 
     json.member( "melee_dam", melee[DT_BASH] );
     json.member( "melee_cut", melee[DT_CUT] );
@@ -1307,7 +1307,7 @@ void it_artifact_armor::serialize(JsonOut &json) const
     }
     json.end_array();
     json.member("volume", volume / units::legacy_volume_factor);
-    json.member("weight", weight);
+    json.member( "weight", to_gram( weight ) );
 
     json.member( "melee_dam", melee[DT_BASH] );
     json.member( "melee_cut", melee[DT_CUT] );

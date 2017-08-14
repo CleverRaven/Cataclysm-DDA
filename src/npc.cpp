@@ -1480,7 +1480,7 @@ int npc::value( const item &it, int market_price ) const
         if( get_thirst() > 40 ) {
             comestval += ( it.type->comestible->quench + get_thirst() - 40 ) / 4;
         }
-        if( comestval > 0 && can_eat( it ) == EDIBLE ) {
+        if( comestval > 0 && will_eat( it ) == EDIBLE ) {
             ret += comestval;
         }
     }
@@ -1770,7 +1770,7 @@ int npc::print_info(WINDOW* w, int line, int vLines, int column) const
 
     const int visibility_cap = g->u.get_per() - rl_dist( g->u.pos(), pos() );
     const std::string trait_str = enumerate_as_string( my_mutations.begin(), my_mutations.end(),
-        [ this, visibility_cap ]( const std::pair<trait_id, trait_data> &pr ) -> std::string {
+        [visibility_cap ]( const std::pair<trait_id, trait_data> &pr ) -> std::string {
         const auto &mut_branch = pr.first.obj();
         // Finally some use for visibility trait of mutations
         // @todo Balance this formula

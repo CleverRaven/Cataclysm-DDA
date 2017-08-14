@@ -150,7 +150,7 @@
             },
             {
                 "level": 2,
-                "name": "archery"
+                "name": "rifle"
             },
             {
                 "level": 2,
@@ -1554,7 +1554,7 @@
         "skills": [
             {
                 "level": 2,
-                "name": "archery"
+                "name": "rifle"
             }
         ],
         "items": {
@@ -3947,7 +3947,7 @@
             },
             {
                 "level": 3,
-                "name": "archery"
+                "name": "rifle"
             }
         ],
         "items": {
@@ -4293,25 +4293,25 @@
         "items": {
             "both": {
                 "items": [
-                "gold_ear",
-                "pants_survivor",
-                "motorbike_boots",
-                "gauntlets_bone",
-                "survivor_goggles",
-                "combatnail",
-                "waterskin2",
-                "survivor_scope",
-                "heavy_flashlight",
-                "knuckle_steel",
-                "ref_lighter",
-                "mess_kit"
+                    "gold_ear",
+                    "pants_survivor",
+                    "motorbike_boots",
+                    "gauntlets_bone",
+                    "survivor_goggles",
+                    "combatnail",
+                    "waterskin2",
+                    "survivor_scope",
+                    "heavy_flashlight",
+                    "knuckle_steel",
+                    "ref_lighter",
+                    "mess_kit"
                 ],
-			"entries": [
+                "entries": [
                     { "item": "nailrifle", "ammo-item": "combatnail", "charges": 50, "contents-item": [ "shoulder_strap", "folding_stock" ] },
                     { "item": "makeshift_machete", "container-item": "scabbard" },
                     { "item": "nailmag", "ammo-item": "combatnail", "charges": 50, "container-item": "chestpouch" }
                 ]
-		    },
+            },
             "male": [
                 "football_armor",
                 "elbow_pads",

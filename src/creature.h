@@ -461,8 +461,8 @@ class Creature
         virtual void set_grab_resist(int ngrabres);
         virtual void set_throw_resist(int nthrowres);
 
-        virtual int weight_capacity() const;
-        virtual int get_weight() const;
+        virtual units::mass weight_capacity() const;
+        virtual units::mass get_weight() const;
 
         /** Returns settings for pathfinding. */
         virtual const pathfinding_settings &get_pathfinding_settings() const = 0;
