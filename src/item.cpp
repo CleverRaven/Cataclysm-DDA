@@ -4098,9 +4098,9 @@ int item::gun_range( const player *p ) const
         return 0;
     }
 
-    // Reduce bow range until player has twice minimm required strength
+    // Adds half the difference between player strenght and the minimum required strenght as extra range 
     if( has_flag( "STR_DRAW" ) ) {
-        ret -= std::max( 0, type->min_str * 2 - p->get_str() );
+        ret += std::max( 0, ( p->get_str() - type->min_str ) * 0.5 );
     }
 
     return std::max( 0, ret );

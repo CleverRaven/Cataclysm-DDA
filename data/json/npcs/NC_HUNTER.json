@@ -54,14 +54,13 @@
     "type" : "item_group",
     "id" : "NC_HUNTER_archery",
     "items":[
-      ["crossbow", 20],
+      ["crossbow", 15],
       ["shortbow", 5],
       ["compbow", 15],
       ["compositebow", 15],
       ["recurbow", 15],
-      ["reflexbow", 10],
-      ["longbow", 10],
-      ["hand_crossbow", 15],
+      ["longbow", 5],
+      ["hand_crossbow", 5],
       ["selfbow", 5]
     ]
   },{

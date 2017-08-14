@@ -68,7 +68,7 @@
       [ ["swage", -1] ]
     ],
     "components": [
-      [ [ "reflexrecurvebow", 1 ] ],
+      [ [ "recurbow", 1 ] ],
       [ [ "gold_small", 1 ] ],
       [ [ "silver_small", 2 ] ]
     ]
