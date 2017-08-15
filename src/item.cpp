@@ -3996,7 +3996,7 @@ int item::sight_dispersion() const
 
     for( const auto e : gunmods() ) {
         const auto mod = e->type->gunmod.get();
-        if( mod->sight_dispersion < 0 || mod->aim_cost <= 0 ) {
+        if( mod->sight_dispersion < 0 || mod->aim_cost < 0 ) {
             continue; // skip gunmods which don't provide a sight
         }
         res = std::min( res, mod->sight_dispersion );
