@@ -1681,7 +1681,7 @@
   "skill_used": "electronics",
   "skills_required": [ "fabrication", 1 ],
   "difficulty": 3,
-  "time": 50000,
+  "time": 5000,
   "reversible": true,
   "decomp_learn": 3,
   "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 3]],
