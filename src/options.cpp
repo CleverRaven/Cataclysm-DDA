@@ -485,7 +485,7 @@ std::string options_manager::cOpt::getDefaultText(const bool bTranslated) const
 {
     if (sType == "string_select") {
         const std::string sItems = enumerate_as_string( vItems.begin(), vItems.end(),
-        [ this, bTranslated ]( const std::string &elem ) {
+        [bTranslated ]( const std::string &elem ) {
             return bTranslated ? optionNames[elem] : elem;
         }, false );
         return string_format(_("Default: %s - Values: %s"),
@@ -1467,6 +1467,16 @@ void options_manager::init()
     add("ALIGN_STAIRS", "world_default", _("Align up and down stairs"),
         _("If true, downstairs will be placed directly above upstairs, even if this results in uglier maps."),
         false
+        );
+
+    mOptionsSort["world_default"]++;
+
+    optionNames["any"] = _("Any");
+    optionNames["multi_pool"] = _("Multi-pool only");
+    optionNames["no_freeform"] = _("No freeform");
+    add("CHARACTER_POINT_POOLS", "world_default", _("Character point pools"),
+        _("Allowed point pools for character generation."),
+        "any,multi_pool,no_freeform", "any"
         );
 
     mOptionsSort["world_default"]++;

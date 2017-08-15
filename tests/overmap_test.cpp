@@ -4,7 +4,8 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 
-TEST_CASE( "set_and_get_overmap_scents" ) {
+TEST_CASE( "set_and_get_overmap_scents" )
+{
     std::unique_ptr<overmap> test_overmap = std::unique_ptr<overmap>( new overmap( 0, 0 ) );
 
     // By default there are no scents set.
@@ -22,10 +23,11 @@ TEST_CASE( "set_and_get_overmap_scents" ) {
     REQUIRE( test_overmap->scent_at( { 75, 85, 0} ).initial_strength == 90 );
 }
 
-TEST_CASE( "default_overmap_generation_always_succeeds" ) {
+TEST_CASE( "default_overmap_generation_always_succeeds" )
+{
     int overmaps_to_construct = 10;
     for( point candidate_addr : closest_points_first( 10, { 0, 0 } ) ) {
-         // Skip populated overmaps.
+        // Skip populated overmaps.
         if( overmap_buffer.has( candidate_addr.x, candidate_addr.y ) ) {
             continue;
         }

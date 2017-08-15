@@ -446,7 +446,7 @@ bool player::activate_bionic( int b, bool eff_only )
         for( const auto &pr : affected ) {
             projectile proj;
             proj.speed  = 50;
-            proj.impact = damage_instance::physical( pr.first.weight() / 250, 0, 0, 0 );
+            proj.impact = damage_instance::physical( pr.first.weight() / 250_gram, 0, 0, 0 );
             proj.range = rl_dist( pr.second, pos() );
             proj.proj_effects = {{ "NO_ITEM_DAMAGE", "DRAW_AS_LINE", "NO_DAMAGE_SCALING", "JET" }};
 
@@ -974,11 +974,19 @@ bool player::install_bionics( const itype &type, int skill_level )
     }
 
     const int pk = get_painkiller();
+    const int overall_pk_dur = ( get_effect_dur(effect_pkill1) + get_effect_dur(effect_pkill2) +
+                                 get_effect_dur(effect_pkill3) + get_effect_dur(effect_pkill_l) ) / MINUTES( 1 );
     int pain_cap = 100;
     if( has_trait( trait_PAINRESIST_TROGLO ) ) {
         pain_cap = pain_cap / 2;
     } else if( has_trait( trait_PAINRESIST ) ) {
         pain_cap = pain_cap / 1.5;
+    }
+
+    int fa_level = get_skill_level( skilll_firstaid );
+
+    if( has_trait( trait_PROF_MED ) ) {
+        fa_level = 5;
     }
 
     if( !has_trait( trait_NOPAIN ) && !has_trait( trait_CENOBITE ) &&
@@ -987,10 +995,22 @@ bool player::install_bionics( const itype &type, int skill_level )
             popup( _( "You need to take painkillers to make installing bionics tolerable." ) );
             return false;
         } else if( pk < pain_cap / 2 ) {
-            popup( _( "You need to be a lot more numb to tolerate installing bionics.  Note that painkillers you've already taken might not be fully working yet." ) );
+            if( fa_level < 2 ) {
+                popup( _( "You need to be a lot more numb to tolerate installing bionics.  Note that painkillers you've already taken could take up to an hour to achieve full effect." ) );
+            } else if( fa_level <= 4 ) {
+                popup( _( "Intensity of painkillers you've already taken is less than half of the threshold that will allow you to install bionics.  It will take %i minutes for painkillers you've already taken to achieve maximum effect." ), overall_pk_dur );
+            } else {
+                popup( _( "Intensity of painkillers you've already taken is %i percent of the threshold that will allow you to install bionics.  It will take %i minutes for painkillers you've already taken to achieve maximum effect." ), 100 * pk / pain_cap, overall_pk_dur );
+            }
             return false;
         } else if( pk < pain_cap ) {
-            popup( _( "You aren't quite numb enough to tolerate installing bionics.  Note that painkillers you've already taken might not be fully working yet." ) );
+            if( fa_level < 2 ) {
+                popup( _( "You aren't quite numb enough to tolerate installing bionics.  Note that painkillers you've already taken could take up to an hour to achieve full effect." ) );
+            } else if( fa_level <= 4 ) {
+                popup( _( "Intensity of painkillers you've already taken is more than half of the threshold that will allow you to install bionics.  It will take %i minutes for painkillers you've already taken to achieve maximum effect." ), overall_pk_dur );
+            } else {
+                popup( _( "Intensity of painkillers you've already taken is %i percent of the threshold that will allow you to install bionics.  It will take %i minutes for painkillers you've already taken to achieve maximum effect." ), 100 * pk / pain_cap, overall_pk_dur );
+            }
             return false;
         }
     }

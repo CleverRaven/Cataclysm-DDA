@@ -891,9 +891,9 @@ void inventory::rust_iron_items()
     }
 }
 
-int inventory::weight() const
+units::mass inventory::weight() const
 {
-    int ret = 0;
+    units::mass ret = 0;
     for( const auto &elem : items ) {
         for( const auto &elem_stack_iter : elem ) {
             ret += elem_stack_iter.weight();

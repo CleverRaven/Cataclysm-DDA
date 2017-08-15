@@ -1154,9 +1154,9 @@ std::vector<std::string> inventory_selector::get_stats() const
     const size_t num_stats = 2;
     const std::array<stat, num_stats> stats = {{
         disp( string_format( _( "Weight (%s):" ), weight_units() ),
-              dummy.weight_carried(),
-              dummy.weight_capacity(), []( int w ) {
-            return string_format( "%.1f", round_up( convert_weight( w ), 1 ) );
+              to_gram( dummy.weight_carried() ),
+              to_gram( dummy.weight_capacity() ), []( int w ) {
+            return string_format( "%.1f", round_up( convert_weight( units::from_gram( w ) ), 1 ) );
         } ),
         disp( string_format( _( "Volume (%s):" ), volume_units_abbr() ),
               units::to_milliliter( dummy.volume_carried() ),

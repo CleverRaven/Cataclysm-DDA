@@ -521,7 +521,7 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, 
     const tripoint base( source - start );      // To convert local coordinates to global ones
     const tripoint finish( dest - base );       // Local destination - relative to source
 
-    const auto estimate = [ this, &base, &finish, road_only ]( const pf::node &, const pf::node &cur ) {
+    const auto estimate = [ this, &base, &finish, road_only ]( const pf::node &cur, const pf::node * ) {
         int res = 0;
         int omx = base.x + cur.x;
         int omy = base.y + cur.y;

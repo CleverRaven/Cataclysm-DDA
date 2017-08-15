@@ -2129,7 +2129,7 @@
             "helmet_army", "helmet_lobster", "helmet_riot", "tac_helmet",
             "helmet_hsurvivor", "helmet_survivor", "helmet_xlsurvivor", "miner_hat_on"]
         ],
-        "note" : "Helmets are essential because you're digging up and things may fall on you.",
+        "//" : "Helmets are essential because you're digging up and things may fall on you.",
         "components" : [
             [ [ "2x4", 12 ] , [ "log", 12 ] ],
             [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ]

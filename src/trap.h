@@ -6,6 +6,7 @@
 #include "json.h"
 #include "string_id.h"
 #include "int_id.h"
+#include "units.h"
 #include <string>
 #include <functional>
 
@@ -77,7 +78,7 @@ struct trap {
         /**
          * If an item with this weight or more is thrown onto the trap, it triggers.
          */
-        int trigger_weight;
+        units::mass trigger_weight = units::mass( -1, units::mass::unit_type{} );
         int funnel_radius_mm;
         std::vector<itype_id> components; // For disassembly?
     public:

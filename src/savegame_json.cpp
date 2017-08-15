@@ -649,7 +649,7 @@ void player::serialize(JsonOut &json) const
     json.member( "completed_missions", mission::to_uid_vector( completed_missions ) );
     json.member( "failed_missions", mission::to_uid_vector( failed_missions ) );
 
-    json.member( "player_stats", get_stats() );
+    json.member( "player_stats", lifetime_stats );
 
     json.member("assigned_invlet");
     json.start_array();
@@ -834,8 +834,7 @@ void player::deserialize(JsonIn &jsin)
         }
     }
 
-    stats &pstats = *lifetime_stats();
-    data.read("player_stats", pstats);
+    data.read( "player_stats", lifetime_stats );
 
     parray = data.get_array("assigned_invlet");
     while (parray.has_more()) {
