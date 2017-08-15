@@ -40,9 +40,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-01 16:08+0800\n"
-"PO-Revision-Date: 2017-08-01 13:54+0000\n"
-"Last-Translator: Vlasov Vitaly <vnigtha@gmail.com>\n"
+"POT-Creation-Date: 2017-08-11 22:14+0800\n"
+"PO-Revision-Date: 2017-08-12 10:12+0000\n"
+"Last-Translator: Brett Dong <brett.browning.dong@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1041,7 +1041,7 @@ msgid ""
 msgstr ""
 
 #. ~ allow invalid (bugged, bad) maps without asking user
-#: lang/extra/android/options.cpp src/creature.cpp
+#: lang/extra/android/options.cpp src/creature.cpp src/options.cpp
 msgid "Any"
 msgstr "任何"
 
@@ -4002,7 +4002,8 @@ msgstr "爆炸時會產生大量致命破片的 40mm 榴彈。"
 
 #: lang/json/AMMO_from_json.py
 msgid "40mm incendiary"
-msgstr "40mm 燃燒榴彈"
+msgid_plural "40mm incendiaries"
+msgstr[0] ""
 
 #. ~ Description for 40mm incendiary
 #: lang/json/AMMO_from_json.py
@@ -4031,7 +4032,8 @@ msgstr "40mm的煙霧榴彈，用來提供煙霧掩護。"
 
 #: lang/json/AMMO_from_json.py
 msgid "40mm teargas"
-msgstr "40mm 催淚瓦斯榴彈"
+msgid_plural "40mm teargas grenades"
+msgstr[0] ""
 
 #. ~ Description for 40mm teargas
 #: lang/json/AMMO_from_json.py
@@ -17416,7 +17418,7 @@ msgid ""
 "health."
 msgstr "一罐大規模生產的人工香精飲料。雖然有著香甜的口味，但是仍然不是很健康。"
 
-#: lang/json/COMESTIBLE_from_json.py
+#: lang/json/COMESTIBLE_from_json.py lang/json/ammunition_type_from_json.py
 msgid "milk"
 msgid_plural "milk"
 msgstr[0] "牛奶"
@@ -28540,16 +28542,16 @@ msgstr "一根有點不太利的大尖刺，裝在車上可以造成一些傷害
 #. ~ Description for wooden javelin
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A wooden spear, honed to a sharper point and fire hardened for toughness.  "
-"The grip area has also be carved and covered for better grip."
-msgstr "一根木製的矛，磨製成的銳利尖端與碳化的堅硬矛身。握把也做了防滑的蝕刻。"
+"A fire-hardened wooden spear honed to a sharper point.  The grip area has "
+"been carved and covered for better grip."
+msgstr ""
 
 #. ~ Description for iron javelin
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"An iron-tipped wooden throwing spear.  The grip area has also be carved and "
+"An iron-tipped wooden throwing spear.  The grip area has been carved and "
 "covered for better grip."
-msgstr "一根有著鐵槍頭的木標槍。握持部份也可以雕刻，讓它變的更好抓。"
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "bionic claws"
@@ -34873,7 +34875,7 @@ msgid ""
 "mandibles."
 msgstr "大約松鼠大小的肥胖蟲子，有著一對大如鏟子的下顎。"
 
-#: lang/json/MONSTER_from_json.py src/game.cpp
+#: lang/json/MONSTER_from_json.py
 msgid "dog"
 msgstr "狗"
 
@@ -43742,8 +43744,8 @@ msgstr "這把刀發源於尼泊爾的傳統武器，並經過現代的重新設
 
 #: lang/json/TOOL_from_json.py
 msgid "L-stick (off)"
-msgid_plural "l-sticks (off)"
-msgstr[0] "發光棍（關閉）"
+msgid_plural "L-sticks (off)"
+msgstr[0] ""
 
 #. ~ Use action msg for L-stick (off).
 #: lang/json/TOOL_from_json.py
@@ -43761,9 +43763,9 @@ msgid ""
 "Produced by the Light corporation, this stylish staff not only functions as "
 "a light source, but doubles as a light-weight weapon, due to the superalloy "
 "materials it is made of.  Due to proprietary efficiency improvements over "
-"standard light sources, the l-stick or light stick as it is commonly called,"
+"standard light sources, the L-stick or light stick as it is commonly called,"
 " batteries last longer than other light sources."
-msgstr "由 Light 公司生產，這根時尚的棍棒不但可以當作光源，超合金材質的它更可兼作輕型武器使用。由於它具有的專利技術，發光棍（或稱L 棍）的電池續航時間比其他光源長。"
+msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "L-stick (on)"
@@ -43781,10 +43783,10 @@ msgid ""
 "Produced by the Light corporation, this stylish staff not only functions as "
 "a light source, but doubles as a light-weight weapon, due to the superalloy "
 "materials it is made of.  Due to proprietary efficiency improvements over "
-"standard light sources, the l-stick or light stick as it is commonly called,"
+"standard light sources, the L-stick or light stick as it is commonly called,"
 " batteries last longer than other light sources.  The staff is glowing "
 "brightly, which is slowly draining the batteries."
-msgstr "由 Light 公司生產，這根時尚的棍棒不但可以當作光源，超合金材質的它更可兼作輕型武器使用。由於它具有的專利技術，發光棍（或稱L 棍）的電池續航時間比其他光源長。這根棍棒正發出亮光，緩慢地消耗電池。"
+msgstr ""
 
 #: lang/json/TOOL_from_json.py lang/json/trap_from_json.py
 msgid "land mine"
@@ -46267,9 +46269,9 @@ msgstr "你咧刀仔著火燒啊！"
 #: lang/json/TOOL_from_json.py
 msgid ""
 "Ein großes zweihändiges Schwert aus Deutschland, an dessen Klinge sich, "
-"unter zuführung von Benzin, eine anhaltende Flamme erzeugen lässt.  Es ist "
+"unter Zuführung von Benzin, eine anhaltende Flamme erzeugen lässt.  Es ist "
 "eine sehr mächtige Waffe."
-msgstr "幾被打型欸爹果香秋減，都片攋爹五增汽油，欸盪產星慧眼。係幾咧金窮欸母器。\r\n(一把大型的德國雙手劍，刀片內藏燃油結構，可產生持續的火焰。是一個非常強大的武器。)"
+msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "flammenschwert (an)"
@@ -46311,6 +46313,18 @@ msgstr[0] ""
 msgid ""
 "This is a kitchen appliance capable of slicing, chopping, shredding, "
 "grinding, pureeing and mixing."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "cattle fodder"
+msgid_plural "cattle fodder"
+msgstr[0] ""
+
+#. ~ Description for cattle fodder
+#: lang/json/TOOL_from_json.py
+msgid ""
+"What cattle eats.  Mainly made of grass, silages or legumes, is perfect for "
+"ruminants."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py lang/json/vehicle_part_from_json.py
@@ -51801,7 +51815,7 @@ msgstr "栓緊"
 msgid "AI tag used for tied up critters.  This is a bug if you have it."
 msgstr "一個栓緊寵物的標籤。如果你有這個標記，那就是 bug。"
 
-#: lang/json/effects_from_json.py src/monster.cpp
+#: lang/json/effects_from_json.py
 msgid "Shrieking"
 msgstr "尖叫中"
 
@@ -51883,7 +51897,7 @@ msgstr "你看東西開始閃爍並且變灰了！"
 msgid "The world flickers back to normality."
 msgstr "世界逐漸的回復正常。"
 
-#: lang/json/effects_from_json.py src/monster.cpp
+#: lang/json/effects_from_json.py
 msgid "Stunned"
 msgstr "被震暈"
 
@@ -53304,6 +53318,15 @@ msgstr "你的肢體被打斷了！"
 #: lang/json/effects_from_json.py
 msgid "The broken limb has mended."
 msgstr "斷裂的肢體已被修補。"
+
+#: lang/json/effects_from_json.py
+msgid "Milked"
+msgstr ""
+
+#. ~ Description of effect 'Milked'.
+#: lang/json/effects_from_json.py
+msgid "The creature has been partially or fully milked."
+msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Offering"
@@ -69348,8 +69371,9 @@ msgstr "快速代謝"
 
 #. ~ Description for Fast Metabolism
 #: lang/json/mutation_from_json.py
-msgid "You require more food than most people."
-msgstr "你對食物的需求比一般人多。"
+msgid ""
+"You require more food than most people, but recover stamina slightly faster."
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Rapid Metabolism"
@@ -69369,9 +69393,10 @@ msgstr "高速代謝"
 #. ~ Description for Very Fast Metabolism
 #: lang/json/mutation_from_json.py
 msgid ""
-"You find yourself hungry.  A lot.  You need about twice as much food as the "
-"average human."
-msgstr "你發現自己很容易餓。你需要一般人的平均兩倍多的食物。"
+"You need about twice as much food as the average human to maintain your "
+"expanded cardiovascular and respiratory systems.  On a plus side, it doesn't"
+" take you much time to recover from any strenuous activity."
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Extreme Metabolism"
@@ -69380,9 +69405,9 @@ msgstr "極速代謝"
 #. ~ Description for Extreme Metabolism
 #: lang/json/mutation_from_json.py
 msgid ""
-"You burn calories like gasoline-soaked tinder.  You consume three times as "
-"much food as the average human."
-msgstr "你消耗的熱量宛如被扔進火種的汽油。你需要吃掉一般人的平均三倍多的食物。"
+"You consume three times as much food as the average human to maintain your "
+"truly superhuman endurance."
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "High Thirst"
@@ -69836,8 +69861,9 @@ msgstr "熱依賴"
 #, no-python-format
 msgid ""
 "Your muscle response is dependent on ambient temperatures.  You lose 1% of "
-"your speed for every 5 (2.8) degrees below 65 F (18.3 C)."
-msgstr "環境溫度的高低反應在你的肌肉上。在 65 F (18.3 C) 溫度以下，每低於 5 (2.8) 度就會降低你的速度 1%。"
+"your speed for every 5 (2.8) degrees below 65 F (18.3 C).  This sluggishness"
+" helps you conserve energy, however."
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Very Heat Dependent"
@@ -69848,8 +69874,9 @@ msgstr "高熱依賴"
 #, no-python-format
 msgid ""
 "Your muscle response is highly dependent on ambient temperatures.  You lose "
-"1% of your speed for every 3 (1.7) degrees below 65 F (18.3 C)."
-msgstr "環境溫度的高低大量反應在你的肌肉上。在 65 F (18.3 C) 溫度以下，每低於 3 (1.7) 度就會降低你的速度 1%。"
+"1% of your speed for every 3 (1.7) degrees below 65 F (18.3 C), but your "
+"slow metabolism requires much less food."
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Cold Blooded"
@@ -69860,8 +69887,9 @@ msgstr "冷血動物"
 #, no-python-format
 msgid ""
 "You are cold-blooded and rely on heat to keep moving.  Your lose 1% of your "
-"speed for every 2 (1.1) degrees below 65 F (18.3 C)."
-msgstr "你是冷血動物而且仰賴熱能以持續移動。在華氏65度(攝氏18.3度)或以下，每下降2華氏溫度(1.1攝氏溫度)，你將會減少1%的移動速度。"
+"speed for every 2 (1.1) degrees below 65 F (18.3 C), but only need to eat "
+"about half as much as before."
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Ectothermic"
@@ -69871,8 +69899,9 @@ msgstr "變溫動物"
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your body has become permanently cold-blooded.  Your speed lowers--or raises"
-"--for every 2 (1.1) degrees below or above 65 F (18.3 C)."
-msgstr "你已經是永久的冷血動物。在華氏65度(攝氏18.3度)以上或以下，每增加或下降2華氏溫度(1.1攝氏溫度)，你將會增加或減少1%的移動速度。"
+"--for every 2 (1.1) degrees below or above 65 F (18.3 C).  You only need to "
+"eat half as much as an average human."
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Growling Voice"
@@ -71475,6 +71504,10 @@ msgstr "果園加工處"
 #: lang/json/overmap_terrain_from_json.py
 msgid "orchard stall"
 msgstr "果園地攤"
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "dairy farm"
+msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "abandoned drive-through"
@@ -80681,11 +80714,40 @@ msgstr "工匠季刊：通心粉不再只是食物！學習如何讓它與珠寶
 
 #: lang/json/snippet_from_json.py
 msgid ""
-"UNDERGROUND BUNKER?  Sources in the government suggest that a underground "
+"UNDERGROUND BUNKER?  Sources in the government suggest that an underground "
 "bunker is being built in a secret location in case of enemy attack.  We were"
 " unable to get the exact location as our sources mysteriously disappeared "
 "shortly after revealing this information."
-msgstr "《地下避難所？ 》有官方消息表明，在一處秘密地點，正建造一個地下避難所以防避敵人的攻擊。我們無法得知避難所的確切位置，因為我們的線人透露了這個消息後不久便神秘失踪。"
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"STUDENT MISSING: A high school student vanished yesterday evening in the "
+"forest near Wayland.  The 17-year-old international student from China (who "
+"adopted the anglicized nickname \"Brett\" due to Americans' difficulty "
+"pronouncing his given name) was last seen with his friends in the camp.  "
+"\"Brett said that he was gonna get some firewood but he never came back,\" "
+"said his classmate, Jianxiang Wang.  The search is underway."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"STILL SEARCHING: The search for Brett, the high school student who went "
+"missing three days ago, is still ongoing.  \"He could have played in the "
+"soccer game against Weston High School yesterday,\" Brett's sorrowful "
+"teammate said, \"[..] we've never stopped praying.\"  Despite the best "
+"efforts of the County Search & Rescue, Brett had still not been located at "
+"the time of this report."
+msgstr ""
+
+#: lang/json/snippet_from_json.py
+msgid ""
+"RUMORS DENIED: Allegations that the military had been conducting "
+"teleportation experiments in secret just outside Wayland were put to rest "
+"during a press conference earlier today.  \"I have to clarify that not only "
+"have we never done such research,\" said the officer on the press "
+"conference, \"teleportation only exists in sci-fi films.\""
+msgstr ""
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -81578,7 +81640,7 @@ msgstr "了解"
 msgid "you dig"
 msgstr "你聽的懂嗎"
 
-#: lang/json/snippet_from_json.py
+#: lang/json/snippet_from_json.py src/monster.cpp
 msgid "dig"
 msgstr "懂"
 
@@ -85484,7 +85546,8 @@ msgstr "你繳械了 %s"
 msgid "<npcname> disarms %s"
 msgstr "<npcname> 繳械了 %s"
 
-#: lang/json/technique_from_json.py
+#: lang/json/technique_from_json.py lang/json/technique_from_json.py
+#: src/monster.cpp
 msgid "grab"
 msgstr "擒拿"
 
@@ -87517,6 +87580,14 @@ msgid "low stairs (end section)"
 msgstr "矮梯（結尾部分）"
 
 #: lang/json/terrain_from_json.py
+msgid "milking machine"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "bulk tank"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
 msgid "scorched earth"
 msgstr "焦土"
 
@@ -88374,6 +88445,18 @@ msgstr "自訂"
 #: lang/json/vehicle_from_json.py
 msgid "custom_empty"
 msgstr "custom_empty"
+
+#: lang/json/vehicle_from_json.py
+msgid "Atomic Compact"
+msgstr ""
+
+#: lang/json/vehicle_from_json.py
+msgid "Atomic SUV"
+msgstr ""
+
+#: lang/json/vehicle_from_json.py
+msgid "Atomic Car"
+msgstr ""
 
 #: lang/json/vehicle_from_json.py
 msgid "Double Row Plow"
@@ -92757,13 +92840,39 @@ msgstr ""
 #: src/bionics.cpp
 msgid ""
 "You need to be a lot more numb to tolerate installing bionics.  Note that "
-"painkillers you've already taken might not be fully working yet."
+"painkillers you've already taken could take up to an hour to achieve full "
+"effect."
+msgstr ""
+
+#: src/bionics.cpp
+#, c-format
+msgid ""
+"Intensity of painkillers you've already taken is less than half of the "
+"threshold that will allow you to install bionics.  It will take %i minutes "
+"for painkillers you've already taken to achieve maximum effect."
+msgstr ""
+
+#: src/bionics.cpp
+#, c-format
+msgid ""
+"Intensity of painkillers you've already taken is %i percent of the threshold"
+" that will allow you to install bionics.  It will take %i minutes for "
+"painkillers you've already taken to achieve maximum effect."
 msgstr ""
 
 #: src/bionics.cpp
 msgid ""
 "You aren't quite numb enough to tolerate installing bionics.  Note that "
-"painkillers you've already taken might not be fully working yet."
+"painkillers you've already taken could take up to an hour to achieve full "
+"effect."
+msgstr ""
+
+#: src/bionics.cpp
+#, c-format
+msgid ""
+"Intensity of painkillers you've already taken is more than half of the "
+"threshold that will allow you to install bionics.  It will take %i minutes "
+"for painkillers you've already taken to achieve maximum effect."
 msgstr ""
 
 #: src/bionics.cpp
@@ -93099,12 +93208,12 @@ msgid_plural "%d turns"
 msgstr[0] "%d 回合"
 
 #: src/calendar.cpp
-msgid "Sunday"
-msgstr "星期日"
-
-#: src/calendar.cpp
 msgid "Monday"
 msgstr "星期一"
+
+#: src/calendar.cpp
+msgid "Sunday"
+msgstr "星期日"
 
 #: src/calendar.cpp
 msgid "Tuesday"
@@ -93115,12 +93224,12 @@ msgid "Wednesday"
 msgstr "星期三"
 
 #: src/calendar.cpp
-msgid "Thursday"
-msgstr "星期四"
-
-#: src/calendar.cpp
 msgid "Friday"
 msgstr "星期五"
+
+#: src/calendar.cpp
+msgid "Thursday"
+msgstr "星期四"
 
 #: src/calendar.cpp
 msgid "Saturday"
@@ -94483,6 +94592,12 @@ msgstr "你不能在那建設！"
 msgid "Time to complete: %s"
 msgstr "完成所需時間: %s"
 
+#: src/consumption.cpp src/iuse.cpp src/iuse.cpp src/iuse.cpp
+#: src/iuse_actor.cpp src/iuse_actor.cpp src/iuse_actor.cpp src/mutation.cpp
+#: src/player.cpp
+msgid "You can't do that while underwater."
+msgstr "你無法在水下這樣做。"
+
 #: src/consumption.cpp
 msgid "That doesn't look edible."
 msgstr "這東西看起來不可食用。"
@@ -94496,12 +94611,6 @@ msgstr "以它目前的狀態，看似不能食用。"
 msgid "You need a %s to consume that!"
 msgstr "你需要 %s 才能消化！"
 
-#: src/consumption.cpp src/iuse.cpp src/iuse.cpp src/iuse.cpp
-#: src/iuse_actor.cpp src/iuse_actor.cpp src/iuse_actor.cpp src/mutation.cpp
-#: src/player.cpp
-msgid "You can't do that while underwater."
-msgstr "你無法在水下這樣做。"
-
 #: src/consumption.cpp
 msgid "We can't eat that.  It's not right for us."
 msgstr "我們不能吃那個。這不是給我們的。"
@@ -94511,55 +94620,59 @@ msgid "Ugh, you can't drink that!"
 msgstr "噁，你喝不了那東西！"
 
 #: src/consumption.cpp
-msgid "You're adequately fueled. Prepare for hibernation?"
-msgstr "你已經充分的攝取熱量。準備冬眠了？"
-
-#: src/consumption.cpp
 msgid "Eww.  Inedible plant stuff!"
 msgstr "噁。不能吃的植物！"
 
 #: src/consumption.cpp
-msgid "The thought of eating that makes you feel sick.  You decide not to."
-msgstr "你一想到要把它吃下去就噁心。你決定不吃了。"
+msgid "The thought of eating that makes you feel sick."
+msgstr ""
 
 #: src/consumption.cpp
-msgid "The thought of eating that makes you feel sick.  Really do it?"
-msgstr "你一想到要把它吃下去就噁心。真的要吃嗎？"
+msgid "This is rotten and smells awful!"
+msgstr ""
 
 #: src/consumption.cpp
-#, c-format
-msgid "Really eat that %s?  Your stomach won't be happy."
-msgstr "真的要吃 %s？你的胃可能會不太開心。"
+msgid "The thought of eating human flesh makes you feel sick."
+msgstr ""
 
 #: src/consumption.cpp
-#, c-format
-msgid "This %s smells awful!  Eat it?"
-msgstr "%s 的氣味很難聞！真的要吃嗎？"
+msgid "You still feel nauseous and will probably puke it all up again."
+msgstr ""
+
+#: src/consumption.cpp
+msgid "Your stomach won't be happy (allergy)."
+msgstr ""
 
 #. ~ No, we don't eat "rotten" food. We eat properly aged food, like a normal
 #. person.
 #. ~ Semantic difference, but greatly facilitates people being proud of their
 #. character.
 #: src/consumption.cpp
-msgid "It's too fresh, let it age a little first."
-msgstr "還不夠成熟，再等一下吧。"
+msgid "Your stomach won't be happy (not rotten enough)."
+msgstr ""
 
 #: src/consumption.cpp
-msgid ""
-"You still feel nauseous and will probably puke it all up again.  Eat anyway?"
-msgstr "你還是覺得噁心，很可能會再把它全吐出來了。要吃嗎？"
+msgid "You're full already and will be forcing yourself to eat."
+msgstr ""
 
 #: src/consumption.cpp
-msgid "You're full.  Force yourself to eat?"
-msgstr "你吃飽了，還要再吃嗎？"
+msgid "You will not be able to finish it all."
+msgstr ""
 
 #: src/consumption.cpp
-msgid "You're full, but you cram it into your mouth without a second thought."
-msgstr "你吃飽了，但你想都不想就把它塞進嘴裡。"
+#, c-format
+msgid "Eat your %s anyway?"
+msgstr ""
 
 #: src/consumption.cpp
-msgid "You will not be able to finish it all.  Consume it?"
-msgstr "你將無法全部吃完。食用嗎？"
+#, c-format
+msgid "Drink your %s anyway?"
+msgstr ""
+
+#: src/consumption.cpp
+#, c-format
+msgid "Consume your %s anyway?"
+msgstr ""
 
 #: src/consumption.cpp
 msgctxt "memorial_male"
@@ -94747,25 +94860,48 @@ msgstr "<npcname>把 %s 裝填到他的反應爐中。"
 
 #: src/consumption.cpp
 #, c-format
+msgid "You digest your %s, but fail to acquire energy from it."
+msgstr ""
+
+#: src/consumption.cpp
+#, c-format
 msgid ""
-"Burning this %s in your internal furnace won't give you more energy.  Do it "
-"anyway?"
-msgstr "使用你的內燃機焚燒 %s 並不會提供更多能量。還是要繼續嗎？"
+"<npcname> digests their %s for energy, but fails to acquire energy from it."
+msgstr ""
 
 #: src/consumption.cpp
 #, c-format
-msgid "Burn this %s in your internal furnace (provides %d points of energy)?"
-msgstr "使用你的內燃機焚燒 %s 嗎？（提供 %d 點能量）"
+msgid ""
+"You digest your %s, but you're fully powered already, so the energy is "
+"wasted."
+msgstr ""
 
 #: src/consumption.cpp
 #, c-format
-msgid "You digest your %s for energy."
-msgstr "你把你的%s 消化並轉換成能量。"
+msgid ""
+"<npcname> digests a %s for energy, they're fully powered already, so the "
+"energy is wasted."
+msgstr ""
 
 #: src/consumption.cpp
 #, c-format
-msgid "<npcname> digests a %s. for energy."
-msgstr "<npcname>把%s 消化並轉換成能量。"
+msgid "You digest your %s and recharge %d point of energy."
+msgstr ""
+
+#: src/consumption.cpp
+#, c-format
+msgid "You digest your %s and recharge %d points of energy."
+msgstr ""
+
+#: src/consumption.cpp
+#, c-format
+msgid "<npcname> digests a %s and recharges %d point of energy."
+msgstr ""
+
+#: src/consumption.cpp
+#, c-format
+msgid "<npcname> digests a %s and recharges %d points of energy."
+msgstr ""
 
 #: src/craft_command.cpp src/crafting.cpp src/veh_interact.cpp
 msgid " (nearby)"
@@ -94906,9 +95042,8 @@ msgid_plural "You need a %s with %d charges."
 msgstr[0] "你需要 %s 並有著 %d 電量。"
 
 #: src/crafting.cpp src/game.cpp src/game.cpp src/iexamine.cpp src/iuse.cpp
-#: src/iuse.cpp src/iuse_actor.cpp src/iuse_actor.cpp src/npctalk.cpp
-#: src/npctalk.cpp src/pickup.cpp src/player.cpp src/player.cpp src/player.cpp
-#: src/veh_interact.cpp
+#: src/iuse_actor.cpp src/npctalk.cpp src/npctalk.cpp src/pickup.cpp
+#: src/player.cpp src/player.cpp src/veh_interact.cpp
 msgid "Never mind."
 msgstr "沒事。"
 
@@ -95008,6 +95143,11 @@ msgstr "%2dx %s"
 #: src/crafting_gui.cpp
 msgid "Recipe not memorized yet"
 msgstr "配方尚未記住"
+
+#: src/crafting_gui.cpp
+#, c-format
+msgid "Written in: %s"
+msgstr ""
 
 #: src/crafting_gui.cpp
 #, c-format
@@ -99907,6 +100047,11 @@ msgstr "撕開費洛蒙球"
 
 #: src/game.cpp
 #, c-format
+msgid "Milk %s"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
 msgid "You swap positions with your %s."
 msgstr "你和 %s 互換位置。"
 
@@ -100540,14 +100685,6 @@ msgstr "你太飽了吃不下草。"
 #: src/game.cpp
 msgid "You eat the grass."
 msgstr "你吃下草。"
-
-#: src/game.cpp
-msgid "Consume item"
-msgstr "消耗物品"
-
-#: src/game.cpp
-msgid "You have nothing to consume."
-msgstr "你沒東西可吃。"
 
 #: src/game.cpp
 #, c-format
@@ -101550,8 +101687,8 @@ msgid "You don't have a suitable container for carrying %s."
 msgstr "你沒有適合的容器來裝 %s。"
 
 #: src/game_inventory.cpp
-msgid "Can't pick up liquids"
-msgstr "無法撿起液體"
+msgid "Can't pick up spilt liquids"
+msgstr ""
 
 #: src/game_inventory.cpp
 msgid "Too big to pick up"
@@ -101576,6 +101713,58 @@ msgstr "拆解物品"
 #: src/game_inventory.cpp
 msgid "You don't have any items you could disassemble."
 msgstr "你沒有可拆解的物品。"
+
+#: src/game_inventory.cpp
+msgid "NUTRITION"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "QUENCH"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "JOY"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "SPOILS IN"
+msgstr ""
+
+#: src/game_inventory.cpp src/veh_interact.cpp
+msgid "Battery"
+msgstr "電池"
+
+#: src/game_inventory.cpp
+msgid "Reactor"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "Furnace"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "CBM"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "ENERGY"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "Can't drink spilt liquids"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "You're fully charged"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "Consume item"
+msgstr "消耗物品"
+
+#: src/game_inventory.cpp
+msgid "You have nothing to consume."
+msgstr "你沒東西可吃。"
 
 #: src/game_inventory.cpp
 msgid "ACTION"
@@ -106314,14 +106503,24 @@ msgid "Put the %s where?"
 msgstr "把 %s 放在哪邊？"
 
 #: src/iuse.cpp
-msgid "The dog seems to like you!"
-msgstr "這狗似乎很喜歡你！"
+msgid "Are you sure you want to feed a person the dog food?"
+msgstr "你確定要把寶路餵給人吃？"
+
+#: src/iuse.cpp
+#, c-format
+msgid "You put your %1$s into %2$s's mouth!"
+msgstr "你把你的 %1$s 放到 %2$s 的嘴巴裡！"
 
 #: src/iuse.cpp
 msgid ""
-"The cat seems to like you!  Or maybe it just tolerates your presence better."
-"  It's hard to tell with cats."
-msgstr "貓看起來很喜歡你！或是可能他只是允許你的存在而已。貓的心思猜不透啊。"
+"Okay, but please, don't give me this again.  I don't want to eat dog food in"
+" the cataclysm all day."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
+msgid "%s knocks it out from your hand!"
+msgstr ""
 
 #: src/iuse.cpp
 msgid "You want to feed it the dog food, but it bites your fingers!"
@@ -106334,37 +106533,24 @@ msgid ""
 msgstr "相比你手中的寶路，顯然牠對你的肉更感興趣！"
 
 #: src/iuse.cpp
-#, c-format
-msgid "The %s seems quite unimpressed!"
-msgstr "%s 似乎不為所動！"
-
-#: src/iuse.cpp
-msgid "Are you sure you want to feed a person the dog food?"
-msgstr "你確定要把寶路餵給人吃？"
-
-#: src/iuse.cpp
-msgid "Are you sure you want to feed a person the cat food?"
-msgstr "你確定要把貓罐頭餵給人吃？"
-
-#: src/iuse.cpp
-#, c-format
-msgid "You put your %1$s into %2$s's mouth!"
-msgstr "你把你的 %1$s 放到 %2$s 的嘴巴裡！"
-
-#: src/iuse.cpp
-msgid ""
-"Okay, but please, don't give me this again. I don't want to eat dog food in "
-"the cataclysm all day."
-msgstr "好吧，但請你不要再給我這個。我可不想在大災變中整天吃狗食。"
-
-#: src/iuse.cpp
-#, c-format
-msgid "%s knocks it out from your hand!"
-msgstr ""
+msgid "The dog seems to like you!"
+msgstr "這狗似乎很喜歡你！"
 
 #: src/iuse.cpp
 msgid "There is nothing to be fed here."
 msgstr "這裡沒有能餵飼的目標。"
+
+#: src/iuse.cpp
+msgid ""
+"The cat seems to like you!  Or maybe it just tolerates your presence better."
+"  It's hard to tell with cats."
+msgstr "貓看起來很喜歡你！或是可能他只是允許你的存在而已。貓的心思猜不透啊。"
+
+#: src/iuse.cpp
+#, c-format
+msgid ""
+"The %s seems to like you!  It lets you pat its head and seems friendly."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "You can't see to sew!"
@@ -111751,17 +111937,29 @@ msgstr "臭蟲攻擊 %s"
 msgid "%s but does no damage."
 msgstr "%s 但是沒有造成傷害。"
 
-#. ~ you hit something but do no damage
+#. ~ someone hits something but do no damage
 #: src/melee.cpp
 #, c-format
 msgid "%s but do no damage."
 msgstr "%s 但是沒有造成傷害。"
+
+#. ~ NPC hits something (critical)
+#: src/melee.cpp
+#, c-format
+msgid "%s. Critical!"
+msgstr ""
 
 #. ~ someone hits something for %d damage (critical)
 #: src/melee.cpp
 #, c-format
 msgid "%s for %d damage. Critical!"
 msgstr "%s 造成 %d 傷害。爆擊！"
+
+#. ~ NPC hits something
+#: src/melee.cpp
+#, c-format
+msgid "%s."
+msgstr ""
 
 #. ~ someone hits something for %d damage
 #: src/melee.cpp
@@ -114116,6 +114314,16 @@ msgstr "%s 身上的強酸灼燒著你的手！"
 msgid "Acid sprays out of %s as it is hit!"
 msgstr "%s 被擊中後噴灑出強酸！"
 
+#: src/monexamine.cpp
+#, c-format
+msgid "You milk the %s."
+msgstr ""
+
+#: src/monexamine.cpp
+#, c-format
+msgid "The %s's udders run dry."
+msgstr ""
+
 #: src/monmove.cpp
 #, c-format
 msgid ""
@@ -114179,6 +114387,58 @@ msgid "The %1$s bounces off a %2$s."
 msgstr "%1$s 反彈 %2$s。"
 
 #: src/monster.cpp
+msgid "tiny"
+msgstr ""
+
+#: src/monster.cpp
+msgid "small"
+msgstr ""
+
+#: src/monster.cpp
+msgid "medium"
+msgstr ""
+
+#: src/monster.cpp
+msgid "large"
+msgstr ""
+
+#: src/monster.cpp
+msgid "huge"
+msgstr ""
+
+#: src/monster.cpp
+msgid "Friendly."
+msgstr ""
+
+#: src/monster.cpp
+msgid "Passive."
+msgstr ""
+
+#: src/monster.cpp
+msgid "Fleeing!"
+msgstr ""
+
+#: src/monster.cpp
+msgid "Tracking."
+msgstr ""
+
+#: src/monster.cpp
+msgid "Ignoring."
+msgstr ""
+
+#: src/monster.cpp
+msgid "Zombie slave."
+msgstr ""
+
+#: src/monster.cpp
+msgid "Hostile!"
+msgstr ""
+
+#: src/monster.cpp
+msgid "BUG: Behavior unnamed."
+msgstr ""
+
+#: src/monster.cpp
 msgid "carapace"
 msgstr "甲殼"
 
@@ -114200,73 +114460,132 @@ msgid "the %s's"
 msgstr "%s 的"
 
 #: src/monster.cpp
-msgid "Friendly "
-msgstr "友善 "
+msgid "It is uninjured."
+msgstr ""
 
 #: src/monster.cpp
-msgid "Passive "
-msgstr "被動 "
+msgid "It is lightly injured."
+msgstr ""
 
 #: src/monster.cpp
-msgid "Fleeing! "
-msgstr "逃跑中！ "
+msgid "It is moderately injured."
+msgstr ""
 
 #: src/monster.cpp
-msgid "Ignoring "
-msgstr "不理睬 "
+msgid "It is heavily injured."
+msgstr ""
 
 #: src/monster.cpp
-msgid "Tracking "
-msgstr "追蹤中 "
+msgid "It is severely injured."
+msgstr ""
 
 #: src/monster.cpp
-msgid "Hostile! "
-msgstr "敵對！ "
-
-#: src/monster.cpp
-msgid "Zombie slave "
-msgstr "屍奴 "
-
-#: src/monster.cpp
-msgid "It is uninjured"
-msgstr "毫髮無傷"
-
-#: src/monster.cpp
-msgid "It is lightly injured"
-msgstr "輕微受傷"
-
-#: src/monster.cpp
-msgid "It is moderately injured"
-msgstr "中度受傷"
-
-#: src/monster.cpp
-msgid "It is heavily injured"
-msgstr "重度受傷"
-
-#: src/monster.cpp
-msgid "It is severely injured"
-msgstr "嚴重受創"
-
-#: src/monster.cpp
-msgid "it is nearly dead"
-msgstr "瀕臨死亡"
-
-#: src/monster.cpp
-msgid "On ground"
-msgstr "倒在地上"
-
-#: src/monster.cpp
-msgid "Trapped"
-msgstr "被困住"
-
-#: src/monster.cpp
-msgid "Tied"
-msgstr "繫上"
+msgid "it is nearly dead!"
+msgstr ""
 
 #: src/monster.cpp
 #, c-format
-msgid "This is a %s"
-msgstr "這是 %s"
+msgid "This is a %s. %s"
+msgstr ""
+
+#: src/monster.cpp
+#, c-format
+msgid "<stat>It is %s.</stat>"
+msgstr ""
+
+#: src/monster.cpp
+#, c-format
+msgid "<dark>%s</dark>"
+msgstr ""
+
+#: src/monster.cpp
+#, c-format
+msgid "It is %s in size."
+msgstr ""
+
+#: src/monster.cpp
+msgid "an animal"
+msgstr ""
+
+#: src/monster.cpp
+msgid "a zombie"
+msgstr ""
+
+#: src/monster.cpp
+msgid "a fungus"
+msgstr ""
+
+#: src/monster.cpp
+msgid "an insect"
+msgstr ""
+
+#: src/monster.cpp
+msgid "an aberration"
+msgstr ""
+
+#: src/monster.cpp
+#, c-format
+msgid "It is %s."
+msgstr ""
+
+#: src/monster.cpp
+#, c-format
+msgid "It has the following senses: %s."
+msgstr ""
+
+#: src/monster.cpp
+msgid "hearing"
+msgstr ""
+
+#: src/monster.cpp
+msgid "sight"
+msgstr ""
+
+#: src/monster.cpp
+msgid "smell"
+msgstr ""
+
+#: src/monster.cpp
+msgid "It doesn't have senses."
+msgstr ""
+
+#: src/monster.cpp
+#, c-format
+msgid "It can %s."
+msgstr ""
+
+#: src/monster.cpp
+msgid "swim"
+msgstr ""
+
+#: src/monster.cpp
+msgid "fly"
+msgstr ""
+
+#: src/monster.cpp
+msgid "climb"
+msgstr ""
+
+#: src/monster.cpp
+#, c-format
+msgid "<bad>In fight it can %s.</bad>"
+msgstr ""
+
+#: src/monster.cpp
+msgid "poison"
+msgstr ""
+
+#: src/monster.cpp
+msgid "paralyze"
+msgstr ""
+
+#: src/monster.cpp
+msgid "cause bleed"
+msgstr ""
+
+#: src/monster.cpp
+msgid "It has head."
+msgstr ""
 
 #: src/monster.cpp
 #, c-format
@@ -118082,6 +118401,22 @@ msgstr ""
 msgid ""
 "Use hardware acceleration for the framebuffer when using software rendering."
 "  Requires restart."
+msgstr ""
+
+#: src/options.cpp
+msgid "Multi-pool only"
+msgstr ""
+
+#: src/options.cpp
+msgid "No freeform"
+msgstr ""
+
+#: src/options.cpp
+msgid "Character point pools"
+msgstr ""
+
+#: src/options.cpp
+msgid "Allowed point pools for character generation."
 msgstr ""
 
 #: src/output.cpp
@@ -123181,10 +123516,6 @@ msgstr "距離"
 #: src/veh_interact.cpp
 msgid "Bat"
 msgstr "電"
-
-#: src/veh_interact.cpp
-msgid "Battery"
-msgstr "電池"
 
 #: src/veh_interact.cpp
 #, c-format
