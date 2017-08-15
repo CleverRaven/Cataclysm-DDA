@@ -192,7 +192,7 @@
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "welding_book", 3 ] ],
     "components": [
       [ [ "goggles_ski", 1 ], [ "goggles_swim", 1 ], [ "glasses_safety", 1 ], [ "sunglasses", 1 ] ],
-      [ [ "r_paint", 50 ], [ "b_paint", 50 ], [ "p_paint", 50 ], [ "g_paint", 50 ], [ "y_paint", 50 ], [ "charcoal", 5 ], [ "coal", 5 ] ],
+      [ [ "r_paint", 50 ], [ "b_paint", 50 ], [ "p_paint", 50 ], [ "g_paint", 50 ], [ "y_paint", 50 ], [ "charcoal", 5 ], [ "coal_lump", 5 ], [ "spray_can", 1] ],
       [ [ "duct_tape", 20 ], [ "medical_tape", 20 ] ]
     ]
   },
