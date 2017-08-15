@@ -1675,6 +1675,30 @@
   ]
 },{
   "type" : "recipe",
+  "result": "small_storage_battery",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "fabrication", 1 ],
+  "difficulty": 3,
+  "time": 5000,
+  "reversible": true,
+  "decomp_learn": 3,
+  "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 3]],
+  "qualities" : [ {"id":"SCREW","level":1} ],
+  "tools": [
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ]
+  ],
+  "components": [
+    [ [ "battery car", 4 ] ],
+    [ [ "scrap", 2 ] ],
+    [ [ "cable", 5 ] ]
+  ]
+},{
+  "type" : "recipe",
   "result": "medium_storage_battery",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",
