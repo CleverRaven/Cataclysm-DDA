@@ -2,9 +2,7 @@
   {
     "id": "record_patient",
     "type": "item_group",
-    "items": [
-      [ "record_patient", 100 ]
-    ]
+    "items": [ [ "record_patient", 100 ] ]
   },
   {
     "type": "mapgen",
@@ -57,9 +55,7 @@
       ],
       "computers": {
         "5": {
-          "name": "Medical Supply Access", "options": [
-            { "name": "Unlock Door", "action": "unlock" }
-          ],"failures": [
+          "name": "Medical Supply Access", "options": [ { "name": "Unlock Door", "action": "unlock" } ], "failures": [
             { "action": "shutdown" },
             { "action": "alarm" }
           ]
@@ -68,7 +64,7 @@
           "name": "Medical Supply Access", "options": [
             { "name": "Lock Door", "action": "lock" },
             { "name": "Unlock Door", "action": "unlock" }
-          ],"failures": [
+          ], "failures": [
             { "action": "shutdown" },
             { "action": "alarm" }
           ]
