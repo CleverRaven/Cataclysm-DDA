@@ -14,6 +14,8 @@ struct quality;
 using quality_id = string_id<quality>;
 struct mutation_branch;
 using trait_id = string_id<mutation_branch>;
+struct bionic_data;
+using bionic_id = string_id<bionic_data>;
 
 struct bionic_data {
     bionic_data();
@@ -74,25 +76,23 @@ struct bionic_data {
      * from one CBM item, which is useful as each of those can be
      * activated independently.
      */
-    std::vector<std::string> included_bionics;
-    bool is_included( const std::string &id ) const;
+    std::vector<bionic_id> included_bionics;
+    bool is_included( const bionic_id &id ) const;
 };
 
-bionic_data const &bionic_info( std::string const &id );
-
 struct bionic : public JsonSerializer, public JsonDeserializer {
-    std::string id;
+    bionic_id id;
     int         charge  = 0;
     char        invlet  = 'a';
     bool        powered = false;
 
     bionic()
         : id( "bio_batteries" ) { }
-    bionic( std::string pid, char pinvlet )
+    bionic( bionic_id pid, char pinvlet )
         : id( std::move( pid ) ), invlet( pinvlet ) { }
 
     bionic_data const &info() const {
-        return bionic_info( id );
+        return *id;
     }
 
     int get_quality( const quality_id &quality ) const;
@@ -106,9 +106,8 @@ struct bionic : public JsonSerializer, public JsonDeserializer {
 void check_bionics();
 void reset_bionics();
 void load_bionic( JsonObject &jsobj ); // load a bionic from JSON
-bool is_valid_bionic( std::string const &id );
 char get_free_invlet( player &p );
-std::string list_occupied_bps( const std::string &bio_id, const std::string &intro,
+std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro,
                                const bool each_bp_on_new_line = true );
 
 #endif

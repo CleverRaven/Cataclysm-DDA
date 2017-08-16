@@ -14,6 +14,7 @@
 #include "emit.h"
 #include "units.h"
 #include "damage.h"
+#include "translations.h"
 
 #include <string>
 #include <vector>
@@ -21,10 +22,6 @@
 #include <map>
 #include <bitset>
 #include <memory>
-
-#ifndef gettext_noop
-#define gettext_noop(x) x
-#endif
 
 // see item.h
 class item_category;
@@ -34,6 +31,8 @@ class recipe;
 struct itype;
 class Skill;
 using skill_id = string_id<Skill>;
+struct bionic_data;
+using bionic_id = string_id<bionic_data>;
 class player;
 class item;
 class ma_technique;
@@ -376,7 +375,7 @@ struct islot_gun : common_ranged_data {
     /**
      * Noise displayed when reloading the weapon.
      */
-    std::string reload_noise = gettext_noop( "click." );
+    std::string reload_noise = translate_marker( "click." );
     /**
      * Volume of the noise made when reloading this weapon.
      */
@@ -456,6 +455,8 @@ struct islot_gunmod : common_ranged_data {
 
     /** Firing modes added to or replacing those of the base gun */
     std::map<std::string, std::tuple<std::string, int, std::set<std::string>>> mode_modifier;
+
+    std::set<std::string> ammo_effects;
 
     /** Relative adjustment to base gun handling */
     int handling = 0;
@@ -550,7 +551,7 @@ struct islot_bionic {
     /**
      * Id of the bionic, see bionics.cpp for its usage.
      */
-    std::string bionic_id;
+    bionic_id id;
 };
 
 struct islot_seed {

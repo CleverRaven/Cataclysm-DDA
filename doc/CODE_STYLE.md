@@ -51,13 +51,13 @@ Here's a helpful workflow to astyle some low-hanging fruit:
 make astyle-all
 # List the changed files.
 # |             Sort by number of lines changed.
-# |             |           Truncate away the first part of the list.
-# |             |           |           Truncate away the summary line.
-# |             |           |           |           Trim off the fields except the filename.
-# |             |           |           |           |                 Revert the listed files to the upstream version.
-git diff --stat | sort -k 3 | tail -201 | head -200 | cut -d ' ' -f 2 | xargs git checkout
-# Refresh astyle whitelist with all the files that pass now.
-astyle --dry-run --options=.astylerc src/*.cpp src/*.h | grep Unchanged | cut -d ' ' -f 3 > astyled_whitelist
+# |             |              Truncate away the first part of the list.
+# |             |              |           Truncate away the summary line.
+# |             |              |           |           Trim off the fields except the filename.
+# |             |              |           |           |                 Revert the listed files to the upstream version.
+git diff --stat | sort -g -k 3 | tail -201 | head -200 | cut -d ' ' -f 2 | xargs git checkout
+# Refresh astyle blacklist with all the files that still fail.
+astyle --dry-run --options=.astylerc src/*.cpp src/*.h tests/*.cpp tests/*.h | grep Formatted | cut -d ' ' -f 3 > astyle_blacklist
 # Add the changed files, please examine the changes to make sure they make sense, astyle occasionally messes up.
 git add -p
 # commit and push!

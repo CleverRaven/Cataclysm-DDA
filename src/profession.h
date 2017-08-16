@@ -20,6 +20,8 @@ class JsonObject;
 class addiction;
 struct mutation_branch;
 using trait_id = string_id<mutation_branch>;
+struct bionic_data;
+using bionic_id = string_id<bionic_data>;
 enum add_type : int;
 
     // The weird indentation is thanks to astyle; don't fix it unless you feel like
@@ -66,7 +68,7 @@ enum add_type : int;
         itype_id no_bonus; // See profession::items and class json_item_substitution in profession.cpp
 
         std::vector<addiction> _starting_addictions;
-        std::vector<std::string> _starting_CBMs;
+        std::vector<bionic_id> _starting_CBMs;
         std::vector<trait_id> _starting_traits;
         std::set<std::string> flags; // flags for some special properties of the profession
         StartingSkillList  _starting_skills;
@@ -100,7 +102,7 @@ enum add_type : int;
         signed int point_cost() const;
         std::list<item> items( bool male, const std::vector<trait_id> &traits ) const;
         std::vector<addiction> addictions() const;
-        std::vector<std::string> CBMs() const;
+        std::vector<bionic_id> CBMs() const;
         const StartingSkillList skills() const;
 
         /**

@@ -28,6 +28,7 @@
 #include "rng.h"
 #include <algorithm>
 #include "cata_utility.h"
+#include "color_loader.h"
 
 //TODO replace these includes with filesystem.h
 #ifdef _MSC_VER
@@ -182,7 +183,7 @@ public:
     void OutputChar(long t, int x, int y, unsigned char color);
     virtual void draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const;
 protected:
-    SDL_Texture *ascii[16];
+    std::array<SDL_Texture*, color_loader<SDL_Color>::COLOR_NAMES_COUNT> ascii;
     int tilewidth;
 };
 
@@ -190,9 +191,7 @@ static std::unique_ptr<Font> font;
 static std::unique_ptr<Font> map_font;
 static std::unique_ptr<Font> overmap_font;
 
-std::array<std::string, 16> main_color_names{ { "BLACK","RED","GREEN","BROWN","BLUE","MAGENTA",
-"CYAN","GRAY","DGRAY","LRED","LGREEN","YELLOW","LBLUE","LMAGENTA","LCYAN","WHITE" } };
-static std::array<SDL_Color, 256> windowsPalette;
+static std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> windowsPalette;
 static SDL_Window *window = NULL;
 static SDL_Renderer* renderer = NULL;
 static SDL_PixelFormat *format;
@@ -216,7 +215,6 @@ int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
 static int TERMINAL_WIDTH;
 static int TERMINAL_HEIGHT;
-std::map< std::string,std::vector<int> > consolecolors;
 
 static SDL_Joystick *joystick; // Only one joystick for now.
 
@@ -395,6 +393,9 @@ bool WinCreate()
         }
     }
     if( software_renderer ) {
+        if( get_option<bool>( "FRAMEBUFFER_ACCEL" ) ) {
+            SDL_SetHint( SDL_HINT_FRAMEBUFFER_ACCELERATION, "1" );
+        }
         renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_SOFTWARE | SDL_RENDERER_TARGETTEXTURE );
         if( renderer == NULL ) {
             dbg( D_ERROR ) << "Failed to initialize software renderer: " << SDL_GetError();
@@ -1721,8 +1722,8 @@ int curses_destroy(void)
     return 1;
 }
 
-//copied from gdi version and don't bother to rename it
-inline SDL_Color BGR(int b, int g, int r)
+template<>
+SDL_Color color_loader<SDL_Color>::from_rgb( const int r, const int g, const int b )
 {
     SDL_Color result;
     result.b=b;    //Blue
@@ -1732,72 +1733,12 @@ inline SDL_Color BGR(int b, int g, int r)
     return result;
 }
 
-void load_colors( JsonObject &jsobj )
-{
-    JsonArray jsarr;
-    for( size_t c = 0; c < main_color_names.size(); c++ ) {
-        const std::string &color = main_color_names[c];
-        auto &bgr = consolecolors[color];
-        jsarr = jsobj.get_array( color );
-        bgr.resize( 3 );
-        // Strange ordering, isn't it? Entries in consolecolors are BGR,
-        // the json contains them as RGB.
-        bgr[0] = jsarr.get_int( 2 );
-        bgr[1] = jsarr.get_int( 1 );
-        bgr[2] = jsarr.get_int( 0 );
-    }
-}
-
-// translate color entry in consolecolors to SDL_Color
-inline SDL_Color ccolor( const std::string &color )
-{
-    const auto it = consolecolors.find( color );
-    if( it == consolecolors.end() ) {
-        dbg( D_ERROR ) << "requested non-existing color " << color << "\n";
-        return SDL_Color { 0, 0, 0, 0 };
-    }
-    return BGR( it->second[0], it->second[1], it->second[2] );
-}
 
 // This function mimics the ncurses interface. It must not throw.
 // Instead it should return ERR or OK, see man curs_color
-int curses_start_color( void )
+int start_color()
 {
-    const std::string default_path = FILENAMES["colors"];
-    const std::string custom_path = FILENAMES["base_colors"];
-
-    if ( !file_exist(custom_path) ){
-        std::ifstream src(default_path.c_str(), std::ifstream::in | std::ios::binary);
-        write_to_file_exclusive(custom_path, [&src]( std::ostream &dst ) {
-            dst << src.rdbuf();
-        }, _("base colors") );
-    }
-
-    auto load_colorfile = []( const std::string &path ) {
-        std::ifstream colorfile( path.c_str(), std::ifstream::in | std::ifstream::binary );
-        try {
-            JsonIn jsin( colorfile );
-            // Manually load the colordef object because the json handler isn't loaded yet.
-            jsin.start_array();
-            while( !jsin.end_array() ) {
-                JsonObject jo = jsin.get_object();
-                load_colors( jo );
-                jo.finish();
-            }
-            return OK;
-        } catch( const JsonError &e ) {
-            dbg( D_ERROR ) << "Failed to load color definitions from " << path << ": " << e;
-            return ERR;
-        }
-    };
-
-    if ( load_colorfile(custom_path) == ERR ){
-        load_colorfile(default_path);
-    }
-    for( size_t c = 0; c < main_color_names.size(); c++ ) {
-        windowsPalette[c]  = ccolor( main_color_names[c] );
-    }
-    return OK;
+    return color_loader<SDL_Color>().load( windowsPalette ) ? OK : ERR;
 }
 
 void input_manager::set_timeout( const int t )
@@ -1941,7 +1882,6 @@ int get_terminal_height() {
 BitmapFont::BitmapFont(int w, int h)
 : Font(w, h)
 {
-    memset(ascii, 0x00, sizeof(ascii));
 }
 
 BitmapFont::~BitmapFont()
@@ -1951,7 +1891,7 @@ BitmapFont::~BitmapFont()
 
 void BitmapFont::clear()
 {
-    for (size_t a = 0; a < 16; a++) {
+    for (size_t a = 0; a < ascii.size(); a++) {
         if (ascii[a] != NULL) {
             SDL_DestroyTexture(ascii[a]);
             ascii[a] = NULL;
@@ -1973,17 +1913,17 @@ void BitmapFont::load_font(const std::string &typeface)
     }
     Uint32 key = SDL_MapRGB(asciiload->format, 0xFF, 0, 0xFF);
     SDL_SetColorKey(asciiload,SDL_TRUE,key);
-    SDL_Surface *ascii_surf[16];
+    SDL_Surface *ascii_surf[std::tuple_size<decltype( ascii )>::value];
     ascii_surf[0] = SDL_ConvertSurface(asciiload,format,0);
     SDL_SetSurfaceRLE(ascii_surf[0], true);
     SDL_FreeSurface(asciiload);
 
-    for (size_t a = 1; a < 16; ++a) {
+    for (size_t a = 1; a < std::tuple_size<decltype( ascii )>::value; ++a) {
         ascii_surf[a] = SDL_ConvertSurface(ascii_surf[0],format,0);
         SDL_SetSurfaceRLE(ascii_surf[a], true);
     }
 
-    for (size_t a = 0; a < 16 - 1; ++a) {
+    for (size_t a = 0; a < std::tuple_size<decltype( ascii )>::value - 1; ++a) {
         SDL_LockSurface(ascii_surf[a]);
         int size = ascii_surf[a]->h * ascii_surf[a]->w;
         Uint32 *pixels = (Uint32 *)ascii_surf[a]->pixels;
@@ -1998,7 +1938,7 @@ void BitmapFont::load_font(const std::string &typeface)
     tilewidth = ascii_surf[0]->w / fontwidth;
 
     //convert ascii_surf to SDL_Texture
-    for(int a = 0; a < 16; ++a) {
+    for( size_t a = 0; a < std::tuple_size<decltype( ascii )>::value; ++a) {
         ascii[a] = SDL_CreateTextureFromSurface(renderer,ascii_surf[a]);
         SDL_FreeSurface(ascii_surf[a]);
     }
@@ -2237,6 +2177,12 @@ void play_music(std::string playlist) {
     play_music_file( next.file, next.volume );
 #else
     (void)playlist;
+#endif
+}
+
+void update_music_volume() {
+#ifdef SDL_SOUND
+    Mix_VolumeMusic( get_option<int>( "MUSIC_VOLUME" ) );
 #endif
 }
 

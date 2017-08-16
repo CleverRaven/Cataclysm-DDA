@@ -169,7 +169,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
                 //And if a quantity pointer with remaining value was passed, will modify the external value as a side effect
                 //We will reduce it by the spawn rule's cost multiplier
                 if(quantity) {
-                    *quantity -= it->cost_multiplier * spawn_details.pack_size;
+                    *quantity -= std::max( 1, it->cost_multiplier * spawn_details.pack_size );
                 }
                 monster_found = true;
                 //Otherwise, subtract the frequency from spawn result for the next loop around
@@ -177,6 +177,11 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
                 spawn_chance -= it->frequency;
             }
         }
+    }
+
+    // Force quantity to decrement regardless of whether we found a monster.
+    if( quantity && !monster_found ) {
+        (*quantity)--;
     }
 
     return spawn_details;

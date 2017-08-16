@@ -3726,77 +3726,12 @@ int iuse::firecracker_pack(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You need a source of fire!"));
         return 0;
     }
-    WINDOW *w = newwin(5, 41, (TERMY - 5) / 2, (TERMX - 41) / 2);
-    WINDOW_PTR wptr( w );
-    draw_border(w);
-    int mid_x = getmaxx(w) / 2;
-    int tmpx = 5;
-    // TODO: Should probably be a input box anyway.
-    mvwprintz(w, 1, 2, c_white, _("How many do you want to light? (1-%d)"), it->charges);
-    mvwprintz(w, 2, mid_x, c_white, "1");
-    tmpx += shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<I>ncrease")) + 1;
-    tmpx += shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<D>ecrease")) + 1;
-    tmpx += shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<A>ccept")) + 1;
-    shortcut_print(w, 3, tmpx, c_white, c_ltred, _("<C>ancel"));
-    wrefresh(w);
-    bool close = false;
-    long charges = 1;
-    // TODO: use input context
-    char ch = inp_mngr.get_input_event().get_first_input();
-    while (!close) {
-        if (ch == 'I') {
-            charges++;
-            if (charges > it->charges) {
-                charges = it->charges;
-            }
-            mvwprintz(w, 2, mid_x, c_white, "%d", charges);
-            wrefresh(w);
-        } else if (ch == 'D') {
-            charges--;
-            if (charges < 1) {
-                charges = 1;
-            }
-            mvwprintz(w, 2, mid_x, c_white, "%d ",
-                      charges); //Trailing space clears the second digit when decreasing from 10 to 9
-            wrefresh(w);
-        } else if (ch == 'A') {
-            p->use_charges("fire", 1);
-            if (charges == it->charges) {
-                p->add_msg_if_player(_("You light the pack of firecrackers."));
-                it->convert( "firecracker_pack_act" );
-                it->charges = charges;
-                it->bday = calendar::turn;
-                it->active = true;
-                return 0; // don't use any charges at all. it has became a new item
-            } else {
-                if (charges == 1) {
-                    p->add_msg_if_player(_("You light one firecracker."));
-                    item new_it = item("firecracker_act", int(calendar::turn));
-                    new_it.charges = 2;
-                    new_it.active = true;
-                    p->i_add(new_it);
-                } else {
-                    p->add_msg_if_player(ngettext("You light a string of %d firecracker.",
-                                                  "You light a string of %d firecrackers.", charges), charges);
-                    item new_it = item("firecracker_pack_act", int(calendar::turn));
-                    new_it.charges = charges;
-                    new_it.active = true;
-                    p->i_add(new_it);
-                }
-                if (it->charges == 1) {
-                    it->convert( "firecracker" );
-                }
-            }
-            close = true;
-        } else if (ch == 'C') {
-            return 0; // don't use any charges at all
-        }
-        if (!close) {
-            // TODO: rewrite loop so this is only called at one place
-            ch = inp_mngr.get_input_event().get_first_input();
-        }
-    }
-    return charges;
+    p->add_msg_if_player(_("You light the pack of firecrackers."));
+    it->convert( "firecracker_pack_act" );
+    it->charges = 26;
+    it->bday = calendar::turn;
+    it->active = true;
+    return 0; // don't use any charges at all. it has became a new item
 }
 
 int iuse::firecracker_pack_act(player *, item *it, bool, const tripoint &pos)
@@ -3807,7 +3742,7 @@ int iuse::firecracker_pack_act(player *, item *it, bool, const tripoint &pos)
         sounds::sound(pos, 0, _("ssss..."));
         it->inc_damage();
     } else if (it->charges > 0) {
-        int ex = rng(3, 5);
+        int ex = rng(4, 6);
         int i = 0;
         if (ex > it->charges) {
             ex = it->charges;
@@ -4310,7 +4245,7 @@ int iuse::dog_whistle(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::vacutainer(player *p, item *it, bool, const tripoint& )
+int iuse::blood_draw(player *p, item *it, bool, const tripoint& )
 {
     if (p->is_npc()) {
         return 0;    // No NPCs for now!
@@ -4363,17 +4298,23 @@ void iuse::cut_log_into_planks(player *p)
     p->add_msg_if_player(_("You cut the log into planks."));
     item plank("2x4", int(calendar::turn));
     item scrap("splinter", int(calendar::turn));
+    const int max_planks = 10;
     /** @EFFECT_FABRICATION increases number of planks cut from a log */
-    int planks = (rng(1, 3) + (p->get_skill_level( skill_fabrication ) * 2));
-    int scraps = 12 - planks;
-    if (planks >= 12) {
-        planks = 12;
+    int planks = normal_roll( 2 + p->get_skill_level( skill_fabrication ), 1 );
+    int wasted_planks = max_planks - planks;
+    int scraps = rng( wasted_planks, wasted_planks * 3 );
+    planks = std::min( planks, max_planks );
+    if( planks > 0 ) {
+        p->i_add_or_drop( plank, planks );
+        p->add_msg_if_player( m_good, _( "You produce %d planks." ), planks );
     }
-    if (scraps >= planks) {
-        add_msg(m_bad, _("You waste a lot of the wood."));
+    if( scraps > 0 ) {
+        p->i_add_or_drop( scrap, scraps );
+        p->add_msg_if_player( m_good, _( "You produce %d splinters." ), scraps );
     }
-    p->i_add_or_drop(plank, planks);
-    p->i_add_or_drop(scrap, scraps);
+    if( planks < max_planks / 2 ) {
+        add_msg( m_bad, _("You waste a lot of the wood.") );
+    }
 }
 
 int iuse::lumber(player *p, item *it, bool t, const tripoint& )
@@ -4909,6 +4850,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                         }
                     }
                 }
+                break;
 
             case AEA_ENTRANCE:
                 for (int x = p->posx() - 8; x <= p->posx() + 8; x++) {
@@ -6727,7 +6669,7 @@ int iuse::ehandcuffs(player *p, item *it, bool t, const tripoint &pos)
         }
 
         if( p->has_item( *it ) ) {
-            if (p->has_active_bionic("bio_shock") && p->power_level >= 2 && one_in(5)) {
+            if (p->has_active_bionic( bionic_id( "bio_shock" ) ) && p->power_level >= 2 && one_in(5)) {
                 p->charge_power(-2);
 
                 it->item_tags.erase("NO_UNWIELD");
@@ -7705,7 +7647,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint& )
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         /* windpower defined in internal velocity units (=.01 mph) */
         int windpower = int(100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
-                                                          cur_om_ter->get_name(), g->is_sheltered( g->u.pos() ) ) );
+                                                          cur_om_ter, g->is_sheltered( g->u.pos() ) ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
                               convert_velocity( windpower, VU_WIND ),
@@ -7905,7 +7847,7 @@ int iuse::saw_barrel( player *p, item *, bool t, const tripoint& )
 int iuse::washclothes( player *p, item *it, bool, const tripoint& )
 {
     if( it->charges < it->type->charges_to_use() ) {
-        p->add_msg_if_player( _( "You need a soap to use this." ) );
+        p->add_msg_if_player( _( "You need a cleansing agent to use this." ) );
         return 0;
     }
 

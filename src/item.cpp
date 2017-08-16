@@ -778,7 +778,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         if( !mat_types.empty() ) {
             const std::string material_list = enumerate_as_string( mat_types.begin(), mat_types.end(),
             []( const material_type *material ) {
-                return string_format( "<stat>%s</stat>", material->name().c_str() );
+                return string_format( "<stat>%s</stat>", _( material->name().c_str() ) );
             }, false );
             info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list.c_str() ) ) );
         }
@@ -828,7 +828,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         info.push_back( iteminfo( "FOOD", _( "Portions: " ), "", abs( int( food_item->charges ) ) ) );
         if( food_item->corpse != NULL && ( debug == true || ( g != NULL &&
-                                           ( g->u.has_bionic( "bio_scent_vision" ) || g->u.has_trait( trait_id( "CARNIVORE" ) ) ||
+                                           ( g->u.has_bionic( bionic_id( "bio_scent_vision" ) ) || g->u.has_trait( trait_id( "CARNIVORE" ) ) ||
                                              g->u.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) ) ) {
             info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
         }
@@ -871,7 +871,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                string_format( _( "* This food is <neutral>perishable</neutral>, and takes <info>%s</info> to rot from full freshness, at room temperature." ),
                                               rot_time.c_str() ) );
             if( food_item->rotten() ) {
-                if( g->u.has_bionic( "bio_digestion" ) ) {
+                if( g->u.has_bionic( bionic_id( "bio_digestion" ) ) ) {
                     info.push_back( iteminfo( "DESCRIPTION",
                                               _( "This food has started to <neutral>rot</neutral>, but <info>your bionic digestion can tolerate it</info>." ) ) );
                 } else if( g->u.has_trait( trait_id( "SAPROVORE" ) ) ) {
@@ -991,6 +991,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         insert_separation_line();
+
+        int max_gun_range = mod->gun_range( &g->u );
+        if( max_gun_range > 0 ) {
+            info.emplace_back( "GUN", space + _( "Maximum range: " ), "<num>", max_gun_range );
+        }
 
         int aim_mv = g->u.gun_engagement_moves( *mod );
         if( aim_mv > 0 ) {
@@ -1492,7 +1497,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         } else if( idescription != item_vars.end() ) {
             info.push_back( iteminfo( "DESCRIPTION", idescription->second ) );
         } else {
-            info.push_back( iteminfo( "DESCRIPTION", type->description ) );
+            info.push_back( iteminfo( "DESCRIPTION", _( type->description.c_str() ) ) );
         }
         auto all_techniques = type->techniques;
         all_techniques.insert( techniques.begin(), techniques.end() );
@@ -1636,7 +1641,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         // @todo Unhide when enforcing limits
         if( is_bionic() && g->u.has_trait( trait_id( "DEBUG_CBM_SLOTS" ) ) ) {
-            info.push_back( iteminfo( "DESCRIPTION", list_occupied_bps( typeId(),
+            info.push_back( iteminfo( "DESCRIPTION", list_occupied_bps( type->bionic->id,
                 _( "This bionic is installed in the following body part(s):" ) ) ) );
         }
 
@@ -1790,10 +1795,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 }
                 insert_separation_line();
                 info.emplace_back( "DESCRIPTION", temp1.str() );
-                info.emplace_back( "DESCRIPTION", mod->type->description );
+                info.emplace_back( "DESCRIPTION", _( mod->type->description.c_str() ) );
             }
             if( !contents.front().type->mod ) {
-                info.emplace_back( "DESCRIPTION", contents.front().type->description );
+                info.emplace_back( "DESCRIPTION", _( contents.front().type->description.c_str() ) );
             }
         }
 
@@ -1952,7 +1957,8 @@ nc_color item::color_in_inventory() const
         // ltred if you have ammo but no mags
         // Gun with integrated mag counts as both
         ammotype amtype = ammo_type();
-        bool has_ammo = !u->find_ammo( *this, false, -1 ).empty();
+        // get_ammo finds uncontained ammo, find_ammo finds ammo in magazines
+        bool has_ammo = !u->get_ammo( amtype ).empty() || !u->find_ammo( *this, false, -1 ).empty();
         bool has_mag = magazine_integral() || !u->find_ammo( *this, true, -1 ).empty();
         if( has_ammo && has_mag ) {
             ret = c_green;
@@ -1963,9 +1969,13 @@ nc_color item::color_in_inventory() const
         // Likewise, ammo is green if you have guns that use it
         // ltred if you have the gun but no mags
         // Gun with integrated mag counts as both
-        ammotype amtype = ammo_type();
-        bool has_gun = u->has_gun_for_ammo( amtype );
-        bool has_mag = u->has_magazine_for_ammo( amtype );
+        bool has_gun = u->has_item_with( [this]( const item &i ) {
+            return i.is_gun() && type->ammo->type.count( i.ammo_type() );
+        } );
+        bool has_mag = u->has_item_with( [this]( const item &i ) {
+            return ( i.is_gun() && i.magazine_integral() && type->ammo->type.count( i.ammo_type() ) ) ||
+                ( i.is_magazine() && type->ammo->type.count( i.ammo_type() ) );
+        } );
         if( has_gun && has_mag ) {
             ret = c_green;
         } else if( has_gun || has_mag ) {
@@ -2003,8 +2013,8 @@ nc_color item::color_in_inventory() const
             ret = c_red; // Book hasn't been identified yet: red
         }
     } else if (is_bionic()) {
-        if (!u->has_bionic(typeId())) {
-            ret = u->bionic_installation_issues( typeId() ).empty() ? c_green : c_red;
+        if( !u->has_bionic( type->bionic->id ) ) {
+            ret = u->bionic_installation_issues( type->bionic->id ).empty() ? c_green : c_red;
         }
     }
     return ret;
@@ -2404,6 +2414,11 @@ int item::price( bool practical ) const
 int item::weight( bool include_contents ) const
 {
     if( is_null() ) {
+        return 0;
+    }
+
+    // Items that don't drop aren't really there, they're items just for ease of implementation
+    if( has_flag( "NO_DROP" ) ) {
         return 0;
     }
 
@@ -4284,6 +4299,11 @@ std::set<std::string> item::ammo_effects( bool with_ammo ) const
     if( with_ammo && ammo_data() ) {
         res.insert( ammo_data()->ammo->ammo_effects.begin(), ammo_data()->ammo->ammo_effects.end() );
     }
+
+    for( const auto mod : gunmods() ) {
+            res.insert( mod->type->gunmod->ammo_effects.begin(), mod->type->gunmod->ammo_effects.end() );
+    }
+
     return res;
 }
 
@@ -4799,7 +4819,7 @@ bool item::reload( player &u, item_location loc, long qty )
     return true;
 }
 
-bool item::burn( fire_data &frd )
+bool item::burn( fire_data &frd, bool contained)
 {
     const auto &mats = made_of();
     float smoke_added = 0.0f;
@@ -4813,8 +4833,13 @@ bool item::burn( fire_data &frd )
             return false;
         }
 
-        if( bd.chance_in_volume == 0 || bd.chance_in_volume >= vol ||
-            x_in_y( bd.chance_in_volume, vol ) ) {
+        // If fire is contained, burn all of it continously
+        if( bd.chance_in_volume == 0 ||  !contained ) {
+            time_added += bd.fuel;
+            smoke_added += bd.smoke;
+            burn_added += bd.burn;
+
+        } else if( bd.chance_in_volume >= vol || x_in_y( bd.chance_in_volume, vol ) ){
             time_added += bd.fuel;
             smoke_added += bd.smoke;
             burn_added += bd.burn;
