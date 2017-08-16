@@ -32,6 +32,9 @@
         "s WWWWW    ss    WWWWW s",
         "ssssssssssssssssssssssss"
       ],
+      "palettes": [
+        "church"
+      ],
       "mapping": {
         "b": {
           "traps": "tr_brazier"
@@ -40,11 +43,8 @@
       "terrain": {
         "#": "t_rock_floor",
         "$": "t_shrub",
-        "+": "t_door_c",
-        "-": "t_wall",
         ".": "t_rock_floor",
         "b": "t_rock_floor",
-        "6": "t_console",
         "B": "t_window_stained_blue",
         "C": "t_floor",
         "G": "t_window_stained_green",
@@ -58,19 +58,7 @@
         "h": "t_rock_floor",
         "l": "t_rock_floor",
         "r": "t_railing_h",
-        "s": "t_sidewalk",
-        "t": "t_rock_floor",
-        "|": "t_wall"
-      },
-      "furniture": {
-        "#": "f_bench",
-        "C": "f_crate_c",
-        "S": "f_sink",
-        "T": "f_toilet",
-        "c": "f_counter",
-        "h": "f_chair",
-        "l": "f_locker",
-        "t": "f_table"
+        "t": "t_rock_floor"
       },
       "items": {
         "#": { "item": "church", "chance": 70 },

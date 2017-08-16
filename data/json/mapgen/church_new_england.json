@@ -32,46 +32,13 @@
         "      ^^    ss    ^^   s ",
         "      ^^    ss    ^^   s "
       ],
+      "palettes": [
+        "church"
+      ],
       "mapping": {
         "b": {
           "traps": "tr_brazier"
         }
-      },
-      "terrain": {
-        "#": "t_floor",
-        "+": "t_door_c",
-        "-": "t_wall",
-        ".": "t_floor",
-        "6": "t_console",
-        "=": "t_door_locked_alarm",
-        "D": "t_door_locked",
-        "O": "t_column",
-        "S": "t_floor",
-        "T": "t_floor",
-        "^": "t_shrub",
-        "c": "t_floor",
-        "b": "t_floor",
-        "d": "t_floor",
-        "e": "t_floor",
-        "h": "t_floor",
-        "l": "t_floor",
-        "o": "t_floor",
-        "s": "t_sidewalk",
-        "t": "t_floor",
-        "w": "t_window",
-        "|": "t_wall"
-      },
-      "furniture": {
-        "#": "f_bench",
-        "S": "f_sink",
-        "T": "f_toilet",
-        "c": "f_counter",
-        "d": "f_desk",
-        "e": "f_fridge",
-        "h": "f_chair",
-        "l": "f_locker",
-        "o": "f_bookcase",
-        "t": "f_table"
       },
       "items": {
         "#": { "item": "church", "chance": 40 },
