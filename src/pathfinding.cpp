@@ -121,14 +121,24 @@ tripoint vertical_move_destination( const map &m, const tripoint &t )
 
     constexpr int omtileszx = SEEX * 2;
     constexpr int omtileszy = SEEY * 2;
-    real_coords rc( m.getabs( t.x, t.y ) );
-    point omtile_align_start(
-        m.getlocal( rc.begin_om_pos() )
-    );
+    static const point omtile_offset( omtileszx, omtileszy );
+    point upper_left;
+    point lower_right;
+    if( !proper_stairs ) {
+        real_coords rc( m.getabs( t.x, t.y ) );
+        point omtile_align_start(
+            m.getlocal( rc.begin_om_pos() )
+        );
+        upper_left = omtile_align_start;
+        lower_right = omtile_align_start + omtile_offset;
+    } else {
+        upper_left = point( t.x, t.y );
+        lower_right = upper_left + point( 1, 1 );
+    }
 
     const auto &pf_cache = m.get_pathfinding_cache_ref( t.z );
-    for( int x = omtile_align_start.x; x < omtile_align_start.x + omtileszx; x++ ) {
-        for( int y = omtile_align_start.y; y < omtile_align_start.y + omtileszy; y++ ) {
+    for( int x = upper_left.x; x < lower_right.x; x++ ) {
+        for( int y = upper_left.y; y < lower_right.y; y++ ) {
             if( pf_cache.special[x][y] & PF_UPDOWN ) {
                 const tripoint p( x, y, t.z );
                 if( m.has_flag( flag, p ) ) {

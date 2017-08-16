@@ -12523,7 +12523,7 @@ void game::vertical_move(int movez, bool force)
     bool actually_moved = true;
     // TODO: Remove the stairfinding, make the mapgen gen aligned maps
     if( !force && !climbing ) {
-        stairs = find_or_make_stairs( maybetmp, z_after, rope_ladder );
+        stairs = find_or_make_stairs( maybetmp, u.pos(), z_after, rope_ladder );
         actually_moved = stairs != tripoint_min;
     }
 
@@ -12634,18 +12634,25 @@ void game::vertical_move(int movez, bool force)
     m.creature_on_trap( u, !force );
 }
 
-tripoint game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder )
+tripoint game::find_or_make_stairs( map &mp, const tripoint &other_stairs, const int z_after, bool &rope_ladder )
 {
     const int omtilesz = SEEX * 2;
     real_coords rc( m.getabs(u.posx(), u.posy()) );
-    tripoint omtile_align_start( m.getlocal(rc.begin_om_pos()), z_after );
-    tripoint omtile_align_end( omtile_align_start.x + omtilesz - 1, omtile_align_start.y + omtilesz - 1, omtile_align_start.z );
+    tripoint upper_left( m.getlocal(rc.begin_om_pos()), z_after );
+    tripoint lower_right( upper_left.x + omtilesz - 1, upper_left.y + omtilesz - 1, upper_left.z );
+    const int movez = z_after - get_levz();
+    if( proper_stairs ) {
+        // Aligned stairs mode: no searching!
+        tripoint stairs_location = other_stairs + tripoint( 0, 0, movez );
+        upper_left = stairs_location;
+        lower_right = stairs_location;
+    }
 
     // Try to find the stairs.
     tripoint stairs = tripoint_min;
     int best = INT_MAX;
-    const int movez = z_after - get_levz();
-    for( const tripoint &dest : m.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
+    
+    for( const tripoint &dest : m.points_in_rectangle( upper_left, lower_right ) ) {
         if( rl_dist( u.pos(), dest ) <= best &&
             ((movez == -1 && mp.has_flag("GOES_UP", dest)) ||
              (movez == 1 && (mp.has_flag("GOES_DOWN", dest) ||
