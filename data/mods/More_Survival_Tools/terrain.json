@@ -47,7 +47,7 @@
         { "item": "tarp", "count": 1 }
       ]
     },
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE" ]
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE", "EASY_DECONSTRUCT" ]
   },
   {
     "id": "t_wall_wattle_half",
@@ -137,6 +137,6 @@
         { "item": "tarp", "count": 1 }
       ]
     },
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE" ]
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "EASY_DECONSTRUCT" ]
   }
 ]

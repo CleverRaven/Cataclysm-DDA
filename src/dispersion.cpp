@@ -2,7 +2,8 @@
 
 #include "rng.h"
 
-double dispersion_sources::roll() const {
+double dispersion_sources::roll() const
+{
     double this_roll = 0.0;
     for( const double &source : linear_sources ) {
         this_roll += rng_float( 0.0, source );
@@ -16,7 +17,8 @@ double dispersion_sources::roll() const {
     return this_roll;
 }
 
-double dispersion_sources::max() const {
+double dispersion_sources::max() const
+{
     double sum = 0.0;
     for( const double &source : linear_sources ) {
         sum += source;
@@ -30,7 +32,8 @@ double dispersion_sources::max() const {
     return sum;
 }
 
-double dispersion_sources::avg() const {
+double dispersion_sources::avg() const
+{
     return max() / 2.0;
 }
 

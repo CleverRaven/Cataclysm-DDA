@@ -17,6 +17,16 @@
         "post_special" : "done_deconstruct"
     },{
         "type" : "construction",
+        "description" : "Deconstruct Simple Furniture",
+        "category" : "FURN",
+        "required_skills" : [ [ "fabrication", 0 ] ],
+        "time" : 10,
+        "pre_note" : "Certain terrain and furniture can be deconstructed without any tools.",
+        "pre_flags" : "EASY_DECONSTRUCT",
+        "pre_special" : "check_deconstruct",
+        "post_special" : "done_deconstruct"
+    },{
+        "type" : "construction",
         "description" : "Dig Pit", "//": "Step 1: shallow pit",
         "category" : "DIG",
         "required_skills" : [ [ "survival", 0 ] ],
@@ -175,6 +185,7 @@
             [ [ "stick", 1 ] ],
             [ [ "withered", 12 ], [ "straw_pile", 12 ], [ "string_36", 1 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "t_door_curtain_c"
     },{
@@ -190,6 +201,7 @@
             [ [ "2x4", 6 ], [ "stick", 6 ] ],
             [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_terrain" : "t_door_frame",
         "post_terrain" : "t_door_makeshift_c"
     },{
@@ -877,6 +889,7 @@
             [ [ "bag_canvas", 2 ] ],
             [ [ "material_sand", 20 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "f_sandbag_half"
     },{
@@ -889,6 +902,7 @@
             [ [ "bag_canvas", 4 ] ],
             [ [ "material_sand", 40 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_terrain" : "f_sandbag_half",
         "post_terrain" : "f_sandbag_wall"
     },{
@@ -1231,7 +1245,7 @@
             [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ],
             [ [ "stick", 8 ], [ "2x4", 8 ] ]
         ],
-        "pre_note" : "Must be adjacent to a palisade wall that is itself adjacent to a palisade gate in order to open said gate.",
+        "pre_note" : "Can be deconstructed without tools.  Must be adjacent to a palisade wall that is itself adjacent to a palisade gate in order to open said gate.",
         "pre_special" : "check_empty",
         "post_terrain" : "t_palisade_pulley"
     },{
@@ -1639,6 +1653,7 @@
             [ [ "2x4", 4 ] ],
             [ [ "straw_pile", 8 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "f_straw_bed"
     },{
@@ -1825,6 +1840,7 @@
         "components" : [
             [ [ "anvil", 1 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "f_anvil"
     },{
@@ -1836,6 +1852,7 @@
         "components" : [
             [ [ "char_forge", 1 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "f_forge"
     },{
@@ -1847,6 +1864,7 @@
         "components" : [
             [ [ "still", 1 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "f_still"
     },{
@@ -2220,6 +2238,7 @@
         "components" : [
             [ [ "rock", 40 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "f_kiln_empty"
     },{
@@ -2258,6 +2277,7 @@
             [ [ "stick", 16 ], [ "2x4", 16 ] ],
             [ [ "rock", 8 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "f_smoking_rack"
     },{
@@ -2273,6 +2293,7 @@
         "components" : [
             [ [ "rock", 40 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "f_forge_rock"
     },{
@@ -2289,6 +2310,7 @@
             [ [ "material_cement", 50 ], [ "mortar_build", 1 ], [ "clay_lump", 12 ] ],
             [ [ "water", 2 ], [ "water_clean", 2 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "f_clay_kiln"
     },{

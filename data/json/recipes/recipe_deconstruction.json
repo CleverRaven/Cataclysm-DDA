@@ -192,7 +192,7 @@
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
       [ [ "lead", 5 ] ],
-      [ [ "38_casing", 1 ] ],
+      [ [ "32_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder", 4 ] ]
     ],
@@ -2451,7 +2451,7 @@
       [ [ "cable", 2 ] ],
       [ [ "pot", 1 ] ],
       [ [ "e_scrap", 1 ] ],
-      [ [ "motor_small", 1 ] ]    
+      [ [ "motor_small", 1 ] ]
     ]
   }
 ]

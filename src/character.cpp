@@ -439,7 +439,7 @@ void Character::recalc_sight_limits()
         sight_max = 1;
         vision_mode_cache.set( BOOMERED );
     } else if (has_effect( effect_in_pit ) ||
-            (underwater && !has_bionic("bio_membrane") &&
+            (underwater && !has_bionic( bionic_id( "bio_membrane" ) ) &&
                 !has_trait( trait_MEMBRANE ) && !worn_with_flag("SWIM_GOGGLES") &&
                 !has_trait( trait_CEPH_EYES ) && !has_trait( trait_PER_SLIME_OK ) ) ) {
         sight_max = 1;
@@ -493,7 +493,7 @@ void Character::recalc_sight_limits()
     }
 
     // Not exactly a sight limit thing, but related enough
-    if( has_active_bionic( "bio_infrared" ) ||
+    if( has_active_bionic( bionic_id( "bio_infrared" ) ) ||
         has_trait( trait_id( "INFRARED" ) ) ||
         has_trait( trait_id( "LIZ_IR" ) ) ||
         worn_with_flag( "IR_EFFECT" ) ) {
@@ -544,7 +544,7 @@ float Character::get_vision_threshold( float light_level ) const {
     return std::min( (float)LIGHT_AMBIENT_LOW, threshold_for_range( range ) * dimming_from_light );
 }
 
-bool Character::has_bionic(const std::string & b) const
+bool Character::has_bionic(const bionic_id &b) const
 {
     for (auto &i : my_bionics) {
         if (i.id == b) {
@@ -554,7 +554,7 @@ bool Character::has_bionic(const std::string & b) const
     return false;
 }
 
-bool Character::has_active_bionic(const std::string & b) const
+bool Character::has_active_bionic(const bionic_id &b) const
 {
     for (auto &i : my_bionics) {
         if (i.id == b) {
@@ -899,7 +899,7 @@ units::volume Character::volume_capacity_reduced_by( units::volume mod ) const
     for (auto &i : worn) {
         ret += i.get_storage();
     }
-    if (has_bionic("bio_storage")) {
+    if( has_bionic( bionic_id( "bio_storage" ) ) ) {
         ret += 2000_ml;
     }
     if( has_trait( trait_SHELL ) ) {
@@ -1157,15 +1157,15 @@ void Character::die(Creature* nkiller)
 void Character::reset_stats()
 {
     // Bionic buffs
-    if (has_active_bionic("bio_hydraulics"))
+    if (has_active_bionic( bionic_id( "bio_hydraulics" ) ) )
         mod_str_bonus(20);
-    if (has_bionic("bio_eye_enhancer"))
+    if (has_bionic( bionic_id( "bio_eye_enhancer" ) ) )
         mod_per_bonus(2);
-    if (has_bionic("bio_str_enhancer"))
+    if (has_bionic( bionic_id( "bio_str_enhancer" ) ) )
         mod_str_bonus(2);
-    if (has_bionic("bio_int_enhancer"))
+    if (has_bionic( bionic_id( "bio_int_enhancer" ) ) )
         mod_int_bonus(2);
-    if (has_bionic("bio_dex_enhancer"))
+    if (has_bionic( bionic_id( "bio_dex_enhancer" ) ) )
         mod_dex_bonus(2);
 
     // Trait / mutation buffs
@@ -1263,7 +1263,7 @@ bool Character::has_nv()
     if( !nv_cached ) {
         nv_cached = true;
         nv = (worn_with_flag("GNV_EFFECT") ||
-              has_active_bionic("bio_night_vision"));
+              has_active_bionic( bionic_id( "bio_night_vision" ) ) );
     }
 
     return nv;
@@ -1286,6 +1286,21 @@ std::array<encumbrance_data, num_bp> Character::calc_encumbrance( const item &ne
     item_encumb( ret, new_item );
     mut_cbm_encumb( ret );
 
+    return ret;
+}
+
+int Character::get_weight() const
+{
+    int ret = 0;
+    int wornWeight = std::accumulate( worn.begin(), worn.end(), 0,
+                     []( int sum, const item &itm ) {
+                        return sum + itm.weight();
+                     } );
+
+    ret += Creature::get_weight(); // The base weight of the player's body
+    ret += inv.weight();           // Weight of the stored inventory
+    ret += wornWeight;             // Weight of worn items
+    ret += weapon.weight();        // Weight of wielded item
     return ret;
 }
 
@@ -1410,7 +1425,7 @@ void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
 
 void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) const
 {
-    if( has_bionic("bio_stiff") ) {
+    if( has_bionic( bionic_id( "bio_stiff" ) ) ) {
         // All but head, mouth and eyes
         for( auto &val : vals ) {
             val.encumbrance += 10;
@@ -1421,14 +1436,14 @@ void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) con
         vals[bp_eyes].encumbrance -= 10;
     }
 
-    if( has_bionic("bio_nostril") ) {
+    if( has_bionic( bionic_id( "bio_nostril" ) ) ) {
         vals[bp_mouth].encumbrance += 10;
     }
-    if( has_bionic("bio_thumbs") ) {
+    if( has_bionic( bionic_id( "bio_thumbs" ) ) ) {
         vals[bp_hand_l].encumbrance += 10;
         vals[bp_hand_r].encumbrance += 10;
     }
-    if( has_bionic("bio_pokedeye") ) {
+    if( has_bionic( bionic_id( "bio_pokedeye" ) ) ) {
         vals[bp_eyes].encumbrance += 10;
     }
 
@@ -1577,6 +1592,9 @@ void Character::mod_healthy_mod(int nhealthy_mod, int cap)
     // Cap indicates how far the mod is allowed to shift in this direction.
     // It can have a different sign to the mod, e.g. for items that treat
     // extremely low health, but can't make you healthy.
+    if( nhealthy_mod == 0 || cap == 0 ) {
+        return;
+    }
     int low_cap;
     int high_cap;
     if( nhealthy_mod < 0 ) {
@@ -1696,6 +1714,10 @@ void Character::reset_bonuses()
 
 void Character::update_health(int external_modifiers)
 {
+    if( has_artifact_with( AEP_SICK ) ) {
+        // Carrying a sickness artifact makes your health 50 points worse on average
+        external_modifiers -= 50;
+    }
     // Limit healthy_mod to [-200, 200].
     // This also sets approximate bounds for the character's health.
     if( get_healthy_mod() > 200 ) {
@@ -1706,25 +1728,21 @@ void Character::update_health(int external_modifiers)
 
     // Active leukocyte breeder will keep your health near 100
     int effective_healthy_mod = get_healthy_mod();
-    if( has_active_bionic( "bio_leukocyte" ) ) {
+    if( has_active_bionic( bionic_id( "bio_leukocyte" ) ) ) {
         // Side effect: dependency
         mod_healthy_mod( -50, -200 );
         effective_healthy_mod = 100;
     }
 
-    // Over the long run, health tends toward healthy_mod.
-    int break_even = get_healthy() - effective_healthy_mod + external_modifiers;
-
-    // But we allow some random variation.
-    const long roll = rng( -100, 100 );
-    if( roll > break_even ) {
-        mod_healthy( 1 );
-    } else if( roll < break_even ) {
-        mod_healthy( -1 );
-    }
+    // Health tends toward healthy_mod.
+    // For small differences, it changes 4 points per day
+    // For large ones, up to ~40% of the difference per day
+    int health_change = effective_healthy_mod - get_healthy() + external_modifiers;
+    mod_healthy( sgn( health_change ) * std::max( 1, abs( health_change ) / 10 ) );
 
     // And healthy_mod decays over time.
-    set_healthy_mod( get_healthy_mod() * 3 / 4 );
+    // Slowly near 0, but it's hard to overpower it near +/-100
+    set_healthy_mod( round( get_healthy_mod() * 0.95f ) );
 
     add_msg( m_debug, "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod() );
 }
@@ -2008,7 +2026,7 @@ bool Character::is_immune_field( const field_id fid ) const
             return has_trait( trait_id( "WEB_WALKER" ) );
         case fd_fire:
         case fd_flame_burst: 
-            return has_trait( trait_id( "M_SKIN2" ) ) || has_active_bionic( "bio_heatsink" ) ||
+            return has_trait( trait_id( "M_SKIN2" ) ) || has_active_bionic( bionic_id( "bio_heatsink" ) ) ||
                    is_wearing( "rm13_armor_on" );
         default:
             // Suppress warning
@@ -2039,7 +2057,7 @@ int Character::throw_range( const item &it ) const
     int ret = (str_cur * 8) / (tmp.weight() >= 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
     ret -= tmp.volume() / 1000_ml;
     static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
-    if( has_active_bionic("bio_railgun") && tmp.made_of_any( affected_materials ) ) {
+    if( has_active_bionic( bionic_id( "bio_railgun" ) ) && tmp.made_of_any( affected_materials ) ) {
         ret *= 2;
     }
     if( ret < 1 ) {
@@ -2066,7 +2084,7 @@ bool Character::is_blind() const
 {
     return ( worn_with_flag( "BLIND" ) ||
              has_effect( effect_blind ) ||
-             has_active_bionic( "bio_blindfold" ) );
+             has_active_bionic( bionic_id( "bio_blindfold" ) ) );
 }
 
 bool Character::pour_into( item &container, item &liquid )

@@ -857,6 +857,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         int consumed = 0;
                         // How much time to add to the fire's life due to burned items/terrain/furniture
                         int time_added = 0;
+                        // Checks if the fire can spread
+                        const bool can_spread = tr_brazier != trp &&
+                                                !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER );
+
                         // The huge indent below should probably be somehow moved away from here
                         // without forcing the function to use i_at( p ) for fires without items
                         if( !is_sealed && map_tile.get_item_count() > 0 ) {
@@ -882,7 +886,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             for( auto fuel = items_here.begin(); fuel != items_here.end() && consumed < max_consume; ) {
 
-                                bool destroyed = fuel->burn( frd );
+                                bool destroyed = fuel->burn( frd, can_spread);
 
                                 if( destroyed ) {
                                     // If we decided the item was destroyed by fire, remove it.
@@ -909,8 +913,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
                         // If the flames are in a brazier, they're fully contained,
                         // so skip consuming terrain
-                        const bool can_spread = tr_brazier != trp &&
-                                                !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER );
                         if( can_spread ) {
                             if( ter.has_flag( TFLAG_SWIMMABLE ) ) {
                                 // Flames die quickly on water
@@ -1724,7 +1726,7 @@ void map::player_in_field( player &u )
                 burn_part( bp_hand_r, 2 );
                 burn_part( bp_torso,  2 );
                 // Less arms = less ability to keep upright
-                if( ( u.has_two_arms() && one_in( 4 ) ) || one_in( 2 ) ) {
+                if( ( !u.has_two_arms() && one_in( 4 ) ) || one_in( 2 ) ) {
                     burn_part( bp_arm_l, 1 );
                     burn_part( bp_arm_r, 1 );
                     burn_part( bp_head,  1 );
@@ -1767,7 +1769,7 @@ void map::player_in_field( player &u )
             break;
 
         case fd_fire:
-            if( u.has_active_bionic("bio_heatsink") || u.is_wearing("rm13_armor_on") ||
+            if( u.has_active_bionic( bionic_id( "bio_heatsink" ) ) || u.is_wearing("rm13_armor_on") ||
                 u.has_trait( trait_M_SKIN2 ) ) {
                 //heatsink, suit, or internal restructuring prevents ALL fire damage.
                 break;
@@ -1817,10 +1819,10 @@ void map::player_in_field( player &u )
                             parts_burned.push_back( bp_hand_r );
                             parts_burned.push_back( bp_arm_l );
                             parts_burned.push_back( bp_arm_r );
-                            // Fallthrough intentional.
+                            /* fallthrough */
                         case 2:
                             parts_burned.push_back( bp_torso );
-                            // Fallthrough intentional.
+                            /* fallthrough */
                         case 1:
                             parts_burned.push_back( bp_foot_l );
                             parts_burned.push_back( bp_foot_r );
@@ -1943,7 +1945,7 @@ void map::player_in_field( player &u )
         case fd_flame_burst:
             //A burst of flame? Only hits the legs and torso.
             if (inside) break; //fireballs can't touch you inside a car.
-            if (!u.has_active_bionic("bio_heatsink") && !u.is_wearing("rm13_armor_on") &&
+            if (!u.has_active_bionic( bionic_id( "bio_heatsink" ) ) && !u.is_wearing("rm13_armor_on") &&
                 !u.has_trait( trait_M_SKIN2 )) { //heatsink, suit, or Mycus fireproofing stops fire.
                 u.add_msg_player_or_npc(m_bad, _("You're torched by flames!"), _("<npcname> is torched by flames!"));
                 u.deal_damage( nullptr, bp_leg_l, damage_instance( DT_HEAT, rng( 2, 6 ) ) );
@@ -2585,7 +2587,7 @@ void map::emit_field( const tripoint &pos, const emit_id &src, float mul )
 void map::propagate_field( const tripoint &center, field_id fid, int amount,
                       int max_density )
 {
-    using gas_blast = std::pair<int, tripoint>;
+    using gas_blast = std::pair<float, tripoint>;
     std::priority_queue<gas_blast, std::vector<gas_blast>, pair_greater_cmp> open;
     std::set<tripoint> closed;
     open.push( { 0.0f, center } );

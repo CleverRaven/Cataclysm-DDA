@@ -353,7 +353,7 @@ void player::randomize( const bool random_scenario, points_left &points )
                 }
                 break;
             }
-            // Otherwise fallthrough
+            /* fallthrough */
         case 5:
             if( allow_stats ) {
                 switch (rng(1, 4)) {
@@ -396,7 +396,7 @@ void player::randomize( const bool random_scenario, points_left &points )
                 }
                 break;
             }
-            // Otherwise fallthrough
+            /* fallthrough */
         case 6:
         case 7:
         case 8:
@@ -563,11 +563,8 @@ bool player::create(character_type type, std::string tempname)
         g->u.addictions.push_back(*iter);
     }
 
-    // Get CBMs
-    std::vector<std::string> prof_CBMs = g->u.prof->CBMs();
-    for (std::vector<std::string>::const_iterator iter = prof_CBMs.begin();
-         iter != prof_CBMs.end(); ++iter) {
-        add_bionic(*iter);
+    for( auto &bio : prof->CBMs() ) {
+        add_bionic( bio );
     }
     // Adjust current energy level to maximum
     power_level = max_power_level;
@@ -696,18 +693,32 @@ tab_direction set_points( WINDOW *w, player *, points_left &points )
     ctxt.register_action("QUIT");
     ctxt.register_action("CONFIRM");
 
+    const std::string point_pool = get_option<std::string>( "CHARACTER_POINT_POOLS" );
+
     using point_limit_tuple = std::tuple<points_left::point_limit, std::string, std::string>;
-    const std::vector<point_limit_tuple> opts = {{
-        std::make_tuple( points_left::MULTI_POOL, _( "Multiple pools" ),
+    std::vector<point_limit_tuple> opts;
+    
+    
+    const point_limit_tuple multi_pool = std::make_tuple( points_left::MULTI_POOL, _( "Multiple pools" ),
                          _( "Stats, traits and skills have separate point pools.\n\
 Putting stat points into traits and skills is allowed and putting trait points into skills is allowed.\n\
-Scenarios and professions affect skill point pool" ) ),
-        std::make_tuple( points_left::ONE_POOL, _( "Single pool" ),
-                         _( "Stats, traits and skills share a single point pool." ) ),
-        std::make_tuple( points_left::FREEFORM, _( "Freeform" ),
-                         _( "No point limits are enforced" ) )
-    }};
+Scenarios and professions affect skill point pool" ) );
 
+    const point_limit_tuple one_pool = std::make_tuple( points_left::ONE_POOL, _( "Single pool" ),
+                         _( "Stats, traits and skills share a single point pool." ) );
+
+    const point_limit_tuple freeform = std::make_tuple( points_left::FREEFORM, _( "Freeform" ),
+                         _( "No point limits are enforced" ) );
+
+
+    if( point_pool == "multi_pool" ) {
+        opts = {{ multi_pool }};
+    } else if( point_pool == "no_freeform" ) { 
+        opts={{ multi_pool, one_pool }}; 
+    } else { 
+        opts={{ multi_pool, one_pool, freeform }};
+    }
+        
     int highlighted = 0;
 
     do {
@@ -1408,15 +1419,15 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
 
         // Profession bionics, active bionics shown first
         auto prof_CBMs = sorted_profs[cur_id]->CBMs();
-        std::sort(begin(prof_CBMs), end(prof_CBMs), [](std::string const &a, std::string const &b) {
-            return bionic_info(a).activated && !bionic_info(b).activated;
+        std::sort(begin(prof_CBMs), end(prof_CBMs), [](bionic_id const &a, bionic_id const &b) {
+            return a->activated && !b->activated;
         });
         buffer << "<color_ltblue>" << _( "Profession bionics:" ) << "</color>\n";
         if( prof_CBMs.empty() ) {
             buffer << pgettext( "set_profession_bionic", "None" ) << "\n";
         } else {
             for( const auto &b : prof_CBMs ) {
-                auto const &cbm = bionic_info(b);
+                auto const &cbm = b.obj();
 
                 if (cbm.activated && cbm.toggled) {
                     buffer << cbm.name << " (" << _("toggled") << ")\n";

@@ -24,7 +24,7 @@ Some code distributed with the project is not part of the project and is release
 
 [![Bountysource](https://www.bountysource.com/badge/tracker?tracker_id=146201)](https://www.bountysource.com/trackers/146201-clever-raven-cataclysm-dda?utm_source=146201&utm_medium=shield&utm_campaign=TRACKER_BADGE)
 
-Please see [CONTRIBUTING.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/.github/CONTRIBUTING.md) for details.
 
 ## Community
 
@@ -48,7 +48,7 @@ http://webchat.freenode.net/?channels=#CataclysmDDA
 
 #### Is there a tutorial?
 
-Yes, you can find the tutorial in the **Special** menu at the main menu. You can also access documentation in-game via the `?` key.
+Yes, you can find the tutorial in the **Special** menu at the main menu (be aware that due to many code changes the tutorial may not function). You can also access documentation in-game via the `?` key.
 
 #### How can I change the key bindings?
 

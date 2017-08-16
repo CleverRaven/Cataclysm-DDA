@@ -12,6 +12,7 @@
   {
     "type": "ITEM_BLACKLIST",
     "items": [
+      "lemat_revolver",
       "garand",
       "garandclip",
       "m1903",

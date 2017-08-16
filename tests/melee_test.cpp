@@ -65,7 +65,7 @@ void check_near( float prob, float expected, float tolerance )
 
 const int num_iters = 10000;
 
-TEST_CASE("Character attacking a zombie", "[melee]") {
+TEST_CASE("Character attacking a zombie", "[.melee]") {
     monster zed( mtype_id( "mon_zombie" ) );
     INFO( "Zombie has get_dodge() == " + std::to_string( zed.get_dodge() ) );
 
@@ -121,7 +121,7 @@ TEST_CASE("Character attacking a manhack", "[.melee]") {
     }
 }
 
-TEST_CASE("Zombie attacking a character", "[melee]") {
+TEST_CASE("Zombie attacking a character", "[.melee]") {
     monster zed( mtype_id( "mon_zombie" ) );
     INFO( "Zombie has get_hit() == " + std::to_string( zed.get_hit() ) );
 
@@ -188,7 +188,7 @@ TEST_CASE("Manhack attacking a character", "[.melee]") {
     }
 }
 
-TEST_CASE("Hulk smashing a character", "[melee], [monattack]") {
+TEST_CASE("Hulk smashing a character", "[.], [melee], [monattack]") {
     monster zed( mtype_id( "mon_zombie_hulk" ) );
     INFO( "Hulk has get_hit() == " + std::to_string( zed.get_hit() ) );
 

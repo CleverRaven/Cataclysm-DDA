@@ -15,7 +15,7 @@ struct tripoint;
  *  Returns the rolled dispersion of the shot and the actually hit point.
  */
 dealt_projectile_attack projectile_attack( const projectile &proj, const tripoint &source,
-                                           const tripoint &target, dispersion_sources dispersion,
-                                           Creature *origin = nullptr, const vehicle *in_veh = nullptr );
+        const tripoint &target, dispersion_sources dispersion,
+        Creature *origin = nullptr, const vehicle *in_veh = nullptr );
 
 #endif
