@@ -621,17 +621,12 @@ long int Character::i_add_to_container(const item &it, const bool unloading)
         return charges;
     };
     
-    for( auto &item : worn ) {
-        if( charges > 0 && item.is_ammo_container() && item_type == item.contents.front().typeId() ) {
-            charges = add_to_container(item);
+    visit_items( [ & ]( item *item ) {
+        if( charges > 0 && item->is_ammo_container() && item_type == item->contents.front().typeId() ) {
+            charges = add_to_container(*item);
         }
-    }
-    
-    for( auto &item : inv.slice() ) {
-        if( charges > 0 && item->front().is_ammo_container() && item_type == item->front().contents.front().typeId() ) {
-            charges = add_to_container(item->front());
-        }
-    }
+        return VisitResponse::NEXT;
+    } );
     
     return charges;
 }
