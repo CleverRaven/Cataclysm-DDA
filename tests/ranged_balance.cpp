@@ -10,15 +10,9 @@
 #include "test_statistics.h"
 #include "map_helpers.h"
 
-static void equip_shooter( npc &shooter, itype_id gun_id )
+static void arm_shooter( npc &shooter, itype_id gun_id )
 {
-    tripoint shooter_pos( 60, 60, 0 );
-    shooter.setpos( shooter_pos );
-    shooter.worn.clear();
-    shooter.inv.clear();
     shooter.remove_weapon();
-    // So we don't drop anything.
-    shooter.wear_item( item( "backpack" ) );
 
     // Give shooter a loaded gun of the requested type.
     item &gun = shooter.i_add( item( gun_id ) );
@@ -40,12 +34,22 @@ static void equip_shooter( npc &shooter, itype_id gun_id )
     shooter.wield( gun );
 }
 
+static void equip_shooter( npc &shooter, std::vector<std::string> apparel ) {
+    tripoint shooter_pos( 60, 60, 0 );
+    shooter.setpos( shooter_pos );
+    shooter.worn.clear();
+    shooter.inv.clear();
+    for( const std::string article : apparel ) {
+        shooter.wear_item( item( article ) );
+    }
+}
+
 std::array<double, 5> accuracy_levels = {{ accuracy_grazing, accuracy_standard, accuracy_goodhit, accuracy_critical, accuracy_headshot }};
 
 static std::array<statistics, 5> firing_test( npc &shooter, std::string gun_type, float aim_ratio,
         int range, std::array<double, 5> thresholds )
 {
-    equip_shooter( shooter, itype_id( gun_type ) );
+    arm_shooter( shooter, itype_id( gun_type ) );
 
     // Spawn a target.
     // Maybe change this to a random direction, or even move the target around during the test.
@@ -110,6 +114,8 @@ static void test_shooting_scenario( npc &shooter, std::string gun_type,
 TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
 {
     standard_npc shooter( "Shooter", {}, 0, 8, 8, 8, 8 );
+    equip_shooter( shooter, { "backpackk" } );
+
     SECTION( "an unskilled shooter with an inaccurate pistol" ) {
         test_shooting_scenario( shooter, "glock_19", 3, 3, 5 );
     }
@@ -124,6 +130,8 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
 TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 {
     standard_npc shooter( "Shooter", {}, 5, 10, 10, 10, 10 );
+    equip_shooter( shooter, { "backpack" } );
+
     SECTION( "a skilled shooter with an accurate pistol" ) {
         test_shooting_scenario( shooter, "sw_619", 4, 7, 10 );
     }
@@ -138,6 +146,8 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
 {
     standard_npc shooter( "Shooter", {}, 10, 18, 18, 18, 18 );
+    equip_shooter( shooter, { "backpack" } );
+
     SECTION( "an expert shooter with an excellent pistol" ) {
         test_shooting_scenario( shooter, "sw629", 5, 10, 15 );
     }
