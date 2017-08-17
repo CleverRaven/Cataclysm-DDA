@@ -10688,7 +10688,9 @@ bool game::unload( item &it )
         bool changed = false;
         it.contents.erase( std::remove_if( it.contents.begin(), it.contents.end(), [this, &changed]( item& e ) {
             long old_charges = e.charges;
+            e.set_flag("TEMP_UNLOADING");
             const bool consumed = add_or_drop_with_msg( u, e );
+            e.unset_flag("TEMP_UNLOADING");
             changed = changed || consumed || e.charges != old_charges;
             if( consumed ) {
                 u.mod_moves( -u.item_handling_cost( e ) );
@@ -10714,8 +10716,6 @@ bool game::unload( item &it )
     }
 
     item *target = opts.size() > 1 ? opts[ ( uimenu( false, _("Unload what?"), msgs ) ) - 1 ] : &it;
-
-    target->set_flag("TEMP_UNLOADING");
     
     // Next check for any reasons why the item cannot be unloaded
     if( !target->ammo_type() || target->ammo_capacity() <= 0 ) {
@@ -10796,6 +10796,8 @@ bool game::unload( item &it )
         // Construct a new ammo item and try to drop it
         item ammo( target->ammo_current(), calendar::turn, qty );
         
+        ammo.set_flag("TEMP_UNLOADING");
+        
         if( ammo.made_of( LIQUID ) ) {
             if( !add_or_drop_with_msg( u, ammo ) ) {
                 qty -= ammo.charges; // only handled part (or none) of the liquid
@@ -10807,6 +10809,8 @@ bool game::unload( item &it )
         } else if( !add_or_drop_with_msg( u, ammo ) ) {
             return false;
         }
+        
+        ammo.unset_flag("TEMP_UNLOADING");
         
         // If successful remove appropriate qty of ammo consuming half as much time as required to load it
         u.moves -= u.item_reload_cost( *target, ammo, qty ) / 2;
@@ -10822,8 +10826,6 @@ bool game::unload( item &it )
     if( target->is_tool() && target->active && target->ammo_remaining() == 0 ) {
         target->type->invoke( &u, target, u.pos() );
     }
-    
-    target->unset_flag("TEMP_UNLOADING");
 
     add_msg( _( "You unload your %s." ), target->tname().c_str() );
     return true;
