@@ -334,7 +334,8 @@
       ["kippah", 1],
       ["robe", 3],
       ["thawb", 1],
-      ["kimono", 1]
+      ["kimono", 1],
+	  ["eclipse_glasses", 15]
     ]
   },{
     "type" : "item_group",
@@ -533,7 +534,8 @@
       ["survnote", 1],
       ["cookbook_sushi", 5],
       ["scots_cookbook", 6],
-      [ "food_processor", 30 ]
+      ["food_processor", 30 ]
+	  ["eclipse glasses", 15]
     ]
   },{
     "type" : "item_group",
@@ -997,7 +999,8 @@
       ["mask_guy_fawkes", 5],
       ["magnifying_glass", 2],
       ["holy_symbol", 5],
-      ["pet_carrier",3]
+      ["pet_carrier", 3]
+	  ["eclipse_glasses", 10]
     ]
   },{
     "type" : "item_group",
@@ -1106,7 +1109,8 @@
       ["robe", 10],
       ["eboshi", 1],
       ["kariginu", 1],
-      ["kimono", 5]
+      ["kimono", 5],
+	  ["eclipse_glasses", 5]
     ]
   },{
     "type" : "item_group",
@@ -1483,7 +1487,8 @@
       ["knitting_needles", 1],
       ["weeks_old_newspaper", 5],
       ["newest_newspaper", 10],
-      ["survnote", 2]
+      ["survnote", 2],
+	  ["eclipse_glasses", 1]
     ]
   },{
     "type" : "item_group",
@@ -2430,7 +2435,8 @@
       ["wristrocket", 5],
       ["iceaxe", 30],
       ["powered_earmuffs", 80],
-      ["bandolier_wrist", 100]
+      ["bandolier_wrist", 100],
+	  ["eclipse_glasses",2]
     ]
   },{
     "type" : "item_group",
@@ -2542,7 +2548,8 @@
       ["striped_shirt", 1],
       ["striped_pants", 1],
       ["razor_blade", 10],
-      ["survnote", 5]
+      ["survnote", 5],
+	  ["eclipse_glasses", 5]	  
     ]
   },{
     "type" : "item_group",
@@ -2555,7 +2562,8 @@
       ["plastic_shopping_bag", 13],
       ["bag_plastic", 15],
       ["wrapper", 30],
-      ["flyer", 15]
+      ["flyer", 15],
+	  ["eclipse_glasses", 3]
     ]
  },{
     "type" : "item_group",
@@ -3805,7 +3813,8 @@
       ["sf_watch", 1],
       ["survnote", 1],
       ["magnifying_glass", 8],
-      ["camera_control", 2]
+      ["camera_control", 2],
+	  ["eclipse_glasses", 10]
     ]
   },{
     "type" : "item_group",
@@ -3901,7 +3910,8 @@
       ["sm_extinguisher", 10],
       ["pocketwatch", 2],
       ["knitting_needles", 1],
-      ["survnote", 1]
+      ["survnote", 1],
+	  ["eclipse_glasses", 3]
     ]
   },{
     "type" : "item_group",
@@ -4059,7 +4069,8 @@
       ["survnote", 3],
       ["radio_car_box", 3],
       ["radiocontrol", 10],
-      ["scots_cookbook", 1]
+      ["scots_cookbook", 1],
+	  ["eclipse_glasses", 3]
     ]
   },{
     "type" : "item_group",
@@ -4841,7 +4852,8 @@
       ["sheath", 5],
       ["bootsheath", 5],
       ["holster", 4],
-      ["survnote", 2]
+      ["survnote", 2],
+	  ["eclipse_glasses", 2]
     ]
   },{
     "type" : "item_group",
@@ -5422,7 +5434,8 @@
       ["magnifying_glass", 2],
       ["thermometer", 3],
       ["hygrometer", 3],
-      ["barometer", 3]
+      ["barometer", 3],
+	  ["eclipse_glasses", 1]
     ]
   },{
     "type" : "item_group",
@@ -6415,7 +6428,8 @@
       ["teleumbrella",1],
       ["pocketwatch", 1],
       ["survnote", 1],
-      ["l-stick", 1]
+      ["l-stick", 1],
+	  ["eclipse_glasses", 1]
     ]
   },{
     "type" : "item_group",
@@ -7512,7 +7526,8 @@
       ["inhaler", 5],
       ["knife_swissarmy", 5],
       ["roadmap", 1],
-      ["touristmap", 1]
+      ["touristmap", 1],
+	  ["eclipse_glasses", 3]
       ]
   },{
     "type" : "item_group",
@@ -8832,7 +8847,8 @@
       ["glasses_reading", 50],
       ["string_6", 25],
       ["candle", 20],
-      ["survnote", 1]
+      ["survnote", 1],
+	  ["eclipse_glasses", 1]
     ]
   },{
     "type"  : "item_group",
