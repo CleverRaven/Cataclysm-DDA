@@ -630,6 +630,7 @@
          "encumbrance" : 20
       },
       "ranged_damage" : 5,
+      "range" : 8,
       "dispersion" : 180,
       "durability" : 6,
       "clip_size" : 1,
@@ -688,6 +689,7 @@
          "encumbrance" : 20
       },
       "ranged_damage" : 9,
+      "range" : 11,
       "dispersion" : 120,
       "durability" : 6,
       "clip_size" : 1,
@@ -716,6 +718,7 @@
          "encumbrance" : 20
       },
       "ranged_damage" : 11,
+      "range" : 9,
       "dispersion" : 120,
       "durability" : 6,
       "clip_size" : 1,
