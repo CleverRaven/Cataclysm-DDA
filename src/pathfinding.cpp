@@ -198,7 +198,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         const auto &pf_cache = get_pathfinding_cache_ref( f.z );
         // Check all points for any special case (including just hard terrain)
         if( std::all_of( line_path.begin(), line_path.end(), [&pf_cache]( const tripoint & p ) {
-        return !( pf_cache.special[p.x][p.y] & non_normal );
+        return !( pf_cache.special[p.x][p.y] );
         } ) ) {
             const std::set<tripoint> sorted_line( line_path.begin(), line_path.end() );
 
