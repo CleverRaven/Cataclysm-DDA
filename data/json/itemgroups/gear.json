@@ -47,8 +47,8 @@
       ["pocket_firstaid", 5],
       ["pocket_survival", 5],
       ["pocket_firearms", 5],
-      ["newest_newspaper", 75],
-      ["flyer", 10]
+      ["newest_newspaper", 25],
+      ["flyer", 10],
     ]
   },
   {
