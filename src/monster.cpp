@@ -429,7 +429,7 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
     const auto hp_desc = hp_description( hp, type->hp );
     mvwprintz( w, vStart++, column, hp_desc.second, "%s", hp_desc.first.c_str() );
 
-    std::vector<std::string> lines = foldstring( type->get_description(), getmaxx(w) - 1 - column );
+    std::vector<std::string> lines = foldstring( type->get_description().c_str(), getmaxx(w) - 1 - column );
     int numlines = lines.size();
     for (int i = 0; i < numlines && vStart <= vEnd; i++) {
         mvwprintz(w, vStart++, column, c_white, "%s", lines[i].c_str());
@@ -454,7 +454,7 @@ std::string monster::extended_description() const
     ss << get_tag_from_color( hp_bar.second ) << hp_bar.first << std::endl;
 
     ss << "--" << std::endl;
-    ss << string_format( "<dark>%s</dark>", type->get_description() ) << std::endl;
+    ss << string_format( "<dark>%s</dark>", type->get_description().c_str() ) << std::endl;
     ss << "--" << std::endl;
 
     ss << string_format( _( "It is %s in size." ), size_names.at( get_size() ).c_str() ) << std::endl;
