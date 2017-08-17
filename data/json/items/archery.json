@@ -718,7 +718,7 @@
          "encumbrance" : 20
       },
       "ranged_damage" : 11,
-      "range" : 9,
+      "range" : 11,
       "dispersion" : 120,
       "durability" : 6,
       "clip_size" : 1,
