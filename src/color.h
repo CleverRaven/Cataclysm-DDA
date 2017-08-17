@@ -400,6 +400,25 @@ class color_manager : public JsonSerializer, public JsonDeserializer
 
 color_manager &get_all_colors();
 
+/**
+ * For color values that are created *before* the color definitions are loaded
+ * from JSON. One can't use the macros (e.g. c_white) directly as they query
+ * the color_manager, which may not be initialized. Instead one has to use
+ * the color_id (e.g. def_c_white) and translate the id to an actual color
+ * later. This is done by this class: it stores the id and translates it
+ * when needed to the color value.
+ */
+class deferred_color
+{
+    private:
+        color_id id;
+    public:
+        deferred_color( const color_id id ) : id( id ) { }
+        operator nc_color() const {
+            return all_colors.get( id );
+        }
+};
+
 struct note_color {
     nc_color color;
     std::string name;
