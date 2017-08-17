@@ -405,8 +405,7 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
     bool did_prompt = false;
 
     //Try to add ammo to container
-    newit.unset_flag( "TEMP_UNLOADING" );
-    newit.charges = u.i_add_to_container( newit );
+    newit.charges = u.i_add_to_container( newit, true );
 
     if( newit.is_ammo() && newit.charges == 0 ) {
         picked_up = true;
