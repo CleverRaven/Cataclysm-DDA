@@ -408,7 +408,7 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
     newit.unset_flag( "TEMP_UNLOADING" );
     newit.charges = u.i_add_to_container( newit );
 
-    if( newit.is_ammo() && !newit.charges ) {
+    if( newit.is_ammo() && newit.charges == 0 ) {
         picked_up = true;
         option = NUM_ANSWERS; //Skip the options part
     } else if( newit.made_of( LIQUID ) ) {

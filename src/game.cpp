@@ -10649,7 +10649,7 @@ void game::mend( int pos )
     }
 }
 
-bool add_or_drop_with_msg( player &u, item &it )
+bool add_or_drop_with_msg( player &u, item &it, const bool unloading = false )
 {
     if( it.made_of( LIQUID ) ) {
         g->consume_liquid( it, 1 );
@@ -10657,9 +10657,9 @@ bool add_or_drop_with_msg( player &u, item &it )
     }
     
     //Try to add ammo to container
-    it.charges = u.i_add_to_container(it);
+    it.charges = u.i_add_to_container(it, unloading);
     
-    if( it.is_ammo() && !it.charges ) {
+    if( it.is_ammo() && it.charges == 0 ) {
         return true;
     } else if( !u.can_pickVolume( it ) ) {
         add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
@@ -10688,9 +10688,7 @@ bool game::unload( item &it )
         bool changed = false;
         it.contents.erase( std::remove_if( it.contents.begin(), it.contents.end(), [this, &changed]( item& e ) {
             long old_charges = e.charges;
-            e.set_flag("TEMP_UNLOADING");
-            const bool consumed = add_or_drop_with_msg( u, e );
-            e.unset_flag("TEMP_UNLOADING");
+            const bool consumed = add_or_drop_with_msg( u, e, true );
             changed = changed || consumed || e.charges != old_charges;
             if( consumed ) {
                 u.mod_moves( -u.item_handling_cost( e ) );
@@ -10750,7 +10748,7 @@ bool game::unload( item &it )
         long qty = 0;
         target->contents.erase( std::remove_if( target->contents.begin(), target->contents.end(), [&]( item& e ) {
             int mv = u.item_reload_cost( *target, e, e.charges ) / 2;
-            if( !add_or_drop_with_msg( u, e ) ) {
+            if( !add_or_drop_with_msg( u, e, true ) ) {
                 return false;
             }
             qty += e.charges;
@@ -10761,7 +10759,7 @@ bool game::unload( item &it )
         if( target->is_ammo_belt() ) {
             if( target->type->magazine->linkage != "NULL" ) {
                 item link( target->type->magazine->linkage, calendar::turn, qty );
-                add_or_drop_with_msg( u, link );
+                add_or_drop_with_msg( u, link, true );
             }
             add_msg( _( "You disassemble your %s."), target->tname().c_str() );
         } else {
@@ -10770,7 +10768,7 @@ bool game::unload( item &it )
         return true;
 
     } else if( target->magazine_current() ) {
-        if( !add_or_drop_with_msg( u, *target->magazine_current() ) ) {
+        if( !add_or_drop_with_msg( u, *target->magazine_current(), true ) ) {
             return false;
         }
         // Eject magazine consuming half as much time as required to insert it
@@ -10796,21 +10794,17 @@ bool game::unload( item &it )
         // Construct a new ammo item and try to drop it
         item ammo( target->ammo_current(), calendar::turn, qty );
         
-        ammo.set_flag("TEMP_UNLOADING");
-        
         if( ammo.made_of( LIQUID ) ) {
-            if( !add_or_drop_with_msg( u, ammo ) ) {
+            if( !add_or_drop_with_msg( u, ammo, true ) ) {
                 qty -= ammo.charges; // only handled part (or none) of the liquid
             }
             if( qty <= 0 ) {
                 return false; // no liquid was moved
             }
 
-        } else if( !add_or_drop_with_msg( u, ammo ) ) {
+        } else if( !add_or_drop_with_msg( u, ammo, true ) ) {
             return false;
         }
-        
-        ammo.unset_flag("TEMP_UNLOADING");
         
         // If successful remove appropriate qty of ammo consuming half as much time as required to load it
         u.moves -= u.item_reload_cost( *target, ammo, qty ) / 2;

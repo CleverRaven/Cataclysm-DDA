@@ -596,20 +596,20 @@ std::vector<item_location> Character::nearby( const std::function<bool(const ite
     return res;
 }
 
-long int Character::i_add_to_container(const item &it)
+long int Character::i_add_to_container(const item &it, const bool unloading)
 {
     long int charges = it.charges;
     
-    if( it.is_ammo() && (!it.has_flag( "TEMP_UNLOADING" ) || (it.has_flag( "TEMP_UNLOADING" ) && charges == 1) ) ) {
+    if( it.is_ammo() && (!unloading || (unloading && charges == 1) ) ) {
         const itype_id item_type = it.typeId();
         
-        auto add_to_container = [it](item &container) {
+        auto add_to_container = [&it](item &container) {
             if( container.contents.front().charges < container.ammo_capacity() ) {
                 const long int diff = container.ammo_capacity() - container.contents.front().charges;
                 add_msg( _( "You put the %s in your %s." ), it.tname().c_str(), container.tname().c_str() );
                 if( diff > it.charges ) {
                     container.contents.front().charges += it.charges;
-                    return (long int) 0;
+                    return 0L;
                 } else {
                     container.contents.front().charges = container.ammo_capacity();
                     return it.charges - diff;
@@ -621,19 +621,19 @@ long int Character::i_add_to_container(const item &it)
         for( auto &w : worn ) {
             if( w.is_ammo_container() && item_type == w.contents.front().typeId() ) {
                 charges = add_to_container(w);
-                if( !charges ) {
+                if( charges == 0 ) {
                     return charges;
                 }
             }
         }
         
-        if( charges ) {
+        if( charges > 0 ) {
             const invslice &stacks = inv.slice();
             for( size_t x = 0; x < stacks.size(); ++x ) {
                 auto &item = stacks[x]->front();
                 if( item.is_ammo_container() && item_type == item.contents.front().typeId() ) {
                     charges = add_to_container(item);
-                    if( !charges ) {
+                    if( charges == 0 ) {
                         return charges;
                     }
                 }
