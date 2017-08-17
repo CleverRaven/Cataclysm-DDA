@@ -146,7 +146,7 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
         p->mod_fatigue( 10 );
     }
     g->m.destroy( pos, true );
-    
+
     act->set_to_null();
 }
 
@@ -965,7 +965,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     const int max_exp = 2 * ( max_forage_skill - p->get_skill_level( skill_survival ) );
     // Award experience for foraging attempt regardless of success
     p->practice( skill_survival, rng(1, max_exp), max_forage_skill );
-    
+
     act->set_to_null();
 }
 
@@ -1041,8 +1041,8 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
     }
 
     for( auto it = items.begin(); it != items.end(); ++it ) {
-        if( actor->valid_to_cut_up( &*it ) ) {
-            actor->cut_up( p, salvage_tool, &*it );
+        if( actor->valid_to_cut_up( *it ) ) {
+            actor->cut_up( *p, *salvage_tool, *it );
             return;
         }
     }
@@ -1299,7 +1299,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 void activity_handlers::start_fire_finish( player_activity *act, player *p )
 {
     item &it = p->i_at(act->position);
-    firestarter_actor::resolve_firestarter_use( p, &it, act->placement );
+    firestarter_actor::resolve_firestarter_use( *p, it, act->placement );
     act->set_to_null();
 }
 
@@ -1479,7 +1479,7 @@ void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
     if( act->values[0] <= 0 ) {
         return;
     }
-    
+
     item &it = p->i_at( act->position );
     // act->values[0] is the number of charges yet to be consumed
     const long charges_used = std::min( long( act->values[0] ), it.ammo_required() );
@@ -1567,12 +1567,12 @@ repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
     uimenu rmenu;
     rmenu.text = title;
     rmenu.return_invalid = true;
-    
+
     rmenu.addentry( REPEAT_ONCE, true, '1', _("Repeat once") );
     rmenu.addentry( REPEAT_FOREVER, true, '2', _("Repeat as long as you can") );
     rmenu.addentry( REPEAT_FULL, true, '3', _("Repeat until fully repaired, but don't reinforce") );
     rmenu.addentry( REPEAT_EVENT, true, '4', _("Repeat until success/failure/level up") );
-    
+
     rmenu.selected = last_selection;
 
     rmenu.query();
@@ -1849,7 +1849,7 @@ void activity_handlers::clear_rubble_finish( player_activity *act, player *p )
                               g->m.furnname( target ).c_str(), direction.c_str() );
     }
     g->m.furn_set( target, f_null );
-    
+
     act->set_to_null();
 }
 

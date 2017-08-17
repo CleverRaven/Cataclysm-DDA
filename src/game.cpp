@@ -300,7 +300,6 @@ void game::load_static_data()
     // be moved to game::load_mod or game::load_core_data
     init_mapgen_builtin_functions();
     init_savedata_translation_tables();
-    init_artifacts();
     init_faction_data();
 
     get_auto_pickup().load_global();
@@ -10283,7 +10282,7 @@ void game::butcher()
     if( salvage_tool_index != INT_MIN ) {
         for( size_t i = 0; i < items.size(); i++ ) {
             if( !items[i].is_corpse() &&
-                salvage_iuse->valid_to_cut_up( &items[i] ) ) {
+                salvage_iuse->valid_to_cut_up( items[i] ) ) {
                     salvageables.push_back(i);
             }
         }
@@ -10423,7 +10422,7 @@ void game::butcher()
     case BUTCHER_SALVAGE:
         {
             size_t index = salvageables[indexer_index];
-            salvage_iuse->cut_up( &u, salvage_tool, &items[index] );
+            salvage_iuse->cut_up( u, *salvage_tool, items[index] );
         }
         break;
     }
@@ -10812,7 +10811,7 @@ bool game::unload( item &it )
 
     // Turn off any active tools
     if( target->is_tool() && target->active && target->ammo_remaining() == 0 ) {
-        target->type->invoke( &u, target, u.pos() );
+        target->type->invoke( u, *target, u.pos() );
     }
 
     add_msg( _( "You unload your %s." ), target->tname().c_str() );
