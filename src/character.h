@@ -353,6 +353,7 @@ class Character : public Creature, public visitable<Character>
          */
         int get_item_position( const item *it ) const;
 
+        long int i_add_to_container(const item &it);
         item &i_add(item it);
 
         /**

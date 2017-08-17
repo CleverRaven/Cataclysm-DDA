@@ -596,6 +596,62 @@ std::vector<item_location> Character::nearby( const std::function<bool(const ite
     return res;
 }
 
+long int Character::i_add_to_container(const item &it)
+{
+    long int charges = it.charges;
+    
+    if( it.is_ammo() ) {
+        //debugmsg( "picking up ammo: %s / %d / %s / %s / %s / %d / %d", it.tname().c_str(), it.charges, it.ammo_type().c_str(), ammotype( "arrow" ).c_str(), it.typeId().c_str(), it.is_ammo(), it.is_bandolier() );
+        
+        const itype_id item_type = it.typeId();
+        
+        //Store ammo in container
+        auto add_to_container = [it](item &container) {
+            if( container.contents.front().charges < container.ammo_capacity() ) {
+                const long int diff = container.ammo_capacity() - container.contents.front().charges;
+                add_msg( _( "You put the %s in your %s." ), it.tname().c_str(), container.tname().c_str() );
+                if( diff > it.charges ) {
+                    container.contents.front().charges += it.charges;
+                    return (long int) 0;
+                } else {
+                    container.contents.front().charges = container.ammo_capacity();
+                    return it.charges - diff;
+                }
+            }
+            
+            return it.charges;
+        };
+        
+        for( auto &w : worn ) {
+            if( w.is_ammo_container() && !w.has_flag("TEMP_UNLOADING") && item_type == w.contents.front().typeId() ) {
+                //debugmsg( "worn ammo container found: %s / %d / %d / %s / %s / %s", w.tname().c_str(), w.contents.front().charges, w.ammo_capacity(), w.contents.front().typeId().c_str(), w.contents.front().ammo_type().c_str(), ammotype( "arrow" ).c_str() );
+                
+                charges = add_to_container(w);
+                if( !charges ) {
+                    return 0;
+                }
+            }
+        }
+        
+        if( charges ) {
+            const invslice &stacks = inv.slice();
+            for( size_t x = 0; x < stacks.size(); ++x ) {
+                auto &item = stacks[x]->front();
+                if( item.is_ammo_container() && !item.has_flag("TEMP_UNLOADING") && item_type == item.contents.front().typeId() ) {
+                    //debugmsg( "inv ammo container found: %s / %d / %d / %s / %s / %s", item.tname().c_str(), item.contents.front().charges, item.ammo_capacity(), item.contents.front().typeId().c_str(), item.contents.front().ammo_type().c_str(), ammotype( "bolt" ).c_str() );
+                    
+                    charges = add_to_container(item);
+                    if( !charges ) {
+                        return 0;
+                    }
+                }
+            }
+        }
+    }
+    
+    return charges;
+}
+
 item& Character::i_add(item it)
 {
     itype_id item_type_id = it.typeId();

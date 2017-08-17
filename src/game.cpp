@@ -10655,7 +10655,13 @@ bool add_or_drop_with_msg( player &u, item &it )
         g->consume_liquid( it, 1 );
         return it.charges <= 0;
     }
-    if( !u.can_pickVolume( it ) ) {
+    
+    //Try to add ammo to container
+    it.charges = u.i_add_to_container(it);
+    
+    if( it.is_ammo() && !it.charges ) {
+        return true;
+    } else if( !u.can_pickVolume( it ) ) {
         add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
                  it.tname().c_str() );
         g->m.add_item_or_charges( u.pos(), it );
@@ -10709,6 +10715,8 @@ bool game::unload( item &it )
 
     item *target = opts.size() > 1 ? opts[ ( uimenu( false, _("Unload what?"), msgs ) ) - 1 ] : &it;
 
+    target->set_flag("TEMP_UNLOADING");
+    
     // Next check for any reasons why the item cannot be unloaded
     if( !target->ammo_type() || target->ammo_capacity() <= 0 ) {
         add_msg( m_info, _("You can't unload a %s!"), target->tname().c_str() );
@@ -10784,10 +10792,10 @@ bool game::unload( item &it )
                 return false;
             }
         }
-
+        
         // Construct a new ammo item and try to drop it
         item ammo( target->ammo_current(), calendar::turn, qty );
-
+        
         if( ammo.made_of( LIQUID ) ) {
             if( !add_or_drop_with_msg( u, ammo ) ) {
                 qty -= ammo.charges; // only handled part (or none) of the liquid
@@ -10799,7 +10807,7 @@ bool game::unload( item &it )
         } else if( !add_or_drop_with_msg( u, ammo ) ) {
             return false;
         }
-
+        
         // If successful remove appropriate qty of ammo consuming half as much time as required to load it
         u.moves -= u.item_reload_cost( *target, ammo, qty ) / 2;
 
@@ -10814,6 +10822,8 @@ bool game::unload( item &it )
     if( target->is_tool() && target->active && target->ammo_remaining() == 0 ) {
         target->type->invoke( &u, target, u.pos() );
     }
+    
+    target->unset_flag("TEMP_UNLOADING");
 
     add_msg( _( "You unload your %s." ), target->tname().c_str() );
     return true;
