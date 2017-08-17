@@ -454,7 +454,7 @@ std::string monster::extended_description() const
     ss << get_tag_from_color( hp_bar.second ) << hp_bar.first << std::endl;
 
     ss << "--" << std::endl;
-    ss << string_format( _( "<dark>%s</dark>" ), type->description.c_str() ) << std::endl;
+    ss << string_format( "<dark>%s</dark>", type->description.c_str() ) << std::endl;
     ss << "--" << std::endl;
 
     ss << string_format( _( "It is %s in size." ), size_names.at( get_size() ).c_str() ) << std::endl;
