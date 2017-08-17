@@ -28,6 +28,7 @@
 #include "inventory.h"
 #include "tutorial.h"
 #include "overmap.h"
+#include "overmap_connection.h"
 #include "artifact.h"
 #include "overmap_location.h"
 #include "mapgen.h"
@@ -225,6 +226,7 @@ void DynamicDataLoader::initialize()
     add( "overmap_terrain", &overmap_terrains::load );
     add( "construction", &load_construction );
     add( "mapgen", &load_mapgen );
+    add( "overmap_connection", &overmap_connections::load );
     add( "overmap_location", &overmap_locations::load );
     add( "overmap_special", &overmap_specials::load );
 
@@ -376,6 +378,7 @@ void DynamicDataLoader::unload_data()
     reset_mapgens();
     reset_effect_types();
     reset_speech();
+    overmap_connections::reset();
     overmap_locations::reset();
     overmap_specials::reset();
     ammunition_type::reset();
@@ -406,6 +409,7 @@ void DynamicDataLoader::finalize_loaded_data()
     set_furn_ids();
     trap::finalize();
     overmap_terrains::finalize();
+    overmap_connections::finalize();
     overmap_specials::finalize();
     vehicle_prototype::finalize();
     calculate_mapgen_weights();
@@ -441,6 +445,7 @@ void DynamicDataLoader::check_consistency()
     scenario::check_definitions();
     check_martialarts();
     mutation_branch::check_consistency();
+    overmap_connections::check_consistency();
     overmap_terrains::check_consistency();
     overmap_locations::check_consistency();
     overmap_specials::check_consistency();
