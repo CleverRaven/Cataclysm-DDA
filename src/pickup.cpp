@@ -83,6 +83,9 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     const bool can_be_folded = veh->is_foldable();
     const bool is_convertible = ( veh->tags.count( "convertible" ) > 0 );
     const bool remotely_controlled = g->remoteveh() == veh;
+    const bool has_washmachine = ( veh->part_with_feature( veh_root_part, "WASHING_MACHINE" ) >= 0 );
+    bool working = false;
+    bool detergent_is_enough = false;
     typedef enum {
         EXAMINE, CONTROL, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
         USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK
@@ -95,7 +98,14 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
     }
 
-    if( from_vehicle ) {
+    for( auto e : veh->get_parts( "WASHING_MACHINE" ) ) {
+        working = e->enabled;
+    }
+    if( has_washmachine ) {
+        selectmenu.addentry( USE_WASHMACHINE, true, 'W', working ? _( "Deactivate the washing machine" ) : _( "Activate the washing machine (1.5 hours)" ) );
+    }
+
+    if( from_vehicle && !working ) {
         selectmenu.addentry( GET_ITEMS, true, 'g', _( "Get items" ) );
     }
 
@@ -167,6 +177,34 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
 
         case USE_HOTPLATE:
             veh_tool( "hotplate" );
+            return DONE;
+
+        case USE_WASHMACHINE:
+            if( g->u.crafting_inventory().has_charges( "detergent", 5 ) ) {
+                detergent_is_enough = true;
+            }
+
+            for( auto e : veh->get_parts( "WASHING_MACHINE" ) ) {
+                if( e->enabled ) {
+                    e->enabled = false;
+                    veh->tags.insert( "manual_stop" );
+                    add_msg( m_neutral, _( "You turn the washing machine off before it's finished the program, and open its lid." ) );
+                } else if( veh->fuel_left( "water" ) < 24 ) {
+                    add_msg( m_neutral, _( "You need 24 charges of water to fill the washing machine." ) );
+                } else if( !detergent_is_enough ) {
+                    add_msg( m_neutral, _( "You need 5 charges of detergent for the washing machine." ) );
+                } else {
+                    e->enabled = true;
+                    veh->drain( "water", 24 );
+
+                    std::vector<item_comp> detergent;
+                    detergent.push_back( item_comp( "detergent", 5 ) );
+                    g->u.consume_items( detergent );
+
+                    veh->tags.erase( "manual_stop" );
+                    add_msg( m_neutral, _( "You close the lid of the washing machine, and turn it on.  The washing machine is being filled with soapy water." ) );
+                }
+            }
             return DONE;
 
         case FILL_CONTAINER:
