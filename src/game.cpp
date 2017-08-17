@@ -10795,14 +10795,14 @@ bool game::unload( item &it )
         item ammo( target->ammo_current(), calendar::turn, qty );
         
         if( ammo.made_of( LIQUID ) ) {
-            if( !add_or_drop_with_msg( u, ammo, true ) ) {
+            if( !add_or_drop_with_msg( u, ammo ) ) {
                 qty -= ammo.charges; // only handled part (or none) of the liquid
             }
             if( qty <= 0 ) {
                 return false; // no liquid was moved
             }
 
-        } else if( !add_or_drop_with_msg( u, ammo, true ) ) {
+        } else if( !add_or_drop_with_msg( u, ammo, qty > 1 ) ) {
             return false;
         }
         

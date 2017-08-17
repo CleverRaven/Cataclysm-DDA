@@ -600,7 +600,7 @@ long int Character::i_add_to_container(const item &it, const bool unloading)
 {
     long int charges = it.charges;
     
-    if( it.is_ammo() && (!unloading || (unloading && charges == 1) ) ) {
+    if( it.is_ammo() && !unloading ) {
         const itype_id item_type = it.typeId();
         
         auto add_to_container = [&it](item &container) {
