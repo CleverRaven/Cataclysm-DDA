@@ -570,7 +570,7 @@
          "encumbrance" : 20
       },
       "ranged_damage" : 4,
-      "range" : 5,
+      "range" : 4,
       "dispersion" : 250,
       "durability" : 6,
       "clip_size" : 1,
@@ -599,7 +599,7 @@
          "encumbrance" : 20
       },
       "ranged_damage" : 3,
-      "range" : 6,
+      "range" : 5,
       "dispersion" : 210,
       "durability" : 6,
       "clip_size" : 1,
@@ -630,7 +630,6 @@
          "encumbrance" : 20
       },
       "ranged_damage" : 5,
-      "range" : 10,
       "dispersion" : 180,
       "durability" : 6,
       "clip_size" : 1,
@@ -659,7 +658,7 @@
          "encumbrance" : 20
       },
       "ranged_damage" : 7,
-      "range" : 12,
+      "range" : 9,
       "dispersion" : 150,
       "durability" : 6,
       "clip_size" : 1,
@@ -689,7 +688,6 @@
          "encumbrance" : 20
       },
       "ranged_damage" : 9,
-      "range" : 14,
       "dispersion" : 120,
       "durability" : 6,
       "clip_size" : 1,
@@ -718,7 +716,6 @@
          "encumbrance" : 20
       },
       "ranged_damage" : 11,
-      "range" : 16,
       "dispersion" : 120,
       "durability" : 6,
       "clip_size" : 1,
@@ -747,7 +744,7 @@
          "encumbrance" : 20
       },
       "ranged_damage" : 7,
-      "range" : 20,
+      "range" : 15,
       "dispersion" : 210,
       "durability" : 6,
       "clip_size" : 1,
@@ -777,7 +774,7 @@
          "encumbrance" : 20
       },
       "ranged_damage" : 15,
-      "range" : 18,
+      "range" : 13,
       "dispersion" : 120,
       "durability" : 6,
       "clip_size" : 1,
