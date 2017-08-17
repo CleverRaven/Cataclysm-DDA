@@ -74,7 +74,7 @@
     "//" : "Gunmods for bows and crossbows.",
     "items": [
       [ "arrowrest", 100 ],
-      [ "bow_sight", 100 ],
+      [ "bow_sight", 80 ],
       [ "bow_stabilizer", 100 ]
     ]
   }

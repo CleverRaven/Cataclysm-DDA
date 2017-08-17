@@ -13,8 +13,9 @@
     "type" : "item_group",
     "id" : "NC_SCAVENGER_archery",
     "items":[
-      ["shortbow", 5],
-      ["crossbow", 25]
+      ["shortbow", 10],
+	  ["longbow", 5],
+      ["crossbow", 15]
     ]
   },{
     "type" : "item_group",

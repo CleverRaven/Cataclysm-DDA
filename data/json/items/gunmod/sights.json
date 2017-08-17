@@ -14,7 +14,7 @@
     "location": "sights",
     "mod_targets": [ "bow" ],
     "sight_dispersion": 45,
-    "aim_cost": 6
+	"aim_cost": 10
   },
   {
     "id": "holo_sight",

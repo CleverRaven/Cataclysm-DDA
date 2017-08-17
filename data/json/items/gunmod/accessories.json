@@ -29,7 +29,7 @@
     "color": "brown",
     "location": "accessories",
     "mod_targets": [ "bow" ],
-    "dispersion_modifier": -50,
+    "dispersion_modifier": -40,
     "min_skills": [ [ "gun", 1 ] ]
   },
   {
