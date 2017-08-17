@@ -2909,7 +2909,7 @@
     "flags": [ "WATER_FRIENDLY", "SUN_GLASSES" ]
   },
   {
-    "id": "eclise_glasses",
+    "id": "eclipse_glasses",
     "type": "ARMOR",
     "name": "pair of eclipse glasses",
     "name_plural": "pairs of eclipse glasses",
