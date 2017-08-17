@@ -34,7 +34,8 @@ static void arm_shooter( npc &shooter, itype_id gun_id )
     shooter.wield( gun );
 }
 
-static void equip_shooter( npc &shooter, std::vector<std::string> apparel ) {
+static void equip_shooter( npc &shooter, std::vector<std::string> apparel )
+{
     tripoint shooter_pos( 60, 60, 0 );
     shooter.setpos( shooter_pos );
     shooter.worn.clear();
@@ -49,6 +50,7 @@ std::array<double, 5> accuracy_levels = {{ accuracy_grazing, accuracy_standard, 
 static std::array<statistics, 5> firing_test( npc &shooter, std::string gun_type, float aim_ratio,
         int range, std::array<double, 5> thresholds )
 {
+    clear_map();
     arm_shooter( shooter, itype_id( gun_type ) );
 
     // Spawn a target.
@@ -92,10 +94,9 @@ static std::array<statistics, 5> firing_test( npc &shooter, std::string gun_type
 static void test_shooting_scenario( npc &shooter, std::string gun_type,
                                     int min_quickdraw_range, int min_good_range, int max_good_range )
 {
-    clear_map();
-
     {
-        std::array<statistics, 5> minimum_stats = firing_test( shooter, gun_type, 0.0, min_quickdraw_range, {{ 0.01, -1, -1, -1, -1 }} );
+        std::array<statistics, 5> minimum_stats = firing_test( shooter, gun_type, 0.0,
+        min_quickdraw_range, {{ 0.01, -1, -1, -1, -1 }} );
         INFO( "Accumulated " << minimum_stats[0].n() << " samples." );
         CHECK( minimum_stats[0].avg() < 0.01 );
     }
@@ -111,10 +112,19 @@ static void test_shooting_scenario( npc &shooter, std::string gun_type,
     }
 }
 
+void assert_encumbrance( npc &shooter, int encumbrance )
+{
+    for( body_part bp : bp_aBodyPart ) {
+        INFO( "Body Part: " << body_part_name( bp ) );
+        REQUIRE( shooter.encumb( bp ) == encumbrance );
+    }
+}
+
 TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
 {
     standard_npc shooter( "Shooter", {}, 0, 8, 8, 8, 8 );
-    equip_shooter( shooter, { "backpackk" } );
+    equip_shooter( shooter, { "bastsandals", "armguard_chitin", "armor_chitin", "beekeeping_gloves", "fencing_mask" } );
+    assert_encumbrance( shooter, 10 );
 
     SECTION( "an unskilled shooter with an inaccurate pistol" ) {
         test_shooting_scenario( shooter, "glock_19", 3, 3, 5 );
@@ -130,7 +140,8 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
 TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 {
     standard_npc shooter( "Shooter", {}, 5, 10, 10, 10, 10 );
-    equip_shooter( shooter, { "backpack" } );
+    equip_shooter( shooter, { "cloak_wool", "footrags_wool", "gloves_wraps_fur", "veil_wedding" } );
+    assert_encumbrance( shooter, 5 );
 
     SECTION( "a skilled shooter with an accurate pistol" ) {
         test_shooting_scenario( shooter, "sw_619", 4, 7, 10 );
@@ -146,7 +157,8 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
 {
     standard_npc shooter( "Shooter", {}, 10, 18, 18, 18, 18 );
-    equip_shooter( shooter, { "backpack" } );
+    equip_shooter( shooter, { } );
+    assert_encumbrance( shooter, 0 );
 
     SECTION( "an expert shooter with an excellent pistol" ) {
         test_shooting_scenario( shooter, "sw629", 5, 10, 15 );
