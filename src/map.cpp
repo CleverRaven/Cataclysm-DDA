@@ -4691,7 +4691,7 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
             cur_veh->parts[part].enabled = false;
             counter = 0;
         } else if( calendar::once_every( MINUTES( 15 ) ) ) {
-            add_msg( _("It should take %d minutes to finish washing."), time_left / MINUTES( 1 ) + 1 );
+            add_msg( _( "It should take %d minutes to finish washing." ), time_left / MINUTES( 1 ) + 1 );
         }
     }
     if( ( cur_veh->tags.count( "manual_stop" ) > 0 ) && ( counter > 0 ) ) {
