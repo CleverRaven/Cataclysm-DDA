@@ -13,7 +13,7 @@
               { "item": "glasses_eye", "prob": 80 },
               { "item": "glasses_reading", "prob": 10 },
               { "item": "glasses_bifocal", "prob": 5 },
-              { "item": "glasses_monocle", "prob": 5 }
+              { "item": "glasses_monocle", "prob": 5 },
             ] },
             { "item": "fitover_sunglasses" }
           ], "prob": 75 }
