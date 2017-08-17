@@ -599,35 +599,36 @@ std::vector<item_location> Character::nearby( const std::function<bool(const ite
 long int Character::i_add_to_container(const item &it, const bool unloading)
 {
     long int charges = it.charges;
-    
+
     if( !it.is_ammo() || unloading ) {
         return charges;
     }
-    
+
     const itype_id item_type = it.typeId();
-    
+
     auto add_to_container = [&it, &charges](item &container) {
-        if( container.contents.front().charges < container.ammo_capacity() ) {
-            const long int diff = container.ammo_capacity() - container.contents.front().charges;
+        auto &contained_ammo = container.contents.front();
+        if( contained_ammo.charges < container.ammo_capacity() ) {
+            const long int diff = container.ammo_capacity() - contained_ammo.charges;
             add_msg( _( "You put the %s in your %s." ), it.tname().c_str(), container.tname().c_str() );
             if( diff > charges ) {
-                container.contents.front().charges += charges;
+                contained_ammo.charges += charges;
                 return 0L;
             } else {
-                container.contents.front().charges = container.ammo_capacity();
+                contained_ammo.charges = container.ammo_capacity();
                 return charges - diff;
             }
         }
         return charges;
     };
-    
+
     visit_items( [ & ]( item *item ) {
         if( charges > 0 && item->is_ammo_container() && item_type == item->contents.front().typeId() ) {
             charges = add_to_container(*item);
         }
         return VisitResponse::NEXT;
     } );
-    
+
     return charges;
 }
 
@@ -2060,7 +2061,7 @@ bool Character::is_immune_field( const field_id fid ) const
         case fd_web:
             return has_trait( trait_id( "WEB_WALKER" ) );
         case fd_fire:
-        case fd_flame_burst: 
+        case fd_flame_burst:
             return has_trait( trait_id( "M_SKIN2" ) ) || has_active_bionic( bionic_id( "bio_heatsink" ) ) ||
                    is_wearing( "rm13_armor_on" );
         default:
