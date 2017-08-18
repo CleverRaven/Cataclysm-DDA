@@ -741,7 +741,6 @@ class game
         bool save_uistate();
         void load_uistate(std::string worldname);
         // Data Initialization
-        void init_faction_data();
         void init_autosave();     // Initializes autosave parameters
         void init_savedata_translation_tables();
         void init_lua();          // Initializes lua interpreter.
