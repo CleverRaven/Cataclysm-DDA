@@ -4690,7 +4690,7 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
             }
         }
         if( washing_machine_finished ) {
-            add_msg( _( "The washing machine has finished washing." ) );
+            add_msg( _( "The washing machine in the %s has finished washing." ), cur_veh->name.c_str() );
         }
     }
 
