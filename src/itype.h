@@ -441,7 +441,7 @@ struct islot_gunmod : common_ranged_data {
     int sight_dispersion = -1;
 
     /**
-     *  If set (non-zero) mod functions as sight when recoil above mod @ref sight_dispersion */
+     *  If set (non-negative) mod functions as sight when recoil above mod @ref sight_dispersion */
     int aim_cost = 0;
 
     /** Modifies base loudness as provided by the currently loaded ammo */

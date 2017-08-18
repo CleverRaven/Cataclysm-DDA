@@ -1164,7 +1164,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.push_back( iteminfo( "GUNMOD", _( "Sight dispersion: " ), "",
                                       mod->sight_dispersion, true, "", true, true ) );
         }
-        if( mod->aim_cost > 0 ) {
+        if( mod->aim_cost >= 0 ) {
             info.push_back( iteminfo( "GUNMOD", _( "Aim cost: " ), "",
                                       mod->aim_cost, true, "", true, true ) );
         }
