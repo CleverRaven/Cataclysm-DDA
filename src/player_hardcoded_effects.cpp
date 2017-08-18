@@ -314,7 +314,7 @@ struct temperature_effect {
 static void eff_fun_cold( player &u, effect &it )
 {
     // { body_part, intensity }, { str_pen, dex_pen, int_pen, per_pen, msg, msg_chance, miss_msg }
-    const std::map<std::pair<body_part, int>, temperature_effect> effs = {{
+    static const std::map<std::pair<body_part, int>, temperature_effect> effs = {{
             { { bp_head, 3 }, { 0, 0, 3, 0, translate_marker( "Your thoughts are unclear." ), 400, "" } },
             { { bp_head, 2 }, { 0, 0, 1, 0, "", 0, "" } },
             { { bp_mouth, 3 }, { 0, 0, 0, 3, translate_marker( "Your face is stiff from the cold." ), 400, "" } },
@@ -348,7 +348,7 @@ static void eff_fun_cold( player &u, effect &it )
 static void eff_fun_hot( player &u, effect &it )
 {
     // { body_part, intensity }, { str_pen, dex_pen, int_pen, per_pen, msg, msg_chance, miss_msg }
-    const std::map<std::pair<body_part, int>, temperature_effect> effs = {{
+    static const std::map<std::pair<body_part, int>, temperature_effect> effs = {{
             { { bp_head, 3 }, { 0, 0, 0, 0, translate_marker( "Your head is pounding from the heat." ), 400, "" } },
             { { bp_head, 2 }, { 0, 0, 0, 0, "", 0, "" } },
             { { bp_torso, 3 }, { 2, 0, 0, 0, translate_marker( "You are sweating profusely." ), 400, "" } },
@@ -387,7 +387,7 @@ static void eff_fun_hot( player &u, effect &it )
 static void eff_fun_frostbite( player &u, effect &it )
 {
     // { body_part, intensity }, { str_pen, dex_pen, int_pen, per_pen, msg, msg_chance, miss_msg }
-    const std::map<std::pair<body_part, int>, temperature_effect> effs = {{
+    static const std::map<std::pair<body_part, int>, temperature_effect> effs = {{
             { { bp_hand_l, 2 }, { 0, 2, 0, 0, "", 0, translate_marker( "You have trouble grasping with your numb fingers." ) } },
             { { bp_hand_r, 2 }, { 0, 2, 0, 0, "", 0, translate_marker( "You have trouble grasping with your numb fingers." ) } },
             { { bp_foot_l, 2 }, { 0, 0, 0, 0, translate_marker( "Your foot has gone numb." ), 800, "" } },
