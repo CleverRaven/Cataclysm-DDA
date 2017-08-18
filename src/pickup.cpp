@@ -84,8 +84,10 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     const bool is_convertible = ( veh->tags.count( "convertible" ) > 0 );
     const bool remotely_controlled = g->remoteveh() == veh;
     const bool has_washmachine = ( veh->part_with_feature( veh_root_part, "WASHING_MACHINE" ) >= 0 );
-    bool working = false;
+    bool washing_machine_on = false;
     bool detergent_is_enough = false;
+    bool filthy_items = false;
+
     typedef enum {
         EXAMINE, CONTROL, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
         USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK
@@ -99,13 +101,13 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     }
 
     for( auto e : veh->get_parts( "WASHING_MACHINE" ) ) {
-        working = e->enabled;
+        washing_machine_on = e->enabled;
     }
     if( has_washmachine ) {
-        selectmenu.addentry( USE_WASHMACHINE, true, 'W', working ? _( "Deactivate the washing machine" ) : _( "Activate the washing machine (1.5 hours)" ) );
+        selectmenu.addentry( USE_WASHMACHINE, true, 'W', washing_machine_on ? _( "Deactivate the washing machine" ) : _( "Activate the washing machine (1.5 hours)" ) );
     }
 
-    if( from_vehicle && !working ) {
+    if( from_vehicle && !washing_machine_on ) {
         selectmenu.addentry( GET_ITEMS, true, 'g', _( "Get items" ) );
     }
 
@@ -183,16 +185,24 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
             if( g->u.crafting_inventory().has_charges( "detergent", 5 ) ) {
                 detergent_is_enough = true;
             }
+            for( auto &i : veh->get_items( veh->part_with_feature( veh_root_part, "WASHING_MACHINE" ) ) ) {
+                static const std::string filthy( "FILTHY" );
+                i.bday = calendar::turn.get_turn();
+                if( i.has_flag( filthy ) ) {
+                    filthy_items = true;
+                }
+            }
 
             for( auto e : veh->get_parts( "WASHING_MACHINE" ) ) {
                 if( e->enabled ) {
                     e->enabled = false;
-                    veh->tags.insert( "manual_stop" );
-                    add_msg( m_neutral, _( "You turn the washing machine off before it's finished the program, and open its lid." ) );
+                    add_msg( m_bad, _( "You turn the washing machine off before it's finished the program, and open its lid." ) );
                 } else if( veh->fuel_left( "water" ) < 24 ) {
-                    add_msg( m_neutral, _( "You need 24 charges of water to fill the washing machine." ) );
+                    add_msg( m_bad, _( "You need 24 charges of water to fill the washing machine." ) );
                 } else if( !detergent_is_enough ) {
-                    add_msg( m_neutral, _( "You need 5 charges of detergent for the washing machine." ) );
+                    add_msg( m_bad, _( "You need 5 charges of detergent for the washing machine." ) );
+                } else if( !filthy_items ) {
+                    add_msg( m_bad, _( "There are only non-filthy items in the washing machine.  There is no need to wash them." ) );
                 } else {
                     e->enabled = true;
                     veh->drain( "water", 24 );
@@ -201,8 +211,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
                     detergent.push_back( item_comp( "detergent", 5 ) );
                     g->u.consume_items( detergent );
 
-                    veh->tags.erase( "manual_stop" );
-                    add_msg( m_neutral, _( "You close the lid of the washing machine, and turn it on.  The washing machine is being filled with soapy water." ) );
+                    add_msg( m_good, _( "You close the lid of the washing machine, and turn it on.  The washing machine is filling with soapy water." ) );
                 }
             }
             return DONE;

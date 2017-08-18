@@ -4676,26 +4676,19 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
     const bool washmachine_here = cur_veh->part_flag( part, VPFLAG_WASHING_MACHINE ) && cur_veh->has_part( "WASHING_MACHINE", true );
     const int washing_time = MINUTES( 90 );
     static const std::string filthy( "FILTHY" );
-    static int counter = 0;
-    int time_left = washing_time - counter;
     if( washmachine_here ) {
         for( auto &n : cur_veh->get_items( part ) ) {
-            n.item_tags.erase( filthy );
+            int time_left = washing_time - calendar::turn.get_turn() + n.bday;
+            if( time_left == 0 ) {
+                add_msg( _( "The washing machine has finished washing." ) );
+                n.item_tags.erase( filthy );
+                cur_veh->parts[part].enabled = false;
+                break;
+            } else if( calendar::once_every( MINUTES( 15 ) ) ) {
+                add_msg( _("It should take %d minutes to finish washing."), time_left / MINUTES( 1 ) + 1 );
+                break;
+            }
         }
-        for( int i = 0; i <= washing_time ; i++ ) {
-            counter++;
-            break;
-        }
-        if( time_left == 0 ) {
-            add_msg( _( "The washing machine has finished washing." ) );
-            cur_veh->parts[part].enabled = false;
-            counter = 0;
-        } else if( calendar::once_every( MINUTES( 15 ) ) ) {
-            add_msg( _( "It should take %d minutes to finish washing." ), time_left / MINUTES( 1 ) + 1 );
-        }
-    }
-    if( ( cur_veh->tags.count( "manual_stop" ) > 0 ) && ( counter > 0 ) ) {
-        counter = 0;
     }
 
     if( cur_veh->part_with_feature( part, VPFLAG_RECHARGE ) >= 0 && cur_veh->has_part( "RECHARGE", true ) ) {
