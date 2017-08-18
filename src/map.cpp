@@ -4673,7 +4673,7 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
         }
     }
 
-    const bool washmachine_here = cur_veh->part_flag( part, VPFLAG_WASHING_MACHINE ) && cur_veh->has_part( "WASHING_MACHINE", true );
+    const bool washmachine_here = cur_veh->part_flag( part, VPFLAG_WASHING_MACHINE ) && cur_veh->is_part_on( part );
     bool washing_machine_finished = false;
     if( washmachine_here ) {
         for( auto &n : cur_veh->get_items( part ) ) {
