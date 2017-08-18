@@ -182,6 +182,7 @@ struct mtype {
         friend class MonsterGenerator;
         std::string name;
         std::string name_plural;
+        std::string description;
 
         std::set< const species_type * > species_ptrs;
 
@@ -197,7 +198,6 @@ struct mtype {
         // TODO: maybe make this private as well? It must be set to `true` only once,
         // and must never be set back to `false`.
         bool was_loaded = false;
-        std::string description;
         std::set<species_id> species;
         std::set<std::string> categories;
         mfaction_id default_faction;
