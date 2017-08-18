@@ -10655,10 +10655,7 @@ bool add_or_drop_with_msg( player &u, item &it, const bool unloading = false )
         g->consume_liquid( it, 1 );
         return it.charges <= 0;
     }
-
-    //Try to add ammo to container
     it.charges = u.i_add_to_container(it, unloading);
-
     if( it.is_ammo() && it.charges == 0 ) {
         return true;
     } else if( !u.can_pickVolume( it ) ) {

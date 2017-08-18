@@ -599,13 +599,11 @@ std::vector<item_location> Character::nearby( const std::function<bool(const ite
 long int Character::i_add_to_container(const item &it, const bool unloading)
 {
     long int charges = it.charges;
-
     if( !it.is_ammo() || unloading ) {
         return charges;
     }
 
     const itype_id item_type = it.typeId();
-
     auto add_to_container = [&it, &charges](item &container) {
         auto &contained_ammo = container.contents.front();
         if( contained_ammo.charges < container.ammo_capacity() ) {
