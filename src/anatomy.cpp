@@ -4,6 +4,8 @@
 #include "output.h"
 #include "messages.h"
 #include "cata_utility.h"
+#include "weighted_list.h"
+
 #include <numeric>
 #include <algorithm>
 #include <cmath>
@@ -16,9 +18,6 @@ namespace
 generic_factory<anatomy> anatomy_factory( "anatomy" );
 
 }
-
-template<>
-const anatomy_id anatomy_id::NULL_ID( "null_anatomy" );
 
 template<>
 bool anatomy_id::is_valid() const
@@ -115,7 +114,7 @@ bodypart_ids anatomy::get_part_with_cumulative_hit_size( float size ) const
         }
     }
 
-    return NULL_ID;
+    return bodypart_ids::NULL_ID();
 }
 
 bodypart_id anatomy::random_body_part() const
@@ -123,40 +122,10 @@ bodypart_id anatomy::random_body_part() const
     return get_part_with_cumulative_hit_size( rng_float( 0.0f, size_sum ) ).id();
 }
 
-// @todo Better home
-/**
- * Weighted random roll out of discrete set.
- * Chance to pick an element is size/sum(all_sizes)
- */
-template <typename Container,
-          typename ElemType = typename Container::value_type,
-          typename Retval = typename ElemType::second_type>
-const Retval & roulette( const Container &all_elems, const Retval &fallback )
-{
-    if( all_elems.empty() ) {
-        return fallback;
-    }
-
-    float size_all = std::accumulate( all_elems.begin(), all_elems.end(), 0.0f, []( float acc,
-    const ElemType & el ) {
-        return acc + el.first;
-    } );
-    float pt = rng_float( 0.0f, size_all );
-    for( const auto &el : all_elems ) {
-        pt -= el.first;
-        if( pt <= 0.0f ) {
-            return el.second;
-        }
-    }
-
-    debugmsg( "Invalid roulette arguments" );
-    return fallback;
-}
-
 bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const
 {
     size_t size_diff_index = static_cast<size_t>( 1 + clamp( size_diff, -1, 1 ) );
-    std::vector<std::pair<float, bodypart_id>> hit_weights;
+    weighted_float_list<bodypart_id> hit_weights;
     for( const auto &bp : cached_bps ) {
         float weight = bp->hit_size_relative[size_diff_index];
         if( weight <= 0.0f ) {
@@ -167,16 +136,20 @@ bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const
             weight *= std::pow( hit_roll, bp->hit_difficulty );
         }
 
-        hit_weights.emplace_back( weight, bp );
+        hit_weights.add( bp, weight );
     }
 
     // Debug for seeing weights.
     for( const auto &pr : hit_weights ) {
-        add_msg( m_debug, "%s = %.3f", pr.second->name.c_str(), pr.first );
+        add_msg( m_debug, "%s = %.3f", pr.obj.obj().name.c_str(), pr.weight );
     }
 
-    bodypart_id ret = roulette( hit_weights, bodypart_ids( NULL_ID ).id() );
+    const bodypart_id *ret = hit_weights.pick();
+    if( ret == nullptr ) {
+        debugmsg( "Attempted to select body part from empty anatomy %s", id.c_str() );
+        return bodypart_ids::NULL_ID().id();
+    }
 
-    add_msg( m_debug, "selected part: %s", ret->name.c_str() );
-    return ret;
+    add_msg( m_debug, "selected part: %s", ret->id().obj().name.c_str() );
+    return *ret;
 }

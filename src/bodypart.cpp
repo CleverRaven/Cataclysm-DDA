@@ -73,9 +73,6 @@ body_part legacy_id_to_enum( const std::string &legacy_id )
 }
 
 template<>
-const bodypart_ids bodypart_ids::NULL_ID( "num_bp" );
-
-template<>
 bool bodypart_ids::is_valid() const
 {
     return body_part_factory.is_valid( *this );
@@ -207,11 +204,11 @@ void body_part_struct::check() const
                   under_token.id.c_str() );
     }
 
-    if( id != NULL_ID && main_part == NULL_ID ) {
+    if( !id.is_null() && main_part.is_null() ) {
         debugmsg( "Body part %s has unset main part", id.c_str() );
     }
 
-    if( id != NULL_ID && opposite_part == NULL_ID ) {
+    if( !id.is_null() && opposite_part.is_null() ) {
         debugmsg( "Body part %s has unset opposite part", id.c_str() );
     }
 
