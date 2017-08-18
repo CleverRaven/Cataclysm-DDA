@@ -78,7 +78,7 @@
 #include <stdlib.h>
 #include <limits>
 
-const double MIN_RECOIL = 600;
+const double MAX_RECOIL = 600;
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 const mtype_id mon_shadow_snake( "mon_shadow_snake" );
@@ -3418,12 +3418,7 @@ bool player::has_watch() const
 void player::pause()
 {
     moves = 0;
-    /** @EFFECT_STR increases recoil recovery speed */
-
-    /** @EFFECT_GUN increases recoil recovery speed */
-    recoil -= str_cur + 2 * get_skill_level( skill_gun );
-    recoil = std::max( MIN_RECOIL * 2, recoil );
-    recoil = recoil / 2;
+    recoil = MAX_RECOIL;
 
     // Train swimming if underwater
     if( !in_vehicle ) {
@@ -3745,6 +3740,7 @@ void player::on_dodge( Creature *source, float difficulty )
     // dodging throws of our aim unless we are either skilled at dodging or using a small weapon
     if( is_armed() && weapon.is_gun() ) {
         recoil += std::max( weapon.volume() / 250_ml - get_skill_level( skill_dodge ), 0 ) * rng( 0, 100 );
+        recoil = std::min( MAX_RECOIL, recoil );
     }
 
     // Even if we are not to train still call practice to prevent skill rust
@@ -4018,6 +4014,7 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
 
     // @todo Scale with damage in a way that makes sense for power armors, plate armor and naked skin.
     recoil += recoil_mul * weapon.volume() / 250_ml;
+    recoil = std::min( MAX_RECOIL, recoil );
     //looks like this should be based off of dealtdams, not d as d has no damage reduction applied.
     // Skip all this if the damage isn't from a creature. e.g. an explosion.
     if( source != nullptr ) {

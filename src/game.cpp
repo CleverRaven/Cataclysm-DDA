@@ -10853,7 +10853,7 @@ void game::wield( int pos )
 
     // If called for the current weapon then try unwielding it
     if( u.wield( &it == &u.weapon ? u.ret_null : it ) ) {
-        u.recoil = MIN_RECOIL;
+        u.recoil = MAX_RECOIL;
         // Rest of the hack: remove the item if it wasn't removed in player::wield
         if( !in_inv ) {
             loc.remove_item();
@@ -11550,13 +11550,8 @@ bool game::walk_move( const tripoint &dest_loc )
 
     u.burn_move_stamina( previous_moves - u.moves );
 
-    // Adjust recoil down
-    ///\EFFECT_STR increases recoil recovery speed
-
-    ///\EFFECT_GUN inreases recoil recovery speed
-    u.recoil -= int(u.str_cur / 2) + u.get_skill_level( skill_id( "gun" ) );
-    u.recoil = std::max( MIN_RECOIL * 2, u.recoil );
-    u.recoil = int(u.recoil / 2);
+    // Max out recoil
+    u.recoil = MAX_RECOIL;
 
     // Print a message if movement is slow
     const int mcost_to = m.move_cost( dest_loc ); //calculate this _after_ calling grabbed_move

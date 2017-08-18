@@ -63,6 +63,7 @@
 #include "rotatable_symbols.h"
 #include "harvest.h"
 #include "morale_types.h"
+#include "anatomy.h"
 
 #include <assert.h>
 #include <string>
@@ -259,7 +260,8 @@ void DynamicDataLoader::initialize()
     add( "monster_attack", []( JsonObject &jo, const std::string &src ) { MonsterGenerator::generator().load_monster_attack( jo, src ); } );
     add( "palette", mapgen_palette::load );
     add( "rotatable_symbol", &rotatable_symbols::load );
-    add( "body_part", &body_part_struct::load );
+    add( "body_part", &body_part_struct::load_bp );
+    add( "anatomy", &anatomy::load_anatomy );
     add( "morale_type", &morale_type_data::load_type );
 }
 
@@ -391,6 +393,7 @@ void DynamicDataLoader::unload_data()
     rotatable_symbols::reset();
     body_part_struct::reset();
     npc_template::reset();
+    anatomy::reset();
 
     // TODO:
     //    NameGenerator::generator().clear_names();
@@ -401,7 +404,7 @@ void DynamicDataLoader::finalize_loaded_data()
 {
     assert( !finalized && "Can't finalize the data twice." );
 
-    body_part_struct::finalize();
+    body_part_struct::finalize_all();
     item_controller->finalize();
     requirement_data::finalize();
     vpart_info::finalize();
@@ -421,6 +424,7 @@ void DynamicDataLoader::finalize_loaded_data()
     finalize_constructions();
     npc_class::finalize_all();
     harvest_list::finalize_all();
+    anatomy::finalize_all();
     check_consistency();
 
     finalized = true;
@@ -458,4 +462,6 @@ void DynamicDataLoader::check_consistency()
     item_action_generator::generator().check_consistency();
     harvest_list::check_consistency();
     npc_template::check_consistency();
+    body_part_struct::check_consistency();
+    anatomy::check_consistency();
 }
