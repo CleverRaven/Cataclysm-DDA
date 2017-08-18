@@ -96,9 +96,9 @@ static void test_shooting_scenario( npc &shooter, std::string gun_type,
 {
     {
         std::array<statistics, 5> minimum_stats = firing_test( shooter, gun_type, 0.0,
-        min_quickdraw_range, {{ 0.01, -1, -1, -1, -1 }} );
+        min_quickdraw_range, {{ 0.1, -1, -1, -1, -1 }} );
         INFO( "Accumulated " << minimum_stats[0].n() << " samples." );
-        CHECK( minimum_stats[0].avg() < 0.01 );
+        CHECK( minimum_stats[0].avg() < 0.1 );
     }
     {
         std::array<statistics, 5> good_stats = firing_test( shooter, gun_type, 0.9, min_good_range, {{ -1, -1, 0.5, -1, -1 }} );
@@ -127,13 +127,13 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
     assert_encumbrance( shooter, 10 );
 
     SECTION( "an unskilled shooter with an inaccurate pistol" ) {
-        test_shooting_scenario( shooter, "glock_19", 3, 3, 5 );
+        test_shooting_scenario( shooter, "glock_19", 4, 3, 5 );
     }
     SECTION( "an unskilled shooter with an inaccurate smg" ) {
-        test_shooting_scenario( shooter, "mac_10", 3, 5, 8 );
+        test_shooting_scenario( shooter, "mac_10", 4, 5, 8 );
     }
     SECTION( "an unskilled shooter with an inaccurate rifle" ) {
-        test_shooting_scenario( shooter, "m1918", 3, 9, 15 );
+        test_shooting_scenario( shooter, "m1918", 4, 9, 15 );
     }
 }
 
@@ -144,13 +144,13 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
     assert_encumbrance( shooter, 5 );
 
     SECTION( "a skilled shooter with an accurate pistol" ) {
-        test_shooting_scenario( shooter, "sw_619", 4, 7, 10 );
+        test_shooting_scenario( shooter, "sw_619", 5, 7, 10 );
     }
     SECTION( "a skilled shooter with an accurate smg" ) {
-        test_shooting_scenario( shooter, "uzi", 4, 10, 15 );
+        test_shooting_scenario( shooter, "uzi", 5, 10, 15 );
     }
     SECTION( "a skilled shooter with an accurate rifle" ) {
-        test_shooting_scenario( shooter, "ruger_mini", 4, 15, 45 );
+        test_shooting_scenario( shooter, "ruger_mini", 5, 15, 45 );
     }
 }
 
@@ -161,12 +161,12 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
     assert_encumbrance( shooter, 0 );
 
     SECTION( "an expert shooter with an excellent pistol" ) {
-        test_shooting_scenario( shooter, "sw629", 5, 10, 15 );
+        test_shooting_scenario( shooter, "sw629", 6, 10, 15 );
     }
     SECTION( "an expert shooter with an excellent smg" ) {
-        test_shooting_scenario( shooter, "ppsh", 5, 20, 30 );
+        test_shooting_scenario( shooter, "ppsh", 6, 20, 30 );
     }
     SECTION( "an expert shooter with an excellent rifle" ) {
-        test_shooting_scenario( shooter, "browning_blr", 5, 30, 60 );
+        test_shooting_scenario( shooter, "browning_blr", 6, 30, 60 );
     }
 }
