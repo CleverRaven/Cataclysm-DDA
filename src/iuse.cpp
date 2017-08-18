@@ -6328,7 +6328,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
                 }
 
                 const monster dummy( monster_photos[choice - 1] );
-                popup(dummy.type->description.c_str());
+                popup( dummy.type->get_description().c_str() );
             } while (true);
             return it->type->charges_to_use();
         }
@@ -6639,7 +6639,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
             }
 
             const monster dummy( monster_photos[choice - 1] );
-            popup(dummy.type->description.c_str());
+            popup(dummy.type->get_description().c_str());
 
         } while (true);
 
