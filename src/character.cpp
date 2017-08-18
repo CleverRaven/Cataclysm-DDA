@@ -214,10 +214,11 @@ double Character::aim_per_move( const item& gun, double recoil ) const
     }
 
     if( cost == INT_MAX ) {
-        return 0; // no suitable sights (already at maxium aim)
+        // No suitable sights (already at maxium aim).
+        return 0;
     }
 
-    // each 5 points (combined) of hand encumbrance increases aim cost by one unit
+    // Each 5 points (combined) of hand encumbrance increases aim cost by one unit.
     cost += round ( ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 10.0 );
 
     /** @EFFECT_DEX increases aiming speed */
@@ -232,17 +233,18 @@ double Character::aim_per_move( const item& gun, double recoil ) const
 
     cost = std::max( cost, 1 );
 
-    // constant at which one unit of aim cost ~75 moves
+    // Constant at which one unit of aim cost ~75 moves.
     // (presuming aiming from nil to maximum aim via single sight at DEX 8)
     int k = 25;
 
-    // calculate rate (b) from the exponential function y = a(1-b)^x where a is recoil
+    // Calculate rate (b) from the exponential function y = a(1-b)^x where a is recoil.
     double improv = 1.0 - pow( 0.5, 1.0 / ( cost * k ) );
 
-    // minimum improvment is 0.1MoA
-    double aim = std::max( recoil * improv, 0.1 );
+    // Scale by 5x temporarally as we're scaling MAX_RECOIL.
+    // Minimum improvment is 0.5MoA.
+    double aim = 5.0 * std::max( recoil * improv, 0.1 );
 
-    // never improve by more than the currently used sights permit
+    // Never improve by more than the currently used sights permit.
     return std::min( aim, recoil - limit );
 }
 

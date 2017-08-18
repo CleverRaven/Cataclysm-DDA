@@ -224,7 +224,8 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
         int qty = gun.gun_recoil( *this, bipod );
         delay  += qty * absorb;
-        recoil += qty * ( 1.0 - absorb );
+        // Temporaraly scale by 5x as we adjust MAX_RECOIL.
+        recoil += 5.0 * ( qty * ( 1.0 - absorb ) );
 
         make_gun_sound_effect( *this, shots > 1, &gun );
         sfx::generate_gun_sound( *this, gun );
