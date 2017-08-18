@@ -4674,20 +4674,23 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
     }
 
     const bool washmachine_here = cur_veh->part_flag( part, VPFLAG_WASHING_MACHINE ) && cur_veh->has_part( "WASHING_MACHINE", true );
-    const int washing_time = MINUTES( 90 );
-    static const std::string filthy( "FILTHY" );
+    bool washing_machine_finished = false;
     if( washmachine_here ) {
         for( auto &n : cur_veh->get_items( part ) ) {
+            const int washing_time = MINUTES( 90 );
             int time_left = washing_time - calendar::turn.get_turn() + n.bday;
+            static const std::string filthy( "FILTHY" );
             if( time_left == 0 ) {
-                add_msg( _( "The washing machine has finished washing." ) );
                 n.item_tags.erase( filthy );
+                washing_machine_finished = true;
                 cur_veh->parts[part].enabled = false;
-                break;
             } else if( calendar::once_every( MINUTES( 15 ) ) ) {
                 add_msg( _("It should take %d minutes to finish washing."), time_left / MINUTES( 1 ) + 1 );
                 break;
             }
+        }
+        if( washing_machine_finished ) {
+            add_msg( _( "The washing machine has finished washing." ) );
         }
     }
 
