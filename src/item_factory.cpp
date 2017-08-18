@@ -1453,7 +1453,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     assign( jo, "location", slot.location );
     assign( jo, "dispersion_modifier", slot.dispersion );
     assign( jo, "sight_dispersion", slot.sight_dispersion );
-    assign( jo, "aim_cost", slot.aim_cost, strict, 10 );
+    assign( jo, "aim_cost", slot.aim_cost, strict, 0 );
     assign( jo, "handling_modifier", slot.handling, strict );
     assign( jo, "range_modifier", slot.range );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
