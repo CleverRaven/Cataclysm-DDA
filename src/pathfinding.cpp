@@ -192,7 +192,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     }
     // First, check for a simple straight line on flat ground
     // Except when the line contains a pre-closed tile - we need to do regular pathing then
-    constexpr auto non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP;
+    static const auto non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP;
     if( f.z == t.z ) {
         const auto line_path = line_to( f, t );
         const auto &pf_cache = get_pathfinding_cache_ref( f.z );
