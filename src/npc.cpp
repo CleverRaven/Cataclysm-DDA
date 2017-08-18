@@ -61,13 +61,25 @@ const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_pkill_l( "pkill_l" );
 const efftype_id effect_infection( "infection" );
 
+static const trait_id trait_BEAUTIFUL2( "BEAUTIFUL2" );
+static const trait_id trait_BEAUTIFUL3( "BEAUTIFUL3" );
+static const trait_id trait_BEAUTIFUL( "BEAUTIFUL" );
+static const trait_id trait_CANNIBAL( "CANNIBAL" );
+static const trait_id trait_DEFORMED2( "DEFORMED2" );
+static const trait_id trait_DEFORMED3( "DEFORMED3" );
+static const trait_id trait_DEFORMED( "DEFORMED" );
+static const trait_id trait_PRETTY( "PRETTY" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
+static const trait_id trait_TERRIFYING( "TERRIFYING" );
+static const trait_id trait_UGLY( "UGLY" );
+
 void starting_clothes( npc &who, const npc_class_id &type, bool male );
 void starting_inv( npc &who, const npc_class_id &type );
 
 npc::npc()
 {
-    mapx = 0;
-    mapy = 0;
+    submap_coords = point( 0, 0 );
     position.x = -1;
     position.y = -1;
     position.z = 500;
@@ -85,13 +97,13 @@ npc::npc()
     per_max = 0;
     my_fac = NULL;
     fac_id = "";
-    miss_id = NULL_ID;
+    miss_id = mission_type_id::NULL_ID();
     marked_for_death = false;
     dead = false;
     hit_by_player = false;
     moves = 100;
     mission = NPC_MISSION_NULL;
-    myclass = NULL_ID;
+    myclass = npc_class_id::NULL_ID();
     patience = 0;
     restock = -1;
     companion_mission = "";
@@ -136,14 +148,20 @@ npc::npc(npc &&) = default;
 npc &npc::operator=(const npc &) = default;
 npc &npc::operator=(npc &&) = default;
 
-npc_map npc::_all_npc;
+static std::map<string_id<npc_template>, npc_template> npc_templates;
 
-void npc::load_npc(JsonObject &jsobj)
+void npc_template::load( JsonObject &jsobj )
 {
     npc guy;
     guy.idz = jsobj.get_string("id");
-    if (jsobj.has_string("name+"))
-        guy.name = jsobj.get_string("name+");
+    guy.name = "";
+    if( jsobj.has_string( "name_unique" ) ) {
+        guy.name = ( std::string )_( jsobj.get_string( "name_unique" ).c_str() );
+    }
+    if( jsobj.has_string( "name_suffix" ) ) {
+        guy.name += ", " + ( std::string )
+            _( jsobj.get_string( "name_suffix" ).c_str() );
+    }
     if (jsobj.has_string("gender")){
         if (jsobj.get_string("gender") == "male"){
             guy.male = true;
@@ -158,10 +176,6 @@ void npc::load_npc(JsonObject &jsobj)
         guy.myclass = npc_class::from_legacy_int( jsobj.get_int("class") );
     } else if( jsobj.has_string( "class" ) ) {
         guy.myclass = npc_class_id( jsobj.get_string("class") );
-        if( !guy.myclass.is_valid() ) {
-            debugmsg( "Invalid NPC class %s", guy.myclass.c_str() );
-            guy.myclass = NULL_ID;
-        }
     }
 
     guy.attitude = npc_attitude(jsobj.get_int("attitude"));
@@ -170,49 +184,71 @@ void npc::load_npc(JsonObject &jsobj)
     if( jsobj.has_string( "mission_offered" ) ){
         guy.miss_id = mission_type_id( jsobj.get_string( "mission_offered" ) );
     } else {
-        guy.miss_id = NULL_ID;
+        guy.miss_id = mission_type_id::NULL_ID();
     }
-    _all_npc[guy.idz] = std::move( guy );
+    npc_templates[string_id<npc_template>( guy.idz )].guy = std::move( guy );
 }
 
-npc* npc::find_npc(std::string ident)
+void npc_template::reset()
 {
-    npc_map::iterator found = _all_npc.find(ident);
-    if (found != _all_npc.end()){
-        return &(found->second);
-    } else {
-        debugmsg("Tried to get invalid npc template: %s", ident.c_str());
-        static npc null_npc;
-    return &null_npc;
+    npc_templates.clear();
+}
+
+void npc_template::check_consistency()
+{
+    for( const auto &e : npc_templates ) {
+        const auto &guy = e.second.guy;
+        if( !guy.myclass.is_valid() ) {
+            debugmsg( "Invalid NPC class %s", guy.myclass.c_str() );
+        }
     }
 }
 
-void npc::load_npc_template( const std::string &ident )
+template<>
+bool string_id<npc_template>::is_valid() const
 {
-    auto found = _all_npc.find( ident );
-    if( found == _all_npc.end() ){
+    return npc_templates.count( *this ) > 0;
+}
+
+template<>
+const npc_template &string_id<npc_template>::obj() const
+{
+    const auto found = npc_templates.find( *this );
+    if( found == npc_templates.end() ) {
+        debugmsg( "Tried to get invalid npc: %s", c_str() );
+        static const npc_template dummy;
+        return dummy;
+    }
+    return found->second;
+}
+
+void npc::load_npc_template( const string_id<npc_template> &ident )
+{
+    auto found = npc_templates.find( ident );
+    if( found == npc_templates.end() ){
         debugmsg("Tried to get invalid npc: %s", ident.c_str());
         return;
     }
+    const npc &tguy = found->second.guy;
 
-    idz = found->second.idz;
-    myclass = npc_class_id( found->second.myclass );
+    idz = tguy.idz;
+    myclass = npc_class_id( tguy.myclass );
     randomize( myclass );
-    std::string tmpname = found->second.name.c_str();
+    std::string tmpname = tguy.name.c_str();
     if( tmpname[0] == ',' ){
-        name = name + found->second.name;
+        name = name + tguy.name;
     } else {
-        name = found->second.name;
+        name = tguy.name;
         //Assume if the name is unique, the gender might also be.
-        male = found->second.male;
+        male = tguy.male;
     }
-    fac_id = found->second.fac_id;
+    fac_id = tguy.fac_id;
     set_fac( fac_id );
-    attitude = found->second.attitude;
-    mission = found->second.mission;
-    chatbin.first_topic = found->second.chatbin.first_topic;
-    if( !found->second.miss_id.is_null() ){
-        add_new_mission( mission::reserve_new( found->second.miss_id, getID() ) );
+    attitude = tguy.attitude;
+    mission = tguy.mission;
+    chatbin.first_topic = tguy.chatbin.first_topic;
+    if( !tguy.miss_id.is_null() ){
+        add_new_mission( mission::reserve_new( tguy.miss_id, getID() ) );
     }
 }
 
@@ -258,7 +294,7 @@ void npc::randomize( const npc_class_id &type )
 
     if( !type.is_valid() ) {
         debugmsg( "Invalid NPC class %s", type.c_str() );
-        myclass = NULL_ID;
+        myclass = npc_class_id::NULL_ID();
     } else if( type.is_null() && !one_in( 5 ) ) {
         npc_class_id typetmp;
         myclass = npc_class::random_common();
@@ -365,10 +401,10 @@ void npc::randomize( const npc_class_id &type )
 
 void npc::randomize_from_faction(faction *fac)
 {
-// Personality = aggression, bravery, altruism, collector
- my_fac = fac;
- fac_id = fac->id;
-    randomize( NULL_ID );
+    // Personality = aggression, bravery, altruism, collector
+    my_fac = fac;
+    fac_id = fac->id;
+    randomize( npc_class_id::NULL_ID() );
 
  switch (fac->goal) {
   case FACGOAL_DOMINANCE:
@@ -719,16 +755,22 @@ void starting_inv( npc &me, const npc_class_id &type )
     me.inv += res;
 }
 
-void npc::spawn_at(int x, int y, int z)
+void npc::spawn_at_sm(int x, int y, int z)
 {
-    mapx = x;
-    mapy = y;
-    position.x = rng(0, SEEX - 1);
-    position.y = rng(0, SEEY - 1);
-    position.z = z;
-    const point pos_om = sm_to_om_copy( mapx, mapy );
+    spawn_at_precise( point( x, y ), tripoint( rng( 0, SEEX - 1 ), rng( 0, SEEY - 1 ), z ) );
+}
+
+void npc::spawn_at_precise( const point &submap_offset, const tripoint &square )
+{
+    submap_coords = submap_offset;
+    submap_coords.x += square.x / SEEX;
+    submap_coords.y += square.y / SEEY;
+    position.x = square.x % SEEX;
+    position.y = square.y % SEEY;
+    position.z = square.z;
+    const point pos_om = sm_to_om_copy( submap_coords );
     overmap &om = overmap_buffer.get( pos_om.x, pos_om.y );
-    om.add_npc( *this );
+    om.insert_npc( this );
 }
 
 void npc::spawn_at_random_city(overmap *o)
@@ -744,53 +786,45 @@ void npc::spawn_at_random_city(overmap *o)
     }
     x += o->pos().x * OMAPX * 2;
     y += o->pos().y * OMAPY * 2;
-    spawn_at(x, y, 0);
+    spawn_at_sm(x, y, 0);
 }
 
 tripoint npc::global_square_location() const
 {
-    return tripoint( mapx * SEEX + posx(), mapy * SEEY + posy(), position.z );
+    return tripoint( submap_coords.x * SEEX + posx() % SEEX, submap_coords.y * SEEY + posy() % SEEY, position.z );
 }
 
 void npc::place_on_map()
 {
     // The global absolute position (in map squares) of the npc is *always*
-    // "mapx * SEEX + posx()" (analog for y).
-    // The main map assumes that pos[xy] is in its own (local to the main map)
-    // coordinate system. We have to change pos[xy] to match that assumption,
-    // but also have to change map[xy] to keep the global position of the npc
-    // unchanged.
-    const int dmx = mapx - g->get_levx();
-    const int dmy = mapy - g->get_levy();
-    mapx -= dmx; // == g->get_levx()
-    mapy -= dmy;
-    position.x += dmx * SEEX; // value of "mapx * SEEX + posx()" is unchanged
-    position.y += dmy * SEEY;
+    // "submap_coords.x * SEEX + posx() % SEEX" (analog for y).
+    // The main map assumes that pos is in its own (local to the main map)
+    // coordinate system. We have to change pos to match that assumption
+    const int dmx = submap_coords.x - g->get_levx();
+    const int dmy = submap_coords.y - g->get_levy();
+    const int offset_x = position.x % SEEX;
+    const int offset_y = position.y % SEEY;
+    // value of "submap_coords.x * SEEX + posx()" is unchanged
+    setpos( tripoint( offset_x + dmx * SEEX, offset_y + dmy * SEEY, posz() ) );
 
-    // Places the npc at the nearest empty spot near (posx(), posy()).
-    // Searches in a spiral pattern for a suitable location.
-    int x = 0, y = 0, dx = 0, dy = -1;
-    int temp;
-    while( !g->is_empty( { posx() + x, posy() + y, posz() } ) )
-    {
-        if ((x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1-y)))
-        {//change direction
-            temp = dx;
-            dx = -dy;
-            dy = temp;
+    if( g->is_empty( pos() ) ) {
+        return;
+    }
+
+    for( const tripoint &p : closest_tripoints_first( SEEX + 1, pos() ) ) {
+        if( g->is_empty( p ) ) {
+            setpos( p );
+            return;
         }
-        x += dx;
-        y += dy;
-    }//end search, posx() + x , posy() + y contains a free spot.
-    //place the npc at the free spot.
-    position.x += x;
-    position.y += y;
+    }
+
+    debugmsg( "Failed to place NPC in a valid location near (%d,%d,%d)", posx(), posy(), posz() );
 }
 
 skill_id npc::best_skill() const
 {
     int highest_level = std::numeric_limits<int>::min();
-    skill_id highest_skill( NULL_ID );
+    skill_id highest_skill( skill_id::NULL_ID() );
 
     for (auto const &p : _skills) {
         if (p.first.obj().is_combat_skill()) {
@@ -941,13 +975,21 @@ bool npc::wear_if_wanted( const item &it )
 bool npc::wield( item& it )
 {
     if( is_armed() ) {
-        if ( volume_carried() + weapon.volume() <= volume_capacity() ) {
-            add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), weapon.tname().c_str() );
-            i_add( remove_weapon() );
+        // If weapon has a shoulder strap, try to wear it.
+        if( wear_item( weapon, false ) ) {
+            // Wearing the item was successful, remove weapon and post message.
+            add_msg_if_npc( m_info, _( "<npcname> wears the %s." ), weapon.tname().c_str() );
+            remove_weapon();
             moves -= 15;
-        } else { // No room for weapon, so we drop it
-            add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), weapon.tname().c_str() );
-            g->m.add_item_or_charges( pos(), remove_weapon() );
+        } else { // Weapon cannot be worn or wearing was not successful. Store it in inventory if possible, otherwise drop it.
+            if ( volume_carried() + weapon.volume() <= volume_capacity() ) {
+                add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), weapon.tname().c_str() );
+                i_add( remove_weapon() );
+                moves -= 15;
+            } else { // No room for weapon, so we drop it
+                add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), weapon.tname().c_str() );
+                g->m.add_item_or_charges( pos(), remove_weapon() );
+            }
         }
     }
 
@@ -1004,29 +1046,29 @@ void npc::form_opinion( const player &u )
         }
     }
 
-    if (u.has_trait("SAPIOVORE")) {
+    if (u.has_trait( trait_SAPIOVORE )) {
         op_of_u.fear += 10; // Sapiovores = Scary
     }
 
-    if (u.has_trait("PRETTY")) {
+    if (u.has_trait( trait_PRETTY )) {
         op_of_u.fear += 1;
-    } else if (u.has_trait("BEAUTIFUL")) {
+    } else if (u.has_trait( trait_BEAUTIFUL )) {
         op_of_u.fear += 2;
-    } else if (u.has_trait("BEAUTIFUL2")) {
+    } else if (u.has_trait( trait_BEAUTIFUL2 )) {
         op_of_u.fear += 3;
-    } else if (u.has_trait("BEAUTIFUL3")) {
+    } else if (u.has_trait( trait_BEAUTIFUL3 )) {
         op_of_u.fear += 4;
-    } else if (u.has_trait("UGLY")) {
+    } else if (u.has_trait( trait_UGLY )) {
         op_of_u.fear -= 1;
-    } else if (u.has_trait("DEFORMED")) {
+    } else if (u.has_trait( trait_DEFORMED )) {
         op_of_u.fear += 3;
-    } else if (u.has_trait("DEFORMED2")) {
+    } else if (u.has_trait( trait_DEFORMED2 )) {
         op_of_u.fear += 6;
-    } else if (u.has_trait("DEFORMED3")) {
+    } else if (u.has_trait( trait_DEFORMED3 )) {
         op_of_u.fear += 9;
     }
 
-    if (u.has_trait("TERRIFYING")) {
+    if (u.has_trait( trait_TERRIFYING )) {
         op_of_u.fear += 6;
     }
 
@@ -1065,21 +1107,21 @@ void npc::form_opinion( const player &u )
         op_of_u.trust -= 1;
     }
 
-    if (u.has_trait("PRETTY")) {
+    if (u.has_trait( trait_PRETTY )) {
       op_of_u.trust += 1;
-    } else if (u.has_trait("BEAUTIFUL")) {
+    } else if (u.has_trait( trait_BEAUTIFUL )) {
         op_of_u.trust += 3;
-    } else if (u.has_trait("BEAUTIFUL2")) {
+    } else if (u.has_trait( trait_BEAUTIFUL2 )) {
         op_of_u.trust += 5;
-    } else if (u.has_trait("BEAUTIFUL3")) {
+    } else if (u.has_trait( trait_BEAUTIFUL3 )) {
         op_of_u.trust += 7;
-    } else if (u.has_trait("UGLY")) {
+    } else if (u.has_trait( trait_UGLY )) {
         op_of_u.trust -= 1;
-    } else if (u.has_trait("DEFORMED")) {
+    } else if (u.has_trait( trait_DEFORMED )) {
         op_of_u.trust -= 3;
-    } else if (u.has_trait("DEFORMED2")) {
+    } else if (u.has_trait( trait_DEFORMED2 )) {
         op_of_u.trust -= 6;
-    } else if (u.has_trait("DEFORMED3")) {
+    } else if (u.has_trait( trait_DEFORMED3 )) {
         op_of_u.trust -= 9;
     }
 
@@ -1301,7 +1343,7 @@ void npc::say( const std::string line, ... ) const
     std::string formatted_line = vstring_format(line, ap);
     va_end(ap);
     parse_tags( formatted_line, g->u, *this );
-    if( has_trait( "MUTE" ) ) {
+    if( has_trait( trait_id( "MUTE" ) ) ) {
         return;
     }
 
@@ -1438,7 +1480,7 @@ int npc::value( const item &it, int market_price ) const
         if( get_thirst() > 40 ) {
             comestval += ( it.type->comestible->quench + get_thirst() - 40 ) / 4;
         }
-        if( comestval > 0 && can_eat( it ) == EDIBLE ) {
+        if( comestval > 0 && will_eat( it ) == EDIBLE ) {
             ret += comestval;
         }
     }
@@ -1728,8 +1770,8 @@ int npc::print_info(WINDOW* w, int line, int vLines, int column) const
 
     const int visibility_cap = g->u.get_per() - rl_dist( g->u.pos(), pos() );
     const std::string trait_str = enumerate_as_string( my_mutations.begin(), my_mutations.end(),
-        [ this, visibility_cap ]( const std::pair<std::string, trait_data> &pr ) -> std::string {
-        const auto &mut_branch = mutation_branch::get( pr.first );
+        [visibility_cap ]( const std::pair<trait_id, trait_data> &pr ) -> std::string {
+        const auto &mut_branch = pr.first.obj();
         // Finally some use for visibility trait of mutations
         // @todo Balance this formula
         if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap ) {
@@ -1837,6 +1879,28 @@ std::string npc::opinion_text() const
  return ret.str();
 }
 
+void npc::setpos( const tripoint &pos )
+{
+    position = pos;
+    const point pos_om_old = sm_to_om_copy( submap_coords );
+    submap_coords.x = g->get_levx() + pos.x / SEEX;
+    submap_coords.y = g->get_levy() + pos.y / SEEY;
+    const point pos_om_new = sm_to_om_copy( submap_coords );
+    if( !is_fake() && pos_om_old != pos_om_new ) {
+        overmap &om_old = overmap_buffer.get( pos_om_old.x, pos_om_old.y );
+        overmap &om_new = overmap_buffer.get( pos_om_new.x, pos_om_new.y );
+        auto a = std::find( om_old.npcs.begin(), om_old.npcs.end(), this );
+        if( a != om_old.npcs.end() ) {
+            om_old.npcs.erase( a );
+            om_new.npcs.push_back( this );
+        } else {
+            // Don't move the npc pointer around to avoid having two overmaps
+            // with the same npc pointer
+            debugmsg( "could not find npc %s on its old overmap", name.c_str() );
+        }
+    }
+}
+
 void maybe_shift( tripoint &pos, int dx, int dy )
 {
     if( pos != tripoint_min ) {
@@ -1850,25 +1914,7 @@ void npc::shift(int sx, int sy)
     const int shiftx = sx * SEEX;
     const int shifty = sy * SEEY;
 
-    position.x -= shiftx;
-    position.y -= shifty;
-    const point pos_om_old = sm_to_om_copy( mapx, mapy );
-    mapx += sx;
-    mapy += sy;
-    const point pos_om_new = sm_to_om_copy( mapx, mapy );
-    if( pos_om_old != pos_om_new ) {
-        overmap &om_old = overmap_buffer.get( pos_om_old.x, pos_om_old.y );
-        overmap &om_new = overmap_buffer.get( pos_om_new.x, pos_om_new.y );
-        auto a = std::find(om_old.npcs.begin(), om_old.npcs.end(), this);
-        if (a != om_old.npcs.end()) {
-            om_old.npcs.erase( a );
-            om_new.npcs.push_back( this );
-        } else {
-            // Don't move the npc pointer around to avoid having two overmaps
-            // with the same npc pointer
-            debugmsg( "could not find npc %s on its old overmap", name.c_str() );
-        }
-    }
+    setpos( pos() - point( shiftx, shifty ) );
 
     maybe_shift( wanted_item_pos, -shiftx, -shifty );
     maybe_shift( last_player_seen_pos, -shiftx, -shifty );
@@ -1898,9 +1944,10 @@ void npc::die(Creature* nkiller) {
     }
 
     if( killer == &g->u && ( !guaranteed_hostile() || hit_by_player ) ) {
-        bool cannibal = g->u.has_trait("CANNIBAL");
-        bool psycho = g->u.has_trait("PSYCHOPATH");
-        if( g->u.has_trait( "SAPIOVORE" ) ) {
+        g->record_npc_kill(this);
+        bool cannibal = g->u.has_trait( trait_CANNIBAL );
+        bool psycho = g->u.has_trait( trait_PSYCHOPATH );
+        if( g->u.has_trait( trait_SAPIOVORE ) ) {
             g->u.add_memorial_log(pgettext("memorial_male", "Caught and killed an ape.  Prey doesn't have a name."),
                                   pgettext("memorial_female", "Caught and killed an ape.  Prey doesn't have a name."));
         } else if( psycho && cannibal ) {
@@ -2285,7 +2332,7 @@ std::ostream& operator<< (std::ostream & os, npc_need need)
 
 bool npc::will_accept_from_player( const item &it ) const
 {
-    if( is_minion() || g->u.has_trait( "DEBUG_MIND_CONTROL" ) || it.has_flag( "NPC_SAFE" ) ) {
+    if( is_minion() || g->u.has_trait( trait_id( "DEBUG_MIND_CONTROL" ) ) || it.has_flag( "NPC_SAFE" ) ) {
         return true;
     }
 
@@ -2337,12 +2384,12 @@ mfaction_id npc::get_monster_faction() const
     static const string_id<monfaction> human_fac( "human" );
     static const string_id<monfaction> player_fac( "player" );
     static const string_id<monfaction> bee_fac( "bee" );
-    
+
     if( is_friend() ) {
         return player_fac.id();
     }
 
-    if( has_trait( "BEE" ) ) {
+    if( has_trait( trait_id( "BEE" ) ) ) {
         return bee_fac.id();
     }
 
@@ -2377,4 +2424,26 @@ std::string npc::extended_description() const
     }
 
     return replace_colors( ss.str() );
+}
+
+void npc::set_companion_mission( npc &p, const std::string &id )
+{
+    //@todo store them separately
+    //@todo set time here as well.
+    companion_mission = p.name + id;
+}
+
+void npc::reset_companion_mission()
+{
+    companion_mission = "";
+}
+
+bool npc::has_companion_mission() const
+{
+    return !companion_mission.empty();
+}
+
+std::string npc::get_companion_mission() const
+{
+    return companion_mission;
 }

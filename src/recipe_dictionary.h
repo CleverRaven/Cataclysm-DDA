@@ -2,6 +2,8 @@
 #ifndef RECIPE_DICTIONARY_H
 #define RECIPE_DICTIONARY_H
 
+#include "recipe.h"
+
 #include <string>
 #include <map>
 #include <functional>
@@ -9,7 +11,6 @@
 #include <vector>
 
 class JsonObject;
-struct recipe;
 typedef std::string itype_id;
 
 class recipe_dictionary
@@ -36,7 +37,8 @@ class recipe_dictionary
         /** Returns disassembly recipe (or null recipe if no match) */
         static const recipe &get_uncraft( const itype_id &id );
 
-        static void load( JsonObject &jo, const std::string &src, bool uncraft );
+        static void load_recipe( JsonObject &jo, const std::string &src );
+        static void load_uncraft( JsonObject &jo, const std::string &src );
 
         static void finalize();
         static void reset();
@@ -47,6 +49,9 @@ class recipe_dictionary
          * @warning must not be called after finalize()
          */
         static void delete_if( const std::function<bool( const recipe & )> &pred );
+
+        static recipe &load( JsonObject &jo, const std::string &src,
+                             std::map<std::string, recipe> &out );
 
     private:
         std::map<std::string, recipe> recipes;
@@ -63,12 +68,14 @@ class recipe_subset
     public:
         /**
          * Include a recipe to the subset.
+         * @param r recipe to include
          * @param custom_difficulty If specified, it defines custom difficulty for the recipe
          */
         void include( const recipe *r, int custom_difficulty = -1 );
         void include( const recipe_subset &subset );
         /**
          * Include a recipe to the subset. Based on the condition.
+         * @param subset Where to included the recipe
          * @param pred Unary predicate that accepts a @ref recipe.
          */
         template<class Predicate>
@@ -80,7 +87,7 @@ class recipe_subset
             }
         }
 
-        /** Check if the subset contains a recipe with the specified @param id. */
+        /** Check if the subset contains a recipe with the specified id. */
         bool contains( const recipe *r ) const {
             return recipes.find( r ) != recipes.end();
         }

@@ -6,6 +6,7 @@
 #include <sstream>
 #include <algorithm>
 #include <map>
+#include <memory>
 #include <errno.h>
 
 #include "output.h"
@@ -764,6 +765,68 @@ void popup_top( const char *mes, ... )
     popup( text, PF_ON_TOP );
 }
 
+static WINDOW_PTR create_popup_window( int width, int height, PopupFlags flags )
+{
+    if( ( flags & PF_FULLSCREEN ) != 0 ) {
+        return WINDOW_PTR( newwin(
+            FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+            std::max( ( TERMY - FULL_SCREEN_HEIGHT ) / 2, 0 ),
+            std::max( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0 )
+        ) );
+    } else if( ( flags & PF_ON_TOP ) != 0 ) {
+        return WINDOW_PTR( newwin(
+            height, width,
+            0,
+            std::max( ( TERMX - width ) / 2, 0 )
+        ) );
+    } else {
+        return WINDOW_PTR( newwin(
+            height, width,
+            std::max( ( TERMY - ( height + 1 ) ) / 2, 0 ),
+            std::max( ( TERMX - width ) / 2, 0 )
+        ) );
+    }
+}
+
+WINDOW_PTR create_popup_window( const std::string &text, PopupFlags flags )
+{
+    const auto folded = foldstring( text, FULL_SCREEN_WIDTH - 2 );
+
+    int text_width = 0;
+    for( const auto &elem : folded ) {
+        text_width = std::max( text_width, utf8_width( elem, true ) );
+    }
+
+    const int height = std::min<int>( folded.size() + 2, FULL_SCREEN_HEIGHT );
+    const int width = text_width + 2;
+
+    WINDOW_PTR result = create_popup_window( width, height, flags );
+
+    draw_border( result.get() );
+
+    for( size_t i = 0; i < folded.size(); ++i ) {
+        fold_and_print( result.get(), i + 1, 1, width, c_white, "%s", folded[i].c_str() );
+    }
+
+    return result;
+}
+
+WINDOW_PTR create_wait_popup_window( const std::string &text, nc_color bar_color )
+{
+    static size_t phase = 0;
+
+    const std::array<std::string, 4> phase_icons = {{ "|", "/", "-", "\\" }};
+    const std::string featured_text = string_format(
+        " <color_%s>%s</color> %s",
+        string_from_color( bar_color ).c_str(),
+        phase_icons[phase].c_str(),
+        text.c_str() );
+
+    phase = ( phase + 1 ) % phase_icons.size();
+
+    return create_popup_window( featured_text, PF_ON_TOP );
+}
+
 long popup( const std::string &text, PopupFlags flags )
 {
     if( test_mode ) {
@@ -771,56 +834,19 @@ long popup( const std::string &text, PopupFlags flags )
         return 0;
     }
 
-    int width = 0;
-    int height = 2;
-    std::vector<std::string> folded = foldstring( text, FULL_SCREEN_WIDTH - 2 );
-    height += folded.size();
-    for( auto &elem : folded ) {
-        int cw = utf8_width( elem, true );
-        if( cw > width ) {
-            width = cw;
-        }
-    }
-    width += 2;
-    WINDOW *w;
-    if( ( flags & PF_FULLSCREEN ) != 0 ) {
-        w = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                    ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                    ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
-    } else if( ( flags & PF_ON_TOP ) == 0 ) {
-        if( height > FULL_SCREEN_HEIGHT ) {
-            height = FULL_SCREEN_HEIGHT;
-        }
-        w = newwin( height, width, ( TERMY - ( height + 1 ) ) / 2,
-                    ( TERMX > width ) ? ( TERMX - width ) / 2 : 0 );
-    } else {
-        w = newwin( height, width, 0, ( TERMX > width ) ? ( TERMX - width ) / 2 : 0 );
-    }
-    draw_border( w );
-
-    for( size_t i = 0; i < folded.size(); ++i ) {
-        fold_and_print( w, i + 1, 1, width, c_white, "%s", folded[i].c_str() );
-    }
-
+    WINDOW_PTR w = create_popup_window( text, flags );
     long ch = 0;
     // Don't wait if not required.
     while( ( flags & PF_NO_WAIT ) == 0 ) {
-        wrefresh( w );
+        wrefresh( w.get() );
         // TODO: use input context
         ch = inp_mngr.get_input_event().get_first_input();
-        if( ( flags & PF_GET_KEY ) != 0 ) {
-            // return the first key that got pressed.
-            werase( w );
-            break;
-        }
-        if( ch == ' ' || ch == '\n' || ch == KEY_ESCAPE ) {
-            // The usuall "escape menu/window" keys.
-            werase( w );
-            break;
+        if( ch == ' ' || ch == '\n' || ch == KEY_ESCAPE || ( flags & PF_GET_KEY ) != 0 ) {
+            werase( w.get() );
+            break; // return the first key that got pressed.
         }
     }
-    wrefresh( w );
-    delwin( w );
+    wrefresh( w.get() );
     refresh();
     refresh_display();
     return ch;
@@ -1075,7 +1101,7 @@ input_event draw_item_info( WINDOW *win, const std::string sItemName, const std:
     while( true ) {
         int iLines = 0;
         if( !buffer.str().empty() ) {
-            const auto vFolded = foldstring( buffer.str(), width );
+            const auto vFolded = foldstring( buffer.str(), width - 1 );
             iLines = vFolded.size();
 
             if( selected < 0 ) {
@@ -1088,7 +1114,7 @@ input_event draw_item_info( WINDOW *win, const std::string sItemName, const std:
 
             fold_and_print_from( win, line_num, b, width - 1, selected, c_ltgray, buffer.str() );
 
-            draw_scrollbar( win, selected, height, iLines - height, ( without_border && use_full_win ? 0 : 1 ),
+            draw_scrollbar( win, selected, height, iLines, ( without_border && use_full_win ? 0 : 1 ),
                             scrollbar_left ? 0 : getmaxx( win ) - 1, BORDER_COLOR, true );
         }
 
@@ -1342,20 +1368,21 @@ void draw_subtab( WINDOW *w, int iOffsetX, std::string sText, bool bSelected, bo
 /**
  * Draw a scrollbar
  * @param window Pointer of window to draw on
- * @param iCurrentLine The currently selected line out of the iNumEntries lines
+ * @param iCurrentLine The starting line or currently selected line out of the iNumLines lines
  * @param iContentHeight Height of the scrollbar
- * @param iNumEntries Total number of lines to scroll through
+ * @param iNumLines Total number of lines
  * @param iOffsetY Y drawing offset
  * @param iOffsetX X drawing offset
  * @param bar_color Default line color
- * @param bTextScroll If true, will draw the scrollbar even if iContentHeight >= iNumEntries.
- * Used for scrolling multiline wrapped text. If false, used for scrolling one line selections.
+ * @param bDoNotScrollToEnd True if the last (iContentHeight-1) lines cannot be a start position or be selected
+ *   If false, iCurrentLine can be from 0 to iNumLines - 1.
+ *   If true, iCurrentLine can be at most iNumLines - iContentHeight.
  **/
 void draw_scrollbar( WINDOW *window, const int iCurrentLine, const int iContentHeight,
-                     const int iNumEntries, const int iOffsetY, const int iOffsetX,
-                     nc_color bar_color, const bool bTextScroll )
+                     const int iNumLines, const int iOffsetY, const int iOffsetX,
+                     nc_color bar_color, const bool bDoNotScrollToEnd )
 {
-    if( !bTextScroll && iContentHeight >= iNumEntries ) {
+    if( iContentHeight >= iNumLines ) {
         //scrollbar is not required
         bar_color = BORDER_COLOR;
     }
@@ -1365,30 +1392,23 @@ void draw_scrollbar( WINDOW *window, const int iCurrentLine, const int iContentH
         mvwputch( window, i, iOffsetX, bar_color, LINE_XOXO );
     }
 
-    if( !bTextScroll && iContentHeight >= iNumEntries ) {
+    if( iContentHeight >= iNumLines ) {
         return;
     }
 
-    if( iNumEntries > 0 ) {
+    if( iNumLines > 0 ) {
         mvwputch( window, iOffsetY, iOffsetX, c_ltgreen, '^' );
         mvwputch( window, iOffsetY + iContentHeight - 1, iOffsetX, c_ltgreen, 'v' );
 
-        int iSBHeight = ( ( iContentHeight - 2 ) * ( iContentHeight - 2 ) ) / iNumEntries;
+        int iSBHeight = std::max( 2, ( ( iContentHeight - 2 ) * iContentHeight ) / iNumLines );
+        int iScrollableLines = bDoNotScrollToEnd ? iNumLines - iContentHeight + 1 : iNumLines;
 
-        if( bTextScroll && iNumEntries < iContentHeight ) {
-            iSBHeight = iContentHeight - iNumEntries - 2;
-        }
-
-        if( iSBHeight < 2 ) {
-            iSBHeight = 2;
-        }
-
-        int iStartY = ( iCurrentLine * ( iContentHeight - 3 - iSBHeight ) ) / iNumEntries;
+        int iStartY;
         if( iCurrentLine == 0 ) {
             iStartY = -1;
-        } else if( bTextScroll && iCurrentLine == iNumEntries ) {
-            iStartY = iContentHeight - 3 - iSBHeight;
-        } else if( !bTextScroll && iCurrentLine == iNumEntries - 1 ) {
+        } else if( iScrollableLines > 2 ) {
+            iStartY = ( ( iContentHeight - 3 - iSBHeight ) * ( iCurrentLine - 1 ) ) / ( iScrollableLines - 2 );
+        } else {
             iStartY = iContentHeight - 3 - iSBHeight;
         }
 
@@ -1762,28 +1782,24 @@ get_hp_bar( const int cur_hp, const int max_hp, const bool is_mon )
            ( ratio >  0.0 )            ? strings[10] : strings[11];
 }
 
-std::pair<std::string, nc_color> const &get_light_level( const float light )
+std::pair<std::string, nc_color> get_light_level( const float light )
 {
     using pair_t = std::pair<std::string, nc_color>;
     static std::array<pair_t, 6> const strings {
-        {
-            pair_t {_( "unknown" ), c_pink},
-            pair_t {_( "bright" ), c_yellow},
-            pair_t {_( "cloudy" ), c_white},
-            pair_t {_( "shady" ), c_ltgray},
-            pair_t {_( "dark" ), c_dkgray},
-            pair_t {_( "very dark" ), c_black_white}
-        }
+         {
+             pair_t {translate_marker( "unknown" ), c_pink},
+             pair_t {translate_marker( "bright" ), c_yellow},
+             pair_t {translate_marker( "cloudy" ), c_white},
+             pair_t {translate_marker( "shady" ), c_ltgray},
+             pair_t {translate_marker( "dark" ), c_dkgray},
+             pair_t {translate_marker( "very dark" ), c_black_white}
+         }
     };
-
-    const int light_level = ceil( light );
-    if( light_level < 0 ) {
-        return strings[0];
-    } else if( light_level > 5 ) {
-        return strings[5];
-    }
-
-    return strings[light_level];
+    // Avoid magic number
+    static const int maximum_light_level = static_cast< int >( strings.size() ) - 1;
+    const int light_level = clamp( static_cast< int >( ceil( light ) ), 0, maximum_light_level );
+    const size_t array_index = static_cast< size_t >( light_level );
+    return pair_t{ _( strings[array_index].first.c_str() ), strings[array_index].second };
 }
 
 std::string get_labeled_bar( const double val, const int width, const std::string &label, char c )
@@ -1824,7 +1840,7 @@ void display_table( WINDOW *w, const std::string &title, int columns,
             const int y = ( i / columns ) + 2;
             fold_and_print_from( w, y, x, col_width, 0, c_white, data[i + offset * columns] );
         }
-        draw_scrollbar( w, offset, rows, data.size() / 3, 2, 0 );
+        draw_scrollbar( w, offset, rows, ( data.size() + columns - 1 ) / columns, 2, 0 );
         wrefresh( w );
         // TODO: use input context
         int ch = inp_mngr.get_input_event().get_first_input();
@@ -2291,6 +2307,10 @@ bool is_draw_tiles_mode()
 }
 
 void play_music( std::string )
+{
+}
+
+void update_music_volume()
 {
 }
 

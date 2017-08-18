@@ -37,6 +37,12 @@ static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_unarmed( "unarmed" );
 static const skill_id skill_throw( "throw" );
 
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
+static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
+static const trait_id trait_WEB_ROPE( "WEB_ROPE" );
+
 // Construction functions.
 namespace construct
 {
@@ -63,6 +69,8 @@ void done_dig_stair( const tripoint & );
 void done_mine_downstair( const tripoint & );
 void done_mine_upstair( const tripoint & );
 void done_window_curtains( const tripoint & );
+void done_extract_sand( const tripoint & );
+void done_extract_clay( const tripoint & );
 
 void failure_standard( const tripoint & );
 };
@@ -136,7 +144,7 @@ void draw_grid( WINDOW *w, const int list_width )
 nc_color construction_color( std::string &con_name, bool highlight )
 {
     nc_color col = c_dkgray;
-    if( g->u.has_trait( "DEBUG_HS" ) ) {
+    if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
         col = c_white;
     } else if( can_construct( con_name ) ) {
         construction *con_first = nullptr;
@@ -649,7 +657,7 @@ bool character_has_skill_for( const Character &c, const construction &con )
 
 bool player_can_build( player &p, const inventory &pinv, const construction &con )
 {
-    if( p.has_trait( "DEBUG_HS" ) ) {
+    if( p.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
 
@@ -871,13 +879,13 @@ void construct::done_tree( const tripoint &p )
 
 void construct::done_trunk_log( const tripoint &p )
 {
-    g->m.spawn_item( p.x, p.y, "log", rng( 5, 15 ), 0, calendar::turn );
+    g->m.spawn_item( p.x, p.y, "log", rng( 2, 3 ), 0, calendar::turn );
 }
 
 void construct::done_trunk_plank( const tripoint &p )
 {
     ( void )p; //unused
-    int num_logs = rng( 5, 15 );
+    int num_logs = rng( 2, 3 );
     for( int i = 0; i < num_logs; ++i ) {
         iuse::cut_log_into_planks( &( g->u ) );
     }
@@ -990,7 +998,7 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
     tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
     tripoint const local_tmp = tmpmap.getlocal( abs_pos );
 
-    bool dig_muts = g->u.has_trait( "PAINRESIST_TROGLO" ) || g->u.has_trait( "STOCKY_TROGLO" );
+    bool dig_muts = g->u.has_trait( trait_PAINRESIST_TROGLO ) || g->u.has_trait( trait_STOCKY_TROGLO );
 
     int no_mut_penalty = dig_muts ? 10 : 0;
     int mine_penalty = dig ? 0 : 10;
@@ -1063,7 +1071,7 @@ void construct::done_mine_upstair( const tripoint &p )
         return;
     }
 
-    bool dig_muts = g->u.has_trait( "PAINRESIST_TROGLO" ) || g->u.has_trait( "STOCKY_TROGLO" );
+    bool dig_muts = g->u.has_trait( trait_PAINRESIST_TROGLO ) || g->u.has_trait( trait_STOCKY_TROGLO );
 
     int no_mut_penalty = dig_muts ? 15 : 0;
     g->u.mod_hunger( 20 + no_mut_penalty );
@@ -1085,6 +1093,23 @@ void construct::done_window_curtains( const tripoint & )
     g->m.spawn_item( g->u.pos(), "stick" );
     g->m.spawn_item( g->u.pos(), "string_36" );
     g->u.add_msg_if_player( _("After boarding up the window the curtains and curtain rod are left.") );
+}
+
+void construct::done_extract_sand( const tripoint &p )
+{
+    g->m.spawn_item( g->u.pos(), "material_sand", 1, rng(300,600) );
+    if (one_in(10)) {
+        g->m.ter_set( p, t_dirt );
+    }
+    g->u.add_msg_if_player( _("You gather some sand.") );
+}
+void construct::done_extract_clay( const tripoint &p )
+{
+    g->m.spawn_item( g->u.pos(), "clay_lump", rng(6,12) );
+    if (one_in(10)) {
+        g->m.ter_set( p, t_dirt );
+    }
+    g->u.add_msg_if_player( _("You gather some clay.") );
 }
 
 void construct::failure_standard( const tripoint & )
@@ -1179,6 +1204,8 @@ void load_construction(JsonObject &jo)
         { "done_mine_downstair", construct::done_mine_downstair },
         { "done_mine_upstair", construct::done_mine_upstair },
         { "done_window_curtains", construct::done_window_curtains },
+        { "done_extract_sand", construct::done_extract_sand },
+        { "done_extract_clay", construct::done_extract_clay },
     }};
     static const std::map<std::string, std::function<void( const tripoint & )>> explain_fail_map = {{
         { "", construct::failure_standard },
@@ -1250,10 +1277,10 @@ int construction::print_time( WINDOW *w, int ypos, int xpos, int width,
 float construction::time_scale() const
 {
     //incorporate construction time scaling
-    if( get_world_option<int>( "CONSTRUCTION_SCALING" ) == 0 ) {
+    if( get_option<int>( "CONSTRUCTION_SCALING" ) == 0 ) {
         return calendar::season_ratio();
     } else {
-        return get_world_option<int>( "CONSTRUCTION_SCALING" ) / 100.0;
+        return get_option<int>( "CONSTRUCTION_SCALING" ) / 100.0;
     }
 }
 

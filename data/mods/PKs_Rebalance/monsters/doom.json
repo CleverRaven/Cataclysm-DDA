@@ -158,7 +158,6 @@
         "type": "bite",
         "cooldown": 5,
         "accuracy": 4,
-        "no_infection_chance": 3,
         "damage_max_instance": [
           {
             "damage_type": "stab",
@@ -170,7 +169,8 @@
             "amount": 21,
             "armor_multiplier": 0.5
           }
-        ]
+        ],
+        "no_infection_chance": 3
       }
     ],
     "death_function": [ "NORMAL" ],

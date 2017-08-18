@@ -505,7 +505,7 @@ nc_color cyan_background(nc_color c)
  * {"<c|h|i>_black"   , h_black}, // has prefix c_ or h_ or i_
  * {"dark_gray_red"   , c_dkgray_red}, // dark_ instead of dk
  * {"light_blue_red"  , c_ltblue_red}, // light_ instead of lt
- * @param new_color The color to get, as a std::string.
+ * @param color The color to get, as a std::string.
  * @return The nc_color constant that matches the input.
  */
 nc_color color_from_string(const std::string &color)
@@ -551,7 +551,7 @@ std::string string_from_color(const nc_color color)
  * Given the name of a background color (that is, one of the i_xxxxx colors),
  * returns the nc_color constant that matches. If no match is found, i_white is
  * returned.
- * @param new_color The color to get, as a std::string.
+ * @param color The color to get, as a std::string.
  * @return The nc_color constant that matches the input.
  */
 nc_color bgcolor_from_string(std::string color)

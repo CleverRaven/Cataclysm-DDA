@@ -1,4 +1,5 @@
 #include "mapdata.h"
+
 #include "color.h"
 #include "init.h"
 #include "game_constants.h"
@@ -17,12 +18,6 @@ const std::set<std::string> classic_extras = { "mx_helicopter", "mx_military",
 "mx_crater", "mx_collegekids"
 };
 
-template<>
-const string_id<ter_t> string_id<ter_t>::NULL_ID( "t_null", 0 );
-
-template<>
-const string_id<furn_t> string_id<furn_t>::NULL_ID( "f_null", 0 );
-
 namespace
 {
 
@@ -33,83 +28,97 @@ generic_factory<furn_t> furniture_data( "furniture", "id", "aliases" );
 
 }
 
+/** @relates int_id */
 template<>
 inline bool int_id<ter_t>::is_valid() const
 {
     return terrain_data.is_valid( *this );
 }
 
+/** @relates int_id */
 template<>
 const ter_t &int_id<ter_t>::obj() const
 {
     return terrain_data.obj( *this );
 }
 
+/** @relates int_id */
 template<>
 const string_id<ter_t> &int_id<ter_t>::id() const
 {
     return terrain_data.convert( *this );
 }
 
+/** @relates int_id */
 template<>
 int_id<ter_t> string_id<ter_t>::id() const
 {
     return terrain_data.convert( *this, t_null );
 }
 
+/** @relates int_id */
 template<>
 int_id<ter_t>::int_id( const string_id<ter_t> &id ) : _id( id.id() )
 {
 }
 
+/** @relates string_id */
 template<>
 const ter_t &string_id<ter_t>::obj() const
 {
     return terrain_data.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<ter_t>::is_valid() const
 {
     return terrain_data.is_valid( *this );
 }
 
+/** @relates int_id */
 template<>
 inline bool int_id<furn_t>::is_valid() const
 {
     return furniture_data.is_valid( *this );
 }
 
+/** @relates int_id */
 template<>
 const furn_t &int_id<furn_t>::obj() const
 {
     return furniture_data.obj( *this );
 }
 
+/** @relates int_id */
 template<>
 const string_id<furn_t> &int_id<furn_t>::id() const
 {
     return furniture_data.convert( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<furn_t>::is_valid() const
 {
     return furniture_data.is_valid( *this );
 }
 
+/** @relates string_id */
 template<>
 const furn_t &string_id<furn_t>::obj() const
 {
     return furniture_data.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 int_id<furn_t> string_id<furn_t>::id() const
 {
     return furniture_data.convert( *this, f_null );
 }
 
+/** @relates int_id */
 template<>
 int_id<furn_t>::int_id( const string_id<furn_t> &id ) : _id( id.id() )
 {
@@ -165,6 +174,14 @@ void load_map_bash_tent_centers( JsonArray ja, std::vector<std::string> &centers
     }
 }
 
+map_bash_info::map_bash_info() : str_min( -1 ), str_max( -1 ),
+                                 str_min_blocked( -1 ), str_max_blocked( -1 ),
+                                 str_min_supported( -1 ), str_max_supported( -1 ),
+                                 explosive( 0 ), sound_vol( -1 ), sound_fail_vol( -1 ),
+                                 collapse_radius( 1 ), destroy_only( false ), bash_below( false ),
+                                 drop_group( "EMPTY_GROUP" ),
+                                 ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {};
+
 bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture) {
     if( !jsobj.has_object(member) ) {
         return false;
@@ -214,6 +231,9 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
     return true;
 }
 
+map_deconstruct_info::map_deconstruct_info() : can_do( false ), deconstruct_above( false ),
+                                               ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {};
+
 bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfurniture)
 {
     if (!jsobj.has_object(member)) {
@@ -234,7 +254,7 @@ bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfu
 
 furn_t null_furniture_t() {
   furn_t new_furniture;
-  new_furniture.id = NULL_ID;
+  new_furniture.id = furn_str_id::NULL_ID();
   new_furniture.name = _("nothing");
   new_furniture.symbol_.fill( ' ' );
   new_furniture.color_.fill( c_white );
@@ -247,10 +267,14 @@ furn_t null_furniture_t() {
   return new_furniture;
 }
 
+ter_t::ter_t() : open( ter_str_id::NULL_ID() ), close( ter_str_id::NULL_ID() ),
+                 transforms_into( ter_str_id::NULL_ID() ),
+                 roof( ter_str_id::NULL_ID() ), trap( tr_null ) {};
+
 ter_t null_terrain_t() {
   ter_t new_terrain;
 
-  new_terrain.id = NULL_ID;
+  new_terrain.id = ter_str_id::NULL_ID();
   new_terrain.name = _("nothing");
   new_terrain.symbol_.fill( ' ' );
   new_terrain.color_.fill( c_white );
@@ -390,7 +414,7 @@ bool map_data_common_t::connects( int &ret ) const {
 ter_id t_null,
     t_hole, // Real nothingness; makes you fall a z-level
     // Ground
-    t_dirt, t_sand, t_dirtmound, t_pit_shallow, t_pit,
+    t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit,
     t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
     t_rock_floor,
     t_grass,
@@ -486,6 +510,7 @@ void set_ter_ids() {
     t_hole = ter_id( "t_hole" );
     t_dirt = ter_id( "t_dirt" );
     t_sand = ter_id( "t_sand" );
+    t_clay = ter_id( "t_clay" );
     t_dirtmound = ter_id( "t_dirtmound" );
     t_pit_shallow = ter_id( "t_pit_shallow" );
     t_pit = ter_id( "t_pit" );
@@ -969,10 +994,10 @@ void ter_t::load( JsonObject &jo, const std::string &src )
         set_connects( jo.get_string( "connects_to" ) );
     }
 
-    optional( jo, was_loaded, "open", open, NULL_ID );
-    optional( jo, was_loaded, "close", close, NULL_ID );
-    optional( jo, was_loaded, "transforms_into", transforms_into, NULL_ID );
-    optional( jo, was_loaded, "roof", roof, NULL_ID );
+    optional( jo, was_loaded, "open", open, ter_str_id::NULL_ID() );
+    optional( jo, was_loaded, "close", close, ter_str_id::NULL_ID() );
+    optional( jo, was_loaded, "transforms_into", transforms_into, ter_str_id::NULL_ID() );
+    optional( jo, was_loaded, "roof", roof, ter_str_id::NULL_ID() );
 
     bash.load( jo, "bash", false );
     deconstruct.load( jo, "deconstruct", false );
@@ -1035,6 +1060,8 @@ void ter_t::check() const
     }
 }
 
+furn_t::furn_t() : open( furn_str_id::NULL_ID() ), close( furn_str_id::NULL_ID() ) {};
+
 size_t furn_t::count()
 {
     return furniture_data.size();
@@ -1056,8 +1083,8 @@ void furn_t::load( JsonObject &jo, const std::string &src )
         set_flag( flag );
     }
 
-    optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, NULL_ID );
-    optional( jo, was_loaded, "close", close, string_id_reader<furn_t> {}, NULL_ID );
+    optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
+    optional( jo, was_loaded, "close", close, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
 
     bash.load( jo, "bash", true );
     deconstruct.load( jo, "deconstruct", true );
@@ -1091,3 +1118,5 @@ void check_furniture_and_terrain()
     terrain_data.check();
     furniture_data.check();
 }
+
+ter_furn_id::ter_furn_id() : ter( t_null ), furn( f_null ) { }

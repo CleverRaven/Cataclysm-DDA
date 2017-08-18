@@ -1,35 +1,33 @@
 # Files included here will be checked by the linter
 # You can run make lint to fix any regressions
 
-# Shell globs are supported along with an optional second field that controls
-# sort order. This can be useful for limiting merge conflicts when multiple
-# authors are both working on a file. If unspecified the default is unsorted.
+# Shell globs are supported.
 
 # Core
-data/json/bionics.json id
+data/json/bionics.json
 data/json/item_category.json sort_rank
 data/json/items/ammo/*
-data/json/items/armor.json id
-data/json/items/armor/boots.json id
-data/json/items/book/* id
-data/json/items/bionics.json id
-data/json/items/containers.json id
-data/json/items/comestibles/spice.json id
-data/json/items/generic/ammolink.json id
-data/json/items/generic/casing.json id
+data/json/items/armor.json
+data/json/items/armor/boots.json
+data/json/items/book/*
+data/json/items/bionics.json
+data/json/items/containers.json
+data/json/items/comestibles/spice.json
+data/json/items/generic/ammolink.json
+data/json/items/generic/casing.json
 data/json/items/generic/string.json
-data/json/items/gun/* id
-data/json/items/gunmod/* id
-data/json/items/magazine/* id
-data/json/items/toolmod.json id
-data/json/items/tools.json id
+data/json/items/gun/*
+data/json/items/gunmod/*
+data/json/items/magazine/*
+data/json/items/toolmod.json
+data/json/items/tools.json
 data/json/items/tool/radio_tools.json
 data/json/mapgen/*/*.json
 data/json/mapgen/*.json
-data/json/materials.json ident
-data/json/monsters.json id
-data/json/monsters/* id
-data/json/npcs/missiondef.json id
+data/json/materials.json
+data/json/monsters.json
+data/json/monsters/*
+data/json/npcs/missiondef.json
 data/json/npcs/TALK_EVAC_GUARD3.json
 data/json/npcs/TALK_EVAC_HUNTER.json
 data/json/npcs/TALK_EVAC_MERCHANT.json
@@ -41,11 +39,11 @@ data/json/recipes/electronics/*.json result
 data/json/recipes/other/materials.json
 data/json/recipes/other/other.json
 data/json/recipes/other/parts.json
-data/json/requirements/*.json id
-data/json/vehicles/* id
+data/json/requirements/*.json
+data/json/vehicles/*
 data/json/vehicleparts/*
-data/json/npcs/missiondef.json id
-data/json/harvest.json id
+data/json/npcs/missiondef.json
+data/json/harvest.json
 
 # Mods
 data/mods/*/modinfo.json

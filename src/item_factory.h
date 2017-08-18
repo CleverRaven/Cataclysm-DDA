@@ -10,6 +10,7 @@
 #include <bitset>
 #include <memory>
 #include <list>
+#include <functional>
 
 #include "json.h"
 #include "itype.h"
@@ -66,8 +67,7 @@ class Item_factory
         /**
          * Registers a LUA based iuse function.
          * @param name The name that is used in the json data to refer to the LUA function.
-         * It is stored in @ref iuse_function_list, the iuse function can be requested with
-         * @ref get_iuse.
+         * It is stored in @ref iuse_function_list
          * @param lua_function The LUA id of the LUA function.
          */
         void register_iuse_lua( const std::string &name, int lua_function );
@@ -132,6 +132,8 @@ class Item_factory
         /**
          * Sets the chance of the specified item in the group.
          * This is meant to be accessed at startup by lua to do mod-related modifications of groups.
+         * @param group_id Group to add item to
+         * @param item_id Id of item to add to group
          * @param weight The relative weight of the item. A value of 0 removes the item from the
          * group.
          * @return false if the group doesn't exist.
@@ -186,6 +188,7 @@ class Item_factory
         /**
          * Applies any migrations to an instance of an item
          * @param id the original id (before any replacement)
+         * @param obj The instance
          * @see Item_factory::migrate_id
          */
         void migrate_item( const itype_id &id, item &obj );
@@ -207,7 +210,7 @@ class Item_factory
         /**
          * Add a passed in itype to the collection of item types.
          * If the item type overrides an existing type, the existing type is deleted first.
-         * @param new_type The new item type, must not be null.
+         * @param def The new item type, must not be null.
          */
         void add_item_type( const itype &def ) {
             m_runtimes[ def.id ].reset( new itype( def ) );
@@ -317,9 +320,12 @@ class Item_factory
          * If obj contains an array or string titled name + "-item" or name + "-group",
          * this resets ptr and adds the item(s) or group(s) to it.
          *
-         * @param parent: The item group that obj is in. Used so that the result's magazine and ammo
-         *                probabilities can be inherited.
-         * @ret: Whether anything was loaded.
+         * @param ptr Data we operate on, results are stored here
+         * @param obj Json object being searched
+         * @param name Name of item or group we are searching for
+         * @param parent The item group that obj is in. Used so that the result's magazine and ammo
+         * probabilities can be inherited.
+         * @returns Whether anything was loaded.
          */
         bool load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, JsonObject &obj,
                            const std::string &name, const Item_group &parent );

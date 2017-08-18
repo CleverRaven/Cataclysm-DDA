@@ -12,7 +12,7 @@
     "price": 18000,
     "bashing": 8,
     "to_hit": -2,
-    "qualities": [ ["JACK", 15 ] ]
+    "qualities": [ ["JACK", 16 ] ]
   },
   {
     "id": "jack_makeshift",

@@ -60,7 +60,6 @@ enum quit_status {
     QUIT_NOSAVED,   // Quit without saving
     QUIT_DIED,      // Actual death
     QUIT_WATCH,     // Died, and watching aftermath
-    QUIT_ERROR
 };
 
 enum safe_mode_type {
@@ -96,6 +95,7 @@ class salvage_actor;
 class input_context;
 class map_item_stack;
 struct WORLD;
+class save_t;
 typedef WORLD *WORLDPTR;
 class overmap;
 struct event;
@@ -175,8 +175,6 @@ class game
         /** Initializes the UI. */
         void init_ui();
         void setup();
-        /** Returns true if the game quits through some error. */
-        bool game_error();
         /** True if the game has just started or loaded, else false. */
         bool new_game;
         /** Used in main.cpp to determine what type of quit is being performed. */
@@ -193,10 +191,6 @@ class game
 
         /** Returns false if saving failed. */
         bool save();
-        /** Deletes the given world. If delete_folder is true delete all the files and directories
-         *  of the given world folder. Else just avoid deleting the two config files and the directory
-         *  itself. */
-        void delete_world(std::string worldname, bool delete_folder);
         /** Returns a list of currently active character saves. */
         std::vector<std::string> list_active_characters();
         void write_memorial_file(std::string sLastWords);
@@ -223,15 +217,23 @@ class game
         scent_map &scent;
 
         std::unique_ptr<Creature_tracker> critter_tracker;
+
         /**
-         * Add an entry to @ref events. For further information see event.h
+         * Add an entry to @ref game::events. For further information see event.h
+         * @param type Type of event.
+         * @param on_turn On which turn event should be happened.
+         * @param faction_id Faction of event.
+         * reality bubble. In global submap coordinates.
+         */
+        void add_event(event_type type, int on_turn, int faction_id = -1);
+        /**
+         * Add an entry to @ref game::events. For further information see event.h
          * @param type Type of event.
          * @param on_turn On which turn event should be happened.
          * @param faction_id Faction of event.
          * @param where The location of the event, optional, defaults to the center of the
          * reality bubble. In global submap coordinates.
          */
-        void add_event(event_type type, int on_turn, int faction_id = -1);
         void add_event(event_type type, int on_turn, int faction_id, tripoint where);
         bool event_queued(event_type type) const;
         /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
@@ -278,13 +280,18 @@ class game
         void scrambler_blast( const tripoint &p );
         /** Triggers an emp blast at p. */
         void emp_blast( const tripoint &p );
-        /** Returns the NPC index of the npc at p. Returns -1 if no NPC is present. */
-        int  npc_at( const tripoint &p ) const;
         /** Returns the NPC index of the npc with a matching ID. Returns -1 if no NPC is present. */
-        int  npc_by_id(const int id) const;
-        /** Returns the Creature at tripoint p */
-        Creature *critter_at( const tripoint &p, bool allow_hallucination = false );
-        Creature const* critter_at( const tripoint &p, bool allow_hallucination = false ) const;
+        npc *npc_by_id(const int id) const;
+        /**
+         * Returns the Creature at the given location. Optionally casted to the given
+         * type of creature: @ref npc, @ref player, @ref monster - if there is a creature,
+         * but it's not of the requested tpye, returns nullptr.
+         * @param allow_hallucination Whether to return monsters that are actually hallucinations.
+         */
+        template<typename T = Creature>
+        T *critter_at( const tripoint &p, bool allow_hallucination = false );
+        template<typename T = Creature>
+        T const* critter_at( const tripoint &p, bool allow_hallucination = false ) const;
 
         /** Summons a brand new monster at the current time. Returns the summoned monster. */
         bool summon_mon( const mtype_id& id, const tripoint &p );
@@ -338,12 +345,16 @@ class game
 
         /**
          * Handles interactive parts of gun firing (target selection, etc.).
-         * Overload stores targeting parameters for weapon, used for calls to the nullary form.
+         * @return Whether an attack was actually performed.
+         */
+        bool plfire();
+        /**
+         * Handles interactive parts of gun firing (target selection, etc.).
+         * This version stores targeting parameters for weapon, used for calls to the nullary form.
          * @param weapon Reference to a weapon we want to start aiming.
          * @param bp_cost The amount by which the player's power reserve is decreased after firing.
          * @return Whether an attack was actually performed.
          */
-        bool plfire();
         bool plfire( item &weapon, int bp_cost = 0 );
 
         /** Target is an interactive function which allows the player to choose a nearby
@@ -378,12 +389,12 @@ class game
         void unload_npcs();
         /** Unloads, then loads the NPCs */
         void reload_npcs();
-        /** Pulls the NPCs that were dumped into the world map on save back into mission_npcs */
-        void load_mission_npcs();
         /** Returns the number of kills of the given mon_id by the player. */
         int kill_count( const mtype_id& id );
         /** Increments the number of kills of the given mtype_id by the player upwards. */
         void increase_kill_count( const mtype_id& id );
+        /** Record the fact that the player murdered an NPC. */
+        void record_npc_kill( const npc *p );
 
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport(player *p = NULL, bool add_teleglow = true);
@@ -458,7 +469,7 @@ class game
         };
         int inventory_item_menu(int pos, int startx = 0, int width = 50, inventory_item_menu_positon position = RIGHT_OF_INFO);
 
-        /** Custom-filtered menu for inventory items and those that are nearby (within @ref radius). */
+        /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
         faction *list_factions(std::string title = "FACTIONS:");
@@ -507,11 +518,23 @@ class game
         std::vector<npc *> allies();
 
         std::vector<npc *> active_npc;
-        std::vector<npc *> mission_npc;
         std::vector<faction> factions;
         int weight_dragged; // Computed once, when you start dragging
 
         int ter_view_x, ter_view_y, ter_view_z;
+
+    private:
+        WINDOW_PTR w_terrain_ptr;
+        WINDOW_PTR w_minimap_ptr;
+        WINDOW_PTR w_pixel_minimap_ptr;
+        WINDOW_PTR w_HP_ptr;
+        WINDOW_PTR w_messages_short_ptr;
+        WINDOW_PTR w_messages_long_ptr;
+        WINDOW_PTR w_location_ptr;
+        WINDOW_PTR w_status_ptr;
+        WINDOW_PTR w_status2_ptr;
+
+    public:
         WINDOW *w_terrain;
         WINDOW *w_overmap;
         WINDOW *w_omlegend;
@@ -575,6 +598,7 @@ class game
          * @param on_ground Iterator to the item on the ground. Must be valid and point to an
          * item in the stack at `m.i_at(pos)`
          * @param pos The position of the item on the map.
+         * @param radius around position to handle liquid for
          * @return Whether the item has been removed (which implies it was handled completely).
          * The iterator is invalidated in that case. Otherwise the item remains but may have
          * fewer charges.
@@ -585,6 +609,8 @@ class game
          * Handle liquid from inside a container item. The function also handles consuming move points.
          * @param in_container Iterator to the liquid. Must be valid and point to an
          * item in the @ref item::contents of the container.
+         * @param container Container of the liquid
+         * @param radius around position to handle liquid for
          * @return Whether the item has been removed (which implies it was handled completely).
          * The iterator is invalidated in that case. Otherwise the item remains but may have
          * fewer charges.
@@ -602,7 +628,9 @@ class game
          * Supply one of the source parameters to prevent the player from pouring the liquid back
          * into that "container". If no source parameter is given, the liquid must not be in a
          * container at all (e.g. freshly crafted, or already removed from the container).
+         * @param liquid The actual liquid
          * @param source The container that currently contains the liquid.
+         * @param radius Radius to look for liquid around pos
          * @param source_pos The source of the liquid when it's from the map.
          * @param source_veh The vehicle that currently contains the liquid in its tank.
          * @return Whether the user has handled the liquid (at least part of it). `false` indicates
@@ -614,7 +642,8 @@ class game
          */
         bool handle_liquid( item &liquid, item *source = NULL, int radius = 0,
                             const tripoint *source_pos = nullptr,
-                            const vehicle *source_veh = nullptr );
+                            const vehicle *source_veh = nullptr,
+                            const monster *source_mon = nullptr);
         /**@}*/
 
         void open_gate( const tripoint &p );
@@ -636,8 +665,7 @@ class game
         // Animation related functions
         void draw_explosion( const tripoint &p, int radius, nc_color col );
         void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area );
-        void draw_bullet( Creature const &p, const tripoint &pos, int i,
-                          std::vector<tripoint> const &trajectory, char bullet );
+        void draw_bullet( const tripoint &pos, int i, const std::vector<tripoint> &trajectory, char bullet );
         void draw_hit_mon( const tripoint &p, const monster &critter, bool dead = false);
         void draw_hit_player(player const &p, int dam);
         void draw_line( const tripoint &p, const tripoint &center_point, std::vector<tripoint> const &ret );
@@ -649,6 +677,7 @@ class game
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );
 
+        bool is_in_viewport( const tripoint& p, int margin = 0 ) const;
         /**
          * Check whether movement is allowed according to safe mode settings.
          * @return true if the movement is allowed, otherwise false.
@@ -693,7 +722,7 @@ class game
 
     private:
         // Game-start procedures
-        void load( std::string worldname, std::string name ); // Load a player-specific save file
+        void load( std::string worldname, const save_t &name ); // Load a player-specific save file
         bool load_master(std::string worldname); // Load the master data file, with factions &c
         void load_weather(std::istream &fin);
         bool start_game(std::string worldname); // Starts a new game in a world
@@ -712,7 +741,6 @@ class game
         bool save_uistate();
         void load_uistate(std::string worldname);
         // Data Initialization
-        void init_fields();
         void init_faction_data();
         void init_autosave();     // Initializes autosave parameters
         void init_savedata_translation_tables();
@@ -910,7 +938,6 @@ private:
         bool safe_mode_warning_logged;
         std::vector<int> new_seen_mon;
         int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
-        bool safemodeveh; // safemode while driving?
         int turnssincelastmon; // needed for auto run mode
         //  quit_status uquit;    // Set to true if the player quits ('Q')
         bool bVMonsterLookFire;
@@ -919,6 +946,7 @@ private:
         int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
         std::list<event> events;         // Game events to be processed
         std::map<mtype_id, int> kills;         // Player's kill count
+        std::list<std::string> npc_kills;      // names of NPCs the player killed
         int moves_since_last_save;
         time_t last_save_timestamp;
         mutable std::array<float, OVERMAP_LAYERS> latest_lightlevels;
@@ -929,10 +957,11 @@ private:
         bool npcs_dirty;
         /** Has anything died in this turn and needs to be cleaned up? */
         bool critter_died;
+        /** Was the player sleeping during this turn. */
+        bool player_was_sleeping;
 
         std::unique_ptr<special_game> gamemode;
 
-        int moveCount; //Times the player has moved (not pause, sleep, etc)
         int user_action_counter; // Times the user has input an action
         const int lookHeight; // Look Around window height
 

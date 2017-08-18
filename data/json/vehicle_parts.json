@@ -138,11 +138,16 @@
             "skills": [ [ "mechanics", 2 ] ],
             "qualities": [ { "id": "SCREW", "level": 1 } ]
           },
+          "repair": {
+            "skills": [ [ "mechanics", 2 ] ],
+            "time": 2000,
+            "using": [ [ "adhesive", 1 ] ]
+          },
           "removal": {
             "skills": [ [ "mechanics", 2 ] ],
             "qualities": [ { "id": "SCREW", "level": 1 } ]
           }
-        },        
+        },
         "flags": ["TRACK", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "ENABLED_DRAINS_EPOWER"],
         "breaks_into": [
             {"item": "scrap", "count": [0, 2]}
@@ -165,6 +170,11 @@
             "time": 20000,
             "skills": [ [ "mechanics", 1 ] ],
             "qualities": [ { "id": "WRENCH", "level": 2 } ]
+          },
+          "repair": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "time": 2000,
+            "using": [ [ "welding_standard", 5 ] ]
           },
           "removal": {
             "skills": [ [ "mechanics", 1 ] ],
@@ -194,6 +204,11 @@
             "time": 20000,
             "skills": [ [ "mechanics", 2 ] ],
             "qualities": [ { "id": "WRENCH", "level": 2 } ]
+          },
+          "repair": {
+            "skills": [ [ "mechanics", 2 ] ],
+            "time": 2000,
+            "using": [ [ "welding_standard", 5 ] ]
           },
           "removal": {
             "skills": [ [ "mechanics", 2 ] ],
@@ -962,6 +977,11 @@
             "skills": [ [ "mechanics", 1 ] ],
             "qualities": [ { "id": "SCREW", "level": 1 } ]
           },
+          "repair": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "time": 2000,
+            "using": [ [ "adhesive", 1 ] ]
+          },
           "removal": {
             "skills": [ [ "mechanics", 1 ] ],
             "qualities": [ { "id": "SCREW", "level": 1 } ]
@@ -1022,6 +1042,11 @@
             "skills": [ [ "mechanics", 2 ] ],
             "qualities": [ { "id": "SCREW", "level": 1 } ]
           },
+          "repair": {
+            "skills": [ [ "mechanics", 2 ] ],
+            "time": 2000,
+            "using": [ [ "adhesive", 1 ] ]
+          },
           "removal": {
             "skills": [ [ "mechanics", 2 ] ],
             "qualities": [ { "id": "SCREW", "level": 1 } ]
@@ -1050,6 +1075,11 @@
             "skills": [ [ "mechanics", 1 ] ],
             "qualities": [ { "id": "SCREW", "level": 1 } ]
           },
+          "repair": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "time": 2000,
+            "using": [ [ "adhesive", 1 ] ]
+          },
           "removal": {
             "skills": [ [ "mechanics", 1 ] ],
             "qualities": [ { "id": "SCREW", "level": 1 } ]
@@ -1075,6 +1105,11 @@
             "time": 30000,
             "skills": [ [ "mechanics", 1 ] ],
             "qualities": [ { "id": "SCREW", "level": 1 } ]
+          },
+          "repair": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "time": 2000,
+            "using": [ [ "adhesive", 1 ] ]
           },
           "removal": {
             "skills": [ [ "mechanics", 1 ] ],
@@ -1205,6 +1240,11 @@
             "skills": [ [ "mechanics", 1 ] ],
             "qualities": [ { "id": "WRENCH", "level": 1 } ]
           },
+          "repair": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "time": 2000,
+            "using": [ [ "welding_standard", 5 ] ]
+          },
           "removal": {
             "skills": [ [ "mechanics", 1 ] ],
             "qualities": [ { "id": "WRENCH", "level": 1 } ]
@@ -1281,6 +1321,7 @@
             {"item": "water_purifier", "charges": 0, "prob": 50},
             {"item": "vac_sealer", "charges": 0, "prob": 50},
             {"item": "dehydrator", "charges": 0, "prob": 50},
+            {"item": "food_processor", "charges": 0, "prob": 50},
             {"item": "press", "charges": 0, "prob": 50}
         ]
     },{
@@ -1485,6 +1526,11 @@
             "skills": [ [ "mechanics", 1 ] ],
             "qualities": [ { "id": "SCREW", "level": 1 } ]
           },
+          "repair": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "time": 2000,
+            "using": [ [ "adhesive", 1 ] ]
+          },
           "removal": {
             "skills": [ [ "mechanics", 1 ] ],
             "qualities": [ { "id": "SCREW", "level": 1 } ]
@@ -1511,6 +1557,11 @@
             "time": 15000,
             "skills": [ [ "mechanics", 2 ] ],
             "qualities": [ { "id": "SCREW", "level": 1 } ]
+          },
+          "repair": {
+            "skills": [ [ "mechanics", 2 ] ],
+            "time": 2000,
+            "using": [ [ "adhesive", 1 ] ]
           },
           "removal": {
             "skills": [ [ "mechanics", 2 ] ],
@@ -1539,6 +1590,11 @@
             "skills": [ [ "mechanics", 2 ] ],
             "qualities": [ { "id": "SCREW", "level": 1 } ]
           },
+          "repair": {
+            "skills": [ [ "mechanics", 2 ] ],
+            "time": 2000,
+            "using": [ [ "adhesive", 1 ] ]
+          },
           "removal": {
             "skills": [ [ "mechanics", 2 ] ],
             "qualities": [ { "id": "SCREW", "level": 1 } ]
@@ -1565,6 +1621,11 @@
             "time": 15000,
             "skills": [ [ "mechanics", 2 ] ],
             "qualities": [ { "id": "SCREW", "level": 1 } ]
+          },
+          "repair": {
+            "skills": [ [ "mechanics", 2 ] ],
+            "time": 2000,
+            "using": [ [ "adhesive", 1 ] ]
           },
           "removal": {
             "skills": [ [ "mechanics", 2 ] ],
@@ -1681,6 +1742,11 @@
             "skills": [ [ "mechanics", 1 ] ],
             "qualities": [ { "id": "SCREW", "level": 1 } ]
           },
+          "repair": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "time": 2000,
+            "using": [ [ "adhesive", 1 ] ]
+          },
           "removal": {
             "skills": [ [ "mechanics", 1 ] ],
             "qualities": [ { "id": "SCREW", "level": 1 } ]
@@ -1709,6 +1775,11 @@
             "skills": [ [ "mechanics", 1 ] ],
             "qualities": [ { "id": "SCREW", "level": 1 } ]
           },
+          "repair": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "time": 2000,
+            "using": [ [ "adhesive", 1 ] ]
+          },
           "removal": {
             "skills": [ [ "mechanics", 1 ] ],
             "qualities": [ { "id": "SCREW", "level": 1 } ]
@@ -1729,7 +1800,7 @@
         "broken_color" : "light_gray",
         "damage_modifier" : 0,
         "durability" : 60,
-        "epower" : -700,
+        "epower" : -200,
         "bonus" : 80,
         "item" : "stereo",
         "difficulty" : 2,
@@ -2077,12 +2148,17 @@
             "skills": [ [ "mechanics", 1 ] ],
             "qualities": [ { "id": "SCREW", "level": 1 } ]
           },
+          "repair": {
+            "skills": [ [ "mechanics", 1 ] ],
+            "time": 2000,
+            "using": [ [ "adhesive", 1 ] ]
+          },
           "removal": {
             "skills": [ [ "mechanics", 1 ] ],
             "qualities": [ { "id": "SCREW", "level": 1 } ]
           }
         },
-        "flags": ["WATCH", "ALARMCLOCK", "TOOL_SCREWDRIVER"],
+        "flags": ["WATCH", "ALARMCLOCK"],
         "breaks_into" : [
             {"item": "scrap", "prob": 50}
         ]

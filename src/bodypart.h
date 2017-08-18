@@ -50,10 +50,10 @@ struct body_part_struct {
         bool was_loaded = false;
 
         // Those are stored untranslated
-        // @todo Translate on load
         std::string name;
         std::string name_as_heading_singular;
         std::string name_as_heading_multiple;
+        std::string hp_bar_ui_text;
         std::string encumb_text;
         // Legacy "string id"
         std::string legacy_id = "num_bp";
@@ -111,6 +111,9 @@ std::string body_part_name_accusative( body_part bp );
 /** Returns the name of the body parts in a context where the name is used as
  * a heading or title e.g. "Left Arm". */
 std::string body_part_name_as_heading( body_part bp, int number );
+
+/** Returns the body part text to be displayed in the HP bar */
+std::string body_part_hp_bar_ui_text( body_part bp );
 
 /** Returns the matching encumbrance text for a given body_part token. */
 std::string encumb_text( body_part bp );

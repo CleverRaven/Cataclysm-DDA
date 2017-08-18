@@ -31,12 +31,9 @@ using trap_str_id = string_id<trap>;
 
 using ter_id = int_id<ter_t>;
 using ter_str_id = string_id<ter_t>;
-
 using furn_id = int_id<furn_t>;
 using furn_str_id = string_id<furn_t>;
-
 using itype_id = std::string;
-
 using harvest_id = string_id<harvest_list>;
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
@@ -64,11 +61,7 @@ struct map_bash_info {
     furn_str_id furn_set;   // furniture to set (only used by furniture, not terrain)
     // ids used for the special handling of tents (have to be ids of furniture)
     std::vector<std::string> tent_centers;
-    map_bash_info() : str_min(-1), str_max(-1), str_min_blocked(-1), str_max_blocked(-1),
-                      str_min_supported(-1), str_max_supported(-1),
-                      explosive(0), sound_vol(-1), sound_fail_vol(-1),
-                      collapse_radius(1), destroy_only(false), bash_below(false),
-                      drop_group("EMPTY_GROUP"), ter_set(NULL_ID), furn_set(NULL_ID) {};
+    map_bash_info();
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 struct map_deconstruct_info {
@@ -80,7 +73,7 @@ struct map_deconstruct_info {
     std::string drop_group;
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     furn_str_id furn_set;    // furniture to set (only used by furniture, not terrain)
-    map_deconstruct_info() : can_do(false), deconstruct_above(false), ter_set(NULL_ID), furn_set(NULL_ID) {};
+    map_deconstruct_info();
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 
@@ -119,6 +112,7 @@ struct map_deconstruct_info {
  * OPENCLOSE_INSIDE - If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
  * PERMEABLE - Allows gases to flow through unimpeded.
  * RAMP - Higher z-levels can be accessed from this tile
+ * EASY_DECONSTRUCT - Player can deconstruct this without tools
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
@@ -231,7 +225,7 @@ public:
      * Note: This excludes items that take extra tools to harvest.
      */
     std::array<harvest_id, SEASONS_PER_YEAR> harvest_by_season = {{
-        harvest_id( "null" ), harvest_id( "null" ), harvest_id( "null" ), harvest_id( "null" )
+        harvest_id::NULL_ID(), harvest_id::NULL_ID(), harvest_id::NULL_ID(), harvest_id::NULL_ID()
     }};
 
     bool transparent;
@@ -287,12 +281,7 @@ struct ter_t : map_data_common_t {
 
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
 
-    ter_t() :
-        open( NULL_ID ),
-        close( NULL_ID ),
-        transforms_into( NULL_ID ),
-        roof( NULL_ID ),
-        trap( tr_null ) {};
+    ter_t();
 
     static size_t count();
 
@@ -323,9 +312,7 @@ struct furn_t : map_data_common_t {
     // May return NULL
     const itype *crafting_ammo_item_type() const;
 
-    furn_t() :
-        open( NULL_ID ),
-        close( NULL_ID ) {};
+    furn_t();
 
     static size_t count();
 
@@ -388,7 +375,7 @@ t_basalt
 extern ter_id t_null,
     t_hole, // Real nothingness; makes you fall a z-level
     // Ground
-    t_dirt, t_sand, t_dirtmound, t_pit_shallow, t_pit,
+    t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit,
     t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
     t_rock_floor,
     t_grass,
@@ -529,7 +516,7 @@ void finalize_furniture_and_terrain();
 struct ter_furn_id {
    ter_id ter;
    furn_id furn;
-   ter_furn_id() : ter( t_null ), furn( f_null ) { }
+   ter_furn_id();
 };
 
 

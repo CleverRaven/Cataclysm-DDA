@@ -32,7 +32,9 @@
  * Usually a single source contains only debug messages for a single debug class
  * (e.g. mapgen.cpp contains only messages for D_MAP_GEN, npcmove.cpp only D_NPC).
  * Those files contain a macro at top:
+@code
 #define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
+@endcode
  * It allows to call the debug system and just supply the debug level, the debug
  * class is automatically inserted as it is the same for the whole file. Also this
  * adds the file name and the line of the statement to the debug message.

@@ -23,7 +23,7 @@ class mapbuffer
         /** Load the entire world from savefiles into submaps in this instance. **/
         void load( std::string worldname );
         /** Store all submaps in this instance into savefiles.
-         * @ref delete_after_save If true, the saved submaps are removed
+         * @param delete_after_save If true, the saved submaps are removed
          * from the mapbuffer (and deleted).
          **/
         void save( bool delete_after_save = false );
@@ -51,7 +51,7 @@ class mapbuffer
          *
          * @param x, y, z The absolute world position in submap coordinates.
          * Same as the ones in @ref add_submap.
-         * @param return NULL if the submap is not in the mapbuffer
+         * @return NULL if the submap is not in the mapbuffer
          * and could not be loaded. The mapbuffer takes care of the returned
          * submap object, don't delete it on your own.
          */

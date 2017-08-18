@@ -9,13 +9,12 @@
     "time": 30000,
     "autolearn": true,
     "book_learn": [ [ "manual_tailor", 2 ], [ "textbook_tailor", 2 ] ],
-    "using": [ [ "filament", 12 ] ],
+    "using": [ [ "filament", 12 ], [ "cordage", 1 ] ],
     "qualities": [
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
     ],
     "components": [
-      [ [ "string_36", 1 ], [ "string_6", 4 ] ],
       [ [ "bone", 12 ], [ "bone_human", 12 ], [ "bone_tainted", 24 ] ],
       [ [ "leather", 2 ] ]
     ]

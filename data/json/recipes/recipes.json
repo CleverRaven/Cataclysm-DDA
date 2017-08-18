@@ -10,6 +10,7 @@
       "CSC_WEAPON_RANGED",
       "CSC_WEAPON_EXPLOSIVE",
       "CSC_WEAPON_MODS",
+      "CSC_WEAPON_MAGAZINES",
       "CSC_WEAPON_OTHER"
     ]
   },{

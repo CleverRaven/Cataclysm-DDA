@@ -94,7 +94,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
             case 'i':
             case 'I':
                 ignored_messages.insert( msg_key );
-            // Falling through
+            /* fallthrough */
             case ' ':
                 stop = true;
                 break;

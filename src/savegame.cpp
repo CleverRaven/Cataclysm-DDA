@@ -39,8 +39,6 @@
 #include "weather_gen.h"
 #include "npc.h"
 
-#include "tile_id_data.h"
-
 /*
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
@@ -72,7 +70,6 @@ void game::serialize(std::ostream & fout) {
         json.member("turn", (int)calendar::turn);
         json.member("calendar_start", (int)calendar::start);
         json.member("initial_season", (int)calendar::initial_season);
-        json.member("eternal_season", calendar::eternal_season);
         json.member( "last_target", (int)last_target );
         json.member( "run_mode", (int)safe_mode );
         json.member( "mostseen", mostseen );
@@ -100,6 +97,13 @@ void game::serialize(std::ostream & fout) {
             json.member( elem.first.str(), elem.second );
         }
         json.end_object();
+
+        json.member( "npc_kills" );
+        json.start_array();
+        for( auto &elem : npc_kills ) {
+            json.write( elem );
+        }
+        json.end_array();
 
         json.member( "player", u );
         Messages::serialize( json );
@@ -188,7 +192,6 @@ void game::unserialize(std::istream & fin)
         data.read("turn",tmpturn);
         data.read("calendar_start",tmpcalstart);
         calendar::initial_season = (season_type)data.get_int("initial_season",(int)SPRING);
-        calendar::eternal_season = data.get_bool("eternal_season", false);
         data.read("last_target",tmptar);
         data.read("run_mode", tmprun);
         data.read("mostseen", mostseen);
@@ -209,7 +212,6 @@ void game::unserialize(std::istream & fin)
         if (get_option<bool>( "SAFEMODE" ) && safe_mode == SAFE_MODE_OFF) {
             safe_mode = SAFE_MODE_ON;
         }
-        safemodeveh = get_option<bool>( "SAFEMODEVEH" );
         last_target = tmptar;
 
         linebuf="";
@@ -239,6 +241,13 @@ void game::unserialize(std::istream & fin)
         std::set<std::string> members = odata.get_member_names();
         for( const auto &member : members ) {
             kills[mtype_id( member )] = odata.get_int( member );
+        }
+
+        vdata = data.get_array("npc_kills");
+        while( vdata.has_more() ) {
+           std::string npc_name;
+           vdata.read_next(npc_name);
+           npc_kills.push_back(npc_name);
         }
 
         data.read("player", u);
@@ -306,6 +315,7 @@ bool overmap::obsolete_terrain( const std::string &ter ) {
     static const std::unordered_set<std::string> obsolete = {
         "apartments_con_tower_1", "apartments_con_tower_1_entrance",
         "apartments_mod_tower_1", "apartments_mod_tower_1_entrance",
+        "bridge_ew", "bridge_ns",
         "public_works", "public_works_entrance",
         "school_1", "school_2", "school_3",
         "school_4", "school_5", "school_6",
@@ -368,6 +378,12 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             nearby.push_back( { 1, entr, 1, old, base + "SE_south" } );
             nearby.push_back( { 1, old, -1, entr, base + "SE_east" } );
             nearby.push_back( { -1, old, 1, entr, base + "SE_west" } );
+
+        } else if( old == "bridge_ew" ) {
+            new_id = oter_id( "bridge_east" );
+
+        } else if( old == "bridge_ns" ) {
+            new_id = oter_id( "bridge_north" );
 
         } else if( old == "public_works_entrance" ) {
             const std::string base = "public_works_";
@@ -1179,7 +1195,6 @@ void mongroup::io( Archive& archive )
     archive.io( "radius", radius, 1u );
     archive.io( "population", population, 1u );
     archive.io( "diffuse", diffuse, false );
-    archive.io( "dying", dying, false );
     archive.io( "dying", dying, false );
     archive.io( "horde", horde, false );
     archive.io( "target", target, tripoint_zero );

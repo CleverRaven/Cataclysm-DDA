@@ -10,9 +10,6 @@
 #include <string>
 #include <map>
 
-template<>
-const string_id<material_type> string_id<material_type>::NULL_ID( "null", 0 );
-
 namespace
 {
 
@@ -20,12 +17,14 @@ generic_factory<material_type> material_data( "material", "ident" );
 
 } // namespace
 
+/** @relates string_id */
 template<>
 bool string_id<material_type>::is_valid() const
 {
     return material_data.is_valid( *this );
 }
 
+/** @relates string_id */
 template<>
 const material_type &string_id<material_type>::obj() const
 {
@@ -33,7 +32,7 @@ const material_type &string_id<material_type>::obj() const
 }
 
 material_type::material_type() :
-    id( NULL_ID ),
+    id( material_id::NULL_ID() ),
     _bash_dmg_verb( _( "damages" ) ),
     _cut_dmg_verb( _( "damages" ) )
 {
@@ -53,7 +52,7 @@ mat_burn_data load_mat_burn_data( JsonObject &jsobj )
 
 void material_type::load( JsonObject &jsobj, const std::string & )
 {
-    mandatory( jsobj, was_loaded, "name", _name, translated_string_reader );
+    mandatory( jsobj, was_loaded, "name", _name );
 
     mandatory( jsobj, was_loaded, "bash_resist", _bash_resist );
     mandatory( jsobj, was_loaded, "cut_resist", _cut_resist );

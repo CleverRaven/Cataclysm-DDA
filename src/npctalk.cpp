@@ -50,6 +50,23 @@ const efftype_id effect_infection( "infection" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_sleep( "sleep" );
 
+static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
+static const trait_id trait_ELFAEYES( "ELFAEYES" );
+static const trait_id trait_FLOWERS( "FLOWERS" );
+static const trait_id trait_GROWL( "GROWL" );
+static const trait_id trait_HISS( "HISS" );
+static const trait_id trait_LIAR( "LIAR" );
+static const trait_id trait_MINOTAUR( "MINOTAUR" );
+static const trait_id trait_MUZZLE_LONG( "MUZZLE_LONG" );
+static const trait_id trait_MUZZLE( "MUZZLE" );
+static const trait_id trait_PROF_FED( "PROF_FED" );
+static const trait_id trait_SABER_TEETH( "SABER_TEETH" );
+static const trait_id trait_SNARL( "SNARL" );
+static const trait_id trait_TAIL_FLUFFY( "TAIL_FLUFFY" );
+static const trait_id trait_TERRIFYING( "TERRIFYING" );
+static const trait_id trait_TRUTHTELLER( "TRUTHTELLER" );
+static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
+
 struct dialogue;
 
 enum talk_trial_type {
@@ -110,11 +127,9 @@ struct talk_response {
     talk_trial trial;
     /**
      * The following values are forwarded to the chatbin of the NPC (see @ref npc_chatbin).
-     * Except @ref miss, it is apparently not used but should be a mission type that can create
-     * new mission.
      */
     mission *mission_selected = nullptr;
-    skill_id skill = skill_id::NULL_ID;
+    skill_id skill = skill_id::NULL_ID();
     matype_id style;
     /**
      * Defines what happens when the trial succeeds or fails. If trial is
@@ -451,7 +466,7 @@ void npc::talk_to_u()
         attitude = NPCATT_NULL;
         return;
     }
-    const bool has_mind_control = g->u.has_trait( "DEBUG_MIND_CONTROL" );
+    const bool has_mind_control = g->u.has_trait( trait_DEBUG_MIND_CONTROL );
     // This is necessary so that we don't bug the player over and over
     if( attitude == NPCATT_TALK ) {
         attitude = NPCATT_NULL;
@@ -741,7 +756,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         }
 
     } else if( topic == "TALK_OLD_GUARD_NEC_CPT" ) {
-        if (g->u.has_trait("PROF_FED")) {
+        if (g->u.has_trait( trait_PROF_FED )) {
             return _("Marshal, I hope you're here to assist us.");
         }
         if (g->u.male)
@@ -765,7 +780,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                  "pressure was diverted to the lower levels.");
 
     } else if( topic == "TALK_OLD_GUARD_NEC_COMMO" ) {
-        if (g->u.has_trait("PROF_FED")) {
+        if (g->u.has_trait( trait_PROF_FED )) {
             return _("Marshal, I'm rather surprised to see you here.");
         }
         if (g->u.male)
@@ -813,7 +828,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         return _("Pleasure doing business!");
 
     } else if( topic == "TALK_RANCH_FOREMAN" ) {
-            if (g->u.has_trait("PROF_FED")) {
+            if (g->u.has_trait( trait_PROF_FED )) {
                 return _("Can I help you marshal?");
             }
             if (g->u.male)
@@ -860,14 +875,6 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
              return _("I was among one of the first groups of immigrants sent here to fortify the outpost.  I might "
                       "have exaggerated my construction skills to get the hell out of the refugee center.  Unless you "
                       "are a trader there isn't much work there and food was really becoming scarce when I left.");
-
-    } else if( topic == "TALK_RANCH_CONSTRUCTION_2_HIRE" ) {
-             if( p->has_effect( effect_currently_busy ) ) {
-                return _("Come back later, I need to take care of a few things first.");
-             } else {
-                return _("I'm tasked out to the construction party but I might be able to show you a few pointers that "
-                      "I've picked up.");
-             }
 
     } else if( topic == "TALK_RANCH_WOODCUTTER" ) {
              return _("You need something?");
@@ -1583,8 +1590,10 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 SUCCESS_OPINION( mission_value / 4, -1,
                                  mission_value / 3, -1, 0 );
                 SUCCESS_ACTION(&talk_function::clear_mission);
-        add_response( _("How about some items as payment?"), "TALK_MISSION_REWARD",
-                      &talk_function::mission_reward );
+        if( !p->is_friend() ) {
+            add_response( _("How about some items as payment?"), "TALK_MISSION_REWARD",
+                          &talk_function::mission_reward );
+        }
         if( !p->skills_offered_to(g->u).empty() || !p->styles_offered_to(g->u).empty() ) {
             RESPONSE(_("Maybe you can teach me something as payment."));
                 SUCCESS("TALK_TRAIN");
@@ -1606,7 +1615,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response( _("Thanks, bye."), "TALK_DONE", &talk_function::clear_mission );
 
     } else if( topic == "TALK_EVAC_MERCHANT" ) {
-        if (p->has_trait("NPC_MISSION_LEV_1")){
+        if( p->has_trait( trait_id( "NPC_MISSION_LEV_1" ) ) ) {
             add_response( _("I figured you might be looking for some help..."), "TALK_EVAC_MERCHANT" );
                 SUCCESS_ACTION(&talk_function::companion_mission);
         }
@@ -1657,7 +1666,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response_done( _("Don't mind me...") );
 
     } else if( topic == "TALK_OLD_GUARD_NEC_CPT" ) {
-            if (g->u.has_trait("PROF_FED")){
+            if (g->u.has_trait( trait_PROF_FED )){
                 add_response( _("What are you doing down here?"), "TALK_OLD_GUARD_NEC_CPT_GOAL" );
                 add_response( _("Can you tell me about this facility?"), "TALK_OLD_GUARD_NEC_CPT_VAULT" );
                 add_response( _("What do you need done?"), "TALK_MISSION_LIST" );
@@ -1677,7 +1686,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                               "TALK_OLD_GUARD_NEC_CPT" );
 
     } else if( topic == "TALK_OLD_GUARD_NEC_COMMO" ) {
-            if (g->u.has_trait("PROF_FED")){
+            if (g->u.has_trait( trait_PROF_FED )){
                 for( auto miss_it : g->u.get_active_missions() ) {
                     if( miss_it->name() == "Locate Commo Team" && !p->has_effect( effect_gave_quest_item ) ) {
                         add_response( _("[MISSION] The captain sent me to get a frequency list from you."),
@@ -1779,16 +1788,9 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response( _("I'll talk to him then..."), "TALK_DONE" );
     } else if( topic == "TALK_RANCH_CONSTRUCTION_2" ) {
             add_response( _("What are you doing here?"), "TALK_RANCH_CONSTRUCTION_2_JOB" );
-            add_response( _("I'd like to hire your services."), "TALK_RANCH_CONSTRUCTION_2_HIRE" );
             add_response( _("I've got to go..."), "TALK_DONE" );
     } else if( topic == "TALK_RANCH_CONSTRUCTION_2_JOB" ) {
             add_response( _("..."), "TALK_RANCH_CONSTRUCTION_2" );
-    } else if( topic == "TALK_RANCH_CONSTRUCTION_2_HIRE" ) {
-            if (g->u.cash >= 2000 && !p->has_effect( effect_currently_busy ) ) {
-                add_response( _("[$20,1h] Sure, I could use a bit of help..."), "TALK_DONE" );
-                SUCCESS_ACTION(&talk_function::construction_tips);
-            }
-            add_response( _("Sorry, I don't have the time."), "TALK_RANCH_CONSTRUCTION_2" );
     } else if( topic == "TALK_RANCH_WOODCUTTER" ) {
             add_response( _("What are you doing here?"), "TALK_RANCH_WOODCUTTER_JOB" );
             add_response( _("I'd like to hire your services."), "TALK_RANCH_WOODCUTTER_HIRE" );
@@ -2476,7 +2478,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
 
     }
 
-    if( g->u.has_trait( "DEBUG_MIND_CONTROL" ) && !p->is_friend() ) {
+    if( g->u.has_trait( trait_DEBUG_MIND_CONTROL ) && !p->is_friend() ) {
         add_response( _("OBEY ME!"), "TALK_MIND_CONTROL" );
         add_response_done( _("Bye.") );
     }
@@ -2489,7 +2491,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
 int talk_trial::calc_chance( const dialogue &d ) const
 {
     player &u = *d.alpha;
-    if( u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
+    if( u.has_trait( trait_DEBUG_MIND_CONTROL ) ) {
         return 100;
     }
 
@@ -2502,102 +2504,102 @@ int talk_trial::calc_chance( const dialogue &d ) const
         break;
     case TALK_TRIAL_LIE:
         chance += u.talk_skill() - p.talk_skill() + p.op_of_u.trust * 3;
-        if (u.has_trait("TRUTHTELLER")) {
+        if (u.has_trait( trait_TRUTHTELLER )) {
           chance -= 40;
         }
-        if (u.has_trait("TAIL_FLUFFY")) {
+        if (u.has_trait( trait_TAIL_FLUFFY )) {
           chance -= 20;
         }
-        else if (u.has_trait("LIAR")) {
+        else if (u.has_trait( trait_LIAR )) {
           chance += 40;
         }
-        if (u.has_trait("ELFAEYES")) {
+        if (u.has_trait( trait_ELFAEYES )) {
           chance += 10;
         }
-        if ((u.has_trait("WINGS_BUTTERFLY")) || (u.has_trait("FLOWERS"))) {
+        if ((u.has_trait( trait_WINGS_BUTTERFLY )) || (u.has_trait( trait_FLOWERS ))) {
           chance += 10;
         }
-        if (u.has_bionic("bio_voice")) { //come on, who would suspect a robot of lying?
+        if (u.has_bionic( bionic_id( "bio_voice" ) ) ) { //come on, who would suspect a robot of lying?
           chance += 10;
         }
-        if (u.has_bionic("bio_face_mask")) {
+        if (u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
         chance += 20;
         }
         break;
     case TALK_TRIAL_PERSUADE:
         chance += u.talk_skill() - int(p.talk_skill() / 2) +
                p.op_of_u.trust * 2 + p.op_of_u.value;
-        if (u.has_trait("ELFAEYES")) {
+        if (u.has_trait( trait_ELFAEYES )) {
           chance += 20;
         }
-        if (u.has_trait("TAIL_FLUFFY")) {
+        if (u.has_trait( trait_TAIL_FLUFFY )) {
           chance += 10;
         }
-        if (u.has_trait("WINGS_BUTTERFLY")) {
+        if (u.has_trait( trait_WINGS_BUTTERFLY )) {
           chance += 15; // Flutter your wings at 'em
         }
-        if (u.has_bionic("bio_face_mask")) {
+        if (u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
           chance += 10;
         }
-        if (u.has_trait("GROWL")) {
+        if (u.has_trait( trait_GROWL )) {
           chance -= 25;
         }
-        if (u.has_trait("HISS")) {
+        if (u.has_trait( trait_HISS )) {
           chance -= 25;
         }
-        if (u.has_trait("SNARL")) {
+        if (u.has_trait( trait_SNARL )) {
           chance -= 60;
         }
-        if (u.has_bionic("bio_deformity")) {
+        if (u.has_bionic( bionic_id( "bio_deformity" ) ) ) {
           chance -= 50;
         }
-        if (u.has_bionic("bio_voice")) {
+        if (u.has_bionic( bionic_id( "bio_voice" ) ) ) {
           chance -= 20;
         }
         break;
     case TALK_TRIAL_INTIMIDATE:
         chance += u.intimidation() - p.intimidation() + p.op_of_u.fear * 2 -
                p.personality.bravery * 2;
-        if (u.has_trait("MINOTAUR")) {
+        if (u.has_trait( trait_MINOTAUR )) {
           chance += 15;
         }
-        if (u.has_trait("MUZZLE")) {
+        if (u.has_trait( trait_MUZZLE )) {
           chance += 6;
         }
-        if (u.has_trait("MUZZLE_LONG")) {
+        if (u.has_trait( trait_MUZZLE_LONG )) {
           chance += 20;
         }
-        if (u.has_trait("SABER_TEETH")) {
+        if (u.has_trait( trait_SABER_TEETH )) {
           chance += 15;
         }
-        if (u.has_trait("TERRIFYING")) {
+        if (u.has_trait( trait_TERRIFYING )) {
           chance += 15;
         }
-        if (u.has_trait("ELFAEYES")) {
+        if (u.has_trait( trait_ELFAEYES )) {
           chance += 10;
         }
-        if (u.has_trait("GROWL")) {
+        if (u.has_trait( trait_GROWL )) {
           chance += 15;
         }
-        if (u.has_trait("HISS")) {
+        if (u.has_trait( trait_HISS )) {
           chance += 15;
         }
-        if (u.has_trait("SNARL")) {
+        if (u.has_trait( trait_SNARL )) {
           chance += 30;
         }
-        if (u.has_trait("WINGS_BUTTERFLY")) {
+        if (u.has_trait( trait_WINGS_BUTTERFLY )) {
           chance -= 20; // Butterflies are not terribly threatening.  :-(
         }
-        if (u.has_bionic("bio_face_mask")) {
+        if (u.has_bionic( bionic_id( "bio_face_mask" ) ) ) {
           chance += 10;
         }
-        if (u.has_bionic("bio_armor_eyes")) {
+        if (u.has_bionic( bionic_id( "bio_armor_eyes" ) ) ) {
           chance += 10;
         }
-        if (u.has_bionic("bio_deformity")) {
+        if (u.has_bionic( bionic_id( "bio_deformity" ) ) ) {
           chance += 20;
         }
-        if (u.has_bionic("bio_voice")) {
+        if (u.has_bionic( bionic_id( "bio_voice" ) ) ) {
           chance += 20;
         }
         break;
@@ -2609,7 +2611,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
 bool talk_trial::roll( dialogue &d ) const
 {
     player &u = *d.alpha;
-    if( type == TALK_TRIAL_NONE || u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
+    if( type == TALK_TRIAL_NONE || u.has_trait( trait_DEBUG_MIND_CONTROL ) ) {
         return true;
     }
     int const chance = calc_chance( d );
@@ -2938,15 +2940,6 @@ void talk_function::give_all_aid( npc &p )
     }
 }
 
-void talk_function::construction_tips( npc &p )
-{
-    g->u.cash -= 2000;
-    g->u.practice( skill_id( "carpentry" ), 30 );
-    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 600 );
-    g->u.activity.str_values.push_back(p.name);
-    p.add_effect( effect_currently_busy, 600);
-}
-
 void talk_function::buy_haircut( npc &p )
 {
     g->u.add_morale(MORALE_HAIRCUT, 5, 5, 7200, 30);
@@ -3054,7 +3047,7 @@ void talk_function::hostile( npc &p )
 {
  if ( p.attitude == NPCATT_KILL )
   return;
- 
+
  if ( p.sees( g->u ) ) {
   add_msg(_("%s turns hostile!"), p.name.c_str());
  }
@@ -3649,10 +3642,16 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     size_t them_off = 0, you_off = 0; // Offset from the start of the list
     size_t ch, help;
 
+    if( ex ) {
+        // Sometimes owed money fails to reset for friends
+        // NPC AI is way too weak to manage money, so let's just make them give stuff away for free
+        cash = 0;
+    }
+
     // Make a temporary copy of the NPC to make sure volume calculations are correct
     npc temp = p;
     units::volume volume_left = temp.volume_capacity() - temp.volume_carried();
-    int weight_left = temp.weight_capacity() - temp.weight_carried();
+    units::mass weight_left = temp.weight_capacity() - temp.weight_carried();
 
     do {
         auto &target_list = focus_them ? theirs : yours;
@@ -4107,7 +4106,10 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
             return ( wearing ? yes : no )( d );
         };
     } else if( jo.has_member( "u_has_any_trait" ) ) {
-        const std::vector<std::string> traits_to_check = jo.get_string_array( "u_has_any_trait" );
+        std::vector<trait_id> traits_to_check;
+        for( auto &&f : jo.get_string_array( "u_has_any_trait" ) ) {
+            traits_to_check.emplace_back( f );
+        }
         const dynamic_line_t yes = from_member( jo, "yes" );
         const dynamic_line_t no = from_member( jo, "no" );
         function = [traits_to_check, yes, no]( const dialogue &d ) {
@@ -4270,7 +4272,7 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
             p.use_charges( comest->tool, 1 );
         }
         if( to_eat.type->has_use() ) {
-            amount_used = to_eat.type->invoke( &p, &to_eat, p.pos() );
+            amount_used = to_eat.type->invoke( p, to_eat, p.pos() );
             if( amount_used <= 0 ) {
                 reason = _("It doesn't look like a good idea to consume this..");
                 return REFUSED;
@@ -4310,7 +4312,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
         return _("How?");
     }
 
-    if( given.is_dangerous() && !g->u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
+    if( given.is_dangerous() && !g->u.has_trait( trait_DEBUG_MIND_CONTROL ) ) {
         return _("Are you <swear> insane!?");
     }
 
@@ -4439,7 +4441,7 @@ bool npc::item_whitelisted( const item &it )
 
 npc_follower_rules::npc_follower_rules()
 {
-    engagement = ENGAGE_ALL;
+    engagement = ENGAGE_CLOSE;
     aim = AIM_WHEN_CONVENIENT;
     use_guns = true;
     use_grenades = true;

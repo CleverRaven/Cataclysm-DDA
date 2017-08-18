@@ -2816,6 +2816,18 @@
     },
     {
         "type" : "keybinding",
+        "id": "ITEMS_DEFAULT",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Restore default layout"
+    },
+    {
+        "type" : "keybinding",
+        "id": "SAVE_DEFAULT",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Save default layout"
+    },
+    {
+        "type" : "keybinding",
         "id": "repair_fabric",
         "category": "ITEM_ACTIONS",
         "name": "Sew",

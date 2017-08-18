@@ -158,9 +158,9 @@ std::string get_encumbrance_description( const player &p, body_part bp, bool com
             break;
         case bp_eyes:
             s += string_format( _( "Perception %+d when checking traps or firing ranged weapons;\n"
-                                   "Perception %+.1f when throwing items." ),
+                                   "Dispersion %+d when throwing items." ),
                                 -( eff_encumbrance / 10 ),
-                                double( -( eff_encumbrance / 10 ) ) / 2 );
+                                eff_encumbrance * 10 );
             break;
         case bp_mouth:
             s += _( "Covering your mouth will make it more difficult to breathe and catch your breath." );
@@ -173,7 +173,7 @@ std::string get_encumbrance_description( const player &p, body_part bp, bool com
         case bp_hand_r:
             s += _( "Reduces the speed at which you can handle or manipulate items\n" );
             s += reload_cost_text( ( eff_encumbrance / 10 ) * 15 );
-            s += string_format( _( "Dexterity %+d when throwing items;\n" ), -( eff_encumbrance / 10 ) );
+            s += string_format( _( "Dexterity %+.1f when throwing items;\n" ), -( eff_encumbrance / 10.0f ) );
             s += melee_cost_text( eff_encumbrance / 2 );
             break;
         case bp_leg_l:
@@ -283,18 +283,18 @@ void player::disp_info()
         effect_text.push_back( stim_text.str() );
     }
 
-    if( ( has_trait( "TROGLO" ) && g->is_in_sunlight( pos() ) &&
+    if( ( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
           g->weather == WEATHER_SUNNY ) ||
-        ( has_trait( "TROGLO2" ) && g->is_in_sunlight( pos() ) &&
+        ( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) &&
           g->weather != WEATHER_SUNNY ) ) {
         effect_name.push_back( _( "In Sunlight" ) );
         effect_text.push_back( _( "The sunlight irritates you.\n\
 Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" ) );
-    } else if( has_trait( "TROGLO2" ) && g->is_in_sunlight( pos() ) ) {
+    } else if( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) ) {
         effect_name.push_back( _( "In Sunlight" ) );
         effect_text.push_back( _( "The sunlight irritates you badly.\n\
 Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" ) );
-    } else if( has_trait( "TROGLO3" ) && g->is_in_sunlight( pos() ) ) {
+    } else if( has_trait( trait_id( "TROGLO3" ) ) && g->is_in_sunlight( pos() ) ) {
         effect_name.push_back( _( "In Sunlight" ) );
         effect_text.push_back( _( "The sunlight irritates you terribly.\n\
 Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
@@ -311,7 +311,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
     unsigned infooffsetytop = 11;
     unsigned infooffsetybottom = 15;
-    std::vector<std::string> traitslist = get_mutations();
+    std::vector<trait_id> traitslist = get_mutations();
 
     unsigned effect_win_size_y = 1 + unsigned( effect_name.size() );
     unsigned trait_win_size_y = 1 + unsigned( traitslist.size() );
@@ -436,7 +436,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     if( crossed_threshold() ) {
         std::string race;
         for( auto &mut : my_mutations ) {
-            const auto &mdata = mutation_branch::get( mut.first );
+            const auto &mdata = mut.first.obj();
             if( mdata.threshold ) {
                 race = mdata.name;
                 break;
@@ -513,7 +513,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     mvwprintz( w_traits, 0, 13 - utf8_width( title_TRAITS ) / 2, c_ltgray, title_TRAITS );
     std::sort( traitslist.begin(), traitslist.end(), trait_display_sort );
     for( size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++ ) {
-        const auto &mdata = mutation_branch::get( traitslist[i] );
+        const auto &mdata = traitslist[i].obj();
         const auto color = mdata.get_display_color();
         mvwprintz( w_traits, int( i ) + 1, 1, color, mdata.name.c_str() );
     }
@@ -569,7 +569,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 skill_id( "bashing" ), skill_id( "stabbing" ),
             }
         };
-        if( has_active_bionic( "bio_cqb" ) &&
+        if( has_active_bionic( bionic_id( "bio_cqb" ) ) &&
             std::find( cqb_skills.begin(), cqb_skills.end(), elem->ident() ) != cqb_skills.end() ) {
             level_num = 5;
             exercise = 0;
@@ -648,24 +648,24 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
-    if( has_trait( "SUNLIGHT_DEPENDENT" ) && !g->is_in_sunlight( pos() ) ) {
+    if( has_trait( trait_id( "SUNLIGHT_DEPENDENT" ) ) && !g->is_in_sunlight( pos() ) ) {
         pen = ( g->light_level( posz() ) >= 12 ? 5 : 10 );
         mvwprintz( w_speed, line, 1, c_red, _( "Out of Sunlight     -%s%d%%" ),
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
-    if( has_trait( "COLDBLOOD4" ) && g->get_temperature() > 65 ) {
+    if( has_trait( trait_id( "COLDBLOOD4" ) ) && g->get_temperature() > 65 ) {
         pen = ( g->get_temperature() - 65 ) / 2;
         mvwprintz( w_speed, line, 1, c_green, _( "Cold-Blooded        +%s%d%%" ),
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
-    if( ( has_trait( "COLDBLOOD" ) || has_trait( "COLDBLOOD2" ) ||
-          has_trait( "COLDBLOOD3" ) || has_trait( "COLDBLOOD4" ) ) &&
+    if( ( has_trait( trait_id( "COLDBLOOD" ) ) || has_trait( trait_id( "COLDBLOOD2" ) ) ||
+          has_trait( trait_id( "COLDBLOOD3" ) ) || has_trait( trait_id( "COLDBLOOD4" ) ) ) &&
         g->get_temperature() < 65 ) {
-        if( has_trait( "COLDBLOOD3" ) || has_trait( "COLDBLOOD4" ) ) {
+        if( has_trait( trait_id( "COLDBLOOD3" ) ) || has_trait( trait_id( "COLDBLOOD4" ) ) ) {
             pen = ( 65 - g->get_temperature() ) / 2;
-        } else if( has_trait( "COLDBLOOD2" ) ) {
+        } else if( has_trait( trait_id( "COLDBLOOD2" ) ) ) {
             pen = ( 65 - g->get_temperature() ) / 3;
         } else {
             pen = ( 65 - g->get_temperature() ) / 5;
@@ -700,16 +700,16 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
     int quick_bonus = int( newmoves - ( newmoves / 1.1 ) );
     int bio_speed_bonus = quick_bonus;
-    if( has_trait( "QUICK" ) && has_bionic( "bio_speed" ) ) {
+    if( has_trait( trait_id( "QUICK" ) ) && has_bionic( bionic_id( "bio_speed" ) ) ) {
         bio_speed_bonus = int( newmoves / 1.1 - ( newmoves / 1.1 / 1.1 ) );
         std::swap( quick_bonus, bio_speed_bonus );
     }
-    if( has_trait( "QUICK" ) ) {
+    if( has_trait( trait_id( "QUICK" ) ) ) {
         mvwprintz( w_speed, line, 1, c_green, _( "Quick               +%s%d%%" ),
                    ( quick_bonus < 10 ? " " : "" ), quick_bonus );
         line++;
     }
-    if( has_bionic( "bio_speed" ) ) {
+    if( has_bionic( bionic_id( "bio_speed" ) ) ) {
         mvwprintz( w_speed, line, 1, c_green, _( "Bionic Speed        +%s%d%%" ),
                    ( bio_speed_bonus < 10 ? " " : "" ), bio_speed_bonus );
     }
@@ -768,12 +768,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
                     mvwprintz( w_stats, 6, 1, c_magenta, _( "Melee to-hit bonus:" ) );
                     mvwprintz( w_stats, 6, 22, c_magenta, "%+.2lf", get_hit_base() );
-                    if( throw_dex_mod( false ) <= 0 ) {
-                        mvwprintz( w_stats, 8, 1, c_magenta, _( "Throwing bonus:" ) );
-                    } else {
-                        mvwprintz( w_stats, 8, 1, c_magenta, _( "Throwing penalty:" ) );
-                    }
-                    mvwprintz( w_stats, 8, 22, c_magenta, "%+3d", -( throw_dex_mod( false ) ) );
+                    mvwprintz( w_stats, 8, 1, c_magenta, _( "Throwing penalty per target's dodge: +%d" ) );
+                    mvwprintz( w_stats, 8, 22, c_magenta, "%3d", throw_dispersion_per_dodge( false ) );
 
                     fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                                     _( "Dexterity affects your chance to hit in melee combat, helps you steady your "
@@ -898,7 +894,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 }
 
                 for( size_t i = min; i < max; i++ ) {
-                    const auto &mdata = mutation_branch::get( traitslist[i] );
+                    const auto &mdata = traitslist[i].obj();
                     mvwprintz( w_traits, int( 1 + i - min ), 1, c_ltgray, "                         " );
                     const auto color = mdata.get_display_color();
                     if( i == line ) {
@@ -910,9 +906,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     }
                 }
                 if( line < traitslist.size() ) {
-                    const auto &mdata = mutation_branch::get( traitslist[line] );
                     fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
-                                    mdata.description );
+                                    traitslist[line]->description );
                 }
                 wrefresh( w_traits );
                 wrefresh( w_info );
@@ -931,7 +926,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_traits, 0, 0, c_ltgray, header_spaces.c_str() );
                     mvwprintz( w_traits, 0, 13 - utf8_width( title_TRAITS ) / 2, c_ltgray, title_TRAITS );
                     for( size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++ ) {
-                        const auto &mdata = mutation_branch::get( traitslist[i] );
+                        const auto &mdata = traitslist[i].obj();
                         mvwprintz( w_traits, int( i + 1 ), 1, c_black, "                         " );
                         const auto color = mdata.get_display_color();
                         mvwprintz( w_traits, int( i + 1 ), 1, color, "%s", mdata.name.c_str() );

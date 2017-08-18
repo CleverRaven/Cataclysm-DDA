@@ -151,7 +151,7 @@
   {
     "id": "survivor9mm_mag",
     "type": "MAGAZINE",
-    "name": "Makeshift STEN magazine",
+    "name": "makeshift STEN magazine",
     "description": "An improvised magazine designed to be compatible with the STEN submachine gun, with a simplified feed system.",
     "weight": 300,
     "volume": 2,

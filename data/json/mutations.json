@@ -83,7 +83,9 @@
         "starting_trait" : true,
         "cancels" : ["ROT1", "ROT2", "ROT3", "SLOWHEALER", "MET_RAT"],
         "changes_to" : ["FASTHEALER2", "REGEN_LIZ"],
-        "category" : ["MUTCAT_MEDICAL"]
+        "category" : ["MUTCAT_MEDICAL"],
+        "healing_awake" : 0.002,
+        "healing_resting" : 0.005
     },{
         "type" : "mutation",
         "id" : "LIGHTEATER",
@@ -92,8 +94,9 @@
         "description" : "Your metabolism is a little slower, and you require less food than most.",
         "starting_trait" : true,
         "cancels" : ["HUNGER", "HUNGER2", "HUNGER3", "EATHEALTH"],
-        "changes_to" : ["GIZZARD"],
-        "category" : ["MUTCAT_FISH", "MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLOBITE"]
+        "changes_to" : [ "GIZZARD", "COLDBLOOD" ],
+        "category" : ["MUTCAT_FISH", "MUTCAT_BIRD", "MUTCAT_INSECT", "MUTCAT_TROGLOBITE"],
+        "metabolism_modifier": -0.333
     },{
         "type" : "mutation",
         "id" : "EASYSLEEPER",
@@ -159,7 +162,8 @@
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
-        "changes_to" : ["TOUGH2"]
+        "changes_to" : ["TOUGH2"],
+        "hp_modifier" : 0.2
     },{
         "type" : "mutation",
         "id" : "TOUGH2",
@@ -169,7 +173,8 @@
         "valid" : false,
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
         "prereqs" : ["TOUGH"],
-        "changes_to" : ["TOUGH3"]
+        "changes_to" : ["TOUGH3"],
+        "hp_modifier" : 0.3
     },{
         "type" : "mutation",
         "id" : "TOUGH3",
@@ -178,7 +183,8 @@
         "description" : "Nothing can break you!  You get a 40% bonus to all hit points.",
         "valid" : false,
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
-        "prereqs" : ["TOUGH2"]
+        "prereqs" : ["TOUGH2"],
+        "hp_modifier" : 0.4
     },{
         "type" : "mutation",
         "id" : "THICKSKIN",
@@ -337,7 +343,8 @@
         "changes_to" : ["WAKEFUL2"],
         "cancels" : ["SLEEPY", "SLEEPY2"],
         "starting_trait" : true,
-        "category" : ["MUTCAT_ALPHA", "MUTCAT_ELFA"]
+        "category" : ["MUTCAT_ALPHA", "MUTCAT_ELFA"],
+        "fatigue_modifier": -0.15
     },{
         "type" : "mutation",
         "id" : "SELFAWARE",
@@ -525,7 +532,8 @@
         "points" : -2,
         "description" : "You heal a little slower than most; sleeping will heal less lost HP.",
         "starting_trait" : true,
-        "cancels" : ["FASTHEALER"]
+        "cancels" : ["FASTHEALER"],
+        "healing_resting" : -0.0025
     },{
         "type" : "mutation",
         "id" : "HYPEROPIC",
@@ -552,7 +560,9 @@
         "changes_to" : ["SLEEPY2", "MET_RAT"],
         "starting_trait" : true,
         "cancels" : ["WAKEFUL", "WAKEFUL2", "WAKEFUL3"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_CHIMERA"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_CHIMERA"],
+        "fatigue_modifier": 0.333,
+        "fatigue_regen_modifier": 0.333
     },{
         "type" : "mutation",
         "id" : "ASTHMA",
@@ -834,7 +844,7 @@
         "points" : -3,
         "description" : "You can't move as fast as most, resulting in a 15% speed penalty on flat ground.",
         "starting_trait" : true,
-        "cancels" : ["FLEET"]
+        "cancels" : ["FLEET", "FLEET2"]
     },{
         "type" : "mutation",
         "id" : "WEAKSTOMACH",
@@ -889,7 +899,8 @@
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["TOUGH", "TOUGH2", "TOUGH3"],
-        "changes_to" : ["FLIMSY2"]
+        "changes_to" : ["FLIMSY2"],
+        "hp_modifier" : -0.25
     },{
         "type" : "mutation",
         "id" : "FLIMSY2",
@@ -900,7 +911,8 @@
         "valid" : false,
         "cancels" : ["TOUGH", "TOUGH2", "TOUGH3"],
         "prereqs" : ["FLIMSY"],
-        "changes_to" : ["FLIMSY3"]
+        "changes_to" : ["FLIMSY3"],
+        "hp_modifier" : -0.5
     },{
         "type" : "mutation",
         "id" : "FLIMSY3",
@@ -910,7 +922,8 @@
         "starting_trait" : true,
         "valid" : false,
         "cancels" : ["TOUGH", "TOUGH2", "TOUGH3"],
-        "prereqs" : ["FLIMSY2"]
+        "prereqs" : ["FLIMSY2"],
+        "hp_modifier" : -0.75
     },{
         "type" : "mutation",
         "id" : "SKIN_ROUGH",
@@ -1081,7 +1094,9 @@
         "cancels" : ["ROT1", "ROT2", "ROT3"],
         "prereqs" : ["FASTHEALER"],
         "changes_to" : ["REGEN"],
-        "category" : ["MUTCAT_PLANT"]
+        "category" : ["MUTCAT_PLANT"],
+        "healing_awake" : 0.0066,
+        "healing_resting" : 0.005
     },{
         "type" : "mutation",
         "id" : "REGEN",
@@ -1090,7 +1105,9 @@
         "description" : "Your flesh regenerates from wounds incredibly quickly.",
         "cancels" : ["ROT1", "ROT2", "ROT3"],
         "prereqs" : ["FASTHEALER2"],
-        "category" : ["MUTCAT_SLIME", "MUTCAT_TROGLOBITE"]
+        "category" : ["MUTCAT_SLIME", "MUTCAT_TROGLOBITE"],
+        "healing_awake" : 0.02,
+        "healing_resting" : 0.015
     },{
         "type" : "mutation",
         "id" : "REGEN_LIZ",
@@ -1114,7 +1131,8 @@
         "prereqs" : ["WAKEFUL"],
         "changes_to" : ["WAKEFUL3"],
         "threshreq" : ["THRESH_ALPHA", "THRESH_ELFA"],
-        "category" : ["MUTCAT_ALPHA", "MUTCAT_ELFA"]
+        "category" : ["MUTCAT_ALPHA", "MUTCAT_ELFA"],
+        "fatigue_modifier": -0.25
     },{
         "type" : "mutation",
         "id" : "WAKEFUL3",
@@ -1126,7 +1144,9 @@
         "cancels" : ["SLEEPY", "SLEEPY2"],
         "prereqs" : ["WAKEFUL2"],
         "threshreq" : ["THRESH_ELFA"],
-        "category" : ["MUTCAT_ELFA"]
+        "category" : ["MUTCAT_ELFA"],
+        "fatigue_modifier": -0.5,
+        "fatigue_regen_modifier": 0.5
     },{
         "type" : "mutation",
         "id" : "FANGS",
@@ -1673,7 +1693,8 @@
             { "part" : "HAND_R", "neutral" : 1 },
             { "part" : "TORSO", "neutral" : 10 }
         ],
-        "armor" : [ { "parts" : "ALL", "cut" : 1 } ]
+        "armor" : [ { "parts" : "ALL", "cut" : 1 } ],
+        "thirst_modifier": -0.2
     },{
         "type" : "mutation",
         "id" : "BARK",
@@ -2064,7 +2085,8 @@
         "passive_mods" : {
             "dex_mod" : 3,
             "str_mod" : -2
-        }
+        },
+        "hp_adjustment": 3
     },{
         "type" : "mutation",
         "id" : "BENDY3",
@@ -2083,7 +2105,8 @@
         "passive_mods" : {
             "dex_mod" : 4,
             "str_mod" : -4
-        }
+        },
+        "hp_adjustment": 6
     },{
         "type" : "mutation",
         "id" : "COMPOUND_EYES",
@@ -2247,7 +2270,7 @@
         "id" : "GRAZER",
         "name" : "Grazer",
         "points" : 3,
-        "description" : "You're accustomed to eating plants directly, and can get nutrition from grass as well as underbrush.  Eat either one by activating this,  standing over your target, and pressing E.",
+        "description" : "You're accustomed to eating plants directly, and can get nutrition from grass as well as underbrush.  Eat either one by activating this, standing over your target, and pressing E.",
         "prereqs" : ["RUMINANT"],
         "threshreq" : ["THRESH_CATTLE"],
         "cancels" : ["CARNIVORE", "SAPROVORE"],
@@ -2427,7 +2450,7 @@
         "points" : 3,
         "description" : "Your legs are extremely limber and fast-moving.  You move 30% faster on flat surfaces.",
         "prereqs" : ["FLEET"],
-        "cancels" : ["PONDEROUS1", "PONDEROUS2", "PONDEROUS3"],
+        "cancels" : ["PONDEROUS1", "PONDEROUS2", "PONDEROUS3", "SLOWRUNNER"],
         "category" : ["MUTCAT_BIRD"]
     },{
         "type" : "mutation",
@@ -2602,7 +2625,8 @@
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_LIZARD", "THRESH_BEAST"],
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
         "changes_to" : ["MUT_TOUGH2"],
-        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_CHIMERA","MUTCAT_BEAST", "MUTCAT_LIZARD", "MUTCAT_MEDICAL"]
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_CHIMERA","MUTCAT_BEAST", "MUTCAT_LIZARD", "MUTCAT_MEDICAL"],
+        "hp_modifier_secondary" : 0.2
     },{
         "type" : "mutation",
         "id" : "MUT_TOUGH2",
@@ -2614,7 +2638,8 @@
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_MEDICAL"],
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
         "changes_to" : ["MUT_TOUGH3"],
-        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_CHIMERA", "MUTCAT_MEDICAL"]
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_CHIMERA", "MUTCAT_MEDICAL"],
+        "hp_modifier_secondary" : 0.3
     },{
         "type" : "mutation",
         "id" : "MUT_TOUGH3",
@@ -2625,7 +2650,8 @@
         "prereqs" : ["MUT_TOUGH2"],
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE"],
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
-        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"]
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE"],
+        "hp_modifier_secondary" : 0.4
     },{
         "type" : "mutation",
         "id" : "PAINREC1",
@@ -3062,6 +3088,8 @@
         "passive_mods" : {
             "str_mod" : 4
         },
+        "hp_adjustment": -6,
+        "fatigue_modifier": 0.15,
         "restricts_gear" : [ "TORSO", "LEG_L", "LEG_R", "ARM_L", "ARM_R", "HAND_L", "HAND_R", "HEAD", "FOOT_L", "FOOT_R" ],
         "destroys_gear" : true
     },{
@@ -3710,11 +3738,13 @@
         "id" : "HUNGER",
         "name" : "Fast Metabolism",
         "points" : -2,
-        "description" : "You require more food than most people.",
+        "description" : "You require more food than most people, but recover stamina slightly faster.",
         "starting_trait" : true,
         "cancels" : ["LIGHTEATER", "COLDBLOOD", "COLDBLOOD2", "COLDBLOOD3", "COLDBLOOD4"],
         "changes_to" :["HUNGER2", "MET_RAT"],
-        "category" : ["MUTCAT_RAT", "MUTCAT_ALPHA", "MUTCAT_MEDICAL", "MUTCAT_ELFA", "MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA"]
+        "category" : ["MUTCAT_RAT", "MUTCAT_ALPHA", "MUTCAT_MEDICAL", "MUTCAT_ELFA", "MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_RAPTOR", "MUTCAT_CHIMERA"],
+        "metabolism_modifier": 0.5,
+        "stamina_regen_modifier": 0.1
     },{
         "type" : "mutation",
         "id" : "MET_RAT",
@@ -3725,53 +3755,64 @@
         "cancels" : ["LIGHTEATER", "COLDBLOOD", "COLDBLOOD2", "COLDBLOOD3", "COLDBLOOD4", "FASTHEALER", "FASTHEALER2", "REGEN", "ROT1", "ROT2", "ROT3", "WAKEFUL", "WAKEFUL2", "WAKEFUL3"],
         "prereqs" : ["HUNGER"],
         "prereqs2" : ["SLEEPY"],
-        "category" : ["MUTCAT_RAT"]
+        "category" : ["MUTCAT_RAT"],
+        "healing_awake" : 0.002,
+        "healing_resting" : 0.005,
+        "fatigue_modifier": 0.5,
+        "fatigue_regen_modifier": 0.333,
+        "metabolism_modifier": 0.333
     },{
         "type" : "mutation",
         "id" : "HUNGER2",
         "name" : "Very Fast Metabolism",
-        "points" : -3,
-        "description" : "You find yourself hungry.  A lot.  You need about twice as much food as the average human.",
+        "points" : -2,
+        "description" : "You need about twice as much food as the average human to maintain your expanded cardiovascular and respiratory systems.  On a plus side, it doesn't take you much time to recover from any strenuous activity.",
         "prereqs" : ["HUNGER"],
         "changes_to" :["HUNGER3"],
         "cancels" : ["LIGHTEATER", "COLDBLOOD", "COLDBLOOD2", "COLDBLOOD3", "COLDBLOOD4"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_RAPTOR"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_SLIME", "MUTCAT_RAPTOR"],
+        "metabolism_modifier": 1.0,
+        "stamina_regen_modifier": 0.3
     },{
         "type" : "mutation",
         "id" : "HUNGER3",
         "name" : "Extreme Metabolism",
-        "points" : -6,
-        "description" : "You burn calories like gasoline-soaked tinder.  You consume three times as much food as the average human.",
-        "trans_note" : "The simile there is intended for a Really Quick Burn--BAM burned.",
+        "points" : -2,
+        "description" : "You consume three times as much food as the average human to maintain your truly superhuman endurance.",
         "prereqs" : ["HUNGER2"],
         "leads_to" : ["EATHEALTH"],
         "cancels" : ["LIGHTEATER", "COLDBLOOD", "COLDBLOOD2", "COLDBLOOD3", "COLDBLOOD4"],
-        "category" : ["MUTCAT_CHIMERA"]
+        "category" : ["MUTCAT_CHIMERA"],
+        "metabolism_modifier": 2.0,
+        "stamina_regen_modifier": 0.5
     },{
         "type" : "mutation",
         "id" : "THIRST",
         "name" : "High Thirst",
-        "points" : -3,
+        "points" : -2,
         "description" : "Your body dries out easily; you need to drink more water.",
         "starting_trait" : true,
         "changes_to" : ["THIRST2"],
-        "category" : ["MUTCAT_SLIME", "MUTCAT_CEPHALOPOD", "MUTCAT_CHIMERA", "MUTCAT_ELFA"]
+        "category" : ["MUTCAT_SLIME", "MUTCAT_CEPHALOPOD", "MUTCAT_CHIMERA", "MUTCAT_ELFA"],
+        "thirst_modifier": 0.5
     },{
         "type" : "mutation",
         "id" : "THIRST2",
         "name" : "Very Thirsty",
-        "points" : -4,
+        "points" : -3,
         "description" : "Ugh, out of water already?  You need about twice the fluids of an average human.",
         "prereqs" : ["THIRST"],
         "changes_to" :["THIRST3"],
-        "category" : ["MUTCAT_FISH", "MUTCAT_SLIME", "MUTCAT_CEPHALOPOD"]
+        "category" : ["MUTCAT_FISH", "MUTCAT_SLIME", "MUTCAT_CEPHALOPOD"],
+        "thirst_modifier": 1.0
     },{
         "type" : "mutation",
         "id" : "THIRST3",
         "name" : "Extremely Thirsty",
         "points" : -5,
         "description" : "You dry out seriously quickly, requiring three times as much liquid to stay hydrated.",
-        "prereqs" : ["THIRST2"]
+        "prereqs" : ["THIRST2"],
+        "thirst_modifier": 2.0
     },{
         "type" : "mutation",
         "id" : "HEAVYSLEEPER2",
@@ -3789,7 +3830,8 @@
         "description" : "You find yourself needing to sleep quite often.  You'll spend about half your time in or around bed.",
         "prereqs" : ["SLEEPY"],
         "cancels" : ["WAKEFUL", "WAKEFUL2", "WAKEFUL3"],
-        "category" : ["MUTCAT_FELINE"]
+        "category" : ["MUTCAT_FELINE"],
+        "fatigue_modifier": 1.0
     },{
         "type" : "mutation",
         "id" : "ROT1",
@@ -3799,7 +3841,9 @@
         "description" : "You feel as though you are slowly weakening and your body heals slower.",
         "cancels" : ["FASTHEALER", "FASTHEALER2", "REGEN"],
         "changes_to" : ["ROT2"],
-        "category" : ["MUTCAT_ELFA"]
+        "category" : ["MUTCAT_ELFA"],
+        "healing_awake" : -0.00002,
+        "healing_resting" : -0.0025
     },{
         "type" : "mutation",
         "id" : "ROT2",
@@ -3810,7 +3854,8 @@
         "cancels" : ["FASTHEALER", "FASTHEALER2", "REGEN"],
         "prereqs" : ["ROT1"],
         "changes_to" : ["ROT3"],
-        "category" : ["MUTCAT_CHIMERA"]
+        "category" : ["MUTCAT_CHIMERA"],
+        "healing_awake" : -0.0002
     },{
         "type" : "mutation",
         "id" : "ROT3",
@@ -3820,7 +3865,8 @@
         "description" : "Your body is slowly wasting away!",
         "cancels" : ["FASTHEALER", "FASTHEALER2", "REGEN"],
         "prereqs" : ["ROT2"],
-        "category": ["MUTCAT_ALPHA"]
+        "category": ["MUTCAT_ALPHA"],
+        "healing_awake" : -0.0008
     },{
         "type" : "mutation",
         "id" : "SUNBURN",
@@ -4311,42 +4357,50 @@
         "type" : "mutation",
         "id" : "COLDBLOOD",
         "name" : "Heat Dependent",
-        "points" : -2,
-        "description" : "Your muscle response is dependent on ambient temperatures.  You lose 1% of your speed for every 5 (2.8) degrees below 65 F (18.3 C).",
+        "points" : 0,
+        "mixed_effect" : true,
+        "description" : "Your muscle response is dependent on ambient temperatures.  You lose 1% of your speed for every 5 (2.8) degrees below 65 F (18.3 C).  This sluggishness helps you conserve energy, however.",
         "changes_to" : ["COLDBLOOD2"],
         "cancels" : ["HUNGER", "HUNGER2", "HUNGER3", "EATHEALTH"],
-        "category" : ["MUTCAT_FISH", "MUTCAT_CEPHALOPOD", "MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_FISH", "MUTCAT_CEPHALOPOD", "MUTCAT_SPIDER"],
+        "metabolism_modifier": -0.333
     },{
         "type" : "mutation",
         "id" : "COLDBLOOD2",
         "name" : "Very Heat Dependent",
-        "points" : -3,
-        "description" : "Your muscle response is highly dependent on ambient temperatures.  You lose 1% of your speed for every 3 (1.7) degrees below 65 F (18.3 C).",
+        "points" : -2,
+        "mixed_effect" : true,
+        "description" : "Your muscle response is highly dependent on ambient temperatures.  You lose 1% of your speed for every 3 (1.7) degrees below 65 F (18.3 C), but your slow metabolism requires much less food.",
         "prereqs" : ["COLDBLOOD"],
         "changes_to" : ["COLDBLOOD3"],
         "cancels" : ["HUNGER", "HUNGER2", "HUNGER3", "EATHEALTH"],
-        "category" : ["MUTCAT_RAPTOR"]
+        "category" : ["MUTCAT_RAPTOR"],
+        "metabolism_modifier": -0.5
     },{
         "type" : "mutation",
         "id" : "COLDBLOOD3",
         "name" : "Cold Blooded",
-        "points" : -5,
-        "description" : "You are cold-blooded and rely on heat to keep moving.  Your lose 1% of your speed for every 2 (1.1) degrees below 65 F (18.3 C).",
+        "points" : -3,
+        "mixed_effect" : true,
+        "description" : "You are cold-blooded and rely on heat to keep moving.  Your lose 1% of your speed for every 2 (1.1) degrees below 65 F (18.3 C), but only need to eat about half as much as before.",
         "prereqs" : ["COLDBLOOD2"],
+        "changes_to" : ["COLDBLOOD4"],
         "cancels" : ["HUNGER", "HUNGER2", "HUNGER3", "EATHEALTH"],
-        "category" : ["MUTCAT_INSECT", "MUTCAT_LIZARD"]
+        "category" : ["MUTCAT_INSECT", "MUTCAT_LIZARD"],
+        "metabolism_modifier": -0.5
     },{
         "type" : "mutation",
         "id" : "COLDBLOOD4",
         "name" : "Ectothermic",
-        "points" : -2,
+        "points" : 0,
         "mixed_effect" : true,
-        "description" : "Your body has become permanently cold-blooded.  Your speed lowers--or raises--for every 2 (1.1) degrees below or above 65 F (18.3 C).",
+        "description" : "Your body has become permanently cold-blooded.  Your speed lowers--or raises--for every 2 (1.1) degrees below or above 65 F (18.3 C).  You only need to eat half as much as an average human.",
         "prereqs" : ["COLDBLOOD3"],
         "threshreq" : ["THRESH_LIZARD"],
         "purifiable" : false,
         "cancels" : ["HUNGER", "HUNGER2", "HUNGER3", "EATHEALTH"],
-        "category" : ["MUTCAT_LIZARD"]
+        "category" : ["MUTCAT_LIZARD"],
+        "metabolism_modifier": -0.5
     },{
         "type" : "mutation",
         "id" : "GROWL",
@@ -4425,7 +4479,7 @@
         "points" : -5,
         "visibility" : 8,
         "ugliness" : 5,
-        "description" : "You've *finally* sprouted a pair of arms from your midsection.  They flail more-or-less uncontrollably,  making you feel rather larval.",
+        "description" : "You've *finally* sprouted a pair of arms from your midsection.  They flail more-or-less uncontrollably, making you feel rather larval.",
         "purifiable" : false,
         "encumbrance_always" : [
             [ "ARM_L", 30 ],

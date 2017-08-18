@@ -4,6 +4,8 @@
 
 #include "player_activity.h"
 
+#include <functional>
+
 class player;
 
 // activity_item_handling.cpp
@@ -68,6 +70,7 @@ void open_gate_finish( player_activity *act, player * );
 void repair_item_finish( player_activity *act, player *p );
 void mend_item_finish( player_activity *act, player *p );
 void gunmod_add_finish( player_activity *act, player *p );
+void toolmod_add_finish( player_activity *act, player *p );
 void clear_rubble_finish( player_activity *act, player *p );
 void meditate_finish( player_activity *act, player *p );
 void read_finish( player_activity *act, player *p );
@@ -82,6 +85,7 @@ void vibe_finish( player_activity *act, player *p );
 void move_items_finish( player_activity *act, player *p );
 void atm_finish( player_activity *act, player *p );
 void aim_finish( player_activity *act, player *p );
+void washing_finish( player_activity *act, player *p );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, player * )> >

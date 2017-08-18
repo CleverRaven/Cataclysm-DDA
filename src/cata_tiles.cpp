@@ -17,6 +17,7 @@
 #include "options.h"
 #include "overmapbuffer.h"
 #include "player.h"
+#include "npc.h"
 #include "catacharset.h"
 #include "itype.h"
 #include "vehicle.h"
@@ -34,12 +35,25 @@
 #include <fstream>
 #include <stdlib.h>     /* srand, rand */
 #include <sstream>
+#include <array>
 
 #include <SDL_image.h>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 #define ITEM_HIGHLIGHT "highlight_item"
+
+static const std::array<std::string, 8> multitile_keys = {{
+        "center",
+        "corner",
+        "edge",
+        "t_connection",
+        "end_piece",
+        "unconnected",
+        "open",
+        "broken"
+    }
+};
 
 extern int WindowHeight, WindowWidth;
 extern int fontwidth, fontheight;
@@ -1665,9 +1679,8 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
             }
             // NPC
             if( id.substr(4) == "npc_" ) {
-                const int nindex = g->npc_at( pos );
-                if( nindex != -1 ) {
-                    seed = nindex;
+                if( npc * const guy = g->critter_at<npc>( pos ) ) {
+                    seed = guy->getID();
                     break;
                 }
             }

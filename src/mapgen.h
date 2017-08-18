@@ -25,7 +25,7 @@ class mapgen_function {
     mapgen_function( const int w ) : weight( w ) { }
     public:
     virtual ~mapgen_function() { }
-    virtual bool setup() { return true; }
+    virtual void setup() { } // throws
     virtual void generate(map*, const oter_id &, const mapgendata &, int, float) = 0;
 };
 
@@ -159,7 +159,7 @@ public:
     palette_id id;
     /**
      * The mapping from character code (key) to a list of things that should be placed. This is
-     * similar to @ref objects, but it uses key to get the actual position where to place things
+     * similar to objects, but it uses key to get the actual position where to place things
      * out of the json "bitmap" (which is used to paint the terrain/furniture).
      */
     using placing_map = std::map< int, std::vector< std::shared_ptr<jmapgen_piece> > >;
@@ -206,7 +206,7 @@ struct jmapgen_objects {
 
     bool check_bounds( const jmapgen_place place, JsonObject &jso );
 
-    void add(const jmapgen_place &place, std::shared_ptr<jmapgen_piece> &piece);
+    void add( const jmapgen_place &place, std::shared_ptr<jmapgen_piece> piece );
 
     /**
      * PieceType must be inheriting from jmapgen_piece. It must have constructor that accepts a
@@ -240,7 +240,7 @@ class mapgen_function_json : public virtual mapgen_function {
     public:
     bool check_inbounds( const jmapgen_int &var ) const;
     void setup_setmap( JsonArray &parray );
-    bool setup() override;
+    void setup() override;
     void generate(map *, const oter_id &, const mapgendata &, int, float) override;
 
     mapgen_function_json( const std::string s, int w = 1000, const int x_grid_offset = 0, const int y_grid_offset = 0 );
@@ -284,7 +284,7 @@ class mapgen_function_lua : public virtual mapgen_function {
 /*
  * Load mapgen function of any type from a jsonobject
  */
-mapgen_function * load_mapgen_function(JsonObject &jio, const std::string id_base, int default_idx, int x_offset = 0, int y_offset = 0 );
+std::shared_ptr<mapgen_function> load_mapgen_function( JsonObject &jio, const std::string id_base, int default_idx, int x_offset = 0, int y_offset = 0 );
 /*
  * Load the above directly from a file via init, as opposed to riders attached to overmap_terrain. Added check
  * for oter_mapgen / oter_mapgen_weights key, multiple possible ( ie, [ "house", "house_base" ] )
@@ -294,7 +294,7 @@ void reset_mapgens();
 /*
  * stores function ref and/or required data
  */
-extern std::map<std::string, std::vector<mapgen_function*> > oter_mapgen;
+extern std::map<std::string, std::vector<std::shared_ptr<mapgen_function>> > oter_mapgen;
 /*
  * random selector list for the nested vector above, as per indivdual mapgen_function_::weight value
  */
@@ -302,7 +302,7 @@ extern std::map<std::string, std::map<int, int> > oter_mapgen_weights;
 /*
  * Sets the above after init, and initializes mapgen_function_json instances as well
  */
-void calculate_mapgen_weights();
+void calculate_mapgen_weights(); // throws
 
 /// move to building_generation
 enum room_type {

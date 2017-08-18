@@ -1,0 +1,37 @@
+[
+  {
+    "name": "GROUP_WRAITHEON_INFANTRY",
+    "type": "monstergroup",
+    "default": "mon_w11b10",
+    "monsters": [
+      { "monster": "mon_w11b10", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_w12b10", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_w11h10", "freq": 20, "cost_multiplier": 1 },
+      { "monster": "mon_w11b20b4", "freq": 10, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_WRAITHEON_CONSTRUCTION",
+    "type": "monstergroup",
+    "default": "mon_w12n10",
+    "monsters": [ { "monster": "mon_w12b10", "freq": 10, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_WRAITHEON_CBRN",
+    "type": "monstergroup",
+    "default": "mon_w12b10",
+    "monsters": [
+      { "monster": "mon_w11b10", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_w12b10", "freq": 10, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_WRAITHEON_SCOUT",
+    "type": "monstergroup",
+    "default": "mon_w11b10",
+    "monsters": [
+      { "monster": "mon_w11b10", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_w11b20b4", "freq": 10, "cost_multiplier": 1 }
+    ]
+  }
+]

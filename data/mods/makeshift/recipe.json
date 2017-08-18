@@ -24,10 +24,8 @@
     "time": 500,
     "reversible": true,
     "autolearn": true,
-    "components": [
-      [ [ "spike", 1 ] ],
-      [ [ "string_6", 2 ] ]
-    ]
+    "using": [ [ "cordage_short", 2 ] ],
+    "components": [ [ [ "spike", 1 ] ] ]
   },
   {
     "result": "makeshift_sword_bayonet",
@@ -39,10 +37,8 @@
     "time": 500,
     "reversible": true,
     "autolearn": true,
-    "components": [
-      [ [ "makeshift_machete", 1 ] ],
-      [ [ "string_36", 1 ] ]
-    ]
+    "using": [ [ "cordage", 1 ] ],
+    "components": [ [ [ "makeshift_machete", 1 ], [ "blade", 1 ], [ "machete", 1 ], [ "survivor_machete", 1 ] ] ]
   },
   {
     "result": "pistol_bayonet",

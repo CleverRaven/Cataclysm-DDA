@@ -35,7 +35,7 @@
         "batch_time_factors": [50, 4],
         "book_learn": [ ["brewing_cookbook", 5], [ "scots_cookbook", 5 ] ],
         "qualities":[ { "id": "COOK", "level": 2 } ],
-        "tools": [ [ [ "hotplate", 6 ], [ "char_smoker", 6 ], [ "toolset", 6 ], [ "fire", -1 ] ] ],
+        "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
         "components": [
             [ [ "water", 3 ], [ "water_clean", 3 ] ],
             [ [ "corn", 2 ], [ "irradiated_corn", 2 ], [ "cornmeal", 6 ], [ "barley", 1 ], [ "buckwheat", 1 ] ],
@@ -55,7 +55,7 @@
         "autolearn": [ [ "cooking", 6 ] ],
         "book_learn": [ ["brewing_cookbook", 6] ],
         "qualities":[ { "id": "COOK", "level": 2 } ],
-        "tools": [ [ [ "hotplate", 6 ], [ "char_smoker", 6 ], [ "toolset", 6 ], [ "fire", -1 ] ] ],
+        "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
         "components": [
             [ [ "water", 3 ], [ "water_clean", 3 ] ],
             [
@@ -77,7 +77,7 @@
         "batch_time_factors": [50, 4],
         "book_learn": [ ["brewing_cookbook", 4] ],
         "qualities":[ { "id": "COOK", "level": 2 } ],
-        "tools": [ [ [ "hotplate", 6 ], [ "char_smoker", 6 ], [ "toolset", 6 ], [ "fire", -1 ] ] ],
+        "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
         "components": [
             [ [ "water", 3 ], [ "water_clean", 3 ] ],
             [ [ "molasses", 2 ], [ "sugar_beet", 1 ] ],
@@ -95,7 +95,7 @@
         "batch_time_factors": [50, 4],
         "book_learn": [ ["brewing_cookbook", 1], ["family_cookbook", 1] ],
         "qualities":[ { "id": "COOK", "level": 2 } ],
-        "tools": [ [ [ "hotplate", 30 ], [ "char_smoker", 30 ], [ "toolset", 30 ], [ "fire", -1 ] ] ],
+        "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
         "components": [
             [ [ "water", 15 ], [ "water_clean", 15 ] ],
             [ [ "cornmeal", 12 ], [ "buckwheat", 2 ] ],
@@ -115,7 +115,7 @@
         "autolearn": true,
         "book_learn": [ ["brewing_cookbook", 1], ["family_cookbook", 2] ],
         "qualities":[ { "id": "COOK", "level": 2 } ],
-        "tools": [ [ [ "hotplate", 6 ], [ "char_smoker", 6 ], [ "toolset", 6 ], [ "fire", -1 ] ] ],
+        "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
         "components": [
             [ [ "water", 3 ], [ "water_clean", 3 ] ],
             [
@@ -144,7 +144,7 @@
         "batch_time_factors": [50, 4],
         "book_learn": [ ["brewing_cookbook", 4] ],
         "qualities":[ { "id": "COOK", "level": 2 } ],
-        "tools": [ [ [ "hotplate", 6 ], [ "char_smoker", 6 ], [ "toolset", 6 ], [ "fire", -1 ] ] ],
+        "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
         "components": [
             [ [ "water", 15 ], [ "water_clean", 15 ] ],
             [ [ "barley", 3 ], [ "buckwheat", 3 ], [ "oats", 3 ] ],

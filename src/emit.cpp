@@ -5,11 +5,9 @@
 #include "debug.h"
 #include "generic_factory.h"
 
-template <>
-const emit_id string_id<emit>::NULL_ID( "null" );
-
 static std::map<emit_id, emit> emits_all;
 
+/** @relates string_id */
 template<>
 bool string_id<emit>::is_valid() const
 {
@@ -20,6 +18,7 @@ bool string_id<emit>::is_valid() const
     return found->second.field() != fd_null;
 }
 
+/** @relates string_id */
 template<>
 const emit &string_id<emit>::obj() const
 {
@@ -31,6 +30,14 @@ const emit &string_id<emit>::obj() const
     }
     return found->second;
 }
+
+emit::emit() : id_( emit_id::NULL_ID() ) {}
+
+bool emit::is_null() const
+{
+    return id_ == emit_id::NULL_ID();
+}
+
 
 void emit::load_emit( JsonObject &jo )
 {

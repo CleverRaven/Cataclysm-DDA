@@ -93,7 +93,7 @@
                 "min_unarmed" : 4,
                 "buff_duration" : 2,
                 "max_stacks" : 2,
-                "dodges_bonus" : 1
+                "bonus_dodges" : 1
             }
         ],
         "ondodge_buffs" : [
@@ -218,7 +218,8 @@
             "tec_krav_maga_feint",
             "tec_krav_maga_precise",
             "tec_krav_maga_disarm",
-            "tec_krav_maga_grab"
+            "tec_krav_maga_grab",
+            "tec_krav_maga_break"
         ],
         "weapons" : [
             "tonfa",
@@ -357,7 +358,7 @@
                 "description" : "Unlimited dodges after attacking",
                 "buff_duration" : 4,
                 "unarmed_allowed" : true,
-                "dodges_bonus" : 100
+                "bonus_dodges" : 100
             }
         ],
         "ondodge_buffs" : [
@@ -427,6 +428,7 @@
             "javelin_iron",
             "knife_combat",
             "knife_hunting",
+            "knife_trench",
             "kris",
             "machete",
             "makeshift_halberd",
@@ -439,6 +441,7 @@
             "primitive_knife",
             "q_staff",
             "rebar",
+            "scimitar",
             "scythe",
             "scythe_war",
             "shock_staff",
@@ -449,6 +452,7 @@
             "shishkebab_on",
             "spear_knife",
             "spear_rebar",
+            "spear_pipe",
             "spear_steel",
             "spear_survivor",
             "spear_wood",
@@ -497,6 +501,7 @@
             "broadfire_off",
             "broadfire_on",
             "rapier",
+            "cavalry_sabre",
             "fencing_foil",
             "fencing_sabre",
             "fencing_epee",
@@ -633,6 +638,7 @@
             "hammer",
             "knife_combat",
             "knife_hunting",
+            "knife_trench",
             "machete",
             "survivor_machete",
             "makeshift_knife",
@@ -640,6 +646,7 @@
             "pipe",
             "pockknife",
             "pool_cue",
+            "PR24-extended",
             "primitive_knife",
             "primitive_hammer",
             "punch_dagger",

@@ -1,8 +1,9 @@
 # Martial arts and technique JSON file contents
 
-###Martial arts
+### Martial arts
+
 ```C++
-"type" : "martial_art", 
+"type" : "martial_art",
 "id" : "style_debug",       // Unique ID. Must be one continuous word,
                             // use underscores if necessary.
 "name" : "Debug Mastery",   // In-game name displayed
@@ -21,7 +22,8 @@
 ]
 ```
 
-###Techniques
+### Techniques
+
 ```C++
 "id" : "tec_debug_arpen",   // Unique ID. Must be one continuous word
 "name" : "phasing strike",  // In-game name displayed
@@ -37,7 +39,8 @@
 "movecost_mult" : 0.3       // Any bonuses, as described below
 ```
 
-###Buffs
+### Buffs
+
 ```C++
 "id" : "debug_elem_resist",         // Unique ID. Must be one continuous word
 "name" : "Elemental resistance",    // In-game name displayed
@@ -58,23 +61,27 @@
 ]
 ```
 
-###Bonuses
+### Bonuses
+
 Bonuses contain 2 to 4 tokens, in order:
+
 * Affected statistic. Any of: "hit", "dodge", "block", "speed", "movecost", "damage", "armor", "arpen"
 * Damage type ("bash", "cut", "heat", etc.) when the statistic is damage, armor or arpen
 * Scaling stat. Any of: "str", "dex", "int", "per"
 * The value of the bonus itself
 
 Bonuses must be written in the correct order.
+
 If affected statistic requires a damage type, a damage type must be provided. Otherwise damage type must not be specified.
+
 If scaling stat is specified, the value of the bonus is multiplied by given stat of the user stat.
 
-Tokens of "useless" type will not cause an error, but will not have any effect.
-For example, "speed" in a technique will have no effect ("movecost" should be used for techniques).
+Tokens of `useless` type will not cause an error, but will not have any effect.
+For example, `speed` in a technique will have no effect (`movecost` should be used for techniques).
 
 Currently extra elemental damage is not applied, but extra elemental armor is (after regular armor).
 
 Examples:
-* "flat_bonuses" : [["armor", "bash", "str", 0.3]], // Incoming bashing damage is decreased by 30% of strength value. Only useful on buffs
-* "mult_bonuses" : [["damage", "cut", "dex", 0.1]], // All cutting damage dealt is multiplied by `(10% of dexterity)*(damage)`
-* "flat_bonuses" : [["movecost", "str", -1.0]],     // Move cost is decreased by 100% of strength value
+* `flat_bonuses : [["armor", "bash", "str", 0.3]], // Incoming bashing damage is decreased by 30% of strength value. Only useful on buffs`
+* ``mult_bonuses : [["damage", "cut", "dex", 0.1]], // All cutting damage dealt is multiplied by `(10% of dexterity)*(damage)` ``
+* `flat_bonuses : [["movecost", "str", -1.0]],     // Move cost is decreased by 100% of strength value`

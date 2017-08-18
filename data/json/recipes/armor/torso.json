@@ -268,6 +268,22 @@
     ]
   },
   {
+    "result": "flotation_vest_ms",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": 150000,
+    "autolearn": true,
+    "using": [ [ "filament", 360 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [
+      [ [ "leather", 56 ], [ "tanned_hide", 9 ], [ "fur", 56 ], [ "tanned_pelt", 9 ] ],
+      [ [ "rope_6", 2 ] ]
+    ]
+  },
+  {
     "result": "greatcoat",
     "type": "recipe",
     "category": "CC_ARMOR",

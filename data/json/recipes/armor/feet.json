@@ -53,8 +53,8 @@
     "difficulty": 4,
     "time": 40000,
     "autolearn": true,
+    "using": [ [ "cordage", 1 ] ],
     "components": [
-      [ [ "string_36", 1 ], [ "string_6", 4 ] ],
       [ [ "chitin_piece", 8 ] ],
       [ [ "leather", 4 ], [ "fur", 4 ], [ "rag", 4 ] ]
     ]

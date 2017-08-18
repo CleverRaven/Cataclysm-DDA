@@ -8,7 +8,7 @@
     "difficulty": 4,
     "time": 15000,
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "recipe_bullets", 3 ], [ "textbook_anarch", 0 ] ],
-    "using": [ [ "heating_standard", 25 ] ],
+    "using": [ [ "surface_heat", 25 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "components": [
       [ [ "magnesium", 100 ] ],

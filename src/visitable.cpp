@@ -14,6 +14,7 @@
 #include "itype.h"
 #include "player.h"
 
+/** @relates visitable */
 template <typename T>
 item *visitable<T>::find_parent( const item &it )
 {
@@ -30,12 +31,14 @@ item *visitable<T>::find_parent( const item &it )
     return res;
 }
 
+/** @relates visitable */
 template <typename T>
 const item *visitable<T>::find_parent( const item &it ) const
 {
     return const_cast<visitable<T> *>( this )->find_parent( it );
 }
 
+/** @relates visitable */
 template <typename T>
 std::vector<item *> visitable<T>::parents( const item &it )
 {
@@ -46,6 +49,7 @@ std::vector<item *> visitable<T>::parents( const item &it )
     return res;
 }
 
+/** @relates visitable */
 template <typename T>
 std::vector<const item *> visitable<T>::parents( const item &it ) const
 {
@@ -56,6 +60,7 @@ std::vector<const item *> visitable<T>::parents( const item &it ) const
     return res;
 }
 
+/** @relates visitable */
 template <typename T>
 bool visitable<T>::has_item( const item &it ) const
 {
@@ -64,6 +69,7 @@ bool visitable<T>::has_item( const item &it ) const
     } ) == VisitResponse::ABORT;
 }
 
+/** @relates visitable */
 template <typename T>
 bool visitable<T>::has_item_with( const std::function<bool( const item & )> &filter ) const
 {
@@ -80,7 +86,8 @@ bool visitable<T>::has_item_with( const std::function<bool( const item & )> &fil
  * @return the sum of the addends, but truncated to std::numeric_limits<int>::max().
  */
 template <typename T>
-static T sum_no_wrap( T a, T b ) {
+static T sum_no_wrap( T a, T b )
+{
     if( a > std::numeric_limits<T>::max() - b ||
         b > std::numeric_limits<T>::max() - a ) {
         return std::numeric_limits<T>::max();
@@ -89,7 +96,7 @@ static T sum_no_wrap( T a, T b ) {
 }
 
 template <typename T>
-static int has_quality_internal( const T& self, const quality_id &qual, int level, int limit )
+static int has_quality_internal( const T &self, const quality_id &qual, int level, int limit )
 {
     int qty = 0;
 
@@ -105,7 +112,8 @@ static int has_quality_internal( const T& self, const quality_id &qual, int leve
     return std::min( qty, limit );
 }
 
-static int has_quality_from_vpart( const vehicle& veh, int part, const quality_id& qual, int level, int limit )
+static int has_quality_from_vpart( const vehicle &veh, int part, const quality_id &qual, int level,
+                                   int limit )
 {
     int qty = 0;
 
@@ -132,6 +140,7 @@ bool visitable<T>::has_quality( const quality_id &qual, int level, int qty ) con
     return has_quality_internal( *this, qual, level, qty ) == qty;
 }
 
+/** @relates visitable */
 template <>
 bool visitable<inventory>::has_quality( const quality_id &qual, int level, int qty ) const
 {
@@ -145,10 +154,11 @@ bool visitable<inventory>::has_quality( const quality_id &qual, int level, int q
     return false;
 }
 
+/** @relates visitable */
 template <>
 bool visitable<vehicle_selector>::has_quality( const quality_id &qual, int level, int qty ) const
 {
-    for( const auto& cursor : static_cast<const vehicle_selector &>( *this ) ) {
+    for( const auto &cursor : static_cast<const vehicle_selector &>( *this ) ) {
         qty -= has_quality_from_vpart( cursor.veh, cursor.part, qual, level, qty );
         if( qty <= 0 ) {
             return true;
@@ -157,6 +167,7 @@ bool visitable<vehicle_selector>::has_quality( const quality_id &qual, int level
     return has_quality_internal( *this, qual, level, qty ) == qty;
 }
 
+/** @relates visitable */
 template <>
 bool visitable<vehicle_cursor>::has_quality( const quality_id &qual, int level, int qty ) const
 {
@@ -166,6 +177,7 @@ bool visitable<vehicle_cursor>::has_quality( const quality_id &qual, int level, 
     return qty <= 0 ? true : has_quality_internal( *this, qual, level, qty ) == qty;
 }
 
+/** @relates visitable */
 template <>
 bool visitable<Character>::has_quality( const quality_id &qual, int level, int qty ) const
 {
@@ -185,17 +197,17 @@ bool visitable<Character>::has_quality( const quality_id &qual, int level, int q
 }
 
 template <typename T>
-static int max_quality_internal( const T& self, const quality_id &qual )
+static int max_quality_internal( const T &self, const quality_id &qual )
 {
     int res = INT_MIN;
-    self.visit_items( [&res,&qual]( const item *e ) {
+    self.visit_items( [&res, &qual]( const item * e ) {
         res = std::max( res, e->get_quality( qual ) );
         return VisitResponse::NEXT;
     } );
     return res;
 }
 
-static int max_quality_from_vpart( const vehicle& veh, int part, const quality_id& qual )
+static int max_quality_from_vpart( const vehicle &veh, int part, const quality_id &qual )
 {
     int res = INT_MIN;
 
@@ -222,6 +234,7 @@ int visitable<T>::max_quality( const quality_id &qual ) const
     return max_quality_internal( *this, qual );
 }
 
+/** @relates visitable */
 template<>
 int visitable<Character>::max_quality( const quality_id &qual ) const
 {
@@ -235,11 +248,11 @@ int visitable<Character>::max_quality( const quality_id &qual ) const
 
     static const quality_id BUTCHER( "BUTCHER" );
     if( qual == BUTCHER ) {
-        if( self->has_trait( "CLAWS_ST" ) ) {
+        if( self->has_trait( trait_id( "CLAWS_ST" ) ) ) {
             res = std::max( res, 8 );
-        } else if( self->has_trait( "TALONS" ) || self->has_trait( "MANDIBLES" ) ||
-                   self->has_trait( "CLAWS" ) || self->has_trait( "CLAWS_RETRACT" ) ||
-                   self->has_trait( "CLAWS_RAT" ) ) {
+        } else if( self->has_trait( trait_id( "TALONS" ) ) || self->has_trait( trait_id( "MANDIBLES" ) ) ||
+                   self->has_trait( trait_id( "CLAWS" ) ) || self->has_trait( trait_id( "CLAWS_RETRACT" ) ) ||
+                   self->has_trait( trait_id( "CLAWS_RAT" ) ) ) {
             res = std::max( res, 4 );
         }
     }
@@ -247,6 +260,7 @@ int visitable<Character>::max_quality( const quality_id &qual ) const
     return std::max( res, max_quality_internal( *this, qual ) );
 }
 
+/** @relates visitable */
 template <>
 int visitable<vehicle_cursor>::max_quality( const quality_id &qual ) const
 {
@@ -255,6 +269,7 @@ int visitable<vehicle_cursor>::max_quality( const quality_id &qual ) const
                      max_quality_internal( *this, qual ) );
 }
 
+/** @relates visitable */
 template <>
 int visitable<vehicle_selector>::max_quality( const quality_id &qual ) const
 {
@@ -265,11 +280,12 @@ int visitable<vehicle_selector>::max_quality( const quality_id &qual ) const
     return res;
 }
 
+/** @relates visitable */
 template <typename T>
 std::vector<item *> visitable<T>::items_with( const std::function<bool( const item & )> &filter )
 {
     std::vector<item *> res;
-    visit_items( [&res,&filter]( item * node, item * ) {
+    visit_items( [&res, &filter]( item * node, item * ) {
         if( filter( *node ) ) {
             res.push_back( node );
         }
@@ -278,11 +294,12 @@ std::vector<item *> visitable<T>::items_with( const std::function<bool( const it
     return res;
 }
 
+/** @relates visitable */
 template <typename T>
 std::vector<const item *> visitable<T>::items_with( const std::function<bool( const item & )> &filter ) const
 {
     std::vector<const item *> res;
-    visit_items( [&res,&filter]( const item * node, const item * ) {
+    visit_items( [&res, &filter]( const item * node, const item * ) {
         if( filter( *node ) ) {
             res.push_back( node );
         }
@@ -291,6 +308,7 @@ std::vector<const item *> visitable<T>::items_with( const std::function<bool( co
     return res;
 }
 
+/** @relates visitable */
 template <typename T>
 VisitResponse visitable<T>::visit_items(
     const std::function<VisitResponse( const item *, const item * )> &func ) const
@@ -299,6 +317,7 @@ VisitResponse visitable<T>::visit_items(
                static_cast<const std::function<VisitResponse( item *, item * )>&>( func ) );
 }
 
+/** @relates visitable */
 template <typename T>
 VisitResponse visitable<T>::visit_items( const std::function<VisitResponse( const item * )> &func ) const
 {
@@ -306,6 +325,7 @@ VisitResponse visitable<T>::visit_items( const std::function<VisitResponse( cons
                static_cast<const std::function<VisitResponse( item * )>&>( func ) );
 }
 
+/** @relates visitable */
 template <typename T>
 VisitResponse visitable<T>::visit_items( const std::function<VisitResponse( item * )> &func )
 {
@@ -344,6 +364,7 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
     return VisitResponse::ABORT;
 }
 
+/** @relates visitable */
 template <>
 VisitResponse visitable<item>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
@@ -352,6 +373,7 @@ VisitResponse visitable<item>::visit_items(
     return visit_internal( func, it );
 }
 
+/** @relates visitable */
 template <>
 VisitResponse visitable<inventory>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
@@ -367,6 +389,7 @@ VisitResponse visitable<inventory>::visit_items(
     return VisitResponse::NEXT;
 }
 
+/** @relates visitable */
 template <>
 VisitResponse visitable<Character>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
@@ -387,6 +410,7 @@ VisitResponse visitable<Character>::visit_items(
     return ch->inv.visit_items( func );
 }
 
+/** @relates visitable */
 template <>
 VisitResponse visitable<map_cursor>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
@@ -406,6 +430,7 @@ VisitResponse visitable<map_cursor>::visit_items(
     return VisitResponse::NEXT;
 }
 
+/** @relates visitable */
 template <>
 VisitResponse visitable<map_selector>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
@@ -418,6 +443,7 @@ VisitResponse visitable<map_selector>::visit_items(
     return VisitResponse::NEXT;
 }
 
+/** @relates visitable */
 template <>
 VisitResponse visitable<vehicle_cursor>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
@@ -435,6 +461,7 @@ VisitResponse visitable<vehicle_cursor>::visit_items(
     return VisitResponse::NEXT;
 }
 
+/** @relates visitable */
 template <>
 VisitResponse visitable<vehicle_selector>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
@@ -449,6 +476,7 @@ VisitResponse visitable<vehicle_selector>::visit_items(
 
 // Specialize visitable<T>::remove_items_with() for each class that will implement the visitable interface
 
+/** @relates visitable */
 template <typename T>
 item visitable<T>::remove_item( item& it ) {
     auto obj = remove_items_with( [&it]( const item& e ) { return &e == &it; }, 1 );
@@ -477,6 +505,7 @@ static void remove_internal( const std::function<bool( item & )> &filter, item &
     }
 }
 
+/** @relates visitable */
 template <>
 std::list<item> visitable<item>::remove_items_with( const std::function<bool( const item &e )>
         &filter, int count )
@@ -493,6 +522,7 @@ std::list<item> visitable<item>::remove_items_with( const std::function<bool( co
 }
 
 
+/** @relates visitable */
 template <>
 std::list<item> visitable<inventory>::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
@@ -535,6 +565,7 @@ std::list<item> visitable<inventory>::remove_items_with( const
     return res;
 }
 
+/** @relates visitable */
 template <>
 std::list<item> visitable<Character>::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
@@ -581,6 +612,7 @@ std::list<item> visitable<Character>::remove_items_with( const
     return res;
 }
 
+/** @relates visitable */
 template <>
 std::list<item> visitable<map_cursor>::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
@@ -628,6 +660,7 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
     return res;
 }
 
+/** @relates visitable */
 template <>
 std::list<item> visitable<map_selector>::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
@@ -643,6 +676,7 @@ std::list<item> visitable<map_selector>::remove_items_with( const
     return res;
 }
 
+/** @relates visitable */
 template <>
 std::list<item> visitable<vehicle_cursor>::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
@@ -659,7 +693,7 @@ std::list<item> visitable<vehicle_cursor>::remove_items_with( const
         return res;
     }
 
-    vehicle_part& part = cur->veh.parts[ idx ];
+    vehicle_part &part = cur->veh.parts[ idx ];
     for( auto iter = part.items.begin(); iter != part.items.end(); ) {
         if( filter( *iter ) ) {
             // check for presence in the active items cache
@@ -687,6 +721,7 @@ std::list<item> visitable<vehicle_cursor>::remove_items_with( const
     return res;
 }
 
+/** @relates visitable */
 template <>
 std::list<item> visitable<vehicle_selector>::remove_items_with( const
         std::function<bool( const item &e )> &filter, int count )
@@ -703,11 +738,11 @@ std::list<item> visitable<vehicle_selector>::remove_items_with( const
 }
 
 template <typename T>
-static long charges_of_internal( const T& self, const itype_id& id, long limit )
+static long charges_of_internal( const T &self, const itype_id &id, long limit )
 {
     long qty = 0;
 
-    self.visit_items( [&]( const item *e ) {
+    self.visit_items( [&]( const item * e ) {
         if( e->is_tool() ) {
             if( e->typeId() == id ) {
                 // includes charges from any included magazine.
@@ -730,12 +765,14 @@ static long charges_of_internal( const T& self, const itype_id& id, long limit )
     return std::min( qty, limit );
 }
 
+/** @relates visitable */
 template <typename T>
 long visitable<T>::charges_of( const std::string &what, long limit ) const
 {
     return charges_of_internal( *this, what, limit );
 }
 
+/** @relates visitable */
 template <>
 long visitable<inventory>::charges_of( const std::string &what, long limit ) const
 {
@@ -756,15 +793,16 @@ long visitable<inventory>::charges_of( const std::string &what, long limit ) con
     return std::min<long>( limit, res );
 }
 
+/** @relates visitable */
 template <>
 long visitable<Character>::charges_of( const std::string &what, long limit ) const
 {
     auto self = static_cast<const Character *>( this );
     auto p = dynamic_cast<const player *>( self );
 
-    if( what == "toolset") {
-        if( p && p->has_active_bionic( "bio_tools" ) ) {
-            return std::min( (long)p->power_level, limit );
+    if( what == "toolset" ) {
+        if( p && p->has_active_bionic( bionic_id( "bio_tools" ) ) ) {
+            return std::min( ( long )p->power_level, limit );
         } else {
             return 0;
         }
@@ -774,7 +812,7 @@ long visitable<Character>::charges_of( const std::string &what, long limit ) con
         long qty = 0;
         qty = sum_no_wrap( qty, charges_of( "UPS_off" ) );
         qty = sum_no_wrap( qty, long( charges_of( "adv_UPS_off" ) / 0.6 ) );
-        if ( p && p->has_active_bionic( "bio_ups" ) ) {
+        if( p && p->has_active_bionic( bionic_id( "bio_ups" ) ) ) {
             qty = sum_no_wrap( qty, long( p->power_level ) );
         }
         return std::min( qty, limit );
@@ -784,7 +822,7 @@ long visitable<Character>::charges_of( const std::string &what, long limit ) con
 }
 
 template <typename T>
-static int amount_of_internal( const T& self, const itype_id& id, bool pseudo, int limit )
+static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, int limit )
 {
     int qty = 0;
     self.visit_items( [&qty, &id, &pseudo, &limit] ( const item *e ) {
@@ -796,14 +834,16 @@ static int amount_of_internal( const T& self, const itype_id& id, bool pseudo, i
     return qty;
 }
 
+/** @relates visitable */
 template <typename T>
-int visitable<T>::amount_of( const std::string& what, bool pseudo, int limit ) const
+int visitable<T>::amount_of( const std::string &what, bool pseudo, int limit ) const
 {
     return amount_of_internal( *this, what, pseudo, limit );
 }
 
+/** @relates visitable */
 template <>
-int visitable<inventory>::amount_of( const std::string& what, bool pseudo, int limit ) const
+int visitable<inventory>::amount_of( const std::string &what, bool pseudo, int limit ) const
 {
     const auto &binned = static_cast<const inventory *>( this )->get_binned_items();
     const auto iter = binned.find( what );
@@ -819,12 +859,13 @@ int visitable<inventory>::amount_of( const std::string& what, bool pseudo, int l
     return std::min<long>( limit, res );
 }
 
+/** @relates visitable */
 template <>
-int visitable<Character>::amount_of( const std::string& what, bool pseudo, int limit ) const
+int visitable<Character>::amount_of( const std::string &what, bool pseudo, int limit ) const
 {
     auto self = static_cast<const Character *>( this );
 
-    if( what == "toolset" && pseudo && self->has_active_bionic( "bio_tools" ) ) {
+    if( what == "toolset" && pseudo && self->has_active_bionic( bionic_id( "bio_tools" ) ) ) {
         return 1;
     }
 

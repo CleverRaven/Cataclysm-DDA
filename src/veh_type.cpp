@@ -81,15 +81,14 @@ static std::map<vpart_id, vpart_info> abstract_parts;
 
 static DynamicDataLoader::deferred_json deferred;
 
-template<>
-const vpart_id string_id<vpart_info>::NULL_ID( "null" );
-
+/** @relates string_id */
 template<>
 bool string_id<vpart_info>::is_valid() const
 {
     return vpart_info_all.count( *this );
 }
 
+/** @relates string_id */
 template<>
 const vpart_info &string_id<vpart_info>::obj() const
 {
@@ -560,6 +559,7 @@ int vpart_info::repair_time( const Character &ch ) const {
     return scale_time( repair_skills, repair_moves, ch );
 }
 
+/** @relates string_id */
 template<>
 const vehicle_prototype &string_id<vehicle_prototype>::obj() const
 {
@@ -577,6 +577,7 @@ const vehicle_prototype &string_id<vehicle_prototype>::obj() const
     return iter->second;
 }
 
+/** @relates string_id */
 template<>
 bool string_id<vehicle_prototype>::is_valid() const
 {

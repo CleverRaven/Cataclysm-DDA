@@ -102,12 +102,14 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
 // Not implemented on purpose (martialart objects have no integer id)
 // int_id<T> string_id<mabuff>::id() const;
 
+/** @relates string_id */
 template<>
 const ma_technique &string_id<ma_technique>::obj() const
 {
     return ma_techniques.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<ma_technique>::is_valid() const
 {
@@ -135,12 +137,14 @@ void ma_buff::load( JsonObject &jo, const std::string &src )
 // Not implemented on purpose (martialart objects have no integer id)
 // int_id<T> string_id<mabuff>::id() const;
 
+/** @relates string_id */
 template<>
 const ma_buff &string_id<ma_buff>::obj() const
 {
     return ma_buffs.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<ma_buff>::is_valid() const
 {
@@ -195,12 +199,14 @@ void martialart::load( JsonObject &jo, const std::string & )
 // Not implemented on purpose (martialart objects have no integer id)
 // int_id<T> string_id<martialart>::id() const;
 
+/** @relates string_id */
 template<>
 const martialart &string_id<martialart>::obj() const
 {
     return martialarts.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<martialart>::is_valid() const
 {
@@ -330,7 +336,7 @@ bool ma_requirements::is_valid_player( const player &u ) const
     //to all weapons (such as Ninjutsu sneak attacks or innate weapon techniques like RAPID)
     //or if the weapon is flagged as being compatible with the style. Some techniques have
     //further restrictions on required weapon properties (is_valid_weapon).
-    bool cqb = u.has_active_bionic("bio_cqb");
+    bool cqb = u.has_active_bionic( bionic_id( "bio_cqb" ) );
     // There are 4 different cases of "armedness":
     // Truly unarmed, unarmed weapon, style-allowed weapon, generic weapon
     bool valid_weapon =
@@ -607,13 +613,13 @@ bool player::can_leg_block() const
 {
     const martialart &ma = style_selected.obj();
     ///\EFFECT_UNARMED increases ability to perform leg block
-    int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)get_skill_level(skill_id("unarmed"));
+    int unarmed_skill = has_active_bionic( bionic_id( "bio_cqb" ) ) ? 5 : (int)get_skill_level(skill_id("unarmed"));
 
     // Success conditions.
     if(hp_cur[hp_leg_l] > 0 || hp_cur[hp_leg_r] > 0) {
         if( unarmed_skill >= ma.leg_block ) {
             return true;
-        } else if( ma.leg_block_with_bio_armor_legs && has_bionic("bio_armor_legs") ) {
+        } else if( ma.leg_block_with_bio_armor_legs && has_bionic( bionic_id( "bio_armor_legs" ) ) ) {
             return true;
         }
     }
@@ -625,13 +631,13 @@ bool player::can_arm_block() const
 {
     const martialart &ma = style_selected.obj();
     ///\EFFECT_UNARMED increases ability to perform arm block
-    int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)get_skill_level(skill_id("unarmed"));
+    int unarmed_skill = has_active_bionic( bionic_id( "bio_cqb" ) ) ? 5 : (int)get_skill_level(skill_id("unarmed"));
 
     // Success conditions.
     if (hp_cur[hp_arm_l] > 0 || hp_cur[hp_arm_r] > 0) {
         if( unarmed_skill >= ma.arm_block ) {
             return true;
-        } else if( ma.arm_block_with_bio_armor_arms && has_bionic("bio_armor_arms") ) {
+        } else if( ma.arm_block_with_bio_armor_arms && has_bionic( bionic_id( "bio_armor_arms" ) ) ) {
             return true;
         }
     }

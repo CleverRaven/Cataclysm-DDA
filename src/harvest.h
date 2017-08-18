@@ -3,7 +3,9 @@
 #define HARVEST_H
 
 #include <list>
+#include <map>
 #include <set>
+
 #include "string_id.h"
 
 typedef std::string itype_id;
@@ -28,15 +30,11 @@ struct harvest_entry {
 class harvest_list
 {
     public:
-        harvest_list() : id_( NULL_ID ) {}
+        harvest_list();
 
-        const harvest_id &id() const {
-            return id_;
-        }
+        const harvest_id &id() const;
 
-        bool is_null() const {
-            return id_ == NULL_ID;
-        }
+        bool is_null() const;
 
         const std::list<harvest_entry> &entries() const {
             return entries_;

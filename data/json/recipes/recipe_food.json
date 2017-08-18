@@ -8,18 +8,8 @@
   "time": 5000,
   "autolearn": true,
   "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "coffeemaker", 3],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ]
@@ -35,18 +25,8 @@
   "time": 90000,
   "autolearn": true,
   "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "coffeemaker", 3],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "salt_water", 10 ],
@@ -63,18 +43,8 @@
   "time": 90000,
   "autolearn": true,
   "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "coffeemaker", 3],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "material_rocksalt", 1 ]
@@ -95,14 +65,7 @@
   "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
       [ "mushroom", 1 ]
@@ -119,14 +82,7 @@
   "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
       [ "meat", 1 ]
@@ -148,17 +104,8 @@
     {"id":"BOIL","level":2},
     {"id":"COOK","level":2}
   ], "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ],
-    [
-      [ "cooking_oil", -1 ],
-      [ "tallow", -1 ],
-      [ "lard", -1 ]
-    ]
+    [ [ "surface_heat", 7, "LIST" ] ],
+    [ [ "frying_oil", 7, "LIST" ] ]
   ],
   "components": [
     [
@@ -202,14 +149,7 @@
   "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
       [ "offal", 1 ]
@@ -233,7 +173,7 @@
       { "id": "CUT", "level": 1 },
       { "id": "COOK", "level": 3 }
     ],
-    "tools": [ [ [ "hotplate", 10 ], [ "char_smoker", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "jar_glass", 1 ] ],
@@ -258,7 +198,7 @@
       { "id": "COOK", "level": 3 }
     ],
     "tools": [
-      [ [ "hotplate", 10 ], [ "char_smoker", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ],
+    [ [ "surface_heat", 10, "LIST" ] ],
       [ [ "can_sealer", -1 ] ]
     ],
     "components": [
@@ -285,7 +225,7 @@
       { "id": "CUT", "level": 1 },
       { "id": "COOK", "level": 3 }
     ],
-    "tools": [ [ [ "hotplate", 20 ], [ "char_smoker", 20 ], [ "toolset", 20 ], [ "fire", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
       [ [ "jar_glass", 1 ] ],
@@ -304,14 +244,7 @@
   "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
       [ "stomach_large", 1 ]
@@ -332,14 +265,7 @@
   "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
       [ "hstomach_large", 1 ]
@@ -360,14 +286,8 @@
   "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "stomach", 1 ]
@@ -388,14 +308,8 @@
   "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "hstomach", 1 ]
@@ -416,14 +330,8 @@
   "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
       [ "fish", 1 ]
@@ -443,14 +351,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ],
-  "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
       [ "fat", 3 ]
@@ -474,14 +375,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ],
-  "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
       [ "fat", 2 ]
@@ -500,14 +394,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ],
-  "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "plant_sac", 1 ],
@@ -689,7 +576,7 @@
   ],
   "tools": [
     [ [ "frying_oil", 1, "LIST" ] ],
-    [ [ "frying_heat", 8, "LIST" ] ]
+    [ [ "surface_heat", 8, "LIST" ] ]
   ],
   "components": [
     [ [ "fish", 3 ] ],
@@ -710,7 +597,7 @@
   ],
   "tools": [
     [ [ "frying_oil", 1, "LIST" ] ],
-    [ [ "frying_heat", 8, "LIST" ] ]
+    [ [ "surface_heat", 8, "LIST" ] ]
   ],
   "components": [
     [ [ "onion", 1 ] ],
@@ -729,14 +616,7 @@
     {"id":"COOK","level":2},
     {"id":"CONTAIN","level":1}
   ],
-  "tools": [
-    [
-      [ "hotplate", 4 ],
-      [ "char_smoker", 4 ],
-      [ "toolset", 4 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -1133,14 +1013,8 @@
   "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
       [ "human_flesh", 1 ]
@@ -1208,14 +1082,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "meat", 1 ],
@@ -1243,14 +1111,7 @@
      {"id":"CUT","level":1},
      {"id":"COOK","level":2}
   ],
-  "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "meat", 2 ],
@@ -1271,14 +1132,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "veggy", 1 ]
@@ -1294,14 +1149,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "veggy_wild", 1 ]
@@ -1321,14 +1170,8 @@
   "qualities":[
     {"id":"CUT","level":1},
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "cattail_stalk", 1 ]
@@ -1346,14 +1189,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -1377,12 +1214,7 @@
     {"id":"COOK","level":2}
   ],
   "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 8, "LIST" ] ],
     [
       [ "cooking_oil", -1 ],
       [ "tallow", -1 ],
@@ -1418,14 +1250,8 @@
   ["manual_survival", 1], ["survival_book", 1]],
   "qualities":[
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "dahlia_root", 1 ]
@@ -1444,14 +1270,8 @@
   "qualities":[
     {"id":"COOK","level":2},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "raw_dandelion", 2 ]
@@ -1477,12 +1297,7 @@
     {"id":"CUT","level":1}
   ],
   "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 8, "LIST" ] ],
     [
       [ "cooking_oil", -1 ],
       [ "tallow", -1 ],
@@ -1519,14 +1334,8 @@
   "qualities":[
     {"id":"COOK","level":2},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "acorns", 1 ]
@@ -1546,19 +1355,14 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 4 ],
-      [ "char_smoker", 4 ],
-      [ "toolset", 4 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
   "components": [
     [
       [ "spaghetti_raw", 1 ],
-      [ "macaroni_raw", 1],
-      [ "noodles_fast", 1]
+      [ "macaroni_raw", 1 ],
+      [ "noodles_fast", 1 ],
+      [ "lasagne_raw", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -1573,14 +1377,7 @@
   "skill_used": "cooking",
   "time": 2500,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "frozen_burrito", 1 ]
@@ -1594,14 +1391,7 @@
   "skill_used": "cooking",
   "time": 5000,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "frozen_dinner", 1 ]
@@ -1618,14 +1408,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 4 ],
-      [ "char_smoker", 4 ],
-      [ "toolset", 4 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
   "components": [
     [
       [ "spaghetti_raw", 1 ],
@@ -1653,14 +1437,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 4 ],
-      [ "char_smoker", 4 ],
-      [ "toolset", 4 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
   "components": [
     [
       [ "spaghetti_raw", 1 ],
@@ -1704,14 +1482,8 @@
   "book_learn": [[ "cookbook_human", 1 ]],
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 4 ],
-      [ "char_smoker", 4 ],
-      [ "toolset", 4 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
   "components": [
     [
       [ "spaghetti_raw", 1 ],
@@ -1746,14 +1518,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ],
-  "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "pumpkin", 1 ],
@@ -1771,14 +1536,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "potato_raw", 1 ],
@@ -1798,14 +1557,7 @@
      {"id":"CUT","level":1},
      {"id":"COOK","level":2}
   ],
-   "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
-  ],
+   "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "potato_raw", 1 ],
@@ -1828,14 +1580,7 @@
   "qualities" : [
     {"id":"COOK","level":2}
   ],
-  "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "seed_weed", 4 ],
@@ -1856,14 +1601,7 @@
      {"id":"CUT","level":1},
      {"id":"COOK","level":2}
   ],
-   "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
-  ],
+   "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "cornmeal", 1 ]
@@ -1884,14 +1622,7 @@
      {"id":"CUT","level":1},
      {"id":"COOK","level":2}
   ],
-   "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
-  ],
+   "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "cheese", 1 ],
@@ -1914,14 +1645,7 @@
      {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ],
-   "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
-  ],
+   "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "meat", 1],
@@ -1946,14 +1670,7 @@
      {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ],
-   "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
-  ],
+   "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "meat", 1],
@@ -1983,14 +1700,7 @@
      {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ],
-   "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
-  ],
+   "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "human_flesh", 1 ],
@@ -2012,14 +1722,8 @@
    "qualities" : [
      {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "human_flesh", 1 ],
@@ -2050,12 +1754,7 @@
     {"id":"COOK","level":2}
   ],
   "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 8, "LIST" ] ],
     [
       [ "cooking_oil", -1 ],
       [ "tallow", -1 ],
@@ -2083,14 +1782,7 @@
    "qualities" : [
      {"id":"CUT","level":1}
    ],
-   "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
-  ],
+   "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "cheese", 1 ],
@@ -2112,14 +1804,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-      [
-        [ "hotplate", 2 ],
-        [ "char_smoker", 2 ],
-        [ "toolset", 2 ],
-        [ "fire", -1 ]
-      ]
-    ],
+  ],
+  "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
       [
         [ "kernels", 1 ]
@@ -2151,18 +1837,8 @@
   "time": 10000,
   "autolearn": true,
   "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ],
-      [ "coffeemaker", 2]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "tea_raw", 1 ]
@@ -2182,18 +1858,8 @@
   "time": 10000,
   "autolearn": true,
   "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ],
-      [ "coffeemaker", 2]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "wild_herbs", 10 ]
@@ -2218,16 +1884,8 @@
   "qualities":[
      {"id":"CUT","level":1},
     {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ],
-      [ "coffeemaker", 2]
-    ]
   ],
+  "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "pine_bough", 1 ]
@@ -2251,16 +1909,8 @@
   "qualities":[
     {"id":"BOIL","level":1},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ],
-      [ "coffeemaker", 2]
-    ]
   ],
+  "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "raw_dandelion", 1 ]
@@ -2283,14 +1933,8 @@
   "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       ["sweet_fruit_like", 4, "LIST"]
@@ -2331,8 +1975,8 @@
   "time": 6000,
   "autolearn": true,
   "batch_time_factors": [ 80, 4 ],
-  "qualities": [ { "id": "COOK","level": 2,"amount": 1 } ],
-  "tools": [ [ [ "hotplate", 8 ], [ "char_smoker", 8 ], [ "toolset", 8 ], [ "fire", -1 ] ] ],
+  "qualities": [ { "id": "COOK","level": 2 } ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [ [ [ "coffee_bean", 1 ] ] ]
 },{
   "type" : "recipe",
@@ -2343,18 +1987,8 @@
   "time": 10000,
   "autolearn": true,
   "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "atomic_coffeepot", -1 ],
-      [ "coffeemaker", 2],
-      [ "fire", -1 ]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "coffee_raw", 1 ],
@@ -2461,14 +2095,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "coffee_raw", 5 ]
@@ -2790,14 +2418,7 @@
   "batch_time_factors":[50, 5],
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
         [ "bone", 4 ]
@@ -2811,7 +2432,9 @@
         [ "fish_cooked", 2 ],
         [ "can_tuna", 2 ],
         [ "can_sardine", 2 ],
-        [ "can_clams", 2]
+        [ "can_clams", 2 ],
+        [ "meat_canned", 1 ],
+        [ "fish_canned", 2 ]
     ],
     [
         [ "water_clean", 1],
@@ -2830,14 +2453,7 @@
   "batch_time_factors":[50, 5],
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
         [ "veggy", 2 ],
@@ -2885,14 +2501,7 @@
   "batch_time_factors":[50, 5],
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
         [ "bone_human", 4 ]
@@ -2916,14 +2525,7 @@
   "time": 60000,
   "autolearn": true,
   "batch_time_factors":[83, 5],
-  "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "salt_water", 1 ],
@@ -2948,14 +2550,7 @@
   "time": 30000,
   "batch_time_factors":[83, 5],
   "autolearn": true,
-  "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "salt_water", 1 ],
@@ -2980,14 +2575,7 @@
   "time": 30000,
   "batch_time_factors":[83, 5],
   "book_learn": [[ "cookbook_human", 3 ]],
-  "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "salt_water", 1 ],
@@ -3014,14 +2602,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
      {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "fat", 1 ]
@@ -3039,14 +2620,7 @@
   "qualities" : [
     {"id":"CUT","level":1}
   ],
-  "tools": [
-    [
-      [ "hotplate", 20 ],
-      [ "char_smoker", 20 ],
-      [ "toolset", 20 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
   "components": [
     [
       [ "tallow", 2 ],
@@ -3119,12 +2693,7 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "vac_sealer", 10 ],
       [ "makeshift_sealer", 20 ]
@@ -3168,12 +2737,7 @@
     {"id":"CONTAIN","level":1}
   ],
   "tools": [
-    [
-      [ "hotplate", 4 ],
-      [ "char_smoker", 4 ],
-      [ "toolset", 4 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 4, "LIST" ] ],
     [
       [ "rag", -1 ]
     ]
@@ -3201,14 +2765,8 @@
   "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -3258,14 +2816,8 @@
   "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "bone", 10 ]
@@ -3287,14 +2839,8 @@
   "book_learn": [[ "cookbook_human", 1 ]],
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "bone_human", 10 ]
@@ -3316,14 +2862,8 @@
   "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "broth", 1 ]
@@ -3352,12 +2892,7 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "vac_sealer", 10 ],
       [ "makeshift_sealer", 20 ]
@@ -3395,12 +2930,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -3435,14 +2965,8 @@
   "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "broth", 1 ]
@@ -3507,14 +3031,8 @@
   "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "broth", 1 ],
@@ -3562,14 +3080,8 @@
   "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "broth", 1 ],
@@ -3649,14 +3161,8 @@
   "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "broth", 1 ],
@@ -3711,14 +3217,8 @@
   "book_learn": [[ "cookbook_human", 2 ]],
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "broth", 1 ],
@@ -3763,14 +3263,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "can_clams", 1 ]
@@ -3803,14 +3297,7 @@
   "autolearn": true,
   "qualities": [
   {"id":"COOK","level":3} ],
-  "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 3 ]
@@ -3843,14 +3330,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 3 ]
@@ -3872,14 +3353,8 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 3 ]
@@ -3905,14 +3380,8 @@
   "qualities":[
     {"id":"BOIL","level":2}
   ], "tools": [
-    [
-      [ "rag", -1 ]
-    ],
-    [
-      [ "hotplate", 12 ],
-      [ "toolset", 12 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 12, "LIST" ] ],
+    [ [ "rag", -1 ] ]
   ],
   "components": [
     [
@@ -3931,14 +3400,8 @@
   "qualities":[
     {"id":"BOIL","level":2}
   ], "tools": [
-    [
-      [ "thermometer", -1 ]
-    ],
-    [
-      [ "hotplate", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
+    [ [ "surface_heat", 8, "LIST" ] ],
+    [ [ "thermometer", -1 ] ]
   ],
   "components": [
     [
@@ -3958,14 +3421,7 @@
     {"id":"BUTCHER","level":20},
     {"id":"COOK","level":3},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 4 ],
-      [ "char_smoker", 4 ],
-      [ "toolset", 4 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
   "components": [
     [
       [ "sugar", 20 ],
@@ -4074,14 +3530,7 @@
   "qualities":[
     {"id":"COOK","level":2},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "sugar_beet", 4 ]
@@ -4103,14 +3552,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "cooking_oil", 1 ],
@@ -4137,14 +3579,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "cornmeal", 3 ]
@@ -4166,14 +3601,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 16 ],
-      [ "char_smoker", 16 ],
-      [ "toolset", 16 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 16, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 2 ]
@@ -4200,14 +3628,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 2 ]
@@ -4233,14 +3654,7 @@
   "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "cooking_oil", 1 ],
@@ -4263,14 +3677,7 @@
   "batch_time_factors":[82, 4],
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "dry_beans", 1 ],
@@ -4293,14 +3700,7 @@
   "qualities":[
     {"id":"COOK","level":2},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "can_beans", 1 ],
@@ -4349,14 +3749,7 @@
   "qualities":[
     {"id":"COOK","level":2},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "can_beans", 1 ],
@@ -4416,14 +3809,7 @@
   "batch_time_factors":[82, 4],
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "dry_rice", 1 ]
@@ -4445,14 +3831,7 @@
   "qualities":[
     {"id":"COOK","level":2},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "rice_cooked", 1 ]
@@ -4496,14 +3875,7 @@
   "qualities":[
     {"id":"COOK","level":2},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "rice_cooked", 1 ]
@@ -4557,14 +3929,7 @@
   "batch_time_factors":[82, 4],
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "dry_beans", 1 ],
@@ -4590,14 +3955,7 @@
   "qualities":[
     {"id":"COOK","level":2},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "dry_beans", 1 ],
@@ -4651,14 +4009,7 @@
   "qualities":[
     {"id":"COOK","level":2},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "dry_beans", 1 ],
@@ -4721,8 +4072,10 @@
   "difficulty": 2,
   "time": 45000,
   "autolearn": true,
-  "tools": [    [ [ "hotplate", 5 ], [ "char_smoker", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ],
-                [ ["rock_quern", -1], ["clay_quern", -1] ] ],
+  "tools": [
+    [ [ "surface_heat", 5, "LIST" ] ],
+    [ ["rock_quern", -1], ["clay_quern", -1] ]
+  ],
   "components": [ [ ["oats", 2] ] ]
 },{
   "type" : "recipe",
@@ -4734,14 +4087,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "oatmeal", 1 ]
@@ -4761,14 +4107,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "oatmeal", 1 ]
@@ -4813,6 +4152,21 @@
     ]
   ]
 },{
+  "type": "recipe",
+  "result": "chilly-p",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 45000,
+  "autolearn": true,
+  "batch_time_factors":[83, 3],
+  "tools": [
+    [ [ "surface_heat", 5, "LIST" ] ],
+    [ ["rock_quern", -1], ["clay_quern", -1] ]
+  ],
+  "components": [ [ ["chili_pepper", 2] ] ]
+},{
   "type" : "recipe",
   "result": "buckwheat_cooked",
   "category": "CC_FOOD",
@@ -4823,14 +4177,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "buckwheat", 1 ]
@@ -4850,14 +4197,7 @@
   "difficulty": 1,
   "time": 6000,
   "autolearn": true,
-  "tools": [
-    [
-      ["hotplate", 5],
-      ["char_smoker", 5],
-      ["toolset", 5],
-      ["fire", -1]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [["pinecone", 4]]
   ]
@@ -4890,14 +4230,7 @@
   "qualities":[
     {"id":"COOK","level":1}
   ],
-  "tools": [
-    [
-      ["hotplate", 5],
-      ["char_smoker", 5],
-      ["toolset", 5],
-      ["fire", -1]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       ["hickory_nut_unshelled", 1]
@@ -4916,14 +4249,7 @@
     {"id":"COOK","level":3},
     {"id":"BOIL","level":2}
   ],
-  "tools": [
-    [
-      ["hotplate", 5],
-      [ "char_smoker", 5 ],
-      ["toolset", 5],
-      ["fire", -1]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
         ["hickory_nut_unshelled", 4]
@@ -4955,14 +4281,7 @@
   "difficulty": 3,
   "time": 45000,
   "autolearn": true,
-  "tools": [
-    [
-      [ "hotplate", 20 ],
-      [ "char_smoker", 20 ],
-      [ "toolset", 20 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
   "components": [
     [
       [ "oatmeal", 4 ],
@@ -4999,14 +4318,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "powder_eggs", 10 ],
@@ -5030,14 +4342,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "egg_bird", 1 ],
@@ -5059,14 +4364,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "powder_eggs", 10 ],
@@ -5112,14 +4410,7 @@
   "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 1 ]
@@ -5159,14 +4450,7 @@
   "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 1 ]
@@ -5212,14 +4496,7 @@
   "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 1 ]
@@ -5263,14 +4540,7 @@
   "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "milk", 1 ],
@@ -5303,12 +4573,7 @@
   "time": 12000,
   "autolearn": true,
   "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 8, "LIST" ] ],
     [
       [ "waffleiron", -1 ]
     ]
@@ -5354,12 +4619,7 @@
   "time": 12000,
   "autolearn": true,
   "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 8, "LIST" ] ],
     [
       [ "waffleiron", -1 ]
     ]
@@ -5411,12 +4671,7 @@
   "time": 12000,
   "autolearn": true,
   "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 8, "LIST" ] ],
     [
       [ "waffleiron", -1 ]
     ]
@@ -5469,14 +4724,7 @@
      {"id":"CUT","level":1},
      {"id":"COOK","level":2}
   ],
-  "tools" : [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools" : [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       ["sweet_fruit", 1, "LIST"]
@@ -5502,14 +4750,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 1 ],
@@ -5553,14 +4794,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "roasted_coffee_bean", 1 ]
@@ -5581,14 +4815,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "pretzels", 6 ]
@@ -5608,14 +4835,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "salt", 50 ]
@@ -5659,14 +4879,7 @@
   "qualities":[
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "salt", 20 ]
@@ -5693,14 +4906,7 @@
   "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 2 ]
@@ -5730,14 +4936,7 @@
   "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 2 ]
@@ -5786,14 +4985,7 @@
   "autolearn": true,
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 2 ]
@@ -5826,14 +5018,7 @@
   "book_learn": [[ "cookbook_human", 3 ]],
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 2 ]
@@ -5861,14 +5046,7 @@
      {"id":"BOIL","level":2},
      {"id":"COOK","level":2}
   ],
-  "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 2 ]
@@ -5897,13 +5075,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "veggy", 2 ],
@@ -5947,13 +5119,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "veggy", 2 ],
@@ -5990,13 +5156,7 @@
   "book_learn": [[ "cookbook_italian", 2 ]],
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "veggy", 2 ],
@@ -6028,7 +5188,8 @@
     ],
     [
       [ "sauce_red", 1 ],
-      [ "chilly-p", 25]
+      [ "chilly-p", 25],
+      [ "chili_pepper", 1]
     ]
   ]
 },{
@@ -6042,13 +5203,7 @@
   "book_learn": [[ "cookbook_human", 2 ]],
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "veggy", 2 ],
@@ -6079,7 +5234,8 @@
     ],
     [
       [ "sauce_red", 1 ],
-      [ "chilly-p", 25]
+      [ "chilly-p", 25],
+      [ "chili_pepper", 1]
     ]
   ]
 },{
@@ -6093,14 +5249,7 @@
   "book_learn": [[ "cookbook_italian", 2 ]],
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 2 ]
@@ -6151,7 +5300,7 @@
   "time": 8000,
   "autolearn": true,
   "qualities" : [ { "id" : "COOK","level" : 1,"amount" : 1 } ],
-  "tools": [ [ [ "hotplate", 8 ], [ "char_smoker", 8 ], [ "toolset", 8 ], [ "fire", -1 ] ] ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [ [ "grahmcrackers", 8 ] ],
     [ [ "marshmallow", 8 ] ],
@@ -6196,14 +5345,7 @@
   "book_learn": [[ "cookbook_italian", 2 ]],
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 2 ]
@@ -6235,14 +5377,7 @@
   "book_learn": [[ "cookbook_italian", 2 ]],
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 2 ]
@@ -6282,14 +5417,7 @@
   "book_learn": [[ "cookbook_human", 3 ]],
   "qualities" : [
      {"id":"COOK","level":2} ],
-  "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 2 ]
@@ -6323,14 +5451,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "spaghetti_raw", 1 ]
@@ -6367,14 +5488,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "lasagne_raw", 1 ]
@@ -6411,14 +5525,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "lasagne_raw", 1 ]
@@ -6454,14 +5561,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 6 ],
-      [ "char_smoker", 6 ],
-      [ "toolset", 6 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
   "components": [
     [
       [ "spaghetti_raw", 1 ]
@@ -6497,14 +5597,7 @@
   "qualities":[
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 4 ],
-      [ "char_smoker", 4 ],
-      [ "toolset", 4 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
   "components": [
     [
       [ "spaghetti_raw", 1 ]
@@ -6563,13 +5656,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"CHEM","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 50 ],
-      [ "toolset", 50 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
   "components": [
     [
       [ "lye_powder", 100 ],
@@ -6595,14 +5682,7 @@
     {"id":"CUT","level":1},
     {"id":"BOIL","level":2}
   ],
-  "tools": [
-    [
-      [ "hotplate", 50 ],
-      [ "toolset", 50 ],
-      [ "fire", -1 ],
-      [ "char_smoker", 5 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
   "components": [
     [
       [ "hickory_root", 10 ]
@@ -6624,13 +5704,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"CHEM","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 50 ],
-      [ "toolset", 50 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
   "components": [
     [
       ["sweet_fruit_like", 2, "LIST"],
@@ -6671,13 +5745,7 @@
   "book_learn": [["adv_chemistry", 7] , ["textbook_chemistry", 8] , ["recipe_labchem", 6]],
   "qualities":[
     {"id":"CHEM","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 50 ],
-      [ "toolset", 50 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
   "components": [
     [
       [ "pine_bough", 6 ],
@@ -6706,14 +5774,7 @@
     { "id": "CONTAIN", "level": 1 },
     { "id": "BOIL", "level": 2 },
     { "id": "CHEM", "level": 1 }
-  ], "tools": [
-    [
-      [ "hotplate", 40 ],
-      [ "toolset", 40 ],
-      [ "fire", -1 ],
-      [ "char_smoker", 4 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 40, "LIST" ] ] ],
   "components": [
     [
       [ "sugar_beet", 2 ]
@@ -6742,14 +5803,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -6778,14 +5832,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -6814,14 +5861,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -6850,14 +5890,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -6888,14 +5921,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -6925,12 +5951,7 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "vac_sealer", 10 ],
       [ "makeshift_sealer", 20 ]
@@ -6999,12 +6020,7 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "vac_sealer", 10 ],
       [ "makeshift_sealer", 20 ]
@@ -7065,12 +6081,7 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "vac_sealer", 10 ],
       [ "makeshift_sealer", 20 ]
@@ -7148,12 +6159,7 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "vac_sealer", 10 ],
       [ "makeshift_sealer", 20 ]
@@ -7246,12 +6252,7 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "vac_sealer", 10 ],
       [ "makeshift_sealer", 20 ]
@@ -7310,12 +6311,7 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "vac_sealer", 10 ],
       [ "makeshift_sealer", 20 ]
@@ -7380,12 +6376,7 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "vac_sealer", 10 ],
       [ "makeshift_sealer", 20 ]
@@ -7420,12 +6411,7 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "vac_sealer", 10 ],
       [ "makeshift_sealer", 20 ]
@@ -7638,12 +6624,7 @@
   "qualities":[
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 2, "LIST" ] ],
     [
       [ "vac_sealer", 10 ],
       [ "makeshift_sealer", 20 ]
@@ -7677,14 +6658,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ],
-  "tools": [
-    [
-      ["hotplate", 5],
-      [ "char_smoker", 5 ],
-      ["toolset", 5],
-      ["fire", -1]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       ["can_spam", 1]
@@ -7712,8 +6686,10 @@
   "time": 45000,
   "autolearn": true,
   "batch_time_factors":[83, 3],
-  "tools": [    [ [ "hotplate", 5 ], [ "char_smoker", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ],
-                [ ["rock_quern", -1], ["clay_quern", -1] ] ],
+  "tools": [
+    [ [ "surface_heat", 5, "LIST" ] ],
+    [ ["rock_quern", -1], ["clay_quern", -1] ]
+  ],
   "components": [ [ ["corn", 2], ["irradiated_corn", 2] ] ]
 },{
   "type" : "recipe",
@@ -7749,12 +6725,7 @@
   "time": 30000,
   "autolearn": true,
   "tools": [
-    [
-      ["hotplate", 25],
-      [ "char_smoker", 25 ],
-      ["toolset", 25],
-      ["fire", -1]
-    ],
+    [ [ "surface_heat", 25, "LIST" ] ],
     [
      ["pastaextruder", -1]
     ]
@@ -7773,12 +6744,7 @@
   "time": 30000,
   "autolearn": true,
   "tools": [
-    [
-      ["hotplate", 25],
-      [ "char_smoker", 25 ],
-      ["toolset", 25],
-      ["fire", -1]
-    ],
+    [ [ "surface_heat", 25, "LIST" ] ],
     [
      ["pastaextruder", -1]
     ]
@@ -7797,12 +6763,7 @@
   "time": 30000,
   "autolearn": true,
   "tools": [
-    [
-      ["hotplate", 25],
-      [ "char_smoker", 25 ],
-      ["toolset", 25],
-      ["fire", -1]
-    ],
+    [ [ "surface_heat", 25, "LIST" ] ],
     [
      ["pastaextruder", -1]
     ]
@@ -7902,7 +6863,7 @@
   "time": 7000,
   "autolearn": true,
   "qualities": [ { "id": "COOK", "level": 2 } ],
-  "tools": [ [ [ "hotplate", 4 ], [ "char_smoker", 4 ], [ "toolset", 4 ], [ "fire", -1 ] ] ],
+  "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
   "components": [ [ ["meth", 4] ],
     [ ["cola", 2] ] ]
 },{
@@ -7915,7 +6876,7 @@
     "time": 7000,
     "autolearn": true,
     "qualities":[ { "id": "COOK", "level": 2 } ],
-    "tools":[ [ [ "hotplate", 20 ], [ "toolset", 20 ], ["fire", -1] ] ],
+    "tools":[ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
         [ [ "meat_tainted", 12 ] ],
         [
@@ -7935,14 +6896,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "meat", 1 ]
@@ -8017,14 +6971,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "fish", 4 ]
@@ -8225,14 +7172,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "human_flesh", 1 ]
@@ -8271,14 +7211,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
      {"id":"COOK","level":2}
-  ], "tools": [
-   [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "meat", 1 ]
@@ -8314,14 +7247,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
      {"id":"COOK","level":2}
-  ], "tools": [
-   [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "meat", 1],
@@ -8349,14 +7275,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
      {"id":"COOK","level":2}
-  ], "tools": [
-   [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "human_flesh", 1 ],
@@ -8380,14 +7299,7 @@
    "autolearn": true,
    "qualities" : [
      {"id":"COOK","level":1}
-  ], "tools": [
-   [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "cheese", 1 ],
@@ -8409,9 +7321,7 @@
    "batch_time_factors" : [ 67, 5 ],
    "qualities" : [
      { "id" : "COOK","level" : 1,"amount" : 1 }
-  ], "tools" : [
-    [ [ "hotplate", 10], [ "char_smoker", 10], [ "toolset", 10], [ "fire", -1] ]
-  ],
+  ], "tools" : [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components" : [
     [
       [ "hotdogs_frozen", 1 ]
@@ -8429,14 +7339,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
      {"id":"COOK","level":2}
-  ], "tools": [
-   [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "hotdogs_frozen", 4 ]
@@ -8470,14 +7373,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
      {"id":"COOK","level":2}
-  ], "tools": [
-   [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "hotdogs_frozen", 1 ]
@@ -8510,14 +7406,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ],
-  "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "sausage", 1 ],
@@ -8553,14 +7442,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":2}
   ],
-  "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "mannwurst", 1 ],
@@ -8594,14 +7476,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-   [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "sausage", 2 ]
@@ -8625,14 +7500,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
      {"id":"COOK","level":2}
-  ], "tools": [
-   [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "hotdogs_frozen", 1 ]
@@ -8664,14 +7532,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-   [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "mannwurst", 2 ]
@@ -8695,14 +7556,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-   [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "corndogs_frozen", 1 ]
@@ -8720,14 +7574,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-   [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "human_flesh", 1 ]
@@ -8763,14 +7610,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "flatbread", 2 ],
@@ -8803,14 +7643,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "flatbread", 2 ],
@@ -8844,14 +7677,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "flatbread", 2 ],
@@ -9033,14 +7859,7 @@
    "skill_used": "cooking",
    "time": 5000,
    "autolearn": true,
-   "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-    ],
+   "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "toasterpastryfrozen", 2 ]
@@ -9059,14 +7878,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ],
-  "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "can_tomato", 1 ],
@@ -9090,14 +7902,7 @@
    "qualities" : [
      {"id":"CUT","level":1},
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "can_tomato", 1 ],
@@ -9127,14 +7932,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 20 ],
-      [ "char_smoker", 20 ],
-      [ "toolset", 20 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
   "//" : "Canned tomatoes aren't an option as they've already been preserved.",
   "components": [
     [
@@ -9185,14 +7983,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 20 ],
-      [ "char_smoker", 20 ],
-      [ "toolset", 20 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -9225,13 +8016,7 @@
   "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
       [ "sauerkraut", 1 ]
@@ -9260,14 +8045,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 20 ],
-      [ "char_smoker", 20 ],
-      [ "toolset", 20 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -9301,14 +8079,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 20 ],
-      [ "char_smoker", 20 ],
-      [ "toolset", 20 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -9342,14 +8113,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 20 ],
-      [ "char_smoker", 20 ],
-      [ "toolset", 20 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -9377,14 +8141,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      ["hotplate", 2],
-      [ "char_smoker", 2 ],
-      ["toolset", 2],
-      ["fire", -1]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "sweet_fruit", 1, "LIST" ],
@@ -9403,14 +8160,7 @@
   "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "sweet_fruit", 1, "LIST" ]
@@ -9474,14 +8224,7 @@
   "autolearn": true,
   "qualities":[
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 3 ]
@@ -9621,18 +8364,8 @@
   "time": 90000,
   "autolearn": true,
   "batch_time_factors":[50, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "coffeemaker", 3],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "sweet_water", 10 ]
@@ -9648,7 +8381,7 @@
   "time": 3500,
   "autolearn": true,
   "qualities":[ {"id":"COOK","level":2} ],
-  "tools": [ [ [ "hotplate", 2 ], [ "char_smoker", 2 ], [ "toolset", 2 ], [ "fire", -1 ] ] ],
+  "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
   "components": [
     [ [ "sugar", 10 ] ],
     [
@@ -9698,14 +8431,7 @@
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -9736,12 +8462,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -9779,12 +8500,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -9822,12 +8538,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -9865,12 +8576,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -9920,12 +8626,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -9963,12 +8664,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -10007,12 +8703,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -10084,12 +8775,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -10171,12 +8857,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -10241,12 +8922,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [ [ "can_sealer", -1 ] ]
   ],
   "components": [
@@ -10305,12 +8981,7 @@
     {"id":"CUT","level":1},
     {"id":"COOK","level":3}
   ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ],
+    [ [ "surface_heat", 10, "LIST" ] ],
     [
       [ "can_sealer", -1 ]
     ]
@@ -10401,14 +9072,7 @@
   "batch_time_factors":[67, 5],
   "qualities":[
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "char_smoker", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
   "components": [
     [
       [ "meat", 1 ]
@@ -10430,14 +9094,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"COOK","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 1 ]
@@ -10666,14 +9323,7 @@
   "autolearn": true,
   "qualities" : [
     {"id":"COOK","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "sandwich_cheese", 1 ]
@@ -10693,16 +9343,8 @@
   "qualities" : [
     {"id":"BOIL","level":1},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "char_smoker", 8 ],
-      [ "toolset", 8 ],
-      [ "coffeemaker", 8],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -10764,18 +9406,8 @@
   "time": 15000,
   "autolearn": true,
   "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ],
-      [ "coffeemaker", 2]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "tea_raw", 1 ]
@@ -10914,18 +9546,8 @@
   "difficulty": 5,
   "time": 15000,
   "autolearn": true,
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 3 ],
-      [ "toolset", 3 ],
-      [ "coffeemaker", 3],
-      [ "atomic_coffeepot", -1],
-      [ "fire", -1 ]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -10985,14 +9607,7 @@
   "qualities" : [
     {"id":"COOK","level":1},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 12 ],
-      [ "char_smoker", 12 ],
-      [ "toolset", 12 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 12, "LIST" ] ] ],
   "components": [
     [
       [ "flour", 2 ]
@@ -11050,14 +9665,8 @@
       {"id":"BOIL","level":1},
       {"id":"CONTAIN","level":1}
     ],
-  "tools":
-    [
-      [
-        [ "hotplate", 5 ],
-        [ "char_smoker", 5 ],
-        [ "toolset", 5 ],
-        [ "fire", -1 ]
-      ],
+  "tools": [
+      [ [ "surface_heat", 5, "LIST" ] ],
       [
         ["rag", -1]
       ]
@@ -11089,14 +9698,7 @@
     {"id":"COOK","level":3},
     {"id":"CUT","level":1},
     {"id":"SEW","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "toolset", 5 ],
-      [ "char_smoker", 5 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -11135,14 +9737,7 @@
     {"id":"COOK","level":3},
     {"id":"CUT","level":1},
     {"id":"SEW","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "toolset", 5 ],
-      [ "char_smoker", 5 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -11183,14 +9778,7 @@
   "qualities":[
     {"id":"COOK","level":3},
     {"id":"CUT","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "toolset", 5 ],
-      [ "char_smoker", 5 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -11221,14 +9809,7 @@
   "qualities":[
     {"id":"BOIL","level":1},
     {"id":"COOK","level":3}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "toolset", 5 ],
-      [ "char_smoker", 5 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  ], "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "oatmeal", 1 ],
@@ -11287,18 +9868,8 @@
   "time": 10000,
   "autolearn": true,
   "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"BOIL","level":1}
-  ], "tools": [
-    [
-      [ "hotplate", 2 ],
-      [ "char_smoker", 2 ],
-      [ "toolset", 2 ],
-      [ "atomic_coffeepot", -1 ],
-      [ "fire", -1 ],
-      [ "coffeemaker", 2]
-    ]
-  ],
+  "qualities":[ {"id":"BOIL","level":1} ],
+  "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
   "components": [
     [
       [ "bee_balm", 1 ]
@@ -11307,32 +9878,6 @@
       [ "water", 1 ],
       [ "water_clean", 1 ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "mugwort_oil",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
-  "skill_used": "cooking",
-  "skills_required": [ "survival", 4 ],
-  "difficulty": 4,
-  "time": 60000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1},
-    {"id":"CUT","level":1},
-    {"id":"BOIL","level":2}
-  ],
-  "tools": [
-    [ [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [ [ "cooking_oil", 2 ] ],
-    [ [ "mugwort", 2 ] ]
   ]
 },{
   "type" : "recipe",
@@ -11347,13 +9892,7 @@
     {"id":"COOK","level":3},
     {"id":"BOIL","level":2}
   ],
-  "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "egg_bird", 2 ],
@@ -11386,13 +9925,7 @@
     {"id":"COOK","level":3},
     {"id":"BOIL","level":2}
   ],
-  "tools": [
-    [
-      ["hotplate", 5],
-      ["toolset", 5],
-      ["fire", -1]
-    ]
-  ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [
       [ "egg_bird", 2 ],
@@ -11430,7 +9963,7 @@
   "autolearn": true,
   "result_mult": 2,
   "qualities": [ { "id": "COOK", "level": 3 } ],
-  "tools": [ [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [ [ "chocolate", 1 ] ],
     [ [ "milk", 1 ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],
@@ -11449,7 +9982,7 @@
   "book_learn": [ [ "family_cookbook", 2 ] ],
   "result_mult": 2,
   "qualities": [ { "id": "COOK", "level": 3 } ],
-  "tools": [ [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [ [ "chocolate", 1 ] ],
     [ [ "milk", 1 ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],
@@ -11458,5 +9991,108 @@
     [ [ "chilly-p", 5 ] ],
     [ [ "cinnamon", 5 ] ]
   ]
-}
+},
+   {
+    "result": "oatmeal",
+    "type": "recipe",
+    "id_suffix": "with_food_processor",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 11250,
+    "autolearn": true,
+    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "components": [ [ [ "oats", 2 ] ] ]
+  },
+  {
+    "result": "cornmeal",
+    "type": "recipe",
+    "id_suffix": "with_from_food_processor",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 11250,
+    "autolearn": true,
+    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "components": [ [ [ "corn", 2 ] ] ]
+  },
+  {
+    "result": "flour",
+    "type": "recipe",
+    "id_suffix": "with_from_food_processor",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 11250,
+    "autolearn": true,
+    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "components": [ [ [ "wheat", 2 ], [ "buckwheat", 2 ], [ "barley", 2 ], [ "acorns_cooked", 2 ], [ "oats", 2 ], [ "starch", 2 ], [ "dry_rice", 6 ] ] ]
+  },
+  {
+    "result": "meal_bone",
+    "type": "recipe",
+    "id_suffix": "with_from_food_processor",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 15000,
+    "autolearn": true,
+    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "components": [ [ [ "bone", 1 ] ] ]
+  },
+  {
+    "result": "meal_bone_tainted",
+    "type": "recipe",
+    "id_suffix": "with_from_food_processor",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 15000,
+    "autolearn": true,
+    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "components": [ [ [ "bone_tainted", 1 ] ] ]
+  },
+  {
+    "result": "cattlefodder",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "skills_required": [ "survival", 1 ],
+    "time": 10000,
+    "autolearn": true,
+    "components": [ [ [ "oats", 5 ], [ "buckwheat", 5 ], [ "wheat", 5 ], [ "potato_raw", 5 ], [ "barley", 5 ], [ "raw_beans", 5 ], [ "cabbage", 5 ], [ "veggy_wild", 5 ], [ "veggy", 5 ] ] ]
+  },
+  {
+    "result": "meal_chitin_piece",
+    "type": "recipe",
+    "id_suffix": "with_from_food_processor",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 15000,
+    "autolearn": true,
+    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "components": [ [ [ "chitin_piece", 1 ] ] ]
+  },
+  {
+    "result": "chilly-p",
+    "type": "recipe",
+    "id_suffix": "with_from_food_processor",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 11250,
+    "autolearn": true,
+    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "components": [ [ [ "chili_pepper", 1 ] ] ]
+  }
 ]

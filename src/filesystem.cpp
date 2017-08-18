@@ -108,6 +108,15 @@ bool rename_file(const std::string &old_path, const std::string &new_path)
 }
 #endif
 
+bool remove_directory( const std::string &path )
+{
+#if (defined _WIN32 || defined __WIN32__)
+    return RemoveDirectory( path.c_str() );
+#else
+    return remove( path.c_str() ) == 0;
+#endif
+}
+
 const char *cata_files::eol()
 {
 #ifdef _WIN32
@@ -285,12 +294,13 @@ std::vector<std::string> get_files_from_path(std::string const &pattern,
     });
 }
 
-/** Find directories which containing pattern.
-  * @param pattern Search pattern.
-  * @param root_path Search root.
-  * @param recurse Be recurse or not.
-  * @return vector or directories without pattern filename at end.
-  */
+/**
+ *  Find directories which containing pattern.
+ *  @param pattern Search pattern.
+ *  @param root_path Search root.
+ *  @param recurse Be recurse or not.
+ *  @return vector or directories without pattern filename at end.
+ */
 std::vector<std::string> get_directories_with(std::string const &pattern,
     std::string const &root_path, bool const recurse)
 {
@@ -312,7 +322,13 @@ std::vector<std::string> get_directories_with(std::string const &pattern,
     return files;
 }
 
-//--------------------------------------------------------------------------------------------------
+/**
+ *  Find directories which containing pattern.
+ *  @param patterns Search patterns.
+ *  @param root_path Search root.
+ *  @param recurse Be recurse or not.
+ *  @return vector or directories without pattern filename at end.
+ */
 std::vector<std::string> get_directories_with(std::vector<std::string> const &patterns,
     std::string const &root_path, bool const recurse)
 {

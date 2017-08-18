@@ -1,5 +1,6 @@
-#include <sstream>
 #include "npc.h"
+
+#include "dispersion.h"
 #include "rng.h"
 #include "game.h"
 #include "map.h"
@@ -20,6 +21,7 @@
 #include "gates.h"
 
 #include <algorithm>
+#include <sstream>
 
 // @todo Get rid of this include
 #include "mapdata.h"
@@ -497,7 +499,7 @@ void npc::execute_action( npc_action action )
             reach_attack( tar );
             break;
         }
-        // Otherwise fallthrough to npc_melee
+        /* fallthrough */
     case npc_melee:
         update_path( tar );
         if( path.size() > 1 ) {
@@ -629,7 +631,7 @@ void npc::execute_action( npc_action action )
                 my_spot = priority;
             }
 
-            seats.push_back( std::make_pair( priority, p2 ) );
+            seats.push_back( std::make_pair( priority, static_cast<int>( p2 ) ) );
         }
 
         if( my_spot >= 3 ) {
@@ -725,7 +727,7 @@ void npc::choose_target()
 
     constexpr static int def_radius = 6;
 
-    const auto ok_by_rules = [this, cur_range]( const Creature &c, int dist, int scaled_dist ) {
+    const auto ok_by_rules = [cur_range, this]( const Creature &c, int dist, int scaled_dist ) {
         if( !is_following() ) {
             return true;
         }
@@ -842,8 +844,7 @@ void npc::choose_target()
     if( is_friend() ) {
         ai_cache.friends.emplace_back( npc_target::player() );
     } else if( is_enemy() ) {
-        // Hostile characters can always find the player
-        if( ai_cache.target.get() == nullptr || check_hostile_character( g->u ) ) {
+        if( sees( g->u ) && check_hostile_character( g->u ) ) {
             ai_cache.target = npc_target::player();
             ai_cache.danger = std::max( 1.0f, ai_cache.danger );
         }
@@ -1261,51 +1262,31 @@ int npc::confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) co
         return 0;
     }
 
-    double deviation = get_weapon_dispersion( *gun.target ) + at_recoil;
-    // Halve to get expected values
-    deviation /= 2;
-    // Convert from MoA back to quarter-degrees.
-    deviation /= 15;
-
-    int ret = std::min( int( confidence_mult() * 360 / deviation ), gun->gun_range( this ) );
-
+    double average_dispersion = get_weapon_dispersion( *( gun.target ), RANGE_SOFT_CAP ).avg() +
+      (double)at_recoil;
+    double even_chance_range = 0.5 / average_dispersion;
     // 5 round burst equivalent to ~2 individually aimed shots
-    ret /= std::max( sqrt( gun.qty / 1.5 ), 1.0 );
+    even_chance_range /= std::max( sqrt( gun.qty / 1.5 ), 1.0 );
+    double confident_range = even_chance_range * confidence_mult();
 
-    add_msg( m_debug, "confident_gun_mode_range (%s=%d)", gun.mode.c_str(), ret );
-    return std::max( ret, 1 );
+    add_msg( m_debug, "confident_gun_mode_range (%s=%d)", gun.mode.c_str(), (int)confident_range );
+    return std::max<int>( confident_range, 1 );
 }
 
-int npc::confident_throw_range( const item &thrown ) const
+int npc::confident_throw_range( const item &thrown, Creature *target ) const
 {
-    ///\EFFECT_THROW_NPC increases throwing confidence of all items
-    double deviation = 10 - get_skill_level( skill_throw );
-
-    ///\EFFECT_PER_NPC increases throwing confidence of all items
-    deviation += 10 - per_cur;
-
-    ///\EFFECT_DEX_NPC increases throwing confidence of all items
-    deviation += throw_dex_mod();
-
-    ///\EFFECT_STR_NPC increases throwing confidence of heavy items
-    deviation += std::min( ( thrown.weight() / 100 ) - str_cur, 0 );
-
-    deviation += thrown.volume() / units::legacy_volume_factor / 4;
-
-    deviation += encumb( bp_hand_r ) + encumb( bp_hand_l ) + encumb( bp_eyes );
-
-    deviation = std::max( 1.0, deviation );
-
-    const int ret = std::min( int( confidence_mult() * 360 / deviation ), throw_range( thrown ) );
-    add_msg( m_debug, "confident_throw_range == %d", ret );
-    return ret;
+    double average_dispersion = throwing_dispersion( thrown, target ) / 2.0;
+    double even_chance_range = ( target == nullptr ? 0.5 : target->ranged_target_size() ) / average_dispersion;
+    double confident_range = even_chance_range * confidence_mult();
+    add_msg( m_debug, "confident_throw_range == %d", (int)confident_range );
+    return (int)confident_range;
 }
 
 // Index defaults to -1, i.e., wielded weapon
 bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) const
 {
     // @todo Get actual dispersion instead of extracting it (badly) from confident range
-    int confident = throwing ? confident_throw_range( it ) : confident_shoot_range( it );
+    int confident = throwing ? confident_throw_range( it, nullptr ) : confident_shoot_range( it );
     // if there is no confidence at using weapon, it's not used at range
     // zero confidence leads to divide by zero otherwise
     if( confident < 1 ) {
@@ -1639,7 +1620,7 @@ void npc::avoid_friendly_fire()
     auto candidates = closest_tripoints_first( 1, pos() );
     candidates.erase( candidates.begin() );
     std::sort( candidates.begin(), candidates.end(),
-        [&tar, &center, this]( const tripoint &l, const tripoint &r ) {
+        [&tar, &center]( const tripoint &l, const tripoint &r ) {
         return ( rl_dist( l, tar ) - rl_dist( l, center ) ) <
                ( rl_dist( r, tar ) - rl_dist( r, center ) );
     } );
@@ -2049,7 +2030,7 @@ void npc::drop_items(int weight, int volume)
             wgt_ratio = 99999;
             vol_ratio = 99999;
         } else {
-            wgt_ratio = it.weight() / value(it);
+            wgt_ratio = it.weight() / 1_gram / value( it );
             vol_ratio = it.volume() / units::legacy_volume_factor / value(it);
         }
         bool added_wgt = false, added_vol = false;
@@ -2105,7 +2086,7 @@ void npc::drop_items(int weight, int volume)
                 }
             }
         }
-        weight_dropped += slice[index]->front().weight();
+        weight_dropped += slice[index]->front().weight() / 1_gram;
         volume_dropped += slice[index]->front().volume() / units::legacy_volume_factor;
         item dropped = i_rem(index);
         num_items_dropped++;
@@ -2267,7 +2248,7 @@ bool npc::wield_better_weapon()
     // Fists aren't checked below
     compare_weapon( ret_null );
 
-    visit_items( [this, &compare_weapon]( item *node ) {
+    visit_items( [&compare_weapon]( item *node ) {
         // Skip some bad items
         if( !node->is_melee() ) {
             return VisitResponse::SKIP;
@@ -2415,7 +2396,7 @@ bool npc::alt_attack()
     }
 
     // We are throwing it!
-    int conf = confident_throw_range( *used );
+    int conf = confident_throw_range( *used, critter );
     const bool wont_hit = wont_hit_friend( tar, *used, true );
     if( dist <= conf && wont_hit ) {
         npc_throw( *this, *used, weapon_index, tar );
@@ -2481,9 +2462,9 @@ bool npc::alt_attack()
 void npc::activate_item(int item_index)
 {
     const int oldmoves = moves;
-    item *it = &i_at(item_index);
-    if( it->is_tool() || it->is_food() ) {
-        it->type->invoke( this, it, pos() );
+    item &it = i_at( item_index );
+    if( it.is_tool() || it.is_food() ) {
+        it.type->invoke( *this, it, pos() );
     }
 
     if( moves == oldmoves ) {
@@ -2516,7 +2497,7 @@ void npc::heal_player( player &patient )
         return;
     }
 
-    long charges_used = used.type->invoke( this, &used, patient.pos(), "heal" );
+    long charges_used = used.type->invoke( *this, used, patient.pos(), "heal" );
     consume_charges( used, charges_used );
 
     if( !patient.is_npc() ) {
@@ -2544,7 +2525,7 @@ void npc::heal_self()
         add_msg( _("%s applies a %s"), name.c_str(), used.tname().c_str() );
     }
 
-    long charges_used = used.type->invoke( this, &used, pos(), "heal" );
+    long charges_used = used.type->invoke( *this, used, pos(), "heal" );
     if( used.is_medication() ) {
         consume_charges( used, charges_used );
     }
@@ -2667,8 +2648,8 @@ bool npc::consume_food()
         const item &food_item = it.is_food_container() ?
                                 it.contents.front() : it;
         float cur_weight = rate_food( food_item, want_hunger, want_quench );
-        // Note: can_eat is expensive, avoid calling it if possible
-        if( cur_weight > best_weight && can_eat( food_item ) == EDIBLE ) {
+        // Note: will_eat is expensive, avoid calling it if possible
+        if( cur_weight > best_weight && will_eat( food_item ) == EDIBLE ) {
             best_weight = cur_weight;
             index = i;
         }
@@ -2844,8 +2825,9 @@ void npc::reach_destination()
         // No point recalculating the path to get home
         move_to_next();
     } else if( guard_pos != no_goal_point ) {
-        const tripoint dest( guard_pos.x - mapx * SEEX,
-                             guard_pos.y - mapy * SEEY,
+        const tripoint sm_dir = goal - submap_coords;
+        const tripoint dest( sm_dir.x * SEEX + guard_pos.x - posx(),
+                             sm_dir.y * SEEY + guard_pos.y - posy(),
                              guard_pos.z );
         update_path( dest );
         move_to_next();
@@ -2887,6 +2869,7 @@ void npc::set_destination()
     switch(needs[0]) {
     case need_ammo:
         options.push_back("house");
+        /* fallthrough */
     case need_gun:
         options.push_back("s_gun");
         break;
@@ -2901,6 +2884,7 @@ void npc::set_destination()
         options.push_back("s_gas");
         options.push_back("s_pharm");
         options.push_back("s_liquor");
+        /* fallthrough */
     case need_food:
         options.push_back("s_grocery");
         break;

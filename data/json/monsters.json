@@ -867,7 +867,7 @@
     "material": [ "flesh" ],
     "symbol": "c",
     "color": "ltgray",
-    "aggression": -40,
+    "aggression": -99,
     "morale": 2,
     "melee_skill": 6,
     "melee_dice": 1,
@@ -998,6 +998,7 @@
     "armor_bash": 18,
     "armor_cut": 14,
     "vision_day": 50,
+    "vision_night": 35,
     "starting_ammo": { "40mm_frag": 100, "556": 1000 },
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "CHICKENBOT", 4 ] ],
@@ -1161,7 +1162,7 @@
     "material": [ "flesh" ],
     "symbol": "C",
     "color": "brown",
-    "aggression": 10,
+    "aggression": -50,
     "morale": 60,
     "melee_skill": 6,
     "melee_dice": 2,
@@ -1169,6 +1170,7 @@
     "melee_cut": 6,
     "dodge": 2,
     "armor_bash": 2,
+    "starting_ammo": { "milk": 4 },
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
@@ -1179,7 +1181,7 @@
       "//": "25% chance of an item from group cow"
     },
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES", "FAT" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES", "FAT", "MILKABLE", "PET_WONT_FOLLOW" ]
   },
   {
     "id": "mon_coyote",
@@ -2241,6 +2243,60 @@
     "special_attacks": [ [ "FUNGUS_GROWTH", 100 ] ],
     "death_function": [ "NORMAL" ],
     "flags": [ "HEARS", "POISON", "NO_BREATHE", "NOHEAD" ]
+  },
+  {
+    "id": "mon_gator",
+    "type": "MONSTER",
+    "name": "sewer gator",
+    "description": "In the late 20th century there was an urban legend about pet alligators getting flushed down the toilet and growing to adulthood in sewers.  This large specimen doesn't look like it is used to humans as anything other than a meal.",
+    "default_faction": "gator",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "REPTILE" ],
+    "diff": 22,
+    "size": "LARGE",
+    "hp": 90,
+    "speed": 90,
+    "material": [ "flesh" ],
+    "symbol": "A",
+    "color": "ltgreen",
+    "aggression": 30,
+    "morale": 50,
+    "melee_skill": 4,
+    "melee_dice": 1,
+    "melee_dice_sides": 10,
+    "melee_cut": 12,
+    "dodge": 2,
+    "armor_bash": 6,
+    "armor_cut": 8,
+    "vision_day": 3,
+    "vision_night": 35,
+    "path_settings": { "max_dist": 8 },
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 20,
+        "accuracy": 6,
+        "damage_max_instance": [
+          {
+            "damage_type": "stab",
+            "amount": 9,
+            "armor_multiplier": 0.5
+          },
+          {
+            "damage_type": "bash",
+            "amount": 27,
+            "armor_multiplier": 0.5
+          }
+        ],
+        "effects": [ { "id": "grabbed", "duration": 1000, "bp": "TORSO" } ],
+        "no_infection_chance": 2
+      }
+    ],
+    "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
+    "fear_triggers": [ "FIRE", "HURT" ],
+    "placate_triggers": [ "MEAT" ],
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "BLEED", "ATTACKMON", "BONES", "LEATHER", "SWIMS" ]
   },
   {
     "id": "mon_gelatin",
@@ -3475,59 +3531,6 @@
     },
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
-  },
-  {
-    "id": "mon_gator",
-    "type": "MONSTER",
-    "name": "sewer gator",
-    "description": "In the late 20th century there was an urban legend about pet alligators getting flushed down the toilet and growing to adulthood in sewers.  This large specimen doesn't look like it is used to humans as anything other than a meal.",
-    "default_faction": "gator",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "REPTILE" ],
-    "diff": 22,
-    "size": "LARGE",
-    "hp": 90,
-    "speed": 90,
-    "material": [ "flesh" ],
-    "symbol": "A",
-    "color": "ltgreen",
-    "aggression": 30,
-    "morale": 50,
-    "melee_skill": 4,
-    "melee_dice": 1,
-    "melee_dice_sides": 10,
-    "melee_cut": 12,
-    "dodge": 2,
-    "armor_bash": 6,
-    "armor_cut": 8,
-    "vision_day": 3,
-    "vision_night": 35,
-    "path_settings": { "max_dist": 8 },
-    "special_attacks": [
-      {
-        "type": "bite",
-        "cooldown": 20,
-        "accuracy": 6,
-        "no_infection_chance": 2,
-        "damage_max_instance": [
-          {
-            "damage_type": "stab",
-            "amount": 9,
-            "armor_multiplier": 0.5
-          },
-          {
-            "damage_type": "bash",
-            "amount": 27,
-            "armor_multiplier": 0.5
-          }
-        ]
-      }
-    ],
-    "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
-    "fear_triggers": [ "FIRE", "HURT" ],
-    "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "BLEED", "ATTACKMON", "BONES", "LEATHER", "SWIMS" ]
   },
   {
     "id": "mon_sewer_fish",
@@ -4852,7 +4855,13 @@
     "melee_skill": 7,
     "melee_dice": 3,
     "melee_dice_sides": 6,
-    "melee_cut": 2,
+    "melee_damage": [
+      {
+        "damage_type": "electric",
+        "amount": 4
+      }
+    ],
+    "melee_cut": 0,
     "dodge": 3,
     "armor_bash": 10,
     "armor_cut": 18,
@@ -5031,7 +5040,7 @@
     "species": [ "ZOMBIE" ],
     "diff": 22,
     "size": "MEDIUM",
-    "hp": 300,
+    "hp": 275,
     "speed": 110,
     "material": [ "flesh" ],
     "symbol": "Z",
@@ -5041,6 +5050,12 @@
     "melee_skill": 3,
     "melee_dice": 3,
     "melee_dice_sides": 4,
+    "melee_damage": [
+      {
+        "damage_type": "electric",
+        "amount": 4
+      }
+    ],
     "melee_cut": 2,
     "armor_bash": 3,
     "armor_cut": 8,
@@ -5235,20 +5250,19 @@
     "color": "ltcyan",
     "aggression": 100,
     "morale": 100,
-    "melee_skill": 3,
+    "melee_skill": 4,
     "melee_dice": 1,
-    "melee_dice_sides": 6,
+    "melee_dice_sides": 3,
+    "melee_damage": [
+      {
+        "damage_type": "electric",
+        "amount": 8
+      }
+    ],
     "melee_cut": 0,
     "dodge": 2,
     "luminance": 8,
-    "special_attacks": [
-      [ "SHOCKSTORM", 25 ],
-      {
-        "type": "bite",
-        "cooldown": 5
-      },
-      [ "scratch", 20 ]
-    ],
+    "special_attacks": [ [ "SHOCKSTORM", 25 ] ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],

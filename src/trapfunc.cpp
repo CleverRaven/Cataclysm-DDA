@@ -28,6 +28,11 @@ const efftype_id effect_lightsnare( "lightsnare" );
 const efftype_id effect_slimed( "slimed" );
 const efftype_id effect_tetanus( "tetanus" );
 
+static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
+static const trait_id trait_INFRESIST( "INFRESIST" );
+static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
+static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
+
 // A pit becomes less effective as it fills with corpses.
 float pit_effectiveness( const tripoint &p )
 {
@@ -42,6 +47,10 @@ float pit_effectiveness( const tripoint &p )
     const units::volume filled_volume = 10 * units::from_milliliter<float>( 62500 );
 
     return std::max( 0.0f, 1.0f - corpse_volume / filled_volume );
+}
+
+void trapfunc::none( Creature *, const tripoint & )
+{
 }
 
 void trapfunc::bubble( Creature *c, const tripoint &p )
@@ -105,9 +114,10 @@ void trapfunc::beartrap( Creature *c, const tripoint &p )
             d.add_damage( DT_CUT, 18 );
             n->deal_damage( nullptr, hit, d );
 
-            if( ( n->has_trait( "INFRESIST" ) ) && ( one_in( 512 ) ) ) {
+            if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 512 ) ) ) {
                 n->add_effect( effect_tetanus, 1, num_bp, true );
-            } else if( ( !n->has_trait( "INFIMMUNE" ) || !n->has_trait( "INFRESIST" ) ) && ( one_in( 128 ) ) ) {
+            } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
+                       ( one_in( 128 ) ) ) {
                 n->add_effect( effect_tetanus, 1, num_bp, true );
             }
         }
@@ -137,9 +147,10 @@ void trapfunc::board( Creature *c, const tripoint & )
         } else {
             c->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, rng( 6, 10 ) ) );
             c->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, rng( 6, 10 ) ) );
-            if( ( n->has_trait( "INFRESIST" ) ) && ( one_in( 256 ) ) ) {
+            if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
                 n->add_effect( effect_tetanus, 1, num_bp, true );
-            } else if( ( !n->has_trait( "INFIMMUNE" ) || !n->has_trait( "INFRESIST" ) ) && ( one_in( 35 ) ) ) {
+            } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
+                       ( one_in( 35 ) ) ) {
                 n->add_effect( effect_tetanus, 1, num_bp, true );
             }
         }
@@ -660,8 +671,8 @@ void trapfunc::pit( Creature *c, const tripoint &p )
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
-            if( ( n->has_trait( "WINGS_BIRD" ) ) || ( ( one_in( 2 ) ) &&
-                    ( n->has_trait( "WINGS_BUTTERFLY" ) ) ) ) {
+            if( ( n->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
+                    ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
                 n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
             } else {
                 int dodge = n->get_dodge();
@@ -700,8 +711,8 @@ void trapfunc::pit_spikes( Creature *c, const tripoint &p )
         if( n != nullptr ) {
             int dodge = n->get_dodge();
             int damage = pit_effectiveness( p ) * rng( 20, 50 );
-            if( ( n->has_trait( "WINGS_BIRD" ) ) || ( ( one_in( 2 ) ) &&
-                    ( n->has_trait( "WINGS_BUTTERFLY" ) ) ) ) {
+            if( ( n->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
+                    ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
                 n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
                 ///\EFFECT_DODGE reduces chance of landing on spikes in spiked pit
             } else if( 0 == damage || rng( 5, 30 ) < dodge ) {
@@ -733,9 +744,10 @@ void trapfunc::pit_spikes( Creature *c, const tripoint &p )
                 n->add_msg_if_player( m_bad, _( "The spikes impale your %s!" ),
                                       body_part_name_accusative( hit ).c_str() );
                 n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
-                if( ( n->has_trait( "INFRESIST" ) ) && ( one_in( 256 ) ) ) {
+                if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
                     n->add_effect( effect_tetanus, 1, num_bp, true );
-                } else if( ( !n->has_trait( "INFIMMUNE" ) || !n->has_trait( "INFRESIST" ) ) && ( one_in( 35 ) ) ) {
+                } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
+                           ( one_in( 35 ) ) ) {
                     n->add_effect( effect_tetanus, 1, num_bp, true );
                 }
             }
@@ -774,8 +786,8 @@ void trapfunc::pit_glass( Creature *c, const tripoint &p )
         if( n != nullptr ) {
             int dodge = n->get_dodge();
             int damage = pit_effectiveness( p ) * rng( 15, 35 );
-            if( ( n->has_trait( "WINGS_BIRD" ) ) || ( ( one_in( 2 ) ) &&
-                    ( n->has_trait( "WINGS_BUTTERFLY" ) ) ) ) {
+            if( ( n->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
+                    ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
                 n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
                 ///\EFFECT_DODGE reduces chance of landing on glass in glass pit
             } else if( 0 == damage || rng( 5, 30 ) < dodge ) {
@@ -811,9 +823,10 @@ void trapfunc::pit_glass( Creature *c, const tripoint &p )
                 n->add_msg_if_player( m_bad, _( "The glass shards slash your %s!" ),
                                       body_part_name_accusative( hit ).c_str() );
                 n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
-                if( ( n->has_trait( "INFRESIST" ) ) && ( one_in( 256 ) ) ) {
+                if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
                     n->add_effect( effect_tetanus, 1, num_bp, true );
-                } else if( ( !n->has_trait( "INFIMMUNE" ) || !n->has_trait( "INFRESIST" ) ) && ( one_in( 35 ) ) ) {
+                } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
+                           ( one_in( 35 ) ) ) {
                     n->add_effect( effect_tetanus, 1, num_bp, true );
                 }
             }
@@ -992,7 +1005,8 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
             g->u.add_memorial_log( pgettext( "memorial_male", "Fell down a ledge." ),
                                    pgettext( "memorial_female", "Fell down a ledge." ) );
             g->vertical_move( -1, true );
-            if( g->u.has_trait( "WINGS_BIRD" ) || ( one_in( 2 ) && g->u.has_trait( "WINGS_BUTTERFLY" ) ) ) {
+            if( g->u.has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
+                    g->u.has_trait( trait_WINGS_BUTTERFLY ) ) ) {
                 add_msg( _( "You flap your wings and flutter down gracefully." ) );
             } else {
                 g->u.impact( 20, p );
@@ -1063,7 +1077,8 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
     } else {
         pl->setpos( where );
     }
-    if( pl->has_trait( "WINGS_BIRD" ) || ( one_in( 2 ) && pl->has_trait( "WINGS_BUTTERFLY" ) ) ) {
+    if( pl->has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
+            pl->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
         pl->add_msg_player_or_npc( _( "You flap your wings and flutter down gracefully." ),
                                    _( "<npcname> flaps their wings and flutters down gracefully." ) );
     } else {
@@ -1255,106 +1270,52 @@ void trapfunc::snake( Creature *c, const tripoint &p )
 /**
  * Takes the name of a trap function and returns a function pointer to it.
  * @param function_name The name of the trapfunc function to find.
- * @return A function pointer to the matched function, or to trapfunc::none if
- *         there is no match.
+ * @return A function object with a pointer to the matched function,
+ *         or to trapfunc::none if there is no match.
  */
-trap_function trap_function_from_string( std::string function_name )
+const trap_function &trap_function_from_string( const std::string &function_name )
 {
-    if( "none" == function_name ) {
-        return &trapfunc::none;
-    }
-    if( "bubble" == function_name ) {
-        return &trapfunc::bubble;
-    }
-    if( "cot" == function_name ) {
-        return &trapfunc::cot;
-    }
-    if( "beartrap" == function_name ) {
-        return &trapfunc::beartrap;
-    }
-    if( "board" == function_name ) {
-        return &trapfunc::board;
-    }
-    if( "caltrops" == function_name ) {
-        return &trapfunc::caltrops;
-    }
-    if( "tripwire" == function_name ) {
-        return &trapfunc::tripwire;
-    }
-    if( "crossbow" == function_name ) {
-        return &trapfunc::crossbow;
-    }
-    if( "shotgun" == function_name ) {
-        return &trapfunc::shotgun;
-    }
-    if( "blade" == function_name ) {
-        return &trapfunc::blade;
-    }
-    if( "snare_light" == function_name ) {
-        return &trapfunc::snare_light;
-    }
-    if( "snare_heavy" == function_name ) {
-        return &trapfunc::snare_heavy;
-    }
-    if( "landmine" == function_name ) {
-        return &trapfunc::landmine;
-    }
-    if( "telepad" == function_name ) {
-        return &trapfunc::telepad;
-    }
-    if( "goo" == function_name ) {
-        return &trapfunc::goo;
-    }
-    if( "dissector" == function_name ) {
-        return &trapfunc::dissector;
-    }
-    if( "sinkhole" == function_name ) {
-        return &trapfunc::sinkhole;
-    }
-    if( "pit" == function_name ) {
-        return &trapfunc::pit;
-    }
-    if( "pit_spikes" == function_name ) {
-        return &trapfunc::pit_spikes;
-    }
-    if( "pit_glass" == function_name ) {
-        return &trapfunc::pit_glass;
-    }
-    if( "lava" == function_name ) {
-        return &trapfunc::lava;
-    }
-    if( "portal" == function_name ) {
-        return &trapfunc::portal;
-    }
-    if( "ledge" == function_name ) {
-        return &trapfunc::ledge;
-    }
-    if( "boobytrap" == function_name ) {
-        return &trapfunc::boobytrap;
-    }
-    if( "temple_flood" == function_name ) {
-        return &trapfunc::temple_flood;
-    }
-    if( "temple_toggle" == function_name ) {
-        return &trapfunc::temple_toggle;
-    }
-    if( "glow" == function_name ) {
-        return &trapfunc::glow;
-    }
-    if( "hum" == function_name ) {
-        return &trapfunc::hum;
-    }
-    if( "shadow" == function_name ) {
-        return &trapfunc::shadow;
-    }
-    if( "drain" == function_name ) {
-        return &trapfunc::drain;
-    }
-    if( "snake" == function_name ) {
-        return &trapfunc::snake;
+    static const std::unordered_map<std::string, trap_function> funmap = {{
+            { "none", trapfunc::none },
+            { "bubble", trapfunc::bubble },
+            { "cot", trapfunc::cot },
+            { "beartrap", trapfunc::beartrap },
+            { "board", trapfunc::board },
+            { "caltrops", trapfunc::caltrops },
+            { "tripwire", trapfunc::tripwire },
+            { "crossbow", trapfunc::crossbow },
+            { "shotgun", trapfunc::shotgun },
+            { "blade", trapfunc::blade },
+            { "snare_light", trapfunc::snare_light },
+            { "snare_heavy", trapfunc::snare_heavy },
+            { "landmine", trapfunc::landmine },
+            { "telepad", trapfunc::telepad },
+            { "goo", trapfunc::goo },
+            { "dissector", trapfunc::dissector },
+            { "sinkhole", trapfunc::sinkhole },
+            { "pit", trapfunc::pit },
+            { "pit_spikes", trapfunc::pit_spikes },
+            { "pit_glass", trapfunc::pit_glass },
+            { "lava", trapfunc::lava },
+            { "portal", trapfunc::portal },
+            { "ledge", trapfunc::ledge },
+            { "boobytrap", trapfunc::boobytrap },
+            { "temple_flood", trapfunc::temple_flood },
+            { "temple_toggle", trapfunc::temple_toggle },
+            { "glow", trapfunc::glow },
+            { "hum", trapfunc::hum },
+            { "shadow", trapfunc::shadow },
+            { "drain", trapfunc::drain },
+            { "snake", trapfunc::snake }
+        }
+    };
+
+    const auto iter = funmap.find( function_name );
+    if( iter != funmap.end() ) {
+        return iter->second;
     }
 
-    //No match found
     debugmsg( "Could not find a trapfunc function matching '%s'!", function_name.c_str() );
-    return &trapfunc::none;
+    static const trap_function null_fun = trapfunc::none;
+    return null_fun;
 }

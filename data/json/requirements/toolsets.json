@@ -11,14 +11,8 @@
   {
     "id": "forging_standard",
     "type": "requirement",
-    "//": "Forging of steel items (per steel chunk)",
-    "tools": [ [ [ "forge", 20 ], [ "char_forge", 20 ], [ "oxy_torch", 20 ] ] ]
-  },
-  {
-    "id": "heating_standard",
-    "type": "requirement",
-    "//": "Heating of foods, liquids or chemicals",
-    "tools": [ [ [ "fire", -1 ], [ "hotplate", 1 ], [ "toolset", 1 ] ] ]
+    "//": "Forging of steel items (per steel chunk), charcoal forge is already a substitute for forge",
+    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ] ]
   },
   {
     "id": "sewing_standard",

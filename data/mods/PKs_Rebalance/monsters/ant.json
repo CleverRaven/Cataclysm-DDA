@@ -46,7 +46,6 @@
         "type": "bite",
         "cooldown": 20,
         "accuracy": 5,
-        "no_infection_chance": 9,
         "damage_max_instance": [
           {
             "damage_type": "stab",
@@ -58,7 +57,8 @@
             "amount": 10,
             "armor_multiplier": 0.8
           }
-        ]
+        ],
+        "no_infection_chance": 9
       },
       [ "GRAB", 30 ]
     ],
@@ -97,7 +97,6 @@
         "type": "bite",
         "cooldown": 15,
         "accuracy": 8,
-        "no_infection_chance": 9,
         "damage_max_instance": [
           {
             "damage_type": "stab",
@@ -109,7 +108,8 @@
             "amount": 10,
             "armor_multiplier": 0.5
           }
-        ]
+        ],
+        "no_infection_chance": 9
       },
       [ "GRAB", 60 ]
     ],
@@ -212,7 +212,6 @@
         "type": "bite",
         "cooldown": 12,
         "accuracy": 15,
-        "no_infection_chance": 9,
         "damage_max_instance": [
           {
             "damage_type": "stab",
@@ -224,7 +223,8 @@
             "amount": 15,
             "armor_multiplier": 0.5
           }
-        ]
+        ],
+        "no_infection_chance": 9
       },
       [ "GRAB", 20 ]
     ],
@@ -269,7 +269,6 @@
         "type": "bite",
         "cooldown": 15,
         "accuracy": 10,
-        "no_infection_chance": 9,
         "damage_max_instance": [
           {
             "damage_type": "stab",
@@ -281,7 +280,8 @@
             "amount": 12,
             "armor_multiplier": 0.3
           }
-        ]
+        ],
+        "no_infection_chance": 9
       },
       [ "GRAB", 60 ]
     ],
@@ -331,7 +331,6 @@
         "type": "bite",
         "cooldown": 25,
         "accuracy": 10,
-        "no_infection_chance": 9,
         "damage_max_instance": [
           {
             "damage_type": "stab",
@@ -343,7 +342,8 @@
             "amount": 16,
             "armor_multiplier": 0.3
           }
-        ]
+        ],
+        "no_infection_chance": 9
       },
       [ "GRAB", 30 ],
       [ "GRAB_DRAG", 15 ],
@@ -403,7 +403,6 @@
         "type": "bite",
         "cooldown": 25,
         "accuracy": 10,
-        "no_infection_chance": 9,
         "damage_max_instance": [
           {
             "damage_type": "stab",
@@ -415,7 +414,8 @@
             "amount": 20,
             "armor_multiplier": 0.2
           }
-        ]
+        ],
+        "no_infection_chance": 9
       },
       [ "GRAB", 30 ],
       [ "GRAB_DRAG", 15 ],

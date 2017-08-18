@@ -1,5 +1,6 @@
 #include "crafting_gui.h"
 
+#include "cata_utility.h"
 #include "crafting.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -90,6 +91,24 @@ void reset_recipe_categories()
 {
     craft_cat_list.clear();
     craft_subcat_list.clear();
+}
+
+
+int print_items( const recipe &r, WINDOW *w, int ypos, int xpos, nc_color col, int batch )
+{
+    if( !r.has_byproducts() ) {
+        return 0;
+    }
+
+    const int oldy = ypos;
+
+    mvwprintz( w, ypos++, xpos, col, _( "Byproducts:" ) );
+    for( const auto &bp : r.byproducts ) {
+        mvwprintz( w, ypos++, xpos, col, _( "> %d %s" ), bp.second * batch,
+                   item::nname( bp.first ).c_str() );
+    }
+
+    return ypos - oldy;
 }
 
 const recipe *select_crafting_recipe( int &batch_size )
@@ -397,6 +416,16 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             if( !g->u.knows_recipe( current[line] ) ) {
                 component_print_buffer.push_back( _( "Recipe not memorized yet" ) );
+                auto books_with_recipe = g->u.get_books_for_recipe( crafting_inv, current[line] );
+                std::string enumerated_books =
+                    enumerate_as_string( books_with_recipe.begin(), books_with_recipe.end(),
+                []( itype_id type_id ) {
+                    return item::find_type( type_id )->nname( 1 );
+                } );
+                const std::string text = string_format( _( "Written in: %s" ), enumerated_books.c_str() );
+                std::vector<std::string> folded_lines = foldstring( text, pane );
+                component_print_buffer.insert(
+                    component_print_buffer.end(), folded_lines.begin(), folded_lines.end() );
             }
 
             //handle positioning of component list if it needed to be scrolled
@@ -436,12 +465,17 @@ const recipe *select_crafting_recipe( int &batch_size )
                                // Macs don't seem to like passing this as a class, so force it to int
                                ( int )g->u.get_skill_level( current[line]->skill_used ) );
                 }
-                ypos += current[line]->print_time( w_data, ypos, xpos, pane, col, count );
+
+                const int turns = g->u.time_to_craft( *current[line], count ) / MOVES( 1 );
+                const std::string text = string_format( _( "Time to complete: %s" ),
+                                                        calendar::print_duration( turns ).c_str() );
+                ypos += fold_and_print( w_data, ypos, xpos, pane, col, text );
+
                 mvwprintz( w_data, ypos++, xpos, col, _( "Dark craftable? %s" ),
                            current[line]->has_flag( "BLIND_EASY" ) ? _( "Easy" ) :
                            current[line]->has_flag( "BLIND_HARD" ) ? _( "Hard" ) :
                            _( "Impossible" ) );
-                ypos += current[line]->print_items( w_data, ypos, xpos, col, batch ? line + 1 : 1 );
+                ypos += print_items( *current[line], w_data, ypos, xpos, col, batch ? line + 1 : 1 );
             }
 
             //color needs to be preserved in case part of the previous page was cut off
@@ -517,7 +551,8 @@ const recipe *select_crafting_recipe( int &batch_size )
         } else if( action == "CONFIRM" ) {
             if( available.empty() || !available[line] ) {
                 popup( _( "You can't do that!" ) );
-            } else if( !current[line]->check_eligible_containers_for_crafting( ( batch ) ? line + 1 : 1 ) ) {
+            } else if( !g->u.check_eligible_containers_for_crafting( *current[line],
+                       ( batch ) ? line + 1 : 1 ) ) {
                 ; // popup is already inside check
             } else {
                 chosen = current[line];
@@ -680,52 +715,6 @@ static void draw_recipe_subtabs( WINDOW *w, std::string tab, std::string subtab,
 
     wrefresh( w );
 }
-
-int recipe::print_items( WINDOW *w, int ypos, int xpos, nc_color col, int batch ) const
-{
-    if( !has_byproducts() ) {
-        return 0;
-    }
-
-    const int oldy = ypos;
-
-    mvwprintz( w, ypos++, xpos, col, _( "Byproducts:" ) );
-    for( const auto &bp : byproducts ) {
-        mvwprintz( w, ypos++, xpos, col, _( "> %d %s" ), bp.second * batch,
-                   item::nname( bp.first ).c_str() );
-    }
-
-    return ypos - oldy;
-}
-
-int recipe::print_time( WINDOW *w, int ypos, int xpos, int width,
-                        nc_color col, int batch ) const
-{
-    const int turns = batch_time( batch ) / 100;
-    std::string text;
-    if( turns < MINUTES( 1 ) ) {
-        const int seconds = std::max( 1, turns * 6 );
-        text = string_format( ngettext( "%d second", "%d seconds", seconds ), seconds );
-    } else {
-        const int minutes = ( turns % HOURS( 1 ) ) / MINUTES( 1 );
-        const int hours = turns / HOURS( 1 );
-        if( hours == 0 ) {
-            text = string_format( ngettext( "%d minute", "%d minutes", minutes ), minutes );
-        } else if( minutes == 0 ) {
-            text = string_format( ngettext( "%d hour", "%d hours", hours ), hours );
-        } else {
-            const std::string h = string_format( ngettext( "%d hour", "%d hours", hours ), hours );
-            const std::string m = string_format( ngettext( "%d minute", "%d minutes", minutes ), minutes );
-            //~ A time duration: first is hours, second is minutes, e.g. "4 hours" "6 minutes"
-            text = string_format( _( "%1$s and %2$s" ), h.c_str(), m.c_str() );
-        }
-    }
-    text = string_format( _( "Time to complete: %s" ), text.c_str() );
-    return fold_and_print( w, ypos, xpos, width, col, text );
-}
-
-// ui.cpp
-extern bool lcmatch( const std::string &str, const std::string &findstr );
 
 template<typename T>
 bool lcmatch_any( const std::vector< std::vector<T> > &list_of_list, const std::string &filter )

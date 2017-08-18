@@ -58,7 +58,8 @@
     "color": "dark_gray",
     "contains": 400,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "55gal_drum",
@@ -76,7 +77,8 @@
     "color": "dark_gray",
     "contains": 800,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "bag_canvas",
@@ -278,7 +280,8 @@
     "symbol": ")",
     "color": "light_gray",
     "contains": 20,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "camelbak",
@@ -439,7 +442,7 @@
     "contains": 1,
     "seals": true,
     "watertight": true,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "clay_hydria",
@@ -544,6 +547,7 @@
       "coverage": 2,
       "material_thickness": 1
     },
+    "qualities": [ [ "BOIL", 1 ] ],
     "flags": [ "WAIST" ]
   },
   {
@@ -676,7 +680,8 @@
     "color": "green",
     "contains": "20L",
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "jug_clay",
@@ -728,7 +733,8 @@
     "color": "light_cyan",
     "contains": 200,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "keg_steel",
@@ -746,7 +752,8 @@
     "color": "light_cyan",
     "contains": 200,
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "large_stomach_sealed",
@@ -783,7 +790,8 @@
     "color": "light_cyan",
     "contains": "60L",
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "metal_tank_little",
@@ -801,7 +809,8 @@
     "color": "light_cyan",
     "contains": "2L",
     "seals": true,
-    "watertight": true
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ] ]
   },
   {
     "id": "stomach_sealed",

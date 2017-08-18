@@ -406,8 +406,6 @@ int main(int argc, char *argv[])
         DebugLog(D_WARNING, D_MAIN) << "Error while setlocale(LC_ALL, '').";
     }
 
-    // Options strings loaded with system locale. Even though set_language calls these, we
-    // need to call them from here too.
     get_options().init();
     get_options().load();
     set_language();
@@ -439,9 +437,6 @@ int main(int argc, char *argv[])
     try {
         g->load_static_data();
         if (verifyexit) {
-            if(g->game_error()) {
-                exit_handler(-999);
-            }
             exit_handler(0);
         }
         if( !dump.empty() ) {
@@ -460,9 +455,6 @@ int main(int argc, char *argv[])
     // Now we do the actual game.
 
     g->init_ui();
-    if(g->game_error()) {
-        exit_handler(-999);
-    }
 
     curs_set(0); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
 
@@ -489,9 +481,6 @@ int main(int argc, char *argv[])
         }
 
         while( !g->do_turn() );
-        if( g->game_error() ) {
-            break;
-        }
     };
 
 
@@ -556,9 +545,6 @@ void exit_handler(int s)
 
         int exit_status = 0;
         if( g != NULL ) {
-            if( g->game_error() ) {
-                exit_status = 1;
-            }
             delete g;
         }
 

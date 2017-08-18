@@ -50,6 +50,7 @@
       { "item": "scrap", "count": [ 1, 4 ] },
       { "item": "small_storage_battery", "count": [ 0, 4 ] }
     ],
+    "requirements": { "install": { "time": 20000 } },
     "extend": { "flags": [ "TOOL_SCREWDRIVER", "FOLDABLE" ] }
   },
   {
@@ -62,6 +63,7 @@
     "durability": 100,
     "folded_volume": 2,
     "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
+    "requirements": { "install": { "time": 10000 } },
     "extend": { "flags": [ "TOOL_NONE", "FOLDABLE" ] }
   },
   {

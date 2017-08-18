@@ -56,7 +56,7 @@
       },
       "furniture": {
         "#": "f_canvas_wall",
-        "'": "f_center_groundsheet",
+        "'": "f_groundsheet",
         "+": "f_canvas_door",
         "-": "f_chair",
         "r": "f_table"
@@ -121,7 +121,7 @@
       },
       "furniture": {
         "#": "f_canvas_wall",
-        "'": "f_center_groundsheet",
+        "'": "f_groundsheet",
         "+": "f_canvas_door",
         "-": "f_chair",
         "r": "f_table"
@@ -184,7 +184,7 @@
       },
       "furniture": {
         "#": "f_canvas_wall",
-        "'": "f_center_groundsheet",
+        "'": "f_groundsheet",
         "+": "f_canvas_door",
         "-": "f_chair",
         "r": "f_table"
@@ -250,7 +250,7 @@
       },
       "furniture": {
         "#": "f_canvas_wall",
-        "'": "f_center_groundsheet",
+        "'": "f_groundsheet",
         "+": "f_canvas_door",
         "-": "f_chair",
         "r": "f_table"
@@ -330,7 +330,7 @@
       },
       "furniture": {
         "#": "f_canvas_wall",
-        "'": "f_center_groundsheet",
+        "'": "f_groundsheet",
         "+": "f_canvas_door",
         "-": "f_chair",
         "f": "f_toilet",

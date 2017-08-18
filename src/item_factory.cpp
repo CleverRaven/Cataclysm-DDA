@@ -136,7 +136,7 @@ void Item_factory::finalize() {
             obj.use_methods.emplace( func, usage_from_string( func ) );
         }
 
-        if( obj.engine && get_world_option<bool>( "NO_FAULTS" ) ) {
+        if( obj.engine && get_option<bool>( "NO_FAULTS" ) ) {
             obj.engine->faults.clear();
         }
 
@@ -258,7 +258,7 @@ void Item_factory::finalize() {
         if( obj.comestible ) {
             obj.comestible->spoils *= HOURS( 1 ); // JSON specifies hours so convert to turns
 
-            if( get_world_option<bool>( "NO_VITAMINS" ) ) {
+            if( get_option<bool>( "NO_VITAMINS" ) ) {
                 obj.comestible->vitamins.clear();
             } else if( obj.comestible->vitamins.empty() && obj.comestible->healthy >= 0 ) {
                 // Default vitamins of healthy comestibles to their edible base materials if none explicitly specified.
@@ -407,9 +407,9 @@ class iuse_function_wrapper : public iuse_actor
             : iuse_actor( type ), cpp_function( f ) { }
 
         ~iuse_function_wrapper() override = default;
-        long use( player *p, item *it, bool a, const tripoint &pos ) const override {
+        long use( player &p, item &it, bool a, const tripoint &pos ) const override {
             iuse tmp;
-            return ( tmp.*cpp_function )( p, it, a, pos );
+            return ( tmp.*cpp_function )( &p, &it, a, pos );
         }
         iuse_actor *clone() const override {
             return new iuse_function_wrapper( *this );
@@ -481,6 +481,7 @@ void Item_factory::init()
     add_iuse( "ELEC_CHAINSAW_ON", &iuse::elec_chainsaw_on );
     add_iuse( "EXTINGUISHER", &iuse::extinguisher );
     add_iuse( "EYEDROPS", &iuse::eyedrops );
+    add_iuse( "FEEDCATTLE", &iuse::feedcattle );
     add_iuse( "FIRECRACKER", &iuse::firecracker );
     add_iuse( "FIRECRACKER_ACT", &iuse::firecracker_act );
     add_iuse( "FIRECRACKER_PACK", &iuse::firecracker_pack );
@@ -582,7 +583,7 @@ void Item_factory::init()
     add_iuse( "UNFOLD_GENERIC", &iuse::unfold_generic );
     add_iuse( "UNPACK_ITEM", &iuse::unpack_item );
     add_iuse( "VACCINE", &iuse::vaccine );
-    add_iuse( "VACUTAINER", &iuse::vacutainer );
+    add_iuse( "BLOOD_DRAW", &iuse::blood_draw );
     add_iuse( "VIBE", &iuse::vibe );
     add_iuse( "VORTEX", &iuse::vortex );
     add_iuse( "WASHCLOTHES", &iuse::washclothes );
@@ -810,7 +811,7 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->gunmod ) {
-            if( type->gunmod->location.empty() ) {
+            if( type->gunmod->location.str().empty() ) {
                     msg << "gunmod does not specify location" << "\n";
             }
 
@@ -883,8 +884,8 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->bionic ) {
-            if (!is_valid_bionic(type->bionic->bionic_id)) {
-                msg << string_format("there is no bionic with id %s", type->bionic->bionic_id.c_str()) << "\n";
+            if( !type->bionic->id.is_valid() ) {
+                msg << string_format("there is no bionic with id %s", type->bionic->id.c_str()) << "\n";
             }
         }
 
@@ -1455,6 +1456,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     assign( jo, "aim_cost", slot.aim_cost, strict, 0 );
     assign( jo, "handling_modifier", slot.handling, strict );
     assign( jo, "range_modifier", slot.range );
+    assign( jo, "ammo_effects", slot.ammo_effects, strict );
     assign( jo, "ups_charges", slot.ups_charges );
     assign( jo, "install_time", slot.install_time );
 
@@ -1516,7 +1518,7 @@ void Item_factory::load( islot_bionic &slot, JsonObject &jo, const std::string &
 
     assign( jo, "difficulty", slot.difficulty, strict, 0 );
     // TODO: must be the same as the item type id, for compatibility
-    assign( jo, "id", slot.bionic_id, strict );
+    assign( jo, "id", slot.id, strict );
 }
 
 void Item_factory::load_bionic( JsonObject &jo, const std::string &src )
@@ -1641,6 +1643,15 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     assign( jo, "magazine_well", def.magazine_well );
     assign( jo, "explode_in_fire", def.explode_in_fire );
 
+    if( jo.has_member( "thrown_damage" ) ) {
+        JsonArray jarr = jo.get_array( "thrown_damage" );
+        def.thrown_damage = load_damage_instance( jarr );
+    } else {
+        // @todo Move to finalization
+        def.thrown_damage.clear();
+        def.thrown_damage.add_damage( DT_BASH, def.melee[DT_BASH] + def.weight / 1.0_kilogram );
+    }
+
     if( jo.has_member( "damage_states" ) ) {
         auto arr = jo.get_array( "damage_states" );
         def.damage_min = arr.get_int( 0 );
@@ -1655,7 +1666,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     }
 
     if( jo.has_string( "description" ) ) {
-        def.description = _( jo.get_string( "description" ).c_str() );
+        def.description = jo.get_string( "description" );
     }
 
     if( jo.has_string( "symbol" ) ) {

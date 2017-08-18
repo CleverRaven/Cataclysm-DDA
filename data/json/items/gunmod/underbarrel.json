@@ -62,11 +62,10 @@
       "range": 2,
       "dispersion": 45,
       "durability": 10,
-      "clip_size": 2,
-      "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ]
+      "clip_size": 2
     },
     "dispersion_modifier": 15,
-    "flags": [ "IRREMOVABLE" ]
+    "flags": [ "IRREMOVABLE", "RELOAD_ONE", "RELOAD_EJECT" ]
   },
   {
     "id": "combination_gun_shotgun_pipe",
@@ -87,10 +86,9 @@
       "skill": "shotgun",
       "dispersion": 180,
       "durability": 6,
-      "clip_size": 2,
-      "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+      "clip_size": 2
     },
-    "flags": [ "IRREMOVABLE" ]
+    "flags": [ "IRREMOVABLE", "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
     "id": "grip",
@@ -132,7 +130,8 @@
     "type": "GUNMOD",
     "name": "KSG second magazine",
     "description": "The integrated second shotgun magazine of the Kel-Tec KSG which holds 7 shots.  It's irremovable.",
-    "volume": 0,
+    "weight": 1550,
+    "volume": 7,
     "price": 0,
     "material": [ "steel" ],
     "symbol": ":",
@@ -214,7 +213,8 @@
       "clip_size": 1
     },
     "dispersion_modifier": 30,
-    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ]
+    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
     "id": "m320_mod",
@@ -235,11 +235,11 @@
       "skill": "launcher",
       "dispersion": 20,
       "durability": 10,
-      "clip_size": 1,
-      "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
+      "clip_size": 1
     },
     "dispersion_modifier": 60,
-    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ]
+    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
     "id": "makeshift_bayonet",
@@ -249,7 +249,7 @@
     "description": "A makeshift version of a bayonet that consists of a mere spike with some string.",
     "gunmod_data": {
       "location": "underbarrel",
-      "mod_targets": [ "shotgun", "rifle" ],
+      "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
       "dispersion_modifier": 10,
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
       "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]

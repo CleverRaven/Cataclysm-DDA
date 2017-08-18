@@ -60,6 +60,7 @@ typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,int,float);
 extern std::map<std::string, building_gen_pointer> mapgen_cfunction_map;
 ter_id grass_or_dirt();
 ter_id dirt_or_pile();
+ter_id clay_or_sand();
 
 // helper functions for mapgen.cpp, so that we can avoid having a massive switch statement (sorta)
 void mapgen_null(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
@@ -112,7 +113,6 @@ void mapgen_office_tower_1(map *m, oter_id terrain_type, mapgendata dat, int tur
 void mapgen_office_tower_b_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_office_tower_b(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_sub_station(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_police(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_bank(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_pawn(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);

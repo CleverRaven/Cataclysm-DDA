@@ -8,11 +8,9 @@
 #include "json.h"
 #include "player.h"
 #include "bionics.h"
-#include "mutation.h"
 #include "text_snippets.h"
 #include "rng.h"
 #include "translations.h"
-#include "skill.h"
 #include "addiction.h"
 #include "pldata.h"
 #include "itype.h"
@@ -36,8 +34,8 @@ static class json_item_substitution
 
         struct trait_requirements {
             static trait_requirements load( JsonArray &arr );
-            std::vector<std::string> present, absent;
-            bool meets_condition( const std::vector<std::string> &traits ) const;
+            std::vector<trait_id> present, absent;
+            bool meets_condition( const std::vector<trait_id> &traits ) const;
         };
         struct substitution {
             trait_requirements trait_reqs;
@@ -51,16 +49,18 @@ static class json_item_substitution
         std::map<itype_id, std::vector<substitution>> substitutions;
         std::vector<std::pair<itype_id, trait_requirements>> bonuses;
     public:
-        std::vector<itype_id> get_bonus_items( const std::vector<std::string> &traits ) const;
-        std::vector<item> get_substitution( const item &it, const std::vector<std::string> &traits ) const;
+        std::vector<itype_id> get_bonus_items( const std::vector<trait_id> &traits ) const;
+        std::vector<item> get_substitution( const item &it, const std::vector<trait_id> &traits ) const;
 } item_substitutions;
 
+/** @relates string_id */
 template<>
 const profession &string_id<profession>::obj() const
 {
     return all_profs.obj( *this );
 }
 
+/** @relates string_id */
 template<>
 bool string_id<profession>::is_valid() const
 {
@@ -188,9 +188,9 @@ void profession::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "skills", _starting_skills, skilllevel_reader {} );
     optional( jo, was_loaded, "addictions", _starting_addictions, addiction_reader {} );
     // TODO: use string_id<bionic_type> or so
-    optional( jo, was_loaded, "CBMs", _starting_CBMs, auto_flags_reader<> {} );
+    optional( jo, was_loaded, "CBMs", _starting_CBMs, auto_flags_reader<bionic_id> {} );
     // TODO: use string_id<mutation_branch> or so
-    optional( jo, was_loaded, "traits", _starting_traits, auto_flags_reader<> {} );
+    optional( jo, was_loaded, "traits", _starting_traits, auto_flags_reader<trait_id> {} );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
 }
 
@@ -222,7 +222,7 @@ void profession::check_item_definitions( const itypedecvec &items ) const
 {
     for( auto &itd : items ) {
         if( !item::type_is_defined( itd.type_id ) ) {
-            debugmsg( "profession %s: item %s does not exist", id.c_str() , itd.type_id.c_str() );
+            debugmsg( "profession %s: item %s does not exist", id.c_str(), itd.type_id.c_str() );
         } else if( !itd.snippet_id.empty() ) {
             const itype *type = item::find_type( itd.type_id );
             if( type->snippet_category.empty() ) {
@@ -259,13 +259,13 @@ void profession::check_definition() const
     }
 
     for( auto const &a : _starting_CBMs ) {
-        if( !is_valid_bionic( a ) ) {
+        if( !a.is_valid() ) {
             debugmsg( "bionic %s for profession %s does not exist", a.c_str(), id.c_str() );
         }
     }
 
     for( auto &t : _starting_traits ) {
-        if( !mutation_branch::has( t ) ) {
+        if( !t.is_valid() ) {
             debugmsg( "trait %s for profession %s does not exist", t.c_str(), id.c_str() );
         }
     }
@@ -310,7 +310,7 @@ signed int profession::point_cost() const
     return _point_cost;
 }
 
-std::list<item> profession::items( bool male, const std::vector<std::string> &traits ) const
+std::list<item> profession::items( bool male, const std::vector<trait_id> &traits ) const
 {
     std::list<item> result;
     auto add_legacy_items = [&result]( const itypedecvec & vec ) {
@@ -360,7 +360,7 @@ std::list<item> profession::items( bool male, const std::vector<std::string> &tr
     }
 
     // Merge charges for items that stack with each other
-    for( auto outer = result.begin(); std::next( outer ) != result.end(); ++outer ) {
+    for( auto outer = result.begin(); outer != result.end(); ++outer ) {
         if( !outer->count_by_charges() ) {
             continue;
         }
@@ -385,12 +385,12 @@ std::vector<addiction> profession::addictions() const
     return _starting_addictions;
 }
 
-std::vector<std::string> profession::CBMs() const
+std::vector<bionic_id> profession::CBMs() const
 {
     return _starting_CBMs;
 }
 
-std::vector<std::string> profession::get_locked_traits() const
+std::vector<trait_id> profession::get_locked_traits() const
 {
     return _starting_traits;
 }
@@ -414,7 +414,7 @@ bool profession::can_pick( player *u, int points ) const
     return true;
 }
 
-bool profession::is_locked_trait( const std::string &trait ) const
+bool profession::is_locked_trait( const trait_id &trait ) const
 {
     return std::find( _starting_traits.begin(), _starting_traits.end(), trait ) !=
            _starting_traits.end();
@@ -504,7 +504,7 @@ void json_item_substitution::do_load( JsonObject &jo )
             if( check_duplicate_item( old_it ) ) {
                 line.throw_error( "Duplicate definition of item" );
             }
-            s.trait_reqs.present.push_back( title );
+            s.trait_reqs.present.push_back( trait_id( title ) );
         }
         // Error if the array doesn't have at least one new_item
         do {
@@ -516,8 +516,8 @@ void json_item_substitution::do_load( JsonObject &jo )
 
 void json_item_substitution::check_consistency()
 {
-    auto check_if_trait = []( const std::string & t ) {
-        if( !mutation_branch::has( t ) ) {
+    auto check_if_trait = []( const trait_id & t ) {
+        if( !t.is_valid() ) {
             debugmsg( "%s is not a trait", t.c_str() );
         }
     };
@@ -527,10 +527,10 @@ void json_item_substitution::check_consistency()
         }
     };
     auto check_trait_reqs = [&check_if_trait]( const trait_requirements & tr ) {
-        for( const std::string &str : tr.present ) {
+        for( const trait_id &str : tr.present ) {
             check_if_trait( str );
         }
-        for( const std::string &str : tr.absent ) {
+        for( const trait_id &str : tr.absent ) {
             check_if_trait( str );
         }
     };
@@ -550,10 +550,10 @@ void json_item_substitution::check_consistency()
     }
 }
 
-bool json_item_substitution::trait_requirements::meets_condition( const std::vector<std::string>
+bool json_item_substitution::trait_requirements::meets_condition( const std::vector<trait_id>
         &traits ) const
 {
-    const auto pred = [&traits]( const std::string & s ) {
+    const auto pred = [&traits]( const trait_id & s ) {
         return std::find( traits.begin(), traits.end(), s ) != traits.end();
     };
     return std::all_of( present.begin(), present.end(), pred ) &&
@@ -561,7 +561,7 @@ bool json_item_substitution::trait_requirements::meets_condition( const std::vec
 }
 
 std::vector<item> json_item_substitution::get_substitution( const item &it,
-        const std::vector<std::string> &traits ) const
+        const std::vector<trait_id> &traits ) const
 {
     auto iter = substitutions.find( it.typeId() );
     std::vector<item> ret;
@@ -602,7 +602,7 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
     return ret;
 }
 
-std::vector<itype_id> json_item_substitution::get_bonus_items( const std::vector<std::string>
+std::vector<itype_id> json_item_substitution::get_bonus_items( const std::vector<trait_id>
         &traits ) const
 {
     std::vector<itype_id> ret;

@@ -59,7 +59,9 @@ void map::build_transparency_cache( const int zlev )
 
     // Default to just barely not transparent.
     std::uninitialized_fill_n(
-        &transparency_cache[0][0], MAPSIZE*SEEX * MAPSIZE*SEEY, LIGHT_TRANSPARENCY_OPEN_AIR);
+        &transparency_cache[0][0], MAPSIZE*SEEX * MAPSIZE*SEEY, static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR ) );
+
+    float sight_penalty = weather_data(g->weather).sight_penalty;
 
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
@@ -80,7 +82,7 @@ void map::build_transparency_cache( const int zlev )
                     }
 
                     if( outside_cache[x][y] ) {
-                        value *= weather_data(g->weather).sight_penalty;
+                        value *= sight_penalty;
                     }
 
                     for( auto const &fld : cur_submap->fld[sx][sy] ) {
@@ -378,7 +380,7 @@ void map::generate_lightmap( const int zlev )
     }
 
 
-    if (g->u.has_active_bionic("bio_night") ) {
+    if (g->u.has_active_bionic( bionic_id( "bio_night" ) ) ) {
         for( const tripoint &p : points_in_rectangle( cache_start, cache_end ) ) {
             if( rl_dist( p, g->u.pos() ) < 15 ) {
                 lm[p.x][p.y] = LIGHT_AMBIENT_MINIMAL;
@@ -666,9 +668,8 @@ void cast_zlight(
  * field of view, whereas a value equal to or above 1 means that cell is
  * in the field of view.
  *
- * @param startx the horizontal component of the starting location
- * @param starty the vertical component of the starting location
- * @param radius the maximum distance to draw the FOV
+ * @param origin the starting location
+ * @param target_z Z-level to draw light map on
  */
 void map::build_seen_cache( const tripoint &origin, const int target_z )
 {

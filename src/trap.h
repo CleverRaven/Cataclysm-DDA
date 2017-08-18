@@ -6,7 +6,9 @@
 #include "json.h"
 #include "string_id.h"
 #include "int_id.h"
+#include "units.h"
 #include <string>
+#include <functional>
 
 class Creature;
 class item;
@@ -17,50 +19,52 @@ struct tripoint;
 using trap_id = int_id<trap>;
 using trap_str_id = string_id<trap>;
 
-struct trapfunc {
-    // creature is the creature that triggered the trap,
-    // p is the point where the trap is (not where the creature is)
-    // creature can be NULL.
-    void none( Creature *, const tripoint & ) { };
-    void bubble( Creature *creature, const tripoint &p );
-    void cot( Creature *creature, const tripoint &p );
-    void beartrap( Creature *creature, const tripoint &p );
-    void snare_light( Creature *creature, const tripoint &p );
-    void snare_heavy( Creature *creature, const tripoint &p );
-    void board( Creature *creature, const tripoint &p );
-    void caltrops( Creature *creature, const tripoint &p );
-    void tripwire( Creature *creature, const tripoint &p );
-    void crossbow( Creature *creature, const tripoint &p );
-    void shotgun( Creature *creature, const tripoint &p );
-    void blade( Creature *creature, const tripoint &p );
-    void landmine( Creature *creature, const tripoint &p );
-    void telepad( Creature *creature, const tripoint &p );
-    void goo( Creature *creature, const tripoint &p );
-    void dissector( Creature *creature, const tripoint &p );
-    void sinkhole( Creature *creature, const tripoint &p );
-    void pit( Creature *creature, const tripoint &p );
-    void pit_spikes( Creature *creature, const tripoint &p );
-    void pit_glass( Creature *creature, const tripoint &p );
-    void lava( Creature *creature, const tripoint &p );
-    void portal( Creature *creature, const tripoint &p );
-    void ledge( Creature *creature, const tripoint &p );
-    void boobytrap( Creature *creature, const tripoint &p );
-    void temple_flood( Creature *creature, const tripoint &p );
-    void temple_toggle( Creature *creature, const tripoint &p );
-    void glow( Creature *creature, const tripoint &p );
-    void hum( Creature *creature, const tripoint &p );
-    void shadow( Creature *creature, const tripoint &p );
-    void drain( Creature *creature, const tripoint &p );
-    void snake( Creature *creature, const tripoint &p );
+namespace trapfunc
+{
+// creature is the creature that triggered the trap,
+// p is the point where the trap is (not where the creature is)
+// creature can be NULL.
+void none( Creature *, const tripoint & );
+void bubble( Creature *creature, const tripoint &p );
+void cot( Creature *creature, const tripoint &p );
+void beartrap( Creature *creature, const tripoint &p );
+void snare_light( Creature *creature, const tripoint &p );
+void snare_heavy( Creature *creature, const tripoint &p );
+void board( Creature *creature, const tripoint &p );
+void caltrops( Creature *creature, const tripoint &p );
+void tripwire( Creature *creature, const tripoint &p );
+void crossbow( Creature *creature, const tripoint &p );
+void shotgun( Creature *creature, const tripoint &p );
+void blade( Creature *creature, const tripoint &p );
+void landmine( Creature *creature, const tripoint &p );
+void telepad( Creature *creature, const tripoint &p );
+void goo( Creature *creature, const tripoint &p );
+void dissector( Creature *creature, const tripoint &p );
+void sinkhole( Creature *creature, const tripoint &p );
+void pit( Creature *creature, const tripoint &p );
+void pit_spikes( Creature *creature, const tripoint &p );
+void pit_glass( Creature *creature, const tripoint &p );
+void lava( Creature *creature, const tripoint &p );
+void portal( Creature *creature, const tripoint &p );
+void ledge( Creature *creature, const tripoint &p );
+void boobytrap( Creature *creature, const tripoint &p );
+void temple_flood( Creature *creature, const tripoint &p );
+void temple_toggle( Creature *creature, const tripoint &p );
+void glow( Creature *creature, const tripoint &p );
+void hum( Creature *creature, const tripoint &p );
+void shadow( Creature *creature, const tripoint &p );
+void drain( Creature *creature, const tripoint &p );
+void snake( Creature *creature, const tripoint &p );
 };
 
-typedef void ( trapfunc::*trap_function )( Creature *, const tripoint & );
+using trap_function = std::function<void( Creature *, const tripoint & )>;
 
 struct trap {
         using itype_id = std::string;
-        // TODO: make both private and const
         trap_str_id id;
         trap_id loadid;
+
+        bool was_loaded = false;
 
         long sym;
         nc_color color;
@@ -74,7 +78,7 @@ struct trap {
         /**
          * If an item with this weight or more is thrown onto the trap, it triggers.
          */
-        int trigger_weight;
+        units::mass trigger_weight = units::mass( -1, units::mass::unit_type{} );
         int funnel_radius_mm;
         std::vector<itype_id> components; // For disassembly?
     public:
@@ -143,14 +147,18 @@ struct trap {
          * Whether this is the null-traps, aka no trap at all.
          */
         bool is_null() const;
+        /**
+         * Loads this specific trap.
+         */
+        void load( JsonObject &jo, const std::string &src );
 
         /*@{*/
         /**
          * @name Funnels
          *
-         * Traps can act as funnels, for this they need a @ref funnel_radius_mm > 0.
-         * Funnels are usual not hidden at all (@ref visibility == 0), are @ref benign and can
-         * be picked up easily (@ref difficulty == 0).
+         * Traps can act as funnels, for this they need a @ref trap::funnel_radius_mm > 0.
+         * Funnels are usual not hidden at all (@ref trap::visibility == 0), are @ref trap::benign and can
+         * be picked up easily (@ref trap::difficulty == 0).
          * The funnel filling is handled in weather.cpp. is_funnel is used the check whether the
          * funnel specific code should be run for this trap.
          */
@@ -160,7 +168,7 @@ struct trap {
          * Returns all trap objects that are actually funnels (is_funnel returns true for all
          * of them).
          */
-        static const std::vector<const trap *> get_funnels();
+        static const std::vector<const trap *> &get_funnels();
         /*@}*/
 
         /*@{*/
@@ -170,12 +178,12 @@ struct trap {
          * Those functions are used by the @ref DynamicDataLoader, see there.
          */
         /**
-         * Loads the trap and adds it to the @ref trapmap, and the @ref traplist.
+         * Loads the trap and adds it to the trapmap, and the traplist.
          * @throw std::string if the json is invalid as usual.
          */
-        static void load( JsonObject &jo );
+        static void load_trap( JsonObject &jo, const std::string &src );
         /**
-         * Releases the loaded trap objects in @ref trapmap and @ref traplist.
+         * Releases the loaded trap objects in trapmap and traplist.
          */
         static void reset();
         /**
@@ -192,7 +200,7 @@ struct trap {
         static size_t count();
 };
 
-trap_function trap_function_from_string( std::string function_name );
+const trap_function &trap_function_from_string( const std::string &function_name );
 
 extern trap_id
 tr_null,
