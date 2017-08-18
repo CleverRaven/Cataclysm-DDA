@@ -102,7 +102,9 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         washing_machine_on = e->enabled;
     }
     if( has_washmachine ) {
-        selectmenu.addentry( USE_WASHMACHINE, true, 'W', washing_machine_on ? _( "Deactivate the washing machine" ) : _( "Activate the washing machine (1.5 hours)" ) );
+        selectmenu.addentry( USE_WASHMACHINE, true, 'W',
+                             washing_machine_on ? _( "Deactivate the washing machine" ) :
+                             _( "Activate the washing machine (1.5 hours)" ) );
     }
 
     if( from_vehicle && !washing_machine_on ) {
@@ -199,13 +201,15 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
             for( auto e : veh->get_parts( "WASHING_MACHINE" ) ) {
                 if( e->enabled ) {
                     e->enabled = false;
-                    add_msg( m_bad, _( "You turn the washing machine off before it's finished the program, and open its lid." ) );
+                    add_msg( m_bad,
+                             _( "You turn the washing machine off before it's finished the program, and open its lid." ) );
                 } else if( veh->fuel_left( "water" ) < 24 ) {
                     add_msg( m_bad, _( "You need 24 charges of water to fill the washing machine." ) );
                 } else if( !detergent_is_enough ) {
                     add_msg( m_bad, _( "You need 5 charges of detergent for the washing machine." ) );
                 } else if( !filthy_items ) {
-                    add_msg( m_bad, _( "There are only non-filthy items in the washing machine.  There is no need to wash them." ) );
+                    add_msg( m_bad,
+                             _( "There are only non-filthy items in the washing machine.  There is no need to wash them." ) );
                 } else {
                     e->enabled = true;
                     veh->drain( "water", 24 );
@@ -214,7 +218,8 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
                     detergent.push_back( item_comp( "detergent", 5 ) );
                     g->u.consume_items( detergent );
 
-                    add_msg( m_good, _( "You close the lid of the washing machine, and turn it on.  The washing machine is being filled with soapy water." ) );
+                    add_msg( m_good,
+                             _( "You close the lid of the washing machine, and turn it on.  The washing machine is being filled with soapy water." ) );
                 }
             }
             return DONE;
