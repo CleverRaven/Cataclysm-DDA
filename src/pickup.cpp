@@ -198,7 +198,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
                     add_msg( m_bad,
                              _( "You turn the washing machine off before it's finished the program, and open its lid." ) );
                 } else if( veh->fuel_left( "water" ) < 24 ) {
-                    add_msg( m_bad, _( "You need 24 charges of water to fill the washing machine." ) );
+                    add_msg( m_bad, _( "You need 24 charges of water in tanks of the %s to fill the washing machine." ), veh->name.c_str() );
                 } else if( !detergent_is_enough ) {
                     add_msg( m_bad, _( "You need 5 charges of detergent for the washing machine." ) );
                 } else if( !filthy_items ) {
