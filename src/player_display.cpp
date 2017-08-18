@@ -5,7 +5,6 @@
 #include "weather.h"
 #include "profession.h"
 #include "input.h"
-#include "addiction.h"
 #include <algorithm>
 
 const skill_id skill_swimming( "swimming" );
@@ -248,13 +247,6 @@ Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" ) );
         effect_name.push_back( _( "In Sunlight" ) );
         effect_text.push_back( _( "The sunlight irritates you terribly.\n\
 Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
-    }
-
-    for( auto &elem : addictions ) {
-        if( elem.sated < 0 && elem.intensity >= MIN_ADDICTION_LEVEL ) {
-            effect_name.push_back( addiction_name( elem ) );
-            effect_text.push_back( addiction_text( elem ) );
-        }
     }
 
     unsigned maxy = unsigned( TERMY );
