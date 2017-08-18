@@ -7521,8 +7521,8 @@ item::reload_option player::select_ammo( const item &base, const std::vector<ite
 
             bool key( const input_event &event, int idx, uimenu * menu ) override {
                 auto cur_key = event.get_first_input();
-                //Prevent double RETURN (10) to default to the first entry
-                if( default_to != -1 && cur_key == last_key && cur_key != 10 ) {
+                //Prevent double RETURN '\n' to default to the first entry
+                if( default_to != -1 && cur_key == last_key && cur_key != '\n' ) {
                     // Select the first entry on the list
                     menu->ret = default_to;
                     return true;
