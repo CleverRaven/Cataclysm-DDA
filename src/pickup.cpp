@@ -183,10 +183,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
 
         case USE_WASHMACHINE: {
             bool detergent_is_enough = false;
-            bool filthy_items = false;
-            if( g->u.crafting_inventory().has_charges( "detergent", 5 ) ) {
-                detergent_is_enough = true;
-            }
+            bool filthy_items = g->u.crafting_inventory().has_charges( "detergent", 5 );
             for( auto &i : veh->get_items( veh->part_with_feature( veh_root_part, "WASHING_MACHINE" ) ) ) {
                 static const std::string filthy( "FILTHY" );
                 if( i.is_food() || i.is_corpse() ) {
