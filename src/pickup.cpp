@@ -85,8 +85,6 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     const bool remotely_controlled = g->remoteveh() == veh;
     const bool has_washmachine = ( veh->part_with_feature( veh_root_part, "WASHING_MACHINE" ) >= 0 );
     bool washing_machine_on = false;
-    bool detergent_is_enough = false;
-    bool filthy_items = false;
 
     typedef enum {
         EXAMINE, CONTROL, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
@@ -181,7 +179,9 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
             veh_tool( "hotplate" );
             return DONE;
 
-        case USE_WASHMACHINE:
+        case USE_WASHMACHINE: {
+            bool detergent_is_enough = false;
+            bool filthy_items = false;
             if( g->u.crafting_inventory().has_charges( "detergent", 5 ) ) {
                 detergent_is_enough = true;
             }
@@ -218,6 +218,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
                 }
             }
             return DONE;
+        }
 
         case FILL_CONTAINER:
             g->u.siphon( *veh, "water_clean" );
