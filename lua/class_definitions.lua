@@ -1804,7 +1804,6 @@ classes = {
             color = { type = "int", writable = true },
             death_drops = { type = "string", writable = true },
             def_chance = { type = "int", writable = true },
-            description = { type = "string", writable = true },
             difficulty = { type = "int", writable = true },
             hp = { type = "int", writable = true },
             id = { type = "mtype_id" },
