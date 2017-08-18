@@ -56,7 +56,7 @@
     "main_part": "head",
     "opposite_part": "mouth",
     "hit_size": 1,
-    "hit_size_relative": [ 0, 0.33, 0.57 ],
+    "hit_size_relative": [ 0, 0, 0 ],
     "hit_difficulty": 1.15,
     "side": "both",
     "legacy_id": "MOUTH"
@@ -103,7 +103,7 @@
     "main_part": "arm_l",
     "opposite_part": "hand_r",
     "hit_size": 3,
-    "hit_size_relative": [ 2, 4, 2 ],
+    "hit_size_relative": [ 0, 0, 0 ],
     "hit_difficulty": 1.1,
     "side": "left",
     "legacy_id": "HAND_L"
@@ -118,7 +118,7 @@
     "main_part": "arm_r",
     "opposite_part": "hand_l",
     "hit_size": 3,
-    "hit_size_relative": [ 2, 4, 2 ],
+    "hit_size_relative": [ 0, 0, 0 ],
     "hit_difficulty": 1.1,
     "side": "right",
     "legacy_id": "HAND_R"
@@ -165,7 +165,7 @@
     "main_part": "leg_l",
     "opposite_part": "foot_r",
     "hit_size": 3,
-    "hit_size_relative": [ 5, 1, 0 ],
+    "hit_size_relative": [ 0, 0, 0 ],
     "hit_difficulty": 0.8,
     "side": "left",
     "legacy_id": "FOOT_L"
@@ -180,7 +180,7 @@
     "main_part": "leg_r",
     "opposite_part": "foot_l",
     "hit_size": 3,
-    "hit_size_relative": [ 5, 1, 0 ],
+    "hit_size_relative": [ 0, 0, 0 ],
     "hit_difficulty": 0.8,
     "side": "right",
     "legacy_id": "FOOT_R"
