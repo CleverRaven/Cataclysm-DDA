@@ -186,9 +186,6 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
             bool filthy_items = false;
             for( auto &i : veh->get_items( veh->part_with_feature( veh_root_part, "WASHING_MACHINE" ) ) ) {
                 static const std::string filthy( "FILTHY" );
-                if( i.is_food() || i.is_corpse() ) {
-                    continue;
-                }
                 if( i.has_flag( filthy ) ) {
                     i.bday = calendar::turn.get_turn();
                     filthy_items = true;
