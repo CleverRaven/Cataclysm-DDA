@@ -429,7 +429,7 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
     const auto hp_desc = hp_description( hp, type->hp );
     mvwprintz( w, vStart++, column, hp_desc.second, "%s", hp_desc.first.c_str() );
 
-    std::vector<std::string> lines = foldstring( type->get_description().c_str(), getmaxx(w) - 1 - column );
+    std::vector<std::string> lines = foldstring( type->get_description(), getmaxx(w) - 1 - column );
     int numlines = lines.size();
     for (int i = 0; i < numlines && vStart <= vEnd; i++) {
         mvwprintz(w, vStart++, column, c_white, "%s", lines[i].c_str());
