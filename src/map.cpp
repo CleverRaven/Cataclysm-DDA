@@ -4680,7 +4680,7 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
             const int washing_time = MINUTES( 90 );
             int time_left = washing_time - calendar::turn.get_turn() + n.bday;
             static const std::string filthy( "FILTHY" );
-            if( time_left == 0 ) {
+            if( time_left <= 0 ) {
                 n.item_tags.erase( filthy );
                 washing_machine_finished = true;
                 cur_veh->parts[part].enabled = false;
