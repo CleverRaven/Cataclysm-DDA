@@ -83,7 +83,8 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     const bool can_be_folded = veh->is_foldable();
     const bool is_convertible = ( veh->tags.count( "convertible" ) > 0 );
     const bool remotely_controlled = g->remoteveh() == veh;
-    const bool has_washmachine = ( veh->part_with_feature( veh_root_part, "WASHING_MACHINE" ) >= 0 );
+    const int washing_machine_part = veh->part_with_feature( veh_root_part, "WASHING_MACHINE" );
+    const bool has_washmachine = washing_machine_part >= 0;
     bool washing_machine_on = false;
 
     typedef enum {
@@ -183,14 +184,12 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
 
         case USE_WASHMACHINE: {
             bool detergent_is_enough = g->u.crafting_inventory().has_charges( "detergent", 5 );
-            bool filthy_items = false;
-            for( auto &i : veh->get_items( veh->part_with_feature( veh_root_part, "WASHING_MACHINE" ) ) ) {
-                static const std::string filthy( "FILTHY" );
-                if( i.has_flag( filthy ) ) {
-                    i.bday = calendar::turn.get_turn();
-                    filthy_items = true;
-                }
-            }
+            static const std::string filthy( "FILTHY" );
+            bool filthy_items = std::any_of( veh->get_items( washing_machine_part ).begin(),
+                                             veh->get_items( washing_machine_part ).end(),
+            []( const item & i ) {
+                return i.has_flag( filthy );
+            } );
 
             for( auto e : veh->get_parts( "WASHING_MACHINE" ) ) {
                 if( e->enabled ) {
@@ -207,6 +206,12 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
                              _( "There are only non-filthy items in the washing machine.  There is no need to wash them." ) );
                 } else {
                     e->enabled = true;
+                    for( auto &n : veh->get_items( washing_machine_part ) ) {
+                        if( filthy_items ) {
+                            n.bday = calendar::turn.get_turn();
+                        }
+                    }
+
                     veh->drain( "water", 24 );
 
                     std::vector<item_comp> detergent;
