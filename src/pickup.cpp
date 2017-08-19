@@ -85,7 +85,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     const bool remotely_controlled = g->remoteveh() == veh;
     const int washing_machine_part = veh->part_with_feature( veh_root_part, "WASHING_MACHINE" );
     const bool has_washmachine = washing_machine_part >= 0;
-    bool washing_machine_on = false;
+    bool washing_machine_on = veh->parts[washing_machine_part].enabled;
 
     typedef enum {
         EXAMINE, CONTROL, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
@@ -99,9 +99,6 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
         selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
     }
 
-    for( auto e : veh->get_parts( "WASHING_MACHINE" ) ) {
-        washing_machine_on = e->enabled;
-    }
     if( has_washmachine ) {
         selectmenu.addentry( USE_WASHMACHINE, true, 'W',
                              washing_machine_on ? _( "Deactivate the washing machine" ) :
@@ -190,36 +187,34 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
                 return i.has_flag( filthy );
             } );
 
-            for( auto e : veh->get_parts( "WASHING_MACHINE" ) ) {
-                if( e->enabled ) {
-                    e->enabled = false;
-                    add_msg( m_bad,
-                             _( "You turn the washing machine off before it's finished the program, and open its lid." ) );
-                } else if( veh->fuel_left( "water" ) < 24 ) {
-                    add_msg( m_bad, _( "You need 24 charges of water in tanks of the %s to fill the washing machine." ),
-                             veh->name.c_str() );
-                } else if( !detergent_is_enough ) {
-                    add_msg( m_bad, _( "You need 5 charges of detergent for the washing machine." ) );
-                } else if( !filthy_items ) {
-                    add_msg( m_bad,
-                             _( "There are only non-filthy items in the washing machine.  There is no need to wash them." ) );
-                } else {
-                    e->enabled = true;
-                    for( auto &n : items ) {
-                        if( filthy_items ) {
-                            n.bday = calendar::turn.get_turn();
-                        }
+            if( washing_machine_on ) {
+                veh->parts[washing_machine_part].enabled = false;
+                add_msg( m_bad,
+                         _( "You turn the washing machine off before it's finished the program, and open its lid." ) );
+            } else if( veh->fuel_left( "water" ) < 24 ) {
+                add_msg( m_bad, _( "You need 24 charges of water in tanks of the %s to fill the washing machine." ),
+                         veh->name.c_str() );
+            } else if( !detergent_is_enough ) {
+                add_msg( m_bad, _( "You need 5 charges of detergent for the washing machine." ) );
+            } else if( !filthy_items ) {
+                add_msg( m_bad,
+                         _( "There are only non-filthy items in the washing machine.  There is no need to wash them." ) );
+            } else {
+                veh->parts[washing_machine_part].enabled = true;
+                for( auto &n : items ) {
+                    if( filthy_items ) {
+                        n.bday = calendar::turn.get_turn();
                     }
-
-                    veh->drain( "water", 24 );
-
-                    std::vector<item_comp> detergent;
-                    detergent.push_back( item_comp( "detergent", 5 ) );
-                    g->u.consume_items( detergent );
-
-                    add_msg( m_good,
-                             _( "You close the lid of the washing machine, and turn it on.  The washing machine is being filled with soapy water." ) );
                 }
+
+                veh->drain( "water", 24 );
+
+                std::vector<item_comp> detergent;
+                detergent.push_back( item_comp( "detergent", 5 ) );
+                g->u.consume_items( detergent );
+
+                add_msg( m_good,
+                         _( "You close the lid of the washing machine, and turn it on.  The washing machine is being filled with soapy water." ) );
             }
             return DONE;
         }
