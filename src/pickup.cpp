@@ -183,7 +183,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
             bool detergent_is_enough = g->u.crafting_inventory().has_charges( "detergent", 5 );
             auto items = veh->get_items( washing_machine_part );
             static const std::string filthy( "FILTHY" );
-            bool filthy_items = std::any_of( items.begin(), items.end(), []( const item & i ) {
+            bool filthy_items = std::all_of( items.begin(), items.end(), []( const item & i ) {
                 return i.has_flag( filthy );
             } );
 
