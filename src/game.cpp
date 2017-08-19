@@ -13253,7 +13253,7 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
             break;
         }
         // adds the npc to the correct overmap.
-        tmp->spawn_at_precise( point( msx, msy ), tripoint( rng( 0, SEEX - 1 ), rng( 0, SEEY - 1 ), 0 ) );
+        tmp->spawn_at_sm( msx, msy, 0 );
         overmap_buffer.insert_npc( tmp );
         tmp->form_opinion( u );
         tmp->mission = NPC_MISSION_NULL;

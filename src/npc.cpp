@@ -756,6 +756,11 @@ void starting_inv( npc &me, const npc_class_id &type )
     me.inv += res;
 }
 
+void npc::spawn_at_sm(int x, int y, int z)
+{
+    spawn_at_precise( point( x, y ), tripoint( rng( 0, SEEX - 1 ), rng( 0, SEEY - 1 ), z ) );
+}
+
 void npc::spawn_at_precise( const point &submap_offset, const tripoint &square )
 {
     submap_coords = submap_offset;
