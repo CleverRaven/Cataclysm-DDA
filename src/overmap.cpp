@@ -2285,6 +2285,11 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             }
         }
     }
+
+    if( z == 0 ) {
+        draw_city_labels( w, tripoint( cursx, cursy, z ) );
+    }
+
     if (has_target && blink &&
         (target.x < offset_x ||
          target.x >= offset_x + om_map_width ||
@@ -2456,6 +2461,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         print_hint( "HELP_KEYBINDINGS" );
         print_hint( "QUIT" );
     }
+
     point omt(cursx, cursy);
     const point om = omt_to_om_remain(omt);
     mvwprintz(wbar, getmaxy(wbar) - 1, 1, c_red,
@@ -2472,6 +2478,41 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     wrefresh(wbar);
     wmove( w, om_half_height, om_half_width );
     wrefresh(w);
+}
+
+
+void overmap::draw_city_labels( WINDOW *w, const tripoint &center )
+{
+    const int win_width = getmaxx( w );
+    const int win_height = getmaxy( w );
+    const int sm_radius = 2 * std::max( win_width, win_height );
+
+    const point screen_center_pos( win_width / 2, win_height / 2 );
+
+    for( const auto &element : overmap_buffer.get_cities_near( omt_to_sm_copy( center ), sm_radius ) ) {
+        const point city_pos( sm_to_omt_copy( element.abs_sm_pos.x, element.abs_sm_pos.y ) );
+        const point screen_pos( city_pos - point( center.x, center.y ) + screen_center_pos );
+
+        const int text_width = utf8_width( element.city->name, true );
+
+        if( screen_pos.x - text_width / 2 < 0
+         || screen_pos.x - text_width / 2 + text_width > win_width
+         || screen_pos.y < 0
+         || screen_pos.y > win_height ) {
+            continue;   // outside of the window bounds.
+        }
+
+        if( ( std::abs( screen_pos.x - screen_center_pos.x ) <= text_width / 2 + 1 )
+         && ( std::abs( screen_pos.y - screen_center_pos.y ) <= 1 ) ) {
+            continue;   // right under the cursor.
+        }
+
+        if( !overmap_buffer.seen( city_pos.x, city_pos.y, center.z ) ) {
+            continue;   // haven't seen it.
+        }
+
+        mvwprintz( w, screen_pos.y, screen_pos.x - text_width / 2, i_yellow, "%s", element.city->name.c_str() );
+    }
 }
 
 tripoint overmap::draw_overmap()
