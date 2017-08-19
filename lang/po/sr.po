@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-11 22:14+0800\n"
-"PO-Revision-Date: 2017-08-12 10:12+0000\n"
+"POT-Creation-Date: 2017-08-18 19:40+0800\n"
+"PO-Revision-Date: 2017-08-18 11:54+0000\n"
 "Last-Translator: Brett Dong <brett.browning.dong@gmail.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -271,7 +271,7 @@ msgid ""
 msgstr ""
 
 #: lang/extra/android/options.cpp src/craft_command.cpp src/options.cpp
-#: src/veh_interact.cpp
+#: src/options.cpp src/veh_interact.cpp
 msgid "No"
 msgstr ""
 
@@ -428,7 +428,7 @@ msgstr ""
 msgid "Volume units"
 msgstr ""
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Switch between the Cup (c), Liter (L) or Quart (qt)."
 msgstr ""
 
@@ -511,7 +511,7 @@ msgstr ""
 msgid "Display actions in Use Item menu"
 msgstr ""
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "If true, actions (like \"Read\", \"Smoke\", \"Wrap tighter\") will be "
 "displayed next to the corresponding items."
@@ -537,7 +537,7 @@ msgstr ""
 msgid "Draw vehicle facing indicator"
 msgstr ""
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "If true, when controlling a vehicle, a white 'X' (in curses version) or a "
 "crosshair (in tiles version) at distance 10 from the center will display its"
@@ -879,7 +879,7 @@ msgstr ""
 msgid "Scaling mode"
 msgstr ""
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "Sets the scaling mode, 'none' (default) displays at the game's native "
 "resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' "
@@ -1129,7 +1129,7 @@ msgstr ""
 msgid "Default region type"
 msgstr ""
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "(WIP feature) Determines terrain, shops, plants, and more."
 msgstr ""
 
@@ -1306,7 +1306,7 @@ msgstr ""
 msgid "If true, disables vitamin tracking and vitamin disorders."
 msgstr ""
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Disables tracking food, thirst and (partially) fatigue for NPCs."
 msgstr ""
 
@@ -2641,53 +2641,6 @@ msgid ""
 msgstr "Strela u plamenu, vrha obmotanog u nekakvu krpu. Predlažem izbacivanje iz luka pre nego što zapali i oružje u rukama."
 
 #: lang/json/AMMO_from_json.py
-msgid "wooden crossbow bolt"
-msgstr ""
-
-#. ~ Description for wooden crossbow bolt
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A sharpened bolt carved from wood.  It's very light, but doesn't do much "
-"damage and isn't particularly accurate.  Stands a below average chance of "
-"remaining intact once fired."
-msgstr "Najobičnija drvena strelica za samostrel ručne izrade. Lagana je, nije naročito precizna i ne nanosi preteranu štetu. Ređe ostaje cela nakon ispaljivanja."
-
-#: lang/json/AMMO_from_json.py
-msgid "metal crossbow bolt"
-msgstr ""
-
-#. ~ Description for metal crossbow bolt
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A sharpened bolt made from metal of some kind.  It's heavy and unwieldy, "
-"providing moderate damage and accuracy.  Stands a very good chance of "
-"remaining intact once fired."
-msgstr "Najobičnija metalna strelica za samostrel ručne izrade. Teška je i nezgrapnog oblika pa nije naročito precizna, dok nanosi prosečnu štetu. Gotovo sigurno će ostati cela nakon ispaljivanja."
-
-#: lang/json/AMMO_from_json.py
-msgid "steel crossbow bolt"
-msgstr ""
-
-#. ~ Description for steel crossbow bolt
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A sharp bolt made from steel.  Deadly in skilled hands.  Stands an excellent"
-" chance of remaining intact once fired."
-msgstr "Čelična i vrlo oštra strelica za izbacivanje iz samostrela. Smrtonosna municija iskusnog lovca, gotovo uvek će ostati cela nakon ispaljivanja."
-
-#: lang/json/AMMO_from_json.py
-msgid "explosive crossbow bolt"
-msgstr ""
-
-#. ~ Description for explosive crossbow bolt
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A lightweight, sharpened bolt made from some kind of metal.  It is fairly "
-"unwieldy and only provides moderate accuracy, due to being filled with "
-"explosives and fitted with an impact trigger."
-msgstr "Metalna strelica za samostrel, inače izrađena od lakšeg materijala. Nezgrapna je i ne naročito precizna, pre svega usled činjenice da su na vrhu eksplozivno punjenje i kapisla."
-
-#: lang/json/AMMO_from_json.py
 msgid "plastic shaft"
 msgstr ""
 
@@ -3190,6 +3143,53 @@ msgstr "Nekakve fungalne semenke."
 #: lang/json/furniture_from_json.py
 msgid "fungal flower"
 msgstr "gljivični pupoljak i rascvet"
+
+#: lang/json/AMMO_from_json.py
+msgid "wooden crossbow bolt"
+msgstr ""
+
+#. ~ Description for wooden crossbow bolt
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A sharpened bolt carved from wood.  It's very light, but doesn't do much "
+"damage and isn't particularly accurate.  Stands a below average chance of "
+"remaining intact once fired."
+msgstr "Najobičnija drvena strelica za samostrel ručne izrade. Lagana je, nije naročito precizna i ne nanosi preteranu štetu. Ređe ostaje cela nakon ispaljivanja."
+
+#: lang/json/AMMO_from_json.py
+msgid "metal crossbow bolt"
+msgstr ""
+
+#. ~ Description for metal crossbow bolt
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A sharpened bolt made from metal of some kind.  It's heavy and unwieldy, "
+"providing moderate damage and accuracy.  Stands a very good chance of "
+"remaining intact once fired."
+msgstr "Najobičnija metalna strelica za samostrel ručne izrade. Teška je i nezgrapnog oblika pa nije naročito precizna, dok nanosi prosečnu štetu. Gotovo sigurno će ostati cela nakon ispaljivanja."
+
+#: lang/json/AMMO_from_json.py
+msgid "steel crossbow bolt"
+msgstr ""
+
+#. ~ Description for steel crossbow bolt
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A sharp bolt made from steel.  Deadly in skilled hands.  Stands an excellent"
+" chance of remaining intact once fired."
+msgstr "Čelična i vrlo oštra strelica za izbacivanje iz samostrela. Smrtonosna municija iskusnog lovca, gotovo uvek će ostati cela nakon ispaljivanja."
+
+#: lang/json/AMMO_from_json.py
+msgid "explosive crossbow bolt"
+msgstr ""
+
+#. ~ Description for explosive crossbow bolt
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A lightweight, sharpened bolt made from some kind of metal.  It is fairly "
+"unwieldy and only provides moderate accuracy, due to being filled with "
+"explosives and fitted with an impact trigger."
+msgstr "Metalna strelica za samostrel, inače izrađena od lakšeg materijala. Nezgrapna je i ne naročito precizna, pre svega usled činjenice da su na vrhu eksplozivno punjenje i kapisla."
 
 #: lang/json/AMMO_from_json.py
 msgid "ethanol"
@@ -54295,6 +54295,10 @@ msgid "Stop modifying gun?"
 msgstr ""
 
 #: lang/json/activity_type_from_json.py
+msgid "Stop modifying tool?"
+msgstr ""
+
+#: lang/json/activity_type_from_json.py
 msgid "Stop interacting with the NPC?"
 msgstr ""
 
@@ -57598,6 +57602,7 @@ msgstr ""
 msgid "Spore dusted"
 msgstr ""
 
+#. ~ Speed name of effect(s) 'Spore dusted, Spore covered, Spore coated'.
 #: lang/json/effects_from_json.py
 msgid "Spore covered"
 msgstr ""
@@ -57612,6 +57617,10 @@ msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "You feel sick inside."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Fungal infection"
 msgstr ""
 
 #: lang/json/effects_from_json.py
@@ -57723,6 +57732,7 @@ msgstr ""
 msgid "Your %s is exposed to the cold."
 msgstr ""
 
+#. ~ Speed name of effect(s) 'Chilly, Cold, Freezing'.
 #: lang/json/effects_from_json.py lang/json/morale_type_from_json.py
 msgid "Cold"
 msgstr ""
@@ -57753,6 +57763,7 @@ msgstr ""
 msgid "Your %s feels warm."
 msgstr ""
 
+#. ~ Speed name of effect(s) 'Warm, Hot, Scorching'.
 #: lang/json/effects_from_json.py lang/json/morale_type_from_json.py
 msgid "Hot"
 msgstr ""
@@ -57783,6 +57794,7 @@ msgstr ""
 msgid "Your %s is frostnipped and has gone numb."
 msgstr ""
 
+#. ~ Speed name of effect(s) 'Frostnip, Frostbite'.
 #: lang/json/effects_from_json.py
 msgid "Frostbite"
 msgstr ""
@@ -69958,7 +69970,7 @@ msgid ""
 "use someone to position these around the region."
 msgstr ""
 
-#: lang/json/mission_def_from_json.py src/mapgen_functions.cpp
+#: lang/json/mission_def_from_json.py
 msgid "Disable External Power"
 msgstr ""
 
@@ -76739,11 +76751,23 @@ msgid "No class"
 msgstr ""
 
 #: lang/json/npc_class_from_json.py
+msgid "I'm just wandering."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
 msgid "Debug Dude"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "I'm helping you test the game."
 msgstr ""
 
 #: lang/json/npc_class_from_json.py lang/json/npc_from_json.py
 msgid "Merchant"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "I'm a local shopkeeper."
 msgstr ""
 
 #: lang/json/npc_class_from_json.py
@@ -76754,12 +76778,24 @@ msgstr ""
 msgid "Hacker"
 msgstr ""
 
+#: lang/json/npc_class_from_json.py
+msgid "I'm looking for some choice systems to hack."
+msgstr ""
+
 #: lang/json/npc_class_from_json.py lang/json/npc_from_json.py
 msgid "Doctor"
 msgstr ""
 
 #: lang/json/npc_class_from_json.py
+msgid "I'm looking for wounded to help."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
 msgid "Trader"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "I'm collecting gear and selling it."
 msgstr ""
 
 #: lang/json/npc_class_from_json.py src/faction.cpp
@@ -76767,7 +76803,15 @@ msgid "Ninja"
 msgstr ""
 
 #: lang/json/npc_class_from_json.py
+msgid "I'm a wandering master of martial arts."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
 msgid "Cowboy"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "Just looking for some wrongs to right."
 msgstr ""
 
 #: lang/json/npc_class_from_json.py
@@ -76775,7 +76819,15 @@ msgid "Scientist"
 msgstr ""
 
 #: lang/json/npc_class_from_json.py
+msgid "I'm looking for clues concerning these monsters' origins..."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
 msgid "Bounty Hunter"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "I'm a killer for hire."
 msgstr ""
 
 #: lang/json/npc_class_from_json.py lang/json/npc_from_json.py
@@ -76783,11 +76835,27 @@ msgid "Thug"
 msgstr ""
 
 #: lang/json/npc_class_from_json.py
+msgid "I'm just here for the paycheck."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
 msgid "Scavenger"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "I'm just trying to survive."
 msgstr ""
 
 #: lang/json/npc_class_from_json.py lang/json/npc_from_json.py
 msgid "Arsonist"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "I'm just watching the world burn."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "I'm tracking game."
 msgstr ""
 
 #: lang/json/npc_class_from_json.py lang/json/npc_from_json.py
@@ -76798,8 +76866,16 @@ msgstr ""
 msgid "Bartender"
 msgstr ""
 
+#: lang/json/npc_class_from_json.py
+msgid "I'm looking for new drink recipes."
+msgstr ""
+
 #: lang/json/npc_class_from_json.py lang/json/npc_from_json.py
 msgid "Apis"
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
+msgid "I'm bugged - I shouldn't talk to you."
 msgstr ""
 
 #: lang/json/npc_from_json.py
@@ -97647,6 +97723,10 @@ msgstr ""
 msgid "The destination is already full!"
 msgstr ""
 
+#: src/animation.cpp
+msgid "Hang on a bit..."
+msgstr ""
+
 #: src/armor_layers.cpp
 msgid "This is worn next to the skin."
 msgstr ""
@@ -101180,7 +101260,7 @@ msgstr[2] ""
 
 #: src/crafting.cpp src/game.cpp src/game.cpp src/iexamine.cpp src/iuse.cpp
 #: src/iuse_actor.cpp src/npctalk.cpp src/npctalk.cpp src/pickup.cpp
-#: src/player.cpp src/player.cpp src/veh_interact.cpp
+#: src/player.cpp src/player.cpp src/player.cpp src/veh_interact.cpp
 msgid "Never mind."
 msgstr ""
 
@@ -105007,6 +105087,10 @@ msgstr ""
 #: src/game.cpp
 #, c-format
 msgid "World retained. Characters remaining:%s"
+msgstr ""
+
+#: src/game.cpp
+msgid "Wait till you wake up..."
 msgstr ""
 
 #: src/game.cpp
@@ -114279,10 +114363,8 @@ msgstr ""
 msgid "You don't have compatible tools."
 msgstr ""
 
-#. ~ $1 - toolmod, $2 - base item
 #: src/iuse.cpp
-#, c-format
-msgid "You attach the %1$s to the %2$s"
+msgid "You cancel unloading the tool."
 msgstr ""
 
 #: src/iuse.cpp
@@ -117626,18 +117708,6 @@ msgid "Funeral Toll"
 msgstr ""
 
 #: src/mapgen_functions.cpp
-msgid "Evac shelter computer"
-msgstr ""
-
-#: src/mapgen_functions.cpp
-msgid "Emergency Message"
-msgstr ""
-
-#: src/mapgen_functions.cpp
-msgid "Contact Us"
-msgstr ""
-
-#: src/mapgen_functions.cpp
 msgid "PolCom OS v1.47"
 msgstr ""
 
@@ -118675,7 +118745,7 @@ msgstr ""
 #: src/mission_companion.cpp
 #, c-format
 msgid ""
-"%s was impressed with %s's performance and gave you a small bonus ($100)"
+"%s was impressed with %s's performance and gave you a small bonus ( $100 )"
 msgstr ""
 
 #: src/mission_companion.cpp
@@ -120708,11 +120778,6 @@ msgstr ""
 #: src/monster.cpp
 #, c-format
 msgid "<stat>It is %s.</stat>"
-msgstr ""
-
-#: src/monster.cpp
-#, c-format
-msgid "<dark>%s</dark>"
 msgstr ""
 
 #: src/monster.cpp
@@ -124609,11 +124674,28 @@ msgid "Select a follower"
 msgstr ""
 
 #: src/options.cpp
+msgid "Switch between the Cup ( c ), Liter ( L ) or Quart ( qt )."
+msgstr ""
+
+#: src/options.cpp
 msgid "Open default advanced inventory layout"
 msgstr ""
 
 #: src/options.cpp
 msgid "Open default advanced inventory layout instead of last opened layout"
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"If true, actions ( like \"Read\", \"Smoke\", \"Wrap tighter\" ) will be "
+"displayed next to the corresponding items."
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"If true, when controlling a vehicle, a white 'X' ( in curses version ) or a "
+"crosshair ( in tiles version ) at distance 10 from the center will display "
+"its current facing."
 msgstr ""
 
 #: src/options.cpp
@@ -124641,11 +124723,14 @@ msgid ""
 msgstr ""
 
 #: src/options.cpp
-msgid "Multi-pool only"
+msgid ""
+"Sets the scaling mode, 'none' ( default ) displays at the game's native "
+"resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' "
+"provides high-quality scaling."
 msgstr ""
 
 #: src/options.cpp
-msgid "No freeform"
+msgid "( WIP feature ) Determines terrain, shops, plants, and more."
 msgstr ""
 
 #: src/options.cpp
@@ -124654,6 +124739,18 @@ msgstr ""
 
 #: src/options.cpp
 msgid "Allowed point pools for character generation."
+msgstr ""
+
+#: src/options.cpp
+msgid "Multi-pool only"
+msgstr ""
+
+#: src/options.cpp
+msgid "No freeform"
+msgstr ""
+
+#: src/options.cpp
+msgid "Disables tracking food, thirst and ( partially ) fatigue for NPCs."
 msgstr ""
 
 #: src/output.cpp

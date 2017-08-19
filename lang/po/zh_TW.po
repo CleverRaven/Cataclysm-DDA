@@ -40,9 +40,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-11 22:14+0800\n"
-"PO-Revision-Date: 2017-08-12 10:12+0000\n"
-"Last-Translator: Brett Dong <brett.browning.dong@gmail.com>\n"
+"POT-Creation-Date: 2017-08-18 19:40+0800\n"
+"PO-Revision-Date: 2017-08-18 18:22+0000\n"
+"Last-Translator: Laughing Man\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -306,7 +306,7 @@ msgid ""
 msgstr ""
 
 #: lang/extra/android/options.cpp src/craft_command.cpp src/options.cpp
-#: src/veh_interact.cpp
+#: src/options.cpp src/veh_interact.cpp
 msgid "No"
 msgstr "否"
 
@@ -463,7 +463,7 @@ msgstr "夸脫"
 msgid "Volume units"
 msgstr "體積單位"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Switch between the Cup (c), Liter (L) or Quart (qt)."
 msgstr "在杯（c）、公升（L）或夸脫（qt）之間切換。"
 
@@ -546,7 +546,7 @@ msgstr "設定為 是，當使用了移動所有物品的命令時將會關閉�
 msgid "Display actions in Use Item menu"
 msgstr "在「使用物品」目錄中顯示相關動作"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "If true, actions (like \"Read\", \"Smoke\", \"Wrap tighter\") will be "
 "displayed next to the corresponding items."
@@ -572,7 +572,7 @@ msgstr "設定為 是，會自動在駕駛時把視角往駕駛方向前移。"
 msgid "Draw vehicle facing indicator"
 msgstr "顯示車頭指向器"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "If true, when controlling a vehicle, a white 'X' (in curses version) or a "
 "crosshair (in tiles version) at distance 10 from the center will display its"
@@ -914,7 +914,7 @@ msgstr "Linear filtering"
 msgid "Scaling mode"
 msgstr "縮放模式"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid ""
 "Sets the scaling mode, 'none' (default) displays at the game's native "
 "resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' "
@@ -1164,7 +1164,7 @@ msgstr ""
 msgid "Default region type"
 msgstr "預設區域類型"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "(WIP feature) Determines terrain, shops, plants, and more."
 msgstr "（開發中）決定了地形，商店，植被，以及更多。"
 
@@ -1341,7 +1341,7 @@ msgstr "取消維他命系統。"
 msgid "If true, disables vitamin tracking and vitamin disorders."
 msgstr "設定為 是，將會取消維他命系統及相關失調症狀。"
 
-#: lang/extra/android/options.cpp src/options.cpp
+#: lang/extra/android/options.cpp
 msgid "Disables tracking food, thirst and (partially) fatigue for NPCs."
 msgstr "停止追踪 NPC 的進食、口渴和（部分）疲勞。"
 
@@ -2672,53 +2672,6 @@ msgid ""
 msgstr "點燃的碎布包覆在箭頭的位置。你應該會想要在火燒到你的弓之前把它射出去。"
 
 #: lang/json/AMMO_from_json.py
-msgid "wooden crossbow bolt"
-msgstr "木製十字弓箭"
-
-#. ~ Description for wooden crossbow bolt
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A sharpened bolt carved from wood.  It's very light, but doesn't do much "
-"damage and isn't particularly accurate.  Stands a below average chance of "
-"remaining intact once fired."
-msgstr "由木頭製成的銳利弩箭。非常輕但破壞力與準確性不高，在射出後只有一般機率保持完整。"
-
-#: lang/json/AMMO_from_json.py
-msgid "metal crossbow bolt"
-msgstr "金屬十字弓箭"
-
-#. ~ Description for metal crossbow bolt
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A sharpened bolt made from metal of some kind.  It's heavy and unwieldy, "
-"providing moderate damage and accuracy.  Stands a very good chance of "
-"remaining intact once fired."
-msgstr "由金屬製成的銳利弩箭。很重但有著不錯的破壞力與準確性，在射出後有高機率保持完整。"
-
-#: lang/json/AMMO_from_json.py
-msgid "steel crossbow bolt"
-msgstr "鋼製十字弓箭"
-
-#. ~ Description for steel crossbow bolt
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A sharp bolt made from steel.  Deadly in skilled hands.  Stands an excellent"
-" chance of remaining intact once fired."
-msgstr "鋼製的尖銳十字弓箭。在受過訓練人員的手中會是很致命的武器。發射後不易損壞，回收率非常高。"
-
-#: lang/json/AMMO_from_json.py
-msgid "explosive crossbow bolt"
-msgstr "高爆十字弓箭"
-
-#. ~ Description for explosive crossbow bolt
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A lightweight, sharpened bolt made from some kind of metal.  It is fairly "
-"unwieldy and only provides moderate accuracy, due to being filled with "
-"explosives and fitted with an impact trigger."
-msgstr "一根由金屬製的輕量銳利箭矢。它相當不好使用。由於裝填了撞擊雷管驅動的炸藥只有一般的準度。"
-
-#: lang/json/AMMO_from_json.py
 msgid "plastic shaft"
 msgstr "塑膠箭桿"
 
@@ -3171,6 +3124,53 @@ msgstr "一些真菌種子。"
 #: lang/json/furniture_from_json.py
 msgid "fungal flower"
 msgstr "真菌花"
+
+#: lang/json/AMMO_from_json.py
+msgid "wooden crossbow bolt"
+msgstr "木製十字弓箭"
+
+#. ~ Description for wooden crossbow bolt
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A sharpened bolt carved from wood.  It's very light, but doesn't do much "
+"damage and isn't particularly accurate.  Stands a below average chance of "
+"remaining intact once fired."
+msgstr "由木頭製成的銳利弩箭。非常輕但破壞力與準確性不高，在射出後只有一般機率保持完整。"
+
+#: lang/json/AMMO_from_json.py
+msgid "metal crossbow bolt"
+msgstr "金屬十字弓箭"
+
+#. ~ Description for metal crossbow bolt
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A sharpened bolt made from metal of some kind.  It's heavy and unwieldy, "
+"providing moderate damage and accuracy.  Stands a very good chance of "
+"remaining intact once fired."
+msgstr "由金屬製成的銳利弩箭。很重但有著不錯的破壞力與準確性，在射出後有高機率保持完整。"
+
+#: lang/json/AMMO_from_json.py
+msgid "steel crossbow bolt"
+msgstr "鋼製十字弓箭"
+
+#. ~ Description for steel crossbow bolt
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A sharp bolt made from steel.  Deadly in skilled hands.  Stands an excellent"
+" chance of remaining intact once fired."
+msgstr "鋼製的尖銳十字弓箭。在受過訓練人員的手中會是很致命的武器。發射後不易損壞，回收率非常高。"
+
+#: lang/json/AMMO_from_json.py
+msgid "explosive crossbow bolt"
+msgstr "高爆十字弓箭"
+
+#. ~ Description for explosive crossbow bolt
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A lightweight, sharpened bolt made from some kind of metal.  It is fairly "
+"unwieldy and only provides moderate accuracy, due to being filled with "
+"explosives and fitted with an impact trigger."
+msgstr "一根由金屬製的輕量銳利箭矢。它相當不好使用。由於裝填了撞擊雷管驅動的炸藥只有一般的準度。"
 
 #: lang/json/AMMO_from_json.py
 msgid "ethanol"
@@ -20684,7 +20684,7 @@ msgstr "健康又可填飽肚子的玉米麵包。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "corn tortilla"
-msgstr "玉米餅"
+msgstr "墨西哥玉米餅"
 
 #. ~ Description for corn tortilla
 #: lang/json/COMESTIBLE_from_json.py
@@ -20698,11 +20698,11 @@ msgstr "墨西哥酥餅"
 #. ~ Description for quesadilla
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A tortilla filled with cheese and lightly grilled."
-msgstr "一份輕烤過，充滿了起司的玉米餅。"
+msgstr "一份輕烤過，充滿了起司的墨西哥玉米餅。"
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "johnnycake"
-msgstr "玉米餅"
+msgstr "玉米麵包"
 
 #. ~ Description for johnnycake
 #: lang/json/COMESTIBLE_from_json.py
@@ -49118,6 +49118,10 @@ msgid "Stop modifying gun?"
 msgstr "停止調校槍械？"
 
 #: lang/json/activity_type_from_json.py
+msgid "Stop modifying tool?"
+msgstr ""
+
+#: lang/json/activity_type_from_json.py
 msgid "Stop interacting with the NPC?"
 msgstr "停止與 NPC 的互動？"
 
@@ -52391,6 +52395,7 @@ msgstr "你正從感染中復原。"
 msgid "Spore dusted"
 msgstr "孢子塵"
 
+#. ~ Speed name of effect(s) 'Spore dusted, Spore covered, Spore coated'.
 #: lang/json/effects_from_json.py
 msgid "Spore covered"
 msgstr "被孢子覆蓋"
@@ -52406,6 +52411,10 @@ msgstr "你能感覺的微小的胞子跑進了你的肌肉。"
 #: lang/json/effects_from_json.py
 msgid "You feel sick inside."
 msgstr "你覺得生病了。"
+
+#: lang/json/effects_from_json.py
+msgid "Fungal infection"
+msgstr ""
 
 #: lang/json/effects_from_json.py
 msgctxt "memorial_male"
@@ -52516,6 +52525,7 @@ msgstr "寒冷"
 msgid "Your %s is exposed to the cold."
 msgstr "你的 %s 暴露在寒冷之中。"
 
+#. ~ Speed name of effect(s) 'Chilly, Cold, Freezing'.
 #: lang/json/effects_from_json.py lang/json/morale_type_from_json.py
 msgid "Cold"
 msgstr "冷"
@@ -52546,6 +52556,7 @@ msgstr "發熱"
 msgid "Your %s feels warm."
 msgstr "你覺得 %s 有點熱。"
 
+#. ~ Speed name of effect(s) 'Warm, Hot, Scorching'.
 #: lang/json/effects_from_json.py lang/json/morale_type_from_json.py
 msgid "Hot"
 msgstr "熱"
@@ -52576,6 +52587,7 @@ msgstr "凍傷"
 msgid "Your %s is frostnipped and has gone numb."
 msgstr "你的 %s 已經冷到凍壞且麻木了。"
 
+#. ~ Speed name of effect(s) 'Frostnip, Frostbite'.
 #: lang/json/effects_from_json.py
 msgid "Frostbite"
 msgstr "凍傷"
@@ -63863,7 +63875,7 @@ msgid ""
 "use someone to position these around the region."
 msgstr "感謝，我會嘗試安裝這東西。這會需要一點時間，要是有人能在地區周圍安裝就更好了。"
 
-#: lang/json/mission_def_from_json.py src/mapgen_functions.cpp
+#: lang/json/mission_def_from_json.py
 msgid "Disable External Power"
 msgstr "停用外置電源"
 
@@ -70644,12 +70656,24 @@ msgid "No class"
 msgstr "無職業"
 
 #: lang/json/npc_class_from_json.py
+msgid "I'm just wandering."
+msgstr "我只是四處流浪。"
+
+#: lang/json/npc_class_from_json.py
 msgid "Debug Dude"
 msgstr "除錯角色"
+
+#: lang/json/npc_class_from_json.py
+msgid "I'm helping you test the game."
+msgstr ""
 
 #: lang/json/npc_class_from_json.py lang/json/npc_from_json.py
 msgid "Merchant"
 msgstr "商人"
+
+#: lang/json/npc_class_from_json.py
+msgid "I'm a local shopkeeper."
+msgstr "我是這附近商店的老闆。"
 
 #: lang/json/npc_class_from_json.py
 msgid "Shopkeep"
@@ -70659,41 +70683,85 @@ msgstr "店老闆"
 msgid "Hacker"
 msgstr "駭客"
 
+#: lang/json/npc_class_from_json.py
+msgid "I'm looking for some choice systems to hack."
+msgstr "我正在找可以駭入的系統。"
+
 #: lang/json/npc_class_from_json.py lang/json/npc_from_json.py
 msgid "Doctor"
 msgstr "醫生"
 
 #: lang/json/npc_class_from_json.py
+msgid "I'm looking for wounded to help."
+msgstr "我正在找尋受傷需要幫助的人。"
+
+#: lang/json/npc_class_from_json.py
 msgid "Trader"
 msgstr "貿易商"
+
+#: lang/json/npc_class_from_json.py
+msgid "I'm collecting gear and selling it."
+msgstr "我在蒐集裝備並且販賣。"
 
 #: lang/json/npc_class_from_json.py src/faction.cpp
 msgid "Ninja"
 msgstr "忍者"
 
 #: lang/json/npc_class_from_json.py
+msgid "I'm a wandering master of martial arts."
+msgstr ""
+
+#: lang/json/npc_class_from_json.py
 msgid "Cowboy"
 msgstr "牛仔"
+
+#: lang/json/npc_class_from_json.py
+msgid "Just looking for some wrongs to right."
+msgstr "只是想把錯的事情導正。"
 
 #: lang/json/npc_class_from_json.py
 msgid "Scientist"
 msgstr "科學家"
 
 #: lang/json/npc_class_from_json.py
+msgid "I'm looking for clues concerning these monsters' origins..."
+msgstr "我正在尋找這些怪物的源頭線索..."
+
+#: lang/json/npc_class_from_json.py
 msgid "Bounty Hunter"
 msgstr "賞金獵人"
+
+#: lang/json/npc_class_from_json.py
+msgid "I'm a killer for hire."
+msgstr "我是個僱傭殺手。"
 
 #: lang/json/npc_class_from_json.py lang/json/npc_from_json.py
 msgid "Thug"
 msgstr "暴徒"
 
 #: lang/json/npc_class_from_json.py
+msgid "I'm just here for the paycheck."
+msgstr "我來這只是為了酬勞。"
+
+#: lang/json/npc_class_from_json.py
 msgid "Scavenger"
 msgstr "拾荒者"
+
+#: lang/json/npc_class_from_json.py
+msgid "I'm just trying to survive."
+msgstr "我只是努力活著。"
 
 #: lang/json/npc_class_from_json.py lang/json/npc_from_json.py
 msgid "Arsonist"
 msgstr "縱火者"
+
+#: lang/json/npc_class_from_json.py
+msgid "I'm just watching the world burn."
+msgstr "我只是在看著這個世界燃燒。"
+
+#: lang/json/npc_class_from_json.py
+msgid "I'm tracking game."
+msgstr "我在跟蹤遊戲。"
 
 #: lang/json/npc_class_from_json.py lang/json/npc_from_json.py
 msgid "Soldier"
@@ -70703,9 +70771,17 @@ msgstr "軍人"
 msgid "Bartender"
 msgstr "調酒師"
 
+#: lang/json/npc_class_from_json.py
+msgid "I'm looking for new drink recipes."
+msgstr "我在找新的飲料配方。"
+
 #: lang/json/npc_class_from_json.py lang/json/npc_from_json.py
 msgid "Apis"
 msgstr "蜜蜂"
+
+#: lang/json/npc_class_from_json.py
+msgid "I'm bugged - I shouldn't talk to you."
+msgstr ""
 
 #: lang/json/npc_from_json.py
 msgid "Representative"
@@ -91532,6 +91608,10 @@ msgstr "目的地只能容納 %d！移動多少？ [有 %d]（0 取消） "
 msgid "The destination is already full!"
 msgstr "目的地已經滿了！"
 
+#: src/animation.cpp
+msgid "Hang on a bit..."
+msgstr ""
+
 #: src/armor_layers.cpp
 msgid "This is worn next to the skin."
 msgstr "這是一件貼身衣物。"
@@ -95043,7 +95123,7 @@ msgstr[0] "你需要 %s 並有著 %d 電量。"
 
 #: src/crafting.cpp src/game.cpp src/game.cpp src/iexamine.cpp src/iuse.cpp
 #: src/iuse_actor.cpp src/npctalk.cpp src/npctalk.cpp src/pickup.cpp
-#: src/player.cpp src/player.cpp src/veh_interact.cpp
+#: src/player.cpp src/player.cpp src/player.cpp src/veh_interact.cpp
 msgid "Never mind."
 msgstr "沒事。"
 
@@ -98867,6 +98947,10 @@ msgstr "刪除已存檔的世界？"
 #, c-format
 msgid "World retained. Characters remaining:%s"
 msgstr "世界保留。殘存角色：%s"
+
+#: src/game.cpp
+msgid "Wait till you wake up..."
+msgstr ""
 
 #: src/game.cpp
 msgid "Your heart races as you recall your most recent hunt."
@@ -108082,11 +108166,9 @@ msgstr "選擇要改裝的工具"
 msgid "You don't have compatible tools."
 msgstr "你沒有合適的工具。"
 
-#. ~ $1 - toolmod, $2 - base item
 #: src/iuse.cpp
-#, c-format
-msgid "You attach the %1$s to the %2$s"
-msgstr "你把 %1$s 裝上了 %2$s"
+msgid "You cancel unloading the tool."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "You can't see to repair!"
@@ -111419,18 +111501,6 @@ msgid "Funeral Toll"
 msgstr "葬鐘聲"
 
 #: src/mapgen_functions.cpp
-msgid "Evac shelter computer"
-msgstr "避難所電腦"
-
-#: src/mapgen_functions.cpp
-msgid "Emergency Message"
-msgstr "緊急訊息"
-
-#: src/mapgen_functions.cpp
-msgid "Contact Us"
-msgstr "聯絡我們"
-
-#: src/mapgen_functions.cpp
 msgid "PolCom OS v1.47"
 msgstr "PolCom OS v1.47"
 
@@ -112464,8 +112534,8 @@ msgstr "%s 完成巡邏回來，取得了 $%d 還有一點經驗…"
 #: src/mission_companion.cpp
 #, c-format
 msgid ""
-"%s was impressed with %s's performance and gave you a small bonus ($100)"
-msgstr "%s 對 %s 的表現相當滿意，給予你一筆小獎金（$100）"
+"%s was impressed with %s's performance and gave you a small bonus ( $100 )"
+msgstr ""
 
 #: src/mission_companion.cpp
 #, c-format
@@ -114491,11 +114561,6 @@ msgstr ""
 #: src/monster.cpp
 #, c-format
 msgid "<stat>It is %s.</stat>"
-msgstr ""
-
-#: src/monster.cpp
-#, c-format
-msgid "<dark>%s</dark>"
 msgstr ""
 
 #: src/monster.cpp
@@ -118372,11 +118437,28 @@ msgid "Select a follower"
 msgstr "選擇一位追隨者"
 
 #: src/options.cpp
+msgid "Switch between the Cup ( c ), Liter ( L ) or Quart ( qt )."
+msgstr ""
+
+#: src/options.cpp
 msgid "Open default advanced inventory layout"
 msgstr ""
 
 #: src/options.cpp
 msgid "Open default advanced inventory layout instead of last opened layout"
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"If true, actions ( like \"Read\", \"Smoke\", \"Wrap tighter\" ) will be "
+"displayed next to the corresponding items."
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"If true, when controlling a vehicle, a white 'X' ( in curses version ) or a "
+"crosshair ( in tiles version ) at distance 10 from the center will display "
+"its current facing."
 msgstr ""
 
 #: src/options.cpp
@@ -118404,11 +118486,14 @@ msgid ""
 msgstr ""
 
 #: src/options.cpp
-msgid "Multi-pool only"
+msgid ""
+"Sets the scaling mode, 'none' ( default ) displays at the game's native "
+"resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' "
+"provides high-quality scaling."
 msgstr ""
 
 #: src/options.cpp
-msgid "No freeform"
+msgid "( WIP feature ) Determines terrain, shops, plants, and more."
 msgstr ""
 
 #: src/options.cpp
@@ -118417,6 +118502,18 @@ msgstr ""
 
 #: src/options.cpp
 msgid "Allowed point pools for character generation."
+msgstr ""
+
+#: src/options.cpp
+msgid "Multi-pool only"
+msgstr ""
+
+#: src/options.cpp
+msgid "No freeform"
+msgstr ""
+
+#: src/options.cpp
+msgid "Disables tracking food, thirst and ( partially ) fatigue for NPCs."
 msgstr ""
 
 #: src/output.cpp
