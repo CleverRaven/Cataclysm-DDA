@@ -335,7 +335,7 @@
       ["robe", 3],
       ["thawb", 1],
       ["kimono", 1],
-	  ["eclipse_glasses", 5]
+      ["eclipse_glasses", 5]
     ]
   },{
     "type" : "item_group",
@@ -535,7 +535,7 @@
       ["cookbook_sushi", 5],
       ["scots_cookbook", 6],
       ["food_processor", 30 ],
-	  ["eclipse glasses", 5]
+      ["eclipse glasses", 5]
     ]
   },{
     "type" : "item_group",
@@ -1000,7 +1000,7 @@
       ["magnifying_glass", 2],
       ["holy_symbol", 5],
       ["pet_carrier", 3],
-	  ["eclipse_glasses", 10]
+      ["eclipse_glasses", 10]
     ]
   },{
     "type" : "item_group",
@@ -1110,7 +1110,7 @@
       ["eboshi", 1],
       ["kariginu", 1],
       ["kimono", 5],
-	  ["eclipse_glasses", 5]
+      ["eclipse_glasses", 5]
     ]
   },{
     "type" : "item_group",
@@ -1488,7 +1488,7 @@
       ["weeks_old_newspaper", 5],
       ["newest_newspaper", 10],
       ["survnote", 2],
-	  ["eclipse_glasses", 1]
+      ["eclipse_glasses", 1]
     ]
   },{
     "type" : "item_group",
@@ -2548,7 +2548,7 @@
       ["striped_pants", 1],
       ["razor_blade", 10],
       ["survnote", 5],
-	  ["eclipse_glasses", 5]	  
+      ["eclipse_glasses", 5]	  
     ]
   },{
     "type" : "item_group",
@@ -2562,7 +2562,7 @@
       ["bag_plastic", 15],
       ["wrapper", 30],
       ["flyer", 15],
-	  ["eclipse_glasses", 2]
+      ["eclipse_glasses", 2]
     ]
  },{
     "type" : "item_group",
@@ -3813,7 +3813,7 @@
       ["survnote", 1],
       ["magnifying_glass", 8],
       ["camera_control", 2],
-	  ["eclipse_glasses", 5]
+      ["eclipse_glasses", 5]
     ]
   },{
     "type" : "item_group",
@@ -3910,7 +3910,7 @@
       ["pocketwatch", 2],
       ["knitting_needles", 1],
       ["survnote", 1],
-	  ["eclipse_glasses", 3]
+      ["eclipse_glasses", 3]
     ]
   },{
     "type" : "item_group",
@@ -4069,7 +4069,7 @@
       ["radio_car_box", 3],
       ["radiocontrol", 10],
       ["scots_cookbook", 1],
-	  ["eclipse_glasses", 3]
+      ["eclipse_glasses", 3]
     ]
   },{
     "type" : "item_group",
@@ -6426,7 +6426,7 @@
       ["pocketwatch", 1],
       ["survnote", 1],
       ["l-stick", 1],
-	  ["eclipse_glasses", 2]
+      ["eclipse_glasses", 2]
     ]
   },{
     "type" : "item_group",
@@ -7524,7 +7524,7 @@
       ["knife_swissarmy", 5],
       ["roadmap", 1],
       ["touristmap", 1],
-	  ["eclipse_glasses", 2]
+      ["eclipse_glasses", 2]
       ]
   },{
     "type" : "item_group",
