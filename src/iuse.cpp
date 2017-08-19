@@ -1920,7 +1920,7 @@ int petfood( player *p, item *it, Petfood animal_food_type )
     const int mon_idx = g->mon_at( dirp, true );
 
     // First a check to see if we are trying to feed a NPC dog food.
-    if( animal_food_type == DOGFOOD ) {
+    if( animal_food_type == DOGFOOD && g->critter_at<npc>(dirp) != NULL) {
         if( npc *const person_ = g->critter_at<npc>( dirp ) ) {
             npc &person = *person_;
             if( query_yn( _( "Are you sure you want to feed a person the dog food?" ) ) ) {
