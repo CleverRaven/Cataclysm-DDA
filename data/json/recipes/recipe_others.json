@@ -730,7 +730,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
-  }
+  },
 {
   "type" : "recipe",
   "result": "primitive_knife",
