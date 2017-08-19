@@ -1678,17 +1678,14 @@
     },
     {
         "type": "effect_type",
-<<<<<<< HEAD
         "id": "laid_egg",
         "name": [ "Disabled" ],
         "desc": [ "This creature has laid an egg" ],
         "max_duration": 2400
     }
-=======
         "id": "milked",
         "name": [ "Milked" ],
         "desc": [ "The creature has been partially or fully milked." ],
         "max_duration": 14400
      }
->>>>>>> master
 ]

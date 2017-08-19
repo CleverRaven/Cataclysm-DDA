@@ -8274,7 +8274,6 @@
     "max_charges": 100
   },
   {
-<<<<<<< HEAD
     "id": "animal_box",
     "type": "TOOL",
     "name": "animal box",
@@ -8290,7 +8289,6 @@
     "properties": [ [ "monster_size_capacity", "SMALL" ] ],
     "use_action": "CAPTURE_MONSTER_ACT",
     "flags": [ "TRADER_AVOID" ]
-=======
     "id": "cattlefodder",
     "type": "TOOL",
     "name": "cattle fodder",
@@ -8304,6 +8302,5 @@
     "symbol": ";",
     "color": "brown",
     "use_action": "FEEDCATTLE"
->>>>>>> master
   }
 ]

@@ -2458,7 +2458,6 @@
       [ [ "pot", 1 ] ],
       [ [ "e_scrap", 1 ] ],
       [ [ "motor_small", 1 ] ]
-<<<<<<< HEAD
     ]
   },{
     "result": "animal_box",
@@ -2473,8 +2472,6 @@
     "components": [
       [ [ "nail", 8 ] ],
       [ [ "2x4", 4 ] ]
-=======
->>>>>>> master
     ]
   }
 ]

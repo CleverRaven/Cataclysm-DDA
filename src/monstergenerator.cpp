@@ -447,12 +447,10 @@ void MonsterGenerator::init_flags()
     flag_map["PATH_AVOID_DANGER_2"] = MF_AVOID_DANGER_2;
     flag_map["PRIORITIZE_TARGETS"] = MF_PRIORITIZE_TARGETS;
     flag_map["NOT_HALLUCINATION"] = MF_NOT_HALLU;
-<<<<<<< HEAD
     flag_map["EGGLAYING"] = MF_EGGLAYING;
-=======
     flag_map["MILKABLE"] = MF_MILKABLE;
     flag_map["PET_WONT_FOLLOW"] = MF_PET_WONT_FOLLOW;
->>>>>>> master
+
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )
