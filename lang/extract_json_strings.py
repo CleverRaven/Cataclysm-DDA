@@ -77,6 +77,7 @@ ignorable = {
     "monstergroup",
     "MONSTER_WHITELIST",
     "overlay_order",
+    "overmap_location",
     "overmap_special",
     "profession_item_substitutions",
     "palette",
@@ -180,6 +181,8 @@ def extract_bodypart(item):
     writestr(outfile, item["name"], context="bodypart_accusative")
     writestr(outfile, item["encumbrance_text"])
     writestr(outfile, item["heading_singular"], item["heading_plural"])
+    if "hp_bar_ui_text" in item:
+        writestr(outfile, item["hp_bar_ui_text"])
 
 
 def extract_construction(item):

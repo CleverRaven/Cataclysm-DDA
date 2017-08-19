@@ -447,7 +447,12 @@ void MonsterGenerator::init_flags()
     flag_map["PATH_AVOID_DANGER_2"] = MF_AVOID_DANGER_2;
     flag_map["PRIORITIZE_TARGETS"] = MF_PRIORITIZE_TARGETS;
     flag_map["NOT_HALLUCINATION"] = MF_NOT_HALLU;
+<<<<<<< HEAD
     flag_map["EGGLAYING"] = MF_EGGLAYING;
+=======
+    flag_map["MILKABLE"] = MF_MILKABLE;
+    flag_map["PET_WONT_FOLLOW"] = MF_PET_WONT_FOLLOW;
+>>>>>>> master
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )
@@ -499,7 +504,7 @@ void mtype::load( JsonObject &jo, const std::string &src )
     mandatory( jo, was_loaded, "name", name );
     // default behaviour: Assume the regular plural form (appending an “s”)
     optional( jo, was_loaded, "name_plural", name_plural, name + "s" );
-    optional( jo, was_loaded, "description", description, translated_string_reader );
+    optional( jo, was_loaded, "description", description );
 
     optional( jo, was_loaded, "material", mat, auto_flags_reader<material_id> {} );
     optional( jo, was_loaded, "species", species, auto_flags_reader<species_id> {} );

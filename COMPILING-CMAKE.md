@@ -3,7 +3,7 @@
 **WARNING**: CMake build is **NOT** official and should be used for *dev purposes ONLY*.
 
 For official way to build CataclysmDDA See:
-  * The latest instructions on how to compile can be found on [our wiki](http://www.wiki.cataclysmdda.com/index.php?title=How_to_compile). 
+  * The latest instructions on how to compile can be found on [our wiki](http://tools.cataclysmdda.com/wiki). 
   * [COMPILING.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/COMPILING.md)
 
 

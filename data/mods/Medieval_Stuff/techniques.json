@@ -25,7 +25,6 @@
         "id" : "tec_swordsmanship_counter",
         "name" : "displace and counter",
         "min_melee" : 4,
-        "melee_allowed" : true,
         "req_buffs" : [
             "swordsmanship_counter"
             ],

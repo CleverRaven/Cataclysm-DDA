@@ -40,6 +40,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         std::array<int, 2> adv_inv_index = {{0, 0}};
         std::array<bool, 2> adv_inv_in_vehicle = {{false, false}};
         std::array<std::string, 2> adv_inv_filter = {{"", ""}};
+        std::array<int, 2> adv_inv_default_areas = {{11, 0}}; //left: All, right: Inventory
         int adv_inv_src = left;
         int adv_inv_dest = right;
         int adv_inv_last_popup_dest = 0;
@@ -124,6 +125,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             serialize_array(json, "adv_inv_index", adv_inv_index);
             serialize_array(json, "adv_inv_in_vehicle", adv_inv_in_vehicle);
             serialize_array(json, "adv_inv_filter", adv_inv_filter);
+            serialize_array(json, "adv_inv_default_areas", adv_inv_default_areas);
             // non array stuffs
             json.member("adv_inv_src", adv_inv_src);
             json.member("adv_inv_dest", adv_inv_dest);
@@ -205,6 +207,11 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
                 jo.read("adv_inv_leftfilter", adv_inv_filter[left]);
                 jo.read("adv_inv_rightfilter", adv_inv_filter[right]);
             }
+            // default areas
+            if(jo.has_array("adv_inv_deafult_areas")) {
+                auto tmp = jo.get_int_array("adv_inv_deafult_areas");
+                std::move(tmp.begin(), tmp.end(), adv_inv_default_areas.begin());
+            } 
             // the rest
             jo.read("adv_inv_src", adv_inv_src);
             jo.read("adv_inv_dest", adv_inv_dest);

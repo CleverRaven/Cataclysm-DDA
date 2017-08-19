@@ -836,9 +836,9 @@ std::vector<item_location> Character::find_ammo( const item& obj, bool empty, in
     return res;
 }
 
-int Character::weight_carried() const
+units::mass Character::weight_carried() const
 {
-    int ret = 0;
+    units::mass ret = 0;
     ret += weapon.weight();
     for (auto &i : worn) {
         ret += i.weight();
@@ -852,31 +852,31 @@ units::volume Character::volume_carried() const
     return inv.volume();
 }
 
-int Character::weight_capacity() const
+units::mass Character::weight_capacity() const
 {
     if( has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
         // Infinite enough
-        return INT_MAX;
+        return units::mass_max;
     }
     // Get base capacity from creature,
     // then apply player-only mutation and trait effects.
-    int ret = Creature::weight_capacity();
+    units::mass ret = Creature::weight_capacity();
     /** @EFFECT_STR increases carrying capacity */
-    ret += get_str() * 4000;
+    ret += get_str() * 4_kilogram;
     if( has_trait( trait_id( "BADBACK" ) ) ) {
-        ret = int(ret * .65);
+        ret = ret * .65;
     }
     if( has_trait( trait_id( "STRONGBACK" ) ) ) {
-        ret = int(ret * 1.35);
+        ret = ret * 1.35;
     }
     if( has_trait( trait_id( "LIGHT_BONES" ) ) ) {
-        ret = int(ret * .80);
+        ret = ret * .80;
     }
     if( has_trait( trait_id( "HOLLOW_BONES" ) ) ) {
-        ret = int(ret * .60);
+        ret = ret * .60;
     }
     if (has_artifact_with(AEP_CARRY_MORE)) {
-        ret += 22500;
+        ret += 22500_gram;
     }
     if (ret < 0) {
         ret = 0;
@@ -929,7 +929,7 @@ bool Character::can_pickWeight( const item &it, bool safe ) const
     if (!safe)
     {
         // Character can carry up to four times their maximum weight
-        return ( weight_carried() + it.weight() <= ( has_trait( trait_id( "DEBUG_STORAGE" ) ) ? INT_MAX : weight_capacity() * 4 ) );
+        return ( weight_carried() + it.weight() <= ( has_trait( trait_id( "DEBUG_STORAGE" ) ) ? units::mass_max : weight_capacity() * 4 ) );
     }
     else
     {
@@ -1289,6 +1289,21 @@ std::array<encumbrance_data, num_bp> Character::calc_encumbrance( const item &ne
     return ret;
 }
 
+units::mass Character::get_weight() const
+{
+    units::mass ret = 0;
+    units::mass wornWeight = std::accumulate( worn.begin(), worn.end(), units::mass( 0 ),
+                     []( units::mass sum, const item &itm ) {
+                        return sum + itm.weight();
+                     } );
+
+    ret += Creature::get_weight(); // The base weight of the player's body
+    ret += inv.weight();           // Weight of the stored inventory
+    ret += wornWeight;             // Weight of worn items
+    ret += weapon.weight();        // Weight of wielded item
+    return ret;
+}
+
 std::array<encumbrance_data, num_bp> Character::get_encumbrance() const
 {
     return encumbrance_cache;
@@ -1577,6 +1592,9 @@ void Character::mod_healthy_mod(int nhealthy_mod, int cap)
     // Cap indicates how far the mod is allowed to shift in this direction.
     // It can have a different sign to the mod, e.g. for items that treat
     // extremely low health, but can't make you healthy.
+    if( nhealthy_mod == 0 || cap == 0 ) {
+        return;
+    }
     int low_cap;
     int high_cap;
     if( nhealthy_mod < 0 ) {
@@ -1696,6 +1714,10 @@ void Character::reset_bonuses()
 
 void Character::update_health(int external_modifiers)
 {
+    if( has_artifact_with( AEP_SICK ) ) {
+        // Carrying a sickness artifact makes your health 50 points worse on average
+        external_modifiers -= 50;
+    }
     // Limit healthy_mod to [-200, 200].
     // This also sets approximate bounds for the character's health.
     if( get_healthy_mod() > 200 ) {
@@ -1712,19 +1734,15 @@ void Character::update_health(int external_modifiers)
         effective_healthy_mod = 100;
     }
 
-    // Over the long run, health tends toward healthy_mod.
-    int break_even = get_healthy() - effective_healthy_mod + external_modifiers;
-
-    // But we allow some random variation.
-    const long roll = rng( -100, 100 );
-    if( roll > break_even ) {
-        mod_healthy( 1 );
-    } else if( roll < break_even ) {
-        mod_healthy( -1 );
-    }
+    // Health tends toward healthy_mod.
+    // For small differences, it changes 4 points per day
+    // For large ones, up to ~40% of the difference per day
+    int health_change = effective_healthy_mod - get_healthy() + external_modifiers;
+    mod_healthy( sgn( health_change ) * std::max( 1, abs( health_change ) / 10 ) );
 
     // And healthy_mod decays over time.
-    set_healthy_mod( get_healthy_mod() * 3 / 4 );
+    // Slowly near 0, but it's hard to overpower it near +/-100
+    set_healthy_mod( round( get_healthy_mod() * 0.95f ) );
 
     add_msg( m_debug, "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod() );
 }
@@ -2031,12 +2049,12 @@ int Character::throw_range( const item &it ) const
     }
 
     /** @EFFECT_STR determines maximum weight that can be thrown */
-    if( (tmp.weight() / 113) > int(str_cur * 15) ) {
+    if( ( tmp.weight() / 113_gram ) > int( str_cur * 15 ) ) {
         return 0;
     }
     // Increases as weight decreases until 150 g, then decreases again
     /** @EFFECT_STR increases throwing range, vs item weight (high or low) */
-    int ret = (str_cur * 8) / (tmp.weight() >= 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
+    int ret = ( str_cur * 8 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 - int( tmp.weight() / 15_gram ) );
     ret -= tmp.volume() / 1000_ml;
     static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
     if( has_active_bionic( bionic_id( "bio_railgun" ) ) && tmp.made_of_any( affected_materials ) ) {
@@ -2373,6 +2391,8 @@ float Character::mutation_value( const std::string &val ) const
         return calc_mutation_value<&mutation_branch::fatigue_regen_modifier>( cached_mutations );
     } else if( val == "fatigue_modifier" ) {
         return calc_mutation_value<&mutation_branch::fatigue_modifier>( cached_mutations );
+    } else if( val == "stamina_regen_modifier" ) {
+        return calc_mutation_value<&mutation_branch::stamina_regen_modifier>( cached_mutations );
     }
 
     debugmsg( "Invalid mutation value name %s", val.c_str() );

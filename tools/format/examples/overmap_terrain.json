@@ -1,17 +1,167 @@
+
 [
   {
-    "id": "mapgen-test",
+    "id": "",
     "type": "overmap_terrain",
-    "name": "",
-    "//": "Its contents make no sense, it is supposed to use all the available mapgen possibilities.",
+    "flags": [ "NO_ROTATE" ],
+    "name": "nothing",
     "sym": 37,
-    "color": "white",
-    "rotate": false,
-    "line_drawing": false,
-    "mondensity": 1,
-    "allow_road": false,
-    "sidewalk": false,
-    "known_up": false,
-    "known_down": false
+    "color": "white"
+  },
+  {
+    "id": "open_air",
+    "type": "overmap_terrain",
+    "flags": [ "NO_ROTATE" ],
+    "name": "open air",
+    "sym": 46,
+    "color": "blue"
+  },
+  {
+    "id": "crater",
+    "type": "overmap_terrain",
+    "extras": "field",
+    "flags": [ "ALLOW_OVERRIDE", "NO_ROTATE" ],
+    "name": "crater",
+    "sym": 79,
+    "color": "red",
+    "see_cost": 2
+  },
+  {
+    "id": "field",
+    "type": "overmap_terrain",
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 80 },
+    "extras": "field",
+    "flags": [ "ALLOW_OVERRIDE", "NO_ROTATE" ],
+    "name": "field",
+    "sym": 46,
+    "color": "brown",
+    "see_cost": 2
+  },
+  {
+    "id": "forest",
+    "type": "overmap_terrain",
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 3 ], "chance": 80 },
+    "extras": "field",
+    "flags": [ "ALLOW_OVERRIDE", "NO_ROTATE" ],
+    "name": "forest",
+    "sym": 70,
+    "color": "green",
+    "see_cost": 3
+  },
+  {
+    "id": "forest_thick",
+    "type": "overmap_terrain",
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 6 ], "chance": 90 },
+    "extras": "field",
+    "flags": [ "ALLOW_OVERRIDE", "NO_ROTATE" ],
+    "name": "forest",
+    "sym": 70,
+    "color": "green",
+    "see_cost": 4,
+    "mapgen": [
+      { "method": "builtin", "name": "forest" }
+    ]
+  },
+  {
+    "id": "forest_water",
+    "type": "overmap_terrain",
+    "spawns": { "group": "GROUP_SWAMP", "population": [ 1, 4 ], "chance": 100 },
+    "extras": "field",
+    "flags": [ "ALLOW_OVERRIDE", "NO_ROTATE" ],
+    "name": "swamp",
+    "sym": 70,
+    "color": "cyan",
+    "see_cost": 4,
+    "mapgen": [
+      { "method": "builtin", "name": "forest" }
+    ]
+  },
+  {
+    "id": "hiway_ns",
+    "type": "overmap_terrain",
+    "extras": "road",
+    "flags": [ "ALLOW_OVERRIDE", "NO_ROTATE" ],
+    "name": "highway",
+    "sym": 72,
+    "color": "dark_gray",
+    "see_cost": 2,
+    "mapgen": [
+      { "method": "builtin", "name": "highway" }
+    ]
+  },
+  {
+    "id": "hiway_ew",
+    "type": "overmap_terrain",
+    "extras": "road",
+    "flags": [ "ALLOW_OVERRIDE", "NO_ROTATE" ],
+    "name": "highway",
+    "sym": 61,
+    "color": "dark_gray",
+    "see_cost": 2,
+    "mapgen": [
+      { "method": "builtin", "name": "highway" }
+    ]
+  },
+  {
+    "id": "road",
+    "type": "overmap_terrain",
+    "//": "the entries below are optional and serve as an example of mapgen for line_drawing tiles",
+    "extras": "road",
+    "flags": [ "LINEAR", "ALLOW_OVERRIDE" ],
+    "name": "road",
+    "color": "dark_gray",
+    "see_cost": 2,
+    "mapgen_curved": [
+      { "method": "builtin", "name": "road_curved" }
+    ],
+    "mapgen_end": [
+      { "method": "builtin", "name": "road_end" }
+    ],
+    "mapgen_four_way": [
+      { "method": "builtin", "name": "road_four_way" }
+    ],
+    "mapgen_straight": [
+      { "method": "builtin", "name": "road_straight" }
+    ],
+    "mapgen_tee": [
+      { "method": "builtin", "name": "road_tee" }
+    ]
+  },
+  {
+    "id": "road_nesw_manhole",
+    "type": "overmap_terrain",
+    "extras": "road",
+    "flags": [ "KNOWN_DOWN", "ALLOW_OVERRIDE", "NO_ROTATE" ],
+    "name": "road, manhole",
+    "sym": 4194414,
+    "color": "yellow",
+    "see_cost": 2,
+    "mapgen": [
+      { "method": "builtin", "name": "road_four_way" }
+    ]
+  },
+  {
+    "id": "bridge_ns",
+    "type": "overmap_terrain",
+    "flags": [ "RIVER", "ALLOW_OVERRIDE", "NO_ROTATE" ],
+    "name": "bridge",
+    "sym": 124,
+    "color": "dark_gray",
+    "see_cost": 2,
+    "mapgen": [
+      { "method": "builtin", "name": "bridge" }
+    ]
+  },
+  {
+    "id": "bridge_ew",
+    "type": "overmap_terrain",
+    "flags": [ "RIVER", "ALLOW_OVERRIDE", "NO_ROTATE" ],
+    "name": "bridge",
+    "sym": 45,
+    "color": "dark_gray",
+    "see_cost": 2,
+    "mapgen": [
+      { "method": "builtin", "name": "bridge" }
+    ]
   }
 ]

@@ -31,6 +31,7 @@
             [ [ "string_36", 1 ], [ "string_6", 4 ] ],
             [ [ "tarp", 1 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_flags" : [ "DIGGABLE", "FLAT" ],
         "post_terrain" : "t_tarptent"
     },{
@@ -118,6 +119,7 @@
         "components" : [
             [ [ "rock", 20 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_terrain" : "t_pit_shallow",
         "post_terrain" : "f_firering"
     },{
@@ -135,6 +137,7 @@
             [ [ "string_36", 1 ], [ "string_6", 3 ] ],
             [ [ "tarp", 1 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_flags" : [ "DIGGABLE", "FLAT" ],
         "post_terrain" : "t_raincatcher"
     },{
@@ -148,6 +151,7 @@
             [ [ "2x4", 4 ], [ "stick", 4 ] ],
             [ [ "pine_bough", 8 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "f_straw_bed"
     }

@@ -103,7 +103,7 @@ void trap::load( JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "benign", benign, false );
     optional( jo, was_loaded, "funnel_radius", funnel_radius_mm, 0 );
-    optional( jo, was_loaded, "trigger_weight", trigger_weight, -1 );
+    assign( jo, "trigger_weight", trigger_weight );
     optional( jo, was_loaded, "drops", components );
 }
 

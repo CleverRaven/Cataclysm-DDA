@@ -96,7 +96,7 @@
       "price" : 20000,
       "material" : ["wood", "iron"],
       "flags" : ["STR_RELOAD", "PRIMITIVE_RANGED_WEAPON"],
-      "skill" : "archery",
+      "skill" : "rifle",
       "ammo" : "pebble",
       "weight" : 1906,
       "volume" : 5,

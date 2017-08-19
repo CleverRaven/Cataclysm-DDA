@@ -21,7 +21,7 @@
         "color" : "red",
         "see_cost" : 2,
         "extras" : "field",
-        "flags" : [ "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "field",
@@ -31,7 +31,7 @@
         "see_cost" : 2,
         "extras" : "field",
         "spawns" : { "group": "GROUP_FOREST", "population": [0, 1], "chance": 80 },
-        "flags" : [ "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "forest",
@@ -41,7 +41,7 @@
         "see_cost" : 3,
         "extras" : "field",
         "spawns" : { "group": "GROUP_FOREST", "population": [0, 3], "chance": 80 },
-        "flags" : [ "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "forest_thick",
@@ -54,7 +54,7 @@
         "mapgen": [
             { "method": "builtin", "name": "forest" }
         ],
-        "flags" : [ "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "forest_water",
@@ -67,7 +67,7 @@
         "mapgen": [
             { "method": "builtin", "name": "forest" }
         ],
-        "flags" : [ "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "hiway_ns",
@@ -79,7 +79,7 @@
         "mapgen": [
             { "method": "builtin", "name": "highway" }
         ],
-        "flags" : [ "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "hiway_ew",
@@ -91,7 +91,7 @@
         "mapgen": [
             { "method": "builtin", "name": "highway" }
         ],
-        "flags" : [ "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "road",
@@ -99,7 +99,7 @@
         "color" : "dark_gray",
         "see_cost" : 2,
         "extras" : "road",
-        "comment" : "the entries below are optional and serve as an example of mapgen for line_drawing tiles",
+        "//" : "the entries below are optional and serve as an example of mapgen for line_drawing tiles",
         "mapgen_straight": [
             { "method": "builtin", "name": "road_straight" }
         ],
@@ -115,7 +115,7 @@
         "mapgen_four_way": [
             { "method": "builtin", "name": "road_four_way" }
         ],
-        "flags" : [ "LINEAR", "ALLOW_OVERRIDE" ]
+        "flags" : [ "LINEAR" ]
     },{
         "type" : "overmap_terrain",
         "id" : "road_nesw_manhole",
@@ -127,29 +127,18 @@
         "mapgen": [
             { "method": "builtin", "name": "road_four_way" }
         ],
-        "flags" : [ "KNOWN_DOWN", "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "KNOWN_DOWN", "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "bridge_ns",
+        "id" : "bridge",
         "name" : "bridge",
-        "sym" : 124,
-        "color" : "dark_gray",
+        "sym" : 4194424,
+        "color" : "white",
         "see_cost" : 2,
         "mapgen": [
             { "method": "builtin", "name": "bridge" }
         ],
-        "flags" : [ "RIVER", "ALLOW_OVERRIDE", "NO_ROTATE" ]
-    },{
-        "type" : "overmap_terrain",
-        "id" : "bridge_ew",
-        "name" : "bridge",
-        "sym" : 45,
-        "color" : "dark_gray",
-        "see_cost" : 2,
-        "mapgen": [
-            { "method": "builtin", "name": "bridge" }
-        ],
-        "flags" : [ "RIVER", "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "RIVER" ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_center",
@@ -160,7 +149,7 @@
         "mapgen": [
             { "method": "builtin", "name": "river_center" }
         ],
-        "flags" : [ "RIVER", "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "RIVER", "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "river",
@@ -171,7 +160,7 @@
         "mapgen": [
             { "method": "builtin", "name": "river_straight" }
         ],
-        "flags" : [ "RIVER", "ALLOW_OVERRIDE" ]
+        "flags" : [ "RIVER" ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_c_not_ne",
@@ -182,7 +171,7 @@
         "mapgen": [
             { "method": "builtin", "name": "river_curved_not" }
         ],
-        "flags" : [ "RIVER", "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "RIVER", "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_c_not_nw",
@@ -193,7 +182,7 @@
         "mapgen": [
             { "method": "builtin", "name": "river_curved_not" }
         ],
-        "flags" : [ "RIVER", "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "RIVER", "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_c_not_se",
@@ -204,7 +193,7 @@
         "mapgen": [
             { "method": "builtin", "name": "river_curved_not" }
         ],
-        "flags" : [ "RIVER", "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "RIVER", "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_c_not_sw",
@@ -215,7 +204,7 @@
         "mapgen": [
             { "method": "builtin", "name": "river_curved_not" }
         ],
-        "flags" : [ "RIVER", "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "RIVER", "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_ne",
@@ -226,7 +215,7 @@
         "mapgen": [
             { "method": "builtin", "name": "river_curved" }
         ],
-        "flags" : [ "RIVER", "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "RIVER", "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_se",
@@ -237,7 +226,7 @@
         "mapgen": [
             { "method": "builtin", "name": "river_curved" }
         ],
-        "flags" : [ "RIVER", "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "RIVER", "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_sw",
@@ -248,7 +237,7 @@
         "mapgen": [
             { "method": "builtin", "name": "river_curved" }
         ],
-        "flags" : [ "RIVER", "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "RIVER", "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "river_nw",
@@ -259,7 +248,7 @@
         "mapgen": [
             { "method": "builtin", "name": "river_curved" }
         ],
-        "flags" : [ "RIVER", "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "RIVER", "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "house",
@@ -1947,7 +1936,7 @@
         "sym" : 48,
         "color" : "light_gray",
         "see_cost" : 5,
-        "flags" : [ "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "rock", "//" : "This is old rock type, new one (below) will replace it in new overmaps",
@@ -1955,7 +1944,7 @@
         "sym" : 37,
         "color" : "dark_gray",
         "see_cost" : 5,
-        "flags" : [ "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "empty_rock",
@@ -1963,7 +1952,7 @@
         "sym" : 37,
         "color" : "dark_gray",
         "see_cost" : 5,
-        "flags" : [ "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "rift",
@@ -1971,7 +1960,7 @@
         "sym" : 94,
         "color" : "red",
         "see_cost" : 2,
-        "flags" : [ "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "hellmouth",
@@ -1979,7 +1968,7 @@
         "sym" : 94,
         "color" : "light_red",
         "see_cost" : 2,
-        "flags" : [ "KNOWN_DOWN", "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "KNOWN_DOWN", "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "subway_station",
@@ -1988,7 +1977,7 @@
         "color" : "yellow",
         "see_cost" : 5,
         "extras" : "subway",
-        "flags" : [ "KNOWN_UP", "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "KNOWN_UP", "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "subway",
@@ -1996,14 +1985,14 @@
         "color" : "dark_gray",
         "see_cost" : 5,
         "extras" : "subway",
-        "flags" : [ "LINEAR", "ALLOW_OVERRIDE" ]
+        "flags" : [ "LINEAR" ]
     },{
         "type" : "overmap_terrain",
         "id" : "sewer",
         "name" : "sewer",
         "color" : "green",
         "see_cost" : 5,
-        "flags" : [ "LINEAR", "ALLOW_OVERRIDE" ]
+        "flags" : [ "LINEAR" ]
     },{
         "type" : "overmap_terrain",
         "id" : "ants",
@@ -2869,7 +2858,7 @@
         "see_cost" : 5,
         "mondensity" : 2,
         "extras" : "road",
-        "flags" : [ "ALLOW_OVERRIDE", "SIDEWALK" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
         "id" : "necropolis_a_12",
@@ -3498,7 +3487,7 @@
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
     },{
-        "comment" : "xxx Bookmark for necropolis sewers",
+        "//" : "xxx Bookmark for necropolis sewers",
         "type" : "overmap_terrain",
         "id" : "necropolis_b_1",
         "name" : "solid rock",
@@ -6421,7 +6410,7 @@
         "color" : "dark_gray",
         "see_cost" : 2,
         "extras" : "road",
-        "flags" : [ "ALLOW_OVERRIDE", "NO_ROTATE" ]
+        "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "ranch_camp_78",
@@ -6862,5 +6851,41 @@
         "extras" : "field",
         "mondensity" : 3,
         "flags" : [ "NO_ROTATE" ]
-    }
+    },
+  {
+    "id": "dairy_farm_NW",
+    "type": "overmap_terrain",
+    "name": "dairy farm",
+    "sym": 119,
+    "color": "brown",
+    "see_cost": 1,
+    "flags": [ "SIDEWALK", "NO_ROTATE" ]
+  },
+  {
+    "id": "dairy_farm_NE",
+    "type": "overmap_terrain",
+    "name": "dairy farm",
+    "sym": 119,
+    "color": "brown",
+    "see_cost": 1,
+    "flags": [ "SIDEWALK", "NO_ROTATE" ]
+  },
+  {
+    "id": "dairy_farm_SE",
+    "type": "overmap_terrain",
+    "name": "dairy farm",
+    "sym": 119,
+    "color": "brown",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK", "NO_ROTATE" ]
+  },
+  {
+    "id": "dairy_farm_SW",
+    "type": "overmap_terrain",
+    "name": "dairy farm",
+    "sym": 119,
+    "color": "brown",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK", "NO_ROTATE" ]
+  }
 ]
