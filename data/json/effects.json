@@ -1679,7 +1679,7 @@
     {
         "type": "effect_type",
         "id": "laid_egg",
-        "name": [ "Disabled" ],
+        "name": [ "Laid egg" ],
         "desc": [ "This creature has laid an egg" ],
         "max_duration": 2400
     },
