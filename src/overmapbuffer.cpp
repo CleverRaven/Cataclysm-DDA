@@ -4,6 +4,7 @@
 #include "overmap_types.h"
 #include "overmap.h"
 #include "game.h"
+#include "line.h"
 #include "map.h"
 #include "debug.h"
 #include "monster.h"
@@ -878,6 +879,56 @@ city_reference overmapbuffer::closest_city( const tripoint &center )
     }
 
     return city_reference{ nullptr, tripoint(), -1 };
+}
+
+city_reference overmapbuffer::closest_known_city( const tripoint &center )
+{
+    const auto cities = get_cities_near( center, OMAPX * 2  );
+    const auto it = std::find_if( cities.begin(), cities.end(),
+    [this]( const city_reference& elem ) {
+        const tripoint p = sm_to_omt_copy( elem.abs_sm_pos );
+        return seen( p.x, p.y, p.z );
+    } );
+
+    if( it != cities.end() ) {
+        return *it;
+    }
+
+    return city_reference{ nullptr, tripoint(), -1 };
+}
+
+std::string overmapbuffer::get_description_at( const tripoint &where )
+{
+    const auto closest_cref = closest_known_city( where );
+    const std::string ter_name = ter( sm_to_omt_copy( where ) )->get_name();
+
+    if( !closest_cref || where.z != 0 ) {
+        return ter_name;
+    }
+
+    const auto &closest_city = *closest_cref.city;
+    const int distance_from_city = closest_cref.distance - closest_city.s;
+
+    if( closest_city.s >= 8 && distance_from_city <= closest_city.s / 4 ) {
+        //~ First parameter is a terrain name, second parameter is a city name.
+        return string_format( _( "%1$s in central %2$s" ), ter_name.c_str(), closest_city.name.c_str() );
+    } else if( distance_from_city <= closest_city.s ) {
+        //~ First parameter is a terrain name, second parameter is a city name.
+        return string_format( _( "%1$s in %2$s" ), ter_name.c_str(), closest_city.name.c_str() );
+    }
+
+    const direction dir = direction_from( closest_cref.abs_sm_pos, where );
+    const std::string dir_name = direction_name( dir );
+
+    if( distance_from_city <= 2 * closest_city.s ) {
+        //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+        return string_format( _( "%1$s on the %2$s outskirts of %3$s" ), ter_name.c_str(), dir_name.c_str(), closest_city.name.c_str() );
+    } else if( distance_from_city >= closest_city.s ) {
+        //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+        return string_format( _( "%1$s %2$s from %3$s" ), ter_name.c_str(), dir_name.c_str(), closest_city.name.c_str() );
+    }
+
+    return ter_name;
 }
 
 static int modulo(int v, int m) {

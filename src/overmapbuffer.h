@@ -339,6 +339,10 @@ public:
      */
     city_reference closest_city( const tripoint &center );
 
+    city_reference closest_known_city( const tripoint &center );
+
+    std::string get_description_at( const tripoint &where );
+
 private:
     std::unordered_map< point, std::unique_ptr< overmap > > overmaps;
     /**

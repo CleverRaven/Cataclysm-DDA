@@ -2416,9 +2416,11 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             }
         } else {
             const auto &ter = ccur_ter.obj();
+            const auto sm_pos = omt_to_sm_copy( tripoint( cursx, cursy, z ) );
 
             mvwputch( wbar, 1, 1, ter.get_color(), ter.get_sym() );
-            std::vector<std::string> name = foldstring(ter.get_name(), 25);
+
+            const std::vector<std::string> name = foldstring( overmap_buffer.get_description_at( sm_pos ), 25);
             for (size_t i = 0; i < name.size(); i++) {
                 mvwprintz(wbar, i + 1, 3, ter.get_color(), "%s", name[i].c_str());
             }
