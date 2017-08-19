@@ -1468,7 +1468,7 @@
     },{
         "type" : "vehicle_part",
         "id" : "plating_military",
-        "name" : "military composite armor",
+        "name" : "military composite armor plating",
         "symbol" : ")",
         "color" : "green",
         "broken_symbol" : ")",
