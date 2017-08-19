@@ -836,28 +836,49 @@ std::vector<radio_tower_reference> overmapbuffer::find_all_radio_stations()
     return result;
 }
 
+std::vector<city_reference> overmapbuffer::get_cities_near( const tripoint &location, int radius )
+{
+    std::vector<city_reference> result;
+
+    for( const auto om : get_overmaps_near( location, radius ) ) {
+        const auto abs_pos_om = om_to_sm_copy( om->pos() );
+        result.reserve( result.size() + om->cities.size() );
+        std::transform( om->cities.begin(), om->cities.end(), std::back_inserter( result ),
+        [&]( city& element )
+        {
+            const auto rel_pos_city = omt_to_sm_copy( element.x, element.y );
+            // TODO: Z-level cities. This 0 has to be here until mapgen understands non-0 zlev cities
+            const auto abs_pos_city = tripoint( rel_pos_city + abs_pos_om, 0 );
+            const auto distance = rl_dist( abs_pos_city, location );
+
+            return city_reference{ om, &element, abs_pos_city, distance };
+        } );
+    }
+
+    return result;
+}
+
 city_reference overmapbuffer::closest_city( const tripoint &center )
 {
     // a whole overmap (because it's in submap coordinates, OMAPX is overmap terrain coordinates)
-    auto const radius = OMAPX * 2;
-    // Starting with distance = INT_MAX, so the first city is already closer
-    city_reference result{ nullptr, nullptr, tripoint( 0, 0, 0 ), INT_MAX };
-    for( auto &om : get_overmaps_near( center, radius ) ) {
-        const auto abs_pos_om = om_to_sm_copy( om->pos() );
-        for( auto &city : om->cities ) {
-            const auto rel_pos_city = omt_to_sm_copy( point( city.x, city.y ) );
-            // TODO: Z-level cities. This 0 has to be here until mapgen understands non-0 zlev cities
-            const auto abs_pos_city = tripoint( abs_pos_om + rel_pos_city, 0 );
-            const auto distance = rl_dist( abs_pos_city, center );
-            const city_reference cr{ om, &city, abs_pos_city, distance };
-            if( distance < result.distance ) {
-                result = cr;
-            } else if( distance == result.distance && result.city->s < city.s ) {
-                result = cr;
-            }
+    const auto cities = get_cities_near( center, OMAPX * 2 );
+    const auto it = std::min_element( cities.begin(), cities.end(),
+    []( const city_reference& lhs, const city_reference& rhs )
+    {
+        if( lhs.distance < rhs.distance ) {
+            return true;
+        } else if( lhs.distance == rhs.distance && lhs.city->s < rhs.city->s ) {
+            return true;
         }
+
+        return false;
+    } );
+
+    if( it != cities.end() ) {
+        return *it;
     }
-    return result;
+
+    return city_reference{ nullptr, nullptr, tripoint(), -1 };
 }
 
 static int modulo(int v, int m) {

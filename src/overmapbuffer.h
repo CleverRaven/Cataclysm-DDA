@@ -330,6 +330,8 @@ public:
      * All entries in the returned vector are valid (have a valid tower pointer).
      */
     std::vector<radio_tower_reference> find_all_radio_stations();
+
+    std::vector<city_reference> get_cities_near( const tripoint &location, int radius );
     /**
      * Find the closest city. If no city is close, returns an object with city set to nullptr.
      * @param center The center of the search, the distance for determining the closest city is
