@@ -679,7 +679,6 @@
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used": "fabrication",
-  "skills_required": [ "gun", 1 ],
   "difficulty": 1,
   "time": 5000,
   "autolearn": true,
@@ -700,11 +699,9 @@
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used": "fabrication",
-  "skills_required": ["gun", 3],
   "difficulty": 3,
   "time": 10000,
   "autolearn": true,
-  "book_learn" : [[ "recipe_arrows", 2 ]],
   "qualities":[
     {"id":"HAMMER","level":1},
     {"id":"SAW_M","level":1}
@@ -720,11 +717,9 @@
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used": "fabrication",
-  "skills_required": ["gun", 5],
   "difficulty": 5,
   "time": 10000,
   "autolearn": true,
-  "book_learn" : [[ "recipe_arrows", 2 ]],
   "qualities":[
     {"id":"HAMMER","level":1}
   ],
@@ -749,10 +744,9 @@
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used": "fabrication",
-  "skills_required": ["gun", 3],
   "difficulty": 4,
   "time": 10000,
-  "book_learn" : [[ "recipe_arrows", 7 ], [ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
+  "book_learn" : [[ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
   "qualities":[
     {"id":"SAW_M","level":1}
   ], "components": [
