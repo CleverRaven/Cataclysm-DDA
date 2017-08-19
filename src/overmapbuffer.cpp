@@ -855,11 +855,8 @@ std::vector<city_reference> overmapbuffer::get_cities_near( const tripoint &loca
     }
 
     std::sort( result.begin(), result.end(), []( const city_reference& lhs, const city_reference& rhs ) {
-        if( lhs.distance < rhs.distance ) {
-            return true;
-        }
-
-        if( lhs.distance == rhs.distance && lhs.city->s < rhs.city->s ) {
+        if( lhs.distance - 2 * lhs.city->s <
+            rhs.distance - 2 * rhs.city->s ) {
             return true;
         }
 
@@ -899,10 +896,15 @@ city_reference overmapbuffer::closest_known_city( const tripoint &center )
 
 std::string overmapbuffer::get_description_at( const tripoint &where )
 {
-    const auto closest_cref = closest_known_city( where );
     const std::string ter_name = ter( sm_to_omt_copy( where ) )->get_name();
 
-    if( !closest_cref || where.z != 0 ) {
+    if( where.z != 0 ) {
+        return ter_name;
+    }
+
+    const auto closest_cref = closest_known_city( where );
+
+    if( !closest_cref ) {
         return ter_name;
     }
 

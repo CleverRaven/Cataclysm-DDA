@@ -2486,27 +2486,32 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
 
 void overmap::draw_city_labels( WINDOW *w, const tripoint &center )
 {
-    const int win_width = getmaxx( w );
-    const int win_height = getmaxy( w );
-    const int sm_radius = 2 * std::max( win_width, win_height );
+    const int win_x_max = getmaxx( w );
+    const int win_y_max = getmaxy( w );
+    const int sm_radius = std::max( win_x_max, win_y_max );
 
-    const point screen_center_pos( win_width / 2, win_height / 2 );
+    const point screen_center_pos( win_x_max / 2, win_y_max / 2 );
 
     for( const auto &element : overmap_buffer.get_cities_near( omt_to_sm_copy( center ), sm_radius ) ) {
         const point city_pos( sm_to_omt_copy( element.abs_sm_pos.x, element.abs_sm_pos.y ) );
         const point screen_pos( city_pos - point( center.x, center.y ) + screen_center_pos );
 
         const int text_width = utf8_width( element.city->name, true );
+        const int text_x_min = screen_pos.x - text_width / 2;
+        const int text_x_max = text_x_min + text_width;
+        const int text_y = screen_pos.y;
 
-        if( screen_pos.x - text_width / 2 < 0
-         || screen_pos.x - text_width / 2 + text_width > win_width
-         || screen_pos.y < 0
-         || screen_pos.y > win_height ) {
+        if( text_x_min < 0
+         || text_x_max > win_x_max
+         || text_y < 0
+         || text_y > win_y_max ) {
             continue;   // outside of the window bounds.
         }
 
-        if( ( std::abs( screen_pos.x - screen_center_pos.x ) <= text_width / 2 + 1 )
-         && ( std::abs( screen_pos.y - screen_center_pos.y ) <= 1 ) ) {
+        if( screen_center_pos.x >= ( text_x_min - 1 )
+         && screen_center_pos.x <= ( text_x_max )
+         && screen_center_pos.y >= ( text_y - 1 )
+         && screen_center_pos.y <= ( text_y + 1 ) ) {
             continue;   // right under the cursor.
         }
 
@@ -2514,7 +2519,7 @@ void overmap::draw_city_labels( WINDOW *w, const tripoint &center )
             continue;   // haven't seen it.
         }
 
-        mvwprintz( w, screen_pos.y, screen_pos.x - text_width / 2, i_yellow, "%s", element.city->name.c_str() );
+        mvwprintz( w, text_y, text_x_min, i_yellow, "%s", element.city->name.c_str() );
     }
 }
 
