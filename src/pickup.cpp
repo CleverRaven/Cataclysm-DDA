@@ -198,13 +198,11 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
                 add_msg( m_bad, _( "You need 5 charges of detergent for the washing machine." ) );
             } else if( !filthy_items ) {
                 add_msg( m_bad,
-                         _( "There are only non-filthy items in the washing machine.  There is no need to wash them." ) );
+                         _( "You need to remove all non-filthy items from the washing machine to start the washing program." ) );
             } else {
                 veh->parts[washing_machine_part].enabled = true;
                 for( auto &n : items ) {
-                    if( filthy_items ) {
-                        n.bday = calendar::turn.get_turn();
-                    }
+                    n.bday = calendar::turn.get_turn();
                 }
 
                 veh->drain( "water", 24 );
