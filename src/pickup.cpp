@@ -184,10 +184,9 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
 
         case USE_WASHMACHINE: {
             bool detergent_is_enough = g->u.crafting_inventory().has_charges( "detergent", 5 );
+            auto items = veh->get_items( washing_machine_part );
             static const std::string filthy( "FILTHY" );
-            bool filthy_items = std::any_of( veh->get_items( washing_machine_part ).begin(),
-                                             veh->get_items( washing_machine_part ).end(),
-            []( const item & i ) {
+            bool filthy_items = std::any_of( items.begin(), items.end(), []( const item & i ) {
                 return i.has_flag( filthy );
             } );
 
@@ -206,7 +205,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
                              _( "There are only non-filthy items in the washing machine.  There is no need to wash them." ) );
                 } else {
                     e->enabled = true;
-                    for( auto &n : veh->get_items( washing_machine_part ) ) {
+                    for( auto &n : items ) {
                         if( filthy_items ) {
                             n.bday = calendar::turn.get_turn();
                         }
