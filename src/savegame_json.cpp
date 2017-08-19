@@ -703,9 +703,9 @@ void player::deserialize(JsonIn &jsin)
         grab_typestr = "OBJECT_VEHICLE";
         data.read( "grab_type", grab_typestr);
     }
-
     const auto iter = std::find( obj_type_name.begin(), obj_type_name.end(), grab_typestr );
-    grab_type = static_cast<object_type>( std::distance( obj_type_name.begin(), iter ) );
+    grab_type = iter == obj_type_name.end() ? OBJECT_NONE : static_cast<object_type>( std::distance(
+                    obj_type_name.begin(), iter ) );
 
     data.read( "focus_pool", focus_pool);
     data.read( "style_selected", style_selected );
