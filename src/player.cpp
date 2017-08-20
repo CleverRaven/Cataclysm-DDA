@@ -11426,6 +11426,11 @@ void player::add_known_trap( const tripoint &pos, const trap &t)
     }
 }
 
+bool player::is_sleeping() const
+{
+    return has_effect( effect_sleep );
+}
+
 bool player::is_deaf() const
 {
     return get_effect_int( effect_deaf ) > 2 || worn_with_flag("DEAF") ||

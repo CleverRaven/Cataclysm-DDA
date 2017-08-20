@@ -1429,6 +1429,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void environmental_revert_effect();
 
         bool is_invisible() const;
+        bool is_sleeping() const;
         bool is_deaf() const;
         // Checks whether a player can hear a sound at a given volume and location.
         bool can_hear( const tripoint &source, const int volume ) const;
