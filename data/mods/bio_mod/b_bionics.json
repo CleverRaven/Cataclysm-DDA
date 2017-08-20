@@ -43,9 +43,7 @@
       [ "ARM_L", 1 ]
     ],
     "toggled": true,
-    "act_cost": 10,
-    "react_cost": 1,
-    "time": 1,
+    "act_cost": 75,
     "fake_item": "bio_scalpel",
     "weapon_bionic": true
   }
