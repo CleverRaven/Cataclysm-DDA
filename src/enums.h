@@ -191,7 +191,7 @@ enum object_type {
     NUM_OBJECTS,
 };
 
-struct point : public JsonSerializer, public JsonDeserializer {
+struct point {
     int x;
     int y;
     point() : x(0), y(0) {}
@@ -200,22 +200,7 @@ struct point : public JsonSerializer, public JsonDeserializer {
     point(const point &) = default;
     point &operator=(point &&) = default;
     point &operator=(const point &) = default;
-    ~point() override {}
-    using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const override
-    {
-        jsout.start_array();
-        jsout.write(x);
-        jsout.write(y);
-        jsout.end_array();
-    }
-    using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin) override
-    {
-        JsonArray ja = jsin.get_array();
-        x = ja.get_int(0);
-        y = ja.get_int(1);
-    }
+
     point operator+(const point &rhs) const
     {
         return point( x + rhs.x, y + rhs.y );
@@ -237,6 +222,9 @@ struct point : public JsonSerializer, public JsonDeserializer {
         return *this;
     }
 };
+
+void serialize( const point &p, JsonOut &jsout );
+void deserialize( point &p, JsonIn &jsin );
 
 // Make point hashable so it can be used as an unordered_set or unordered_map key,
 // or a component of one.

@@ -2323,3 +2323,18 @@ void player_morale::load( JsonObject &jsin )
 {
     jsin.read( "morale", points );
 }
+
+void deserialize( point &p, JsonIn &jsin )
+{
+    JsonArray ja = jsin.get_array();
+    p.x = ja.get_int( 0 );
+    p.y = ja.get_int( 1 );
+}
+
+void serialize( const point &p, JsonOut &jsout )
+{
+    jsout.start_array();
+    jsout.write( p.x );
+    jsout.write( p.y );
+    jsout.end_array();
+}
