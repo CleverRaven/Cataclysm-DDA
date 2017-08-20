@@ -125,8 +125,8 @@
     "id": "diesel_engine_v12",
     "copy-from": "engine_combustion",
     "type": "vehicle_part",
-    "item": "v12_combustion",
-    "fuel_type": "gasoline",
+    "item": "v12_diesel",
+    "fuel_type": "diesel",
     "difficulty": 7,
     "durability": 600,
     "epower": -400,
@@ -136,7 +136,7 @@
       { "item": "steel_chunk", "count": [ 45, 58 ] },
       { "item": "scrap", "count": [ 45, 58 ] }
     ]
-  }
+  },
   {
     "id": "engine_v6",
     "copy-from": "engine_combustion",
