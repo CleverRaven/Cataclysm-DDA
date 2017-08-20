@@ -253,16 +253,16 @@ class comestible_inventory_preset : public inventory_selector_preset
     public:
         comestible_inventory_preset( const player &p ) : inventory_selector_preset(), p( p ) {
 
-            append_cell( [ this ]( const item_location & loc ) {
-                return good_bad_none( get_edible_comestible( loc ).nutr );
+            append_cell( [ p, this ]( const item_location & loc ) {
+                return good_bad_none( p.nutrition_for( get_comestible_item( loc ) ) );
             }, _( "NUTRITION" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
                 return good_bad_none( get_edible_comestible( loc ).quench );
             }, _( "QUENCH" ) );
 
-            append_cell( [ this ]( const item_location & loc ) {
-                return good_bad_none( get_edible_comestible( loc ).fun );
+            append_cell( [ p, this ]( const item_location & loc ) {
+                return good_bad_none( p.fun_for( get_comestible_item( loc ) ).first );
             }, _( "JOY" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
