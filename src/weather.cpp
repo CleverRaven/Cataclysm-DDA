@@ -20,6 +20,7 @@
 
 const efftype_id effect_glare( "glare" );
 const efftype_id effect_blind( "blind" );
+const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
