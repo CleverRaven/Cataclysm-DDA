@@ -1,3 +1,4 @@
+#include "monattack.h"
 #include "monster.h"
 #include "mondeath.h"
 
@@ -15,7 +16,6 @@
 #include "speech.h"
 #include "messages.h"
 #include "sounds.h"
-#include "monattack.h"
 #include "mondefense.h"
 #include "projectile.h"
 #include "iuse_actor.h"

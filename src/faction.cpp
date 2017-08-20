@@ -1,6 +1,6 @@
+#include "faction.h"
 #include <sstream>
 
-#include "faction.h"
 #include "rng.h"
 #include "math.h"
 #include "string_formatter.h"

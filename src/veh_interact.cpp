@@ -1,5 +1,5 @@
-#include <string>
 #include "veh_interact.h"
+#include <string>
 #include "vehicle.h"
 #include "overmapbuffer.h"
 #include "game.h"

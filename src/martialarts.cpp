@@ -1,7 +1,7 @@
+#include "martialarts.h"
 #include "player.h"
 #include "game.h"
 #include "debug.h"
-#include "martialarts.h"
 #include "json.h"
 #include "translations.h"
 #include "itype.h"

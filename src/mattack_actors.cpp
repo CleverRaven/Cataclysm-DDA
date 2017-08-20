@@ -1,3 +1,4 @@
+#include "mattack_actors.h"
 #include <vector>
 
 #include "game.h"
@@ -5,7 +6,6 @@
 #include "map_iterator.h"
 #include "itype.h"
 #include "monster.h"
-#include "mattack_actors.h"
 #include "messages.h"
 #include "translations.h"
 #include "sounds.h"

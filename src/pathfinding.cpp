@@ -1,3 +1,4 @@
+#include "pathfinding.h"
 #include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
@@ -11,7 +12,6 @@
 #include "submap.h"
 #include "mapdata.h"
 #include "cata_utility.h"
-#include "pathfinding.h"
 
 #include <algorithm>
 #include <queue>

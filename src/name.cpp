@@ -1,7 +1,7 @@
+#include "name.h"
 #include <map>
 #include <string>
 
-#include "name.h"
 #include "json.h"
 #include "string_formatter.h"
 #include "translations.h"
