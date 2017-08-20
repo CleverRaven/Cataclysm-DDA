@@ -1,9 +1,8 @@
+#include "scenario.h"
 #include <iostream>
 #include <sstream>
 #include <algorithm>
 #include <cmath>
-
-#include "scenario.h"
 
 #include "debug.h"
 #include "json.h"

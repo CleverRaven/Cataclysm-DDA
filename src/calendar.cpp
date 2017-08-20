@@ -1,9 +1,9 @@
+#include "calendar.h"
 #include <cmath>
 #include <sstream>
 #include <limits>
 #include <array>
 
-#include "calendar.h"
 #include "output.h"
 #include "options.h"
 #include "translations.h"

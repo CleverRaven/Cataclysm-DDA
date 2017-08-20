@@ -1,5 +1,5 @@
-#include <sstream>
 #include "inventory.h"
+#include <sstream>
 #include "game.h"
 #include "map.h"
 #include "iexamine.h"

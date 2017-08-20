@@ -1,7 +1,7 @@
+#include "veh_utils.h"
 #include <algorithm>
 #include <map>
 
-#include "veh_utils.h"
 #include "calendar.h"
 #include "vehicle.h"
 #include "veh_type.h"

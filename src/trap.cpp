@@ -1,7 +1,7 @@
+#include "trap.h"
 #include "string_id.h"
 #include "int_id.h"
 #include "generic_factory.h"
-#include "trap.h"
 #include "debug.h"
 #include "line.h"
 #include "game.h"

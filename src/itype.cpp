@@ -1,5 +1,5 @@
-#include "debug.h"
 #include "itype.h"
+#include "debug.h"
 #include "game.h"
 #include "item_factory.h"
 #include "translations.h"

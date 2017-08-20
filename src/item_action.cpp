@@ -1,3 +1,4 @@
+#include "item_action.h"
 #include "action.h"
 #include "output.h"
 #include "options.h"
@@ -8,7 +9,6 @@
 #include "messages.h"
 #include "inventory.h"
 #include "item_factory.h"
-#include "item_action.h"
 #include "iuse_actor.h"
 #include "translations.h"
 #include "input.h"

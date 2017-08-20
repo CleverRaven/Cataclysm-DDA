@@ -1,3 +1,4 @@
+#include "output.h"
 #include <string>
 #include <vector>
 #include <cstdarg>
@@ -8,8 +9,6 @@
 #include <map>
 #include <memory>
 #include <errno.h>
-
-#include "output.h"
 
 #include "color.h"
 #include "input.h"
