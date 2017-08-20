@@ -251,7 +251,7 @@ inline bool operator!=(const point &a, const point &b)
     return !(a == b);
 }
 
-struct tripoint : public JsonSerializer, public JsonDeserializer {
+struct tripoint {
     int x;
     int y;
     int z;
@@ -262,24 +262,7 @@ struct tripoint : public JsonSerializer, public JsonDeserializer {
     tripoint &operator=(tripoint &&) = default;
     tripoint &operator=(const tripoint &) = default;
     explicit tripoint(const point &p, int Z) : x (p.x), y (p.y), z (Z) {}
-    ~tripoint() override {}
-    using JsonSerializer::serialize;
-    void serialize(JsonOut &jsout) const override
-    {
-        jsout.start_array();
-        jsout.write(x);
-        jsout.write(y);
-        jsout.write(z);
-        jsout.end_array();
-    }
-    using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin) override
-    {
-        JsonArray ja = jsin.get_array();
-        x = ja.get_int(0);
-        y = ja.get_int(1);
-        z = ja.get_int(2);
-    }
+
     tripoint operator+(const tripoint &rhs) const
     {
         return tripoint( x + rhs.x, y + rhs.y, z + rhs.z );
@@ -327,6 +310,9 @@ struct tripoint : public JsonSerializer, public JsonDeserializer {
         z -= rhs.z;
         return *this;
     }
+
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &jsin );
 };
 
 inline std::ostream &operator<<( std::ostream &os, const tripoint &pos )

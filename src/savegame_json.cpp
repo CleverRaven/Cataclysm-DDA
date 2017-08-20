@@ -2338,3 +2338,20 @@ void serialize( const point &p, JsonOut &jsout )
     jsout.write( p.y );
     jsout.end_array();
 }
+
+void tripoint::deserialize( JsonIn &jsin )
+{
+    JsonArray ja = jsin.get_array();
+    x = ja.get_int( 0 );
+    y = ja.get_int( 1 );
+    z = ja.get_int( 2 );
+}
+
+void tripoint::serialize( JsonOut &jsout ) const
+{
+    jsout.start_array();
+    jsout.write( x );
+    jsout.write( y );
+    jsout.write( z );
+    jsout.end_array();
+}
