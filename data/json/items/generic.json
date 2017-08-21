@@ -550,7 +550,7 @@
         "price": 10000,
         "price_postapoc": 500,
         "material": ["steel", "iron"],
-        "weight": 9071,
+        "weight": 22680,
         "volume": 25,
         "bashing": 6,
         "to_hit": -4
