@@ -5867,7 +5867,8 @@ void player::suffer()
             }
             else focus_pool --;
         }
-        if( !( ( (worn_with_flag( "SUN_GLASSES" ) ) || worn_with_flag( "BLIND" ) ) && ( wearing_something_on( bp_eyes ) ) ) ) {
+        if( !( ( (worn_with_flag( "SUN_GLASSES" ) ) || worn_with_flag( "BLIND" ) ) && ( wearing_something_on( bp_eyes ) ) )
+            && !has_bionic( "bio_sunglasses" ) ) {
             add_msg( m_bad, _( "The sunlight is really irritating your eyes." ) );
             if( one_in(10) ) {
                 mod_pain(1);
