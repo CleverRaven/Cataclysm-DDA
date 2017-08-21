@@ -89,12 +89,12 @@ int player::nutrition_for( const item &comest ) const
 
     // As float to avoid rounding too many times
     float nutr = comest.type->comestible->nutr;
-    
+
     if( has_trait( trait_GIZZARD ) ) {
         nutr *= 0.6f;
     }
 
-    
+
     if( has_trait( trait_CARNIVORE ) && comest.has_flag( flag_CARNIVORE_OK ) &&
         comest.has_any_flag( carnivore_blacklist ) ) {
         // TODO: Comment pizza scrapping
@@ -105,8 +105,8 @@ int player::nutrition_for( const item &comest ) const
     // Saprophages get full nutrition from rotting food
     if( relative_rot > 1.0f && !has_trait( trait_SAPROPHAGE ) ) {
         // everyone else only gets a portion of the nutrition
-        // Scaling linearly from 100% at just-rotten to 10% at nearly-rotten-away
-        const float rottedness = clamp( relative_rot - 1.0f, 0.1f, 1.0f );
+        // Scaling linearly from 100% at just-rotten to 0 at halfway-rotten-away
+        const float rottedness = clamp( 2 * relative_rot - 2.0f, 0.1f, 1.0f );
         nutr *= ( 1.0f - rottedness );
     }
 
@@ -134,12 +134,12 @@ std::pair<int, int> player::fun_for( const item &comest ) const
     // Rotten food should be pretty disgusting
     const float relative_rot = comest.get_relative_rot();
     if( relative_rot > 1.0f && !has_trait( trait_SAPROPHAGE ) && !has_trait( trait_SAPROVORE ) ) {
-        const float rottedness = clamp( relative_rot - 1.0f, 0.1f, 1.0f );
+        const float rottedness = clamp( 2 * relative_rot - 2.0f, 0.1f, 1.0f );
         // Three effects:
         // penalty for rot goes from -2 to -20
         // bonus for tasty food drops from 90% to 0%
         // disgusting food unfun increases from 110% to 200%
-        fun -= rottedness * 20;
+        fun -= rottedness * 10;
         if( fun > 0 ) {
             fun *= ( 1.0f - rottedness );
         } else {
@@ -741,8 +741,8 @@ void player::consume_effects( const item &food )
     const float relative_rot = food.get_relative_rot();
     if( relative_rot > 1.0f && !has_trait( trait_id( "SAPROPHAGE" ) ) &&
         !has_trait( trait_id( "SAPROVORE" ) ) && !has_bionic( bio_digestion ) ) {
-        const float rottedness = clamp( relative_rot - 1.0f, 0.1f, 1.0f );
-        // ~-1 health per 1 nutrition at full rot, ~0 at "just got rotten"
+        const float rottedness = clamp( 2 * relative_rot - 2.0f, 0.1f, 1.0f );
+        // ~-1 health per 1 nutrition at halfway-rotten-away, ~0 at "just got rotten"
         // But always round down
         int h_loss = -rottedness * comest.nutr;
         mod_healthy_mod( h_loss, -200 );
@@ -783,9 +783,11 @@ void player::consume_effects( const item &food )
 
     std::pair<int, int> fun = fun_for( food );
     if( fun.first < 0 ) {
-        add_morale( MORALE_FOOD_BAD, fun.first, fun.second, morale_time, morale_time / 2, false, food.type );
+        add_morale( MORALE_FOOD_BAD, fun.first, fun.second, morale_time, morale_time / 2, false,
+                    food.type );
     } else if( fun.first > 0 ) {
-        add_morale( MORALE_FOOD_GOOD, fun.first, fun.second, morale_time, morale_time / 2, false, food.type );
+        add_morale( MORALE_FOOD_GOOD, fun.first, fun.second, morale_time, morale_time / 2, false,
+                    food.type );
     }
 
     const bool hibernate = has_active_mutation( trait_id( "HIBERNATE" ) );
