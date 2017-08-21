@@ -3,36 +3,28 @@
     "id": "clothing_glasses",
     "type": "item_group",
     "items": [
-      {
-        "distribution": [
-          {
-            "distribution": [
-              { "item": "sunglasses", "prob": 80 },
-              { "item": "fancy_sunglasses", "prob": 20 }
-            ], "prob": 25
-          },
-          {
-            "collection": [
-              {
-                "distribution": [
-                  { "item": "glasses_eye", "prob": 80 },
-                  { "item": "glasses_reading", "prob": 10 },
-                  { "item": "glasses_bifocal", "prob": 5 },
-                  { "item": "glasses_monocle", "prob": 5 }
-                ]
-              },
-              { "item": "fitover_sunglasses" }
-            ], "prob": 75
-          }
-        ]
-      }
+      { "distribution": [
+          { "distribution": [
+            { "item": "sunglasses", "prob": 80 },
+            { "item": "fancy_sunglasses", "prob": 20 }
+          ], "prob": 25 },
+          { "collection": [
+            { "distribution": [
+              { "item": "glasses_eye", "prob": 80 },
+              { "item": "glasses_reading", "prob": 10 },
+              { "item": "glasses_bifocal", "prob": 5 },
+              { "item": "glasses_monocle", "prob": 5 }
+            ] },
+            { "item": "fitover_sunglasses" }
+          ], "prob": 75 }
+      ] }
     ]
   },
   {
     "id": "clothing_outdoor_set",
     "type": "item_group",
-    "//": "Standard (non-winter) set of clothes for wearing outdoors.",
     "subtype": "collection",
+    "//": "Standard (non-winter) set of clothes for wearing outdoors.",
     "items": [
       { "group": "clothing_outdoor_torso" },
       { "group": "clothing_outdoor_pants" },
@@ -45,8 +37,8 @@
   {
     "id": "clothing_soldier_set",
     "type": "item_group",
-    "//": "Standard (non-winter) set of clothes worn by soldiers and paramilitary forces.",
     "subtype": "collection",
+    "//": "Standard (non-winter) set of clothes worn by soldiers and paramilitary forces.",
     "items": [
       { "group": "clothing_soldier_shirt" },
       { "item": "jacket_army" },
@@ -58,63 +50,51 @@
       { "group": "clothing_tactical_leg", "prob": 15 },
       { "group": "clothing_tactical_torso", "prob": 15 },
       { "group": "underwear" },
-      {
-        "distribution": [
-          { "item": "socks", "prob": 95 },
-          { "item": "socks_wool", "prob": 5 }
-        ]
-      },
-      {
-        "distribution": [
-          { "group": "clothing_glasses", "prob": 60 },
-          { "item": "glasses_bal", "prob": 30 },
-          { "item": "goggles_nv", "prob": 5 },
-          { "item": "goggles_ir", "prob": 5 }
-        ], "prob": 20
-      },
+      { "distribution": [
+        { "item": "socks", "prob": 95 },
+        { "item": "socks_wool", "prob": 5 }
+      ] },
+      { "distribution": [
+        { "group": "clothing_glasses", "prob": 60 },
+        { "item": "glasses_bal", "prob": 30 },
+        { "item": "goggles_nv", "prob": 5 },
+        { "item": "goggles_ir", "prob": 5 }
+      ], "prob": 20 },
       { "group": "clothing_watch", "prob": 5 }
     ]
   },
   {
     "id": "clothing_soldier_winter_set",
     "type": "item_group",
-    "//": "Winter set of clothes worn by soldiers and paramilitary forces.",
     "subtype": "collection",
+    "//": "Winter set of clothes worn by soldiers and paramilitary forces.",
     "items": [
       { "group": "clothing_soldier_shirt" },
       { "item": "winter_jacket_army" },
       { "item": "winter_pants_army" },
       { "item": "boots_combat" },
-      {
-        "collection": [
-          { "item": "helmet_army" },
-          { "item": "helmet_liner" }
-        ], "prob": 20
-      },
-      {
-        "collection": [
-          { "item": "gloves_liner" },
-          { "item": "winter_gloves_army" }
-        ], "prob": 40
-      },
+      { "collection": [
+        { "item": "helmet_army" },
+        { "item": "helmet_liner" }
+      ], "prob": 20 },
+      { "collection": [
+        { "item": "gloves_liner" },
+        { "item": "winter_gloves_army" }
+      ], "prob": 40 },
       { "item": "elbow_pads", "prob": 10 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       { "group": "clothing_tactical_torso", "prob": 15 },
       { "group": "underwear" },
-      {
-        "distribution": [
-          { "item": "socks", "prob": 10 },
-          { "item": "socks_wool", "prob": 90 }
-        ]
-      },
-      {
-        "distribution": [
-          { "group": "clothing_glasses", "prob": 60 },
-          { "item": "glasses_bal", "prob": 30 },
-          { "item": "goggles_nv", "prob": 5 },
-          { "item": "goggles_ir", "prob": 5 }
-        ], "prob": 20
-      },
+      { "distribution": [
+        { "item": "socks", "prob": 10 },
+        { "item": "socks_wool", "prob": 90 }
+      ] },
+      { "distribution": [
+        { "group": "clothing_glasses", "prob": 60 },
+        { "item": "glasses_bal", "prob": 30 },
+        { "item": "goggles_nv", "prob": 5 },
+        { "item": "goggles_ir", "prob": 5 }
+      ], "prob": 20 },
       { "group": "clothing_watch", "prob": 5 }
     ]
   },
@@ -133,20 +113,16 @@
     "type": "item_group",
     "//": "Standard (non-winter) pants suitable for wearing outdoors.",
     "items": [
-      {
-        "collection": [
-          {
-            "distribution": [
-              { "item": "jeans", "prob": 60 },
-              { "item": "pants", "prob": 100 },
-              { "item": "pants_leather", "prob": 30 },
-              { "item": "pants_cargo", "prob": 30 },
-              { "item": "shorts_cargo", "prob": 60 }
-            ]
-          },
+      { "collection": [
+        { "distribution": [
+          { "item": "jeans", "prob": 60 },
+          { "item": "pants", "prob": 100 },
+          { "item": "pants_leather", "prob": 30 },
+          { "item": "pants_cargo", "prob": 30 },
+          { "item": "shorts_cargo", "prob": 60 }
+        ] },
           { "item": "leather_belt", "prob": 30 }
-        ]
-      }
+      ] }
     ]
   },
   {
@@ -163,35 +139,29 @@
     ]
   },
   {
-    "id": "clothing_outdoor_torso",
+    "id" : "clothing_outdoor_torso",
     "type": "item_group",
     "//": "Standard (non-winter) shirts and jackets suitable for wearing outdoors.",
     "items": [
-      {
-        "collection": [
-          {
-            "distribution": [
-              { "item": "longshirt", "prob": 80 },
-              { "item": "polo_shirt", "prob": 50 },
-              { "item": "tshirt", "prob": 80 },
-              { "item": "linuxtshirt", "prob": 10 }
-            ]
-          },
-          {
-            "distribution": [
-              { "item": "coat_rain", "prob": 30 },
-              { "item": "duster", "prob": 30 },
-              { "item": "hoodie", "prob": 60 },
-              { "item": "jacket_jean", "prob": 20 },
-              { "item": "jacket_leather", "prob": 20 },
-              { "item": "jacket_light", "prob": 40 },
-              { "item": "jacket_windbreaker", "prob": 20 },
-              { "item": "sweater", "prob": 50 },
-              { "item": "trenchcoat", "prob": 10 }
-            ], "prob": 30
-          }
-        ]
-      }
+      { "collection": [
+        { "distribution": [
+          { "item": "longshirt", "prob": 80 },
+          { "item": "polo_shirt", "prob": 50 },
+          { "item": "tshirt", "prob": 80 },
+          { "item": "linuxtshirt", "prob": 10 }
+        ] },
+        { "distribution": [
+          { "item": "coat_rain", "prob": 30 },
+          { "item": "duster", "prob": 30 },
+          { "item": "hoodie", "prob": 60 },
+          { "item": "jacket_jean", "prob": 20 },
+          { "item": "jacket_leather", "prob": 20 },
+          { "item": "jacket_light", "prob": 40 },
+          { "item": "jacket_windbreaker", "prob": 20 },
+          { "item": "sweater", "prob": 50 },
+          { "item": "trenchcoat", "prob": 10 }
+        ], "prob": 30 }
+      ] }
     ]
   },
   {
@@ -288,41 +258,35 @@
     "//": "Pants often worn by technicians and tradesmen.",
     "subtype": "distribution",
     "entries": [
-      { "item": "technician_pants_blue", "prob": 100 },
-      { "item": "technician_pants_ltblue", "prob": 100 },
-      { "item": "technician_pants_gray", "prob": 100 }
+        { "item": "technician_pants_blue", "prob": 100 },
+        { "item": "technician_pants_ltblue", "prob": 100 },
+        { "item": "technician_pants_gray", "prob": 100 }
     ]
   },
   {
-    "id": "clothing_work_torso",
+    "id" : "clothing_work_torso",
     "type": "item_group",
     "//": "Shirts and jackets often worn by technicians and labourers.",
     "items": [
-      {
-        "collection": [
-          {
-            "distribution": [
-              { "item": "technician_shirt_blue", "prob": 100 },
-              { "item": "technician_shirt_ltblue", "prob": 100 },
-              { "item": "technician_shirt_gray", "prob": 100 }
-            ]
-          },
-          {
-            "distribution": [
-              { "item": "coat_rain", "prob": 30 },
-              { "item": "jacket_jean", "prob": 20 },
-              { "item": "jacket_light", "prob": 40 }
-            ], "prob": 20
-          }
-        ]
-      }
+      { "collection": [
+        { "distribution": [
+          { "item": "technician_shirt_blue", "prob": 100 },
+          { "item": "technician_shirt_ltblue", "prob": 100 },
+          { "item": "technician_shirt_gray", "prob": 100 }
+        ] },
+        { "distribution": [
+          { "item": "coat_rain", "prob": 30 },
+          { "item": "jacket_jean", "prob": 20 },
+          { "item": "jacket_light", "prob": 40 }
+        ], "prob": 20 }
+      ] }
     ]
   },
   {
     "id": "clothing_work_set",
     "type": "item_group",
-    "//": "Set of clothes worn by technicians and labourers including protective gear",
     "subtype": "collection",
+    "//": "Set of clothes worn by technicians and labourers including protective gear",
     "items": [
       { "group": "clothing_work_boots" },
       { "group": "clothing_work_glasses", "prob": 60 },
@@ -331,17 +295,13 @@
       { "group": "clothing_work_mask", "prob": 40 },
       { "item": "ear_plugs", "prob": 15 },
       { "item": "tool_belt", "prob": 25 },
-      {
-        "distribution": [
-          {
-            "collection": [
-              { "group": "clothing_work_pants" },
-              { "group": "clothing_work_torso" }
-            ], "prob": 75
-          },
+      { "distribution": [
+          { "collection": [
+            { "group": "clothing_work_pants" },
+            { "group": "clothing_work_torso" }
+          ], "prob": 75 },
           { "item": "jumpsuit", "prob": 25 }
-        ]
-      }
+      ] }
     ]
   }
 ]
