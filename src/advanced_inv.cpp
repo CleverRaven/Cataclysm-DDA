@@ -136,7 +136,12 @@ void advanced_inventory::load_settings()
 {
     aim_exit aim_code = static_cast<aim_exit>(uistate.adv_inv_exit_code);
     for(int i = 0; i < NUM_PANES; ++i) {
-        auto location = static_cast<aim_location>(uistate.adv_inv_area[i]);
+        aim_location location;
+        if (get_option<bool>("OPEN_DEFAULT_ADV_INV")) {
+            location = static_cast<aim_location>(uistate.adv_inv_default_areas[i]);
+        } else {
+            location = static_cast<aim_location>(uistate.adv_inv_area[i]);
+        }
         auto square = squares[location];
         // determine the square's veh/map item presence
         bool has_veh_items = (square.can_store_in_vehicle()) ?
@@ -1402,6 +1407,9 @@ void advanced_inventory::display()
     ctxt.register_action( "ITEMS_DRAGGED_CONTAINER" );
     ctxt.register_action( "ITEMS_CONTAINER" );
 
+    ctxt.register_action( "ITEMS_DEFAULT" );
+    ctxt.register_action( "SAVE_DEFAULT" );
+
     exit = false;
     recalc = true;
     redraw = true;
@@ -1447,7 +1455,22 @@ void advanced_inventory::display()
         if( action == "CATEGORY_SELECTION" ) {
             inCategoryMode = !inCategoryMode;
             spane.redraw = true; // We redraw to force the color change of the highlighted line and header text.
-        } else if( action == "HELP_KEYBINDINGS" ) {
+        } else if (action == "HELP_KEYBINDINGS") {
+            redraw = true;
+        } else if (action == "ITEMS_DEFAULT") {
+            for( side cside : { left, right } ) {
+                auto &pane = panes[cside];
+                aim_location location = ( aim_location )uistate.adv_inv_default_areas[cside];
+                if( pane.get_area() != location || location == AIM_ALL ) {
+                    pane.recalc = true;
+                }
+                pane.set_area( squares[location] );
+            }
+            redraw = true;
+        } else if (action == "SAVE_DEFAULT") {
+            uistate.adv_inv_default_areas[left] = panes[left].get_area();
+            uistate.adv_inv_default_areas[right] = panes[right].get_area();
+            popup( _( "Default layout was saved" ) );
             redraw = true;
         } else if( get_square( action, changeSquare ) ) {
             if( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) {
@@ -2120,9 +2143,9 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     }
     // Inventory has a weight capacity, map and vehicle don't have that
     if( destarea == AIM_INVENTORY  || destarea == AIM_WORN ) {
-        const long unitweight = it.weight() * 1000 / ( by_charges ? it.charges : 1 );
-        const long max_weight = ( g->u.has_trait( trait_id( "DEBUG_STORAGE" ) ) ?
-                                  INT_MAX : ( g->u.weight_capacity() * 4 - g->u.weight_carried() ) * 1000 );
+        const units::mass unitweight = it.weight() / ( by_charges ? it.charges : 1 );
+        const units::mass max_weight = g->u.has_trait( trait_id( "DEBUG_STORAGE" ) ) ?
+                                  units::mass_max : g->u.weight_capacity() * 4 - g->u.weight_carried();
         if( unitweight > 0 && ( unitweight * amount > max_weight ) ) {
             const long weightmax = max_weight / unitweight;
             if( weightmax <= 0 ) {

@@ -43,418 +43,408 @@ static const trait_id trait_M_SKIN2( "M_SKIN2" );
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
 
-field_t fieldlist[num_fields];
-
-void game::init_fields()
-{
-    // ID, {name}, symbol, priority, {color}, {transparency}, {dangerous}, half-life, {move_cost}
-    field_t tmp_fields[num_fields] =
+const std::array<field_t, num_fields> fieldlist = { {
+// ID, {name}, symbol, priority, {color}, {transparency}, {dangerous}, half-life, {move_cost}
     {
-        {
-            "fd_null",
-            {"", "", ""}, '%', 0,
-            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
-            {0,0,0},
-            PNULL,
-            false
-        },
-        {
-            "fd_blood",
-            {_("blood splatter"), _("blood stain"), _("puddle of blood")}, '%', 0,
-            {c_red, c_red, c_red}, {true, true, true}, {false, false, false}, HOURS(48),
-            {0,0,0},
-            LIQUID,
-            true
-        },
-        {
-            "fd_bile",
-            {_("bile splatter"), _("bile stain"), _("puddle of bile")}, '%', 0,
-            {c_pink, c_pink, c_pink}, {true, true, true}, {false, false, false}, HOURS(24),
-            {0,0,0},
-            LIQUID,
-            true
-        },
+        "fd_null",
+        {"", "", ""}, '%', 0,
+        {def_c_white,def_c_white,def_c_white}, {true, true, true}, {false, false, false}, 0,
+        {0,0,0},
+        PNULL,
+        false
+    },
+    {
+        "fd_blood",
+        {translate_marker( "blood splatter" ), translate_marker( "blood stain" ), translate_marker( "puddle of blood" )}, '%', 0,
+        {def_c_red,def_c_red,def_c_red}, {true, true, true}, {false, false, false}, HOURS( 48 ),
+        {0,0,0},
+        LIQUID,
+        true
+    },
+    {
+        "fd_bile",
+        {translate_marker( "bile splatter" ), translate_marker( "bile stain" ), translate_marker( "puddle of bile" )}, '%', 0,
+        {def_c_pink,def_c_pink,def_c_pink}, {true, true, true}, {false, false, false}, HOURS( 24 ),
+        {0,0,0},
+        LIQUID,
+        true
+    },
 
-        {
-            "fd_gibs_flesh",
-            {_("scraps of flesh"), _("bloody meat chunks"), _("heap of gore")}, '~', 0,
-            {c_brown, c_ltred, c_red}, {true, true, true}, {false, false, false}, HOURS(48),
-            {0,0,0},
-            SOLID,
-            true
-        },
+    {
+        "fd_gibs_flesh",
+        {translate_marker( "scraps of flesh" ), translate_marker( "bloody meat chunks" ), translate_marker( "heap of gore" )}, '~', 0,
+        {def_c_brown,def_c_ltred,def_c_red}, {true, true, true}, {false, false, false}, HOURS( 48 ),
+        {0,0,0},
+        SOLID,
+        true
+    },
 
-        {
-            "fd_gibs_veggy",
-            {_("shredded leaves and twigs"), _("shattered branches and leaves"), _("broken vegetation tangle")}, '~', 0,
-            {c_ltgreen, c_ltgreen, c_green}, {true, true, true}, {false, false, false}, HOURS(48),
-            {0,0,0},
-            SOLID,
-            true
-        },
+    {
+        "fd_gibs_veggy",
+        {translate_marker( "shredded leaves and twigs" ), translate_marker( "shattered branches and leaves" ), translate_marker( "broken vegetation tangle" )}, '~', 0,
+        {def_c_ltgreen,def_c_ltgreen,def_c_green}, {true, true, true}, {false, false, false}, HOURS( 48 ),
+        {0,0,0},
+        SOLID,
+        true
+    },
 
-        {
-            "fd_web",
-            {_("cobwebs"),_("webs"), _("thick webs")}, '}', 2,
-            {c_white, c_white, c_white}, {true, true, false},{true, true, true}, 0,
-            {0,0,0},
-            SOLID,
-            false
-        },
+    {
+        "fd_web",
+        {translate_marker( "cobwebs" ),translate_marker( "webs" ), translate_marker( "thick webs" )}, '}', 2,
+        {def_c_white,def_c_white,def_c_white}, {true, true, false},{true, true, true}, 0,
+        {0,0,0},
+        SOLID,
+        false
+    },
 
-        {
-            "fd_slime",
-            {_("slime trail"), _("slime stain"), _("puddle of slime")}, '%', 0,
-            {c_ltgreen, c_ltgreen, c_green},{true, true, true},{false, false, false}, HOURS(24),
-            {0,0,0},
-            LIQUID,
-            true
-        },
+    {
+        "fd_slime",
+        {translate_marker( "slime trail" ), translate_marker( "slime stain" ), translate_marker( "puddle of slime" )}, '%', 0,
+        {def_c_ltgreen,def_c_ltgreen,def_c_green},{true, true, true},{false, false, false}, HOURS( 24 ),
+        {0,0,0},
+        LIQUID,
+        true
+    },
 
-        {
-            "fd_acid",
-            {_("acid splatter"), _("acid streak"), _("pool of acid")}, '5', 2,
-            {c_ltgreen, c_green, c_green}, {true, true, true}, {true, true, true}, MINUTES(2),
-            {0,0,0},
-            LIQUID,
-            false
-        },
+    {
+        "fd_acid",
+        {translate_marker( "acid splatter" ), translate_marker( "acid streak" ), translate_marker( "pool of acid" )}, '5', 2,
+        {def_c_ltgreen,def_c_green,def_c_green}, {true, true, true}, {true, true, true}, MINUTES( 2 ),
+        {0,0,0},
+        LIQUID,
+        false
+    },
 
-        {
-            "fd_sap",
-            {_("sap splatter"), _("glob of sap"), _("pool of sap")}, '5', 2,
-            {c_yellow, c_brown, c_brown}, {true, true, true}, {true, true, true}, MINUTES(2),
-            {0,0,0},
-            LIQUID,
-            false
-        },
+    {
+        "fd_sap",
+        {translate_marker( "sap splatter" ), translate_marker( "glob of sap" ), translate_marker( "pool of sap" )}, '5', 2,
+        {def_c_yellow,def_c_brown,def_c_brown}, {true, true, true}, {true, true, true}, MINUTES( 2 ),
+        {0,0,0},
+        LIQUID,
+        false
+    },
 
-        {
-            "fd_sludge",
-            {_("thin sludge trail"), _("sludge trail"), _("thick sludge trail")}, '5', 2,
-            {c_ltgray, c_dkgray, c_black}, {true, true, true}, {true, true, true}, HOURS(6),
-            {0,0,0},
-            LIQUID,
-            false
-        },
+    {
+        "fd_sludge",
+        {translate_marker( "thin sludge trail" ), translate_marker( "sludge trail" ), translate_marker( "thick sludge trail" )}, '5', 2,
+        {def_c_ltgray,def_c_dkgray,def_c_black}, {true, true, true}, {true, true, true}, HOURS( 6 ),
+        {0,0,0},
+        LIQUID,
+        false
+    },
 
-        {
-            "fd_fire",
-            {_("small fire"), _("fire"), _("raging fire")}, '4', 4,
-            {c_yellow, c_ltred, c_red}, {true, true, true}, {true, true, true}, MINUTES(30),
-            {0,0,0},
-            PLASMA,
-            false
-        },
+    {
+        "fd_fire",
+        {translate_marker( "small fire" ), translate_marker( "fire" ), translate_marker( "raging fire" )}, '4', 4,
+        {def_c_yellow,def_c_ltred,def_c_red}, {true, true, true}, {true, true, true}, MINUTES( 30 ),
+        {0,0,0},
+        PLASMA,
+        false
+    },
 
-       {
-           "fd_rubble",
-           {_("legacy rubble"), _("legacy rubble"), _("legacy rubble")}, '#', 0,
-           {c_dkgray, c_dkgray, c_dkgray}, {true, true, true},{false, false, false},  1,
-           {0,0,0},
-           SOLID,
-           false
-       },
+   {
+       "fd_rubble",
+       {translate_marker( "legacy rubble" ), translate_marker( "legacy rubble" ), translate_marker( "legacy rubble" )}, '#', 0,
+       {def_c_dkgray,def_c_dkgray,def_c_dkgray}, {true, true, true},{false, false, false},  1,
+       {0,0,0},
+       SOLID,
+       false
+   },
 
-        {
-            "fd_smoke",
-            {_("thin smoke"), _("smoke"), _("thick smoke")}, '8', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, false, false},{true, true, true}, MINUTES(2),
-            {0,0,0},
-            GAS,
-            false
-        },
-        {
-            "fd_toxic_gas",
-            {_("hazy cloud"),_("toxic gas"),_("thick toxic gas")}, '8', 8,
-            {c_white, c_ltgreen, c_green}, {true, false, false},{true, true, true}, MINUTES(90),
-            {0,0,0},
-            GAS,
-            false
-        },
+    {
+        "fd_smoke",
+        {translate_marker( "thin smoke" ), translate_marker( "smoke" ), translate_marker( "thick smoke" )}, '8', 8,
+        {def_c_white,def_c_ltgray,def_c_dkgray}, {true, false, false},{true, true, true}, MINUTES( 2 ),
+        {0,0,0},
+        GAS,
+        false
+    },
+    {
+        "fd_toxic_gas",
+        {translate_marker( "hazy cloud" ),translate_marker( "toxic gas" ),translate_marker( "thick toxic gas" )}, '8', 8,
+        {def_c_white,def_c_ltgreen,def_c_green}, {true, false, false},{true, true, true}, MINUTES( 90 ),
+        {0,0,0},
+        GAS,
+        false
+    },
 
-        {
-            "fd_tear_gas",
-            {_("hazy cloud"),_("tear gas"),_("thick tear gas")}, '8', 8,
-            {c_white, c_yellow, c_brown}, {true, false, false},{true, true, true}, MINUTES(5),
-            {0,0,0},
-            GAS,
-            false
-        },
+    {
+        "fd_tear_gas",
+        {translate_marker( "hazy cloud" ),translate_marker( "tear gas" ),translate_marker( "thick tear gas" )}, '8', 8,
+        {def_c_white,def_c_yellow,def_c_brown}, {true, false, false},{true, true, true}, MINUTES( 5 ),
+        {0,0,0},
+        GAS,
+        false
+    },
 
-        {
-            "fd_nuke_gas",
-            {_("hazy cloud"),_("radioactive gas"), _("thick radioactive gas")}, '8', 8,
-            {c_white, c_ltgreen, c_green}, {true, true, false}, {true, true, true}, MINUTES(100),
-            {0,0,0},
-            GAS,
-            false
-        },
+    {
+        "fd_nuke_gas",
+        {translate_marker( "hazy cloud" ),translate_marker( "radioactive gas" ), translate_marker( "thick radioactive gas" )}, '8', 8,
+        {def_c_white,def_c_ltgreen,def_c_green}, {true, true, false}, {true, true, true}, MINUTES( 100 ),
+        {0,0,0},
+        GAS,
+        false
+    },
 
-        {
-            "fd_gas_vent",
-            {_("gas vent"), _("gas vent"), _("gas vent")}, '%', 0,
-            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
-            {0,0,0},
-            GAS,
-            false
-        },
+    {
+        "fd_gas_vent",
+        {translate_marker( "gas vent" ), translate_marker( "gas vent" ), translate_marker( "gas vent" )}, '%', 0,
+        {def_c_white,def_c_white,def_c_white}, {true, true, true}, {false, false, false}, 0,
+        {0,0,0},
+        GAS,
+        false
+    },
 
-        { // Fire Vents
-            "fd_fire_vent",
-            {"", "", ""}, '&', -1,
-            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
-            {0,0,0},
-            GAS,
-            false
-        },
+    { // Fire Vents
+        "fd_fire_vent",
+        {"", "", ""}, '&', -1,
+        {def_c_white,def_c_white,def_c_white}, {true, true, true}, {false, false, false}, 0,
+        {0,0,0},
+        GAS,
+        false
+    },
 
-        {
-            "fd_flame_burst",
-            {_("fire"), _("fire"), _("fire")}, '5', 4,
-            {c_red, c_red, c_red}, {true, true, true}, {true, true, true}, 0,
-            {0,0,0},
-            GAS,
-            false
-        },
+    {
+        "fd_flame_burst",
+        {translate_marker( "fire" ), translate_marker( "fire" ), translate_marker( "fire" )}, '5', 4,
+        {def_c_red,def_c_red,def_c_red}, {true, true, true}, {true, true, true}, 0,
+        {0,0,0},
+        GAS,
+        false
+    },
 
-        {
-            "fd_electricity",
-            {_("sparks"), _("electric crackle"), _("electric cloud")}, '9', 4,
-            {c_white, c_cyan, c_blue}, {true, true, true}, {true, true, true}, 2,
-            {0,0,0},
-            PLASMA,
-            false
-        },
+    {
+        "fd_electricity",
+        {translate_marker( "sparks" ), translate_marker( "electric crackle" ), translate_marker( "electric cloud" )}, '9', 4,
+        {def_c_white,def_c_cyan,def_c_blue}, {true, true, true}, {true, true, true}, 2,
+        {0,0,0},
+        PLASMA,
+        false
+    },
 
-        {
-            "fd_fatigue",
-            {_("odd ripple"), _("swirling air"), _("tear in reality")}, '*', 8,
-            {c_ltgray, c_dkgray, c_magenta},{true, true, false},{true, true, true},  0,
-            {0,0,0},
-            PNULL,
-            false
-        },
+    {
+        "fd_fatigue",
+        {translate_marker( "odd ripple" ), translate_marker( "swirling air" ), translate_marker( "tear in reality" )}, '*', 8,
+        {def_c_ltgray,def_c_dkgray,def_c_magenta},{true, true, false},{true, true, true},  0,
+        {0,0,0},
+        PNULL,
+        false
+    },
 
-        { //Push Items
-            "fd_push_items",
-            {"", "", ""}, '&', -1,
-            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
-            {0,0,0},
-            PNULL,
-            false
-        },
+    { //Push Items
+        "fd_push_items",
+        {"", "", ""}, '&', -1,
+        {def_c_white,def_c_white,def_c_white}, {true, true, true}, {false, false, false}, 0,
+        {0,0,0},
+        PNULL,
+        false
+    },
 
-        { // shock vents
-            "fd_shock_vent",
-            {"", "", ""}, '&', -1,
-            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
-            {0,0,0},
-            PLASMA,
-            false
-        },
+    { // shock vents
+        "fd_shock_vent",
+        {"", "", ""}, '&', -1,
+        {def_c_white,def_c_white,def_c_white}, {true, true, true}, {false, false, false}, 0,
+        {0,0,0},
+        PLASMA,
+        false
+    },
 
-        { // acid vents
-            "fd_acid_vent",
-            {"", "", ""}, '&', -1,
-            {c_white, c_white, c_white}, {true, true, true}, {false, false, false}, 0,
-            {0,0,0},
-            LIQUID,
-            false
-        },
+    { // acid vents
+        "fd_acid_vent",
+        {"", "", ""}, '&', -1,
+        {def_c_white,def_c_white,def_c_white}, {true, true, true}, {false, false, false}, 0,
+        {0,0,0},
+        LIQUID,
+        false
+    },
 
-        { // plasma glow (for plasma weapons)
-            "fd_plasma",
-            {_("faint plasma"), _("glowing plasma"), _("glaring plasma")}, '9', 4,
-            {c_magenta, c_pink, c_white}, {true, true, true}, {false, false, false}, 2,
-            {0,0,0},
-            PLASMA,
-            false
-        },
+    { // plasma glow ( for plasma weapons )
+        "fd_plasma",
+        {translate_marker( "faint plasma" ), translate_marker( "glowing plasma" ), translate_marker( "glaring plasma" )}, '9', 4,
+        {def_c_magenta,def_c_pink,def_c_white}, {true, true, true}, {false, false, false}, 2,
+        {0,0,0},
+        PLASMA,
+        false
+    },
 
-        { // laser beam (for laser weapons)
-            "fd_laser",
-            {_("faint glimmer"), _("beam of light"), _("intense beam of light")}, '#', 4,
-            {c_blue, c_ltblue, c_white}, {true, true, true}, {false, false, false}, 1,
-            {0,0,0},
-            PLASMA,
-            false
-        },
-        {
-            "fd_spotlight",
-            { _("spotlight"), _("spotlight"), _("spotlight") }, '&', 1,
-            {c_white, c_white, c_white}, { true, true, true }, { false, false, false }, 1,
-            {0,0,0},
-            PNULL,
-            false
-        },
-        {
-            "fd_dazzling",
-            { _("dazzling"), _("dazzling"), _("dazzling") }, '#', 4,
-            {c_ltred_yellow, c_ltred_yellow, c_ltred_yellow}, { true, true, true }, { false, false, false }, 1,
-            { 0, 0, 0 },
-            PLASMA,
-            false
-        },
-        {
-            "fd_blood_veggy",
-            {_("plant sap splatter"), _("plant sap stain"), _("puddle of resin")}, '%', 0,
-            {c_ltgreen, c_ltgreen, c_ltgreen}, {true, true, true}, {false, false, false}, HOURS(48),
-            {0,0,0},
-            LIQUID,
-            true
-        },
-        {
-            "fd_blood_insect",
-            {_("bug blood splatter"), _("bug blood stain"), _("puddle of bug blood")}, '%', 0,
-            {c_green, c_green, c_green}, {true, true, true}, {false, false, false}, HOURS(48),
-            {0,0,0},
-            LIQUID,
-            true
-        },
-        {
-            "fd_blood_invertebrate",
-            {_("hemolymph splatter"), _("hemolymph stain"), _("puddle of hemolymph")}, '%', 0,
-            {c_ltgray, c_ltgray, c_ltgray}, {true, true, true}, {false, false, false}, HOURS(48),
-            {0,0,0},
-            LIQUID,
-            true
-        },
-        {
-            "fd_gibs_insect",
-            {_("shards of chitin"), _("shattered bug leg"), _("torn insect organs")}, '~', 0,
-            {c_ltgreen, c_green, c_yellow}, {true, true, true}, {false, false, false}, HOURS(48),
-            {0,0,0},
-            SOLID,
-            true
-        },
-        {
-            "fd_gibs_invertebrate",
-            {_("gooey scraps"), _("icky mess"), _("heap of squishy gore")}, '~', 0,
-            {c_ltgray, c_ltgray, c_dkgray}, {true, true, true}, {false, false, false}, HOURS(48),
-            {0,0,0},
-            SOLID,
-            true
-        },
-        {
-            "fd_cigsmoke",
-            {_("swirl of tobacco smoke"), _("tobacco smoke"), _("thick tobacco smoke")}, '%', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false}, MINUTES(35),
-            {0,0,0},
-            GAS,
-            true
-        },
-        {
-            "fd_weedsmoke",
-            {_("swirl of pot smoke"), _("pot smoke"), _("thick pot smoke")}, '%', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  325,
-            {0,0,0},
-            GAS,
-            true
-        },
+    { // laser beam ( for laser weapons )
+        "fd_laser",
+        {translate_marker( "faint glimmer" ), translate_marker( "beam of light" ), translate_marker( "intense beam of light" )}, '#', 4,
+        {def_c_blue,def_c_ltblue,def_c_white}, {true, true, true}, {false, false, false}, 1,
+        {0,0,0},
+        PLASMA,
+        false
+    },
+    {
+        "fd_spotlight",
+        { translate_marker( "spotlight" ), translate_marker( "spotlight" ), translate_marker( "spotlight" ) }, '&', 1,
+        {def_c_white,def_c_white,def_c_white}, { true, true, true }, { false, false, false }, 1,
+        {0,0,0},
+        PNULL,
+        false
+    },
+    {
+        "fd_dazzling",
+        { translate_marker( "dazzling" ), translate_marker( "dazzling" ), translate_marker( "dazzling" ) }, '#', 4,
+        {def_c_ltred_yellow,def_c_ltred_yellow,def_c_ltred_yellow}, { true, true, true }, { false, false, false }, 1,
+        { 0, 0, 0 },
+        PLASMA,
+        false
+    },
+    {
+        "fd_blood_veggy",
+        {translate_marker( "plant sap splatter" ), translate_marker( "plant sap stain" ), translate_marker( "puddle of resin" )}, '%', 0,
+        {def_c_ltgreen,def_c_ltgreen,def_c_ltgreen}, {true, true, true}, {false, false, false}, HOURS( 48 ),
+        {0,0,0},
+        LIQUID,
+        true
+    },
+    {
+        "fd_blood_insect",
+        {translate_marker( "bug blood splatter" ), translate_marker( "bug blood stain" ), translate_marker( "puddle of bug blood" )}, '%', 0,
+        {def_c_green,def_c_green,def_c_green}, {true, true, true}, {false, false, false}, HOURS( 48 ),
+        {0,0,0},
+        LIQUID,
+        true
+    },
+    {
+        "fd_blood_invertebrate",
+        {translate_marker( "hemolymph splatter" ), translate_marker( "hemolymph stain" ), translate_marker( "puddle of hemolymph" )}, '%', 0,
+        {def_c_ltgray,def_c_ltgray,def_c_ltgray}, {true, true, true}, {false, false, false}, HOURS( 48 ),
+        {0,0,0},
+        LIQUID,
+        true
+    },
+    {
+        "fd_gibs_insect",
+        {translate_marker( "shards of chitin" ), translate_marker( "shattered bug leg" ), translate_marker( "torn insect organs" )}, '~', 0,
+        {def_c_ltgreen,def_c_green,def_c_yellow}, {true, true, true}, {false, false, false}, HOURS( 48 ),
+        {0,0,0},
+        SOLID,
+        true
+    },
+    {
+        "fd_gibs_invertebrate",
+        {translate_marker( "gooey scraps" ), translate_marker( "icky mess" ), translate_marker( "heap of squishy gore" )}, '~', 0,
+        {def_c_ltgray,def_c_ltgray,def_c_dkgray}, {true, true, true}, {false, false, false}, HOURS( 48 ),
+        {0,0,0},
+        SOLID,
+        true
+    },
+    {
+        "fd_cigsmoke",
+        {translate_marker( "swirl of tobacco smoke" ), translate_marker( "tobacco smoke" ), translate_marker( "thick tobacco smoke" )}, '%', 8,
+        {def_c_white,def_c_ltgray,def_c_dkgray}, {true, true, true},{false, false, false}, MINUTES( 35 ),
+        {0,0,0},
+        GAS,
+        true
+    },
+    {
+        "fd_weedsmoke",
+        {translate_marker( "swirl of pot smoke" ), translate_marker( "pot smoke" ), translate_marker( "thick pot smoke" )}, '%', 8,
+        {def_c_white,def_c_ltgray,def_c_dkgray}, {true, true, true},{false, false, false},  325,
+        {0,0,0},
+        GAS,
+        true
+    },
 
-        {
-            "fd_cracksmoke",
-            {_("swirl of crack smoke"), _("crack smoke"), _("thick crack smoke")}, '%', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  225,
-            {0,0,0},
-            GAS,
-            true
-        },
-        {
-            "fd_methsmoke",
-            {_("swirl of meth smoke"), _("meth smoke"), _("thick meth smoke")}, '%', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{false, false, false},  275,
-            {0,0,0},
-            GAS,
-            true
-        },
-        {
-            "fd_bees",
-            {_("some bees"), _("swarm of bees"), _("angry swarm of bees")}, '8', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, true},{true, true, true}, MINUTES(100),
-            {0,0,0},
-            PNULL,
-            false
-        },
+    {
+        "fd_cracksmoke",
+        {translate_marker( "swirl of crack smoke" ), translate_marker( "crack smoke" ), translate_marker( "thick crack smoke" )}, '%', 8,
+        {def_c_white,def_c_ltgray,def_c_dkgray}, {true, true, true},{false, false, false},  225,
+        {0,0,0},
+        GAS,
+        true
+    },
+    {
+        "fd_methsmoke",
+        {translate_marker( "swirl of meth smoke" ), translate_marker( "meth smoke" ), translate_marker( "thick meth smoke" )}, '%', 8,
+        {def_c_white,def_c_ltgray,def_c_dkgray}, {true, true, true},{false, false, false},  275,
+        {0,0,0},
+        GAS,
+        true
+    },
+    {
+        "fd_bees",
+        {translate_marker( "some bees" ), translate_marker( "swarm of bees" ), translate_marker( "angry swarm of bees" )}, '8', 8,
+        {def_c_white,def_c_ltgray,def_c_dkgray}, {true, true, true},{true, true, true}, MINUTES( 100 ),
+        {0,0,0},
+        PNULL,
+        false
+    },
 
-        {
-            "fd_incendiary",
-            {_("smoke"),_("airborne incendiary"), _("airborne incendiary")}, '8', 8,
-            {c_white, c_ltred, c_ltred_red}, {true, true, false}, {true, true, true}, MINUTES(50),
-            {0,0,0},
-            GAS,
-            false
-        },
+    {
+        "fd_incendiary",
+        {translate_marker( "smoke" ),translate_marker( "airborne incendiary" ), translate_marker( "airborne incendiary" )}, '8', 8,
+        {def_c_white,def_c_ltred,def_c_ltred_red}, {true, true, false}, {true, true, true}, MINUTES( 50 ),
+        {0,0,0},
+        GAS,
+        false
+    },
 
-        {
-            "fd_relax_gas",
-            {_("hazy cloud"),_("sedative gas"),_("relaxation gas")}, '.', 8,
-            { c_white, c_pink, c_cyan }, { true, true, true }, { true, true, true }, MINUTES(50),
-            {0,0,0},
-            GAS,
-            false
-        },
+    {
+        "fd_relax_gas",
+        {translate_marker( "hazy cloud" ),translate_marker( "sedative gas" ),translate_marker( "relaxation gas" )}, '.', 8,
+        {def_c_white,def_c_pink,def_c_cyan }, { true, true, true }, { true, true, true }, MINUTES( 50 ),
+        {0,0,0},
+        GAS,
+        false
+    },
 
-        {
-            "fd_fungal_haze",
-            {_("hazy cloud"),_("fungal haze"),_("thick fungal haze")}, '.', 8,
-            { c_white, c_cyan, c_cyan }, { true, true, false }, { true, true, true }, MINUTES(4),
-            {0,0,0},
-            GAS,
-            false
-        },
+    {
+        "fd_fungal_haze",
+        {translate_marker( "hazy cloud" ),translate_marker( "fungal haze" ),translate_marker( "thick fungal haze" )}, '.', 8,
+        {def_c_white,def_c_cyan,def_c_cyan }, { true, true, false }, { true, true, true }, MINUTES( 4 ),
+        {0,0,0},
+        GAS,
+        false
+    },
 
-        {
-            "fd_hot_air1",
-            {"", "", ""}, '&', -1,
-            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, MINUTES(50),
-            {0,0,0},
-            GAS,
-            false
-        },
+    {
+        "fd_hot_air1",
+        {"", "", ""}, '&', -1,
+        {def_c_white,def_c_yellow,def_c_red}, {true, true, true}, {false, false, false}, MINUTES( 50 ),
+        {0,0,0},
+        GAS,
+        false
+    },
 
-        {
-            "fd_hot_air2",
-            {"", "", ""}, '&', -1,
-            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, MINUTES(50),
-            {0,0,0},
-            GAS,
-            false
-        },
+    {
+        "fd_hot_air2",
+        {"", "", ""}, '&', -1,
+        {def_c_white,def_c_yellow,def_c_red}, {true, true, true}, {false, false, false}, MINUTES( 50 ),
+        {0,0,0},
+        GAS,
+        false
+    },
 
-        {
-            "fd_hot_air3",
-            {"", "", ""}, '&', -1,
-            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, MINUTES(50),
-            {0,0,0},
-            GAS,
-            false
-        },
+    {
+        "fd_hot_air3",
+        {"", "", ""}, '&', -1,
+        {def_c_white,def_c_yellow,def_c_red}, {true, true, true}, {false, false, false}, MINUTES( 50 ),
+        {0,0,0},
+        GAS,
+        false
+    },
 
-        {
-            "fd_hot_air4",
-            {"", "", ""}, '&', -1,
-            {c_white, c_yellow, c_red}, {true, true, true}, {false, false, false}, MINUTES(50),
-            {0,0,0},
-            GAS,
-            false
-        },
+    {
+        "fd_hot_air4",
+        {"", "", ""}, '&', -1,
+        {def_c_white,def_c_yellow,def_c_red}, {true, true, true}, {false, false, false}, MINUTES( 50 ),
+        {0,0,0},
+        GAS,
+        false
+    },
 
-        {
-            "fd_fungicidal_gas",
-            {_("hazy cloud"),_("fungicidal gas"),_("thick fungicidal gas")}, '8', 8,
-            {c_white, c_ltgray, c_dkgray}, {true, true, false}, {true, true, true}, MINUTES(90),
-            {0,0,0},
-            GAS,
-            false
-        }
-
-    };
-    for(int i = 0; i < num_fields; i++) {
-        fieldlist[i] = tmp_fields[i];
+    {
+        "fd_fungicidal_gas",
+        {translate_marker( "hazy cloud" ),translate_marker( "fungicidal gas" ),translate_marker( "thick fungicidal gas" )}, '8', 8,
+        {def_c_white,def_c_ltgray,def_c_dkgray}, {true, true, false}, {true, true, true}, MINUTES( 90 ),
+        {0,0,0},
+        GAS,
+        false
     }
-}
+} };
 
 field_id field_from_ident(const std::string &field_ident)
 {
@@ -857,6 +847,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         int consumed = 0;
                         // How much time to add to the fire's life due to burned items/terrain/furniture
                         int time_added = 0;
+                        // Checks if the fire can spread
+                        const bool can_spread = tr_brazier != trp &&
+                                                !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER );
+
                         // The huge indent below should probably be somehow moved away from here
                         // without forcing the function to use i_at( p ) for fires without items
                         if( !is_sealed && map_tile.get_item_count() > 0 ) {
@@ -882,7 +876,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             for( auto fuel = items_here.begin(); fuel != items_here.end() && consumed < max_consume; ) {
 
-                                bool destroyed = fuel->burn( frd );
+                                bool destroyed = fuel->burn( frd, can_spread);
 
                                 if( destroyed ) {
                                     // If we decided the item was destroyed by fire, remove it.
@@ -909,8 +903,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
                         // If the flames are in a brazier, they're fully contained,
                         // so skip consuming terrain
-                        const bool can_spread = tr_brazier != trp &&
-                                                !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER );
                         if( can_spread ) {
                             if( ter.has_flag( TFLAG_SWIMMABLE ) ) {
                                 // Flames die quickly on water
@@ -1724,7 +1716,7 @@ void map::player_in_field( player &u )
                 burn_part( bp_hand_r, 2 );
                 burn_part( bp_torso,  2 );
                 // Less arms = less ability to keep upright
-                if( ( u.has_two_arms() && one_in( 4 ) ) || one_in( 2 ) ) {
+                if( ( !u.has_two_arms() && one_in( 4 ) ) || one_in( 2 ) ) {
                     burn_part( bp_arm_l, 1 );
                     burn_part( bp_arm_r, 1 );
                     burn_part( bp_head,  1 );
@@ -2392,6 +2384,16 @@ int field_entry::move_cost() const{
   return fieldlist[type].move_cost[ getFieldDensity() - 1 ];
 }
 
+nc_color field_entry::color() const
+{
+    return fieldlist[type].color[density - 1];
+}
+
+char field_entry::symbol() const
+{
+    return fieldlist[type].sym;
+}
+
 field_id field_entry::getFieldType() const{
     return type;
 }
@@ -2543,6 +2545,12 @@ std::map<field_id, field_entry>::iterator field::end()
 std::map<field_id, field_entry>::const_iterator field::end() const
 {
     return field_list.end();
+}
+
+std::string field_t::name( const int density ) const
+{
+    const std::string &n = untranslated_name[std::min( std::max( 0, density ), MAX_FIELD_DENSITY - 1 )];
+    return n.empty() ? n : _( n.c_str() );
 }
 
 /*

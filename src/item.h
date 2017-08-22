@@ -354,7 +354,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     std::string info( bool showtext, std::vector<iteminfo> &dump ) const;
 
     /** Burns the item. Returns true if the item was destroyed. */
-    bool burn( fire_data &bd );
+    bool burn( fire_data &bd, bool contained );
 
     // Returns the category of this item.
     const item_category &get_category() const;
@@ -431,7 +431,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
          */
         bool merge_charges( const item &rhs );
 
-        int weight( bool include_contents = true ) const;
+        units::mass weight( bool include_contents = true ) const;
 
     /* Total volume of an item accounting for all contained/integrated items
      * @param integral if true return effective volume if item was integrated into another */

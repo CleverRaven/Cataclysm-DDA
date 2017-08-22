@@ -24,17 +24,17 @@ static std::map<std::string, std::string> mod_replacements;
 // These accessors are to delay the initialization of the strings in the respective containers until after gettext is initialized.
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories() {
     static const std::vector<std::pair<std::string, std::string> > mod_list_categories = {
-        {"content", _("CORE CONTENT PACKS")},
-        {"items", _("ITEM ADDITION MODS")},
-        {"creatures", _("CREATURE MODS")},
-        {"misc_additions", _("MISC ADDITIONS")},
-        {"buildings", _("BUILDINGS MODS")},
-        {"vehicles", _("VEHICLE MODS")},
-        {"rebalance", _("REBALANCING MODS")},
-        {"magical", _("MAGICAL MODS")},
-        {"item_exclude", _("ITEM EXCLUSION MODS")},
-        {"monster_exclude", _("MONSTER EXCLUSION MODS")},
-        {"", _("NO CATEGORY")}
+        {"content", translate_marker("CORE CONTENT PACKS")},
+        {"items", translate_marker("ITEM ADDITION MODS")},
+        {"creatures", translate_marker("CREATURE MODS")},
+        {"misc_additions", translate_marker("MISC ADDITIONS")},
+        {"buildings", translate_marker("BUILDINGS MODS")},
+        {"vehicles", translate_marker("VEHICLE MODS")},
+        {"rebalance", translate_marker("REBALANCING MODS")},
+        {"magical", translate_marker("MAGICAL MODS")},
+        {"item_exclude", translate_marker("ITEM EXCLUSION MODS")},
+        {"monster_exclude", translate_marker("MONSTER EXCLUSION MODS")},
+        {"", translate_marker("NO CATEGORY")}
     };
 
     return mod_list_categories;
@@ -42,9 +42,9 @@ const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories
 
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs() {
     static const std::vector<std::pair<std::string, std::string> > mod_list_tabs = {
-        {"tab_default", _("Default")},
-        {"tab_blacklist", _("Blacklist")},
-        {"tab_balance", _("Balance")}
+        {"tab_default", translate_marker("Default")},
+        {"tab_blacklist", translate_marker("Blacklist")},
+        {"tab_balance", translate_marker("Balance")}
     };
 
     return mod_list_tabs;
@@ -316,20 +316,7 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
         for( auto &input_file : input_files ) {
             std::string output_path = input_file;
             output_path = cur_mod_dir.str() + output_path.substr(start_index);
-
-            std::ifstream infile( input_file.c_str(), std::ifstream::in | std::ifstream::binary );
-            // and stuff it into ram
-            std::istringstream iss(
-                std::string(
-                    (std::istreambuf_iterator<char>(infile)),
-                    std::istreambuf_iterator<char>()
-                )
-            );
-            infile.close();
-
-            fout.open(output_path.c_str());
-            fout << iss.str();
-            fout.close();
+            copy_file( input_file, output_path );
         }
     }
     return true;

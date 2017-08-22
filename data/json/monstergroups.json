@@ -915,7 +915,7 @@
     ]
   },{
     "type":"monstergroup",
-    "name" : "GROUP_POLICE", "_comment" : "+30% cops",
+    "name" : "GROUP_POLICE", "//" : "+30% cops",
     "default" : "mon_zombie",
     "monsters" : [
       { "monster" : "mon_zombie_fat", "freq" : 100, "cost_multiplier": 2},
@@ -952,7 +952,7 @@
     ]
   },{
     "type":"monstergroup",
-    "name" : "GROUP_HOUSE", "_comment" : "+15% child",
+    "name" : "GROUP_HOUSE", "//" : "+15% child",
     "default" : "mon_zombie",
     "monsters" : [
       { "monster" : "mon_zombie_fat", "freq" : 130, "cost_multiplier": 2},
@@ -993,7 +993,7 @@
     ]
   },{
     "type":"monstergroup",
-    "name" : "GROUP_PHARM", "_comment" : "+15% fast",
+    "name" : "GROUP_PHARM", "//" : "+15% fast",
     "default" : "mon_zombie",
     "monsters" : [
       { "monster" : "mon_zombie_fat", "freq" : 130, "cost_multiplier": 2},
@@ -1027,7 +1027,7 @@
     ]
   },{
     "type":"monstergroup",
-    "name" : "GROUP_ELECTRO", "_comment" : "+15% electric",
+    "name" : "GROUP_ELECTRO", "//" : "+15% electric",
     "default" : "mon_zombie",
     "monsters" : [
       { "monster" : "mon_zombie_fat", "freq" : 130, "cost_multiplier": 2},
@@ -1063,7 +1063,7 @@
     ]
   },{
     "type":"monstergroup",
-    "name" : "GROUP_GROCERY", "_comment" : "+15% bommers",
+    "name" : "GROUP_GROCERY", "//" : "+15% bommers",
     "default" : "mon_zombie",
     "monsters" : [
       { "monster" : "mon_zombie_fat", "freq" : 130, "cost_multiplier": 2},
@@ -1099,7 +1099,7 @@
     ]
   },{
     "type":"monstergroup",
-    "name" : "GROUP_MAYBE_MIL", "_comment" : "50% chance military zombie",
+    "name" : "GROUP_MAYBE_MIL", "//" : "50% chance military zombie",
     "default" : "mon_null",
     "monsters" : [
       { "monster" : "mon_zombie_soldier", "freq" : 35, "cost_multiplier" : 1 },
@@ -1131,7 +1131,7 @@
     ]
   },{
     "type":"monstergroup",
-    "name" : "GROUP_MAYBE_ZOMBIE", "_comment" : "10% chance of a zombie",
+    "name" : "GROUP_MAYBE_ZOMBIE", "//" : "10% chance of a zombie",
     "default" : "mon_null",
     "monsters" : [
       { "monster" : "mon_zombie", "freq" : 35, "cost_multiplier": 0, "pack_size": [1,5] },

@@ -24,8 +24,14 @@ class input_context;
 class JsonObject;
 class npc;
 class overmapbuffer;
+class overmap_connection;
 
 struct mongroup;
+
+namespace pf
+{
+    struct path;
+}
 
 struct oter_weight {
     inline bool operator ==(const oter_weight &other) const {
@@ -163,22 +169,67 @@ struct map_layer {
     std::vector<om_note> notes;
 };
 
+// Wrapper around an overmap special to track progress of placing specials.
+struct overmap_special_placement {
+    int instances_placed;
+    const overmap_special *special_details;
+};
+
+// A batch of overmap specials to place.
+class overmap_special_batch {
+    public:
+    overmap_special_batch( point origin ) : origin_overmap( origin ) {}
+    overmap_special_batch( point origin, std::vector<const overmap_special *> &specials ) :
+            origin_overmap( origin ) {
+        for( auto special : specials ) {
+            placements.push_back( { 0, special } );
+        }
+    }
+
+    // Wrapper methods that make overmap_special_batch act like
+    // the underlying vector of overmap placements.
+    std::vector<overmap_special_placement>::iterator begin() {
+        return placements.begin();
+    }
+    std::vector<overmap_special_placement>::iterator end() {
+        return placements.end();
+    }
+    std::vector<overmap_special_placement>::iterator erase( std::vector<overmap_special_placement>::iterator pos ) {
+        return placements.erase( pos );
+    }
+    bool empty() {
+        return placements.empty();
+    }
+
+    point get_origin() const {
+        return origin_overmap;
+    }
+    private:
+    std::vector<overmap_special_placement> placements;
+    point origin_overmap;
+};
+
 class overmap
 {
  public:
-    overmap(const overmap&) = default;
-    overmap(overmap &&) = default;
-    overmap(int x, int y);
+    overmap( const overmap& ) = default;
+    overmap( overmap && ) = default;
+    overmap( int x, int y );
     // Argument-less constructor bypasses trying to load matching file, only used for unit testing.
     overmap();
     ~overmap();
 
     overmap& operator=(overmap const&) = default;
 
+    /**
+     * Create content in the overmap.
+     **/
+    void populate( overmap_special_batch &enabled_specials );
+    void populate();
+
     point const& pos() const { return loc; }
 
     void save() const;
-    void clear();
 
     /**
      * @return The (local) overmap terrain coordinates of a randomly
@@ -195,6 +246,7 @@ class overmap
     std::vector<point> find_terrain(const std::string &term, int zlevel);
 
     oter_id& ter(const int x, const int y, const int z);
+    oter_id& ter( const tripoint &p );
     const oter_id get_ter(const int x, const int y, const int z) const;
     const oter_id get_ter( const tripoint &p ) const;
     bool&   seen(int x, int y, int z);
@@ -278,11 +330,15 @@ class overmap
     /** Returns the (0, 0) corner of the overmap in the global coordinates. */
     point global_base_point() const;
 
-  // @todo Should depend on coords
-  const regional_settings& get_settings() const
-  {
-     return settings;
-  }
+    // @todo Should depend on coords
+    const regional_settings& get_settings() const
+    {
+        return settings;
+    }
+
+    // Returns a batch of the default enabled specials.
+    overmap_special_batch get_enabled_specials() const;
+
     void clear_mon_groups();
 private:
     std::multimap<tripoint, mongroup> zg;
@@ -296,8 +352,6 @@ public:
   std::map<int, om_vehicle> vehicles;
   std::vector<city> cities;
   std::vector<city> roads_out;
-
-    std::vector<const overmap_special *> unplaced_mandatory_specials;
 
         /// Adds the npc. The overmap takes ownership of the pointer.
         void insert_npc( npc *who );
@@ -334,28 +388,10 @@ public:
     std::unordered_multimap<tripoint, monster> monster_map;
     regional_settings settings;
 
-    // "Valid" map is one that has all mandatory specials
-    // "Limited" map is one where all specials are placed only in allowed places
-    enum class overmap_valid : int {
-        // Invalid map, with no limits
-        invalid = 0,
-        // Valid map, but some parts are without limits
-        unlimited,
-        // Perfectly valid map
-        valid
-    };
-
-    // Overmaps less valid than this will trigger the query
-    overmap_valid minimum_validity;
-    // The validity of this overmap, changed by actually generating it
-    overmap_valid current_validity;
-
-    void set_validity_from_settings();
-
-  // Initialise
-  void init_layers();
-  // open existing overmap, or generate a new one
-  void open();
+    // Initialise
+    void init_layers();
+    // open existing overmap, or generate a new one
+    void open( overmap_special_batch &enabled_specials );
  public:
   // parse data in an opened overmap file
   void unserialize(std::istream &fin);
@@ -369,10 +405,10 @@ public:
   void unserialize_legacy(std::istream &fin);
   void unserialize_view_legacy(std::istream &fin);
  private:
-  void generate(const overmap* north, const overmap* east, const overmap* south, const overmap* west);
-  // Controls error handling in generation
-  void generate_outer(const overmap* north, const overmap* east, const overmap* south, const overmap* west);
-  bool generate_sub(int const z);
+    void generate( const overmap* north, const overmap* east,
+                   const overmap* south, const overmap* west,
+                   overmap_special_batch &enabled_specials );
+    bool generate_sub( int const z );
 
     const city &get_nearest_city( const tripoint &p ) const;
 
@@ -426,50 +462,62 @@ public:
   void place_cities();
   void put_building( int x, int y, om_direction::type dir, const city &town );
 
-  void build_city_street( int cx, int cy, int cs, om_direction::type dir, const city &town );
+  void build_city_street( const overmap_connection &connection, const point &p, int cs, om_direction::type dir, const city &town );
   bool build_lab(int x, int y, int z, int s, bool ice = false);
   void build_anthill(int x, int y, int z, int s);
   void build_tunnel( int x, int y, int z, int s, om_direction::type dir );
   bool build_slimepit(int x, int y, int z, int s);
   void build_mine(int x, int y, int z, int s);
   void place_rifts(int const z);
+
     // Connection laying
-    void build_connection( const point &source, const point &dest, int z, const int_id<oter_type_t> &type_id );
-    void connect_closest_points( const std::vector<point> &points, int z, const int_id<oter_type_t> &type_id );
+    pf::path lay_out_connection( const overmap_connection &connection, const point &source, const point &dest, int z ) const;
+    pf::path lay_out_street( const overmap_connection &connection, const point &source, om_direction::type dir, size_t len ) const;
+
+    void build_connection( const overmap_connection &connection, const pf::path &path, int z );
+    void build_connection( const point &source, const point &dest, int z, const overmap_connection &connection );
+    void connect_closest_points( const std::vector<point> &points, int z, const overmap_connection &connection );
   // Polishing
   bool check_ot_type(const std::string &otype, int x, int y, int z) const;
-  void polish(const int z, const std::string &terrain_type="all");
   void chip_rock(int x, int y, int z);
 
-  oter_id good_connection( const oter_t &oter, const tripoint &p );
+  void polish_river();
   void good_river(int x, int y, int z);
 
-  // Returns a vector of enabled overmap specials.
-  std::vector<const overmap_special *> get_enabled_specials() const;
   // Returns a vector of permuted coordinates of overmap sectors.
   // Each sector consists of 12x12 small maps. Coordinates of the sectors are in range [0, 15], [0, 15].
   // Check OMAPX, OMAPY, and OMSPEC_FREQ to learn actual values.
   std::vector<point> get_sectors() const;
 
-  om_direction::type random_special_rotation( const overmap_special &special, const tripoint &p ) const;
-  void place_special( const overmap_special &special, const tripoint &p, om_direction::type dir, const city &cit );
-  // Monsters, radios, etc.
-  void place_specials();
-  /**
-   * One pass of placing specials - by default there are 3 (mandatory, mandatory without city distance, optional)
-   * @param to_place vector of pairs [special, count] to place in this pass. Placed specials are removed/deducted from this.
-   * @param sectors sectors in which placement is possible. Taken sectors will be removed from this vector.
-   * @param check_city_distance If false, the city distance limits of specials are not respected.
-   */
-  void place_specials_pass( std::vector<std::pair<const overmap_special *, int>> &to_place,
-                            std::vector<point> &sectors, bool check_city_distance );
-  /**
-   * As @ref place_specials_pass, but for only one sector at a time.
-   */
-  bool place_special_attempt( std::vector<std::pair<const overmap_special *, int>> &candidates,
-                              const point &sector, bool check_city_distance );
-  void place_mongroups();
-  void place_radios();
+    om_direction::type random_special_rotation( const overmap_special &special, const tripoint &p ) const;
+    void place_special( const overmap_special &special, const tripoint &p, om_direction::type dir, const city &cit );
+    /**
+     * Iterate over the overmap and place the quota of specials.
+     * If the stated minimums are not reached, it will spawn a new nearby overmap
+     * and continue placing specials there.
+     * @param enabled_specials specifies what specials to place, and tracks how many have been placed.
+     **/
+    void place_specials( overmap_special_batch &enabled_specials );
+    /**
+     * Walk over the overmap and attempt to place specials.
+     * @param enabled_specials vector of objects that track specials being placed.
+     * @param sectors sectors in which to attempt placement.
+     * @param place_optional restricts attempting to place specials that have met their minimum count in the first pass.
+     */
+    void place_specials_pass( overmap_special_batch &enabled_specials,
+                              std::vector<point> &sectors, bool place_optional );
+
+    /**
+     * Attempts to place specials within a sector.
+     * @param enabled_specials vector of objects that track specials being placed.
+     * @param sector sector identifies the location where specials are being placed.
+     * @param place_optional restricts attempting to place specials that have met their minimum count in the first pass.
+     */
+    bool place_special_attempt( overmap_special_batch &enabled_specials,
+                                const point &sector, bool place_optional );
+
+    void place_mongroups();
+    void place_radios();
 
     void add_mon_group(const mongroup &group);
 
@@ -486,18 +534,6 @@ void load_region_settings(JsonObject &jo);
 void reset_region_settings();
 void load_region_overlay(JsonObject &jo);
 void apply_region_overlay(JsonObject &jo, regional_settings &region);
-
-namespace overmap_terrains
-{
-
-void load( JsonObject &jo, const std::string &src );
-void check_consistency();
-void finalize();
-void reset();
-
-size_t count();
-
-}
 
 bool is_river(const oter_id &ter);
 bool is_ot_type(const std::string &otype, const oter_id &oter);

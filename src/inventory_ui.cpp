@@ -176,6 +176,11 @@ std::string inventory_selector_preset::get_caption( const inventory_entry &entry
     return ( count > 1 ) ? string_format( "%d %s", count, disp_name.c_str() ) : disp_name;
 }
 
+std::string inventory_selector_preset::get_denial( const inventory_entry &entry ) const
+{
+    return entry.is_item() ? get_denial( entry.location ) : std::string();
+}
+
 std::string inventory_selector_preset::get_cell_text( const inventory_entry &entry,
         size_t cell_index ) const
 {
@@ -186,7 +191,7 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
     if( !entry ) {
         return std::string();
     } else if( entry.is_item() ) {
-        return replace_colors( cells[cell_index].func( entry ) );
+        return cells[cell_index].get_text( entry );
     } else if( cell_index != 0 ) {
         return replace_colors( cells[cell_index].title );
     } else {
@@ -194,10 +199,6 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
     }
 }
 
-size_t inventory_selector_preset::get_cell_width( const inventory_entry &entry, size_t cell_index ) const
-{
-    return utf8_width( get_cell_text( entry, cell_index ), true );
-}
 
 bool inventory_selector_preset::is_stub_cell( const inventory_entry &entry, size_t cell_index ) const
 {
@@ -289,12 +290,23 @@ void inventory_column::move_selection_page( scroll_direction dir )
     select( index, dir );
 }
 
-size_t inventory_column::get_entry_cell_width( const inventory_entry &entry, size_t cell_index ) const
+size_t inventory_column::get_entry_cell_width( size_t index, size_t cell_index ) const
 {
-    size_t res = preset.get_cell_width( entry, cell_index );
+    size_t res = utf8_width( get_entry_cell_cache( index ).text[cell_index], true );
 
     if( cell_index == 0 ) {
-        res += get_entry_indent( entry );    // The indentation always persist
+        res += get_entry_indent( entries[index] );
+    }
+
+    return res;
+}
+
+size_t inventory_column::get_entry_cell_width( const inventory_entry &entry, size_t cell_index ) const
+{
+    size_t res = utf8_width( preset.get_cell_text( entry, cell_index ), true );
+
+    if( cell_index == 0 ) {
+        res += get_entry_indent( entry );
     }
 
     return res;
@@ -307,14 +319,33 @@ size_t inventory_column::get_cells_width() const
     } );
 }
 
-std::string inventory_column::get_denial( const item_location &loc ) const
+const inventory_column::entry_cell_cache_t inventory_column::make_entry_cell_cache( const inventory_entry &entry ) const
 {
-    return trim_punctuation_marks( preset.get_denial( loc ) );
+    entry_cell_cache_t result;
+
+    result.assigned = true;
+    result.color = preset.get_color( entry );
+    result.denial = preset.get_denial( entry );
+    result.text.resize( preset.get_cells_count() );
+
+    for( size_t i = 0, n = preset.get_cells_count(); i < n; ++i )
+        result.text[i] = preset.get_cell_text( entry, i );
+
+    return result;
 }
 
-std::string inventory_column::get_denial( const inventory_entry &entry ) const
+const inventory_column::entry_cell_cache_t &inventory_column::get_entry_cell_cache( size_t index ) const
 {
-    return entry.is_item() ? get_denial( entry.location ) : std::string();
+    assert( index < entries.size() );
+
+    if( entries_cell_cache.size() < entries.size() )
+        entries_cell_cache.resize( entries.size() );
+
+    if( !entries_cell_cache[index].assigned ) {
+        entries_cell_cache[index] = make_entry_cell_cache( entries[index] );
+    }
+
+    return entries_cell_cache[index];
 }
 
 void inventory_column::set_width( const size_t new_width )
@@ -372,7 +403,8 @@ void inventory_column::expand_to_fit( const inventory_entry &entry )
         return;
     }
 
-    const std::string denial = get_denial( entry );
+    // Don't use cell cache here since the entry may not yet be placed into the vector of entries.
+    const std::string denial = preset.get_denial( entry );
 
     for( size_t i = 0, num = denial.empty() ? cells.size() : 1; i < num; ++i ) {
         auto &cell = cells[i];
@@ -410,6 +442,18 @@ size_t inventory_column::page_of( size_t index ) const {
 size_t inventory_column::page_of( const inventory_entry &entry ) const {
     return page_of( std::distance( entries.begin(), std::find( entries.begin(), entries.end(), entry ) ) );
 }
+
+
+bool inventory_column::has_available_choices() const
+{
+    if( !allows_selecting() )
+        return false;
+    for( size_t i = 0; i < entries.size(); ++i )
+        if( entries[i].is_item() && get_entry_cell_cache( i ).denial.empty() )
+            return true;
+    return false;
+}
+
 
 bool inventory_column::is_selected( const inventory_entry &entry ) const
 {
@@ -482,6 +526,7 @@ void inventory_column::add_entry( const inventory_entry &entry )
                                     && cur_cat->sort_rank <= new_cat->sort_rank );
     } );
     entries.insert( iter.base(), entry );
+    entries_cell_cache.clear();
     expand_to_fit( entry );
     paging_is_valid = false;
 }
@@ -552,6 +597,7 @@ void inventory_column::prepare_paging()
             }
         }
     }
+    entries_cell_cache.clear();
     paging_is_valid = true;
     // Select the uppermost possible entry
     select( 0, scroll_direction::FORWARD );
@@ -560,6 +606,7 @@ void inventory_column::prepare_paging()
 void inventory_column::clear()
 {
     entries.clear();
+    entries_cell_cache.clear();
     paging_is_valid = false;
     prepare_paging();
 }
@@ -608,9 +655,9 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
         return;
     }
 
-    const auto available_cell_width = [ this ]( const inventory_entry &entry, const size_t cell_index ) {
+    const auto available_cell_width = [ this ]( size_t index, size_t cell_index ) {
         const size_t displayed_width = cells[cell_index].current_width;
-        const size_t real_width = get_entry_cell_width( entry, cell_index );
+        const size_t real_width = get_entry_cell_width( index, cell_index );
 
         return displayed_width > real_width ? displayed_width - real_width : 0;
     };
@@ -618,6 +665,7 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
     // Do the actual drawing
     for( size_t index = page_offset, line = 0; index < entries.size() && line < entries_per_page; ++index, ++line ) {
         const auto &entry = entries[index];
+        const auto &entry_cell_cache = get_entry_cell_cache( index );
 
         if( !entry ) {
             continue;
@@ -635,10 +683,10 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
             }
         }
 
-        const std::string denial = get_denial( entry );
+        const std::string &denial = entry_cell_cache.denial;
 
         if( !denial.empty() ) {
-            const size_t max_denial_width = std::max( int( get_width() - ( min_denial_gap + get_entry_cell_width( entry, 0 ) ) ), 0 );
+            const size_t max_denial_width = std::max( int( get_width() - ( min_denial_gap + get_entry_cell_width( index, 0 ) ) ), 0 );
             const size_t denial_width = std::min( max_denial_width, size_t( utf8_width( denial, true ) ) );
 
             trim_and_print( win, yy, x + get_width() - denial_width, denial_width, c_red, "%s", denial.c_str() );
@@ -657,28 +705,28 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
 
             x2 += cells[cell_index].current_width;
 
-            size_t text_width = preset.get_cell_width( entry, cell_index );
+            size_t text_width = utf8_width( entry_cell_cache.text[cell_index], true );
             size_t text_gap = cell_index > 0 ? std::max( cells[cell_index].gap(), min_cell_gap ) : 0;
             size_t available_width = x2 - x1 - text_gap;
 
             if( text_width > available_width ) {
                 // See if we can steal some of the needed width from an adjacent cell
                 if( cell_index == 0 && count >= 2 ) {
-                    available_width += available_cell_width( entry, 1 );
+                    available_width += available_cell_width( index, 1 );
                 } else if( cell_index > 0 ) {
-                    available_width += available_cell_width( entry, cell_index - 1 );
+                    available_width += available_cell_width( index, cell_index - 1 );
                 }
                 text_width = std::min( text_width, available_width );
             }
 
             if( text_width > 0 ) {
                 const int text_x = cell_index == 0 ? x1 : x2 - text_width; // Align either to the left or to the right
-                const std::string text = preset.get_cell_text( entry, cell_index );
+                const std::string &text = entry_cell_cache.text[cell_index];
 
                 if( entry.is_item() && ( selected || !entry.is_selectable() ) ) {
                     trim_and_print( win, yy, text_x, text_width, selected ? h_white : c_dkgray, "%s", remove_color_tags( text ).c_str() );
                 } else {
-                    trim_and_print( win, yy, text_x, text_width, preset.get_color( entry.location ), "%s", text.c_str() );
+                    trim_and_print( win, yy, text_x, text_width, entry_cell_cache.color, "%s", text.c_str() );
                 }
             }
 
@@ -1106,9 +1154,9 @@ std::vector<std::string> inventory_selector::get_stats() const
     const size_t num_stats = 2;
     const std::array<stat, num_stats> stats = {{
         disp( string_format( _( "Weight (%s):" ), weight_units() ),
-              dummy.weight_carried(),
-              dummy.weight_capacity(), []( int w ) {
-            return string_format( "%.1f", round_up( convert_weight( w ), 1 ) );
+              to_gram( dummy.weight_carried() ),
+              to_gram( dummy.weight_capacity() ), []( int w ) {
+            return string_format( "%.1f", round_up( convert_weight( units::from_gram( w ) ), 1 ) );
         } ),
         disp( string_format( _( "Volume (%s):" ), volume_units_abbr() ),
               units::to_milliliter( dummy.volume_carried() ),
@@ -1288,8 +1336,8 @@ bool inventory_selector::empty() const
 
 bool inventory_selector::has_available_choices() const
 {
-    return std::any_of( items.begin(), items.end(), [ this ]( const item_location &loc ) {
-        return preset.get_denial( loc ).empty();
+    return std::any_of( columns.begin(), columns.end(), []( const inventory_column* element ) {
+        return element->has_available_choices();
     } );
 }
 

@@ -20,7 +20,10 @@ struct MonsterGroup;
 struct city;
 struct oter_t;
 struct oter_type_t;
-struct overmap_special_location;
+struct overmap_location;
+
+class overmap_connection;
+class overmap_special_batch;
 
 /** Direction on the overmap. */
 namespace om_direction
@@ -75,6 +78,9 @@ type opposite( type dir );
 /** Returns a random direction. */
 type random();
 
+/** Whether these directions are parralell. */
+bool are_parallel( type dir1, type dir2 );
+
 };
 
 struct overmap_spawns : public JsonDeserializer {
@@ -113,8 +119,7 @@ struct overmap_static_spawns : public overmap_spawns {
 
 //terrain flags enum! this is for tracking the indices of each flag.
 enum oter_flags {
-    allow_override = 0,
-    known_down,
+    known_down = 0,
     known_up,
     no_rotate,    // this tile doesn't have four rotated versions (north, east, south, west)
     river_tile,
@@ -162,6 +167,10 @@ struct oter_type_t {
 
         bool is_rotatable() const {
             return !has_flag( no_rotate ) && !has_flag( line_drawing );
+        }
+
+        bool is_linear() const {
+            return has_flag( line_drawing );
         }
 
     private:
@@ -226,10 +235,9 @@ struct oter_t {
             return type->static_spawns;
         }
 
-        inline bool type_is( const int_id<oter_type_t> &type_id ) const;
-        inline bool type_is( const oter_type_t &type ) const;
+        bool type_is( const int_id<oter_type_t> &type_id ) const;
+        bool type_is( const oter_type_t &type ) const;
 
-        bool can_connect_to( const int_id<oter_t> &oter ) const;
         bool has_connection( om_direction::type dir ) const;
 
         bool has_flag( oter_flags flag ) const {
@@ -242,6 +250,14 @@ struct oter_t {
             return type->is_rotatable();
         }
 
+        bool is_linear() const {
+            return type->is_linear();
+        }
+
+        bool is_river() const {
+            return type->has_flag( river_tile );
+        }
+
     private:
         om_direction::type dir = om_direction::type::none;
         long sym = '\0';         // This is a long, so we can support curses linedrawing.
@@ -251,6 +267,7 @@ struct oter_t {
 // @todo: Deprecate these operators
 bool operator==( const oter_id &lhs, const char *rhs );
 bool operator!=( const oter_id &lhs, const char *rhs );
+
 
 // LINE_**** corresponds to the ACS_**** macros in ncurses, and are patterned
 // the same way; LINE_NESW, where X indicates a line and O indicates no line
@@ -294,7 +311,8 @@ struct overmap_special_terrain : public JsonDeserializer {
 
 struct overmap_special_connection : public JsonDeserializer {
     tripoint p;
-    string_id<oter_type_t> terrain;
+    string_id<oter_type_t> terrain; // TODO: Remove it.
+    string_id<overmap_connection> connection;
     bool existing = false;
 
     void deserialize( JsonIn &jsin ) override {
@@ -330,7 +348,7 @@ class overmap_special
 
         bool rotatable = true;
         overmap_special_spawns spawns;
-        std::set<const overmap_special_location *> locations;
+        std::set<string_id<overmap_location>> locations;
         std::set<std::string> flags;
 
         // Used by generic_factory
@@ -340,6 +358,18 @@ class overmap_special
         void check() const;
 };
 
+namespace overmap_terrains
+{
+
+void load( JsonObject &jo, const std::string &src );
+void check_consistency();
+void finalize();
+void reset();
+
+size_t count();
+
+}
+
 namespace overmap_specials
 {
 
@@ -347,6 +377,7 @@ void load( JsonObject &jo, const std::string &src );
 void finalize();
 void check_consistency();
 void reset();
+overmap_special_batch get_default_batch( point origin );
 
 }
 

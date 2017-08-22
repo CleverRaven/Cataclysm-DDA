@@ -257,8 +257,8 @@ void editmap_hilight::draw( editmap *hm, bool update )
                     field_id t_ftype = t_field->fieldSymbol();
                     const field_entry *t_fld = t_field->findField( t_ftype );
                     if( t_fld != NULL ) {
-                        t_col =  fieldlist[t_ftype].color[t_fld->getFieldDensity() - 1];
-                        t_sym = fieldlist[t_ftype].sym;
+                        t_col = t_fld->color();
+                        t_sym = t_fld->symbol();
                     }
                 }
                 if( blink_interval[ cur_blink ] == true ) {
@@ -564,8 +564,8 @@ void editmap::update_view( bool update_info )
                     field_id t_ftype = t_field->fieldSymbol();
                     const field_entry *t_fld = t_field->findField( t_ftype );
                     if( t_fld != NULL ) {
-                        t_col =  fieldlist[t_ftype].color[t_fld->getFieldDensity() - 1];
-                        t_sym = fieldlist[t_ftype].sym;
+                        t_col = t_fld->color();
+                        t_sym = t_fld->symbol();
                     }
                 }
                 t_col = ( altblink == true ? green_background( t_col ) : cyan_background( t_col ) );
@@ -648,9 +648,9 @@ void editmap::update_view( bool update_info )
 
         for( auto &fld : *cur_field ) {
             const field_entry *cur = &fld.second;
-            mvwprintz( w_info, off, 1, fieldlist[cur->getFieldType()].color[cur->getFieldDensity() - 1],
+            mvwprintz( w_info, off, 1, cur->color(),
                        _( "field: %s (%d) density %d age %d" ),
-                       fieldlist[cur->getFieldType()].name[cur->getFieldDensity() - 1].c_str(), cur->getFieldType(),
+                       cur->name().c_str(), cur->getFieldType(),
                        cur->getFieldDensity(), cur->getFieldAge()
                      );
             off++; // 5ish
@@ -1068,12 +1068,12 @@ int editmap::edit_ter()
 void editmap::update_fmenu_entry( uimenu *fmenu, field *field, const field_id idx )
 {
     int fdens = 1;
-    field_t ftype = fieldlist[idx];
+    const field_t &ftype = fieldlist[idx];
     field_entry *fld = field->findField( ( field_id )idx );
     if( fld != NULL ) {
         fdens = fld->getFieldDensity();
     }
-    fmenu->entries[idx].txt = ( ftype.name[fdens - 1].empty() ? fids[idx] : ftype.name[fdens - 1] );
+    fmenu->entries[idx].txt = ftype.name( fdens - 1 );
     if( fld != NULL ) {
         fmenu->entries[idx].txt += " " + std::string( fdens, '*' );
     }
@@ -1087,9 +1087,9 @@ void editmap::setup_fmenu( uimenu *fmenu )
     fmenu->entries.clear();
     for( int i = 0; i < num_fields; i++ ) {
         const field_id fid = static_cast<field_id>( i );
-        field_t ftype = fieldlist[fid];
+        const field_t &ftype = fieldlist[fid];
         int fdens = 1;
-        fname = ( ftype.name[fdens - 1].empty() ? fids[fid] : ftype.name[fdens - 1] );
+        fname = ftype.name( fdens - 1 );
         fmenu->addentry( fid, true, -2, "%s", fname.c_str() );
         fmenu->entries[fid].extratxt.left = 1;
         fmenu->entries[fid].extratxt.txt = string_format( "%c", ftype.sym );
@@ -1136,15 +1136,14 @@ int editmap::edit_fld()
                 femenu.w_x = offsetX;
 
                 femenu.return_invalid = true;
-                field_t ftype = fieldlist[idx];
-                int fidens = ( fdens == 0 ? 0 : fdens - 1 );
-                femenu.text = ( ftype.name[fidens].empty() ? fids[idx] : ftype.name[fidens] );
+                const field_t &ftype = fieldlist[idx];
+                femenu.text = ftype.name( fdens == 0 ? 0 : fdens - 1 );
                 femenu.addentry( pgettext( "map editor: used to describe a clean field (eg. without blood)",
                                            "-clear-" ) );
 
-                femenu.addentry( "1: %s", ( ftype.name[0].empty() ? fids[idx].c_str() : ftype.name[0].c_str() ) );
-                femenu.addentry( "2: %s", ( ftype.name[1].empty() ? fids[idx].c_str() : ftype.name[1].c_str() ) );
-                femenu.addentry( "3: %s", ( ftype.name[2].empty() ? fids[idx].c_str() : ftype.name[2].c_str() ) );
+                femenu.addentry( "1: %s", ftype.name( 0 ).c_str() );
+                femenu.addentry( "2: %s", ftype.name( 1 ).c_str() );
+                femenu.addentry( "3: %s", ftype.name( 2 ).c_str() );
                 femenu.entries[fdens].text_color = c_cyan;
                 femenu.selected = ( sel_fdensity > 0 ? sel_fdensity : fdens );
 
