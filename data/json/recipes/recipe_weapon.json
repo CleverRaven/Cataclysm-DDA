@@ -1039,7 +1039,7 @@
   "time": 15000,
   "reversible": true,
   "decomp_learn": 2,
-  "book_learn" : [[ "recipe_bows", 1 ] , [ "manual_archery", 2] , [ "book_archery", 2] , [ "textbook_armschina", 1 ]],
+  "book_learn" : [[ "recipe_bows", 2 ] , [ "manual_archery", 4] , [ "book_archery", 3], [ "scots_cookbook", 6 ], [ "textbook_armschina", 5 ]],
   "qualities" : [
     {"id":"SCREW","level":1},
     {"id":"WRENCH","level":1}
@@ -1065,7 +1065,7 @@
   "time": 15000,
   "reversible": true,
   "decomp_learn": 2,
-  "book_learn" : [[ "recipe_bows", 2 ] , [ "manual_archery", 3] , [ "book_archery", 3]],
+  "book_learn" : [[ "recipe_bows", 1 ] , [ "manual_archery", 3] , [ "book_archery", 2]],
   "qualities" : [
     {"id":"SCREW","level":1},
     {"id":"WRENCH","level":1}
@@ -2288,7 +2288,7 @@
   "skill_used": "fabrication",
   "difficulty": 4,
   "time": 35000,
-  "book_learn" : [[ "recipe_bows", 3 ] , [ "manual_archery", 4] , [ "book_archery", 4]],
+  "book_learn" : [[ "recipe_bows", 3 ] , [ "manual_archery", 5] , [ "book_archery", 4]],
   "qualities":[
     {"id":"CUT","level":1},
     {"id":"HAMMER","level":2},
@@ -4629,7 +4629,7 @@
   "time": 60000,
   "reversible": true,
   "decomp_learn": 5,
-  "book_learn" : [[ "textbook_weapwest", 6]],
+  "book_learn" : [[ "recipe_bows", 6 ] , [ "textbook_weapwest", 6]],
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"HAMMER","level":1},
@@ -4670,7 +4670,7 @@
   "time": 45000,
   "reversible": true,
   "decomp_learn": 4,
-  "book_learn" : [[ "textbook_weapeast", 6]],
+  "book_learn" : [[ "recipe_bows", 4 ] , [ "textbook_weapeast", 6]],,
   "qualities":[
     {"id":"CUT","level":1},
     {"id":"SCREW","level":1},
