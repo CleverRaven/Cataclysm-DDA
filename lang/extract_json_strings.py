@@ -54,6 +54,7 @@ def warning_supressed(filename):
 
 # these files will not be parsed. Full related path.
 ignore_files = {
+    "data/json/anatomy.json",
     "data/mods/replacements.json",
     "data/raw/color_templates/no_bright_background.json"
 }
