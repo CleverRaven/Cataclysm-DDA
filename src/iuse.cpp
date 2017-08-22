@@ -2915,8 +2915,13 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         new_type = t_door_o_peep;
         noisy = true;
         difficulty = 6;
-    } else if( type == t_door_c || type == t_door_c_peep ) {
-        p->add_msg_if_player( m_info, _( "This door is non-locked.  No need to pry it." ) );
+    } else if( type == t_door_c ) {
+        p->add_msg_if_player( m_info, _( "You notice the door is unlocked, so you simply open it." ) );
+        g->m.ter_set( dirx, diry, t_door_o );
+        return 0;
+    } else if ( type == t_door_c_peep ) {
+        p->add_msg_if_player( m_info, _( "You notice the door is unlocked, so you simply open it." ) );
+        g->m.ter_set( dirx, diry, t_door_o_peep );
         return 0;
     } else if( type == t_door_bar_locked ) {
         succ_action = _( "You pry open the door." );
