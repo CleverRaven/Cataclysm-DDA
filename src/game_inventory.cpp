@@ -52,7 +52,8 @@ item_location_filter convert_filter( const item_filter &filter )
 
 static item_location inv_internal( player &u, const inventory_selector_preset &preset,
                                    const std::string &title, int radius,
-                                   const std::string &none_message )
+                                   const std::string &none_message,
+                                   item_hint_provider hint_provider = item_hint_provider() )
 {
     u.inv.restack( &u );
     u.inv.sort();
@@ -64,6 +65,7 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
 
     inv_s.add_character_items( u );
     inv_s.add_nearby_items( radius );
+    inv_s.set_hint_provider( hint_provider );
 
     if( inv_s.empty() ) {
         const std::string msg = none_message.empty()
@@ -145,10 +147,10 @@ int game_menus::inv::wear( player &p )
 }
 
 item_location game::inv_map_splice( item_filter filter, const std::string &title, int radius,
-                                    const std::string &none_message )
+                                    const std::string &none_message, item_hint_provider hint_provider )
 {
     return inv_internal( u, inventory_filter_preset( convert_filter( filter ) ),
-                         title, radius, none_message );
+                         title, radius, none_message, hint_provider );
 }
 
 item_location game_menus::inv::container_for( player &p, const item &liquid, int radius )
@@ -382,7 +384,7 @@ item_location game_menus::inv::consume( player &p )
 {
     return inv_internal( p, comestible_inventory_preset( p ),
                          _( "Consume item" ), 1,
-                         _( "You have nothing to consume." ) );
+                         _( "You have nothing to consume." ), food_hint_provider );
 }
 
 class activatable_inventory_preset : public pickup_inventory_preset

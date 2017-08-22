@@ -387,7 +387,7 @@ bool player::eat( item &food, bool force )
     }
 
     if( food.type->has_use() ) {
-        if( food.type->invoke( this, &food, pos() ) <= 0 ) {
+        if( food.type->invoke( *this, food, pos() ) <= 0 ) {
             return false;
         }
     }

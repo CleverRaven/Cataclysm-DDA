@@ -1088,13 +1088,25 @@ size_t inventory_selector::get_layout_height() const
 
 size_t inventory_selector::get_header_height() const
 {
-    return display_stats || !hint.empty() ? 2 : 1;
+    int height = display_stats || !hint.empty() || hint_provider ? 2 : 1;;
+    if (!hint.empty() && hint_provider){
+        height += 1;
+    }
+    return height;
 }
 
 size_t inventory_selector::get_header_min_width() const
 {
-    const size_t titles_width = std::max( utf8_width( title, true ),
-                                          utf8_width( hint, true ) );
+    size_t titles_width = std::max( utf8_width( title, true ),
+                                    utf8_width( hint, true ) );
+
+    if (hint_provider) {
+        for ( const auto& it : items ) {
+            size_t hint_width = utf8_width( remove_color_tags( hint_provider ( *it ) ) );
+            titles_width = std::max( titles_width, hint_width );
+        }
+    }
+
     if( !display_stats ) {
         return titles_width;
     }
@@ -1124,6 +1136,12 @@ void inventory_selector::draw_header( WINDOW *w ) const
 {
     trim_and_print( w, border, border + 1, getmaxx( w ) - 2 * ( border + 1 ), c_white, "%s", title.c_str() );
     trim_and_print( w, border + 1, border + 1, getmaxx( w ) - 2 * ( border + 1 ), c_dkgray, "%s", hint.c_str() );
+    if ( hint_provider && active_column_index < columns.size() ) {
+        size_t y = border + (hint.empty() ? 1 : 2);
+        const auto& entry = columns[active_column_index]->get_selected();
+        std::string dynamic_hint = hint_provider( *entry.location );
+        trim_and_print( w, y, border + 1, getmaxx( w ) - 2 * ( border + 1 ), c_dkgray, "%s", dynamic_hint.c_str() );
+    }
 
     mvwhline( w, border + get_header_height(), border, LINE_OXOX, getmaxx( w ) - 2 * border );
 
@@ -1304,6 +1322,7 @@ inventory_selector::inventory_selector( const player &u, const inventory_selecto
     , preset( preset )
     , ctxt( "INVENTORY" )
     , columns()
+    , hint_provider( generic_hint_provider )
     , active_column_index( 0 )
     , mode( navigation_mode::ITEM )
     , own_inv_column( preset )

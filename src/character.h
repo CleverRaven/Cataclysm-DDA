@@ -362,6 +362,13 @@ class Character : public Creature, public visitable<Character>
         item &used_weapon();
         /*@}*/
 
+        /**
+         * Try to find a container/s on character containing ammo of type it.typeId() and
+         * add charges until the container is full.
+         * @param unloading Do not try to add to a container when the item was intentionally unloaded.
+         * @return Remaining charges which could not be stored in a container.
+         */
+        long int i_add_to_container(const item &it, const bool unloading);
         item &i_add(item it);
 
         /**

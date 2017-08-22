@@ -77,6 +77,8 @@ ignorable = {
     "monstergroup",
     "MONSTER_WHITELIST",
     "overlay_order",
+    "overmap_connection",
+    "overmap_location",
     "overmap_special",
     "profession_item_substitutions",
     "palette",
@@ -274,6 +276,13 @@ def extract_effect_type(item):
         for m in msg:
             writestr(outfile, m[0],
                      comment="Decay message for effect(s) '{}'.".format(', '.join(name)))
+
+    # speed_name
+    if "speed_name" in item:
+        if not name:
+            writestr(outfile, item.get("speed_name"))
+        else:
+            writestr(outfile, item.get("speed_name"), comment="Speed name of effect(s) '{}'.".format(', '.join(name)))
 
     # aplly and remove memorial messages.
     msg = item.get("apply_memorial_log")
@@ -743,6 +752,9 @@ def extract(item, infilename):
         wrote = True
     if "name_unique" in item:
         writestr(outfile, item["name_unique"], **kwargs)
+        wrote = True
+    if "job_description" in item:
+        writestr(outfile, item["job_description"], **kwargs)
         wrote = True
     if "use_action" in item:
         extract_use_action_msgs(outfile, item["use_action"], item.get("name"), kwargs)

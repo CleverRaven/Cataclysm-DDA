@@ -147,7 +147,7 @@ void recipe::load( JsonObject &jo, const std::string &src )
 
         while( bk.has_more() ) {
             auto arr = bk.next_array();
-            booksets.emplace( arr.get_string( 0 ), arr.get_int( 1 ) );
+            booksets.emplace( arr.get_string( 0 ), arr.size() > 1 ? arr.get_int( 1 ) : -1 );
         }
     }
 

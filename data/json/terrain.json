@@ -366,6 +366,27 @@
         "examine_action": "dirtmound"
     },{
         "type" : "terrain",
+        "id" : "t_dirtmoundfloor",
+        "name": "mound of dirt",
+        "symbol": "#",
+        "color": "brown",
+        "move_cost": 3,
+        "flags": ["TRANSPARENT", "DIGGABLE", "MOUNTABLE", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS"],
+        "bash": {
+                "sound": "thump",
+                "ter_set": "t_null",
+                "str_min": 50,
+                "str_max": 100,
+                "str_min_supported": 100,
+                "bash_below": true,
+                "items": [
+                    { "item": "splinter", "count": [2, 8] },
+                    { "item": "nail", "charges": [5, 10] }
+                ]
+        },
+        "examine_action": "dirtmound"
+    },{
+        "type" : "terrain",
         "id" : "t_pit_shallow",
         "name": "shallow pit",
         "symbol": "0",

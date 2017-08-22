@@ -84,7 +84,7 @@ double Creature::ranged_target_size() const
 int player::gun_engagement_moves( const item &gun ) const
 {
     int mv = 0;
-    double penalty = MIN_RECOIL;
+    double penalty = MAX_RECOIL;
 
     while( true ) {
         double adj = aim_per_move( gun, penalty );
@@ -241,7 +241,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
 
         if( shot.missed_by <= .1 ) {
-            lifetime_stats()->headshots++; // @todo check head existence for headshot
+            lifetime_stats.headshots++; // @todo check head existence for headshot
         }
 
         if( shot.hit_critter ) {
@@ -289,6 +289,8 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
     // apply delayed recoil
     recoil += delay;
+    // Cap
+    recoil = std::min( MAX_RECOIL, recoil );
 
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_fire( *this, *gun.type );
@@ -492,7 +494,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     if( missed_by <= 0.1 && dealt_attack.hit_critter != nullptr ) {
         practice( skill_used, final_xp_mult, MAX_SKILL );
         // TODO: Check target for existence of head
-        lifetime_stats()->headshots++;
+        lifetime_stats.headshots++;
     } else if( dealt_attack.hit_critter != nullptr && missed_by > 0.0f ) {
         practice( skill_used, final_xp_mult / ( 1.0f + missed_by ), MAX_SKILL );
     } else {
@@ -507,17 +509,15 @@ static std::string print_recoil( const player &p)
 {
     if( p.weapon.is_gun() ) {
         const int val = p.recoil_total();
-        if( val > MIN_RECOIL ) {
-            const char *color_name = "c_ltgray";
-            if( val >= 690 ) {
-                color_name = "c_red";
-            } else if( val >= 450 ) {
-                color_name = "c_ltred";
-            } else if( val >= 210 ) {
-                color_name = "c_yellow";
-            }
-            return string_format("<color_%s>%s</color>", color_name, _("Recoil"));
+        const char *color_name = "c_ltgray";
+        if( val >= MAX_RECOIL * 2 / 3 ) {
+            color_name = "c_red";
+        } else if( val >= MAX_RECOIL / 2 ) {
+            color_name = "c_ltred";
+        } else if( val >= MAX_RECOIL / 4 ) {
+            color_name = "c_yellow";
         }
+        return string_format("<color_%s>%s</color>", color_name, _("Recoil"));
     }
     return std::string();
 }
@@ -626,7 +626,7 @@ static int do_aim( player &p, const std::vector<Creature *> &t, int cur_target,
         cur_target = find_target( t, tpos );
         // TODO: find radial offset between targets and
         // spend move points swinging the gun around.
-        p.recoil = std::max( MIN_RECOIL, p.recoil );
+        p.recoil = MAX_RECOIL;
     }
 
     const double aim_amount = p.aim_per_move( relevant, p.recoil );
@@ -721,7 +721,7 @@ static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
     // 0 it is the best the player can do.
     const double steady_score = predicted_recoil - p.effective_dispersion( p.weapon.sight_dispersion() );
     // Fairly arbitrary cap on steadiness...
-    const double steadiness = 1.0 - steady_score / MIN_RECOIL;
+    const double steadiness = 1.0 - steady_score / MAX_RECOIL;
 
     const double target_size = target.ranged_target_size();
 
@@ -880,16 +880,16 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         aim_types.push_back( aim_type { "", "", "", false, 0 } ); // dummy aim type for unaimed shots
         const int threshold_step = 30;
         // Aiming thresholds are dependent on weapon sight dispersion, attempting to place thresholds
-        // at 66%, 33% and 0% of the difference between MIN_RECOIL and sight dispersion. The thresholds
+        // at 66%, 33% and 0% of the difference between MAX_RECOIL and sight dispersion. The thresholds
         // are then floored to multiples of threshold_step.
-        // With a MIN_RECOIL of 150 and threshold_step of 30, this means:-
+        // With a MAX_RECOIL of 150 and threshold_step of 30, this means:-
         // Weapons with <90 s_d can be aimed 'precisely'
         // Weapons with <120 s_d can be aimed 'carefully'
         // All other weapons can only be 'aimed'
         std::vector<int> thresholds = {
-            (int) floor( ( ( MIN_RECOIL - sight_dispersion ) * 2 / 3 + sight_dispersion ) /
+            (int) floor( ( ( MAX_RECOIL - sight_dispersion ) * 2 / 3 + sight_dispersion ) /
                          threshold_step ) * threshold_step,
-            (int) floor( ( ( MIN_RECOIL - sight_dispersion ) / 3 + sight_dispersion ) /
+            (int) floor( ( ( MAX_RECOIL - sight_dispersion ) / 3 + sight_dispersion ) /
                          threshold_step ) * threshold_step,
             (int) floor( sight_dispersion / threshold_step ) * threshold_step };
         std::vector<int>::iterator thresholds_it;

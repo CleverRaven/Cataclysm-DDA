@@ -421,7 +421,6 @@ classes = {
             squares_walked = { type = "int", writable = true },
         },
         functions = {
-            { name = "reset", rval = nil, args = { } },
         }
     },
     player = {
@@ -439,6 +438,7 @@ classes = {
             last_climate_control_ret = { type = "bool", writable = true },
             lastconsumed = { type = "string", writable = true },
             lastrecipe = { type = "string", writable = true },
+            lifetime_stats = { type = "stats", writable = true },
             max_power_level = { type = "int", writable = true },
             move_mode = { type = "string", writable = true },
             movecounter = { type = "int", writable = true },
@@ -1799,7 +1799,6 @@ classes = {
             color = { type = "int", writable = true },
             death_drops = { type = "string", writable = true },
             def_chance = { type = "int", writable = true },
-            description = { type = "string", writable = true },
             difficulty = { type = "int", writable = true },
             hp = { type = "int", writable = true },
             id = { type = "mtype_id" },

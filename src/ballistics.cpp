@@ -177,6 +177,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     const bool stream = proj_effects.count("STREAM") > 0 ||
                         proj_effects.count("STREAM_BIG") > 0 ||
                         proj_effects.count("JET") > 0;
+    const char bullet = stream ? '#' : '*';
     const bool no_item_damage = proj_effects.count( "NO_ITEM_DAMAGE" ) > 0;
     const bool do_draw_line = proj_effects.count( "DRAW_AS_LINE" ) > 0;
     const bool null_source = proj_effects.count( "NULL_SOURCE" ) > 0;
@@ -286,7 +287,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         if( do_animation && !do_draw_line ) {
             // TODO: Make this draw thrown item/launched grenade/arrow
             if( projectile_skip_current_frame >= projectile_skip_calculation ) {
-                g->draw_bullet(g->u, tp, (int)i, trajectory, stream ? '#' : '*');
+                g->draw_bullet( tp, (int)i, trajectory, bullet );
                 projectile_skip_current_frame = 0;
                 // If we missed recalculate the skip factor so they spread out.
                 projectile_skip_calculation = std::max( (size_t)range, i ) * projectile_skip_multiplier;
@@ -374,7 +375,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         trajectory.erase( trajectory.begin() );
         trajectory.resize( traj_len-- );
         g->draw_line( tp, trajectory );
-        g->draw_bullet( g->u, tp, int( traj_len-- ), trajectory, stream ? '#' : '*' );
+        g->draw_bullet( tp, int( traj_len-- ), trajectory, bullet );
     }
 
     if( g->m.impassable(tp) ) {
