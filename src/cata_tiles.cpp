@@ -1116,25 +1116,15 @@ void cata_tiles::process_minimap_cache_updates()
             //draw a default dark-colored rectangle over the texture which may have been used previously
             if( !mcp.second->ready ) {
                 mcp.second->ready = true;
-                SDL_Rect fullRect;
-                fullRect.h = SEEY * minimap_tile_size.y;
-                fullRect.w = SEEX * minimap_tile_size.x;
-                fullRect.x = 0;
-                fullRect.y = 0;
-                SDL_SetRenderDrawColor( renderer, 12, 12, 12, 255 );
-                SDL_RenderFillRect( renderer, &fullRect );
+                SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
+                SDL_RenderClear( renderer );
             }
 
-            SDL_Rect rectangle;
-            rectangle.w = minimap_tile_size.x;
-            rectangle.h = minimap_tile_size.y;
-            for( point &p : mcp.second->update_list ) {
-                rectangle.x = p.x * minimap_tile_size.x;
-                rectangle.y = p.y * minimap_tile_size.y;
-                pixel &current_pix = mcp.second->minimap_colors[p.y * SEEX + p.x];
-                SDL_Color c = current_pix.getSdlColor();
+            for( const point &p : mcp.second->update_list ) {
+                const pixel &current_pix = mcp.second->minimap_colors[p.y * SEEX + p.x];
+                const SDL_Color c = current_pix.getSdlColor();
                 SDL_SetRenderDrawColor( renderer, c.r, c.g, c.b, c.a );
-                SDL_RenderFillRect( renderer, &rectangle );
+                SDL_RenderDrawPoint( renderer, p.x * minimap_tile_size.x, p.y * minimap_tile_size.y );
             }
             mcp.second->update_list.clear();
         }
@@ -1265,7 +1255,11 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
             lit_level lighting = ch.visibility_cache[p.x][p.y];
             SDL_Color color;
             color.a = 255;
-            if( lighting == LL_DARK || lighting == LL_BLANK ) {
+            if( lighting == LL_BLANK ) {
+                color.r = 0;
+                color.g = 0;
+                color.b = 0;
+            } else if( lighting == LL_DARK ) {
                 color.r = 12;
                 color.g = 12;
                 color.b = 12;
