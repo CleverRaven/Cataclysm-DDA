@@ -1002,10 +1002,10 @@
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "fabrication",
-  "difficulty": 1,
+  "difficulty": 3,
   "time": 30000,
   "reversible": true,
-  "autolearn": true,
+  "decomp_learn": 3,
   "qualities":[
     {"id":"CUT","level":1},
     {"id":"HAMMER","level":2},
@@ -4670,7 +4670,7 @@
   "time": 45000,
   "reversible": true,
   "decomp_learn": 4,
-  "book_learn" : [[ "recipe_bows", 4 ] , [ "textbook_weapeast", 6]],,
+  "book_learn" : [[ "recipe_bows", 4 ] , [ "textbook_weapeast", 6]],
   "qualities":[
     {"id":"CUT","level":1},
     {"id":"SCREW","level":1},
