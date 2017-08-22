@@ -6027,3 +6027,58 @@ bool item::on_drop( const tripoint &pos )
 {
     return type->drop_action && type->drop_action.call( g->u, *this, false, pos );
 }
+
+std::string food_hint_provider( const item &it )
+{
+    int nutrition = g->u.nutrition_for( it.type );
+    int quench = it.type->comestible ? it.type->comestible->quench : 0;
+    std::string hint = string_format(
+               _( "Volume: <color_ltgray>%s</color> Nutrition: <color_ltgray>%d</color> Quench: <color_ltgray>%d</color>" ),
+               format_volume( it.volume() ).c_str(),
+               nutrition,
+               quench );
+    if (it.goes_bad()) {
+        const std::string rot_time = calendar( it.type->comestible->spoils ).textify_period();
+        hint += string_format(_(" Spoils in <color_ltgray>%s</color>"), rot_time.c_str());
+    }
+    return hint;
+}
+
+std::string wield_hint_provider( const item &it )
+{
+    std::string hint = string_format( _( "Volume: <color_ltgray>%s</color> " ),
+                                      format_volume( it.volume() ).c_str() );
+
+    if( ! it.is_gun() ) {
+        int dmg_bash = it.damage_melee( DT_BASH );
+        int dmg_cut  = it.damage_melee( DT_CUT );
+        int dmg_stab = it.damage_melee( DT_STAB );
+
+        if( dmg_bash ) {
+            hint += string_format( _( "Bash: <color_ltgray>%d</color> " ), dmg_bash );
+        }
+        if( dmg_cut ) {
+            hint += string_format( _( "Cut: <color_ltgray>%d</color> " ), dmg_cut );
+        }
+        if( dmg_stab ) {
+            hint += string_format( _( "Pierce: <color_ltgray>%d</color> " ), dmg_stab );
+        }
+    } else {
+        hint += string_format( _( "Ranged damage: <color_ltgray>%d</color> " ), it.gun_damage( true ) );
+    }
+
+    if( ! hint.empty() ) {
+        hint.pop_back();
+    }
+
+    return hint;
+}
+
+std::string generic_hint_provider( const item &it )
+{
+    if ( it.is_food() )
+    {
+        return food_hint_provider(it);
+    }
+    return wield_hint_provider(it);
+}

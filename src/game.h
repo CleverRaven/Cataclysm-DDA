@@ -120,6 +120,7 @@ typedef std::vector< std::list<item>* > invslice;
 typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
 
+typedef std::function<std::string(const item&)> item_hint_provider;
 typedef std::function<bool( const item & )> item_filter;
 
 class game
@@ -471,7 +472,8 @@ class game
 
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
-                                      const std::string &none_message = "" );
+                                      const std::string &none_message = "",
+                                      item_hint_provider hint_provider = item_hint_provider() );
         faction *list_factions(std::string title = "FACTIONS:");
 
         bool has_gametype() const;

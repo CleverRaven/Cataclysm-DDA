@@ -10834,7 +10834,8 @@ void game::wield( int pos )
         const auto filter = []( const item &it ) {
             return it.made_of( SOLID );
         };
-        loc = inv_map_splice( filter, _( "Wield item" ), 1, _( "You have nothing to wield." ) );
+        loc = inv_map_splice( filter, _( "Wield item" ), 1, _( "You have nothing to wield." ),
+                              wield_hint_provider );
     }
 
     if( !loc ) {
