@@ -127,7 +127,6 @@ automatically_convertible = {
     "MOD_INFO",
     "MONSTER",
     "morale_type",
-    "mutation",
     "morale_type",
     "npc",
     "npc_class",
@@ -504,8 +503,33 @@ def extract_missiondef(item):
         if "failure" in dialogue:
             writestr(outfile, dialogue.get("failure"))
 
-
 def extract_mutation(item):
+    outfile = get_outfile("mutation")
+
+    item_name = found = item.get("name")
+    if found is None:
+        raise WrongJSONItem("JSON item don't contain 'name' field", item)
+    writestr(outfile, found)
+
+    simple_fields = [ "description" ]
+
+    for f in simple_fields:
+        found = item.get(f)
+        # Need that check due format string argument
+        if found is not None:
+            writestr(outfile, found, comment="Description for {}".format(item_name))
+
+    if "attacks" in item:
+        attacks = item.get("attacks")
+        if "attack_text_u" in attacks:
+            writestr(outfile, attacks.get("attack_text_u"))
+        if "attack_text_npc" in attacks:
+            writestr(outfile, attacks.get("attack_text_npc"))
+
+    if "spawn_item" in item:
+        writestr(outfile, item.get("spawn_item").get("message"))
+
+def extract_mutation_category(item):
     outfile = get_outfile("mutation_category")
 
     item_name = found = item.get("name")
@@ -583,7 +607,8 @@ extract_specials = {
     "material": extract_material,
     "mission_definition": extract_missiondef,
     "monster_attack": extract_monster_attack,
-    "mutation_category": extract_mutation,
+    "mutation": extract_mutation,
+    "mutation_category": extract_mutation_category,
     "profession": extract_professions,
     "recipe_category": extract_recipe_category,
     "recipe": extract_recipes,
