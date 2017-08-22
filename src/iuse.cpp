@@ -2903,8 +2903,7 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
     bool noisy;
     int difficulty;
 
-    if (type == t_door_c || type == t_door_locked || type == t_door_locked_alarm ||
-        type == t_door_locked_interior) {
+    if (type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior) {
         succ_action = _("You pry open the door.");
         fail_action = _("You pry, but cannot pry open the door.");
         new_type = t_door_o;
