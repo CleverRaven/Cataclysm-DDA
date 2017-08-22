@@ -6,7 +6,7 @@ Tiles or curses:
 
 Mods active (if it may be related):
 
-### Expected Behavior
+### Expected behavior
 
 ### Actual behavior
 
