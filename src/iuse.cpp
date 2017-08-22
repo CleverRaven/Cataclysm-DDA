@@ -2915,6 +2915,9 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
         new_type = t_door_o_peep;
         noisy = true;
         difficulty = 6;
+    } else if (type == t_door_c || type == t_door_c_peep) {
+        p->add_msg_if_player(m_info, _("This door is non-locked.  No need to pry it."));
+        return 0;
     } else if (type == t_door_bar_locked) {
         succ_action = _("You pry open the door.");
         fail_action = _("You pry, but cannot pry open the door.");
