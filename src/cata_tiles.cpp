@@ -1246,7 +1246,7 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
     auto vision_cache = g->u.get_vision_modes();
     bool nv_goggle = vision_cache[NV_GOGGLES];
 
-
+    const int brightness = get_option<int>( "PIXEL_MINIMAP_BRIGHTNESS" );
     //check all of exposed submaps (MAPSIZE*MAPSIZE submaps) and apply new color changes to the cache
     for( int y = 0; y < MAPSIZE * SEEY; y++ ) {
         for( int x = 0; x < MAPSIZE * SEEX; x++ ) {
@@ -1287,6 +1287,8 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
             } else if( lighting == LL_LOW ) {
                 color_pixel_grayscale( pix );
             }
+
+            pix.adjust_brightness( brightness );
             //add an individual color update to the cache
             update_minimap_cache( p, pix );
         }

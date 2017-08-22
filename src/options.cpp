@@ -690,7 +690,7 @@ void options_manager::cOpt::setValue(std::string sSetIn)
  * All found values added to resource_option as name, resource_dir.
  * Furthermore, it builds possible values list for cOpt class.
  */
-static std::vector<std::pair<std::string, std::string>> build_resource_list( 
+static std::vector<std::pair<std::string, std::string>> build_resource_list(
     std::map<std::string, std::string> &resource_option, std::string operation_name,
     std::string dirname_label, std::string filename_label ) {
     std::vector<std::pair<std::string, std::string>> resource_names;
@@ -1160,6 +1160,11 @@ void options_manager::init()
     add( "PIXEL_MINIMAP_HEIGHT", "graphics", translate_marker( "Pixel Minimap height" ),
         translate_marker( "Height of pixel-detail minimap, measured in terminal rows.  Set to 0 for default spacing." ),
         0, 100, 0, COPT_CURSES_HIDE
+        );
+
+    add( "PIXEL_MINIMAP_BRIGHTNESS", "graphics", translate_marker( "Pixel Minimap brightness" ),
+        translate_marker( "Overal brightness of pixel-detail minimap." ),
+        10, 300, 100, COPT_CURSES_HIDE
         );
 
     add( "PIXEL_MINIMAP_RATIO", "graphics", translate_marker( "Maintain Pixel Minimap aspect ratio" ),

@@ -156,6 +156,12 @@ struct pixel {
         return c;
     }
 
+    void adjust_brightness( int percent ) {
+        r = std::min( r * percent / 100, 0xFF );
+        g = std::min( g * percent / 100, 0xFF );
+        b = std::min( b * percent / 100, 0xFF );
+    }
+
     bool isBlack() const {
         return ( r == 0 && g == 0 && b == 0 );
     }
