@@ -23,7 +23,7 @@
     "type": "effect_type",
     "id": "add_alcohol",
     "name": ["Alcohol Withdrawal"],
-    "desc": ["Causes occasional Cravings and risk of delirium tremens."],
+    "desc": ["Causes occasional cravings and risk of delirium tremens."],
     "max_intensity": 20,
     "base_mods": {
       "int_mod": [-1],

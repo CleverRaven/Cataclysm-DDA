@@ -5554,14 +5554,8 @@ void player::suffer()
         } else if( has_trait( trait_NONADDICTIVE ) ) {
             timer = -HOURS( 3 );
         }
-<<<<<<< ec6b15fff98ad038e96230d858c7c8cbb4534e98
+
         for( auto &cur_addiction : addictions ) {
-            if( cur_addiction.sated <= 0 &&
-                cur_addiction.intensity >= MIN_ADDICTION_LEVEL ) {
-                addict_effect( *this, cur_addiction );
-=======
-        for( size_t i = 0; i < addictions.size(); i++ ) {
-            auto &cur_addiction = addictions[i];
             const efftype_id &addict_effect = addiction_effect( cur_addiction.type );
             if( !addict_effect.is_null() ) {
                 effect &ef = get_effect( addict_effect );
@@ -5579,7 +5573,6 @@ void player::suffer()
                         ef.set_intensity( cur_addiction.intensity, true );
                     }
                 }
->>>>>>> Partly dehardcode addiction effects
             }
             cur_addiction.sated--;
             // Higher intensity addictions heal faster
