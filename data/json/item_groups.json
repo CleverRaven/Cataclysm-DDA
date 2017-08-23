@@ -535,7 +535,7 @@
       ["cookbook_sushi", 5],
       ["scots_cookbook", 6],
       ["food_processor", 30 ],
-      ["eclipse glasses", 1]
+      ["eclipse_glasses", 1]
     ]
   },{
     "type" : "item_group",
