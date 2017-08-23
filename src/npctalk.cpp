@@ -3047,7 +3047,7 @@ void talk_function::hostile( npc &p )
 {
  if ( p.attitude == NPCATT_KILL )
   return;
- 
+
  if ( p.sees( g->u ) ) {
   add_msg(_("%s turns hostile!"), p.name.c_str());
  }
@@ -4272,7 +4272,7 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
             p.use_charges( comest->tool, 1 );
         }
         if( to_eat.type->has_use() ) {
-            amount_used = to_eat.type->invoke( &p, &to_eat, p.pos() );
+            amount_used = to_eat.type->invoke( p, to_eat, p.pos() );
             if( amount_used <= 0 ) {
                 reason = _("It doesn't look like a good idea to consume this..");
                 return REFUSED;

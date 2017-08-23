@@ -1095,6 +1095,52 @@ public:
     }
 };
 
+/**
+ * Place a computer (console) with given stats and effects.
+ * @param options Array of @ref computer_option
+ * @param failures Array of failure effects (see @ref computer_failure)
+ */
+class jmapgen_computer : public jmapgen_piece {
+public:
+    std::string name;
+    int security;
+    std::vector<computer_option> options;
+    std::vector<computer_failure> failures;
+    jmapgen_computer( JsonObject &jsi ) : jmapgen_piece()
+    {
+        name = jsi.get_string( "name" );
+        security = jsi.get_int( "security", 0 );
+        if( jsi.has_array( "options" ) ) {
+            JsonArray opts = jsi.get_array( "options" );
+            while( opts.has_more() ) {
+                JsonObject jo = opts.next_object();
+                options.emplace_back( computer_option::from_json( jo ) );
+            }
+        }
+        if( jsi.has_array( "failures" ) ) {
+            JsonArray opts = jsi.get_array( "failures" );
+            while( opts.has_more() ) {
+                JsonObject jo = opts.next_object();
+                failures.emplace_back( computer_failure::from_json( jo ) );
+            }
+        }
+    }
+    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    {
+        const int rx = x.get();
+        const int ry = y.get();
+        m.ter_set( rx, ry, t_console );
+        m.furn_set( rx, ry, f_null );
+        computer *cpu = m.add_computer( tripoint( rx, ry, m.get_abs_sub().z ), name, security );
+        for( const auto &opt : options ) {
+            cpu->add_option( opt );
+        }
+        for( const auto &opt : failures ) {
+            cpu->add_failure( opt );
+        }
+    }
+};
+
 jmapgen_objects::jmapgen_objects( const int x_offset, const int y_offset, const int mapgensize )
 : x_offset( x_offset )
 , y_offset( y_offset )
@@ -1444,6 +1490,7 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_furniture>( jo, "furniture", format_placings );
     new_pal.load_place_mapings<jmapgen_terrain>( jo, "terrain", format_placings );
     new_pal.load_place_mapings<jmapgen_make_rubble>( jo, "rubble", format_placings );
+    new_pal.load_place_mapings<jmapgen_computer>( jo, "computers", format_placings );
 
     return new_pal;
 }
@@ -1567,6 +1614,7 @@ void mapgen_function_json::setup() {
             luascript += "\n";
         }
     }
+        objects.load_objects<jmapgen_computer>( jo, "place_computers" );
 
     is_ready = true; // skip setup attempts from any additional pointers
 }

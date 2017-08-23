@@ -316,20 +316,7 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
         for( auto &input_file : input_files ) {
             std::string output_path = input_file;
             output_path = cur_mod_dir.str() + output_path.substr(start_index);
-
-            std::ifstream infile( input_file.c_str(), std::ifstream::in | std::ifstream::binary );
-            // and stuff it into ram
-            std::istringstream iss(
-                std::string(
-                    (std::istreambuf_iterator<char>(infile)),
-                    std::istreambuf_iterator<char>()
-                )
-            );
-            infile.close();
-
-            fout.open(output_path.c_str());
-            fout << iss.str();
-            fout.close();
+            copy_file( input_file, output_path );
         }
     }
     return true;

@@ -78,7 +78,7 @@
 #include <stdlib.h>
 #include <limits>
 
-const double MIN_RECOIL = 600;
+const double MAX_RECOIL = 600;
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 const mtype_id mon_shadow_snake( "mon_shadow_snake" );
@@ -3418,12 +3418,7 @@ bool player::has_watch() const
 void player::pause()
 {
     moves = 0;
-    /** @EFFECT_STR increases recoil recovery speed */
-
-    /** @EFFECT_GUN increases recoil recovery speed */
-    recoil -= str_cur + 2 * get_skill_level( skill_gun );
-    recoil = std::max( MIN_RECOIL * 2, recoil );
-    recoil = recoil / 2;
+    recoil = MAX_RECOIL;
 
     // Train swimming if underwater
     if( !in_vehicle ) {
@@ -3745,6 +3740,7 @@ void player::on_dodge( Creature *source, float difficulty )
     // dodging throws of our aim unless we are either skilled at dodging or using a small weapon
     if( is_armed() && weapon.is_gun() ) {
         recoil += std::max( weapon.volume() / 250_ml - get_skill_level( skill_dodge ), 0 ) * rng( 0, 100 );
+        recoil = std::min( MAX_RECOIL, recoil );
     }
 
     // Even if we are not to train still call practice to prevent skill rust
@@ -4018,6 +4014,7 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
 
     // @todo Scale with damage in a way that makes sense for power armors, plate armor and naked skin.
     recoil += recoil_mul * weapon.volume() / 250_ml;
+    recoil = std::min( MAX_RECOIL, recoil );
     //looks like this should be based off of dealtdams, not d as d has no damage reduction applied.
     // Skip all this if the damage isn't from a creature. e.g. an explosion.
     if( source != nullptr ) {
@@ -5870,7 +5867,8 @@ void player::suffer()
             }
             else focus_pool --;
         }
-        if( !( ( (worn_with_flag( "SUN_GLASSES" ) ) || worn_with_flag( "BLIND" ) ) && ( wearing_something_on( bp_eyes ) ) ) ) {
+        if( !( ( (worn_with_flag( "SUN_GLASSES" ) ) || worn_with_flag( "BLIND" ) ) && ( wearing_something_on( bp_eyes ) ) )
+            && !has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
             add_msg( m_bad, _( "The sunlight is really irritating your eyes." ) );
             if( one_in(10) ) {
                 mod_pain(1);
@@ -7237,7 +7235,7 @@ bool player::consume_med( item &target )
 
     long amount_used = 1;
     if( target.type->has_use() ) {
-        amount_used = target.type->invoke( this, &target, pos() );
+        amount_used = target.type->invoke( *this, target, pos() );
         if( amount_used <= 0 ) {
             return false;
         }
@@ -7521,7 +7519,8 @@ item::reload_option player::select_ammo( const item &base, const std::vector<ite
 
             bool key( const input_event &event, int idx, uimenu * menu ) override {
                 auto cur_key = event.get_first_input();
-                if( default_to != -1 && cur_key == last_key ) {
+                //Prevent double RETURN '\n' to default to the first entry
+                if( default_to != -1 && cur_key == last_key && cur_key != '\n' ) {
                     // Select the first entry on the list
                     menu->ret = default_to;
                     return true;
@@ -8819,7 +8818,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
     }
 
     if( used->type->use_methods.size() < 2 ) {
-        const long charges_used = used->type->invoke( this, used, pt );
+        const long charges_used = used->type->invoke( *this, *used, pt );
         return used->is_tool() && consume_charges( *used, charges_used );
     }
 
@@ -8827,7 +8826,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
     umenu.text = string_format( _("What to do with your %s?"), used->tname().c_str() );
     umenu.return_invalid = true;
     for( const auto &e : used->type->use_methods ) {
-        umenu.addentry( MENU_AUTOASSIGN, e.second.can_call( this, used, false, pt ),
+        umenu.addentry( MENU_AUTOASSIGN, e.second.can_call( *this, *used, false, pt ),
                         MENU_AUTOASSIGN, e.second.get_name() );
     }
 
@@ -8838,7 +8837,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
     }
 
     const std::string &method = std::next( used->type->use_methods.begin(), choice )->first;
-    long charges_used = used->type->invoke( this, used, pt, method );
+    long charges_used = used->type->invoke( *this, *used, pt, method );
 
     return ( used->is_tool() || used->is_medication() || used->is_container() ) && consume_charges( *used, charges_used );
 }
@@ -8860,7 +8859,7 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
                   method.c_str(), used->tname().c_str() );
     }
 
-    long charges_used = actually_used->type->invoke( this, actually_used, pt, method );
+    long charges_used = actually_used->type->invoke( *this, *actually_used, pt, method );
     return ( used->is_tool() || used->is_medication() || used->is_container() ) && consume_charges( *actually_used, charges_used );
 }
 
@@ -9656,7 +9655,7 @@ void player::do_read( item *book )
     // NPCs can't learn martial arts from manuals (yet).
     auto m = book->type->use_methods.find( "MA_MANUAL" );
     if( m != book->type->use_methods.end() ) {
-        m->second.call( this, book, false, pos() );
+        m->second.call( *this, *book, false, pos() );
     }
 
     activity.set_to_null();

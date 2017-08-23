@@ -47,10 +47,10 @@
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 
-const std::string obj_type_name[11]={ "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
+static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
     "OBJECT_NPC", "OBJECT_MONSTER", "OBJECT_VEHICLE", "OBJECT_TRAP", "OBJECT_FIELD",
     "OBJECT_TERRAIN", "OBJECT_FURNITURE"
-};
+} };
 
 std::vector<item> item::magazine_convert() {
     std::vector<item> res;
@@ -130,17 +130,6 @@ std::vector<item> item::magazine_convert() {
     set_var( "magazine_converted", true );
 
     return res;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-///// on runtime populate lookup tables.
-std::map<std::string, int> obj_type_id;
-
-void game::init_savedata_translation_tables() {
-  obj_type_id.clear();
-  for(int i = 0; i < NUM_OBJECTS; i++) {
-    obj_type_id[ obj_type_name[i] ] = i;
-  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -714,10 +703,9 @@ void player::deserialize(JsonIn &jsin)
         grab_typestr = "OBJECT_VEHICLE";
         data.read( "grab_type", grab_typestr);
     }
-
-    if ( obj_type_id.find(grab_typestr) != obj_type_id.end() ) {
-        grab_type = (object_type)obj_type_id[grab_typestr];
-    }
+    const auto iter = std::find( obj_type_name.begin(), obj_type_name.end(), grab_typestr );
+    grab_type = iter == obj_type_name.end() ? OBJECT_NONE : static_cast<object_type>( std::distance(
+                    obj_type_name.begin(), iter ) );
 
     data.read( "focus_pool", focus_pool);
     data.read( "style_selected", style_selected );

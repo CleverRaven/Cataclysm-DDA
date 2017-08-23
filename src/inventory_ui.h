@@ -21,6 +21,9 @@ class item_location;
 
 class player;
 
+// Copied from game.h
+typedef std::function<std::string( const item & )> item_hint_provider;
+
 enum class navigation_mode : int {
     ITEM = 0,
     CATEGORY
@@ -419,6 +422,10 @@ class inventory_selector
         void set_hint( const std::string &hint ) {
             this->hint = hint;
         }
+        /** Assigns a dynamic hint provider. */
+        void set_hint_provider( item_hint_provider hint_provider ) {
+            this->hint_provider = hint_provider;
+        }
         /** Specify whether the header should show stats (weight and volume). */
         void set_display_stats( bool display_stats ) {
             this->display_stats = display_stats;
@@ -547,6 +554,7 @@ class inventory_selector
 
         std::string title;
         std::string hint;
+        item_hint_provider hint_provider;
         size_t active_column_index;
         std::list<item_category> categories;
         navigation_mode mode;

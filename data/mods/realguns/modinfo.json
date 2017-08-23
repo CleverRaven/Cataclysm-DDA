@@ -4,7 +4,7 @@
     "ident": "realguns",
     "name": "Extended Realistic Guns",
     "authors": [ "BorkBorkGoesTheCode", "DangerNoodle" ],
-    "maintainers": [ "BorkBorkGoesTheCode", "DangerNoodle" ],
+    "maintainers": [ "BorkBorkGoesTheCode" ],
     "description": "Adds more overlapping ammo types and more real-world firearms.",
     "category": "items",
     "dependencies": [ "dda" ]

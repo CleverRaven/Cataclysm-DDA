@@ -1,3 +1,24 @@
+* [General Linux Guide](#general-linux-guide)
+  * [Compiler](#compiler)
+  * [Tools](#tools)
+  * [Dependencies](#dependencies)
+  * [Make flags](#make-flags)
+* [Debian](#debian)
+  * [Linux (native) ncurses builds](#linux-native-ncurses-builds)
+  * [Linux (native) SDL builds](#linux-native-sdl-builds)
+  * [Cross-compiling to linux 32-bit from linux 64-bit](#cross-compiling-to-linux-32-bit-from-linux-64-bit)
+  * [Cross-compile to Windows from Linux](#cross-compile-to-windows-from-linux)
+  * [Cross-compile to Mac OS X from Linux](#cross-compile-to-mac-os-x-from-linux)
+* [Mac OS X](#mac-os-x)
+  * [Simple build using Homebrew](#simple-build-using-homebrew)
+  * [Advanced info for Developers](#advanced-info-for-developers)
+  * [Troubleshooting](#troubleshooting)
+* [Windows](#windows)
+  * [Visual Studio Guide](#visual-studio-guide)
+  * [MinGW Guide](#mingw-guide)
+  * [Rough guide to building with only MSYS2](#rough-guide-to-building-with-only-msys2)
+* [BSDs](#bsds)
+
 # General Linux Guide
 
 To build Cataclysm from source you will need at least a C++ compiler, some basic developer tools, and necessary build dependencies. The exact package names vary greatly from distro to distro, so this part of the guide is intended to give you higher-level understanding of the process.

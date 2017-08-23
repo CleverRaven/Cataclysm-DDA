@@ -299,9 +299,6 @@ void game::load_static_data()
     // If this changes (if they load data from json), they have to
     // be moved to game::load_mod or game::load_core_data
     init_mapgen_builtin_functions();
-    init_savedata_translation_tables();
-    init_artifacts();
-    init_faction_data();
 
     get_auto_pickup().load_global();
     get_safemode().load_global();
@@ -10283,7 +10280,7 @@ void game::butcher()
     if( salvage_tool_index != INT_MIN ) {
         for( size_t i = 0; i < items.size(); i++ ) {
             if( !items[i].is_corpse() &&
-                salvage_iuse->valid_to_cut_up( &items[i] ) ) {
+                salvage_iuse->valid_to_cut_up( items[i] ) ) {
                     salvageables.push_back(i);
             }
         }
@@ -10423,7 +10420,7 @@ void game::butcher()
     case BUTCHER_SALVAGE:
         {
             size_t index = salvageables[indexer_index];
-            salvage_iuse->cut_up( &u, salvage_tool, &items[index] );
+            salvage_iuse->cut_up( u, *salvage_tool, items[index] );
         }
         break;
     }
@@ -10649,13 +10646,16 @@ void game::mend( int pos )
     }
 }
 
-bool add_or_drop_with_msg( player &u, item &it )
+bool add_or_drop_with_msg( player &u, item &it, const bool unloading = false )
 {
     if( it.made_of( LIQUID ) ) {
         g->consume_liquid( it, 1 );
         return it.charges <= 0;
     }
-    if( !u.can_pickVolume( it ) ) {
+    it.charges = u.i_add_to_container(it, unloading);
+    if( it.is_ammo() && it.charges == 0 ) {
+        return true;
+    } else if( !u.can_pickVolume( it ) ) {
         add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
                  it.tname().c_str() );
         g->m.add_item_or_charges( u.pos(), it );
@@ -10682,7 +10682,7 @@ bool game::unload( item &it )
         bool changed = false;
         it.contents.erase( std::remove_if( it.contents.begin(), it.contents.end(), [this, &changed]( item& e ) {
             long old_charges = e.charges;
-            const bool consumed = add_or_drop_with_msg( u, e );
+            const bool consumed = add_or_drop_with_msg( u, e, true );
             changed = changed || consumed || e.charges != old_charges;
             if( consumed ) {
                 u.mod_moves( -u.item_handling_cost( e ) );
@@ -10742,7 +10742,7 @@ bool game::unload( item &it )
         long qty = 0;
         target->contents.erase( std::remove_if( target->contents.begin(), target->contents.end(), [&]( item& e ) {
             int mv = u.item_reload_cost( *target, e, e.charges ) / 2;
-            if( !add_or_drop_with_msg( u, e ) ) {
+            if( !add_or_drop_with_msg( u, e, true ) ) {
                 return false;
             }
             qty += e.charges;
@@ -10753,7 +10753,7 @@ bool game::unload( item &it )
         if( target->is_ammo_belt() ) {
             if( target->type->magazine->linkage != "NULL" ) {
                 item link( target->type->magazine->linkage, calendar::turn, qty );
-                add_or_drop_with_msg( u, link );
+                add_or_drop_with_msg( u, link, true );
             }
             add_msg( _( "You disassemble your %s."), target->tname().c_str() );
         } else {
@@ -10762,7 +10762,7 @@ bool game::unload( item &it )
         return true;
 
     } else if( target->magazine_current() ) {
-        if( !add_or_drop_with_msg( u, *target->magazine_current() ) ) {
+        if( !add_or_drop_with_msg( u, *target->magazine_current(), true ) ) {
             return false;
         }
         // Eject magazine consuming half as much time as required to insert it
@@ -10796,7 +10796,7 @@ bool game::unload( item &it )
                 return false; // no liquid was moved
             }
 
-        } else if( !add_or_drop_with_msg( u, ammo ) ) {
+        } else if( !add_or_drop_with_msg( u, ammo, qty > 1 ) ) {
             return false;
         }
 
@@ -10812,7 +10812,7 @@ bool game::unload( item &it )
 
     // Turn off any active tools
     if( target->is_tool() && target->active && target->ammo_remaining() == 0 ) {
-        target->type->invoke( &u, target, u.pos() );
+        target->type->invoke( u, *target, u.pos() );
     }
 
     add_msg( _( "You unload your %s." ), target->tname().c_str() );
@@ -10834,7 +10834,8 @@ void game::wield( int pos )
         const auto filter = []( const item &it ) {
             return it.made_of( SOLID );
         };
-        loc = inv_map_splice( filter, _( "Wield item" ), 1, _( "You have nothing to wield." ) );
+        loc = inv_map_splice( filter, _( "Wield item" ), 1, _( "You have nothing to wield." ),
+                              wield_hint_provider );
     }
 
     if( !loc ) {
@@ -10854,7 +10855,7 @@ void game::wield( int pos )
 
     // If called for the current weapon then try unwielding it
     if( u.wield( &it == &u.weapon ? u.ret_null : it ) ) {
-        u.recoil = MIN_RECOIL;
+        u.recoil = MAX_RECOIL;
         // Rest of the hack: remove the item if it wasn't removed in player::wield
         if( !in_inv ) {
             loc.remove_item();
@@ -10887,24 +10888,44 @@ void game::chat()
     }
 
     uimenu nmenu;
-    nmenu.text = std::string( _("Who do you want to talk to?") );
-
+    nmenu.text = std::string( _( "Who do you want to talk to or yell at?" ) );
+    
     int i = 0;
+
     for( auto &elem : available ) {
         nmenu.addentry( i++, true, MENU_AUTOASSIGN, ( elem )->name );
     }
 
     nmenu.return_invalid = true;
-    nmenu.addentry( i++, true, 'a', _( "Yell" ) );
-    nmenu.addentry( i++, true, 'q', _( "Cancel" ) );
+
+    int yell, yell_sentence;
+
+    nmenu.addentry( yell = i++, true, 'a', _( "Yell" ) );
+    nmenu.addentry( yell_sentence = i++, true, 'b', _( "Yell a sentence" ) );
 
     nmenu.query();
-    if( nmenu.ret < 0 || nmenu.ret > (int)available.size() ) {
+    if( nmenu.ret < 0 ) {
         return;
-    } else if( nmenu.ret == (int)available.size() ) {
+    } else if( nmenu.ret == yell ) {
         u.shout();
-    } else {
+    } else if( nmenu.ret == yell_sentence ) {
+        std::string popupdesc = string_format( _( "Enter a sentence to yell" ) );
+        string_input_popup popup;
+        popup.title( string_format( _( "Yell a sentence" ) ) )
+        .width( 64 )
+        .description( popupdesc )
+        .identifier( "sentence" )
+        .max_length( 128 )
+        .query();
+
+        std::string sentence = popup.text();
+        add_msg( _( "You yell %s" ), sentence.c_str() );
+        u.shout();
+
+    } else if( nmenu.ret <= ( int )available.size() ) {
         available[nmenu.ret]->talk_to_u();
+    } else {
+        return;
     }
 
     u.moves -= 100;
@@ -11551,13 +11572,8 @@ bool game::walk_move( const tripoint &dest_loc )
 
     u.burn_move_stamina( previous_moves - u.moves );
 
-    // Adjust recoil down
-    ///\EFFECT_STR increases recoil recovery speed
-
-    ///\EFFECT_GUN inreases recoil recovery speed
-    u.recoil -= int(u.str_cur / 2) + u.get_skill_level( skill_id( "gun" ) );
-    u.recoil = std::max( MIN_RECOIL * 2, u.recoil );
-    u.recoil = int(u.recoil / 2);
+    // Max out recoil
+    u.recoil = MAX_RECOIL;
 
     // Print a message if movement is slow
     const int mcost_to = m.move_cost( dest_loc ); //calculate this _after_ calling grabbed_move

@@ -403,7 +403,11 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
     }
 
     bool did_prompt = false;
-    if( newit.made_of( LIQUID ) ) {
+    newit.charges = u.i_add_to_container( newit, false );
+    if( newit.is_ammo() && newit.charges == 0 ) {
+        picked_up = true;
+        option = NUM_ANSWERS; //Skip the options part
+    } else if( newit.made_of( LIQUID ) ) {
         got_water = true;
     } else if( !u.can_pickWeight( newit, false ) ) {
         add_msg( m_info, _( "The %s is too heavy!" ), newit.display_name().c_str() );

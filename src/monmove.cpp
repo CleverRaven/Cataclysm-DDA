@@ -526,7 +526,7 @@ void monster::move()
             moved = true;
         }
     }
-    if( wandf > 0 && !moved ) { // No LOS, no scent, so as a fall-back follow sound
+    if( wandf > 0 && !moved && friendly == 0 ) { // No LOS, no scent, so as a fall-back follow sound
         unset_dest();
         if( wander_pos != pos() ) {
             destination = wander_pos;
