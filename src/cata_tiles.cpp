@@ -80,6 +80,21 @@ static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
     "weather", // C_WEATHER,
 }};
 
+
+namespace
+{
+    /// Returns a number in range [0..1]. The range lasts for @param phase_length_ms (milliseconds).
+    float get_animation_phase( int phase_length_ms )
+    {
+        if( phase_length_ms == 0 ) {
+            return 0.0f;
+        }
+
+        return std::fmod<float>( SDL_GetTicks(), phase_length_ms ) / phase_length_ms;
+    }
+}
+
+
 // Operator overload required to leverage unique_ptr API.
 void SDL_Texture_deleter::operator()( SDL_Texture *const ptr )
 {
@@ -255,14 +270,6 @@ inline static void set_pixel_color(SDL_Surface_Ptr &surf, int x, int y, int w, p
     pixel_ptr[1] = static_cast<unsigned char>(pix.g);
     pixel_ptr[2] = static_cast<unsigned char>(pix.b);
     pixel_ptr[3] = static_cast<unsigned char>(pix.a);
-}
-
-static void color_pixel_red_mix(pixel& pix, int percent)
-{
-    int otherpercent = 100 - percent;
-    pix.r = pix.r * otherpercent / 100 + 255 * percent / 100;
-    pix.g = pix.g * otherpercent / 100;
-    pix.b = pix.b * otherpercent / 100;
 }
 
 static void color_pixel_grayscale(pixel& pix)
@@ -1344,13 +1351,16 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
     //handles the enemy faction red highlights
     //this value should be divisible by 200
     const int indicator_length = get_option<int>( "PIXEL_MINIMAP_BLINK" ) * 200; //default is 2000 ms, 2 seconds
-    int indicator_tick = 0; //if blink is disabled, leave at 0
+
+    int flicker = 100;
+    int mixture = 0;
+
     if( indicator_length > 0 ) {
-        indicator_tick = SDL_GetTicks() % indicator_length;
-        if( indicator_tick > indicator_length / 2 ) {
-            indicator_tick = indicator_length - indicator_tick;
-        }
-        indicator_tick /= ( indicator_length / 200 ); //scale to 0-100 percent
+        const float t = get_animation_phase( 2 * indicator_length );
+        const float s = std::sin( 2 * M_PI * t );
+
+        flicker = lerp_clamped( 25, 100, std::abs( s ) );
+        mixture = lerp_clamped( 0, 100, std::max( s, 0.0f ) );
     }
 
     // Now draw critters over terrain.
@@ -1379,19 +1389,20 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
                                 //faction status (attacking or tracking) determines if red highlights get applied to creature
                                 monster_attitude matt = m->attitude( &( g->u ) );
                                 if( MATT_ATTACK == matt || MATT_FOLLOW == matt ) {
-                                    // use a red-black transition for flickering enemy beacons
-                                    c.r = 0;
-                                    c.g = 0;
-                                    c.b = 0;
+                                    const pixel red_pixel( 0xFF, 0x0, 0x0 );
+
                                     pixel p( c );
-                                    color_pixel_red_mix( p, indicator_tick );
+
+                                    p.mix_with( red_pixel, mixture );
+                                    p.adjust_brightness( flicker );
+
                                     c = p.getSdlColor();
                                 }
                             }
                         }
                         draw_rhombus(
-                            destx + minimap_border_width + x * minimap_tile_size.x + minimap_tile_size.x / 2,
-                            desty + minimap_border_height + y * minimap_tile_size.y + minimap_tile_size.y / 2,
+                            destx + minimap_border_width + x * minimap_tile_size.x,
+                            desty + minimap_border_height + y * minimap_tile_size.y,
                             minimap_tile_size.x,
                             c,
                             width,
