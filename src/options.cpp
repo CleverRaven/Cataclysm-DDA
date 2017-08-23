@@ -1157,14 +1157,21 @@ void options_manager::init()
         true, COPT_CURSES_HIDE
         );
 
-    add( "PIXEL_MINIMAP_HEIGHT", "graphics", translate_marker( "Pixel Minimap height" ),
-        translate_marker( "Height of pixel-detail minimap, measured in terminal rows.  Set to 0 for default spacing." ),
-        0, 100, 0, COPT_CURSES_HIDE
+    add( "PIXEL_MINIMAP_MODE", "graphics", translate_marker( "Pixel Minimap drawing mode" ),
+        translate_marker( "Specified the mode in which the minimap drawn." ), {
+            { "solid", translate_marker( "Solid" ) },
+            { "squares", translate_marker( "Squares" ) },
+            { "dots", translate_marker( "Dots" ) } }, "dots", COPT_CURSES_HIDE
         );
 
     add( "PIXEL_MINIMAP_BRIGHTNESS", "graphics", translate_marker( "Pixel Minimap brightness" ),
         translate_marker( "Overal brightness of pixel-detail minimap." ),
         10, 300, 100, COPT_CURSES_HIDE
+        );
+
+    add( "PIXEL_MINIMAP_HEIGHT", "graphics", translate_marker( "Pixel Minimap height" ),
+        translate_marker( "Height of pixel-detail minimap, measured in terminal rows.  Set to 0 for default spacing." ),
+        0, 100, 0, COPT_CURSES_HIDE
         );
 
     add( "PIXEL_MINIMAP_RATIO", "graphics", translate_marker( "Maintain Pixel Minimap aspect ratio" ),
@@ -1821,7 +1828,7 @@ void options_manager::show(bool ingame)
     bool world_options_changed = false;
     bool lang_changed = false;
     bool used_tiles_changed = false;
-    bool pixel_minimap_height_changed = false;
+    bool pixel_minimap_changed = false;
 
     for (auto &iter : OPTIONS_OLD) {
         if ( iter.second != OPTIONS[iter.first] ) {
@@ -1831,8 +1838,10 @@ void options_manager::show(bool ingame)
                 world_options_changed = true;
             }
 
-            if ( iter.first == "PIXEL_MINIMAP_HEIGHT" || iter.first == "PIXEL_MINIMAP_RATIO" ) {
-                pixel_minimap_height_changed = true;
+            if ( iter.first == "PIXEL_MINIMAP_HEIGHT"
+              || iter.first == "PIXEL_MINIMAP_RATIO"
+              || iter.first == "PIXEL_MINIMAP_MODE" ) {
+                pixel_minimap_changed = true;
             }
 
             if ( iter.first == "TILES" || iter.first == "USE_TILES" ) {
@@ -1869,7 +1878,7 @@ void options_manager::show(bool ingame)
         set_language();
     }
 
-    refresh_tiles( used_tiles_changed, pixel_minimap_height_changed, ingame );
+    refresh_tiles( used_tiles_changed, pixel_minimap_changed, ingame );
 
     delwin(w_options);
     delwin(w_options_border);

@@ -1116,6 +1116,21 @@ void cata_tiles::clear_unused_minimap_cache()
 //the render target will be set back to display_buffer after all submaps are updated
 void cata_tiles::process_minimap_cache_updates()
 {
+    SDL_Rect rectangle;
+    bool draw_with_dots = false;
+
+    const std::string mode = get_option<std::string>( "PIXEL_MINIMAP_MODE" );
+    if( mode == "solid" ) {
+        rectangle.w = minimap_tile_size.x;
+        rectangle.h = minimap_tile_size.y;
+    } else if( mode == "squares" ) {
+        rectangle.w = std::max( minimap_tile_size.x - 1, 1 );
+        rectangle.h = std::max( minimap_tile_size.y - 1, 1 );
+        draw_with_dots = rectangle.w == 1 && rectangle.h == 1;
+    } else if( mode == "dots" ) {
+        draw_with_dots = true;
+    }
+
     for( auto &mcp : minimap_cache ) {
         if( !mcp.second->update_list.empty() ) {
             SDL_SetRenderTarget( renderer, mcp.second->minimap_tex.get() );
@@ -1130,8 +1145,18 @@ void cata_tiles::process_minimap_cache_updates()
             for( const point &p : mcp.second->update_list ) {
                 const pixel &current_pix = mcp.second->minimap_colors[p.y * SEEX + p.x];
                 const SDL_Color c = current_pix.getSdlColor();
+
+
                 SDL_SetRenderDrawColor( renderer, c.r, c.g, c.b, c.a );
-                SDL_RenderDrawPoint( renderer, p.x * minimap_tile_size.x, p.y * minimap_tile_size.y );
+
+                if( draw_with_dots ) {
+                    SDL_RenderDrawPoint( renderer, p.x * minimap_tile_size.x, p.y * minimap_tile_size.y );
+                } else {
+                    rectangle.x = p.x * minimap_tile_size.x;
+                    rectangle.y = p.y * minimap_tile_size.y;
+
+                    SDL_RenderFillRect( renderer, &rectangle );
+                }
             }
             mcp.second->update_list.clear();
         }
