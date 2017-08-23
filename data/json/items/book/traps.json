@@ -52,9 +52,8 @@
   {
     "id": "textbook_traps",
     "type": "BOOK",
-    "name": "The Compleat Trapper",
-    "name_plural": "The Compleat Trapper",
-    "//": "The spelling is intentionally archaic, as this form is commonly used in the titles of books.",
+    "name": "The Complete Trapper",
+    "name_plural": "The Complete Trapper",
     "description": "An in-depth book about trapping game animals, covering methods both modern and ancient.",
     "weight": 1100,
     "volume": 8,
