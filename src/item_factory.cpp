@@ -814,8 +814,8 @@ void Item_factory::check_definitions() const
             if( type->gunmod->location.str().empty() ) {
                     msg << "gunmod does not specify location" << "\n";
             }
-			if( (type->gunmod->sight_dispersion < 0) != (type->gunmod->aim_cost < 0) ){
-			        msg << "gunmod must have both sight_dispersion and aim_cost set or neither of them set" << "\n";
+            if( (type->gunmod->sight_dispersion < 0) != (type->gunmod->aim_cost < 0) ){
+                    msg << "gunmod must have both sight_dispersion and aim_cost set or neither of them set" << "\n";
             }
         }
         if( type->mod ) {
