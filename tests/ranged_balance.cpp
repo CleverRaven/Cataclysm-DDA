@@ -47,30 +47,13 @@ static void equip_shooter( npc &shooter, std::vector<std::string> apparel )
 
 std::array<double, 5> accuracy_levels = {{ accuracy_grazing, accuracy_standard, accuracy_goodhit, accuracy_critical, accuracy_headshot }};
 
-static std::array<statistics, 5> firing_test( npc &shooter, std::string gun_type, float aim_ratio,
-        int range, std::array<double, 5> thresholds )
+static std::array<statistics, 5> firing_test( dispersion_sources dispersion, int range,
+                                              std::array<double, 5> thresholds )
 {
-    clear_map();
-    arm_shooter( shooter, itype_id( gun_type ) );
-
-    // Spawn a target.
-    // Maybe change this to a random direction, or even move the target around during the test.
-    tripoint target_pos( shooter.pos() + tripoint( range, 0, 0 ) );
-    monster &test_target = spawn_test_monster( "debug_mon", target_pos );
-    REQUIRE( test_target.get_size() == MS_MEDIUM );
-
-    item &gun = shooter.weapon;
-
-    dispersion_sources dispersion =
-        shooter.get_weapon_dispersion( gun, rl_dist( shooter.pos(), test_target.pos() ) );
-    dispersion.add_range( std::max( static_cast<double>( gun.sight_dispersion() ),
-                                    MAX_RECOIL * ( 1.0 - aim_ratio ) ) );
-
     std::array<statistics, 5> firing_stats;
     bool threshold_within_confidence_interval = false;
     do {
-        projectile_attack_aim aim = projectile_attack_roll( dispersion, range,
-                                    test_target.ranged_target_size() );
+        projectile_attack_aim aim = projectile_attack_roll( dispersion, range, 0.5 );
         threshold_within_confidence_interval = false;
         for( int i = 0; i < accuracy_levels.size(); ++i ) {
             firing_stats[i].add( aim.missed_by < accuracy_levels[i] );
@@ -91,22 +74,36 @@ static std::array<statistics, 5> firing_test( npc &shooter, std::string gun_type
     return firing_stats;
 }
 
+static dispersion_sources get_dispersion( npc &shooter, std::string gun_type, float aim_ratio, int range )
+{
+    arm_shooter( shooter, itype_id( gun_type ) );
+
+    item &gun = shooter.weapon;
+    dispersion_sources dispersion = shooter.get_weapon_dispersion( gun, range );
+    dispersion.add_range( std::max( static_cast<double>( gun.sight_dispersion() ),
+                                    MAX_RECOIL * ( 1.0 - aim_ratio ) ) );
+
+    return dispersion;
+}
+
 static void test_shooting_scenario( npc &shooter, std::string gun_type,
                                     int min_quickdraw_range, int min_good_range, int max_good_range )
 {
     {
-        std::array<statistics, 5> minimum_stats = firing_test( shooter, gun_type, 0.0,
-        min_quickdraw_range, {{ 0.1, -1, -1, -1, -1 }} );
+        dispersion_sources dispersion = get_dispersion( shooter, gun_type, 0.0, min_quickdraw_range );
+        std::array<statistics, 5> minimum_stats = firing_test( dispersion, min_quickdraw_range, {{ 0.1, -1, -1, -1, -1 }} );
         INFO( "Accumulated " << minimum_stats[0].n() << " samples." );
         CHECK( minimum_stats[0].avg() < 0.1 );
     }
     {
-        std::array<statistics, 5> good_stats = firing_test( shooter, gun_type, 0.9, min_good_range, {{ -1, -1, 0.5, -1, -1 }} );
+        dispersion_sources dispersion = get_dispersion( shooter, gun_type, 0.9, min_good_range );
+        std::array<statistics, 5> good_stats = firing_test( dispersion, min_good_range, {{ -1, -1, 0.5, -1, -1 }} );
         INFO( "Accumulated " << good_stats[0].n() << " samples." );
         CHECK( good_stats[2].avg() > 0.5 );
     }
     {
-        std::array<statistics, 5> good_stats = firing_test( shooter, gun_type, 1.0, max_good_range, {{ -1, -1, 0.01, -1, -1 }} );
+        dispersion_sources dispersion = get_dispersion( shooter, gun_type, 1.0, max_good_range );
+        std::array<statistics, 5> good_stats = firing_test( dispersion, max_good_range, {{ -1, -1, 0.01, -1, -1 }} );
         INFO( "Accumulated " << good_stats[0].n() << " samples." );
         CHECK( good_stats[2].avg() < 0.01 );
     }
