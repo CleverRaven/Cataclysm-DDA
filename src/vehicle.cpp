@@ -567,8 +567,8 @@ const std::string vehicle::disp_name() const
 
 int vehicle::lift_strength() const
 {
-    int mass = total_mass() * 1000;
-    return mass / STR_LIFT_FACTOR + ( mass % STR_LIFT_FACTOR != 0 );
+    units::mass mass = total_mass();
+    return mass / STR_LIFT_FACTOR + ( mass.value() % STR_LIFT_FACTOR.value() != 0 );
 }
 
 void vehicle::control_doors() {
@@ -1103,7 +1103,7 @@ bool vehicle::fold_up() {
     }
 
     if (can_be_folded) {
-        bicycle.set_var( "weight", total_mass() * 1000 );
+        bicycle.set_var( "weight", to_gram( total_mass() ) );
         bicycle.set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
         bicycle.set_var( "name", string_format(_("folded %s"), name.c_str()) );
         bicycle.set_var( "vehicle_name", name );
@@ -2829,7 +2829,7 @@ void vehicle::set_submap_moved( int x, int y )
     overmap_buffer.move_vehicle( this, old_msp );
 }
 
-int vehicle::total_mass() const
+units::mass vehicle::total_mass() const
 {
     if( mass_dirty ) {
         refresh_mass();
@@ -3008,9 +3008,9 @@ int vehicle::acceleration(bool const fueled) const
 
     } else if ((has_engine_type(fuel_type_muscle, true))){
         //limit vehicle weight for muscle engines
-        int mass = total_mass();
+        const units::mass mass = total_mass() / 1000;
         ///\EFFECT_STR caps vehicle weight for muscle engines
-        int move_mass = std::max((g->u).str_cur * 25, 150);
+        const units::mass move_mass = std::max( g->u.str_cur * 25_gram, 150_gram ) * 1000;
         if (mass <= move_mass) {
             return (int) (safe_velocity (fueled) * k_mass() / (1 + strain ()) / 10);
         } else {
@@ -3253,7 +3253,7 @@ float vehicle::k_mass() const
 
     float ma0 = 50.0;
     // calculate safe speed reduction due to mass
-    float km = ma0 / ( ma0 + total_mass() / ( wa * 8.0f / 9.0f ) );
+    float km = ma0 / ( ma0 + to_kilogram( total_mass() ) / ( wa * 8.0f / 9.0f ) );
 
     return km;
 }
@@ -3264,7 +3264,7 @@ float vehicle::k_traction( float wheel_traction_area ) const
         return 0.0f;
     }
 
-    const float mass_penalty = ( 1.0f - wheel_traction_area / wheel_area( !floating.empty() ) ) * total_mass();
+    const float mass_penalty = ( 1.0f - wheel_traction_area / wheel_area( !floating.empty() ) ) * to_kilogram( total_mass() );
 
     float traction = std::min( 1.0f, wheel_traction_area / mass_penalty );
     add_msg( m_debug, "%s has traction %.2f", name.c_str(), traction );
@@ -3960,7 +3960,7 @@ void vehicle::operate_scoop()
                 sounds::sound( position, rng(10, that_item_there->volume() / units::legacy_volume_factor * 2 + 10),
                                _("BEEEThump") );
             }
-            const int battery_deficit = discharge_battery( that_item_there->weight() *
+            const int battery_deficit = discharge_battery( that_item_there->weight() / 1_gram *
                                                            -part_epower( scoop ) / rng( 8, 15 ) );
             if( battery_deficit == 0 && add_item( scoop, *that_item_there ) ) {
                 g->m.i_rem( position, itemdex );
@@ -4444,7 +4444,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
     // Calculate mass AFTER checking for collision
     //  because it involves iterating over all cargo
-    const float mass = total_mass();
+    const float mass = to_kilogram( total_mass() );
 
     //Calculate damage resulting from d_E
     const itype *type = item::find_type( part_info( ret.part ).item );
@@ -6416,16 +6416,16 @@ void vehicle::refresh_mass() const
 
 void vehicle::calc_mass_center( bool use_precalc ) const
 {
-    float xf = 0.0f;
-    float yf = 0.0f;
-    int m_total = 0;
+    units::quantity<float, units::mass::unit_type> xf = 0;
+    units::quantity<float, units::mass::unit_type> yf = 0;
+    units::mass m_total = 0;
     for( size_t i = 0; i < parts.size(); i++ )
     {
         if( parts[i].removed ) {
             continue;
         }
 
-        int m_part = 0;
+        units::mass m_part = 0;
         const auto &pi = part_info( i );
         m_part += parts[i].base.weight();
         for( const auto &j : get_items( i ) ) {
@@ -6437,32 +6437,32 @@ void vehicle::calc_mass_center( bool use_precalc ) const
         if( pi.has_flag( VPFLAG_BOARDABLE ) && parts[i].has_flag( vehicle_part::passenger_flag ) ) {
             const player *p = get_passenger( i );
             // Sometimes flag is wrongly set, don't crash!
-            m_part += p != nullptr ? p->get_weight() : 0;
+            m_part += p != nullptr ? p->get_weight() : units::mass( 0 );
         }
 
         if( use_precalc ) {
-            xf += parts[i].precalc[0].x * m_part / 1000.0f;
-            yf += parts[i].precalc[0].y * m_part / 1000.0f;
+            xf += parts[i].precalc[0].x * m_part;
+            yf += parts[i].precalc[0].y * m_part;
         } else {
-            xf += parts[i].mount.x * m_part / 1000.0f;
-            yf += parts[i].mount.y * m_part / 1000.0f;
+            xf += parts[i].mount.x * m_part;
+            yf += parts[i].mount.y * m_part;
         }
 
         m_total += m_part;
     }
 
-    mass_cache = m_total / 1000;
+    mass_cache = m_total;
     mass_dirty = false;
 
-    xf /= mass_cache;
-    yf /= mass_cache;
+    const float x = xf / mass_cache;
+    const float y = yf / mass_cache;
     if( use_precalc ) {
-        mass_center_precalc.x = round( xf );
-        mass_center_precalc.y = round( yf );
+        mass_center_precalc.x = round( x );
+        mass_center_precalc.y = round( y );
         mass_center_precalc_dirty = false;
     } else {
-        mass_center_no_precalc.x = round( xf );
-        mass_center_no_precalc.y = round( yf );
+        mass_center_no_precalc.x = round( x );
+        mass_center_no_precalc.y = round( y );
         mass_center_no_precalc_dirty = false;
     }
 }

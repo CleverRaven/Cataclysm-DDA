@@ -18,7 +18,7 @@ struct mutation_branch;
 using trait_id = string_id<mutation_branch>;
 
 /** Handles the large variety of weed messages. */
-void weed_msg(player *p);
+void weed_msg( player *p );
 
 enum effect_rating {
     e_good,     // The effect is good for the one who has it.
@@ -65,6 +65,8 @@ class effect_type
         /** Returns true if an effect will only target main body parts (i.e., those with HP). */
         bool get_main_parts() const;
 
+        bool is_show_in_info() const;
+
         /** Loading helper functions */
         bool load_mod_data( JsonObject &jsobj, std::string member );
         bool load_miss_msgs( JsonObject &jsobj, std::string member );
@@ -85,6 +87,9 @@ class effect_type
         int int_dur_factor;
 
         bool main_parts_only;
+
+        // Determins if effect should be shown in description.
+        bool show_in_info;
 
         std::vector<trait_id> resist_traits;
         std::vector<efftype_id> resist_effects;

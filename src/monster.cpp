@@ -15,6 +15,7 @@
 #include <sstream>
 #include <stdlib.h>
 #include <algorithm>
+#include <numeric>
 #include "cursesdef.h"
 #include "json.h"
 #include "messages.h"
@@ -120,6 +121,25 @@ static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
 static const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
+
+static const std::map<m_size, std::string> size_names {
+    {m_size::MS_TINY, translate_marker( "tiny" )},
+    {m_size::MS_SMALL, translate_marker( "small" )},
+    {m_size::MS_MEDIUM, translate_marker( "medium" )},
+    {m_size::MS_LARGE, translate_marker( "large" )},
+    {m_size::MS_HUGE, translate_marker( "huge" )},
+};
+
+static const std::map<monster_attitude, std::pair<std::string, color_id>> attitude_names {
+    {monster_attitude::MATT_FRIEND, {translate_marker( "Friendly." ), def_h_white}},
+    {monster_attitude::MATT_FPASSIVE, {translate_marker( "Passive." ), def_h_white}},
+    {monster_attitude::MATT_FLEE, {translate_marker( "Fleeing!" ), def_c_green}},
+    {monster_attitude::MATT_FOLLOW, {translate_marker( "Tracking." ), def_c_yellow}},
+    {monster_attitude::MATT_IGNORE, {translate_marker( "Ignoring." ), def_c_ltgray}},
+    {monster_attitude::MATT_ZLAVE, {translate_marker( "Zombie slave." ), def_c_green}},
+    {monster_attitude::MATT_ATTACK, {translate_marker( "Hostile!" ), def_c_red}},
+    {monster_attitude::MATT_NULL, {translate_marker( "BUG: Behavior unnamed." ), def_h_red}},
+};
 
 monster::monster()
 {
@@ -356,42 +376,13 @@ void monster::get_HP_Bar(nc_color &color, std::string &text) const
     std::tie(text, color) = ::get_hp_bar(hp, type->hp, true);
 }
 
-void monster::get_Attitude(nc_color &color, std::string &text) const
+std::pair<std::string, nc_color> monster::get_attitude() const
 {
-    switch (attitude(&(g->u))) {
-        case MATT_FRIEND:
-            color = h_white;
-            text = _("Friendly ");
-            break;
-        case MATT_FPASSIVE:
-            color = h_white;
-            text = _("Passive ");
-            break;
-        case MATT_FLEE:
-            color = c_green;
-            text = _("Fleeing! ");
-            break;
-        case MATT_IGNORE:
-            color = c_ltgray;
-            text = _("Ignoring ");
-            break;
-        case MATT_FOLLOW:
-            color = c_yellow;
-            text = _("Tracking ");
-            break;
-        case MATT_ATTACK:
-            color = c_red;
-            text = _("Hostile! ");
-            break;
-        case MATT_ZLAVE:
-            color = c_green;
-            text = _("Zombie slave ");
-            break;
-        default:
-            color = h_red;
-            text = "BUG: Behavior unnamed. (monster.cpp:get_Attitude)";
-            break;
-    }
+    const auto att = attitude_names.at( attitude( &( g->u ) ) );
+    return {
+        att.first,
+        all_colors.get( att.second )
+    };
 }
 
 std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
@@ -399,22 +390,22 @@ std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
     std::string damage_info;
     nc_color col;
     if( cur_hp >= max_hp ) {
-        damage_info = _("It is uninjured");
+        damage_info = _("It is uninjured.");
         col = c_green;
     } else if( cur_hp >= max_hp * 0.8 ) {
-        damage_info = _("It is lightly injured");
+        damage_info = _("It is lightly injured.");
         col = c_ltgreen;
     } else if( cur_hp >= max_hp * 0.6 ) {
-        damage_info = _("It is moderately injured");
+        damage_info = _("It is moderately injured.");
         col = c_yellow;
     } else if( cur_hp >= max_hp * 0.3 ) {
-        damage_info = _("It is heavily injured");
+        damage_info = _("It is heavily injured.");
         col = c_yellow;
     } else if( cur_hp >= max_hp * 0.1 ) {
-        damage_info = _("It is severely injured");
+        damage_info = _("It is severely injured.");
         col = c_ltred;
     } else {
-        damage_info = _("it is nearly dead");
+        damage_info = _("it is nearly dead!");
         col = c_red;
     }
 
@@ -425,29 +416,20 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
 {
     const int vEnd = vStart + vLines;
 
-    mvwprintz(w, vStart++, column, c_white, "%s ", name().c_str());
-    nc_color color = c_white;
-    std::string attitude = "";
+    mvwprintz(w, vStart, column, c_white, "%s ", name().c_str());
 
-    get_Attitude(color, attitude);
-    wprintz(w, color, "%s", attitude.c_str());
+    const auto att = get_attitude();
+    wprintz( w, att.second, "%s", att.first.c_str() );
 
-    if (has_effect( effect_downed)) {
-        wprintz(w, h_white, _("On ground"));
-    } else if (has_effect( effect_stunned)) {
-        wprintz(w, h_white, _("Stunned"));
-    } else if( has_effect( effect_lightsnare ) || has_effect( effect_heavysnare ) || has_effect( effect_beartrap ) ) {
-        wprintz(w, h_white, _("Trapped"));
-    } else if (has_effect( effect_tied)) {
-        wprintz(w, h_white, _("Tied"));
-    } else if (has_effect( effect_shrieking)) {
-        wprintz(w, h_white, _("Shrieking"));
-    }
+    std::string effects = get_effect_status();
+    long long used_space = att.first.length() + name().length() + 3;
+    trim_and_print( w, vStart++, used_space, getmaxx( w ) - used_space - 2,
+                    h_white, "%s", effects.c_str() );
 
     const auto hp_desc = hp_description( hp, type->hp );
     mvwprintz( w, vStart++, column, hp_desc.second, "%s", hp_desc.first.c_str() );
 
-    std::vector<std::string> lines = foldstring(type->description, getmaxx(w) - 1 - column);
+    std::vector<std::string> lines = foldstring( type->get_description(), getmaxx(w) - 1 - column );
     int numlines = lines.size();
     for (int i = 0; i < numlines && vStart <= vEnd; i++) {
         mvwprintz(w, vStart++, column, c_white, "%s", lines[i].c_str());
@@ -458,12 +440,87 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
 
 std::string monster::extended_description() const
 {
-    // @todo Add tons of info here
-    std::string ret = string_format( _ ( "This is a %s" ), name().c_str() );
-    ret += "\n--\n";
+    std::ostringstream ss;
+    const auto att = get_attitude();
+    std::string att_colored = get_tag_from_color( att.second ) + att.first;
+
+    ss << string_format( _( "This is a %s. %s" ), name().c_str(), att_colored.c_str() ) << std::endl;
+    if( !get_effect_status().empty() ) {
+        ss << string_format( _( "<stat>It is %s.</stat>" ), get_effect_status().c_str() ) << std::endl;
+    }
+
+    ss << "--" << std::endl;
     auto hp_bar = hp_description( hp, type->hp );
-    ret += get_tag_from_color( hp_bar.second ) + hp_bar.first;
-    return replace_colors( ret );
+    ss << get_tag_from_color( hp_bar.second ) << hp_bar.first << std::endl;
+
+    ss << "--" << std::endl;
+    ss << string_format( "<dark>%s</dark>", type->get_description().c_str() ) << std::endl;
+    ss << "--" << std::endl;
+
+    ss << string_format( _( "It is %s in size." ), size_names.at( get_size() ).c_str() ) << std::endl;
+
+    std::vector<std::string> types;
+    if( type->has_flag( MF_ANIMAL ) ) {
+        types.emplace_back( _( "an animal" ) );
+    }
+    if( type->in_species( ZOMBIE ) ) {
+        types.emplace_back( _( "a zombie" ) );
+    }
+    if( type->in_species( FUNGUS ) ) {
+        types.emplace_back( _( "a fungus" ) );
+    }
+    if( type->in_species( INSECT ) ) {
+        types.emplace_back( _( "an insect" ) );
+    }
+    if( type->in_species( ABERRATION ) ) {
+        types.emplace_back( _( "an aberration" ) );
+    }
+    if( !types.empty() ) {
+        ss << string_format( _( "It is %s." ),
+                             enumerate_as_string( types ).c_str() ) << std::endl;
+    }
+
+    using flag_description = std::pair<m_flag, std::string>;
+    const auto describe_flags = [this, &ss](
+                                    const std::string &format,
+                                    const std::vector<flag_description> &flags_names,
+                                    const std::string &if_empty = "" ) {
+        std::string flag_descriptions = enumerate_as_string( flags_names.begin(),
+        flags_names.end(), [this]( const flag_description & fd ) {
+            return type->has_flag( fd.first ) ? fd.second : "";
+        } );
+        if( !flag_descriptions.empty() ) {
+            ss << string_format( format, flag_descriptions.c_str() ) << std::endl;
+        } else if( !if_empty.empty() ) {
+            ss << if_empty << std::endl;
+        }
+    };
+
+    describe_flags( _( "It has the following senses: %s." ), {
+        {m_flag::MF_HEARS, _( "hearing" )},
+        {m_flag::MF_SEES, _( "sight" )},
+        {m_flag::MF_SMELLS, _( "smell" )},
+    }, _( "It doesn't have senses." ) );
+
+    describe_flags( _( "It can %s." ), {
+        {m_flag::MF_SWIMS, _( "swim" )},
+        {m_flag::MF_FLIES, _( "fly" )},
+        {m_flag::MF_CAN_DIG, _( "dig" )},
+        {m_flag::MF_CLIMBS, _( "climb" )}
+    } );
+
+    describe_flags( _( "<bad>In fight it can %s.</bad>" ), {
+        {m_flag::MF_GRABS, _( "grab" )},
+        {m_flag::MF_VENOM, _( "poison" )},
+        {m_flag::MF_PARALYZE, _( "paralyze" )},
+        {m_flag::MF_BLEED, _( "cause bleed" )}
+    } );
+
+    if( !type->has_flag( m_flag::MF_NOHEAD ) ) {
+        ss << _( "It has head." ) << std::endl;
+    }
+
+    return replace_colors( ss.str() );
 }
 
 const std::string &monster::symbol() const
@@ -1346,6 +1403,20 @@ void monster::add_effect( const efftype_id &eff_id, int dur, body_part bp,
 {
     bp = num_bp;
     Creature::add_effect( eff_id, dur, bp, permanent, intensity, force );
+}
+
+std::string monster::get_effect_status() const
+{
+    std::vector<std::string> effect_status;
+    for( auto &elem : effects ) {
+        for( auto &_it : elem.second ) {
+            if( elem.first->is_show_in_info() ) {
+                effect_status.push_back( _it.second.disp_name() );
+            }
+        }
+    }
+
+    return enumerate_as_string( effect_status );
 }
 
 int monster::get_armor_cut(body_part bp) const

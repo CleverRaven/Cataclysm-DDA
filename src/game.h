@@ -120,6 +120,7 @@ typedef std::vector< std::list<item>* > invslice;
 typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
 
+typedef std::function<std::string(const item&)> item_hint_provider;
 typedef std::function<bool( const item & )> item_filter;
 
 class game
@@ -471,7 +472,8 @@ class game
 
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
         item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
-                                      const std::string &none_message = "" );
+                                      const std::string &none_message = "",
+                                      item_hint_provider hint_provider = item_hint_provider() );
         faction *list_factions(std::string title = "FACTIONS:");
 
         bool has_gametype() const;
@@ -533,6 +535,7 @@ class game
         WINDOW_PTR w_location_ptr;
         WINDOW_PTR w_status_ptr;
         WINDOW_PTR w_status2_ptr;
+
     public:
         WINDOW *w_terrain;
         WINDOW *w_overmap;
@@ -641,7 +644,8 @@ class game
          */
         bool handle_liquid( item &liquid, item *source = NULL, int radius = 0,
                             const tripoint *source_pos = nullptr,
-                            const vehicle *source_veh = nullptr );
+                            const vehicle *source_veh = nullptr,
+                            const monster *source_mon = nullptr);
         /**@}*/
 
         void open_gate( const tripoint &p );
@@ -663,8 +667,7 @@ class game
         // Animation related functions
         void draw_explosion( const tripoint &p, int radius, nc_color col );
         void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area );
-        void draw_bullet( Creature const &p, const tripoint &pos, int i,
-                          std::vector<tripoint> const &trajectory, char bullet );
+        void draw_bullet( const tripoint &pos, int i, const std::vector<tripoint> &trajectory, char bullet );
         void draw_hit_mon( const tripoint &p, const monster &critter, bool dead = false);
         void draw_hit_player(player const &p, int dam);
         void draw_line( const tripoint &p, const tripoint &center_point, std::vector<tripoint> const &ret );
@@ -676,6 +679,7 @@ class game
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );
 
+        bool is_in_viewport( const tripoint& p, int margin = 0 ) const;
         /**
          * Check whether movement is allowed according to safe mode settings.
          * @return true if the movement is allowed, otherwise false.
@@ -739,10 +743,7 @@ class game
         bool save_uistate();
         void load_uistate(std::string worldname);
         // Data Initialization
-        void init_fields();
-        void init_faction_data();
         void init_autosave();     // Initializes autosave parameters
-        void init_savedata_translation_tables();
         void init_lua();          // Initializes lua interpreter.
         void create_factions(); // Creates new factions (for a new game world)
         void create_starting_npcs(); // Creates NPCs that start near you
@@ -956,10 +957,11 @@ private:
         bool npcs_dirty;
         /** Has anything died in this turn and needs to be cleaned up? */
         bool critter_died;
+        /** Was the player sleeping during this turn. */
+        bool player_was_sleeping;
 
         std::unique_ptr<special_game> gamemode;
 
-        int moveCount; //Times the player has moved (not pause, sleep, etc)
         int user_action_counter; // Times the user has input an action
         const int lookHeight; // Look Around window height
 

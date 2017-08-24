@@ -54,6 +54,7 @@ def warning_supressed(filename):
 
 # these files will not be parsed. Full related path.
 ignore_files = {
+    "data/json/anatomy.json",
     "data/mods/replacements.json",
     "data/raw/color_templates/no_bright_background.json"
 }
@@ -77,6 +78,8 @@ ignorable = {
     "monstergroup",
     "MONSTER_WHITELIST",
     "overlay_order",
+    "overmap_connection",
+    "overmap_location",
     "overmap_special",
     "profession_item_substitutions",
     "palette",
@@ -124,7 +127,6 @@ automatically_convertible = {
     "MOD_INFO",
     "MONSTER",
     "morale_type",
-    "mutation",
     "morale_type",
     "npc",
     "npc_class",
@@ -274,6 +276,13 @@ def extract_effect_type(item):
         for m in msg:
             writestr(outfile, m[0],
                      comment="Decay message for effect(s) '{}'.".format(', '.join(name)))
+
+    # speed_name
+    if "speed_name" in item:
+        if not name:
+            writestr(outfile, item.get("speed_name"))
+        else:
+            writestr(outfile, item.get("speed_name"), comment="Speed name of effect(s) '{}'.".format(', '.join(name)))
 
     # aplly and remove memorial messages.
     msg = item.get("apply_memorial_log")
@@ -494,8 +503,33 @@ def extract_missiondef(item):
         if "failure" in dialogue:
             writestr(outfile, dialogue.get("failure"))
 
-
 def extract_mutation(item):
+    outfile = get_outfile("mutation")
+
+    item_name = found = item.get("name")
+    if found is None:
+        raise WrongJSONItem("JSON item don't contain 'name' field", item)
+    writestr(outfile, found)
+
+    simple_fields = [ "description" ]
+
+    for f in simple_fields:
+        found = item.get(f)
+        # Need that check due format string argument
+        if found is not None:
+            writestr(outfile, found, comment="Description for {}".format(item_name))
+
+    if "attacks" in item:
+        attacks = item.get("attacks")
+        if "attack_text_u" in attacks:
+            writestr(outfile, attacks.get("attack_text_u"))
+        if "attack_text_npc" in attacks:
+            writestr(outfile, attacks.get("attack_text_npc"))
+
+    if "spawn_item" in item:
+        writestr(outfile, item.get("spawn_item").get("message"))
+
+def extract_mutation_category(item):
     outfile = get_outfile("mutation_category")
 
     item_name = found = item.get("name")
@@ -573,7 +607,8 @@ extract_specials = {
     "material": extract_material,
     "mission_definition": extract_missiondef,
     "monster_attack": extract_monster_attack,
-    "mutation_category": extract_mutation,
+    "mutation": extract_mutation,
+    "mutation_category": extract_mutation_category,
     "profession": extract_professions,
     "recipe_category": extract_recipe_category,
     "recipe": extract_recipes,
@@ -743,6 +778,9 @@ def extract(item, infilename):
         wrote = True
     if "name_unique" in item:
         writestr(outfile, item["name_unique"], **kwargs)
+        wrote = True
+    if "job_description" in item:
+        writestr(outfile, item["job_description"], **kwargs)
         wrote = True
     if "use_action" in item:
         extract_use_action_msgs(outfile, item["use_action"], item.get("name"), kwargs)

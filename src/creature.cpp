@@ -14,6 +14,7 @@
 #include "debug.h"
 #include "field.h"
 #include "projectile.h"
+#include "anatomy.h"
 
 #include <algorithm>
 #include <numeric>
@@ -29,42 +30,6 @@ const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_zapped( "zapped" );
 const efftype_id effect_lying_down( "lying_down" );
-
-static std::map<int, std::map<body_part, double> > default_hit_weights = {
-    {
-        -1, /* attacker smaller */
-        {   { bp_eyes, 0.f },
-            { bp_head, 0.f },
-            { bp_torso, 20.f },
-            { bp_arm_l, 15.f },
-            { bp_arm_r, 15.f },
-            { bp_leg_l, 25.f },
-            { bp_leg_r, 25.f }
-        }
-    },
-    {
-        0, /* attacker equal size */
-        {   { bp_eyes, 0.33f },
-            { bp_head, 2.33f },
-            { bp_torso, 33.33f },
-            { bp_arm_l, 20.f },
-            { bp_arm_r, 20.f },
-            { bp_leg_l, 12.f },
-            { bp_leg_r, 12.f }
-        }
-    },
-    {
-        1, /* attacker larger */
-        {   { bp_eyes, 0.57f },
-            { bp_head, 5.71f },
-            { bp_torso, 36.57f },
-            { bp_arm_l, 22.86f },
-            { bp_arm_r, 22.86f },
-            { bp_leg_l, 5.71f },
-            { bp_leg_r, 5.71f }
-        }
-    }
-};
 
 const std::map<std::string, m_size> Creature::size_map = {
     {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
@@ -1384,9 +1349,9 @@ void Creature::set_throw_resist(int nthrowres)
     throw_resist = nthrowres;
 }
 
-int Creature::weight_capacity() const
+units::mass Creature::weight_capacity() const
 {
-    int base_carry = 13000;
+    units::mass base_carry = 13_kilogram;
     switch( get_size() ) {
     case MS_TINY:
         base_carry /= 4;
@@ -1408,19 +1373,19 @@ int Creature::weight_capacity() const
     return base_carry;
 }
 
-int Creature::get_weight() const
+units::mass Creature::get_weight() const
 {
     switch( get_size() ) {
         case MS_TINY:
-            return 1000;
+            return 1000_gram;
         case MS_SMALL:
-            return 40750;
+            return 40750_gram;
         case MS_MEDIUM:
-            return 81500;
+            return 81500_gram;
         case MS_LARGE:
-            return 120000;
+            return 120_kilogram;
         case MS_HUGE:
-            return 200000;
+            return 200_kilogram;
     }
 
     return 0;
@@ -1458,64 +1423,14 @@ bool Creature::is_symbol_highlighted() const
 
 body_part Creature::select_body_part(Creature *source, int hit_roll) const
 {
-    // Get size difference (-1,0,1);
-    int szdif = std::min( 1, std::max( -1, source->get_size() - get_size() ) );
+    int szdif = source->get_size() - get_size();
 
     add_msg( m_debug, "hit roll = %d", hit_roll );
     add_msg( m_debug, "source size = %d", source->get_size() );
     add_msg( m_debug, "target size = %d", get_size() );
     add_msg( m_debug, "difference = %d", szdif );
 
-    std::map<body_part, double> hit_weights = default_hit_weights[szdif];
-
-    // If the target is on the ground, even small/tiny creatures may target eyes/head. Also increases chances of larger creatures.
-    // Any hit modifiers to locations should go here. (Tags, attack style, etc)
-    if(is_on_ground()) {
-        hit_weights[bp_eyes] += 1;
-        hit_weights[bp_head] += 5;
-    }
-
-    //Adjust based on hit roll: Eyes, Head & Torso get higher, while Arms and Legs get lower.
-    //This should eventually be replaced with targeted attacks and this being miss chances.
-    // pow() is unstable at 0, so don't apply any changes.
-    if( hit_roll != 0 ) {
-        hit_weights[bp_eyes] *= std::pow(hit_roll, 1.15);
-        hit_weights[bp_head] *= std::pow(hit_roll, 1.35);
-        hit_weights[bp_torso] *= std::pow(hit_roll, 1);
-        hit_weights[bp_arm_l] *= std::pow(hit_roll, 0.95);
-        hit_weights[bp_arm_r] *= std::pow(hit_roll, 0.95);
-        hit_weights[bp_leg_l] *= std::pow(hit_roll, 0.975);
-        hit_weights[bp_leg_r] *= std::pow(hit_roll, 0.975);
-    }
-
-    // Debug for seeing weights.
-    add_msg( m_debug, "eyes = %f", hit_weights.at( bp_eyes ) );
-    add_msg( m_debug, "head = %f", hit_weights.at( bp_head ) );
-    add_msg( m_debug, "torso = %f", hit_weights.at( bp_torso ) );
-    add_msg( m_debug, "arm_l = %f", hit_weights.at( bp_arm_l ) );
-    add_msg( m_debug, "arm_r = %f", hit_weights.at( bp_arm_r ) );
-    add_msg( m_debug, "leg_l = %f", hit_weights.at( bp_leg_l ) );
-    add_msg( m_debug, "leg_r = %f", hit_weights.at( bp_leg_r ) );
-
-    double totalWeight = 0;
-    for( const auto &hit_weight : hit_weights ) {
-        totalWeight += hit_weight.second;
-    }
-
-    double roll = rng_float(0, totalWeight);
-    body_part selected_part = bp_torso;
-
-    for( const auto &hit_candidate : hit_weights) {
-        roll -= hit_candidate.second;
-        if(roll <= 0) {
-            selected_part = hit_candidate.first;
-            break;
-        }
-    }
-
-    add_msg( m_debug, "selected part: %s", body_part_name(selected_part).c_str() );
-
-    return selected_part;
+    return human_anatomy->select_body_part( szdif, hit_roll )->token;
 }
 
 void Creature::check_dead_state() {

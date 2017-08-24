@@ -1381,6 +1381,12 @@
     "components": [ [ [ "glass_shard", 1 ] ] ]
   },
   {
+    "result": "glass_sheet",
+    "type": "uncraft",
+    "time": 2000,
+    "components": [ [ [ "glass_shard", 12 ] ] ]
+  },
+  {
     "result": "gobag",
     "type": "uncraft",
     "time": 2000,

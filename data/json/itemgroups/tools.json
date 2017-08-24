@@ -119,7 +119,7 @@
   {
     "id": "tools_medical",
     "type": "item_group",
-    "comment": "Portable medical equipment for doctors and paramedics (excludes consumables)",
+    "//": "Portable medical equipment for doctors and paramedics (excludes consumables)",
     "items": [
       [ "scalpel", 50 ],
       [ "scissors", 100 ],

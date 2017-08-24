@@ -139,7 +139,7 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["s_pharm"]             = &mapgen_pharm;
     mapgen_cfunction_map["spider_pit"] = mapgen_spider_pit;
     mapgen_cfunction_map["s_sports"] = mapgen_s_sports;
-    mapgen_cfunction_map["shelter"] = &mapgen_shelter;
+//    mapgen_cfunction_map["shelter"] = &mapgen_shelter;
     mapgen_cfunction_map["shelter_under"] = &mapgen_shelter_under;
     mapgen_cfunction_map["lmoe"] = &mapgen_lmoe;
     mapgen_cfunction_map["basement_generic_layout"] = &mapgen_basement_generic_layout; // empty, not bound
@@ -1578,11 +1578,19 @@ void mapgen_sewer_four_way(map *m, oter_id, mapgendata dat, int, float)
 ///////////////////
 void mapgen_bridge(map *m, oter_id terrain_type, mapgendata dat, int turn, float)
 {
-    (void)dat;
+    const auto is_river = [&]( const om_direction::type dir ) {
+        return dat.t_nesw[static_cast<int>(om_direction::add(dir, terrain_type->get_dir()))]->is_river();
+    };
+
+    const bool river_west = is_river(om_direction::type::west);
+    const bool river_east = is_river(om_direction::type::east);
+
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
-            if (i < 2 || i >= SEEX * 2 - 2) {
-                m->ter_set(i, j, t_water_dp);
+            if (i < 2) {
+                m->ter_set(i, j, river_west ? t_water_dp : grass_or_dirt());
+            } else if (i >= SEEX * 2 - 2) {
+                m->ter_set(i, j, river_east ? t_water_dp : grass_or_dirt());
             } else if (i == 2 || i == SEEX * 2 - 3) {
                 m->ter_set(i, j, t_guardrail_bg_dp);
             } else if (i == 3 || i == SEEX * 2 - 4) {
@@ -1600,9 +1608,7 @@ void mapgen_bridge(map *m, oter_id terrain_type, mapgendata dat, int turn, float
     // spawn regular road out of fuel vehicles
     VehicleSpawn::apply(vspawn_id("default_bridge"), *m, "bridge");
 
-    if (terrain_type == "bridge_ew") {
-        m->rotate(1);
-    }
+    m->rotate( static_cast<int>( terrain_type->get_dir() ) );
     m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
 }
 
@@ -2989,52 +2995,6 @@ void mapgen_s_sports(map *m, oter_id terrain_type, mapgendata dat, int, float de
         }
         autorotate(false);
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
-}
-
-////////////////////
-//    } else if (terrain_type == "shelter") {
-void mapgen_shelter(map *m, oter_id, mapgendata dat, int, float) {
-
-        // Init to grass & dirt;
-        dat.fill_groundcover();
-        square(m, t_floor, 5, 5, SEEX * 2 - 6, SEEY * 2 - 6);
-        mapf::formatted_set_simple(m, 4, 4,
-                                   "\
-|----:-++-:----|\n\
-|llll      c  6|\n\
-| b b b    c   |\n\
-| b b b    c   |\n\
-| b b b    c   |\n\
-: b b b        :\n\
-|              |\n\
-+      >>      +\n\
-+      >>      +\n\
-|              |\n\
-: b b b        :\n\
-| b b b    c   |\n\
-| b b b    c   |\n\
-| b b b    c   |\n\
-|          c  x|\n\
-|----:-++-:----|\n",
-                                   mapf::ter_bind("- | + : 6 x >", t_wall, t_wall, t_door_c, t_window_domestic,  t_console,
-                                           t_console_broken, t_stairs_down),
-                                   mapf::furn_bind("b c l", f_bench, f_counter, f_locker));
-        computer * tmpcomp = m->add_computer( tripoint( SEEX + 6, 5, m->get_abs_sub().z ), _("Evac shelter computer"), 0);
-        tmpcomp->add_option(_("Emergency Message"), COMPACT_EMERG_MESS, 0);
-        tmpcomp->add_option(_("Disable External Power"), COMPACT_COMPLETE_MISSION, 0);
-        tmpcomp->add_option(_("Contact Us"), COMPACT_EMERG_REF_CENTER, 0);
-        int lx = rng(5 , 8);
-        // The shelter does have some useful stuff in case of winter problems!
-        m->spawn_item(lx, 5, "jacket_evac");
-        m->spawn_item(lx, 5, "emer_blanket");
-        if (one_in(3)) {
-            int lxa = rng(5 , 8);
-            m->spawn_item(lxa, 5, "jacket_evac");
-            m->spawn_item(lxa, 5, "emer_blanket");
-            if (one_in(2)) {
-                m->spawn_item(lxa, 5, "mask_gas"); // See! The gas mask is real!
-            }
-        }
 }
 
 

@@ -304,7 +304,7 @@ item& item::ammo_set( const itype_id& ammo, long qty )
                 // as above call to magazine_default successful can infer minimum one option exists
                 auto iter = type->magazines.find( ammo_type() );
                 std::vector<itype_id> opts( iter->second.begin(), iter->second.end() );
-                std::sort( opts.begin(), opts.end(), [qty]( const itype_id &lhs, const itype_id &rhs ) {
+                std::sort( opts.begin(), opts.end(), []( const itype_id &lhs, const itype_id &rhs ) {
                     return find_type( lhs )->magazine->capacity < find_type( rhs )->magazine->capacity;
                 } );
                 mag = find_type( opts.back() );
@@ -778,7 +778,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         if( !mat_types.empty() ) {
             const std::string material_list = enumerate_as_string( mat_types.begin(), mat_types.end(),
             []( const material_type *material ) {
-                return string_format( "<stat>%s</stat>", material->name().c_str() );
+                return string_format( "<stat>%s</stat>", _( material->name().c_str() ) );
             }, false );
             info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list.c_str() ) ) );
         }
@@ -1080,7 +1080,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 return e.second.qty > 1 && !e.second.melee();
         } ) ) {
             info.emplace_back( "GUN", _( "Recommended strength (burst): "), "",
-                               ceil( mod->type->weight / 333.0 ), true, "", true, true );
+                               ceil( mod->type->weight / 333.0_gram ), true, "", true, true );
         }
 
         info.emplace_back( "GUN", _( "Reload time: " ),
@@ -1924,7 +1924,7 @@ nc_color item::color_in_inventory() const
         // Red: morale penalty
         // Yellow: will rot soon
         // Cyan: will rot eventually
-        const auto rating = u->can_eat( to_color );
+        const auto rating = u->will_eat( to_color );
         // TODO: More colors
         switch( rating ) {
             case EDIBLE:
@@ -1948,6 +1948,9 @@ nc_color item::color_in_inventory() const
                 break;
             case ROTTEN:
                 ret = c_brown;
+                break;
+            case NAUSEA:
+                ret = c_pink;
                 break;
             case NO_TOOL:
                 break;
@@ -2411,13 +2414,18 @@ int item::price( bool practical ) const
 }
 
 // MATERIALS-TODO: add a density field to materials.json
-int item::weight( bool include_contents ) const
+units::mass item::weight( bool include_contents ) const
 {
     if( is_null() ) {
         return 0;
     }
 
-    int ret = get_var( "weight", type->weight );
+    // Items that don't drop aren't really there, they're items just for ease of implementation
+    if( has_flag( "NO_DROP" ) ) {
+        return 0;
+    }
+
+    units::mass ret = units::from_gram( get_var( "weight", to_gram( type->weight ) ) );
     if( has_flag( "REDUCED_WEIGHT" ) ) {
         ret *= 0.75;
     }
@@ -2427,11 +2435,11 @@ int item::weight( bool include_contents ) const
 
     } else if( is_corpse() ) {
         switch( corpse->size ) {
-            case MS_TINY:   ret =   1000;  break;
-            case MS_SMALL:  ret =  40750;  break;
-            case MS_MEDIUM: ret =  81500;  break;
-            case MS_LARGE:  ret = 120000;  break;
-            case MS_HUGE:   ret = 200000;  break;
+            case MS_TINY:   ret =   1000_gram;  break;
+            case MS_SMALL:  ret =  40750_gram;  break;
+            case MS_MEDIUM: ret =  81500_gram;  break;
+            case MS_LARGE:  ret = 120000_gram;  break;
+            case MS_HUGE:   ret = 200000_gram;  break;
         }
         if( made_of( material_id( "veggy" ) ) ) {
             ret /= 3;
@@ -2460,8 +2468,8 @@ int item::weight( bool include_contents ) const
     // reduce weight for sawn-off weepons capped to the apportioned weight of the barrel
     if( gunmod_find( "barrel_small" ) ) {
         const units::volume b = type->gun->barrel_length;
-        const int max_barrel_weight = to_milliliter( b );
-        const int barrel_weight = b * type->weight / type->volume;
+        const units::mass max_barrel_weight = units::from_gram( to_milliliter( b ) );
+        const units::mass barrel_weight = units::from_gram( b.value() * type->weight.value() / type->volume.value() );
         ret -= std::min( max_barrel_weight, barrel_weight );
     }
 
@@ -2564,12 +2572,12 @@ units::volume item::volume( bool integral ) const
 
 int item::lift_strength() const
 {
-    return weight() / STR_LIFT_FACTOR + ( weight() % STR_LIFT_FACTOR != 0 );
+    return weight() / STR_LIFT_FACTOR + ( weight().value() % STR_LIFT_FACTOR.value() != 0 );
 }
 
 int item::attack_time() const
 {
-    int ret = 65 + volume() / 62.5_ml + weight() / 60;
+    int ret = 65 + volume() / 62.5_ml + weight() / 60_gram;
     return ret;
 }
 
@@ -3390,7 +3398,7 @@ bool item::is_two_handed( const player &u ) const
         return true;
     }
     ///\EFFECT_STR determines which weapons can be wielded with one hand
-    return ((weight() / 113) > u.str_cur * 4);
+    return ( ( weight() / 113_gram ) > u.str_cur * 4 );
 }
 
 const std::vector<material_id> &item::made_of() const
@@ -3777,7 +3785,7 @@ bool item::is_tool_reversible() const
     if( is_tool() && type->tool->revert_to != "null" ) {
         item revert( type->tool->revert_to );
         npc n;
-        revert.type->invoke( &n, &revert, tripoint(-999, -999, -999) );
+        revert.type->invoke( n, revert, tripoint(-999, -999, -999) );
         return revert.is_tool() && typeId() == revert.typeId();
     }
     return false;
@@ -3984,7 +3992,7 @@ int item::sight_dispersion() const
         return 0;
     }
 
-    int res = has_flag( "DISABLE_SIGHTS" ) ? MIN_RECOIL : type->gun->sight_dispersion;
+    int res = has_flag( "DISABLE_SIGHTS" ) ? MAX_RECOIL : type->gun->sight_dispersion;
 
     for( const auto e : gunmods() ) {
         const auto mod = e->type->gunmod.get();
@@ -4037,7 +4045,7 @@ int item::gun_recoil( const player &p, bool bipod ) const
 
     ///\EFFECT_STR improves the handling of heavier weapons
     // we consider only base weight to avoid exploits
-    double wt = std::min( type->weight, p.str_cur * 333 ) / 333.0;
+    double wt = std::min( type->weight, p.str_cur * 333_gram ) / 333.0_gram;
 
     double handling = type->gun->handling;
     for( const auto mod : gunmods() ) {
@@ -4092,7 +4100,7 @@ int item::gun_range( const player *p ) const
 
     // Reduce bow range until player has twice minimm required strength
     if( has_flag( "STR_DRAW" ) ) {
-        ret -= std::max( 0, type->min_str * 2 - p->get_str() );
+        ret += std::max( 0.0, ( p->get_str() - type->min_str ) * 0.5 );
     }
 
     return std::max( 0, ret );
@@ -5667,7 +5675,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
             }
 
             auto revert = type->tool->revert_to; // invoking the object can convert the item to another type
-            type->invoke( carrier != nullptr ? carrier : &g->u, this, pos );
+            type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos );
             if( revert == "null" ) {
                 return true;
             } else {
@@ -5677,7 +5685,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
         }
     }
 
-    type->tick( carrier != nullptr ? carrier : &g->u, this, pos );
+    type->tick( carrier != nullptr ? *carrier : g->u, *this, pos );
     return false;
 }
 
@@ -5697,7 +5705,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate )
         }
     }
     if( activate ) {
-        return type->invoke( carrier != nullptr ? carrier : &g->u, this, pos );
+        return type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos );
     }
     // How this works: it checks what kind of processing has to be done
     // (e.g. for food, for drying towels, lit cigars), and if that matches,
@@ -5717,7 +5725,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate )
     }
 
     if( item_counter == 0 && type->countdown_action ) {
-        type->countdown_action.call( carrier ? carrier : &g->u, this, false, pos );
+        type->countdown_action.call( carrier ? *carrier : g->u, *this, false, pos );
         if( type->countdown_destroy ) {
             return true;
         }
@@ -6017,5 +6025,60 @@ bool item::is_filthy() const
 
 bool item::on_drop( const tripoint &pos )
 {
-    return type->drop_action && type->drop_action.call( &g->u, this, false, pos );
+    return type->drop_action && type->drop_action.call( g->u, *this, false, pos );
+}
+
+std::string food_hint_provider( const item &it )
+{
+    int nutrition = g->u.nutrition_for( it.type );
+    int quench = it.type->comestible ? it.type->comestible->quench : 0;
+    std::string hint = string_format(
+               _( "Volume: <color_ltgray>%s</color> Nutrition: <color_ltgray>%d</color> Quench: <color_ltgray>%d</color>" ),
+               format_volume( it.volume() ).c_str(),
+               nutrition,
+               quench );
+    if (it.goes_bad()) {
+        const std::string rot_time = calendar( it.type->comestible->spoils ).textify_period();
+        hint += string_format(_(" Spoils in <color_ltgray>%s</color>"), rot_time.c_str());
+    }
+    return hint;
+}
+
+std::string wield_hint_provider( const item &it )
+{
+    std::string hint = string_format( _( "Volume: <color_ltgray>%s</color> " ),
+                                      format_volume( it.volume() ).c_str() );
+
+    if( ! it.is_gun() ) {
+        int dmg_bash = it.damage_melee( DT_BASH );
+        int dmg_cut  = it.damage_melee( DT_CUT );
+        int dmg_stab = it.damage_melee( DT_STAB );
+
+        if( dmg_bash ) {
+            hint += string_format( _( "Bash: <color_ltgray>%d</color> " ), dmg_bash );
+        }
+        if( dmg_cut ) {
+            hint += string_format( _( "Cut: <color_ltgray>%d</color> " ), dmg_cut );
+        }
+        if( dmg_stab ) {
+            hint += string_format( _( "Pierce: <color_ltgray>%d</color> " ), dmg_stab );
+        }
+    } else {
+        hint += string_format( _( "Ranged damage: <color_ltgray>%d</color> " ), it.gun_damage( true ) );
+    }
+
+    if( ! hint.empty() ) {
+        hint.pop_back();
+    }
+
+    return hint;
+}
+
+std::string generic_hint_provider( const item &it )
+{
+    if ( it.is_food() )
+    {
+        return food_hint_provider(it);
+    }
+    return wield_hint_provider(it);
 }

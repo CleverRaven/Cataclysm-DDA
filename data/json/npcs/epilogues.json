@@ -1,12 +1,12 @@
 [
   {
     "type" : "epilogue",
-    "comment" : "Class currently is male/female but will expand to dog/robot/mutant... whatever needs its own ending",
+    "//" : "Class currently is male/female but will expand to dog/robot/mutant... whatever needs its own ending",
     "group" : "male",
     "id" : "npc_male_1",
-    "comment" : "Unique means the ending will only occur when assigned to an creature, not randomly.",
+    "//" : "Unique means the ending will only occur when assigned to an creature, not randomly.",
     "unique" : false,
-    "comment" : "Below you can write text or DRAW (76x20).  The creatures name will be inserted at the *.",
+    "//" : "Below you can write text or DRAW (76x20).  The creatures name will be inserted at the *.",
     "line_01" : "                                                                            ",
     "line_02" : "                                                                            ",
     "line_03" : "                                                                            ",

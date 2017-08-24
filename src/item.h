@@ -431,7 +431,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
          */
         bool merge_charges( const item &rhs );
 
-        int weight( bool include_contents = true ) const;
+        units::mass weight( bool include_contents = true ) const;
 
     /* Total volume of an item accounting for all contained/integrated items
      * @param integral if true return effective volume if item was integrated into another */
@@ -1805,6 +1805,10 @@ enum hint_rating {
     /** Item should display as green */
     HINT_GOOD = -999
 };
+
+std::string wield_hint_provider(const item& it);
+std::string food_hint_provider(const item& it);
+std::string generic_hint_provider(const item& it);
 
 #endif
 

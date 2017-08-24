@@ -324,7 +324,7 @@ class calendar
         std::string day_of_week() const;
 
         /** Returns the translated name of the season. */
-        static const std::string &name_season( season_type s );
+        static const std::string name_season( season_type s );
 
         static   calendar start;
         static   calendar turn;

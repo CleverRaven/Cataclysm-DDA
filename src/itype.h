@@ -687,7 +687,7 @@ public:
 
     /** After loading from JSON these properties guaranteed to be zero or positive */
     /*@{*/
-    int weight          =  0; // Weight in grams for item (or each stack member)
+    units::mass weight  =  0; // Weight for item ( or each stack member )
     units::volume volume = 0; // Space occupied by items of this type
     int price           =  0; // Value before cataclysm
     int price_post      = -1; // Value after cataclysm (dependent upon practical usages)
@@ -791,9 +791,9 @@ public:
     const use_function *get_use( const std::string &iuse_name ) const;
 
     // Here "invoke" means "actively use". "Tick" means "active item working"
-    long invoke( player *p, item *it, const tripoint &pos ) const; // Picks first method or returns 0
-    long invoke( player *p, item *it, const tripoint &pos, const std::string &iuse_name ) const;
-    long tick( player *p, item *it, const tripoint &pos ) const;
+    long invoke( player &p, item &it, const tripoint &pos ) const; // Picks first method or returns 0
+    long invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const;
+    long tick( player &p, item &it, const tripoint &pos ) const;
 
     virtual ~itype() { };
 };

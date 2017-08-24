@@ -195,8 +195,8 @@ int print_scrollable( WINDOW *w, int begin_line, const std::string &text, nc_col
  * @return The number of lines of the formatted text (after folding). This may be larger than
  * the height of the window.
  */
-int fold_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color color, const char *mes,
-                    ... ) PRINTF_LIKE(6,7);
+int fold_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color color,
+                    const char *mes, ... ) PRINTF_LIKE( 6, 7 );
 /**
  * Same as other @ref fold_and_print, but does not do any string formatting, the string is uses as is.
  */
@@ -221,7 +221,7 @@ int fold_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color col
  * value for `begin_line`.
  */
 int fold_and_print_from( WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
-                         nc_color color, const char *mes, ... ) PRINTF_LIKE(7,8);
+                         nc_color color, const char *mes, ... ) PRINTF_LIKE( 7, 8 );
 /**
  * Same as other @ref fold_and_print_from, but does not do any string formatting, the string is uses as is.
  */
@@ -239,10 +239,10 @@ int fold_and_print_from( WINDOW *w, int begin_y, int begin_x, int width, int beg
  * @param mes Actual message to print
  */
 void trim_and_print( WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
-                     const char *mes, ... ) PRINTF_LIKE(6,7);
+                     const char *mes, ... ) PRINTF_LIKE( 6, 7 );
 void center_print( WINDOW *w, int y, nc_color FG, const char *mes, ... );
 int right_print( WINDOW *w, const int line, const int right_indent, const nc_color FG,
-                 const char *mes, ... ) PRINTF_LIKE(5,6);
+                 const char *mes, ... ) PRINTF_LIKE( 5, 6 );
 void display_table( WINDOW *w, const std::string &title, int columns,
                     const std::vector<std::string> &data );
 void multipage( WINDOW *w, std::vector<std::string> text, std::string caption = "",
@@ -263,7 +263,7 @@ void mvputch_hi( int y, int x, nc_color FG, const std::string &ch );
 // Using long ch is deprecated, use an UTF-8 encoded string instead
 void mvwputch_hi( WINDOW *w, int y, int x, nc_color FG, long ch );
 void mvwputch_hi( WINDOW *w, int y, int x, nc_color FG, const std::string &ch );
-void mvwprintz( WINDOW *w, int y, int x, nc_color FG, const char *mes, ... ) PRINTF_LIKE(5,6);
+void mvwprintz( WINDOW *w, int y, int x, nc_color FG, const char *mes, ... ) PRINTF_LIKE( 5, 6 );
 void wprintz( WINDOW *w, nc_color FG, const char *mes, ... ) PRINTF_LIKE( 3, 4 );
 
 void draw_custom_border( WINDOW *w, chtype ls = 1, chtype rs = 1, chtype ts = 1, chtype bs = 1,
@@ -332,22 +332,26 @@ void popup_status( const char *title, const char *msg, ... ) PRINTF_LIKE( 2, 3 )
 void popup( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
 long popup( const std::string &text, PopupFlags flags );
 void full_screen_popup( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
+
+WINDOW_PTR create_popup_window( const std::string &text, PopupFlags flags );
+WINDOW_PTR create_wait_popup_window( const std::string &text, nc_color bar_color = c_ltgreen );
+
 /*@}*/
 
 input_event draw_item_info( WINDOW *win, const std::string sItemName, const std::string sTypeName,
-                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
-                    int &selected, const bool without_getch = false, const bool without_border = false,
-                    const bool handle_scrolling = false, const bool scrollbar_left = true,
-                    const bool use_full_win = false );
+                            std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
+                            int &selected, const bool without_getch = false, const bool without_border = false,
+                            const bool handle_scrolling = false, const bool scrollbar_left = true,
+                            const bool use_full_win = false );
 
 input_event draw_item_info( const int iLeft, int iWidth, const int iTop, const int iHeight,
-                    const std::string sItemName, const std::string sTypeName,
-                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
-                    int &selected, const bool without_getch = false, const bool without_border = false,
-                    const bool handle_scrolling = false, const bool scrollbar_left = true,
-                    const bool use_full_win = false );
+                            const std::string sItemName, const std::string sTypeName,
+                            std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
+                            int &selected, const bool without_getch = false, const bool without_border = false,
+                            const bool handle_scrolling = false, const bool scrollbar_left = true,
+                            const bool use_full_win = false );
 
-enum class item_filter_type: int {
+enum class item_filter_type : int {
     FIRST = 1, // used for indexing into tables
     FILTER = 1,
     LOW_PRIORITY = 2,
@@ -366,9 +370,12 @@ void draw_item_filter_rules( WINDOW *win, int starty, int height, item_filter_ty
 char rand_char();
 long special_symbol( long sym );
 
-std::string trim( const std::string &s ); // Remove spaces from the start and the end of a string
-std::string trim_punctuation_marks( const std::string &s ); // Removes punctuation marks from the start and the end of a string
-std::string to_upper_case( const std::string &s ); // Converts the string to upper case
+// Remove spaces from the start and the end of a string.
+std::string trim( const std::string &s );
+// Removes punctuation marks from the start and the end of a string.
+std::string trim_punctuation_marks( const std::string &s );
+// Converts the string to upper case.
+std::string to_upper_case( const std::string &s );
 
 /**
  * @name printf-like string formatting.
@@ -415,7 +422,7 @@ void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile );
 
 std::pair<std::string, nc_color> const &get_hp_bar( int cur_hp, int max_hp, bool is_mon = false );
 
-std::pair<std::string, nc_color> const &get_light_level( const float light );
+std::pair<std::string, nc_color> get_light_level( const float light );
 
 /**
  * @return String containing the bar. Example: "Label [********    ]".
@@ -601,11 +608,14 @@ extern scrollingcombattext SCT;
 
 std::string wildcard_trim_rule( const std::string &sPatternIn );
 bool wildcard_match( const std::string &sTextIn, const std::string &sPatternIn );
-std::vector<std::string> &wildcard_split( const std::string &s, char delim, std::vector<std::string> &elems );
-int ci_find_substr( const std::string &str1, const std::string &str2, const std::locale &loc = std::locale() );
+std::vector<std::string> &wildcard_split( const std::string &s, char delim,
+        std::vector<std::string> &elems );
+int ci_find_substr( const std::string &str1, const std::string &str2,
+                    const std::locale &loc = std::locale() );
 
 std::string format_volume( const units::volume &volume );
-std::string format_volume( const units::volume &volume, int width, bool *out_truncated, double *out_value );
+std::string format_volume( const units::volume &volume, int width, bool *out_truncated,
+                           double *out_value );
 
 /** Get the width in font glyphs of the drawing screen.
  *

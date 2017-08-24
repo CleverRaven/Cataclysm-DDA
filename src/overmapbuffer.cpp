@@ -1,5 +1,6 @@
 #include "overmapbuffer.h"
 #include "coordinate_conversions.h"
+#include "overmap_connection.h"
 #include "overmap_types.h"
 #include "overmap.h"
 #include "game.h"
@@ -517,24 +518,40 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, 
     static const int OX = RADIUS * OMAPX;   // half-width of the area to search in
     static const int OY = RADIUS * OMAPY;   // half-height of the area to search in
 
+    if( source == overmap::invalid_tripoint || dest == overmap::invalid_tripoint ) {
+        return false;
+    }
+
     const tripoint start( OX, OY, source.z );   // Local source - center of the local area
     const tripoint base( source - start );      // To convert local coordinates to global ones
     const tripoint finish( dest - base );       // Local destination - relative to source
 
-    const auto estimate = [ this, &base, &finish, road_only ]( const pf::node &, const pf::node &cur ) {
+    const auto get_ter_at = [&]( int x, int y ) {
+        x += base.x;
+        y += base.y;
+        const overmap &om = get_om_global( x, y );
+        return om.get_ter( x, y, source.z );
+    };
+
+    const auto oter = get_ter_at( start.x, start.y ) ;
+    const auto connection = overmap_connections::guess_for( oter );
+
+    if( !connection ) {
+        return false;
+    }
+
+    const auto estimate = [&]( const pf::node &cur, const pf::node * ) {
         int res = 0;
-        int omx = base.x + cur.x;
-        int omy = base.y + cur.y;
 
-        const auto &oter = get_om_global( omx, omy ).get_ter( omx, omy, base.z );
+        const auto oter = get_ter_at( cur.x, cur.y );
 
-        if( !is_ot_type( "road", oter ) && !is_ot_type ( "bridge", oter ) && !is_ot_type( "hiway", oter ) ) {
+        if( !connection->has( oter ) ) {
             if( road_only ) {
-                return -1;
+                return pf::rejected;
             }
 
             if( is_river( oter ) ) {
-                return -1; // Can't walk on water
+                return pf::rejected; // Can't walk on water
             }
             // Allow going slightly off-road to overcome small obstacles (e.g. craters),
             // but heavily penalize that to make roads preferable
@@ -549,15 +566,11 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, 
 
     const auto path = pf::find_path( point( start.x, start.y ), point( finish.x, finish.y ), 2*OX, 2*OY, estimate );
 
-    if( path.empty() ) {
-        return false;
-    }
-
-    for( const auto &node : path ) {
+    for( const auto &node : path.nodes ) {
         reveal( base + tripoint( node.x, node.y, base.z ), radius );
     }
 
-    return true;
+    return !path.nodes.empty();
 }
 
 bool overmapbuffer::check_ot_type(const std::string& type, int x, int y, int z)

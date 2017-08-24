@@ -209,8 +209,8 @@ void monster::plan( const mfactions &factions )
     bool swarms = has_flag( MF_SWARMS );
     auto mood = attitude();
 
-    // If we can see the player, move toward them or flee.
-    if( friendly == 0 && sees( g->u ) ) {
+    // If we can see the player, move toward them or flee, simpleminded animals are too dumb to follow the player.
+    if( friendly == 0 && sees( g->u ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
         dist = rate_target( g->u, dist, smart_planning );
         fleeing = fleeing || is_fleeing( g->u );
         target = &g->u;
@@ -526,7 +526,7 @@ void monster::move()
             moved = true;
         }
     }
-    if( wandf > 0 && !moved ) { // No LOS, no scent, so as a fall-back follow sound
+    if( wandf > 0 && !moved && friendly == 0 ) { // No LOS, no scent, so as a fall-back follow sound
         unset_dest();
         if( wander_pos != pos() ) {
             destination = wander_pos;
