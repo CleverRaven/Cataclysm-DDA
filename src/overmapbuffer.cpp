@@ -29,6 +29,13 @@ overmapbuffer::overmapbuffer()
 {
 }
 
+const city_reference city_reference::invalid{ nullptr, tripoint(), -1 };
+
+int city_reference::get_distance_from_bounds() const {
+    assert( city != nullptr );
+    return distance - omt_to_sm_copy( city->s );
+}
+
 std::string overmapbuffer::terrain_filename(int const x, int const y)
 {
     std::ostringstream filename;
@@ -855,12 +862,7 @@ std::vector<city_reference> overmapbuffer::get_cities_near( const tripoint &loca
     }
 
     std::sort( result.begin(), result.end(), []( const city_reference& lhs, const city_reference& rhs ) {
-        if( lhs.distance - 2 * lhs.city->s <
-            rhs.distance - 2 * rhs.city->s ) {
-            return true;
-        }
-
-        return false;
+        return lhs.get_distance_from_bounds() < rhs.get_distance_from_bounds();
     } );
 
     return result;
@@ -868,19 +870,18 @@ std::vector<city_reference> overmapbuffer::get_cities_near( const tripoint &loca
 
 city_reference overmapbuffer::closest_city( const tripoint &center )
 {
-    // a whole overmap (because it's in submap coordinates, OMAPX is overmap terrain coordinates)
-    const auto cities = get_cities_near( center, OMAPX * 2  );
+    const auto cities = get_cities_near( center, omt_to_sm_copy( OMAPX ) );
 
     if( !cities.empty() ) {
         return cities.front();
     }
 
-    return city_reference{ nullptr, tripoint(), -1 };
+    return city_reference::invalid;
 }
 
 city_reference overmapbuffer::closest_known_city( const tripoint &center )
 {
-    const auto cities = get_cities_near( center, OMAPX * 2  );
+    const auto cities = get_cities_near( center, omt_to_sm_copy( OMAPX ) );
     const auto it = std::find_if( cities.begin(), cities.end(),
     [this]( const city_reference& elem ) {
         const tripoint p = sm_to_omt_copy( elem.abs_sm_pos );
@@ -891,7 +892,7 @@ city_reference overmapbuffer::closest_known_city( const tripoint &center )
         return *it;
     }
 
-    return city_reference{ nullptr, tripoint(), -1 };
+    return city_reference::invalid;
 }
 
 std::string overmapbuffer::get_description_at( const tripoint &where )
@@ -912,7 +913,7 @@ std::string overmapbuffer::get_description_at( const tripoint &where )
     const direction dir = direction_from( closest_cref.abs_sm_pos, where );
     const std::string dir_name = direction_name( dir );
 
-    const int sm_size = 2 * closest_cref.city->s;
+    const int sm_size = omt_to_sm_copy( closest_cref.city->s );
     const int sm_dist = closest_cref.distance;
 
     if( sm_dist <= 3 * sm_size / 4 ) {

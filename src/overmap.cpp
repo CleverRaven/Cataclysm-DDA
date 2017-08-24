@@ -2501,17 +2501,17 @@ void overmap::draw_city_labels( WINDOW *w, const tripoint &center )
         const int text_x_max = text_x_min + text_width;
         const int text_y = screen_pos.y;
 
-        if( text_x_min < 0
-         || text_x_max > win_x_max
-         || text_y < 0
-         || text_y > win_y_max ) {
+        if( text_x_min < 0 ||
+            text_x_max > win_x_max ||
+            text_y < 0 ||
+            text_y > win_y_max ) {
             continue;   // outside of the window bounds.
         }
 
-        if( screen_center_pos.x >= ( text_x_min - 1 )
-         && screen_center_pos.x <= ( text_x_max )
-         && screen_center_pos.y >= ( text_y - 1 )
-         && screen_center_pos.y <= ( text_y + 1 ) ) {
+        if( screen_center_pos.x >= ( text_x_min - 1 ) &&
+            screen_center_pos.x <= ( text_x_max ) &&
+            screen_center_pos.y >= ( text_y - 1 ) &&
+            screen_center_pos.y <= ( text_y + 1 ) ) {
             continue;   // right under the cursor.
         }
 

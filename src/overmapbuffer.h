@@ -40,6 +40,7 @@ struct radio_tower_reference {
 };
 
 struct city_reference {
+    static const city_reference invalid;
     /** The city itself, points into @ref overmap::cities */
     const struct city *city;
     /** The global absolute position of the city (in submap coordinates!) */
@@ -50,6 +51,8 @@ struct city_reference {
     operator bool() const {
         return city != nullptr;
     }
+
+    int get_distance_from_bounds() const;
 };
 
 class overmapbuffer
