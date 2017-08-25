@@ -871,13 +871,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param it Thing to be wielded
          * @param alert display reason for any failure
          */
-        bool can_wield( const item& it, bool alert = true ) const;
+        bool can_wield( const item& it, std::string *err = nullptr ) const;
         /**
          * Check player capable of unwielding an item.
          * @param it Thing to be unwielded
          * @param alert display reason for any failure
          */
-        bool can_unwield( const item& it, bool alert = true ) const;
+        bool can_unwield( const item& it, std::string *err = nullptr ) const;
         /** Check player's capability of consumption overall */
         bool can_consume( const item &it ) const;
 
@@ -887,6 +887,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @return whether both removal and replacement were successful (they are performed atomically)
          */
         virtual bool wield( item& target );
+
+        bool wield( item_location &loc );
+
         /** Creates the UI and handles player input for picking martial arts styles */
         bool pick_style();
         /**

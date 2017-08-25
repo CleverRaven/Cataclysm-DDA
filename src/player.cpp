@@ -6861,7 +6861,7 @@ const martialart &player::get_combat_style() const
 std::vector<item *> player::inv_dump()
 {
     std::vector<item *> ret;
-    if( is_armed() && can_unwield( weapon, false ) ) {
+    if( is_armed() && can_unwield( weapon ) ) {
         ret.push_back(&weapon);
     }
     for (auto &i : worn) {
@@ -7737,35 +7737,39 @@ bool player::can_wear( const item& it, bool alert ) const
     return true;
 }
 
-bool player::can_wield( const item &it, bool alert ) const
+bool player::can_wield( const item &it, std::string *err ) const
 {
-    if( it.is_two_handed(*this) && ( !has_two_arms() || worn_with_flag("RESTRICT_HANDS") ) ) {
-        if( it.has_flag("ALWAYS_TWOHAND") ) {
-            if( alert ) {
-                add_msg( m_info, _("The %s can't be wielded with only one arm."), it.tname().c_str() );
-            }
-            if( worn_with_flag("RESTRICT_HANDS") ) {
-                add_msg( m_info, _("Something you are wearing hinders the use of both hands.") );
-            }
-        } else {
-            if( alert ) {
-                add_msg( m_info, _("You are too weak to wield %s with only one arm."),
-                         it.tname().c_str() );
-            }
-            if( worn_with_flag("RESTRICT_HANDS") ) {
-                add_msg( m_info, _("Something you are wearing hinders the use of both hands.") );
-            }
+    if( it.made_of( LIQUID ) ) {
+        if( err ) {
+            *err = _( "Can't wield spilt liquids." );
         }
         return false;
     }
+
+    if( it.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( "RESTRICT_HANDS" ) ) ) {
+        if( !err ) {
+            return false;
+        }
+
+        if( worn_with_flag( "RESTRICT_HANDS" ) ) {
+            *err = _( "Something you are wearing hinders the use of both hands." );
+        } else if( it.has_flag( "ALWAYS_TWOHAND" ) ) {
+            *err = string_format( _( "The %s can't be wielded with only one arm." ), it.tname().c_str() );
+        } else {
+            *err = string_format( _( "You are too weak to wield %s with only one arm." ), it.tname().c_str() );
+        }
+
+        return false;
+    }
+
     return true;
 }
 
-bool player::can_unwield( const item& it, bool alert ) const
+bool player::can_unwield( const item& it, std::string *err ) const
 {
     if( it.has_flag( "NO_UNWIELD" ) ) {
-        if( alert ) {
-            add_msg( m_info, _( "You cannot unwield your %s" ), it.tname().c_str() );
+        if( err ) {
+            *err = string_format( _( "You cannot unwield your %s." ), it.tname().c_str() );
         }
         return false;
     }
@@ -7836,6 +7840,22 @@ bool player::wield( item& target )
     inv.update_cache_with_item( weapon );
 
     return true;
+}
+
+bool player::wield( item_location &loc )
+{
+    if( !loc ) {
+        debugmsg( "Can't wield null items." );
+        return false;
+    }
+
+    std::string err;
+
+    if( ( is_armed() && !can_unwield( weapon, &err ) ) || !can_wield( *loc, &err ) ) {
+        add_msg_if_player( m_info, "%s", err.c_str() );
+    }
+
+    return wield( i_at( loc.obtain( *this ) ) );
 }
 
 // ids of martial art styles that are available with the bio_cqb bionic.
@@ -10905,8 +10925,10 @@ bool player::wield_contents( item &container, int pos, bool penalties, int base_
         return false;
     }
 
+    std::string err;
     auto target = std::next( container.contents.begin(), pos );
-    if( !can_wield( *target ) ) {
+    if( !can_wield( *target, &err ) ) {
+        add_msg_if_player( m_info, "%s", err.c_str() );
         return false;
     }
 

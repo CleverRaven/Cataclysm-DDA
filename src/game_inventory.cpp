@@ -688,12 +688,10 @@ class wield_inventory_preset: public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            if( loc->made_of( LIQUID ) ) {
-                return _( "Can't wield spilt liquids" );
-            }
+            std::string denial;
 
-            if( &p.weapon != &*loc && !p.can_wield( *loc, false ) ) {
-                return _( "You can't wield it." );  // TODO: Add detailed reasons why.
+            if( !p.can_wield( *loc, &denial ) ) {
+                return trim_punctuation_marks( denial );
             }
 
             return std::string();
@@ -720,7 +718,7 @@ std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )
     p.inv.sort();
 
     const inventory_filter_preset preset( [ &p ]( const item_location & location ) {
-        return p.can_unwield( *location, false );
+        return p.can_unwield( *location );
     } );
 
     inventory_drop_selector inv_s( p, preset );

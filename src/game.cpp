@@ -10832,7 +10832,7 @@ void game::wield()
     item_location loc = game_menus::inv::wield( u );
 
     if( loc ) {
-        u.wield( u.i_at( loc.obtain( u ) ) );
+        u.wield( loc );
     } else {
         add_msg( _( "Never mind." ) );
     }
