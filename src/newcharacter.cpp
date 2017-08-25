@@ -59,11 +59,6 @@
 
 const char clear_str[] = "                                                ";
 
-static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
-static const trait_id trait_MYOPIC( "MYOPIC" );
-static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
-static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
-
 void draw_tabs(WINDOW *w, std::string sTab);
 void draw_points( WINDOW *w, points_left &points, int netPointCost = 0 );
 static int skill_increment_cost( const Character &u, const skill_id &skill );
