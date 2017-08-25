@@ -270,10 +270,8 @@ void Item_modifier::modify(item &new_item) const
         new_item.contents.insert(new_item.contents.end(), contentitems.begin(), contentitems.end());
     }
 
-    if( !custom_flags.empty() ) {
-        for( auto &flag : custom_flags ) {
-            new_item.set_flag( flag );
-        }
+    for( auto &flag : custom_flags ) {
+        new_item.set_flag( flag );
     }
 }
 
