@@ -2644,7 +2644,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
             std::transform( term.begin(), term.end(), term.begin(), tolower );
 
             std::vector<point> locations;
-            std::list<point> overmap_checked;
+            std::vector<point> overmap_checked;
 
             for( int x = curs.x - OMAPX / 2; x < curs.x + OMAPX / 2; x++ ) {
                 for( int y = curs.y - OMAPY / 2; y < curs.y + OMAPY / 2; y++ ) {
@@ -2679,7 +2679,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
             }
 
             std::sort( locations.begin(), locations.end(), [&](const point &lhs, const point &rhs) {
-                return square_dist( curs, tripoint( lhs, curs.z ) ) < square_dist( curs, tripoint( rhs, curs.z ) );
+                return trig_dist( curs, tripoint( lhs, curs.z ) ) < trig_dist( curs, tripoint( rhs, curs.z ) );
             } );
 
             int i = 0;
