@@ -249,7 +249,6 @@ void Item_modifier::modify(item &new_item) const
         }
     }
 
-
     if(container.get() != NULL) {
         item cont = container->create_single(new_item.bday);
         if (!cont.is_null()) {
@@ -265,9 +264,16 @@ void Item_modifier::modify(item &new_item) const
             new_item = cont;
         }
     }
+
     if (contents.get() != NULL) {
         Item_spawn_data::ItemList contentitems = contents->create(new_item.bday);
         new_item.contents.insert(new_item.contents.end(), contentitems.begin(), contentitems.end());
+    }
+
+    if( !custom_flags.empty() ) {
+        for( auto &flag : custom_flags ) {
+            new_item.set_flag( flag );
+        }
     }
 }
 
