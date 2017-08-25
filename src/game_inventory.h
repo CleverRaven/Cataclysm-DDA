@@ -57,6 +57,8 @@ item_location read( player &p );
 item_location steal( player &p, player &victim );
 /** Item activation menu. */
 item_location use( player &p );
+/** Item wielding/unwielding menu. */
+item_location wield( player &p );
 /*@}*/
 
 }

@@ -10829,11 +10829,7 @@ void game::wield( int pos )
 
 void game::wield()
 {
-    const auto filter = []( const item &it ) {
-        return it.made_of( SOLID );
-    };
-
-    item_location loc = inv_map_splice( filter, _( "Wield item" ), 1, _( "You have nothing to wield." ) );
+    item_location loc = game_menus::inv::wield( u );
 
     if( loc ) {
         u.wield( u.i_at( loc.obtain( u ) ) );

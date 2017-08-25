@@ -641,6 +641,15 @@ item_location game_menus::inv::steal( player &p, player &victim )
                          string_format( _( "%s's inventory is empty." ), victim.name.c_str() ) );
 }
 
+item_location game_menus::inv::wield( player & )
+{
+    const auto filter = []( const item & it ) {
+        return it.made_of( SOLID );
+    };
+
+    return g->inv_map_splice( filter, _( "Wield item" ), 1, _( "You have nothing to wield." ) );
+}
+
 std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )
 {
     p.inv.restack( &p );
