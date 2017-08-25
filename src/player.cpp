@@ -7775,27 +7775,35 @@ bool player::can_unwield( const item& it, bool alert ) const
 
 bool player::wield( item& target )
 {
-    if( !can_unwield( weapon ) || !can_wield( target ) ) {
+    if( target.is_null() ) {
+        debugmsg( "Tried to wield an empty item." );
         return false;
     }
 
-    if( target.is_null() ) {
-        return dispose_item( item_location( *this, &weapon ),
-                             string_format( _( "Stop wielding %s?" ), weapon.tname().c_str() ) );
-    }
-
-    if( &weapon == &target ) {
-        add_msg( m_info, _( "You're already wielding that!" ) );
+    if( !can_unwield( weapon ) ) {
         return false;
     }
 
     int mv = 0;
 
     if( is_armed() ) {
-        if( !wield( ret_null ) ) {
+        const bool unwielding = ( &target == &weapon );
+
+        const std::string query = string_format( _( "Stop wielding %s?" ), weapon.tname().c_str() );
+
+        if ( !dispose_item( item_location( *this, &weapon ), query.c_str() ) ) {
             return false;
         }
+
         inv.unsort();
+
+        if( unwielding ) {
+            return true;
+        }
+    }
+
+    if( !can_wield( target ) ) {
+        return false;
     }
 
     // Wielding from inventory is relatively slow and does not improve with increasing weapon skill.
@@ -7820,6 +7828,7 @@ bool player::wield( item& target )
     }
 
     last_item = weapon.typeId();
+    recoil = MAX_RECOIL;
 
     weapon.on_wield( *this, mv );
 
@@ -10904,7 +10913,7 @@ bool player::wield_contents( item &container, int pos, bool penalties, int base_
     int mv = 0;
 
     if( is_armed() ) {
-        if( !wield( ret_null ) ) {
+        if( !wield( weapon ) ) {
             return false;
         }
         inv.unsort();
