@@ -641,13 +641,77 @@ item_location game_menus::inv::steal( player &p, player &victim )
                          string_format( _( "%s's inventory is empty." ), victim.name.c_str() ) );
 }
 
-item_location game_menus::inv::wield( player & )
-{
-    const auto filter = []( const item & it ) {
-        return it.made_of( SOLID );
-    };
 
-    return g->inv_map_splice( filter, _( "Wield item" ), 1, _( "You have nothing to wield." ) );
+class wield_inventory_preset: public inventory_selector_preset
+{
+    public:
+        wield_inventory_preset( const player &p ) : p( p ) {
+            append_cell( [ this ]( const item_location & loc ) {
+                if( !loc->is_gun() ) {
+                    return std::string();
+                }
+
+                const int total_damage = loc->gun_damage( true );
+
+                if( loc->ammo_data() && loc->ammo_remaining() ) {
+                    const int basic_damage = loc->gun_damage( false );
+                    const int ammo_damage = loc->ammo_data()->ammo->damage;
+
+                    return string_format( "<color_ltgray>%s+%s = %s</color>",
+                                          get_damage_string( basic_damage, true ).c_str(),
+                                          get_damage_string( ammo_damage, true ).c_str(),
+                                          get_damage_string( total_damage, true ).c_str()
+                                        );
+                } else {
+                    return get_damage_string( total_damage );
+                }
+            }, _( "SHOT" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return get_damage_string( loc->damage_melee( DT_BASH ) );
+            }, _( "BASH" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return get_damage_string( loc->damage_melee( DT_CUT ) );
+            }, _( "CUT" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return get_damage_string( loc->damage_melee( DT_STAB ) );
+            }, _( "STAB" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                if( loc->damage_melee( DT_BASH ) || loc->damage_melee( DT_CUT ) || loc->damage_melee( DT_STAB ) ) {
+                    return good_bad_none( loc->type->m_to_hit );
+                }
+                return std::string();
+            }, _( "MELEE" ) );
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            if( loc->made_of( LIQUID ) ) {
+                return _( "Can't wield spilt liquids" );
+            }
+
+            if( &p.weapon != &*loc && !p.can_wield( *loc, false ) ) {
+                return _( "You can't wield it." );  // TODO: Add detailed reasons why.
+            }
+
+            return std::string();
+        }
+
+    private:
+        std::string get_damage_string( int damage, bool display_zeroes = false ) const {
+            return damage ||
+                   display_zeroes ? string_format( "<color_yellow>%d</color>", damage ) : std::string();
+        }
+
+        const player &p;
+};
+
+item_location game_menus::inv::wield( player &p )
+{
+    return inv_internal( p, wield_inventory_preset( p ), _( "Wield item" ), 1,
+                         _( "You have nothing to wield." ) );
 }
 
 std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )
