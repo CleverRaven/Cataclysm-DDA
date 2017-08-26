@@ -40,6 +40,7 @@
 #include <array>
 #include <numeric>
 #include <algorithm>
+#include <cassert>
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;

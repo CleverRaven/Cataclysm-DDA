@@ -44,6 +44,7 @@
 #include <stdlib.h>
 #include <cstring>
 #include <algorithm>
+#include <cassert>
 
 const mtype_id mon_zombie( "mon_zombie" );
 

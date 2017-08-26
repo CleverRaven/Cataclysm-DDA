@@ -2,11 +2,12 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
+#include <utility>
 #include <climits>
-#include <cassert>
 #include <ostream>
 
-#include "json.h" // (de)serialization for points
+class JsonOut;
+class JsonIn;
 
 #ifndef sgn
 #define sgn(x) (((x) < 0) ? -1 : (((x)>0) ? 1 : 0))

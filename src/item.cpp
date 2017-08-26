@@ -49,6 +49,7 @@
 #include <array>
 #include <tuple>
 #include <iterator>
+#include <cassert>
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 
