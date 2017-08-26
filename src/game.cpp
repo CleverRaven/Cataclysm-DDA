@@ -4172,7 +4172,7 @@ void game::debug()
             break;
 
         case 17: {
-            tripoint coord = look_debug();
+            look_debug();
         }
         break;
 
