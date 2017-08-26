@@ -966,7 +966,7 @@ endef
 $(foreach json,$(FORMAT_ME),$(eval $(call make-format-goal,$(json))))
 .PHONY: do_format
 do_format:$(FORMAT_ME)
-	@true
+	@touch $(ODIR)/lint.cache
 
 $(ODIR)/lint.cache: $(shell awk '/^[^#]/ { print $$1 }' json_whitelist) | $(ODIR)
 ifeq ($(shell if perl -c tools/format/format.pl 2>/dev/null; then echo $$?; fi),0)
