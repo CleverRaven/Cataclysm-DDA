@@ -1721,7 +1721,7 @@ void veh_interact::display_veh ()
 
 static std::string wheel_state_description( const vehicle &veh )
 {
-    bool is_boat = !veh.all_parts_with_feature(VPFLAG_FLOATS).empty();
+    bool is_boat = !veh.floating.empty();
     bool is_land = !veh.all_parts_with_feature(VPFLAG_WHEEL).empty();
 
     bool suf_land = veh.sufficient_wheel_config( false );
@@ -1866,7 +1866,7 @@ void veh_interact::display_stats()
         print_part( needsRepair, 7, most_repairable );
     }
 
-    bool is_boat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
+    bool is_boat = !veh->floating.empty();
 
     fold_and_print(w_stats, y[8], x[8], w[8], c_ltgray,
                    _("K aerodynamics: <color_ltblue>%3d</color>%%"),

@@ -3293,10 +3293,9 @@ float vehicle::strain() const
 
 bool vehicle::sufficient_wheel_config( bool boat ) const
 {
-    std::vector<int> floats = all_parts_with_feature(VPFLAG_FLOATS);
     // @todo Remove the limitations that boats can't move on land
-    if( boat || !floats.empty() ) {
-        return boat && floats.size() > 2;
+    if( boat || !floating.empty() ) {
+        return boat && floating.size() > 2;
     }
     std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
     if(wheel_indices.empty()) {
@@ -5087,6 +5086,9 @@ void vehicle::refresh()
         if( vpi.has_flag("UNMOUNT_ON_MOVE") ) {
             loose_parts.push_back(p);
         }
+        // The wheel cache should include broken wheels,
+        // the idea being that those can't rotate,
+        // but still support the vehicle
         if( vpi.has_flag( VPFLAG_WHEEL ) ) {
             wheelcache.push_back( p );
         }
@@ -5102,7 +5104,9 @@ void vehicle::refresh()
         if( vpi.has_flag( "CAMERA" ) ) {
             camera_epower += vpi.epower;
         }
-        if( vpi.has_flag( VPFLAG_FLOATS ) ) {
+        // The floating cache shouldn't include broken parts;
+        // if it's broken, it won't keep the water out and your boat afloat.
+        if( vpi.has_flag( VPFLAG_FLOATS ) && !parts[p].is_broken() ) {
             floating.push_back( p );
         }
         if( parts[ p ].enabled ) {
