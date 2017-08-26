@@ -2326,9 +2326,10 @@ void player_morale::load( JsonObject &jsin )
 
 void deserialize( point &p, JsonIn &jsin )
 {
-    JsonArray ja = jsin.get_array();
-    p.x = ja.get_int( 0 );
-    p.y = ja.get_int( 1 );
+    jsin.start_array();
+    p.x = jsin.get_int();
+    p.y = jsin.get_int();
+    jsin.end_array();
 }
 
 void serialize( const point &p, JsonOut &jsout )
@@ -2341,10 +2342,11 @@ void serialize( const point &p, JsonOut &jsout )
 
 void tripoint::deserialize( JsonIn &jsin )
 {
-    JsonArray ja = jsin.get_array();
-    x = ja.get_int( 0 );
-    y = ja.get_int( 1 );
-    z = ja.get_int( 2 );
+    jsin.start_array();
+    x = jsin.get_int();
+    y = jsin.get_int();
+    z = jsin.get_int();
+    jsin.end_array();
 }
 
 void tripoint::serialize( JsonOut &jsout ) const
