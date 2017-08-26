@@ -3264,7 +3264,7 @@ float vehicle::k_traction( float wheel_traction_area ) const
         return 0.0f;
     }
 
-    const float mass_penalty = ( 1.0f - wheel_traction_area / wheel_area( !floating.empty() ) ) * to_kilogram( total_mass() );
+    const float mass_penalty = ( 1.0f - wheel_traction_area / wheel_area( is_floating() ) ) * to_kilogram( total_mass() );
 
     float traction = std::min( 1.0f, wheel_traction_area / mass_penalty );
     add_msg( m_debug, "%s has traction %.2f", name.c_str(), traction );
@@ -3293,8 +3293,7 @@ float vehicle::strain() const
 
 bool vehicle::sufficient_wheel_config( bool boat ) const
 {
-    // @todo Remove the limitations that boats can't move on land
-    if( boat || !floating.empty() ) {
+    if( boat ) {
         return boat && floating.size() > 2;
     }
     std::vector<int> wheel_indices = all_parts_with_feature(VPFLAG_WHEEL);
@@ -3342,7 +3341,7 @@ bool vehicle::valid_wheel_config( bool boat ) const
 
 float vehicle::steering_effectiveness() const
 {
-    if (!floating.empty()) {
+    if (is_floating()) {
         // I'M ON A BOAT
         return 1.0;
     }
@@ -3368,7 +3367,7 @@ float vehicle::steering_effectiveness() const
 float vehicle::handling_difficulty() const
 {
     const float steer = std::max( 0.0f, steering_effectiveness() );
-    const float ktraction = k_traction( g->m.vehicle_wheel_traction( *this ) );
+    const float ktraction = k_traction( g->m.vehicle_traction( *this ) );
     const float kmass = k_mass();
     const float aligned = std::max( 0.0f, 1.0f - ( face_vec() - dir_vec() ).norm() );
 
@@ -4046,9 +4045,9 @@ void vehicle::thrust( int thd ) {
     bool pl_ctrl = player_in_control( g->u );
 
     // No need to change velocity if there are no wheels
-    if( !valid_wheel_config( !floating.empty() ) && velocity == 0 ) {
+    if( !valid_wheel_config( is_floating() ) && velocity == 0 ) {
         if( pl_ctrl ) {
-            if( floating.empty() ) {
+            if( !is_floating() ) {
                 add_msg(_("The %s doesn't have enough wheels to move!"), name.c_str());
             } else {
                 add_msg(_("The %s is too leaky!"), name.c_str());
@@ -4065,7 +4064,7 @@ void vehicle::thrust( int thd ) {
     }
 
     // @todo Pass this as an argument to avoid recalculating
-    float traction = k_traction( g->m.vehicle_wheel_traction( *this ) );
+    float traction = k_traction( g->m.vehicle_traction( *this ) );
     int accel = acceleration() * traction;
     if( thrusting && accel == 0 ) {
         if( pl_ctrl ) {
@@ -6475,4 +6474,25 @@ void vehicle::calc_mass_center( bool use_precalc ) const
         mass_center_no_precalc.y = round( y );
         mass_center_no_precalc_dirty = false;
     }
+}
+
+bool vehicle::is_floating() const
+{
+    // Pure land vehicle
+    if ( !valid_wheel_config( true ) ) {
+        return false;
+    }
+
+    // Pure boat
+    if ( !valid_wheel_config( false ) ) {
+        return true;
+    }
+
+    // Otherwise, the vehicle is amphibious. We consider it
+    // to be floating if >2/3 of the wheels are submerged
+    if ( g->m.vehicle_wheel_traction( *this ) < 0 ) {
+        return true;
+    }
+
+    return false;
 }

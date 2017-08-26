@@ -1866,8 +1866,6 @@ void veh_interact::display_stats()
         print_part( needsRepair, 7, most_repairable );
     }
 
-    bool is_boat = !veh->floating.empty();
-
     fold_and_print(w_stats, y[8], x[8], w[8], c_ltgray,
                    _("K aerodynamics: <color_ltblue>%3d</color>%%"),
                    int(veh->k_aerodynamics() * 100));
@@ -1879,7 +1877,7 @@ void veh_interact::display_stats()
                    int(veh->k_mass() * 100));
     fold_and_print( w_stats, y[11], x[11], w[11], c_ltgray,
                     _("Offroad:        <color_ltblue>%3d</color>%%"),
-                    int( veh->k_traction( veh->wheel_area( is_boat ) * 0.5f ) * 100 ) );
+                    int( veh->k_traction( veh->wheel_area( veh->is_floating() ) * 0.5f ) * 100 ) );
 
     // Print fuel percentage & type name only if it fits in the window, 10 is width of "E...F 100%"
     veh->print_fuel_indicators (w_stats, y[13], x[13], fuel_index, true,

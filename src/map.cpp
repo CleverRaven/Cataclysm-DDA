@@ -440,29 +440,30 @@ bool map::vehact( vehicle &veh )
         return true;
     }
 
-    const float wheel_traction_area = vehicle_wheel_traction( veh );
+    const float wheel_traction_area = vehicle_traction( veh );
     const float traction = veh.k_traction( wheel_traction_area );
     // TODO: Remove this hack, have vehicle sink a z-level
     if( wheel_traction_area < 0 ) {
-        add_msg(m_bad, _("Your %s sank."), veh.name.c_str());
-        if( pl_ctrl ) {
-            veh.unboard_all();
-        }
-        if( g->remoteveh() == &veh ) {
-            g->setremoteveh( nullptr );
-        }
+        if( veh.floating.empty() ) {
+            add_msg(m_bad, _("Your %s sank."), veh.name.c_str());
+            if( pl_ctrl ) {
+                veh.unboard_all();
+            }
+            if( g->remoteveh() == &veh ) {
+                g->setremoteveh( nullptr );
+            }
 
-        on_vehicle_moved( veh.smz );
-        // Destroy vehicle (sank to nowhere)
-        destroy_vehicle( &veh );
-        return true;
+            on_vehicle_moved( veh.smz );
+            // Destroy vehicle (sank to nowhere)
+            destroy_vehicle( &veh );
+            return true;
+        }
     } else if( traction < 0.001f ) {
         veh.of_turn = 0;
         if( !should_fall ) {
             veh.stop();
             // TODO: Remove this hack
-            // TODO: Amphibious vehicles
-            if( veh.floating.empty() ) {
+            if( !veh.is_floating() ) {
                 add_msg(m_info, _("Your %s can't move on this terrain."), veh.name.c_str());
             } else {
                 add_msg(m_info, _("Your %s is beached."), veh.name.c_str());
@@ -584,15 +585,15 @@ bool map::vehicle_falling( vehicle &veh )
     return true;
 }
 
+float map::vehicle_traction( const vehicle &veh ) const
+{
+    return veh.is_floating() ? vehicle_buoyancy( veh ) : vehicle_wheel_traction( veh );
+}
+
 float map::vehicle_wheel_traction( const vehicle &veh ) const
 {
     const tripoint pt = veh.global_pos3();
-    // TODO: Remove this and allow amphibious vehicles
-    if( !veh.floating.empty() ) {
-        return vehicle_buoyancy( veh );
-    }
 
-    // Sink in water?
     const auto &wheel_indices = veh.wheelcache;
     int num_wheels = wheel_indices.size();
     if( num_wheels == 0 ) {
@@ -775,13 +776,22 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
     }
 
     // If not enough wheels, mess up the ground a bit.
-    if( !vertical && !veh.valid_wheel_config( !veh.floating.empty() ) ) {
-        veh.velocity += veh.velocity < 0 ? 2000 : -2000;
+    if( !vertical && !veh.valid_wheel_config( false ) ) {
+        bool in_water = true;
+
         for( const auto &p : veh.get_points() ) {
+            if ( !has_flag( TFLAG_SWIMMABLE, p ) ) {
+                in_water = false;
+            }
+
             const ter_id &pter = ter( p );
             if( pter == t_dirt || pter == t_grass ) {
                 ter_set( p, t_dirtmound );
             }
+        }
+
+        if ( !in_water ) {
+            veh.velocity += veh.velocity < 0 ? 2000 : -2000;
         }
     }
 

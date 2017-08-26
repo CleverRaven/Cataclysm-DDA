@@ -1213,6 +1213,9 @@ public:
     /** Required strength to be able to successfully lift the vehicle unaided by equipment */
     int lift_strength() const;
 
+    // Is the vehicle floating on water?
+    bool is_floating() const;
+
     // config values
     std::string name;   // vehicle name
     /**

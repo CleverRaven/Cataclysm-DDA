@@ -512,13 +512,14 @@ public:
     // move water under wheels. true if moved
     bool displace_water( const tripoint &dp );
 
+    // Returns vehicle_buoyancy() for floating vehicles, vehicle_wheel_traction() otherwise
+    float vehicle_traction( const vehicle &veh ) const;
+
     // Returns the wheel area of the vehicle multipled by traction of the surface
     // TODO: Remove the ugly sinking vehicle hack
     float vehicle_wheel_traction( const vehicle &veh ) const;
 
     // Like traction, except for water
-    // TODO: Actually implement (this is a stub)
-    // TODO: Test for it when the vehicle sinks rather than when it has VP_FLOATS
     float vehicle_buoyancy( const vehicle &veh ) const;
 
     // Returns if the vehicle should fall down a z-level
