@@ -196,10 +196,6 @@ struct point {
     int y;
     point() : x(0), y(0) {}
     point(int X, int Y) : x (X), y (Y) {}
-    point(point &&) = default;
-    point(const point &) = default;
-    point &operator=(point &&) = default;
-    point &operator=(const point &) = default;
 
     point operator+(const point &rhs) const
     {
@@ -257,10 +253,6 @@ struct tripoint {
     int z;
     tripoint() : x(0), y(0), z(0) {}
     tripoint(int X, int Y, int Z) : x (X), y (Y), z (Z) {}
-    tripoint(tripoint &&) = default;
-    tripoint(const tripoint &) = default;
-    tripoint &operator=(tripoint &&) = default;
-    tripoint &operator=(const tripoint &) = default;
     explicit tripoint(const point &p, int Z) : x (p.x), y (p.y), z (Z) {}
 
     tripoint operator+(const tripoint &rhs) const
