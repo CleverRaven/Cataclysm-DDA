@@ -5632,9 +5632,15 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
 
     if( parts[p].is_tank() ) {
         explode_fuel( p, type );
-    } else if( parts[ p ].is_broken() && part_flag(p, "UNMOUNT_ON_DAMAGE") ) {
-        g->m.spawn_item( global_part_pos3( p ), part_info( p ).item, 1, 0, calendar::turn );
-        remove_part( p );
+    }
+
+    if( parts[p].is_broken() ) {
+        if( part_flag(p, "UNMOUNT_ON_DAMAGE") ) {
+            g->m.spawn_item( global_part_pos3( p ), part_info( p ).item, 1, 0, calendar::turn );
+            remove_part( p );
+        }
+
+        refresh();
     }
 
     return std::max( dres, 0 );
