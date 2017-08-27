@@ -378,6 +378,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         tripoint wander_pos; // Wander destination - Just try to move in that direction
         int wandf;           // Urge to wander - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
+        int starting_moves;  // Record of moves at start of turn to prevent special move spam
+        bool allow_special_cooldown_tick; // Allow the special cooldown timer to decrement
 
         // DEFINING VALUES
         int friendly;
