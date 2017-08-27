@@ -181,6 +181,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     const bool no_item_damage = proj_effects.count( "NO_ITEM_DAMAGE" ) > 0;
     const bool do_draw_line = proj_effects.count( "DRAW_AS_LINE" ) > 0;
     const bool null_source = proj_effects.count( "NULL_SOURCE" ) > 0;
+    const bool dont_damage_player = proj_effects.count( "NO_PLAYER_DAMAGE" ) > 0;
     // Determines whether it can penetrate obstacles
     const bool is_bullet = proj_arg.speed >= 200 && std::any_of( proj_arg.impact.damage_units.begin(),
                            proj_arg.impact.damage_units.end(),
@@ -305,7 +306,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         }
 
         Creature *critter = g->critter_at( tp );
-        if( origin == critter ) {
+        if( origin == critter || dont_damage_player ) {
             // No hitting self with "weird" attacks.
             critter = nullptr;
         }

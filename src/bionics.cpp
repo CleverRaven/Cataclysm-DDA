@@ -448,7 +448,7 @@ bool player::activate_bionic( int b, bool eff_only )
             proj.speed  = 50;
             proj.impact = damage_instance::physical( pr.first.weight() / 250_gram, 0, 0, 0 );
             proj.range = rl_dist( pr.second, pos() );
-            proj.proj_effects = {{ "NO_ITEM_DAMAGE", "DRAW_AS_LINE", "NO_DAMAGE_SCALING", "JET" }};
+            proj.proj_effects = {{ "NO_ITEM_DAMAGE", "DRAW_AS_LINE", "NO_DAMAGE_SCALING", "JET", "NO_PLAYER_DAMAGE" }};
 
             auto dealt = projectile_attack( proj, pr.second, pos(), 0 );
             g->m.add_item_or_charges( dealt.end_point, pr.first );
