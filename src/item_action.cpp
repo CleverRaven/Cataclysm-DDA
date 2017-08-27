@@ -307,7 +307,7 @@ void game::item_action_menu()
     const item_action_id action = std::get<0>( menu_items[kmenu.ret] );
     item *it = iactions[action];
 
-    u.invoke_item(it, action);
+    u.invoke_item( it, action );
 
     u.inv.restack( &u );
     u.inv.unsort();
