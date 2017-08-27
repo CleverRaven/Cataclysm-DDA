@@ -420,7 +420,7 @@ void monster::move()
             continue;
         }
 
-        if( local_attack_data.cooldown > 0 ) {
+        if( local_attack_data.cooldown > 0 && allow_special_cooldown_tick ) {
             local_attack_data.cooldown--;
         }
 

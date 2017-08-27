@@ -5938,6 +5938,14 @@ void game::monmove()
 
         m.creature_in_field( critter );
 
+        // Track the monster's moves so that the special attack cooldown timer
+        // only decrements at most once per 100 monster moves.
+        // Previously, the cooldown timer ticked down for each attempt the
+        // monster makes at an action, even if it was only charged
+        // 1 move point instead of 100.
+        critter.starting_moves = critter.moves;
+        critter.allow_special_cooldown_tick = true;
+
         while (critter.moves > 0 && !critter.is_dead()) {
             critter.made_footstep = false;
             // Controlled critters don't make their own plans
@@ -5945,7 +5953,16 @@ void game::monmove()
                 // Formulate a path to follow
                 critter.plan( monster_factions );
             }
+
+            // Enable cooldown ticking if 100 moves have been spent
+            if (critter.starting_moves - 100 >= critter.moves) {
+                critter.allow_special_cooldown_tick = true;
+                critter.starting_moves -= 100;
+            }
+
             critter.move(); // Move one square, possibly hit u
+            critter.allow_special_cooldown_tick = false;
+
             critter.process_triggers();
             m.creature_in_field( critter );
         }
@@ -10887,7 +10904,7 @@ void game::chat()
 
     uimenu nmenu;
     nmenu.text = std::string( _( "Who do you want to talk to or yell at?" ) );
-    
+
     int i = 0;
 
     for( auto &elem : available ) {
