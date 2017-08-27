@@ -193,7 +193,7 @@ const char *volume_units_abbr()
     if( vol_units == "c" ) {
         return _( "c" );
     } else if( vol_units == "l" ) {
-        return _( "L" );
+        return pgettext( "Abbreviation for liter", "L" );
     } else {
         return _( "qt" );
     }
