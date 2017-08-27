@@ -10,6 +10,34 @@
 #include "test_statistics.h"
 #include "map_helpers.h"
 
+#include <vector>
+
+template < class T >
+std::ostream &operator <<( std::ostream &os, const std::vector<T> &v )
+{
+    os << "[";
+    for( typename std::vector<T>::const_iterator ii = v.begin(); ii != v.end(); ++ii ) {
+        os << " " << *ii;
+    }
+    os << " ]";
+    return os;
+}
+
+std::ostream &operator<<( std::ostream &stream, const dispersion_sources &sources )
+{
+    if( !sources.normal_sources.empty() ) {
+        stream << "Normal: " << sources.normal_sources << std::endl;
+    }
+    if( !sources.linear_sources.empty() ) {
+        stream << "Linear: " << sources.linear_sources << std::endl;
+    }
+    if( !sources.multipliers.empty() ) {
+        stream << "Mult: " << sources.multipliers << std::endl;
+    }
+    return stream;
+}
+
+
 static void arm_shooter( npc &shooter, itype_id gun_id )
 {
     shooter.remove_weapon();
@@ -100,19 +128,22 @@ static void test_shooting_scenario( npc &shooter, std::string gun_type,
     {
         dispersion_sources dispersion = get_dispersion( shooter, gun_type, 0, min_quickdraw_range );
         std::array<statistics, 5> minimum_stats = firing_test( dispersion, min_quickdraw_range, {{ 0.1, -1, -1, -1, -1 }} );
-        INFO( "Accumulated " << minimum_stats[0].n() << " samples." );
+        INFO( dispersion );
+        INFO( "Range: " << min_quickdraw_range );
         CHECK( minimum_stats[0].avg() < 0.1 );
     }
     {
         dispersion_sources dispersion = get_dispersion( shooter, gun_type, 200, min_good_range );
         std::array<statistics, 5> good_stats = firing_test( dispersion, min_good_range, {{ -1, -1, 0.5, -1, -1 }} );
-        INFO( "Accumulated " << good_stats[0].n() << " samples." );
+        INFO( dispersion );
+        INFO( "Range: " << min_good_range );
         CHECK( good_stats[2].avg() > 0.5 );
     }
     {
         dispersion_sources dispersion = get_dispersion( shooter, gun_type, 500, max_good_range );
         std::array<statistics, 5> good_stats = firing_test( dispersion, max_good_range, {{ -1, -1, 0.01, -1, -1 }} );
-        INFO( "Accumulated " << good_stats[0].n() << " samples." );
+        INFO( dispersion );
+        INFO( "Range: " << max_good_range );
         CHECK( good_stats[2].avg() < 0.01 );
     }
 }
