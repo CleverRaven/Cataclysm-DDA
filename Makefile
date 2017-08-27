@@ -970,7 +970,7 @@ do_format:$(FORMAT_ME)
 
 $(ODIR)/lint.cache: $(shell awk '/^[^#]/ { print $$1 }' json_whitelist) | $(ODIR)
 ifeq ($(shell if perl -c tools/format/format.pl 2>/dev/null; then echo $$?; fi),0)
-	$(MAKE) FORMAT_ME="$(shell echo $?)" do_format
+	$(MAKE) FORMAT_ME="$?" do_format
 else
 	@echo Cannot lint JSON, missing usable perl binary and/or p5-JSON module
 endif
