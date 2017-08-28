@@ -5145,7 +5145,7 @@ void vehicle::refresh_pivot() const {
     // Const method, but messes with mutable fields
     pivot_dirty = false;
 
-    if( wheelcache.empty() || !valid_wheel_config( false ) ) {
+    if( wheelcache.empty() || !valid_wheel_config( false ) || is_floating() ) {
         // No usable wheels, use CoM (dragging)
         pivot_cache = local_center_of_mass();
         return;
