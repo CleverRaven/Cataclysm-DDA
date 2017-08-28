@@ -73,7 +73,6 @@ static const trait_id trait_THORNS( "THORNS" );
 
 void player_hit_message(player* attacker, std::string message,
                         Creature &t, int dam, bool crit = false);
-void melee_practice( player &u, bool hit, bool unarmed, bool bashing, bool cutting, bool stabbing);
 int  stumble(player &u);
 std::string melee_message( const ma_technique &tech, player &p, const dealt_damage_instance &ddi );
 
