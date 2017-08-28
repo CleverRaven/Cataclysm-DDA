@@ -307,6 +307,8 @@ std::string action_ident( action_id act )
             return "open_safemode";
         case ACTION_COLOR:
             return "open_color";
+        case ACTION_WORLD_MODS:
+            return "open_world_mods";
         case ACTION_NULL:
             return "null";
         default:
@@ -351,6 +353,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_AUTOPICKUP:
         case ACTION_SAFEMODE:
         case ACTION_COLOR:
+        case ACTION_WORLD_MODS:
         // Debug Functions
         case ACTION_TOGGLE_SIDEBAR_STYLE:
         case ACTION_TOGGLE_FULLSCREEN:
@@ -836,6 +839,7 @@ action_id handle_main_menu()
     REGISTER_ACTION( ACTION_AUTOPICKUP );
     REGISTER_ACTION( ACTION_SAFEMODE );
     REGISTER_ACTION( ACTION_COLOR );
+    REGISTER_ACTION( ACTION_WORLD_MODS );
     REGISTER_ACTION( ACTION_ACTIONMENU );
     REGISTER_ACTION( ACTION_QUICKSAVE );
     REGISTER_ACTION( ACTION_SAVE );

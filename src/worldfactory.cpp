@@ -734,7 +734,32 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
     }
 
     wrefresh( w );
-    wrefresh(w_shift);
+    wrefresh( w_shift );
+}
+
+void worldfactory::show_active_world_mods() {
+    const int iOffsetX = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+    const int iOffsetY = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+
+    WINDOW *w_border = newwin( 13, FULL_SCREEN_WIDTH / 2 - 3, 4 + iOffsetY, iOffsetX );
+    WINDOW_PTR w_borderptr( w_border );
+
+    WINDOW *w_mods = newwin( 11, FULL_SCREEN_WIDTH / 2 - 4, 5 + iOffsetY, iOffsetX );
+    WINDOW_PTR w_modsptr( w_mods );
+
+    int start = 0;
+    int cursor = -1;
+
+    draw_border( w_border, BORDER_COLOR, _( " ACTIVE WORLD MODS " ) );
+    wrefresh( w_border );
+
+    draw_mod_list( w_mods, start, cursor, world_generator->active_world->active_mod_order, true, _("--NO ACTIVE MODS--"), nullptr );
+    wrefresh( w_mods );
+
+    input_context ctxt( "DEFAULT" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.handle_input();
 }
 
 int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)

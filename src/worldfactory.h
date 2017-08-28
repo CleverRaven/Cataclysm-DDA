@@ -114,6 +114,8 @@ class worldfactory
         void delete_world( const std::string &worldname, bool delete_folder );
 
         static void draw_worldgen_tabs( WINDOW *win, unsigned int current );
+        void show_active_world_mods();
+
     protected:
     private:
         std::map<std::string, WORLDPTR> all_worlds;

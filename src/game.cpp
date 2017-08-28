@@ -2187,6 +2187,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("open_autopickup");
     ctxt.register_action("open_safemode");
     ctxt.register_action("open_color");
+    ctxt.register_action("open_world_mods");
     ctxt.register_action("debug");
     ctxt.register_action("debug_scent");
     ctxt.register_action("debug_mode");
@@ -3394,6 +3395,11 @@ bool game::handle_action()
 
         case ACTION_COLOR:
             all_colors.show_gui();
+            refresh_all();
+            break;
+
+        case ACTION_WORLD_MODS:
+            world_generator->show_active_world_mods();
             refresh_all();
             break;
 
@@ -10887,7 +10893,7 @@ void game::chat()
 
     uimenu nmenu;
     nmenu.text = std::string( _( "Who do you want to talk to or yell at?" ) );
-    
+
     int i = 0;
 
     for( auto &elem : available ) {
