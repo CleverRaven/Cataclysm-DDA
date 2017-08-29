@@ -737,7 +737,7 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
     wrefresh( w_shift );
 }
 
-void worldfactory::show_active_world_mods() {
+void worldfactory::show_active_world_mods( const std::vector<std::string> &world_mods ) {
     const int iOffsetX = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
     const int iOffsetY = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
 
@@ -749,13 +749,13 @@ void worldfactory::show_active_world_mods() {
 
     int start = 0;
     int cursor = 0;
-    const int num_mods = world_generator->active_world->active_mod_order.size();
+    const int num_mods = world_mods.size();
 
     draw_border( w_border, BORDER_COLOR, _( " ACTIVE WORLD MODS " ) );
     wrefresh( w_border );
 
     while( true ) {
-        draw_mod_list( w_mods, start, cursor, world_generator->active_world->active_mod_order, true, _("--NO ACTIVE MODS--"), nullptr );
+        draw_mod_list( w_mods, start, cursor, world_mods, true, _("--NO ACTIVE MODS--"), nullptr );
         wrefresh( w_mods );
 
         input_context ctxt( "DEFAULT" );

@@ -3398,7 +3398,7 @@ bool game::handle_action()
             break;
 
         case ACTION_WORLD_MODS:
-            world_generator->show_active_world_mods();
+            world_generator->show_active_world_mods( world_generator->active_world->active_mod_order );
             refresh_all();
             break;
 

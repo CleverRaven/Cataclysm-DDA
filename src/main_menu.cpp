@@ -197,6 +197,7 @@ void main_menu::init_strings()
     vWorldSubItems.clear();
     vWorldSubItems.push_back( pgettext( "Main Menu|World", "<D|d>elete World" ) );
     vWorldSubItems.push_back( pgettext( "Main Menu|World", "<R|r>eset World" ) );
+    vWorldSubItems.push_back( pgettext( "Main Menu|World", "<S|s>how World Mods" ) );
 
     vWorldHotkeys.clear();
     for( const std::string &item : vWorldSubItems ) {
@@ -896,14 +897,14 @@ void main_menu::world_tab()
                 }
             }
 
-            if( action == "UP" ) {
+            if( action == "DOWN" ) {
                 if( sel3 > 0 ) {
                     --sel3;
                 } else {
                     sel3 = vWorldSubItems.size() - 1;
                 }
                 on_move();
-            } else if( action == "DOWN" ) {
+            } else if( action == "UP" ) {
                 if( sel3 < static_cast<int>( vWorldSubItems.size() ) - 1 ) {
                     ++sel3;
                 } else {
@@ -915,31 +916,37 @@ void main_menu::world_tab()
             }
 
             if( action == "RIGHT" || action == "CONFIRM" ) {
-                bool query_yes = false;
-                bool do_delete = false;
-                if( sel3 == 0 ) { // Delete World
-                    if( query_yn( _( "Delete the world and all saves?" ) ) ) {
-                        query_yes = true;
-                        do_delete = true;
+                if( sel3 == 2 ) { // Active World Mods
+                    WORLDPTR world = world_generator->get_world( all_worldnames[sel2 - 1] );
+                    world_generator->show_active_world_mods( world->active_mod_order );
+
+                } else {
+                    bool query_yes = false;
+                    bool do_delete = false;
+                    if( sel3 == 0 ) { // Delete World
+                        if( query_yn( _( "Delete the world and all saves?" ) ) ) {
+                            query_yes = true;
+                            do_delete = true;
+                        }
+                    } else if( sel3 == 1 ) { // Reset World
+                        if( query_yn( _( "Remove all saves and regenerate world?" ) ) ) {
+                            query_yes = true;
+                            do_delete = false;
+                        }
                     }
-                } else if( sel3 == 1 ) { // Reset World
-                    if( query_yn( _( "Remove all saves and regenerate world?" ) ) ) {
-                        query_yes = true;
-                        do_delete = false;
-                    }
-                }
 
-                if( query_yes ) {
-                    layer = 2; // Go to world submenu, not list of worlds
+                    if( query_yes ) {
+                        layer = 2; // Go to world submenu, not list of worlds
 
-                    world_generator->delete_world( all_worldnames[sel2 - 1], do_delete );
+                        world_generator->delete_world( all_worldnames[sel2 - 1], do_delete );
 
-                    savegames.clear();
-                    MAPBUFFER.reset();
-                    overmap_buffer.clear();
+                        savegames.clear();
+                        MAPBUFFER.reset();
+                        overmap_buffer.clear();
 
-                    if( do_delete ) {
-                        sel2 = 0; // reset to create world selection
+                        if( do_delete ) {
+                            sel2 = 0; // reset to create world selection
+                        }
                     }
                 }
             }
