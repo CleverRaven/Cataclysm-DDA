@@ -23,7 +23,6 @@
 #include <iterator>
 #include <algorithm>
 
-extern input_context get_default_mode_input_context();
 extern bool tile_iso;
 
 void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,

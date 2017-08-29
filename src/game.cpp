@@ -195,7 +195,6 @@ game *g;
 #ifdef TILES
 extern std::unique_ptr<cata_tiles> tilecontext;
 #endif // TILES
-input_context get_default_mode_input_context();
 
 uistatedata uistate;
 
