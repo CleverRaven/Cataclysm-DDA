@@ -1860,7 +1860,7 @@ classes = {
             { name = "set_interest", rval = nil, args = { "int" } },
         }
     },
-    overmap = {
+    overmap = { --First you need to get reference to current overmap (`overmap&`) with g:get_cur_om()
         attributes = {
         },
         functions = {
@@ -1868,6 +1868,8 @@ classes = {
             { name = "clear_mon_groups", rval = nil, args = { } },
             { name = "delete_note", rval = nil, args = { "int", "int", "int" } },
             { name = "find_random_omt", rval = "tripoint", args = { "string" } },
+            { name = "get_om_id", rval = "string", args = { "int", "int", "int" } },
+            { name = "get_om_id", rval = "string", args = { "tripoint" } },
             { name = "has_note", rval = "bool", args = { "int", "int", "int" } },
             { name = "is_explored", rval = "bool", args = { "int", "int", "int" } },
             { name = "note", rval = "string", args = { "int", "int", "int" } },
