@@ -241,7 +241,7 @@
         "color": "light_gray",
         "name": "empty canister",
         "description": "An empty canister, which may have once held tear gas or other substances.",
-        "material": "aluminum",
+        "material": "steel",
         "weight": 158,
         "volume": 1,
         "bashing": 2,
