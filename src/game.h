@@ -509,6 +509,18 @@ class game
          * The overmap which contains the center submap of the reality bubble.
          */
         overmap &get_cur_om() const;
+        /**
+         * String which contains id of the current overmap.
+         */
+        std::string get_cur_om_id() const;
+        /**
+         * String which contains id of the overmap with given coordinates.
+         */
+        std::string get_om_id( tripoint& p ) const;
+        /**
+         * Compare given overmap id against id of the overmap with given coordinates.
+         */
+        bool compare_om_id( std::string om_id, tripoint& p ) const;
         const weather_generator &get_cur_weather_gen() const;
         const scenario *scen;
         std::vector<monster> coming_to_stairs;

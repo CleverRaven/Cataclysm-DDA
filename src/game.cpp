@@ -10887,7 +10887,7 @@ void game::chat()
 
     uimenu nmenu;
     nmenu.text = std::string( _( "Who do you want to talk to or yell at?" ) );
-    
+
     int i = 0;
 
     for( auto &elem : available ) {
@@ -13934,6 +13934,30 @@ overmap &game::get_cur_om() const
     const tripoint sm = m.get_abs_sub() + tripoint( MAPSIZE / 2, MAPSIZE / 2, 0 );
     const tripoint pos_om = sm_to_om_copy( sm );
     return overmap_buffer.get( pos_om.x, pos_om.y );
+}
+
+std::string game::get_cur_om_id() const
+{
+    // The player is located in the middle submap of the map.
+    const tripoint sm = m.get_abs_sub() + tripoint( MAPSIZE / 2, MAPSIZE / 2, 0 );
+    const tripoint pos_om = sm_to_om_copy( sm );
+    const oter_id &ter = overmap_buffer.ter( pos_om );
+    const std::string om_id = ter.id().c_str();
+    return om_id;
+}
+
+std::string game::get_om_id( tripoint& p ) const
+{
+    const oter_id &ter = overmap_buffer.ter( p );
+    const std::string om_id = ter.id().c_str();
+    return om_id;
+}
+
+bool game::compare_om_id( std::string om_id, tripoint& p ) const
+{
+    const oter_id &ter1 = overmap_buffer.ter( p );
+    const oter_id &ter2 = oter_id( om_id );
+    return (ter1 == ter2);
 }
 
 std::vector<npc *> game::allies()
