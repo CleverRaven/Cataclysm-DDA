@@ -932,6 +932,7 @@
     [
       [ "can_drink_unsealed", 2 ],
       [ "can_food_unsealed", 2 ],
+      [ "canister_empty", 2 ],
       [ "scrap", 4 ]
     ],
       [
@@ -963,6 +964,7 @@
     [
       [ "can_drink_unsealed", 2 ],
       [ "can_food_unsealed", 2 ],
+      [ "canister_empty", 2 ],
       [ "scrap", 4 ]
     ],
       [
@@ -994,6 +996,7 @@
     [
       [ "can_drink_unsealed", 2 ],
       [ "can_food_unsealed", 2 ],
+      [ "canister_empty", 2 ],
       [ "scrap", 4 ]
     ],
       [
@@ -1025,6 +1028,7 @@
     [
       [ "can_drink_unsealed", 2 ],
       [ "can_food_unsealed", 2 ],
+      [ "canister_empty", 2 ],
       [ "scrap", 4 ]
     ],
       [
@@ -1056,6 +1060,7 @@
     [
       [ "can_drink_unsealed", 2 ],
       [ "can_food_unsealed", 2 ],
+      [ "canister_empty", 2 ],
       [ "scrap", 4 ]
     ],
       [
