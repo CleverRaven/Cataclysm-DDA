@@ -58,7 +58,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
                 r.push_back( obj.tname( 1, false ) );
                 r.push_back( e.str() );
                 r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
-                r.push_back( to_string( obj.weight() ) );
+                r.push_back( to_string( to_gram( obj.weight() ) ) );
                 r.push_back( to_string( obj.type->stack_size ) );
                 r.push_back( to_string( obj.type->ammo->range ) );
                 r.push_back( to_string( obj.type->ammo->dispersion ) );
@@ -83,7 +83,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             r.push_back( obj.tname( 1, false ) );
             r.push_back( to_string( obj.get_encumber() ) );
             r.push_back( to_string( obj.get_warmth() ) );
-            r.push_back( to_string( obj.weight() ) );
+            r.push_back( to_string( to_gram( obj.weight() ) ) );
             r.push_back( to_string( obj.get_storage() / units::legacy_volume_factor ) );
             r.push_back( to_string( obj.get_coverage() ) );
             r.push_back( to_string( obj.bash_resist() ) );
@@ -114,11 +114,11 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
         for( const auto& v : vitamin::all() ) {
              header.push_back( v.second.name() );
         }
-        auto dump = [&rows,&test_npcs]( const item& obj ) {
+        auto dump = [&rows]( const item& obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( false ) );
             r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
-            r.push_back( to_string( obj.weight() ) );
+            r.push_back( to_string( to_gram( obj.weight() ) ) );
             r.push_back( to_string( obj.type->stack_size ) );
             r.push_back( to_string( obj.type->comestible->get_calories() ) );
             r.push_back( to_string( obj.type->comestible->quench ) );
@@ -133,7 +133,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
         for( const itype *e : item_controller->all() ) {
             item food( e, calendar::turn, item::solitary_tag {} );
 
-            if( food.is_food() && g->u.can_eat( food, false, true ) == EDIBLE ) {
+            if( food.is_food() && g->u.can_eat( food ) == EDIBLE ) {
                 dump( food );
             }
         }
@@ -163,7 +163,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             r.push_back( obj.tname( 1, false ) );
             r.push_back( obj.ammo_type() ? obj.ammo_type().str() : "" );
             r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
-            r.push_back( to_string( obj.weight() ) );
+            r.push_back( to_string( to_gram( obj.weight() ) ) );
             r.push_back( to_string( obj.ammo_capacity() ) );
             r.push_back( to_string( obj.gun_range() ) );
             r.push_back( to_string( obj.gun_dispersion() ) );
@@ -252,8 +252,8 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
 
             std::vector<std::string> r;
             r.push_back( veh_empty.name );
-            r.push_back( to_string( veh_empty.total_mass() ) );
-            r.push_back( to_string( veh_fueled.total_mass() ) );
+            r.push_back( to_string( to_kilogram( veh_empty.total_mass() ) ) );
+            r.push_back( to_string( to_kilogram( veh_fueled.total_mass() ) ) );
             r.push_back( to_string( veh_fueled.max_velocity() / 100 ) );
             r.push_back( to_string( veh_fueled.safe_velocity() / 100 ) );
             r.push_back( to_string( veh_fueled.acceleration() / 100 ) );
@@ -275,7 +275,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
             std::vector<std::string> r;
             r.push_back( obj.name() );
             r.push_back( obj.location );
-            r.push_back( to_string( int( ceil( item( obj.item ).weight() / 1000.0 ) ) ) );
+            r.push_back( to_string( int( ceil( to_gram( item( obj.item ).weight() ) / 1000.0 ) ) ) );
             r.push_back( to_string( obj.size / units::legacy_volume_factor ) );
             rows.push_back( r );
         };

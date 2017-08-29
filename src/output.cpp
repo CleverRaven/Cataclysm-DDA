@@ -6,6 +6,7 @@
 #include <sstream>
 #include <algorithm>
 #include <map>
+#include <memory>
 #include <errno.h>
 
 #include "output.h"
@@ -764,6 +765,68 @@ void popup_top( const char *mes, ... )
     popup( text, PF_ON_TOP );
 }
 
+static WINDOW_PTR create_popup_window( int width, int height, PopupFlags flags )
+{
+    if( ( flags & PF_FULLSCREEN ) != 0 ) {
+        return WINDOW_PTR( newwin(
+            FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+            std::max( ( TERMY - FULL_SCREEN_HEIGHT ) / 2, 0 ),
+            std::max( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0 )
+        ) );
+    } else if( ( flags & PF_ON_TOP ) != 0 ) {
+        return WINDOW_PTR( newwin(
+            height, width,
+            0,
+            std::max( ( TERMX - width ) / 2, 0 )
+        ) );
+    } else {
+        return WINDOW_PTR( newwin(
+            height, width,
+            std::max( ( TERMY - ( height + 1 ) ) / 2, 0 ),
+            std::max( ( TERMX - width ) / 2, 0 )
+        ) );
+    }
+}
+
+WINDOW_PTR create_popup_window( const std::string &text, PopupFlags flags )
+{
+    const auto folded = foldstring( text, FULL_SCREEN_WIDTH - 2 );
+
+    int text_width = 0;
+    for( const auto &elem : folded ) {
+        text_width = std::max( text_width, utf8_width( elem, true ) );
+    }
+
+    const int height = std::min<int>( folded.size() + 2, FULL_SCREEN_HEIGHT );
+    const int width = text_width + 2;
+
+    WINDOW_PTR result = create_popup_window( width, height, flags );
+
+    draw_border( result.get() );
+
+    for( size_t i = 0; i < folded.size(); ++i ) {
+        fold_and_print( result.get(), i + 1, 1, width, c_white, "%s", folded[i].c_str() );
+    }
+
+    return result;
+}
+
+WINDOW_PTR create_wait_popup_window( const std::string &text, nc_color bar_color )
+{
+    static size_t phase = 0;
+
+    const std::array<std::string, 4> phase_icons = {{ "|", "/", "-", "\\" }};
+    const std::string featured_text = string_format(
+        " <color_%s>%s</color> %s",
+        string_from_color( bar_color ).c_str(),
+        phase_icons[phase].c_str(),
+        text.c_str() );
+
+    phase = ( phase + 1 ) % phase_icons.size();
+
+    return create_popup_window( featured_text, PF_ON_TOP );
+}
+
 long popup( const std::string &text, PopupFlags flags )
 {
     if( test_mode ) {
@@ -771,56 +834,19 @@ long popup( const std::string &text, PopupFlags flags )
         return 0;
     }
 
-    int width = 0;
-    int height = 2;
-    std::vector<std::string> folded = foldstring( text, FULL_SCREEN_WIDTH - 2 );
-    height += folded.size();
-    for( auto &elem : folded ) {
-        int cw = utf8_width( elem, true );
-        if( cw > width ) {
-            width = cw;
-        }
-    }
-    width += 2;
-    WINDOW *w;
-    if( ( flags & PF_FULLSCREEN ) != 0 ) {
-        w = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                    ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                    ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
-    } else if( ( flags & PF_ON_TOP ) == 0 ) {
-        if( height > FULL_SCREEN_HEIGHT ) {
-            height = FULL_SCREEN_HEIGHT;
-        }
-        w = newwin( height, width, ( TERMY - ( height + 1 ) ) / 2,
-                    ( TERMX > width ) ? ( TERMX - width ) / 2 : 0 );
-    } else {
-        w = newwin( height, width, 0, ( TERMX > width ) ? ( TERMX - width ) / 2 : 0 );
-    }
-    draw_border( w );
-
-    for( size_t i = 0; i < folded.size(); ++i ) {
-        fold_and_print( w, i + 1, 1, width, c_white, "%s", folded[i].c_str() );
-    }
-
+    WINDOW_PTR w = create_popup_window( text, flags );
     long ch = 0;
     // Don't wait if not required.
     while( ( flags & PF_NO_WAIT ) == 0 ) {
-        wrefresh( w );
+        wrefresh( w.get() );
         // TODO: use input context
         ch = inp_mngr.get_input_event().get_first_input();
-        if( ( flags & PF_GET_KEY ) != 0 ) {
-            // return the first key that got pressed.
-            werase( w );
-            break;
-        }
-        if( ch == ' ' || ch == '\n' || ch == KEY_ESCAPE ) {
-            // The usuall "escape menu/window" keys.
-            werase( w );
-            break;
+        if( ch == ' ' || ch == '\n' || ch == KEY_ESCAPE || ( flags & PF_GET_KEY ) != 0 ) {
+            werase( w.get() );
+            break; // return the first key that got pressed.
         }
     }
-    wrefresh( w );
-    delwin( w );
+    wrefresh( w.get() );
     refresh();
     refresh_display();
     return ch;
@@ -1756,28 +1782,24 @@ get_hp_bar( const int cur_hp, const int max_hp, const bool is_mon )
            ( ratio >  0.0 )            ? strings[10] : strings[11];
 }
 
-std::pair<std::string, nc_color> const &get_light_level( const float light )
+std::pair<std::string, nc_color> get_light_level( const float light )
 {
     using pair_t = std::pair<std::string, nc_color>;
     static std::array<pair_t, 6> const strings {
-        {
-            pair_t {_( "unknown" ), c_pink},
-            pair_t {_( "bright" ), c_yellow},
-            pair_t {_( "cloudy" ), c_white},
-            pair_t {_( "shady" ), c_ltgray},
-            pair_t {_( "dark" ), c_dkgray},
-            pair_t {_( "very dark" ), c_black_white}
-        }
+         {
+             pair_t {translate_marker( "unknown" ), c_pink},
+             pair_t {translate_marker( "bright" ), c_yellow},
+             pair_t {translate_marker( "cloudy" ), c_white},
+             pair_t {translate_marker( "shady" ), c_ltgray},
+             pair_t {translate_marker( "dark" ), c_dkgray},
+             pair_t {translate_marker( "very dark" ), c_black_white}
+         }
     };
-
-    const int light_level = ceil( light );
-    if( light_level < 0 ) {
-        return strings[0];
-    } else if( light_level > 5 ) {
-        return strings[5];
-    }
-
-    return strings[light_level];
+    // Avoid magic number
+    static const int maximum_light_level = static_cast< int >( strings.size() ) - 1;
+    const int light_level = clamp( static_cast< int >( ceil( light ) ), 0, maximum_light_level );
+    const size_t array_index = static_cast< size_t >( light_level );
+    return pair_t{ _( strings[array_index].first.c_str() ), strings[array_index].second };
 }
 
 std::string get_labeled_bar( const double val, const int width, const std::string &label, char c )

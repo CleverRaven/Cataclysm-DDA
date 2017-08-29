@@ -38,6 +38,8 @@
 const skill_id skill_survival( "survival" );
 const skill_id skill_firstaid( "firstaid" );
 
+const efftype_id effect_milked( "milked" );
+
 using namespace activity_handlers;
 
 const std::map< activity_id, std::function<void( player_activity *, player *)> > activity_handlers::do_turn_functions =
@@ -86,6 +88,7 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_REPAIR_ITEM" ), repair_item_finish },
     { activity_id( "ACT_MEND_ITEM" ), mend_item_finish },
     { activity_id( "ACT_GUNMOD_ADD" ), gunmod_add_finish },
+    { activity_id( "ACT_TOOLMOD_ADD" ), toolmod_add_finish },
     { activity_id( "ACT_CLEAR_RUBBLE" ), clear_rubble_finish },
     { activity_id( "ACT_MEDITATE" ), meditate_finish },
     { activity_id( "ACT_READ" ), read_finish },
@@ -143,7 +146,7 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
         p->mod_fatigue( 10 );
     }
     g->m.destroy( pos, true );
-    
+
     act->set_to_null();
 }
 
@@ -614,7 +617,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
 }
 
-enum liquid_source_type { LST_INFINITE_MAP = 1, LST_MAP_ITEM = 2, LST_VEHICLE = 3, };
+enum liquid_source_type { LST_INFINITE_MAP = 1, LST_MAP_ITEM = 2, LST_VEHICLE = 3, LST_MONSTER = 4};
 
 // All serialize_liquid_source functions should add the same number of elements to the vectors of
 // the activity. This makes it easier to distinguish the values of the source and the values of the target.
@@ -624,6 +627,14 @@ void serialize_liquid_source( player_activity &act, const vehicle &veh, const it
     act.values.push_back( 0 ); // dummy
     act.coords.push_back( veh.global_pos3() );
     act.str_values.push_back( ftype );
+}
+
+void serialize_liquid_source( player_activity &act, const monster &mon, const item &liquid )
+{
+    act.values.push_back( LST_MONSTER );
+    act.values.push_back( 0 ); // dummy
+    act.coords.push_back( mon.pos() );
+    act.str_values.push_back( liquid.serialize() );
 }
 
 void serialize_liquid_source( player_activity &act, const tripoint &pos, const item &liquid )
@@ -643,7 +654,7 @@ void serialize_liquid_source( player_activity &act, const tripoint &pos, const i
     act.str_values.push_back( liquid.serialize() );
 }
 
-enum liquid_target_type { LTT_CONTAINER = 1, LTT_VEHICLE = 2, LTT_MAP = 3, };
+enum liquid_target_type { LTT_CONTAINER = 1, LTT_VEHICLE = 2, LTT_MAP = 3, LTT_MONSTER = 4 };
 
 void serialize_liquid_target( player_activity &act, const vehicle &veh )
 {
@@ -666,6 +677,13 @@ void serialize_liquid_target( player_activity &act, const tripoint &pos )
     act.coords.push_back( pos );
 }
 
+void serialize_liquid_target( player_activity &act, const monster &mon )
+{
+    act.values.push_back( LTT_MAP );
+    act.values.push_back( 0 ); // dummy
+    act.coords.push_back( mon.pos() );
+}
+
 void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
 {
     player_activity &act = *act_;
@@ -675,6 +693,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         const tripoint source_pos = act.coords.at( 0 );
         map_stack source_stack = g->m.i_at( source_pos );
         std::list<item>::iterator on_ground;
+        monster *source_mon = nullptr;
         item liquid;
         const auto source_type = static_cast<liquid_source_type>( act.values.at( 0 ) );
         switch( source_type ) {
@@ -696,6 +715,17 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             on_ground = source_stack.begin();
             std::advance( on_ground, act.values.at( 1 ) );
             liquid = *on_ground;
+            break;
+        case LST_MONSTER:
+            Creature *c = g->critter_at( source_pos );
+            source_mon = dynamic_cast<monster *>( c );
+            if( source_mon == nullptr ) {
+                debugmsg( "could not find source creature for liquid transfer" );
+                act.set_to_null();
+            }
+            liquid.deserialize( act.str_values.at( 0 ) );
+            liquid.charges = 1;
+            break;
         }
 
         static const auto volume_per_turn = units::from_liter( 4 );
@@ -723,6 +753,9 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
                 p->add_msg_if_player( _( "You pour %1$s onto the ground." ), liquid.tname().c_str() );
                 liquid.charges = 0;
             }
+            break;
+        case LTT_MONSTER:
+            liquid.charges = 0;
             break;
         }
 
@@ -759,7 +792,13 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         case LST_INFINITE_MAP:
             // nothing, the liquid source is infinite
             break;
-        }
+        case LST_MONSTER:
+            // liquid source charges handled in monexamine::milk_source
+            if( liquid.charges == 0 ) {
+                act.set_to_null();
+            }
+            break;
+		}
 
         if( removed_charges < original_charges ) {
             // Transferred less than the available charges -> target must be full
@@ -926,7 +965,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     const int max_exp = 2 * ( max_forage_skill - p->get_skill_level( skill_survival ) );
     // Award experience for foraging attempt regardless of success
     p->practice( skill_survival, rng(1, max_exp), max_forage_skill );
-    
+
     act->set_to_null();
 }
 
@@ -1002,8 +1041,8 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
     }
 
     for( auto it = items.begin(); it != items.end(); ++it ) {
-        if( actor->valid_to_cut_up( &*it ) ) {
-            actor->cut_up( p, salvage_tool, &*it );
+        if( actor->valid_to_cut_up( *it ) ) {
+            actor->cut_up( *p, *salvage_tool, *it );
             return;
         }
     }
@@ -1238,7 +1277,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
     if( reloadable->is_gun() ) {
         p->recoil -= act->moves_total;
-        p->recoil = std::max( MIN_RECOIL, p->recoil );
+        p->recoil = MAX_RECOIL;
 
         if( reloadable->has_flag( "RELOAD_ONE" ) ) {
             for( int i = 0; i != qty; ++i ) {
@@ -1260,7 +1299,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 void activity_handlers::start_fire_finish( player_activity *act, player *p )
 {
     item &it = p->i_at(act->position);
-    firestarter_actor::resolve_firestarter_use( p, &it, act->placement );
+    firestarter_actor::resolve_firestarter_use( *p, it, act->placement );
     act->set_to_null();
 }
 
@@ -1440,7 +1479,7 @@ void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
     if( act->values[0] <= 0 ) {
         return;
     }
-    
+
     item &it = p->i_at( act->position );
     // act->values[0] is the number of charges yet to be consumed
     const long charges_used = std::min( long( act->values[0] ), it.ammo_required() );
@@ -1528,12 +1567,12 @@ repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
     uimenu rmenu;
     rmenu.text = title;
     rmenu.return_invalid = true;
-    
+
     rmenu.addentry( REPEAT_ONCE, true, '1', _("Repeat once") );
     rmenu.addentry( REPEAT_FOREVER, true, '2', _("Repeat as long as you can") );
     rmenu.addentry( REPEAT_FULL, true, '3', _("Repeat until fully repaired, but don't reinforce") );
     rmenu.addentry( REPEAT_EVENT, true, '4', _("Repeat until success/failure/level up") );
-    
+
     rmenu.selected = last_selection;
 
     rmenu.query();
@@ -1784,6 +1823,20 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
     }
 }
 
+void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
+{
+    act->set_to_null();
+    if( act->values.size() != 1 ) {
+        debugmsg( "Incompatible arguments to ACT_TOOLMOD_ADD" );
+        return;
+    }
+    item &tool = p->i_at( act->position );
+    item &mod = p->i_at( act->values[0] );
+    add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname().c_str(),
+                tool.tname().c_str() );
+    tool.contents.push_back( p->i_rem( &mod ) );
+}
+
 void activity_handlers::clear_rubble_finish( player_activity *act, player *p )
 {
     const tripoint &target = act->coords[0];
@@ -1797,10 +1850,6 @@ void activity_handlers::clear_rubble_finish( player_activity *act, player *p )
     }
     g->m.furn_set( target, f_null );
 
-    const int bonus = act->index * act->index;
-    p->mod_hunger ( 10 / bonus );
-    p->mod_thirst ( 10 / bonus );
-    
     act->set_to_null();
 }
 

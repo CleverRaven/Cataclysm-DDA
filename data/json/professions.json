@@ -150,7 +150,7 @@
             },
             {
                 "level": 2,
-                "name": "archery"
+                "name": "rifle"
             },
             {
                 "level": 2,
@@ -1554,7 +1554,7 @@
         "skills": [
             {
                 "level": 2,
-                "name": "archery"
+                "name": "rifle"
             }
         ],
         "items": {
@@ -3947,7 +3947,7 @@
             },
             {
                 "level": 3,
-                "name": "archery"
+                "name": "rifle"
             }
         ],
         "items": {

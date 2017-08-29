@@ -663,6 +663,37 @@
     "use_action": "BOLTCUTTERS"
   },
   {
+    "id": "bone_flute",
+    "type": "TOOL",
+    "category": "tools",
+    "name": "bone flute",
+    "name_plural": "bone flutes",
+    "description": "A polished bone flute with five finger holes.",
+    "weight": 250,
+    "volume": 2,
+    "price": 5000,
+    "bashing": 2,
+    "material": "bone",
+    "symbol": "-",
+    "color": "white",
+    "initial_charges": 1,
+    "max_charges": 1,
+    "use_action": {
+      "type": "musical_instrument",
+      "volume": 12,
+      "fun": -5,
+      "fun_bonus": 2,
+      "speed_penalty": 10,
+      "description_frequency": 20,
+      "descriptions": [
+        "You play a little tune on your flute.",
+        "You play a beautiful piece on your flute.",
+        "You play a piece on your bone flute that resembles the howling wind through Aurignacian caves.",
+        "Your bone flute wails for the fallen during the hunt."
+      ]
+    }
+  },
+  {
     "id": "boobytrap",
     "type": "TOOL",
     "name": "booby trap",
@@ -4148,8 +4179,8 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "L-stick (off)",
-    "name_plural": "l-sticks (off)",
-    "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the l-stick or light stick as it is commonly called, batteries last longer than other light sources.",
+    "name_plural": "L-sticks (off)",
+    "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the L-stick or light stick as it is commonly called, batteries last longer than other light sources.",
     "weight": 1000,
     "volume": 12,
     "price": 5000,
@@ -4178,7 +4209,7 @@
     "category": "weapons",
     "name": "L-stick (on)",
     "name_plural": "L-sticks (on)",
-    "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the l-stick or light stick as it is commonly called, batteries last longer than other light sources.  The staff is glowing brightly, which is slowly draining the batteries.",
+    "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the L-stick or light stick as it is commonly called, batteries last longer than other light sources.  The staff is glowing brightly, which is slowly draining the batteries.",
     "weight": 1000,
     "volume": 12,
     "price": 8000,
@@ -5514,7 +5545,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
     "flags": [ "STAB" ]
   },
   {
@@ -8178,7 +8209,7 @@
     "name": "flammenschwert (aus)",
     "name_plural": "flammenschwerter (aus)",
     "//": "All of this is SUPPOSED to be in German.",
-    "description": "Ein großes zweihändiges Schwert aus Deutschland, an dessen Klinge sich, unter zuführung von Benzin, eine anhaltende Flamme erzeugen lässt.  Es ist eine sehr mächtige Waffe.",
+    "description": "Ein großes zweihändiges Schwert aus Deutschland, an dessen Klinge sich, unter Zuführung von Benzin, eine anhaltende Flamme erzeugen lässt.  Es ist eine sehr mächtige Waffe.",
     "weight": 3400,
     "volume": 15,
     "price": 160000,
@@ -8207,7 +8238,7 @@
     "name": "flammenschwert (an)",
     "name_plural": "flammenschwerter (an)",
     "//": "All of this is SUPPOSED to be in German.",
-    "description": "Ein großes zweihändiges Schwert aus Deutschland, an dessen Klinge sich, unter zuführung von Benzin, eine anhaltende Flamme erzeugen lässt.  Es ist eine sehr mächtige Waffe.",
+    "description": "Ein großes zweihändiges Schwert aus Deutschland, an dessen Klinge sich, unter Zuführung von Benzin, eine anhaltende Flamme erzeugen lässt.  Es ist eine sehr mächtige Waffe.",
     "weight": 3400,
     "volume": 15,
     "price": 160000,
@@ -8272,5 +8303,20 @@
     "ammo": "battery",
     "initial_charges": 100,
     "max_charges": 100
+  },
+  {
+    "id": "cattlefodder",
+    "type": "TOOL",
+    "name": "cattle fodder",
+    "name_plural": "cattle fodder",
+    "description": "What cattle eats.  Mainly made of grass, silages or legumes, is perfect for ruminants.",
+    "weight": 300,
+    "volume": 1,
+    "price": 100,
+    "to_hit": -5,
+    "material": "veggy",
+    "symbol": ";",
+    "color": "brown",
+    "use_action": "FEEDCATTLE"
   }
 ]

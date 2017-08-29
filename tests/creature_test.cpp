@@ -5,15 +5,18 @@
 #include "mtype.h"
 
 float expected_weights_base[][12] = { { 20, 0,   0,   0, 15, 15, 0, 0, 25, 25, 0, 0 },
-                                      { 33.33, 2.33, 0.33, 0, 20, 20, 0, 0, 12, 12, 0, 0 },
-                                      { 36.57, 5.71,   .57,  0, 22.86, 22.86, 0, 0, 5.71, 5.71, 0, 0 } };
+    { 33.33, 2.33, 0.33, 0, 20, 20, 0, 0, 12, 12, 0, 0 },
+    { 36.57, 5.71,   .57,  0, 22.86, 22.86, 0, 0, 5.71, 5.71, 0, 0 }
+};
 
 float expected_weights_max[][12] = { { 2000, 0,   0,   0, 1191.49, 1191.49, 0, 0, 2228.12, 2228.12, 0, 0 },
-                                     { 3333, 1167.77, 65.84, 0, 1588.66, 1588.66, 0, 0, 1069.50, 1069.50, 0, 0 },
-                                     { 3657, 2861.78,   113.73,  0, 1815.83, 1815.83, 0, 0, 453.56, 453.56, 0, 0 } };
+    { 3333, 1167.77, 65.84, 0, 1588.66, 1588.66, 0, 0, 1069.50, 1069.50, 0, 0 },
+    { 3657, 2861.78,   113.73,  0, 1815.83, 1815.83, 0, 0, 453.56, 453.56, 0, 0 }
+};
 
 void calculate_bodypart_distribution( enum m_size asize, enum m_size dsize,
-                                      int hit_roll, float (&expected)[12] ) {
+                                      int hit_roll, float ( &expected )[12] )
+{
     std::map<body_part, int> selected_part_histogram = {
         { bp_torso, 0 }, { bp_head, 0 }, { bp_eyes, 0 }, { bp_mouth, 0 }, { bp_arm_l, 0 }, { bp_arm_r, 0 },
         { bp_hand_l, 0 }, { bp_hand_r, 0 }, { bp_leg_l, 0 }, { bp_leg_r, 0 }, { bp_foot_l, 0 }, { bp_foot_r, 0 }
@@ -38,12 +41,14 @@ void calculate_bodypart_distribution( enum m_size asize, enum m_size dsize,
     }
 
     for( auto weight : selected_part_histogram ) {
-        CHECK( Approx( expected[weight.first] / total_weight).epsilon(0.01) ==
-                       ( weight.second / 15000.0 ) );
+        INFO( body_part_name( weight.first ) );
+        CHECK( Approx( expected[weight.first] / total_weight ).epsilon( 0.015 ) ==
+               ( weight.second / 15000.0 ) );
     }
 }
 
-TEST_CASE( "Check distribution of attacks to body parts for same sized opponents." ) {
+TEST_CASE( "Check distribution of attacks to body parts for same sized opponents." )
+{
     srand( 4242424242 );
 
     calculate_bodypart_distribution( MS_SMALL, MS_SMALL, 0, expected_weights_base[1] );
@@ -51,7 +56,8 @@ TEST_CASE( "Check distribution of attacks to body parts for same sized opponents
     calculate_bodypart_distribution( MS_SMALL, MS_SMALL, 100, expected_weights_max[1] );
 }
 
-TEST_CASE( "Check distribution of attacks to body parts for smaller attacker." ) {
+TEST_CASE( "Check distribution of attacks to body parts for smaller attacker." )
+{
     srand( 4242424242 );
 
     calculate_bodypart_distribution( MS_SMALL, MS_MEDIUM, 0, expected_weights_base[0] );
@@ -59,7 +65,8 @@ TEST_CASE( "Check distribution of attacks to body parts for smaller attacker." )
     calculate_bodypart_distribution( MS_SMALL, MS_MEDIUM, 100, expected_weights_max[0] );
 }
 
-TEST_CASE( "Check distribution of attacks to body parts for larger attacker." ) {
+TEST_CASE( "Check distribution of attacks to body parts for larger attacker." )
+{
     srand( 4242424242 );
 
     calculate_bodypart_distribution( MS_MEDIUM, MS_SMALL, 0, expected_weights_base[2] );

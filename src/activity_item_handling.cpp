@@ -109,7 +109,7 @@ void stash_on_pet( const std::list<item> &items, monster &pet )
 {
     units::volume remaining_volume = pet.inv.empty() ? units::volume( 0 ) :
                                      pet.inv.front().get_storage();
-    int remaining_weight = pet.weight_capacity();
+    units::mass remaining_weight = pet.weight_capacity();
 
     for( const auto &it : pet.inv ) {
         remaining_volume -= it.volume();

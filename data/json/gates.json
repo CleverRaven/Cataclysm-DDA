@@ -31,7 +31,6 @@
     {
         "type" : "gate",
         "handle" : "t_barndoor",
-        "wall" : "t_wall_wood",
         "door" : "t_door_metal_locked",
         "floor" : "t_dirtfloor",
         "walls" : "t_wall_wood",
