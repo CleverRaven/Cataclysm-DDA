@@ -748,18 +748,38 @@ void worldfactory::show_active_world_mods() {
     WINDOW_PTR w_modsptr( w_mods );
 
     int start = 0;
-    int cursor = -1;
+    int cursor = 0;
+    const int num_mods = world_generator->active_world->active_mod_order.size();
 
     draw_border( w_border, BORDER_COLOR, _( " ACTIVE WORLD MODS " ) );
     wrefresh( w_border );
 
-    draw_mod_list( w_mods, start, cursor, world_generator->active_world->active_mod_order, true, _("--NO ACTIVE MODS--"), nullptr );
-    wrefresh( w_mods );
+    while( true ) {
+        draw_mod_list( w_mods, start, cursor, world_generator->active_world->active_mod_order, true, _("--NO ACTIVE MODS--"), nullptr );
+        wrefresh( w_mods );
 
-    input_context ctxt( "DEFAULT" );
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "CONFIRM" );
-    ctxt.handle_input();
+        input_context ctxt( "DEFAULT" );
+        ctxt.register_updown();
+        ctxt.register_action( "QUIT" );
+        ctxt.register_action( "CONFIRM" );
+        const std::string action = ctxt.handle_input();
+
+        if( action == "UP" ) {
+            cursor--;
+            if( cursor < 0 ) {
+                cursor = num_mods - 1;
+            }
+
+        } else if( action == "DOWN" ) {
+            cursor++;
+            if( cursor > num_mods - 1 ) {
+                cursor = 0;
+            }
+
+        } else if( action == "QUIT" || action == "CONFIRM" ) {
+            break;
+        }
+    }
 }
 
 int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
