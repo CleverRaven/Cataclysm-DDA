@@ -2686,28 +2686,35 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
             //Navigate through results
             tripoint tmp = curs;
             WINDOW *w_search = newwin(13, 27, 3, TERMX - 27);
+            WINDOW_PTR w_searchptr( w_search );
+
             input_context ctxt("OVERMAP_SEARCH");
+            ctxt.register_leftright();
             ctxt.register_action("NEXT_TAB", _("Next target"));
             ctxt.register_action("PREV_TAB", _("Previous target"));
             ctxt.register_action("QUIT");
             ctxt.register_action("CONFIRM");
             ctxt.register_action("HELP_KEYBINDINGS");
             ctxt.register_action("ANY_INPUT");
+
             do {
                 tmp.x = locations[i].x;
                 tmp.y = locations[i].y;
                 draw(g->w_overmap, g->w_omlegend, tmp, orig, uistate.overmap_show_overlays, show_explored, NULL, draw_data_t());
                 //Draw search box
-                mvwprintz(w_search, 1, 1, c_red, _("Find place: %*d/%d"), 6, i+1, locations.size());
-                mvwprintz(w_search, 2, 1, c_ltblue, "                         ");
-                mvwprintz(w_search, 2, 1, c_ltblue, "%s", term.c_str());
+                mvwprintz(w_search, 1, 1, c_ltblue, _("Search:"));
+                mvwprintz(w_search, 1, 10, c_ltred, "%*s", 12, term.c_str());
 
-                mvwprintz(w_search, 2, 14, c_ltgray, "%*d %s",
+                mvwprintz(w_search, 2, 1, c_ltblue, _("Result(s):"));
+                mvwprintz(w_search, 2, 16, c_ltred, "%*d/%d" , 3, i+1, locations.size());
+
+                mvwprintz(w_search, 3, 1, c_ltblue, _("Direction:"));
+                mvwprintz(w_search, 3, 14, c_white, "%*d %s",
                           5, static_cast<int>( trig_dist( orig, tripoint( locations[i], orig.z ) ) ),
                           direction_name_short( direction_from( orig, tripoint( locations[i], orig.z ) ) ).c_str()
                 );
 
-                mvwprintz(w_search, 4, 1, c_white, _("'<' '>' Cycle targets."));
+                mvwprintz(w_search, 6, 1, c_white, _("'<' '>' Cycle targets."));
                 mvwprintz(w_search, 10, 1, c_white, _("Enter/Spacebar to select."));
                 mvwprintz(w_search, 11, 1, c_white, _("q or ESC to return."));
                 draw_border(w_search);
@@ -2716,15 +2723,14 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                 if (uistate.overmap_blinking) {
                     uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
                 }
-                if (action == "NEXT_TAB") {
+                if (action == "NEXT_TAB" || action == "RIGHT") {
                     i = (i + 1) % locations.size();
-                } else if (action == "PREV_TAB") {
+                } else if (action == "PREV_TAB" || action == "LEFT") {
                     i = (i + locations.size() - 1) % locations.size();
                 } else if (action == "CONFIRM") {
                     curs = tmp;
                 }
             } while(action != "CONFIRM" && action != "QUIT");
-            delwin(w_search);
             action = "";
         } else if( action == "PLACE_TERRAIN" || action == "PLACE_SPECIAL" ) {
             uimenu pmenu;
