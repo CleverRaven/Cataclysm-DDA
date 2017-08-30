@@ -180,8 +180,8 @@ void Character::mod_stat( const std::string &stat, float modifier )
 
 int Character::effective_dispersion( int dispersion ) const
 {
-    /** @EFFECT_PER improves effectiveness of gun sights */
-    dispersion += ( 10 - per_cur ) * 15;
+    /** @EFFECT_PER penalizes sight dispersion when low. */
+    dispersion += std::max( ( 10 - per_cur ) * 15, 0 );
 
     dispersion += encumb( bp_eyes );
 
