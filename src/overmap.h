@@ -249,8 +249,6 @@ class overmap
     oter_id& ter( const tripoint &p );
     const oter_id get_ter(const int x, const int y, const int z) const;
     const oter_id get_ter( const tripoint &p ) const;
-    const std::string get_om_id( const int x, const int y, const int z ) const;
-    const std::string get_om_id( const tripoint &p ) const;
     bool&   seen(int x, int y, int z);
     bool&   explored(int x, int y, int z);
     bool is_explored(int const x, int const y, int const z) const;

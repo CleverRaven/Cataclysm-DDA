@@ -347,9 +347,6 @@ classes = {
             { name = "fling_creature", rval = nil, args = { "Creature", "int", "float" } },
             { name = "fling_creature", rval = nil, args = { "Creature", "int", "float", "bool" } },
             { name = "get_cur_om", rval = "overmap&", args = { } },
-            { name = "get_cur_om_id", rval = "string", args = { } },
-            { name = "get_om_id", rval = "string", args = { "tripoint" } },
-            { name = "compare_om_id", rval = "bool", args = { "string", "tripoint" } },
             { name = "get_levx", rval = "int", args = { } },
             { name = "get_levy", rval = "int", args = { } },
             { name = "get_levz", rval = "int", args = { } },
@@ -1868,8 +1865,6 @@ classes = {
             { name = "clear_mon_groups", rval = nil, args = { } },
             { name = "delete_note", rval = nil, args = { "int", "int", "int" } },
             { name = "find_random_omt", rval = "tripoint", args = { "string" } },
-            { name = "get_om_id", rval = "string", args = { "int", "int", "int" } },
-            { name = "get_om_id", rval = "string", args = { "tripoint" } },
             { name = "has_note", rval = "bool", args = { "int", "int", "int" } },
             { name = "is_explored", rval = "bool", args = { "int", "int", "int" } },
             { name = "note", rval = "string", args = { "int", "int", "int" } },
@@ -2160,6 +2155,11 @@ global_functions = {
         cpp_name = "get_calendar_turn_wrapper",
         args = {},
         rval = "calendar&"
+    },
+    get_omt_id = { --First you need to get reference to current overmap (`overmap&`) with g:get_cur_om()
+        cpp_name = "get_omt_id",
+        args = { "overmap", "tripoint" },
+        rval = "string"
     }
 }
 

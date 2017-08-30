@@ -19,6 +19,7 @@
 #include "line.h"
 #include "requirements.h"
 #include "weather_gen.h"
+#include "overmap.h"
 
 #ifdef LUA
 #include "ui.h"
@@ -872,6 +873,11 @@ const ter_t &get_terrain_type(int id)
 
 static calendar &get_calendar_turn_wrapper() {
     return calendar::turn;
+}
+
+const std::string get_omt_id( const overmap &om, const tripoint &p )
+{
+    return om.get_ter( p ).id().str();
 }
 
 static std::string string_input_popup_wrapper(std::string title, int width, std::string desc) {

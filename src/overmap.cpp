@@ -1256,18 +1256,6 @@ const oter_id overmap::get_ter( const tripoint &p ) const
     return get_ter( p.x, p.y, p.z );
 }
 
-const std::string overmap::get_om_id( const int x, const int y, const int z ) const
-{
-    const oter_id &ter = get_ter( x, y, z );
-    const std::string om_id = ter.id().c_str();
-    return om_id;
-}
-
-const std::string overmap::get_om_id( const tripoint &p ) const
-{
-    return get_om_id( p.x, p.y, p.z );
-}
-
 bool &overmap::seen(int x, int y, int z)
 {
     if( !inbounds( x, y, z ) ) {
