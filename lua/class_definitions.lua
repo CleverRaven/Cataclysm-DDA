@@ -1857,7 +1857,10 @@ classes = {
             { name = "set_interest", rval = nil, args = { "int" } },
         }
     },
-    overmap = { --First you need to get reference to current overmap (`overmap&`) with g:get_cur_om()
+--[[
+You can get reference to current overmap with `g:get_cur_om()`.
+--]]
+    overmap = {
         attributes = {
         },
         functions = {
@@ -2156,7 +2159,10 @@ global_functions = {
         args = {},
         rval = "calendar&"
     },
-    get_omt_id = { --First you need to get reference to current overmap (`overmap&`) with g:get_cur_om()
+--[[
+Use `game.get_omt_id (g:get_cur_om(), player:global_omt_location())` to return overmap terrain id of current location.
+--]]
+    get_omt_id = {
         cpp_name = "get_omt_id",
         args = { "overmap", "tripoint" },
         rval = "string"
