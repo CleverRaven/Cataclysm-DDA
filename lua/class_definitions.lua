@@ -2166,6 +2166,14 @@ Use `game.get_omt_id (g:get_cur_om(), player:global_omt_location())` to return o
         cpp_name = "get_omt_id",
         args = { "overmap", "tripoint" },
         rval = "string"
+    },
+--[[
+Returns `om_direction::name` and can take one of the following values: `invalid`, `none`, `north`, `east`, `south` or `west`.
+--]]
+    get_omt_dir = {
+        cpp_name = "get_omt_dir",
+        args = { "overmap", "tripoint" },
+        rval = "string"
     }
 }
 

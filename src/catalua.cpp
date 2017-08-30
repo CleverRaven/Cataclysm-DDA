@@ -20,6 +20,7 @@
 #include "requirements.h"
 #include "weather_gen.h"
 #include "overmap.h"
+#include "omdata.h"
 
 #ifdef LUA
 #include "ui.h"
@@ -878,6 +879,11 @@ static calendar &get_calendar_turn_wrapper() {
 const std::string get_omt_id( const overmap &om, const tripoint &p )
 {
     return om.get_ter( p ).id().str();
+}
+
+const std::string get_omt_dir( const overmap &om, const tripoint &p )
+{
+    return om_direction::name(om.get_ter( p ).obj().get_dir());
 }
 
 static std::string string_input_popup_wrapper(std::string title, int width, std::string desc) {
