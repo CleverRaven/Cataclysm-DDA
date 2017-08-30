@@ -3340,7 +3340,7 @@ int player::clairvoyance() const
     }
 
     if( vision_mode_cache[VISION_CLAIRVOYANCE] ) {
-        return 3;
+        return 8;
     }
 
     return 0;
