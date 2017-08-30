@@ -12821,11 +12821,11 @@ void game::vertical_notes( int z_before, int z_after )
             if( z_after > z_before && ter->has_flag(known_up) &&
                 !ter2->has_flag(known_down) ) {
                 overmap_buffer.set_seen(cursx, cursy, z_after, true);
-                overmap_buffer.add_note(cursx, cursy, z_after, (std::string)">:W;" + _("AUTO: goes down"));
+                overmap_buffer.add_note(cursx, cursy, z_after, string_format(">:W;%s", _("AUTO: goes down")));
             } else if ( z_after < z_before && ter->has_flag(known_down) &&
                 !ter2->has_flag(known_up) ) {
                 overmap_buffer.set_seen(cursx, cursy, z_after, true);
-                overmap_buffer.add_note(cursx, cursy, z_after, (std::string)"<:W;" + _("AUTO: goes up"));
+                overmap_buffer.add_note(cursx, cursy, z_after, string_format("<:W;%s", _("AUTO: goes up")));
             }
         }
     }
