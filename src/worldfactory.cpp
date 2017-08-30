@@ -1290,11 +1290,11 @@ void worldfactory::draw_worldgen_tabs(WINDOW *w, unsigned int current)
         }
     }
 
-    static std::vector<std::string> tab_strings = {{
-        _("World Mods"),
-        _("World Options"),
-        _("Finalize World")
-    }};
+    static const std::vector<std::string> tab_strings = { {
+        translate_marker( "World Mods" ),
+        translate_marker( "World Options" ),
+        translate_marker( "Finalize World" )
+    } };
 
     int x = 2;
     for (size_t i = 0; i < tab_strings.size(); ++i) {
