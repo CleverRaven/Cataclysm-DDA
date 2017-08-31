@@ -504,6 +504,10 @@ void Character::recalc_sight_limits()
         vision_mode_cache.set( VISION_CLAIRVOYANCE_SUPER );
     }
 
+    if( has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) {
+        vision_mode_cache.set( VISION_CLAIRVOYANCE_SUPER );
+    }
+
     if( has_artifact_with( AEP_CLAIRVOYANCE_PLUS ) ) {
         vision_mode_cache.set( VISION_CLAIRVOYANCE_PLUS );
     }
@@ -511,6 +515,7 @@ void Character::recalc_sight_limits()
     if( has_artifact_with( AEP_CLAIRVOYANCE ) ) {
         vision_mode_cache.set( VISION_CLAIRVOYANCE );
     }
+}
 
 static float threshold_for_range( float range )
 {
