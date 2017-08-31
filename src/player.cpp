@@ -3339,6 +3339,10 @@ int player::clairvoyance() const
         return MAX_CLAIRVOYANCE;
     }
 
+    if( vision_mode_cache[VISION_CLAIRVOYANCE_PLUS] ) {
+        return 8;
+    }
+
     if( vision_mode_cache[VISION_CLAIRVOYANCE] ) {
         return 3;
     }
