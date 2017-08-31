@@ -1482,6 +1482,10 @@ dispersion_sources player::get_weapon_dispersion( const item &obj, float range )
     /** @EFFECT_GUN improves usage of accurate weapons and sights */
     dispersion.add_range( 10 * ( MAX_SKILL - std::min( int( get_skill_level( skill_gun ) ), MAX_SKILL ) ) );
 
+    dispersion.add_range( ranged_dex_mod() );
+
+    dispersion.add_range( 3 * ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) );
+
     if( is_driving( *this ) ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)
         const item *parent = has_item( obj ) ? find_parent( obj ) : nullptr;

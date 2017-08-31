@@ -181,7 +181,7 @@ void Character::mod_stat( const std::string &stat, float modifier )
 int Character::effective_dispersion( int dispersion ) const
 {
     /** @EFFECT_PER penalizes sight dispersion when low. */
-    dispersion += std::max( ( 10 - per_cur ) * 15, 0 );
+    dispersion += ranged_per_mod();
 
     dispersion += encumb( bp_eyes );
 
@@ -1563,6 +1563,18 @@ int Character::get_per_bonus() const
 int Character::get_int_bonus() const
 {
     return int_bonus;
+}
+
+int Character::ranged_dex_mod() const
+{
+    ///\EFFECT_DEX <12 increases ranged penalty
+    return std::max( ( 12 - get_dex() ) * 15, 0 );
+}
+
+int Character::ranged_per_mod() const
+{
+    ///\EFFECT_DEX <12 increases ranged aiming penalty
+    return std::max( ( 12 - get_per() ) * 15, 0 );
 }
 
 int Character::get_healthy() const

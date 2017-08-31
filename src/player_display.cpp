@@ -684,7 +684,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_stats, 3, 1, h_ltgray, _( "Dexterity:" ) );
 
                     mvwprintz( w_stats, 6, 1, c_magenta, _( "Melee to-hit bonus:" ) );
-                    mvwprintz( w_stats, 6, 22, c_magenta, "%+.2lf", get_hit_base() );
+                    mvwprintz( w_stats, 6, 22, c_magenta, "%+.1lf", get_hit_base() );
+                    mvwprintz( w_stats, 7, 1, c_magenta, _( "Ranged penalty:" ) );
+                    mvwprintz( w_stats, 7, 23, c_magenta, "%+3d", -( abs( ranged_dex_mod() ) ) );
                     mvwprintz( w_stats, 8, 1, c_magenta, _( "Throwing penalty per target's dodge: +%d" ) );
                     mvwprintz( w_stats, 8, 22, c_magenta, "%3d", throw_dispersion_per_dodge( false ) );
 
@@ -709,6 +711,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_stats, 5, 1, h_ltgray, _( "Perception:" ) );
                     mvwprintz( w_stats, 7, 1, c_magenta, _( "Trap detection level:" ) );
                     mvwprintz( w_stats, 7, 23, c_magenta, "%2d", get_per() );
+                    if( ranged_per_mod() > 0 ) {
+                        mvwprintz( w_stats, 8, 1, c_magenta, _( "Aiming penalty:" ) );
+                        mvwprintz( w_stats, 8, 21, c_magenta, "%+4d", -ranged_per_mod() );
+                    }
 
                     fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                                     _( "Perception is the most important stat for ranged combat.  It's also used for "
