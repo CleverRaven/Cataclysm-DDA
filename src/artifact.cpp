@@ -292,7 +292,7 @@ static const std::array<artifact_property_datum, ARTPROP_MAX> artifact_property_
     },
     {
         translate_marker( "whispering" ), translate_marker( "makes very faint whispering sounds" ),
-        {{AEP_CLAIRVOYANCE_PLUS, AEP_EXTINGUISH, AEP_STEALTH, AEP_NULL}},
+        {{AEP_CLAIRVOYANCE, AEP_EXTINGUISH, AEP_STEALTH, AEP_NULL}},
         {{AEP_EVIL, AEP_SCHIZO, AEP_ATTENTION, AEP_NULL}},
         {{AEA_FATIGUE, AEA_ENTRANCE, AEA_ENTRANCE, AEA_NULL}},
         {{AEA_ATTENTION, AEA_SCREAM, AEA_SCREAM, AEA_SHADOWS}}
@@ -342,7 +342,7 @@ static const std::array<artifact_property_datum, ARTPROP_MAX> artifact_property_
     },
     {
         translate_marker( "engraved" ), translate_marker( "is covered with odd etchings" ),
-        {{AEP_CLAIRVOYANCE_PLUS, AEP_INVISIBLE, AEP_PSYSHIELD, AEP_SAP_LIFE}},
+        {{AEP_CLAIRVOYANCE, AEP_INVISIBLE, AEP_PSYSHIELD, AEP_SAP_LIFE}},
         {{AEP_EVIL, AEP_ATTENTION, AEP_NULL, AEP_NULL}},
         {{AEA_FATIGUE, AEA_TELEPORT, AEA_HEAL, AEA_FATIGUE}},
         {{AEA_ATTENTION, AEA_ATTENTION, AEA_TELEGLOW, AEA_DIM}}
