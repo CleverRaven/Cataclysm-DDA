@@ -88,8 +88,6 @@
 /** Maximum (effective) level for a stat */
 #define MAX_STAT 20
 
-/** Maximum range at which only standard dispersion applies */
-#define RANGE_SOFT_CAP 30
 /** Maximum range at which ranged attacks can be executed */
 #define RANGE_HARD_CAP 60
 

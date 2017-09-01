@@ -212,9 +212,8 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
             break;
         }
 
-        dispersion_sources dispersion = get_weapon_dispersion( gun, rl_dist( pos(), aim ) );
+        dispersion_sources dispersion = get_weapon_dispersion( gun );
         dispersion.add_range( recoil_total() );
-        int range = rl_dist( pos(), aim );
 
         // If this is a vehicle mounted turret, which vehicle is it mounted on?
         const vehicle *in_veh = has_effect( effect_on_roof ) ? g->m.veh_at( pos() ) : nullptr;
@@ -248,9 +247,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
         if( shot.hit_critter ) {
             hits++;
-            if( range > double( get_skill_level( skill_gun ) ) / MAX_SKILL * RANGE_SOFT_CAP ) {
-                xp += range; // shots at sufficient distance train marksmanship
-            }
+            xp++;
         }
 
         if( gun.gun_skill() == skill_launcher ) {
@@ -714,8 +711,7 @@ static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
     // Creature::projectile_attack() into shared methods.
     // Dodge doesn't affect gun attacks
 
-    const double range = rl_dist( p.pos(), target.pos() );
-    dispersion_sources dispersion = p.get_weapon_dispersion( *weapon, range );
+    dispersion_sources dispersion = p.get_weapon_dispersion( *weapon );
     dispersion.add_range( predicted_recoil );
     dispersion.add_range( p.recoil_vehicle() );
 
@@ -734,6 +730,7 @@ static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
         { accuracy_grazing, '|', _( "Graze" ) }
     }};
 
+    const double range = rl_dist( p.pos(), target.pos() );
     return print_ranged_chance( w, line_number, confidence_config, dispersion, range, target_size, steadiness );
 }
 
@@ -1473,9 +1470,8 @@ static bool is_driving( const player &p )
     return veh && veh->velocity != 0 && veh->player_in_control( p );
 }
 
-
 // utility functions for projectile_attack
-dispersion_sources player::get_weapon_dispersion( const item &obj, float range ) const
+dispersion_sources player::get_weapon_dispersion( const item &obj ) const
 {
     dispersion_sources dispersion = obj.gun_dispersion();
 
@@ -1506,11 +1502,6 @@ dispersion_sources player::get_weapon_dispersion( const item &obj, float range )
         dispersion.add_multiplier( 4 );
     }
 
-    // @todo Scale the range penalty with something (but don't allow it to get below 2.0*range)
-    if( range > RANGE_SOFT_CAP ) {
-        dispersion.add_range( ( range - RANGE_SOFT_CAP ) * 3.0f );
-    }
-
     return dispersion;
 }
 
@@ -1537,7 +1528,7 @@ double player::gun_value( const item &weap, long ammo ) const
 
     item tmp = weap;
     tmp.ammo_set( weap.ammo_default() );
-    int total_dispersion = get_weapon_dispersion( tmp, RANGE_SOFT_CAP ).max() +
+    int total_dispersion = get_weapon_dispersion( tmp ).max() +
       effective_dispersion( tmp.sight_dispersion() );
 
     if( def_ammo_i != nullptr && def_ammo_i->ammo != nullptr ) {

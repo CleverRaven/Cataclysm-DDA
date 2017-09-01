@@ -102,12 +102,12 @@ static std::array<statistics, 5> firing_test( dispersion_sources dispersion, int
     return firing_stats;
 }
 
-static dispersion_sources get_dispersion( npc &shooter, std::string gun_type, int aim_time, int range )
+static dispersion_sources get_dispersion( npc &shooter, std::string gun_type, int aim_time )
 {
     arm_shooter( shooter, itype_id( gun_type ) );
 
     item &gun = shooter.weapon;
-    dispersion_sources dispersion = shooter.get_weapon_dispersion( gun, range );
+    dispersion_sources dispersion = shooter.get_weapon_dispersion( gun );
 
     // The 10 is an arbitrary amount under which NPCs refuse to spend moves on aiming.
     shooter.moves = 10 + aim_time;
@@ -126,21 +126,21 @@ static void test_shooting_scenario( npc &shooter, std::string gun_type,
                                     int min_quickdraw_range, int min_good_range, int max_good_range )
 {
     {
-        dispersion_sources dispersion = get_dispersion( shooter, gun_type, 0, min_quickdraw_range );
+        dispersion_sources dispersion = get_dispersion( shooter, gun_type, 0 );
         std::array<statistics, 5> minimum_stats = firing_test( dispersion, min_quickdraw_range, {{ 0.1, -1, -1, -1, -1 }} );
         INFO( dispersion );
         INFO( "Range: " << min_quickdraw_range );
         CHECK( minimum_stats[0].avg() < 0.1 );
     }
     {
-        dispersion_sources dispersion = get_dispersion( shooter, gun_type, 200, min_good_range );
+        dispersion_sources dispersion = get_dispersion( shooter, gun_type, 200 );
         std::array<statistics, 5> good_stats = firing_test( dispersion, min_good_range, {{ -1, -1, 0.5, -1, -1 }} );
         INFO( dispersion );
         INFO( "Range: " << min_good_range );
         CHECK( good_stats[2].avg() > 0.5 );
     }
     {
-        dispersion_sources dispersion = get_dispersion( shooter, gun_type, 500, max_good_range );
+        dispersion_sources dispersion = get_dispersion( shooter, gun_type, 100 );
         std::array<statistics, 5> good_stats = firing_test( dispersion, max_good_range, {{ -1, -1, 0.01, -1, -1 }} );
         INFO( dispersion );
         INFO( "Range: " << max_good_range );

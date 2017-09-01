@@ -1274,7 +1274,7 @@ int npc::confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) co
         return 0;
     }
 
-    double average_dispersion = get_weapon_dispersion( *( gun.target ), RANGE_SOFT_CAP ).avg() +
+    double average_dispersion = get_weapon_dispersion( *( gun.target ) ).avg() +
       (double)at_recoil;
     double even_chance_range = 0.5 / average_dispersion;
     // 5 round burst equivalent to ~2 individually aimed shots
