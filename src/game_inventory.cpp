@@ -8,6 +8,7 @@
 #include "recipe_dictionary.h"
 #include "item.h"
 #include "itype.h"
+#include "iuse_actor.h"
 
 #include <algorithm>
 #include <functional>
@@ -52,7 +53,8 @@ item_location_filter convert_filter( const item_filter &filter )
 
 static item_location inv_internal( player &u, const inventory_selector_preset &preset,
                                    const std::string &title, int radius,
-                                   const std::string &none_message )
+                                   const std::string &none_message,
+                                   const std::string &hint = std::string() )
 {
     u.inv.restack( &u );
     u.inv.sort();
@@ -60,6 +62,7 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
     inventory_pick_selector inv_s( u, preset );
 
     inv_s.set_title( title );
+    inv_s.set_hint( hint );
     inv_s.set_display_stats( false );
 
     inv_s.add_character_items( u );
@@ -641,11 +644,10 @@ item_location game_menus::inv::steal( player &p, player &victim )
                          string_format( _( "%s's inventory is empty." ), victim.name.c_str() ) );
 }
 
-
-class wield_inventory_preset: public inventory_selector_preset
+class weapon_inventory_preset: public inventory_selector_preset
 {
     public:
-        wield_inventory_preset( const player &p ) : p( p ) {
+        weapon_inventory_preset( const player &p ) : p( p ) {
             append_cell( [ this ]( const item_location & loc ) {
                 if( !loc->is_gun() ) {
                     return std::string();
@@ -708,8 +710,48 @@ class wield_inventory_preset: public inventory_selector_preset
 
 item_location game_menus::inv::wield( player &p )
 {
-    return inv_internal( p, wield_inventory_preset( p ), _( "Wield item" ), 1,
+    return inv_internal( p, weapon_inventory_preset( p ), _( "Wield item" ), 1,
                          _( "You have nothing to wield." ) );
+}
+
+class holster_inventory_preset: public weapon_inventory_preset
+{
+    public:
+        holster_inventory_preset( const player &p, const holster_actor &actor ) :
+            weapon_inventory_preset( p ), actor( actor ) {
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return actor.can_holster( *loc );
+        }
+
+    private:
+        const holster_actor &actor;
+};
+
+item_location game_menus::inv::holster( player &p, item &holster )
+{
+    const std::string holster_name = holster.tname( 1, false );
+    const auto actor = dynamic_cast<const holster_actor *>
+                       ( holster.type->get_use( "holster" )->get_actor_ptr() );
+
+    if( !actor ) {
+        const std::string msg = string_format( _( "You can't put anything into your %s." ),
+                                               holster_name.c_str() );
+        popup( msg, PF_GET_KEY );
+        return item_location();
+    }
+
+    const std::string title = actor->holster_prompt.empty()
+                              ? _( "Holster item" )
+                              : _( actor->holster_prompt.c_str() );
+    const std::string hint = string_format( _( "Choose a weapon to put into your %s" ),
+                                            holster_name.c_str() );
+
+    return inv_internal( p, holster_inventory_preset( p, *actor ), title, 1,
+                         string_format( _( "You have no weapons you could put into your %s." ),
+                                        holster_name.c_str() ),
+                         hint );
 }
 
 std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )

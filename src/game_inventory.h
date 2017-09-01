@@ -59,6 +59,8 @@ item_location steal( player &p, player &victim );
 item_location use( player &p );
 /** Item wielding/unwielding menu. */
 item_location wield( player &p );
+/** Item wielding/unwielding menu. */
+item_location holster( player &p, item &holster );
 /*@}*/
 
 }

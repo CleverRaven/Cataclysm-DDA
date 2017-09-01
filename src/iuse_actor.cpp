@@ -3,6 +3,7 @@
 #include "assign.h"
 #include "item.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "map.h"
 #include "debug.h"
 #include "monster.h"
@@ -1998,13 +1999,14 @@ long holster_actor::use( player &p, item &it, bool, const tripoint & ) const
         }
 
     } else {
-        item &obj = p.i_at( g->inv_for_filter( prompt, [&](const item& e) { return can_holster(e); } ) );
-        if( obj.is_null() ) {
+        auto loc = game_menus::inv::holster( p, it );
+
+        if( !loc ) {
             p.add_msg_if_player( _( "Never mind." ) );
             return 0;
         }
 
-        store( p, it, obj );
+        store( p, it, p.i_at( loc.obtain( p ) ) );
     }
 
     return 0;
