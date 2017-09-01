@@ -104,6 +104,7 @@ void mod_manager::refresh_mod_list()
 
     std::map<std::string, std::vector<std::string> > mod_dependency_map;
     load_mods_from(FILENAMES["moddir"]);
+    load_mods_from(FILENAMES["user_moddir"]);
     if (set_default_mods("user:default")) {
     } else if(set_default_mods("dev:default")) {
     }
