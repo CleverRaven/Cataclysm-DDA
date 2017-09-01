@@ -7,7 +7,7 @@
     "weight": 8,
     "volume": 1,
     "price": 5000,
-    "material": [ "plastic", "powder" ],
+    "material": [ "plastic", "powder", "steel" ],
     "symbol": "=",
     "color": "green",
     "count": 100,
