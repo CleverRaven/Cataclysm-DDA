@@ -82,7 +82,6 @@
         "material" : ["plastic", "powder"],
         "volume" : 1,
         "weight" : 2,
-        "bashing" : 1,
         "ammo_type" : "5x50",
         "casing" : "5x50_hull",
         "damage" : 18,
