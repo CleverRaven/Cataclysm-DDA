@@ -224,9 +224,9 @@ class disassemble_inventory_preset : public pickup_inventory_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            std::string denial;
-            if( !p.can_disassemble( *loc, inv, &denial ) ) {
-                return denial;
+            const auto ret = p.can_disassemble( *loc, inv );
+            if( !ret ) {
+                return ret.str();
             }
             return pickup_inventory_preset::get_denial( loc );
         }

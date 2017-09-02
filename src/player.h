@@ -10,6 +10,7 @@
 #include "weighted_list.h"
 #include "game_constants.h"
 #include "craft_command.h"
+#include "ret_val.h"
 
 #include <unordered_set>
 #include <bitset>
@@ -1263,9 +1264,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * Check if the player can disassemble an item using the current crafting inventory
          * @param obj Object to to check for disassembly
          * @param inv current crafting inventory
-         * @param err Error message in case of e.g. missing tools/charges.
          */
-        bool can_disassemble( const item &obj, const inventory &inv, std::string *err = nullptr ) const;
+        ret_val<bool> can_disassemble( const item &obj, const inventory &inv ) const;
 
         bool disassemble();
         bool disassemble( int pos );

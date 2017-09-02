@@ -10293,11 +10293,11 @@ void game::butcher()
         }
 
         if( first_item_without_tools != nullptr ) {
-            std::string err;
             add_msg( m_info, _("You don't have the necessary tools to disassemble any items here.") );
             // Just for the "You need x to disassemble y" messages
-            if( !u.can_disassemble( *first_item_without_tools, crafting_inv, &err ) ) {
-                add_msg( m_info, "%s", err.c_str() );
+            const auto ret = u.can_disassemble( *first_item_without_tools, crafting_inv );
+            if( !ret ) {
+                add_msg( m_info, "%s", ret.c_str() );
             }
         }
         return;
@@ -10887,7 +10887,7 @@ void game::chat()
 
     uimenu nmenu;
     nmenu.text = std::string( _( "Who do you want to talk to or yell at?" ) );
-    
+
     int i = 0;
 
     for( auto &elem : available ) {
