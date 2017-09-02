@@ -1525,7 +1525,7 @@ static void refresh_tiles( bool, bool, bool ) {
 
 void draw_borders_external( WINDOW *w, int horizontal_level, std::map<int, bool> &mapLines, const bool world_options_only )
 {
-    if ( !world_options_only ) {
+    if( !world_options_only ) {
         draw_border( w, BORDER_COLOR, _( " OPTIONS " ) );
     }
     // intersections
@@ -1591,7 +1591,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
                                iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
     WINDOW_PTR w_optionsptr( w_options );
 
-    if ( world_options_only ) {
+    if( world_options_only ) {
         worldfactory::draw_worldgen_tabs(w_options_border, 1);
     }
 
@@ -1678,21 +1678,22 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
         wrefresh(w_options_border);
 
         //Draw Tabs
-        if ( !world_options_only ) {
+        if( !world_options_only ) {
             mvwprintz(w_options_header, 0, 7, c_white, "");
             for (int i = 0; i < (int)vPages.size(); i++) {
-                if (!mPageItems[i].empty()) { //skip empty pages
-                    wprintz(w_options_header, c_white, "[");
-                    if ( ingame && i == iWorldOptPage ) {
-                        wprintz(w_options_header,
-                                (iCurrentPage == i) ? hilite(c_ltgreen) : c_ltgreen, _("Current world"));
-                    } else {
-                        wprintz(w_options_header, (iCurrentPage == i) ?
-                                hilite( c_ltgreen ) : c_ltgreen, "%s", _( vPages[i].second.c_str() ) );
-                    }
-                    wprintz(w_options_header, c_white, "]");
-                    wputch(w_options_header, BORDER_COLOR, LINE_OXOX);
+                if( mPageItems[i].empty() ) {
+                    continue;
                 }
+                wprintz(w_options_header, c_white, "[");
+                if ( ingame && i == iWorldOptPage ) {
+                    wprintz(w_options_header,
+                            (iCurrentPage == i) ? hilite(c_ltgreen) : c_ltgreen, _("Current world"));
+                } else {
+                    wprintz(w_options_header, (iCurrentPage == i) ?
+                            hilite( c_ltgreen ) : c_ltgreen, "%s", _( vPages[i].second.c_str() ) );
+                }
+                wprintz(w_options_header, c_white, "]");
+                wputch(w_options_header, BORDER_COLOR, LINE_OXOX);
             }
         }
 
@@ -1749,7 +1750,7 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
 
         const std::string action = ctxt.handle_input();
 
-        if ( world_options_only && ( action == "NEXT_TAB" || action == "PREV_TAB" || action == "QUIT" ) ) {
+        if( world_options_only && ( action == "NEXT_TAB" || action == "PREV_TAB" || action == "QUIT" ) ) {
             return action;
         }
 
