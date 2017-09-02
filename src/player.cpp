@@ -8922,7 +8922,7 @@ std::pair<int, int> player::gunmod_installation_odds( const item& gun, const ite
 
 void player::gunmod_add( item &gun, item &mod )
 {
-    if( !gun.gunmod_compatible( mod ) ) {
+    if( !gun.is_gunmod_compatible( mod ) ) {
         debugmsg( "Tried to add incompatible gunmod" );
         return;
     }

@@ -469,10 +469,10 @@ class gunmod_inventory_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            std::string incompatability;
+            const auto ret = loc->is_gunmod_compatible( gunmod );
 
-            if( !loc->gunmod_compatible( gunmod, &incompatability ) ) {
-                return incompatability;
+            if( !ret ) {
+                return ret.str();
             }
 
             if( !p.meets_requirements( gunmod, *loc ) ) {

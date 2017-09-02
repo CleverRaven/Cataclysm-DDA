@@ -17,6 +17,7 @@
 #include "string_id.h"
 #include "line.h"
 #include "item_location.h"
+#include "ret_val.h"
 #include "damage.h"
 #include "debug.h"
 #include "units.h"
@@ -1463,7 +1464,7 @@ public:
          * Checks if mod can be applied to this item considering any current state (jammed, loaded etc.)
          * @param msg message describing reason for any incompatibility
          */
-        bool gunmod_compatible( const item& mod, std::string *msg = nullptr ) const;
+        ret_val<bool> is_gunmod_compatible( const item& mod ) const;
 
         struct gun_mode {
             /* contents of `modes` for GUN type, `mode_modifier` for GUNMOD type,
