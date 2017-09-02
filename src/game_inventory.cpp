@@ -754,6 +754,51 @@ item_location game_menus::inv::holster( player &p, item &holster )
                          hint );
 }
 
+class saw_barrel_inventory_preset: public weapon_inventory_preset
+{
+    public:
+        saw_barrel_inventory_preset( const player &p ) :
+            weapon_inventory_preset( p ) {
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->is_gun();
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            if( loc->type->gun->barrel_length <= 0 ) {
+                return _( "the barrel is too short" );
+            }
+
+            if( loc->gunmod_find( "barrel_small" ) ) {
+                return _( "the barrel is aleady sawn off" );
+            }
+
+            const auto gunmods = loc->gunmods();
+            const bool modified_barrel = std::any_of( gunmods.begin(), gunmods.end(),
+            []( const item * mod ) {
+                return mod->type->gunmod->location == gunmod_location( "barrel" );
+            } );
+
+            if( modified_barrel ) {
+                return _( "can't saw off modified barrels" );
+            }
+
+            return std::string();
+        }
+};
+
+item_location game_menus::inv::saw_barrel( player &p, item &tool )
+{
+    return inv_internal( p, saw_barrel_inventory_preset( p ),
+                         _( "Saw barrel" ), 1,
+                         _( "You don't have any guns." ),
+                         string_format( _( "Choose a weapon to use your %s on" ),
+                                        tool.tname( 1, false ).c_str()
+                                      )
+                       );
+}
+
 std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )
 {
     p.inv.restack( &p );

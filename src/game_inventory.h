@@ -61,6 +61,8 @@ item_location use( player &p );
 item_location wield( player &p );
 /** Item wielding/unwielding menu. */
 item_location holster( player &p, item &holster );
+/** Choosing a gun to saw down it's barell. */
+item_location saw_barrel( player &p, item &tool );
 /*@}*/
 
 }

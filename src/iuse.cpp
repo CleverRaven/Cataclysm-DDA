@@ -7874,33 +7874,21 @@ int iuse::ladder( player *p, item *, bool, const tripoint& )
     return 1;
 }
 
-int iuse::saw_barrel( player *p, item *, bool t, const tripoint& )
+int iuse::saw_barrel( player *p, item *it, bool t, const tripoint& )
 {
     if( p == nullptr || t ) {
         return 0;
     }
 
-    auto filter = []( const item& e ) {
-        if( !e.is_gun() || e.type->gun->barrel_length <= 0 ) {
-            return false;
-        }
+    auto loc = game_menus::inv::saw_barrel( *p, *it );
 
-        const auto gunmods = e.gunmods();
-        // cannot saw down barrel of gun that already has a barrel mod
-        return std::none_of( gunmods.begin(), gunmods.end(), []( const item *mod ) {
-            return mod->type->gunmod->location == gunmod_location( "barrel" );
-        });
-    };
-
-    const int pos = g->inv_for_filter( _( "Saw barrel?" ), filter, _( "You don't have guns with long barrels." ) );
-
-    if( pos == INT_MIN ) {
+    if( !loc ) {
         p->add_msg_if_player( _( "Never mind." ) );
         return 0;
     }
 
-    item &obj = p->i_at( pos );
-    p->add_msg_if_player( _( "You saw down the barrel of your %s" ), obj.tname().c_str() );
+    item &obj = p->i_at( loc.obtain( *p ) );
+    p->add_msg_if_player( _( "You saw down the barrel of your %s." ), obj.tname().c_str() );
     obj.contents.emplace_back( "barrel_small", calendar::turn );
 
     return 0;
