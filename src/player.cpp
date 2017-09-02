@@ -3856,9 +3856,6 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
 
 bool player::immune_to( body_part bp, damage_unit dam ) const
 {
-    if( dam.type == DT_HEAT ) {
-        return false; // No one is immune to fire
-    }
     if( has_trait( trait_DEBUG_NODMG ) || is_immune_damage( dam.type ) ) {
         return true;
     }
