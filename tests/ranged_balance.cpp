@@ -84,6 +84,11 @@ static std::array<statistics, 5> firing_test( dispersion_sources dispersion, int
     std::array<statistics, 5> firing_stats;
     bool threshold_within_confidence_interval = false;
     do {
+        // On each trip through the loop, grab a sample attack roll and add its results to
+        // the stat object.  Keep sampling until our calculated confidence interval doesn't overlap
+        // any thresholds we care about.  This is a mechanism to limit the number of samples
+        // we have to accumulate before we declare that the true average is
+        // either above or below the threshold.
         projectile_attack_aim aim = projectile_attack_roll( dispersion, range, 0.5 );
         threshold_within_confidence_interval = false;
         for( int i = 0; i < accuracy_levels.size(); ++i ) {
@@ -91,6 +96,8 @@ static std::array<statistics, 5> firing_test( dispersion_sources dispersion, int
             if( thresholds[i] == -1 ) {
                 continue;
             }
+            // If we've accumulated less than 100 or so samples we have a high risk
+            // of reporting a bad result, so pretend we have high error if samples are low.
             if( firing_stats[i].n() < 100 ) {
                 threshold_within_confidence_interval = true;
             }
@@ -137,7 +144,7 @@ static void test_shooting_scenario( npc &shooter, int min_quickdraw_range,
         CHECK( minimum_stats[1].avg() < 0.1 );
     }
     {
-        dispersion_sources dispersion = get_dispersion( shooter, 190 );
+        dispersion_sources dispersion = get_dispersion( shooter, 225 );
         std::array<statistics, 5> good_stats = firing_test( dispersion, min_good_range, {{ -1, -1, 0.5, -1, -1 }} );
         INFO( dispersion );
         INFO( "Range: " << min_good_range );
@@ -166,26 +173,28 @@ void assert_encumbrance( npc &shooter, int encumbrance )
 
 TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
 {
+    clear_map();
     standard_npc shooter( "Shooter", {}, 0, 8, 8, 8, 8 );
     equip_shooter( shooter, { "bastsandals", "armguard_chitin", "armor_chitin", "beekeeping_gloves", "fencing_mask" } );
     assert_encumbrance( shooter, 10 );
 
     SECTION( "an unskilled shooter with an inaccurate pistol" ) {
         arm_shooter( shooter, "glock_19" );
-        test_shooting_scenario( shooter, 4, 3, 5 );
+        test_shooting_scenario( shooter, 4, 3, 7 );
     }
     SECTION( "an unskilled shooter with an inaccurate smg" ) {
         arm_shooter( shooter, "tommygun", { "holo_sight", "tuned_mechanism" } );
-        test_shooting_scenario( shooter, 4, 5, 8 );
+        test_shooting_scenario( shooter, 4, 4, 10 );
     }
     SECTION( "an unskilled shooter with an inaccurate rifle" ) {
-        arm_shooter( shooter, "m1918", { "rifle_scope", "tuned_mechanism" } );
-        test_shooting_scenario( shooter, 4, 9, 15 );
+        arm_shooter( shooter, "m1918", { "holo_sight", "tuned_mechanism" } );
+        test_shooting_scenario( shooter, 5, 6, 15 );
     }
 }
 
 TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 {
+    clear_map();
     standard_npc shooter( "Shooter", {}, 5, 10, 10, 10, 10 );
     equip_shooter( shooter, { "cloak_wool", "footrags_wool", "gloves_wraps_fur", "veil_wedding" } );
     assert_encumbrance( shooter, 5 );
@@ -196,31 +205,32 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
     }
     SECTION( "a skilled shooter with an accurate smg" ) {
         arm_shooter( shooter, "hk_mp5", { "pistol_scope", "barrel_big", "match_trigger", "adjustable_stock" } );
-        test_shooting_scenario( shooter, 5, 10, 15 );
+        test_shooting_scenario( shooter, 5, 10, 20 );
     }
     SECTION( "a skilled shooter with an accurate rifle" ) {
         arm_shooter( shooter, "ruger_mini", { "rifle_scope", "tuned_mechanism" } );
-        test_shooting_scenario( shooter, 5, 15, 45 );
+        test_shooting_scenario( shooter, 5, 14, 45 );
     }
 }
 
 TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
 {
-    standard_npc shooter( "Shooter", {}, 10, 18, 18, 18, 18 );
+    clear_map();
+    standard_npc shooter( "Shooter", {}, 10, 20, 20, 20, 20 );
     equip_shooter( shooter, { } );
     assert_encumbrance( shooter, 0 );
 
     SECTION( "an expert shooter with an excellent pistol" ) {
         arm_shooter( shooter, "sw629", { "holo_sight", "match_trigger" } );
-        test_shooting_scenario( shooter, 6, 10, 25 );
+        test_shooting_scenario( shooter, 6, 10, 30 );
     }
     SECTION( "an expert shooter with an excellent smg" ) {
         arm_shooter( shooter, "ppsh", { "pistol_scope", "barrel_big" } );
-        test_shooting_scenario( shooter, 6, 20, 45 );
+        test_shooting_scenario( shooter, 6, 20, 50 );
     }
     SECTION( "an expert shooter with an excellent rifle" ) {
         arm_shooter( shooter, "browning_blr", { "rifle_scope" } );
-        test_shooting_scenario( shooter, 6, 30, 60 );
+        test_shooting_scenario( shooter, 6, 30, 150 );
     }
 }
 

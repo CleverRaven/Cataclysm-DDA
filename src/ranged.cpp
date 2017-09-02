@@ -1473,14 +1473,14 @@ static bool is_driving( const player &p )
 // utility functions for projectile_attack
 dispersion_sources player::get_weapon_dispersion( const item &obj ) const
 {
-    dispersion_sources dispersion = obj.gun_dispersion();
-
+    int weapon_dispersion = std::max( obj.gun_dispersion() / 3, 45 );
+    dispersion_sources dispersion( weapon_dispersion );
     /** @EFFECT_GUN improves usage of accurate weapons and sights */
-    dispersion.add_range( 10 * ( MAX_SKILL - std::min( int( get_skill_level( skill_gun ) ), MAX_SKILL ) ) );
+    dispersion.add_range( 3 * ( MAX_SKILL - std::min( int( get_skill_level( skill_gun ) ), MAX_SKILL ) ) );
 
-    dispersion.add_range( ranged_dex_mod() );
+    dispersion.add_range( ranged_dex_mod() / 2  );
 
-    dispersion.add_range( 3 * ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) );
+    dispersion.add_range( encumb( bp_arm_l ) + encumb( bp_arm_r ) );
 
     if( is_driving( *this ) ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)

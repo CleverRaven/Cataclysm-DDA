@@ -191,14 +191,14 @@ int Character::effective_dispersion( int dispersion ) const
 double Character::aim_per_move( const item& gun, double recoil ) const
 {
     if( !gun.is_gun() ) {
-        return 0;
+        return 0.0;
     }
 
-    // get fastest sight that can be used to improve aim further below @ref recoil
-    int cost = INT_MAX;
+    // Get fastest sight that can be used to improve aim further below @ref recoil.
+    int sight_cost = INT_MAX;
     int limit = 0;
     if( !gun.has_flag( "DISABLE_SIGHTS" ) && effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
-        cost  = std::max( std::min( gun.volume() / 250_ml, 8 ), 1 );
+        sight_cost = 6;
         limit = effective_dispersion( gun.type->gun->sight_dispersion );
     }
 
@@ -207,45 +207,55 @@ double Character::aim_per_move( const item& gun, double recoil ) const
         if( mod->sight_dispersion < 0 || mod->aim_cost <= 0 ) {
             continue; // skip gunmods which don't provide a sight
         }
-        if( effective_dispersion( mod->sight_dispersion ) < recoil && mod->aim_cost < cost ) {
-            cost  = mod->aim_cost;
+        if( effective_dispersion( mod->sight_dispersion ) < recoil && mod->aim_cost < sight_cost ) {
+            sight_cost  = mod->aim_cost;
             limit = effective_dispersion( mod->sight_dispersion );
         }
     }
 
-    if( cost == INT_MAX ) {
+    if( sight_cost == INT_MAX ) {
         // No suitable sights (already at maxium aim).
         return 0;
     }
 
-    // Each 5 points (combined) of hand encumbrance increases aim cost by one unit.
-    cost += round ( ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 10.0 );
+    // Overal strategy for determining aim speed is to sum the factors that contribute to it,
+    // then scale that speed by current recoil level.
+    // Player capabilities make aiming faster, and aim speed slows down as it approaches 0.
+    // Base speed is non-zero to prevent extreme rate changes as aim speed approaches 0.
+    double aim_speed = 10.0;
 
-    /** @EFFECT_DEX increases aiming speed */
-    cost += 8 - dex_cur;
-
+    // Ranges [0 - 10]
     /** @EFFECT_PISTOL increases aiming speed for pistols */
     /** @EFFECT_SMG increases aiming speed for SMGs */
     /** @EFFECT_RIFLE increases aiming speed for rifles */
     /** @EFFECT_SHOTGUN increases aiming speed for shotguns */
     /** @EFFECT_LAUNCHER increases aiming speed for launchers */
-    cost += ( ( MAX_SKILL / 2 ) - get_skill_level( gun.gun_skill() ) ) * 2;
+    aim_speed += std::min( MAX_SKILL, static_cast<int>( get_skill_level( gun.gun_skill() ) ) );
 
-    cost = std::max( cost, 1 );
+    // Range [0 - 12]
+    /** @EFFECT_DEX increases aiming speed */
+    aim_speed += std::max( 0, get_dex() - 8 );
 
-    // Constant at which one unit of aim cost ~75 moves.
-    // (presuming aiming from nil to maximum aim via single sight at DEX 8)
-    int k = 25;
+    // Range [0 - 10]
+    aim_speed += 10 - sight_cost;
 
-    // Calculate rate (b) from the exponential function y = a(1-b)^x where a is recoil.
-    double improv = 1.0 - pow( 0.5, 1.0 / ( cost * k ) );
+    // Range [0 - 10]
+    aim_speed += std::max( 0, std::min( 10, 10 - ( gun.volume() / 250_ml ) ) );
 
-    // Scale by 5x temporarally as we're scaling MAX_RECOIL.
-    // Minimum improvment is 0.5MoA.
-    double aim = 5.0 * std::max( recoil * improv, 0.1 );
+    // Each 5 points (combined) of hand encumbrance decreases aim speed by one unit.
+    aim_speed -= std::round ( ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 10.0 );
+
+    // Just a raw scaling factor.
+    aim_speed *= 10;
+
+    // Scale rate logistically as recoil goes from MAX_RECOIL to 0.
+    aim_speed *= 1.0 - logarithmic_range( 0, MAX_RECOIL, recoil );
+
+    // Minimum improvment is 2MoA.  This mostly puts a cap on how long aiming for sniping takes.
+    aim_speed = std::max( aim_speed, 2.0 );
 
     // Never improve by more than the currently used sights permit.
-    return std::min( aim, recoil - limit );
+    return std::min( aim_speed, recoil - limit );
 }
 
 bool Character::move_effects(bool attacking)
@@ -1567,14 +1577,14 @@ int Character::get_int_bonus() const
 
 int Character::ranged_dex_mod() const
 {
-    ///\EFFECT_DEX <12 increases ranged penalty
-    return std::max( ( 12 - get_dex() ) * 15, 0 );
+    ///\EFFECT_DEX <20 increases ranged penalty
+    return std::max( ( 20 - get_dex() ) * 5, 0 );
 }
 
 int Character::ranged_per_mod() const
 {
-    ///\EFFECT_DEX <12 increases ranged aiming penalty
-    return std::max( ( 12 - get_per() ) * 15, 0 );
+    ///\EFFECT_DEX <20 increases ranged aiming penalty.
+    return std::max( ( 20 - get_per() ) * 2, 0 );
 }
 
 int Character::get_healthy() const
