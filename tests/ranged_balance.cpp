@@ -79,7 +79,7 @@ static void equip_shooter( npc &shooter, std::vector<std::string> apparel )
 std::array<double, 5> accuracy_levels = {{ accuracy_grazing, accuracy_standard, accuracy_goodhit, accuracy_critical, accuracy_headshot }};
 
 static std::array<statistics, 5> firing_test( dispersion_sources dispersion, int range,
-                                              std::array<double, 5> thresholds )
+        std::array<double, 5> thresholds )
 {
     std::array<statistics, 5> firing_stats;
     bool threshold_within_confidence_interval = false;
@@ -212,14 +212,64 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
 
     SECTION( "an expert shooter with an excellent pistol" ) {
         arm_shooter( shooter, "sw629", { "holo_sight", "match_trigger" } );
-        test_shooting_scenario( shooter, 6, 10, 15 );
+        test_shooting_scenario( shooter, 6, 10, 25 );
     }
     SECTION( "an expert shooter with an excellent smg" ) {
         arm_shooter( shooter, "ppsh", { "pistol_scope", "barrel_big" } );
-        test_shooting_scenario( shooter, 6, 20, 30 );
+        test_shooting_scenario( shooter, 6, 20, 45 );
     }
     SECTION( "an expert shooter with an excellent rifle" ) {
         arm_shooter( shooter, "browning_blr", { "rifle_scope" } );
         test_shooting_scenario( shooter, 6, 30, 60 );
+    }
+}
+
+static void range_test( std::array<double, 5> test_thresholds )
+{
+    int index = 0;
+    for( index = 0; index < accuracy_levels.size(); ++index ) {
+        if( test_thresholds[index] >= 0 ) {
+            break;
+        }
+    }
+    // Start at an absurdly high dispersion and count down.
+    int prev_dispersion = 6000;
+    for( int r = 1; r <= 60; ++r ) {
+        int found_dispersion = -1;
+        // We carry forward prev_dispersion because we never expet the next tier of range to hit the target accuracy level with a lower dispersion.
+        for( int d = prev_dispersion; d >= 0; --d ) {
+            std::array<statistics, 5> stats = firing_test( dispersion_sources( d ), r, test_thresholds );
+            // Switch this from INFO to WARN to debug the scanning process itself.
+            INFO( "Samples: " << stats[index].n() << " Range: " << r << " Dispersion: " << d <<
+                  " avg hit rate: " << stats[2].avg() );
+            if( stats[index].avg() > test_thresholds[index] ) {
+                found_dispersion = d;
+                prev_dispersion = d;
+                break;
+            }
+            // The intent here is to skip over dispersion values proportionally to how far from converging we are.
+            // As long as we check several adjacent dispersion values before a hit, we're good.
+            d -= int( ( test_thresholds[index] - stats[index].avg() ) * 10 ) * 10;
+        }
+        if( found_dispersion == -1.0 ) {
+            WARN( "No matching dispersion found" );
+        } else {
+            WARN( "Range: " << r << " Dispersion: " << found_dispersion );
+        }
+    }
+}
+
+// I added this to find inflection points where accuracy at a particular range crosses a threshold.
+// I don't see any assertions we can make about these thresholds offhand.
+TEST_CASE( "synthetic_range_test", "[.]" )
+{
+    SECTION( "quickdraw thresholds" ) {
+        range_test( {{ 0.1, -1, -1, -1, -1 }} );
+    }
+    SECTION( "max range thresholds" ) {
+        range_test( {{ -1, -1, 0.1, -1, -1 }} );
+    }
+    SECTION( "good hit thresholds" ) {
+        range_test( {{ -1, -1, 0.5, -1, -1 }} );
     }
 }
