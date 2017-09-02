@@ -1132,6 +1132,18 @@
     },
     {
         "type" : "keybinding",
+        "id":"TOGGLE_CITY_LABELS",
+        "category":"OVERMAP",
+        "name":"Toggle City Labels",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"C"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"TOGGLE_EXPLORED",
         "category":"OVERMAP",
         "name":"Toggle Explored",
