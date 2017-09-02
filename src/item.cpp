@@ -1926,7 +1926,7 @@ nc_color item::color_in_inventory() const
         // Cyan: will rot eventually
         const auto rating = u->will_eat( to_color );
         // TODO: More colors
-        switch( rating ) {
+        switch( *rating ) {
             case EDIBLE:
             case TOO_FULL:
                 if( preserves ) {

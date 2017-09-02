@@ -133,7 +133,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
         for( const itype *e : item_controller->all() ) {
             item food( e, calendar::turn, item::solitary_tag {} );
 
-            if( food.is_food() && g->u.can_eat( food ) == EDIBLE ) {
+            if( food.is_food() && g->u.can_eat( food ) ) {
                 dump( food );
             }
         }
