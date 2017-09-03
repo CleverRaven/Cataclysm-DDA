@@ -124,7 +124,7 @@ class optional
             }
             return get();
         }
-        constexpr const T &value() const {
+        const T &value() const {
             if( !full ) {
                 throw bad_optional_access();
             }
