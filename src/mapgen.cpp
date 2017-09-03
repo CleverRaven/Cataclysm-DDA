@@ -8524,6 +8524,14 @@ int map::place_npc( int x, int y, const string_id<npc_template> &type )
     return temp->getID();
 }
 
+std::vector<item*> map::place_items( const items_location loc, const int chance, const tripoint &f,
+                                     const tripoint &t, const bool ongrass, const int turn,
+                                     const int magazine, const int ammo )
+{
+    //@todo implement for 3D
+    return place_items( loc, chance, f.x, f.y, t.x, t.y, ongrass, turn, magazine, ammo );
+}
+
 // A chance of 100 indicates that items should always spawn,
 // the item group should be responsible for determining the amount of items.
 std::vector<item *> map::place_items( items_location loc, int chance, int x1, int y1,
