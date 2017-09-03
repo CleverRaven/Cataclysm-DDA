@@ -42,7 +42,7 @@ msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-08-25 17:05+0800\n"
-"PO-Revision-Date: 2017-08-27 09:36+0000\n"
+"PO-Revision-Date: 2017-09-03 07:39+0000\n"
 "Last-Translator: kiddragon Chung <kiddragonchung@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -596,7 +596,7 @@ msgstr "側邊欄位置"
 #: lang/extra/android/options.cpp src/options.cpp
 msgid ""
 "Switch between sidebar on the left or on the right side.  Requires restart."
-msgstr ""
+msgstr "把側邊欄設在左邊或者右邊。需要重新啟動遊戲。"
 
 #. ~ sidebar style
 #: lang/extra/android/options.cpp src/options.cpp
@@ -613,7 +613,7 @@ msgstr "側邊欄形式"
 
 #: lang/extra/android/options.cpp src/options.cpp
 msgid "Switch between a narrower or wider sidebar.  Requires restart."
-msgstr ""
+msgstr "設換較狹長或較寬的側邊欄。需要重新啟動遊戲。"
 
 #. ~ sidebar/message log flow direction
 #. ~ sidebar message log flow direction
@@ -28344,7 +28344,7 @@ msgstr ""
 #: lang/json/GENERIC_from_json.py
 msgid "pipe spear"
 msgid_plural "pipe spears"
-msgstr[0] ""
+msgstr[0] "鋼管矛"
 
 #. ~ Description for pipe spear
 #: lang/json/GENERIC_from_json.py
@@ -31470,7 +31470,7 @@ msgid ""
 "a food processor, a water-purification system, a drawer for holding extra "
 "tools, and for some insane reason, a press and die set for hand-loading "
 "ammunition."
-msgstr ""
+msgstr "這段廣告摘自一本DIY的教學說明書，*福口廚房好友* 聲稱是*家庭烹飪需求的完美解決方案！*。能夠提供極其便利的真空封裝與食物脫水機能，但是它熱情的推銷詞並沒有提到: A-用這東西很尷尬，B-你依然需要一個廚房來烹調食物，C-怎麼可能不耗電。若是你想要用它，你必須將這東西裝在車輛上，或是其他能夠供電的東西。除了烹飪功能，它還有食品加工機、淨水系統以及能收納額外工具的抽屜，也因為一些瘋狂的因素，這東西居然還有能手工壓填子彈的工具。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "vehicle forge rig"
@@ -32609,7 +32609,7 @@ msgstr "一個標準容量的彈匣，適用於流行的 S&W 22A 手槍。"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "ammo belt 5.56x45mm"
-msgstr ""
+msgstr "5.56x45mm彈鏈"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "LW-56 magazine"
@@ -32729,7 +32729,7 @@ msgstr "一個適用於白朗寧自動步槍的標準容量彈匣，能容納 20
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "ammo belt 7.62x51mm"
-msgstr ""
+msgstr "7.62x51mm彈鏈"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "FN FAL extended magazine"
@@ -33013,7 +33013,7 @@ msgstr "一個標準的 20 發彈匣，適用於 H&K 專屬的 4.6x30mm 子彈�
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "ammo belt .50 BMG"
-msgstr ""
+msgstr ".50 BMG彈鏈"
 
 #: lang/json/MAGAZINE_from_json.py
 msgid "Barrett magazine"
@@ -46329,7 +46329,7 @@ msgstr "一把雙手持的巨劍，源自於德國。具有真正的衝擊力。
 #: lang/json/TOOL_from_json.py
 msgid "food processor"
 msgid_plural "food processors"
-msgstr[0] ""
+msgstr[0] "食品加工機"
 
 #. ~ Description for food processor
 #: lang/json/TOOL_from_json.py
@@ -50839,11 +50839,11 @@ msgstr "剷除草堆"
 
 #: lang/json/construction_from_json.py
 msgid "Extract Sand"
-msgstr ""
+msgstr "挖取沙"
 
 #: lang/json/construction_from_json.py
 msgid "Extract Clay"
-msgstr ""
+msgstr "挖取黏土"
 
 #: lang/json/construction_from_json.py
 msgid "Build Charcoal Kiln"
@@ -56216,7 +56216,7 @@ msgid ""
 "Developed by the Soviets in 1945, this rifle was quickly replaced by the "
 "full-auto AK47.  However, due to its superb accuracy, low recoil and "
 "deployable intergrated bayonet, this gun maintains immense popularity."
-msgstr ""
+msgstr "於 1945 年由蘇聯開發，這把步槍很快就被全自動的 AK47 所取代。但因為其桌越的精準度、低後座力以及可伸展的內置刺刀，使這把槍仍然有著高人氣。"
 
 #: lang/json/gun_from_json.py
 msgid "Mosin-Nagant M44"
@@ -56674,7 +56674,7 @@ msgstr "這把短來福槍的設計在古代歐洲的戰場曾經佔盡優勢，
 #: lang/json/gun_from_json.py
 msgid "survivor's double-barrel flintlock"
 msgid_plural "survivor's double-barrel flintlocks"
-msgstr[0] ""
+msgstr[0] "生存者雙管燧發槍"
 
 #: lang/json/gun_from_json.py
 msgid ""
@@ -56802,7 +56802,7 @@ msgid ""
 "A bullpup pump-action shotgun, the Kel-Tec KSG uses a pair of magazine tubes"
 " to increase its capacity.  Each tube has to be loaded separately, but this "
 "offers the option of loading different ammunition for different situations."
-msgstr ""
+msgstr "一把犢牛式的泵動式散彈槍，Kel-Tec KSG使用一雙彈厘管來增加裝彈量，每支彈厘管必需分開裝填，但可以根據不同狀況去裝填不同的彈藥。"
 
 #: lang/json/gun_from_json.py
 msgid "L12 Defender"
@@ -60317,7 +60317,7 @@ msgstr "作用跟手錶一樣，讓玩家看到實際時間。"
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
 msgid "This gear allows to see <info>actual time</info>."
-msgstr ""
+msgstr "這個裝備可以讓你看到<info>實際的時間</info>。"
 
 #: lang/json/json_flag_from_json.py
 msgid ""
@@ -80283,7 +80283,7 @@ msgstr ""
 msgid ""
 "\"There's nothing wrong with eating people if you HAVE to.  I mean, I only "
 "did it because I didn't want to waste my potato chips!\""
-msgstr ""
+msgstr "\"如果你必須吃人的話那並沒有錯。我是想說，我只是因為不想浪費我的薯片而這樣做！\""
 
 #: lang/json/snippet_from_json.py
 msgid "\"all these robotic police really take the piss out of kops\""
@@ -91079,7 +91079,7 @@ msgstr "你清理了腳邊的 %s。"
 #: src/activity_handlers.cpp
 #, c-format
 msgid "You clear up the %s to your %s."
-msgstr ""
+msgstr "你將%s (%s) 清理了"
 
 #: src/activity_handlers.cpp
 msgid "You pause to engage in spiritual contemplation."
@@ -100392,7 +100392,7 @@ msgstr "要對 %s 做什麼？"
 
 #: src/game.cpp
 msgid "Talk"
-msgstr ""
+msgstr "談話"
 
 #: src/game.cpp
 msgid "Push away"
@@ -112220,7 +112220,7 @@ msgstr "%s 但是沒有造成傷害。"
 #: src/melee.cpp
 #, c-format
 msgid "%s. Critical!"
-msgstr ""
+msgstr "%s。爆擊！"
 
 #. ~ someone hits something for %d damage (critical)
 #: src/melee.cpp
