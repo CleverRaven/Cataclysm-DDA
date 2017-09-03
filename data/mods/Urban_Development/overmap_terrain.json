@@ -1405,7 +1405,7 @@
     "name": "house",
     "sym": 118,
     "color": "ltgreen",
-    "see_cost": 9,
+    "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
   },
@@ -1415,7 +1415,7 @@
     "name": "house",
     "sym": 118,
     "color": "ltgreen",
-    "see_cost": 9,
+    "see_cost": 10,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
   }

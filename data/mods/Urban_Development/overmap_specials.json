@@ -441,7 +441,7 @@
     ],
     "locations" : [ "land" ], 
     "city_distance" : [0, 2],
-    "city_sizes" : [3, 12],
+    "city_sizes" : [4, 12],
     "occurrences" : [1, 1],
     "rotate" : true, 
     "flags" : ["CLASSIC"]
