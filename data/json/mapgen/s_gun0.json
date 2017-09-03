@@ -43,18 +43,18 @@
         "-": "t_wall",
         ".": "t_floor",
         ":": "t_window_bars_alarm",
+        "=": "t_wall_metal",
         "_": "t_pavement",
-        "{": "t_floor",
-        "|": "t_wall",
         "l": "t_floor",
         "s": "t_floor",
-        "=": "t_wall_metal"
+        "{": "t_floor",
+        "|": "t_wall"
       },
       "furniture": {
         "#": "f_counter",
-        "{": "f_rack",
         "l": "f_locker",
-        "s": "f_sandbag_wall"
+        "s": "f_sandbag_wall",
+        "{": "f_rack"
       },
       "place_loot": [
         { "group": "guns_pistol_common", "x": 12, "y": 9, "chance": 75, "magazine": 100 },
