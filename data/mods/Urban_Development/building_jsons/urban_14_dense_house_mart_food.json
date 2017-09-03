@@ -116,7 +116,7 @@
       "fill_ter": "t_floor",
       "rows": [
         "NnnnnnnnnnnnN,,,,,,,,,,,",
-        "N,##,,,,,##,Iiiiiiiiiiii",
+        "N,##,,,,###,Iiiiiiiiiiii",
         "N;;;;;;;;;;;IT|2|X22XX22",
         "N;;G;;;;;;;;I2+212222X22",
         "N;;''''''';;IS|2|<22222X",
