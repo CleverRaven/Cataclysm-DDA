@@ -221,12 +221,12 @@ edible_ret_val player::can_eat( const item &food ) const
 {
     // @todo This condition occurs way too often. Unify it.
     if( is_underwater() ) {
-        return edible_ret_val::failure( _( "You can't do that while underwater." ) );
+        return edible_ret_val::make_failure( _( "You can't do that while underwater." ) );
     }
 
     const auto comest = food.type->comestible.get();
     if( comest == nullptr ) {
-        return edible_ret_val::failure( _( "That doesn't look edible." ) );
+        return edible_ret_val::make_failure( _( "That doesn't look edible." ) );
     }
 
     const bool eat_verb  = food.has_flag( "USE_EAT_VERB" );
@@ -236,7 +236,7 @@ edible_ret_val player::can_eat( const item &food ) const
     if( edible || drinkable ) {
         for( const auto &elem : food.type->materials ) {
             if( !elem->edible() ) {
-                return edible_ret_val::failure( _( "That doesn't look edible in its current form." ) );
+                return edible_ret_val::make_failure( _( "That doesn't look edible in its current form." ) );
             }
         }
     }
@@ -246,49 +246,49 @@ edible_ret_val player::can_eat( const item &food ) const
                          ? has_charges( comest->tool, 1 )
                          : has_amount( comest->tool, 1 );
         if( !has ) {
-            return edible_ret_val::failure( string_format( _( "You need a %s to consume that!" ),
-                                            item::nname( comest->tool ).c_str() ), NO_TOOL );
+            return edible_ret_val::make_failure( string_format( _( "You need a %s to consume that!" ),
+                                                 item::nname( comest->tool ).c_str() ), NO_TOOL );
         }
     }
 
     // For all those folks who loved eating marloss berries.  D:< mwuhahaha
     if( has_trait( trait_id( "M_DEPENDENT" ) ) && food.typeId() != "mycus_fruit" ) {
-        return edible_ret_val::failure( _( "We can't eat that.  It's not right for us." ),
-                                        INEDIBLE_MUTATION );
+        return edible_ret_val::make_failure( _( "We can't eat that.  It's not right for us." ),
+                                             INEDIBLE_MUTATION );
     }
     // Here's why PROBOSCIS is such a negative trait.
     if( has_trait( trait_id( "PROBOSCIS" ) ) && !drinkable ) {
-        return edible_ret_val::failure( _( "Ugh, you can't drink that!" ), INEDIBLE_MUTATION );
+        return edible_ret_val::make_failure( _( "Ugh, you can't drink that!" ), INEDIBLE_MUTATION );
     }
 
     if( has_trait( trait_id( "CARNIVORE" ) ) && nutrition_for( food.type ) > 0 &&
         food.has_any_flag( carnivore_blacklist ) && !food.has_flag( "CARNIVORE_OK" ) ) {
-        return edible_ret_val::failure( _( "Eww.  Inedible plant stuff!" ), INEDIBLE_MUTATION );
+        return edible_ret_val::make_failure( _( "Eww.  Inedible plant stuff!" ), INEDIBLE_MUTATION );
     }
 
     if( ( has_trait( trait_id( "HERBIVORE" ) ) || has_trait( trait_id( "RUMINANT" ) ) ) &&
         food.has_any_flag( herbivore_blacklist ) ) {
         // Like non-cannibal, but more strict!
-        return edible_ret_val::failure( _( "The thought of eating that makes you feel sick." ),
-                                        INEDIBLE_MUTATION );
+        return edible_ret_val::make_failure( _( "The thought of eating that makes you feel sick." ),
+                                             INEDIBLE_MUTATION );
     }
 
-    return edible_ret_val::success();
+    return edible_ret_val::make_success();
 }
 
 edible_ret_val player::will_eat( const item &food, bool interactive ) const
 {
     const auto ret = can_eat( food );
-    if( !ret ) {
+    if( !ret.success() ) {
         if( interactive ) {
-            add_msg_if_player( m_info, ret.c_str() );
+            add_msg_if_player( m_info, "%s", ret.c_str() );
         }
         return ret;
     }
 
     std::vector<edible_ret_val> consequences;
     const auto add_consequence = [&consequences]( const std::string & msg, edible_rating code ) {
-        consequences.emplace_back( edible_ret_val::failure( msg, code ) );
+        consequences.emplace_back( edible_ret_val::make_failure( msg, code ) );
     };
 
     const bool saprophage = has_trait( trait_id( "SAPROPHAGE" ) );
@@ -366,7 +366,7 @@ edible_ret_val player::will_eat( const item &food, bool interactive ) const
         }
     }
     // All checks ended, it's edible (or we're pretending it is)
-    return edible_ret_val::success();
+    return edible_ret_val::make_success();
 }
 
 bool player::eat( item &food, bool force )
@@ -377,7 +377,7 @@ bool player::eat( item &food, bool force )
     // Check if it's rotten before eating!
     food.calc_rot( global_square_location() );
     const auto ret = force ? can_eat( food ) : will_eat( food, is_player() );
-    if( !ret ) {
+    if( !ret.success() ) {
         return false;
     }
 
@@ -827,9 +827,9 @@ hint_rating player::rate_action_eat( const item &it ) const
     }
 
     const auto rating = will_eat( it );
-    if( rating ) {
+    if( rating.success() ) {
         return HINT_GOOD;
-    } else if( *rating == INEDIBLE || *rating == INEDIBLE_MUTATION ) {
+    } else if( rating.value() == INEDIBLE || rating.value() == INEDIBLE_MUTATION ) {
         return HINT_CANT;
     }
 
@@ -838,7 +838,7 @@ hint_rating player::rate_action_eat( const item &it ) const
 
 bool player::can_feed_battery_with( const item &it ) const
 {
-    if( !it.is_ammo() || can_eat( it ) || !has_active_bionic( bio_batteries ) ) {
+    if( !it.is_ammo() || can_eat( it ).success() || !has_active_bionic( bio_batteries ) ) {
         return false;
     }
 
@@ -880,7 +880,7 @@ bool player::can_feed_reactor_with( const item &it ) const
         }
     };
 
-    if( !it.is_ammo() || can_eat( it ) ) {
+    if( !it.is_ammo() || can_eat( it ).success() ) {
         return false;
     }
 
@@ -920,7 +920,7 @@ bool player::feed_reactor_with( item &it )
 
 bool player::can_feed_furnace_with( const item &it ) const
 {
-    if( !it.flammable() || it.has_flag( "RADIOACTIVE" ) || can_eat( it ) ) {
+    if( !it.flammable() || it.has_flag( "RADIOACTIVE" ) || can_eat( it ).success() ) {
         return false;
     }
 

@@ -10269,7 +10269,7 @@ void game::butcher()
             continue;
         }
 
-        if( u.can_disassemble( items[i], crafting_inv ) ) {
+        if( u.can_disassemble( items[i], crafting_inv ).success() ) {
             disassembles.push_back(i);
         } else if( first_item_without_tools == nullptr ) {
             first_item_without_tools = &items[i];
@@ -10296,7 +10296,7 @@ void game::butcher()
             add_msg( m_info, _("You don't have the necessary tools to disassemble any items here.") );
             // Just for the "You need x to disassemble y" messages
             const auto ret = u.can_disassemble( *first_item_without_tools, crafting_inv );
-            if( !ret ) {
+            if( !ret.success() ) {
                 add_msg( m_info, "%s", ret.c_str() );
             }
         }

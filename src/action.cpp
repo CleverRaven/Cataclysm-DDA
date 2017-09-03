@@ -466,7 +466,7 @@ bool can_butcher_at( const tripoint &p )
             if( factor != INT_MIN ) {
                 has_corpse = true;
             }
-        } else if( g->u.can_disassemble( items_it, crafting_inv ) ) {
+        } else if( g->u.can_disassemble( items_it, crafting_inv ).success() ) {
             has_item = true;
         }
     }

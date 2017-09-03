@@ -2636,7 +2636,7 @@ bool npc::consume_food()
                                 it.contents.front() : it;
         float cur_weight = rate_food( food_item, want_hunger, want_quench );
         // Note: will_eat is expensive, avoid calling it if possible
-        if( cur_weight > best_weight && will_eat( food_item ) ) {
+        if( cur_weight > best_weight && will_eat( food_item ).success() ) {
             best_weight = cur_weight;
             index = i;
         }

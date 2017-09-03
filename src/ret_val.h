@@ -21,28 +21,28 @@ class ret_val
 
         ret_val() = delete;
 
-        static ret_val success( const std::string &msg = std::string() ) {
+        static ret_val make_success( const std::string &msg = std::string() ) {
             return ret_val( default_success, msg );
         }
 
-        static ret_val failure( const std::string &msg, T code = default_failure ) {
-            if( code == default_success ) {
+        static ret_val make_failure( const std::string &msg, T val = default_failure ) {
+            if( val == default_success ) {
                 debugmsg( "Tried to declare failure using the code for success." );
-                return failure( default_failure );
+                return make_failure( default_failure );
             }
-            return ret_val( code, msg );
+            return ret_val( val, msg );
         }
 
-        static ret_val failure( T code = default_failure ) {
-            return failure( std::string(), code );
+        static ret_val make_failure( T val = default_failure ) {
+            return make_failure( std::string(), val );
         }
 
-        operator bool() const {
-            return code == default_success;
+        bool success() const {
+            return val == default_success;
         }
 
-        T operator *() const {
-            return code;
+        T value() const {
+            return val;
         }
 
         const std::string &str() const {
@@ -54,11 +54,11 @@ class ret_val
         }
 
     protected:
-        ret_val( T code, const std::string &msg ) : msg( msg ), code( code ) {}
+        ret_val( T val, const std::string &msg ) : msg( msg ), val( val ) {}
 
     private:
         std::string msg;
-        T code;
+        T val;
 };
 
 #endif // RET_VAL_H
