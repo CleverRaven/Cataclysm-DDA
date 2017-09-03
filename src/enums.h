@@ -114,7 +114,6 @@ enum art_effect_passive : int {
     AEP_SNAKES, // Summons friendly snakes when you're hit
     AEP_INVISIBLE, // Makes you invisible
     AEP_CLAIRVOYANCE, // See through walls
-    AEP_CLAIRVOYANCE_PLUS, // See through walls to a larger distance
     AEP_SUPER_CLAIRVOYANCE, // See through walls to a great distance
     AEP_STEALTH, // Your steps are quieted
     AEP_EXTINGUISH, // May extinguish nearby flames
@@ -144,6 +143,7 @@ enum art_effect_passive : int {
     AEP_MOVEMENT_NOISE, // Makes noise when you move
     AEP_BAD_WEATHER, // More likely to experience bad weather
     AEP_SICK, // Decreases health over time
+    AEP_CLAIRVOYANCE_PLUS, // See through walls to a larger distance; not bad effect, placement to preserve old saves.
 
     NUM_AEPS
 };
