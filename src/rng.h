@@ -70,7 +70,7 @@ inline V random_entry( const C &container )
  * or to the default value.
  */
 template<typename C, typename V = typename C::value_type>
-inline const V &random_entry_ref( const C &container )
+inline const V & random_entry_ref( const C &container )
 {
     if( container.empty() ) {
         static const V default_value = V();
