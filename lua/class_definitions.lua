@@ -1967,6 +1967,14 @@ You can get reference to current overmap with `g:get_cur_om()`.
 }
 
 enums = {
+    overmap_direction = {
+        "invalid",
+        "none",
+        "north",
+        "east",
+        "south",
+        "west",
+    },
     body_part = {
         "bp_torso",
         "bp_head",
@@ -2168,7 +2176,7 @@ Use `game.get_omt_id (g:get_cur_om(), player:global_omt_location())` to return o
         rval = "string"
     },
 --[[
-Returns `om_direction::name` and can take one of the following values: `invalid`, `none`, `north`, `east`, `south` or `west`.
+Returns `om_direction::id` and can take one of the following values: `invalid`, `none`, `north`, `east`, `south` or `west`.
 --]]
     get_omt_dir = {
         cpp_name = "get_omt_dir",

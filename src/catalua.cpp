@@ -28,7 +28,6 @@
 #include "itype.h"
 #include "morale_types.h"
 #include "trap.h"
-#include "overmap.h"
 #include "mtype.h"
 #include "field.h"
 #include "filesystem.h"
@@ -883,7 +882,7 @@ const std::string get_omt_id( const overmap &om, const tripoint &p )
 
 const std::string get_omt_dir( const overmap &om, const tripoint &p )
 {
-    return om_direction::name(om.get_ter( p ).obj().get_dir());
+    return om_direction::id( om.get_ter( p ).obj().get_dir() );
 }
 
 static std::string string_input_popup_wrapper(std::string title, int width, std::string desc) {
@@ -1187,6 +1186,7 @@ void game::init_lua()
 
     load_metatables( lua_state );
     LuaEnum<body_part>::export_global( lua_state, "body_part" );
+    LuaEnum<overmap_direction>::export_global( lua_state, "overmap_direction" );
 
     // override default print to our version
     lua_register( lua_state, "print", game_myPrint );
