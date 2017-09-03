@@ -100,6 +100,7 @@ static std::array<statistics, 5> firing_test( dispersion_sources dispersion, int
             // of reporting a bad result, so pretend we have high error if samples are low.
             if( firing_stats[i].n() < 100 ) {
                 threshold_within_confidence_interval = true;
+                continue;
             }
             double error = firing_stats[i].adj_wald_error();
             double avg = firing_stats[i].avg();
@@ -108,7 +109,7 @@ static std::array<statistics, 5> firing_test( dispersion_sources dispersion, int
                 threshold_within_confidence_interval = true;
             }
         }
-    } while( threshold_within_confidence_interval && firing_stats[0].n() < 100000 );
+    } while( threshold_within_confidence_interval && firing_stats[0].n() < 10000000 );
     return firing_stats;
 }
 
@@ -140,6 +141,10 @@ static void test_shooting_scenario( npc &shooter, int min_quickdraw_range,
         INFO( "Range: " << min_quickdraw_range );
         INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
         INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
+        CAPTURE( minimum_stats[0].n() );
+        CAPTURE( minimum_stats[0].adj_wald_error() );
+        CAPTURE( minimum_stats[1].n() );
+        CAPTURE( minimum_stats[1].adj_wald_error() );
         CHECK( minimum_stats[0].avg() < 0.2 );
         CHECK( minimum_stats[1].avg() < 0.1 );
     }
@@ -150,6 +155,8 @@ static void test_shooting_scenario( npc &shooter, int min_quickdraw_range,
         INFO( "Range: " << min_good_range );
         INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
         INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
+        CAPTURE( good_stats[2].n() );
+        CAPTURE( good_stats[2].adj_wald_error() );
         CHECK( good_stats[2].avg() > 0.5 );
     }
     {
@@ -159,6 +166,8 @@ static void test_shooting_scenario( npc &shooter, int min_quickdraw_range,
         INFO( "Range: " << max_good_range );
         INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
         INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
+        CAPTURE( good_stats[2].n() );
+        CAPTURE( good_stats[2].adj_wald_error() );
         CHECK( good_stats[2].avg() < 0.1 );
     }
 }
