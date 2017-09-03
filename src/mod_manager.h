@@ -129,7 +129,7 @@ class mod_manager
          * files are searched.
          */
         void load_mods_from( std::string path );
-        void load_user_mods_from(std::string path);
+        void load_user_mods_from( std::string path );
         /**
          * Load all mod information from a json file.
          * (@see load_modfile)
