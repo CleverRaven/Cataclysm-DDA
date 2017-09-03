@@ -43,7 +43,7 @@
         "-": "t_wall",
         ".": "t_floor",
         ":": "t_window_bars_alarm",
-        "=": "t_wall_metal",
+        "=": "t_strconc_wall",
         "_": "t_pavement",
         "l": "t_floor",
         "s": "t_floor",
