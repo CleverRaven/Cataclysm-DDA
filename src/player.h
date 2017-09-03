@@ -77,6 +77,7 @@ enum edible_rating {
     NO_TOOL
 };
 
+// EDIBLE/INEDIBLE are used as the defaults for success/failure respectively.
 using edible_ret_val = ret_val<edible_rating, EDIBLE, INEDIBLE>;
 
 enum class rechargeable_cbm {
