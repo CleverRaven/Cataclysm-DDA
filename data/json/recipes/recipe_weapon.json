@@ -69,6 +69,7 @@
   "time": 5000,
   "reversible": true,
   "autolearn": true,
+  "using": [ [ "filament", 50 ] ],
   "qualities":[
     {"id":"HAMMER","level":1}
   ],
@@ -83,11 +84,7 @@
       [ "rag", 1 ],
       [ "felt_patch", 1 ],
       [ "duct_tape", 50 ],
-      [ "cordage_short", 2, "LIST" ],
-      [ "sinew", 50 ],
-      [ "thread", 50 ],
-      [ "yarn", 50 ],
-      [ "plant_fibre", 50 ]
+      [ "cordage_short", 2, "LIST" ]
     ],
     [
       [ "scrap_copper", 2 ],
@@ -103,17 +100,14 @@
   "time": 5000,
   "reversible": true,
   "autolearn": true,
+  "using": [ [ "filament", 100 ] ],
   "qualities":[
     {"id":"HAMMER","level":1}
   ], "components": [
     [
       [ "rag", 1 ],
       [ "duct_tape", 50 ],
-      [ "cordage_short", 2, "LIST" ],
-      [ "sinew", 100 ],
-      [ "thread", 100 ],
-      [ "plant_fibre", 100 ],
-      [ "yarn", 100 ]
+      [ "cordage_short", 2, "LIST" ]
     ],
     [
       [ "spike", 1 ]
@@ -181,6 +175,7 @@
   "time": 1000,
   "reversible": true,
   "autolearn": true,
+  "using": [ [ "filament", 20 ] ],
   "qualities":[
     {"id":"CUT","level":1}
   ],
@@ -188,12 +183,6 @@
     [
       [ "leather", 1 ],
       [ "fur", 1 ]
-    ],
-    [
-      [ "plant_fibre", 20 ],
-      [ "sinew", 20 ],
-      [ "thread", 20 ],
-      [ "yarn", 20 ]
     ]
   ]
 },{
@@ -259,6 +248,7 @@
   "difficulty": 2,
   "time": 2000,
   "autolearn": true,
+  "using": [ [ "filament", 20 ] ],
   "qualities":[
     {"id":"CUT","level":1}
   ],
@@ -282,10 +272,6 @@
       [ "fur", 1 ]
     ],
     [
-      [ "plant_fibre", 20 ],
-      [ "sinew", 20 ],
-      [ "thread", 20 ],
-      [ "yarn", 20 ],
       [ "duct_tape", 20 ]
     ]
   ]
@@ -299,6 +285,7 @@
   "time": 2400,
   "reversible": true,
   "autolearn": true,
+  "using": [ [ "filament", 20 ] ],
   "qualities":[
     {"id":"CUT","level":1},
     {"id":"HAMMER","level":1}
@@ -324,10 +311,6 @@
       [ "fur", 1 ]
     ],
     [
-      [ "plant_fibre", 20 ],
-      [ "sinew", 20 ],
-      [ "thread", 20 ],
-      [ "yarn", 20 ],
       [ "duct_tape", 20 ],
       [ "cordage_short", 1, "LIST" ]
     ],
@@ -382,6 +365,7 @@
   "difficulty": 3,
   "time": 5000,
   "autolearn": true,
+  "using": [ [ "filament", 20 ] ],
   "qualities":[
     {"id":"CUT","level":1}
   ],
@@ -402,10 +386,6 @@
       [ "fur", 1 ]
     ],
     [
-      [ "plant_fibre", 20 ],
-      [ "sinew", 20 ],
-      [ "thread", 20 ],
-      [ "yarn", 20 ],
       [ "duct_tape", 20 ]
     ]
   ]
@@ -484,6 +464,7 @@
   "reversible": true,
   "decomp_learn": 1,
   "autolearn": true,
+  "using": [ [ "filament", 200 ] ],
   "book_learn": [[ "manual_archery", 2 ] , [ "recipe_bows", 1 ] , [ "book_archery", 3]],
   "qualities":[
     {"id":"CUT","level":1}
@@ -494,11 +475,7 @@
       [ "2x4", 1 ]
     ],
     [
-      [ "string_36", 2 ],
-      [ "thread", 200 ],
-      [ "sinew", 200 ],
-      [ "plant_fibre", 200 ],
-      [ "yarn", 200 ]
+      [ "string_36", 2 ]
     ]
   ]
 },{
@@ -511,6 +488,7 @@
   "time": 12000,
   "reversible": true,
   "autolearn": true,
+  "using": [ [ "filament", 200 ] ],
   "qualities":[
     {"id":"CUT","level":1}
   ],
@@ -520,11 +498,7 @@
       [ "2x4", 1 ]
     ],
     [
-      [ "cordage", 2, "LIST" ],
-      [ "thread", 200 ],
-      [ "sinew", 200 ],
-      [ "plant_fibre", 200 ],
-      [ "yarn", 200 ]
+      [ "cordage", 2, "LIST" ]
     ]
   ]
 },{
@@ -539,6 +513,7 @@
   "reversible": true,
   "decomp_learn": 1,
   "autolearn": true,
+  "using": [ [ "filament", 200 ] ],
   "book_learn": [[ "recipe_bows", 1 ] , [ "manual_archery", 2 ] , [ "book_archery", 2 ]],
   "qualities":[
     {"id":"CUT","level":1}
@@ -549,11 +524,7 @@
       [ "2x4", 1 ]
     ],
     [
-      [ "string_36", 2 ],
-      [ "thread", 200 ],
-      [ "sinew", 200 ],
-      [ "plant_fibre", 200 ],
-      [ "yarn", 200 ]
+      [ "string_36", 2 ]
     ]
   ]
 },{
@@ -566,6 +537,7 @@
   "difficulty": 5,
   "time": 25000,
   "book_learn" : [[ "recipe_bows", 6 ] , [ "manual_archery", 7]],
+  "using": [ [ "filament", 200 ] ],
   "qualities":[
     {"id":"CUT","level":1}
   ],
@@ -579,11 +551,7 @@
       [ "bone_human", 3 ]
     ],
     [
-      [ "string_36", 2 ],
-      [ "thread", 200 ],
-      [ "sinew", 200 ],
-      [ "plant_fibre", 200 ],
-      [ "yarn", 200 ]
+      [ "string_36", 2 ]
     ]
   ]
 },{
@@ -3956,6 +3924,7 @@
   "difficulty": 8,
   "time": 480000,
   "book_learn": [[ "textbook_armschina", 7 ]],
+  "using": [ [ "filament", 100 ] ],
   "qualities": [
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
@@ -3982,13 +3951,7 @@
     [
       [ "fur", 1 ],
       [ "leather", 1 ]
-    ],
-    [
-      [ "thread", 100 ],
-      [ "sinew", 100 ],
-      [ "plant_fibre", 100 ],
-      [ "yarn", 100 ]
-   ]
+    ]
   ]
 },{
   "type" : "recipe",
@@ -4155,6 +4118,7 @@
   "difficulty": 7,
   "time": 340000,
   "book_learn": [[ "textbook_weapeast", 6 ]],
+  "using": [ [ "filament", 20 ] ],
   "qualities": [
     {"id":"SAW_W","level":1},
     {"id":"CUT","level":1}
@@ -4176,10 +4140,6 @@
       [ "leather", 2 ]
      ],
      [
-      [ "plant_fibre", 20 ],
-      [ "sinew", 20 ],
-      [ "thread", 20 ],
-      [ "yarn", 20 ],
       [ "duct_tape", 20 ]
      ]
     ]
@@ -4832,6 +4792,7 @@
   "difficulty": 7,
   "time": 460000,
   "book_learn": [[ "textbook_armschina", 6 ]],
+  "using": [ [ "filament", 100 ] ],
   "qualities" : [
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
@@ -4858,12 +4819,6 @@
     [
       [ "fur", 2 ],
       [ "leather", 2 ]
-    ],
-    [
-      [ "thread", 100 ],
-      [ "sinew", 100 ],
-      [ "plant_fibre", 100 ],
-      [ "yarn", 100 ]
     ]
   ]
 },{

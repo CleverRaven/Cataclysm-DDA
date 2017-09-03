@@ -648,6 +648,7 @@
   "skill_used": "survival",
   "time": 5000,
   "autolearn": true,
+  "using": [ [ "filament", 40 ] ],
   "qualities":[{"id":"HAMMER","level":1}],
   "components": [
     [
@@ -655,13 +656,7 @@
       [ "2x4", 1 ]
     ],
     [ [ "rock", 1 ] ],
-    [
-      [ "cordage_short", 2, "LIST" ],
-      [ "sinew", 40 ],
-      [ "thread", 40 ],
-      [ "plant_fibre", 40 ],
-      [ "yarn", 40 ]
-    ]
+    [ [ "cordage_short", 2, "LIST" ] ]
   ]
 },{
   "type" : "recipe",
@@ -671,16 +666,13 @@
   "skill_used": "survival",
   "time": 5000,
   "autolearn": true,
+  "using": [ [ "filament", 40 ] ],
   "qualities":[{"id":"HAMMER","level":1}],
   "components": [
     [[ "stick", 1 ], [ "2x4", 1 ]],
     [[ "steel_chunk", 1 ], [ "steel_lump", 1 ]],
     [
-      [ "cordage_short", 2, "LIST" ],
-      [ "sinew", 40 ],
-      [ "thread", 40 ],
-      [ "plant_fibre", 40 ],
-      [ "yarn", 40 ]
+      [ "cordage_short", 2, "LIST" ]
     ]
   ]
 },{
@@ -725,6 +717,7 @@
   "skill_used": "survival",
   "time": 60000,
   "autolearn": true,
+  "using": [ [ "filament", 20 ] ],
   "qualities":[
     {"id":"HAMMER","level":1}
   ], "components": [
@@ -740,11 +733,7 @@
       [ "sharp_rock", 1 ]
     ],
     [
-      [ "cordage_short", 1, "LIST" ],
-      [ "sinew", 20 ],
-      [ "thread", 20 ],
-      [ "plant_fibre", 20 ],
-      [ "yarn", 20 ]
+      [ "cordage_short", 1, "LIST" ]
     ]
   ]
 },{
@@ -775,6 +764,7 @@
   "difficulty": 2,
   "time": 20000,
   "autolearn": true,
+  "using": [ [ "filament", 80 ] ],
   "qualities":[
     {"id":"HAMMER","level":1}
   ], "components": [
@@ -782,10 +772,6 @@
       [ "rock", 3 ]
     ],
     [
-      [ "sinew", 80 ],
-      [ "thread", 80 ],
-      [ "plant_fibre", 80 ],
-      [ "yarn", 80 ],
       [ "cordage", 1, "LIST" ]
     ]
   ]
@@ -799,6 +785,7 @@
   "difficulty": 2,
   "time": 60000,
   "autolearn": true,
+  "using": [ [ "filament", 40 ] ],
   "qualities":[
     {"id":"HAMMER","level":1}
   ], "components": [
@@ -812,11 +799,7 @@
       [ "sharp_rock", 1 ]
     ],
     [
-      [ "cordage_short", 2, "LIST" ],
-      [ "sinew", 40 ],
-      [ "thread", 40 ],
-      [ "plant_fibre", 40 ],
-      [ "yarn", 40 ]
+      [ "cordage_short", 2, "LIST" ]
     ]
   ]
 },{
@@ -829,6 +812,7 @@
   "time": 60000,
   "reversible": true,
   "autolearn": true,
+  "using": [ [ "filament", 40 ] ],
   "book_learn": [["mag_survival", 1] , ["atomic_survival", 1] , ["textbook_carpentry", 2]],
   "qualities":[
     {"id":"HAMMER","level":1}
@@ -850,11 +834,7 @@
     ],
     [
       [ "cordage_short", 2, "LIST" ],
-      [ "duct_tape", 40 ],
-      [ "sinew", 40 ],
-      [ "thread", 40 ],
-      [ "yarn", 40 ],
-      [ "plant_fibre", 40 ]
+      [ "duct_tape", 40 ]
     ]
   ]
 },{
@@ -867,6 +847,7 @@
   "difficulty": 3,
   "time": 60000,
   "autolearn": true,
+  "using": [ [ "filament", 40 ] ],
   "book_learn": [["mag_survival", 1] , ["atomic_survival", 1] , ["textbook_carpentry", 2]],
   "qualities":[
     {"id":"HAMMER","level":1}
@@ -881,11 +862,7 @@
       [ "sharp_rock", 1 ]
     ],
     [
-      [ "cordage_short", 2, "LIST" ],
-      [ "sinew", 40 ],
-      [ "thread", 40 ],
-      [ "plant_fibre", 40 ],
-      [ "yarn", 40 ]
+      [ "cordage_short", 2, "LIST" ]
     ]
   ]
 },{
@@ -898,6 +875,7 @@
     "difficulty": 2,
     "time": 60000,
     "autolearn": true,
+    "using": [ [ "filament", 40 ] ],
     "qualities":[
       {"id":"HAMMER","level":2},
       {"id":"CUT","level":1}
@@ -913,11 +891,7 @@
         [ "sharp_rock", 1 ]
       ],
       [
-        [ "cordage_short", 2, "LIST" ],
-        [ "sinew", 40 ],
-        [ "thread", 40 ],
-        [ "plant_fibre", 40 ],
-        [ "yarn", 40 ]
+        [ "cordage_short", 2, "LIST" ]
       ]
     ]
 },{
@@ -1051,6 +1025,7 @@
   "difficulty": 1,
   "time": 30000,
   "autolearn": true,
+  "using": [ [ "filament", 50 ] ],
   "qualities": [
     {"id":"CUT","level":1},
     {"id":"BOIL","level":1}
@@ -1068,11 +1043,7 @@
       [ "hstomach", 1]
     ],
     [
-      [ "cordage_short", 2, "LIST" ],
-      [ "sinew", 50 ],
-      [ "thread", 50 ],
-      [ "plant_fibre", 50],
-      [ "yarn", 25]
+      [ "cordage_short", 2, "LIST" ]
     ],
     [
       [ "pine_bough", 2 ]
@@ -1087,6 +1058,7 @@
   "difficulty": 1,
   "time": 45000,
   "autolearn": true,
+  "using": [ [ "filament", 150 ] ],
   "qualities": [
     {"id":"CUT","level":1},
     {"id":"BOIL","level":1}
@@ -1102,11 +1074,7 @@
       [ "hstomach_large", 1]
     ],
     [
-      [ "cordage_short", 3, "LIST" ],
-      [ "sinew", 150 ],
-      [ "thread", 150 ],
-      [ "plant_fibre", 150],
-      [ "yarn", 75]
+      [ "cordage_short", 3, "LIST" ]
     ],
     [
       [ "pine_bough", 4 ]
@@ -1130,10 +1098,6 @@
   ],
   "components": [
     [
-      [ "sinew", 40 ],
-      [ "thread", 40 ],
-      [ "plant_fibre", 40 ],
-      [ "yarn", 40 ],
       [ "cordage", 1, "LIST" ]
     ],
     [
@@ -1161,10 +1125,6 @@
         ],
   "components": [
     [
-      [ "sinew", 40 ],
-      [ "thread", 40 ],
-      [ "plant_fibre", 40 ],
-      [ "yarn", 40 ],
       [ "cordage", 1, "LIST" ]
     ],
     [
@@ -1192,10 +1152,6 @@
   ],
   "components": [
     [
-      [ "sinew", 40 ],
-      [ "thread", 40 ],
-      [ "plant_fibre", 40 ],
-      [ "yarn", 40 ],
       [ "cordage", 1, "LIST" ]
     ],
     [
@@ -1251,11 +1207,7 @@
       [ "tanned_hide", 4 ]
     ],
     [
-      [ "cordage", 2, "LIST" ],
-      [ "sinew", 500 ],
-      [ "thread", 500 ],
-      [ "plant_fibre", 500 ],
-      [ "yarn", 500 ]
+      [ "cordage", 2, "LIST" ]
     ]
   ]
 },{
@@ -1284,10 +1236,6 @@
       [ "tanned_hide", 1 ]
     ],
     [
-      [ "sinew", 60 ],
-      [ "thread", 60 ],
-      [ "plant_fibre", 60 ],
-      [ "yarn", 60 ],
       [ "cordage_short", 2, "LIST" ]
     ],
     [
@@ -1306,6 +1254,7 @@
   "reversible": true,
   "decomp_learn": 0,
   "autolearn": true,
+  "using": [ [ "filament", 360 ] ],
   "qualities" : [
     {"id":"CUT","level":1}
   ],
@@ -1314,10 +1263,6 @@
       [ "fur", 24 ]
     ],
     [
-      [ "thread", 360 ],
-      [ "sinew", 360 ],
-      [ "plant_fibre", 360 ],
-      [ "yarn", 360 ],
       [ "cordage", 1, "LIST" ]
     ]
   ]
@@ -1753,14 +1698,7 @@
   "time": 5000,
   "reversible": true,
   "autolearn": true,
-  "components": [
-    [
-      [ "thread", 50 ],
-      [ "sinew", 50 ],
-      [ "plant_fibre", 50 ],
-      [ "yarn", 25 ]
-    ]
-  ]
+  "using": [ [ "filament", 50 ] ]
 },{
   "type" : "recipe",
   "result": "string_36",
@@ -1770,13 +1708,10 @@
   "time": 5000,
   "reversible": true,
   "autolearn": true,
+  "using": [ [ "filament", 300 ] ],
   "components": [
     [
-      [ "string_6", 6 ],
-      [ "thread", 300 ],
-      [ "sinew", 300 ],
-      [ "plant_fibre", 300 ],
-      [ "yarn", 150 ]
+      [ "string_6", 6 ]
     ]
   ]
 },{
