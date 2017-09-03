@@ -31,6 +31,7 @@
       [ "brick_kiln", 80 ],
       [ "con_mix", 120 ],
       [ "elec_jackhammer", 40 ],
+      [ "metal_smoother", 90 ],
       [ "jackhammer", 40 ]
     ]
   },
