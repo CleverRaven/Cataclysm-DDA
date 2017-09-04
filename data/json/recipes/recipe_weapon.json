@@ -488,7 +488,6 @@
   "time": 12000,
   "reversible": true,
   "autolearn": true,
-  "using": [ [ "cordage", 2 ], [ "filament", 200 ] ],
   "qualities":[
     {"id":"CUT","level":1}
   ],
@@ -496,6 +495,10 @@
     [
       [ "stick", 1 ],
       [ "2x4", 1 ]
+    ],
+    [
+      [ "cordage", 2, "LIST" ],
+      [ "filament", 200, "LIST" ]
     ]
   ]
 },{
