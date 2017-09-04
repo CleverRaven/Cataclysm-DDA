@@ -5139,12 +5139,12 @@
             ]
         }
     },
-            {
+    {
         "type": "profession",
         "ident": "escape_con",
         "name": "Escaped Prisioner",
         "description": "When the cataclysm started you took your chance, now you roam looking for a place to stay. Hopefully those days workin in prison pay off..",
-        "points": 2,
+        "points": -2,
         "skills": [
             {
                 "level": 1,
@@ -5157,7 +5157,7 @@
         ],
         "items": {
             "both": [
-                "striped_shirt",
+                "technician_shirt_gray",
                 "striped_pants",
                 "greatcoat",
                 "manual_knives",
