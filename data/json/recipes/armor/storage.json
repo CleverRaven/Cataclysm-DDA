@@ -30,11 +30,10 @@
     "skills_required": [ "gun", 1 ],
     "time": 80000,
     "autolearn": true,
-    "using": [ [ "filament", 20 ] ],
+    "using": [ [ "cordage", 1 ], [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
-      [ [ "leather", 8 ], [ "rag", 8 ] ],
-      [ [ "cordage", 1, "LIST" ] ]
+      [ [ "leather", 8 ], [ "rag", 8 ] ]
     ]
   },
   {
@@ -47,11 +46,10 @@
     "skills_required": [ "gun", 1 ],
     "time": 18000,
     "autolearn": true,
-    "using": [ [ "filament", 60 ] ],
+    "using" : [ [ "cordage", 3 ], [ "filament", 60 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 3 ], [ "string_6", 18 ] ]
+      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ]
     ]
   },
   {
@@ -156,11 +154,10 @@
     "skills_required": [ [ "gun", 1 ], [ "rifle", 1 ] ],
     "time": 80000,
     "autolearn": true,
-    "using": [ [ "filament", 40 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "rag", 4 ] ],
-      [ [ "string_6", 4 ] ]
+      [ [ "string_6", 4 ], [ "filament", 40, "LIST" ] ]
     ]
   },
   {
@@ -188,11 +185,10 @@
     "skills_required": [ "stabbing", 1 ],
     "time": 65000,
     "autolearn": true,
-    "using": [ [ "filament", 10 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 3 ] ],
-      [ [ "string_6", 3 ] ]
+      [ [ "string_6", 3 ], [ "filament", 10, "LIST" ] ]
     ]
   },
   {
@@ -205,11 +201,10 @@
     "skills_required": [ "gun", 1 ],
     "time": 75000,
     "autolearn": true,
-    "using": [ [ "filament", 10 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
       [ [ "leather", 3 ] ],
-      [ [ "string_6", 3 ] ]
+      [ [ "string_6", 3 ], [ "filament", 10, "LIST" ] ]
     ]
   },
   {
@@ -243,11 +238,10 @@
     "skills_required": [ "gun", 1 ],
     "time": 78000,
     "autolearn": true,
-    "using": [ [ "filament", 10 ] ],
+    "using" : [ [ "cordage_short", 1 ], [ "filament", 10 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
-      [ [ "leather", 4 ], [ "rag", 4 ] ],
-      [ [ "cordage_short", 1, "LIST" ] ]
+      [ [ "leather", 4 ], [ "rag", 4 ] ]
     ]
   },
   {
@@ -295,11 +289,10 @@
     "skills_required": [ [ "gun", 1 ] ],
     "time": 80000,
     "autolearn": true,
-    "using": [ [ "filament", 20 ] ],
+    "using" : [ [ "cordage", 1 ], [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "cordage", 1, "LIST" ] ]
+      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ]
     ]
   },
   {
@@ -312,13 +305,12 @@
     "skills_required": [ [ "gun", 1 ], [ "launcher", 1 ] ],
     "time": 80000,
     "autolearn": true,
-    "using": [ [ "filament", 20 ] ],
+    "using" : [ [ "cordage", 1 ], [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [
       [ [ "rag", 4 ] ],
-      [ [ "plastic_chunk", 2 ] ],
-      [ [ "cordage", 1, "LIST" ] ]
+      [ [ "plastic_chunk", 2 ] ]
     ]
   },
   {
@@ -331,11 +323,10 @@
     "skills_required": [ "pistol", 1 ],
     "time": 15000,
     "autolearn": true,
-    "using": [ [ "filament", 20 ] ],
+    "using" : [ [ "cordage", 1 ], [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ] ]
+      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ]
     ]
   },
   {
@@ -380,11 +371,10 @@
     "skills_required": [ "survival", 1 ],
     "time": 10000,
     "autolearn": true,
-    "using": [ [ "filament", 20 ] ],
+    "using" : [ [ "cordage", 1 ], [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
-      [ [ "cordage", 1, "LIST" ] ]
+      [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ]
     ]
   },
   {
@@ -397,11 +387,10 @@
     "skills_required": [ "gun", 1 ],
     "time": 68000,
     "autolearn": true,
-    "using": [ [ "filament", 10 ] ],
+    "using" : [ [ "cordage_short", 1 ], [ "filament", 10 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
-      [ [ "leather", 3 ], [ "rag", 3 ] ],
-      [ [ "cordage_short", 1, "LIST" ] ]
+      [ [ "leather", 3 ], [ "rag", 3 ] ]
     ]
   },
   {
@@ -414,11 +403,10 @@
     "skills_required": [ "gun", 1 ],
     "time": 76000,
     "autolearn": true,
-    "using": [ [ "filament", 25 ] ],
+    "using" : [ [ "cordage_short", 1 ], [ "filament", 25 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
-      [ [ "leather", 6 ], [ "rag", 6 ] ],
-      [ [ "cordage_short", 1, "LIST" ] ]
+      [ [ "leather", 6 ], [ "rag", 6 ] ]
     ]
   },
   {
@@ -557,11 +545,10 @@
     "skill_used": "tailor",
     "time": 10000,
     "autolearn": true,
-    "using": [ [ "filament", 20 ] ],
+    "using" : [ [ "cordage", 1 ], [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
-      [ [ "rag", 6 ] ],
-      [ [ "cordage", 1, "LIST" ] ]
+      [ [ "rag", 6 ] ]
     ]
   },
   {
@@ -595,11 +582,10 @@
     "skills_required": [ "cutting", 1 ],
     "time": 15000,
     "autolearn": true,
-    "using": [ [ "filament", 20 ] ],
+    "using" : [ [ "cordage", 1 ], [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 1 ], [ "string_6", 6 ] ]
+      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ]
     ]
   },
   {
@@ -612,11 +598,10 @@
     "skills_required": [ "pistol", 2 ],
     "time": 15000,
     "autolearn": true,
-    "using": [ [ "filament", 40 ] ],
+    "using" : [ [ "cordage", 2 ], [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 2 ], [ "string_6", 12 ] ]
+      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ]
     ]
   },
   {
