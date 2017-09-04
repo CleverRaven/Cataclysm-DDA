@@ -32,9 +32,7 @@
     "autolearn": true,
     "using": [ [ "cordage", 1 ], [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "leather", 8 ], [ "rag", 8 ] ]
-    ]
+    "components": [ [ [ "leather", 8 ], [ "rag", 8 ] ] ]
   },
   {
     "result": "back_holster",
@@ -46,11 +44,9 @@
     "skills_required": [ "gun", 1 ],
     "time": 18000,
     "autolearn": true,
-    "using" : [ [ "cordage", 3 ], [ "filament", 60 ] ],
+    "using": [ [ "cordage", 3 ], [ "filament", 60 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ]
-    ]
+    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
   },
   {
     "result": "backpack",
@@ -238,11 +234,9 @@
     "skills_required": [ "gun", 1 ],
     "time": 78000,
     "autolearn": true,
-    "using" : [ [ "cordage_short", 1 ], [ "filament", 10 ] ],
+    "using": [ [ "cordage_short", 1 ], [ "filament", 10 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "leather", 4 ], [ "rag", 4 ] ]
-    ]
+    "components": [ [ [ "leather", 4 ], [ "rag", 4 ] ] ]
   },
   {
     "result": "chestrig",
@@ -289,11 +283,9 @@
     "skills_required": [ [ "gun", 1 ] ],
     "time": 80000,
     "autolearn": true,
-    "using" : [ [ "cordage", 1 ], [ "filament", 20 ] ],
+    "using": [ [ "cordage", 1 ], [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ]
-    ]
+    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
   },
   {
     "result": "grenade_pouch",
@@ -305,7 +297,7 @@
     "skills_required": [ [ "gun", 1 ], [ "launcher", 1 ] ],
     "time": 80000,
     "autolearn": true,
-    "using" : [ [ "cordage", 1 ], [ "filament", 20 ] ],
+    "using": [ [ "cordage", 1 ], [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [
@@ -323,11 +315,9 @@
     "skills_required": [ "pistol", 1 ],
     "time": 15000,
     "autolearn": true,
-    "using" : [ [ "cordage", 1 ], [ "filament", 20 ] ],
+    "using": [ [ "cordage", 1 ], [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ]
-    ]
+    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
   },
   {
     "result": "jerrypack",
@@ -371,11 +361,9 @@
     "skills_required": [ "survival", 1 ],
     "time": 10000,
     "autolearn": true,
-    "using" : [ [ "cordage", 1 ], [ "filament", 20 ] ],
+    "using": [ [ "cordage", 1 ], [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ]
-    ]
+    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ] ]
   },
   {
     "result": "legpouch",
@@ -387,11 +375,9 @@
     "skills_required": [ "gun", 1 ],
     "time": 68000,
     "autolearn": true,
-    "using" : [ [ "cordage_short", 1 ], [ "filament", 10 ] ],
+    "using": [ [ "cordage_short", 1 ], [ "filament", 10 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "leather", 3 ], [ "rag", 3 ] ]
-    ]
+    "components": [ [ [ "leather", 3 ], [ "rag", 3 ] ] ]
   },
   {
     "result": "legpouch_large",
@@ -403,11 +389,9 @@
     "skills_required": [ "gun", 1 ],
     "time": 76000,
     "autolearn": true,
-    "using" : [ [ "cordage_short", 1 ], [ "filament", 25 ] ],
+    "using": [ [ "cordage_short", 1 ], [ "filament", 25 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "leather", 6 ], [ "rag", 6 ] ]
-    ]
+    "components": [ [ [ "leather", 6 ], [ "rag", 6 ] ] ]
   },
   {
     "result": "legrig",
@@ -545,11 +529,9 @@
     "skill_used": "tailor",
     "time": 10000,
     "autolearn": true,
-    "using" : [ [ "cordage", 1 ], [ "filament", 20 ] ],
+    "using": [ [ "cordage", 1 ], [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "rag", 6 ] ]
-    ]
+    "components": [ [ [ "rag", 6 ] ] ]
   },
   {
     "result": "scabbard",
@@ -582,11 +564,9 @@
     "skills_required": [ "cutting", 1 ],
     "time": 15000,
     "autolearn": true,
-    "using" : [ [ "cordage", 1 ], [ "filament", 20 ] ],
+    "using": [ [ "cordage", 1 ], [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ]
-    ]
+    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
   },
   {
     "result": "sholster",
@@ -598,11 +578,9 @@
     "skills_required": [ "pistol", 2 ],
     "time": 15000,
     "autolearn": true,
-    "using" : [ [ "cordage", 2 ], [ "filament", 20 ] ],
+    "using": [ [ "cordage", 2 ], [ "filament", 20 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ]
-    ]
+    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
   },
   {
     "result": "straw_basket",
