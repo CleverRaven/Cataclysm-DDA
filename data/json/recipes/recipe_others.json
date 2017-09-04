@@ -1722,10 +1722,10 @@
   "time": 5000,
   "reversible": true,
   "autolearn": true,
-  "using": [ [ "filament", 300 ] ],
   "components": [
     [
-      [ "string_6", 6 ]
+      [ "string_6", 6 ],
+      [ "filament", 300, "LIST" ]
     ]
   ]
 },{
