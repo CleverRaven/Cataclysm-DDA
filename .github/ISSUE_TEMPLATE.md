@@ -4,7 +4,7 @@ Operating system:
 
 Tiles or curses:
 
-Mods active (if it may be related):
+Mods active:
 
 ### Expected behavior
 
