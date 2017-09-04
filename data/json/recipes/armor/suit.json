@@ -88,11 +88,9 @@
     "difficulty": 7,
     "time": 100000,
     "autolearn": true,
-    "using": [ [ "cordage", 2 ] ],
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
-    "components": [
-      [ [ "chitin_piece", 15 ] ]
-    ]
+    "using": [ [ "cordage", 2 ] ],
+    "components": [ [ [ "chitin_piece", 15 ] ] ]
   },
   {
     "result": "armor_farmor",
