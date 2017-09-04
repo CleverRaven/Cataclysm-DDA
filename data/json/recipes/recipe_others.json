@@ -1681,12 +1681,7 @@
   "time": 7500,
   "reversible": true,
   "autolearn": true,
-  "components": [
-    [
-      [ "string_36", 6 ],
-      [ "string_6", 36 ]
-    ]
-  ]
+  "using": [ [ "cordage", 6 ] ]
 },{
   "type" : "recipe",
   "result": "rope_6",
@@ -1720,8 +1715,7 @@
   "components": [
     [
       [ "rope_6", 5 ],
-      [ "string_36", 30 ],
-      [ "string_6", 180 ]
+      [ "cordage", 30, "LIST" ]
     ]
   ]
 },{
@@ -5271,8 +5265,7 @@
     [
       [ "rag", 2 ],
       [ "leather", 2 ],
-      [ "string_6", 6 ],
-      [ "string_36", 1 ],
+      [ "cordage", 1, "LIST" ],
       [ "duct_tape", 10 ],
       [ "medical_tape", 20 ]
     ]

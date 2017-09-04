@@ -9,14 +9,13 @@
     "skills_required": [ "pistol", 3 ],
     "time": 15000,
     "autolearn": true,
-    "using": [ [ "filament", 40 ] ],
+    "using": [ [ "filament", 40 ], [ "cordage", 2 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SEW", "level": 1 }
     ],
     "components": [
       [ [ "leather", 9 ], [ "tanned_hide", 1 ] ],
-      [ [ "string_36", 2 ], [ "string_6", 12 ] ],
       [ [ "scrap", 3 ] ]
     ]
   },
