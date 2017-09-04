@@ -5137,6 +5137,144 @@
                 "bra",
                 "panties"
             ]
+        },
+            {
+        "type": "profession",
+        "ident": "escape_con",
+        "name": "Escaped Prisioner",
+        "description": "When the cataclysm started you took your chance, now you roam looking for a place to stay. Hopefully those days workin in prison pay off..",
+        "points": 2,
+        "skills": [
+            {
+                "level": 1,
+                "name": "mechanics"
+            },
+            {
+                "level": 3,
+                "name": "fabrication"
+            }
+        ],
+        "items": {
+            "both": [
+                "striped_shirt",
+                "striped_pants",
+                "greatcoat",
+                "glass_shiv"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
         }
+    },
+    {
+        "type": "profession",
+        "ident": "bad_burglar",
+        "name": "Amateur Burglar",
+        "description": "You thought life'd be better after the catclysm. Oh, were you wrong.",
+        "points": 2,
+        "items": {
+            "both": [
+                "socks",
+                "boots",
+                "pants",
+                "tshirt",
+                "hoodie",
+                "gloves_light",
+                "balclava",
+                "swag_bag",
+                "makeshift_crowbar",
+                "picklocks"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "bio_sci",
+        "name": "Bionics Scientist",
+        "description": "Before all this you studied bioncs. You tried your experiments on animals and yourself.",
+        "points": 4,
+        "traits": [
+            "ANIMALDISCORD",
+            "PSYCHOPATH"
+        ],
+        "CBMs":[
+            "bio_tools",
+            "bio_power_storage",
+            "bio_batteries"
+        ],
+        "skills": [
+            {
+                "level": 1,
+                "name": "electronics"
+            },
+            {
+                "level": 2,
+                "name": "mechanics"
+            }
+        ],
+        "items": {
+            "both":[
+                "coat_lab",
+                "socks",
+                "pants",
+                "tshirt",
+               "gloves_rubber",
+               "id_science"
+
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "home_brew",
+        "name": "Home Brewing Druggie",
+        "description": "You made your living off of selling drugs. At least now there are fewer cops, excluding the rotten ones.",
+        "points": 2,
+        "traits": [
+            "NONADDICTIVE"
+        ],
+        "skills": [
+            {
+                "level": 3,
+                "name": "cooking"
+            }
+         ],
+        "items":{
+            "//": "Seperate Item Id's for contianed items.",
+            "both": [
+                "textbook_chemistry",
+                "mask_filter",
+                "pot_copper",
+                "joint",
+               "weed",
+               "coke"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    }
     }
 ]
