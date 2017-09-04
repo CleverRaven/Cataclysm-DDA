@@ -385,7 +385,6 @@
   "difficulty": 2,
   "time": 25000,
   "autolearn": true,
-  "using": [ [ "filament", 15 ] ],
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"SCREW","level":1},
@@ -413,9 +412,10 @@
     [
       [ "rag", 4 ],
       [ "leather", 4 ],
-      [ "cordage", 1, "LIST" ],
       [ "duct_tape", 20 ],
-      [ "medical_tape", 40 ]
+      [ "medical_tape", 40 ],
+      [ "cordage", 1, "LIST" ],
+      [ "filament", 15, "LIST" ]
     ]
   ]
 },{
@@ -648,15 +648,14 @@
   "skill_used": "survival",
   "time": 5000,
   "autolearn": true,
-  "using": [ [ "filament", 40 ] ],
+  "using" : [ [ "cordage_short", 2 ], [ "filament", 40 ] ],
   "qualities":[{"id":"HAMMER","level":1}],
   "components": [
     [
       [ "stick", 1 ],
       [ "2x4", 1 ]
     ],
-    [ [ "rock", 1 ] ],
-    [ [ "cordage_short", 2, "LIST" ] ]
+    [ [ "rock", 1 ] ]
   ]
 },{
   "type" : "recipe",
@@ -666,14 +665,11 @@
   "skill_used": "survival",
   "time": 5000,
   "autolearn": true,
-  "using": [ [ "filament", 40 ] ],
+  "using" : [ [ "cordage_short", 2 ], [ "filament", 40 ] ],
   "qualities":[{"id":"HAMMER","level":1}],
   "components": [
     [[ "stick", 1 ], [ "2x4", 1 ]],
-    [[ "steel_chunk", 1 ], [ "steel_lump", 1 ]],
-    [
-      [ "cordage_short", 2, "LIST" ]
-    ]
+    [[ "steel_chunk", 1 ], [ "steel_lump", 1 ]]
   ]
 },{
   "type" : "recipe",
@@ -717,7 +713,7 @@
   "skill_used": "survival",
   "time": 60000,
   "autolearn": true,
-  "using": [ [ "filament", 20 ] ],
+  "using" : [ [ "cordage_short", 1 ], [ "filament", 20 ] ],
   "qualities":[
     {"id":"HAMMER","level":1}
   ], "components": [
@@ -731,9 +727,6 @@
       [ "rock", 1 ],
       [ "ceramic_shard", 1 ],
       [ "sharp_rock", 1 ]
-    ],
-    [
-      [ "cordage_short", 1, "LIST" ]
     ]
   ]
 },{
@@ -764,15 +757,12 @@
   "difficulty": 2,
   "time": 20000,
   "autolearn": true,
-  "using": [ [ "filament", 80 ] ],
+  "using" : [ [ "cordage", 1 ], [ "filament", 80 ] ],
   "qualities":[
     {"id":"HAMMER","level":1}
   ], "components": [
     [
       [ "rock", 3 ]
-    ],
-    [
-      [ "cordage", 1, "LIST" ]
     ]
   ]
 },{
@@ -785,7 +775,7 @@
   "difficulty": 2,
   "time": 60000,
   "autolearn": true,
-  "using": [ [ "filament", 40 ] ],
+  "using" : [ [ "cordage_short", 2 ], [ "filament", 40 ] ],
   "qualities":[
     {"id":"HAMMER","level":1}
   ], "components": [
@@ -797,9 +787,6 @@
       [ "rock", 1 ],
       [ "ceramic_shard", 1 ],
       [ "sharp_rock", 1 ]
-    ],
-    [
-      [ "cordage_short", 2, "LIST" ]
     ]
   ]
 },{
@@ -812,7 +799,6 @@
   "time": 60000,
   "reversible": true,
   "autolearn": true,
-  "using": [ [ "filament", 40 ] ],
   "book_learn": [["mag_survival", 1] , ["atomic_survival", 1] , ["textbook_carpentry", 2]],
   "qualities":[
     {"id":"HAMMER","level":1}
@@ -834,6 +820,7 @@
     ],
     [
       [ "cordage_short", 2, "LIST" ],
+      [ "filament", 40, "LIST" ],
       [ "duct_tape", 40 ]
     ]
   ]
@@ -847,7 +834,7 @@
   "difficulty": 3,
   "time": 60000,
   "autolearn": true,
-  "using": [ [ "filament", 40 ] ],
+  "using" : [ [ "cordage_short", 2 ], [ "filament", 40 ] ],
   "book_learn": [["mag_survival", 1] , ["atomic_survival", 1] , ["textbook_carpentry", 2]],
   "qualities":[
     {"id":"HAMMER","level":1}
@@ -860,9 +847,6 @@
       [ "rock", 1 ],
       [ "ceramic_shard", 1 ],
       [ "sharp_rock", 1 ]
-    ],
-    [
-      [ "cordage_short", 2, "LIST" ]
     ]
   ]
 },{
@@ -875,7 +859,7 @@
     "difficulty": 2,
     "time": 60000,
     "autolearn": true,
-    "using": [ [ "filament", 40 ] ],
+    "using" : [ [ "cordage_short", 2 ], [ "filament", 40 ] ],
     "qualities":[
       {"id":"HAMMER","level":2},
       {"id":"CUT","level":1}
@@ -889,9 +873,6 @@
         [ "rock", 1 ],
         [ "ceramic_shard", 1 ],
         [ "sharp_rock", 1 ]
-      ],
-      [
-        [ "cordage_short", 2, "LIST" ]
       ]
     ]
 },{
@@ -1025,7 +1006,7 @@
   "difficulty": 1,
   "time": 30000,
   "autolearn": true,
-  "using": [ [ "filament", 50 ] ],
+  "using" : [ [ "cordage_short", 2 ], [ "filament", 50 ] ],
   "qualities": [
     {"id":"CUT","level":1},
     {"id":"BOIL","level":1}
@@ -1043,9 +1024,6 @@
       [ "hstomach", 1]
     ],
     [
-      [ "cordage_short", 2, "LIST" ]
-    ],
-    [
       [ "pine_bough", 2 ]
     ]
   ]
@@ -1058,7 +1036,7 @@
   "difficulty": 1,
   "time": 45000,
   "autolearn": true,
-  "using": [ [ "filament", 150 ] ],
+  "using" : [ [ "cordage_short", 3 ], [ "filament", 150 ] ],
   "qualities": [
     {"id":"CUT","level":1},
     {"id":"BOIL","level":1}
@@ -1074,9 +1052,6 @@
       [ "hstomach_large", 1]
     ],
     [
-      [ "cordage_short", 3, "LIST" ]
-    ],
-    [
       [ "pine_bough", 4 ]
     ]
   ]
@@ -1090,16 +1065,13 @@
   "difficulty": 2,
   "time": 30000,
   "autolearn": true,
-  "using": [ [ "filament", 60 ] ],
+  "using" : [ [ "cordage", 1 ], [ "filament", 60 ] ],
   "qualities": [{
           "id": "SEW",
           "level": 1
       }
   ],
   "components": [
-    [
-      [ "cordage", 1, "LIST" ]
-    ],
     [
       [ "leather", 6 ],
       [ "tanned_hide", 1 ],
@@ -1117,16 +1089,13 @@
   "difficulty": 2,
   "time": 30000,
   "autolearn": true,
-  "using": [ [ "filament", 90 ] ],
+  "using" : [ [ "cordage", 1 ], [ "filament", 90 ] ],
         "qualities": [{
                 "id": "SEW",
                 "level": 1
             }
         ],
   "components": [
-    [
-      [ "cordage", 1, "LIST" ]
-    ],
     [
       [ "leather", 14 ],
       [ "tanned_hide", 2 ],
@@ -1144,16 +1113,13 @@
   "difficulty": 3,
   "time": 30000,
   "autolearn": true,
-  "using": [ [ "filament", 120 ] ],
+  "using" : [ [ "cordage", 1 ], [ "filament", 120 ] ],
   "qualities": [{
           "id": "SEW",
           "level": 1
       }
   ],
   "components": [
-    [
-      [ "cordage", 1, "LIST" ]
-    ],
     [
       [ "leather", 24 ],
       [ "tanned_hide", 4 ],
@@ -1191,7 +1157,7 @@
   "difficulty": 2,
   "time": 50000,
   "autolearn": true,
-  "using": [ [ "filament", 200 ] ],
+  "using" : [ [ "cordage", 2 ], [ "filament", 200 ] ],
   "qualities": [{
           "id": "SEW",
           "level": 1
@@ -1205,9 +1171,6 @@
     [
       [ "leather", 20 ],
       [ "tanned_hide", 4 ]
-    ],
-    [
-      [ "cordage", 2, "LIST" ]
     ]
   ]
 },{
@@ -1220,7 +1183,7 @@
   "skills_required": [ "tailor", 1 ],
   "time": 20000,
   "autolearn": true,
-  "using": [ [ "filament", 50 ] ],
+  "using" : [ [ "cordage_short", 2 ], [ "filament", 50 ] ],
   "qualities": [{
           "id": "SEW",
           "level": 1
@@ -1234,9 +1197,6 @@
     [
       [ "leather", 4 ],
       [ "tanned_hide", 1 ]
-    ],
-    [
-      [ "cordage_short", 2, "LIST" ]
     ],
     [
       [ "damaged_shelter_kit", 1 ]
@@ -1254,16 +1214,13 @@
   "reversible": true,
   "decomp_learn": 0,
   "autolearn": true,
-  "using": [ [ "filament", 360 ] ],
+  "using" : [ [ "cordage", 1 ], [ "filament", 360 ] ],
   "qualities" : [
     {"id":"CUT","level":1}
   ],
   "components": [
     [
       [ "fur", 24 ]
-    ],
-    [
-      [ "cordage", 1, "LIST" ]
     ]
   ]
 },{
