@@ -5159,7 +5159,9 @@
                 "striped_shirt",
                 "striped_pants",
                 "greatcoat",
-                "glass_shiv"
+                "manual_knives",
+                "knife_steak",
+                "gloves_fingerless"
             ],
             "male": [
                 "boxer_shorts"
@@ -5230,6 +5232,7 @@
                 "pants",
                 "tshirt",
                "gloves_rubber",
+               "boots_rubber",
                "id_science"
 
             ],
