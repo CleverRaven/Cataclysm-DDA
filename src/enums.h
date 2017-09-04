@@ -143,6 +143,7 @@ enum art_effect_passive : int {
     AEP_MOVEMENT_NOISE, // Makes noise when you move
     AEP_BAD_WEATHER, // More likely to experience bad weather
     AEP_SICK, // Decreases health over time
+    AEP_CLAIRVOYANCE_PLUS, // See through walls to a larger distance; not bad effect, placement to preserve old saves.
 
     NUM_AEPS
 };

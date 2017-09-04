@@ -1302,10 +1302,10 @@ void npc::decide_needs()
     invslice slice = inv.slice();
     for (auto &i : slice) {
         if( i->front().is_food( )) {
-            needrank[ need_food ] += nutrition_for( i->front().type ) / 4;
+            needrank[ need_food ] += nutrition_for( i->front() ) / 4;
             needrank[ need_drink ] += i->front().type->comestible->quench / 4;
         } else if( i->front().is_food_container() ) {
-            needrank[ need_food ] += nutrition_for( i->front().contents.front().type ) / 4;
+            needrank[ need_food ] += nutrition_for( i->front().contents.front() ) / 4;
             needrank[ need_drink ] += i->front().contents.front().type->comestible->quench / 4;
         }
     }
@@ -1471,11 +1471,11 @@ int npc::value( const item &it, int market_price ) const
 
     if( it.is_food() ) {
         int comestval = 0;
-        if( nutrition_for( it.type ) > 0 || it.type->comestible->quench > 0 ) {
+        if( nutrition_for( it ) > 0 || it.type->comestible->quench > 0 ) {
             comestval++;
         }
         if( get_hunger() > 40 ) {
-            comestval += ( nutrition_for( it.type ) + get_hunger() - 40 ) / 6;
+            comestval += ( nutrition_for( it ) + get_hunger() - 40 ) / 6;
         }
         if( get_thirst() > 40 ) {
             comestval += ( it.type->comestible->quench + get_thirst() - 40 ) / 4;

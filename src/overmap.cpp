@@ -4340,7 +4340,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
             overmap_buffer.create_custom_overmap( new_om_addr.x, new_om_addr.y, enabled_specials );
         } else {
             add_msg( _( "Unable to place all configured specials, some missions may fail to initialize." ) );
-	}
+        }
     }
     // Then fill in non-mandatory specials.
     place_specials_pass( enabled_specials, sectors, true );

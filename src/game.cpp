@@ -13812,6 +13812,10 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
             add_msg(m_good, _("You can see through walls!"));
             break;
 
+        case AEP_CLAIRVOYANCE_PLUS:
+            add_msg(m_good, _("You can see through walls!"));
+            break;
+
         case AEP_SUPER_CLAIRVOYANCE:
             add_msg(m_good, _("You can see through everything!"));
             break;
