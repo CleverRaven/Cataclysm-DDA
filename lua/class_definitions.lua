@@ -1105,7 +1105,6 @@ classes = {
             { "int", "int", "int" },
         },
         functions = {
-            { name = "serialize", rval = "string", args = { } },
         }
     },
     uimenu = {

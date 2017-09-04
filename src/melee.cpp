@@ -1464,8 +1464,6 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
 
     target = t.disp_name();
 
-    tripoint tarpos = t.pos();
-
     // Bonus attacks!
     bool shock_them = (has_active_bionic( bionic_id( "bio_shock" ) ) && power_level >= 2 &&
                        (unarmed_attack() || weapon.made_of( material_id( "iron" ) ) ||
