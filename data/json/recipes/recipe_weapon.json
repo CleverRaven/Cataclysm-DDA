@@ -69,7 +69,6 @@
   "time": 5000,
   "reversible": true,
   "autolearn": true,
-  "using": [ [ "filament", 50 ] ],
   "qualities":[
     {"id":"HAMMER","level":1}
   ],
@@ -84,7 +83,8 @@
       [ "rag", 1 ],
       [ "felt_patch", 1 ],
       [ "duct_tape", 50 ],
-      [ "cordage_short", 2, "LIST" ]
+      [ "cordage_short", 2, "LIST" ],
+      [ "filament", 50, "LIST" ]
     ],
     [
       [ "scrap_copper", 2 ],
@@ -100,14 +100,14 @@
   "time": 5000,
   "reversible": true,
   "autolearn": true,
-  "using": [ [ "filament", 100 ] ],
   "qualities":[
     {"id":"HAMMER","level":1}
   ], "components": [
     [
       [ "rag", 1 ],
       [ "duct_tape", 50 ],
-      [ "cordage_short", 2, "LIST" ]
+      [ "cordage_short", 2, "LIST" ],
+      [ "filament", 100, "LIST" ]
     ],
     [
       [ "spike", 1 ]
@@ -285,7 +285,6 @@
   "time": 2400,
   "reversible": true,
   "autolearn": true,
-  "using": [ [ "filament", 20 ] ],
   "qualities":[
     {"id":"CUT","level":1},
     {"id":"HAMMER","level":1}
@@ -312,7 +311,8 @@
     ],
     [
       [ "duct_tape", 20 ],
-      [ "cordage_short", 1, "LIST" ]
+      [ "cordage_short", 1, "LIST" ],
+      [ "filament", 20, "LIST" ]
     ],
     [
       [ "scrap_copper", 3 ],
@@ -488,7 +488,7 @@
   "time": 12000,
   "reversible": true,
   "autolearn": true,
-  "using": [ [ "filament", 200 ] ],
+  "using": [ [ "cordage", 2 ], [ "filament", 200 ] ],
   "qualities":[
     {"id":"CUT","level":1}
   ],
@@ -496,9 +496,6 @@
     [
       [ "stick", 1 ],
       [ "2x4", 1 ]
-    ],
-    [
-      [ "cordage", 2, "LIST" ]
     ]
   ]
 },{
