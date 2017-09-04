@@ -5258,7 +5258,6 @@
             }
          ],
         "items":{
-            "//": "Seperate Item Id's for contianed items.",
             "both": [
                 "textbook_chemistry",
                 "mask_filter",
