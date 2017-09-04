@@ -8,7 +8,7 @@
     "difficulty": 4,
     "time": 60000,
     "autolearn": true,
-    "using": [ [ "forging_standard", 1 ], [ "steel_standard", 1 ] ],
+    "using": [ [ "forging_standard", 1 ], [ "steel_standard", 1 ], [ "filament", 100 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
@@ -20,8 +20,7 @@
     ],
     "components": [
       [ [ "2x4", 3 ], [ "stick", 6 ] ],
-      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ],
-      [ [ "thread", 100 ], [ "sinew", 100 ], [ "plant_fibre", 100 ], [ "yarn", 100 ] ]
+      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
     ]
   },
   {
