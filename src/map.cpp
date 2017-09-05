@@ -44,6 +44,7 @@
 #include <stdlib.h>
 #include <cstring>
 #include <algorithm>
+#include <cassert>
 
 const mtype_id mon_zombie( "mon_zombie" );
 
@@ -7820,12 +7821,6 @@ size_t map::get_nonant( const tripoint &gridp ) const
 tinymap::tinymap( int mapsize, bool zlevels )
     : map( mapsize, zlevels )
 {
-}
-
-furn_id find_furn_id( const furn_str_id id, bool complain = true )
-{
-    ( void )complain; //FIXME: complain unused
-    return id.id();
 }
 
 void map::draw_line_ter( const ter_id type, int x1, int y1, int x2, int y2 )

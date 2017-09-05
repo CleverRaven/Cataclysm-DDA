@@ -1945,7 +1945,6 @@ class edit_mapgen_callback : public uimenu_callback
 int editmap::edit_mapgen()
 {
     int ret = 0;
-    tripoint orig = target;
     uimenu gmenu;
     gmenu.w_width = width;
     gmenu.w_height = TERMY - infoHeight;

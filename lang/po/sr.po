@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-18 19:40+0800\n"
-"PO-Revision-Date: 2017-08-18 11:54+0000\n"
+"POT-Creation-Date: 2017-08-25 17:05+0800\n"
+"PO-Revision-Date: 2017-08-25 09:13+0000\n"
 "Last-Translator: Brett Dong <brett.browning.dong@gmail.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -8584,6 +8584,21 @@ msgid ""
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
+msgid "pair of eclipse glasses"
+msgid_plural "pairs of eclipse glasses"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#. ~ Description for pair of eclipse glasses
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A pair of cardboard-framed glasses with UV and IR-filtered lenses topped "
+"with a layer of aluminium coating. They allow safely staring at extremely "
+"bright and harmful sources of light like the sun during a solar eclipse."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
 msgid "pair of bifocal glasses"
 msgid_plural "pairs of bifocal glasses"
 msgstr[0] ""
@@ -14730,8 +14745,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Adrenaline Pump
 #. ~ Description for Adrenaline Pump CBM
+#. ~ Description for Adrenaline Pump
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A stimulator system has been implanted alongside your adrenal glands, "
@@ -14746,8 +14761,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Active Defense System
 #. ~ Description for Active Defense System CBM
+#. ~ Description for Active Defense System
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  Anything"
@@ -14777,8 +14792,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Alarm System
 #. ~ Description for Alarm System CBM
+#. ~ Description for Alarm System
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A motion-detecting alarm system will notice almost all movement within a "
@@ -14793,8 +14808,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Alloy Plating - Arms
 #. ~ Description for Arms Alloy Plating CBM
+#. ~ Description for Alloy Plating - Arms
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "The flesh on your arms has been replaced by a strong armor, protecting you "
@@ -14808,8 +14823,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Protective Lenses
 #. ~ Description for Protective Lenses CBM
+#. ~ Description for Protective Lenses
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your eye sockets have been sealed with highly protective mirrored lenses and"
@@ -14824,8 +14839,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Alloy Plating - Head
 #. ~ Description for Head Alloy Plating CBM
+#. ~ Description for Alloy Plating - Head
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "The flesh on your head has been replaced by a strong armor, protecting both "
@@ -14839,8 +14854,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Alloy Plating - Legs
 #. ~ Description for Legs Alloy Plating CBM
+#. ~ Description for Alloy Plating - Legs
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "The flesh on your legs has been replaced by a strong armor, protecting you "
@@ -14854,8 +14869,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Alloy Plating - Torso
 #. ~ Description for Torso Alloy Plating CBM
+#. ~ Description for Alloy Plating - Torso
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "The flesh on your torso has been replaced by a strong armor, protecting you "
@@ -14869,8 +14884,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Battery System
 #. ~ Description for Battery System CBM
+#. ~ Description for Battery System
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You have a battery draining attachment, and thus can make use of the energy "
@@ -14885,8 +14900,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Monomolecular Blade
 #. ~ Description for Monomolecular Blade CBM
+#. ~ Description for Monomolecular Blade
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A deadly foot-long blade made of advanced material now resides inside your "
@@ -14917,8 +14932,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Blood Analysis
 #. ~ Description for Blood Analysis CBM
+#. ~ Description for Blood Analysis
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Small sensors have been implanted in your heart, allowing you to analyze "
@@ -14932,8 +14947,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Blood Filter
 #. ~ Description for Blood Filter CBM
+#. ~ Description for Blood Filter
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A filtration system in your heart allows you to actively filter out chemical"
@@ -14949,8 +14964,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Cable Charger System
 #. ~ Description for Cable Charger System CBM
+#. ~ Description for Cable Charger System
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You have a complex port mounted above your hip.  While active, it will drain"
@@ -14964,8 +14979,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Subdermal Carbon Filament
 #. ~ Description for Subdermal Carbon Filament CBM
+#. ~ Description for Subdermal Carbon Filament
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Lying just beneath your skin is a thin armor made of carbon nanotubes.  This"
@@ -14979,8 +14994,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Chain Lightning
 #. ~ Description for Chain Lightning CBM
+#. ~ Description for Chain Lightning
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your body is equipped with a chain lightning generator, allowing you to emit"
@@ -14995,8 +15010,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Bionic Claws
 #. ~ Description for Bionic Claws CBM
+#. ~ Description for Bionic Claws
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Vicious claws have been installed inside your fingers, allowing you to "
@@ -15012,8 +15027,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Internal Climate Control
 #. ~ Description for Internal Climate Control CBM
+#. ~ Description for Internal Climate Control
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Throughout your body lies a network of thermal piping which eases the "
@@ -15027,8 +15042,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Cloaking System
 #. ~ Description for Cloaking System CBM
+#. ~ Description for Cloaking System
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "This high-power system uses a set of cameras and LEDs to make you blend into"
@@ -15062,8 +15077,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Wired Reflexes
 #. ~ Description for Wired Reflexes CBM
+#. ~ Description for Wired Reflexes
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your reaction time has been greatly enhanced with bionic nerve stimulators, "
@@ -15077,8 +15092,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Expanded Digestive System
 #. ~ Description for Expanded Digestive System CBM
+#. ~ Description for Expanded Digestive System
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You have been outfitted with three synthetic stomachs and industrial-grade "
@@ -15127,8 +15142,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Ethanol Burner
 #. ~ Description for Ethanol Burner CBM
+#. ~ Description for Ethanol Burner
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You burn alcohol as fuel in an extremely efficient reaction.  However, you "
@@ -15142,8 +15157,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Aero-Evaporator
 #. ~ Description for Aero-Evaporator CBM
+#. ~ Description for Aero-Evaporator
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "This unit draws moisture from the surrounding air, which then is poured from"
@@ -15157,8 +15172,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Diamond Cornea
 #. ~ Description for Diamond Cornea CBM
+#. ~ Description for Diamond Cornea
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid "Your vision is greatly enhanced, giving you a +2 bonus to perception."
 msgstr ""
@@ -15170,8 +15185,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Telescopic Eyes
 #. ~ Description for Telescopic Eyes CBM
+#. ~ Description for Telescopic Eyes
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Much of the material in your inner eye has been removed and replaced with an"
@@ -15187,8 +15202,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Facial Distortion
 #. ~ Description for Facial Distortion CBM
+#. ~ Description for Facial Distortion
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Through controlled application of electrochemical impulses, you are capable "
@@ -15203,8 +15218,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Dielectric Capacitance System
 #. ~ Description for Dielectric Capacitance System CBM
+#. ~ Description for Dielectric Capacitance System
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Throughout your body lies a network of miniature piezoelectric capacitors "
@@ -15219,8 +15234,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Fingerhack
 #. ~ Description for Fingerhack CBM
+#. ~ Description for Fingerhack
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "One of your fingers has an electrohack embedded in it; an all-purpose "
@@ -15236,8 +15251,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Flashbang Generator
 #. ~ Description for Flashbang Generator CBM
+#. ~ Description for Flashbang Generator
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Light emitting diodes integrated into your skin can release a flash "
@@ -15252,8 +15267,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Cranial Flashlight
 #. ~ Description for Cranial Flashlight CBM
+#. ~ Description for Cranial Flashlight
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid "Mounted between your eyes is a small but powerful LED flashlight."
 msgstr ""
@@ -15280,8 +15295,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Integrated Dosimeter
 #. ~ Description for Integrated Dosimeter CBM
+#. ~ Description for Integrated Dosimeter
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Small radiation sensors have been implanted throughout your body, allowing "
@@ -15296,8 +15311,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Oxygenator
 #. ~ Description for Oxygenator CBM
+#. ~ Description for Oxygenator
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A complex oxygen delivery system.  Improves the ability to extract oxygen "
@@ -15312,8 +15327,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Terranian Sonar
 #. ~ Description for Terranian Sonar CBM
+#. ~ Description for Terranian Sonar
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your feet are equipped with precision sonar equipment, allowing you to "
@@ -15327,8 +15342,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Heat Drain
 #. ~ Description for Heat Drain CBM
+#. ~ Description for Heat Drain
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "While fighting unarmed against a warm-blooded opponent, there is a chance "
@@ -15343,8 +15358,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Thermal Dissipation
 #. ~ Description for Thermal Dissipation CBM
+#. ~ Description for Thermal Dissipation
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Powerful heatsinks and supermaterials are woven into your flesh.  While "
@@ -15359,8 +15374,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Hydraulic Muscles
 #. ~ Description for Hydraulic Muscles CBM
+#. ~ Description for Hydraulic Muscles
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "While activated, your muscles will be greatly enhanced, increasing your "
@@ -15388,8 +15403,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Cerebral Booster
 #. ~ Description for Cerebral Booster CBM
+#. ~ Description for Cerebral Booster
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your brain has been enhanced with bionic coprocessors, giving you a +2 bonus"
@@ -15403,8 +15418,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Finger-Mounted Laser
 #. ~ Description for Finger-Mounted Laser CBM
+#. ~ Description for Finger-Mounted Laser
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "One of your fingers has a small high-powered laser embedded in it.  This "
@@ -15419,8 +15434,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Leukocyte Breeder System
 #. ~ Description for Leukocyte Breeder System CBM
+#. ~ Description for Leukocyte Breeder System
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You are equipped with bionic stimulators which augment your haematopoiesis "
@@ -15436,8 +15451,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Mini-Flamethrower
 #. ~ Description for Mini-Flamethrower CBM
+#. ~ Description for Mini-Flamethrower
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "The index fingers of both hands have powerful fire starters which extend "
@@ -15451,8 +15466,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Fingerpick
 #. ~ Description for Fingerpick CBM
+#. ~ Description for Fingerpick
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "One of your fingers has an electronic lockpick embedded in it.  This "
@@ -15467,8 +15482,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Electromagnetic Unit
 #. ~ Description for Electromagnetic Unit CBM
+#. ~ Description for Electromagnetic Unit
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Embedded in your hand is a powerful electromagnet, allowing you to pull "
@@ -15482,8 +15497,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Nictating Membrane
 #. ~ Description for Nictating Membrane CBM
+#. ~ Description for Nictating Membrane
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your eyes have a thin membrane that closes over your eyes while underwater, "
@@ -15497,8 +15512,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Enhanced Memory Banks
 #. ~ Description for Enhanced Memory Banks CBM
+#. ~ Description for Enhanced Memory Banks
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your memory has been enhanced with small quantum storage drives.  Any time "
@@ -15513,8 +15528,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Metabolic Interchange
 #. ~ Description for Metabolic Interchange CBM
+#. ~ Description for Metabolic Interchange
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your digestive system and power supply are interconnected.  Energy drains "
@@ -15529,8 +15544,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Weather Reader
 #. ~ Description for Weather Reader CBM
+#. ~ Description for Weather Reader
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A multitude of scientific instruments and sensors collect environmental "
@@ -15560,8 +15575,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Artificial Night Generator
 #. ~ Description for Artificial Night Generator CBM
+#. ~ Description for Artificial Night Generator
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid "Destructive interference eliminates all light within a 15 tile radius."
 msgstr ""
@@ -15573,8 +15588,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Implanted Night Vision
 #. ~ Description for Implanted Night Vision CBM
+#. ~ Description for Implanted Night Vision
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your eyes have been modified to amplify existing light, allowing you to see "
@@ -15588,8 +15603,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Offensive Defense System
 #. ~ Description for Offensive Defense System CBM
+#. ~ Description for Offensive Defense System
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A thin forcefield surrounds your body, continually draining power.  This "
@@ -15604,8 +15619,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Sensory Dulling
 #. ~ Description for Sensory Dulling CBM
+#. ~ Description for Sensory Dulling
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your nervous system is wired to allow you to inhibit the signals of pain, "
@@ -15634,8 +15649,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Power Armor Interface
 #. ~ Description for Power Armor Interface CBM
+#. ~ Description for Power Armor Interface
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Interfaces your power system with the internal charging port on suits of "
@@ -15649,8 +15664,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Power Armor Interface Mk. II
 #. ~ Description for Power Armor Mk. II Interface CBM
+#. ~ Description for Power Armor Interface Mk. II
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Interfaces your power system with the internal charging port on suits of "
@@ -15665,8 +15680,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Power Storage
 #. ~ Description for Power Storage CBM
+#. ~ Description for Power Storage
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Compact Bionics Module that upgrades your power capacity by 100 units.  "
@@ -15681,8 +15696,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Power Storage Mk. II
 #. ~ Description for Power Storage CBM Mk. II
+#. ~ Description for Power Storage Mk. II
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Compact Bionics Module developed at DoubleTech Industries as a replacement "
@@ -15697,8 +15712,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Probability Travel
 #. ~ Description for Probability Travel CBM
+#. ~ Description for Probability Travel
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Increases your body's wavelength, allowing you to quantum tunnel through "
@@ -15727,8 +15742,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Radiation Scrubber System
 #. ~ Description for Radiation Scrubber System CBM
+#. ~ Description for Radiation Scrubber System
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A system of advanced piezomechanical blood filters have been implanted "
@@ -15743,8 +15758,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Railgun
 #. ~ Description for Railgun CBM
+#. ~ Description for Railgun
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "EM field generators in your arms double the range and damage of thrown iron "
@@ -15759,8 +15774,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Fingertip Razors
 #. ~ Description for Fingertip Razors CBM
+#. ~ Description for Fingertip Razors
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You possess razor-sharp retractable claws underneath your fingernails, ten "
@@ -15804,8 +15819,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Recycler Unit
 #. ~ Description for Recycler Unit CBM
+#. ~ Description for Recycler Unit
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your digestive system has been outfitted with a series of filters and "
@@ -15820,8 +15835,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Remote Controller
 #. ~ Description for Remote Controller CBM
+#. ~ Description for Remote Controller
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "A small module connected to your brain allows you to interface with nearby "
@@ -15850,8 +15865,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Olfactory Mask
 #. ~ Description for Olfactory Mask CBM
+#. ~ Description for Olfactory Mask
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "While this system is powered, your body will produce very little odor, "
@@ -15865,8 +15880,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Scent Vision
 #. ~ Description for Scent Vision CBM
+#. ~ Description for Scent Vision
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "While this system is powered, you're able to visually sense your own scent, "
@@ -15881,8 +15896,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Electroshock Unit
 #. ~ Description for Electroshock Unit CBM
+#. ~ Description for Electroshock Unit
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "While fighting unarmed, or with a weapon that conducts electricity, there is"
@@ -15897,8 +15912,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Shockwave Generator
 #. ~ Description for Shockwave Generator CBM
+#. ~ Description for Shockwave Generator
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You generate a powerful shockwave, knocking back all nearby creatures.  "
@@ -15913,8 +15928,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Solar Panels
 #. ~ Description for Solar Panels CBM
+#. ~ Description for Solar Panels
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "You have a few solar panels installed.  While in direct sunlight, your power"
@@ -15928,8 +15943,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Synaptic Accelerator
 #. ~ Description for Synaptic Accelerator CBM
+#. ~ Description for Synaptic Accelerator
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 #, no-python-format
 msgid ""
@@ -15944,8 +15959,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Internal Storage
 #. ~ Description for Internal Storage CBM
+#. ~ Description for Internal Storage
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Space inside your chest cavity has been converted into a storage area.  You "
@@ -15959,8 +15974,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Muscle Augmentation
 #. ~ Description for Muscle Augmentation CBM
+#. ~ Description for Muscle Augmentation
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your muscular system has been enhanced with myomer fibers, giving you a +2 "
@@ -15990,8 +16005,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Targeting System
 #. ~ Description for Targeting System CBM
+#. ~ Description for Targeting System
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your eyes are equipped with range finders, and their movement is synced with"
@@ -16006,8 +16021,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Teleportation Unit
 #. ~ Description for Teleportation Unit CBM
+#. ~ Description for Teleportation Unit
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "This highly experimental unit folds space over short distances, instantly "
@@ -16037,8 +16052,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Integrated Toolset
 #. ~ Description for Integrated Toolset CBM
+#. ~ Description for Integrated Toolset
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Implanted in your hands and fingers is a complete tool set - screwdriver, "
@@ -16053,8 +16068,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Joint Torsion Ratchet
 #. ~ Description for Joint Torsion Ratchet CBM
+#. ~ Description for Joint Torsion Ratchet
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your joints have been equipped with torsion ratchets that generate power "
@@ -16068,8 +16083,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Uncanny Dodge
 #. ~ Description for Uncanny Dodge CBM
+#. ~ Description for Uncanny Dodge
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Your nervous system has been augmented with bionic processors, allowing you "
@@ -16112,8 +16127,8 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#. ~ Description for Water Extraction Unit
 #. ~ Description for Water Extraction Unit CBM
+#. ~ Description for Water Extraction Unit
 #: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
 msgid ""
 "Nanotubes embedded in the palm of your hand will pump any available fluid "
@@ -29099,8 +29114,8 @@ msgstr ""
 #. ~ Description for nearby fire
 #. ~ Description for muscle
 #. ~ Description for a smoking device and a source of flame
-#. ~ Description for weapon
 #. ~ Description for seeing this is a bug
+#. ~ Description for weapon
 #: lang/json/GENERIC_from_json.py lang/json/GENERIC_from_json.py
 #: lang/json/TOOL_from_json.py lang/json/TOOL_from_json.py
 #: lang/json/skill_from_json.py
@@ -38132,6 +38147,15 @@ msgstr ""
 #. ~ Description for Tough Zombies
 #: lang/json/MOD_INFO_from_json.py
 msgid "Doubles zombie health."
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "Urban Development"
+msgstr ""
+
+#. ~ Description for Urban Development
+#: lang/json/MOD_INFO_from_json.py
+msgid "Holder for suburban and urban buildings."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
@@ -73453,6 +73477,16 @@ msgid "Your big teeth have grown in.  Folks had best show some more respect."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You bite into %s with your ratlike incisors"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s bites %2$s with their ratlike incisors"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Nictitating Membrane"
 msgstr ""
 
@@ -74174,6 +74208,16 @@ msgid ""
 msgstr ""
 
 #: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You slash %s with a talon"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s slashes %2$s with a talon"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Hooves"
 msgstr ""
 
@@ -74183,6 +74227,16 @@ msgid ""
 "Your feet have fused into hooves.  This allows kicking attacks to do much "
 "more damage, provides natural armor, and removes the need to wear shoes; "
 "however, you can not wear shoes of any kind.  Reduces wet effects."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You kick %s with your hooves"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s kicks %2$s with their hooves"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -74330,6 +74384,16 @@ msgid ""
 msgstr ""
 
 #: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You tear into %s with your saber teeth"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s tears into %2$s with their saber teeth"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Hyper-Metabolism"
 msgstr ""
 
@@ -74353,6 +74417,16 @@ msgid ""
 msgstr ""
 
 #: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You headbutt %s with your horns"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s headbutts %2$s with their horns"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Curled Horns"
 msgstr ""
 
@@ -74362,6 +74436,16 @@ msgid ""
 "You have a pair of large curled horns, like those of a ram.  They allow you "
 "to make a strong bashing headbutt attack, but prevent you from wearing any "
 "headwear."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You headbutt %s with your curled horns"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s headbutts %2$s with their curled horns"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -74377,6 +74461,16 @@ msgid ""
 msgstr ""
 
 #: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You stab %s with your pointed horns"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s stabs %2$s with their pointed horns"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Antlers"
 msgstr ""
 
@@ -74386,6 +74480,16 @@ msgid ""
 "You have a huge rack of antlers, like those of a moose.  They prevent you "
 "from hearing headwear that is not made of fabric, but provide a weak "
 "headbutt attack."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You butt %s with your antlers"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s butts %2$s with their antlers"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -74479,6 +74583,16 @@ msgid ""
 msgstr ""
 
 #: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You whap %s with your tail"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s whaps %2$s with their tail"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Raptor Tail"
 msgstr ""
 
@@ -74515,6 +74629,16 @@ msgid ""
 msgstr ""
 
 #: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You sting %s with your tail"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s stings %2$s with their tail"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Club Tail"
 msgstr ""
 
@@ -74524,6 +74648,16 @@ msgid ""
 "You have a long tail that ends in a heavy, bony club.  It does not improve "
 "your balance at all, but allows for a powerful bashing attack.  Prevents "
 "wearing non-fabric pants."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You club %s with your tail"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s clubs %2$s with their tail"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -74750,6 +74884,16 @@ msgid ""
 msgstr ""
 
 #: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You bite %s with your fangs"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s bites %2$s with their fangs"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Folding Fangs"
 msgstr ""
 
@@ -74869,6 +75013,10 @@ msgstr ""
 #: lang/json/mutation_from_json.py
 msgid ""
 "With spinnerets like THESE, who needs rope?!  Activate to produce rope."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "You spin a rope from your silk."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -75395,6 +75543,16 @@ msgid ""
 msgstr ""
 
 #: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You nip at %s"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s nips and harries %2$s"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Ursine Muzzle"
 msgstr ""
 
@@ -75403,6 +75561,16 @@ msgstr ""
 msgid ""
 "Your jaw and nose have extended into a bearish muzzle.  You could bite with "
 "it, and it looks impressive, but it prevents you from wearing mouthgear."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You bite %s"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s bites %2$s"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -75426,6 +75594,16 @@ msgid ""
 "Your face and jaws are a shorter version of those found on alligators.  They"
 " look NASTY-as do the bite wounds they can inflict-but prevent you from "
 "wearing mouthgear."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You bite a chunk out of %s"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s bites a chunk out of %2$s"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -75695,6 +75873,16 @@ msgid ""
 msgstr ""
 
 #: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You peck %s"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s pecks %2$s"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Woodpecker Beak"
 msgstr ""
 
@@ -75911,6 +76099,10 @@ msgstr ""
 msgid ""
 "You have full control of your vines, and can grow new ones and detach old "
 "ones more or less at will."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+msgid "You detach a vine from your body."
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -94858,7 +95050,7 @@ msgid "wooden armor"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "military composite armor"
+msgid "military composite armor plating"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -96563,12 +96755,10 @@ msgid "Back"
 msgstr ""
 
 #: src/action.cpp src/color.cpp src/crafting.cpp src/crafting.cpp
-#: src/debug_menu.cpp src/editmap.cpp src/game.cpp src/game.cpp
-#: src/iexamine.cpp src/iexamine.cpp src/inventory_ui.cpp src/iuse.cpp
-#: src/iuse.cpp src/iuse_actor.cpp src/iuse_actor.cpp
-#: src/mission_companion.cpp src/mission_companion.cpp
-#: src/mission_companion.cpp src/pickup.cpp src/player.cpp src/turret.cpp
-#: src/vehicle.cpp
+#: src/debug_menu.cpp src/editmap.cpp src/game.cpp src/game.cpp src/game.cpp
+#: src/iexamine.cpp src/iexamine.cpp src/iexamine.cpp src/inventory_ui.cpp
+#: src/iuse.cpp src/iuse.cpp src/iuse_actor.cpp src/mission_companion.cpp
+#: src/pickup.cpp src/player.cpp src/turret.cpp src/vehicle.cpp
 msgid "Cancel"
 msgstr ""
 
@@ -99623,6 +99813,11 @@ msgstr ""
 msgid "<npcname> breaks out of the grab!"
 msgstr ""
 
+#: src/character.cpp
+#, c-format
+msgid "You put the %s in your %s."
+msgstr ""
+
 #. ~ %1$s - list of unmet requirements, %2$s - item name.
 #: src/character.cpp
 #, c-format
@@ -99848,10 +100043,6 @@ msgstr ""
 
 #: src/color.cpp
 msgid "custom colors"
-msgstr ""
-
-#: src/color_loader.h
-msgid "base colors"
 msgstr ""
 
 #: src/computer.cpp
@@ -107035,11 +107226,24 @@ msgid "You have nothing to wield."
 msgstr ""
 
 #: src/game.cpp
-msgid "Who do you want to talk to?"
+msgid "Who do you want to talk to or yell at?"
 msgstr ""
 
 #: src/game.cpp
 msgid "Yell"
+msgstr ""
+
+#: src/game.cpp
+msgid "Yell a sentence"
+msgstr ""
+
+#: src/game.cpp
+msgid "Enter a sentence to yell"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "You yell %s"
 msgstr ""
 
 #: src/game.cpp
@@ -118965,12 +119169,12 @@ msgstr ""
 
 #: src/mission_start.cpp
 #, c-format
-msgid "%s marks as well the road that leads to it..."
+msgid "%s also marks the road that leads to it..."
 msgstr ""
 
 #: src/mission_start.cpp
 #, c-format
-msgid "%s have marked the only %s known to them on your map."
+msgid "%s has marked the only %s known to them on your map."
 msgstr ""
 
 #: src/mission_start.cpp
@@ -121084,10 +121288,6 @@ msgid "You start spinning web with your spinnerets!"
 msgstr ""
 
 #: src/mutation.cpp
-msgid "You spin a rope from your silk."
-msgstr ""
-
-#: src/mutation.cpp
 msgid "Burrow where?"
 msgstr ""
 
@@ -121130,14 +121330,6 @@ msgstr ""
 #. ~ Usual enthusiastic slimespring small voices! :D
 #: src/mutation.cpp
 msgid "we're a team, we've got this!"
-msgstr ""
-
-#: src/mutation.cpp
-msgid "You detach a vine but don't have room to carry it, so you drop it."
-msgstr ""
-
-#: src/mutation.cpp
-msgid "Your freshly-detached vine is too heavy to carry, so you drop it."
 msgstr ""
 
 #: src/mutation.cpp
@@ -127736,15 +127928,11 @@ msgid "Your shivering makes you unsteady."
 msgstr ""
 
 #: src/player_hardcoded_effects.cpp
-msgid "Your left arm trembles from the cold."
-msgstr ""
-
-#: src/player_hardcoded_effects.cpp
 msgid "Your left arm is shivering."
 msgstr ""
 
 #: src/player_hardcoded_effects.cpp
-msgid "Your right arm trembles from the cold."
+msgid "Your left arm trembles from the cold."
 msgstr ""
 
 #: src/player_hardcoded_effects.cpp
@@ -127752,7 +127940,7 @@ msgid "Your right arm is shivering."
 msgstr ""
 
 #: src/player_hardcoded_effects.cpp
-msgid "Your left hand quivers in the cold."
+msgid "Your right arm trembles from the cold."
 msgstr ""
 
 #: src/player_hardcoded_effects.cpp
@@ -127760,7 +127948,7 @@ msgid "Your left hand feels like ice."
 msgstr ""
 
 #: src/player_hardcoded_effects.cpp
-msgid "Your right hand trembles in the cold."
+msgid "Your left hand quivers in the cold."
 msgstr ""
 
 #: src/player_hardcoded_effects.cpp
@@ -127768,7 +127956,7 @@ msgid "Your right hand feels like ice."
 msgstr ""
 
 #: src/player_hardcoded_effects.cpp
-msgid "Your legs uncontrollably shake from the cold."
+msgid "Your right hand quivers in the cold."
 msgstr ""
 
 #: src/player_hardcoded_effects.cpp
@@ -127776,11 +127964,15 @@ msgid "Your left leg trembles against the relentless cold."
 msgstr ""
 
 #: src/player_hardcoded_effects.cpp
-msgid "Your legs unsteadily shiver against the cold."
+msgid "Your legs uncontrollably shake from the cold."
 msgstr ""
 
 #: src/player_hardcoded_effects.cpp
 msgid "Your right leg trembles against the relentless cold."
+msgstr ""
+
+#: src/player_hardcoded_effects.cpp
+msgid "Your left foot feels frigid."
 msgstr ""
 
 #: src/player_hardcoded_effects.cpp
@@ -127792,7 +127984,7 @@ msgid "Your freezing left foot messes up your balance."
 msgstr ""
 
 #: src/player_hardcoded_effects.cpp
-msgid "Your left foot feels frigid."
+msgid "Your right foot feels frigid."
 msgstr ""
 
 #: src/player_hardcoded_effects.cpp
@@ -127804,15 +127996,7 @@ msgid "Your freezing right foot messes up your balance."
 msgstr ""
 
 #: src/player_hardcoded_effects.cpp
-msgid "Your right foot feels frigid."
-msgstr ""
-
-#: src/player_hardcoded_effects.cpp
 msgid "Your head is pounding from the heat."
-msgstr ""
-
-#: src/player_hardcoded_effects.cpp
-msgid "The heat is making you see things."
 msgstr ""
 
 #: src/player_hardcoded_effects.cpp
@@ -127841,6 +128025,10 @@ msgstr ""
 
 #: src/player_hardcoded_effects.cpp
 msgid "Your right foot is swelling in the heat."
+msgstr ""
+
+#: src/player_hardcoded_effects.cpp
+msgid "The heat is making you see things."
 msgstr ""
 
 #: src/player_hardcoded_effects.cpp

@@ -12,6 +12,7 @@
 class item;
 class monster;
 class JsonObject;
+class JsonArray;
 
 class Skill;
 using skill_id = string_id<Skill>;

@@ -972,7 +972,7 @@ int iuse::plantblech(player *p, item *it, bool, const tripoint &pos)
         }
 
         //reverses the harmful values of drinking fertilizer
-        p->mod_hunger( p->nutrition_for( it->type ) * multiplier );
+        p->mod_hunger( p->nutrition_for( *it ) * multiplier );
         p->mod_thirst( -it->type->comestible->quench * multiplier);
         p->mod_healthy_mod( it->type->comestible->healthy * multiplier, it->type->comestible->healthy * multiplier );
         p->add_morale( MORALE_FOOD_GOOD, -10 * multiplier, 60, 60, 30, false, it->type );
@@ -2878,12 +2878,12 @@ int iuse::hammer(player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
-int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
+int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
 {
     // TODO: Make this 3D now that NPCs get to use items
     tripoint dirp = pos;
     if( pos == p->pos() ) {
-        if( !choose_adjacent(_("Pry where?"), dirp ) ) {
+        if( !choose_adjacent( _( "Pry where?" ), dirp ) ) {
             return 0;
         }
     } // else it is already set to pos in the line above if
@@ -2892,66 +2892,75 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
     int &diry = dirp.y;
 
     if( dirx == p->posx() && diry == p->posy() ) {
-        p->add_msg_if_player(m_info, _("You attempt to pry open your wallet"));
-        p->add_msg_if_player(m_info, _("but alas. You are just too miserly."));
+        p->add_msg_if_player( m_info, _( "You attempt to pry open your wallet" ) );
+        p->add_msg_if_player( m_info, _( "but alas.  You are just too miserly." ) );
         return 0;
     }
-    ter_id type = g->m.ter(dirx, diry);
+    ter_id type = g->m.ter( dirx, diry );
     const char *succ_action;
     const char *fail_action;
     ter_id new_type = t_null;
     bool noisy;
     int difficulty;
 
-    if (type == t_door_c || type == t_door_locked || type == t_door_locked_alarm ||
-        type == t_door_locked_interior) {
-        succ_action = _("You pry open the door.");
-        fail_action = _("You pry, but cannot pry open the door.");
+    if( type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior ) {
+        succ_action = _( "You pry open the door." );
+        fail_action = _( "You pry, but cannot pry open the door." );
         new_type = t_door_o;
         noisy = true;
         difficulty = 6;
-    } else if (type == t_door_locked_peep) {
-        succ_action = _("You pry open the door.");
-        fail_action = _("You pry, but cannot pry open the door.");
+    } else if( type == t_door_locked_peep ) {
+        succ_action = _( "You pry open the door." );
+        fail_action = _( "You pry, but cannot pry open the door." );
         new_type = t_door_o_peep;
         noisy = true;
         difficulty = 6;
-    } else if (type == t_door_bar_locked) {
-        succ_action = _("You pry open the door.");
-        fail_action = _("You pry, but cannot pry open the door.");
+    } else if( type == t_door_c ) {
+        p->add_msg_if_player( m_info, _( "You notice the door is unlocked, so you simply open it." ) );
+        g->m.ter_set( dirx, diry, t_door_o );
+        p->mod_moves( 100 );
+        return 0;
+    } else if ( type == t_door_c_peep ) {
+        p->add_msg_if_player( m_info, _( "You notice the door is unlocked, so you simply open it." ) );
+        g->m.ter_set( dirx, diry, t_door_o_peep );
+        p->mod_moves( 100 );
+        return 0;
+    } else if( type == t_door_bar_locked ) {
+        succ_action = _( "You pry open the door." );
+        fail_action = _( "You pry, but cannot pry open the door." );
         new_type = t_door_bar_o;
         noisy = false;
         difficulty = 10;
-    } else if (type == t_manhole_cover) {
-        succ_action = _("You lift the manhole cover.");
-        fail_action = _("You pry, but cannot lift the manhole cover.");
+    } else if( type == t_manhole_cover ) {
+        succ_action = _( "You lift the manhole cover." );
+        fail_action = _( "You pry, but cannot lift the manhole cover." );
         new_type = t_manhole;
         noisy = false;
         difficulty = 12;
-    } else if (g->m.furn(dirx, diry) == f_crate_c) {
-        succ_action = _("You pop open the crate.");
-        fail_action = _("You pry, but cannot pop open the crate.");
+    } else if( g->m.furn( dirx, diry ) == f_crate_c ) {
+        succ_action = _( "You pop open the crate." );
+        fail_action = _( "You pry, but cannot pop open the crate." );
         noisy = true;
         difficulty = 6;
-    } else if (g->m.furn(dirx, diry) == f_coffin_c) {
-        succ_action = _("You wedge open the coffin.");
-        fail_action = _("You pry, but the coffin remains closed.");
+    } else if( g->m.furn( dirx, diry ) == f_coffin_c ) {
+        succ_action = _( "You wedge open the coffin." );
+        fail_action = _( "You pry, but the coffin remains closed." );
         noisy = true;
         difficulty = 5;
-    } else if (type == t_window_domestic || type == t_curtains || type == t_window_no_curtains) {
-        succ_action = _("You pry open the window.");
-        fail_action = _("You pry, but cannot pry open the window.");
-        new_type = (type == t_window_no_curtains) ? t_window_no_curtains_open : t_window_open;
+    } else if( type == t_window_domestic || type == t_curtains || type == t_window_no_curtains ) {
+        succ_action = _( "You pry open the window." );
+        fail_action = _( "You pry, but cannot pry open the window." );
+        new_type = ( type == t_window_no_curtains ) ? t_window_no_curtains_open : t_window_open;
         noisy = true;
         difficulty = 6;
-    } else if (pry_nails(p, type, dirx, diry)) {
+    } else if( pry_nails( p, type, dirx, diry ) ) {
         return it->type->charges_to_use();
     } else {
-        p->add_msg_if_player(m_info, _("There's nothing to pry there."));
+        p->add_msg_if_player( m_info, _( "There's nothing to pry there." ) );
         return 0;
     }
 
-    p->practice( skill_mechanics, 1);
+    p->practice( skill_mechanics, 1 );
     /** @EFFECT_STR speeds up crowbar prying attempts */
 
     /** @EFFECT_MECHANICS speeds up crowbar prying attempts */
@@ -2959,49 +2968,51 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
     /** @EFFECT_STR increases chance of crowbar prying success */
 
     /** @EFFECT_MECHANICS increases chance of crowbar prying success */
-    if (dice(4, difficulty) < dice(2, p->get_skill_level( skill_mechanics )) + dice(2, p->str_cur)) {
-        p->practice( skill_mechanics, 1);
-        p->add_msg_if_player(m_good, succ_action);
+    if( dice( 4, difficulty ) < dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2,
+            p->str_cur ) ) {
+        p->practice( skill_mechanics, 1 );
+        p->add_msg_if_player( m_good, succ_action );
 
-        if (g->m.furn(dirx, diry) == f_crate_c) {
-            g->m.furn_set(dirx, diry, f_crate_o);
-        } else if (g->m.furn(dirx, diry) == f_coffin_c) {
-            g->m.furn_set(dirx, diry, f_coffin_o);
+        if( g->m.furn( dirx, diry ) == f_crate_c ) {
+            g->m.furn_set( dirx, diry, f_crate_o );
+        } else if( g->m.furn( dirx, diry ) == f_coffin_c ) {
+            g->m.furn_set( dirx, diry, f_coffin_o );
         } else {
-            g->m.ter_set(dirx, diry, new_type);
+            g->m.ter_set( dirx, diry, new_type );
         }
 
-        if (noisy) {
-            sounds::sound(dirp, 12, _("crunch!"));
+        if( noisy ) {
+            sounds::sound( dirp, 12, _( "crunch!" ) );
         }
-        if (type == t_manhole_cover) {
-            g->m.spawn_item(dirx, diry, "manhole_cover");
+        if( type == t_manhole_cover ) {
+            g->m.spawn_item( dirx, diry, "manhole_cover" );
         }
-        if (type == t_door_locked_alarm) {
-            p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
-                                  pgettext("memorial_female", "Set off an alarm."));
-            sounds::sound(p->pos(), 40, _("an alarm sound!"));
-            if (!g->event_queued(EVENT_WANTED)) {
-                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, p->global_sm_location());
+        if( type == t_door_locked_alarm ) {
+            p->add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
+                                 pgettext( "memorial_female", "Set off an alarm." ) );
+            sounds::sound( p->pos(), 40, _( "an alarm sound!" ) );
+            if( !g->event_queued( EVENT_WANTED ) ) {
+                g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, p->global_sm_location() );
             }
         }
     } else {
-        if (type == t_window_domestic || type == t_curtains) {
+        if( type == t_window_domestic || type == t_curtains ) {
             //chance of breaking the glass if pry attempt fails
             /** @EFFECT_STR reduces chance of breaking window with crowbar */
 
             /** @EFFECT_MECHANICS reduces chance of breaking window with crowbar */
-            if (dice(4, difficulty) > dice(2, p->get_skill_level( skill_mechanics )) + dice(2, p->str_cur)) {
-                p->add_msg_if_player(m_mixed, _("You break the glass."));
-                sounds::sound(dirp, 24, _("glass breaking!"));
-                g->m.ter_set(dirx, diry, t_window_frame);
-                g->m.spawn_item(dirx, diry, "sheet", 2);
-                g->m.spawn_item(dirx, diry, "stick");
-                g->m.spawn_item(dirx, diry, "string_36");
+            if( dice( 4, difficulty ) > dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2,
+                    p->str_cur ) ) {
+                p->add_msg_if_player( m_mixed, _( "You break the glass." ) );
+                sounds::sound( dirp, 24, _( "glass breaking!" ) );
+                g->m.ter_set( dirx, diry, t_window_frame );
+                g->m.spawn_item( dirx, diry, "sheet", 2 );
+                g->m.spawn_item( dirx, diry, "stick" );
+                g->m.spawn_item( dirx, diry, "string_36" );
                 return it->type->charges_to_use();
             }
         }
-        p->add_msg_if_player(fail_action);
+        p->add_msg_if_player( fail_action );
     }
     return it->type->charges_to_use();
 }

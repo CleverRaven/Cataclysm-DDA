@@ -655,6 +655,112 @@
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
+    "result": "762_25",
+    "type": "uncraft",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": 500,
+    "tools": [ [ [ "puller", -1 ] ] ],
+    "components": [
+      [ [ "lead", 2 ] ],
+      [ [ "762_25_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "gunpowder", 4 ] ]
+    ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
+    "result": "762_25hot",
+    "type": "uncraft",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": 500,
+    "tools": [ [ [ "puller", -1 ] ] ],
+    "components": [
+      [ [ "lead", 2 ] ],
+      [ [ "762_25_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "gunpowder", 5 ] ]
+    ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
+    "result": "762_25typeP",
+    "type": "uncraft",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": 500,
+    "tools": [ [ [ "puller", -1 ] ] ],
+    "components": [
+      [ [ "lead", 2 ] ],
+      [ [ "762_25_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "gunpowder", 5 ] ]
+    ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
+    "result": "9mm",
+    "type": "uncraft",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": 500,
+    "tools": [ [ [ "puller", -1 ] ] ],
+    "components": [
+      [ [ "lead", 2 ] ],
+      [ [ "9mm_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "gunpowder", 3 ] ]
+    ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
+    "result": "9mmfmj",
+    "type": "uncraft",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": 500,
+    "tools": [ [ [ "puller", -1 ] ] ],
+    "components": [
+      [ [ "lead", 2 ] ],
+      [ [ "9mm_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "gunpowder", 3 ] ],
+      [ [ "copper", 1 ] ]
+    ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
+    "result": "9mmP",
+    "type": "uncraft",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": 500,
+    "tools": [ [ [ "puller", -1 ] ] ],
+    "components": [
+      [ [ "lead", 2 ] ],
+      [ [ "9mm_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "gunpowder", 4 ] ]
+    ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
+    "result": "9mmP2",
+    "type": "uncraft",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": 500,
+    "tools": [ [ [ "puller", -1 ] ] ],
+    "components": [
+      [ [ "lead", 2 ] ],
+      [ [ "9mm_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "gunpowder", 5 ] ]
+    ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
     "result": "9x18mm",
     "type": "uncraft",
     "skill_used": "gun",

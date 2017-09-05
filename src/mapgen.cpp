@@ -690,7 +690,7 @@ public:
             signtext = _( signtext.c_str() );
 
             std::string cityname = "illegible city name";
-            city* c = overmap_buffer.closest_city(abs_sub).city;
+            const city* c = overmap_buffer.closest_city(abs_sub).city;
             if (c != nullptr) {
                 cityname = c->name;
             }

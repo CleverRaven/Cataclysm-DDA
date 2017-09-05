@@ -2299,37 +2299,11 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
         profession_name = string_format( _( "a %s" ), prof->gender_appropriate_name( male ).c_str() );
     }
 
-    //Figure out the location
-    const oter_id &cur_ter = overmap_buffer.ter( global_omt_location() );
-    const std::string &tername = cur_ter->get_name();
-
-    //Were they in a town, or out in the wilderness?
-    const auto global_sm_pos = global_sm_location();
-    const auto closest_city = overmap_buffer.closest_city( global_sm_pos );
-    std::string kill_place;
-    if( !closest_city ) {
-        //~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name.
-        kill_place = string_format( _( "%1$s was killed in a %2$s in the middle of nowhere." ),
-                                    pronoun.c_str(), tername.c_str() );
-    } else {
-        const auto &nearest_city = *closest_city.city;
-        //Give slightly different messages based on how far we are from the middle
-        const int distance_from_city = closest_city.distance - nearest_city.s;
-        if( distance_from_city > nearest_city.s + 4 ) {
-            //~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name.
-            kill_place = string_format( _( "%1$s was killed in a %2$s in the wilderness." ),
-                                        pronoun.c_str(), tername.c_str() );
-
-        } else if( distance_from_city >= nearest_city.s ) {
-            //~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name, third parameter is a city name.
-            kill_place = string_format( _( "%1$s was killed in a %2$s on the outskirts of %3$s." ),
-                                        pronoun.c_str(), tername.c_str(), nearest_city.name.c_str() );
-        } else {
-            //~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name, third parameter is a city name.
-            kill_place = string_format( _( "%1$s was killed in a %2$s in %3$s." ),
-                                        pronoun.c_str(), tername.c_str(), nearest_city.name.c_str() );
-        }
-    }
+    const std::string locdesc = overmap_buffer.get_description_at( global_sm_location() );
+    //~ First parameter is a pronoun ("He"/"She"), second parameter is a description
+    // that designates the location relative to its surroundings.
+    const std::string kill_place = string_format( _( "%1$s was killed in a %2$s." ),
+                                    pronoun.c_str(), locdesc.c_str() );
 
     //Header
     std::string version = string_format( "%s", getVersionString() );
@@ -3339,6 +3313,10 @@ int player::clairvoyance() const
         return MAX_CLAIRVOYANCE;
     }
 
+    if( vision_mode_cache[VISION_CLAIRVOYANCE_PLUS] ) {
+        return 8;
+    }
+
     if( vision_mode_cache[VISION_CLAIRVOYANCE] ) {
         return 3;
     }
@@ -3856,9 +3834,6 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
 
 bool player::immune_to( body_part bp, damage_unit dam ) const
 {
-    if( dam.type == DT_HEAT ) {
-        return false; // No one is immune to fire
-    }
     if( has_trait( trait_DEBUG_NODMG ) || is_immune_damage( dam.type ) ) {
         return true;
     }
@@ -4065,7 +4040,7 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
             } else {
                 add_effect( effect_bite, 1, bp, true );
             }
-            add_msg_if_player( "Filth from your clothing has implanted deep in the wound." );
+            add_msg_if_player( _( "Filth from your clothing has implanted deep in the wound." ) );
         }
     }
 
