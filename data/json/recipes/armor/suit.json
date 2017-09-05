@@ -89,10 +89,8 @@
     "time": 100000,
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
-    "components": [
-      [ [ "string_36", 2 ], [ "string_6", 12 ] ],
-      [ [ "chitin_piece", 15 ] ]
-    ]
+    "using": [ [ "cordage", 2 ] ],
+    "components": [ [ [ "chitin_piece", 15 ] ] ]
   },
   {
     "result": "armor_farmor",

@@ -437,12 +437,12 @@ struct islot_gunmod : common_ranged_data {
     /** What kind of weapons can this gunmod be used with (eg. "rifle", "crossbow")? */
     std::set<std::string> usable;
 
-    /** @todo add documentation */
+    /** If this value is set (non-negative), this gunmod functions as a sight. A sight is only usable to aim by a character whose current @ref Character::recoil is at or below this value. */
     int sight_dispersion = -1;
 
     /**
-     *  If set (non-zero) mod functions as sight when recoil above mod @ref sight_dispersion */
-    int aim_cost = 0;
+     *  For sights (see @ref sight_dispersion), this value affects time cost of aiming. Lower is better. In case of multiple usable sights, the one with lowest aim cost is used. */
+    int aim_cost = -1;
 
     /** Modifies base loudness as provided by the currently loaded ammo */
     int loudness = 0;

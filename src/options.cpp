@@ -690,7 +690,7 @@ void options_manager::cOpt::setValue(std::string sSetIn)
  * All found values added to resource_option as name, resource_dir.
  * Furthermore, it builds possible values list for cOpt class.
  */
-static std::vector<std::pair<std::string, std::string>> build_resource_list( 
+static std::vector<std::pair<std::string, std::string>> build_resource_list(
     std::map<std::string, std::string> &resource_option, std::string operation_name,
     std::string dirname_label, std::string filename_label ) {
     std::vector<std::pair<std::string, std::string>> resource_names;
@@ -1132,12 +1132,12 @@ void options_manager::init()
 
     add( "TERMINAL_X", "graphics", translate_marker( "Terminal width" ),
         translate_marker( "Set the size of the terminal along the X axis.  Requires restart." ),
-        80, 242, 80, COPT_POSIX_CURSES_HIDE
+        80, 960, 80, COPT_POSIX_CURSES_HIDE
         );
 
     add( "TERMINAL_Y", "graphics", translate_marker( "Terminal height" ),
         translate_marker( "Set the size of the terminal along the Y axis.  Requires restart." ),
-        24, 187, 24, COPT_POSIX_CURSES_HIDE
+        24, 270, 24, COPT_POSIX_CURSES_HIDE
         );
 
     mOptionsSort["graphics"]++;
@@ -1155,6 +1155,18 @@ void options_manager::init()
     add( "PIXEL_MINIMAP", "graphics", translate_marker( "Pixel Minimap" ),
         translate_marker( "If true, shows the pixel-detail minimap in game after the save is loaded.  Use the 'Toggle Pixel Minimap' action key to change its visibility during gameplay." ),
         true, COPT_CURSES_HIDE
+        );
+
+    add( "PIXEL_MINIMAP_MODE", "graphics", translate_marker( "Pixel Minimap drawing mode" ),
+        translate_marker( "Specified the mode in which the minimap drawn." ), {
+            { "solid", translate_marker( "Solid" ) },
+            { "squares", translate_marker( "Squares" ) },
+            { "dots", translate_marker( "Dots" ) } }, "dots", COPT_CURSES_HIDE
+        );
+
+    add( "PIXEL_MINIMAP_BRIGHTNESS", "graphics", translate_marker( "Pixel Minimap brightness" ),
+        translate_marker( "Overal brightness of pixel-detail minimap." ),
+        10, 300, 100, COPT_CURSES_HIDE
         );
 
     add( "PIXEL_MINIMAP_HEIGHT", "graphics", translate_marker( "Pixel Minimap height" ),
@@ -1816,7 +1828,7 @@ void options_manager::show(bool ingame)
     bool world_options_changed = false;
     bool lang_changed = false;
     bool used_tiles_changed = false;
-    bool pixel_minimap_height_changed = false;
+    bool pixel_minimap_changed = false;
 
     for (auto &iter : OPTIONS_OLD) {
         if ( iter.second != OPTIONS[iter.first] ) {
@@ -1826,8 +1838,10 @@ void options_manager::show(bool ingame)
                 world_options_changed = true;
             }
 
-            if ( iter.first == "PIXEL_MINIMAP_HEIGHT" || iter.first == "PIXEL_MINIMAP_RATIO" ) {
-                pixel_minimap_height_changed = true;
+            if ( iter.first == "PIXEL_MINIMAP_HEIGHT"
+              || iter.first == "PIXEL_MINIMAP_RATIO"
+              || iter.first == "PIXEL_MINIMAP_MODE" ) {
+                pixel_minimap_changed = true;
             }
 
             if ( iter.first == "TILES" || iter.first == "USE_TILES" ) {
@@ -1864,7 +1878,7 @@ void options_manager::show(bool ingame)
         set_language();
     }
 
-    refresh_tiles( used_tiles_changed, pixel_minimap_height_changed, ingame );
+    refresh_tiles( used_tiles_changed, pixel_minimap_changed, ingame );
 
     delwin(w_options);
     delwin(w_options_border);

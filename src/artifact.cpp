@@ -42,6 +42,7 @@ static const std::array<int, NUM_AEPS> passive_effect_cost = { {
     4, // AEP_SNAKES
     7, // AEP_INVISIBLE
     5, // AEP_CLAIRVOYANCE
+    7, // AEP_CLAIRVOYANCE_PLUS
     50,// AEP_SUPER_CLAIRVOYANCE
     2, // AEP_STEALTH
     2, // AEP_EXTINGUISH
@@ -1297,6 +1298,7 @@ static const std::unordered_map<std::string, art_effect_passive> art_effect_pass
     PAIR( AEP_SNAKES ),
     PAIR( AEP_INVISIBLE ),
     PAIR( AEP_CLAIRVOYANCE ),
+    PAIR( AEP_CLAIRVOYANCE_PLUS ),
     PAIR( AEP_SUPER_CLAIRVOYANCE ),
     PAIR( AEP_STEALTH ),
     PAIR( AEP_EXTINGUISH ),

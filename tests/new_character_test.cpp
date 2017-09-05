@@ -157,7 +157,7 @@ TEST_CASE( "starting_items" )
     std::stringstream failure_messages;
     for( const failure &f : failures ) {
         failure_messages << f.prof.c_str() << " " << f.mut <<
-	  " " << f.item_name << ": " << f.reason << "\n";
+          " " << f.item_name << ": " << f.reason << "\n";
     }
     INFO( failure_messages.str() );
     REQUIRE( failures.empty() );

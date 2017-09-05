@@ -59,6 +59,8 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         bool editmap_nsa_viewmode = false;      // true: ignore LOS and lighting
         bool overmap_blinking = true;           // toggles active blinking of overlays.
         bool overmap_show_overlays = false;     // whether overlays are shown or not.
+        bool overmap_show_city_labels = true;
+
         bool debug_ranged;
         tripoint adv_inv_last_coords = {-999, -999, -999};
         int last_inv_start = -2;
@@ -138,6 +140,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             json.member("editmap_nsa_viewmode", editmap_nsa_viewmode);
             json.member("overmap_blinking", overmap_blinking);
             json.member("overmap_show_overlays", overmap_show_overlays);
+            json.member("overmap_show_city_labels", overmap_show_city_labels);
             json.member( "vmenu_show_items", vmenu_show_items );
             json.member("list_item_sort", list_item_sort);
             json.member("list_item_filter_active", list_item_filter_active);
@@ -211,7 +214,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             if(jo.has_array("adv_inv_deafult_areas")) {
                 auto tmp = jo.get_int_array("adv_inv_deafult_areas");
                 std::move(tmp.begin(), tmp.end(), adv_inv_default_areas.begin());
-            } 
+            }
             // the rest
             jo.read("adv_inv_src", adv_inv_src);
             jo.read("adv_inv_dest", adv_inv_dest);
@@ -223,6 +226,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             jo.read("adv_inv_container_content_type", adv_inv_container_content_type);
             jo.read("overmap_blinking", overmap_blinking);
             jo.read("overmap_show_overlays", overmap_show_overlays);
+            jo.read("overmap_show_city_labels", overmap_show_city_labels);
 
             if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
                 // This is an old save: 1 means view items, 2 means view monsters,
