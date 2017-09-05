@@ -19,15 +19,6 @@
 #include "auto_pickup.h"
 #include "safemode_ui.h"
 
-//TODO replace these with filesystem.h
-#include <sys/stat.h>
-#ifdef _MSC_VER
-#include "wdirent.h"
-#include <direct.h>
-#else
-#include <dirent.h>
-#endif
-
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 void main_menu::on_move() const
@@ -299,9 +290,6 @@ bool main_menu::opening_screen()
     init_strings();
     print_menu( w_open, 0, iMenuOffsetX, iMenuOffsetY );
 
-    dirent *dp;
-    DIR *dir;
-
     if( !assure_dir_exist( FILENAMES["config_dir"] ) ) {
         popup( _( "Unable to make config directory. Check permissions." ) );
         return false;
@@ -316,14 +304,14 @@ bool main_menu::opening_screen()
         popup( _( "Unable to make templates directory. Check permissions." ) );
         return false;
     }
-    dir = opendir( FILENAMES["templatedir"].c_str() );
-    while( ( dp = readdir( dir ) ) ) {
-        std::string tmp = native_to_utf8( dp->d_name );
-        if( tmp.find( ".template" ) != std::string::npos ) {
-            templates.push_back( tmp.substr( 0, tmp.find( ".template" ) ) );
-        }
+
+    for( std::string path : get_files_from_path( ".template", FILENAMES["templatedir"], false,
+            true ) ) {
+        path = native_to_utf8( path );
+        path.erase( path.find( ".template" ), std::string::npos );
+        path.erase( 0, path.find_last_of( "\\//" ) + 1 );
+        templates.push_back( path );
     }
-    closedir( dir );
     std::sort( templates.begin(), templates.end(), std::greater<std::string>() );
 
     ctxt.register_cardinal();

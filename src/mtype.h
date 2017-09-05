@@ -27,9 +27,9 @@ enum field_id : int;
 enum body_part : int;
 enum m_size : int;
 
-using mon_action_death  = void (*)(monster*);
-using mon_action_attack = bool (*)(monster*);
-using mon_action_defend = void (*)(monster&, Creature*, dealt_projectile_attack const*);
+using mon_action_death  = void ( * )( monster * );
+using mon_action_attack = bool ( * )( monster * );
+using mon_action_defend = void ( * )( monster &, Creature *, dealt_projectile_attack const * );
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
 struct mtype;
@@ -157,12 +157,13 @@ enum m_flag : int {
     MF_AVOID_DANGER_2,      // This monster will path around most dangers instead of through them.
     MF_PRIORITIZE_TARGETS,  // This monster will prioritize targets depending on their danger levels
     MF_NOT_HALLU,           // Monsters that will NOT appear when player's producing hallucinations
+    MF_MILKABLE,            // This monster is milkable.
+    MF_PET_WONT_FOLLOW,     // This monster won't follow the player automatically when tamed.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
 /** Used to store monster effects placed on attack */
-struct mon_effect_data
-{
+struct mon_effect_data {
     efftype_id id;
     int duration;
     bool affect_hit_bp;
@@ -170,8 +171,10 @@ struct mon_effect_data
     bool permanent;
     int chance;
 
-    mon_effect_data(const efftype_id &nid, int dur, bool ahbp, body_part nbp, bool perm, int nchance) :
-                    id(nid), duration(dur), affect_hit_bp(ahbp), bp(nbp), permanent(perm), chance(nchance) {};
+    mon_effect_data( const efftype_id &nid, int dur, bool ahbp, body_part nbp, bool perm,
+                     int nchance ) :
+        id( nid ), duration( dur ), affect_hit_bp( ahbp ), bp( nbp ), permanent( perm ),
+        chance( nchance ) {};
 };
 
 struct mtype {
@@ -179,11 +182,13 @@ struct mtype {
         friend class MonsterGenerator;
         std::string name;
         std::string name_plural;
+        std::string description;
 
-        std::set< const species_type* > species_ptrs;
+        std::set< const species_type * > species_ptrs;
 
         void add_special_attacks( JsonObject &jo, const std::string &member_name, const std::string &src );
-        void remove_special_attacks( JsonObject &jo, const std::string &member_name, const std::string &src );
+        void remove_special_attacks( JsonObject &jo, const std::string &member_name,
+                                     const std::string &src );
 
         void add_special_attack( JsonArray jarr, const std::string &src );
         void add_special_attack( JsonObject jo, const std::string &src );
@@ -193,7 +198,6 @@ struct mtype {
         // TODO: maybe make this private as well? It must be set to `true` only once,
         // and must never be set back to `false`.
         bool was_loaded = false;
-        std::string description;
         std::set<species_id> species;
         std::set<std::string> categories;
         mfaction_id default_faction;
@@ -266,7 +270,7 @@ struct mtype {
         int bash_skill;
 
         // Default constructor
-        mtype ();
+        mtype();
         /**
          * Check if this type is of the same species as the other one, because
          * species is a set and can contain several species, one entry that is
@@ -285,25 +289,26 @@ struct mtype {
         pathfinding_settings path_settings;
 
         // Used to fetch the properly pluralized monster type name
-        std::string nname(unsigned int quantity = 1) const;
+        std::string nname( unsigned int quantity = 1 ) const;
         bool has_special_attack( const std::string &attack_name ) const;
-        bool has_flag(m_flag flag) const;
-        bool has_flag(std::string flag) const;
+        bool has_flag( m_flag flag ) const;
+        bool has_flag( std::string flag ) const;
         bool made_of( const material_id &material ) const;
-        void set_flag(std::string flag, bool state);
-        bool has_anger_trigger(monster_trigger trigger) const;
-        bool has_fear_trigger(monster_trigger trigger) const;
-        bool has_placate_trigger(monster_trigger trigger) const;
-        bool in_category(std::string category) const;
+        void set_flag( std::string flag, bool state );
+        bool has_anger_trigger( monster_trigger trigger ) const;
+        bool has_fear_trigger( monster_trigger trigger ) const;
+        bool has_placate_trigger( monster_trigger trigger ) const;
+        bool in_category( std::string category ) const;
         bool in_species( const species_id &spec ) const;
         bool in_species( const species_type &spec ) const;
         //Used for corpses.
-        field_id bloodType () const;
-        field_id gibType () const;
+        field_id bloodType() const;
+        field_id gibType() const;
         // The item id of the meat items that are produced by this monster (or "null")
         // if there is no matching item type. e.g. "veggy" for plant monsters.
         itype_id get_meat_itype() const;
         int get_meat_chunks_count() const;
+        std::string get_description() const;
 
         // Historically located in monstergenerator.cpp
         void load( JsonObject &jo, const std::string &src );

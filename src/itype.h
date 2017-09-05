@@ -437,12 +437,12 @@ struct islot_gunmod : common_ranged_data {
     /** What kind of weapons can this gunmod be used with (eg. "rifle", "crossbow")? */
     std::set<std::string> usable;
 
-    /** @todo add documentation */
+    /** If this value is set (non-negative), this gunmod functions as a sight. A sight is only usable to aim by a character whose current @ref Character::recoil is at or below this value. */
     int sight_dispersion = -1;
 
     /**
-     *  If set (non-zero) mod functions as sight when recoil above mod @ref sight_dispersion */
-    int aim_cost = 0;
+     *  For sights (see @ref sight_dispersion), this value affects time cost of aiming. Lower is better. In case of multiple usable sights, the one with lowest aim cost is used. */
+    int aim_cost = -1;
 
     /** Modifies base loudness as provided by the currently loaded ammo */
     int loudness = 0;
@@ -687,7 +687,7 @@ public:
 
     /** After loading from JSON these properties guaranteed to be zero or positive */
     /*@{*/
-    int weight          =  0; // Weight in grams for item (or each stack member)
+    units::mass weight  =  0; // Weight for item ( or each stack member )
     units::volume volume = 0; // Space occupied by items of this type
     int price           =  0; // Value before cataclysm
     int price_post      = -1; // Value after cataclysm (dependent upon practical usages)
@@ -791,9 +791,9 @@ public:
     const use_function *get_use( const std::string &iuse_name ) const;
 
     // Here "invoke" means "actively use". "Tick" means "active item working"
-    long invoke( player *p, item *it, const tripoint &pos ) const; // Picks first method or returns 0
-    long invoke( player *p, item *it, const tripoint &pos, const std::string &iuse_name ) const;
-    long tick( player *p, item *it, const tripoint &pos ) const;
+    long invoke( player &p, item &it, const tripoint &pos ) const; // Picks first method or returns 0
+    long invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const;
+    long tick( player &p, item &it, const tripoint &pos ) const;
 
     virtual ~itype() { };
 };

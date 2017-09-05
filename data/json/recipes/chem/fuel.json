@@ -8,7 +8,7 @@
     "skill_used": "cooking",
     "difficulty": 5,
     "time": 30000,
-    "book_learn": [ [ "textbook_chemistry", 5 ], [ "brewing_cookbook", 4 ] ],
+    "book_learn": [ [ "textbook_chemistry" ], [ "brewing_cookbook", 4 ] ],
     "qualities": [
         { "id": "BOIL", "level": 2 },
         { "id": "DISTILL", "level": 2 }
@@ -36,7 +36,7 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "time": 30000,
-    "book_learn": [ [ "textbook_chemistry", 4 ], [ "brewing_cookbook", 3 ] ],
+    "book_learn": [ [ "textbook_chemistry" ], [ "brewing_cookbook" ] ],
     "qualities": [
         { "id": "BOIL", "level": 2 },
         { "id": "DISTILL", "level": 1 }

@@ -35,11 +35,13 @@ bool string_id<harvest_list>::is_valid() const
 
 harvest_list::harvest_list() : id_( harvest_id::NULL_ID() ) {}
 
-const harvest_id &harvest_list::id() const {
+const harvest_id &harvest_list::id() const
+{
     return id_;
 }
 
-bool harvest_list::is_null() const {
+bool harvest_list::is_null() const
+{
     return id_ == harvest_id::NULL_ID();
 }
 

@@ -46,6 +46,7 @@ extern "C" {
 
 using item_stack_iterator = std::list<item>::iterator;
 using volume = units::volume;
+using mass = units::mass;
 using npc_template_id = string_id<npc_template>;
 
 lua_State *lua_state = nullptr;
@@ -755,7 +756,7 @@ private:
 public:
     lua_iuse_wrapper( const int f, const std::string &type ) : iuse_actor( type ), lua_function( f ) {}
     ~lua_iuse_wrapper() override = default;
-    long use( player *, item *it, bool a, const tripoint &pos ) const override {
+    long use( player &, item &it, bool a, const tripoint &pos ) const override {
         // We'll be using lua_state a lot!
         lua_State * const L = lua_state;
 
@@ -1208,15 +1209,15 @@ void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) cons
     }
 }
 
-long use_function::call( player *player_instance, item *item_instance, bool active, const tripoint &pos ) const
+long use_function::call( player &p, item &it, bool active, const tripoint &pos ) const
 {
-    if( !actor ) {
-        if (player_instance != NULL && player_instance->is_player()) {
-            add_msg(_("You can't do anything interesting with your %s."), item_instance->tname().c_str());
+    if( actor == nullptr ) {
+        if( p.is_player() ) {
+            add_msg(_("You can't do anything interesting with your %s."), it.tname().c_str());
         }
         return 0;
     }
-    return actor->use(player_instance, item_instance, active, pos);
+    return actor->use( p, it, active, pos );
 }
 
 #ifndef LUA

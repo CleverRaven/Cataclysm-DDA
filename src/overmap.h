@@ -24,8 +24,14 @@ class input_context;
 class JsonObject;
 class npc;
 class overmapbuffer;
+class overmap_connection;
 
 struct mongroup;
+
+namespace pf
+{
+    struct path;
+}
 
 struct oter_weight {
     inline bool operator ==(const oter_weight &other) const {
@@ -240,6 +246,7 @@ class overmap
     std::vector<point> find_terrain(const std::string &term, int zlevel);
 
     oter_id& ter(const int x, const int y, const int z);
+    oter_id& ter( const tripoint &p );
     const oter_id get_ter(const int x, const int y, const int z) const;
     const oter_id get_ter( const tripoint &p ) const;
     bool&   seen(int x, int y, int z);
@@ -444,6 +451,9 @@ public:
             const tripoint &orig, bool blink, bool showExplored,
             input_context* inp_ctxt, const draw_data_t &data);
 
+
+  static void draw_city_labels(WINDOW *w, const tripoint &center);
+
     oter_id random_shop() const;
     oter_id random_park() const;
     oter_id random_house() const;
@@ -455,22 +465,26 @@ public:
   void place_cities();
   void put_building( int x, int y, om_direction::type dir, const city &town );
 
-  void build_city_street( int cx, int cy, int cs, om_direction::type dir, const city &town );
+  void build_city_street( const overmap_connection &connection, const point &p, int cs, om_direction::type dir, const city &town );
   bool build_lab(int x, int y, int z, int s, bool ice = false);
   void build_anthill(int x, int y, int z, int s);
   void build_tunnel( int x, int y, int z, int s, om_direction::type dir );
   bool build_slimepit(int x, int y, int z, int s);
   void build_mine(int x, int y, int z, int s);
   void place_rifts(int const z);
+
     // Connection laying
-    void build_connection( const point &source, const point &dest, int z, const int_id<oter_type_t> &type_id );
-    void connect_closest_points( const std::vector<point> &points, int z, const int_id<oter_type_t> &type_id );
+    pf::path lay_out_connection( const overmap_connection &connection, const point &source, const point &dest, int z ) const;
+    pf::path lay_out_street( const overmap_connection &connection, const point &source, om_direction::type dir, size_t len ) const;
+
+    void build_connection( const overmap_connection &connection, const pf::path &path, int z );
+    void build_connection( const point &source, const point &dest, int z, const overmap_connection &connection );
+    void connect_closest_points( const std::vector<point> &points, int z, const overmap_connection &connection );
   // Polishing
   bool check_ot_type(const std::string &otype, int x, int y, int z) const;
-  void polish(const int z, const std::string &terrain_type="all");
   void chip_rock(int x, int y, int z);
 
-  oter_id good_connection( const oter_t &oter, const tripoint &p );
+  void polish_river();
   void good_river(int x, int y, int z);
 
   // Returns a vector of permuted coordinates of overmap sectors.
@@ -523,18 +537,6 @@ void load_region_settings(JsonObject &jo);
 void reset_region_settings();
 void load_region_overlay(JsonObject &jo);
 void apply_region_overlay(JsonObject &jo, regional_settings &region);
-
-namespace overmap_terrains
-{
-
-void load( JsonObject &jo, const std::string &src );
-void check_consistency();
-void finalize();
-void reset();
-
-size_t count();
-
-}
 
 bool is_river(const oter_id &ter);
 bool is_ot_type(const std::string &otype, const oter_id &oter);

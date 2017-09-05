@@ -1302,10 +1302,10 @@ void npc::decide_needs()
     invslice slice = inv.slice();
     for (auto &i : slice) {
         if( i->front().is_food( )) {
-            needrank[ need_food ] += nutrition_for( i->front().type ) / 4;
+            needrank[ need_food ] += nutrition_for( i->front() ) / 4;
             needrank[ need_drink ] += i->front().type->comestible->quench / 4;
         } else if( i->front().is_food_container() ) {
-            needrank[ need_food ] += nutrition_for( i->front().contents.front().type ) / 4;
+            needrank[ need_food ] += nutrition_for( i->front().contents.front() ) / 4;
             needrank[ need_drink ] += i->front().contents.front().type->comestible->quench / 4;
         }
     }
@@ -1471,16 +1471,16 @@ int npc::value( const item &it, int market_price ) const
 
     if( it.is_food() ) {
         int comestval = 0;
-        if( nutrition_for( it.type ) > 0 || it.type->comestible->quench > 0 ) {
+        if( nutrition_for( it ) > 0 || it.type->comestible->quench > 0 ) {
             comestval++;
         }
         if( get_hunger() > 40 ) {
-            comestval += ( nutrition_for( it.type ) + get_hunger() - 40 ) / 6;
+            comestval += ( nutrition_for( it ) + get_hunger() - 40 ) / 6;
         }
         if( get_thirst() > 40 ) {
             comestval += ( it.type->comestible->quench + get_thirst() - 40 ) / 4;
         }
-        if( comestval > 0 && can_eat( it ) == EDIBLE ) {
+        if( comestval > 0 && will_eat( it ) == EDIBLE ) {
             ret += comestval;
         }
     }
@@ -1770,7 +1770,7 @@ int npc::print_info(WINDOW* w, int line, int vLines, int column) const
 
     const int visibility_cap = g->u.get_per() - rl_dist( g->u.pos(), pos() );
     const std::string trait_str = enumerate_as_string( my_mutations.begin(), my_mutations.end(),
-        [ this, visibility_cap ]( const std::pair<trait_id, trait_data> &pr ) -> std::string {
+        [visibility_cap ]( const std::pair<trait_id, trait_data> &pr ) -> std::string {
         const auto &mut_branch = pr.first.obj();
         // Finally some use for visibility trait of mutations
         // @todo Balance this formula

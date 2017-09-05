@@ -93,7 +93,7 @@ void tutorial_game::per_turn()
         add_message( LESSON_PAIN );
     }
 
-    if( g->u.recoil >= MIN_RECOIL ) {
+    if( g->u.recoil >= MAX_RECOIL ) {
         add_message( LESSON_RECOIL );
     }
 
