@@ -1519,7 +1519,7 @@ void advanced_inventory::display()
                 }
                 redraw = true;
             } else {
-                popup( _( "You can't put items there" ) );
+                popup( _( "You can't put items there!" ) );
                 redraw = true; // to clear the popup
             }
         } else if( action == "MOVE_SINGLE_ITEM" ||
@@ -2009,7 +2009,7 @@ int advanced_inventory::add_item( aim_location destarea, item &new_item, int cou
             }
             
             if( !added ) {
-                msg = _("Destination area is full.  Remove some items first");
+                msg = _("Destination area is full.  Remove some items first.");
             }
         }
         // show a message to why we can't add the item
@@ -2149,7 +2149,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         if( unitweight > 0 && ( unitweight * amount > max_weight ) ) {
             const long weightmax = max_weight / unitweight;
             if( weightmax <= 0 ) {
-                popup( _( "This is too heavy!." ) );
+                popup( _( "This is too heavy!" ) );
                 redraw = true;
                 return false;
             }
