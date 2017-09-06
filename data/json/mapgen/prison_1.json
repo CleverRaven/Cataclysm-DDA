@@ -3,12 +3,12 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "prison_3", "prison_2", "prison_1" ],
-      [ "prison_6", "prison_5", "prison_4" ],
-      [ "prison_9", "prison_8", "prison_7" ],
-      [ "prison_b_3", "prison_b_2", "prison_b_1" ],
-      [ "prison_b_6", "prison_b_5", "prison_b_4" ],
-      [ "prison_b_9", "prison_b_8", "prison_b_7" ]
+      [ "prison_1_3", "prison_1_2", "prison_1_1" ],
+      [ "prison_1_6", "prison_1_5", "prison_1_4" ],
+      [ "prison_1_9", "prison_1_8", "prison_1_7" ],
+      [ "prison_1_b_3", "prison_1_b_2", "prison_1_b_1" ],
+      [ "prison_1_b_6", "prison_1_b_5", "prison_1_b_4" ],
+      [ "prison_1_b_9", "prison_1_b_8", "prison_1_b_7" ]
     ],
     "weight": 250,
     "object": {

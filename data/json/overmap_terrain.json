@@ -1123,7 +1123,7 @@
         "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_1",
+        "id" : "prison_1_1",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
@@ -1131,7 +1131,7 @@
         "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_2",
+        "id" : "prison_1_2",
         "name" : "prison",
         "sym" : 80,
         "color" : "i_ltblue",
@@ -1139,7 +1139,7 @@
         "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_3",
+        "id" : "prison_1_3",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
@@ -1147,7 +1147,7 @@
         "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_4",
+        "id" : "prison_1_4",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
@@ -1155,7 +1155,7 @@
         "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_5",
+        "id" : "prison_1_5",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
@@ -1163,7 +1163,7 @@
         "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_6",
+        "id" : "prison_1_6",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
@@ -1171,7 +1171,7 @@
         "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_7",
+        "id" : "prison_1_7",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
@@ -1179,7 +1179,7 @@
         "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_8",
+        "id" : "prison_1_8",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
@@ -1187,7 +1187,7 @@
         "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_9",
+        "id" : "prison_1_9",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
@@ -1195,63 +1195,63 @@
         "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_b_1",
+        "id" : "prison_1_b_1",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_b_2",
+        "id" : "prison_1_b_2",
         "name" : "prison",
         "sym" : 80,
         "color" : "i_ltblue",
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_b_3",
+        "id" : "prison_1_b_3",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_b_4",
+        "id" : "prison_1_b_4",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_b_5",
+        "id" : "prison_1_b_5",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_b_6",
+        "id" : "prison_1_b_6",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_b_7",
+        "id" : "prison_1_b_7",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_b_8",
+        "id" : "prison_1_b_8",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_b_9",
+        "id" : "prison_1_b_9",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
