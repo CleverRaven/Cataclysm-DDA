@@ -32,9 +32,10 @@ addons:
       - llvm-toolchain-precise-3.6
       - llvm-toolchain-precise-3.7
       - llvm-toolchain-precise-3.8
-      - llvm-toolchain-precise-3.9
       - llvm-toolchain-trusty
+      - llvm-toolchain-trusty-3.9
       - llvm-toolchain-trusty-4.0
+      - llvm-toolchain-trusty-5.0
 
 compiler: gcc
 os: linux
@@ -112,6 +113,14 @@ matrix:
       addons: &clang40
         apt:
           packages: ["clang-4.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
+          sources: *apt_sources
+
+    # Clang 5.0
+    - env: CLANG=clang++-5.0 CXXFLAGS=-Wno-error=unused-command-line-argument
+      dist: trusty
+      addons: &clang50
+        apt:
+          packages: ["clang-5.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
           sources: *apt_sources
 
 before_script:
