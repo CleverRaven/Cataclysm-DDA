@@ -6728,8 +6728,8 @@ void player::process_active_items()
         }
     }
     if( cloak != nullptr ) {
-        if( ch_UPS >= 40 ) {
-            use_charges( "UPS", 40 );
+        if( ch_UPS >= 20 ) {
+            use_charges( "UPS", 20 );
             if( ch_UPS < 200 && one_in( 3 ) ) {
                 add_msg_if_player( m_warning, _( "Your optical cloak flickers for a moment!" ) );
             }
