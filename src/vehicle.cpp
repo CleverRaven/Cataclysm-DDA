@@ -3620,53 +3620,52 @@ void vehicle::power_parts()
 
     if( has_part( "BOILER", true ) ) {
         for( size_t b=0 ; b < boilers.size(); ++b ) {
-            printf("\nchecking boiler %zu\n", b);
+            add_msg(m_debug, "\nchecking boiler %zu\n", b);
             if( !is_boiler_on( b ) ) {
-                printf("boiler is off\n");
+                add_msg(m_debug, "boiler is off\n");
                 continue;
             }
 
-            printf("looking for tank\n");
+            add_msg(m_debug, "looking for tank\n");
             const vehicle_part &pt = parts[boilers[b]];
             auto tank = std::find_if( parts.begin(), parts.end(),
                       [&pt](const vehicle_part &e){
-                          return pt.mount == e.mount && e.is_tank() && \
-                          e.can_reload("steam");
+                          return pt.mount == e.mount && e.is_tank() && e.can_reload("steam");
                       });
             if( tank == parts.end() ) {
-                printf("skipping boiler due to lack of tank space\n");
+                add_msg(m_debug, "skipping boiler due to lack of tank space\n");
                 continue;
             }
 
             //calculate tank space avaliable
             const float space_left = tank->ammo_capacity() - tank->ammo_remaining();
 
-            if(space_left < 1700){
-                printf("skipping boiler due to lack of tank space @ %i of %i\n",
-                       (int)tank->ammo_remaining(), (int)tank->ammo_capacity());
+            const float multiplier = 1700.0f;
+            if(space_left < multiplier){
+                add_msg(m_debug, "skipping boiler due to lack of tank space @ %li of %li\n",
+                       tank->ammo_remaining(), tank->ammo_capacity());
                 continue;
             }
 
-            printf("tank space avaliable: %f\n", space_left);
+            add_msg(m_debug, "tank space avaliable: %f\n", space_left);
 
             //now consume fuel to create steam
-            const float multiplier = 1700;
             const vpart_info &vpi = pt.info();
-            float energy_request = std::min<float>(space_left / multiplier, vpi.power);
-            printf("energy_request : %f\n",energy_request );
+            float energy_request = std::min(space_left / multiplier, static_cast<float>(vpi.power));
+            add_msg(m_debug, "energy_request : %f\n",energy_request );
             const float energy_drained = drain_energy( vpi.fuel_type, energy_request);
-            printf("energy_drained : %f\n",energy_drained );
+            add_msg(m_debug, "energy_drained : %f\n",energy_drained );
             float water_request = std::min<float>( energy_request, vpi.power);
-            printf("water_request : %f\n",water_request );
-            if( water_request >= 0 && water_request < 1 ) {
+            add_msg(m_debug, "water_request : %f\n",water_request );
+            if( water_request > 0.0f && water_request < 1.0f ) {
                 water_request += 1.0f;
             }
             const float water = drain("water", water_request);
-            printf("water : %f\n",water );
+            add_msg(m_debug, "water : %f\n",water );
             const float qty = water * multiplier;
-            printf("qty : %f\n",qty );
+            add_msg(m_debug, "qty : %f\n",qty );
 
-            printf("found tank and adding %f steam (%f already there) and using %f energy and %f water\n",
+            add_msg(m_debug, "found tank and adding %f steam (%f already there) and using %f energy and %f water\n",
                    qty,
                    (double)tank->ammo_remaining(),
                    energy_drained,
