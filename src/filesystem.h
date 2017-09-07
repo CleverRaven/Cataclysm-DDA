@@ -48,4 +48,7 @@ std::vector<std::string> get_directories_with( std::vector<std::string> const &p
 
 std::vector<std::string> get_directories_with( std::string const &pattern,
         std::string const &root_path = "", bool const recurse = false );
+
+bool copy_file( const std::string &source_path, const std::string &dest_path );
+
 #endif //CATA_FILE_SYSTEM_H

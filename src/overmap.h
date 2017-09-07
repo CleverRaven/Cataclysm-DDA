@@ -479,6 +479,8 @@ public:
 
     building_size find_max_size( const tripoint &center, const building_size &limits ) const;
 
+    static void draw_city_labels(WINDOW *w, const tripoint &center);
+
   // Overall terrain
   void place_river(point pa, point pb);
   void place_forest();

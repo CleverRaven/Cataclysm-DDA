@@ -1567,6 +1567,7 @@ void veh_interact::move_cursor (int dx, int dy)
     int vdy = -ddy;
     point q = veh->coord_translate (point(vdx, vdy));
     tripoint vehp = veh->global_pos3() + q;
+    const bool has_critter = g->critter_at( vehp );
     bool obstruct = g->m.impassable_ter_furn( vehp );
     vehicle *oveh = g->m.veh_at( vehp );
     if( oveh != nullptr && oveh != veh ) {
@@ -1586,6 +1587,9 @@ void veh_interact::move_cursor (int dx, int dy)
         int divider_index = 0;
         for( const auto &e : vpart_info::all() ) {
             const vpart_info &vp = e.second;
+            if( has_critter && vp.has_flag( VPFLAG_OBSTACLE ) ) {
+                continue;
+            }
             if( veh->can_mount( vdx, vdy, vp.get_id() ) ) {
                 if ( vp.get_id() != vpart_shapes[ vp.name()+ vp.item][0]->get_id() )
                     continue; // only add first shape to install list
@@ -2315,11 +2319,11 @@ void veh_interact::complete_vehicle()
             break;
         }
 
-        if ( vpinfo.has_flag("CONE_LIGHT") ) {
-            // Need map-relative coordinates to compare to output of look_around.
-            // Need to call coord_translate() directly since it's a new part.
-            point q = veh->coord_translate(point(dx, dy));
+        // Need map-relative coordinates to compare to output of look_around.
+        // Need to call coord_translate() directly since it's a new part.
+        const point q = veh->coord_translate( point( dx, dy ) );
 
+        if ( vpinfo.has_flag("CONE_LIGHT") ) {
             // Stash offset and set it to the location of the part so look_around will start there.
             int px = g->u.view_offset.x;
             int py = g->u.view_offset.y;
@@ -2350,6 +2354,13 @@ void veh_interact::complete_vehicle()
             }
 
             veh->parts[partnum].direction = dir;
+        }
+
+        const tripoint vehp = { q.x + veh->global_x(), q.y + veh->global_y(), g->u.posz() };
+        //@todo allow boarding for non-players as well.
+        player * const pl = g->critter_at<player>( vehp );
+        if( vpinfo.has_flag( VPFLAG_BOARDABLE ) && pl ) {
+            g->m.board_vehicle( vehp, pl );
         }
 
         add_msg( m_good, _("You install a %1$s into the %2$s." ), veh->parts[ partnum ].name().c_str(), veh->name.c_str() );

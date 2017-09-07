@@ -385,7 +385,6 @@
   "difficulty": 2,
   "time": 25000,
   "autolearn": true,
-  "using": [ [ "filament", 15 ] ],
   "qualities" : [
     {"id":"CUT","level":1},
     {"id":"SCREW","level":1},
@@ -413,9 +412,10 @@
     [
       [ "rag", 4 ],
       [ "leather", 4 ],
-      [ "cordage", 1, "LIST" ],
       [ "duct_tape", 20 ],
-      [ "medical_tape", 40 ]
+      [ "medical_tape", 40 ],
+      [ "cordage", 1, "LIST" ],
+      [ "filament", 15, "LIST" ]
     ]
   ]
 },{
@@ -656,11 +656,8 @@
     ],
     [ [ "rock", 1 ] ],
     [
-      [ "cordage_short", 2, "LIST" ],
-      [ "sinew", 40 ],
-      [ "thread", 40 ],
-      [ "plant_fibre", 40 ],
-      [ "yarn", 40 ]
+      [ "filament", 40, "LIST" ],
+      [ "cordage_short", 2, "LIST" ]
     ]
   ]
 },{
@@ -677,10 +674,7 @@
     [[ "steel_chunk", 1 ], [ "steel_lump", 1 ]],
     [
       [ "cordage_short", 2, "LIST" ],
-      [ "sinew", 40 ],
-      [ "thread", 40 ],
-      [ "plant_fibre", 40 ],
-      [ "yarn", 40 ]
+      [ "filament", 40, "LIST" ]
     ]
   ]
 },{
@@ -717,7 +711,19 @@
       [ "splinter", 1 ]
     ]
   ]
-},{
+  },{
+    "result": "bone_flute",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "difficulty": 3,
+    "skills_required": [ "fabrication", 3 ],
+    "time": 60000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
+  },{
   "type" : "recipe",
   "result": "primitive_knife",
   "category": "CC_OTHER",
@@ -741,10 +747,7 @@
     ],
     [
       [ "cordage_short", 1, "LIST" ],
-      [ "sinew", 20 ],
-      [ "thread", 20 ],
-      [ "plant_fibre", 20 ],
-      [ "yarn", 20 ]
+      [ "filament", 20, "LIST" ]
     ]
   ]
 },{
@@ -782,11 +785,8 @@
       [ "rock", 3 ]
     ],
     [
-      [ "sinew", 80 ],
-      [ "thread", 80 ],
-      [ "plant_fibre", 80 ],
-      [ "yarn", 80 ],
-      [ "cordage", 1, "LIST" ]
+      [ "cordage", 1, "LIST" ],
+      [ "filament", 80, "LIST" ]
     ]
   ]
 },{
@@ -813,10 +813,7 @@
     ],
     [
       [ "cordage_short", 2, "LIST" ],
-      [ "sinew", 40 ],
-      [ "thread", 40 ],
-      [ "plant_fibre", 40 ],
-      [ "yarn", 40 ]
+      [ "filament", 40, "LIST" ]
     ]
   ]
 },{
@@ -850,11 +847,8 @@
     ],
     [
       [ "cordage_short", 2, "LIST" ],
-      [ "duct_tape", 40 ],
-      [ "sinew", 40 ],
-      [ "thread", 40 ],
-      [ "yarn", 40 ],
-      [ "plant_fibre", 40 ]
+      [ "filament", 40, "LIST" ],
+      [ "duct_tape", 40 ]
     ]
   ]
 },{
@@ -882,10 +876,7 @@
     ],
     [
       [ "cordage_short", 2, "LIST" ],
-      [ "sinew", 40 ],
-      [ "thread", 40 ],
-      [ "plant_fibre", 40 ],
-      [ "yarn", 40 ]
+      [ "filament", 40, "LIST" ]
     ]
   ]
 },{
@@ -914,10 +905,7 @@
       ],
       [
         [ "cordage_short", 2, "LIST" ],
-        [ "sinew", 40 ],
-        [ "thread", 40 ],
-        [ "plant_fibre", 40 ],
-        [ "yarn", 40 ]
+        [ "filament", 40, "LIST" ]
       ]
     ]
 },{
@@ -1068,14 +1056,11 @@
       [ "hstomach", 1]
     ],
     [
-      [ "cordage_short", 2, "LIST" ],
-      [ "sinew", 50 ],
-      [ "thread", 50 ],
-      [ "plant_fibre", 50],
-      [ "yarn", 25]
+      [ "pine_bough", 2 ]
     ],
     [
-      [ "pine_bough", 2 ]
+      [ "cordage_short", 2, "LIST" ],
+      [ "filament", 50, "LIST" ]
     ]
   ]
 },{
@@ -1102,14 +1087,11 @@
       [ "hstomach_large", 1]
     ],
     [
-      [ "cordage_short", 3, "LIST" ],
-      [ "sinew", 150 ],
-      [ "thread", 150 ],
-      [ "plant_fibre", 150],
-      [ "yarn", 75]
+      [ "pine_bough", 4 ]
     ],
     [
-      [ "pine_bough", 4 ]
+      [ "cordage_short", 3, "LIST" ],
+      [ "filament", 150, "LIST" ]
     ]
   ]
 },{
@@ -1122,7 +1104,6 @@
   "difficulty": 2,
   "time": 30000,
   "autolearn": true,
-  "using": [ [ "filament", 60 ] ],
   "qualities": [{
           "id": "SEW",
           "level": 1
@@ -1130,17 +1111,14 @@
   ],
   "components": [
     [
-      [ "sinew", 40 ],
-      [ "thread", 40 ],
-      [ "plant_fibre", 40 ],
-      [ "yarn", 40 ],
-      [ "cordage", 1, "LIST" ]
-    ],
-    [
       [ "leather", 6 ],
       [ "tanned_hide", 1 ],
       [ "fur", 6 ],
       [ "tanned_pelt", 1 ]
+    ],
+    [
+      [ "cordage", 1, "LIST" ],
+      [ "filament", 60, "LIST" ]
     ]
   ]
 },{
@@ -1153,7 +1131,6 @@
   "difficulty": 2,
   "time": 30000,
   "autolearn": true,
-  "using": [ [ "filament", 90 ] ],
         "qualities": [{
                 "id": "SEW",
                 "level": 1
@@ -1161,17 +1138,14 @@
         ],
   "components": [
     [
-      [ "sinew", 40 ],
-      [ "thread", 40 ],
-      [ "plant_fibre", 40 ],
-      [ "yarn", 40 ],
-      [ "cordage", 1, "LIST" ]
-    ],
-    [
       [ "leather", 14 ],
       [ "tanned_hide", 2 ],
       [ "fur", 14 ],
       [ "tanned_pelt", 2 ]
+    ],
+    [
+      [ "cordage", 1, "LIST" ],
+      [ "filament", 90, "LIST" ]
     ]
   ]
 },{
@@ -1184,7 +1158,6 @@
   "difficulty": 3,
   "time": 30000,
   "autolearn": true,
-  "using": [ [ "filament", 120 ] ],
   "qualities": [{
           "id": "SEW",
           "level": 1
@@ -1192,17 +1165,14 @@
   ],
   "components": [
     [
-      [ "sinew", 40 ],
-      [ "thread", 40 ],
-      [ "plant_fibre", 40 ],
-      [ "yarn", 40 ],
-      [ "cordage", 1, "LIST" ]
-    ],
-    [
       [ "leather", 24 ],
       [ "tanned_hide", 4 ],
       [ "fur", 24 ],
       [ "tanned_pelt", 4 ]
+    ],
+    [
+      [ "cordage", 1, "LIST" ],
+      [ "filament", 120, "LIST" ]
     ]
   ]
 },{
@@ -1235,7 +1205,6 @@
   "difficulty": 2,
   "time": 50000,
   "autolearn": true,
-  "using": [ [ "filament", 200 ] ],
   "qualities": [{
           "id": "SEW",
           "level": 1
@@ -1252,10 +1221,7 @@
     ],
     [
       [ "cordage", 2, "LIST" ],
-      [ "sinew", 500 ],
-      [ "thread", 500 ],
-      [ "plant_fibre", 500 ],
-      [ "yarn", 500 ]
+      [ "filament", 200, "LIST" ]
     ]
   ]
 },{
@@ -1268,7 +1234,6 @@
   "skills_required": [ "tailor", 1 ],
   "time": 20000,
   "autolearn": true,
-  "using": [ [ "filament", 50 ] ],
   "qualities": [{
           "id": "SEW",
           "level": 1
@@ -1284,14 +1249,11 @@
       [ "tanned_hide", 1 ]
     ],
     [
-      [ "sinew", 60 ],
-      [ "thread", 60 ],
-      [ "plant_fibre", 60 ],
-      [ "yarn", 60 ],
-      [ "cordage_short", 2, "LIST" ]
+      [ "damaged_shelter_kit", 1 ]
     ],
     [
-      [ "damaged_shelter_kit", 1 ]
+      [ "cordage_short", 2, "LIST" ],
+      [ "filament", 50, "LIST" ]
     ]
 ]
 },{
@@ -1314,11 +1276,8 @@
       [ "fur", 24 ]
     ],
     [
-      [ "thread", 360 ],
-      [ "sinew", 360 ],
-      [ "plant_fibre", 360 ],
-      [ "yarn", 360 ],
-      [ "cordage", 1, "LIST" ]
+      [ "cordage", 1, "LIST" ],
+      [ "filament", 360, "LIST" ]
     ]
   ]
 },{
@@ -1753,14 +1712,7 @@
   "time": 5000,
   "reversible": true,
   "autolearn": true,
-  "components": [
-    [
-      [ "thread", 50 ],
-      [ "sinew", 50 ],
-      [ "plant_fibre", 50 ],
-      [ "yarn", 25 ]
-    ]
-  ]
+  "using": [ [ "filament", 50 ] ]
 },{
   "type" : "recipe",
   "result": "string_36",
@@ -1773,10 +1725,7 @@
   "components": [
     [
       [ "string_6", 6 ],
-      [ "thread", 300 ],
-      [ "sinew", 300 ],
-      [ "plant_fibre", 300 ],
-      [ "yarn", 150 ]
+      [ "filament", 300, "LIST" ]
     ]
   ]
 },{
@@ -1789,12 +1738,7 @@
   "time": 7500,
   "reversible": true,
   "autolearn": true,
-  "components": [
-    [
-      [ "string_36", 6 ],
-      [ "string_6", 36 ]
-    ]
-  ]
+  "using": [ [ "cordage", 6 ] ]
 },{
   "type" : "recipe",
   "result": "rope_6",
@@ -1828,8 +1772,7 @@
   "components": [
     [
       [ "rope_6", 5 ],
-      [ "string_36", 30 ],
-      [ "string_6", 180 ]
+      [ "cordage", 30, "LIST" ]
     ]
   ]
 },{
@@ -2620,7 +2563,8 @@
     [
       [ "clay_canister", 1 ],
       [ "can_drink_unsealed", 1 ],
-      [ "can_food_unsealed", 1 ]
+      [ "can_food_unsealed", 1 ],
+      [ "canister_empty", 1 ]
     ]
   ]
 },{
@@ -5379,8 +5323,7 @@
     [
       [ "rag", 2 ],
       [ "leather", 2 ],
-      [ "string_6", 6 ],
-      [ "string_36", 1 ],
+      [ "cordage", 1, "LIST" ],
       [ "duct_tape", 10 ],
       [ "medical_tape", 20 ]
     ]

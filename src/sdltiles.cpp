@@ -29,6 +29,7 @@
 #include <algorithm>
 #include "cata_utility.h"
 #include "color_loader.h"
+#include "font_loader.h"
 
 #if (defined _WIN32 || defined WINDOWS)
 #   include "platform_win.h"
@@ -142,7 +143,7 @@ public:
     bool draw_window(WINDOW *win);
     bool draw_window(WINDOW *win, int offsetx, int offsety);
 
-    static std::unique_ptr<Font> load_font(const std::string &typeface, int fontsize, int fontwidth, int fontheight);
+    static std::unique_ptr<Font> load_font(const std::string &typeface, int fontsize, int fontwidth, int fontheight, bool fontblending);
 public:
     // the width of the font, background is always this size
     int fontwidth;
@@ -155,7 +156,7 @@ public:
  */
 class CachedTTFFont : public Font {
 public:
-    CachedTTFFont( int w, int h, std::string typeface, int fontsize );
+    CachedTTFFont( int w, int h, std::string typeface, int fontsize, bool fontblending );
     virtual ~CachedTTFFont();
 
     virtual void OutputChar(std::string ch, int x, int y, unsigned char color);
@@ -181,6 +182,8 @@ protected:
     };
 
     std::map<key_t, cached_t> glyph_cache_map;
+
+    const bool fontblending;
 };
 
 /**
@@ -230,8 +233,6 @@ static int TERMINAL_WIDTH;
 static int TERMINAL_HEIGHT;
 
 static SDL_Joystick *joystick; // Only one joystick for now.
-
-static bool fontblending = false;
 
 // Cache of bitmap fonts family.
 // Used only while fontlist.txt is created.
@@ -1518,84 +1519,12 @@ WINDOW *curses_init(void)
     last_input = input_event();
     inputdelay = -1;
 
-    std::string typeface, map_typeface, overmap_typeface;
-    int fontsize = 8;
-    int map_fontwidth = 8;
-    int map_fontheight = 16;
-    int map_fontsize = 8;
-    int overmap_fontwidth = 8;
-    int overmap_fontheight = 16;
-    int overmap_fontsize = 8;
-
-    std::ifstream jsonstream(FILENAMES["fontdata"].c_str(), std::ifstream::binary);
-    if (jsonstream.good()) {
-        JsonIn json(jsonstream);
-        JsonObject config = json.get_object();
-        fontblending = config.get_bool("fontblending", fontblending);
-        fontwidth = config.get_int("fontwidth", fontwidth);
-        fontheight = config.get_int("fontheight", fontheight);
-        fontsize = config.get_int("fontsize", fontsize);
-        typeface = config.get_string("typeface", typeface);
-        map_fontwidth = config.get_int("map_fontwidth", fontwidth);
-        map_fontheight = config.get_int("map_fontheight", fontheight);
-        map_fontsize = config.get_int("map_fontsize", fontsize);
-        map_typeface = config.get_string("map_typeface", typeface);
-        overmap_fontwidth = config.get_int("overmap_fontwidth", fontwidth);
-        overmap_fontheight = config.get_int("overmap_fontheight", fontheight);
-        overmap_fontsize = config.get_int("overmap_fontsize", fontsize);
-        overmap_typeface = config.get_string("overmap_typeface", typeface);
-        jsonstream.close();
-    } else { // User fontdata is missed. Try to load legacy fontdata.
-        std::ifstream InStream(FILENAMES["legacy_fontdata"].c_str(), std::ifstream::binary);
-        if(InStream.good()) {
-            JsonIn jIn(InStream);
-            JsonObject config = jIn.get_object();
-            fontblending = config.get_bool("fontblending", fontblending);
-            fontwidth = config.get_int("fontwidth", fontwidth);
-            fontheight = config.get_int("fontheight", fontheight);
-            fontsize = config.get_int("fontsize", fontsize);
-            typeface = config.get_string("typeface", typeface);
-            map_fontwidth = config.get_int("map_fontwidth", fontwidth);
-            map_fontheight = config.get_int("map_fontheight", fontheight);
-            map_fontsize = config.get_int("map_fontsize", fontsize);
-            map_typeface = config.get_string("map_typeface", typeface);
-            overmap_fontwidth = config.get_int("overmap_fontwidth", fontwidth);
-            overmap_fontheight = config.get_int("overmap_fontheight", fontheight);
-            overmap_fontsize = config.get_int("overmap_fontsize", fontsize);
-            overmap_typeface = config.get_string("overmap_typeface", typeface);
-            InStream.close();
-            // Save legacy as user fontdata.
-            assure_dir_exist(FILENAMES["config_dir"]);
-            std::ofstream OutStream(FILENAMES["fontdata"].c_str(), std::ofstream::binary);
-            if(!OutStream.good()) {
-                dbg(D_ERROR) << "Can't save user fontdata file.\n" <<
-                    "Check permissions for: " << FILENAMES["fontdata"];
-                return NULL;
-            }
-            JsonOut jOut(OutStream, true); // pretty-print
-            jOut.start_object();
-            jOut.member("fontblending", fontblending);
-            jOut.member("fontwidth", fontwidth);
-            jOut.member("fontheight", fontheight);
-            jOut.member("fontsize", fontsize);
-            jOut.member("typeface", typeface);
-            jOut.member("map_fontwidth", map_fontwidth);
-            jOut.member("map_fontheight", map_fontheight);
-            jOut.member("map_fontsize", map_fontsize);
-            jOut.member("map_typeface", map_typeface);
-            jOut.member("overmap_fontwidth", overmap_fontwidth);
-            jOut.member("overmap_fontheight", overmap_fontheight);
-            jOut.member("overmap_fontsize", overmap_fontsize);
-            jOut.member("overmap_typeface", overmap_typeface);
-            jOut.end_object();
-            OutStream << "\n";
-            OutStream.close();
-        } else {
-            dbg(D_ERROR) << "Can't load fontdata files.\n" << "Check permissions for:\n" <<
-                FILENAMES["legacy_fontdata"] << "\n" << FILENAMES["fontdata"];
-            return NULL;
-        }
+    font_loader fl;
+    if( !fl.load() ) {
+        return nullptr;
     }
+    ::fontwidth = fl.fontwidth;
+    ::fontheight = fl.fontheight;
 
     if(!InitSDL()) {
         return NULL;
@@ -1629,18 +1558,18 @@ WINDOW *curses_init(void)
     load_soundset();
 
     // Reset the font pointer
-    font = Font::load_font(typeface, fontsize, fontwidth, fontheight);
+    font = Font::load_font( fl.typeface, fl.fontsize, fl.fontwidth, fl.fontheight, fl.fontblending );
     if( !font ) {
         return NULL;
     }
-    map_font = Font::load_font(map_typeface, map_fontsize, map_fontwidth, map_fontheight);
-    overmap_font = Font::load_font( overmap_typeface, overmap_fontsize,
-                                    overmap_fontwidth, overmap_fontheight );
+    map_font = Font::load_font( fl.map_typeface, fl.map_fontsize, fl.map_fontwidth, fl.map_fontheight, fl.fontblending );
+    overmap_font = Font::load_font( fl.overmap_typeface, fl.overmap_fontsize,
+                                    fl.overmap_fontwidth, fl.overmap_fontheight, fl.fontblending );
     mainwin = newwin(get_terminal_height(), get_terminal_width(),0,0);
     return mainwin;   //create the 'stdscr' window and return its ref
 }
 
-std::unique_ptr<Font> Font::load_font(const std::string &typeface, int fontsize, int fontwidth, int fontheight)
+std::unique_ptr<Font> Font::load_font(const std::string &typeface, int fontsize, int fontwidth, int fontheight, const bool fontblending )
 {
     if (ends_with(typeface, ".bmp") || ends_with(typeface, ".png")) {
         // Seems to be an image file, not a font.
@@ -1654,7 +1583,7 @@ std::unique_ptr<Font> Font::load_font(const std::string &typeface, int fontsize,
     }
     // Not loaded as bitmap font (or it failed), try to load as truetype
     try {
-        return std::unique_ptr<Font>( new CachedTTFFont( fontwidth, fontheight, typeface, fontsize ) );
+        return std::unique_ptr<Font>( new CachedTTFFont( fontwidth, fontheight, typeface, fontsize, fontblending ) );
     } catch(std::exception &err) {
         dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
     }
@@ -1920,8 +1849,9 @@ void BitmapFont::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, i
 
 CachedTTFFont::~CachedTTFFont() = default;
 
-CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, int fontsize )
+CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, int fontsize, const bool fontblending )
 : Font( w, h )
+, fontblending( fontblending )
 {
     int faceIndex = 0;
     const std::string sysfnt = find_system_font(typeface, faceIndex);
@@ -1999,9 +1929,16 @@ bool is_draw_tiles_mode() {
 }
 
 SDL_Color cursesColorToSDL(int color) {
-    // Extract the color pair ID.
-    int pair = (color & 0x03fe0000) >> 17;
-    return windowsPalette[colorpairs[pair].FG];
+    const int pair_id = ( color & A_COLOR ) >> 17;
+    const auto pair = colorpairs[pair_id];
+
+    int palette_index = pair.FG != 0 ? pair.FG : pair.BG;
+
+    if( color & A_BOLD ) {
+        palette_index += color_loader<SDL_Color>::COLOR_NAMES_COUNT / 2;
+    }
+
+    return windowsPalette[palette_index];
 }
 
 #ifdef SDL_SOUND

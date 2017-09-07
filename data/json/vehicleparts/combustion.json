@@ -49,7 +49,7 @@
     "fuel_type": "diesel",
     "difficulty": 4,
     "durability": 400,
-    "epower": -400,
+    "epower": -300,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 40 ] },
@@ -114,6 +114,22 @@
     "difficulty": 6,
     "durability": 600,
     "epower": -350,
+    "damage_modifier": 80,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 45, 58 ] },
+      { "item": "steel_chunk", "count": [ 45, 58 ] },
+      { "item": "scrap", "count": [ 45, 58 ] }
+    ]
+  },
+  {
+    "id": "diesel_engine_v12",
+    "copy-from": "engine_combustion",
+    "type": "vehicle_part",
+    "item": "v12_diesel",
+    "fuel_type": "diesel",
+    "difficulty": 7,
+    "durability": 600,
+    "epower": -400,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 45, 58 ] },

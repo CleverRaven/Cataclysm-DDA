@@ -798,7 +798,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
                 act.set_to_null();
             }
             break;
-		}
+        }
 
         if( removed_charges < original_charges ) {
             // Transferred less than the available charges -> target must be full
@@ -1277,7 +1277,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
     if( reloadable->is_gun() ) {
         p->recoil -= act->moves_total;
-        p->recoil = std::max( MIN_RECOIL, p->recoil );
+        p->recoil = MAX_RECOIL;
 
         if( reloadable->has_flag( "RELOAD_ONE" ) ) {
             for( int i = 0; i != qty; ++i ) {

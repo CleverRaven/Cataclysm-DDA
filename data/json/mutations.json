@@ -3002,7 +3002,8 @@
         "active"     :    true,
         "cost"       :    30,
         "hunger"     :    true,
-        "thirst"     :    true
+        "thirst"     :    true,
+        "spawn_item" : { "type": "rope_30", "message": "You spin a rope from your silk." }
     },{
         "type" : "mutation",
         "id" : "WHISKERS",
@@ -4274,6 +4275,7 @@
         "cost"       :    10,
         "hunger"     :    true,
         "thirst"     :    true,
+        "spawn_item" : { "type": "vine_30", "message": "You detach a vine from your body." },
         "attacks": [
             {
                 "attack_text_u" : "You lash %s with a vine",

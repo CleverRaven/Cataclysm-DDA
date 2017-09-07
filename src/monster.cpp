@@ -429,7 +429,7 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
     const auto hp_desc = hp_description( hp, type->hp );
     mvwprintz( w, vStart++, column, hp_desc.second, "%s", hp_desc.first.c_str() );
 
-    std::vector<std::string> lines = foldstring(type->description, getmaxx(w) - 1 - column);
+    std::vector<std::string> lines = foldstring( type->get_description(), getmaxx(w) - 1 - column );
     int numlines = lines.size();
     for (int i = 0; i < numlines && vStart <= vEnd; i++) {
         mvwprintz(w, vStart++, column, c_white, "%s", lines[i].c_str());
@@ -454,7 +454,7 @@ std::string monster::extended_description() const
     ss << get_tag_from_color( hp_bar.second ) << hp_bar.first << std::endl;
 
     ss << "--" << std::endl;
-    ss << string_format( "<dark>%s</dark>", type->description.c_str() ) << std::endl;
+    ss << string_format( "<dark>%s</dark>", type->get_description().c_str() ) << std::endl;
     ss << "--" << std::endl;
 
     ss << string_format( _( "It is %s in size." ), size_names.at( get_size() ).c_str() ) << std::endl;
@@ -782,7 +782,7 @@ monster_attitude monster::attitude( const Character *u ) const
             effective_anger -= 20;
         }
 
-        
+
         if( u->has_trait( terrifying ) ) {
             effective_morale -= 10;
         }
@@ -1650,6 +1650,24 @@ void monster::process_turn()
     if( !is_hallucination() ) {
         for( const auto &e: type->emit_fields ) {
             g->m.emit_field( pos(), e );
+        }
+    }
+
+    // Only special attack cooldowns are updated here.
+    // Loop through the monster's special attacks, same as monster::move.
+    for( const auto &sp_type : type->special_attacks ) {
+        const std::string &special_name = sp_type.first;
+        const auto local_iter = special_attacks.find( special_name );
+        if( local_iter == special_attacks.end() ) {
+            continue;
+        }
+        mon_special_attack &local_attack_data = local_iter->second;
+        if( !local_attack_data.enabled ) {
+            continue;
+        }
+
+        if( local_attack_data.cooldown > 0 ) {
+            local_attack_data.cooldown--;
         }
     }
 

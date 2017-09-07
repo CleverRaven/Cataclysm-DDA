@@ -43,7 +43,8 @@
             ["humvee", 150],
             ["humvee_gl", 50],
             ["icecream_truck", 50],
-            ["wienermobile", 5]
+            ["wienermobile", 5],
+            ["tatra_truck", 100]
         ]
     },{
         "type" : "vehicle_group",
@@ -91,7 +92,8 @@
             ["meth_lab", 300],
             ["armored_car", 300],
             ["superbike", 50],
-            ["wienermobile", 5]
+            ["wienermobile", 5],
+            ["tatra_truck", 300]
         ]
     },{
         "type" : "vehicle_group",
@@ -208,7 +210,8 @@
             [ "excavator", 120 ],
             [ "flatbed_truck", 40 ],
             [ "pickup", 20 ],
-            [ "road_roller", 80 ]
+            [ "road_roller", 80 ],
+            [ "tatra_truck", 20]
         ]
     },
     {

@@ -4,6 +4,7 @@
 #include "overmap_types.h"
 #include "overmap.h"
 #include "game.h"
+#include "line.h"
 #include "map.h"
 #include "debug.h"
 #include "monster.h"
@@ -26,6 +27,13 @@ overmapbuffer overmap_buffer;
 overmapbuffer::overmapbuffer()
 : last_requested_overmap( nullptr )
 {
+}
+
+const city_reference city_reference::invalid{ nullptr, tripoint(), -1 };
+
+int city_reference::get_distance_from_bounds() const {
+    assert( city != nullptr );
+    return distance - omt_to_sm_copy( city->s );
 }
 
 std::string overmapbuffer::terrain_filename(int const x, int const y)
@@ -801,7 +809,7 @@ radio_tower_reference create_radio_tower_reference( overmap &om, radio_tower &t,
     // global submap coordinates, same as center is
     const point pos = point( t.x, t.y ) + om_to_sm_copy( om.pos() );
     const int strength = t.strength - rl_dist( tripoint( pos, 0 ), center );
-    return radio_tower_reference{ &om, &t, pos, strength };
+    return radio_tower_reference{ &t, pos, strength };
 }
 
 radio_tower_reference overmapbuffer::find_radio_station( const int frequency )
@@ -815,7 +823,7 @@ radio_tower_reference overmapbuffer::find_radio_station( const int frequency )
             }
         }
     }
-    return radio_tower_reference{ nullptr, nullptr, point( 0, 0 ), 0 };
+    return radio_tower_reference{ nullptr, point( 0, 0 ), 0 };
 }
 
 std::vector<radio_tower_reference> overmapbuffer::find_all_radio_stations()
@@ -836,28 +844,105 @@ std::vector<radio_tower_reference> overmapbuffer::find_all_radio_stations()
     return result;
 }
 
+std::vector<city_reference> overmapbuffer::get_cities_near( const tripoint &location, int radius )
+{
+    std::vector<city_reference> result;
+
+    for( const auto om : get_overmaps_near( location, radius ) ) {
+        const auto abs_pos_om = om_to_sm_copy( om->pos() );
+        result.reserve( result.size() + om->cities.size() );
+        std::transform( om->cities.begin(), om->cities.end(), std::back_inserter( result ),
+        [&]( city& element ) {
+            const auto rel_pos_city = omt_to_sm_copy( element.x, element.y );
+            const auto abs_pos_city = tripoint( rel_pos_city + abs_pos_om, 0 );
+            const auto distance = rl_dist( abs_pos_city, location );
+
+            return city_reference{ &element, abs_pos_city, distance };
+        } );
+    }
+
+    std::sort( result.begin(), result.end(), []( const city_reference& lhs, const city_reference& rhs ) {
+        return lhs.get_distance_from_bounds() < rhs.get_distance_from_bounds();
+    } );
+
+    return result;
+}
+
 city_reference overmapbuffer::closest_city( const tripoint &center )
 {
-    // a whole overmap (because it's in submap coordinates, OMAPX is overmap terrain coordinates)
-    auto const radius = OMAPX * 2;
-    // Starting with distance = INT_MAX, so the first city is already closer
-    city_reference result{ nullptr, nullptr, tripoint( 0, 0, 0 ), INT_MAX };
-    for( auto &om : get_overmaps_near( center, radius ) ) {
-        const auto abs_pos_om = om_to_sm_copy( om->pos() );
-        for( auto &city : om->cities ) {
-            const auto rel_pos_city = omt_to_sm_copy( point( city.x, city.y ) );
-            // TODO: Z-level cities. This 0 has to be here until mapgen understands non-0 zlev cities
-            const auto abs_pos_city = tripoint( abs_pos_om + rel_pos_city, 0 );
-            const auto distance = rl_dist( abs_pos_city, center );
-            const city_reference cr{ om, &city, abs_pos_city, distance };
-            if( distance < result.distance ) {
-                result = cr;
-            } else if( distance == result.distance && result.city->s < city.s ) {
-                result = cr;
+    const auto cities = get_cities_near( center, omt_to_sm_copy( OMAPX ) );
+
+    if( !cities.empty() ) {
+        return cities.front();
+    }
+
+    return city_reference::invalid;
+}
+
+city_reference overmapbuffer::closest_known_city( const tripoint &center )
+{
+    const auto cities = get_cities_near( center, omt_to_sm_copy( OMAPX ) );
+    const auto it = std::find_if( cities.begin(), cities.end(),
+    [this]( const city_reference& elem ) {
+        const tripoint p = sm_to_omt_copy( elem.abs_sm_pos );
+        return seen( p.x, p.y, p.z );
+    } );
+
+    if( it != cities.end() ) {
+        return *it;
+    }
+
+    return city_reference::invalid;
+}
+
+std::string overmapbuffer::get_description_at( const tripoint &where )
+{
+    const std::string ter_name = ter( sm_to_omt_copy( where ) )->get_name();
+
+    if( where.z != 0 ) {
+        return ter_name;
+    }
+
+    const auto closest_cref = closest_known_city( where );
+
+    if( !closest_cref ) {
+        return ter_name;
+    }
+
+    const auto &closest_city = *closest_cref.city;
+    const direction dir = direction_from( closest_cref.abs_sm_pos, where );
+    const std::string dir_name = direction_name( dir );
+
+    const int sm_size = omt_to_sm_copy( closest_cref.city->s );
+    const int sm_dist = closest_cref.distance;
+
+    if( sm_dist <= 3 * sm_size / 4 ) {
+        if( sm_size >= 16 ) {
+            // The city is big enough to be split in districts.
+            if( sm_dist <= sm_size / 4 ) {
+                //~ First parameter is a terrain name, second parameter is a city name.
+                return string_format( _( "%1$s in central %2$s" ), ter_name.c_str(), closest_city.name.c_str() );
+            } else {
+                //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+                return string_format( _( "%1$s in %2$s %3$s" ), ter_name.c_str(), dir_name.c_str(), closest_city.name.c_str() );
             }
+        } else {
+            //~ First parameter is a terrain name, second parameter is a city name.
+            return string_format( _( "%1$s in %2$s" ), ter_name.c_str(), closest_city.name.c_str() );
+        }
+    } else if( sm_dist <= sm_size ) {
+        if( sm_size >= 8 ) {
+            // The city is big enough to have outskirts.
+            //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+            return string_format( _( "%1$s on the %2$s outskirts of %3$s" ), ter_name.c_str(), dir_name.c_str(), closest_city.name.c_str() );
+        } else {
+            //~ First parameter is a terrain name, second parameter is a city name.
+            return string_format( _( "%1$s in %2$s" ), ter_name.c_str(), closest_city.name.c_str() );
         }
     }
-    return result;
+
+    //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+    return string_format( _( "%1$s %2$s from %3$s" ), ter_name.c_str(), dir_name.c_str(), closest_city.name.c_str() );
 }
 
 static int modulo(int v, int m) {

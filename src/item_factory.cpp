@@ -45,7 +45,7 @@ static void set_allergy_flags( itype &item_template );
 static void hflesh_to_flesh( itype &item_template );
 static void npc_implied_flags( itype &item_template );
 
-extern const double MIN_RECOIL;
+extern const double MAX_RECOIL;
 
 bool item_is_blacklisted(const std::string &id)
 {
@@ -814,7 +814,9 @@ void Item_factory::check_definitions() const
             if( type->gunmod->location.str().empty() ) {
                     msg << "gunmod does not specify location" << "\n";
             }
-
+            if( (type->gunmod->sight_dispersion < 0) != (type->gunmod->aim_cost < 0) ){
+                    msg << "gunmod must have both sight_dispersion and aim_cost set or neither of them set" << "\n";
+            }
         }
         if( type->mod ) {
             check_ammo_type( msg, type->mod->ammo_modifier );
@@ -1144,7 +1146,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
     assign( jo, "ranged_damage", slot.damage, strict );
     assign( jo, "pierce", slot.pierce, strict );
     assign( jo, "dispersion", slot.dispersion, strict );
-    assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0, int( MIN_RECOIL ) );
+    assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0, int( MAX_RECOIL ) );
     assign( jo, "recoil", slot.recoil, strict, 0 );
     assign( jo, "handling", slot.handling, strict );
     assign( jo, "durability", slot.durability, strict, 0, 10 );
@@ -1453,7 +1455,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     assign( jo, "location", slot.location );
     assign( jo, "dispersion_modifier", slot.dispersion );
     assign( jo, "sight_dispersion", slot.sight_dispersion );
-    assign( jo, "aim_cost", slot.aim_cost, strict, 0 );
+    assign( jo, "aim_cost", slot.aim_cost, strict, -1 );
     assign( jo, "handling_modifier", slot.handling, strict );
     assign( jo, "range_modifier", slot.range );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );

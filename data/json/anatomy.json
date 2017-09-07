@@ -1,0 +1,7 @@
+[
+  {
+    "id": "human_anatomy",
+    "type": "anatomy",
+    "parts": [ "eyes", "head", "mouth", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "foot_l", "foot_r", "num_bp" ]
+  }
+]

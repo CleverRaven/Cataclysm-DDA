@@ -100,9 +100,9 @@ class player_morale_ptr : public std::unique_ptr<player_morale> {
         ~player_morale_ptr();
 };
 
-// The minimum level recoil will reach without aiming.
-// Sets the floor for accuracy of a "snap" or "hip" shot.
-extern const double MIN_RECOIL;
+// The maximum level recoil will ever reach.
+// This corresponds to the level of accuracy of a "snap" or "hip" shot.
+extern const double MAX_RECOIL;
 
 //Don't forget to add new memorial counters
 //to the save and load functions in savegame_json.cpp
@@ -781,7 +781,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int stomach_capacity() const;
 
         /** Handles the nutrition value for a comestible **/
-        int nutrition_for( const itype *comest ) const;
+        int nutrition_for( const item &comest ) const;
+        /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
+        std::pair<int, int> fun_for( const item &comest ) const;
         /**
          * Returns a reference to the item itself (if it's comestible),
          * the first of its contents (if it's comestible) or null item otherwise.
@@ -831,7 +833,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Current metabolic rate due to traits, hunger, speed, etc. */
         float metabolic_rate() const;
         /** Handles the effects of consuming an item */
-        void consume_effects( item &eaten, bool rotten = false );
+        void consume_effects( const item &eaten );
         /** Handles rooting effects */
         void rooted_message() const;
         void rooted();
@@ -1365,7 +1367,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int tank_plut, reactor_plut, slow_rad;
         int oxygen;
         int stamina;
-        double recoil = MIN_RECOIL;
+        double recoil = MAX_RECOIL;
         int scent;
         int dodges_left, blocks_left;
         int stim, radiation;

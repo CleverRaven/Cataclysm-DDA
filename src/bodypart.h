@@ -4,6 +4,8 @@
 
 #include <string>
 #include <array>
+#include "string_id.h"
+#include "int_id.h"
 
 class JsonObject;
 
@@ -38,9 +40,13 @@ const constexpr std::array<body_part, 12> bp_aBodyPart = {{
     }
 };
 
+struct body_part_struct;
+using bodypart_ids = string_id<body_part_struct>;
+using bodypart_id = int_id<body_part_struct>;
+
 struct body_part_struct {
     public:
-        body_part id = num_bp;
+        bodypart_ids id;
         bool was_loaded = false;
 
         // Those are stored untranslated
@@ -49,45 +55,45 @@ struct body_part_struct {
         std::string name_as_heading_multiple;
         std::string hp_bar_ui_text;
         std::string encumb_text;
-        // string_id, except not yet
-        std::string id_s;
-        // Uppercase id_s
-        std::string legacy_id;
-        // @todo Add a separate size value for @ref default_hit_weights
-        int hit_size = 0;
+        // Legacy "string id"
+        std::string legacy_id = "num_bp";
+        // Legacy enum "int id"
+        body_part token = num_bp;
+        /** Size of the body part when doing an unweighted selection. */
+        float hit_size = 0.0f;
+        /** Hit sizes for attackers who are smaller, equal in size, and bigger. */
+        std::array<float, 3> hit_size_relative = {{ 0.0f, 0.0f, 0.0f }};
+        /**
+         * How hard is it to hit a given body part, assuming "owner" is hit.
+         * Higher number means good hits will veer towards this part,
+         * lower means this part is unlikely to be hit by inaccurate attacks.
+         * Formula is `chance *= pow(hit_roll, hit_difficulty)`
+         */
+        float hit_difficulty = 0.0f;
         // "Parent" of this part - main parts are their own "parents"
         // @todo Connect head and limbs to torso
-        body_part main_part = num_bp;
+        bodypart_ids main_part;
         // A part that has no opposite is its own opposite (that's pretty Zen)
-        body_part opposite_part = num_bp;
+        bodypart_ids opposite_part;
         // Parts with no opposites have BOTH here
         side part_side = side::BOTH;
 
-        static void load( JsonObject &jo, const std::string &src );
+        void load( JsonObject &jo, const std::string &src );
+        void finalize();
+        void check() const;
+
+        static void load_bp( JsonObject &jo, const std::string &src );
 
         // Clears all bps
         static void reset();
         // Post-load finalization
-        static void finalize();
+        static void finalize_all();
         // Verifies that body parts make sense
         static void check_consistency();
-
-        // @todo Make this method of a body container, not static
-        static const body_part_struct &random_part();
-    private:
-        // Just for loading
-        std::string main_part_string;
-        std::string opposite_part_string;
-
-        // Summed hit_size of all bps
-        // @todo This won't make sense once there is no "canonical body model"
-        static int size_sum;
-
-        // @todo get_better_name_for_function
-        static const body_part_struct &get_part_with_cumulative_hit_size( int size );
-
-        void load_this( JsonObject &jo, const std::string &src );
 };
+
+/** Returns the new id for old token */
+const bodypart_ids &convert_bp( body_part bp );
 
 /** Returns the opposite side. */
 side opposite_side( side s );

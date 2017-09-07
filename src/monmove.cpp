@@ -420,9 +420,7 @@ void monster::move()
             continue;
         }
 
-        if( local_attack_data.cooldown > 0 ) {
-            local_attack_data.cooldown--;
-        }
+        // Cooldowns are decremented in monster::process_turn
 
         if( local_attack_data.cooldown == 0 && !pacified && !is_hallucination() ) {
             if( !sp_type.second->call( *this ) ) {
@@ -526,7 +524,7 @@ void monster::move()
             moved = true;
         }
     }
-    if( wandf > 0 && !moved ) { // No LOS, no scent, so as a fall-back follow sound
+    if( wandf > 0 && !moved && friendly == 0 ) { // No LOS, no scent, so as a fall-back follow sound
         unset_dest();
         if( wander_pos != pos() ) {
             destination = wander_pos;

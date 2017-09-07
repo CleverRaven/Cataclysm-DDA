@@ -78,7 +78,7 @@
 #include <stdlib.h>
 #include <limits>
 
-const double MIN_RECOIL = 600;
+const double MAX_RECOIL = 600;
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 const mtype_id mon_shadow_snake( "mon_shadow_snake" );
@@ -664,8 +664,6 @@ std::string player::skin_name() const
 
 void player::reset_stats()
 {
-    clear_miss_reasons();
-
     // Trait / mutation buffs
     if( has_trait( trait_THICK_SCALES ) ) {
         add_miss_reason( _( "Your thick scales get in the way." ), 2 );
@@ -823,6 +821,9 @@ void player::reset_stats()
 
 void player::process_turn()
 {
+    // Has to happen before reset_stats
+    clear_miss_reasons();
+
     Character::process_turn();
 
     // Didn't just pick something up
@@ -2298,37 +2299,11 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
         profession_name = string_format( _( "a %s" ), prof->gender_appropriate_name( male ).c_str() );
     }
 
-    //Figure out the location
-    const oter_id &cur_ter = overmap_buffer.ter( global_omt_location() );
-    const std::string &tername = cur_ter->get_name();
-
-    //Were they in a town, or out in the wilderness?
-    const auto global_sm_pos = global_sm_location();
-    const auto closest_city = overmap_buffer.closest_city( global_sm_pos );
-    std::string kill_place;
-    if( !closest_city ) {
-        //~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name.
-        kill_place = string_format( _( "%1$s was killed in a %2$s in the middle of nowhere." ),
-                                    pronoun.c_str(), tername.c_str() );
-    } else {
-        const auto &nearest_city = *closest_city.city;
-        //Give slightly different messages based on how far we are from the middle
-        const int distance_from_city = closest_city.distance - nearest_city.s;
-        if( distance_from_city > nearest_city.s + 4 ) {
-            //~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name.
-            kill_place = string_format( _( "%1$s was killed in a %2$s in the wilderness." ),
-                                        pronoun.c_str(), tername.c_str() );
-
-        } else if( distance_from_city >= nearest_city.s ) {
-            //~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name, third parameter is a city name.
-            kill_place = string_format( _( "%1$s was killed in a %2$s on the outskirts of %3$s." ),
-                                        pronoun.c_str(), tername.c_str(), nearest_city.name.c_str() );
-        } else {
-            //~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name, third parameter is a city name.
-            kill_place = string_format( _( "%1$s was killed in a %2$s in %3$s." ),
-                                        pronoun.c_str(), tername.c_str(), nearest_city.name.c_str() );
-        }
-    }
+    const std::string locdesc = overmap_buffer.get_description_at( global_sm_location() );
+    //~ First parameter is a pronoun ("He"/"She"), second parameter is a description
+    // that designates the location relative to its surroundings.
+    const std::string kill_place = string_format( _( "%1$s was killed in a %2$s." ),
+                                    pronoun.c_str(), locdesc.c_str() );
 
     //Header
     std::string version = string_format( "%s", getVersionString() );
@@ -3338,6 +3313,10 @@ int player::clairvoyance() const
         return MAX_CLAIRVOYANCE;
     }
 
+    if( vision_mode_cache[VISION_CLAIRVOYANCE_PLUS] ) {
+        return 8;
+    }
+
     if( vision_mode_cache[VISION_CLAIRVOYANCE] ) {
         return 3;
     }
@@ -3418,12 +3397,7 @@ bool player::has_watch() const
 void player::pause()
 {
     moves = 0;
-    /** @EFFECT_STR increases recoil recovery speed */
-
-    /** @EFFECT_GUN increases recoil recovery speed */
-    recoil -= str_cur + 2 * get_skill_level( skill_gun );
-    recoil = std::max( MIN_RECOIL * 2, recoil );
-    recoil = recoil / 2;
+    recoil = MAX_RECOIL;
 
     // Train swimming if underwater
     if( !in_vehicle ) {
@@ -3745,6 +3719,7 @@ void player::on_dodge( Creature *source, float difficulty )
     // dodging throws of our aim unless we are either skilled at dodging or using a small weapon
     if( is_armed() && weapon.is_gun() ) {
         recoil += std::max( weapon.volume() / 250_ml - get_skill_level( skill_dodge ), 0 ) * rng( 0, 100 );
+        recoil = std::min( MAX_RECOIL, recoil );
     }
 
     // Even if we are not to train still call practice to prevent skill rust
@@ -3859,9 +3834,6 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
 
 bool player::immune_to( body_part bp, damage_unit dam ) const
 {
-    if( dam.type == DT_HEAT ) {
-        return false; // No one is immune to fire
-    }
     if( has_trait( trait_DEBUG_NODMG ) || is_immune_damage( dam.type ) ) {
         return true;
     }
@@ -4018,6 +3990,7 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
 
     // @todo Scale with damage in a way that makes sense for power armors, plate armor and naked skin.
     recoil += recoil_mul * weapon.volume() / 250_ml;
+    recoil = std::min( MAX_RECOIL, recoil );
     //looks like this should be based off of dealtdams, not d as d has no damage reduction applied.
     // Skip all this if the damage isn't from a creature. e.g. an explosion.
     if( source != nullptr ) {
@@ -4067,7 +4040,7 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
             } else {
                 add_effect( effect_bite, 1, bp, true );
             }
-            add_msg_if_player( "Filth from your clothing has implanted deep in the wound." );
+            add_msg_if_player( _( "Filth from your clothing has implanted deep in the wound." ) );
         }
     }
 
@@ -5870,7 +5843,8 @@ void player::suffer()
             }
             else focus_pool --;
         }
-        if( !( ( (worn_with_flag( "SUN_GLASSES" ) ) || worn_with_flag( "BLIND" ) ) && ( wearing_something_on( bp_eyes ) ) ) ) {
+        if( !( ( (worn_with_flag( "SUN_GLASSES" ) ) || worn_with_flag( "BLIND" ) ) && ( wearing_something_on( bp_eyes ) ) )
+            && !has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
             add_msg( m_bad, _( "The sunlight is really irritating your eyes." ) );
             if( one_in(10) ) {
                 mod_pain(1);
@@ -7521,7 +7495,8 @@ item::reload_option player::select_ammo( const item &base, const std::vector<ite
 
             bool key( const input_event &event, int idx, uimenu * menu ) override {
                 auto cur_key = event.get_first_input();
-                if( default_to != -1 && cur_key == last_key ) {
+                //Prevent double RETURN '\n' to default to the first entry
+                if( default_to != -1 && cur_key == last_key && cur_key != '\n' ) {
                     // Select the first entry on the list
                     menu->ret = default_to;
                     return true;
