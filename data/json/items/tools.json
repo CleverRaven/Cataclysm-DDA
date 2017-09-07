@@ -663,6 +663,37 @@
     "use_action": "BOLTCUTTERS"
   },
   {
+    "id": "bone_flute",
+    "type": "TOOL",
+    "category": "tools",
+    "name": "bone flute",
+    "name_plural": "bone flutes",
+    "description": "A polished bone flute with five finger holes.",
+    "weight": 250,
+    "volume": 2,
+    "price": 5000,
+    "bashing": 2,
+    "material": "bone",
+    "symbol": "-",
+    "color": "white",
+    "initial_charges": 1,
+    "max_charges": 1,
+    "use_action": {
+      "type": "musical_instrument",
+      "volume": 12,
+      "fun": -5,
+      "fun_bonus": 2,
+      "speed_penalty": 10,
+      "description_frequency": 20,
+      "descriptions": [
+        "You play a little tune on your flute.",
+        "You play a beautiful piece on your flute.",
+        "You play a piece on your bone flute that resembles the howling wind through Aurignacian caves.",
+        "Your bone flute wails for the fallen during the hunt."
+      ]
+    }
+  },
+  {
     "id": "boobytrap",
     "type": "TOOL",
     "name": "booby trap",

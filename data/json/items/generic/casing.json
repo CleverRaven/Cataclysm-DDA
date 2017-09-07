@@ -131,6 +131,17 @@
     "volume": "3ml"
   },
   {
+    "id": "5x50_hull",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": "5x50mm hull",
+    "description": "An empty plastic hull from a 5x50mm flechette round.",
+    "weight": 1,
+    "volume": "9ml",
+    "material": "plastic",
+    "color": "light_green"
+  },
+  {
     "id": "500_casing",
     "copy-from": "casing",
     "type": "GENERIC",

@@ -286,9 +286,8 @@ std::shared_ptr<mapgen_function> load_mapgen_function( JsonObject &jio, const st
         if( mgtype == "builtin" ) { // c-function
             if( jio.has_string( "name" ) ) {
                 const std::string mgname = jio.get_string( "name" );
-                const auto iter = mapgen_cfunction_map.find( mgname );
-                if( iter != mapgen_cfunction_map.end() ) {
-                    ret = std::make_shared<mapgen_function_builtin>( iter->second, mgweight );
+                if( const auto ptr = get_mapgen_cfunction( mgname ) ) {
+                    ret = std::make_shared<mapgen_function_builtin>( ptr, mgweight );
                     oter_mapgen[id_base].push_back( ret );
                 } else {
                     debugmsg( "oter_t[%s]: builtin mapgen function \"%s\" does not exist.", id_base.c_str(), mgname.c_str() );
@@ -691,7 +690,7 @@ public:
             signtext = _( signtext.c_str() );
 
             std::string cityname = "illegible city name";
-            city* c = overmap_buffer.closest_city(abs_sub).city;
+            const city* c = overmap_buffer.closest_city(abs_sub).city;
             if (c != nullptr) {
                 cityname = c->name;
             }

@@ -539,6 +539,7 @@ def extract_mutation_category(item):
 
     simple_fields = [ "mutagen_message",
                       "iv_message",
+                      "iv_sleep_message",
                       "iv_sound_message",
                       "junkie_message"
                     ]

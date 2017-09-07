@@ -2548,7 +2548,7 @@
       ["striped_pants", 1],
       ["razor_blade", 10],
       ["survnote", 5],
-      ["eclipse_glasses", 1]	  
+      ["eclipse_glasses", 1]
     ]
   },{
     "type" : "item_group",
@@ -3293,30 +3293,42 @@
       ["survnote", 2]
     ]
   },{
-      "type" : "item_group",
-    "id" : "mansion_books",
-    "//" : "Those rich mansion people have all sorts of weird books.",
-    "items":[
-      ["textbook_weapwest", 5],
-      ["textbook_weapeast", 5],
-      ["textbook_armwest", 5],
-      ["textbook_armeast", 5],
-      ["textbook_armschina", 5],
-      ["textbook_gaswarfare", 5],
-      ["photo_album", 10],
-      ["fun_survival", 10],
-      ["brewing_cookbook", 8],
-      ["textbook_robots", 5],
-      ["manual_dodge", 5],
-      ["novel_experimental", 8],
-      ["novel_swash", 10],
-      ["manual_fencing", 3],
-      ["manual_niten", 3],
-      ["novel_samurai", 10],
-      ["plays_book", 10],
-      ["poetry_book", 10],
-      ["carpentry_book", 8],
-      ["scots_cookbook", 10]
+    "id": "mansion_books",
+    "type": "item_group",
+    "//": "Those rich mansion people have all sorts of weird books.",
+    "items": [
+      [ "textbook_weapwest", 15 ],
+      [ "textbook_weapeast", 15 ],
+      [ "textbook_armwest", 15 ],
+      [ "textbook_armeast", 15 ],
+      [ "textbook_armschina", 15 ],
+      [ "textbook_gaswarfare", 15 ],
+      [ "photo_album", 30 ],
+      [ "fun_survival", 30 ],
+      [ "brewing_cookbook", 24 ],
+      [ "textbook_robots", 15 ],
+      [ "manual_dodge", 15 ],
+      [ "novel_experimental", 24 ],
+      [ "novel_swash", 30 ],
+      [ "manual_fencing", 9 ],
+      [ "manual_niten", 9 ],
+      [ "novel_samurai", 30 ],
+      [ "plays_book", 30 ],
+      [ "poetry_book", 30 ],
+      [ "carpentry_book", 24 ],
+      [ "scots_cookbook", 30 ],
+      [ "manual_capoeira", 9 ],
+      [ "manual_centipede", 1 ],
+      [ "manual_crane", 1 ],
+      [ "manual_dragon", 1 ],
+      [ "manual_leopard", 1 ],
+      [ "manual_lizard", 1 ],
+      [ "manual_scorpion", 1 ],
+      [ "manual_snake", 1 ],
+      [ "manual_tiger", 1 ],
+      [ "manual_toad", 1 ],
+      [ "manual_venom_snake", 1 ],
+      [ "manual_zui_quan", 1 ]
     ]
   },{
     "type" : "item_group",
@@ -8384,24 +8396,25 @@
       ["v_planter_item_advanced", 8]
     ]
   },{
-"type" : "item_group",
-"id" : "museum_primitive",
-"items" : [
-      ["primitive_knife", 50],
-      ["primitive_axe", 50],
-      ["primitive_shovel", 50],
-      ["primitive_hammer", 50],
-      ["primitive_adze", 50 ],
-      ["needle_bone", 50],
-      ["needle_wood", 50],
-      ["steel_chunk", 50],
-      ["loincloth_fur", 50],
-      ["distaff_spindle", 50],
-      ["carding_paddles", 50],
-      ["knitting_needles", 50],
-      ["pointy_stick", 50],
-      ["copper_knife", 10],
-      ["copper_ax", 10]
+    "id": "museum_primitive",
+    "type": "item_group",
+    "items": [
+      [ "primitive_knife", 50 ],
+      [ "primitive_axe", 50 ],
+      [ "primitive_shovel", 50 ],
+      [ "primitive_hammer", 50 ],
+      [ "primitive_adze", 50 ],
+      [ "needle_bone", 50 ],
+      [ "needle_wood", 50 ],
+      [ "steel_chunk", 50 ],
+      [ "loincloth_fur", 50 ],
+      [ "distaff_spindle", 50 ],
+      [ "carding_paddles", 50 ],
+      [ "knitting_needles", 50 ],
+      [ "pointy_stick", 50 ],
+      [ "copper_knife", 10 ],
+      [ "copper_ax", 10 ],
+      [ "bone_flute", 10 ]
     ]
   },{
 "type" : "item_group",

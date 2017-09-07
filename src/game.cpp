@@ -298,7 +298,6 @@ void game::load_static_data()
     // Therefore they can be loaded here.
     // If this changes (if they load data from json), they have to
     // be moved to game::load_mod or game::load_core_data
-    init_mapgen_builtin_functions();
 
     get_auto_pickup().load_global();
     get_safemode().load_global();
@@ -4173,7 +4172,7 @@ void game::debug()
             break;
 
         case 17: {
-            tripoint coord = look_debug();
+            look_debug();
         }
         break;
 
@@ -10834,8 +10833,7 @@ void game::wield( int pos )
         const auto filter = []( const item &it ) {
             return it.made_of( SOLID );
         };
-        loc = inv_map_splice( filter, _( "Wield item" ), 1, _( "You have nothing to wield." ),
-                              wield_hint_provider );
+        loc = inv_map_splice( filter, _( "Wield item" ), 1, _( "You have nothing to wield." ) );
     }
 
     if( !loc ) {
@@ -12823,11 +12821,11 @@ void game::vertical_notes( int z_before, int z_after )
             if( z_after > z_before && ter->has_flag(known_up) &&
                 !ter2->has_flag(known_down) ) {
                 overmap_buffer.set_seen(cursx, cursy, z_after, true);
-                overmap_buffer.add_note(cursx, cursy, z_after, _(">:W;AUTO: goes down"));
+                overmap_buffer.add_note(cursx, cursy, z_after, string_format(">:W;%s", _("AUTO: goes down")));
             } else if ( z_after < z_before && ter->has_flag(known_down) &&
                 !ter2->has_flag(known_up) ) {
                 overmap_buffer.set_seen(cursx, cursy, z_after, true);
-                overmap_buffer.add_note(cursx, cursy, z_after, _("<:W;AUTO: goes up"));
+                overmap_buffer.add_note(cursx, cursy, z_after, string_format("<:W;%s", _("AUTO: goes up")));
             }
         }
     }
@@ -13811,6 +13809,10 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
             break;
 
         case AEP_CLAIRVOYANCE:
+            add_msg(m_good, _("You can see through walls!"));
+            break;
+
+        case AEP_CLAIRVOYANCE_PLUS:
             add_msg(m_good, _("You can see through walls!"));
             break;
 

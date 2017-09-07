@@ -451,6 +451,9 @@ public:
             const tripoint &orig, bool blink, bool showExplored,
             input_context* inp_ctxt, const draw_data_t &data);
 
+
+  static void draw_city_labels(WINDOW *w, const tripoint &center);
+
     oter_id random_shop() const;
     oter_id random_park() const;
     oter_id random_house() const;
