@@ -172,6 +172,20 @@ static void test_shooting_scenario( npc &shooter, int min_quickdraw_range,
     }
 }
 
+static void test_fast_shooting( npc &shooter, int moves, float hit_rate )
+{
+    const int fast_shooting_range = 3;
+    dispersion_sources dispersion = get_dispersion( shooter, moves );
+    std::array<statistics, 5> fast_stats = firing_test( dispersion, fast_shooting_range, {{ -1, hit_rate, -1, -1, -1 }} );
+    INFO( dispersion );
+    INFO( "Range: " << fast_shooting_range );
+    INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
+    INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
+    CAPTURE( fast_stats[1].n() );
+    CAPTURE( fast_stats[1].adj_wald_error() );
+    CHECK( fast_stats[1].avg() > hit_rate );
+}
+
 void assert_encumbrance( npc &shooter, int encumbrance )
 {
     for( body_part bp : bp_aBodyPart ) {
@@ -190,14 +204,17 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance]" )
     SECTION( "an unskilled shooter with an inaccurate pistol" ) {
         arm_shooter( shooter, "glock_19" );
         test_shooting_scenario( shooter, 4, 3, 7 );
+        test_fast_shooting( shooter, 40, 0.3 );
     }
     SECTION( "an unskilled shooter with an inaccurate smg" ) {
         arm_shooter( shooter, "tommygun", { "holo_sight", "tuned_mechanism" } );
         test_shooting_scenario( shooter, 4, 4, 10 );
+        test_fast_shooting( shooter, 80, 0.3 );
     }
     SECTION( "an unskilled shooter with an inaccurate rifle" ) {
         arm_shooter( shooter, "m1918", { "holo_sight", "tuned_mechanism" } );
         test_shooting_scenario( shooter, 5, 6, 15 );
+        test_fast_shooting( shooter, 100, 0.2 );
     }
 }
 
@@ -211,14 +228,17 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
     SECTION( "a skilled shooter with an accurate pistol" ) {
         arm_shooter( shooter, "sw_619", { "holo_sight", "pistol_grip", "tuned_mechanism" } );
         test_shooting_scenario( shooter, 5, 7, 15 );
+        test_fast_shooting( shooter, 30, 0.5 );
     }
     SECTION( "a skilled shooter with an accurate smg" ) {
         arm_shooter( shooter, "hk_mp5", { "pistol_scope", "barrel_big", "match_trigger", "adjustable_stock" } );
         test_shooting_scenario( shooter, 5, 10, 20 );
+        test_fast_shooting( shooter, 70, 0.4 );
     }
     SECTION( "a skilled shooter with an accurate rifle" ) {
         arm_shooter( shooter, "ruger_mini", { "rifle_scope", "tuned_mechanism" } );
         test_shooting_scenario( shooter, 5, 14, 45 );
+        test_fast_shooting( shooter, 100, 0.3 );
     }
 }
 
@@ -232,14 +252,17 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
     SECTION( "an expert shooter with an excellent pistol" ) {
         arm_shooter( shooter, "sw629", { "holo_sight", "match_trigger" } );
         test_shooting_scenario( shooter, 6, 10, 30 );
+        test_fast_shooting( shooter, 20, 0.6 );
     }
     SECTION( "an expert shooter with an excellent smg" ) {
         arm_shooter( shooter, "ppsh", { "pistol_scope", "barrel_big" } );
         test_shooting_scenario( shooter, 6, 20, 50 );
+        test_fast_shooting( shooter, 60, 0.5 );
     }
     SECTION( "an expert shooter with an excellent rifle" ) {
         arm_shooter( shooter, "browning_blr", { "rifle_scope" } );
         test_shooting_scenario( shooter, 6, 30, 150 );
+        test_fast_shooting( shooter, 100, 0.4 );
     }
 }
 
