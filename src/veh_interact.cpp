@@ -1092,7 +1092,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
                 }
                 wrefresh( w_msg );
             };
-            opts.emplace_back( "ENGINE", &pt, enable && enable( pt ) ? hotkey++ : '\0', details, msg );
+            opts.emplace_back( "ENGINE", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details, msg );
         }
     }
 
@@ -1106,7 +1106,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
                                  round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) );
                 }
             };
-            opts.emplace_back( "TANK", &pt, enable && enable( pt ) ? hotkey++ : '\0', details );
+            opts.emplace_back( "TANK", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details );
         }
     }
 
@@ -1118,7 +1118,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
                 right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
                              "%i    %3i%%", pt.ammo_capacity(), pct );
             };
-           opts.emplace_back( "BATTERY", &pt, enable && enable( pt ) ? hotkey++ : '\0', details );
+           opts.emplace_back( "BATTERY", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details );
         }
     }
 
@@ -1131,13 +1131,13 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
 
     for( auto &pt : veh->parts ) {
         if( pt.is_reactor() && !pt.is_broken() ) {
-            opts.emplace_back( "REACTOR", &pt, enable && enable( pt ) ? hotkey++ : '\0', details_ammo );
+            opts.emplace_back( "REACTOR", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details_ammo );
         }
     }
 
     for( auto &pt : veh->parts ) {
         if( pt.is_turret() && !pt.is_broken() ) {
-            opts.emplace_back( "TURRET", &pt, enable && enable( pt ) ? hotkey++ : '\0', details_ammo );
+            opts.emplace_back( "TURRET", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details_ammo );
         }
     }
 
@@ -1149,7 +1149,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
             }
         };
         if( pt.is_seat() && !pt.is_broken() ) {
-            opts.emplace_back( "SEAT", &pt, enable && enable( pt ) ? hotkey++ : '\0', details );
+            opts.emplace_back( "SEAT", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details );
         }
     }
 
@@ -1179,10 +1179,18 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
                 last = opts[idx].key;
             }
 
+            bool highlighted = false;
+            // No action means no selecting, just highlight relevant ones
+            if( pos < 0 && enable && !action ) {
+                highlighted = enable( pt );
+            } else if( pos == idx ) {
+                highlighted = true;
+            }
+
             // print part name
             nc_color col = opts[idx].hotkey ? c_white : c_dkgray;
             trim_and_print( w_list, y, 1, getmaxx( w_list ) - 1,
-                            idx == pos ? hilite( col ) : col,
+                            highlighted ? hilite( col ) : col,
                             "<color_dkgray>%c </color>%s",
                             opts[idx].hotkey ? opts[idx].hotkey : ' ', pt.name().c_str() );
 
@@ -1352,7 +1360,13 @@ bool veh_interact::do_remove( std::string &msg )
         werase (w_parts);
         veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, pos);
         wrefresh (w_parts);
-        bool can_remove = can_remove_part( parts_here[ pos ] );
+        int part = parts_here[ pos ];
+
+        bool can_remove = can_remove_part( part );
+
+        auto sel = [&]( const vehicle_part &pt ) { return &pt == &veh->parts[part]; };
+        overview( sel );
+
         //read input
         const std::string action = main_context.handle_input();
         if (can_remove && (action == "REMOVE" || action == "CONFIRM")) {
