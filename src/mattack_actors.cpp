@@ -28,18 +28,6 @@ bool is_adjacent( const monster &z, const Creature &target )
     return z.posz() == target.posz();
 }
 
-// Modified version of the function on monattack.cpp
-bool dodge_check( float max_accuracy, Creature &target )
-{
-    ///\EFFECT_DODGE increases chance of dodging special attacks of monsters
-    float dodge = std::max( target.get_dodge() - rng( 0, max_accuracy ), 0.0f );
-    if( rng( 0, 10000 ) < 10000 / ( 1 + ( 99 * exp( -0.6f * dodge ) ) ) ) {
-        return true;
-    }
-
-    return false;
-}
-
 void leap_actor::load_internal( JsonObject &obj, const std::string & )
 {
     // Mandatory:
@@ -213,10 +201,10 @@ bool melee_actor::call( monster &z ) const
     add_msg( m_debug, "%s attempting to melee_attack %s", z.name().c_str(),
              target->disp_name().c_str() );
 
-    const int acc = accuracy >= 0 ? accuracy : z.type->melee_skill;
-    int hitspread = target->deal_melee_attack( &z, dice( acc, 10 ) );
+    const int acc = accuracy >= 0 ? accuracy : z.get_melee();
+    float hitspread = target->deal_melee_attack( &z, z.hit_roll_at_accuracy( acc ), acc * 2 );
 
-    if( hitspread < 0 ) {
+    if( hitspread <= 0.0f ) {
         auto msg_type = target == &g->u ? m_warning : m_info;
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );

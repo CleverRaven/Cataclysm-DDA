@@ -342,11 +342,16 @@ void Creature::melee_attack(Creature &t, bool allow_special)
     melee_attack( t, allow_special, no_technique_id );
 }
 
+float Creature::hit_roll_at_accuracy( float accuracy )
+{
+    return normal_roll( accuracy * 5, 25.0f );
+}
+
 /*
  * Damage-related functions
  */
 
-int size_melee_penalty( m_size target_size )
+float size_melee_penalty( m_size target_size )
 {
     switch( target_size ) {
         case MS_TINY:
@@ -365,19 +370,19 @@ int size_melee_penalty( m_size target_size )
     return 0;
 }
 
-int Creature::deal_melee_attack( Creature *source, int hitroll )
+float Creature::deal_melee_attack( Creature *source, float hitroll, float difficulty )
 {
-    int hit_spread = hitroll - dodge_roll() - size_melee_penalty( get_size() );
+    float hit_spread = hitroll - dodge_roll() - size_melee_penalty( get_size() );
 
     // If attacker missed call targets on_dodge event
-    if( hit_spread <= 0 && !source->is_hallucination() ) {
-        on_dodge( source, source->get_melee() );
+    if( hit_spread <= 0.0f && !source->is_hallucination() ) {
+        on_dodge( source, difficulty );
     }
 
     return hit_spread;
 }
 
-void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hit,
+void Creature::deal_melee_hit(Creature *source, float hit_spread, bool critical_hit,
                               const damage_instance &dam, dealt_damage_instance &dealt_dam)
 {
     damage_instance d = dam; // copy, since we will mutate in block_hit

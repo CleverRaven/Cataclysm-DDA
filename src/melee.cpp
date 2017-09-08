@@ -213,7 +213,7 @@ float player::hit_roll() const
 
     hit *= std::max( 0.25f, 1.0f - encumb( bp_torso ) / 100.0f );
 
-    return normal_roll( hit * 5, 25.0f );
+    return hit_roll_at_accuracy( hit );
 }
 
 void player::add_miss_reason( const std::string reason, const unsigned int weight )
@@ -277,7 +277,7 @@ static void melee_train( player &p, int lo, int hi, const item &weap ) {
 
 void player::melee_attack( Creature &t, bool allow_special, const matec_id &force_technique )
 {
-    int hitspread = t.deal_melee_attack( this, hit_roll() );
+    int hitspread = t.deal_melee_attack( this, hit_roll(), get_melee() );
     melee_attack( t, allow_special, force_technique, hitspread );
 }
 
@@ -1420,7 +1420,7 @@ void player::perform_special_attacks(Creature &t)
         dealt_damage_instance dealt_dam;
 
         // @todo Make this hit roll use unarmed skill, not weapon skill + weapon to_hit
-        int hit_spread = t.deal_melee_attack( this, hit_roll() * 0.8 );
+        int hit_spread = t.deal_melee_attack( this, hit_roll() * 0.8, get_melee() );
         if( hit_spread >= 0 ) {
             t.deal_melee_hit( this, hit_spread, false, att.damage, dealt_dam );
             if( !practiced ) {
@@ -1967,7 +1967,7 @@ void player::disarm( npc &target )
     their_roll += dice( 3, target.get_skill_level( skill_melee ) );
 
     // roll your melee and target's dodge skills to check if grab/smash attack succeeds
-    int hitspread = target.deal_melee_attack( this, hit_roll() );
+    int hitspread = target.deal_melee_attack( this, hit_roll(), get_melee() );
     if( hitspread < 0 ) {
         // this will not do damage, but trigger all miss effects and on_dodge on target
         melee_attack( target, false, no_technique_id, hitspread );

@@ -92,6 +92,9 @@ class Creature
         virtual float dodge_roll() = 0;
         virtual float stability_roll() const = 0;
 
+        /** Math common to all creatures. */
+        static float hit_roll_at_accuracy( float accuracy );
+
         /**
          * Simplified attitude towards any creature:
          * hostile - hate, want to kill, etc.
@@ -202,11 +205,11 @@ class Creature
 
         // begins a melee attack against the creature
         // returns hit - dodge (>=0 = hit, <0 = miss)
-        virtual int deal_melee_attack(Creature *source, int hitroll);
+        virtual float deal_melee_attack( Creature *source, float hitroll, float dodge_difficulty );
 
         // completes a melee attack against the creature
         // dealt_dam is overwritten with the values of the damage dealt
-        virtual void deal_melee_hit(Creature *source, int hit_spread, bool crit,
+        virtual void deal_melee_hit(Creature *source, float hit_spread, bool crit,
                                     const damage_instance &d, dealt_damage_instance &dealt_dam);
 
         // Makes a ranged projectile attack against the creature

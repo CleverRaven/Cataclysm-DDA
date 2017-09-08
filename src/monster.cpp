@@ -1013,7 +1013,7 @@ void monster::absorb_hit(body_part, damage_instance &dam) {
 
 void monster::melee_attack( Creature &target, bool allow_special, const matec_id& force_technique )
 {
-    int hitspread = target.deal_melee_attack(this, hit_roll());
+    float hitspread = target.deal_melee_attack( this, hit_roll(), get_melee() );
     melee_attack( target, allow_special, force_technique, hitspread );
 }
 
@@ -1470,7 +1470,7 @@ float monster::hit_roll() const {
         hit /= 4;
     }
 
-    return normal_roll( hit * 5, 25.0f );
+    return hit_roll_at_accuracy( hit );
 }
 
 bool monster::has_grab_break_tec() const
