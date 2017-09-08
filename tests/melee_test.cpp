@@ -8,6 +8,8 @@
 #include <string>
 #include <sstream>
 
+const skill_id skill_dodge( "dodge" );
+
 static float brute_probability( Creature &attacker, Creature &target, size_t iters )
 {
     // Note: not using deal_melee_attack because it trains dodge, which causes problems here
@@ -22,11 +24,16 @@ static float brute_probability( Creature &attacker, Creature &target, size_t ite
     return ( float )hits / iters;
 }
 
-static float brute_special_probability( monster &attacker, Creature &target, size_t iters )
+static float brute_special_probability( monster &attacker, player &target, size_t iters )
 {
     size_t hits = 0;
+    const int start_val = target.get_skill_level( skill_dodge );
     for( size_t i = 0; i < iters; i++ ) {
-        if( !mattack::dodge_check( &attacker, &target ) ) {
+        // Ensure the character has enough dodges
+        target.dodges_left = 1000;
+        // Ensure the character's dodge value didn't change since start
+        target.set_skill_level( skill_dodge, start_val );
+        if( !mattack::dodge_check( attacker, target ) ) {
             hits++;
         }
     }
@@ -65,7 +72,7 @@ void check_near( float prob, float expected, float tolerance )
 
 const int num_iters = 10000;
 
-TEST_CASE( "Character attacking a zombie", "[.melee]" )
+TEST_CASE( "Character attacking a zombie", "[melee]" )
 {
     monster zed( mtype_id( "mon_zombie" ) );
     INFO( "Zombie has get_dodge() == " + std::to_string( zed.get_dodge() ) );
@@ -94,7 +101,7 @@ TEST_CASE( "Character attacking a zombie", "[.melee]" )
     }
 }
 
-TEST_CASE( "Character attacking a manhack", "[.melee]" )
+TEST_CASE( "Character attacking a manhack", "[melee]" )
 {
     monster manhack( mtype_id( "mon_manhack" ) );
     INFO( "Manhack has get_dodge() == " + std::to_string( manhack.get_dodge() ) );
@@ -103,7 +110,7 @@ TEST_CASE( "Character attacking a manhack", "[.melee]" )
         standard_npc dude( "TestCharacter", {}, 0, 8, 8, 8, 8 );
         float prob = brute_probability( dude, manhack, num_iters );
         INFO( full_attack_details( dude ) );
-        check_near( prob, 0.2f, 0.05f );
+        check_near( prob, 0.65f, 0.05f );
     }
 
     SECTION( "8/8/8/8, 3 all skills, two-by-four" ) {
@@ -111,7 +118,7 @@ TEST_CASE( "Character attacking a manhack", "[.melee]" )
         dude.weapon = item( "2x4" );
         float prob = brute_probability( dude, manhack, num_iters );
         INFO( full_attack_details( dude ) );
-        check_near( prob, 0.4f, 0.05f );
+        check_near( prob, 0.8f, 0.05f );
     }
 
     SECTION( "10/10/10/10, 8 all skills, katana" ) {
@@ -119,11 +126,11 @@ TEST_CASE( "Character attacking a manhack", "[.melee]" )
         dude.weapon = item( "katana" );
         float prob = brute_probability( dude, manhack, num_iters );
         INFO( full_attack_details( dude ) );
-        check_near( prob, 0.7f, 0.05f );
+        check_near( prob, 0.95f, 0.025f );
     }
 }
 
-TEST_CASE( "Zombie attacking a character", "[.melee]" )
+TEST_CASE( "Zombie attacking a character", "[melee]" )
 {
     monster zed( mtype_id( "mon_zombie" ) );
     INFO( "Zombie has get_hit() == " + std::to_string( zed.get_hit() ) );
@@ -161,7 +168,7 @@ TEST_CASE( "Zombie attacking a character", "[.melee]" )
     }
 }
 
-TEST_CASE( "Manhack attacking a character", "[.melee]" )
+TEST_CASE( "Manhack attacking a character", "[melee]" )
 {
     monster manhack( mtype_id( "mon_manhack" ) );
     INFO( "Manhack has get_hit() == " + std::to_string( manhack.get_hit() ) );
@@ -194,7 +201,7 @@ TEST_CASE( "Manhack attacking a character", "[.melee]" )
     }
 }
 
-TEST_CASE( "Hulk smashing a character", "[.], [melee], [monattack]" )
+TEST_CASE( "Hulk smashing a character", "[melee], [monattack]" )
 {
     monster zed( mtype_id( "mon_zombie_hulk" ) );
     INFO( "Hulk has get_hit() == " + std::to_string( zed.get_hit() ) );
@@ -208,7 +215,7 @@ TEST_CASE( "Hulk smashing a character", "[.], [melee], [monattack]" )
             REQUIRE( dude.get_dodge_bonus() > -0.5f );
         }
 
-        check_near( prob, 0.95f, 0.05f );
+        check_near( prob, 0.9f, 0.05f );
     }
 
     SECTION( "10/10/10/10, 3 all skills, good cotton armor" ) {
@@ -216,13 +223,13 @@ TEST_CASE( "Hulk smashing a character", "[.], [melee], [monattack]" )
                            3, 10, 10, 10, 10 );
         float prob = brute_special_probability( zed, dude, num_iters );
         INFO( "Has get_dodge() == " + std::to_string( dude.get_dodge() ) );
-        check_near( prob, 0.75f, 0.05f );
+        check_near( prob, 0.7f, 0.05f );
     }
 
     SECTION( "10/10/10/10, 8 all skills, survivor suit" ) {
         standard_npc dude( "TestCharacter", { "survivor_suit" }, 8, 10, 10, 10, 10 );
         float prob = brute_special_probability( zed, dude, num_iters );
         INFO( "Has get_dodge() == " + std::to_string( dude.get_dodge() ) );
-        check_near( prob, 0.2f, 0.05f );
+        check_near( prob, 0.25f, 0.05f );
     }
 }
