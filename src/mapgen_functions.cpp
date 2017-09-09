@@ -140,7 +140,7 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
     { "s_sports", mapgen_s_sports },
 //    { "shelter", &mapgen_shelter },
     { "shelter_under", &mapgen_shelter_under },
-    { "lmoe", &mapgen_lmoe },
+//    { "lmoe", &mapgen_lmoe },
     { "basement_generic_layout", &mapgen_basement_generic_layout }, // empty, not bound
     { "basement_junk", &mapgen_basement_junk },
     /*
@@ -3024,40 +3024,6 @@ void mapgen_shelter_under(map *m, oter_id, mapgendata dat, int, float) {
             m->place_items("shelter", 80, 6, 6, SEEX * 2 - 8, SEEY * 2 - 8, false, 0);
         }
 }
-
-
-void mapgen_lmoe(map *m, oter_id, mapgendata dat, int, float) {
-//    } else if (terrain_type == "lmoe") {
-
-        // Init to grass & dirt;
-        dat.fill_groundcover();
-        square(m, t_shrub, 7, 6, 16, 12);
-        square(m, t_rock, 10, 9, 13, 12);
-        square(m, t_rock_floor, 11, 10, 12, 11);
-        line(m, t_stairs_down, 11, 10, 12, 10);
-        m->ter_set(11, 12, t_door_metal_c);
-        line(m, t_tree, 9, 8, 14, 8);
-        line(m, t_tree, 9, 8, 9, 12);
-        line(m, t_tree, 14, 8, 14, 12);
-        square(m, t_shrub, 13, 13, 15, 14);
-        square(m, t_shrub, 8, 13, 10, 14);
-        m->ter_set(10, 6, t_tree_young);
-        m->ter_set(14, 6, t_tree_young);
-        line(m, t_tree_young, 9, 7, 10, 7);
-        m->ter_set(12, 7, t_tree_young);
-        m->ter_set(14, 7, t_tree_young);
-        m->ter_set(8, 9, t_tree_young);
-        line(m, t_tree_young, 7, 11, 8, 11);
-        line(m, t_tree_young, 15, 10, 15, 11);
-        m->ter_set(16, 12, t_tree_young);
-        m->ter_set(9, 13, t_tree_young);
-        m->ter_set(12, 13, t_tree_young);
-        m->ter_set(16, 12, t_tree_young);
-        line(m, t_tree_young, 14, 13, 15, 13);
-        m->ter_set(10, 14, t_tree_young);
-        m->ter_set(13, 14, t_tree_young);
-}
-
 
 
 ///////////////////////////////////////////////////////////
