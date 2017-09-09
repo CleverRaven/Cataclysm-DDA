@@ -192,10 +192,6 @@ class inventory : public visitable<inventory>
         std::map<std::string, std::vector<char> > invlet_cache;
         char find_usable_cached_invlet(const std::string &item_type);
 
-        // Often items can be located using typeid, position, or invlet.  To reduce code duplication,
-        // we back those functions with a single internal function templated on the type of Locator.
-        template<typename Locator> item remove_item_internal(const Locator &locator);
-
         invstack items;
         bool sorted;
 
