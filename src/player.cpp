@@ -10616,12 +10616,7 @@ int player::adjust_for_focus(int amount) const
         effective_focus -= 15;
     }
     double tmp = amount * (effective_focus / 100.0);
-    int ret = int(tmp);
-    if (rng(0, 100) < 100 * (tmp - ret))
-    {
-        ret++;
-    }
-    return ret;
+    return roll_remainder(tmp);
 }
 
 void player::practice( const skill_id &id, int amount, int cap )
