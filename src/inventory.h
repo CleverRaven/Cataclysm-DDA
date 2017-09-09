@@ -79,7 +79,6 @@ class inventory : public visitable<inventory>
         void unsort(); // flags the inventory as unsorted
         void sort();
         void clear();
-        void clone_stack(const std::list<item> &rhs);
         void push_back(std::list<item> newits);
         // returns a reference to the added item
         item &add_item (item newit, bool keep_invlet = false, bool assign_invlet = true);
