@@ -569,11 +569,6 @@ std::list<item> inventory::reduce_stack(int position, int quantity)
     return reduce_stack_internal(position, quantity);
 }
 
-std::list<item> inventory::reduce_stack(const itype_id &type, int quantity)
-{
-    return reduce_stack_internal(type, quantity);
-}
-
 item inventory::remove_item(const item *it)
 {
     auto tmp = remove_items_with( [&it](const item& i) { return &i == it; }, 1 );
