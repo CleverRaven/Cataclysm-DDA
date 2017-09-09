@@ -149,7 +149,7 @@ static void test_shooting_scenario( npc &shooter, int min_quickdraw_range,
         CHECK( minimum_stats[1].avg() < 0.1 );
     }
     {
-        dispersion_sources dispersion = get_dispersion( shooter, 225 );
+        dispersion_sources dispersion = get_dispersion( shooter, 300 );
         std::array<statistics, 5> good_stats = firing_test( dispersion, min_good_range, {{ -1, -1, 0.5, -1, -1 }} );
         INFO( dispersion );
         INFO( "Range: " << min_good_range );
@@ -160,7 +160,7 @@ static void test_shooting_scenario( npc &shooter, int min_quickdraw_range,
         CHECK( good_stats[2].avg() > 0.5 );
     }
     {
-        dispersion_sources dispersion = get_dispersion( shooter, 300 );
+        dispersion_sources dispersion = get_dispersion( shooter, 500 );
         std::array<statistics, 5> good_stats = firing_test( dispersion, max_good_range, {{ -1, -1, 0.1, -1, -1 }} );
         INFO( dispersion );
         INFO( "Range: " << max_good_range );
@@ -175,15 +175,21 @@ static void test_shooting_scenario( npc &shooter, int min_quickdraw_range,
 static void test_fast_shooting( npc &shooter, int moves, float hit_rate )
 {
     const int fast_shooting_range = 3;
+    const float hit_rate_cap = hit_rate + 0.3;
     dispersion_sources dispersion = get_dispersion( shooter, moves );
     std::array<statistics, 5> fast_stats = firing_test( dispersion, fast_shooting_range, {{ -1, hit_rate, -1, -1, -1 }} );
+    std::array<statistics, 5> fast_stats_upper = firing_test( dispersion, fast_shooting_range, {{ -1, hit_rate_cap, -1, -1, -1 }} );
     INFO( dispersion );
     INFO( "Range: " << fast_shooting_range );
     INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
     INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
+    CAPTURE( to_milliliter( shooter.weapon.volume() ) );
     CAPTURE( fast_stats[1].n() );
     CAPTURE( fast_stats[1].adj_wald_error() );
     CHECK( fast_stats[1].avg() > hit_rate );
+    CAPTURE( fast_stats_upper[1].n() );
+    CAPTURE( fast_stats_upper[1].adj_wald_error() );
+    CHECK( fast_stats_upper[1].avg() < hit_rate_cap );
 }
 
 void assert_encumbrance( npc &shooter, int encumbrance )
