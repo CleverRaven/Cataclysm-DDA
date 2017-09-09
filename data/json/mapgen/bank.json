@@ -71,8 +71,8 @@
         { "item": "office", "x": [ 4, 9 ], "y": 8, "chance": 30 },
         { "item": "office", "x": [ 3, 5 ], "y": 12, "chance": 30 },
         { "item": "office", "x": 16, "y": [ 14, 15 ], "chance": 70 },
-        { "item": "vault", "x": 3, "y": [ 19, 20 ], "chance": 50 },
-        { "item": "vault", "x": [ 3, 5 ], "y": 16, "chance": 90 }
+        { "item": "vault", "x": 3, "y": [ 19, 20 ], "chance": 30, "repeat": 5 },
+        { "item": "vault", "x": [ 3, 5 ], "y": 16, "chance": 90, "repeat": 5 }
       ],
       "computers": {
         "6": {
