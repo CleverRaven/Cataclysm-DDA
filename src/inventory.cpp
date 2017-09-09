@@ -573,12 +573,11 @@ item inventory::remove_item(const item *it)
     return nullitem;
 }
 
-template<typename Locator>
-item inventory::remove_item_internal(const Locator &locator)
+item inventory::remove_item( const int position )
 {
     int pos = 0;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
-        if (item_matches_locator(iter->front(), locator, pos)) {
+        if (item_matches_locator(iter->front(), position, pos)) {
             binned = false;
             if (iter->size() > 1) {
                 std::list<item>::iterator stack_member = iter->begin();
@@ -597,12 +596,6 @@ item inventory::remove_item_internal(const Locator &locator)
     }
 
     return nullitem;
-}
-
-// Instantiate for each type of Locator.
-item inventory::remove_item(int position)
-{
-    return remove_item_internal(position);
 }
 
 std::list<item> inventory::remove_randomly_by_volume( const units::volume &volume )
