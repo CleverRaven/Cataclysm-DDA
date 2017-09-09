@@ -635,16 +635,6 @@ int inventory::position_by_item( const item *it ) const
     return INT_MIN;
 }
 
-item &inventory::item_by_type(itype_id type)
-{
-    for( auto &elem : items ) {
-        if( elem.front().typeId() == type ) {
-            return elem.front();
-        }
-    }
-    return nullitem;
-}
-
 int inventory::position_by_type(itype_id type)
 {
     int i = 0;
