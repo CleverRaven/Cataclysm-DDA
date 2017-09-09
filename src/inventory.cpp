@@ -530,11 +530,6 @@ bool item_matches_locator(const item &it, const itype_id &id, int)
     return it.typeId() == id;
 }
 
-bool item_matches_locator(const item &, int locator_pos, int item_pos)
-{
-    return item_pos == locator_pos;
-}
-
 bool item_matches_locator(const item &it, const item *other, int)
 {
     return &it == other;
@@ -545,7 +540,7 @@ std::list<item> inventory::reduce_stack( const int position, const int quantity 
     int pos = 0;
     std::list<item> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
-        if (item_matches_locator(iter->front(), position, pos)) {
+        if( position == pos ) {
             binned = false;
             if(quantity >= (int)iter->size() || quantity < 0) {
                 ret = *iter;
@@ -577,7 +572,7 @@ item inventory::remove_item( const int position )
 {
     int pos = 0;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
-        if (item_matches_locator(iter->front(), position, pos)) {
+        if( position == pos ) {
             binned = false;
             if (iter->size() > 1) {
                 std::list<item>::iterator stack_member = iter->begin();
