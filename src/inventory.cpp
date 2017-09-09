@@ -540,13 +540,12 @@ bool item_matches_locator(const item &it, const item *other, int)
     return &it == other;
 }
 
-template<typename Locator>
-std::list<item> inventory::reduce_stack_internal(const Locator &locator, int quantity)
+std::list<item> inventory::reduce_stack( const int position, const int quantity )
 {
     int pos = 0;
     std::list<item> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
-        if (item_matches_locator(iter->front(), locator, pos)) {
+        if (item_matches_locator(iter->front(), position, pos)) {
             binned = false;
             if(quantity >= (int)iter->size() || quantity < 0) {
                 ret = *iter;
@@ -561,12 +560,6 @@ std::list<item> inventory::reduce_stack_internal(const Locator &locator, int qua
         ++pos;
     }
     return ret;
-}
-
-// Instantiate for each type of Locator.
-std::list<item> inventory::reduce_stack(int position, int quantity)
-{
-    return reduce_stack_internal(position, quantity);
 }
 
 item inventory::remove_item(const item *it)
