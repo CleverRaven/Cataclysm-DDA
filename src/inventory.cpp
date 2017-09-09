@@ -656,22 +656,6 @@ int inventory::position_by_type(itype_id type)
     }
     return INT_MIN;
 }
-item &inventory::item_or_container(itype_id type)
-{
-    for( auto &elem : items ) {
-        for( auto &elem_stack_iter : elem ) {
-            if( elem_stack_iter.typeId() == type ) {
-                return elem_stack_iter;
-            } else if( elem_stack_iter.is_container() && !elem_stack_iter.contents.empty() ) {
-                if( elem_stack_iter.contents.front().typeId() == type ) {
-                    return elem_stack_iter;
-                }
-            }
-        }
-    }
-
-    return nullitem;
-}
 
 std::vector<std::pair<item *, int> > inventory::all_items_by_type(itype_id type)
 {
