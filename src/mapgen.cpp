@@ -9,6 +9,7 @@
 #include "line.h"
 #include "debug.h"
 #include "options.h"
+#include "ammo.h"
 #include "item_group.h"
 #include "mapgen_functions.h"
 #include "mapgenformat.h"
@@ -8534,7 +8535,7 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
                 e->contents.emplace_back( e->magazine_default(), e->bday );
             }
             if( rng( 0, 99 ) < ammo && e->ammo_remaining() == 0 ) {
-                e->ammo_set( default_ammo( e->ammo_type() ), e->ammo_capacity() );
+                e->ammo_set( e->ammo_type()->default_ammotype(), e->ammo_capacity() );
             }
         }
     }

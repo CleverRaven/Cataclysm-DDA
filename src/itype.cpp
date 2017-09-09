@@ -1,6 +1,5 @@
 #include "debug.h"
 #include "itype.h"
-#include "ammo.h"
 #include "game.h"
 #include "item_factory.h"
 #include "translations.h"
@@ -72,9 +71,4 @@ long itype::invoke( player &p, item &it, const tripoint &pos, const std::string 
     }
 
     return use->call( p, it, false, pos );
-}
-
-const itype_id &default_ammo( const ammotype &t )
-{
-    return t.obj().default_ammotype();
 }

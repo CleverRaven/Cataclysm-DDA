@@ -9,6 +9,7 @@
 #include "output.h"
 #include "rng.h"
 #include "requirements.h"
+#include "ammo.h"
 #include "line.h"
 #include "player.h"
 #include "translations.h"
@@ -2793,7 +2794,7 @@ const itype *furn_t::crafting_ammo_item_type() const
 {
     const itype *pseudo = crafting_pseudo_item_type();
     if( pseudo->tool && !pseudo->tool->ammo_id.is_null() ) {
-        return item::find_type( default_ammo( pseudo->tool->ammo_id ) );
+        return item::find_type( pseudo->tool->ammo_id->default_ammotype() );
     }
     return nullptr;
 }

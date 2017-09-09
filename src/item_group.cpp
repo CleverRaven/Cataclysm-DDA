@@ -3,6 +3,7 @@
 #include "rng.h"
 #include "item.h"
 #include "debug.h"
+#include "ammo.h"
 #include "itype.h"
 #include "game_constants.h"
 #include <map>
@@ -204,7 +205,7 @@ void Item_modifier::modify(item &new_item) const
             const auto qty = std::min( ch, new_item.ammo_capacity() );
             new_item.charges = qty;
             if( new_item.ammo_type() && qty > 0 ) {
-                new_item.ammo_set( default_ammo( new_item.ammo_type() ), qty );
+                new_item.ammo_set( new_item.ammo_type()->default_ammotype(), qty );
             }
         } else if( !new_item.is_gun() ) {
             //not gun, food, ammo or tool.
@@ -216,7 +217,7 @@ void Item_modifier::modify(item &new_item) const
         if( ammo.get() == nullptr ) {
             // In case there is no explicit ammo item defined, use the default ammo
             if( new_item.ammo_type() ) {
-                new_item.ammo_set( default_ammo( new_item.ammo_type() ), ch );
+                new_item.ammo_set( new_item.ammo_type()->default_ammotype(), ch );
             }
         } else {
             const item am = ammo->create_single( new_item.bday );
@@ -244,7 +245,7 @@ void Item_modifier::modify(item &new_item) const
                 const item am = ammo->create_single( new_item.bday );
                 new_item.ammo_set( am.typeId() );
             } else {
-                new_item.ammo_set( default_ammo( new_item.ammo_type() ) );
+                new_item.ammo_set( new_item.ammo_type()->default_ammotype() );
             }
         }
     }
