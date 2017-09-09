@@ -195,7 +195,6 @@ class inventory : public visitable<inventory>
         // Often items can be located using typeid, position, or invlet.  To reduce code duplication,
         // we back those functions with a single internal function templated on the type of Locator.
         template<typename Locator> item remove_item_internal(const Locator &locator);
-        template<typename Locator> std::list<item> reduce_stack_internal(const Locator &type, int amount);
 
         invstack items;
         bool sorted;
