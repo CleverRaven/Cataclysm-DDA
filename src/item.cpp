@@ -5230,21 +5230,6 @@ const item_category &item::get_category() const
     return type->category ? *type->category : null_category;
 }
 
-bool item_matches_locator(const item &it, const itype_id &id, int)
-{
-    return it.typeId() == id;
-}
-
-bool item_matches_locator(const item &, int locator_pos, int item_pos)
-{
-    return item_pos == locator_pos;
-}
-
-bool item_matches_locator(const item &it, const item *other, int)
-{
-    return &it == other;
-}
-
 iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt,
                    double Value, bool _is_int, std::string Plus,
                    bool NewLine, bool LowerIsBetter, bool DrawName)

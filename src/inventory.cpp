@@ -511,6 +511,35 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
     }
 }
 
+/*
+ *  Match an item with a locator.
+ *
+ *  Commonly used convenience functions that match an item to one of the 3 common types of locators:
+ *      1) type_id (just a typedef to a string)
+ *      2) position (int)
+ *      3) pointer (item *)
+ *
+ *  The item's position is optional.  The default used if position is not given is expected to fail
+ *  the position match in all cases.
+ *
+ *  @returns true if match is found, otherwise returns false
+ */
+
+bool item_matches_locator(const item &it, const itype_id &id, int)
+{
+    return it.typeId() == id;
+}
+
+bool item_matches_locator(const item &, int locator_pos, int item_pos)
+{
+    return item_pos == locator_pos;
+}
+
+bool item_matches_locator(const item &it, const item *other, int)
+{
+    return &it == other;
+}
+
 template<typename Locator>
 std::list<item> inventory::reduce_stack_internal(const Locator &locator, int quantity)
 {
