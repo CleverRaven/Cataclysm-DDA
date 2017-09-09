@@ -167,6 +167,11 @@ class Item_modifier
          */
         std::unique_ptr<Item_spawn_data> contents;
 
+        /**
+         * Custom flags to be added to the item.
+         */
+        std::vector<std::string> custom_flags;
+
         Item_modifier();
         ~Item_modifier();
 

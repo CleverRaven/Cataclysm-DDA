@@ -2626,13 +2626,17 @@
             "bio_power_storage_mkII"
         ],
         "items": {
-            "both": [
-                "socks",
-                "sneakers",
-                "jeans",
-                "tshirt",
-                "ear_plugs"
-            ],
+            "both": {
+                "items": [
+                    "socks",
+                    "sneakers",
+                    "jeans",
+                    "tshirt"
+                ],
+                "entries": [
+                    { "item": "ear_plugs", "custom-flags": ["no_auto_equip"] }
+                ]
+            },
             "male": [
                 "briefs"
             ],
