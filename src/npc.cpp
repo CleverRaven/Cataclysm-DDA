@@ -1427,7 +1427,7 @@ void npc::shop_restock()
 
     has_new_items = true;
     inv.clear();
-    inv.add_stack( ret );
+    inv.push_back( ret );
 }
 
 
