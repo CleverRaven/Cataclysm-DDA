@@ -10628,13 +10628,13 @@ void player::practice( const skill_id &id, int amount, int cap )
 {
     SkillLevel &level = get_skill_level( id );
     const Skill &skill = id.obj();
-    // Double amount, but only if level.exercise isn't a small negative number?
-    if (level.exercise() < 0) {
-        if (amount >= -level.exercise()) {
-            amount -= level.exercise();
-        } else {
-            amount += amount;
-        }
+    // Working off rust goes twice as fast as new learning. As such if we have a negative exercise
+    // level then we gain an additional number of points equal to either our amount of half the
+    // negative exercise amounts.
+    // e.g.: -14 learn 5 should have an ending value of -4 and thus become learn 10 (+5),
+    // while -6 learn 5 should have an ending value of +2 and thus becomes learn 8 ([-6]/2 = +3)
+    if( level.exercise() < 0 ) {
+        amount += std::min( amount, -level.exercise() / 2 );
     }
 
     if( !level.can_train() ) {
