@@ -110,9 +110,6 @@ class inventory : public visitable<inventory>
         std::list<item> remove_randomly_by_volume( const units::volume &volume );
         std::list<item> reduce_stack(int position, int quantity);
 
-        // amount of -1 removes the entire stack.
-        template<typename Locator> std::list<item> reduce_stack(const Locator &type, int amount);
-
         const item &find_item(int position) const;
         item &find_item(int position);
         item &item_by_type(itype_id type);
