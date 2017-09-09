@@ -252,7 +252,7 @@ class Item_factory
         typedef std::map<Group_tag, Item_spawn_data *> GroupMap;
         GroupMap m_template_groups;
 
-        /** Checks that ammo is listed in ammo_name().
+        /** Checks that ammo is listed in ammunition_type::name().
          * At least one instance of this ammo type should be defined.
          * If any of checks fails, prints a message to the msg stream.
          * @param msg Stream in which all error messages are printed.

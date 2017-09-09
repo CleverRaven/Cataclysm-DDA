@@ -58,6 +58,7 @@
 #include "fault.h"
 #include "recipe_dictionary.h"
 #include "ranged.h"
+#include "ammo.h"
 
 #include <map>
 #include <iterator>
@@ -7565,7 +7566,7 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
         } else if ( ammo_match_found ) {
             add_msg_if_player( m_info, _( "Nothing to reload!" ) );
         } else {
-            auto name = base.ammo_data() ? base.ammo_data()->nname( 1 ) : ammo_name( base.ammo_type() );
+            auto name = base.ammo_data() ? base.ammo_data()->nname( 1 ) : base.ammo_type()->name();
             add_msg_if_player( m_info, _( "Out of %s!" ), name.c_str() );
         }
         return reload_option();
