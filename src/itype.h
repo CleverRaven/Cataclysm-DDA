@@ -52,9 +52,6 @@ using quality_id = string_id<quality>;
 
 enum field_id : int;
 
-// Returns the default ammo for a category of ammo (e.g. ""00_shot"")
-const itype_id &default_ammo( const ammotype &ammo );
-
 class gunmod_location
 {
     private:

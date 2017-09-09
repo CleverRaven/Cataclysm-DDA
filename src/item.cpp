@@ -147,7 +147,7 @@ item::item( const itype *type, int turn, long qty ) : type( type )
 
     } else if( type->tool ) {
         if( ammo_remaining() && ammo_type() ) {
-            ammo_set( default_ammo( ammo_type() ), ammo_remaining() );
+            ammo_set( ammo_type()->default_ammotype(), ammo_remaining() );
         }
     }
 
@@ -2453,7 +2453,7 @@ units::mass item::weight( bool include_contents ) const
 
     } else if( magazine_integral() && !is_magazine() ) {
         if ( ammo_type() == ammotype( "plutonium" ) ) {
-            ret += ammo_remaining() * find_type( default_ammo( ammo_type() ) )->weight / PLUTONIUM_CHARGES;
+            ret += ammo_remaining() * find_type( ammo_type()->default_ammotype() )->weight / PLUTONIUM_CHARGES;
         } else if( ammo_data() ) {
             ret += ammo_remaining() * ammo_data()->weight;
         }
@@ -4289,7 +4289,7 @@ ammotype item::ammo_type( bool conversion ) const
 
 itype_id item::ammo_default( bool conversion ) const
 {
-    auto res = default_ammo( ammo_type( conversion ) );
+    auto res = ammo_type( conversion )->default_ammotype();
     return !res.empty() ? res : "NULL";
 }
 
