@@ -69,15 +69,6 @@ size_t inventory::size() const
     return items.size();
 }
 
-int inventory::num_items() const
-{
-    int ret = 0;
-    for( const auto &elem : items ) {
-        ret += elem.size();
-    }
-    return ret;
-}
-
 bool inventory::is_sorted() const
 {
     return sorted;
