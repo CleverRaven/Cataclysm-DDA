@@ -110,7 +110,6 @@ class inventory : public visitable<inventory>
 
         const item &find_item(int position) const;
         item &find_item(int position);
-        item &item_by_type(itype_id type);
 
         /**
          * Returns the item position of the stack that contains the given item (compared by
