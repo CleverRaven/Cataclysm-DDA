@@ -30,7 +30,7 @@
     "location": "sights",
     "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "pistol", "launcher" ],
     "sight_dispersion": 60,
-    "aim_cost": 5,
+    "aim_cost": 4,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 3 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
   },
@@ -50,7 +50,7 @@
     "location": "sights",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
     "sight_dispersion": 120,
-    "aim_cost": 6,
+    "aim_cost": 4,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ],
     "flags": [ "DISABLE_SIGHTS" ]
   },

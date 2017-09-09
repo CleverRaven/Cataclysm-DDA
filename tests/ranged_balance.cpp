@@ -183,6 +183,9 @@ static void test_fast_shooting( npc &shooter, int moves, float hit_rate )
     INFO( "Range: " << fast_shooting_range );
     INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
     INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
+    CAPTURE( shooter.weapon.gun_skill().str() );
+    CAPTURE( shooter.get_skill_level( shooter.weapon.gun_skill() ) );
+    CAPTURE( shooter.get_dex() );
     CAPTURE( to_milliliter( shooter.weapon.volume() ) );
     CAPTURE( fast_stats[1].n() );
     CAPTURE( fast_stats[1].adj_wald_error() );
