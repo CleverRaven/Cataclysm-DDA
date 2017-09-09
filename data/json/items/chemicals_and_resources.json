@@ -811,8 +811,8 @@
     "id" : "ash",
     "category" : "chems",
     "price" : 0,
-    "name" : "ash",
-    "name_plural" : "ashes",
+    "name" : "wood ash",
+    "name_plural" : "wood ashes",
     "symbol" : "=",
     "color" : "gray",
     "description" : "This is almost weightless residue left after the burning of some substance.",
@@ -820,6 +820,6 @@
     "volume" : 1,
     "weight" : 10,
     "ammo_type" : "components",
-    "count" : 50
+    "count" : 10
    }
 ]
