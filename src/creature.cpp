@@ -342,6 +342,10 @@ void Creature::melee_attack(Creature &t, bool allow_special)
     melee_attack( t, allow_special, no_technique_id );
 }
 
+/**
+ * Once the accuracy (sum of modifiers) of an attack has been determined,
+ * this is used to actually roll the "hit value" of the attack to be compared to dodge.
+ */
 float Creature::hit_roll_at_accuracy( float accuracy )
 {
     return normal_roll( accuracy * 5, 25.0f );
