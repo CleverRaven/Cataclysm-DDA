@@ -4426,7 +4426,7 @@
         "bash": {
             "str_min": 50, "str_max": 400,
             "explosive" : 100,
-            "sound": "metal screeching",
+            "sound": "metal screeching!",
             "sound_fail": "clang!",
             "ter_set": "t_missile_exploded",
             "items": [
@@ -4444,7 +4444,7 @@
         "flags": ["NOITEM"],
         "bash": {
             "str_min": 20, "str_max": 150,
-            "sound": "metal screeching",
+            "sound": "metal screeching!",
             "sound_fail": "clang!",
             "ter_set": "t_metal_floor",
             "items": [
