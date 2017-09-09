@@ -187,10 +187,11 @@ void player_activity::deserialize(JsonIn &jsin)
 void SkillLevel::serialize(JsonOut &json) const
 {
     json.start_object();
-    json.member("level", level() );
-    json.member("exercise", exercise(true) );
-    json.member("istraining", isTraining() );
-    json.member("lastpracticed", int ( lastPracticed() ) );
+    json.member( "level", level() );
+    json.member( "exercise", exercise( true ) );
+    json.member( "istraining", isTraining() );
+    json.member( "lastpracticed", int( lastPracticed() ) );
+    json.member( "highestlevel", highestLevel() );
     json.end_object();
 }
 
@@ -202,10 +203,14 @@ void SkillLevel::deserialize(JsonIn &jsin)
     data.read( "exercise", _exercise );
     data.read( "istraining", _isTraining );
     data.read( "lastpracticed", lastpractice );
+    data.read( "highestlevel", _highestLevel );
     if(lastpractice == 0) {
         _lastPracticed = HOURS( get_option<int>( "INITIAL_TIME" ) );
     } else {
         _lastPracticed = lastpractice;
+    }
+    if( _highestLevel < _level ) {
+        _highestLevel = _level;
     }
 }
 
