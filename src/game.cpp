@@ -916,9 +916,9 @@ void game::create_factions()
     faction tmp;
     std::vector<std::string> faction_vector = tmp.all_json_factions();
     for(auto &cur_fac : faction_vector) {
-        tmp = faction(cur_fac.c_str());
+        tmp = faction(cur_fac);
         tmp.randomize();
-        tmp.load_faction_template(cur_fac.c_str());
+        tmp.load_faction_template(cur_fac);
         factions.push_back(tmp);
     }
 }
@@ -8802,7 +8802,7 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
 
     int letters = utf8_width(sSort);
 
-    shortcut_print(window, 0, getmaxx(window) - letters, c_white, c_ltgreen, sSort.c_str());
+    shortcut_print(window, 0, getmaxx(window) - letters, c_white, c_ltgreen, sSort);
 
     std::vector<std::string> tokens;
     if (!sFilter.empty()) {
@@ -8828,7 +8828,7 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
     const int ypos = TERMY - height - 1 - VIEW_OFFSET_Y * 2;
 
     for (int i = 0; i < n; i++) {
-        xpos += shortcut_print(window, ypos, xpos, c_white, c_ltgreen, tokens[i].c_str()) + gap_spaces;
+        xpos += shortcut_print(window, ypos, xpos, c_white, c_ltgreen, tokens[i]) + gap_spaces;
     }
 
     refresh_all();
@@ -9475,7 +9475,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                         }
 
                         shortcut_print(w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, 3,
-                        c_white, c_ltgreen, sSafemode.c_str());
+                        c_white, c_ltgreen, sSafemode);
                     }
 
                     nc_color color = c_white;
