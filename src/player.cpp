@@ -489,7 +489,7 @@ player_morale_ptr &player_morale_ptr::operator = ( const player_morale_ptr &rhs 
     return *this;
 }
 
-player_morale_ptr &player_morale_ptr::operator = ( player_morale_ptr &&rhs ) noexcept
+player_morale_ptr &player_morale_ptr::operator = ( player_morale_ptr &&rhs )
 {
     if( this != &rhs ) {
         reset( rhs ? rhs.release() : nullptr );
@@ -5740,8 +5740,6 @@ void player::suffer()
                     body_part bp = random_body_part(true);
                     add_effect( effect_formication, 600, bp );
                     break;
-                default:
-                    break;
             }
         }
         if (has_trait( trait_JITTERY ) && !has_effect( effect_shakes )) {
@@ -8361,9 +8359,9 @@ bool player::wear_item( const item &to_wear, bool interactive )
         add_msg( _("You put on your %s."), to_wear.tname().c_str() );
         moves -= item_wear_cost( to_wear );
 
-        for (body_part i = bp_head; i < num_bp; i++)
-        {
-            if (to_wear.covers(i) && encumb(i) >= 40)
+        for( int i = 0; i < num_bp; i++ ) {
+            body_part bp = body_part( i );
+            if (to_wear.covers(bp) && encumb(bp) >= 40)
             {
                 add_msg_if_player(m_warning,
                     i == bp_eyes ?
