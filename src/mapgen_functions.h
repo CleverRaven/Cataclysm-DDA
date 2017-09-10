@@ -175,7 +175,6 @@ void mapgen_mine_down(map *m, oter_id terrain_type, mapgendata dat, int turn, fl
 void mapgen_mine_finale(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_spiral_hub(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_spiral(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_radio_tower(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_toxic_dump(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_haz_sar_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_haz_sar(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);

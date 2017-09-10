@@ -4843,54 +4843,6 @@ ff.......|....|WWWWWWWW|\n\
             place_items("spiral", 60, orx + 2, ory + 3, orx + 2, ory + 3, false, 0);
         }
 
-
-    } else if (terrain_type == "radio_tower") {
-
-        dat.fill_groundcover();
-        lw = rng(1, SEEX * 2 - 2);
-        tw = rng(1, SEEY * 2 - 2);
-        for (int i = lw; i < lw + 4; i++) {
-            for (int j = tw; j < tw + 4; j++) {
-                ter_set(i, j, t_radio_tower);
-            }
-        }
-        rw = -1;
-        bw = -1;
-        if (lw <= 4) {
-            rw = rng(lw + 5, 10);
-        } else if (lw >= 16) {
-            rw = rng(3, lw - 13);
-        }
-        if (tw <= 3) {
-            bw = rng(tw + 5, 10);
-        } else if (tw >= 16) {
-            bw = rng(3, tw - 7);
-        }
-        if (rw != -1 && bw != -1) {
-            for (int i = rw; i < rw + 12; i++) {
-                for (int j = bw; j < bw + 6; j++) {
-                    if (j == bw || j == bw + 5) {
-                        ter_set(i, j, t_wall);
-                    } else if (i == rw || i == rw + 11) {
-                        ter_set(i, j, t_wall);
-                    } else if (j == bw + 1) {
-                        set(i, j, t_floor, f_counter);
-                    } else {
-                        ter_set(i, j, t_floor);
-                    }
-                }
-            }
-            cw = rng(rw + 2, rw + 8);
-            ter_set(cw, bw + 5, t_window);
-            ter_set(cw + 1, bw + 5, t_window);
-            ter_set(rng(rw + 2, rw + 8), bw + 5, t_door_c);
-            set(rng(rw + 2, rw + 8), bw + 1, t_radio_controls, f_null);
-            place_items("radio", 60, rw + 1, bw + 2, rw + 10, bw + 4, true, 0);
-        } else { // No control room... simple controls near the tower
-            ter_set(rng(lw, lw + 3), tw + 4, t_radio_controls);
-        }
-
-
     } else if (is_ot_type("station_radio", terrain_type)) {
 
         // Init to grass & dirt;
