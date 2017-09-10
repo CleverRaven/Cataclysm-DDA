@@ -1480,7 +1480,7 @@ int npc::value( const item &it, int market_price ) const
         if( get_thirst() > 40 ) {
             comestval += ( it.type->comestible->quench + get_thirst() - 40 ) / 4;
         }
-        if( comestval > 0 && will_eat( it ) == EDIBLE ) {
+        if( comestval > 0 && will_eat( it ).success() ) {
             ret += comestval;
         }
     }

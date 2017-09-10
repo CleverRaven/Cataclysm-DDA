@@ -8625,7 +8625,7 @@ hint_rating player::rate_action_mend( const item &it ) const
 
 hint_rating player::rate_action_disassemble( const item &it )
 {
-    if( can_disassemble( it, crafting_inventory() ) ) {
+    if( can_disassemble( it, crafting_inventory() ).success() ) {
         return HINT_GOOD; // possible
 
     } else if( recipe_dictionary::get_uncraft( it.typeId() ) ) {
@@ -8926,7 +8926,7 @@ std::pair<int, int> player::gunmod_installation_odds( const item& gun, const ite
 
 void player::gunmod_add( item &gun, item &mod )
 {
-    if( !gun.gunmod_compatible( mod ) ) {
+    if( !gun.is_gunmod_compatible( mod ).success() ) {
         debugmsg( "Tried to add incompatible gunmod" );
         return;
     }

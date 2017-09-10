@@ -224,9 +224,9 @@ class disassemble_inventory_preset : public pickup_inventory_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            std::string denial;
-            if( !p.can_disassemble( *loc, inv, &denial ) ) {
-                return denial;
+            const auto ret = p.can_disassemble( *loc, inv );
+            if( !ret.success() ) {
+                return ret.str();
             }
             return pickup_inventory_preset::get_denial( loc );
         }
@@ -310,18 +310,16 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            std::string res;
-
             if( loc->made_of( LIQUID ) ) {
                 return _( "Can't drink spilt liquids" );
             }
 
             const auto &it = get_comestible_item( loc );
-            const bool edible = p.can_eat( it, &res ) == EDIBLE;
+            const auto res = p.can_eat( it );
             const auto cbm = p.get_cbm_rechargeable_with( it );
 
-            if( !edible && cbm == rechargeable_cbm::none ) {
-                return res;
+            if( !res.success() && cbm == rechargeable_cbm::none ) {
+                return res.str();
             } else if( cbm == rechargeable_cbm::battery && p.power_level >= p.max_power_level ) {
                 return _( "You're fully charged" );
             }
@@ -343,7 +341,7 @@ class comestible_inventory_preset : public inventory_selector_preset
 
     protected:
         int rate_freshness( const item &it, const item &container ) const {
-            if( p.will_eat( it ) == edible_rating::ROTTEN ) {
+            if( p.will_eat( it ).value() == edible_rating::ROTTEN ) {
                 return -1;
             } else if( !container.type->container || !container.type->container->preserves ) {
                 if( it.is_fresh() ) {
@@ -367,7 +365,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         const islot_comestible &get_edible_comestible( const item &it ) const {
-            if( it.is_comestible() && p.can_eat( it ) == EDIBLE ) {
+            if( it.is_comestible() && p.can_eat( it ).success() ) {
                 return *it.type->comestible;
             }
             static const islot_comestible dummy {};
@@ -471,10 +469,10 @@ class gunmod_inventory_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            std::string incompatability;
+            const auto ret = loc->is_gunmod_compatible( gunmod );
 
-            if( !loc->gunmod_compatible( gunmod, &incompatability ) ) {
-                return incompatability;
+            if( !ret.success() ) {
+                return ret.str();
             }
 
             if( !p.meets_requirements( gunmod, *loc ) ) {
