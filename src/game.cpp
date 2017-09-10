@@ -1699,12 +1699,11 @@ bool game::cancel_activity_or_ignore_query(const char *reason, ...)
     const std::string text = vstring_format(reason, ap);
     va_end(ap);
 
-    bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-    int ch;
-
     std::string stop_message = text + " " + u.activity.get_stop_phrase() + " " +
                                _( "(Y)es, (N)o, (I)gnore further distractions and finish." );
 
+    bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
+    int ch = -1;
     do {
         ch = popup(stop_message, PF_GET_KEY);
     } while (ch != '\n' && ch != ' ' && ch != KEY_ESCAPE &&
@@ -5364,7 +5363,7 @@ void game::draw_minimap()
                 mvwputch( w_minimap, 0, 3, c_red, '*' );
             }
         } else {
-            int arrowx, arrowy;
+            int arrowx = -1, arrowy = -1;
             if( fabs( slope ) >= 1. ) { // y diff is bigger!
                 arrowy = ( targ.y > cursy ? 6 : 0 );
                 arrowx = int( 3 + 3 * ( targ.y > cursy ? slope : ( 0 - slope ) ) );
@@ -5490,7 +5489,6 @@ faction *game::faction_by_ident(std::string id)
 {
     for( auto &elem : factions ) {
         if( elem.id == id ) {
-            // TODO: This is really bad, fix this please
             return &elem;
         }
     }
@@ -5730,7 +5728,7 @@ int game::mon_info(WINDOW *w)
         _("North:"), _("NE:"), _("East:"), _("SE:"),
         _("South:"), _("SW:"), _("West:"), _("NW:")
     }};
-    std::array<int, 8> widths{};
+    std::array<int, 8> widths;
     for (int i = 0; i < 8; i++) {
         widths[i] = utf8_width(dir_labels[i].c_str());
     }
