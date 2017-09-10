@@ -556,12 +556,12 @@ action_id handle_action_menu()
     const input_context ctxt = get_default_mode_input_context();
     std::string catgname;
 
-#define REGISTER_ACTION(name) entries.push_back(uimenu_entry(name, true, hotkey_for_action(name), \
+#define REGISTER_ACTION(name) entries.emplace_back(uimenu_entry(name, true, hotkey_for_action(name), \
         ctxt.get_action_name(action_ident(name))));
 #define REGISTER_CATEGORY(name)  categories_by_int[last_category] = name; \
     catgname = name; \
     catgname += "..."; \
-    entries.push_back(uimenu_entry(last_category, true, -1, catgname)); \
+    entries.emplace_back(uimenu_entry(last_category, true, -1, catgname)); \
     last_category++;
 
     // Calculate weightings for the various actions to give the player suggestions
@@ -588,7 +588,7 @@ action_id handle_action_menu()
     // Check if we're on a vehicle, if so, vehicle controls should be top.
     {
         int veh_part = 0;
-        vehicle *veh = NULL;
+        vehicle *veh = nullptr;
 
         veh = g->m.veh_at( g->u.pos(), veh_part );
         if( veh ) {
@@ -641,7 +641,7 @@ action_id handle_action_menu()
     // Default category is called "back"
     std::string category = "back";
 
-    while( 1 ) {
+    while( true ) {
         std::vector<uimenu_entry> entries;
         uimenu_entry *entry;
         std::map<int, std::string> categories_by_int;
@@ -776,7 +776,7 @@ action_id handle_action_menu()
         if( category == "back" ) {
             title = _( "Cancel" );
         }
-        entries.push_back( uimenu_entry( 2 * NUM_ACTIONS, true,
+        entries.emplace_back( uimenu_entry( 2 * NUM_ACTIONS, true,
                                          hotkey_for_action( ACTION_ACTIONMENU ), title ) );
 
         title = _( "Actions" );
@@ -789,7 +789,7 @@ action_id handle_action_menu()
         int width = 0;
         for( auto &entrie : entries ) {
             if( width < ( int )entrie.txt.length() ) {
-                width = entrie.txt.length();
+                width = ( int )entrie.txt.length();
             }
         }
         //border=2, selectors=3, after=3 for balance.
@@ -826,7 +826,7 @@ action_id handle_main_menu()
     std::vector<uimenu_entry> entries;
 
     auto REGISTER_ACTION = [&]( action_id name ) {
-        entries.push_back( uimenu_entry( name, true, hotkey_for_action( name ),
+        entries.emplace_back( uimenu_entry( name, true, hotkey_for_action( name ),
                                          ctxt.get_action_name( action_ident( name ) )
                                        )
                          );
@@ -844,9 +844,9 @@ action_id handle_main_menu()
     REGISTER_ACTION( ACTION_SAVE );
 
     int width = 0;
-    for( auto &entrie : entries ) {
-        if( width < ( int )entrie.txt.length() ) {
-            width = entrie.txt.length();
+    for( auto &entry : entries ) {
+        if( width < ( int )entry.txt.length() ) {
+            width = ( int )entry.txt.length();
         }
     }
     //border=2, selectors=3, after=3 for balance.
