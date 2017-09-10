@@ -489,7 +489,7 @@ player_morale_ptr &player_morale_ptr::operator = ( const player_morale_ptr &rhs 
     return *this;
 }
 
-player_morale_ptr &player_morale_ptr::operator = ( player_morale_ptr &&rhs )
+player_morale_ptr &player_morale_ptr::operator = ( player_morale_ptr &&rhs ) noexcept
 {
     if( this != &rhs ) {
         reset( rhs ? rhs.release() : nullptr );
@@ -525,7 +525,7 @@ stat_mod player::get_pain_penalty() const
 
     ret.perception = stat_penalty * 2 / 3;
 
-    ret.speed = std::pow( pain, 0.7f );
+    ret.speed = ( int )std::pow( pain, 0.7f );
     if( ceno ) {
         ret.speed /= 2;
     }
@@ -560,7 +560,7 @@ player::player() : Character()
     scent = 500;
     male = true;
     prof = profession::has_initialized() ? profession::generic() :
-           NULL; //workaround for a potential structural limitation, see player::create
+           nullptr; //workaround for a potential structural limitation, see player::create
 
     start_location = start_location_id( "shelter" );
     moves = 100;
@@ -1150,7 +1150,7 @@ void player::update_bodytemp()
             }
             // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
             const int fire_dist = std::max( 1, std::max( std::abs( j ), std::abs( k ) ) );
-            fires.push_back( std::make_pair( heat_intensity, fire_dist ) );
+            fires.emplace_back( std::make_pair( heat_intensity, fire_dist ) );
             if( fire_dist <= 1 ) {
                 // Extend limbs/lean over a single adjacent fire to warm up
                 best_fire = std::max( best_fire, heat_intensity );
@@ -1159,7 +1159,8 @@ void player::update_bodytemp()
     }
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
-    const int water_temperature = 100 * temp_to_celsius( g->get_cur_weather_gen().get_water_temperature() );
+    const int water_temperature =
+        100 * ( int )temp_to_celsius( g->get_cur_weather_gen().get_water_temperature() );
 
     // Correction of body temperature due to traits and mutations
     // Lower heat is applied always
@@ -1883,7 +1884,7 @@ void player::recalc_speed_bonus()
     // Not sure why Sunlight Dependent is here, but OK
     // Ectothermic/COLDBLOOD4 is intended to buff folks in the Summer
     // Threshold-crossing has its charms ;-)
-    if( g != NULL ) {
+    if( g != nullptr ) {
         if( has_trait( trait_SUNLIGHT_DEPENDENT ) && !g->is_in_sunlight( pos() ) ) {
             mod_speed_bonus( -( g->light_level( posz() ) >= 12 ? 5 : 10 ) );
         }
@@ -2599,9 +2600,9 @@ std::string player::dump_memorial() const
 void player::mod_stat( const std::string &stat, float modifier )
 {
     if( stat == "thirst" ) {
-        mod_thirst( modifier );
+        mod_thirst( ( int )modifier );
     } else if( stat == "fatigue" ) {
-        mod_fatigue( modifier );
+        mod_fatigue( ( int )modifier );
     } else if( stat == "oxygen" ) {
         oxygen += modifier;
     } else if( stat == "stamina" ) {
@@ -2637,7 +2638,7 @@ static std::string print_gun_mode( const player &p )
 
 void player::print_stamina_bar( WINDOW *w ) const
 {
-    std::string sta_bar = "";
+    std::string sta_bar;
     nc_color sta_color;
     std::tie( sta_bar, sta_color ) = get_hp_bar( stamina ,  get_stamina_max() );
     wprintz( w, sta_color, sta_bar.c_str() );
@@ -2655,7 +2656,7 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
     }
 
     // Print currently used style or weapon mode.
-    std::string style = "";
+    std::string style;
     const auto style_color = is_armed() ? c_red : c_blue;
     const auto &cur_style = style_selected.obj();
     if( cur_style.weapon_valid( weapon ) ) {
@@ -3075,7 +3076,7 @@ void player::set_highest_cat_level()
 std::string player::get_highest_category() const
 {
     int iLevel = 0;
-    std::string sMaxCat = "";
+    std::string sMaxCat;
 
     for( const auto &elem : mutation_category_level ) {
         if( elem.second > iLevel ) {
@@ -3457,7 +3458,7 @@ void player::pause()
     }
 
     VehicleList vehs = g->m.get_vehicles();
-    vehicle *veh = NULL;
+    vehicle *veh = nullptr;
     for( auto &v : vehs ) {
         veh = v.v;
         if( veh && veh->velocity != 0 && veh->player_in_control( *this ) ) {
@@ -3724,7 +3725,7 @@ void player::on_dodge( Creature *source, float difficulty )
 
     // Even if we are not to train still call practice to prevent skill rust
     difficulty = std::max( difficulty, 0.0f );
-    practice( skill_dodge, difficulty * 2, difficulty );
+    practice( skill_dodge, ( int )difficulty * 2, ( int )difficulty );
 
     ma_ondodge_effects();
 
@@ -5108,15 +5109,15 @@ void player::print_health() const
         return;
     }
 
-    static const std::map<int, std::string> msg_categories = {{
+    static const std::map<int, std::string> msg_categories = {
         { -100, "health_horrible" },
         { -50, "health_very_bad" },
         { -10, "health_bad" },
         { 10, "" },
         { 50, "health_good" },
         { 100, "health_very_good" },
-        { INT_MAX, "health_great" },
-    }};
+        { INT_MAX, "health_great" }
+    };
 
     auto iter = msg_categories.lower_bound( current_health );
     if( iter != msg_categories.end() && !iter->second.empty() ) {
@@ -5600,8 +5601,7 @@ void player::suffer()
         } else if( has_trait( trait_NONADDICTIVE ) ) {
             timer = -HOURS( 3 );
         }
-        for( size_t i = 0; i < addictions.size(); i++ ) {
-            auto &cur_addiction = addictions[i];
+        for( auto &cur_addiction : addictions ) {
             if( cur_addiction.sated <= 0 &&
                 cur_addiction.intensity >= MIN_ADDICTION_LEVEL ) {
                 addict_effect( *this, cur_addiction );
@@ -5740,6 +5740,8 @@ void player::suffer()
                     body_part bp = random_body_part(true);
                     add_effect( effect_formication, 600, bp );
                     break;
+                default:
+                    break;
             }
         }
         if (has_trait( trait_JITTERY ) && !has_effect( effect_shakes )) {
@@ -5783,7 +5785,7 @@ void player::suffer()
         !has_effect( effect_adrenaline ) & !has_effect( effect_datura ) ) {
         bool auto_use = has_charges("inhaler", 1);
         if (underwater) {
-            oxygen = int(oxygen / 2);
+            oxygen = oxygen / 2;
             auto_use = false;
         }
 
@@ -6025,7 +6027,7 @@ void player::suffer()
                 continue;
             }
 
-            it->irridation += static_cast<int>(delta);
+            it->irridation += delta;
 
             // If in inventory (not worn), don't print anything.
             if( inv.has_item( *it ) ) {
@@ -6095,9 +6097,9 @@ void player::suffer()
             plut_trans = 0;
             if (tank_plut > 0) {
                 if (has_active_bionic( bio_plut_filter ) ) {
-                    plut_trans = (tank_plut * 0.025);
+                    plut_trans = ( int )( tank_plut * 0.025 );
                 } else {
-                    plut_trans = (tank_plut * 0.005);
+                    plut_trans = ( int )( tank_plut * 0.005 );
                 }
                 if (plut_trans < 1) {
                     plut_trans = 1;
@@ -6115,7 +6117,7 @@ void player::suffer()
                     if ((reactor_plut * 0.05) > 2000){
                         power_gen = 2000;
                     } else {
-                        power_gen = reactor_plut * 0.05;
+                        power_gen = int( reactor_plut * 0.05 );
                         if (power_gen < 1) {
                             power_gen = 1;
                         }
@@ -6134,7 +6136,7 @@ void player::suffer()
                     if ((reactor_plut * 0.025) > 500){
                         power_gen = 500;
                     } else {
-                        power_gen = reactor_plut * 0.025;
+                        power_gen = int( reactor_plut * 0.025 );
                         if (power_gen < 1) {
                             power_gen = 1;
                         }
@@ -6183,7 +6185,7 @@ void player::suffer()
         add_msg_if_player(m_bad, _("You suffer a burning acidic discharge!"));
         hurtall(1, nullptr);
         sfx::play_variant_sound( "bionics", "acid_discharge", 100 );
-        sfx::do_player_death_hurt( g->u, 0 );
+        sfx::do_player_death_hurt( g->u, false );
     }
     if (has_bionic( bio_drain ) && power_level > 24 && one_in(600)) {
         add_msg_if_player(m_bad, _("Your batteries discharge slightly."));
@@ -7063,7 +7065,7 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
             qty -= std::min( qty, bio );
         }
 
-        auto adv = charges_of( "adv_UPS_off", ceil( qty * 0.6 ) );
+        auto adv = charges_of( "adv_UPS_off", ( long )ceil( qty * 0.6 ) );
         if( adv > 0 ) {
             auto found = use_charges( "adv_UPS_off", adv );
             res.splice( res.end(), found );
@@ -7099,7 +7101,7 @@ item* player::pick_usb()
     std::vector<std::pair<item*, int> > drives = inv.all_items_by_type("usb_drive");
 
     if (drives.empty()) {
-        return NULL; // None available!
+        return nullptr; // None available!
     }
 
     std::vector<std::string> selections;
@@ -7622,7 +7624,7 @@ bool player::can_wear( const item& it, bool alert ) const
         }
         if( !it.covers( bp_torso ) ) {
             bool power_armor = false;
-            if( worn.size() ) {
+            if( !worn.empty() ) {
                 for( auto &elem : worn ) {
                     if( elem.is_power_armor() ) {
                         power_armor = true;
@@ -8296,11 +8298,13 @@ int player::item_wear_cost( const item& it ) const
         case BELTED_LAYER:
             mv /= 2.0;
             break;
+        default:
+            break;
     }
 
     mv *= std::max( it.get_encumber() / 10.0, 1.0 );
 
-    return mv;
+    return ( int )mv;
 }
 
 bool player::wear( int pos, bool interactive )
@@ -8357,7 +8361,7 @@ bool player::wear_item( const item &to_wear, bool interactive )
         add_msg( _("You put on your %s."), to_wear.tname().c_str() );
         moves -= item_wear_cost( to_wear );
 
-        for (body_part i = bp_head; i < num_bp; i = body_part(i + 1))
+        for (body_part i = bp_head; i < num_bp; i++)
         {
             if (to_wear.covers(i) && encumb(i) >= 40)
             {
@@ -8968,12 +8972,12 @@ void player::gunmod_add( item &gun, item &mod )
 
         prompt.addentry( -1, true, 'w',
                          string_format( _( "Try without tools (%i%%) risking damage (%i%%)" ), roll, risk ) );
-        actions.push_back( [&] {} );
+        actions.emplace_back( [&] {} );
 
         prompt.addentry( -1, has_charges( "small_repairkit", 100 ), 'f',
                          string_format( _( "Use 100 charges of firearm repair kit (%i%%)" ), std::min( roll * 2, 100 ) ) );
 
-        actions.push_back( [&] {
+        actions.emplace_back( [&] {
             tool = "small_repairkit";
             qty = 100;
             roll *= 2; // firearm repair kit improves success...
@@ -8983,7 +8987,7 @@ void player::gunmod_add( item &gun, item &mod )
         prompt.addentry( -1, has_charges( "large_repairkit", 25 ), 'g',
                          string_format( _( "Use 25 charges of gunsmith repair kit (%i%%)" ), std::min( roll * 3, 100 ) ) );
 
-        actions.push_back( [&] {
+        actions.emplace_back( [&] {
             tool = "large_repairkit";
             qty = 25;
             roll *= 3; // gunsmith repair kit improves success markedly...
@@ -9050,13 +9054,13 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
     // Check for conditions that immediately disqualify the player from reading:
     const vehicle *veh = g->m.veh_at( pos() );
     if( veh != nullptr && veh->player_in_control( *this ) ) {
-        reasons.push_back( _( "It's a bad idea to read while driving!" ) );
+        reasons.emplace_back( _( "It's a bad idea to read while driving!" ) );
         return nullptr;
     }
     auto type = book.type->book.get();
     if( !fun_to_read( book ) && !has_morale_to_read() && has_identified( book.typeId() ) ) {
         // Low morale still permits skimming
-        reasons.push_back( _( "What's the point of studying?  (Your morale is too low!)" ) );
+        reasons.emplace_back( _( "What's the point of studying?  (Your morale is too low!)" ) );
         return nullptr;
     }
     const skill_id &skill = type->skill;
@@ -9069,13 +9073,13 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
 
     // Check for conditions tha disqualify us only if no NPCs can read to us
     if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
-        reasons.push_back( _( "You're illiterate!" ) );
+        reasons.emplace_back( _( "You're illiterate!" ) );
     } else if( has_trait( trait_HYPEROPIC ) && !is_wearing( "glasses_reading" ) &&
                !is_wearing( "glasses_bifocal" ) && !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
-        reasons.push_back( _( "Your eyes won't focus without reading glasses." ) );
+        reasons.emplace_back( _( "Your eyes won't focus without reading glasses." ) );
     } else if( fine_detail_vision_mod() > 4 ) {
         // Too dark to read only applies if the player can read to himself
-        reasons.push_back( _( "It's too dark to read!" ) );
+        reasons.emplace_back( _( "It's too dark to read!" ) );
         return nullptr;
     } else {
         return this;
@@ -9084,7 +9088,7 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
     //Check for NPCs to read for you, negates Illiterate and Far Sighted
     //The fastest-reading NPC is chosen
     if( is_deaf() ) {
-        reasons.push_back( _( "Maybe someone could read that to you, but you're deaf!" ) );
+        reasons.emplace_back( _( "Maybe someone could read that to you, but you're deaf!" ) );
         return nullptr;
     }
 
@@ -9196,7 +9200,7 @@ bool player::read( int inventory_position, const bool continuous )
 
     add_msg( m_debug, "player::read: time_taken = %d", time_taken );
     player_activity act( activity_id( "ACT_READ" ), time_taken, continuous ? activity.index : 0, reader->getID() );
-    act.targets.push_back( item_location( *this, &it ) );
+    act.targets.emplace_back( item_location( *this, &it ) );
 
     // If the player hasn't read this book before, skim it to get an idea of what's in it.
     if( !has_identified( it.typeId() ) ) {
@@ -9255,7 +9259,7 @@ bool player::read( int inventory_position, const bool continuous )
         } else {
             fun_learners.insert( {elem, elem == reader ? _( " (reading aloud to you)" ) : "" } );
             act.values.push_back( elem->getID() );
-            act.str_values.push_back( "1" );
+            act.str_values.emplace_back( "1" );
         }
     }
 
@@ -9992,7 +9996,7 @@ std::string player::is_snuggling() const
             }
         }
     }
-    const item* floor_armor = NULL;
+    const item* floor_armor = nullptr;
     int ticker = 0;
 
     // If there are no items on the floor, return nothing
@@ -10590,7 +10594,7 @@ bool player::is_wearing_power_armor(bool *hasHelmet) const {
         if( !elem.is_power_armor() ) {
             continue;
         }
-        if (hasHelmet == NULL) {
+        if (hasHelmet == nullptr) {
             // found power armor, helmet not requested, cancel loop
             return true;
         }
@@ -11733,22 +11737,22 @@ void player::on_mission_assignment( mission &new_mission )
     set_active_mission( new_mission );
 }
 
-void player::on_mission_finished( mission &mission )
+void player::on_mission_finished( mission &cur_mission )
 {
-    if( mission.has_failed() ) {
-        failed_missions.push_back( &mission );
-        add_msg_if_player( m_bad, _( "Mission \"%s\" is failed." ), mission.name().c_str() );
+    if( cur_mission.has_failed() ) {
+        failed_missions.push_back( &cur_mission );
+        add_msg_if_player( m_bad, _( "Mission \"%s\" is failed." ), cur_mission.name().c_str() );
     } else {
-        completed_missions.push_back( &mission );
-        add_msg_if_player( m_good, _( "Mission \"%s\" is successfully completed." ), mission.name().c_str() );
+        completed_missions.push_back( &cur_mission );
+        add_msg_if_player( m_good, _( "Mission \"%s\" is successfully completed." ), cur_mission.name().c_str() );
     }
-    const auto iter = std::find( active_missions.begin(), active_missions.end(), &mission );
+    const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
     if( iter == active_missions.end() ) {
-        debugmsg( "completed mission %d was not in the active_missions list", mission.get_id() );
+        debugmsg( "completed mission %d was not in the active_missions list", cur_mission.get_id() );
     } else {
         active_missions.erase( iter );
     }
-    if( &mission == active_mission ) {
+    if( &cur_mission == active_mission ) {
         if( active_missions.empty() ) {
             active_mission = nullptr;
         } else {
@@ -11771,13 +11775,13 @@ void player::set_targeting_data( const targeting_data &td ) {
     tdata.reset( new targeting_data( td ) );
 }
 
-void player::set_active_mission( mission &mission )
+void player::set_active_mission( mission &cur_mission )
 {
-    const auto iter = std::find( active_missions.begin(), active_missions.end(), &mission );
+    const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
     if( iter == active_missions.end() ) {
-        debugmsg( "new active mission %d is not in the active_missions list", mission.get_id() );
+        debugmsg( "new active mission %d is not in the active_missions list", cur_mission.get_id() );
     } else {
-        active_mission = &mission;
+        active_mission = &cur_mission;
     }
 }
 
