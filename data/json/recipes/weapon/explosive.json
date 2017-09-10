@@ -333,13 +333,13 @@
     "difficulty": 9,
     "time": 300000,
     "reversible": true,
+    "using": [ [ "cordage", 5 ] ],
     "book_learn": [ [ "manual_launcher", 9 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "keg", 1 ], [ "keg_steel", 1] ],
       [ [ "chem_rdx", 575 ] ],
       [ [ "chem_hmtd", 200 ] ],
-      [ [ "string_36", 5 ], [ "string_6", 30 ] ],
       [ [ "scrap", 50 ] ]
     ]
   },

@@ -10,6 +10,7 @@
 #include "weighted_list.h"
 #include "game_constants.h"
 #include "craft_command.h"
+#include "ret_val.h"
 
 #include <unordered_set>
 #include <bitset>
@@ -75,6 +76,9 @@ enum edible_rating {
     // Some weird stuff that requires a tool we don't have
     NO_TOOL
 };
+
+// EDIBLE/INEDIBLE are used as the defaults for success/failure respectively.
+using edible_ret_val = ret_val<edible_rating, EDIBLE, INEDIBLE>;
 
 enum class rechargeable_cbm {
     none = 0,
@@ -765,12 +769,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool eat( item &food, bool force = false );
 
         /** Can the food be [theoretically] eaten no matter the consquences? */
-        edible_rating can_eat( const item &food, std::string *err = nullptr ) const;
+        edible_ret_val can_eat( const item &food ) const;
         /**
          * Same as @ref can_eat, but takes consequences into account.
          * Asks about them if @param interactive is true, refuses otherwise.
          */
-        edible_rating will_eat( const item &food, bool interactive = false ) const;
+        edible_ret_val will_eat( const item &food, bool interactive = false ) const;
 
         // TODO: Move these methods out of the class.
         rechargeable_cbm get_cbm_rechargeable_with( const item &it ) const;
@@ -781,7 +785,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int stomach_capacity() const;
 
         /** Handles the nutrition value for a comestible **/
-        int nutrition_for( const itype *comest ) const;
+        int nutrition_for( const item &comest ) const;
+        /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
+        std::pair<int, int> fun_for( const item &comest ) const;
         /**
          * Returns a reference to the item itself (if it's comestible),
          * the first of its contents (if it's comestible) or null item otherwise.
@@ -831,7 +837,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Current metabolic rate due to traits, hunger, speed, etc. */
         float metabolic_rate() const;
         /** Handles the effects of consuming an item */
-        void consume_effects( item &eaten, bool rotten = false );
+        void consume_effects( const item &eaten );
         /** Handles rooting effects */
         void rooted_message() const;
         void rooted();
@@ -1266,9 +1272,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * Check if the player can disassemble an item using the current crafting inventory
          * @param obj Object to to check for disassembly
          * @param inv current crafting inventory
-         * @param err Error message in case of e.g. missing tools/charges.
          */
-        bool can_disassemble( const item &obj, const inventory &inv, std::string *err = nullptr ) const;
+        ret_val<bool> can_disassemble( const item &obj, const inventory &inv ) const;
 
         bool disassemble();
         bool disassemble( int pos );

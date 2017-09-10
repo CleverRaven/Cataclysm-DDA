@@ -3313,6 +3313,10 @@ int player::clairvoyance() const
         return MAX_CLAIRVOYANCE;
     }
 
+    if( vision_mode_cache[VISION_CLAIRVOYANCE_PLUS] ) {
+        return 8;
+    }
+
     if( vision_mode_cache[VISION_CLAIRVOYANCE] ) {
         return 3;
     }
@@ -3569,7 +3573,7 @@ void player::search_surroundings()
             if( !sees( x, y ) ) {
                 continue;
             }
-            if( tr.name.empty() || tr.can_see( tripoint( x, y, z ), *this ) ) {
+            if( tr.name().empty() || tr.can_see( tripoint( x, y, z ), *this ) ) {
                 // Already seen, or has no name -> can never be seen
                 continue;
             }
@@ -3580,7 +3584,7 @@ void player::search_surroundings()
                     const std::string direction = direction_name(
                         direction_from(posx(), posy(), x, y));
                     add_msg_if_player(_("You've spotted a %1$s to the %2$s!"),
-                                      tr.name.c_str(), direction.c_str());
+                                      tr.name().c_str(), direction.c_str());
                 }
                 add_known_trap( tripoint( x, y, z ), tr);
             }
@@ -4036,7 +4040,7 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
             } else {
                 add_effect( effect_bite, 1, bp, true );
             }
-            add_msg_if_player( "Filth from your clothing has implanted deep in the wound." );
+            add_msg_if_player( _( "Filth from your clothing has implanted deep in the wound." ) );
         }
     }
 
@@ -6724,8 +6728,8 @@ void player::process_active_items()
         }
     }
     if( cloak != nullptr ) {
-        if( ch_UPS >= 40 ) {
-            use_charges( "UPS", 40 );
+        if( ch_UPS >= 20 ) {
+            use_charges( "UPS", 20 );
             if( ch_UPS < 200 && one_in( 3 ) ) {
                 add_msg_if_player( m_warning, _( "Your optical cloak flickers for a moment!" ) );
             }
@@ -8650,7 +8654,7 @@ hint_rating player::rate_action_mend( const item &it ) const
 
 hint_rating player::rate_action_disassemble( const item &it )
 {
-    if( can_disassemble( it, crafting_inventory() ) ) {
+    if( can_disassemble( it, crafting_inventory() ).success() ) {
         return HINT_GOOD; // possible
 
     } else if( recipe_dictionary::get_uncraft( it.typeId() ) ) {
@@ -8951,7 +8955,7 @@ std::pair<int, int> player::gunmod_installation_odds( const item& gun, const ite
 
 void player::gunmod_add( item &gun, item &mod )
 {
-    if( !gun.gunmod_compatible( mod ) ) {
+    if( !gun.is_gunmod_compatible( mod ).success() ) {
         debugmsg( "Tried to add incompatible gunmod" );
         return;
     }

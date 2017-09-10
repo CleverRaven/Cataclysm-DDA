@@ -22,6 +22,7 @@
 #include <numeric>
 #include <sstream>
 #include <algorithm>
+#include <cassert>
 
 /** The maximum distance from the screen edge, to snap a window to it */
 static const size_t max_win_snap_distance = 4;

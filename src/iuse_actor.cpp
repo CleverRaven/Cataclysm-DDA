@@ -3073,7 +3073,7 @@ bool place_trap_actor::is_allowed( player &p, const tripoint &pos, const std::st
         if( existing_trap.can_see( pos, p ) ) {
             p.add_msg_if_player( m_info, _( "You can't place a %s there. It contains a trap already." ), name.c_str() );
         } else {
-            p.add_msg_if_player( m_bad, _( "You trigger a %s!" ), existing_trap.name.c_str() );
+            p.add_msg_if_player( m_bad, _( "You trigger a %s!" ), existing_trap.name().c_str() );
             existing_trap.trigger( pos, &p );
         }
         return false;

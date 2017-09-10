@@ -36,6 +36,9 @@ extern const int core_version;
 extern const int savegame_version;
 extern int savegame_loading_version;
 
+class input_context;
+input_context get_default_mode_input_context();
+
 enum class dump_mode {
     TSV,
     HTML

@@ -2761,15 +2761,15 @@ void iexamine::trap(player &p, const tripoint &examp)
     bool seen = tr.can_see( examp, p );
     if( seen && possible >= 99 ) {
         add_msg(m_info, _("That %s looks too dangerous to mess with. Best leave it alone."),
-            tr.name.c_str());
+            tr.name().c_str());
         return;
     }
     // Some traps are not actual traps. Those should get a different query.
     if( seen && possible == 0 && tr.get_avoidance() == 0 ) { // Separated so saying no doesn't trigger the other query.
-        if( query_yn(_("There is a %s there. Take down?"), tr.name.c_str()) ) {
+        if( query_yn(_("There is a %s there. Take down?"), tr.name().c_str()) ) {
             g->m.disarm_trap(examp);
         }
-    } else if( seen && query_yn( _("There is a %s there.  Disarm?"), tr.name.c_str() ) ) {
+    } else if( seen && query_yn( _("There is a %s there.  Disarm?"), tr.name().c_str() ) ) {
         g->m.disarm_trap(examp);
     }
 }

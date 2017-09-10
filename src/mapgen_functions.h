@@ -98,7 +98,6 @@ void mapgen_s_sports(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
 
 void mapgen_shelter(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_shelter_under(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_lmoe(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 
 void mapgen_basement_generic_layout(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_basement_junk(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
@@ -112,9 +111,8 @@ void mapgen_office_tower_1_entrance(map *m, oter_id terrain_type, mapgendata dat
 void mapgen_office_tower_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_office_tower_b_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_office_tower_b(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_sub_station(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_police(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_bank(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+//void mapgen_bank(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_pawn(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_mil_surplus(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_megastore_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
@@ -176,7 +174,6 @@ void mapgen_mine_down(map *m, oter_id terrain_type, mapgendata dat, int turn, fl
 void mapgen_mine_finale(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_spiral_hub(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_spiral(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_radio_tower(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_toxic_dump(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_haz_sar_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_haz_sar(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
