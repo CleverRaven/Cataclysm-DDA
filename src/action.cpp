@@ -777,7 +777,7 @@ action_id handle_action_menu()
             title = _( "Cancel" );
         }
         entries.emplace_back( uimenu_entry( 2 * NUM_ACTIONS, true,
-                                         hotkey_for_action( ACTION_ACTIONMENU ), title ) );
+                                            hotkey_for_action( ACTION_ACTIONMENU ), title ) );
 
         title = _( "Actions" );
         if( category != "back" ) {
@@ -827,9 +827,9 @@ action_id handle_main_menu()
 
     auto REGISTER_ACTION = [&]( action_id name ) {
         entries.emplace_back( uimenu_entry( name, true, hotkey_for_action( name ),
-                                         ctxt.get_action_name( action_ident( name ) )
-                                       )
-                         );
+                                            ctxt.get_action_name( action_ident( name ) )
+                                          )
+                            );
     };
 
     REGISTER_ACTION( ACTION_HELP );
