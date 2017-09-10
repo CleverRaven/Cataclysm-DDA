@@ -4358,15 +4358,6 @@ void mapgen_spiral(map *m, oter_id terrain_type, mapgendata dat, int turn, float
 }
 
 
-void mapgen_radio_tower(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
 void mapgen_toxic_dump(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
