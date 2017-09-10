@@ -1160,7 +1160,7 @@ void player::update_bodytemp()
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
     const int water_temperature =
-        100 * ( int )temp_to_celsius( g->get_cur_weather_gen().get_water_temperature() );
+        100 * temp_to_celsius( g->get_cur_weather_gen().get_water_temperature() );
 
     // Correction of body temperature due to traits and mutations
     // Lower heat is applied always
