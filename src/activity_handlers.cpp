@@ -1794,7 +1794,7 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
     std::string tool = act->name;
     int qty = act->values[3];
 
-    if( !gun.gunmod_compatible( mod ) ) {
+    if( !gun.is_gunmod_compatible( mod ).success() ) {
         debugmsg( "Invalid arguments in ACT_GUNMOD_ADD" );
         return;
     }

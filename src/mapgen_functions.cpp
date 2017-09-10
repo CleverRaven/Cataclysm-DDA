@@ -140,7 +140,7 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
     { "s_sports", mapgen_s_sports },
 //    { "shelter", &mapgen_shelter },
     { "shelter_under", &mapgen_shelter_under },
-    { "lmoe", &mapgen_lmoe },
+//    { "lmoe", &mapgen_lmoe },
     { "basement_generic_layout", &mapgen_basement_generic_layout }, // empty, not bound
     { "basement_junk", &mapgen_basement_junk },
     /*
@@ -150,12 +150,12 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
     */
     { "basement_spiders", &mapgen_basement_spiders },
 //    { "office_doctor", &mapgen_office_doctor },
-    { "sub_station", &mapgen_sub_station },
+//    { "sub_station", &mapgen_sub_station },
 //  { "s_garage", &mapgen_s_garage },
 //    { "farm", &mapgen_farm },
 //    { "farm_field", &mapgen_farm_field },
     { "police", &mapgen_police },
-    { "bank", &mapgen_bank },
+//    { "bank", &mapgen_bank },
     { "pawn", &mapgen_pawn },
     { "mil_surplus", &mapgen_mil_surplus },
     { "cave", &mapgen_cave },
@@ -2921,40 +2921,6 @@ void mapgen_shelter_under(map *m, oter_id, mapgendata dat, int, float) {
 }
 
 
-void mapgen_lmoe(map *m, oter_id, mapgendata dat, int, float) {
-//    } else if (terrain_type == "lmoe") {
-
-        // Init to grass & dirt;
-        dat.fill_groundcover();
-        square(m, t_shrub, 7, 6, 16, 12);
-        square(m, t_rock, 10, 9, 13, 12);
-        square(m, t_rock_floor, 11, 10, 12, 11);
-        line(m, t_stairs_down, 11, 10, 12, 10);
-        m->ter_set(11, 12, t_door_metal_c);
-        line(m, t_tree, 9, 8, 14, 8);
-        line(m, t_tree, 9, 8, 9, 12);
-        line(m, t_tree, 14, 8, 14, 12);
-        square(m, t_shrub, 13, 13, 15, 14);
-        square(m, t_shrub, 8, 13, 10, 14);
-        m->ter_set(10, 6, t_tree_young);
-        m->ter_set(14, 6, t_tree_young);
-        line(m, t_tree_young, 9, 7, 10, 7);
-        m->ter_set(12, 7, t_tree_young);
-        m->ter_set(14, 7, t_tree_young);
-        m->ter_set(8, 9, t_tree_young);
-        line(m, t_tree_young, 7, 11, 8, 11);
-        line(m, t_tree_young, 15, 10, 15, 11);
-        m->ter_set(16, 12, t_tree_young);
-        m->ter_set(9, 13, t_tree_young);
-        m->ter_set(12, 13, t_tree_young);
-        m->ter_set(16, 12, t_tree_young);
-        line(m, t_tree_young, 14, 13, 15, 13);
-        m->ter_set(10, 14, t_tree_young);
-        m->ter_set(13, 14, t_tree_young);
-}
-
-
-
 ///////////////////////////////////////////////////////////
 void mapgen_basement_generic_layout(map *m, oter_id, mapgendata, int, float)
 {
@@ -3156,52 +3122,6 @@ void mapgen_office_tower_b(map *m, oter_id terrain_type, mapgendata dat, int tur
 }
 
 
-void mapgen_sub_station(map *m, oter_id terrain_type, mapgendata dat, int, float)
-{
-    (void)dat;
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if (j < 9 || j > 12 || i < 4 || i > 19) {
-                    m->ter_set(i, j, t_pavement);
-                } else if (j < 12 && j > 8 && (i == 4 || i == 19)) {
-                    m->ter_set(i, j, t_wall);
-                } else if (i > 3 && i < 20 && j == 12) {
-                    m->ter_set(i, j, t_wall);
-                } else {
-                    m->ter_set(i, j, t_floor);
-                }
-            }
-        }
-        //vending
-        bool drinks = rng(0,1);
-        std::string type;
-        std::string type2;
-        if (drinks) {
-            type = "vending_drink";
-            type2 = "vending_food";
-        } else {
-            type2 = "vending_drink";
-            type = "vending_food";
-        }
-        int vset = rng(0,17);
-        if (vset < 3) m->place_vending(5, vset+9, type);
-        else if (vset < 15) m->place_vending(5 + (vset - 3), 11, type);
-        else m->place_vending(18, 11 - (vset - 15), type);
-        if(one_in(3))
-        {
-            int vset2 = rng(0,16);
-            if(vset2 >= vset) vset2++;
-            if (vset2 < 3) m->place_vending(5, vset2+9, type2);
-            else if (vset2 < 15) m->place_vending(5 + (vset2 - 3), 11, type2);
-            else m->place_vending(18, 11 - (vset2 - 15), type2);
-        }
-        //
-        m->ter_set(16, 10, t_stairs_down);
-        autorotate(false);
-
-}
-
-
 void mapgen_police(map *m, oter_id terrain_type, mapgendata dat, int, float density)
 {
 
@@ -3318,182 +3238,6 @@ void mapgen_police(map *m, oter_id terrain_type, mapgendata dat, int, float dens
 
 }
 
-
-void mapgen_bank(map *m, oter_id terrain_type, mapgendata dat, int, float)
-{
-    dat.fill_groundcover();
-    // Basic floorplan
-    square(m, t_floor, 1,  1, 22, 22);
-    line(m, t_wall,  1,  1, 22,  1);
-    line(m, t_wall,  2,  5,  5,  5);
-    line(m, t_wall, 16,  5, 19,  5);
-    line(m, t_wall,  2,  9, 19,  9);
-    line(m, t_wall, 12, 12, 21, 12);
-    line(m, t_wall,  2, 14,  6, 14);
-    line(m, t_wall, 13, 16, 21, 16);
-    line(m, t_wall,  1, 22, 22, 22);
-    line(m, t_wall,  1,  2,  1, 21);
-    line(m, t_wall, 22,  2, 22, 21);
-    line(m, t_wall,  7, 10,  7, 21);
-    line(m, t_wall, 12, 12, 12, 21);
-    line(m, t_wall, 19, 13, 19, 15);
-    line(m, t_wall, 16,  6, 16,  8);
-    line(m, t_wall, 19,  6, 19,  8);
-    line(m, t_wall_metal,  2, 15,  6, 15);
-    line(m, t_wall_metal,  2, 21,  6, 21);
-    line(m, t_wall_metal,  2, 16,  2, 20);
-    line(m, t_wall_metal,  6, 16,  6, 20);
-    //Fixed doors
-    line(m, t_door_glass_c, 9, 1, 10, 1);
-    m->ter_set( 19,  6, t_door_c);
-    m->ter_set( 12, 17, t_door_c);
-    m->ter_set( 17, 12, t_door_c);
-    square(m, t_door_metal_locked, 6, 19, 7, 20);
-    if (one_in(3)) {
-        line(m, t_door_locked_interior, 20, 9, 21, 9);
-    } else {
-        line(m, t_door_c, 20, 9, 21, 9);
-    }
-    if (one_in(4)) {
-        m->ter_set( 7, 10, t_door_locked_interior);
-    } else {
-        m->ter_set( 7, 10, t_door_c);
-    }
-    //Lobby
-    line(m, t_atm,  2,  2,  2,  3);
-    if (one_in(2)) {
-        line_furn(m, f_chair, 13, 2, 15, 2);
-        m->furn_set(14, 2, f_table);
-    }
-    if (one_in(2)) {
-        line_furn(m, f_chair, 17, 2, 19, 2);
-        m->furn_set(18, 2, f_table);
-    }
-    if (one_in(2)) {
-        m->furn_set(21, 2, f_indoor_plant);
-    }
-    //Windows or glass wall front?
-    int tmp = 0;
-    if (!one_in(3)) {
-        line(m, t_wall_glass_alarm, 1, 1, 8, 1);
-        line(m, t_wall_glass_alarm, 11, 1, 22, 1);
-    } else {
-        m->ter_set( rng(4,7),  1, t_window_alarm);
-        m->ter_set( rng(12,16),  1, t_window_alarm);
-        m->ter_set( rng(17,20),  1, t_window_alarm);
-        tmp = 1;
-    }
-    //Windows or glass wall side?
-    if (tmp != 1 && one_in(3)) {
-        line(m, t_wall_glass_alarm, 22, 1, 22, 8);
-        if (one_in(2)) {
-            line(m, t_wall_glass_alarm, 22, 1, 22, 11);
-        }
-    } else {
-        m->ter_set( 22, rng(3,5), t_window_alarm);
-        m->ter_set( 22, rng(6,8), t_window_alarm);
-    }
-    //Teller counters, 1 in 2 chance to have windows
-    if (one_in(2)) {
-        m->furn_set(  7,  5, f_counter);
-        m->ter_set(   8,  5, t_window);
-        m->furn_set(  9,  5, f_counter);
-        m->ter_set(  10,  5, t_window);
-        m->furn_set( 11,  5, f_counter);
-        m->ter_set(  12,  5, t_window);
-        m->furn_set( 13,  5, f_counter);
-        m->ter_set(  14,  5, t_window);
-        m->furn_set( 15,  5, f_counter);
-    } else {
-        line_furn(m, f_counter,  7,  5, 15, 5);
-    }
-    //Back wall teller space counter
-    tmp = rng(9, 11);
-    line_furn(m, f_counter,  rng(2,4),  8,  tmp,  8);
-    m->furn_set( tmp + 1, 8, f_indoor_plant);
-    //Teller doors
-    m->ter_set(rng(2,4), 5, t_door_locked_interior);
-    m->ter_set(rng(13,15), 9, t_door_c);
-    //Bathroom
-    m->furn_set( 17, 6, f_sink);
-    m->place_toilet( 17, 8);
-    //Storage
-    if (one_in(2)){
-        if (!one_in(4)) {
-            m->ter_set( 20, 12, t_door_c);
-        } else {
-            m->ter_set( 20, 12, t_door_locked_interior);
-        }
-        line_furn(m, f_counter, 21, 13, 21, 15);
-        m->furn_set( 20, 15, f_counter);
-    } else {
-        if (!one_in(4)) {
-            m->ter_set( 21, 12, t_door_c);
-        } else {
-            m->ter_set( 21, 12, t_door_locked_interior);
-        }
-        line_furn(m, f_counter, 20, 13, 20, 15);
-        m->furn_set( 21, 15, f_counter);
-    }
-    //Interview office
-    if (one_in(2)) {
-        m->ter_set( 13, 12, t_door_c);
-    } else {
-        m->ter_set( 14, 12, t_door_c);
-    }
-    if (one_in(2)) {
-        m->furn_set( 18, 13, f_indoor_plant);
-    }
-    line_furn(m, f_desk, 16, 14, 16, 15);
-    line_furn(m, f_chair, 15, 14, 15, 15);
-    m->furn_set( 17, 15, f_chair);
-    //Executive office
-    if (!one_in(3)) {
-        m->furn_set( 2, 13, f_indoor_plant);
-    }
-    line_furn(m, f_desk, 3, 12, 5, 12);
-    m->furn_set(4, 13, f_chair);
-    if (one_in(2)) {
-        m->ter_set( 1, 11, t_window_alarm);
-    } else {
-        m->ter_set( 1, 10, t_window_alarm);
-        m->ter_set( 1, 12, t_window_alarm);
-    }
-    //Conference room
-    line_furn(m, f_chair, 15, 18, 15, 20);
-    line_furn(m, f_chair, 17, 18, 17, 20);
-    line_furn(m, f_chair, 19, 18, 19, 20);
-    line_furn(m, f_table, 15, 19, 19, 19);
-    m->furn_set( 20, 19, f_chair);
-    //Conference windows or glass walls?
-    if (one_in(4)) {
-        line(m, t_wall_glass_alarm, 13, 22, 22, 22);
-        line(m, t_wall_glass_alarm, 22, 17, 22, 21);
-    } else {
-        m->ter_set( rng(13,17), 22, t_window_alarm);
-        m->ter_set( rng(17,21), 22, t_window_alarm);
-        m->ter_set( 22, rng(18,20), t_window_alarm);
-    }
-    //Vault
-    line_furn(m, f_safe_l, 3, 16, 5, 16);
-    line_furn(m, f_table, 3, 19, 3, 20);
-    if (one_in(3)){
-        line(m, t_bars, 8, 18, 11, 18);
-        line(m, t_door_metal_locked, 9, 18, 10, 18);
-    }
-    computer * tmpcomp = m->add_computer( tripoint( 8, 21, m->get_abs_sub().z ), _("Consolidated Computerized Bank of the Treasury"), 3);
-    tmpcomp->add_option(_("Open Vault"), COMPACT_OPEN, 3);
-    tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
-    tmpcomp->add_failure(COMPFAIL_ALARM);
-
-    m->place_items("office",    30,  4,  8,  9,  8, false, 0);
-    m->place_items("office",    30,  3, 12,  5, 12, false, 0);
-    m->place_items("office",    70, 16, 14, 16, 15, false, 0);
-    m->place_items("vault",     50,  3, 19,  3, 20, false, 0);
-    m->place_items("vault",     90,  3, 16,  5, 16, false, 0);
-
-    autorotate(false);
-}
 
 void mapgen_pawn(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
@@ -4175,15 +3919,6 @@ void mapgen_spiral_hub(map *m, oter_id terrain_type, mapgendata dat, int turn, f
 
 
 void mapgen_spiral(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_radio_tower(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*

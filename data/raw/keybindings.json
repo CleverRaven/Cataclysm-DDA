@@ -2026,6 +2026,7 @@
     { "type":"keybinding", "name": "Autopickup manager", "category":"DEFAULTMODE", "id":"open_autopickup" },
     { "type":"keybinding", "name": "Safe Mode manager", "category":"DEFAULTMODE", "id":"open_safemode" },
     { "type":"keybinding", "name": "Color manager", "category":"DEFAULTMODE", "id":"open_color" },
+    { "type":"keybinding", "name": "Active World Mods", "category":"DEFAULTMODE", "id":"open_world_mods" },
     {
       "type":"keybinding",
       "name": "Toggle move mode (run/walk)",

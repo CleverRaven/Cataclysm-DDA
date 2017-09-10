@@ -1,0 +1,95 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "radio_tower" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           &&&&         ",
+        "           &&&&         ",
+        "           &&&&         ",
+        "           &&&&         ",
+        "            6           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        " ": [ "t_dirt", "t_dirt", "t_grass" ],
+        "&": "t_radio_tower",
+        "6": "t_radio_controls"
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "radio_tower" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    &&&& #########      ",
+        "    &&&& #.6CCCC.#      ",
+        "    &&&& #.......#      ",
+        "    &&&& ##+#w#w##      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        " ": [ "t_dirt", "t_dirt", "t_grass" ],
+        "#": "t_wall",
+        "&": "t_radio_tower",
+        "+": "t_door_c",
+        ".": "t_floor",
+        "6": "t_radio_controls",
+        "C": "t_floor",
+        "w": "t_window"
+      },
+      "furniture": {
+        "C": "f_counter"
+      },
+      "place_items": [
+        { "item": "radio", "x": [ 13, 15 ], "y": 12, "chance": 60, "repeat": [ 1, 3 ] }
+      ]
+    }
+  }
+]

@@ -1929,7 +1929,6 @@ classes = {
             id = { type = "trap_str_id" },
             loadid = { type = "trap_id" },
             color = { type = "int" },
-            name = { type = "string" },
             sym = { type = "int" },
         },
         functions = {

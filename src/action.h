@@ -224,6 +224,8 @@ enum action_id : int {
     ACTION_SAFEMODE,
     /** Open color manager */
     ACTION_COLOR,
+    /** Open active world mods */
+    ACTION_WORLD_MODS,
     /**@}*/
 
     // Debug Functions

@@ -1535,9 +1535,11 @@ static void refresh_tiles( bool, bool, bool ) {
 }
 #endif // TILES
 
-void draw_borders_external( WINDOW *w, int horizontal_level, std::map<int, bool> &mapLines )
+void draw_borders_external( WINDOW *w, int horizontal_level, std::map<int, bool> &mapLines, const bool world_options_only )
 {
-    draw_border( w, BORDER_COLOR, _( " OPTIONS " ) );
+    if( !world_options_only ) {
+        draw_border( w, BORDER_COLOR, _( " OPTIONS " ) );
+    }
     // intersections
     mvwputch( w, horizontal_level, 0, BORDER_COLOR, LINE_XXXO ); // |-
     mvwputch( w, horizontal_level, getmaxx( w ) - 1, BORDER_COLOR, LINE_XOXX ); // -|
@@ -1561,11 +1563,12 @@ void draw_borders_internal( WINDOW *w, std::map<int, bool> &mapLines )
     wrefresh( w );
 }
 
-void options_manager::show(bool ingame)
+std::string options_manager::show(bool ingame, const bool world_options_only)
 {
     // temporary alias so the code below does not need to be changed
-    auto &OPTIONS = options;
-    auto &ACTIVE_WORLD_OPTIONS = world_generator->active_world ? world_generator->active_world->WORLD_OPTIONS : OPTIONS;
+    options_container &OPTIONS = options;
+    options_container &ACTIVE_WORLD_OPTIONS = world_generator->active_world ? world_generator->active_world->WORLD_OPTIONS :
+                                                ( world_options_only ? *world_options : OPTIONS );
 
     auto OPTIONS_OLD = OPTIONS;
     auto WOPTIONS_OLD = ACTIVE_WORLD_OPTIONS;
@@ -1573,29 +1576,41 @@ void options_manager::show(bool ingame)
         ingame = false;
     }
 
-    const int iTooltipHeight = 4;
-    const int iContentHeight = FULL_SCREEN_HEIGHT - 3 - iTooltipHeight;
+    const int iWorldOffset = ( world_options_only ? 2 : 0 );
 
-    const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
-    const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
+    const int iTooltipHeight = 4;
+    const int iContentHeight = FULL_SCREEN_HEIGHT - 3 - iTooltipHeight - iWorldOffset;
+
+    const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
+    const int iOffsetY = ( TERMY > FULL_SCREEN_HEIGHT ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0 ) + iWorldOffset;
 
     std::map<int, bool> mapLines;
     mapLines[4] = true;
     mapLines[60] = true;
 
-    WINDOW *w_options_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
+    WINDOW *w_options_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY - iWorldOffset, iOffsetX);
+    WINDOW_PTR w_options_borderptr( w_options_border );
 
     WINDOW *w_options_tooltip = newwin(iTooltipHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY,
                                        1 + iOffsetX);
+    WINDOW_PTR w_options_tooltipptr( w_options_tooltip );
+
     WINDOW *w_options_header = newwin(1, FULL_SCREEN_WIDTH - 2, 1 + iTooltipHeight + iOffsetY,
                                       1 + iOffsetX);
+    WINDOW_PTR w_options_headerptr( w_options_header );
+
     WINDOW *w_options = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2,
                                iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
+    WINDOW_PTR w_optionsptr( w_options );
 
-    draw_borders_external( w_options_border, iTooltipHeight + 1, mapLines );
+    if( world_options_only ) {
+        worldfactory::draw_worldgen_tabs(w_options_border, 1);
+    }
+
+    draw_borders_external( w_options_border, iTooltipHeight + 1 + iWorldOffset, mapLines, world_options_only );
     draw_borders_internal( w_options_header, mapLines );
 
-    int iCurrentPage = 0;
+    int iCurrentPage = world_options_only ? iWorldOptPage : 0;
     int iLastPage = 0;
     int iCurrentLine = 0;
     int iStartPos = 0;
@@ -1611,7 +1626,7 @@ void options_manager::show(bool ingame)
     std::stringstream sTemp;
 
     while(true) {
-        auto &cOPTIONS = ( ingame && iCurrentPage == iWorldOptPage ?
+        auto &cOPTIONS = ( ( ingame || world_options_only ) && iCurrentPage == iWorldOptPage ?
                            ACTIVE_WORLD_OPTIONS : OPTIONS );
 
         //Clear the lines
@@ -1671,13 +1686,16 @@ void options_manager::show(bool ingame)
         }
 
         draw_scrollbar(w_options_border, iCurrentLine, iContentHeight,
-                       mPageItems[iCurrentPage].size(), iTooltipHeight + 2, 0, BORDER_COLOR);
+                       mPageItems[iCurrentPage].size(), iTooltipHeight + 2 + iWorldOffset, 0, BORDER_COLOR);
         wrefresh(w_options_border);
 
         //Draw Tabs
-        mvwprintz(w_options_header, 0, 7, c_white, "");
-        for (int i = 0; i < (int)vPages.size(); i++) {
-            if (!mPageItems[i].empty()) { //skip empty pages
+        if( !world_options_only ) {
+            mvwprintz(w_options_header, 0, 7, c_white, "");
+            for (int i = 0; i < (int)vPages.size(); i++) {
+                if( mPageItems[i].empty() ) {
+                    continue;
+                }
                 wprintz(w_options_header, c_white, "[");
                 if ( ingame && i == iWorldOptPage ) {
                     wprintz(w_options_header,
@@ -1743,6 +1761,10 @@ void options_manager::show(bool ingame)
         wrefresh(w_options);
 
         const std::string action = ctxt.handle_input();
+
+        if( world_options_only && ( action == "NEXT_TAB" || action == "PREV_TAB" || action == "QUIT" ) ) {
+            return action;
+        }
 
         if (action == "DOWN") {
             do {
@@ -1880,10 +1902,7 @@ void options_manager::show(bool ingame)
 
     refresh_tiles( used_tiles_changed, pixel_minimap_changed, ingame );
 
-    delwin(w_options);
-    delwin(w_options_border);
-    delwin(w_options_header);
-    delwin(w_options_tooltip);
+    return "";
 }
 
 void options_manager::serialize(JsonOut &json) const
@@ -2026,7 +2045,7 @@ options_manager::cOpt &options_manager::get_option( const std::string &name )
     return wopts[name];
 }
 
-std::unordered_map<std::string, options_manager::cOpt> options_manager::get_world_defaults() const
+options_manager::options_container options_manager::get_world_defaults() const
 {
     std::unordered_map<std::string, cOpt> result;
     for( auto &elem : options ) {

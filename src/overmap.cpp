@@ -2694,52 +2694,94 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
             }
             std::transform( term.begin(), term.end(), term.begin(), tolower );
 
-            // This is on purpose only the current overmap, otherwise
-            // it would contain way to many entries
-            overmap &om = overmap_buffer.get_om_global(point(curs.x, curs.y));
-            std::vector<point> locations = om.find_notes(curs.z, term);
-            std::vector<point> terlist = om.find_terrain(term, curs.z);
-            locations.insert( locations.end(), terlist.begin(), terlist.end() );
+            std::vector<point> locations;
+            std::vector<point> overmap_checked;
+
+            for( int x = curs.x - OMAPX / 2; x < curs.x + OMAPX / 2; x++ ) {
+                for( int y = curs.y - OMAPY / 2; y < curs.y + OMAPY / 2; y++ ) {
+                    overmap *om = overmap_buffer.get_existing_om_global( point( x, y ) );
+
+                    if( om ) {
+                        int om_relative_x = x;
+                        int om_relative_y = y;
+                        omt_to_om_remain( om_relative_x, om_relative_y );
+
+                        int om_cache_x = x;
+                        int om_cache_y = y;
+                        omt_to_om( om_cache_x, om_cache_y );
+
+                        if( std::find( overmap_checked.begin(), overmap_checked.end(), point( om_cache_x,
+                                       om_cache_y ) ) == overmap_checked.end() ) {
+                            overmap_checked.push_back( point( om_cache_x, om_cache_y ) );
+                            std::vector<point> notes = om->find_notes( curs.z, term );
+                            locations.insert( locations.end(), notes.begin(), notes.end() );
+                        }
+
+                        if( om->seen( om_relative_x, om_relative_y, curs.z ) &&
+                            lcmatch( om->ter( om_relative_x, om_relative_y, curs.z )->get_name(), term ) ) {
+                            locations.push_back( om->global_base_point() + point( om_relative_x, om_relative_y ) );
+                        }
+                    }
+                }
+            }
+
             if( locations.empty() ) {
                 continue;
             }
+
+            std::sort( locations.begin(), locations.end(), [&](const point &lhs, const point &rhs) {
+                return trig_dist( curs, tripoint( lhs, curs.z ) ) < trig_dist( curs, tripoint( rhs, curs.z ) );
+            } );
+
             int i = 0;
             //Navigate through results
             tripoint tmp = curs;
             WINDOW *w_search = newwin(13, 27, 3, TERMX - 27);
+            WINDOW_PTR w_searchptr( w_search );
+
             input_context ctxt("OVERMAP_SEARCH");
+            ctxt.register_leftright();
             ctxt.register_action("NEXT_TAB", _("Next target"));
             ctxt.register_action("PREV_TAB", _("Previous target"));
             ctxt.register_action("QUIT");
             ctxt.register_action("CONFIRM");
             ctxt.register_action("HELP_KEYBINDINGS");
             ctxt.register_action("ANY_INPUT");
+
             do {
                 tmp.x = locations[i].x;
                 tmp.y = locations[i].y;
                 draw(g->w_overmap, g->w_omlegend, tmp, orig, uistate.overmap_show_overlays, show_explored, NULL, draw_data_t());
                 //Draw search box
-                draw_border(w_search);
-                mvwprintz(w_search, 1, 1, c_red, _("Find place:"));
-                mvwprintz(w_search, 2, 1, c_ltblue, "                         ");
-                mvwprintz(w_search, 2, 1, c_ltblue, "%s", term.c_str());
-                mvwprintz(w_search, 4, 1, c_white, _("'<' '>' Cycle targets."));
+                mvwprintz(w_search, 1, 1, c_ltblue, _("Search:"));
+                mvwprintz(w_search, 1, 10, c_ltred, "%*s", 12, term.c_str());
+
+                mvwprintz(w_search, 2, 1, c_ltblue, _("Result(s):"));
+                mvwprintz(w_search, 2, 16, c_ltred, "%*d/%d" , 3, i+1, locations.size());
+
+                mvwprintz(w_search, 3, 1, c_ltblue, _("Direction:"));
+                mvwprintz(w_search, 3, 14, c_white, "%*d %s",
+                          5, static_cast<int>( trig_dist( orig, tripoint( locations[i], orig.z ) ) ),
+                          direction_name_short( direction_from( orig, tripoint( locations[i], orig.z ) ) ).c_str()
+                );
+
+                mvwprintz(w_search, 6, 1, c_white, _("'<' '>' Cycle targets."));
                 mvwprintz(w_search, 10, 1, c_white, _("Enter/Spacebar to select."));
                 mvwprintz(w_search, 11, 1, c_white, _("q or ESC to return."));
+                draw_border(w_search);
                 wrefresh(w_search);
                 action = ctxt.handle_input( BLINK_SPEED );
                 if (uistate.overmap_blinking) {
                     uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
                 }
-                if (action == "NEXT_TAB") {
+                if (action == "NEXT_TAB" || action == "RIGHT") {
                     i = (i + 1) % locations.size();
-                } else if (action == "PREV_TAB") {
+                } else if (action == "PREV_TAB" || action == "LEFT") {
                     i = (i + locations.size() - 1) % locations.size();
                 } else if (action == "CONFIRM") {
                     curs = tmp;
                 }
             } while(action != "CONFIRM" && action != "QUIT");
-            delwin(w_search);
             action = "";
         } else if( action == "PLACE_TERRAIN" || action == "PLACE_SPECIAL" ) {
             uimenu pmenu;
