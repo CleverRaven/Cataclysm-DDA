@@ -56,7 +56,7 @@ class optional
         }
 
     public:
-        constexpr optional() noexcept : full( false ) { }
+        constexpr optional() noexcept : dummy(), full( false ) { }
         constexpr optional( const nullopt_t ) noexcept : optional() { }
 
         optional( const optional &other ) {
