@@ -1929,9 +1929,16 @@ bool is_draw_tiles_mode() {
 }
 
 SDL_Color cursesColorToSDL(int color) {
-    // Extract the color pair ID.
-    int pair = (color & 0x03fe0000) >> 17;
-    return windowsPalette[colorpairs[pair].FG];
+    const int pair_id = ( color & A_COLOR ) >> 17;
+    const auto pair = colorpairs[pair_id];
+
+    int palette_index = pair.FG != 0 ? pair.FG : pair.BG;
+
+    if( color & A_BOLD ) {
+        palette_index += color_loader<SDL_Color>::COLOR_NAMES_COUNT / 2;
+    }
+
+    return windowsPalette[palette_index];
 }
 
 #ifdef SDL_SOUND

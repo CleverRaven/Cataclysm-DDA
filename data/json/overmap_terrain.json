@@ -5798,7 +5798,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_1",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194412,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -5806,7 +5806,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_2",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194417,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -5814,7 +5814,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_3",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194417,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -5822,7 +5822,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_4",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194417,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -5830,7 +5830,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_5",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194417,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -5838,7 +5838,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_6",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194417,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -5846,7 +5846,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_7",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194417,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -5854,7 +5854,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_8",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194417,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -5862,7 +5862,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_9",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194411,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -5870,7 +5870,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_10",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194424,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -5934,7 +5934,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_18",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194424,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -5942,7 +5942,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_19",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194424,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -6006,7 +6006,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_27",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194424,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -6014,7 +6014,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_28",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194424,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -6078,7 +6078,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_36",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194424,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -6086,7 +6086,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_37",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194424,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -6150,7 +6150,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_45",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194424,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -6158,7 +6158,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_46",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194424,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -6222,7 +6222,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_54",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194424,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -6230,7 +6230,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_55",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194424,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -6294,7 +6294,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_63",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194424,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -6302,7 +6302,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_64",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194424,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -6342,7 +6342,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_69",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194411,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -6366,7 +6366,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_72",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194424,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -6374,7 +6374,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_73",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194413,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -6382,7 +6382,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_74",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194417,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -6390,7 +6390,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_75",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194410,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -6415,7 +6415,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_78",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194413,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -6423,7 +6423,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_79",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194417,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -6431,7 +6431,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_80",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194417,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]
@@ -6439,7 +6439,7 @@
         "type" : "overmap_terrain",
         "id" : "ranch_camp_81",
         "name" : "field",
-        "sym" : 46,
+        "sym" : 4194410,
         "color" : "brown",
         "see_cost" : 2,
         "flags" : [ "NO_ROTATE" ]

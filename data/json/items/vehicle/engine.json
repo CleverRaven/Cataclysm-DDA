@@ -133,5 +133,16 @@
     "volume": 32,
     "price": 36000,
     "displacement": 1200
+  },
+  {
+    "id": "v12_diesel",
+    "copy-from": "engine_diesel",
+    "type":"ENGINE",
+    "name": "V12 diesel engine",
+    "description": "A massive and extremely powerful V12 engine, usually built into heavy trucks.",
+    "weight": 310000,
+    "volume": 34,
+    "price": 32000,
+    "displacement": 1200
   }
 ]

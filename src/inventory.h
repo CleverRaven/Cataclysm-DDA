@@ -59,7 +59,6 @@ class inventory : public visitable<inventory>
         const_invslice const_slice() const;
         const std::list<item> &const_stack(int i) const;
         size_t size() const;
-        int num_items() const;
         bool is_sorted() const;
 
         inventory();
@@ -79,8 +78,6 @@ class inventory : public visitable<inventory>
         void unsort(); // flags the inventory as unsorted
         void sort();
         void clear();
-        void add_stack(std::list<item> newits);
-        void clone_stack(const std::list<item> &rhs);
         void push_back(std::list<item> newits);
         // returns a reference to the added item
         item &add_item (item newit, bool keep_invlet = false, bool assign_invlet = true);
@@ -109,15 +106,9 @@ class inventory : public visitable<inventory>
          */
         std::list<item> remove_randomly_by_volume( const units::volume &volume );
         std::list<item> reduce_stack(int position, int quantity);
-        std::list<item> reduce_stack(const itype_id &type, int quantity);
-
-        // amount of -1 removes the entire stack.
-        template<typename Locator> std::list<item> reduce_stack(const Locator &type, int amount);
 
         const item &find_item(int position) const;
         item &find_item(int position);
-        item &item_by_type(itype_id type);
-        item &item_or_container(itype_id type); // returns an item, or a container of it
 
         /**
          * Returns the item position of the stack that contains the given item (compared by
@@ -192,11 +183,6 @@ class inventory : public visitable<inventory>
         // For each item ID, store a set of "favorite" inventory letters.
         std::map<std::string, std::vector<char> > invlet_cache;
         char find_usable_cached_invlet(const std::string &item_type);
-
-        // Often items can be located using typeid, position, or invlet.  To reduce code duplication,
-        // we back those functions with a single internal function templated on the type of Locator.
-        template<typename Locator> item remove_item_internal(const Locator &locator);
-        template<typename Locator> std::list<item> reduce_stack_internal(const Locator &type, int amount);
 
         invstack items;
         bool sorted;

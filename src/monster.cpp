@@ -782,7 +782,7 @@ monster_attitude monster::attitude( const Character *u ) const
             effective_anger -= 20;
         }
 
-        
+
         if( u->has_trait( terrifying ) ) {
             effective_morale -= 10;
         }
@@ -1650,6 +1650,24 @@ void monster::process_turn()
     if( !is_hallucination() ) {
         for( const auto &e: type->emit_fields ) {
             g->m.emit_field( pos(), e );
+        }
+    }
+
+    // Only special attack cooldowns are updated here.
+    // Loop through the monster's special attacks, same as monster::move.
+    for( const auto &sp_type : type->special_attacks ) {
+        const std::string &special_name = sp_type.first;
+        const auto local_iter = special_attacks.find( special_name );
+        if( local_iter == special_attacks.end() ) {
+            continue;
+        }
+        mon_special_attack &local_attack_data = local_iter->second;
+        if( !local_attack_data.enabled ) {
+            continue;
+        }
+
+        if( local_attack_data.cooldown > 0 ) {
+            local_attack_data.cooldown--;
         }
     }
 

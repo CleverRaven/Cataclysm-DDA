@@ -28,8 +28,6 @@ struct regional_settings;
 class vehicle;
 
 struct radio_tower_reference {
-    /** Overmap the radio tower is on. */
-    overmap *om;
     /** The radio tower itself, points into @ref overmap::radios */
     radio_tower *tower;
     /** The global absolute position of the tower (in submap coordinates) */
@@ -42,17 +40,19 @@ struct radio_tower_reference {
 };
 
 struct city_reference {
-    /** Overmap the city is on. */
-    overmap *om;
+    static const city_reference invalid;
     /** The city itself, points into @ref overmap::cities */
-    struct city *city;
+    const struct city *city;
     /** The global absolute position of the city (in submap coordinates!) */
     tripoint abs_sm_pos;
     /** Distance to center of the search */
     int distance;
+
     operator bool() const {
         return city != nullptr;
     }
+
+    int get_distance_from_bounds() const;
 };
 
 class overmapbuffer
@@ -331,11 +331,20 @@ public:
      */
     std::vector<radio_tower_reference> find_all_radio_stations();
     /**
+     * Find all cities within the specified @ref radius.
+     * Result is sorted by proximity to @ref location in ascending order.
+     */
+    std::vector<city_reference> get_cities_near( const tripoint &location, int radius );
+    /**
      * Find the closest city. If no city is close, returns an object with city set to nullptr.
      * @param center The center of the search, the distance for determining the closest city is
      * calculated as distance to this point. In global submap coordinates!
      */
     city_reference closest_city( const tripoint &center );
+
+    city_reference closest_known_city( const tripoint &center );
+
+    std::string get_description_at( const tripoint &where );
 
 private:
     std::unordered_map< point, std::unique_ptr< overmap > > overmaps;
