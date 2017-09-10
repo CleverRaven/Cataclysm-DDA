@@ -513,7 +513,6 @@ classes = {
             { name = "consume", rval = "bool", args = { "int" } },
             { name = "consume_charges", rval = "bool", args = { "item", "int" } },
             { name = "consume_effects", rval = nil, args = { "item" } },
-            { name = "consume_effects", rval = nil, args = { "item", "bool" } },
             { name = "consume_item", rval = "bool", args = { "item" } },
             { name = "cough", rval = nil, args = { "bool" } },
             { name = "cough", rval = nil, args = { "bool", "int" } },
@@ -697,7 +696,7 @@ classes = {
             { name = "natural_attack_restricted_on", rval = "bool", args = { "body_part" } },
             { name = "normalize", rval = nil, args = { } },
             { name = "num_bionics", rval = "int", args = { } },
-            { name = "nutrition_for", rval = "int", args = { "itype" } },
+            { name = "nutrition_for", rval = "int", args = { "item" } },
             { name = "on_dodge", rval = nil, args = { "Creature", "float" } },
             { name = "on_hit", rval = nil, args = { "Creature" } },
             { name = "on_hit", rval = nil, args = { "Creature", "body_part" } },
@@ -1101,7 +1100,6 @@ classes = {
             { "int", "int", "int" },
         },
         functions = {
-            { name = "serialize", rval = "string", args = { } },
         }
     },
     uimenu = {
@@ -1926,7 +1924,6 @@ classes = {
             id = { type = "trap_str_id" },
             loadid = { type = "trap_id" },
             color = { type = "int" },
-            name = { type = "string" },
             sym = { type = "int" },
         },
         functions = {

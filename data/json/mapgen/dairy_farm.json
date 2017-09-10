@@ -190,7 +190,10 @@
         "*": "t_window_domestic",
         "+": "t_door_locked_interior",
         ".": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ],
+        "O": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ],
+        "X": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ],
         "_": "t_floor",
+        "a": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ],
         "f": "t_door_metal_c",
         "|": "t_wall"
       },

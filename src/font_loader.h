@@ -39,14 +39,14 @@ class font_loader
                 config.read( "fontheight", fontheight );
                 config.read( "fontsize", fontsize );
                 config.read( "typeface", typeface );
-                config.read( "map_fontwidth", fontwidth );
-                config.read( "map_fontheight", fontheight );
-                config.read( "map_fontsize", fontsize );
-                config.read( "map_typeface", typeface );
-                config.read( "overmap_fontwidth", fontwidth );
-                config.read( "overmap_fontheight", fontheight );
-                config.read( "overmap_fontsize", fontsize );
-                config.read( "overmap_typeface", typeface );
+                config.read( "map_fontwidth", map_fontwidth );
+                config.read( "map_fontheight", map_fontheight );
+                config.read( "map_fontsize", map_fontsize );
+                config.read( "map_typeface", map_typeface );
+                config.read( "overmap_fontwidth", overmap_fontwidth );
+                config.read( "overmap_fontheight", overmap_fontheight );
+                config.read( "overmap_fontsize", overmap_fontsize );
+                config.read( "overmap_typeface", overmap_typeface );
             } catch( const std::exception &err ) {
                 throw std::runtime_error( std::string( "loading font settings from " ) + path + " failed: " +
                                           err.what() );

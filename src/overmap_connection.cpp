@@ -4,6 +4,7 @@
 #include "overmap_location.h"
 
 #include <algorithm>
+#include <cassert>
 
 namespace
 {

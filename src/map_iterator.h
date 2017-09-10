@@ -94,6 +94,13 @@ class tripoint_range
         bool empty() const {
             return size() == 0;
         }
+
+        const tripoint &min() const {
+            return minp;
+        }
+        const tripoint &max() const {
+            return maxp;
+        }
 };
 
 #endif

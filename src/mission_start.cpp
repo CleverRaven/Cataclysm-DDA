@@ -1668,7 +1668,7 @@ void reveal_route( mission *miss, const tripoint destination )
     const tripoint dest_road = overmap_buffer.find_closest( destination, "road", 3, false );
 
     if( overmap_buffer.reveal_route( source_road, dest_road ) ) {
-        add_msg( _( "%s marks as well the road that leads to it..." ),
+        add_msg( _( "%s also marks the road that leads to it..." ),
                  p->name.c_str() );
     }
 }
@@ -1684,7 +1684,7 @@ void reveal_target( mission *miss, const std::string &omter_id )
     const tripoint destination = reveal_destination( omter_id );
     if( destination != overmap::invalid_tripoint ) {
         const oter_id oter = overmap_buffer.ter( destination );
-        add_msg( _( "%s have marked the only %s known to them on your map." ),
+        add_msg( _( "%s has marked the only %s known to them on your map." ),
                  p->name.c_str(), oter->get_name().c_str() );
         miss->set_target( destination );
         if( one_in( 3 ) ) {

@@ -798,7 +798,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
                 act.set_to_null();
             }
             break;
-		}
+        }
 
         if( removed_charges < original_charges ) {
             // Transferred less than the available charges -> target must be full
@@ -1794,7 +1794,7 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
     std::string tool = act->name;
     int qty = act->values[3];
 
-    if( !gun.gunmod_compatible( mod ) ) {
+    if( !gun.is_gunmod_compatible( mod ).success() ) {
         debugmsg( "Invalid arguments in ACT_GUNMOD_ADD" );
         return;
     }

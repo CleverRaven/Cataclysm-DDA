@@ -93,10 +93,6 @@ worldfactory::worldfactory()
     tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_modselection, this, _1, _2));
     tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_options, this, _1, _2));
     tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_confirm, this, _1, _2));
-
-    tab_strings.push_back(_("Content"));
-    tab_strings.push_back(_("World Gen Options"));
-    tab_strings.push_back(_("CONFIRMATION"));
 }
 
 worldfactory::~worldfactory()
@@ -602,155 +598,19 @@ std::string worldfactory::pick_random_name()
     return get_next_valid_worldname();
 }
 
-int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
+int worldfactory::show_worldgen_tab_options(WINDOW*, WORLDPTR world)
 {
-    const int iTooltipHeight = 4;
-    const int iContentHeight = FULL_SCREEN_HEIGHT - 5 - iTooltipHeight;
+    get_options().world_options = &world->WORLD_OPTIONS;
+    const std::string action = get_options().show( false, true );
+    if (action == "PREV_TAB") {
+        return -1;
 
-    const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
-    const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
+    } else if (action == "NEXT_TAB") {
+        return 1;
 
-    WINDOW *w_options = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iTooltipHeight + 4 + iOffsetY,
-                               1 + iOffsetX);
-    WINDOW_PTR w_optionsptr( w_options );
-
-    WINDOW *w_options_tooltip = newwin(iTooltipHeight - 2, FULL_SCREEN_WIDTH - 2, 3 + iOffsetY,
-                                       1 + iOffsetX);
-    WINDOW_PTR w_options_tooltipptr( w_options_tooltip );
-
-    WINDOW *w_options_header = newwin(1, FULL_SCREEN_WIDTH - 2, iTooltipHeight + 3 + iOffsetY,
-                                      1 + iOffsetX);
-    WINDOW_PTR w_options_headerptr( w_options_header );
-
-    std::ostringstream sTemp;
-    auto pageItems = get_options().getWorldOptPageItems();
-
-    std::map<int, bool> mapLines;
-    mapLines[4] = true;
-    mapLines[60] = true;
-
-    for( auto &mapLine : mapLines ) {
-        mvwputch( win, FULL_SCREEN_HEIGHT - 1, mapLine.first + 1, BORDER_COLOR, LINE_XXOX ); // _|_
+    } else if (action == "QUIT") {
+        return -999;
     }
-
-    for (int i = 0; i < 78; i++) {
-        if (mapLines[i]) {
-            mvwputch(w_options_header, 0, i, BORDER_COLOR, LINE_OXXX);
-        } else {
-            mvwputch(w_options_header, 0, i, BORDER_COLOR, LINE_OXOX); // Draw header line
-        }
-    }
-
-    mvwputch(win, iTooltipHeight + 3,  0, BORDER_COLOR, LINE_XXXO); // |-
-    mvwputch(win, iTooltipHeight + 3, 79, BORDER_COLOR, LINE_XOXX); // -|
-
-    wrefresh(win);
-    wrefresh(w_options_header);
-
-    input_context ctxt("WORLDGEN_OPTION_DIALOG");
-    ctxt.register_cardinal();
-    ctxt.register_action("HELP_KEYBINDINGS");
-    ctxt.register_action("QUIT");
-    ctxt.register_action("NEXT_TAB");
-    ctxt.register_action("PREV_TAB");
-    int iStartPos = 0;
-    int iCurrentLine = 0;
-
-    do {
-        for (int i = 0; i < iContentHeight; i++) {
-            for (int j = 0; j < 79; j++) {
-                if (mapLines[j]) {
-                    mvwputch(w_options, i, j, BORDER_COLOR, LINE_XOXO);
-                } else {
-                    mvwputch(w_options, i, j, c_black, ' ');
-                }
-
-                if (i < iTooltipHeight) {
-                    mvwputch(w_options_tooltip, i, j, c_black, ' ');
-                }
-            }
-        }
-
-        calcStartPos( iStartPos, iCurrentLine, iContentHeight, pageItems.size() );
-
-        //Draw options
-        int iBlankOffset = 0;
-        for ( int i = iStartPos; i < iStartPos + ( ( iContentHeight > ( int )pageItems.size() ) ?
-                ( int )pageItems.size() : iContentHeight ); i++ ) {
-            nc_color cLineColor = c_ltgreen;
-
-            if( world->WORLD_OPTIONS[pageItems[i]].getMenuText() == "" ) {
-                iBlankOffset++;
-                continue;
-            }
-
-            sTemp.str("");
-            sTemp << i + 1 - iBlankOffset;
-            mvwprintz(w_options, i - iStartPos, 1, c_white, sTemp.str().c_str());
-            mvwprintz(w_options, i - iStartPos, 5, c_white, "");
-
-            if (iCurrentLine == i) {
-                wprintz(w_options, c_yellow, ">> ");
-            } else {
-                wprintz(w_options, c_yellow, "   ");
-            }
-            wprintz(w_options, c_white, "%s",
-                    world->WORLD_OPTIONS[pageItems[i]].getMenuText().c_str() );
-
-            if( world->WORLD_OPTIONS[pageItems[i]].getValue() == "false" ) {
-                cLineColor = c_ltred;
-            }
-
-            mvwprintz(w_options, i - iStartPos, 62, (iCurrentLine == i) ? hilite(cLineColor) :
-                      cLineColor, "%s", world->WORLD_OPTIONS[pageItems[i]].getValueName().c_str() );
-        }
-
-        draw_scrollbar(win, iCurrentLine, iContentHeight,
-                       pageItems.size(), iTooltipHeight + 4, 0, BORDER_COLOR );
-        wrefresh(win);
-
-        fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s #%s",
-                       world->WORLD_OPTIONS[pageItems[iCurrentLine]].getTooltip().c_str(),
-                       world->WORLD_OPTIONS[pageItems[iCurrentLine]].getDefaultText().c_str() );
-
-        wrefresh(w_options_tooltip);
-        wrefresh(w_options);
-        refresh();
-
-        const std::string action = ctxt.handle_input();
-        if (action == "DOWN") {
-            do {
-                iCurrentLine++;
-                if( iCurrentLine >= ( int )pageItems.size() ) {
-                    iCurrentLine = 0;
-                }
-            } while( world->WORLD_OPTIONS[pageItems[iCurrentLine]].getMenuText() == "" );
-
-        } else if (action == "UP") {
-            do {
-                iCurrentLine--;
-                if (iCurrentLine < 0) {
-                    iCurrentLine = pageItems.size() - 1;
-                }
-            } while( world->WORLD_OPTIONS[pageItems[iCurrentLine]].getMenuText() == "" );
-
-        } else if( !pageItems.empty() && action == "RIGHT" ) {
-            world->WORLD_OPTIONS[pageItems[iCurrentLine]].setNext();
-
-        } else if( !pageItems.empty() && action == "LEFT" ) {
-            world->WORLD_OPTIONS[pageItems[iCurrentLine]].setPrev();
-
-        } else if (action == "PREV_TAB") {
-            return -1;
-
-        } else if (action == "NEXT_TAB") {
-            return 1;
-
-        } else if (action == "QUIT") {
-            return -999;
-        }
-
-    } while (true);
 
     return 0;
 }
@@ -874,7 +734,52 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
     }
 
     wrefresh( w );
-    wrefresh(w_shift);
+    wrefresh( w_shift );
+}
+
+void worldfactory::show_active_world_mods( const std::vector<std::string> &world_mods ) {
+    const int iOffsetX = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+    const int iOffsetY = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+
+    WINDOW *w_border = newwin( 13, FULL_SCREEN_WIDTH / 2 - 3, 4 + iOffsetY, iOffsetX );
+    WINDOW_PTR w_borderptr( w_border );
+
+    WINDOW *w_mods = newwin( 11, FULL_SCREEN_WIDTH / 2 - 4, 5 + iOffsetY, iOffsetX );
+    WINDOW_PTR w_modsptr( w_mods );
+
+    int start = 0;
+    int cursor = 0;
+    const int num_mods = world_mods.size();
+
+    draw_border( w_border, BORDER_COLOR, _( " ACTIVE WORLD MODS " ) );
+    wrefresh( w_border );
+
+    while( true ) {
+        draw_mod_list( w_mods, start, cursor, world_mods, true, _("--NO ACTIVE MODS--"), nullptr );
+        wrefresh( w_mods );
+
+        input_context ctxt( "DEFAULT" );
+        ctxt.register_updown();
+        ctxt.register_action( "QUIT" );
+        ctxt.register_action( "CONFIRM" );
+        const std::string action = ctxt.handle_input();
+
+        if( action == "UP" ) {
+            cursor--;
+            if( cursor < 0 ) {
+                cursor = num_mods - 1;
+            }
+
+        } else if( action == "DOWN" ) {
+            cursor++;
+            if( cursor > num_mods - 1 ) {
+                cursor = 0;
+            }
+
+        } else if( action == "QUIT" || action == "CONFIRM" ) {
+            break;
+        }
+    }
 }
 
 int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
@@ -1384,6 +1289,12 @@ void worldfactory::draw_worldgen_tabs(WINDOW *w, unsigned int current)
             mvwputch(w, i, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXO);
         }
     }
+
+    static const std::vector<std::string> tab_strings = { {
+        translate_marker( "World Mods" ),
+        translate_marker( "World Options" ),
+        translate_marker( "Finalize World" )
+    } };
 
     int x = 2;
     for (size_t i = 0; i < tab_strings.size(); ++i) {

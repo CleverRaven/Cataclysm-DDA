@@ -40,6 +40,7 @@
 #include <array>
 #include <numeric>
 #include <algorithm>
+#include <cassert>
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;
@@ -4750,7 +4751,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
         if( g->u.knows_trap( p ) ) {
             //~ %1$s: name of the vehicle; %2$s: name of the related vehicle part; %3$s: trap name
             add_msg(m_bad, _("The %1$s's %2$s runs over %3$s."), name.c_str(),
-                    parts[ part ].name().c_str(), tr.name.c_str() );
+                    parts[ part ].name().c_str(), tr.name().c_str() );
         } else {
             add_msg(m_bad, _("The %1$s's %2$s runs over something."), name.c_str(),
                     parts[ part ].name().c_str() );
@@ -4937,11 +4938,7 @@ void vehicle::place_spawn_items()
     for( const auto &pt : type->parts ) {
         if( pt.with_ammo ) {
             int turret = part_with_feature_at_relative( pt.pos, "TURRET" );
-            if( turret < 0 ) {
-                debugmsg( "No TURRET at (%d, %d) of %s!", pt.pos.x, pt.pos.y, name.c_str() );
-                continue;
-            }
-            if( x_in_y( pt.with_ammo, 100 ) ) {
+            if( turret >= 0 && x_in_y( pt.with_ammo, 100 ) ) {
                 parts[ turret ].ammo_set( random_entry( pt.ammo_types ), rng( pt.ammo_qty.first, pt.ammo_qty.second ) );
             }
         }

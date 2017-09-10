@@ -17,6 +17,7 @@
 #include "string_id.h"
 #include "line.h"
 #include "item_location.h"
+#include "ret_val.h"
 #include "damage.h"
 #include "debug.h"
 #include "units.h"
@@ -1463,7 +1464,7 @@ public:
          * Checks if mod can be applied to this item considering any current state (jammed, loaded etc.)
          * @param msg message describing reason for any incompatibility
          */
-        bool gunmod_compatible( const item& mod, std::string *msg = nullptr ) const;
+        ret_val<bool> is_gunmod_compatible( const item& mod ) const;
 
         struct gun_mode {
             /* contents of `modes` for GUN type, `mode_modifier` for GUNMOD type,
@@ -1773,25 +1774,6 @@ class map_item_stack
 };
 
 /**
- *  Match an item with a locator.
- *
- *  Commonly used convenience functions that match an item to one of the 3 common types of locators:
- *      1) type_id (just a typedef to a string)
- *      2) position (int)
- *      3) pointer (item *)
- *
- *  The item's position is optional.  The default used if position is not given is expected to fail
- *  the position match in all cases.
- *
- *  @returns true if match is found, otherwise returns false
- */
-/*@{*/
-bool item_matches_locator(const item &it, const itype_id &id, int item_pos = INT_MIN);
-bool item_matches_locator(const item &it, int locator_pos, int item_pos = INT_MIN);
-bool item_matches_locator(const item &it, const item *other, int);
-/*@}*/
-
-/**
  *  Hint value used in a hack to decide text color.
  *
  *  This is assigned as a result of some legacy logic in @ref draw_item_info().  This
@@ -1805,10 +1787,6 @@ enum hint_rating {
     /** Item should display as green */
     HINT_GOOD = -999
 };
-
-std::string wield_hint_provider(const item& it);
-std::string food_hint_provider(const item& it);
-std::string generic_hint_provider(const item& it);
 
 #endif
 

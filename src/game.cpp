@@ -195,7 +195,6 @@ game *g;
 #ifdef TILES
 extern std::unique_ptr<cata_tiles> tilecontext;
 #endif // TILES
-input_context get_default_mode_input_context();
 
 uistatedata uistate;
 
@@ -298,7 +297,6 @@ void game::load_static_data()
     // Therefore they can be loaded here.
     // If this changes (if they load data from json), they have to
     // be moved to game::load_mod or game::load_core_data
-    init_mapgen_builtin_functions();
 
     get_auto_pickup().load_global();
     get_safemode().load_global();
@@ -2188,6 +2186,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("open_autopickup");
     ctxt.register_action("open_safemode");
     ctxt.register_action("open_color");
+    ctxt.register_action("open_world_mods");
     ctxt.register_action("debug");
     ctxt.register_action("debug_scent");
     ctxt.register_action("debug_mode");
@@ -3398,6 +3397,11 @@ bool game::handle_action()
             refresh_all();
             break;
 
+        case ACTION_WORLD_MODS:
+            world_generator->show_active_world_mods( world_generator->active_world->active_mod_order );
+            refresh_all();
+            break;
+
         case ACTION_DEBUG:
             if (MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger()) {
                 break;    //don't do anything when sharing and not debugger
@@ -4173,7 +4177,7 @@ void game::debug()
             break;
 
         case 17: {
-            tripoint coord = look_debug();
+            look_debug();
         }
         break;
 
@@ -7878,7 +7882,7 @@ void game::print_trap_info( const tripoint &lp, WINDOW *w_look, const int column
 {
     const trap &tr = m.tr_at( lp );
     if( tr.can_see( lp, u )) {
-        mvwprintz(w_look, line++, column, tr.color, "%s", tr.name.c_str());
+        mvwprintz(w_look, line++, column, tr.color, "%s", tr.name().c_str());
     }
 }
 
@@ -10270,7 +10274,7 @@ void game::butcher()
             continue;
         }
 
-        if( u.can_disassemble( items[i], crafting_inv ) ) {
+        if( u.can_disassemble( items[i], crafting_inv ).success() ) {
             disassembles.push_back(i);
         } else if( first_item_without_tools == nullptr ) {
             first_item_without_tools = &items[i];
@@ -10294,11 +10298,11 @@ void game::butcher()
         }
 
         if( first_item_without_tools != nullptr ) {
-            std::string err;
             add_msg( m_info, _("You don't have the necessary tools to disassemble any items here.") );
             // Just for the "You need x to disassemble y" messages
-            if( !u.can_disassemble( *first_item_without_tools, crafting_inv, &err ) ) {
-                add_msg( m_info, "%s", err.c_str() );
+            const auto ret = u.can_disassemble( *first_item_without_tools, crafting_inv );
+            if( !ret.success() ) {
+                add_msg( m_info, "%s", ret.c_str() );
             }
         }
         return;
@@ -10834,8 +10838,7 @@ void game::wield( int pos )
         const auto filter = []( const item &it ) {
             return it.made_of( SOLID );
         };
-        loc = inv_map_splice( filter, _( "Wield item" ), 1, _( "You have nothing to wield." ),
-                              wield_hint_provider );
+        loc = inv_map_splice( filter, _( "Wield item" ), 1, _( "You have nothing to wield." ) );
     }
 
     if( !loc ) {
@@ -10889,7 +10892,7 @@ void game::chat()
 
     uimenu nmenu;
     nmenu.text = std::string( _( "Who do you want to talk to or yell at?" ) );
-    
+
     int i = 0;
 
     for( auto &elem : available ) {
@@ -11179,10 +11182,10 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
         // Note: in non-z-level mode, ledges obey different rules and so should be handled as regular traps
         if( tr.loadid == tr_ledge && m.has_zlevels() ) {
             if( !boardable && !m.has_floor_or_support( dest_loc ) ) {
-                harmful_stuff.push_back( tr.name.c_str() );
+                harmful_stuff.push_back( tr.name().c_str() );
             }
         } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() ) {
-            harmful_stuff.push_back( tr.name.c_str() );
+            harmful_stuff.push_back( tr.name().c_str() );
         }
 
         static const std::set< body_part > sharp_bps = {
@@ -12823,11 +12826,11 @@ void game::vertical_notes( int z_before, int z_after )
             if( z_after > z_before && ter->has_flag(known_up) &&
                 !ter2->has_flag(known_down) ) {
                 overmap_buffer.set_seen(cursx, cursy, z_after, true);
-                overmap_buffer.add_note(cursx, cursy, z_after, _(">:W;AUTO: goes down"));
+                overmap_buffer.add_note(cursx, cursy, z_after, string_format(">:W;%s", _("AUTO: goes down")));
             } else if ( z_after < z_before && ter->has_flag(known_down) &&
                 !ter2->has_flag(known_up) ) {
                 overmap_buffer.set_seen(cursx, cursy, z_after, true);
-                overmap_buffer.add_note(cursx, cursy, z_after, _("<:W;AUTO: goes up"));
+                overmap_buffer.add_note(cursx, cursy, z_after, string_format("<:W;%s", _("AUTO: goes up")));
             }
         }
     }
@@ -13811,6 +13814,10 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
             break;
 
         case AEP_CLAIRVOYANCE:
+            add_msg(m_good, _("You can see through walls!"));
+            break;
+
+        case AEP_CLAIRVOYANCE_PLUS:
             add_msg(m_good, _("You can see through walls!"));
             break;
 

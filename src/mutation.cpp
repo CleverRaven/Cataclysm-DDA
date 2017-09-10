@@ -498,17 +498,10 @@ void player::activate_mutation( const trait_id &mut )
         print_health();
         tdata.powered = false;
         return;
-    } else if( !mdata.spawn_item.empty() )
-    {
+    } else if( !mdata.spawn_item.empty() ) {
         item tmpitem( mdata.spawn_item );
         i_add_or_drop( tmpitem );
-        if( mut == "WEB_ROPE" ) {
-            add_msg_if_player( _( "You spin a rope from your silk." ) );
-        } else if( mut == "VINES3" ) {
-            add_msg_if_player( _( "You detach a vine from your body." ) );
-        } else {
-            add_msg_if_player( _( "You create a %s." ), tmpitem.display_name().c_str() );
-        }
+        add_msg_if_player( _( mdata.spawn_item_message.c_str() ) );
         tdata.powered = false;
         return;
     }

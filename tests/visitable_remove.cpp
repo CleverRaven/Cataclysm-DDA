@@ -402,7 +402,7 @@ TEST_CASE( "visitable_remove", "[visitable]" ) {
         REQUIRE( part >= 0 );
         part = v->part_with_feature( part, "CARGO" );
         REQUIRE( part >= 0 );
-	// Empty the vehicle of any cargo.
+        // Empty the vehicle of any cargo.
         while( !v->get_items( part ).empty() ) {
             v->remove_item( part, 0 );
         }

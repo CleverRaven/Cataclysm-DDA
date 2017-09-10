@@ -92,7 +92,7 @@ void trap::load_trap( JsonObject &jo, const std::string &src )
 void trap::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
-    mandatory( jo, was_loaded, "name", name, translated_string_reader );
+    mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "color", color, color_reader{} );
     mandatory( jo, was_loaded, "symbol", sym, one_char_symbol_reader );
     mandatory( jo, was_loaded, "visibility", visibility );
@@ -105,6 +105,12 @@ void trap::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "funnel_radius", funnel_radius_mm, 0 );
     assign( jo, "trigger_weight", trigger_weight );
     optional( jo, was_loaded, "drops", components );
+}
+
+std::string trap::name() const
+{
+    // trap names can be empty, those are special always invisible traps. See player::search_surroundings
+    return name_.empty() ? name_ : _( name_.c_str() );
 }
 
 void trap::reset()
