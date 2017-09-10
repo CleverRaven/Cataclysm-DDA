@@ -112,7 +112,6 @@ void mapgen_office_tower_1_entrance(map *m, oter_id terrain_type, mapgendata dat
 void mapgen_office_tower_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_office_tower_b_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_office_tower_b(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_sub_station(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_police(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_bank(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_pawn(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);

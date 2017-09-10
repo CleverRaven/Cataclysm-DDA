@@ -150,7 +150,7 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
     */
     { "basement_spiders", &mapgen_basement_spiders },
     { "office_doctor", &mapgen_office_doctor },
-    { "sub_station", &mapgen_sub_station },
+//    { "sub_station", &mapgen_sub_station },
 //  { "s_garage", &mapgen_s_garage },
 //    { "farm", &mapgen_farm },
 //    { "farm_field", &mapgen_farm_field },
@@ -3328,52 +3328,6 @@ void mapgen_office_tower_b(map *m, oter_id terrain_type, mapgendata dat, int tur
 /*
 
 */
-}
-
-
-void mapgen_sub_station(map *m, oter_id terrain_type, mapgendata dat, int, float)
-{
-    (void)dat;
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if (j < 9 || j > 12 || i < 4 || i > 19) {
-                    m->ter_set(i, j, t_pavement);
-                } else if (j < 12 && j > 8 && (i == 4 || i == 19)) {
-                    m->ter_set(i, j, t_wall);
-                } else if (i > 3 && i < 20 && j == 12) {
-                    m->ter_set(i, j, t_wall);
-                } else {
-                    m->ter_set(i, j, t_floor);
-                }
-            }
-        }
-        //vending
-        bool drinks = rng(0,1);
-        std::string type;
-        std::string type2;
-        if (drinks) {
-            type = "vending_drink";
-            type2 = "vending_food";
-        } else {
-            type2 = "vending_drink";
-            type = "vending_food";
-        }
-        int vset = rng(0,17);
-        if (vset < 3) m->place_vending(5, vset+9, type);
-        else if (vset < 15) m->place_vending(5 + (vset - 3), 11, type);
-        else m->place_vending(18, 11 - (vset - 15), type);
-        if(one_in(3))
-        {
-            int vset2 = rng(0,16);
-            if(vset2 >= vset) vset2++;
-            if (vset2 < 3) m->place_vending(5, vset2+9, type2);
-            else if (vset2 < 15) m->place_vending(5 + (vset2 - 3), 11, type2);
-            else m->place_vending(18, 11 - (vset2 - 15), type2);
-        }
-        //
-        m->ter_set(16, 10, t_stairs_down);
-        autorotate(false);
-
 }
 
 
