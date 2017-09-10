@@ -67,6 +67,20 @@ void map::build_transparency_cache( const int zlev )
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             auto const cur_submap = get_submap_at_grid( smx, smy, zlev );
+            // Uniform maps get their own special case
+            // They are almost 20 times as common as non-uniform ones
+            if( cur_submap->is_uniform ) {
+                if( !( cur_submap->ter[0][0].obj().transparent &&
+                       cur_submap->frn[0][0].obj().transparent ) ) {
+                    for( int sx = 0; sx < SEEX; ++sx ) {
+                        const int x = sx + smx * SEEX;
+                        std::uninitialized_fill_n( &transparency_cache[x][0], MAPSIZE * SEEY,
+                                                   LIGHT_TRANSPARENCY_SOLID );
+                    }
+                }
+
+                continue;
+            }
 
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
