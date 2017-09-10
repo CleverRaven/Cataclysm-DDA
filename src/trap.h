@@ -68,13 +68,13 @@ struct trap {
 
         long sym;
         nc_color color;
-        std::string name;
     private:
         int visibility; // 1 to ??, affects detection
         int avoidance;  // 0 to ??, affects avoidance
         int difficulty; // 0 to ??, difficulty of assembly & disassembly
         bool benign = false;
         trap_function act;
+        std::string name_;
         /**
          * If an item with this weight or more is thrown onto the trap, it triggers.
          */
@@ -82,6 +82,7 @@ struct trap {
         int funnel_radius_mm;
         std::vector<itype_id> components; // For disassembly?
     public:
+        std::string name() const;
         /**
          * How easy it is to spot the trap. Smaller values means it's easier to spot.
          */

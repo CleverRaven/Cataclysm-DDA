@@ -3574,7 +3574,7 @@ void player::search_surroundings()
             if( !sees( x, y ) ) {
                 continue;
             }
-            if( tr.name.empty() || tr.can_see( tripoint( x, y, z ), *this ) ) {
+            if( tr.name().empty() || tr.can_see( tripoint( x, y, z ), *this ) ) {
                 // Already seen, or has no name -> can never be seen
                 continue;
             }
@@ -3585,7 +3585,7 @@ void player::search_surroundings()
                     const std::string direction = direction_name(
                         direction_from(posx(), posy(), x, y));
                     add_msg_if_player(_("You've spotted a %1$s to the %2$s!"),
-                                      tr.name.c_str(), direction.c_str());
+                                      tr.name().c_str(), direction.c_str());
                 }
                 add_known_trap( tripoint( x, y, z ), tr);
             }
@@ -8627,7 +8627,7 @@ hint_rating player::rate_action_mend( const item &it ) const
 
 hint_rating player::rate_action_disassemble( const item &it )
 {
-    if( can_disassemble( it, crafting_inventory() ) ) {
+    if( can_disassemble( it, crafting_inventory() ).success() ) {
         return HINT_GOOD; // possible
 
     } else if( recipe_dictionary::get_uncraft( it.typeId() ) ) {
@@ -8928,7 +8928,7 @@ std::pair<int, int> player::gunmod_installation_odds( const item& gun, const ite
 
 void player::gunmod_add( item &gun, item &mod )
 {
-    if( !gun.gunmod_compatible( mod ) ) {
+    if( !gun.is_gunmod_compatible( mod ).success() ) {
         debugmsg( "Tried to add incompatible gunmod" );
         return;
     }

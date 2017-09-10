@@ -69,15 +69,6 @@ size_t inventory::size() const
     return items.size();
 }
 
-int inventory::num_items() const
-{
-    int ret = 0;
-    for( const auto &elem : items ) {
-        ret += elem.size();
-    }
-    return ret;
-}
-
 bool inventory::is_sorted() const
 {
     return sorted;
@@ -86,7 +77,7 @@ bool inventory::is_sorted() const
 inventory &inventory::operator+= (const inventory &rhs)
 {
     for (size_t i = 0; i < rhs.size(); i++) {
-        add_stack(rhs.const_stack(i));
+        push_back( rhs.const_stack( i ) );
     }
     return *this;
 }
@@ -151,29 +142,11 @@ void inventory::clear()
     binned = false;
 }
 
-void inventory::add_stack(const std::list<item> newits)
+void inventory::push_back( const std::list<item> newits )
 {
     for( const auto &newit : newits ) {
         add_item( newit, true );
     }
-}
-
-/*
- *  Bypass troublesome add_item for situations where we want an -exact- copy.
- */
-void inventory::clone_stack (const std::list<item> &rhs)
-{
-    std::list<item> newstack;
-    for( const auto &rh : rhs ) {
-        newstack.push_back( rh );
-    }
-    items.push_back(newstack);
-    binned = false;
-}
-
-void inventory::push_back(std::list<item> newits)
-{
-    add_stack(newits);
 }
 
 // This function keeps the invlet cache updated when a new item is added.
@@ -511,13 +484,12 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
     }
 }
 
-template<typename Locator>
-std::list<item> inventory::reduce_stack_internal(const Locator &locator, int quantity)
+std::list<item> inventory::reduce_stack( const int position, const int quantity )
 {
     int pos = 0;
     std::list<item> ret;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
-        if (item_matches_locator(iter->front(), locator, pos)) {
+        if( position == pos ) {
             binned = false;
             if(quantity >= (int)iter->size() || quantity < 0) {
                 ret = *iter;
@@ -534,17 +506,6 @@ std::list<item> inventory::reduce_stack_internal(const Locator &locator, int qua
     return ret;
 }
 
-// Instantiate for each type of Locator.
-std::list<item> inventory::reduce_stack(int position, int quantity)
-{
-    return reduce_stack_internal(position, quantity);
-}
-
-std::list<item> inventory::reduce_stack(const itype_id &type, int quantity)
-{
-    return reduce_stack_internal(type, quantity);
-}
-
 item inventory::remove_item(const item *it)
 {
     auto tmp = remove_items_with( [&it](const item& i) { return &i == it; }, 1 );
@@ -556,12 +517,11 @@ item inventory::remove_item(const item *it)
     return nullitem;
 }
 
-template<typename Locator>
-item inventory::remove_item_internal(const Locator &locator)
+item inventory::remove_item( const int position )
 {
     int pos = 0;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter) {
-        if (item_matches_locator(iter->front(), locator, pos)) {
+        if( position == pos ) {
             binned = false;
             if (iter->size() > 1) {
                 std::list<item>::iterator stack_member = iter->begin();
@@ -580,12 +540,6 @@ item inventory::remove_item_internal(const Locator &locator)
     }
 
     return nullitem;
-}
-
-// Instantiate for each type of Locator.
-item inventory::remove_item(int position)
-{
-    return remove_item_internal(position);
 }
 
 std::list<item> inventory::remove_randomly_by_volume( const units::volume &volume )
@@ -672,16 +626,6 @@ int inventory::position_by_item( const item *it ) const
     return INT_MIN;
 }
 
-item &inventory::item_by_type(itype_id type)
-{
-    for( auto &elem : items ) {
-        if( elem.front().typeId() == type ) {
-            return elem.front();
-        }
-    }
-    return nullitem;
-}
-
 int inventory::position_by_type(itype_id type)
 {
     int i = 0;
@@ -692,22 +636,6 @@ int inventory::position_by_type(itype_id type)
         ++i;
     }
     return INT_MIN;
-}
-item &inventory::item_or_container(itype_id type)
-{
-    for( auto &elem : items ) {
-        for( auto &elem_stack_iter : elem ) {
-            if( elem_stack_iter.typeId() == type ) {
-                return elem_stack_iter;
-            } else if( elem_stack_iter.is_container() && !elem_stack_iter.contents.empty() ) {
-                if( elem_stack_iter.contents.front().typeId() == type ) {
-                    return elem_stack_iter;
-                }
-            }
-        }
-    }
-
-    return nullitem;
 }
 
 std::vector<std::pair<item *, int> > inventory::all_items_by_type(itype_id type)

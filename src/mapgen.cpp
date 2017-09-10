@@ -28,6 +28,8 @@
 #include "itype.h"
 #include "item_factory.h"
 #include "computer.h"
+#include "optional.h"
+#include "map_iterator.h"
 
 #include <algorithm>
 #include <cassert>
@@ -183,16 +185,8 @@ void map::generate(const int x, const int y, const int z, const int turn)
             if( !spawn_details.name ) {
                 continue;
             }
-            int tries = 10;
-            int monx = 0;
-            int mony = 0;
-            do {
-                monx = rng( 0, SEEX * 2 - 1 );
-                mony = rng( 0, SEEY * 2 - 1 );
-                tries--;
-            } while( impassable( monx, mony ) && tries > 0 );
-            if( tries > 0 ) {
-                add_spawn( spawn_details.name, spawn_details.pack_size, monx, mony );
+            if( const auto p = random_point( *this, [this]( const tripoint &p ) { return passable( p ); } ) ) {
+                add_spawn( spawn_details.name, spawn_details.pack_size, p->x, p->y );
             }
         }
     }
@@ -2832,28 +2826,20 @@ ___DEEE|.R.|...,,...|sss\n",
                 if (lw == 2) {
                     rotate(1);
                 }
+                const auto predicate = [this]( const tripoint &p ) { return ter( p ) == t_rock_floor || has_furn( p ); };
+                const auto range = points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } );
                 if (t_above == "lab_stairs" || t_above == "ice_lab_stairs") {
-                    int sx, sy;
-                    int attempts = 100;
-                    do {
-                        sx = rng(lw, SEEX * 2 - 1 - rw);
-                        sy = rng(tw, SEEY * 2 - 1 - bw);
-                        attempts--;
-                    } while ( ( ter( sx, sy ) != t_rock_floor ) && attempts && !g->m.has_furn( sx,sy ) );
-                    mremove_trap( this, sx, sy );
-                    ter_set(sx, sy, t_stairs_up);
+                    if( const auto p = random_point( range, predicate ) ) {
+                        remove_trap( *p );
+                        ter_set( *p, t_stairs_up );
+                    }
                 }
 
                 if (terrain_type == "lab_stairs" || terrain_type == "ice_lab_stairs") {
-                    int sx, sy;
-                    int attempts = 100;
-                    do {
-                        sx = rng(lw, SEEX * 2 - 1 - rw);
-                        sy = rng(tw, SEEY * 2 - 1 - bw);
-                        attempts--;
-                    } while ( ( ter( sx, sy ) != t_rock_floor ) && attempts && !g->m.has_furn( sx,sy ) );
-                    mremove_trap( this, sx, sy );
-                    ter_set(sx, sy, t_stairs_down);
+                    if( const auto p = random_point( range, predicate ) ) {
+                        remove_trap( *p );
+                        ter_set( *p, t_stairs_down );
+                    }
                 }
             } else switch (rng(1, 4)) { // Pick a random lab layout
                 case 1: // Cross shaped
@@ -3022,12 +3008,9 @@ ___DEEE|.R.|...,,...|sss\n",
                     science_room(this, lw, tw, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
                                  zlevel, rng(0, 3));
                     if (t_above == "lab_stairs" || t_above == "ice_lab_stairs") {
-                        int sx, sy;
-                        do {
-                            sx = rng(lw, SEEX * 2 - 1 - rw);
-                            sy = rng(tw, SEEY * 2 - 1 - bw);
-                        } while (ter(sx, sy) != t_rock_floor);
-                        ter_set(sx, sy, t_stairs_up);
+                        if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &p ) { return ter( p ) == t_rock_floor; } ) ) {
+                            ter_set( *p, t_stairs_up );
+                        }
                     }
                     if (rw == 1) {
                         ter_set(SEEX * 2 - 1, SEEY - 1, t_door_metal_c);
@@ -3038,12 +3021,9 @@ ___DEEE|.R.|...,,...|sss\n",
                         ter_set(SEEX    , SEEY * 2 - 1, t_door_metal_c);
                     }
                     if (terrain_type == "lab_stairs" || terrain_type == "ice_lab_stairs") {
-                        int sx, sy;
-                        do {
-                            sx = rng(lw, SEEX * 2 - 1 - rw);
-                            sy = rng(tw, SEEY * 2 - 1 - bw);
-                        } while (ter(sx, sy) != t_rock_floor);
-                        ter_set(sx, sy, t_stairs_down);
+                        if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &p ) { return ter( p ) == t_rock_floor; } ) ) {
+                            ter_set( *p, t_stairs_down );
+                        }
                     }
                     break;
 
@@ -3311,20 +3291,14 @@ ff.......|....|WWWWWWWW|\n\
                         }
                     }
                     if (t_above == "lab_stairs" || t_above == "ice_lab_stairs") {
-                        int sx, sy;
-                        do {
-                            sx = rng(lw, SEEX * 2 - 1 - rw);
-                            sy = rng(tw, SEEY * 2 - 1 - bw);
-                        } while (ter(sx, sy) != t_rock_floor);
-                        ter_set(sx, sy, t_stairs_up);
+                        if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &p ) { return ter( p ) == t_rock_floor; } ) ) {
+                            ter_set( *p, t_stairs_up );
+                        }
                     }
                     if (terrain_type == "lab_stairs" || terrain_type == "ice_lab_stairs") {
-                        int sx, sy;
-                        do {
-                            sx = rng(lw, SEEX * 2 - 1 - rw);
-                            sy = rng(tw, SEEY * 2 - 1 - bw);
-                        } while (ter(sx, sy) != t_rock_floor);
-                        ter_set(sx, sy, t_stairs_down);
+                        if( const auto p = random_point( points_in_rectangle( { lw, tw, abs_sub.z }, { SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw, abs_sub.z } ), [this]( const tripoint &p ) { return ter( p ) == t_rock_floor; } ) ) {
+                            ter_set( *p, t_stairs_down );
+                        }
                     }
                     break;
 
@@ -3736,18 +3710,8 @@ ff.......|....|WWWWWWWW|\n\
 
         // Place searchlights
         if (one_in(3)) {
-
-            bool generator_ok = false;
-            for (int i = 0; i < 20; i++){
-                int rnx = rng(3, 20), rny = rng(3, 20);
-                 if (passable(rnx, rny)) {
-                    generator_ok = true;
-                    ter_set(rnx, rny, t_plut_generator);
-                    break;
-                 }
-            }
-
-            if (generator_ok){
+            if( const auto p = random_point( points_in_rectangle( { 3, 3, abs_sub.z }, { 20, 20, abs_sub.z } ), [this]( const tripoint &p ) { return passable( p ); } ) ) {
+                ter_set( *p, t_plut_generator );
                 add_spawn(mon_turret_searchlight, 1, 1, 1);
                 add_spawn(mon_turret_searchlight, 1, SEEX * 2 - 2, 1);
                 add_spawn(mon_turret_searchlight, 1, 1, SEEY * 2 - 2);
@@ -3757,25 +3721,24 @@ ff.......|....|WWWWWWWW|\n\
 
         // Finally, scatter dead bodies / mil zombies
         for (int i = 0; i < 20; i++) {
-            int rnx = rng(3, 20), rny = rng(3, 20);
-            if (passable(rnx, rny)) {
+            if( const auto p = random_point( points_in_rectangle( { 3, 3, abs_sub.z }, { 20, 20, abs_sub.z } ), [this]( const tripoint &p ) { return passable( p ); } ) ) {
                 if (one_in(5)) { // Military zombie
-                    add_spawn(mon_zombie_soldier, 1, rnx, rny);
+                    add_spawn( mon_zombie_soldier, 1, p->x, p->y );
                 } else if (one_in(2)) {
-                    add_item( rnx, rny, item::make_corpse( mon_zombie_soldier ) );
+                    add_item( *p, item::make_corpse( mon_zombie_soldier ) );
                     if( one_in( 3 ) ) {
-                        place_items( "mon_zombie_soldier_death_drops", 100, rnx, rny, rnx, rny, true, 0, 100 );
+                        place_items( "mon_zombie_soldier_death_drops", 100, *p, *p, true, 0, 100 );
                     }
                 } else if (one_in(4)) { // Bionic Op zombie!
-                    add_spawn(mon_zombie_bio_op, 1, rnx, rny);
+                    add_spawn( mon_zombie_bio_op, 1, p->x, p->y );
                 } else if (one_in(4)) {
                     if (one_in(10)) {
-                        add_spawn(mon_zombie_grenadier_elite, 1, rnx, rny);
+                        add_spawn( mon_zombie_grenadier_elite, 1, p->x, p->y );
                     } else {
-                        add_spawn(mon_zombie_grenadier, 1, rnx, rny);
+                        add_spawn( mon_zombie_grenadier, 1, p->x, p->y );
                     }
                 } else if (one_in(20)) {
-                    rough_circle_furn(this, f_rubble, rnx, rny, rng(3, 6));
+                    rough_circle_furn( this, f_rubble, p->x, p->y, rng( 3, 6 ) );
                 }
             }
         }
@@ -4516,20 +4479,9 @@ ff.......|....|WWWWWWWW|\n\
             case 4: { // Dead miners
                 int num_bodies = rng(4, 8);
                 for (int i = 0; i < num_bodies; i++) {
-                    int tries = 0;
-                    point body;
-                    do {
-                        body = point(-1, -1);
-                        int x = rng(0, SEEX * 2 - 1), y = rng(0, SEEY * 2 - 1);
-                        if (move_cost(x, y) == 2) {
-                            body = point(x, y);
-                        } else {
-                            tries++;
-                        }
-                    } while (body.x == -1 && tries < 10);
-                    if (tries < 10) {
-                        add_item( body.x, body.y, item::make_corpse() );
-                        place_items("mine_equipment", 60, body.x, body.y, body.x, body.y,
+                    if( const auto body = random_point( *this, [this]( const tripoint &p ) { return move_cost( p ) == 2; } ) ) {
+                        add_item( *body, item::make_corpse() );
+                        place_items( "mine_equipment", 60, *body, *body,
                                     false, 0);
                     }
                 }
@@ -6964,11 +6916,8 @@ $$$$-|-|=HH-|-HHHH-|####\n",
             place_items("snacks",    80, x + 3, 4, x + 3, 14, false, 0);
             place_items("magazines", 70, x + 3, 4, x + 3, 14, false, 0);
         }
-        for (int i = 0; i < 10; i++) {
-            int x = rng(0, SEEX * 2 - 1), y = rng(0, SEEY * 2 - 1);
-            if (ter(x, y) == t_floor) {
-                add_spawn(mon_zombie, 1, x, y);
-            }
+        if( const auto p = random_point( *this, [this]( const tripoint &p ) { return ter( p ) == t_floor; } ) ) {
+            add_spawn( mon_zombie, 1, p->x, p->y );
         }
         // Finally, figure out where the road is; construct our entrance facing that.
         std::vector<direction> faces_road;
@@ -8443,14 +8392,9 @@ $$$$-|-|=HH-|-HHHH-|####\n",
         }
     } else if (is_ot_type("ants", terrain_type)) {
         if (t_above == "anthill") {
-            bool done = false;
-            do {
-                int x = rng(0, SEEX * 2 - 1), y = rng(0, SEEY * 2 - 1);
-                if (ter(x, y) == t_rock_floor) {
-                    done = true;
-                    ter_set(x, y, t_slope_up);
-                }
-            } while (!done);
+            if( const auto p = random_point( *this, [this]( const tripoint &p ) { return ter( p ) == t_rock_floor; } ) ) {
+                ter_set( *p, t_slope_up );
+            }
         }
     }
 
@@ -8578,6 +8522,14 @@ int map::place_npc( int x, int y, const string_id<npc_template> &type )
     temp->load_npc_template(type);
     temp->spawn_at_precise( { abs_sub.x, abs_sub.y }, { x, y, abs_sub.z } );
     return temp->getID();
+}
+
+std::vector<item*> map::place_items( const items_location loc, const int chance, const tripoint &f,
+                                     const tripoint &t, const bool ongrass, const int turn,
+                                     const int magazine, const int ammo )
+{
+    //@todo implement for 3D
+    return place_items( loc, chance, f.x, f.y, t.x, t.y, ongrass, turn, magazine, ammo );
 }
 
 // A chance of 100 indicates that items should always spawn,
@@ -10460,24 +10412,17 @@ void mx_military(map &m, const tripoint &)
 {
     int num_bodies = dice(2, 6);
     for (int i = 0; i < num_bodies; i++) {
-        int x, y, tries = 0;;
-        do { // Loop until we find a valid spot to dump a body, or we give up
-            x = rng(0, SEEX * 2 - 1);
-            y = rng(0, SEEY * 2 - 1);
-            tries++;
-        } while (tries < 10 && m.impassable(x, y));
-
-        if (tries < 10) { // We found a valid spot!
+        if( const auto p = random_point( m, [&m]( const tripoint &p ) { return m.passable( p ); } ) ) {
             if (one_in(10)) {
-                m.add_spawn(mon_zombie_soldier, 1, x, y);
+                m.add_spawn( mon_zombie_soldier, 1, p->x, p->y );
             } else if (one_in(25)) {
                 if (one_in(2)) {
-                    m.add_spawn(mon_zombie_bio_op, 1, x, y);
+                    m.add_spawn( mon_zombie_bio_op, 1, p->x, p->y );
                 } else {
-                    m.add_spawn(mon_zombie_grenadier, 1, x, y);
+                    m.add_spawn( mon_zombie_grenadier, 1, p->x, p->y );
                 }
             } else {
-                m.place_items("map_extra_military", 100, x, y, x, y, true, 0);
+                m.place_items( "map_extra_military", 100, *p, *p, true, 0 );
             }
         }
 
@@ -10500,18 +10445,11 @@ void mx_science(map &m, const tripoint &)
 {
     int num_bodies = dice(2, 5);
     for (int i = 0; i < num_bodies; i++) {
-        int x, y, tries = 0;
-        do { // Loop until we find a valid spot to dump a body, or we give up
-            x = rng(0, SEEX * 2 - 1);
-            y = rng(0, SEEY * 2 - 1);
-            tries++;
-        } while (tries < 10 && m.impassable(x, y));
-
-        if (tries < 10) { // We found a valid spot!
+        if( const auto p = random_point( m, [&m]( const tripoint &p ) { return m.passable( p ); } ) ) {
             if (one_in(10)) {
-                m.add_spawn(mon_zombie_scientist, 1, x, y);
+                m.add_spawn( mon_zombie_scientist, 1, p->x, p->y );
             } else {
-                m.place_items("map_extra_science", 100, x, y, x, y, true, 0);
+                m.place_items( "map_extra_science", 100, *p, *p, true, 0 );
             }
         }
     }
@@ -10533,26 +10471,19 @@ void mx_collegekids(map &m, const tripoint &)
     int type = dice(1,10);
 
     for (int i = 0; i < num_bodies; i++) {
-        int x, y, tries = 0;
-        do { // Loop until we find a valid spot to dump a body, or we give up
-            x = rng(0, SEEX * 2 - 1);
-            y = rng(0, SEEY * 2 - 1);
-            tries++;
-        } while (tries < 10 && m.impassable(x, y));
-
-        if (tries < 10) { // We found a valid spot!
+        if( const auto p = random_point( m, [&m]( const tripoint &p ) { return m.passable( p ); } ) ) {
             if (one_in(10)) {
-                m.add_spawn(mon_zombie_tough, 1, x, y);
+                m.add_spawn( mon_zombie_tough, 1, p->x, p->y );
             }
             else {
                 if(type < 6) { // kids going to a cabin in the woods
-                    m.place_items("map_extra_college_camping", 100, x, y, x, y, true, 0);
+                    m.place_items( "map_extra_college_camping", 100, *p, *p, true, 0 );
                 }
                 else if (type < 9) { // kids going to a sporting event
-                    m.place_items("map_extra_college_sports", 100, x, y, x, y, true, 0);
+                    m.place_items( "map_extra_college_sports", 100, *p, *p, true, 0 );
                 }
                 else { // kids going to a lake
-                    m.place_items("map_extra_college_lake", 100, x, y, x, y, true, 0);
+                    m.place_items( "map_extra_college_lake", 100, *p, *p, true, 0 );
                 }
             }
         }
@@ -10604,19 +10535,12 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
 
         int num_bodies = dice(2, 5);
         for (int i = 0; i < num_bodies; i++) {
-            int x, y, tries = 0;;
-            do { // Loop until we find a valid spot to dump a body, or we give up
-                x = rng(0, SEEX * 2 - 1);
-                y = rng(0, SEEY * 2 - 1);
-                tries++;
-            } while (tries < 10 && m.impassable(x, y));
-
-            if (tries < 10) { // We found a valid spot!
-                m.place_items("map_extra_military", 100, x, y, x, y, true, 0);
+            if( const auto p = random_point( m, [&m]( const tripoint &p ) { return m.passable( p ); } ) ) {
+                m.place_items( "map_extra_military", 100, *p, *p, true, 0 );
 
                 int splatter_range = rng(1, 3);
                 for (int j = 0; j <= splatter_range; j++) {
-                    m.add_field( {x - (j * 1), y + (j * 1), abs_sub.z}, fd_blood, 1, 0);
+                    m.add_field( {p->x - ( j * 1 ), p->y + ( j * 1 ), p->z}, fd_blood, 1, 0 );
                 }
             }
         }
@@ -10632,19 +10556,12 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
 
         int num_bodies = dice(1, 6);
         for (int i = 0; i < num_bodies; i++) {
-            int x, y, tries = 0;;
-            do { // Loop until we find a valid spot to dump a body, or we give up
-                x = rng(0, SEEX * 2 - 1);
-                y = rng(0, SEEY * 2 - 1);
-                tries++;
-            } while (tries < 10 && m.impassable(x, y));
-
-            if (tries < 10) { // We found a valid spot!
-                m.place_items("map_extra_police", 100, x, y, x, y, true, 0);
+            if( const auto p = random_point( m, [&m]( const tripoint &p ) { return m.passable( p ); } ) ) {
+                m.place_items( "map_extra_police", 100, *p, *p, true, 0 );
 
                 int splatter_range = rng(1, 3);
                 for (int j = 0; j <= splatter_range; j++) {
-                    m.add_field( {x +(j * 1), y - (j * 1), abs_sub.z}, fd_blood, 1, 0);
+                    m.add_field( {p->x +( j * 1 ), p->y - ( j * 1 ), p->z}, fd_blood, 1, 0 );
                 }
             }
         }
@@ -10775,17 +10692,15 @@ void mx_drugdeal(map &m, const tripoint &abs_sub)
     }
 }
 
-void mx_supplydrop(map &m, const tripoint &abs_sub)
+void mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
 {
     int num_crates = rng(1, 5);
     for (int i = 0; i < num_crates; i++) {
-        int x, y, tries = 0;
-        do { // Loop until we find a valid spot to dump a body, or we give up
-            x = rng(0, SEEX * 2 - 1);
-            y = rng(0, SEEY * 2 - 1);
-            tries++;
-        } while (tries < 10 && m.impassable(x, y));
-        m.furn_set(x, y, f_crate_c);
+        const auto p = random_point( m, [&m]( const tripoint &p ) { return m.passable( p ); } );
+        if( !p ) {
+            break;
+        }
+        m.furn_set( p->x, p->y, f_crate_c );
         std::string item_group;
         switch (rng(1, 10)) {
         case 1:
@@ -10809,10 +10724,10 @@ void mx_supplydrop(map &m, const tripoint &abs_sub)
         }
         int items_created = 0;
         for(int i = 0; i < 10 && items_created < 2; i++) {
-            items_created += m.place_items( item_group, 80, x, y, x, y, true, 0, 100 ).size();
+            items_created += m.place_items( item_group, 80, *p, *p, true, 0, 100 ).size();
         }
-        if (m.i_at(x, y).empty()) {
-            m.destroy( tripoint( x,  y, abs_sub.z ), true );
+        if ( m.i_at( *p ).empty() ) {
+            m.destroy( *p, true );
         }
     }
 }
