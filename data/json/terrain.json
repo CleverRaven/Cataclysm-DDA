@@ -3384,8 +3384,9 @@
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "examine_action": "tree_hickory",
-        "harvest_season": "AUTUMN",
-        "harvestable": "hickory_nut",
+        "harvest_by_season" : [
+            { "seasons": [ "autumn" ], "entries": [ { "drop": "hickory_nut", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
+        ],
         "transforms_into": "t_tree_hickory_harvested",
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -3406,8 +3407,6 @@
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
         "examine_action": "tree_hickory",
-        "harvest_season": "AUTUMN",
-        "harvestable": "hickory_nut",
         "transforms_into": "t_tree_hickory",
         "bash": {
             "str_min": 80, "str_max": 180,
