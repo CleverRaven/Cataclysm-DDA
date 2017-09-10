@@ -915,10 +915,10 @@ void game::create_factions()
 {
     faction tmp;
     std::vector<std::string> faction_vector = tmp.all_json_factions();
-    for(auto it = faction_vector.rbegin(); it != faction_vector.rend(); ++it) {
-        tmp = faction(it[0].c_str());
+    for(auto &cur_fac : faction_vector) {
+        tmp = faction(cur_fac.c_str());
         tmp.randomize();
-        tmp.load_faction_template(it[0].c_str());
+        tmp.load_faction_template(cur_fac.c_str());
         factions.push_back(tmp);
     }
 }
