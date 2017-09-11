@@ -787,9 +787,9 @@ action_id handle_action_menu()
         }
 
         int width = 0;
-        for( auto &entrie : entries ) {
-            if( width < ( int )entrie.txt.length() ) {
-                width = ( int )entrie.txt.length();
+        for( auto &cur_entry : entries ) {
+            if( width < ( int )cur_entry.txt.length() ) {
+                width = cur_entry.txt.length();
             }
         }
         //border=2, selectors=3, after=3 for balance.
@@ -846,7 +846,7 @@ action_id handle_main_menu()
     int width = 0;
     for( auto &entry : entries ) {
         if( width < ( int )entry.txt.length() ) {
-            width = ( int )entry.txt.length();
+            width = entry.txt.length();
         }
     }
     //border=2, selectors=3, after=3 for balance.

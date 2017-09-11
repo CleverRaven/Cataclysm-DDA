@@ -525,7 +525,7 @@ stat_mod player::get_pain_penalty() const
 
     ret.perception = stat_penalty * 2 / 3;
 
-    ret.speed = ( int )std::pow( pain, 0.7f );
+    ret.speed = std::pow( pain, 0.7f );
     if( ceno ) {
         ret.speed /= 2;
     }
@@ -2600,9 +2600,9 @@ std::string player::dump_memorial() const
 void player::mod_stat( const std::string &stat, float modifier )
 {
     if( stat == "thirst" ) {
-        mod_thirst( ( int )modifier );
+        mod_thirst( modifier );
     } else if( stat == "fatigue" ) {
-        mod_fatigue( ( int )modifier );
+        mod_fatigue( modifier );
     } else if( stat == "oxygen" ) {
         oxygen += modifier;
     } else if( stat == "stamina" ) {
@@ -3725,7 +3725,7 @@ void player::on_dodge( Creature *source, float difficulty )
 
     // Even if we are not to train still call practice to prevent skill rust
     difficulty = std::max( difficulty, 0.0f );
-    practice( skill_dodge, ( int )difficulty * 2, ( int )difficulty );
+    practice( skill_dodge, difficulty * 2, difficulty );
 
     ma_ondodge_effects();
 
@@ -6095,9 +6095,9 @@ void player::suffer()
             plut_trans = 0;
             if (tank_plut > 0) {
                 if (has_active_bionic( bio_plut_filter ) ) {
-                    plut_trans = ( int )( tank_plut * 0.025 );
+                    plut_trans = tank_plut * 0.025;
                 } else {
-                    plut_trans = ( int )( tank_plut * 0.005 );
+                    plut_trans = tank_plut * 0.005;
                 }
                 if (plut_trans < 1) {
                     plut_trans = 1;
@@ -6115,7 +6115,7 @@ void player::suffer()
                     if ((reactor_plut * 0.05) > 2000){
                         power_gen = 2000;
                     } else {
-                        power_gen = int( reactor_plut * 0.05 );
+                        power_gen = reactor_plut * 0.05;
                         if (power_gen < 1) {
                             power_gen = 1;
                         }
@@ -6134,7 +6134,7 @@ void player::suffer()
                     if ((reactor_plut * 0.025) > 500){
                         power_gen = 500;
                     } else {
-                        power_gen = int( reactor_plut * 0.025 );
+                        power_gen = reactor_plut * 0.025;
                         if (power_gen < 1) {
                             power_gen = 1;
                         }
@@ -8302,7 +8302,7 @@ int player::item_wear_cost( const item& it ) const
 
     mv *= std::max( it.get_encumber() / 10.0, 1.0 );
 
-    return ( int )mv;
+    return mv;
 }
 
 bool player::wear( int pos, bool interactive )
