@@ -688,10 +688,10 @@ class weapon_inventory_preset: public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            std::string denial;
+            const auto ret = p.can_wield( *loc );
 
-            if( !p.can_wield( *loc, &denial ) ) {
-                return trim_punctuation_marks( denial );
+            if( !ret.success() ) {
+                return trim_punctuation_marks( ret.str() );
             }
 
             return std::string();
@@ -803,7 +803,7 @@ std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )
     p.inv.sort();
 
     const inventory_filter_preset preset( [ &p ]( const item_location & location ) {
-        return p.can_unwield( *location );
+        return p.can_unwield( *location ).success();
     } );
 
     inventory_drop_selector inv_s( p, preset );

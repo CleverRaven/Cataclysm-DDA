@@ -6865,7 +6865,7 @@ const martialart &player::get_combat_style() const
 std::vector<item *> player::inv_dump()
 {
     std::vector<item *> ret;
-    if( is_armed() && can_unwield( weapon ) ) {
+    if( is_armed() && can_unwield( weapon ).success() ) {
         ret.push_back(&weapon);
     }
     for (auto &i : worn) {
@@ -7741,44 +7741,32 @@ bool player::can_wear( const item& it, bool alert ) const
     return true;
 }
 
-bool player::can_wield( const item &it, std::string *err ) const
+ret_val<bool> player::can_wield( const item &it ) const
 {
     if( it.made_of( LIQUID ) ) {
-        if( err ) {
-            *err = _( "Can't wield spilt liquids." );
-        }
-        return false;
+        return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
     }
 
     if( it.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( "RESTRICT_HANDS" ) ) ) {
-        if( !err ) {
-            return false;
-        }
-
         if( worn_with_flag( "RESTRICT_HANDS" ) ) {
-            *err = _( "Something you are wearing hinders the use of both hands." );
+            return ret_val<bool>::make_failure( _( "Something you are wearing hinders the use of both hands." ) );
         } else if( it.has_flag( "ALWAYS_TWOHAND" ) ) {
-            *err = string_format( _( "The %s can't be wielded with only one arm." ), it.tname().c_str() );
+            return ret_val<bool>::make_failure( _( "The %s can't be wielded with only one arm." ), it.tname().c_str() );
         } else {
-            *err = string_format( _( "You are too weak to wield %s with only one arm." ), it.tname().c_str() );
+            return ret_val<bool>::make_failure( _( "You are too weak to wield %s with only one arm." ), it.tname().c_str() );
         }
-
-        return false;
     }
 
-    return true;
+    return ret_val<bool>::make_success();
 }
 
-bool player::can_unwield( const item& it, std::string *err ) const
+ret_val<bool> player::can_unwield( const item& it ) const
 {
     if( it.has_flag( "NO_UNWIELD" ) ) {
-        if( err ) {
-            *err = string_format( _( "You cannot unwield your %s." ), it.tname().c_str() );
-        }
-        return false;
+        return ret_val<bool>::make_failure( _( "You cannot unwield your %s." ), it.tname().c_str() );
     }
 
-    return true;
+    return ret_val<bool>::make_success();
 }
 
 bool player::is_wielding( const item& target ) const
@@ -7797,7 +7785,7 @@ bool player::wield( item& target )
         return true;
     }
 
-    if( !can_wield( target ) ) {
+    if( !can_wield( target ).success() ) {
         return false;
     }
 
@@ -7842,7 +7830,7 @@ bool player::unwield()
         return true;
     }
 
-    if( !can_unwield( weapon ) ) {
+    if( !can_unwield( weapon ).success() ) {
         return false;
     }
 
@@ -8576,7 +8564,7 @@ void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &w
     activity.placement = target - pos();
 
     for( auto item_pair : what ) {
-        if( can_unwield( i_at( item_pair.first ) ) ) {
+        if( can_unwield( i_at( item_pair.first ) ).success() ) {
             activity.values.push_back( item_pair.first );
             activity.values.push_back( item_pair.second );
         }
@@ -10924,10 +10912,10 @@ bool player::wield_contents( item &container, int pos, bool penalties, int base_
         return false;
     }
 
-    std::string err;
     auto target = std::next( container.contents.begin(), pos );
-    if( !can_wield( *target, &err ) ) {
-        add_msg_if_player( m_info, "%s", err.c_str() );
+    const auto ret = can_wield( *target );
+    if( !ret.success() ) {
+        add_msg_if_player( m_info, "%s", ret.c_str() );
         return false;
     }
 

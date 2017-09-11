@@ -875,15 +875,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /**
          * Check player capable of wielding an item.
          * @param it Thing to be wielded
-         * @param alert display reason for any failure
          */
-        bool can_wield( const item& it, std::string *err = nullptr ) const;
+        ret_val<bool> can_wield( const item& it ) const;
         /**
          * Check player capable of unwielding an item.
          * @param it Thing to be unwielded
-         * @param alert display reason for any failure
          */
-        bool can_unwield( const item& it, std::string *err = nullptr ) const;
+        ret_val<bool> can_unwield( const item& it ) const;
         /** Check player's capability of consumption overall */
         bool can_consume( const item &it ) const;
 

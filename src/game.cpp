@@ -10833,10 +10833,10 @@ void game::wield( item_location& loc )
 {
     if( u.is_armed() ) {
         const bool is_unwielding = u.is_wielding( *loc );
+        const auto ret = u.can_unwield( *loc );
 
-        std::string err;
-        if( !u.can_unwield( *loc, &err ) ) {
-            add_msg( m_info, "%s", err.c_str() );
+        if( !ret.success() ) {
+            add_msg( m_info, "%s", ret.c_str() );
         }
 
         u.unwield();
@@ -10846,9 +10846,9 @@ void game::wield( item_location& loc )
         }
     }
 
-    std::string err;
-    if( !u.can_wield( *loc, &err ) ) {
-        add_msg( m_info, "%s", err.c_str() );
+    const auto ret = u.can_wield( *loc );
+    if( !ret.success() ) {
+        add_msg( m_info, "%s", ret.c_str() );
     }
 
     u.wield( u.i_at( loc.obtain( u ) ) );
