@@ -7781,6 +7781,11 @@ bool player::can_unwield( const item& it, std::string *err ) const
     return true;
 }
 
+bool player::is_wielding( const item& target ) const
+{
+    return &weapon == &target;
+}
+
 bool player::wield( item& target )
 {
     if( target.is_null() ) {
@@ -7788,39 +7793,24 @@ bool player::wield( item& target )
         return false;
     }
 
-    if( !can_unwield( weapon ) ) {
-        return false;
-    }
-
-    int mv = 0;
-
-    if( is_armed() ) {
-        const bool unwielding = ( &target == &weapon );
-
-        const std::string query = string_format( _( "Stop wielding %s?" ), weapon.tname().c_str() );
-
-        if ( !dispose_item( item_location( *this, &weapon ), query.c_str() ) ) {
-            return false;
-        }
-
-        inv.unsort();
-
-        if( unwielding ) {
-            return true;
-        }
+    if( is_wielding( target ) ) {
+        return true;
     }
 
     if( !can_wield( target ) ) {
         return false;
     }
 
+    if( !unwield() ) {
+        return false;
+    }
     // Wielding from inventory is relatively slow and does not improve with increasing weapon skill.
     // Worn items (including guns with shoulder straps) are faster but still slower
     // than a skilled player with a holster.
     // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
 
     bool worn = is_worn( target );
-    mv += item_handling_cost( target, true, worn ? INVENTORY_HANDLING_PENALTY / 2 : INVENTORY_HANDLING_PENALTY );
+    int mv = item_handling_cost( target, true, worn ? INVENTORY_HANDLING_PENALTY / 2 : INVENTORY_HANDLING_PENALTY );
 
     if( worn ) {
         target.on_takeoff( *this );
@@ -7846,20 +7836,25 @@ bool player::wield( item& target )
     return true;
 }
 
-bool player::wield( item_location &loc )
+bool player::unwield()
 {
-    if( !loc ) {
-        debugmsg( "Can't wield null items." );
+    if( weapon.is_null() ) {
+        return true;
+    }
+
+    if( !can_unwield( weapon ) ) {
         return false;
     }
 
-    std::string err;
+    const std::string query = string_format( _( "Stop wielding %s?" ), weapon.tname().c_str() );
 
-    if( ( is_armed() && !can_unwield( weapon, &err ) ) || !can_wield( *loc, &err ) ) {
-        add_msg_if_player( m_info, "%s", err.c_str() );
+    if ( !dispose_item( item_location( *this, &weapon ), query ) ) {
+        return false;
     }
 
-    return wield( i_at( loc.obtain( *this ) ) );
+    inv.unsort();
+
+    return true;
 }
 
 // ids of martial art styles that are available with the bio_cqb bionic.

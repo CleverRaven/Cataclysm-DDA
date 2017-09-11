@@ -10825,11 +10825,33 @@ bool game::unload( item &it )
 
 void game::wield( int pos )
 {
-    item &it = *&u.i_at( pos );
+    item_location loc( u, &u.i_at( pos ) );
+    wield( loc );
+}
 
-    if( !it.is_null() ) {
-        u.wield( it );
+void game::wield( item_location& loc )
+{
+    if( u.is_armed() ) {
+        const bool is_unwielding = u.is_wielding( *loc );
+
+        std::string err;
+        if( !u.can_unwield( *loc, &err ) ) {
+            add_msg( m_info, "%s", err.c_str() );
+        }
+
+        u.unwield();
+
+        if( is_unwielding ) {
+            return;
+        }
     }
+
+    std::string err;
+    if( !u.can_wield( *loc, &err ) ) {
+        add_msg( m_info, "%s", err.c_str() );
+    }
+
+    u.wield( u.i_at( loc.obtain( u ) ) );
 }
 
 void game::wield()
@@ -10837,7 +10859,7 @@ void game::wield()
     item_location loc = game_menus::inv::wield( u );
 
     if( loc ) {
-        u.wield( loc );
+        wield( loc );
     } else {
         add_msg( _( "Never mind." ) );
     }

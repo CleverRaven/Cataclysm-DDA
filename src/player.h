@@ -887,14 +887,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Check player's capability of consumption overall */
         bool can_consume( const item &it ) const;
 
+        bool is_wielding( const item& target ) const;
         /**
          * Removes currently wielded item (if any) and replaces it with the target item. Unwields if it's the same item.
          * @param target replacement item to wield or null item to remove existing weapon without replacing it
          * @return whether both removal and replacement were successful (they are performed atomically)
          */
         virtual bool wield( item& target );
-
-        bool wield( item_location &loc );
+        bool unwield();
 
         /** Creates the UI and handles player input for picking martial arts styles */
         bool pick_style();
