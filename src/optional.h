@@ -56,7 +56,7 @@ class optional
         }
 
     public:
-        constexpr optional() noexcept : full( false ) { }
+        constexpr optional() noexcept : dummy(), full( false ) { }
         constexpr optional( const nullopt_t ) noexcept : optional() { }
 
         optional( const optional &other ) {
@@ -70,20 +70,20 @@ class optional
             }
         }
         template<typename... Args>
-        constexpr explicit optional( in_place_t, Args &&... args ) : data( std::forward<Args>( args )... ),
+        explicit optional( in_place_t, Args &&... args ) : data( std::forward<Args>( args )... ),
             full( true ) { }
 
         template<typename U, typename... Args>
-        constexpr explicit optional( in_place_t, std::initializer_list<U> ilist,
-                                     Args &&... args ) : data( ilist,
-                                                 std::forward<Args>( args )... ), full( true ) { }
+        explicit optional( in_place_t, std::initializer_list<U> ilist,
+                           Args &&... args ) : data( ilist,
+                                       std::forward<Args>( args )... ), full( true ) { }
 
         template < typename U = T,
                    typename std::enable_if <
                        !std::is_same<optional<T>, typename std::decay<U>::type>::value &&
                        std::is_constructible < T, U && >::value &&
                        std::is_convertible < U &&, T >::value, bool >::type = true >
-        constexpr optional( U && t )
+        optional( U && t )
             : optional( in_place, std::forward<U>( t ) ) { }
 
         template < typename U = T,
@@ -91,7 +91,7 @@ class optional
                        !std::is_same<optional<T>, std::decay<U>>::value &&
                        std::is_constructible < T, U && >::value &&
                        !std::is_convertible < U &&, T >::value, bool >::type = false >
-        explicit constexpr optional( U && t )
+        explicit optional( U && t )
             : optional( in_place, std::forward<U>( t ) ) { }
 
         ~optional() {

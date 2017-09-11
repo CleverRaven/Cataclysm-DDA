@@ -11,6 +11,7 @@
 #include "assign.h"
 #include "init.h"
 #include "item.h"
+#include "ammo.h"
 #include "item_group.h"
 #include "iuse_actor.h"
 #include "json.h"
@@ -208,7 +209,7 @@ void Item_factory::finalize() {
         }
         // for magazines ensure default_ammo is set
         if( obj.magazine && obj.magazine->default_ammo == "NULL" ) {
-               obj.magazine->default_ammo = default_ammo( obj.magazine->type );
+               obj.magazine->default_ammo = obj.magazine->type->default_ammotype();
         }
         if( obj.gun ) {
             // @todo add explicit action field to gun definitions

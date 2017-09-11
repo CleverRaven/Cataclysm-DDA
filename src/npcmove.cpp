@@ -10,6 +10,7 @@
 #include "debug.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "ammo.h"
 #include "translations.h"
 #include "veh_type.h"
 #include "monster.h"
@@ -1327,7 +1328,7 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
 
 bool npc::enough_time_to_reload( const item &gun ) const
 {
-    int rltime = item_reload_cost( gun, item( default_ammo( gun.ammo_type() ) ), gun.ammo_capacity() );
+    int rltime = item_reload_cost( gun, item( gun.ammo_type()->default_ammotype() ), gun.ammo_capacity() );
     const float turns_til_reloaded = (float)rltime / get_speed();
 
     const Creature *target = current_target();

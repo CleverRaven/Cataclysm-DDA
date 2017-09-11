@@ -1759,6 +1759,13 @@
                 { "item": "splinter", "count": [3, 6] },
                 { "item": "nail", "charges": [6, 12] }
             ]
+        },
+        "deconstruct": {
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "2x4", "count": 12 },
+                { "item": "nail", "charges": 24 }
+            ]
         }
     },{
         "type" : "terrain",
