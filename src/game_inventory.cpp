@@ -755,8 +755,8 @@ item_location game_menus::inv::holster( player &p, item &holster )
 class saw_barrel_inventory_preset: public weapon_inventory_preset
 {
     public:
-        saw_barrel_inventory_preset( const player &p ) :
-            weapon_inventory_preset( p ) {
+        saw_barrel_inventory_preset( const player &p, const item &tool, const saw_barrel_actor &actor ) :
+            weapon_inventory_preset( p ), p( p ), tool( tool ), actor( actor ) {
         }
 
         bool is_shown( const item_location &loc ) const override {
@@ -764,31 +764,32 @@ class saw_barrel_inventory_preset: public weapon_inventory_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            if( loc->type->gun->barrel_length <= 0 ) {
-                return _( "the barrel is too short" );
-            }
+            const auto ret = actor.can_use_on( p, tool, *loc );
 
-            if( loc->gunmod_find( "barrel_small" ) ) {
-                return _( "the barrel is aleady sawn off" );
-            }
-
-            const auto gunmods = loc->gunmods();
-            const bool modified_barrel = std::any_of( gunmods.begin(), gunmods.end(),
-            []( const item * mod ) {
-                return mod->type->gunmod->location == gunmod_location( "barrel" );
-            } );
-
-            if( modified_barrel ) {
-                return _( "can't saw off modified barrels" );
+            if( !ret.success() ) {
+                return ret.str();
             }
 
             return std::string();
         }
+
+    private:
+        const player &p;
+        const item &tool;
+        const saw_barrel_actor &actor;
 };
 
 item_location game_menus::inv::saw_barrel( player &p, item &tool )
 {
-    return inv_internal( p, saw_barrel_inventory_preset( p ),
+    const auto actor = dynamic_cast<const saw_barrel_actor *>
+                       ( tool.type->get_use( "saw_barrel" )->get_actor_ptr() );
+
+    if( !actor ) {
+        debugmsg( "Tried to use a wrong item." );
+        return item_location();
+    }
+
+    return inv_internal( p, saw_barrel_inventory_preset( p, tool, *actor ),
                          _( "Saw barrel" ), 1,
                          _( "You don't have any guns." ),
                          string_format( _( "Choose a weapon to use your %s on" ),

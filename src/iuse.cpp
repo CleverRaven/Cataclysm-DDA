@@ -7874,26 +7874,6 @@ int iuse::ladder( player *p, item *, bool, const tripoint& )
     return 1;
 }
 
-int iuse::saw_barrel( player *p, item *it, bool t, const tripoint& )
-{
-    if( p == nullptr || t ) {
-        return 0;
-    }
-
-    auto loc = game_menus::inv::saw_barrel( *p, *it );
-
-    if( !loc ) {
-        p->add_msg_if_player( _( "Never mind." ) );
-        return 0;
-    }
-
-    item &obj = p->i_at( loc.obtain( *p ) );
-    p->add_msg_if_player( _( "You saw down the barrel of your %s." ), obj.tname().c_str() );
-    obj.contents.emplace_back( "barrel_small", calendar::turn );
-
-    return 0;
-}
-
 int iuse::washclothes( player *p, item *it, bool, const tripoint& )
 {
     if( it->charges < it->type->charges_to_use() ) {

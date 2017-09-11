@@ -6,6 +6,7 @@
 #include "game_constants.h"
 #include "color.h"
 #include "bodypart.h"
+#include "ret_val.h"
 #include "string_id.h"
 #include "explosion.h"
 #include "vitamin.h"
@@ -884,6 +885,18 @@ class emit_actor : public iuse_actor
         long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
         void finalize( const itype_id &my_item_type ) override;
+};
+
+class saw_barrel_actor : public iuse_actor
+{
+    public:
+        saw_barrel_actor( const std::string &type = "saw_barrel" ) : iuse_actor( type ) {}
+
+        void load( JsonObject &jo ) override;
+        long use( player &p, item &it, bool t, const tripoint &pnt ) const override;
+        iuse_actor *clone() const override;
+
+        ret_val<bool> can_use_on( const player &p, const item &it, const item &target ) const;
 };
 
 #endif
