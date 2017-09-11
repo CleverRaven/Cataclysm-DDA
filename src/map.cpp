@@ -5060,12 +5060,11 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         if (kpart >= 0) { // we have a faucet, now to see what to drain
             itype_id ftype = "null";
 
-            if (type == "water_clean") {
-                ftype = "water_clean";
-            } else if (type == "water") {
-                ftype = "water";
-            } else if (type == "hotplate") {
+            // Special case hotplates which draw battery power
+            if (type == "hotplate") {
                 ftype = "battery";
+            } else {
+                ftype = type;
             }
 
             item tmp(type, 0); //TODO add a sane birthday arg
