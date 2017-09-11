@@ -28,6 +28,7 @@
 #include "inventory.h"
 #include "tutorial.h"
 #include "overmap.h"
+#include "overmap_connection.h"
 #include "artifact.h"
 #include "overmap_location.h"
 #include "mapgen.h"
@@ -62,6 +63,7 @@
 #include "rotatable_symbols.h"
 #include "harvest.h"
 #include "morale_types.h"
+#include "anatomy.h"
 
 #include <assert.h>
 #include <string>
@@ -225,6 +227,7 @@ void DynamicDataLoader::initialize()
     add( "overmap_terrain", &overmap_terrains::load );
     add( "construction", &load_construction );
     add( "mapgen", &load_mapgen );
+    add( "overmap_connection", &overmap_connections::load );
     add( "overmap_location", &overmap_locations::load );
     add( "overmap_special", &overmap_specials::load );
 
@@ -257,7 +260,8 @@ void DynamicDataLoader::initialize()
     add( "monster_attack", []( JsonObject &jo, const std::string &src ) { MonsterGenerator::generator().load_monster_attack( jo, src ); } );
     add( "palette", mapgen_palette::load );
     add( "rotatable_symbol", &rotatable_symbols::load );
-    add( "body_part", &body_part_struct::load );
+    add( "body_part", &body_part_struct::load_bp );
+    add( "anatomy", &anatomy::load_anatomy );
     add( "morale_type", &morale_type_data::load_type );
 }
 
@@ -376,6 +380,7 @@ void DynamicDataLoader::unload_data()
     reset_mapgens();
     reset_effect_types();
     reset_speech();
+    overmap_connections::reset();
     overmap_locations::reset();
     overmap_specials::reset();
     ammunition_type::reset();
@@ -388,6 +393,7 @@ void DynamicDataLoader::unload_data()
     rotatable_symbols::reset();
     body_part_struct::reset();
     npc_template::reset();
+    anatomy::reset();
 
     // TODO:
     //    NameGenerator::generator().clear_names();
@@ -398,7 +404,7 @@ void DynamicDataLoader::finalize_loaded_data()
 {
     assert( !finalized && "Can't finalize the data twice." );
 
-    body_part_struct::finalize();
+    body_part_struct::finalize_all();
     item_controller->finalize();
     requirement_data::finalize();
     vpart_info::finalize();
@@ -406,6 +412,7 @@ void DynamicDataLoader::finalize_loaded_data()
     set_furn_ids();
     trap::finalize();
     overmap_terrains::finalize();
+    overmap_connections::finalize();
     overmap_specials::finalize();
     vehicle_prototype::finalize();
     calculate_mapgen_weights();
@@ -417,6 +424,7 @@ void DynamicDataLoader::finalize_loaded_data()
     finalize_constructions();
     npc_class::finalize_all();
     harvest_list::finalize_all();
+    anatomy::finalize_all();
     check_consistency();
 
     finalized = true;
@@ -441,6 +449,7 @@ void DynamicDataLoader::check_consistency()
     scenario::check_definitions();
     check_martialarts();
     mutation_branch::check_consistency();
+    overmap_connections::check_consistency();
     overmap_terrains::check_consistency();
     overmap_locations::check_consistency();
     overmap_specials::check_consistency();
@@ -453,4 +462,6 @@ void DynamicDataLoader::check_consistency()
     item_action_generator::generator().check_consistency();
     harvest_list::check_consistency();
     npc_template::check_consistency();
+    body_part_struct::check_consistency();
+    anatomy::check_consistency();
 }

@@ -5,11 +5,14 @@
 #include "debug.h"
 #include "enums.h"
 
+#include <limits>
 #include <queue>
 #include <vector>
 
 namespace pf
 {
+
+static const int rejected = std::numeric_limits<int>::min();
 
 struct node {
     int x;
@@ -27,6 +30,14 @@ struct node {
     bool operator< ( const node &n ) const {
         return priority > n.priority;
     }
+
+    point pos() const {
+        return point( x, y );
+    }
+};
+
+struct path {
+    std::vector<node> nodes;
 };
 
 /**
@@ -39,11 +50,11 @@ struct node {
  * if the node is unsuitable.
  */
 template<class BinaryPredicate>
-std::vector<node> find_path( const point &source,
-                             const point &dest,
-                             const int max_x,
-                             const int max_y,
-                             BinaryPredicate estimator )
+path find_path( const point &source,
+                const point &dest,
+                const int max_x,
+                const int max_y,
+                BinaryPredicate estimator )
 {
     static const int dx[4] = {  0, 1, 0, -1 };
     static const int dy[4] = { -1, 0, 1,  0 };
@@ -56,7 +67,7 @@ std::vector<node> find_path( const point &source,
         return y * max_x + x;
     };
 
-    std::vector<node> res;
+    path res;
 
     if( source == dest ) {
         return res;
@@ -73,7 +84,7 @@ std::vector<node> find_path( const point &source,
 
     const node first_node( x1, y1, 5, 1000 );
 
-    if( estimator( first_node, nullptr ) < 0 ) {
+    if( estimator( first_node, nullptr ) == rejected ) {
         return res;
     }
 
@@ -86,7 +97,7 @@ std::vector<node> find_path( const point &source,
 
     int i = 0;
     nodes[i].push( first_node );
-    open[map_index( x1, y1 )] = 1000;
+    open[map_index( x1, y1 )] = std::numeric_limits<int>::max();
 
     // use A* to find the shortest path from (x1,y1) to (x2,y2)
     while( !nodes[i].empty() ) {
@@ -101,15 +112,17 @@ std::vector<node> find_path( const point &source,
             int x = mn.x;
             int y = mn.y;
 
-            res.reserve( nodes[i].size() );
+            res.nodes.reserve( nodes[i].size() );
 
             while( x != x1 || y != y1 ) {
                 const int n = map_index( x, y );
                 const int d = dirs[n];
+                res.nodes.emplace_back( x, y, d );
                 x += dx[d];
                 y += dy[d];
-                res.emplace_back( x, y, d, 0 );
             }
+
+            res.nodes.emplace_back( x, y, -1 );
 
             return res;
         }
@@ -128,8 +141,8 @@ std::vector<node> find_path( const point &source,
             node cn( x, y, d );
             cn.priority = estimator( cn, &mn );
 
-            if( cn.priority < 0 ) {
-                continue; // rejected by the estimator
+            if( cn.priority == rejected ) {
+                continue;
             }
             // record direction to shortest path
             if( open[n] == 0 || open[n] > cn.priority ) {
@@ -156,6 +169,36 @@ std::vector<node> find_path( const point &source,
             }
         }
     }
+
+    return res;
+}
+
+inline path straight_path( const point &source,
+                           int dir,
+                           size_t len )
+{
+    static const int dx[4] = {  0, 1, 0, -1 };
+    static const int dy[4] = { -1, 0, 1,  0 };
+
+    path res;
+
+    if( len == 0 ) {
+        return res;
+    }
+
+    int x = source.x;
+    int y = source.y;
+
+    res.nodes.reserve( len );
+
+    for( size_t i = 0; i + 1 < len; ++i ) {
+        res.nodes.emplace_back( x, y, dir );
+
+        x += dx[dir];
+        y += dy[dir];
+    }
+
+    res.nodes.emplace_back( x, y, -1 );
 
     return res;
 }

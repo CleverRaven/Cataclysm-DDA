@@ -1,4 +1,12 @@
-### Expected Behavior
+Game version:
+
+Operating system:
+
+Tiles or curses:
+
+Mods active:
+
+### Expected behavior
 
 ### Actual behavior
 

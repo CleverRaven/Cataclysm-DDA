@@ -18,6 +18,7 @@
 #include "trap.h"
 #include "messages.h"
 #include "mapsharing.h"
+#include "ammo.h"
 #include "iuse_actor.h"
 #include "mongroup.h"
 #include "npc.h"
@@ -44,6 +45,7 @@
 #include <stdlib.h>
 #include <cstring>
 #include <algorithm>
+#include <cassert>
 
 const mtype_id mon_zombie( "mon_zombie" );
 
@@ -4993,7 +4995,7 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
 
     const itype *itt = f.crafting_pseudo_item_type();
     if( itt != nullptr && itt->tool && itt->tool->ammo_id ) {
-        const itype_id ammo = default_ammo( itt->tool->ammo_id );
+        const itype_id ammo = itt->tool->ammo_id->default_ammotype();
         auto stack = m->i_at( p );
         auto iter = std::find_if( stack.begin(), stack.end(),
                                   [ammo]( const item &i ) { return i.typeId() == ammo; } );
@@ -5288,7 +5290,7 @@ void map::add_trap( const tripoint &p, const trap_id t)
     const ter_t &ter = current_submap->get_ter( lx, ly ).obj();
     if( ter.trap != tr_null ) {
         debugmsg( "set trap %s on top of terrain %s which already has a builit-in trap",
-                  t.obj().name.c_str(), ter.name.c_str() );
+                  t.obj().name().c_str(), ter.name.c_str() );
         return;
     }
 
@@ -5317,7 +5319,7 @@ void map::disarm_trap( const tripoint &p )
 
     // Some traps are not actual traps. Skip the rolls, different message and give the option to grab it right away.
     if( tr.get_avoidance() ==  0 && tr.get_difficulty() == 0 ) {
-        add_msg(_("You take down the %s."), tr.name.c_str());
+        add_msg(_("You take down the %s."), tr.name().c_str());
         tr.on_disarmed( p );
         return;
     }
@@ -7820,12 +7822,6 @@ size_t map::get_nonant( const tripoint &gridp ) const
 tinymap::tinymap( int mapsize, bool zlevels )
     : map( mapsize, zlevels )
 {
-}
-
-furn_id find_furn_id( const furn_str_id id, bool complain = true )
-{
-    ( void )complain; //FIXME: complain unused
-    return id.id();
 }
 
 void map::draw_line_ter( const ter_id type, int x1, int y1, int x2, int y2 )

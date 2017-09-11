@@ -192,11 +192,11 @@ const char *volume_units_abbr()
 {
     const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
     if( vol_units == "c" ) {
-        return _( "c" );
+        return pgettext( "Volume unit", "c" );
     } else if( vol_units == "l" ) {
-        return _( "L" );
+        return pgettext( "Volume unit", "L" );
     } else {
-        return _( "qt" );
+        return pgettext( "Volume unit", "qt" );
     }
 }
 

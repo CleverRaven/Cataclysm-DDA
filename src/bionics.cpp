@@ -132,7 +132,7 @@ void force_comedown( effect &eff )
 bool player::activate_bionic( int b, bool eff_only )
 {
     bionic &bio = my_bionics[b];
-    
+
     // Preserve the fake weapon used to initiate bionic gun firing
     static item bio_gun( weapon );
 
@@ -539,6 +539,11 @@ bool player::activate_bionic( int b, bool eff_only )
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
     reset();
 
+    // Also reset crafting inventory cache if this bionic spawned a fake item
+    if( !bionics[ bio.id ].fake_item.empty() ) {
+        invalidate_crafting_inventory();
+    }
+
     return true;
 }
 
@@ -600,6 +605,11 @@ bool player::deactivate_bionic( int b, bool eff_only )
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
     reset();
+
+    // Also reset crafting inventory cache if this bionic spawned a fake item
+    if( !bionics[ bio.id ].fake_item.empty() ) {
+        invalidate_crafting_inventory();
+    }
 
     return true;
 }

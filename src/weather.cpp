@@ -20,6 +20,7 @@
 
 const efftype_id effect_glare( "glare" );
 const efftype_id effect_blind( "blind" );
+const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
@@ -400,7 +401,7 @@ void weather_effect::very_wet()
 void weather_effect::thunder()
 {
     very_wet();
-    if (!g->u.is_deaf() && one_in(THUNDER_CHANCE)) {
+    if (!g->u.has_effect( effect_sleep ) && !g->u.is_deaf() && one_in(THUNDER_CHANCE)) {
         if (g->get_levz() >= 0) {
             add_msg(_("You hear a distant rumble of thunder."));
             sfx::play_variant_sound("environment", "thunder_far", 80, rng(0, 359));

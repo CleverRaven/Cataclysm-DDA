@@ -101,7 +101,6 @@ class it_artifact_armor : public itype, public JsonSerializer, public JsonDeseri
 
 /* FUNCTIONS */
 
-void init_artifacts();
 std::string new_artifact();
 std::string new_natural_artifact( artifact_natural_property prop );
 std::string architects_cube();

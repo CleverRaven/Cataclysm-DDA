@@ -37,6 +37,7 @@ enum vision_modes {
     DARKNESS,
     IR_VISION,
     VISION_CLAIRVOYANCE,
+    VISION_CLAIRVOYANCE_PLUS,
     VISION_CLAIRVOYANCE_SUPER,
     NUM_VISION_MODES
 };
@@ -353,6 +354,13 @@ class Character : public Creature, public visitable<Character>
          */
         int get_item_position( const item *it ) const;
 
+        /**
+         * Try to find a container/s on character containing ammo of type it.typeId() and
+         * add charges until the container is full.
+         * @param unloading Do not try to add to a container when the item was intentionally unloaded.
+         * @return Remaining charges which could not be stored in a container.
+         */
+        long int i_add_to_container(const item &it, const bool unloading);
         item &i_add(item it);
 
         /**

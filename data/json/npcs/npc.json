@@ -50,7 +50,7 @@
     "mission" : 7,
     "chat" : "TALK_OLD_GUARD_NEC_COMMO",
     "faction" : "old_guard",
-    "mission_offered" : "MISSION_OLD_GUARD_NEC_COMMO_3"
+    "mission_offered" : "MISSION_OLD_GUARD_NEC_COMMO_1"
   },{
     "type" : "npc",
     "id" : "evac_merchant",

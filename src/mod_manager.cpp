@@ -104,6 +104,15 @@ void mod_manager::refresh_mod_list()
 
     std::map<std::string, std::vector<std::string> > mod_dependency_map;
     load_mods_from(FILENAMES["moddir"]);
+    load_mods_from(FILENAMES["user_moddir"]);
+
+    if (file_exist(FILENAMES["mods-dev-default"])) {
+        load_mod_info(FILENAMES["mods-dev-default"]);
+    }
+    if (file_exist(FILENAMES["mods-user-default"])) {
+        load_mod_info(FILENAMES["mods-user-default"]);
+    }
+
     if (set_default_mods("user:default")) {
     } else if(set_default_mods("dev:default")) {
     }
@@ -153,12 +162,6 @@ void mod_manager::load_mods_from(std::string path)
 {
     for( auto &mod_file : get_files_from_path(MOD_SEARCH_FILE, path, true) ) {
         load_mod_info( mod_file );
-    }
-    if (file_exist(FILENAMES["mods-dev-default"])) {
-        load_mod_info(FILENAMES["mods-dev-default"]);
-    }
-    if (file_exist(FILENAMES["mods-user-default"])) {
-        load_mod_info(FILENAMES["mods-user-default"]);
     }
 }
 
@@ -316,20 +319,7 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
         for( auto &input_file : input_files ) {
             std::string output_path = input_file;
             output_path = cur_mod_dir.str() + output_path.substr(start_index);
-
-            std::ifstream infile( input_file.c_str(), std::ifstream::in | std::ifstream::binary );
-            // and stuff it into ram
-            std::istringstream iss(
-                std::string(
-                    (std::istreambuf_iterator<char>(infile)),
-                    std::istreambuf_iterator<char>()
-                )
-            );
-            infile.close();
-
-            fout.open(output_path.c_str());
-            fout << iss.str();
-            fout.close();
+            copy_file( input_file, output_path );
         }
     }
     return true;

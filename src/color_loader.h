@@ -64,10 +64,7 @@ class color_loader
             const std::string custom_path = FILENAMES["base_colors"];
 
             if( !file_exist( custom_path ) ) {
-                std::ifstream src( default_path.c_str(), std::ifstream::in | std::ios::binary );
-                write_to_file_exclusive( custom_path, [&src]( std::ostream & dst ) {
-                    dst << src.rdbuf();
-                }, _( "base colors" ) );
+                copy_file( default_path, custom_path );
             }
 
             try {

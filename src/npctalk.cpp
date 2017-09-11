@@ -3047,7 +3047,7 @@ void talk_function::hostile( npc &p )
 {
  if ( p.attitude == NPCATT_KILL )
   return;
- 
+
  if ( p.sees( g->u ) ) {
   add_msg(_("%s turns hostile!"), p.name.c_str());
  }
@@ -3197,7 +3197,7 @@ void parse_tags( std::string &phrase, const player &u, const npc &me )
             if( !me.weapon.is_gun() ) {
                 phrase.replace(fa, l, _("BADAMMO"));
             } else {
-                phrase.replace(fa, l, ammo_name( me.weapon.ammo_type() ) );
+                phrase.replace(fa, l, me.weapon.ammo_type()->name() );
             }
         } else if( tag == "<punc>" ) {
             switch( rng( 0, 2 ) ) {
@@ -4272,14 +4272,14 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
             p.use_charges( comest->tool, 1 );
         }
         if( to_eat.type->has_use() ) {
-            amount_used = to_eat.type->invoke( &p, &to_eat, p.pos() );
+            amount_used = to_eat.type->invoke( p, to_eat, p.pos() );
             if( amount_used <= 0 ) {
                 reason = _("It doesn't look like a good idea to consume this..");
                 return REFUSED;
             }
         }
 
-        p.consume_effects( to_eat, comest );
+        p.consume_effects( to_eat );
         p.moves -= 250;
     } else {
         debugmsg("Unknown comestible type of item: %s\n", to_eat.tname().c_str());

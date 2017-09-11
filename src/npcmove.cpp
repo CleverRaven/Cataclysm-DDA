@@ -10,6 +10,7 @@
 #include "debug.h"
 #include "overmapbuffer.h"
 #include "messages.h"
+#include "ammo.h"
 #include "translations.h"
 #include "veh_type.h"
 #include "monster.h"
@@ -43,6 +44,7 @@ const efftype_id effect_infection( "infection" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_stunned( "stunned" );
+const efftype_id effect_onfire( "onfire" );
 
 enum npc_action : int {
     npc_undecided = 0,
@@ -1326,7 +1328,7 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
 
 bool npc::enough_time_to_reload( const item &gun ) const
 {
-    int rltime = item_reload_cost( gun, item( default_ammo( gun.ammo_type() ) ), gun.ammo_capacity() );
+    int rltime = item_reload_cost( gun, item( gun.ammo_type()->default_ammotype() ), gun.ammo_capacity() );
     const float turns_til_reloaded = (float)rltime / get_speed();
 
     const Creature *target = current_target();
@@ -1438,17 +1440,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         }
     }
 
-    if (recoil > 0) { // Start by dropping recoil a little
-        ///\EFFECT_STR_NPC increases recoil recovery speed
-
-        ///\EFFECT_GUN_NPC increases recoil recovery speed
-        if (int(str_cur / 2) + get_skill_level( skill_gun ) >= (int)recoil) {
-            recoil = MIN_RECOIL;
-        } else {
-            recoil -= int(str_cur / 2) + get_skill_level( skill_gun );
-            recoil = int(recoil / 2);
-        }
-    }
+    recoil = MAX_RECOIL;
 
     if (has_effect( effect_stunned)) {
         p.x = rng(posx() - 1, posx() + 1);
@@ -1688,16 +1680,12 @@ void npc::move_pause()
         return;
     }
 
-    aim();
-
-    // Player can cheese the pause recoil drop to speed up aiming, let npcs do it too
-    double pause_recoil = recoil - str_cur + 2 * get_skill_level( skill_gun );
-    pause_recoil = std::max( MIN_RECOIL * 2, pause_recoil );
-    pause_recoil = pause_recoil / 2;
-    if( pause_recoil < recoil ) {
+    // Stop, drop, and roll
+    if( has_effect( effect_onfire ) ) {
         pause();
     } else {
-        moves = 0;
+        aim();
+        moves = std::min( moves, 0 );
     }
 }
 
@@ -2462,9 +2450,9 @@ bool npc::alt_attack()
 void npc::activate_item(int item_index)
 {
     const int oldmoves = moves;
-    item *it = &i_at(item_index);
-    if( it->is_tool() || it->is_food() ) {
-        it->type->invoke( this, it, pos() );
+    item &it = i_at( item_index );
+    if( it.is_tool() || it.is_food() ) {
+        it.type->invoke( *this, it, pos() );
     }
 
     if( moves == oldmoves ) {
@@ -2497,7 +2485,7 @@ void npc::heal_player( player &patient )
         return;
     }
 
-    long charges_used = used.type->invoke( this, &used, patient.pos(), "heal" );
+    long charges_used = used.type->invoke( *this, used, patient.pos(), "heal" );
     consume_charges( used, charges_used );
 
     if( !patient.is_npc() ) {
@@ -2525,7 +2513,7 @@ void npc::heal_self()
         add_msg( _("%s applies a %s"), name.c_str(), used.tname().c_str() );
     }
 
-    long charges_used = used.type->invoke( this, &used, pos(), "heal" );
+    long charges_used = used.type->invoke( *this, used, pos(), "heal" );
     if( used.is_medication() ) {
         consume_charges( used, charges_used );
     }
@@ -2649,7 +2637,7 @@ bool npc::consume_food()
                                 it.contents.front() : it;
         float cur_weight = rate_food( food_item, want_hunger, want_quench );
         // Note: will_eat is expensive, avoid calling it if possible
-        if( cur_weight > best_weight && will_eat( food_item ) == EDIBLE ) {
+        if( cur_weight > best_weight && will_eat( food_item ).success() ) {
             best_weight = cur_weight;
             index = i;
         }
@@ -3176,7 +3164,7 @@ void npc::do_reload( item &it )
     }
 
     moves -= reload_time;
-    recoil = MIN_RECOIL;
+    recoil = MAX_RECOIL;
 
     if( g->u.sees( *this ) ) {
         add_msg( _( "%1$s reloads their %2$s." ), name.c_str(), it.tname().c_str() );

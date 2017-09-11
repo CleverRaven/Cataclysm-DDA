@@ -41,7 +41,8 @@ void calculate_bodypart_distribution( enum m_size asize, enum m_size dsize,
     }
 
     for( auto weight : selected_part_histogram ) {
-        CHECK( Approx( expected[weight.first] / total_weight ).epsilon( 0.01 ) ==
+        INFO( body_part_name( weight.first ) );
+        CHECK( Approx( expected[weight.first] / total_weight ).epsilon( 0.015 ) ==
                ( weight.second / 15000.0 ) );
     }
 }

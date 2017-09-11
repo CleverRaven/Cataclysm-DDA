@@ -11,6 +11,7 @@
 #include "assign.h"
 #include "init.h"
 #include "item.h"
+#include "ammo.h"
 #include "item_group.h"
 #include "iuse_actor.h"
 #include "json.h"
@@ -45,7 +46,7 @@ static void set_allergy_flags( itype &item_template );
 static void hflesh_to_flesh( itype &item_template );
 static void npc_implied_flags( itype &item_template );
 
-extern const double MIN_RECOIL;
+extern const double MAX_RECOIL;
 
 bool item_is_blacklisted(const std::string &id)
 {
@@ -208,7 +209,7 @@ void Item_factory::finalize() {
         }
         // for magazines ensure default_ammo is set
         if( obj.magazine && obj.magazine->default_ammo == "NULL" ) {
-               obj.magazine->default_ammo = default_ammo( obj.magazine->type );
+               obj.magazine->default_ammo = obj.magazine->type->default_ammotype();
         }
         if( obj.gun ) {
             // @todo add explicit action field to gun definitions
@@ -407,9 +408,9 @@ class iuse_function_wrapper : public iuse_actor
             : iuse_actor( type ), cpp_function( f ) { }
 
         ~iuse_function_wrapper() override = default;
-        long use( player *p, item *it, bool a, const tripoint &pos ) const override {
+        long use( player &p, item &it, bool a, const tripoint &pos ) const override {
             iuse tmp;
-            return ( tmp.*cpp_function )( p, it, a, pos );
+            return ( tmp.*cpp_function )( &p, &it, a, pos );
         }
         iuse_actor *clone() const override {
             return new iuse_function_wrapper( *this );
@@ -814,7 +815,9 @@ void Item_factory::check_definitions() const
             if( type->gunmod->location.str().empty() ) {
                     msg << "gunmod does not specify location" << "\n";
             }
-
+            if( (type->gunmod->sight_dispersion < 0) != (type->gunmod->aim_cost < 0) ){
+                    msg << "gunmod must have both sight_dispersion and aim_cost set or neither of them set" << "\n";
+            }
         }
         if( type->mod ) {
             check_ammo_type( msg, type->mod->ammo_modifier );
@@ -1144,7 +1147,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
     assign( jo, "ranged_damage", slot.damage, strict );
     assign( jo, "pierce", slot.pierce, strict );
     assign( jo, "dispersion", slot.dispersion, strict );
-    assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0, int( MIN_RECOIL ) );
+    assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0, int( MAX_RECOIL ) );
     assign( jo, "recoil", slot.recoil, strict, 0 );
     assign( jo, "handling", slot.handling, strict );
     assign( jo, "durability", slot.durability, strict, 0, 10 );
@@ -1453,7 +1456,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     assign( jo, "location", slot.location );
     assign( jo, "dispersion_modifier", slot.dispersion );
     assign( jo, "sight_dispersion", slot.sight_dispersion );
-    assign( jo, "aim_cost", slot.aim_cost, strict, 0 );
+    assign( jo, "aim_cost", slot.aim_cost, strict, -1 );
     assign( jo, "handling_modifier", slot.handling, strict );
     assign( jo, "range_modifier", slot.range );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
@@ -2007,6 +2010,25 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, JsonObje
     return true;
 }
 
+bool Item_factory::load_string(std::vector<std::string> &vec, JsonObject &obj, const std::string &name)
+{
+    bool result = false;
+    std::string temp;
+
+    if( obj.has_array( name ) ) {
+        JsonArray arr = obj.get_array( name );
+        while( arr.has_more() ) {
+            result |= arr.read_next( temp );
+            vec.push_back( temp );
+        }
+    } else if ( obj.has_member( name ) ) {
+        result |= obj.read( name, temp );
+        vec.push_back( temp );
+    }
+
+    return result;
+}
+
 void Item_factory::add_entry(Item_group *ig, JsonObject &obj)
 {
     std::unique_ptr<Item_spawn_data> ptr;
@@ -2048,6 +2070,7 @@ void Item_factory::add_entry(Item_group *ig, JsonObject &obj)
     use_modifier |= load_sub_ref( modifier->ammo, obj, "ammo", *ig );
     use_modifier |= load_sub_ref( modifier->container, obj, "container", *ig );
     use_modifier |= load_sub_ref( modifier->contents, obj, "contents", *ig );
+    use_modifier |= load_string( modifier->custom_flags, obj, "custom-flags" );
     if (use_modifier) {
         dynamic_cast<Single_item_creator *>(ptr.get())->modifier = std::move(modifier);
     }

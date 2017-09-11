@@ -36,6 +36,9 @@ extern const int core_version;
 extern const int savegame_version;
 extern int savegame_loading_version;
 
+class input_context;
+input_context get_default_mode_input_context();
+
 enum class dump_mode {
     TSV,
     HTML
@@ -741,9 +744,7 @@ class game
         bool save_uistate();
         void load_uistate(std::string worldname);
         // Data Initialization
-        void init_faction_data();
         void init_autosave();     // Initializes autosave parameters
-        void init_savedata_translation_tables();
         void init_lua();          // Initializes lua interpreter.
         void create_factions(); // Creates new factions (for a new game world)
         void create_starting_npcs(); // Creates NPCs that start near you
