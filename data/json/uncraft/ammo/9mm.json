@@ -4,6 +4,7 @@
     "copy-from": "ammo_cartridge",
     "type": "uncraft",
     "using": [ [ "ammo_9mm", 1 ], [ "ammo_bullet", 2 ] ],
+    "tools": [ [ [ "puller", -1 ] ] ],
     "components": [ [ [ "gunpowder", 3 ] ] ]
   },
   {
@@ -11,6 +12,7 @@
     "copy-from": "ammo_cartridge",
     "type": "uncraft",
     "using": [ [ "ammo_9mm", 1 ], [ "ammo_bullet", 2 ] ],
+    "tools": [ [ [ "puller", -1 ] ] ],
     "components": [ [ [ "gunpowder", 4 ] ] ]
   },
   {
@@ -18,13 +20,15 @@
     "copy-from": "ammo_cartridge",
     "type": "uncraft",
     "using": [ [ "ammo_9mm", 1 ], [ "ammo_bullet", 2 ] ],
+    "tools": [ [ [ "puller", -1 ] ] ],
     "components": [ [ [ "gunpowder", 5 ] ] ]
   },
   {
     "result": "9mmfmj",
     "copy-from": "ammo_cartridge",
     "type": "uncraft",
-    "using": [ [ "ammo_9mm", 1 ], [ "ammo_bullet", 1 ] ],
+    "using": [ [ "ammo_9mm", 1 ], [ "ammo_bullet", 2 ] ],
+    "tools": [ [ [ "puller", -1 ] ] ],
     "components": [ [ [ "gunpowder", 3 ] ] ]
   }
 ]
