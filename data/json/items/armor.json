@@ -5156,7 +5156,12 @@
     "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "covers": [ "TORSO" ],
+    "coverage": 20,
+    "encumbrance": 3, 
+    "material_thickness": 2,
+    "flags": [ "WAIST" ]
   },
   {
     "id": "judo_belt_blue",
@@ -5169,7 +5174,12 @@
     "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
-    "color": "blue"
+    "color": "blue",
+    "covers": [ "TORSO" ],
+    "coverage": 20,
+    "encumbrance": 3, 
+    "material_thickness": 2,
+    "flags": [ "WAIST" ]
   },
   {
     "id": "judo_belt_brown",
@@ -5182,7 +5192,12 @@
     "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
-    "color": "brown"
+    "color": "brown",
+    "covers": [ "TORSO" ],
+    "coverage": 20,
+    "encumbrance": 3, 
+    "material_thickness": 2,
+    "flags": [ "WAIST" ]
   },
   {
     "id": "judo_belt_green",
@@ -5195,7 +5210,12 @@
     "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
-    "color": "green"
+    "color": "green",
+    "covers": [ "TORSO" ],
+    "coverage": 20,
+    "encumbrance": 3, 
+    "material_thickness": 2,
+    "flags": [ "WAIST" ]
   },
   {
     "id": "judo_belt_orange",
@@ -5208,7 +5228,12 @@
     "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
-    "color": "light_red"
+    "color": "light_red",
+    "covers": [ "TORSO" ],
+    "coverage": 20,
+    "encumbrance": 3, 
+    "material_thickness": 2,
+    "flags": [ "WAIST" ]
   },
   {
     "id": "judo_belt_white",
@@ -5221,7 +5246,12 @@
     "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
-    "color": "white"
+    "color": "white",
+    "covers": [ "TORSO" ],
+    "coverage": 20,
+    "encumbrance": 3, 
+    "material_thickness": 2,
+    "flags": [ "WAIST" ]
   },
   {
     "id": "judo_belt_yellow",
@@ -5234,7 +5264,12 @@
     "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
-    "color": "yellow"
+    "color": "yellow",
+    "covers": [ "TORSO" ],
+    "coverage": 20,
+    "encumbrance": 3, 
+    "material_thickness": 2,
+    "flags": [ "WAIST" ]
   },
   {
     "id": "judo_gi",
