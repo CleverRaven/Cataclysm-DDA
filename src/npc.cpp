@@ -18,6 +18,7 @@
 #include "monfaction.h"
 #include "mutation.h"
 #include "npc_class.h"
+#include "ammo.h"
 #include "json.h"
 #include "sounds.h"
 #include "morale_types.h"
@@ -708,7 +709,7 @@ void starting_inv( npc &me, const npc_class_id &type )
     res.emplace_back( "lighter" );
     // If wielding a gun, get some additional ammo for it
     if( me.weapon.is_gun() ) {
-        item ammo( default_ammo( me.weapon.ammo_type() ) );
+        item ammo( me.weapon.ammo_type()->default_ammotype() );
         ammo = ammo.in_its_container();
         if( ammo.made_of( LIQUID ) ) {
             item container( "bottle_plastic" );
@@ -870,7 +871,7 @@ void npc::starting_weapon( const npc_class_id &type )
     }
 
     if( weapon.is_gun() ) {
-        weapon.ammo_set( default_ammo( weapon.type->gun->ammo ) );
+        weapon.ammo_set( weapon.type->gun->ammo->default_ammotype() );
     }
 }
 
@@ -1427,7 +1428,7 @@ void npc::shop_restock()
 
     has_new_items = true;
     inv.clear();
-    inv.add_stack( ret );
+    inv.push_back( ret );
 }
 
 
@@ -1480,7 +1481,7 @@ int npc::value( const item &it, int market_price ) const
         if( get_thirst() > 40 ) {
             comestval += ( it.type->comestible->quench + get_thirst() - 40 ) / 4;
         }
-        if( comestval > 0 && will_eat( it ) == EDIBLE ) {
+        if( comestval > 0 && will_eat( it ).success() ) {
             ret += comestval;
         }
     }

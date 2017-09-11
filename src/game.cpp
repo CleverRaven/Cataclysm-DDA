@@ -195,7 +195,6 @@ game *g;
 #ifdef TILES
 extern std::unique_ptr<cata_tiles> tilecontext;
 #endif // TILES
-input_context get_default_mode_input_context();
 
 uistatedata uistate;
 
@@ -2187,6 +2186,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("open_autopickup");
     ctxt.register_action("open_safemode");
     ctxt.register_action("open_color");
+    ctxt.register_action("open_world_mods");
     ctxt.register_action("debug");
     ctxt.register_action("debug_scent");
     ctxt.register_action("debug_mode");
@@ -3394,6 +3394,11 @@ bool game::handle_action()
 
         case ACTION_COLOR:
             all_colors.show_gui();
+            refresh_all();
+            break;
+
+        case ACTION_WORLD_MODS:
+            world_generator->show_active_world_mods( world_generator->active_world->active_mod_order );
             refresh_all();
             break;
 
@@ -7877,7 +7882,7 @@ void game::print_trap_info( const tripoint &lp, WINDOW *w_look, const int column
 {
     const trap &tr = m.tr_at( lp );
     if( tr.can_see( lp, u )) {
-        mvwprintz(w_look, line++, column, tr.color, "%s", tr.name.c_str());
+        mvwprintz(w_look, line++, column, tr.color, "%s", tr.name().c_str());
     }
 }
 
@@ -10269,7 +10274,7 @@ void game::butcher()
             continue;
         }
 
-        if( u.can_disassemble( items[i], crafting_inv ) ) {
+        if( u.can_disassemble( items[i], crafting_inv ).success() ) {
             disassembles.push_back(i);
         } else if( first_item_without_tools == nullptr ) {
             first_item_without_tools = &items[i];
@@ -10293,11 +10298,11 @@ void game::butcher()
         }
 
         if( first_item_without_tools != nullptr ) {
-            std::string err;
             add_msg( m_info, _("You don't have the necessary tools to disassemble any items here.") );
             // Just for the "You need x to disassemble y" messages
-            if( !u.can_disassemble( *first_item_without_tools, crafting_inv, &err ) ) {
-                add_msg( m_info, "%s", err.c_str() );
+            const auto ret = u.can_disassemble( *first_item_without_tools, crafting_inv );
+            if( !ret.success() ) {
+                add_msg( m_info, "%s", ret.c_str() );
             }
         }
         return;
@@ -10887,7 +10892,7 @@ void game::chat()
 
     uimenu nmenu;
     nmenu.text = std::string( _( "Who do you want to talk to or yell at?" ) );
-    
+
     int i = 0;
 
     for( auto &elem : available ) {
@@ -11177,10 +11182,10 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
         // Note: in non-z-level mode, ledges obey different rules and so should be handled as regular traps
         if( tr.loadid == tr_ledge && m.has_zlevels() ) {
             if( !boardable && !m.has_floor_or_support( dest_loc ) ) {
-                harmful_stuff.push_back( tr.name.c_str() );
+                harmful_stuff.push_back( tr.name().c_str() );
             }
         } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() ) {
-            harmful_stuff.push_back( tr.name.c_str() );
+            harmful_stuff.push_back( tr.name().c_str() );
         }
 
         static const std::set< body_part > sharp_bps = {

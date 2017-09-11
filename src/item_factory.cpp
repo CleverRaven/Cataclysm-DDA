@@ -11,6 +11,7 @@
 #include "assign.h"
 #include "init.h"
 #include "item.h"
+#include "ammo.h"
 #include "item_group.h"
 #include "iuse_actor.h"
 #include "json.h"
@@ -208,7 +209,7 @@ void Item_factory::finalize() {
         }
         // for magazines ensure default_ammo is set
         if( obj.magazine && obj.magazine->default_ammo == "NULL" ) {
-               obj.magazine->default_ammo = default_ammo( obj.magazine->type );
+               obj.magazine->default_ammo = obj.magazine->type->default_ammotype();
         }
         if( obj.gun ) {
             // @todo add explicit action field to gun definitions
@@ -2009,6 +2010,25 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, JsonObje
     return true;
 }
 
+bool Item_factory::load_string(std::vector<std::string> &vec, JsonObject &obj, const std::string &name)
+{
+    bool result = false;
+    std::string temp;
+
+    if( obj.has_array( name ) ) {
+        JsonArray arr = obj.get_array( name );
+        while( arr.has_more() ) {
+            result |= arr.read_next( temp );
+            vec.push_back( temp );
+        }
+    } else if ( obj.has_member( name ) ) {
+        result |= obj.read( name, temp );
+        vec.push_back( temp );
+    }
+
+    return result;
+}
+
 void Item_factory::add_entry(Item_group *ig, JsonObject &obj)
 {
     std::unique_ptr<Item_spawn_data> ptr;
@@ -2050,6 +2070,7 @@ void Item_factory::add_entry(Item_group *ig, JsonObject &obj)
     use_modifier |= load_sub_ref( modifier->ammo, obj, "ammo", *ig );
     use_modifier |= load_sub_ref( modifier->container, obj, "container", *ig );
     use_modifier |= load_sub_ref( modifier->contents, obj, "contents", *ig );
+    use_modifier |= load_string( modifier->custom_flags, obj, "custom-flags" );
     if (use_modifier) {
         dynamic_cast<Single_item_creator *>(ptr.get())->modifier = std::move(modifier);
     }

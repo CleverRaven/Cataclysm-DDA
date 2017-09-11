@@ -147,7 +147,7 @@ item::item( const itype *type, int turn, long qty ) : type( type )
 
     } else if( type->tool ) {
         if( ammo_remaining() && ammo_type() ) {
-            ammo_set( default_ammo( ammo_type() ), ammo_remaining() );
+            ammo_set( ammo_type()->default_ammotype(), ammo_remaining() );
         }
     }
 
@@ -889,7 +889,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
     if( is_magazine() && !has_flag( "NO_RELOAD" ) ) {
         info.emplace_back( "MAGAZINE", _( "Capacity: " ),
                            string_format( ngettext( "<num> round of %s", "<num> rounds of %s", ammo_capacity() ),
-                                          ammo_name( ammo_type() ).c_str() ), ammo_capacity(), true );
+                                          ammo_type()->name().c_str() ), ammo_capacity(), true );
 
         info.emplace_back( "MAGAZINE", _( "Reload time: " ), _( "<num> per round" ),
                            type->magazine->reload_time, true, "", true, true );
@@ -972,10 +972,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             if( mod->ammo_capacity() ) {
                 info.emplace_back( "GUN", _( "<bold>Capacity:</bold> " ),
                                    string_format( ngettext( "<num> round of %s", "<num> rounds of %s", mod->ammo_capacity() ),
-                                                  ammo_name( mod->ammo_type() ).c_str() ), mod->ammo_capacity(), true );
+                                                  mod->ammo_type()->name().c_str() ), mod->ammo_capacity(), true );
             }
         } else {
-            info.emplace_back( "GUN", _( "Type: " ), ammo_name( mod->ammo_type() ) );
+            info.emplace_back( "GUN", _( "Type: " ), mod->ammo_type()->name() );
             if( mod->magazine_current() ) {
                 info.emplace_back( "GUN", _( "Magazine: " ), string_format( "<stat>%s</stat>", mod->magazine_current()->tname().c_str() ) );
             }
@@ -1182,7 +1182,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
         if( type->mod->ammo_modifier ) {
             info.push_back( iteminfo( "GUNMOD",
-                                      string_format( _( "Ammo: <stat>%s</stat>" ), ammo_name( type->mod->ammo_modifier ).c_str() ) ) );
+                                      string_format( _( "Ammo: <stat>%s</stat>" ), type->mod->ammo_modifier->name().c_str() ) ) );
         }
 
         temp1.str( "" );
@@ -1434,7 +1434,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             if( ammo_type() ) {
                 //~ "%s" is ammunition type. This types can't be plural.
                 tmp = ngettext( "Maximum <num> charge of %s.", "Maximum <num> charges of %s.", ammo_capacity() );
-                tmp = string_format( tmp, _( ammo_name( ammo_type() ).c_str() ) );
+                tmp = string_format( tmp, ammo_type()->name().c_str() );
             } else {
                 tmp = ngettext( "Maximum <num> charge.", "Maximum <num> charges.", ammo_capacity() );
             }
@@ -1927,7 +1927,7 @@ nc_color item::color_in_inventory() const
         // Cyan: will rot eventually
         const auto rating = u->will_eat( to_color );
         // TODO: More colors
-        switch( rating ) {
+        switch( rating.value() ) {
             case EDIBLE:
             case TOO_FULL:
                 if( preserves ) {
@@ -2453,7 +2453,7 @@ units::mass item::weight( bool include_contents ) const
 
     } else if( magazine_integral() && !is_magazine() ) {
         if ( ammo_type() == ammotype( "plutonium" ) ) {
-            ret += ammo_remaining() * find_type( default_ammo( ammo_type() ) )->weight / PLUTONIUM_CHARGES;
+            ret += ammo_remaining() * find_type( ammo_type()->default_ammotype() )->weight / PLUTONIUM_CHARGES;
         } else if( ammo_data() ) {
             ret += ammo_remaining() * ammo_data()->weight;
         }
@@ -4289,7 +4289,7 @@ ammotype item::ammo_type( bool conversion ) const
 
 itype_id item::ammo_default( bool conversion ) const
 {
-    auto res = default_ammo( ammo_type( conversion ) );
+    auto res = ammo_type( conversion )->default_ammotype();
     return !res.empty() ? res : "NULL";
 }
 
@@ -4406,62 +4406,55 @@ const item * item::gunmod_find( const itype_id& mod ) const
     return const_cast<item *>( this )->gunmod_find( mod );
 }
 
-bool item::gunmod_compatible( const item& mod, std::string *msg ) const
+ret_val<bool> item::is_gunmod_compatible( const item& mod ) const
 {
     if( !mod.is_gunmod() ) {
         debugmsg( "Tried checking compatibility of non-gunmod" );
-        return false;
+        return ret_val<bool>::make_failure();
     }
 
-    const auto error = [ msg ]( const std::string &error_msg ) {
-        if( msg != nullptr ) {
-            *msg = error_msg;
-        }
-        return false;
-    };
-
     if( !is_gun() ) {
-        return error( string_format( _( "isn't a weapon" ) ) );
+        return ret_val<bool>::make_failure( string_format( _( "isn't a weapon" ) ) );
 
     } else if( is_gunmod() ) {
-        return error( string_format( _( "is a gunmod and cannot be modded" ) ) );
+        return ret_val<bool>::make_failure( string_format( _( "is a gunmod and cannot be modded" ) ) );
 
     } else if( gunmod_find( mod.typeId() ) ) {
-        return error( string_format( _( "already has a %s" ), mod.tname( 1 ).c_str() ) );
+        return ret_val<bool>::make_failure( string_format( _( "already has a %s" ), mod.tname( 1 ).c_str() ) );
 
     } else if( !type->gun->valid_mod_locations.count( mod.type->gunmod->location ) ) {
-        return error( string_format( _( "doesn't have a slot for this mod" ) ) );
+        return ret_val<bool>::make_failure( string_format( _( "doesn't have a slot for this mod" ) ) );
 
     } else if( get_free_mod_locations( mod.type->gunmod->location ) <= 0 ) {
-        return error( string_format( _( "doesn't have enough room for another %s mod" ),
-                                     mod.type->gunmod->location.name().c_str() ) );
+        return ret_val<bool>::make_failure( string_format( _( "doesn't have enough room for another %s mod" ),
+                                            mod.type->gunmod->location.name().c_str() ) );
 
     } else if( !mod.type->gunmod->usable.count( gun_type() ) ) {
-        return error( string_format( _( "cannot have a %s" ), mod.tname().c_str() ) );
+        return ret_val<bool>::make_failure( string_format( _( "cannot have a %s" ), mod.tname().c_str() ) );
 
     } else if( typeId() == "hand_crossbow" && !!mod.type->gunmod->usable.count( "pistol" ) ) {
-        return error( string_format( _("isn't big enough to use that mod") ) );
+        return ret_val<bool>::make_failure( string_format( _("isn't big enough to use that mod") ) );
 
     } else if ( !mod.type->mod->acceptable_ammo.empty() && !mod.type->mod->acceptable_ammo.count( ammo_type( false ) ) ) {
         //~ %1$s - name of the gunmod, %2$s - name of the ammo
-        return error( string_format( _( "%1$s cannot be used on %2$s" ), mod.tname( 1 ).c_str(),
-                                     ammo_name( ammo_type( false ) ).c_str() ) );
+        return ret_val<bool>::make_failure( string_format( _( "%1$s cannot be used on %2$s" ), mod.tname( 1 ).c_str(),
+                                            ammo_type( false )->name().c_str() ) );
 
     } else if( mod.typeId() == "waterproof_gunmod" && has_flag( "WATERPROOF_GUN" ) ) {
-        return error( string_format( _( "is already waterproof" ) ) );
+        return ret_val<bool>::make_failure( string_format( _( "is already waterproof" ) ) );
 
     } else if( mod.typeId() == "tuned_mechanism" && has_flag( "NEVER_JAMS" ) ) {
-        return error( string_format( _( "is already eminently reliable" ) ) );
+        return ret_val<bool>::make_failure( string_format( _( "is already eminently reliable" ) ) );
 
     } else if( mod.typeId() == "brass_catcher" && has_flag( "RELOAD_EJECT" ) ) {
-        return error( string_format( _( "cannot have a brass catcher" ) ) );
+        return ret_val<bool>::make_failure( string_format( _( "cannot have a brass catcher" ) ) );
 
     } else if( ( mod.type->mod->ammo_modifier || !mod.type->mod->magazine_adaptor.empty() )
                && ( ammo_remaining() > 0 || magazine_current() ) ) {
-        return error( string_format( _( "must be unloaded before installing this mod" ) ) );
+        return ret_val<bool>::make_failure( string_format( _( "must be unloaded before installing this mod" ) ) );
     }
 
-    return true;
+    return ret_val<bool>::make_success();
 }
 
 std::map<std::string, const item::gun_mode> item::gun_all_modes() const
@@ -5235,21 +5228,6 @@ const item_category &item::get_category() const
 
     static item_category null_category;
     return type->category ? *type->category : null_category;
-}
-
-bool item_matches_locator(const item &it, const itype_id &id, int)
-{
-    return it.typeId() == id;
-}
-
-bool item_matches_locator(const item &, int locator_pos, int item_pos)
-{
-    return item_pos == locator_pos;
-}
-
-bool item_matches_locator(const item &it, const item *other, int)
-{
-    return &it == other;
 }
 
 iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt,

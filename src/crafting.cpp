@@ -9,6 +9,7 @@
 #include "inventory.h"
 #include "itype.h"
 #include "json.h"
+#include "ammo.h"
 #include "map.h"
 #include "messages.h"
 #include "npc.h"
@@ -931,29 +932,22 @@ void player::consume_tools( const std::vector<tool_comp> &tools, int batch,
     consume_tools( select_tool_component( tools, batch, map_inv, hotkeys ), batch );
 }
 
-bool player::can_disassemble( const item &obj, const inventory &inv, std::string *err ) const
+ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) const
 {
-    const auto error = [&err]( const std::string & message ) {
-        if( err != nullptr ) {
-            *err = message;
-        }
-        return false;
-    };
-
     const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
 
     if( !r ) {
-        return error( string_format( _( "You cannot disassemble this." ) ) );
+        return ret_val<bool>::make_failure( string_format( _( "You cannot disassemble this." ) ) );
     }
 
     // check sufficient light
     if( lighting_craft_speed_multiplier( r ) == 0.0f ) {
-        return error( _( "You can't see to craft!" ) );
+        return ret_val<bool>::make_failure( _( "You can't see to craft!" ) );
     }
     // refuse to disassemble rotten items
     if( obj.goes_bad() || ( obj.is_food_container() && obj.contents.front().goes_bad() ) ) {
         if( obj.rotten() || ( obj.is_food_container() && obj.contents.front().rotten() ) ) {
-            return error( _( "It's rotten, I'm not taking that apart." ) );
+            return ret_val<bool>::make_failure( _( "It's rotten, I'm not taking that apart." ) );
         }
     }
 
@@ -963,7 +957,7 @@ bool player::can_disassemble( const item &obj, const inventory &inv, std::string
         if( obj.charges < qty ) {
             auto msg = ngettext( "You need at least %d charge of %s.",
                                  "You need at least %d charges of %s.", qty );
-            return error( string_format( msg, qty, obj.tname().c_str() ) );
+            return ret_val<bool>::make_failure( string_format( msg, qty, obj.tname().c_str() ) );
         }
     }
 
@@ -973,7 +967,7 @@ bool player::can_disassemble( const item &obj, const inventory &inv, std::string
         for( const auto &qual : opts ) {
             if( !qual.has( inv ) ) {
                 // Here should be no dot at the end of the string as 'to_string()' provides it.
-                return error( string_format( _( "You need %s" ), qual.to_string().c_str() ) );
+                return ret_val<bool>::make_failure( string_format( _( "You need %s" ), qual.to_string().c_str() ) );
             }
         }
     }
@@ -987,18 +981,18 @@ bool player::can_disassemble( const item &obj, const inventory &inv, std::string
 
         if( !found ) {
             if( opts.front().count <= 0 ) {
-                return error( string_format( _( "You need %s." ),
-                                             item::nname( opts.front().type ).c_str() ) );
+                return ret_val<bool>::make_failure( string_format( _( "You need %s." ),
+                                                    item::nname( opts.front().type ).c_str() ) );
             } else {
-                return error( string_format( ngettext( "You need a %s with %d charge.",
-                                                       "You need a %s with %d charges.",
-                                                       opts.front().count ),
-                                             item::nname( opts.front().type ).c_str(), opts.front().count ) );
+                return ret_val<bool>::make_failure( string_format( ngettext( "You need a %s with %d charge.",
+                                                    "You need a %s with %d charges.", opts.front().count ),
+                                                    item::nname( opts.front().type ).c_str(),
+                                                    opts.front().count ) );
             }
         }
     }
 
-    return true;
+    return ret_val<bool>::make_success();
 }
 
 bool player::disassemble()
@@ -1020,11 +1014,11 @@ bool player::disassemble( int dis_pos )
 
 bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
 {
-    // check sufficient tools for disassembly
-    std::string err;
-    if( !can_disassemble( obj, crafting_inventory(), &err ) ) {
+    const auto ret = can_disassemble( obj, crafting_inventory() );
+
+    if( !ret.success() ) {
         if( interactive ) {
-            add_msg_if_player( m_info, "%s", err.c_str() );
+            add_msg_if_player( m_info, "%s", ret.c_str() );
         }
         return false;
     }
@@ -1368,7 +1362,7 @@ void remove_ammo( item *dis_item, player &p )
         dis_item->charges = 0;
     }
     if( dis_item->is_tool() && dis_item->charges > 0 && dis_item->ammo_type() ) {
-        item ammodrop( default_ammo( dis_item->ammo_type() ), calendar::turn );
+        item ammodrop( dis_item->ammo_type()->default_ammotype(), calendar::turn );
         ammodrop.charges = dis_item->charges;
         if( dis_item->ammo_type() == ammotype( "plutonium" ) ) {
             ammodrop.charges /= PLUTONIUM_CHARGES;

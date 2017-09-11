@@ -86,7 +86,8 @@
       ],
       "place_vehicles": [
         { "vehicle": "flatbed_truck", "x": 12, "y": 13, "chance": 50, "rotation": 270 },
-        { "vehicle": "warehouse_vehicles", "x": 17, "y": 13, "chance": 50, "rotation": 270 }
+        { "vehicle": "warehouse_vehicles", "x": 17, "y": 13, "chance": 50, "rotation": 270 },
+        { "vehicle": "tatra_truck", "x": 8, "y": 7, "chance": 50, "rotation": 270 }
       ]
     }
   }

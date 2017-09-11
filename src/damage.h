@@ -4,6 +4,7 @@
 
 #include "enums.h"
 #include "string_id.h"
+#include <array>
 #include <string>
 #include <vector>
 #include <set>

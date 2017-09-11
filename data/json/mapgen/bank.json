@@ -1,0 +1,87 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "bank" ],
+    "weight": 100,
+    "object": {
+      "rows": [
+        "         S              ",
+        " ggggggggGggggggggggggg ",
+        " #A..........CTC.CTC.p# ",
+        " #A...................w ",
+        " #....................# ",
+        " #+### c-c-c-c-c####..# ",
+        " #..............#s.+..w ",
+        " #..............#..#..# ",
+        " #..ccccccccp...#t.#..# ",
+        " ##############+####%%# ",
+        " #.....*..............# ",
+        " w.....#..............# ",
+        " #.TTT.#....##+##+##+## ",
+        " #p.C.p#....#......#.c# ",
+        " #######....#...CT.#.c# ",
+        " #RRRRR#....#..CTC.#cc# ",
+        " #R$$$R#....########### ",
+        " #R...R#....+........p# ",
+        " #R...R#....#..C.C.C .# ",
+        " #Rc..MM....#..TTTTTC.# ",
+        " #Rc..MM....#..C.C.C..w ",
+        " #RRRRR#6...#p.......p# ",
+        " ###############w####w# ",
+        "                        "
+      ],
+      "terrain": {
+        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "#": "t_wall",
+        "$": "t_metal_floor",
+        "%": [ "t_door_c", "t_door_c", "t_door_locked_interior" ],
+        "*": [ "t_door_c", "t_door_c", "t_door_c", "t_door_locked_interior" ],
+        "+": "t_door_c",
+        "-": "t_window",
+        ".": "t_floor",
+        "6": "t_console",
+        "A": "t_atm",
+        "C": "t_floor",
+        "G": "t_door_glass_c",
+        "M": "t_door_metal_locked",
+        "R": "t_wall_metal",
+        "S": "t_sidewalk",
+        "T": "t_floor",
+        "c": "t_floor",
+        "g": "t_wall_glass_alarm",
+        "p": "t_floor",
+        "s": "t_floor",
+        "t": "t_floor",
+        "w": "t_window_alarm"
+      },
+      "furniture": {
+        "$": "f_safe_l",
+        "C": "f_chair",
+        "T": "f_table",
+        "c": "f_counter",
+        "p": [ "f_indoor_plant", "f_null" ],
+        "s": "f_sink",
+        "t": "f_toilet"
+      },
+      "toilets": {
+        "t": {}
+      },
+      "place_items": [
+        { "item": "office", "x": [ 4, 9 ], "y": 8, "chance": 30 },
+        { "item": "office", "x": [ 3, 5 ], "y": 12, "chance": 30 },
+        { "item": "office", "x": 16, "y": [ 14, 15 ], "chance": 70 },
+        { "item": "vault", "x": 3, "y": [ 19, 20 ], "chance": 30, "repeat": 5 },
+        { "item": "vault", "x": [ 3, 5 ], "y": 16, "chance": 90, "repeat": 5 }
+      ],
+      "computers": {
+        "6": {
+          "name": "Consolidated Computerized Bank of the Treasury", "security": 3, "options": [ { "name": "Open Vault", "action": "unlock" } ], "failures": [
+            { "action": "shutdown" },
+            { "action": "alarm" }
+          ]
+        }
+      }
+    }
+  }
+]

@@ -133,7 +133,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
         for( const itype *e : item_controller->all() ) {
             item food( e, calendar::turn, item::solitary_tag {} );
 
-            if( food.is_food() && g->u.can_eat( food ) == EDIBLE ) {
+            if( food.is_food() && g->u.can_eat( food ).success() ) {
                 dump( food );
             }
         }
@@ -184,7 +184,7 @@ bool game::dump_stats( const std::string& what, dump_mode mode, const std::vecto
                 if( !gun.magazine_integral() ) {
                     gun.emplace_back( gun.magazine_default() );
                 }
-                gun.ammo_set( default_ammo( gun.ammo_type() ), gun.ammo_capacity() );
+                gun.ammo_set( gun.ammo_type()->default_ammotype(), gun.ammo_capacity() );
 
                 dump( test_npcs[ "S1" ], gun );
 

@@ -58,6 +58,7 @@
 #include "fault.h"
 #include "recipe_dictionary.h"
 #include "ranged.h"
+#include "ammo.h"
 
 #include <map>
 #include <iterator>
@@ -3573,7 +3574,7 @@ void player::search_surroundings()
             if( !sees( x, y ) ) {
                 continue;
             }
-            if( tr.name.empty() || tr.can_see( tripoint( x, y, z ), *this ) ) {
+            if( tr.name().empty() || tr.can_see( tripoint( x, y, z ), *this ) ) {
                 // Already seen, or has no name -> can never be seen
                 continue;
             }
@@ -3584,7 +3585,7 @@ void player::search_surroundings()
                     const std::string direction = direction_name(
                         direction_from(posx(), posy(), x, y));
                     add_msg_if_player(_("You've spotted a %1$s to the %2$s!"),
-                                      tr.name.c_str(), direction.c_str());
+                                      tr.name().c_str(), direction.c_str());
                 }
                 add_known_trap( tripoint( x, y, z ), tr);
             }
@@ -6728,8 +6729,8 @@ void player::process_active_items()
         }
     }
     if( cloak != nullptr ) {
-        if( ch_UPS >= 40 ) {
-            use_charges( "UPS", 40 );
+        if( ch_UPS >= 20 ) {
+            use_charges( "UPS", 20 );
             if( ch_UPS < 200 && one_in( 3 ) ) {
                 add_msg_if_player( m_warning, _( "Your optical cloak flickers for a moment!" ) );
             }
@@ -7565,7 +7566,7 @@ item::reload_option player::select_ammo( const item& base, bool prompt ) const
         } else if ( ammo_match_found ) {
             add_msg_if_player( m_info, _( "Nothing to reload!" ) );
         } else {
-            auto name = base.ammo_data() ? base.ammo_data()->nname( 1 ) : ammo_name( base.ammo_type() );
+            auto name = base.ammo_data() ? base.ammo_data()->nname( 1 ) : base.ammo_type()->name();
             add_msg_if_player( m_info, _( "Out of %s!" ), name.c_str() );
         }
         return reload_option();
@@ -8625,7 +8626,7 @@ hint_rating player::rate_action_mend( const item &it ) const
 
 hint_rating player::rate_action_disassemble( const item &it )
 {
-    if( can_disassemble( it, crafting_inventory() ) ) {
+    if( can_disassemble( it, crafting_inventory() ).success() ) {
         return HINT_GOOD; // possible
 
     } else if( recipe_dictionary::get_uncraft( it.typeId() ) ) {
@@ -8926,7 +8927,7 @@ std::pair<int, int> player::gunmod_installation_odds( const item& gun, const ite
 
 void player::gunmod_add( item &gun, item &mod )
 {
-    if( !gun.gunmod_compatible( mod ) ) {
+    if( !gun.is_gunmod_compatible( mod ).success() ) {
         debugmsg( "Tried to add incompatible gunmod" );
         return;
     }

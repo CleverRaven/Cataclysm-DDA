@@ -187,6 +187,7 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("base_colors", FILENAMES["config_dir"] + "base_colors.json");
     update_pathname("custom_colors", FILENAMES["config_dir"] + "custom_colors.json");
     update_pathname("mods-user-default", FILENAMES["config_dir"] + "user-default-mods.json");
+    update_pathname("user_moddir", FILENAMES["user_dir"] + "mods/");
     update_pathname("worldoptions", "worldoptions.json");
 
     // Needed to move files from these legacy locations to the new config directory.

@@ -305,22 +305,16 @@ morale_type player::allergy_type( const item &food ) const
     return MORALE_NULL;
 }
 
-edible_rating player::can_eat( const item &food, std::string *err ) const
+edible_ret_val player::can_eat( const item &food ) const
 {
-    const auto error = [ &err ]( edible_rating rating, const std::string & message ) {
-        if( err != nullptr ) {
-            *err = message;
-        }
-        return rating;
-    };
     // @todo This condition occurs way too often. Unify it.
     if( is_underwater() ) {
-        return error( INEDIBLE, _( "You can't do that while underwater." ) );
+        return edible_ret_val::make_failure( _( "You can't do that while underwater." ) );
     }
 
     const auto comest = food.type->comestible.get();
     if( comest == nullptr ) {
-        return error( INEDIBLE, _( "That doesn't look edible." ) );
+        return edible_ret_val::make_failure( _( "That doesn't look edible." ) );
     }
 
     const bool eat_verb  = food.has_flag( "USE_EAT_VERB" );
@@ -330,7 +324,7 @@ edible_rating player::can_eat( const item &food, std::string *err ) const
     if( edible || drinkable ) {
         for( const auto &elem : food.type->materials ) {
             if( !elem->edible() ) {
-                return error( INEDIBLE, _( "That doesn't look edible in its current form." ) );
+                return edible_ret_val::make_failure( _( "That doesn't look edible in its current form." ) );
             }
         }
     }
@@ -340,45 +334,50 @@ edible_rating player::can_eat( const item &food, std::string *err ) const
                          ? has_charges( comest->tool, 1 )
                          : has_amount( comest->tool, 1 );
         if( !has ) {
-            return error( NO_TOOL, string_format( _( "You need a %s to consume that!" ),
-                                                  item::nname( comest->tool ).c_str() ) );
+            return edible_ret_val::make_failure( string_format( _( "You need a %s to consume that!" ),
+                                                 item::nname( comest->tool ).c_str() ), NO_TOOL );
         }
     }
 
     // For all those folks who loved eating marloss berries.  D:< mwuhahaha
     if( has_trait( trait_id( "M_DEPENDENT" ) ) && food.typeId() != "mycus_fruit" ) {
-        return error( INEDIBLE_MUTATION, _( "We can't eat that.  It's not right for us." ) );
+        return edible_ret_val::make_failure( _( "We can't eat that.  It's not right for us." ),
+                                             INEDIBLE_MUTATION );
     }
     // Here's why PROBOSCIS is such a negative trait.
     if( has_trait( trait_id( "PROBOSCIS" ) ) && !drinkable ) {
-        return error( INEDIBLE_MUTATION, _( "Ugh, you can't drink that!" ) );
+        return edible_ret_val::make_failure( _( "Ugh, you can't drink that!" ), INEDIBLE_MUTATION );
     }
 
     if( has_trait( trait_id( "CARNIVORE" ) ) && nutrition_for( food ) > 0 &&
         food.has_any_flag( carnivore_blacklist ) && !food.has_flag( "CARNIVORE_OK" ) ) {
-        return error( INEDIBLE_MUTATION, _( "Eww.  Inedible plant stuff!" ) );
+        return edible_ret_val::make_failure( _( "Eww.  Inedible plant stuff!" ), INEDIBLE_MUTATION );
     }
 
     if( ( has_trait( trait_id( "HERBIVORE" ) ) || has_trait( trait_id( "RUMINANT" ) ) ) &&
         food.has_any_flag( herbivore_blacklist ) ) {
         // Like non-cannibal, but more strict!
-        return error( INEDIBLE_MUTATION, _( "The thought of eating that makes you feel sick." ) );
+        return edible_ret_val::make_failure( _( "The thought of eating that makes you feel sick." ),
+                                             INEDIBLE_MUTATION );
     }
 
-    return EDIBLE;
+    return edible_ret_val::make_success();
 }
 
-edible_rating player::will_eat( const item &food, bool interactive ) const
+edible_ret_val player::will_eat( const item &food, bool interactive ) const
 {
-    std::string err;
-    const auto edibility = can_eat( food, &err );
-    if( edibility != EDIBLE ) {
+    const auto ret = can_eat( food );
+    if( !ret.success() ) {
         if( interactive ) {
-            add_msg_if_player( m_info, err.c_str() );
+            add_msg_if_player( m_info, "%s", ret.c_str() );
         }
-        return edibility;
+        return ret;
     }
-    std::vector<std::pair<edible_rating, std::string>> consequences;
+
+    std::vector<edible_ret_val> consequences;
+    const auto add_consequence = [&consequences]( const std::string & msg, edible_rating code ) {
+        consequences.emplace_back( edible_ret_val::make_failure( msg, code ) );
+    };
 
     const bool saprophage = has_trait( trait_id( "SAPROPHAGE" ) );
     const auto comest = food.type->comestible.get();
@@ -386,26 +385,24 @@ edible_rating player::will_eat( const item &food, bool interactive ) const
     if( food.rotten() ) {
         const bool saprovore = has_trait( trait_id( "SAPROVORE" ) );
         if( !saprophage && !saprovore ) {
-            consequences.emplace_back( ROTTEN, _( "This is rotten and smells awful!" ) );
+            add_consequence( _( "This is rotten and smells awful!" ), ROTTEN );
         }
     }
 
     const bool carnivore = has_trait( trait_id( "CARNIVORE" ) );
     if( food.has_flag( "CANNIBALISM" ) && !has_trait_flag( "CANNIBAL" ) ) {
-        consequences.emplace_back( CANNIBALISM,
-                                   _( "The thought of eating human flesh makes you feel sick." ) );
+        add_consequence( _( "The thought of eating human flesh makes you feel sick." ), CANNIBALISM );
     }
 
     const bool edible = comest->comesttype == "FOOD" || food.has_flag( "USE_EAT_VERB" );
 
     if( edible && has_effect( effect_nausea ) ) {
-        consequences.emplace_back( NAUSEA,
-                                   _( "You still feel nauseous and will probably puke it all up again." ) );
+        add_consequence( _( "You still feel nauseous and will probably puke it all up again." ), NAUSEA );
     }
 
     if( ( allergy_type( food ) != MORALE_NULL ) || ( carnivore && food.has_flag( "ALLERGEN_JUNK" ) &&
             !food.has_flag( "CARNIVORE_OK" ) ) ) {
-        consequences.emplace_back( ALLERGY, _( "Your stomach won't be happy (allergy)." ) );
+        add_consequence( _( "Your stomach won't be happy (allergy)." ), ALLERGY );
     }
 
     if( saprophage && edible && food.rotten() && !food.has_flag( "FERTILIZER" ) ) {
@@ -413,7 +410,7 @@ edible_rating player::will_eat( const item &food, bool interactive ) const
         // Hardcoding fertilizer for now - should be a separate flag later
         //~ No, we don't eat "rotten" food. We eat properly aged food, like a normal person.
         //~ Semantic difference, but greatly facilitates people being proud of their character.
-        consequences.emplace_back( ALLERGY_WEAK, _( "Your stomach won't be happy (not rotten enough)." ) );
+        add_consequence( _( "Your stomach won't be happy (not rotten enough)." ), ALLERGY_WEAK );
     }
 
     const int nutr = nutrition_for( food );
@@ -426,23 +423,21 @@ edible_rating player::will_eat( const item &food, bool interactive ) const
         !has_trait( trait_id( "SLIMESPAWNER" ) ) ) {
 
         if( get_hunger() < 0 && nutr >= 5 && !has_active_mutation( trait_id( "GOURMAND" ) ) ) {
-            consequences.emplace_back( TOO_FULL,
-                                       _( "You're full already and will be forcing yourself to eat." ) );
+            add_consequence( _( "You're full already and will be forcing yourself to eat." ), TOO_FULL );
         } else if( ( ( nutr > 0           && temp_hunger < stomach_capacity() ) ||
                      ( comest->quench > 0 && temp_thirst < stomach_capacity() ) ) &&
                    !food.has_infinite_charges() ) {
-            consequences.emplace_back( TOO_FULL, _( "You will not be able to finish it all." ) );
+            add_consequence( _( "You will not be able to finish it all." ), TOO_FULL );
         }
     }
 
     if( !consequences.empty() ) {
-        const auto res = consequences.front().first;
         if( !interactive ) {
-            return res;
+            return consequences.front();
         }
         std::ostringstream req;
         for( const auto &elem : consequences ) {
-            req << elem.second << std::endl;
+            req << elem.str() << std::endl;
         }
 
         const bool eat_verb  = food.has_flag( "USE_EAT_VERB" );
@@ -455,11 +450,11 @@ edible_rating player::will_eat( const item &food, bool interactive ) const
         }
 
         if( !query_yn( "%s", req.str().c_str() ) ) {
-            return res;
+            return consequences.front();
         }
     }
     // All checks ended, it's edible (or we're pretending it is)
-    return EDIBLE;
+    return edible_ret_val::make_success();
 }
 
 bool player::eat( item &food, bool force )
@@ -469,8 +464,8 @@ bool player::eat( item &food, bool force )
     }
     // Check if it's rotten before eating!
     food.calc_rot( global_square_location() );
-    const auto edible = force ? can_eat( food ) : will_eat( food, is_player() );
-    if( edible != EDIBLE ) {
+    const auto ret = force ? can_eat( food ) : will_eat( food, is_player() );
+    if( !ret.success() ) {
         return false;
     }
 
@@ -880,9 +875,9 @@ hint_rating player::rate_action_eat( const item &it ) const
     }
 
     const auto rating = will_eat( it );
-    if( rating == EDIBLE ) {
+    if( rating.success() ) {
         return HINT_GOOD;
-    } else if( rating == INEDIBLE || rating == INEDIBLE_MUTATION ) {
+    } else if( rating.value() == INEDIBLE || rating.value() == INEDIBLE_MUTATION ) {
         return HINT_CANT;
     }
 
@@ -891,7 +886,7 @@ hint_rating player::rate_action_eat( const item &it ) const
 
 bool player::can_feed_battery_with( const item &it ) const
 {
-    if( !it.is_ammo() || can_eat( it ) == EDIBLE || !has_active_bionic( bio_batteries ) ) {
+    if( !it.is_ammo() || can_eat( it ).success() || !has_active_bionic( bio_batteries ) ) {
         return false;
     }
 
@@ -933,7 +928,7 @@ bool player::can_feed_reactor_with( const item &it ) const
         }
     };
 
-    if( !it.is_ammo() || can_eat( it ) == EDIBLE ) {
+    if( !it.is_ammo() || can_eat( it ).success() ) {
         return false;
     }
 
@@ -973,7 +968,7 @@ bool player::feed_reactor_with( item &it )
 
 bool player::can_feed_furnace_with( const item &it ) const
 {
-    if( !it.flammable() || it.has_flag( "RADIOACTIVE" ) || can_eat( it ) == EDIBLE ) {
+    if( !it.flammable() || it.has_flag( "RADIOACTIVE" ) || can_eat( it ).success() ) {
         return false;
     }
 

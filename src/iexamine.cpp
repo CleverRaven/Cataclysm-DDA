@@ -9,6 +9,7 @@
 #include "output.h"
 #include "rng.h"
 #include "requirements.h"
+#include "ammo.h"
 #include "line.h"
 #include "player.h"
 #include "translations.h"
@@ -2761,15 +2762,15 @@ void iexamine::trap(player &p, const tripoint &examp)
     bool seen = tr.can_see( examp, p );
     if( seen && possible >= 99 ) {
         add_msg(m_info, _("That %s looks too dangerous to mess with. Best leave it alone."),
-            tr.name.c_str());
+            tr.name().c_str());
         return;
     }
     // Some traps are not actual traps. Those should get a different query.
     if( seen && possible == 0 && tr.get_avoidance() == 0 ) { // Separated so saying no doesn't trigger the other query.
-        if( query_yn(_("There is a %s there. Take down?"), tr.name.c_str()) ) {
+        if( query_yn(_("There is a %s there. Take down?"), tr.name().c_str()) ) {
             g->m.disarm_trap(examp);
         }
-    } else if( seen && query_yn( _("There is a %s there.  Disarm?"), tr.name.c_str() ) ) {
+    } else if( seen && query_yn( _("There is a %s there.  Disarm?"), tr.name().c_str() ) ) {
         g->m.disarm_trap(examp);
     }
 }
@@ -2793,7 +2794,7 @@ const itype *furn_t::crafting_ammo_item_type() const
 {
     const itype *pseudo = crafting_pseudo_item_type();
     if( pseudo->tool && !pseudo->tool->ammo_id.is_null() ) {
-        return item::find_type( default_ammo( pseudo->tool->ammo_id ) );
+        return item::find_type( pseudo->tool->ammo_id->default_ammotype() );
     }
     return nullptr;
 }

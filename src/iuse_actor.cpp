@@ -19,6 +19,7 @@
 #include "vehicle.h"
 #include "mtype.h"
 #include "mapdata.h"
+#include "ammo.h"
 #include "field.h"
 #include "weather.h"
 #include "pldata.h"
@@ -2043,9 +2044,9 @@ void bandolier_actor::info( const item&, std::vector<iteminfo>& dump ) const
 {
     if( !ammo.empty() ) {
         auto str = std::accumulate( std::next( ammo.begin() ), ammo.end(),
-                                    string_format( "<stat>%s</stat>", _( ammo_name( *ammo.begin() ).c_str() ) ),
+                                    string_format( "<stat>%s</stat>", ( *ammo.begin() )->name().c_str() ),
                                     [&]( const std::string& lhs, const ammotype& rhs ) {
-                return lhs + string_format( ", <stat>%s</stat>", _( ammo_name( rhs ).c_str() ) );
+                return lhs + string_format( ", <stat>%s</stat>", rhs->name().c_str() );
         } );
 
         dump.emplace_back( "TOOL", string_format(
@@ -2188,7 +2189,7 @@ long ammobelt_actor::use( player &p, item &, bool, const tripoint& ) const
 
     if( p.rate_action_reload( mag ) != HINT_GOOD ) {
         p.add_msg_if_player( _( "Insufficient %s to assemble %s" ),
-                              ammo_name( mag.ammo_type() ).c_str(), mag.tname().c_str() );
+                              mag.ammo_type()->name().c_str(), mag.tname().c_str() );
         return 0;
     }
 
@@ -3071,7 +3072,7 @@ bool place_trap_actor::is_allowed( player &p, const tripoint &pos, const std::st
         if( existing_trap.can_see( pos, p ) ) {
             p.add_msg_if_player( m_info, _( "You can't place a %s there. It contains a trap already." ), name.c_str() );
         } else {
-            p.add_msg_if_player( m_bad, _( "You trigger a %s!" ), existing_trap.name.c_str() );
+            p.add_msg_if_player( m_bad, _( "You trigger a %s!" ), existing_trap.name().c_str() );
             existing_trap.trigger( pos, &p );
         }
         return false;
