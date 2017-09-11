@@ -5732,7 +5732,7 @@ int game::mon_info(WINDOW *w)
     for (int i = 0; i < 8; i++) {
         widths[i] = utf8_width(dir_labels[i].c_str());
     }
-    std::array<int, 8> xcoords{};
+    std::array<int, 8> xcoords;
     const std::array<int, 8> ycoords = {{ 0, 0, 1, 2, 2, 2, 1, 0 }};
     xcoords[0] = xcoords[4] = width / 3;
     xcoords[1] = xcoords[3] = xcoords[2] = (width / 3) * 2;
