@@ -778,7 +778,7 @@ class saw_barrel_inventory_preset: public weapon_inventory_preset
             const auto ret = actor.can_use_on( p, tool, *loc );
 
             if( !ret.success() ) {
-                return ret.str();
+                return trim_punctuation_marks( ret.str() );
             }
 
             return std::string();
