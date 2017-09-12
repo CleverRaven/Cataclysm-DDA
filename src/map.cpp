@@ -1986,6 +1986,8 @@ int map::combined_movecost( const tripoint &from, const tripoint &to,
 bool map::valid_move( const tripoint &from, const tripoint &to,
                       const bool bash, const bool flying ) const
 {
+    // Used to account for the fact that older versions of GCC can trip on the if statement here.
+    assert(to.z > std::numeric_limits<int>::min());
     // Note: no need to check inbounds here, because maptile_at will do that
     // If oob tile is supplied, the maptile_at will be an unpassable "null" tile
     if( abs( from.x - to.x ) > 1 || abs( from.y - to.y ) > 1 || abs( from.z - to.z ) > 1 ) {
@@ -5060,12 +5062,11 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         if (kpart >= 0) { // we have a faucet, now to see what to drain
             itype_id ftype = "null";
 
-            if (type == "water_clean") {
-                ftype = "water_clean";
-            } else if (type == "water") {
-                ftype = "water";
-            } else if (type == "hotplate") {
+            // Special case hotplates which draw battery power
+            if (type == "hotplate") {
                 ftype = "battery";
+            } else {
+                ftype = type;
             }
 
             item tmp(type, 0); //TODO add a sane birthday arg
