@@ -22,11 +22,13 @@ class ret_val
     public:
         ret_val() = delete;
 
-        static ret_val make_success( const std::string &msg, T val = default_success ) {
+        template<typename S, typename = typename std::enable_if< std::is_convertible<S, std::string>::value>::type>
+        static ret_val make_success( const S &msg, T val = default_success ) {
             return ret_val( msg, val, true );
         }
 
-        static ret_val make_failure( const std::string &msg, T val = default_failure ) {
+        template<typename S, typename = typename std::enable_if< std::is_convertible<S, std::string>::value>::type>
+        static ret_val make_failure( const S &msg, T val = default_failure ) {
             return ret_val( msg, val, false );
         }
 
