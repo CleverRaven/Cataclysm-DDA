@@ -10,6 +10,8 @@
 #include <memory>
 #include <functional>
 
+class loading_ui;
+
 /**
  * This class is used to load (and unload) the dynamic
  * (and modable) data from json files.
@@ -97,8 +99,9 @@ class DynamicDataLoader
         /**
          * Check the consistency of all the loaded data.
          * May print a debugmsg if something seems wrong.
+         * @param ui Finalization status display.
          */
-        void check_consistency();
+        void check_consistency( loading_ui &ui );
 
     public:
         /**
@@ -128,8 +131,12 @@ class DynamicDataLoader
          * @ref check_consistency
          * @throw std::exception if the loaded data is not valid. The
          * game should *not* proceed in that case.
+         * @param ui Finalization status display.
          */
+        /*@{*/
         void finalize_loaded_data();
+        void finalize_loaded_data( loading_ui &ui );
+        /*@}*/
 
         /**
          * Loads and then removes entries from @param data

@@ -3734,6 +3734,8 @@ void game::load(std::string worldname, const save_t &name)
     draw();
 }
 
+#include "loading_ui.h"
+
 void game::load_world_modfiles(WORLDPTR world)
 {
     erase();
@@ -3774,9 +3776,9 @@ void game::load_world_modfiles(WORLDPTR world)
 
     erase();
     refresh();
-    popup_status( _( "Please wait while the world data loads..." ), _( "Finalizing and verifying" ) );
 
-    DynamicDataLoader::get_instance().finalize_loaded_data();
+    loading_ui ui( true );
+    DynamicDataLoader::get_instance().finalize_loaded_data( ui );
 }
 
 bool game::load_packs( const std::string &msg, const std::vector<std::string>& packs )
