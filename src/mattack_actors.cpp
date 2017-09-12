@@ -123,7 +123,8 @@ bool leap_actor::call( monster &z ) const
         return false;    // Nowhere to leap!
     }
 
-    if( z.has_effect( effect_lightsnare ) || z.has_effect( effect_heavysnare ) || z.has_effect( effect_beartrap ) ) {
+    if( z.has_effect( effect_lightsnare ) || z.has_effect( effect_heavysnare ) ||
+        z.has_effect( effect_beartrap ) ) {
         return false; // Creature is trapped and thus unable to jump
     }
 
