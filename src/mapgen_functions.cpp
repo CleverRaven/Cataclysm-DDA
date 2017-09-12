@@ -3167,10 +3167,8 @@ void mapgen_basement_junk(map *m, oter_id terrain_type, mapgendata dat, int turn
 
         if( one_in( 1600 ) ) {
             m->furn_set( p, furn_str_id( "f_gun_safe_el" ) );
-            if( one_in( 2 ) ) {
-                m->place_items( "basement_op_guns", 96,  p.x,  p.y, p.x,  p.y, false, 0 );
-                m->place_items( "ammo", 90,  p.x,  p.y, p.x,  p.y, false, 0 );
-            }
+            m->place_items( "basement_op_guns", 96,  p.x,  p.y, p.x,  p.y, false, 0 );
+            m->place_items( "ammo", 90,  p.x,  p.y, p.x,  p.y, false, 0 );
         }
         if( one_in( 20 ) ){
             int rn = rng( 1, 8 );
