@@ -1980,6 +1980,11 @@ nc_color Character::symbol_color() const
 {
     nc_color basic = basic_symbol_color();
     const auto &fields = g->m.field_at( pos() );
+
+    if( has_effect( effect_grabbed ) ) {
+        return cyan_background( basic );
+    }
+
     bool has_fire = false;
     bool has_acid = false;
     bool has_elec = false;
