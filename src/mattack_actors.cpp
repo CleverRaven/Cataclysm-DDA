@@ -12,9 +12,12 @@
 #include "debug.h"
 #include "generic_factory.h"
 
+const efftype_id effect_beartrap( "beartrap" );
 const efftype_id effect_bite( "bite" );
+const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_laserlocked( "laserlocked" );
+const efftype_id effect_lightsnare( "lightsnare" );
 const efftype_id effect_was_laserlocked( "was_laserlocked" );
 const efftype_id effect_targeted( "targeted" );
 
@@ -118,6 +121,10 @@ bool leap_actor::call( monster &z ) const
 
     if( options.empty() ) {
         return false;    // Nowhere to leap!
+    }
+
+    if( z.has_effect( effect_lightsnare ) || z.has_effect( effect_heavysnare ) || z.has_effect( effect_beartrap ) ) {
+        return false; // Creature is trapped and thus unable to jump
     }
 
     z.moves -= move_cost;
