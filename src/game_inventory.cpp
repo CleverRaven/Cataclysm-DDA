@@ -657,7 +657,7 @@ class weapon_inventory_preset: public inventory_selector_preset
                     const int basic_damage = loc->gun_damage( false );
                     const int ammo_damage = loc->ammo_data()->ammo->damage;
 
-                    return string_format( "<color_ltgray>%s+%s = %s</color>",
+                    return string_format( "%s<color_ltgray>+</color>%s <color_ltgray>=</color> %s",
                                           get_damage_string( basic_damage, true ).c_str(),
                                           get_damage_string( ammo_damage, true ).c_str(),
                                           get_damage_string( total_damage, true ).c_str()
@@ -680,11 +680,18 @@ class weapon_inventory_preset: public inventory_selector_preset
             }, _( "STAB" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                if( loc->damage_melee( DT_BASH ) || loc->damage_melee( DT_CUT ) || loc->damage_melee( DT_STAB ) ) {
+                if( deals_melee_damage( *loc ) ) {
                     return good_bad_none( loc->type->m_to_hit );
                 }
                 return std::string();
             }, _( "MELEE" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                if( deals_melee_damage( *loc ) ) {
+                    return string_format( "<color_yellow>%d</color>", loc->attack_time() );
+                }
+                return std::string();
+            }, _( "MOVES" ) );
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -698,6 +705,10 @@ class weapon_inventory_preset: public inventory_selector_preset
         }
 
     private:
+        bool deals_melee_damage( const item &it ) const {
+            return it.damage_melee( DT_BASH ) || it.damage_melee( DT_CUT ) || it.damage_melee( DT_STAB );
+        }
+
         std::string get_damage_string( int damage, bool display_zeroes = false ) const {
             return damage ||
                    display_zeroes ? string_format( "<color_yellow>%d</color>", damage ) : std::string();
