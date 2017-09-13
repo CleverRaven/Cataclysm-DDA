@@ -709,8 +709,8 @@ public:
     bool reinforced;
     std::string item_group_id;
     jmapgen_vending_machine( JsonObject &jsi ) : jmapgen_piece()
-    , item_group_id( jsi.get_string( "item_group", "default_vending_machine" ) )
     , reinforced( jsi.get_bool( "reinforced", false ) )
+    , item_group_id( jsi.get_string( "item_group", "default_vending_machine" ) )
     {
         if( !item_group::group_is_defined( item_group_id ) ) {
             jsi.throw_error( "no such item group", "item_group" );
