@@ -706,9 +706,11 @@ public:
  */
 class jmapgen_vending_machine : public jmapgen_piece {
 public:
+    bool reinforced;
     std::string item_group_id;
     jmapgen_vending_machine( JsonObject &jsi ) : jmapgen_piece()
-    , item_group_id( jsi.get_string( "item_group", one_in( 2 ) ? "vending_food" : "vending_drink" ) )
+    , item_group_id( jsi.get_string( "item_group", "default_vending_machine" ) )
+    , reinforced( jsi.get_bool( "reinforced", false ) )
     {
         if( !item_group::group_is_defined( item_group_id ) ) {
             jsi.throw_error( "no such item group", "item_group" );
@@ -719,7 +721,7 @@ public:
         const int rx = x.get();
         const int ry = y.get();
         m.furn_set( rx, ry, f_null );
-        m.place_vending( rx, ry, item_group_id );
+        m.place_vending( rx, ry, item_group_id, reinforced );
     }
 };
 /**
@@ -8454,15 +8456,20 @@ void map::place_toilet(int x, int y, int charges)
     furn_set(x, y, f_toilet);
 }
 
-void map::place_vending(int x, int y, std::string type)
+void map::place_vending(int x, int y, std::string type, bool reinforced)
 {
-    const bool broken = one_in(5);
-    if( broken ) {
-        furn_set(x, y, f_vending_o);
+    if ( reinforced ) {
+        furn_set( x, y, f_vending_reinforced );
+        place_items( type, 100, x, y, x, y, false, 0 );
     } else {
-        furn_set(x, y, f_vending_c);
+    const bool broken = one_in( 5 );
+        if( broken ) {
+            furn_set(x, y, f_vending_o);
+        } else {
+            furn_set(x, y, f_vending_c);
+            place_items( type, 100, x, y, x, y, false, 0 );
+        }
     }
-    place_items( type, broken ? 40 : 99, x, y, x, y, false, 0 );
 }
 
 int map::place_npc( int x, int y, const string_id<npc_template> &type )
