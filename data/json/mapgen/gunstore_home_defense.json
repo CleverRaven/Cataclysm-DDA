@@ -68,7 +68,7 @@
         ";": {}
       },
        "vendingmachines": {
-        "u": { "item_group": "vending_ammo", "reinforced": true}
+        "u": { "item_group": "vending_ammo", "reinforced": true }
       },
       "place_loot": [
         { "group": "guns_pistol_rare", "x": [ 8, 10 ], "y": 19, "chance": 100, "repeat": [ 1, 2 ], "magazine": 100 },
