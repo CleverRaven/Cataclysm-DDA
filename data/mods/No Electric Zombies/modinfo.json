@@ -1,0 +1,19 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "No_Electric_Zombies",
+    "name": "No Electric Zombies",
+	"authors": [ "KantoJolto" ],
+    "description": "Removes all electric-based zombies from the game. Warning! This will reduce your opportunities for CBM harvesting!",
+    "category": "monster_exclude",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "type": "MONSTER_BLACKLIST",
+    "monsters": [
+      "mon_zombie_brute_shocker",
+      "mon_zombie_electric",
+      "mon_zombie_bio_op"
+    ]
+  }
+]
