@@ -177,16 +177,6 @@ static const std::map<std::string, oter_flags> oter_flags_map = {
     { "LINEAR",         line_drawing   }
 };
 
-/*
- * Temporary container id_or_id. Stores str for delayed lookup and conversion.
- */
-struct sid_or_sid {
-   std::string primary_str;   // 32
-   std::string secondary_str; // 64
-   int chance;                // 68
-   sid_or_sid(const std::string & s1, const int i, const::std::string s2) : primary_str(s1), secondary_str(s2), chance(i) { }
-};
-
 city::city( int const X, int const Y, int const S)
 : x (X)
 , y (Y)
@@ -713,16 +703,17 @@ void load_region_settings( JsonObject &jo )
     if ( ! jo.read("default_oter", new_region.default_oter) && strict ) {
         jo.throw_error("default_oter required for default ( though it should probably remain 'field' )");
     }
-    if ( jo.has_object("default_groundcover") ) {
-        JsonObject jio = jo.get_object("default_groundcover");
-        new_region.default_groundcover_str.reset( new sid_or_sid("t_grass", 4, "t_dirt") );
-        if ( ! jio.read("primary", new_region.default_groundcover_str->primary_str) ||
-             ! jio.read("secondary", new_region.default_groundcover_str->secondary_str) ||
-             ! jio.read("ratio", new_region.default_groundcover.chance) ) {
-            jo.throw_error("'default_groundcover' missing one of:\n   { \"primary\": \"ter_id\", \"secondary\": \"ter_id\", \"ratio\": (number) }\n");
+    if( jo.has_array( "default_groundcover" ) ) {
+        JsonArray jia = jo.get_array( "default_groundcover" );
+        new_region.default_groundcover_str.reset( new weighted_int_list<ter_str_id> );
+        while( jia.has_more() ) {
+            JsonArray inner = jia.next_array();
+            if( new_region.default_groundcover_str->add( ter_str_id( inner.get_string( 0 ) ), inner.get_int( 1 ) ) == nullptr ) {
+                jo.throw_error( "'default_groundcover' must be a weighted list: an array of pairs [ \"id\", weight ]" );
+            }
         }
     } else if ( strict ) {
-        jo.throw_error("'default_groundcover' required for 'default'");
+        jo.throw_error("Weighted list 'default_groundcover' required for 'default'");
     }
     if ( ! jo.read("num_forests", new_region.num_forests) && strict ) {
         jo.throw_error("num_forests required for default");
@@ -943,12 +934,15 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
 {
     jo.read("default_oter", region.default_oter);
 
-    if (jo.has_object("default_groundcover")) {
-        JsonObject jio = jo.get_object("default_groundcover");
-
-        jio.read("primary", region.default_groundcover_str->primary_str);
-        jio.read("secondary", region.default_groundcover_str->secondary_str);
-        jio.read("ratio", region.default_groundcover.chance);
+    if( jo.has_array("default_groundcover") ) {
+        JsonArray jia = jo.get_array( "default_groundcover" );
+        region.default_groundcover_str.reset( new weighted_int_list<ter_str_id> );
+        while( jia.has_more() ) {
+            JsonArray inner = jia.next_array();
+            if( region.default_groundcover_str->add( ter_str_id( inner.get_string( 0 ) ), inner.get_int( 1 ) ) == nullptr ) {
+                jo.throw_error( "'default_groundcover' must be a weighted list: an array of pairs [ \"id\", weight ]" );
+            }
+        }
     }
 
     jo.read("num_forests", region.num_forests);
@@ -4612,12 +4606,11 @@ ter_furn_id groundcover_extra::pick( bool boosted ) const
 
 void regional_settings::setup()
 {
-    if ( default_groundcover_str ) {
-        const ter_str_id primary( default_groundcover_str->primary_str );
-        const ter_str_id secondary( default_groundcover_str->secondary_str );
+    if( default_groundcover_str != nullptr ) {
+        for( const auto &pr : *default_groundcover_str ) {
+            default_groundcover.add( pr.obj.id(), pr.weight );
+        }
 
-        default_groundcover.primary = primary.id();
-        default_groundcover.secondary = secondary.id();
         field_coverage.setup();
         default_groundcover_str.reset();
         get_options().add_value("DEFAULT_REGION", id );
