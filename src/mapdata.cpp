@@ -810,7 +810,7 @@ furn_id f_null,
     f_floor_canvas,
     f_tatami,
     f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
-    f_robotic_arm;
+    f_robotic_arm, f_vending_reinforced;
 
 void set_furn_ids() {
     f_null = furn_id( "f_null" );
@@ -857,6 +857,7 @@ void set_furn_ids() {
     f_dryer = furn_id( "f_dryer" );
     f_vending_c = furn_id( "f_vending_c" );
     f_vending_o = furn_id( "f_vending_o" );
+    f_vending_reinforced = furn_id( "f_vending_reinforced" );
     f_dumpster = furn_id( "f_dumpster" );
     f_dive_block = furn_id( "f_dive_block" );
     f_crate_c = furn_id( "f_crate_c" );

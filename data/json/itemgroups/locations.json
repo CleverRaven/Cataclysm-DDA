@@ -1,5 +1,29 @@
 [
   {
+    "id": "basement_op_guns",
+    "type": "item_group",
+    "//": "Hardcoded gunsafe itemgroup for basement_junk in mapgen_functions.cpp .",
+    "magazine": 100,
+    "items": [
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "usp_9mm" },
+              { "item": "usp9mag" },
+              { "item": "9mmP", "charges-min": 30, "charges-max": 50 },
+              { "item": "suppressor" },
+              { "item": "small_repairkit" },
+              { "item": "briefcase" },
+              { "item": "cash_card", "charges-min": 50000, "charges-max": 90000 }
+            ], "prob": 50
+          },
+          { "group": "guns_survival", "prob": 50 }
+        ]
+      }
+    ]
+  },
+  {
     "id" : "cop_armory",
     "type" : "item_group",
     "magazine": 100,

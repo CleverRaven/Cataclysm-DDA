@@ -1979,7 +1979,15 @@ std::string Character::get_name() const
 nc_color Character::symbol_color() const
 {
     nc_color basic = basic_symbol_color();
+
+    if( has_effect( effect_downed ) ) {
+        return hilite( basic );
+    } else if( has_effect( effect_grabbed ) ) {
+        return cyan_background( basic );
+    }
+    
     const auto &fields = g->m.field_at( pos() );
+
     bool has_fire = false;
     bool has_acid = false;
     bool has_elec = false;
@@ -2021,8 +2029,8 @@ nc_color Character::symbol_color() const
     } else if( has_fume ) {
         return white_background( basic );
     }
-
-    if( in_sleep_state() || has_effect( effect_downed ) ) {
+    
+    if( in_sleep_state() ) {
         return hilite( basic );
     }
 

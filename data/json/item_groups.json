@@ -1134,7 +1134,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "vending_food",
+    "id" : "vending_food_items",
     "items":[
       ["chips", 65],
       ["fried_seeds", 25],
@@ -1163,7 +1163,7 @@
     ]
     },{
     "type" : "item_group",
-    "id" : "vending_drink",
+    "id" : "vending_drink_items",
     "items":[
       ["water_clean", 90],
       ["water_mineral", 10],

@@ -3468,7 +3468,7 @@
     },{
         "type" : "terrain",
         "id" : "t_underbrush_harvested_spring",
-        "name": "foliage",
+        "name": "underbrush",
         "symbol": "#",
         "color": "green",
         "move_cost": 6,
@@ -3487,7 +3487,7 @@
     },{
         "type" : "terrain",
         "id" : "t_underbrush_harvested_summer",
-        "name": "foliage",
+        "name": "underbrush",
         "symbol": "#",
         "color": "green",
         "move_cost": 6,
@@ -3506,7 +3506,7 @@
     },{
         "type" : "terrain",
         "id" : "t_underbrush_harvested_autumn",
-        "name": "foliage",
+        "name": "underbrush",
         "symbol": "#",
         "color": "green",
         "move_cost": 6,
@@ -3525,7 +3525,7 @@
     },{
         "type" : "terrain",
         "id" : "t_underbrush_harvested_winter",
-        "name": "foliage",
+        "name": "underbrush",
         "symbol": "#",
         "color": "green",
         "move_cost": 6,

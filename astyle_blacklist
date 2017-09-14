@@ -3,7 +3,6 @@ src/advanced_inv.cpp
 src/animation.cpp
 src/artifact.cpp
 src/auto_pickup.cpp
-src/ballistics.cpp
 src/bionics.cpp
 src/calendar.cpp
 src/catacharset.cpp
@@ -82,7 +81,6 @@ src/sdltiles.cpp
 src/simplexnoise.cpp
 src/skill.cpp
 src/sounds.cpp
-src/string_id_null_ids.cpp
 src/ui.cpp
 src/vehicle.cpp
 src/veh_interact.cpp
@@ -137,10 +135,8 @@ tests/invlet_test.cpp
 tests/line_test.cpp
 tests/map_iterator_test.cpp
 tests/monster_test.cpp
-tests/new_character_test.cpp
 tests/player_test.cpp
 tests/savegame_test.cpp
 tests/shadowcasting_test.cpp
 tests/vehicle_efficiency.cpp
 tests/visitable_remove.cpp
-tests/test_statistics.h
