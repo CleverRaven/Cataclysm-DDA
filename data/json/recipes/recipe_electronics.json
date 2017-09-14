@@ -1698,7 +1698,7 @@
       [ "soldering_iron", 5 ],
       [ "toolset", 5 ]
     ]
-  ]
+  ],
   "components": [
     [ [ "plastic_chunk", 3 ] ],
     [ [ "scrap", 1 ] ],
