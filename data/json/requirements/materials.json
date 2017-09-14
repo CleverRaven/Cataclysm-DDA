@@ -45,6 +45,12 @@
     "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
   },
   {
+    "id": "bone_material",
+    "type": "requirement",
+    "//": "Bone used for crafting, not for cooking.",
+    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_tainted", 2 ] ] ]
+  },
+  {
     "id": "filament",
     "type": "requirement",
     "//": "Materials for use when sewing items",
