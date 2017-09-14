@@ -44,8 +44,8 @@
       { "id": "SEW", "level": 1 }
     ],
     "components": [
-      [ [ "bone", 10 ], [ "bone_human", 10 ], [ "bone_tainted", 20 ] ],
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ]
+      [ [ "bone_material", 10, "LIST" ] ],
+      [ [ "leather_large", 1, "LIST" ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ]
     ]
   },
   {
@@ -93,7 +93,7 @@
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
     ],
-    "components": [ [ [ "leather", 12 ], [ "tanned_hide", 2 ], [ "fur", 12 ], [ "tanned_pelt", 2 ] ] ]
+    "components": [ [ [ "leather_large", 2, "LIST" ], [ "fur", 12 ], [ "tanned_pelt", 2 ] ] ]
   },
   {
     "result": "armguard_lightplate",
@@ -115,8 +115,8 @@
       [ [ "forge", 100 ], [ "oxy_torch", 20 ] ]
     ],
     "components": [
-      [ [ "steel_lump", 6 ], [ "steel_chunk", 24 ] ],
-      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
+      [ [ "steel_standard", 6, "LIST" ] ],
+      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather_large", 2, "LIST" ] ]
     ]
   },
   {
@@ -131,7 +131,7 @@
     "book_learn": [ [ "recipe_melee", 3 ] ],
     "using": [ [ "cordage", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ] ]
+    "components": [ [ [ "steel_tiny", 2, "LIST" ] ] ]
   },
   {
     "result": "armguard_paper",
@@ -228,6 +228,6 @@
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
     ],
-    "components": [ [ [ "leather", 4 ], [ "tanned_hide", 1 ], [ "fur", 4 ], [ "tanned_pelt", 1 ] ] ]
+    "components": [ [ [ "leather_large", 1, "LIST" ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ] ]
   }
 ]
