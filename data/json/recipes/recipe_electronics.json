@@ -1704,7 +1704,7 @@
     [ [ "scrap", 1 ] ],
     [ [ "cable", 5 ] ],
     [ [ "lead", 100 ] ],
-    [ [ "clean_water", 3 ] ],
+    [ [ "water_clean", 3 ] ],
     [ [ "acid", 1 ] ],
     [ [ "rag", 1 ] ],
     [ [ "cable", 1 ] ]
