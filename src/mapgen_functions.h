@@ -5,6 +5,7 @@
 #include "omdata.h"
 #include "mapdata.h"
 #include "map.h"
+#include "weighted_list.h"
 
 #include <string>
 #include <map>
@@ -25,7 +26,7 @@ public:
   int zlevel;
   const regional_settings * region;
   map * m;
-  id_or_id<ter_t> default_groundcover;
+  weighted_int_list<ter_id> default_groundcover;
   mapgendata(oter_id t_north, oter_id t_east, oter_id t_south, oter_id t_west,
              oter_id t_neast, oter_id t_seast, oter_id t_swest, oter_id t_nwest,
              oter_id up, int z, const regional_settings * rsettings, map * mp );

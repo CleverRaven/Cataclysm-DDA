@@ -4,11 +4,7 @@
       "id": "desert_test",                  "//": "identifier, when region_map is in it will determine alternatives ('desert' etc)",
       "house_basement_chance": 2,           "//": "one_in(n) houses with basements",
       "default_oter": "field",              "//": "default oter_id (anything that isn't a house/road/etc) some become forests",
-      "default_groundcover": {              "//": "biome settings for generic 'grass_or_dirt' (which is reproduced below",
-          "primary": "t_searth_test",       "//": "default ter_id on ground",
-          "ratio": 3,                       "//": "one_in(n) chance that it becomes...",
-          "secondary": "t_sand",            "//": "...this instead"
-      },
+      "default_groundcover": [ [ "t_searth_test", 3 ], [ "t_sand", 1 ] ],
       "field_coverage": {                   "//": "biome settings for builtin field mapgen",
           "percent_coverage": 1.9333,       "//": "% of tiles that have a plant: one_in(120)",
           "default_ter": "t_sand",        "//": "default plant. Except this is a desert. Enjoy your rock.",
