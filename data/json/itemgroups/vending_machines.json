@@ -36,7 +36,7 @@
         { "group": "ammo_pistol_obscure", "prob": 10 },
         { "group": "ammo_rifle_obscure", "prob": 10 },
         { "group": "ammo_shotgun_obscure", "prob": 10 },
-        { "group": "ammo_smg_obscure", "prob": 5 }
+        { "group": "ammo_smg_obscure", "prob": 5 },
         { "group": "ammo_pistol_rare", "prob": 20, "count-min": 1, "count-max": 2 },
         { "group": "ammo_rifle_rare", "prob": 20, "count-min": 1, "count-max": 2 },
         { "group": "ammo_shotgun_rare", "prob": 20, "count-min": 1, "count-max": 2 },
