@@ -33,7 +33,7 @@
      [ ["power_supply", 1] ],
      [ [ "scrap", 1 ] ],
      [ [ "cable", 5 ] ]
-    ],
+    ]
 },{
   "type" : "recipe",
   "result": "cordless_drill",
