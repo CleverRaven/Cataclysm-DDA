@@ -618,7 +618,6 @@ bool oter_t::is_hardcoded() const
         "prison_9",
         "prison_b",
         "prison_b_entrance",
-        "radio_tower",
         "sewage_treatment",
         "sewage_treatment_hub",
         "sewage_treatment_under",
