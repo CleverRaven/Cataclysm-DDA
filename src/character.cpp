@@ -1981,7 +1981,9 @@ nc_color Character::symbol_color() const
     nc_color basic = basic_symbol_color();
     const auto &fields = g->m.field_at( pos() );
 
-    if( has_effect( effect_grabbed ) ) {
+    if( has_effect( effect_downed ) ) {
+        return hilite( basic );
+    } else if( has_effect( effect_grabbed ) ) {
         return cyan_background( basic );
     }
 
@@ -2026,8 +2028,8 @@ nc_color Character::symbol_color() const
     } else if( has_fume ) {
         return white_background( basic );
     }
-
-    if( in_sleep_state() || has_effect( effect_downed ) ) {
+    
+    if( in_sleep_state() ) {
         return hilite( basic );
     }
 
