@@ -115,6 +115,7 @@ struct w_point;
 struct explosion_data;
 struct visibility_variables;
 class scent_map;
+class loading_ui;
 
 // Note: this is copied from inventory.h
 // Entire inventory.h would also bring item.h here
@@ -139,7 +140,7 @@ class game
         void load_static_data();
 
         /** Loads core dynamic data. May throw. */
-        void load_core_data();
+        void load_core_data( loading_ui &ui );
 
         /** Returns whether the core data is currently loaded. */
         bool is_core_data_loaded() const;
@@ -149,22 +150,23 @@ class game
          *  @param opts check specific mods (or all if unspecified)
          *  @return whether all mods were successfully loaded
          */
-        bool check_mod_data( const std::vector<std::string> &opts );
+        bool check_mod_data( const std::vector<std::string> &opts, loading_ui &ui );
 
         /** Loads core data and mods from the given world. May throw. */
-        void load_world_modfiles(WORLDPTR world);
+        void load_world_modfiles( WORLDPTR world, loading_ui &ui );
 
         /**
          *  Load content packs
          *  @param msg string to display whilst loading prompt
          *  @param packs content packs to load in correct dependent order
+         *  @param ui structure for load progress display
          *  @return true if all packs were found, false if any were missing
          */
-        bool load_packs( const std::string &msg, const std::vector<std::string>& packs );
+        bool load_packs( const std::string &msg, const std::vector<std::string>& packs, loading_ui &ui );
 
     protected:
         /** Loads dynamic data from the given directory. May throw. */
-        void load_data_from_dir( const std::string &path, const std::string &src );
+        void load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui );
 
 
         // May be a bit hacky, but it's probably better than the header spaghetti

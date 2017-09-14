@@ -266,7 +266,7 @@ void DynamicDataLoader::initialize()
     add( "morale_type", &morale_type_data::load_type );
 }
 
-void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src )
+void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src, loading_ui &ui )
 {
     assert( !finalized && "Can't load additional data after finalization. Must be unloaded first." );
     // We assume that each folder is consistent in itself,
@@ -300,14 +300,14 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
         try {
             // parse it
             JsonIn jsin(iss);
-            load_all_from_json( jsin, src );
+            load_all_from_json( jsin, src, ui );
         } catch( const JsonError &err ) {
             throw std::runtime_error( file + ": " + err.what() );
         }
     }
 }
 
-void DynamicDataLoader::load_all_from_json( JsonIn &jsin, const std::string &src )
+void DynamicDataLoader::load_all_from_json( JsonIn &jsin, const std::string &src, loading_ui & )
 {
     if( jsin.test_object() ) {
         // find type and dispatch single object
@@ -413,31 +413,42 @@ void DynamicDataLoader::finalize_loaded_data()
 void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
 {
     assert( !finalized && "Can't finalize the data twice." );
-    ui.set_menu_description( _( "Finalizing" ) );
+    ui.new_context( _( "Finalizing" ) );
 
-    ui.queue_callback( _( "Body parts" ), &body_part_struct::finalize_all );
-    ui.queue_callback( _( "Items" ), []() { item_controller->finalize(); } );
-    ui.queue_callback( _( "Crafting requirements" ), []() { requirement_data::finalize(); } );
-    ui.queue_callback( _( "Vehicle parts" ), &vpart_info::finalize );
-    ui.queue_callback( _( "Traps" ), &trap::finalize );
-    ui.queue_callback( _( "Terrain" ), &set_ter_ids );
-    ui.queue_callback( _( "Furniture" ), &set_furn_ids );
-    ui.queue_callback( _( "Overmap terrain" ), &overmap_terrains::finalize );
-    ui.queue_callback( _( "Overmap connections" ), &overmap_connections::finalize );
-    ui.queue_callback( _( "Overmap specials" ), &overmap_specials::finalize );
-    ui.queue_callback( _( "Vehicle prototypes" ), &vehicle_prototype::finalize );
-    ui.queue_callback( _( "Mapgen weights" ), &calculate_mapgen_weights );
-    ui.queue_callback( _( "Monster types" ), []() { MonsterGenerator::generator().finalize_mtypes(); } );
-    ui.queue_callback( _( "Monster groups" ), &MonsterGroupManager::FinalizeMonsterGroups );
-    ui.queue_callback( _( "Monster factions" ), &monfactions::finalize );
-    ui.queue_callback( _( "Crafting recipes" ), &recipe_dictionary::finalize );
-    ui.queue_callback( _( "Martial arts" ), &finialize_martial_arts );
-    ui.queue_callback( _( "Constructions" ), &finalize_constructions );
-    ui.queue_callback( _( "NPC classes" ), &npc_class::finalize_all );
-    ui.queue_callback( _( "Harvest lists" ), &harvest_list::finalize_all );
-    ui.queue_callback( _( "Anatomies" ), &anatomy::finalize_all );
+    using named_entry = std::pair<std::string, std::function<void()>>;
+    const std::vector<named_entry> entries = {{
+        { _( "Body parts" ), &body_part_struct::finalize_all },
+        { _( "Items" ), []() { item_controller->finalize(); } },
+        { _( "Crafting requirements" ), []() { requirement_data::finalize(); } },
+        { _( "Vehicle parts" ), &vpart_info::finalize },
+        { _( "Traps" ), &trap::finalize },
+        { _( "Terrain" ), &set_ter_ids },
+        { _( "Furniture" ), &set_furn_ids },
+        { _( "Overmap terrain" ), &overmap_terrains::finalize },
+        { _( "Overmap connections" ), &overmap_connections::finalize },
+        { _( "Overmap specials" ), &overmap_specials::finalize },
+        { _( "Vehicle prototypes" ), &vehicle_prototype::finalize },
+        { _( "Mapgen weights" ), &calculate_mapgen_weights },
+        { _( "Monster types" ), []() { MonsterGenerator::generator().finalize_mtypes(); } },
+        { _( "Monster groups" ), &MonsterGroupManager::FinalizeMonsterGroups },
+        { _( "Monster factions" ), &monfactions::finalize },
+        { _( "Crafting recipes" ), &recipe_dictionary::finalize },
+        { _( "Martial arts" ), &finialize_martial_arts },
+        { _( "Constructions" ), &finalize_constructions },
+        { _( "NPC classes" ), &npc_class::finalize_all },
+        { _( "Harvest lists" ), &harvest_list::finalize_all },
+        { _( "Anatomies" ), &anatomy::finalize_all }
+    }};
 
-    ui.process();
+    for( const named_entry &e : entries ) {
+        ui.add_entry( e.first );
+    }
+
+    ui.show();
+    for( const named_entry &e : entries ) {
+        e.second();
+        ui.proceed();
+    }
 
     check_consistency( ui );
     finalized = true;
@@ -445,40 +456,51 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
 
 void DynamicDataLoader::check_consistency( loading_ui &ui )
 {
-    ui.set_menu_description( _( "Verifying" ) );
+    ui.new_context( _( "Verifying" ) );
 
-    ui.queue_callback( _( "Flags" ), &json_flag::check_consistency );
-    ui.queue_callback( _( "Crafting requirements" ), []() { requirement_data::check_consistency(); } );
-    ui.queue_callback( _( "Vitamins" ), &vitamin::check_consistency );
-    ui.queue_callback( _( "Emissions" ), &emit::check_consistency );
-    ui.queue_callback( _( "Activities" ), &activity_type::check_consistency );
-    ui.queue_callback( _( "Items" ), []() { item_controller->check_definitions(); } );
-    ui.queue_callback( _( "Materials" ), &materials::check );
-    ui.queue_callback( _( "Engine faults" ), &fault::check_consistency );
-    ui.queue_callback( _( "Vehicle parts" ), &vpart_info::check );
-    ui.queue_callback( _( "Monster types" ), []() { MonsterGenerator::generator().check_monster_definitions(); } );
-    ui.queue_callback( _( "Monster groups" ), &MonsterGroupManager::check_group_definitions );
-    ui.queue_callback( _( "Furniture and terrain" ), &check_furniture_and_terrain );
-    ui.queue_callback( _( "Constructions" ), &check_constructions );
-    ui.queue_callback( _( "Professions" ), &profession::check_definitions );
-    ui.queue_callback( _( "Scenarios" ), &scenario::check_definitions );
-    ui.queue_callback( _( "Martial arts" ), &check_martialarts );
-    ui.queue_callback( _( "Mutations" ), &mutation_branch::check_consistency );
-    ui.queue_callback( _( "Overmap connections" ), &overmap_connections::check_consistency );
-    ui.queue_callback( _( "Overmap terrain" ), &overmap_terrains::check_consistency );
-    ui.queue_callback( _( "Overmap locations" ), &overmap_locations::check_consistency );
-    ui.queue_callback( _( "Overmap specials" ), &overmap_specials::check_consistency );
-    ui.queue_callback( _( "Ammunition types" ), &ammunition_type::check_consistency );
-    ui.queue_callback( _( "Traps" ), &trap::check_consistency );
-    ui.queue_callback( _( "Bionics" ), &check_bionics );
-    ui.queue_callback( _( "Gates" ), &gates::check );
-    ui.queue_callback( _( "NPC classes" ), &npc_class::check_consistency );
-    ui.queue_callback( _( "Mission types" ), &mission_type::check_consistency );
-    ui.queue_callback( _( "Item actions" ), []() { item_action_generator::generator().check_consistency(); } );
-    ui.queue_callback( _( "Harvest lists" ), &harvest_list::check_consistency );
-    ui.queue_callback( _( "NPC templates" ), &npc_template::check_consistency );
-    ui.queue_callback( _( "Body parts" ), &body_part_struct::check_consistency );
-    ui.queue_callback( _( "Anatomies" ), &anatomy::check_consistency );
+    using named_entry = std::pair<std::string, std::function<void()>>;
+    const std::vector<named_entry> entries = {{
+        { _( "Flags" ), &json_flag::check_consistency },
+        { _( "Crafting requirements" ), []() { requirement_data::check_consistency(); } },
+        { _( "Vitamins" ), &vitamin::check_consistency },
+        { _( "Emissions" ), &emit::check_consistency },
+        { _( "Activities" ), &activity_type::check_consistency },
+        { _( "Items" ), []() { item_controller->check_definitions(); } },
+        { _( "Materials" ), &materials::check },
+        { _( "Engine faults" ), &fault::check_consistency },
+        { _( "Vehicle parts" ), &vpart_info::check },
+        { _( "Monster types" ), []() { MonsterGenerator::generator().check_monster_definitions(); } },
+        { _( "Monster groups" ), &MonsterGroupManager::check_group_definitions },
+        { _( "Furniture and terrain" ), &check_furniture_and_terrain },
+        { _( "Constructions" ), &check_constructions },
+        { _( "Professions" ), &profession::check_definitions },
+        { _( "Scenarios" ), &scenario::check_definitions },
+        { _( "Martial arts" ), &check_martialarts },
+        { _( "Mutations" ), &mutation_branch::check_consistency },
+        { _( "Overmap connections" ), &overmap_connections::check_consistency },
+        { _( "Overmap terrain" ), &overmap_terrains::check_consistency },
+        { _( "Overmap locations" ), &overmap_locations::check_consistency },
+        { _( "Overmap specials" ), &overmap_specials::check_consistency },
+        { _( "Ammunition types" ), &ammunition_type::check_consistency },
+        { _( "Traps" ), &trap::check_consistency },
+        { _( "Bionics" ), &check_bionics },
+        { _( "Gates" ), &gates::check },
+        { _( "NPC classes" ), &npc_class::check_consistency },
+        { _( "Mission types" ), &mission_type::check_consistency },
+        { _( "Item actions" ), []() { item_action_generator::generator().check_consistency(); } },
+        { _( "Harvest lists" ), &harvest_list::check_consistency },
+        { _( "NPC templates" ), &npc_template::check_consistency },
+        { _( "Body parts" ), &body_part_struct::check_consistency },
+        { _( "Anatomies" ), &anatomy::check_consistency }
+    }};
 
-    ui.process();
+    for( const named_entry &e : entries ) {
+        ui.add_entry( e.first );
+    }
+
+    ui.show();
+    for( const named_entry &e : entries ) {
+        e.second();
+        ui.proceed();
+    }
 }
