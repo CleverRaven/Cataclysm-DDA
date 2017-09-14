@@ -86,7 +86,7 @@ class iuse_transform : public iuse_actor
 
         ~iuse_transform() override;
         void load( JsonObject &jo ) override;
-        long use( player &, item &, bool, const tripoint& ) const override;
+        long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
         std::string get_name() const override;
         void finalize( const itype_id &my_item_type ) override;
@@ -155,7 +155,7 @@ class explosion_iuse : public iuse_actor
 
         ~explosion_iuse() override;
         void load( JsonObject &jo ) override;
-        long use( player &, item &, bool, const tripoint& ) const override;
+        long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
 };
@@ -179,20 +179,19 @@ class unfold_vehicle_iuse : public iuse_actor
 
         ~unfold_vehicle_iuse() override;
         void load( JsonObject &jo ) override;
-        long use( player &, item &, bool, const tripoint& ) const override;
+        long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
 };
 
 /** Used in consume_drug_iuse for storing effect data. */
-struct effect_data
-{
+struct effect_data {
     efftype_id id;
     int duration;
     body_part bp;
     bool permanent;
 
-    effect_data(const efftype_id &nid, int dur, body_part nbp, bool perm) :
-                    id(nid), duration(dur), bp(nbp), permanent(perm) {};
+    effect_data( const efftype_id &nid, int dur, body_part nbp, bool perm ) :
+        id( nid ), duration( dur ), bp( nbp ), permanent( perm ) {};
 };
 
 /**
@@ -215,7 +214,7 @@ class consume_drug_iuse : public iuse_actor
         std::map<std::string, int> stat_adjustments;
 
         /** Modify player vitamin_levels by random amount between min (first) and max (second) */
-        std::map<vitamin_id, std::pair<int,int>> vitamins;
+        std::map<vitamin_id, std::pair<int, int>> vitamins;
 
         /** How many move points this action takes. */
         int moves = 100;
@@ -224,7 +223,7 @@ class consume_drug_iuse : public iuse_actor
 
         ~consume_drug_iuse() override;
         void load( JsonObject &jo ) override;
-        long use( player &, item &, bool, const tripoint& ) const override;
+        long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
 };
@@ -255,7 +254,7 @@ class delayed_transform_iuse : public iuse_transform
 
         ~delayed_transform_iuse() override;
         void load( JsonObject &jo ) override;
-        long use( player &, item &, bool, const tripoint& ) const override;
+        long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
 };
 
@@ -285,7 +284,7 @@ class place_monster_iuse : public iuse_actor
         place_monster_iuse() : iuse_actor( "place_monster" ) { }
         ~place_monster_iuse() override;
         void load( JsonObject &jo ) override;
-        long use(player &, item &, bool, const tripoint& ) const override;
+        long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
 };
 
@@ -308,7 +307,7 @@ class ups_based_armor_actor : public iuse_actor
 
         ~ups_based_armor_actor() override;
         void load( JsonObject &jo ) override;
-        long use(player &, item &, bool, const tripoint& ) const override;
+        long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
 };
 
@@ -327,7 +326,7 @@ class pick_lock_actor : public iuse_actor
 
         ~pick_lock_actor() override;
         void load( JsonObject &jo ) override;
-        long use(player &, item &, bool, const tripoint& ) const override;
+        long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
 };
 
@@ -352,13 +351,13 @@ class reveal_map_actor : public iuse_actor
          */
         std::string message;
 
-        void reveal_targets( tripoint const & center, const std::string &target, int reveal_distance ) const;
+        void reveal_targets( tripoint const &center, const std::string &target, int reveal_distance ) const;
 
         reveal_map_actor( const std::string &type = "reveal_map" ) : iuse_actor( type ) {}
 
         ~reveal_map_actor() override;
         void load( JsonObject &jo ) override;
-        long use(player &, item &, bool, const tripoint& ) const override;
+        long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
 };
 
@@ -394,8 +393,8 @@ class firestarter_actor : public iuse_actor
 
         ~firestarter_actor() override { }
         void load( JsonObject &jo ) override;
-        long use( player &, item &, bool, const tripoint& ) const override;
-        bool can_use( const player &, const item &, bool, const tripoint& ) const override;
+        long use( player &, item &, bool, const tripoint & ) const override;
+        bool can_use( const player &, const item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
 };
 
@@ -429,7 +428,7 @@ class salvage_actor : public iuse_actor
 
         ~salvage_actor() override { }
         void load( JsonObject &jo ) override;
-        long use( player &, item &, bool, const tripoint& ) const override;
+        long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
 };
 
@@ -468,7 +467,7 @@ class inscribe_actor : public iuse_actor
 
         ~inscribe_actor() override { }
         void load( JsonObject &jo ) override;
-        long use( player &, item &, bool, const tripoint& ) const override;
+        long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
 };
 
@@ -487,8 +486,8 @@ class cauterize_actor : public iuse_actor
 
         ~cauterize_actor() override { }
         void load( JsonObject &jo ) override;
-        long use( player &, item &, bool, const tripoint& ) const override;
-        bool can_use( const player &, const item &, bool, const tripoint& ) const override;
+        long use( player &, item &, bool, const tripoint & ) const override;
+        bool can_use( const player &, const item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
 };
 
@@ -502,8 +501,8 @@ class enzlave_actor : public iuse_actor
 
         ~enzlave_actor() override { }
         void load( JsonObject &jo ) override;
-        long use( player &, item &, bool, const tripoint& ) const override;
-        bool can_use( const player &, const item &, bool, const tripoint& ) const override;
+        long use( player &, item &, bool, const tripoint & ) const override;
+        bool can_use( const player &, const item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
 };
 
@@ -526,8 +525,8 @@ class fireweapon_off_actor : public iuse_actor
 
         ~fireweapon_off_actor() override { }
         void load( JsonObject &jo ) override;
-        long use( player &, item &, bool, const tripoint& ) const override;
-        bool can_use( const player &, const item &, bool, const tripoint& ) const override;
+        long use( player &, item &, bool, const tripoint & ) const override;
+        bool can_use( const player &, const item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
 };
 
@@ -550,7 +549,7 @@ class fireweapon_on_actor : public iuse_actor
 
         ~fireweapon_on_actor() override { }
         void load( JsonObject &jo ) override;
-        long use( player &, item &, bool, const tripoint& ) const override;
+        long use( player &, item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
 };
 
@@ -570,8 +569,8 @@ class manualnoise_actor : public iuse_actor
 
         ~manualnoise_actor() override { }
         void load( JsonObject &jo ) override;
-        long use( player &, item &, bool, const tripoint& ) const override;
-        bool can_use( const player &, const item &, bool, const tripoint& ) const override;
+        long use( player &, item &, bool, const tripoint & ) const override;
+        bool can_use( const player &, const item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
 };
 
@@ -610,8 +609,8 @@ class musical_instrument_actor : public iuse_actor
 
         ~musical_instrument_actor() override = default;
         void load( JsonObject &jo ) override;
-        long use( player &, item &, bool, const tripoint& ) const override;
-        bool can_use( const player &, const item &, bool, const tripoint& ) const override;
+        long use( player &, item &, bool, const tripoint & ) const override;
+        bool can_use( const player &, const item &, bool, const tripoint & ) const override;
         iuse_actor *clone() const override;
 };
 
@@ -641,10 +640,10 @@ class holster_actor : public iuse_actor
         std::vector<std::string> flags;
 
         /** Check if obj could be stored in the holster */
-        bool can_holster( const item& obj ) const;
+        bool can_holster( const item &obj ) const;
 
         /** Store an object in the holster */
-        bool store( player &p, item& holster, item& obj ) const;
+        bool store( player &p, item &holster, item &obj ) const;
 
         holster_actor( const std::string &type = "holster" ) : iuse_actor( type ) {}
 
@@ -671,10 +670,10 @@ class bandolier_actor : public iuse_actor
         int draw_cost = INVENTORY_HANDLING_PENALTY;
 
         /** Check if obj could be stored in the bandolier */
-        bool can_store( const item& bandolier, const item& obj ) const;
+        bool can_store( const item &bandolier, const item &obj ) const;
 
         /** Store ammo in the bandolier */
-        bool reload( player &p, item& obj ) const;
+        bool reload( player &p, item &obj ) const;
 
         bandolier_actor( const std::string &type = "bandolier" ) : iuse_actor( type ) {}
 
