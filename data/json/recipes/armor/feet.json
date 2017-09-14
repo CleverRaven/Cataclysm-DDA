@@ -22,7 +22,7 @@
     "autolearn": true,
     "using": [ [ "filament", 10 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "leather", 10 ], [ "tanned_hide", 2 ] ] ]
+    "components": [ [ [ "leather_large", 2, "LIST" ] ] ]
   },
   {
     "result": "boots_bone",
@@ -40,7 +40,7 @@
       { "id": "SEW", "level": 1 }
     ],
     "components": [
-      [ [ "bone", 18 ], [ "bone_human", 18 ], [ "bone_tainted", 36 ] ],
+      [ [ "bone_material", 18, "LIST" ] ],
       [ [ "leather", 6 ], [ "fur", 6 ] ]
     ]
   },
@@ -97,7 +97,7 @@
     "using": [ [ "filament", 13 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "components": [
-      [ [ "leather", 7 ], [ "tanned_hide", 1 ] ],
+      [ [ "leather_large", 1, "LIST" ] ],
       [ [ "fur", 7 ], [ "tanned_pelt", 1 ] ]
     ]
   },
@@ -144,7 +144,7 @@
     "components": [
       [ [ "rag", 4 ] ],
       [ [ "leather", 4 ] ],
-      [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
+      [ [ "steel_tiny", 4, "LIST" ] ],
       [ [ "kevlar_plate", 4 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
@@ -164,7 +164,7 @@
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
     ],
-    "components": [ [ [ "leather", 18 ], [ "tanned_hide", 3 ], [ "fur", 18 ], [ "tanned_pelt", 3 ] ] ]
+    "components": [ [ [ "leather_large", 3, "LIST" ], [ "fur", 18 ], [ "tanned_pelt", 3 ] ] ]
   },
   {
     "result": "boots_lsurvivor",
@@ -209,8 +209,8 @@
       [ [ "forge", 250 ], [ "oxy_torch", 50 ] ]
     ],
     "components": [
-      [ [ "steel_lump", 8 ], [ "steel_chunk", 32 ], [ "scrap", 96 ] ],
-      [ [ "fur", 16 ], [ "tanned_pelt", 3 ], [ "leather", 16 ], [ "tanned_hide", 3 ] ]
+      [ [ "steel_standard", 8, "LIST" ] ],
+      [ [ "fur", 16 ], [ "tanned_pelt", 3 ], [ "leather_large", 3, "LIST" ] ]
     ]
   },
   {
@@ -230,7 +230,7 @@
     ],
     "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
     "components": [
-      [ [ "leather", 8 ], [ "tanned_hide", 2 ] ],
+      [ [ "leather_large", 2, "LIST" ] ],
       [ [ "kevlar_plate", 4 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
@@ -250,7 +250,7 @@
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
     ],
-    "components": [ [ [ "leather", 9 ], [ "tanned_hide", 2 ] ] ]
+    "components": [ [ [ "leather_large", 2, "LIST" ] ] ]
   },
   {
     "result": "boots_winter",
@@ -308,7 +308,7 @@
     ],
     "tools": [ [ [ "welder", 42 ], [ "welder_crude", 63 ], [ "soldering_iron", 63 ], [ "toolset", 63 ] ] ],
     "components": [
-      [ [ "leather", 24 ], [ "tanned_hide", 4 ] ],
+      [ [ "leather_large", 4, "LIST" ] ],
       [ [ "rag", 6 ] ],
       [ [ "scrap", 4 ] ],
       [ [ "boots_combat", 2 ], [ "kevlar_plate", 10 ] ],
