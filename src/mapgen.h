@@ -105,7 +105,7 @@ struct jmapgen_setmap {
     ) :
        x(ix), y(iy), x2(ix2), y2(iy2), op(iop), val(ival), chance(ione_in), repeat(irepeat), rotation(irotation),
        fuel(ifuel), status(istatus) {}
-    bool apply( map * m );
+    bool apply( map &m, int offset_x, int offset_y ) const;
 };
 
 /**
@@ -202,7 +202,7 @@ private:
 
 struct jmapgen_objects {
 
-    jmapgen_objects( const int x_offset, const int y_offset, const int mapgensize );
+    jmapgen_objects( size_t size_x, size_t size_y );
 
     bool check_bounds( const jmapgen_place place, JsonObject &jso );
 
@@ -223,7 +223,8 @@ struct jmapgen_objects {
     template<typename PieceType>
     void load_objects(JsonObject &jsi, const std::string &member_name);
 
-    void apply(map* m, float density) const;
+    void apply( map &m, float density ) const;
+    void apply( map &m, int offset_x, int offset_y, float density ) const;
 
 private:
     /**
@@ -231,42 +232,70 @@ private:
      */
     using jmapgen_obj = std::pair<jmapgen_place, std::shared_ptr<jmapgen_piece> >;
     std::vector<jmapgen_obj> objects;
-    int x_offset;
-    int y_offset;
-    size_t mapgensize;
+    size_t mapgensize_x;
+    size_t mapgensize_y;
 };
 
-class mapgen_function_json : public virtual mapgen_function {
+class mapgen_function_json_base {
     public:
-    bool check_inbounds( const jmapgen_int &var ) const;
-    void setup_setmap( JsonArray &parray );
-    void setup() override;
-    void generate(map *, const oter_id &, const mapgendata &, int, float) override;
+        bool check_inbounds( const jmapgen_int &x, const jmapgen_int &y ) const;
+        size_t calc_index( size_t x, size_t y ) const;
 
-    mapgen_function_json( const std::string s, int w = 1000, const int x_grid_offset = 0, const int y_grid_offset = 0 );
-    ~mapgen_function_json() override {
-    }
+    private:
+        std::string jdata;
 
-    size_t calc_index( size_t x, size_t y ) const;
+    protected:
+        mapgen_function_json_base( const std::string s );
+        virtual ~mapgen_function_json_base() { }
 
-    std::string jdata;
-    size_t mapgensize;
-    ter_id fill_ter;
-    std::vector<ter_furn_id> format;
-    std::vector<jmapgen_setmap> setmap_points;
-    int x_offset;
-    int y_offset;
+        void setup_common();
+        void setup_setmap( JsonArray &parray );
+        // Returns true if the mapgen qualifies at this point already
+        virtual bool setup_internal( JsonObject &jo ) = 0;
+        virtual void setup_setmap_internal() { };
 
-    std::string luascript;
+        void formatted_set_incredibly_simple( map *m ) const;
 
-    bool do_format;
-    bool is_ready;
+        bool do_format;
+        bool is_ready;
 
-private:
-    jmapgen_objects objects;
-    jmapgen_int rotation;
+        size_t mapgensize_x;
+        size_t mapgensize_y;
+        int x_offset;
+        int y_offset;
+        std::vector<ter_furn_id> format;
+        std::vector<jmapgen_setmap> setmap_points;
 
-    void formatted_set_incredibly_simple( map *m ) const;
+        jmapgen_objects objects;
+};
+
+class mapgen_function_json : public mapgen_function_json_base, public virtual mapgen_function {
+    public:
+        void generate( map *, const oter_id &, const mapgendata &, int, float ) override;
+        void setup() override;
+        mapgen_function_json( const std::string s, int w,
+                              const int x_grid_offset = 0, const int y_grid_offset = 0 );
+        ~mapgen_function_json() override { }
+
+        ter_id fill_ter;
+        std::string luascript;
+
+    protected:
+        bool setup_internal( JsonObject &jo ) override;
+
+    private:
+        jmapgen_int rotation;
+};
+
+class mapgen_function_json_nested : public mapgen_function_json_base {
+    public:
+        void setup();
+        mapgen_function_json_nested( const std::string s );
+        ~mapgen_function_json_nested() override { }
+
+        void nest( map &m, int offset_x, int offset_y, float density ) const;
+    protected:
+        bool setup_internal( JsonObject &jo ) override;
 };
 
 /////////////////////////////////////////////////////////////////////////////////
