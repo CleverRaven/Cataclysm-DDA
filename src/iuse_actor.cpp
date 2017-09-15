@@ -3223,7 +3223,7 @@ ret_val<bool> saw_barrel_actor::can_use_on( const player &, const item &, const 
     } );
 
     if( modified_barrel ) {
-        return ret_val<bool>::make_failure( _( "Can't saw off modified barrels" ) );
+        return ret_val<bool>::make_failure( _( "Can't saw off modified barrels." ) );
     }
 
     return ret_val<bool>::make_success();

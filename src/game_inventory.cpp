@@ -688,7 +688,7 @@ class weapon_inventory_preset: public inventory_selector_preset
 
             append_cell( [ this ]( const item_location & loc ) {
                 if( deals_melee_damage( *loc ) ) {
-                    return string_format( "<color_yellow>%d</color>", loc->attack_time() );
+                    return string_format( "<color_yellow>%d</color>", this->p.attack_speed( *loc ) );
                 }
                 return std::string();
             }, _( "MOVES" ) );
