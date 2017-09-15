@@ -252,6 +252,12 @@ void calculate_mapgen_weights() { // todo; rename as it runs jsonfunction setup 
             ++funcnum;
         }
     }
+    // Not really calculate weights, but let's keep it here for now
+    for( auto &pr : nested_mapgen ) {
+        for( auto &ptr : pr.second ) {
+            ptr->setup();
+        }
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -331,8 +337,7 @@ std::shared_ptr<mapgen_function>
     return ret;
 }
 
-std::shared_ptr<mapgen_function_json_nested>
-    load_nested_mapgen( JsonObject &jio, const std::string id_base ) {
+std::shared_ptr<mapgen_function_json_nested> load_nested_mapgen( JsonObject &jio, const std::string id_base ) {
     std::shared_ptr<mapgen_function_json_nested> ret;
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "json" ) {
@@ -408,7 +413,7 @@ void reset_mapgens()
 ///// 2 - right after init() finishes parsing all game json and terrain info/etc is set..
 /////   ...parse more json! (mapgen_function_json)
 
-size_t mapgen_function_json_base::calc_index( const size_t x, const size_t y) const
+size_t mapgen_function_json_base::calc_index( const size_t x, const size_t y ) const
 {
     if( x >= mapgensize_x ) {
         debugmsg( "invalid value %d for x", x );
@@ -1192,7 +1197,8 @@ public:
     {
         JsonArray jarr = jsi.get_array( "entries" );
         while( jarr.has_more() ) {
-            entries.add( jarr.get_string( 0 ), jarr.get_int( 1 ) );
+            JsonArray inner = jarr.next_array();
+            entries.add( inner.get_string( 0 ), inner.get_int( 1 ) );
         }
     }
     void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float d ) const override
@@ -1565,6 +1571,7 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_terrain>( jo, "terrain", format_placings );
     new_pal.load_place_mapings<jmapgen_make_rubble>( jo, "rubble", format_placings );
     new_pal.load_place_mapings<jmapgen_computer>( jo, "computers", format_placings );
+    new_pal.load_place_mapings<jmapgen_nested>( jo, "nested", format_placings );
 
     return new_pal;
 }
@@ -1602,12 +1609,16 @@ bool mapgen_function_json::setup_internal( JsonObject &jo )
 bool mapgen_function_json_nested::setup_internal( JsonObject &jo )
 {
     // Mandatory - nested mapgen must be explicitly sized
-    JsonArray jarr = jo.get_array( "mapgensize" );
-    mapgensize_x = jarr.get_int( 0 );
-    mapgensize_y = jarr.get_int( 1 );
-    if( mapgensize_x == 0 || mapgensize_x != mapgensize_y ) {
-        // Non-square sizes not implemented yet
-        jo.throw_error( "\"mapgensize\" must be an array of two identical, positive numbers" );
+    if( jo.has_array( "mapgensize" ) ) {
+        JsonArray jarr = jo.get_array( "mapgensize" );
+        mapgensize_x = jarr.get_int( 0 );
+        mapgensize_y = jarr.get_int( 1 );
+        if( mapgensize_x == 0 || mapgensize_x != mapgensize_y ) {
+            // Non-square sizes not implemented yet
+            jo.throw_error( "\"mapgensize\" must be an array of two identical, positive numbers" );
+        }
+    } else {
+        jo.throw_error( "Nested mapgen must have \"mapgensize\" set" );
     }
 
     // Nested mapgen is always halal because it can assume underlying map is.
@@ -1615,6 +1626,11 @@ bool mapgen_function_json_nested::setup_internal( JsonObject &jo )
 }
 
 void mapgen_function_json::setup()
+{
+    setup_common();
+}
+
+void mapgen_function_json_nested::setup()
 {
     setup_common();
 }
@@ -1635,6 +1651,7 @@ void mapgen_function_json_base::setup_common()
     JsonArray sparray;
     JsonObject pjo;
 
+bool hack = dynamic_cast<mapgen_function_json_nested*>(this)!=nullptr;
     format.resize( mapgensize_x * mapgensize_y );
     // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
     if ( jo.has_array("rows") ) {
@@ -1647,36 +1664,39 @@ void mapgen_function_json_base::setup_common()
             jsin.error( "format: no terrain map" );
         }
 
+        int format_offset_x = hack ? 0 : x_offset;
+        int format_offset_y = hack ? 0 : y_offset;
+
         // mandatory: mapgensize rows of mapgensize character lines, each of which must have a matching key in "terrain",
         // unless fill_ter is set
         // "rows:" [ "aaaajustlikeinmapgen.cpp", "this.must!be!exactly.24!", "and_must_match_terrain_", .... ]
         parray = jo.get_array( "rows" );
-        if ( parray.size() < mapgensize_y + y_offset ) {
+        if ( parray.size() < mapgensize_y + format_offset_y ) {
             parray.throw_error( string_format( "  format: rows: must have at least %d rows, not %d",
-                                               mapgensize_y + y_offset, parray.size() ));
+                                               mapgensize_y + format_offset_y, parray.size() ));
         }
-        for( size_t c = y_offset; c < mapgensize_y + y_offset; c++ ) {
+        for( size_t c = format_offset_y; c < mapgensize_y + format_offset_y; c++ ) {
             const auto tmpval = parray.get_string( c );
-            if ( tmpval.size() < mapgensize_x + x_offset ) {
+            if ( tmpval.size() < mapgensize_x + format_offset_x ) {
                 parray.throw_error( string_format( "  format: row %d must have at least %d columns, not %d",
-                                                   c + 1, mapgensize_x + x_offset, tmpval.size()));
+                                                   c + 1, mapgensize_x + format_offset_x, tmpval.size()));
             }
-            for ( size_t i = x_offset; i < mapgensize_x + x_offset; i++ ) {
+            for ( size_t i = format_offset_x; i < mapgensize_x + format_offset_x; i++ ) {
                 const int tmpkey = tmpval[i];
                 auto iter_ter = format_terrain.find( tmpkey );
                 if ( iter_ter != format_terrain.end() ) {
-                    format[ calc_index( i - x_offset, c - y_offset ) ].ter = iter_ter->second;
+                    format[ calc_index( i - format_offset_x, c - format_offset_y ) ].ter = iter_ter->second;
                 } else if ( ! qualifies ) { // fill_ter should make this kosher
                     parray.throw_error( string_format( "  format: rows: row %d column %d: '%c' is not in 'terrain', and no 'fill_ter' is set!",
                                                        c + 1, i + 1, (char)tmpkey ) );
                 }
                 auto iter_furn = format_furniture.find( tmpkey );
                 if ( iter_furn != format_furniture.end() ) {
-                    format[ calc_index( i - x_offset, c - y_offset ) ].furn = iter_furn->second;
+                    format[ calc_index( i - format_offset_x, c - format_offset_y ) ].furn = iter_furn->second;
                 }
                 const auto fpi = format_placings.find( tmpkey );
                 if( fpi != format_placings.end() ) {
-                    jmapgen_place where( i - x_offset, c - y_offset );
+                    jmapgen_place where( i - format_offset_x, c - format_offset_y );
                     for( auto &what: fpi->second ) {
                         objects.add(where, what);
                     }
@@ -1685,15 +1705,15 @@ void mapgen_function_json_base::setup_common()
         }
         qualifies = true;
         do_format = true;
-   }
+    }
 
-   // No fill_ter? No format? GTFO.
-   if ( ! qualifies ) {
+    // No fill_ter? No format? GTFO.
+    if ( ! qualifies ) {
        jo.throw_error("  Need either 'fill_terrain' or 'rows' + 'terrain' (RTFM)");
        // todo: write TFM.
    }
 
-   if ( jo.has_array("set") ) {
+    if ( jo.has_array("set") ) {
         parray = jo.get_array("set");
         setup_setmap( parray );
     }
@@ -1717,6 +1737,7 @@ void mapgen_function_json_base::setup_common()
     objects.load_objects<jmapgen_monster>( jo, "place_monster" );
     objects.load_objects<jmapgen_make_rubble>( jo, "place_rubble" );
     objects.load_objects<jmapgen_computer>( jo, "place_computers" );
+    objects.load_objects<jmapgen_nested>( jo, "place_nested" );
 
     is_ready = true; // skip setup attempts from any additional pointers
 }
@@ -1872,7 +1893,8 @@ void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const 
     }
 }
 
-void mapgen_function_json_nested::nest( map &m, int offset_x, int offset_y, float density ) const {
+void mapgen_function_json_nested::nest( map &m, int offset_x, int offset_y, float density ) const
+{
     if( do_format ) {
         formatted_set_incredibly_simple( &m );
     }
@@ -1899,9 +1921,15 @@ void jmapgen_objects::apply( map &m, float density ) const {
 }
 
 void jmapgen_objects::apply( map &m, int offset_x, int offset_y, float density ) const {
+    if( offset_x == 0 && offset_y == 0 ) {
+        // It's a bit faster
+        apply( m, density );
+        return;
+    }
+
     for( auto &obj : objects ) {
         auto where = obj.first;
-        where.offset( offset_x, offset_y );
+        where.offset( -offset_x, -offset_y );
         const auto &what = *obj.second;
         const int repeat = where.repeat.get();
         for( int i = 0; i < repeat; i++ ) {
