@@ -188,17 +188,13 @@ int Character::effective_dispersion( int dispersion ) const
     return std::max( dispersion, 0 );
 }
 
-double Character::aim_per_move( const item& gun, double recoil ) const
+std::pair<int, int> Character::get_best_sight( const item &gun, double recoil ) const
 {
-    if( !gun.is_gun() ) {
-        return 0.0;
-    }
-
     // Get fastest sight that can be used to improve aim further below @ref recoil.
-    int sight_cost = INT_MAX;
+    int sight_speed_modifier = INT_MIN;
     int limit = 0;
     if( !gun.has_flag( "DISABLE_SIGHTS" ) && effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
-        sight_cost = 4;
+        sight_speed_modifier = 6;
         limit = effective_dispersion( gun.type->gun->sight_dispersion );
     }
 
@@ -207,13 +203,69 @@ double Character::aim_per_move( const item& gun, double recoil ) const
         if( mod->sight_dispersion < 0 || mod->aim_cost <= 0 ) {
             continue; // skip gunmods which don't provide a sight
         }
-        if( effective_dispersion( mod->sight_dispersion ) < recoil && mod->aim_cost < sight_cost ) {
-            sight_cost  = mod->aim_cost;
+        if( effective_dispersion( mod->sight_dispersion ) < recoil && 10 - mod->aim_cost > sight_speed_modifier ) {
+            sight_speed_modifier = 10 - mod->aim_cost;
             limit = effective_dispersion( mod->sight_dispersion );
         }
     }
+    return std::make_pair( sight_speed_modifier, limit );
+}
 
-    if( sight_cost == INT_MAX ) {
+double Character::aim_speed_skill_modifier( const skill_id &gun_skill ) const
+{
+    double skill_mult = 1.0;
+    if( gun_skill == "pistol" ) {
+        skill_mult = 2.0;
+    } else if( gun_skill == "rifle" ) {
+        skill_mult = 0.9;
+    }
+    /** @EFFECT_PISTOL increases aiming speed for pistols */
+    /** @EFFECT_SMG increases aiming speed for SMGs */
+    /** @EFFECT_RIFLE increases aiming speed for rifles */
+    /** @EFFECT_SHOTGUN increases aiming speed for shotguns */
+    /** @EFFECT_LAUNCHER increases aiming speed for launchers */
+    return skill_mult * std::min( MAX_SKILL, static_cast<int>( get_skill_level( gun_skill ) ) );
+}
+
+double Character::aim_speed_dex_modifier() const
+{
+    return std::max( 0, get_dex() - 8 );
+}
+
+double Character::aim_speed_encumbrance_modifier() const
+{
+    return ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 10.0;
+}
+
+double Character::aim_cap_from_volume( const item &gun ) const
+{
+    skill_id gun_skill = gun.gun_skill();
+    double aim_cap = std::min( 49.0, 49.0 - static_cast<float>( gun.volume() / 75_ml ) );
+    // TODO: also scale with skill level.
+    if( gun_skill == "smg" ) {
+        aim_cap = std::max( 12.0, aim_cap );
+    } else if( gun_skill == "shotgun" ) {
+        aim_cap = std::max( 12.0, aim_cap );
+    } else if( gun_skill == "pistol" ) {
+        aim_cap = std::max( 15.0, aim_cap * 1.25 );
+    } else if( gun_skill == "rifle" ) {
+        aim_cap = std::max( 7.0, aim_cap - 5.0 );
+    } else { // Launchers, etc.
+        aim_cap = std::max( 10.0, aim_cap );
+    }
+    return aim_cap;
+}
+
+double Character::aim_per_move( const item &gun, double recoil ) const
+{
+    if( !gun.is_gun() ) {
+        return 0.0;
+    }
+
+    std::pair<int, int> best_sight = get_best_sight( gun, recoil );
+    int sight_speed_modifier = best_sight.first;
+    int limit = best_sight.second;
+    if( sight_speed_modifier == INT_MIN ) {
         // No suitable sights (already at maxium aim).
         return 0;
     }
@@ -226,48 +278,19 @@ double Character::aim_per_move( const item& gun, double recoil ) const
 
     skill_id gun_skill = gun.gun_skill();
     // Ranges [0 - 10]
-    /** @EFFECT_PISTOL increases aiming speed for pistols */
-    /** @EFFECT_SMG increases aiming speed for SMGs */
-    /** @EFFECT_RIFLE increases aiming speed for rifles */
-    /** @EFFECT_SHOTGUN increases aiming speed for shotguns */
-    /** @EFFECT_LAUNCHER increases aiming speed for launchers */
-    {
-        double skill_mult = 1.0;
-        if( gun_skill == "pistol" ) {
-            skill_mult = 2.0;
-        } else if( gun_skill == "rifle" ) {
-            skill_mult = 0.9;
-        }
-        aim_speed += skill_mult * std::min( MAX_SKILL, static_cast<int>( get_skill_level( gun_skill ) ) );
-    }
+    aim_speed += aim_speed_skill_modifier( gun_skill );
 
     // Range [0 - 12]
     /** @EFFECT_DEX increases aiming speed */
-    aim_speed += std::max( 0, get_dex() - 8 );
+    aim_speed += aim_speed_dex_modifier();
 
     // Range [0 - 10]
-    aim_speed += 10 - sight_cost;
+    aim_speed += sight_speed_modifier;
 
     // Each 5 points (combined) of hand encumbrance decreases aim speed by one unit.
-    aim_speed -= static_cast<double>( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 10.0;
+    aim_speed -= aim_speed_encumbrance_modifier();
 
-    // Range [0 - 20]
-    // ( 2 * 250 / v ) + 42 = a
-    // v * (a - 42) = 500
-    double cap_from_volume = std::min( 49.0, 49.0 - static_cast<float>( gun.volume() / 75_ml ) );
-    // TODO: also scale with skill level.
-    if( gun_skill == "smg" ) {
-        cap_from_volume = std::max( 12.0, cap_from_volume );
-    } else if( gun_skill == "shotgun" ) {
-        cap_from_volume = std::max( 12.0, cap_from_volume );
-    } else if( gun_skill == "pistol" ) {
-        cap_from_volume = std::max( 15.0, cap_from_volume * 2.0 );
-    } else if( gun_skill == "rifle" ) {
-        cap_from_volume = std::max( 7.0, cap_from_volume - 5.0 );
-    } else { // Launchers, etc.
-        cap_from_volume = std::max( 10.0, cap_from_volume );
-    }
-    aim_speed = std::min( aim_speed, cap_from_volume );
+    aim_speed = std::min( aim_speed, aim_cap_from_volume( gun ) );
 
     // Just a raw scaling factor.
     aim_speed *= 6.5;
@@ -275,7 +298,7 @@ double Character::aim_per_move( const item& gun, double recoil ) const
     // Scale rate logistically as recoil goes from MAX_RECOIL to 0.
     aim_speed *= 1.0 - logarithmic_range( 0, MAX_RECOIL, recoil );
 
-    // Minimum improvment is 2MoA.  This mostly puts a cap on how long aiming for sniping takes.
+    // Minimum improvment is 5MoA.  This mostly puts a cap on how long aiming for sniping takes.
     aim_speed = std::max( aim_speed, 5.0 );
 
     // Never improve by more than the currently used sights permit.
