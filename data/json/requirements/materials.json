@@ -98,6 +98,7 @@
     "//": "A longer, somewhat straight piece of wood not necessarily as regular as a two-by-four.",
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
   },
+  {
     "id": "fastener",
     "type": "requirement",
     "//": "WIP Mainly nails, but would cover dowels or screws if they were implemented.",
