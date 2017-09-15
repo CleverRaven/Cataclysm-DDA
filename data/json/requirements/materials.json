@@ -91,5 +91,16 @@
     "type": "requirement",
     "//": "Materials for use when forging atypically small items from steel",
     "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
+  },
+  {
+    "id": "plank_crude",
+    "type": "requirement",
+    "//": "A longer, somewhat straight piece of wood not necessarily as regular as a two-by-four.",
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
+  },
+    "id": "fastener",
+    "type": "requirement",
+    "//": "WIP Mainly nails, but would cover dowels or screws if they were implemented.",
+    "components": [ [ [ "nail", 1 ] ] ]
   }
 ]
