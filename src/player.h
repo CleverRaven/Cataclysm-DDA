@@ -77,8 +77,13 @@ enum edible_rating {
     NO_TOOL
 };
 
-// EDIBLE/INEDIBLE are used as the defaults for success/failure respectively.
-using edible_ret_val = ret_val<edible_rating, EDIBLE, INEDIBLE>;
+/** @relates ret_val */
+template<>
+struct ret_val<edible_rating>::default_success : public std::integral_constant<edible_rating, EDIBLE> {};
+
+/** @relates ret_val */
+template<>
+struct ret_val<edible_rating>::default_failure : public std::integral_constant<edible_rating, INEDIBLE> {};
 
 enum class rechargeable_cbm {
     none = 0,
@@ -769,12 +774,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool eat( item &food, bool force = false );
 
         /** Can the food be [theoretically] eaten no matter the consquences? */
-        edible_ret_val can_eat( const item &food ) const;
+        ret_val<edible_rating> can_eat( const item &food ) const;
         /**
          * Same as @ref can_eat, but takes consequences into account.
          * Asks about them if @param interactive is true, refuses otherwise.
          */
-        edible_ret_val will_eat( const item &food, bool interactive = false ) const;
+        ret_val<edible_rating> will_eat( const item &food, bool interactive = false ) const;
 
         // TODO: Move these methods out of the class.
         rechargeable_cbm get_cbm_rechargeable_with( const item &it ) const;

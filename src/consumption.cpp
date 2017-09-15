@@ -305,16 +305,16 @@ morale_type player::allergy_type( const item &food ) const
     return MORALE_NULL;
 }
 
-edible_ret_val player::can_eat( const item &food ) const
+ret_val<edible_rating> player::can_eat( const item &food ) const
 {
     // @todo This condition occurs way too often. Unify it.
     if( is_underwater() ) {
-        return edible_ret_val::make_failure( _( "You can't do that while underwater." ) );
+        return ret_val<edible_rating>::make_failure( _( "You can't do that while underwater." ) );
     }
 
     const auto comest = food.type->comestible.get();
     if( comest == nullptr ) {
-        return edible_ret_val::make_failure( _( "That doesn't look edible." ) );
+        return ret_val<edible_rating>::make_failure( _( "That doesn't look edible." ) );
     }
 
     const bool eat_verb  = food.has_flag( "USE_EAT_VERB" );
@@ -324,7 +324,7 @@ edible_ret_val player::can_eat( const item &food ) const
     if( edible || drinkable ) {
         for( const auto &elem : food.type->materials ) {
             if( !elem->edible() ) {
-                return edible_ret_val::make_failure( _( "That doesn't look edible in its current form." ) );
+                return ret_val<edible_rating>::make_failure( _( "That doesn't look edible in its current form." ) );
             }
         }
     }
@@ -334,37 +334,39 @@ edible_ret_val player::can_eat( const item &food ) const
                          ? has_charges( comest->tool, 1 )
                          : has_amount( comest->tool, 1 );
         if( !has ) {
-            return edible_ret_val::make_failure( NO_TOOL, string_format( _( "You need a %s to consume that!" ),
-                                                 item::nname( comest->tool ).c_str() ) );
+            return ret_val<edible_rating>::make_failure( NO_TOOL,
+                    string_format( _( "You need a %s to consume that!" ),
+                                   item::nname( comest->tool ).c_str() ) );
         }
     }
 
     // For all those folks who loved eating marloss berries.  D:< mwuhahaha
     if( has_trait( trait_id( "M_DEPENDENT" ) ) && food.typeId() != "mycus_fruit" ) {
-        return edible_ret_val::make_failure( INEDIBLE_MUTATION,
-                                             _( "We can't eat that.  It's not right for us." ) );
+        return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
+                _( "We can't eat that.  It's not right for us." ) );
     }
     // Here's why PROBOSCIS is such a negative trait.
     if( has_trait( trait_id( "PROBOSCIS" ) ) && !drinkable ) {
-        return edible_ret_val::make_failure( INEDIBLE_MUTATION, _( "Ugh, you can't drink that!" ) );
+        return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION, _( "Ugh, you can't drink that!" ) );
     }
 
     if( has_trait( trait_id( "CARNIVORE" ) ) && nutrition_for( food ) > 0 &&
         food.has_any_flag( carnivore_blacklist ) && !food.has_flag( "CARNIVORE_OK" ) ) {
-        return edible_ret_val::make_failure( INEDIBLE_MUTATION, _( "Eww.  Inedible plant stuff!" ) );
+        return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
+                _( "Eww.  Inedible plant stuff!" ) );
     }
 
     if( ( has_trait( trait_id( "HERBIVORE" ) ) || has_trait( trait_id( "RUMINANT" ) ) ) &&
         food.has_any_flag( herbivore_blacklist ) ) {
         // Like non-cannibal, but more strict!
-        return edible_ret_val::make_failure( INEDIBLE_MUTATION,
-                                             _( "The thought of eating that makes you feel sick." ) );
+        return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
+                _( "The thought of eating that makes you feel sick." ) );
     }
 
-    return edible_ret_val::make_success();
+    return ret_val<edible_rating>::make_success();
 }
 
-edible_ret_val player::will_eat( const item &food, bool interactive ) const
+ret_val<edible_rating> player::will_eat( const item &food, bool interactive ) const
 {
     const auto ret = can_eat( food );
     if( !ret.success() ) {
@@ -374,9 +376,9 @@ edible_ret_val player::will_eat( const item &food, bool interactive ) const
         return ret;
     }
 
-    std::vector<edible_ret_val> consequences;
+    std::vector<ret_val<edible_rating>> consequences;
     const auto add_consequence = [&consequences]( const std::string & msg, edible_rating code ) {
-        consequences.emplace_back( edible_ret_val::make_failure( code, msg ) );
+        consequences.emplace_back( ret_val<edible_rating>::make_failure( code, msg ) );
     };
 
     const bool saprophage = has_trait( trait_id( "SAPROPHAGE" ) );
@@ -454,7 +456,7 @@ edible_ret_val player::will_eat( const item &food, bool interactive ) const
         }
     }
     // All checks ended, it's edible (or we're pretending it is)
-    return edible_ret_val::make_success();
+    return ret_val<edible_rating>::make_success();
 }
 
 bool player::eat( item &food, bool force )
