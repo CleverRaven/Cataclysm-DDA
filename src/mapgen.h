@@ -202,7 +202,7 @@ private:
 
 struct jmapgen_objects {
 
-    jmapgen_objects( size_t size_x, size_t size_y );
+    jmapgen_objects( int offset_x, int offset_y, size_t size_x, size_t size_y );
 
     bool check_bounds( const jmapgen_place place, JsonObject &jso );
 
@@ -232,6 +232,8 @@ private:
      */
     using jmapgen_obj = std::pair<jmapgen_place, std::shared_ptr<jmapgen_piece> >;
     std::vector<jmapgen_obj> objects;
+    int offset_x;
+    int offset_y;
     size_t mapgensize_x;
     size_t mapgensize_y;
 };

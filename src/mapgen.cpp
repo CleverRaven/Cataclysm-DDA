@@ -445,7 +445,7 @@ mapgen_function_json_base::mapgen_function_json_base( const std::string s )
 , y_offset( 0 )
 , format()
 , setmap_points()
-, objects( mapgensize_x, mapgensize_y )
+, objects( 0, 0, mapgensize_x, mapgensize_y )
 {
 }
 
@@ -458,6 +458,7 @@ mapgen_function_json::mapgen_function_json( const std::string s, const int w,
 {
     x_offset = x_grid_offset * mapgensize_x;
     y_offset = y_grid_offset * mapgensize_y;
+    objects = jmapgen_objects( x_offset, y_offset, mapgensize_x, mapgensize_y );
 }
 
 mapgen_function_json_nested::mapgen_function_json_nested( const std::string s )
@@ -1224,8 +1225,10 @@ public:
     }
 };
 
-jmapgen_objects::jmapgen_objects( size_t mapsize_x, size_t mapsize_y )
-: mapgensize_x( mapsize_x )
+jmapgen_objects::jmapgen_objects( int off_x, int off_y, size_t mapsize_x, size_t mapsize_y )
+: offset_x( off_x )
+, offset_y( off_y )
+, mapgensize_x( mapsize_x )
 , mapgensize_y( mapsize_y )
 {}
 
@@ -1261,6 +1264,7 @@ void jmapgen_objects::load_objects( JsonArray parray )
         auto jsi = parray.next_object();
 
         jmapgen_place where( jsi );
+        where.offset( offset_x, offset_y );
 
         if( check_bounds( where, jsi ) ) {
             add( where, std::make_shared<PieceType>( jsi ) );
@@ -1274,6 +1278,7 @@ void jmapgen_objects::load_objects<jmapgen_loot>( JsonArray parray )
     while( parray.has_more() ) {
         auto jsi = parray.next_object();
         jmapgen_place where( jsi );
+        where.offset( offset_x, offset_y );
 
         if( !check_bounds( where, jsi ) ) {
             continue;
@@ -1874,13 +1879,13 @@ void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const 
         formatted_set_incredibly_simple( m );
     }
     for( auto &elem : setmap_points ) {
-        elem.apply( *m, x_offset, y_offset );
+        elem.apply( *m, 0, 0 );
     }
     if ( ! luascript.empty() ) {
         lua_mapgen( m, terrain_type, md, t, d, luascript );
     }
 
-    objects.apply( *m, x_offset, y_offset, d );
+    objects.apply( *m, 0, 0, d );
 
     m->rotate( rotation.get() );
 
