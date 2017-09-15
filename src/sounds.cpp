@@ -272,7 +272,7 @@ void sounds::process_sound_markers( player *p )
         // The heard volume of a sound is the player heard volume, regardless of true volume level.
         const int heard_volume = ( int )( ( raw_volume - weather_vol ) * volume_multiplier ) - distance_to_sound;
 
-        if( heard_volume <= 0 ) {
+        if( heard_volume <= 0 && pos != p->pos() ) {
             continue;
         }
 
