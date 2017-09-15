@@ -2,6 +2,9 @@
 #ifndef RET_VAL_H
 #define RET_VAL_H
 
+#include "output.h"
+#include "printf_check.h"
+
 #include <string>
 #include <type_traits>
 
@@ -16,28 +19,37 @@
  * as defaults for the success/failure values respectively.
  */
 
+template<typename S>
+using _is_convertible_to_string =
+    typename std::enable_if< std::is_convertible<S, std::string>::value>::type;
+
+
 template<typename T, T default_success = T(), T default_failure = T()>
 class ret_val
 {
     public:
         ret_val() = delete;
 
-        template<typename S, typename = typename std::enable_if< std::is_convertible<S, std::string>::value>::type>
-        static ret_val make_success( const S &msg, T val = default_success ) {
-            return ret_val( msg, val, true );
+        template<class... A, typename S = std::string, typename = _is_convertible_to_string<S>>
+        static ret_val make_success( T val, const S &msg = S(),
+                                     A && ... args ) PRINTF_LIKE( 2, 3 ) {
+            return ret_val( string_format( msg, std::forward<A>( args )... ), val, true );
         }
 
-        template<typename S, typename = typename std::enable_if< std::is_convertible<S, std::string>::value>::type>
-        static ret_val make_failure( const S &msg, T val = default_failure ) {
-            return ret_val( msg, val, false );
+        template<class... A, typename S = std::string, typename = _is_convertible_to_string<S>>
+        static ret_val make_failure( T val, const S &msg = S(),
+                                     A && ... args ) PRINTF_LIKE( 2, 3 ) {
+            return ret_val( string_format( msg, std::forward<A>( args )... ), val, false );
         }
 
-        static ret_val make_success( T val = default_success ) {
-            return make_success( std::string(), val );
+        template<class... A, typename S = std::string, typename = _is_convertible_to_string<S>>
+        static ret_val make_success( const S &msg = S(), A && ... args ) PRINTF_LIKE( 1, 2 ) {
+            return make_success( default_success, msg, std::forward<A>( args )... );
         }
 
-        static ret_val make_failure( T val = default_failure ) {
-            return make_failure( std::string(), val );
+        template<class... A, typename S = std::string, typename = _is_convertible_to_string<S>>
+        static ret_val make_failure( const S &msg = S(), A && ... args ) PRINTF_LIKE( 1, 2 ) {
+            return make_failure( default_failure, msg, std::forward<A>( args )... );
         }
 
         bool success() const {

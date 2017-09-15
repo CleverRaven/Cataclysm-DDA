@@ -334,31 +334,31 @@ edible_ret_val player::can_eat( const item &food ) const
                          ? has_charges( comest->tool, 1 )
                          : has_amount( comest->tool, 1 );
         if( !has ) {
-            return edible_ret_val::make_failure( string_format( _( "You need a %s to consume that!" ),
-                                                 item::nname( comest->tool ).c_str() ), NO_TOOL );
+            return edible_ret_val::make_failure( NO_TOOL, string_format( _( "You need a %s to consume that!" ),
+                                                 item::nname( comest->tool ).c_str() ) );
         }
     }
 
     // For all those folks who loved eating marloss berries.  D:< mwuhahaha
     if( has_trait( trait_id( "M_DEPENDENT" ) ) && food.typeId() != "mycus_fruit" ) {
-        return edible_ret_val::make_failure( _( "We can't eat that.  It's not right for us." ),
-                                             INEDIBLE_MUTATION );
+        return edible_ret_val::make_failure( INEDIBLE_MUTATION,
+                                             _( "We can't eat that.  It's not right for us." ) );
     }
     // Here's why PROBOSCIS is such a negative trait.
     if( has_trait( trait_id( "PROBOSCIS" ) ) && !drinkable ) {
-        return edible_ret_val::make_failure( _( "Ugh, you can't drink that!" ), INEDIBLE_MUTATION );
+        return edible_ret_val::make_failure( INEDIBLE_MUTATION, _( "Ugh, you can't drink that!" ) );
     }
 
     if( has_trait( trait_id( "CARNIVORE" ) ) && nutrition_for( food ) > 0 &&
         food.has_any_flag( carnivore_blacklist ) && !food.has_flag( "CARNIVORE_OK" ) ) {
-        return edible_ret_val::make_failure( _( "Eww.  Inedible plant stuff!" ), INEDIBLE_MUTATION );
+        return edible_ret_val::make_failure( INEDIBLE_MUTATION, _( "Eww.  Inedible plant stuff!" ) );
     }
 
     if( ( has_trait( trait_id( "HERBIVORE" ) ) || has_trait( trait_id( "RUMINANT" ) ) ) &&
         food.has_any_flag( herbivore_blacklist ) ) {
         // Like non-cannibal, but more strict!
-        return edible_ret_val::make_failure( _( "The thought of eating that makes you feel sick." ),
-                                             INEDIBLE_MUTATION );
+        return edible_ret_val::make_failure( INEDIBLE_MUTATION,
+                                             _( "The thought of eating that makes you feel sick." ) );
     }
 
     return edible_ret_val::make_success();
@@ -376,7 +376,7 @@ edible_ret_val player::will_eat( const item &food, bool interactive ) const
 
     std::vector<edible_ret_val> consequences;
     const auto add_consequence = [&consequences]( const std::string & msg, edible_rating code ) {
-        consequences.emplace_back( edible_ret_val::make_failure( msg, code ) );
+        consequences.emplace_back( edible_ret_val::make_failure( code, msg ) );
     };
 
     const bool saprophage = has_trait( trait_id( "SAPROPHAGE" ) );

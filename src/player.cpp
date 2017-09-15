@@ -7751,9 +7751,9 @@ ret_val<bool> player::can_wield( const item &it ) const
         if( worn_with_flag( "RESTRICT_HANDS" ) ) {
             return ret_val<bool>::make_failure( _( "Something you are wearing hinders the use of both hands." ) );
         } else if( it.has_flag( "ALWAYS_TWOHAND" ) ) {
-            return ret_val<bool>::make_failure( string_format( _( "The %s can't be wielded with only one arm." ), it.tname().c_str() ) );
+            return ret_val<bool>::make_failure( _( "The %s can't be wielded with only one arm." ), it.tname().c_str() );
         } else {
-            return ret_val<bool>::make_failure( string_format( _( "You are too weak to wield %s with only one arm." ), it.tname().c_str() ) );
+            return ret_val<bool>::make_failure( _( "You are too weak to wield %s with only one arm." ), it.tname().c_str() );
         }
     }
 
