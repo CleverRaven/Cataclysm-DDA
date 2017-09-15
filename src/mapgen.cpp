@@ -1651,7 +1651,6 @@ void mapgen_function_json_base::setup_common()
     JsonArray sparray;
     JsonObject pjo;
 
-bool hack = dynamic_cast<mapgen_function_json_nested*>(this)!=nullptr;
     format.resize( mapgensize_x * mapgensize_y );
     // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
     if ( jo.has_array("rows") ) {
@@ -1664,39 +1663,36 @@ bool hack = dynamic_cast<mapgen_function_json_nested*>(this)!=nullptr;
             jsin.error( "format: no terrain map" );
         }
 
-        int format_offset_x = hack ? 0 : x_offset;
-        int format_offset_y = hack ? 0 : y_offset;
-
         // mandatory: mapgensize rows of mapgensize character lines, each of which must have a matching key in "terrain",
         // unless fill_ter is set
         // "rows:" [ "aaaajustlikeinmapgen.cpp", "this.must!be!exactly.24!", "and_must_match_terrain_", .... ]
         parray = jo.get_array( "rows" );
-        if ( parray.size() < mapgensize_y + format_offset_y ) {
+        if ( parray.size() < mapgensize_y + y_offset ) {
             parray.throw_error( string_format( "  format: rows: must have at least %d rows, not %d",
-                                               mapgensize_y + format_offset_y, parray.size() ));
+                                               mapgensize_y + y_offset, parray.size() ));
         }
-        for( size_t c = format_offset_y; c < mapgensize_y + format_offset_y; c++ ) {
+        for( size_t c = y_offset; c < mapgensize_y + y_offset; c++ ) {
             const auto tmpval = parray.get_string( c );
-            if ( tmpval.size() < mapgensize_x + format_offset_x ) {
+            if ( tmpval.size() < mapgensize_x + x_offset ) {
                 parray.throw_error( string_format( "  format: row %d must have at least %d columns, not %d",
-                                                   c + 1, mapgensize_x + format_offset_x, tmpval.size()));
+                                                   c + 1, mapgensize_x + x_offset, tmpval.size()));
             }
-            for ( size_t i = format_offset_x; i < mapgensize_x + format_offset_x; i++ ) {
+            for ( size_t i = x_offset; i < mapgensize_x + x_offset; i++ ) {
                 const int tmpkey = tmpval[i];
                 auto iter_ter = format_terrain.find( tmpkey );
                 if ( iter_ter != format_terrain.end() ) {
-                    format[ calc_index( i - format_offset_x, c - format_offset_y ) ].ter = iter_ter->second;
+                    format[ calc_index( i - x_offset, c - y_offset ) ].ter = iter_ter->second;
                 } else if ( ! qualifies ) { // fill_ter should make this kosher
                     parray.throw_error( string_format( "  format: rows: row %d column %d: '%c' is not in 'terrain', and no 'fill_ter' is set!",
                                                        c + 1, i + 1, (char)tmpkey ) );
                 }
                 auto iter_furn = format_furniture.find( tmpkey );
                 if ( iter_furn != format_furniture.end() ) {
-                    format[ calc_index( i - format_offset_x, c - format_offset_y ) ].furn = iter_furn->second;
+                    format[ calc_index( i - x_offset, c - y_offset ) ].furn = iter_furn->second;
                 }
                 const auto fpi = format_placings.find( tmpkey );
                 if( fpi != format_placings.end() ) {
-                    jmapgen_place where( i - format_offset_x, c - format_offset_y );
+                    jmapgen_place where( i - x_offset, c - y_offset );
                     for( auto &what: fpi->second ) {
                         objects.add(where, what);
                     }
