@@ -200,11 +200,11 @@ std::pair<int, int> Character::get_best_sight( const item &gun, double recoil ) 
 
     for( const auto e : gun.gunmods() ) {
         const auto mod = e->type->gunmod.get();
-        if( mod->sight_dispersion < 0 || mod->aim_cost <= 0 ) {
+        if( mod->sight_dispersion < 0 || mod->aim_speed < 0 ) {
             continue; // skip gunmods which don't provide a sight
         }
-        if( effective_dispersion( mod->sight_dispersion ) < recoil && 10 - mod->aim_cost > sight_speed_modifier ) {
-            sight_speed_modifier = 10 - mod->aim_cost;
+        if( effective_dispersion( mod->sight_dispersion ) < recoil && mod->aim_speed > sight_speed_modifier ) {
+            sight_speed_modifier = mod->aim_speed;
             limit = effective_dispersion( mod->sight_dispersion );
         }
     }
