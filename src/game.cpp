@@ -246,17 +246,17 @@ game::game() :
     weather( WEATHER_CLEAR ),
     lightning_active( false ),
     weather_precise( new w_point() ),
-    w_terrain(NULL),
-    w_overmap(NULL),
-    w_omlegend(NULL),
-    w_minimap(NULL),
-    w_pixel_minimap(NULL),
-    w_HP(NULL),
-    w_messages(NULL),
-    w_location(NULL),
-    w_status(NULL),
-    w_status2(NULL),
-    w_blackspace(NULL),
+    w_terrain(nullptr),
+    w_overmap(nullptr),
+    w_omlegend(nullptr),
+    w_minimap(nullptr),
+    w_pixel_minimap(nullptr),
+    w_HP(nullptr),
+    w_messages(nullptr),
+    w_location(nullptr),
+    w_status(nullptr),
+    w_status2(nullptr),
+    w_blackspace(nullptr),
     dangerous_proximity(5),
     pixel_minimap_option(0),
     last_target( -1 ),
@@ -672,7 +672,7 @@ void game::init_ui()
     liveview.init();
 }
 
-void game::toggle_sidebar_style(void)
+void game::toggle_sidebar_style()
 {
     narrow_sidebar = !narrow_sidebar;
 #ifdef TILES
@@ -682,7 +682,7 @@ void game::toggle_sidebar_style(void)
     refresh_all();
 }
 
-void game::toggle_fullscreen(void)
+void game::toggle_fullscreen()
 {
 #ifndef TILES
     if (TERMX > 121 || TERMY > 121) {
@@ -694,7 +694,7 @@ void game::toggle_fullscreen(void)
 #endif
 }
 
-void game::toggle_pixel_minimap(void)
+void game::toggle_pixel_minimap()
 {
 #ifdef TILES
     if (pixel_minimap_option) {
@@ -708,7 +708,7 @@ void game::toggle_pixel_minimap(void)
 
 // temporarily switch out of fullscreen for functions that rely
 // on displaying some part of the sidebar
-void game::temp_exit_fullscreen(void)
+void game::temp_exit_fullscreen()
 {
     if (fullscreen) {
         was_fullscreen = true;
@@ -718,7 +718,7 @@ void game::temp_exit_fullscreen(void)
     }
 }
 
-void game::reenter_fullscreen(void)
+void game::reenter_fullscreen()
 {
     if (was_fullscreen) {
         if (!fullscreen) {
@@ -915,10 +915,10 @@ void game::create_factions()
 {
     faction tmp;
     std::vector<std::string> faction_vector = tmp.all_json_factions();
-    for(std::vector<std::string>::reverse_iterator it = faction_vector.rbegin(); it != faction_vector.rend(); ++it) {
-        tmp = faction(it[0].c_str());
+    for(auto &cur_fac : faction_vector) {
+        tmp = faction(cur_fac);
         tmp.randomize();
-        tmp.load_faction_template(it[0].c_str());
+        tmp.load_faction_template(cur_fac);
         factions.push_back(tmp);
     }
 }
@@ -958,7 +958,7 @@ void game::load_npcs()
         if (temp->marked_for_death) {
             temp->die( nullptr );
         } else {
-            if (temp->my_fac != NULL)
+            if (temp->my_fac != nullptr)
                 temp->my_fac->known_by_u = true;
             active_npc.push_back( temp );
             just_added.push_back( temp );
@@ -998,7 +998,7 @@ void game::create_starting_npcs()
     //We don't want more than one starting npc per shelter
     const int radius = 1;
     std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(radius);
-    if (npcs.size() >= 1) {
+    if (!npcs.empty()) {
         return; //There is already an NPC in this shelter
     }
 
@@ -1044,84 +1044,84 @@ bool game::cleanup_at_end()
         if (u.has_amount("holybook_bible1", 1) || u.has_amount("holybook_bible2", 1) ||
             u.has_amount("holybook_bible3", 1)) {
             if( !( u.has_trait( trait_id( "CANNIBAL" ) ) || u.has_trait( trait_id( "PSYCHOPATH" ) ) ) ) {
-                vRip.push_back("               _______  ___");
-                vRip.push_back("              <       `/   |");
-                vRip.push_back("               >  _     _ (");
-                vRip.push_back("              |  |_) | |_) |");
-                vRip.push_back("              |  | \\ | |   |");
-                vRip.push_back("   ______.__%_|            |_________  __");
-                vRip.push_back(" _/                                  \\|  |");
+                vRip.emplace_back("               _______  ___");
+                vRip.emplace_back("              <       `/   |");
+                vRip.emplace_back("               >  _     _ (");
+                vRip.emplace_back("              |  |_) | |_) |");
+                vRip.emplace_back("              |  | \\ | |   |");
+                vRip.emplace_back("   ______.__%_|            |_________  __");
+                vRip.emplace_back(" _/                                  \\|  |");
                 iNameLine = vRip.size();
-                vRip.push_back("|                                        <");
-                vRip.push_back("|                                        |");
+                vRip.emplace_back("|                                        <");
+                vRip.emplace_back("|                                        |");
                 iMaxWidth = vRip[vRip.size() - 1].length();
-                vRip.push_back("|                                        |");
-                vRip.push_back("|_____.-._____              __/|_________|");
-                vRip.push_back("              |            |");
+                vRip.emplace_back("|                                        |");
+                vRip.emplace_back("|_____.-._____              __/|_________|");
+                vRip.emplace_back("              |            |");
                 iInfoLine = vRip.size();
-                vRip.push_back("              |            |");
-                vRip.push_back("              |           <");
-                vRip.push_back("              |            |");
-                vRip.push_back("              |   _        |");
-                vRip.push_back("              |__/         |");
-                vRip.push_back("             % / `--.      |%");
-                vRip.push_back("         * .%%|          -< @%%%");
-                vRip.push_back("         `\\%`@|            |@@%@%%");
-                vRip.push_back("       .%%%@@@|%     `   % @@@%%@%%%%");
-                vRip.push_back("  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%");
+                vRip.emplace_back("              |            |");
+                vRip.emplace_back("              |           <");
+                vRip.emplace_back("              |            |");
+                vRip.emplace_back("              |   _        |");
+                vRip.emplace_back("              |__/         |");
+                vRip.emplace_back("             % / `--.      |%");
+                vRip.emplace_back("         * .%%|          -< @%%%");
+                vRip.emplace_back("         `\\%`@|            |@@%@%%");
+                vRip.emplace_back("       .%%%@@@|%     `   % @@@%%@%%%%");
+                vRip.emplace_back("  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%");
 
             } else {
-                vRip.push_back("               _______  ___");
-                vRip.push_back("              |       \\/   |");
-                vRip.push_back("              |            |");
-                vRip.push_back("              |            |");
+                vRip.emplace_back("               _______  ___");
+                vRip.emplace_back("              |       \\/   |");
+                vRip.emplace_back("              |            |");
+                vRip.emplace_back("              |            |");
                 iInfoLine = vRip.size();
-                vRip.push_back("              |            |");
-                vRip.push_back("              |            |");
-                vRip.push_back("              |            |");
-                vRip.push_back("              |            |");
-                vRip.push_back("              |           <");
-                vRip.push_back("              |   _        |");
-                vRip.push_back("              |__/         |");
-                vRip.push_back("   ______.__%_|            |__________  _");
-                vRip.push_back(" _/                                   \\| \\");
+                vRip.emplace_back("              |            |");
+                vRip.emplace_back("              |            |");
+                vRip.emplace_back("              |            |");
+                vRip.emplace_back("              |            |");
+                vRip.emplace_back("              |           <");
+                vRip.emplace_back("              |   _        |");
+                vRip.emplace_back("              |__/         |");
+                vRip.emplace_back("   ______.__%_|            |__________  _");
+                vRip.emplace_back(" _/                                   \\| \\");
                 iNameLine = vRip.size();
-                vRip.push_back("|                                         <");
-                vRip.push_back("|                                         |");
+                vRip.emplace_back("|                                         <");
+                vRip.emplace_back("|                                         |");
                 iMaxWidth = vRip[vRip.size() - 1].length();
-                vRip.push_back("|                                         |");
-                vRip.push_back("|_____.-._______            __/|__________|");
-                vRip.push_back("             % / `_-.   _  |%");
-                vRip.push_back("         * .%%|  |_) | |_)< @%%%");
-                vRip.push_back("         `\\%`@|  | \\ | |   |@@%@%%");
-                vRip.push_back("       .%%%@@@|%     `   % @@@%%@%%%%");
-                vRip.push_back("  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%");
+                vRip.emplace_back("|                                         |");
+                vRip.emplace_back("|_____.-._______            __/|__________|");
+                vRip.emplace_back("             % / `_-.   _  |%");
+                vRip.emplace_back("         * .%%|  |_) | |_)< @%%%");
+                vRip.emplace_back("         `\\%`@|  | \\ | |   |@@%@%%");
+                vRip.emplace_back("       .%%%@@@|%     `   % @@@%%@%%%%");
+                vRip.emplace_back("  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%");
             }
         } else {
-            vRip.push_back("           _________  ____           ");
-            vRip.push_back("         _/         `/    \\_         ");
-            vRip.push_back("       _/      _     _      \\_.      ");
-            vRip.push_back("     _%\\      |_) | |_)       \\_     ");
-            vRip.push_back("   _/ \\/      | \\ | |           \\_   ");
-            vRip.push_back(" _/                               \\_ ");
-            vRip.push_back("|                                   |");
+            vRip.emplace_back("           _________  ____           ");
+            vRip.emplace_back("         _/         `/    \\_         ");
+            vRip.emplace_back("       _/      _     _      \\_.      ");
+            vRip.emplace_back("     _%\\      |_) | |_)       \\_     ");
+            vRip.emplace_back("   _/ \\/      | \\ | |           \\_   ");
+            vRip.emplace_back(" _/                               \\_ ");
+            vRip.emplace_back("|                                   |");
             iNameLine = vRip.size();
-            vRip.push_back(" )                                 < ");
-            vRip.push_back("|                                   |");
-            vRip.push_back("|                                   |");
-            vRip.push_back("|   _                               |");
-            vRip.push_back("|__/                                |");
+            vRip.emplace_back(" )                                 < ");
+            vRip.emplace_back("|                                   |");
+            vRip.emplace_back("|                                   |");
+            vRip.emplace_back("|   _                               |");
+            vRip.emplace_back("|__/                                |");
             iMaxWidth = vRip[vRip.size() - 1].length();
-            vRip.push_back(" / `--.                             |");
-            vRip.push_back("|                                  ( ");
+            vRip.emplace_back(" / `--.                             |");
+            vRip.emplace_back("|                                  ( ");
             iInfoLine = vRip.size();
-            vRip.push_back("|                                   |");
-            vRip.push_back("|                                   |");
-            vRip.push_back("|     %                         .   |");
-            vRip.push_back("|  @`                            %% |");
-            vRip.push_back("| %@%@%\\                *      %`%@%|");
-            vRip.push_back("%%@@@.%@%\\%%           `\\ %%.%%@@%@");
-            vRip.push_back("@%@@%%%%%@@@@@@%%%%%%%%@@%%@@@%%%@%%@");
+            vRip.emplace_back("|                                   |");
+            vRip.emplace_back("|                                   |");
+            vRip.emplace_back("|     %                         .   |");
+            vRip.emplace_back("|  @`                            %% |");
+            vRip.emplace_back("| %@%@%\\                *      %`%@%|");
+            vRip.emplace_back("%%@@@.%@%\\%%           `\\ %%.%%@@%@");
+            vRip.emplace_back("@%@@%%%%%@@@@@@%%%%%%%%@@%%@@@%%%@%%@");
         }
 
         const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
@@ -1163,8 +1163,8 @@ bool game::cleanup_at_end()
         std::string sTemp;
         std::stringstream ssTemp;
 
-        int days_survived = int(calendar::turn.get_turn() / DAYS(1));
-        int days_adventured = int((calendar::turn.get_turn() - calendar::start.get_turn()) / DAYS(1));
+        int days_survived = calendar::turn.get_turn() / DAYS(1);
+        int days_adventured = (calendar::turn.get_turn() - calendar::start.get_turn()) / DAYS(1);
 
         for (int lifespan = 0; lifespan < 2; ++lifespan) {
             // Show the second, "Adventured", lifespan
@@ -1699,12 +1699,11 @@ bool game::cancel_activity_or_ignore_query(const char *reason, ...)
     const std::string text = vstring_format(reason, ap);
     va_end(ap);
 
-    bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-    int ch = (int)' ';
-
     std::string stop_message = text + " " + u.activity.get_stop_phrase() + " " +
                                _( "(Y)es, (N)o, (I)gnore further distractions and finish." );
 
+    bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
+    int ch = -1;
     do {
         ch = popup(stop_message, PF_GET_KEY);
     } while (ch != '\n' && ch != ' ' && ch != KEY_ESCAPE &&
@@ -2047,6 +2046,8 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
                     add_msg(m_info, _("'%s' removed from character pickup rules."), oThisItem.tname( 1, false ).c_str());
                 }
                 break;
+            default:
+                break;
             }
         } while (cMenu == KEY_DOWN || cMenu == KEY_UP || cMenu == KEY_PPAGE || cMenu == KEY_NPAGE);
     }
@@ -2314,7 +2315,7 @@ input_context game::get_player_input(std::string &action)
                     if( m.is_outside( mapp ) && m.get_visibility( lighting, cache ) == VIS_CLEAR &&
                         !critter_at( mapp, true ) ) {
                         // Suppress if a critter is there
-                        wPrint.vdrops.push_back(std::make_pair(iRandX, iRandY));
+                        wPrint.vdrops.emplace_back(std::make_pair(iRandX, iRandY));
                     }
                 }
             }
@@ -2416,7 +2417,7 @@ input_context game::get_player_input(std::string &action)
 void game::rcdrive(int dx, int dy)
 {
     std::stringstream car_location_string( u.get_value( "remote_controlling" ) );
-    if( car_location_string.str() == "" ) {
+    if( car_location_string.str().empty() ) {
         //no turned radio car found
         u.add_msg_if_player(m_warning, _("No radio car connected."));
         return;
@@ -2697,7 +2698,7 @@ bool game::handle_action()
             break;
 
         case ACTION_MOVE_N:
-            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
+            if( !( u.get_value( "remote_controlling" ).empty() ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(0, -1);
             } else if (veh_ctrl) {
                 pldrive(0, -1);
@@ -2707,7 +2708,7 @@ bool game::handle_action()
             break;
 
         case ACTION_MOVE_NE:
-            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
+            if( !( u.get_value( "remote_controlling" ).empty() ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(1, -1);
             } else if (veh_ctrl) {
                 pldrive(1, -1);
@@ -2717,7 +2718,7 @@ bool game::handle_action()
             break;
 
         case ACTION_MOVE_E:
-            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
+            if( !( u.get_value( "remote_controlling" ).empty() ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(1, 0);
             } else if (veh_ctrl) {
                 pldrive(1, 0);
@@ -2727,7 +2728,7 @@ bool game::handle_action()
             break;
 
         case ACTION_MOVE_SE:
-            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
+            if( !( u.get_value( "remote_controlling" ).empty() ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(1, 1);
             } else if (veh_ctrl) {
                 pldrive(1, 1);
@@ -2737,7 +2738,7 @@ bool game::handle_action()
             break;
 
         case ACTION_MOVE_S:
-            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
+            if( !( u.get_value( "remote_controlling" ).empty() ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(0, 1);
             } else if (veh_ctrl) {
                 pldrive(0, 1);
@@ -2747,7 +2748,7 @@ bool game::handle_action()
             break;
 
         case ACTION_MOVE_SW:
-            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
+            if( !( u.get_value( "remote_controlling" ).empty() ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(-1, 1);
             } else if (veh_ctrl) {
                 pldrive(-1, 1);
@@ -2757,7 +2758,7 @@ bool game::handle_action()
             break;
 
         case ACTION_MOVE_W:
-            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
+            if( !( u.get_value( "remote_controlling" ).empty() ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(-1, 0);
             } else if (veh_ctrl) {
                 pldrive(-1, 0);
@@ -2767,7 +2768,7 @@ bool game::handle_action()
             break;
 
         case ACTION_MOVE_NW:
-            if( ( u.get_value( "remote_controlling" ) != "" ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
+            if( !( u.get_value( "remote_controlling" ).empty() ) && ( ( u.has_active_item("radiocontrol") ) || ( u.has_active_bionic( bio_remote ) ) ) ) {
                 rcdrive(-1, -1);
             } else if (veh_ctrl) {
                 pldrive(-1, -1);
@@ -3025,12 +3026,12 @@ bool game::handle_action()
                                                           w.type_name().c_str(),
                                                           w.contents.front().ammo_remaining() ) );
 
-                        actions.push_back( [&]{ u.invoke_item( &w, "holster" ); } );
+                        actions.emplace_back( [&]{ u.invoke_item( &w, "holster" ); } );
 
                     } else if( w.is_gun() && w.gunmod_find( "shoulder_strap" ) ) {
                         // wield item currently worn using shoulder strap
                         options.push_back( w.display_name() );
-                        actions.push_back( [&]{ u.wield( w ); } );
+                        actions.emplace_back( [&]{ u.wield( w ); } );
                     }
                 }
                 if( options.size() > 1 ) {
@@ -3152,16 +3153,16 @@ bool game::handle_action()
                 uimenu as_m;
                 as_m.return_invalid = true;
                 as_m.text = _("Are you sure you want to sleep?");
-                as_m.entries.push_back(uimenu_entry(0, true,
+                as_m.entries.emplace_back(uimenu_entry(0, true,
                                                     (get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'Y' : 'y'),
                                                     _("Yes.")));
 
                 if (get_option<bool>( "SAVE_SLEEP" ) ) {
-                    as_m.entries.push_back(uimenu_entry(1, (moves_since_last_save),
+                    as_m.entries.emplace_back(uimenu_entry(1, (moves_since_last_save),
                                                         (get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'S' : 's'),
                                                         _("Yes, and save game before sleeping.")));
                 }
-                as_m.entries.push_back(uimenu_entry(2, true, (get_option<bool>( "FORCE_CAPITAL_YN" ) ?
+                as_m.entries.emplace_back(uimenu_entry(2, true, (get_option<bool>( "FORCE_CAPITAL_YN" ) ?
                                                     'N' : 'n'), _("No.")));
 
                 if( u.has_alarm_clock() && u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE ) ) {
@@ -3199,7 +3200,7 @@ bool game::handle_action()
                     }
                 }
                 std::stringstream data;
-                if ( active.size() > 0 ) {
+                if ( !active.empty() ) {
                     data << as_m.text << std::endl;
                     data << _("You may want to deactivate these before you sleep.") << std::endl;
                     data << " " << std::endl;
@@ -3210,19 +3211,19 @@ bool game::handle_action()
                 }
                 if( u.has_alarm_clock() &&
                     !( u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE ) ) ) {
-                    as_m.entries.push_back(uimenu_entry(3, true, '3',
+                    as_m.entries.emplace_back(uimenu_entry(3, true, '3',
                                                         _("Set alarm to wake up in 3 hours.")));
-                    as_m.entries.push_back(uimenu_entry(4, true, '4',
+                    as_m.entries.emplace_back(uimenu_entry(4, true, '4',
                                                         _("Set alarm to wake up in 4 hours.")));
-                    as_m.entries.push_back(uimenu_entry(5, true, '5',
+                    as_m.entries.emplace_back(uimenu_entry(5, true, '5',
                                                         _("Set alarm to wake up in 5 hours.")));
-                    as_m.entries.push_back(uimenu_entry(6, true, '6',
+                    as_m.entries.emplace_back(uimenu_entry(6, true, '6',
                                                         _("Set alarm to wake up in 6 hours.")));
-                    as_m.entries.push_back(uimenu_entry(7, true, '7',
+                    as_m.entries.emplace_back(uimenu_entry(7, true, '7',
                                                         _("Set alarm to wake up in 7 hours.")));
-                    as_m.entries.push_back(uimenu_entry(8, true, '8',
+                    as_m.entries.emplace_back(uimenu_entry(8, true, '8',
                                                         _("Set alarm to wake up in 8 hours.")));
-                    as_m.entries.push_back(uimenu_entry(9, true, '9',
+                    as_m.entries.emplace_back(uimenu_entry(9, true, '9',
                                                         _("Set alarm to wake up in 9 hours.")));
                 }
                 /* Calculate key and window variables, generate window,
@@ -4124,7 +4125,7 @@ void game::debug()
                     const vproto_id &selected_opt = veh_strings[veh_menu.ret];
                     tripoint dest = u.pos(); // TODO: Allow picking this when add_vehicle has 3d argument
                     vehicle *veh = m.add_vehicle( selected_opt, dest.x, dest.y, -90, 100, 0 );
-                    if( veh != NULL ) {
+                    if( veh != nullptr ) {
                         m.board_vehicle( u.pos(), &u );
                     }
                 }
@@ -4227,7 +4228,7 @@ void game::debug()
             int dbg_damage;
             if( query_int( dbg_damage, _( "Damage self for how much? hp: %d" ), u.hp_cur[hp_torso] ) ) {
                 u.hp_cur[hp_torso] -= dbg_damage;
-                u.die( NULL );
+                u.die( nullptr );
                 draw_sidebar();
             }
         }
@@ -4488,159 +4489,159 @@ void game::disp_faction_ends()
     for( auto &elem : factions ) {
         if(elem.known_by_u) {
             if (elem.name == "Your Followers"){
-                data.push_back( "" );
-                data.push_back( "" );
-                data.push_back( "" );
-                data.push_back( "" );
-                data.push_back( "" );
-                data.push_back( "" );
-                data.push_back( "" );
-                data.push_back( "" );
-                data.push_back( "" );
-                data.push_back( "       You are forgotten among the billions lost in the cataclysm..." );
+                data.emplace_back( "" );
+                data.emplace_back( "" );
+                data.emplace_back( "" );
+                data.emplace_back( "" );
+                data.emplace_back( "" );
+                data.emplace_back( "" );
+                data.emplace_back( "" );
+                data.emplace_back( "" );
+                data.emplace_back( "" );
+                data.emplace_back( "       You are forgotten among the billions lost in the cataclysm..." );
 
                 display_table(w, "", 1, data);
             } else if (elem.name == "The Old Guard" && elem.power != 100){
                 if (elem.power < 150){
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "    Locked in an endless battle, the Old Guard was forced to consolidate their");
-                    data.push_back( "resources in a handful of fortified bases along the coast.  Without the men" );
-                    data.push_back( "or material to rebuild, the soldiers that remained lost all hope..." );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "    Locked in an endless battle, the Old Guard was forced to consolidate their");
+                    data.emplace_back( "resources in a handful of fortified bases along the coast.  Without the men" );
+                    data.emplace_back( "or material to rebuild, the soldiers that remained lost all hope..." );
                 } else {
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "    The steadfastness of individual survivors after the cataclysm impressed ");
-                    data.push_back( "the tattered remains of the once glorious union.  Spurred on by small ");
-                    data.push_back( "successes, a number of operations to re-secure facilities met with limited ");
-                    data.push_back( "success.  Forced to eventually consolidate to large bases, the Old Guard left");
-                    data.push_back( "these facilities in the hands of the few survivors that remained.  As the ");
-                    data.push_back( "years past, little materialized from the hopes of rebuilding civilization...");
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "    The steadfastness of individual survivors after the cataclysm impressed ");
+                    data.emplace_back( "the tattered remains of the once glorious union.  Spurred on by small ");
+                    data.emplace_back( "successes, a number of operations to re-secure facilities met with limited ");
+                    data.emplace_back( "success.  Forced to eventually consolidate to large bases, the Old Guard left");
+                    data.emplace_back( "these facilities in the hands of the few survivors that remained.  As the ");
+                    data.emplace_back( "years past, little materialized from the hopes of rebuilding civilization...");
                 }
                 display_table(w, "The Old Guard", 1, data);
             } else if (elem.name == "The Free Merchants" && elem.power != 100){
                 if (elem.power < 150){
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "    Life in the refugee shelter deteriorated as food shortages and disease ");
-                    data.push_back( "destroyed any hope of maintaining a civilized enclave.  The merchants and ");
-                    data.push_back( "craftsmen dispersed to found new colonies but most became victims of");
-                    data.push_back( "marauding bandits.  Those who survived never found a place to call home...");
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "    Life in the refugee shelter deteriorated as food shortages and disease ");
+                    data.emplace_back( "destroyed any hope of maintaining a civilized enclave.  The merchants and ");
+                    data.emplace_back( "craftsmen dispersed to found new colonies but most became victims of");
+                    data.emplace_back( "marauding bandits.  Those who survived never found a place to call home...");
                 } else {
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "    The Free Merchants struggled for years to keep themselves fed but their");
-                    data.push_back( "once profitable trade routes were plundered by bandits and thugs.  In squalor");
-                    data.push_back( "and filth the first generations born after the cataclysm are told stories of");
-                    data.push_back( "the old days when food was abundant and the children were allowed to play in");
-                    data.push_back( "the sun...");
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "    The Free Merchants struggled for years to keep themselves fed but their");
+                    data.emplace_back( "once profitable trade routes were plundered by bandits and thugs.  In squalor");
+                    data.emplace_back( "and filth the first generations born after the cataclysm are told stories of");
+                    data.emplace_back( "the old days when food was abundant and the children were allowed to play in");
+                    data.emplace_back( "the sun...");
                 }
                 display_table(w, "The Free Merchants", 1, data);
             } else if (elem.name == "The Tacoma Commune" && elem.power != 100){
                 if (elem.power < 150){
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "    The fledgling outpost was abandoned a few months later.  The external");
-                    data.push_back( "threats combined with low crop yields caused the Free Merchants to withdraw");
-                    data.push_back( "their support.  When the exhausted migrants returned to the refugee center");
-                    data.push_back( "they were turned away to face the world on their own.");
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "    The fledgling outpost was abandoned a few months later.  The external");
+                    data.emplace_back( "threats combined with low crop yields caused the Free Merchants to withdraw");
+                    data.emplace_back( "their support.  When the exhausted migrants returned to the refugee center");
+                    data.emplace_back( "they were turned away to face the world on their own.");
                 } else {
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "    The commune continued to grow rapidly through the years despite constant");
-                    data.push_back( "external threat.  While maintaining a reputation as a haven for all law");
-                    data.push_back( "abiding citizens, the commune's leadership remained loyal to the interests of");
-                    data.push_back( "the Free Merchants.  Hard labor for little reward remained the price to be");
-                    data.push_back( "paid for those who sought the safety of the community.");
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "    The commune continued to grow rapidly through the years despite constant");
+                    data.emplace_back( "external threat.  While maintaining a reputation as a haven for all law");
+                    data.emplace_back( "abiding citizens, the commune's leadership remained loyal to the interests of");
+                    data.emplace_back( "the Free Merchants.  Hard labor for little reward remained the price to be");
+                    data.emplace_back( "paid for those who sought the safety of the community.");
                 }
                 display_table(w, "The Tacoma Commune", 1, data);
             } else if (elem.name == "The Wasteland Scavengers" && elem.power != 100){
                 if (elem.power < 150){
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "    The lone bands of survivors who wandered the now alien world dwindled in");
-                    data.push_back( "number through the years.  Unable to compete with the growing number of ");
-                    data.push_back( "monstrosities that had adapted to live in their world, those who did survive");
-                    data.push_back( "lived in dejected poverty and hopelessness...");
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "    The lone bands of survivors who wandered the now alien world dwindled in");
+                    data.emplace_back( "number through the years.  Unable to compete with the growing number of ");
+                    data.emplace_back( "monstrosities that had adapted to live in their world, those who did survive");
+                    data.emplace_back( "lived in dejected poverty and hopelessness...");
                 } else {
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "    The scavengers who flourished in the opening days of the cataclysm found");
-                    data.push_back( "an ever increasing challenge in finding and maintaining equipment from the ");
-                    data.push_back( "old world.  Enormous hordes made cities impossible to enter while new ");
-                    data.push_back( "eldritch horrors appeared mysteriously near old research labs.  But on the ");
-                    data.push_back( "fringes of where civilization once ended, bands of hunter-gatherers began to");
-                    data.push_back( "adopt agrarian lifestyles in fortified enclaves...");
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "    The scavengers who flourished in the opening days of the cataclysm found");
+                    data.emplace_back( "an ever increasing challenge in finding and maintaining equipment from the ");
+                    data.emplace_back( "old world.  Enormous hordes made cities impossible to enter while new ");
+                    data.emplace_back( "eldritch horrors appeared mysteriously near old research labs.  But on the ");
+                    data.emplace_back( "fringes of where civilization once ended, bands of hunter-gatherers began to");
+                    data.emplace_back( "adopt agrarian lifestyles in fortified enclaves...");
                 }
                 display_table(w, "The Wasteland Scavengers", 1, data);
             } else if (elem.name == "Hell's Raiders" && elem.power != 100){
                 if (elem.power < 150){
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "    The raiders grew more powerful than any other faction as attrition ");
-                    data.push_back( "destroyed the Old Guard.  The ruthless men and women who banded together to");
-                    data.push_back( "rob refugees and pillage settlements soon found themselves without enough ");
-                    data.push_back( "victims to survive.  The Hell's Raiders were eventually destroyed when ");
-                    data.push_back( "infighting erupted into civil war but there were few survivors left to ");
-                    data.push_back( "celebrate their destruction.");
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "    The raiders grew more powerful than any other faction as attrition ");
+                    data.emplace_back( "destroyed the Old Guard.  The ruthless men and women who banded together to");
+                    data.emplace_back( "rob refugees and pillage settlements soon found themselves without enough ");
+                    data.emplace_back( "victims to survive.  The Hell's Raiders were eventually destroyed when ");
+                    data.emplace_back( "infighting erupted into civil war but there were few survivors left to ");
+                    data.emplace_back( "celebrate their destruction.");
                 } else {
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "" );
-                    data.push_back( "    Fueled by drugs and rage, the Hell's Raiders fought tooth and nail to");
-                    data.push_back( "overthrow the last strongholds of the Old Guard.  The costly victories ");
-                    data.push_back( "brought the warlords abundant territory and slaves but little in the way of");
-                    data.push_back( "stability.  Within weeks, infighting led to civil war as tribes vied for ");
-                    data.push_back( "leadership of the faction.  When only one warlord finally secured control,");
-                    data.push_back( "there was nothing left to fight for... just endless cities full of the dead.");
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "" );
+                    data.emplace_back( "    Fueled by drugs and rage, the Hell's Raiders fought tooth and nail to");
+                    data.emplace_back( "overthrow the last strongholds of the Old Guard.  The costly victories ");
+                    data.emplace_back( "brought the warlords abundant territory and slaves but little in the way of");
+                    data.emplace_back( "stability.  Within weeks, infighting led to civil war as tribes vied for ");
+                    data.emplace_back( "leadership of the faction.  When only one warlord finally secured control,");
+                    data.emplace_back( "there was nothing left to fight for... just endless cities full of the dead.");
                 }
                 display_table(w, "Hell's Raiders", 1, data);
             }
@@ -4707,7 +4708,7 @@ faction *game::list_factions(std::string title)
     }
     if (valfac.empty()) { // We don't know of any factions!
         popup(_("You don't know of any factions.  Press Spacebar..."));
-        return NULL;
+        return nullptr;
     }
 
     WINDOW *w_list = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
@@ -4727,7 +4728,7 @@ faction *game::list_factions(std::string title)
     ctxt.register_action("CONFIRM");
     ctxt.register_action("QUIT");
     ctxt.register_action("HELP_KEYBINDINGS");
-    faction *cur_frac = NULL;
+    faction *cur_frac = nullptr;
     while (true) {
         cur_frac = valfac[sel];
         if (redraw) {
@@ -4777,7 +4778,7 @@ faction *game::list_factions(std::string title)
         } else if ( action == "HELP_KEYBINDINGS" ) {
             redraw = true;
         } else if (action == "QUIT") {
-            cur_frac = NULL;
+            cur_frac = nullptr;
             break;
         } else if (action == "CONFIRM") {
             break;
@@ -5285,11 +5286,11 @@ void game::draw_minimap()
                     std::string sym = note_text.substr(colorStart, colorIndex - colorStart);
 
                     if (sym.length() == 2) {
-                        if (sym.compare("br") == 0) {
+                        if (sym == "br") {
                             ter_color = c_brown;
-                        } else if (sym.compare("lg") == 0) {
+                        } else if (sym == "lg") {
                             ter_color = c_ltgray;
-                        } else if (sym.compare("dg") == 0) {
+                        } else if (sym == "dg") {
                             ter_color = c_dkgray;
                         }
                     } else {
@@ -5362,7 +5363,7 @@ void game::draw_minimap()
                 mvwputch( w_minimap, 0, 3, c_red, '*' );
             }
         } else {
-            int arrowx = 3, arrowy = 3;
+            int arrowx = -1, arrowy = -1;
             if( fabs( slope ) >= 1. ) { // y diff is bigger!
                 arrowy = ( targ.y > cursy ? 6 : 0 );
                 arrowx = int( 3 + 3 * ( targ.y > cursy ? slope : ( 0 - slope ) ) );
@@ -5491,7 +5492,7 @@ faction *game::faction_by_ident(std::string id)
             return &elem;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 Creature *game::is_hostile_nearby()
@@ -6095,7 +6096,6 @@ void game::shockwave( const tripoint &p, int radius, int force, int stun, int da
         add_msg( m_bad, _("You're caught in the shockwave!") );
         knockback( p, u.pos(), force, stun, dam_mult);
     }
-    return;
 }
 
 /* Knockback target at t by force number of tiles in direction from s to t
@@ -6112,7 +6112,6 @@ void game::knockback( const tripoint &s, const tripoint &t, int force, int stun,
     traj.insert( traj.begin(), t ); // how annoying, continue_line() doesn't either!
 
     knockback( traj, force, stun, dam_mult );
-    return;
 }
 
 /* Knockback target at traj.front() along line traj; traj should already have considered knockback distance.
@@ -6331,7 +6330,6 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
             }
         }
     }
-    return;
 }
 
 void game::use_computer( const tripoint &p )
@@ -6353,7 +6351,7 @@ void game::use_computer( const tripoint &p )
 
     computer *used = m.computer_at( p );
 
-    if (used == NULL) {
+    if (used == nullptr) {
         dbg(D_ERROR) << "game:use_computer: Tried to use computer at (" <<
             p.x << ", " << p.y << ", " << p.z << ") - none there";
         debugmsg( "Tried to use computer at (%d, %d, %d) - none there", p.x, p.y, p.z );
@@ -6443,6 +6441,8 @@ void game::resonance_cascade( const tripoint &p )
                 break;
             case 19:
                 explosion( dest, rng(1, 10), rng(0, 1) * rng(0, 6), one_in(4) );
+                break;
+            default:
                 break;
             }
         }
@@ -6549,9 +6549,9 @@ void game::emp_blast( const tripoint &p )
         }
     }
     // Drain any items of their battery charge
-    for( auto it = m.i_at( x, y ).begin(); it != m.i_at( x, y ).end(); ++it ) {
-        if( it->is_tool() && it->ammo_type() == ammotype( "battery" ) ) {
-            it->charges = 0;
+    for( auto &it : m.i_at( x, y ) ) {
+        if( it.is_tool() && it.ammo_type() == ammotype( "battery" ) ) {
+            it.charges = 0;
         }
     }
     // TODO: Drain NPC energy reserves
@@ -6559,9 +6559,9 @@ void game::emp_blast( const tripoint &p )
 
 npc *game::npc_by_id(const int id) const
 {
-    for (size_t i = 0; i < active_npc.size(); i++) {
-        if (active_npc[i]->getID() == id) {
-            return active_npc[i];
+    for( auto &cur_npc : active_npc ) {
+        if( cur_npc->getID() == id ) {
+            return cur_npc;
         }
     }
     return nullptr;
@@ -6577,9 +6577,9 @@ T *game::critter_at( const tripoint &p, bool allow_hallucination )
     if( p == u.pos() ) {
         return dynamic_cast<T*>( &u );
     }
-    for( size_t i = 0; i < active_npc.size(); i++ ) {
-        if( active_npc[i]->pos() == p && !active_npc[i]->is_dead() ) {
-            return dynamic_cast<T*>( active_npc[i] );
+    for( auto &cur_npc : active_npc ) {
+        if( cur_npc->pos() == p && !cur_npc->is_dead() ) {
+            return dynamic_cast<T*>( cur_npc );
         }
     }
     return nullptr;
@@ -7064,7 +7064,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id door_type, int b
     const tripoint kbp( kbx, kby, p.z );
     const bool can_see = u.sees(x, y);
     player *npc_or_player = critter_at<player>( tripoint( x, y, p.z ) );
-    if (npc_or_player != NULL) {
+    if (npc_or_player != nullptr) {
         if (bash_dmg <= 0) {
             return false;
         }
@@ -7198,7 +7198,6 @@ void game::moving_vehicle_dismount( const tripoint &dest_loc )
             fling_creature(&u, veh->face.dir() + 180, -(veh->velocity) / (float)100);
         }
     }
-    return;
 }
 
 void game::control_vehicle()
@@ -7381,9 +7380,8 @@ bool pet_menu(monster *z)
     }
 
     if (drop_all == choice) {
-        for (std::vector<item>::iterator it = z->inv.begin();
-             it != z->inv.end(); ++it) {
-            g->m.add_item_or_charges(z->pos(), *it);
+        for (auto &it : z->inv) {
+            g->m.add_item_or_charges(z->pos(), it);
         }
 
         z->inv.clear();
@@ -7839,9 +7837,9 @@ void game::print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, i
     }
 
     std::string signage = m.get_signage( lp );
-    if (signage.size() > 0 && signage.size() < 36) {
+    if (!signage.empty() && signage.size() < 36) {
         mvwprintw(w_look, ++line, column, _("Sign: %s"), signage.c_str());
-    } else if (signage.size() > 0) {
+    } else if (!signage.empty()) {
         // Truncate to width of window as a guesstimate.
         mvwprintw(w_look, ++line, column, _("Sign: %s..."), signage.substr(0, 32).c_str());
     }
@@ -8190,11 +8188,11 @@ void game::zones_manager()
             } else if (action == "CONFIRM") {
                 uimenu as_m;
                 as_m.text = _("What do you want to change:");
-                as_m.entries.push_back(uimenu_entry(1, true, '1', _("Edit name")));
-                as_m.entries.push_back(uimenu_entry(2, true, '2', _("Edit type")));
-                //as_m.entries.push_back(uimenu_entry(3, true, '3', _("Move position left/top") ));
-                //as_m.entries.push_back(uimenu_entry(4, true, '4', _("Move coordinates right/bottom") ));
-                as_m.entries.push_back(uimenu_entry(5, true, 'q', _("Cancel")));
+                as_m.entries.emplace_back(uimenu_entry(1, true, '1', _("Edit name")));
+                as_m.entries.emplace_back(uimenu_entry(2, true, '2', _("Edit type")));
+                //as_m.entries.emplace_back(uimenu_entry(3, true, '3', _("Move position left/top") ));
+                //as_m.entries.emplace_back(uimenu_entry(4, true, '4', _("Move coordinates right/bottom") ));
+                as_m.entries.emplace_back(uimenu_entry(5, true, 'q', _("Cancel")));
                 as_m.query();
 
                 switch (as_m.ret) {
@@ -8451,7 +8449,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
     get_lookaround_dimensions(lookWidth, lookY, lookX);
 
     bool bNewWindow = false;
-    if (w_info == NULL) {
+    if (w_info == nullptr) {
         w_info = newwin(lookHeight, lookWidth, lookY, lookX);
         bNewWindow = true;
     }
@@ -8804,17 +8802,17 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
 
     int letters = utf8_width(sSort);
 
-    shortcut_print(window, 0, getmaxx(window) - letters, c_white, c_ltgreen, sSort.c_str());
+    shortcut_print(window, 0, getmaxx(window) - letters, c_white, c_ltgreen, sSort);
 
     std::vector<std::string> tokens;
-    if (sFilter != "") {
-        tokens.push_back(_("<R>eset"));
+    if (!sFilter.empty()) {
+        tokens.emplace_back(_("<R>eset"));
     }
 
-    tokens.push_back(_("<E>xamine"));
-    tokens.push_back(_("<C>ompare"));
-    tokens.push_back(_("<F>ilter"));
-    tokens.push_back(_("<+/->Priority"));
+    tokens.emplace_back(_("<E>xamine"));
+    tokens.emplace_back(_("<C>ompare"));
+    tokens.emplace_back(_("<F>ilter"));
+    tokens.emplace_back(_("<+/->Priority"));
 
     int gaps = tokens.size() + 1;
     letters = 0;
@@ -8830,7 +8828,7 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
     const int ypos = TERMY - height - 1 - VIEW_OFFSET_Y * 2;
 
     for (int i = 0; i < n; i++) {
-        xpos += shortcut_print(window, ypos, xpos, c_white, c_ltgreen, tokens[i].c_str()) + gap_spaces;
+        xpos += shortcut_print(window, ypos, xpos, c_white, c_ltgreen, tokens[i]) + gap_spaces;
     }
 
     refresh_all();
@@ -9013,7 +9011,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     int page_num = 0;
     int iCatSortNum = 0;
     int iScrollPos = 0;
-    map_item_stack *activeItem = NULL;
+    map_item_stack *activeItem = nullptr;
     std::map<int, std::string> mSortCategory;
 
     std::string action;
@@ -9477,7 +9475,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                         }
 
                         shortcut_print(w_monsters_border, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2, 3,
-                        c_white, c_ltgreen, sSafemode.c_str());
+                        c_white, c_ltgreen, sSafemode);
                     }
 
                     nc_color color = c_white;
@@ -11083,7 +11081,7 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
         get_safemode().lastmon_whitelist = spotted_creature_name;
     }
 
-    std::string whitelist = "";
+    std::string whitelist;
     if ( !get_safemode().empty() ) {
         whitelist = string_format( _( " or %s to whitelist the monster" ), press_x( ACTION_WHITELIST_ENEMY ).c_str() );
     }
@@ -11156,6 +11154,8 @@ bool game::disable_robot( const tripoint &p )
                 }
                 u.moves -= 100;
                 return true;
+            default:
+                break;
         }
     }
     return false;
@@ -11181,10 +11181,10 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
         // Note: in non-z-level mode, ledges obey different rules and so should be handled as regular traps
         if( tr.loadid == tr_ledge && m.has_zlevels() ) {
             if( !boardable && !m.has_floor_or_support( dest_loc ) ) {
-                harmful_stuff.push_back( tr.name().c_str() );
+                harmful_stuff.emplace_back( tr.name().c_str() );
             }
         } else if( tr.can_see( dest_loc, u ) && !tr.is_benign() ) {
-            harmful_stuff.push_back( tr.name().c_str() );
+            harmful_stuff.emplace_back( tr.name().c_str() );
         }
 
         static const std::set< body_part > sharp_bps = {
@@ -11198,10 +11198,10 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
 
         if( m.has_flag( "ROUGH", dest_loc ) && !m.has_flag( "ROUGH", u.pos() ) && !boardable &&
             ( u.get_armor_bash( bp_foot_l ) < 5 || u.get_armor_bash( bp_foot_r ) < 5 ) ) {
-            harmful_stuff.push_back( m.name( dest_loc ).c_str() );
+            harmful_stuff.emplace_back( m.name( dest_loc ).c_str() );
         } else if( m.has_flag( "SHARP", dest_loc ) && !m.has_flag( "SHARP", u.pos() ) && !boardable &&
                    u.dex_cur < 78 && !std::all_of( sharp_bps.begin(), sharp_bps.end(), sharp_bp_check ) ) {
-            harmful_stuff.push_back( m.name( dest_loc ).c_str() );
+            harmful_stuff.emplace_back( m.name( dest_loc ).c_str() );
         }
 
     }
@@ -11375,8 +11375,8 @@ bool game::plmove(int dx, int dy, int dz)
     bool toDeepWater = m.has_flag(TFLAG_DEEP_WATER, dest_loc);
     bool fromSwimmable = m.has_flag("SWIMMABLE", u.pos());
     bool fromDeepWater = m.has_flag(TFLAG_DEEP_WATER, u.pos());
-    bool fromBoat = veh0 != nullptr && veh0->all_parts_with_feature(VPFLAG_FLOATS).size() > 0;
-    bool toBoat = veh1 != nullptr && veh1->all_parts_with_feature(VPFLAG_FLOATS).size() > 0;
+    bool fromBoat = veh0 != nullptr && !veh0->all_parts_with_feature(VPFLAG_FLOATS).empty();
+    bool toBoat = veh1 != nullptr && !veh1->all_parts_with_feature(VPFLAG_FLOATS).empty();
 
     if( toSwimmable && toDeepWater && !toBoat ) { // Dive into water!
         // Requires confirmation if we were on dry land previously
@@ -11655,13 +11655,13 @@ void game::place_player( const tripoint &dest_loc )
     if( veh1 != nullptr ) {
         const vehicle_part *part = &(veh1->parts[vpart1]);
         std::string label = veh1->get_label(part->mount.x, part->mount.y);
-        if (label != "") {
+        if (!label.empty()) {
             add_msg(m_info, _("Label here: %s"), label.c_str());
         }
     }
 
     std::string signage = m.get_signage( dest_loc );
-    if (signage.size()) {
+    if (!signage.empty()) {
         add_msg(m_info, _("The sign says: %s"), signage.c_str());
     }
     if( m.has_graffiti_at( dest_loc ) ) {
@@ -11975,7 +11975,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
     int str_req = furntype.move_str_req;
     // Factor in weight of items contained in the furniture.
     units::mass furniture_contents_weight = 0;
-    for( auto contained_item : m.i_at( fpos ) ) {
+    for( auto &contained_item : m.i_at( fpos ) ) {
         furniture_contents_weight += contained_item.weight();
     }
     str_req += furniture_contents_weight / 4_kilogram;
@@ -12038,8 +12038,8 @@ bool game::grabbed_furn_move( const tripoint &dp )
                 m.i_at(fpos).push_back( *item_iter );
             }
             m.i_clear(fdest);
-            for( auto item_iter = temp.begin(); item_iter != temp.end(); ++item_iter ) {
-                m.i_at(fdest).push_back( *item_iter );
+            for( auto &cur_item : temp) {
+                m.i_at(fdest).push_back( cur_item );
             }
         } else {
             add_msg(_("Stuff spills from the %s!"), furntype.name.c_str() );
@@ -12878,7 +12878,7 @@ void game::update_map(int &x, int &y)
     u.shift_destination(-shiftx * SEEX, -shifty * SEEY);
 
     // Shift NPCs
-    for (std::vector<npc *>::iterator it = active_npc.begin();
+    for (auto it = active_npc.begin();
          it != active_npc.end();) {
         (*it)->shift(shiftx, shifty);
         if( (*it)->posx() < 0 - SEEX * 2 || (*it)->posy() < 0 - SEEX * 2 ||
@@ -12924,7 +12924,7 @@ void game::update_overmap_seen()
         for (int y = ompos.y - dist; y <= ompos.y + dist; y++) {
             const std::vector<point> line = line_to(ompos.x, ompos.y, x, y, 0);
             int sight_points = dist;
-            for (std::vector<point>::const_iterator it = line.begin();
+            for (auto it = line.begin();
                  it != line.end() && sight_points >= 0; ++it) {
                 const oter_id &ter = overmap_buffer.ter(it->x, it->y, ompos.z);
                 sight_points -= int( ter->get_see_cost() );
@@ -13112,7 +13112,7 @@ void game::update_stair_monsters()
                         mattack::thrown_by_judo(&critter);
                         return;
                     }
-                    std::string msg = "";
+                    std::string msg;
                     ///\EFFECT_DODGE reduces chance of being downed when pushed off the stairs
                     if (!(resiststhrow) && (u.get_dodge() + rng(0, 3) < 12)) {
                         // dodge 12 - never get downed
@@ -13160,7 +13160,7 @@ void game::update_stair_monsters()
                 if ((mon_at(pos) == -1) && other.can_move_to(pos)) {
                     other.setpos( tripoint(iposx, iposy, get_levz()) );
                     other.moves -= 50;
-                    std::string msg = "";
+                    std::string msg;
                     if (one_in(creature_throw_resist)) {
                         other.add_effect( effect_downed, 2);
                         msg = _("The %1$s pushed the %2$s hard.");
@@ -13257,6 +13257,8 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
             msy += MAPSIZE - 1;
             msx += rng(0, MAPSIZE - 1);
             break;
+        default:
+            break;
         }
         // adds the npc to the correct overmap.
         tmp->spawn_at_sm( msx, msy, 0 );
@@ -13325,7 +13327,7 @@ void game::wait()
 
 void game::teleport(player *p, bool add_teleglow)
 {
-    if (p == NULL) {
+    if (p == nullptr) {
         p = &u;
     }
     int tries = 0;
@@ -13443,7 +13445,7 @@ void game::display_scent()
 void game::init_autosave()
 {
     moves_since_last_save = 0;
-    last_save_timestamp = time(NULL);
+    last_save_timestamp = time(nullptr);
 }
 
 void game::quicksave()
@@ -13455,7 +13457,7 @@ void game::quicksave()
     add_msg(m_info, _("Saving game, this may take a while"));
     popup_nowait(_("Saving game, this may take a while"));
 
-    time_t now = time(NULL);    //timestamp for start of saving procedure
+    time_t now = time(nullptr);    //timestamp for start of saving procedure
 
     //perform save
     save();
@@ -13490,7 +13492,7 @@ void game::quickload()
 void game::autosave()
 {
     //Don't autosave if the min-autosave interval has not passed since the last autosave/quicksave.
-    if (time(NULL) < last_save_timestamp + 60 * get_option<int>( "AUTOSAVE_MINUTES" ) ) {
+    if (time(nullptr) < last_save_timestamp + 60 * get_option<int>( "AUTOSAVE_MINUTES" ) ) {
         return;
     }
     quicksave();    //Driving checks are handled by quicksave()
@@ -13893,7 +13895,7 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
         }
     }
 
-    std::string stat_info = "";
+    std::string stat_info;
     if (net_str != 0) {
         stat_info += string_format(_("Str %s%d! "),
                                    (net_str > 0 ? "+" : ""), net_str);

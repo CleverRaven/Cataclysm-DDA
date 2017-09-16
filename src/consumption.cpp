@@ -751,7 +751,7 @@ void player::consume_effects( const item &food )
     mod_thirst( -comest.quench );
     mod_stomach_food( nutr );
     mod_stomach_water( comest.quench );
-    if( comest.healthy > 0 ) {
+    if( comest.healthy != 0 ) {
         // Effectively no cap on health modifiers from food
         mod_healthy_mod( comest.healthy, ( comest.healthy >= 0 ) ? 200 : -200 );
     }

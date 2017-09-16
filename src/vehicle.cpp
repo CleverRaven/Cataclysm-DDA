@@ -17,6 +17,7 @@
 #include "debug.h"
 #include "sounds.h"
 #include "translations.h"
+#include "ammo.h"
 #include "options.h"
 #include "material.h"
 #include "monster.h"
@@ -4980,7 +4981,7 @@ void vehicle::place_spawn_items()
                             e.contents.emplace_back( e.magazine_default(), e.bday );
                         }
                         if( spawn_ammo ) {
-                            e.ammo_set( default_ammo( e.ammo_type() ) );
+                            e.ammo_set( e.ammo_type()->default_ammotype() );
                         }
                     }
                     add_item( part, e);

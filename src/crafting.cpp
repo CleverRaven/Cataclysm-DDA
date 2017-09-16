@@ -9,6 +9,7 @@
 #include "inventory.h"
 #include "itype.h"
 #include "json.h"
+#include "ammo.h"
 #include "map.h"
 #include "messages.h"
 #include "npc.h"
@@ -1361,7 +1362,7 @@ void remove_ammo( item *dis_item, player &p )
         dis_item->charges = 0;
     }
     if( dis_item->is_tool() && dis_item->charges > 0 && dis_item->ammo_type() ) {
-        item ammodrop( default_ammo( dis_item->ammo_type() ), calendar::turn );
+        item ammodrop( dis_item->ammo_type()->default_ammotype(), calendar::turn );
         ammodrop.charges = dis_item->charges;
         if( dis_item->ammo_type() == ammotype( "plutonium" ) ) {
             ammodrop.charges /= PLUTONIUM_CHARGES;

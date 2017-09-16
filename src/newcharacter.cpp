@@ -173,7 +173,7 @@ tab_direction set_profession( WINDOW *w, player *u, points_left &points );
 tab_direction set_skills( WINDOW *w, player *u, points_left &points );
 tab_direction set_description(WINDOW *w, player *u, bool allow_reroll, points_left &points);
 
-void save_template(player *u);
+void save_template( player *u, std::string name = "" );
 
 void Character::pick_name(bool bUseDefault)
 {
@@ -503,6 +503,8 @@ bool player::create(character_type type, std::string tempname)
     if( tab < 0 ) {
         return false;
     }
+
+    save_template( this, _("Last Character") );
 
     recalc_hp();
     for (int i = 0; i < num_hp_parts; i++) {
@@ -2427,15 +2429,18 @@ trait_id Character::random_bad_trait()
     return random_entry( vTraitsBad );
 }
 
-void save_template( player *u )
+void save_template( player *u, std::string name )
 {
-    std::string title = _( "Name of template:" );
-    std::string name = string_input_popup()
-                       .title( title )
-                       .width( FULL_SCREEN_WIDTH - utf8_width( title ) - 8 )
-                       .query_string();
-    if( name.length() == 0 ) {
-        return;
+    if( name.empty() ) {
+        static const std::string title = _( "Name of template:" );
+        name = string_input_popup()
+            .title( title )
+            .width( FULL_SCREEN_WIDTH - utf8_width( title ) - 8 )
+            .query_string();
+
+        if( name.empty() ) {
+            return;
+        }
     }
     std::string playerfile = FILENAMES["templatedir"] + utf8_to_native( name ) + ".template";
     write_to_file( playerfile, [&]( std::ostream &fout ) {

@@ -9,6 +9,7 @@
 #include "output.h"
 #include "rng.h"
 #include "requirements.h"
+#include "ammo.h"
 #include "line.h"
 #include "player.h"
 #include "translations.h"
@@ -2386,7 +2387,9 @@ void pick_plant(player &p, const tripoint &examp,
 
 void iexamine::tree_hickory(player &p, const tripoint &examp)
 {
-    harvest_common( p, examp, false, false );
+    if( harvest_common( p, examp, false, false ) ) {
+        g->m.ter_set( examp, g->m.get_ter_transforms_into( examp ) );
+    }
     if( !p.has_quality( quality_id( "DIG" ) ) ) {
         p.add_msg_if_player(m_info, _("You have no tool to dig with..."));
         return;
@@ -2793,7 +2796,7 @@ const itype *furn_t::crafting_ammo_item_type() const
 {
     const itype *pseudo = crafting_pseudo_item_type();
     if( pseudo->tool && !pseudo->tool->ammo_id.is_null() ) {
-        return item::find_type( default_ammo( pseudo->tool->ammo_id ) );
+        return item::find_type( pseudo->tool->ammo_id->default_ammotype() );
     }
     return nullptr;
 }
