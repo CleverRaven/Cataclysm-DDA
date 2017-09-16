@@ -257,13 +257,15 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
     unsigned maxy = unsigned( TERMY );
 
-    unsigned infooffsetytop = 11;
-    unsigned infooffsetybottom = 15;
     std::vector<trait_id> traitslist = get_mutations();
 
     unsigned effect_win_size_y = 1 + unsigned( effect_name.size() );
     unsigned trait_win_size_y = 1 + unsigned( traitslist.size() );
     unsigned skill_win_size_y = 1 + unsigned( Skill::skill_count() );
+    unsigned info_win_size_y = 4;
+
+    unsigned infooffsetytop = 11;
+    unsigned infooffsetybottom = infooffsetytop + 1 + info_win_size_y;
 
     if( trait_win_size_y + infooffsetybottom > maxy ) {
         trait_win_size_y = maxy - infooffsetybottom;
@@ -292,13 +294,15 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     WINDOW *w_speed   = newwin( 9, 26,  1 + VIEW_OFFSET_Y, 54 + VIEW_OFFSET_X );
     WINDOW *w_skills  = newwin( skill_win_size_y, 26, infooffsetybottom + VIEW_OFFSET_Y,
                                 0 + VIEW_OFFSET_X );
-    WINDOW *w_info    = newwin( 3, FULL_SCREEN_WIDTH, infooffsetytop + VIEW_OFFSET_Y,
+    WINDOW *w_info    = newwin( info_win_size_y, FULL_SCREEN_WIDTH, infooffsetytop + VIEW_OFFSET_Y,
                                 0 + VIEW_OFFSET_X );
 
+    unsigned upper_info_border = 10;
+    unsigned lower_info_border = 1 + upper_info_border + info_win_size_y;
     for( unsigned i = 0; i < unsigned( FULL_SCREEN_WIDTH + 1 ); i++ ) {
         //Horizontal line top grid
-        mvwputch( w_grid_top, 10, i, BORDER_COLOR, LINE_OXOX );
-        mvwputch( w_grid_top, 14, i, BORDER_COLOR, LINE_OXOX );
+        mvwputch( w_grid_top, upper_info_border, i, BORDER_COLOR, LINE_OXOX );
+        mvwputch( w_grid_top, lower_info_border, i, BORDER_COLOR, LINE_OXOX );
 
         //Vertical line top grid
         if( i <= infooffsetybottom ) {
@@ -340,12 +344,12 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     }
 
     //Intersections top grid
-    mvwputch( w_grid_top, 14, 26, BORDER_COLOR, LINE_OXXX ); // T
-    mvwputch( w_grid_top, 14, 53, BORDER_COLOR, LINE_OXXX ); // T
-    mvwputch( w_grid_top, 10, 26, BORDER_COLOR, LINE_XXOX ); // _|_
-    mvwputch( w_grid_top, 10, 53, BORDER_COLOR, LINE_XXOX ); // _|_
-    mvwputch( w_grid_top, 10, FULL_SCREEN_WIDTH, BORDER_COLOR, LINE_XOXX ); // -|
-    mvwputch( w_grid_top, 14, FULL_SCREEN_WIDTH, BORDER_COLOR, LINE_XOXX ); // -|
+    mvwputch( w_grid_top, lower_info_border, 26, BORDER_COLOR, LINE_OXXX ); // T
+    mvwputch( w_grid_top, lower_info_border, 53, BORDER_COLOR, LINE_OXXX ); // T
+    mvwputch( w_grid_top, upper_info_border, 26, BORDER_COLOR, LINE_XXOX ); // _|_
+    mvwputch( w_grid_top, upper_info_border, 53, BORDER_COLOR, LINE_XXOX ); // _|_
+    mvwputch( w_grid_top, upper_info_border, FULL_SCREEN_WIDTH, BORDER_COLOR, LINE_XOXX ); // -|
+    mvwputch( w_grid_top, lower_info_border, FULL_SCREEN_WIDTH, BORDER_COLOR, LINE_XOXX ); // -|
     wrefresh( w_grid_top );
 
     mvwputch( w_grid_skill, skill_win_size_y, 26, BORDER_COLOR, LINE_XOOX ); // _|
@@ -684,7 +688,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_stats, 3, 1, h_ltgray, _( "Dexterity:" ) );
 
                     mvwprintz( w_stats, 6, 1, c_magenta, _( "Melee to-hit bonus:" ) );
-                    mvwprintz( w_stats, 6, 22, c_magenta, "%+.1lf", get_hit_base() );
+                    mvwprintz( w_stats, 6, 21, c_magenta, "%+.1lf", get_hit_base() );
                     mvwprintz( w_stats, 7, 1, c_magenta, _( "Ranged penalty:" ) );
                     mvwprintz( w_stats, 7, 23, c_magenta, "%+3d", -( abs( ranged_dex_mod() ) ) );
                     mvwprintz( w_stats, 8, 1, c_magenta, _( "Throwing penalty per target's dodge: +%d" ) );
