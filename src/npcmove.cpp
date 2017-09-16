@@ -1274,9 +1274,8 @@ int npc::confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) co
         return 0;
     }
 
-    double average_dispersion = get_weapon_dispersion( *( gun.target ) ).avg() +
-      (double)at_recoil;
-    double even_chance_range = 0.5 / average_dispersion;
+    double average_dispersion = get_weapon_dispersion( *( gun.target ) ).avg() + at_recoil;
+    double even_chance_range = range_with_even_chance_of_good_hit( average_dispersion );
     // 5 round burst equivalent to ~2 individually aimed shots
     even_chance_range /= std::max( sqrt( gun.qty / 1.5 ), 1.0 );
     double confident_range = even_chance_range * confidence_mult();
