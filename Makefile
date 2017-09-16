@@ -294,7 +294,7 @@ ifeq ($(NATIVE), linux64)
   LDFLAGS += -m64
   TARGETSYSTEM=LINUX
   ifdef GOLD
-    CXXFLAGS += -fuse-gold
+    CXXFLAGS += -fuse-ld=gold
   endif
 else
   # Linux 32-bit
@@ -303,7 +303,7 @@ else
     LDFLAGS += -m32
     TARGETSYSTEM=LINUX
     ifdef GOLD
-      CXXFLAGS += -fuse-gold
+      CXXFLAGS += -fuse-ld=gold
     endif
   endif
 endif
