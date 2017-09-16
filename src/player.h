@@ -892,7 +892,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         bool is_wielding( const item& target ) const;
         /**
-         * Removes currently wielded item (if any) and replaces it with the target item. Unwields if it's the same item.
+         * Removes currently wielded item (if any) and replaces it with the target item.
          * @param target replacement item to wield or null item to remove existing weapon without replacing it
          * @return whether both removal and replacement were successful (they are performed atomically)
          */
