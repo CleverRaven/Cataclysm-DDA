@@ -3462,7 +3462,7 @@
             "sound_fail": "brush.",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "withered", "prob": 50, "count": [1, 2] }
+                { "item": "withered", "count": [0, 3] }
             ]
         }
     },{
@@ -3481,7 +3481,7 @@
             "sound_fail": "brush.",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "withered", "prob": 50, "count": [1, 2] }
+                { "item": "withered", "count": [0, 3] }
             ]
         }
     },{
@@ -3500,7 +3500,7 @@
             "sound_fail": "brush.",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "withered", "prob": 50, "count": [1, 2] }
+                { "item": "withered", "count": [0, 3] }
             ]
         }
     },{
@@ -3519,7 +3519,7 @@
             "sound_fail": "brush.",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "withered", "prob": 50, "count": [1, 2] }
+                { "item": "withered", "count": [0, 3] }
             ]
         }
     },{
@@ -3538,7 +3538,7 @@
             "sound_fail": "brush.",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "withered", "prob": 50, "count": [1, 2] }
+                { "item": "withered", "count": [0, 3] }
             ]
         }
     },{
@@ -3558,7 +3558,7 @@
             "sound_fail": "brush.",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "withered", "prob": 50, "count": [1, 2] }
+                { "item": "withered", "count": [0, 3] }
             ]
         }
     },{
@@ -3580,7 +3580,7 @@
             "sound_fail": "brush.",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "withered", "prob": 50, "count": [1, 2] }
+                { "item": "withered", "count": [0, 3] }
             ]
         }
     },{
@@ -3599,7 +3599,7 @@
             "sound_fail": "brush.",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "withered", "prob": 50, "count": [1, 2] }
+                { "item": "withered", "count": [0, 3] }
             ]
         }
     },{
@@ -3621,7 +3621,7 @@
             "sound_fail": "brush.",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "withered", "prob": 50, "count": [1, 2] }
+                { "item": "withered", "count": [0, 3] }
             ]
         }
     },{
@@ -3640,7 +3640,7 @@
             "sound_fail": "brush.",
             "ter_set": "t_dirt",
             "items": [
-                { "item": "withered", "prob": 50, "count": [1, 2] }
+                { "item": "withered", "count": [0, 3] }
             ]
         }
     },{
