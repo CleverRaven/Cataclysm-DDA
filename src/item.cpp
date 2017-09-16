@@ -73,6 +73,9 @@ const efftype_id effect_shakes( "shakes" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_weed_high( "weed_high" );
 
+const material_id mat_leather( "leather" );
+const material_id mat_kevlar( "kevlar" );
+
 std::string const& rad_badge_color(int const rad)
 {
     using pair_t = std::pair<int const, std::string const>;
@@ -2946,11 +2949,11 @@ int item::get_encumber() const
         encumber += 1 + 4 * coverage / 100;
     }
 
-    if( item_tags.count("leather_padded") ) {
-        encumber += thickness * coverage / 100 + 5;
+    if( item_tags.count( "leather_padded" ) ) {
+        encumber += ceil( 2 * thickness * coverage / 100.0f );
     }
-    if( item_tags.count("kevlar_padded") ) {
-        encumber += thickness * coverage / 100 + 5;
+    if( item_tags.count( "kevlar_padded" ) ) {
+        encumber += ceil( 2 * thickness * coverage / 100.0f );
     }
 
     return encumber;
@@ -3084,28 +3087,15 @@ bool item::craft_has_charges()
 
 int item::bash_resist( bool to_self ) const
 {
-    float resist = 0;
-    float l_padding = 0;
-    float k_padding = 0;
-    int eff_thickness = 1;
-    // With the multiplying and dividing in previous code, the following
-    // is a coefficient equivalent to the bonuses and maluses hardcoded in
-    // previous versions. Adjust to make you happier/sadder.
-    float adjustment = 1.5;
-
-    static constexpr float max_value = 10.0f;
-    static constexpr float stepness = -0.8f;
-    static constexpr float center_of_S = 2.0f;
-
     if( is_null() ) {
-        return resist;
+        return 0;
     }
-    if( item_tags.count("leather_padded") > 0 ){
-        l_padding = max_value / ( 1 + exp( stepness * ( get_thickness() - center_of_S )));
-    }
-    if( item_tags.count("kevlar_padded") > 0 ){
-        k_padding = max_value / ( 1 + exp( stepness * ( get_thickness() - center_of_S )));
-    }
+
+    const int base_thickness = get_thickness();
+    float resist = 0;
+    float padding = 0;
+    int eff_thickness = 1;
+
     // Armor gets an additional multiplier.
     if( is_armor() ) {
         // base resistance
@@ -3113,6 +3103,12 @@ int item::bash_resist( bool to_self ) const
         const int dmg = damage();
         const int eff_damage = to_self ? std::min( dmg , 0 ) : std::max( dmg, 0 );
         eff_thickness = std::max( 1, get_thickness() - eff_damage );
+    }
+    if( item_tags.count( "leather_padded" ) > 0 ) {
+        padding += base_thickness;
+    }
+    if( item_tags.count("kevlar_padded") > 0 ) {
+        padding += base_thickness;
     }
 
     const std::vector<const material_type*> mat_types = made_of_types();
@@ -3124,42 +3120,33 @@ int item::bash_resist( bool to_self ) const
         resist /= mat_types.size();
     }
 
-    return lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
+    return lround( ( resist * eff_thickness ) + padding );
 }
 
 int item::cut_resist( bool to_self ) const
 {
-    float resist = 0;
-    float l_padding = 0;
-    float k_padding = 0;
-    int eff_thickness = 1;
-    // With the multiplying and dividing in previous code, the following
-    // is a coefficient equivalent to the bonuses and maluses hardcoded in
-    // previous versions. Adjust to make you happier/sadder.
-    float adjustment = 1.5;
-
     if( is_null() ) {
-        return resist;
+        return 0;
     }
-    if( item_tags.count("leather_padded") > 0 ){
-        static constexpr float max_value = 10.0f;
-        static constexpr float stepness = -0.8f;
-        static constexpr float center_of_S = 2.0f;
-        l_padding = max_value / ( 1 + exp( stepness * ( get_thickness() - center_of_S )));
-    }
-    if( item_tags.count("kevlar_padded") > 0 ){
-        static constexpr float max_value = 15.0f;
-        static constexpr float stepness = -0.5f;
-        static constexpr float center_of_S = 2.0f;
-        k_padding = max_value / ( 1 + exp( stepness * ( get_thickness() - center_of_S )));
-    }
+
+    const int base_thickness = get_thickness();
+    float resist = 0;
+    float padding = 0;
+    int eff_thickness = 1;
+
     // Armor gets an additional multiplier.
     if( is_armor() ) {
         // base resistance
         // Don't give reinforced items +armor, just more resistance to ripping
         const int dmg = damage();
         const int eff_damage = to_self ? std::min(dmg, 0) : std::max(dmg, 0);
-        eff_thickness = std::max( 1, get_thickness() - eff_damage );
+        eff_thickness = std::max( 1, base_thickness - eff_damage );
+    }
+    if( item_tags.count( "leather_padded" ) > 0 ) {
+        padding += base_thickness;
+    }
+    if( item_tags.count("kevlar_padded") > 0 ) {
+        padding += base_thickness * 2;
     }
 
     const std::vector<const material_type*> mat_types = made_of_types();
@@ -3171,7 +3158,7 @@ int item::cut_resist( bool to_self ) const
         resist /= mat_types.size();
     }
 
-    return lround((resist * eff_thickness * adjustment) + l_padding + k_padding);
+    return lround( ( resist * eff_thickness ) + padding );
 }
 
 #ifdef _MSC_VER
