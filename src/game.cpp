@@ -767,6 +767,7 @@ void game::setup()
 
     // reset kill counts
     kills.clear();
+    npc_kills.clear();
     scent.reset();
 
     remoteveh_cache_turn = INT_MIN;
