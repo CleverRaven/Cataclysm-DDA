@@ -758,7 +758,6 @@ classes = {
             { name = "sees", rval = "bool", args = { "tripoint", "bool" } },
             { name = "sees_with_infrared", rval = "bool", args = { "Creature" } },
             { name = "setID", rval = nil, args = { "int" } },
-            { name = "set_cat_level_rec", rval = nil, args = { "trait_id" } },
             { name = "set_highest_cat_level", rval = nil, args = { } },
             { name = "get_skill_level", rval = "int", args = { "skill_id" } },
             { name = "set_skill_level", rval = nil, args = { "skill_id", "int" } },
