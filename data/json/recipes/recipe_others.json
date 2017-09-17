@@ -2715,8 +2715,6 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MEDICAL",
   "skill_used": "firstaid",
-  "skills_required": [ "survival", 1 ],
-  "difficulty": 1,
   "time": 1000,
   "autolearn": true,
   "components": [
@@ -2742,8 +2740,6 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MEDICAL",
   "skill_used": "firstaid",
-  "skills_required": [ "survival", 1 ],
-  "difficulty": 1,
   "time": 1000,
   "autolearn": true,
   "components": [
