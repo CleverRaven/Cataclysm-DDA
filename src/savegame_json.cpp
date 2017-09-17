@@ -1262,7 +1262,7 @@ void inventory::json_save_items(JsonOut &json) const
     json.start_array();
     for( const auto &elem : items ) {
         for( const auto &elem_stack_iter : elem ) {
-            elem_stack_iter.serialize( json, true );
+            elem_stack_iter.serialize( json );
         }
     }
     json.end_array();
@@ -1647,9 +1647,8 @@ void item::deserialize(JsonObject &data)
     io( archive );
 }
 
-void item::serialize(JsonOut &json, bool save_contents) const
+void item::serialize(JsonOut &json) const
 {
-    (void) save_contents;
     io::JsonObjectOutputArchive archive( json );
     const_cast<item*>(this)->io( archive );
 }
