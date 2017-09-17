@@ -9417,7 +9417,7 @@ bool player::read( int inventory_position, const bool continuous )
             it.typeId() == "cookbook_human" ) {
             elem->add_morale( MORALE_BOOK, 0, 75, minutes + 30, minutes, false, it.type );
         } else if( elem->has_trait( trait_SPIRITUAL ) && it.has_flag( "INSPIRATIONAL" ) ) {
-            elem->add_morale( MORALE_BOOK, 15, 90, minutes + 60, minutes, false, it.type );
+            elem->add_morale( MORALE_BOOK, 0, 90, minutes + 60, minutes, false, it.type );
         } else {
             elem->add_morale( MORALE_BOOK, 0, type->fun * 15, minutes + 30, minutes, false, it.type );
         }
