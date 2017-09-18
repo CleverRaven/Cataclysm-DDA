@@ -7,7 +7,7 @@
     "time": 500,
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
-      [ [ "lead", 2 ] ],
+      [ [ "lead", 3 ] ],
       [ [ "223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder", 4 ] ],
@@ -176,10 +176,10 @@
     "time": 500,
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
-      [ [ "lead", 5 ] ],
+      [ [ "lead", 2 ] ],
       [ [ "32_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder", 4 ] ]
+      [ [ "gunpowder", 2 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
@@ -351,7 +351,7 @@
     "time": 500,
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
-      [ [ "lead", 2 ] ],
+      [ [ "lead", 3 ] ],
       [ [ "223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder", 6 ] ],
@@ -368,6 +368,7 @@
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
       [ [ "incendiary", 2 ] ],
+      [ [ "lead", 3 ] ],
       [ [ "223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder", 6 ] ],
@@ -539,7 +540,7 @@
     "time": 500,
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
-      [ [ "lead", 4 ] ],
+      [ [ "lead", 2 ] ],
       [ [ "9x18mm_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder", 3 ] ]
@@ -554,7 +555,7 @@
     "time": 500,
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
-      [ [ "lead", 4 ] ],
+      [ [ "lead", 2 ] ],
       [ [ "9x18mm_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder", 5 ] ]
@@ -569,7 +570,7 @@
     "time": 500,
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
-      [ [ "lead", 4 ] ],
+      [ [ "lead", 2 ] ],
       [ [ "9x18mm_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder", 3 ] ],
