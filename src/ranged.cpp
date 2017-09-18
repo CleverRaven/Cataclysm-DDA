@@ -797,25 +797,17 @@ std::vector<tripoint> target_handler::target_ui( player &pc, const targeting_dat
                       args.ammo, args.on_mode_change, args.on_ammo_change );
 }
 
-std::vector<aim_type> Character::get_aim_types( item &gun ) const
+std::vector<aim_type> Character::get_aim_types( const item &gun ) const
 {
     std::vector<aim_type> aim_types;
     aim_types.push_back( aim_type { "", "", "", false, 0 } ); // dummy aim type for unaimed shots
     int sight_dispersion = effective_dispersion( gun.sight_dispersion() );
-    const int threshold_step = 30;
     // Aiming thresholds are dependent on weapon sight dispersion, attempting to place thresholds
-    // at 66%, 33% and 0% of the difference between MAX_RECOIL and sight dispersion. The thresholds
-    // are then floored to multiples of threshold_step.
-    // With a MAX_RECOIL of 150 and threshold_step of 30, this means:-
-    // Weapons with <90 s_d can be aimed 'precisely'
-    // Weapons with <120 s_d can be aimed 'carefully'
-    // All other weapons can only be 'aimed'
+    // at 10%, 5% and 0% of the difference between MAX_RECOIL and sight dispersion.
     std::vector<int> thresholds = {
-        (int) floor( ( ( MAX_RECOIL - sight_dispersion ) * 2 / 3 + sight_dispersion ) /
-                   threshold_step ) * threshold_step,
-        (int) floor( ( ( MAX_RECOIL - sight_dispersion ) / 3 + sight_dispersion ) /
-                   threshold_step ) * threshold_step,
-        (int) floor( sight_dispersion / threshold_step ) * threshold_step };
+        static_cast<int>( ( ( MAX_RECOIL - sight_dispersion ) / 10.0 ) + sight_dispersion ),
+        static_cast<int>( ( ( MAX_RECOIL - sight_dispersion ) / 20.0 ) + sight_dispersion ),
+        static_cast<int>( sight_dispersion ) };
     std::vector<int>::iterator thresholds_it;
     // Remove duplicate thresholds.
     thresholds_it = std::adjacent_find( thresholds.begin(), thresholds.end() );
