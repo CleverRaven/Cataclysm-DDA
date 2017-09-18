@@ -955,6 +955,12 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
         }
     }
 
+    if( rng( 1, 5 ) > 1 ) {
+        const auto dropped = g->m.spawn_item( p->pos(), "withered", rng(1, 3) );
+        found_something = true;
+    }
+
+
     if( !found_something ) {
         add_msg(_("You didn't find anything."));
     }
