@@ -5156,7 +5156,6 @@
     "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
-    "color": "pink",
     "covers": [ "TORSO" ],
     "coverage": 5,
     "encumbrance": 2,
