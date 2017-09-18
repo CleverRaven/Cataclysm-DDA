@@ -51,14 +51,6 @@ static void cycle_action( item& weap, const tripoint &pos );
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
 
-struct aim_type {
-    std::string name;
-    std::string action;
-    std::string help;
-    bool has_threshold;
-    int threshold;
-};
-
 static double occupied_tile_fraction( m_size target_size )
 {
     switch( target_size ) {
@@ -799,9 +791,54 @@ static int draw_throw_aim( const player &p, WINDOW *w, int line_number,
     return print_ranged_chance( w, line_number, confidence_config, dispersion, range, target_size );
 }
 
-std::vector<tripoint> target_handler::target_ui( player &pc, const targeting_data &args ) {
+std::vector<tripoint> target_handler::target_ui( player &pc, const targeting_data &args )
+{
     return target_ui( pc, args.mode, args.relevant, args.range,
                       args.ammo, args.on_mode_change, args.on_ammo_change );
+}
+
+std::vector<aim_type> Character::get_aim_types( item &gun ) const
+{
+    std::vector<aim_type> aim_types;
+    aim_types.push_back( aim_type { "", "", "", false, 0 } ); // dummy aim type for unaimed shots
+    int sight_dispersion = effective_dispersion( gun.sight_dispersion() );
+    const int threshold_step = 30;
+    // Aiming thresholds are dependent on weapon sight dispersion, attempting to place thresholds
+    // at 66%, 33% and 0% of the difference between MAX_RECOIL and sight dispersion. The thresholds
+    // are then floored to multiples of threshold_step.
+    // With a MAX_RECOIL of 150 and threshold_step of 30, this means:-
+    // Weapons with <90 s_d can be aimed 'precisely'
+    // Weapons with <120 s_d can be aimed 'carefully'
+    // All other weapons can only be 'aimed'
+    std::vector<int> thresholds = {
+        (int) floor( ( ( MAX_RECOIL - sight_dispersion ) * 2 / 3 + sight_dispersion ) /
+                   threshold_step ) * threshold_step,
+        (int) floor( ( ( MAX_RECOIL - sight_dispersion ) / 3 + sight_dispersion ) /
+                   threshold_step ) * threshold_step,
+        (int) floor( sight_dispersion / threshold_step ) * threshold_step };
+    std::vector<int>::iterator thresholds_it;
+    // Remove duplicate thresholds.
+    thresholds_it = std::adjacent_find( thresholds.begin(), thresholds.end() );
+    while( thresholds_it != thresholds.end() ) {
+        thresholds.erase( thresholds_it );
+        thresholds_it = std::adjacent_find( thresholds.begin(), thresholds.end() );
+    }
+    thresholds_it = thresholds.begin();
+    aim_types.push_back( aim_type { _( "Aim" ), "AIMED_SHOT", _( "%c to aim and fire." ),
+                                    true, *thresholds_it } );
+    thresholds_it++;
+    if( thresholds_it != thresholds.end() ) {
+        aim_types.push_back( aim_type { _( "Careful Aim" ), "CAREFUL_SHOT",
+                                        _( "%c to take careful aim and fire." ), true,
+                                        *thresholds_it } );
+        thresholds_it++;
+    }
+    if( thresholds_it != thresholds.end() ) {
+        aim_types.push_back( aim_type { _( "Precise Aim" ), "PRECISE_SHOT",
+                                        _( "%c to take precise aim and fire." ), true,
+                                        *thresholds_it } );
+    }
+    return aim_types;
 }
 
 // @todo: Shunt redundant drawing code elsewhere
@@ -887,44 +924,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     std::vector<aim_type>::iterator aim_mode;
 
     if( mode == TARGET_MODE_FIRE ) {
-        aim_types.push_back( aim_type { "", "", "", false, 0 } ); // dummy aim type for unaimed shots
-        const int threshold_step = 30;
-        // Aiming thresholds are dependent on weapon sight dispersion, attempting to place thresholds
-        // at 66%, 33% and 0% of the difference between MAX_RECOIL and sight dispersion. The thresholds
-        // are then floored to multiples of threshold_step.
-        // With a MAX_RECOIL of 150 and threshold_step of 30, this means:-
-        // Weapons with <90 s_d can be aimed 'precisely'
-        // Weapons with <120 s_d can be aimed 'carefully'
-        // All other weapons can only be 'aimed'
-        std::vector<int> thresholds = {
-            (int) floor( ( ( MAX_RECOIL - sight_dispersion ) * 2 / 3 + sight_dispersion ) /
-                         threshold_step ) * threshold_step,
-            (int) floor( ( ( MAX_RECOIL - sight_dispersion ) / 3 + sight_dispersion ) /
-                         threshold_step ) * threshold_step,
-            (int) floor( sight_dispersion / threshold_step ) * threshold_step };
-        std::vector<int>::iterator thresholds_it;
-        // Remove duplicate thresholds.
-        thresholds_it = std::adjacent_find( thresholds.begin(), thresholds.end() );
-        while( thresholds_it != thresholds.end() ) {
-            thresholds.erase( thresholds_it );
-            thresholds_it = std::adjacent_find( thresholds.begin(), thresholds.end() );
-        }
-        thresholds_it = thresholds.begin();
-        aim_types.push_back( aim_type { _("Aim"), "AIMED_SHOT",
-                             _("%c to aim and fire."), true,
-                             *thresholds_it } );
-        thresholds_it++;
-        if( thresholds_it != thresholds.end() ) {
-            aim_types.push_back( aim_type { _("Careful Aim"), "CAREFUL_SHOT",
-                                 _("%c to take careful aim and fire."), true,
-                                 *thresholds_it } );
-            thresholds_it++;
-            if( thresholds_it != thresholds.end() ) {
-                aim_types.push_back( aim_type { _("Precise Aim"), "PRECISE_SHOT",
-                                     _("%c to take precise aim and fire."), true,
-                                     *thresholds_it } );
-            }
-        }
+        aim_types = pc.get_aim_types( *relevant );
         for( std::vector<aim_type>::iterator it = aim_types.begin(); it != aim_types.end(); it++ ) {
             if( it->has_threshold ) {
                 ctxt.register_action( it->action );
@@ -1203,7 +1203,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             int aim_threshold;
             std::vector<aim_type>::iterator it;
             for( it = aim_types.begin(); it != aim_types.end(); it++ ) {
-                if ( action == it->action ) {
+                if( action == it->action ) {
                     break;
                 }
             }

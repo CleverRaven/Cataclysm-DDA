@@ -61,6 +61,14 @@ struct encumbrance_data {
     }
 };
 
+struct aim_type {
+    std::string name;
+    std::string action;
+    std::string help;
+    bool has_threshold;
+    int threshold;
+};
+
 class Character : public Creature, public visitable<Character>
 {
     public:
@@ -157,6 +165,7 @@ class Character : public Creature, public visitable<Character>
         int effective_dispersion( int dispersion ) const;
 
         /* Accessors for aspects of aim speed. */
+        std::vector<aim_type> get_aim_types( const item &gun ) const;
         std::pair<int, int> get_best_sight( const item &gun, double recoil ) const;
         double aim_speed_skill_modifier( const skill_id &gun_skill ) const;
         double aim_speed_dex_modifier() const;
