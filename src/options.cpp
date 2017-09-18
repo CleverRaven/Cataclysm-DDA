@@ -408,7 +408,7 @@ std::string options_manager::cOpt::getValue( bool classis_locale ) const
 
     } else if (sType == "float") {
         std::ostringstream ssTemp;
-        ssTemp.imbue( classis_locale ? std::locale::classic() : std::locale( "" ) );
+        ssTemp.imbue( classis_locale ? std::locale::classic() : std::locale() );
         ssTemp.precision( 2 );
         ssTemp.setf( std::ios::fixed, std::ios::floatfield );
         ssTemp << fSet;
@@ -1818,7 +1818,6 @@ std::string options_manager::show(bool ingame, const bool world_options_only)
                 if (!opt_val.empty() && opt_val != old_opt_val) {
                     if (is_float) {
                         std::istringstream ssTemp(opt_val);
-                        ssTemp.imbue(std::locale(""));
                         // This uses the current locale, to allow the users
                         // to use their own decimal format.
                         float tmpFloat;
