@@ -395,7 +395,7 @@ bool options_manager::cOpt::operator==( const cOpt &rhs ) const
     }
 }
 
-std::string options_manager::cOpt::getValue() const
+std::string options_manager::cOpt::getValue( bool classis_locale ) const
 {
     if (sType == "string_select" || sType == "string_input") {
         return sSet;
@@ -408,7 +408,7 @@ std::string options_manager::cOpt::getValue() const
 
     } else if (sType == "float") {
         std::ostringstream ssTemp;
-        ssTemp.imbue( std::locale::classic() );
+        ssTemp.imbue( classis_locale ? std::locale::classic() : std::locale( "" ) );
         ssTemp.precision( 2 );
         ssTemp.setf( std::ios::fixed, std::ios::floatfield );
         ssTemp << fSet;
@@ -1926,7 +1926,7 @@ void options_manager::serialize(JsonOut &json) const
                 json.member( "info", opt.getTooltip() );
                 json.member( "default", opt.getDefaultText( false ) );
                 json.member( "name", elem );
-                json.member( "value", opt.getValue() );
+                json.member( "value", opt.getValue( true ) );
 
                 json.end_object();
             }
