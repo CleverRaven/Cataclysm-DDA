@@ -270,6 +270,8 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         const auto critter = g->critter_at( aim, true );
         if( !critter || critter->is_dead_state() ) {
 
+            // Reset recoil, remainder of burst will be wild.
+            recoil = MAX_RECOIL;
             // Find suitable targets that are in range, hostile and near any previous target
             auto hostiles = get_targetable_creatures( gun.gun_range( this ) );
 
