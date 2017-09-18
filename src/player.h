@@ -521,8 +521,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Current total maximum recoil penalty from all sources */
         double recoil_total() const;
 
-        /** How many moves does it take to aim gun to maximum accuracy? */
-        int gun_engagement_moves( const item &gun ) const;
+        /** How many moves does it take to aim gun to the target accuracy. */
+        int gun_engagement_moves( const item &gun, int target = 0, int start = MAX_RECOIL ) const;
 
         /**
          *  Fires a gun or auxiliary gunmod (ignoring any current mode)

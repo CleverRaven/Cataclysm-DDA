@@ -94,12 +94,12 @@ int range_with_even_chance_of_good_hit( int dispersion )
     return even_chance_range;
 }
 
-int player::gun_engagement_moves( const item &gun ) const
+int player::gun_engagement_moves( const item &gun, int target, int start ) const
 {
     int mv = 0;
-    double penalty = MAX_RECOIL;
+    double penalty = start;
 
-    while( true ) {
+    while( penalty > target ) {
         double adj = aim_per_move( gun, penalty );
         if( adj <= 0 ) {
             break;
