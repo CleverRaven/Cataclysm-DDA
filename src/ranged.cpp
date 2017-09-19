@@ -661,10 +661,26 @@ struct confidence_rating {
     std::string label;
 };
 
+static int print_steadiness( WINDOW *w, int line_number, double steadiness )
+{
+    const int window_width = getmaxx( w ) - 2; // Window width minus borders.
+
+    if( get_option<std::string>( "ACCURACY_DISPLAY" ) == "numbers" ) {
+        std::string steadiness_s = string_format( "%s: %d%%", _( "Steadiness" ),
+                                                  (int)( 100.0 * steadiness ) );
+        mvwprintw( w, line_number++, 1, "%s", steadiness_s.c_str() );
+    } else {
+        const std::string &steadiness_bar = get_labeled_bar( steadiness, window_width,
+                                                             _( "Steadiness" ), '*' );
+        mvwprintw( w, line_number++, 1, steadiness_bar.c_str() );
+    }
+
+    return line_number;
+}
+
 static int print_ranged_chance( WINDOW *w, int line_number,
                                 const std::vector<confidence_rating> &confidence_config,
-                                dispersion_sources dispersion, double range, double target_size,
-                                double steadiness = 10000.0 )
+                                dispersion_sources dispersion, double range, double target_size )
 {
     const int window_width = getmaxx( w ) - 2; // Window width minus borders.
     // This is a rough estimate of accuracy based on a linear distribution across min and max
@@ -675,7 +691,6 @@ static int print_ranged_chance( WINDOW *w, int line_number,
     const double max_lateral_offset = iso_tangent( range, dispersion.max() );
     const double confidence = 1 / ( max_lateral_offset / target_size );
 
-    bool print_steadiness = steadiness < 1000.0;
     if( get_option<std::string>( "ACCURACY_DISPLAY" ) == "numbers" ) {
         int last_chance = 0;
         std::string confidence_s = enumerate_as_string( confidence_config.begin(), confidence_config.end(),
@@ -687,11 +702,6 @@ static int print_ranged_chance( WINDOW *w, int line_number,
             }, false );
         line_number += fold_and_print_from( w, line_number, 1, window_width, 0,
                                             c_white, confidence_s );
-
-        if( print_steadiness ) {
-            std::string steadiness_s = string_format( "%s: %d%%", _( "Steadiness" ), (int)( 100.0 * steadiness ) );
-            mvwprintw( w, line_number++, 1, "%s", steadiness_s.c_str() );
-        }
 
     } else {
         // Extract pairs from tuples, because get_labeled_bar expects pairs
@@ -705,14 +715,8 @@ static int print_ranged_chance( WINDOW *w, int line_number,
                                                              confidence_ratings.begin(),
                                                              confidence_ratings.end() );
 
-
         mvwprintw( w, line_number++, 1, _( "Symbols: * = Headshot + = Hit | = Graze" ) );
         mvwprintw( w, line_number++, 1, confidence_bar.c_str() );
-        if( print_steadiness ) {
-            const std::string &steadiness_bar = get_labeled_bar( steadiness, window_width,
-                                                                 _( "Steadiness" ), '*' );
-            mvwprintw( w, line_number++, 1, steadiness_bar.c_str() );
-        }
     }
 
     return line_number;
@@ -745,7 +749,8 @@ static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
     }};
 
     const double range = rl_dist( p.pos(), target.pos() );
-    return print_ranged_chance( w, line_number, confidence_config, dispersion, range, target_size, steadiness );
+    line_number = print_steadiness( w, line_number, steadiness );
+    return print_ranged_chance( w, line_number, confidence_config, dispersion, range, target_size );
 }
 
 static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const tripoint &targ )
