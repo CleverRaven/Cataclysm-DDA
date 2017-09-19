@@ -539,7 +539,7 @@ static std::string print_recoil( const player &p)
 // returns the number of lines used to draw instructions.
 static int draw_targeting_window( WINDOW *w_target, const std::string &name, player &p, target_mode mode,
                                   input_context &ctxt, const std::vector<aim_type> &aim_types,
-                                  bool switch_mode, bool switch_ammo )
+                                  bool switch_mode, bool switch_ammo, bool tiny )
 {
     draw_border(w_target);
     // Draw the "title" of the window.
@@ -566,8 +566,9 @@ static int draw_targeting_window( WINDOW *w_target, const std::string &name, pla
     // Draw the help contents at the bottom of the window, leaving room for monster description
     // and aiming status to be drawn dynamically.
     // The - 2 accounts for the window border.
-    int text_y = getmaxy(w_target) - 2;
-    if (is_mouse_enabled()) {
+    // If tiny is set we're critically low on space, let the final line overwrite the border.
+    int text_y = getmaxy(w_target) - ( tiny ? 1 : 2 );
+    if( is_mouse_enabled() ) {
         // Reserve a line for mouse instructions.
         --text_y;
     }
@@ -583,7 +584,7 @@ static int draw_targeting_window( WINDOW *w_target, const std::string &name, pla
     text_y -= switch_ammo ? 1 : 0;
 
     // The -1 is the -2 from above, but adjusted since this is a total, not an index.
-    int lines_used = getmaxy(w_target) - 1 - text_y;
+    int lines_used = getmaxy( w_target ) - 1 - text_y;
     mvwprintz(w_target, text_y++, 1, c_white, _("Move cursor to target with directional keys"));
 
     auto const front_or = [&](std::string const &s, char const fallback) {
@@ -678,45 +679,65 @@ static int print_steadiness( WINDOW *w, int line_number, double steadiness )
     return line_number;
 }
 
-static int print_ranged_chance( WINDOW *w, int line_number,
-                                const std::vector<confidence_rating> &confidence_config,
-                                dispersion_sources dispersion, double range, double target_size )
+static double confidence_estimate( int range, double target_size, dispersion_sources dispersion )
 {
-    const int window_width = getmaxx( w ) - 2; // Window width minus borders.
     // This is a rough estimate of accuracy based on a linear distribution across min and max
     // dispersion.  It is highly inaccurate probability-wise, but this is intentional, the player
     // is not doing gaussian integration in their head while aiming.  The result gives the player
     // correct relative measures of chance to hit, and corresponds with the actual distribution at
     // min, max, and mean.
     const double max_lateral_offset = iso_tangent( range, dispersion.max() );
-    const double confidence = 1 / ( max_lateral_offset / target_size );
+    return 1 / ( max_lateral_offset / target_size );
+}
 
-    if( get_option<std::string>( "ACCURACY_DISPLAY" ) == "numbers" ) {
-        int last_chance = 0;
-        std::string confidence_s = enumerate_as_string( confidence_config.begin(), confidence_config.end(),
-            [&]( const confidence_rating &config ) {
-                // @todo Consider not printing 0 chances, but only if you can print something (at least miss 100% or so)
-                int chance = std::min<int>( 100, 100.0 * ( config.aim_level * confidence ) ) - last_chance;
-                last_chance += chance;
-                return string_format( "%s: %3d%%", config.label.c_str(), chance );
-            }, false );
-        line_number += fold_and_print_from( w, line_number, 1, window_width, 0,
-                                            c_white, confidence_s );
+static int print_ranged_chance( WINDOW *w, int line_number, dispersion_sources dispersion,
+                                const std::vector<confidence_rating> &confidence_config,
+                                double range, double target_size, std::vector<aim_type> aim_types,
+                                int recoil = 0 )
+{
+    const int window_width = getmaxx( w ) - 2; // Window width minus borders.
+    std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
 
-    } else {
-        // Extract pairs from tuples, because get_labeled_bar expects pairs
-        std::vector<std::pair<double, char>> confidence_ratings;
-        std::transform( confidence_config.begin(), confidence_config.end(), std::back_inserter( confidence_ratings ),
-        [&]( const confidence_rating &config ) {
-            return std::make_pair( config.aim_level, config.symbol );
-        } );
-
-        const std::string &confidence_bar = get_labeled_bar( confidence, window_width, _( "Confidence" ),
-                                                             confidence_ratings.begin(),
-                                                             confidence_ratings.end() );
-
+    if( display_type != "numbers" ) {
         mvwprintw( w, line_number++, 1, _( "Symbols: * = Headshot + = Hit | = Graze" ) );
-        mvwprintw( w, line_number++, 1, confidence_bar.c_str() );
+    }
+    for( const aim_type type : aim_types ) {
+        dispersion_sources current_dispersion = dispersion;
+        if( type.has_threshold ) {
+            current_dispersion.add_range( type.threshold );
+        } else {
+            current_dispersion.add_range( recoil );
+        }
+
+        double confidence = confidence_estimate( range, target_size, current_dispersion );
+        std::string label = type.has_threshold ? type.name : _( "Current Aim" );
+        // TODO: Print time-to-aim-and-fire.
+        mvwprintw( w, line_number++, 1, "%s:", label.c_str() );
+
+        if( display_type == "numbers" ) {
+            int last_chance = 0;
+            std::string confidence_s = enumerate_as_string( confidence_config.begin(), confidence_config.end(),
+                [&]( const confidence_rating &config ) {
+                    // @todo Consider not printing 0 chances, but only if you can print something (at least miss 100% or so)
+                    int chance = std::min<int>( 100, 100.0 * ( config.aim_level * confidence ) ) - last_chance;
+                    last_chance += chance;
+                    return string_format( "%s: %3d%%", config.label.c_str(), chance );
+                }, false );
+            line_number += fold_and_print_from( w, line_number, 1, window_width, 0,
+                                                c_white, confidence_s );
+        } else {
+            // Extract pairs from tuples, because get_labeled_bar expects pairs
+            std::vector<std::pair<double, char>> confidence_ratings;
+            std::transform( confidence_config.begin(), confidence_config.end(), std::back_inserter( confidence_ratings ),
+                            [&]( const confidence_rating &config ) {
+                                return std::make_pair( config.aim_level, config.symbol );
+                            } );
+            const std::string &confidence_bar = get_labeled_bar( confidence, window_width, "",
+                                                                 confidence_ratings.begin(),
+                                                                 confidence_ratings.end() );
+
+            mvwprintw( w, line_number++, 1, confidence_bar.c_str() );
+        }
     }
 
     return line_number;
@@ -730,7 +751,6 @@ static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
     // Dodge doesn't affect gun attacks
 
     dispersion_sources dispersion = p.get_weapon_dispersion( *weapon );
-    dispersion.add_range( predicted_recoil );
     dispersion.add_range( p.recoil_vehicle() );
 
     // This is a relative measure of how steady the player's aim is,
@@ -743,14 +763,16 @@ static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
 
     // This could be extracted, to allow more/less verbose displays
     static const std::vector<confidence_rating> confidence_config = {{
-        { accuracy_headshot, '*', _( "Headshot" ) },
+        { accuracy_headshot, '*', _( "Head" ) },
         { accuracy_goodhit, '+', _( "Hit" ) },
         { accuracy_grazing, '|', _( "Graze" ) }
     }};
 
+    std::vector<aim_type> aim_types = p.get_aim_types( *weapon );
     const double range = rl_dist( p.pos(), target.pos() );
     line_number = print_steadiness( w, line_number, steadiness );
-    return print_ranged_chance( w, line_number, confidence_config, dispersion, range, target_size );
+    return print_ranged_chance( w, line_number, dispersion, confidence_config,
+                                range, target_size, aim_types, predicted_recoil );
 }
 
 static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const tripoint &targ )
@@ -793,9 +815,12 @@ static int draw_throw_aim( const player &p, WINDOW *w, int line_number,
     static const std::vector<confidence_rating> confidence_config_object = {{
         { accuracy_grazing, '*', _( "Hit" ) }
     }};
-    const auto &confidence_config = target != nullptr ? confidence_config_critter : confidence_config_object;
+    const auto &confidence_config = target != nullptr ?
+      confidence_config_critter : confidence_config_object;
 
-    return print_ranged_chance( w, line_number, confidence_config, dispersion, range, target_size );
+    std::vector<aim_type> aim_types = p.get_aim_types( *weapon );
+    return print_ranged_chance( w, line_number, dispersion, confidence_config,
+                                range, target_size, aim_types );
 }
 
 std::vector<tripoint> target_handler::target_ui( player &pc, const targeting_data &args )
@@ -808,6 +833,9 @@ std::vector<aim_type> Character::get_aim_types( const item &gun ) const
 {
     std::vector<aim_type> aim_types;
     aim_types.push_back( aim_type { "", "", "", false, 0 } ); // dummy aim type for unaimed shots
+    if( !gun.is_gun() ) {
+        return aim_types;
+    }
     int sight_dispersion = effective_dispersion( gun.sight_dispersion() );
     // Aiming thresholds are dependent on weapon sight dispersion, attempting to place thresholds
     // at 10%, 5% and 0% of the difference between MAX_RECOIL and sight dispersion.
@@ -823,7 +851,7 @@ std::vector<aim_type> Character::get_aim_types( const item &gun ) const
         thresholds_it = std::adjacent_find( thresholds.begin(), thresholds.end() );
     }
     thresholds_it = thresholds.begin();
-    aim_types.push_back( aim_type { _( "Aim" ), "AIMED_SHOT", _( "%c to aim and fire." ),
+    aim_types.push_back( aim_type { _( "Regular Aim" ), "AIMED_SHOT", _( "%c to aim and fire." ),
                                     true, *thresholds_it } );
     thresholds_it++;
     if( thresholds_it != thresholds.end() ) {
@@ -887,10 +915,24 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
     update_targets( range, t, target, dst );
 
-    bool compact = TERMY < 34;
-    int height = compact ? 18 : 25;
-    int top = ( compact ? -4 : -1 ) +
-              ( use_narrow_sidebar() ? getbegy( g->w_messages ) : getbegy( g->w_minimap ) + getmaxy( g->w_minimap ) );
+    bool compact = TERMY < 41;
+    bool tiny = TERMY < 31;
+
+    // Defaut to the maximum window size we can use.
+    int height = 31;
+    int top = use_narrow_sidebar() ? getbegy( g->w_messages ) : getbegy( g->w_minimap ) + getmaxy( g->w_minimap );
+    if( tiny ) {
+        // If we're extremely short on space, use the whole sidebar.
+        top = 0;
+        height = TERMY;
+    } else if( compact ) {
+        // Cover up more low-value ui elements if we're tight on space.
+        top -= 4;
+        height = 25;
+    } else {
+        // Cover up the redundant weapon line.
+        top -= 1;
+    }
 
     WINDOW *w_target = newwin( height, getmaxx( g->w_messages ), top, getbegx( g->w_messages ) );
 
@@ -924,9 +966,9 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
     if( mode == TARGET_MODE_FIRE ) {
         aim_types = pc.get_aim_types( *relevant );
-        for( std::vector<aim_type>::iterator it = aim_types.begin(); it != aim_types.end(); it++ ) {
-            if( it->has_threshold ) {
-                ctxt.register_action( it->action );
+        for( aim_type &type : aim_types ) {
+            if( type.has_threshold ) {
+                ctxt.register_action( type.action );
             }
         }
         aim_mode = aim_types.begin();
@@ -935,16 +977,16 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     int num_instruction_lines = draw_targeting_window( w_target, relevant ? relevant->tname() : "",
                                                        pc, mode, ctxt, aim_types,
                                                        bool( on_mode_change ),
-                                                       bool( on_ammo_change ) );
+                                                       bool( on_ammo_change ), tiny );
 
     bool snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
 
     std::string enemiesmsg;
     if( t.empty() ) {
-        enemiesmsg = _("No targets in range.");
+        enemiesmsg = _( "No targets in range." );
     } else {
-        enemiesmsg = string_format(ngettext("%d target in range.", "%d targets in range.",
-                                            t.size()), t.size());
+        enemiesmsg = string_format( ngettext( "%d target in range.", "%d targets in range.",
+                                              t.size()), t.size());
     }
 
     const auto set_last_target = []( const tripoint &dst ) {
@@ -1003,13 +1045,13 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             center = pc.pos() + pc.view_offset;
         }
         // Clear the target window.
-        for( int i = 1; i <= getmaxy(w_target) - num_instruction_lines - 2; i++ ) {
+        for( int i = 1; i <= getmaxy( w_target ) - num_instruction_lines - 2; i++ ) {
             // Clear width excluding borders.
-            for( int j = 1; j <= getmaxx(w_target) - 2; j++ ) {
+            for( int j = 1; j <= getmaxx( w_target ) - 2; j++ ) {
                 mvwputch( w_target, i, j, c_white, ' ' );
             }
         }
-        g->draw_ter(center, true);
+        g->draw_ter( center, true );
         int line_number = 1;
         Creature *critter = g->critter_at( dst, true );
         if( dst != src ) {
@@ -1030,8 +1072,10 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             mvwprintw( w_target, line_number++, 1, _("Range: %d, %s"), range, enemiesmsg.c_str() );
         }
 
-        line_number++;
-
+        // Skip blank lines if we're short on space.
+        if( !compact ) {
+            line_number++;
+        }
         if( mode == TARGET_MODE_FIRE || mode == TARGET_MODE_TURRET_MANUAL ) {
             auto m = relevant->gun_current_mode();
 
@@ -1055,15 +1099,19 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 nc_color col = c_ltgray;
                 print_colored_text( w_target, line_number++, 1, col, col, str );
             }
-            line_number++;
+            // Skip blank lines if we're short on space.
+            if( !compact ) {
+                line_number++;
+            }
         }
 
         if( critter && critter != &pc && pc.sees( *critter ) ) {
-            // The 6 is 2 for the border and 4 for aim bars.
-            int available_lines = compact ? 1 : ( height - num_instruction_lines - line_number - 6 );
-            line_number = critter->print_info( w_target, line_number, available_lines, 1);
+            // The 12 is 2 for the border and 10 for aim bars.
+            // Just print the monster name if we're short on space.
+            int available_lines = compact ? 1 : ( height - num_instruction_lines - line_number - 12 );
+            line_number = critter->print_info( w_target, line_number, available_lines, 1 );
         } else {
-            mvwputch(g->w_terrain, POSY + dst.y - center.y, POSX + dst.x - center.x, c_red, '*');
+            mvwputch( g->w_terrain, POSY + dst.y - center.y, POSX + dst.x - center.x, c_red, '*' );
         }
 
         if( mode == TARGET_MODE_FIRE && critter != nullptr && pc.sees( *critter ) ) {
