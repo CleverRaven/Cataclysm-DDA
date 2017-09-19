@@ -2784,7 +2784,7 @@ int iuse::noise_emitter_on(player *p, item *it, bool t, const tripoint &pos)
     return it->type->charges_to_use();
 }
 
-int iuse::ma_manual(player *p, item *it, bool, const tripoint& )
+int iuse::ma_manual( player *p, item *it, bool, const tripoint& )
 {
     // [CR] - should NPCs just be allowed to learn this stuff? Just like that?
 
@@ -2792,14 +2792,14 @@ int iuse::ma_manual(player *p, item *it, bool, const tripoint& )
     // TODO: replace this terrible hack to rely on the item name matching the style name, it's terrible.
     const matype_id style_to_learn( "style_" + it->typeId().substr(7) );
 
-    if (p->has_martialart(style_to_learn)) {
-        p->add_msg_if_player(m_info, _("You already know all this book has to teach."));
+    if( p->has_martialart( style_to_learn ) ) {
+        p->add_msg_if_player( m_info, _( "You already know all this book has to teach." ) );
         return 0;
     }
 
-    p->ma_styles.push_back(style_to_learn);
+    p->ma_styles.push_back( style_to_learn );
 
-    p->add_msg_if_player(m_good, _("You learn what you can, and stow the book for further study."));
+    p->add_msg_if_player( m_good, _( "You learn the essential elements of the style." ) );
 
     return 1;
 }
