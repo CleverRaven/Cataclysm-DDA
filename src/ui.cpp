@@ -814,6 +814,7 @@ void uimenu::query(bool loop)
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
     hotkeys = ctxt.get_available_single_char_hotkeys( hotkeys );
 
     show();
@@ -836,6 +837,8 @@ void uimenu::query(bool loop)
             /* nothing */
         } else if ( scrollby( scroll_amount_from_action( action ) ) == true ) {
             /* nothing */
+        } else if ( action == "HELP_KEYBINDINGS" ) {
+            /* nothing, handled by input_context */
         } else if ( filtering && action == "FILTER" ) {
             inputfilter();
         } else if( action == "ANY_INPUT" && event.type == CATA_INPUT_KEYBOARD ) {
