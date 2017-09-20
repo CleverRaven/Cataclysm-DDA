@@ -830,14 +830,6 @@ void uimenu::query(bool loop)
         keypress = event.get_first_input();
         const auto iter = keymap.find( keypress );
 
-        if ( callback != nullptr ) {
-            if( iter == keymap.end() && action == "ANY_INPUT" && event.get_first_input() != '?' ) {
-                skipkey = callback->key( event, -1, this );
-            } else {
-                skipkey = callback->key( event, selected, this );
-            }
-        }
-
         if ( skipkey ) {
             /* nothing */
         } else if ( scrollby( scroll_amount_from_action( action ) ) == true ) {
@@ -862,6 +854,9 @@ void uimenu::query(bool loop)
         } else if( action == "QUIT" ) {
             break;
         } else {
+            if ( callback != nullptr ) {
+                skipkey = callback->key( event, selected, this );
+            }
             if ( ! skipkey && return_invalid ) {
                 ret = -1;
             }
