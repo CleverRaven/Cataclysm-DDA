@@ -8048,9 +8048,9 @@ bool player::dispose_item( item_location &&obj, const std::string& prompt )
                 return false;
             }
 
-            auto res = wear_item( *obj );
+            item it = *obj;
             obj.remove_item();
-            return res;
+            return wear_item( it );
         }
     } );
 
