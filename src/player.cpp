@@ -9758,7 +9758,7 @@ void player::try_to_sleep()
         add_msg_if_player( ter_at_pos.obj().movecost <= 2 ?
                  _("It's a little hard to get to sleep on this %s.") :
                  _("It's hard to get to sleep on this %s."),
-                 ter_at_pos.obj().name.c_str() );
+                 ter_at_pos.obj().name().c_str() );
     }
     add_effect( effect_lying_down, 300);
 }

@@ -409,9 +409,9 @@ void construction_menu()
 
                             std::string result_string;
                             if( current_con->post_is_furniture ) {
-                                result_string = furn_str_id( current_con->post_terrain ).obj().name;
+                                result_string = furn_str_id( current_con->post_terrain ).obj().name();
                             } else {
-                                result_string = ter_str_id( current_con->post_terrain ).obj().name;
+                                result_string = ter_str_id( current_con->post_terrain ).obj().name();
                             }
                             current_line << "<color_" << string_from_color( color_stage ) << ">" << string_format(
                                              _( "Result: %s" ), result_string.c_str() ) << "</color>";
@@ -454,9 +454,9 @@ void construction_menu()
                         if( current_con->pre_terrain != "" ) {
                             std::string require_string;
                             if( current_con->pre_is_furniture ) {
-                                require_string = furn_str_id( current_con->pre_terrain ).obj().name;
+                                require_string = furn_str_id( current_con->pre_terrain ).obj().name();
                             } else {
-                                require_string = ter_str_id( current_con->pre_terrain ).obj().name;
+                                require_string = ter_str_id( current_con->pre_terrain ).obj().name();
                             }
                             current_line << "<color_" << string_from_color( color_stage ) << ">" << string_format(
                                              _( "Requires: %s" ), require_string.c_str() ) << "</color>";
@@ -943,7 +943,7 @@ void construct::done_deconstruct( const tripoint &p )
     if( g->m.has_furn( p ) ) {
         const furn_t &f = g->m.furn( p ).obj();
         if( !f.deconstruct.can_do ) {
-            add_msg( m_info, _( "That %s can not be disassembled!" ), f.name.c_str() );
+            add_msg( m_info, _( "That %s can not be disassembled!" ), f.name().c_str() );
             return;
         }
         if( f.deconstruct.furn_set.str().empty() ) {
@@ -951,7 +951,7 @@ void construct::done_deconstruct( const tripoint &p )
         } else {
             g->m.furn_set( p, f.deconstruct.furn_set );
         }
-        add_msg( _( "You disassemble the %s." ), f.name.c_str() );
+        add_msg( _( "You disassemble the %s." ), f.name().c_str() );
         g->m.spawn_items( p, item_group::items_from( f.deconstruct.drop_group, calendar::turn ) );
         // Hack alert.
         // Signs have cosmetics associated with them on the submap since
@@ -962,7 +962,7 @@ void construct::done_deconstruct( const tripoint &p )
     } else {
         const ter_t &t = g->m.ter( p ).obj();
         if( !t.deconstruct.can_do ) {
-            add_msg( _( "That %s can not be disassembled!" ), t.name.c_str() );
+            add_msg( _( "That %s can not be disassembled!" ), t.name().c_str() );
             return;
         }
         if( t.id == "t_console_broken" )  {
@@ -976,7 +976,7 @@ void construct::done_deconstruct( const tripoint &p )
             }
         }
         g->m.ter_set( p, t.deconstruct.ter_set );
-        add_msg( _( "You disassemble the %s." ), t.name.c_str() );
+        add_msg( _( "You disassemble the %s." ), t.name().c_str() );
         g->m.spawn_items( p, item_group::items_from( t.deconstruct.drop_group, calendar::turn ) );
     }
 }

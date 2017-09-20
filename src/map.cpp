@@ -1562,7 +1562,7 @@ void map::furn_set( const tripoint &p, const furn_id new_furniture )
 
     // If player has grabbed this furniture and it's no longer grabbable, release the grab.
     if( g->u.grab_type == OBJECT_FURNITURE && g->u.grab_point == p && new_t.move_str_req < 0 ) {
-        add_msg( _( "The %s you were grabbing is destroyed!" ), old_t.name.c_str() );
+        add_msg( _( "The %s you were grabbing is destroyed!" ), old_t.name().c_str() );
         g->u.grab_type = OBJECT_NONE;
         g->u.grab_point = tripoint_zero;
     }
@@ -1611,9 +1611,9 @@ std::string map::furnname( const tripoint &p ) {
     if( f.has_flag( "PLANT" ) && !i_at( p ).empty() ) {
         const item &seed = i_at( p ).front();
         const std::string &plant = seed.get_plant_name();
-        return string_format( "%s (%s)", f.name.c_str(), plant.c_str() );
+        return string_format( "%s (%s)", f.name().c_str(), plant.c_str() );
     } else {
-        return f.name;
+        return f.name();
     }
 }
 
@@ -1793,7 +1793,7 @@ void map::ter_set( const tripoint &p, const ter_id new_terrain )
 
 std::string map::tername( const tripoint &p ) const
 {
-    return ter( p ).obj().name;
+    return ter( p ).obj().name();
 }
 
 std::string map::features(const int x, const int y)
@@ -2275,7 +2275,7 @@ void map::drop_furniture( const tripoint &p )
         tripoint below( current.x, current.y, current.z - 1 );
         bash( below, dmg, false, false, false );
     } else if( last_state == SS_CREATURE ) {
-        const std::string &furn_name = frn_obj.name;
+        const std::string &furn_name = frn_obj.name();
         bash( current, dmg, false, false, false );
         tripoint below( current.x, current.y, current.z - 1 );
         Creature *critter = g->critter_at( below );
@@ -4030,8 +4030,8 @@ void map::translate(const ter_id from, const ter_id to)
 {
     if (from == to) {
         debugmsg( "map::translate %s => %s",
-                  from.obj().name.c_str(),
-                  from.obj().name.c_str() );
+                  from.obj().name().c_str(),
+                  from.obj().name().c_str() );
         return;
         }
 
@@ -4052,8 +4052,8 @@ void map::translate_radius(const ter_id from, const ter_id to, float radi, const
 {
     if( from == to ) {
         debugmsg( "map::translate %s => %s",
-                  from.obj().name.c_str(),
-                  from.obj().name.c_str() );
+                  from.obj().name().c_str(),
+                  from.obj().name().c_str() );
         return;
     }
 
@@ -5289,7 +5289,7 @@ void map::add_trap( const tripoint &p, const trap_id t)
     const ter_t &ter = current_submap->get_ter( lx, ly ).obj();
     if( ter.trap != tr_null ) {
         debugmsg( "set trap %s on top of terrain %s which already has a builit-in trap",
-                  t.obj().name().c_str(), ter.name.c_str() );
+                  t.obj().name().c_str(), ter.name().c_str() );
         return;
     }
 

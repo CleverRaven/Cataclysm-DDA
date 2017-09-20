@@ -7029,7 +7029,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id door_type, int b
     // TODO: Z
     const int &x = p.x;
     const int &y = p.y;
-    const std::string &door_name = door_type.obj().name;
+    const std::string &door_name = door_type.obj().name();
     int kbx = x; // Used when player/monsters are knocked back
     int kby = y; // and when moving items out of the way
     for (int i = 0; i < 20; i++) {
@@ -11961,14 +11961,14 @@ bool game::grabbed_furn_move( const tripoint &dp )
 
     if( !canmove ) {
         // TODO: What is something?
-        add_msg( _("The %s collides with something."), furntype.name.c_str() );
+        add_msg( _("The %s collides with something."), furntype.name().c_str() );
         u.moves -= 50;
         return true;
     ///\EFFECT_STR determins ability to drag furniture
     } else if ( str_req > u.get_str() &&
                 one_in(std::max(20 - str_req - u.get_str(), 2)) ) {
         add_msg(m_bad, _("You strain yourself trying to move the heavy %s!"),
-                furntype.name.c_str() );
+                furntype.name().c_str() );
         u.moves -= 100;
         u.mod_pain(1); // Hurt ourself.
         return true; // furniture and or obstacle wins.
@@ -11985,17 +11985,17 @@ bool game::grabbed_furn_move( const tripoint &dp )
         if( move_penalty <= 1000 ) {
             u.moves -= 100;
             add_msg( m_bad, _("The %s is too heavy for you to budge."),
-                     furntype.name.c_str() );
+                     furntype.name().c_str() );
             return true;
         }
         u.moves -= move_penalty;
         if (move_penalty > 500) {
             add_msg( _("Moving the heavy %s is taking a lot of time!"),
-                     furntype.name.c_str() );
+                     furntype.name().c_str() );
         } else if (move_penalty > 200) {
             if (one_in(3)) { // Nag only occasionally.
                 add_msg( _("It takes some time to move the heavy %s."),
-                         furntype.name.c_str() );
+                         furntype.name().c_str() );
             }
         }
     }
@@ -12021,7 +12021,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
                 m.i_at(fdest).push_back( cur_item );
             }
         } else {
-            add_msg(_("Stuff spills from the %s!"), furntype.name.c_str() );
+            add_msg(_("Stuff spills from the %s!"), furntype.name().c_str() );
         }
     }
 
@@ -12031,7 +12031,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
         if( abs( d_sum.x ) < 2 && abs( d_sum.y ) < 2 ) {
             u.grab_point = d_sum; // furniture moved relative to us
         } else { // we pushed furniture out of reach
-            add_msg( _("You let go of the %s"), furntype.name.c_str() );
+            add_msg( _("You let go of the %s"), furntype.name().c_str() );
             u.grab_point = tripoint_zero;
             u.grab_type = OBJECT_NONE;
         }
@@ -12041,7 +12041,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
     if( pushing_furniture && m.impassable( fpos ) ) {
         // Not sure how that chair got into a wall, but don't let player follow.
         add_msg( _("You let go of the %1$s as it slides past %2$s"),
-                 furntype.name.c_str(), m.tername( fdest ).c_str() );
+                 furntype.name().c_str(), m.tername( fdest ).c_str() );
         u.grab_point = tripoint_zero;
         u.grab_type = OBJECT_NONE;
         return true;

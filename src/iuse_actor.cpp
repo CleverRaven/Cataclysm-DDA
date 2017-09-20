@@ -3066,7 +3066,7 @@ bool place_trap_actor::is_allowed( player &p, const tripoint &pos, const std::st
         }
     }
     if( needs_neighbor_terrain && !has_neighbor( pos, needs_neighbor_terrain ) ) {
-        p.add_msg_if_player( m_info, _( "The %s needs a %s adjacent to it." ), name.c_str(), needs_neighbor_terrain.obj().name.c_str() );
+        p.add_msg_if_player( m_info, _( "The %s needs a %s adjacent to it." ), name.c_str(), needs_neighbor_terrain.obj().name().c_str() );
         return false;
     }
     const trap &existing_trap = g->m.tr_at( pos );

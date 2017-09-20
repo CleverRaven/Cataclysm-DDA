@@ -123,7 +123,7 @@ c to describe creatures, f to describe furniture, t to describe terrain, esc/ent
 std::string map_data_common_t::extended_description() const
 {
     std::stringstream ss;
-    ss << "<header>" << string_format( _( "That is a %s." ), name.c_str() ) << "</header>" << std::endl;
+    ss << "<header>" << string_format( _( "That is a %s." ), name().c_str() ) << "</header>" << '\n';
     ss << description << std::endl;
     bool has_any_harvest = std::any_of( harvest_by_season.begin(), harvest_by_season.end(),
     []( const harvest_id & hv ) {

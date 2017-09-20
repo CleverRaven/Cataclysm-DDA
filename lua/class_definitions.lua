@@ -1353,7 +1353,6 @@ classes = {
 
         attributes = {
             close = { type = "ter_str_id", writable = true },
-            name = { type = "string",  writable = false },
             open = { type = "ter_str_id", writable = true },
             roof = { type = "ter_str_id", writable = true },
             transforms_into = { type = "ter_str_id", writable = true },
@@ -1363,6 +1362,7 @@ classes = {
         },
         functions = {
             { name = "color", rval = "int", args = { } },
+            { name = "name", rval = "string", args = { } },
             { name = "symbol", rval = "int", args = { } },
         }
     },
@@ -1375,13 +1375,13 @@ classes = {
             id = { type = "furn_str_id" },
             max_volume = { type = "volume", writable = true },
             movecost = { type = "int", writable = true },
-            name = { type = "string", writable = true },
             open = { type = "furn_str_id", writable = true },
             transparent = { type = "bool", writable = true },
             move_str_req = { type = "int", writable = true },
         },
         functions = {
             { name = "color", rval = "int", args = { } },
+            { name = "name", rval = "string", args = { } },
             { name = "symbol", rval = "int", args = { } },
         }
     },

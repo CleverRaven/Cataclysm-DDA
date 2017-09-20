@@ -2817,13 +2817,13 @@ void iexamine::reload_furniture(player &p, const tripoint &examp)
     const itype *type = f.crafting_pseudo_item_type();
     const itype *ammo = f.crafting_ammo_item_type();
     if (type == NULL || ammo == NULL) {
-        add_msg(m_info, _("This %s can not be reloaded!"), f.name.c_str());
+        add_msg(m_info, _("This %s can not be reloaded!"), f.name().c_str());
         return;
     }
     const int amount_in_furn = count_charges_in_list( ammo, g->m.i_at( examp ) );
     if( amount_in_furn > 0 ) {
         //~ %1$s - furniture, %2$d - number, %3$s items.
-        add_msg(_("The %1$s contains %2$d %3$s."), f.name.c_str(), amount_in_furn, ammo->nname(amount_in_furn).c_str());
+        add_msg(_("The %1$s contains %2$d %3$s."), f.name().c_str(), amount_in_furn, ammo->nname(amount_in_furn).c_str());
     }
     const int max_amount_in_furn = f.max_volume / ammo->volume;
     const int max_reload_amount = max_amount_in_furn - amount_in_furn;
@@ -2833,13 +2833,13 @@ void iexamine::reload_furniture(player &p, const tripoint &examp)
     const int amount_in_inv = p.charges_of( ammo->get_id() );
     if( amount_in_inv == 0 ) {
         //~ Reloading or restocking a piece of furniture, for example a forge.
-        add_msg(m_info, _("You need some %1$s to reload this %2$s."), ammo->nname(2).c_str(), f.name.c_str());
+        add_msg(m_info, _("You need some %1$s to reload this %2$s."), ammo->nname(2).c_str(), f.name().c_str());
         return;
     }
     const long max_amount = std::min( amount_in_inv, max_reload_amount );
     //~ Loading fuel or other items into a piece of furniture.
     const std::string popupmsg = string_format(_("Put how many of the %1$s into the %2$s?"),
-                                 ammo->nname(max_amount).c_str(), f.name.c_str());
+                                 ammo->nname(max_amount).c_str(), f.name().c_str());
     long amount = string_input_popup()
                   .title( popupmsg )
                   .width( 20 )
