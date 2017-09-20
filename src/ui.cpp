@@ -203,6 +203,8 @@ void uimenu::init()
     last_fsize = -1;
     last_vshift = -1;
     hotkeys = DEFAULT_HOTKEYS;
+    input_category = "UIMENU";
+    additional_actions.clear();
 }
 
 /**
@@ -802,7 +804,7 @@ void uimenu::query(bool loop)
     int startret = UIMENU_INVALID;
     ret = UIMENU_INVALID;
 
-    input_context ctxt( "UIMENU" );
+    input_context ctxt( input_category );
     ctxt.register_updown();
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
@@ -815,6 +817,9 @@ void uimenu::query(bool loop)
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    for ( const auto &additional_action : additional_actions ) {
+        ctxt.register_action( additional_action );
+    }
     hotkeys = ctxt.get_available_single_char_hotkeys( hotkeys );
 
     show();

@@ -150,6 +150,8 @@ class uimenu: public ui_container
         int keypress;
         std::string text;
         std::vector<std::string> textformatted;
+        std::string input_category;
+        std::vector<std::string> additional_actions;
         int textwidth;
         int textalign;
         int max_entry_len;
