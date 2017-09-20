@@ -846,14 +846,12 @@ void uimenu::query(bool loop)
             /* nothing, handled by input_context */
         } else if ( filtering && action == "FILTER" ) {
             inputfilter();
-        } else if( action == "ANY_INPUT" && event.type == CATA_INPUT_KEYBOARD ) {
-            if( iter != keymap.end() ) {
-                selected = iter->second;
-                if( entries[ selected ].enabled ) {
-                    ret = entries[ selected ].retval; // valid
-                } else if( return_invalid ) {
-                    ret = 0 - entries[ selected ].retval; // disabled
-                }
+        } else if( iter != keymap.end() ) {
+            selected = iter->second;
+            if( entries[ selected ].enabled ) {
+                ret = entries[ selected ].retval; // valid
+            } else if( return_invalid ) {
+                ret = 0 - entries[ selected ].retval; // disabled
             }
         } else if ( !fentries.empty() && action == "CONFIRM" ) {
             if( entries[ selected ].enabled ) {
