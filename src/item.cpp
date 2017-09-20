@@ -907,7 +907,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             } else if( is_ammo() ) {
                 info.emplace_back( "AMMO", _( "Types: " ),
                                    enumerate_as_string( type->ammo->type.begin(), type->ammo->type.end(),
-                                                        []( const ammotype &e ) { return _( e->name().c_str() ); }, false ) );
+                                                        []( const ammotype &e ) { return e->name(); }, false ) );
             }
 
             const auto& ammo = *ammo_data()->ammo;
