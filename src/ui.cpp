@@ -818,7 +818,7 @@ void uimenu::query(bool loop)
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     for ( const auto &additional_action : additional_actions ) {
-        ctxt.register_action( additional_action );
+        ctxt.register_action( additional_action.first, additional_action.second );
     }
     hotkeys = ctxt.get_available_single_char_hotkeys( hotkeys );
 
