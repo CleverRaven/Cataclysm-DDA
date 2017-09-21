@@ -7805,17 +7805,14 @@ class ma_style_callback : public uimenu_callback
 private:
     size_t offset;
     const std::vector<matype_id> &styles;
-    const input_context ctxt;
 
 public:
-    ma_style_callback( int style_offset, const std::vector<matype_id> &selectable_styles,
-            const input_context& ctxt )
+    ma_style_callback( int style_offset, const std::vector<matype_id> &selectable_styles )
         : offset( style_offset )
         , styles( selectable_styles )
-        , ctxt ( ctxt )
     {}
 
-    bool key(const input_context &, const input_event &event, int entnum, uimenu *menu) override {
+    bool key(const input_context &ctxt, const input_event &event, int entnum, uimenu *menu) override {
         const std::string action = ctxt.input_to_action( event );
         if( action != "SHOW_DESCRIPTION" ) {
             return false;
@@ -7877,7 +7874,7 @@ bool player::pick_style() // Style selection menu
     uimenu kmenu;
     kmenu.return_invalid = true;
     kmenu.text = string_format( _( "Select a style. (press %s for more info)" ), ctxt.get_desc( "SHOW_DESCRIPTION" ).c_str() );
-    ma_style_callback callback( ( size_t )STYLE_OFFSET, selectable_styles, ctxt );
+    ma_style_callback callback( ( size_t )STYLE_OFFSET, selectable_styles );
     kmenu.callback = &callback;
     kmenu.input_category = "MELEE_STYLE_PICKER";
     kmenu.additional_actions.emplace_back( "SHOW_DESCRIPTION", "" );

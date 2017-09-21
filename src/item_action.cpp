@@ -38,13 +38,13 @@ char key_bound_to( const input_context &ctxt, const item_action_id &act )
 class actmenu_cb : public uimenu_callback
 {
     private:
-        const input_context ctxt;
         const action_map am;
     public:
-        actmenu_cb( const input_context &ctxt, const action_map &acm ) : ctxt( ctxt ), am( acm ) { }
+        actmenu_cb( const action_map &acm ) : am( acm ) { }
         ~actmenu_cb() override { }
 
-        bool key( const input_context &, const input_event &event, int /*idx*/, uimenu * /*menu*/ ) override {
+        bool key( const input_context &ctxt, const input_event &event, int /*idx*/,
+                  uimenu * /*menu*/ ) override {
             const std::string action = ctxt.input_to_action( event );
             // Don't write a message if unknown command was sent
             // Only when an inexistent tool was selected
@@ -227,7 +227,7 @@ void game::item_action_menu()
         ctxt.register_action( id.first, id.second.name );
         kmenu.additional_actions.emplace_back( id.first, id.second.name );
     }
-    actmenu_cb callback( ctxt, item_actions );
+    actmenu_cb callback( item_actions );
     kmenu.callback = &callback;
     int num = 0;
 
