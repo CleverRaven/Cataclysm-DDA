@@ -8232,6 +8232,9 @@ void map::update_pathfinding_cache( int zlev ) const
                         cur_value |= PF_SLOW;
                     } else if( cost <= 0 ) {
                         cur_value |= PF_WALL;
+                        if( terrain.has_flag( TFLAG_CLIMBABLE ) ) {
+                            cur_value |= PF_CLIMBABLE;
+                        }
                     }
 
                     if( veh != nullptr ) {

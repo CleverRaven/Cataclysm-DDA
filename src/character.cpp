@@ -128,7 +128,7 @@ Character::Character() : Creature(), visitable<Character>()
 
     name = "";
 
-    path_settings = pathfinding_settings{ 0, 1000, 1000, true, false, true };
+    path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, false, true };
 }
 
 field_id Character::bloodType() const

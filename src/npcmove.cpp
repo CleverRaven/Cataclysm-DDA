@@ -1524,9 +1524,9 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         moved = true;
     } else if( g->m.open_door( p, !g->m.is_outside( pos() ) ) ) {
         moves -= 100;
-    } else if( g->m.has_flag_ter_or_furn( "CLIMBABLE", p ) ) {
+    } else if( get_dex() > 1 && g->m.has_flag_ter_or_furn( "CLIMBABLE", p ) ) {
         ///\EFFECT_DEX_NPC increases chance to climb CLIMBABLE furniture or terrain
-        int climb = dex_cur;
+        int climb = get_dex();
         if( one_in( climb ) ) {
             add_msg_if_npc( m_neutral, _( "%1$s falls tries to climb the %2$s but slips." ),
                             name.c_str(), g->m.tername(p).c_str() );
@@ -1534,7 +1534,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         } else {
             add_msg_if_npc( m_neutral, _( "%1$s climbs over the %2$s." ), name.c_str(),
                             g->m.tername( p ).c_str() );
-            moves -= (500 - (rng(0,climb) * 20));
+            moves -= 500 - climb * 10;
             moved = true;
         }
     } else if( !no_bashing && smash_ability() > 0 && g->m.is_bashable( p ) &&
