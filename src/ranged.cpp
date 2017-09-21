@@ -690,29 +690,33 @@ static double confidence_estimate( int range, double target_size, dispersion_sou
     return 1 / ( max_lateral_offset / target_size );
 }
 
-static int print_ranged_chance( WINDOW *w, int line_number, dispersion_sources dispersion,
+static int print_ranged_chance( const player &p, WINDOW *w, int line_number, const item &gun,
+                                dispersion_sources dispersion,
                                 const std::vector<confidence_rating> &confidence_config,
-                                double range, double target_size, std::vector<aim_type> aim_types,
-                                int recoil = 0 )
+                                double range, double target_size, int recoil = 0 )
 {
     const int window_width = getmaxx( w ) - 2; // Window width minus borders.
     std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
 
+    std::vector<aim_type> aim_types = p.get_aim_types( gun );
     if( display_type != "numbers" ) {
         mvwprintw( w, line_number++, 1, _( "Symbols: * = Headshot + = Hit | = Graze" ) );
     }
     for( const aim_type type : aim_types ) {
         dispersion_sources current_dispersion = dispersion;
+        int threshold = MAX_RECOIL;
+        std::string label = _( "Current Aim" );
         if( type.has_threshold ) {
-            current_dispersion.add_range( type.threshold );
+            label = type.name;
+            threshold = type.threshold;
+            current_dispersion.add_range( threshold );
         } else {
             current_dispersion.add_range( recoil );
         }
 
         double confidence = confidence_estimate( range, target_size, current_dispersion );
-        std::string label = type.has_threshold ? type.name : _( "Current Aim" );
-        // TODO: Print time-to-aim-and-fire.
-        mvwprintw( w, line_number++, 1, "%s:", label.c_str() );
+        mvwprintw( w, line_number++, 1, _( "%s: Moves to fire: %d" ), label.c_str(),
+                   p.gun_engagement_moves( gun, threshold, recoil ) + time_to_fire( p, *gun.type ) );
 
         if( display_type == "numbers" ) {
             int last_chance = 0;
@@ -768,11 +772,10 @@ static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
         { accuracy_grazing, '|', _( "Graze" ) }
     }};
 
-    std::vector<aim_type> aim_types = p.get_aim_types( *weapon );
     const double range = rl_dist( p.pos(), target.pos() );
     line_number = print_steadiness( w, line_number, steadiness );
-    return print_ranged_chance( w, line_number, dispersion, confidence_config,
-                                range, target_size, aim_types, predicted_recoil );
+    return print_ranged_chance( p, w, line_number, *weapon, dispersion, confidence_config,
+                                range, target_size, predicted_recoil );
 }
 
 static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const tripoint &targ )
@@ -818,9 +821,8 @@ static int draw_throw_aim( const player &p, WINDOW *w, int line_number,
     const auto &confidence_config = target != nullptr ?
       confidence_config_critter : confidence_config_object;
 
-    std::vector<aim_type> aim_types = p.get_aim_types( *weapon );
-    return print_ranged_chance( w, line_number, dispersion, confidence_config,
-                                range, target_size, aim_types );
+    return print_ranged_chance( p, w, line_number, *weapon, dispersion, confidence_config,
+                                range, target_size );
 }
 
 std::vector<tripoint> target_handler::target_ui( player &pc, const targeting_data &args )
