@@ -5162,7 +5162,7 @@
         {
         "type": "profession",
         "ident": "bio_sci",
-        "name": "Bionics Scientist",
+        "name": "Mad Bionics Scientist",
         "description": "Before all this you studied bionics. You tried your experiments on animals and yourself.", 
         "traits": [
             "ANIMALDISCORD",
@@ -5184,11 +5184,11 @@
         ],
         "items": {
             "both":[
-                "coat_lab",
-                "socks",
-                "glasses_reading",
-                "pants",
+               "glasses_reading",
+               "coat_lab",
                "gloves_rubber",
+               "pants",
+               "socks",
                "boots_rubber",
                "id_science" 
             ],
@@ -5218,13 +5218,13 @@
         ],
         "items": {
             "both": [
-                "textbook_chemistry",
                 "mask_filter",
-                "pipe_glass",
-                "joint",
+                "technician_shirt_gray",
                 "backpack",
                 "pants_cargo",
-                "technician_shirt_gray"
+                "joint",
+                "pipe_glass",
+                "textbook_chemistry"
             ],
             "male": [
                 "briefs"
