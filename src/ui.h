@@ -20,6 +20,7 @@ const int MENU_WIDTH_ENTRIES = -2;
 const int MENU_AUTOASSIGN = -1;
 
 struct input_event;
+class input_context;
 
 /**
  * mvwzstr: line of text with horizontal offset and color
@@ -122,7 +123,8 @@ class uimenu_callback
 {
     public:
         virtual void select( int /*entnum*/, uimenu * ) {};
-        virtual bool key( const input_event &/*key*/, int /*entnum*/, uimenu * ) {
+        virtual bool key( const input_context &, const input_event &/*key*/, int /*entnum*/,
+                          uimenu * ) {
             return false;
         };
         virtual void refresh( uimenu * ) {};

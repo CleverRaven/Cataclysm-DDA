@@ -44,7 +44,7 @@ class actmenu_cb : public uimenu_callback
         actmenu_cb( const input_context &ctxt, const action_map &acm ) : ctxt( ctxt ), am( acm ) { }
         ~actmenu_cb() override { }
 
-        bool key( const input_event &event, int /*idx*/, uimenu * /*menu*/ ) override {
+        bool key( const input_context &, const input_event &event, int /*idx*/, uimenu * /*menu*/ ) override {
             const std::string action = ctxt.input_to_action( event );
             // Don't write a message if unknown command was sent
             // Only when an inexistent tool was selected

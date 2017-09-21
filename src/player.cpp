@@ -7444,7 +7444,7 @@ item::reload_option player::select_ammo( const item &base, const std::vector<ite
                            last_key( _last_key ), default_to( _default_to )
             {}
 
-            bool key( const input_event &event, int idx, uimenu * menu ) override {
+            bool key( const input_context &, const input_event &event, int idx, uimenu * menu ) override {
                 auto cur_key = event.get_first_input();
                 //Prevent double RETURN '\n' to default to the first entry
                 if( default_to != -1 && cur_key == last_key && cur_key != '\n' ) {
@@ -7815,7 +7815,7 @@ public:
         , ctxt ( ctxt )
     {}
 
-    bool key(const input_event &event, int entnum, uimenu *menu) override {
+    bool key(const input_context &, const input_event &event, int entnum, uimenu *menu) override {
         const std::string action = ctxt.input_to_action( event );
         if( action != "SHOW_DESCRIPTION" ) {
             return false;

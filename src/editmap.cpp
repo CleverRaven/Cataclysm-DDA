@@ -1929,7 +1929,7 @@ class edit_mapgen_callback : public uimenu_callback
         edit_mapgen_callback( editmap *e ) {
             _e = e;
         };
-        bool key( const input_event &event, int /*entnum*/, uimenu *menu ) override {
+        bool key( const input_context &, const input_event &event, int /*entnum*/, uimenu *menu ) override {
             if( event.get_first_input() == 'm' ) {
                 _e->mapgen_retarget();
                 menu->ret = -1;

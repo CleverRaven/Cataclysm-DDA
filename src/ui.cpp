@@ -855,7 +855,7 @@ void uimenu::query(bool loop)
             break;
         } else {
             if ( callback != nullptr ) {
-                skipkey = callback->key( event, selected, this );
+                skipkey = callback->key( ctxt, event, selected, this );
             }
             if ( ! skipkey && return_invalid ) {
                 ret = -1;
