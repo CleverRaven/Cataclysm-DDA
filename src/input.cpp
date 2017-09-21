@@ -938,6 +938,9 @@ void input_context::display_help()
             mvwprintz( w_help, i + 10, 52, col, "%s", get_desc( action_id ).c_str() );
         }
 
+        // spopup.query_string() will call wrefresh( w_help )
+        refresh();
+
         spopup.text( filter_phrase );
         if( status == s_show ) {
             spopup.ch_code_blacklist = bound_character_blacklist;
@@ -954,9 +957,6 @@ void input_context::display_help()
         if( scroll_offset > filtered_registered_actions.size() ) {
             scroll_offset = 0;
         }
-
-        wrefresh( w_help );
-        refresh();
 
         if( filtered_registered_actions.size() == 0 && action != "QUIT" ) {
             continue;
