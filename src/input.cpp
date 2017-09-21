@@ -950,12 +950,10 @@ void input_context::display_help()
         }
         raw_input_char = ctxt.get_raw_input().get_first_input();
 
-
+        filtered_registered_actions = filter_strings_by_phrase( org_registered_actions, filter_phrase );
         if( scroll_offset > filtered_registered_actions.size() ) {
             scroll_offset = 0;
         }
-
-        filtered_registered_actions = filter_strings_by_phrase( org_registered_actions, filter_phrase );
 
         wrefresh( w_help );
         refresh();
