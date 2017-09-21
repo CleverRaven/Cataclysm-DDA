@@ -819,6 +819,12 @@ bool input_context::get_direction( int &dx, int &dy, const std::string &action )
     return true;
 }
 
+// Custom set of hotkeys that explicitly don't include the hardcoded
+// alternative hotkeys, which mustn't be included so that the hardcoded
+// hotkeys do not show up beside entries within the window.
+const std::string display_help_hotkeys =
+    "abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;'\",./<>?!@#$%^&*()_[]\\{}|`~";
+
 void input_context::display_help()
 {
     inp_mngr.reset_timeout();
@@ -883,7 +889,7 @@ void input_context::display_help()
         ctxt.register_action( "HELP_KEYBINDINGS" );
     }
 
-    std::string hotkeys = ctxt.get_available_single_char_hotkeys();
+    std::string hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );
     const std::set<long> bound_character_blacklist = { '+', '-', '=', KEY_ESCAPE };
     std::vector<std::string> filtered_registered_actions = org_registered_actions;
     std::string filter_phrase;
@@ -1073,7 +1079,7 @@ void input_context::display_help()
             }
         } else if( action == "HELP_KEYBINDINGS" ) {
             // update available hotkeys in case they've changed
-            hotkeys = ctxt.get_available_single_char_hotkeys();
+            hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );
         }
     }
 
