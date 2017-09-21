@@ -890,7 +890,7 @@ void input_context::display_help()
     }
 
     std::string hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );
-    const std::set<long> bound_character_blacklist = { '+', '-', '=', KEY_ESCAPE };
+    const std::set<long> bound_character_blacklist = { '?', '+', '-', '=', KEY_ESCAPE };
     std::vector<std::string> filtered_registered_actions = org_registered_actions;
     std::string filter_phrase;
     std::string action;
