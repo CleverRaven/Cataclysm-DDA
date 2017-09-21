@@ -841,16 +841,8 @@ void input_context::display_help()
     enum { s_remove, s_add, s_add_global, s_show } status = s_show;
     // copy of registered_actions, but without the ANY_INPUT and COORDINATE, which should not be shown
     std::vector<std::string> org_registered_actions( registered_actions );
-    std::vector<std::string>::iterator any_input = std::find( org_registered_actions.begin(),
-            org_registered_actions.end(), ANY_INPUT );
-    if( any_input != org_registered_actions.end() ) {
-        org_registered_actions.erase( any_input );
-    }
-    std::vector<std::string>::iterator coordinate = std::find( org_registered_actions.begin(),
-            org_registered_actions.end(), COORDINATE );
-    if( coordinate != org_registered_actions.end() ) {
-        org_registered_actions.erase( coordinate );
-    }
+    org_registered_actions.erase( std::remove_if( org_registered_actions.begin(), org_registered_actions.end(),
+                [](const std::string &a){ return a == ANY_INPUT || a == COORDINATE; } ), org_registered_actions.end() );
 
     // colors of the keybindings
     static const nc_color global_key = c_ltgray;
