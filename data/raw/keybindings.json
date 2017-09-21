@@ -2253,6 +2253,30 @@
     },
     {
         "type" : "keybinding",
+        "id":"UP",
+        "category": "HELP_KEYBINDINGS",
+        "name":"Pan up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"UP"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"DOWN",
+        "category": "HELP_KEYBINDINGS",
+        "name":"Pan down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"DOWN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"REMOVE",
         "category":"HELP_KEYBINDINGS",
         "name":"Remove bindings",
