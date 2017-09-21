@@ -5158,5 +5158,81 @@
                 "panties"
             ]
         }
+    },
+        {
+        "type": "profession",
+        "ident": "bio_sci",
+        "name": "Bionics Scientist",
+        "description": "Before all this you studied bionics. You tried your experiments on animals and yourself.", 
+        "traits": [
+            "ANIMALDISCORD",
+            "PSYCHOPATH"
+        ],
+        "skills": [
+            {"level": 4, "name": "electronics"},
+            {"level": 3, "name": "mechanics"}
+        ],
+        "points": 4,
+        "CBMs": [
+            "bio_alarm",
+            "bio_geiger",
+            "bio_armor_head",
+            "bio_batteries"
+        ],                
+        "entries": [
+            { "item": "goggles_nv", "charges": 50}
+        ],
+        "items": {
+            "both":[
+                "coat_lab",
+                "socks",
+                "glasses_reading",
+                "pants",
+               "gloves_rubber",
+               "boots_rubber",
+               "id_science" 
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "druggie",
+        "name": "Meth Cook",
+        "description": "You made your living off of making and selling drugs.  At least now there are less cops, excluding the rotten ones & bots.",
+        "points": 2,
+        "traits": "ADDICTIVE",
+        "skills": [
+            { "level": 3, "name": "cooking"}
+        ],
+        "entries": [
+            { "item": "coke", "charges": 3, "container-item": "bottle_plastic_small" },
+            { "item": "weed", "charges": 1, "container-item": "bottle_plastic_small" }
+
+        ],
+        "items": {
+            "both": [
+                "textbook_chemistry",
+                "mask_filter",
+                "pipe_glass",
+                "joint",
+                "backpack",
+                "pants_cargo",
+                "technician_shirt_gray"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     }
 ]
