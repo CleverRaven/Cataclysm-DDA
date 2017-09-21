@@ -218,7 +218,15 @@ item &inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
             if( it_ref->merge_charges( newit ) ) {
                 return *it_ref;
             }
-            newit.invlet = it_ref->invlet;
+            if ( it_ref->invlet == '\0' ) {
+                if( !keep_invlet ) {
+                    update_invlet( newit, assign_invlet );
+                }
+                update_cache_with_item( newit );
+                it_ref->invlet = newit.invlet;
+            } else {
+                newit.invlet = it_ref->invlet;
+            }
             elem.push_back( newit );
             return elem.back();
         } else if( keep_invlet && assign_invlet && it_ref->invlet == newit.invlet ) {
