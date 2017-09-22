@@ -6866,7 +6866,7 @@ const martialart &player::get_combat_style() const
 std::vector<item *> player::inv_dump()
 {
     std::vector<item *> ret;
-    if( is_armed() && can_unwield( weapon, false ) ) {
+    if( is_armed() && can_unwield( weapon ).success() ) {
         ret.push_back(&weapon);
     }
     for (auto &i : worn) {
@@ -7742,74 +7742,63 @@ bool player::can_wear( const item& it, bool alert ) const
     return true;
 }
 
-bool player::can_wield( const item &it, bool alert ) const
+ret_val<bool> player::can_wield( const item &it ) const
 {
-    if( it.is_two_handed(*this) && ( !has_two_arms() || worn_with_flag("RESTRICT_HANDS") ) ) {
-        if( it.has_flag("ALWAYS_TWOHAND") ) {
-            if( alert ) {
-                add_msg( m_info, _("The %s can't be wielded with only one arm."), it.tname().c_str() );
-            }
-            if( worn_with_flag("RESTRICT_HANDS") ) {
-                add_msg( m_info, _("Something you are wearing hinders the use of both hands.") );
-            }
-        } else {
-            if( alert ) {
-                add_msg( m_info, _("You are too weak to wield %s with only one arm."),
-                         it.tname().c_str() );
-            }
-            if( worn_with_flag("RESTRICT_HANDS") ) {
-                add_msg( m_info, _("Something you are wearing hinders the use of both hands.") );
-            }
-        }
-        return false;
+    if( it.made_of( LIQUID ) ) {
+        return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
     }
-    return true;
+
+    if( it.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( "RESTRICT_HANDS" ) ) ) {
+        if( worn_with_flag( "RESTRICT_HANDS" ) ) {
+            return ret_val<bool>::make_failure( _( "Something you are wearing hinders the use of both hands." ) );
+        } else if( it.has_flag( "ALWAYS_TWOHAND" ) ) {
+            return ret_val<bool>::make_failure( _( "The %s can't be wielded with only one arm." ), it.tname().c_str() );
+        } else {
+            return ret_val<bool>::make_failure( _( "You are too weak to wield %s with only one arm." ), it.tname().c_str() );
+        }
+    }
+
+    return ret_val<bool>::make_success();
 }
 
-bool player::can_unwield( const item& it, bool alert ) const
+ret_val<bool> player::can_unwield( const item& it ) const
 {
     if( it.has_flag( "NO_UNWIELD" ) ) {
-        if( alert ) {
-            add_msg( m_info, _( "You cannot unwield your %s" ), it.tname().c_str() );
-        }
-        return false;
+        return ret_val<bool>::make_failure( _( "You cannot unwield your %s." ), it.tname().c_str() );
     }
 
-    return true;
+    return ret_val<bool>::make_success();
+}
+
+bool player::is_wielding( const item& target ) const
+{
+    return &weapon == &target;
 }
 
 bool player::wield( item& target )
 {
-    if( !can_unwield( weapon ) || !can_wield( target ) ) {
+    if( is_wielding( target ) ) {
+        return true;
+    }
+
+    if( !can_wield( target ).success() ) {
+        return false;
+    }
+
+    if( !unwield() ) {
         return false;
     }
 
     if( target.is_null() ) {
-        return dispose_item( item_location( *this, &weapon ),
-                             string_format( _( "Stop wielding %s?" ), weapon.tname().c_str() ) );
+        return true;
     }
-
-    if( &weapon == &target ) {
-        add_msg( m_info, _( "You're already wielding that!" ) );
-        return false;
-    }
-
-    int mv = 0;
-
-    if( is_armed() ) {
-        if( !wield( ret_null ) ) {
-            return false;
-        }
-        inv.unsort();
-    }
-
     // Wielding from inventory is relatively slow and does not improve with increasing weapon skill.
     // Worn items (including guns with shoulder straps) are faster but still slower
     // than a skilled player with a holster.
     // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
 
     bool worn = is_worn( target );
-    mv += item_handling_cost( target, true, worn ? INVENTORY_HANDLING_PENALTY / 2 : INVENTORY_HANDLING_PENALTY );
+    int mv = item_handling_cost( target, true, worn ? INVENTORY_HANDLING_PENALTY / 2 : INVENTORY_HANDLING_PENALTY );
 
     if( worn ) {
         target.on_takeoff( *this );
@@ -7825,11 +7814,33 @@ bool player::wield( item& target )
     }
 
     last_item = weapon.typeId();
+    recoil = MAX_RECOIL;
 
     weapon.on_wield( *this, mv );
 
     inv.update_invlet( weapon );
     inv.update_cache_with_item( weapon );
+
+    return true;
+}
+
+bool player::unwield()
+{
+    if( weapon.is_null() ) {
+        return true;
+    }
+
+    if( !can_unwield( weapon ).success() ) {
+        return false;
+    }
+
+    const std::string query = string_format( _( "Stop wielding %s?" ), weapon.tname().c_str() );
+
+    if ( !dispose_item( item_location( *this, &weapon ), query ) ) {
+        return false;
+    }
+
+    inv.unsort();
 
     return true;
 }
@@ -8555,7 +8566,7 @@ void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &w
     activity.placement = target - pos();
 
     for( auto item_pair : what ) {
-        if( can_unwield( i_at( item_pair.first ) ) ) {
+        if( can_unwield( i_at( item_pair.first ) ).success() ) {
             activity.values.push_back( item_pair.first );
             activity.values.push_back( item_pair.second );
         }
@@ -10904,14 +10915,16 @@ bool player::wield_contents( item &container, int pos, bool penalties, int base_
     }
 
     auto target = std::next( container.contents.begin(), pos );
-    if( !can_wield( *target ) ) {
+    const auto ret = can_wield( *target );
+    if( !ret.success() ) {
+        add_msg_if_player( m_info, "%s", ret.c_str() );
         return false;
     }
 
     int mv = 0;
 
     if( is_armed() ) {
-        if( !wield( ret_null ) ) {
+        if( !wield( weapon ) ) {
             return false;
         }
         inv.unsort();
