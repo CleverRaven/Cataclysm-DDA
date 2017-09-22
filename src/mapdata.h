@@ -173,6 +173,7 @@ enum ter_bitflags : int {
     TFLAG_NO_FLOOR,
     TFLAG_SEEN_FROM_ABOVE,
     TFLAG_RAMP,
+    TFLAG_NEST,
 
     NUM_TERFLAGS
 };

@@ -973,8 +973,9 @@
     "melee_dice_sides": 1,
     "melee_cut": 1,
     "dodge": 4,
+    "special_attacks": [ [ "LAY_EGG", 1 ] ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BONES", "FEATHER", "FAT" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BONES", "FEATHER", "FAT", "EGGLAYING" ]
   },
   {
     "id": "mon_chickenbot",

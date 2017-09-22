@@ -83,6 +83,7 @@ bool stretch_bite       (monster *z);
 bool kamikaze           (monster *z);
 bool grenadier          (monster *z);
 bool grenadier_elite    (monster *z);
+bool lay_egg            ( monster *z );
 
 void taze               (monster *z, Creature *target);
 void rifle              (monster *z, Creature *target); // Automated M4

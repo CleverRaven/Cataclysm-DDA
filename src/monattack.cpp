@@ -108,6 +108,7 @@ const efftype_id effect_slimed( "slimed" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_targeted( "targeted" );
 const efftype_id effect_teleglow( "teleglow" );
+const efftype_id effect_laid_egg( "laid_egg" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
@@ -4646,4 +4647,21 @@ bool mattack::dodge_check( monster *z, Creature *target ) {
         return true;
     }
     return false;
+}
+
+bool mattack::lay_egg( monster *z )
+{
+    monster &critter = *z;
+    // If the monster is in a tile with the NEST flag, lay egg
+    // Second has_effect check to avoid laying more than one egg while stumble() is called
+    if( g->m.has_flag_furn( TFLAG_NEST, critter.pos() ) && !critter.has_effect( effect_laid_egg ) ) {
+        item egg( "egg_bird", 0, 1 );
+        g->m.add_item_or_charges( critter.pos(), egg );
+        critter.add_effect( effect_laid_egg, HOURS( 48 ) );
+        return true;
+    } else {
+        return false;
+    }
+
+
 }

@@ -2371,5 +2371,19 @@
         ],
         "pre_terrain" : "t_reinforced_glass",
         "post_terrain" : "t_reinforced_glass_shutter"
-    }
+    },{
+    "type": "construction",
+    "category": "FURN",
+    "required_skills" : [ [ "fabrication", 1 ] ],
+    "description": "Build makeshift nest",
+    "time": 35,
+    "post_terrain": "f_makeshift_nest",
+    "pre_special": "check_empty",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [
+      [ [ "2x4", 6 ] ],
+      [ [ "nail", 12 ] ],
+      [ [ "rag", 10 ] ]
+    ]
+  }
 ]

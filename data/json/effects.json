@@ -1678,6 +1678,13 @@
     },
     {
         "type": "effect_type",
+        "id": "laid_egg",
+        "name": [ "Laid egg" ],
+        "desc": [ "This creature has laid an egg" ],
+        "max_duration": 2400
+    },
+    {
+        "type": "effect_type",
         "id": "milked",
         "name": [ "Milked" ],
         "desc": [ "The creature has been partially or fully milked." ],

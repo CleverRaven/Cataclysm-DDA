@@ -13956,3 +13956,4 @@ std::vector<npc *> game::allies()
     } );
     return res;
 }
+

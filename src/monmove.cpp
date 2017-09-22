@@ -35,6 +35,7 @@ const efftype_id effect_downed( "downed" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_pushed( "pushed" );
 const efftype_id effect_stunned( "stunned" );
+const efftype_id effect_laid_egg( "laid_egg" );
 
 bool monster::wander()
 {
@@ -319,7 +320,6 @@ void monster::plan( const mfactions &factions )
             }
         }
     }
-
     if( target != nullptr ) {
 
         tripoint dest = target->pos();
@@ -646,7 +646,7 @@ void monster::move()
         }
     } else {
         moves -= 100;
-        stumble();
+        on_idle();
         path.clear();
     }
 }
@@ -1443,3 +1443,22 @@ int monster::turns_to_reach( int x, int y )
 
     return int( turns + .9 ); // Halve (to get turns) and round up
 }
+
+void monster::on_idle()
+{
+    if( has_flag( MF_EGGLAYING ) && !has_effect( effect_laid_egg ) ) {
+        const int range = 15;
+        // Loop to find the closest furniture with NEST flag and set it as destination
+        for( tripoint &p : closest_tripoints_first( range, pos() ) ) {
+            if( sees( p ) && g->m.has_flag_furn( TFLAG_NEST, p ) ) {
+                set_dest( p );
+                break;
+            }
+        }
+        // if there's no special action to do, stumble
+    } else {
+        stumble();
+    }
+
+}
+

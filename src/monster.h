@@ -323,6 +323,12 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         /** Returns vector containing all body parts this monster has. That is, { bp_torso } */
         std::vector<body_part> get_all_body_parts( bool main = false ) const override;
 
+        /*
+        * Decides what to do in case the monster is idle.
+        * If more idle actions are added change if loop for on_idle json-coded function wrapper.
+        */
+        void on_idle();
+
         /** Resets a given special to its monster type cooldown value */
         void reset_special( const std::string &special_name );
         /** Resets a given special to a value between 0 and its monster type cooldown value. */
