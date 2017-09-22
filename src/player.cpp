@@ -10630,26 +10630,13 @@ int player::adjust_for_focus(int amount) const
         effective_focus -= 15;
     }
     double tmp = amount * (effective_focus / 100.0);
-    int ret = int(tmp);
-    if (rng(0, 100) < 100 * (tmp - ret))
-    {
-        ret++;
-    }
-    return ret;
+    return roll_remainder(tmp);
 }
 
 void player::practice( const skill_id &id, int amount, int cap )
 {
     SkillLevel &level = get_skill_level( id );
     const Skill &skill = id.obj();
-    // Double amount, but only if level.exercise isn't a small negative number?
-    if (level.exercise() < 0) {
-        if (amount >= -level.exercise()) {
-            amount -= level.exercise();
-        } else {
-            amount += amount;
-        }
-    }
 
     if( !level.can_train() ) {
         // If leveling is disabled, don't train, don't drain focus, don't print anything

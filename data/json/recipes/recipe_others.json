@@ -7001,5 +7001,19 @@
   "autolearn": true,
   "qualities" : [ {"id":"CUT","level":1} ],
   "components": [ [ [ "2x4", 1 ] ] ]
+},{
+  "type" : "recipe",
+  "result": "ash",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "survival",
+  "time": 15000,
+  "autolearn": true,
+  "tools": [
+    [ [ "fire", -1 ] ]
+  ],
+  "components": [
+    [ [ "splinter", 5 ], [ "2x4", 1 ], [ "stick", 1 ] ]
+  ]
 }
 ]

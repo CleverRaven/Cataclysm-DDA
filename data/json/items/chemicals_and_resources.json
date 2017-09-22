@@ -787,5 +787,39 @@
     "ammo_type" : "components",
     "container" : "box_small",
     "count" : 20
+   },
+   {
+    "type" : "COMESTIBLE",
+    "id" : "lye",
+    "name" : "lye",
+    "name_plural" : "lye",
+    "weight" : 125,
+    "color" : "white",
+    "container" : "bottle_plastic",
+    "symbol" : "~",
+    "quench" : -96,
+    "healthy" : -20,
+    "description" : "This is a liquid form of sodium hydroxide.  It is highly corrosive, handle with care.",
+    "price" : 100,
+    "volume" : 1,
+    "phase" : "liquid",
+    "category" : "chems",
+    "fun": -20
+   },
+   {
+    "type" : "AMMO",
+    "id" : "ash",
+    "category" : "chems",
+    "price" : 0,
+    "name" : "wood ash",
+    "name_plural" : "wood ashes",
+    "symbol" : "=",
+    "color" : "gray",
+    "description" : "This is almost weightless residue left after the burning of some substance.",
+    "material" : "powder",
+    "volume" : 1,
+    "weight" : 10,
+    "ammo_type" : "components",
+    "count" : 10
    }
 ]

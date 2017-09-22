@@ -135,23 +135,34 @@ bool Skill::is_contextual_skill() const
     return _tags.count( "contextual_skill" ) > 0;
 }
 
-SkillLevel::SkillLevel(int level, int exercise, bool isTraining, int lastPracticed)
-  : _level(level), _exercise(exercise), _lastPracticed(lastPracticed), _isTraining(isTraining)
+SkillLevel::SkillLevel( int level, int exercise, bool isTraining, int lastPracticed,
+                        int highestLevel )
+    : _level( level ), _exercise( exercise ), _lastPracticed( lastPracticed ),
+      _isTraining( isTraining ), _highestLevel( highestLevel )
 {
-    if (lastPracticed <= 0) {
-        _lastPracticed = HOURS(get_option<int>( "INITIAL_TIME" ) );
+    if( lastPracticed <= 0 ) {
+        _lastPracticed = HOURS( get_option<int>( "INITIAL_TIME" ) );
+    }
+    if( _highestLevel < _level ) {
+        _highestLevel = _level;
     }
 }
 
-SkillLevel::SkillLevel(int minLevel, int maxLevel, int minExercise, int maxExercise,
-                       bool isTraining, int lastPracticed)
-  : SkillLevel(rng(minLevel, maxLevel), rng(minExercise, maxExercise), isTraining, lastPracticed)
+SkillLevel::SkillLevel( int minLevel, int maxLevel, int minExercise, int maxExercise, bool isTraining,
+                        int lastPracticed, int highestLevel )
+  : SkillLevel( rng( minLevel, maxLevel ), rng( minExercise, maxExercise ), isTraining,
+                lastPracticed, highestLevel )
 
 {
 }
 
 void SkillLevel::train(int amount, bool skip_scaling)
 {
+    // Working off rust to regain levels goes twice as fast as reaching levels in the first place
+    if (_level < _highestLevel) {
+        amount *= 2;
+    }
+
     if( skip_scaling ) {
         _exercise += amount;
     } else {
@@ -164,6 +175,9 @@ void SkillLevel::train(int amount, bool skip_scaling)
     if( _exercise >= 100 * (_level + 1) * (_level + 1) ) {
         _exercise = 0;
         ++_level;
+        if (_level > _highestLevel) {
+            _highestLevel = _level;
+        }
     }
 }
 
