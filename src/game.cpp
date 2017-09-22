@@ -767,6 +767,7 @@ void game::setup()
 
     // reset kill counts
     kills.clear();
+    npc_kills.clear();
     scent.reset();
 
     remoteveh_cache_turn = INT_MIN;
@@ -10823,44 +10824,43 @@ bool game::unload( item &it )
 
 void game::wield( int pos )
 {
-    if( u.weapon.has_flag( "NO_UNWIELD" ) ) {
-        // Bionics can't be unwielded
-        add_msg( m_info, _( "You cannot unwield your %s." ), u.weapon.tname().c_str() );
-        return;
-    }
+    item_location loc( u, &u.i_at( pos ) );
+    wield( loc );
+}
 
-    item_location loc;
-    if( pos != INT_MIN ) {
-        loc = item_location( u, &u.i_at( pos ) );
-    } else {
-        const auto filter = []( const item &it ) {
-            return it.made_of( SOLID );
-        };
-        loc = inv_map_splice( filter, _( "Wield item" ), 1, _( "You have nothing to wield." ) );
-    }
+void game::wield( item_location& loc )
+{
+    if( u.is_armed() ) {
+        const bool is_unwielding = u.is_wielding( *loc );
+        const auto ret = u.can_unwield( *loc );
 
-    if( !loc ) {
-        add_msg( _( "Never mind." ) );
-        return;
-    }
-
-    // Minor hack: special case owned weapons here
-    // @todo Move that to player::wield
-    bool in_inv = loc.where() == item_location::type::character;
-
-    // Weapons need invlets to access, give one if not already assigned.
-    item &it = *loc;
-    if( !it.is_null() && it.invlet == 0 ) {
-        u.inv.assign_empty_invlet( it, true );
-    }
-
-    // If called for the current weapon then try unwielding it
-    if( u.wield( &it == &u.weapon ? u.ret_null : it ) ) {
-        u.recoil = MAX_RECOIL;
-        // Rest of the hack: remove the item if it wasn't removed in player::wield
-        if( !in_inv ) {
-            loc.remove_item();
+        if( !ret.success() ) {
+            add_msg( m_info, "%s", ret.c_str() );
         }
+
+        u.unwield();
+
+        if( is_unwielding ) {
+            return;
+        }
+    }
+
+    const auto ret = u.can_wield( *loc );
+    if( !ret.success() ) {
+        add_msg( m_info, "%s", ret.c_str() );
+    }
+
+    u.wield( u.i_at( loc.obtain( u ) ) );
+}
+
+void game::wield()
+{
+    item_location loc = game_menus::inv::wield( u );
+
+    if( loc ) {
+        wield( loc );
+    } else {
+        add_msg( _( "Never mind." ) );
     }
 }
 
@@ -13631,14 +13631,11 @@ void game::process_artifact(item *it, player *p)
             break;
 
         case AEP_SMOKE:
-            if (one_in(10)) {
-                tripoint pt( p->posx() + rng(-1, 1),
-                             p->posy() + rng(-1, 1),
+            if( one_in( 10 ) ) {
+                tripoint pt( p->posx() + rng( -1, 1 ),
+                             p->posy() + rng( -1, 1 ),
                              p->posz() );
-                if( m.add_field( pt, fd_smoke, rng(1, 3), 0 ) ) {
-                    add_msg(_("The %s emits some smoke."),
-                            it->tname().c_str());
-                }
+                m.add_field( pt, fd_smoke, rng( 1, 3 ), 0 );
             }
             break;
 
@@ -13889,6 +13886,10 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 
         case AEP_SICK:
             add_msg(m_bad, _("You feel unwell."));
+            break;
+
+        case AEP_SMOKE:
+            add_msg( m_warning, _( "A cloud of smoke appears." ) );
             break;
         default:
             //Suppress warnings

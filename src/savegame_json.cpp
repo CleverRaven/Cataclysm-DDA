@@ -188,10 +188,11 @@ void player_activity::deserialize(JsonIn &jsin)
 void SkillLevel::serialize(JsonOut &json) const
 {
     json.start_object();
-    json.member("level", level() );
-    json.member("exercise", exercise(true) );
-    json.member("istraining", isTraining() );
-    json.member("lastpracticed", int ( lastPracticed() ) );
+    json.member( "level", level() );
+    json.member( "exercise", exercise( true ) );
+    json.member( "istraining", isTraining() );
+    json.member( "lastpracticed", int( lastPracticed() ) );
+    json.member( "highestlevel", highestLevel() );
     json.end_object();
 }
 
@@ -203,10 +204,14 @@ void SkillLevel::deserialize(JsonIn &jsin)
     data.read( "exercise", _exercise );
     data.read( "istraining", _isTraining );
     data.read( "lastpracticed", lastpractice );
+    data.read( "highestlevel", _highestLevel );
     if(lastpractice == 0) {
         _lastPracticed = HOURS( get_option<int>( "INITIAL_TIME" ) );
     } else {
         _lastPracticed = lastpractice;
+    }
+    if( _highestLevel < _level ) {
+        _highestLevel = _level;
     }
 }
 
@@ -1262,7 +1267,7 @@ void inventory::json_save_items(JsonOut &json) const
     json.start_array();
     for( const auto &elem : items ) {
         for( const auto &elem_stack_iter : elem ) {
-            elem_stack_iter.serialize( json, true );
+            elem_stack_iter.serialize( json );
         }
     }
     json.end_array();
@@ -1647,9 +1652,8 @@ void item::deserialize(JsonObject &data)
     io( archive );
 }
 
-void item::serialize(JsonOut &json, bool save_contents) const
+void item::serialize(JsonOut &json) const
 {
-    (void) save_contents;
     io::JsonObjectOutputArchive archive( json );
     const_cast<item*>(this)->io( archive );
 }

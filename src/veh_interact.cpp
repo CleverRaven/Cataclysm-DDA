@@ -271,10 +271,10 @@ bool veh_interact::format_reqs( std::ostringstream& msg, const requirement_data 
         msg << string_format( "> <color_%1$s>%2$s</color>", status_color( true ), _( "NONE" ) ) << "\n";
     }
 
-    auto comps = reqs.get_folded_components_list( getmaxx( w_msg ), c_white, inv );
+    auto comps = reqs.get_folded_components_list( getmaxx( w_msg ) - 2, c_white, inv );
     std::copy( comps.begin(), comps.end(), std::ostream_iterator<std::string>( msg, "\n" ) );
 
-    auto tools = reqs.get_folded_tools_list( getmaxx( w_msg ), c_white, inv );
+    auto tools = reqs.get_folded_tools_list( getmaxx( w_msg ) - 2, c_white, inv );
     std::copy( tools.begin(), tools.end(), std::ostream_iterator<std::string>( msg, "\n" ) );
 
     return ok;
@@ -1314,7 +1314,7 @@ bool veh_interact::can_remove_part( int idx ) {
                           status_color( use_str ), str ) << "\n";
 
     if( !veh->can_unmount( idx ) ) {
-        msg << string_format( _( "> <color_%1$s>%2$s</color>" ), status_color( false ), "Remove attached parts first" ) << "\n";
+        msg << string_format( _( "> <color_%1$s>%2$s</color>" ), status_color( false ), _( "Remove attached parts first" ) ) << "\n";
         ok = false;
     }
 

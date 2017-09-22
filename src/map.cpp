@@ -7861,7 +7861,7 @@ void map::draw_fill_background( ter_id( *f )() )
 {
     draw_square_ter( f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1 );
 }
-void map::draw_fill_background( const id_or_id<ter_t> &f )
+void map::draw_fill_background( const weighted_int_list<ter_id> &f )
 {
     draw_square_ter( f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1 );
 }
@@ -7887,10 +7887,11 @@ void map::draw_square_ter( ter_id( *f )(), int x1, int y1, int x2, int y2 )
     }, x1, y1, x2, y2 );
 }
 
-void map::draw_square_ter( const id_or_id<ter_t> &f, int x1, int y1, int x2, int y2 )
+void map::draw_square_ter( const weighted_int_list<ter_id> &f, int x1, int y1, int x2, int y2 )
 {
     draw_square( [this, f]( int x, int y ) {
-        this->ter_set( x, y, f.get() );
+        const ter_id *tid = f.pick();
+        this->ter_set( x, y, tid != nullptr ? *tid : t_null );
     }, x1, y1, x2, y2 );
 }
 

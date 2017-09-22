@@ -401,9 +401,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     using archive_type_tag = io::object_archive_tag;
 
     using JsonSerializer::serialize;
-    // give the option not to save recursively, but recurse by default
-    void serialize(JsonOut &jsout) const override { serialize(jsout, true); }
-    virtual void serialize(JsonOut &jsout, bool save_contents) const;
+    void serialize( JsonOut &jsout ) const override;
     using JsonDeserializer::deserialize;
     // easy deserialization from JsonObject
     virtual void deserialize(JsonObject &jo);

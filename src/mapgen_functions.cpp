@@ -41,8 +41,7 @@ const mtype_id mon_zombie( "mon_zombie" );
 
 mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west,
                         oter_id northeast, oter_id southeast, oter_id southwest, oter_id northwest,
-                        oter_id up, int z, const regional_settings *rsettings, map *mp ) :
-    default_groundcover( t_null, 1, t_null )
+                        oter_id up, int z, const regional_settings *rsettings, map *mp )
 {
     t_nesw[0] = north;
     t_nesw[1] = east;
@@ -65,10 +64,7 @@ mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west
     region = rsettings;
     m = mp;
     // making a copy so we can fudge values if desired
-    default_groundcover.chance = region->default_groundcover.chance;
-    default_groundcover.primary = region->default_groundcover.primary;
-    default_groundcover.secondary = region->default_groundcover.secondary;
-
+    default_groundcover = region->default_groundcover;
 }
 
 tripoint rotate_point( const tripoint &p, int rotations )
@@ -387,12 +383,19 @@ void mapgendata::square_groundcover(const int x1, const int y1, const int x2, co
 void mapgendata::fill_groundcover() {
     m->draw_fill_background( this->default_groundcover );
 }
-bool mapgendata::is_groundcover(const ter_id iid ) const {
-    return this->default_groundcover.match( iid );
+bool mapgendata::is_groundcover( const ter_id iid ) const {
+    for( const auto &pr : default_groundcover ) {
+        if( pr.obj == iid ) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 ter_id mapgendata::groundcover() {
-    return this->default_groundcover.get();
+    const ter_id *tid = default_groundcover.pick();
+    return tid != nullptr ? *tid : t_null;
 }
 
 void mapgen_rotate( map * m, oter_id terrain_type, bool north_is_down ) {

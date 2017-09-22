@@ -605,7 +605,7 @@ void advanced_inv_area::init()
         case AIM_DRAGGED:
             if( g->u.grab_type != OBJECT_VEHICLE ) {
                 canputitemsloc = false;
-                desc[0] = _( "Not dragging any vehicle" );
+                desc[0] = _( "Not dragging any vehicle!" );
                 break;
             }
             // offset for dragged vehicles is not statically initialized, so get it
@@ -623,7 +623,7 @@ void advanced_inv_area::init()
             } else {
                 veh = nullptr;
                 canputitemsloc = false;
-                desc[0] = _( "No dragged vehicle" );
+                desc[0] = _( "No dragged vehicle!" );
             }
             break;
         case AIM_CONTAINER:
@@ -633,7 +633,7 @@ void advanced_inv_area::init()
             // and depends on selected item in pane (if it is valid container)
             canputitemsloc = true;
             if( get_container() == nullptr ) {
-                desc[0] = _( "Invalid container" );
+                desc[0] = _( "Invalid container!" );
             }
             break;
         case AIM_ALL:
@@ -1470,7 +1470,7 @@ void advanced_inventory::display()
         } else if (action == "SAVE_DEFAULT") {
             uistate.adv_inv_default_areas[left] = panes[left].get_area();
             uistate.adv_inv_default_areas[right] = panes[right].get_area();
-            popup( _( "Default layout was saved" ) );
+            popup( _( "Default layout was saved." ) );
             redraw = true;
         } else if( get_square( action, changeSquare ) ) {
             if( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) {
@@ -1886,7 +1886,7 @@ bool advanced_inventory::query_destination( aim_location &def )
         if( squares[def].canputitems() ) {
             return true;
         }
-        popup( _( "You can't put items there" ) );
+        popup( _( "You can't put items there!" ) );
         redraw = true; // the popup has messed the screen up.
         return false;
     }

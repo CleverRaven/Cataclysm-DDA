@@ -521,7 +521,7 @@ void computer::activate_function(computer_action action, char ch)
         // Target Acquisition.
         tripoint target = overmap::draw_overmap(0);
         if (target == overmap::invalid_tripoint) {
-            add_msg(m_info, _("Target acquisition canceled"));
+            add_msg(m_info, _("Target acquisition canceled."));
             return;
         }
         if(query_yn(_("Confirm nuclear missile launch."))) {

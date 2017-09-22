@@ -2784,7 +2784,7 @@ int iuse::noise_emitter_on(player *p, item *it, bool t, const tripoint &pos)
     return it->type->charges_to_use();
 }
 
-int iuse::ma_manual(player *p, item *it, bool, const tripoint& )
+int iuse::ma_manual( player *p, item *it, bool, const tripoint& )
 {
     // [CR] - should NPCs just be allowed to learn this stuff? Just like that?
 
@@ -2792,14 +2792,14 @@ int iuse::ma_manual(player *p, item *it, bool, const tripoint& )
     // TODO: replace this terrible hack to rely on the item name matching the style name, it's terrible.
     const matype_id style_to_learn( "style_" + it->typeId().substr(7) );
 
-    if (p->has_martialart(style_to_learn)) {
-        p->add_msg_if_player(m_info, _("You already know all this book has to teach."));
+    if( p->has_martialart( style_to_learn ) ) {
+        p->add_msg_if_player( m_info, _( "You already know all this book has to teach." ) );
         return 0;
     }
 
-    p->ma_styles.push_back(style_to_learn);
+    p->ma_styles.push_back( style_to_learn );
 
-    p->add_msg_if_player(m_good, _("You learn what you can, and stow the book for further study."));
+    p->add_msg_if_player( m_good, _( "You learn the essential elements of the style." ) );
 
     return 1;
 }
@@ -7872,38 +7872,6 @@ int iuse::ladder( player *p, item *, bool, const tripoint& )
     p->moves -= 500;
     g->m.furn_set( dirp, furn_str_id( "f_ladder" ) );
     return 1;
-}
-
-int iuse::saw_barrel( player *p, item *, bool t, const tripoint& )
-{
-    if( p == nullptr || t ) {
-        return 0;
-    }
-
-    auto filter = []( const item& e ) {
-        if( !e.is_gun() || e.type->gun->barrel_length <= 0 ) {
-            return false;
-        }
-
-        const auto gunmods = e.gunmods();
-        // cannot saw down barrel of gun that already has a barrel mod
-        return std::none_of( gunmods.begin(), gunmods.end(), []( const item *mod ) {
-            return mod->type->gunmod->location == gunmod_location( "barrel" );
-        });
-    };
-
-    const int pos = g->inv_for_filter( _( "Saw barrel?" ), filter, _( "You don't have guns with long barrels." ) );
-
-    if( pos == INT_MIN ) {
-        p->add_msg_if_player( _( "Never mind." ) );
-        return 0;
-    }
-
-    item &obj = p->i_at( pos );
-    p->add_msg_if_player( _( "You saw down the barrel of your %s" ), obj.tname().c_str() );
-    obj.contents.emplace_back( "barrel_small", calendar::turn );
-
-    return 0;
 }
 
 int iuse::washclothes( player *p, item *it, bool, const tripoint& )

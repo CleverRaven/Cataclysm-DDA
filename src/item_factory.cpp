@@ -560,7 +560,6 @@ void Item_factory::init()
     add_iuse( "RM13ARMOR_ON", &iuse::rm13armor_on );
     add_iuse( "ROBOTCONTROL", &iuse::robotcontrol );
     add_iuse( "ROYAL_JELLY", &iuse::royal_jelly );
-    add_iuse( "SAW_BARREL", &iuse::saw_barrel );
     add_iuse( "SEED", &iuse::seed );
     add_iuse( "SEWAGE", &iuse::sewage );
     add_iuse( "SEW_ADVANCED", &iuse::sew_advanced );
@@ -618,7 +617,7 @@ void Item_factory::init()
     add_actor( new ups_based_armor_actor() );
     add_actor( new place_trap_actor() );
     add_actor( new emit_actor() );
-
+    add_actor( new saw_barrel_actor() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups["EMPTY_GROUP"] = new Item_group( Item_group::G_COLLECTION, 100, 0, 0 );

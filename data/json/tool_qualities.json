@@ -38,7 +38,7 @@
         "type" : "tool_quality",
         "id" : "SAW_M",
         "name" : "metal sawing",
-        "usages": [ [ 2, [ "HACKSAW", "SAW_BARREL" ] ] ]
+        "usages": [ [ 2, [ "HACKSAW", "saw_barrel" ] ] ]
     },{
         "type" : "tool_quality",
         "id" : "SAW_M_FINE",
