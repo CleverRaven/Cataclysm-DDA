@@ -13632,14 +13632,11 @@ void game::process_artifact(item *it, player *p)
             break;
 
         case AEP_SMOKE:
-            if (one_in(10)) {
-                tripoint pt( p->posx() + rng(-1, 1),
-                             p->posy() + rng(-1, 1),
+            if( one_in( 10 ) ) {
+                tripoint pt( p->posx() + rng( -1, 1 ),
+                             p->posy() + rng( -1, 1 ),
                              p->posz() );
-                if( m.add_field( pt, fd_smoke, rng(1, 3), 0 ) ) {
-                    add_msg(_("The %s emits some smoke."),
-                            it->tname().c_str());
-                }
+                m.add_field( pt, fd_smoke, rng( 1, 3 ), 0 );
             }
             break;
 
@@ -13890,6 +13887,10 @@ void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 
         case AEP_SICK:
             add_msg(m_bad, _("You feel unwell."));
+            break;
+
+        case AEP_SMOKE:
+            add_msg( m_warning, _( "A cloud of smoke appears." ) );
             break;
         default:
             //Suppress warnings
