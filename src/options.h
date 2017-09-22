@@ -69,7 +69,7 @@ class options_manager : public JsonSerializer, public JsonDeserializer
                 std::string getTooltip() const;
                 std::string getType() const;
 
-                std::string getValue() const;
+                std::string getValue( bool classis_locale = false ) const;
                 /// The translated currently selected option value.
                 std::string getValueName() const;
                 std::string getDefaultText( const bool bTranslated = true ) const;
