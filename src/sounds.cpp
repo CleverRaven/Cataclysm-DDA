@@ -211,8 +211,8 @@ void sounds::process_sounds()
             overmap_buffer.signal_hordes( target, sig_power );
         }
         // Alert all monsters (that can hear) to the sound.
-        for (int i = 0, numz = g->num_zombies(); i < numz; i++) {
-            monster &critter = g->zombie(i);
+        for( monster &critter : g->all_monsters() ) {
+            // @todo Generalize this to Creature::hear_sound
             const int dist = rl_dist( source, critter.pos() );
             if( vol * 2 > dist ) {
                 // Exclude monsters that certainly won't hear the sound

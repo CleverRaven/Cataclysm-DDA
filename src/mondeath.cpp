@@ -447,21 +447,19 @@ void mdeath::blobsplit(monster *z)
 }
 
 void mdeath::brainblob(monster *z) {
-    for( size_t i = 0; i < g->num_zombies(); i++ ) {
-        monster *candidate = &g->zombie( i );
-        if(candidate->type->in_species( BLOB ) && candidate->type->id != mon_blob_brain ) {
-            candidate->remove_effect( effect_controlled);
+    for( monster &critter : g->all_monsters() ) {
+        if(critter.type->in_species( BLOB ) && critter.type->id != mon_blob_brain ) {
+            critter.remove_effect( effect_controlled);
         }
     }
     blobsplit(z);
 }
 
 void mdeath::jackson(monster *z) {
-    for( size_t i = 0; i < g->num_zombies(); i++ ) {
-        monster *candidate = &g->zombie( i );
-        if(candidate->type->id == mon_zombie_dancer ) {
-            candidate->poly( mon_zombie_hulk );
-            candidate->remove_effect( effect_controlled);
+    for( monster &critter : g->all_monsters() ) {
+        if(critter.type->id == mon_zombie_dancer ) {
+            critter.poly( mon_zombie_hulk );
+            critter.remove_effect( effect_controlled);
         }
         if (g->u.sees( *z )) {
             add_msg(m_warning, _("The music stops!"));
@@ -647,10 +645,10 @@ void mdeath::gameover(monster *z)
 void mdeath::kill_breathers(monster *z)
 {
     (void)z; //unused
-    for (size_t i = 0; i < g->num_zombies(); i++) {
-        const mtype_id& monID = g->zombie(i).type->id;
+    for( monster &critter : g->all_monsters() ) {
+        const mtype_id& monID = critter.type->id;
         if (monID == mon_breather_hub || monID == mon_breather) {
-            g->zombie(i).die( nullptr );
+            critter.die( nullptr );
         }
     }
 }

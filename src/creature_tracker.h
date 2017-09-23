@@ -46,6 +46,10 @@ class Creature_tracker
         /** Kills 0 hp monsters. Returns if it killed any. */
         bool kill_marked_for_death();
 
+        const std::vector<std::shared_ptr<monster>> &get_monsters_list() const {
+            return monsters_list;
+        }
+
     private:
         std::vector<std::shared_ptr<monster>> monsters_list;
         std::unordered_map<tripoint, std::shared_ptr<monster>> monsters_by_location;

@@ -2345,16 +2345,10 @@ const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) con
 std::set<tripoint> npc::get_path_avoid() const
 {
     std::set<tripoint> ret;
-    ret.insert( g->u.pos() );
-    for( size_t i = 0; i < g->num_zombies(); i++ ) {
+    for( Creature &critter : g->all_creatures() ) {
         // @todo Cache this somewhere
-        ret.insert( g->zombie( i ).pos() );
+        ret.insert( critter.pos() );
     }
-
-    for( const auto &np : g->active_npc ) {
-        ret.insert( np->pos() );
-    }
-
     return ret;
 }
 

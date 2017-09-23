@@ -641,12 +641,10 @@ void iexamine::cardreader(player &p, const tripoint &examp)
             }
         }
         //TODO only despawn turrets "behind" the door
-        for (int i = 0; i < (int)g->num_zombies(); i++) {
-            monster &critter = g->zombie( i );
+        for( monster &critter : g->all_monsters() ) {
             if( ( critter.type->id == mon_turret ) ||
-                 ( critter.type->id == mon_turret_rifle ) ) {
+                ( critter.type->id == mon_turret_rifle ) ) {
                 g->remove_zombie( critter );
-                i--;
             }
         }
         add_msg(_("You insert your ID card."));

@@ -329,6 +329,79 @@ class game
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &first, Creature &second );
 
+    private:
+        friend class monster_range;
+        friend class Creature_range;
+
+        template<typename T>
+        class non_dead_range {
+            public:
+                std::vector<std::weak_ptr<T>> items;
+
+                class iterator {
+                    private:
+                        bool valid();
+                    public:
+                        std::vector<std::weak_ptr<T>> &items;
+                        typename std::vector<std::weak_ptr<T>>::iterator iter;
+                        std::shared_ptr<T> current;
+
+                        iterator( std::vector<std::weak_ptr<T>> &i, const typename std::vector<std::weak_ptr<T>>::iterator t ) : items( i ), iter( t ) {
+                            while( iter != items.end() && !valid() ) {
+                                ++iter;
+                            }
+                        }
+                        iterator( const iterator & ) = default;
+                        iterator &operator=( const iterator & ) = default;
+
+                        bool operator==( const iterator &rhs ) const {
+                            return iter == rhs.iter;
+                        }
+                        bool operator!=( const iterator &rhs ) const {
+                            return !operator==( rhs );
+                        }
+                        iterator &operator++() {
+                            do {
+                                ++iter;
+                            } while( iter != items.end() && !valid() );
+                            return *this;
+                        }
+                        T &operator*() const {
+                            return *current;
+                        }
+                };
+                iterator begin() {
+                    return iterator( items, items.begin() );
+                }
+                iterator end() {
+                    return iterator( items, items.end() );
+                }
+        };
+
+        class monster_range : public non_dead_range<monster> {
+            public:
+                monster_range( game &g );
+        };
+
+        class Creature_range : public non_dead_range<Creature> {
+            private:
+                std::shared_ptr<player> u;
+
+            public:
+                Creature_range( game &g );
+        };
+
+    public:
+        /**
+         * Returns an anonymous range that contains all creatures. The range allows iteration
+         * via a range-based for loop, e.g. `for( Creature &critter : all_creatures() ) { ... }`.
+         * One shall not store the returned range nor the iterators.
+         * One can freely remove and add creatures to the game during the iteration. Added
+         * monsters will not be iterated over.
+         */
+        Creature_range all_creatures();
+        monster_range all_monsters();
+
         /**
          * Returns all creatures matching a predicate. Only living ( not dead ) creatures
          * are checked ( and returned ). Returned pointers are never null.

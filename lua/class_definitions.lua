@@ -372,7 +372,7 @@ classes = {
             { name = "look_debug", rval = "tripoint", args = { } },
             { name = "natural_light_level", rval = "float", args = { "int" } },
             { name = "nuke", rval = nil, args = { "tripoint" } },
-            { name = "num_zombies", rval = "int", args = { } },
+            { name = "num_creatures", rval = "int", args = { } },
             { name = "open_gate", rval = nil, args = { "tripoint" } },
             { name = "peek", rval = nil, args = { "tripoint" } },
             { name = "peek", rval = nil, args = { } },

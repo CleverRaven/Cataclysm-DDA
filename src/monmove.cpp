@@ -220,8 +220,7 @@ void monster::plan( const mfactions &factions )
         }
     } else if( friendly != 0 && !docile ) {
         // Target unfriendly monsters, only if we aren't interacting with the player.
-        for( int i = 0, numz = g->num_zombies(); i < numz; i++ ) {
-            monster &tmp = g->zombie( i );
+        for( monster &tmp : g->all_monsters() ) {
             if( tmp.friendly == 0 ) {
                 float rating = rate_target( tmp, dist, smart_planning );
                 if( rating < dist ) {

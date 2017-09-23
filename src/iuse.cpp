@@ -4275,8 +4275,7 @@ int iuse::dog_whistle(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     p->add_msg_if_player(_("You blow your dog whistle."));
-    for (size_t i = 0; i < g->num_zombies(); i++) {
-        monster &critter = g->zombie( i );
+    for( monster &critter : g->all_monsters() ) {
         if( critter.friendly != 0 && critter.type->id == mon_dog ) {
             bool u_see = g->u.sees( critter );
             if( critter.has_effect( effect_docile ) ) {
@@ -4968,8 +4967,8 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
             break;
 
             case AEA_HURTALL:
-                for (size_t j = 0; j < g->num_zombies(); j++) {
-                    g->zombie(j).apply_damage( nullptr, bp_torso, rng( 0, 5 ) );
+                for( monster &critter : g->all_monsters() ) {
+                    critter.apply_damage( nullptr, bp_torso, rng( 0, 5 ) );
                 }
                 break;
 
@@ -5733,11 +5732,10 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
             uimenu pick_robot;
             pick_robot.text = _("Choose an endpoint to hack.");
             // Build a list of all unfriendly robots in range.
-            std::vector< monster* > mons;
+            std::vector< monster* > mons; // @todo change into vector<Creature*>
             std::vector< tripoint > locations;
             int entry_num = 0;
-            for( size_t i = 0; i < g->num_zombies(); ++i ) {
-                monster &candidate = g->zombie( i );
+            for( monster &candidate : g->all_monsters() ) {
                 if( candidate.type->in_species( ROBOT ) && candidate.friendly == 0 &&
                     rl_dist( p->pos(), candidate.pos() ) <= 10 ) {
                     mons.push_back( &candidate );
@@ -5805,8 +5803,7 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
         case 2: { //make all friendly robots stop their purposeless extermination of (un)life.
             p->moves -= 100;
             int f = 0; //flag to check if you have robotic allies
-            for (size_t i = 0; i < g->num_zombies(); i++) {
-                monster &critter = g->zombie( i );
+            for( monster &critter : g->all_monsters() ) {
                 if( critter.friendly != 0 && critter.type->in_species( ROBOT ) ) {
                     p->add_msg_if_player(_("A following %s goes into passive mode."),
                                          critter.name().c_str() );
@@ -5823,8 +5820,7 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
         case 3: { //make all friendly robots terminate (un)life with extreme prejudice
             p->moves -= 100;
             int f = 0; //flag to check if you have robotic allies
-            for (size_t i = 0; i < g->num_zombies(); i++) {
-                monster &critter = g->zombie( i );
+            for( monster &critter : g->all_monsters() ) {
                 if( critter.friendly != 0 && critter.has_flag( MF_ELECTRONIC ) ) {
                     p->add_msg_if_player(_("A following %s goes into combat mode."),
                                          critter.name().c_str() );

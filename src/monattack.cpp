@@ -128,7 +128,7 @@ int within_visual_range(monster *z, int max_range) {
     return dist;
 }
 
-bool within_target_range(monster *const z, Creature *const target, int range)
+bool within_target_range(const monster *const z, const Creature *const target, int range)
 {
     if( target == nullptr ||
         rl_dist( z->pos(), target->pos() ) > range ||
@@ -354,9 +354,8 @@ bool mattack::howl(monster *z)
     sounds::sound(z->pos(), 35, _("an ear-piercing howl!"));
 
     if( z->friendly != 0 ) { // TODO: Make this use mon's faction when those are in
-        for( size_t i = 0; i < g->num_zombies(); ++i ) {
-            auto &other = g->zombie( i );
-            if( other.is_dead() || other.type != z->type || z->friendly != 0 ) {
+        for( monster &other : g->all_monsters() ) {
+            if( other.type != z->type || z->friendly != 0 ) {
                 continue;
             }
             // Quote KA101: Chance of friendlying other howlers in the area, I'd imagine:
@@ -1309,8 +1308,7 @@ bool mattack::vine(monster *z)
     }
     // Calculate distance from nearest hub
     int dist_from_hub = 999;
-    for (size_t i = 0; i < g->num_zombies(); i++) {
-        monster &critter = g->zombie( i );
+    for( monster &critter : g->all_monsters() ) {
         if( critter.type->id == mon_creeper_hub ) {
             int dist = rl_dist( z->pos(), critter.pos() );
             if (dist < dist_from_hub) {
@@ -2126,13 +2124,11 @@ bool mattack::callblobs(monster *z)
     tripoint enemy = g->u.pos();
     std::list<monster *> allies;
     std::vector<tripoint> nearby_points = closest_tripoints_first( 3, z->pos() );
-    // Iterate using horrible creature_tracker API.
-    for( size_t i = 0; i < g->num_zombies(); i++ ) {
-        monster *candidate = &g->zombie( i );
-        if( candidate->type->in_species( BLOB ) && candidate->type->id != mon_blob_brain ) {
+    for( monster &candidate : g->all_monsters() ) {
+        if( candidate.type->in_species( BLOB ) && candidate.type->id != mon_blob_brain ) {
             // Just give the allies consistent assignments.
             // Don't worry about trying to make the orders optimal.
-            allies.push_back( candidate );
+            allies.push_back( &candidate );
         }
     }
     // 1/3 of the available blobs, unless they would fill the entire area near the brain.
@@ -2161,13 +2157,11 @@ bool mattack::jackson(monster *z)
     // Jackson draws nearby zombies into the dance.
     std::list<monster *> allies;
     std::vector<tripoint> nearby_points = closest_tripoints_first( 3, z->pos() );
-    // Iterate using horrible creature_tracker API.
-    for( size_t i = 0; i < g->num_zombies(); i++ ) {
-        monster *candidate = &g->zombie( i );
-        if(candidate->type->in_species( ZOMBIE ) && candidate->type->id != mon_zombie_jackson) {
+    for( monster &candidate : g->all_monsters() ) {
+        if(candidate.type->in_species( ZOMBIE ) && candidate.type->id != mon_zombie_jackson) {
             // Just give the allies consistent assignments.
             // Don't worry about trying to make the orders optimal.
-            allies.push_back( candidate );
+            allies.push_back( &candidate );
         }
     }
     const int num_dancers = std::min( allies.size(), nearby_points.size() );
@@ -3399,8 +3393,7 @@ bool mattack::generator(monster *z)
 bool mattack::upgrade(monster *z)
 {
     std::vector<monster*> targets;
-    for (size_t i = 0; i < g->num_zombies(); i++) {
-        monster &zed = g->zombie(i);
+    for( monster &zed : g->all_monsters() ) {
         // Check this first because it is a relatively cheap check
         if( zed.can_upgrade()) {
             // Then do the more expensive ones
