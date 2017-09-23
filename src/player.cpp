@@ -7129,7 +7129,7 @@ bool player::covered_with_flag( const std::string &flag, const std::bitset<num_b
 
         bool hasFlag = armorPiece->has_flag(flag);
         if (!hasFlag) {
-            if (flag=="WATERPROOF" && !(armorPiece->has_flag("BELTED") || armorPiece->has_flag("WAIST"))
+            if (flag=="WATERPROOF" && !(armorPiece->has_flag("BELTED") || armorPiece->has_flag("WAIST")) //Strapped/Waist items (backpack/holster) don't make someone wearing raingear wet.
                 return false; // The item is the top layer on a relevant body part, and isn't tagged, so we fail.
         } else {
             covered |= cover; // The item is the top layer on a relevant body part, and is tagged.
