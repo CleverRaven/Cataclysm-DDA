@@ -30,7 +30,7 @@
         "color" : "brown",
         "see_cost" : 2,
         "extras" : "field",
-        "spawns" : { "group": "GROUP_FOREST", "population": [0, 1], "chance": 80 },
+        "spawns" : { "group": "GROUP_FOREST", "population": [0, 1], "chance": 5 },
         "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
@@ -40,7 +40,7 @@
         "color" : "green",
         "see_cost" : 3,
         "extras" : "field",
-        "spawns" : { "group": "GROUP_FOREST", "population": [0, 3], "chance": 80 },
+        "spawns" : { "group": "GROUP_FOREST", "population": [0, 3], "chance": 20 },
         "flags" : [ "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
@@ -50,7 +50,7 @@
         "color" : "green",
         "see_cost" : 4,
         "extras" : "field",
-        "spawns" : { "group": "GROUP_FOREST", "population": [0, 6], "chance": 90 },
+        "spawns" : { "group": "GROUP_FOREST", "population": [0, 6], "chance": 40 },
         "mapgen": [
             { "method": "builtin", "name": "forest" }
         ],
