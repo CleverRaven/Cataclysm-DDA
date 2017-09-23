@@ -521,10 +521,6 @@
         "see_cost" : 5,
         "extras" : "build",
         "mondensity" : 2,
-        "mapgen": [
-            { "method": "builtin", "name": "church_new_england" },
-            { "method": "builtin", "name": "church_gothic" }
-        ],
         "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
