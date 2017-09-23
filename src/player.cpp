@@ -10911,7 +10911,7 @@ bool player::wield_contents( item &container, int pos, bool penalties, int base_
     int mv = 0;
 
     if( is_armed() ) {
-        if( !wield( weapon ) ) {
+        if( !unwield() ) {
             return false;
         }
         inv.unsort();
