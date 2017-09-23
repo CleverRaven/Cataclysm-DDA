@@ -41,8 +41,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-09 12:26+0800\n"
-"PO-Revision-Date: 2017-09-14 10:20+0000\n"
+"POT-Creation-Date: 2017-09-15 17:55+0800\n"
+"PO-Revision-Date: 2017-09-23 10:21+0000\n"
 "Last-Translator: kiddragon Chung <kiddragonchung@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -25845,7 +25845,7 @@ msgid ""
 "This is a kit for drawing blood, including a test tube for holding the "
 "sample.  Use this tool to draw blood, either from yourself or from a corpse "
 "you are standing on."
-msgstr ""
+msgstr "一套採血用的工具，包含了保存樣本的試管。用它來採集你自己或是腳下屍體的血液。"
 
 #: lang/json/CONTAINER_from_json.py
 msgid "small metal tank"
@@ -31317,7 +31317,7 @@ msgstr[0] "粗製短繩索"
 msgid ""
 "A six-foot long piece of rough rope, woven from natural cordage.  Useful for"
 " some purposes, but not as strong or flexible as proper rope."
-msgstr ""
+msgstr "一段 6 英尺長的粗製繩索，以天然物料編織而成。可以用來製作某些物品，但不及普通的繩索強軔柔軟。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "long makeshift rope"
@@ -31329,7 +31329,7 @@ msgstr[0] "粗製長繩索"
 msgid ""
 "A 30-foot long rough rope, woven from natural cordage.  Not strong enough to"
 " hold up to falls, but still useful for some things."
-msgstr ""
+msgstr "一段 30 英尺長的粗製繩索，以天然物料編織而成。強軔度的不足雖然無助你免於墜落的危險，但仍然對某些物品有用。"
 
 #: lang/json/GENERIC_from_json.py
 msgid "makeshift bayonet"
@@ -35824,7 +35824,7 @@ msgid ""
 "A twitchy mutant brown spider, with a relatively small body and spindly long"
 " legs.  Its smaller brethren are known for being agile, and for preying upon"
 " other spiders."
-msgstr ""
+msgstr "一隻突然異變的棕色遁蛛，有一個相對較小的身體和細長的腳。異變前的品種是因靈敏，並會獵食其他蜘蛛而聞名。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "immature giant cellar spider"
@@ -37297,7 +37297,7 @@ msgstr ""
 msgid ""
 "This crouching child-mutant's face is dominated by a pair of huge black eyes"
 " and its fingertips end in sharp claws."
-msgstr ""
+msgstr "這個蹲伏的小孩異變體的臉被一對很大的黑色眼睛所支配，牠的指尖異變成鋒利的爪。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "howling waif"
@@ -37309,7 +37309,7 @@ msgid ""
 "Undeath has not been kind to the children of the apocalypse.  This one is "
 "little more than a reanimated membrane of skin stretched across tiny brittle"
 " bones."
-msgstr ""
+msgstr "不死生物對大災變的小孩子來說並不過時。這個小傢伙有點不止是一具復活的皮膚組織在其細小脆弱的骨頭之間伸展的殭屍。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "zombie grenadier"
@@ -50698,11 +50698,11 @@ msgstr "建設木箱"
 
 #: lang/json/construction_from_json.py
 msgid "Seal Coffin"
-msgstr ""
+msgstr "封棺"
 
 #: lang/json/construction_from_json.py
 msgid "Build Coffin"
-msgstr ""
+msgstr "建設棺材"
 
 #: lang/json/construction_from_json.py
 msgid "Build Bulletin Board"
@@ -60148,7 +60148,7 @@ msgstr ""
 #. ~ Please leave anything in <angle brackets> unchanged.
 #: lang/json/json_flag_from_json.py
 msgid "This piece of clothing is <bad>filthy</bad>."
-msgstr ""
+msgstr "這件衣物<bad>很污穢</bad>。"
 
 #: lang/json/json_flag_from_json.py
 msgid "Used for eyes protection from flashbang."
@@ -61311,6 +61311,10 @@ msgstr "安全模式管理器"
 #: lang/json/keybinding_from_json.py
 msgid "Color manager"
 msgstr "顏色管理器"
+
+#: lang/json/keybinding_from_json.py
+msgid "Active World Mods"
+msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Toggle move mode (run/walk)"
@@ -64738,7 +64742,7 @@ msgstr "為了製作水井的手動泵和其他幾個項目的組件，我們需
 msgid ""
 "Hopefully we will be able to assign new migrants to help fulfill our needs "
 "in the future."
-msgstr ""
+msgstr "希望我們可以分派新的難民去幫我們滿足將來的需要。"
 
 #: lang/json/mission_def_from_json.py
 msgid ""
@@ -70127,7 +70131,7 @@ msgid ""
 "Your muscle response is dependent on ambient temperatures.  You lose 1% of "
 "your speed for every 5 (2.8) degrees below 65 F (18.3 C).  This sluggishness"
 " helps you conserve energy, however."
-msgstr ""
+msgstr "環境溫度的高低反應在你的肌肉上。身處在在華氏65度 (攝氏18.3度) 以下時，每低於華氏5度 (攝氏2.8度) 就會降低你的速度 1%。不過這也稍為幫助你節省能量。"
 
 #: lang/json/mutation_from_json.py
 msgid "Very Heat Dependent"
@@ -70140,7 +70144,7 @@ msgid ""
 "Your muscle response is highly dependent on ambient temperatures.  You lose "
 "1% of your speed for every 3 (1.7) degrees below 65 F (18.3 C), but your "
 "slow metabolism requires much less food."
-msgstr ""
+msgstr "環境溫度的高低大量反應在你的肌肉上。身處在華氏65度 (攝氏18.3度) 以下時，每低於華氏3度 (攝氏1.7度) 就會降低你的速度 1%。但減慢了新陳代謝也使你需要更少食物。"
 
 #: lang/json/mutation_from_json.py
 msgid "Cold Blooded"
@@ -70153,7 +70157,7 @@ msgid ""
 "You are cold-blooded and rely on heat to keep moving.  Your lose 1% of your "
 "speed for every 2 (1.1) degrees below 65 F (18.3 C), but only need to eat "
 "about half as much as before."
-msgstr ""
+msgstr "你現在是冷血動物且需要依賴熱能去行動。當你身處在華氏65度 (攝氏18.3度) 以下時，每低於華氏2度 (攝氏1.1度) 就會使你失去 1% 速度，但同時使你只需要吃平時一半的食物。"
 
 #: lang/json/mutation_from_json.py
 msgid "Ectothermic"
@@ -70165,7 +70169,7 @@ msgid ""
 "Your body has become permanently cold-blooded.  Your speed lowers--or raises"
 "--for every 2 (1.1) degrees below or above 65 F (18.3 C).  You only need to "
 "eat half as much as an average human."
-msgstr ""
+msgstr "你已經完全變成冷血動物。身處在華氏65度 (攝氏18.3度) 以下 (以上) 時，每低於 (高於) 華氏2度 (攝氏1.1度) 會使你失去 (增加) 速度。你也只需要進食正常人一半的食物。"
 
 #: lang/json/mutation_from_json.py
 msgid "Growling Voice"
@@ -71835,7 +71839,7 @@ msgstr "果園地攤"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "dairy farm"
-msgstr ""
+msgstr "牛奶製品農場"
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "abandoned drive-through"
@@ -80745,7 +80749,7 @@ msgstr ""
 msgid ""
 "\"Hahahahaa stupid fuck in his mansion, with his plate armor and big axe.  "
 "Guy never swung the thing in his life.  Can't block bullets, dipshit\""
-msgstr ""
+msgstr "\"哈哈哈哈蠢蛋連同他的板甲與大斧在他的大宅裡。 那傢伙從未揮動過那東西。 擋不到子彈，正蠢材。\""
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -81140,7 +81144,7 @@ msgid ""
 "POPULAR MECHANICS: People say mechanics is boring?  We say, Prove them "
 "Wrong!  We've got all the articles that make it interesting to talk about, "
 "so you can \"Make Mechanics Popular\"!"
-msgstr ""
+msgstr "流行機械學: 有人說機械學很沉悶？ 我們說，去證明他們是錯！ 我們收集了很多令你有興趣去談論的文章，所以你可以 \"令機械學流行\"！"
 
 #: lang/json/snippet_from_json.py
 msgid ""
@@ -87388,10 +87392,6 @@ msgid "brush."
 msgstr "唰唰聲。"
 
 #: lang/json/terrain_from_json.py
-msgid "foliage"
-msgstr "葉子"
-
-#: lang/json/terrain_from_json.py
 msgid "shrub"
 msgstr "灌木"
 
@@ -87566,10 +87566,6 @@ msgstr "損壞的發電機"
 #: lang/json/terrain_from_json.py
 msgid "missile"
 msgstr "飛彈"
-
-#: lang/json/terrain_from_json.py
-msgid "metal screeching"
-msgstr "金屬嘎嘎聲"
 
 #: lang/json/terrain_from_json.py
 msgid "blown-out missile"
@@ -88712,7 +88708,7 @@ msgstr "卡車拖車"
 
 #: lang/json/vehicle_from_json.py
 msgid "Heavy Duty Cargo Truck"
-msgstr ""
+msgstr "重型載貨卡車"
 
 #: lang/json/vehicle_from_json.py
 msgid "Automatic Street Sweeper"
@@ -89344,8 +89340,8 @@ msgid "mounted light machine gun"
 msgstr "車載輕型機關槍"
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted heavy machine gum"
-msgstr "車載重型機關槍"
+msgid "mounted heavy machine gun"
+msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
 msgid "mounted minigun"
@@ -91254,7 +91250,7 @@ msgstr "你把數個物品放到 %s 上。"
 #: src/activity_item_handling.cpp
 #, c-format
 msgid "<npcname> drops several items on the %s."
-msgstr ""
+msgstr "<npcname> 把數個物品放到 %s 上。"
 
 #: src/activity_item_handling.cpp
 #, c-format
@@ -91765,8 +91761,8 @@ msgid "Default layout was saved"
 msgstr ""
 
 #: src/advanced_inv.cpp
-msgid "You can't put items there"
-msgstr "你不能把物品放到那"
+msgid "You can't put items there!"
+msgstr ""
 
 #: src/advanced_inv.cpp
 #, c-format
@@ -91796,6 +91792,10 @@ msgid "No vehicle there!"
 msgstr "那裡沒有車輛！"
 
 #: src/advanced_inv.cpp
+msgid "You can't put items there"
+msgstr "你不能把物品放到那"
+
+#: src/advanced_inv.cpp
 msgid "Select destination"
 msgstr "選取目的地"
 
@@ -91817,7 +91817,7 @@ msgid "You can't wear any more of that!"
 msgstr "你無法再穿上一件它！"
 
 #: src/advanced_inv.cpp
-msgid "Destination area is full.  Remove some items first"
+msgid "Destination area is full.  Remove some items first."
 msgstr "目標地區滿了。先移除一些東西吧。"
 
 #: src/advanced_inv.cpp
@@ -91841,16 +91841,12 @@ msgid "You can't pick up a liquid."
 msgstr "你無法撿起液體。"
 
 #: src/advanced_inv.cpp
-msgid "Destination area is full.  Remove some items first."
-msgstr "目標地區滿了。先移除一些東西吧。"
-
-#: src/advanced_inv.cpp
 msgid "Destination area has too many items.  Remove some first."
 msgstr "目標地區太多物品了。先移除一些東西吧。"
 
 #: src/advanced_inv.cpp
-msgid "This is too heavy!."
-msgstr "這太重了！"
+msgid "This is too heavy!"
+msgstr "這太重了!"
 
 #: src/advanced_inv.cpp
 #, c-format
@@ -95004,12 +95000,12 @@ msgstr "你將無法全部吃完。"
 #: src/consumption.cpp
 #, c-format
 msgid "Eat your %s anyway?"
-msgstr "仍然要吃%s?"
+msgstr "仍然要吃 %s ?"
 
 #: src/consumption.cpp
 #, c-format
 msgid "Drink your %s anyway?"
-msgstr ""
+msgstr "仍然要喝 %s ?"
 
 #: src/consumption.cpp
 #, c-format
@@ -95540,7 +95536,7 @@ msgstr "你不能這樣做！"
 msgid "Nothing selected!"
 msgstr "沒有選擇東西！"
 
-#: src/crafting_gui.cpp src/newcharacter.cpp
+#: src/crafting_gui.cpp src/newcharacter.cpp src/overmap.cpp
 msgid "Search:"
 msgstr "搜尋 :"
 
@@ -99208,7 +99204,7 @@ msgstr "世界保留。殘存角色：%s"
 
 #: src/game.cpp
 msgid "Wait till you wake up..."
-msgstr ""
+msgstr "請稍候至醒來..."
 
 #: src/game.cpp
 msgid "Your heart races as you recall your most recent hunt."
@@ -111264,11 +111260,6 @@ msgstr "<Q|q>離開"
 
 #: src/main_menu.cpp
 msgctxt "Main Menu|World"
-msgid "<C|c>reate World"
-msgstr "<C|c>創造世界"
-
-#: src/main_menu.cpp
-msgctxt "Main Menu|World"
 msgid "<D|d>elete World"
 msgstr "<D|d>刪除世界"
 
@@ -111276,6 +111267,11 @@ msgstr "<D|d>刪除世界"
 msgctxt "Main Menu|World"
 msgid "<R|r>eset World"
 msgstr "<R|r>重置世界"
+
+#: src/main_menu.cpp
+msgctxt "Main Menu|World"
+msgid "<S|s>how World Mods"
+msgstr ""
 
 #: src/main_menu.cpp
 msgctxt "Main Menu|Settings"
@@ -111376,16 +111372,20 @@ msgid "No save games found!"
 msgstr "沒有遊戲紀錄！"
 
 #: src/main_menu.cpp
-msgid "Only the admin can change worlds."
-msgstr "只有管理員能夠更換世界。"
-
-#: src/main_menu.cpp
 msgid "Delete the world and all saves?"
 msgstr "是否刪除世界和所有紀錄？"
 
 #: src/main_menu.cpp
 msgid "Remove all saves and regenerate world?"
 msgstr "刪除所有遊戲記錄並重新產生世界？"
+
+#: src/main_menu.cpp
+msgid "Only the admin can change worlds."
+msgstr "只有管理員能夠更換世界。"
+
+#: src/main_menu.cpp
+msgid "Create World"
+msgstr ""
 
 #: src/map.cpp
 #, c-format
@@ -111786,14 +111786,6 @@ msgstr "開啟補給室"
 #: src/mapgen_functions.cpp
 msgid "Open Evidence Locker"
 msgstr "開啟證物保管箱"
-
-#: src/mapgen_functions.cpp
-msgid "Consolidated Computerized Bank of the Treasury"
-msgstr "財政部整合電腦化銀行"
-
-#: src/mapgen_functions.cpp
-msgid "Open Vault"
-msgstr "開啟保管庫"
 
 #: src/material.cpp
 msgid "damages"
@@ -115429,6 +115421,10 @@ msgid "Use this style?"
 msgstr "使用這個招式？"
 
 #: src/newcharacter.cpp
+msgid "Last Character"
+msgstr ""
+
+#: src/newcharacter.cpp
 msgid "POINTS"
 msgstr "點數"
 
@@ -118964,8 +118960,12 @@ msgid "Previous target"
 msgstr "上個目標"
 
 #: src/overmap.cpp
-msgid "Find place:"
-msgstr "尋找地點:"
+msgid "Result(s):"
+msgstr ""
+
+#: src/overmap.cpp
+msgid "Direction:"
+msgstr ""
 
 #: src/overmap.cpp
 msgid "'<' '>' Cycle targets."
@@ -122676,8 +122676,8 @@ msgstr "你聽到 %s"
 
 #: src/sounds.cpp
 #, c-format
-msgid "From the %s you hear %s"
-msgstr "從 %s 你聽見 %s"
+msgid "From the %1$s you hear %2$s"
+msgstr "從 %1$s 你聽見 %2$s"
 
 #: src/sounds.cpp
 msgid "Your alarm-clock finally wakes you up."
@@ -123968,7 +123968,7 @@ msgstr ""
 #: src/veh_interact.cpp
 msgid ""
 "Choose a facing direction for the new headlight.  Press space to continue."
-msgstr ""
+msgstr "設定新車頭燈的照射方向。按空白鍵繼續。"
 
 #: src/veh_interact.cpp
 #, c-format
@@ -124939,18 +124939,6 @@ msgid "Set to 5"
 msgstr "設為 5"
 
 #: src/worldfactory.cpp
-msgid "Content"
-msgstr "內容"
-
-#: src/worldfactory.cpp
-msgid "World Gen Options"
-msgstr "世界生成選項"
-
-#: src/worldfactory.cpp
-msgid "CONFIRMATION"
-msgstr "確認"
-
-#: src/worldfactory.cpp
 msgid "Do you want to abort World Generation?"
 msgstr "你要取消產生世界嗎？"
 
@@ -124982,6 +124970,14 @@ msgid "Do you want to start the game in world [%s]?"
 msgstr "你要在[%s]的世界開始遊戲嗎？"
 
 #: src/worldfactory.cpp
+msgid " ACTIVE WORLD MODS "
+msgstr ""
+
+#: src/worldfactory.cpp
+msgid "--NO ACTIVE MODS--"
+msgstr "--沒有啟用的模組--"
+
+#: src/worldfactory.cpp
 msgid "Switch to other list"
 msgstr "切換到其他列表"
 
@@ -125000,10 +124996,6 @@ msgstr "模組讀取順序"
 #: src/worldfactory.cpp
 msgid "--NO AVAILABLE MODS--"
 msgstr "--沒有可用的模組--"
-
-#: src/worldfactory.cpp
-msgid "--NO ACTIVE MODS--"
-msgstr "--沒有啟用的模組--"
 
 #: src/worldfactory.cpp
 msgid "Can't add mod. This mod requires Lua support."
@@ -125048,6 +125040,18 @@ msgstr "你確定完成了嗎？世界名稱將會隨機產生。"
 msgid ""
 "Press %s to save the list of active mods as default. Press %s for help."
 msgstr "按下 %s 儲存列表啟動中的模組為預設值。按下 %s 取得說明。"
+
+#: src/worldfactory.cpp
+msgid "World Mods"
+msgstr ""
+
+#: src/worldfactory.cpp
+msgid "World Options"
+msgstr ""
+
+#: src/worldfactory.cpp
+msgid "Finalize World"
+msgstr ""
 
 #: src/worldfactory.cpp
 #, c-format

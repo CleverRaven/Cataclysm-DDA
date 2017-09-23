@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-09 12:26+0800\n"
-"PO-Revision-Date: 2017-09-09 04:39+0000\n"
+"POT-Creation-Date: 2017-09-15 17:55+0800\n"
+"PO-Revision-Date: 2017-09-22 22:15+0000\n"
 "Last-Translator: Brett Dong <brett.browning.dong@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -64347,6 +64347,10 @@ msgid "Color manager"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
+msgid "Active World Mods"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Toggle move mode (run/walk)"
 msgstr ""
 
@@ -90422,10 +90426,6 @@ msgid "brush."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
-msgid "foliage"
-msgstr ""
-
-#: lang/json/terrain_from_json.py
 msgid "shrub"
 msgstr ""
 
@@ -90600,10 +90600,6 @@ msgstr "gerador quebrado"
 #: lang/json/terrain_from_json.py
 msgid "missile"
 msgstr "míssil"
-
-#: lang/json/terrain_from_json.py
-msgid "metal screeching"
-msgstr "metal guinchando"
 
 #: lang/json/terrain_from_json.py
 msgid "blown-out missile"
@@ -92378,7 +92374,7 @@ msgid "mounted light machine gun"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted heavy machine gum"
+msgid "mounted heavy machine gun"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -94809,8 +94805,8 @@ msgid "Default layout was saved"
 msgstr ""
 
 #: src/advanced_inv.cpp
-msgid "You can't put items there"
-msgstr "Você não pode colocar objetos aí"
+msgid "You can't put items there!"
+msgstr ""
 
 #: src/advanced_inv.cpp
 #, c-format
@@ -94840,6 +94836,10 @@ msgid "No vehicle there!"
 msgstr ""
 
 #: src/advanced_inv.cpp
+msgid "You can't put items there"
+msgstr "Você não pode colocar objetos aí"
+
+#: src/advanced_inv.cpp
 msgid "Select destination"
 msgstr "Selecionar destino"
 
@@ -94861,8 +94861,8 @@ msgid "You can't wear any more of that!"
 msgstr ""
 
 #: src/advanced_inv.cpp
-msgid "Destination area is full.  Remove some items first"
-msgstr "Área de destino está cheia. Remova alguns itens primeiro"
+msgid "Destination area is full.  Remove some items first."
+msgstr "Área de destino está cheia. Remova alguns primeiro primeiro."
 
 #: src/advanced_inv.cpp
 msgid "Source must be container."
@@ -94885,16 +94885,12 @@ msgid "You can't pick up a liquid."
 msgstr "Você não pode pegar um liquido."
 
 #: src/advanced_inv.cpp
-msgid "Destination area is full.  Remove some items first."
-msgstr "Área de destino está cheia. Remova alguns primeiro primeiro."
-
-#: src/advanced_inv.cpp
 msgid "Destination area has too many items.  Remove some first."
 msgstr "Área de destino tem objetos demais. Remova alguns objetos primeiro"
 
 #: src/advanced_inv.cpp
-msgid "This is too heavy!."
-msgstr "Isso é pesado demais!"
+msgid "This is too heavy!"
+msgstr ""
 
 #: src/advanced_inv.cpp
 #, c-format
@@ -98595,7 +98591,7 @@ msgstr "Você não pode fazer isto!"
 msgid "Nothing selected!"
 msgstr "Nada selecionado!"
 
-#: src/crafting_gui.cpp src/newcharacter.cpp
+#: src/crafting_gui.cpp src/newcharacter.cpp src/overmap.cpp
 msgid "Search:"
 msgstr "Procurar:"
 
@@ -114354,11 +114350,6 @@ msgstr "<Q|q> Sair"
 
 #: src/main_menu.cpp
 msgctxt "Main Menu|World"
-msgid "<C|c>reate World"
-msgstr "<C|c>riar Mundo"
-
-#: src/main_menu.cpp
-msgctxt "Main Menu|World"
 msgid "<D|d>elete World"
 msgstr "<D|d> Apagar Mundo "
 
@@ -114366,6 +114357,11 @@ msgstr "<D|d> Apagar Mundo "
 msgctxt "Main Menu|World"
 msgid "<R|r>eset World"
 msgstr "<R|r>einicar Mundo"
+
+#: src/main_menu.cpp
+msgctxt "Main Menu|World"
+msgid "<S|s>how World Mods"
+msgstr ""
 
 #: src/main_menu.cpp
 msgctxt "Main Menu|Settings"
@@ -114466,16 +114462,20 @@ msgid "No save games found!"
 msgstr "Nenhum jogo salvo encontrado!"
 
 #: src/main_menu.cpp
-msgid "Only the admin can change worlds."
-msgstr "Apenas o administrador pode alterar mundos."
-
-#: src/main_menu.cpp
 msgid "Delete the world and all saves?"
 msgstr "Apagar o mundo e todos os jogos salvos?"
 
 #: src/main_menu.cpp
 msgid "Remove all saves and regenerate world?"
 msgstr "Apagar os jogos salvos e recriar mundo?"
+
+#: src/main_menu.cpp
+msgid "Only the admin can change worlds."
+msgstr "Apenas o administrador pode alterar mundos."
+
+#: src/main_menu.cpp
+msgid "Create World"
+msgstr ""
 
 #: src/map.cpp
 #, c-format
@@ -114875,14 +114875,6 @@ msgstr ""
 
 #: src/mapgen_functions.cpp
 msgid "Open Evidence Locker"
-msgstr ""
-
-#: src/mapgen_functions.cpp
-msgid "Consolidated Computerized Bank of the Treasury"
-msgstr ""
-
-#: src/mapgen_functions.cpp
-msgid "Open Vault"
 msgstr ""
 
 #: src/material.cpp
@@ -118524,6 +118516,10 @@ msgid "Use this style?"
 msgstr "Usar este estilo?"
 
 #: src/newcharacter.cpp
+msgid "Last Character"
+msgstr ""
+
+#: src/newcharacter.cpp
 msgid "POINTS"
 msgstr ""
 
@@ -122069,8 +122065,12 @@ msgid "Previous target"
 msgstr "Alvo anterior"
 
 #: src/overmap.cpp
-msgid "Find place:"
-msgstr "Encontrar lugar:"
+msgid "Result(s):"
+msgstr ""
+
+#: src/overmap.cpp
+msgid "Direction:"
+msgstr ""
 
 #: src/overmap.cpp
 msgid "'<' '>' Cycle targets."
@@ -125796,7 +125796,7 @@ msgstr ""
 
 #: src/sounds.cpp
 #, c-format
-msgid "From the %s you hear %s"
+msgid "From the %1$s you hear %2$s"
 msgstr ""
 
 #: src/sounds.cpp
@@ -128060,18 +128060,6 @@ msgid "Set to 5"
 msgstr "Definido para 5"
 
 #: src/worldfactory.cpp
-msgid "Content"
-msgstr ""
-
-#: src/worldfactory.cpp
-msgid "World Gen Options"
-msgstr "Opções do criador de mundos"
-
-#: src/worldfactory.cpp
-msgid "CONFIRMATION"
-msgstr "CONFIRMAÇÃO"
-
-#: src/worldfactory.cpp
 msgid "Do you want to abort World Generation?"
 msgstr "Você quer mesmo cancelar a criação do mundo?"
 
@@ -128103,6 +128091,14 @@ msgid "Do you want to start the game in world [%s]?"
 msgstr "Você quer iniciar o jogo no mundo [%s]?"
 
 #: src/worldfactory.cpp
+msgid " ACTIVE WORLD MODS "
+msgstr ""
+
+#: src/worldfactory.cpp
+msgid "--NO ACTIVE MODS--"
+msgstr "--SEM MODS ATIVOS--"
+
+#: src/worldfactory.cpp
 msgid "Switch to other list"
 msgstr "Mudar para outra lista"
 
@@ -128121,10 +128117,6 @@ msgstr "Ordem do Carregamento de Mod"
 #: src/worldfactory.cpp
 msgid "--NO AVAILABLE MODS--"
 msgstr "--SEM MODS DISPONÍVEIS--"
-
-#: src/worldfactory.cpp
-msgid "--NO ACTIVE MODS--"
-msgstr "--SEM MODS ATIVOS--"
 
 #: src/worldfactory.cpp
 msgid "Can't add mod. This mod requires Lua support."
@@ -128169,6 +128161,18 @@ msgstr "Você tem CERTEZA que está pronto? O nome do mundo será gerado aleator
 msgid ""
 "Press %s to save the list of active mods as default. Press %s for help."
 msgstr "Aperte %s para salvar a lista de mods ativos como padrão. Aperte %s para ajuda."
+
+#: src/worldfactory.cpp
+msgid "World Mods"
+msgstr ""
+
+#: src/worldfactory.cpp
+msgid "World Options"
+msgstr ""
+
+#: src/worldfactory.cpp
+msgid "Finalize World"
+msgstr ""
 
 #: src/worldfactory.cpp
 #, c-format
