@@ -604,7 +604,7 @@ void mission_start::find_safety( mission *miss )
 
 void mission_start::point_prison( mission *miss )
 {
-    target_om_ter( "prison_5", 3, miss, false );
+    target_om_ter( "prison_1_5", 3, miss, false );
 }
 
 void mission_start::point_cabin_strange( mission *miss )
