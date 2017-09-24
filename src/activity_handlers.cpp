@@ -1419,12 +1419,12 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
             if( vibrator_item.ammo_remaining() == 0 ) {
                 add_msg(m_info, _("The %s runs out of batteries."), vibrator_item.tname().c_str());
             }
-            p->add_morale(MORALE_FEELING_GOOD, 3, 120); //3 points/min, fourty minutes to fill
+            p->add_morale(MORALE_FEELING_GOOD, 4, 40); //4 points/min, 10 minutes to fill
             p->mod_fatigue(4);
         }
         else {
             //less effective than using with batteries, slower rate and more fatigue
-            p->add_morale(MORALE_FEELING_GOOD, 2, 120); //one hour to fill
+            p->add_morale(MORALE_FEELING_GOOD, 2, 40); //twenty minutes to fill
             p->mod_fatigue(5);
         }
     }
