@@ -1414,15 +1414,21 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
 
     //Deduct 1 battery charge for every minute using the vibrator
     if( calendar::once_every(MINUTES(1)) ) {
-        vibrator_item.ammo_consume( 1, p->pos() );
-        p->add_morale(MORALE_FEELING_GOOD, 4, 320); //4 points/min, one hour to fill
-        // 1:1 fatigue:morale ratio, so maxing the morale is possible but will take
-        // you pretty close to Dead Tired from a well-rested state.
-        p->mod_fatigue(4);
-    }
-    if( vibrator_item.ammo_remaining() == 0 ) {
-        act->moves_left = 0;
-        add_msg(m_info, _("The %s runs out of batteries."), vibrator_item.tname().c_str());
+        if( vibrator_item.ammo_remaining() > 0 ) {
+            vibrator_item.ammo_consume( 1, p->pos() );
+            if( vibrator_item.ammo_remaining() == 0 ) {
+                add_msg(m_info, _("The %s runs out of batteries."), vibrator_item.tname().c_str());
+            }
+            p->add_morale(MORALE_FEELING_GOOD, 4, 320); //4 points/min, one hour to fill
+            // 1:1 fatigue:morale ratio, so maxing the morale is possible but will take
+            // you pretty close to Dead Tired from a well-rested state.
+            p->mod_fatigue(4);
+        }
+        else {
+            //less effective than using with batteries, slower rate and more fatigue
+            p->add_morale(MORALE_FEELING_GOOD, 3, 320); 
+            p->mod_fatigue(5);
+        }
     }
     if( p->get_fatigue() >= DEAD_TIRED ) { // Dead Tired: different kind of relaxation needed
         act->moves_left = 0;
