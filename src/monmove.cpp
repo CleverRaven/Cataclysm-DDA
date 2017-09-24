@@ -885,26 +885,26 @@ int monster::group_bash_skill( const tripoint &target )
         // Drawing this line backwards excludes the target and includes the candidate.
         std::vector<tripoint> path_to_target = line_to( target, candidate, 0, 0 );
         bool connected = true;
-        int mondex = -1;
+        monster *mon = nullptr;
         for( const tripoint &in_path : path_to_target ) {
             // If any point in the line from zombie to target is not a cooperating zombie,
             // it can't contribute.
-            mondex = g->mon_at( in_path );
-            if( mondex == -1 ) {
+            mon = g->critter_at<monster>( in_path );
+            if( !mon ) {
                 connected = false;
                 break;
             }
-            monster &helpermon = g->zombie( mondex );
+            monster &helpermon = *mon;
             if( !helpermon.has_flag( MF_GROUP_BASH ) || helpermon.is_hallucination() ) {
                 connected = false;
                 break;
             }
         }
-        if( !connected || mondex == -1 ) {
+        if( !connected || !mon ) {
             continue;
         }
         // If we made it here, the last monster checked was the candidate.
-        monster &helpermon = g->zombie( mondex );
+        monster &helpermon = *mon;
         // Contribution falls off rapidly with distance from target.
         bashskill += helpermon.bash_skill() / rl_dist( candidate, target );
     }

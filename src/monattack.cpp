@@ -824,13 +824,12 @@ bool mattack::resurrect(monster *z)
         // Penalize speed by between 10% and 50% based on how damaged the corpse is.
         float speed_penalty = 0.1 + (corpse_damage * 0.1);
         z->set_speed_base(z->get_speed_base() - speed_penalty * z->type->speed);
-        const int mondex = g->mon_at(raised.first);
-        if( mondex == -1 ) {
+        monster *const zed = g->critter_at<monster>( raised.first );
+        if( !zed ) {
             debugmsg( "Misplaced or failed to revive a zombie corpse" );
             return true;
         }
 
-        monster *zed = &g->zombie( mondex );
         zed->make_ally(z);
         if (g->u.sees(*zed)) {
             add_msg(m_warning, _("A nearby %s rises from the dead!"), zed->name().c_str());
@@ -2897,7 +2896,8 @@ bool mattack::searchlight(monster *z)
             for (int x = zposx - 24; x < zposx + 24; x++)
                 for (int y = zposy - 24; y < zposy + 24; y++) {
                     tripoint dest( x, y, z->posz() );
-                    if (g->mon_at( dest ) != -1 && g->zombie(g->mon_at( dest )).type->id == mon_turret_searchlight) {
+                    const monster *const mon = g->critter_at<monster>( dest );
+                    if( mon && mon->type->id == mon_turret_searchlight ) {
                         if (x < zposx) {
                             settings.set_var( "SL_PREFER_LEFT", "FALSE" );
                         }
@@ -3468,8 +3468,8 @@ bool mattack::breathe(monster *z)
     bool able = (z->type->id == mon_breather_hub);
     if( !able ) {
         for( const tripoint &dest : g->m.points_in_radius( z->pos(), 3 ) ) {
-            int mondex = g->mon_at(dest);
-            if( mondex != -1 && g->zombie(mondex).type->id == mon_breather_hub ) {
+            monster *const mon = g->critter_at<monster>( dest );
+            if( mon && mon->type->id == mon_breather_hub ) {
                 able = true;
                 break;
             }

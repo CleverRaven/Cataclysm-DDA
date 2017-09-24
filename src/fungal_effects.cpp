@@ -23,14 +23,13 @@ fungal_effects::fungal_effects( game &g, map &mp )
 
 void fungal_effects::fungalize( const tripoint &sporep, Creature *origin, double spore_chance )
 {
-    int mondex = gm.mon_at( sporep );
-    if( mondex != -1 ) { // Spores hit a monster
+    if( monster *const mon_ptr = g->critter_at<monster>( sporep ) ) {
+        monster &critter = *mon_ptr;
         if( gm.u.sees( sporep ) &&
-            !gm.zombie( mondex ).type->in_species( FUNGUS ) ) {
+            !critter.type->in_species( FUNGUS ) ) {
             add_msg( _( "The %s is covered in tiny spores!" ),
-                     gm.zombie( mondex ).name().c_str() );
+                     critter.name().c_str() );
         }
-        monster &critter = gm.zombie( mondex );
         if( !critter.make_fungus() ) {
             // Don't insta-kill non-fungables. Jabberwocks, for example
             critter.add_effect( effect_stunned, rng( 1, 3 ) );
