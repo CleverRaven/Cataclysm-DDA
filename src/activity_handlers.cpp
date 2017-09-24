@@ -1420,12 +1420,12 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
                 add_msg(m_info, _("The %s runs out of batteries."), vibrator_item.tname().c_str());
             }
             p->add_morale(MORALE_FEELING_GOOD, 4, 40); //4 points/min, 10 minutes to fill
-            p->mod_fatigue(3);
+            p->mod_fatigue(2);
         }
         else {
             //less effective than using with batteries, slower rate and more fatigue
             p->add_morale(MORALE_FEELING_GOOD, 1, 40); //twenty minutes to fill
-            p->mod_fatigue(3);
+            p->mod_fatigue(2);
         }
     }
     if( p->get_fatigue() >= DEAD_TIRED ) { // Dead Tired: different kind of relaxation needed
