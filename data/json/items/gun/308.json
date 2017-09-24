@@ -133,7 +133,7 @@
     "color": "dark_gray",
     "ammo": "308",
     "dispersion": 200,
-    "durability": 7,
+    "durability": 9,
     "reload": 400,
     "modes": [ [ "DEFAULT", "auto", 20 ] ],
     "built_in_mods": [ "bipod" ],

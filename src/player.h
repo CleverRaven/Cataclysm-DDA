@@ -10,6 +10,7 @@
 #include "weighted_list.h"
 #include "game_constants.h"
 #include "craft_command.h"
+#include "ret_val.h"
 
 #include <unordered_set>
 #include <bitset>
@@ -68,10 +69,27 @@ enum edible_rating {
     CANNIBALISM,
     // Rotten or not rotten enough (for saprophages)
     ROTTEN,
+    // Can provoke vomiting if you already feel nauseous.
+    NAUSEA,
     // We can eat this, but we'll overeat
     TOO_FULL,
     // Some weird stuff that requires a tool we don't have
     NO_TOOL
+};
+
+/** @relates ret_val */
+template<>
+struct ret_val<edible_rating>::default_success : public std::integral_constant<edible_rating, EDIBLE> {};
+
+/** @relates ret_val */
+template<>
+struct ret_val<edible_rating>::default_failure : public std::integral_constant<edible_rating, INEDIBLE> {};
+
+enum class rechargeable_cbm {
+    none = 0,
+    battery,
+    reactor,
+    furnace
 };
 
 struct special_attack {
@@ -91,30 +109,17 @@ class player_morale_ptr : public std::unique_ptr<player_morale> {
         ~player_morale_ptr();
 };
 
-// The minimum level recoil will reach without aiming.
-// Sets the floor for accuracy of a "snap" or "hip" shot.
-extern const double MIN_RECOIL;
+// The maximum level recoil will ever reach.
+// This corresponds to the level of accuracy of a "snap" or "hip" shot.
+extern const double MAX_RECOIL;
 
 //Don't forget to add new memorial counters
 //to the save and load functions in savegame_json.cpp
 struct stats : public JsonSerializer, public JsonDeserializer {
-    int squares_walked;
-    int damage_taken;
-    int damage_healed;
-    int headshots;
-
-    void reset()
-    {
-        squares_walked = 0;
-        damage_taken = 0;
-        damage_healed = 0;
-        headshots = 0;
-    }
-
-    stats()
-    {
-        reset();
-    }
+    int squares_walked = 0;
+    int damage_taken = 0;
+    int damage_healed = 0;
+    int headshots = 0;
 
     using JsonSerializer::serialize;
     void serialize(JsonOut &json) const override
@@ -763,20 +768,36 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  Returns true if the item is to be removed (doesn't remove). */
         bool consume_item( item &eat );
-        /** This block is to be moved to character.h */
-        bool is_allergic( const item &food ) const;
         /** Returns allergy type or MORALE_NULL if not allergic for this player */
         morale_type allergy_type( const item &food ) const;
         /** Used for eating entered comestible, returns true if comestible is successfully eaten */
         bool eat( item &food, bool force = false );
-        edible_rating can_eat( const item &food, bool interactive = false,
-                               bool force = false ) const;
+
+        /** Can the food be [theoretically] eaten no matter the consquences? */
+        ret_val<edible_rating> can_eat( const item &food ) const;
+        /**
+         * Same as @ref can_eat, but takes consequences into account.
+         * Asks about them if @param interactive is true, refuses otherwise.
+         */
+        ret_val<edible_rating> will_eat( const item &food, bool interactive = false ) const;
+
+        // TODO: Move these methods out of the class.
+        rechargeable_cbm get_cbm_rechargeable_with( const item &it ) const;
+        int get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const;
+        int get_acquirable_energy( const item &it ) const;
 
         /** Gets player's minimum hunger and thirst */
         int stomach_capacity() const;
 
         /** Handles the nutrition value for a comestible **/
-        int nutrition_for( const itype *comest ) const;
+        int nutrition_for( const item &comest ) const;
+        /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
+        std::pair<int, int> fun_for( const item &comest ) const;
+        /**
+         * Returns a reference to the item itself (if it's comestible),
+         * the first of its contents (if it's comestible) or null item otherwise.
+         */
+        item &get_comestible_from( item &it ) const;
 
         /** Get vitamin contents for a comestible */
         std::map<vitamin_id, int> vitamins_from( const item& it ) const;
@@ -821,7 +842,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Current metabolic rate due to traits, hunger, speed, etc. */
         float metabolic_rate() const;
         /** Handles the effects of consuming an item */
-        void consume_effects( item &eaten, bool rotten = false );
+        void consume_effects( const item &eaten );
         /** Handles rooting effects */
         void rooted_message() const;
         void rooted();
@@ -846,7 +867,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
             } else if( has_trait( trait_id( "BADBACK" ) ) ) {
                 str /= 1.35;
             }
-            return get_str() >= obj.lift_strength();
+            return str >= obj.lift_strength();
         }
 
         /**
@@ -859,24 +880,25 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /**
          * Check player capable of wielding an item.
          * @param it Thing to be wielded
-         * @param alert display reason for any failure
          */
-        bool can_wield( const item& it, bool alert = true ) const;
+        ret_val<bool> can_wield( const item& it ) const;
         /**
          * Check player capable of unwielding an item.
          * @param it Thing to be unwielded
-         * @param alert display reason for any failure
          */
-        bool can_unwield( const item& it, bool alert = true ) const;
+        ret_val<bool> can_unwield( const item& it ) const;
         /** Check player's capability of consumption overall */
         bool can_consume( const item &it ) const;
 
+        bool is_wielding( const item& target ) const;
         /**
-         * Removes currently wielded item (if any) and replaces it with the target item
+         * Removes currently wielded item (if any) and replaces it with the target item.
          * @param target replacement item to wield or null item to remove existing weapon without replacing it
          * @return whether both removal and replacement were successful (they are performed atomically)
          */
         virtual bool wield( item& target );
+        bool unwield();
+
         /** Creates the UI and handles player input for picking martial arts styles */
         bool pick_style();
         /**
@@ -1004,6 +1026,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** @return Odds for success (pair.first) and gunmod damage (pair.second) */
         std::pair<int, int> gunmod_installation_odds( const item& gun, const item& mod ) const;
 
+        /** Starts activity to install toolmod */
+        void toolmod_add( item& tool, item& mod );
+
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
         bool install_bionics(const itype &type, int skill_level = -1);
         /**
@@ -1092,7 +1117,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns 1 if the player is wearing an item of that count on one foot, 2 if on both, and zero if on neither */
         int shoe_type_count(const itype_id &it) const;
         /** Returns true if the player is wearing power armor */
-        bool is_wearing_power_armor(bool *hasHelmet = NULL) const;
+        bool is_wearing_power_armor(bool *hasHelmet = nullptr) const;
         /** Returns wind resistance provided by armor, etc **/
         int get_wind_resistance(body_part bp) const;
         /** Returns the effect of pain on stats */
@@ -1219,6 +1244,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
           */
         const recipe_subset get_available_recipes( const inventory &crafting_inv,
                                                    const std::vector<npc *> *helpers = nullptr ) const;
+        /**
+          * Returns the set of book types in crafting_inv that provide the
+          * given recipe.
+          * @param crafting_inv Current available items that may contain readable books
+          * @param r Recipe to search for in the available books
+          */
+        const std::set<itype_id> get_books_for_recipe( const inventory &crafting_inv,
+                                                       const recipe *r ) const;
 
         // crafting.cpp
         float lighting_craft_speed_multiplier( const recipe & rec ) const;
@@ -1242,9 +1275,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * Check if the player can disassemble an item using the current crafting inventory
          * @param obj Object to to check for disassembly
          * @param inv current crafting inventory
-         * @param err Error message in case of e.g. missing tools/charges.
          */
-        bool can_disassemble( const item &obj, const inventory &inv, std::string *err = nullptr ) const;
+        ret_val<bool> can_disassemble( const item &obj, const inventory &inv ) const;
 
         bool disassemble();
         bool disassemble( int pos );
@@ -1344,7 +1376,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int tank_plut, reactor_plut, slow_rad;
         int oxygen;
         int stamina;
-        double recoil = MIN_RECOIL;
+        double recoil = MAX_RECOIL;
         int scent;
         int dodges_left, blocks_left;
         int stim, radiation;
@@ -1394,8 +1426,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::vector <std::string> memorial_log;
 
         //Record of player stats, for posterity only
-        stats *lifetime_stats();
-        stats get_stats() const; // for serialization
+        stats lifetime_stats;
+
         void mod_stat( const std::string &stat, float modifier ) override;
 
         int getID () const;
@@ -1464,7 +1496,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /**
          * Set which mission is active. The mission must be listed in @ref active_missions.
          */
-        void set_active_mission( mission &mission );
+        void set_active_mission( mission &cur_mission );
         /**
          * Called when a mission has been assigned to the player.
          */
@@ -1473,7 +1505,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * Called when a mission has been completed or failed. Either way it's finished.
          * Check @ref mission::has_failed to see which case it is.
          */
-        void on_mission_finished( mission &mission );
+        void on_mission_finished( mission &cur_mission );
         /**
          * Called when a mutation is gained
          */
@@ -1609,11 +1641,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool feed_furnace_with( item &it );
         /** Check whether player can consume this very item */
         bool can_consume_as_is( const item &it ) const;
-        /**
-         * Returns a reference to the item itself (if it's comestible),
-         * the first of its contents (if it's comestible) or null item otherwise.
-         */
-        item &get_comestible_from( item &it ) const;
         /**
          * Consumes an item as medication.
          * @param target Item consumed. Must be a medication or a container of medication.

@@ -169,7 +169,7 @@ void check_test_overmap_data( const overmap &test_map )
         REQUIRE(test_map.monster_check(candidate_monster));
     }
     // Check NPCs.  They're complicated enough that I'm just going to spot-check some stats.
-    for( const npc *test_npc : test_map.get_npcs() ) {
+    for( const std::shared_ptr<npc> &test_npc : test_map.get_npcs() ) {
         if( test_npc->disp_name() == "Felix Brandon" ) {
             REQUIRE(test_npc->get_str() == 7);
             REQUIRE(test_npc->get_dex() == 8);

@@ -49,7 +49,7 @@ static monster &spawn_test_monster( const std::string &monster_type, const tripo
     monster temp_monster( mtype_id(monster_type), start);
     // Bypassing game::add_zombie() since it sometimes upgrades the monster instantly.
     g->critter_tracker->add( temp_monster );
-    return g->critter_tracker->find( 0 );
+    return *g->critter_tracker->find( 0 );
 }
 
 static int moves_to_destination( const std::string &monster_type,

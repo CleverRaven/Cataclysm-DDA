@@ -11,7 +11,7 @@
     "symbol": "#",
     "color": "ltgray",
     "ammo_type": "545x39",
-    "capacity": 15,
+    "capacity": 30,
     "reliability": 10,
     "reload_time": 20,
     "flags": [ "MAG_COMPACT" ]
@@ -28,7 +28,7 @@
     "symbol": "#",
     "color": "ltgray",
     "ammo_type": "545x39",
-    "capacity": 25,
+    "capacity": 55,
     "reliability": 8,
     "reload_time": 40,
     "flags": [ "MAG_BULKY" ]

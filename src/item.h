@@ -17,6 +17,7 @@
 #include "string_id.h"
 #include "line.h"
 #include "item_location.h"
+#include "ret_val.h"
 #include "damage.h"
 #include "debug.h"
 #include "units.h"
@@ -400,9 +401,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     using archive_type_tag = io::object_archive_tag;
 
     using JsonSerializer::serialize;
-    // give the option not to save recursively, but recurse by default
-    void serialize(JsonOut &jsout) const override { serialize(jsout, true); }
-    virtual void serialize(JsonOut &jsout, bool save_contents) const;
+    void serialize( JsonOut &jsout ) const override;
     using JsonDeserializer::deserialize;
     // easy deserialization from JsonObject
     virtual void deserialize(JsonObject &jo);
@@ -431,7 +430,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
          */
         bool merge_charges( const item &rhs );
 
-        int weight( bool include_contents = true ) const;
+        units::mass weight( bool include_contents = true ) const;
 
     /* Total volume of an item accounting for all contained/integrated items
      * @param integral if true return effective volume if item was integrated into another */
@@ -1463,7 +1462,7 @@ public:
          * Checks if mod can be applied to this item considering any current state (jammed, loaded etc.)
          * @param msg message describing reason for any incompatibility
          */
-        bool gunmod_compatible( const item& mod, std::string *msg = nullptr ) const;
+        ret_val<bool> is_gunmod_compatible( const item& mod ) const;
 
         struct gun_mode {
             /* contents of `modes` for GUN type, `mode_modifier` for GUNMOD type,
@@ -1771,25 +1770,6 @@ class map_item_stack
             return lhs.example->get_category().sort_rank < rhs.example->get_category().sort_rank;
         }
 };
-
-/**
- *  Match an item with a locator.
- *
- *  Commonly used convenience functions that match an item to one of the 3 common types of locators:
- *      1) type_id (just a typedef to a string)
- *      2) position (int)
- *      3) pointer (item *)
- *
- *  The item's position is optional.  The default used if position is not given is expected to fail
- *  the position match in all cases.
- *
- *  @returns true if match is found, otherwise returns false
- */
-/*@{*/
-bool item_matches_locator(const item &it, const itype_id &id, int item_pos = INT_MIN);
-bool item_matches_locator(const item &it, int locator_pos, int item_pos = INT_MIN);
-bool item_matches_locator(const item &it, const item *other, int);
-/*@}*/
 
 /**
  *  Hint value used in a hack to decide text color.

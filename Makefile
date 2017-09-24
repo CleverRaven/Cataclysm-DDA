@@ -154,23 +154,48 @@ ifneq ($(findstring BSD,$(OS)),)
   BSD = 1
 endif
 
-# Compiler version & target machine - used later for MXE ICE workaround
-ifdef CROSS
-  CXXVERSION := $(shell $(CROSS)$(CXX) --version | grep -i gcc | sed 's/^.* //g')
-  CXXMACHINE := $(shell $(CROSS)$(CXX) -dumpmachine)
+# This sets CXX and so must be up here
+ifdef CLANG
+  # Allow setting specific CLANG version
+  ifeq ($(CLANG), 1)
+    CLANGCMD = clang++
+  else
+    CLANGCMD = $(CLANG)
+  endif
+  ifeq ($(NATIVE), osx)
+    USE_LIBCXX = 1
+  endif
+  ifdef USE_LIBCXX
+    OTHERS += -stdlib=libc++
+    LDFLAGS += -stdlib=libc++
+  endif
+  ifdef CCACHE
+    CXX = CCACHE_CPP2=1 ccache $(CROSS)$(CLANGCMD)
+    LD  = CCACHE_CPP2=1 ccache $(CROSS)$(CLANGCMD)
+  else
+    CXX = $(CROSS)$(CLANGCMD)
+    LD  = $(CROSS)$(CLANGCMD)
+  endif
+else
+  # Compiler version & target machine - used later for MXE ICE workaround
+  ifdef CROSS
+    CXXVERSION := $(shell $(CROSS)$(CXX) --version | grep -i gcc | sed 's/^.* //g')
+    CXXMACHINE := $(shell $(CROSS)$(CXX) -dumpmachine)
+  endif
+
+  # Expand at reference time to avoid recursive reference
+  OS_COMPILER := $(CXX)
+  # Appears that the default value of $LD is unsuitable on most systems
+  OS_LINKER := $(CXX)
+  ifdef CCACHE
+    CXX = ccache $(CROSS)$(OS_COMPILER)
+    LD  = ccache $(CROSS)$(OS_LINKER)
+  else
+    CXX = $(CROSS)$(OS_COMPILER)
+    LD  = $(CROSS)$(OS_LINKER)
+  endif
 endif
 
-# Expand at reference time to avoid recursive reference
-OS_COMPILER := $(CXX)
-# Appears that the default value of $LD is unsuitable on most systems
-OS_LINKER := $(CXX)
-ifdef CCACHE
-  CXX = ccache $(CROSS)$(OS_COMPILER)
-  LD  = ccache $(CROSS)$(OS_LINKER)
-else
-  CXX = $(CROSS)$(OS_COMPILER)
-  LD  = $(CROSS)$(OS_LINKER)
-endif
 STRIP = $(CROSS)strip
 RC  = $(CROSS)windres
 AR  = $(CROSS)ar
@@ -227,23 +252,6 @@ ifdef RELEASE
   CHECKS = astyle-check lint-check
 endif
 
-ifdef CLANG
-  ifeq ($(NATIVE), osx)
-    USE_LIBCXX = 1
-  endif
-  ifdef USE_LIBCXX
-    OTHERS += -stdlib=libc++
-    LDFLAGS += -stdlib=libc++
-  endif
-  ifdef CCACHE
-    CXX = CCACHE_CPP2=1 ccache $(CROSS)clang++
-    LD  = CCACHE_CPP2=1 ccache $(CROSS)clang++
-  else
-    CXX = $(CROSS)clang++
-    LD  = $(CROSS)clang++
-  endif
-endif
-
 ifndef RELEASE
   ifeq ($(shell $(CXX) -E -Og - < /dev/null > /dev/null 2>&1 && echo fog),fog)
     OPTLEVEL = -Og
@@ -285,12 +293,18 @@ ifeq ($(NATIVE), linux64)
   CXXFLAGS += -m64
   LDFLAGS += -m64
   TARGETSYSTEM=LINUX
+  ifdef GOLD
+    CXXFLAGS += -fuse-ld=gold
+  endif
 else
   # Linux 32-bit
   ifeq ($(NATIVE), linux32)
     CXXFLAGS += -m32
     LDFLAGS += -m32
     TARGETSYSTEM=LINUX
+    ifdef GOLD
+      CXXFLAGS += -fuse-ld=gold
+    endif
   endif
 endif
 

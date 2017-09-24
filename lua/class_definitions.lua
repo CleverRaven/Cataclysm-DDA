@@ -235,8 +235,8 @@ classes = {
             { name = "trait_by_invlet", rval = "trait_id", args = { "int" } },
             { name = "volume_capacity", rval = "volume", args = { } },
             { name = "volume_carried", rval = "volume", args = { } },
-            { name = "weight_capacity", rval = "int", args = { } },
-            { name = "weight_carried", rval = "int", args = { } },
+            { name = "weight_capacity", rval = "mass", args = { } },
+            { name = "weight_carried", rval = "mass", args = { } },
             { name = "worn_with_flag", rval = "bool", args = { "string" } },
             { name = "get_healthy", rval = "int", args = { } },
             { name = "get_healthy_mod", rval = "int", args = { } },
@@ -421,7 +421,6 @@ classes = {
             squares_walked = { type = "int", writable = true },
         },
         functions = {
-            { name = "reset", rval = nil, args = { } },
         }
     },
     player = {
@@ -439,6 +438,7 @@ classes = {
             last_climate_control_ret = { type = "bool", writable = true },
             lastconsumed = { type = "string", writable = true },
             lastrecipe = { type = "string", writable = true },
+            lifetime_stats = { type = "stats", writable = true },
             max_power_level = { type = "int", writable = true },
             move_mode = { type = "string", writable = true },
             movecounter = { type = "int", writable = true },
@@ -491,13 +491,9 @@ classes = {
             { name = "can_limb_block", rval = "bool", args = { } },
             { name = "can_melee", rval = "bool", args = { } },
             { name = "can_sleep", rval = "bool", args = { } },
-            { name = "can_unwield", rval = "bool", args = { "item" } },
-            { name = "can_unwield", rval = "bool", args = { "item", "bool" } },
             { name = "can_reload", rval = "bool", args = { "item", "string" } },
             { name = "can_reload", rval = "bool", args = { "item" } },
             { name = "can_weapon_block", rval = "bool", args = { } },
-            { name = "can_wield", rval = "bool", args = { "item" } },
-            { name = "can_wield", rval = "bool", args = { "item", "bool" } },
             { name = "cancel_activity", rval = nil, args = { } },
             { name = "change_side", rval = "bool", args = { "int" } },
             { name = "change_side", rval = "bool", args = { "int", "bool" } },
@@ -514,7 +510,6 @@ classes = {
             { name = "consume", rval = "bool", args = { "int" } },
             { name = "consume_charges", rval = "bool", args = { "item", "int" } },
             { name = "consume_effects", rval = nil, args = { "item" } },
-            { name = "consume_effects", rval = nil, args = { "item", "bool" } },
             { name = "consume_item", rval = "bool", args = { "item" } },
             { name = "cough", rval = nil, args = { "bool" } },
             { name = "cough", rval = nil, args = { "bool", "int" } },
@@ -633,8 +628,7 @@ classes = {
             { name = "invoke_item", rval = "bool", args = { "item" } },
             { name = "invoke_item", rval = "bool", args = { "item", "string" } },
             { name = "invoke_item", rval = "bool", args = { "item", "string", "tripoint" } },
-            { name = "invoke_item", rval = "bool", args = { "item", "tripoint" } },
-            { name = "is_allergic", rval = "bool", args = { "item" } },
+            { name = "invoke_item", rval = "bool", args = { "item", "tripoint" } },            
             { name = "is_armed", rval = "bool", args = { } },
             { name = "is_dead_state", rval = "bool", args = { } },
             { name = "is_deaf", rval = "bool", args = { } },
@@ -701,7 +695,7 @@ classes = {
             { name = "natural_attack_restricted_on", rval = "bool", args = { "body_part" } },
             { name = "normalize", rval = nil, args = { } },
             { name = "num_bionics", rval = "int", args = { } },
-            { name = "nutrition_for", rval = "int", args = { "itype" } },
+            { name = "nutrition_for", rval = "int", args = { "item" } },
             { name = "on_dodge", rval = nil, args = { "Creature", "float" } },
             { name = "on_hit", rval = nil, args = { "Creature" } },
             { name = "on_hit", rval = nil, args = { "Creature", "body_part" } },
@@ -1047,7 +1041,7 @@ classes = {
             { name = "type_name", rval = "string", args = { } },
             { name = "volume", rval = "volume", args = { } },
             { name = "melee_skill", rval = "skill_id", args = { } },
-            { name = "weight", rval = "int", args = { } },
+            { name = "weight", rval = "mass", args = { } },
         }
     },
     item_location = {
@@ -1107,7 +1101,6 @@ classes = {
             { "int", "int", "int" },
         },
         functions = {
-            { name = "serialize", rval = "string", args = { } },
         }
     },
     uimenu = {
@@ -1465,7 +1458,7 @@ classes = {
             { name = "get_speed_bonus", rval = "int", args = { } },
             { name = "get_throw_resist", rval = "int", args = { } },
             { name = "get_value", rval = "string", args = { "string" } },
-            { name = "get_weight", rval = "int", args = { } },
+            { name = "get_weight", rval = "mass", args = { } },
             { name = "gibType", rval = "field_id", args = { } },
             { name = "has_effect", rval = "bool", args = { "efftype_id" } },
             { name = "has_effect", rval = "bool", args = { "efftype_id", "body_part" } },
@@ -1555,7 +1548,7 @@ classes = {
             { name = "symbol", rval = "string", args = { } },
             { name = "symbol_color", rval = "int", args = { } },
             { name = "uncanny_dodge", rval = "bool", args = { } },
-            { name = "weight_capacity", rval = "int", args = { } },
+            { name = "weight_capacity", rval = "mass", args = { } },
         }
     },
     monster = {
@@ -1805,7 +1798,6 @@ classes = {
             color = { type = "int", writable = true },
             death_drops = { type = "string", writable = true },
             def_chance = { type = "int", writable = true },
-            description = { type = "string", writable = true },
             difficulty = { type = "int", writable = true },
             hp = { type = "int", writable = true },
             id = { type = "mtype_id" },
@@ -1880,6 +1872,14 @@ classes = {
             { name = "value", rval = "int", args = { } },
         },
     },
+    mass = {
+        by_value = true,
+        attributes = {
+        },
+        functions = {
+            { name = "value", rval = "int", args = { } },
+        },
+    },
     itype = {
         attributes = {
             color = { type = "int", writable = true },
@@ -1902,7 +1902,7 @@ classes = {
             stack_size = { type = "int", writable = true },
             sym = { type = "string", writable = true },
             volume = { type = "volume", writable = true },
-            weight = { type = "int", writable = true },
+            weight = { type = "mass", writable = true },
         },
         functions = {
             { name = "can_use", args = { "string" } },
@@ -1925,7 +1925,6 @@ classes = {
             id = { type = "trap_str_id" },
             loadid = { type = "trap_id" },
             color = { type = "int" },
-            name = { type = "string" },
             sym = { type = "int" },
         },
         functions = {

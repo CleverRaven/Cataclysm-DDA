@@ -11,6 +11,8 @@ class game;
 class player;
 class JsonObject;
 
+// Don't change those! They must stay in this specific order!
+// @todo Remove this enum
 enum computer_action {
     COMPACT_NULL = 0,
     COMPACT_OPEN,
@@ -55,7 +57,9 @@ enum computer_action {
     NUM_COMPUTER_ACTIONS
 };
 
-enum computer_failure {
+// Don't change those! They must stay in this specific order!
+// @todo Remove this enum
+enum computer_failure_type {
     COMPFAIL_NULL = 0,
     COMPFAIL_SHUTDOWN,
     COMPFAIL_ALARM,
@@ -70,6 +74,10 @@ enum computer_failure {
     NUM_COMPUTER_FAILURES
 };
 
+// @todo Turn the enum into id, get rid of this
+computer_action computer_action_from_string( const std::string &str );
+computer_failure_type computer_failure_type_from_string( const std::string &str );
+
 struct computer_option {
     std::string name;
     computer_action action;
@@ -80,6 +88,17 @@ struct computer_option {
     };
     computer_option( std::string N, computer_action A, int S ) :
         name( N ), action( A ), security( S ) {};
+
+    static computer_option from_json( JsonObject &jo );
+};
+
+struct computer_failure {
+    computer_failure_type type;
+
+    computer_failure( computer_failure_type t ) : type( t ) {
+    }
+
+    static computer_failure from_json( JsonObject &jo );
 };
 
 class computer
@@ -91,8 +110,10 @@ class computer
         computer &operator=( const computer &rhs );
         // Initialization
         void set_security( int Security );
+        void add_option( const computer_option &opt );
         void add_option( std::string opt_name, computer_action action, int security );
-        void add_failure( computer_failure failure );
+        void add_failure( const computer_failure &failure );
+        void add_failure( computer_failure_type failure );
         // Basic usage
         /** Shutdown (free w_terminal, etc.) */
         void shutdown_terminal();
@@ -129,7 +150,7 @@ class computer
         // Generally called when we fail a hack attempt
         void activate_random_failure();
         // ...but we can also choose a specific failure.
-        void activate_failure( computer_failure fail );
+        void activate_failure( computer_failure_type fail );
 
         void remove_option( computer_action action );
 

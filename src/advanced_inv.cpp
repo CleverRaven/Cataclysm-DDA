@@ -605,7 +605,7 @@ void advanced_inv_area::init()
         case AIM_DRAGGED:
             if( g->u.grab_type != OBJECT_VEHICLE ) {
                 canputitemsloc = false;
-                desc[0] = _( "Not dragging any vehicle" );
+                desc[0] = _( "Not dragging any vehicle!" );
                 break;
             }
             // offset for dragged vehicles is not statically initialized, so get it
@@ -623,7 +623,7 @@ void advanced_inv_area::init()
             } else {
                 veh = nullptr;
                 canputitemsloc = false;
-                desc[0] = _( "No dragged vehicle" );
+                desc[0] = _( "No dragged vehicle!" );
             }
             break;
         case AIM_CONTAINER:
@@ -633,7 +633,7 @@ void advanced_inv_area::init()
             // and depends on selected item in pane (if it is valid container)
             canputitemsloc = true;
             if( get_container() == nullptr ) {
-                desc[0] = _( "Invalid container" );
+                desc[0] = _( "Invalid container!" );
             }
             break;
         case AIM_ALL:
@@ -1470,7 +1470,7 @@ void advanced_inventory::display()
         } else if (action == "SAVE_DEFAULT") {
             uistate.adv_inv_default_areas[left] = panes[left].get_area();
             uistate.adv_inv_default_areas[right] = panes[right].get_area();
-            popup( _( "Default layout was saved" ) );
+            popup( _( "Default layout was saved." ) );
             redraw = true;
         } else if( get_square( action, changeSquare ) ) {
             if( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) {
@@ -1519,7 +1519,7 @@ void advanced_inventory::display()
                 }
                 redraw = true;
             } else {
-                popup( _( "You can't put items there" ) );
+                popup( _( "You can't put items there!" ) );
                 redraw = true; // to clear the popup
             }
         } else if( action == "MOVE_SINGLE_ITEM" ||
@@ -1886,7 +1886,7 @@ bool advanced_inventory::query_destination( aim_location &def )
         if( squares[def].canputitems() ) {
             return true;
         }
-        popup( _( "You can't put items there" ) );
+        popup( _( "You can't put items there!" ) );
         redraw = true; // the popup has messed the screen up.
         return false;
     }
@@ -2009,7 +2009,7 @@ int advanced_inventory::add_item( aim_location destarea, item &new_item, int cou
             }
             
             if( !added ) {
-                msg = _("Destination area is full.  Remove some items first");
+                msg = _("Destination area is full.  Remove some items first.");
             }
         }
         // show a message to why we can't add the item
@@ -2143,13 +2143,13 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     }
     // Inventory has a weight capacity, map and vehicle don't have that
     if( destarea == AIM_INVENTORY  || destarea == AIM_WORN ) {
-        const long unitweight = it.weight() * 1000 / ( by_charges ? it.charges : 1 );
-        const long max_weight = ( g->u.has_trait( trait_id( "DEBUG_STORAGE" ) ) ?
-                                  INT_MAX : ( g->u.weight_capacity() * 4 - g->u.weight_carried() ) * 1000 );
+        const units::mass unitweight = it.weight() / ( by_charges ? it.charges : 1 );
+        const units::mass max_weight = g->u.has_trait( trait_id( "DEBUG_STORAGE" ) ) ?
+                                  units::mass_max : g->u.weight_capacity() * 4 - g->u.weight_carried();
         if( unitweight > 0 && ( unitweight * amount > max_weight ) ) {
             const long weightmax = max_weight / unitweight;
             if( weightmax <= 0 ) {
-                popup( _( "This is too heavy!." ) );
+                popup( _( "This is too heavy!" ) );
                 redraw = true;
                 return false;
             }

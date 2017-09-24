@@ -8,11 +8,28 @@
 #include "recipe_dictionary.h"
 #include "item.h"
 #include "itype.h"
+#include "iuse_actor.h"
 
+#include <algorithm>
 #include <functional>
 
 typedef std::function<bool( const item & )> item_filter;
 typedef std::function<bool( const item_location & )> item_location_filter;
+
+namespace
+{
+
+std::string good_bad_none( int value )
+{
+    if( value > 0 ) {
+        return string_format( "<good>+%d</good>", value );
+    } else if( value < 0 ) {
+        return string_format( "<bad>%d</bad>", value );
+    }
+    return std::string();
+}
+
+}
 
 class inventory_filter_preset : public inventory_selector_preset
 {
@@ -36,7 +53,8 @@ item_location_filter convert_filter( const item_filter &filter )
 
 static item_location inv_internal( player &u, const inventory_selector_preset &preset,
                                    const std::string &title, int radius,
-                                   const std::string &none_message )
+                                   const std::string &none_message,
+                                   const std::string &hint = std::string() )
 {
     u.inv.restack( &u );
     u.inv.sort();
@@ -44,6 +62,7 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
     inventory_pick_selector inv_s( u, preset );
 
     inv_s.set_title( title );
+    inv_s.set_hint( hint );
     inv_s.set_display_stats( false );
 
     inv_s.add_character_items( u );
@@ -165,7 +184,7 @@ class pickup_inventory_preset : public inventory_selector_preset
         std::string get_denial( const item_location &loc ) const override {
             if( !p.has_item( *loc ) ) {
                 if( loc->made_of( LIQUID ) ) {
-                    return _( "Can't pick up liquids" );
+                    return _( "Can't pick up spilt liquids" );
                 } else if( !p.can_pickVolume( *loc ) ) {
                     return _( "Too big to pick up" );
                 } else if( !p.can_pickWeight( *loc ) ) {
@@ -208,9 +227,9 @@ class disassemble_inventory_preset : public pickup_inventory_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            std::string denial;
-            if( !p.can_disassemble( *loc, inv, &denial ) ) {
-                return denial;
+            const auto ret = p.can_disassemble( *loc, inv );
+            if( !ret.success() ) {
+                return ret.str();
             }
             return pickup_inventory_preset::get_denial( loc );
         }
@@ -230,6 +249,141 @@ item_location game_menus::inv::disassemble( player &p )
     return inv_internal( p, disassemble_inventory_preset( p, p.crafting_inventory() ),
                          _( "Disassemble item" ), 1,
                          _( "You don't have any items you could disassemble." ) );
+};
+
+class comestible_inventory_preset : public inventory_selector_preset
+{
+    public:
+        comestible_inventory_preset( const player &p ) : inventory_selector_preset(), p( p ) {
+
+            append_cell( [ p, this ]( const item_location & loc ) {
+                return good_bad_none( p.nutrition_for( get_comestible_item( loc ) ) );
+            }, _( "NUTRITION" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return good_bad_none( get_edible_comestible( loc ).quench );
+            }, _( "QUENCH" ) );
+
+            append_cell( [ p, this ]( const item_location & loc ) {
+                return good_bad_none( p.fun_for( get_comestible_item( loc ) ).first );
+            }, _( "JOY" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                const int spoils = get_edible_comestible( loc ).spoils;
+                if( spoils > 0 ) {
+                    return calendar( spoils ).textify_period();
+                }
+                return std::string();
+            }, _( "SPOILS IN" ) );
+
+            append_cell( [ this, &p ]( const item_location & loc ) {
+                std::string cbm_name;
+
+                switch( p.get_cbm_rechargeable_with( get_comestible_item( loc ) ) ) {
+                    case rechargeable_cbm::none:
+                        break;
+                    case rechargeable_cbm::battery:
+                        cbm_name = _( "Battery" );
+                        break;
+                    case rechargeable_cbm::reactor:
+                        cbm_name = _( "Reactor" );
+                        break;
+                    case rechargeable_cbm::furnace:
+                        cbm_name = _( "Furnace" );
+                        break;
+                }
+
+                if( !cbm_name.empty() ) {
+                    return string_format( "<color_cyan>%s</color>", cbm_name.c_str() );
+                }
+
+                return std::string();
+            }, _( "CBM" ) );
+
+            append_cell( [ this, &p ]( const item_location & loc ) {
+                return good_bad_none( p.get_acquirable_energy( get_comestible_item( loc ) ) );
+            }, _( "ENERGY" ) );
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            if( loc->typeId() == "1st_aid" ) {
+                return false; // temporary fix for #12991
+            }
+            return p.can_consume( *loc );
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            if( loc->made_of( LIQUID ) ) {
+                return _( "Can't drink spilt liquids" );
+            }
+
+            const auto &it = get_comestible_item( loc );
+            const auto res = p.can_eat( it );
+            const auto cbm = p.get_cbm_rechargeable_with( it );
+
+            if( !res.success() && cbm == rechargeable_cbm::none ) {
+                return res.str();
+            } else if( cbm == rechargeable_cbm::battery && p.power_level >= p.max_power_level ) {
+                return _( "You're fully charged" );
+            }
+
+            return inventory_selector_preset::get_denial( loc );
+        }
+
+        bool sort_compare( const item_location &lhs, const item_location &rhs ) const override {
+            const auto &a = get_comestible_item( lhs );
+            const auto &b = get_comestible_item( rhs );
+
+            const int freshness = rate_freshness( a, *lhs ) - rate_freshness( b, *rhs );
+            if( freshness != 0 ) {
+                return freshness > 0;
+            }
+
+            return inventory_selector_preset::sort_compare( lhs, rhs );
+        }
+
+    protected:
+        int rate_freshness( const item &it, const item &container ) const {
+            if( p.will_eat( it ).value() == edible_rating::ROTTEN ) {
+                return -1;
+            } else if( !container.type->container || !container.type->container->preserves ) {
+                if( it.is_fresh() ) {
+                    return 1;
+                } else if( it.is_going_bad() ) {
+                    return 3;
+                } else if( it.goes_bad() ) {
+                    return 2;
+                }
+            }
+
+            return 0;
+        }
+
+        const item &get_comestible_item( const item_location &loc ) const {
+            return p.get_comestible_from( const_cast<item &>( *loc ) );
+        }
+
+        const islot_comestible &get_edible_comestible( const item_location &loc ) const {
+            return get_edible_comestible( get_comestible_item( loc ) );
+        }
+
+        const islot_comestible &get_edible_comestible( const item &it ) const {
+            if( it.is_comestible() && p.can_eat( it ).success() ) {
+                return *it.type->comestible;
+            }
+            static const islot_comestible dummy {};
+            return dummy;
+        }
+
+    private:
+        const player &p;
+};
+
+item_location game_menus::inv::consume( player &p )
+{
+    return inv_internal( p, comestible_inventory_preset( p ),
+                         _( "Consume item" ), 1,
+                         _( "You have nothing to consume." ) );
 }
 
 class activatable_inventory_preset : public pickup_inventory_preset
@@ -309,8 +463,7 @@ class gunmod_inventory_preset : public inventory_selector_preset
             }, _( "SUCCESS CHANCE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                const auto odds = get_odds( loc );
-                return odds.second > 0 ? string_format( "<color_red>%d%%</color>", odds.second ) : std::string();
+                return good_bad_none( get_odds( loc ).second );
             }, _( "DAMAGE RISK" ) );
         }
 
@@ -319,10 +472,10 @@ class gunmod_inventory_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            std::string incompatability;
+            const auto ret = loc->is_gunmod_compatible( gunmod );
 
-            if( !loc->gunmod_compatible( gunmod, &incompatability ) ) {
-                return incompatability;
+            if( !ret.success() ) {
+                return ret.str();
             }
 
             if( !p.meets_requirements( gunmod, *loc ) ) {
@@ -401,13 +554,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
-                const int fun = get_book( loc ).fun;
-                if( fun > 0 ) {
-                    return string_format( "<good>+%d</good>", fun );
-                } else if( fun < 0 ) {
-                    return string_format( "<bad>%d</bad>", fun );
-                }
-                return std::string();
+                return good_bad_none( get_book( loc ).fun );
             }, _( "FUN" ), unknown );
 
             append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
@@ -495,13 +642,180 @@ item_location game_menus::inv::steal( player &p, player &victim )
                          string_format( _( "%s's inventory is empty." ), victim.name.c_str() ) );
 }
 
+class weapon_inventory_preset: public inventory_selector_preset
+{
+    public:
+        weapon_inventory_preset( const player &p ) : p( p ) {
+            append_cell( [ this ]( const item_location & loc ) {
+                if( !loc->is_gun() ) {
+                    return std::string();
+                }
+
+                const int total_damage = loc->gun_damage( true );
+
+                if( loc->ammo_data() && loc->ammo_remaining() ) {
+                    const int basic_damage = loc->gun_damage( false );
+                    const int ammo_damage = loc->ammo_data()->ammo->damage;
+
+                    return string_format( "%s<color_ltgray>+</color>%s <color_ltgray>=</color> %s",
+                                          get_damage_string( basic_damage, true ).c_str(),
+                                          get_damage_string( ammo_damage, true ).c_str(),
+                                          get_damage_string( total_damage, true ).c_str()
+                                        );
+                } else {
+                    return get_damage_string( total_damage );
+                }
+            }, _( "SHOT" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return get_damage_string( loc->damage_melee( DT_BASH ) );
+            }, _( "BASH" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return get_damage_string( loc->damage_melee( DT_CUT ) );
+            }, _( "CUT" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return get_damage_string( loc->damage_melee( DT_STAB ) );
+            }, _( "STAB" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                if( deals_melee_damage( *loc ) ) {
+                    return good_bad_none( loc->type->m_to_hit );
+                }
+                return std::string();
+            }, _( "MELEE" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                if( deals_melee_damage( *loc ) ) {
+                    return string_format( "<color_yellow>%d</color>", this->p.attack_speed( *loc ) );
+                }
+                return std::string();
+            }, _( "MOVES" ) );
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            const auto ret = p.can_wield( *loc );
+
+            if( !ret.success() ) {
+                return trim_punctuation_marks( ret.str() );
+            }
+
+            return std::string();
+        }
+
+    private:
+        bool deals_melee_damage( const item &it ) const {
+            return it.damage_melee( DT_BASH ) || it.damage_melee( DT_CUT ) || it.damage_melee( DT_STAB );
+        }
+
+        std::string get_damage_string( int damage, bool display_zeroes = false ) const {
+            return damage ||
+                   display_zeroes ? string_format( "<color_yellow>%d</color>", damage ) : std::string();
+        }
+
+        const player &p;
+};
+
+item_location game_menus::inv::wield( player &p )
+{
+    return inv_internal( p, weapon_inventory_preset( p ), _( "Wield item" ), 1,
+                         _( "You have nothing to wield." ) );
+}
+
+class holster_inventory_preset: public weapon_inventory_preset
+{
+    public:
+        holster_inventory_preset( const player &p, const holster_actor &actor ) :
+            weapon_inventory_preset( p ), actor( actor ) {
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return actor.can_holster( *loc );
+        }
+
+    private:
+        const holster_actor &actor;
+};
+
+item_location game_menus::inv::holster( player &p, item &holster )
+{
+    const std::string holster_name = holster.tname( 1, false );
+    const auto actor = dynamic_cast<const holster_actor *>
+                       ( holster.type->get_use( "holster" )->get_actor_ptr() );
+
+    if( !actor ) {
+        const std::string msg = string_format( _( "You can't put anything into your %s." ),
+                                               holster_name.c_str() );
+        popup( msg, PF_GET_KEY );
+        return item_location();
+    }
+
+    const std::string title = actor->holster_prompt.empty()
+                              ? _( "Holster item" )
+                              : _( actor->holster_prompt.c_str() );
+    const std::string hint = string_format( _( "Choose a weapon to put into your %s" ),
+                                            holster_name.c_str() );
+
+    return inv_internal( p, holster_inventory_preset( p, *actor ), title, 1,
+                         string_format( _( "You have no weapons you could put into your %s." ),
+                                        holster_name.c_str() ),
+                         hint );
+}
+
+class saw_barrel_inventory_preset: public weapon_inventory_preset
+{
+    public:
+        saw_barrel_inventory_preset( const player &p, const item &tool, const saw_barrel_actor &actor ) :
+            weapon_inventory_preset( p ), p( p ), tool( tool ), actor( actor ) {
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->is_gun();
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            const auto ret = actor.can_use_on( p, tool, *loc );
+
+            if( !ret.success() ) {
+                return trim_punctuation_marks( ret.str() );
+            }
+
+            return std::string();
+        }
+
+    private:
+        const player &p;
+        const item &tool;
+        const saw_barrel_actor &actor;
+};
+
+item_location game_menus::inv::saw_barrel( player &p, item &tool )
+{
+    const auto actor = dynamic_cast<const saw_barrel_actor *>
+                       ( tool.type->get_use( "saw_barrel" )->get_actor_ptr() );
+
+    if( !actor ) {
+        debugmsg( "Tried to use a wrong item." );
+        return item_location();
+    }
+
+    return inv_internal( p, saw_barrel_inventory_preset( p, tool, *actor ),
+                         _( "Saw barrel" ), 1,
+                         _( "You don't have any guns." ),
+                         string_format( _( "Choose a weapon to use your %s on" ),
+                                        tool.tname( 1, false ).c_str()
+                                      )
+                       );
+}
+
 std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )
 {
     p.inv.restack( &p );
     p.inv.sort();
 
     const inventory_filter_preset preset( [ &p ]( const item_location & location ) {
-        return p.can_unwield( *location, false );
+        return p.can_unwield( *location ).success();
     } );
 
     inventory_drop_selector inv_s( p, preset );

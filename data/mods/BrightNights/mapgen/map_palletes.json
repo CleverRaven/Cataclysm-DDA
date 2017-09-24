@@ -1,0 +1,49 @@
+[
+  {
+    "type": "palette",
+    "id": "general_jc",
+    "terrain": {
+      "+": "t_door_c",
+      "3": "t_door_locked",
+      "2": "t_door_metal_c",
+      "4": "t_door_metal_pickable",
+      "[": "t_door_glass_c",
+      "-": "t_wall",
+      "|": "t_concrete_wall",
+      "/": "t_wall_wood",
+      "=": "t_wall_glass",
+      ",": [ "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt" ],
+      "s": "t_sidewalk",
+      "_": "t_pavement",
+      "<": "t_stairs_up",
+      ">": "t_stairs_down",
+      "0": "t_window_empty",
+      ":": "t_window_domestic",
+      "#": "t_shrub"
+    },
+    "furniture": {
+      "&": "f_toilet",
+      "~": "f_shower",
+      "@": "f_bed",
+      "a": "f_armchair",
+      "k": "f_cupboard",
+      "D": "f_dresser",
+      "h": "f_chair",
+      "b": "f_bench",
+      "B": "f_bookcase",
+      "c": "f_counter",
+      "n": "f_trashcan",
+      "d": "f_desk",
+      "f": "f_fridge",
+      "F": "f_glass_fridge",
+      "o": "f_oven",
+      "O": "f_woodstove",
+      "i": "f_sink",
+      "p": "f_pool_table",
+      "r": "f_rack",
+      "?": "f_sofa",
+      "t": "f_table",
+      "x": "f_safe_l"
+    }
+  }
+]

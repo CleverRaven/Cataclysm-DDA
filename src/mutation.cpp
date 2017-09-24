@@ -407,11 +407,6 @@ void player::activate_mutation( const trait_id &mut )
     if( mut == trait_WEB_WEAVER ) {
         g->m.add_field(pos(), fd_web, 1, 0);
         add_msg_if_player(_("You start spinning web with your spinnerets!"));
-    } else if( mut == "WEB_ROPE" ) {
-        add_msg_if_player(_("You spin a rope from your silk."));
-        item rope( "rope_30" );
-        i_add_or_drop( rope );
-        tdata.powered = false;
     } else if (mut == "BURROW"){
         if( is_underwater() ) {
             add_msg_if_player(m_info, _("You can't do that while underwater."));
@@ -499,23 +494,14 @@ void player::activate_mutation( const trait_id &mut )
         blossoms();
         tdata.powered = false;
         return;
-    } else if (mut == "VINES3"){
-        item newit( "vine_30", calendar::turn );
-        if ( !can_pickVolume( newit ) ) { //Accounts for result_mult
-            add_msg_if_player(_("You detach a vine but don't have room to carry it, so you drop it."));
-            g->m.add_item_or_charges(pos(), newit);
-        } else if ( !can_pickWeight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
-            add_msg_if_player(_("Your freshly-detached vine is too heavy to carry, so you drop it."));
-            g->m.add_item_or_charges(pos(), newit);
-        } else {
-            inv.assign_empty_invlet(newit);
-            newit = i_add(newit);
-            add_msg_if_player(m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str());
-        }
-        tdata.powered = false;
-        return;
     } else if( mut == trait_SELFAWARE ) {
         print_health();
+        tdata.powered = false;
+        return;
+    } else if( !mdata.spawn_item.empty() ) {
+        item tmpitem( mdata.spawn_item );
+        i_add_or_drop( tmpitem );
+        add_msg_if_player( _( mdata.spawn_item_message.c_str() ) );
         tdata.powered = false;
         return;
     }

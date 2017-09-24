@@ -33,10 +33,10 @@ const material_type &string_id<material_type>::obj() const
 
 material_type::material_type() :
     id( material_id::NULL_ID() ),
-    _bash_dmg_verb( _( "damages" ) ),
-    _cut_dmg_verb( _( "damages" ) )
+    _bash_dmg_verb( translate_marker( "damages" ) ),
+    _cut_dmg_verb( translate_marker( "damages" ) )
 {
-    _dmg_adj = { _( "lightly damaged" ), _( "damaged" ), _( "very damaged" ), _( "thoroughly damaged" ) };
+    _dmg_adj = { translate_marker( "lightly damaged" ), translate_marker( "damaged" ), translate_marker( "very damaged" ), translate_marker( "thoroughly damaged" ) };
 }
 
 mat_burn_data load_mat_burn_data( JsonObject &jsobj )
@@ -52,7 +52,7 @@ mat_burn_data load_mat_burn_data( JsonObject &jsobj )
 
 void material_type::load( JsonObject &jsobj, const std::string & )
 {
-    mandatory( jsobj, was_loaded, "name", _name, translated_string_reader );
+    mandatory( jsobj, was_loaded, "name", _name );
 
     mandatory( jsobj, was_loaded, "bash_resist", _bash_resist );
     mandatory( jsobj, was_loaded, "cut_resist", _cut_resist );
@@ -73,12 +73,12 @@ void material_type::load( JsonObject &jsobj, const std::string & )
         _vitamins.emplace( vitamin_id( pair.get_string( 0 ) ), pair.get_float( 1 ) );
     }
 
-    mandatory( jsobj, was_loaded, "bash_dmg_verb", _bash_dmg_verb, translated_string_reader );
-    mandatory( jsobj, was_loaded, "cut_dmg_verb", _cut_dmg_verb, translated_string_reader );
+    mandatory( jsobj, was_loaded, "bash_dmg_verb", _bash_dmg_verb );
+    mandatory( jsobj, was_loaded, "cut_dmg_verb", _cut_dmg_verb );
 
     JsonArray jsarr = jsobj.get_array( "dmg_adj" );
     while( jsarr.has_more() ) {
-        _dmg_adj.push_back( _( jsarr.next_string().c_str() ) );
+        _dmg_adj.push_back( jsarr.next_string() );
     }
 
     JsonArray burn_data_array = jsobj.get_array( "burn_data" );
@@ -146,7 +146,7 @@ material_id material_type::ident() const
 
 std::string material_type::name() const
 {
-    return _name;
+    return _( _name.c_str() );
 }
 
 itype_id material_type::salvaged_into() const
@@ -171,12 +171,12 @@ int material_type::cut_resist() const
 
 std::string material_type::bash_dmg_verb() const
 {
-    return _bash_dmg_verb;
+    return _( _bash_dmg_verb.c_str() );
 }
 
 std::string material_type::cut_dmg_verb() const
 {
-    return _cut_dmg_verb;
+    return _( _cut_dmg_verb.c_str() );
 }
 
 std::string material_type::dmg_adj( int damage ) const
@@ -187,7 +187,7 @@ std::string material_type::dmg_adj( int damage ) const
     }
 
     // apply bounds checking
-    return _dmg_adj[ std::min( size_t( damage ), _dmg_adj.size() ) - 1 ];
+    return _( _dmg_adj[std::min( size_t( damage ), _dmg_adj.size() ) - 1].c_str() );
 }
 
 int material_type::acid_resist() const

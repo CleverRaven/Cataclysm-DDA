@@ -504,6 +504,10 @@ void Character::recalc_sight_limits()
         vision_mode_cache.set( VISION_CLAIRVOYANCE_SUPER );
     }
 
+    if( has_artifact_with( AEP_CLAIRVOYANCE_PLUS ) ) {
+        vision_mode_cache.set( VISION_CLAIRVOYANCE_PLUS );
+    }
+
     if( has_artifact_with( AEP_CLAIRVOYANCE ) ) {
         vision_mode_cache.set( VISION_CLAIRVOYANCE );
     }
@@ -594,6 +598,40 @@ std::vector<item_location> Character::nearby( const std::function<bool(const ite
     }
 
     return res;
+}
+
+long int Character::i_add_to_container(const item &it, const bool unloading)
+{
+    long int charges = it.charges;
+    if( !it.is_ammo() || unloading ) {
+        return charges;
+    }
+
+    const itype_id item_type = it.typeId();
+    auto add_to_container = [&it, &charges](item &container) {
+        auto &contained_ammo = container.contents.front();
+        if( contained_ammo.charges < container.ammo_capacity() ) {
+            const long int diff = container.ammo_capacity() - contained_ammo.charges;
+            add_msg( _( "You put the %s in your %s." ), it.tname().c_str(), container.tname().c_str() );
+            if( diff > charges ) {
+                contained_ammo.charges += charges;
+                return 0L;
+            } else {
+                contained_ammo.charges = container.ammo_capacity();
+                return charges - diff;
+            }
+        }
+        return charges;
+    };
+
+    visit_items( [ & ]( item *item ) {
+        if( charges > 0 && item->is_ammo_container() && item_type == item->contents.front().typeId() ) {
+            charges = add_to_container(*item);
+        }
+        return VisitResponse::NEXT;
+    } );
+
+    return charges;
 }
 
 item& Character::i_add(item it)
@@ -836,9 +874,9 @@ std::vector<item_location> Character::find_ammo( const item& obj, bool empty, in
     return res;
 }
 
-int Character::weight_carried() const
+units::mass Character::weight_carried() const
 {
-    int ret = 0;
+    units::mass ret = 0;
     ret += weapon.weight();
     for (auto &i : worn) {
         ret += i.weight();
@@ -852,31 +890,31 @@ units::volume Character::volume_carried() const
     return inv.volume();
 }
 
-int Character::weight_capacity() const
+units::mass Character::weight_capacity() const
 {
     if( has_trait( trait_id( "DEBUG_STORAGE" ) ) ) {
         // Infinite enough
-        return INT_MAX;
+        return units::mass_max;
     }
     // Get base capacity from creature,
     // then apply player-only mutation and trait effects.
-    int ret = Creature::weight_capacity();
+    units::mass ret = Creature::weight_capacity();
     /** @EFFECT_STR increases carrying capacity */
-    ret += get_str() * 4000;
+    ret += get_str() * 4_kilogram;
     if( has_trait( trait_id( "BADBACK" ) ) ) {
-        ret = int(ret * .65);
+        ret = ret * .65;
     }
     if( has_trait( trait_id( "STRONGBACK" ) ) ) {
-        ret = int(ret * 1.35);
+        ret = ret * 1.35;
     }
     if( has_trait( trait_id( "LIGHT_BONES" ) ) ) {
-        ret = int(ret * .80);
+        ret = ret * .80;
     }
     if( has_trait( trait_id( "HOLLOW_BONES" ) ) ) {
-        ret = int(ret * .60);
+        ret = ret * .60;
     }
     if (has_artifact_with(AEP_CARRY_MORE)) {
-        ret += 22500;
+        ret += 22500_gram;
     }
     if (ret < 0) {
         ret = 0;
@@ -929,7 +967,7 @@ bool Character::can_pickWeight( const item &it, bool safe ) const
     if (!safe)
     {
         // Character can carry up to four times their maximum weight
-        return ( weight_carried() + it.weight() <= ( has_trait( trait_id( "DEBUG_STORAGE" ) ) ? INT_MAX : weight_capacity() * 4 ) );
+        return ( weight_carried() + it.weight() <= ( has_trait( trait_id( "DEBUG_STORAGE" ) ) ? units::mass_max : weight_capacity() * 4 ) );
     }
     else
     {
@@ -1289,11 +1327,11 @@ std::array<encumbrance_data, num_bp> Character::calc_encumbrance( const item &ne
     return ret;
 }
 
-int Character::get_weight() const
+units::mass Character::get_weight() const
 {
-    int ret = 0;
-    int wornWeight = std::accumulate( worn.begin(), worn.end(), 0,
-                     []( int sum, const item &itm ) {
+    units::mass ret = 0;
+    units::mass wornWeight = std::accumulate( worn.begin(), worn.end(), units::mass( 0 ),
+                     []( units::mass sum, const item &itm ) {
                         return sum + itm.weight();
                      } );
 
@@ -1941,7 +1979,15 @@ std::string Character::get_name() const
 nc_color Character::symbol_color() const
 {
     nc_color basic = basic_symbol_color();
+
+    if( has_effect( effect_downed ) ) {
+        return hilite( basic );
+    } else if( has_effect( effect_grabbed ) ) {
+        return cyan_background( basic );
+    }
+    
     const auto &fields = g->m.field_at( pos() );
+
     bool has_fire = false;
     bool has_acid = false;
     bool has_elec = false;
@@ -1983,8 +2029,8 @@ nc_color Character::symbol_color() const
     } else if( has_fume ) {
         return white_background( basic );
     }
-
-    if( in_sleep_state() || has_effect( effect_downed ) ) {
+    
+    if( in_sleep_state() ) {
         return hilite( basic );
     }
 
@@ -2025,7 +2071,7 @@ bool Character::is_immune_field( const field_id fid ) const
         case fd_web:
             return has_trait( trait_id( "WEB_WALKER" ) );
         case fd_fire:
-        case fd_flame_burst: 
+        case fd_flame_burst:
             return has_trait( trait_id( "M_SKIN2" ) ) || has_active_bionic( bionic_id( "bio_heatsink" ) ) ||
                    is_wearing( "rm13_armor_on" );
         default:
@@ -2049,12 +2095,12 @@ int Character::throw_range( const item &it ) const
     }
 
     /** @EFFECT_STR determines maximum weight that can be thrown */
-    if( (tmp.weight() / 113) > int(str_cur * 15) ) {
+    if( ( tmp.weight() / 113_gram ) > int( str_cur * 15 ) ) {
         return 0;
     }
     // Increases as weight decreases until 150 g, then decreases again
     /** @EFFECT_STR increases throwing range, vs item weight (high or low) */
-    int ret = (str_cur * 8) / (tmp.weight() >= 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
+    int ret = ( str_cur * 8 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 - int( tmp.weight() / 15_gram ) );
     ret -= tmp.volume() / 1000_ml;
     static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
     if( has_active_bionic( bionic_id( "bio_railgun" ) ) && tmp.made_of_any( affected_materials ) ) {
@@ -2391,6 +2437,8 @@ float Character::mutation_value( const std::string &val ) const
         return calc_mutation_value<&mutation_branch::fatigue_regen_modifier>( cached_mutations );
     } else if( val == "fatigue_modifier" ) {
         return calc_mutation_value<&mutation_branch::fatigue_modifier>( cached_mutations );
+    } else if( val == "stamina_regen_modifier" ) {
+        return calc_mutation_value<&mutation_branch::stamina_regen_modifier>( cached_mutations );
     }
 
     debugmsg( "Invalid mutation value name %s", val.c_str() );

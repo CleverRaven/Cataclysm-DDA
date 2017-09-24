@@ -1032,8 +1032,6 @@ A: Ask the helpful people on the forum at smf.cataclysmdda.com or at the irc cha
     return text;
 }
 
-extern input_context get_default_mode_input_context();
-
 void display_help()
 {
     WINDOW *w_help_border = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,

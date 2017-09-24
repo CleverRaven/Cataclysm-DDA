@@ -41,8 +41,7 @@ const mtype_id mon_zombie( "mon_zombie" );
 
 mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west,
                         oter_id northeast, oter_id southeast, oter_id southwest, oter_id northwest,
-                        oter_id up, int z, const regional_settings *rsettings, map *mp ) :
-    default_groundcover( t_null, 1, t_null )
+                        oter_id up, int z, const regional_settings *rsettings, map *mp )
 {
     t_nesw[0] = north;
     t_nesw[1] = east;
@@ -65,10 +64,7 @@ mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west
     region = rsettings;
     m = mp;
     // making a copy so we can fudge values if desired
-    default_groundcover.chance = region->default_groundcover.chance;
-    default_groundcover.primary = region->default_groundcover.primary;
-    default_groundcover.secondary = region->default_groundcover.secondary;
-
+    default_groundcover = region->default_groundcover;
 }
 
 tripoint rotate_point( const tripoint &p, int rotations )
@@ -103,181 +99,180 @@ tripoint rotate_point( const tripoint &p, int rotations )
     return ret;
 }
 
-std::map<std::string, building_gen_pointer> mapgen_cfunction_map;
-
-void init_mapgen_builtin_functions() {
-    mapgen_cfunction_map.clear();
-    mapgen_cfunction_map["null"]             = &mapgen_null;
-    mapgen_cfunction_map["crater"]           = &mapgen_crater;
-    mapgen_cfunction_map["field"]            = &mapgen_field;
-    mapgen_cfunction_map["dirtlot"]          = &mapgen_dirtlot;
-    mapgen_cfunction_map["forest"]           = &mapgen_forest_general;
-    mapgen_cfunction_map["hive"]             = &mapgen_hive;
-    mapgen_cfunction_map["spider_pit"]       = &mapgen_spider_pit;
-    mapgen_cfunction_map["fungal_bloom"]     = &mapgen_fungal_bloom;
-    mapgen_cfunction_map["fungal_tower"]     = &mapgen_fungal_tower;
-    mapgen_cfunction_map["fungal_flowers"]   = &mapgen_fungal_flowers;
-    mapgen_cfunction_map["road_straight"]    = &mapgen_road;
-    mapgen_cfunction_map["road_curved"]      = &mapgen_road;
-    mapgen_cfunction_map["road_end"]         = &mapgen_road;
-    mapgen_cfunction_map["road_tee"]         = &mapgen_road;
-    mapgen_cfunction_map["road_four_way"]    = &mapgen_road;
-    mapgen_cfunction_map["field"]            = &mapgen_field;
-    mapgen_cfunction_map["bridge"]           = &mapgen_bridge;
-    mapgen_cfunction_map["highway"]          = &mapgen_highway;
-    mapgen_cfunction_map["river_center"] = &mapgen_river_center;
-    mapgen_cfunction_map["river_curved_not"] = &mapgen_river_curved_not;
-    mapgen_cfunction_map["river_straight"]   = &mapgen_river_straight;
-    mapgen_cfunction_map["river_curved"]     = &mapgen_river_curved;
-    mapgen_cfunction_map["parking_lot"]      = &mapgen_parking_lot;
-    mapgen_cfunction_map["s_gas"]      = &mapgen_gas_station;
-    mapgen_cfunction_map["house_generic_boxy"]      = &mapgen_generic_house_boxy;
-    mapgen_cfunction_map["house_generic_big_livingroom"]      = &mapgen_generic_house_big_livingroom;
-    mapgen_cfunction_map["house_generic_center_hallway"]      = &mapgen_generic_house_center_hallway;
-    mapgen_cfunction_map["church_new_england"]             = &mapgen_church_new_england;
-    mapgen_cfunction_map["church_gothic"]             = &mapgen_church_gothic;
-    mapgen_cfunction_map["s_pharm"]             = &mapgen_pharm;
-    mapgen_cfunction_map["spider_pit"] = mapgen_spider_pit;
-    mapgen_cfunction_map["s_sports"] = mapgen_s_sports;
-    mapgen_cfunction_map["shelter"] = &mapgen_shelter;
-    mapgen_cfunction_map["shelter_under"] = &mapgen_shelter_under;
-    mapgen_cfunction_map["lmoe"] = &mapgen_lmoe;
-    mapgen_cfunction_map["basement_generic_layout"] = &mapgen_basement_generic_layout; // empty, not bound
-    mapgen_cfunction_map["basement_junk"] = &mapgen_basement_junk;
+building_gen_pointer get_mapgen_cfunction( const std::string &ident )
+{
+    static const std::map<std::string, building_gen_pointer> pointers = { {
+    { "null",             &mapgen_null },
+    { "crater",           &mapgen_crater },
+    { "field",            &mapgen_field },
+    { "dirtlot",          &mapgen_dirtlot },
+    { "forest",           &mapgen_forest_general },
+    { "hive",             &mapgen_hive },
+    { "spider_pit",       &mapgen_spider_pit },
+    { "fungal_bloom",     &mapgen_fungal_bloom },
+    { "fungal_tower",     &mapgen_fungal_tower },
+    { "fungal_flowers",   &mapgen_fungal_flowers },
+    { "road_straight",    &mapgen_road },
+    { "road_curved",      &mapgen_road },
+    { "road_end",         &mapgen_road },
+    { "road_tee",         &mapgen_road },
+    { "road_four_way",    &mapgen_road },
+    { "field",            &mapgen_field },
+    { "bridge",           &mapgen_bridge },
+    { "highway",          &mapgen_highway },
+    { "river_center", &mapgen_river_center },
+    { "river_curved_not", &mapgen_river_curved_not },
+    { "river_straight",   &mapgen_river_straight },
+    { "river_curved",     &mapgen_river_curved },
+    { "parking_lot",      &mapgen_parking_lot },
+    { "s_gas",      &mapgen_gas_station },
+    { "house_generic_boxy",      &mapgen_generic_house_boxy },
+    { "house_generic_big_livingroom",      &mapgen_generic_house_big_livingroom },
+    { "house_generic_center_hallway",      &mapgen_generic_house_center_hallway },
+//    { "church_new_england",             &mapgen_church_new_england },
+//    { "church_gothic",             &mapgen_church_gothic },
+    { "s_pharm",             &mapgen_pharm },
+    { "spider_pit", mapgen_spider_pit },
+    { "s_sports", mapgen_s_sports },
+//    { "shelter", &mapgen_shelter },
+    { "shelter_under", &mapgen_shelter_under },
+//    { "lmoe", &mapgen_lmoe },
+    { "basement_generic_layout", &mapgen_basement_generic_layout }, // empty, not bound
+    { "basement_junk", &mapgen_basement_junk },
     /*
-    mapgen_cfunction_map["basement_chemlab"] = &mapgen_basement_chemlab;
-    mapgen_cfunction_map["basement_weed"] = &mapgen_basement_weed;
-    mapgen_cfunction_map["basement_game"] = &mapgen_basement_game;
+    { "basement_chemlab", &mapgen_basement_chemlab },
+    { "basement_weed", &mapgen_basement_weed },
+    { "basement_game", &mapgen_basement_game },
     */
-    mapgen_cfunction_map["basement_spiders"] = &mapgen_basement_spiders;
-    mapgen_cfunction_map["office_doctor"] = &mapgen_office_doctor;
-    mapgen_cfunction_map["sub_station"] = &mapgen_sub_station;
-//  mapgen_cfunction_map["s_garage"] = &mapgen_s_garage;
-//    mapgen_cfunction_map["farm"] = &mapgen_farm;
-//    mapgen_cfunction_map["farm_field"] = &mapgen_farm_field;
-    mapgen_cfunction_map["police"] = &mapgen_police;
-    mapgen_cfunction_map["bank"] = &mapgen_bank;
-    mapgen_cfunction_map["pawn"] = &mapgen_pawn;
-    mapgen_cfunction_map["mil_surplus"] = &mapgen_mil_surplus;
-    mapgen_cfunction_map["cave"] = &mapgen_cave;
-    mapgen_cfunction_map["cave_rat"] = &mapgen_cave_rat;
-    mapgen_cfunction_map["cavern"] = &mapgen_cavern;
-    mapgen_cfunction_map["open_air"] = &mapgen_open_air;
-    mapgen_cfunction_map["rift"] = &mapgen_rift;
-    mapgen_cfunction_map["hellmouth"] = &mapgen_hellmouth;
-
+    { "basement_spiders", &mapgen_basement_spiders },
+//    { "office_doctor", &mapgen_office_doctor },
+//    { "sub_station", &mapgen_sub_station },
+//  { "s_garage", &mapgen_s_garage },
+//    { "farm", &mapgen_farm },
+//    { "farm_field", &mapgen_farm_field },
+    { "police", &mapgen_police },
+//    { "bank", &mapgen_bank },
+    { "pawn", &mapgen_pawn },
+    { "mil_surplus", &mapgen_mil_surplus },
+    { "cave", &mapgen_cave },
+    { "cave_rat", &mapgen_cave_rat },
+    { "cavern", &mapgen_cavern },
+    { "open_air", &mapgen_open_air },
+    { "rift", &mapgen_rift },
+    { "hellmouth", &mapgen_hellmouth },
     // New rock function - should be default, but isn't yet for compatibility reasons (old overmaps)
-    mapgen_cfunction_map["empty_rock"] = &mapgen_rock;
+    { "empty_rock", &mapgen_rock },
     // Old rock behavior, for compatibility and near caverns and slime pits
-    mapgen_cfunction_map["rock"] = &mapgen_rock_partial;
+    { "rock", &mapgen_rock_partial },
 
-    mapgen_cfunction_map["subway_station"] = &mapgen_subway_station;
+    { "subway_station", &mapgen_subway_station },
 
-    mapgen_cfunction_map["subway_straight"]    = &mapgen_subway_straight;
-    mapgen_cfunction_map["subway_curved"]      = &mapgen_subway_curved;
+    { "subway_straight",    &mapgen_subway_straight },
+    { "subway_curved",      &mapgen_subway_curved },
     // @todo Add a dedicated dead-end function. For now it copies the straight section above.
-    mapgen_cfunction_map["subway_end"]         = &mapgen_subway_straight;
-    mapgen_cfunction_map["subway_tee"]         = &mapgen_subway_tee;
-    mapgen_cfunction_map["subway_four_way"]    = &mapgen_subway_four_way;
+    { "subway_end",         &mapgen_subway_straight },
+    { "subway_tee",         &mapgen_subway_tee },
+    { "subway_four_way",    &mapgen_subway_four_way },
 
-    mapgen_cfunction_map["sewer_straight"]    = &mapgen_sewer_straight;
-    mapgen_cfunction_map["sewer_curved"]      = &mapgen_sewer_curved;
+    { "sewer_straight",    &mapgen_sewer_straight },
+    { "sewer_curved",      &mapgen_sewer_curved },
     // @todo Add a dedicated dead-end function. For now it copies the straight section above.
-    mapgen_cfunction_map["sewer_end"]         = &mapgen_sewer_straight;
-    mapgen_cfunction_map["sewer_tee"]         = &mapgen_sewer_tee;
-    mapgen_cfunction_map["sewer_four_way"]    = &mapgen_sewer_four_way;
+    { "sewer_end",         &mapgen_sewer_straight },
+    { "sewer_tee",         &mapgen_sewer_tee },
+    { "sewer_four_way",    &mapgen_sewer_four_way },
 
-    mapgen_cfunction_map["ants_straight"]    = &mapgen_ants_straight;
-    mapgen_cfunction_map["ants_curved"]      = &mapgen_ants_curved;
+    { "ants_straight",    &mapgen_ants_straight },
+    { "ants_curved",      &mapgen_ants_curved },
     // @todo Add a dedicated dead-end function. For now it copies the straight section above.
-    mapgen_cfunction_map["ants_end"]         = &mapgen_ants_straight;
-    mapgen_cfunction_map["ants_tee"]         = &mapgen_ants_tee;
-    mapgen_cfunction_map["ants_four_way"]    = &mapgen_ants_four_way;
-    mapgen_cfunction_map["ants_food"] = &mapgen_ants_food;
-    mapgen_cfunction_map["ants_larvae"] = &mapgen_ants_larvae;
-    mapgen_cfunction_map["ants_queen"] = &mapgen_ants_queen;
+    { "ants_end",         &mapgen_ants_straight },
+    { "ants_tee",         &mapgen_ants_tee },
+    { "ants_four_way",    &mapgen_ants_four_way },
+    { "ants_food", &mapgen_ants_food },
+    { "ants_larvae", &mapgen_ants_larvae },
+    { "ants_queen", &mapgen_ants_queen },
 /* todo
-    mapgen_cfunction_map["office_tower_1_entrance"] = &mapgen_office_tower_1_entrance;
-    mapgen_cfunction_map["office_tower_1"] = &mapgen_office_tower_1;
-    mapgen_cfunction_map["office_tower_b_entrance"] = &mapgen_office_tower_b_entrance;
-    mapgen_cfunction_map["office_tower_b"] = &mapgen_office_tower_b;
+    { "office_tower_1_entrance", &mapgen_office_tower_1_entrance },
+    { "office_tower_1", &mapgen_office_tower_1 },
+    { "office_tower_b_entrance", &mapgen_office_tower_b_entrance },
+    { "office_tower_b", &mapgen_office_tower_b },
 
-    mapgen_cfunction_map["megastore_entrance"] = &mapgen_megastore_entrance;
-    mapgen_cfunction_map["megastore"] = &mapgen_megastore;
-    mapgen_cfunction_map["hospital_entrance"] = &mapgen_hospital_entrance;
-    mapgen_cfunction_map["hospital"] = &mapgen_hospital;
-    mapgen_cfunction_map["public_works_entrance"] = &mapgen_public_works_entrance;
-    mapgen_cfunction_map["public_works"] = &mapgen_public_works;
-    mapgen_cfunction_map["prison_1"] = &mapgen_prison_1;
-    mapgen_cfunction_map["prison_2"] = &mapgen_prison_2;
-    mapgen_cfunction_map["prison_3"] = &mapgen_prison_3;
-    mapgen_cfunction_map["prison_4"] = &mapgen_prison_4;
-    mapgen_cfunction_map["prison_5"] = &mapgen_prison_5;
-    mapgen_cfunction_map["prison_6"] = &mapgen_prison_6;
-    mapgen_cfunction_map["prison_7"] = &mapgen_prison_7;
-    mapgen_cfunction_map["prison_8"] = &mapgen_prison_8;
-    mapgen_cfunction_map["prison_9"] = &mapgen_prison_9;
-    mapgen_cfunction_map["prison_b"] = &mapgen_prison_b;
-    mapgen_cfunction_map["prison_b_entrance"] = &mapgen_prison_b_entrance;
-    mapgen_cfunction_map["hotel_tower_1_1"] = &mapgen_hotel_tower_1_1;
-    mapgen_cfunction_map["hotel_tower_1_2"] = &mapgen_hotel_tower_1_2;
-    mapgen_cfunction_map["hotel_tower_1_3"] = &mapgen_hotel_tower_1_3;
-    mapgen_cfunction_map["hotel_tower_1_4"] = &mapgen_hotel_tower_1_4;
-    mapgen_cfunction_map["hotel_tower_1_5"] = &mapgen_hotel_tower_1_5;
-    mapgen_cfunction_map["hotel_tower_1_6"] = &mapgen_hotel_tower_1_6;
-    mapgen_cfunction_map["hotel_tower_1_7"] = &mapgen_hotel_tower_1_7;
-    mapgen_cfunction_map["hotel_tower_1_8"] = &mapgen_hotel_tower_1_8;
-    mapgen_cfunction_map["hotel_tower_1_9"] = &mapgen_hotel_tower_1_9;
-    mapgen_cfunction_map["hotel_tower_b_1"] = &mapgen_hotel_tower_b_1;
-    mapgen_cfunction_map["hotel_tower_b_2"] = &mapgen_hotel_tower_b_2;
-    mapgen_cfunction_map["hotel_tower_b_3"] = &mapgen_hotel_tower_b_3;
-    mapgen_cfunction_map["mansion_entrance"] = &mapgen_mansion_entrance;
-    mapgen_cfunction_map["mansion"] = &mapgen_mansion;
-    mapgen_cfunction_map["fema_entrance"] = &mapgen_fema_entrance;
-    mapgen_cfunction_map["fema"] = &mapgen_fema;
-    mapgen_cfunction_map["station_radio"] = &mapgen_station_radio;
-    mapgen_cfunction_map["lab"] = &mapgen_lab;
-    mapgen_cfunction_map["lab_stairs"] = &mapgen_lab_stairs;
-    mapgen_cfunction_map["lab_core"] = &mapgen_lab_core;
-    mapgen_cfunction_map["lab_finale"] = &mapgen_lab_finale;
-    mapgen_cfunction_map["ice_lab"] = &mapgen_ice_lab;
-    mapgen_cfunction_map["ice_lab_stairs"] = &mapgen_ice_lab_stairs;
-    mapgen_cfunction_map["ice_lab_core"] = &mapgen_ice_lab_core;
-    mapgen_cfunction_map["ice_lab_finale"] = &mapgen_ice_lab_finale;
-    mapgen_cfunction_map["nuke_plant"] = &mapgen_nuke_plant;
-    mapgen_cfunction_map["outpost"] = &mapgen_outpost;
-    mapgen_cfunction_map["silo"] = &mapgen_silo;
-    mapgen_cfunction_map["silo_finale"] = &mapgen_silo_finale;
-    mapgen_cfunction_map["temple"] = &mapgen_temple;
-    mapgen_cfunction_map["temple_stairs"] = &mapgen_temple_stairs;
-    mapgen_cfunction_map["temple_finale"] = &mapgen_temple_finale;
-    mapgen_cfunction_map["sewage_treatment"] = &mapgen_sewage_treatment;
-    mapgen_cfunction_map["sewage_treatment_hub"] = &mapgen_sewage_treatment_hub;
-    mapgen_cfunction_map["sewage_treatment_under"] = &mapgen_sewage_treatment_under;
-    mapgen_cfunction_map["mine_entrance"] = &mapgen_mine_entrance;
-    mapgen_cfunction_map["mine_shaft"] = &mapgen_mine_shaft;
-    mapgen_cfunction_map["mine"] = &mapgen_mine;
-    mapgen_cfunction_map["mine_down"] = &mapgen_mine_down;
-    mapgen_cfunction_map["mine_finale"] = &mapgen_mine_finale;
-    mapgen_cfunction_map["spiral_hub"] = &mapgen_spiral_hub;
-    mapgen_cfunction_map["spiral"] = &mapgen_spiral;
-    mapgen_cfunction_map["radio_tower"] = &mapgen_radio_tower;
-    mapgen_cfunction_map["toxic_dump"] = &mapgen_toxic_dump;
-    mapgen_cfunction_map["haz_sar_entrance"] = &mapgen_haz_sar_entrance;
-    mapgen_cfunction_map["haz_sar"] = &mapgen_haz_sar;
-    mapgen_cfunction_map["haz_sar_entrance_b1"] = &mapgen_haz_sar_entrance_b1;
-    mapgen_cfunction_map["haz_sar_b1"] = &mapgen_haz_sar_b1;
+    { "megastore_entrance", &mapgen_megastore_entrance },
+    { "megastore", &mapgen_megastore },
+    { "hospital_entrance", &mapgen_hospital_entrance },
+    { "hospital", &mapgen_hospital },
+    { "public_works_entrance", &mapgen_public_works_entrance },
+    { "public_works", &mapgen_public_works },
+    { "prison_1", &mapgen_prison_1 },
+    { "prison_2", &mapgen_prison_2 },
+    { "prison_3", &mapgen_prison_3 },
+    { "prison_4", &mapgen_prison_4 },
+    { "prison_5", &mapgen_prison_5 },
+    { "prison_6", &mapgen_prison_6 },
+    { "prison_7", &mapgen_prison_7 },
+    { "prison_8", &mapgen_prison_8 },
+    { "prison_9", &mapgen_prison_9 },
+    { "prison_b", &mapgen_prison_b },
+    { "prison_b_entrance", &mapgen_prison_b_entrance },
+    { "hotel_tower_1_1", &mapgen_hotel_tower_1_1 },
+    { "hotel_tower_1_2", &mapgen_hotel_tower_1_2 },
+    { "hotel_tower_1_3", &mapgen_hotel_tower_1_3 },
+    { "hotel_tower_1_4", &mapgen_hotel_tower_1_4 },
+    { "hotel_tower_1_5", &mapgen_hotel_tower_1_5 },
+    { "hotel_tower_1_6", &mapgen_hotel_tower_1_6 },
+    { "hotel_tower_1_7", &mapgen_hotel_tower_1_7 },
+    { "hotel_tower_1_8", &mapgen_hotel_tower_1_8 },
+    { "hotel_tower_1_9", &mapgen_hotel_tower_1_9 },
+    { "hotel_tower_b_1", &mapgen_hotel_tower_b_1 },
+    { "hotel_tower_b_2", &mapgen_hotel_tower_b_2 },
+    { "hotel_tower_b_3", &mapgen_hotel_tower_b_3 },
+    { "mansion_entrance", &mapgen_mansion_entrance },
+    { "mansion", &mapgen_mansion },
+    { "fema_entrance", &mapgen_fema_entrance },
+    { "fema", &mapgen_fema },
+    { "station_radio", &mapgen_station_radio },
+    { "lab", &mapgen_lab },
+    { "lab_stairs", &mapgen_lab_stairs },
+    { "lab_core", &mapgen_lab_core },
+    { "lab_finale", &mapgen_lab_finale },
+    { "ice_lab", &mapgen_ice_lab },
+    { "ice_lab_stairs", &mapgen_ice_lab_stairs },
+    { "ice_lab_core", &mapgen_ice_lab_core },
+    { "ice_lab_finale", &mapgen_ice_lab_finale },
+    { "nuke_plant", &mapgen_nuke_plant },
+    { "outpost", &mapgen_outpost },
+    { "silo", &mapgen_silo },
+    { "silo_finale", &mapgen_silo_finale },
+    { "temple", &mapgen_temple },
+    { "temple_stairs", &mapgen_temple_stairs },
+    { "temple_finale", &mapgen_temple_finale },
+    { "sewage_treatment", &mapgen_sewage_treatment },
+    { "sewage_treatment_hub", &mapgen_sewage_treatment_hub },
+    { "sewage_treatment_under", &mapgen_sewage_treatment_under },
+    { "mine_entrance", &mapgen_mine_entrance },
+    { "mine_shaft", &mapgen_mine_shaft },
+    { "mine", &mapgen_mine },
+    { "mine_down", &mapgen_mine_down },
+    { "mine_finale", &mapgen_mine_finale },
+    { "spiral_hub", &mapgen_spiral_hub },
+    { "spiral", &mapgen_spiral },
+    { "radio_tower", &mapgen_radio_tower },
+    { "toxic_dump", &mapgen_toxic_dump },
+    { "haz_sar_entrance", &mapgen_haz_sar_entrance },
+    { "haz_sar", &mapgen_haz_sar },
+    { "haz_sar_entrance_b1", &mapgen_haz_sar_entrance_b1 },
+    { "haz_sar_b1", &mapgen_haz_sar_b1 },
 
-    mapgen_cfunction_map["spider_pit_under"] = &mapgen_spider_pit_under;
-    mapgen_cfunction_map["anthill"] = &mapgen_anthill;
-    mapgen_cfunction_map["slimepit"] = &mapgen_slimepit;
-    mapgen_cfunction_map["slimepit_down"] = &mapgen_slimepit_down;
-    mapgen_cfunction_map["triffid_roots"] = &mapgen_triffid_roots;
-    mapgen_cfunction_map["triffid_finale"] = &mapgen_triffid_finale;
-
+    { "spider_pit_under", &mapgen_spider_pit_under },
+    { "anthill", &mapgen_anthill },
+    { "slimepit", &mapgen_slimepit },
+    { "slimepit_down", &mapgen_slimepit_down },
+    { "triffid_roots", &mapgen_triffid_roots },
+    { "triffid_finale", &mapgen_triffid_finale },
 */
-    mapgen_cfunction_map["tutorial"] = &mapgen_tutorial;
-//
+    { "tutorial", &mapgen_tutorial },
+    } };
+    const auto iter = pointers.find( ident );
+    return iter == pointers.end() ? nullptr : iter->second;
 }
 
 void mapgendata::set_dir(int dir_in, int val)
@@ -387,12 +382,19 @@ void mapgendata::square_groundcover(const int x1, const int y1, const int x2, co
 void mapgendata::fill_groundcover() {
     m->draw_fill_background( this->default_groundcover );
 }
-bool mapgendata::is_groundcover(const ter_id iid ) const {
-    return this->default_groundcover.match( iid );
+bool mapgendata::is_groundcover( const ter_id iid ) const {
+    for( const auto &pr : default_groundcover ) {
+        if( pr.obj == iid ) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 ter_id mapgendata::groundcover() {
-    return this->default_groundcover.get();
+    const ter_id *tid = default_groundcover.pick();
+    return tid != nullptr ? *tid : t_null;
 }
 
 void mapgen_rotate( map * m, oter_id terrain_type, bool north_is_down ) {
@@ -1578,11 +1580,19 @@ void mapgen_sewer_four_way(map *m, oter_id, mapgendata dat, int, float)
 ///////////////////
 void mapgen_bridge(map *m, oter_id terrain_type, mapgendata dat, int turn, float)
 {
-    (void)dat;
+    const auto is_river = [&]( const om_direction::type dir ) {
+        return dat.t_nesw[static_cast<int>(om_direction::add(dir, terrain_type->get_dir()))]->is_river();
+    };
+
+    const bool river_west = is_river(om_direction::type::west);
+    const bool river_east = is_river(om_direction::type::east);
+
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
-            if (i < 2 || i >= SEEX * 2 - 2) {
-                m->ter_set(i, j, t_water_dp);
+            if (i < 2) {
+                m->ter_set(i, j, river_west ? t_water_dp : grass_or_dirt());
+            } else if (i >= SEEX * 2 - 2) {
+                m->ter_set(i, j, river_east ? t_water_dp : grass_or_dirt());
             } else if (i == 2 || i == SEEX * 2 - 3) {
                 m->ter_set(i, j, t_guardrail_bg_dp);
             } else if (i == 3 || i == SEEX * 2 - 4) {
@@ -1600,9 +1610,7 @@ void mapgen_bridge(map *m, oter_id terrain_type, mapgendata dat, int turn, float
     // spawn regular road out of fuel vehicles
     VehicleSpawn::apply(vspawn_id("default_bridge"), *m, "bridge");
 
-    if (terrain_type == "bridge_ew") {
-        m->rotate(1);
-    }
+    m->rotate( static_cast<int>( terrain_type->get_dir() ) );
     m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
 }
 
@@ -2721,107 +2729,6 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
     m->rotate( static_cast<int>( terrain_type->get_dir() ) );
 }
 
-/////////////////////////////
-void mapgen_church_new_england(map *m, oter_id terrain_type, mapgendata dat, int, float) {
-    computer *tmpcomp = NULL;
-    dat.fill_groundcover();
-    //New England or Country style, single centered steeple low clear windows
-    mapf::formatted_set_simple(m, 0, 0,"\
-         ^^^^^^         \n\
-     |---|--------|     \n\
-    ||dh.|.6ooo.ll||    \n\
-    |l...+.........Dsss \n\
-  ^^|--+-|------+--|^^s \n\
-  ^||..............||^s \n\
-   w.....b.tt.b.....w s \n\
-   |................| s \n\
-  ^w................w^s \n\
-  ^|.######..######.|^s \n\
-  ^w................w^s \n\
-  ^|.######..######.|^s \n\
-   w................w s \n\
-   |.######..######.| s \n\
-  ^w................w^s \n\
-  ^|.######..######.|^s \n\
-  ^|................|^s \n\
-   |-w|----..----|w-| s \n\
-    ^^|ll|....|ST|^^  s \n\
-     ^|.......+..|^   s \n\
-      |----++-|--|    s \n\
-         O ss O       s \n\
-     ^^    ss    ^^   s \n\
-     ^^    ss    ^^   s \n",
-       mapf::ter_bind("O 6 ^ . - | # t + = D w T S e o h c d l s b", t_column, t_console, t_shrub, t_floor,
-               t_wall, t_wall, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window,
-               t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk, t_floor),
-       mapf::furn_bind("O 6 ^ . - | # t + = D w T S e o h c d l s b", f_null,   f_null,    f_null,  f_null,
-               f_null,   f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,
-               f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null, f_brazier)
-    );
-    m->place_items("church", 40,  5,  5, 8,  16, false, 0);
-    m->place_items("church", 40,  5,  5, 8,  16, false, 0);
-    m->place_items("church", 85,  12,  2, 14,  2, false, 0);
-    m->place_items("office", 60,  6,  2, 8,  3, false, 0);
-    m->place_items("jackets", 85,  7,  18, 8,  18, false, 0);
-    tmpcomp = m->add_computer( tripoint( 11, 2, m->get_abs_sub().z ), _("Church Bells 1.2"), 0);
-    tmpcomp->add_option(_("Gathering Toll"), COMPACT_TOLL, 0);
-    tmpcomp->add_option(_("Wedding Toll"), COMPACT_TOLL, 0);
-    tmpcomp->add_option(_("Funeral Toll"), COMPACT_TOLL, 0);
-    autorotate(true);
-}
-
-void mapgen_church_gothic(map *m, oter_id terrain_type, mapgendata dat, int, float) {
-    computer *tmpcomp = NULL;
-    dat.fill_groundcover();
-    //Gothic Style, unreachable high stained glass windows, stone construction
-    mapf::formatted_set_simple(m, 0, 0, "\
- $$    W        W    $$ \n\
- $$  WWWWGVBBVGWWWW  $$ \n\
-     W..h.cccc.h..W     \n\
- WWVWWRb........bRWWBWW \n\
-WW#.#.R....cc....R.#.#WW\n\
- G#.#.R..........R.#.#V \n\
- V#.#.Rrrrr..rrrrR.#.#B \n\
-WW#..................#WW\n\
- WW+WW#####..#####WW+WW \n\
-ssss V............B ssss\n\
-s   WW#####..#####WW   s\n\
-s $ WW............WW $ s\n\
-s $  G#####..#####V  $ s\n\
-s $  B............G  $ s\n\
-s $ WW#####..#####WW $ s\n\
-s $ WW............WW $ s\n\
-s    V####....####B    s\n\
-s WWWW--|--gg-----WWWW s\n\
-s WllWTS|.....lll.W..W s\n\
-s W..+..+.........+..W s\n\
-s W..WWWWWW++WWWWWW6.W s\n\
-s W.CWW$$WWssWW$$WW..W s\n\
-s WWWWW    ss    WWWWW s\n\
-ssssssssssssssssssssssss\n",
-       mapf::ter_bind("C V G B W R r 6 $ . - | # t + g T S h c l s b", t_floor,   t_window_stained_red,
-               t_window_stained_green, t_window_stained_blue, t_rock, t_railing_v, t_railing_h, t_console, t_shrub,
-               t_rock_floor, t_wall, t_wall, t_rock_floor, t_rock_floor, t_door_c, t_door_glass_c,
-               t_rock_floor, t_rock_floor, t_rock_floor, t_rock_floor, t_rock_floor, t_sidewalk, t_rock_floor),
-       mapf::furn_bind("C V G B W R r 6 $ . - | # t + g T S h c l s b", f_crate_c, f_null,
-               f_null,                 f_null,                f_null, f_null,      f_null,      f_null,    f_null,
-               f_null,       f_null,   f_null,   f_bench,      f_table,      f_null,   f_null,         f_toilet,
-               f_sink,       f_chair,      f_counter,    f_locker,     f_null, f_brazier)
-    );
-    m->place_items("church", 70,  6,  7, 17,  16, false, 0);
-    m->place_items("church", 70,  6,  7, 17,  16, false, 0);
-    m->place_items("church", 60,  6,  7, 17,  16, false, 0);
-    m->place_items("cleaning", 60,  3,  18, 4,  21, false, 0);
-    m->place_items("jackets", 85,  14,  18, 16,  18, false, 0);
-    tmpcomp = m->add_computer( tripoint( 19, 20, m->get_abs_sub().z ), _("Church Bells 1.2"), 0);
-    tmpcomp->add_option(_("Gathering Toll"), COMPACT_TOLL, 0);
-    tmpcomp->add_option(_("Wedding Toll"), COMPACT_TOLL, 0);
-    tmpcomp->add_option(_("Funeral Toll"), COMPACT_TOLL, 0);
-    autorotate(true);
-}
-
-
-
 //////////////////////////////
 void mapgen_pharm(map *m, oter_id terrain_type, mapgendata dat, int, float density) {
 
@@ -2987,52 +2894,6 @@ void mapgen_s_sports(map *m, oter_id terrain_type, mapgendata dat, int, float de
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 }
 
-////////////////////
-//    } else if (terrain_type == "shelter") {
-void mapgen_shelter(map *m, oter_id, mapgendata dat, int, float) {
-
-        // Init to grass & dirt;
-        dat.fill_groundcover();
-        square(m, t_floor, 5, 5, SEEX * 2 - 6, SEEY * 2 - 6);
-        mapf::formatted_set_simple(m, 4, 4,
-                                   "\
-|----:-++-:----|\n\
-|llll      c  6|\n\
-| b b b    c   |\n\
-| b b b    c   |\n\
-| b b b    c   |\n\
-: b b b        :\n\
-|              |\n\
-+      >>      +\n\
-+      >>      +\n\
-|              |\n\
-: b b b        :\n\
-| b b b    c   |\n\
-| b b b    c   |\n\
-| b b b    c   |\n\
-|          c  x|\n\
-|----:-++-:----|\n",
-                                   mapf::ter_bind("- | + : 6 x >", t_wall, t_wall, t_door_c, t_window_domestic,  t_console,
-                                           t_console_broken, t_stairs_down),
-                                   mapf::furn_bind("b c l", f_bench, f_counter, f_locker));
-        computer * tmpcomp = m->add_computer( tripoint( SEEX + 6, 5, m->get_abs_sub().z ), _("Evac shelter computer"), 0);
-        tmpcomp->add_option(_("Emergency Message"), COMPACT_EMERG_MESS, 0);
-        tmpcomp->add_option(_("Disable External Power"), COMPACT_COMPLETE_MISSION, 0);
-        tmpcomp->add_option(_("Contact Us"), COMPACT_EMERG_REF_CENTER, 0);
-        int lx = rng(5 , 8);
-        // The shelter does have some useful stuff in case of winter problems!
-        m->spawn_item(lx, 5, "jacket_evac");
-        m->spawn_item(lx, 5, "emer_blanket");
-        if (one_in(3)) {
-            int lxa = rng(5 , 8);
-            m->spawn_item(lxa, 5, "jacket_evac");
-            m->spawn_item(lxa, 5, "emer_blanket");
-            if (one_in(2)) {
-                m->spawn_item(lxa, 5, "mask_gas"); // See! The gas mask is real!
-            }
-        }
-}
-
 
 void mapgen_shelter_under(map *m, oter_id, mapgendata dat, int, float) {
 //    } else if (terrain_type == "shelter_under") {
@@ -3059,40 +2920,6 @@ void mapgen_shelter_under(map *m, oter_id, mapgendata dat, int, float) {
             m->place_items("shelter", 80, 6, 6, SEEX * 2 - 8, SEEY * 2 - 8, false, 0);
         }
 }
-
-
-void mapgen_lmoe(map *m, oter_id, mapgendata dat, int, float) {
-//    } else if (terrain_type == "lmoe") {
-
-        // Init to grass & dirt;
-        dat.fill_groundcover();
-        square(m, t_shrub, 7, 6, 16, 12);
-        square(m, t_rock, 10, 9, 13, 12);
-        square(m, t_rock_floor, 11, 10, 12, 11);
-        line(m, t_stairs_down, 11, 10, 12, 10);
-        m->ter_set(11, 12, t_door_metal_c);
-        line(m, t_tree, 9, 8, 14, 8);
-        line(m, t_tree, 9, 8, 9, 12);
-        line(m, t_tree, 14, 8, 14, 12);
-        square(m, t_shrub, 13, 13, 15, 14);
-        square(m, t_shrub, 8, 13, 10, 14);
-        m->ter_set(10, 6, t_tree_young);
-        m->ter_set(14, 6, t_tree_young);
-        line(m, t_tree_young, 9, 7, 10, 7);
-        m->ter_set(12, 7, t_tree_young);
-        m->ter_set(14, 7, t_tree_young);
-        m->ter_set(8, 9, t_tree_young);
-        line(m, t_tree_young, 7, 11, 8, 11);
-        line(m, t_tree_young, 15, 10, 15, 11);
-        m->ter_set(16, 12, t_tree_young);
-        m->ter_set(9, 13, t_tree_young);
-        m->ter_set(12, 13, t_tree_young);
-        m->ter_set(16, 12, t_tree_young);
-        line(m, t_tree_young, 14, 13, 15, 13);
-        m->ter_set(10, 14, t_tree_young);
-        m->ter_set(13, 14, t_tree_young);
-}
-
 
 
 ///////////////////////////////////////////////////////////
@@ -3173,15 +3000,8 @@ void mapgen_basement_junk(map *m, oter_id terrain_type, mapgendata dat, int turn
 
         if( one_in( 1600 ) ) {
             m->furn_set( p, furn_str_id( "f_gun_safe_el" ) );
-            if( one_in( 2 ) ) {
-                m->spawn_item( p, "9mm", 2 );
-                m->spawn_item( p, "usp_9mm" );
-                m->spawn_item( p, "suppressor" );
-                m->spawn_item( p, "cash_card", 2 );
-            } else {
-                m->place_items( "ammo", 96,  p.x,  p.y, p.x,  p.y, false, 0 );
-                m->place_items( "guns_survival", 90,  p.x,  p.y, p.x,  p.y, false, 0 );
-            }
+            m->place_items( "basement_op_guns", 96,  p.x,  p.y, p.x,  p.y, false, 0 );
+            m->place_items( "ammo", 90,  p.x,  p.y, p.x,  p.y, false, 0 );
         }
         if( one_in( 20 ) ){
             int rn = rng( 1, 8 );
@@ -3260,76 +3080,6 @@ void mapgen_basement_spiders(map *m, oter_id terrain_type, mapgendata dat, int t
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////
-void mapgen_office_doctor(map *m, oter_id terrain_type, mapgendata dat, int, float)
-{
-
-//    } else if (is_ot_type("office_doctor", terrain_type)) {
-
-        // Init to grass & dirt;
-        dat.fill_groundcover();
-        mapf::formatted_set_simple(m, 0, 0,
-                                   "\
-                        \n\
-   |---|----|--------|  \n\
-   |..l|.T.S|..eccScc|  \n\
-   |...+....+........D  \n\
-   |--------|.......6|r \n\
-   |o.......|..|--X--|r \n\
-   |d.hd.h..+..|l...6|  \n\
-   |o.......|..|l...l|  \n\
-   |--------|..|l...l|  \n\
-   |l....ccS|..|lllll|  \n\
-   |l..t....+..|-----|  \n\
-   |l.......|..|....l|  \n\
-   |--|-----|..|.t..l|  \n\
-   |T.|d.......+....l|  \n\
-   |S.|d.h..|..|Scc..|  \n\
-   |-+|-ccc-|++|-----|  \n\
-   |.................|  \n\
-   w....####....####.w  \n\
-   w.................w  \n\
-   |....####....####.|  \n\
-   |.................|  \n\
-   |-++--wwww-wwww---|  \n\
-     ss                 \n\
-     ss                 \n",
-                                   mapf::ter_bind(". - | 6 X # r t + = D w T S e o h c d l s", t_floor, t_wall, t_wall,
-                                           t_console, t_door_metal_locked, t_floor, t_floor,    t_floor, t_door_c, t_door_locked_alarm,
-                                           t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor,
-                                           t_floor,  t_sidewalk),
-                                   mapf::furn_bind(". - | 6 X # r t + = D w T S e o h c d l s", f_null,  f_null,   f_null,   f_null,
-                                           f_null,              f_bench, f_trashcan, f_table, f_null,   f_null,              f_null,
-                                           f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-        computer * tmpcomp = m->add_computer( tripoint( 20, 4, m->get_abs_sub().z ), _("Medical Supply Access"), 2);
-        tmpcomp->add_option(_("Lock Door"), COMPACT_LOCK, 2);
-        tmpcomp->add_option(_("Unlock Door"), COMPACT_UNLOCK, 2);
-        tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
-        tmpcomp->add_failure(COMPFAIL_ALARM);
-
-        tmpcomp = m->add_computer( tripoint( 20, 6, m->get_abs_sub().z ), _("Medical Supply Access"), 2);
-        tmpcomp->add_option(_("Unlock Door"), COMPACT_UNLOCK, 2);
-        tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
-        tmpcomp->add_failure(COMPFAIL_ALARM);
-
-        if (one_in(2)) {
-            m->spawn_item(7, 6, "record_patient");
-        }
-        m->place_items("dissection", 60,  4,  9, 4,  11, false, 0);
-        m->place_items("dissection", 60,  9,  9, 10,  9, false, 0);
-        m->place_items("dissection", 60,  20,  11, 20,  13, false, 0);
-        m->place_items("dissection", 60,  17,  14, 18,  14, false, 0);
-        m->place_items("fridge", 50,  15,  2, 15,  2, false, 0);
-        m->place_items("gear_medical", 30,  4,  9, 11,  11, false, 0);
-        m->place_items("gear_medical", 30,  16,  11, 20, 4, false, 0);
-        m->place_items("harddrugs", 60,  16,  6, 16, 9, false, 0);
-        m->place_items("harddrugs", 60,  17,  9, 19, 9, false, 0);
-        m->place_items("softdrugs", 60,  20,  9, 20, 7, false, 0);
-        m->place_items("cleaning", 50,  4,  2, 6,  3, false, 0);
-
-        autorotate(true);
-
-}
-
 void mapgen_office_tower_1_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
@@ -3363,52 +3113,6 @@ void mapgen_office_tower_b(map *m, oter_id terrain_type, mapgendata dat, int tur
 /*
 
 */
-}
-
-
-void mapgen_sub_station(map *m, oter_id terrain_type, mapgendata dat, int, float)
-{
-    (void)dat;
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if (j < 9 || j > 12 || i < 4 || i > 19) {
-                    m->ter_set(i, j, t_pavement);
-                } else if (j < 12 && j > 8 && (i == 4 || i == 19)) {
-                    m->ter_set(i, j, t_wall);
-                } else if (i > 3 && i < 20 && j == 12) {
-                    m->ter_set(i, j, t_wall);
-                } else {
-                    m->ter_set(i, j, t_floor);
-                }
-            }
-        }
-        //vending
-        bool drinks = rng(0,1);
-        std::string type;
-        std::string type2;
-        if (drinks) {
-            type = "vending_drink";
-            type2 = "vending_food";
-        } else {
-            type2 = "vending_drink";
-            type = "vending_food";
-        }
-        int vset = rng(0,17);
-        if (vset < 3) m->place_vending(5, vset+9, type);
-        else if (vset < 15) m->place_vending(5 + (vset - 3), 11, type);
-        else m->place_vending(18, 11 - (vset - 15), type);
-        if(one_in(3))
-        {
-            int vset2 = rng(0,16);
-            if(vset2 >= vset) vset2++;
-            if (vset2 < 3) m->place_vending(5, vset2+9, type2);
-            else if (vset2 < 15) m->place_vending(5 + (vset2 - 3), 11, type2);
-            else m->place_vending(18, 11 - (vset2 - 15), type2);
-        }
-        //
-        m->ter_set(16, 10, t_stairs_down);
-        autorotate(false);
-
 }
 
 
@@ -3528,182 +3232,6 @@ void mapgen_police(map *m, oter_id terrain_type, mapgendata dat, int, float dens
 
 }
 
-
-void mapgen_bank(map *m, oter_id terrain_type, mapgendata dat, int, float)
-{
-    dat.fill_groundcover();
-    // Basic floorplan
-    square(m, t_floor, 1,  1, 22, 22);
-    line(m, t_wall,  1,  1, 22,  1);
-    line(m, t_wall,  2,  5,  5,  5);
-    line(m, t_wall, 16,  5, 19,  5);
-    line(m, t_wall,  2,  9, 19,  9);
-    line(m, t_wall, 12, 12, 21, 12);
-    line(m, t_wall,  2, 14,  6, 14);
-    line(m, t_wall, 13, 16, 21, 16);
-    line(m, t_wall,  1, 22, 22, 22);
-    line(m, t_wall,  1,  2,  1, 21);
-    line(m, t_wall, 22,  2, 22, 21);
-    line(m, t_wall,  7, 10,  7, 21);
-    line(m, t_wall, 12, 12, 12, 21);
-    line(m, t_wall, 19, 13, 19, 15);
-    line(m, t_wall, 16,  6, 16,  8);
-    line(m, t_wall, 19,  6, 19,  8);
-    line(m, t_wall_metal,  2, 15,  6, 15);
-    line(m, t_wall_metal,  2, 21,  6, 21);
-    line(m, t_wall_metal,  2, 16,  2, 20);
-    line(m, t_wall_metal,  6, 16,  6, 20);
-    //Fixed doors
-    line(m, t_door_glass_c, 9, 1, 10, 1);
-    m->ter_set( 19,  6, t_door_c);
-    m->ter_set( 12, 17, t_door_c);
-    m->ter_set( 17, 12, t_door_c);
-    square(m, t_door_metal_locked, 6, 19, 7, 20);
-    if (one_in(3)) {
-        line(m, t_door_locked_interior, 20, 9, 21, 9);
-    } else {
-        line(m, t_door_c, 20, 9, 21, 9);
-    }
-    if (one_in(4)) {
-        m->ter_set( 7, 10, t_door_locked_interior);
-    } else {
-        m->ter_set( 7, 10, t_door_c);
-    }
-    //Lobby
-    line(m, t_atm,  2,  2,  2,  3);
-    if (one_in(2)) {
-        line_furn(m, f_chair, 13, 2, 15, 2);
-        m->furn_set(14, 2, f_table);
-    }
-    if (one_in(2)) {
-        line_furn(m, f_chair, 17, 2, 19, 2);
-        m->furn_set(18, 2, f_table);
-    }
-    if (one_in(2)) {
-        m->furn_set(21, 2, f_indoor_plant);
-    }
-    //Windows or glass wall front?
-    int tmp = 0;
-    if (!one_in(3)) {
-        line(m, t_wall_glass_alarm, 1, 1, 8, 1);
-        line(m, t_wall_glass_alarm, 11, 1, 22, 1);
-    } else {
-        m->ter_set( rng(4,7),  1, t_window_alarm);
-        m->ter_set( rng(12,16),  1, t_window_alarm);
-        m->ter_set( rng(17,20),  1, t_window_alarm);
-        tmp = 1;
-    }
-    //Windows or glass wall side?
-    if (tmp != 1 && one_in(3)) {
-        line(m, t_wall_glass_alarm, 22, 1, 22, 8);
-        if (one_in(2)) {
-            line(m, t_wall_glass_alarm, 22, 1, 22, 11);
-        }
-    } else {
-        m->ter_set( 22, rng(3,5), t_window_alarm);
-        m->ter_set( 22, rng(6,8), t_window_alarm);
-    }
-    //Teller counters, 1 in 2 chance to have windows
-    if (one_in(2)) {
-        m->furn_set(  7,  5, f_counter);
-        m->ter_set(   8,  5, t_window);
-        m->furn_set(  9,  5, f_counter);
-        m->ter_set(  10,  5, t_window);
-        m->furn_set( 11,  5, f_counter);
-        m->ter_set(  12,  5, t_window);
-        m->furn_set( 13,  5, f_counter);
-        m->ter_set(  14,  5, t_window);
-        m->furn_set( 15,  5, f_counter);
-    } else {
-        line_furn(m, f_counter,  7,  5, 15, 5);
-    }
-    //Back wall teller space counter
-    tmp = rng(9, 11);
-    line_furn(m, f_counter,  rng(2,4),  8,  tmp,  8);
-    m->furn_set( tmp + 1, 8, f_indoor_plant);
-    //Teller doors
-    m->ter_set(rng(2,4), 5, t_door_locked_interior);
-    m->ter_set(rng(13,15), 9, t_door_c);
-    //Bathroom
-    m->furn_set( 17, 6, f_sink);
-    m->place_toilet( 17, 8);
-    //Storage
-    if (one_in(2)){
-        if (!one_in(4)) {
-            m->ter_set( 20, 12, t_door_c);
-        } else {
-            m->ter_set( 20, 12, t_door_locked_interior);
-        }
-        line_furn(m, f_counter, 21, 13, 21, 15);
-        m->furn_set( 20, 15, f_counter);
-    } else {
-        if (!one_in(4)) {
-            m->ter_set( 21, 12, t_door_c);
-        } else {
-            m->ter_set( 21, 12, t_door_locked_interior);
-        }
-        line_furn(m, f_counter, 20, 13, 20, 15);
-        m->furn_set( 21, 15, f_counter);
-    }
-    //Interview office
-    if (one_in(2)) {
-        m->ter_set( 13, 12, t_door_c);
-    } else {
-        m->ter_set( 14, 12, t_door_c);
-    }
-    if (one_in(2)) {
-        m->furn_set( 18, 13, f_indoor_plant);
-    }
-    line_furn(m, f_desk, 16, 14, 16, 15);
-    line_furn(m, f_chair, 15, 14, 15, 15);
-    m->furn_set( 17, 15, f_chair);
-    //Executive office
-    if (!one_in(3)) {
-        m->furn_set( 2, 13, f_indoor_plant);
-    }
-    line_furn(m, f_desk, 3, 12, 5, 12);
-    m->furn_set(4, 13, f_chair);
-    if (one_in(2)) {
-        m->ter_set( 1, 11, t_window_alarm);
-    } else {
-        m->ter_set( 1, 10, t_window_alarm);
-        m->ter_set( 1, 12, t_window_alarm);
-    }
-    //Conference room
-    line_furn(m, f_chair, 15, 18, 15, 20);
-    line_furn(m, f_chair, 17, 18, 17, 20);
-    line_furn(m, f_chair, 19, 18, 19, 20);
-    line_furn(m, f_table, 15, 19, 19, 19);
-    m->furn_set( 20, 19, f_chair);
-    //Conference windows or glass walls?
-    if (one_in(4)) {
-        line(m, t_wall_glass_alarm, 13, 22, 22, 22);
-        line(m, t_wall_glass_alarm, 22, 17, 22, 21);
-    } else {
-        m->ter_set( rng(13,17), 22, t_window_alarm);
-        m->ter_set( rng(17,21), 22, t_window_alarm);
-        m->ter_set( 22, rng(18,20), t_window_alarm);
-    }
-    //Vault
-    line_furn(m, f_safe_l, 3, 16, 5, 16);
-    line_furn(m, f_table, 3, 19, 3, 20);
-    if (one_in(3)){
-        line(m, t_bars, 8, 18, 11, 18);
-        line(m, t_door_metal_locked, 9, 18, 10, 18);
-    }
-    computer * tmpcomp = m->add_computer( tripoint( 8, 21, m->get_abs_sub().z ), _("Consolidated Computerized Bank of the Treasury"), 3);
-    tmpcomp->add_option(_("Open Vault"), COMPACT_OPEN, 3);
-    tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
-    tmpcomp->add_failure(COMPFAIL_ALARM);
-
-    m->place_items("office",    30,  4,  8,  9,  8, false, 0);
-    m->place_items("office",    30,  3, 12,  5, 12, false, 0);
-    m->place_items("office",    70, 16, 14, 16, 15, false, 0);
-    m->place_items("vault",     50,  3, 19,  3, 20, false, 0);
-    m->place_items("vault",     90,  3, 16,  5, 16, false, 0);
-
-    autorotate(false);
-}
 
 void mapgen_pawn(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
@@ -3890,105 +3418,6 @@ void mapgen_hospital_entrance(map *m, oter_id terrain_type, mapgendata dat, int 
 
 
 void mapgen_hospital(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_2(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_3(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_4(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_5(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_6(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_7(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_8(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_9(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_b(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_b_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
@@ -4385,15 +3814,6 @@ void mapgen_spiral_hub(map *m, oter_id terrain_type, mapgendata dat, int turn, f
 
 
 void mapgen_spiral(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_radio_tower(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*

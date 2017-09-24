@@ -16,7 +16,7 @@
       { "item": "scrap", "count": [ 8, 24 ] }
     ],
     "qualities": [ [ "LIFT", 4 ], [ "JACK", 40 ] ],
-    "flags": [ "TOOL_WRENCH", "PROTRUSION", "OBSTACLE", "UNMOUNT_ON_DAMAGE" ]
+    "flags": [ "TOOL_WRENCH", "PROTRUSION" ]
   },
   {
     "id": "crane_small",
@@ -36,6 +36,6 @@
       { "item": "scrap", "count": [ 2, 6 ] }
     ],
     "qualities": [ [ "LIFT", 1 ], [ "JACK", 7 ] ],
-    "flags": [ "TOOL_WRENCH", "PROTRUSION", "OBSTACLE", "FOLDABLE" ]
+    "flags": [ "TOOL_WRENCH", "PROTRUSION", "FOLDABLE" ]
   }
 ]

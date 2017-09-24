@@ -8,10 +8,12 @@
 #include "mutation.h"
 #include "string_id.h"
 
-#include <vector>
-#include <string>
 #include <algorithm>
+#include <set>
+#include <sstream>
+#include <string>
 #include <unordered_map>
+#include <vector>
 
 std::ostream &operator<<( std::ostream &s, const std::vector<trait_id> &v )
 {
@@ -66,11 +68,29 @@ static player get_sanitized_player()
     return ret;
 }
 
+struct failure {
+    string_id<profession> prof;
+    std::vector<trait_id> mut;
+    itype_id item_name;
+    std::string reason;
+};
+
+namespace std
+{
+template<>
+struct less<failure> {
+    bool operator()( const failure &lhs, const failure &rhs ) const {
+        return lhs.prof < rhs.prof;
+    }
+};
+}
+
 // TODO: According to profiling (interrupt, backtrace, wait a few seconds, repeat) with a sample
 // size of 20, 70% of the time is due to the call to Character::set_mutation in try_set_traits.
 // When the mutation stuff isn't commented out, the test takes 110 minutes (not a typo)!
 
-TEST_CASE( "starting_items" ) {
+TEST_CASE( "starting_items" )
+{
     // Every starting trait that interferes with food/clothing
     const std::vector<trait_id> mutations = {
         trait_id( "ANTIFRUIT" ),
@@ -96,40 +116,12 @@ TEST_CASE( "starting_items" ) {
     for( const auto &id : scenario::generic()->permitted_professions() ) {
         scen_prof_combos[scenario::generic()].push_back( id );
     }
-    /*for( const scenario &scen : scenario::get_all() ) {
-        const bool special = std::any_of( mutation_branch::get_all().begin(), mutation_branch::get_all().end(),
-            [&scen]( const std::pair<trait_id, mutation_branch> &elem ) {
-            return !elem.second.startingtrait && scen.traitquery( elem.first );
-        } );
-        if( !special && &scen != scenario::generic() ) {
-            // The only scenarios that need checked are the ones that give access to mutation traits, and
-            // the generic scenario
-            continue;
-        }
-        for( const auto &id : scen.permitted_professions() ) {
-            scen_prof_combos[&scen].push_back( id );
-        }
-    }*/
 
-    struct failure {
-        string_id<profession> prof;
-        std::vector<trait_id> mut;
-        itype_id item_name;
-        std::string reason;
-    };
-    std::vector<failure> failures;
-
-    auto add_failure = [&]( const profession &prof, const std::vector<trait_id> &traits,
-                            const std::string &item_name, const std::string &reason ) {
-        if( !std::any_of( failures.begin(), failures.end(), [&item_name]( const failure &f ) {
-            return f.item_name == item_name;
-            } ) ) {
-            failures.push_back( failure{ prof.ident(), traits, item_name, reason } );
-        }
-    };
+    std::set<failure> failures;
 
     g->u = get_sanitized_player();
-    const player control = get_sanitized_player(); // Avoid false positives from ingredients like salt and cornmeal
+    // Avoid false positives from ingredients like salt and cornmeal.
+    const player control = get_sanitized_player();
 
     std::vector<trait_id> traits = next_subset( mutations );
     for( ; !traits.empty(); traits = next_subset( mutations ) ) {
@@ -150,22 +142,24 @@ TEST_CASE( "starting_items" ) {
                     }
 
                     for( const item &it : items ) {
+                        bool is_food =  !it.is_seed() && it.is_food() &&
+                                        !g->u.can_eat( it ).success() && control.can_eat( it ).success();
+                        bool is_armor = it.is_armor() && !g->u.wear_item( it, false );
                         // Seeds don't count- they're for growing things, not eating
-                        if( !it.is_seed() && it.is_food() && g->u.can_eat( it, false, false ) != EDIBLE &&
-                            control.can_eat( it, false, false ) == EDIBLE ) {
-                            add_failure( *prof, g->u.get_mutations(), it.typeId(), "Couldn't eat it" );
-                        } else if( it.is_armor() && !g->u.wear_item( it, false ) ) {
-                            add_failure( *prof, g->u.get_mutations(), it.typeId(), "Couldn't wear it" );
+                        if( is_food || is_armor ) {
+                            failures.insert( failure{ prof->ident(), g->u.get_mutations(), it.typeId(), is_food ? "Couldn't eat it" : "Couldn't wear it." } );
                         }
                     }
                 } // all genders
             } // all profs
         } // all scens
     }
-
+    std::stringstream failure_messages;
     for( const failure &f : failures ) {
-        std::cout << f.prof.c_str() << " " << f.mut << " " << f.item_name << ": " << f.reason << "\n";
+        failure_messages << f.prof.c_str() << " " << f.mut <<
+                         " " << f.item_name << ": " << f.reason << "\n";
     }
+    INFO( failure_messages.str() );
     REQUIRE( failures.empty() );
 }
 

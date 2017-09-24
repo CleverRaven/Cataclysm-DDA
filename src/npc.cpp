@@ -18,6 +18,7 @@
 #include "monfaction.h"
 #include "mutation.h"
 #include "npc_class.h"
+#include "ammo.h"
 #include "json.h"
 #include "sounds.h"
 #include "morale_types.h"
@@ -708,7 +709,7 @@ void starting_inv( npc &me, const npc_class_id &type )
     res.emplace_back( "lighter" );
     // If wielding a gun, get some additional ammo for it
     if( me.weapon.is_gun() ) {
-        item ammo( default_ammo( me.weapon.ammo_type() ) );
+        item ammo( me.weapon.ammo_type()->default_ammotype() );
         ammo = ammo.in_its_container();
         if( ammo.made_of( LIQUID ) ) {
             item container( "bottle_plastic" );
@@ -768,25 +769,6 @@ void npc::spawn_at_precise( const point &submap_offset, const tripoint &square )
     position.x = square.x % SEEX;
     position.y = square.y % SEEY;
     position.z = square.z;
-    const point pos_om = sm_to_om_copy( submap_coords );
-    overmap &om = overmap_buffer.get( pos_om.x, pos_om.y );
-    om.insert_npc( this );
-}
-
-void npc::spawn_at_random_city(overmap *o)
-{
-    int x, y;
-    if(o->cities.empty()) {
-        x = rng(0, OMAPX * 2 - 1);
-        y = rng(0, OMAPY * 2 - 1);
-    } else {
-        const city& c = random_entry( o->cities );
-        x = c.x + rng(-c.s, +c.s);
-        y = c.y + rng(-c.s, +c.s);
-    }
-    x += o->pos().x * OMAPX * 2;
-    y += o->pos().y * OMAPY * 2;
-    spawn_at_sm(x, y, 0);
 }
 
 tripoint npc::global_square_location() const
@@ -870,7 +852,7 @@ void npc::starting_weapon( const npc_class_id &type )
     }
 
     if( weapon.is_gun() ) {
-        weapon.ammo_set( default_ammo( weapon.type->gun->ammo ) );
+        weapon.ammo_set( weapon.type->gun->ammo->default_ammotype() );
     }
 }
 
@@ -1302,10 +1284,10 @@ void npc::decide_needs()
     invslice slice = inv.slice();
     for (auto &i : slice) {
         if( i->front().is_food( )) {
-            needrank[ need_food ] += nutrition_for( i->front().type ) / 4;
+            needrank[ need_food ] += nutrition_for( i->front() ) / 4;
             needrank[ need_drink ] += i->front().type->comestible->quench / 4;
         } else if( i->front().is_food_container() ) {
-            needrank[ need_food ] += nutrition_for( i->front().contents.front().type ) / 4;
+            needrank[ need_food ] += nutrition_for( i->front().contents.front() ) / 4;
             needrank[ need_drink ] += i->front().contents.front().type->comestible->quench / 4;
         }
     }
@@ -1427,7 +1409,7 @@ void npc::shop_restock()
 
     has_new_items = true;
     inv.clear();
-    inv.add_stack( ret );
+    inv.push_back( ret );
 }
 
 
@@ -1471,16 +1453,16 @@ int npc::value( const item &it, int market_price ) const
 
     if( it.is_food() ) {
         int comestval = 0;
-        if( nutrition_for( it.type ) > 0 || it.type->comestible->quench > 0 ) {
+        if( nutrition_for( it ) > 0 || it.type->comestible->quench > 0 ) {
             comestval++;
         }
         if( get_hunger() > 40 ) {
-            comestval += ( nutrition_for( it.type ) + get_hunger() - 40 ) / 6;
+            comestval += ( nutrition_for( it ) + get_hunger() - 40 ) / 6;
         }
         if( get_thirst() > 40 ) {
             comestval += ( it.type->comestible->quench + get_thirst() - 40 ) / 4;
         }
-        if( comestval > 0 && can_eat( it ) == EDIBLE ) {
+        if( comestval > 0 && will_eat( it ).success() ) {
             ret += comestval;
         }
     }
@@ -1700,7 +1682,7 @@ bool npc::emergency( float danger ) const
 //Active npcs are the npcs near the player that are actively simulated.
 bool npc::is_active() const
 {
-    return std::find(g->active_npc.begin(), g->active_npc.end(), this) != g->active_npc.end();
+    return std::find_if( g->active_npc.begin(), g->active_npc.end(), [&]( const std::shared_ptr<npc> &n ) { return n->getID() == getID(); } ) != g->active_npc.end();
 }
 
 int npc::follow_distance() const
@@ -1770,7 +1752,7 @@ int npc::print_info(WINDOW* w, int line, int vLines, int column) const
 
     const int visibility_cap = g->u.get_per() - rl_dist( g->u.pos(), pos() );
     const std::string trait_str = enumerate_as_string( my_mutations.begin(), my_mutations.end(),
-        [ this, visibility_cap ]( const std::pair<trait_id, trait_data> &pr ) -> std::string {
+        [visibility_cap ]( const std::pair<trait_id, trait_data> &pr ) -> std::string {
         const auto &mut_branch = pr.first.obj();
         // Finally some use for visibility trait of mutations
         // @todo Balance this formula
@@ -1889,10 +1871,8 @@ void npc::setpos( const tripoint &pos )
     if( !is_fake() && pos_om_old != pos_om_new ) {
         overmap &om_old = overmap_buffer.get( pos_om_old.x, pos_om_old.y );
         overmap &om_new = overmap_buffer.get( pos_om_new.x, pos_om_new.y );
-        auto a = std::find( om_old.npcs.begin(), om_old.npcs.end(), this );
-        if( a != om_old.npcs.end() ) {
-            om_old.npcs.erase( a );
-            om_new.npcs.push_back( this );
+        if( const auto ptr = om_old.erase_npc( getID() ) ) {
+            om_new.insert_npc( ptr );
         } else {
             // Don't move the npc pointer around to avoid having two overmaps
             // with the same npc pointer
@@ -2371,7 +2351,7 @@ std::set<tripoint> npc::get_path_avoid() const
         ret.insert( g->zombie( i ).pos() );
     }
 
-    for( const npc *np : g->active_npc ) {
+    for( const auto &np : g->active_npc ) {
         ret.insert( np->pos() );
     }
 

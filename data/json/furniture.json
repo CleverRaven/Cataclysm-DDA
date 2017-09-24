@@ -61,7 +61,7 @@
         "color": "ltgray",
         "move_cost_mod": 0,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "NOCOLLIDE"],
+        "flags": ["TRANSPARENT", "NOCOLLIDE", "CONTAINER", "SEALED", "PLACE_ITEM"],
         "examine_action": "rubble"
     },{
         "type" : "furniture",

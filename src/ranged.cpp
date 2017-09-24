@@ -10,6 +10,7 @@
 #include "line.h"
 #include "skill.h"
 #include "rng.h"
+#include "creature_tracker.h"
 #include "item.h"
 #include "options.h"
 #include "action.h"
@@ -84,7 +85,7 @@ double Creature::ranged_target_size() const
 int player::gun_engagement_moves( const item &gun ) const
 {
     int mv = 0;
-    double penalty = MIN_RECOIL;
+    double penalty = MAX_RECOIL;
 
     while( true ) {
         double adj = aim_per_move( gun, penalty );
@@ -241,7 +242,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
 
         if( shot.missed_by <= .1 ) {
-            lifetime_stats()->headshots++; // @todo check head existence for headshot
+            lifetime_stats.headshots++; // @todo check head existence for headshot
         }
 
         if( shot.hit_critter ) {
@@ -289,6 +290,8 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
     // apply delayed recoil
     recoil += delay;
+    // Cap
+    recoil = std::min( MAX_RECOIL, recoil );
 
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_fire( *this, *gun.type );
@@ -356,7 +359,7 @@ int Character::throw_dispersion_per_dodge( bool add_encumbrance ) const
 // This goes down linearly to 250  dispersion at lvl 10
 int Character::throwing_dispersion( const item &to_throw, Creature *critter ) const
 {
-    int weight = to_throw.weight();
+    units::mass weight = to_throw.weight();
     units::volume volume = to_throw.volume();
     if( to_throw.count_by_charges() && to_throw.charges > 1 ) {
         weight /= to_throw.charges;
@@ -369,7 +372,7 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter ) co
     throw_difficulty += std::max<int>( 0, units::to_milliliter( volume - 1000_ml ) );
     // 1 penalty for gram above str*100 grams (at 0 skill)
     ///\EFFECT_STR decreases throwing dispersion when throwing heavy objects
-    throw_difficulty += std::max( 0, weight - get_str() * 100 );
+    throw_difficulty += std::max( 0, weight / 1_gram - get_str() * 100 );
 
     // Dispersion from difficult throws goes from 100% at lvl 0 to 25% at lvl 10
     ///\EFFECT_THROW increases throwing accuracy
@@ -398,9 +401,9 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     mod_moves( -move_cost );
 
     units::volume volume = to_throw.volume();
-    int weight = to_throw.weight();
+    units::mass weight = to_throw.weight();
 
-    const int stamina_cost = ( ( weight / 100 ) + 20 ) * -1;
+    const int stamina_cost = ( ( weight / 100_gram ) + 20 ) * -1;
     mod_stat( "stamina", stamina_cost );
 
     const skill_id &skill_used = skill_throw;
@@ -421,7 +424,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Up to str/2 or weight/100g (lower), so 10 str is 5 damage before multipliers
     // Railgun doubles the effective strength
     ///\EFFECT_STR increases throwing damage
-    impact.add_damage( DT_BASH, std::min( weight / 100.0f, do_railgun ? get_str() : ( get_str() / 2.0f ) ) );
+    impact.add_damage( DT_BASH, std::min( weight / 100.0_gram, do_railgun ? get_str() : ( get_str() / 2.0 ) ) );
 
     if( thrown.has_flag( "ACT_ON_RANGED_HIT" ) ) {
         proj_effects.insert( "ACT_ON_RANGED_HIT" );
@@ -434,7 +437,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
                          rng( 0, units::to_milliliter( 2000_ml - volume ) ) < get_str() * 100;
 
     // Add some flags to the projectile
-    if( weight > 500 ) {
+    if( weight > 500_gram ) {
         proj_effects.insert( "HEAVY_HIT" );
     }
 
@@ -492,7 +495,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     if( missed_by <= 0.1 && dealt_attack.hit_critter != nullptr ) {
         practice( skill_used, final_xp_mult, MAX_SKILL );
         // TODO: Check target for existence of head
-        lifetime_stats()->headshots++;
+        lifetime_stats.headshots++;
     } else if( dealt_attack.hit_critter != nullptr && missed_by > 0.0f ) {
         practice( skill_used, final_xp_mult / ( 1.0f + missed_by ), MAX_SKILL );
     } else {
@@ -507,17 +510,15 @@ static std::string print_recoil( const player &p)
 {
     if( p.weapon.is_gun() ) {
         const int val = p.recoil_total();
-        if( val > MIN_RECOIL ) {
-            const char *color_name = "c_ltgray";
-            if( val >= 690 ) {
-                color_name = "c_red";
-            } else if( val >= 450 ) {
-                color_name = "c_ltred";
-            } else if( val >= 210 ) {
-                color_name = "c_yellow";
-            }
-            return string_format("<color_%s>%s</color>", color_name, _("Recoil"));
+        const char *color_name = "c_ltgray";
+        if( val >= MAX_RECOIL * 2 / 3 ) {
+            color_name = "c_red";
+        } else if( val >= MAX_RECOIL / 2 ) {
+            color_name = "c_ltred";
+        } else if( val >= MAX_RECOIL / 4 ) {
+            color_name = "c_yellow";
         }
+        return string_format("<color_%s>%s</color>", color_name, _("Recoil"));
     }
     return std::string();
 }
@@ -626,7 +627,7 @@ static int do_aim( player &p, const std::vector<Creature *> &t, int cur_target,
         cur_target = find_target( t, tpos );
         // TODO: find radial offset between targets and
         // spend move points swinging the gun around.
-        p.recoil = std::max( MIN_RECOIL, p.recoil );
+        p.recoil = MAX_RECOIL;
     }
 
     const double aim_amount = p.aim_per_move( relevant, p.recoil );
@@ -721,7 +722,7 @@ static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
     // 0 it is the best the player can do.
     const double steady_score = predicted_recoil - p.effective_dispersion( p.weapon.sight_dispersion() );
     // Fairly arbitrary cap on steadiness...
-    const double steadiness = 1.0 - steady_score / MIN_RECOIL;
+    const double steadiness = 1.0 - steady_score / MAX_RECOIL;
 
     const double target_size = target.ranged_target_size();
 
@@ -824,17 +825,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             return rl_dist( lhs->pos(), pc.pos() ) < rl_dist( rhs->pos(), pc.pos() );
         } );
 
-        const Creature *last = nullptr;
         // @todo: last_target should be member of target_handler
-        if( g->last_target >= 0 ) {
-            if( g->last_target_was_npc ) {
-                last = size_t( g->last_target ) < g->active_npc.size() ? g->active_npc[ g->last_target ] : nullptr;
-            } else {
-                last = size_t( g->last_target ) < g->num_zombies() ? &g->zombie( g->last_target ) : nullptr;
-            }
-        }
-
-        auto found = std::find( targets.begin(), targets.end(), last );
+        const auto found = std::find( targets.begin(), targets.end(), g->last_target.lock().get() );
         idx = found != targets.end() ? std::distance( targets.begin(), found ) : 0;
         dst = targets[ target ]->pos();
     };
@@ -880,16 +872,16 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         aim_types.push_back( aim_type { "", "", "", false, 0 } ); // dummy aim type for unaimed shots
         const int threshold_step = 30;
         // Aiming thresholds are dependent on weapon sight dispersion, attempting to place thresholds
-        // at 66%, 33% and 0% of the difference between MIN_RECOIL and sight dispersion. The thresholds
+        // at 66%, 33% and 0% of the difference between MAX_RECOIL and sight dispersion. The thresholds
         // are then floored to multiples of threshold_step.
-        // With a MIN_RECOIL of 150 and threshold_step of 30, this means:-
+        // With a MAX_RECOIL of 150 and threshold_step of 30, this means:-
         // Weapons with <90 s_d can be aimed 'precisely'
         // Weapons with <120 s_d can be aimed 'carefully'
         // All other weapons can only be 'aimed'
         std::vector<int> thresholds = {
-            (int) floor( ( ( MIN_RECOIL - sight_dispersion ) * 2 / 3 + sight_dispersion ) /
+            (int) floor( ( ( MAX_RECOIL - sight_dispersion ) * 2 / 3 + sight_dispersion ) /
                          threshold_step ) * threshold_step,
-            (int) floor( ( ( MIN_RECOIL - sight_dispersion ) / 3 + sight_dispersion ) /
+            (int) floor( ( ( MAX_RECOIL - sight_dispersion ) / 3 + sight_dispersion ) /
                          threshold_step ) * threshold_step,
             (int) floor( sight_dispersion / threshold_step ) * threshold_step };
         std::vector<int>::iterator thresholds_it;
@@ -938,18 +930,22 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                                             t.size()), t.size());
     }
 
-    const auto set_last_target = [this]( const tripoint &dst ) {
-        if( const auto np = g->critter_at<npc>( dst ) ) {
-            auto &a = g->active_npc;
-            // Convert the npc pointer into an index in game::active_npc
-            g->last_target = std::distance( a.begin(), std::find( a.begin(), a.end(), np ) );
-            g->last_target_was_npc = true;
-        } else if( ( g->last_target = g->mon_at( dst, true ) ) >= 0 ) {
-            g->last_target_was_npc = false;
+    const auto set_last_target = []( const tripoint &dst ) {
+        for( const auto &guy : g->active_npc ) {
+            if( guy->pos() == dst ) {
+                g->last_target = guy;
+                return;
+            }
+        }
+        const int mondex = g->mon_at( dst, true );
+        if( mondex >= 0 ) {
+            // @todo add and use a function in game that returns a
+            // shared_ptr<Creature>, as not to expose the Creature_tracker
+            g->last_target = g->critter_tracker->find( mondex );
         }
     };
 
-    const auto confirm_non_enemy_target = [this, &pc]( const tripoint &dst ) {
+    const auto confirm_non_enemy_target = [&pc]( const tripoint &dst ) {
         if( dst == pc.pos() ) {
             return true;
         }
@@ -1257,17 +1253,18 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
     set_last_target( ret.back() );
 
-    if( g->last_target >= 0 && g->last_target_was_npc ) {
-        if( !g->active_npc[ g->last_target ]->guaranteed_hostile() ) {
+    const auto lt_ptr = g->last_target.lock();
+    if( npc * const guy = dynamic_cast<npc*>( lt_ptr.get() ) ) {
+        if( !guy->guaranteed_hostile() ) {
             // TODO: get rid of this. Or combine it with effect_hit_by_player
-            g->active_npc[ g->last_target ]->hit_by_player = true; // used for morale penalty
+            guy->hit_by_player = true; // used for morale penalty
         }
         // TODO: should probably go into the on-hit code?
-        g->active_npc[ g->last_target ]->make_angry();
+        guy->make_angry();
 
-    } else if( g->last_target >= 0 && !g->last_target_was_npc ) {
+    } else if( monster * const mon = dynamic_cast<monster*>( lt_ptr.get() ) ) {
         // TODO: get rid of this. Or move into the on-hit code?
-        g->zombie( g->last_target ).add_effect( effect_hit_by_player, 100 );
+        mon->add_effect( effect_hit_by_player, 100 );
     }
 
     return ret;
