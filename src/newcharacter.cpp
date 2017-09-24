@@ -1653,7 +1653,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
                         5, getmaxx(w) - 1, BORDER_COLOR, true );
 
         int first_i, end_i, base_y;
-        if (cur_pos < iHalf) {
+        if (iContentHeight - 1 > num_skills || cur_pos < iHalf) {
             first_i = 0;
             end_i = iContentHeight;
             base_y = 5;
