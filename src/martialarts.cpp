@@ -63,6 +63,7 @@ void ma_requirements::load( JsonObject &jo, const std::string & )
 void ma_technique::load( JsonObject &jo, const std::string &src )
 {
     optional( jo, was_loaded, "name", name, translated_string_reader );
+    optional( jo, was_loaded, "description", description, translated_string_reader );
 
     if( jo.has_member( "messages" ) ) {
         JsonArray jsarr = jo.get_array("messages");
