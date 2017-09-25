@@ -70,9 +70,7 @@
   {
     "id": "textbooks",
     "type": "item_group",
-    "items": [
-      [ "textbook_atomic", 8 ]
-    ]
+    "items": [ [ "textbook_atomic", 8 ] ]
   },
   {
     "id": "robots",
