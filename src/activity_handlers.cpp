@@ -1414,18 +1414,17 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
 
     //Deduct 1 battery charge for every minute using the vibrator, or vibrator is much less effective
     if( calendar::once_every(MINUTES(1)) ) {
+        p->mod_fatigue(2);
+        p->mod_stat( "stamina", -20.0f * p->stamina / p->get_stamina_max() );
         if( vibrator_item.ammo_remaining() > 0 ) {
             vibrator_item.ammo_consume( 1, p->pos() );
+            p->add_morale(MORALE_FEELING_GOOD, 4, 40); //4 points/min, 10 minutes to fill
             if( vibrator_item.ammo_remaining() == 0 ) {
                 add_msg(m_info, _("The %s runs out of batteries."), vibrator_item.tname().c_str());
             }
-            p->add_morale(MORALE_FEELING_GOOD, 4, 40); //4 points/min, 10 minutes to fill
-            p->mod_fatigue(2);
         }
-        else {
-            //less effective than using with batteries, slower rate and more fatigue
+        else { 
             p->add_morale(MORALE_FEELING_GOOD, 1, 40); //twenty minutes to fill
-            p->mod_fatigue(2);
         }
     }
     if( p->get_fatigue() >= DEAD_TIRED ) { // Dead Tired: different kind of relaxation needed
@@ -1988,6 +1987,7 @@ void activity_handlers::build_finish( player_activity *, player * )
 void activity_handlers::vibe_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( m_good, _( "You feel much better." ) );
+    p->mod_stat( "stamina", -100.0f * p->stamina / p->get_stamina_max() );
     act->set_to_null();
 }
 
