@@ -1509,7 +1509,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             insert_separation_line();
             info.push_back( iteminfo( "DESCRIPTION", _( "Techniques: " ) +
             enumerate_as_string( all_techniques.begin(), all_techniques.end(), []( const matec_id &tid ) {
-                return string_format( "<stat>%s: %s</stat>", tid.obj().name.c_str(), tid.obj().description.c_str() );
+                return string_format( "<stat>%s:</stat> <info>%s</info>", tid.obj().name.c_str(), tid.obj().description.c_str() );
             } ) ) );
         }
 
