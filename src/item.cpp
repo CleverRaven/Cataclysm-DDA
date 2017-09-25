@@ -1558,7 +1558,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         if( has_technique( RAPID ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This item can be used to make <stat>rapid</stat> attacks.  The attack will take only <info>half of the moves</info> and deal <info>66% more damage</info>." ) ) );
+                                          _( "* This item can be used to make <stat>rapid</stat> attacks.  The attack will take only <info>half of the moves</info> and deal only <info>66% of damage</info>." ) ) );
         }
 
         if( has_technique( VORPAL ) ) {
