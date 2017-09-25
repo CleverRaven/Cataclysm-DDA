@@ -66,7 +66,7 @@
             "<npcname> swings through %s and everyone nearby"
         ],
         "aoe" : "spin",
-        "description" : "Attack everyone nearby, crit only, min 4 melee"
+        "description" : "Attack adjacent enemies, crit only, min 4 melee"
     },{
         "type" : "technique",
         "id" : "WIDE",
