@@ -1401,7 +1401,9 @@ void activity_handlers::vehicle_finish( player_activity *act, player *pl )
 
 void activity_handlers::vibe_do_turn( player_activity *act, player *p )
 {
-    //Using a vibrator takes time, not speed
+    //Using a vibrator takes time (10 minutes), not speed
+    //Linear increase in morale during action with a small boost at end
+    //Deduct 1 battery charge for every minute in use, or vibrator is much less effective
     act->moves_left -= 100;
 
     item &vibrator_item = p->i_at(act->position);
@@ -1412,13 +1414,12 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
         add_msg(m_bad, _("You have trouble breathing, and stop."));
     }
 
-    //Deduct 1 battery charge for every minute using the vibrator, or vibrator is much less effective
     if( calendar::once_every(MINUTES(1)) ) {
-        p->mod_fatigue(2);
+        p->mod_fatigue(1);
         p->mod_stat( "stamina", -20.0f * p->stamina / p->get_stamina_max() );
         if( vibrator_item.ammo_remaining() > 0 ) {
             vibrator_item.ammo_consume( 1, p->pos() );
-            p->add_morale(MORALE_FEELING_GOOD, 4, 40); //4 points/min, 10 minutes to fill
+            p->add_morale(MORALE_FEELING_GOOD, 3, 40); 
             if( vibrator_item.ammo_remaining() == 0 ) {
                 add_msg(m_info, _("The %s runs out of batteries."), vibrator_item.tname().c_str());
             }
@@ -1988,6 +1989,7 @@ void activity_handlers::vibe_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( m_good, _( "You feel much better." ) );
     p->mod_stat( "stamina", -100.0f * p->stamina / p->get_stamina_max() );
+    p->add_morale(MORALE_FEELING_GOOD, 10, 40);
     act->set_to_null();
 }
 
