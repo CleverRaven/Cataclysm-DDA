@@ -3282,7 +3282,7 @@ bool game::handle_action()
             if (safe_mode == SAFE_MODE_STOP) {
                 add_msg(m_info, _("Ignoring enemy!"));
                 for( auto &elem : new_seen_mon ) {
-                    monster &critter = zombie( elem );
+                    monster &critter = *elem;
                     critter.ignoring = rl_dist( u.pos(), critter.pos() );
                 }
                 set_safe_mode( SAFE_MODE_ON );
@@ -5642,15 +5642,8 @@ int game::mon_info(WINDOW *w)
                     }
 
                     if (!passmon) {
-                        int news = mon_at( critter.pos(), true );
-                        if( news != -1 ) {
-                            newseen++;
-                            new_seen_mon.push_back( news );
-                        } else {
-                            debugmsg( "%s at (%d,%d,%d) was not found in the tracker",
-                                      critter.disp_name().c_str(),
-                                      critter.posx(), critter.posy(), critter.posz() );
-                        }
+                        newseen++;
+                        new_seen_mon.push_back( shared_from( critter ) );
                     }
                 }
             }
@@ -5677,7 +5670,7 @@ int game::mon_info(WINDOW *w)
     if (newseen > mostseen) {
         if (newseen - mostseen == 1) {
             if (!new_seen_mon.empty()) {
-                monster &critter = zombie( new_seen_mon.back() );
+                monster &critter = *new_seen_mon.back();
                 cancel_activity_query(_("%s spotted!"), critter.name().c_str());
                 if (u.has_trait( trait_id( "M_DEFENDER" ) ) && critter.type->in_species( PLANT )) {
                     add_msg(m_warning, _("We have detected a %s."), critter.name().c_str());
@@ -11084,7 +11077,7 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
         spotted_creature_name = _( "a survivor" );
         get_safemode().lastmon_whitelist = get_safemode().npc_type_name();
     } else {
-        spotted_creature_name = zombie( new_seen_mon.back() ).name();
+        spotted_creature_name = new_seen_mon.back()->name();
         get_safemode().lastmon_whitelist = spotted_creature_name;
     }
 
