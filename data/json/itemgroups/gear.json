@@ -2,7 +2,7 @@
   {
     "type" : "item_group",
     "id" : "everyday_gear",
-    "comment" : "Small common items carried in a person's pockets, purse, etc. Cash card at roughly 50%.",
+    "//" : "Small common items carried in a person's pockets, purse, etc. Cash card at roughly 50%.",
     "items":[
       ["cash_card", 1600],
       ["cell_phone", 200],
@@ -94,7 +94,7 @@
   {
     "id": "gear_medical",
     "type": "item_group",
-    "comment": "Medical equipment including consumables but not major painkillers",
+    "//": "Medical equipment including consumables but not major painkillers",
     "items": [
       { "group": "tools_medical", "prob": 100 },
       { "group": "drugs_heal_simple", "prob": 40 },
@@ -107,7 +107,7 @@
   {
     "id": "gear_soldier_sidearm",
     "type": "item_group",
-    "comment": "Sidearm and appropriate holster or sheath for soldiers or other paramilitary forces.",
+    "//": "Sidearm and appropriate holster or sheath for soldiers or other paramilitary forces.",
     "items": [
       { "distribution": [
         { "item": "PR24-retracted", "prob": 20 },
@@ -125,7 +125,7 @@
   {
     "id": "gear_survival",
     "type": "item_group",
-    "comment" : "Lightweight, simple and portable items useful for survival.",
+    "//" : "Lightweight, simple and portable items useful for survival.",
     "items": [
         { "group": "drugs_heal_simple", "prob": 60 },
         { "group": "tools_lighting", "prob":  50 },

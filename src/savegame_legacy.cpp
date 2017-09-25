@@ -356,12 +356,12 @@ void overmap::unserialize_legacy(std::istream & fin) {
 //   assignment to an NPC.
 
             if (!npc_inventory.empty() && !npcs.empty()) {
-                npcs.back()->inv.add_stack(npc_inventory);
+                npcs.back()->inv.push_back(npc_inventory);
                 npc_inventory.clear();
             }
             std::string npcdata;
             getline(fin, npcdata);
-            npc * tmp = new npc();
+            std::shared_ptr<npc> tmp = std::make_shared<npc>();
             tmp->load_info(npcdata);
             npcs.push_back(tmp);
         } else if (datatype == 'P') {
@@ -378,7 +378,7 @@ void overmap::unserialize_legacy(std::istream & fin) {
             } else {
                 item tmp;
                 tmp.load_info(itemdata);
-                npc* last = npcs.back();
+                npc* last = npcs.back().get();
                 switch (datatype) {
                 case 'I': npc_inventory.push_back(tmp);                 break;
                 case 'C': npc_inventory.back().contents.push_back(tmp); break;
@@ -430,7 +430,7 @@ void overmap::unserialize_legacy(std::istream & fin) {
 
 // If we accrued an npc_inventory, assign it now
     if (!npc_inventory.empty() && !npcs.empty()) {
-        npcs.back()->inv.add_stack(npc_inventory);
+        npcs.back()->inv.push_back(npc_inventory);
     }
 }
 

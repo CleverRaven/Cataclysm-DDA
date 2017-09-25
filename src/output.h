@@ -332,6 +332,10 @@ void popup_status( const char *title, const char *msg, ... ) PRINTF_LIKE( 2, 3 )
 void popup( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
 long popup( const std::string &text, PopupFlags flags );
 void full_screen_popup( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
+
+WINDOW_PTR create_popup_window( const std::string &text, PopupFlags flags );
+WINDOW_PTR create_wait_popup_window( const std::string &text, nc_color bar_color = c_ltgreen );
+
 /*@}*/
 
 input_event draw_item_info( WINDOW *win, const std::string sItemName, const std::string sTypeName,
@@ -418,7 +422,7 @@ void hit_animation( int iX, int iY, nc_color cColor, const std::string &cTile );
 
 std::pair<std::string, nc_color> const &get_hp_bar( int cur_hp, int max_hp, bool is_mon = false );
 
-std::pair<std::string, nc_color> const &get_light_level( const float light );
+std::pair<std::string, nc_color> get_light_level( const float light );
 
 /**
  * @return String containing the bar. Example: "Label [********    ]".

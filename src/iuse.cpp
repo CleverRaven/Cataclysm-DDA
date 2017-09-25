@@ -972,7 +972,7 @@ int iuse::plantblech(player *p, item *it, bool, const tripoint &pos)
         }
 
         //reverses the harmful values of drinking fertilizer
-        p->mod_hunger( p->nutrition_for( it->type ) * multiplier );
+        p->mod_hunger( p->nutrition_for( *it ) * multiplier );
         p->mod_thirst( -it->type->comestible->quench * multiplier);
         p->mod_healthy_mod( it->type->comestible->healthy * multiplier, it->type->comestible->healthy * multiplier );
         p->add_morale( MORALE_FOOD_GOOD, -10 * multiplier, 60, 60, 30, false, it->type );
@@ -1920,7 +1920,7 @@ int petfood( player *p, item *it, Petfood animal_food_type )
     const int mon_idx = g->mon_at( dirp, true );
 
     // First a check to see if we are trying to feed a NPC dog food.
-    if( animal_food_type == DOGFOOD ) {
+    if( animal_food_type == DOGFOOD && g->critter_at<npc>(dirp) != NULL ) {
         if( npc *const person_ = g->critter_at<npc>( dirp ) ) {
             npc &person = *person_;
             if( query_yn( _( "Are you sure you want to feed a person the dog food?" ) ) ) {
@@ -2300,7 +2300,7 @@ int iuse::remove_all_mods(player *p, item *, bool, const tripoint& )
     }
 
     if( !loc->ammo_remaining() || g->unload( *loc ) ) {
-        auto mod = std::find_if( loc->contents.begin(), loc->contents.end(), [&loc]( const item& e ) {
+        auto mod = std::find_if( loc->contents.begin(), loc->contents.end(), []( const item& e ) {
             return e.is_toolmod();
         } );
         p->i_add_or_drop( *mod );
@@ -2614,14 +2614,14 @@ static int cauterize_elec(player *p, item *it)
     } else if (!p->has_effect( effect_bite ) && !p->has_effect( effect_bleed ) && !p->is_underwater()) {
         if ((p->has_trait( trait_MASOCHIST ) || p->has_trait( trait_MASOCHIST_MED ) || p->has_trait( trait_CENOBITE )) &&
             p->query_yn(_("Cauterize yourself for fun?"))) {
-            return cauterize_actor::cauterize_effect(p, it, true) ? it->type->charges_to_use() : 0;
+            return cauterize_actor::cauterize_effect( *p, *it, true ) ? it->type->charges_to_use() : 0;
         } else {
             p->add_msg_if_player(m_info,
                                  _("You are not bleeding or bitten, there is no need to cauterize yourself."));
             return 0;
         }
     } else if (p->is_npc() || query_yn(_("Cauterize any open wounds?"))) {
-        return cauterize_actor::cauterize_effect(p, it, true) ? it->type->charges_to_use() : 0;
+        return cauterize_actor::cauterize_effect( *p, *it, true ) ? it->type->charges_to_use() : 0;
     }
     return 0;
 }
@@ -2784,7 +2784,7 @@ int iuse::noise_emitter_on(player *p, item *it, bool t, const tripoint &pos)
     return it->type->charges_to_use();
 }
 
-int iuse::ma_manual(player *p, item *it, bool, const tripoint& )
+int iuse::ma_manual( player *p, item *it, bool, const tripoint& )
 {
     // [CR] - should NPCs just be allowed to learn this stuff? Just like that?
 
@@ -2792,14 +2792,14 @@ int iuse::ma_manual(player *p, item *it, bool, const tripoint& )
     // TODO: replace this terrible hack to rely on the item name matching the style name, it's terrible.
     const matype_id style_to_learn( "style_" + it->typeId().substr(7) );
 
-    if (p->has_martialart(style_to_learn)) {
-        p->add_msg_if_player(m_info, _("You already know all this book has to teach."));
+    if( p->has_martialart( style_to_learn ) ) {
+        p->add_msg_if_player( m_info, _( "You already know all this book has to teach." ) );
         return 0;
     }
 
-    p->ma_styles.push_back(style_to_learn);
+    p->ma_styles.push_back( style_to_learn );
 
-    p->add_msg_if_player(m_good, _("You learn what you can, and stow the book for further study."));
+    p->add_msg_if_player( m_good, _( "You learn the essential elements of the style." ) );
 
     return 1;
 }
@@ -2878,12 +2878,12 @@ int iuse::hammer(player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
-int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
+int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
 {
     // TODO: Make this 3D now that NPCs get to use items
     tripoint dirp = pos;
     if( pos == p->pos() ) {
-        if( !choose_adjacent(_("Pry where?"), dirp ) ) {
+        if( !choose_adjacent( _( "Pry where?" ), dirp ) ) {
             return 0;
         }
     } // else it is already set to pos in the line above if
@@ -2892,66 +2892,75 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
     int &diry = dirp.y;
 
     if( dirx == p->posx() && diry == p->posy() ) {
-        p->add_msg_if_player(m_info, _("You attempt to pry open your wallet"));
-        p->add_msg_if_player(m_info, _("but alas. You are just too miserly."));
+        p->add_msg_if_player( m_info, _( "You attempt to pry open your wallet" ) );
+        p->add_msg_if_player( m_info, _( "but alas.  You are just too miserly." ) );
         return 0;
     }
-    ter_id type = g->m.ter(dirx, diry);
+    ter_id type = g->m.ter( dirx, diry );
     const char *succ_action;
     const char *fail_action;
     ter_id new_type = t_null;
     bool noisy;
     int difficulty;
 
-    if (type == t_door_c || type == t_door_locked || type == t_door_locked_alarm ||
-        type == t_door_locked_interior) {
-        succ_action = _("You pry open the door.");
-        fail_action = _("You pry, but cannot pry open the door.");
+    if( type == t_door_locked || type == t_door_locked_alarm || type == t_door_locked_interior ) {
+        succ_action = _( "You pry open the door." );
+        fail_action = _( "You pry, but cannot pry open the door." );
         new_type = t_door_o;
         noisy = true;
         difficulty = 6;
-    } else if (type == t_door_locked_peep) {
-        succ_action = _("You pry open the door.");
-        fail_action = _("You pry, but cannot pry open the door.");
+    } else if( type == t_door_locked_peep ) {
+        succ_action = _( "You pry open the door." );
+        fail_action = _( "You pry, but cannot pry open the door." );
         new_type = t_door_o_peep;
         noisy = true;
         difficulty = 6;
-    } else if (type == t_door_bar_locked) {
-        succ_action = _("You pry open the door.");
-        fail_action = _("You pry, but cannot pry open the door.");
+    } else if( type == t_door_c ) {
+        p->add_msg_if_player( m_info, _( "You notice the door is unlocked, so you simply open it." ) );
+        g->m.ter_set( dirx, diry, t_door_o );
+        p->mod_moves( 100 );
+        return 0;
+    } else if ( type == t_door_c_peep ) {
+        p->add_msg_if_player( m_info, _( "You notice the door is unlocked, so you simply open it." ) );
+        g->m.ter_set( dirx, diry, t_door_o_peep );
+        p->mod_moves( 100 );
+        return 0;
+    } else if( type == t_door_bar_locked ) {
+        succ_action = _( "You pry open the door." );
+        fail_action = _( "You pry, but cannot pry open the door." );
         new_type = t_door_bar_o;
         noisy = false;
         difficulty = 10;
-    } else if (type == t_manhole_cover) {
-        succ_action = _("You lift the manhole cover.");
-        fail_action = _("You pry, but cannot lift the manhole cover.");
+    } else if( type == t_manhole_cover ) {
+        succ_action = _( "You lift the manhole cover." );
+        fail_action = _( "You pry, but cannot lift the manhole cover." );
         new_type = t_manhole;
         noisy = false;
         difficulty = 12;
-    } else if (g->m.furn(dirx, diry) == f_crate_c) {
-        succ_action = _("You pop open the crate.");
-        fail_action = _("You pry, but cannot pop open the crate.");
+    } else if( g->m.furn( dirx, diry ) == f_crate_c ) {
+        succ_action = _( "You pop open the crate." );
+        fail_action = _( "You pry, but cannot pop open the crate." );
         noisy = true;
         difficulty = 6;
-    } else if (g->m.furn(dirx, diry) == f_coffin_c) {
-        succ_action = _("You wedge open the coffin.");
-        fail_action = _("You pry, but the coffin remains closed.");
+    } else if( g->m.furn( dirx, diry ) == f_coffin_c ) {
+        succ_action = _( "You wedge open the coffin." );
+        fail_action = _( "You pry, but the coffin remains closed." );
         noisy = true;
         difficulty = 5;
-    } else if (type == t_window_domestic || type == t_curtains || type == t_window_no_curtains) {
-        succ_action = _("You pry open the window.");
-        fail_action = _("You pry, but cannot pry open the window.");
-        new_type = (type == t_window_no_curtains) ? t_window_no_curtains_open : t_window_open;
+    } else if( type == t_window_domestic || type == t_curtains || type == t_window_no_curtains ) {
+        succ_action = _( "You pry open the window." );
+        fail_action = _( "You pry, but cannot pry open the window." );
+        new_type = ( type == t_window_no_curtains ) ? t_window_no_curtains_open : t_window_open;
         noisy = true;
         difficulty = 6;
-    } else if (pry_nails(p, type, dirx, diry)) {
+    } else if( pry_nails( p, type, dirx, diry ) ) {
         return it->type->charges_to_use();
     } else {
-        p->add_msg_if_player(m_info, _("There's nothing to pry there."));
+        p->add_msg_if_player( m_info, _( "There's nothing to pry there." ) );
         return 0;
     }
 
-    p->practice( skill_mechanics, 1);
+    p->practice( skill_mechanics, 1 );
     /** @EFFECT_STR speeds up crowbar prying attempts */
 
     /** @EFFECT_MECHANICS speeds up crowbar prying attempts */
@@ -2959,49 +2968,51 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
     /** @EFFECT_STR increases chance of crowbar prying success */
 
     /** @EFFECT_MECHANICS increases chance of crowbar prying success */
-    if (dice(4, difficulty) < dice(2, p->get_skill_level( skill_mechanics )) + dice(2, p->str_cur)) {
-        p->practice( skill_mechanics, 1);
-        p->add_msg_if_player(m_good, succ_action);
+    if( dice( 4, difficulty ) < dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2,
+            p->str_cur ) ) {
+        p->practice( skill_mechanics, 1 );
+        p->add_msg_if_player( m_good, succ_action );
 
-        if (g->m.furn(dirx, diry) == f_crate_c) {
-            g->m.furn_set(dirx, diry, f_crate_o);
-        } else if (g->m.furn(dirx, diry) == f_coffin_c) {
-            g->m.furn_set(dirx, diry, f_coffin_o);
+        if( g->m.furn( dirx, diry ) == f_crate_c ) {
+            g->m.furn_set( dirx, diry, f_crate_o );
+        } else if( g->m.furn( dirx, diry ) == f_coffin_c ) {
+            g->m.furn_set( dirx, diry, f_coffin_o );
         } else {
-            g->m.ter_set(dirx, diry, new_type);
+            g->m.ter_set( dirx, diry, new_type );
         }
 
-        if (noisy) {
-            sounds::sound(dirp, 12, _("crunch!"));
+        if( noisy ) {
+            sounds::sound( dirp, 12, _( "crunch!" ) );
         }
-        if (type == t_manhole_cover) {
-            g->m.spawn_item(dirx, diry, "manhole_cover");
+        if( type == t_manhole_cover ) {
+            g->m.spawn_item( dirx, diry, "manhole_cover" );
         }
-        if (type == t_door_locked_alarm) {
-            p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
-                                  pgettext("memorial_female", "Set off an alarm."));
-            sounds::sound(p->pos(), 40, _("an alarm sound!"));
-            if (!g->event_queued(EVENT_WANTED)) {
-                g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, p->global_sm_location());
+        if( type == t_door_locked_alarm ) {
+            p->add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
+                                 pgettext( "memorial_female", "Set off an alarm." ) );
+            sounds::sound( p->pos(), 40, _( "an alarm sound!" ) );
+            if( !g->event_queued( EVENT_WANTED ) ) {
+                g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, p->global_sm_location() );
             }
         }
     } else {
-        if (type == t_window_domestic || type == t_curtains) {
+        if( type == t_window_domestic || type == t_curtains ) {
             //chance of breaking the glass if pry attempt fails
             /** @EFFECT_STR reduces chance of breaking window with crowbar */
 
             /** @EFFECT_MECHANICS reduces chance of breaking window with crowbar */
-            if (dice(4, difficulty) > dice(2, p->get_skill_level( skill_mechanics )) + dice(2, p->str_cur)) {
-                p->add_msg_if_player(m_mixed, _("You break the glass."));
-                sounds::sound(dirp, 24, _("glass breaking!"));
-                g->m.ter_set(dirx, diry, t_window_frame);
-                g->m.spawn_item(dirx, diry, "sheet", 2);
-                g->m.spawn_item(dirx, diry, "stick");
-                g->m.spawn_item(dirx, diry, "string_36");
+            if( dice( 4, difficulty ) > dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2,
+                    p->str_cur ) ) {
+                p->add_msg_if_player( m_mixed, _( "You break the glass." ) );
+                sounds::sound( dirp, 24, _( "glass breaking!" ) );
+                g->m.ter_set( dirx, diry, t_window_frame );
+                g->m.spawn_item( dirx, diry, "sheet", 2 );
+                g->m.spawn_item( dirx, diry, "stick" );
+                g->m.spawn_item( dirx, diry, "string_36" );
                 return it->type->charges_to_use();
             }
         }
-        p->add_msg_if_player(fail_action);
+        p->add_msg_if_player( fail_action );
     }
     return it->type->charges_to_use();
 }
@@ -3030,14 +3041,13 @@ int iuse::dig(player *p, item *it, bool, const tripoint &pos )
 {
     for( const tripoint &pt : closest_tripoints_first( 1, pos ) ) {
         if( g->m.furn( pt ).obj().examine == iexamine::rubble ) {
-            // costs per tile:
-            // DIG 2 = 300 seconds, 10 hunger and thirst
-            // DIG 3 =  75 seconds,  2 hunger and thirst
-            // DIG 4 =  33 seconds,  1 hunger and thirst
-            // DIG 5 =  18 seconds,  0 hunger and thirst
+            // costs per tile are (30 minutes/dig quality), with +66% hunger and +100% thirst, so:
+            // DIG 2 = 150  seconds
+            // DIG 3 = 75   seconds
+            // DIG 4 = 50   seconds
+            // DIG 5 = 37.5 seconds
             int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
-            bonus *= bonus;
-            player_activity act( activity_id( "ACT_CLEAR_RUBBLE" ), 5000 / ( bonus * bonus ), bonus );
+            player_activity act( activity_id( "ACT_CLEAR_RUBBLE" ), 2500 / bonus, bonus );
             act.coords.push_back( pt );
             p->assign_activity( act );
 
@@ -4631,9 +4641,9 @@ int iuse::torch_lit(player *p, item *it, bool t, const tripoint &pos)
             break;
             case 2: {
                 tripoint temp = pos;
-                if( firestarter_actor::prep_firestarter_use(p, it, temp) ) {
+                if( firestarter_actor::prep_firestarter_use( *p, *it, temp ) ) {
                     p->moves -= 5;
-                    firestarter_actor::resolve_firestarter_use(p, it, temp);
+                    firestarter_actor::resolve_firestarter_use( *p, *it, temp );
                     return it->type->charges_to_use();
                 }
             }
@@ -4674,9 +4684,9 @@ int iuse::battletorch_lit(player *p, item *it, bool t, const tripoint &pos)
             break;
             case 2: {
                 tripoint temp = pos;
-                if( firestarter_actor::prep_firestarter_use(p, it, temp) ) {
+                if( firestarter_actor::prep_firestarter_use( *p, *it, temp ) ) {
                     p->moves -= 5;
-                    firestarter_actor::resolve_firestarter_use(p, it, temp);
+                    firestarter_actor::resolve_firestarter_use( *p, *it, temp );
                     return it->type->charges_to_use();
                 }
             }
@@ -5619,14 +5629,14 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint& ) {
         return 0;
     }
 
-    if( !loc->ammo_remaining() || g->unload( *loc ) ) {
-        //~ $1 - toolmod, $2 - base item
-        p->add_msg_if_player( m_good, _( "You attach the %1$s to the %2$s" ),
-                              it->tname().c_str(), loc->tname().c_str() );
-
-        loc->contents.push_back( p->i_rem( it ) );
+    if( loc->ammo_remaining() ) {
+        if( !g->unload( *loc ) ) {
+            p->add_msg_if_player( m_info, _( "You cancel unloading the tool." ) );
+            return 0;
+        }
     }
 
+    p->toolmod_add( *loc, *it );
     return 0;
 }
 
@@ -6329,7 +6339,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
                 }
 
                 const monster dummy( monster_photos[choice - 1] );
-                popup(dummy.type->description.c_str());
+                popup( dummy.type->get_description().c_str() );
             } while (true);
             return it->type->charges_to_use();
         }
@@ -6640,7 +6650,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
             }
 
             const monster dummy( monster_photos[choice - 1] );
-            popup(dummy.type->description.c_str());
+            popup(dummy.type->get_description().c_str());
 
         } while (true);
 
@@ -6835,7 +6845,7 @@ int iuse::radiocar(player *p, item *it, bool, const tripoint& )
                 return 0;
             }
 
-            if (put->has_flag("RADIOCARITEM") && (put->volume() <= 1250_ml || (put->weight() <= 2000))) {
+            if ( put->has_flag( "RADIOCARITEM" ) && ( put->volume() <= 1250_ml || ( put->weight() <= 2_kilogram ) ) ) {
                 p->moves -= 300;
                 p->add_msg_if_player(_("You armed your RC car with %s."),
                                      put->tname().c_str());
@@ -6912,12 +6922,12 @@ void sendRadioSignal(player *p, std::string signal)
 
             if( it.has_flag("RADIO_INVOKE_PROC") ) {
                 // Invoke twice: first to transform, then later to proc
-                it.type->invoke( p, &it, p->pos() );
+                it.type->invoke( *p, it, p->pos() );
                 it.ammo_unset();
                 // The type changed
             }
 
-            it.type->invoke(p, &it, p->pos());
+            it.type->invoke( *p, it, p->pos() );
         }
     }
 
@@ -7864,38 +7874,6 @@ int iuse::ladder( player *p, item *, bool, const tripoint& )
     return 1;
 }
 
-int iuse::saw_barrel( player *p, item *, bool t, const tripoint& )
-{
-    if( p == nullptr || t ) {
-        return 0;
-    }
-
-    auto filter = []( const item& e ) {
-        if( !e.is_gun() || e.type->gun->barrel_length <= 0 ) {
-            return false;
-        }
-
-        const auto gunmods = e.gunmods();
-        // cannot saw down barrel of gun that already has a barrel mod
-        return std::none_of( gunmods.begin(), gunmods.end(), []( const item *mod ) {
-            return mod->type->gunmod->location == gunmod_location( "barrel" );
-        });
-    };
-
-    const int pos = g->inv_for_filter( _( "Saw barrel?" ), filter, _( "You don't have guns with long barrels." ) );
-
-    if( pos == INT_MIN ) {
-        p->add_msg_if_player( _( "Never mind." ) );
-        return 0;
-    }
-
-    item &obj = p->i_at( pos );
-    p->add_msg_if_player( _( "You saw down the barrel of your %s" ), obj.tname().c_str() );
-    obj.contents.emplace_back( "barrel_small", calendar::turn );
-
-    return 0;
-}
-
 int iuse::washclothes( player *p, item *it, bool, const tripoint& )
 {
     if( it->charges < it->type->charges_to_use() ) {
@@ -7926,7 +7904,7 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash your %2$s." ), required_cleanser, mod.tname().c_str() );
         return 0;
     }
-    
+
     std::vector<item_comp> comps;
     comps.push_back( item_comp( "water", required_water ) );
     comps.push_back( item_comp( "water_clean", required_water ) );

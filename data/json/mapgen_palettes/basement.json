@@ -35,6 +35,9 @@
       "s": "f_sofa",
       "t": "f_table",
       "w": "f_washer"
+    },
+    "toilets": {
+      "&": {}
     }
   }
 ]

@@ -13,6 +13,7 @@
 #include "filesystem.h"
 #include "item_search.h"
 #include "rng.h"
+#include "units.h"
 
 #include <algorithm>
 #include <cmath>
@@ -191,11 +192,11 @@ const char *volume_units_abbr()
 {
     const std::string vol_units = get_option<std::string>( "VOLUME_UNITS" );
     if( vol_units == "c" ) {
-        return _( "c" );
+        return pgettext( "Volume unit", "c" );
     } else if( vol_units == "l" ) {
-        return _( "L" );
+        return pgettext( "Volume unit", "L" );
     } else {
-        return _( "qt" );
+        return pgettext( "Volume unit", "qt" );
     }
 }
 
@@ -231,10 +232,9 @@ double convert_velocity( int velocity, const units_type vel_units )
     return ret;
 }
 
-double convert_weight( int weight )
+double convert_weight( const units::mass &weight )
 {
-    double ret;
-    ret = double( weight );
+    double ret = to_gram( weight );
     if( get_option<std::string>( "USE_METRIC_WEIGHTS" ) == "kg" ) {
         ret /= 1000;
     } else {

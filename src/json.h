@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <bitset>
+#include <utility>
 #include <array>
 #include <map>
 #include <set>
@@ -276,6 +277,30 @@ class JsonIn
             return true;
         }
 
+        /// Overload that calls a global function `deserialize(T&,JsonIn&)`, if available.
+        template<typename T>
+        auto read( T &v ) -> decltype( deserialize( v, *this ), true )
+        {
+            try {
+                deserialize( v, *this );
+                return true;
+            } catch( const JsonError & ) {
+                return false;
+            }
+        }
+
+        /// Overload that calls a member function `T::deserialize(JsonIn&)`, if available.
+        template<typename T>
+        auto read( T &v ) -> decltype( v.deserialize( *this ), true )
+        {
+            try {
+                v.deserialize( *this );
+                return true;
+            } catch( const JsonError & ) {
+                return false;
+            }
+        }
+
         // array ~> vector, deque, list
         template <typename T, typename std::enable_if<
             !std::is_same<void, typename T::value_type>::value>::type* = nullptr
@@ -447,6 +472,20 @@ class JsonOut
             }
             *stream << val;
             need_separator = true;
+        }
+
+        /// Overload that calls a global function `serialize(const T&,JsonOut&)`, if available.
+        template<typename T>
+        auto write( const T &v ) -> decltype( serialize( v, *this ), void() )
+        {
+            serialize( v, *this );
+        }
+
+        /// Overload that calls a member function `T::serialize(JsonOut&) const`, if available.
+        template<typename T>
+        auto write( const T &v ) -> decltype( v.serialize( *this ), void() )
+        {
+            v.serialize( *this );
         }
 
         template <typename T, typename std::enable_if<std::is_enum<T>::value, int>::type = 0>

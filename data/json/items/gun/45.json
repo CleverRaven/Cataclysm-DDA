@@ -217,6 +217,8 @@
     "type": "GUN",
     "name": "USP .45",
     "ammo": "45",
-    "ranged_damage": 1
+    "ranged_damage": 0,
+    "built_in_mods": [ "match_trigger" ],
+    "default_mods": [ "suppressor" ]
   }
 ]

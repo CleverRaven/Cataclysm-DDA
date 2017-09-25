@@ -1590,8 +1590,10 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 SUCCESS_OPINION( mission_value / 4, -1,
                                  mission_value / 3, -1, 0 );
                 SUCCESS_ACTION(&talk_function::clear_mission);
-        add_response( _("How about some items as payment?"), "TALK_MISSION_REWARD",
-                      &talk_function::mission_reward );
+        if( !p->is_friend() ) {
+            add_response( _("How about some items as payment?"), "TALK_MISSION_REWARD",
+                          &talk_function::mission_reward );
+        }
         if( !p->skills_offered_to(g->u).empty() || !p->styles_offered_to(g->u).empty() ) {
             RESPONSE(_("Maybe you can teach me something as payment."));
                 SUCCESS("TALK_TRAIN");
@@ -3045,7 +3047,7 @@ void talk_function::hostile( npc &p )
 {
  if ( p.attitude == NPCATT_KILL )
   return;
- 
+
  if ( p.sees( g->u ) ) {
   add_msg(_("%s turns hostile!"), p.name.c_str());
  }
@@ -3195,7 +3197,7 @@ void parse_tags( std::string &phrase, const player &u, const npc &me )
             if( !me.weapon.is_gun() ) {
                 phrase.replace(fa, l, _("BADAMMO"));
             } else {
-                phrase.replace(fa, l, ammo_name( me.weapon.ammo_type() ) );
+                phrase.replace(fa, l, me.weapon.ammo_type()->name() );
             }
         } else if( tag == "<punc>" ) {
             switch( rng( 0, 2 ) ) {
@@ -3640,10 +3642,16 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     size_t them_off = 0, you_off = 0; // Offset from the start of the list
     size_t ch, help;
 
+    if( ex ) {
+        // Sometimes owed money fails to reset for friends
+        // NPC AI is way too weak to manage money, so let's just make them give stuff away for free
+        cash = 0;
+    }
+
     // Make a temporary copy of the NPC to make sure volume calculations are correct
     npc temp = p;
     units::volume volume_left = temp.volume_capacity() - temp.volume_carried();
-    int weight_left = temp.weight_capacity() - temp.weight_carried();
+    units::mass weight_left = temp.weight_capacity() - temp.weight_carried();
 
     do {
         auto &target_list = focus_them ? theirs : yours;
@@ -4264,14 +4272,14 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
             p.use_charges( comest->tool, 1 );
         }
         if( to_eat.type->has_use() ) {
-            amount_used = to_eat.type->invoke( &p, &to_eat, p.pos() );
+            amount_used = to_eat.type->invoke( p, to_eat, p.pos() );
             if( amount_used <= 0 ) {
                 reason = _("It doesn't look like a good idea to consume this..");
                 return REFUSED;
             }
         }
 
-        p.consume_effects( to_eat, comest );
+        p.consume_effects( to_eat );
         p.moves -= 250;
     } else {
         debugmsg("Unknown comestible type of item: %s\n", to_eat.tname().c_str());
@@ -4457,9 +4465,9 @@ npc *pick_follower()
     std::vector<npc *> followers;
     std::vector<tripoint> locations;
 
-    for( npc *np : g->active_npc ) {
+    for( const auto &np : g->active_npc ) {
         if( np->is_following() && g->u.sees( *np ) ) {
-            followers.push_back( np );
+            followers.push_back( np.get() );
             locations.push_back( np->pos() );
         }
     }

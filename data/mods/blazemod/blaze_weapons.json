@@ -316,7 +316,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "hbolt",
-    "skill": "archery",
+    "skill": "rifle",
     "range": 50,
     "ranged_damage": 150,
     "sight_dispersion": 150,

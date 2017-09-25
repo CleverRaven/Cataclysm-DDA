@@ -189,6 +189,7 @@ void martialart::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "weapons", weapons, auto_flags_reader<itype_id>{} );
 
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
+    optional( jo, was_loaded, "force_unarmed", force_unarmed, false );
 
     optional( jo, was_loaded, "leg_block", leg_block, 99 );
     optional( jo, was_loaded, "arm_block", arm_block, 99 );
@@ -576,11 +577,11 @@ bool martialart::weapon_valid( const item &it ) const
 // Player stuff
 
 // technique
-std::vector<matec_id> player::get_all_techniques() const
+std::vector<matec_id> player::get_all_techniques( const item &weap ) const
 {
     std::vector<matec_id> tecs;
     // Grab individual item techniques
-    const auto &weapon_techs = weapon.get_techniques();
+    const auto &weapon_techs = weap.get_techniques();
     tecs.insert( tecs.end(), weapon_techs.begin(), weapon_techs.end() );
     // and martial art techniques
     const auto &style = style_selected.obj();
@@ -590,9 +591,9 @@ std::vector<matec_id> player::get_all_techniques() const
 }
 
 // defensive technique-related
-bool player::has_miss_recovery_tec() const
+bool player::has_miss_recovery_tec( const item &weap ) const
 {
-    for( auto &technique : get_all_techniques() ) {
+    for( auto &technique : get_all_techniques( weap ) ) {
         if( technique.obj().miss_recovery ) {
             return true;
         }
@@ -600,9 +601,10 @@ bool player::has_miss_recovery_tec() const
     return false;
 }
 
+// This one isn't used with a weapon
 bool player::has_grab_break_tec() const
 {
-    for( auto &technique : get_all_techniques() ) {
+    for( auto &technique : get_all_techniques( ret_null ) ) {
         if( technique.obj().grab_break ) {
             return true;
         }

@@ -1132,6 +1132,18 @@
     },
     {
         "type" : "keybinding",
+        "id":"TOGGLE_CITY_LABELS",
+        "category":"OVERMAP",
+        "name":"Toggle City Labels",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"C"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"TOGGLE_EXPLORED",
         "category":"OVERMAP",
         "name":"Toggle Explored",
@@ -1990,7 +2002,7 @@
     { "type":"keybinding", "name": "View Help", "category":"DEFAULTMODE", "id":"help", "bindings":[ { "input_method":"keyboard", "key":"?" } ] },
     { "type":"keybinding", "name": "Zoom In", "category":"DEFAULTMODE", "id":"zoom_in", "bindings":[ { "input_method":"keyboard", "key":"z" } ] },
     { "type":"keybinding", "name": "Zoom Out", "category":"DEFAULTMODE", "id":"zoom_out", "bindings":[ { "input_method":"keyboard", "key":"Z" } ] },
-    { "type":"keybinding", "name": "Toggle Debug Mode", "category":"DEFAULTMODE", "id":"debug_mode", "bindings":[ { "input_method":"keyboard", "key":"" } ] },
+    { "type":"keybinding", "name": "Toggle Debug Mode", "category":"DEFAULTMODE", "id":"debug_mode" },
     { "type":"keybinding", "name": "Debug Menu", "category":"DEFAULTMODE", "id":"debug" },
     { "type":"keybinding", "name": "View Scentmap", "category":"DEFAULTMODE", "id":"debug_scent" },
     { "type":"keybinding", "name": "Switch Sidebar Style", "category":"DEFAULTMODE", "id":"toggle_sidebar_style" },
@@ -2014,6 +2026,7 @@
     { "type":"keybinding", "name": "Autopickup manager", "category":"DEFAULTMODE", "id":"open_autopickup" },
     { "type":"keybinding", "name": "Safe Mode manager", "category":"DEFAULTMODE", "id":"open_safemode" },
     { "type":"keybinding", "name": "Color manager", "category":"DEFAULTMODE", "id":"open_color" },
+    { "type":"keybinding", "name": "Active World Mods", "category":"DEFAULTMODE", "id":"open_world_mods" },
     {
       "type":"keybinding",
       "name": "Toggle move mode (run/walk)",

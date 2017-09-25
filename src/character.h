@@ -37,6 +37,7 @@ enum vision_modes {
     DARKNESS,
     IR_VISION,
     VISION_CLAIRVOYANCE,
+    VISION_CLAIRVOYANCE_PLUS,
     VISION_CLAIRVOYANCE_SUPER,
     NUM_VISION_MODES
 };
@@ -179,7 +180,7 @@ class Character : public Creature, public visitable<Character>
         int encumb( body_part bp ) const;
 
         /** Returns body weight plus weight of inventory and worn/wielded items */
-        int get_weight() const override;
+        units::mass get_weight() const override;
         /** Get encumbrance for all body parts. */
         std::array<encumbrance_data, num_bp> get_encumbrance() const;
         /** Get encumbrance for all body parts as if `new_item` was also worn. */
@@ -353,6 +354,22 @@ class Character : public Creature, public visitable<Character>
          */
         int get_item_position( const item *it ) const;
 
+        /**
+         * Returns a reference to the item which will be used to make attacks.
+         * At the moment it's always @ref weapon or @ref ret_null.
+         */
+        /*@{*/
+        const item &used_weapon() const;
+        item &used_weapon();
+        /*@}*/
+
+        /**
+         * Try to find a container/s on character containing ammo of type it.typeId() and
+         * add charges until the container is full.
+         * @param unloading Do not try to add to a container when the item was intentionally unloaded.
+         * @return Remaining charges which could not be stored in a container.
+         */
+        long int i_add_to_container(const item &it, const bool unloading);
         item &i_add(item it);
 
         /**
@@ -425,9 +442,9 @@ class Character : public Creature, public visitable<Character>
         /** How much dispersion does one point of target's dodge add when throwing at said target? */
         int throw_dispersion_per_dodge( bool add_encumbrance = true ) const;
 
-        int weight_carried() const;
+        units::mass weight_carried() const;
         units::volume volume_carried() const;
-        int weight_capacity() const override;
+        units::mass weight_capacity() const override;
         units::volume volume_capacity() const;
         units::volume volume_capacity_reduced_by( units::volume mod ) const;
 
@@ -440,7 +457,10 @@ class Character : public Creature, public visitable<Character>
          * @param context optionally override effective item when checking contextual skills
          */
         bool can_use( const item& it, const item &context = item() ) const;
-        /** Returns true if the character is wielding something */
+        /**
+         * Returns true if the character is wielding something.
+         * Note: this item may not actually be used to attack.
+         */
         bool is_armed() const;
 
         void drop_inventory_overflow();

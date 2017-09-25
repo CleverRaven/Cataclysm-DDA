@@ -5,6 +5,8 @@
 
 #include "output.h"
 
+#include <cassert>
+
 #define SGN(a) (((a)<0) ? -1 : (((a)>0) ? 1 : 0))
 
 void bresenham( const int x1, const int y1, const int x2, const int y2, int t,

@@ -8,6 +8,7 @@
 #include "translations.h"
 #include "color.h"
 #include "itype.h"
+#include "ammo.h"
 #include "vehicle_group.h"
 #include "init.h"
 #include "generic_factory.h"
@@ -717,7 +718,7 @@ void vehicle_prototype::finalize()
                     }
                 }
                 if( pt.ammo_types.empty() ) {
-                    pt.ammo_types.insert( default_ammo( base->gun->ammo ) );
+                    pt.ammo_types.insert( base->gun->ammo->default_ammotype() );
                 }
             }
 

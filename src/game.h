@@ -15,6 +15,7 @@
 #include <map>
 #include <unordered_map>
 #include <list>
+#include <memory>
 #include <stdarg.h>
 
 extern const int savegame_version;
@@ -35,6 +36,9 @@ extern const int core_version;
 
 extern const int savegame_version;
 extern int savegame_loading_version;
+
+class input_context;
+input_context get_default_mode_input_context();
 
 enum class dump_mode {
     TSV,
@@ -301,7 +305,7 @@ class game
         /** Returns the number of creatures through the creature_tracker size() function. */
         size_t num_zombies() const;
         /** Returns the monster with match index. Redirects to the creature_tracker find() function. */
-        monster &zombie(const int idx);
+        monster &zombie( const int idx ) const;
         /** Redirects to the creature_tracker update_pos() function. */
         bool update_zombie_pos( const monster &critter, const tripoint &pos );
         void remove_zombie(const int idx);
@@ -517,7 +521,7 @@ class game
         /** Get all living player allies */
         std::vector<npc *> allies();
 
-        std::vector<npc *> active_npc;
+        std::vector<std::shared_ptr<npc>> active_npc;
         std::vector<faction> factions;
         int weight_dragged; // Computed once, when you start dragging
 
@@ -533,6 +537,7 @@ class game
         WINDOW_PTR w_location_ptr;
         WINDOW_PTR w_status_ptr;
         WINDOW_PTR w_status2_ptr;
+
     public:
         WINDOW *w_terrain;
         WINDOW *w_overmap;
@@ -664,8 +669,7 @@ class game
         // Animation related functions
         void draw_explosion( const tripoint &p, int radius, nc_color col );
         void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area );
-        void draw_bullet( Creature const &p, const tripoint &pos, int i,
-                          std::vector<tripoint> const &trajectory, char bullet );
+        void draw_bullet( const tripoint &pos, int i, const std::vector<tripoint> &trajectory, char bullet );
         void draw_hit_mon( const tripoint &p, const monster &critter, bool dead = false);
         void draw_hit_player(player const &p, int dam);
         void draw_line( const tripoint &p, const tripoint &center_point, std::vector<tripoint> const &ret );
@@ -677,6 +681,7 @@ class game
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );
 
+        bool is_in_viewport( const tripoint& p, int margin = 0 ) const;
         /**
          * Check whether movement is allowed according to safe mode settings.
          * @return true if the movement is allowed, otherwise false.
@@ -740,10 +745,7 @@ class game
         bool save_uistate();
         void load_uistate(std::string worldname);
         // Data Initialization
-        void init_fields();
-        void init_faction_data();
         void init_autosave();     // Initializes autosave parameters
-        void init_savedata_translation_tables();
         void init_lua();          // Initializes lua interpreter.
         void create_factions(); // Creates new factions (for a new game world)
         void create_starting_npcs(); // Creates NPCs that start near you
@@ -827,7 +829,10 @@ public:
         /** If invoked, dead will be cleaned this turn. */
         void set_critter_died();
 private:
-        void wield(int pos = INT_MIN); // Wield a weapon  'w'
+        void wield();
+        void wield( int pos ); // Wield a weapon  'w'
+        void wield( item_location& loc );
+
         void read(); // Read a book  'R' (or 'a')
         void chat(); // Talk to a nearby NPC  'C'
         void plthrow(int pos = INT_MIN); // Throw an item  't'
@@ -932,8 +937,7 @@ private:
 
         // ########################## DATA ################################
 
-        int last_target; // The last monster targeted
-        bool last_target_was_npc;
+        std::weak_ptr<Creature> last_target;
         safe_mode_type safe_mode;
         bool safe_mode_warning_logged;
         std::vector<int> new_seen_mon;
@@ -957,10 +961,11 @@ private:
         bool npcs_dirty;
         /** Has anything died in this turn and needs to be cleaned up? */
         bool critter_died;
+        /** Was the player sleeping during this turn. */
+        bool player_was_sleeping;
 
         std::unique_ptr<special_game> gamemode;
 
-        int moveCount; //Times the player has moved (not pause, sleep, etc)
         int user_action_counter; // Times the user has input an action
         const int lookHeight; // Look Around window height
 

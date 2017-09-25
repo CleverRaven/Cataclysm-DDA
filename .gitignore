@@ -27,6 +27,7 @@ build/
 dep/
 *.o
 *.d
+cmake-build-debug/
 
 data/font/
 config/

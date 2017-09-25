@@ -34,7 +34,6 @@
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );
 const skill_id skilll_mechanics( "mechanics" );
-const skill_id skill_firstaid( "firstaid" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
@@ -133,7 +132,7 @@ void force_comedown( effect &eff )
 bool player::activate_bionic( int b, bool eff_only )
 {
     bionic &bio = my_bionics[b];
-    
+
     // Preserve the fake weapon used to initiate bionic gun firing
     static item bio_gun( weapon );
 
@@ -447,7 +446,7 @@ bool player::activate_bionic( int b, bool eff_only )
         for( const auto &pr : affected ) {
             projectile proj;
             proj.speed  = 50;
-            proj.impact = damage_instance::physical( pr.first.weight() / 250, 0, 0, 0 );
+            proj.impact = damage_instance::physical( pr.first.weight() / 250_gram, 0, 0, 0 );
             proj.range = rl_dist( pr.second, pos() );
             proj.proj_effects = {{ "NO_ITEM_DAMAGE", "DRAW_AS_LINE", "NO_DAMAGE_SCALING", "JET" }};
 
@@ -540,6 +539,11 @@ bool player::activate_bionic( int b, bool eff_only )
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
     reset();
 
+    // Also reset crafting inventory cache if this bionic spawned a fake item
+    if( !bionics[ bio.id ].fake_item.empty() ) {
+        invalidate_crafting_inventory();
+    }
+
     return true;
 }
 
@@ -578,7 +582,7 @@ bool player::deactivate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == "bio_cqb" ) {
         // check if player knows current style naturally, otherwise drop them back to style_none
-        if( style_selected != matype_id( "style_none" ) ) {
+        if( style_selected != matype_id( "style_none" ) && style_selected != matype_id( "style_kicks" ) ) {
             bool has_style = false;
             for( auto &elem : ma_styles ) {
                 if( elem == style_selected ) {
@@ -601,6 +605,11 @@ bool player::deactivate_bionic( int b, bool eff_only )
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
     reset();
+
+    // Also reset crafting inventory cache if this bionic spawned a fake item
+    if( !bionics[ bio.id ].fake_item.empty() ) {
+        invalidate_crafting_inventory();
+    }
 
     return true;
 }
@@ -984,7 +993,7 @@ bool player::install_bionics( const itype &type, int skill_level )
         pain_cap = pain_cap / 1.5;
     }
 
-    int fa_level = get_skill_level( skill_firstaid );
+    int fa_level = get_skill_level( skilll_firstaid );
 
     if( has_trait( trait_PROF_MED ) ) {
         fa_level = 5;

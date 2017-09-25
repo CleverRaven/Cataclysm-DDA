@@ -18,6 +18,7 @@
 
 #include <cstring>
 #include <ctime>
+#include <locale>
 #include <map>
 #include <signal.h>
 #ifdef LOCALIZE
@@ -404,10 +405,10 @@ int main(int argc, char *argv[])
 
     if (setlocale(LC_ALL, "") == NULL) {
         DebugLog(D_WARNING, D_MAIN) << "Error while setlocale(LC_ALL, '').";
+    } else {
+        std::locale::global( std::locale( "" ) );
     }
 
-    // Options strings loaded with system locale. Even though set_language calls these, we
-    // need to call them from here too.
     get_options().init();
     get_options().load();
     set_language();

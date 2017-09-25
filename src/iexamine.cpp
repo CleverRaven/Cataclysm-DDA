@@ -9,6 +9,7 @@
 #include "output.h"
 #include "rng.h"
 #include "requirements.h"
+#include "ammo.h"
 #include "line.h"
 #include "player.h"
 #include "translations.h"
@@ -2386,7 +2387,9 @@ void pick_plant(player &p, const tripoint &examp,
 
 void iexamine::tree_hickory(player &p, const tripoint &examp)
 {
-    harvest_common( p, examp, false, false );
+    if( harvest_common( p, examp, false, false ) ) {
+        g->m.ter_set( examp, g->m.get_ter_transforms_into( examp ) );
+    }
     if( !p.has_quality( quality_id( "DIG" ) ) ) {
         p.add_msg_if_player(m_info, _("You have no tool to dig with..."));
         return;
@@ -2603,9 +2606,9 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     return;
 }
 
-int sum_up_item_weight_by_material( map_stack &stack, const material_id &material, bool remove_items, bool include_contents )
+units::mass sum_up_item_weight_by_material( map_stack &stack, const material_id &material, bool remove_items, bool include_contents )
 {
-    int sum_weight = 0;
+    units::mass sum_weight = 0;
     for( auto item_it = stack.begin(); item_it != stack.end(); ) {
         if( item_it->made_of(material) && item_it->weight() > 0) {
             sum_weight += item_it->weight( include_contents );
@@ -2621,7 +2624,7 @@ int sum_up_item_weight_by_material( map_stack &stack, const material_id &materia
     return sum_weight;
 }
 
-void add_recyle_menu_entry(uimenu &menu, int w, char hk, const std::string &type)
+void add_recyle_menu_entry( uimenu &menu, const units::mass &w, char hk, const std::string &type )
 {
     const auto itt = item( type, 0 );
     const int amount = w / itt.weight();
@@ -2640,7 +2643,7 @@ void iexamine::recycler(player &p, const tripoint &examp)
     // check for how much steel, by weight, is in the recycler
     // only items made of STEEL are checked
     // IRON and other metals cannot be turned into STEEL for now
-    int steel_weight = sum_up_item_weight_by_material( items_on_map, material_id( "steel" ), false, false );
+    units::mass steel_weight = sum_up_item_weight_by_material( items_on_map, material_id( "steel" ), false, false );
     if (steel_weight == 0) {
         add_msg(m_info,
                 _("The recycler is currently empty.  Drop some metal items onto it and examine it again."));
@@ -2649,7 +2652,7 @@ void iexamine::recycler(player &p, const tripoint &examp)
     // See below for recover_factor (rng(6,9)/10), this
     // is the normal value of that recover factor.
     static const double norm_recover_factor = 8.0 / 10.0;
-    const int norm_recover_weight = steel_weight * norm_recover_factor;
+    const units::mass norm_recover_weight = steel_weight * norm_recover_factor;
     uimenu as_m;
     const std::string weight_str = string_format("%.3f %s", convert_weight(steel_weight),
                                                             weight_units());
@@ -2677,14 +2680,14 @@ void iexamine::recycler(player &p, const tripoint &examp)
     sum_up_item_weight_by_material( items_on_map, material_id( "steel" ), true, false );
 
     double recover_factor = rng(6, 9) / 10.0;
-    steel_weight = (int)(steel_weight * recover_factor);
+    steel_weight = steel_weight * recover_factor;
 
     sounds::sound(examp, 80, _("Ka-klunk!"));
 
-    int lump_weight = item( "steel_lump", 0 ).weight();
-    int sheet_weight = item( "sheet_metal", 0 ).weight();
-    int chunk_weight = item( "steel_chunk", 0 ).weight();
-    int scrap_weight = item( "scrap", 0 ).weight();
+    units::mass lump_weight = item( "steel_lump", 0 ).weight();
+    units::mass sheet_weight = item( "sheet_metal", 0 ).weight();
+    units::mass chunk_weight = item( "steel_chunk", 0 ).weight();
+    units::mass scrap_weight = item( "scrap", 0 ).weight();
 
     if (steel_weight < scrap_weight) {
         add_msg(_("The recycler chews up all the items in its hopper."));
@@ -2761,15 +2764,15 @@ void iexamine::trap(player &p, const tripoint &examp)
     bool seen = tr.can_see( examp, p );
     if( seen && possible >= 99 ) {
         add_msg(m_info, _("That %s looks too dangerous to mess with. Best leave it alone."),
-            tr.name.c_str());
+            tr.name().c_str());
         return;
     }
     // Some traps are not actual traps. Those should get a different query.
     if( seen && possible == 0 && tr.get_avoidance() == 0 ) { // Separated so saying no doesn't trigger the other query.
-        if( query_yn(_("There is a %s there. Take down?"), tr.name.c_str()) ) {
+        if( query_yn(_("There is a %s there. Take down?"), tr.name().c_str()) ) {
             g->m.disarm_trap(examp);
         }
-    } else if( seen && query_yn( _("There is a %s there.  Disarm?"), tr.name.c_str() ) ) {
+    } else if( seen && query_yn( _("There is a %s there.  Disarm?"), tr.name().c_str() ) ) {
         g->m.disarm_trap(examp);
     }
 }
@@ -2793,7 +2796,7 @@ const itype *furn_t::crafting_ammo_item_type() const
 {
     const itype *pseudo = crafting_pseudo_item_type();
     if( pseudo->tool && !pseudo->tool->ammo_id.is_null() ) {
-        return item::find_type( default_ammo( pseudo->tool->ammo_id ) );
+        return item::find_type( pseudo->tool->ammo_id->default_ammotype() );
     }
     return nullptr;
 }

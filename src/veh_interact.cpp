@@ -45,6 +45,13 @@ static inline const char * status_color( bool status )
     return status ? good : bad;
 }
 
+// cap JACK requirements to support arbitrarily large vehicles
+static double jack_qality( const vehicle &veh )
+{
+    const units::quantity<double, units::mass::unit_type> mass = std::min( veh.total_mass(), JACK_LIMIT );
+    return ceil( mass / TOOL_LIFT_FACTOR );
+}
+
 /** Can part currently be reloaded with anything? */
 static auto can_refill = []( const vehicle_part &pt ) { return pt.can_reload(); };
 
@@ -264,10 +271,10 @@ bool veh_interact::format_reqs( std::ostringstream& msg, const requirement_data 
         msg << string_format( "> <color_%1$s>%2$s</color>", status_color( true ), _( "NONE" ) ) << "\n";
     }
 
-    auto comps = reqs.get_folded_components_list( getmaxx( w_msg ), c_white, inv );
+    auto comps = reqs.get_folded_components_list( getmaxx( w_msg ) - 2, c_white, inv );
     std::copy( comps.begin(), comps.end(), std::ostream_iterator<std::string>( msg, "\n" ) );
 
-    auto tools = reqs.get_folded_tools_list( getmaxx( w_msg ), c_white, inv );
+    auto tools = reqs.get_folded_tools_list( getmaxx( w_msg ) - 2, c_white, inv );
     std::copy( tools.begin(), tools.end(), std::ostream_iterator<std::string>( msg, "\n" ) );
 
     return ok;
@@ -374,8 +381,7 @@ void veh_interact::cache_tool_availability()
                            map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( JACK ),
                            vehicle_selector(g->u.pos(), 2, true, *veh ).max_quality( JACK ) } );
 
-    // cap JACK requirements at 8500kg to support arbritrarily large vehicles
-    double qual = ceil( double( std::min( veh->total_mass(), 8500 ) * 1000 ) / TOOL_LIFT_FACTOR );
+    const double qual = jack_qality( *veh );
 
     has_jack = g->u.has_quality( JACK, qual ) ||
                map_selector( g->u.pos(), PICKUP_RANGE ).has_quality( JACK, qual ) ||
@@ -590,13 +596,13 @@ bool veh_interact::can_install_part() {
     item base( sel_vpart_info->item );
     if( base.is_wheel() ) {
         qual = JACK;
-        lvl = std::ceil( double( std::min( veh->total_mass() * 1000, JACK_LIMIT ) ) / TOOL_LIFT_FACTOR );
+        lvl = jack_qality( *veh );
         str = veh->lift_strength();
         use_aid = max_jack >= lvl;
         use_str = g->u.can_lift( *veh );
     } else {
         qual = LIFT;
-        lvl = std::ceil( double( base.weight() ) / TOOL_LIFT_FACTOR );
+        lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) / TOOL_LIFT_FACTOR );
         str = base.lift_strength();
         use_aid = max_lift >= lvl;
         use_str = g->u.can_lift( base );
@@ -1086,7 +1092,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
                 }
                 wrefresh( w_msg );
             };
-            opts.emplace_back( "ENGINE", &pt, enable && enable( pt ) ? hotkey++ : '\0', details, msg );
+            opts.emplace_back( "ENGINE", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details, msg );
         }
     }
 
@@ -1100,7 +1106,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
                                  round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) );
                 }
             };
-            opts.emplace_back( "TANK", &pt, enable && enable( pt ) ? hotkey++ : '\0', details );
+            opts.emplace_back( "TANK", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details );
         }
     }
 
@@ -1112,7 +1118,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
                 right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
                              "%i    %3i%%", pt.ammo_capacity(), pct );
             };
-           opts.emplace_back( "BATTERY", &pt, enable && enable( pt ) ? hotkey++ : '\0', details );
+           opts.emplace_back( "BATTERY", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details );
         }
     }
 
@@ -1125,13 +1131,13 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
 
     for( auto &pt : veh->parts ) {
         if( pt.is_reactor() && !pt.is_broken() ) {
-            opts.emplace_back( "REACTOR", &pt, enable && enable( pt ) ? hotkey++ : '\0', details_ammo );
+            opts.emplace_back( "REACTOR", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details_ammo );
         }
     }
 
     for( auto &pt : veh->parts ) {
         if( pt.is_turret() && !pt.is_broken() ) {
-            opts.emplace_back( "TURRET", &pt, enable && enable( pt ) ? hotkey++ : '\0', details_ammo );
+            opts.emplace_back( "TURRET", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details_ammo );
         }
     }
 
@@ -1143,7 +1149,7 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
             }
         };
         if( pt.is_seat() && !pt.is_broken() ) {
-            opts.emplace_back( "SEAT", &pt, enable && enable( pt ) ? hotkey++ : '\0', details );
+            opts.emplace_back( "SEAT", &pt, action && enable && enable( pt ) ? hotkey++ : '\0', details );
         }
     }
 
@@ -1173,10 +1179,18 @@ bool veh_interact::overview( std::function<bool(const vehicle_part &pt)> enable,
                 last = opts[idx].key;
             }
 
+            bool highlighted = false;
+            // No action means no selecting, just highlight relevant ones
+            if( pos < 0 && enable && !action ) {
+                highlighted = enable( pt );
+            } else if( pos == idx ) {
+                highlighted = true;
+            }
+
             // print part name
             nc_color col = opts[idx].hotkey ? c_white : c_dkgray;
             trim_and_print( w_list, y, 1, getmaxx( w_list ) - 1,
-                            idx == pos ? hilite( col ) : col,
+                            highlighted ? hilite( col ) : col,
                             "<color_dkgray>%c </color>%s",
                             opts[idx].hotkey ? opts[idx].hotkey : ' ', pt.name().c_str() );
 
@@ -1280,13 +1294,13 @@ bool veh_interact::can_remove_part( int idx ) {
     item base( sel_vpart_info->item );
     if( base.is_wheel() ) {
         qual = JACK;
-        lvl = std::ceil( double( std::min( veh->total_mass() * 1000, JACK_LIMIT ) ) / TOOL_LIFT_FACTOR );
+        lvl = jack_qality( *veh );
         str = veh->lift_strength();
         use_aid = max_jack >= lvl;
         use_str = g->u.can_lift( *veh );
     } else {
         qual = LIFT;
-        lvl = ceil( double( base.weight() ) / TOOL_LIFT_FACTOR );
+        lvl = ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) / TOOL_LIFT_FACTOR );
         str = base.lift_strength();
         use_aid = max_lift >= lvl;
         use_str = g->u.can_lift( base );
@@ -1300,7 +1314,7 @@ bool veh_interact::can_remove_part( int idx ) {
                           status_color( use_str ), str ) << "\n";
 
     if( !veh->can_unmount( idx ) ) {
-        msg << string_format( _( "> <color_%1$s>%2$s</color>" ), status_color( false ), "Remove attached parts first" ) << "\n";
+        msg << string_format( _( "> <color_%1$s>%2$s</color>" ), status_color( false ), _( "Remove attached parts first" ) ) << "\n";
         ok = false;
     }
 
@@ -1346,7 +1360,13 @@ bool veh_interact::do_remove( std::string &msg )
         werase (w_parts);
         veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, pos);
         wrefresh (w_parts);
-        bool can_remove = can_remove_part( parts_here[ pos ] );
+        int part = parts_here[ pos ];
+
+        bool can_remove = can_remove_part( part );
+
+        auto sel = [&]( const vehicle_part &pt ) { return &pt == &veh->parts[part]; };
+        overview( sel );
+
         //read input
         const std::string action = main_context.handle_input();
         if (can_remove && (action == "REMOVE" || action == "CONFIRM")) {
@@ -1561,6 +1581,7 @@ void veh_interact::move_cursor (int dx, int dy)
     int vdy = -ddy;
     point q = veh->coord_translate (point(vdx, vdy));
     tripoint vehp = veh->global_pos3() + q;
+    const bool has_critter = g->critter_at( vehp );
     bool obstruct = g->m.impassable_ter_furn( vehp );
     vehicle *oveh = g->m.veh_at( vehp );
     if( oveh != nullptr && oveh != veh ) {
@@ -1580,6 +1601,9 @@ void veh_interact::move_cursor (int dx, int dy)
         int divider_index = 0;
         for( const auto &e : vpart_info::all() ) {
             const vpart_info &vp = e.second;
+            if( has_critter && vp.has_flag( VPFLAG_OBSTACLE ) ) {
+                continue;
+            }
             if( veh->can_mount( vdx, vdy, vp.get_id() ) ) {
                 if ( vp.get_id() != vpart_shapes[ vp.name()+ vp.item][0]->get_id() )
                     continue; // only add first shape to install list
@@ -1812,7 +1836,7 @@ void veh_interact::display_stats()
                     velocity_units( VU_VEHICLE ) );
     fold_and_print( w_stats, y[2], x[2], w[2], c_ltgray,
                     _( "Mass: <color_ltblue>%5.0f</color> %s" ),
-                    convert_weight( veh->total_mass() * 1000.0f ), weight_units() );
+                    convert_weight( veh->total_mass() ), weight_units() );
     fold_and_print( w_stats, y[3], x[3], w[3], c_ltgray,
                     _( "Cargo Volume: <color_ltgray>%s/%s</color> %s" ),
                     format_volume( total_cargo - free_cargo ).c_str(),
@@ -2037,7 +2061,7 @@ void veh_interact::display_details( const vpart_info *part )
     fold_and_print(w_details, line+2, col_1, column_width, c_white,
                    "%s: <color_ltgray>%.1f%s</color>",
                    small_mode ? _("Wgt") : _("Weight"),
-                   convert_weight(item::find_type( part->item )->weight),
+                   convert_weight( item::find_type( part->item )->weight ),
                    weight_units());
     if ( part->folded_volume != 0 ) {
         fold_and_print(w_details, line+2, col_2, column_width, c_white,
@@ -2309,11 +2333,11 @@ void veh_interact::complete_vehicle()
             break;
         }
 
-        if ( vpinfo.has_flag("CONE_LIGHT") ) {
-            // Need map-relative coordinates to compare to output of look_around.
-            // Need to call coord_translate() directly since it's a new part.
-            point q = veh->coord_translate(point(dx, dy));
+        // Need map-relative coordinates to compare to output of look_around.
+        // Need to call coord_translate() directly since it's a new part.
+        const point q = veh->coord_translate( point( dx, dy ) );
 
+        if ( vpinfo.has_flag("CONE_LIGHT") ) {
             // Stash offset and set it to the location of the part so look_around will start there.
             int px = g->u.view_offset.x;
             int py = g->u.view_offset.y;
@@ -2344,6 +2368,13 @@ void veh_interact::complete_vehicle()
             }
 
             veh->parts[partnum].direction = dir;
+        }
+
+        const tripoint vehp = { q.x + veh->global_x(), q.y + veh->global_y(), g->u.posz() };
+        //@todo allow boarding for non-players as well.
+        player * const pl = g->critter_at<player>( vehp );
+        if( vpinfo.has_flag( VPFLAG_BOARDABLE ) && pl ) {
+            g->m.board_vehicle( vehp, pl );
         }
 
         add_msg( m_good, _("You install a %1$s into the %2$s." ), veh->parts[ partnum ].name().c_str(), veh->name.c_str() );

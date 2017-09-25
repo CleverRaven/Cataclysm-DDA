@@ -704,27 +704,29 @@ void mdeath::detonate(monster *z)
     }
 
 
-    if (g->u.sees(*z)) {
-        if (dets.empty()) {
+    if( g->u.sees( *z ) ) {
+        if( dets.empty() ) {
             //~ %s is the possessive form of the monster's name
-            add_msg(m_info, _("The %s's hands fly to its pockets, but there's nothing left in them."), z->name().c_str());
+            add_msg( m_info,
+                     _( "The %s's hands fly to its pockets, but there's nothing left in them." ),
+                     z->name().c_str() );
         } else {
             //~ %s is the possessive form of the monster's name
-            add_msg(m_bad, _("The %s's hands fly to its remaining pockets, opening them!"), z->name().c_str());
+            add_msg( m_bad, _( "The %s's hands fly to its remaining pockets, opening them!" ),
+                     z->name().c_str() );
         }
     }
-    const tripoint det_point = z->pos();
     // HACK, used to stop them from having ammo on respawn
-    z->add_effect( effect_no_ammo, 1, num_bp, true);
+    z->add_effect( effect_no_ammo, 1, num_bp, true );
 
     // First die normally
-    mdeath::normal(z);
+    mdeath::normal( z );
     // Then detonate our suicide bombs
-    for (auto bombs : dets) {
-        item bomb_item(bombs.first, 0);
+    for( auto bombs : dets ) {
+        item bomb_item( bombs.first, 0 );
         bomb_item.charges = bombs.second;
         bomb_item.active = true;
-        g->m.add_item_or_charges(z->pos(), bomb_item);
+        g->m.add_item_or_charges( z->pos(), bomb_item );
     }
 }
 
