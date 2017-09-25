@@ -6682,11 +6682,6 @@ int game::mon_at( const tripoint &p, bool allow_hallucination ) const
     return -1;
 }
 
-monster *game::monster_at( const tripoint &p, bool allow_hallucination )
-{
-    return &zombie( mon_at( p, allow_hallucination ) );
-}
-
 void game::rebuild_mon_at_cache()
 {
     critter_tracker->rebuild_cache();

@@ -321,8 +321,6 @@ class game
 
         /** Returns the monster index of the monster at the given tripoint. Returns -1 if no monster is present. */
         int mon_at( const tripoint &p, bool allow_hallucination = false ) const;
-        /** Returns a pointer to the monster at the given tripoint. */
-        monster *monster_at( const tripoint &p, bool allow_hallucination = false );
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
         bool is_empty( const tripoint &p );
         /** Returns true if p is outdoors and it is sunny. */
