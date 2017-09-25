@@ -16,30 +16,38 @@ Creature_tracker::Creature_tracker()
 
 Creature_tracker::~Creature_tracker() = default;
 
-const std::shared_ptr<monster> &Creature_tracker::find( int index ) const
+std::shared_ptr<monster> Creature_tracker::find( const tripoint &pos ) const
 {
-    static std::shared_ptr<monster> nullmon = std::make_shared<monster>();
-    if( index < 0 || index >= ( int )monsters_list.size() ) {
-        debugmsg( "Tried to find monster with invalid index %d. Monster num: %d",
-                  index, monsters_list.size() );
-        return nullmon;
-    }
-
-    return monsters_list[index];
-}
-
-int Creature_tracker::mon_at( const tripoint &coords ) const
-{
-    const auto iter = monsters_by_location.find( coords );
+    const auto iter = monsters_by_location.find( pos );
     if( iter != monsters_by_location.end() ) {
         const std::shared_ptr<monster> &mon_ptr = iter->second;
         if( !mon_ptr->is_dead() ) {
-            const auto iter = std::find( monsters_list.begin(), monsters_list.end(), mon_ptr );
-            return iter - monsters_list.begin();
+            return mon_ptr;
         }
     }
+    static std::shared_ptr<monster> nullmon = std::make_shared<monster>();
+    return nullmon;
+}
 
-    return -1;
+int Creature_tracker::temporary_id( const monster &critter ) const
+{
+    const auto iter = std::find_if( monsters_list.begin(), monsters_list.end(),
+    [&]( const std::shared_ptr<monster> &ptr ) {
+        return ptr.get() == &critter;
+    } );
+    if( iter == monsters_list.end() ) {
+        return -1;
+    }
+    return iter - monsters_list.begin();
+}
+
+std::shared_ptr<monster> Creature_tracker::from_temporary_id( const int id )
+{
+    if( static_cast<size_t>( id ) < monsters_list.size() ) {
+        return monsters_list[id];
+    } else {
+        return nullptr;
+    }
 }
 
 bool Creature_tracker::add( monster &critter )
@@ -53,11 +61,11 @@ bool Creature_tracker::add( monster &critter )
         return false;
     }
 
-    const int critter_id = mon_at( critter.pos() );
-    if( critter_id != -1 ) {
+    const std::shared_ptr<monster> existing_mon_ptr = find( critter.pos() );
+    if( existing_mon_ptr && !existing_mon_ptr->type->id.is_null() ) {
         // We can spawn stuff on hallucinations, but we need to kill them first
-        if( monsters_list[critter_id]->is_hallucination() ) {
-            monsters_list[critter_id]->die( nullptr );
+        if( existing_mon_ptr->is_hallucination() ) {
+            existing_mon_ptr->die( nullptr );
             // But don't remove - that would change the monster order and could segfault
         } else if( critter.is_hallucination() ) {
             return false;
@@ -84,18 +92,16 @@ size_t Creature_tracker::size() const
 
 bool Creature_tracker::update_pos( const monster &critter, const tripoint &new_pos )
 {
-    const auto old_pos = critter.pos();
     if( critter.is_dead() ) {
-        // mon_at ignores dead critters anyway, changing their position in the
+        // find ignores dead critters anyway, changing their position in the
         // monsters_by_location map is useless.
         remove_from_location_map( critter );
         return true;
     }
 
-    const int critter_id = mon_at( old_pos );
-    const int new_critter_id = mon_at( new_pos );
-    if( new_critter_id >= 0 ) {
-        auto &othermon = *monsters_list[new_critter_id];
+    const std::shared_ptr<monster> new_critter_ptr = find( new_pos );
+    if( new_critter_ptr && !new_critter_ptr->type->id.is_null() ) {
+        auto &othermon = *new_critter_ptr;
         if( othermon.is_hallucination() ) {
             othermon.die( nullptr );
         } else {
@@ -106,19 +112,16 @@ bool Creature_tracker::update_pos( const monster &critter, const tripoint &new_p
         }
     }
 
-    if( critter_id >= 0 ) {
-        if( &critter == monsters_list[critter_id].get() ) {
-            monsters_by_location.erase( old_pos );
-            monsters_by_location[new_pos] = monsters_list[critter_id];
-            return true;
-        } else {
-            const auto &othermon = *monsters_list[critter_id];
-            debugmsg( "update_zombie_pos: wanted to move %s from old location %d,%d,%d, but it had %s instead",
-                      critter.disp_name().c_str(),
-                      old_pos.x, old_pos.y, old_pos.z, othermon.disp_name().c_str() );
-            return false;
-        }
+    const auto iter = std::find_if( monsters_list.begin(), monsters_list.end(),
+    [&]( const std::shared_ptr<monster> &ptr ) {
+        return ptr.get() == &critter;
+    } );
+    if( iter != monsters_list.end() ) {
+        monsters_by_location.erase( critter.pos() );
+        monsters_by_location[new_pos] = *iter;
+        return true;
     } else {
+        const tripoint &old_pos = critter.pos();
         // We're changing the x/y/z coordinates of a zombie that hasn't been added
         // to the game yet. add_zombie() will update monsters_by_location for us.
         debugmsg( "update_zombie_pos: no %s at %d,%d,%d (moving to %d,%d,%d)",

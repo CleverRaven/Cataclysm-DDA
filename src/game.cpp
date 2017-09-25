@@ -6555,9 +6555,12 @@ npc *game::npc_by_id(const int id) const
 template<typename T>
 T *game::critter_at( const tripoint &p, bool allow_hallucination )
 {
-    const int mindex = mon_at( p, allow_hallucination );
-    if( mindex != -1 ) {
-        return dynamic_cast<T*>( &zombie( mindex ) );
+    const std::shared_ptr<monster> &mon_ptr = critter_tracker->find( p );
+    if( mon_ptr && !mon_ptr->type->id.is_null() ) {
+        if( !allow_hallucination && mon_ptr->is_hallucination() ) {
+            return nullptr;
+        }
+        return dynamic_cast<T*>( mon_ptr.get() );
     }
     if( p == u.pos() ) {
         return dynamic_cast<T*>( &u );
@@ -6586,9 +6589,9 @@ template const Creature *game::critter_at<Creature>( const tripoint &, bool ) co
 template<typename T>
 std::shared_ptr<T> game::shared_from( const T &critter )
 {
-    const int mindex = critter_tracker->mon_at( critter.pos() );
-    if( mindex != -1 ) {
-        return std::dynamic_pointer_cast<T>( critter_tracker->find( mindex ) );
+    const std::shared_ptr<monster> &mon_ptr = critter_tracker->find( critter.pos() );
+    if( mon_ptr && !mon_ptr->type->id.is_null() ) {
+        return std::dynamic_pointer_cast<T>( mon_ptr );
     }
     if( static_cast<const Creature*>( &critter ) == static_cast<const Creature*>( &u ) ) {
         // u is not stored in a shared_ptr, but it won't go out of scope anyway
@@ -6646,7 +6649,8 @@ size_t game::num_zombies() const
 
 monster &game::zombie( const int idx ) const
 {
-    return *critter_tracker->find( idx );
+    //@todo hack. Get rid of this function and replace with visitor function.
+    return *critter_tracker->from_temporary_id( idx );
 }
 
 bool game::update_zombie_pos( const monster &critter, const tripoint &pos )
@@ -6682,17 +6686,6 @@ bool game::spawn_hallucination()
     } else {
         return false;
     }
-}
-
-int game::mon_at( const tripoint &p, bool allow_hallucination ) const
-{
-    const int mon_index = critter_tracker->mon_at( p );
-    if( mon_index == -1 ||
-        allow_hallucination || !zombie( mon_index ).is_hallucination() ) {
-        return mon_index;
-    }
-
-    return -1;
 }
 
 void game::rebuild_mon_at_cache()

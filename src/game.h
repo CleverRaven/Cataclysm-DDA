@@ -327,8 +327,6 @@ class game
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &first, Creature &second );
 
-        /** Returns the monster index of the monster at the given tripoint. Returns -1 if no monster is present. */
-        int mon_at( const tripoint &p, bool allow_hallucination = false ) const;
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
         bool is_empty( const tripoint &p );
         /** Returns true if p is outdoors and it is sunny. */
@@ -338,7 +336,7 @@ class game
         /**
          * Revives a corpse at given location. The monster type and some of its properties are
          * deducted from the corpse. If reviving succeeds, the location is guaranteed to have a
-         * new monster there (see @ref mon_at).
+         * new monster there (see @ref critter_at).
          * @param location The place where to put the revived monster.
          * @param corpse The corpse item, it must be a valid corpse (see @ref item::is_corpse).
          * @return Whether the corpse has actually been redivided. Reviving may fail for many

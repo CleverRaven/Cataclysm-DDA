@@ -15,10 +15,22 @@ class Creature_tracker
     public:
         Creature_tracker();
         ~Creature_tracker();
-        /** Returns the monster at the given index. */
-        const std::shared_ptr<monster> &find( int index ) const;
-        /** Returns the monster index of the monster at the given tripoint. */
-        int mon_at( const tripoint &coords ) const;
+        /**
+         * Returns the monster at the given location.
+         * Always returns a non-null pointer. If there is no monster, it
+         * returns a pointer to a monster with the null type
+         * (check via `ptr->type->id.is_null()`).
+         */
+        std::shared_ptr<monster> find( const tripoint &pos ) const;
+        /**
+         * Returns a temporary id of the given monster (which must exist in the tracker).
+         * The id is valid until monsters are added or removed from the tracker.
+         * The id remains valid through serializing and deserializing.
+         * Use @ref from_temporary_id to get the monster pointer back. (The later may
+         * return a nullptr if the given id is not valid.)
+         */
+        int temporary_id( const monster &critter ) const;
+        std::shared_ptr<monster> from_temporary_id( int id );
         /** Adds the given monster to the creature_tracker. Returns whether the operation was successful. */
         bool add( monster &critter );
         size_t size() const;
