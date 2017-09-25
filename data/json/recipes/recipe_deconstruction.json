@@ -7,7 +7,7 @@
     "time": 500,
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
-      [ [ "lead", 2 ] ],
+      [ [ "lead", 3 ] ],
       [ [ "223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder", 4 ] ],
@@ -176,10 +176,10 @@
     "time": 500,
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
-      [ [ "lead", 5 ] ],
+      [ [ "lead", 2 ] ],
       [ [ "32_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder", 4 ] ]
+      [ [ "gunpowder", 2 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
@@ -269,12 +269,12 @@
     "time": 500,
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
-      [ [ "lead", 20 ] ],
-      [ [ "incendiary", 30 ] ],
+      [ [ "lead", 12 ] ],
+      [ [ "incendiary", 20 ] ],
       [ [ "50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 100 ] ],
-      [ [ "copper", 27 ] ]
+      [ [ "gunpowder", 30 ] ],
+      [ [ "copper", 6 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
@@ -289,15 +289,14 @@
       [ [ "lead", 12 ] ],
       [ [ "50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 33 ] ],
-      [ [ "copper", 9 ] ]
+      [ [ "gunpowder", 30 ] ],
+      [ [ "copper", 6 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
     "result": "50ss",
     "type": "uncraft",
-    "//": "Crafting these uses scrap metal instead of lead. Just breaking down into casings, copper and powder felt wrong, and combatnails seemed like a reasonable approximation.",
     "skill_used": "gun",
     "difficulty": 5,
     "time": 500,
@@ -305,9 +304,9 @@
     "components": [
       [ [ "50_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 100 ] ],
-      [ [ "copper", 27 ] ],
-      [ [ "combatnail", 5 ] ]
+      [ [ "gunpowder", 30 ] ],
+      [ [ "copper", 6 ] ],
+      [ [ "scrap", 1 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
@@ -351,7 +350,7 @@
     "time": 500,
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
-      [ [ "lead", 2 ] ],
+      [ [ "lead", 3 ] ],
       [ [ "223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder", 6 ] ],
@@ -368,6 +367,7 @@
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
       [ [ "incendiary", 2 ] ],
+      [ [ "lead", 3 ] ],
       [ [ "223_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder", 6 ] ],
@@ -539,7 +539,7 @@
     "time": 500,
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
-      [ [ "lead", 4 ] ],
+      [ [ "lead", 2 ] ],
       [ [ "9x18mm_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder", 3 ] ]
@@ -554,7 +554,7 @@
     "time": 500,
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
-      [ [ "lead", 4 ] ],
+      [ [ "lead", 2 ] ],
       [ [ "9x18mm_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder", 5 ] ]
@@ -569,7 +569,7 @@
     "time": 500,
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
-      [ [ "lead", 4 ] ],
+      [ [ "lead", 2 ] ],
       [ [ "9x18mm_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
       [ [ "gunpowder", 3 ] ],
