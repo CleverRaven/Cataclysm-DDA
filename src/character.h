@@ -355,6 +355,15 @@ class Character : public Creature, public visitable<Character>
         int get_item_position( const item *it ) const;
 
         /**
+         * Returns a reference to the item which will be used to make attacks.
+         * At the moment it's always @ref weapon or @ref ret_null.
+         */
+        /*@{*/
+        const item &used_weapon() const;
+        item &used_weapon();
+        /*@}*/
+
+        /**
          * Try to find a container/s on character containing ammo of type it.typeId() and
          * add charges until the container is full.
          * @param unloading Do not try to add to a container when the item was intentionally unloaded.
@@ -448,7 +457,10 @@ class Character : public Creature, public visitable<Character>
          * @param context optionally override effective item when checking contextual skills
          */
         bool can_use( const item& it, const item &context = item() ) const;
-        /** Returns true if the character is wielding something */
+        /**
+         * Returns true if the character is wielding something.
+         * Note: this item may not actually be used to attack.
+         */
         bool is_armed() const;
 
         void drop_inventory_overflow();

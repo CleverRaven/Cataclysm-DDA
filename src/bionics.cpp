@@ -582,7 +582,7 @@ bool player::deactivate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == "bio_cqb" ) {
         // check if player knows current style naturally, otherwise drop them back to style_none
-        if( style_selected != matype_id( "style_none" ) ) {
+        if( style_selected != matype_id( "style_none" ) && style_selected != matype_id( "style_kicks" ) ) {
             bool has_style = false;
             for( auto &elem : ma_styles ) {
                 if( elem == style_selected ) {
