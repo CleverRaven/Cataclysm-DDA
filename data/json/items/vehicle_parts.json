@@ -895,6 +895,20 @@
     },
     {
         "type":"GENERIC",
+        "id" : "hdcamera",
+        "name" : "focused camera",
+        "description" : "A security camera with high quality lense assembly you could connect to a display. Allows for greater distance than regular security camera, but the field of vision is limited.",
+        "weight" : 1400,
+        "to_hit" : -3,
+        "color" : "light_blue",
+        "symbol" : "+",
+        "material" : ["plastic"],
+        "volume" : 8,
+        "category" : "veh_parts",
+        "price" : 10000
+    },
+    {
+        "type":"GENERIC",
         "id": "robot_controls",
         "name": "robot driving unit",
         "name_plural" : "robot driving units",

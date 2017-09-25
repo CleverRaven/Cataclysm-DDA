@@ -2215,6 +2215,39 @@
   ]
 },{
   "type" : "recipe",
+  "result": "hdcamera",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "skill_used": "mechanics",
+  "skills_required": [ "electronics", 4 ],
+  "difficulty": 7,
+  "time": 90000,
+  "book_learn": [ ["textbook_robots", 6] ],
+  "autolearn": false,
+  "qualities":[
+    {"id":"SCREW_FINE","level":1},
+    {"id":"SAW_M","level":1}
+  ],
+  "tools": [
+    [
+      [ "toolset", 10 ]
+    ]
+  ],
+  "components": [
+    [ [ "omnicamera", 1 ] ],
+    [
+      [ "can_drink_unsealed", 1 ],
+      [ "can_food_unsealed", 1 ],
+      [ "canister_empty", 1 ]
+    ],
+    [ [ "lens", 2 ] ],
+    [
+      [ "superglue", 2 ],
+      [ "duct_tape", 50 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "makeshift_sealer",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_TOOLS",

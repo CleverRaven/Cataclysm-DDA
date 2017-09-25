@@ -2113,6 +2113,28 @@
     },
     {
         "type" : "vehicle_part",
+        "id" : "hdcamera",
+        "name" : "focused camera",
+        "symbol" : "o",
+        "color" : "light_red",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 10,
+        "durability" : 100,
+        "folded_volume" : 8,
+        "bonus" : 48,
+        "item" : "hdcamera",
+        "epower": -85,
+        "difficulty" : 6,
+        "location" : "on_roof",
+        "flags" : ["VISION", "CAMERA", "TOOL_SCREWDRIVER", "ENABLED_DRAINS_EPOWER"],
+        "breaks_into" : [
+            {"item": "e_scrap", "count": [5, 16]},
+            {"item": "plastic_chunk", "count": [2, 8]}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
         "id" : "robot_controls",
         "name" : "robot controls",
         "symbol" : "&",
