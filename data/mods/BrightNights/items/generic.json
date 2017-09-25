@@ -1,0 +1,33 @@
+[
+    {
+        "type":"GENERIC",
+        "id":"nuclear_waste",
+        "symbol": "*",
+        "color": "ltgreen",
+        "name": "nuclear waste",
+        "description":"A small pellet of silvery metal, still warm to the touch.",
+        "price": 0,
+        "material": "iron",
+        "weight": 30,
+        "volume": 1,
+        "flags" : [ "RADIOACTIVE", "LEAK_ALWAYS" ]
+    },
+    {
+        "type":"GENERIC",
+        "id":"nuclear_fuel",
+        "name": "nuclear fuel pellet",
+        "copy-from": "nuclear_waste",
+        "description":"A small pellet of fissile material.  Handle carefully."
+    },
+    {
+        "id": "hazardous_waste_drum",
+        "copy-from": "55gal_drum",
+        "type": "CONTAINER",
+        "symbol": "0",
+        "color": "yellow",
+        "name": "hazardous waste drum",
+        "description": "A yellow drum meant for the storage of hazardous substances.",
+        "material": ["steel", "lead"]
+        
+    }
+]
