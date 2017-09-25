@@ -897,7 +897,7 @@
         "type":"GENERIC",
         "id" : "hdcamera",
         "name" : "focused camera",
-        "description" : "A security camera with high quality lense assembly you could connect to a display. Allows for greater distance than regular security camera, but the field of vision is limited.",
+        "description" : "A security camera with high quality lenses assembly you could connect to a display.  Allows for greater distance than regular security camera, but the field of vision is limited.",
         "weight" : 1400,
         "to_hit" : -3,
         "color" : "light_blue",
