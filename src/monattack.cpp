@@ -1393,7 +1393,7 @@ bool mattack::triffid_heartbeat(monster *z)
             tries++;
             g->m.ter_set(dest, t_dirt);
             if (rl_dist(dest, g->u.pos()) > 3 && g->num_zombies() < 30 &&
-                g->mon_at( dest ) == -1 && one_in(20)) { // Spawn an extra monster
+                !g->critter_at( dest ) && one_in( 20 ) ) { // Spawn an extra monster
                 mtype_id montype = mon_triffid;
                 if (one_in(4)) {
                     montype = mon_creeper_hub;

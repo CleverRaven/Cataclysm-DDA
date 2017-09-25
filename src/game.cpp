@@ -5065,7 +5065,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
                     int tempy = posy - realy;
                     if ( !( isBetween( tempx, -2, 2 ) &&
                             isBetween( tempy, -2, 2 ) ) ) {
-                        if( mon_at( tmp ) != -1 ) {
+                        if( critter_at( tmp ) ) {
                             mvwputch( w_terrain, realy + POSY - posy,
                                       realx + POSX - posx, c_white, '?' );
                         } else {
@@ -6156,7 +6156,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                      add_msg(_("%s was stunned!"), targ->name().c_str());
                 }
                 traj.erase(traj.begin(), traj.begin() + i);
-                if (mon_at(traj.front()) != -1) {
+                if( critter_at<monster>( traj.front() ) ) {
                     add_msg(_("%s collided with something else and sent it flying!"),
                             targ->name().c_str());
                 } else if( npc * const guy = critter_at<npc>( traj.front() ) ) {
@@ -6226,7 +6226,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                     targ->add_effect( effect_stunned, force_remaining);
                 }
                 traj.erase(traj.begin(), traj.begin() + i);
-                if (mon_at(traj.front()) != -1) {
+                if( critter_at<monster>( traj.front() ) ) {
                     add_msg(_("%s collided with something else and sent it flying!"),
                             targ->name.c_str());
                 } else if( npc * const guy = critter_at<npc>( traj.front() ) ) {
@@ -6309,7 +6309,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                     u.add_effect( effect_stunned, force_remaining);
                 }
                 traj.erase(traj.begin(), traj.begin() + i);
-                if (mon_at(traj.front()) != -1) {
+                if( critter_at<monster>( traj.front() ) ) {
                     add_msg(_("You collided with something and sent it flying!"));
                 } else if( npc * const guy = critter_at<npc>( traj.front() ) ) {
                     if (guy->male) {
@@ -6663,8 +6663,8 @@ bool game::spawn_hallucination()
     phantasm.hallucination = true;
     phantasm.spawn({u.posx() + static_cast<int>(rng(-10, 10)), u.posy() + static_cast<int>(rng(-10, 10)), u.posz()});
 
-    //Don't attempt to place phantasms inside of other monsters
-    if( mon_at( phantasm.pos(), true ) == -1 ) {
+    //Don't attempt to place phantasms inside of other creatures
+    if( !critter_at( phantasm.pos(), true ) ) {
         return critter_tracker->add(phantasm);
     } else {
         return false;
@@ -6815,7 +6815,7 @@ bool game::revive_corpse( const tripoint &p, item &it )
     if( !ret ) {
         debugmsg( "Couldn't add a revived monster" );
     }
-    if( ret && mon_at( p ) == -1 ) {
+    if( ret && !critter_at<monster>( p ) ) {
         debugmsg( "Revived monster is not where it's supposed to be. Prepare for crash." );
     }
     return ret;
@@ -7099,7 +7099,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id door_type, int b
         if( !critter.is_dead() ) {
             // Still alive? Move the critter away so the door can close
             knockback( kbp, p, std::max(1, bash_dmg / 10), -1, 1);
-            if (mon_at(p) != -1) {
+            if( critter_at( p ) ) {
                 return false;
             }
         }
@@ -12303,7 +12303,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
                 } else {
                     p->setpos( pt );
                 }
-            } else if( mon_at( pt ) < 0 ) {
+            } else if( !critter_at( pt ) ) {
                 // Dying monster doesn't always leave an empty tile (blob spawning etc.)
                 // Just don't setpos if it happens - next iteration will do so
                 // or the monster will stop a tile before the unpassable one
@@ -13086,7 +13086,7 @@ void game::update_stair_monsters()
                 int iposx = mposx + pushx;
                 int iposy = mposy + pushy;
                 tripoint pos( iposx, iposy, get_levz() );
-                if ((pushx != 0 || pushy != 0) && (mon_at(pos) == -1) &&
+                if( ( pushx != 0 || pushy != 0 ) && !critter_at( pos ) &&
                     critter.can_move_to( pos )) {
                     bool resiststhrow = (u.is_throw_immune()) ||
                                         (u.has_trait( trait_LEG_TENT_BRACE ));
@@ -13149,7 +13149,7 @@ void game::update_stair_monsters()
                 if ((pushx == 0 && pushy == 0) || ((iposx == u.posx()) && (iposy == u.posy()))) {
                     continue;
                 }
-                if ((mon_at(pos) == -1) && other.can_move_to(pos)) {
+                if( !critter_at( pos ) && other.can_move_to( pos ) ) {
                     other.setpos( tripoint(iposx, iposy, get_levz()) );
                     other.moves -= 50;
                     std::string msg;

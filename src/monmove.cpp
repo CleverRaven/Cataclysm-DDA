@@ -1176,7 +1176,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
 
             if( critter->push_to( dest, roll, depth + 1 ) ) {
                 // The tile isn't necessarily free, need to check
-                if( g->mon_at( p ) == -1 ) {
+                if( !g->critter_at( p ) ) {
                     move_to( p );
                 }
 

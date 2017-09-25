@@ -469,7 +469,7 @@ void player::hardcoded_effects( effect &it )
                         continue;
                     }
                     tripoint dest( i, j, posz() );
-                    if( g->mon_at( dest ) == -1 ) {
+                    if( !g->critter_at( dest ) ) {
                         if( g->summon_mon( mon_dermatik_larva, dest ) ) {
                             monster *grub = g->monster_at( dest );
                             if( one_in( 3 ) ) {
@@ -551,7 +551,7 @@ void player::hardcoded_effects( effect &it )
                 dest.x = posx() + rng( -4, 4 );
                 dest.y = posy() + rng( -4, 4 );
                 tries++;
-            } while( ( dest == pos() || g->mon_at( dest ) != -1 ) && tries < 10 );
+            } while( g->critter_at( dest ) && tries < 10 );
             if( tries < 10 ) {
                 if( g->m.impassable( dest ) ) {
                     g->m.make_rubble( dest, f_rubble_rock, true );
@@ -637,7 +637,7 @@ void player::hardcoded_effects( effect &it )
                     if( tries >= 10 ) {
                         break;
                     }
-                } while( ( ( x == posx() && y == posy() ) || g->mon_at( dest ) != -1 ) );
+                } while( g->critter_at( dest ) );
                 if( tries < 10 ) {
                     if( g->m.impassable( x, y ) ) {
                         g->m.make_rubble( tripoint( x, y, posz() ), f_rubble_rock, true );
@@ -853,7 +853,7 @@ void player::hardcoded_effects( effect &it )
         blocks_left -= 1;
         int zed_number = 0;
         for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
-            if( g->mon_at( dest ) != -1 ) {
+            if( g->critter_at<monster>( dest ) ) {
                 zed_number ++;
             }
         }
