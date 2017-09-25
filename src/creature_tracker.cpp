@@ -32,9 +32,10 @@ int Creature_tracker::mon_at( const tripoint &coords ) const
 {
     const auto iter = monsters_by_location.find( coords );
     if( iter != monsters_by_location.end() ) {
-        const int critter_id = iter->second;
-        if( !monsters_list[critter_id]->is_dead() ) {
-            return ( int )critter_id;
+        const std::shared_ptr<monster> &mon_ptr = iter->second;
+        if( !mon_ptr->is_dead() ) {
+            const auto iter = std::find( monsters_list.begin(), monsters_list.end(), mon_ptr );
+            return iter - monsters_list.begin();
         }
     }
 
@@ -71,8 +72,8 @@ bool Creature_tracker::add( monster &critter )
         return false;
     }
 
-    monsters_by_location[critter.pos()] = monsters_list.size();
     monsters_list.emplace_back( std::make_shared<monster>( critter ) );
+    monsters_by_location[critter.pos()] = monsters_list.back();
     return true;
 }
 
@@ -108,7 +109,7 @@ bool Creature_tracker::update_pos( const monster &critter, const tripoint &new_p
     if( critter_id >= 0 ) {
         if( &critter == monsters_list[critter_id].get() ) {
             monsters_by_location.erase( old_pos );
-            monsters_by_location[new_pos] = critter_id;
+            monsters_by_location[new_pos] = monsters_list[critter_id];
             return true;
         } else {
             const auto &othermon = *monsters_list[critter_id];
@@ -136,8 +137,7 @@ void Creature_tracker::remove_from_location_map( const monster &critter )
     const tripoint &loc = critter.pos();
     const auto pos_iter = monsters_by_location.find( loc );
     if( pos_iter != monsters_by_location.end() ) {
-        const auto &other = find( pos_iter->second );
-        if( other.get() == &critter ) {
+        if( pos_iter->second.get() == &critter ) {
             monsters_by_location.erase( pos_iter );
         }
     }
@@ -155,16 +155,7 @@ void Creature_tracker::remove( const monster &critter )
     }
 
     remove_from_location_map( critter );
-
-    const size_t idx = iter - monsters_list.begin();
     monsters_list.erase( iter );
-
-    // Fix indices in monsters_by_location for any zombies that were just moved down 1 place.
-    for( auto &elem : monsters_by_location ) {
-        if( elem.second > idx ) {
-            --elem.second;
-        }
-    }
 }
 
 void Creature_tracker::clear()
@@ -176,9 +167,8 @@ void Creature_tracker::clear()
 void Creature_tracker::rebuild_cache()
 {
     monsters_by_location.clear();
-    for( size_t i = 0; i < monsters_list.size(); i++ ) {
-        monster &critter = *monsters_list[i];
-        monsters_by_location[critter.pos()] = i;
+    for( const std::shared_ptr<monster> &mon_ptr : monsters_list ) {
+        monsters_by_location[mon_ptr->pos()] = mon_ptr;
     }
 }
 
@@ -194,25 +184,38 @@ const std::vector<monster> &Creature_tracker::list() const
 
 void Creature_tracker::swap_positions( monster &first, monster &second )
 {
-    const int first_mdex = mon_at( first.pos() );
-    const int second_mdex = mon_at( second.pos() );
-    remove_from_location_map( first );
-    remove_from_location_map( second );
-    bool ok = true;
-    if( first_mdex == -1 || second_mdex == -1 || first_mdex == second_mdex ) {
-        debugmsg( "Tried to swap monsters with invalid positions" );
-        ok = false;
+    if( first.pos() == second.pos() ) {
+        return;
     }
+
+    // Either of them may be invalid!
+    const auto first_iter = monsters_by_location.find( first.pos() );
+    const auto second_iter = monsters_by_location.find( second.pos() );
+    // implied: first_iter != second_iter
+
+    std::shared_ptr<monster> first_ptr;
+    if( first_iter != monsters_by_location.end() ) {
+        first_ptr = first_iter->second;
+        monsters_by_location.erase( first_iter );
+    }
+
+    std::shared_ptr<monster> second_ptr;
+    if( second_iter != monsters_by_location.end() ) {
+        second_ptr = second_iter->second;
+        monsters_by_location.erase( second_iter );
+    }
+    // implied: (first_ptr != second_ptr) or (first_ptr == nullptr && second_ptr == nullptr)
 
     tripoint temp = second.pos();
     second.spawn( first.pos() );
     first.spawn( temp );
-    if( ok ) {
-        monsters_by_location[first.pos()] = first_mdex;
-        monsters_by_location[second.pos()] = second_mdex;
-    } else {
-        // Try to avoid spamming error messages if something weird happens
-        rebuild_cache();
+
+    // If the pointers have been taken out of the list, put them back in.
+    if( first_ptr ) {
+        monsters_by_location[first.pos()] = first_ptr;
+    }
+    if( second_ptr ) {
+        monsters_by_location[second.pos()] = second_ptr;
     }
 }
 

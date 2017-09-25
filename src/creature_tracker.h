@@ -37,7 +37,7 @@ class Creature_tracker
 
     private:
         std::vector<std::shared_ptr<monster>> monsters_list;
-        std::unordered_map<tripoint, size_t> monsters_by_location;
+        std::unordered_map<tripoint, std::shared_ptr<monster>> monsters_by_location;
         /** Remove the monsters entry in @ref monsters_by_location */
         void remove_from_location_map( const monster &critter );
 };
