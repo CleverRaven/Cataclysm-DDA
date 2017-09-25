@@ -727,17 +727,18 @@ void game::reenter_fullscreen()
     }
 }
 
-/*
- * Initialize more stuff after mapbuffer is loaded.
- */
 void game::setup()
 {
     popup_status( _( "Please wait while the world data loads..." ), _( "Loading core data" ) );
     load_core_data();
 
     load_world_modfiles(world_generator->active_world);
+    MAPBUFFER.init( world_generator->active_world->world_path + "/maps" );
 
-    m =  map( get_option<bool>( "ZLEVELS" ) );
+    m = map( get_option<bool>( "ZLEVELS" ) );
+    if( true ) {
+        map_memory_ptr = std::unique_ptr<map>( new map( get_option<bool>( "ZLEVELS" ) ) );
+    }
 
     next_npc_id = 1;
     next_faction_id = 1;
@@ -3693,6 +3694,7 @@ void game::load(std::string worldname, const save_t &name)
     nextweather = int(calendar::turn);
 
     read_from_file_optional( worldpath + name.base_path() + ".log", std::bind( &player::load_memorial_file, &u, _1 ) );
+    map_memory_buffer.init( worldpath + name.base_path() + "/map_memory" );
 
     // Now that the player's worn items are updated, their sight limits need to be
     // recalculated. (This would be cleaner if u.worn were private.)
@@ -3861,6 +3863,15 @@ bool game::save_player_data()
     const bool saved_log = write_to_file( playerfile + ".log", [&]( std::ostream &fout ) {
         fout << u.dump_memorial();
     }, _( "player memorial" ) );
+    try {
+        if( map_memory_ptr != nullptr ) {
+            assure_dir_exist( playerfile );
+            map_memory_buffer.save(); // can throw
+        }
+    } catch( const std::exception &err ) {
+        popup( _( "Failed to save the map memory: %s" ), err.what() );
+        return false;
+    }
 
     return saved_data && saved_weather && saved_log;
 }
@@ -5039,6 +5050,9 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
     }
 
     m.draw( w_terrain, center );
+    if( map_memory_ptr != nullptr ) {
+        map_memory_ptr->draw_masked( w_terrain, center, m );
+    }
 
     if( draw_sounds ) {
         draw_footsteps( w_terrain, {POSX - center.x, POSY - center.y, center.z} );
@@ -12874,6 +12888,9 @@ void game::update_map(int &x, int &y)
 
     // this handles loading/unloading submaps that have scrolled on or off the viewport
     m.shift( shiftx, shifty );
+    if( map_memory_ptr != nullptr ) {
+        map_memory_ptr->load_memorized( m.get_abs_sub() );
+    }
 
     // Shift monsters
     shift_monsters( shiftx, shifty, 0 );

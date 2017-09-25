@@ -21,6 +21,7 @@
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
 mapbuffer MAPBUFFER;
+mapbuffer map_memory_buffer;
 
 mapbuffer::mapbuffer()
 {
@@ -31,12 +32,22 @@ mapbuffer::~mapbuffer()
     reset();
 }
 
+void mapbuffer::init( std::string path_in )
+{
+    if( !path.empty() ) {
+        debugmsg( "Mapbuffer initialized without reset, from %s to %s", path.c_str(), path_in.c_str() );
+    }
+
+    path = path_in;
+}
+
 void mapbuffer::reset()
 {
     for( auto &elem : submaps ) {
         delete elem.second;
     }
     submaps.clear();
+    path = "";
 }
 
 bool mapbuffer::add_submap(const tripoint &p, submap *sm)
@@ -89,12 +100,16 @@ submap *mapbuffer::lookup_submap( const tripoint &p )
 
     auto iter = submaps.find( p );
     if( iter == submaps.end() ) {
+        if( path.empty() ) {
+            return nullptr;
+        }
+
         try {
             return unserialize_submaps( p );
         } catch (const std::exception &err) {
             debugmsg("Failed to load submap (%d,%d,%d): %s", p.x, p.y, p.z, err.what());
         }
-        return NULL;
+        return nullptr;
     }
 
     return iter->second;
@@ -102,9 +117,12 @@ submap *mapbuffer::lookup_submap( const tripoint &p )
 
 void mapbuffer::save( bool delete_after_save )
 {
-    std::stringstream map_directory;
-    map_directory << world_generator->active_world->world_path << "/maps";
-    assure_dir_exist( map_directory.str().c_str() );
+    if( path.empty() ) {
+        debugmsg( "Tried to save uninitialized mapbuffer" );
+        return;
+    }
+
+    assure_dir_exist( path );
 
     int num_saved_submaps = 0;
     int num_total_submaps = submaps.size();
@@ -139,8 +157,8 @@ void mapbuffer::save( bool delete_after_save )
         // Might want to make a set for this one too so it's only checked once per save().
         std::stringstream dirname;
         tripoint segment_addr = omt_to_seg_copy( om_addr );
-        dirname << map_directory.str() << "/" << segment_addr.x << "." <<
-                     segment_addr.y << "." << segment_addr.z;
+        dirname << path << "/" << segment_addr.x << "." <<
+                   segment_addr.y << "." << segment_addr.z;
 
         std::stringstream quad_path;
         quad_path << dirname.str() << "/" << om_addr.x << "." <<
@@ -399,7 +417,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
     const tripoint om_addr = sm_to_omt_copy( p );
     const tripoint segment_addr = omt_to_seg_copy( om_addr );
     std::stringstream quad_path;
-    quad_path << world_generator->active_world->world_path << "/maps/" <<
+    quad_path << path << "/" <<
               segment_addr.x << "." << segment_addr.y << "." << segment_addr.z << "/" <<
               om_addr.x << "." << om_addr.y << "." << om_addr.z << ".map";
 
