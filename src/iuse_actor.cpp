@@ -2450,7 +2450,7 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
 
     if( fix.precise_damage() <= fix.min_damage() ) {
         if( print_msg ) {
-            pl.add_msg_if_player( m_info, _("Your %s is already enhanced to its max potential."), fix.tname().c_str() );
+            pl.add_msg_if_player( m_info, _("Your %s is already enhanced to its maximum potential."), fix.tname().c_str() );
         }
         return false;
     }
