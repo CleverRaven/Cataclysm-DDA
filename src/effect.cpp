@@ -329,7 +329,7 @@ effect_rating effect_type::get_rating() const
 
 bool effect_type::use_name_ints() const
 {
-    return ((size_t)max_intensity <= name.size());
+    return name.size() > 1;
 }
 
 bool effect_type::use_desc_ints(bool reduced) const
@@ -450,11 +450,12 @@ std::string effect::disp_name() const
 
     // End result should look like "name (l. arm)" or "name [intensity] (l. arm)"
     std::ostringstream ret;
-    if (eff_type->use_name_ints()) {
-        if(eff_type->name[intensity - 1] == "") {
+    if( eff_type->use_name_ints() ) {
+        const std::string &d_name = eff_type->name[ std::min<size_t>( intensity, eff_type->name.size() ) - 1 ];
+        if( d_name.empty() ) {
             return "";
         }
-        ret << _(eff_type->name[intensity - 1].c_str());
+        ret << _( d_name.c_str() );
     } else {
         if(eff_type->name[0] == "") {
             return "";
@@ -467,6 +468,7 @@ std::string effect::disp_name() const
     if (bp != num_bp) {
         ret << " (" << body_part_name(bp).c_str() << ")";
     }
+
     return ret.str();
 }
 
@@ -1077,7 +1079,7 @@ std::string effect::get_speed_name() const
     if( eff_type->speed_mod_name != "" ) {
         return eff_type->speed_mod_name;
     } else if( eff_type->use_name_ints() ) {
-        return eff_type->name[intensity-1];
+        return eff_type->name[ std::min<size_t>( intensity, eff_type->name.size() ) - 1 ];
     } else if( !eff_type->name.empty() ) {
         return eff_type->name[0];
     } else {
