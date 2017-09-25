@@ -493,8 +493,6 @@ classes = {
             { name = "can_sleep", rval = "bool", args = { } },
             { name = "can_reload", rval = "bool", args = { "item", "string" } },
             { name = "can_reload", rval = "bool", args = { "item" } },
-            { name = "can_wield", rval = "bool", args = { "item" } },
-            { name = "can_wield", rval = "bool", args = { "item", "bool" } },
             { name = "cancel_activity", rval = nil, args = { } },
             { name = "change_side", rval = "bool", args = { "int" } },
             { name = "change_side", rval = "bool", args = { "int", "bool" } },
