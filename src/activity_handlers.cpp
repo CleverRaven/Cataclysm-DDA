@@ -1416,7 +1416,6 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
 
     if( calendar::once_every(MINUTES(1)) ) {
         p->mod_fatigue(1);
-        p->mod_stat( "stamina", -20.0f * p->stamina / p->get_stamina_max() );
         if( vibrator_item.ammo_remaining() > 0 ) {
             vibrator_item.ammo_consume( 1, p->pos() );
             p->add_morale(MORALE_FEELING_GOOD, 3, 40); 
@@ -1988,7 +1987,6 @@ void activity_handlers::build_finish( player_activity *, player * )
 void activity_handlers::vibe_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( m_good, _( "You feel much better." ) );
-    p->mod_stat( "stamina", -100.0f * p->stamina / p->get_stamina_max() );
     p->add_morale(MORALE_FEELING_GOOD, 10, 40);
     act->set_to_null();
 }
