@@ -442,8 +442,7 @@ void mdeath::blobsplit(monster *z)
 
     for (int s = 0; s < 2 && !valid.empty(); s++) {
         const tripoint target = random_entry_removed( valid );
-        if (g->summon_mon(speed < 50 ? mon_blob_small : mon_blob, target)) {
-            monster *blob = g->monster_at( target );
+        if( monster * const blob = g->summon_mon( speed < 50 ? mon_blob_small : mon_blob, target ) ) {
             blob->make_ally(z);
             blob->set_speed_base(speed);
             blob->set_hp(speed);

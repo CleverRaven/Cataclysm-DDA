@@ -388,7 +388,7 @@ classes = {
             { name = "scrambler_blast", rval = nil, args = { "tripoint" } },
             { name = "shockwave", rval = nil, args = { "tripoint", "int", "int", "int", "int", "bool" } },
             { name = "spawn_hallucination", rval = "bool", args = { } },
-            { name = "summon_mon", rval = "bool", args = { "mtype_id", "tripoint" } },
+            { name = "summon_mon", rval = "monster&", args = { "mtype_id", "tripoint" } },
             { name = "swap_critters", rval = "bool", args = { "Creature", "Creature" } },
             { name = "teleport", rval = nil, args = { "player" } },
             { name = "teleport", rval = nil, args = { "player", "bool" } },

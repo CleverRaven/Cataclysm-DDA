@@ -470,8 +470,7 @@ void player::hardcoded_effects( effect &it )
                     }
                     tripoint dest( i, j, posz() );
                     if( g->mon_at( dest ) == -1 ) {
-                        if( g->summon_mon( mon_dermatik_larva, dest ) ) {
-                            monster *grub = g->monster_at( dest );
+                        if( monster *const grub = g->summon_mon( mon_dermatik_larva, dest ) ) {
                             if( one_in( 3 ) ) {
                                 grub->friendly = -1;
                             }

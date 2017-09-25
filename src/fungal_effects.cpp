@@ -59,8 +59,7 @@ void fungal_effects::fungalize( const tripoint &sporep, Creature *origin, double
             add_msg( m_warning, _( "You're covered in tiny spores!" ) );
         }
     } else if( gm.num_zombies() < 250 && x_in_y( spore_chance, 1.0 ) ) { // Spawn a spore
-        if( gm.summon_mon( mon_spore, sporep ) ) {
-            monster *spore = gm.monster_at( sporep );
+        if( monster *const spore = gm.summon_mon( mon_spore, sporep ) ) {
             monster *origin_mon = dynamic_cast<monster *>( origin );
             if( origin_mon != nullptr ) {
                 spore->make_ally( origin_mon );

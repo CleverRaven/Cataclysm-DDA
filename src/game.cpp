@@ -6596,11 +6596,11 @@ template const Character *game::critter_at<Character>( const tripoint &, bool ) 
 template Character *game::critter_at<Character>( const tripoint &, bool );
 template const Creature *game::critter_at<Creature>( const tripoint &, bool ) const;
 
-bool game::summon_mon( const mtype_id& id, const tripoint &p )
+monster *game::summon_mon( const mtype_id& id, const tripoint &p )
 {
     monster mon( id );
     mon.spawn( p );
-    return add_zombie(mon, true);
+    return add_zombie( mon, true ) ? critter_at<monster>( p ) : nullptr;
 }
 
 // By default don't pin upgrades to current day
