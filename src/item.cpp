@@ -52,6 +52,21 @@
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 
+static const matec_id WBLOCK_1( "WBLOCK_1" );
+static const matec_id WBLOCK_2( "WBLOCK_2" );
+static const matec_id WBLOCK_3( "WBLOCK_3" );
+static const matec_id DEF_DISARM( "DEF_DISARM" );
+static const matec_id WHIP_DISARM( "WHIP_DISARM" );
+static const matec_id SPIN( "SPIN" );
+static const matec_id WIDE( "WIDE" );
+static const matec_id IMPALE( "IMPALE" );
+static const matec_id BRUTAL( "BRUTAL" );
+static const matec_id RAPID( "RAPID" );
+static const matec_id VORPAL( "VORPAL" );
+static const matec_id WRAP( "WRAP" );
+static const matec_id SWEEP( "SWEEP" );
+static const matec_id PRECISE( "PRECISE" );
+
 const skill_id skill_survival( "survival" );
 const skill_id skill_melee( "melee" );
 const skill_id skill_bashing( "bashing" );
@@ -1499,24 +1514,125 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         } else {
             info.push_back( iteminfo( "DESCRIPTION", _( type->description.c_str() ) ) );
         }
-        auto all_techniques = type->techniques;
-        all_techniques.insert( techniques.begin(), techniques.end() );
-        if( !all_techniques.empty() ) {
+
+        insert_separation_line();
+        if( has_technique( WBLOCK_1 ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* This item has <stat>medium blocking</stat> ability." ) ) );
+        }
+
+        if( has_technique( WBLOCK_2 ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* This item has <stat>high blocking</stat> ability." ) ) );
+        }
+
+        if( has_technique( WBLOCK_3 ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* This item has <stat>very high blocking</stat> ability." ) ) );
+        }
+
+        if( has_technique( DEF_DISARM ) || has_technique( WHIP_DISARM ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* This item can be used to <stat>disarm</stat> weapon wielded by opponent." ) ) );
+        }
+
+        if( has_technique( SPIN ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* This item can be used to attack <stat>all opponents around</stat> you on critical hit.  You need to have at least <info>4 level in melee</info> to trigger the spinning attack." ) ) );
+        }
+
+        if( has_technique( WIDE ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* This item can be used to attack <stat>opponents in a wide arc</stat> before you on critical hit.  You need to have at least <info>3 level in melee</info> to trigger the wide strike." ) ) );
+        }
+
+        if( has_technique( IMPALE ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* This item can be used to attack the <stat>opponent and another target behind it</stat> on critical hit.  You need to have at least <info>4 level in melee</info> to trigger the impaling strike." ) ) );
+        }
+
+        if( has_technique( BRUTAL ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* This item can <stat>stun</stat> the opponent for <info>1 turn</info> and <stat>knockback</stat> him for <info>1 tile away</info> on critical hit." ) ) );
+        }
+
+        if( has_technique( RAPID ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* This item can be used to make <stat>rapid</stat> attacks.  The attack will take only <info>half of the moves</info> and deal <info>66% more damage</info>." ) ) );
+        }
+
+        if( has_technique( VORPAL ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* This item can be used to make <stat>beheading</stat> attack.  The attack will deal HUGE amount of damage on critical hit." ) ) );
+        }
+
+        if( has_technique( WRAP ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* This item can <stat>stun</stat> the opponent for <info>2 turns</info>." ) ) );
+        }
+
+        if( has_technique( SWEEP ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* This item can <stat>down</stat> the opponent for <info>2 turns</info>." ) ) );
+        }
+
+        if( has_technique( PRECISE ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* This item can <stat>stun</stat> the opponent for <info>2 turns</info> on critical hit." ) ) );
+        }
+
+        if( !is_gunmod() && has_flag( "REACH_ATTACK" ) ) {
+            if( has_flag( "REACH3" ) ) {
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* This item can be used to make <stat>long reach attacks</stat>." ) ) );
+            } else {
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* This item can be used to make <stat>reach attacks</stat>." ) ) );
+            }
+        }
+
+        ///\EFFECT_MELEE >2 allows seeing melee damage stats on weapons
+        if( debug_mode || ( g->u.get_skill_level( skill_melee ) > 2 && ( damage_melee( DT_BASH ) > 0 ||
+                            damage_melee( DT_CUT ) > 0 || damage_melee( DT_STAB ) > 0 || type->m_to_hit > 0 ) ) ) {
+            damage_instance non_crit;
+            g->u.roll_all_damage( false, non_crit, true, *this );
+            damage_instance crit;
+            g->u.roll_all_damage( true, crit, true, *this );
+            int attack_cost = g->u.attack_speed( *this );
             insert_separation_line();
-            info.push_back( iteminfo( "DESCRIPTION", _( "Techniques: " ) +
-            enumerate_as_string( all_techniques.begin(), all_techniques.end(), []( const matec_id &tid ) {
-                return string_format( "<stat>%s</stat>", tid.obj().name.c_str() );
-            } ) ) );
+            info.push_back( iteminfo( "DESCRIPTION", string_format( _( "<bold>Average melee damage:</bold>" ) ) ) );
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      string_format( _( "Critical hit chance %d%% - %d%%" ),
+                                              int( g->u.crit_chance( 0, 100, *this ) * 100 ),
+                                              int( g->u.crit_chance( 100, 0, *this ) * 100 ) ) ) );
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      string_format( _( "%d bashing (%d on a critical hit)" ),
+                                              int( non_crit.type_damage( DT_BASH ) ),
+                                              int( crit.type_damage( DT_BASH ) ) ) ) );
+            if( non_crit.type_damage( DT_CUT ) > 0.0f || crit.type_damage( DT_CUT ) > 0.0f ) {
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          string_format( _( "%d cutting (%d on a critical hit)" ),
+                                                  int( non_crit.type_damage( DT_CUT ) ),
+                                                  int( crit.type_damage( DT_CUT ) ) ) ) );
+            }
+            if( non_crit.type_damage( DT_STAB ) > 0.0f || crit.type_damage( DT_STAB ) > 0.0f ) {
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          string_format( _( "%d piercing (%d on a critical hit)" ),
+                                                  int( non_crit.type_damage( DT_STAB ) ),
+                                                  int( crit.type_damage( DT_STAB ) ) ) ) );
+            }
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      string_format( _( "%d moves per attack" ), attack_cost ) ) );
         }
 
         if( !is_gunmod() && has_flag( "REACH_ATTACK" ) ) {
             insert_separation_line();
             if( has_flag( "REACH3" ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "This item can be used to make <info>long reach attacks</info>." ) ) );
+                                          _( "* This item can be used to make <info>long reach attacks</info>." ) ) );
             } else {
                 info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "This item can be used to make <info>reach attacks</info>." ) ) );
+                                          _( "* This item can be used to make <info>reach attacks</info>." ) ) );
             }
         }
 
@@ -1714,40 +1830,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.emplace_back( "DESCRIPTION", _( "<bold>Can be stored in:</bold> " ) +
                                enumerate_as_string( holsters.begin(), holsters.end(),
                                                     []( const itype *e ) { return e->nname( 1 ); } ) );
-        }
-
-        ///\EFFECT_MELEE >2 allows seeing melee damage stats on weapons
-        if( debug_mode || ( g->u.get_skill_level( skill_melee ) > 2 && ( damage_melee( DT_BASH ) > 0 ||
-                            damage_melee( DT_CUT ) > 0 || damage_melee( DT_STAB ) > 0 || type->m_to_hit > 0 ) ) ) {
-            damage_instance non_crit;
-            g->u.roll_all_damage( false, non_crit, true, *this );
-            damage_instance crit;
-            g->u.roll_all_damage( true, crit, true, *this );
-            int attack_cost = g->u.attack_speed( *this );
-            insert_separation_line();
-            info.push_back( iteminfo( "DESCRIPTION", string_format( _( "Average melee damage:" ) ) ) );
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "Critical hit chance %d%% - %d%%" ),
-                                              int( g->u.crit_chance( 0, 100, *this ) * 100 ),
-                                              int( g->u.crit_chance( 100, 0, *this ) * 100 ) ) ) );
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "%d bashing (%d on a critical hit)" ),
-                                              int( non_crit.type_damage( DT_BASH ) ),
-                                              int( crit.type_damage( DT_BASH ) ) ) ) );
-            if( non_crit.type_damage( DT_CUT ) > 0.0f || crit.type_damage( DT_CUT ) > 0.0f ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          string_format( _( "%d cutting (%d on a critical hit)" ),
-                                                  int( non_crit.type_damage( DT_CUT ) ),
-                                                  int( crit.type_damage( DT_CUT ) ) ) ) );
-            }
-            if( non_crit.type_damage( DT_STAB ) > 0.0f || crit.type_damage( DT_STAB ) > 0.0f ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          string_format( _( "%d piercing (%d on a critical hit)" ),
-                                                  int( non_crit.type_damage( DT_STAB ) ),
-                                                  int( crit.type_damage( DT_STAB ) ) ) ) );
-            }
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "%d moves per attack" ), attack_cost ) ) );
         }
 
         for( auto &u : type->use_methods ) {
