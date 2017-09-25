@@ -296,6 +296,14 @@ class game
         T *critter_at( const tripoint &p, bool allow_hallucination = false );
         template<typename T = Creature>
         T const* critter_at( const tripoint &p, bool allow_hallucination = false ) const;
+        /**
+         * Returns a shared pointer to the given critter (which can be of any of the subclasses of
+         * @ref Creature). The function may return an empty pointer if the given critter
+         * is not stored anywhere (e.g. it was allocated on the stack, not stored in
+         * the @ref critter_tracker nor in @ref active_npc nor is it @ref u).
+         */
+        template<typename T = Creature>
+        std::shared_ptr<T> shared_from( const T &critter );
 
         /**
          * Summons a brand new monster at the current time. Returns the summoned monster.

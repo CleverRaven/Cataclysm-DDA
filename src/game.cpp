@@ -6590,6 +6590,32 @@ template const Character *game::critter_at<Character>( const tripoint &, bool ) 
 template Character *game::critter_at<Character>( const tripoint &, bool );
 template const Creature *game::critter_at<Creature>( const tripoint &, bool ) const;
 
+template<typename T>
+std::shared_ptr<T> game::shared_from( const T &critter )
+{
+    const int mindex = critter_tracker->mon_at( critter.pos() );
+    if( mindex != -1 ) {
+        return std::dynamic_pointer_cast<T>( critter_tracker->find( mindex ) );
+    }
+    if( static_cast<const Creature*>( &critter ) == static_cast<const Creature*>( &u ) ) {
+        // u is not stored in a shared_ptr, but it won't go out of scope anyway
+        const std::shared_ptr<player> player_ptr( &u, []( player * ) { } );
+        return std::dynamic_pointer_cast<T>( player_ptr );
+    }
+    for( auto &cur_npc : active_npc ) {
+        if( static_cast<const Creature*>( cur_npc.get() ) == static_cast<const Creature*>( &critter ) ) {
+            return std::dynamic_pointer_cast<T>( cur_npc );
+        }
+    }
+    return nullptr;
+}
+
+template std::shared_ptr<Creature> game::shared_from<Creature>( const Creature & );
+template std::shared_ptr<Character> game::shared_from<Character>( const Character & );
+template std::shared_ptr<player> game::shared_from<player>( const player & );
+template std::shared_ptr<monster> game::shared_from<monster>( const monster & );
+template std::shared_ptr<npc> game::shared_from<npc>( const npc & );
+
 monster *game::summon_mon( const mtype_id& id, const tripoint &p )
 {
     monster mon( id );
@@ -9405,7 +9431,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             iLastActivePos = recentered;
         } else if (action == "fire") {
             if( cCurMon != nullptr && rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
-                last_target = critter_tracker->find( mon_at( cCurMon->pos(), true ) );
+                last_target = shared_from( *cCurMon );
                 u.view_offset = stored_view_offset;
                 return game::vmenu_ret::FIRE;
             }
