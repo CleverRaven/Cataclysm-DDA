@@ -25,8 +25,8 @@ class Creature_tracker
         /** Updates the position of the given monster to the given point. Returns whether the operation
          *  was successful. */
         bool update_pos( const monster &critter, const tripoint &new_pos );
-        /** Removes the given monster index from the Creature tracker, adjusting other entries as needed. */
-        void remove( const int idx );
+        /** Removes the given monster from the Creature tracker, adjusting other entries as needed. */
+        void remove( const monster &critter );
         void clear();
         void rebuild_cache();
         const std::vector<monster> &list() const;

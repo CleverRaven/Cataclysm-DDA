@@ -311,7 +311,7 @@ class game
         monster &zombie( const int idx ) const;
         /** Redirects to the creature_tracker update_pos() function. */
         bool update_zombie_pos( const monster &critter, const tripoint &pos );
-        void remove_zombie(const int idx);
+        void remove_zombie( const monster &critter );
         /** Redirects to the creature_tracker clear() function. */
         void clear_zombies();
         /** Spawns a hallucination close to the player. */

@@ -871,7 +871,7 @@ bool game::start_game(std::string worldname)
         for( size_t i = 0; i < num_zombies(); ) {
             if( rl_dist( zombie( i ).pos(), u.pos() ) <= 5 ||
                 m.clear_path( zombie( i ).pos(), u.pos(), 40, 1, 100 ) ) {
-                remove_zombie( i );
+                remove_zombie( zombie( i ) );
             } else {
                 i++;
             }
@@ -5857,7 +5857,7 @@ void game::cleanup_dead()
         // From here on, pointers to creatures get invalidated as dead creatures get removed.
         for( size_t i = 0; i < num_zombies(); ) {
             if( zombie( i ).is_dead() ) {
-                remove_zombie( i );
+                remove_zombie( zombie( i ) );
             } else {
                 i++;
             }
@@ -6511,7 +6511,7 @@ void game::emp_blast( const tripoint &p )
                         m.spawn_item( x, y, ammodef.first, 1, ammodef.second, calendar::turn );
                     }
                 }
-                remove_zombie( mon_at( critter.pos() ) );
+                remove_zombie( critter );
             } else {
                 add_msg(_("The EMP blast fries the %s!"), critter.name().c_str());
                 int dam = dice(10, 10);
@@ -6635,9 +6635,9 @@ bool game::update_zombie_pos( const monster &critter, const tripoint &pos )
     return critter_tracker->update_pos( critter, pos );
 }
 
-void game::remove_zombie(const int idx)
+void game::remove_zombie( const monster &critter )
 {
-    critter_tracker->remove(idx);
+    critter_tracker->remove( critter );
 }
 
 void game::clear_zombies()
@@ -11083,11 +11083,11 @@ void game::set_safe_mode( safe_mode_type mode )
 
 bool game::disable_robot( const tripoint &p )
 {
-    const int mondex = mon_at( p );
-    if( mondex == -1 ) {
+    monster *const mon_ptr = critter_at<monster>( p );
+    if( !mon_ptr ) {
         return false;
     }
-    monster &critter = zombie( mondex );
+    monster &critter = *mon_ptr;
     if( critter.friendly == 0 ) {
         // Can only disable / reprogram friendly monsters
         return false;
@@ -11107,7 +11107,7 @@ bool game::disable_robot( const tripoint &p )
                 }
             }
         }
-        remove_zombie( mondex );
+        remove_zombie( critter );
         return true;
     }
     // Manhacks are special, they have their own menu here.
@@ -12544,7 +12544,7 @@ void game::vertical_move(int movez, bool force)
                 critter.staircount = 10 + turns;
                 critter.on_unload();
                 coming_to_stairs.push_back(critter);
-                remove_zombie( i );
+                remove_zombie( critter );
             } else {
                 i++;
             }
@@ -13162,7 +13162,7 @@ void game::despawn_monster(int mondex)
     }
 
     critter.on_unload();
-    remove_zombie( mondex );
+    remove_zombie( critter );
 }
 
 void game::shift_monsters( const int shiftx, const int shifty, const int shiftz )

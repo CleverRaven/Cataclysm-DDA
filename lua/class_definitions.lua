@@ -381,7 +381,7 @@ classes = {
             { name = "plfire", rval = nil, args = { } },
             { name = "plswim", rval = nil, args = { "tripoint" } },
             { name = "refresh_all", rval = nil, args = { } },
-            { name = "remove_zombie", rval = nil, args = { "int" } },
+            { name = "remove_zombie", rval = nil, args = { "monster" } },
             { name = "resonance_cascade", rval = nil, args = { "tripoint" } },
             { name = "revive_corpse", rval = "bool", args = { "tripoint", "item" } },
             { name = "save", rval = "bool", args = { } },

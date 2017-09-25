@@ -6,6 +6,8 @@
 #include "mtype.h"
 #include "item.h"
 
+#include <algorithm>
+
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 Creature_tracker::Creature_tracker()
@@ -141,22 +143,25 @@ void Creature_tracker::remove_from_location_map( const monster &critter )
     }
 }
 
-void Creature_tracker::remove( const int idx )
+void Creature_tracker::remove( const monster &critter )
 {
-    if( idx < 0 || idx >= ( int )monsters_list.size() ) {
-        debugmsg( "Tried to remove monster with invalid index %d. Monster num: %d",
-                  idx, monsters_list.size() );
+    const auto iter = std::find_if( monsters_list.begin(), monsters_list.end(),
+    [&]( const std::shared_ptr<monster> &ptr ) {
+        return ptr.get() == &critter;
+    } );
+    if( iter == monsters_list.end() ) {
+        debugmsg( "Tried to remove invalid monster %s", critter.name().c_str() );
         return;
     }
 
-    monster &m = *monsters_list[idx];
-    remove_from_location_map( m );
+    remove_from_location_map( critter );
 
-    monsters_list.erase( monsters_list.begin() + idx );
+    const size_t idx = iter - monsters_list.begin();
+    monsters_list.erase( iter );
 
     // Fix indices in monsters_by_location for any zombies that were just moved down 1 place.
     for( auto &elem : monsters_by_location ) {
-        if( elem.second > ( size_t )idx ) {
+        if( elem.second > idx ) {
             --elem.second;
         }
     }

@@ -38,12 +38,12 @@ static int moves_to_destination( const std::string &monster_type,
             test_monster.move();
             moves_spent += moves_before - test_monster.moves;
             if( test_monster.pos() == test_monster.move_target() ) {
-                g->remove_zombie( 0 );
+                g->remove_zombie( g->zombie( 0 ) );
                 return moves_spent;
             }
         }
     }
-    g->remove_zombie( 0 );
+    g->remove_zombie( g->zombie( 0 ) );
     // Return an unreasonably high number.
     return 100000;
 }
@@ -112,7 +112,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
                     if( &g->zombie( i ) == &test_monster ) {
                         i++;
                     } else {
-                        g->remove_zombie( i );
+                        g->remove_zombie( g->zombie( i ) );
                     }
                 }
             }

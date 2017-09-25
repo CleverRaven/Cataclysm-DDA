@@ -7816,7 +7816,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
                     break;
                 }
                 it->set_var( "weight", new_weight );
-                g->remove_zombie( g->mon_at( f.pos() ) );
+                g->remove_zombie( f );
                 return 0;
             } else {
                 p->add_msg_if_player( m_bad, _("The %1$s avoids your attempts to put it in the %2$s."),

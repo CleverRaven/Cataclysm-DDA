@@ -27,7 +27,7 @@ void clear_map()
     wipe_map_terrain();
     // Remove any interfering monsters.
     while( g->num_zombies() ) {
-        g->remove_zombie( 0 );
+        g->remove_zombie( g->zombie( 0 ) );
     }
     // Make sure the player doesn't block the path of the monster being tested.
     g->u.setpos( { 0, 0, -2 } );
