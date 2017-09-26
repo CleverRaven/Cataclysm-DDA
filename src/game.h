@@ -329,6 +329,12 @@ class game
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &first, Creature &second );
 
+        /**
+         * Returns all creatures matching a predicate. Only living ( not dead ) creatures
+         * are checked ( and returned ). Returned pointers are never null.
+         */
+        std::vector<Creature *> get_creatures_if( const std::function<bool( const Creature & )> &pred );
+
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
         bool is_empty( const tripoint &p );
         /** Returns true if p is outdoors and it is sunny. */

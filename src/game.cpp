@@ -13955,3 +13955,23 @@ std::vector<npc *> game::allies()
     }
     return res;
 }
+
+std::vector<Creature *> game::get_creatures_if( const std::function<bool( const Creature & )> &pred )
+{
+    std::vector<Creature *> result;
+    for( size_t i = 0; i < num_zombies(); i++ ) {
+        monster &critter = zombie( i );
+        if( !critter.is_dead() && pred( critter ) ) {
+            result.push_back( &critter );
+        }
+    }
+    for( const std::shared_ptr<npc> &guy : active_npc ) {
+        if( !guy->is_dead() && pred( *guy ) ) {
+            result.push_back( guy.get() );
+        }
+    }
+    if( pred( u ) ) {
+        result.push_back( &u );
+    }
+    return result;
+}
