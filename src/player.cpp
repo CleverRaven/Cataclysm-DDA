@@ -9460,7 +9460,9 @@ void player::do_read( item *book )
             }
         }
 
-        add_msg(m_info, _("Requires intelligence of %d to easily read."), reading->intel);
+        if (reading->intel != 0) {
+            add_msg(m_info, _("Requires intelligence of %d to easily read."), reading->intel);
+        }
         if (reading->fun != 0) {
             add_msg(m_info, _("Reading this book affects your morale by %d"), reading->fun);
         }

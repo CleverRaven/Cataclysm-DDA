@@ -1335,9 +1335,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 }
             }
 
-            info.push_back( iteminfo( "BOOK", "",
-                                      _( "Requires <info>intelligence of</info> <num> to easily read." ),
-                                      book->intel, true, "", true, true ) );
+            if( book->intel != 0 ) {
+                info.push_back( iteminfo( "BOOK", "",
+                                          _( "Requires <info>intelligence of</info> <num> to easily read." ),
+                                          book->intel, true, "", true, true ) );
+            }
             if( book->fun != 0 ) {
                 info.push_back( iteminfo( "BOOK", "",
                                           _( "Reading this book affects your morale by <num>" ),
