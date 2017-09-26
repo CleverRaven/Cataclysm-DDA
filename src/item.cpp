@@ -1009,8 +1009,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 continue;
             }
             info.emplace_back( "GUN", _( type.name.c_str() ) );
-            int average_dispersion = g->u.get_weapon_dispersion( *mod ).avg();
-            int range = range_with_even_chance_of_good_hit( average_dispersion + type.threshold );
+            int max_dispersion = g->u.get_weapon_dispersion( *mod ).max();
+            int range = range_with_even_chance_of_good_hit( max_dispersion + type.threshold );
             info.emplace_back( "GUN", _( "Even chance of good hit at range: " ),
                                _( "<num>" ), range );
             int aim_mv = g->u.gun_engagement_moves( *mod, type.threshold );
