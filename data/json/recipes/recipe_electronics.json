@@ -2230,6 +2230,7 @@
   ],
   "tools": [
     [
+      [ "soldering_iron", 10 ],
       [ "toolset", 10 ]
     ]
   ],
@@ -2241,10 +2242,7 @@
       [ "canister_empty", 1 ]
     ],
     [ [ "lens", 2 ] ],
-    [
-      [ "superglue", 2 ],
-      [ "duct_tape", 50 ]
-    ]
+    [ [ "adhesive", 2, "LIST" ] ]
   ]
 },{
   "type" : "recipe",
