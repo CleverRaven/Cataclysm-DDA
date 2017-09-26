@@ -522,12 +522,14 @@ static std::string print_recoil( const player &p)
 {
     if( p.weapon.is_gun() ) {
         const int val = p.recoil_total();
+        const int min_recoil = p.effective_dispersion( p.weapon.sight_dispersion() );
+        const int recoil_range = MAX_RECOIL - min_recoil;
         const char *color_name = "c_ltgray";
-        if( val >= MAX_RECOIL * 2 / 3 ) {
+        if( val >= min_recoil + ( recoil_range * 2 / 3 ) ) {
             color_name = "c_red";
-        } else if( val >= MAX_RECOIL / 2 ) {
+        } else if( val >= min_recoil + ( recoil_range / 2 ) ) {
             color_name = "c_ltred";
-        } else if( val >= MAX_RECOIL / 4 ) {
+        } else if( val >= min_recoil + ( recoil_range / 4 ) ) {
             color_name = "c_yellow";
         }
         return string_format("<color_%s>%s</color>", color_name, _("Recoil"));
@@ -757,11 +759,13 @@ static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
     dispersion_sources dispersion = p.get_weapon_dispersion( *weapon );
     dispersion.add_range( p.recoil_vehicle() );
 
+    const double min_dispersion = p.effective_dispersion( p.weapon.sight_dispersion() );
+    const double steadiness_range = MAX_RECOIL - min_dispersion;
     // This is a relative measure of how steady the player's aim is,
-    // 0 it is the best the player can do.
-    const double steady_score = predicted_recoil - p.effective_dispersion( p.weapon.sight_dispersion() );
+    // 0 is the best the player can do.
+    const double steady_score = predicted_recoil - min_dispersion;
     // Fairly arbitrary cap on steadiness...
-    const double steadiness = 1.0 - steady_score / MAX_RECOIL;
+    const double steadiness = 1.0 - ( steady_score / steadiness_range );
 
     const double target_size = target.ranged_target_size();
 
