@@ -20,5 +20,16 @@
       [ [ "lead", 2 ] ],
       [ [ "gunpowder", 5 ] ]
     ]
+  },
+  {
+    "result": "762_25typeP",
+    "copy-from": "ammo_cartridge",
+    "type": "uncraft",
+    "using": [ [ "ammo_762_25", 1 ] ],
+    "tools": [ [ [ "puller", -1 ] ] ],
+    "components": [
+      [ [ "lead", 2 ] ],
+      [ [ "gunpowder", 5 ] ]
+    ]
   }
 ]
