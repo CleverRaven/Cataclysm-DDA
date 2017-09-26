@@ -1547,7 +1547,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
     /** @EFFECT_GUN improves usage of accurate weapons and sights */
     dispersion.add_range( 3 * ( MAX_SKILL - std::min( int( get_skill_level( skill_gun ) ), MAX_SKILL ) ) );
 
-    dispersion.add_range( ranged_dex_mod() / 2  );
+    dispersion.add_range( ranged_dex_mod() );
 
     dispersion.add_range( encumb( bp_arm_l ) + encumb( bp_arm_r ) );
 

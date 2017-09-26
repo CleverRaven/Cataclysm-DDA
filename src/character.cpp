@@ -229,7 +229,7 @@ double Character::aim_speed_skill_modifier( const skill_id &gun_skill ) const
 
 double Character::aim_speed_dex_modifier() const
 {
-    return std::max( 0, get_dex() - 8 );
+    return get_dex() - 8;
 }
 
 double Character::aim_speed_encumbrance_modifier() const
@@ -1625,13 +1625,13 @@ int Character::get_int_bonus() const
 int Character::ranged_dex_mod() const
 {
     ///\EFFECT_DEX <20 increases ranged penalty
-    return std::max( ( 20 - get_dex() ) * 5, 0 );
+    return std::max( ( 20.0 - get_dex() ) * 2.25, 0.0 );
 }
 
 int Character::ranged_per_mod() const
 {
-    ///\EFFECT_DEX <20 increases ranged aiming penalty.
-    return std::max( ( 20 - get_per() ) * 2, 0 );
+    ///\EFFECT_PER <20 increases ranged aiming penalty.
+    return std::max( ( 20.0 - get_per() ) * 2.25, 0.0 );
 }
 
 int Character::get_healthy() const
