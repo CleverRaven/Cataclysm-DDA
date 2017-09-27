@@ -1826,7 +1826,7 @@
             [ { "id": "GLARE", "level": 2} ]
         ],
         "components" : [
-            [ [ "metal_tank", 4 ] ],
+            [ [ "metal_tank", 5 ] ],
             [ [ "water_faucet", 1] ]
         ],
         "pre_special" : "check_empty",
