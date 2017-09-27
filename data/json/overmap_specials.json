@@ -17,7 +17,7 @@
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [10, -1],
-        "city_sizes" : [4, 12],
+        "city_sizes" : [0, 12],
         "occurrences" : [0, 10],
         "rotate" : false,
         "flags" : [ "BLOB", "CLASSIC" ]
@@ -94,7 +94,7 @@
             { "point" : [0,-5,0], "terrain" : "road" }
         ],
         "locations" : [ "forest" ],
-        "city_sizes" : [1, 12],
+        "city_sizes" : [0, 12],
         "occurrences" : [0, 1],
         "flags" : [ "CLASSIC" ]
     },{
@@ -107,7 +107,7 @@
             { "point":[1,0,-1], "overmap": "shipwreck_river_4"}
         ],
         "locations" : [ "water" ],
-        "city_sizes" : [1, 12],
+        "city_sizes" : [0, 12],
         "occurrences" : [0, 1],
         "rotate" : false,
         "spawns" : { "group" : "GROUP_RAZORCLAW", "population":[30,60], "radius":[2, 10] }
@@ -120,7 +120,7 @@
         ],
         "locations" : [ "wilderness", "swamp" ],
         "city_distance" : [20, -1],
-        "city_sizes" : [4, 12],
+        "city_sizes" : [0, 12],
         "occurrences" : [0, 3],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
@@ -166,7 +166,7 @@
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [10, -1],
-        "city_sizes" : [1, 20],
+        "city_sizes" : [0, 20],
         "occurrences" : [0, 4],
         "rotate" : false,
         "spawns" : { "group" : "GROUP_BEE", "population":[20,60], "radius":[2,4] }
@@ -206,7 +206,7 @@
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [20, -1],
-        "city_sizes" : [1, 20],
+        "city_sizes" : [0, 20],
         "occurrences" : [0, 10],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
@@ -219,7 +219,7 @@
         ],
         "locations" : [ "forest" ],
         "city_distance" : [20, -1],
-        "city_sizes" : [4, 12],
+        "city_sizes" : [0, 12],
         "occurrences" : [1, 1],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
@@ -272,7 +272,7 @@
         ],
         "locations" : [ "forest", "swamp" ],
         "city_distance" : [20, -1],
-        "city_sizes" : [4, 12],
+        "city_sizes" : [0, 12],
         "occurrences" : [0, 3],
         "rotate" : false
     },{
@@ -426,7 +426,7 @@
         ],
         "locations" : [ "wilderness", "swamp" ],
         "city_distance" : [10, -1],
-        "city_sizes" : [4, 12],
+        "city_sizes" : [0, 12],
         "occurrences" : [0, 4],
         "flags" : [ "CLASSIC" ]
     },{
@@ -673,7 +673,7 @@
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [10, -1],
-        "city_sizes" : [1, 20],
+        "city_sizes" : [0, 20],
         "occurrences" : [0, 3],
         "rotate" : false,
         "spawns" : { "group" : "GROUP_ANT", "population":[1000,2000], "radius":[10,30] }
@@ -685,7 +685,7 @@
             { "point":[0,0,-1], "overmap": "spider_pit_under"}
         ],
         "locations" : [ "forest" ],
-        "city_sizes" : [4, 12],
+        "city_sizes" : [0, 12],
         "occurrences" : [0, 500],
         "rotate" : false
     },{
@@ -695,7 +695,7 @@
             { "point":[0,0,0], "overmap": "slimepit_down"}
         ],
         "locations" : [ "land", "swamp" ],
-        "city_sizes" : [4, 12],
+        "city_sizes" : [0, 12],
         "occurrences" : [0, 4],
         "rotate" : false,
         "spawns" : { "group" : "GROUP_GOO", "population":[100,200], "radius":[2,10] }
@@ -707,7 +707,7 @@
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [5, -1],
-        "city_sizes" : [4, 12],
+        "city_sizes" : [0, 12],
         "occurrences" : [0, 3],
         "rotate" : false,
         "spawns" : { "group" : "GROUP_FUNGI", "population":[600,1200], "radius":[30,50] }
@@ -719,7 +719,7 @@
         ],
         "locations" : [ "wilderness" ],
         "city_distance" : [5, -1],
-        "city_sizes" : [4, 12],
+        "city_sizes" : [0, 12],
         "occurrences" : [0, 2],
         "rotate" : false,
         "spawns" : { "group" : "GROUP_FUNGI_TOWER", "population":[125,175], "radius":[2,2] }
@@ -731,7 +731,7 @@
         ],
         "locations" : [ "wilderness", "swamp" ],
         "city_distance" : [5, -1],
-        "city_sizes" : [4, 12],
+        "city_sizes" : [0, 12],
         "occurrences" : [1, 2],
         "rotate" : false,
         "spawns" : { "group" : "GROUP_FUNGI_FLOWERS", "population":[50,100], "radius":[2,4] }
@@ -744,7 +744,7 @@
             { "point":[0,0,-2], "overmap": "triffid_finale"}
         ],
         "locations" : [ "forest" ],
-        "city_sizes" : [4, 12],
+        "city_sizes" : [0, 12],
         "occurrences" : [0, 4],
         "rotate" : false,
         "spawns" : { "group" : "GROUP_TRIFFID", "population":[800,1300], "radius":[12,20] }
@@ -771,7 +771,7 @@
             { "point":[0,0,0], "overmap": "cave"}
         ],
         "locations" : [ "wilderness", "swamp" ],
-        "city_sizes" : [4, 12],
+        "city_sizes" : [0, 12],
         "occurrences" : [0, 30],
         "rotate" : false
     },{
@@ -782,7 +782,7 @@
         ],
         "locations" : [ "wilderness", "swamp" ],
         "city_distance" : [15, -1],
-        "city_sizes" : [4, 12],
+        "city_sizes" : [0, 12],
         "occurrences" : [0, 5],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
@@ -1288,7 +1288,7 @@
         ],
         "locations" : [ "forest" ],
         "city_distance" : [20, -1],
-        "city_sizes" : [4, 12],
+        "city_sizes" : [0, 12],
         "occurrences" : [1, 1],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
@@ -1303,7 +1303,7 @@
         ],
         "locations" : [ "forest" ],
         "city_distance" : [20, -1],
-        "city_sizes" : [4, 12],
+        "city_sizes" : [0, 12],
         "occurrences" : [1, 1],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
@@ -1519,7 +1519,7 @@
         ],
         "locations" : [ "forest" ],
         "city_distance" : [15, -1],
-        "city_sizes" : [4, 12],
+        "city_sizes" : [0, 12],
         "occurrences" : [1, 5],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
@@ -1531,7 +1531,7 @@
         ],
         "locations" : [ "forest" ],
         "city_distance" : [20, -1],
-        "city_sizes" : [4, 12],
+        "city_sizes" : [0, 12],
         "occurrences" : [1, 3],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
@@ -1543,7 +1543,7 @@
         ],
         "locations" : [ "field" ],
         "city_distance" : [10, -1],
-        "city_sizes" : [4, 12],
+        "city_sizes" : [0, 12],
         "occurrences" : [1, 3],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
@@ -1555,7 +1555,7 @@
         ],
         "locations" : [ "forest" ],
         "city_distance" : [10, -1],
-        "city_sizes" : [4, 12],
+        "city_sizes" : [0, 12],
         "occurrences" : [2, 5],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
@@ -1567,7 +1567,7 @@
         ],
         "locations" : [ "field" ],
         "city_distance" : [10, -1],
-        "city_sizes" : [4, 12],
+        "city_sizes" : [0, 12],
         "occurrences" : [1, 5],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
@@ -1713,7 +1713,7 @@
     ],
     "locations": [ "swamp" ],
     "city_distance": [12, -1],
-    "city_sizes": [4, 16],
+    "city_sizes": [0, 16],
     "occurrences": [0, 8],
     "rotate" : false,
     "flags": [ "CLASSIC" ]
