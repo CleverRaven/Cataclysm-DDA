@@ -692,15 +692,28 @@ static double confidence_estimate( int range, double target_size, dispersion_sou
     return 1 / ( max_lateral_offset / target_size );
 }
 
-static int print_ranged_chance( const player &p, WINDOW *w, int line_number, const item &gun,
-                                dispersion_sources dispersion,
+static std::vector<aim_type> get_default_aim_type()
+{
+    std::vector<aim_type> aim_types;
+    aim_types.push_back( aim_type { "", "", "", false, 0 } ); // dummy aim type for unaimed shots
+    return aim_types;
+}
+
+static int print_ranged_chance( const player &p, WINDOW *w, int line_number, target_mode mode,
+                                const item &ranged_weapon, dispersion_sources dispersion,
                                 const std::vector<confidence_rating> &confidence_config,
                                 double range, double target_size, int recoil = 0 )
 {
     const int window_width = getmaxx( w ) - 2; // Window width minus borders.
     std::string display_type = get_option<std::string>( "ACCURACY_DISPLAY" );
 
-    std::vector<aim_type> aim_types = p.get_aim_types( gun );
+    std::vector<aim_type> aim_types;
+    if ( mode == TARGET_MODE_THROW ) {
+        aim_types = get_default_aim_type();
+    } else {
+        aim_types = p.get_aim_types( ranged_weapon );
+    }
+
     if( display_type != "numbers" ) {
         mvwprintw( w, line_number++, 1, _( "Symbols: * = Headshot + = Hit | = Graze" ) );
     }
@@ -716,9 +729,16 @@ static int print_ranged_chance( const player &p, WINDOW *w, int line_number, con
             current_dispersion.add_range( recoil );
         }
 
+        int moves_to_fire;
+        if ( mode == TARGET_MODE_THROW ) {
+            moves_to_fire = throw_cost( p, ranged_weapon );
+        } else {
+            moves_to_fire = p.gun_engagement_moves( ranged_weapon, threshold, recoil ) + time_to_fire( p, *ranged_weapon.type );
+        }
+
+        mvwprintw( w, line_number++, 1, _( "%s: Moves to fire: %d" ), label.c_str(), moves_to_fire );
+
         double confidence = confidence_estimate( range, target_size, current_dispersion );
-        mvwprintw( w, line_number++, 1, _( "%s: Moves to fire: %d" ), label.c_str(),
-                   p.gun_engagement_moves( gun, threshold, recoil ) + time_to_fire( p, *gun.type ) );
 
         if( display_type == "numbers" ) {
             int last_chance = 0;
@@ -778,7 +798,7 @@ static int print_aim( const player &p, WINDOW *w, int line_number, item *weapon,
 
     const double range = rl_dist( p.pos(), target.pos() );
     line_number = print_steadiness( w, line_number, steadiness );
-    return print_ranged_chance( p, w, line_number, *weapon, dispersion, confidence_config,
+    return print_ranged_chance( p, w, line_number, TARGET_MODE_FIRE, *weapon, dispersion, confidence_config,
                                 range, target_size, predicted_recoil );
 }
 
@@ -825,7 +845,7 @@ static int draw_throw_aim( const player &p, WINDOW *w, int line_number,
     const auto &confidence_config = target != nullptr ?
       confidence_config_critter : confidence_config_object;
 
-    return print_ranged_chance( p, w, line_number, *weapon, dispersion, confidence_config,
+    return print_ranged_chance( p, w, line_number, TARGET_MODE_THROW, *weapon, dispersion, confidence_config,
                                 range, target_size );
 }
 
@@ -837,8 +857,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, const targeting_dat
 
 std::vector<aim_type> Character::get_aim_types( const item &gun ) const
 {
-    std::vector<aim_type> aim_types;
-    aim_types.push_back( aim_type { "", "", "", false, 0 } ); // dummy aim type for unaimed shots
+    std::vector<aim_type> aim_types = get_default_aim_type();
     if( !gun.is_gun() ) {
         return aim_types;
     }
