@@ -2242,12 +2242,36 @@
         "type" : "keybinding",
         "id": "QUIT",
         "category": "HELP_KEYBINDINGS",
-        "name": "Exit all commands help screen",
+        "name": "Exit this keybinding screen",
         "comment": "separate entry, because the global entry also has 'q', 'Q' and space listed, which conflicts with the search text input",
         "bindings":[
             {
                 "input_method":"keyboard",
                 "key":"ESC"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"UP",
+        "category": "HELP_KEYBINDINGS",
+        "name":"Pan up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"UP"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"DOWN",
+        "category": "HELP_KEYBINDINGS",
+        "name":"Pan down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"DOWN"
             }
         ]
     },
