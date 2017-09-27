@@ -509,9 +509,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /**
          * Returns a weapon's modified dispersion value.
          * @param obj Weapon to check dispersion on
-         * @param range Distance to target against which we're calculating the dispersion
          */
-        dispersion_sources get_weapon_dispersion( const item &obj, float range ) const;
+        dispersion_sources get_weapon_dispersion( const item &obj ) const;
 
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( item &firing );
@@ -522,8 +521,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Current total maximum recoil penalty from all sources */
         double recoil_total() const;
 
-        /** How many moves does it take to aim gun to maximum accuracy? */
-        int gun_engagement_moves( const item &gun ) const;
+        /** How many moves does it take to aim gun to the target accuracy. */
+        int gun_engagement_moves( const item &gun, int target = 0, int start = MAX_RECOIL ) const;
 
         /**
          *  Fires a gun or auxiliary gunmod (ignoring any current mode)

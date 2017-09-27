@@ -79,7 +79,7 @@
 #include <stdlib.h>
 #include <limits>
 
-const double MAX_RECOIL = 600;
+const double MAX_RECOIL = 3000;
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 const mtype_id mon_shadow_snake( "mon_shadow_snake" );

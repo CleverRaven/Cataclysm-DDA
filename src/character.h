@@ -61,6 +61,14 @@ struct encumbrance_data {
     }
 };
 
+struct aim_type {
+    std::string name;
+    std::string action;
+    std::string help;
+    bool has_threshold;
+    int threshold;
+};
+
 class Character : public Creature, public visitable<Character>
 {
     public:
@@ -103,6 +111,10 @@ class Character : public Creature, public visitable<Character>
         virtual int get_dex_bonus() const;
         virtual int get_per_bonus() const;
         virtual int get_int_bonus() const;
+
+        // Penalty modifiers applied for ranged attacks due to low stats
+        virtual int ranged_dex_mod() const;
+        virtual int ranged_per_mod() const;
 
         /** Setters for stats exclusive to characters */
         virtual void set_str_bonus(int nstr);
@@ -151,6 +163,14 @@ class Character : public Creature, public visitable<Character>
 
         /* Adjusts provided sight dispersion to account for player stats */
         int effective_dispersion( int dispersion ) const;
+
+        /* Accessors for aspects of aim speed. */
+        std::vector<aim_type> get_aim_types( const item &gun ) const;
+        std::pair<int, int> get_best_sight( const item &gun, double recoil ) const;
+        double aim_speed_skill_modifier( const skill_id &gun_skill ) const;
+        double aim_speed_dex_modifier() const;
+        double aim_speed_encumbrance_modifier() const;
+        double aim_cap_from_volume( const item &gun ) const;
 
         /* Calculate aim improvement per move spent aiming at a given @ref recoil */
         double aim_per_move( const item &gun, double recoil ) const;

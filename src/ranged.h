@@ -65,4 +65,6 @@ class target_handler
                                          const target_callback &on_ammo_change = target_callback() );
 };
 
+int range_with_even_chance_of_good_hit( int dispersion );
+
 #endif // RANGED_H

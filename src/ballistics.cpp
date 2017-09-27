@@ -113,14 +113,7 @@ static size_t blood_trail_len( int damage )
     return 0;
 }
 
-/** Aim result for a single projectile attack */
-struct projectile_attack_aim {
-    double missed_by;       ///< Hit quality, where 0.0 is a perfect hit and 1.0 is a miss
-    double missed_by_tiles; ///< Number of tiles the attack missed by
-    double dispersion;      ///< Dispersion of this particular shot in arcminutes
-};
-
-static projectile_attack_aim projectile_attack_roll( dispersion_sources dispersion, double range,
+projectile_attack_aim projectile_attack_roll( dispersion_sources dispersion, double range,
         double target_size )
 {
     projectile_attack_aim aim;

@@ -4,6 +4,7 @@
 #include "advanced_inv.h"
 #include "player.h"
 #include "damage.h"
+#include "dispersion.h"
 #include "output.h"
 #include "skill.h"
 #include "bionics.h"
@@ -1001,9 +1002,20 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.emplace_back( "GUN", space + _( "Maximum range: " ), "<num>", max_gun_range );
         }
 
-        int aim_mv = g->u.gun_engagement_moves( *mod );
-        if( aim_mv > 0 ) {
-            info.emplace_back( "GUN", _( "Maximum aiming time: " ), _( "<num> seconds" ), int( aim_mv / 16.67 ), true, "", true, true );
+        info.emplace_back( "GUN", _( "Base aim speed: " ), "<num>", g->u.aim_per_move( *mod, MAX_RECOIL ), true, "", true, true );
+        for( const aim_type type : g->u.get_aim_types( *mod ) ) {
+            // Nameless aim levels don't get an entry.
+            if( type.name.empty() ) {
+                continue;
+            }
+            info.emplace_back( "GUN", _( type.name.c_str() ) );
+            int max_dispersion = g->u.get_weapon_dispersion( *mod ).max();
+            int range = range_with_even_chance_of_good_hit( max_dispersion + type.threshold );
+            info.emplace_back( "GUN", _( "Even chance of good hit at range: " ),
+                               _( "<num>" ), range );
+            int aim_mv = g->u.gun_engagement_moves( *mod, type.threshold );
+            info.emplace_back( "GUN", _( "Time to reach aim level: " ), _( "<num> seconds" ),
+                               TICKS_TO_SECONDS( aim_mv ), false, "", true, true );
         }
 
         info.push_back( iteminfo( "GUN", _( "Damage: " ), "", mod->gun_damage( false ), true, "", false, false ) );
@@ -1168,9 +1180,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.push_back( iteminfo( "GUNMOD", _( "Sight dispersion: " ), "",
                                       mod->sight_dispersion, true, "", true, true ) );
         }
-        if( mod->aim_cost >= 0 ) {
-            info.push_back( iteminfo( "GUNMOD", _( "Aim cost: " ), "",
-                                      mod->aim_cost, true, "", true, true ) );
+        if( mod->aim_speed >= 0 ) {
+            info.push_back( iteminfo( "GUNMOD", _( "Aim speed: " ), "",
+                                      mod->aim_speed, true, "", true, true ) );
         }
         if( mod->damage != 0 ) {
             info.push_back( iteminfo( "GUNMOD", _( "Damage: " ), "", mod->damage, true,
@@ -3984,7 +3996,7 @@ int item::sight_dispersion() const
 
     for( const auto e : gunmods() ) {
         const auto mod = e->type->gunmod.get();
-        if( mod->sight_dispersion < 0 || mod->aim_cost < 0 ) {
+        if( mod->sight_dispersion < 0 || mod->aim_speed < 0 ) {
             continue; // skip gunmods which don't provide a sight
         }
         res = std::min( res, mod->sight_dispersion );
