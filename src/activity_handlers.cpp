@@ -955,15 +955,12 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
             found_something = true;
         }
     }
-	if( bush_chance < p->get_skill_level( skill_survival) * 3 + p->per_cur -2 && found_something != true) {
 
-		g->m.spawn_item(p->pos(), "withered", rng(1, 3)); 
-		add_msg(m_good, _("You found: %s!" ), "withered plant"); 
-		found_something = true; 
-	}
-		
-		
-	
+	if( bush_chance < p->get_skill_level( skill_survival) * 3 + p->per_cur -2 && !found_something) {
+        g->m.spawn_item(p->pos(), "withered", rng(1, 3)); 
+        add_msg(m_good, _("You found: %s!" ), "withered plant" ); 
+        found_something = true; 
+    }
 
     if( !found_something ) {
         add_msg(_("You didn't find anything."));
