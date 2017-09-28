@@ -3398,7 +3398,7 @@ bool mattack::generator(monster *z)
 
 bool mattack::upgrade(monster *z)
 {
-    std::vector<int> targets;
+    std::vector<monster*> targets;
     for (size_t i = 0; i < g->num_zombies(); i++) {
         monster &zed = g->zombie(i);
         // Check this first because it is a relatively cheap check
@@ -3406,7 +3406,7 @@ bool mattack::upgrade(monster *z)
             // Then do the more expensive ones
             if ( z->attitude_to( zed ) != Creature::Attitude::A_HOSTILE &&
                  within_target_range(z, &zed, 10) ) {
-                targets.push_back(i);
+                targets.push_back( &zed );
             }
         }
     }
@@ -3421,7 +3421,7 @@ bool mattack::upgrade(monster *z)
 
     z->moves -= z->type->speed; // Takes one turn
 
-    monster *target = &( g->zombie( random_entry( targets ) ) );
+    monster *target = random_entry( targets );
 
     std::string old_name = target->name();
     const auto could_see = g->u.sees( *target );
