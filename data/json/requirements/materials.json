@@ -67,5 +67,11 @@
     "type": "requirement",
     "//": "Materials for use when forging atypically small items from steel",
     "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
+  },
+  {
+    "id": "aluminum_tiny",
+    "type": "requirement",
+    "//": "Materials for use when forging atypically small items from aluminium",
+    "components": [ [ [ "can_drink_unsealed", 6 ], [ "aluminum_foil", 40 ] ] ]
   }
 ]
