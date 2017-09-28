@@ -132,10 +132,7 @@ LUASRC_DIR = $(SRC_DIR)/$(LUA_DIR)
 LUA_BINARY = lua
 LOCALIZE = 1
 PRINTF_CHECKS = 0
-# TODO: Once CI's astyle is updated to version 3, replace this conditional with
-# ASTYLE_BINARY = astyle
-# See pr#20225 pr#21930 pr#21020
-ASTYLE_BINARY = $(shell sh -c 'command -v astyle3 || echo astyle')
+ASTYLE_BINARY = astyle
 
 # tiles object directories are because gcc gets confused # Appears that the default value of $LD is unsuitable on most systems
 
