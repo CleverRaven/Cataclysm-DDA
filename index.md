@@ -11,6 +11,18 @@ Cataclysm: Dark Days Ahead is a turn-based survival game set in a post-apocalypt
 
 As your game begins, you awaken with hazy memories of violence and terror from when the world suddenly unravelled around you.  Now you need to explore your surroundings, and secure food, water and safety.  After that, who knows?  Long term survival will mean tapping abilities you haven't used before, learning to survive in this new environment and developing new skills.
 
+## Community and Resources
+
+* [Forums](http://smf.cataclysmdda.com)
+* [Reddit(unofficial)](https://www.reddit.com/r/cataclysmdda/)
+* IRC server: irc.freenode.net channel: #CataclysmDDA [webchat](http://webchat.freenode.net/?channels=#CataclysmDDA)
+* [Discord (unnofficial)](https://discord.gg/DPxUcX7)
+* [Wiki](http://tools.cataclysmdda.com/wiki)
+* [GitHub repository](https://github.com/CleverRaven/Cataclysm-DDA)
+* [Web Tools](http://tools.cataclysmdda.com/)
+* [Item Browser](http://cdda-trunk.chezzo.com/)
+* [Game Launcher](http://smf.cataclysmdda.com/index.php?topic=11895.0)
+
 ## System Requirements
 ### Minimum
 "I played catadda 0.B on Lego EV3 brick through ssh about a year ago. Every simple move took a noticeable fraction of a second (like 0.3-0.5 second), crafting and such was very slow as well. The specs were - 300 MhZ CPU, 64 Mb Ram (+ another 64 Mb swap on microsd flash) running ev3dev (stripped ubuntu basically), ssh over USB CDC connection." -burgerpro
@@ -35,18 +47,6 @@ Cataclysm: DDA is under constant development, the latest successful builds for t
 * [Linux Tiles build](http://dev.narc.ro/cataclysm/jenkins-latest/Linux/Tiles/)
 * [OSX Terminal build](http://dev.narc.ro/cataclysm/jenkins-latest/OSX/Curses/)
 * [OSX Tiles build](http://dev.narc.ro/cataclysm/jenkins-latest/OSX/Tiles/)
-
-## Community and Resources
-
-* [Forums](http://smf.cataclysmdda.com)
-* [Reddit(unofficial)](https://www.reddit.com/r/cataclysmdda/)
-* IRC server: irc.freenode.net channel: #CataclysmDDA [webchat](http://webchat.freenode.net/?channels=#CataclysmDDA)
-* [Discord (unnofficial)](https://discord.gg/DPxUcX7)
-* [Wiki](http://tools.cataclysmdda.com/wiki)
-* [GitHub repository](https://github.com/CleverRaven/Cataclysm-DDA)
-* [Web Tools](http://tools.cataclysmdda.com/)
-* [Item Browser](http://cdda-trunk.chezzo.com/)
-* [Game Launcher](http://smf.cataclysmdda.com/index.php?topic=11895.0)
 
 ## Frequently Asked Questions
 
