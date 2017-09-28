@@ -13,7 +13,7 @@ notifications:
   skip_join: true
 
 git:
-  depth: 500
+  depth: 5
 
 env:
   global:
