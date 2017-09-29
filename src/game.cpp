@@ -5900,9 +5900,9 @@ void game::monmove()
                 monster &critter = zombie( i );
                 if( critter.friendly == 0 ) {
                     // Only 1 faction per mon at the moment.
-                    monster_factions[ critter.faction ].insert( i );
+                    monster_factions[ critter.faction ].insert( &critter );
                 } else {
-                    monster_factions[ playerfaction ].insert( i );
+                    monster_factions[ playerfaction ].insert( &critter );
                 }
             }
             cached_lev = m.get_abs_sub();

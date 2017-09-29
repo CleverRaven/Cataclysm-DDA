@@ -271,8 +271,8 @@ void monster::plan( const mfactions &factions )
                 continue;
             }
 
-            for( int i : fac.second ) { // mon indices
-                monster &mon = g->zombie( i );
+            for( monster *const mon_ptr : fac.second ) {
+                monster &mon = *mon_ptr;
                 float rating = rate_target( mon, dist, smart_planning );
                 if( rating < dist ) {
                     target = &mon;
@@ -299,8 +299,8 @@ void monster::plan( const mfactions &factions )
     }
     swarms = swarms && target == nullptr; // Only swarm if we have no target
     if( group_morale || swarms ) {
-        for( const int i : myfaction_iter->second ) {
-            monster &mon = g->zombie( i );
+        for( monster *const mon_ptr : myfaction_iter->second ) {
+            monster &mon = *mon_ptr;
             float rating = rate_target( mon, dist, smart_planning );
             if( group_morale && rating <= 10 ) {
                 morale += 10 - rating;

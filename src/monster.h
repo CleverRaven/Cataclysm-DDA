@@ -20,7 +20,8 @@ enum field_id : int;
 using mfaction_id = int_id<monfaction>;
 using mtype_id = string_id<mtype>;
 
-typedef std::map< mfaction_id, std::set< int > > mfactions;
+class monster;
+typedef std::map< mfaction_id, std::set< monster * > > mfactions;
 
 class mon_special_attack : public JsonSerializer
 {
