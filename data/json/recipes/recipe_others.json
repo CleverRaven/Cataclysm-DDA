@@ -4466,7 +4466,7 @@
      [ "scrap", 36 ]
     ],
     [
-     [ "metal_tank", 1 ]
+     [ "metal_tank_little", 1 ]
     ],
     [
      [ "pipe", 3]
@@ -4506,7 +4506,7 @@
      [ "scrap", 4 ]
     ],
     [
-     [ "metal_tank", 1 ]
+     [ "metal_tank_little", 1 ]
     ]
   ]
 },{
@@ -4610,7 +4610,7 @@
        [ "scrap", 72 ]
      ],
      [
-       [ "metal_tank", 1 ]
+       [ "metal_tank_little", 1 ]
      ],
      [
        [ "pipe", 8 ]
@@ -4653,7 +4653,7 @@
        [ "scrap", 36 ]
      ],
      [
-       [ "metal_tank", 1 ]
+       [ "metal_tank_little", 1 ]
      ],
      [
        [ "pipe", 4 ]
@@ -4734,7 +4734,7 @@
        [ "scrap", 60 ]
      ],
      [
-       [ "metal_tank", 1 ]
+       [ "metal_tank_little", 1 ]
      ],
      [
        ["pipe", 6]
