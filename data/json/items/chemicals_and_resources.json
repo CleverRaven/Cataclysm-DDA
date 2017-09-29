@@ -18,7 +18,7 @@
     "count" : 100
    },
 {
-    "type" : "GENERIC",
+    "type" : "AMMO",
     "id" : "chunk_sulfur",
     "category" : "spare_parts",
     "price" : 50,
