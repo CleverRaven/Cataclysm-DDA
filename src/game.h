@@ -297,8 +297,11 @@ class game
         template<typename T = Creature>
         T const* critter_at( const tripoint &p, bool allow_hallucination = false ) const;
 
-        /** Summons a brand new monster at the current time. Returns the summoned monster. */
-        bool summon_mon( const mtype_id& id, const tripoint &p );
+        /**
+         * Summons a brand new monster at the current time. Returns the summoned monster.
+         * Returns a `nullptr` if the monster could not be created.
+         */
+        monster *summon_mon( const mtype_id& id, const tripoint &p );
         /** Calls the creature_tracker add function. Returns true if successful. */
         bool add_zombie(monster &critter);
         bool add_zombie(monster &critter, bool pin_upgrade);
@@ -318,8 +321,6 @@ class game
 
         /** Returns the monster index of the monster at the given tripoint. Returns -1 if no monster is present. */
         int mon_at( const tripoint &p, bool allow_hallucination = false ) const;
-        /** Returns a pointer to the monster at the given tripoint. */
-        monster *monster_at( const tripoint &p, bool allow_hallucination = false );
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
         bool is_empty( const tripoint &p );
         /** Returns true if p is outdoors and it is sunny. */

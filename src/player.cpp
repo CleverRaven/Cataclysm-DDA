@@ -3848,8 +3848,7 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
         }
         for( int i = 0; i < snakes && !valid.empty(); i++ ) {
             const tripoint target = random_entry_removed( valid );
-            if( g->summon_mon( mon_shadow_snake, target ) ) {
-                monster *snake = g->monster_at( target );
+            if( monster * const snake = g->summon_mon( mon_shadow_snake, target ) ) {
                 snake->friendly = -1;
             }
         }
@@ -3870,8 +3869,7 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
         int numslime = 1;
         for( int i = 0; i < numslime && !valid.empty(); i++ ) {
             const tripoint target = random_entry_removed( valid );
-            if( g->summon_mon( mon_player_blob, target ) ) {
-                monster *slime = g->monster_at( target );
+            if( monster * const slime = g->summon_mon( mon_player_blob, target ) ) {
                 slime->friendly = -1;
             }
         }

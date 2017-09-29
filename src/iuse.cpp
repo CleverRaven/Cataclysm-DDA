@@ -1513,8 +1513,7 @@ void spawn_spores( const player &p ) {
             continue;
         }
         if( one_in( 10 + 5 * dist ) && one_in( spores_spawned * 2 ) ) {
-            if( g->summon_mon( mon_spore, dest ) ) {
-                monster *spore = g->monster_at( dest );
+            if( monster * const spore = g->summon_mon( mon_spore, dest ) ) {
                 spore->friendly = -1;
                 spores_spawned++;
             }
@@ -3427,8 +3426,7 @@ int iuse::can_goo(player *p, item *it, bool, const tripoint& )
         if (g->u.sees(goop)) {
             add_msg(_("Living black goo emerges from the canister!"));
         }
-        if (g->summon_mon(mon_blob, goop)) {
-            monster *goo = g->monster_at(goop);
+        if( monster * const goo = g->summon_mon( mon_blob, goop ) ) {
             goo->friendly = -1;
         }
     }
@@ -4958,8 +4956,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 if( bug ) {
                     for (int j = 0; j < num && !empty.empty(); j++) {
                         const tripoint spawnp = random_entry_removed( empty );
-                        if (g->summon_mon(bug, spawnp)) {
-                            monster *b = g->monster_at(spawnp);
+                        if( monster * const b = g->summon_mon( bug, spawnp ) ) {
                             b->friendly = -1;
                         }
                     }
@@ -5082,9 +5079,8 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                     } while (tries < 5 && !g->is_empty(monp) &&
                              !g->m.sees(monp, p->pos(), 10));
                     if (tries < 5) {
-                        if (g->summon_mon(mon_shadow, monp)) {
+                        if( monster * const  spawned = g->summon_mon( mon_shadow, monp ) ) {
                             num_spawned++;
-                            monster *spawned = g->monster_at(monp);
                             spawned->reset_special_rng("DISAPPEAR");
                         }
                     }
@@ -7222,8 +7218,7 @@ bool multicooker_hallu(player *p)
             if (!one_in(5)) {
                 add_msg(m_warning, _("The multi-cooker runs away!"));
                 const tripoint random_point = random_entry( points );
-                if (g->summon_mon(mon_hallu_multicooker, random_point)) {
-                    monster *m = g->monster_at(random_point);
+                if( monster * const m = g->summon_mon( mon_hallu_multicooker, random_point ) ) {
                     m->hallucination = true;
                     m->add_effect( effect_run, 1, num_bp, true);
                 }
@@ -7231,8 +7226,7 @@ bool multicooker_hallu(player *p)
                 add_msg(m_bad, _("You're surrounded by aggressive multi-cookers!"));
 
                 for( auto &point : points ) {
-                    if (g->summon_mon(mon_hallu_multicooker, point )) {
-                        monster *m = g->monster_at(point);
+                    if( monster * const m = g->summon_mon( mon_hallu_multicooker, point ) ) {
                         m->hallucination = true;
                     }
                 }

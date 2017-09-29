@@ -1098,8 +1098,7 @@ bool mattack::science(monster *const z) // I said SCIENCE again!
         }
 
         const tripoint where = empty_neighbors.first[get_random_index(empty_neighbor_count)];
-        if( g->summon_mon( mon_manhack, where ) ) {
-            monster *manhack = g->monster_at( where );
+        if( monster * const manhack = g->summon_mon( mon_manhack, where ) ) {
             manhack->make_ally(z);
         }
       } break;
@@ -1263,8 +1262,7 @@ bool mattack::grow_vine(monster *z)
                 continue;
             }
 
-            if( g->summon_mon( mon_creeper_vine, dest ) ) {
-                monster *vine = g->monster_at(dest);
+            if( monster * const vine = g->summon_mon( mon_creeper_vine, dest ) ) {
                 vine->make_ally( z );
             }
         }
@@ -1326,8 +1324,7 @@ bool mattack::vine(monster *z)
         return true;
     }
     const tripoint target = random_entry( grow );
-    if( g->summon_mon(mon_creeper_vine, target) ) {
-        monster *vine = g->monster_at( target );
+    if( monster * const vine = g->summon_mon(mon_creeper_vine, target) ) {
         vine->make_ally(z);
         vine->reset_special("VINE");
     }
@@ -1400,8 +1397,7 @@ bool mattack::triffid_heartbeat(monster *z)
                 } else if (one_in(3)) {
                     montype = mon_biollante;
                 }
-                if (g->summon_mon(montype, dest)) {
-                    monster *plant = g->monster_at(dest);
+                if( monster * const plant = g->summon_mon( montype, dest ) ) {
                     plant->make_ally(z);
                 }
             }
@@ -1411,8 +1407,7 @@ bool mattack::triffid_heartbeat(monster *z)
 
         for( const tripoint &dest : g->m.points_in_radius( z->pos(), 1 ) ) {
             if (g->is_empty(dest) && one_in(2)) {
-                if (g->summon_mon(mon_triffid, dest)) {
-                    monster *triffid = g->monster_at(dest);
+                if( monster * const  triffid = g->summon_mon( mon_triffid, dest ) ) {
                     triffid->make_ally(z);
                 }
             }
@@ -1677,8 +1672,7 @@ bool mattack::fungus_sprout(monster *z)
             push_player = true;
         }
         if( g->is_empty(dest) ) {
-            if (g->summon_mon(mon_fungal_wall, dest)) {
-                monster *wall = g->monster_at(dest);
+            if( monster * const wall = g->summon_mon( mon_fungal_wall, dest ) ) {
                 wall->make_ally(z);
             }
         }
@@ -1738,8 +1732,7 @@ bool mattack::fungus_fortify(monster *z)
             push_player = true;
         }
         if (g->is_empty(dest)) {
-            if (g->summon_mon(mon_fungal_hedgerow, dest)) {
-                monster *wall = g->monster_at(dest);
+            if( monster * const wall = g->summon_mon( mon_fungal_hedgerow, dest ) ) {
                 wall->make_ally(z);
             }
             fortified = true;
@@ -1775,8 +1768,7 @@ bool mattack::fungus_fortify(monster *z)
             // Probably doesn't have spores available *just* yet.  Let's be nice.
         } else if( g->is_empty( hit_pos ) ) {
             add_msg( m_bad, _("A fungal tendril bursts forth from the earth!") );
-            if( g->summon_mon(mon_fungal_tendril, hit_pos) ) {
-                monster *tendril = g->monster_at( hit_pos );
+            if( monster * const tendril = g->summon_mon( mon_fungal_tendril, hit_pos ) ) {
                 tendril->make_ally(z);
             }
         }
@@ -2058,8 +2050,7 @@ bool mattack::formblob(monster *z)
                 // If we're big enough, spawn a baby blob.
                 didit = true;
                 z->set_speed_base( z->get_speed_base() - 15 );
-                if( g->summon_mon( mon_blob_small, dest ) ) {
-                    monster *blob = g->monster_at( dest );
+                if( monster * const blob = g->summon_mon( mon_blob_small, dest ) ) {
                     blob->make_ally( z );
                 }
 
@@ -3488,8 +3479,7 @@ bool mattack::breathe(monster *z)
 
     if( !valid.empty() ) {
         const tripoint pt = random_entry( valid );
-        if (g->summon_mon(mon_breather, pt)) {
-            monster *spawned = g->monster_at(pt);
+        if( monster * const spawned = g->summon_mon( mon_breather, pt ) ) {
             spawned->reset_special("BREATHE");
             spawned->make_ally(z);
         }
@@ -3850,8 +3840,7 @@ bool mattack::darkman(monster *z)
     if (!free.empty()) {
         z->moves -= 10;
         const tripoint target = random_entry( free );
-        if (g->summon_mon(mon_shadow, target)) {
-            monster *shadow = g->monster_at( target );
+        if( monster * const shadow = g->summon_mon( mon_shadow, target ) ) {
             shadow->make_ally(z);
         }
         if( g->u.sees( *z ) ) {
@@ -4505,8 +4494,7 @@ int grenade_helper(monster *const z, Creature *const target, const int dist,
 
     const tripoint where = empty_neighbors.first[get_random_index(empty_neighbor_count)];
 
-    if( g->summon_mon(actor->mtypeid, where ) ) {
-        monster *hack = g->monster_at( where );
+    if( monster * const hack = g->summon_mon( actor->mtypeid, where ) ) {
         hack->make_ally(z);
     }
     return 1;
