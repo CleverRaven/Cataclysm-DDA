@@ -552,7 +552,7 @@
     "count" : 50
    },
 {
-    "type" : "GENERIC",
+    "type" : "AMMO",
     "id" : "material_niter",
     "category" : "spare_parts",
     "price" : 75,
