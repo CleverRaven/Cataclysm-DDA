@@ -1113,7 +1113,7 @@
     "type": "uncraft",
     "time": 1200,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "tools": [ [ [ "fire", -1 ], [ "toolset", 10 ] ] ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "copper", 200 ] ] ]
   },
   {
