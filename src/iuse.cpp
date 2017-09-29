@@ -4276,18 +4276,19 @@ int iuse::dog_whistle(player *p, item *it, bool, const tripoint& )
     }
     p->add_msg_if_player(_("You blow your dog whistle."));
     for (size_t i = 0; i < g->num_zombies(); i++) {
-        if (g->zombie(i).friendly != 0 && g->zombie(i).type->id == mon_dog) {
-            bool u_see = g->u.sees(g->zombie(i));
-            if (g->zombie(i).has_effect( effect_docile)) {
+        monster &critter = g->zombie( i );
+        if( critter.friendly != 0 && critter.type->id == mon_dog ) {
+            bool u_see = g->u.sees( critter );
+            if( critter.has_effect( effect_docile ) ) {
                 if (u_see) {
-                    p->add_msg_if_player(_("Your %s looks ready to attack."), g->zombie(i).name().c_str());
+                    p->add_msg_if_player( _( "Your %s looks ready to attack." ), critter.name().c_str() );
                 }
-                g->zombie(i).remove_effect( effect_docile);
+                critter.remove_effect( effect_docile );
             } else {
                 if (u_see) {
-                    p->add_msg_if_player(_("Your %s goes docile."), g->zombie(i).name().c_str());
+                    p->add_msg_if_player( _( "Your %s goes docile." ), critter.name().c_str() );
                 }
-                g->zombie(i).add_effect( effect_docile, 1, num_bp, true);
+                critter.add_effect( effect_docile, 1, num_bp, true );
             }
         }
     }
@@ -5805,10 +5806,11 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
             p->moves -= 100;
             int f = 0; //flag to check if you have robotic allies
             for (size_t i = 0; i < g->num_zombies(); i++) {
-                if (g->zombie(i).friendly != 0 && g->zombie(i).type->in_species( ROBOT )) {
+                monster &critter = g->zombie( i );
+                if( critter.friendly != 0 && critter.type->in_species( ROBOT ) ) {
                     p->add_msg_if_player(_("A following %s goes into passive mode."),
-                                         g->zombie(i).name().c_str());
-                    g->zombie(i).add_effect( effect_docile, 1, num_bp, true);
+                                         critter.name().c_str() );
+                    critter.add_effect( effect_docile, 1, num_bp, true );
                     f = 1;
                 }
             }
@@ -5822,10 +5824,11 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
             p->moves -= 100;
             int f = 0; //flag to check if you have robotic allies
             for (size_t i = 0; i < g->num_zombies(); i++) {
-                if (g->zombie(i).friendly != 0 && g->zombie(i).has_flag(MF_ELECTRONIC)) {
+                monster &critter = g->zombie( i );
+                if( critter.friendly != 0 && critter.has_flag( MF_ELECTRONIC ) ) {
                     p->add_msg_if_player(_("A following %s goes into combat mode."),
-                                         g->zombie(i).name().c_str());
-                    g->zombie(i).remove_effect( effect_docile);
+                                         critter.name().c_str() );
+                    critter.remove_effect( effect_docile );
                     f = 1;
                 }
             }

@@ -1311,8 +1311,9 @@ bool mattack::vine(monster *z)
     // Calculate distance from nearest hub
     int dist_from_hub = 999;
     for (size_t i = 0; i < g->num_zombies(); i++) {
-        if (g->zombie(i).type->id == mon_creeper_hub) {
-            int dist = rl_dist( z->pos(), g->zombie(i).pos() );
+        monster &critter = g->zombie( i );
+        if( critter.type->id == mon_creeper_hub ) {
+            int dist = rl_dist( z->pos(), critter.pos() );
             if (dist < dist_from_hub) {
                 dist_from_hub = dist;
             }

@@ -183,8 +183,9 @@ void npc::assess_danger()
 {
     float assessment = 0;
     for (size_t i = 0; i < g->num_zombies(); i++) {
-        if( sees( g->zombie( i ) ) ) {
-            assessment += g->zombie(i).type->difficulty;
+        monster &critter = g->zombie( i );
+        if( sees( critter ) ) {
+            assessment += critter.type->difficulty;
         }
     }
     assessment /= 10;

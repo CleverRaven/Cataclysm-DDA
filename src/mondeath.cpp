@@ -215,11 +215,12 @@ void mdeath::kill_vines(monster *z)
     std::vector<int> vines;
     std::vector<int> hubs;
     for (size_t i = 0; i < g->num_zombies(); i++) {
-        bool isHub = g->zombie(i).type->id == mon_creeper_hub;
-        if (isHub && (g->zombie(i).posx() != z->posx() || g->zombie(i).posy() != z->posy())) {
+        monster &critter = g->zombie( i );
+        bool isHub = critter.type->id == mon_creeper_hub;
+        if( isHub && ( critter.posx() != z->posx() || critter.posy() != z->posy() ) ) {
             hubs.push_back(i);
         }
-        if (g->zombie(i).type->id == mon_creeper_vine) {
+        if( critter.type->id == mon_creeper_vine ) {
             vines.push_back(i);
         }
     }

@@ -871,9 +871,10 @@ bool game::start_game(std::string worldname)
     // This can happen in lab starts
     if( !spawn_near ) {
         for( size_t i = 0; i < num_zombies(); ) {
-            if( rl_dist( zombie( i ).pos(), u.pos() ) <= 5 ||
-                m.clear_path( zombie( i ).pos(), u.pos(), 40, 1, 100 ) ) {
-                remove_zombie( zombie( i ) );
+            monster &critter = zombie( i );
+            if( rl_dist( critter.pos(), u.pos() ) <= 5 ||
+                m.clear_path( critter.pos(), u.pos(), 40, 1, 100 ) ) {
+                remove_zombie( critter );
             } else {
                 i++;
             }
