@@ -909,7 +909,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 {
     int veggy_chance = rng(1, 100);
     int bush_chance = rng(1, 50); 
-	bool found_something = false;
+    bool found_something = false;
 
     items_location loc;
     ter_str_id next_ter;
@@ -956,10 +956,10 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
         }
     }
 
-	if( bush_chance < p->get_skill_level( skill_survival) * 3 + p->per_cur -2 && !found_something) {
-        g->m.spawn_item(p->pos(), "withered", rng(1, 3)); 
-        add_msg(m_good, _("You found: %s!" ), "withered plant" ); 
-        found_something = true; 
+    if( bush_chance < p->get_skill_level( skill_survival) * 3 + p->per_cur -2 && !found_something) {
+        g->m.spawn_item(p->pos(), "withered", rng(1, 3));
+        add_msg(m_good, _("You found: %s!" ), "withered plant" );
+        found_something = true;
     }
 
     if( !found_something ) {
