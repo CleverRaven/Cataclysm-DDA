@@ -1420,8 +1420,7 @@ int editmap::edit_itm()
 int editmap::edit_mon()
 {
     int ret = 0;
-    int mon_index = g->mon_at( target );
-    monster *it = &g->zombie( mon_index );
+    monster *it = g->critter_at<monster>( target );
     edit_json( it );
     return ret;
 }

@@ -573,14 +573,13 @@ int iuse::fungicide(player *p, item *it, bool, const tripoint& )
                         continue;
                     }
                     if (g->m.passable(i, j) && x_in_y(spore_count, 8)) {
-                        const int zid = g->mon_at(dest);
-                        if (zid >= 0) {  // Spores hit a monster
+                        if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
+                            monster &critter = *mon_ptr;
                             if (g->u.sees(i, j) &&
-                                !g->zombie(zid).type->in_species( FUNGUS )) {
+                                !critter.type->in_species( FUNGUS ) ) {
                                 add_msg(m_warning, _("The %s is covered in tiny spores!"),
-                                        g->zombie(zid).name().c_str());
+                                        critter.name().c_str() );
                             }
-                            monster &critter = g->zombie( zid );
                             if( !critter.make_fungus() ) {
                                 critter.die( p ); // counts as kill by player
                             }
@@ -1916,7 +1915,6 @@ int petfood( player *p, item *it, Petfood animal_food_type )
         return 0;
     }
     p->moves -= 15;
-    const int mon_idx = g->mon_at( dirp, true );
 
     // First a check to see if we are trying to feed a NPC dog food.
     if( animal_food_type == DOGFOOD && g->critter_at<npc>(dirp) != NULL ) {
@@ -1939,9 +1937,8 @@ int petfood( player *p, item *it, Petfood animal_food_type )
             }
         }
     // Then monsters.
-    } else if( mon_idx != -1 ) {
-
-        monster &mon = g->zombie( mon_idx );
+    } else if( monster *const mon_ptr = g->critter_at<monster>( dirp, true ) ) {
+        monster &mon = *mon_ptr;
         // This switch handles each petfood for each type of tameable monster.
         switch( animal_food_type ) {
         case DOGFOOD:
@@ -2490,25 +2487,24 @@ int iuse::extinguisher(player *p, item *it, bool, const tripoint& )
     g->m.adjust_field_strength(dest, fd_fire, 0 - rng(2, 3));
 
     // Also spray monsters in that tile.
-    int mondex = g->mon_at( dest, true );
-    if (mondex != -1) {
-        g->zombie(mondex).moves -= 150;
+    if( monster *const mon_ptr = g->critter_at<monster>( dest, true ) ) {
+        monster &critter = *mon_ptr;
+        critter.moves -= 150;
         bool blind = false;
-        if (one_in(2) && g->zombie(mondex).has_flag(MF_SEES)) {
+        if( one_in( 2 ) && critter.has_flag( MF_SEES ) ) {
             blind = true;
-            g->zombie(mondex).add_effect( effect_blind, rng(10, 20));
+            critter.add_effect( effect_blind, rng( 10, 20 ) );
         }
-        if (g->u.sees(g->zombie(mondex))) {
-            p->add_msg_if_player(_("The %s is sprayed!"), g->zombie(mondex).name().c_str());
+        if( g->u.sees( critter ) ) {
+            p->add_msg_if_player( _( "The %s is sprayed!" ), critter.name().c_str() );
             if(blind) {
-                p->add_msg_if_player(_("The %s looks blinded."), g->zombie(mondex).name().c_str());
+                p->add_msg_if_player( _( "The %s looks blinded." ), critter.name().c_str() );
             }
         }
-        if (g->zombie(mondex).made_of(LIQUID)) {
-            if (g->u.sees(g->zombie(mondex))) {
-                p->add_msg_if_player(_("The %s is frozen!"), g->zombie(mondex).name().c_str());
+        if( critter.made_of( LIQUID ) ) {
+            if( g->u.sees( critter ) ) {
+                p->add_msg_if_player( _( "The %s is frozen!" ), critter.name().c_str() );
             }
-            monster &critter = g->zombie( mondex );
             critter.apply_damage( p, bp_torso, rng( 20, 60 ) );
             critter.set_speed_base( critter.get_speed_base() / 2 );
         }
@@ -3411,9 +3407,8 @@ int iuse::can_goo(player *p, item *it, bool, const tripoint& )
     if (tries == 10) {
         return 0;
     }
-    int mondex = g->mon_at(goop);
-    if (mondex != -1) {
-        auto &critter = g->zombie( mondex );
+    if( monster *const mon_ptr = g->critter_at<monster>( goop ) ) {
+        monster &critter = *mon_ptr;
         if (g->u.sees(goop)) {
             add_msg(_("Black goo emerges from the canister and envelopes a %s!"),
                     critter.name().c_str());
@@ -3532,11 +3527,9 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         tripoint dest( pos.x + i, pos.y + j, pos.z );
-                        const int zid = g->mon_at( dest, true );
-                        if (zid != -1 &&
-                            (g->zombie(zid).type->in_species( INSECT ) ||
-                             g->zombie(zid).is_hallucination())) {
-                            g->zombie( zid ).die_in_explosion( nullptr );
+                        monster *const mon = g->critter_at<monster>( dest, true );
+                        if( mon && ( mon->type->in_species( INSECT ) || mon->is_hallucination() ) ) {
+                            mon->die_in_explosion( nullptr );
                         }
                     }
                 }
@@ -3548,9 +3541,8 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         tripoint dest( pos.x + i, pos.y + j, pos.z );
-                        const int mon_hit = g->mon_at(dest);
-                        if (mon_hit != -1) {
-                            auto &critter = g->zombie( mon_hit );
+                        if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
+                            monster &critter = *mon_ptr;
                             critter.set_speed_base(
                                 critter.get_speed_base() * rng_float(1.1, 2.0) );
                             critter.set_hp( critter.get_hp() * rng_float( 1.1, 2.0 ) );
@@ -3590,9 +3582,8 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         tripoint dest( pos.x + i, pos.y + j, pos.z );
-                        const int mon_hit = g->mon_at(dest);
-                        if (mon_hit != -1) {
-                            auto &critter = g->zombie( mon_hit );
+                        if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
+                            monster &critter = *mon_ptr;
                             critter.set_speed_base(
                                 rng( 0, critter.get_speed_base() ) );
                             critter.set_hp( rng( 1, critter.get_hp() ) );
@@ -3631,9 +3622,8 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         tripoint dest( pos.x + i, pos.y + j, pos.z );
-                        const int mon_hit = g->mon_at(dest);
-                        if (mon_hit != -1) {
-                            auto &critter = g->zombie( mon_hit );
+                        if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
+                            monster &critter = *mon_ptr;
                             critter.set_speed_base( critter.type->speed );
                             critter.set_hp( critter.get_hp_max() );
                             critter.clear_effects();
@@ -3894,11 +3884,11 @@ int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
     for (int x = pos.x - 4; x <= pos.x + 4; x++) {
         for (int y = pos.y - 4; y <= pos.y + 4; y++) {
             tripoint dest( x, y, pos.z );
-            int mondex = g->mon_at( dest, true );
-            if( mondex == -1 ) {
+            monster *const mon_ptr = g->critter_at<monster>( dest, true );
+            if( !mon_ptr ) {
                 continue;
             }
-            monster &critter = g->zombie( mondex );
+            monster &critter = *mon_ptr;
             if( critter.type->in_species( ZOMBIE ) && critter.friendly == 0 && rng( 0, 500 ) > critter.get_hp() ) {
                 converts++;
                 critter.make_friendly();
@@ -4904,9 +4894,8 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 for (int x = p->posx() - 8; x <= p->posx() + 8; x++) {
                     for (int y = p->posy() - 8; y <= p->posy() + 8; y++) {
                         tripoint dest( x, y, p->posz() );
-                        int mondex = g->mon_at( dest, true );
-                        if (mondex != -1) {
-                            g->zombie(mondex).add_effect( effect_stunned, rng(5, 15));
+                        if( monster *const mon = g->critter_at<monster>( dest, true ) ) {
+                            mon->add_effect( effect_stunned, rng( 5, 15 ) );
                         }
                     }
                 }
@@ -4916,10 +4905,9 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 for (int x = p->posx() - 8; x <= p->posx() + 8; x++) {
                     for (int y = p->posy() - 8; y <= p->posy() + 8; y++) {
                         tripoint dest( x, y, p->posz() );
-                        int mondex = g->mon_at( dest, true );
-                        if (mondex != -1 && g->zombie(mondex).friendly == 0 &&
-                            rng(0, 600) > g->zombie(mondex).get_hp()) {
-                            g->zombie(mondex).make_friendly();
+                        monster *const mon = g->critter_at<monster>( dest, true );
+                        if( mon && mon->friendly == 0 && rng( 0, 600 ) > mon->get_hp() ) {
+                            mon->make_friendly();
                         }
                     }
                 }
@@ -6460,7 +6448,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
             return 0;
         }
 
-        const int sel_zid = g->mon_at( aim_point, true );
+        const monster *const sel_mon = g->critter_at<monster>( aim_point, true );
         const npc * const sel_npc = g->critter_at<npc>( aim_point );
 
         if( !g->critter_at( aim_point ) ) {
@@ -6476,10 +6464,9 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
 
         for (auto &i : trajectory) {
 
-            int zid = g->mon_at( i, true );
-
+            monster *const mon = g->critter_at<monster>( i, true );
             npc * const guy = g->critter_at<npc>( i );
-            if (zid != -1 || guy) {
+            if( mon || guy ) {
                 int dist = rl_dist( p->pos(), i );
 
                 int camera_bonus = it->has_flag("CAMERA_PRO") ? 10 : 0;
@@ -6496,8 +6483,8 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
 
                 const std::string quality_name = photo_quality_name( photo_quality );
 
-                if (zid != -1) {
-                    monster &z = g->zombie(zid);
+                if( mon ) {
+                    monster &z = *mon;
 
                     if (dist < 4 && one_in(dist + 2) && z.has_flag(MF_SEES)) {
                         p->add_msg_if_player(_("%s looks blinded."), z.name().c_str());
@@ -6505,12 +6492,12 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
                     }
 
                     // shoot past small monsters and hallucinations
-                    if (zid != sel_zid && (z.type->size <= MS_SMALL || z.is_hallucination() || z.type->in_species( HALLUCINATION ))) {
+                    if( mon != sel_mon && ( z.type->size <= MS_SMALL || z.is_hallucination() || z.type->in_species( HALLUCINATION ) ) ) {
                         continue;
                     }
 
                     // get an empty photo if the target is a hallucination
-                    if (zid == sel_zid && (z.is_hallucination() || z.type->in_species( HALLUCINATION ))) {
+                    if( mon == sel_mon && ( z.is_hallucination() || z.type->in_species( HALLUCINATION ) ) ) {
                         p->add_msg_if_player(_("Strange... there's nothing in the picture?"));
                         return it->type->charges_to_use();
                     }
@@ -6519,7 +6506,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
                         //quest processing...
                     }
 
-                    if (zid == sel_zid) {
+                    if( mon == sel_mon ) {
                         // if the loop makes it to the target, take its photo
                         if (p->is_blind()) {
                             p->add_msg_if_player(_("You took a photo of %s."), z.name().c_str());
@@ -7774,9 +7761,8 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             return 0;
         }
         // Capture the thing, if it's on the same square.
-        int mon_dex = g->mon_at( target );
-        if( mon_dex != -1 ) {
-            monster f = g->zombie( mon_dex );
+        if( const monster *const mon_ptr = g->critter_at<monster>( target ) ) {
+            const monster &f = *mon_ptr;
 
             if( !it->has_property("monster_size_capacity") ) {
                 debugmsg( "%s has no monster_size_capacity.", it->tname().c_str() );
@@ -7830,7 +7816,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
                     break;
                 }
                 it->set_var( "weight", new_weight );
-                g->remove_zombie( mon_dex );
+                g->remove_zombie( g->mon_at( f.pos() ) );
                 return 0;
             } else {
                 p->add_msg_if_player( m_bad, _("The %1$s avoids your attempts to put it in the %2$s."),

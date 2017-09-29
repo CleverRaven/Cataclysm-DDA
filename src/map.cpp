@@ -3674,9 +3674,7 @@ void map::crush( const tripoint &p )
         }
     }
 
-    int mon = g->mon_at( p );
-    if( mon != -1 ) {
-        monster* monhit = &(g->zombie(mon));
+    if( monster *const monhit = g->critter_at<monster>( p ) ) {
         // 25 ~= 60 * .45 (torso)
         monhit->deal_damage(nullptr, bp_torso, damage_instance(DT_BASH, rng(0,25)));
 

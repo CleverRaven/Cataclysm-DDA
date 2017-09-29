@@ -1465,7 +1465,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         move_pause();
     }
     bool attacking = false;
-    if( g->mon_at( p ) ) {
+    if( g->critter_at<monster>( p ) ) {
         attacking = true;
     }
     if( !move_effects(attacking) ) {

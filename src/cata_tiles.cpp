@@ -1699,9 +1699,8 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
             // TODO come up with ways to make random sprites consistent for these types
             break;
         case C_MONSTER:
-            // monsters, seed with index into monster list
-            // FIXME add persistent id to Creature type, instead of using monster list index
-            seed = g->mon_at( pos );
+            // FIXME add persistent id to Creature type, instead of using monster pointer address
+            seed = reinterpret_cast<uintptr_t>( g->critter_at<monster>( pos ) );
             break;
         default:
             // player
