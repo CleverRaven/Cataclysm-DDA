@@ -12,6 +12,18 @@
     "components": [ [ [ "moonshine", 1 ], [ "vodka", 1 ], [ "whiskey", 1 ], [ "single_malt_whiskey", 1 ], [ "brandy", 1 ], [ "rum", 1 ], [ "gin", 1 ], [ "tequila", 1 ], [ "mixed_alcohol_strong", 1 ] ] ]
   },
   {
+    "id": "hard_liquor_chem",
+    "type": "requirement",
+    "//": "Hard liquor and ethonal - Must be diluted. Added for ease of use",
+    "components": [ [ [ "hard_liquor", 1, "LIST" ], [ "chem_ethanol", 125 ] ] ]
+  },
+  {
+    "id": "hard_liquor_toxic",
+    "type": "requirement",
+    "//": "Hard liquor, ethonal, and denaturalized alcohol - Do not use in comestibles",
+    "components": [ [ [ "hard_liquor_chem", 1, "LIST" ], [ "denat_alcohol", 125 ] ] ]
+  },
+  {
     "id": "sweet_fruit_fresh",
     "type": "requirement",
     "//": "Sweet, unprocessed fruit, roughly by mass.",
@@ -34,5 +46,11 @@
     "type": "requirement",
     "//": "Similar to sweet_fruit, but allows processed fruit and vegetables that can pretend to be fruit.",
     "components": [ [ [ "sweet_fruit", 1, "LIST" ], [ "lemon", 1 ], [ "irradiated_lemon", 1 ], [ "apple_canned", 1 ], [ "apple_vac", 1 ], [ "dry_fruit", 1 ], [ "can_peach", 1 ], [ "juice_pulp", 2 ], [ "rehydrated_fruit", 1 ], [ "rhubarb", 2 ] ] ]
+  },
+  {
+    "id": "weak_liquor",
+    "type": "requirement",
+    "//": "Weak liquor - necessarily comestible and low proof, not necessarily hish quality",
+    "components": [ [ [ "beer", 1 ], [ "belgian_ale", 1 ], [ "drink_beeknees", 1 ], [ "european_pilsner", 1 ], [ "hb_beer", 1 ], [ "india_pale_ale", 1 ], [ "pale_ale", 1 ], [ "stout", 1 ], [ "mixed_alcohol_weak", 1 ] ] ]
   }
 ]
