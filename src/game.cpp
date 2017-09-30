@@ -13976,3 +13976,9 @@ std::vector<Creature *> game::get_creatures_if( const std::function<bool( const 
     }
     return result;
 }
+
+Creature *game::get_creature_if( const std::function<bool( const Creature & )> &pred )
+{
+    const auto matching = get_creatures_if( pred );
+    return matching.empty() ? nullptr : matching.front();
+}

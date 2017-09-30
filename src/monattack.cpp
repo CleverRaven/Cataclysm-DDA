@@ -781,16 +781,15 @@ bool mattack::resurrect(monster *z)
             z->remove_effect( effect_raising );
         }
         // Check to see if there are any nearby living zombies to see if we should get angry
-        bool allies = false;
-        for (size_t i = 0; i < g->num_zombies(); i++) {
-            monster *zed = &g->zombie(i);
-            if( zed != z && zed->type->has_flag(MF_REVIVES) && zed->type->in_species( ZOMBIE ) &&
-                  z->attitude_to(*zed) == Creature::Attitude::A_FRIENDLY  &&
-                  within_target_range(z, zed, 10)) {
-                allies = true;
-                break;
+        const bool allies = g->get_creature_if( [&]( const Creature &critter ) {
+            const monster *const zed = dynamic_cast<const monster*>( &critter );
+            if( zed && zed != z && zed->type->has_flag(MF_REVIVES) && zed->type->in_species( ZOMBIE ) &&
+                z->attitude_to(*zed) == Creature::Attitude::A_FRIENDLY  &&
+                within_target_range(z, zed, 10)) {
+                return true;
             }
-        }
+            return false;
+        } );
         if (!allies) {
             // Nobody around who we could revive, get angry
             z->anger = 100;

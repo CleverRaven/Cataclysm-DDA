@@ -334,6 +334,12 @@ class game
          * are checked ( and returned ). Returned pointers are never null.
          */
         std::vector<Creature *> get_creatures_if( const std::function<bool( const Creature & )> &pred );
+        /**
+         * Returns a creature matching a predicate. Only living (not dead) creatures
+         * are checked. Returns `nullptr` if no creature matches the predicate.
+         * There is no guarantee which creature is returned when several creatures match.
+         */
+        Creature *get_creature_if( const std::function<bool( const Creature & )> &pred );
 
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
         bool is_empty( const tripoint &p );

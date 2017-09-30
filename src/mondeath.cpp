@@ -478,11 +478,14 @@ void mdeath::melt(monster *z)
 
 void mdeath::amigara(monster *z)
 {
-    for (size_t i = 0; i < g->num_zombies(); i++) {
-        const monster &critter = g->zombie( i );
-        if( critter.type == z->type && !critter.is_dead() ) {
-            return;
+    const bool has_others = g->get_creature_if( [&]( const Creature &critter ) {
+        if( const monster *const candidate = dynamic_cast<const monster*>( &critter ) ) {
+            return candidate->type == z->type;
         }
+        return false;
+    } );
+    if( has_others ) {
+        return;
     }
 
     // We were the last!
