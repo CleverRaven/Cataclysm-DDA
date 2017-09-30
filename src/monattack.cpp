@@ -1386,7 +1386,7 @@ bool mattack::triffid_heartbeat(monster *z)
             tripoint dest( x, y, z->posz() );
             tries++;
             g->m.ter_set(dest, t_dirt);
-            if (rl_dist(dest, g->u.pos()) > 3 && g->num_zombies() < 30 &&
+            if (rl_dist(dest, g->u.pos()) > 3 && g->num_creatures() < 30 &&
                 !g->critter_at( dest ) && one_in( 20 ) ) { // Spawn an extra monster
                 mtype_id montype = mon_triffid;
                 if (one_in(4)) {
@@ -1430,19 +1430,19 @@ bool mattack::fungus(monster *z)
     // Use less laggy methods of reproduction when there is a lot of mons around
     double spore_chance = 0.25;
     int radius = 1;
-    if( g->num_zombies() > 25 ) {
-        // Number of monsters in the bubble and the resulting average number of spores per "Pouf!":
+    if( g->num_creatures() > 25 ) {
+        // Number of creatures in the bubble and the resulting average number of spores per "Pouf!":
         // 0-25: 2
         // 50  : 0.5
         // 75  : 0.22
         // 100 : 0.125
-        // Assuming all monsters in the bubble were fungaloids (unlikely), the average number of spores per generation:
+        // Assuming all creatures in the bubble were fungaloids (unlikely), the average number of spores per generation:
         // 25  : 50
         // 50  : 25
         // 75  : 17
         // 100 : 13
-        spore_chance *= ( 25.0 / g->num_zombies() ) * ( 25.0 / g->num_zombies() );
-        if( x_in_y( g->num_zombies(), 100 ) ) {
+        spore_chance *= ( 25.0 / g->num_creatures() ) * ( 25.0 / g->num_creatures() );
+        if( x_in_y( g->num_creatures(), 100 ) ) {
             // Don't make the increased radius spawn more spores
             const double old_area = ( ( 2 * radius + 1 ) * ( 2 * radius + 1 ) ) - 1;
             radius++;
@@ -1957,7 +1957,7 @@ bool mattack::plant( monster *z)
 {
     fungal_effects fe( *g, g->m );
     // Spores taking seed and growing into a fungaloid
-    if( !fe.spread_fungus( z->pos() ) && one_in( 10 + g->num_zombies() / 5 ) ) {
+    if( !fe.spread_fungus( z->pos() ) && one_in( 10 + g->num_creatures() / 5 ) ) {
         if( g->u.sees( *z ) ) {
             add_msg(m_warning, _("The %s takes seed and becomes a young fungaloid!"),
                     z->name().c_str());

@@ -315,8 +315,12 @@ class game
         /** Calls the creature_tracker add function. Returns true if successful. */
         bool add_zombie(monster &critter);
         bool add_zombie(monster &critter, bool pin_upgrade);
-        /** Returns the number of creatures through the creature_tracker size() function. */
-        size_t num_zombies() const;
+        /**
+         * Returns the approximate number of creatures in the reality bubble.
+         * Because of performance restrictions it may return a slightly incorrect
+         * values (as it includes dead, but not yet cleaned up creatures).
+         */
+        size_t num_creatures() const;
         /** Returns the monster with match index. Redirects to the creature_tracker find() function. */
         monster &zombie( const int idx ) const;
         /** Redirects to the creature_tracker update_pos() function. */

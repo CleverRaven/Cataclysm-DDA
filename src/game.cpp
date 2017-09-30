@@ -4068,7 +4068,7 @@ void game::debug()
             std::string s;
             s = _( "Location %d:%d in %d:%d, %s\n" );
             s += _( "Current turn: %d; Next spawn %d.\n%s\n" );
-            s += ngettext( "%d monster exists.\n", "%d monsters exist.\n", num_zombies() );
+            s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", num_creatures() );
             s += ngettext( "%d currently active NPC.\n", "%d currently active NPCs.\n", active_npc.size() );
             s += ngettext( "%d event planned.", "%d events planned", events.size() );
             popup_top(
@@ -4078,7 +4078,7 @@ void game::debug()
                 int( calendar::turn ), int( nextspawn ),
                 ( get_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
                   _( "NPCs are NOT going to spawn." ) ),
-                num_zombies(), active_npc.size(), events.size() );
+                num_creatures(), active_npc.size(), events.size() );
             if( !active_npc.empty() ) {
                 for( const auto &elem : active_npc ) {
                     tripoint t = ( elem )->global_sm_location();
@@ -6068,7 +6068,7 @@ void game::shockwave( const tripoint &p, int radius, int force, int stun, int da
     if( rl_dist(u.pos(), p ) <= radius && !ignore_player &&
           (!u.has_trait( trait_LEG_TENT_BRACE ) || u.footwear_factor() == 1 ||
           (u.footwear_factor() == .5 && one_in( 2 ) ) ) ) {
-        add_msg( m_bad, _("You're caught in the shockwave!") );
+        add_msg( m_bad, _( "You're caught in the shockwave!" ) );
         knockback( p, u.pos(), force, stun, dam_mult);
     }
 }
@@ -6626,9 +6626,9 @@ bool game::add_zombie(monster &critter, bool pin_upgrade)
     return critter_tracker->add(critter);
 }
 
-size_t game::num_zombies() const
+size_t game::num_creatures() const
 {
-    return critter_tracker->size();
+    return critter_tracker->size() + active_npc.size() + 1; // 1 == g->u
 }
 
 monster &game::zombie( const int idx ) const
