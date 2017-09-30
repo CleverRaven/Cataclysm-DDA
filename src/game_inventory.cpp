@@ -665,7 +665,7 @@ class weapon_inventory_preset: public inventory_selector_preset
                 } else {
                     return get_damage_string( total_damage );
                 }
-            }, _( "SHOT" ) );
+            }, pgettext( "Shot as damage", "SHOT" );
 
             append_cell( [ this ]( const item_location & loc ) {
                 return get_damage_string( loc->damage_melee( DT_BASH ) );
