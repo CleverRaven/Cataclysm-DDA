@@ -212,25 +212,20 @@ void mdeath::boomer_glow(monster *z)
 
 void mdeath::kill_vines(monster *z)
 {
-    std::vector<int> vines;
-    std::vector<int> hubs;
-    for (size_t i = 0; i < g->num_zombies(); i++) {
-        monster &critter = g->zombie( i );
-        bool isHub = critter.type->id == mon_creeper_hub;
-        if( isHub && ( critter.posx() != z->posx() || critter.posy() != z->posy() ) ) {
-            hubs.push_back(i);
-        }
-        if( critter.type->id == mon_creeper_vine ) {
-            vines.push_back(i);
-        }
-    }
+    const std::vector<Creature*> vines = g->get_creatures_if( [&]( const Creature &critter ) {
+        const monster *const mon = dynamic_cast<const monster*>( &critter );
+        return mon && mon->type->id == mon_creeper_vine;
+    } );
+    const std::vector<Creature*> hubs = g->get_creatures_if( [&]( const Creature &critter ) {
+        const monster *const mon = dynamic_cast<const monster*>( &critter );
+        return mon && mon != z && mon->type->id == mon_creeper_hub;
+    } );
 
-    for( auto &i : vines ) {
-        monster *vine = &(g->zombie(i));
+    for( Creature *const vine : vines ) {
         int dist = rl_dist( vine->pos(), z->pos() );
         bool closer = false;
         for (auto &j : hubs) {
-            if (rl_dist(vine->pos(), g->zombie(j).pos()) < dist) {
+            if (rl_dist(vine->pos(), j->pos()) < dist) {
                 break;
             }
         }
