@@ -61,8 +61,6 @@
 #  make DYNAMIC_LINKING=1
 # Use MSYS2 as the build environment on Windows
 #  make MSYS2=1
-# Enable printf format checks (disables localization, might break on Windows)
-#  make PRINTF_CHECKS=1
 # Astyle the source files that aren't blacklisted. (maintain current level of styling)
 #  make astyle
 # Check if source files are styled properly (regression test, astyle_blacklist tracks un-styled files)
@@ -135,7 +133,6 @@ LUASRC_DIR = $(SRC_DIR)/$(LUA_DIR)
 # if you have LUAJIT installed, try make LUA_BINARY=luajit for extra speed
 LUA_BINARY = lua
 LOCALIZE = 1
-PRINTF_CHECKS = 0
 ASTYLE_BINARY = astyle
 
 # tiles object directories are because gcc gets confused # Appears that the default value of $LD is unsuitable on most systems
@@ -627,14 +624,7 @@ ifeq ($(BACKTRACE),1)
 endif
 
 ifeq ($(LOCALIZE),1)
-  ifeq ($(PRINTF_CHECKS),1)
-    $(error LOCALIZE does not work with PRINTF_CHECKS)
-  endif
   DEFINES += -DLOCALIZE
-endif
-
-ifeq ($(PRINTF_CHECKS),1)
-  DEFINES += -DPRINTF_CHECKS
 endif
 
 ifeq ($(TARGETSYSTEM),LINUX)

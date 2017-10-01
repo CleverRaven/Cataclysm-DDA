@@ -13,7 +13,7 @@
 // When applying PRINTF_LIKE to a method (rather than a bare function), add 1 to the parameter
 // indexes, as there is an invisible "this" parameter as the first parameter.
 
-#if defined(PRINTF_CHECKS) && !defined(LOCALIZE) && defined(__GNUC__)
+#if defined(__GNUC__)
 #  define PRINTF_LIKE(a,b) __attribute__((format(gnu_printf,a,b)))
 #else
 #  define PRINTF_LIKE(a,b) /**/
