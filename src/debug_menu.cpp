@@ -78,7 +78,7 @@ void npc_edit_menu()
     int charnum = 0;
     charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
     locations.emplace_back( g->u.pos() );
-    for( auto *npc_p : g->active_npc ) {
+    for( const auto &npc_p : g->active_npc ) {
         charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, "%s", npc_p->name.c_str() );
         locations.emplace_back( npc_p->pos() );
     }

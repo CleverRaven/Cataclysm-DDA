@@ -18,15 +18,15 @@ class font_loader
         std::string typeface;
         std::string map_typeface;
         std::string overmap_typeface;
-        int fontwidth = 0;
-        int fontheight = 0;
-        int fontsize = 8;
+        int fontwidth = 8;
+        int fontheight = 16;
+        int fontsize = 16;
         int map_fontwidth = 8;
         int map_fontheight = 16;
-        int map_fontsize = 8;
+        int map_fontsize = 16;
         int overmap_fontwidth = 8;
         int overmap_fontheight = 16;
-        int overmap_fontsize = 8;
+        int overmap_fontsize = 16;
 
     private:
         void load_throws( const std::string &path ) {

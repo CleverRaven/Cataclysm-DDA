@@ -104,6 +104,15 @@ void mod_manager::refresh_mod_list()
 
     std::map<std::string, std::vector<std::string> > mod_dependency_map;
     load_mods_from(FILENAMES["moddir"]);
+    load_mods_from(FILENAMES["user_moddir"]);
+
+    if (file_exist(FILENAMES["mods-dev-default"])) {
+        load_mod_info(FILENAMES["mods-dev-default"]);
+    }
+    if (file_exist(FILENAMES["mods-user-default"])) {
+        load_mod_info(FILENAMES["mods-user-default"]);
+    }
+
     if (set_default_mods("user:default")) {
     } else if(set_default_mods("dev:default")) {
     }
@@ -153,12 +162,6 @@ void mod_manager::load_mods_from(std::string path)
 {
     for( auto &mod_file : get_files_from_path(MOD_SEARCH_FILE, path, true) ) {
         load_mod_info( mod_file );
-    }
-    if (file_exist(FILENAMES["mods-dev-default"])) {
-        load_mod_info(FILENAMES["mods-dev-default"]);
-    }
-    if (file_exist(FILENAMES["mods-user-default"])) {
-        load_mod_info(FILENAMES["mods-user-default"]);
     }
 }
 

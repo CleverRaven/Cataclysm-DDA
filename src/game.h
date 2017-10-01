@@ -15,6 +15,7 @@
 #include <map>
 #include <unordered_map>
 #include <list>
+#include <memory>
 #include <stdarg.h>
 
 extern const int savegame_version;
@@ -35,6 +36,9 @@ extern const int core_version;
 
 extern const int savegame_version;
 extern int savegame_loading_version;
+
+class input_context;
+input_context get_default_mode_input_context();
 
 enum class dump_mode {
     TSV,
@@ -293,15 +297,18 @@ class game
         template<typename T = Creature>
         T const* critter_at( const tripoint &p, bool allow_hallucination = false ) const;
 
-        /** Summons a brand new monster at the current time. Returns the summoned monster. */
-        bool summon_mon( const mtype_id& id, const tripoint &p );
+        /**
+         * Summons a brand new monster at the current time. Returns the summoned monster.
+         * Returns a `nullptr` if the monster could not be created.
+         */
+        monster *summon_mon( const mtype_id& id, const tripoint &p );
         /** Calls the creature_tracker add function. Returns true if successful. */
         bool add_zombie(monster &critter);
         bool add_zombie(monster &critter, bool pin_upgrade);
         /** Returns the number of creatures through the creature_tracker size() function. */
         size_t num_zombies() const;
         /** Returns the monster with match index. Redirects to the creature_tracker find() function. */
-        monster &zombie(const int idx);
+        monster &zombie( const int idx ) const;
         /** Redirects to the creature_tracker update_pos() function. */
         bool update_zombie_pos( const monster &critter, const tripoint &pos );
         void remove_zombie(const int idx);
@@ -314,8 +321,6 @@ class game
 
         /** Returns the monster index of the monster at the given tripoint. Returns -1 if no monster is present. */
         int mon_at( const tripoint &p, bool allow_hallucination = false ) const;
-        /** Returns a pointer to the monster at the given tripoint. */
-        monster *monster_at( const tripoint &p, bool allow_hallucination = false );
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
         bool is_empty( const tripoint &p );
         /** Returns true if p is outdoors and it is sunny. */
@@ -517,7 +522,7 @@ class game
         /** Get all living player allies */
         std::vector<npc *> allies();
 
-        std::vector<npc *> active_npc;
+        std::vector<std::shared_ptr<npc>> active_npc;
         std::vector<faction> factions;
         int weight_dragged; // Computed once, when you start dragging
 
@@ -825,7 +830,10 @@ public:
         /** If invoked, dead will be cleaned this turn. */
         void set_critter_died();
 private:
-        void wield(int pos = INT_MIN); // Wield a weapon  'w'
+        void wield();
+        void wield( int pos ); // Wield a weapon  'w'
+        void wield( item_location& loc );
+
         void read(); // Read a book  'R' (or 'a')
         void chat(); // Talk to a nearby NPC  'C'
         void plthrow(int pos = INT_MIN); // Throw an item  't'
@@ -930,8 +938,7 @@ private:
 
         // ########################## DATA ################################
 
-        int last_target; // The last monster targeted
-        bool last_target_was_npc;
+        std::weak_ptr<Creature> last_target;
         safe_mode_type safe_mode;
         bool safe_mode_warning_logged;
         std::vector<int> new_seen_mon;

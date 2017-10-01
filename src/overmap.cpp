@@ -177,16 +177,6 @@ static const std::map<std::string, oter_flags> oter_flags_map = {
     { "LINEAR",         line_drawing   }
 };
 
-/*
- * Temporary container id_or_id. Stores str for delayed lookup and conversion.
- */
-struct sid_or_sid {
-   std::string primary_str;   // 32
-   std::string secondary_str; // 64
-   int chance;                // 68
-   sid_or_sid(const std::string & s1, const int i, const::std::string s2) : primary_str(s1), secondary_str(s2), chance(i) { }
-};
-
 city::city( int const X, int const Y, int const S)
 : x (X)
 , y (Y)
@@ -607,18 +597,6 @@ bool oter_t::is_hardcoded() const
         "office_tower_b",
         "office_tower_b_entrance",
         "outpost",
-        "prison_1",
-        "prison_2",
-        "prison_3",
-        "prison_4",
-        "prison_5",
-        "prison_6",
-        "prison_7",
-        "prison_8",
-        "prison_9",
-        "prison_b",
-        "prison_b_entrance",
-        "radio_tower",
         "sewage_treatment",
         "sewage_treatment_hub",
         "sewage_treatment_under",
@@ -714,16 +692,17 @@ void load_region_settings( JsonObject &jo )
     if ( ! jo.read("default_oter", new_region.default_oter) && strict ) {
         jo.throw_error("default_oter required for default ( though it should probably remain 'field' )");
     }
-    if ( jo.has_object("default_groundcover") ) {
-        JsonObject jio = jo.get_object("default_groundcover");
-        new_region.default_groundcover_str.reset( new sid_or_sid("t_grass", 4, "t_dirt") );
-        if ( ! jio.read("primary", new_region.default_groundcover_str->primary_str) ||
-             ! jio.read("secondary", new_region.default_groundcover_str->secondary_str) ||
-             ! jio.read("ratio", new_region.default_groundcover.chance) ) {
-            jo.throw_error("'default_groundcover' missing one of:\n   { \"primary\": \"ter_id\", \"secondary\": \"ter_id\", \"ratio\": (number) }\n");
+    if( jo.has_array( "default_groundcover" ) ) {
+        JsonArray jia = jo.get_array( "default_groundcover" );
+        new_region.default_groundcover_str.reset( new weighted_int_list<ter_str_id> );
+        while( jia.has_more() ) {
+            JsonArray inner = jia.next_array();
+            if( new_region.default_groundcover_str->add( ter_str_id( inner.get_string( 0 ) ), inner.get_int( 1 ) ) == nullptr ) {
+                jo.throw_error( "'default_groundcover' must be a weighted list: an array of pairs [ \"id\", weight ]" );
+            }
         }
     } else if ( strict ) {
-        jo.throw_error("'default_groundcover' required for 'default'");
+        jo.throw_error("Weighted list 'default_groundcover' required for 'default'");
     }
     if ( ! jo.read("num_forests", new_region.num_forests) && strict ) {
         jo.throw_error("num_forests required for default");
@@ -944,12 +923,15 @@ void apply_region_overlay(JsonObject &jo, regional_settings &region)
 {
     jo.read("default_oter", region.default_oter);
 
-    if (jo.has_object("default_groundcover")) {
-        JsonObject jio = jo.get_object("default_groundcover");
-
-        jio.read("primary", region.default_groundcover_str->primary_str);
-        jio.read("secondary", region.default_groundcover_str->secondary_str);
-        jio.read("ratio", region.default_groundcover.chance);
+    if( jo.has_array("default_groundcover") ) {
+        JsonArray jia = jo.get_array( "default_groundcover" );
+        region.default_groundcover_str.reset( new weighted_int_list<ter_str_id> );
+        while( jia.has_more() ) {
+            JsonArray inner = jia.next_array();
+            if( region.default_groundcover_str->add( ter_str_id( inner.get_string( 0 ) ), inner.get_int( 1 ) ) == nullptr ) {
+                jo.throw_error( "'default_groundcover' must be a weighted list: an array of pairs [ \"id\", weight ]" );
+            }
+        }
     }
 
     jo.read("num_forests", region.num_forests);
@@ -1191,12 +1173,7 @@ overmap::overmap( int const x, int const y ) : loc( x, y )
     init_layers();
 }
 
-overmap::~overmap()
-{
-    for( npc *npc_to_delete : npcs ) {
-        delete npc_to_delete;
-    }
-}
+overmap::~overmap() = default;
 
 void overmap::populate( overmap_special_batch &enabled_specials )
 {
@@ -1309,19 +1286,33 @@ bool overmap::monster_check(const std::pair<tripoint, monster> &candidate) const
         } ) != matching_range.second;
 }
 
-void overmap::insert_npc( npc *who )
+void overmap::insert_npc( std::shared_ptr<npc> who )
 {
     npcs.push_back( who );
     g->set_npcs_dirty();
 }
 
-void overmap::erase_npc( npc *who )
+std::shared_ptr<npc> overmap::erase_npc( const int id )
 {
-    const auto iter = std::find( npcs.begin(), npcs.end(), who );
-    assert( iter != npcs.end() );
+    const auto iter = std::find_if( npcs.begin(), npcs.end(), [id]( const std::shared_ptr<npc> &n ) { return n->getID() == id; } );
+    if( iter == npcs.end() ) {
+        return nullptr;
+    }
+    auto ptr = *iter;
     npcs.erase( iter );
-    delete who;
     g->set_npcs_dirty();
+    return ptr;
+}
+
+std::vector<std::shared_ptr<npc>> overmap::get_npcs( const std::function<bool( const npc & )> &predicate ) const
+{
+    std::vector<std::shared_ptr<npc>> result;
+    for( const auto &g : npcs ) {
+        if( predicate( *g ) ) {
+            result.push_back( g );
+        }
+    }
+    return result;
 }
 
 bool overmap::has_note(int const x, int const y, int const z) const
@@ -2108,7 +2099,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     std::unordered_map<tripoint, npc_coloring> npc_color;
     if( blink ) {
         const auto &npcs = overmap_buffer.get_npcs_near_player( sight_points );
-        for( const npc *np : npcs ) {
+        for( const auto &np : npcs ) {
             if( np->posz() != z ) {
                 continue;
             }
@@ -2694,52 +2685,94 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
             }
             std::transform( term.begin(), term.end(), term.begin(), tolower );
 
-            // This is on purpose only the current overmap, otherwise
-            // it would contain way to many entries
-            overmap &om = overmap_buffer.get_om_global(point(curs.x, curs.y));
-            std::vector<point> locations = om.find_notes(curs.z, term);
-            std::vector<point> terlist = om.find_terrain(term, curs.z);
-            locations.insert( locations.end(), terlist.begin(), terlist.end() );
+            std::vector<point> locations;
+            std::vector<point> overmap_checked;
+
+            for( int x = curs.x - OMAPX / 2; x < curs.x + OMAPX / 2; x++ ) {
+                for( int y = curs.y - OMAPY / 2; y < curs.y + OMAPY / 2; y++ ) {
+                    overmap *om = overmap_buffer.get_existing_om_global( point( x, y ) );
+
+                    if( om ) {
+                        int om_relative_x = x;
+                        int om_relative_y = y;
+                        omt_to_om_remain( om_relative_x, om_relative_y );
+
+                        int om_cache_x = x;
+                        int om_cache_y = y;
+                        omt_to_om( om_cache_x, om_cache_y );
+
+                        if( std::find( overmap_checked.begin(), overmap_checked.end(), point( om_cache_x,
+                                       om_cache_y ) ) == overmap_checked.end() ) {
+                            overmap_checked.push_back( point( om_cache_x, om_cache_y ) );
+                            std::vector<point> notes = om->find_notes( curs.z, term );
+                            locations.insert( locations.end(), notes.begin(), notes.end() );
+                        }
+
+                        if( om->seen( om_relative_x, om_relative_y, curs.z ) &&
+                            lcmatch( om->ter( om_relative_x, om_relative_y, curs.z )->get_name(), term ) ) {
+                            locations.push_back( om->global_base_point() + point( om_relative_x, om_relative_y ) );
+                        }
+                    }
+                }
+            }
+
             if( locations.empty() ) {
                 continue;
             }
+
+            std::sort( locations.begin(), locations.end(), [&](const point &lhs, const point &rhs) {
+                return trig_dist( curs, tripoint( lhs, curs.z ) ) < trig_dist( curs, tripoint( rhs, curs.z ) );
+            } );
+
             int i = 0;
             //Navigate through results
             tripoint tmp = curs;
             WINDOW *w_search = newwin(13, 27, 3, TERMX - 27);
+            WINDOW_PTR w_searchptr( w_search );
+
             input_context ctxt("OVERMAP_SEARCH");
+            ctxt.register_leftright();
             ctxt.register_action("NEXT_TAB", _("Next target"));
             ctxt.register_action("PREV_TAB", _("Previous target"));
             ctxt.register_action("QUIT");
             ctxt.register_action("CONFIRM");
             ctxt.register_action("HELP_KEYBINDINGS");
             ctxt.register_action("ANY_INPUT");
+
             do {
                 tmp.x = locations[i].x;
                 tmp.y = locations[i].y;
                 draw(g->w_overmap, g->w_omlegend, tmp, orig, uistate.overmap_show_overlays, show_explored, NULL, draw_data_t());
                 //Draw search box
-                draw_border(w_search);
-                mvwprintz(w_search, 1, 1, c_red, _("Find place:"));
-                mvwprintz(w_search, 2, 1, c_ltblue, "                         ");
-                mvwprintz(w_search, 2, 1, c_ltblue, "%s", term.c_str());
-                mvwprintz(w_search, 4, 1, c_white, _("'<' '>' Cycle targets."));
+                mvwprintz(w_search, 1, 1, c_ltblue, _("Search:"));
+                mvwprintz(w_search, 1, 10, c_ltred, "%*s", 12, term.c_str());
+
+                mvwprintz(w_search, 2, 1, c_ltblue, _("Result(s):"));
+                mvwprintz(w_search, 2, 16, c_ltred, "%*d/%d" , 3, i+1, locations.size());
+
+                mvwprintz(w_search, 3, 1, c_ltblue, _("Direction:"));
+                mvwprintz(w_search, 3, 14, c_white, "%*d %s",
+                          5, static_cast<int>( trig_dist( orig, tripoint( locations[i], orig.z ) ) ),
+                          direction_name_short( direction_from( orig, tripoint( locations[i], orig.z ) ) ).c_str()
+                );
+
+                mvwprintz(w_search, 6, 1, c_white, _("'<' '>' Cycle targets."));
                 mvwprintz(w_search, 10, 1, c_white, _("Enter/Spacebar to select."));
                 mvwprintz(w_search, 11, 1, c_white, _("q or ESC to return."));
+                draw_border(w_search);
                 wrefresh(w_search);
                 action = ctxt.handle_input( BLINK_SPEED );
                 if (uistate.overmap_blinking) {
                     uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
                 }
-                if (action == "NEXT_TAB") {
+                if (action == "NEXT_TAB" || action == "RIGHT") {
                     i = (i + 1) % locations.size();
-                } else if (action == "PREV_TAB") {
+                } else if (action == "PREV_TAB" || action == "LEFT") {
                     i = (i + locations.size() - 1) % locations.size();
                 } else if (action == "CONFIRM") {
                     curs = tmp;
                 }
             } while(action != "CONFIRM" && action != "QUIT");
-            delwin(w_search);
             action = "";
         } else if( action == "PLACE_TERRAIN" || action == "PLACE_SPECIAL" ) {
             uimenu pmenu;
@@ -4571,12 +4604,11 @@ ter_furn_id groundcover_extra::pick( bool boosted ) const
 
 void regional_settings::setup()
 {
-    if ( default_groundcover_str ) {
-        const ter_str_id primary( default_groundcover_str->primary_str );
-        const ter_str_id secondary( default_groundcover_str->secondary_str );
+    if( default_groundcover_str != nullptr ) {
+        for( const auto &pr : *default_groundcover_str ) {
+            default_groundcover.add( pr.obj.id(), pr.weight );
+        }
 
-        default_groundcover.primary = primary.id();
-        default_groundcover.secondary = secondary.id();
         field_coverage.setup();
         default_groundcover_str.reset();
         get_options().add_value("DEFAULT_REGION", id );
@@ -4665,9 +4697,9 @@ void overmap::for_each_npc( const std::function<void( const npc & )> callback ) 
     }
 }
 
-npc* overmap::find_npc( const int id )
+std::shared_ptr<npc> overmap::find_npc( const int id ) const
 {
-    for( auto &guy : npcs ) {
+    for( const auto &guy : npcs ) {
         if( guy->getID() == id ) {
             return guy;
         }

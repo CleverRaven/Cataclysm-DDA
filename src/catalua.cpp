@@ -885,7 +885,7 @@ monster *create_monster( const mtype_id &mon_type, const tripoint &p )
     if(!g->add_zombie(new_monster)) {
         return NULL;
     } else {
-        return &(g->zombie(g->mon_at( p )));
+        return g->critter_at<monster>( p );
     }
 }
 

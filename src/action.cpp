@@ -23,7 +23,6 @@
 #include <iterator>
 #include <algorithm>
 
-extern input_context get_default_mode_input_context();
 extern bool tile_iso;
 
 void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
@@ -307,6 +306,8 @@ std::string action_ident( action_id act )
             return "open_safemode";
         case ACTION_COLOR:
             return "open_color";
+        case ACTION_WORLD_MODS:
+            return "open_world_mods";
         case ACTION_NULL:
             return "null";
         default:
@@ -351,6 +352,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_AUTOPICKUP:
         case ACTION_SAFEMODE:
         case ACTION_COLOR:
+        case ACTION_WORLD_MODS:
         // Debug Functions
         case ACTION_TOGGLE_SIDEBAR_STYLE:
         case ACTION_TOGGLE_FULLSCREEN:
@@ -466,7 +468,7 @@ bool can_butcher_at( const tripoint &p )
             if( factor != INT_MIN ) {
                 has_corpse = true;
             }
-        } else if( g->u.can_disassemble( items_it, crafting_inv ) ) {
+        } else if( g->u.can_disassemble( items_it, crafting_inv ).success() ) {
             has_item = true;
         }
     }
@@ -554,12 +556,12 @@ action_id handle_action_menu()
     const input_context ctxt = get_default_mode_input_context();
     std::string catgname;
 
-#define REGISTER_ACTION(name) entries.push_back(uimenu_entry(name, true, hotkey_for_action(name), \
+#define REGISTER_ACTION(name) entries.emplace_back(uimenu_entry(name, true, hotkey_for_action(name), \
         ctxt.get_action_name(action_ident(name))));
 #define REGISTER_CATEGORY(name)  categories_by_int[last_category] = name; \
     catgname = name; \
     catgname += "..."; \
-    entries.push_back(uimenu_entry(last_category, true, -1, catgname)); \
+    entries.emplace_back(uimenu_entry(last_category, true, -1, catgname)); \
     last_category++;
 
     // Calculate weightings for the various actions to give the player suggestions
@@ -586,7 +588,7 @@ action_id handle_action_menu()
     // Check if we're on a vehicle, if so, vehicle controls should be top.
     {
         int veh_part = 0;
-        vehicle *veh = NULL;
+        vehicle *veh = nullptr;
 
         veh = g->m.veh_at( g->u.pos(), veh_part );
         if( veh ) {
@@ -639,7 +641,7 @@ action_id handle_action_menu()
     // Default category is called "back"
     std::string category = "back";
 
-    while( 1 ) {
+    while( true ) {
         std::vector<uimenu_entry> entries;
         uimenu_entry *entry;
         std::map<int, std::string> categories_by_int;
@@ -774,8 +776,8 @@ action_id handle_action_menu()
         if( category == "back" ) {
             title = _( "Cancel" );
         }
-        entries.push_back( uimenu_entry( 2 * NUM_ACTIONS, true,
-                                         hotkey_for_action( ACTION_ACTIONMENU ), title ) );
+        entries.emplace_back( uimenu_entry( 2 * NUM_ACTIONS, true,
+                                            hotkey_for_action( ACTION_ACTIONMENU ), title ) );
 
         title = _( "Actions" );
         if( category != "back" ) {
@@ -785,9 +787,9 @@ action_id handle_action_menu()
         }
 
         int width = 0;
-        for( auto &entrie : entries ) {
-            if( width < ( int )entrie.txt.length() ) {
-                width = entrie.txt.length();
+        for( auto &cur_entry : entries ) {
+            if( width < ( int )cur_entry.txt.length() ) {
+                width = cur_entry.txt.length();
             }
         }
         //border=2, selectors=3, after=3 for balance.
@@ -824,10 +826,10 @@ action_id handle_main_menu()
     std::vector<uimenu_entry> entries;
 
     auto REGISTER_ACTION = [&]( action_id name ) {
-        entries.push_back( uimenu_entry( name, true, hotkey_for_action( name ),
-                                         ctxt.get_action_name( action_ident( name ) )
-                                       )
-                         );
+        entries.emplace_back( uimenu_entry( name, true, hotkey_for_action( name ),
+                                            ctxt.get_action_name( action_ident( name ) )
+                                          )
+                            );
     };
 
     REGISTER_ACTION( ACTION_HELP );
@@ -836,14 +838,15 @@ action_id handle_main_menu()
     REGISTER_ACTION( ACTION_AUTOPICKUP );
     REGISTER_ACTION( ACTION_SAFEMODE );
     REGISTER_ACTION( ACTION_COLOR );
+    REGISTER_ACTION( ACTION_WORLD_MODS );
     REGISTER_ACTION( ACTION_ACTIONMENU );
     REGISTER_ACTION( ACTION_QUICKSAVE );
     REGISTER_ACTION( ACTION_SAVE );
 
     int width = 0;
-    for( auto &entrie : entries ) {
-        if( width < ( int )entrie.txt.length() ) {
-            width = entrie.txt.length();
+    for( auto &entry : entries ) {
+        if( width < ( int )entry.txt.length() ) {
+            width = entry.txt.length();
         }
     }
     //border=2, selectors=3, after=3 for balance.

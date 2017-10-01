@@ -59,7 +59,7 @@ monster *find_adjacent_monster( const tripoint &pos )
                 continue;
             }
             if( g->mon_at( target ) != -1 ) {
-                candidate = g->monster_at( target );
+                candidate = g->critter_at<monster>( target );
                 if( candidate != nullptr ) {
                     return candidate;
                 }

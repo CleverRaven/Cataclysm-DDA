@@ -18,6 +18,7 @@
 #include "trap.h"
 #include "messages.h"
 #include "mapsharing.h"
+#include "ammo.h"
 #include "iuse_actor.h"
 #include "mongroup.h"
 #include "npc.h"
@@ -1985,6 +1986,8 @@ int map::combined_movecost( const tripoint &from, const tripoint &to,
 bool map::valid_move( const tripoint &from, const tripoint &to,
                       const bool bash, const bool flying ) const
 {
+    // Used to account for the fact that older versions of GCC can trip on the if statement here.
+    assert(to.z > std::numeric_limits<int>::min());
     // Note: no need to check inbounds here, because maptile_at will do that
     // If oob tile is supplied, the maptile_at will be an unpassable "null" tile
     if( abs( from.x - to.x ) > 1 || abs( from.y - to.y ) > 1 || abs( from.z - to.z ) > 1 ) {
@@ -3671,9 +3674,7 @@ void map::crush( const tripoint &p )
         }
     }
 
-    int mon = g->mon_at( p );
-    if( mon != -1 ) {
-        monster* monhit = &(g->zombie(mon));
+    if( monster *const monhit = g->critter_at<monster>( p ) ) {
         // 25 ~= 60 * .45 (torso)
         monhit->deal_damage(nullptr, bp_torso, damage_instance(DT_BASH, rng(0,25)));
 
@@ -4978,14 +4979,21 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
 
         // If the toilet is not empty
         if( water != items.end() ) {
-            long remaining_charges = water->charges;
-            water->charges -= quantity;
-            if( water->charges > 0 ) {
-                ret.push_back( *water );
+            // There is water, copy it to report back to the outer method
+            ret.push_back( *water );
+            if( water->charges - quantity > 0 ) {
+                // Update the returned water amount to match the requested amount
+                ret.back().charges = quantity;
+                // Update the water item in the world to contain the leftover water
+                water->charges -= quantity;
+                // All the water needed was found, no other sources will be needed
                 quantity = 0;
             } else {
+                // The water copy in ret already contains how much was available
+                // The leftover quantity returned will check other sources
+                quantity -= water->charges;
+                // Remove water item from the world
                 items.erase( water );
-                quantity -= remaining_charges;
             }
         }
 
@@ -4994,7 +5002,7 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
 
     const itype *itt = f.crafting_pseudo_item_type();
     if( itt != nullptr && itt->tool && itt->tool->ammo_id ) {
-        const itype_id ammo = default_ammo( itt->tool->ammo_id );
+        const itype_id ammo = itt->tool->ammo_id->default_ammotype();
         auto stack = m->i_at( p );
         auto iter = std::find_if( stack.begin(), stack.end(),
                                   [ammo]( const item &i ) { return i.typeId() == ammo; } );
@@ -5059,12 +5067,11 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         if (kpart >= 0) { // we have a faucet, now to see what to drain
             itype_id ftype = "null";
 
-            if (type == "water_clean") {
-                ftype = "water_clean";
-            } else if (type == "water") {
-                ftype = "water";
-            } else if (type == "hotplate") {
+            // Special case hotplates which draw battery power
+            if (type == "hotplate") {
                 ftype = "battery";
+            } else {
+                ftype = type;
             }
 
             item tmp(type, 0); //TODO add a sane birthday arg
@@ -5289,7 +5296,7 @@ void map::add_trap( const tripoint &p, const trap_id t)
     const ter_t &ter = current_submap->get_ter( lx, ly ).obj();
     if( ter.trap != tr_null ) {
         debugmsg( "set trap %s on top of terrain %s which already has a builit-in trap",
-                  t.obj().name.c_str(), ter.name.c_str() );
+                  t.obj().name().c_str(), ter.name.c_str() );
         return;
     }
 
@@ -5318,7 +5325,7 @@ void map::disarm_trap( const tripoint &p )
 
     // Some traps are not actual traps. Skip the rolls, different message and give the option to grab it right away.
     if( tr.get_avoidance() ==  0 && tr.get_difficulty() == 0 ) {
-        add_msg(_("You take down the %s."), tr.name.c_str());
+        add_msg(_("You take down the %s."), tr.name().c_str());
         tr.on_disarmed( p );
         return;
     }
@@ -7859,7 +7866,7 @@ void map::draw_fill_background( ter_id( *f )() )
 {
     draw_square_ter( f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1 );
 }
-void map::draw_fill_background( const id_or_id<ter_t> &f )
+void map::draw_fill_background( const weighted_int_list<ter_id> &f )
 {
     draw_square_ter( f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1 );
 }
@@ -7885,10 +7892,11 @@ void map::draw_square_ter( ter_id( *f )(), int x1, int y1, int x2, int y2 )
     }, x1, y1, x2, y2 );
 }
 
-void map::draw_square_ter( const id_or_id<ter_t> &f, int x1, int y1, int x2, int y2 )
+void map::draw_square_ter( const weighted_int_list<ter_id> &f, int x1, int y1, int x2, int y2 )
 {
     draw_square( [this, f]( int x, int y ) {
-        this->ter_set( x, y, f.get() );
+        const ter_id *tid = f.pick();
+        this->ter_set( x, y, tid != nullptr ? *tid : t_null );
     }, x1, y1, x2, y2 );
 }
 

@@ -256,7 +256,7 @@
     "using": [ [ "filament", 25 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "tools": [
-      [ [ "toolset", 5 ], [ "hotplate", 5 ], [ "fire", -1 ] ],
+      [ [ "surface_heat", 5, "LIST" ] ],
       [ [ "mold_plastic", -1 ] ]
     ],
     "components": [
@@ -422,7 +422,7 @@
     "using": [ [ "filament", 15 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "tools": [
-      [ [ "toolset", 5 ], [ "hotplate", 5 ], [ "fire", -1 ] ],
+      [ [ "surface_heat", 5, "LIST" ] ],
       [ [ "mold_plastic", -1 ] ]
     ],
     "components": [

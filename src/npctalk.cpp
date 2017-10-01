@@ -3197,7 +3197,7 @@ void parse_tags( std::string &phrase, const player &u, const npc &me )
             if( !me.weapon.is_gun() ) {
                 phrase.replace(fa, l, _("BADAMMO"));
             } else {
-                phrase.replace(fa, l, ammo_name( me.weapon.ammo_type() ) );
+                phrase.replace(fa, l, me.weapon.ammo_type()->name() );
             }
         } else if( tag == "<punc>" ) {
             switch( rng( 0, 2 ) ) {
@@ -4465,9 +4465,9 @@ npc *pick_follower()
     std::vector<npc *> followers;
     std::vector<tripoint> locations;
 
-    for( npc *np : g->active_npc ) {
+    for( const auto &np : g->active_npc ) {
         if( np->is_following() && g->u.sees( *np ) ) {
-            followers.push_back( np );
+            followers.push_back( np.get() );
             locations.push_back( np->pos() );
         }
     }

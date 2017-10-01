@@ -344,26 +344,6 @@ void verify_furniture();
 void verify_terrain();
 
 /*
- * Container for custom 'grass_or_dirt' functionality. Returns int but can store str values for delayed lookup and conversion
- */
-template<typename T>
-struct id_or_id {
-   int chance;                  // 8
-   int_id<T> primary;
-   int_id<T> secondary;
-   id_or_id(const int_id<T> id1, const int i, const int_id<T> id2) : chance(i), primary(id1), secondary(id2) { }
-   bool match( const int_id<T> iid ) const {
-       if ( iid == primary || iid == secondary ) {
-           return true;
-       }
-       return false;
-   }
-   int_id<T> get() const {
-       return ( one_in(chance) ? secondary : primary );
-   }
-};
-
-/*
 runtime index: ter_id
 ter_id refers to a position in the terlist[] where the ter_t struct is stored. These global
 ints are a drop-in replacement to the old enum, however they are -not- required (save for areas in
@@ -499,7 +479,7 @@ extern furn_id f_null,
     f_flower_marloss,
     f_tatami,
     f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
-    f_robotic_arm;
+    f_robotic_arm, f_vending_reinforced;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.

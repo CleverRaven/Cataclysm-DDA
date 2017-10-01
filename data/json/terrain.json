@@ -1759,6 +1759,13 @@
                 { "item": "splinter", "count": [3, 6] },
                 { "item": "nail", "charges": [6, 12] }
             ]
+        },
+        "deconstruct": {
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "2x4", "count": 12 },
+                { "item": "nail", "charges": 24 }
+            ]
         }
     },{
         "type" : "terrain",
@@ -3384,8 +3391,9 @@
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "examine_action": "tree_hickory",
-        "harvest_season": "AUTUMN",
-        "harvestable": "hickory_nut",
+        "harvest_by_season" : [
+            { "seasons": [ "autumn" ], "entries": [ { "drop": "hickory_nut", "base_num": [ 2, 5 ], "scaled_num": [ 0, 0.5 ] } ] }
+        ],
         "transforms_into": "t_tree_hickory_harvested",
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -3406,8 +3414,6 @@
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED"],
         "examine_action": "tree_hickory",
-        "harvest_season": "AUTUMN",
-        "harvestable": "hickory_nut",
         "transforms_into": "t_tree_hickory",
         "bash": {
             "str_min": 80, "str_max": 180,
@@ -3462,7 +3468,7 @@
     },{
         "type" : "terrain",
         "id" : "t_underbrush_harvested_spring",
-        "name": "foliage",
+        "name": "underbrush",
         "symbol": "#",
         "color": "green",
         "move_cost": 6,
@@ -3481,7 +3487,7 @@
     },{
         "type" : "terrain",
         "id" : "t_underbrush_harvested_summer",
-        "name": "foliage",
+        "name": "underbrush",
         "symbol": "#",
         "color": "green",
         "move_cost": 6,
@@ -3500,7 +3506,7 @@
     },{
         "type" : "terrain",
         "id" : "t_underbrush_harvested_autumn",
-        "name": "foliage",
+        "name": "underbrush",
         "symbol": "#",
         "color": "green",
         "move_cost": 6,
@@ -3519,7 +3525,7 @@
     },{
         "type" : "terrain",
         "id" : "t_underbrush_harvested_winter",
-        "name": "foliage",
+        "name": "underbrush",
         "symbol": "#",
         "color": "green",
         "move_cost": 6,
@@ -4426,7 +4432,7 @@
         "bash": {
             "str_min": 50, "str_max": 400,
             "explosive" : 100,
-            "sound": "metal screeching",
+            "sound": "metal screeching!",
             "sound_fail": "clang!",
             "ter_set": "t_missile_exploded",
             "items": [
@@ -4444,7 +4450,7 @@
         "flags": ["NOITEM"],
         "bash": {
             "str_min": 20, "str_max": 150,
-            "sound": "metal screeching",
+            "sound": "metal screeching!",
             "sound_fail": "clang!",
             "ter_set": "t_metal_floor",
             "items": [

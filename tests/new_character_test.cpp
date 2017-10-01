@@ -143,7 +143,7 @@ TEST_CASE( "starting_items" )
 
                     for( const item &it : items ) {
                         bool is_food =  !it.is_seed() && it.is_food() &&
-                                        g->u.can_eat( it ) != EDIBLE && control.can_eat( it ) == EDIBLE;
+                                        !g->u.can_eat( it ).success() && control.can_eat( it ).success();
                         bool is_armor = it.is_armor() && !g->u.wear_item( it, false );
                         // Seeds don't count- they're for growing things, not eating
                         if( is_food || is_armor ) {
@@ -157,7 +157,7 @@ TEST_CASE( "starting_items" )
     std::stringstream failure_messages;
     for( const failure &f : failures ) {
         failure_messages << f.prof.c_str() << " " << f.mut <<
-          " " << f.item_name << ": " << f.reason << "\n";
+                         " " << f.item_name << ": " << f.reason << "\n";
     }
     INFO( failure_messages.str() );
     REQUIRE( failures.empty() );

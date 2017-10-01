@@ -11,6 +11,7 @@
 #include "assign.h"
 #include "init.h"
 #include "item.h"
+#include "ammo.h"
 #include "item_group.h"
 #include "iuse_actor.h"
 #include "json.h"
@@ -208,7 +209,7 @@ void Item_factory::finalize() {
         }
         // for magazines ensure default_ammo is set
         if( obj.magazine && obj.magazine->default_ammo == "NULL" ) {
-               obj.magazine->default_ammo = default_ammo( obj.magazine->type );
+               obj.magazine->default_ammo = obj.magazine->type->default_ammotype();
         }
         if( obj.gun ) {
             // @todo add explicit action field to gun definitions
@@ -559,7 +560,6 @@ void Item_factory::init()
     add_iuse( "RM13ARMOR_ON", &iuse::rm13armor_on );
     add_iuse( "ROBOTCONTROL", &iuse::robotcontrol );
     add_iuse( "ROYAL_JELLY", &iuse::royal_jelly );
-    add_iuse( "SAW_BARREL", &iuse::saw_barrel );
     add_iuse( "SEED", &iuse::seed );
     add_iuse( "SEWAGE", &iuse::sewage );
     add_iuse( "SEW_ADVANCED", &iuse::sew_advanced );
@@ -617,7 +617,7 @@ void Item_factory::init()
     add_actor( new ups_based_armor_actor() );
     add_actor( new place_trap_actor() );
     add_actor( new emit_actor() );
-
+    add_actor( new saw_barrel_actor() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups["EMPTY_GROUP"] = new Item_group( Item_group::G_COLLECTION, 100, 0, 0 );
@@ -814,8 +814,8 @@ void Item_factory::check_definitions() const
             if( type->gunmod->location.str().empty() ) {
                     msg << "gunmod does not specify location" << "\n";
             }
-            if( (type->gunmod->sight_dispersion < 0) != (type->gunmod->aim_cost < 0) ){
-                    msg << "gunmod must have both sight_dispersion and aim_cost set or neither of them set" << "\n";
+            if( ( type->gunmod->sight_dispersion < 0 ) != ( type->gunmod->aim_speed < 0 ) ){
+                    msg << "gunmod must have both sight_dispersion and aim_speed set or neither of them set" << "\n";
             }
         }
         if( type->mod ) {
@@ -1455,7 +1455,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     assign( jo, "location", slot.location );
     assign( jo, "dispersion_modifier", slot.dispersion );
     assign( jo, "sight_dispersion", slot.sight_dispersion );
-    assign( jo, "aim_cost", slot.aim_cost, strict, -1 );
+    assign( jo, "aim_speed", slot.aim_speed, strict, -1 );
     assign( jo, "handling_modifier", slot.handling, strict );
     assign( jo, "range_modifier", slot.range );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
@@ -2009,6 +2009,25 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, JsonObje
     return true;
 }
 
+bool Item_factory::load_string(std::vector<std::string> &vec, JsonObject &obj, const std::string &name)
+{
+    bool result = false;
+    std::string temp;
+
+    if( obj.has_array( name ) ) {
+        JsonArray arr = obj.get_array( name );
+        while( arr.has_more() ) {
+            result |= arr.read_next( temp );
+            vec.push_back( temp );
+        }
+    } else if ( obj.has_member( name ) ) {
+        result |= obj.read( name, temp );
+        vec.push_back( temp );
+    }
+
+    return result;
+}
+
 void Item_factory::add_entry(Item_group *ig, JsonObject &obj)
 {
     std::unique_ptr<Item_spawn_data> ptr;
@@ -2050,6 +2069,7 @@ void Item_factory::add_entry(Item_group *ig, JsonObject &obj)
     use_modifier |= load_sub_ref( modifier->ammo, obj, "ammo", *ig );
     use_modifier |= load_sub_ref( modifier->container, obj, "container", *ig );
     use_modifier |= load_sub_ref( modifier->contents, obj, "contents", *ig );
+    use_modifier |= load_string( modifier->custom_flags, obj, "custom-flags" );
     if (use_modifier) {
         dynamic_cast<Single_item_creator *>(ptr.get())->modifier = std::move(modifier);
     }

@@ -177,7 +177,7 @@
     "qualities": [ { "id": "SEW", "level": 1 } ],
     "tools": [
       [ [ "mold_plastic", -1 ] ],
-      [ [ "hotplate", 15 ], [ "toolset", 15 ], [ "fire", -1 ] ]
+      [ [ "surface_heat", 15, "LIST" ] ]
     ],
     "components": [
       [ [ "plastic_chunk", 8 ] ],

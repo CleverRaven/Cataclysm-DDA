@@ -403,13 +403,13 @@ void computer::activate_function(computer_action action, char ch)
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 tripoint p( x, y, g->u.posz() );
-                int mondex = g->mon_at( p );
-                if (mondex != -1 &&
+                monster *const mon = g->critter_at<monster>( p );
+                if( mon &&
                     ((g->m.ter(x, y - 1) == t_reinforced_glass &&
                       g->m.ter(x, y + 1) == t_concrete_wall) ||
                      (g->m.ter(x, y + 1) == t_reinforced_glass &&
                       g->m.ter(x, y - 1) == t_concrete_wall))) {
-                    g->zombie( mondex ).die( &g->u );
+                    mon->die( &g->u );
                 }
             }
         }
@@ -521,7 +521,7 @@ void computer::activate_function(computer_action action, char ch)
         // Target Acquisition.
         tripoint target = overmap::draw_overmap(0);
         if (target == overmap::invalid_tripoint) {
-            add_msg(m_info, _("Target acquisition canceled"));
+            add_msg(m_info, _("Target acquisition canceled."));
             return;
         }
         if(query_yn(_("Confirm nuclear missile launch."))) {

@@ -3,6 +3,7 @@
 #include "assign.h"
 #include "item.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "map.h"
 #include "debug.h"
 #include "monster.h"
@@ -19,6 +20,7 @@
 #include "vehicle.h"
 #include "mtype.h"
 #include "mapdata.h"
+#include "ammo.h"
 #include "field.h"
 #include "weather.h"
 #include "pldata.h"
@@ -1998,13 +2000,14 @@ long holster_actor::use( player &p, item &it, bool, const tripoint & ) const
         }
 
     } else {
-        item &obj = p.i_at( g->inv_for_filter( prompt, [&](const item& e) { return can_holster(e); } ) );
-        if( obj.is_null() ) {
+        auto loc = game_menus::inv::holster( p, it );
+
+        if( !loc ) {
             p.add_msg_if_player( _( "Never mind." ) );
             return 0;
         }
 
-        store( p, it, obj );
+        store( p, it, p.i_at( loc.obtain( p ) ) );
     }
 
     return 0;
@@ -2013,7 +2016,7 @@ long holster_actor::use( player &p, item &it, bool, const tripoint & ) const
 void holster_actor::info( const item&, std::vector<iteminfo>& dump ) const
 {
     dump.emplace_back( "TOOL", _( "Can contain items from " ), string_format( "<num> %s", volume_units_abbr() ),
-                       convert_volume( min_volume.value() ), false, "", max_weight <= 0 );
+                       convert_volume( min_volume.value() ), false, "", true );
     dump.emplace_back( "TOOL", _( "Up to " ), string_format( "<num> %s", volume_units_abbr() ),
                        convert_volume( max_volume.value() ), false, "", max_weight <= 0 );
 
@@ -2043,9 +2046,9 @@ void bandolier_actor::info( const item&, std::vector<iteminfo>& dump ) const
 {
     if( !ammo.empty() ) {
         auto str = std::accumulate( std::next( ammo.begin() ), ammo.end(),
-                                    string_format( "<stat>%s</stat>", _( ammo_name( *ammo.begin() ).c_str() ) ),
+                                    string_format( "<stat>%s</stat>", ( *ammo.begin() )->name().c_str() ),
                                     [&]( const std::string& lhs, const ammotype& rhs ) {
-                return lhs + string_format( ", <stat>%s</stat>", _( ammo_name( rhs ).c_str() ) );
+                return lhs + string_format( ", <stat>%s</stat>", rhs->name().c_str() );
         } );
 
         dump.emplace_back( "TOOL", string_format(
@@ -2188,7 +2191,7 @@ long ammobelt_actor::use( player &p, item &, bool, const tripoint& ) const
 
     if( p.rate_action_reload( mag ) != HINT_GOOD ) {
         p.add_msg_if_player( _( "Insufficient %s to assemble %s" ),
-                              ammo_name( mag.ammo_type() ).c_str(), mag.tname().c_str() );
+                              mag.ammo_type()->name().c_str(), mag.tname().c_str() );
         return 0;
     }
 
@@ -3071,7 +3074,7 @@ bool place_trap_actor::is_allowed( player &p, const tripoint &pos, const std::st
         if( existing_trap.can_see( pos, p ) ) {
             p.add_msg_if_player( m_info, _( "You can't place a %s there. It contains a trap already." ), name.c_str() );
         } else {
-            p.add_msg_if_player( m_bad, _( "You trigger a %s!" ), existing_trap.name.c_str() );
+            p.add_msg_if_player( m_bad, _( "You trigger a %s!" ), existing_trap.name().c_str() );
             existing_trap.trigger( pos, &p );
         }
         return false;
@@ -3173,4 +3176,61 @@ void emit_actor::finalize( const itype_id &my_item_type )
         debugmsg( "Item %s has emit_actor with scale_qty, but is not counted by charges", my_item_type.c_str() );
         scale_qty = false;
     }
+}
+
+void saw_barrel_actor::load( JsonObject &jo )
+{
+    assign( jo, "cost", cost );
+}
+
+long saw_barrel_actor::use( player &p, item &it, bool t, const tripoint & ) const
+{
+    if( t ) {
+        return 0;
+    }
+
+    auto loc = game_menus::inv::saw_barrel( p, it );
+
+    if( !loc ) {
+        p.add_msg_if_player( _( "Never mind." ) );
+        return 0;
+    }
+
+    item &obj = p.i_at( loc.obtain( p ) );
+    p.add_msg_if_player( _( "You saw down the barrel of your %s." ), obj.tname().c_str() );
+    obj.contents.emplace_back( "barrel_small", calendar::turn );
+
+    return 0;
+}
+
+ret_val<bool> saw_barrel_actor::can_use_on( const player &, const item &, const item &target ) const
+{
+    if( !target.is_gun() ) {
+        return ret_val<bool>::make_failure( _( "It's not a gun." ) );
+    }
+
+    if( target.type->gun->barrel_length <= 0 ) {
+        return ret_val<bool>::make_failure( _( "The barrel is too short." ) );
+    }
+
+    if( target.gunmod_find( "barrel_small" ) ) {
+        return ret_val<bool>::make_failure( _( "The barrel is aleady sawn off." ) );
+    }
+
+    const auto gunmods = target.gunmods();
+    const bool modified_barrel = std::any_of( gunmods.begin(), gunmods.end(),
+    []( const item * mod ) {
+        return mod->type->gunmod->location == gunmod_location( "barrel" );
+    } );
+
+    if( modified_barrel ) {
+        return ret_val<bool>::make_failure( _( "Can't saw off modified barrels." ) );
+    }
+
+    return ret_val<bool>::make_success();
+}
+
+iuse_actor *saw_barrel_actor::clone() const
+{
+    return new saw_barrel_actor( *this );
 }

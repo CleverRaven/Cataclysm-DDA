@@ -9,7 +9,9 @@
 #include "line.h"
 #include "debug.h"
 #include "overmapbuffer.h"
+#include "creature_tracker.h"
 #include "messages.h"
+#include "ammo.h"
 #include "translations.h"
 #include "veh_type.h"
 #include "monster.h"
@@ -44,6 +46,15 @@ const efftype_id effect_infected( "infected" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_onfire( "onfire" );
+
+namespace
+{
+// player is not stored in a shared_ptr, but it won't go out of scope anyway,
+std::shared_ptr<player> get_player_ptr()
+{
+    return std::shared_ptr<player>( &g->u, []( player * const ) { } );
+}
+}
 
 enum npc_action : int {
     npc_undecided = 0,
@@ -255,7 +266,7 @@ float npc::character_danger( const Character &uc ) const
 void npc::regen_ai_cache()
 {
     ai_cache.friends.clear();
-    ai_cache.target = npc_target::none();
+    ai_cache.target = std::shared_ptr<Creature>();
     ai_cache.danger = 0.0f;
     ai_cache.total_danger = 0.0f;
     ai_cache.my_weapon_value = weapon_value( weapon );
@@ -302,7 +313,7 @@ void npc::move()
 
     if( is_enemy() && vehicle_danger(avoidance_vehicles_radius) > 0 ) {
         // TODO: Think about how this actually needs to work, for now assume flee from player
-        ai_cache.target = npc_target::player();
+        ai_cache.target = get_player_ptr();
     }
 
     if( target == &g->u && attitude == NPCATT_FLEE ) {
@@ -767,7 +778,7 @@ void npc::choose_target()
 
         auto att = mon.attitude( this );
         if( att == MATT_FRIEND ) {
-            ai_cache.friends.emplace_back( npc_target::monster( i ) );
+            ai_cache.friends.emplace_back( g->critter_tracker->find( i ) );
             continue;
         }
 
@@ -793,7 +804,7 @@ void npc::choose_target()
 
         if( priority >= highest_priority ) {
             highest_priority = priority;
-            ai_cache.target = npc_target::monster( i );
+            ai_cache.target = g->critter_tracker->find( i );
             ai_cache.danger = critter_danger;
         }
     }
@@ -826,7 +837,7 @@ void npc::choose_target()
     };
 
     for( size_t i = 0; i < g->active_npc.size(); i++ ) {
-        if( g->active_npc[ i ] == this ) {
+        if( g->active_npc[ i ].get() == this ) {
             continue;
         }
 
@@ -834,19 +845,19 @@ void npc::choose_target()
 
         auto att = attitude_to( np );
         if( att == Creature::A_FRIENDLY ) {
-            ai_cache.friends.emplace_back( npc_target::npc( i ) );
+            ai_cache.friends.emplace_back( g->active_npc[i] );
         } else if( att == Creature::A_NEUTRAL ) {
             // Nothing
         } else if( sees( np ) && check_hostile_character( np ) ) {
-            ai_cache.target = npc_target::npc( i );
+            ai_cache.target = g->active_npc[i];
         }
     }
 
     if( is_friend() ) {
-        ai_cache.friends.emplace_back( npc_target::player() );
+        ai_cache.friends.emplace_back( get_player_ptr() );
     } else if( is_enemy() ) {
         if( sees( g->u ) && check_hostile_character( g->u ) ) {
-            ai_cache.target = npc_target::player();
+            ai_cache.target = get_player_ptr();
             ai_cache.danger = std::max( 1.0f, ai_cache.danger );
         }
     }
@@ -1263,9 +1274,8 @@ int npc::confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) co
         return 0;
     }
 
-    double average_dispersion = get_weapon_dispersion( *( gun.target ), RANGE_SOFT_CAP ).avg() +
-      (double)at_recoil;
-    double even_chance_range = 0.5 / average_dispersion;
+    double average_dispersion = get_weapon_dispersion( *( gun.target ) ).avg() + at_recoil;
+    double even_chance_range = range_with_even_chance_of_good_hit( average_dispersion );
     // 5 round burst equivalent to ~2 individually aimed shots
     even_chance_range /= std::max( sqrt( gun.qty / 1.5 ), 1.0 );
     double confident_range = even_chance_range * confidence_mult();
@@ -1327,7 +1337,7 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
 
 bool npc::enough_time_to_reload( const item &gun ) const
 {
-    int rltime = item_reload_cost( gun, item( default_ammo( gun.ammo_type() ) ), gun.ammo_capacity() );
+    int rltime = item_reload_cost( gun, item( gun.ammo_type()->default_ammotype() ), gun.ammo_capacity() );
     const float turns_til_reloaded = (float)rltime / get_speed();
 
     const Creature *target = current_target();
@@ -1455,7 +1465,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         move_pause();
     }
     bool attacking = false;
-    if( g->mon_at( p ) ) {
+    if( g->critter_at<monster>( p ) ) {
         attacking = true;
     }
     if( !move_effects(attacking) ) {
@@ -2413,7 +2423,7 @@ bool npc::alt_attack()
             if( newdist <= conf && newdist >= 2 && newtarget != -1 &&
                 wont_hit_friend( pt, *used, true ) ) {
                 // Friendlyfire-safe!
-                ai_cache.target = npc_target::monster( newtarget );
+                ai_cache.target = g->critter_tracker->find( newtarget );
                 if( !one_in( 100 ) ) {
                     // Just to prevent infinite loops...
                     if( alt_attack() ) {
@@ -2636,7 +2646,7 @@ bool npc::consume_food()
                                 it.contents.front() : it;
         float cur_weight = rate_food( food_item, want_hunger, want_quench );
         // Note: will_eat is expensive, avoid calling it if possible
-        if( cur_weight > best_weight && will_eat( food_item ) == EDIBLE ) {
+        if( cur_weight > best_weight && will_eat( food_item ).success() ) {
             best_weight = cur_weight;
             index = i;
         }
@@ -3173,56 +3183,6 @@ void npc::do_reload( item &it )
 
     // Otherwise the NPC may not equip the weapon until they see danger
     has_new_items = true;
-}
-
-const Creature *npc_target::get() const
-{
-    switch( type ) {
-        case TARGET_PLAYER:
-            return &g->u;
-        case TARGET_MONSTER:
-            return index < g->num_zombies() ? &g->zombie( index ) : nullptr;
-        case TARGET_NPC:
-            return index < g->active_npc.size() ? g->active_npc[ index ] : nullptr;
-        case TARGET_NONE:
-            return nullptr;
-    }
-
-    debugmsg( "Invalid npc_target type %d", type );
-    return nullptr;
-}
-
-Creature *npc_target::get()
-{
-    return const_cast<Creature *>( const_cast<const npc_target *>( this )->get() );
-}
-
-npc_target npc_target::monster( size_t index )
-{
-    return npc_target{ TARGET_MONSTER, index };
-}
-
-npc_target npc_target::npc( size_t index )
-{
-    return npc_target{ TARGET_NPC, index };
-}
-
-npc_target npc_target::player()
-{
-    return npc_target{ TARGET_PLAYER, 0 };
-}
-
-npc_target npc_target::none()
-{
-    return npc_target{ TARGET_NONE, 0 };
-}
-
-npc_target::npc_target( target_type t, size_t i ) : type( t ), index( i )
-{
-}
-
-npc_target::npc_target() : npc_target( TARGET_NONE, 0 )
-{
 }
 
 bool npc::adjust_worn()

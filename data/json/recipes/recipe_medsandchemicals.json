@@ -1936,7 +1936,7 @@
      [ "cooking_oil", 2 ]
     ],
     [
-     [ "lye_powder", 10 ]
+     [ "lye_powder", 10 ], [ "lye", 2 ]
     ],
     [
      [ "water", 1 ],
@@ -2358,5 +2358,21 @@
 [ "sugar", 50 ]
 ]
 ]
+},{
+  "result": "lye",
+  "type": "recipe",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_OTHER",
+  "skill_used": "survival",
+  "difficulty": 2,
+  "skills_required": [ "cooking", 1 ],
+  "time": 60000,
+  "autolearn": true,
+  "qualities": [ { "id": "CHEM", "level": 1 } ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+  "components": [
+    [ [ "water", 1 ], [ "water_clean", 1 ] ],
+    [ [ "ash", 50 ] ]
+  ]
 }
 ]

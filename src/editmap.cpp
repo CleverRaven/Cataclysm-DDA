@@ -659,7 +659,7 @@ void editmap::update_view( bool update_info )
 
         if( cur_trap != tr_null ) {
             auto &t = cur_trap.obj();
-            mvwprintz( w_info, off, 1, t.color, _( "trap: %s (%d)" ), t.name.c_str(), cur_trap.to_i() );
+            mvwprintz( w_info, off, 1, t.color, _( "trap: %s (%d)" ), t.name().c_str(), cur_trap.to_i() );
             off++; // 6
         }
 
@@ -1254,9 +1254,9 @@ int editmap::edit_trp()
                 if( tr.is_null() ) {
                     tnam = _( "-clear-" );
                 } else {
-                    if( tr.name.length() > 0 ) {
+                    if( tr.name().length() > 0 ) {
                         //~ trap editor list entry. 1st string is display name, 2nd string is internal name of trap
-                        tnam = string_format( _( "%s (%s)" ), tr.name.c_str(), tr.id.c_str() );
+                        tnam = string_format( _( "%s (%s)" ), tr.name().c_str(), tr.id.c_str() );
                     } else {
                         tnam = tr.id.str();
                     }
@@ -1420,8 +1420,7 @@ int editmap::edit_itm()
 int editmap::edit_mon()
 {
     int ret = 0;
-    int mon_index = g->mon_at( target );
-    monster *it = &g->zombie( mon_index );
+    monster *it = g->critter_at<monster>( target );
     edit_json( it );
     return ret;
 }
@@ -1929,7 +1928,7 @@ class edit_mapgen_callback : public uimenu_callback
         edit_mapgen_callback( editmap *e ) {
             _e = e;
         };
-        bool key( const input_event &event, int /*entnum*/, uimenu *menu ) override {
+        bool key( const input_context &, const input_event &event, int /*entnum*/, uimenu *menu ) override {
             if( event.get_first_input() == 'm' ) {
                 _e->mapgen_retarget();
                 menu->ret = -1;

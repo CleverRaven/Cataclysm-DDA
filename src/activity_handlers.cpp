@@ -955,6 +955,11 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
         }
     }
 
+    if( rng( 1, 5 ) > 1 ) {
+        g->m.spawn_item( p->pos(), "withered", rng(1, 3) );
+        found_something = true;
+    }
+
     if( !found_something ) {
         add_msg(_("You didn't find anything."));
     }
@@ -1396,7 +1401,9 @@ void activity_handlers::vehicle_finish( player_activity *act, player *pl )
 
 void activity_handlers::vibe_do_turn( player_activity *act, player *p )
 {
-    //Using a vibrator takes time, not speed
+    //Using a vibrator takes time (10 minutes), not speed
+    //Linear increase in morale during action with a small boost at end
+    //Deduct 1 battery charge for every minute in use, or vibrator is much less effective
     act->moves_left -= 100;
 
     item &vibrator_item = p->i_at(act->position);
@@ -1407,17 +1414,18 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
         add_msg(m_bad, _("You have trouble breathing, and stop."));
     }
 
-    //Deduct 1 battery charge for every minute using the vibrator
     if( calendar::once_every(MINUTES(1)) ) {
-        vibrator_item.ammo_consume( 1, p->pos() );
-        p->add_morale(MORALE_FEELING_GOOD, 4, 320); //4 points/min, one hour to fill
-        // 1:1 fatigue:morale ratio, so maxing the morale is possible but will take
-        // you pretty close to Dead Tired from a well-rested state.
-        p->mod_fatigue(4);
-    }
-    if( vibrator_item.ammo_remaining() == 0 ) {
-        act->moves_left = 0;
-        add_msg(m_info, _("The %s runs out of batteries."), vibrator_item.tname().c_str());
+        p->mod_fatigue(1);
+        if( vibrator_item.ammo_remaining() > 0 ) {
+            vibrator_item.ammo_consume( 1, p->pos() );
+            p->add_morale(MORALE_FEELING_GOOD, 3, 40); 
+            if( vibrator_item.ammo_remaining() == 0 ) {
+                add_msg(m_info, _("The %s runs out of batteries."), vibrator_item.tname().c_str());
+            }
+        }
+        else { 
+            p->add_morale(MORALE_FEELING_GOOD, 1, 40); //twenty minutes to fill
+        }
     }
     if( p->get_fatigue() >= DEAD_TIRED ) { // Dead Tired: different kind of relaxation needed
         act->moves_left = 0;
@@ -1794,7 +1802,7 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
     std::string tool = act->name;
     int qty = act->values[3];
 
-    if( !gun.gunmod_compatible( mod ) ) {
+    if( !gun.is_gunmod_compatible( mod ).success() ) {
         debugmsg( "Invalid arguments in ACT_GUNMOD_ADD" );
         return;
     }
@@ -1979,6 +1987,7 @@ void activity_handlers::build_finish( player_activity *, player * )
 void activity_handlers::vibe_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( m_good, _( "You feel much better." ) );
+    p->add_morale(MORALE_FEELING_GOOD, 10, 40);
     act->set_to_null();
 }
 
