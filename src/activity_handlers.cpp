@@ -1313,7 +1313,7 @@ void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
     item &lens_item = p->i_at(act->position);
     const auto usef = lens_item.type->get_use( "firestarter" );
     if( usef == nullptr || usef->get_actor_ptr() == nullptr ) {
-        add_msg( m_bad, "You have lost the item you were using to start the fire." );
+        add_msg( m_bad, _( "You have lost the item you were using to start the fire." ) );
         p->cancel_activity();
         return;
     }

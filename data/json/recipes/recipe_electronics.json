@@ -17,9 +17,7 @@
   "tools" : [
      [ ["mold_plastic", -1] ],
      [
-      ["fire", -1],
-      ["hotplate", 10],
-      ["toolset", 10]
+      [ "surface_heat", 10, "LIST" ]
      ],
      [
       [ "soldering_iron", 10 ],
@@ -52,9 +50,7 @@
   "tools" : [
     [ ["mold_plastic", -1] ],
     [
-      ["fire", -1],
-      ["hotplate", 10],
-      ["toolset", 10]
+      [ "surface_heat", 10, "LIST" ]
     ],
     [
       [ "soldering_iron", 10 ],
@@ -95,9 +91,7 @@
   "tools" : [
     [ ["mold_plastic", -1] ],
     [
-      ["fire", -1],
-      ["hotplate", 12],
-      ["toolset", 12]
+      [ "surface_heat", 12, "LIST" ]
     ],
     [
       [ "soldering_iron", 12 ],
@@ -128,9 +122,7 @@
    "tools" : [
     [ ["mold_plastic", -1] ],
     [
-      ["fire", -1],
-      ["hotplate", 10],
-      ["toolset", 10]
+      [ "surface_heat", 10, "LIST" ]
     ],
     [
       [ "soldering_iron", 10 ],
@@ -2300,9 +2292,7 @@
    "tools" : [
     [ ["mold_plastic", -1] ],
     [
-      ["fire", -1],
-      ["hotplate", 10],
-      ["toolset", 10]
+      [ "surface_heat", 10, "LIST" ]
     ],
     [
       [ "soldering_iron", 10 ],

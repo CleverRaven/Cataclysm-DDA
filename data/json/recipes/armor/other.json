@@ -62,7 +62,7 @@
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
     ],
-    "tools": [ [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "fur", 4 ] ],
       [ [ "string_36", 1 ] ],
@@ -83,7 +83,7 @@
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
     ],
-    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ] ],
+    "tools": [ [ [ "soldering_iron", 10 ], [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "fur", 2 ] ],
       [ [ "scrap", 1 ] ]
@@ -103,7 +103,7 @@
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
     ],
-    "tools": [ [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "leather", 4 ] ],
       [ [ "string_36", 1 ] ],
@@ -124,7 +124,7 @@
       { "id": "CUT", "level": 1 },
       { "id": "SEW", "level": 1 }
     ],
-    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ] ],
+    "tools": [ [ [ "soldering_iron", 10 ], [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "leather", 2 ] ],
       [ [ "scrap", 1 ] ]

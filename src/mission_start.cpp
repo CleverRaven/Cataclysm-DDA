@@ -198,7 +198,7 @@ void mission_start::place_zombie_bay( mission *miss )
     tripoint site = target_om_ter_random( "evac_center_9", 1, miss, false, EVAC_CENTER_SIZE );
     tinymap bay;
     bay.load( site.x * 2, site.y * 2, site.z, false );
-    bay.add_spawn( mon_zombie_electric, 1, SEEX, SEEY, false, -1, miss->uid, "Sean McLaughlin" );
+    bay.add_spawn( mon_zombie_electric, 1, SEEX, SEEY, false, -1, miss->uid, _( "Sean McLaughlin" ) );
     bay.save();
 }
 
@@ -288,7 +288,7 @@ void mission_start::place_grabber( mission *miss )
     tinymap there;
     there.load( site.x * 2, site.y * 2, site.z, false );
     there.add_spawn( mon_graboid, 1, SEEX + rng( -3, 3 ), SEEY + rng( -3, 3 ) );
-    there.add_spawn( mon_graboid, 1, SEEX, SEEY, false, -1, miss->uid, "Little Guy" );
+    there.add_spawn( mon_graboid, 1, SEEX, SEEY, false, -1, miss->uid, _( "Little Guy" ) );
     there.save();
 }
 
@@ -360,7 +360,7 @@ void mission_start::kill_horde_master( mission *miss )
     overmap_buffer.reveal( site, 6 );
     tinymap tile;
     tile.load( site.x * 2, site.y * 2, site.z, false );
-    tile.add_spawn( mon_zombie_master, 1, SEEX, SEEY, false, -1, miss->uid, "Demonic Soul" );
+    tile.add_spawn( mon_zombie_master, 1, SEEX, SEEY, false, -1, miss->uid, _( "Demonic Soul" ) );
     tile.add_spawn( mon_zombie_brute, 3, SEEX, SEEY );
     tile.add_spawn( mon_zombie_dog, 3, SEEX, SEEY );
 
