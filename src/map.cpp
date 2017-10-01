@@ -4979,14 +4979,21 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
 
         // If the toilet is not empty
         if( water != items.end() ) {
-            long remaining_charges = water->charges;
-            water->charges -= quantity;
-            if( water->charges > 0 ) {
-                ret.push_back( *water );
+            // There is water, copy it to report back to the outer method
+            ret.push_back( *water );
+            if( water->charges - quantity > 0 ) {
+                // Update the returned water amount to match the requested amount
+                ret.back().charges = quantity;
+                // Update the water item in the world to contain the leftover water
+                water->charges -= quantity;
+                // All the water needed was found, no other sources will be needed
                 quantity = 0;
             } else {
+                // The water copy in ret already contains how much was available
+                // The leftover quantity returned will check other sources
+                quantity -= water->charges;
+                // Remove water item from the world
                 items.erase( water );
-                quantity -= remaining_charges;
             }
         }
 

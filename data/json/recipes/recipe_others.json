@@ -832,8 +832,7 @@
   ],
   "tools": [
     [
-      [ "fire", -1 ],
-      [ "toolset", 10 ]
+      [ "surface_heat", 10, "LIST" ]
     ]
   ],
   "components": [
@@ -1874,11 +1873,9 @@
   ],
   "tools": [
     [
-      [ "hotplate", 2 ],
       [ "lighter", 5 ],
       [ "ref_lighter", 5 ],
-      [ "toolset", 2 ],
-      [ "fire", -1 ]
+      [ "surface_heat", 2, "LIST" ]
     ]
   ],
   "components": [
@@ -3041,8 +3038,7 @@
   "qualities":[{"id":"HAMMER","level":1}],
   "tools": [
     [
-      [ "fire", -1 ],
-      [ "toolset", 10 ]
+      [ "surface_heat", 10, "LIST" ]
     ]
   ],
   "components": [ [ [ "copper", 100 ] ] ]
@@ -3698,8 +3694,7 @@
   "tools": [
     [ ["press", -1] ],
     [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
+      [ "surface_heat", 10, "LIST" ]
     ]
   ],
   "components": [
@@ -4306,8 +4301,7 @@
       [ "mold_plastic", -1 ]
      ],
      [
-      [ "fire", -1 ],
-      [ "toolset", 10 ],
+      [ "surface_heat", 10, "LIST" ],
       [ "soldering_iron", 10 ]
      ]
     ],
@@ -4338,8 +4332,7 @@
       [ "mold_plastic", -1 ]
      ],
      [
-      [ "fire", -1 ],
-      [ "toolset", 10 ],
+      [ "surface_heat", 10, "LIST" ],
       [ "soldering_iron", 10 ]
      ]
     ],
@@ -4365,10 +4358,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "lighter", 20 ],
-      [ "ref_lighter", 20 ],
-      [ "fire", -1 ],
-      [ "toolset", 20 ]
+      [ "surface_heat", 20, "LIST" ]
     ]
   ],
   "components": [
@@ -7009,9 +6999,7 @@
   "skill_used": "survival",
   "time": 15000,
   "autolearn": true,
-  "tools": [
-    [ [ "fire", -1 ] ]
-  ],
+  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
   "components": [
     [ [ "splinter", 5 ], [ "2x4", 1 ], [ "stick", 1 ] ]
   ]
