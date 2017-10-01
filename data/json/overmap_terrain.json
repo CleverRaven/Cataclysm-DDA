@@ -7065,6 +7065,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "icecream_shop",
+    "name": "icecream shop",
+    "sym": 73,
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "bakery",
     "name": "bakery",
     "sym": 66,
