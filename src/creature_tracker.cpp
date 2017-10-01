@@ -25,8 +25,7 @@ std::shared_ptr<monster> Creature_tracker::find( const tripoint &pos ) const
             return mon_ptr;
         }
     }
-    static std::shared_ptr<monster> nullmon = std::make_shared<monster>();
-    return nullmon;
+    return nullptr;
 }
 
 int Creature_tracker::temporary_id( const monster &critter ) const
@@ -61,8 +60,7 @@ bool Creature_tracker::add( monster &critter )
         return false;
     }
 
-    const std::shared_ptr<monster> existing_mon_ptr = find( critter.pos() );
-    if( existing_mon_ptr && !existing_mon_ptr->type->id.is_null() ) {
+    if( const std::shared_ptr<monster> existing_mon_ptr = find( critter.pos() ) ) {
         // We can spawn stuff on hallucinations, but we need to kill them first
         if( existing_mon_ptr->is_hallucination() ) {
             existing_mon_ptr->die( nullptr );
@@ -99,8 +97,7 @@ bool Creature_tracker::update_pos( const monster &critter, const tripoint &new_p
         return true;
     }
 
-    const std::shared_ptr<monster> new_critter_ptr = find( new_pos );
-    if( new_critter_ptr && !new_critter_ptr->type->id.is_null() ) {
+    if( const std::shared_ptr<monster> new_critter_ptr = find( new_pos ) ) {
         auto &othermon = *new_critter_ptr;
         if( othermon.is_hallucination() ) {
             othermon.die( nullptr );

@@ -6555,8 +6555,7 @@ npc *game::npc_by_id(const int id) const
 template<typename T>
 T *game::critter_at( const tripoint &p, bool allow_hallucination )
 {
-    const std::shared_ptr<monster> &mon_ptr = critter_tracker->find( p );
-    if( mon_ptr && !mon_ptr->type->id.is_null() ) {
+    if( const std::shared_ptr<monster> mon_ptr = critter_tracker->find( p ) ) {
         if( !allow_hallucination && mon_ptr->is_hallucination() ) {
             return nullptr;
         }
@@ -6589,8 +6588,7 @@ template const Creature *game::critter_at<Creature>( const tripoint &, bool ) co
 template<typename T>
 std::shared_ptr<T> game::shared_from( const T &critter )
 {
-    const std::shared_ptr<monster> &mon_ptr = critter_tracker->find( critter.pos() );
-    if( mon_ptr && !mon_ptr->type->id.is_null() ) {
+    if( const std::shared_ptr<monster> mon_ptr = critter_tracker->find( critter.pos() ) ) {
         return std::dynamic_pointer_cast<T>( mon_ptr );
     }
     if( static_cast<const Creature*>( &critter ) == static_cast<const Creature*>( &u ) ) {

@@ -17,9 +17,8 @@ class Creature_tracker
         ~Creature_tracker();
         /**
          * Returns the monster at the given location.
-         * Always returns a non-null pointer. If there is no monster, it
-         * returns a pointer to a monster with the null type
-         * (check via `ptr->type->id.is_null()`).
+         * If there is no monster, it returns a `nullptr`.
+         * Dead monsters are ignored and not returned.
          */
         std::shared_ptr<monster> find( const tripoint &pos ) const;
         /**
