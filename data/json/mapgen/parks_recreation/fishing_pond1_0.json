@@ -1,0 +1,80 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "fishing_pond_1_0" ],
+    "weight": 100,
+    "object": {
+      "rows": [
+        "||||||||||||SSSSSSS|||||",
+        "............SSSSSSS....|",
+        ".4.......#..SSSSSSS.#..|",
+        ".....a......SSSSSSS-...|",
+        "...#...1...._______-..#|",
+        "___........B_______....|",
+        "______.#...b_______....|",
+        "W..______________b...4.|",
+        "WWss_____________b.....|",
+        "WWWsssssss________.....|",
+        "wWWssssssssss#.___.....|",
+        "wwWWssssssss.1.___.#.1.|",
+        "wwWWWssssss.....___....|",
+        "wwwWWsssssss...#___....|",
+        "wwwWWWsssssss....__....|",
+        "wwwwWWWsssssss1..___...|",
+        "wwwwwWWWssssss....__.#.|",
+        "wwwwwwWWWssssss...__...|",
+        "wwwwwwwWWWWssss.1#__...|",
+        "wwwwwwwwWWWWssss..__.u.|",
+        "wwwwwwwwwwWWssss..__...|",
+        "wwwwwwwwwwwWWsss..__..#|",
+        "wwwwwwwwwwwWWWss.___...|",
+        "wwwwwwwwwwwwWWsst__....|"
+      ],
+      "terrain": {
+        "#": "t_underbrush_harvested_autumn",
+        "-": "t_wall_log",
+        ".": "t_grass",
+        "1": "t_tree_young",
+        "4": "t_tree_pine",
+        "B": "t_grass",
+        "S": "t_sidewalk",
+        "W": "t_water_sh",
+        "_": "t_dirt",
+        "a": "t_shrub_strawberry",
+        "b": "t_dirt",
+        "s": "t_sand",
+        "t": "t_tree_willow_harvested",
+        "u": "t_underbrush",
+        "w": "t_water_dp",
+        "|": "t_chainfence_v"
+      },
+      "furniture": {
+        "#": "f_null",
+        "-": "f_null",
+        ".": "f_null",
+        "1": "f_null",
+        "4": "f_null",
+        "B": "f_bench",
+        "S": "f_null",
+        "W": "f_null",
+        "_": "f_null",
+        "a": "f_null",
+        "b": "f_bench",
+        "s": "f_null",
+        "t": "f_null",
+        "u": "f_null",
+        "w": "f_null",
+        "|": "f_null"
+      },
+      "place_items": [
+        { "item": "forest", "x": 21, "y": 14, "chance": 20 },
+        { "item": "forest", "x": 4, "y": 2, "chance": 20 }
+      ],
+      "place_monster": [
+        { "monster": "mon_fish_bluegill", "x": 2, "y": 17 },
+        { "monster": "mon_fish_bluegill", "x": 4, "y": 21 }
+      ]
+    }
+  }
+]

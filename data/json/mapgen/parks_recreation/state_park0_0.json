@@ -1,0 +1,93 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "state_park_0_0" ],
+    "weight": 100,
+    "object": {
+      "rows": [
+        "||||||||||||||||||||||||",
+        "|.........T.............",
+        "|.##...#......#..T....#.",
+        "|.##1#.4#1#4#.1#4.S7.f..",
+        "|1g#.#...s.#.....g..1...",
+        "|.#..#....#b....#..#...#",
+        "|.7.4.#.7....#...1......",
+        "|#....g....4g.#....#.1..",
+        "|.....1.#....#..#4.4.4..",
+        "|.fa..........t...______",
+        "|...#....1.#4___________",
+        "|T.1g.4.&t______________",
+        "|....S.#B_____..t.T4.4..",
+        "|.#...s_B___............",
+        "|...7..____..1#.7..a..4.",
+        "|.4..f.t__t......#......",
+        "|....#.___..#g#....1f#4.",
+        "|..#...___...7..g4s...#.",
+        "|#.1#.___.1.....1....c..",
+        "|..#.4___...#....#......",
+        "|.4#4.___..g.b4.S#d#....",
+        "|.s.#..__4..1.....#...4.",
+        "|..1.4.___.4..e.7...1...",
+        "|......_._.............."
+      ],
+      "terrain": {
+        "#": "t_underbrush_harvested_winter",
+        "&": "t_grass",
+        ".": "t_grass",
+        "1": "t_tree_young",
+        "4": "t_tree_pine",
+        "7": "t_tree_dead",
+        "B": "t_dirt",
+        "S": "t_shrub",
+        "T": "t_tree_hickory_harvested",
+        "_": "t_dirt",
+        "a": "t_tree",
+        "b": "t_grass",
+        "c": "t_tree_apple_harvested",
+        "d": "t_tree_hickory",
+        "e": "t_shrub_strawberry",
+        "f": "t_grass",
+        "g": "t_grass_white",
+        "s": "t_shrub_blueberry",
+        "t": "t_tree_deadpine",
+        "|": "t_chainfence_h"
+      },
+      "furniture": {
+        "#": "f_null",
+        "&": "f_trashcan",
+        ".": "f_null",
+        "1": "f_null",
+        "4": "f_null",
+        "7": "f_null",
+        "B": "f_bench",
+        "S": "f_null",
+        "T": "f_null",
+        "_": "f_null",
+        "a": "f_null",
+        "b": "f_bluebell",
+        "c": "f_null",
+        "d": "f_null",
+        "e": "f_null",
+        "f": "f_dandelion",
+        "g": "f_null",
+        "s": "f_null",
+        "t": "f_null",
+        "|": "f_null"
+      },
+      "add": [
+        { "item": "rock", "x": 4, "y": 4, "repeat": 1 },
+        { "item": "log", "x": 18, "y": 5, "repeat": 1 },
+        { "item": "log", "x": 4, "y": 11, "repeat": 1 },
+        { "item": "log", "x": 14, "y": 17, "repeat": 1 },
+        { "item": "rock", "x": 20, "y": 18, "repeat": 1 }
+      ],
+      "place_monster": [
+        { "monster": "mon_cat", "x": 14, "y": 5 },
+        { "monster": "mon_chipmunk", "x": 3, "y": 7 },
+        { "monster": "mon_squirrel", "x": 21, "y": 14 },
+        { "monster": "mon_chipmunk", "x": 15, "y": 19 }
+      ]
+    }
+  }
+]

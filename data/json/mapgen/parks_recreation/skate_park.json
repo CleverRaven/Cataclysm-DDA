@@ -1,0 +1,83 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "skate_park" ],
+    "weight": 100,
+    "object": {
+      "rows": [
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "||||||||||ss||||||||||||",
+        "|.##u...u|ss|..u.#.u...|",
+        "|........|ss|..........|",
+        ".....S...|ss|||.........",
+        ".........|sspppppppppp..",
+        "........u|ssp________p..",
+        "...#.....|ssp________p..",
+        ".........|sspppppppppp..",
+        "......ss.|ss__________..",
+        ".Su..s__s|ss__------__..",
+        "....s____sss__________..",
+        "...s__00__ss__________..",
+        "...s__00__ssr_____l___..",
+        "...#s____sssr________w..",
+        ".....s__s.ssr________w..",
+        "......ss..sscrr____www..",
+        "..#.......ss__________..",
+        ".....____&ss__________..",
+        "....._____ss__________..",
+        ".....u____..__________..",
+        "........................",
+        "...........#............"
+      ],
+      "terrain": {
+        "#": "t_underbrush_harvested_autumn",
+        "&": "t_pavement",
+        "-": "t_railing_v",
+        ".": "t_grass",
+        "0": "t_pit_shallow",
+        "S": "t_shrub",
+        "_": "t_pavement",
+        "c": "t_chainfence_posts",
+        "l": "t_little_column",
+        "p": "t_pavement_y",
+        "r": "t_railing_h",
+        "s": "t_sidewalk",
+        "u": "t_underbrush",
+        "w": "t_wall",
+        "|": "t_chainfence_v"
+      },
+      "furniture": {
+        "#": "f_null",
+        "&": "f_trashcan",
+        "-": "f_null",
+        ".": "f_null",
+        "0": "f_null",
+        "S": "f_null",
+        "_": "f_null",
+        "c": "f_null",
+        "l": "f_null",
+        "p": "f_null",
+        "r": "f_null",
+        "s": "f_null",
+        "u": "f_null",
+        "w": "f_null",
+        "|": "f_null"
+      },
+      "place_items": [
+        { "item": "snacks", "x": 10, "y": 19, "chance": 5 }
+      ],
+      "place_monster": [
+        { "monster": "mon_zombie_child", "x": 11, "y": 10 },
+        { "monster": "mon_zombie_child", "x": 15, "y": 15 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "bicycle", "x": 10, "y": 7, "chance": 3, "fuel": 0, "status": 0, "rotation": 270 },
+        { "vehicle": "bicycle", "x": 17, "y": 8, "chance": 2, "fuel": 0, "status": 0, "rotation": 180 },
+        { "vehicle": "scooter", "x": 16, "y": 12, "chance": 5, "fuel": 0, "status": -1, "rotation": 0 },
+        { "vehicle": "bicycle", "x": 16, "y": 19, "chance": 7, "fuel": 0, "status": 0, "rotation": 0 }
+      ]
+    }
+  }
+]
