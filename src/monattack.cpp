@@ -4583,8 +4583,7 @@ bool mattack::stretch_attack(monster *z)
                                         z->name().c_str());
     if (dodge_check(z, target) || g->u.uncanny_dodge()) {
         target->add_msg_player_or_npc(msg_type, _("You evade the stretched arm and it sails past you!"),
-                                             _("<npcname> evades the stretched arm!"),
-                                            z->name().c_str());
+                                             _( "<npcname> evades the stretched arm!" ) );
         target->on_dodge( z, z->type->melee_skill * 2 );
         //takes some time to retract the arm
         z->moves -= 150;

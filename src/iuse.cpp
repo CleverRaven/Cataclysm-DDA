@@ -2239,8 +2239,7 @@ int iuse::extinguisher(player *p, item *it, bool, const tripoint& )
 int iuse::rm13armor_off(player *p, item *it, bool, const tripoint& )
 {
     if( !it->ammo_sufficient() ) {
-        p->add_msg_if_player(m_info, _("The RM13 combat armor's fuel cells are dead."),
-                             it->tname().c_str());
+        p->add_msg_if_player( m_info, _( "The RM13 combat armor's fuel cells are dead." ) );
         return 0;
     } else {
         std::string oname = it->typeId() + "_on";
@@ -4306,7 +4305,7 @@ int iuse::portable_structure(player *p, item *it, bool, const tripoint& )
     g->m.furn_set(center, center_floor);
     g->m.furn_set(center.x - radius*(dirx - p->posx()), center.y - radius*(diry - p->posy()), door);
     add_msg(m_info, _("You set up the %s on the ground."), it->tname().c_str());
-    add_msg(m_info, _("Examine the center square to pack it up again."), it->tname().c_str());
+    add_msg( m_info, _( "Examine the center square to pack it up again." ) );
     return 1;
 }
 
@@ -5031,7 +5030,7 @@ int iuse::adrenaline_injector(player *p, item *it, bool, const tripoint& )
 int iuse::jet_injector(player *p, item *it, bool, const tripoint& )
 {
     if( !it->ammo_sufficient() ) {
-        p->add_msg_if_player(m_info, _("The jet injector is empty."), it->tname().c_str());
+        p->add_msg_if_player( m_info, _( "The jet injector is empty." ) );
         return 0;
     } else {
         p->add_msg_if_player(_("You inject yourself with the jet injector."));
@@ -5059,7 +5058,7 @@ int iuse::stimpack(player *p, item *it, bool, const tripoint& )
     }
 
     if( !it->ammo_sufficient() ) {
-        p->add_msg_if_player(m_info, _("The stimulant delivery system is empty."), it->tname().c_str());
+        p->add_msg_if_player( m_info, _( "The stimulant delivery system is empty." ) );
         return 0;
     } else {
         p->add_msg_if_player(_("You inject yourself with the stimulants."));

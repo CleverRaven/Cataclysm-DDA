@@ -2323,7 +2323,7 @@ void veh_interact::complete_vehicle()
 
         int partnum = !base.is_null() ? veh->install_part( dx, dy, part_id, std::move( base ) ) : -1;
         if(partnum < 0) {
-            debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
+            debugmsg( "complete_vehicle install part fails dx=%d dy=%d id=%s", dx, dy, part_id.c_str() );
             break;
         }
 
@@ -2505,7 +2505,7 @@ void veh_interact::complete_vehicle()
             veh->part_removal_cleanup();
             int partnum = veh->install_part( dx, dy, part_id, consume_vpart_item( part_id ) );
             if( partnum < 0 ) {
-                debugmsg ("complete_vehicle tire change fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
+                debugmsg( "complete_vehicle tire change fails dx=%d dy=%d id=%s", dx, dy, part_id.c_str() );
             }
             // Place the removed wheel on the map last so consume_vpart_item() doesn't pick it.
             if ( !broken ) {
