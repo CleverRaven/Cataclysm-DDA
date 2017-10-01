@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "ext",
+    "name": "Extended Buildings",
+    "authors": [ "Whaley" ],
+    "description": "Adds more buildings.",
+    "category": "buildings",
+    "dependencies": [ "dda" ]
+  }
+]
