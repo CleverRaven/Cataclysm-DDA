@@ -6631,12 +6631,6 @@ size_t game::num_creatures() const
     return critter_tracker->size() + active_npc.size() + 1; // 1 == g->u
 }
 
-monster &game::zombie( const int idx ) const
-{
-    //@todo hack. Get rid of this function and replace with visitor function.
-    return *critter_tracker->from_temporary_id( idx );
-}
-
 bool game::update_zombie_pos( const monster &critter, const tripoint &pos )
 {
     return critter_tracker->update_pos( critter, pos );

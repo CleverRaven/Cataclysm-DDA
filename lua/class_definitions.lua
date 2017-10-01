@@ -395,7 +395,6 @@ classes = {
             { name = "unload", rval = nil, args = { "item" } },
             { name = "unload", rval = nil, args = { } },
             { name = "use_computer", rval = nil, args = { "tripoint" } },
-            { name = "zombie", rval = "monster&", args = { "int" } },
         }
     },
     encumbrance_data = {

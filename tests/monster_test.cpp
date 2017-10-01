@@ -38,12 +38,12 @@ static int moves_to_destination( const std::string &monster_type,
             test_monster.move();
             moves_spent += moves_before - test_monster.moves;
             if( test_monster.pos() == test_monster.move_target() ) {
-                g->remove_zombie( g->zombie( 0 ) );
+                g->remove_zombie( test_monster );
                 return moves_spent;
             }
         }
     }
-    g->remove_zombie( g->zombie( 0 ) );
+    g->remove_zombie( test_monster );
     // Return an unreasonably high number.
     return 100000;
 }
