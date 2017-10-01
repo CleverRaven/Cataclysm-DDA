@@ -408,9 +408,10 @@ void DynamicDataLoader::finalize_loaded_data()
     item_controller->finalize();
     requirement_data::finalize();
     vpart_info::finalize();
+    // TODO: Break ordering dependency between trap and ter.
+    trap::finalize();
     set_ter_ids();
     set_furn_ids();
-    trap::finalize();
     overmap_terrains::finalize();
     overmap_connections::finalize();
     overmap_specials::finalize();
