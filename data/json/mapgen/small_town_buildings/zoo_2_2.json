@@ -1,0 +1,90 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "zoo_2_2" ],
+    "weight": 100,
+    "object": {
+      "rows": [
+        "___________________gggg-",
+        "___________________gggg-",
+        "____rrrrrrrrrrrrrr|||||-",
+        "____r.......gggggg|###|-",
+        "____r..gg.....ggg.|###|-",
+        "____r.cccccccccccc|#f#|-",
+        "&___rgcggg...g..g.|fff|-",
+        "____r.cgg.........|#ff|-",
+        "____r.c.....g...g.|fff|-",
+        "____r.c....ggg.....fff|-",
+        "____r.c............ff#|-",
+        "____..+.g..........fff|-",
+        "____..+.........g..fff|-",
+        "____r.c...........|fff|-",
+        "____r.c.....gg....|#ff|-",
+        "____r.c....gggg...|||||-",
+        "____r.c.....gg........|-",
+        "____r.c......g........|-",
+        "____r.cg..............|-",
+        "____r.cg..g.......g...|-",
+        "____rgcgg.............|-",
+        "____rgcggg.gg.ggg..ggg|-",
+        "&__&|||||||||||||||||||-",
+        "------------------------"
+      ],
+      "terrain": {
+        "#": "t_floor",
+        "&": "t_sidewalk",
+        "+": "t_chaingate_c",
+        "-": "t_brick_wall",
+        ".": "t_dirt",
+        "_": "t_sidewalk",
+        "c": "t_chainfence_v",
+        "f": "t_floor",
+        "g": "t_grass",
+        "r": "t_railing_v",
+        "|": "t_wall"
+      },
+      "furniture": {
+        "#": "f_hay",
+        "&": "f_trashcan",
+        "+": "f_null",
+        "-": "f_null",
+        ".": "f_null",
+        "_": "f_null",
+        "c": "f_null",
+        "f": "f_null",
+        "g": "f_null",
+        "r": "f_null",
+        "|": "f_null"
+      },
+      "place_items": [
+        { "item": "trash", "x": 3, "y": 22, "chance": 55 },
+        { "item": "trash", "x": 0, "y": 22, "chance": 55 },
+        { "item": "trash", "x": 0, "y": 6, "chance": 55 }
+      ],
+      "add": [
+        { "item": "rock", "x": 8, "y": 9, "repeat": 1 },
+        { "item": "rock", "x": 16, "y": 15, "repeat": 1 },
+        { "item": "stick", "x": 8, "y": 17, "repeat": 1 },
+        { "item": "stick", "x": 21, "y": 18, "repeat": 1 },
+        { "item": "stick", "x": 21, "y": 20, "repeat": 1 }
+      ],
+      "place_monster": [
+        { "monster": "mon_zombie_pig", "x": 10, "y": 7 },
+        { "monster": "mon_chicken", "x": 14, "y": 7 },
+        { "monster": "mon_zombie_pig", "x": 15, "y": 10 },
+        { "monster": "mon_duck", "x": 11, "y": 11 },
+        { "monster": "mon_zombie_pig", "x": 15, "y": 12 },
+        { "monster": "mon_pig", "x": 20, "y": 12 },
+        { "monster": "mon_sheep", "x": 10, "y": 17 },
+        { "monster": "mon_rabbit", "x": 15, "y": 17 },
+        { "monster": "mon_sheep", "x": 19, "y": 17 },
+        { "monster": "mon_sheep", "x": 9, "y": 19 },
+        { "monster": "mon_sheep", "x": 12, "y": 19 },
+        { "monster": "mon_rabbit", "x": 15, "y": 19 },
+        { "monster": "mon_pig", "x": 17, "y": 20 },
+        { "monster": "mon_pig", "x": 19, "y": 20 }
+      ]
+    }
+  }
+]

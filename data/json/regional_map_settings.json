@@ -155,7 +155,14 @@
               "s_music": 2,
               "s_laundromat": 1,
               "veterinarian": 2,
-              "mortuary": 1
+              "mortuary": 1,
+              "pet_store": 2,
+              "construction_site": 4,
+              "post_office": 2,
+              "candyshop": 2,
+              "bakery": 2,
+              "bike_shop": 2,
+              "icecream_shop": 2
           }
       },
       "weather": {

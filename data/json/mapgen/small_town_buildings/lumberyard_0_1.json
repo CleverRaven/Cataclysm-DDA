@@ -1,0 +1,59 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lumberyard_0_1" ],
+    "weight": 100,
+    "object": {
+      "rows": [
+        "g.....ggggg|____________",
+        "g.....gggg#|____________",
+        "g.....ggggg|X___________",
+        "g.....gggg#|X___________",
+        "g.....gggg#|____________",
+        "g.....ggggg|X___________",
+        "g.....ggggg|____________",
+        "g.....gggg#|____________",
+        "g.....ggggg|____________",
+        "g.....ggggg|____________",
+        "g.....gggg#|____________",
+        "g.....ggggg|__6_________",
+        "g.....ggggg||||+++++||||",
+        "g.............6.........",
+        "g.......................",
+        "g.......................",
+        "g.......................",
+        "g.......................",
+        "g.......................",
+        "g.......................",
+        "g.......................",
+        "g.......................",
+        "gggggggggggggggggggggggg",
+        "gggggggggggggggggggggggg"
+      ],
+      "terrain": {
+        "#": "t_underbrush",
+        "+": "t_rdoor_boarded",
+        ".": "t_pavement",
+        "6": "t_gates_mech_control",
+        "X": "t_floor",
+        "_": "t_floor",
+        "g": "t_grass",
+        "|": "t_wall"
+      },
+      "furniture": {
+        "#": "f_null",
+        "+": "f_null",
+        ".": "f_null",
+        "6": "f_null",
+        "X": "f_crate_c",
+        "_": "f_null",
+        "g": "f_null",
+        "|": "f_null"
+      },
+      "place_vehicles": [
+        { "vehicle": "semi_truck", "x": 12, "y": 18, "chance": 5, "fuel": 15, "status": 0, "rotation": 180 }
+      ]
+    }
+  }
+]
