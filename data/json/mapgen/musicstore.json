@@ -128,12 +128,12 @@
         "z": "f_null",
         "|": "f_null"
       },
-      "toilets": {
-        "T": {}
-      },
       "vendingmachines": {
         "1": { "item_group": "vending_drink" },
         "2": { "item_group": "vending_food" }
+      },
+      "toilets": {
+        "T": {}
       },
       "place_items": [
         { "item": "mussto_stringinst", "x": [ 5, 10 ], "y": 10, "chance": 30, "repeat": [ 1, 2 ] },
