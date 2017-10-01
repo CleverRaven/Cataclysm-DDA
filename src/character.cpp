@@ -198,7 +198,7 @@ std::pair<int, int> Character::get_best_sight( const item &gun, double recoil ) 
         limit = effective_dispersion( gun.type->gun->sight_dispersion );
     } else if (gun.has_flag("DISABLE_SIGHTS") && effective_dispersion(gun.type->gun->sight_dispersion) < recoil) {
         sight_speed_modifier = 0;
-        limit = effective_dispersion(gun.type->gun->sight_dispersion);
+        limit = effective_dispersion( gun.type->gun->sight_dispersion );
     }
 
     for( const auto e : gun.gunmods() ) {
