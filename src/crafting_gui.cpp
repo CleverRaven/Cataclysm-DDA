@@ -409,12 +409,9 @@ const recipe *select_crafting_recipe( int &batch_size )
             ypos = 0;
 
             auto qry = trim( filterstring );
-            std::string qry_comps( "" );
-            bool is_prefixed = qry.size() > 2 && qry[1] == ':';
-            if( is_prefixed ) {
-                if( qry[0] == 'c' ) {
-                    qry_comps = qry.substr( 2 );
-                }
+            std::string qry_comps;
+            if( qry.compare( 0, 2, "c:" ) == 0 ) {
+                qry_comps = qry.substr( 2 );
             }
 
             std::vector<std::string> component_print_buffer;

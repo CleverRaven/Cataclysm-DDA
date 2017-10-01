@@ -478,8 +478,7 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
             }
             const std::string col = a->get_color( has_one, crafting_inv, batch );
 
-            bool is_hilite = !hilite.empty() && lcmatch( a->to_string( batch ), hilite );
-            if( is_hilite ) {
+            if( !hilite.empty() && lcmatch( a->to_string( batch ), hilite ) ) {
                 buffer << get_tag_from_color( yellow_background( color_from_string( col ) ) );
             } else {
                 buffer << "<color_" << col << ">";
