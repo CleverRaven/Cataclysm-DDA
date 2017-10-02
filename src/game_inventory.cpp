@@ -510,8 +510,8 @@ class activatable_inventory_preset : public pickup_inventory_preset
 
             if( !p.has_enough_charges( *loc, false ) ) {
                 return string_format(
-                           ngettext( _( "Needs at least %d charge" ),
-                                     _( "Needs at least %d charges" ), loc->ammo_required() ),
+                           ngettext( "Needs at least %d charge",
+                                     "Needs at least %d charges", loc->ammo_required() ),
                            loc->ammo_required() );
             }
 
