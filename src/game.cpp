@@ -5844,13 +5844,7 @@ void game::cleanup_dead()
 
     if( monster_is_dead ) {
         // From here on, pointers to creatures get invalidated as dead creatures get removed.
-        for( size_t i = 0; i < num_zombies(); ) {
-            if( zombie( i ).is_dead() ) {
-                remove_zombie( zombie( i ) );
-            } else {
-                i++;
-            }
-        }
+        critter_tracker->remove_dead();
     }
 
     if( npc_is_dead ) {
