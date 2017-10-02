@@ -388,13 +388,12 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     // TODO: Move this outside now that we have hit point in return values?
     if( proj.proj_effects.count( "BOUNCE" ) ) {
-        Creature *mon_ptr = g->get_creature_if( [&]( const Creature & critter ) {
-            const monster *const mon_ptr = dynamic_cast<const monster *>( &critter );
-            if( !mon_ptr ) {
-                return false;
-            }
-            const monster &z = *mon_ptr;
-            // search for monsters in radius 4 around impact site
+        // Add effect so the shooter is not targeted itself.
+        if( origin && !origin->has_effect( effect_bounced ) ) {
+            origin->add_effect( effect_bounced, 1 );
+        }
+        Creature *mon_ptr = g->get_creature_if( [&]( const Creature & z ) {
+            // search for creatures in radius 4 around impact site
             if( rl_dist( z.pos(), tp ) <= 4 &&
                 g->m.sees( z.pos(), tp, -1 ) ) {
                 // don't hit targets that have already been hit
@@ -405,8 +404,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             return false;
         } );
         if( mon_ptr ) {
-            monster &z = *dynamic_cast<monster *>( mon_ptr );
-            add_msg( _( "The attack bounced to %s!" ), z.name().c_str() );
+            Creature &z = *mon_ptr;
+            add_msg( _( "The attack bounced to %s!" ), z.get_name().c_str() );
             z.add_effect( effect_bounced, 1 );
             projectile_attack( proj, tp, z.pos(), dispersion, origin, in_veh );
             sfx::play_variant_sound( "fire_gun", "bio_lightning_tail",
