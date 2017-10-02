@@ -1380,11 +1380,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         auto items = i_at( p );
                         for( auto pushee = items.begin(); pushee != items.end(); ) {
                             if( pushee->typeId() != "rock" ||
-                                pushee->bday >= int(calendar::turn) - 1 ) {
+                                pushee->age() < 1 ) {
                                 pushee++;
                             } else {
                                 item tmp = *pushee;
-                                tmp.bday = int(calendar::turn);
+                                tmp.set_age( 0 );
                                 pushee = items.erase( pushee );
                                 std::vector<tripoint> valid;
                                 tripoint dst;

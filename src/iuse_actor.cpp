@@ -604,7 +604,7 @@ void delayed_transform_iuse::load( JsonObject &obj )
 
 int delayed_transform_iuse::time_to_do( const item &it ) const
 {
-    return it.bday + transform_age - calendar::turn.get_turn();
+    return transform_age - it.age();
 }
 
 long delayed_transform_iuse::use( player &p, item &it, bool t, const tripoint &pos ) const
@@ -2843,7 +2843,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         if( it.is_tool() ) {
             it.convert( used_up_item );
         } else {
-            item used_up( used_up_item, it.bday );
+            item used_up( used_up_item, it.birthday() );
             healer.i_add_or_drop( used_up );
         }
     }

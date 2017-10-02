@@ -1844,7 +1844,7 @@ void Item_factory::migrate_item( const itype_id& id, item& obj )
 
         for( const auto& c: iter->second.contents ) {
             if( std::none_of( obj.contents.begin(), obj.contents.end(), [&]( const item& e ) { return e.typeId() == c; } ) ) {
-                obj.emplace_back( c, obj.bday );
+                obj.emplace_back( c, obj.birthday() );
             }
         }
 

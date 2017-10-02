@@ -587,8 +587,8 @@ void set_item_spoilage( item &newit, float used_age_tally, int used_age_count )
 
 void set_item_food( item &newit )
 {
-    int bday_tmp = newit.bday % 3600; // fuzzy birthday for stacking reasons
-    newit.bday = int( newit.bday ) + 3600 - bday_tmp;
+    int bday_tmp = newit.birthday() % 3600; // fuzzy birthday for stacking reasons
+    newit.set_birthday( newit.birthday() + 3600 - bday_tmp );
     if( newit.has_flag( "EATEN_HOT" ) ) { // hot foods generated
         newit.item_tags.insert( "HOT" );
         newit.item_counter = 600;
