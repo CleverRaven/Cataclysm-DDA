@@ -1958,12 +1958,6 @@ void iexamine::kiln_full(player &, const tripoint &examp)
         g->m.furn_set(examp, next_kiln_type);
         return;
     }
-    int last_bday = items[0].bday;
-    for( auto i : items ) {
-        if( i.typeId() == "unfinished_charcoal" && i.bday > last_bday ) {
-            last_bday = i.bday;
-        }
-    }
     auto char_type = item::find_type( "charcoal" );
     add_msg( _("There's a charcoal kiln there.") );
     const int firing_time = HOURS(6); // 5 days in real life
