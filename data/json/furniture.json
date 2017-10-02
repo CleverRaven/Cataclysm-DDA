@@ -532,7 +532,7 @@
         "id" : "f_cupboard",
         "name": "cupboard",
         "symbol": "#",
-        "description": "Store yer cups.".
+        "description": "Store yer cups.",
         "color": "blue",
         "move_cost_mod": 1,
         "required_str": -1,
