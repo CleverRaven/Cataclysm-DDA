@@ -1079,7 +1079,8 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
                     i >= start_y + ( int )std::min( traits_size[iCurrentPage], iContentHeight ) ) {
                     continue;
                 }
-                auto &mdata = vStartingTraits[iCurrentPage][i].obj();
+                auto &cur_trait = vStartingTraits[iCurrentPage][i];
+                auto &mdata = cur_trait.obj();
                 if (cur_line_y == i && iCurrentPage == iCurWorkingPage) {
                     // Clear line from 41 to end of line (minus border)
                     mvwprintz( w, 3, 41, c_ltgray, std::string( getmaxx( w ) - 41 - 1, ' ' ).c_str() );
@@ -1102,23 +1103,23 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
                     cLine = col_off_act;
                     if( cur_line_y == i ) {
                         cLine = hi_off;
-                        if (u->has_conflicting_trait(vStartingTraits[iCurrentPage][i])) {
+                        if (u->has_conflicting_trait(cur_trait)) {
                             cLine = hilite(c_dkgray);
-                        } else if (u->has_trait(vStartingTraits[iCurrentPage][i])) {
+                        } else if (u->has_trait(cur_trait)) {
                             cLine = hi_on;
                         }
                     } else {
-                        if (u->has_conflicting_trait(vStartingTraits[iCurrentPage][i])) {
+                        if (u->has_conflicting_trait(cur_trait) || g->scen->is_forbidden_trait(cur_trait)) {
                             cLine = c_dkgray;
 
-                        } else if (u->has_trait(vStartingTraits[iCurrentPage][i])) {
+                        } else if (u->has_trait(cur_trait)) {
                             cLine = col_on_act;
                         }
                     }
-                } else if (u->has_trait(vStartingTraits[iCurrentPage][i])) {
+                } else if (u->has_trait(cur_trait)) {
                     cLine = col_on_pas;
 
-                } else if (u->has_conflicting_trait(vStartingTraits[iCurrentPage][i])) {
+                } else if (u->has_conflicting_trait(cur_trait) || g->scen->is_forbidden_trait(cur_trait)) {
                     cLine = c_ltgray;
                 }
 
