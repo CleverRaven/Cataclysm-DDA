@@ -6,9 +6,10 @@
     "difficulty": 1,
     "time": 2000,
     "qualities": [ {
-      "id": "CUT",
-      "level": 1
-    } ],
+        "id": "CUT",
+        "level": 1
+      }
+    ],
     "components": [ [ [ "incendiary", 25 ] ] ]
   },
   {
@@ -18,9 +19,10 @@
     "difficulty": 1,
     "time": 15000,
     "qualities": [ {
-      "id": "SAW_M",
-      "level": 2
-    } ],
+        "id": "SAW_M",
+        "level": 2
+      }
+    ],
     "components": [ [ [ "scrap", 20 ] ] ]
   }
 ]

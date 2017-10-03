@@ -105,9 +105,10 @@
     "difficulty": 1,
     "durability": 100,
     "breaks_into": [ {
-      "item": "pipe",
-      "prob": 50
-    } ],
+        "item": "pipe",
+        "prob": 50
+      }
+    ],
     "flags": [ "OBSTACLE" ]
   },
   {

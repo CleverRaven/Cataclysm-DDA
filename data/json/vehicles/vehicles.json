@@ -6,10 +6,11 @@
     "//": "Don't remove this vehicle definition!",
     "blueprint": [ "H" ],
     "parts": [ {
-      "x": 0,
-      "y": 0,
-      "part": "frame_vertical_2"
-    } ]
+        "x": 0,
+        "y": 0,
+        "part": "frame_vertical_2"
+      }
+    ]
   },
   {
     "id": "none",
