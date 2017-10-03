@@ -1834,15 +1834,16 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
 void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
 {
     act->set_to_null();
-    if( act->values.size() != 1 ) {
+    if( act->targets.size() != 2 || !act->targets[0] || !act->targets[1] ) {
         debugmsg( "Incompatible arguments to ACT_TOOLMOD_ADD" );
         return;
     }
-    item &tool = p->i_at( act->position );
-    item &mod = p->i_at( act->values[0] );
-    add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname().c_str(),
+    item &tool = *act->targets[0];
+    item &mod = *act->targets[1];
+    p->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname().c_str(),
                 tool.tname().c_str() );
-    tool.contents.push_back( p->i_rem( &mod ) );
+    tool.contents.push_back( mod );
+    act->targets[1].remove_item();
 }
 
 void activity_handlers::clear_rubble_finish( player_activity *act, player *p )
