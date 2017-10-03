@@ -41,11 +41,11 @@
         }
       },
       "items": {
-        "#": { "item": "church", "chance": 40 },
-        ".": { "item": "church", "chance": 40 },
-        "d": { "item": "office", "chance": 60 },
-        "l": { "item": "jackets", "chance": 85 },
-        "o": { "item": "church", "chance": 85 }
+        "#": { "item": "church", "chance": 10 },
+        ".": { "item": "church", "chance": 2 },
+        "d": { "item": "office", "chance": 30 },
+        "l": { "item": "jackets", "chance": 60 },
+        "o": { "item": "church", "chance": 40 }
       },
       "computers": {
         "6": {
