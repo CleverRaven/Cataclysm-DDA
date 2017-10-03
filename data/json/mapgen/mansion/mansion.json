@@ -56,12 +56,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 17, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,0], "overmap": "mansion_e2d"},
-            { "point":[0,0,1], "overmap": "mansion_e2"},
-            { "point":[0,0,2], "overmap": "mansion_e2u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -138,12 +133,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-1], "overmap": "mansion_e2d"},
-            { "point":[0,0,0], "overmap": "mansion_e2"},
-            { "point":[0,0,1], "overmap": "mansion_e2u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -208,12 +198,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 17, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-2], "overmap": "mansion_e1d"},
-            { "point":[0,0,-1], "overmap": "mansion_e1"},
-            { "point":[0,0,0], "overmap": "mansion_e1u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -280,12 +265,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 14, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,0], "overmap": "mansion_e2d"},
-            { "point":[0,0,1], "overmap": "mansion_e2"},
-            { "point":[0,0,2], "overmap": "mansion_e2u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -358,12 +338,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-1], "overmap": "mansion_e2d"},
-            { "point":[0,0,0], "overmap": "mansion_e2"},
-            { "point":[0,0,1], "overmap": "mansion_e2u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -425,12 +400,7 @@
         "T": { "item": "table_foyer", "chance": 40 },
         ".": { "item": "clutter_mansion", "chance": 1 }
       }
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-2], "overmap": "mansion_e2d"},
-            { "point":[0,0,-1], "overmap": "mansion_e2"},
-            { "point":[0,0,0], "overmap": "mansion_e2u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -481,12 +451,7 @@
         "K": { "item": "crate_stack", "chance": 100 },
         "m": { "item": "cleaning", "chance": 45 }
       }
-    },
-    "new_overmaps" : [
-            { "point":[0,0,0], "overmap": "mansion_t1d"},
-            { "point":[0,0,1], "overmap": "mansion_t1"},
-            { "point":[0,0,2], "overmap": "mansion_t1u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -561,12 +526,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-1], "overmap": "mansion_t1d"},
-            { "point":[0,0,0], "overmap": "mansion_t1"},
-            { "point":[0,0,1], "overmap": "mansion_t1u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -611,12 +571,7 @@
       "place_loot": [
         { "item": "lawn_dart", "x": [ 7, 16 ], "y": [ 18, 22 ], "chance": 40, "repeat": [ 1, 2 ] }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-2], "overmap": "mansion_t1d"},
-            { "point":[0,0,-1], "overmap": "mansion_t1"},
-            { "point":[0,0,0], "overmap": "mansion_t1u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -706,12 +661,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,0], "overmap": "mansion_t2d"},
-            { "point":[0,0,1], "overmap": "mansion_t2"},
-            { "point":[0,0,2], "overmap": "mansion_t2u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -808,12 +758,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-1], "overmap": "mansion_t2d"},
-            { "point":[0,0,0], "overmap": "mansion_t2"},
-            { "point":[0,0,1], "overmap": "mansion_t2u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -900,12 +845,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 11 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-2], "overmap": "mansion_t2d"},
-            { "point":[0,0,-1], "overmap": "mansion_t2"},
-            { "point":[0,0,0], "overmap": "mansion_t2u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -981,12 +921,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,0], "overmap": "mansion_t2d"},
-            { "point":[0,0,1], "overmap": "mansion_t2"},
-            { "point":[0,0,2], "overmap": "mansion_t2u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -1096,12 +1031,7 @@
       "place_monsters": [
         { "monster": "GROUP_PANICROOM", "x": 11, "y": 6, "chance": 100 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-1], "overmap": "mansion_t2d" },
-            { "point":[0,0,0], "overmap": "mansion_t2" },
-            { "point":[0,0,1], "overmap": "mansion_t2u" }
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -1186,12 +1116,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 11 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-2], "overmap": "mansion_t2d"},
-            { "point":[0,0,-1], "overmap": "mansion_t2"},
-            { "point":[0,0,0], "overmap": "mansion_t2u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -1265,12 +1190,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,0], "overmap": "mansion_t4d"},
-            { "point":[0,0,1], "overmap": "mansion_t4"},
-            { "point":[0,0,2], "overmap": "mansion_t4u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -1369,12 +1289,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-1], "overmap": "mansion_t4d"},
-            { "point":[0,0,0], "overmap": "mansion_t4"},
-            { "point":[0,0,1], "overmap": "mansion_t4u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -1449,12 +1364,7 @@
         "J": { "item": "clutter_bathroom", "chance": 15 },
         ".": { "item": "clutter_bedroom", "chance": 2 }
       }
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-2], "overmap": "mansion_t4d"},
-            { "point":[0,0,-1], "overmap": "mansion_t4"},
-            { "point":[0,0,0], "overmap": "mansion_t4u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -1536,12 +1446,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 14 ], "y": [ 2, 9 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,0], "overmap": "mansion_t5d"},
-            { "point":[0,0,1], "overmap": "mansion_t5"},
-            { "point":[0,0,2], "overmap": "mansion_t5u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -1635,12 +1540,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-1], "overmap": "mansion_t5d"},
-            { "point":[0,0,0], "overmap": "mansion_t5"},
-            { "point":[0,0,1], "overmap": "mansion_t5u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -1734,12 +1634,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 4, 21 ], "y": [ 2, 9 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-2], "overmap": "mansion_t5d"},
-            { "point":[0,0,-1], "overmap": "mansion_t5"},
-            { "point":[0,0,0], "overmap": "mansion_t5u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -1842,12 +1737,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,0], "overmap": "mansion_t6d"},
-            { "point":[0,0,1], "overmap": "mansion_t6"},
-            { "point":[0,0,2], "overmap": "mansion_t6u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -1956,12 +1846,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-1], "overmap": "mansion_t6d"},
-            { "point":[0,0,0], "overmap": "mansion_t6"},
-            { "point":[0,0,1], "overmap": "mansion_t6u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -2068,12 +1953,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 7 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-2], "overmap": "mansion_t6d"},
-            { "point":[0,0,-1], "overmap": "mansion_t6"},
-            { "point":[0,0,0], "overmap": "mansion_t6u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -2154,12 +2034,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,0], "overmap": "mansion_t7d"},
-            { "point":[0,0,1], "overmap": "mansion_t7"},
-            { "point":[0,0,2], "overmap": "mansion_t7u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -2254,12 +2129,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-1], "overmap": "mansion_t7d"},
-            { "point":[0,0,0], "overmap": "mansion_t7"},
-            { "point":[0,0,1], "overmap": "mansion_t7u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -2340,12 +2210,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 8 ], "y": [ 2, 11 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-2], "overmap": "mansion_t7d"},
-            { "point":[0,0,-1], "overmap": "mansion_t7"},
-            { "point":[0,0,0], "overmap": "mansion_t7u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -2394,12 +2259,7 @@
         "r": { "item": "tool_common_stack", "chance": 100 },
         ".": { "item": "clutter_basement", "chance": 1 }
       }
-    },
-    "new_overmaps" : [
-            { "point":[0,0,0], "overmap": "mansion_+1d"},
-            { "point":[0,0,1], "overmap": "mansion_+1"},
-            { "point":[0,0,2], "overmap": "mansion_+1u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -2472,12 +2332,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-1], "overmap": "mansion_+1d"},
-            { "point":[0,0,0], "overmap": "mansion_+1"},
-            { "point":[0,0,1], "overmap": "mansion_+1u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -2529,12 +2384,7 @@
       "items": {
         ",": { "item": "clutter_mansion", "chance": 1 }
       }
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-2], "overmap": "mansion_+1d"},
-            { "point":[0,0,-1], "overmap": "mansion_+1"},
-            { "point":[0,0,0], "overmap": "mansion_+1u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -2642,12 +2492,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,0], "overmap": "mansion_+2d"},
-            { "point":[0,0,1], "overmap": "mansion_+2"},
-            { "point":[0,0,2], "overmap": "mansion_+2u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -2721,12 +2566,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-1], "overmap": "mansion_+2d"},
-            { "point":[0,0,0], "overmap": "mansion_+2"},
-            { "point":[0,0,1], "overmap": "mansion_+2u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -2779,12 +2619,7 @@
         "t": { "item": "wetbar_counter", "chance": 35 },
         ".": { "item": "clutter_mansion", "chance": 1 }
       }
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-2], "overmap": "mansion_+2d"},
-            { "point":[0,0,-1], "overmap": "mansion_+2"},
-            { "point":[0,0,0], "overmap": "mansion_+2u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -2871,12 +2706,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,0], "overmap": "mansion_+2d"},
-            { "point":[0,0,1], "overmap": "mansion_+3"},
-            { "point":[0,0,2], "overmap": "mansion_+3u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -2972,12 +2802,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-1], "overmap": "mansion_+2d"},
-            { "point":[0,0,0], "overmap": "mansion_+3"},
-            { "point":[0,0,1], "overmap": "mansion_+3u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -3026,12 +2851,7 @@
         "/": { "item": "snacks_fancy", "chance": 20 },
         ".": { "item": "clutter_mansion", "chance": 1 }
       }
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-2], "overmap": "mansion_+2d"},
-            { "point":[0,0,-1], "overmap": "mansion_+3"},
-            { "point":[0,0,0], "overmap": "mansion_+3u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -3109,12 +2929,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 8 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,0], "overmap": "mansion_+4d"},
-            { "point":[0,0,1], "overmap": "mansion_+4"},
-            { "point":[0,0,2], "overmap": "mansion_+4u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -3200,12 +3015,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-1], "overmap": "mansion_+4d"},
-            { "point":[0,0,0], "overmap": "mansion_+4"},
-            { "point":[0,0,1], "overmap": "mansion_+4u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -3266,12 +3076,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 7 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-2], "overmap": "mansion_+4d"},
-            { "point":[0,0,-1], "overmap": "mansion_+4"},
-            { "point":[0,0,0], "overmap": "mansion_+4u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -3329,12 +3134,7 @@
         "K": { "item": "crate_stack", "chance": 100 },
         ".": { "item": "clutter_basement", "chance": 1 }
       }
-    },
-    "new_overmaps" : [
-            { "point":[0,0,0], "overmap": "mansion_c1d"},
-            { "point":[0,0,1], "overmap": "mansion_c1"},
-            { "point":[0,0,2], "overmap": "mansion_c1u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -3422,12 +3222,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-1], "overmap": "mansion_c1d"},
-            { "point":[0,0,0], "overmap": "mansion_c1"},
-            { "point":[0,0,1], "overmap": "mansion_c1u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -3503,12 +3298,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 9, 21 ], "y": [ 17, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-2], "overmap": "mansion_c1d"},
-            { "point":[0,0,-1], "overmap": "mansion_c1"},
-            { "point":[0,0,0], "overmap": "mansion_c1u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -3579,12 +3369,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 8, 21 ], "y": [ 8, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,0], "overmap": "mansion_c2d"},
-            { "point":[0,0,1], "overmap": "mansion_c2"},
-            { "point":[0,0,2], "overmap": "mansion_c2u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -3679,12 +3464,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-1], "overmap": "mansion_c2d"},
-            { "point":[0,0,0], "overmap": "mansion_c2"},
-            { "point":[0,0,1], "overmap": "mansion_c2u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -3775,12 +3555,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 9, 21 ], "y": [ 9, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-2], "overmap": "mansion_c2d"},
-            { "point":[0,0,-1], "overmap": "mansion_c2"},
-            { "point":[0,0,0], "overmap": "mansion_c2u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -3841,12 +3616,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 8, 21 ], "y": [ 8, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,0], "overmap": "mansion_c3d"},
-            { "point":[0,0,1], "overmap": "mansion_c3"},
-            { "point":[0,0,2], "overmap": "mansion_c3u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -3932,12 +3702,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-1], "overmap": "mansion_c3d"},
-            { "point":[0,0,0], "overmap": "mansion_c3"},
-            { "point":[0,0,1], "overmap": "mansion_c3u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -4006,12 +3771,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 15, 21 ], "y": [ 9, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-2], "overmap": "mansion_c3d"},
-            { "point":[0,0,-1], "overmap": "mansion_c3"},
-            { "point":[0,0,0], "overmap": "mansion_c3u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -4091,12 +3851,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 13, 21 ], "y": [ 7, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,0], "overmap": "mansion_c4d"},
-            { "point":[0,0,1], "overmap": "mansion_c4"},
-            { "point":[0,0,2], "overmap": "mansion_c4u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -4199,12 +3954,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-1], "overmap": "mansion_c4d"},
-            { "point":[0,0,0], "overmap": "mansion_c4"},
-            { "point":[0,0,1], "overmap": "mansion_c4u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -4274,12 +4024,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 18, 21 ], "y": [ 8, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-2], "overmap": "mansion_c4d"},
-            { "point":[0,0,-1], "overmap": "mansion_c4"},
-            { "point":[0,0,0], "overmap": "mansion_c4u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -4346,12 +4091,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 11, 21 ], "y": [ 8, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,0], "overmap": "mansion_c5d"},
-            { "point":[0,0,1], "overmap": "mansion_c5"},
-            { "point":[0,0,2], "overmap": "mansion_c5u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -4444,12 +4184,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-1], "overmap": "mansion_c5d"},
-            { "point":[0,0,0], "overmap": "mansion_c5"},
-            { "point":[0,0,1], "overmap": "mansion_c5u"}
-        ]
+    }
   },
   {
     "type": "mapgen",
@@ -4519,12 +4254,7 @@
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 8, 21 ], "y": [ 12, 21 ], "density": 0.08 }
       ]
-    },
-    "new_overmaps" : [
-            { "point":[0,0,-2], "overmap": "mansion_c5d"},
-            { "point":[0,0,-1], "overmap": "mansion_c5"},
-            { "point":[0,0,0], "overmap": "mansion_c5u"}
-        ]
+    }
   },
   {
     "id": "corpse_mansion",
