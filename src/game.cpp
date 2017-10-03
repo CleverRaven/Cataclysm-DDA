@@ -9209,7 +9209,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             calcStartPos( iStartPos, iActive, iMaxRows, iItemNum );
             int iNum = 0;
             active_pos = tripoint_zero;
-            bool high = true;
+            bool high = false;
             bool low = false;
             int index = 0;
             int iCatSortOffset = 0;
@@ -9220,9 +9220,11 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 }
             }
             for( auto iter = filtered_items.begin(); iter != filtered_items.end(); ++index ) {
-                if( index < highPEnd + iCatSortOffset ) {
+                if( highPEnd > 0 && index < highPEnd + iCatSortOffset ) {
                     high = true;
+                    low = false;
                 } else if( index >= lowPStart + iCatSortOffset ) {
+                    high = false;
                     low = true;
                 } else {
                     high = false;
