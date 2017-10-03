@@ -4,9 +4,10 @@
     "type": "requirement",
     "//": "Tools for casting and work hardening items made from bronze",
     "qualities": [ {
-      "id": "HAMMER",
-      "level": 2
-    } ],
+        "id": "HAMMER",
+        "level": 2
+      }
+    ],
     "tools": [ [ [ "anvil", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   }
 ]
