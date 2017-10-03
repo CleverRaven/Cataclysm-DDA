@@ -907,7 +907,7 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
 
 void activity_handlers::forage_finish( player_activity *act, player *p )
 {
-    int veggy_chance = rng(1, 100); 
+    int veggy_chance = rng(1, 100);
     bool found_something = false;
 
     items_location loc;
