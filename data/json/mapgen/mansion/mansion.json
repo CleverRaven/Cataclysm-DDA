@@ -1,8 +1,12 @@
 [
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_entry_dn", "mansion_wild_dn", "mansion_e1d" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_entry_dn",
+      "mansion_wild_dn",
+      "mansion_e1d"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -33,25 +37,23 @@
         "XXX++XXXXXXXXXXXXXX++XXX"
       ],
       "terrain": {
-        "X": "t_brick_wall",
         "#": "t_rock",
-        "+": "t_door_c",
         "%": "t_door_locked_interior",
+        "+": "t_door_c",
         "<": "t_stairs_up",
         "?": "t_generator_broken",
+        "X": "t_brick_wall",
         "]": "t_sewage_pipe",
         "p": "t_sewage_pump"
       },
       "furniture": {
-        "r": "f_rack",
-        "K": [
-          "f_crate_c", "f_crate_o"
-        ]
+        "K": [ "f_crate_c", "f_crate_o" ],
+        "r": "f_rack"
       },
       "items": {
-        "r": { "item": "tool_common_stack", "chance": 100 },
+        ".": { "item": "clutter_basement", "chance": 1 },
         "K": { "item": "crate_stack", "chance": 100 },
-        ".": { "item": "clutter_basement", "chance": 1 }
+        "r": { "item": "tool_common_stack", "chance": 100 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 17, 21 ], "density": 0.08 }
@@ -60,8 +62,12 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_entry", "mansion_wild", "mansion_e1" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_entry",
+      "mansion_wild",
+      "mansion_e1"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -92,43 +98,32 @@
         "XXX++XXXXXXXXXXXXXX++XXX"
       ],
       "terrain": {
-        "X": "t_wall",
-        "*": [
-          "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub",
-          "t_grass"
-        ],
-        "'": [
-          "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub",
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass"
-        ],
-        ",": "t_sidewalk",
         "#": "t_pavement",
-        "O": "t_window_domestic",
+        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
+        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
         "+": "t_door_c",
-        ":": [
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
-          "t_grass", "t_grass", "t_dirt"
-        ],
+        ",": "t_sidewalk",
+        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "<": "t_stairs_up",
         ">": "t_stairs_down",
-        "<": "t_stairs_up"
+        "O": "t_window_domestic",
+        "X": "t_wall"
       },
       "furniture": {
-        "z": "f_dresser",
-        "t": "f_table",
-        "m": "f_locker",
-        "K": [
-          "f_crate_c", "f_crate_o"
-        ],
         "5": "f_indoor_plant",
-        "a": "f_armchair"
+        "K": [ "f_crate_c", "f_crate_o" ],
+        "a": "f_armchair",
+        "m": "f_locker",
+        "t": "f_table",
+        "z": "f_dresser"
       },
       "items": {
+        ".": { "item": "clutter_mansion", "chance": 1 },
+        ":": { "item": "clutter_yard", "chance": 1 },
+        "K": { "item": "crate_cleaning", "chance": 100 },
         "m": { "item": "cleaning", "chance": 45 },
         "t": { "item": "table_foyer", "chance": 40 },
-        "z": { "item": "jackets", "chance": 40 },
-        "K": { "item": "crate_cleaning", "chance": 100 },
-        ":": { "item": "clutter_yard", "chance": 1 },
-        ".": { "item": "clutter_mansion", "chance": 1 }
+        "z": { "item": "jackets", "chance": 40 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
@@ -137,8 +132,12 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_entry_up", "mansion_wild_up", "mansion_e1u" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_entry_up",
+      "mansion_wild_up",
+      "mansion_e1u"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -169,31 +168,31 @@
         "XXX++XXXXXXXXXXXXXX++XXX"
       ],
       "terrain": {
-        "X": "t_wall",
-        "-": "t_carpet_red",
         "*": "t_open_air",
-        "T": "t_carpet_red",
-        "O": "t_window_domestic",
         "+": "t_door_c",
+        "-": "t_carpet_red",
         ">": "t_stairs_down",
+        "A": "t_carpet_red",
+        "O": "t_window_domestic",
         "S": "t_carpet_red",
-        "A": "t_carpet_red"
+        "T": "t_carpet_red",
+        "X": "t_wall"
       },
       "furniture": {
-        "c": "f_counter",
-        "?": "f_fireplace",
         "5": "f_indoor_plant",
-        "s": "f_sofa",
-        "S": "f_sofa",
+        "?": "f_fireplace",
         "A": "f_armchair",
-        "T": "f_table"
+        "S": "f_sofa",
+        "T": "f_table",
+        "c": "f_counter",
+        "s": "f_sofa"
       },
       "items": {
-        "c": { "item": "wetbar_stack", "chance": 100 },
+        ".": { "item": "clutter_mansion", "chance": 1 },
         "?": { "item": "fireplace_fill", "chance": 30 },
         "T": { "item": "table_livingroom", "chance": 40 },
-        "{": { "item": "suit_of_armor", "chance": 100 },
-        ".": { "item": "clutter_mansion", "chance": 1 }
+        "c": { "item": "wetbar_stack", "chance": 100 },
+        "{": { "item": "suit_of_armor", "chance": 100 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 17, 21 ], "density": 0.08 }
@@ -202,8 +201,12 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_entry_dn", "mansion_wild_dn", "mansion_e2d" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_entry_dn",
+      "mansion_wild_dn",
+      "mansion_e2d"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -234,33 +237,33 @@
         "XXX++XXXXXXXXXXXXXX++XXX"
       ],
       "terrain": {
-        "X": "t_brick_wall",
-        "-": "t_carpet_red",
         "#": "t_rock",
-        "T": "t_carpet_red",
         "+": "t_door_c",
+        "-": "t_carpet_red",
+        "2": "t_carpet_red",
         "<": "t_stairs_up",
-        "2": "t_carpet_red"
+        "T": "t_carpet_red",
+        "X": "t_brick_wall"
       },
       "furniture": {
+        "!": "f_arcade_machine",
+        "1": "f_chair",
+        "2": "f_chair",
+        "T": "f_table",
         "c": "f_counter",
+        "f": "f_fridge",
         "m": "f_locker",
         "r": "f_rack",
-        "f": "f_fridge",
         "y": "f_sink",
-        "1": "f_chair",
-        "}": "f_pinball_machine",
-        "!": "f_arcade_machine",
-        "T": "f_table",
-        "2": "f_chair"
+        "}": "f_pinball_machine"
       },
       "items": {
-        "r": { "item": "wetbar_stack", "chance": 100 },
-        "f": { "item": "wetbar_fridge", "chance": 45 },
+        ".": { "item": "clutter_basement", "chance": 1 },
         "T": { "item": "table_card", "chance": 40 },
         "c": { "item": "wetbar_counter", "chance": 30 },
+        "f": { "item": "wetbar_fridge", "chance": 45 },
         "m": { "item": "cleaning", "chance": 45 },
-        ".": { "item": "clutter_basement", "chance": 1 }
+        "r": { "item": "wetbar_stack", "chance": 100 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 14, 21 ], "density": 0.08 }
@@ -269,8 +272,12 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_entry", "mansion_wild", "mansion_e2" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_entry",
+      "mansion_wild",
+      "mansion_e2"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -301,39 +308,30 @@
         "X......XXXXXXXXXX......X"
       ],
       "terrain": {
-        "X": "t_wall",
-        "-": "t_carpet_red",
-        "*": [
-          "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub",
-          "t_grass"
-        ],
-        ",": "t_sidewalk",
         "#": "t_thconc_floor",
-        "'": [
-          "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub",
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass"
-        ],
-        "O": "t_window_domestic",
+        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
+        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
         "+": "t_door_c",
-        ":": [
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
-          "t_grass", "t_grass", "t_dirt"
-        ],
+        ",": "t_sidewalk",
+        "-": "t_carpet_red",
+        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "<": "t_stairs_up",
         ">": "t_stairs_down",
-        "<": "t_stairs_up"
+        "O": "t_window_domestic",
+        "X": "t_wall"
       },
       "furniture": {
-        "t": "f_table",
-        "@": "f_statue",
         "5": "f_indoor_plant",
+        "@": "f_statue",
+        "a": "f_armchair",
         "s": "f_sofa",
-        "a": "f_armchair"
+        "t": "f_table"
       },
       "items": {
-        "{": { "item": "suit_of_armor", "chance": 100 },
-        "t": { "item": "table_foyer", "chance": 40 },
+        ".": { "item": "clutter_mansion", "chance": 1 },
         ":": { "item": "clutter_yard", "chance": 1 },
-        ".": { "item": "clutter_mansion", "chance": 1 }
+        "t": { "item": "table_foyer", "chance": 40 },
+        "{": { "item": "suit_of_armor", "chance": 100 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
@@ -342,8 +340,12 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_entry_up", "mansion_wild_up", "mansion_e2u" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_entry_up",
+      "mansion_wild_up",
+      "mansion_e2u"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -374,38 +376,41 @@
         "XXX++XXXXXXXXXXXXXX++XXX"
       ],
       "terrain": {
-        "X": "t_wall",
-        "-": "t_carpet_red",
-        "*": "t_open_air",
         " ": "t_open_air_rooved",
-        ",": "t_concrete",
-        "T": "t_carpet_red",
-        "|": "t_railing_v",
-        "O": "t_window_domestic",
+        "*": "t_open_air",
         "+": "t_door_c",
+        ",": "t_concrete",
+        "-": "t_carpet_red",
         ">": "t_stairs_down",
+        "A": "t_carpet_red",
+        "O": "t_window_domestic",
         "S": "t_carpet_red",
-        "A": "t_carpet_red"
+        "T": "t_carpet_red",
+        "X": "t_wall",
+        "|": "t_railing_v"
       },
       "furniture": {
-        "t": "f_table",
         "5": "f_indoor_plant",
         "8": "f_indoor_plant_y",
-        "T": "f_table",
+        "A": "f_armchair",
         "S": "f_sofa",
-        "A": "f_armchair"
+        "T": "f_table",
+        "t": "f_table"
       },
       "items": {
-        "t": { "item": "table_foyer", "chance": 40 },
+        ".": { "item": "clutter_mansion", "chance": 1 },
         "T": { "item": "table_foyer", "chance": 40 },
-        ".": { "item": "clutter_mansion", "chance": 1 }
+        "t": { "item": "table_foyer", "chance": 40 }
       }
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_t_dn", "mansion_t1d" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_t_dn",
+      "mansion_t1d"
+    ],
     "weight": 700,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -436,27 +441,28 @@
         "########################"
       ],
       "terrain": {
-        "X": "t_brick_wall",
-        "#": "t_rock"
+        "#": "t_rock",
+        "X": "t_brick_wall"
       },
       "furniture": {
+        "K": [ "f_crate_c", "f_crate_o" ],
         "m": "f_locker",
-        "r": "f_rack",
-        "K": [
-          "f_crate_c", "f_crate_o"
-        ]
+        "r": "f_rack"
       },
       "items": {
-        "r": { "item": "cleaning", "chance": 45 },
         "K": { "item": "crate_stack", "chance": 100 },
-        "m": { "item": "cleaning", "chance": 45 }
+        "m": { "item": "cleaning", "chance": 45 },
+        "r": { "item": "cleaning", "chance": 45 }
       }
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_t", "mansion_t1" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_t",
+      "mansion_t1"
+    ],
     "weight": 700,
     "object": {
       "fill_ter": "t_floor",
@@ -487,41 +493,32 @@
         "'''::::::::::::::::::'''"
       ],
       "terrain": {
-        "X": "t_wall",
-        "*": [
-          "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub",
-          "t_grass"
-        ],
-        ",": "t_sidewalk",
-        "'": [
-          "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub",
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass"
-        ],
-        "|": "t_chainfence_v",
         "!": "t_concrete",
-        ":": [
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
-          "t_grass", "t_grass", "t_dirt"
-        ],
+        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
+        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
+        ",": "t_sidewalk",
         "/": "t_grass",
         "4": "t_concrete",
-        "~": "t_water_dp",
-        "[": "t_chaingate_c"
+        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "X": "t_wall",
+        "[": "t_chaingate_c",
+        "|": "t_chainfence_v",
+        "~": "t_water_dp"
       },
       "furniture": {
-        "c": "f_counter",
+        "!": "f_dive_block",
+        "/": "f_bench",
+        "4": "f_chair",
         "?": "f_fireplace",
         "a": "f_armchair",
-        "!": "f_dive_block",
-        "4": "f_chair",
-        "/": "f_bench"
+        "c": "f_counter"
       },
       "items": {
-        "/": { "item": "pool_side", "chance": 30 },
-        "c": { "item": "wetbar_counter", "chance": 20 },
-        "?": { "item": "fireplace_fill", "chance": 30 },
         ",": { "item": "clutter_yard", "chance": 1 },
-        ":": { "item": "clutter_yard", "chance": 1 }
+        "/": { "item": "pool_side", "chance": 30 },
+        ":": { "item": "clutter_yard", "chance": 1 },
+        "?": { "item": "fireplace_fill", "chance": 30 },
+        "c": { "item": "wetbar_counter", "chance": 20 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
@@ -530,8 +527,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_t_up", "mansion_t1u" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_t_up",
+      "mansion_t1u"
+    ],
     "weight": 700,
     "object": {
       "fill_ter": "t_floor",
@@ -562,10 +562,10 @@
         "************************"
       ],
       "terrain": {
-        "X": "t_wall",
+        "'": "t_flat_roof",
         "*": "t_open_air",
         ",": "t_concrete",
-        "'": "t_flat_roof",
+        "X": "t_wall",
         "|": "t_railing_v"
       },
       "place_loot": [
@@ -575,8 +575,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_t_dn", "mansion_t2d" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_t_dn",
+      "mansion_t2d"
+    ],
     "weight": 800,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -607,56 +610,52 @@
         "########################"
       ],
       "terrain": {
-        "X": "t_brick_wall",
-        "-": "t_carpet_red",
         "#": "t_rock",
-        "T": "t_carpet_red",
         "%": "t_door_locked_interior",
         "+": "t_door_c",
-        "B": "t_carpet_red",
-        "Z": "t_carpet_red",
+        "-": "t_carpet_red",
         "2": "t_carpet_red",
         "@": "t_carpet_red",
+        "B": "t_carpet_red",
+        "R": "t_carpet_red",
+        "T": "t_carpet_red",
+        "X": "t_brick_wall",
+        "Z": "t_carpet_red",
         "]": "t_sewage_pipe",
-        "p": "t_sewage_pump",
-        "R": "t_carpet_red"
+        "p": "t_sewage_pump"
       },
       "furniture": {
+        "$": [ "f_shackle", "f_null" ],
+        "2": "f_chair",
+        "@": "f_mannequin",
+        "B": "f_bed",
+        "K": [ "f_crate_c", "f_crate_o" ],
+        "R": "f_rack",
+        "T": "f_table",
+        "Z": "f_dresser",
+        "a": "f_armchair",
         "b": "f_bed",
-        "d": "f_desk",
-        "t": "f_table",
         "c": "f_counter",
+        "d": "f_desk",
+        "g": "f_dryer",
+        "h": "f_treadmill",
         "m": "f_locker",
         "r": "f_rack",
-        "$": [
-          "f_shackle", "f_null"
-        ],
-        "K": [
-          "f_crate_c", "f_crate_o"
-        ],
-        "@": "f_mannequin",
-        "g": "f_dryer",
-        "w": "f_washer",
         "s": "f_sofa",
-        "a": "f_armchair",
-        "h": "f_treadmill",
-        "B": "f_bed",
-        "Z": "f_dresser",
-        "T": "f_table",
-        "2": "f_chair",
-        "R": "f_rack"
+        "t": "f_table",
+        "w": "f_washer"
       },
       "items": {
+        ".": { "item": "clutter_basement", "chance": 1 },
         "B": { "item": "sex_lair", "chance": 40 },
-        "b": { "item": "bed", "chance": 40 },
-        "Z": { "item": "sex_lair", "chance": 45 },
-        "d": { "item": "sex_lair", "chance": 45 },
-        "R": { "item": "sewing_room", "chance": 40 },
-        "r": { "item": "sewing_room", "chance": 40 },
-        "m": { "item": "tool_common_stack", "chance": 100 },
-        "T": { "item": "sewing_room", "chance": 40 },
         "K": { "item": "crate_stack", "chance": 100 },
-        ".": { "item": "clutter_basement", "chance": 1 }
+        "R": { "item": "sewing_room", "chance": 40 },
+        "T": { "item": "sewing_room", "chance": 40 },
+        "Z": { "item": "sex_lair", "chance": 45 },
+        "b": { "item": "bed", "chance": 40 },
+        "d": { "item": "sex_lair", "chance": 45 },
+        "m": { "item": "tool_common_stack", "chance": 100 },
+        "r": { "item": "sewing_room", "chance": 40 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.08 }
@@ -665,8 +664,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_t", "mansion_t2" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_t",
+      "mansion_t2"
+    ],
     "weight": 1100,
     "object": {
       "fill_ter": "t_floor",
@@ -697,63 +699,54 @@
         "''''''''''''''''''''''''"
       ],
       "terrain": {
-        "X": "t_wall",
-        "-": "t_carpet_red",
-        "*": [
-          "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub",
-          "t_grass"
-        ],
-        "'": [
-          "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub",
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass"
-        ],
-        "O": "t_window_domestic",
-        "+": "t_door_c",
-        ":": [
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
-          "t_grass", "t_grass", "t_dirt"
-        ],
-        "=": "t_linoleum_gray",
         "&": "t_console_broken",
+        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
+        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
+        "+": "t_door_c",
+        "-": "t_carpet_red",
+        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "=": "t_linoleum_gray",
         "B": "t_carpet_red",
-        "N": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
-        "P": "t_linoleum_gray",
         "J": "t_linoleum_gray",
+        "N": "t_linoleum_gray",
+        "O": "t_window_domestic",
+        "P": "t_linoleum_gray",
+        "X": "t_wall",
+        "Y": "t_linoleum_gray",
         "j": "t_linoleum_gray"
       },
       "furniture": {
-        "b": "f_bed",
-        "z": "f_dresser",
-        "d": "f_desk",
-        "t": "f_table",
-        "c": "f_counter",
-        "5": "f_indoor_plant",
-        "s": "f_sofa",
         "1": "f_chair",
+        "5": "f_indoor_plant",
         "B": "f_bed",
+        "J": "f_bathtub",
         "N": "f_cupboard",
         "Y": "f_sink",
-        "J": "f_bathtub",
-        "j": "f_shower"
+        "b": "f_bed",
+        "c": "f_counter",
+        "d": "f_desk",
+        "j": "f_shower",
+        "s": "f_sofa",
+        "t": "f_table",
+        "z": "f_dresser"
       },
       "toilets": {
-        "P": { }
+        "P": {}
       },
       "items": {
-        "b": { "item": "bed", "chance": 40 },
-        "B": { "item": "bed", "chance": 40 },
-        "z": { "item": "dresser_stack", "chance": 100 },
-        "c": { "item": "vanity", "chance": 40 },
-        "N": { "item": "softdrugs", "chance": 45 },
-        "d": { "item": "office", "chance": 40 },
-        "v": { "item": "a_television", "chance": 100 },
-        "t": { "item": "nightstand", "chance": 40 },
-        "=": { "item": "clutter_bathroom", "chance": 10 },
-        "J": { "item": "clutter_bathroom", "chance": 15 },
         "-": { "item": "clutter_bedroom", "chance": 2 },
         ".": { "item": "clutter_bedroom", "chance": 2 },
-        ":": { "item": "clutter_yard", "chance": 1 }
+        ":": { "item": "clutter_yard", "chance": 1 },
+        "=": { "item": "clutter_bathroom", "chance": 10 },
+        "B": { "item": "bed", "chance": 40 },
+        "J": { "item": "clutter_bathroom", "chance": 15 },
+        "N": { "item": "softdrugs", "chance": 45 },
+        "b": { "item": "bed", "chance": 40 },
+        "c": { "item": "vanity", "chance": 40 },
+        "d": { "item": "office", "chance": 40 },
+        "t": { "item": "nightstand", "chance": 40 },
+        "v": { "item": "a_television", "chance": 100 },
+        "z": { "item": "dresser_stack", "chance": 100 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
@@ -762,8 +755,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_t_up", "mansion_t2u" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_t_up",
+      "mansion_t2u"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -794,53 +790,53 @@
         "************************"
       ],
       "terrain": {
-        "X": "t_wall",
-        "-": "t_carpet_red",
-        "*": "t_open_air",
-        "'": "t_flat_roof",
-        "O": "t_window_domestic",
-        "+": "t_door_c",
-        "=": "t_linoleum_gray",
         "&": "t_console_broken",
+        "'": "t_flat_roof",
+        "*": "t_open_air",
+        "+": "t_door_c",
+        "-": "t_carpet_red",
+        "=": "t_linoleum_gray",
         "B": "t_carpet_red",
-        "N": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
-        "P": "t_linoleum_gray",
         "J": "t_linoleum_gray",
+        "N": "t_linoleum_gray",
+        "O": "t_window_domestic",
+        "P": "t_linoleum_gray",
+        "X": "t_wall",
+        "Y": "t_linoleum_gray",
         "j": "t_linoleum_gray"
       },
       "furniture": {
-        "b": "f_bed",
-        "z": "f_dresser",
-        "d": "f_desk",
-        "t": "f_table",
-        "c": "f_counter",
-        "5": "f_indoor_plant",
-        "s": "f_sofa",
         "1": "f_chair",
-        "a": "f_armchair",
+        "5": "f_indoor_plant",
         "B": "f_bed",
+        "J": "f_bathtub",
         "N": "f_cupboard",
         "Y": "f_sink",
-        "J": "f_bathtub",
-        "j": "f_shower"
+        "a": "f_armchair",
+        "b": "f_bed",
+        "c": "f_counter",
+        "d": "f_desk",
+        "j": "f_shower",
+        "s": "f_sofa",
+        "t": "f_table",
+        "z": "f_dresser"
       },
       "toilets": {
-        "P": { }
+        "P": {}
       },
       "items": {
-        "b": { "item": "bed", "chance": 40 },
-        "B": { "item": "bed", "chance": 40 },
-        "z": { "item": "dresser_stack", "chance": 100 },
-        "c": { "item": "vanity", "chance": 30 },
-        "N": { "item": "softdrugs", "chance": 45 },
-        "d": { "item": "office", "chance": 40 },
-        "v": { "item": "a_television", "chance": 100 },
-        "t": { "item": "nightstand", "chance": 40 },
-        "=": { "item": "clutter_bathroom", "chance": 10 },
-        "J": { "item": "clutter_bathroom", "chance": 15 },
         "-": { "item": "clutter_bedroom", "chance": 2 },
-        ".": { "item": "clutter_bedroom", "chance": 2 }
+        ".": { "item": "clutter_bedroom", "chance": 2 },
+        "=": { "item": "clutter_bathroom", "chance": 10 },
+        "B": { "item": "bed", "chance": 40 },
+        "J": { "item": "clutter_bathroom", "chance": 15 },
+        "N": { "item": "softdrugs", "chance": 45 },
+        "b": { "item": "bed", "chance": 40 },
+        "c": { "item": "vanity", "chance": 30 },
+        "d": { "item": "office", "chance": 40 },
+        "t": { "item": "nightstand", "chance": 40 },
+        "v": { "item": "a_television", "chance": 100 },
+        "z": { "item": "dresser_stack", "chance": 100 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 11 ], "density": 0.08 }
@@ -849,8 +845,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_t_dn", "mansion_t2d" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_t_dn",
+      "mansion_t2d"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -881,42 +880,40 @@
         "########################"
       ],
       "terrain": {
-        "X": "t_brick_wall",
         "#": "t_rock",
-        "|": "t_chainfence_v",
+        "*": "t_machinery_old",
         "?": "t_generator_broken",
+        "X": "t_brick_wall",
+        "[": "t_chaingate_l",
         "]": "t_sewage_pipe",
         "p": "t_sewage_pump",
-        "*": "t_machinery_old",
-        "[": "t_chaingate_l"
+        "|": "t_chainfence_v"
       },
       "furniture": {
-        "d": "f_desk",
-        "m": "f_locker",
-        "r": "f_rack",
-        "n": "f_cupboard",
-        "K": [
-          "f_crate_c", "f_crate_o"
-        ],
-        "@": "f_statue",
-        "s": "f_sofa",
+        "(": "f_trashcan",
         "/": "f_bench",
+        "@": "f_statue",
+        "K": [ "f_crate_c", "f_crate_o" ],
         "a": "f_armchair",
+        "d": "f_desk",
         "g": "f_dryer",
-        "w": "f_washer",
         "h": "f_treadmill",
+        "m": "f_locker",
+        "n": "f_cupboard",
+        "r": "f_rack",
+        "s": "f_sofa",
         "u": "f_exercise",
-        "(": "f_trashcan"
+        "w": "f_washer"
       },
       "items": {
-        "d": { "item": "office", "chance": 10 },
-        "v": { "item": "a_television", "chance": 100 },
-        "m": { "item": "tool_common_stack", "chance": 100 },
-        "r": { "item": "mansion_ammo", "chance": 40 },
-        "n": { "item": "cannedfood", "chance": 30 },
-        "K": { "item": "crate_stack", "chance": 100 },
         "(": { "item": "trash_cart", "chance": 40 },
-        ".": { "item": "clutter_basement", "chance": 1 }
+        ".": { "item": "clutter_basement", "chance": 1 },
+        "K": { "item": "crate_stack", "chance": 100 },
+        "d": { "item": "office", "chance": 10 },
+        "m": { "item": "tool_common_stack", "chance": 100 },
+        "n": { "item": "cannedfood", "chance": 30 },
+        "r": { "item": "mansion_ammo", "chance": 40 },
+        "v": { "item": "a_television", "chance": 100 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.08 }
@@ -925,8 +922,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_t", "mansion_t2" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_t",
+      "mansion_t2"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -957,73 +957,64 @@
         "''''''''''''''''''''''''"
       ],
       "terrain": {
-        "X": "t_wall",
-        "-": "t_carpet_red",
-        ",": "t_carpet_red",
-        "*": [
-          "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub",
-          "t_grass"
-        ],
-        "'": [
-          "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub",
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass"
-        ],
-        "O": "t_window_domestic",
         "%": "t_door_metal_locked",
-        "+": "t_door_c",
-        ":": [
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
-          "t_grass", "t_grass", "t_dirt"
-        ],
-        "=": "t_linoleum_gray",
         "&": "t_console_broken",
+        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
+        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
+        "+": "t_door_c",
+        ",": "t_carpet_red",
+        "-": "t_carpet_red",
+        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "=": "t_linoleum_gray",
         "B": "t_carpet_red",
+        "J": "t_linoleum_gray",
         "N": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
+        "O": "t_window_domestic",
         "P": "t_linoleum_gray",
-        "J": "t_linoleum_gray"
+        "X": "t_wall",
+        "Y": "t_linoleum_gray"
       },
       "furniture": {
-        "b": "f_bed",
-        "l": "f_bookcase",
-        "z": "f_dresser",
-        "d": "f_desk",
-        "t": "f_table",
-        "T": "f_table",
-        "r": "f_rack",
         "$": "f_safe_l",
-        "K": "f_crate_o",
-        "5": "f_indoor_plant",
-        "s": "f_sofa",
         "1": "f_chair",
-        "a": "f_armchair",
+        "5": "f_indoor_plant",
         "B": "f_bed",
+        "J": "f_bathtub",
+        "K": "f_crate_o",
         "N": "f_cupboard",
+        "T": "f_table",
         "Y": "f_sink",
-        "J": "f_bathtub"
+        "a": "f_armchair",
+        "b": "f_bed",
+        "d": "f_desk",
+        "l": "f_bookcase",
+        "r": "f_rack",
+        "s": "f_sofa",
+        "t": "f_table",
+        "z": "f_dresser"
       },
       "toilets": {
-        "P": { }
+        "P": {}
       },
       "items": {
-        "l": { "item": "mansion_bookcase", "chance": 100 },
-        "b": { "item": "bed", "chance": 40 },
-        "B": { "item": "bed", "chance": 40 },
-        "z": { "item": "dresser_stack", "chance": 100 },
-        "r": { "item": "panic_room", "chance": 45 },
         "$": { "item": "mansion_safe", "chance": 100 },
-        "N": { "item": "softdrugs", "chance": 45 },
-        "d": { "item": "office", "chance": 40 },
-        "v": { "item": "a_television", "chance": 100 },
-        "t": { "item": "nightstand", "chance": 40 },
-        "T": { "item": "toy_box", "chance": 45 },
-        "K": { "item": "crate_toys", "chance": 100 },
-        "=": { "item": "clutter_bathroom", "chance": 10 },
-        "J": { "item": "clutter_bathroom", "chance": 15 },
         ",": { "item": "toy_box", "chance": 15 },
         "-": { "item": "clutter_bedroom", "chance": 2 },
         ".": { "item": "clutter_bedroom", "chance": 2 },
-        ":": { "item": "clutter_yard", "chance": 1 }
+        ":": { "item": "clutter_yard", "chance": 1 },
+        "=": { "item": "clutter_bathroom", "chance": 10 },
+        "B": { "item": "bed", "chance": 40 },
+        "J": { "item": "clutter_bathroom", "chance": 15 },
+        "K": { "item": "crate_toys", "chance": 100 },
+        "N": { "item": "softdrugs", "chance": 45 },
+        "T": { "item": "toy_box", "chance": 45 },
+        "b": { "item": "bed", "chance": 40 },
+        "d": { "item": "office", "chance": 40 },
+        "l": { "item": "mansion_bookcase", "chance": 100 },
+        "r": { "item": "panic_room", "chance": 45 },
+        "t": { "item": "nightstand", "chance": 40 },
+        "v": { "item": "a_television", "chance": 100 },
+        "z": { "item": "dresser_stack", "chance": 100 }
       },
       "place_loot": [
         { "group": "corpse_mansion", "x": [ 10, 12 ], "y": [ 5, 7 ], "chance": 50, "repeat": [ 0, 2 ] }
@@ -1035,8 +1026,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_t_up", "mansion_t2u" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_t_up",
+      "mansion_t2u"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -1067,51 +1061,51 @@
         "************************"
       ],
       "terrain": {
-        "X": "t_wall",
-        "-": "t_carpet_red",
-        "*": "t_open_air",
-        "'": "t_flat_roof",
-        "O": "t_window_domestic",
-        "+": "t_door_c",
-        "=": "t_linoleum_gray",
         "&": "t_console_broken",
+        "'": "t_flat_roof",
+        "*": "t_open_air",
+        "+": "t_door_c",
+        "-": "t_carpet_red",
+        "=": "t_linoleum_gray",
         "A": "t_carpet_red",
-        "Y": "t_linoleum_gray",
-        "P": "t_linoleum_gray",
         "J": "t_linoleum_gray",
+        "O": "t_window_domestic",
+        "P": "t_linoleum_gray",
+        "X": "t_wall",
+        "Y": "t_linoleum_gray",
         "j": "t_linoleum_gray"
       },
       "furniture": {
+        "(": "f_trashcan",
+        "1": "f_chair",
+        "?": "f_fireplace",
+        "A": "f_armchair",
+        "J": "f_bathtub",
+        "Y": "f_sink",
         "b": "f_bed",
-        "l": "f_bookcase",
-        "z": "f_dresser",
         "d": "f_desk",
+        "j": "f_shower",
+        "l": "f_bookcase",
+        "s": "f_sofa",
         "t": "f_table",
         "v": "f_table",
-        "?": "f_fireplace",
-        "s": "f_sofa",
-        "1": "f_chair",
-        "(": "f_trashcan",
-        "A": "f_armchair",
-        "Y": "f_sink",
-        "J": "f_bathtub",
-        "j": "f_shower"
+        "z": "f_dresser"
       },
       "toilets": {
-        "P": { }
+        "P": {}
       },
       "items": {
-        "b": { "item": "bed", "chance": 40 },
-        "l": { "item": "mansion_bookcase", "chance": 100 },
-        "z": { "item": "dresser_stack", "chance": 100 },
-        "?": { "item": "fireplace_fill", "chance": 30 },
-        "d": { "item": "office", "chance": 40 },
         "(": { "item": "trash_cart", "chance": 40 },
-        "v": { "item": "a_television", "chance": 100 },
-        "t": { "item": "nightstand", "chance": 40 },
+        ".": { "item": "clutter_bedroom", "chance": 2 },
         "=": { "item": "clutter_bathroom", "chance": 10 },
+        "?": { "item": "fireplace_fill", "chance": 30 },
         "J": { "item": "clutter_bathroom", "chance": 15 },
-        ".": { "item": "clutter_bedroom", "chance": 2 }
+        "b": { "item": "bed", "chance": 40 },
+        "d": { "item": "office", "chance": 40 },
+        "l": { "item": "mansion_bookcase", "chance": 100 },
+        "t": { "item": "nightstand", "chance": 40 },
+        "v": { "item": "a_television", "chance": 100 },
+        "z": { "item": "dresser_stack", "chance": 100 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 11 ], "density": 0.08 }
@@ -1120,8 +1114,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_t_dn", "mansion_t4d" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_t_dn",
+      "mansion_t4d"
+    ],
     "weight": 1100,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -1152,41 +1149,37 @@
         "########################"
       ],
       "terrain": {
-        "X": "t_brick_wall",
         "#": "t_rock",
-        "|": "t_chainfence_v",
+        "*": "t_machinery_old",
         "+": "t_door_c",
+        "X": "t_brick_wall",
+        "[": "t_chaingate_l",
         "]": "t_sewage_pipe",
         "p": "t_sewage_pump",
-        "*": "t_machinery_old",
-        "[": "t_chaingate_l"
+        "|": "t_chainfence_v"
       },
       "furniture": {
-        "t": "f_table",
+        "K": [ "f_crate_c", "f_crate_o" ],
+        "L": [ "f_crate_c", "f_crate_o" ],
+        "f": "f_fridge",
         "m": "f_locker",
         "r": "f_rack",
-        "f": "f_fridge",
-        "K": [
-          "f_crate_c", "f_crate_o"
-        ],
-        "L": [
-          "f_crate_c", "f_crate_o"
-        ]
-      },
-      "items": {
-        "t": { "item": "table_wine", "chance": 45 },
-        "m": { "item": "tool_common_stack", "chance": 100 },
-        "r": { "item": "pantry", "chance": 40 },
-        "f": { "item": "fridge", "chance": 40 },
-        "k": { "item": "keg_wine", "chance": 100 },
-        "L": { "item": "crate_wine", "chance": 100 },
-        "K": { "item": "crate_stack", "chance": 100 },
-        ".": { "item": "clutter_basement", "chance": 1 }
+        "t": "f_table"
       },
       "place_liquids": [
         { "liquid": "wine_cabernet", "x": [ 0, 11 ], "y": [ 8, 12 ], "repeat": [ 4, 12 ] },
         { "liquid": "wine_chardonnay", "x": [ 0, 11 ], "y": [ 8, 12 ], "repeat": [ 2, 6 ] }
       ],
+      "items": {
+        ".": { "item": "clutter_basement", "chance": 1 },
+        "K": { "item": "crate_stack", "chance": 100 },
+        "L": { "item": "crate_wine", "chance": 100 },
+        "f": { "item": "fridge", "chance": 40 },
+        "k": { "item": "keg_wine", "chance": 100 },
+        "m": { "item": "tool_common_stack", "chance": 100 },
+        "r": { "item": "pantry", "chance": 40 },
+        "t": { "item": "table_wine", "chance": 45 }
+      },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.08 }
       ]
@@ -1194,8 +1187,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_t", "mansion_t4" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_t",
+      "mansion_t4"
+    ],
     "weight": 1100,
     "object": {
       "fill_ter": "t_floor",
@@ -1226,65 +1222,56 @@
         "''''''''''''''''''''''''"
       ],
       "terrain": {
-        "X": "t_wall",
-        "-": "t_carpet_red",
-        "*": [
-          "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub",
-          "t_grass"
-        ],
-        "T": "t_carpet_red",
-        "C": "t_linoleum_gray",
-        "'": [
-          "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub",
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass"
-        ],
+        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
         ")": "t_linoleum_gray",
-        "O": "t_window_domestic",
+        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
         "+": "t_door_c",
-        ":": [
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
-          "t_grass", "t_grass", "t_dirt"
-        ],
-        "=": "t_linoleum_gray",
+        "-": "t_carpet_red",
         "2": "t_carpet_red",
-        "R": "t_linoleum_gray",
-        "Q": "t_linoleum_gray",
-        "N": "t_linoleum_gray",
+        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "=": "t_linoleum_gray",
+        "C": "t_linoleum_gray",
         "F": "t_linoleum_gray",
+        "N": "t_linoleum_gray",
+        "O": "t_window_domestic",
+        "Q": "t_linoleum_gray",
+        "R": "t_linoleum_gray",
+        "T": "t_carpet_red",
+        "X": "t_wall",
         "Y": "t_linoleum_gray"
       },
       "furniture": {
-        "t": "f_table",
-        "c": "f_counter",
-        "?": "f_fireplace",
-        "5": "f_indoor_plant",
-        "a": "f_armchair",
-        "T": "f_table",
-        "C": "f_counter",
-        "2": "f_chair",
         ")": "f_trashcan",
-        "R": "f_rack",
-        "Q": "f_oven",
-        "N": "f_cupboard",
+        "2": "f_chair",
+        "5": "f_indoor_plant",
+        "?": "f_fireplace",
+        "C": "f_counter",
         "F": "f_fridge",
-        "Y": "f_sink"
+        "N": "f_cupboard",
+        "Q": "f_oven",
+        "R": "f_rack",
+        "T": "f_table",
+        "Y": "f_sink",
+        "a": "f_armchair",
+        "c": "f_counter",
+        "t": "f_table"
       },
       "items": {
-        "t": { "item": "table_livingroom", "chance": 35 },
-        "c": { "item": "table_sideboard", "chance": 35 },
-        "?": { "item": "fireplace_fill", "chance": 30 },
-        "T": { "item": "dining", "chance": 40 },
-        "C": { "item": "dining", "chance": 40 },
+        "'": { "item": "clutter_yard", "chance": 1 },
         ")": { "item": "trash_cart", "chance": 40 },
-        "R": { "item": "pantry", "chance": 40 },
-        "Q": { "item": "oven", "chance": 45 },
-        "N": { "item": "kitchen", "chance": 45 },
-        "F": { "item": "fridge", "chance": 45 },
-        "Y": { "item": "cleaning", "chance": 20 },
-        "=": { "item": "produce", "chance": 1 },
         ".": { "item": "clutter_mansion", "chance": 1 },
         ":": { "item": "clutter_yard", "chance": 1 },
-        "'": { "item": "clutter_yard", "chance": 1 }
+        "=": { "item": "produce", "chance": 1 },
+        "?": { "item": "fireplace_fill", "chance": 30 },
+        "C": { "item": "dining", "chance": 40 },
+        "F": { "item": "fridge", "chance": 45 },
+        "N": { "item": "kitchen", "chance": 45 },
+        "Q": { "item": "oven", "chance": 45 },
+        "R": { "item": "pantry", "chance": 40 },
+        "T": { "item": "dining", "chance": 40 },
+        "Y": { "item": "cleaning", "chance": 20 },
+        "c": { "item": "table_sideboard", "chance": 35 },
+        "t": { "item": "table_livingroom", "chance": 35 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
@@ -1293,8 +1280,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_t_up", "mansion_t4u" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_t_up",
+      "mansion_t4u"
+    ],
     "weight": 1100,
     "object": {
       "fill_ter": "t_floor",
@@ -1325,51 +1315,54 @@
         "************************"
       ],
       "terrain": {
-        "X": "t_wall",
-        "*": "t_open_air",
         " ": "t_open_air_rooved",
         "'": "t_flat_roof",
-        "|": "t_railing_v",
-        "O": "t_window_domestic",
+        "*": "t_open_air",
         "+": "t_door_c",
         "=": "t_linoleum_gray",
+        "J": "t_linoleum_gray",
         "N": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
+        "O": "t_window_domestic",
         "P": "t_linoleum_gray",
-        "J": "t_linoleum_gray"
+        "X": "t_wall",
+        "Y": "t_linoleum_gray",
+        "|": "t_railing_v"
       },
       "furniture": {
-        "b": "f_bed",
-        "z": "f_dresser",
-        "d": "f_desk",
-        "t": "f_table",
-        "5": "f_indoor_plant",
         "1": "f_chair",
+        "5": "f_indoor_plant",
+        "J": "f_bathtub",
         "N": "f_cupboard",
         "Y": "f_sink",
-        "J": "f_bathtub"
+        "b": "f_bed",
+        "d": "f_desk",
+        "t": "f_table",
+        "z": "f_dresser"
       },
       "toilets": {
-        "P": { }
+        "P": {}
       },
       "items": {
-        "b": { "item": "bed", "chance": 30 },
-        "z": { "item": "dresser_stack", "chance": 100 },
-        "d": { "item": "office", "chance": 30 },
-        "t": { "item": "nightstand", "chance": 40 },
+        ".": { "item": "clutter_bedroom", "chance": 2 },
         "5": { "item": "stash_drugs", "chance": 20 },
-        "N": { "item": "softdrugs", "chance": 45 },
-        "v": { "item": "a_television", "chance": 100 },
         "=": { "item": "clutter_bathroom", "chance": 10 },
         "J": { "item": "clutter_bathroom", "chance": 15 },
-        ".": { "item": "clutter_bedroom", "chance": 2 }
+        "N": { "item": "softdrugs", "chance": 45 },
+        "b": { "item": "bed", "chance": 30 },
+        "d": { "item": "office", "chance": 30 },
+        "t": { "item": "nightstand", "chance": 40 },
+        "v": { "item": "a_television", "chance": 100 },
+        "z": { "item": "dresser_stack", "chance": 100 }
       }
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_t_dn", "mansion_t5d" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_t_dn",
+      "mansion_t5d"
+    ],
     "weight": 400,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -1400,48 +1393,48 @@
         "########################"
       ],
       "terrain": {
-        "X": "t_brick_wall",
-        "-": "t_carpet_red",
         "#": "t_rock",
-        "C": "t_linoleum_gray",
-        "o": "t_door_glass_c",
         "+": "t_door_c",
-        "=": "t_linoleum_gray",
-        "<": "t_stairs_up",
-        "x": "t_wall_glass",
-        "H": "t_linoleum_gray",
+        "-": "t_carpet_red",
         "/": "t_linoleum_gray",
+        "<": "t_stairs_up",
+        "=": "t_linoleum_gray",
+        "C": "t_linoleum_gray",
+        "H": "t_linoleum_gray",
         "I": "t_linoleum_gray",
-        "U": "t_carpet_red",
         "M": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
         "P": "t_linoleum_gray",
-        "j": "t_linoleum_gray"
+        "U": "t_carpet_red",
+        "X": "t_brick_wall",
+        "Y": "t_linoleum_gray",
+        "j": "t_linoleum_gray",
+        "o": "t_door_glass_c",
+        "x": "t_wall_glass"
       },
       "furniture": {
-        "t": "f_table",
-        "r": "f_rack",
-        "C": "f_counter",
-        "H": "f_treadmill",
         "/": "f_bench",
         "3": "f_chair",
+        "C": "f_counter",
+        "H": "f_treadmill",
         "I": "f_ergometer",
-        "U": "f_exercise",
         "M": "f_locker",
+        "U": "f_exercise",
         "Y": "f_sink",
-        "j": "f_shower"
+        "j": "f_shower",
+        "r": "f_rack",
+        "t": "f_table"
       },
       "toilets": {
-        "P": { }
+        "P": {}
       },
       "items": {
-        "t": { "item": "voyer", "chance": 40 },
-        "r": { "item": "cleaning", "chance": 40 },
-        "C": { "item": "softdrugs", "chance": 30 },
+        "-": { "item": "clutter_gym", "chance": 6 },
         "/": { "item": "clutter_gym", "chance": 40 },
-        "M": { "item": "locker_gym", "chance": 40 },
         "=": { "item": "clutter_gym", "chance": 2 },
-        "-": { "item": "clutter_gym", "chance": 6 }
+        "C": { "item": "softdrugs", "chance": 30 },
+        "M": { "item": "locker_gym", "chance": 40 },
+        "r": { "item": "cleaning", "chance": 40 },
+        "t": { "item": "voyer", "chance": 40 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 14 ], "y": [ 2, 9 ], "density": 0.08 }
@@ -1450,8 +1443,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_t", "mansion_t5" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_t",
+      "mansion_t5"
+    ],
     "weight": 400,
     "object": {
       "fill_ter": "t_floor",
@@ -1482,60 +1478,47 @@
         "''''''''''''''''''''''''"
       ],
       "terrain": {
-        "X": "t_wall",
-        "-": "t_carpet_red",
-        "*": [
-          "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub",
-          "t_grass"
-        ],
-        "'": [
-          "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub",
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass"
-        ],
-        "O": "t_window_domestic",
-        "+": "t_door_c",
         "%": "t_door_locked_interior",
-        "0": [
-          "t_tree", "t_tree", "t_tree", "t_grass", "t_dirt"
-        ],
-        ":": [
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
-          "t_grass", "t_grass", "t_dirt"
-        ],
-        ">": "t_stairs_down",
-        "<": "t_stairs_up",
         "&": "t_console_broken",
-        "2": "t_carpet_red"
+        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
+        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
+        "+": "t_door_c",
+        "-": "t_carpet_red",
+        "0": [ "t_tree", "t_tree", "t_tree", "t_grass", "t_dirt" ],
+        "2": "t_carpet_red",
+        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "<": "t_stairs_up",
+        ">": "t_stairs_down",
+        "O": "t_window_domestic",
+        "X": "t_wall"
       },
       "furniture": {
-        "l": "f_bookcase",
-        "d": "f_desk",
-        "t": "f_table",
-        "c": "f_counter",
-        "m": "f_locker",
-        "r": "f_rack",
-        "K": [
-          "f_crate_c", "f_crate_o"
-        ],
-        "5": "f_indoor_plant",
-        "s": "f_sofa",
+        "(": "f_trashcan",
         "1": "f_chair",
         "2": "f_chair",
+        "5": "f_indoor_plant",
+        "K": [ "f_crate_c", "f_crate_o" ],
         "a": "f_armchair",
-        "(": "f_trashcan"
+        "c": "f_counter",
+        "d": "f_desk",
+        "l": "f_bookcase",
+        "m": "f_locker",
+        "r": "f_rack",
+        "s": "f_sofa",
+        "t": "f_table"
       },
       "items": {
-        "l": { "item": "mansion_bookcase", "chance": 100 },
-        "d": { "item": "office", "chance": 35 },
-        "t": { "item": "table_livingroom", "chance": 30 },
-        "c": { "item": "art", "chance": 20 },
-        "m": { "item": "cleaning", "chance": 45 },
-        "r": { "item": "office", "chance": 35 },
-        "K": { "item": "crate_cleaning", "chance": 100 },
+        "'": { "item": "clutter_yard", "chance": 1 },
         "(": { "item": "trash_cart", "chance": 1 },
         ".": { "item": "clutter_mansion", "chance": 1 },
         ":": { "item": "clutter_yard", "chance": 1 },
-        "'": { "item": "clutter_yard", "chance": 1 }
+        "K": { "item": "crate_cleaning", "chance": 100 },
+        "c": { "item": "art", "chance": 20 },
+        "d": { "item": "office", "chance": 35 },
+        "l": { "item": "mansion_bookcase", "chance": 100 },
+        "m": { "item": "cleaning", "chance": 45 },
+        "r": { "item": "office", "chance": 35 },
+        "t": { "item": "table_livingroom", "chance": 30 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
@@ -1544,8 +1527,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_t_up", "mansion_t5u" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_t_up",
+      "mansion_t5u"
+    ],
     "weight": 400,
     "object": {
       "fill_ter": "t_floor",
@@ -1576,60 +1562,60 @@
         "************************"
       ],
       "terrain": {
-        "X": "t_wall",
-        "-": "t_carpet_red",
-        "*": "t_open_air",
-        "C": "t_carpet_red",
-        "'": "t_flat_roof",
-        "O": "t_window_domestic",
-        "+": "t_door_c",
         "%": "t_door_locked_interior",
+        "&": "t_console_broken",
+        "'": "t_flat_roof",
+        "*": "t_open_air",
+        "+": "t_door_c",
+        "-": "t_carpet_red",
         "=": "t_linoleum_gray",
         ">": "t_stairs_down",
-        "&": "t_console_broken",
         "B": "t_carpet_red",
-        "V": "t_carpet_red",
+        "C": "t_carpet_red",
+        "J": "t_linoleum_gray",
         "N": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
+        "O": "t_window_domestic",
         "P": "t_linoleum_gray",
-        "J": "t_linoleum_gray"
+        "V": "t_carpet_red",
+        "X": "t_wall",
+        "Y": "t_linoleum_gray"
       },
       "furniture": {
-        "b": "f_bed",
-        "z": "f_dresser",
-        "Z": "f_dresser",
-        "d": "f_desk",
-        "t": "f_table",
-        "m": "f_locker",
-        "M": "f_locker",
-        "1": "f_chair",
         "(": "f_trashcan",
+        "1": "f_chair",
         "B": "f_bed",
         "C": "f_counter",
-        "V": "f_counter",
+        "J": "f_bathtub",
+        "M": "f_locker",
         "N": "f_cupboard",
+        "V": "f_counter",
         "Y": "f_sink",
-        "J": "f_bathtub"
+        "Z": "f_dresser",
+        "b": "f_bed",
+        "d": "f_desk",
+        "m": "f_locker",
+        "t": "f_table",
+        "z": "f_dresser"
       },
       "toilets": {
-        "P": { }
+        "P": {}
       },
       "items": {
-        "b": { "item": "bed", "chance": 30 },
-        "z": { "item": "dresser_stack", "chance": 100 },
-        "Z": { "item": "dresser_servant", "chance": 45 },
-        "d": { "item": "office", "chance": 35 },
-        "t": { "item": "nightstand", "chance": 35 },
-        "m": { "item": "cleaning", "chance": 40 },
-        "M": { "item": "sewing_room", "chance": 40 },
         "(": { "item": "trash_cart", "chance": 40 },
+        ".": { "item": "clutter_bedroom", "chance": 2 },
+        "=": { "item": "clutter_bathroom", "chance": 10 },
         "B": { "item": "bed", "chance": 30 },
         "C": { "item": "art", "chance": 30 },
+        "J": { "item": "clutter_bathroom", "chance": 15 },
+        "M": { "item": "sewing_room", "chance": 40 },
         "N": { "item": "softdrugs", "chance": 45 },
         "V": { "item": "a_television", "chance": 100 },
-        "=": { "item": "clutter_bathroom", "chance": 10 },
-        "J": { "item": "clutter_bathroom", "chance": 15 },
-        ".": { "item": "clutter_bedroom", "chance": 2 }
+        "Z": { "item": "dresser_servant", "chance": 45 },
+        "b": { "item": "bed", "chance": 30 },
+        "d": { "item": "office", "chance": 35 },
+        "m": { "item": "cleaning", "chance": 40 },
+        "t": { "item": "nightstand", "chance": 35 },
+        "z": { "item": "dresser_stack", "chance": 100 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 4, 21 ], "y": [ 2, 9 ], "density": 0.08 }
@@ -1638,8 +1624,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_t_dn", "mansion_t6d" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_t_dn",
+      "mansion_t6d"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -1670,79 +1659,80 @@
         "########################"
       ],
       "terrain": {
-        "X": "t_brick_wall",
-        "-": "t_carpet_red",
         "#": "t_rock",
-        "T": "t_linoleum_gray",
-        "C": "t_linoleum_gray",
-        "o": "t_carpet_red",
-        ")": "t_linoleum_gray",
-        "+": "t_door_c",
         "%": "t_door_locked_interior",
-        "=": "t_linoleum_gray",
         "&": "t_console_broken",
-        "D": "t_carpet_red",
-        "2": "t_carpet_red",
-        "?": "t_generator_broken",
-        "]": "t_sewage_pipe",
-        "p": "t_sewage_pump",
+        ")": "t_linoleum_gray",
         "*": "t_machinery_old",
+        "+": "t_door_c",
+        "-": "t_carpet_red",
+        "2": "t_carpet_red",
         "3": "t_linoleum_gray",
+        "=": "t_linoleum_gray",
+        "?": "t_generator_broken",
+        "C": "t_linoleum_gray",
+        "D": "t_carpet_red",
         "G": "t_linoleum_gray",
-        "W": "t_linoleum_gray",
         "R": "t_linoleum_gray",
-        "Y": "t_linoleum_gray"
+        "T": "t_linoleum_gray",
+        "W": "t_linoleum_gray",
+        "X": "t_brick_wall",
+        "Y": "t_linoleum_gray",
+        "]": "t_sewage_pipe",
+        "o": "t_carpet_red",
+        "p": "t_sewage_pump"
       },
       "furniture": {
-        "t": "f_table",
-        "m": "f_locker",
-        "r": "f_rack",
-        "K": [
-          "f_crate_c", "f_crate_o"
-        ],
-        "s": "f_sofa",
-        "1": "f_chair",
-        "h": "f_treadmill",
-        "o": "f_trashcan",
-        "D": "f_desk",
-        "T": "f_table",
-        "C": "f_counter",
-        "2": "f_chair",
         ")": "f_trashcan",
+        "1": "f_chair",
+        "2": "f_chair",
         "3": "f_chair",
+        "C": "f_counter",
+        "D": "f_desk",
         "G": "f_dryer",
-        "W": "f_washer",
+        "K": [ "f_crate_c", "f_crate_o" ],
         "R": "f_rack",
-        "Y": "f_sink"
+        "T": "f_table",
+        "W": "f_washer",
+        "Y": "f_sink",
+        "h": "f_treadmill",
+        "m": "f_locker",
+        "o": "f_trashcan",
+        "r": "f_rack",
+        "s": "f_sofa",
+        "t": "f_table"
       },
       "items": {
-        "v": { "item": "a_television", "chance": 100 },
-        "m": { "item": "plumber_gear", "chance": 40 },
-        "r": { "item": "tool_common_stack", "chance": 100 },
-        "K": { "item": "crate_stack", "chance": 100 },
-        "o": { "item": "trash_cart", "chance": 30 },
-        "D": { "item": "office", "chance": 35 },
-        "T": { "item": "dresser_stack", "chance": 100 },
-        "C": { "item": "cleaning", "chance": 35 },
         ")": { "item": "trash_cart", "chance": 30 },
-        "G": { "item": "dresser_male", "chance": 10 },
-        "W": { "item": "dresser_female", "chance": 10 },
-        "R": { "item": "crate_cleaning", "chance": 100 },
+        ".": { "item": "clutter_basement", "chance": 1 },
         "=": { "item": "clutter_basement", "chance": 1 },
-        ".": { "item": "clutter_basement", "chance": 1 }
+        "C": { "item": "cleaning", "chance": 35 },
+        "D": { "item": "office", "chance": 35 },
+        "G": { "item": "dresser_male", "chance": 10 },
+        "K": { "item": "crate_stack", "chance": 100 },
+        "R": { "item": "crate_cleaning", "chance": 100 },
+        "T": { "item": "dresser_stack", "chance": 100 },
+        "W": { "item": "dresser_female", "chance": 10 },
+        "m": { "item": "plumber_gear", "chance": 40 },
+        "o": { "item": "trash_cart", "chance": 30 },
+        "r": { "item": "tool_common_stack", "chance": 100 },
+        "v": { "item": "a_television", "chance": 100 }
       },
-      "place_vehicles": [
-        { "vehicle": "laundry_cart", "x": [ 14, 15 ], "y": [ 0, 6 ], "chance": 50 }
-      ],
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.08 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "laundry_cart", "x": [ 14, 15 ], "y": [ 0, 6 ], "chance": 50 }
       ]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_t", "mansion_t6" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_t",
+      "mansion_t6"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -1773,75 +1763,66 @@
         "''''''''''''''''''''''''"
       ],
       "terrain": {
-        "X": "t_wall",
-        "-": "t_carpet_red",
-        "*": [
-          "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub",
-          "t_grass"
-        ],
-        "C": "t_linoleum_gray",
-        "'": [
-          "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub",
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass"
-        ],
-        "O": "t_window_domestic",
+        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
+        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
         "+": "t_door_c",
-        ":": [
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
-          "t_grass", "t_grass", "t_dirt"
-        ],
+        "-": "t_carpet_red",
+        "2": "t_carpet_red",
+        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "=": "t_linoleum_gray",
         "B": "t_carpet_red",
+        "C": "t_linoleum_gray",
         "D": "t_carpet_red",
-        "d": "t_carpet_red",
-        "S": "t_carpet_red",
-        "2": "t_carpet_red",
-        "[": "t_chaingate_c",
-        "Y": "t_linoleum_gray",
-        "P": "t_linoleum_gray",
         "J": "t_linoleum_gray",
+        "O": "t_window_domestic",
+        "P": "t_linoleum_gray",
+        "S": "t_carpet_red",
+        "X": "t_wall",
+        "Y": "t_linoleum_gray",
+        "[": "t_chaingate_c",
+        "d": "t_carpet_red",
         "j": "t_linoleum_gray"
       },
       "furniture": {
-        "b": "f_bed",
-        "c": "f_counter",
-        "z": "f_dresser",
-        "t": "f_table",
-        "?": "f_fireplace",
-        "5": "f_indoor_plant",
-        "s": "f_sofa",
         "1": "f_chair",
+        "2": "f_chair",
+        "5": "f_indoor_plant",
+        "?": "f_fireplace",
         "B": "f_bed",
-        "D": "f_desk",
-        "d": "f_desk",
         "C": "f_counter",
+        "D": "f_desk",
+        "J": "f_bathtub",
         "S": "f_sofa",
         "T": "f_table",
-        "2": "f_chair",
         "Y": "f_sink",
-        "J": "f_bathtub",
-        "j": "f_shower"
+        "b": "f_bed",
+        "c": "f_counter",
+        "d": "f_desk",
+        "j": "f_shower",
+        "s": "f_sofa",
+        "t": "f_table",
+        "z": "f_dresser"
       },
       "toilets": {
-        "P": { }
+        "P": {}
       },
       "items": {
-        "b": { "item": "bed", "chance": 30 },
-        "z": { "item": "dresser_stack", "chance": 100 },
-        "t": { "item": "nightstand", "chance": 35 },
-        "T": { "item": "table_livingroom", "chance": 35 },
-        "c": { "item": "vanity", "chance": 30 },
-        "?": { "item": "fireplace_fill", "chance": 30 },
-        "B": { "item": "bed", "chance": 30 },
-        "D": { "item": "office", "chance": 30 },
-        "d": { "item": "mansion_guns", "chance": 20 },
-        "C": { "item": "softdrugs", "chance": 45 },
+        "'": { "item": "clutter_yard", "chance": 1 },
         "-": { "item": "clutter_bedroom", "chance": 2 },
-        "=": { "item": "clutter_bathroom", "chance": 10 },
-        "J": { "item": "clutter_bathroom", "chance": 15 },
         ".": { "item": "clutter_mansion", "chance": 1 },
         ":": { "item": "clutter_yard", "chance": 1 },
-        "'": { "item": "clutter_yard", "chance": 1 }
+        "=": { "item": "clutter_bathroom", "chance": 10 },
+        "?": { "item": "fireplace_fill", "chance": 30 },
+        "B": { "item": "bed", "chance": 30 },
+        "C": { "item": "softdrugs", "chance": 45 },
+        "D": { "item": "office", "chance": 30 },
+        "J": { "item": "clutter_bathroom", "chance": 15 },
+        "T": { "item": "table_livingroom", "chance": 35 },
+        "b": { "item": "bed", "chance": 30 },
+        "c": { "item": "vanity", "chance": 30 },
+        "d": { "item": "mansion_guns", "chance": 20 },
+        "t": { "item": "nightstand", "chance": 35 },
+        "z": { "item": "dresser_stack", "chance": 100 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
@@ -1850,8 +1831,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_t_up", "mansion_t6u" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_t_up",
+      "mansion_t6u"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -1882,73 +1866,73 @@
         "************************"
       ],
       "terrain": {
-        "X": "t_wall",
-        "-": "t_carpet_red",
-        "*": "t_open_air",
         " ": "t_open_air_rooved",
-        "T": "t_carpet_red",
-        "C": "t_linoleum_gray",
-        "'": "t_flat_roof",
-        "O": "t_window_domestic",
-        "+": "t_door_c",
         "%": "t_door_locked_interior",
-        "=": "t_linoleum_gray",
         "&": "t_console_broken",
-        "B": "t_carpet_red",
-        "Z": "t_carpet_red",
-        "D": "t_carpet_red",
-        "V": "t_carpet_red",
+        "'": "t_flat_roof",
+        "*": "t_open_air",
+        "+": "t_door_c",
+        "-": "t_carpet_red",
         "2": "t_carpet_red",
+        "=": "t_linoleum_gray",
         "A": "t_carpet_red",
-        "N": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
-        "P": "t_linoleum_gray",
+        "B": "t_carpet_red",
+        "C": "t_linoleum_gray",
+        "D": "t_carpet_red",
         "J": "t_linoleum_gray",
+        "N": "t_linoleum_gray",
+        "O": "t_window_domestic",
+        "P": "t_linoleum_gray",
+        "T": "t_carpet_red",
+        "V": "t_carpet_red",
+        "X": "t_wall",
+        "Y": "t_linoleum_gray",
+        "Z": "t_carpet_red",
         "j": "t_linoleum_gray"
       },
       "furniture": {
-        "b": "f_bed",
-        "z": "f_dresser",
-        "t": "f_table",
-        "m": "f_locker",
-        "r": "f_rack",
-        "5": "f_indoor_plant",
         "1": "f_chair",
-        "a": "f_armchair",
+        "2": "f_chair",
+        "5": "f_indoor_plant",
+        "A": "f_armchair",
         "B": "f_bed",
-        "Z": "f_dresser",
+        "C": "f_counter",
         "D": "f_desk",
+        "J": "f_bathtub",
+        "N": "f_cupboard",
         "T": "f_table",
         "V": "f_table",
-        "C": "f_counter",
-        "2": "f_chair",
-        "A": "f_armchair",
-        "N": "f_cupboard",
         "Y": "f_sink",
-        "J": "f_bathtub",
-        "j": "f_shower"
+        "Z": "f_dresser",
+        "a": "f_armchair",
+        "b": "f_bed",
+        "j": "f_shower",
+        "m": "f_locker",
+        "r": "f_rack",
+        "t": "f_table",
+        "z": "f_dresser"
       },
       "toilets": {
-        "P": { }
+        "P": {}
       },
       "items": {
+        "-": { "item": "clutter_bedroom", "chance": 3 },
+        ".": { "item": "clutter_mansion", "chance": 1 },
+        "5": { "item": "mansion_guns", "chance": 30 },
+        "=": { "item": "clutter_bathroom", "chance": 10 },
+        "B": { "item": "bed", "chance": 30 },
+        "C": { "item": "softdrugs", "chance": 45 },
+        "D": { "item": "office", "chance": 35 },
+        "J": { "item": "clutter_bathroom", "chance": 15 },
+        "N": { "item": "softdrugs", "chance": 45 },
+        "T": { "item": "nightstand", "chance": 40 },
+        "V": { "item": "a_television", "chance": 100 },
+        "Z": { "item": "dresser_stack", "chance": 100 },
         "b": { "item": "bed", "chance": 30 },
-        "z": { "item": "dresser_servant", "chance": 45 },
-        "t": { "item": "nightstand", "chance": 45 },
         "m": { "item": "crate_cleaning", "chance": 100 },
         "r": { "item": "cleaning", "chance": 45 },
-        "V": { "item": "a_television", "chance": 100 },
-        "5": { "item": "mansion_guns", "chance": 30 },
-        "B": { "item": "bed", "chance": 30 },
-        "Z": { "item": "dresser_stack", "chance": 100 },
-        "D": { "item": "office", "chance": 35 },
-        "T": { "item": "nightstand", "chance": 40 },
-        "C": { "item": "softdrugs", "chance": 45 },
-        "N": { "item": "softdrugs", "chance": 45 },
-        "=": { "item": "clutter_bathroom", "chance": 10 },
-        "J": { "item": "clutter_bathroom", "chance": 15 },
-        "-": { "item": "clutter_bedroom", "chance": 3 },
-        ".": { "item": "clutter_mansion", "chance": 1 }
+        "t": { "item": "nightstand", "chance": 45 },
+        "z": { "item": "dresser_servant", "chance": 45 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 7 ], "density": 0.08 }
@@ -1957,8 +1941,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_t_dn", "mansion_t7d" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_t_dn",
+      "mansion_t7d"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -1989,47 +1976,45 @@
         "########################"
       ],
       "terrain": {
-        "X": "t_brick_wall",
-        "-": "t_carpet_red",
         "#": "t_rock",
-        "T": "t_carpet_red",
-        "C": "t_carpet_red",
-        "O": "t_window_domestic",
         "+": "t_door_c",
+        "-": "t_carpet_red",
         "<": "t_stairs_up",
-        "S": "t_carpet_red",
+        "C": "t_carpet_red",
+        "F": "t_carpet_red",
         "N": "t_carpet_red",
-        "F": "t_carpet_red"
+        "O": "t_window_domestic",
+        "S": "t_carpet_red",
+        "T": "t_carpet_red",
+        "X": "t_brick_wall"
       },
       "furniture": {
-        "d": "f_desk",
-        "t": "f_table",
-        "q": "f_oven",
-        "K": [
-          "f_crate_c", "f_crate_o"
-        ],
-        "@": "f_statue",
+        "(": "f_trashcan",
         "/": "f_bench",
         "1": "f_chair",
-        "a": "f_armchair",
-        "h": "f_treadmill",
-        "(": "f_trashcan",
-        "T": "f_table",
+        "@": "f_statue",
         "C": "f_counter",
-        "S": "f_sofa",
+        "F": "f_fridge",
+        "K": [ "f_crate_c", "f_crate_o" ],
         "N": "f_cupboard",
-        "F": "f_fridge"
+        "S": "f_sofa",
+        "T": "f_table",
+        "a": "f_armchair",
+        "d": "f_desk",
+        "h": "f_treadmill",
+        "q": "f_oven",
+        "t": "f_table"
       },
       "items": {
-        "d": { "item": "mansion_ammo", "chance": 40 },
-        "K": { "item": "crate_stack", "chance": 100 },
         "(": { "item": "trash_cart", "chance": 30 },
-        "T": { "item": "snacks_fancy", "chance": 35 },
-        "C": { "item": "a_television", "chance": 100 },
-        "N": { "item": "vending_food", "chance": 40 },
-        "F": { "item": "fridgesnacks", "chance": 45 },
         "-": { "item": "clutter_mansion", "chance": 1 },
-        ".": { "item": "clutter_basement", "chance": 1 }
+        ".": { "item": "clutter_basement", "chance": 1 },
+        "C": { "item": "a_television", "chance": 100 },
+        "F": { "item": "fridgesnacks", "chance": 45 },
+        "K": { "item": "crate_stack", "chance": 100 },
+        "N": { "item": "vending_food", "chance": 40 },
+        "T": { "item": "snacks_fancy", "chance": 35 },
+        "d": { "item": "mansion_ammo", "chance": 40 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.08 }
@@ -2038,8 +2023,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_t", "mansion_t7" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_t",
+      "mansion_t7"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -2070,61 +2058,50 @@
         "''''''''''''''''''''''''"
       ],
       "terrain": {
-        "X": "t_wall",
-        "-": "t_carpet_red",
-        "*": [
-          "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub",
-          "t_grass"
-        ],
-        "T": "t_carpet_red",
-        "'": [
-          "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub",
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass"
-        ],
-        "O": "t_window_domestic",
+        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
+        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
         "+": "t_door_c",
-        "0": [
-          "t_tree", "t_tree", "t_tree", "t_grass", "t_dirt"
-        ],
-        ":": [
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
-          "t_grass", "t_grass", "t_dirt"
-        ],
-        ">": "t_stairs_down",
+        "-": "t_carpet_red",
+        "0": [ "t_tree", "t_tree", "t_tree", "t_grass", "t_dirt" ],
+        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "<": "t_stairs_up",
-        "S": "t_carpet_red"
+        ">": "t_stairs_down",
+        "O": "t_window_domestic",
+        "S": "t_carpet_red",
+        "T": "t_carpet_red",
+        "X": "t_wall"
       },
       "furniture": {
-        "l": "f_bookcase",
-        "d": "f_desk",
-        "t": "f_table",
-        "n": "f_cupboard",
-        "?": "f_fireplace",
-        "5": "f_indoor_plant",
-        "s": "f_sofa",
-        "1": "f_chair",
-        "a": "f_armchair",
-        "e": "f_pool_table",
         "(": "f_trashcan",
+        "1": "f_chair",
+        "5": "f_indoor_plant",
+        "?": "f_fireplace",
+        "S": "f_sofa",
         "T": "f_table",
-        "S": "f_sofa"
+        "a": "f_armchair",
+        "d": "f_desk",
+        "e": "f_pool_table",
+        "l": "f_bookcase",
+        "n": "f_cupboard",
+        "s": "f_sofa",
+        "t": "f_table"
       },
       "toilets": {
-        "P": { }
+        "P": {}
       },
       "items": {
-        "l": { "item": "mansion_bookcase", "chance": 100 },
-        "d": { "item": "office", "chance": 35 },
-        "t": { "item": "table_card", "chance": 35 },
-        "n": { "item": "wetbar_stack", "chance": 100 },
-        "?": { "item": "fireplace_fill", "chance": 30 },
-        "e": { "item": "pool_table", "chance": 40 },
+        "'": { "item": "clutter_yard", "chance": 1 },
         "(": { "item": "trash_cart", "chance": 30 },
-        "T": { "item": "art", "chance": 35 },
-        "{": { "item": "suit_of_armor", "chance": 100 },
         ".": { "item": "clutter_mansion", "chance": 1 },
         ":": { "item": "clutter_yard", "chance": 1 },
-        "'": { "item": "clutter_yard", "chance": 1 }
+        "?": { "item": "fireplace_fill", "chance": 30 },
+        "T": { "item": "art", "chance": 35 },
+        "d": { "item": "office", "chance": 35 },
+        "e": { "item": "pool_table", "chance": 40 },
+        "l": { "item": "mansion_bookcase", "chance": 100 },
+        "n": { "item": "wetbar_stack", "chance": 100 },
+        "t": { "item": "table_card", "chance": 35 },
+        "{": { "item": "suit_of_armor", "chance": 100 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
@@ -2133,8 +2110,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_t_up", "mansion_t7u" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_t_up",
+      "mansion_t7u"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -2165,47 +2145,47 @@
         "************************"
       ],
       "terrain": {
-        "X": "t_wall",
-        "-": "t_carpet_red",
-        "*": "t_open_air",
         " ": "t_open_air_rooved",
-        "C": "t_carpet_red",
-        "T": "t_carpet_red",
-        "|": "t_railing_v",
-        "O": "t_window_domestic",
+        "*": "t_open_air",
         "+": "t_door_c",
-        ">": "t_stairs_down",
-        "V": "t_carpet_red",
-        "S": "t_carpet_red",
+        "-": "t_carpet_red",
         "2": "t_carpet_red",
-        "A": "t_carpet_red",
         "6": "t_carpet_red",
+        ">": "t_stairs_down",
+        "A": "t_carpet_red",
+        "C": "t_carpet_red",
+        "F": "t_carpet_red",
         "N": "t_carpet_red",
-        "F": "t_carpet_red"
+        "O": "t_window_domestic",
+        "S": "t_carpet_red",
+        "T": "t_carpet_red",
+        "V": "t_carpet_red",
+        "X": "t_wall",
+        "|": "t_railing_v"
       },
       "furniture": {
-        "t": "f_table",
-        "s": "f_sofa",
-        "a": "f_armchair",
+        "2": "f_chair",
+        "6": "f_indoor_plant",
+        "A": "f_armchair",
         "C": "f_table",
+        "F": "f_fridge",
+        "N": "f_cupboard",
+        "S": "f_sofa",
         "T": "f_table",
         "V": "f_table",
-        "S": "f_sofa",
-        "2": "f_chair",
-        "A": "f_armchair",
-        "6": "f_indoor_plant",
-        "N": "f_cupboard",
-        "F": "f_fridge"
+        "a": "f_armchair",
+        "s": "f_sofa",
+        "t": "f_table"
       },
       "items": {
-        "t": { "item": "table_foyer", "chance": 30 },
-        "V": { "item": "a_television", "chance": 100 },
-        "C": { "item": "table_card", "chance": 40 },
-        "T": { "item": "table_livingroom", "chance": 35 },
-        "N": { "item": "wetbar_stack", "chance": 100 },
-        "F": { "item": "fridgesnacks", "chance": 45 },
         "-": { "item": "clutter_mansion", "chance": 3 },
-        ".": { "item": "clutter_mansion", "chance": 1 }
+        ".": { "item": "clutter_mansion", "chance": 1 },
+        "C": { "item": "table_card", "chance": 40 },
+        "F": { "item": "fridgesnacks", "chance": 45 },
+        "N": { "item": "wetbar_stack", "chance": 100 },
+        "T": { "item": "table_livingroom", "chance": 35 },
+        "V": { "item": "a_television", "chance": 100 },
+        "t": { "item": "table_foyer", "chance": 30 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 8 ], "y": [ 2, 11 ], "density": 0.08 }
@@ -2214,8 +2194,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_+_dn", "mansion_+1d" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_+_dn",
+      "mansion_+1d"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -2246,25 +2229,28 @@
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
       "terrain": {
-        "X": "t_brick_wall",
         "#": "t_rock",
-        "+": "t_door_c"
+        "+": "t_door_c",
+        "X": "t_brick_wall"
       },
       "furniture": {
         "m": "f_locker",
         "r": "f_rack"
       },
       "items": {
+        ".": { "item": "clutter_basement", "chance": 1 },
         "m": { "item": "cleaning", "chance": 35 },
-        "r": { "item": "tool_common_stack", "chance": 100 },
-        ".": { "item": "clutter_basement", "chance": 1 }
+        "r": { "item": "tool_common_stack", "chance": 100 }
       }
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_+", "mansion_+1" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_+",
+      "mansion_+1"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -2295,39 +2281,32 @@
         "XXXXXOOXXXX++XXXXOOXXXXX"
       ],
       "terrain": {
-        "X": "t_wall",
         "*": "t_shrub",
-        ",": "t_sidewalk",
-        "O": "t_window_domestic",
         "+": "t_door_c",
-        "0": [
-          "t_tree", "t_tree", "t_tree", "t_grass", "t_dirt"
-        ],
-        ":": [
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
-          "t_grass", "t_grass", "t_dirt"
-        ],
-        "@": "t_grass",
+        ",": "t_sidewalk",
         "/": "t_grass",
+        "0": [ "t_tree", "t_tree", "t_tree", "t_grass", "t_dirt" ],
+        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "@": "t_grass",
+        "O": "t_window_domestic",
+        "X": "t_wall",
         "~": "t_water_sh"
       },
       "furniture": {
-        "t": "f_table",
-        "n": "f_cupboard",
-        "@": [
-          "f_statue", "f_statue", "f_statue", "f_null", "f_null"
-        ],
+        "/": "f_bench",
+        "1": "f_chair",
         "5": "f_indoor_plant",
         "8": "f_indoor_plant_y",
-        "/": "f_bench",
-        "1": "f_chair"
+        "@": [ "f_statue", "f_statue", "f_statue", "f_null", "f_null" ],
+        "n": "f_cupboard",
+        "t": "f_table"
       },
       "items": {
-        "t": { "item": "snacks_fancy", "chance": 20 },
-        "n": { "item": "garden_shed", "chance": 40 },
         ",": { "item": "clutter_yard", "chance": 1 },
+        ".": { "item": "clutter_mansion", "chance": 1 },
         ":": { "item": "clutter_yard", "chance": 1 },
-        ".": { "item": "clutter_mansion", "chance": 1 }
+        "n": { "item": "garden_shed", "chance": 40 },
+        "t": { "item": "snacks_fancy", "chance": 20 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
@@ -2336,8 +2315,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_+_up", "mansion_+1u" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_+_up",
+      "mansion_+1u"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -2368,14 +2350,14 @@
         "XXXXXOOXXXX++XXXXOOXXXXX"
       ],
       "terrain": {
-        "X": "t_wall",
         "*": "t_open_air",
-        ",": "t_concrete",
-        "|": "t_railing_v",
-        "O": "t_window_domestic",
         "+": "t_door_c",
+        ",": "t_concrete",
         "4": "t_concrete",
-        "7": "t_concrete"
+        "7": "t_concrete",
+        "O": "t_window_domestic",
+        "X": "t_wall",
+        "|": "t_railing_v"
       },
       "furniture": {
         "4": "f_chair",
@@ -2388,8 +2370,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_+_dn", "mansion_+2d" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_+_dn",
+      "mansion_+2d"
+    ],
     "weight": 900,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -2420,74 +2405,70 @@
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
       "terrain": {
-        "X": "t_brick_wall",
-        "-": "t_carpet_red",
-        "T": "t_carpet_red",
-        ")": "t_carpet_red",
-        "%": "t_door_metal_locked",
-        "+": "t_door_c",
-        "&": "t_console_broken",
-        "D": "t_carpet_red",
         "$": "t_carpet_red",
-        "S": "t_carpet_red",
+        "%": "t_door_metal_locked",
+        "&": "t_console_broken",
+        ")": "t_carpet_red",
+        "*": "t_machinery_old",
+        "+": "t_door_c",
+        "-": "t_carpet_red",
         "2": "t_carpet_red",
         "?": "t_generator_broken",
+        "D": "t_carpet_red",
+        "S": "t_carpet_red",
+        "T": "t_carpet_red",
+        "X": "t_brick_wall",
         "]": "t_sewage_pipe",
-        "p": "t_sewage_pump",
-        "*": "t_machinery_old"
+        "p": "t_sewage_pump"
       },
       "furniture": {
-        "z": "f_dresser",
-        "t": "f_table",
-        "c": "f_counter",
-        "C": "f_table",
-        "m": "f_locker",
-        "r": "f_rack",
-        "q": "f_oven",
-        "n": "f_cupboard",
+        "!": "f_arcade_machine",
         "$": "f_safe_l",
-        "K": [
-          "f_crate_c", "f_crate_o"
-        ],
-        "k": [
-          "f_crate_c", "f_crate_o"
-        ],
-        "@": "f_statue",
-        "g": "f_dryer",
-        "w": "f_washer",
-        "s": "f_sofa",
+        "(": "f_trashcan",
+        ")": "f_trashcan",
         "/": "f_bench",
         "1": "f_chair",
-        "a": "f_armchair",
-        "}": "f_pinball_machine",
-        "!": "f_arcade_machine",
-        "e": "f_pool_table",
-        "h": "f_treadmill",
-        "u": "f_exercise",
-        "(": "f_trashcan",
-        "D": "f_desk",
-        "T": "f_table",
-        "S": "f_sofa",
         "2": "f_chair",
-        ")": "f_trashcan"
+        "@": "f_statue",
+        "C": "f_table",
+        "D": "f_desk",
+        "K": [ "f_crate_c", "f_crate_o" ],
+        "S": "f_sofa",
+        "T": "f_table",
+        "a": "f_armchair",
+        "c": "f_counter",
+        "e": "f_pool_table",
+        "g": "f_dryer",
+        "h": "f_treadmill",
+        "k": [ "f_crate_c", "f_crate_o" ],
+        "m": "f_locker",
+        "n": "f_cupboard",
+        "q": "f_oven",
+        "r": "f_rack",
+        "s": "f_sofa",
+        "t": "f_table",
+        "u": "f_exercise",
+        "w": "f_washer",
+        "z": "f_dresser",
+        "}": "f_pinball_machine"
       },
       "items": {
-        "z": { "item": "dresser_shabby", "chance": 100 },
-        "v": { "item": "a_television", "chance": 100 },
-        "t": { "item": "home_hw", "chance": 20 },
-        "c": { "item": "home_hw", "chance": 25 },
-        "m": { "item": "plumber_gear", "chance": 40 },
-        "r": { "item": "tool_common_stack", "chance": 100 },
-        "q": { "item": "oven", "chance": 10 },
-        "n": { "item": "softdrugs", "chance": 5 },
-        "K": { "item": "crate_stack", "chance": 100 },
-        "k": { "item": "hardware_bulk", "chance": 30 },
-        "(": { "item": "trash_cart", "chance": 30 },
-        "D": { "item": "office", "chance": 35 },
-        "T": { "item": "snacks_fancy", "chance": 40 },
-        ")": { "item": "trash_cart", "chance": 30 },
         "$": { "item": "mansion_safe", "chance": 100 },
-        ".": { "item": "clutter_basement", "chance": 1 }
+        "(": { "item": "trash_cart", "chance": 30 },
+        ")": { "item": "trash_cart", "chance": 30 },
+        ".": { "item": "clutter_basement", "chance": 1 },
+        "D": { "item": "office", "chance": 35 },
+        "K": { "item": "crate_stack", "chance": 100 },
+        "T": { "item": "snacks_fancy", "chance": 40 },
+        "c": { "item": "home_hw", "chance": 25 },
+        "k": { "item": "hardware_bulk", "chance": 30 },
+        "m": { "item": "plumber_gear", "chance": 40 },
+        "n": { "item": "softdrugs", "chance": 5 },
+        "q": { "item": "oven", "chance": 10 },
+        "r": { "item": "tool_common_stack", "chance": 100 },
+        "t": { "item": "home_hw", "chance": 20 },
+        "v": { "item": "a_television", "chance": 100 },
+        "z": { "item": "dresser_shabby", "chance": 100 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
@@ -2496,8 +2477,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_+", "mansion_+2" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_+",
+      "mansion_+2"
+    ],
     "weight": 900,
     "object": {
       "fill_ter": "t_floor",
@@ -2528,40 +2512,38 @@
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
       "terrain": {
-        "X": "t_wall",
-        "T": "t_linoleum_gray",
-        "C": "t_linoleum_gray",
         "+": "t_door_c",
-        "=": "t_linoleum_gray",
         "7": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
-        "P": "t_linoleum_gray"
+        "=": "t_linoleum_gray",
+        "C": "t_linoleum_gray",
+        "P": "t_linoleum_gray",
+        "T": "t_linoleum_gray",
+        "X": "t_wall",
+        "Y": "t_linoleum_gray"
       },
       "furniture": {
-        "c": "f_table",
-        "t": "f_table",
-        "m": "f_locker",
-        "K": [
-          "f_crate_c", "f_crate_o"
-        ],
-        "@": "f_statue",
         "1": "f_chair",
-        "T": "f_table",
-        "C": "f_counter",
         "7": "f_indoor_plant",
-        "Y": "f_sink"
+        "@": "f_statue",
+        "C": "f_counter",
+        "K": [ "f_crate_c", "f_crate_o" ],
+        "T": "f_table",
+        "Y": "f_sink",
+        "c": "f_table",
+        "m": "f_locker",
+        "t": "f_table"
       },
       "toilets": {
-        "P": { }
+        "P": {}
       },
       "items": {
-        "t": { "item": "table_ballroom", "chance": 35 },
+        ".": { "item": "clutter_ballroom", "chance": 1 },
         "1": { "item": "clutter_ballroom", "chance": 20 },
-        "m": { "item": "cleaning", "chance": 40 },
-        "K": { "item": "dining", "chance": 45 },
-        "C": { "item": "softdrugs", "chance": 30 },
         "=": { "item": "clutter_ballroom", "chance": 3 },
-        ".": { "item": "clutter_ballroom", "chance": 1 }
+        "C": { "item": "softdrugs", "chance": 30 },
+        "K": { "item": "dining", "chance": 45 },
+        "m": { "item": "cleaning", "chance": 40 },
+        "t": { "item": "table_ballroom", "chance": 35 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
@@ -2570,8 +2552,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_+_up", "mansion_+2u" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_+_up",
+      "mansion_+2u"
+    ],
     "weight": 900,
     "object": {
       "fill_ter": "t_floor",
@@ -2602,29 +2587,32 @@
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
       "terrain": {
-        "X": "t_wall",
-        "-": "t_carpet_red",
         "*": "t_open_air_rooved",
-        "|": "t_railing_v",
         "+": "t_door_c",
-        "[": "t_chaingate_c"
+        "-": "t_carpet_red",
+        "X": "t_wall",
+        "[": "t_chaingate_c",
+        "|": "t_railing_v"
       },
       "furniture": {
-        "t": "f_table",
         "5": "f_indoor_plant",
+        "a": "f_armchair",
         "s": "f_sofa",
-        "a": "f_armchair"
+        "t": "f_table"
       },
       "items": {
-        "t": { "item": "wetbar_counter", "chance": 35 },
-        ".": { "item": "clutter_mansion", "chance": 1 }
+        ".": { "item": "clutter_mansion", "chance": 1 },
+        "t": { "item": "wetbar_counter", "chance": 35 }
       }
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_+_dn", "mansion_+2d" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_+_dn",
+      "mansion_+2d"
+    ],
     "weight": 800,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -2655,53 +2643,49 @@
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
       "terrain": {
-        "X": "t_brick_wall",
         "%": "t_door_metal_locked",
+        "*": "t_machinery_old",
         "+": "t_door_c",
-        "o": "t_door_locked_interior",
         "?": "t_generator_broken",
+        "X": "t_brick_wall",
         "]": "t_sewage_pipe",
-        "p": "t_sewage_pump",
-        "*": "t_machinery_old"
+        "o": "t_door_locked_interior",
+        "p": "t_sewage_pump"
       },
       "furniture": {
-        "l": "f_bookcase",
-        "t": "f_table",
-        "T": "f_table",
-        "c": "f_counter",
-        "m": "f_locker",
-        "M": "f_locker",
-        "r": "f_rack",
-        "R": "f_rack",
-        "n": "f_cupboard",
         "$": "f_gunsafe_ml",
-        "K": [
-          "f_crate_c", "f_crate_o"
-        ],
-        "k": [
-          "f_crate_c", "f_crate_o"
-        ],
-        "s": "f_sofa",
         "@": "f_statue",
+        "K": [ "f_crate_c", "f_crate_o" ],
+        "M": "f_locker",
+        "R": "f_rack",
+        "T": "f_table",
         "a": "f_armchair",
+        "c": "f_counter",
         "e": "f_pool_table",
+        "k": [ "f_crate_c", "f_crate_o" ],
+        "l": "f_bookcase",
+        "m": "f_locker",
+        "n": "f_cupboard",
+        "r": "f_rack",
+        "s": "f_sofa",
+        "t": "f_table",
         "}": "f_pinball_machine"
       },
       "items": {
-        "v": { "item": "a_television", "chance": 100 },
-        "l": { "item": "mansion_bookcase", "chance": 100 },
-        "t": { "item": "home_hw", "chance": 20 },
-        "c": { "item": "home_hw", "chance": 25 },
-        "m": { "item": "cleaning", "chance": 35 },
-        "M": { "item": "plumber_gear", "chance": 35 },
-        "r": { "item": "tool_common_stack", "chance": 100 },
-        "R": { "item": "pantry", "chance": 35 },
-        "n": { "item": "construction_worker", "chance": 35 },
-        "K": { "item": "crate_stack", "chance": 100 },
-        "k": { "item": "hardware_bulk", "chance": 30 },
-        "{": { "item": "suit_of_armor", "chance": 100 },
         "$": { "item": "mansion_gunsafe", "chance": 100 },
-        ".": { "item": "clutter_basement", "chance": 1 }
+        ".": { "item": "clutter_basement", "chance": 1 },
+        "K": { "item": "crate_stack", "chance": 100 },
+        "M": { "item": "plumber_gear", "chance": 35 },
+        "R": { "item": "pantry", "chance": 35 },
+        "c": { "item": "home_hw", "chance": 25 },
+        "k": { "item": "hardware_bulk", "chance": 30 },
+        "l": { "item": "mansion_bookcase", "chance": 100 },
+        "m": { "item": "cleaning", "chance": 35 },
+        "n": { "item": "construction_worker", "chance": 35 },
+        "r": { "item": "tool_common_stack", "chance": 100 },
+        "t": { "item": "home_hw", "chance": 20 },
+        "v": { "item": "a_television", "chance": 100 },
+        "{": { "item": "suit_of_armor", "chance": 100 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
@@ -2710,8 +2694,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_+", "mansion_+3" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_+",
+      "mansion_+3"
+    ],
     "weight": 800,
     "object": {
       "fill_ter": "t_floor",
@@ -2742,63 +2729,61 @@
         "XXXXXOOXXXX++XXXXXXXXXXX"
       ],
       "terrain": {
-        "X": "t_wall",
-        "-": "t_floor_waxed_y",
         "#": "t_floor_waxed",
         "%": "t_backboard_in",
-        "C": "t_linoleum_gray",
         "'": "t_backboard",
-        "o": "t_door_glass_c",
-        "O": "t_window_domestic",
         "+": "t_door_c",
-        "=": "t_linoleum_gray",
-        "x": "t_wall_glass",
+        "-": "t_floor_waxed_y",
         "3": "t_linoleum_gray",
+        "=": "t_linoleum_gray",
+        "C": "t_linoleum_gray",
         "M": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
+        "O": "t_window_domestic",
         "P": "t_linoleum_gray",
-        "j": "t_linoleum_gray"
+        "X": "t_wall",
+        "Y": "t_linoleum_gray",
+        "j": "t_linoleum_gray",
+        "o": "t_door_glass_c",
+        "x": "t_wall_glass"
       },
       "furniture": {
-        "m": "f_locker",
-        "r": "f_rack",
-        "f": "f_fridge",
-        "K": [
-          "f_crate_c", "f_crate_o"
-        ],
-        "/": "f_bench",
-        "h": "f_treadmill",
-        "i": "f_ergometer",
-        "u": "f_exercise",
         "(": "f_trashcan",
-        "C": "f_counter",
+        "/": "f_bench",
         "2": "f_bench",
         "3": "f_bench",
+        "C": "f_counter",
+        "K": [ "f_crate_c", "f_crate_o" ],
         "M": "f_locker",
         "Y": "f_sink",
-        "j": "f_shower"
+        "f": "f_fridge",
+        "h": "f_treadmill",
+        "i": "f_ergometer",
+        "j": "f_shower",
+        "m": "f_locker",
+        "r": "f_rack",
+        "u": "f_exercise"
       },
       "toilets": {
-        "P": { }
-      },
-      "items": {
-        "m": { "item": "cleaning", "chance": 35 },
-        "r": { "item": "sports", "chance": 35 },
-        "f": { "item": "vending_drink", "chance": 45 },
-        "K": { "item": "crate_sports", "chance": 100 },
-        "2": { "item": "sauna", "chance": 35 },
-        "(": { "item": "trash_cart", "chance": 30 },
-        "C": { "item": "softdrugs", "chance": 30 },
-        "/": { "item": "clutter_gym", "chance": 30 },
-        "3": { "item": "clutter_gym", "chance": 40 },
-        "M": { "item": "locker_gym", "chance": 45 },
-        "=": { "item": "clutter_gym", "chance": 2 },
-        "#": { "item": "clutter_gym", "chance": 1 },
-        ".": { "item": "clutter_gym", "chance": 1 }
+        "P": {}
       },
       "place_liquids": [
         { "liquid": "water", "x": [ 20, 21 ], "y": [ 15, 17 ], "repeat": [ 2, 4 ] }
       ],
+      "items": {
+        "#": { "item": "clutter_gym", "chance": 1 },
+        "(": { "item": "trash_cart", "chance": 30 },
+        ".": { "item": "clutter_gym", "chance": 1 },
+        "/": { "item": "clutter_gym", "chance": 30 },
+        "2": { "item": "sauna", "chance": 35 },
+        "3": { "item": "clutter_gym", "chance": 40 },
+        "=": { "item": "clutter_gym", "chance": 2 },
+        "C": { "item": "softdrugs", "chance": 30 },
+        "K": { "item": "crate_sports", "chance": 100 },
+        "M": { "item": "locker_gym", "chance": 45 },
+        "f": { "item": "vending_drink", "chance": 45 },
+        "m": { "item": "cleaning", "chance": 35 },
+        "r": { "item": "sports", "chance": 35 }
+      },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
       ]
@@ -2806,8 +2791,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_+_up", "mansion_+3u" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_+_up",
+      "mansion_+3u"
+    ],
     "weight": 800,
     "object": {
       "fill_ter": "t_floor",
@@ -2838,25 +2826,28 @@
         "XXXXXOOXXXX++XXXXXXXXXXX"
       ],
       "terrain": {
-        "X": "t_wall",
         "*": "t_open_air_rooved",
-        "|": "t_railing_v",
+        "+": "t_door_c",
         "O": "t_window_domestic",
-        "+": "t_door_c"
+        "X": "t_wall",
+        "|": "t_railing_v"
       },
       "furniture": {
         "/": "f_bench"
       },
       "items": {
-        "/": { "item": "snacks_fancy", "chance": 20 },
-        ".": { "item": "clutter_mansion", "chance": 1 }
+        ".": { "item": "clutter_mansion", "chance": 1 },
+        "/": { "item": "snacks_fancy", "chance": 20 }
       }
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_+_dn", "mansion_+4d" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_+_dn",
+      "mansion_+4d"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -2887,44 +2878,42 @@
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
       "terrain": {
-        "X": "t_brick_wall",
-        "-": "t_carpet_red",
         "#": "t_rock",
+        "%": "t_door_locked_interior",
+        "&": "t_console_broken",
         ")": "t_carpet_red",
         "+": "t_door_c",
-        "%": "t_door_locked_interior",
-        "=": "t_linoleum_gray",
-        "&": "t_console_broken",
-        "D": "t_carpet_red",
+        "-": "t_carpet_red",
         "2": "t_carpet_red",
-        "N": "t_carpet_red",
+        "=": "t_linoleum_gray",
+        "D": "t_carpet_red",
         "F": "t_carpet_red",
-        "Y": "t_linoleum_gray",
-        "P": "t_linoleum_gray"
+        "N": "t_carpet_red",
+        "P": "t_linoleum_gray",
+        "X": "t_brick_wall",
+        "Y": "t_linoleum_gray"
       },
       "furniture": {
-        "r": "f_rack",
-        "K": [
-          "f_crate_c", "f_crate_o"
-        ],
-        "D": "f_desk",
         ")": "f_trashcan",
-        "N": "f_cupboard",
+        "D": "f_desk",
         "F": "f_fridge",
-        "Y": "f_sink"
+        "K": [ "f_crate_c", "f_crate_o" ],
+        "N": "f_cupboard",
+        "Y": "f_sink",
+        "r": "f_rack"
       },
       "toilets": {
-        "P": { }
+        "P": {}
       },
       "items": {
-        "r": { "item": "crate_stack", "chance": 100 },
-        "K": { "item": "crate_stack", "chance": 100 },
-        "D": { "item": "vending_food", "chance": 25 },
         ")": { "item": "harddrugs", "chance": 30 },
-        "N": { "item": "vending_food", "chance": 40 },
+        ".": { "item": "clutter_basement", "chance": 1 },
+        "D": { "item": "vending_food", "chance": 25 },
         "F": { "item": "fridgesnacks", "chance": 45 },
+        "K": { "item": "crate_stack", "chance": 100 },
+        "N": { "item": "vending_food", "chance": 40 },
         "Y": { "item": "softdrugs", "chance": 20 },
-        ".": { "item": "clutter_basement", "chance": 1 }
+        "r": { "item": "crate_stack", "chance": 100 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 8 ], "density": 0.08 }
@@ -2933,8 +2922,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_+", "mansion_+4" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_+",
+      "mansion_+4"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -2965,52 +2957,49 @@
         "XXXXXOOXXXX++XXXXOOXXXXX"
       ],
       "terrain": {
-        "X": "t_wall",
-        "-": "t_carpet_red",
-        "*": "t_shrub",
-        ",": "t_thconc_floor",
-        "T": "t_carpet_red",
         "'": "t_dirt",
         ")": "t_carpet_red",
-        "O": "t_window_domestic",
+        "*": "t_shrub",
         "+": "t_door_c",
-        ":": [
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
-          "t_grass", "t_grass", "t_dirt"
-        ],
-        "D": "t_carpet_red",
-        "S": "t_carpet_red",
+        ",": "t_thconc_floor",
+        "-": "t_carpet_red",
         "2": "t_carpet_red",
-        "A": "t_carpet_red"
+        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "A": "t_carpet_red",
+        "D": "t_carpet_red",
+        "O": "t_window_domestic",
+        "S": "t_carpet_red",
+        "T": "t_carpet_red",
+        "X": "t_wall"
       },
       "furniture": {
-        "l": "f_bookcase",
-        "c": "f_counter",
-        "C": "f_counter",
-        "m": "f_locker",
-        "r": "f_rack",
+        ")": "f_trashcan",
+        "2": "f_chair",
         "5": "f_indoor_plant",
         "8": "f_indoor_plant_y",
-        "s": "f_sofa",
-        "a": "f_armchair",
-        "D": "f_desk",
-        "T": "f_table",
-        "S": "f_sofa",
-        "2": "f_chair",
         "A": "f_armchair",
-        ")": "f_trashcan"
+        "C": "f_counter",
+        "D": "f_desk",
+        "S": "f_sofa",
+        "T": "f_table",
+        "a": "f_armchair",
+        "c": "f_counter",
+        "l": "f_bookcase",
+        "m": "f_locker",
+        "r": "f_rack",
+        "s": "f_sofa"
       },
       "items": {
-        "l": { "item": "mansion_bookcase", "chance": 100 },
+        ")": { "item": "trash_cart", "chance": 40 },
+        "-": { "item": "clutter_mansion", "chance": 1 },
+        ".": { "item": "clutter_mansion", "chance": 1 },
+        ":": { "item": "clutter_yard", "chance": 1 },
         "C": { "item": "medieval", "chance": 20 },
-        "m": { "item": "garden_shed", "chance": 40 },
-        "r": { "item": "cleaning", "chance": 40 },
         "D": { "item": "office", "chance": 35 },
         "T": { "item": "table_livingroom", "chance": 40 },
-        ")": { "item": "trash_cart", "chance": 40 },
-        ":": { "item": "clutter_yard", "chance": 1 },
-        "-": { "item": "clutter_mansion", "chance": 1 },
-        ".": { "item": "clutter_mansion", "chance": 1 }
+        "l": { "item": "mansion_bookcase", "chance": 100 },
+        "m": { "item": "garden_shed", "chance": 40 },
+        "r": { "item": "cleaning", "chance": 40 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
@@ -3019,8 +3008,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_+_up", "mansion_+4u" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_+_up",
+      "mansion_+4u"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -3051,27 +3043,27 @@
         "XXXXXOOXXXX++XXXXOOXXXXX"
       ],
       "terrain": {
-        "X": "t_wall",
-        "-": "t_carpet_red",
         "*": "t_open_air",
-        ",": "t_concrete",
-        "|": "t_railing_v",
-        "O": "t_window_domestic",
         "+": "t_door_c",
-        "S": "t_carpet_red"
+        ",": "t_concrete",
+        "-": "t_carpet_red",
+        "O": "t_window_domestic",
+        "S": "t_carpet_red",
+        "X": "t_wall",
+        "|": "t_railing_v"
       },
       "furniture": {
-        "t": "f_table",
         "5": "f_indoor_plant",
-        "s": "f_sofa",
+        "S": "f_sofa",
         "a": "f_armchair",
-        "S": "f_sofa"
+        "s": "f_sofa",
+        "t": "f_table"
       },
       "items": {
-        "t": { "item": "table_livingroom", "chance": 40 },
         ",": { "item": "clutter_mansion", "chance": 1 },
         "-": { "item": "clutter_mansion", "chance": 1 },
-        ".": { "item": "clutter_mansion", "chance": 1 }
+        ".": { "item": "clutter_mansion", "chance": 1 },
+        "t": { "item": "table_livingroom", "chance": 40 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 7 ], "density": 0.08 }
@@ -3080,8 +3072,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_c_dn", "mansion_c1d" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_c_dn",
+      "mansion_c1d"
+    ],
     "weight": 700,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -3112,34 +3107,35 @@
         "#######XXXXXXXXXX++XXXXX"
       ],
       "terrain": {
-        "X": "t_brick_wall",
         "#": "t_rock",
-        "+": "t_door_c",
         "%": "t_door_locked_interior",
+        "*": "t_machinery_old",
+        "+": "t_door_c",
         "?": "t_generator_broken",
+        "X": "t_brick_wall",
         "]": "t_sewage_pipe",
-        "p": "t_sewage_pump",
-        "*": "t_machinery_old"
+        "p": "t_sewage_pump"
       },
       "furniture": {
+        "K": [ "f_crate_c", "f_crate_o" ],
         "m": "f_locker",
-        "r": "f_rack",
-        "K": [
-          "f_crate_c", "f_crate_o"
-        ]
+        "r": "f_rack"
       },
       "items": {
-        "m": { "item": "plumber_gear", "chance": 40 },
-        "r": { "item": "pantry", "chance": 25 },
+        ".": { "item": "clutter_basement", "chance": 1 },
         "K": { "item": "crate_stack", "chance": 100 },
-        ".": { "item": "clutter_basement", "chance": 1 }
+        "m": { "item": "plumber_gear", "chance": 40 },
+        "r": { "item": "pantry", "chance": 25 }
       }
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_c", "mansion_c1" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_c",
+      "mansion_c1"
+    ],
     "weight": 700,
     "object": {
       "fill_ter": "t_floor",
@@ -3170,54 +3166,45 @@
         "'':::::XXXXXXXXXX++XXXXX"
       ],
       "terrain": {
-        "X": "t_wall",
-        "*": [
-          "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub",
-          "t_grass"
-        ],
-        "C": "t_linoleum_gray",
-        "'": [
-          "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub",
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass"
-        ],
         "!": "t_linoleum_gray",
-        "O": "t_window_domestic",
+        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
+        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
         "+": "t_door_c",
-        ":": [
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
-          "t_grass", "t_grass", "t_dirt"
-        ],
-        "=": "t_linoleum_gray",
-        "x": "t_wall_glass",
-        "@": "t_linoleum_gray",
-        "~": "t_water_pool",
-        "9": "t_linoleum_gray",
         "/": "t_linoleum_gray",
         "3": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
+        "9": "t_linoleum_gray",
+        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "=": "t_linoleum_gray",
+        "@": "t_linoleum_gray",
+        "C": "t_linoleum_gray",
+        "O": "t_window_domestic",
         "P": "t_linoleum_gray",
-        "j": "t_linoleum_gray"
+        "X": "t_wall",
+        "Y": "t_linoleum_gray",
+        "j": "t_linoleum_gray",
+        "x": "t_wall_glass",
+        "~": "t_water_pool"
       },
       "furniture": {
-        "@": "f_statue",
+        "!": "f_dive_block",
+        "/": "f_bench",
         "3": "f_chair",
         "5": "f_indoor_plant",
-        "C": "f_counter",
-        "!": "f_dive_block",
         "9": "f_indoor_plant_y",
-        "/": "f_bench",
+        "@": "f_statue",
+        "C": "f_counter",
         "Y": "f_sink",
         "j": "f_shower"
       },
       "toilets": {
-        "P": { }
+        "P": {}
       },
       "items": {
-        "C": { "item": "softdrugs", "chance": 30 },
+        "'": { "item": "clutter_yard", "chance": 1 },
         "/": { "item": "pool_side", "chance": 30 },
-        "=": { "item": "pool_side", "chance": 2 },
         ":": { "item": "clutter_yard", "chance": 1 },
-        "'": { "item": "clutter_yard", "chance": 1 }
+        "=": { "item": "pool_side", "chance": 2 },
+        "C": { "item": "softdrugs", "chance": 30 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
@@ -3226,8 +3213,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_c_up", "mansion_c1u" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_c_up",
+      "mansion_c1u"
+    ],
     "weight": 700,
     "object": {
       "fill_ter": "t_floor",
@@ -3258,39 +3248,39 @@
         "*******XXXXXXXXXX++XXXXX"
       ],
       "terrain": {
-        "X": "t_wall",
-        "-": "t_carpet_red",
-        "*": "t_open_air",
-        ",": "t_open_air_rooved",
         "'": "t_flat_roof",
-        "|": "t_railing_v",
-        "O": "t_window_domestic",
+        "*": "t_open_air",
         "+": "t_door_c",
+        ",": "t_open_air_rooved",
+        "-": "t_carpet_red",
+        "E": "t_carpet_red",
+        "O": "t_window_domestic",
+        "X": "t_wall",
         "x": "t_wall_glass",
-        "E": "t_carpet_red"
+        "|": "t_railing_v"
       },
       "furniture": {
-        "t": "f_table",
-        "c": "f_counter",
-        "n": "f_cupboard",
-        "f": "f_fridge",
-        "y": "f_sink",
+        "(": "f_trashcan",
+        "1": "f_chair",
         "5": "f_indoor_plant",
         "8": "f_indoor_plant_y",
-        "s": "f_sofa",
-        "1": "f_chair",
+        "E": "f_pool_table",
         "a": "f_armchair",
-        "(": "f_trashcan",
-        "E": "f_pool_table"
+        "c": "f_counter",
+        "f": "f_fridge",
+        "n": "f_cupboard",
+        "s": "f_sofa",
+        "t": "f_table",
+        "y": "f_sink"
       },
       "items": {
-        "t": { "item": "snacks_fancy", "chance": 30 },
-        "c": { "item": "wetbar_counter", "chance": 25 },
-        "n": { "item": "wetbar_stack", "chance": 100 },
-        "f": { "item": "wetbar_fridge", "chance": 45 },
         "(": { "item": "trash_cart", "chance": 30 },
+        ".": { "item": "clutter_mansion", "chance": 1 },
         "E": { "item": "pool_table", "chance": 40 },
-        ".": { "item": "clutter_mansion", "chance": 1 }
+        "c": { "item": "wetbar_counter", "chance": 25 },
+        "f": { "item": "wetbar_fridge", "chance": 45 },
+        "n": { "item": "wetbar_stack", "chance": 100 },
+        "t": { "item": "snacks_fancy", "chance": 30 }
       },
       "place_loot": [
         { "item": "lawn_dart", "x": [ 11, 14 ], "y": [ 4, 6 ], "chance": 40, "repeat": [ 1, 2 ] }
@@ -3302,8 +3292,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_c_dn", "mansion_c2d" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_c_dn",
+      "mansion_c2d"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -3334,37 +3327,35 @@
         "#######XXXXXXXXXX++XXXXX"
       ],
       "terrain": {
-        "X": "t_brick_wall",
         "#": "t_rock",
+        "*": "t_machinery_old",
         "+": "t_door_c",
         "?": "t_generator_broken",
+        "X": "t_brick_wall",
         "]": "t_sewage_pipe",
-        "p": "t_sewage_pump",
-        "*": "t_machinery_old"
+        "p": "t_sewage_pump"
       },
       "furniture": {
-        "d": "f_desk",
-        "t": "f_table",
-        "r": "f_rack",
-        "q": "f_oven",
-        "K": [
-          "f_crate_c", "f_crate_o"
-        ],
-        "g": "f_dryer",
-        "w": "f_washer",
         "(": "f_trashcan",
-        "s": "f_sofa",
         "/": "f_bench",
         "1": "f_chair",
-        "a": "f_armchair"
+        "K": [ "f_crate_c", "f_crate_o" ],
+        "a": "f_armchair",
+        "d": "f_desk",
+        "g": "f_dryer",
+        "q": "f_oven",
+        "r": "f_rack",
+        "s": "f_sofa",
+        "t": "f_table",
+        "w": "f_washer"
       },
       "items": {
-        "d": { "item": "office", "chance": 10 },
-        "r": { "item": "pantry", "chance": 30 },
-        "q": { "item": "medieval", "chance": 25 },
-        "K": { "item": "crate_stack", "chance": 100 },
         "(": { "item": "trash_cart", "chance": 30 },
-        ".": { "item": "clutter_basement", "chance": 1 }
+        ".": { "item": "clutter_basement", "chance": 1 },
+        "K": { "item": "crate_stack", "chance": 100 },
+        "d": { "item": "office", "chance": 10 },
+        "q": { "item": "medieval", "chance": 25 },
+        "r": { "item": "pantry", "chance": 30 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 8, 21 ], "y": [ 8, 21 ], "density": 0.08 }
@@ -3373,8 +3364,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_c", "mansion_c2" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_c",
+      "mansion_c2"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -3405,61 +3399,52 @@
         "'':::::XXXXXXXXXX++XXXXX"
       ],
       "terrain": {
-        "X": "t_wall",
-        "*": [
-          "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub",
-          "t_grass"
-        ],
-        "'": [
-          "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub",
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass"
-        ],
-        "O": "t_window_domestic",
+        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
+        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
         "+": "t_door_c",
-        ":": [
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
-          "t_grass", "t_grass", "t_dirt"
-        ],
+        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "=": "t_linoleum_gray",
         "N": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
-        "P": "t_linoleum_gray"
+        "O": "t_window_domestic",
+        "P": "t_linoleum_gray",
+        "X": "t_wall",
+        "Y": "t_linoleum_gray"
       },
       "furniture": {
-        "v": "f_table",
-        "t": "f_table",
-        "c": "f_counter",
-        "n": "f_cupboard",
-        "f": "f_fridge",
-        "y": "f_sink",
-        "5": "f_indoor_plant",
-        "s": "f_sofa",
         "1": "f_chair",
+        "5": "f_indoor_plant",
+        "N": "f_cupboard",
+        "Y": "f_sink",
         "a": "f_armchair",
-        "}": "f_pinball_machine",
+        "c": "f_counter",
         "e": "f_pool_table",
+        "f": "f_fridge",
         "h": "f_treadmill",
         "i": "f_ergometer",
+        "n": "f_cupboard",
+        "s": "f_sofa",
+        "t": "f_table",
         "u": "f_exercise",
+        "v": "f_table",
+        "y": "f_sink",
         "z": "f_dresser",
-        "N": "f_cupboard",
-        "Y": "f_sink"
+        "}": "f_pinball_machine"
       },
       "toilets": {
-        "P": { }
+        "P": {}
       },
       "items": {
-        "v": { "item": "a_television", "chance": 100 },
-        "t": { "item": "table_livingroom", "chance": 30 },
+        "'": { "item": "clutter_yard", "chance": 1 },
+        ".": { "item": "clutter_mansion", "chance": 1 },
+        ":": { "item": "clutter_yard", "chance": 1 },
+        "N": { "item": "softdrugs", "chance": 35 },
         "c": { "item": "wetbar_counter", "chance": 30 },
+        "e": { "item": "pool_table", "chance": 40 },
         "f": { "item": "wetbar_fridge", "chance": 45 },
         "n": { "item": "wetbar_stack", "chance": 100 },
-        "e": { "item": "pool_table", "chance": 40 },
-        "z": { "item": "jackets", "chance": 40 },
-        "N": { "item": "softdrugs", "chance": 35 },
-        ":": { "item": "clutter_yard", "chance": 1 },
-        "'": { "item": "clutter_yard", "chance": 1 },
-        ".": { "item": "clutter_mansion", "chance": 1 }
+        "t": { "item": "table_livingroom", "chance": 30 },
+        "v": { "item": "a_television", "chance": 100 },
+        "z": { "item": "jackets", "chance": 40 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
@@ -3468,8 +3453,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_c_up", "mansion_c2u" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_c_up",
+      "mansion_c2u"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -3500,57 +3488,57 @@
         "*******XXXXXXXXXX++XXXXX"
       ],
       "terrain": {
-        "X": "t_wall",
-        "-": "t_carpet_red",
-        "*": "t_open_air",
-        "T": "t_carpet_red",
+        "&": "t_console_broken",
         "'": "t_flat_roof",
-        "o": "t_door_frame",
-        "O": "t_window_domestic",
+        "*": "t_open_air",
         "+": "t_door_c",
+        "-": "t_carpet_red",
+        "2": "t_carpet_red",
         "=": "t_linoleum_gray",
         "B": "t_carpet_red",
-        "&": "t_console_broken",
-        "Z": "t_carpet_red",
         "D": "t_carpet_red",
-        "2": "t_carpet_red",
+        "J": "t_linoleum_gray",
         "N": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
+        "O": "t_window_domestic",
         "P": "t_linoleum_gray",
-        "J": "t_linoleum_gray"
+        "T": "t_carpet_red",
+        "X": "t_wall",
+        "Y": "t_linoleum_gray",
+        "Z": "t_carpet_red",
+        "o": "t_door_frame"
       },
       "furniture": {
+        "1": "f_chair",
+        "2": "f_chair",
+        "B": "f_bed",
+        "D": "f_desk",
+        "J": "f_bathtub",
+        "N": "f_cupboard",
+        "T": "f_table",
+        "Y": "f_sink",
+        "Z": "f_dresser",
         "b": "f_bed",
-        "z": "f_dresser",
         "d": "f_desk",
         "t": "f_table",
-        "1": "f_chair",
-        "B": "f_bed",
-        "Z": "f_dresser",
-        "D": "f_desk",
-        "T": "f_table",
-        "2": "f_chair",
-        "N": "f_cupboard",
-        "Y": "f_sink",
-        "J": "f_bathtub"
+        "z": "f_dresser"
       },
       "toilets": {
-        "P": { }
+        "P": {}
       },
       "items": {
-        "b": { "item": "bed", "chance": 30 },
-        "B": { "item": "bed", "chance": 30 },
-        "z": { "item": "dresser_stack", "chance": 100 },
-        "Z": { "item": "dresser_stack", "chance": 100 },
-        "d": { "item": "wetbar_counter", "chance": 30 },
-        "D": { "item": "office", "chance": 30 },
-        "t": { "item": "nightstand", "chance": 40 },
-        "T": { "item": "nightstand", "chance": 40 },
-        "N": { "item": "softdrugs", "chance": 45 },
-        "=": { "item": "clutter_bathroom", "chance": 10 },
-        "J": { "item": "clutter_bathroom", "chance": 15 },
         "-": { "item": "clutter_bedroom", "chance": 2 },
-        ".": { "item": "clutter_bedroom", "chance": 2 }
+        ".": { "item": "clutter_bedroom", "chance": 2 },
+        "=": { "item": "clutter_bathroom", "chance": 10 },
+        "B": { "item": "bed", "chance": 30 },
+        "D": { "item": "office", "chance": 30 },
+        "J": { "item": "clutter_bathroom", "chance": 15 },
+        "N": { "item": "softdrugs", "chance": 45 },
+        "T": { "item": "nightstand", "chance": 40 },
+        "Z": { "item": "dresser_stack", "chance": 100 },
+        "b": { "item": "bed", "chance": 30 },
+        "d": { "item": "wetbar_counter", "chance": 30 },
+        "t": { "item": "nightstand", "chance": 40 },
+        "z": { "item": "dresser_stack", "chance": 100 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 9, 21 ], "y": [ 9, 21 ], "density": 0.08 }
@@ -3559,8 +3547,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_c_dn", "mansion_c3d" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_c_dn",
+      "mansion_c3d"
+    ],
     "weight": 500,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -3591,27 +3582,25 @@
         "#######XXXXXXXXXX++XXXXX"
       ],
       "terrain": {
-        "X": "t_brick_wall",
         "#": "t_rock",
-        "+": "t_door_c"
+        "+": "t_door_c",
+        "X": "t_brick_wall"
       },
       "furniture": {
-        "d": "f_desk",
-        "t": "f_table",
-        "K": [
-          "f_crate_c", "f_crate_o"
-        ],
-        "@": "f_statue",
-        "s": "f_sofa",
         "1": "f_chair",
+        "@": "f_statue",
+        "K": [ "f_crate_c", "f_crate_o" ],
         "a": "f_armchair",
+        "d": "f_desk",
+        "s": "f_sofa",
+        "t": "f_table",
         "u": "f_exercise"
       },
       "items": {
-        "d": { "item": "office", "chance": 10 },
+        ".": { "item": "clutter_basement", "chance": 1 },
         "K": { "item": "crate_stack", "chance": 100 },
-        "v": { "item": "a_television", "chance": 100 },
-        ".": { "item": "clutter_basement", "chance": 1 }
+        "d": { "item": "office", "chance": 10 },
+        "v": { "item": "a_television", "chance": 100 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 8, 21 ], "y": [ 8, 21 ], "density": 0.08 }
@@ -3620,8 +3609,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_c", "mansion_c3" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_c",
+      "mansion_c3"
+    ],
     "weight": 500,
     "object": {
       "fill_ter": "t_floor",
@@ -3652,52 +3644,43 @@
         "'':::::XXXXXXXXXX++XXXXX"
       ],
       "terrain": {
-        "X": "t_wall",
-        "-": "t_carpet_red",
-        "*": [
-          "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub",
-          "t_grass"
-        ],
-        "'": [
-          "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub",
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass"
-        ],
-        "O": "t_window_domestic",
+        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
+        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
         "+": "t_door_c",
-        ":": [
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
-          "t_grass", "t_grass", "t_dirt"
-        ],
+        "-": "t_carpet_red",
+        "2": "t_carpet_red",
+        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "=": "t_linoleum_gray",
         "D": "t_carpet_red",
-        "2": "t_carpet_red",
-        "Y": "t_linoleum_gray",
-        "P": "t_linoleum_gray"
+        "O": "t_window_domestic",
+        "P": "t_linoleum_gray",
+        "X": "t_wall",
+        "Y": "t_linoleum_gray"
       },
       "furniture": {
-        "l": "f_bookcase",
-        "t": "f_table",
-        "?": "f_fireplace",
-        "5": "f_indoor_plant",
-        "s": "f_sofa",
         "1": "f_chair",
-        "a": "f_armchair",
-        "D": "f_desk",
         "2": "f_chair",
-        "Y": "f_sink"
+        "5": "f_indoor_plant",
+        "?": "f_fireplace",
+        "D": "f_desk",
+        "Y": "f_sink",
+        "a": "f_armchair",
+        "l": "f_bookcase",
+        "s": "f_sofa",
+        "t": "f_table"
       },
       "toilets": {
-        "P": { }
+        "P": {}
       },
       "items": {
-        "l": { "item": "mansion_bookcase", "chance": 100 },
-        "D": { "item": "office", "chance": 35 },
-        "t": { "item": "table_livingroom", "chance": 30 },
-        "?": { "item": "fireplace_fill", "chance": 30 },
-        "Y": { "item": "softdrugs", "chance": 35 },
+        "'": { "item": "clutter_yard", "chance": 1 },
         ".": { "item": "clutter_mansion", "chance": 1 },
         ":": { "item": "clutter_yard", "chance": 1 },
-        "'": { "item": "clutter_yard", "chance": 1 }
+        "?": { "item": "fireplace_fill", "chance": 30 },
+        "D": { "item": "office", "chance": 35 },
+        "Y": { "item": "softdrugs", "chance": 35 },
+        "l": { "item": "mansion_bookcase", "chance": 100 },
+        "t": { "item": "table_livingroom", "chance": 30 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
@@ -3706,8 +3689,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_c_up", "mansion_c3u" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_c_up",
+      "mansion_c3u"
+    ],
     "weight": 500,
     "object": {
       "fill_ter": "t_floor",
@@ -3738,35 +3724,35 @@
         "*******XXXXXXXXXX++XXXXX"
       ],
       "terrain": {
-        "X": "t_wall",
-        "-": "t_carpet_red",
-        "*": "t_open_air",
         " ": "t_open_air_rooved",
-        "|": "t_railing_v",
-        "O": "t_window_domestic",
+        "*": "t_open_air",
         "+": "t_door_c",
-        "d": "t_carpet_red",
+        "-": "t_carpet_red",
+        "A": "t_carpet_red",
         "D": "t_carpet_red",
-        "A": "t_carpet_red"
+        "O": "t_window_domestic",
+        "X": "t_wall",
+        "d": "t_carpet_red",
+        "|": "t_railing_v"
       },
       "furniture": {
-        "l": "f_bookcase",
-        "t": "f_table",
+        "5": "f_indoor_plant",
+        "A": "f_armchair",
+        "D": "f_desk",
         "T": "f_table",
         "c": "f_table",
-        "5": "f_indoor_plant",
-        "s": "f_sofa",
         "d": "f_desk",
-        "D": "f_desk",
-        "A": "f_armchair"
+        "l": "f_bookcase",
+        "s": "f_sofa",
+        "t": "f_table"
       },
       "items": {
-        "l": { "item": "mansion_bookcase", "chance": 100 },
-        "d": { "item": "mansion_guns", "chance": 100 },
+        ".": { "item": "clutter_mansion", "chance": 1 },
         "D": { "item": "office", "chance": 35 },
         "T": { "item": "art", "chance": 100 },
         "c": { "item": "snacks_fancy", "chance": 20 },
-        ".": { "item": "clutter_mansion", "chance": 1 }
+        "d": { "item": "mansion_guns", "chance": 100 },
+        "l": { "item": "mansion_bookcase", "chance": 100 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 15, 21 ], "y": [ 9, 21 ], "density": 0.08 }
@@ -3775,8 +3761,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_c_dn", "mansion_c4d" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_c_dn",
+      "mansion_c4d"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -3807,56 +3796,57 @@
         "######XXXXXXXXXXX++XXXXX"
       ],
       "terrain": {
-        "X": "t_brick_wall",
         "#": "t_rock",
-        "T": "t_linoleum_gray",
-        "+": "t_door_c",
         "%": "t_door_locked_interior",
+        "*": "t_machinery_old",
+        "+": "t_door_c",
+        "3": "t_linoleum_gray",
         "=": "t_linoleum_gray",
         "?": "t_generator_broken",
-        "]": "t_sewage_pipe",
-        "p": "t_sewage_pump",
-        "*": "t_machinery_old",
-        "3": "t_linoleum_gray",
         "G": "t_linoleum_gray",
+        "R": "t_linoleum_gray",
+        "T": "t_linoleum_gray",
         "W": "t_linoleum_gray",
-        "R": "t_linoleum_gray"
+        "X": "t_brick_wall",
+        "]": "t_sewage_pipe",
+        "p": "t_sewage_pump"
       },
       "furniture": {
-        "m": "f_locker",
-        "r": "f_rack",
-        "K": [
-          "f_crate_c", "f_crate_o"
-        ],
-        "T": "f_table",
         "3": "f_chair",
         "G": "f_dryer",
+        "K": [ "f_crate_c", "f_crate_o" ],
+        "R": "f_rack",
+        "T": "f_table",
         "W": "f_washer",
-        "R": "f_rack"
+        "m": "f_locker",
+        "r": "f_rack"
       },
       "items": {
-        "m": { "item": "plumber_gear", "chance": 30 },
-        "r": { "item": "tool_common_stack", "chance": 100 },
-        "K": { "item": "hardware_bulk", "chance": 30 },
-        "T": { "item": "dresser_stack", "chance": 100 },
-        "G": { "item": "dresser_male", "chance": 10 },
-        "W": { "item": "dresser_female", "chance": 10 },
-        "R": { "item": "crate_cleaning", "chance": 100 },
+        ".": { "item": "clutter_basement", "chance": 1 },
         "=": { "item": "clutter_basement", "chance": 1 },
-        ".": { "item": "clutter_basement", "chance": 1 }
+        "G": { "item": "dresser_male", "chance": 10 },
+        "K": { "item": "hardware_bulk", "chance": 30 },
+        "R": { "item": "crate_cleaning", "chance": 100 },
+        "T": { "item": "dresser_stack", "chance": 100 },
+        "W": { "item": "dresser_female", "chance": 10 },
+        "m": { "item": "plumber_gear", "chance": 30 },
+        "r": { "item": "tool_common_stack", "chance": 100 }
       },
-      "place_vehicles": [
-        { "vehicle": "laundry_cart", "x": [ 13, 18 ], "y": [ 8, 9 ], "chance": 50 }
-      ],
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 13, 21 ], "y": [ 7, 21 ], "density": 0.08 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "laundry_cart", "x": [ 13, 18 ], "y": [ 8, 9 ], "chance": 50 }
       ]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_c", "mansion_c4" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_c",
+      "mansion_c4"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -3887,69 +3877,60 @@
         "''::::XXXXXXXXXXX++XXXXX"
       ],
       "terrain": {
-        "X": "t_wall",
-        "-": "t_carpet_red",
-        "*": [
-          "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub",
-          "t_grass"
-        ],
-        "C": "t_linoleum_gray",
-        "'": [
-          "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub",
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass"
-        ],
-        "O": "t_window_domestic",
+        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
+        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
         "+": "t_door_c",
-        ":": [
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
-          "t_grass", "t_grass", "t_dirt"
-        ],
-        "=": "t_linoleum_gray",
-        "B": "t_carpet_red",
+        "-": "t_carpet_red",
         "2": "t_carpet_red",
+        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "=": "t_linoleum_gray",
         "A": "t_carpet_red",
-        "Y": "t_linoleum_gray",
+        "B": "t_carpet_red",
+        "C": "t_linoleum_gray",
+        "J": "t_linoleum_gray",
+        "O": "t_window_domestic",
         "P": "t_linoleum_gray",
-        "J": "t_linoleum_gray"
+        "X": "t_wall",
+        "Y": "t_linoleum_gray"
       },
       "furniture": {
-        "b": "f_bed",
-        "l": "f_bookcase",
-        "z": "f_dresser",
-        "d": "f_desk",
-        "t": "f_table",
-        "T": "f_table",
+        "1": "f_chair",
+        "2": "f_chair",
+        "5": "f_indoor_plant",
         "?": "f_fireplace",
         "@": "f_statue",
-        "5": "f_indoor_plant",
-        "1": "f_chair",
-        "B": "f_bed",
-        "c": "f_counter",
-        "C": "f_counter",
-        "2": "f_chair",
         "A": "f_armchair",
+        "B": "f_bed",
+        "C": "f_counter",
+        "J": "f_bathtub",
+        "T": "f_table",
         "Y": "f_sink",
-        "J": "f_bathtub"
+        "b": "f_bed",
+        "c": "f_counter",
+        "d": "f_desk",
+        "l": "f_bookcase",
+        "t": "f_table",
+        "z": "f_dresser"
       },
       "toilets": {
-        "P": { }
+        "P": {}
       },
       "items": {
-        "b": { "item": "bed", "chance": 30 },
-        "l": { "item": "mansion_bookcase", "chance": 100 },
-        "z": { "item": "dresser_stack", "chance": 100 },
-        "d": { "item": "office", "chance": 30 },
-        "t": { "item": "nightstand", "chance": 35 },
-        "T": { "item": "table_foyer", "chance": 20 },
+        "'": { "item": "clutter_yard", "chance": 1 },
+        ".": { "item": "clutter_bedroom", "chance": 1 },
+        ":": { "item": "clutter_yard", "chance": 1 },
+        "=": { "item": "clutter_bathroom", "chance": 10 },
         "?": { "item": "fireplace_fill", "chance": 30 },
         "B": { "item": "bed", "chance": 30 },
         "C": { "item": "softdrugs", "chance": 45 },
-        "c": { "item": "vanity", "chance": 35 },
-        "=": { "item": "clutter_bathroom", "chance": 10 },
         "J": { "item": "clutter_bathroom", "chance": 15 },
-        ".": { "item": "clutter_bedroom", "chance": 1 },
-        ":": { "item": "clutter_yard", "chance": 1 },
-        "'": { "item": "clutter_yard", "chance": 1 }
+        "T": { "item": "table_foyer", "chance": 20 },
+        "b": { "item": "bed", "chance": 30 },
+        "c": { "item": "vanity", "chance": 35 },
+        "d": { "item": "office", "chance": 30 },
+        "l": { "item": "mansion_bookcase", "chance": 100 },
+        "t": { "item": "nightstand", "chance": 35 },
+        "z": { "item": "dresser_stack", "chance": 100 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
@@ -3958,8 +3939,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_c_up", "mansion_c4u" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_c_up",
+      "mansion_c4u"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -3990,36 +3974,36 @@
         "******XXXXXXXXXXX++XXXXX"
       ],
       "terrain": {
-        "X": "t_wall",
-        "*": "t_open_air",
         " ": "t_open_air_rooved",
         "'": "t_flat_roof",
-        "o": "t_door_frame",
-        "O": "t_window_domestic",
+        "*": "t_open_air",
         "+": "t_door_c",
         "=": "t_linoleum_gray",
         "N": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
+        "O": "t_window_domestic",
         "P": "t_linoleum_gray",
-        "j": "t_linoleum_gray"
+        "X": "t_wall",
+        "Y": "t_linoleum_gray",
+        "j": "t_linoleum_gray",
+        "o": "t_door_frame"
       },
       "furniture": {
-        "b": "f_bed",
-        "z": "f_dresser",
         "1": "f_chair",
         "N": "f_cupboard",
         "Y": "f_sink",
-        "j": "f_shower"
+        "b": "f_bed",
+        "j": "f_shower",
+        "z": "f_dresser"
       },
       "toilets": {
-        "P": { }
+        "P": {}
       },
       "items": {
-        "b": { "item": "bed", "chance": 30 },
-        "z": { "item": "dresser_servant", "chance": 45 },
+        ".": { "item": "clutter_mansion", "chance": 1 },
         "1": { "item": "nightstand", "chance": 20 },
         "N": { "item": "softdrugs", "chance": 40 },
-        ".": { "item": "clutter_mansion", "chance": 1 }
+        "b": { "item": "bed", "chance": 30 },
+        "z": { "item": "dresser_servant", "chance": 45 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 18, 21 ], "y": [ 8, 21 ], "density": 0.08 }
@@ -4028,8 +4012,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_c_dn", "mansion_c5d" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_c_dn",
+      "mansion_c5d"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_rock_floor",
@@ -4060,34 +4047,32 @@
         "######XXXXXXXXXXX++XXXXX"
       ],
       "terrain": {
-        "X": "t_brick_wall",
         "#": "t_rock",
-        "o": "t_door_frame",
         "+": "t_door_c",
         "<": "t_stairs_up",
+        "X": "t_brick_wall",
         "]": "t_sewage_pipe",
+        "o": "t_door_frame",
         "p": "t_sewage_pump"
       },
       "furniture": {
-        "r": "f_rack",
-        "t": "f_table",
+        "K": [ "f_crate_c", "f_crate_o" ],
         "f": "f_fridge",
-        "K": [
-          "f_crate_c", "f_crate_o"
-        ]
-      },
-      "items": {
-        "t": { "item": "table_wine", "chance": 35 },
-        "r": { "item": "pantry", "chance": 35 },
-        "f": { "item": "fridge", "chance": 40 },
-        "k": { "item": "keg_wine", "chance": 100 },
-        "K": { "item": "crate_wine", "chance": 100 },
-        ".": { "item": "clutter_basement", "chance": 1 }
+        "r": "f_rack",
+        "t": "f_table"
       },
       "place_liquids": [
         { "liquid": "wine_cabernet", "x": [ 14, 22 ], "y": [ 8, 13 ], "repeat": [ 4, 12 ] },
         { "liquid": "wine_chardonnay", "x": [ 17, 22 ], "y": [ 8, 15 ], "repeat": [ 2, 6 ] }
       ],
+      "items": {
+        ".": { "item": "clutter_basement", "chance": 1 },
+        "K": { "item": "crate_wine", "chance": 100 },
+        "f": { "item": "fridge", "chance": 40 },
+        "k": { "item": "keg_wine", "chance": 100 },
+        "r": { "item": "pantry", "chance": 35 },
+        "t": { "item": "table_wine", "chance": 35 }
+      },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 11, 21 ], "y": [ 8, 21 ], "density": 0.08 }
       ]
@@ -4095,8 +4080,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_c", "mansion_c5" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_c",
+      "mansion_c5"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -4127,59 +4115,50 @@
         "''::::XXXXXXXXXXX++XXXXX"
       ],
       "terrain": {
-        "X": "t_wall",
-        "*": [
-          "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub",
-          "t_grass"
-        ],
-        "C": "t_linoleum_gray",
-        "'": [
-          "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub",
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass"
-        ],
+        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
         ")": "t_linoleum_gray",
-        "O": "t_window_domestic",
+        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
         "+": "t_door_c",
-        ":": [
-          "t_grass", "t_grass", "t_grass", "t_grass", "t_grass",
-          "t_grass", "t_grass", "t_dirt"
-        ],
+        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "=": "t_linoleum_gray",
         ">": "t_stairs_down",
-        "R": "t_linoleum_gray",
-        "Q": "t_linoleum_gray",
-        "N": "t_linoleum_gray",
+        "C": "t_linoleum_gray",
         "F": "t_linoleum_gray",
+        "N": "t_linoleum_gray",
+        "O": "t_window_domestic",
+        "Q": "t_linoleum_gray",
+        "R": "t_linoleum_gray",
+        "X": "t_wall",
         "Y": "t_linoleum_gray"
       },
       "furniture": {
-        "t": "f_table",
-        "T": "f_table",
-        "c": "f_counter",
-        "5": "f_indoor_plant",
-        "1": "f_chair",
-        "C": "f_counter",
         ")": "f_trashcan",
-        "R": "f_rack",
-        "Q": "f_oven",
-        "N": "f_cupboard",
+        "1": "f_chair",
+        "5": "f_indoor_plant",
+        "C": "f_counter",
         "F": "f_fridge",
-        "Y": "f_sink"
+        "N": "f_cupboard",
+        "Q": "f_oven",
+        "R": "f_rack",
+        "T": "f_table",
+        "Y": "f_sink",
+        "c": "f_counter",
+        "t": "f_table"
       },
       "items": {
-        "c": { "item": "table_sideboard", "chance": 40 },
-        "t": { "item": "dining", "chance": 40 },
-        "C": { "item": "dining", "chance": 40 },
+        "'": { "item": "clutter_yard", "chance": 1 },
         ")": { "item": "trash_cart", "chance": 40 },
-        "R": { "item": "pantry", "chance": 40 },
-        "Q": { "item": "oven", "chance": 45 },
-        "N": { "item": "kitchen", "chance": 45 },
-        "F": { "item": "fridge", "chance": 45 },
-        "Y": { "item": "cleaning", "chance": 20 },
-        "=": { "item": "produce", "chance": 1 },
         ".": { "item": "clutter_mansion", "chance": 1 },
         ":": { "item": "clutter_yard", "chance": 1 },
-        "'": { "item": "clutter_yard", "chance": 1 }
+        "=": { "item": "produce", "chance": 1 },
+        "C": { "item": "dining", "chance": 40 },
+        "F": { "item": "fridge", "chance": 45 },
+        "N": { "item": "kitchen", "chance": 45 },
+        "Q": { "item": "oven", "chance": 45 },
+        "R": { "item": "pantry", "chance": 40 },
+        "Y": { "item": "cleaning", "chance": 20 },
+        "c": { "item": "table_sideboard", "chance": 40 },
+        "t": { "item": "dining", "chance": 40 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 }
@@ -4188,8 +4167,11 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ "mansion_c_up", "mansion_c5u" ],
     "method": "json",
+    "om_terrain": [
+      "mansion_c_up",
+      "mansion_c5u"
+    ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -4220,36 +4202,36 @@
         "******XXXXXXXXXXX++XXXXX"
       ],
       "terrain": {
-        "X": "t_wall",
-        "-": "t_carpet_red",
-        "*": "t_open_air",
-        "T": "t_carpet_red",
         "'": "t_flat_roof",
-        "O": "t_window_domestic",
+        "*": "t_open_air",
         "+": "t_door_c",
-        "S": "t_carpet_red"
+        "-": "t_carpet_red",
+        "O": "t_window_domestic",
+        "S": "t_carpet_red",
+        "T": "t_carpet_red",
+        "X": "t_wall"
       },
       "furniture": {
-        "b": "f_bed",
-        "z": "f_dresser",
-        "d": "f_desk",
-        "t": "f_table",
+        "1": "f_chair",
+        "5": "f_indoor_plant",
         "?": "f_fireplace",
         "@": "f_statue",
-        "5": "f_indoor_plant",
-        "1": "f_chair",
+        "S": "f_sofa",
         "T": "f_table",
-        "S": "f_sofa"
+        "b": "f_bed",
+        "d": "f_desk",
+        "t": "f_table",
+        "z": "f_dresser"
       },
       "items": {
+        "-": { "item": "clutter_mansion", "chance": 2 },
+        ".": { "item": "clutter_bedroom", "chance": 2 },
+        "?": { "item": "fireplace_fill", "chance": 35 },
+        "T": { "item": "table_livingroom", "chance": 35 },
         "b": { "item": "bed", "chance": 30 },
-        "z": { "item": "dresser_stack", "chance": 100 },
         "d": { "item": "office", "chance": 35 },
         "t": { "item": "nightstand", "chance": 40 },
-        "T": { "item": "table_livingroom", "chance": 35 },
-        "?": { "item": "fireplace_fill", "chance": 35 },
-        "-": { "item": "clutter_mansion", "chance": 2 },
-        ".": { "item": "clutter_bedroom", "chance": 2 }
+        "z": { "item": "dresser_stack", "chance": 100 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 8, 21 ], "y": [ 12, 21 ], "density": 0.08 }
