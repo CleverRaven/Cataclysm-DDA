@@ -449,6 +449,7 @@ class JsonOut
         bool pretty_print;
         bool need_separator = false;
         std::vector<bool> need_wrap;
+        bool exited_object = false;
         int indent_level = 0;
 
     public:
