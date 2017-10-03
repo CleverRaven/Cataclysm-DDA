@@ -13491,6 +13491,8 @@ void intro()
     const int minHeight = FULL_SCREEN_HEIGHT;
     const int minWidth = FULL_SCREEN_WIDTH;
     WINDOW *tmp = newwin(minHeight, minWidth, 0, 0);
+    WINDOW_PTR w_tmpptr( tmp );
+
     while (maxy < minHeight || maxx < minWidth) {
         werase(tmp);
         if (maxy < minHeight && maxx < minWidth) {
@@ -13508,6 +13510,7 @@ void intro()
                                                        "make the terminal just a smidgen taller?"),
                            minWidth, minHeight, maxx, maxy);
         }
+        wrefresh(tmp);
         inp_mngr.wait_for_any_key();
         getmaxyx(stdscr, maxy, maxx);
     }
@@ -13528,7 +13531,6 @@ void intro()
 #endif
 
     wrefresh(tmp);
-    delwin(tmp);
     erase();
 }
 
