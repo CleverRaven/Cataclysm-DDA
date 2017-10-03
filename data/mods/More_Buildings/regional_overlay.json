@@ -1,7 +1,7 @@
 [
   {
     "type": "region_overlay",
-    "id": "extended_buildings_overlay",
+    "id": "more_buildings_overlay",
     "regions": [ "all" ],
     "city": {
       "shops": {

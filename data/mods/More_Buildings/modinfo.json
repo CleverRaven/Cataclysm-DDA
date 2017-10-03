@@ -1,10 +1,10 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "ext",
-    "name": "Extended Buildings",
+    "ident": "more_buildings",
+    "name": "More Buildings",
     "authors": [ "Whaley" ],
-    "description": "Adds more buildings.",
+    "description": "Adds more buildings to game.",
     "category": "buildings",
     "dependencies": [ "dda" ]
   }
