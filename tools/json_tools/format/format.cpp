@@ -53,6 +53,8 @@ static void format( JsonIn &jsin, JsonOut &jsout )
     } else if( jsin.test_bool() ) {
         bool tf = jsin.get_bool();
         jsout.write( tf );
+    } else if( jsin.test_null() ) {
+        jsout.write_null();
     } else {
         std::cerr << "Encountered unrecognized json element \"";
         const int start_pos = jsin.tell();
