@@ -296,6 +296,14 @@ class game
         T *critter_at( const tripoint &p, bool allow_hallucination = false );
         template<typename T = Creature>
         T const* critter_at( const tripoint &p, bool allow_hallucination = false ) const;
+        /**
+         * Returns a shared pointer to the given critter (which can be of any of the subclasses of
+         * @ref Creature). The function may return an empty pointer if the given critter
+         * is not stored anywhere (e.g. it was allocated on the stack, not stored in
+         * the @ref critter_tracker nor in @ref active_npc nor is it @ref u).
+         */
+        template<typename T = Creature>
+        std::shared_ptr<T> shared_from( const T &critter );
 
         /**
          * Summons a brand new monster at the current time. Returns the summoned monster.
@@ -311,7 +319,7 @@ class game
         monster &zombie( const int idx ) const;
         /** Redirects to the creature_tracker update_pos() function. */
         bool update_zombie_pos( const monster &critter, const tripoint &pos );
-        void remove_zombie(const int idx);
+        void remove_zombie( const monster &critter );
         /** Redirects to the creature_tracker clear() function. */
         void clear_zombies();
         /** Spawns a hallucination close to the player. */
@@ -319,8 +327,6 @@ class game
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &first, Creature &second );
 
-        /** Returns the monster index of the monster at the given tripoint. Returns -1 if no monster is present. */
-        int mon_at( const tripoint &p, bool allow_hallucination = false ) const;
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
         bool is_empty( const tripoint &p );
         /** Returns true if p is outdoors and it is sunny. */
@@ -330,7 +336,7 @@ class game
         /**
          * Revives a corpse at given location. The monster type and some of its properties are
          * deducted from the corpse. If reviving succeeds, the location is guaranteed to have a
-         * new monster there (see @ref mon_at).
+         * new monster there (see @ref critter_at).
          * @param location The place where to put the revived monster.
          * @param corpse The corpse item, it must be a valid corpse (see @ref item::is_corpse).
          * @return Whether the corpse has actually been redivided. Reviving may fail for many
@@ -941,7 +947,7 @@ private:
         std::weak_ptr<Creature> last_target;
         safe_mode_type safe_mode;
         bool safe_mode_warning_logged;
-        std::vector<int> new_seen_mon;
+        std::vector<std::shared_ptr<monster>> new_seen_mon;
         int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
         int turnssincelastmon; // needed for auto run mode
         //  quit_status uquit;    // Set to true if the player quits ('Q')
