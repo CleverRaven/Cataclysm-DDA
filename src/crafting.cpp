@@ -1314,9 +1314,9 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
             // @todo: make this depend on intelligence
             if( one_in( 4 ) ) {
                 learn_recipe( &recipe_dict[ dis.ident() ] );
-                add_msg( m_good, _( "You learned a recipe from disassembling it!" ) );
+                add_msg( m_good, _( "You learned a recipe for %s from disassembling it!" ), dis_item.tname().c_str() );
             } else {
-                add_msg( m_info, _( "You might be able to learn a recipe if you disassemble another." ) );
+                add_msg( m_info, _( "You might be able to learn a recipe for %s if you disassemble another." ), dis_item.tname().c_str() );
             }
         } else {
             add_msg( m_info, _( "If you had better skills, you might learn a recipe next time." ) );
