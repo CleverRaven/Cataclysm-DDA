@@ -3608,7 +3608,7 @@
         "u": "f_exercise"
       },
       "items": {
-        "d": { "item": "office", "mansion_ammo": 10 },
+        "d": { "item": "office", "chance": 10 },
         "K": { "item": "crate_stack", "chance": 100 },
         "v": { "item": "a_television", "chance": 100 },
         ".": { "item": "clutter_basement", "chance": 1 }
