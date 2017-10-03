@@ -785,7 +785,7 @@
         "type" : "furniture",
         "id" : "f_counter",
         "name": "counter",
-        "description": "Attatched to the kitchen. Lay your things down."
+        "description": "Attatched to the kitchen. Lay your things down.",
         "symbol": "#",
         "color": "blue",
         "move_cost_mod": 2,
