@@ -391,7 +391,7 @@
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
-        "id" : "Mansion2_Road",
+        "id" : "Mansion_Road",
         "overmaps" : [
             { "point":[0,0,0], "overmap": "mansion"},
             { "point":[1,0,0], "overmap": "mansion_entrance"},
@@ -412,7 +412,7 @@
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
-        "id" : "Mansion2_Wild",
+        "id" : "Mansion_Wild",
         "overmaps" : [
             { "point":[0,0,0], "overmap": "mansion"},
             { "point":[1,0,0], "overmap": "mansion_entrance"},
