@@ -27,7 +27,7 @@ void clear_map()
     wipe_map_terrain();
     // Remove any interfering monsters.
     while( g->num_zombies() ) {
-        g->remove_zombie( 0 );
+        g->remove_zombie( g->zombie( 0 ) );
     }
     // Make sure the player doesn't block the path of the monster being tested.
     g->u.setpos( { 0, 0, -2 } );
@@ -38,6 +38,6 @@ monster &spawn_test_monster( const std::string &monster_type, const tripoint &st
     monster temp_monster( mtype_id( monster_type ), start );
     // Bypassing game::add_zombie() since it sometimes upgrades the monster instantly.
     g->critter_tracker->add( temp_monster );
-    return *g->critter_tracker->find( 0 );
+    return *g->critter_tracker->find( temp_monster.pos() );
 }
 

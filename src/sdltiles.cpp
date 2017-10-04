@@ -59,7 +59,6 @@ static unsigned long lastupdate = 0;
 static unsigned long interval = 25;
 static bool needupdate = false;
 extern bool tile_iso;
-extern WINDOW *w_hit_animation;
 
 #ifdef SDL_SOUND
 /** The music we're currently playing. */
@@ -212,31 +211,25 @@ static SDL_Window_Ptr window;
 static SDL_Renderer_Ptr renderer;
 static SDL_PixelFormat_Ptr format;
 static SDL_Texture_Ptr display_buffer;
-int WindowWidth;        //Width of the actual window, not the curses window
-int WindowHeight;       //Height of the actual window, not the curses window
+static int WindowWidth;        //Width of the actual window, not the curses window
+static int WindowHeight;       //Height of the actual window, not the curses window
 // input from various input sources. Each input source sets the type and
 // the actual input value (key pressed, mouse button clicked, ...)
 // This value is finally returned by input_manager::get_input_event.
-input_event last_input;
+static input_event last_input;
 
-int inputdelay;         //How long getch will wait for a character to be typed
-Uint32 delaydpad = std::numeric_limits<Uint32>::max();     // Used for entering diagonal directions with d-pad.
-Uint32 dpad_delay = 100;   // Delay in milli-seconds between registering a d-pad event and processing it.
-bool dpad_continuous = false;  // Whether we're currently moving continously with the dpad.
-int lastdpad = ERR;      // Keeps track of the last dpad press.
-int queued_dpad = ERR;   // Queued dpad press, for individual button presses.
-//WINDOW *_windows;  //Probably need to change this to dynamic at some point
-//int WindowCount;        //The number of curses windows currently in use
+static int inputdelay;         //How long getch will wait for a character to be typed
+static Uint32 delaydpad = std::numeric_limits<Uint32>::max();     // Used for entering diagonal directions with d-pad.
+static Uint32 dpad_delay = 100;   // Delay in milli-seconds between registering a d-pad event and processing it.
+static bool dpad_continuous = false;  // Whether we're currently moving continously with the dpad.
+static int lastdpad = ERR;      // Keeps track of the last dpad press.
+static int queued_dpad = ERR;   // Queued dpad press, for individual button presses.
 int fontwidth;          //the width of the font, background is always this size
 int fontheight;         //the height of the font, background is always this size
 static int TERMINAL_WIDTH;
 static int TERMINAL_HEIGHT;
 
 static SDL_Joystick *joystick; // Only one joystick for now.
-
-// Cache of bitmap fonts family.
-// Used only while fontlist.txt is created.
-static std::set<std::string> bitmap_fonts;
 
 static std::vector<curseline> oversized_framebuffer;
 static std::vector<curseline> terminal_framebuffer;
@@ -1333,7 +1326,7 @@ static bool ends_with(const std::string &text, const std::string &suffix) {
 //Psuedo-Curses Functions           *
 //***********************************
 
-static void font_folder_list(std::ofstream& fout, std::string path)
+static void font_folder_list(std::ofstream& fout, std::string path, std::set<std::string> &bitmap_fonts)
 {
     for( const auto &f : get_files_from_path( "", path, true, false ) ) {
             TTF_Font_Ptr fnt( TTF_OpenFont( f.c_str(), 12 ) );
@@ -1396,39 +1389,36 @@ static void font_folder_list(std::ofstream& fout, std::string path)
 
 static void save_font_list()
 {
+    std::set<std::string> bitmap_fonts;
     std::ofstream fout(FILENAMES["fontlist"].c_str(), std::ios_base::trunc);
 
-    font_folder_list(fout, FILENAMES["fontdir"]);
+    font_folder_list(fout, FILENAMES["fontdir"], bitmap_fonts);
 
 #if (defined _WIN32 || defined WINDOWS)
     char buf[256];
     GetSystemWindowsDirectory(buf, 256);
     strcat(buf, "\\fonts");
-    font_folder_list(fout, buf);
+    font_folder_list(fout, buf, bitmap_fonts);
 #elif (defined _APPLE_ && defined _MACH_)
     /*
     // Well I don't know how osx actually works ....
-    font_folder_list(fout, "/System/Library/Fonts");
-    font_folder_list(fout, "/Library/Fonts");
+    font_folder_list(fout, "/System/Library/Fonts", bitmap_fonts);
+    font_folder_list(fout, "/Library/Fonts", bitmap_fonts);
 
     wordexp_t exp;
     wordexp("~/Library/Fonts", &exp, 0);
-    font_folder_list(fout, exp.we_wordv[0]);
+    font_folder_list(fout, exp.we_wordv[0], bitmap_fonts);
     wordfree(&exp);*/
 #else // Other POSIX-ish systems
-    font_folder_list(fout, "/usr/share/fonts");
-    font_folder_list(fout, "/usr/local/share/fonts");
+    font_folder_list(fout, "/usr/share/fonts", bitmap_fonts);
+    font_folder_list(fout, "/usr/local/share/fonts", bitmap_fonts);
     char *home;
     if( ( home = getenv( "HOME" ) ) ) {
         std::string userfontdir = home;
         userfontdir += "/.fonts";
-        font_folder_list( fout, userfontdir );
+        font_folder_list( fout, userfontdir, bitmap_fonts );
     }
 #endif
-
-    bitmap_fonts.clear();
-
-    fout << "end of list" << std::endl;
 }
 
 static std::string find_system_font(std::string name, int& faceIndex)
@@ -1456,18 +1446,12 @@ static std::string find_system_font(std::string name, int& faceIndex)
         std::string fname;
         std::string fpath;
         std::string iline;
-        int index = 0;
-        do {
-            getline(fin, fname);
-            if (fname == "end of list") break;
-            getline(fin, fpath);
-            getline(fin, iline);
-            index = atoi(iline.c_str());
+        while( getline( fin, fname ) && getline( fin, fpath ) && getline( fin, iline ) ) {
             if (0 == strcasecmp(fname.c_str(), name.c_str())) {
-                faceIndex = index;
+                faceIndex = atoi( iline.c_str() );
                 return fpath;
             }
-        } while (!fin.eof());
+        }
     }
 
     return "";
@@ -1482,15 +1466,13 @@ static int test_face_size(std::string f, int size, int faceIndex)
         char* style = TTF_FontFaceStyleName( fnt.get() );
         if(style != NULL) {
             int faces = TTF_FontFaces( fnt.get() );
-            bool found = false;
-            for(int i = faces - 1; i >= 0 && !found; i--) {
+            for(int i = faces - 1; i >= 0; i--) {
                 const TTF_Font_Ptr tf( TTF_OpenFontIndex( f.c_str(), size, i ) );
                 char* ts = NULL;
                 if( tf ) {
                    if( NULL != ( ts = TTF_FontFaceStyleName( tf.get() ) ) ) {
                        if( 0 == strcasecmp( ts, style ) && TTF_FontHeight( tf.get() ) <= size ) {
-                           faceIndex = i;
-                           found = true;
+                           return i;
                        }
                    }
                 }

@@ -9,7 +9,6 @@
 #include "line.h"
 #include "debug.h"
 #include "overmapbuffer.h"
-#include "creature_tracker.h"
 #include "messages.h"
 #include "ammo.h"
 #include "translations.h"
@@ -46,15 +45,6 @@ const efftype_id effect_infected( "infected" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_onfire( "onfire" );
-
-namespace
-{
-// player is not stored in a shared_ptr, but it won't go out of scope anyway,
-std::shared_ptr<player> get_player_ptr()
-{
-    return std::shared_ptr<player>( &g->u, []( player * const ) { } );
-}
-}
 
 enum npc_action : int {
     npc_undecided = 0,
@@ -313,7 +303,7 @@ void npc::move()
 
     if( is_enemy() && vehicle_danger(avoidance_vehicles_radius) > 0 ) {
         // TODO: Think about how this actually needs to work, for now assume flee from player
-        ai_cache.target = get_player_ptr();
+        ai_cache.target = g->shared_from( g->u );
     }
 
     if( target == &g->u && attitude == NPCATT_FLEE ) {
@@ -778,7 +768,7 @@ void npc::choose_target()
 
         auto att = mon.attitude( this );
         if( att == MATT_FRIEND ) {
-            ai_cache.friends.emplace_back( g->critter_tracker->find( i ) );
+            ai_cache.friends.emplace_back( g->shared_from( mon ) );
             continue;
         }
 
@@ -804,7 +794,7 @@ void npc::choose_target()
 
         if( priority >= highest_priority ) {
             highest_priority = priority;
-            ai_cache.target = g->critter_tracker->find( i );
+            ai_cache.target = g->shared_from( mon );
             ai_cache.danger = critter_danger;
         }
     }
@@ -854,10 +844,10 @@ void npc::choose_target()
     }
 
     if( is_friend() ) {
-        ai_cache.friends.emplace_back( get_player_ptr() );
+        ai_cache.friends.emplace_back( g->shared_from( g->u ) );
     } else if( is_enemy() ) {
         if( sees( g->u ) && check_hostile_character( g->u ) ) {
-            ai_cache.target = get_player_ptr();
+            ai_cache.target = g->shared_from( g->u );
             ai_cache.danger = std::max( 1.0f, ai_cache.danger );
         }
     }
@@ -2417,13 +2407,13 @@ bool npc::alt_attack()
     // We need to throw this live (grenade, etc) NOW! Pick another target?
     for( int dist = 2; dist <= conf; dist++ ) {
         for( const tripoint &pt : g->m.points_in_radius( pos(), dist ) ) {
-            int newtarget = g->mon_at( pt );
+            const monster *const target_ptr = g->critter_at<monster>( pt );
             int newdist = rl_dist( pos(), pt );
             // TODO: Change "newdist >= 2" to "newdist >= safe_distance(used)"
-            if( newdist <= conf && newdist >= 2 && newtarget != -1 &&
+            if( newdist <= conf && newdist >= 2 && target_ptr &&
                 wont_hit_friend( pt, *used, true ) ) {
                 // Friendlyfire-safe!
-                ai_cache.target = g->critter_tracker->find( newtarget );
+                ai_cache.target = g->shared_from( *target_ptr );
                 if( !one_in( 100 ) ) {
                     // Just to prevent infinite loops...
                     if( alt_attack() ) {

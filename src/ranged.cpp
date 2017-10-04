@@ -10,7 +10,6 @@
 #include "line.h"
 #include "skill.h"
 #include "rng.h"
-#include "creature_tracker.h"
 #include "item.h"
 #include "options.h"
 #include "action.h"
@@ -1015,17 +1014,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     }
 
     const auto set_last_target = []( const tripoint &dst ) {
-        for( const auto &guy : g->active_npc ) {
-            if( guy->pos() == dst ) {
-                g->last_target = guy;
-                return;
-            }
-        }
-        const int mondex = g->mon_at( dst, true );
-        if( mondex >= 0 ) {
-            // @todo add and use a function in game that returns a
-            // shared_ptr<Creature>, as not to expose the Creature_tracker
-            g->last_target = g->critter_tracker->find( mondex );
+        if( const Creature *const critter_ptr = g->critter_at( dst, true ) ) {
+            g->last_target = g->shared_from( *critter_ptr );
         }
     };
 

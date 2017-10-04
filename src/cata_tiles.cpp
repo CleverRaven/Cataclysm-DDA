@@ -55,7 +55,6 @@ static const std::array<std::string, 8> multitile_keys = {{
     }
 };
 
-extern int WindowHeight, WindowWidth;
 extern int fontwidth, fontheight;
 extern bool tile_iso;
 
