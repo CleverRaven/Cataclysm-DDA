@@ -1556,7 +1556,6 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
 {
     draw_tabs( w, _("SKILLS") );
     const int iContentHeight = TERMY - 6;
-    const int iHalf = iContentHeight / 2;
     WINDOW *w_description = newwin(iContentHeight, TERMX - 35,
                                    5 + getbegy(w), 31 + getbegx(w));
 
@@ -1565,6 +1564,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
     });
 
     const int num_skills = sorted_skills.size();
+    int cur_offset = 0;
     int cur_pos = 0;
     const Skill* currentSkill = sorted_skills[cur_pos];
     int selected = 0;
@@ -1660,30 +1660,17 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
         draw_scrollbar( w, selected, iContentHeight, iLines,
                         5, getmaxx(w) - 1, BORDER_COLOR, true );
 
-        int first_i, end_i, base_y;
-        if (iContentHeight - 1 > num_skills || cur_pos < iHalf) {
-            first_i = 0;
-            end_i = iContentHeight;
-            base_y = 5;
-        } else if (cur_pos > num_skills - iContentHeight + iHalf) {
-            first_i = num_skills - iContentHeight;
-            end_i = num_skills;
-            base_y = TERMY - 1 - num_skills;
-        } else {
-            first_i = cur_pos - iHalf;
-            end_i = cur_pos + iContentHeight - iHalf;
-            base_y = 5 + iHalf - cur_pos;
-        }
-        end_i = std::min( end_i, ( int )sorted_skills.size() );
-        for (int i = first_i; i < end_i; ++i) {
+        calcStartPos( cur_offset, cur_pos, iContentHeight, num_skills );
+        for( int i = cur_offset; i < num_skills && i - cur_offset < iContentHeight; ++i ) {
+            const int y = 5 + i - cur_offset;
             const Skill* thisSkill = sorted_skills[i];
             // Clear the line
-            mvwprintz(w, base_y + i, 2, c_ltgray, std::string( getmaxx( w ) - 3, ' ' ).c_str() );
+            mvwprintz(w, y, 2, c_ltgray, std::string( getmaxx( w ) - 3, ' ' ).c_str() );
             if (u->get_skill_level(thisSkill->ident()) == 0) {
-                mvwprintz(w, base_y + i, 2,
+                mvwprintz(w, y, 2,
                           (i == cur_pos ? h_ltgray : c_ltgray), thisSkill->name().c_str());
             } else {
-                mvwprintz(w, base_y + i, 2,
+                mvwprintz(w, y, 2,
                           (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED), _("%s"),
                           thisSkill->name().c_str());
                 wprintz(w, (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
