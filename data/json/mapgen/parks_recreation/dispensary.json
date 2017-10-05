@@ -58,30 +58,18 @@
         "|": "t_wall"
       },
       "furniture": {
-        "#": "f_null",
         "&": "f_toilet",
-        "+": "f_null",
-        "-": "f_null",
-        ".": "f_null",
-        "4": "f_null",
         "B": "f_bench",
         "C": "f_chair",
         "D": "f_displaycase",
         "H": "f_armchair",
         "S": "f_sink",
         "^": "f_indoor_plant",
-        "_": "f_null",
         "a": "f_desk",
         "b": "f_bench",
         "c": "f_counter",
-        "d": "f_null",
-        "e": "f_null",
-        "p": "f_null",
-        "s": "f_null",
         "t": "f_trashcan",
-        "u": "f_null",
-        "{": "f_fridge",
-        "|": "f_null"
+        "{": "f_fridge"
       },
       "place_toilets": [
         { "x": 3, "y": 3 }

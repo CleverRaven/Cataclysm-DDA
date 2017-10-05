@@ -53,25 +53,8 @@
         "|": "t_chainfence_v"
       },
       "furniture": {
-        "#": "f_null",
         "&": "f_trashcan",
-        ".": "f_null",
-        "1": "f_null",
-        "4": "f_null",
-        "7": "f_null",
-        "S": "f_null",
-        "T": "f_null",
-        "U": "f_null",
-        "_": "f_null",
-        "a": "f_null",
-        "b": "f_bench",
-        "c": "f_null",
-        "d": "f_null",
-        "e": "f_null",
-        "s": "f_null",
-        "t": "f_null",
-        "u": "f_null",
-        "|": "f_null"
+        "b": "f_bench"
       },
       "add": [
         { "item": "rock", "x": 13, "y": 9, "repeat": 1 },
@@ -111,7 +94,7 @@
         "|.7__1_____1.#.f.#.T__.|",
         "|4___7._______________7|",
         "|__#....7.__________...|",
-        "___17.7.....BB.Ta...4S.|",
+        "___17.7.....bb.Ta...4S.|",
         "|u..4...#.S.....#.#....|",
         "|.7.#..#g#.4.#..U.4.#.4|",
         "||||||||||||||||||||||||"
@@ -144,31 +127,8 @@
         "|": "t_chainfence_v"
       },
       "furniture": {
-        "#": "f_null",
         "&": "f_trashcan",
-        "-": "f_null",
-        ".": "f_null",
-        "1": "f_null",
-        "4": "f_null",
-        "7": "f_null",
-        "B": "f_bench",
-        "S": "f_null",
-        "T": "f_null",
-        "U": "f_null",
-        "W": "f_null",
-        "_": "f_null",
-        "a": "f_null",
-        "b": "f_bench",
-        "c": "f_null",
-        "d": "f_null",
-        "e": "f_null",
-        "f": "f_null",
-        "g": "f_null",
-        "s": "f_null",
-        "t": "f_null",
-        "u": "f_null",
-        "w": "f_null",
-        "|": "f_null"
+        "b": "f_bench"
       },
       "add": [
         { "item": "rock", "x": 2, "y": 13, "repeat": 1 },

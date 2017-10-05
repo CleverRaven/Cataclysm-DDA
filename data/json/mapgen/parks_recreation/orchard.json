@@ -55,27 +55,11 @@
         "|": "t_fence_v"
       },
       "furniture": {
-        "#": "f_null",
-        "+": "f_null",
-        "-": "f_null",
-        ".": "f_null",
-        "4": "f_null",
-        "7": "f_null",
         "C": "f_chair",
         "D": "f_desk",
         "H": "f_sofa",
-        "T": "f_null",
-        "W": "f_null",
-        "_": "f_null",
-        "a": "f_null",
         "b": "f_bench",
-        "c": "f_null",
-        "d": "f_null",
-        "p": "f_plant_harvest",
-        "t": "f_null",
-        "u": "f_null",
-        "w": "f_null",
-        "|": "f_null"
+        "p": "f_plant_harvest"
       },
       "place_items": [
         { "item": "supplies_farming", "x": 6, "y": 13, "chance": 50 },
@@ -151,30 +135,13 @@
         "|": "t_fence_v"
       },
       "furniture": {
-        "#": "f_null",
         "&": "f_trashcan",
-        "+": "f_null",
-        "-": "f_null",
-        ".": "f_null",
-        "4": "f_null",
-        "7": "f_null",
         "C": "f_chair",
         "D": "f_desk",
         "H": "f_sofa",
-        "T": "f_null",
-        "U": "f_null",
-        "W": "f_null",
-        "_": "f_null",
         "a": "f_trashcan",
         "b": "f_bench",
-        "c": "f_null",
-        "d": "f_null",
-        "p": "f_plant_harvest",
-        "s": "f_null",
-        "t": "f_null",
-        "u": "f_null",
-        "w": "f_null",
-        "|": "f_null"
+        "p": "f_plant_harvest"
       },
       "place_items": [
         { "item": "supplies_farming", "x": 6, "y": 13, "chance": 50 },

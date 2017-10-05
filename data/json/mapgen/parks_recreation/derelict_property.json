@@ -54,26 +54,12 @@
         "|": "t_wall"
       },
       "furniture": {
-        "#": "f_null",
-        "+": "f_null",
-        ".": "f_null",
-        "1": "f_null",
-        "4": "f_null",
-        "7": "f_null",
         "H": "f_armchair",
-        "S": "f_null",
-        "U": "f_null",
         "^": "f_rubble",
-        "_": "f_null",
-        "a": "f_null",
         "c": "f_chair",
         "d": "f_desk",
         "m": "f_makeshift_bed",
-        "r": "f_rubble",
-        "s": "f_null",
-        "u": "f_null",
-        "w": "f_null",
-        "|": "f_null"
+        "r": "f_rubble"
       },
       "place_items": [
         { "item": "bar_trash", "x": 8, "y": 10, "chance": 30 },
@@ -147,36 +133,19 @@
         "|": "t_wall"
       },
       "furniture": {
-        "#": "f_null",
         "&": "f_trashcan",
-        ".": "f_null",
-        "0": "f_null",
-        "1": "f_null",
-        "4": "f_null",
-        "7": "f_null",
         "B": "f_bigmirror_b",
         "C": "f_chair",
-        "D": "f_null",
         "H": "f_armchair",
         "T": "f_trashcan",
         "^": "f_rubble",
-        "_": "f_null",
         "a": "f_toilet",
         "b": "f_bathtub",
         "c": "f_cupboard",
         "d": "f_dandelion",
-        "e": "f_null",
-        "f": "f_null",
-        "g": "f_null",
         "m": "f_makeshift_bed",
-        "p": "f_null",
         "r": "f_rubble",
-        "s": "f_null",
-        "t": "f_null",
-        "u": "f_null",
-        "w": "f_null",
-        "{": "f_bookcase",
-        "|": "f_null"
+        "{": "f_bookcase"
       },
       "place_items": [
         { "item": "bar_trash", "x": 7, "y": 9, "chance": 30 },
@@ -244,28 +213,12 @@
         "|": "t_wall"
       },
       "furniture": {
-        "#": "f_null",
-        "+": "f_null",
-        ".": "f_null",
-        "0": "f_null",
-        "1": "f_null",
-        "4": "f_null",
-        "7": "f_null",
         "C": "f_cupboard",
         "D": "f_desk",
-        "U": "f_null",
-        "W": "f_null",
         "^": "f_rubble",
-        "_": "f_null",
-        "a": "f_null",
         "c": "f_chair",
-        "d": "f_null",
         "f": "f_dandelion",
-        "g": "f_null",
-        "r": "f_rubble",
-        "u": "f_null",
-        "w": "f_null",
-        "|": "f_null"
+        "r": "f_rubble"
       },
       "place_items": [
         { "item": "tools_earthworking", "x": 17, "y": 19, "chance": 10 },
@@ -332,26 +285,13 @@
         "|": "t_wall"
       },
       "furniture": {
-        "#": "f_null",
-        "-": "f_null",
-        ".": "f_null",
-        "4": "f_null",
-        "7": "f_null",
         "C": "f_cattails",
         "R": "f_rubble",
-        "S": "f_null",
-        "W": "f_null",
         "^": "f_rubble",
-        "_": "f_null",
         "c": "f_chair",
         "d": "f_dandelion",
-        "f": "f_null",
         "i": "f_cattails",
-        "r": "f_rubble",
-        "s": "f_null",
-        "u": "f_null",
-        "w": "f_null",
-        "|": "f_null"
+        "r": "f_rubble"
       }
     }
   }

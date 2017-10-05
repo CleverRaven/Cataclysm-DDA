@@ -51,21 +51,12 @@
       },
       "furniture": {
         "#": "f_chair",
-        "+": "f_null",
-        "-": "f_null",
-        ".": "f_null",
-        "6": "f_null",
         "R": "f_rubble",
         "^": "f_rubble",
-        "_": "f_null",
         "b": "f_bed",
-        "c": "f_null",
-        "p": "f_null",
         "r": "f_rubble",
-        "s": "f_null",
         "t": "f_table",
-        "{": "f_vending_o",
-        "|": "f_null"
+        "{": "f_vending_o"
       },
       "place_items": [
         { "item": "novels", "x": 2, "y": 17, "chance": 30 },

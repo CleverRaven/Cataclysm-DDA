@@ -50,22 +50,8 @@
         "|": "t_chainfence_v"
       },
       "furniture": {
-        "#": "f_null",
-        "-": "f_null",
-        ".": "f_null",
-        "1": "f_null",
-        "4": "f_null",
         "B": "f_bench",
-        "S": "f_null",
-        "W": "f_null",
-        "_": "f_null",
-        "a": "f_null",
-        "b": "f_bench",
-        "s": "f_null",
-        "t": "f_null",
-        "u": "f_null",
-        "w": "f_null",
-        "|": "f_null"
+        "b": "f_bench"
       },
       "place_items": [
         { "item": "forest", "x": 21, "y": 14, "chance": 20 },

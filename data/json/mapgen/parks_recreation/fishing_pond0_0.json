@@ -53,25 +53,12 @@
         "|": "t_chainfence_h"
       },
       "furniture": {
-        "#": "f_null",
         "&": "f_trashcan",
-        "-": "f_null",
-        ".": "f_null",
-        "1": "f_null",
-        "4": "f_null",
-        "W": "f_null",
-        "_": "f_null",
         "b": "f_bench",
         "c": "f_cattails",
         "d": "f_dandelion",
         "f": "f_bluebell",
-        "i": "f_cattails",
-        "p": "f_null",
-        "s": "f_null",
-        "t": "f_null",
-        "u": "f_null",
-        "w": "f_null",
-        "|": "f_null"
+        "i": "f_cattails"
       },
       "place_monster": [
         { "monster": "mon_rabbit", "x": 8, "y": 4 },

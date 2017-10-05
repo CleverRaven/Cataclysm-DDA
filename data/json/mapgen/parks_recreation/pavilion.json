@@ -57,27 +57,12 @@
       },
       "furniture": {
         "#": "f_bench",
-        "$": "f_null",
         "&": "f_trashcan",
-        "-": "f_null",
-        ".": "f_null",
-        "1": "f_null",
-        "7": "f_null",
-        "C": "f_null",
-        "S": "f_null",
         "T": "f_table",
-        "_": "f_null",
-        "a": "f_null",
         "b": "f_bench",
         "c": "f_trashcan",
-        "d": "f_null",
-        "e": "f_null",
         "f": "f_dandelion",
-        "m": "f_null",
-        "s": "f_null",
-        "t": "f_table",
-        "u": "f_null",
-        "|": "f_null"
+        "t": "f_table"
       },
       "place_items": [
         { "item": "snacks", "x": 18, "y": 11, "chance": 15 },
@@ -141,22 +126,8 @@
       },
       "furniture": {
         "#": "f_bench",
-        "-": "f_null",
-        ".": "f_null",
-        "1": "f_null",
-        "4": "f_null",
-        "7": "f_null",
-        "S": "f_null",
-        "U": "f_null",
-        "_": "f_null",
-        "a": "f_null",
-        "d": "f_null",
-        "p": "f_null",
-        "s": "f_null",
         "t": "f_table",
-        "u": "f_null",
-        "w": "f_woodstove",
-        "|": "f_null"
+        "w": "f_woodstove"
       },
       "place_items": [
         { "item": "snacks", "x": 5, "y": 18, "chance": 25 },

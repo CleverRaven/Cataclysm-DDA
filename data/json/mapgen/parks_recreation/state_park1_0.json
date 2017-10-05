@@ -51,23 +51,8 @@
         "|": "t_chainfence_v"
       },
       "furniture": {
-        "#": "f_null",
-        "-": "f_null",
-        ".": "f_null",
-        "0": "f_null",
-        "1": "f_null",
-        "4": "f_null",
-        "7": "f_null",
-        "D": "f_null",
-        "S": "f_null",
-        "_": "f_null",
         "a": "f_desk",
-        "c": "f_chair",
-        "d": "f_null",
-        "f": "f_null",
-        "p": "f_null",
-        "s": "f_null",
-        "|": "f_null"
+        "c": "f_chair"
       },
       "place_items": [
         { "item": "magazines", "x": 11, "y": 3, "chance": 30 },

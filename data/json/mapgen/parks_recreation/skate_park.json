@@ -49,21 +49,7 @@
         "|": "t_chainfence_v"
       },
       "furniture": {
-        "#": "f_null",
-        "&": "f_trashcan",
-        "-": "f_null",
-        ".": "f_null",
-        "0": "f_null",
-        "S": "f_null",
-        "_": "f_null",
-        "c": "f_null",
-        "l": "f_null",
-        "p": "f_null",
-        "r": "f_null",
-        "s": "f_null",
-        "u": "f_null",
-        "w": "f_null",
-        "|": "f_null"
+        "&": "f_trashcan"
       },
       "place_items": [
         { "item": "snacks", "x": 10, "y": 19, "chance": 5 }

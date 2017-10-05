@@ -59,31 +59,12 @@
         "|": "t_chainfence_h"
       },
       "furniture": {
-        "#": "f_null",
         "&": "f_trashcan",
         "*": "f_datura",
-        "-": "f_null",
-        ".": "f_null",
-        "1": "f_null",
-        "4": "f_null",
-        "7": "f_null",
-        "S": "f_null",
-        "T": "f_null",
-        "U": "f_null",
-        "W": "f_null",
-        "_": "f_null",
-        "a": "f_null",
         "b": "f_bluebell",
         "c": "f_cattails",
-        "d": "f_null",
-        "e": "f_null",
         "f": "f_dandelion",
-        "i": "f_cattails",
-        "s": "f_null",
-        "t": "f_null",
-        "u": "f_null",
-        "w": "f_null",
-        "|": "f_null"
+        "i": "f_cattails"
       },
       "add": [
         { "item": "rock", "x": 2, "y": 6, "repeat": 1 },
