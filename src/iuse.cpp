@@ -5619,7 +5619,7 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint& ) {
         }
     }
 
-    p->toolmod_add( *loc, *it );
+    p->toolmod_add( std::move( loc ), item_location( *p, it ) );
     return 0;
 }
 
