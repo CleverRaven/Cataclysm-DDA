@@ -54,11 +54,11 @@
         { "item": "trash", "x": 0, "y": 6, "chance": 55 }
       ],
       "add": [
-        { "item": "rock", "x": 8, "y": 9, "repeat": 1 },
-        { "item": "rock", "x": 16, "y": 15, "repeat": 1 },
-        { "item": "stick", "x": 8, "y": 17, "repeat": 1 },
-        { "item": "stick", "x": 21, "y": 18, "repeat": 1 },
-        { "item": "stick", "x": 21, "y": 20, "repeat": 1 }
+        { "item": "rock", "x": 8, "y": 9 },
+        { "item": "rock", "x": 16, "y": 15 },
+        { "item": "stick", "x": 8, "y": 17 },
+        { "item": "stick", "x": 21, "y": 18 },
+        { "item": "stick", "x": 21, "y": 20 }
       ],
       "place_monster": [
         { "monster": "mon_zombie_pig", "x": 10, "y": 7 },

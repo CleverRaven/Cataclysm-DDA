@@ -62,16 +62,16 @@
         { "item": "vet_utility", "x": [ 20, 21 ], "y": 3, "chance": 30 }
       ],
       "add": [
-        { "item": "catfood", "x": 8, "y": 7, "repeat": 1 },
-        { "item": "catfood", "x": 8, "y": 8, "repeat": 1 },
-        { "item": "pet_carrier", "x": 21, "y": 9, "repeat": 1 },
-        { "item": "dogfood", "x": 8, "y": 10, "repeat": 1 },
-        { "item": "pet_carrier", "x": 21, "y": 10, "repeat": 1 },
-        { "item": "dogfood", "x": 8, "y": 11, "repeat": 1 },
-        { "item": "dogfood", "x": 15, "y": 12, "repeat": 1 },
-        { "item": "catfood", "x": 16, "y": 12, "repeat": 1 },
-        { "item": "catfood", "x": 17, "y": 12, "repeat": 1 },
-        { "item": "pet_carrier", "x": 8, "y": 14, "repeat": 1 }
+        { "item": "catfood", "x": 8, "y": 7 },
+        { "item": "catfood", "x": 8, "y": 8 },
+        { "item": "pet_carrier", "x": 21, "y": 9 },
+        { "item": "dogfood", "x": 8, "y": 10 },
+        { "item": "pet_carrier", "x": 21, "y": 10 },
+        { "item": "dogfood", "x": 8, "y": 11 },
+        { "item": "dogfood", "x": 15, "y": 12 },
+        { "item": "catfood", "x": 16, "y": 12 },
+        { "item": "catfood", "x": 17, "y": 12 },
+        { "item": "pet_carrier", "x": 8, "y": 14 }
       ],
       "place_monster": [
         { "monster": "mon_cat", "x": 2, "y": 3 },

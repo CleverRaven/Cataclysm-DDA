@@ -87,8 +87,8 @@
         { "item": "vending_drink", "x": 20, "y": 1, "chance": 75 }
       ],
       "add": [
-        { "item": "rock", "x": 9, "y": 15, "repeat": 1 },
-        { "item": "pine_bough", "x": 9, "y": 21, "repeat": 1 }
+        { "item": "rock", "x": 9, "y": 15 },
+        { "item": "pine_bough", "x": 9, "y": 21 }
       ],
       "place_monster": [
         { "monster": "mon_coyote", "x": 8, "y": 16 },

@@ -67,17 +67,17 @@
         { "item": "vet_hardrug", "x": 9, "y": 18, "chance": 45 }
       ],
       "add": [
-        { "item": "stick", "x": 9, "y": 2, "repeat": 1 },
-        { "item": "stick", "x": 9, "y": 5, "repeat": 1 },
-        { "item": "pine_bough", "x": 9, "y": 7, "repeat": 1 },
-        { "item": "pine_bough", "x": 7, "y": 8, "repeat": 1 },
-        { "item": "stick", "x": 18, "y": 10, "repeat": 1 },
-        { "item": "stick", "x": 7, "y": 11, "repeat": 1 },
-        { "item": "rock", "x": 18, "y": 13, "repeat": 1 },
-        { "item": "pine_bough", "x": 7, "y": 14, "repeat": 1 },
-        { "item": "stick", "x": 9, "y": 14, "repeat": 1 },
-        { "item": "stick", "x": 18, "y": 15, "repeat": 1 },
-        { "item": "rock", "x": 12, "y": 16, "repeat": 1 }
+        { "item": "stick", "x": 9, "y": 2 },
+        { "item": "stick", "x": 9, "y": 5 },
+        { "item": "pine_bough", "x": 9, "y": 7 },
+        { "item": "pine_bough", "x": 7, "y": 8 },
+        { "item": "stick", "x": 18, "y": 10 },
+        { "item": "stick", "x": 7, "y": 11 },
+        { "item": "rock", "x": 18, "y": 13 },
+        { "item": "pine_bough", "x": 7, "y": 14 },
+        { "item": "stick", "x": 9, "y": 14 },
+        { "item": "stick", "x": 18, "y": 15 },
+        { "item": "rock", "x": 12, "y": 16 }
       ],
       "place_monster": [
         { "monster": "mon_bobcat", "x": 8, "y": 5 },
