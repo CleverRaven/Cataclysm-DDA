@@ -2044,7 +2044,7 @@ void map::player_in_field( player &u )
                 u.hurtall(rng(1, 3), nullptr);
             } else {
                 u.add_msg_player_or_npc(m_bad, _("The incendiary melts into your skin!"), _("The incendiary melts into <npcname>s skin!"));
-                u.add_effect( effect_onfire, 8);
+                u.add_effect( effect_onfire, 8, bp_torso );
                 u.hurtall(rng(2, 6), nullptr);
             }
             break;
