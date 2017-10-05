@@ -226,7 +226,7 @@
         { "item": "bar_trash", "x": 6, "y": 5, "chance": 30 }
       ],
       "place_vehicles": [
-        { "vehicle": "pickup", "x": 8, "y": 19, "chance": 6, "fuel": 0, "status": 1, "rotation": 180 }
+        { "vehicle": "pickup", "x": 8, "y": 19, "chance": 6, "status": 1, "rotation": 180 }
       ]
     }
   },
