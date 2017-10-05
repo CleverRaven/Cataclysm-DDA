@@ -407,7 +407,18 @@ int main(int argc, char *argv[])
     if (setlocale(LC_ALL, "") == NULL) {
         DebugLog(D_WARNING, D_MAIN) << "Error while setlocale(LC_ALL, '').";
     } else {
-        std::locale::global( std::locale( "" ) );
+        try {
+            std::locale::global( std::locale( "" ) );
+        } catch( const std::exception& ) {
+            // if user default locale retrieval isn't implemented by system
+            try{
+                // default to basic C locale
+                std::locale::global( std::locale::classic() );
+            } catch( const std::exception &err ) {
+                debugmsg( "%s", err.what() );
+                exit_handler(-999);
+            }
+        }
     }
 
     get_options().init();
