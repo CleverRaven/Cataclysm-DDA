@@ -69,7 +69,7 @@ class string_input_popup
 
         void show_history( utf8_wrapper &ret );
         void add_to_history( const std::string &value ) const;
-        void draw( const utf8_wrapper &ret, int shift ) const;
+        void draw(const utf8_wrapper &ret, const utf8_wrapper &edit, int shift) const;
 
     public:
         string_input_popup();
