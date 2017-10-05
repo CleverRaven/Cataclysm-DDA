@@ -60,11 +60,11 @@
         "f": "f_dandelion"
       },
       "add": [
-        { "item": "rock", "x": 4, "y": 4, "repeat": 1 },
-        { "item": "log", "x": 18, "y": 5, "repeat": 1 },
-        { "item": "log", "x": 4, "y": 11, "repeat": 1 },
-        { "item": "log", "x": 14, "y": 17, "repeat": 1 },
-        { "item": "rock", "x": 20, "y": 18, "repeat": 1 }
+        { "item": "rock", "x": 4, "y": 4 },
+        { "item": "log", "x": 18, "y": 5 },
+        { "item": "log", "x": 4, "y": 11 },
+        { "item": "log", "x": 14, "y": 17 },
+        { "item": "rock", "x": 20, "y": 18 }
       ],
       "place_monster": [
         { "monster": "mon_cat", "x": 14, "y": 5 },

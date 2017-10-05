@@ -57,9 +57,9 @@
         "b": "f_bench"
       },
       "add": [
-        { "item": "rock", "x": 13, "y": 9, "repeat": 1 },
-        { "item": "rock", "x": 2, "y": 13, "repeat": 1 },
-        { "item": "rock", "x": 22, "y": 19, "repeat": 1 }
+        { "item": "rock", "x": 13, "y": 9 },
+        { "item": "rock", "x": 2, "y": 13 },
+        { "item": "rock", "x": 22, "y": 19 }
       ],
       "place_monster": [
         { "monster": "mon_chipmunk", "x": 2, "y": 5 },
@@ -131,8 +131,8 @@
         "b": "f_bench"
       },
       "add": [
-        { "item": "rock", "x": 2, "y": 13, "repeat": 1 },
-        { "item": "rock", "x": 22, "y": 19, "repeat": 1 }
+        { "item": "rock", "x": 2, "y": 13 },
+        { "item": "rock", "x": 22, "y": 19 }
       ],
       "place_monster": [
         { "monster": "mon_chipmunk", "x": 2, "y": 5 }

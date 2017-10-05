@@ -63,11 +63,11 @@
         "f": "f_dandelion"
       },
       "add": [
-        { "item": "log", "x": 16, "y": 4, "repeat": 1 },
-        { "item": "rock", "x": 1, "y": 7, "repeat": 1 },
-        { "item": "log", "x": 2, "y": 12, "repeat": 1 },
-        { "item": "log", "x": 17, "y": 19, "repeat": 1 },
-        { "item": "rock", "x": 13, "y": 21, "repeat": 1 }
+        { "item": "log", "x": 16, "y": 4 },
+        { "item": "rock", "x": 1, "y": 7 },
+        { "item": "log", "x": 2, "y": 12 },
+        { "item": "log", "x": 17, "y": 19 },
+        { "item": "rock", "x": 13, "y": 21 }
       ]
     }
   }

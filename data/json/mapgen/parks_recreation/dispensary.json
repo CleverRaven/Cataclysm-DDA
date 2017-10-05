@@ -85,24 +85,24 @@
         { "item": "smoke_shop", "x": 15, "y": 6, "chance": 50 }
       ],
       "add": [
-        { "item": "pipe_glass", "x": 12, "y": 6, "repeat": 1 },
-        { "item": "pipe_glass", "x": 13, "y": 6, "repeat": 1 },
-        { "item": "joint_lit", "x": 14, "y": 6, "repeat": 1 },
-        { "item": "lighter", "x": 14, "y": 6, "repeat": 1 },
-        { "item": "matches", "x": 13, "y": 7, "repeat": 1 },
-        { "item": "pipe_tobacco", "x": 15, "y": 7, "repeat": 1 },
+        { "item": "pipe_glass", "x": 12, "y": 6 },
+        { "item": "pipe_glass", "x": 13, "y": 6 },
+        { "item": "joint_lit", "x": 14, "y": 6 },
+        { "item": "lighter", "x": 14, "y": 6 },
+        { "item": "matches", "x": 13, "y": 7 },
+        { "item": "pipe_tobacco", "x": 15, "y": 7 },
         { "item": "seed_weed", "x": 9, "y": 11, "repeat": 2 },
-        { "item": "cannabis", "x": 14, "y": 11, "repeat": 1 },
-        { "item": "seed_weed", "x": 9, "y": 12, "repeat": 1 },
-        { "item": "cannabis", "x": 19, "y": 12, "repeat": 1 },
-        { "item": "cannabis", "x": 16, "y": 13, "repeat": 1 },
-        { "item": "cannabis", "x": 20, "y": 13, "repeat": 1 },
-        { "item": "seed_weed", "x": 9, "y": 14, "repeat": 1 },
-        { "item": "cannabis", "x": 11, "y": 14, "repeat": 1 },
-        { "item": "cannabis", "x": 19, "y": 14, "repeat": 1 },
-        { "item": "joint_lit", "x": 9, "y": 15, "repeat": 1 },
-        { "item": "cannabis", "x": 11, "y": 15, "repeat": 1 },
-        { "item": "cannabis", "x": 20, "y": 15, "repeat": 1 }
+        { "item": "cannabis", "x": 14, "y": 11 },
+        { "item": "seed_weed", "x": 9, "y": 12 },
+        { "item": "cannabis", "x": 19, "y": 12 },
+        { "item": "cannabis", "x": 16, "y": 13 },
+        { "item": "cannabis", "x": 20, "y": 13 },
+        { "item": "seed_weed", "x": 9, "y": 14 },
+        { "item": "cannabis", "x": 11, "y": 14 },
+        { "item": "cannabis", "x": 19, "y": 14 },
+        { "item": "joint_lit", "x": 9, "y": 15 },
+        { "item": "cannabis", "x": 11, "y": 15 },
+        { "item": "cannabis", "x": 20, "y": 15 }
       ]
     }
   }

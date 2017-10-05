@@ -67,8 +67,8 @@
         "i": "f_cattails"
       },
       "add": [
-        { "item": "rock", "x": 2, "y": 6, "repeat": 1 },
-        { "item": "rock", "x": 18, "y": 21, "repeat": 1 }
+        { "item": "rock", "x": 2, "y": 6 },
+        { "item": "rock", "x": 18, "y": 21 }
       ],
       "place_monster": [
         { "monster": "mon_squirrel_red", "x": 19, "y": 6 },

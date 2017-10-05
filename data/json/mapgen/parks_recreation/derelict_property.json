@@ -152,7 +152,7 @@
         { "item": "bar_trash", "x": 14, "y": 8, "chance": 30 }
       ],
       "add": [
-        { "item": "holybook_bible3", "x": 17, "y": 6, "repeat": 1 }
+        { "item": "holybook_bible3", "x": 17, "y": 6 }
       ]
     }
   },

@@ -85,7 +85,7 @@
         { "x": 14, "y": 22 }
       ],
       "add": [
-        { "item": "jar_glass", "x": 5, "y": 3, "repeat": 1 }
+        { "item": "jar_glass", "x": 5, "y": 3 }
       ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": 4, "y": 16, "chance": 2, "density": 1 },
