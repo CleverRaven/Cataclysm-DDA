@@ -9218,7 +9218,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             calcStartPos( iStartPos, iActive, iMaxRows, iItemNum );
             int iNum = 0;
             active_pos = tripoint_zero;
-            bool high = true;
+            bool high = false;
             bool low = false;
             int index = 0;
             int iCatSortOffset = 0;
@@ -9229,9 +9229,11 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 }
             }
             for( auto iter = filtered_items.begin(); iter != filtered_items.end(); ++index ) {
-                if( index < highPEnd + iCatSortOffset ) {
+                if( highPEnd > 0 && index < highPEnd + iCatSortOffset ) {
                     high = true;
+                    low = false;
                 } else if( index >= lowPStart + iCatSortOffset ) {
+                    high = false;
                     low = true;
                 } else {
                     high = false;
@@ -13500,6 +13502,8 @@ void intro()
     const int minHeight = FULL_SCREEN_HEIGHT;
     const int minWidth = FULL_SCREEN_WIDTH;
     WINDOW *tmp = newwin(minHeight, minWidth, 0, 0);
+    WINDOW_PTR w_tmpptr( tmp );
+
     while (maxy < minHeight || maxx < minWidth) {
         werase(tmp);
         if (maxy < minHeight && maxx < minWidth) {
@@ -13517,6 +13521,7 @@ void intro()
                                                        "make the terminal just a smidgen taller?"),
                            minWidth, minHeight, maxx, maxy);
         }
+        wrefresh(tmp);
         inp_mngr.wait_for_any_key();
         getmaxyx(stdscr, maxy, maxx);
     }
@@ -13537,7 +13542,6 @@ void intro()
 #endif
 
     wrefresh(tmp);
-    delwin(tmp);
     erase();
 }
 

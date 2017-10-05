@@ -652,7 +652,7 @@ void draw_points( WINDOW *w, points_left &points, int netPointCost )
     // Clear line (except borders)
     mvwprintz( w, 3, 2, c_black, std::string( getmaxx( w ) - 3, ' ' ).c_str() );
     std::string points_msg = points.to_string();
-    int pMsg_length = utf8_width( points_msg, true );
+    int pMsg_length = utf8_width( remove_color_tags( points_msg ), true );
     nc_color color = c_ltgray;
     print_colored_text( w, 3, 2, color, c_ltgray, points_msg );
     if( netPointCost > 0 ) {
@@ -1079,7 +1079,8 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
                     i >= start_y + ( int )std::min( traits_size[iCurrentPage], iContentHeight ) ) {
                     continue;
                 }
-                auto &mdata = vStartingTraits[iCurrentPage][i].obj();
+                auto &cur_trait = vStartingTraits[iCurrentPage][i];
+                auto &mdata = cur_trait.obj();
                 if (cur_line_y == i && iCurrentPage == iCurWorkingPage) {
                     // Clear line from 41 to end of line (minus border)
                     mvwprintz( w, 3, 41, c_ltgray, std::string( getmaxx( w ) - 41 - 1, ' ' ).c_str() );
@@ -1102,23 +1103,23 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
                     cLine = col_off_act;
                     if( cur_line_y == i ) {
                         cLine = hi_off;
-                        if (u->has_conflicting_trait(vStartingTraits[iCurrentPage][i])) {
+                        if (u->has_conflicting_trait(cur_trait)) {
                             cLine = hilite(c_dkgray);
-                        } else if (u->has_trait(vStartingTraits[iCurrentPage][i])) {
+                        } else if (u->has_trait(cur_trait)) {
                             cLine = hi_on;
                         }
                     } else {
-                        if (u->has_conflicting_trait(vStartingTraits[iCurrentPage][i])) {
+                        if (u->has_conflicting_trait(cur_trait) || g->scen->is_forbidden_trait(cur_trait)) {
                             cLine = c_dkgray;
 
-                        } else if (u->has_trait(vStartingTraits[iCurrentPage][i])) {
+                        } else if (u->has_trait(cur_trait)) {
                             cLine = col_on_act;
                         }
                     }
-                } else if (u->has_trait(vStartingTraits[iCurrentPage][i])) {
+                } else if (u->has_trait(cur_trait)) {
                     cLine = col_on_pas;
 
-                } else if (u->has_conflicting_trait(vStartingTraits[iCurrentPage][i])) {
+                } else if (u->has_conflicting_trait(cur_trait) || g->scen->is_forbidden_trait(cur_trait)) {
                     cLine = c_ltgray;
                 }
 
@@ -1257,9 +1258,9 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
     WINDOW *w_description = newwin(4, TERMX - 2,
                                    TERMY - 5 + getbegy(w), 1 + getbegx(w));
 
-    WINDOW *w_sorting =     newwin(1,                  55,  5 + getbegy(w), 24 + getbegx(w));
-    WINDOW *w_genderswap =  newwin(1,                  55,  6 + getbegy(w), 24 + getbegx(w));
-    WINDOW *w_items =       newwin(iContentHeight - 2, 55,  7 + getbegy(w), 24 + getbegx(w));
+    WINDOW *w_sorting =     newwin(1,                  55,  5 + getbegy(w), (TERMX / 2) + getbegx(w));
+    WINDOW *w_genderswap =  newwin(1,                  55,  6 + getbegy(w), (TERMX / 2) + getbegx(w));
+    WINDOW *w_items =       newwin(iContentHeight - 2, 55,  7 + getbegy(w), (TERMX / 2) + getbegx(w));
 
     input_context ctxt("NEW_CHAR_PROFESSIONS");
     ctxt.register_cardinal();
@@ -1345,9 +1346,9 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
                                      "Profession %1$s costs %2$d points",
                                      pointsForProf);
         }
-        // This string has fixed start pos(7 = 2(start) + 5(length of "(+%d)" and space))
-        int pMsg_length = utf8_width( points.to_string() );
-        mvwprintz(w, 3, pMsg_length + 7, can_pick ? c_green : c_ltred, prof_msg_temp.c_str(),
+
+        int pMsg_length = utf8_width( remove_color_tags( points.to_string() ) );
+        mvwprintz(w, 3, pMsg_length + 9, can_pick ? c_green : c_ltred, prof_msg_temp.c_str(),
                   sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str(),
                   pointsForProf);
 
@@ -1893,9 +1894,9 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
                                      "Scenario %1$s cost %2$d points",
                                      pointsForScen);
         }
-        ///* This string has fixed start pos(7 = 2(start) + 5(length of "(+%d)" and space))
-        int pMsg_length = utf8_width( points.to_string().c_str() );
-        mvwprintz(w, 3, pMsg_length + 7, can_pick ? c_green : c_ltred, scen_msg_temp.c_str(),
+
+        int pMsg_length = utf8_width( remove_color_tags( points.to_string() ) );
+        mvwprintz(w, 3, pMsg_length + 9, can_pick ? c_green : c_ltred, scen_msg_temp.c_str(),
                   sorted_scens[cur_id]->gender_appropriate_name(u->male).c_str(),
                   pointsForScen);
 
@@ -2063,7 +2064,7 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
     WINDOW_PTR w_genderptr( w_gender );
     WINDOW *w_location = newwin(1, 76, getbegy(w) + 7, getbegx(w) + 2);
     WINDOW_PTR w_locationptr( w_location );
-    WINDOW *w_stats = newwin(6, 16, getbegy(w) + 9, getbegx(w) + 2);
+    WINDOW *w_stats = newwin(6, 20, getbegy(w) + 9, getbegx(w) + 2);
     WINDOW_PTR w_statstptr( w_stats );
     WINDOW *w_traits = newwin(13, 24, getbegy(w) + 9, getbegx(w) + 22);
     WINDOW_PTR w_traitsptr( w_traits );
@@ -2073,7 +2074,7 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
     WINDOW_PTR w_professionptr( w_profession );
     WINDOW *w_skills = newwin(9, 33, getbegy(w) + 11, getbegx(w) + 46);
     WINDOW_PTR w_skillsptr( w_skills );
-    WINDOW *w_guide = newwin(4, TERMX - 3, getbegy(w) + 19, getbegx(w) + 2);
+    WINDOW *w_guide = newwin(TERMY - getbegy(w) - 19 - 1, TERMX - 3, getbegy(w) + 19, getbegx(w) + 2);
     WINDOW_PTR w_guideptr( w_guide );
 
     draw_points( w, points );
@@ -2127,6 +2128,11 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
                 }
             }
             wrefresh(w);
+
+            wclear(w_stats);
+            wclear(w_traits);
+            wclear(w_skills);
+            wclear(w_guide);
 
             std::vector<std::string> vStatNames;
             mvwprintz(w_stats, 0, 0, COL_HEADER, _("Stats:"));
@@ -2195,18 +2201,18 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
             }
             wrefresh(w_skills);
 
-            mvwprintz(w_guide, 2, 0, c_green,
+            mvwprintz(w_guide, getmaxy( w_guide ) - 1, 0, c_green,
                       _("Press %s to finish character creation or %s to go back."),
                       ctxt.get_desc("NEXT_TAB").c_str(),
                       ctxt.get_desc("PREV_TAB").c_str());
             if( allow_reroll ) {
-                    mvwprintz( w_guide, 0, 0, c_green,
+                mvwprintz( w_guide, getmaxy( w_guide ) - 2, 0, c_green,
                                _("Press %s to save character template, %s to re-roll or %s for random scenario."),
                                ctxt.get_desc("SAVE_TEMPLATE").c_str(),
                                ctxt.get_desc("REROLL_CHARACTER").c_str(),
                                ctxt.get_desc("REROLL_CHARACTER_WITH_SCENARIO").c_str());
             } else {
-                    mvwprintz(w_guide, 0, 0, c_green, _("Press %s to save a template of this character."),
+                mvwprintz(w_guide, getmaxy( w_guide ) - 2, 0, c_green, _("Press %s to save a template of this character."),
                     ctxt.get_desc("SAVE_TEMPLATE").c_str());
             }
             wrefresh(w_guide);
@@ -2443,11 +2449,10 @@ trait_id Character::random_bad_trait()
 void save_template( player *u, std::string name )
 {
     if( name.empty() ) {
-        static const std::string title = _( "Name of template:" );
         name = string_input_popup()
-            .title( title )
-            .width( TERMX - utf8_width( title ) - 8 )
-            .query_string();
+               .title( _( "Name of template:" ) )
+               .width( 40 )
+               .query_string();
 
         if( name.empty() ) {
             return;

@@ -983,6 +983,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                 // try-rem
                 mman_ui->try_rem(cursel[1], active_mod_order);
                 redraw_active = true;
+                redraw_description = true;
                 if( active_mod_order.empty() ) {
                     // switch back to other list, we can't change
                     // anything in the empty active mods list.
