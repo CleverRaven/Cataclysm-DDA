@@ -46,16 +46,7 @@
       },
       "furniture": {
         "#": "f_hay",
-        "&": "f_trashcan",
-        "+": "f_null",
-        "-": "f_null",
-        ".": "f_null",
-        "_": "f_null",
-        "c": "f_null",
-        "f": "f_null",
-        "g": "f_null",
-        "r": "f_null",
-        "|": "f_null"
+        "&": "f_trashcan"
       },
       "place_items": [
         { "item": "trash", "x": 3, "y": 22, "chance": 55 },

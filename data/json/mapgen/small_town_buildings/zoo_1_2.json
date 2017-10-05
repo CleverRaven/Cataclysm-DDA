@@ -55,23 +55,15 @@
       "furniture": {
         "#": "f_bench",
         "&": "f_trashcan",
-        "+": "f_null",
-        "-": "f_null",
-        ".": "f_null",
         "C": "f_counter",
         "^": "f_plant_seed",
-        "_": "f_null",
-        "b": "f_null",
         "c": "f_chair",
-        "d": "f_null",
-        "g": "f_null",
         "h": "f_hay",
         "i": "f_indoor_plant",
         "o": "f_oven",
         "s": "f_sink",
         "t": "f_table",
-        "{": "f_fridge",
-        "|": "f_null"
+        "{": "f_fridge"
       },
       "place_items": [
         { "item": "cannedfood", "x": 22, "y": 21, "chance": 65 },

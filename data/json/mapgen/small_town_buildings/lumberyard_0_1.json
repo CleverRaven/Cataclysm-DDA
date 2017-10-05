@@ -42,14 +42,7 @@
         "|": "t_wall"
       },
       "furniture": {
-        "#": "f_null",
-        "+": "f_null",
-        ".": "f_null",
-        "6": "f_null",
-        "X": "f_crate_c",
-        "_": "f_null",
-        "g": "f_null",
-        "|": "f_null"
+        "X": "f_crate_c"
       },
       "place_vehicles": [
         { "vehicle": "semi_truck", "x": 12, "y": 18, "chance": 5, "fuel": 15, "status": 0, "rotation": 180 }

@@ -54,26 +54,12 @@
         "|": "t_wall"
       },
       "furniture": {
-        "#": "f_null",
         "&": "f_trashcan",
-        "+": "f_null",
-        "-": "f_null",
-        ".": "f_null",
-        "4": "f_null",
-        "7": "f_null",
-        "B": "f_null",
-        "D": "f_null",
         "^": "f_indoor_plant",
-        "_": "f_null",
-        "a": "f_null",
         "b": "f_bench",
         "c": "f_chair",
-        "d": "f_null",
         "h": "f_hay",
-        "r": "f_null",
-        "s": "f_null",
-        "{": "f_locker",
-        "|": "f_null"
+        "{": "f_locker"
       },
       "place_items": [
         { "item": "trash", "x": 20, "y": 5, "chance": 45 },

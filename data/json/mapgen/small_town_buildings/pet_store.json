@@ -54,22 +54,8 @@
       "furniture": {
         "#": "f_counter",
         "&": "f_sink",
-        "+": "f_null",
-        "-": "f_null",
-        ".": "f_null",
-        "C": "f_null",
-        "D": "f_null",
-        "W": "f_null",
         "^": "f_indoor_plant",
-        "_": "f_null",
-        "a": "f_null",
-        "b": "f_null",
-        "c": "f_null",
-        "d": "f_null",
-        "s": "f_null",
-        "w": "f_null",
-        "{": "f_rack",
-        "|": "f_null"
+        "{": "f_rack"
       },
       "place_items": [
         { "item": "vet_softdrug", "x": 21, "y": 6, "chance": 15 },
@@ -158,27 +144,14 @@
       "furniture": {
         "#": "f_counter",
         "&": "f_trashcan",
-        "+": "f_null",
-        "-": "f_null",
-        ".": "f_null",
-        "C": "f_null",
-        "D": "f_null",
         "H": "f_sofa",
         "S": "f_sink",
         "^": "f_indoor_plant",
-        "_": "f_null",
         "a": "f_chair",
         "b": "f_bench",
-        "c": "f_null",
-        "d": "f_null",
-        "e": "f_null",
         "l": "f_locker",
-        "s": "f_null",
         "t": "f_toilet",
-        "u": "f_null",
-        "w": "f_null",
-        "{": "f_rack",
-        "|": "f_null"
+        "{": "f_rack"
       },
       "place_toilets": [
         { "x": 2, "y": 19 }

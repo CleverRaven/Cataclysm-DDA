@@ -51,19 +51,12 @@
       "furniture": {
         "#": "f_counter",
         "&": "f_sink",
-        "+": "f_null",
-        "-": "f_null",
-        ".": "f_null",
         "O": "f_crate_o",
         "T": "f_trashcan",
         "X": "f_crate_c",
-        "_": "f_null",
         "b": "f_bench",
-        "g": "f_null",
-        "r": "f_null",
         "t": "f_toilet",
-        "{": "f_fridge",
-        "|": "f_null"
+        "{": "f_fridge"
       },
       "place_toilets": [
         { "x": 10, "y": 11 },

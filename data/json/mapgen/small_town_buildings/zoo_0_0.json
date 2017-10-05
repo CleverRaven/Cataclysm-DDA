@@ -39,15 +39,6 @@
         "d": "t_dirt",
         "p": "t_pavement_y",
         "s": "t_sidewalk"
-      },
-      "furniture": {
-        ".": "f_null",
-        "4": "f_null",
-        "7": "f_null",
-        "_": "f_null",
-        "d": "f_null",
-        "p": "f_null",
-        "s": "f_null"
       }
     }
   }

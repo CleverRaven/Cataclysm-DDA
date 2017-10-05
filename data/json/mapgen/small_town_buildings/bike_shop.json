@@ -51,19 +51,11 @@
       "furniture": {
         "#": "f_counter",
         "&": "f_trashcan",
-        "+": "f_null",
-        "-": "f_null",
-        ".": "f_null",
         "D": "f_dumpster",
         "^": "f_indoor_plant",
-        "_": "f_null",
         "c": "f_chair",
-        "d": "f_null",
-        "g": "f_null",
-        "p": "f_null",
         "v": "f_vending_c",
-        "{": "f_rack",
-        "|": "f_null"
+        "{": "f_rack"
       },
       "place_items": [
         { "item": "vending_drink", "x": 18, "y": 3, "chance": 50 },

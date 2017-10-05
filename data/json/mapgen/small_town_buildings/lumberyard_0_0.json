@@ -41,13 +41,8 @@
         "|": "t_wall"
       },
       "furniture": {
-        ".": "f_null",
         "O": "f_crate_o",
-        "X": "f_crate_c",
-        "_": "f_null",
-        "f": "f_null",
-        "p": "f_null",
-        "|": "f_null"
+        "X": "f_crate_c"
       }
     }
   }
