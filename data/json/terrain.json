@@ -6519,5 +6519,25 @@
       ]
     },
     "flags": [ "BASHABLE", "CONTAINER", "SEALED", "PLACE_ITEM", "WALL" ]
+  },
+  {
+    "id": "t_pavement_indoor",
+    "type": "terrain",
+    "name": "pavement",
+    "symbol": ".",
+    "color": [ "dkgray" ],
+    "move_cost": 2,
+    "bash": {
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "ter_set": "t_null",
+      "bash_below": true,
+      "items": [
+        { "item": "rock", "count": [ 2, 10 ] },
+        { "item": "rebar", "count": [ 0, 4 ] }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "INDOOR" ]
   }
 ]
