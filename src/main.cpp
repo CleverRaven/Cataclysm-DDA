@@ -15,6 +15,7 @@
 #include "mapsharing.h"
 #include "output.h"
 #include "main_menu.h"
+#include "loading_ui.h"
 
 #include <cstring>
 #include <ctime>
@@ -448,7 +449,8 @@ int main(int argc, char *argv[])
         }
         if( check_mods ) {
             init_colors();
-            exit( g->check_mod_data( opts ) && !test_dirty ? 0 : 1 );
+            loading_ui ui( false );
+            exit( g->check_mod_data( opts, ui ) && !test_dirty ? 0 : 1 );
         }
     } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );
