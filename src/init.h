@@ -120,7 +120,6 @@ class DynamicDataLoader
          * @throws std::exception on all kind of errors.
          */
         /*@{*/
-        void load_data_from_path( const std::string &path, const std::string &src );
         void load_data_from_path( const std::string &path, const std::string &src, loading_ui &ui );
         /*@}*/
         /**
