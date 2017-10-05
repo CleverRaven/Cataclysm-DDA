@@ -4678,7 +4678,7 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
     if( washmachine_here ) {
         for( auto &n : cur_veh->get_items( part ) ) {
             const int washing_time = MINUTES( 90 );
-            const int time_left = washing_time - calendar::turn.get_turn() + n.bday;
+            const int time_left = washing_time - n.age();
             static const std::string filthy( "FILTHY" );
             if( time_left <= 0 ) {
                 n.item_tags.erase( filthy );
