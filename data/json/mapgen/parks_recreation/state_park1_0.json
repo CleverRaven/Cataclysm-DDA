@@ -62,7 +62,7 @@
         { "item": "pizza_trash", "x": 16, "y": 2, "chance": 30 }
       ],
       "place_vehicles": [
-        { "vehicle": "car", "x": 18, "y": 12, "chance": 4, "status": -1, "rotation": 0 }
+        { "vehicle": "car", "x": 18, "y": 12, "chance": 4, "rotation": 0 }
       ]
     }
   }
