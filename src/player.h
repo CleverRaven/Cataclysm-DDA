@@ -1185,7 +1185,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         const martialart &get_combat_style() const; // Returns the combat style object
         std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
         void place_corpse(); // put corpse+inventory on map at the place where this is.
-        item  *pick_usb(); // Pick a usb drive, interactively if it matters
 
         bool covered_with_flag( const std::string &flag, const std::bitset<num_bp> &parts ) const;
         bool is_waterproof( const std::bitset<num_bp> &parts ) const;

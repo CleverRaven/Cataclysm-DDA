@@ -7043,24 +7043,6 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
     return res;
 }
 
-item* player::pick_usb()
-{
-    std::vector<std::pair<item*, int> > drives = inv.all_items_by_type("usb_drive");
-
-    if (drives.empty()) {
-        return nullptr; // None available!
-    }
-
-    std::vector<std::string> selections;
-    for (size_t i = 0; i < drives.size() && i < 9; i++) {
-        selections.push_back( drives[i].first->tname() );
-    }
-
-    int select = menu_vec(false, _("Choose drive:"), selections);
-
-    return drives[ select - 1 ].first;
-}
-
 bool player::covered_with_flag( const std::string &flag, const std::bitset<num_bp> &parts ) const
 {
     std::bitset<num_bp> covered = 0;
