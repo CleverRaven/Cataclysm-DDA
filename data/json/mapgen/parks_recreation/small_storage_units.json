@@ -91,12 +91,12 @@
         { "item": "holybook_bible1", "x": 22, "y": 11 }
       ],
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": 21, "y": 19, "chance": 6, "density": 1 },
-        { "monster": "GROUP_ZOMBIE", "x": 3, "y": 19, "chance": 6, "density": 1 },
-        { "monster": "GROUP_ZOMBIE", "x": 21, "y": 13, "chance": 6, "density": 1 },
-        { "monster": "GROUP_ZOMBIE", "x": 3, "y": 13, "chance": 6, "density": 1 },
-        { "monster": "GROUP_ZOMBIE", "x": 20, "y": 7, "chance": 6, "density": 1 },
-        { "monster": "GROUP_ZOMBIE", "x": 3, "y": 7, "chance": 6, "density": 1 }
+        { "monster": "GROUP_ZOMBIE", "x": 21, "y": 19, "chance": 6 },
+        { "monster": "GROUP_ZOMBIE", "x": 3, "y": 19, "chance": 6 },
+        { "monster": "GROUP_ZOMBIE", "x": 21, "y": 13, "chance": 6 },
+        { "monster": "GROUP_ZOMBIE", "x": 3, "y": 13, "chance": 6 },
+        { "monster": "GROUP_ZOMBIE", "x": 20, "y": 7, "chance": 6 },
+        { "monster": "GROUP_ZOMBIE", "x": 3, "y": 7, "chance": 6 }
       ]
     }
   }

@@ -105,8 +105,8 @@
         { "item": "kitchen", "x": [ 2, 3 ], "y": 9, "chance": 50 }
       ],
       "place_monsters": [
-        { "monster": "GROUP_PUBLICWORKERS", "x": 5, "y": 18, "chance": 2, "density": 1 },
-        { "monster": "GROUP_PUBLICWORKERS", "x": 20, "y": 6, "chance": 2, "density": 1 }
+        { "monster": "GROUP_PUBLICWORKERS", "x": 5, "y": 18, "chance": 2 },
+        { "monster": "GROUP_PUBLICWORKERS", "x": 20, "y": 6, "chance": 2 }
       ]
     }
   }

@@ -66,7 +66,7 @@
         { "item": "alcohol", "x": 9, "y": 7, "chance": 15 }
       ],
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": 11, "y": 16, "chance": 3, "density": 1 }
+        { "monster": "GROUP_ZOMBIE", "x": 11, "y": 16, "chance": 3 }
       ],
       "place_monster": [
         { "monster": "mon_rabbit", "x": 4, "y": 13 },
