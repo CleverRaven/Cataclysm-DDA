@@ -7070,9 +7070,9 @@
     "flags": [ "SIDEWALK" ]
   },
   {
-    "id": "cemetary",
+    "id": "cemetery_small",
     "type": "overmap_terrain",
-    "name": "cemetary",
+    "name": "small cemetery",
     "sym": 67,
     "color": "i_grey",
     "see_cost": 5,
