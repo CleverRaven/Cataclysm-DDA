@@ -1407,5 +1407,44 @@
       "monsters" : [
         { "monster" : "mon_blank", "freq" : 50, "cost_multiplier" : 0 }
       ]
+  },{
+      "type":"monstergroup",
+      "name" : "GROUP_PARK_ANIMAL",
+      "default" : "mon_null",
+      "monsters" : [
+        { "monster" : "mon_crow", "freq" : 50, "cost_multiplier" : 0 },
+        { "monster" : "mon_cat", "freq" : 50, "cost_multiplier" : 0 },
+        { "monster" : "mon_chipmunk", "freq" : 50, "cost_multiplier" : 0 },
+        { "monster" : "mon_fox_red", "freq" : 50, "cost_multiplier" : 0 },
+        { "monster" : "mon_rabbit", "freq" : 50, "cost_multiplier" : 0 },
+        { "monster" : "mon_squirrel", "freq" : 50, "cost_multiplier" : 0 },
+        { "monster" : "mon_squirrel_red", "freq" : 50, "cost_multiplier" : 0 }
+      ]
+  },{
+      "type":"monstergroup",
+      "name" : "GROUP_POND_ANIMAL",
+      "default" : "mon_null",
+      "monsters" : [
+        { "monster" : "mon_rabbit", "freq" : 50, "cost_multiplier" : 0 },
+        { "monster" : "mon_squirrel_red", "freq" : 50, "cost_multiplier" : 0 },
+        { "monster" : "mon_squirrel", "freq" : 50, "cost_multiplier" : 0 }
+      ]
+  },{
+      "type":"monstergroup",
+      "name" : "GROUP_POND_BIRD",
+      "default" : "mon_null",
+      "monsters" : [
+        { "monster" : "mon_duck", "freq" : 50, "cost_multiplier" : 0 }
+      ]
+  },{
+      "type":"monstergroup",
+      "name" : "GROUP_POND_FISH",
+      "default" : "mon_null",
+      "monsters" : [
+        { "monster" : "mon_duck", "freq" : 50, "cost_multiplier" : 0 },
+        { "monster" : "mon_fish_bluegill", "freq" : 50, "cost_multiplier" : 0 },
+        { "monster" : "mon_fish_carp", "freq" : 50, "cost_multiplier" : 0 },
+        { "monster" : "mon_fish_sbass", "freq" : 50, "cost_multiplier" : 0 }
+      ]
   }
 ]

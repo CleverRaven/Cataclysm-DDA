@@ -54,9 +54,9 @@
       "place_items": [
         { "item": "snacks", "x": 10, "y": 19, "chance": 5 }
       ],
-      "place_monster": [
-        { "monster": "mon_zombie_child", "x": 11, "y": 10 },
-        { "monster": "mon_zombie_child", "x": 15, "y": 15 }
+      "place_monsters": [
+        { "monster": "GROUP_SCHOOL", "x": [ 11, 15 ], "y": [ 10, 15 ], "chance": 2, "repeat": 2 }
+        { "monster": "GROUP_PARK_ANIMAL", "x": [ 4, 19 ], "y": [ 13, 18 ], "repeat": 3 }
       ],
       "place_vehicles": [
         { "vehicle": "bicycle", "x": 10, "y": 7, "chance": 3, "status": 0, "rotation": 270 },

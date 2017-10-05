@@ -61,9 +61,8 @@
         { "item": "rock", "x": 2, "y": 13 },
         { "item": "rock", "x": 22, "y": 19 }
       ],
-      "place_monster": [
-        { "monster": "mon_chipmunk", "x": 2, "y": 5 },
-        { "monster": "mon_cat", "x": 15, "y": 13 }
+      "place_monsters": [
+        { "monster": "GROUP_PARK_ANIMAL", "x": [ 2, 15 ], "y": [ 5, 13 ], "repeat": 2 }
       ]
     }
   },
@@ -134,8 +133,8 @@
         { "item": "rock", "x": 2, "y": 13 },
         { "item": "rock", "x": 22, "y": 19 }
       ],
-      "place_monster": [
-        { "monster": "mon_chipmunk", "x": 2, "y": 5 }
+      "place_monsters": [
+        { "monster": "GROUP_PARK_ANIMAL", "x": 2, "y": 5 }
       ]
     }
   }

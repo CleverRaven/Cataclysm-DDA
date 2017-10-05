@@ -60,14 +60,10 @@
         "f": "f_bluebell",
         "i": "f_cattails"
       },
-      "place_monster": [
-        { "monster": "mon_rabbit", "x": 8, "y": 4 },
-        { "monster": "mon_squirrel_red", "x": 2, "y": 9 },
-        { "monster": "mon_fish_lbass", "x": 22, "y": 11 },
-        { "monster": "mon_duck", "x": 9, "y": 16 },
-        { "monster": "mon_duck", "x": 8, "y": 17 },
-        { "monster": "mon_fish_sbass", "x": 15, "y": 21 },
-        { "monster": "mon_fish_bluegill", "x": 21, "y": 23 }
+      "place_monsters": [
+        { "monster": "GROUP_POND_ANIMAL", "x": [ 2, 8 ], "y": [ 4, 9 ], "repeat": 2 },
+        { "monster": "GROUP_POND_BIRD", "x": [ 8, 9 ], "y": [ 16, 17 ], "repeat": 2 },
+        { "monster": "GROUP_POND_FISH", "x": [ 7, 22 ], "y": [ 11, 23 ], "repeat": 3 }
       ]
     }
   }

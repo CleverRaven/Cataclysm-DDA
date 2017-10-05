@@ -66,12 +66,8 @@
         { "item": "alcohol", "x": 9, "y": 7, "chance": 15 }
       ],
       "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": 11, "y": 16, "chance": 3 }
-      ],
-      "place_monster": [
-        { "monster": "mon_rabbit", "x": 4, "y": 13 },
-        { "monster": "mon_cat", "x": 19, "y": 16 },
-        { "monster": "mon_rabbit", "x": 4, "y": 18 }
+        { "monster": "GROUP_ZOMBIE", "x": 11, "y": 16, "chance": 3 },
+        { "monster": "GROUP_PARK_ANIMAL", "x": [ 4, 19 ], "y": [ 13, 18 ], "repeat": 3 }
       ]
     }
   }

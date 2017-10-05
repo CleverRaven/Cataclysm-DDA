@@ -57,9 +57,8 @@
         { "item": "forest", "x": 21, "y": 14, "chance": 20 },
         { "item": "forest", "x": 4, "y": 2, "chance": 20 }
       ],
-      "place_monster": [
-        { "monster": "mon_fish_bluegill", "x": 2, "y": 17 },
-        { "monster": "mon_fish_bluegill", "x": 4, "y": 21 }
+      "place_monsters": [
+        { "monster": "GROUP_POND_FISH", "x": [ 2, 4 ], "y": [ 17, 21 ], "repeat": 2 }
       ]
     }
   }
