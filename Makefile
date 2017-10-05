@@ -629,7 +629,7 @@ SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
 HEADERS = $(wildcard $(SRC_DIR)/*.h)
 TESTSRC = $(wildcard tests/*.cpp)
 TESTHDR = $(wildcard tests/*.h)
-TOOLSRC = $(wildcard tools/json_tools/format/*.cpp)
+TOOLSRC = $(wildcard tools/json_tools/format/*.[ch]*)
 
 _OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)
 ifeq ($(TARGETSYSTEM),WINDOWS)
@@ -957,13 +957,13 @@ else
 endif
 
 style-json: new_json_whitelist json_formatter
-	xargs -a new_json_whitelist -L 1 ./json_formatter
+	xargs -a new_json_whitelist -L 1 format/json_formatter.cgi
 
 style-all-json: json_formatter
-	find data -name "*.json" -print0 | xargs -0 -L 1 ./json_formatter
+	find data -name "*.json" -print0 | xargs -0 -L 1 format/json_formatter.cgi
 
 json_formatter: tools/json_tools/format/format.cpp src/json.cpp
-	$(CXX) $(CXXFLAGS) -Itools/json_tools/format -Isrc tools/json_tools/format/format.cpp src/json.cpp -o json_formatter
+	$(CXX) $(CXXFLAGS) -Itools/json_tools/format -Isrc tools/json_tools/format/format.cpp src/json.cpp -o format/json_formatter.cgi
 
 lint-check: json_whitelist $(ODIR)/lint.cache
 

@@ -1,7 +1,10 @@
 #include "json.h"
 
+#include "getpost.h"
+
 #include <cstdlib>
 #include <fstream>
+#include <map>
 #include <sstream>
 #include <string>
 
@@ -73,20 +76,33 @@ int main( int argc, char *argv[] )
     std::stringstream in;
     std::stringstream out;
     std::string filename;
+    std::string header;
 
-    // Expect a single filename for now.
-    if( argc == 2 ) {
-        filename = argv[1];
-    } else if( argc != 1 ) {
-        std::cout << "Supply a filename to style or no arguments." << std::endl;
-        exit( EXIT_FAILURE );
-    }
+    char *gateway_var = getenv( "GATEWAY_INTERFACE" );
+    if( gateway_var == nullptr ) {
+        // Expect a single filename for now.
+        if( argc == 2 ) {
+            filename = argv[1];
+        } else if( argc != 1 ) {
+            std::cout << "Supply a filename to style or no arguments." << std::endl;
+            exit( EXIT_FAILURE );
+        }
 
-    if( filename.empty() ) {
-        in << std::cin.rdbuf();
+        if( filename.empty() ) {
+            in << std::cin.rdbuf();
+        } else {
+            std::ifstream fin( filename, std::ios::binary );
+            in << fin.rdbuf();
+        }
     } else {
-        std::ifstream fin( filename, std::ios::binary );
-        in << fin.rdbuf();
+        std::map<std::string, std::string> params;
+        initializePost( params );
+        std::string data = params[ "data" ];
+        if( data.empty() ) {
+            exit( -255 );
+        }
+        in.str( data );
+        header = "Content-type: application/json\n\n";
     }
 
     JsonOut jsout( out, true );
@@ -97,6 +113,7 @@ int main( int argc, char *argv[] )
     out << std::endl;
 
     if( filename.empty() ) {
+        std::cout << header;
         std::cout << out.str() << std::endl;
     } else {
         if( in.str() == out.str() ) {
