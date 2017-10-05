@@ -30,6 +30,7 @@
 #include "cata_utility.h"
 #include "color_loader.h"
 #include "font_loader.h"
+#include "loading_ui.h"
 
 #if (defined _WIN32 || defined WINDOWS)
 #   include "platform_win.h"
