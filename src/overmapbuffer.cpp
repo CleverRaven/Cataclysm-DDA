@@ -129,6 +129,10 @@ void overmapbuffer::fix_mongroups(overmap &new_overmap)
 
 void overmapbuffer::fix_npcs( overmap &new_overmap )
 {
+    // First step: move all npcs that are located outside of the given overmap
+    // into a separate container. After that loop, new_overmap.npcs is no
+    // accessed anymore!
+    decltype(overmap::npcs) to_relocate;
     for( auto it = new_overmap.npcs.begin(); it != new_overmap.npcs.end(); ) {
         npc &np = **it;
         const tripoint npc_omt_pos = np.global_omt_location();
@@ -139,7 +143,20 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
             ++it;
             continue;
         }
-
+        to_relocate.push_back( *it );
+        it = new_overmap.npcs.erase( it );
+    }
+    // Second step: put them back where they belong. This step involves loading
+    // new overmaps (via `get`), which does in turn call this function for the
+    // newly loaded overmaps. This in turn may move npcs from the second overmap
+    // back into the first overmap. This messes up the iteration of it. The
+    // iteration is therefor done in a separate step above (which does *not*
+    // involve loading new overmaps).
+    for( auto &ptr : to_relocate ) {
+        npc &np = *ptr;
+        const tripoint npc_omt_pos = np.global_omt_location();
+        const point npc_om_pos = omt_to_om_copy( npc_omt_pos.x, npc_omt_pos.y );
+        const point &loc = new_overmap.pos();
         if( !has( npc_om_pos.x, npc_om_pos.y ) ) {
             // This can't really happen without save editing
             // We have no sane option here, just place the NPC on the edge
@@ -151,13 +168,12 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
             npc_sm.x = clamp( npc_sm.x, min.x, max.x );
             npc_sm.y = clamp( npc_sm.y, min.y, max.y );
             np.spawn_at_sm( npc_sm.x, npc_sm.y, np.posz() );
-            ++it;
+            new_overmap.npcs.push_back( ptr );
             continue;
         }
 
         // Simplest case: just move the pointer
-        get( npc_om_pos.x, npc_om_pos.y ).insert_npc( *it );
-        it = new_overmap.npcs.erase( it );
+        get( npc_om_pos.x, npc_om_pos.y ).insert_npc( ptr );
     }
 }
 
