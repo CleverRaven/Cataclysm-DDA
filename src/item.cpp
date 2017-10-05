@@ -3304,10 +3304,10 @@ nc_color item::damage_color() const
     // @todo unify with getDurabilityColor
 
     // reinforced, undamaged and nearly destroyed items are special case
-    if( damage() < 0 ) {
+    if( precise_damage() <= min_damage() ) {
         return c_green;
     }
-    if( damage() == 0 ) {
+    if( damage() <= 0 ) {
         return c_ltgreen;
     }
     if( damage() == max_damage() ) {
@@ -3315,7 +3315,7 @@ nc_color item::damage_color() const
     }
 
     // assign other colors proportionally
-    auto q = double( damage() ) / max_damage();
+    auto q = precise_damage() / max_damage();
     if( q > 0.66 ) {
         return c_ltred;
     }
@@ -3338,8 +3338,8 @@ std::string item::damage_symbol() const
         return _( R"(..)" );
     }
 
-    // assign other colors proportionally
-    auto q = double( damage() ) / max_damage();
+    // assign other symbols proportionally
+    auto q = precise_damage() / max_damage();
     if( q > 0.66 ) {
         return _( R"(\.)" );
     }
