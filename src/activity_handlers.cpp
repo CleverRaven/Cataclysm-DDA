@@ -946,18 +946,13 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
             found_something = true;
         }
     }
-
+    // 10% to drop a item/items from this group. 
     if( one_in(10) ) {
         const auto dropped = g->m.put_items_from_loc( "trash_forest", p->pos(), calendar::turn );
         for( const auto &it : dropped ) {
             add_msg( m_good, _( "You found: %s!" ), it->tname().c_str() );
             found_something = true;
         }
-    }
-
-    if( rng( 1, 5 ) > 1 ) {
-        g->m.spawn_item( p->pos(), "withered", rng(1, 3) );
-        found_something = true;
     }
 
     if( !found_something ) {
