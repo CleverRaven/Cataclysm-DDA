@@ -1783,7 +1783,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ -1, 3 ],
     "city_sizes": [ 4, 12 ],
-    "occurrences": [ 1, 5 ]
+    "occurrences": [ 0, 5 ]
   },
   {
     "type": "overmap_special",
@@ -1806,6 +1806,6 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 1, 8 ],
     "city_sizes": [ 3, 12 ],
-    "occurrences": [ 1, 5 ]
+    "occurrences": [ 0, 5 ]
   }
 ]
