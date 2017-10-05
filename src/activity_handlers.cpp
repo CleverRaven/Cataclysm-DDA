@@ -570,7 +570,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     item &corpse_item = items_here[act->index];
     auto contents = corpse_item.contents;
     const mtype *corpse = corpse_item.get_mtype();
-    const int age = corpse_item.bday;
+    const int age = corpse_item.birthday();
     g->m.i_rem( p->pos(), act->index );
 
     const int skill_level = p->get_skill_level( skill_survival );
@@ -946,7 +946,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
             found_something = true;
         }
     }
-
+    // 10% to drop a item/items from this group. 
     if( one_in(10) ) {
         const auto dropped = g->m.put_items_from_loc( "trash_forest", p->pos(), calendar::turn );
         for( const auto &it : dropped ) {
@@ -1308,7 +1308,7 @@ void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
     item &lens_item = p->i_at(act->position);
     const auto usef = lens_item.type->get_use( "firestarter" );
     if( usef == nullptr || usef->get_actor_ptr() == nullptr ) {
-        add_msg( m_bad, "You have lost the item you were using to start the fire." );
+        add_msg( m_bad, _( "You have lost the item you were using to start the fire." ) );
         p->cancel_activity();
         return;
     }
@@ -1396,7 +1396,9 @@ void activity_handlers::vehicle_finish( player_activity *act, player *pl )
 
 void activity_handlers::vibe_do_turn( player_activity *act, player *p )
 {
-    //Using a vibrator takes time, not speed
+    //Using a vibrator takes time (10 minutes), not speed
+    //Linear increase in morale during action with a small boost at end
+    //Deduct 1 battery charge for every minute in use, or vibrator is much less effective
     act->moves_left -= 100;
 
     item &vibrator_item = p->i_at(act->position);
@@ -1407,17 +1409,18 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
         add_msg(m_bad, _("You have trouble breathing, and stop."));
     }
 
-    //Deduct 1 battery charge for every minute using the vibrator
     if( calendar::once_every(MINUTES(1)) ) {
-        vibrator_item.ammo_consume( 1, p->pos() );
-        p->add_morale(MORALE_FEELING_GOOD, 4, 320); //4 points/min, one hour to fill
-        // 1:1 fatigue:morale ratio, so maxing the morale is possible but will take
-        // you pretty close to Dead Tired from a well-rested state.
-        p->mod_fatigue(4);
-    }
-    if( vibrator_item.ammo_remaining() == 0 ) {
-        act->moves_left = 0;
-        add_msg(m_info, _("The %s runs out of batteries."), vibrator_item.tname().c_str());
+        p->mod_fatigue(1);
+        if( vibrator_item.ammo_remaining() > 0 ) {
+            vibrator_item.ammo_consume( 1, p->pos() );
+            p->add_morale(MORALE_FEELING_GOOD, 3, 40); 
+            if( vibrator_item.ammo_remaining() == 0 ) {
+                add_msg(m_info, _("The %s runs out of batteries."), vibrator_item.tname().c_str());
+            }
+        }
+        else { 
+            p->add_morale(MORALE_FEELING_GOOD, 1, 40); //twenty minutes to fill
+        }
     }
     if( p->get_fatigue() >= DEAD_TIRED ) { // Dead Tired: different kind of relaxation needed
         act->moves_left = 0;
@@ -1826,15 +1829,16 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
 void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
 {
     act->set_to_null();
-    if( act->values.size() != 1 ) {
+    if( act->targets.size() != 2 || !act->targets[0] || !act->targets[1] ) {
         debugmsg( "Incompatible arguments to ACT_TOOLMOD_ADD" );
         return;
     }
-    item &tool = p->i_at( act->position );
-    item &mod = p->i_at( act->values[0] );
-    add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname().c_str(),
+    item &tool = *act->targets[0];
+    item &mod = *act->targets[1];
+    p->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname().c_str(),
                 tool.tname().c_str() );
-    tool.contents.push_back( p->i_rem( &mod ) );
+    tool.contents.push_back( mod );
+    act->targets[1].remove_item();
 }
 
 void activity_handlers::clear_rubble_finish( player_activity *act, player *p )
@@ -1979,6 +1983,7 @@ void activity_handlers::build_finish( player_activity *, player * )
 void activity_handlers::vibe_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( m_good, _( "You feel much better." ) );
+    p->add_morale(MORALE_FEELING_GOOD, 10, 40);
     act->set_to_null();
 }
 

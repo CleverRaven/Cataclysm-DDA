@@ -218,7 +218,15 @@ item &inventory::add_item(item newit, bool keep_invlet, bool assign_invlet)
             if( it_ref->merge_charges( newit ) ) {
                 return *it_ref;
             }
-            newit.invlet = it_ref->invlet;
+            if ( it_ref->invlet == '\0' ) {
+                if( !keep_invlet ) {
+                    update_invlet( newit, assign_invlet );
+                }
+                update_cache_with_item( newit );
+                it_ref->invlet = newit.invlet;
+            } else {
+                newit.invlet = it_ref->invlet;
+            }
             elem.push_back( newit );
             return elem.back();
         } else if( keep_invlet && assign_invlet && it_ref->invlet == newit.invlet ) {
@@ -636,21 +644,6 @@ int inventory::position_by_type(itype_id type)
         ++i;
     }
     return INT_MIN;
-}
-
-std::vector<std::pair<item *, int> > inventory::all_items_by_type(itype_id type)
-{
-    std::vector<std::pair<item *, int> > ret;
-    int i = 0;
-    for( auto &elem : items ) {
-        for( auto &elem_stack_iter : elem ) {
-            if( elem_stack_iter.typeId() == type ) {
-                ret.push_back( std::make_pair( &elem_stack_iter, i ) );
-            }
-        }
-        ++i;
-    }
-    return ret;
 }
 
 std::list<item> inventory::use_amount(itype_id it, int _quantity)

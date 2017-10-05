@@ -81,7 +81,7 @@
     "mod_targets": [ "rifle", "crossbow", "launcher" ],
     "install_time": 30000,
     "sight_dispersion": 0,
-    "aim_cost": 10,
+    "aim_speed": 0,
     "min_skills": [ [ "gun", 4 ], [ "rifle", 1 ] ],
     "flags": [ "ZOOM" ]
   },

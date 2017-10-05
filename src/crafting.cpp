@@ -587,8 +587,8 @@ void set_item_spoilage( item &newit, float used_age_tally, int used_age_count )
 
 void set_item_food( item &newit )
 {
-    int bday_tmp = newit.bday % 3600; // fuzzy birthday for stacking reasons
-    newit.bday = int( newit.bday ) + 3600 - bday_tmp;
+    int bday_tmp = newit.birthday() % 3600; // fuzzy birthday for stacking reasons
+    newit.set_birthday( newit.birthday() + 3600 - bday_tmp );
     if( newit.has_flag( "EATEN_HOT" ) ) { // hot foods generated
         newit.item_tags.insert( "HOT" );
         newit.item_counter = 600;
@@ -1314,9 +1314,11 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
             // @todo: make this depend on intelligence
             if( one_in( 4 ) ) {
                 learn_recipe( &recipe_dict[ dis.ident() ] );
-                add_msg( m_good, _( "You learned a recipe from disassembling it!" ) );
+                add_msg( m_good, _( "You learned a recipe for %s from disassembling it!" ),
+                         dis_item.tname().c_str() );
             } else {
-                add_msg( m_info, _( "You might be able to learn a recipe if you disassemble another." ) );
+                add_msg( m_info, _( "You might be able to learn a recipe for %s if you disassemble another." ),
+                         dis_item.tname().c_str() );
             }
         } else {
             add_msg( m_info, _( "If you had better skills, you might learn a recipe next time." ) );
@@ -1378,7 +1380,7 @@ std::vector<npc *> player::get_crafting_helpers() const
     for( auto &elem : g->active_npc ) {
         if( rl_dist( elem->pos(), pos() ) < PICKUP_RANGE && elem->is_friend() &&
             !elem->in_sleep_state() && g->m.clear_path( pos(), elem->pos(), PICKUP_RANGE, 1, 100 ) ) {
-            ret.push_back( elem );
+            ret.push_back( elem.get() );
         }
     }
 

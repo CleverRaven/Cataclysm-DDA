@@ -186,7 +186,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
 {
     std::vector<std::string> keys;
     std::map<std::string, std::string> col_missions;
-    std::vector<npc *> npc_list;
+    std::vector<std::shared_ptr<npc>> npc_list;
     std::string entry, entry_aux;
 
     if (id == "SCAVENGER"){
@@ -324,7 +324,7 @@ bool talk_function::outpost_missions( npc &p, std::string id, std::string title 
             "for skilled labor.");
         keys.push_back("Caravan Commune-Refugee Center");
         npc_list = companion_list( p, "_commune_refugee_caravan" );
-        std::vector<npc *> npc_list_aux;
+        std::vector<std::shared_ptr<npc>> npc_list_aux;
         if (npc_list.size()>0){
             entry = _("Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
             " \nRoster:\n");
@@ -502,7 +502,7 @@ void talk_function::individual_mission( npc &p, std::string desc, std::string id
 
 void talk_function::caravan_depart( npc &p, std::string dest, std::string id )
 {
-    std::vector<npc *> npc_list = companion_list( p, id );
+    std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, id );
     int distance = caravan_dist(dest);
     int time = 200 + distance * 100;
     popup(_("The caravan departs with an estimated total travel time of %d hours..."), int(time/600));
@@ -539,8 +539,8 @@ void talk_function::caravan_return( npc &p, std::string dest, std::string id )
     //So we have chosen to return an individual or party who went on the mission
     //Everyone who was on the mission will have the same companion_mission_time
     //and will simulate the mission and return together
-    std::vector<npc *> caravan_party, bandit_party;
-    std::vector<npc *> npc_list = companion_list( p, id );
+    std::vector<std::shared_ptr<npc>> caravan_party, bandit_party;
+    std::vector<std::shared_ptr<npc>> npc_list = companion_list( p, id );
     for (int i = 0; i < rng(1,3); i++){
         caravan_party.push_back(temp_npc(string_id<npc_template>( "commune_guard" )));
     }
@@ -575,7 +575,7 @@ void talk_function::caravan_return( npc &p, std::string dest, std::string id )
 
     int y,i;
     int money = 0;
-    for( auto *elem : caravan_party ) {
+    for( const auto &elem : caravan_party ) {
         //Scrub temporary party members and the dead
         if (elem->hp_cur[hp_torso] == 0 && elem->has_companion_mission() ) {
             overmap_buffer.remove_npc( comp->getID() );
@@ -627,13 +627,13 @@ void talk_function::caravan_return( npc &p, std::string dest, std::string id )
 }
 
 //A random NPC on one team attacks a random NPC on the opposite
-void talk_function::attack_random(std::vector<npc *> attacker, std::vector<npc *> defender)
+void talk_function::attack_random( const std::vector<std::shared_ptr<npc>> &attacker, const std::vector<std::shared_ptr<npc>> &defender )
 {
     if (attacker.size() == 0 || defender.size() ==0){
             return;
     }
-    npc* att = random_entry( attacker );
-    npc* def = random_entry( defender );
+    const auto att = random_entry( attacker );
+    const auto def = random_entry( defender );
     const skill_id best = att->best_skill();
     int best_score = 1;
     if( best ) {
@@ -650,10 +650,10 @@ void talk_function::attack_random(std::vector<npc *> attacker, std::vector<npc *
 
 //Used to determine when to retreat, might want to add in a random factor so that engagements aren't
 //drawn out wars of attrition
-int talk_function::combat_score(std::vector<npc *> group)
+int talk_function::combat_score( const std::vector<std::shared_ptr<npc>> &group )
 {
     int score = 0;
-    for( auto *elem : group ) {
+    for( const auto &elem : group ) {
         if (elem->hp_cur[hp_torso] != 0){
             const skill_id best = elem->best_skill();
             if( best ) {
@@ -666,9 +666,9 @@ int talk_function::combat_score(std::vector<npc *> group)
     return score;
 }
 
-npc *talk_function::temp_npc( const string_id<npc_template> &type )
+std::shared_ptr<npc> talk_function::temp_npc( const string_id<npc_template> &type )
 {
-    npc *temp = new npc();
+    std::shared_ptr<npc> temp = std::make_shared<npc>();
     temp->normalize();
     temp->load_npc_template(type);
     return temp;
@@ -807,7 +807,7 @@ void talk_function::field_plant( npc &p, std::string place )
                 } else {
                     used_seed = g->u.use_amount( seed_id, 1 );
                 }
-                used_seed.front().bday = calendar::turn;
+                used_seed.front().set_age( 0 );
                 bay.add_item_or_charges( x, y, used_seed.front() );
                 bay.set( x, y, t_dirt, f_plant_seed);
                 limiting_number--;
@@ -1357,8 +1357,8 @@ bool talk_function::forage_return( npc &p )
     return true;
 }
 
-void talk_function::force_on_force(std::vector<npc *> defender, std::string def_desc,
-    std::vector<npc *> attacker, std::string att_desc, int advantage)
+void talk_function::force_on_force( std::vector<std::shared_ptr<npc>> defender, std::string def_desc,
+    std::vector<std::shared_ptr<npc>> attacker, std::string att_desc, int advantage )
 {
     std::string adv = "";
     if (advantage < 0){
@@ -1373,14 +1373,14 @@ void talk_function::force_on_force(std::vector<npc *> defender, std::string def_
     int defense, attack;
     int att_init, def_init;
     while (true){
-        std::vector<npc *> remaining_att;
-        for( auto *elem : attacker ) {
+        std::vector<std::shared_ptr<npc>> remaining_att;
+        for( const auto &elem : attacker ) {
             if (elem->hp_cur[hp_torso] != 0){
                 remaining_att.push_back(elem);
             }
         }
-        std::vector<npc *> remaining_def;
-        for( auto *elem : defender ) {
+        std::vector<std::shared_ptr<npc>> remaining_def;
+        for( const auto &elem : defender ) {
             if (elem->hp_cur[hp_torso] != 0){
                 remaining_def.push_back(elem);
             }
@@ -1425,10 +1425,10 @@ void talk_function::companion_return( npc &comp ){
     g->reload_npcs();
 }
 
-std::vector<npc *> talk_function::companion_list( const npc &p, const std::string &id )
+std::vector<std::shared_ptr<npc>> talk_function::companion_list( const npc &p, const std::string &id )
 {
-    std::vector<npc *> available;
-    for( auto *elem : overmap_buffer.get_companion_mission_npcs() ) {
+    std::vector<std::shared_ptr<npc>> available;
+    for( const auto &elem : overmap_buffer.get_companion_mission_npcs() ) {
         if( elem->get_companion_mission() == p.name + id ) {
             available.push_back( elem );
         }
@@ -1441,7 +1441,7 @@ npc *talk_function::companion_choose(){
     for( auto &elem : g->active_npc ) {
         if( g->u.sees( elem->pos() ) && elem->is_friend() &&
             rl_dist( g->u.pos(), elem->pos() ) <= 24 ) {
-            available.push_back( elem );
+            available.push_back( elem.get() );
         }
     }
 
@@ -1465,9 +1465,9 @@ npc *talk_function::companion_choose(){
 
 npc *talk_function::companion_choose_return(std::string id, int deadline){
     std::vector<npc *> available;
-    for( npc *const guy : overmap_buffer.get_companion_mission_npcs() ) {
+    for( const auto &guy : overmap_buffer.get_companion_mission_npcs() ) {
         if( guy->get_companion_mission() == id && guy->companion_mission_time <= deadline) {
-            available.push_back( guy );
+            available.push_back( guy.get() );
         }
     }
 

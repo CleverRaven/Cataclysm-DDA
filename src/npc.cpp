@@ -769,25 +769,6 @@ void npc::spawn_at_precise( const point &submap_offset, const tripoint &square )
     position.x = square.x % SEEX;
     position.y = square.y % SEEY;
     position.z = square.z;
-    const point pos_om = sm_to_om_copy( submap_coords );
-    overmap &om = overmap_buffer.get( pos_om.x, pos_om.y );
-    om.insert_npc( this );
-}
-
-void npc::spawn_at_random_city(overmap *o)
-{
-    int x, y;
-    if(o->cities.empty()) {
-        x = rng(0, OMAPX * 2 - 1);
-        y = rng(0, OMAPY * 2 - 1);
-    } else {
-        const city& c = random_entry( o->cities );
-        x = c.x + rng(-c.s, +c.s);
-        y = c.y + rng(-c.s, +c.s);
-    }
-    x += o->pos().x * OMAPX * 2;
-    y += o->pos().y * OMAPY * 2;
-    spawn_at_sm(x, y, 0);
 }
 
 tripoint npc::global_square_location() const
@@ -1701,7 +1682,7 @@ bool npc::emergency( float danger ) const
 //Active npcs are the npcs near the player that are actively simulated.
 bool npc::is_active() const
 {
-    return std::find(g->active_npc.begin(), g->active_npc.end(), this) != g->active_npc.end();
+    return std::find_if( g->active_npc.begin(), g->active_npc.end(), [&]( const std::shared_ptr<npc> &n ) { return n->getID() == getID(); } ) != g->active_npc.end();
 }
 
 int npc::follow_distance() const
@@ -1890,10 +1871,8 @@ void npc::setpos( const tripoint &pos )
     if( !is_fake() && pos_om_old != pos_om_new ) {
         overmap &om_old = overmap_buffer.get( pos_om_old.x, pos_om_old.y );
         overmap &om_new = overmap_buffer.get( pos_om_new.x, pos_om_new.y );
-        auto a = std::find( om_old.npcs.begin(), om_old.npcs.end(), this );
-        if( a != om_old.npcs.end() ) {
-            om_old.npcs.erase( a );
-            om_new.npcs.push_back( this );
+        if( const auto ptr = om_old.erase_npc( getID() ) ) {
+            om_new.insert_npc( ptr );
         } else {
             // Don't move the npc pointer around to avoid having two overmaps
             // with the same npc pointer
@@ -2372,7 +2351,7 @@ std::set<tripoint> npc::get_path_avoid() const
         ret.insert( g->zombie( i ).pos() );
     }
 
-    for( const npc *np : g->active_npc ) {
+    for( const auto &np : g->active_npc ) {
         ret.insert( np->pos() );
     }
 

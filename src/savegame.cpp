@@ -70,7 +70,16 @@ void game::serialize(std::ostream & fout) {
         json.member("turn", (int)calendar::turn);
         json.member("calendar_start", (int)calendar::start);
         json.member("initial_season", (int)calendar::initial_season);
-        json.member( "last_target", (int)last_target );
+        if( const auto lt_ptr = last_target.lock() ) {
+            if( const npc * const guy = dynamic_cast<const npc*>( lt_ptr.get() ) ) {
+                json.member( "last_target", guy->getID() );
+                json.member( "last_target_type", +1 );
+            } else if( const monster * const mon = dynamic_cast<const monster*>( lt_ptr.get() ) ) {
+                // monsters don't have IDs, so get its index in the Creature_tracker instead
+                json.member( "last_target", critter_tracker->temporary_id( *mon ) );
+                json.member( "last_target_type", -1 );
+            }
+        }
         json.member( "run_mode", (int)safe_mode );
         json.member( "mostseen", mostseen );
         json.member( "nextspawn", (int)nextspawn );
@@ -184,7 +193,7 @@ void game::unserialize(std::istream & fin)
     std::string linebuf;
     std::stringstream linein;
 
-    int tmpturn, tmpcalstart = 0, tmpspawn, tmprun, tmptar, levx, levy, levz, comx, comy;
+    int tmpturn, tmpcalstart = 0, tmpspawn, tmprun, tmptar, tmptartyp = 0, levx, levy, levz, comx, comy;
     JsonIn jsin(fin);
     try {
         JsonObject data = jsin.get_object();
@@ -193,6 +202,7 @@ void game::unserialize(std::istream & fin)
         data.read("calendar_start",tmpcalstart);
         calendar::initial_season = (season_type)data.get_int("initial_season",(int)SPRING);
         data.read("last_target",tmptar);
+        data.read( "last_target_type", tmptartyp );
         data.read("run_mode", tmprun);
         data.read("mostseen", mostseen);
         data.read("nextspawn",tmpspawn);
@@ -212,7 +222,6 @@ void game::unserialize(std::istream & fin)
         if (get_option<bool>( "SAFEMODE" ) && safe_mode == SAFE_MODE_OFF) {
             safe_mode = SAFE_MODE_ON;
         }
-        last_target = tmptar;
 
         linebuf="";
         if ( data.read("grscent",linebuf) ) {
@@ -227,6 +236,14 @@ void game::unserialize(std::istream & fin)
             monster montmp;
             vdata.read_next(montmp);
             add_zombie(montmp);
+        }
+
+        if( tmptartyp == +1 ) {
+            // Use overmap_buffer because game::active_npc is not filled yet.
+            last_target = overmap_buffer.find_npc( tmptar );
+        } else if( tmptartyp == -1 ) {
+            // Need to do this *after* the monsters have been loaded!
+            last_target = critter_tracker->from_temporary_id( tmptar );
         }
 
         vdata = data.get_array("stair_monsters");
@@ -320,6 +337,10 @@ bool overmap::obsolete_terrain( const std::string &ter ) {
         "school_1", "school_2", "school_3",
         "school_4", "school_5", "school_6",
         "school_7", "school_8", "school_9",
+        "prison_1", "prison_2", "prison_3",
+        "prison_4", "prison_5", "prison_6",
+        "prison_7", "prison_8", "prison_9",
+        "prison_b_entrance", "prison_b",
         "cathedral_1_entrance", "cathedral_1",
         "cathedral_b_entrance", "cathedral_b",
         "hotel_tower_1_1", "hotel_tower_1_2", "hotel_tower_1_3", "hotel_tower_1_4",
@@ -459,6 +480,69 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                 nearby.push_back( { -1, school + "6", -1, school + "8", school_1 + "9_west" } );
             }
 
+        } else if( old.compare( 0, 7, "prison_" ) == 0 ) {
+            const std::string prison = "prison_";
+            const std::string prison_1 = prison + "1_";
+            if( old == "prison_b_entrance" ) {
+                new_id = oter_id( "prison_1_b_2_north" );
+            } else if( old == "prison_b" ) {
+                if( pos.z < 0 ) {
+                    nearby.push_back( { -1, "prison_b_entrance",  1, "prison_b",          "prison_1_b_1_north" } );
+                    nearby.push_back( {  1, "prison_b_entrance",  1, "prison_b",          "prison_1_b_3_north" } );
+                    nearby.push_back( { -2, "prison_b",           1, "prison_b",          "prison_1_b_4_north" } );
+                    nearby.push_back( {  0, "prison_b",          -1, "prison_b_entrance", "prison_1_b_5_north" } );
+                    nearby.push_back( {  2, "prison_b",           1, "prison_b",          "prison_1_b_6_north" } );
+                    nearby.push_back( { -2, "prison_b",          -2, "prison_b",          "prison_1_b_7_north" } );
+                    nearby.push_back( {  0, "prison_b",          -2, "prison_b_entrance", "prison_1_b_8_north" } );
+                    nearby.push_back( {  2, "prison_b",          -2, "prison_b",          "prison_1_b_9_north" } );
+                }
+            } else if( old == prison + "1" ) {
+                nearby.push_back( { -1, prison + "2", 1, prison + "4", prison_1 + "1_north" } );
+                nearby.push_back( { -1, prison + "4", -1, prison + "2", prison_1 + "1_east" } );
+                nearby.push_back( { 1, prison + "2", -1, prison + "4", prison_1 + "1_south" } );
+                nearby.push_back( { 1, prison + "4", 1, prison + "2", prison_1 + "1_west" } );
+            } else if( old == prison + "2" ) {
+                nearby.push_back( { -1, prison + "3", 1, prison + "5", prison_1 + "2_north" } );
+                nearby.push_back( { -1, prison + "5", -1, prison + "3", prison_1 + "2_east" } );
+                nearby.push_back( { 1, prison + "3", -1, prison + "5", prison_1 + "2_south" } );
+                nearby.push_back( { 1, prison + "5", 1, prison + "3", prison_1 + "2_west" } );
+            } else if( old == prison + "3" ) {
+                nearby.push_back( { 1, prison + "2", 1, prison + "6", prison_1 + "3_north" } );
+                nearby.push_back( { -1, prison + "6", 1, prison + "2", prison_1 + "3_east" } );
+                nearby.push_back( { -1, prison + "2", -1, prison + "6", prison_1 + "3_south" } );
+                nearby.push_back( { 1, prison + "6", -1, prison + "2", prison_1 + "3_west" } );
+            } else if( old == prison + "4" ) {
+                nearby.push_back( { -1, prison + "5", 1, prison + "7", prison_1 + "4_north" } );
+                nearby.push_back( { -1, prison + "7", -1, prison + "5", prison_1 + "4_east" } );
+                nearby.push_back( { 1, prison + "5", -1, prison + "7", prison_1 + "4_south" } );
+                nearby.push_back( { 1, prison + "7", 1, prison + "5", prison_1 + "4_west" } );
+            } else if( old == prison + "5" ) {
+                nearby.push_back( { -1, prison + "6", 1, prison + "8", prison_1 + "5_north" } );
+                nearby.push_back( { -1, prison + "8", -1, prison + "6", prison_1 + "5_east" } );
+                nearby.push_back( { 1, prison + "6", -1, prison + "8", prison_1 + "5_south" } );
+                nearby.push_back( { 1, prison + "8", 1, prison + "6", prison_1 + "5_west" } );
+            } else if( old == prison + "6" ) {
+                nearby.push_back( { 1, prison + "5", 1, prison + "9", prison_1 + "6_north" } );
+                nearby.push_back( { -1, prison + "9", 1, prison + "5", prison_1 + "6_east" } );
+                nearby.push_back( { -1, prison + "5", -1, prison + "9", prison_1 + "6_south" } );
+                nearby.push_back( { 1, prison + "9", -1, prison + "5", prison_1 + "6_west" } );
+            } else if( old == prison + "7" ) {
+                nearby.push_back( { -1, prison + "8", -1, prison + "4", prison_1 + "7_north" } );
+                nearby.push_back( { 1, prison + "4", -1, prison + "8", prison_1 + "7_east" } );
+                nearby.push_back( { 1, prison + "8", 1, prison + "4", prison_1 + "7_south" } );
+                nearby.push_back( { -1, prison + "4", 1, prison + "8", prison_1 + "7_west" } );
+            } else if( old == prison + "8" ) {
+                nearby.push_back( { -1, prison + "9", -1, prison + "5", prison_1 + "8_north" } );
+                nearby.push_back( { 1, prison + "5", -1, prison + "9", prison_1 + "8_east" } );
+                nearby.push_back( { 1, prison + "9", 1, prison + "5", prison_1 + "8_south" } );
+                nearby.push_back( { -1, prison + "5", 1, prison + "9", prison_1 + "8_west" } );
+            } else if( old == prison + "9" ) {
+                nearby.push_back( { 1, prison + "8", -1, prison + "6", prison_1 + "9_north" } );
+                nearby.push_back( { 1, prison + "6", 1, prison + "8", prison_1 + "9_east" } );
+                nearby.push_back( { -1, prison + "8", 1, prison + "6", prison_1 + "9_south" } );
+                nearby.push_back( { -1, prison + "6", -1, prison + "8", prison_1 + "9_west" } );
+            }
+
         } else if( old == "cathedral_1_entrance" ) {
             const std::string base = "cathedral_1_";
             const std::string other = "cathedral_1";
@@ -482,7 +566,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             nearby.push_back( { 1, entr, 1, old, base + "SE_south" } );
             nearby.push_back( { 1, old, -1, entr, base + "SE_east" } );
             nearby.push_back( { -1, old, 1, entr, base + "SE_west" } );
- 
+
         } else if( old == "cathedral_b_entrance" ) {
             const std::string base = "cathedral_b_";
             const std::string other = "cathedral_b";
@@ -829,7 +913,7 @@ void overmap::unserialize( std::istream &fin ) {
         } else if( name == "npcs" ) {
             jsin.start_array();
             while( !jsin.end_array() ) {
-                npc *new_npc = new npc();
+                std::shared_ptr<npc> new_npc = std::make_shared<npc>();
                 new_npc->deserialize( jsin );
                 if( !new_npc->fac_id.empty() ) {
                     new_npc->set_fac( new_npc->fac_id );

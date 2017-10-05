@@ -1562,7 +1562,7 @@ void map::furn_set( const tripoint &p, const furn_id new_furniture )
 
     // If player has grabbed this furniture and it's no longer grabbable, release the grab.
     if( g->u.grab_type == OBJECT_FURNITURE && g->u.grab_point == p && new_t.move_str_req < 0 ) {
-        add_msg( _( "The %s you were grabbing is destroyed!" ), old_t.name.c_str() );
+        add_msg( _( "The %s you were grabbing is destroyed!" ), old_t.name().c_str() );
         g->u.grab_type = OBJECT_NONE;
         g->u.grab_point = tripoint_zero;
     }
@@ -1611,9 +1611,9 @@ std::string map::furnname( const tripoint &p ) {
     if( f.has_flag( "PLANT" ) && !i_at( p ).empty() ) {
         const item &seed = i_at( p ).front();
         const std::string &plant = seed.get_plant_name();
-        return string_format( "%s (%s)", f.name.c_str(), plant.c_str() );
+        return string_format( "%s (%s)", f.name().c_str(), plant.c_str() );
     } else {
-        return f.name;
+        return f.name();
     }
 }
 
@@ -1793,7 +1793,7 @@ void map::ter_set( const tripoint &p, const ter_id new_terrain )
 
 std::string map::tername( const tripoint &p ) const
 {
-    return ter( p ).obj().name;
+    return ter( p ).obj().name();
 }
 
 std::string map::features(const int x, const int y)
@@ -2275,7 +2275,7 @@ void map::drop_furniture( const tripoint &p )
         tripoint below( current.x, current.y, current.z - 1 );
         bash( below, dmg, false, false, false );
     } else if( last_state == SS_CREATURE ) {
-        const std::string &furn_name = frn_obj.name;
+        const std::string &furn_name = frn_obj.name();
         bash( current, dmg, false, false, false );
         tripoint below( current.x, current.y, current.z - 1 );
         Creature *critter = g->critter_at( below );
@@ -3674,9 +3674,7 @@ void map::crush( const tripoint &p )
         }
     }
 
-    int mon = g->mon_at( p );
-    if( mon != -1 ) {
-        monster* monhit = &(g->zombie(mon));
+    if( monster *const monhit = g->critter_at<monster>( p ) ) {
         // 25 ~= 60 * .45 (torso)
         monhit->deal_damage(nullptr, bp_torso, damage_instance(DT_BASH, rng(0,25)));
 
@@ -4032,8 +4030,8 @@ void map::translate(const ter_id from, const ter_id to)
 {
     if (from == to) {
         debugmsg( "map::translate %s => %s",
-                  from.obj().name.c_str(),
-                  from.obj().name.c_str() );
+                  from.obj().name().c_str(),
+                  from.obj().name().c_str() );
         return;
         }
 
@@ -4054,8 +4052,8 @@ void map::translate_radius(const ter_id from, const ter_id to, float radi, const
 {
     if( from == to ) {
         debugmsg( "map::translate %s => %s",
-                  from.obj().name.c_str(),
-                  from.obj().name.c_str() );
+                  from.obj().name().c_str(),
+                  from.obj().name().c_str() );
         return;
     }
 
@@ -4981,14 +4979,21 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
 
         // If the toilet is not empty
         if( water != items.end() ) {
-            long remaining_charges = water->charges;
-            water->charges -= quantity;
-            if( water->charges > 0 ) {
-                ret.push_back( *water );
+            // There is water, copy it to report back to the outer method
+            ret.push_back( *water );
+            if( water->charges - quantity > 0 ) {
+                // Update the returned water amount to match the requested amount
+                ret.back().charges = quantity;
+                // Update the water item in the world to contain the leftover water
+                water->charges -= quantity;
+                // All the water needed was found, no other sources will be needed
                 quantity = 0;
             } else {
+                // The water copy in ret already contains how much was available
+                // The leftover quantity returned will check other sources
+                quantity -= water->charges;
+                // Remove water item from the world
                 items.erase( water );
-                quantity -= remaining_charges;
             }
         }
 
@@ -5291,7 +5296,7 @@ void map::add_trap( const tripoint &p, const trap_id t)
     const ter_t &ter = current_submap->get_ter( lx, ly ).obj();
     if( ter.trap != tr_null ) {
         debugmsg( "set trap %s on top of terrain %s which already has a builit-in trap",
-                  t.obj().name().c_str(), ter.name.c_str() );
+                  t.obj().name().c_str(), ter.name().c_str() );
         return;
     }
 
@@ -6853,11 +6858,11 @@ void map::grow_plant( const tripoint &p )
     }
     const int plantEpoch = seed.get_plant_epoch();
 
-    if ( calendar::turn >= seed.bday + plantEpoch ) {
-        if (calendar::turn < seed.bday + plantEpoch * 2 ) {
+    if( seed.age() >= plantEpoch ) {
+        if( seed.age() < plantEpoch * 2 ) {
                 i_rem(p, 1);
                 furn_set(p, furn_str_id( "f_plant_seedling" ) );
-        } else if (calendar::turn < seed.bday + plantEpoch * 3 ) {
+        } else if( seed.age() < plantEpoch * 3 ) {
                 i_rem(p, 1);
                 furn_set(p, furn_str_id( "f_plant_mature" ) );
         } else {

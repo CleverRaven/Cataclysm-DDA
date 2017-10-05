@@ -824,13 +824,12 @@ bool mattack::resurrect(monster *z)
         // Penalize speed by between 10% and 50% based on how damaged the corpse is.
         float speed_penalty = 0.1 + (corpse_damage * 0.1);
         z->set_speed_base(z->get_speed_base() - speed_penalty * z->type->speed);
-        const int mondex = g->mon_at(raised.first);
-        if( mondex == -1 ) {
+        monster *const zed = g->critter_at<monster>( raised.first );
+        if( !zed ) {
             debugmsg( "Misplaced or failed to revive a zombie corpse" );
             return true;
         }
 
-        monster *zed = &g->zombie( mondex );
         zed->make_ally(z);
         if (g->u.sees(*zed)) {
             add_msg(m_warning, _("A nearby %s rises from the dead!"), zed->name().c_str());
@@ -1098,8 +1097,7 @@ bool mattack::science(monster *const z) // I said SCIENCE again!
         }
 
         const tripoint where = empty_neighbors.first[get_random_index(empty_neighbor_count)];
-        if( g->summon_mon( mon_manhack, where ) ) {
-            monster *manhack = g->monster_at( where );
+        if( monster * const manhack = g->summon_mon( mon_manhack, where ) ) {
             manhack->make_ally(z);
         }
       } break;
@@ -1263,8 +1261,7 @@ bool mattack::grow_vine(monster *z)
                 continue;
             }
 
-            if( g->summon_mon( mon_creeper_vine, dest ) ) {
-                monster *vine = g->monster_at(dest);
+            if( monster * const vine = g->summon_mon( mon_creeper_vine, dest ) ) {
                 vine->make_ally( z );
             }
         }
@@ -1326,8 +1323,7 @@ bool mattack::vine(monster *z)
         return true;
     }
     const tripoint target = random_entry( grow );
-    if( g->summon_mon(mon_creeper_vine, target) ) {
-        monster *vine = g->monster_at( target );
+    if( monster * const vine = g->summon_mon(mon_creeper_vine, target) ) {
         vine->make_ally(z);
         vine->reset_special("VINE");
     }
@@ -1393,15 +1389,14 @@ bool mattack::triffid_heartbeat(monster *z)
             tries++;
             g->m.ter_set(dest, t_dirt);
             if (rl_dist(dest, g->u.pos()) > 3 && g->num_zombies() < 30 &&
-                g->mon_at( dest ) == -1 && one_in(20)) { // Spawn an extra monster
+                !g->critter_at( dest ) && one_in( 20 ) ) { // Spawn an extra monster
                 mtype_id montype = mon_triffid;
                 if (one_in(4)) {
                     montype = mon_creeper_hub;
                 } else if (one_in(3)) {
                     montype = mon_biollante;
                 }
-                if (g->summon_mon(montype, dest)) {
-                    monster *plant = g->monster_at(dest);
+                if( monster * const plant = g->summon_mon( montype, dest ) ) {
                     plant->make_ally(z);
                 }
             }
@@ -1411,8 +1406,7 @@ bool mattack::triffid_heartbeat(monster *z)
 
         for( const tripoint &dest : g->m.points_in_radius( z->pos(), 1 ) ) {
             if (g->is_empty(dest) && one_in(2)) {
-                if (g->summon_mon(mon_triffid, dest)) {
-                    monster *triffid = g->monster_at(dest);
+                if( monster * const  triffid = g->summon_mon( mon_triffid, dest ) ) {
                     triffid->make_ally(z);
                 }
             }
@@ -1677,8 +1671,7 @@ bool mattack::fungus_sprout(monster *z)
             push_player = true;
         }
         if( g->is_empty(dest) ) {
-            if (g->summon_mon(mon_fungal_wall, dest)) {
-                monster *wall = g->monster_at(dest);
+            if( monster * const wall = g->summon_mon( mon_fungal_wall, dest ) ) {
                 wall->make_ally(z);
             }
         }
@@ -1738,8 +1731,7 @@ bool mattack::fungus_fortify(monster *z)
             push_player = true;
         }
         if (g->is_empty(dest)) {
-            if (g->summon_mon(mon_fungal_hedgerow, dest)) {
-                monster *wall = g->monster_at(dest);
+            if( monster * const wall = g->summon_mon( mon_fungal_hedgerow, dest ) ) {
                 wall->make_ally(z);
             }
             fortified = true;
@@ -1775,8 +1767,7 @@ bool mattack::fungus_fortify(monster *z)
             // Probably doesn't have spores available *just* yet.  Let's be nice.
         } else if( g->is_empty( hit_pos ) ) {
             add_msg( m_bad, _("A fungal tendril bursts forth from the earth!") );
-            if( g->summon_mon(mon_fungal_tendril, hit_pos) ) {
-                monster *tendril = g->monster_at( hit_pos );
+            if( monster * const tendril = g->summon_mon( mon_fungal_tendril, hit_pos ) ) {
                 tendril->make_ally(z);
             }
         }
@@ -2058,8 +2049,7 @@ bool mattack::formblob(monster *z)
                 // If we're big enough, spawn a baby blob.
                 didit = true;
                 z->set_speed_base( z->get_speed_base() - 15 );
-                if( g->summon_mon( mon_blob_small, dest ) ) {
-                    monster *blob = g->monster_at( dest );
+                if( monster * const blob = g->summon_mon( mon_blob_small, dest ) ) {
                     blob->make_ally( z );
                 }
 
@@ -2897,7 +2887,8 @@ bool mattack::searchlight(monster *z)
             for (int x = zposx - 24; x < zposx + 24; x++)
                 for (int y = zposy - 24; y < zposy + 24; y++) {
                     tripoint dest( x, y, z->posz() );
-                    if (g->mon_at( dest ) != -1 && g->zombie(g->mon_at( dest )).type->id == mon_turret_searchlight) {
+                    const monster *const mon = g->critter_at<monster>( dest );
+                    if( mon && mon->type->id == mon_turret_searchlight ) {
                         if (x < zposx) {
                             settings.set_var( "SL_PREFER_LEFT", "FALSE" );
                         }
@@ -3468,8 +3459,8 @@ bool mattack::breathe(monster *z)
     bool able = (z->type->id == mon_breather_hub);
     if( !able ) {
         for( const tripoint &dest : g->m.points_in_radius( z->pos(), 3 ) ) {
-            int mondex = g->mon_at(dest);
-            if( mondex != -1 && g->zombie(mondex).type->id == mon_breather_hub ) {
+            monster *const mon = g->critter_at<monster>( dest );
+            if( mon && mon->type->id == mon_breather_hub ) {
                 able = true;
                 break;
             }
@@ -3488,8 +3479,7 @@ bool mattack::breathe(monster *z)
 
     if( !valid.empty() ) {
         const tripoint pt = random_entry( valid );
-        if (g->summon_mon(mon_breather, pt)) {
-            monster *spawned = g->monster_at(pt);
+        if( monster * const spawned = g->summon_mon( mon_breather, pt ) ) {
             spawned->reset_special("BREATHE");
             spawned->make_ally(z);
         }
@@ -3850,8 +3840,7 @@ bool mattack::darkman(monster *z)
     if (!free.empty()) {
         z->moves -= 10;
         const tripoint target = random_entry( free );
-        if (g->summon_mon(mon_shadow, target)) {
-            monster *shadow = g->monster_at( target );
+        if( monster * const shadow = g->summon_mon( mon_shadow, target ) ) {
             shadow->make_ally(z);
         }
         if( g->u.sees( *z ) ) {
@@ -4505,8 +4494,7 @@ int grenade_helper(monster *const z, Creature *const target, const int dist,
 
     const tripoint where = empty_neighbors.first[get_random_index(empty_neighbor_count)];
 
-    if( g->summon_mon(actor->mtypeid, where ) ) {
-        monster *hack = g->monster_at( where );
+    if( monster * const hack = g->summon_mon( actor->mtypeid, where ) ) {
         hack->make_ally(z);
     }
     return 1;
