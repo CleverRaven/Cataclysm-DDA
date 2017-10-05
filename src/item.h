@@ -1680,7 +1680,14 @@ public:
      bool active = false; // If true, it has active effects to be processed
 
     int burnt = 0;           // How badly we're burnt
-    int bday;                // The turn on which it was created
+    private:
+        int bday;                // The turn on which it was created
+    public:
+        int age() const;
+        void set_age( int age );
+        int birthday() const;
+        void set_birthday( int bday );
+
     int poison = 0;          // How badly poisoned is it?
     int frequency = 0;       // Radio frequency
     int note = 0;            // Associated dynamic text snippet.
