@@ -97,7 +97,7 @@
         { "item": "trash", "x": 13, "y": 8, "chance": 50 }
       ],
       "place_vehicles": [
-        { "vehicle": "beetle", "x": 3, "y": 3, "chance": 10, "fuel": 10, "status": -1, "rotation": 270 },
+        { "vehicle": "beetle", "x": 3, "y": 3, "chance": 10, "fuel": 10, "rotation": 270 },
         { "vehicle": "motorcycle_sidecart", "x": 8, "y": 4, "chance": 25, "fuel": 15, "status": 0, "rotation": 270 }
       ]
     }

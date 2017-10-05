@@ -67,10 +67,10 @@
         { "item": "hand_tools", "x": 22, "y": 17, "chance": 15 }
       ],
       "place_vehicles": [
-        { "vehicle": "bicycle", "x": 6, "y": 7, "chance": 2, "fuel": 0, "status": 0, "rotation": 270 },
-        { "vehicle": "bicycle", "x": 21, "y": 7, "chance": 1, "fuel": 0, "status": -1, "rotation": 270 },
-        { "vehicle": "bicycle_electric", "x": 6, "y": 14, "chance": 4, "fuel": 0, "status": 0, "rotation": 0 },
-        { "vehicle": "unicycle", "x": 22, "y": 14, "chance": 2, "fuel": 0, "status": 0, "rotation": 0 }
+        { "vehicle": "bicycle", "x": 6, "y": 7, "chance": 2, "status": 0, "rotation": 270 },
+        { "vehicle": "bicycle", "x": 21, "y": 7, "chance": 1, "rotation": 270 },
+        { "vehicle": "bicycle_electric", "x": 6, "y": 14, "chance": 4, "status": 0 },
+        { "vehicle": "unicycle", "x": 22, "y": 14, "chance": 2, "status": 0 }
       ]
     }
   }
