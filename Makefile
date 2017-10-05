@@ -249,7 +249,7 @@ ifdef RELEASE
   endif
   DEFINES += -DRELEASE
   # Check for astyle or JSON regressions on release builds.
-  CHECKS = astyle-check lint-check
+  CHECKS = astyle-check style-json
 endif
 
 ifndef RELEASE
@@ -956,35 +956,14 @@ else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
 
-style-json: new_json_whitelist json_formatter
-	xargs -a new_json_whitelist -L 1 format/json_formatter.cgi
+style-json: json_whitelist json_formatter
+	xargs -a json_whitelist -L 1 tools/format/json_formatter.cgi
 
 style-all-json: json_formatter
-	find data -name "*.json" -print0 | xargs -0 -L 1 format/json_formatter.cgi
+	find data -name "*.json" -print0 | xargs -0 -L 1 tools/format/json_formatter.cgi
 
-json_formatter: tools/json_tools/format/format.cpp src/json.cpp
-	$(CXX) $(CXXFLAGS) -Itools/json_tools/format -Isrc tools/json_tools/format/format.cpp src/json.cpp -o format/json_formatter.cgi
-
-lint-check: json_whitelist $(ODIR)/lint.cache
-
-$(ODIR)/lint.cache: $(shell awk '/^[^#]/ { print $$1 }' json_whitelist) | $(ODIR)
-ifeq ($(shell if perl -c tools/format/format.pl 2>/dev/null; then echo $$?; fi),0)
-	@for file in $?; do \
-	    echo "Linting $$file"; \
-	    perl tools/format/format.pl -cqv $$file || exit 65; \
-	done;
-	@touch $@
-else
-	@echo Cannot lint JSON, missing usable perl binary and/or p5-JSON module
-endif
-
-lint: $(shell awk '/^[^#]/ { print $$1 }' json_whitelist) | $(ODIR)
-	@for file in $?; do \
-		if [ ! $(ODIR)/lint.cache -nt $$file ]; then \
-			./tools/lint.sh $$file || exit $$?; \
-		fi; \
-	done;
-	@touch $(ODIR)/lint.cache
+json_formatter: tools/format/format.cpp src/json.cpp
+	$(CXX) $(CXXFLAGS) -Itools/format -Isrc tools/format/format.cpp src/json.cpp -o tools/format/json_formatter.cgi
 
 tests: version $(BUILD_PREFIX)cataclysm.a
 	$(MAKE) -C tests
