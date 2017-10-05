@@ -1582,6 +1582,8 @@ void map::furn_set( const tripoint &p, const furn_id new_furniture )
     // @todo Limit to changes that affect move cost, traps and stairs
     set_pathfinding_cache_dirty( p.z );
 
+    set_map_memory_dirty( p );
+
     // Make sure the furniture falls if it needs to
     support_dirty( p );
     tripoint above( p.x, p.y, p.z + 1 );
@@ -1785,6 +1787,8 @@ void map::ter_set( const tripoint &p, const ter_id new_terrain )
 
     // @todo Limit to changes that affect move cost, traps and stairs
     set_pathfinding_cache_dirty( p.z );
+
+    set_map_memory_dirty( p );
 
     tripoint above( p.x, p.y, p.z + 1 );
     // Make sure that if we supported something and no longer do so, it falls down
@@ -4469,6 +4473,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
         }
 
         support_dirty( tile );
+        set_map_memory_dirty( tile );
         return add_item( tile, obj );
     };
 
@@ -5674,6 +5679,35 @@ void map::debug()
  inp_mngr.wait_for_any_key();
 }
 
+void map::memorize_submap( const tripoint &submap_coord, const bool submap_mask[SEEX][SEEY] )
+{
+    const submap *sm_real = MAPBUFFER.lookup_submap( submap_coord );
+    if( sm_real == nullptr ) {
+        debugmsg( "Tried to memorize a null submap %d,%d,%d",
+                  submap_coord.x, submap_coord.y, submap_coord.z );
+        return;
+    }
+
+    submap *sm_memorized = map_memory_buffer.lookup_submap( submap_coord );
+    if( sm_memorized == nullptr ) {
+        // @todo Should be an error
+        return;
+    }
+
+    for( size_t x = 0; x < SEEX; x++ ) {
+        for( size_t y = 0; y < SEEY; y++ ) {
+            if( !submap_mask[x][y] ) {
+                continue;
+            }
+
+            sm_memorized->ter[x][y] = sm_real->ter[x][y];
+            sm_memorized->frn[x][y] = sm_real->frn[x][y];
+            sm_memorized->itm[x][y] = sm_real->itm[x][y];
+            // @todo Traps, fields
+        }
+    }
+}
+
 void map::update_visibility_cache( const int zlev ) {
     visibility_variables_cache.variables_set = true; // Not used yet
     visibility_variables_cache.g_light_level = (int)g->light_level( zlev );
@@ -5687,17 +5721,47 @@ void map::update_visibility_cache( const int zlev ) {
     int sm_squares_seen[MAPSIZE][MAPSIZE];
     std::memset(sm_squares_seen, 0, sizeof(sm_squares_seen));
 
-    auto &visibility_cache = get_cache( zlev ).visibility_cache;
+    auto &cache = get_cache( zlev );
+    auto &visibility_cache = cache.visibility_cache;
+    auto &map_memory_dirty = cache.map_memory_dirty;
+    // @todo Move to option
+    bool do_memorize = true;
+    bool submap_mask[SEEX][SEEY];
 
     tripoint p;
     p.z = zlev;
     int &x = p.x;
     int &y = p.y;
-    for( x = 0; x < MAPSIZE * SEEX; x++ ) {
-        for( y = 0; y < MAPSIZE * SEEY; y++ ) {
-            lit_level ll = apparent_light_at( p, visibility_variables_cache );
-            visibility_cache[x][y] = ll;
-            sm_squares_seen[ x / SEEX ][ y / SEEY ] += (ll == LL_BRIGHT || ll == LL_LIT);
+    for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
+        for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
+            if( do_memorize ) {
+                std::uninitialized_fill_n( &submap_mask[0][0], SEEX * SEEY, false );
+            }
+
+            bool memorize_this = false;
+
+            for( int sx = 0; sx < SEEX; ++sx ) {
+                for( int sy = 0; sy < SEEY; ++sy ) {
+                    x = sx + smx * SEEX;
+                    y = sy + smy * SEEY;
+
+                    lit_level ll = apparent_light_at( p, visibility_variables_cache );
+                    visibility_cache[x][y] = ll;
+                    bool is_seen = ll == LL_BRIGHT || ll == LL_LIT;
+                    sm_squares_seen[ x / SEEX ][ y / SEEY ] += is_seen;
+                    // Update map memory (if needed)
+                    if( is_seen && do_memorize && map_memory_dirty[x][y] ) {
+                        map_memory_dirty[x][y] = false;
+                        submap_mask[sx][sy] = true;
+                        memorize_this = true;
+                    }
+                }
+            }
+
+            if( memorize_this ) {
+                const auto abs_sm = map::abs_sub + tripoint( smx, smy, 0 );
+                memorize_submap( abs_sm, submap_mask );
+            }
         }
     }
 
@@ -5894,6 +5958,82 @@ void map::draw( WINDOW* w, const tripoint &center )
 
         while( x < maxxrender ) {
             wputch( w, c_black, ' ' );
+            x++;
+        }
+    }
+}
+
+// @todo De-copypasta
+void map::draw_masked( WINDOW *w, const tripoint &center, const map &mask )
+{
+    // We only need to draw anything if we're not in tiles mode.
+    if( is_draw_tiles_mode() ) {
+        return;
+    }
+
+    const auto &mask_cache = mask.get_cache_ref( center.z ).visibility_cache;
+
+    tripoint p;
+    p.z = center.z;
+    int &x = p.x;
+    int &y = p.y;
+    for( y = center.y - getmaxy(w) / 2; y <= center.y + getmaxy(w) / 2; y++ ) {
+        if( y - center.y + getmaxy(w) / 2 >= getmaxy(w) ){
+            continue;
+        }
+
+        wmove( w, y - center.y + getmaxy(w) / 2, 0 );
+
+        if( y < 0 || y >= MAPSIZE * SEEY ) {
+            continue;
+        }
+
+        x = center.x - getmaxx(w) / 2;
+        while( x < 0 ) {
+            x++;
+        }
+
+        int lx;
+        int ly;
+        const int maxxrender = center.x - getmaxx(w) / 2 + getmaxx(w);
+        const int maxx = std::min( MAPSIZE * SEEX, maxxrender );
+        while( x < maxx ) {
+            submap *cur_submap = get_submap_at( p, lx, ly );
+            submap *sm_below = p.z > -OVERMAP_DEPTH ?
+                get_submap_at( p.x, p.y, p.z - 1, lx, ly ) : cur_submap;
+            while( lx < SEEX && x < maxx )  {
+const int k = p.x + getmaxx(w) / 2 - center.x;
+const int j = p.y + getmaxy(w) / 2 - center.y;
+                if( cur_submap == nullptr ) {
+mvwputch(w, j, k, c_white, '?');
+                    lx++;
+                    x++;
+                    continue;
+                }
+                const lit_level mask_light = mask_cache[x][y];
+                if( mask_light == LL_DARK || mask_light == LL_BLANK ) {
+                    const maptile curr_maptile = maptile( cur_submap, lx, ly );
+
+if(curr_maptile.get_ter()==t_null)mvwputch(w, j, k, c_white, '?');
+                    const bool just_this_zlevel =
+                        draw_maptile( w, g->u, p, curr_maptile,
+                                      false, true, center,
+                                      true, false, false );
+                    if( !just_this_zlevel && sm_below != nullptr ) {
+                        p.z--;
+                        const maptile tile_below = maptile( sm_below, lx, ly );
+                        draw_from_above( w, g->u, p, tile_below, false, center,
+                                         true, false, false );
+                        p.z++;
+                    }
+                }
+
+                lx++;
+                x++;
+            }
+        }
+
+        while( x < maxxrender ) {
             x++;
         }
     }
@@ -6616,6 +6756,28 @@ void map::saven( const int gridx, const int gridy, const int gridz )
                   << "  gridn: " << gridn;
     submap_to_save->turn_last_touched = int(calendar::turn);
     MAPBUFFER.add_submap( abs_x, abs_y, abs_z, submap_to_save );
+}
+
+void map::load_memorized( const tripoint &sm_loc )
+{
+    set_abs_sub( sm_loc.x, sm_loc.y, sm_loc.z );
+    int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
+    int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
+    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+            for( int gridz = minz; gridz <= maxz; gridz++ ) {
+                const size_t gridn = get_nonant( gridx, gridy, gridz );
+                submap *tmpsub = map_memory_buffer.lookup_submap( abs_sub.x + gridx, abs_sub.y + gridy, gridz );
+                if( tmpsub == nullptr ) {
+                    tmpsub = new submap();
+                    // We want it to exist so that we can change it in @ref memorize_submap
+                    map_memory_buffer.add_submap( abs_sub.x + gridx, abs_sub.y + gridy, gridz, tmpsub );
+                }
+
+                setsubmap( gridn, tmpsub );
+            }
+        }
+    }
 }
 
 // worldx & worldy specify where in the world this is;
@@ -8165,8 +8327,16 @@ level_cache::level_cache()
     std::fill_n( &transparency_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &seen_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &visibility_cache[0][0], map_dimensions, LL_DARK );
+    std::fill_n( &map_memory_dirty[0][0], map_dimensions, true );
     veh_in_active_range = false;
     std::fill_n( &veh_exists_at[0][0], map_dimensions, false );
+}
+
+void map::set_map_memory_dirty( const tripoint &p )
+{
+    if( inbounds( p ) ) {
+        get_cache( p.z ).map_memory_dirty[p.x][p.y] = true;
+    }
 }
 
 pathfinding_cache::pathfinding_cache()

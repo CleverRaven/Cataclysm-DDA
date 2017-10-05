@@ -152,6 +152,7 @@ struct level_cache {
     float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
     float seen_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
     lit_level visibility_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
+    bool map_memory_dirty[MAPSIZE*SEEX][MAPSIZE*SEEY];
 
     bool veh_in_active_range;
     bool veh_exists_at[SEEX * MAPSIZE][SEEY * MAPSIZE];
@@ -225,6 +226,8 @@ class map
     }
 
     void set_pathfinding_cache_dirty( const int zlev );
+
+    void set_map_memory_dirty( const tripoint &p );
     /*@}*/
 
 
@@ -277,6 +280,11 @@ class map
                  const bool inorder = false) const;
 
     /**
+     * Draws parts of the map NOT visible on the masking map.
+     */
+    void draw_masked( WINDOW *w, const tripoint &center, const map &mask );
+
+    /**
      * Add currently loaded submaps (in @ref grid) to the @ref mapbuffer.
      * They will than be stored by that class and can be loaded from that class.
      * This can be called several times, the mapbuffer takes care of adding
@@ -315,6 +323,8 @@ class map
      *  after 3D migration is complete.
      */
     void vertical_shift( const int newz );
+
+    void load_memorized( const tripoint &sm_loc );
 
  void clear_spawns();
  void clear_traps();
@@ -1439,6 +1449,8 @@ private:
     // Second argument refers to whether we have to get a roof (we're over an unpassable tile)
     // or can just return air because we bashed down an entire floor tile
     ter_id get_roof( const tripoint &p, bool allow_air );
+
+    void memorize_submap( const tripoint &submap_coord, const bool submap_mask[SEEX][SEEY] );
 
  // Iterates over every item on the map, passing each item to the provided function.
  template<typename T>

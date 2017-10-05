@@ -20,6 +20,12 @@ class mapbuffer
         mapbuffer();
         ~mapbuffer();
 
+        /**
+         * Sets path for this mapbuffer.
+         * Must be called before it is used.
+         */
+        void init( std::string path );
+
         /** Load the entire world from savefiles into submaps in this instance. **/
         void load( std::string worldname );
         /** Store all submaps in this instance into savefiles.
@@ -79,8 +85,10 @@ class mapbuffer
                         const tripoint &om_addr, std::list<tripoint> &submaps_to_delete,
                         bool delete_after_save );
         submap_map_t submaps;
+        std::string path;
 };
 
 extern mapbuffer MAPBUFFER;
+extern mapbuffer map_memory_buffer;
 
 #endif

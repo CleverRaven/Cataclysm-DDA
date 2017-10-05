@@ -222,6 +222,8 @@ class game
 
         std::unique_ptr<Creature_tracker> critter_tracker;
 
+        std::unique_ptr<map> map_memory_ptr;
+
         /**
          * Add an entry to @ref game::events. For further information see event.h
          * @param type Type of event.
