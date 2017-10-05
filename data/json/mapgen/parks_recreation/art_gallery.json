@@ -80,10 +80,9 @@
         "t": "f_trashcan",
         "w": "f_wreckage"
       },
-      "place_toilets": [
-        { "x": 10, "y": 22 },
-        { "x": 14, "y": 22 }
-      ],
+      "toilets": {
+        "&": {}
+      },
       "add": [
         { "item": "jar_glass", "x": 5, "y": 3 }
       ],

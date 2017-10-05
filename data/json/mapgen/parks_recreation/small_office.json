@@ -84,12 +84,9 @@
         "v": "f_vending_o",
         "{": "f_locker"
       },
-      "place_toilets": [
-        { "x": 11, "y": 14 },
-        { "x": 13, "y": 14 },
-        { "x": 15, "y": 14 },
-        { "x": 17, "y": 14 }
-      ],
+      "toilets": {
+        "T": {}
+      },
       "place_items": [
         { "item": "office", "x": 12, "y": 19, "chance": 50 },
         { "item": "office", "x": 8, "y": 17, "chance": 50 },

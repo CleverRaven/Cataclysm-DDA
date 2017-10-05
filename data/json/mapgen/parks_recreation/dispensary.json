@@ -71,9 +71,9 @@
         "t": "f_trashcan",
         "{": "f_fridge"
       },
-      "place_toilets": [
-        { "x": 3, "y": 3 }
-      ],
+      "toilets": {
+        "&": {}
+      },
       "place_items": [
         { "item": "tools_earthworking", "x": 13, "y": 17, "chance": 25 },
         { "item": "tools_earthworking", "x": 16, "y": 15, "chance": 25 },
