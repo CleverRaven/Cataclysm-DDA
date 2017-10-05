@@ -202,7 +202,7 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
             } else {
                 veh->parts[washing_machine_part].enabled = true;
                 for( auto &n : items ) {
-                    n.bday = calendar::turn.get_turn();
+                    n.set_age( 0 );
                 }
 
                 veh->drain( "water", 24 );
