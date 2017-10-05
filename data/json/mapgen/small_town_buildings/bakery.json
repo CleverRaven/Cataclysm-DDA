@@ -73,12 +73,9 @@
         "t": "f_table",
         "{": "f_fridge"
       },
-      "place_toilets": [
-        { "x": 17, "y": 19 },
-        { "x": 19, "y": 19 },
-        { "x": 17, "y": 21 },
-        { "x": 19, "y": 21 }
-      ],
+      "toilets": {
+        "T": {}
+      },
       "place_items": [
         { "item": "groce_ingredient", "x": 3, "y": 16, "chance": 50 },
         { "item": "groce_ingredient", "x": 2, "y": 15, "chance": 50 },
@@ -174,12 +171,9 @@
         "t": "f_table",
         "{": "f_fridge"
       },
-      "place_toilets": [
-        { "x": 17, "y": 19 },
-        { "x": 19, "y": 19 },
-        { "x": 17, "y": 21 },
-        { "x": 19, "y": 21 }
-      ],
+      "toilets": {
+        "T": {}
+      },
       "place_items": [
         { "item": "groce_ingredient", "x": 3, "y": 16, "chance": 50 },
         { "item": "groce_ingredient", "x": 2, "y": 15, "chance": 50 },

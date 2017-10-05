@@ -75,11 +75,9 @@
         "t": "f_trashcan",
         "{": "f_vending_c"
       },
-      "place_toilets": [
-        { "x": 5, "y": 2 },
-        { "x": 7, "y": 2 },
-        { "x": 7, "y": 7 }
-      ],
+      "toilets": {
+        "&": {}
+      },
       "place_items": [
         { "item": "vending_drink", "x": 12, "y": 2, "chance": 55 },
         { "item": "vending_food", "x": 12, "y": 1, "chance": 65 },

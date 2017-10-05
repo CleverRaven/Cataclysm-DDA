@@ -153,9 +153,9 @@
         "t": "f_toilet",
         "{": "f_rack"
       },
-      "place_toilets": [
-        { "x": 2, "y": 19 }
-      ],
+      "toilets": {
+        "t": {}
+      },
       "place_items": [
         { "item": "clothing_outdoor_torso", "x": [ 5, 6 ], "y": 21, "chance": 35 },
         { "item": "vet_softdrug", "x": 2, "y": [ 8, 10 ], "chance": 30 },

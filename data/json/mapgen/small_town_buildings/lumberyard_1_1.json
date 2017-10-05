@@ -58,10 +58,9 @@
         "t": "f_toilet",
         "{": "f_fridge"
       },
-      "place_toilets": [
-        { "x": 10, "y": 11 },
-        { "x": 12, "y": 11 }
-      ],
+      "toilets": {
+        "t": {}
+      },
       "place_items": [
         { "item": "snacks", "x": 6, "y": 11, "chance": 30 },
         { "item": "fridge", "x": 5, "y": 9, "chance": 40 },
