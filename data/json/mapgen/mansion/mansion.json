@@ -36,20 +36,9 @@
         "......X].rr.r.X<<X......",
         "XXX++XXXXXXXXXXXXXX++XXX"
       ],
-      "terrain": {
-        "#": "t_rock",
-        "%": "t_door_locked_interior",
-        "+": "t_door_c",
-        "<": "t_stairs_up",
-        "?": "t_generator_broken",
-        "X": "t_brick_wall",
-        "]": "t_sewage_pipe",
-        "p": "t_sewage_pump"
-      },
-      "furniture": {
-        "K": [ "f_crate_c", "f_crate_o" ],
-        "r": "f_rack"
-      },
+      "palettes": [
+        "mansion_palette_01"
+      ],
       "items": {
         ".": { "item": "clutter_basement" },
         "K": { "item": "crate_stack", "chance": 100 },
@@ -97,26 +86,9 @@
         "ta....XzzzXK.mX>>X......",
         "XXX++XXXXXXXXXXXXXX++XXX"
       ],
-      "terrain": {
-        "#": "t_pavement",
-        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
-        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
-        "+": "t_door_c",
-        ",": "t_sidewalk",
-        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "<": "t_stairs_up",
-        ">": "t_stairs_down",
-        "O": "t_window_domestic",
-        "X": "t_wall"
-      },
-      "furniture": {
-        "5": "f_indoor_plant",
-        "K": [ "f_crate_c", "f_crate_o" ],
-        "a": "f_armchair",
-        "m": "f_locker",
-        "t": "f_table",
-        "z": "f_dresser"
-      },
+      "palettes": [
+        "mansion_palette_02"
+      ],
       "items": {
         ".": { "item": "clutter_mansion" },
         ":": { "item": "clutter_yard" },
@@ -167,26 +139,9 @@
         ".{....X....??....X....{.",
         "XXX++XXXXXXXXXXXXXX++XXX"
       ],
-      "terrain": {
-        "*": "t_open_air",
-        "+": "t_door_c",
-        "-": "t_carpet_red",
-        ">": "t_stairs_down",
-        "A": "t_carpet_red",
-        "O": "t_window_domestic",
-        "S": "t_carpet_red",
-        "T": "t_carpet_red",
-        "X": "t_wall"
-      },
-      "furniture": {
-        "5": "f_indoor_plant",
-        "?": "f_fireplace",
-        "A": "f_armchair",
-        "S": "f_sofa",
-        "T": "f_table",
-        "c": "f_counter",
-        "s": "f_sofa"
-      },
+      "palettes": [
+        "mansion_palette_03"
+      ],
       "items": {
         ".": { "item": "clutter_mansion" },
         "?": { "item": "fireplace_fill", "chance": 30 },
@@ -236,27 +191,9 @@
         "...........<<...........",
         "XXX++XXXXXXXXXXXXXX++XXX"
       ],
-      "terrain": {
-        "#": "t_rock",
-        "+": "t_door_c",
-        "-": "t_carpet_red",
-        "2": "t_carpet_red",
-        "<": "t_stairs_up",
-        "T": "t_carpet_red",
-        "X": "t_brick_wall"
-      },
-      "furniture": {
-        "!": "f_arcade_machine",
-        "1": "f_chair",
-        "2": "f_chair",
-        "T": "f_table",
-        "c": "f_counter",
-        "f": "f_fridge",
-        "m": "f_locker",
-        "r": "f_rack",
-        "y": "f_sink",
-        "}": "f_pinball_machine"
-      },
+      "palettes": [
+        "mansion_palette_04"
+      ],
       "items": {
         ".": { "item": "clutter_basement" },
         "T": { "item": "table_card", "chance": 40 },
@@ -307,26 +244,9 @@
         "......XX...>>...XX......",
         "X......XXXXXXXXXX......X"
       ],
-      "terrain": {
-        "#": "t_thconc_floor",
-        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
-        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
-        "+": "t_door_c",
-        ",": "t_sidewalk",
-        "-": "t_carpet_red",
-        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "<": "t_stairs_up",
-        ">": "t_stairs_down",
-        "O": "t_window_domestic",
-        "X": "t_wall"
-      },
-      "furniture": {
-        "5": "f_indoor_plant",
-        "@": "f_statue",
-        "a": "f_armchair",
-        "s": "f_sofa",
-        "t": "f_table"
-      },
+      "palettes": [
+        "mansion_palette_05"
+      ],
       "items": {
         ".": { "item": "clutter_mansion" },
         ":": { "item": "clutter_yard" },
@@ -375,28 +295,9 @@
         "........................",
         "XXX++XXXXXXXXXXXXXX++XXX"
       ],
-      "terrain": {
-        " ": "t_open_air_rooved",
-        "*": "t_open_air",
-        "+": "t_door_c",
-        ",": "t_concrete",
-        "-": "t_carpet_red",
-        ">": "t_stairs_down",
-        "A": "t_carpet_red",
-        "O": "t_window_domestic",
-        "S": "t_carpet_red",
-        "T": "t_carpet_red",
-        "X": "t_wall",
-        "|": "t_railing_v"
-      },
-      "furniture": {
-        "5": "f_indoor_plant",
-        "8": "f_indoor_plant_y",
-        "A": "f_armchair",
-        "S": "f_sofa",
-        "T": "f_table",
-        "t": "f_table"
-      },
+      "palettes": [
+        "mansion_palette_06"
+      ],
       "items": {
         ".": { "item": "clutter_mansion" },
         "T": { "item": "table_foyer", "chance": 40 },
@@ -440,15 +341,9 @@
         "#######XXXXXXXXXX#######",
         "########################"
       ],
-      "terrain": {
-        "#": "t_rock",
-        "X": "t_brick_wall"
-      },
-      "furniture": {
-        "K": [ "f_crate_c", "f_crate_o" ],
-        "m": "f_locker",
-        "r": "f_rack"
-      },
+      "palettes": [
+        "mansion_palette_07"
+      ],
       "items": {
         "K": { "item": "crate_stack", "chance": 100 },
         "m": { "item": "cleaning", "chance": 45 },
@@ -492,27 +387,9 @@
         ":::::::XXXXXXXXXX:::::::",
         "'''::::::::::::::::::'''"
       ],
-      "terrain": {
-        "!": "t_concrete",
-        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
-        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
-        ",": "t_sidewalk",
-        "/": "t_grass",
-        "4": "t_concrete",
-        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "X": "t_wall",
-        "[": "t_chaingate_c",
-        "|": "t_chainfence_v",
-        "~": "t_water_dp"
-      },
-      "furniture": {
-        "!": "f_dive_block",
-        "/": "f_bench",
-        "4": "f_chair",
-        "?": "f_fireplace",
-        "a": "f_armchair",
-        "c": "f_counter"
-      },
+      "palettes": [
+        "mansion_palette_08"
+      ],
       "items": {
         ",": { "item": "clutter_yard" },
         "/": { "item": "pool_side", "chance": 30 },
@@ -561,13 +438,9 @@
         "*******''''''''''*******",
         "************************"
       ],
-      "terrain": {
-        "'": "t_flat_roof",
-        "*": "t_open_air",
-        ",": "t_concrete",
-        "X": "t_wall",
-        "|": "t_railing_v"
-      },
+      "palettes": [
+        "mansion_palette_09"
+      ],
       "place_loot": [
         { "item": "lawn_dart", "x": [ 7, 16 ], "y": [ 18, 22 ], "chance": 40, "repeat": [ 1, 2 ] }
       ]
@@ -609,42 +482,9 @@
         "########################",
         "########################"
       ],
-      "terrain": {
-        "#": "t_rock",
-        "%": "t_door_locked_interior",
-        "+": "t_door_c",
-        "-": "t_carpet_red",
-        "2": "t_carpet_red",
-        "@": "t_carpet_red",
-        "B": "t_carpet_red",
-        "R": "t_carpet_red",
-        "T": "t_carpet_red",
-        "X": "t_brick_wall",
-        "Z": "t_carpet_red",
-        "]": "t_sewage_pipe",
-        "p": "t_sewage_pump"
-      },
-      "furniture": {
-        "$": [ "f_shackle", "f_null" ],
-        "2": "f_chair",
-        "@": "f_mannequin",
-        "B": "f_bed",
-        "K": [ "f_crate_c", "f_crate_o" ],
-        "R": "f_rack",
-        "T": "f_table",
-        "Z": "f_dresser",
-        "a": "f_armchair",
-        "b": "f_bed",
-        "c": "f_counter",
-        "d": "f_desk",
-        "g": "f_dryer",
-        "h": "f_treadmill",
-        "m": "f_locker",
-        "r": "f_rack",
-        "s": "f_sofa",
-        "t": "f_table",
-        "w": "f_washer"
-      },
+      "palettes": [
+        "mansion_palette_10"
+      ],
       "items": {
         ".": { "item": "clutter_basement" },
         "B": { "item": "sex_lair", "chance": 40 },
@@ -698,38 +538,9 @@
         "::::::::::::::::::::::::",
         "''''''''''''''''''''''''"
       ],
-      "terrain": {
-        "&": "t_console_broken",
-        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
-        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
-        "+": "t_door_c",
-        "-": "t_carpet_red",
-        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "=": "t_linoleum_gray",
-        "B": "t_carpet_red",
-        "J": "t_linoleum_gray",
-        "N": "t_linoleum_gray",
-        "O": "t_window_domestic",
-        "P": "t_linoleum_gray",
-        "X": "t_wall",
-        "Y": "t_linoleum_gray",
-        "j": "t_linoleum_gray"
-      },
-      "furniture": {
-        "1": "f_chair",
-        "5": "f_indoor_plant",
-        "B": "f_bed",
-        "J": "f_bathtub",
-        "N": "f_cupboard",
-        "Y": "f_sink",
-        "b": "f_bed",
-        "c": "f_counter",
-        "d": "f_desk",
-        "j": "f_shower",
-        "s": "f_sofa",
-        "t": "f_table",
-        "z": "f_dresser"
-      },
+      "palettes": [
+        "mansion_palette_11"
+      ],
       "toilets": {
         "P": {}
       },
@@ -789,38 +600,9 @@
         "************************",
         "************************"
       ],
-      "terrain": {
-        "&": "t_console_broken",
-        "'": "t_flat_roof",
-        "*": "t_open_air",
-        "+": "t_door_c",
-        "-": "t_carpet_red",
-        "=": "t_linoleum_gray",
-        "B": "t_carpet_red",
-        "J": "t_linoleum_gray",
-        "N": "t_linoleum_gray",
-        "O": "t_window_domestic",
-        "P": "t_linoleum_gray",
-        "X": "t_wall",
-        "Y": "t_linoleum_gray",
-        "j": "t_linoleum_gray"
-      },
-      "furniture": {
-        "1": "f_chair",
-        "5": "f_indoor_plant",
-        "B": "f_bed",
-        "J": "f_bathtub",
-        "N": "f_cupboard",
-        "Y": "f_sink",
-        "a": "f_armchair",
-        "b": "f_bed",
-        "c": "f_counter",
-        "d": "f_desk",
-        "j": "f_shower",
-        "s": "f_sofa",
-        "t": "f_table",
-        "z": "f_dresser"
-      },
+      "palettes": [
+        "mansion_palette_12"
+      ],
       "toilets": {
         "P": {}
       },
@@ -879,32 +661,9 @@
         "########################",
         "########################"
       ],
-      "terrain": {
-        "#": "t_rock",
-        "*": "t_machinery_old",
-        "?": "t_generator_broken",
-        "X": "t_brick_wall",
-        "[": "t_chaingate_l",
-        "]": "t_sewage_pipe",
-        "p": "t_sewage_pump",
-        "|": "t_chainfence_v"
-      },
-      "furniture": {
-        "(": "f_trashcan",
-        "/": "f_bench",
-        "@": "f_statue",
-        "K": [ "f_crate_c", "f_crate_o" ],
-        "a": "f_armchair",
-        "d": "f_desk",
-        "g": "f_dryer",
-        "h": "f_treadmill",
-        "m": "f_locker",
-        "n": "f_cupboard",
-        "r": "f_rack",
-        "s": "f_sofa",
-        "u": "f_exercise",
-        "w": "f_washer"
-      },
+      "palettes": [
+        "mansion_palette_13"
+      ],
       "items": {
         "(": { "item": "trash_cart", "chance": 40 },
         ".": { "item": "clutter_basement" },
@@ -956,43 +715,9 @@
         "::::::::::::::::::::::::",
         "''''''''''''''''''''''''"
       ],
-      "terrain": {
-        "%": "t_door_metal_locked",
-        "&": "t_console_broken",
-        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
-        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
-        "+": "t_door_c",
-        ",": "t_carpet_red",
-        "-": "t_carpet_red",
-        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "=": "t_linoleum_gray",
-        "B": "t_carpet_red",
-        "J": "t_linoleum_gray",
-        "N": "t_linoleum_gray",
-        "O": "t_window_domestic",
-        "P": "t_linoleum_gray",
-        "X": "t_wall",
-        "Y": "t_linoleum_gray"
-      },
-      "furniture": {
-        "$": "f_safe_l",
-        "1": "f_chair",
-        "5": "f_indoor_plant",
-        "B": "f_bed",
-        "J": "f_bathtub",
-        "K": "f_crate_o",
-        "N": "f_cupboard",
-        "T": "f_table",
-        "Y": "f_sink",
-        "a": "f_armchair",
-        "b": "f_bed",
-        "d": "f_desk",
-        "l": "f_bookcase",
-        "r": "f_rack",
-        "s": "f_sofa",
-        "t": "f_table",
-        "z": "f_dresser"
-      },
+      "palettes": [
+        "mansion_palette_14"
+      ],
       "toilets": {
         "P": {}
       },
@@ -1060,37 +785,9 @@
         "************************",
         "************************"
       ],
-      "terrain": {
-        "&": "t_console_broken",
-        "'": "t_flat_roof",
-        "*": "t_open_air",
-        "+": "t_door_c",
-        "-": "t_carpet_red",
-        "=": "t_linoleum_gray",
-        "A": "t_carpet_red",
-        "J": "t_linoleum_gray",
-        "O": "t_window_domestic",
-        "P": "t_linoleum_gray",
-        "X": "t_wall",
-        "Y": "t_linoleum_gray",
-        "j": "t_linoleum_gray"
-      },
-      "furniture": {
-        "(": "f_trashcan",
-        "1": "f_chair",
-        "?": "f_fireplace",
-        "A": "f_armchair",
-        "J": "f_bathtub",
-        "Y": "f_sink",
-        "b": "f_bed",
-        "d": "f_desk",
-        "j": "f_shower",
-        "l": "f_bookcase",
-        "s": "f_sofa",
-        "t": "f_table",
-        "v": "f_table",
-        "z": "f_dresser"
-      },
+      "palettes": [
+        "mansion_palette_15"
+      ],
       "toilets": {
         "P": {}
       },
@@ -1148,24 +845,9 @@
         "########################",
         "########################"
       ],
-      "terrain": {
-        "#": "t_rock",
-        "*": "t_machinery_old",
-        "+": "t_door_c",
-        "X": "t_brick_wall",
-        "[": "t_chaingate_l",
-        "]": "t_sewage_pipe",
-        "p": "t_sewage_pump",
-        "|": "t_chainfence_v"
-      },
-      "furniture": {
-        "K": [ "f_crate_c", "f_crate_o" ],
-        "L": [ "f_crate_c", "f_crate_o" ],
-        "f": "f_fridge",
-        "m": "f_locker",
-        "r": "f_rack",
-        "t": "f_table"
-      },
+      "palettes": [
+        "mansion_palette_16"
+      ],
       "place_liquids": [
         { "liquid": "wine_cabernet", "x": [ 0, 11 ], "y": [ 8, 12 ], "repeat": [ 4, 12 ] },
         { "liquid": "wine_chardonnay", "x": [ 0, 11 ], "y": [ 8, 12 ], "repeat": [ 2, 6 ] }
@@ -1221,41 +903,9 @@
         "''''''''''''''''''''''''",
         "''''''''''''''''''''''''"
       ],
-      "terrain": {
-        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
-        ")": "t_linoleum_gray",
-        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
-        "+": "t_door_c",
-        "-": "t_carpet_red",
-        "2": "t_carpet_red",
-        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "=": "t_linoleum_gray",
-        "C": "t_linoleum_gray",
-        "F": "t_linoleum_gray",
-        "N": "t_linoleum_gray",
-        "O": "t_window_domestic",
-        "Q": "t_linoleum_gray",
-        "R": "t_linoleum_gray",
-        "T": "t_carpet_red",
-        "X": "t_wall",
-        "Y": "t_linoleum_gray"
-      },
-      "furniture": {
-        ")": "f_trashcan",
-        "2": "f_chair",
-        "5": "f_indoor_plant",
-        "?": "f_fireplace",
-        "C": "f_counter",
-        "F": "f_fridge",
-        "N": "f_cupboard",
-        "Q": "f_oven",
-        "R": "f_rack",
-        "T": "f_table",
-        "Y": "f_sink",
-        "a": "f_armchair",
-        "c": "f_counter",
-        "t": "f_table"
-      },
+      "palettes": [
+        "mansion_palette_17"
+      ],
       "items": {
         "'": { "item": "clutter_yard" },
         ")": { "item": "trash_cart", "chance": 40 },
@@ -1314,31 +964,9 @@
         "************************",
         "************************"
       ],
-      "terrain": {
-        " ": "t_open_air_rooved",
-        "'": "t_flat_roof",
-        "*": "t_open_air",
-        "+": "t_door_c",
-        "=": "t_linoleum_gray",
-        "J": "t_linoleum_gray",
-        "N": "t_linoleum_gray",
-        "O": "t_window_domestic",
-        "P": "t_linoleum_gray",
-        "X": "t_wall",
-        "Y": "t_linoleum_gray",
-        "|": "t_railing_v"
-      },
-      "furniture": {
-        "1": "f_chair",
-        "5": "f_indoor_plant",
-        "J": "f_bathtub",
-        "N": "f_cupboard",
-        "Y": "f_sink",
-        "b": "f_bed",
-        "d": "f_desk",
-        "t": "f_table",
-        "z": "f_dresser"
-      },
+      "palettes": [
+        "mansion_palette_18"
+      ],
       "toilets": {
         "P": {}
       },
@@ -1392,38 +1020,9 @@
         "########################",
         "########################"
       ],
-      "terrain": {
-        "#": "t_rock",
-        "+": "t_door_c",
-        "-": "t_carpet_red",
-        "/": "t_linoleum_gray",
-        "<": "t_stairs_up",
-        "=": "t_linoleum_gray",
-        "C": "t_linoleum_gray",
-        "H": "t_linoleum_gray",
-        "I": "t_linoleum_gray",
-        "M": "t_linoleum_gray",
-        "P": "t_linoleum_gray",
-        "U": "t_carpet_red",
-        "X": "t_brick_wall",
-        "Y": "t_linoleum_gray",
-        "j": "t_linoleum_gray",
-        "o": "t_door_glass_c",
-        "x": "t_wall_glass"
-      },
-      "furniture": {
-        "/": "f_bench",
-        "3": "f_chair",
-        "C": "f_counter",
-        "H": "f_treadmill",
-        "I": "f_ergometer",
-        "M": "f_locker",
-        "U": "f_exercise",
-        "Y": "f_sink",
-        "j": "f_shower",
-        "r": "f_rack",
-        "t": "f_table"
-      },
+      "palettes": [
+        "mansion_palette_19"
+      ],
       "toilets": {
         "P": {}
       },
@@ -1477,36 +1076,9 @@
         "''''''''''''''''''''''''",
         "''''''''''''''''''''''''"
       ],
-      "terrain": {
-        "%": "t_door_locked_interior",
-        "&": "t_console_broken",
-        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
-        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
-        "+": "t_door_c",
-        "-": "t_carpet_red",
-        "0": [ "t_tree", "t_tree", "t_tree", "t_grass", "t_dirt" ],
-        "2": "t_carpet_red",
-        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "<": "t_stairs_up",
-        ">": "t_stairs_down",
-        "O": "t_window_domestic",
-        "X": "t_wall"
-      },
-      "furniture": {
-        "(": "f_trashcan",
-        "1": "f_chair",
-        "2": "f_chair",
-        "5": "f_indoor_plant",
-        "K": [ "f_crate_c", "f_crate_o" ],
-        "a": "f_armchair",
-        "c": "f_counter",
-        "d": "f_desk",
-        "l": "f_bookcase",
-        "m": "f_locker",
-        "r": "f_rack",
-        "s": "f_sofa",
-        "t": "f_table"
-      },
+      "palettes": [
+        "mansion_palette_20"
+      ],
       "items": {
         "'": { "item": "clutter_yard" },
         "(": { "item": "trash_cart" },
@@ -1561,42 +1133,9 @@
         "************************",
         "************************"
       ],
-      "terrain": {
-        "%": "t_door_locked_interior",
-        "&": "t_console_broken",
-        "'": "t_flat_roof",
-        "*": "t_open_air",
-        "+": "t_door_c",
-        "-": "t_carpet_red",
-        "=": "t_linoleum_gray",
-        ">": "t_stairs_down",
-        "B": "t_carpet_red",
-        "C": "t_carpet_red",
-        "J": "t_linoleum_gray",
-        "N": "t_linoleum_gray",
-        "O": "t_window_domestic",
-        "P": "t_linoleum_gray",
-        "V": "t_carpet_red",
-        "X": "t_wall",
-        "Y": "t_linoleum_gray"
-      },
-      "furniture": {
-        "(": "f_trashcan",
-        "1": "f_chair",
-        "B": "f_bed",
-        "C": "f_counter",
-        "J": "f_bathtub",
-        "M": "f_locker",
-        "N": "f_cupboard",
-        "V": "f_counter",
-        "Y": "f_sink",
-        "Z": "f_dresser",
-        "b": "f_bed",
-        "d": "f_desk",
-        "m": "f_locker",
-        "t": "f_table",
-        "z": "f_dresser"
-      },
+      "palettes": [
+        "mansion_palette_21"
+      ],
       "toilets": {
         "P": {}
       },
@@ -1658,50 +1197,9 @@
         "########################",
         "########################"
       ],
-      "terrain": {
-        "#": "t_rock",
-        "%": "t_door_locked_interior",
-        "&": "t_console_broken",
-        ")": "t_linoleum_gray",
-        "*": "t_machinery_old",
-        "+": "t_door_c",
-        "-": "t_carpet_red",
-        "2": "t_carpet_red",
-        "3": "t_linoleum_gray",
-        "=": "t_linoleum_gray",
-        "?": "t_generator_broken",
-        "C": "t_linoleum_gray",
-        "D": "t_carpet_red",
-        "G": "t_linoleum_gray",
-        "R": "t_linoleum_gray",
-        "T": "t_linoleum_gray",
-        "W": "t_linoleum_gray",
-        "X": "t_brick_wall",
-        "Y": "t_linoleum_gray",
-        "]": "t_sewage_pipe",
-        "o": "t_carpet_red",
-        "p": "t_sewage_pump"
-      },
-      "furniture": {
-        ")": "f_trashcan",
-        "1": "f_chair",
-        "2": "f_chair",
-        "3": "f_chair",
-        "C": "f_counter",
-        "D": "f_desk",
-        "G": "f_dryer",
-        "K": [ "f_crate_c", "f_crate_o" ],
-        "R": "f_rack",
-        "T": "f_table",
-        "W": "f_washer",
-        "Y": "f_sink",
-        "h": "f_treadmill",
-        "m": "f_locker",
-        "o": "f_trashcan",
-        "r": "f_rack",
-        "s": "f_sofa",
-        "t": "f_table"
-      },
+      "palettes": [
+        "mansion_palette_22"
+      ],
       "items": {
         ")": { "item": "trash_cart", "chance": 30 },
         ".": { "item": "clutter_basement" },
@@ -1762,47 +1260,9 @@
         "''''''''''''''''''''''''",
         "''''''''''''''''''''''''"
       ],
-      "terrain": {
-        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
-        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
-        "+": "t_door_c",
-        "-": "t_carpet_red",
-        "2": "t_carpet_red",
-        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "=": "t_linoleum_gray",
-        "B": "t_carpet_red",
-        "C": "t_linoleum_gray",
-        "D": "t_carpet_red",
-        "J": "t_linoleum_gray",
-        "O": "t_window_domestic",
-        "P": "t_linoleum_gray",
-        "S": "t_carpet_red",
-        "X": "t_wall",
-        "Y": "t_linoleum_gray",
-        "[": "t_chaingate_c",
-        "d": "t_carpet_red",
-        "j": "t_linoleum_gray"
-      },
-      "furniture": {
-        "1": "f_chair",
-        "2": "f_chair",
-        "5": "f_indoor_plant",
-        "?": "f_fireplace",
-        "B": "f_bed",
-        "C": "f_counter",
-        "D": "f_desk",
-        "J": "f_bathtub",
-        "S": "f_sofa",
-        "T": "f_table",
-        "Y": "f_sink",
-        "b": "f_bed",
-        "c": "f_counter",
-        "d": "f_desk",
-        "j": "f_shower",
-        "s": "f_sofa",
-        "t": "f_table",
-        "z": "f_dresser"
-      },
+      "palettes": [
+        "mansion_palette_23"
+      ],
       "toilets": {
         "P": {}
       },
@@ -1865,53 +1325,9 @@
         "************************",
         "************************"
       ],
-      "terrain": {
-        " ": "t_open_air_rooved",
-        "%": "t_door_locked_interior",
-        "&": "t_console_broken",
-        "'": "t_flat_roof",
-        "*": "t_open_air",
-        "+": "t_door_c",
-        "-": "t_carpet_red",
-        "2": "t_carpet_red",
-        "=": "t_linoleum_gray",
-        "A": "t_carpet_red",
-        "B": "t_carpet_red",
-        "C": "t_linoleum_gray",
-        "D": "t_carpet_red",
-        "J": "t_linoleum_gray",
-        "N": "t_linoleum_gray",
-        "O": "t_window_domestic",
-        "P": "t_linoleum_gray",
-        "T": "t_carpet_red",
-        "V": "t_carpet_red",
-        "X": "t_wall",
-        "Y": "t_linoleum_gray",
-        "Z": "t_carpet_red",
-        "j": "t_linoleum_gray"
-      },
-      "furniture": {
-        "1": "f_chair",
-        "2": "f_chair",
-        "5": "f_indoor_plant",
-        "A": "f_armchair",
-        "B": "f_bed",
-        "C": "f_counter",
-        "D": "f_desk",
-        "J": "f_bathtub",
-        "N": "f_cupboard",
-        "T": "f_table",
-        "V": "f_table",
-        "Y": "f_sink",
-        "Z": "f_dresser",
-        "a": "f_armchair",
-        "b": "f_bed",
-        "j": "f_shower",
-        "m": "f_locker",
-        "r": "f_rack",
-        "t": "f_table",
-        "z": "f_dresser"
-      },
+      "palettes": [
+        "mansion_palette_24"
+      ],
       "toilets": {
         "P": {}
       },
@@ -1975,36 +1391,9 @@
         "########################",
         "########################"
       ],
-      "terrain": {
-        "#": "t_rock",
-        "+": "t_door_c",
-        "-": "t_carpet_red",
-        "<": "t_stairs_up",
-        "C": "t_carpet_red",
-        "F": "t_carpet_red",
-        "N": "t_carpet_red",
-        "O": "t_window_domestic",
-        "S": "t_carpet_red",
-        "T": "t_carpet_red",
-        "X": "t_brick_wall"
-      },
-      "furniture": {
-        "(": "f_trashcan",
-        "/": "f_bench",
-        "1": "f_chair",
-        "@": "f_statue",
-        "C": "f_counter",
-        "F": "f_fridge",
-        "K": [ "f_crate_c", "f_crate_o" ],
-        "N": "f_cupboard",
-        "S": "f_sofa",
-        "T": "f_table",
-        "a": "f_armchair",
-        "d": "f_desk",
-        "h": "f_treadmill",
-        "q": "f_oven",
-        "t": "f_table"
-      },
+      "palettes": [
+        "mansion_palette_25"
+      ],
       "items": {
         "(": { "item": "trash_cart", "chance": 30 },
         "-": { "item": "clutter_mansion" },
@@ -2057,35 +1446,9 @@
         "''''''''''''''''''''''''",
         "''''''''''''''''''''''''"
       ],
-      "terrain": {
-        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
-        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
-        "+": "t_door_c",
-        "-": "t_carpet_red",
-        "0": [ "t_tree", "t_tree", "t_tree", "t_grass", "t_dirt" ],
-        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "<": "t_stairs_up",
-        ">": "t_stairs_down",
-        "O": "t_window_domestic",
-        "S": "t_carpet_red",
-        "T": "t_carpet_red",
-        "X": "t_wall"
-      },
-      "furniture": {
-        "(": "f_trashcan",
-        "1": "f_chair",
-        "5": "f_indoor_plant",
-        "?": "f_fireplace",
-        "S": "f_sofa",
-        "T": "f_table",
-        "a": "f_armchair",
-        "d": "f_desk",
-        "e": "f_pool_table",
-        "l": "f_bookcase",
-        "n": "f_cupboard",
-        "s": "f_sofa",
-        "t": "f_table"
-      },
+      "palettes": [
+        "mansion_palette_26"
+      ],
       "toilets": {
         "P": {}
       },
@@ -2144,39 +1507,9 @@
         "************************",
         "************************"
       ],
-      "terrain": {
-        " ": "t_open_air_rooved",
-        "*": "t_open_air",
-        "+": "t_door_c",
-        "-": "t_carpet_red",
-        "2": "t_carpet_red",
-        "6": "t_carpet_red",
-        ">": "t_stairs_down",
-        "A": "t_carpet_red",
-        "C": "t_carpet_red",
-        "F": "t_carpet_red",
-        "N": "t_carpet_red",
-        "O": "t_window_domestic",
-        "S": "t_carpet_red",
-        "T": "t_carpet_red",
-        "V": "t_carpet_red",
-        "X": "t_wall",
-        "|": "t_railing_v"
-      },
-      "furniture": {
-        "2": "f_chair",
-        "6": "f_indoor_plant",
-        "A": "f_armchair",
-        "C": "f_table",
-        "F": "f_fridge",
-        "N": "f_cupboard",
-        "S": "f_sofa",
-        "T": "f_table",
-        "V": "f_table",
-        "a": "f_armchair",
-        "s": "f_sofa",
-        "t": "f_table"
-      },
+      "palettes": [
+        "mansion_palette_27"
+      ],
       "items": {
         "-": { "item": "clutter_mansion", "chance": 3 },
         ".": { "item": "clutter_mansion" },
@@ -2228,15 +1561,9 @@
         "X#########X..X#########X",
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
-      "terrain": {
-        "#": "t_rock",
-        "+": "t_door_c",
-        "X": "t_brick_wall"
-      },
-      "furniture": {
-        "m": "f_locker",
-        "r": "f_rack"
-      },
+      "palettes": [
+        "mansion_palette_28"
+      ],
       "items": {
         ".": { "item": "clutter_basement" },
         "m": { "item": "cleaning", "chance": 35 },
@@ -2280,27 +1607,9 @@
         "X::::::::::,,::::::::::X",
         "XXXXXOOXXXX++XXXXOOXXXXX"
       ],
-      "terrain": {
-        "*": "t_shrub",
-        "+": "t_door_c",
-        ",": "t_sidewalk",
-        "/": "t_grass",
-        "0": [ "t_tree", "t_tree", "t_tree", "t_grass", "t_dirt" ],
-        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "@": "t_grass",
-        "O": "t_window_domestic",
-        "X": "t_wall",
-        "~": "t_water_sh"
-      },
-      "furniture": {
-        "/": "f_bench",
-        "1": "f_chair",
-        "5": "f_indoor_plant",
-        "8": "f_indoor_plant_y",
-        "@": [ "f_statue", "f_statue", "f_statue", "f_null", "f_null" ],
-        "n": "f_cupboard",
-        "t": "f_table"
-      },
+      "palettes": [
+        "mansion_palette_29"
+      ],
       "items": {
         ",": { "item": "clutter_yard" },
         ".": { "item": "clutter_mansion" },
@@ -2349,20 +1658,9 @@
         "X*********|,,|*********X",
         "XXXXXOOXXXX++XXXXOOXXXXX"
       ],
-      "terrain": {
-        "*": "t_open_air",
-        "+": "t_door_c",
-        ",": "t_concrete",
-        "4": "t_concrete",
-        "7": "t_concrete",
-        "O": "t_window_domestic",
-        "X": "t_wall",
-        "|": "t_railing_v"
-      },
-      "furniture": {
-        "4": "f_chair",
-        "7": "f_indoor_plant"
-      },
+      "palettes": [
+        "mansion_palette_30"
+      ],
       "items": {
         ",": { "item": "clutter_mansion" }
       }
@@ -2404,54 +1702,9 @@
         "Xee11KK.Xkk.......cccccX",
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
-      "terrain": {
-        "$": "t_carpet_red",
-        "%": "t_door_metal_locked",
-        "&": "t_console_broken",
-        ")": "t_carpet_red",
-        "*": "t_machinery_old",
-        "+": "t_door_c",
-        "-": "t_carpet_red",
-        "2": "t_carpet_red",
-        "?": "t_generator_broken",
-        "D": "t_carpet_red",
-        "S": "t_carpet_red",
-        "T": "t_carpet_red",
-        "X": "t_brick_wall",
-        "]": "t_sewage_pipe",
-        "p": "t_sewage_pump"
-      },
-      "furniture": {
-        "!": "f_arcade_machine",
-        "$": "f_safe_l",
-        "(": "f_trashcan",
-        ")": "f_trashcan",
-        "/": "f_bench",
-        "1": "f_chair",
-        "2": "f_chair",
-        "@": "f_statue",
-        "C": "f_table",
-        "D": "f_desk",
-        "K": [ "f_crate_c", "f_crate_o" ],
-        "S": "f_sofa",
-        "T": "f_table",
-        "a": "f_armchair",
-        "c": "f_counter",
-        "e": "f_pool_table",
-        "g": "f_dryer",
-        "h": "f_treadmill",
-        "k": [ "f_crate_c", "f_crate_o" ],
-        "m": "f_locker",
-        "n": "f_cupboard",
-        "q": "f_oven",
-        "r": "f_rack",
-        "s": "f_sofa",
-        "t": "f_table",
-        "u": "f_exercise",
-        "w": "f_washer",
-        "z": "f_dresser",
-        "}": "f_pinball_machine"
-      },
+      "palettes": [
+        "mansion_palette_31"
+      ],
       "items": {
         "$": { "item": "mansion_safe", "chance": 100 },
         "(": { "item": "trash_cart", "chance": 30 },
@@ -2511,28 +1764,9 @@
         "XP=XPXPX........XPXPX=PX",
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
-      "terrain": {
-        "+": "t_door_c",
-        "7": "t_linoleum_gray",
-        "=": "t_linoleum_gray",
-        "C": "t_linoleum_gray",
-        "P": "t_linoleum_gray",
-        "T": "t_linoleum_gray",
-        "X": "t_wall",
-        "Y": "t_linoleum_gray"
-      },
-      "furniture": {
-        "1": "f_chair",
-        "7": "f_indoor_plant",
-        "@": "f_statue",
-        "C": "f_counter",
-        "K": [ "f_crate_c", "f_crate_o" ],
-        "T": "f_table",
-        "Y": "f_sink",
-        "c": "f_table",
-        "m": "f_locker",
-        "t": "f_table"
-      },
+      "palettes": [
+        "mansion_palette_32"
+      ],
       "toilets": {
         "P": {}
       },
@@ -2586,20 +1820,9 @@
         "Xtsss..............ssstX",
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
-      "terrain": {
-        "*": "t_open_air_rooved",
-        "+": "t_door_c",
-        "-": "t_carpet_red",
-        "X": "t_wall",
-        "[": "t_chaingate_c",
-        "|": "t_railing_v"
-      },
-      "furniture": {
-        "5": "f_indoor_plant",
-        "a": "f_armchair",
-        "s": "f_sofa",
-        "t": "f_table"
-      },
+      "palettes": [
+        "mansion_palette_33"
+      ],
       "items": {
         ".": { "item": "clutter_mansion" },
         "t": { "item": "wetbar_counter", "chance": 35 }
@@ -2642,35 +1865,9 @@
         "X.RRR.....X..X......kkkX",
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
-      "terrain": {
-        "%": "t_door_metal_locked",
-        "*": "t_machinery_old",
-        "+": "t_door_c",
-        "?": "t_generator_broken",
-        "X": "t_brick_wall",
-        "]": "t_sewage_pipe",
-        "o": "t_door_locked_interior",
-        "p": "t_sewage_pump"
-      },
-      "furniture": {
-        "$": "f_gunsafe_ml",
-        "@": "f_statue",
-        "K": [ "f_crate_c", "f_crate_o" ],
-        "M": "f_locker",
-        "R": "f_rack",
-        "T": "f_table",
-        "a": "f_armchair",
-        "c": "f_counter",
-        "e": "f_pool_table",
-        "k": [ "f_crate_c", "f_crate_o" ],
-        "l": "f_bookcase",
-        "m": "f_locker",
-        "n": "f_cupboard",
-        "r": "f_rack",
-        "s": "f_sofa",
-        "t": "f_table",
-        "}": "f_pinball_machine"
-      },
+      "palettes": [
+        "mansion_palette_34"
+      ],
       "items": {
         "$": { "item": "mansion_gunsafe", "chance": 100 },
         ".": { "item": "clutter_basement" },
@@ -2728,41 +1925,9 @@
         "X/................X...KX",
         "XXXXXOOXXXX++XXXXXXXXXXX"
       ],
-      "terrain": {
-        "#": "t_floor_waxed",
-        "%": "t_backboard_in",
-        "'": "t_backboard",
-        "+": "t_door_c",
-        "-": "t_floor_waxed_y",
-        "3": "t_linoleum_gray",
-        "=": "t_linoleum_gray",
-        "C": "t_linoleum_gray",
-        "M": "t_linoleum_gray",
-        "O": "t_window_domestic",
-        "P": "t_linoleum_gray",
-        "X": "t_wall",
-        "Y": "t_linoleum_gray",
-        "j": "t_linoleum_gray",
-        "o": "t_door_glass_c",
-        "x": "t_wall_glass"
-      },
-      "furniture": {
-        "(": "f_trashcan",
-        "/": "f_bench",
-        "2": "f_bench",
-        "3": "f_bench",
-        "C": "f_counter",
-        "K": [ "f_crate_c", "f_crate_o" ],
-        "M": "f_locker",
-        "Y": "f_sink",
-        "f": "f_fridge",
-        "h": "f_treadmill",
-        "i": "f_ergometer",
-        "j": "f_shower",
-        "m": "f_locker",
-        "r": "f_rack",
-        "u": "f_exercise"
-      },
+      "palettes": [
+        "mansion_palette_35"
+      ],
       "toilets": {
         "P": {}
       },
@@ -2825,16 +1990,9 @@
         "X*********|............X",
         "XXXXXOOXXXX++XXXXXXXXXXX"
       ],
-      "terrain": {
-        "*": "t_open_air_rooved",
-        "+": "t_door_c",
-        "O": "t_window_domestic",
-        "X": "t_wall",
-        "|": "t_railing_v"
-      },
-      "furniture": {
-        "/": "f_bench"
-      },
+      "palettes": [
+        "mansion_palette_36"
+      ],
       "items": {
         ".": { "item": "clutter_mansion" },
         "/": { "item": "snacks_fancy", "chance": 20 }
@@ -2877,31 +2035,9 @@
         "X#########X..X#########X",
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
-      "terrain": {
-        "#": "t_rock",
-        "%": "t_door_locked_interior",
-        "&": "t_console_broken",
-        ")": "t_carpet_red",
-        "+": "t_door_c",
-        "-": "t_carpet_red",
-        "2": "t_carpet_red",
-        "=": "t_linoleum_gray",
-        "D": "t_carpet_red",
-        "F": "t_carpet_red",
-        "N": "t_carpet_red",
-        "P": "t_linoleum_gray",
-        "X": "t_brick_wall",
-        "Y": "t_linoleum_gray"
-      },
-      "furniture": {
-        ")": "f_trashcan",
-        "D": "f_desk",
-        "F": "f_fridge",
-        "K": [ "f_crate_c", "f_crate_o" ],
-        "N": "f_cupboard",
-        "Y": "f_sink",
-        "r": "f_rack"
-      },
+      "palettes": [
+        "mansion_palette_37"
+      ],
       "toilets": {
         "P": {}
       },
@@ -2956,39 +2092,9 @@
         "X:::::::::X,,X:::::::::X",
         "XXXXXOOXXXX++XXXXOOXXXXX"
       ],
-      "terrain": {
-        "'": "t_dirt",
-        ")": "t_carpet_red",
-        "*": "t_shrub",
-        "+": "t_door_c",
-        ",": "t_thconc_floor",
-        "-": "t_carpet_red",
-        "2": "t_carpet_red",
-        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "A": "t_carpet_red",
-        "D": "t_carpet_red",
-        "O": "t_window_domestic",
-        "S": "t_carpet_red",
-        "T": "t_carpet_red",
-        "X": "t_wall"
-      },
-      "furniture": {
-        ")": "f_trashcan",
-        "2": "f_chair",
-        "5": "f_indoor_plant",
-        "8": "f_indoor_plant_y",
-        "A": "f_armchair",
-        "C": "f_counter",
-        "D": "f_desk",
-        "S": "f_sofa",
-        "T": "f_table",
-        "a": "f_armchair",
-        "c": "f_counter",
-        "l": "f_bookcase",
-        "m": "f_locker",
-        "r": "f_rack",
-        "s": "f_sofa"
-      },
+      "palettes": [
+        "mansion_palette_38"
+      ],
       "items": {
         ")": { "item": "trash_cart", "chance": 40 },
         "-": { "item": "clutter_mansion" },
@@ -3042,23 +2148,9 @@
         "X*********|,,|*********X",
         "XXXXXOOXXXX++XXXXOOXXXXX"
       ],
-      "terrain": {
-        "*": "t_open_air",
-        "+": "t_door_c",
-        ",": "t_concrete",
-        "-": "t_carpet_red",
-        "O": "t_window_domestic",
-        "S": "t_carpet_red",
-        "X": "t_wall",
-        "|": "t_railing_v"
-      },
-      "furniture": {
-        "5": "f_indoor_plant",
-        "S": "f_sofa",
-        "a": "f_armchair",
-        "s": "f_sofa",
-        "t": "f_table"
-      },
+      "palettes": [
+        "mansion_palette_39"
+      ],
       "items": {
         ",": { "item": "clutter_mansion" },
         "-": { "item": "clutter_mansion" },
@@ -3106,21 +2198,9 @@
         "#######X........X....rrX",
         "#######XXXXXXXXXX++XXXXX"
       ],
-      "terrain": {
-        "#": "t_rock",
-        "%": "t_door_locked_interior",
-        "*": "t_machinery_old",
-        "+": "t_door_c",
-        "?": "t_generator_broken",
-        "X": "t_brick_wall",
-        "]": "t_sewage_pipe",
-        "p": "t_sewage_pump"
-      },
-      "furniture": {
-        "K": [ "f_crate_c", "f_crate_o" ],
-        "m": "f_locker",
-        "r": "f_rack"
-      },
+      "palettes": [
+        "mansion_palette_40"
+      ],
       "items": {
         ".": { "item": "clutter_basement" },
         "K": { "item": "crate_stack", "chance": 100 },
@@ -3165,37 +2245,9 @@
         "'':::::XY===+=jX.......X",
         "'':::::XXXXXXXXXX++XXXXX"
       ],
-      "terrain": {
-        "!": "t_linoleum_gray",
-        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
-        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
-        "+": "t_door_c",
-        "/": "t_linoleum_gray",
-        "3": "t_linoleum_gray",
-        "9": "t_linoleum_gray",
-        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "=": "t_linoleum_gray",
-        "@": "t_linoleum_gray",
-        "C": "t_linoleum_gray",
-        "O": "t_window_domestic",
-        "P": "t_linoleum_gray",
-        "X": "t_wall",
-        "Y": "t_linoleum_gray",
-        "j": "t_linoleum_gray",
-        "x": "t_wall_glass",
-        "~": "t_water_pool"
-      },
-      "furniture": {
-        "!": "f_dive_block",
-        "/": "f_bench",
-        "3": "f_chair",
-        "5": "f_indoor_plant",
-        "9": "f_indoor_plant_y",
-        "@": "f_statue",
-        "C": "f_counter",
-        "Y": "f_sink",
-        "j": "f_shower"
-      },
+      "palettes": [
+        "mansion_palette_41"
+      ],
       "toilets": {
         "P": {}
       },
@@ -3247,32 +2299,9 @@
         "*******X5a.............X",
         "*******XXXXXXXXXX++XXXXX"
       ],
-      "terrain": {
-        "'": "t_flat_roof",
-        "*": "t_open_air",
-        "+": "t_door_c",
-        ",": "t_open_air_rooved",
-        "-": "t_carpet_red",
-        "E": "t_carpet_red",
-        "O": "t_window_domestic",
-        "X": "t_wall",
-        "x": "t_wall_glass",
-        "|": "t_railing_v"
-      },
-      "furniture": {
-        "(": "f_trashcan",
-        "1": "f_chair",
-        "5": "f_indoor_plant",
-        "8": "f_indoor_plant_y",
-        "E": "f_pool_table",
-        "a": "f_armchair",
-        "c": "f_counter",
-        "f": "f_fridge",
-        "n": "f_cupboard",
-        "s": "f_sofa",
-        "t": "f_table",
-        "y": "f_sink"
-      },
+      "palettes": [
+        "mansion_palette_42"
+      ],
       "items": {
         "(": { "item": "trash_cart", "chance": 30 },
         ".": { "item": "clutter_mansion" },
@@ -3326,29 +2355,9 @@
         "#######Xr.rr.rX.....//.X",
         "#######XXXXXXXXXX++XXXXX"
       ],
-      "terrain": {
-        "#": "t_rock",
-        "*": "t_machinery_old",
-        "+": "t_door_c",
-        "?": "t_generator_broken",
-        "X": "t_brick_wall",
-        "]": "t_sewage_pipe",
-        "p": "t_sewage_pump"
-      },
-      "furniture": {
-        "(": "f_trashcan",
-        "/": "f_bench",
-        "1": "f_chair",
-        "K": [ "f_crate_c", "f_crate_o" ],
-        "a": "f_armchair",
-        "d": "f_desk",
-        "g": "f_dryer",
-        "q": "f_oven",
-        "r": "f_rack",
-        "s": "f_sofa",
-        "t": "f_table",
-        "w": "f_washer"
-      },
+      "palettes": [
+        "mansion_palette_43"
+      ],
       "items": {
         "(": { "item": "trash_cart", "chance": 30 },
         ".": { "item": "clutter_basement" },
@@ -3398,38 +2407,9 @@
         "'':::::X...XNY=PX..X..tX",
         "'':::::XXXXXXXXXX++XXXXX"
       ],
-      "terrain": {
-        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
-        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
-        "+": "t_door_c",
-        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "=": "t_linoleum_gray",
-        "N": "t_linoleum_gray",
-        "O": "t_window_domestic",
-        "P": "t_linoleum_gray",
-        "X": "t_wall",
-        "Y": "t_linoleum_gray"
-      },
-      "furniture": {
-        "1": "f_chair",
-        "5": "f_indoor_plant",
-        "N": "f_cupboard",
-        "Y": "f_sink",
-        "a": "f_armchair",
-        "c": "f_counter",
-        "e": "f_pool_table",
-        "f": "f_fridge",
-        "h": "f_treadmill",
-        "i": "f_ergometer",
-        "n": "f_cupboard",
-        "s": "f_sofa",
-        "t": "f_table",
-        "u": "f_exercise",
-        "v": "f_table",
-        "y": "f_sink",
-        "z": "f_dresser",
-        "}": "f_pinball_machine"
-      },
+      "palettes": [
+        "mansion_palette_44"
+      ],
       "toilets": {
         "P": {}
       },
@@ -3487,41 +2467,9 @@
         "*******XTBBBTZZ-X......X",
         "*******XXXXXXXXXX++XXXXX"
       ],
-      "terrain": {
-        "&": "t_console_broken",
-        "'": "t_flat_roof",
-        "*": "t_open_air",
-        "+": "t_door_c",
-        "-": "t_carpet_red",
-        "2": "t_carpet_red",
-        "=": "t_linoleum_gray",
-        "B": "t_carpet_red",
-        "D": "t_carpet_red",
-        "J": "t_linoleum_gray",
-        "N": "t_linoleum_gray",
-        "O": "t_window_domestic",
-        "P": "t_linoleum_gray",
-        "T": "t_carpet_red",
-        "X": "t_wall",
-        "Y": "t_linoleum_gray",
-        "Z": "t_carpet_red",
-        "o": "t_door_frame"
-      },
-      "furniture": {
-        "1": "f_chair",
-        "2": "f_chair",
-        "B": "f_bed",
-        "D": "f_desk",
-        "J": "f_bathtub",
-        "N": "f_cupboard",
-        "T": "f_table",
-        "Y": "f_sink",
-        "Z": "f_dresser",
-        "b": "f_bed",
-        "d": "f_desk",
-        "t": "f_table",
-        "z": "f_dresser"
-      },
+      "palettes": [
+        "mansion_palette_45"
+      ],
       "toilets": {
         "P": {}
       },
@@ -3581,21 +2529,9 @@
         "#######X.......X.....KKX",
         "#######XXXXXXXXXX++XXXXX"
       ],
-      "terrain": {
-        "#": "t_rock",
-        "+": "t_door_c",
-        "X": "t_brick_wall"
-      },
-      "furniture": {
-        "1": "f_chair",
-        "@": "f_statue",
-        "K": [ "f_crate_c", "f_crate_o" ],
-        "a": "f_armchair",
-        "d": "f_desk",
-        "s": "f_sofa",
-        "t": "f_table",
-        "u": "f_exercise"
-      },
+      "palettes": [
+        "mansion_palette_46"
+      ],
       "items": {
         ".": { "item": "clutter_basement" },
         "K": { "item": "crate_stack", "chance": 100 },
@@ -3643,32 +2579,9 @@
         "'':::::X.......lX..X==YX",
         "'':::::XXXXXXXXXX++XXXXX"
       ],
-      "terrain": {
-        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
-        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
-        "+": "t_door_c",
-        "-": "t_carpet_red",
-        "2": "t_carpet_red",
-        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "=": "t_linoleum_gray",
-        "D": "t_carpet_red",
-        "O": "t_window_domestic",
-        "P": "t_linoleum_gray",
-        "X": "t_wall",
-        "Y": "t_linoleum_gray"
-      },
-      "furniture": {
-        "1": "f_chair",
-        "2": "f_chair",
-        "5": "f_indoor_plant",
-        "?": "f_fireplace",
-        "D": "f_desk",
-        "Y": "f_sink",
-        "a": "f_armchair",
-        "l": "f_bookcase",
-        "s": "f_sofa",
-        "t": "f_table"
-      },
+      "palettes": [
+        "mansion_palette_47"
+      ],
       "toilets": {
         "P": {}
       },
@@ -3723,29 +2636,9 @@
         "*******X...tTt......tTtX",
         "*******XXXXXXXXXX++XXXXX"
       ],
-      "terrain": {
-        " ": "t_open_air_rooved",
-        "*": "t_open_air",
-        "+": "t_door_c",
-        "-": "t_carpet_red",
-        "A": "t_carpet_red",
-        "D": "t_carpet_red",
-        "O": "t_window_domestic",
-        "X": "t_wall",
-        "d": "t_carpet_red",
-        "|": "t_railing_v"
-      },
-      "furniture": {
-        "5": "f_indoor_plant",
-        "A": "f_armchair",
-        "D": "f_desk",
-        "T": "f_table",
-        "c": "f_table",
-        "d": "f_desk",
-        "l": "f_bookcase",
-        "s": "f_sofa",
-        "t": "f_table"
-      },
+      "palettes": [
+        "mansion_palette_48"
+      ],
       "items": {
         ".": { "item": "clutter_mansion" },
         "D": { "item": "office", "chance": 35 },
@@ -3795,32 +2688,9 @@
         "######X..]....KX====X.rX",
         "######XXXXXXXXXXX++XXXXX"
       ],
-      "terrain": {
-        "#": "t_rock",
-        "%": "t_door_locked_interior",
-        "*": "t_machinery_old",
-        "+": "t_door_c",
-        "3": "t_linoleum_gray",
-        "=": "t_linoleum_gray",
-        "?": "t_generator_broken",
-        "G": "t_linoleum_gray",
-        "R": "t_linoleum_gray",
-        "T": "t_linoleum_gray",
-        "W": "t_linoleum_gray",
-        "X": "t_brick_wall",
-        "]": "t_sewage_pipe",
-        "p": "t_sewage_pump"
-      },
-      "furniture": {
-        "3": "f_chair",
-        "G": "f_dryer",
-        "K": [ "f_crate_c", "f_crate_o" ],
-        "R": "f_rack",
-        "T": "f_table",
-        "W": "f_washer",
-        "m": "f_locker",
-        "r": "f_rack"
-      },
+      "palettes": [
+        "mansion_palette_49"
+      ],
       "items": {
         ".": { "item": "clutter_basement" },
         "=": { "item": "clutter_basement" },
@@ -3876,42 +2746,9 @@
         "''::::X.tbbbbt..X...TT.X",
         "''::::XXXXXXXXXXX++XXXXX"
       ],
-      "terrain": {
-        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
-        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
-        "+": "t_door_c",
-        "-": "t_carpet_red",
-        "2": "t_carpet_red",
-        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "=": "t_linoleum_gray",
-        "A": "t_carpet_red",
-        "B": "t_carpet_red",
-        "C": "t_linoleum_gray",
-        "J": "t_linoleum_gray",
-        "O": "t_window_domestic",
-        "P": "t_linoleum_gray",
-        "X": "t_wall",
-        "Y": "t_linoleum_gray"
-      },
-      "furniture": {
-        "1": "f_chair",
-        "2": "f_chair",
-        "5": "f_indoor_plant",
-        "?": "f_fireplace",
-        "@": "f_statue",
-        "A": "f_armchair",
-        "B": "f_bed",
-        "C": "f_counter",
-        "J": "f_bathtub",
-        "T": "f_table",
-        "Y": "f_sink",
-        "b": "f_bed",
-        "c": "f_counter",
-        "d": "f_desk",
-        "l": "f_bookcase",
-        "t": "f_table",
-        "z": "f_dresser"
-      },
+      "palettes": [
+        "mansion_palette_50"
+      ],
       "toilets": {
         "P": {}
       },
@@ -3973,28 +2810,9 @@
         "******X         X..XYNPX",
         "******XXXXXXXXXXX++XXXXX"
       ],
-      "terrain": {
-        " ": "t_open_air_rooved",
-        "'": "t_flat_roof",
-        "*": "t_open_air",
-        "+": "t_door_c",
-        "=": "t_linoleum_gray",
-        "N": "t_linoleum_gray",
-        "O": "t_window_domestic",
-        "P": "t_linoleum_gray",
-        "X": "t_wall",
-        "Y": "t_linoleum_gray",
-        "j": "t_linoleum_gray",
-        "o": "t_door_frame"
-      },
-      "furniture": {
-        "1": "f_chair",
-        "N": "f_cupboard",
-        "Y": "f_sink",
-        "b": "f_bed",
-        "j": "f_shower",
-        "z": "f_dresser"
-      },
+      "palettes": [
+        "mansion_palette_51"
+      ],
       "toilets": {
         "P": {}
       },
@@ -4046,21 +2864,9 @@
         "######Xr..r..rrrX..X]]pX",
         "######XXXXXXXXXXX++XXXXX"
       ],
-      "terrain": {
-        "#": "t_rock",
-        "+": "t_door_c",
-        "<": "t_stairs_up",
-        "X": "t_brick_wall",
-        "]": "t_sewage_pipe",
-        "o": "t_door_frame",
-        "p": "t_sewage_pump"
-      },
-      "furniture": {
-        "K": [ "f_crate_c", "f_crate_o" ],
-        "f": "f_fridge",
-        "r": "f_rack",
-        "t": "f_table"
-      },
+      "palettes": [
+        "mansion_palette_52"
+      ],
       "place_liquids": [
         { "liquid": "wine_cabernet", "x": [ 14, 22 ], "y": [ 8, 13 ], "repeat": [ 4, 12 ] },
         { "liquid": "wine_chardonnay", "x": [ 17, 22 ], "y": [ 8, 15 ], "repeat": [ 2, 6 ] }
@@ -4114,37 +2920,9 @@
         "''::::XCCQQCCX.5....5..X",
         "''::::XXXXXXXXXXX++XXXXX"
       ],
-      "terrain": {
-        "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
-        ")": "t_linoleum_gray",
-        "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
-        "+": "t_door_c",
-        ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "=": "t_linoleum_gray",
-        ">": "t_stairs_down",
-        "C": "t_linoleum_gray",
-        "F": "t_linoleum_gray",
-        "N": "t_linoleum_gray",
-        "O": "t_window_domestic",
-        "Q": "t_linoleum_gray",
-        "R": "t_linoleum_gray",
-        "X": "t_wall",
-        "Y": "t_linoleum_gray"
-      },
-      "furniture": {
-        ")": "f_trashcan",
-        "1": "f_chair",
-        "5": "f_indoor_plant",
-        "C": "f_counter",
-        "F": "f_fridge",
-        "N": "f_cupboard",
-        "Q": "f_oven",
-        "R": "f_rack",
-        "T": "f_table",
-        "Y": "f_sink",
-        "c": "f_counter",
-        "t": "f_table"
-      },
+      "palettes": [
+        "mansion_palette_53"
+      ],
       "items": {
         "'": { "item": "clutter_yard" },
         ")": { "item": "trash_cart", "chance": 40 },
@@ -4201,28 +2979,9 @@
         "******X.zzzz.X.........X",
         "******XXXXXXXXXXX++XXXXX"
       ],
-      "terrain": {
-        "'": "t_flat_roof",
-        "*": "t_open_air",
-        "+": "t_door_c",
-        "-": "t_carpet_red",
-        "O": "t_window_domestic",
-        "S": "t_carpet_red",
-        "T": "t_carpet_red",
-        "X": "t_wall"
-      },
-      "furniture": {
-        "1": "f_chair",
-        "5": "f_indoor_plant",
-        "?": "f_fireplace",
-        "@": "f_statue",
-        "S": "f_sofa",
-        "T": "f_table",
-        "b": "f_bed",
-        "d": "f_desk",
-        "t": "f_table",
-        "z": "f_dresser"
-      },
+      "palettes": [
+        "mansion_palette_54"
+      ],
       "items": {
         "-": { "item": "clutter_mansion", "chance": 2 },
         ".": { "item": "clutter_bedroom", "chance": 2 },
