@@ -117,14 +117,13 @@ static const itype *nullitem()
 
 const long item::INFINITE_CHARGES = std::numeric_limits<long>::max();
 
-item::item()
+item::item() : bday( 0 )
 {
     type = nullitem();
 }
 
-item::item( const itype *type, int turn, long qty ) : type( type )
+item::item( const itype *type, time_point turn, long qty ) : type( type ), bday( turn >= 0 ? turn : calendar::turn )
 {
-    bday = turn >= 0 ? turn : int( calendar::turn );
     corpse = typeId() == "corpse" ? &mtype_id::NULL_ID().obj() : nullptr;
     item_counter = type->countdown_interval;
 
@@ -170,28 +169,28 @@ item::item( const itype *type, int turn, long qty ) : type( type )
     }
 }
 
-item::item( const itype_id& id, int turn, long qty )
+item::item( const itype_id& id, time_point turn, long qty )
     : item( find_type( id ), turn, qty ) {}
 
-item::item( const itype *type, int turn, default_charges_tag )
+item::item( const itype *type, time_point turn, default_charges_tag )
     : item( type, turn, type->charges_default() ) {}
 
-item::item( const itype_id& id, int turn, default_charges_tag tag )
+item::item( const itype_id& id, time_point turn, default_charges_tag tag )
     : item( find_type( id ), turn, tag ) {}
 
-item::item( const itype *type, int turn, solitary_tag )
+item::item( const itype *type, time_point turn, solitary_tag )
     : item( type, turn, type->count_by_charges() ? 1 : -1 ) {}
 
-item::item( const itype_id& id, int turn, solitary_tag tag )
+item::item( const itype_id& id, time_point turn, solitary_tag tag )
     : item( find_type( id ), turn, tag ) {}
 
-item item::make_corpse( const mtype_id& mt, int turn, const std::string &name )
+item item::make_corpse( const mtype_id& mt, time_point turn, const std::string &name )
 {
     if( !mt.is_valid() ) {
         debugmsg( "tried to make a corpse with an invalid mtype id" );
     }
 
-    item result( "corpse", turn >= 0 ? turn : int( calendar::turn ) );
+    item result( "corpse", turn >= 0 ? turn : calendar::turn );
     result.corpse = &mt.obj();
 
     result.active = result.corpse->has_flag( MF_REVIVES );
@@ -802,12 +801,12 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info, int batch ) 
         if( debug == true ) {
             if( g != NULL ) {
                 info.push_back( iteminfo( "BASE", _( "age: " ), "",
-                                          age() / ( 10 * 60 ), true, "", true, true ) );
+                                          to_hours<int>( age() ), true, "", true, true ) );
 
                 const item *food = is_food_container() ? &contents.front() : this;
                 if( food && food->goes_bad() ) {
                     info.push_back( iteminfo( "BASE", _( "bday rot: " ), "",
-                                              food->age(), true, "", true, true ) );
+                                              to_turns<int>( food->age() ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", _( "temp rot: " ), "",
                                               ( int )food->rot, true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", space + _( "max rot: " ), "",
@@ -2907,7 +2906,7 @@ void item::calc_rot(const tripoint &location)
 {
     const int now = calendar::turn;
     if ( last_rot_check + 10 < now ) {
-        const int since = ( last_rot_check == 0 ? bday : last_rot_check );
+        const int since = ( last_rot_check == 0 ? to_turn<int>( bday ) : last_rot_check );
         const int until = ( fridge > 0 ? fridge : now );
         if ( since < until ) {
             // rot (outside of fridge) from bday/last_rot_check until fridge/now
@@ -3079,7 +3078,7 @@ bool item::ready_to_revive( const tripoint &pos ) const
     if(can_revive() == false) {
         return false;
     }
-    int age_in_hours = age() / HOURS( 1 );
+    int age_in_hours = to_hours<int>( age() );
     age_in_hours -= int((float)burnt / ( volume() / 250_ml ) );
     if( damage() > 0 ) {
         age_in_hours /= ( damage() + 1 );
@@ -6057,22 +6056,22 @@ bool item::on_drop( const tripoint &pos )
     return type->drop_action && type->drop_action.call( g->u, *this, false, pos );
 }
 
-int item::age() const
+time_duration item::age() const
 {
     return calendar::turn - birthday();
 }
 
-void item::set_age( const int age )
+void item::set_age( const time_duration age )
 {
-    set_birthday( calendar::turn - age );
+    set_birthday( time_point( calendar::turn ) - age );
 }
 
-int item::birthday() const
+time_point item::birthday() const
 {
     return bday;
 }
 
-void item::set_birthday( const int bday )
+void item::set_birthday( const time_point bday )
 {
     this->bday = bday;
 }

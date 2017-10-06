@@ -14,6 +14,7 @@
 #include "messages.h"
 #include "item.h"
 #include "npc.h"
+#include "calendar.h"
 #include "options.h"
 #include "output.h"
 #include "recipe_dictionary.h"
@@ -589,8 +590,9 @@ void set_item_spoilage( item &newit, float used_age_tally, int used_age_count )
 
 void set_item_food( item &newit )
 {
-    int bday_tmp = newit.birthday() % 3600; // fuzzy birthday for stacking reasons
-    newit.set_birthday( newit.birthday() + 3600 - bday_tmp );
+    //@todo encapsulate this into some function
+    int bday_tmp = to_turn<int>( newit.birthday() ) % 3600; // fuzzy birthday for stacking reasons
+    newit.set_birthday( newit.birthday() + 3600_turns - time_duration::from_turns( bday_tmp ) );
     if( newit.has_flag( "EATEN_HOT" ) ) { // hot foods generated
         newit.item_tags.insert( "HOT" );
         newit.item_counter = 600;

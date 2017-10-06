@@ -14,13 +14,13 @@
 
 static const std::string null_item_id("null");
 
-Item_spawn_data::ItemList Item_spawn_data::create( int birthday ) const
+Item_spawn_data::ItemList Item_spawn_data::create( const time_point &birthday ) const
 {
     RecursionList rec;
     return create( birthday, rec );
 }
 
-item Item_spawn_data::create_single( int birthday ) const
+item Item_spawn_data::create_single( const time_point &birthday ) const
 {
     RecursionList rec;
     return create_single( birthday, rec );
@@ -38,7 +38,7 @@ Single_item_creator::~Single_item_creator()
 {
 }
 
-item Single_item_creator::create_single(int birthday, RecursionList &rec) const
+item Single_item_creator::create_single( const time_point &birthday, RecursionList &rec ) const
 {
     item tmp;
     if (type == S_ITEM) {
@@ -74,7 +74,7 @@ item Single_item_creator::create_single(int birthday, RecursionList &rec) const
     return tmp;
 }
 
-Item_spawn_data::ItemList Single_item_creator::create(int birthday, RecursionList &rec) const
+Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthday, RecursionList &rec ) const
 {
     ItemList result;
     int cnt = 1;
@@ -374,7 +374,7 @@ void Item_group::add_entry(std::unique_ptr<Item_spawn_data> &ptr)
     ptr.release();
 }
 
-Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) const
+Item_spawn_data::ItemList Item_group::create( const time_point &birthday, RecursionList &rec ) const
 {
     ItemList result;
     if (type == G_COLLECTION) {
@@ -401,7 +401,7 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
     return result;
 }
 
-item Item_group::create_single(int birthday, RecursionList &rec) const
+item Item_group::create_single( const time_point &birthday, RecursionList &rec ) const
 {
     if (type == G_COLLECTION) {
         for( const auto &elem : items ) {
@@ -454,7 +454,7 @@ bool Item_group::has_item(const Item_tag &itemid) const
     return false;
 }
 
-item_group::ItemList item_group::items_from( const Group_tag &group_id, int birthday )
+item_group::ItemList item_group::items_from( const Group_tag &group_id, const time_point &birthday )
 {
     const auto group = item_controller->get_group( group_id );
     if( group == nullptr ) {
@@ -468,7 +468,7 @@ item_group::ItemList item_group::items_from( const Group_tag &group_id )
     return items_from( group_id, 0 );
 }
 
-item item_group::item_from( const Group_tag &group_id, int birthday )
+item item_group::item_from( const Group_tag &group_id, const time_point &birthday )
 {
     const auto group = item_controller->get_group( group_id );
     if( group == nullptr ) {

@@ -28,6 +28,7 @@
 #include "itype.h"
 #include "basecamp.h"
 #include "mtype.h"
+#include "calendar.h"
 #include "weather.h"
 #include "sounds.h"
 #include "cata_utility.h"
@@ -1993,10 +1994,12 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
             }
             // Reduce the amount of time it takes until the next stage of the plant by
             // 20% of a seasons length. (default 2.8 days).
-            const int fertilizerEpoch = 14400 * calendar::season_length() * 0.2;
+            //@todo change season_length to return time_duration
+            const time_duration fertilizerEpoch = time_duration::from_turns( 14400 * calendar::season_length() * 0.2 );
 
             item &seed = g->m.i_at( examp ).front();
-            seed.set_birthday( std::max( 0, seed.birthday() - fertilizerEpoch ) );
+            //@todo item should probably clamp the value on its own
+            seed.set_birthday( std::max( time_point( 0 ), seed.birthday() - fertilizerEpoch ) );
             // The plant furniture has the NOITEM token which prevents adding items on that square,
             // spawned items are moved to an adjacent field instead, but the fertilizer token
             // must be on the square of the plant, therefor this hack:
@@ -2097,10 +2100,10 @@ void iexamine::kiln_full(player &, const tripoint &examp)
     }
     auto char_type = item::find_type( "charcoal" );
     add_msg( _("There's a charcoal kiln there.") );
-    const int firing_time = HOURS(6); // 5 days in real life
-    int time_left = firing_time - items[0].age();
+    const time_duration firing_time = 6_hours; // 5 days in real life
+    const time_duration time_left = firing_time - items[0].age();
     if( time_left > 0 ) {
-        add_msg( _("It should take %d minutes to finish burning."), time_left / MINUTES(1) + 1 );
+        add_msg( _("It should take %d minutes to finish burning."), to_minutes<int>( time_left ) + 1 );
         return;
     }
 
@@ -2246,10 +2249,11 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
     if( brew_i.is_brewable() ) {
         add_msg( _("There's a vat full of %s set to ferment there."), brew_i.tname().c_str() );
 
-        int brew_time = brew_i.brewing_time();
-        int progress = brew_i.age();
+        //@todo change brew_time to return time_duration
+        time_duration brew_time = time_duration::from_turns( brew_i.brewing_time() );
+        time_duration progress = brew_i.age();
         if( progress < brew_time ) {
-            int hours = ( brew_time - progress ) / HOURS(1);
+            int hours = to_hours<int>( brew_time - progress );
             if( hours < 1 ) {
                 add_msg( _( "It will finish brewing in less than an hour." ) );
             } else {
@@ -2274,7 +2278,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
             }
 
             p.moves -= 500;
-            p.practice( skill_cooking, std::min( brew_time / MINUTES(10), 100 ) );
+            p.practice( skill_cooking, std::min( to_minutes<int>( brew_time ) / 10, 100 ) );
         }
 
         return;

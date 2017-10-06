@@ -162,7 +162,7 @@ bool check_butcher_cbm( const int roll )
 }
 
 void butcher_cbm_item( const std::string &what, const tripoint &pos,
-                       const int age, const int roll )
+                       const time_point &age, const int roll )
 {
     if( roll < 0 ) {
         return;
@@ -174,7 +174,7 @@ void butcher_cbm_item( const std::string &what, const tripoint &pos,
 }
 
 void butcher_cbm_group( const std::string &group, const tripoint &pos,
-                        const int age, const int roll )
+                        const time_point &age, const int roll )
 {
     if( roll < 0 ) {
         return;
@@ -244,7 +244,7 @@ void set_up_butchery( player_activity &act, player &u )
     act.moves_left = time_to_cut;
 }
 
-void butchery_drops_hardcoded( const mtype *corpse, player *p, int age, const std::function<int(void)> &roll_butchery )
+void butchery_drops_hardcoded( const mtype *corpse, player *p, const time_point &age, const std::function<int(void)> &roll_butchery )
 {
     itype_id meat = corpse->get_meat_itype();
     if( corpse->made_of( material_id( "bone" ) ) ) {
@@ -517,7 +517,7 @@ void butchery_drops_hardcoded( const mtype *corpse, player *p, int age, const st
     }
 }
 
-void butchery_drops_harvest( const mtype &mt, player &p, int age, const std::function<int(void)> &roll_butchery )
+void butchery_drops_harvest( const mtype &mt, player &p, const time_point &age, const std::function<int(void)> &roll_butchery )
 {
     int practice = 4 + roll_butchery();
     for( const auto &entry : *mt.harvest ) {
@@ -572,7 +572,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     item &corpse_item = items_here[act->index];
     auto contents = corpse_item.contents;
     const mtype *corpse = corpse_item.get_mtype();
-    const int age = corpse_item.birthday();
+    const time_point &age = corpse_item.birthday();
     g->m.i_rem( p->pos(), act->index );
 
     const int skill_level = p->get_skill_level( skill_survival );

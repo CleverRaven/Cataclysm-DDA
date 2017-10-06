@@ -27,6 +27,7 @@
 #include "monster.h"
 #include "vehicle.h"
 #include "veh_type.h"
+#include "calendar.h"
 #include "artifact.h"
 #include "submap.h"
 #include "map_iterator.h"
@@ -4225,7 +4226,7 @@ void map::spawn_items(const int x, const int y, const std::vector<item> &new_ite
 
 void map::spawn_item(const int x, const int y, const std::string &type_id,
                      const unsigned quantity, const long charges,
-                     const unsigned birthday, const int damlevel)
+                     const time_point &birthday, const int damlevel)
 {
     spawn_item( tripoint( x, y, abs_sub.z ), type_id,
                 quantity, charges, birthday, damlevel );
@@ -4368,7 +4369,7 @@ void map::spawn_natural_artifact(const tripoint &p, artifact_natural_property pr
 
 void map::spawn_item(const tripoint &p, const std::string &type_id,
                      const unsigned quantity, const long charges,
-                     const unsigned birthday, const int damlevel)
+                     const time_point &birthday, const int damlevel)
 {
     if( type_id == "null" ) {
         return;
@@ -6811,7 +6812,8 @@ void map::grow_plant( const tripoint &p )
         furn_set( p, f_null );
         return;
     }
-    const int plantEpoch = seed.get_plant_epoch();
+    //@todo change get_plant_epoch to return time_duration
+    const time_duration plantEpoch = time_duration::from_turns( seed.get_plant_epoch() );
 
     if( seed.age() >= plantEpoch ) {
         if( seed.age() < plantEpoch * 2 ) {

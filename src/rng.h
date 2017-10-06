@@ -7,6 +7,9 @@
 #include <functional>
 
 long rng( long val1, long val2 );
+class time_duration;
+// implemented in calendar.cpp
+time_duration rng( time_duration val1, time_duration val2 );
 double rng_float( double val1, double val2 );
 bool one_in( int chance );
 bool one_in_improved( double chance );
