@@ -1703,7 +1703,7 @@ void iexamine::dirtmound(player &p, const tripoint &examp)
     } else {
         used_seed = p.use_amount( seed_id, 1 );
     }
-    used_seed.front().bday = calendar::turn;
+    used_seed.front().set_age( 0 );
     g->m.add_item_or_charges( examp, used_seed.front() );
     g->m.set( examp, t_dirt, f_plant_seed );
     p.moves -= 500;
@@ -1854,12 +1854,7 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
             const int fertilizerEpoch = 14400 * calendar::season_length() * 0.2;
 
             item &seed = g->m.i_at( examp ).front();
-
-             if( seed.bday > fertilizerEpoch ) {
-              seed.bday -= fertilizerEpoch;
-            } else {
-              seed.bday = 0;
-            }
+            seed.set_birthday( std::max( 0, seed.birthday() - fertilizerEpoch ) );
             // The plant furniture has the NOITEM token which prevents adding items on that square,
             // spawned items are moved to an adjacent field instead, but the fertilizer token
             // must be on the square of the plant, therefor this hack:
@@ -1958,16 +1953,10 @@ void iexamine::kiln_full(player &, const tripoint &examp)
         g->m.furn_set(examp, next_kiln_type);
         return;
     }
-    int last_bday = items[0].bday;
-    for( auto i : items ) {
-        if( i.typeId() == "unfinished_charcoal" && i.bday > last_bday ) {
-            last_bday = i.bday;
-        }
-    }
     auto char_type = item::find_type( "charcoal" );
     add_msg( _("There's a charcoal kiln there.") );
     const int firing_time = HOURS(6); // 5 days in real life
-    int time_left = firing_time - calendar::turn.get_turn() + items[0].bday;
+    int time_left = firing_time - items[0].age();
     if( time_left > 0 ) {
         add_msg( _("It should take %d minutes to finish burning."), time_left / MINUTES(1) + 1 );
         return;
@@ -2075,7 +2064,7 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
         p.moves -= 250;
     }
     if (vat_full || query_yn(_("Start fermenting cycle?"))) {
-        g->m.i_at( examp ).front().bday = calendar::turn;
+        g->m.i_at( examp ).front().set_age( 0 );
         g->m.furn_set(examp, f_fvat_full);
         if (vat_full) {
             add_msg(_("The vat is full, so you close the lid and start the fermenting cycle."));
@@ -2116,7 +2105,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
         add_msg( _("There's a vat full of %s set to ferment there."), brew_i.tname().c_str() );
 
         int brew_time = brew_i.brewing_time();
-        int progress = calendar::turn.get_turn() - brew_i.bday;
+        int progress = brew_i.age();
         if( progress < brew_time ) {
             int hours = ( brew_time - progress ) / HOURS(1);
             if( hours < 1 ) {
@@ -2135,7 +2124,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
             g->m.i_clear( examp );
             for( const auto &result : results ) {
                 // @todo Different age based on settings
-                item booze( result, brew_i.bday, brew_i.charges );
+                item booze( result, brew_i.birthday(), brew_i.charges );
                 g->m.add_item( examp, booze );
                 if( booze.made_of( LIQUID ) ) {
                     add_msg( _("The %s is now ready for bottling."), booze.tname().c_str() );

@@ -3902,13 +3902,13 @@ void vehicle::operate_planter(){
                     sounds::sound( loc, rng(10,20), _("Clink"));
                 }
                 if( !i->count_by_charges() || i->charges == 1 ) {
-                    i->bday = calendar::turn;
+                    i->set_age( 0 );
                     g->m.add_item( loc, *i );
                     v.erase( i );
                 } else {
                     item tmp = *i;
                     tmp.charges = 1;
-                    tmp.bday = calendar::turn;
+                    tmp.set_age( 0 );
                     g->m.add_item( loc, tmp );
                     i->charges--;
                 }
@@ -4978,7 +4978,7 @@ void vehicle::place_spawn_items()
                         bool spawn_mag  = rng( 0, 99 ) < spawn.with_magazine && !e.magazine_integral() && !e.magazine_current();
 
                         if( spawn_mag ) {
-                            e.contents.emplace_back( e.magazine_default(), e.bday );
+                            e.contents.emplace_back( e.magazine_default(), e.birthday() );
                         }
                         if( spawn_ammo ) {
                             e.ammo_set( e.ammo_type()->default_ammotype() );

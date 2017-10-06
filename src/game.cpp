@@ -92,6 +92,7 @@
 #include "game_constants.h"
 #include "string_input_popup.h"
 #include "monexamine.h"
+#include "loading_ui.h"
 
 #include <map>
 #include <set>
@@ -301,7 +302,7 @@ void game::load_static_data()
     get_safemode().load_global();
 }
 
-bool game::check_mod_data( const std::vector<std::string> &opts )
+bool game::check_mod_data( const std::vector<std::string> &opts, loading_ui &ui )
 {
     auto &mods = world_generator->get_mod_manager()->mod_map;
     auto &tree = world_generator->get_mod_manager()->get_tree();
@@ -321,8 +322,8 @@ bool game::check_mod_data( const std::vector<std::string> &opts )
     if( check.empty() ) {
         // if no loadable mods then test core data only
         try {
-            load_core_data();
-            DynamicDataLoader::get_instance().finalize_loaded_data();
+            load_core_data( ui );
+            DynamicDataLoader::get_instance().finalize_loaded_data( ui );
         } catch( const std::exception &err ) {
             std::cerr << "Error loading data from json: " << err.what() << std::endl;
         }
@@ -346,16 +347,16 @@ bool game::check_mod_data( const std::vector<std::string> &opts )
         std::cout << "Checking mod " << mod.name << " [" << mod.ident << "]" << std::endl;
 
         try {
-            load_core_data();
+            load_core_data( ui );
 
             // Load any dependencies
             for( auto &dep : tree.get_dependencies_of_X_as_strings( mod.ident ) ) {
-                load_data_from_dir( mods[dep]->path, mods[dep]->ident );
+                load_data_from_dir( mods[dep]->path, mods[dep]->ident, ui );
             }
 
             // Load mod itself
-            load_data_from_dir( mod.path, mod.ident );
-            DynamicDataLoader::get_instance().finalize_loaded_data();
+            load_data_from_dir( mod.path, mod.ident, ui );
+            DynamicDataLoader::get_instance().finalize_loaded_data( ui );
         } catch( const std::exception &err ) {
             std::cerr << "Error loading data: " << err.what() << std::endl;
         }
@@ -369,24 +370,24 @@ bool game::is_core_data_loaded() const
     return DynamicDataLoader::get_instance().is_data_finalized();
 }
 
-void game::load_core_data()
+void game::load_core_data( loading_ui &ui )
 {
     // core data can be loaded only once and must be first
     // anyway.
     DynamicDataLoader::get_instance().unload_data();
 
     init_lua();
-    load_data_from_dir( FILENAMES[ "jsondir" ], "core" );
+    load_data_from_dir( FILENAMES[ "jsondir" ], "core", ui );
 }
 
-void game::load_data_from_dir( const std::string &path, const std::string &src )
+void game::load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui )
 {
     // Process a preload file before the .json files,
     // so that custom IUSE's can be defined before
     // the items that need them are parsed
     lua_loadmod( path, "preload.lua" );
 
-    DynamicDataLoader::get_instance().load_data_from_path( path, src );
+    DynamicDataLoader::get_instance().load_data_from_path( path, src, ui );
 
     // main.lua will be executed after JSON, allowing to
     // work with items defined by mod's JSON
@@ -732,9 +733,10 @@ void game::reenter_fullscreen()
 void game::setup()
 {
     popup_status( _( "Please wait while the world data loads..." ), _( "Loading core data" ) );
-    load_core_data();
+    loading_ui ui( true );
+    load_core_data( ui );
 
-    load_world_modfiles(world_generator->active_world);
+    load_world_modfiles( world_generator->active_world, ui );
 
     m =  map( get_option<bool>( "ZLEVELS" ) );
 
@@ -3729,7 +3731,7 @@ void game::load(std::string worldname, const save_t &name)
     draw();
 }
 
-void game::load_world_modfiles(WORLDPTR world)
+void game::load_world_modfiles( WORLDPTR world, loading_ui &ui )
 {
     erase();
     refresh();
@@ -3761,42 +3763,49 @@ void game::load_world_modfiles(WORLDPTR world)
         // are resolved during the creation of the world.
         // That means world->active_mod_order contains a list
         // of mods in the correct order.
-        load_packs( _( "Please wait while the world data loads..." ), mods );
+        load_packs( _( "Loading files" ), mods, ui );
 
         // Load additional mods from that world-specific folder
-        load_data_from_dir( world->world_path + "/mods", "custom" );
+        load_data_from_dir( world->world_path + "/mods", "custom", ui );
     }
 
     erase();
     refresh();
-    popup_status( _( "Please wait while the world data loads..." ), _( "Finalizing and verifying" ) );
 
-    DynamicDataLoader::get_instance().finalize_loaded_data();
+    DynamicDataLoader::get_instance().finalize_loaded_data( ui );
 }
 
-bool game::load_packs( const std::string &msg, const std::vector<std::string>& packs )
+bool game::load_packs( const std::string &msg, const std::vector<std::string>& packs, loading_ui &ui )
 {
+    ui.new_context( msg );
     std::vector<std::string> missing;
+    std::vector<std::string> available;
 
     mod_manager *mm = world_generator->get_mod_manager();
     for( const auto &e : packs ) {
-        if( !mm->has_mod( e ) ) {
+        if( mm->has_mod( e ) ) {
+            available.emplace_back( e );
+            ui.add_entry( e );
+        } else {
             missing.push_back( e );
-            continue;
         }
+    }
 
+    ui.show();
+    for( const auto &e : available ) {
         MOD_INFORMATION &mod = *mm->mod_map[e];
-        popup_status( msg.c_str(), _( "Loading content (%s)" ), e.c_str() );
-        load_data_from_dir( mod.path, mod.ident );
+        load_data_from_dir( mod.path, mod.ident, ui );
 
         // if mod specifies legacy migrations load any that are required
         if( !mod.legacy.empty() ) {
             for( int i = get_option<int>( "CORE_VERSION" ); i < core_version; ++i ) {
                 popup_status( msg.c_str(), _( "Applying legacy migration (%s %i/%i)" ),
                               e.c_str(), i, core_version - 1 );
-                load_data_from_dir( string_format( "%s/%i", mod.legacy.c_str(), i ), mod.ident );
+                load_data_from_dir( string_format( "%s/%i", mod.legacy.c_str(), i ), mod.ident, ui );
             }
         }
+
+        ui.proceed();
     }
 
     for( const auto &e : missing ) {
@@ -9209,7 +9218,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             calcStartPos( iStartPos, iActive, iMaxRows, iItemNum );
             int iNum = 0;
             active_pos = tripoint_zero;
-            bool high = true;
+            bool high = false;
             bool low = false;
             int index = 0;
             int iCatSortOffset = 0;
@@ -9220,9 +9229,11 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 }
             }
             for( auto iter = filtered_items.begin(); iter != filtered_items.end(); ++index ) {
-                if( index < highPEnd + iCatSortOffset ) {
+                if( highPEnd > 0 && index < highPEnd + iCatSortOffset ) {
                     high = true;
+                    low = false;
                 } else if( index >= lowPStart + iCatSortOffset ) {
+                    high = false;
                     low = true;
                 } else {
                     high = false;
@@ -13491,6 +13502,8 @@ void intro()
     const int minHeight = FULL_SCREEN_HEIGHT;
     const int minWidth = FULL_SCREEN_WIDTH;
     WINDOW *tmp = newwin(minHeight, minWidth, 0, 0);
+    WINDOW_PTR w_tmpptr( tmp );
+
     while (maxy < minHeight || maxx < minWidth) {
         werase(tmp);
         if (maxy < minHeight && maxx < minWidth) {
@@ -13508,6 +13521,7 @@ void intro()
                                                        "make the terminal just a smidgen taller?"),
                            minWidth, minHeight, maxx, maxy);
         }
+        wrefresh(tmp);
         inp_mngr.wait_for_any_key();
         getmaxyx(stdscr, maxy, maxx);
     }
@@ -13528,7 +13542,6 @@ void intro()
 #endif
 
     wrefresh(tmp);
-    delwin(tmp);
     erase();
 }
 

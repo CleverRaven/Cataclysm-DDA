@@ -1441,7 +1441,6 @@ static void cycle_action( item& weap, const tripoint &pos ) {
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing != "null" ) {
         if( weap.has_flag( "RELOAD_EJECT" ) || weap.gunmod_find( "brass_catcher" ) ) {
             weap.contents.push_back( item( weap.ammo_data()->ammo->casing ).set_flag( "CASING" ) );
-
         } else {
             if( cargo.empty() ) {
                 g->m.add_item_or_charges( eject, item( weap.ammo_data()->ammo->casing ) );
@@ -1458,8 +1457,9 @@ static void cycle_action( item& weap, const tripoint &pos ) {
     const auto mag = weap.magazine_current();
     if( mag && mag->type->magazine->linkage != "NULL" ) {
         item linkage( mag->type->magazine->linkage, calendar::turn, 1 );
-        if (weap.gunmod_find("brass_catcher")) {
-            g->u.inv.add_item(linkage, true, false);
+        if( weap.gunmod_find( "brass_catcher" ) ) {
+            linkage.set_flag( "CASING" );
+            weap.contents.push_back( linkage );
         }
         else if( cargo.empty() ) {
             g->m.add_item_or_charges( eject, linkage );

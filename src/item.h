@@ -786,6 +786,9 @@ public:
 
     /** How much damage has the item sustained? */
     int damage() const { return fast_floor( damage_ ); }
+    
+    /** Precise damage */
+    double precise_damage() const { return damage_; }
 
     /** Minimum amount of damage to an item (state of maximum repair) */
     int min_damage() const;
@@ -1680,7 +1683,14 @@ public:
      bool active = false; // If true, it has active effects to be processed
 
     int burnt = 0;           // How badly we're burnt
-    int bday;                // The turn on which it was created
+    private:
+        int bday;                // The turn on which it was created
+    public:
+        int age() const;
+        void set_age( int age );
+        int birthday() const;
+        void set_birthday( int bday );
+
     int poison = 0;          // How badly poisoned is it?
     int frequency = 0;       // Radio frequency
     int note = 0;            // Associated dynamic text snippet.

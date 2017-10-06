@@ -66,6 +66,8 @@ class ma_technique
         bool was_loaded = false;
         std::string name;
 
+        std::string description;
+
         std::string goal; // the melee goal this achieves
 
         // given a player's state, does this bonus apply to him?

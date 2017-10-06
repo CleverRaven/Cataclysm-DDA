@@ -123,8 +123,6 @@ class inventory : public visitable<inventory>
          * the inventory does not have such an item with that invlet. Don't use this on npcs inventory. */
         int invlet_to_position(char invlet) const;
 
-        std::vector<std::pair<item *, int> > all_items_by_type(itype_id type);
-
         // Below, "amount" refers to quantity
         //        "charges" refers to charges
         std::list<item> use_amount (itype_id it, int quantity);

@@ -765,7 +765,7 @@ int iuse::vaccine(player *p, item *it, bool, const tripoint& )
     p->add_msg_if_player(m_good, _("You feel tough."));
     p->mod_healthy_mod(200, 200);
     p->mod_pain(3);
-    item syringe( "syringe", it->bday );
+    item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
     return it->type->charges_to_use();
 }
@@ -776,7 +776,7 @@ int iuse::flu_vaccine(player *p, item *it, bool, const tripoint& )
     p->add_msg_if_player(m_good, _("You no longer need to fear the flu."));
     p->add_effect( effect_flushot, 1, num_bp, true);
     p->mod_pain(3);
-    item syringe( "syringe", it->bday );
+    item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
     return it->type->charges_to_use();
 }
@@ -2386,7 +2386,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
             return 0;
         }
         it->active = true;
-        it->bday = calendar::turn;
+        it->set_age( 0 );
         g->m.add_item_or_charges(dirx, diry, *it);
         p->i_rem(it);
         p->add_msg_if_player(m_info, _("You place the fish trap, in three hours or so you may catch some fish."));
@@ -2400,7 +2400,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
             return 0;
         }
         //after 3 hours.
-        if (calendar::turn - it->bday > 1800) {
+        if( it->age() > 1800 ) {
             it->active = false;
 
             if (!g->m.has_flag("FISHABLE", pos)) {
@@ -2458,7 +2458,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
                         //but it's not as comfortable as if you just put fishes in the same tile with the trap.
                         //Also: corpses and comestibles do not rot in containers like this, but on the ground they will rot.
                         //we don't know when it was caught so use a random turn
-                        g->m.add_item_or_charges( pos, item::make_corpse( fish_mon, it->bday + rng(0, 1800) ) );
+                        g->m.add_item_or_charges( pos, item::make_corpse( fish_mon, it->birthday() + rng(0, 1800) ) );
                         break; //this can happen only once
                     }
                 }
@@ -3779,15 +3779,14 @@ int iuse::firecracker_pack(player *p, item *it, bool, const tripoint& )
     p->add_msg_if_player(_("You light the pack of firecrackers."));
     it->convert( "firecracker_pack_act" );
     it->charges = 26;
-    it->bday = calendar::turn;
+    it->set_age( 0 );
     it->active = true;
     return 0; // don't use any charges at all. it has became a new item
 }
 
 int iuse::firecracker_pack_act(player *, item *it, bool, const tripoint &pos)
 {
-    int current_turn = calendar::turn;
-    int timer = current_turn - it->bday;
+    int timer = it->age();
     if (timer < 2) {
         sounds::sound(pos, 0, _("ssss..."));
         it->inc_damage();
@@ -5321,7 +5320,7 @@ int iuse::adrenaline_injector(player *p, item *it, bool, const tripoint& )
     p->add_msg_player_or_npc( _("You inject yourself with adrenaline."),
                               _("<npcname> injects themselves with adrenaline.") );
 
-    item syringe( "syringe", it->bday );
+    item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
     if( p->has_effect( effect_adrenaline ) ) {
         p->add_msg_if_player( m_bad, _("Your heart spasms!") );
@@ -5620,7 +5619,7 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint& ) {
         }
     }
 
-    p->toolmod_add( *loc, *it );
+    p->toolmod_add( std::move( loc ), item_location( *p, it ) );
     return 0;
 }
 

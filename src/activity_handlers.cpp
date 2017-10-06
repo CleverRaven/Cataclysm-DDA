@@ -570,7 +570,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     item &corpse_item = items_here[act->index];
     auto contents = corpse_item.contents;
     const mtype *corpse = corpse_item.get_mtype();
-    const int age = corpse_item.bday;
+    const int age = corpse_item.birthday();
     g->m.i_rem( p->pos(), act->index );
 
     const int skill_level = p->get_skill_level( skill_survival );
@@ -946,18 +946,13 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
             found_something = true;
         }
     }
-
+    // 10% to drop a item/items from this group. 
     if( one_in(10) ) {
         const auto dropped = g->m.put_items_from_loc( "trash_forest", p->pos(), calendar::turn );
         for( const auto &it : dropped ) {
             add_msg( m_good, _( "You found: %s!" ), it->tname().c_str() );
             found_something = true;
         }
-    }
-
-    if( rng( 1, 5 ) > 1 ) {
-        g->m.spawn_item( p->pos(), "withered", rng(1, 3) );
-        found_something = true;
     }
 
     if( !found_something ) {
@@ -1834,15 +1829,16 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
 void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
 {
     act->set_to_null();
-    if( act->values.size() != 1 ) {
+    if( act->targets.size() != 2 || !act->targets[0] || !act->targets[1] ) {
         debugmsg( "Incompatible arguments to ACT_TOOLMOD_ADD" );
         return;
     }
-    item &tool = p->i_at( act->position );
-    item &mod = p->i_at( act->values[0] );
-    add_msg( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname().c_str(),
+    item &tool = *act->targets[0];
+    item &mod = *act->targets[1];
+    p->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname().c_str(),
                 tool.tname().c_str() );
-    tool.contents.push_back( p->i_rem( &mod ) );
+    tool.contents.push_back( mod );
+    act->targets[1].remove_item();
 }
 
 void activity_handlers::clear_rubble_finish( player_activity *act, player *p )

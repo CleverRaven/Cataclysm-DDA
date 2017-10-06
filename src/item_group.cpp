@@ -220,7 +220,7 @@ void Item_modifier::modify(item &new_item) const
                 new_item.ammo_set( new_item.ammo_type()->default_ammotype(), ch );
             }
         } else {
-            const item am = ammo->create_single( new_item.bday );
+            const item am = ammo->create_single( new_item.birthday() );
             new_item.ammo_set( am.typeId(), ch );
         }
         // Make sure the item is in valid state
@@ -237,12 +237,12 @@ void Item_modifier::modify(item &new_item) const
         bool spawn_mag  = rng( 0, 99 ) < with_magazine && !new_item.magazine_integral() && !new_item.magazine_current();
 
         if( spawn_mag ) {
-            new_item.contents.emplace_back( new_item.magazine_default(), new_item.bday );
+            new_item.contents.emplace_back( new_item.magazine_default(), new_item.birthday() );
         }
 
         if( spawn_ammo ) {
             if( ammo.get() ) {
-                const item am = ammo->create_single( new_item.bday );
+                const item am = ammo->create_single( new_item.birthday() );
                 new_item.ammo_set( am.typeId() );
             } else {
                 new_item.ammo_set( new_item.ammo_type()->default_ammotype() );
@@ -251,7 +251,7 @@ void Item_modifier::modify(item &new_item) const
     }
 
     if(container.get() != NULL) {
-        item cont = container->create_single(new_item.bday);
+        item cont = container->create_single( new_item.birthday() );
         if (!cont.is_null()) {
             if (new_item.made_of(LIQUID)) {
                 long rc = cont.get_remaining_capacity_for_liquid(new_item);
@@ -267,7 +267,7 @@ void Item_modifier::modify(item &new_item) const
     }
 
     if (contents.get() != NULL) {
-        Item_spawn_data::ItemList contentitems = contents->create(new_item.bday);
+        Item_spawn_data::ItemList contentitems = contents->create( new_item.birthday() );
         new_item.contents.insert(new_item.contents.end(), contentitems.begin(), contentitems.end());
     }
 

@@ -604,7 +604,7 @@ void delayed_transform_iuse::load( JsonObject &obj )
 
 int delayed_transform_iuse::time_to_do( const item &it ) const
 {
-    return it.bday + transform_age - calendar::turn.get_turn();
+    return transform_age - it.age();
 }
 
 long delayed_transform_iuse::use( player &p, item &it, bool t, const tripoint &pos ) const
@@ -2435,9 +2435,9 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
         return true;
     }
 
-    if( fix.damage() < 0 ) {
+    if( fix.precise_damage() <= fix.min_damage() ) {
         if( print_msg ) {
-            pl.add_msg_if_player( m_info, _("Your %s is already enhanced."), fix.tname().c_str() );
+            pl.add_msg_if_player( m_info, _("Your %s is already enhanced to its maximum potential."), fix.tname().c_str() );
         }
         return false;
     }
@@ -2510,7 +2510,7 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
         return RT_REFIT;
     }
 
-    if( fix.damage() == 0 ) {
+    if( fix.precise_damage() > fix.min_damage() ) {
         return RT_REINFORCE;
     }
 
@@ -2843,7 +2843,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         if( it.is_tool() ) {
             it.convert( used_up_item );
         } else {
-            item used_up( used_up_item, it.bday );
+            item used_up( used_up_item, it.birthday() );
             healer.i_add_or_drop( used_up );
         }
     }
