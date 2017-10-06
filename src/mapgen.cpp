@@ -4944,14 +4944,14 @@ ff.......|....|WWWWWWWW|\n\
         mapf::formatted_set_simple(this, 0, 0,
                                    "\
  f    |_________%..S| |.\n\
- f    |_________|..r| |.\n\
- f    |_________|..r| |.\n\
- f    |l________=..r| |c\n\
- f    |l________|..S| |w\n\
- f    |l________%..r|sss\n\
- f    |_________%..r|sss\n\
- f    |_________%..r|ss_\n\
- f    |_________|x..|ss_\n\
+ f    |!!!!!!!!!|..r| |.\n\
+ f    |!!!!!!!!!|..r| |.\n\
+ f    |l!!!!!!!!=..r| |c\n\
+ f    |l!!!!!!!!|..S| |w\n\
+ f    |l!!!!!!!!%..r|sss\n\
+ f    |!!!!!!!!!%..r|sss\n\
+ f    |!!!!!!!!!%..r|ss_\n\
+ f    |!!!!!!!!!|x..|ss_\n\
  f    |-XXXXXXX-|-D-|ss_\n\
  f     s_______ssssssss_\n\
  f     s_______ssssssss_\n\
@@ -4967,18 +4967,18 @@ ff.......|....|WWWWWWWW|\n\
         _______         \n\
         _______         \n\
         _______         \n",
-                                   mapf::ter_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s",
+                                   mapf::ter_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s !",
                                            t_sewage_pipe, t_sewage_pump, t_vat,  t_floor,   t_grate, t_wall_glass, t_wall_glass, t_sewage,
                                            t_elevator, t_pavement_y, t_pavement, t_floor, t_door_metal_locked, t_chainfence_v, t_chainfence_h,
                                            t_console, t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall, t_rock, t_floor,
                                            t_door_c, t_door_metal_c, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor,
-                                           t_floor,   t_floor, t_floor,  t_sidewalk),
-                                   mapf::furn_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s",
+                                           t_floor,   t_floor, t_floor,  t_sidewalk, t_thconc_floor),
+                                   mapf::furn_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s !",
                                            f_null,        f_null,        f_null, f_crate_c, f_null,  f_null,         f_null,         f_null,
                                            f_null,     f_null,       f_null,     f_rack,  f_null,              f_null,         f_null,
                                            f_null,    f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_null, f_table,
                                            f_null,   f_null,         f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair,
-                                           f_counter, f_desk,  f_locker, f_null));
+                                           f_counter, f_desk,  f_locker, f_null, f_null));
         spawn_item(19, 3, "cleansuit");
         place_items("office", 80,  4, 19, 6, 19, false, 0);
         place_items("cleaning", 90,  7,  3, 7,  5, false, 0);
@@ -5019,35 +5019,35 @@ ff.......|....|WWWWWWWW|\n\
  f     #################\n\
  f    ##################\n\
  f   ##...llrr..........\n\
- f  ##.._________.......\n\
- f  ##.._________&&&1111\n\
- f  ##..________x&&&....\n\
- f  ##..____________....\n\
- f  ##r.____________....\n\
- f  ##r.____________....\n\
- f  ##r.____________....\n\
- f  ##r.____________..CC\n\
- f  ##..___________...CC\n\
- f  ##..__________....C.\n\
- f  ##.._________.......\n\
- f  ##..________........\n\
- f  ###._______x##.#####\n\
+ f  ##..!!!!!!!!!.......\n\
+ f  ##..!!!!!!!!!&&&1111\n\
+ f  ##..!!!!!!!!x&&&....\n\
+ f  ##..!!!!!!!!!!!!....\n\
+ f  ##r.!!!!!!!!!!!!....\n\
+ f  ##r.!!!!!!!!!!!!....\n\
+ f  ##r.!!!!!!!!!!!!....\n\
+ f  ##r.!!!!!!!!!!!!..CC\n\
+ f  ##..!!!!!!!!!!!...CC\n\
+ f  ##..!!!!!!!!!!....C.\n\
+ f  ##..!!!!!!!!!.......\n\
+ f  ##..!!!!!!!!........\n\
+ f  ###.!!!!!!!x##.#####\n\
  f  ####XXXXXXX###+#####\n\
- f   ##________x|x.r|   \n\
- f    |_________%..r| |-\n\
- f    |_________%..r| |^\n",
-                                       mapf::ter_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s",
+ f   ##!!!!!!!!x|x.r|   \n\
+ f    |!!!!!!!!!%..r| |-\n\
+ f    |!!!!!!!!!%..r| |^\n",
+                                       mapf::ter_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s !",
                                                t_sewage_pipe, t_sewage_pump, t_vat,  t_floor,   t_grate, t_wall_glass, t_wall_glass, t_sewage,
                                                t_elevator, t_pavement_y, t_pavement, t_floor, t_door_metal_locked, t_chainfence_v, t_chainfence_h,
                                                t_console, t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall, t_rock, t_floor,
                                                t_door_c, t_door_metal_c, t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor,
-                                               t_floor,   t_floor, t_floor,  t_sidewalk),
-                                       mapf::furn_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s",
+                                               t_floor,   t_floor, t_floor,  t_sidewalk, t_thconc_floor),
+                                       mapf::furn_bind("1 & V C G 5 % Q E , _ r X f F 6 x $ ^ . - | # t + = D w T S e o h c d l s !",
                                                f_null,        f_null,        f_null, f_crate_c, f_null,  f_null,         f_null,         f_null,
                                                f_null,     f_null,       f_null,     f_rack,  f_null,              f_null,         f_null,
                                                f_null,    f_null,           f_null,  f_indoor_plant, f_null,  f_null,   f_null,   f_null, f_table,
                                                f_null,   f_null,         f_null,        f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair,
-                                               f_counter, f_desk,  f_locker, f_null));
+                                               f_counter, f_desk,  f_locker, f_null, f_null));
             spawn_item(19, 22, "cleansuit");
             place_items("cleaning", 85,  6,  11, 6,  14, false, 0);
             place_items( "tools_common", 85,  10,  6, 13,  6, false, 0 );
