@@ -51,7 +51,7 @@
         "r": "f_rack"
       },
       "items": {
-        ".": { "item": "clutter_basement", "chance": 1 },
+        ".": { "item": "clutter_basement" },
         "K": { "item": "crate_stack", "chance": 100 },
         "r": { "item": "tool_common_stack", "chance": 100 }
       },
@@ -118,8 +118,8 @@
         "z": "f_dresser"
       },
       "items": {
-        ".": { "item": "clutter_mansion", "chance": 1 },
-        ":": { "item": "clutter_yard", "chance": 1 },
+        ".": { "item": "clutter_mansion" },
+        ":": { "item": "clutter_yard" },
         "K": { "item": "crate_cleaning", "chance": 100 },
         "m": { "item": "cleaning", "chance": 45 },
         "t": { "item": "table_foyer", "chance": 40 },
@@ -188,7 +188,7 @@
         "s": "f_sofa"
       },
       "items": {
-        ".": { "item": "clutter_mansion", "chance": 1 },
+        ".": { "item": "clutter_mansion" },
         "?": { "item": "fireplace_fill", "chance": 30 },
         "T": { "item": "table_livingroom", "chance": 40 },
         "c": { "item": "wetbar_stack", "chance": 100 },
@@ -258,7 +258,7 @@
         "}": "f_pinball_machine"
       },
       "items": {
-        ".": { "item": "clutter_basement", "chance": 1 },
+        ".": { "item": "clutter_basement" },
         "T": { "item": "table_card", "chance": 40 },
         "c": { "item": "wetbar_counter", "chance": 30 },
         "f": { "item": "wetbar_fridge", "chance": 45 },
@@ -328,8 +328,8 @@
         "t": "f_table"
       },
       "items": {
-        ".": { "item": "clutter_mansion", "chance": 1 },
-        ":": { "item": "clutter_yard", "chance": 1 },
+        ".": { "item": "clutter_mansion" },
+        ":": { "item": "clutter_yard" },
         "t": { "item": "table_foyer", "chance": 40 },
         "{": { "item": "suit_of_armor", "chance": 100 }
       },
@@ -398,7 +398,7 @@
         "t": "f_table"
       },
       "items": {
-        ".": { "item": "clutter_mansion", "chance": 1 },
+        ".": { "item": "clutter_mansion" },
         "T": { "item": "table_foyer", "chance": 40 },
         "t": { "item": "table_foyer", "chance": 40 }
       }
@@ -514,9 +514,9 @@
         "c": "f_counter"
       },
       "items": {
-        ",": { "item": "clutter_yard", "chance": 1 },
+        ",": { "item": "clutter_yard" },
         "/": { "item": "pool_side", "chance": 30 },
-        ":": { "item": "clutter_yard", "chance": 1 },
+        ":": { "item": "clutter_yard" },
         "?": { "item": "fireplace_fill", "chance": 30 },
         "c": { "item": "wetbar_counter", "chance": 20 }
       },
@@ -646,7 +646,7 @@
         "w": "f_washer"
       },
       "items": {
-        ".": { "item": "clutter_basement", "chance": 1 },
+        ".": { "item": "clutter_basement" },
         "B": { "item": "sex_lair", "chance": 40 },
         "K": { "item": "crate_stack", "chance": 100 },
         "R": { "item": "sewing_room", "chance": 40 },
@@ -736,7 +736,7 @@
       "items": {
         "-": { "item": "clutter_bedroom", "chance": 2 },
         ".": { "item": "clutter_bedroom", "chance": 2 },
-        ":": { "item": "clutter_yard", "chance": 1 },
+        ":": { "item": "clutter_yard" },
         "=": { "item": "clutter_bathroom", "chance": 10 },
         "B": { "item": "bed", "chance": 40 },
         "J": { "item": "clutter_bathroom", "chance": 15 },
@@ -907,7 +907,7 @@
       },
       "items": {
         "(": { "item": "trash_cart", "chance": 40 },
-        ".": { "item": "clutter_basement", "chance": 1 },
+        ".": { "item": "clutter_basement" },
         "K": { "item": "crate_stack", "chance": 100 },
         "d": { "item": "office", "chance": 10 },
         "m": { "item": "tool_common_stack", "chance": 100 },
@@ -1001,7 +1001,7 @@
         ",": { "item": "toy_box", "chance": 15 },
         "-": { "item": "clutter_bedroom", "chance": 2 },
         ".": { "item": "clutter_bedroom", "chance": 2 },
-        ":": { "item": "clutter_yard", "chance": 1 },
+        ":": { "item": "clutter_yard" },
         "=": { "item": "clutter_bathroom", "chance": 10 },
         "B": { "item": "bed", "chance": 40 },
         "J": { "item": "clutter_bathroom", "chance": 15 },
@@ -1171,7 +1171,7 @@
         { "liquid": "wine_chardonnay", "x": [ 0, 11 ], "y": [ 8, 12 ], "repeat": [ 2, 6 ] }
       ],
       "items": {
-        ".": { "item": "clutter_basement", "chance": 1 },
+        ".": { "item": "clutter_basement" },
         "K": { "item": "crate_stack", "chance": 100 },
         "L": { "item": "crate_wine", "chance": 100 },
         "f": { "item": "fridge", "chance": 40 },
@@ -1257,11 +1257,11 @@
         "t": "f_table"
       },
       "items": {
-        "'": { "item": "clutter_yard", "chance": 1 },
+        "'": { "item": "clutter_yard" },
         ")": { "item": "trash_cart", "chance": 40 },
-        ".": { "item": "clutter_mansion", "chance": 1 },
-        ":": { "item": "clutter_yard", "chance": 1 },
-        "=": { "item": "produce", "chance": 1 },
+        ".": { "item": "clutter_mansion" },
+        ":": { "item": "clutter_yard" },
+        "=": { "item": "produce" },
         "?": { "item": "fireplace_fill", "chance": 30 },
         "C": { "item": "dining", "chance": 40 },
         "F": { "item": "fridge", "chance": 45 },
@@ -1508,10 +1508,10 @@
         "t": "f_table"
       },
       "items": {
-        "'": { "item": "clutter_yard", "chance": 1 },
-        "(": { "item": "trash_cart", "chance": 1 },
-        ".": { "item": "clutter_mansion", "chance": 1 },
-        ":": { "item": "clutter_yard", "chance": 1 },
+        "'": { "item": "clutter_yard" },
+        "(": { "item": "trash_cart" },
+        ".": { "item": "clutter_mansion" },
+        ":": { "item": "clutter_yard" },
         "K": { "item": "crate_cleaning", "chance": 100 },
         "c": { "item": "art", "chance": 20 },
         "d": { "item": "office", "chance": 35 },
@@ -1704,8 +1704,8 @@
       },
       "items": {
         ")": { "item": "trash_cart", "chance": 30 },
-        ".": { "item": "clutter_basement", "chance": 1 },
-        "=": { "item": "clutter_basement", "chance": 1 },
+        ".": { "item": "clutter_basement" },
+        "=": { "item": "clutter_basement" },
         "C": { "item": "cleaning", "chance": 35 },
         "D": { "item": "office", "chance": 35 },
         "G": { "item": "dresser_male", "chance": 10 },
@@ -1807,10 +1807,10 @@
         "P": {}
       },
       "items": {
-        "'": { "item": "clutter_yard", "chance": 1 },
+        "'": { "item": "clutter_yard" },
         "-": { "item": "clutter_bedroom", "chance": 2 },
-        ".": { "item": "clutter_mansion", "chance": 1 },
-        ":": { "item": "clutter_yard", "chance": 1 },
+        ".": { "item": "clutter_mansion" },
+        ":": { "item": "clutter_yard" },
         "=": { "item": "clutter_bathroom", "chance": 10 },
         "?": { "item": "fireplace_fill", "chance": 30 },
         "B": { "item": "bed", "chance": 30 },
@@ -1917,7 +1917,7 @@
       },
       "items": {
         "-": { "item": "clutter_bedroom", "chance": 3 },
-        ".": { "item": "clutter_mansion", "chance": 1 },
+        ".": { "item": "clutter_mansion" },
         "5": { "item": "mansion_guns", "chance": 30 },
         "=": { "item": "clutter_bathroom", "chance": 10 },
         "B": { "item": "bed", "chance": 30 },
@@ -2007,8 +2007,8 @@
       },
       "items": {
         "(": { "item": "trash_cart", "chance": 30 },
-        "-": { "item": "clutter_mansion", "chance": 1 },
-        ".": { "item": "clutter_basement", "chance": 1 },
+        "-": { "item": "clutter_mansion" },
+        ".": { "item": "clutter_basement" },
         "C": { "item": "a_television", "chance": 100 },
         "F": { "item": "fridgesnacks", "chance": 45 },
         "K": { "item": "crate_stack", "chance": 100 },
@@ -2090,10 +2090,10 @@
         "P": {}
       },
       "items": {
-        "'": { "item": "clutter_yard", "chance": 1 },
+        "'": { "item": "clutter_yard" },
         "(": { "item": "trash_cart", "chance": 30 },
-        ".": { "item": "clutter_mansion", "chance": 1 },
-        ":": { "item": "clutter_yard", "chance": 1 },
+        ".": { "item": "clutter_mansion" },
+        ":": { "item": "clutter_yard" },
         "?": { "item": "fireplace_fill", "chance": 30 },
         "T": { "item": "art", "chance": 35 },
         "d": { "item": "office", "chance": 35 },
@@ -2179,7 +2179,7 @@
       },
       "items": {
         "-": { "item": "clutter_mansion", "chance": 3 },
-        ".": { "item": "clutter_mansion", "chance": 1 },
+        ".": { "item": "clutter_mansion" },
         "C": { "item": "table_card", "chance": 40 },
         "F": { "item": "fridgesnacks", "chance": 45 },
         "N": { "item": "wetbar_stack", "chance": 100 },
@@ -2238,7 +2238,7 @@
         "r": "f_rack"
       },
       "items": {
-        ".": { "item": "clutter_basement", "chance": 1 },
+        ".": { "item": "clutter_basement" },
         "m": { "item": "cleaning", "chance": 35 },
         "r": { "item": "tool_common_stack", "chance": 100 }
       }
@@ -2302,9 +2302,9 @@
         "t": "f_table"
       },
       "items": {
-        ",": { "item": "clutter_yard", "chance": 1 },
-        ".": { "item": "clutter_mansion", "chance": 1 },
-        ":": { "item": "clutter_yard", "chance": 1 },
+        ",": { "item": "clutter_yard" },
+        ".": { "item": "clutter_mansion" },
+        ":": { "item": "clutter_yard" },
         "n": { "item": "garden_shed", "chance": 40 },
         "t": { "item": "snacks_fancy", "chance": 20 }
       },
@@ -2364,7 +2364,7 @@
         "7": "f_indoor_plant"
       },
       "items": {
-        ",": { "item": "clutter_mansion", "chance": 1 }
+        ",": { "item": "clutter_mansion" }
       }
     }
   },
@@ -2456,7 +2456,7 @@
         "$": { "item": "mansion_safe", "chance": 100 },
         "(": { "item": "trash_cart", "chance": 30 },
         ")": { "item": "trash_cart", "chance": 30 },
-        ".": { "item": "clutter_basement", "chance": 1 },
+        ".": { "item": "clutter_basement" },
         "D": { "item": "office", "chance": 35 },
         "K": { "item": "crate_stack", "chance": 100 },
         "T": { "item": "snacks_fancy", "chance": 40 },
@@ -2537,7 +2537,7 @@
         "P": {}
       },
       "items": {
-        ".": { "item": "clutter_ballroom", "chance": 1 },
+        ".": { "item": "clutter_ballroom" },
         "1": { "item": "clutter_ballroom", "chance": 20 },
         "=": { "item": "clutter_ballroom", "chance": 3 },
         "C": { "item": "softdrugs", "chance": 30 },
@@ -2601,7 +2601,7 @@
         "t": "f_table"
       },
       "items": {
-        ".": { "item": "clutter_mansion", "chance": 1 },
+        ".": { "item": "clutter_mansion" },
         "t": { "item": "wetbar_counter", "chance": 35 }
       }
     }
@@ -2673,7 +2673,7 @@
       },
       "items": {
         "$": { "item": "mansion_gunsafe", "chance": 100 },
-        ".": { "item": "clutter_basement", "chance": 1 },
+        ".": { "item": "clutter_basement" },
         "K": { "item": "crate_stack", "chance": 100 },
         "M": { "item": "plumber_gear", "chance": 35 },
         "R": { "item": "pantry", "chance": 35 },
@@ -2770,9 +2770,9 @@
         { "liquid": "water", "x": [ 20, 21 ], "y": [ 15, 17 ], "repeat": [ 2, 4 ] }
       ],
       "items": {
-        "#": { "item": "clutter_gym", "chance": 1 },
+        "#": { "item": "clutter_gym" },
         "(": { "item": "trash_cart", "chance": 30 },
-        ".": { "item": "clutter_gym", "chance": 1 },
+        ".": { "item": "clutter_gym" },
         "/": { "item": "clutter_gym", "chance": 30 },
         "2": { "item": "sauna", "chance": 35 },
         "3": { "item": "clutter_gym", "chance": 40 },
@@ -2836,7 +2836,7 @@
         "/": "f_bench"
       },
       "items": {
-        ".": { "item": "clutter_mansion", "chance": 1 },
+        ".": { "item": "clutter_mansion" },
         "/": { "item": "snacks_fancy", "chance": 20 }
       }
     }
@@ -2907,7 +2907,7 @@
       },
       "items": {
         ")": { "item": "harddrugs", "chance": 30 },
-        ".": { "item": "clutter_basement", "chance": 1 },
+        ".": { "item": "clutter_basement" },
         "D": { "item": "vending_food", "chance": 25 },
         "F": { "item": "fridgesnacks", "chance": 45 },
         "K": { "item": "crate_stack", "chance": 100 },
@@ -2991,9 +2991,9 @@
       },
       "items": {
         ")": { "item": "trash_cart", "chance": 40 },
-        "-": { "item": "clutter_mansion", "chance": 1 },
-        ".": { "item": "clutter_mansion", "chance": 1 },
-        ":": { "item": "clutter_yard", "chance": 1 },
+        "-": { "item": "clutter_mansion" },
+        ".": { "item": "clutter_mansion" },
+        ":": { "item": "clutter_yard" },
         "C": { "item": "medieval", "chance": 20 },
         "D": { "item": "office", "chance": 35 },
         "T": { "item": "table_livingroom", "chance": 40 },
@@ -3060,9 +3060,9 @@
         "t": "f_table"
       },
       "items": {
-        ",": { "item": "clutter_mansion", "chance": 1 },
-        "-": { "item": "clutter_mansion", "chance": 1 },
-        ".": { "item": "clutter_mansion", "chance": 1 },
+        ",": { "item": "clutter_mansion" },
+        "-": { "item": "clutter_mansion" },
+        ".": { "item": "clutter_mansion" },
         "t": { "item": "table_livingroom", "chance": 40 }
       },
       "place_monsters": [
@@ -3122,7 +3122,7 @@
         "r": "f_rack"
       },
       "items": {
-        ".": { "item": "clutter_basement", "chance": 1 },
+        ".": { "item": "clutter_basement" },
         "K": { "item": "crate_stack", "chance": 100 },
         "m": { "item": "plumber_gear", "chance": 40 },
         "r": { "item": "pantry", "chance": 25 }
@@ -3200,9 +3200,9 @@
         "P": {}
       },
       "items": {
-        "'": { "item": "clutter_yard", "chance": 1 },
+        "'": { "item": "clutter_yard" },
         "/": { "item": "pool_side", "chance": 30 },
-        ":": { "item": "clutter_yard", "chance": 1 },
+        ":": { "item": "clutter_yard" },
         "=": { "item": "pool_side", "chance": 2 },
         "C": { "item": "softdrugs", "chance": 30 }
       },
@@ -3275,7 +3275,7 @@
       },
       "items": {
         "(": { "item": "trash_cart", "chance": 30 },
-        ".": { "item": "clutter_mansion", "chance": 1 },
+        ".": { "item": "clutter_mansion" },
         "E": { "item": "pool_table", "chance": 40 },
         "c": { "item": "wetbar_counter", "chance": 25 },
         "f": { "item": "wetbar_fridge", "chance": 45 },
@@ -3351,7 +3351,7 @@
       },
       "items": {
         "(": { "item": "trash_cart", "chance": 30 },
-        ".": { "item": "clutter_basement", "chance": 1 },
+        ".": { "item": "clutter_basement" },
         "K": { "item": "crate_stack", "chance": 100 },
         "d": { "item": "office", "chance": 10 },
         "q": { "item": "medieval", "chance": 25 },
@@ -3434,9 +3434,9 @@
         "P": {}
       },
       "items": {
-        "'": { "item": "clutter_yard", "chance": 1 },
-        ".": { "item": "clutter_mansion", "chance": 1 },
-        ":": { "item": "clutter_yard", "chance": 1 },
+        "'": { "item": "clutter_yard" },
+        ".": { "item": "clutter_mansion" },
+        ":": { "item": "clutter_yard" },
         "N": { "item": "softdrugs", "chance": 35 },
         "c": { "item": "wetbar_counter", "chance": 30 },
         "e": { "item": "pool_table", "chance": 40 },
@@ -3597,7 +3597,7 @@
         "u": "f_exercise"
       },
       "items": {
-        ".": { "item": "clutter_basement", "chance": 1 },
+        ".": { "item": "clutter_basement" },
         "K": { "item": "crate_stack", "chance": 100 },
         "d": { "item": "office", "chance": 10 },
         "v": { "item": "a_television", "chance": 100 }
@@ -3673,9 +3673,9 @@
         "P": {}
       },
       "items": {
-        "'": { "item": "clutter_yard", "chance": 1 },
-        ".": { "item": "clutter_mansion", "chance": 1 },
-        ":": { "item": "clutter_yard", "chance": 1 },
+        "'": { "item": "clutter_yard" },
+        ".": { "item": "clutter_mansion" },
+        ":": { "item": "clutter_yard" },
         "?": { "item": "fireplace_fill", "chance": 30 },
         "D": { "item": "office", "chance": 35 },
         "Y": { "item": "softdrugs", "chance": 35 },
@@ -3747,7 +3747,7 @@
         "t": "f_table"
       },
       "items": {
-        ".": { "item": "clutter_mansion", "chance": 1 },
+        ".": { "item": "clutter_mansion" },
         "D": { "item": "office", "chance": 35 },
         "T": { "item": "art", "chance": 100 },
         "c": { "item": "snacks_fancy", "chance": 20 },
@@ -3822,8 +3822,8 @@
         "r": "f_rack"
       },
       "items": {
-        ".": { "item": "clutter_basement", "chance": 1 },
-        "=": { "item": "clutter_basement", "chance": 1 },
+        ".": { "item": "clutter_basement" },
+        "=": { "item": "clutter_basement" },
         "G": { "item": "dresser_male", "chance": 10 },
         "K": { "item": "hardware_bulk", "chance": 30 },
         "R": { "item": "crate_cleaning", "chance": 100 },
@@ -3916,9 +3916,9 @@
         "P": {}
       },
       "items": {
-        "'": { "item": "clutter_yard", "chance": 1 },
-        ".": { "item": "clutter_bedroom", "chance": 1 },
-        ":": { "item": "clutter_yard", "chance": 1 },
+        "'": { "item": "clutter_yard" },
+        ".": { "item": "clutter_bedroom" },
+        ":": { "item": "clutter_yard" },
         "=": { "item": "clutter_bathroom", "chance": 10 },
         "?": { "item": "fireplace_fill", "chance": 30 },
         "B": { "item": "bed", "chance": 30 },
@@ -3999,7 +3999,7 @@
         "P": {}
       },
       "items": {
-        ".": { "item": "clutter_mansion", "chance": 1 },
+        ".": { "item": "clutter_mansion" },
         "1": { "item": "nightstand", "chance": 20 },
         "N": { "item": "softdrugs", "chance": 40 },
         "b": { "item": "bed", "chance": 30 },
@@ -4066,7 +4066,7 @@
         { "liquid": "wine_chardonnay", "x": [ 17, 22 ], "y": [ 8, 15 ], "repeat": [ 2, 6 ] }
       ],
       "items": {
-        ".": { "item": "clutter_basement", "chance": 1 },
+        ".": { "item": "clutter_basement" },
         "K": { "item": "crate_wine", "chance": 100 },
         "f": { "item": "fridge", "chance": 40 },
         "k": { "item": "keg_wine", "chance": 100 },
@@ -4146,11 +4146,11 @@
         "t": "f_table"
       },
       "items": {
-        "'": { "item": "clutter_yard", "chance": 1 },
+        "'": { "item": "clutter_yard" },
         ")": { "item": "trash_cart", "chance": 40 },
-        ".": { "item": "clutter_mansion", "chance": 1 },
-        ":": { "item": "clutter_yard", "chance": 1 },
-        "=": { "item": "produce", "chance": 1 },
+        ".": { "item": "clutter_mansion" },
+        ":": { "item": "clutter_yard" },
+        "=": { "item": "produce" },
         "C": { "item": "dining", "chance": 40 },
         "F": { "item": "fridge", "chance": 45 },
         "N": { "item": "kitchen", "chance": 45 },
