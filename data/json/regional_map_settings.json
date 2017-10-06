@@ -108,7 +108,11 @@
           "park_radius": 130,               "//": "this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;",
           "parks": {                        "//": "weighted list for park overmap terrains",
               "park": 4,
-              "pool": 1
+              "pool": 1,
+              "skate_park": 1,
+              "small_wooded_trail": 3,
+              "pavilion": 2,
+              "cemetery_small":2
           },
           "shops": {                        "//": "weighted list of oterrains for commercial zoning",
               "s_gas": 5,
@@ -155,7 +159,12 @@
               "s_music": 2,
               "s_laundromat": 1,
               "veterinarian": 2,
-              "mortuary": 1
+              "mortuary": 1,
+              "orchard": 2,
+              "dispensary": 1,
+              "small_office": 2,
+              "art_gallery": 2,
+              "small_storage_units": 3
           }
       },
       "weather": {

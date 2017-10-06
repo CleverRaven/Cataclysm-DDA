@@ -61,11 +61,11 @@
         "t": "t_rock_floor"
       },
       "items": {
-        "#": { "item": "church", "chance": 70 },
-        ".": { "item": "church", "chance": 70 },
-        "L": { "item": "cleaning", "chance": 60 },
-        "c": { "item": "church", "chance": 60 },
-        "l": { "item": "jackets", "chance": 85 }
+        "#": { "item": "church", "chance": 40 },
+        ".": { "item": "church", "chance": 5 },
+        "L": { "item": "cleaning", "chance": 30 },
+        "c": { "item": "church", "chance": 40 },
+        "l": { "item": "jackets", "chance": 60 }
       },
       "computers": {
         "6": {

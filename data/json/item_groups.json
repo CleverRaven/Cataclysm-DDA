@@ -97,7 +97,11 @@
     "type" : "item_group",
     "id" : "hive",
     "items":[
-      ["honeycomb", 10]
+      ["honeycomb", 10],
+      ["honey_scraper", 2],
+      ["beekeeping_hood", 5],
+      ["beekeeping_suit", 5],
+      ["beekeeping_gloves", 5]
     ]
   },{
     "type" : "item_group",
