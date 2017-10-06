@@ -45,7 +45,7 @@ class wish_mutate_callback: public uimenu_callback
             vTraits.clear();
             pTraits.clear();
         }
-        bool key( const input_event &event, int entnum, uimenu *menu ) override {
+        bool key( const input_context &, const input_event &event, int entnum, uimenu *menu ) override {
             if( event.get_first_input() == 't' && p->has_trait( vTraits[ entnum ] ) ) {
                 if( p->has_base_trait( vTraits[ entnum ] ) ) {
                     p->toggle_trait( vTraits[ entnum ] );
@@ -292,7 +292,7 @@ class wish_monster_callback: public uimenu_callback
             wrefresh( w_info );
         }
 
-        bool key( const input_event &event, int entnum, uimenu *menu ) override {
+        bool key( const input_context &, const input_event &event, int entnum, uimenu *menu ) override {
             ( void )entnum; // unused
             ( void )menu; // unused
             if( event.get_first_input() == 'f' ) {
@@ -418,7 +418,8 @@ class wish_item_callback: public uimenu_callback
         wish_item_callback( const std::vector<const itype *> &ids ) :
             incontainer( false ), msg( "" ), standard_itype_ids( ids ) {
         }
-        bool key( const input_event &event, int /*entnum*/, uimenu * /*menu*/ ) override {
+        bool key( const input_context &, const input_event &event, int /*entnum*/,
+                  uimenu * /*menu*/ ) override {
             if( event.get_first_input() == 'f' ) {
                 incontainer = !incontainer;
                 return true;

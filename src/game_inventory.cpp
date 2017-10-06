@@ -8,6 +8,7 @@
 #include "recipe_dictionary.h"
 #include "item.h"
 #include "itype.h"
+#include "iuse_actor.h"
 
 #include <algorithm>
 #include <functional>
@@ -52,7 +53,8 @@ item_location_filter convert_filter( const item_filter &filter )
 
 static item_location inv_internal( player &u, const inventory_selector_preset &preset,
                                    const std::string &title, int radius,
-                                   const std::string &none_message )
+                                   const std::string &none_message,
+                                   const std::string &hint = std::string() )
 {
     u.inv.restack( &u );
     u.inv.sort();
@@ -60,6 +62,7 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
     inventory_pick_selector inv_s( u, preset );
 
     inv_s.set_title( title );
+    inv_s.set_hint( hint );
     inv_s.set_display_stats( false );
 
     inv_s.add_character_items( u );
@@ -639,13 +642,180 @@ item_location game_menus::inv::steal( player &p, player &victim )
                          string_format( _( "%s's inventory is empty." ), victim.name.c_str() ) );
 }
 
+class weapon_inventory_preset: public inventory_selector_preset
+{
+    public:
+        weapon_inventory_preset( const player &p ) : p( p ) {
+            append_cell( [ this ]( const item_location & loc ) {
+                if( !loc->is_gun() ) {
+                    return std::string();
+                }
+
+                const int total_damage = loc->gun_damage( true );
+
+                if( loc->ammo_data() && loc->ammo_remaining() ) {
+                    const int basic_damage = loc->gun_damage( false );
+                    const int ammo_damage = loc->ammo_data()->ammo->damage;
+
+                    return string_format( "%s<color_ltgray>+</color>%s <color_ltgray>=</color> %s",
+                                          get_damage_string( basic_damage, true ).c_str(),
+                                          get_damage_string( ammo_damage, true ).c_str(),
+                                          get_damage_string( total_damage, true ).c_str()
+                                        );
+                } else {
+                    return get_damage_string( total_damage );
+                }
+            }, pgettext( "Shot as damage", "SHOT" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return get_damage_string( loc->damage_melee( DT_BASH ) );
+            }, _( "BASH" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return get_damage_string( loc->damage_melee( DT_CUT ) );
+            }, _( "CUT" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return get_damage_string( loc->damage_melee( DT_STAB ) );
+            }, _( "STAB" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                if( deals_melee_damage( *loc ) ) {
+                    return good_bad_none( loc->type->m_to_hit );
+                }
+                return std::string();
+            }, _( "MELEE" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                if( deals_melee_damage( *loc ) ) {
+                    return string_format( "<color_yellow>%d</color>", this->p.attack_speed( *loc ) );
+                }
+                return std::string();
+            }, _( "MOVES" ) );
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            const auto ret = p.can_wield( *loc );
+
+            if( !ret.success() ) {
+                return trim_punctuation_marks( ret.str() );
+            }
+
+            return std::string();
+        }
+
+    private:
+        bool deals_melee_damage( const item &it ) const {
+            return it.damage_melee( DT_BASH ) || it.damage_melee( DT_CUT ) || it.damage_melee( DT_STAB );
+        }
+
+        std::string get_damage_string( int damage, bool display_zeroes = false ) const {
+            return damage ||
+                   display_zeroes ? string_format( "<color_yellow>%d</color>", damage ) : std::string();
+        }
+
+        const player &p;
+};
+
+item_location game_menus::inv::wield( player &p )
+{
+    return inv_internal( p, weapon_inventory_preset( p ), _( "Wield item" ), 1,
+                         _( "You have nothing to wield." ) );
+}
+
+class holster_inventory_preset: public weapon_inventory_preset
+{
+    public:
+        holster_inventory_preset( const player &p, const holster_actor &actor ) :
+            weapon_inventory_preset( p ), actor( actor ) {
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return actor.can_holster( *loc );
+        }
+
+    private:
+        const holster_actor &actor;
+};
+
+item_location game_menus::inv::holster( player &p, item &holster )
+{
+    const std::string holster_name = holster.tname( 1, false );
+    const auto actor = dynamic_cast<const holster_actor *>
+                       ( holster.type->get_use( "holster" )->get_actor_ptr() );
+
+    if( !actor ) {
+        const std::string msg = string_format( _( "You can't put anything into your %s." ),
+                                               holster_name.c_str() );
+        popup( msg, PF_GET_KEY );
+        return item_location();
+    }
+
+    const std::string title = actor->holster_prompt.empty()
+                              ? _( "Holster item" )
+                              : _( actor->holster_prompt.c_str() );
+    const std::string hint = string_format( _( "Choose a weapon to put into your %s" ),
+                                            holster_name.c_str() );
+
+    return inv_internal( p, holster_inventory_preset( p, *actor ), title, 1,
+                         string_format( _( "You have no weapons you could put into your %s." ),
+                                        holster_name.c_str() ),
+                         hint );
+}
+
+class saw_barrel_inventory_preset: public weapon_inventory_preset
+{
+    public:
+        saw_barrel_inventory_preset( const player &p, const item &tool, const saw_barrel_actor &actor ) :
+            weapon_inventory_preset( p ), p( p ), tool( tool ), actor( actor ) {
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->is_gun();
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            const auto ret = actor.can_use_on( p, tool, *loc );
+
+            if( !ret.success() ) {
+                return trim_punctuation_marks( ret.str() );
+            }
+
+            return std::string();
+        }
+
+    private:
+        const player &p;
+        const item &tool;
+        const saw_barrel_actor &actor;
+};
+
+item_location game_menus::inv::saw_barrel( player &p, item &tool )
+{
+    const auto actor = dynamic_cast<const saw_barrel_actor *>
+                       ( tool.type->get_use( "saw_barrel" )->get_actor_ptr() );
+
+    if( !actor ) {
+        debugmsg( "Tried to use a wrong item." );
+        return item_location();
+    }
+
+    return inv_internal( p, saw_barrel_inventory_preset( p, tool, *actor ),
+                         _( "Saw barrel" ), 1,
+                         _( "You don't have any guns." ),
+                         string_format( _( "Choose a weapon to use your %s on" ),
+                                        tool.tname( 1, false ).c_str()
+                                      )
+                       );
+}
+
 std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )
 {
     p.inv.restack( &p );
     p.inv.sort();
 
     const inventory_filter_preset preset( [ &p ]( const item_location & location ) {
-        return p.can_unwield( *location, false );
+        return p.can_unwield( *location ).success();
     } );
 
     inventory_drop_selector inv_s( p, preset );

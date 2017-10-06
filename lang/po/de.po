@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-09 12:26+0800\n"
-"PO-Revision-Date: 2017-09-09 04:39+0000\n"
+"POT-Creation-Date: 2017-09-23 18:41+0800\n"
+"PO-Revision-Date: 2017-09-24 09:46+0000\n"
 "Last-Translator: Brett Dong <brett.browning.dong@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -3112,6 +3112,18 @@ msgstr ""
 #. ~ Description for detergent
 #: lang/json/AMMO_from_json.py
 msgid "A popular pre-cataclysm washing powder."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "wood ash"
+msgid_plural "wood ashes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for wood ash
+#: lang/json/AMMO_from_json.py
+msgid ""
+"This is almost weightless residue left after the burning of some substance."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -9719,6 +9731,17 @@ msgid ""
 "A hockey jersey made of thick material imprinted with the logo of the "
 "Monroeville Zombies."
 msgstr "Ein Hockeytrikot aus dickem Material. Das Logo der Monroeville Zombies ist aufgedruckt."
+
+#: lang/json/ARMOR_from_json.py
+msgid "judo belt template"
+msgid_plural "judo belt templates"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for judo belt template
+#: lang/json/ARMOR_from_json.py
+msgid "This is a template for judo belts. If found in a game it is a bug."
+msgstr ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "black belt"
@@ -18256,6 +18279,19 @@ msgstr[1] ""
 #. ~ Description for sewage water
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Turbid liquid from the sewers with awful stench."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "lye"
+msgid_plural "lye"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for lye
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"This is a liquid form of sodium hydroxide.  It is highly corrosive, handle "
+"with care."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -64356,6 +64392,10 @@ msgid "Color manager"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
+msgid "Active World Mods"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Toggle move mode (run/walk)"
 msgstr "Bewegungsmodus (laufen/gehen) umschalten"
 
@@ -67534,7 +67574,7 @@ msgstr ""
 #: lang/json/mission_def_from_json.py
 msgid ""
 "Growth has lately begun to stall, we have individuals passing through the "
-"outpost but the prospect of hard labor just to eek out an existence is "
+"outpost but the prospect of hard labor just to eke out an existence is "
 "driving them away.  We've asked around and decided that, despite our "
 "pressing needs, building a bar ought to draw some of the less committed "
 "individuals to the outpost.  Unlike other settlements, the more hands we "
@@ -79649,7 +79689,7 @@ msgid "RIFLE"
 msgstr ""
 
 #. ~ Crafting recipes subcategory of 'AMMO' category
-#: lang/json/recipe_category_from_json.py
+#: lang/json/recipe_category_from_json.py src/game_inventory.cpp
 msgid "SHOT"
 msgstr ""
 
@@ -90431,10 +90471,6 @@ msgid "brush."
 msgstr "»Knister«."
 
 #: lang/json/terrain_from_json.py
-msgid "foliage"
-msgstr "Laub"
-
-#: lang/json/terrain_from_json.py
 msgid "shrub"
 msgstr "Strauch"
 
@@ -90609,10 +90645,6 @@ msgstr "kaputter Generator"
 #: lang/json/terrain_from_json.py
 msgid "missile"
 msgstr "Rakete"
-
-#: lang/json/terrain_from_json.py
-msgid "metal screeching"
-msgstr "Metall knirschen"
 
 #: lang/json/terrain_from_json.py
 msgid "blown-out missile"
@@ -92387,7 +92419,7 @@ msgid "mounted light machine gun"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted heavy machine gum"
+msgid "mounted heavy machine gun"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -94732,16 +94764,16 @@ msgid "Name (charges)"
 msgstr "Name (Ladungen)"
 
 #: src/advanced_inv.cpp
-msgid "Not dragging any vehicle"
-msgstr "Kein Fahrzeug festgehalten"
+msgid "Not dragging any vehicle!"
+msgstr ""
 
 #: src/advanced_inv.cpp
-msgid "No dragged vehicle"
-msgstr "Kein festgehaltenes Fahrzeug"
+msgid "No dragged vehicle!"
+msgstr ""
 
 #: src/advanced_inv.cpp
-msgid "Invalid container"
-msgstr "Ungültiger Behälter"
+msgid "Invalid container!"
+msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "All 9 squares"
@@ -94814,12 +94846,12 @@ msgid "< [?] show help >"
 msgstr "< [?] Hilfe >"
 
 #: src/advanced_inv.cpp
-msgid "Default layout was saved"
+msgid "Default layout was saved."
 msgstr ""
 
 #: src/advanced_inv.cpp
-msgid "You can't put items there"
-msgstr "Du kannst hier keine Gegenstände ablegen"
+msgid "You can't put items there!"
+msgstr ""
 
 #: src/advanced_inv.cpp
 #, c-format
@@ -94870,7 +94902,7 @@ msgid "You can't wear any more of that!"
 msgstr ""
 
 #: src/advanced_inv.cpp
-msgid "Destination area is full.  Remove some items first"
+msgid "Destination area is full.  Remove some items first."
 msgstr "Zielbereich ist voll. Entferne zuerst ein paar Gegenstände."
 
 #: src/advanced_inv.cpp
@@ -94894,15 +94926,11 @@ msgid "You can't pick up a liquid."
 msgstr "Du kannst keine Flüssigkeit aufsammeln."
 
 #: src/advanced_inv.cpp
-msgid "Destination area is full.  Remove some items first."
-msgstr "Zielbereich ist voll. Entferne zuerst ein paar Gegenstände."
-
-#: src/advanced_inv.cpp
 msgid "Destination area has too many items.  Remove some first."
 msgstr "Destination area has too many items. Remove some first."
 
 #: src/advanced_inv.cpp
-msgid "This is too heavy!."
+msgid "This is too heavy!"
 msgstr "Dies ist zu schwer!"
 
 #: src/advanced_inv.cpp
@@ -94918,6 +94946,10 @@ msgstr ""
 #: src/advanced_inv.cpp
 msgid "The destination is already full!"
 msgstr ""
+
+#: src/advanced_inv.cpp
+msgid "Invalid container"
+msgstr "Ungültiger Behälter"
 
 #: src/animation.cpp
 msgid "Hang on a bit..."
@@ -95078,7 +95110,7 @@ msgid "Swap side for %s?"
 msgstr ""
 
 #: src/armor_layers.cpp
-msgid "Can't put this on"
+msgid "Can't put this on!"
 msgstr ""
 
 #: src/armor_layers.cpp
@@ -97194,8 +97226,8 @@ msgid "Sewage map data downloaded.  Press any key..."
 msgstr "Abwasserkanal-Kartendaten heruntergeladen. Drücke irgendeine Taste …"
 
 #: src/computer.cpp
-msgid "Target acquisition canceled"
-msgstr "Zielerfassung abgebrochen"
+msgid "Target acquisition canceled."
+msgstr ""
 
 #: src/computer.cpp
 msgid "Confirm nuclear missile launch."
@@ -98444,8 +98476,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/crafting.cpp src/game.cpp src/game.cpp src/iexamine.cpp src/iuse.cpp
-#: src/iuse_actor.cpp src/npctalk.cpp src/npctalk.cpp src/pickup.cpp
-#: src/player.cpp src/player.cpp src/player.cpp src/veh_interact.cpp
+#: src/iuse.cpp src/iuse_actor.cpp src/iuse_actor.cpp src/npctalk.cpp
+#: src/npctalk.cpp src/pickup.cpp src/player.cpp src/player.cpp src/player.cpp
+#: src/veh_interact.cpp
 msgid "Never mind."
 msgstr "Vergiss es."
 
@@ -98604,7 +98637,7 @@ msgstr "Das kannst du nicht tun!"
 msgid "Nothing selected!"
 msgstr "Nichts ausgewählt!"
 
-#: src/crafting_gui.cpp src/newcharacter.cpp
+#: src/crafting_gui.cpp src/newcharacter.cpp src/overmap.cpp
 msgid "Search:"
 msgstr "Suchen:"
 
@@ -104200,19 +104233,6 @@ msgid "You can't remove partially depleted plutonium!"
 msgstr "Du kannst teilweise verbrauchtes Plutonium nicht entfernen!"
 
 #: src/game.cpp
-#, c-format
-msgid "You cannot unwield your %s."
-msgstr "Du kannst deine %s nicht ablegen."
-
-#: src/game.cpp
-msgid "Wield item"
-msgstr ""
-
-#: src/game.cpp
-msgid "You have nothing to wield."
-msgstr ""
-
-#: src/game.cpp
 msgid "Who do you want to talk to or yell at?"
 msgstr ""
 
@@ -104951,11 +104971,6 @@ msgstr "Du spürst deinen Körper verwesen."
 
 #: src/game.cpp
 #, c-format
-msgid "The %s emits some smoke."
-msgstr "%s spuckt etwas Rauch."
-
-#: src/game.cpp
-#, c-format
 msgid "You have an urge to wear the %s."
 msgstr "Du hast ein Verlangen danach, %s zu tragen."
 
@@ -105043,6 +105058,10 @@ msgstr "Du merkst, wie Stürme aufziehen."
 #: src/game.cpp
 msgid "You feel unwell."
 msgstr "Du fühlst dich unwohl."
+
+#: src/game.cpp
+msgid "A cloud of smoke appears."
+msgstr ""
 
 #: src/game.cpp
 #, c-format
@@ -105290,6 +105309,66 @@ msgstr ""
 #: src/game_inventory.cpp
 #, c-format
 msgid "%s's inventory is empty."
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "BASH"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "CUT"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "STAB"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "MELEE"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "MOVES"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "Wield item"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "You have nothing to wield."
+msgstr ""
+
+#: src/game_inventory.cpp
+#, c-format
+msgid "You can't put anything into your %s."
+msgstr ""
+
+#: src/game_inventory.cpp src/iuse_actor.cpp
+msgid "Holster item"
+msgstr ""
+
+#: src/game_inventory.cpp
+#, c-format
+msgid "Choose a weapon to put into your %s"
+msgstr ""
+
+#: src/game_inventory.cpp
+#, c-format
+msgid "You have no weapons you could put into your %s."
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "Saw barrel"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "You don't have any guns."
+msgstr ""
+
+#: src/game_inventory.cpp
+#, c-format
+msgid "Choose a weapon to use your %s on"
 msgstr ""
 
 #: src/game_inventory.cpp
@@ -110356,8 +110435,8 @@ msgid "You already know all this book has to teach."
 msgstr "Du weißt bereits alles, was dir dieses Buch zu bieten hat."
 
 #: src/iuse.cpp
-msgid "You learn what you can, and stow the book for further study."
-msgstr "Du lernst, was du kannst und verstaust das Buch für später."
+msgid "You learn the essential elements of the style."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "You pry out the fence post."
@@ -112371,19 +112450,6 @@ msgid "You set down the ladder."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Saw barrel?"
-msgstr "Lauf absägen?"
-
-#: src/iuse.cpp
-msgid "You don't have guns with long barrels."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You saw down the barrel of your %s"
-msgstr ""
-
-#: src/iuse.cpp
 msgid "You need a cleansing agent to use this."
 msgstr ""
 
@@ -112802,10 +112868,6 @@ msgid "You holster your %s"
 msgstr ""
 
 #: src/iuse_actor.cpp
-msgid "Holster item"
-msgstr ""
-
-#: src/iuse_actor.cpp
 #, c-format
 msgid "You need to unwield your %s before using it."
 msgstr ""
@@ -113094,6 +113156,27 @@ msgstr "%s wohin platzieren?"
 #: src/iuse_actor.cpp
 msgid "That trap needs a 3x3 space to be clear, centered two tiles from you."
 msgstr "Diese Falle benötigt einen Platz von 3×3 Feldern und du musst sie zwei Felder entfernt von dir stellen."
+
+#: src/iuse_actor.cpp
+#, c-format
+msgid "You saw down the barrel of your %s."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "It's not a gun."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "The barrel is too short."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "The barrel is aleady sawn off."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "Can't saw off modified barrels."
+msgstr ""
 
 #: src/iuse_software.cpp
 msgid "You found kitten!"
@@ -114363,11 +114446,6 @@ msgstr "En<d|D>e"
 
 #: src/main_menu.cpp
 msgctxt "Main Menu|World"
-msgid "<C|c>reate World"
-msgstr "Welt <e|E>rstellen"
-
-#: src/main_menu.cpp
-msgctxt "Main Menu|World"
 msgid "<D|d>elete World"
 msgstr "Welt lö<s|S>chen"
 
@@ -114375,6 +114453,11 @@ msgstr "Welt lö<s|S>chen"
 msgctxt "Main Menu|World"
 msgid "<R|r>eset World"
 msgstr "Welt <z|Z>urücksetzen"
+
+#: src/main_menu.cpp
+msgctxt "Main Menu|World"
+msgid "<S|s>how World Mods"
+msgstr ""
 
 #: src/main_menu.cpp
 msgctxt "Main Menu|Settings"
@@ -114475,16 +114558,20 @@ msgid "No save games found!"
 msgstr "Kein Spielstand gefunden!"
 
 #: src/main_menu.cpp
-msgid "Only the admin can change worlds."
-msgstr "Nur der Administrator kann Welten verändern."
-
-#: src/main_menu.cpp
 msgid "Delete the world and all saves?"
 msgstr "Soll die aktuelle Welt und alle Spielstände gelöscht werden?"
 
 #: src/main_menu.cpp
 msgid "Remove all saves and regenerate world?"
 msgstr "Alle Spielstände löschen und die Welt neu erzeugen?"
+
+#: src/main_menu.cpp
+msgid "Only the admin can change worlds."
+msgstr "Nur der Administrator kann Welten verändern."
+
+#: src/main_menu.cpp
+msgid "Create World"
+msgstr ""
 
 #: src/map.cpp
 #, c-format
@@ -114885,14 +114972,6 @@ msgstr "Vorratsraum öffnen"
 #: src/mapgen_functions.cpp
 msgid "Open Evidence Locker"
 msgstr "Beweisschrank öffnen"
-
-#: src/mapgen_functions.cpp
-msgid "Consolidated Computerized Bank of the Treasury"
-msgstr "Vereinigte Computerbank des Finanzministeriums"
-
-#: src/mapgen_functions.cpp
-msgid "Open Vault"
-msgstr "Tresorraum öffnen"
 
 #: src/material.cpp
 msgid "damages"
@@ -118533,6 +118612,10 @@ msgid "Use this style?"
 msgstr "Diesen Kampfstil verwenden?"
 
 #: src/newcharacter.cpp
+msgid "Last Character"
+msgstr ""
+
+#: src/newcharacter.cpp
 msgid "POINTS"
 msgstr ""
 
@@ -122078,8 +122161,12 @@ msgid "Previous target"
 msgstr "Vorheriges Ziel"
 
 #: src/overmap.cpp
-msgid "Find place:"
-msgstr "Ort finden:"
+msgid "Result(s):"
+msgstr ""
+
+#: src/overmap.cpp
+msgid "Direction:"
+msgstr ""
 
 #: src/overmap.cpp
 msgid "'<' '>' Cycle targets."
@@ -123810,12 +123897,16 @@ msgid "antlers"
 msgstr "Geweih"
 
 #: src/player.cpp
-#, c-format
-msgid "The %s can't be wielded with only one arm."
+msgid "Can't wield spilt liquids."
 msgstr ""
 
 #: src/player.cpp
 msgid "Something you are wearing hinders the use of both hands."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "The %s can't be wielded with only one arm."
 msgstr ""
 
 #: src/player.cpp
@@ -123825,17 +123916,13 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "You cannot unwield your %s"
-msgstr ""
+msgid "You cannot unwield your %s."
+msgstr "Du kannst deine %s nicht ablegen."
 
 #: src/player.cpp
 #, c-format
 msgid "Stop wielding %s?"
 msgstr ""
-
-#: src/player.cpp
-msgid "You're already wielding that!"
-msgstr "Das trägst du schon!"
 
 #: src/player.cpp
 msgid "Technique:"
@@ -125805,8 +125892,8 @@ msgstr ""
 
 #: src/sounds.cpp
 #, c-format
-msgid "From the %s you hear %s"
-msgstr "Aus dem %s hörst du %s"
+msgid "From the %1$s you hear %2$s"
+msgstr ""
 
 #: src/sounds.cpp
 msgid "Your alarm-clock finally wakes you up."
@@ -126754,6 +126841,10 @@ msgstr ""
 #: src/veh_interact.cpp
 #, c-format
 msgid "> <color_%1$s>%2$s</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Remove attached parts first"
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -128069,18 +128160,6 @@ msgid "Set to 5"
 msgstr "Auf 5 setzen"
 
 #: src/worldfactory.cpp
-msgid "Content"
-msgstr "Inhalt"
-
-#: src/worldfactory.cpp
-msgid "World Gen Options"
-msgstr "Weltgenerator-Optionen"
-
-#: src/worldfactory.cpp
-msgid "CONFIRMATION"
-msgstr "BESTÄTIGUNG"
-
-#: src/worldfactory.cpp
 msgid "Do you want to abort World Generation?"
 msgstr "Willst du die Weltgenerierung abbrechen?"
 
@@ -128112,6 +128191,14 @@ msgid "Do you want to start the game in world [%s]?"
 msgstr "Willst du das Spiel in der Welt »%s« starten?"
 
 #: src/worldfactory.cpp
+msgid " ACTIVE WORLD MODS "
+msgstr ""
+
+#: src/worldfactory.cpp
+msgid "--NO ACTIVE MODS--"
+msgstr "--KEINE AKTIVIERTEN MODS--"
+
+#: src/worldfactory.cpp
 msgid "Switch to other list"
 msgstr "Zur anderen Liste wechseln"
 
@@ -128130,10 +128217,6 @@ msgstr "Mod-Ladereihenfolge"
 #: src/worldfactory.cpp
 msgid "--NO AVAILABLE MODS--"
 msgstr "--KEINE MODS VERFÜGBAR--"
-
-#: src/worldfactory.cpp
-msgid "--NO ACTIVE MODS--"
-msgstr "--KEINE AKTIVIERTEN MODS--"
 
 #: src/worldfactory.cpp
 msgid "Can't add mod. This mod requires Lua support."
@@ -128178,6 +128261,18 @@ msgstr "Bist du SICHER, dass du fertig bist? Der Weltname wird zufallsgeneriert.
 msgid ""
 "Press %s to save the list of active mods as default. Press %s for help."
 msgstr "%s: Liste aktiver Mods als Standard speichern. %s: Hilfe"
+
+#: src/worldfactory.cpp
+msgid "World Mods"
+msgstr ""
+
+#: src/worldfactory.cpp
+msgid "World Options"
+msgstr ""
+
+#: src/worldfactory.cpp
+msgid "Finalize World"
+msgstr ""
 
 #: src/worldfactory.cpp
 #, c-format

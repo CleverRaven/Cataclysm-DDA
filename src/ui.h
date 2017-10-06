@@ -20,6 +20,7 @@ const int MENU_WIDTH_ENTRIES = -2;
 const int MENU_AUTOASSIGN = -1;
 
 struct input_event;
+class input_context;
 
 /**
  * mvwzstr: line of text with horizontal offset and color
@@ -111,25 +112,19 @@ class ui_container
  */
 class uimenu;
 /**
-* In current master, generic uimenu::query() handles most input events first,
+* uimenu::query() handles most input events first,
 * and then passes the event to the callback if it can't handle it.
-*
-* In PR #20347, the logic is reversed. The callback gets the event first, the only condition
-* being that the callback is set at all. This allows certain menus (mostly the ones that
-* exhibited various input handling oddities) to use their callback for overriding "default"
-* handling by uimenu::query().
 *
 * The callback returninig a boolean false signifies that the callback can't "handle the
 * event completely". This is unchanged before or after the PR.
-*
-* https://github.com/CleverRaven/Cataclysm-DDA/pull/20347#issuecomment-282584492
 * @{
 */
 class uimenu_callback
 {
     public:
         virtual void select( int /*entnum*/, uimenu * ) {};
-        virtual bool key( const input_event &/*key*/, int /*entnum*/, uimenu * ) {
+        virtual bool key( const input_context &, const input_event &/*key*/, int /*entnum*/,
+                          uimenu * ) {
             return false;
         };
         virtual void refresh( uimenu * ) {};
@@ -150,6 +145,8 @@ class uimenu: public ui_container
         int keypress;
         std::string text;
         std::vector<std::string> textformatted;
+        std::string input_category;
+        std::vector< std::pair<std::string, std::string> > additional_actions;
         int textwidth;
         int textalign;
         int max_entry_len;

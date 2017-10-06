@@ -13,7 +13,7 @@ notifications:
   skip_join: true
 
 git:
-  depth: 500
+  depth: 5
 
 env:
   global:
@@ -133,3 +133,4 @@ script: make -j3 CCACHE=1 RELEASE=1 CROSS="$CROSS_COMPILATION" && $WINE ./tests/
 
 after_success:
   - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b . -i src -e tests --gcov /usr/bin/gcov-4.8; fi
+  - if [ -n "${CODE_COVERAGE}" ]; then bash <(curl -s https://codecov.io/bash); fi

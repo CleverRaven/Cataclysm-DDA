@@ -393,7 +393,7 @@ void player::sort_armor()
                 if( rightListSize >= rightListOffset && pos <= cont_h - 2 ) {
                     trim_and_print( w_sort_right, pos, 2, right_w - 4, elem.damage,
                                     elem.name.c_str() );
-                    mvwprintz( w_sort_right, pos, right_w - 2, c_ltgray, "%d",
+                    mvwprintz( w_sort_right, pos, right_w - 3, c_ltgray, "%3d",
                                elem.encumber );
                     pos++;
                 }
@@ -527,7 +527,7 @@ void player::sort_armor()
                     worn.insert( iter, new_equip );
                 } else if( is_npc() ) {
                     // @todo Pass the reason here
-                    popup( _( "Can't put this on" ) );
+                    popup( _( "Can't put this on!" ) );
                 }
             }
             draw_grid( w_sort_armor, left_w, middle_w );
