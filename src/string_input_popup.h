@@ -187,7 +187,6 @@ class string_input_popup
         /**@}*/
 
         std::map<long, std::function<void()>> callbacks;
-        std::set<long> ch_code_blacklist;
 };
 
 #endif

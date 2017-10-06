@@ -276,7 +276,10 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             callbacks[ch]();
         }
 
-        if( ch_code_blacklist.find( ch ) != ch_code_blacklist.end() ) {
+        // This class only registers the ANY_INPUT action by default. If the
+        // client provides their own input_context with registered actions
+        // besides ANY_INPUT, ignore those so that the client may handle them.
+        if( action != "ANY_INPUT" ) {
             continue;
         }
 

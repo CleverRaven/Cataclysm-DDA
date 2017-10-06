@@ -6834,8 +6834,7 @@
   "autolearn": true,
   "qualities":[
     { "id": "COOK", "level": 2 }
-  ], "tools":[
-    [ ["fire", -1] ] ],
+  ], "tools":[ [ [ "water_boiling_heat", 6, "LIST" ] ] ],
   "components": [ [ ["strawberries", 2], ["irradiated_strawberries", 2] ],
     [ ["vodka", 4] ] ]
 },{
@@ -6849,8 +6848,7 @@
   "autolearn": true,
   "qualities":[
     { "id": "COOK", "level": 2 }
-  ], "tools":[
-    [ ["fire", -1] ] ],
+  ], "tools":[ [ [ "water_boiling_heat", 6, "LIST" ] ] ],
   "components": [ [ ["blueberries", 2], ["irradiated_blueberries", 2] ],
     [ ["vodka", 4] ] ]
 },{
@@ -9574,11 +9572,7 @@
   "autolearn": true,
   "qualities":[
     { "id": "COOK", "level": 2 }
-  ], "tools": [
-    [
-     ["fire", -1]
-    ]
-  ],
+  ], "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ] ],
   "components": [
     [
       [ "sewage", 1 ]

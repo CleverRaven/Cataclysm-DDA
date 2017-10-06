@@ -203,6 +203,8 @@ void uimenu::init()
     last_fsize = -1;
     last_vshift = -1;
     hotkeys = DEFAULT_HOTKEYS;
+    input_category = "UIMENU";
+    additional_actions.clear();
 }
 
 /**
@@ -802,7 +804,7 @@ void uimenu::query(bool loop)
     int startret = UIMENU_INVALID;
     ret = UIMENU_INVALID;
 
-    input_context ctxt( "UIMENU" );
+    input_context ctxt( input_category );
     ctxt.register_updown();
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
@@ -814,6 +816,10 @@ void uimenu::query(bool loop)
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    for ( const auto &additional_action : additional_actions ) {
+        ctxt.register_action( additional_action.first, additional_action.second );
+    }
     hotkeys = ctxt.get_available_single_char_hotkeys( hotkeys );
 
     show();
@@ -824,28 +830,20 @@ void uimenu::query(bool loop)
         keypress = event.get_first_input();
         const auto iter = keymap.find( keypress );
 
-        if ( callback != nullptr ) {
-            if( iter == keymap.end() && action == "ANY_INPUT" && event.get_first_input() != '?' ) {
-                skipkey = callback->key( event, -1, this );
-            } else {
-                skipkey = callback->key( event, selected, this );
-            }
-        }
-
         if ( skipkey ) {
             /* nothing */
         } else if ( scrollby( scroll_amount_from_action( action ) ) == true ) {
             /* nothing */
+        } else if ( action == "HELP_KEYBINDINGS" ) {
+            /* nothing, handled by input_context */
         } else if ( filtering && action == "FILTER" ) {
             inputfilter();
-        } else if( action == "ANY_INPUT" && event.type == CATA_INPUT_KEYBOARD ) {
-            if( iter != keymap.end() ) {
-                selected = iter->second;
-                if( entries[ selected ].enabled ) {
-                    ret = entries[ selected ].retval; // valid
-                } else if( return_invalid ) {
-                    ret = 0 - entries[ selected ].retval; // disabled
-                }
+        } else if( iter != keymap.end() ) {
+            selected = iter->second;
+            if( entries[ selected ].enabled ) {
+                ret = entries[ selected ].retval; // valid
+            } else if( return_invalid ) {
+                ret = 0 - entries[ selected ].retval; // disabled
             }
         } else if ( !fentries.empty() && action == "CONFIRM" ) {
             if( entries[ selected ].enabled ) {
@@ -856,6 +854,9 @@ void uimenu::query(bool loop)
         } else if( action == "QUIT" ) {
             break;
         } else {
+            if ( callback != nullptr ) {
+                skipkey = callback->key( ctxt, event, selected, this );
+            }
             if ( ! skipkey && return_invalid ) {
                 ret = -1;
             }

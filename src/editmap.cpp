@@ -605,14 +605,14 @@ void editmap::update_view( bool update_info )
 
         mvwputch( w_info, off, 2, terrain_type.color(), terrain_type.symbol() );
         mvwprintw( w_info, off, 4, _( "%d: %s; movecost %d" ), g->m.ter( target ),
-                   terrain_type.name.c_str(),
+                   terrain_type.name().c_str(),
                    terrain_type.movecost
                  );
         off++; // 2
         if( g->m.furn( target ) > 0 ) {
             mvwputch( w_info, off, 2, furniture_type.color(), furniture_type.symbol() );
             mvwprintw( w_info, off, 4, _( "%d: %s; movecost %d movestr %d" ), g->m.furn( target ),
-                       furniture_type.name.c_str(),
+                       furniture_type.name().c_str(),
                        furniture_type.movecost,
                        furniture_type.move_str_req
                      );
@@ -860,7 +860,7 @@ int editmap::edit_ter()
             }
 
             mvwprintw( w_pickter, 0, 2, "< %s[%d]: %s >", pttype.id.c_str(), pttype.id.id().to_i(),
-                       pttype.name.c_str() );
+                       pttype.name().c_str() );
             mvwprintz( w_pickter, off, 2, c_white, _( "movecost %d" ), pttype.movecost );
             std::string extras = "";
             if( pttype.has_flag( TFLAG_INDOORS ) ) {
@@ -915,7 +915,7 @@ int editmap::edit_ter()
             }
 
             mvwprintw( w_pickter, 0, 2, "< %s[%d]: %s >", pftype.id.c_str(), pftype.id.id().to_i(),
-                       pftype.name.c_str() );
+                       pftype.name().c_str() );
             mvwprintz( w_pickter, off, 2, c_white, _( "movecost %d" ), pftype.movecost );
             std::string fextras = "";
             if( pftype.has_flag( TFLAG_INDOORS ) ) {
@@ -1340,7 +1340,7 @@ int editmap::edit_itm()
             imenu.w_height = TERMX - ilmenu.w_height;
             imenu.w_width = ilmenu.w_width;
             imenu.addentry( imenu_bday, true, -1, pgettext( "item manipulation debug menu entry", "bday: %d" ),
-                            ( int )it->bday );
+                            it->birthday() );
             imenu.addentry( imenu_damage, true, -1, pgettext( "item manipulation debug menu entry",
                             "damage: %d" ), it->damage() );
             imenu.addentry( imenu_burnt, true, -1, pgettext( "item manipulation debug menu entry",
@@ -1357,7 +1357,7 @@ int editmap::edit_itm()
                     int intval = -1;
                     switch( imenu.ret ) {
                         case imenu_bday:
-                            intval = ( int )it->bday;
+                            intval = it->birthday();
                             break;
                         case imenu_damage:
                             intval = it->damage();
@@ -1373,8 +1373,8 @@ int editmap::edit_itm()
                                  .query_int();
                     if( intval != retval ) {
                         if( imenu.ret == imenu_bday ) {
-                            it->bday = retval;
-                            imenu.entries[imenu_bday].txt = string_format( "bday: %d", it->bday );
+                            it->set_birthday( retval );
+                            imenu.entries[imenu_bday].txt = string_format( "bday: %d", it->birthday() );
                         } else if( imenu.ret == imenu_damage ) {
                             it->set_damage( retval );
                             imenu.entries[imenu_damage].txt = string_format( "damage: %d", it->damage() );
@@ -1420,8 +1420,7 @@ int editmap::edit_itm()
 int editmap::edit_mon()
 {
     int ret = 0;
-    int mon_index = g->mon_at( target );
-    monster *it = &g->zombie( mon_index );
+    monster *it = g->critter_at<monster>( target );
     edit_json( it );
     return ret;
 }
@@ -1929,7 +1928,7 @@ class edit_mapgen_callback : public uimenu_callback
         edit_mapgen_callback( editmap *e ) {
             _e = e;
         };
-        bool key( const input_event &event, int /*entnum*/, uimenu *menu ) override {
+        bool key( const input_context &, const input_event &event, int /*entnum*/, uimenu *menu ) override {
             if( event.get_first_input() == 'm' ) {
                 _e->mapgen_retarget();
                 menu->ret = -1;

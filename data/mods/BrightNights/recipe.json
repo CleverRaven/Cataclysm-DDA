@@ -86,5 +86,29 @@
       [ [ "gasoline", 500 ], [ "diesel", 500 ], [ "chem_ethanol", 500 ], [ "hard_liquor", 52, "LIST" ], [ "denat_alcohol", 500 ], [ "lamp_oil", 500 ] ]
     ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "plut_cell",
+    "type": "recipe",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": 5000,
+    "autolearn": [ [ "electronics", 7 ] ],
+    "book_learn": [ [ "textbook_atomic", 5 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
+    ],
+    "tools": [ [ [ "soldering_iron", 50 ] ] ],
+    "components": [
+      [ [ "nuclear_fuel", 2 ] ],
+      [ [ "e_scrap", 5 ] ],
+      [ [ "lead", 25 ] ],
+      [ [ "plastic_chunk", 5 ] ],
+      [ [ "scrap", 5 ] ],
+      [ [ "can_drink_unsealed", 5 ], [ "can_food_unsealed", 5 ], [ "canister_empty", 5 ] ]
+    ]
   }
 ]

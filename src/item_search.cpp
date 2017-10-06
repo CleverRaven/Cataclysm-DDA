@@ -69,7 +69,7 @@ item_filter_from_string( std::string filter )
     }
     bool exclude = filter[0] == '-';
     if( exclude ) {
-        return [filter]( const item &i ) {
+        return [filter]( const item & i ) {
             return !item_filter_from_string( filter.substr( 1 ) )( i );
         };
     }
@@ -90,7 +90,7 @@ item_filter_from_string( std::string filter )
         case 'm'://material
             return [filter]( const item & i ) {
                 return std::any_of( i.made_of().begin(), i.made_of().end(),
-                                    [&filter]( const material_id &mat ) {
+                [&filter]( const material_id & mat ) {
                     return lcmatch( mat->name(), filter );
                 } );
             };

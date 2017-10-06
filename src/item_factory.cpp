@@ -814,8 +814,8 @@ void Item_factory::check_definitions() const
             if( type->gunmod->location.str().empty() ) {
                     msg << "gunmod does not specify location" << "\n";
             }
-            if( (type->gunmod->sight_dispersion < 0) != (type->gunmod->aim_cost < 0) ){
-                    msg << "gunmod must have both sight_dispersion and aim_cost set or neither of them set" << "\n";
+            if( ( type->gunmod->sight_dispersion < 0 ) != ( type->gunmod->aim_speed < 0 ) ){
+                    msg << "gunmod must have both sight_dispersion and aim_speed set or neither of them set" << "\n";
             }
         }
         if( type->mod ) {
@@ -1455,7 +1455,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     assign( jo, "location", slot.location );
     assign( jo, "dispersion_modifier", slot.dispersion );
     assign( jo, "sight_dispersion", slot.sight_dispersion );
-    assign( jo, "aim_cost", slot.aim_cost, strict, -1 );
+    assign( jo, "aim_speed", slot.aim_speed, strict, -1 );
     assign( jo, "handling_modifier", slot.handling, strict );
     assign( jo, "range_modifier", slot.range );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
@@ -1844,7 +1844,7 @@ void Item_factory::migrate_item( const itype_id& id, item& obj )
 
         for( const auto& c: iter->second.contents ) {
             if( std::none_of( obj.contents.begin(), obj.contents.end(), [&]( const item& e ) { return e.typeId() == c; } ) ) {
-                obj.emplace_back( c, obj.bday );
+                obj.emplace_back( c, obj.birthday() );
             }
         }
 

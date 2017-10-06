@@ -436,8 +436,11 @@ struct islot_gunmod : common_ranged_data {
     int sight_dispersion = -1;
 
     /**
-     *  For sights (see @ref sight_dispersion), this value affects time cost of aiming. Lower is better. In case of multiple usable sights, the one with lowest aim cost is used. */
-    int aim_cost = -1;
+     *  For sights (see @ref sight_dispersion), this value affects time cost of aiming.
+     *  Higher is better. In case of multiple usable sights,
+     *  the one with highest aim speed is used.
+     */
+    int aim_speed = -1;
 
     /** Modifies base loudness as provided by the currently loaded ammo */
     int loudness = 0;

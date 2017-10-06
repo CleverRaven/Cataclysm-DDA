@@ -191,16 +191,21 @@ enum ter_connects : int {
 };
 
 struct map_data_common_t {
-    std::string name;  // The plaintext name of the terrain type the user would see (i.e. dirt)
-
     map_bash_info        bash;
     map_deconstruct_info deconstruct;
+
+    protected:
+        friend furn_t null_furniture_t();
+        friend ter_t null_terrain_t();
+        // The (untranslated) plaintext name of the terrain type the user would see (i.e. dirt)
+        std::string name_;
 
 private:
     std::set<std::string> flags;    // string flags which possibly refer to what's documented above.
     std::bitset<NUM_TERFLAGS> bitflags; // bitfield of -certian- string flags which are heavily checked
 
 public:
+        std::string name() const;
 
     enum { SEASONS_PER_YEAR = 4 };
     /*
@@ -361,6 +366,7 @@ extern ter_id t_null,
     t_grass,
     t_metal_floor,
     t_pavement, t_pavement_y, t_sidewalk, t_concrete,
+    t_thconc_floor,
     t_floor, t_floor_waxed,
     t_dirtfloor,//Dirt floor(Has roof)
     t_carpet_red,t_carpet_yellow,t_carpet_purple,t_carpet_green,

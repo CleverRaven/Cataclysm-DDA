@@ -597,17 +597,6 @@ bool oter_t::is_hardcoded() const
         "office_tower_b",
         "office_tower_b_entrance",
         "outpost",
-        "prison_1",
-        "prison_2",
-        "prison_3",
-        "prison_4",
-        "prison_5",
-        "prison_6",
-        "prison_7",
-        "prison_8",
-        "prison_9",
-        "prison_b",
-        "prison_b_entrance",
         "sewage_treatment",
         "sewage_treatment_hub",
         "sewage_treatment_under",
@@ -1184,12 +1173,7 @@ overmap::overmap( int const x, int const y ) : loc( x, y )
     init_layers();
 }
 
-overmap::~overmap()
-{
-    for( npc *npc_to_delete : npcs ) {
-        delete npc_to_delete;
-    }
-}
+overmap::~overmap() = default;
 
 void overmap::populate( overmap_special_batch &enabled_specials )
 {
@@ -1302,19 +1286,33 @@ bool overmap::monster_check(const std::pair<tripoint, monster> &candidate) const
         } ) != matching_range.second;
 }
 
-void overmap::insert_npc( npc *who )
+void overmap::insert_npc( std::shared_ptr<npc> who )
 {
     npcs.push_back( who );
     g->set_npcs_dirty();
 }
 
-void overmap::erase_npc( npc *who )
+std::shared_ptr<npc> overmap::erase_npc( const int id )
 {
-    const auto iter = std::find( npcs.begin(), npcs.end(), who );
-    assert( iter != npcs.end() );
+    const auto iter = std::find_if( npcs.begin(), npcs.end(), [id]( const std::shared_ptr<npc> &n ) { return n->getID() == id; } );
+    if( iter == npcs.end() ) {
+        return nullptr;
+    }
+    auto ptr = *iter;
     npcs.erase( iter );
-    delete who;
     g->set_npcs_dirty();
+    return ptr;
+}
+
+std::vector<std::shared_ptr<npc>> overmap::get_npcs( const std::function<bool( const npc & )> &predicate ) const
+{
+    std::vector<std::shared_ptr<npc>> result;
+    for( const auto &g : npcs ) {
+        if( predicate( *g ) ) {
+            result.push_back( g );
+        }
+    }
+    return result;
 }
 
 bool overmap::has_note(int const x, int const y, int const z) const
@@ -2101,7 +2099,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     std::unordered_map<tripoint, npc_coloring> npc_color;
     if( blink ) {
         const auto &npcs = overmap_buffer.get_npcs_near_player( sight_points );
-        for( const npc *np : npcs ) {
+        for( const auto &np : npcs ) {
             if( np->posz() != z ) {
                 continue;
             }
@@ -4699,9 +4697,9 @@ void overmap::for_each_npc( const std::function<void( const npc & )> callback ) 
     }
 }
 
-npc* overmap::find_npc( const int id )
+std::shared_ptr<npc> overmap::find_npc( const int id ) const
 {
-    for( auto &guy : npcs ) {
+    for( const auto &guy : npcs ) {
         if( guy->getID() == id ) {
             return guy;
         }
