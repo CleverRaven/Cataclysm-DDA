@@ -40,6 +40,7 @@
         "mansion_palette_crates",
         "mansion_palette_outdoor",
         "mansion_palette_rock",
+        "mansion_palette_machinery",
         "mansion_palette_01"
       ],
       "items": {
@@ -527,6 +528,7 @@
         "mansion_palette_crates",
         "mansion_palette_outdoor",
         "mansion_palette_rock",
+        "mansion_palette_machinery",
         "mansion_palette_10"
       ],
       "items": {
@@ -719,6 +721,7 @@
         "mansion_palette_crates",
         "mansion_palette_outdoor",
         "mansion_palette_rock",
+        "mansion_palette_machinery",
         "mansion_palette_13"
       ],
       "items": {
@@ -916,6 +919,7 @@
         "mansion_palette_crates",
         "mansion_palette_outdoor",
         "mansion_palette_rock",
+        "mansion_palette_machinery",
         "mansion_palette_16"
       ],
       "place_liquids": [
@@ -1295,6 +1299,7 @@
         "mansion_palette_crates",
         "mansion_palette_outdoor",
         "mansion_palette_rock",
+        "mansion_palette_machinery",
         "mansion_palette_22"
       ],
       "items": {
@@ -1844,6 +1849,7 @@
         "mansion_palette_crates",
         "mansion_palette_outdoor",
         "mansion_palette_rock",
+        "mansion_palette_machinery",
         "mansion_palette_31"
       ],
       "items": {
@@ -2019,6 +2025,7 @@
         "mansion_palette_crates",
         "mansion_palette_outdoor",
         "mansion_palette_rock",
+        "mansion_palette_machinery",
         "mansion_palette_34"
       ],
       "items": {
@@ -2386,6 +2393,7 @@
         "mansion_palette_crates",
         "mansion_palette_outdoor",
         "mansion_palette_rock",
+        "mansion_palette_machinery",
         "mansion_palette_40"
       ],
       "items": {
@@ -2557,6 +2565,7 @@
         "mansion_palette_crates",
         "mansion_palette_outdoor",
         "mansion_palette_rock",
+        "mansion_palette_machinery",
         "mansion_palette_43"
       ],
       "items": {
@@ -2916,6 +2925,7 @@
         "mansion_palette_crates",
         "mansion_palette_outdoor",
         "mansion_palette_rock",
+        "mansion_palette_machinery",
         "mansion_palette_49"
       ],
       "items": {
@@ -3106,6 +3116,7 @@
         "mansion_palette_crates",
         "mansion_palette_outdoor",
         "mansion_palette_rock",
+        "mansion_palette_machinery",
         "mansion_palette_52"
       ],
       "place_liquids": [

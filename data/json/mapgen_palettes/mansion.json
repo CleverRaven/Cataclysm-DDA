@@ -9,6 +9,16 @@
   },
   {
     "type": "palette",
+    "id": "mansion_palette_machinery",
+    "furniture": {
+      "*": "t_machinery_old",
+      "?": "t_generator_broken",
+      "]": "t_sewage_pipe",
+      "p": "t_sewage_pump"
+    }
+  },
+  {
+    "type": "palette",
     "id": "mansion_palette_outdoor",
     "furniture": {
       "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
@@ -34,10 +44,7 @@
       "%": "t_door_locked_interior",
       "+": "t_door_c",
       "<": "t_stairs_up",
-      "?": "t_generator_broken",
-      "X": "t_brick_wall",
-      "]": "t_sewage_pipe",
-      "p": "t_sewage_pump"
+      "X": "t_brick_wall"
     }
   },
   {
@@ -225,9 +232,7 @@
       "R": "t_carpet_red",
       "T": "t_carpet_red",
       "X": "t_brick_wall",
-      "Z": "t_carpet_red",
-      "]": "t_sewage_pipe",
-      "p": "t_sewage_pump"
+      "Z": "t_carpet_red"
     }
   },
   {
@@ -316,12 +321,8 @@
       "w": "f_washer"
     },
     "terrain": {
-      "*": "t_machinery_old",
-      "?": "t_generator_broken",
       "X": "t_brick_wall",
       "[": "t_chaingate_l",
-      "]": "t_sewage_pipe",
-      "p": "t_sewage_pump",
       "|": "t_chainfence_v"
     }
   },
@@ -405,12 +406,9 @@
       "t": "f_table"
     },
     "terrain": {
-      "*": "t_machinery_old",
       "+": "t_door_c",
       "X": "t_brick_wall",
       "[": "t_chaingate_l",
-      "]": "t_sewage_pipe",
-      "p": "t_sewage_pump",
       "|": "t_chainfence_v"
     }
   },
@@ -604,13 +602,11 @@
       "%": "t_door_locked_interior",
       "&": "t_console_broken",
       ")": "t_linoleum_gray",
-      "*": "t_machinery_old",
       "+": "t_door_c",
       "-": "t_carpet_red",
       "2": "t_carpet_red",
       "3": "t_linoleum_gray",
       "=": "t_linoleum_gray",
-      "?": "t_generator_broken",
       "C": "t_linoleum_gray",
       "D": "t_carpet_red",
       "G": "t_linoleum_gray",
@@ -619,9 +615,7 @@
       "W": "t_linoleum_gray",
       "X": "t_brick_wall",
       "Y": "t_linoleum_gray",
-      "]": "t_sewage_pipe",
-      "o": "t_carpet_red",
-      "p": "t_sewage_pump"
+      "o": "t_carpet_red"
     }
   },
   {
@@ -896,17 +890,13 @@
       "%": "t_door_metal_locked",
       "&": "t_console_broken",
       ")": "t_carpet_red",
-      "*": "t_machinery_old",
       "+": "t_door_c",
       "-": "t_carpet_red",
       "2": "t_carpet_red",
-      "?": "t_generator_broken",
       "D": "t_carpet_red",
       "S": "t_carpet_red",
       "T": "t_carpet_red",
-      "X": "t_brick_wall",
-      "]": "t_sewage_pipe",
-      "p": "t_sewage_pump"
+      "X": "t_brick_wall"
     }
   },
   {
@@ -973,13 +963,9 @@
     },
     "terrain": {
       "%": "t_door_metal_locked",
-      "*": "t_machinery_old",
       "+": "t_door_c",
-      "?": "t_generator_broken",
       "X": "t_brick_wall",
-      "]": "t_sewage_pipe",
-      "o": "t_door_locked_interior",
-      "p": "t_sewage_pump"
+      "o": "t_door_locked_interior"
     }
   },
   {
@@ -1119,12 +1105,8 @@
     },
     "terrain": {
       "%": "t_door_locked_interior",
-      "*": "t_machinery_old",
       "+": "t_door_c",
-      "?": "t_generator_broken",
-      "X": "t_brick_wall",
-      "]": "t_sewage_pipe",
-      "p": "t_sewage_pump"
+      "X": "t_brick_wall"
     }
   },
   {
@@ -1203,12 +1185,8 @@
       "w": "f_washer"
     },
     "terrain": {
-      "*": "t_machinery_old",
       "+": "t_door_c",
-      "?": "t_generator_broken",
-      "X": "t_brick_wall",
-      "]": "t_sewage_pipe",
-      "p": "t_sewage_pump"
+      "X": "t_brick_wall"
     }
   },
   {
@@ -1364,18 +1342,14 @@
     },
     "terrain": {
       "%": "t_door_locked_interior",
-      "*": "t_machinery_old",
       "+": "t_door_c",
       "3": "t_linoleum_gray",
       "=": "t_linoleum_gray",
-      "?": "t_generator_broken",
       "G": "t_linoleum_gray",
       "R": "t_linoleum_gray",
       "T": "t_linoleum_gray",
       "W": "t_linoleum_gray",
-      "X": "t_brick_wall",
-      "]": "t_sewage_pipe",
-      "p": "t_sewage_pump"
+      "X": "t_brick_wall"
     }
   },
   {
@@ -1450,9 +1424,7 @@
       "+": "t_door_c",
       "<": "t_stairs_up",
       "X": "t_brick_wall",
-      "]": "t_sewage_pipe",
-      "o": "t_door_frame",
-      "p": "t_sewage_pump"
+      "o": "t_door_frame"
     }
   },
   {
