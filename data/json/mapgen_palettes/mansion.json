@@ -9,12 +9,18 @@
   },
   {
     "type": "palette",
+    "id": "mansion_palette_rock",
+    "terrain": {
+      "#": "t_rock"
+    }
+  },
+  {
+    "type": "palette",
     "id": "mansion_palette_01",
     "furniture": {
       "r": "f_rack"
     },
     "terrain": {
-      "#": "t_rock",
       "%": "t_door_locked_interior",
       "+": "t_door_c",
       "<": "t_stairs_up",
@@ -35,7 +41,6 @@
       "z": "f_dresser"
     },
     "terrain": {
-      "#": "t_pavement",
       "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
       "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
       "+": "t_door_c",
@@ -87,7 +92,6 @@
       "}": "f_pinball_machine"
     },
     "terrain": {
-      "#": "t_rock",
       "+": "t_door_c",
       "-": "t_carpet_red",
       "2": "t_carpet_red",
@@ -107,7 +111,6 @@
       "t": "f_table"
     },
     "terrain": {
-      "#": "t_thconc_floor",
       "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
       "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
       "+": "t_door_c",
@@ -117,7 +120,8 @@
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "O": "t_window_domestic",
-      "X": "t_wall"
+      "X": "t_wall",
+      "_": "t_thconc_floor"
     }
   },
   {
@@ -154,7 +158,6 @@
       "r": "f_rack"
     },
     "terrain": {
-      "#": "t_rock",
       "X": "t_brick_wall"
     }
   },
@@ -218,7 +221,6 @@
       "w": "f_washer"
     },
     "terrain": {
-      "#": "t_rock",
       "%": "t_door_locked_interior",
       "+": "t_door_c",
       "-": "t_carpet_red",
@@ -324,7 +326,6 @@
       "w": "f_washer"
     },
     "terrain": {
-      "#": "t_rock",
       "*": "t_machinery_old",
       "?": "t_generator_broken",
       "X": "t_brick_wall",
@@ -419,7 +420,6 @@
       "t": "f_table"
     },
     "terrain": {
-      "#": "t_rock",
       "*": "t_machinery_old",
       "+": "t_door_c",
       "X": "t_brick_wall",
@@ -514,7 +514,6 @@
       "t": "f_table"
     },
     "terrain": {
-      "#": "t_rock",
       "+": "t_door_c",
       "-": "t_carpet_red",
       "/": "t_linoleum_gray",
@@ -629,7 +628,6 @@
       "t": "f_table"
     },
     "terrain": {
-      "#": "t_rock",
       "%": "t_door_locked_interior",
       "&": "t_console_broken",
       ")": "t_linoleum_gray",
@@ -769,7 +767,6 @@
       "t": "f_table"
     },
     "terrain": {
-      "#": "t_rock",
       "+": "t_door_c",
       "-": "t_carpet_red",
       "<": "t_stairs_up",
@@ -860,7 +857,6 @@
       "r": "f_rack"
     },
     "terrain": {
-      "#": "t_rock",
       "+": "t_door_c",
       "X": "t_brick_wall"
     }
@@ -1052,7 +1048,6 @@
       "u": "f_exercise"
     },
     "terrain": {
-      "#": "t_floor_waxed",
       "%": "t_backboard_in",
       "'": "t_backboard",
       "+": "t_door_c",
@@ -1065,6 +1060,7 @@
       "P": "t_linoleum_gray",
       "X": "t_wall",
       "Y": "t_linoleum_gray",
+      "`": "t_floor_waxed",
       "j": "t_linoleum_gray",
       "o": "t_door_glass_c",
       "x": "t_wall_glass"
@@ -1096,7 +1092,6 @@
       "r": "f_rack"
     },
     "terrain": {
-      "#": "t_rock",
       "%": "t_door_locked_interior",
       "&": "t_console_broken",
       ")": "t_carpet_red",
@@ -1178,7 +1173,6 @@
       "r": "f_rack"
     },
     "terrain": {
-      "#": "t_rock",
       "%": "t_door_locked_interior",
       "*": "t_machinery_old",
       "+": "t_door_c",
@@ -1270,7 +1264,6 @@
       "w": "f_washer"
     },
     "terrain": {
-      "#": "t_rock",
       "*": "t_machinery_old",
       "+": "t_door_c",
       "?": "t_generator_broken",
@@ -1367,7 +1360,6 @@
       "u": "f_exercise"
     },
     "terrain": {
-      "#": "t_rock",
       "+": "t_door_c",
       "X": "t_brick_wall"
     }
@@ -1442,7 +1434,6 @@
       "r": "f_rack"
     },
     "terrain": {
-      "#": "t_rock",
       "%": "t_door_locked_interior",
       "*": "t_machinery_old",
       "+": "t_door_c",
@@ -1533,7 +1524,6 @@
       "t": "f_table"
     },
     "terrain": {
-      "#": "t_rock",
       "+": "t_door_c",
       "<": "t_stairs_up",
       "X": "t_brick_wall",
