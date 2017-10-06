@@ -37,9 +37,8 @@
         "XXX++XXXXXXXXXXXXXX++XXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_machinery",
         "mansion_palette_01"
       ],
@@ -91,9 +90,8 @@
         "XXX++XXXXXXXXXXXXXX++XXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_02"
       ],
       "items": {
@@ -147,9 +145,8 @@
         "XXX++XXXXXXXXXXXXXX++XXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_03"
       ],
       "terrain": {
@@ -205,11 +202,13 @@
         "XXX++XXXXXXXXXXXXXX++XXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_04"
       ],
+      "furniture": {
+        "!": "f_arcade_machine"
+      },
       "items": {
         ".": { "item": "clutter_basement" },
         "T": { "item": "table_card", "chance": 40 },
@@ -261,9 +260,8 @@
         "X......XXXXXXXXXX......X"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_05"
       ],
       "items": {
@@ -315,9 +313,8 @@
         "XXX++XXXXXXXXXXXXXX++XXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_06"
       ],
       "terrain": {
@@ -368,9 +365,8 @@
         "########################"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_07"
       ],
       "items": {
@@ -417,13 +413,15 @@
         "'''::::::::::::::::::'''"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_08"
       ],
       "terrain": {
         "/": "t_grass"
+      },
+      "furniture": {
+        "!": "f_dive_block"
       },
       "items": {
         ",": { "item": "clutter_yard" },
@@ -474,9 +472,8 @@
         "************************"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_09"
       ],
       "terrain": {
@@ -525,12 +522,15 @@
         "########################"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_machinery",
         "mansion_palette_10"
       ],
+      "furniture": {
+        "$": [ "f_shackle", "f_null" ],
+        "@": "f_mannequin"
+      },
       "items": {
         ".": { "item": "clutter_basement" },
         "B": { "item": "sex_lair", "chance": 40 },
@@ -585,9 +585,8 @@
         "''''''''''''''''''''''''"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_11"
       ],
       "toilets": {
@@ -650,9 +649,8 @@
         "************************"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_12"
       ],
       "terrain": {
@@ -718,9 +716,8 @@
         "########################"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_machinery",
         "mansion_palette_13"
       ],
@@ -776,11 +773,13 @@
         "''''''''''''''''''''''''"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_14"
       ],
+      "furniture": {
+        "$": "f_safe_l"
+      },
       "toilets": {
         "P": {}
       },
@@ -849,9 +848,8 @@
         "************************"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_15"
       ],
       "terrain": {
@@ -916,9 +914,8 @@
         "########################"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_machinery",
         "mansion_palette_16"
       ],
@@ -978,9 +975,8 @@
         "''''''''''''''''''''''''"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_17"
       ],
       "items": {
@@ -1042,9 +1038,8 @@
         "************************"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_18"
       ],
       "terrain": {
@@ -1106,9 +1101,8 @@
         "########################"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_19"
       ],
       "toilets": {
@@ -1165,9 +1159,8 @@
         "''''''''''''''''''''''''"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_20"
       ],
       "items": {
@@ -1225,14 +1218,16 @@
         "************************"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_21"
       ],
       "terrain": {
         "'": "t_flat_roof",
         "*": "t_open_air"
+      },
+      "furniture": {
+        "V": "f_counter"
       },
       "toilets": {
         "P": {}
@@ -1296,12 +1291,14 @@
         "########################"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_machinery",
         "mansion_palette_22"
       ],
+      "furniture": {
+        "o": "f_trashcan"
+      },
       "items": {
         ")": { "item": "trash_cart", "chance": 30 },
         ".": { "item": "clutter_basement" },
@@ -1363,9 +1360,8 @@
         "''''''''''''''''''''''''"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_23"
       ],
       "toilets": {
@@ -1431,9 +1427,8 @@
         "************************"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_24"
       ],
       "terrain": {
@@ -1505,9 +1500,8 @@
         "########################"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_25"
       ],
       "items": {
@@ -1563,9 +1557,8 @@
         "''''''''''''''''''''''''"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_26"
       ],
       "toilets": {
@@ -1627,14 +1620,16 @@
         "************************"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_27"
       ],
       "terrain": {
         " ": "t_open_air_rooved",
         "*": "t_open_air"
+      },
+      "furniture": {
+        "C": "f_table"
       },
       "items": {
         "-": { "item": "clutter_mansion", "chance": 3 },
@@ -1688,9 +1683,8 @@
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_28"
       ],
       "items": {
@@ -1737,15 +1731,17 @@
         "XXXXXOOXXXX++XXXXOOXXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_29"
       ],
       "terrain": {
         "*": "t_shrub",
         "/": "t_grass",
         "@": "t_grass"
+      },
+      "furniture": {
+        "@": [ "f_statue", "f_statue", "f_statue", "f_null", "f_null" ]
       },
       "items": {
         ",": { "item": "clutter_yard" },
@@ -1796,9 +1792,8 @@
         "XXXXXOOXXXX++XXXXOOXXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_30"
       ],
       "terrain": {
@@ -1846,12 +1841,15 @@
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_machinery",
         "mansion_palette_31"
       ],
+      "furniture": {
+        "$": "f_safe_l",
+        "C": "f_table"
+      },
       "items": {
         "$": { "item": "mansion_safe", "chance": 100 },
         "(": { "item": "trash_cart", "chance": 30 },
@@ -1912,11 +1910,13 @@
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_32"
       ],
+      "furniture": {
+        "c": "f_table"
+      },
       "toilets": {
         "P": {}
       },
@@ -1971,9 +1971,8 @@
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_33"
       ],
       "terrain": {
@@ -2022,12 +2021,14 @@
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_machinery",
         "mansion_palette_34"
       ],
+      "furniture": {
+        "$": "f_gunsafe_ml"
+      },
       "items": {
         "$": { "item": "mansion_gunsafe", "chance": 100 },
         ".": { "item": "clutter_basement" },
@@ -2086,9 +2087,8 @@
         "XXXXXOOXXXX++XXXXXXXXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_35"
       ],
       "terrain": {
@@ -2096,6 +2096,10 @@
         "'": "t_backboard",
         "-": "t_floor_waxed_y",
         "`": "t_floor_waxed"
+      },
+      "furniture": {
+        "2": "f_bench",
+        "3": "f_bench"
       },
       "toilets": {
         "P": {}
@@ -2160,9 +2164,8 @@
         "XXXXXOOXXXX++XXXXXXXXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_36"
       ],
       "terrain": {
@@ -2211,9 +2214,8 @@
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_37"
       ],
       "toilets": {
@@ -2271,9 +2273,8 @@
         "XXXXXOOXXXX++XXXXOOXXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_38"
       ],
       "terrain": {
@@ -2334,9 +2335,8 @@
         "XXXXXOOXXXX++XXXXOOXXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_39"
       ],
       "terrain": {
@@ -2390,9 +2390,8 @@
         "#######XXXXXXXXXX++XXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_machinery",
         "mansion_palette_40"
       ],
@@ -2441,11 +2440,13 @@
         "'':::::XXXXXXXXXX++XXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_41"
       ],
+      "furniture": {
+        "!": "f_dive_block"
+      },
       "toilets": {
         "P": {}
       },
@@ -2498,9 +2499,8 @@
         "*******XXXXXXXXXX++XXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_42"
       ],
       "terrain": {
@@ -2562,9 +2562,8 @@
         "#######XXXXXXXXXX++XXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_machinery",
         "mansion_palette_43"
       ],
@@ -2618,9 +2617,8 @@
         "'':::::XXXXXXXXXX++XXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_44"
       ],
       "toilets": {
@@ -2681,9 +2679,8 @@
         "*******XXXXXXXXXX++XXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_45"
       ],
       "terrain": {
@@ -2750,9 +2747,8 @@
         "#######XXXXXXXXXX++XXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_46"
       ],
       "items": {
@@ -2803,9 +2799,8 @@
         "'':::::XXXXXXXXXX++XXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_47"
       ],
       "toilets": {
@@ -2863,14 +2858,16 @@
         "*******XXXXXXXXXX++XXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_48"
       ],
       "terrain": {
         " ": "t_open_air_rooved",
         "*": "t_open_air"
+      },
+      "furniture": {
+        "c": "f_table"
       },
       "items": {
         ".": { "item": "clutter_mansion" },
@@ -2922,9 +2919,8 @@
         "######XXXXXXXXXXX++XXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_machinery",
         "mansion_palette_49"
       ],
@@ -2984,9 +2980,8 @@
         "''::::XXXXXXXXXXX++XXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_50"
       ],
       "toilets": {
@@ -3051,9 +3046,8 @@
         "******XXXXXXXXXXX++XXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_51"
       ],
       "terrain": {
@@ -3113,9 +3107,8 @@
         "######XXXXXXXXXXX++XXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_machinery",
         "mansion_palette_52"
       ],
@@ -3173,9 +3166,8 @@
         "''::::XXXXXXXXXXX++XXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_53"
       ],
       "items": {
@@ -3235,9 +3227,8 @@
         "******XXXXXXXXXXX++XXXXX"
       ],
       "palettes": [
-        "mansion_palette_crates",
+        "mansion_palette_common",
         "mansion_palette_outdoor",
-        "mansion_palette_rock",
         "mansion_palette_54"
       ],
       "terrain": {

@@ -1,16 +1,78 @@
 [
   {
     "type": "palette",
-    "id": "mansion_palette_crates",
+    "id": "mansion_palette_common",
     "furniture": {
+      "(": "f_trashcan",
+      ")": "f_trashcan",
+      "/": "f_bench",
+      "1": "f_chair",
+      "2": "f_chair",
+      "3": "f_chair",
+      "4": "f_chair",
+      "5": "f_indoor_plant",
+      "6": "f_indoor_plant",
+      "7": "f_indoor_plant",
+      "8": "f_indoor_plant_y",
+      "9": "f_indoor_plant_y",
+      "?": "f_fireplace",
+      "@": "f_statue",
+      "A": "f_armchair",
+      "B": "f_bed",
+      "C": "f_counter",
+      "D": "f_desk",
+      "F": "f_fridge",
+      "G": "f_dryer",
+      "H": "f_treadmill",
+      "I": "f_ergometer",
+      "J": "f_bathtub",
       "K": [ "f_crate_c", "f_crate_o" ],
-      "L": [ "f_crate_c", "f_crate_o" ]
+      "L": [ "f_crate_c", "f_crate_o" ],
+      "M": "f_locker",
+      "Q": "f_oven",
+      "R": "f_rack",
+      "S": "f_sofa",
+      "T": "f_table",
+      "U": "f_exercise",
+      "V": "f_table",
+      "W": "f_washer",
+      "Y": "f_sink",
+      "Z": "f_dresser",
+      "a": "f_armchair",
+      "b": "f_bed",
+      "c": "f_counter",
+      "d": "f_desk",
+      "e": "f_pool_table",
+      "f": "f_fridge",
+      "g": "f_dryer",
+      "h": "f_treadmill",
+      "i": "f_ergometer",
+      "j": "f_shower",
+      "l": "f_bookcase",
+      "m": "f_locker",
+      "n": "f_cupboard",
+      "q": "f_oven",
+      "r": "f_rack",
+      "s": "f_sofa",
+      "t": "f_table",
+      "u": "f_exercise",
+      "v": "f_table",
+      "w": "f_washer",
+      "y": "f_sink",
+      "z": "f_dresser",
+      "}": "f_pinball_machine"
+    },
+    "terrain": {
+      "#": "t_rock",
+      "+": "t_door_c",
+      "<": "t_stairs_up",
+      ">": "t_stairs_down"
     }
   },
   {
     "type": "palette",
     "id": "mansion_palette_machinery",
-    "furniture": {
+    "terrain": {
       "*": "t_machinery_old",
       "?": "t_generator_broken",
       "]": "t_sewage_pipe",
@@ -20,7 +82,7 @@
   {
     "type": "palette",
     "id": "mansion_palette_outdoor",
-    "furniture": {
+    "terrain": {
       "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
       "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
       "0": [ "t_tree", "t_tree", "t_tree", "t_grass", "t_dirt" ],
@@ -29,39 +91,17 @@
   },
   {
     "type": "palette",
-    "id": "mansion_palette_rock",
-    "terrain": {
-      "#": "t_rock"
-    }
-  },
-  {
-    "type": "palette",
     "id": "mansion_palette_01",
-    "furniture": {
-      "r": "f_rack"
-    },
     "terrain": {
       "%": "t_door_locked_interior",
-      "+": "t_door_c",
-      "<": "t_stairs_up",
       "X": "t_brick_wall"
     }
   },
   {
     "type": "palette",
     "id": "mansion_palette_02",
-    "furniture": {
-      "5": "f_indoor_plant",
-      "a": "f_armchair",
-      "m": "f_locker",
-      "t": "f_table",
-      "z": "f_dresser"
-    },
     "terrain": {
-      "+": "t_door_c",
       ",": "t_sidewalk",
-      "<": "t_stairs_up",
-      ">": "t_stairs_down",
       "O": "t_window_domestic",
       "X": "t_wall"
     }
@@ -69,19 +109,8 @@
   {
     "type": "palette",
     "id": "mansion_palette_03",
-    "furniture": {
-      "5": "f_indoor_plant",
-      "?": "f_fireplace",
-      "A": "f_armchair",
-      "S": "f_sofa",
-      "T": "f_table",
-      "c": "f_counter",
-      "s": "f_sofa"
-    },
     "terrain": {
-      "+": "t_door_c",
       "-": "t_carpet_red",
-      ">": "t_stairs_down",
       "A": "t_carpet_red",
       "O": "t_window_domestic",
       "S": "t_carpet_red",
@@ -92,23 +121,9 @@
   {
     "type": "palette",
     "id": "mansion_palette_04",
-    "furniture": {
-      "!": "f_arcade_machine",
-      "1": "f_chair",
-      "2": "f_chair",
-      "T": "f_table",
-      "c": "f_counter",
-      "f": "f_fridge",
-      "m": "f_locker",
-      "r": "f_rack",
-      "y": "f_sink",
-      "}": "f_pinball_machine"
-    },
     "terrain": {
-      "+": "t_door_c",
       "-": "t_carpet_red",
       "2": "t_carpet_red",
-      "<": "t_stairs_up",
       "T": "t_carpet_red",
       "X": "t_brick_wall"
     }
@@ -116,19 +131,9 @@
   {
     "type": "palette",
     "id": "mansion_palette_05",
-    "furniture": {
-      "5": "f_indoor_plant",
-      "@": "f_statue",
-      "a": "f_armchair",
-      "s": "f_sofa",
-      "t": "f_table"
-    },
     "terrain": {
-      "+": "t_door_c",
       ",": "t_sidewalk",
       "-": "t_carpet_red",
-      "<": "t_stairs_up",
-      ">": "t_stairs_down",
       "O": "t_window_domestic",
       "X": "t_wall",
       "_": "t_thconc_floor"
@@ -137,19 +142,9 @@
   {
     "type": "palette",
     "id": "mansion_palette_06",
-    "furniture": {
-      "5": "f_indoor_plant",
-      "8": "f_indoor_plant_y",
-      "A": "f_armchair",
-      "S": "f_sofa",
-      "T": "f_table",
-      "t": "f_table"
-    },
     "terrain": {
-      "+": "t_door_c",
       ",": "t_concrete",
       "-": "t_carpet_red",
-      ">": "t_stairs_down",
       "A": "t_carpet_red",
       "O": "t_window_domestic",
       "S": "t_carpet_red",
@@ -161,10 +156,6 @@
   {
     "type": "palette",
     "id": "mansion_palette_07",
-    "furniture": {
-      "m": "f_locker",
-      "r": "f_rack"
-    },
     "terrain": {
       "X": "t_brick_wall"
     }
@@ -172,14 +163,6 @@
   {
     "type": "palette",
     "id": "mansion_palette_08",
-    "furniture": {
-      "!": "f_dive_block",
-      "/": "f_bench",
-      "4": "f_chair",
-      "?": "f_fireplace",
-      "a": "f_armchair",
-      "c": "f_counter"
-    },
     "terrain": {
       "!": "t_concrete",
       ",": "t_sidewalk",
@@ -202,29 +185,8 @@
   {
     "type": "palette",
     "id": "mansion_palette_10",
-    "furniture": {
-      "$": [ "f_shackle", "f_null" ],
-      "2": "f_chair",
-      "@": "f_mannequin",
-      "B": "f_bed",
-      "R": "f_rack",
-      "T": "f_table",
-      "Z": "f_dresser",
-      "a": "f_armchair",
-      "b": "f_bed",
-      "c": "f_counter",
-      "d": "f_desk",
-      "g": "f_dryer",
-      "h": "f_treadmill",
-      "m": "f_locker",
-      "r": "f_rack",
-      "s": "f_sofa",
-      "t": "f_table",
-      "w": "f_washer"
-    },
     "terrain": {
       "%": "t_door_locked_interior",
-      "+": "t_door_c",
       "-": "t_carpet_red",
       "2": "t_carpet_red",
       "@": "t_carpet_red",
@@ -238,24 +200,8 @@
   {
     "type": "palette",
     "id": "mansion_palette_11",
-    "furniture": {
-      "1": "f_chair",
-      "5": "f_indoor_plant",
-      "B": "f_bed",
-      "J": "f_bathtub",
-      "N": "f_cupboard",
-      "Y": "f_sink",
-      "b": "f_bed",
-      "c": "f_counter",
-      "d": "f_desk",
-      "j": "f_shower",
-      "s": "f_sofa",
-      "t": "f_table",
-      "z": "f_dresser"
-    },
     "terrain": {
       "&": "t_console_broken",
-      "+": "t_door_c",
       "-": "t_carpet_red",
       "=": "t_linoleum_gray",
       "B": "t_carpet_red",
@@ -271,25 +217,8 @@
   {
     "type": "palette",
     "id": "mansion_palette_12",
-    "furniture": {
-      "1": "f_chair",
-      "5": "f_indoor_plant",
-      "B": "f_bed",
-      "J": "f_bathtub",
-      "N": "f_cupboard",
-      "Y": "f_sink",
-      "a": "f_armchair",
-      "b": "f_bed",
-      "c": "f_counter",
-      "d": "f_desk",
-      "j": "f_shower",
-      "s": "f_sofa",
-      "t": "f_table",
-      "z": "f_dresser"
-    },
     "terrain": {
       "&": "t_console_broken",
-      "+": "t_door_c",
       "-": "t_carpet_red",
       "=": "t_linoleum_gray",
       "B": "t_carpet_red",
@@ -305,21 +234,6 @@
   {
     "type": "palette",
     "id": "mansion_palette_13",
-    "furniture": {
-      "(": "f_trashcan",
-      "/": "f_bench",
-      "@": "f_statue",
-      "a": "f_armchair",
-      "d": "f_desk",
-      "g": "f_dryer",
-      "h": "f_treadmill",
-      "m": "f_locker",
-      "n": "f_cupboard",
-      "r": "f_rack",
-      "s": "f_sofa",
-      "u": "f_exercise",
-      "w": "f_washer"
-    },
     "terrain": {
       "X": "t_brick_wall",
       "[": "t_chaingate_l",
@@ -329,28 +243,9 @@
   {
     "type": "palette",
     "id": "mansion_palette_14",
-    "furniture": {
-      "$": "f_safe_l",
-      "1": "f_chair",
-      "5": "f_indoor_plant",
-      "B": "f_bed",
-      "J": "f_bathtub",
-      "N": "f_cupboard",
-      "T": "f_table",
-      "Y": "f_sink",
-      "a": "f_armchair",
-      "b": "f_bed",
-      "d": "f_desk",
-      "l": "f_bookcase",
-      "r": "f_rack",
-      "s": "f_sofa",
-      "t": "f_table",
-      "z": "f_dresser"
-    },
     "terrain": {
       "%": "t_door_metal_locked",
       "&": "t_console_broken",
-      "+": "t_door_c",
       ",": "t_carpet_red",
       "-": "t_carpet_red",
       "=": "t_linoleum_gray",
@@ -366,25 +261,8 @@
   {
     "type": "palette",
     "id": "mansion_palette_15",
-    "furniture": {
-      "(": "f_trashcan",
-      "1": "f_chair",
-      "?": "f_fireplace",
-      "A": "f_armchair",
-      "J": "f_bathtub",
-      "Y": "f_sink",
-      "b": "f_bed",
-      "d": "f_desk",
-      "j": "f_shower",
-      "l": "f_bookcase",
-      "s": "f_sofa",
-      "t": "f_table",
-      "v": "f_table",
-      "z": "f_dresser"
-    },
     "terrain": {
       "&": "t_console_broken",
-      "+": "t_door_c",
       "-": "t_carpet_red",
       "=": "t_linoleum_gray",
       "A": "t_carpet_red",
@@ -399,14 +277,7 @@
   {
     "type": "palette",
     "id": "mansion_palette_16",
-    "furniture": {
-      "f": "f_fridge",
-      "m": "f_locker",
-      "r": "f_rack",
-      "t": "f_table"
-    },
     "terrain": {
-      "+": "t_door_c",
       "X": "t_brick_wall",
       "[": "t_chaingate_l",
       "|": "t_chainfence_v"
@@ -415,25 +286,8 @@
   {
     "type": "palette",
     "id": "mansion_palette_17",
-    "furniture": {
-      ")": "f_trashcan",
-      "2": "f_chair",
-      "5": "f_indoor_plant",
-      "?": "f_fireplace",
-      "C": "f_counter",
-      "F": "f_fridge",
-      "N": "f_cupboard",
-      "Q": "f_oven",
-      "R": "f_rack",
-      "T": "f_table",
-      "Y": "f_sink",
-      "a": "f_armchair",
-      "c": "f_counter",
-      "t": "f_table"
-    },
     "terrain": {
       ")": "t_linoleum_gray",
-      "+": "t_door_c",
       "-": "t_carpet_red",
       "2": "t_carpet_red",
       "=": "t_linoleum_gray",
@@ -451,19 +305,7 @@
   {
     "type": "palette",
     "id": "mansion_palette_18",
-    "furniture": {
-      "1": "f_chair",
-      "5": "f_indoor_plant",
-      "J": "f_bathtub",
-      "N": "f_cupboard",
-      "Y": "f_sink",
-      "b": "f_bed",
-      "d": "f_desk",
-      "t": "f_table",
-      "z": "f_dresser"
-    },
     "terrain": {
-      "+": "t_door_c",
       "=": "t_linoleum_gray",
       "J": "t_linoleum_gray",
       "N": "t_linoleum_gray",
@@ -477,24 +319,9 @@
   {
     "type": "palette",
     "id": "mansion_palette_19",
-    "furniture": {
-      "/": "f_bench",
-      "3": "f_chair",
-      "C": "f_counter",
-      "H": "f_treadmill",
-      "I": "f_ergometer",
-      "M": "f_locker",
-      "U": "f_exercise",
-      "Y": "f_sink",
-      "j": "f_shower",
-      "r": "f_rack",
-      "t": "f_table"
-    },
     "terrain": {
-      "+": "t_door_c",
       "-": "t_carpet_red",
       "/": "t_linoleum_gray",
-      "<": "t_stairs_up",
       "=": "t_linoleum_gray",
       "C": "t_linoleum_gray",
       "H": "t_linoleum_gray",
@@ -512,28 +339,11 @@
   {
     "type": "palette",
     "id": "mansion_palette_20",
-    "furniture": {
-      "(": "f_trashcan",
-      "1": "f_chair",
-      "2": "f_chair",
-      "5": "f_indoor_plant",
-      "a": "f_armchair",
-      "c": "f_counter",
-      "d": "f_desk",
-      "l": "f_bookcase",
-      "m": "f_locker",
-      "r": "f_rack",
-      "s": "f_sofa",
-      "t": "f_table"
-    },
     "terrain": {
       "%": "t_door_locked_interior",
       "&": "t_console_broken",
-      "+": "t_door_c",
       "-": "t_carpet_red",
       "2": "t_carpet_red",
-      "<": "t_stairs_up",
-      ">": "t_stairs_down",
       "O": "t_window_domestic",
       "X": "t_wall"
     }
@@ -541,30 +351,11 @@
   {
     "type": "palette",
     "id": "mansion_palette_21",
-    "furniture": {
-      "(": "f_trashcan",
-      "1": "f_chair",
-      "B": "f_bed",
-      "C": "f_counter",
-      "J": "f_bathtub",
-      "M": "f_locker",
-      "N": "f_cupboard",
-      "V": "f_counter",
-      "Y": "f_sink",
-      "Z": "f_dresser",
-      "b": "f_bed",
-      "d": "f_desk",
-      "m": "f_locker",
-      "t": "f_table",
-      "z": "f_dresser"
-    },
     "terrain": {
       "%": "t_door_locked_interior",
       "&": "t_console_broken",
-      "+": "t_door_c",
       "-": "t_carpet_red",
       "=": "t_linoleum_gray",
-      ">": "t_stairs_down",
       "B": "t_carpet_red",
       "C": "t_carpet_red",
       "J": "t_linoleum_gray",
@@ -579,30 +370,10 @@
   {
     "type": "palette",
     "id": "mansion_palette_22",
-    "furniture": {
-      ")": "f_trashcan",
-      "1": "f_chair",
-      "2": "f_chair",
-      "3": "f_chair",
-      "C": "f_counter",
-      "D": "f_desk",
-      "G": "f_dryer",
-      "R": "f_rack",
-      "T": "f_table",
-      "W": "f_washer",
-      "Y": "f_sink",
-      "h": "f_treadmill",
-      "m": "f_locker",
-      "o": "f_trashcan",
-      "r": "f_rack",
-      "s": "f_sofa",
-      "t": "f_table"
-    },
     "terrain": {
       "%": "t_door_locked_interior",
       "&": "t_console_broken",
       ")": "t_linoleum_gray",
-      "+": "t_door_c",
       "-": "t_carpet_red",
       "2": "t_carpet_red",
       "3": "t_linoleum_gray",
@@ -621,28 +392,7 @@
   {
     "type": "palette",
     "id": "mansion_palette_23",
-    "furniture": {
-      "1": "f_chair",
-      "2": "f_chair",
-      "5": "f_indoor_plant",
-      "?": "f_fireplace",
-      "B": "f_bed",
-      "C": "f_counter",
-      "D": "f_desk",
-      "J": "f_bathtub",
-      "S": "f_sofa",
-      "T": "f_table",
-      "Y": "f_sink",
-      "b": "f_bed",
-      "c": "f_counter",
-      "d": "f_desk",
-      "j": "f_shower",
-      "s": "f_sofa",
-      "t": "f_table",
-      "z": "f_dresser"
-    },
     "terrain": {
-      "+": "t_door_c",
       "-": "t_carpet_red",
       "2": "t_carpet_red",
       "=": "t_linoleum_gray",
@@ -663,32 +413,9 @@
   {
     "type": "palette",
     "id": "mansion_palette_24",
-    "furniture": {
-      "1": "f_chair",
-      "2": "f_chair",
-      "5": "f_indoor_plant",
-      "A": "f_armchair",
-      "B": "f_bed",
-      "C": "f_counter",
-      "D": "f_desk",
-      "J": "f_bathtub",
-      "N": "f_cupboard",
-      "T": "f_table",
-      "V": "f_table",
-      "Y": "f_sink",
-      "Z": "f_dresser",
-      "a": "f_armchair",
-      "b": "f_bed",
-      "j": "f_shower",
-      "m": "f_locker",
-      "r": "f_rack",
-      "t": "f_table",
-      "z": "f_dresser"
-    },
     "terrain": {
       "%": "t_door_locked_interior",
       "&": "t_console_broken",
-      "+": "t_door_c",
       "-": "t_carpet_red",
       "2": "t_carpet_red",
       "=": "t_linoleum_gray",
@@ -711,26 +438,8 @@
   {
     "type": "palette",
     "id": "mansion_palette_25",
-    "furniture": {
-      "(": "f_trashcan",
-      "/": "f_bench",
-      "1": "f_chair",
-      "@": "f_statue",
-      "C": "f_counter",
-      "F": "f_fridge",
-      "N": "f_cupboard",
-      "S": "f_sofa",
-      "T": "f_table",
-      "a": "f_armchair",
-      "d": "f_desk",
-      "h": "f_treadmill",
-      "q": "f_oven",
-      "t": "f_table"
-    },
     "terrain": {
-      "+": "t_door_c",
       "-": "t_carpet_red",
-      "<": "t_stairs_up",
       "C": "t_carpet_red",
       "F": "t_carpet_red",
       "N": "t_carpet_red",
@@ -743,26 +452,8 @@
   {
     "type": "palette",
     "id": "mansion_palette_26",
-    "furniture": {
-      "(": "f_trashcan",
-      "1": "f_chair",
-      "5": "f_indoor_plant",
-      "?": "f_fireplace",
-      "S": "f_sofa",
-      "T": "f_table",
-      "a": "f_armchair",
-      "d": "f_desk",
-      "e": "f_pool_table",
-      "l": "f_bookcase",
-      "n": "f_cupboard",
-      "s": "f_sofa",
-      "t": "f_table"
-    },
     "terrain": {
-      "+": "t_door_c",
       "-": "t_carpet_red",
-      "<": "t_stairs_up",
-      ">": "t_stairs_down",
       "O": "t_window_domestic",
       "S": "t_carpet_red",
       "T": "t_carpet_red",
@@ -772,26 +463,10 @@
   {
     "type": "palette",
     "id": "mansion_palette_27",
-    "furniture": {
-      "2": "f_chair",
-      "6": "f_indoor_plant",
-      "A": "f_armchair",
-      "C": "f_table",
-      "F": "f_fridge",
-      "N": "f_cupboard",
-      "S": "f_sofa",
-      "T": "f_table",
-      "V": "f_table",
-      "a": "f_armchair",
-      "s": "f_sofa",
-      "t": "f_table"
-    },
     "terrain": {
-      "+": "t_door_c",
       "-": "t_carpet_red",
       "2": "t_carpet_red",
       "6": "t_carpet_red",
-      ">": "t_stairs_down",
       "A": "t_carpet_red",
       "C": "t_carpet_red",
       "F": "t_carpet_red",
@@ -807,29 +482,14 @@
   {
     "type": "palette",
     "id": "mansion_palette_28",
-    "furniture": {
-      "m": "f_locker",
-      "r": "f_rack"
-    },
     "terrain": {
-      "+": "t_door_c",
       "X": "t_brick_wall"
     }
   },
   {
     "type": "palette",
     "id": "mansion_palette_29",
-    "furniture": {
-      "/": "f_bench",
-      "1": "f_chair",
-      "5": "f_indoor_plant",
-      "8": "f_indoor_plant_y",
-      "@": [ "f_statue", "f_statue", "f_statue", "f_null", "f_null" ],
-      "n": "f_cupboard",
-      "t": "f_table"
-    },
     "terrain": {
-      "+": "t_door_c",
       ",": "t_sidewalk",
       "O": "t_window_domestic",
       "X": "t_wall",
@@ -839,12 +499,7 @@
   {
     "type": "palette",
     "id": "mansion_palette_30",
-    "furniture": {
-      "4": "f_chair",
-      "7": "f_indoor_plant"
-    },
     "terrain": {
-      "+": "t_door_c",
       ",": "t_concrete",
       "4": "t_concrete",
       "7": "t_concrete",
@@ -856,41 +511,11 @@
   {
     "type": "palette",
     "id": "mansion_palette_31",
-    "furniture": {
-      "!": "f_arcade_machine",
-      "$": "f_safe_l",
-      "(": "f_trashcan",
-      ")": "f_trashcan",
-      "/": "f_bench",
-      "1": "f_chair",
-      "2": "f_chair",
-      "@": "f_statue",
-      "C": "f_table",
-      "D": "f_desk",
-      "S": "f_sofa",
-      "T": "f_table",
-      "a": "f_armchair",
-      "c": "f_counter",
-      "e": "f_pool_table",
-      "g": "f_dryer",
-      "h": "f_treadmill",
-      "m": "f_locker",
-      "n": "f_cupboard",
-      "q": "f_oven",
-      "r": "f_rack",
-      "s": "f_sofa",
-      "t": "f_table",
-      "u": "f_exercise",
-      "w": "f_washer",
-      "z": "f_dresser",
-      "}": "f_pinball_machine"
-    },
     "terrain": {
       "$": "t_carpet_red",
       "%": "t_door_metal_locked",
       "&": "t_console_broken",
       ")": "t_carpet_red",
-      "+": "t_door_c",
       "-": "t_carpet_red",
       "2": "t_carpet_red",
       "D": "t_carpet_red",
@@ -902,19 +527,7 @@
   {
     "type": "palette",
     "id": "mansion_palette_32",
-    "furniture": {
-      "1": "f_chair",
-      "7": "f_indoor_plant",
-      "@": "f_statue",
-      "C": "f_counter",
-      "T": "f_table",
-      "Y": "f_sink",
-      "c": "f_table",
-      "m": "f_locker",
-      "t": "f_table"
-    },
     "terrain": {
-      "+": "t_door_c",
       "7": "t_linoleum_gray",
       "=": "t_linoleum_gray",
       "C": "t_linoleum_gray",
@@ -927,14 +540,7 @@
   {
     "type": "palette",
     "id": "mansion_palette_33",
-    "furniture": {
-      "5": "f_indoor_plant",
-      "a": "f_armchair",
-      "s": "f_sofa",
-      "t": "f_table"
-    },
     "terrain": {
-      "+": "t_door_c",
       "-": "t_carpet_red",
       "X": "t_wall",
       "[": "t_chaingate_c",
@@ -944,26 +550,8 @@
   {
     "type": "palette",
     "id": "mansion_palette_34",
-    "furniture": {
-      "$": "f_gunsafe_ml",
-      "@": "f_statue",
-      "M": "f_locker",
-      "R": "f_rack",
-      "T": "f_table",
-      "a": "f_armchair",
-      "c": "f_counter",
-      "e": "f_pool_table",
-      "l": "f_bookcase",
-      "m": "f_locker",
-      "n": "f_cupboard",
-      "r": "f_rack",
-      "s": "f_sofa",
-      "t": "f_table",
-      "}": "f_pinball_machine"
-    },
     "terrain": {
       "%": "t_door_metal_locked",
-      "+": "t_door_c",
       "X": "t_brick_wall",
       "o": "t_door_locked_interior"
     }
@@ -971,24 +559,7 @@
   {
     "type": "palette",
     "id": "mansion_palette_35",
-    "furniture": {
-      "(": "f_trashcan",
-      "/": "f_bench",
-      "2": "f_bench",
-      "3": "f_bench",
-      "C": "f_counter",
-      "M": "f_locker",
-      "Y": "f_sink",
-      "f": "f_fridge",
-      "h": "f_treadmill",
-      "i": "f_ergometer",
-      "j": "f_shower",
-      "m": "f_locker",
-      "r": "f_rack",
-      "u": "f_exercise"
-    },
     "terrain": {
-      "+": "t_door_c",
       "3": "t_linoleum_gray",
       "=": "t_linoleum_gray",
       "C": "t_linoleum_gray",
@@ -1005,11 +576,7 @@
   {
     "type": "palette",
     "id": "mansion_palette_36",
-    "furniture": {
-      "/": "f_bench"
-    },
     "terrain": {
-      "+": "t_door_c",
       "O": "t_window_domestic",
       "X": "t_wall",
       "|": "t_railing_v"
@@ -1018,19 +585,10 @@
   {
     "type": "palette",
     "id": "mansion_palette_37",
-    "furniture": {
-      ")": "f_trashcan",
-      "D": "f_desk",
-      "F": "f_fridge",
-      "N": "f_cupboard",
-      "Y": "f_sink",
-      "r": "f_rack"
-    },
     "terrain": {
       "%": "t_door_locked_interior",
       "&": "t_console_broken",
       ")": "t_carpet_red",
-      "+": "t_door_c",
       "-": "t_carpet_red",
       "2": "t_carpet_red",
       "=": "t_linoleum_gray",
@@ -1045,26 +603,8 @@
   {
     "type": "palette",
     "id": "mansion_palette_38",
-    "furniture": {
-      ")": "f_trashcan",
-      "2": "f_chair",
-      "5": "f_indoor_plant",
-      "8": "f_indoor_plant_y",
-      "A": "f_armchair",
-      "C": "f_counter",
-      "D": "f_desk",
-      "S": "f_sofa",
-      "T": "f_table",
-      "a": "f_armchair",
-      "c": "f_counter",
-      "l": "f_bookcase",
-      "m": "f_locker",
-      "r": "f_rack",
-      "s": "f_sofa"
-    },
     "terrain": {
       ")": "t_carpet_red",
-      "+": "t_door_c",
       ",": "t_thconc_floor",
       "-": "t_carpet_red",
       "2": "t_carpet_red",
@@ -1079,15 +619,7 @@
   {
     "type": "palette",
     "id": "mansion_palette_39",
-    "furniture": {
-      "5": "f_indoor_plant",
-      "S": "f_sofa",
-      "a": "f_armchair",
-      "s": "f_sofa",
-      "t": "f_table"
-    },
     "terrain": {
-      "+": "t_door_c",
       ",": "t_concrete",
       "-": "t_carpet_red",
       "O": "t_window_domestic",
@@ -1099,33 +631,16 @@
   {
     "type": "palette",
     "id": "mansion_palette_40",
-    "furniture": {
-      "m": "f_locker",
-      "r": "f_rack"
-    },
     "terrain": {
       "%": "t_door_locked_interior",
-      "+": "t_door_c",
       "X": "t_brick_wall"
     }
   },
   {
     "type": "palette",
     "id": "mansion_palette_41",
-    "furniture": {
-      "!": "f_dive_block",
-      "/": "f_bench",
-      "3": "f_chair",
-      "5": "f_indoor_plant",
-      "9": "f_indoor_plant_y",
-      "@": "f_statue",
-      "C": "f_counter",
-      "Y": "f_sink",
-      "j": "f_shower"
-    },
     "terrain": {
       "!": "t_linoleum_gray",
-      "+": "t_door_c",
       "/": "t_linoleum_gray",
       "3": "t_linoleum_gray",
       "9": "t_linoleum_gray",
@@ -1144,22 +659,7 @@
   {
     "type": "palette",
     "id": "mansion_palette_42",
-    "furniture": {
-      "(": "f_trashcan",
-      "1": "f_chair",
-      "5": "f_indoor_plant",
-      "8": "f_indoor_plant_y",
-      "E": "f_pool_table",
-      "a": "f_armchair",
-      "c": "f_counter",
-      "f": "f_fridge",
-      "n": "f_cupboard",
-      "s": "f_sofa",
-      "t": "f_table",
-      "y": "f_sink"
-    },
     "terrain": {
-      "+": "t_door_c",
       "-": "t_carpet_red",
       "E": "t_carpet_red",
       "O": "t_window_domestic",
@@ -1171,49 +671,14 @@
   {
     "type": "palette",
     "id": "mansion_palette_43",
-    "furniture": {
-      "(": "f_trashcan",
-      "/": "f_bench",
-      "1": "f_chair",
-      "a": "f_armchair",
-      "d": "f_desk",
-      "g": "f_dryer",
-      "q": "f_oven",
-      "r": "f_rack",
-      "s": "f_sofa",
-      "t": "f_table",
-      "w": "f_washer"
-    },
     "terrain": {
-      "+": "t_door_c",
       "X": "t_brick_wall"
     }
   },
   {
     "type": "palette",
     "id": "mansion_palette_44",
-    "furniture": {
-      "1": "f_chair",
-      "5": "f_indoor_plant",
-      "N": "f_cupboard",
-      "Y": "f_sink",
-      "a": "f_armchair",
-      "c": "f_counter",
-      "e": "f_pool_table",
-      "f": "f_fridge",
-      "h": "f_treadmill",
-      "i": "f_ergometer",
-      "n": "f_cupboard",
-      "s": "f_sofa",
-      "t": "f_table",
-      "u": "f_exercise",
-      "v": "f_table",
-      "y": "f_sink",
-      "z": "f_dresser",
-      "}": "f_pinball_machine"
-    },
     "terrain": {
-      "+": "t_door_c",
       "=": "t_linoleum_gray",
       "N": "t_linoleum_gray",
       "O": "t_window_domestic",
@@ -1225,24 +690,8 @@
   {
     "type": "palette",
     "id": "mansion_palette_45",
-    "furniture": {
-      "1": "f_chair",
-      "2": "f_chair",
-      "B": "f_bed",
-      "D": "f_desk",
-      "J": "f_bathtub",
-      "N": "f_cupboard",
-      "T": "f_table",
-      "Y": "f_sink",
-      "Z": "f_dresser",
-      "b": "f_bed",
-      "d": "f_desk",
-      "t": "f_table",
-      "z": "f_dresser"
-    },
     "terrain": {
       "&": "t_console_broken",
-      "+": "t_door_c",
       "-": "t_carpet_red",
       "2": "t_carpet_red",
       "=": "t_linoleum_gray",
@@ -1262,37 +711,14 @@
   {
     "type": "palette",
     "id": "mansion_palette_46",
-    "furniture": {
-      "1": "f_chair",
-      "@": "f_statue",
-      "a": "f_armchair",
-      "d": "f_desk",
-      "s": "f_sofa",
-      "t": "f_table",
-      "u": "f_exercise"
-    },
     "terrain": {
-      "+": "t_door_c",
       "X": "t_brick_wall"
     }
   },
   {
     "type": "palette",
     "id": "mansion_palette_47",
-    "furniture": {
-      "1": "f_chair",
-      "2": "f_chair",
-      "5": "f_indoor_plant",
-      "?": "f_fireplace",
-      "D": "f_desk",
-      "Y": "f_sink",
-      "a": "f_armchair",
-      "l": "f_bookcase",
-      "s": "f_sofa",
-      "t": "f_table"
-    },
     "terrain": {
-      "+": "t_door_c",
       "-": "t_carpet_red",
       "2": "t_carpet_red",
       "=": "t_linoleum_gray",
@@ -1306,19 +732,7 @@
   {
     "type": "palette",
     "id": "mansion_palette_48",
-    "furniture": {
-      "5": "f_indoor_plant",
-      "A": "f_armchair",
-      "D": "f_desk",
-      "T": "f_table",
-      "c": "f_table",
-      "d": "f_desk",
-      "l": "f_bookcase",
-      "s": "f_sofa",
-      "t": "f_table"
-    },
     "terrain": {
-      "+": "t_door_c",
       "-": "t_carpet_red",
       "A": "t_carpet_red",
       "D": "t_carpet_red",
@@ -1331,18 +745,8 @@
   {
     "type": "palette",
     "id": "mansion_palette_49",
-    "furniture": {
-      "3": "f_chair",
-      "G": "f_dryer",
-      "R": "f_rack",
-      "T": "f_table",
-      "W": "f_washer",
-      "m": "f_locker",
-      "r": "f_rack"
-    },
     "terrain": {
       "%": "t_door_locked_interior",
-      "+": "t_door_c",
       "3": "t_linoleum_gray",
       "=": "t_linoleum_gray",
       "G": "t_linoleum_gray",
@@ -1355,27 +759,7 @@
   {
     "type": "palette",
     "id": "mansion_palette_50",
-    "furniture": {
-      "1": "f_chair",
-      "2": "f_chair",
-      "5": "f_indoor_plant",
-      "?": "f_fireplace",
-      "@": "f_statue",
-      "A": "f_armchair",
-      "B": "f_bed",
-      "C": "f_counter",
-      "J": "f_bathtub",
-      "T": "f_table",
-      "Y": "f_sink",
-      "b": "f_bed",
-      "c": "f_counter",
-      "d": "f_desk",
-      "l": "f_bookcase",
-      "t": "f_table",
-      "z": "f_dresser"
-    },
     "terrain": {
-      "+": "t_door_c",
       "-": "t_carpet_red",
       "2": "t_carpet_red",
       "=": "t_linoleum_gray",
@@ -1392,16 +776,7 @@
   {
     "type": "palette",
     "id": "mansion_palette_51",
-    "furniture": {
-      "1": "f_chair",
-      "N": "f_cupboard",
-      "Y": "f_sink",
-      "b": "f_bed",
-      "j": "f_shower",
-      "z": "f_dresser"
-    },
     "terrain": {
-      "+": "t_door_c",
       "=": "t_linoleum_gray",
       "N": "t_linoleum_gray",
       "O": "t_window_domestic",
@@ -1415,14 +790,7 @@
   {
     "type": "palette",
     "id": "mansion_palette_52",
-    "furniture": {
-      "f": "f_fridge",
-      "r": "f_rack",
-      "t": "f_table"
-    },
     "terrain": {
-      "+": "t_door_c",
-      "<": "t_stairs_up",
       "X": "t_brick_wall",
       "o": "t_door_frame"
     }
@@ -1430,25 +798,9 @@
   {
     "type": "palette",
     "id": "mansion_palette_53",
-    "furniture": {
-      ")": "f_trashcan",
-      "1": "f_chair",
-      "5": "f_indoor_plant",
-      "C": "f_counter",
-      "F": "f_fridge",
-      "N": "f_cupboard",
-      "Q": "f_oven",
-      "R": "f_rack",
-      "T": "f_table",
-      "Y": "f_sink",
-      "c": "f_counter",
-      "t": "f_table"
-    },
     "terrain": {
       ")": "t_linoleum_gray",
-      "+": "t_door_c",
       "=": "t_linoleum_gray",
-      ">": "t_stairs_down",
       "C": "t_linoleum_gray",
       "F": "t_linoleum_gray",
       "N": "t_linoleum_gray",
@@ -1462,20 +814,7 @@
   {
     "type": "palette",
     "id": "mansion_palette_54",
-    "furniture": {
-      "1": "f_chair",
-      "5": "f_indoor_plant",
-      "?": "f_fireplace",
-      "@": "f_statue",
-      "S": "f_sofa",
-      "T": "f_table",
-      "b": "f_bed",
-      "d": "f_desk",
-      "t": "f_table",
-      "z": "f_dresser"
-    },
     "terrain": {
-      "+": "t_door_c",
       "-": "t_carpet_red",
       "O": "t_window_domestic",
       "S": "t_carpet_red",
