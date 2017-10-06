@@ -64,9 +64,51 @@
     },
     "terrain": {
       "#": "t_rock",
+      "%": "t_door_locked_interior",
+      "&": "t_console_broken",
+      "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
+      "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
       "+": "t_door_c",
+      ",": "t_sidewalk",
+      "-": "t_carpet_red",
+      "/": "t_linoleum_gray",
+      "0": [ "t_tree", "t_tree", "t_tree", "t_grass", "t_dirt" ],
+      "2": "t_carpet_red",
+      "3": "t_linoleum_gray",
+      "4": "t_concrete",
+      "6": "t_carpet_red",
+      "7": "t_concrete",
+      "9": "t_linoleum_gray",
+      ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
       "<": "t_stairs_up",
-      ">": "t_stairs_down"
+      "=": "t_linoleum_gray",
+      ">": "t_stairs_down",
+      "A": "t_carpet_red",
+      "B": "t_carpet_red",
+      "D": "t_carpet_red",
+      "E": "t_carpet_red",
+      "G": "t_linoleum_gray",
+      "H": "t_linoleum_gray",
+      "I": "t_linoleum_gray",
+      "J": "t_linoleum_gray",
+      "M": "t_linoleum_gray",
+      "N": "t_linoleum_gray",
+      "O": "t_window_domestic",
+      "P": "t_linoleum_gray",
+      "Q": "t_linoleum_gray",
+      "S": "t_carpet_red",
+      "T": "t_carpet_red",
+      "U": "t_carpet_red",
+      "V": "t_carpet_red",
+      "W": "t_linoleum_gray",
+      "X": "t_wall",
+      "Y": "t_linoleum_gray",
+      "Z": "t_carpet_red",
+      "[": "t_chaingate_c",
+      "_": "t_thconc_floor",
+      "o": "t_door_frame",
+      "x": "t_wall_glass",
+      "|": "t_railing_v"
     }
   },
   {
@@ -81,136 +123,23 @@
   },
   {
     "type": "palette",
-    "id": "mansion_palette_common_outdoor",
-    "terrain": {
-      "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
-      "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
-      "0": [ "t_tree", "t_tree", "t_tree", "t_grass", "t_dirt" ],
-      ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ]
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_01",
-    "terrain": {
-      "%": "t_door_locked_interior",
-      "X": "t_brick_wall"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_02",
-    "terrain": {
-      ",": "t_sidewalk",
-      "O": "t_window_domestic",
-      "X": "t_wall"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_03",
-    "terrain": {
-      "-": "t_carpet_red",
-      "A": "t_carpet_red",
-      "O": "t_window_domestic",
-      "S": "t_carpet_red",
-      "T": "t_carpet_red",
-      "X": "t_wall"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_04",
-    "terrain": {
-      "-": "t_carpet_red",
-      "2": "t_carpet_red",
-      "T": "t_carpet_red",
-      "X": "t_brick_wall"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_05",
-    "terrain": {
-      ",": "t_sidewalk",
-      "-": "t_carpet_red",
-      "O": "t_window_domestic",
-      "X": "t_wall",
-      "_": "t_thconc_floor"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_06",
-    "terrain": {
-      ",": "t_concrete",
-      "-": "t_carpet_red",
-      "A": "t_carpet_red",
-      "O": "t_window_domestic",
-      "S": "t_carpet_red",
-      "T": "t_carpet_red",
-      "X": "t_wall",
-      "|": "t_railing_v"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_07",
+    "id": "mansion_palette_common_brick_wall",
     "terrain": {
       "X": "t_brick_wall"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_08",
-    "terrain": {
-      "!": "t_concrete",
-      ",": "t_sidewalk",
-      "4": "t_concrete",
-      "X": "t_wall",
-      "[": "t_chaingate_c",
-      "|": "t_chainfence_v",
-      "~": "t_water_dp"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_09",
-    "terrain": {
-      ",": "t_concrete",
-      "X": "t_wall",
-      "|": "t_railing_v"
     }
   },
   {
     "type": "palette",
     "id": "mansion_palette_10",
     "terrain": {
-      "%": "t_door_locked_interior",
-      "-": "t_carpet_red",
-      "2": "t_carpet_red",
       "@": "t_carpet_red",
-      "B": "t_carpet_red",
-      "R": "t_carpet_red",
-      "T": "t_carpet_red",
-      "X": "t_brick_wall",
-      "Z": "t_carpet_red"
+      "R": "t_carpet_red"
     }
   },
   {
     "type": "palette",
     "id": "mansion_palette_11",
     "terrain": {
-      "&": "t_console_broken",
-      "-": "t_carpet_red",
-      "=": "t_linoleum_gray",
-      "B": "t_carpet_red",
-      "J": "t_linoleum_gray",
-      "N": "t_linoleum_gray",
-      "O": "t_window_domestic",
-      "P": "t_linoleum_gray",
-      "X": "t_wall",
-      "Y": "t_linoleum_gray",
       "j": "t_linoleum_gray"
     }
   },
@@ -218,69 +147,21 @@
     "type": "palette",
     "id": "mansion_palette_12",
     "terrain": {
-      "&": "t_console_broken",
-      "-": "t_carpet_red",
-      "=": "t_linoleum_gray",
-      "B": "t_carpet_red",
-      "J": "t_linoleum_gray",
-      "N": "t_linoleum_gray",
-      "O": "t_window_domestic",
-      "P": "t_linoleum_gray",
-      "X": "t_wall",
-      "Y": "t_linoleum_gray",
       "j": "t_linoleum_gray"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_13",
-    "terrain": {
-      "X": "t_brick_wall",
-      "[": "t_chaingate_l",
-      "|": "t_chainfence_v"
     }
   },
   {
     "type": "palette",
     "id": "mansion_palette_14",
     "terrain": {
-      "%": "t_door_metal_locked",
-      "&": "t_console_broken",
-      ",": "t_carpet_red",
-      "-": "t_carpet_red",
-      "=": "t_linoleum_gray",
-      "B": "t_carpet_red",
-      "J": "t_linoleum_gray",
-      "N": "t_linoleum_gray",
-      "O": "t_window_domestic",
-      "P": "t_linoleum_gray",
-      "X": "t_wall",
-      "Y": "t_linoleum_gray"
+      ",": "t_carpet_red"
     }
   },
   {
     "type": "palette",
     "id": "mansion_palette_15",
     "terrain": {
-      "&": "t_console_broken",
-      "-": "t_carpet_red",
-      "=": "t_linoleum_gray",
-      "A": "t_carpet_red",
-      "J": "t_linoleum_gray",
-      "O": "t_window_domestic",
-      "P": "t_linoleum_gray",
-      "X": "t_wall",
-      "Y": "t_linoleum_gray",
       "j": "t_linoleum_gray"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_16",
-    "terrain": {
-      "X": "t_brick_wall",
-      "[": "t_chaingate_l",
-      "|": "t_chainfence_v"
     }
   },
   {
@@ -288,124 +169,40 @@
     "id": "mansion_palette_17",
     "terrain": {
       ")": "t_linoleum_gray",
-      "-": "t_carpet_red",
-      "2": "t_carpet_red",
-      "=": "t_linoleum_gray",
       "C": "t_linoleum_gray",
       "F": "t_linoleum_gray",
-      "N": "t_linoleum_gray",
-      "O": "t_window_domestic",
-      "Q": "t_linoleum_gray",
-      "R": "t_linoleum_gray",
-      "T": "t_carpet_red",
-      "X": "t_wall",
-      "Y": "t_linoleum_gray"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_18",
-    "terrain": {
-      "=": "t_linoleum_gray",
-      "J": "t_linoleum_gray",
-      "N": "t_linoleum_gray",
-      "O": "t_window_domestic",
-      "P": "t_linoleum_gray",
-      "X": "t_wall",
-      "Y": "t_linoleum_gray",
-      "|": "t_railing_v"
+      "R": "t_linoleum_gray"
     }
   },
   {
     "type": "palette",
     "id": "mansion_palette_19",
     "terrain": {
-      "-": "t_carpet_red",
-      "/": "t_linoleum_gray",
-      "=": "t_linoleum_gray",
       "C": "t_linoleum_gray",
-      "H": "t_linoleum_gray",
-      "I": "t_linoleum_gray",
-      "M": "t_linoleum_gray",
-      "P": "t_linoleum_gray",
-      "U": "t_carpet_red",
-      "X": "t_brick_wall",
-      "Y": "t_linoleum_gray",
-      "j": "t_linoleum_gray",
-      "o": "t_door_glass_c",
-      "x": "t_wall_glass"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_20",
-    "terrain": {
-      "%": "t_door_locked_interior",
-      "&": "t_console_broken",
-      "-": "t_carpet_red",
-      "2": "t_carpet_red",
-      "O": "t_window_domestic",
-      "X": "t_wall"
+      "j": "t_linoleum_gray"
     }
   },
   {
     "type": "palette",
     "id": "mansion_palette_21",
     "terrain": {
-      "%": "t_door_locked_interior",
-      "&": "t_console_broken",
-      "-": "t_carpet_red",
-      "=": "t_linoleum_gray",
-      "B": "t_carpet_red",
-      "C": "t_carpet_red",
-      "J": "t_linoleum_gray",
-      "N": "t_linoleum_gray",
-      "O": "t_window_domestic",
-      "P": "t_linoleum_gray",
-      "V": "t_carpet_red",
-      "X": "t_wall",
-      "Y": "t_linoleum_gray"
+      "C": "t_carpet_red"
     }
   },
   {
     "type": "palette",
     "id": "mansion_palette_22",
     "terrain": {
-      "%": "t_door_locked_interior",
-      "&": "t_console_broken",
       ")": "t_linoleum_gray",
-      "-": "t_carpet_red",
-      "2": "t_carpet_red",
-      "3": "t_linoleum_gray",
-      "=": "t_linoleum_gray",
       "C": "t_linoleum_gray",
-      "D": "t_carpet_red",
-      "G": "t_linoleum_gray",
-      "R": "t_linoleum_gray",
-      "T": "t_linoleum_gray",
-      "W": "t_linoleum_gray",
-      "X": "t_brick_wall",
-      "Y": "t_linoleum_gray",
-      "o": "t_carpet_red"
+      "R": "t_linoleum_gray"
     }
   },
   {
     "type": "palette",
     "id": "mansion_palette_23",
     "terrain": {
-      "-": "t_carpet_red",
-      "2": "t_carpet_red",
-      "=": "t_linoleum_gray",
-      "B": "t_carpet_red",
       "C": "t_linoleum_gray",
-      "D": "t_carpet_red",
-      "J": "t_linoleum_gray",
-      "O": "t_window_domestic",
-      "P": "t_linoleum_gray",
-      "S": "t_carpet_red",
-      "X": "t_wall",
-      "Y": "t_linoleum_gray",
-      "[": "t_chaingate_c",
       "d": "t_carpet_red",
       "j": "t_linoleum_gray"
     }
@@ -414,24 +211,7 @@
     "type": "palette",
     "id": "mansion_palette_24",
     "terrain": {
-      "%": "t_door_locked_interior",
-      "&": "t_console_broken",
-      "-": "t_carpet_red",
-      "2": "t_carpet_red",
-      "=": "t_linoleum_gray",
-      "A": "t_carpet_red",
-      "B": "t_carpet_red",
       "C": "t_linoleum_gray",
-      "D": "t_carpet_red",
-      "J": "t_linoleum_gray",
-      "N": "t_linoleum_gray",
-      "O": "t_window_domestic",
-      "P": "t_linoleum_gray",
-      "T": "t_carpet_red",
-      "V": "t_carpet_red",
-      "X": "t_wall",
-      "Y": "t_linoleum_gray",
-      "Z": "t_carpet_red",
       "j": "t_linoleum_gray"
     }
   },
@@ -439,360 +219,91 @@
     "type": "palette",
     "id": "mansion_palette_25",
     "terrain": {
-      "-": "t_carpet_red",
       "C": "t_carpet_red",
-      "F": "t_carpet_red",
-      "N": "t_carpet_red",
-      "O": "t_window_domestic",
-      "S": "t_carpet_red",
-      "T": "t_carpet_red",
-      "X": "t_brick_wall"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_26",
-    "terrain": {
-      "-": "t_carpet_red",
-      "O": "t_window_domestic",
-      "S": "t_carpet_red",
-      "T": "t_carpet_red",
-      "X": "t_wall"
+      "F": "t_carpet_red"
     }
   },
   {
     "type": "palette",
     "id": "mansion_palette_27",
     "terrain": {
-      "-": "t_carpet_red",
-      "2": "t_carpet_red",
-      "6": "t_carpet_red",
-      "A": "t_carpet_red",
       "C": "t_carpet_red",
-      "F": "t_carpet_red",
-      "N": "t_carpet_red",
-      "O": "t_window_domestic",
-      "S": "t_carpet_red",
-      "T": "t_carpet_red",
-      "V": "t_carpet_red",
-      "X": "t_wall",
-      "|": "t_railing_v"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_28",
-    "terrain": {
-      "X": "t_brick_wall"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_29",
-    "terrain": {
-      ",": "t_sidewalk",
-      "O": "t_window_domestic",
-      "X": "t_wall",
-      "~": "t_water_sh"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_30",
-    "terrain": {
-      ",": "t_concrete",
-      "4": "t_concrete",
-      "7": "t_concrete",
-      "O": "t_window_domestic",
-      "X": "t_wall",
-      "|": "t_railing_v"
+      "F": "t_carpet_red"
     }
   },
   {
     "type": "palette",
     "id": "mansion_palette_31",
     "terrain": {
-      "$": "t_carpet_red",
-      "%": "t_door_metal_locked",
-      "&": "t_console_broken",
-      ")": "t_carpet_red",
-      "-": "t_carpet_red",
-      "2": "t_carpet_red",
-      "D": "t_carpet_red",
-      "S": "t_carpet_red",
-      "T": "t_carpet_red",
-      "X": "t_brick_wall"
+      ")": "t_carpet_red"
     }
   },
   {
     "type": "palette",
     "id": "mansion_palette_32",
     "terrain": {
-      "7": "t_linoleum_gray",
-      "=": "t_linoleum_gray",
-      "C": "t_linoleum_gray",
-      "P": "t_linoleum_gray",
-      "T": "t_linoleum_gray",
-      "X": "t_wall",
-      "Y": "t_linoleum_gray"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_33",
-    "terrain": {
-      "-": "t_carpet_red",
-      "X": "t_wall",
-      "[": "t_chaingate_c",
-      "|": "t_railing_v"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_34",
-    "terrain": {
-      "%": "t_door_metal_locked",
-      "X": "t_brick_wall",
-      "o": "t_door_locked_interior"
+      "C": "t_linoleum_gray"
     }
   },
   {
     "type": "palette",
     "id": "mansion_palette_35",
     "terrain": {
-      "3": "t_linoleum_gray",
-      "=": "t_linoleum_gray",
       "C": "t_linoleum_gray",
-      "M": "t_linoleum_gray",
-      "O": "t_window_domestic",
-      "P": "t_linoleum_gray",
-      "X": "t_wall",
-      "Y": "t_linoleum_gray",
-      "j": "t_linoleum_gray",
-      "o": "t_door_glass_c",
-      "x": "t_wall_glass"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_36",
-    "terrain": {
-      "O": "t_window_domestic",
-      "X": "t_wall",
-      "|": "t_railing_v"
+      "j": "t_linoleum_gray"
     }
   },
   {
     "type": "palette",
     "id": "mansion_palette_37",
     "terrain": {
-      "%": "t_door_locked_interior",
-      "&": "t_console_broken",
       ")": "t_carpet_red",
-      "-": "t_carpet_red",
-      "2": "t_carpet_red",
-      "=": "t_linoleum_gray",
-      "D": "t_carpet_red",
-      "F": "t_carpet_red",
-      "N": "t_carpet_red",
-      "P": "t_linoleum_gray",
-      "X": "t_brick_wall",
-      "Y": "t_linoleum_gray"
+      "F": "t_carpet_red"
     }
   },
   {
     "type": "palette",
     "id": "mansion_palette_38",
     "terrain": {
-      ")": "t_carpet_red",
-      ",": "t_thconc_floor",
-      "-": "t_carpet_red",
-      "2": "t_carpet_red",
-      "A": "t_carpet_red",
-      "D": "t_carpet_red",
-      "O": "t_window_domestic",
-      "S": "t_carpet_red",
-      "T": "t_carpet_red",
-      "X": "t_wall"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_39",
-    "terrain": {
-      ",": "t_concrete",
-      "-": "t_carpet_red",
-      "O": "t_window_domestic",
-      "S": "t_carpet_red",
-      "X": "t_wall",
-      "|": "t_railing_v"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_40",
-    "terrain": {
-      "%": "t_door_locked_interior",
-      "X": "t_brick_wall"
+      ")": "t_carpet_red"
     }
   },
   {
     "type": "palette",
     "id": "mansion_palette_41",
     "terrain": {
-      "!": "t_linoleum_gray",
       "/": "t_linoleum_gray",
-      "3": "t_linoleum_gray",
-      "9": "t_linoleum_gray",
-      "=": "t_linoleum_gray",
       "@": "t_linoleum_gray",
       "C": "t_linoleum_gray",
-      "O": "t_window_domestic",
-      "P": "t_linoleum_gray",
-      "X": "t_wall",
-      "Y": "t_linoleum_gray",
-      "j": "t_linoleum_gray",
-      "x": "t_wall_glass",
-      "~": "t_water_pool"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_42",
-    "terrain": {
-      "-": "t_carpet_red",
-      "E": "t_carpet_red",
-      "O": "t_window_domestic",
-      "X": "t_wall",
-      "x": "t_wall_glass",
-      "|": "t_railing_v"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_43",
-    "terrain": {
-      "X": "t_brick_wall"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_44",
-    "terrain": {
-      "=": "t_linoleum_gray",
-      "N": "t_linoleum_gray",
-      "O": "t_window_domestic",
-      "P": "t_linoleum_gray",
-      "X": "t_wall",
-      "Y": "t_linoleum_gray"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_45",
-    "terrain": {
-      "&": "t_console_broken",
-      "-": "t_carpet_red",
-      "2": "t_carpet_red",
-      "=": "t_linoleum_gray",
-      "B": "t_carpet_red",
-      "D": "t_carpet_red",
-      "J": "t_linoleum_gray",
-      "N": "t_linoleum_gray",
-      "O": "t_window_domestic",
-      "P": "t_linoleum_gray",
-      "T": "t_carpet_red",
-      "X": "t_wall",
-      "Y": "t_linoleum_gray",
-      "Z": "t_carpet_red",
-      "o": "t_door_frame"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_46",
-    "terrain": {
-      "X": "t_brick_wall"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_47",
-    "terrain": {
-      "-": "t_carpet_red",
-      "2": "t_carpet_red",
-      "=": "t_linoleum_gray",
-      "D": "t_carpet_red",
-      "O": "t_window_domestic",
-      "P": "t_linoleum_gray",
-      "X": "t_wall",
-      "Y": "t_linoleum_gray"
+      "j": "t_linoleum_gray"
     }
   },
   {
     "type": "palette",
     "id": "mansion_palette_48",
     "terrain": {
-      "-": "t_carpet_red",
-      "A": "t_carpet_red",
-      "D": "t_carpet_red",
-      "O": "t_window_domestic",
-      "X": "t_wall",
-      "d": "t_carpet_red",
-      "|": "t_railing_v"
+      "d": "t_carpet_red"
     }
   },
   {
     "type": "palette",
     "id": "mansion_palette_49",
     "terrain": {
-      "%": "t_door_locked_interior",
-      "3": "t_linoleum_gray",
-      "=": "t_linoleum_gray",
-      "G": "t_linoleum_gray",
-      "R": "t_linoleum_gray",
-      "T": "t_linoleum_gray",
-      "W": "t_linoleum_gray",
-      "X": "t_brick_wall"
+      "R": "t_linoleum_gray"
     }
   },
   {
     "type": "palette",
     "id": "mansion_palette_50",
     "terrain": {
-      "-": "t_carpet_red",
-      "2": "t_carpet_red",
-      "=": "t_linoleum_gray",
-      "A": "t_carpet_red",
-      "B": "t_carpet_red",
-      "C": "t_linoleum_gray",
-      "J": "t_linoleum_gray",
-      "O": "t_window_domestic",
-      "P": "t_linoleum_gray",
-      "X": "t_wall",
-      "Y": "t_linoleum_gray"
+      "C": "t_linoleum_gray"
     }
   },
   {
     "type": "palette",
     "id": "mansion_palette_51",
     "terrain": {
-      "=": "t_linoleum_gray",
-      "N": "t_linoleum_gray",
-      "O": "t_window_domestic",
-      "P": "t_linoleum_gray",
-      "X": "t_wall",
-      "Y": "t_linoleum_gray",
-      "j": "t_linoleum_gray",
-      "o": "t_door_frame"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_52",
-    "terrain": {
-      "X": "t_brick_wall",
-      "o": "t_door_frame"
+      "j": "t_linoleum_gray"
     }
   },
   {
@@ -800,26 +311,9 @@
     "id": "mansion_palette_53",
     "terrain": {
       ")": "t_linoleum_gray",
-      "=": "t_linoleum_gray",
       "C": "t_linoleum_gray",
       "F": "t_linoleum_gray",
-      "N": "t_linoleum_gray",
-      "O": "t_window_domestic",
-      "Q": "t_linoleum_gray",
-      "R": "t_linoleum_gray",
-      "X": "t_wall",
-      "Y": "t_linoleum_gray"
-    }
-  },
-  {
-    "type": "palette",
-    "id": "mansion_palette_54",
-    "terrain": {
-      "-": "t_carpet_red",
-      "O": "t_window_domestic",
-      "S": "t_carpet_red",
-      "T": "t_carpet_red",
-      "X": "t_wall"
+      "R": "t_linoleum_gray"
     }
   }
 ]
