@@ -447,9 +447,8 @@ void tileset_loader::load_tileset( std::string img_path )
             }
 
             SDL_Texture_Ptr tile_tex( SDL_CreateTextureFromSurface( renderer, tile_surf.get() ) );
-
             if( !tile_tex ) {
-                dbg( D_ERROR) << "failed to create texture: " << SDL_GetError();
+                throw std::runtime_error( std::string( "failed to create texture: " ) + SDL_GetError() );
             }
 
             /** reuse the surface to make alternate color filtered versions */
@@ -459,7 +458,7 @@ void tileset_loader::load_tileset( std::string img_path )
 
             SDL_Texture_Ptr shadow_tile_tex( SDL_CreateTextureFromSurface( renderer, tile_surf.get() ) );
             if( !shadow_tile_tex ) {
-                dbg( D_ERROR) << "failed to create texture: " << SDL_GetError();
+                throw std::runtime_error( std::string( "failed to create texture: " ) + SDL_GetError() );
             }
 
             if( SDL_BlitSurface( nightvision_tile_atlas.get(), &source_rect, tile_surf.get(), &dest_rect ) != 0 ) {
@@ -468,7 +467,7 @@ void tileset_loader::load_tileset( std::string img_path )
 
             SDL_Texture_Ptr night_tile_tex( SDL_CreateTextureFromSurface( renderer, tile_surf.get() ) );
             if( !night_tile_tex ) {
-                dbg( D_ERROR) << "failed to create texture: " << SDL_GetError();
+                throw std::runtime_error( std::string( "failed to create texture: " ) + SDL_GetError() );
             }
 
             if( SDL_BlitSurface( overexposed_tile_atlas.get(), &source_rect, tile_surf.get(), &dest_rect ) != 0 ) {
@@ -477,22 +476,14 @@ void tileset_loader::load_tileset( std::string img_path )
 
             SDL_Texture_Ptr overexposed_tile_tex( SDL_CreateTextureFromSurface( renderer, tile_surf.get() ) );
             if( overexposed_tile_tex == nullptr ) {
-                dbg( D_ERROR) << "failed to create texture: " << SDL_GetError();
+                throw std::runtime_error( std::string( "failed to create texture: " ) + SDL_GetError() );
             }
 
-            if( tile_tex ) {
-                ts.tile_values.emplace_back( std::move( tile_tex ) );
-                tilecount++;
-            }
-            if( shadow_tile_tex ) {
-                ts.shadow_tile_values.emplace_back( std::move( shadow_tile_tex ) );
-            }
-            if( night_tile_tex ) {
-                ts.night_tile_values.emplace_back( std::move( night_tile_tex ) );
-            }
-            if( overexposed_tile_tex ) {
-                ts.overexposed_tile_values.emplace_back( std::move( overexposed_tile_tex ) );
-            }
+            ts.tile_values.emplace_back( std::move( tile_tex ) );
+            tilecount++;
+            ts.shadow_tile_values.emplace_back( std::move( shadow_tile_tex ) );
+            ts.night_tile_values.emplace_back( std::move( night_tile_tex ) );
+            ts.overexposed_tile_values.emplace_back( std::move( overexposed_tile_tex ) );
         }
     }
 
