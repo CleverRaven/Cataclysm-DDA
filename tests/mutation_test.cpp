@@ -3,15 +3,8 @@
 #include "mutation.h"
 
 #include "game.h"
+#include "npc.h"
 #include "player.h"
-
-void clear_mutations( player &p )
-{
-    while( !p.get_mutations().empty() ) {
-        // Use the "real" way to remove mutations to ensure we don't get into a bad state
-        p.remove_mutation( p.get_mutations()[0] );
-    }
-}
 
 // Note: If a category has two mutually-exclusive mutations (like pretty/ugly for Lupine), the
 // one they ultimately end up with depends on the order they were loaded from JSON
@@ -54,16 +47,13 @@ std::string get_mutations_as_string( player &p )
     return s.str();
 }
 
-
 TEST_CASE( "Having all mutations give correct highest category", "[mutations]" )
 {
-    player &dummy = g->u;
-
     for( auto &cat : mutation_category_traits ) {
         auto cat_id = cat.second.category;
 
         GIVEN( "The player has all pre-threshold mutations for " + cat_id ) {
-            clear_mutations( dummy );
+	    npc dummy;
             give_all_mutations( dummy, cat_id, false );
 
             THEN( cat_id + " is the strongest category" ) {
@@ -73,7 +63,7 @@ TEST_CASE( "Having all mutations give correct highest category", "[mutations]" )
         }
 
         GIVEN( "The player has all mutations for " + cat_id ) {
-            clear_mutations( dummy );
+	    npc dummy;
             give_all_mutations( dummy, cat_id, true );
 
             THEN( cat_id + " is the strongest category" ) {
@@ -87,8 +77,6 @@ TEST_CASE( "Having all mutations give correct highest category", "[mutations]" )
 TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach chance",
            "[mutations]" )
 {
-    player &dummy = g->u;
-
     const float BREACH_CHANCE_MIN = 0.2f;
     const float BREACH_CHANCE_MAX = 0.4f;
 
@@ -96,7 +84,7 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
         auto cat_id = cat.second.category;
 
         GIVEN( "The player has all pre-threshold mutations for " + cat_id ) {
-            clear_mutations( dummy );
+	    npc dummy;
             give_all_mutations( dummy, cat_id, false );
 
             int category_strength = dummy.mutation_category_level["MUTCAT_" + cat_id];
