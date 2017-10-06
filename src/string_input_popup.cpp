@@ -141,7 +141,7 @@ void string_input_popup::add_to_history( const std::string &value ) const
     }
 }
 
-void string_input_popup::draw(const utf8_wrapper &ret, const utf8_wrapper &edit, const int shift) const
+void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit, const int shift ) const
 {
     // Not static because color values are not constants, but function calls!
     const nc_color string_color = c_magenta;
@@ -196,8 +196,8 @@ void string_input_popup::draw(const utf8_wrapper &ret, const utf8_wrapper &edit,
             mvwprintz( w, _starty, _startx + sx, underscore_color, std::string( l, '_' ).c_str() );
         }
     }
-    if (!edit.empty()) {
-        mvwprintz(w, _starty, start_x_edit, cursor_color, "%s", edit.c_str());
+    if( !edit.empty() ) {
+        mvwprintz( w, _starty, start_x_edit, cursor_color, "%s", edit.c_str() );
     }
 }
 
@@ -355,19 +355,17 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             ret.insert( _position, t );
             _position += t.length();
             redraw = true;
-            edit.erase(0);
-            ctxt->set_edittext(edit.c_str());
-        }
-        else if (ev.edit_refresh) {
+            edit.erase( 0 );
+            ctxt->set_edittext( edit.c_str() );
+        } else if( ev.edit_refresh ) {
             const utf8_wrapper t(ev.edit);
-            edit.erase(0);
-            edit.insert(0, t);
-            ctxt->set_edittext(edit.c_str());
+            edit.erase( 0 );
+            edit.insert( 0, t );
+            ctxt->set_edittext( edit.c_str() );
             redraw = true;
-        }
-        else if (ev.edit.empty()) {
-            edit.erase(0);
-            ctxt->set_edittext(edit.c_str());
+        } else if( ev.edit.empty() ) {
+            edit.erase( 0 );
+            ctxt->set_edittext( edit.c_str() );
             redraw = true;
         }
     } while( loop == true );
