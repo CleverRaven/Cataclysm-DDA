@@ -53,7 +53,7 @@ TEST_CASE( "Having all mutations give correct highest category", "[mutations]" )
         auto cat_id = cat.second.category;
 
         GIVEN( "The player has all pre-threshold mutations for " + cat_id ) {
-	    npc dummy;
+            npc dummy;
             give_all_mutations( dummy, cat_id, false );
 
             THEN( cat_id + " is the strongest category" ) {
@@ -63,7 +63,7 @@ TEST_CASE( "Having all mutations give correct highest category", "[mutations]" )
         }
 
         GIVEN( "The player has all mutations for " + cat_id ) {
-	    npc dummy;
+            npc dummy;
             give_all_mutations( dummy, cat_id, true );
 
             THEN( cat_id + " is the strongest category" ) {
@@ -84,7 +84,7 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
         auto cat_id = cat.second.category;
 
         GIVEN( "The player has all pre-threshold mutations for " + cat_id ) {
-	    npc dummy;
+            npc dummy;
             give_all_mutations( dummy, cat_id, false );
 
             int category_strength = dummy.mutation_category_level["MUTCAT_" + cat_id];
