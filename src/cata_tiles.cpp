@@ -387,6 +387,12 @@ void tileset_loader::load_tileset( std::string img_path )
                                   IMG_GetError() );
     }
 
+    if( R >= 0 && R <= 255 && G >= 0 && G <= 255 && B >= 0 && B <= 255 ) {
+        Uint32 key = SDL_MapRGB(tile_atlas->format, 0, 0, 0);
+        SDL_SetColorKey(tile_atlas.get(), SDL_TRUE, key);
+        SDL_SetSurfaceRLE(tile_atlas.get(), true);
+    }
+
     SDL_Surface_Ptr shadow_tile_atlas = ::create_tile_surface(tile_atlas->w, tile_atlas->h);
     SDL_Surface_Ptr nightvision_tile_atlas = ::create_tile_surface(tile_atlas->w, tile_atlas->h);
     SDL_Surface_Ptr overexposed_tile_atlas = ::create_tile_surface(tile_atlas->w, tile_atlas->h);
@@ -413,71 +419,34 @@ void tileset_loader::load_tileset( std::string img_path )
 
     const rect_range<SDL_Rect> input_range( sprite_width, sprite_height, tile_atlas->w / sprite_width, tile_atlas->h / sprite_height );
 
-    /** Set up initial source and destination information. Destination is going to be unchanging */
-    SDL_Rect source_rect = {0, 0, sprite_width, sprite_height};
-    SDL_Rect dest_rect = {0, 0, sprite_width, sprite_height};
+    std::shared_ptr<SDL_Texture> tile_tex( SDL_CreateTextureFromSurface( renderer, tile_atlas.get() ), &SDL_DestroyTexture );
+    if( !tile_tex ) {
+        throw std::runtime_error( std::string( "failed to create texture: " ) + SDL_GetError() );
+    }
+
+    std::shared_ptr<SDL_Texture> shadow_tile_tex( SDL_CreateTextureFromSurface( renderer, shadow_tile_atlas.get() ), &SDL_DestroyTexture );
+    if( !shadow_tile_tex ) {
+        throw std::runtime_error( std::string( "failed to create texture: " ) + SDL_GetError() );
+    }
+
+    std::shared_ptr<SDL_Texture> night_tile_tex( SDL_CreateTextureFromSurface( renderer, nightvision_tile_atlas.get() ), &SDL_DestroyTexture );
+    if( !night_tile_tex ) {
+        throw std::runtime_error( std::string( "failed to create texture: " ) + SDL_GetError() );
+    }
+
+    std::shared_ptr<SDL_Texture> overexposed_tile_tex( SDL_CreateTextureFromSurface( renderer, overexposed_tile_atlas.get() ), &SDL_DestroyTexture );
+    if( !overexposed_tile_tex ) {
+        throw std::runtime_error( std::string( "failed to create texture: " ) + SDL_GetError() );
+    }
 
     /** split the atlas into tiles using SDL_Rect structs instead of slicing the atlas into individual surfaces */
     int tilecount = 0;
     for( const SDL_Rect rect : input_range ) {
-        const int x = rect.x;
-        const int y = rect.y;
-        source_rect.x = x;
-        source_rect.y = y;
-
-        SDL_Surface_Ptr tile_surf = ::create_tile_surface(sprite_width, sprite_height);
-        if( !tile_surf ) {
-            continue;
-        }
-
-        if( SDL_BlitSurface( tile_atlas.get(), &source_rect, tile_surf.get(), &dest_rect ) != 0 ) {
-            dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
-        }
-
-        if( R >= 0 && R <= 255 && G >= 0 && G <= 255 && B >= 0 && B <= 255 ) {
-            Uint32 key = SDL_MapRGB(tile_surf->format, 0, 0, 0);
-            SDL_SetColorKey(tile_surf.get(), SDL_TRUE, key);
-            SDL_SetSurfaceRLE(tile_surf.get(), true);
-        }
-
-        SDL_Texture_Ptr tile_tex( SDL_CreateTextureFromSurface( renderer, tile_surf.get() ) );
-        if( !tile_tex ) {
-            throw std::runtime_error( std::string( "failed to create texture: " ) + SDL_GetError() );
-        }
-
-        /** reuse the surface to make alternate color filtered versions */
-        if( SDL_BlitSurface( shadow_tile_atlas.get(), &source_rect, tile_surf.get(), &dest_rect ) != 0 ) {
-            dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
-        }
-
-        SDL_Texture_Ptr shadow_tile_tex( SDL_CreateTextureFromSurface( renderer, tile_surf.get() ) );
-        if( !shadow_tile_tex ) {
-            throw std::runtime_error( std::string( "failed to create texture: " ) + SDL_GetError() );
-        }
-
-        if( SDL_BlitSurface( nightvision_tile_atlas.get(), &source_rect, tile_surf.get(), &dest_rect ) != 0 ) {
-            dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
-        }
-
-        SDL_Texture_Ptr night_tile_tex( SDL_CreateTextureFromSurface( renderer, tile_surf.get() ) );
-        if( !night_tile_tex ) {
-            throw std::runtime_error( std::string( "failed to create texture: " ) + SDL_GetError() );
-        }
-
-        if( SDL_BlitSurface( overexposed_tile_atlas.get(), &source_rect, tile_surf.get(), &dest_rect ) != 0 ) {
-            dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
-        }
-
-        SDL_Texture_Ptr overexposed_tile_tex( SDL_CreateTextureFromSurface( renderer, tile_surf.get() ) );
-        if( overexposed_tile_tex == nullptr ) {
-            throw std::runtime_error( std::string( "failed to create texture: " ) + SDL_GetError() );
-        }
-
-        ts.tile_values.emplace_back( std::move( tile_tex ) );
+        ts.tile_values.emplace_back( tile_tex, rect );
         tilecount++;
-        ts.shadow_tile_values.emplace_back( std::move( shadow_tile_tex ) );
-        ts.night_tile_values.emplace_back( std::move( night_tile_tex ) );
-        ts.overexposed_tile_values.emplace_back( std::move( overexposed_tile_tex ) );
+        ts.shadow_tile_values.emplace_back( shadow_tile_tex, rect );
+        ts.night_tile_values.emplace_back( night_tile_tex, rect );
+        ts.overexposed_tile_values.emplace_back( overexposed_tile_tex, rect );
     }
 
     dbg( D_INFO ) << "Tiles Created: " << tilecount;
@@ -2305,7 +2274,7 @@ void tileset_loader::ensure_default_item_highlight()
     if( !texture ) {
         throw std::runtime_error( std::string( "Failed to create textire for default item highlight: " ) + SDL_GetError() );
     }
-    ts.tile_values.push_back( std::move( texture ) );
+    ts.tile_values.emplace_back( std::move( texture ), SDL_Rect{ 0, 0, ts.tile_width, ts.tile_height } );
     ts.tile_ids[key].fg.add(std::vector<int>({index}),1);
 }
 

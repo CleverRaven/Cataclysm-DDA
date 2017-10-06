@@ -96,24 +96,23 @@ using SDL_Texture_Ptr = std::unique_ptr<SDL_Texture, SDL_Texture_deleter>;
 class texture
 {
     private:
-        SDL_Texture_Ptr sdl_texture_ptr;
+        std::shared_ptr<SDL_Texture> sdl_texture_ptr;
+        SDL_Rect srcrect = { 0, 0, 0, 0 };
 
     public:
-        texture( SDL_Texture_Ptr ptr ) : sdl_texture_ptr( std::move( ptr ) ) { }
+        texture( std::shared_ptr<SDL_Texture> ptr, const SDL_Rect rect ) : sdl_texture_ptr( ptr ),
+            srcrect( rect ) { }
 
         /// Returns the width (first) and height (second) of the stored texture.
         std::pair<int, int> dimension() const {
-            Uint32 format;
-            int access, width, height;
-            SDL_QueryTexture( sdl_texture_ptr.get(), &format, &access, &width, &height );
-            return std::make_pair( width, height );
+            return std::make_pair( srcrect.w, srcrect.h );
         }
         /// Interface to @ref SDL_RenderCopyEx, using this as the texture, and
         /// null as source rectangle (render the whole texture). Other parameters
         /// are simply passed through.
         int render_copy_ex( SDL_Renderer *const renderer, const SDL_Rect *const dstrect, const double angle,
                             const SDL_Point *const center, const SDL_RendererFlip flip ) const {
-            return SDL_RenderCopyEx( renderer, sdl_texture_ptr.get(), nullptr, dstrect, angle, center, flip );
+            return SDL_RenderCopyEx( renderer, sdl_texture_ptr.get(), &srcrect, dstrect, angle, center, flip );
         }
 };
 
