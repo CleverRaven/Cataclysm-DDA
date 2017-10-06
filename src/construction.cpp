@@ -292,6 +292,7 @@ void construction_menu()
                 previous_index = tabindex;
             } else if( category_name == "FILTER" ) {
                 constructs.clear();
+                previous_select = -1;
                 std::copy_if( available.begin(), available.end(),
                     std::back_inserter( constructs ),
                     [&](const std::string &a){
@@ -1184,7 +1185,7 @@ void load_construction(JsonObject &jo)
     }
 
     con.pre_flags = jo.get_tags("pre_flags");
-    
+
     static const std::map<std::string, std::function<bool( const tripoint & )>> pre_special_map = {{
         { "", construct::check_nothing },
         { "check_empty", construct::check_empty },

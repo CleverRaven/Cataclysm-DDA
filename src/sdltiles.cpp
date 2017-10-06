@@ -30,6 +30,7 @@
 #include "cata_utility.h"
 #include "color_loader.h"
 #include "font_loader.h"
+#include "loading_ui.h"
 
 #if (defined _WIN32 || defined WINDOWS)
 #   include "platform_win.h"
@@ -2225,7 +2226,8 @@ void load_soundset() {
 
     current_soundpack_path = soundpack_path;
     try {
-        DynamicDataLoader::get_instance().load_data_from_path( soundpack_path, "core" );
+        loading_ui ui( false );
+        DynamicDataLoader::get_instance().load_data_from_path( soundpack_path, "core", ui );
     } catch( const std::exception &err ) {
         dbg( D_ERROR ) << "failed to load sounds: " << err.what();
     }

@@ -470,7 +470,7 @@ item item::in_its_container() const
 item item::in_container( const itype_id &cont ) const
 {
     if( cont != "null" ) {
-        item ret( cont, bday );
+        item ret( cont, birthday() );
         ret.contents.push_back( *this );
         if( made_of( LIQUID ) && ret.is_container() ) {
             // Note: we can't use any of the normal normal container functions as they check the
@@ -794,12 +794,12 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         if( debug == true ) {
             if( g != NULL ) {
                 info.push_back( iteminfo( "BASE", _( "age: " ), "",
-                                          ( int( calendar::turn ) - bday ) / ( 10 * 60 ), true, "", true, true ) );
+                                          age() / ( 10 * 60 ), true, "", true, true ) );
 
                 const item *food = is_food_container() ? &contents.front() : this;
                 if( food && food->goes_bad() ) {
                     info.push_back( iteminfo( "BASE", _( "bday rot: " ), "",
-                                              ( int( calendar::turn ) - food->bday ), true, "", true, true ) );
+                                              food->age(), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", _( "temp rot: " ), "",
                                               ( int )food->rot, true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", space + _( "max rot: " ), "",
@@ -1523,7 +1523,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             insert_separation_line();
             info.push_back( iteminfo( "DESCRIPTION", _( "Techniques: " ) +
             enumerate_as_string( all_techniques.begin(), all_techniques.end(), []( const matec_id &tid ) {
-                return string_format( "<stat>%s</stat>", tid.obj().name.c_str() );
+                return string_format( "<stat>%s:</stat> <info>%s</info>", tid.obj().name.c_str(), tid.obj().description.c_str() );
             } ) ) );
         }
 
@@ -1531,10 +1531,55 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             insert_separation_line();
             if( has_flag( "REACH3" ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "This item can be used to make <info>long reach attacks</info>." ) ) );
+                                          _( "* This item can be used to make <stat>long reach attacks</stat>." ) ) );
             } else {
                 info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "This item can be used to make <info>reach attacks</info>." ) ) );
+                                          _( "* This item can be used to make <stat>reach attacks</stat>." ) ) );
+            }
+        }
+
+        ///\EFFECT_MELEE >2 allows seeing melee damage stats on weapons
+        if( debug_mode || ( g->u.get_skill_level( skill_melee ) > 2 && ( damage_melee( DT_BASH ) > 0 ||
+                            damage_melee( DT_CUT ) > 0 || damage_melee( DT_STAB ) > 0 || type->m_to_hit > 0 ) ) ) {
+            damage_instance non_crit;
+            g->u.roll_all_damage( false, non_crit, true, *this );
+            damage_instance crit;
+            g->u.roll_all_damage( true, crit, true, *this );
+            int attack_cost = g->u.attack_speed( *this );
+            insert_separation_line();
+            info.push_back( iteminfo( "DESCRIPTION", string_format( _( "<bold>Average melee damage:</bold>" ) ) ) );
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      string_format( _( "Critical hit chance %d%% - %d%%" ),
+                                              int( g->u.crit_chance( 0, 100, *this ) * 100 ),
+                                              int( g->u.crit_chance( 100, 0, *this ) * 100 ) ) ) );
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      string_format( _( "%d bashing (%d on a critical hit)" ),
+                                              int( non_crit.type_damage( DT_BASH ) ),
+                                              int( crit.type_damage( DT_BASH ) ) ) ) );
+            if( non_crit.type_damage( DT_CUT ) > 0.0f || crit.type_damage( DT_CUT ) > 0.0f ) {
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          string_format( _( "%d cutting (%d on a critical hit)" ),
+                                                  int( non_crit.type_damage( DT_CUT ) ),
+                                                  int( crit.type_damage( DT_CUT ) ) ) ) );
+            }
+            if( non_crit.type_damage( DT_STAB ) > 0.0f || crit.type_damage( DT_STAB ) > 0.0f ) {
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          string_format( _( "%d piercing (%d on a critical hit)" ),
+                                                  int( non_crit.type_damage( DT_STAB ) ),
+                                                  int( crit.type_damage( DT_STAB ) ) ) ) );
+            }
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      string_format( _( "%d moves per attack" ), attack_cost ) ) );
+        }
+
+        if( !is_gunmod() && has_flag( "REACH_ATTACK" ) ) {
+            insert_separation_line();
+            if( has_flag( "REACH3" ) ) {
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* This item can be used to make <info>long reach attacks</info>." ) ) );
+            } else {
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* This item can be used to make <info>reach attacks</info>." ) ) );
             }
         }
 
@@ -1732,40 +1777,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.emplace_back( "DESCRIPTION", _( "<bold>Can be stored in:</bold> " ) +
                                enumerate_as_string( holsters.begin(), holsters.end(),
                                                     []( const itype *e ) { return e->nname( 1 ); } ) );
-        }
-
-        ///\EFFECT_MELEE >2 allows seeing melee damage stats on weapons
-        if( debug_mode || ( g->u.get_skill_level( skill_melee ) > 2 && ( damage_melee( DT_BASH ) > 0 ||
-                            damage_melee( DT_CUT ) > 0 || damage_melee( DT_STAB ) > 0 || type->m_to_hit > 0 ) ) ) {
-            damage_instance non_crit;
-            g->u.roll_all_damage( false, non_crit, true, *this );
-            damage_instance crit;
-            g->u.roll_all_damage( true, crit, true, *this );
-            int attack_cost = g->u.attack_speed( *this );
-            insert_separation_line();
-            info.push_back( iteminfo( "DESCRIPTION", string_format( _( "Average melee damage:" ) ) ) );
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "Critical hit chance %d%% - %d%%" ),
-                                              int( g->u.crit_chance( 0, 100, *this ) * 100 ),
-                                              int( g->u.crit_chance( 100, 0, *this ) * 100 ) ) ) );
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "%d bashing (%d on a critical hit)" ),
-                                              int( non_crit.type_damage( DT_BASH ) ),
-                                              int( crit.type_damage( DT_BASH ) ) ) ) );
-            if( non_crit.type_damage( DT_CUT ) > 0.0f || crit.type_damage( DT_CUT ) > 0.0f ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          string_format( _( "%d cutting (%d on a critical hit)" ),
-                                                  int( non_crit.type_damage( DT_CUT ) ),
-                                                  int( crit.type_damage( DT_CUT ) ) ) ) );
-            }
-            if( non_crit.type_damage( DT_STAB ) > 0.0f || crit.type_damage( DT_STAB ) > 0.0f ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          string_format( _( "%d piercing (%d on a critical hit)" ),
-                                                  int( non_crit.type_damage( DT_STAB ) ),
-                                                  int( crit.type_damage( DT_STAB ) ) ) ) );
-            }
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "%d moves per attack" ), attack_cost ) ) );
         }
 
         for( auto &u : type->use_methods ) {
@@ -3054,7 +3065,7 @@ bool item::ready_to_revive( const tripoint &pos ) const
     if(can_revive() == false) {
         return false;
     }
-    int age_in_hours = (int(calendar::turn) - bday) / HOURS( 1 );
+    int age_in_hours = age() / HOURS( 1 );
     age_in_hours -= int((float)burnt / ( volume() / 250_ml ) );
     if( damage() > 0 ) {
         age_in_hours /= ( damage() + 1 );
@@ -3304,10 +3315,10 @@ nc_color item::damage_color() const
     // @todo unify with getDurabilityColor
 
     // reinforced, undamaged and nearly destroyed items are special case
-    if( damage() < 0 ) {
+    if( precise_damage() <= min_damage() ) {
         return c_green;
     }
-    if( damage() == 0 ) {
+    if( damage() <= 0 ) {
         return c_ltgreen;
     }
     if( damage() == max_damage() ) {
@@ -3315,7 +3326,7 @@ nc_color item::damage_color() const
     }
 
     // assign other colors proportionally
-    auto q = double( damage() ) / max_damage();
+    auto q = precise_damage() / max_damage();
     if( q > 0.66 ) {
         return c_ltred;
     }
@@ -3338,8 +3349,8 @@ std::string item::damage_symbol() const
         return _( R"(..)" );
     }
 
-    // assign other colors proportionally
-    auto q = double( damage() ) / max_damage();
+    // assign other symbols proportionally
+    auto q = precise_damage() / max_damage();
     if( q > 0.66 ) {
         return _( R"(\.)" );
     }
@@ -4878,7 +4889,7 @@ bool item::burn( fire_data &frd, bool contained)
             !mt->burn_into.is_null() && mt->burn_into.is_valid() ) {
             corpse = &get_mtype()->burn_into.obj();
             // Delay rezing
-            bday = calendar::turn;
+            set_age( 0 );
             burnt = 0;
             return false;
         }
@@ -6006,4 +6017,24 @@ bool item::is_filthy() const
 bool item::on_drop( const tripoint &pos )
 {
     return type->drop_action && type->drop_action.call( g->u, *this, false, pos );
+}
+
+int item::age() const
+{
+    return calendar::turn - birthday();
+}
+
+void item::set_age( const int age )
+{
+    set_birthday( calendar::turn - age );
+}
+
+int item::birthday() const
+{
+    return bday;
+}
+
+void item::set_birthday( const int bday )
+{
+    this->bday = bday;
 }

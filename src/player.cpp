@@ -7043,24 +7043,6 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
     return res;
 }
 
-item* player::pick_usb()
-{
-    std::vector<std::pair<item*, int> > drives = inv.all_items_by_type("usb_drive");
-
-    if (drives.empty()) {
-        return nullptr; // None available!
-    }
-
-    std::vector<std::string> selections;
-    for (size_t i = 0; i < drives.size() && i < 9; i++) {
-        selections.push_back( drives[i].first->tname() );
-    }
-
-    int select = menu_vec(false, _("Choose drive:"), selections);
-
-    return drives[ select - 1 ].first;
-}
-
 bool player::covered_with_flag( const std::string &flag, const std::bitset<num_bp> &parts ) const
 {
     std::bitset<num_bp> covered = 0;
@@ -8959,25 +8941,26 @@ void player::gunmod_add( item &gun, item &mod )
     activity.values.push_back( qty ); // tool charges
 }
 
-void player::toolmod_add( item &tool, item &mod )
+void player::toolmod_add( item_location tool, item_location mod )
 {
-    if( !has_item( tool ) && !has_item( mod ) ) {
-        debugmsg( "Tried toolmod installation but mod/tool not in player possession" );
+    if( !tool && !mod ) {
+        debugmsg( "Tried toolmod installation but mod/tool not available" );
         return;
     }
     // first check at least the minimum requirements are met
-    if( !has_trait( trait_DEBUG_HS ) && !can_use( mod, tool ) ) {
+    if( !has_trait( trait_DEBUG_HS ) && !can_use( *mod, *tool ) ) {
         return;
     }
 
-    if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ), mod.tname().c_str(),
-                    tool.tname().c_str() ) ) {
+    if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ), mod->tname().c_str(),
+                    tool->tname().c_str() ) ) {
         add_msg_if_player( _( "Never mind." ) );
         return; // player cancelled installation
     }
 
-    assign_activity( activity_id( "ACT_TOOLMOD_ADD" ), 1, -1, get_item_position( &tool ) );
-    activity.values.push_back( get_item_position( &mod ) );
+    assign_activity( activity_id( "ACT_TOOLMOD_ADD" ), 1, -1 );
+    activity.targets.emplace_back( std::move( tool ) );
+    activity.targets.emplace_back( std::move( mod ) );
 }
 
 hint_rating player::rate_action_read( const item &it ) const

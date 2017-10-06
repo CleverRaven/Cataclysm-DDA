@@ -704,7 +704,6 @@ classes = {
             { name = "pick_style", rval = "bool", args = { } },
             { name = "pick_style", rval = nil, args = { } },
             { name = "pick_technique", rval = "matec_id", args = { "Creature", "item", "bool", "bool", "bool" } },
-            { name = "pick_usb", rval = "item&", args = { } },
             { name = "place_corpse", rval = nil, args = { } },
             { name = "pos", rval = "tripoint", args = { } },
             { name = "posx", rval = "int", args = { } },
@@ -833,7 +832,6 @@ classes = {
         by_value_and_reference = true,
         attributes = {
             active = { type = "bool", writable = true },
-            bday = { type = "int", writable = true },
             burnt = { type = "int", writable = true },
             charges = { type = "int", writable = true },
             frequency = { type = "int", writable = true },
@@ -848,6 +846,10 @@ classes = {
             type = { type = "itype", writable = true },
         },
         functions = {
+            { name = "age", rval = "int", args = { } },
+            { name = "set_age", rval = nil, args = { "int" } },
+            { name = "birthday", rval = "int", args = { } },
+            { name = "set_birthday", rval = nil, args = { "int" } },
             { name = "acid_resist", rval = "int", args = { } },
             { name = "acid_resist", rval = "int", args = { "bool" } },
             { name = "add_rain_to_container", rval = nil, args = { "bool" } },

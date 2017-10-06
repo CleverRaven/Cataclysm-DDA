@@ -646,21 +646,6 @@ int inventory::position_by_type(itype_id type)
     return INT_MIN;
 }
 
-std::vector<std::pair<item *, int> > inventory::all_items_by_type(itype_id type)
-{
-    std::vector<std::pair<item *, int> > ret;
-    int i = 0;
-    for( auto &elem : items ) {
-        for( auto &elem_stack_iter : elem ) {
-            if( elem_stack_iter.typeId() == type ) {
-                ret.push_back( std::make_pair( &elem_stack_iter, i ) );
-            }
-        }
-        ++i;
-    }
-    return ret;
-}
-
 std::list<item> inventory::use_amount(itype_id it, int _quantity)
 {
     long quantity = _quantity; // Don't wanny change the function signature right now

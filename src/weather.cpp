@@ -149,7 +149,7 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, int startturn, in
         return;
     }
 
-    it.bday = endturn; // bday == last fill check
+    it.set_birthday( endturn ); // bday == last fill check
     auto data = sum_conditions( startturn, endturn, location );
 
     // Technically 0.0 division is OK, but it will be cleaner without it
@@ -296,7 +296,7 @@ void fill_funnels(int rain_depth_mm_per_hour, bool acid, const trap &tr)
 
             if( container != items.end() ) {
                 container->add_rain_to_container(acid, 1);
-                container->bday = int(calendar::turn);
+                container->set_age( 0 );
             }
         }
     }

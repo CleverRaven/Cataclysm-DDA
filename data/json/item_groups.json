@@ -97,7 +97,11 @@
     "type" : "item_group",
     "id" : "hive",
     "items":[
-      ["honeycomb", 10]
+      ["honeycomb", 10],
+      ["honey_scraper", 2],
+      ["beekeeping_hood", 5],
+      ["beekeeping_suit", 5],
+      ["beekeeping_gloves", 5]
     ]
   },{
     "type" : "item_group",
@@ -8104,15 +8108,15 @@
       ["jar_glass", 2],
       ["jar_3l_glass", 1],
       ["wrapper", 3],
-      ["withered", 5],
+      {"item":"withered","prob":5, "count-min": 1, "count-max": 10 },
       ["straw_pile", 5],
       ["string_6", 1],
       ["cig_butt", 4],
       ["string_36", 1],
       ["steel_lump", 1],
       ["steel_chunk", 1],
-      ["scrap", 2],
-      ["glass_shard", 3],
+      {"item":"scrap","prob":2, "count-min": 1, "count-max": 10 },
+      {"item":"glass_shard","prob":3, "count-min": 1, "count-max": 10 },
       ["wire", 1],
       ["wire_barbed", 1],
       ["splinter", 3],
