@@ -38,8 +38,7 @@
       ],
       "palettes": [
         "mansion_palette_common",
-        "mansion_palette_common_brick_wall",
-        "mansion_palette_machinery"
+        "mansion_palette_basement"
       ],
       "items": {
         ".": { "item": "clutter_basement" },
@@ -89,7 +88,8 @@
         "XXX++XXXXXXXXXXXXXX++XXX"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_outdoors"
       ],
       "items": {
         ".": { "item": "clutter_mansion" },
@@ -142,11 +142,9 @@
         "XXX++XXXXXXXXXXXXXX++XXX"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_air"
       ],
-      "terrain": {
-        "*": "t_open_air"
-      },
       "items": {
         ".": { "item": "clutter_mansion" },
         "?": { "item": "fireplace_fill", "chance": 30 },
@@ -198,7 +196,7 @@
       ],
       "palettes": [
         "mansion_palette_common",
-        "mansion_palette_common_brick_wall"
+        "mansion_palette_basement"
       ],
       "furniture": {
         "!": "f_arcade_machine"
@@ -254,7 +252,8 @@
         "X......XXXXXXXXXX......X"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_outdoor"
       ],
       "items": {
         ".": { "item": "clutter_mansion" },
@@ -305,12 +304,9 @@
         "XXX++XXXXXXXXXXXXXX++XXX"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_air"
       ],
-      "terrain": {
-        " ": "t_open_air_rooved",
-        "*": "t_open_air"
-      },
       "items": {
         ".": { "item": "clutter_mansion" },
         "T": { "item": "table_foyer", "chance": 40 },
@@ -356,7 +352,7 @@
       ],
       "palettes": [
         "mansion_palette_common",
-        "mansion_palette_common_brick_wall"
+        "mansion_palette_basement"
       ],
       "items": {
         "K": { "item": "crate_stack", "chance": 100 },
@@ -402,7 +398,8 @@
         "'''::::::::::::::::::'''"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_outdoor"
       ],
       "terrain": {
         "!": "t_concrete",
@@ -462,12 +459,9 @@
         "************************"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_air"
       ],
-      "terrain": {
-        "'": "t_flat_roof",
-        "*": "t_open_air"
-      },
       "place_loot": [
         { "item": "lawn_dart", "x": [ 7, 16 ], "y": [ 18, 22 ], "chance": 40, "repeat": [ 1, 2 ] }
       ]
@@ -511,8 +505,7 @@
       ],
       "palettes": [
         "mansion_palette_common",
-        "mansion_palette_common_brick_wall",
-        "mansion_palette_machinery"
+        "mansion_palette_basement"
       ],
       "terrain": {
         "@": "t_carpet_red",
@@ -576,7 +569,8 @@
         "''''''''''''''''''''''''"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_outdoor"
       ],
       "toilets": {
         "P": {}
@@ -638,12 +632,9 @@
         "************************"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_air"
       ],
-      "terrain": {
-        "'": "t_flat_roof",
-        "*": "t_open_air"
-      },
       "toilets": {
         "P": {}
       },
@@ -704,8 +695,7 @@
       ],
       "palettes": [
         "mansion_palette_common",
-        "mansion_palette_common_brick_wall",
-        "mansion_palette_machinery"
+        "mansion_palette_basement"
       ],
       "terrain": {
         "[": "t_chaingate_l",
@@ -763,7 +753,8 @@
         "''''''''''''''''''''''''"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_outdoor"
       ],
       "terrain": {
         "%": "t_door_metal_locked",
@@ -840,12 +831,9 @@
         "************************"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_air"
       ],
-      "terrain": {
-        "'": "t_flat_roof",
-        "*": "t_open_air"
-      },
       "toilets": {
         "P": {}
       },
@@ -905,8 +893,7 @@
       ],
       "palettes": [
         "mansion_palette_common",
-        "mansion_palette_common_brick_wall",
-        "mansion_palette_machinery"
+        "mansion_palette_basement"
       ],
       "terrain": {
         "[": "t_chaingate_l",
@@ -968,7 +955,8 @@
         "''''''''''''''''''''''''"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_outdoor"
       ],
       "terrain": {
         "F": "t_linoleum_gray"
@@ -1032,13 +1020,9 @@
         "************************"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_air"
       ],
-      "terrain": {
-        " ": "t_open_air_rooved",
-        "'": "t_flat_roof",
-        "*": "t_open_air"
-      },
       "toilets": {
         "P": {}
       },
@@ -1094,7 +1078,7 @@
       ],
       "palettes": [
         "mansion_palette_common",
-        "mansion_palette_common_brick_wall"
+        "mansion_palette_basement"
       ],
       "terrain": {
         "o": "t_door_glass_c"
@@ -1153,7 +1137,8 @@
         "''''''''''''''''''''''''"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_outdoor"
       ],
       "items": {
         "'": { "item": "clutter_yard" },
@@ -1210,11 +1195,10 @@
         "************************"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_air"
       ],
       "terrain": {
-        "'": "t_flat_roof",
-        "*": "t_open_air",
         "C": "t_carpet_red"
       },
       "furniture": {
@@ -1283,8 +1267,7 @@
       ],
       "palettes": [
         "mansion_palette_common",
-        "mansion_palette_common_brick_wall",
-        "mansion_palette_machinery"
+        "mansion_palette_basement"
       ],
       "terrain": {
         ")": "t_linoleum_gray",
@@ -1355,7 +1338,8 @@
         "''''''''''''''''''''''''"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_outdoor"
       ],
       "toilets": {
         "P": {}
@@ -1420,13 +1404,9 @@
         "************************"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_air"
       ],
-      "terrain": {
-        " ": "t_open_air_rooved",
-        "'": "t_flat_roof",
-        "*": "t_open_air"
-      },
       "toilets": {
         "P": {}
       },
@@ -1492,7 +1472,7 @@
       ],
       "palettes": [
         "mansion_palette_common",
-        "mansion_palette_common_brick_wall"
+        "mansion_palette_basement"
       ],
       "terrain": {
         "C": "t_carpet_red",
@@ -1551,7 +1531,8 @@
         "''''''''''''''''''''''''"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_outdoor"
       ],
       "toilets": {
         "P": {}
@@ -1612,11 +1593,10 @@
         "************************"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_air"
       ],
       "terrain": {
-        " ": "t_open_air_rooved",
-        "*": "t_open_air",
         "C": "t_carpet_red",
         "N": "t_carpet_red"
       },
@@ -1676,7 +1656,7 @@
       ],
       "palettes": [
         "mansion_palette_common",
-        "mansion_palette_common_brick_wall"
+        "mansion_palette_basement"
       ],
       "items": {
         ".": { "item": "clutter_basement" },
@@ -1722,7 +1702,8 @@
         "XXXXXOOXXXX++XXXXOOXXXXX"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_outdoor"
       ],
       "terrain": {
         "*": "t_shrub",
@@ -1782,11 +1763,9 @@
         "XXXXXOOXXXX++XXXXOOXXXXX"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_air"
       ],
-      "terrain": {
-        "*": "t_open_air"
-      },
       "items": {
         ",": { "item": "clutter_mansion" }
       }
@@ -1830,8 +1809,7 @@
       ],
       "palettes": [
         "mansion_palette_common",
-        "mansion_palette_common_brick_wall",
-        "mansion_palette_machinery"
+        "mansion_palette_basement"
       ],
       "terrain": {
         "$": "t_carpet_red",
@@ -1901,7 +1879,8 @@
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_outdoor"
       ],
       "terrain": {
         "7": "t_linoleum_gray",
@@ -1964,11 +1943,9 @@
         "XXXXXXXXXXX++XXXXXXXXXXX"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_air"
       ],
-      "terrain": {
-        " ": "t_open_air_rooved"
-      },
       "items": {
         ".": { "item": "clutter_mansion" },
         "t": { "item": "wetbar_counter", "chance": 35 }
@@ -2013,8 +1990,7 @@
       ],
       "palettes": [
         "mansion_palette_common",
-        "mansion_palette_common_brick_wall",
-        "mansion_palette_machinery"
+        "mansion_palette_basement"
       ],
       "terrain": {
         "%": "t_door_metal_locked",
@@ -2081,7 +2057,8 @@
         "XXXXXOOXXXX++XXXXXXXXXXX"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_outdoor"
       ],
       "terrain": {
         "%": "t_backboard_in",
@@ -2157,11 +2134,9 @@
         "XXXXXOOXXXX++XXXXXXXXXXX"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_air"
       ],
-      "terrain": {
-        " ": "t_open_air_rooved"
-      },
       "items": {
         ".": { "item": "clutter_mansion" },
         "/": { "item": "snacks_fancy", "chance": 20 }
@@ -2206,7 +2181,7 @@
       ],
       "palettes": [
         "mansion_palette_common",
-        "mansion_palette_common_brick_wall"
+        "mansion_palette_basement"
       ],
       "terrain": {
         "N": "t_carpet_red"
@@ -2266,7 +2241,8 @@
         "XXXXXOOXXXX++XXXXOOXXXXX"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_outdoor"
       ],
       "terrain": {
         "'": "t_dirt",
@@ -2326,11 +2302,9 @@
         "XXXXXOOXXXX++XXXXOOXXXXX"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_air"
       ],
-      "terrain": {
-        "*": "t_open_air"
-      },
       "items": {
         ",": { "item": "clutter_mansion" },
         "-": { "item": "clutter_mansion" },
@@ -2380,8 +2354,7 @@
       ],
       "palettes": [
         "mansion_palette_common",
-        "mansion_palette_common_brick_wall",
-        "mansion_palette_machinery"
+        "mansion_palette_basement"
       ],
       "items": {
         ".": { "item": "clutter_basement" },
@@ -2428,7 +2401,8 @@
         "'':::::XXXXXXXXXX++XXXXX"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_outdoor"
       ],
       "terrain": {
         "!": "t_linoleum_gray",
@@ -2491,13 +2465,9 @@
         "*******XXXXXXXXXX++XXXXX"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_air"
       ],
-      "terrain": {
-        " ": "t_open_air_rooved",
-        "'": "t_flat_roof",
-        "*": "t_open_air"
-      },
       "items": {
         "(": { "item": "trash_cart", "chance": 30 },
         ".": { "item": "clutter_mansion" },
@@ -2553,8 +2523,7 @@
       ],
       "palettes": [
         "mansion_palette_common",
-        "mansion_palette_common_brick_wall",
-        "mansion_palette_machinery"
+        "mansion_palette_basement"
       ],
       "items": {
         "(": { "item": "trash_cart", "chance": 30 },
@@ -2606,7 +2575,8 @@
         "'':::::XXXXXXXXXX++XXXXX"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_outdoor"
       ],
       "toilets": {
         "P": {}
@@ -2666,12 +2636,9 @@
         "*******XXXXXXXXXX++XXXXX"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_air"
       ],
-      "terrain": {
-        "'": "t_flat_roof",
-        "*": "t_open_air"
-      },
       "toilets": {
         "P": {}
       },
@@ -2733,7 +2700,7 @@
       ],
       "palettes": [
         "mansion_palette_common",
-        "mansion_palette_common_brick_wall"
+        "mansion_palette_basement"
       ],
       "items": {
         ".": { "item": "clutter_basement" },
@@ -2783,7 +2750,8 @@
         "'':::::XXXXXXXXXX++XXXXX"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_outdoor"
       ],
       "toilets": {
         "P": {}
@@ -2840,12 +2808,9 @@
         "*******XXXXXXXXXX++XXXXX"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_air"
       ],
-      "terrain": {
-        " ": "t_open_air_rooved",
-        "*": "t_open_air"
-      },
       "furniture": {
         "c": "f_table"
       },
@@ -2900,8 +2865,7 @@
       ],
       "palettes": [
         "mansion_palette_common",
-        "mansion_palette_common_brick_wall",
-        "mansion_palette_machinery"
+        "mansion_palette_basement"
       ],
       "terrain": {
         "T": "t_linoleum_gray"
@@ -2962,7 +2926,8 @@
         "''::::XXXXXXXXXXX++XXXXX"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_outdoor"
       ],
       "toilets": {
         "P": {}
@@ -3026,13 +2991,9 @@
         "******XXXXXXXXXXX++XXXXX"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_air"
       ],
-      "terrain": {
-        " ": "t_open_air_rooved",
-        "'": "t_flat_roof",
-        "*": "t_open_air"
-      },
       "toilets": {
         "P": {}
       },
@@ -3086,8 +3047,7 @@
       ],
       "palettes": [
         "mansion_palette_common",
-        "mansion_palette_common_brick_wall",
-        "mansion_palette_machinery"
+        "mansion_palette_basement"
       ],
       "place_liquids": [
         { "liquid": "wine_cabernet", "x": [ 14, 22 ], "y": [ 8, 13 ], "repeat": [ 4, 12 ] },
@@ -3143,7 +3103,8 @@
         "''::::XXXXXXXXXXX++XXXXX"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_outdoor"
       ],
       "terrain": {
         ")": "t_linoleum_gray",
@@ -3206,12 +3167,9 @@
         "******XXXXXXXXXXX++XXXXX"
       ],
       "palettes": [
-        "mansion_palette_common"
+        "mansion_palette_common",
+        "mansion_palette_air"
       ],
-      "terrain": {
-        "'": "t_flat_roof",
-        "*": "t_open_air"
-      },
       "items": {
         "-": { "item": "clutter_mansion", "chance": 2 },
         ".": { "item": "clutter_bedroom", "chance": 2 },

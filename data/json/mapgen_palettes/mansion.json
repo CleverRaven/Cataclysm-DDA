@@ -63,24 +63,19 @@
       "}": "f_pinball_machine"
     },
     "terrain": {
-      "#": "t_rock",
       "%": "t_door_locked_interior",
       "&": "t_console_broken",
-      "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
       ")": "t_carpet_red",
-      "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
       "+": "t_door_c",
       ",": "t_sidewalk",
       "-": "t_carpet_red",
       "/": "t_linoleum_gray",
-      "0": [ "t_tree", "t_tree", "t_tree", "t_grass", "t_dirt" ],
       "2": "t_carpet_red",
       "3": "t_linoleum_gray",
       "4": "t_concrete",
       "6": "t_carpet_red",
       "7": "t_concrete",
       "9": "t_linoleum_gray",
-      ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
       "<": "t_stairs_up",
       "=": "t_linoleum_gray",
       ">": "t_stairs_down",
@@ -119,19 +114,33 @@
   },
   {
     "type": "palette",
-    "id": "mansion_palette_machinery",
+    "id": "mansion_palette_basement",
     "terrain": {
+      "#": "t_rock",
       "*": "t_machinery_old",
       "?": "t_generator_broken",
+      "X": "t_brick_wall",
       "]": "t_sewage_pipe",
       "p": "t_sewage_pump"
     }
   },
   {
     "type": "palette",
-    "id": "mansion_palette_common_brick_wall",
+    "id": "mansion_palette_outdoors",
     "terrain": {
-      "X": "t_brick_wall"
+      "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
+      "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
+      "0": [ "t_tree", "t_tree", "t_tree", "t_grass", "t_dirt" ],
+      ":": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "mansion_palette_air",
+    "terrain": {
+      " ": "t_open_air_rooved",
+      "'": "t_flat_roof",
+      "*": "t_open_air"
     }
   }
 ]
