@@ -81,7 +81,7 @@
   },
   {
     "type": "palette",
-    "id": "mansion_palette_outdoor",
+    "id": "mansion_palette_common_outdoor",
     "terrain": {
       "'": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
       "*": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_grass" ],
