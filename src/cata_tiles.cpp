@@ -1814,7 +1814,7 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile, const weighted_int_list<
         sprite_num = rota % spritelist.size();
     }
 
-    SDL_Texture *sprite_tex = tileset_ptr->get_tile( spritelist[sprite_num] );
+    const texture *sprite_tex = tileset_ptr->get_tile( spritelist[sprite_num] );
 
     //use night vision colors when in use
     //then use low light tile if available
@@ -1834,9 +1834,8 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile, const weighted_int_list<
         }
     }
 
-    Uint32 format;
-    int access, width, height;
-    SDL_QueryTexture(sprite_tex, &format, &access, &width, &height);
+    int width, height;
+    std::tie( width, height ) = sprite_tex->dimension();
 
     SDL_Rect destination;
     destination.x = x + tile.offset.x * tile_width / tileset_ptr->get_tile_width();
@@ -1848,30 +1847,30 @@ bool cata_tiles::draw_sprite_at( const tile_type &tile, const weighted_int_list<
         switch ( rota ) {
             default:
             case 0: // unrotated (and 180, with just two sprites)
-                ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
+                ret = sprite_tex->render_copy_ex( renderer, &destination,
                     0, NULL, SDL_FLIP_NONE );
                 break;
             case 1: // 90 degrees (and 270, with just two sprites)
 #if (defined _WIN32 || defined WINDOWS)
                 destination.y -= 1;
 #endif
-                ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
+                ret = sprite_tex->render_copy_ex( renderer, &destination,
                     -90, NULL, SDL_FLIP_NONE );
                 break;
             case 2: // 180 degrees, implemented with flips instead of rotation
-                ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
+                ret = sprite_tex->render_copy_ex( renderer, &destination,
                     0, NULL, static_cast<SDL_RendererFlip>( SDL_FLIP_HORIZONTAL | SDL_FLIP_VERTICAL ) );
                 break;
             case 3: // 270 degrees
 #if (defined _WIN32 || defined WINDOWS)
                 destination.x -= 1;
 #endif
-                ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
+                ret = sprite_tex->render_copy_ex( renderer, &destination,
                     90, NULL, SDL_FLIP_NONE );
                 break;
         }
     } else { // don't rotate, same as case 0 above
-        ret = SDL_RenderCopyEx( renderer, sprite_tex, NULL, &destination,
+        ret = sprite_tex->render_copy_ex( renderer, &destination,
             0, NULL, SDL_FLIP_NONE );
     }
 

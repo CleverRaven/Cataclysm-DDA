@@ -101,8 +101,19 @@ class texture
     public:
         texture( SDL_Texture_Ptr ptr ) : sdl_texture_ptr( std::move( ptr ) ) { }
 
-        SDL_Texture *get() const {
-            return sdl_texture_ptr.get();
+        /// Returns the width (first) and height (second) of the stored texture.
+        std::pair<int, int> dimension() const {
+            Uint32 format;
+            int access, width, height;
+            SDL_QueryTexture( sdl_texture_ptr.get(), &format, &access, &width, &height );
+            return std::make_pair( width, height );
+        }
+        /// Interface to @ref SDL_RenderCopyEx, using this as the texture, and
+        /// null as source rectangle (render the whole texture). Other parameters
+        /// are simply passed through.
+        int render_copy_ex( SDL_Renderer *const renderer, const SDL_Rect *const dstrect, const double angle,
+                            const SDL_Point *const center, const SDL_RendererFlip flip ) const {
+            return SDL_RenderCopyEx( renderer, sdl_texture_ptr.get(), nullptr, dstrect, angle, center, flip );
         }
 };
 
@@ -288,9 +299,9 @@ class tileset
 
         std::unordered_map<std::string, tile_type> tile_ids;
 
-        static SDL_Texture *get_if_available( const size_t index,
-                                              const decltype( shadow_tile_values ) &tiles ) {
-            return index < tiles.size() ? tiles[index].get() : nullptr;
+        static const texture *get_if_available( const size_t index,
+                                                const decltype( shadow_tile_values ) &tiles ) {
+            return index < tiles.size() ? &( tiles[index] ) : nullptr;
         }
 
         friend class tileset_loader;
@@ -306,16 +317,16 @@ class tileset
             return tile_pixelscale;
         }
 
-        SDL_Texture *get_tile( const size_t index ) const {
+        const texture *get_tile( const size_t index ) const {
             return get_if_available( index, tile_values );
         }
-        SDL_Texture *get_night_tile( const size_t index ) const {
+        const texture *get_night_tile( const size_t index ) const {
             return get_if_available( index, night_tile_values );
         }
-        SDL_Texture *get_shadow_tile( const size_t index ) const {
+        const texture *get_shadow_tile( const size_t index ) const {
             return get_if_available( index, shadow_tile_values );
         }
-        SDL_Texture *get_overexposed_tile( const size_t index ) const {
+        const texture *get_overexposed_tile( const size_t index ) const {
             return get_if_available( index, overexposed_tile_values );
         }
 
