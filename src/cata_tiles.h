@@ -93,6 +93,19 @@ struct SDL_Texture_deleter {
 };
 using SDL_Texture_Ptr = std::unique_ptr<SDL_Texture, SDL_Texture_deleter>;
 
+class texture
+{
+    private:
+        SDL_Texture_Ptr sdl_texture_ptr;
+
+    public:
+        texture( SDL_Texture_Ptr ptr ) : sdl_texture_ptr( std::move( ptr ) ) { }
+
+        SDL_Texture *get() const {
+            return sdl_texture_ptr.get();
+        }
+};
+
 struct SDL_Surface_deleter {
     // Operator overload required to leverage unique_ptr API.
     void operator()( SDL_Surface *const ptr );
@@ -268,10 +281,10 @@ class tileset
         // multiplier for pixel-doubling tilesets
         float tile_pixelscale;
 
-        std::vector<SDL_Texture_Ptr> tile_values;
-        std::vector<SDL_Texture_Ptr> shadow_tile_values;
-        std::vector<SDL_Texture_Ptr> night_tile_values;
-        std::vector<SDL_Texture_Ptr> overexposed_tile_values;
+        std::vector<texture> tile_values;
+        std::vector<texture> shadow_tile_values;
+        std::vector<texture> night_tile_values;
+        std::vector<texture> overexposed_tile_values;
 
         std::unordered_map<std::string, tile_type> tile_ids;
 

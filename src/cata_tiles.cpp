@@ -481,17 +481,17 @@ void tileset_loader::load_tileset( std::string img_path )
             }
 
             if( tile_tex ) {
-                ts.tile_values.push_back( std::move( tile_tex ) );
+                ts.tile_values.emplace_back( std::move( tile_tex ) );
                 tilecount++;
             }
             if( shadow_tile_tex ) {
-                ts.shadow_tile_values.push_back( std::move( shadow_tile_tex ) );
+                ts.shadow_tile_values.emplace_back( std::move( shadow_tile_tex ) );
             }
             if( night_tile_tex ) {
-                ts.night_tile_values.push_back( std::move( night_tile_tex ) );
+                ts.night_tile_values.emplace_back( std::move( night_tile_tex ) );
             }
             if( overexposed_tile_tex ) {
-                ts.overexposed_tile_values.push_back( std::move( overexposed_tile_tex ) );
+                ts.overexposed_tile_values.emplace_back( std::move( overexposed_tile_tex ) );
             }
         }
     }
