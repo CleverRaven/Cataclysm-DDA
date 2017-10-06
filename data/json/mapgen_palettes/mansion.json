@@ -1,9 +1,16 @@
 [
   {
     "type": "palette",
-    "id": "mansion_palette_01",
+    "id": "mansion_palette_crates",
     "furniture": {
       "K": [ "f_crate_c", "f_crate_o" ],
+      "L": [ "f_crate_c", "f_crate_o" ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "mansion_palette_01",
+    "furniture": {
       "r": "f_rack"
     },
     "terrain": {
@@ -22,7 +29,6 @@
     "id": "mansion_palette_02",
     "furniture": {
       "5": "f_indoor_plant",
-      "K": [ "f_crate_c", "f_crate_o" ],
       "a": "f_armchair",
       "m": "f_locker",
       "t": "f_table",
@@ -144,7 +150,6 @@
     "type": "palette",
     "id": "mansion_palette_07",
     "furniture": {
-      "K": [ "f_crate_c", "f_crate_o" ],
       "m": "f_locker",
       "r": "f_rack"
     },
@@ -197,7 +202,6 @@
       "2": "f_chair",
       "@": "f_mannequin",
       "B": "f_bed",
-      "K": [ "f_crate_c", "f_crate_o" ],
       "R": "f_rack",
       "T": "f_table",
       "Z": "f_dresser",
@@ -308,7 +312,6 @@
       "(": "f_trashcan",
       "/": "f_bench",
       "@": "f_statue",
-      "K": [ "f_crate_c", "f_crate_o" ],
       "a": "f_armchair",
       "d": "f_desk",
       "g": "f_dryer",
@@ -340,7 +343,6 @@
       "5": "f_indoor_plant",
       "B": "f_bed",
       "J": "f_bathtub",
-      "K": "f_crate_o",
       "N": "f_cupboard",
       "T": "f_table",
       "Y": "f_sink",
@@ -411,8 +413,6 @@
     "type": "palette",
     "id": "mansion_palette_16",
     "furniture": {
-      "K": [ "f_crate_c", "f_crate_o" ],
-      "L": [ "f_crate_c", "f_crate_o" ],
       "f": "f_fridge",
       "m": "f_locker",
       "r": "f_rack",
@@ -541,7 +541,6 @@
       "1": "f_chair",
       "2": "f_chair",
       "5": "f_indoor_plant",
-      "K": [ "f_crate_c", "f_crate_o" ],
       "a": "f_armchair",
       "c": "f_counter",
       "d": "f_desk",
@@ -618,7 +617,6 @@
       "C": "f_counter",
       "D": "f_desk",
       "G": "f_dryer",
-      "K": [ "f_crate_c", "f_crate_o" ],
       "R": "f_rack",
       "T": "f_table",
       "W": "f_washer",
@@ -761,7 +759,6 @@
       "@": "f_statue",
       "C": "f_counter",
       "F": "f_fridge",
-      "K": [ "f_crate_c", "f_crate_o" ],
       "N": "f_cupboard",
       "S": "f_sofa",
       "T": "f_table",
@@ -925,7 +922,6 @@
       "@": "f_statue",
       "C": "f_table",
       "D": "f_desk",
-      "K": [ "f_crate_c", "f_crate_o" ],
       "S": "f_sofa",
       "T": "f_table",
       "a": "f_armchair",
@@ -933,7 +929,6 @@
       "e": "f_pool_table",
       "g": "f_dryer",
       "h": "f_treadmill",
-      "k": [ "f_crate_c", "f_crate_o" ],
       "m": "f_locker",
       "n": "f_cupboard",
       "q": "f_oven",
@@ -971,7 +966,6 @@
       "7": "f_indoor_plant",
       "@": "f_statue",
       "C": "f_counter",
-      "K": [ "f_crate_c", "f_crate_o" ],
       "T": "f_table",
       "Y": "f_sink",
       "c": "f_table",
@@ -1013,14 +1007,12 @@
     "furniture": {
       "$": "f_gunsafe_ml",
       "@": "f_statue",
-      "K": [ "f_crate_c", "f_crate_o" ],
       "M": "f_locker",
       "R": "f_rack",
       "T": "f_table",
       "a": "f_armchair",
       "c": "f_counter",
       "e": "f_pool_table",
-      "k": [ "f_crate_c", "f_crate_o" ],
       "l": "f_bookcase",
       "m": "f_locker",
       "n": "f_cupboard",
@@ -1049,7 +1041,6 @@
       "2": "f_bench",
       "3": "f_bench",
       "C": "f_counter",
-      "K": [ "f_crate_c", "f_crate_o" ],
       "M": "f_locker",
       "Y": "f_sink",
       "f": "f_fridge",
@@ -1100,7 +1091,6 @@
       ")": "f_trashcan",
       "D": "f_desk",
       "F": "f_fridge",
-      "K": [ "f_crate_c", "f_crate_o" ],
       "N": "f_cupboard",
       "Y": "f_sink",
       "r": "f_rack"
@@ -1184,7 +1174,6 @@
     "type": "palette",
     "id": "mansion_palette_40",
     "furniture": {
-      "K": [ "f_crate_c", "f_crate_o" ],
       "m": "f_locker",
       "r": "f_rack"
     },
@@ -1271,7 +1260,6 @@
       "(": "f_trashcan",
       "/": "f_bench",
       "1": "f_chair",
-      "K": [ "f_crate_c", "f_crate_o" ],
       "a": "f_armchair",
       "d": "f_desk",
       "g": "f_dryer",
@@ -1372,7 +1360,6 @@
     "furniture": {
       "1": "f_chair",
       "@": "f_statue",
-      "K": [ "f_crate_c", "f_crate_o" ],
       "a": "f_armchair",
       "d": "f_desk",
       "s": "f_sofa",
@@ -1448,7 +1435,6 @@
     "furniture": {
       "3": "f_chair",
       "G": "f_dryer",
-      "K": [ "f_crate_c", "f_crate_o" ],
       "R": "f_rack",
       "T": "f_table",
       "W": "f_washer",
@@ -1542,7 +1528,6 @@
     "type": "palette",
     "id": "mansion_palette_52",
     "furniture": {
-      "K": [ "f_crate_c", "f_crate_o" ],
       "f": "f_fridge",
       "r": "f_rack",
       "t": "f_table"
