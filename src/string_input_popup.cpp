@@ -358,7 +358,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             edit.erase( 0 );
             ctxt->set_edittext( edit.c_str() );
         } else if( ev.edit_refresh ) {
-            const utf8_wrapper t(ev.edit);
+            const utf8_wrapper t( ev.edit );
             edit.erase( 0 );
             edit.insert( 0, t );
             ctxt->set_edittext( edit.c_str() );

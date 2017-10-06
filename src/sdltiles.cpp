@@ -1319,7 +1319,7 @@ void CheckMessages()
                 quit = true;
                 break;
         }
-        if(text_refresh) {
+        if( text_refresh ) {
             break;
         }
     }
