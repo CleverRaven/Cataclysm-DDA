@@ -49,6 +49,7 @@ using item_stack_iterator = std::list<item>::iterator;
 using volume = units::volume;
 using mass = units::mass;
 using npc_template_id = string_id<npc_template>;
+using om_direction_type = om_direction::type;
 
 lua_State *lua_state = nullptr;
 
@@ -880,9 +881,9 @@ static std::string get_omt_id( const overmap &om, const tripoint &p )
     return om.get_ter( p ).id().str();
 }
 
-static overmap_direction get_omt_dir( const overmap &om, const tripoint &p )
+static om_direction_type get_omt_dir( const overmap &om, const tripoint &p )
 {
-   return overmap_direction( om.get_ter( p ).obj().get_dir() );
+   return om.get_ter( p ).obj().get_dir();
 }
 
 static std::string string_input_popup_wrapper(std::string title, int width, std::string desc) {

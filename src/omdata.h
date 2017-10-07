@@ -30,12 +30,12 @@ namespace om_direction
 {
 /** Basic enum for directions. */
 enum class type : int {
-    invalid = overmap_direction::invalid,
-    none = overmap_direction::none,
-    north = overmap_direction::none,
-    east = overmap_direction::east,
-    south = overmap_direction::south,
-    west = overmap_direction::west,
+    invalid = -1,
+    none,
+    north = none,
+    east,
+    south,
+    west,
 };
 
 /** For the purposes of iteration. */
