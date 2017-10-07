@@ -143,23 +143,6 @@ std::string scent_map::serialize() const
     return rle_out.str();
 }
 
-
-/*
- * Properly reuse a stringstream object for line by line parsing
- */
-inline std::stringstream & stream_line(std::istream & f, std::stringstream & s, std::string & buf) {
-    s.clear();
-    s.str("");
-    getline(f, buf);
-    s.str(buf);
-    return s;
-}
-
-/*
- * Convenience macro for the above
- */
-#define parseline() stream_line(fin,linein,linebuf)
-
 void chkversion(std::istream & fin) {
    if ( fin.peek() == '#' ) {
        std::string vline;
