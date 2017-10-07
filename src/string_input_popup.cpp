@@ -141,7 +141,8 @@ void string_input_popup::add_to_history( const std::string &value ) const
     }
 }
 
-void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit, const int shift ) const
+void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit,
+                               const int shift ) const
 {
     // Not static because color values are not constants, but function calls!
     const nc_color string_color = c_magenta;
