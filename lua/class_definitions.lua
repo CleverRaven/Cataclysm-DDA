@@ -2174,7 +2174,7 @@ Use `game.get_omt_id (g:get_cur_om(), player:global_omt_location())` to return o
         rval = "string"
     },
 --[[
-Returns enum, indicating direction of overmap. Possible values are in `om_direction_type` in `enum` section below.
+Returns enum, indicating direction of overmap. Possible values are in `om_direction_type` in `enums` section above.
 Use `game.get_omt_dir (g:get_cur_om(), player:global_omt_location())` to return overmap direction of current location.
 --]]
     get_omt_dir = {
