@@ -632,7 +632,7 @@ classes = {
             { name = "invoke_item", rval = "bool", args = { "item" } },
             { name = "invoke_item", rval = "bool", args = { "item", "string" } },
             { name = "invoke_item", rval = "bool", args = { "item", "string", "tripoint" } },
-            { name = "invoke_item", rval = "bool", args = { "item", "tripoint" } },            
+            { name = "invoke_item", rval = "bool", args = { "item", "tripoint" } },
             { name = "is_armed", rval = "bool", args = { } },
             { name = "is_dead_state", rval = "bool", args = { } },
             { name = "is_deaf", rval = "bool", args = { } },
@@ -2178,7 +2178,7 @@ Returns `om_direction::id` and can take one of the following values: `invalid`, 
     get_omt_dir = {
         cpp_name = "get_omt_dir",
         args = { "overmap", "tripoint" },
-        rval = "string"
+        rval = "overmap_direction"
     }
 }
 

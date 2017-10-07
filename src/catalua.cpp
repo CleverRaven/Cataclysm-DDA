@@ -875,14 +875,14 @@ static calendar &get_calendar_turn_wrapper() {
     return calendar::turn;
 }
 
-const std::string get_omt_id( const overmap &om, const tripoint &p )
+static std::string get_omt_id( const overmap &om, const tripoint &p )
 {
     return om.get_ter( p ).id().str();
 }
 
-const std::string get_omt_dir( const overmap &om, const tripoint &p )
+static overmap_direction get_omt_dir( const overmap &om, const tripoint &p )
 {
-    return om_direction::id( om.get_ter( p ).obj().get_dir() );
+   return overmap_direction( om.get_ter( p ).obj().get_dir() );
 }
 
 static std::string string_input_popup_wrapper(std::string title, int width, std::string desc) {
