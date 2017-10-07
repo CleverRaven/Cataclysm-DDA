@@ -225,7 +225,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         create_context();
     }
     utf8_wrapper ret( _text );
-    utf8_wrapper edit = ctxt->get_edittext();
+    utf8_wrapper edit( ctxt->get_edittext() );
     if( _position == -1 ) {
         _position = ret.length();
     }
@@ -354,9 +354,9 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             const utf8_wrapper t( ev.text );
             ret.insert( _position, t );
             _position += t.length();
-            redraw = true;
             edit.erase( 0 );
             ctxt->set_edittext( edit.c_str() );
+            redraw = true;
         } else if( ev.edit_refresh ) {
             const utf8_wrapper t( ev.edit );
             edit.erase( 0 );
