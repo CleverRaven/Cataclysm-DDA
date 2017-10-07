@@ -1187,7 +1187,7 @@ void game::init_lua()
 
     load_metatables( lua_state );
     LuaEnum<body_part>::export_global( lua_state, "body_part" );
-    LuaEnum<overmap_direction>::export_global( lua_state, "overmap_direction" );
+    LuaEnum<om_direction_type>::export_global( lua_state, "om_direction_type" );
 
     // override default print to our version
     lua_register( lua_state, "print", game_myPrint );
