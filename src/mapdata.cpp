@@ -507,7 +507,8 @@ ter_id t_null,
     // Temple tiles
     t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
     t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even, t_open_air, t_plut_generator,
-    t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp;
+    t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp,
+    t_rubble, t_railroad_track, t_railroad_track_on_tie, t_railroad_tie;
 
 // @todo Put this crap into an inclusion, which should be generated automatically using JSON data
 
@@ -771,6 +772,10 @@ void set_ter_ids() {
     t_sidewalk_bg_dp = ter_id( "t_sidewalk_bg_dp" );
     t_guardrail_bg_dp = ter_id( "t_guardrail_bg_dp" );
     t_improvised_shelter = ter_id( "t_improvised_shelter" );
+    t_rubble = ter_id( "t_rubble" );
+    t_railroad_track = ter_id( "t_railroad_track" );
+    t_railroad_track_on_tie = ter_id( "t_railroad_track_on_tie" );
+    t_railroad_tie = ter_id( "t_railroad_tie" );
 
     for( auto &elem : terrain_data.get_all() ) {
         ter_t &ter = const_cast<ter_t&>( elem );

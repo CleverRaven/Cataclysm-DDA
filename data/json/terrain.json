@@ -6519,5 +6519,41 @@
       ]
     },
     "flags": [ "BASHABLE", "CONTAINER", "SEALED", "PLACE_ITEM", "WALL" ]
+  },
+  {
+    "id": "t_rubble",
+    "type": "terrain",
+    "name": "railroad rubble",
+    "symbol": "^",
+    "color": [ "brown" ],
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_track",
+    "type": "terrain",
+    "name": "railroad track",
+    "symbol": "X",
+    "color": [ "cyan" ],
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_track_on_tie",
+    "type": "terrain",
+    "name": "railroad track",
+    "symbol": "x",
+    "color": [ "cyan" ],
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "id": "t_railroad_tie",
+    "type": "terrain",
+    "name": "railroad tie",
+    "symbol": "#",
+    "color": [ "dgray_brown" ],
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT" ]
   }
 ]
