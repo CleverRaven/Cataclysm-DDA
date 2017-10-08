@@ -2014,13 +2014,13 @@
         "flags" : [ "KNOWN_DOWN", "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "subway_station",
-        "name" : "subway station",
+        "id" : "sub_station_underground",
+        "name" : "subway station (underground)",
         "sym" : 83,
         "color" : "yellow",
         "see_cost" : 5,
         "extras" : "subway",
-        "flags" : [ "KNOWN_UP", "NO_ROTATE" ]
+        "flags" : [ "KNOWN_UP" ]
     },{
         "type" : "overmap_terrain",
         "id" : "subway",
