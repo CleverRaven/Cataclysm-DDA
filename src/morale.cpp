@@ -21,6 +21,8 @@ static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_hot( "hot" );
 static const efftype_id effect_took_prozac( "took_prozac" );
 
+static const morale_type morale_pain( "morale_pain" );
+
 namespace
 {
 static const std::string item_name_placeholder = "%s"; // Used to address an item name
@@ -518,7 +520,7 @@ void player_morale::on_stat_change( const std::string &stat, int value )
 {
     if( stat == "perceived_pain" ) {
         perceived_pain = value;
-        update_masochist_bonus();
+        update_pain_effect();
     }
 }
 
@@ -600,7 +602,7 @@ void player_morale::set_prozac( bool new_took_prozac )
 {
     if( took_prozac != new_took_prozac ) {
         took_prozac = new_took_prozac;
-        update_masochist_bonus();
+        update_pain_effect();
         invalidate();
     }
 }
@@ -636,25 +638,24 @@ void player_morale::update_stylish_bonus()
     set_permanent( MORALE_PERM_FANCY, bonus );
 }
 
-void player_morale::update_masochist_bonus()
+void player_morale::update_pain_effect()
 {
     const bool amateur_masochist = has_mutation( trait_id( "MASOCHIST" ) );
     const bool advanced_masochist = has_mutation( trait_id( "MASOCHIST_MED" ) ) ||
                                     has_mutation( trait_id( "CENOBITE" ) );
     const bool any_masochist = amateur_masochist || advanced_masochist;
 
-    int bonus = 0;
+    int total = any_masochist ? 0 : -perceived_pain;
 
-    if( any_masochist ) {
-        bonus = perceived_pain / 2.5;
-        if( amateur_masochist ) {
-            bonus = std::min( bonus, 25 );
-        }
+    if( advanced_masochist ) {
+        total += perceived_pain / 2.5;
         if( took_prozac ) {
-            bonus = bonus / 3;
+            total = total / 3;
         }
     }
-    set_permanent( MORALE_PERM_MASOCHIST, bonus );
+
+    set_permanent( MORALE_PERM_MASOCHIST, std::max( 0, total ) );
+    set_permanent( morale_pain, std::min( 0, total ) );
 }
 
 void player_morale::update_bodytemp_penalty( int ticks )
