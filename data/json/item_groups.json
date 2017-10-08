@@ -8517,18 +8517,19 @@
       ["44army", 50]
     ]
   },{
-"type" : "item_group",
-"id" : "museum_misc",
-"items" : [
-      ["small_relic", 80],
-      ["holy_symbol", 80],
-      ["spiral_stone", 80],
-      ["petrified_eye",5],
-      ["etched_skull", 80],
-      ["ceramic_plate", 90],
-      ["ceramic_bowl", 90],
-      ["clay_hydria", 50],
-      ["ceramic_cup", 90]
+    "id": "museum_misc",
+    "type": "item_group",
+    "items": [
+      [ "small_relic", 80 ],
+      [ "holy_symbol", 80 ],
+      [ "spiral_stone", 80 ],
+      [ "petrified_eye", 5 ],
+      [ "etched_skull", 80 ],
+      [ "ceramic_plate", 90 ],
+      [ "ceramic_bowl", 90 ],
+      [ "clay_hydria", 50 ],
+      [ "ceramic_cup", 90 ],
+      [ "crown_golden", 10 ]
     ]
   },{
   "type" : "item_group",
