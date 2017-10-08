@@ -635,13 +635,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param weight The weight used when choosing what reason to pick when the
          * player misses.
          */
-        void add_miss_reason(const char *reason, unsigned int weight);
+        void add_miss_reason( std::string reason, unsigned int weight);
         /** Clears the list of reasons for why the player would miss a melee attack. */
         void clear_miss_reasons();
         /**
          * Returns an explanation for why the player would miss a melee attack.
          */
-        const char *get_miss_reason();
+        std::string get_miss_reason();
 
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
         bool uncanny_dodge() override;
@@ -1655,7 +1655,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int cached_turn;
         tripoint cached_position;
 
-        struct weighted_int_list<const char*> melee_miss_reasons;
+        struct weighted_int_list<std::string> melee_miss_reasons;
 
         player_morale_ptr morale;
 
