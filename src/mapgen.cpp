@@ -7972,10 +7972,7 @@ bool connects_to(oter_id there, int dir)
 {
     switch (dir) {
     case 2:
-        if (there == "subway_ns"  || there == "subway_es" || there == "subway_sw" ||
-            there == "subway_nes" || there == "subway_nsw" ||
-            there == "subway_esw" || there == "subway_nesw" ||
-            there == "sewer_ns"   || there == "sewer_es" || there == "sewer_sw" ||
+        if (there == "sewer_ns"   || there == "sewer_es" || there == "sewer_sw" ||
             there == "sewer_nes"  || there == "sewer_nsw" || there == "sewer_esw" ||
             there == "sewer_nesw" || there == "ants_ns" || there == "ants_es" ||
             there == "ants_sw"    || there == "ants_nes" ||  there == "ants_nsw" ||
@@ -7984,10 +7981,7 @@ bool connects_to(oter_id there, int dir)
         }
         return false;
     case 3:
-        if (there == "subway_ew"  || there == "subway_sw" || there == "subway_wn" ||
-            there == "subway_new" || there == "subway_nsw" ||
-            there == "subway_esw" || there == "subway_nesw" ||
-            there == "sewer_ew"   || there == "sewer_sw" || there == "sewer_wn" ||
+        if (there == "sewer_ew"   || there == "sewer_sw" || there == "sewer_wn" ||
             there == "sewer_new"  || there == "sewer_nsw" || there == "sewer_esw" ||
             there == "sewer_nesw" || there == "ants_ew" || there == "ants_sw" ||
             there == "ants_wn"    || there == "ants_new" || there == "ants_nsw" ||
@@ -7996,10 +7990,7 @@ bool connects_to(oter_id there, int dir)
         }
         return false;
     case 0:
-        if (there == "subway_ns"  || there == "subway_ne" || there == "subway_wn" ||
-            there == "subway_nes" || there == "subway_new" ||
-            there == "subway_nsw" || there == "subway_nesw" ||
-            there == "sewer_ns"   || there == "sewer_ne" ||  there == "sewer_wn" ||
+        if (there == "sewer_ns"   || there == "sewer_ne" ||  there == "sewer_wn" ||
             there == "sewer_nes"  || there == "sewer_new" || there == "sewer_nsw" ||
             there == "sewer_nesw" || there == "ants_ns" || there == "ants_ne" ||
             there == "ants_wn"    || there == "ants_nes" || there == "ants_new" ||
@@ -8008,10 +7999,7 @@ bool connects_to(oter_id there, int dir)
         }
         return false;
     case 1:
-        if (there == "subway_ew"  || there == "subway_ne" || there == "subway_es" ||
-            there == "subway_nes" || there == "subway_new" ||
-            there == "subway_esw" || there == "subway_nesw" ||
-            there == "sewer_ew"   || there == "sewer_ne" || there == "sewer_es" ||
+        if (there == "sewer_ew"   || there == "sewer_ne" || there == "sewer_es" ||
             there == "sewer_nes"  || there == "sewer_new" || there == "sewer_esw" ||
             there == "sewer_nesw" || there == "ants_ew" || there == "ants_ne" ||
             there == "ants_es"    || there == "ants_nes" || there == "ants_new" ||

@@ -165,14 +165,12 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
     // Old rock behavior, for compatibility and near caverns and slime pits
     { "rock", &mapgen_rock_partial },
 
-    { "subway_station", &mapgen_subway_station },
-
-    { "subway_straight",    &mapgen_subway_straight },
-    { "subway_curved",      &mapgen_subway_curved },
+    { "subway_straight",    &mapgen_subway },
+    { "subway_curved",      &mapgen_subway },
     // @todo Add a dedicated dead-end function. For now it copies the straight section above.
-    { "subway_end",         &mapgen_subway_straight },
-    { "subway_tee",         &mapgen_subway_tee },
-    { "subway_four_way",    &mapgen_subway_four_way },
+    { "subway_end",         &mapgen_subway },
+    { "subway_tee",         &mapgen_subway },
+    { "subway_four_way",    &mapgen_subway },
 
     { "sewer_straight",    &mapgen_sewer_straight },
     { "sewer_curved",      &mapgen_sewer_curved },
@@ -1326,164 +1324,293 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
 }
 ///////////////////
 
-//    } else if (terrain_type == "subway_station") {
-void mapgen_subway_station(map *m, oter_id, mapgendata dat, int, float)
+void mapgen_subway( map *m, oter_id terrain_type, mapgendata dat, int, float )
 {
-        if (is_ot_type("subway", dat.north()) && connects_to(dat.north(), 2)) {
-            dat.set_dir(0, 1); //n_fac = 1;
-        }
-        if (is_ot_type("subway", dat.east()) && connects_to(dat.east(), 3)) {
-            dat.set_dir(0, 1);
-            //e_fac = 1;
-        }
-        if (is_ot_type("subway", dat.south()) && connects_to(dat.south(), 0)) {
-            dat.set_dir(0, 1);
-            //s_fac = 1;
-        }
-        if (is_ot_type("subway", dat.west()) && connects_to(dat.west(), 1)) {
-            dat.set_dir(0, 1);
-            //w_fac = 1;
+    // start by filling the whole map with grass/dirt/etc
+    dat.fill_groundcover();
+
+    // which of the cardinal directions get subway?
+    bool subway_nesw[4] = {};
+    int num_dirs = terrain_type_to_nesw_array( terrain_type, subway_nesw );
+
+    // which way should our subway curve, based on neighbor subway?
+    int curvedir_nesw[4] = {};
+    for( int dir = 0; dir < 4; dir++ ) { // N E S W
+        if( subway_nesw[dir] == false || dat.t_nesw[dir]->get_type_id().str() != "subway" ) {
+            continue;
         }
 
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if ((i < 4 && (dat.w_fac == 0 || j < 4 || j > SEEY * 2 - 5)) ||
-                    (j < 4 && (dat.n_fac == 0 || i < 4 || i > SEEX * 2 - 5)) ||
-                    (i > SEEX * 2 - 5 && (dat.e_fac == 0 || j < 4 || j > SEEY * 2 - 5)) ||
-                    (j > SEEY * 2 - 5 && (dat.s_fac == 0 || i < 4 || i > SEEX * 2 - 5))) {
-                    m->ter_set(i, j, t_rock_floor);
-                } else {
-                    m->ter_set(i, j, t_rock_floor);
-                }
+        // n_* contain details about the neighbor being considered
+        bool n_subway_nesw[4] = {};
+        //TODO figure out how to call this function without creating a new oter_id object
+        int n_num_dirs = terrain_type_to_nesw_array( dat.t_nesw[dir], n_subway_nesw );
+        // if 2-way neighbor has a subway facing us
+        if( n_num_dirs == 2 && n_subway_nesw[( dir + 2 ) % 4] ) {
+            // curve towards the direction the neighbor turns
+            if( n_subway_nesw[( dir - 1 + 4 ) % 4] ) {
+                curvedir_nesw[dir]--;    // our subway curves counterclockwise
+            }
+            if( n_subway_nesw[( dir + 1 ) % 4] ) {
+                curvedir_nesw[dir]++;    // our subway curves clockwise
             }
         }
-        m->ter_set(2,            2           , t_stairs_up);
-        m->ter_set(SEEX * 2 - 3, 2           , t_stairs_up);
-        m->ter_set(2,            SEEY * 2 - 3, t_stairs_up);
-        m->ter_set(SEEX * 2 - 3, SEEY * 2 - 3, t_stairs_up);
-        if (m->ter(2, SEEY) == t_floor) {
-            m->ter_set(2, SEEY, t_stairs_up);
-        }
-        if (m->ter(SEEX * 2 - 3, SEEY) == t_floor) {
-            m->ter_set(SEEX * 2 - 3, SEEY, t_stairs_up);
-        }
-        if (m->ter(SEEX, 2) == t_floor) {
-            m->ter_set(SEEX, 2, t_stairs_up);
-        }
-        if (m->ter(SEEX, SEEY * 2 - 3) == t_floor) {
-            m->ter_set(SEEX, SEEY * 2 - 3, t_stairs_up);
-        }
-}
+    }
 
-void mapgen_subway_straight(map *m, oter_id terrain_type, mapgendata dat, int, float)
-{
-        if (terrain_type == "subway_ns") {
-            dat.w_fac = (dat.west()  == "cavern" ? 0 : 4);
-            dat.e_fac = (dat.east()  == "cavern" ? SEEX * 2 : SEEX * 2 - 5);
-        } else {
-            dat.w_fac = (dat.north() == "cavern" ? 0 : 4);
-            dat.e_fac = (dat.south() == "cavern" ? SEEX * 2 : SEEX * 2 - 5);
-        }
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if (i < dat.w_fac || i > dat.e_fac) {
-                    m->ter_set(i, j, t_rock);
-                } else if (one_in(90)) {
-                    m->ter_set(i, j, t_rock_floor);
-                    m->make_rubble( tripoint( i,  j, m->get_abs_sub().z ), f_rubble_rock, true);
-                } else {
-                    m->ter_set(i, j, t_rock_floor);
+    // calculate how far to rotate the map so we can work with just one orientation
+    // also keep track of diagonal subway
+    int rot = 0;
+    bool diag = false;
+    //TODO reduce amount of logical/conditional constructs here
+    switch ( num_dirs ) {
+        case 4: // 4-way intersection
+            break;
+        case 3: // tee
+            if( !subway_nesw[0] ) { rot = 2; break; } // E/S/W, rotate 180 degrees
+            if( !subway_nesw[1] ) { rot = 3; break; } // N/S/W, rotate 270 degrees
+            if( !subway_nesw[3] ) { rot = 1; break; } // N/E/S, rotate  90 degrees
+            break;                                    // N/E/W, don't rotate
+        case 2: // straight or diagonal
+            if( subway_nesw[1] && subway_nesw[3] ) { rot = 1; break; }              // E/W, rotate  90 degrees
+            if( subway_nesw[1] && subway_nesw[2] ) { rot = 1; diag = true; break; } // E/S, rotate  90 degrees
+            if( subway_nesw[2] && subway_nesw[3] ) { rot = 2; diag = true; break; } // S/W, rotate 180 degrees
+            if( subway_nesw[3] && subway_nesw[0] ) { rot = 3; diag = true; break; } // W/N, rotate 270 degrees
+            if( subway_nesw[0] && subway_nesw[1] ) {          diag = true; break; } // N/E, don't rotate
+            break;                                                                  // N/S, don't rotate
+        case 1: // dead end
+            if( subway_nesw[1] ) { rot = 1; break; } // E, rotate  90 degrees
+            if( subway_nesw[2] ) { rot = 2; break; } // S, rotate 180 degrees
+            if( subway_nesw[3] ) { rot = 3; break; } // W, rotate 270 degrees
+            break;                                   // N, don't rotate
+    }
+
+    // rotate the arrays left by rot steps
+    nesw_array_rotate<bool>( subway_nesw, 4, rot );
+    nesw_array_rotate<int> ( curvedir_nesw,  4, rot );
+
+    // now we have only these shapes: '   |   '-   -'-   -|-
+
+    switch ( num_dirs ) {
+        case 4: // 4-way intersection
+                mapf::formatted_set_simple( m, 0, 0, "\
+.^X^^X^.########.^X^^X^.\n\
+^-x--x-.########.-x--x-^\n\
+Xx-^^X^.########.^X^^-xX\n\
+^-^-x^...######...^x-^-^\n\
+^-^X^-............-^X^-^\n\
+XxX^................^XxX\n\
+^-^..................^-^\n\
+........................\n\
+###......######......###\n\
+####....########....####\n\
+####....########....####\n\
+####....########....####\n\
+####....########....####\n\
+####....########....####\n\
+####....########....####\n\
+###......######......###\n\
+........................\n\
+^-^..................^-^\n\
+XxX^................^XxX\n\
+^-^X^-............-^X^-^\n\
+^-^-x^...######...^x-^-^\n\
+Xx-^^X^.########.^X^^-xX\n\
+^-x--x-.########.-x--x-^\n\
+.^X^^X^.########.^X^^X^.",
+                    mapf::ter_bind( ". # ^ - X x |",
+                        t_rock_floor,
+                        t_rock,
+                        t_rubble,
+                        t_railroad_tie,
+                        t_railroad_track,
+                        t_railroad_track_on_tie,
+                        t_railing_v ),
+                    mapf::furn_bind( ". # ^ - X x |",
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null ) );
+            break;
+        case 3: // tee
+                mapf::formatted_set_simple( m, 0, 0, "\
+.^X^^X^.########.^X^^X^.\n\
+^-x--x-.########.-x--x-^\n\
+Xx-^^X^.########.^X^^-xX\n\
+^-^-x^...######...^x-^-^\n\
+^-^X^-............-^X^-^\n\
+XxX^................^XxX\n\
+^-^..................^-^\n\
+........................\n\
+###......######......###\n\
+####....########....####\n\
+####....########....####\n\
+####....########....####\n\
+####....########....####\n\
+####....########....####\n\
+####....########....####\n\
+###......######......###\n\
+........................\n\
+^-^^-^^-^^-^^-^^-^^-^^-^\n\
+XxXXxXXxXXxXXxXXxXXxXXxX\n\
+^-^^-^^-^^-^^-^^-^^-^^-^\n\
+^-^^-^^-^^-^^-^^-^^-^^-^\n\
+XxXXxXXxXXxXXxXXxXXxXXxX\n\
+^-^^-^^-^^-^^-^^-^^-^^-^\n\
+........................",
+                    mapf::ter_bind( ". # ^ - X x |",
+                        t_rock_floor,
+                        t_rock,
+                        t_rubble,
+                        t_railroad_tie,
+                        t_railroad_track,
+                        t_railroad_track_on_tie,
+                        t_railing_v ),
+                    mapf::furn_bind( ". # ^ - X x |",
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null ) );
+            break;
+        case 2: // straight or diagonal
+            if( diag ) { // diagonal subway get drawn differently from all other types
+                    mapf::formatted_set_simple( m, 0, 0, "\
+.^X^^X^.########.^X^^X^.\n\
+.-x--x-.########.-x--x-^\n\
+.^X^^X^.########.^X^^-xX\n\
+.^X^^X^..######...^x-^-^\n\
+.-x--x-...........-^X^-^\n\
+.^X^^X^.............^XxX\n\
+.^X^^X^..............^-^\n\
+.-x--x-.................\n\
+.^X^^X^..######......###\n\
+.^X^^X^.########....####\n\
+.-x--x-.########....####\n\
+.^X^^X^.########....####\n\
+.^X^^X^.########....####\n\
+.-x--x-.########....####\n\
+.^X^^X^.########....####\n\
+.^X^^X^..######......###\n\
+.-X--X-.................\n\
+..^X^^X-^^-^^-^^-^^-^^-^\n\
+##.^X^-xXXxXXxXXxXXxXXxX\n\
+###.-x^-^^-^^-^^-^^-^^-^\n\
+####.^X-^^-^^-^^-^^-^^-^\n\
+#####.^XXXxXXxXXxXXxXXxX\n\
+######.-^^-^^-^^-^^-^^-^\n\
+######..................",
+                    mapf::ter_bind( ". # ^ - X x |",
+                        t_rock_floor,
+                        t_rock,
+                        t_rubble,
+                        t_railroad_tie,
+                        t_railroad_track,
+                        t_railroad_track_on_tie,
+                        t_railing_v ),
+                    mapf::furn_bind( ". # ^ - X x |",
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null ) );
+            } else { // normal subway drawing
+                mapf::formatted_set_simple( m, 0, 0, "\
+.^X^^X^.########.^X^^X^.\n\
+.-x--x-.########.-x--x-.\n\
+.^X^^X^.########.^X^^X^.\n\
+.^X^^X^..######..^X^^X^.\n\
+.-x--x-..........-x--x-.\n\
+.^X^^X^..........^X^^X^.\n\
+.^X^^X^..........^X^^X^.\n\
+.-x--x-..........-x--x-.\n\
+.^X^^X^..######..^X^^X^.\n\
+.^X^^X^.########.^X^^X^.\n\
+.-x--x-.########.-x--x-.\n\
+.^X^^X^.########.^X^^X^.\n\
+.^X^^X^.########.^X^^X^.\n\
+.-x--x-.########.-x--x-.\n\
+.^X^^X^.########.^X^^X^.\n\
+.^X^^X^..######..^X^^X^.\n\
+.-x--x-..........-x--x-.\n\
+.^X^^X^..........^X^^X^.\n\
+.^X^^X^..........^X^^X^.\n\
+.-x--x-..........-x--x-.\n\
+.^X^^X^..######..^X^^X^.\n\
+.^X^^X^.########.^X^^X^.\n\
+.-x--x-.########.-x--x-.\n\
+.^X^^X^.########.^X^^X^.",
+                    mapf::ter_bind( ". # ^ - X x |",
+                        t_rock_floor,
+                        t_rock,
+                        t_rubble,
+                        t_railroad_tie,
+                        t_railroad_track,
+                        t_railroad_track_on_tie,
+                        t_railing_v ),
+                    mapf::furn_bind( ". # ^ - X x |",
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null ) );
                 }
-            }
-        }
-        if (is_ot_type("sub_station", dat.t_above)) {
-            m->ter_set(SEEX * 2 - 5, rng(SEEY - 5, SEEY + 4), t_stairs_up);
-        }
-        m->place_items("subway", 30, 4, 0, SEEX * 2 - 5, SEEY * 2 - 1, true, 0);
-        if (terrain_type == "subway_ew") {
-            m->rotate(1);
-        }
-}
+            break;
+        case 1:  // dead end
+                mapf::formatted_set_simple( m, 0, 0, "\
+.^X^^X^.########.^X^^X^.\n\
+.-x--x-.########.-x--x-.\n\
+.^X^^X^.########.^X^^X^.\n\
+.^X^^X^..######..^X^^X^.\n\
+.-x--x-..........-x--x-.\n\
+.^X^^X^..........^X^^X^.\n\
+.^X^^X^..........^X^^X^.\n\
+.-x--x-..........-x--x-.\n\
+.^X^^X^..######..^X^^X^.\n\
+.^X^^X^.########.^X^^X^.\n\
+.-x--x-.########.-x--x-.\n\
+.^X^^X^.########.^X^^X^.\n\
+........########........\n\
+........########........\n\
+........########........\n\
+#......##########......#\n\
+########################\n\
+########################\n\
+########################\n\
+########################\n\
+########################\n\
+########################\n\
+########################\n\
+########################",
+                    mapf::ter_bind( ". # ^ - X x |",
+                        t_rock_floor,
+                        t_rock,
+                        t_rubble,
+                        t_railroad_tie,
+                        t_railroad_track,
+                        t_railroad_track_on_tie,
+                        t_railing_v),
+                    mapf::furn_bind( ". # ^ - X x |",
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null,
+                        f_null ) );
+            break;
+    }
 
-void mapgen_subway_curved(map *m, oter_id terrain_type, mapgendata dat, int, float)
-{
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if ((i >= SEEX * 2 - 4 && j < 4) || i < 4 || j >= SEEY * 2 - 4) {
-                    m->ter_set(i, j, t_rock);
-                } else if (one_in(30)) {
-                    m->ter_set(i, j, t_rock_floor);
-                    m->make_rubble( tripoint( i,  j, m->get_abs_sub().z ), f_rubble_rock, true);
-                } else {
-                    m->ter_set(i, j, t_rock_floor);
-                }
-            }
-        }
-        if( is_ot_type( "sub_station", dat.t_above ) ) {
-            m->ter_set(SEEX * 2 - 5, rng(SEEY - 5, SEEY + 4), t_stairs_up);
-        }
-        m->place_items("subway", 30, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
-        if (terrain_type == "subway_es") {
-            m->rotate(1);
-        }
-        if (terrain_type == "subway_sw") {
-            m->rotate(2);
-        }
-        if (terrain_type == "subway_wn") {
-            m->rotate(3);
-        }
-}
+    // finally, un-rotate the map
+    m->rotate( rot );
 
-void mapgen_subway_tee(map *m, oter_id terrain_type, mapgendata dat, int, float)
-{
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if (i < 4 || (i >= SEEX * 2 - 4 && (j < 4 || j >= SEEY * 2 - 4))) {
-                    m->ter_set(i, j, t_rock);
-                } else if (one_in(30)) {
-                    m->ter_set(i, j, t_rock_floor);
-                    m->make_rubble( tripoint( i,  j, m->get_abs_sub().z ), f_rubble_rock, true);
-                } else {
-                    m->ter_set(i, j, t_rock_floor);
-                }
-            }
-        }
-        if( is_ot_type( "sub_station", dat.t_above ) ) {
-            m->ter_set(4, rng(SEEY - 5, SEEY + 4), t_stairs_up);
-        }
-        m->place_items("subway", 35, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
-        if (terrain_type == "subway_esw") {
-            m->rotate(1);
-        }
-        if (terrain_type == "subway_nsw") {
-            m->rotate(2);
-        }
-        if (terrain_type == "subway_new") {
-            m->rotate(3);
-        }
-}
-
-void mapgen_subway_four_way(map *m, oter_id, mapgendata dat, int, float)
-{
-
-        for (int i = 0; i < SEEX * 2; i++) {
-            for (int j = 0; j < SEEY * 2; j++) {
-                if ((i < 4 || i >= SEEX * 2 - 4) &&
-                    (j < 4 || j >= SEEY * 2 - 4)) {
-                    m->ter_set(i, j, t_rock);
-                } else if (one_in(30)) {
-                    m->ter_set(i, j, t_rock_floor);
-                    m->make_rubble( tripoint( i,  j, m->get_abs_sub().z ), f_rubble_rock, true);
-                } else {
-                    m->ter_set(i, j, t_rock_floor);
-                }
-            }
-        }
-
-        if (is_ot_type("sub_station", dat.t_above)) {
-            m->ter_set(4 + rng(0, 1) * (SEEX * 2 - 9), 4 + rng(0, 1) * (SEEY * 2 - 9), t_stairs_up);
-        }
-        m->place_items("subway", 40, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
 }
 
 void mapgen_sewer_straight(map *m, oter_id terrain_type, mapgendata dat, int, float)

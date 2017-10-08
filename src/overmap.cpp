@@ -1822,9 +1822,14 @@ bool overmap::generate_sub(int const z)
     const string_id<overmap_connection> subway_tunnel( "subway_tunnel" );
     connect_closest_points( subway_points, z, *subway_tunnel );
 
-    for (auto &i : subway_points) {
-        ter(i.x, i.y, z) = oter_id( "subway_station" );
+    for( auto &i : subway_points ) {
+        if( ter( i.x, i.y - 1, z ) == "subway_ns" || ter( i.x, i.y + 1, z ) == "subway_ns" ) {
+            ter( i.x, i.y, z ) = oter_id( "sub_station_underground_north" );
+        } else if( ter( i.x - 1, i.y, z ) == "subway_ew" || ter( i.x + 1, i.y, z ) == "subway_ew" ) {
+            ter( i.x, i.y, z ) = oter_id( "sub_station_underground_west" );
+        }
     }
+
     for (auto &i : lab_points) {
         bool lab = build_lab(i.x, i.y, z, i.s);
         requires_sub |= lab;

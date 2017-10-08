@@ -180,11 +180,7 @@ void mapgen_rock_partial(map *m, oter_id terrain_type, mapgendata dat, int turn,
 void mapgen_open_air(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_rift(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_hellmouth(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_subway_station(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_subway_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_subway_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_subway_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_subway_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_subway(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 
 void mapgen_sewer_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_sewer_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
