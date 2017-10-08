@@ -1752,7 +1752,9 @@ bool overmap::generate_sub(int const z)
                 ter(i, j, z) = oter_id( "basement" );
             } else if (is_ot_type("sub_station", oter_above)) {
                 ter(i, j, z) = oter_id( "subway_isolated" );
+                subway_points.emplace_back( i, j - 1 );
                 subway_points.emplace_back( i, j );
+                subway_points.emplace_back( i, j + 1 );
             } else if (oter_above == "road_nesw_manhole") {
                 ter(i, j, z) = oter_id( "sewer_isolated" );
                 sewer_points.emplace_back( i, j );
@@ -1823,10 +1825,8 @@ bool overmap::generate_sub(int const z)
     connect_closest_points( subway_points, z, *subway_tunnel );
 
     for( auto &i : subway_points ) {
-        if( ter( i.x, i.y - 1, z ) == "subway_ns" || ter( i.x, i.y + 1, z ) == "subway_ns" ) {
-            ter( i.x, i.y, z ) = oter_id( "sub_station_underground_north" );
-        } else if( ter( i.x - 1, i.y, z ) == "subway_ew" || ter( i.x + 1, i.y, z ) == "subway_ew" ) {
-            ter( i.x, i.y, z ) = oter_id( "sub_station_underground_west" );
+        if( is_ot_type( "sub_station", ter( i.x, i.y, z + 1 ) ) ) {
+            ter( i.x, i.y, z ) = oter_id( "sub_station_underground" );
         }
     }
 

@@ -2020,7 +2020,7 @@
         "color" : "yellow",
         "see_cost" : 5,
         "extras" : "subway",
-        "flags" : [ "KNOWN_UP" ]
+        "flags" : [ "KNOWN_UP", "NO_ROTATE" ]
     },{
         "type" : "overmap_terrain",
         "id" : "subway",
