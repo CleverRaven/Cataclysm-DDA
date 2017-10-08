@@ -447,26 +447,29 @@ class JsonOut
     private:
         std::ostream *stream;
         bool pretty_print;
-        bool need_separator = false;
         std::vector<bool> need_wrap;
         bool exited_object = false;
         int indent_level = 0;
+        bool need_separator = false;
 
     public:
-        JsonOut(std::ostream &stream, bool pretty_print = false);
+        JsonOut(std::ostream &stream, bool pretty_print = false, int depth = 0);
 
         // punctuation
         void write_indent();
         void write_separator();
         void write_member_separator();
-        void need_seperator() { need_separator = true; }
+        bool get_need_separator() { return need_separator; }
+        void set_need_separator() { need_separator = true; }
         std::ostream *get_stream() { return stream; }
+        int tell();
+        void seek( int pos );
         void start_pretty();
         void end_pretty();
 
         void start_object();
         void end_object();
-        void start_array();
+        void start_array( bool wrap = false );
         void end_array();
 
         // write data to the output stream as JSON

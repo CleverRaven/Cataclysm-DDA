@@ -1567,7 +1567,8 @@ std::string JsonIn::substr(size_t pos, size_t len)
     return ret;
 }
 
-JsonOut::JsonOut( std::ostream &s, bool pretty ) : stream( &s ), pretty_print( pretty )
+JsonOut::JsonOut( std::ostream &s, bool pretty, int depth ) :
+    stream( &s ), pretty_print( pretty ), indent_level( depth )
 {
     // ensure consistent and locale-independent formatting of numerals
     stream->imbue( std::locale::classic() );
@@ -1577,6 +1578,18 @@ JsonOut::JsonOut( std::ostream &s, bool pretty ) : stream( &s ), pretty_print( p
 
     // automatically stringify bool to "true" or "false"
     stream->setf( std::ios_base::boolalpha );
+}
+
+int JsonOut::tell()
+{
+    return stream->tellp();
+}
+
+void JsonOut::seek( int pos )
+{
+    stream->clear();
+    stream->seekp( pos );
+    need_separator = false;
 }
 
 void JsonOut::write_indent()
@@ -1665,13 +1678,13 @@ void JsonOut::end_object()
     exited_object = true;
 }
 
-void JsonOut::start_array()
+void JsonOut::start_array( bool wrap )
 {
-    if (need_separator) {
+    if( need_separator ) {
         write_separator();
     }
-    stream->put('[');
-    need_wrap.push_back( false );
+    stream->put( '[' );
+    need_wrap.push_back( wrap );
     start_pretty();
     need_separator = false;
     exited_object = false;

@@ -8,22 +8,52 @@
 #include <sstream>
 #include <string>
 
-static void format( JsonIn &jsin, JsonOut &jsout )
+static void format( JsonIn &jsin, JsonOut &jsout, int depth = -1 );
+
+static void write_array( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wrap )
 {
+    jsout.start_array( force_wrap );
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        format( jsin, jsout, depth );
+    }
+    jsout.end_array();
+}
+
+static void format( JsonIn &jsin, JsonOut &jsout, int depth )
+{
+    depth++;
     if( jsin.test_array() ) {
-        jsout.start_array();
-        jsin.start_array();
-        while( !jsin.end_array() ) {
-            format( jsin, jsout );
+        if( depth > 1 ) {
+            // We're backtracking by storing jsin and jsout state before formatting
+            // and restoring it afterwards if necessary.
+            int in_start_pos = jsin.tell();
+            bool ate_seperator = jsin.get_ate_separator();
+            int out_start_pos = jsout.tell();
+            bool need_separator = jsout.get_need_separator();
+            write_array( jsin, jsout, depth, false );
+            if( jsout.tell() - out_start_pos <= 120 ) {
+                // Line is short enough, so we're done.
+                return;
+            } else {
+                // Reset jsin and jsout to their initial state,
+                // and we'll serialize while forcing wrapping.
+                jsin.seek( in_start_pos );
+                jsin.set_ate_separator( ate_seperator );
+                jsout.seek( out_start_pos );
+                if( need_separator ) {
+                    jsout.set_need_separator();
+                }
+            }
         }
-        jsout.end_array();
+        write_array( jsin, jsout, depth, true );
     } else if( jsin.test_object() ) {
         jsout.start_object();
         jsin.start_object();
         while( !jsin.end_object() ) {
             std::string name = jsin.get_member_name();
             jsout.member( name );
-            format( jsin, jsout );
+            format( jsin, jsout, depth );
         }
         jsout.end_object();
     } else if( jsin.test_string() ) {
@@ -50,7 +80,7 @@ static void format( JsonIn &jsin, JsonOut &jsout )
             }
             jsout.write_separator();
             *jsout.get_stream() << double_str;
-            jsout.need_seperator();
+            jsout.set_need_separator();
         }
         jsin.seek( end_pos );
     } else if( jsin.test_bool() ) {
