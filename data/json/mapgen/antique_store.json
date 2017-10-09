@@ -76,13 +76,48 @@
             "t": "f_table"
           },
           "place_items": [
-            { "item": "antique", "x": [ 4, 9 ], "y": [ 10, 10 ], "chance": 70 },
-            { "item": "antique", "x": [ 14, 19 ], "y": [ 10, 10 ], "chance": 70 },
-            { "item": "antique", "x": [ 4, 9 ], "y": [ 13, 13 ], "chance": 70 },
-            { "item": "antique", "x": [ 14, 19 ], "y": [ 13, 13 ], "chance": 70 },
-            { "item": "antique", "x": [ 1, 1 ], "y": [ 8, 15 ], "chance": 70 },
-            { "item": "antique", "x": [ 22, 22 ], "y": [ 8, 15 ], "chance": 70 },
-            { "item": "antique_rare", "x": [ 9, 14 ], "y": [ 16, 16 ], "chance": 65 }
+            {
+              "item": "antique",
+              "x": [ 4, 9 ],
+              "y": [ 10, 10 ],
+              "chance": 70
+            },
+            {
+              "item": "antique",
+              "x": [ 14, 19 ],
+              "y": [ 10, 10 ],
+              "chance": 70
+            },
+            {
+              "item": "antique",
+              "x": [ 4, 9 ],
+              "y": [ 13, 13 ],
+              "chance": 70
+            },
+            {
+              "item": "antique",
+              "x": [ 14, 19 ],
+              "y": [ 13, 13 ],
+              "chance": 70
+            },
+            {
+              "item": "antique",
+              "x": [ 1, 1 ],
+              "y": [ 8, 15 ],
+              "chance": 70
+            },
+            {
+              "item": "antique",
+              "x": [ 22, 22 ],
+              "y": [ 8, 15 ],
+              "chance": 70
+            },
+            {
+              "item": "antique_rare",
+              "x": [ 9, 14 ],
+              "y": [ 16, 16 ],
+              "chance": 65
+            }
           ]
         }
       }

@@ -122,6 +122,7 @@ data/json/items/magazine/5x50.json
 data/json/items/tool/med.json
 data/json/items/tool/workshop.json
 data/json/default_blacklist.json
+data/json/mapgen/antique_store.json
 data/json/morale_types.json
 data/json/emit.json
 data/json/flags.json
