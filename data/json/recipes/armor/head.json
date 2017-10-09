@@ -100,8 +100,16 @@
     "difficulty": 6,
     "time": 600000,
     "book_learn": [ [ "jewelry_book", 6 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "anvil", -1 ] ],
+      [ [ "swage", -1 ] ],
+      [ [ "forge", 50 ], [ "oxy_torch", 10 ] ]
+    ],
     "components": [ [ [ "gold_small", 300 ] ] ]
   },
   {
