@@ -14,13 +14,13 @@
   {
     "id": "hard_liquor_chem",
     "type": "requirement",
-    "//": "Hard liquor and ethonol - Must be diluted. Added for ease of use",
+    "//": "Hard liquor and ethanol - Must be diluted. Added for ease of use",
     "components": [ [ [ "hard_liquor", 1, "LIST" ], [ "chem_ethanol", 125 ] ] ]
   },
   {
     "id": "hard_liquor_toxic",
     "type": "requirement",
-    "//": "Hard liquor, ethonol, and denaturalized alcohol - Do not use in comestibles",
+    "//": "Hard liquor, ethanol, and denaturalized alcohol - Do not use in comestibles",
     "components": [ [ [ "hard_liquor_chem", 1, "LIST" ], [ "denat_alcohol", 125 ] ] ]
   },
   {
