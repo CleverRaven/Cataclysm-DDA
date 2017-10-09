@@ -1,0 +1,16 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "No_Electric_Zombies",
+    "name": "No Electric Zombies",
+    "description": "Removes all electric zombies from the game.",
+    "category": "monster_exclude",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "type": "MONSTER_BLACKLIST",
+    "monsters": [
+      "mon_zombie_electric"
+    ]
+  }
+]
