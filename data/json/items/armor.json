@@ -1962,8 +1962,8 @@
   },
   {
     "id": "crown_golden_survivor",
-    "copy-from": "crown_golden",
     "type": "ARMOR",
+    "copy-from": "crown_golden",
     "description": "A golden crown for the monarch of survivors.",
     "flags": [ "FANCY" ]
   },
