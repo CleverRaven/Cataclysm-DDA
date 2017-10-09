@@ -15,10 +15,12 @@
     "power": 64,
     "damage_modifier": 50,
     "folded_volume": 2,
-    "breaks_into": [ {
+    "breaks_into": [
+      {
         "item": "steel_chunk",
         "count": [ 1, 2 ]
-      }, {
+      },
+      {
         "item": "scrap",
         "count": [ 0, 2 ]
       }
@@ -41,10 +43,12 @@
     "power": 32,
     "damage_modifier": 50,
     "folded_volume": 2,
-    "breaks_into": [ {
+    "breaks_into": [
+      {
         "item": "steel_chunk",
         "count": [ 1, 2 ]
-      }, {
+      },
+      {
         "item": "scrap",
         "count": [ 0, 2 ]
       }

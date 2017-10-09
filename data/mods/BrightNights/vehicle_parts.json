@@ -15,13 +15,16 @@
     "bonus": 600,
     "damage_modifier": 10,
     "folded_volume": 4,
-    "breaks_into": [ {
+    "breaks_into": [
+      {
         "item": "steel_chunk",
         "count": [ 0, 2 ]
-      }, {
+      },
+      {
         "item": "scrap",
         "count": [ 1, 2 ]
-      }, {
+      },
+      {
         "item": "cable",
         "charges": [ 1, 3 ]
       }
