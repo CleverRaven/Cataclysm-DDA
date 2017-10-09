@@ -308,6 +308,15 @@ void computer::load_data(std::string data)
     }
 }
 
+static item *pick_usb()
+{
+    const int pos = g->inv_for_id( itype_id( "usb_drive" ), _( "Choose drive:" ) );
+    if( pos != INT_MIN ) {
+        return &g->u.i_at( pos );
+    }
+    return nullptr;
+}
+
 void computer::activate_function(computer_action action, char ch)
 {
     // Token move cost for any action, if an action takes longer decrement moves further.
@@ -403,13 +412,13 @@ void computer::activate_function(computer_action action, char ch)
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 tripoint p( x, y, g->u.posz() );
-                int mondex = g->mon_at( p );
-                if (mondex != -1 &&
+                monster *const mon = g->critter_at<monster>( p );
+                if( mon &&
                     ((g->m.ter(x, y - 1) == t_reinforced_glass &&
                       g->m.ter(x, y + 1) == t_concrete_wall) ||
                      (g->m.ter(x, y + 1) == t_reinforced_glass &&
                       g->m.ter(x, y - 1) == t_concrete_wall))) {
-                    g->zombie( mondex ).die( &g->u );
+                    mon->die( &g->u );
                 }
             }
         }
@@ -521,7 +530,7 @@ void computer::activate_function(computer_action action, char ch)
         // Target Acquisition.
         tripoint target = overmap::draw_overmap(0);
         if (target == overmap::invalid_tripoint) {
-            add_msg(m_info, _("Target acquisition canceled"));
+            add_msg(m_info, _("Target acquisition canceled."));
             return;
         }
         if(query_yn(_("Confirm nuclear missile launch."))) {
@@ -795,9 +804,7 @@ of pureed bone & LSD."));
         break;
 
     case COMPACT_DOWNLOAD_SOFTWARE:
-        if (!g->u.has_amount("usb_drive", 1)) {
-            print_error(_("USB drive required!"));
-        } else {
+        if( item *const usb = pick_usb() ) {
             mission *miss = mission::find(mission_id);
             if (miss == NULL) {
                 debugmsg(_("Computer couldn't find its mission!"));
@@ -806,10 +813,11 @@ of pureed bone & LSD."));
             g->u.moves -= 30;
             item software(miss->get_item_id(), 0);
             software.mission_id = mission_id;
-            item *usb = g->u.pick_usb();
             usb->contents.clear();
             usb->put_in(software);
             print_line(_("Software downloaded."));
+        } else {
+            print_error(_("USB drive required!"));
         }
         inp_mngr.wait_for_any_key();
         break;
@@ -842,14 +850,13 @@ of pureed bone & LSD."));
                             }
                             print_line(_("Pathogen bonded to erythrocytes and leukocytes."));
                             if (query_bool(_("Download data?"))) {
-                                if (!g->u.has_amount("usb_drive", 1)) {
-                                    print_error(_("USB drive required!"));
-                                } else {
+                                if( item *const usb = pick_usb() ) {
                                     item software("software_blood_data", 0);
-                                    item *usb = g->u.pick_usb();
                                     usb->contents.clear();
                                     usb->put_in(software);
                                     print_line(_("Software downloaded."));
+                                } else {
+                                    print_error(_("USB drive required!"));
                                 }
                             }
                         } else {

@@ -41,8 +41,7 @@ const mtype_id mon_zombie( "mon_zombie" );
 
 mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west,
                         oter_id northeast, oter_id southeast, oter_id southwest, oter_id northwest,
-                        oter_id up, int z, const regional_settings *rsettings, map *mp ) :
-    default_groundcover( t_null, 1, t_null )
+                        oter_id up, int z, const regional_settings *rsettings, map *mp )
 {
     t_nesw[0] = north;
     t_nesw[1] = east;
@@ -65,10 +64,7 @@ mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west
     region = rsettings;
     m = mp;
     // making a copy so we can fudge values if desired
-    default_groundcover.chance = region->default_groundcover.chance;
-    default_groundcover.primary = region->default_groundcover.primary;
-    default_groundcover.secondary = region->default_groundcover.secondary;
-
+    default_groundcover = region->default_groundcover;
 }
 
 tripoint rotate_point( const tripoint &p, int rotations )
@@ -133,8 +129,8 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
     { "house_generic_boxy",      &mapgen_generic_house_boxy },
     { "house_generic_big_livingroom",      &mapgen_generic_house_big_livingroom },
     { "house_generic_center_hallway",      &mapgen_generic_house_center_hallway },
-    { "church_new_england",             &mapgen_church_new_england },
-    { "church_gothic",             &mapgen_church_gothic },
+//    { "church_new_england",             &mapgen_church_new_england },
+//    { "church_gothic",             &mapgen_church_gothic },
     { "s_pharm",             &mapgen_pharm },
     { "spider_pit", mapgen_spider_pit },
     { "s_sports", mapgen_s_sports },
@@ -149,7 +145,7 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
     { "basement_game", &mapgen_basement_game },
     */
     { "basement_spiders", &mapgen_basement_spiders },
-    { "office_doctor", &mapgen_office_doctor },
+//    { "office_doctor", &mapgen_office_doctor },
 //    { "sub_station", &mapgen_sub_station },
 //  { "s_garage", &mapgen_s_garage },
 //    { "farm", &mapgen_farm },
@@ -164,7 +160,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
     { "open_air", &mapgen_open_air },
     { "rift", &mapgen_rift },
     { "hellmouth", &mapgen_hellmouth },
-
     // New rock function - should be default, but isn't yet for compatibility reasons (old overmaps)
     { "empty_rock", &mapgen_rock },
     // Old rock behavior, for compatibility and near caverns and slime pits
@@ -273,7 +268,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
     { "slimepit_down", &mapgen_slimepit_down },
     { "triffid_roots", &mapgen_triffid_roots },
     { "triffid_finale", &mapgen_triffid_finale },
-
 */
     { "tutorial", &mapgen_tutorial },
     } };
@@ -388,12 +382,19 @@ void mapgendata::square_groundcover(const int x1, const int y1, const int x2, co
 void mapgendata::fill_groundcover() {
     m->draw_fill_background( this->default_groundcover );
 }
-bool mapgendata::is_groundcover(const ter_id iid ) const {
-    return this->default_groundcover.match( iid );
+bool mapgendata::is_groundcover( const ter_id iid ) const {
+    for( const auto &pr : default_groundcover ) {
+        if( pr.obj == iid ) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 ter_id mapgendata::groundcover() {
-    return this->default_groundcover.get();
+    const ter_id *tid = default_groundcover.pick();
+    return tid != nullptr ? *tid : t_null;
 }
 
 void mapgen_rotate( map * m, oter_id terrain_type, bool north_is_down ) {
@@ -2728,110 +2729,6 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
     m->rotate( static_cast<int>( terrain_type->get_dir() ) );
 }
 
-/////////////////////////////
-void mapgen_church_new_england(map *m, oter_id terrain_type, mapgendata dat, int, float) {
-    computer *tmpcomp = NULL;
-    dat.fill_groundcover();
-    //New England or Country style, single centered steeple low clear windows
-    mapf::formatted_set_simple(m, 0, 0,"\
-         ^^^^^^         \n\
-     |---|--------|     \n\
-    ||dh.|.6ooo.ll||    \n\
-    |l...+.........Dsss \n\
-  ^^|--+-|------+--|^^s \n\
-  ^||..............||^s \n\
-   w.......tt.......w s \n\
-   |................| s \n\
-  ^w................w^s \n\
-  ^|.######..######.|^s \n\
-  ^w................w^s \n\
-  ^|.######..######.|^s \n\
-   w................w s \n\
-   |.######..######.| s \n\
-  ^w................w^s \n\
-  ^|.######..######.|^s \n\
-  ^|................|^s \n\
-   |-w|----..----|w-| s \n\
-    ^^|ll|....|ST|^^  s \n\
-     ^|.......+..|^   s \n\
-      |----++-|--|    s \n\
-         O ss O       s \n\
-     ^^    ss    ^^   s \n\
-     ^^    ss    ^^   s \n",
-       mapf::ter_bind("O 6 ^ . - | # t + = D w T S e o h c d l s", t_column, t_console, t_shrub, t_floor,
-               t_wall, t_wall, t_floor, t_floor, t_door_c, t_door_locked_alarm, t_door_locked, t_window,
-               t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor, t_floor,  t_sidewalk),
-       mapf::furn_bind("O 6 ^ . - | # t + = D w T S e o h c d l s", f_null,   f_null,    f_null,  f_null,
-               f_null,   f_null,   f_bench, f_table, f_null,   f_null,              f_null,        f_null,
-               f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null)
-    );
-    madd_trap(m, 9, 6, tr_brazier);
-    madd_trap(m, 14, 6, tr_brazier);
-    m->place_items("church", 40,  5,  5, 8,  16, false, 0);
-    m->place_items("church", 40,  5,  5, 8,  16, false, 0);
-    m->place_items("church", 85,  12,  2, 14,  2, false, 0);
-    m->place_items("office", 60,  6,  2, 8,  3, false, 0);
-    m->place_items("jackets", 85,  7,  18, 8,  18, false, 0);
-    tmpcomp = m->add_computer( tripoint( 11, 2, m->get_abs_sub().z ), _("Church Bells 1.2"), 0);
-    tmpcomp->add_option(_("Gathering Toll"), COMPACT_TOLL, 0);
-    tmpcomp->add_option(_("Wedding Toll"), COMPACT_TOLL, 0);
-    tmpcomp->add_option(_("Funeral Toll"), COMPACT_TOLL, 0);
-    autorotate(true);
-}
-
-void mapgen_church_gothic(map *m, oter_id terrain_type, mapgendata dat, int, float) {
-    computer *tmpcomp = NULL;
-    dat.fill_groundcover();
-    //Gothic Style, unreachable high stained glass windows, stone construction
-    mapf::formatted_set_simple(m, 0, 0, "\
- $$    W        W    $$ \n\
- $$  WWWWGVBBVGWWWW  $$ \n\
-     W..h.cccc.h..W     \n\
- WWVWWR..........RWWBWW \n\
-WW#.#.R....cc....R.#.#WW\n\
- G#.#.R..........R.#.#V \n\
- V#.#.Rrrrr..rrrrR.#.#B \n\
-WW#..................#WW\n\
- WW+WW#####..#####WW+WW \n\
-ssss V............B ssss\n\
-s   WW#####..#####WW   s\n\
-s $ WW............WW $ s\n\
-s $  G#####..#####V  $ s\n\
-s $  B............G  $ s\n\
-s $ WW#####..#####WW $ s\n\
-s $ WW............WW $ s\n\
-s    V####....####B    s\n\
-s WWWW--|--gg-----WWWW s\n\
-s WllWTS|.....lll.W..W s\n\
-s W..+..+.........+..W s\n\
-s W..WWWWWW++WWWWWW6.W s\n\
-s W.CWW$$WWssWW$$WW..W s\n\
-s WWWWW    ss    WWWWW s\n\
-ssssssssssssssssssssssss\n",
-       mapf::ter_bind("C V G B W R r 6 $ . - | # t + g T S h c l s", t_floor,   t_window_stained_red,
-               t_window_stained_green, t_window_stained_blue, t_rock, t_railing_v, t_railing_h, t_console, t_shrub,
-               t_rock_floor, t_wall, t_wall, t_rock_floor, t_rock_floor, t_door_c, t_door_glass_c,
-               t_rock_floor, t_rock_floor, t_rock_floor, t_rock_floor, t_rock_floor, t_sidewalk),
-       mapf::furn_bind("C V G B W R r 6 $ . - | # t + g T S h c l s", f_crate_c, f_null,
-               f_null,                 f_null,                f_null, f_null,      f_null,      f_null,    f_null,
-               f_null,       f_null,   f_null,   f_bench,      f_table,      f_null,   f_null,         f_toilet,
-               f_sink,       f_chair,      f_counter,    f_locker,     f_null)
-    );
-    madd_trap(m, 8, 4, tr_brazier);
-    madd_trap(m, 15, 4, tr_brazier);
-    m->place_items("church", 70,  6,  7, 17,  16, false, 0);
-    m->place_items("church", 70,  6,  7, 17,  16, false, 0);
-    m->place_items("church", 60,  6,  7, 17,  16, false, 0);
-    m->place_items("cleaning", 60,  3,  18, 4,  21, false, 0);
-    m->place_items("jackets", 85,  14,  18, 16,  18, false, 0);
-    tmpcomp = m->add_computer( tripoint( 19, 20, m->get_abs_sub().z ), _("Church Bells 1.2"), 0);
-    tmpcomp->add_option(_("Gathering Toll"), COMPACT_TOLL, 0);
-    tmpcomp->add_option(_("Wedding Toll"), COMPACT_TOLL, 0);
-    tmpcomp->add_option(_("Funeral Toll"), COMPACT_TOLL, 0);
-    autorotate(true);
-}
-
-
 
 //////////////////////////////
 void mapgen_pharm(map *m, oter_id terrain_type, mapgendata dat, int, float density) {
@@ -3104,15 +3001,8 @@ void mapgen_basement_junk(map *m, oter_id terrain_type, mapgendata dat, int turn
 
         if( one_in( 1600 ) ) {
             m->furn_set( p, furn_str_id( "f_gun_safe_el" ) );
-            if( one_in( 2 ) ) {
-                m->spawn_item( p, "9mm", 2 );
-                m->spawn_item( p, "usp_9mm" );
-                m->spawn_item( p, "suppressor" );
-                m->spawn_item( p, "cash_card", 2 );
-            } else {
-                m->place_items( "ammo", 96,  p.x,  p.y, p.x,  p.y, false, 0 );
-                m->place_items( "guns_survival", 90,  p.x,  p.y, p.x,  p.y, false, 0 );
-            }
+            m->place_items( "basement_op_guns", 96,  p.x,  p.y, p.x,  p.y, false, 0 );
+            m->place_items( "ammo", 90,  p.x,  p.y, p.x,  p.y, false, 0 );
         }
         if( one_in( 20 ) ){
             int rn = rng( 1, 8 );
@@ -3191,76 +3081,6 @@ void mapgen_basement_spiders(map *m, oter_id terrain_type, mapgendata dat, int t
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////
-void mapgen_office_doctor(map *m, oter_id terrain_type, mapgendata dat, int, float)
-{
-
-//    } else if (is_ot_type("office_doctor", terrain_type)) {
-
-        // Init to grass & dirt;
-        dat.fill_groundcover();
-        mapf::formatted_set_simple(m, 0, 0,
-                                   "\
-                        \n\
-   |---|----|--------|  \n\
-   |..l|.T.S|..eccScc|  \n\
-   |...+....+........D  \n\
-   |--------|.......6|r \n\
-   |o.......|..|--X--|r \n\
-   |d.hd.h..+..|l...6|  \n\
-   |o.......|..|l...l|  \n\
-   |--------|..|l...l|  \n\
-   |l....ccS|..|lllll|  \n\
-   |l..t....+..|-----|  \n\
-   |l.......|..|....l|  \n\
-   |--|-----|..|.t..l|  \n\
-   |T.|d.......+....l|  \n\
-   |S.|d.h..|..|Scc..|  \n\
-   |-+|-ccc-|++|-----|  \n\
-   |.................|  \n\
-   w....####....####.w  \n\
-   w.................w  \n\
-   |....####....####.|  \n\
-   |.................|  \n\
-   |-++--wwww-wwww---|  \n\
-     ss                 \n\
-     ss                 \n",
-                                   mapf::ter_bind(". - | 6 X # r t + = D w T S e o h c d l s", t_floor, t_wall, t_wall,
-                                           t_console, t_door_metal_locked, t_floor, t_floor,    t_floor, t_door_c, t_door_locked_alarm,
-                                           t_door_locked, t_window, t_floor,  t_floor, t_floor,  t_floor,    t_floor, t_floor,   t_floor,
-                                           t_floor,  t_sidewalk),
-                                   mapf::furn_bind(". - | 6 X # r t + = D w T S e o h c d l s", f_null,  f_null,   f_null,   f_null,
-                                           f_null,              f_bench, f_trashcan, f_table, f_null,   f_null,              f_null,
-                                           f_null,   f_toilet, f_sink,  f_fridge, f_bookcase, f_chair, f_counter, f_desk,  f_locker, f_null));
-        computer * tmpcomp = m->add_computer( tripoint( 20, 4, m->get_abs_sub().z ), _("Medical Supply Access"), 2);
-        tmpcomp->add_option(_("Lock Door"), COMPACT_LOCK, 2);
-        tmpcomp->add_option(_("Unlock Door"), COMPACT_UNLOCK, 2);
-        tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
-        tmpcomp->add_failure(COMPFAIL_ALARM);
-
-        tmpcomp = m->add_computer( tripoint( 20, 6, m->get_abs_sub().z ), _("Medical Supply Access"), 2);
-        tmpcomp->add_option(_("Unlock Door"), COMPACT_UNLOCK, 2);
-        tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
-        tmpcomp->add_failure(COMPFAIL_ALARM);
-
-        if (one_in(2)) {
-            m->spawn_item(7, 6, "record_patient");
-        }
-        m->place_items("dissection", 60,  4,  9, 4,  11, false, 0);
-        m->place_items("dissection", 60,  9,  9, 10,  9, false, 0);
-        m->place_items("dissection", 60,  20,  11, 20,  13, false, 0);
-        m->place_items("dissection", 60,  17,  14, 18,  14, false, 0);
-        m->place_items("fridge", 50,  15,  2, 15,  2, false, 0);
-        m->place_items("gear_medical", 30,  4,  9, 11,  11, false, 0);
-        m->place_items("gear_medical", 30,  16,  11, 20, 4, false, 0);
-        m->place_items("harddrugs", 60,  16,  6, 16, 9, false, 0);
-        m->place_items("harddrugs", 60,  17,  9, 19, 9, false, 0);
-        m->place_items("softdrugs", 60,  20,  9, 20, 7, false, 0);
-        m->place_items("cleaning", 50,  4,  2, 6,  3, false, 0);
-
-        autorotate(true);
-
-}
-
 void mapgen_office_tower_1_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
@@ -3599,105 +3419,6 @@ void mapgen_hospital_entrance(map *m, oter_id terrain_type, mapgendata dat, int 
 
 
 void mapgen_hospital(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_2(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_3(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_4(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_5(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_6(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_7(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_8(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_9(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_b(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_prison_b_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*

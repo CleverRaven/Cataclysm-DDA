@@ -102,7 +102,7 @@
     "book_learn": [ [ "mag_animecon", 3 ] ],
     "using": [ [ "filament", 10 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "tools": [ [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "fur", 2 ] ],
       [ [ "plastic_chunk", 3 ] ]
@@ -247,7 +247,7 @@
     "autolearn": true,
     "tools": [
       [ [ "mold_plastic", -1 ] ],
-      [ [ "hotplate", 15 ], [ "toolset", 15 ], [ "fire", -1 ] ]
+      [ [ "surface_heat", 15, "LIST" ] ]
     ],
     "components": [ [ [ "plastic_chunk", 10 ] ] ]
   },
@@ -729,7 +729,7 @@
     "book_learn": [ [ "mag_animecon", 3 ] ],
     "using": [ [ "filament", 10 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "tools": [ [ [ "hotplate", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "leather", 2 ] ],
       [ [ "plastic_chunk", 3 ] ]

@@ -255,7 +255,7 @@ bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfu
 furn_t null_furniture_t() {
   furn_t new_furniture;
   new_furniture.id = furn_str_id::NULL_ID();
-  new_furniture.name = _("nothing");
+  new_furniture.name_ = translate_marker( "nothing" );
   new_furniture.symbol_.fill( ' ' );
   new_furniture.color_.fill( c_white );
   new_furniture.movecost = 0;
@@ -275,7 +275,7 @@ ter_t null_terrain_t() {
   ter_t new_terrain;
 
   new_terrain.id = ter_str_id::NULL_ID();
-  new_terrain.name = _("nothing");
+  new_terrain.name_ = translate_marker( "nothing" );
   new_terrain.symbol_.fill( ' ' );
   new_terrain.color_.fill( c_white );
   new_terrain.movecost = 2;
@@ -310,6 +310,11 @@ void load_season_array( JsonObject &jo, const std::string &key, C &container, F 
     } else {
         jo.throw_error( "Expected string or array", key );
     }
+}
+
+std::string map_data_common_t::name() const
+{
+    return _( name_.c_str() );
 }
 
 void map_data_common_t::load_symbol( JsonObject &jo )
@@ -420,6 +425,7 @@ ter_id t_null,
     t_grass,
     t_metal_floor,
     t_pavement, t_pavement_y, t_sidewalk, t_concrete,
+    t_thconc_floor,
     t_floor, t_floor_waxed,
     t_dirtfloor,//Dirt floor(Has roof)
     t_carpet_red,t_carpet_yellow,t_carpet_purple,t_carpet_green,
@@ -527,6 +533,7 @@ void set_ter_ids() {
     t_pavement_y = ter_id( "t_pavement_y" );
     t_sidewalk = ter_id( "t_sidewalk" );
     t_concrete = ter_id( "t_concrete" );
+    t_thconc_floor = ter_id( "t_thconc_floor" );
     t_floor = ter_id( "t_floor" );
     t_floor_waxed = ter_id( "t_floor_waxed" );
     t_dirtfloor = ter_id( "t_dirtfloor" );
@@ -810,7 +817,7 @@ furn_id f_null,
     f_floor_canvas,
     f_tatami,
     f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
-    f_robotic_arm;
+    f_robotic_arm, f_vending_reinforced;
 
 void set_furn_ids() {
     f_null = furn_id( "f_null" );
@@ -857,6 +864,7 @@ void set_furn_ids() {
     f_dryer = furn_id( "f_dryer" );
     f_vending_c = furn_id( "f_vending_c" );
     f_vending_o = furn_id( "f_vending_o" );
+    f_vending_reinforced = furn_id( "f_vending_reinforced" );
     f_dumpster = furn_id( "f_dumpster" );
     f_dive_block = furn_id( "f_dive_block" );
     f_crate_c = furn_id( "f_crate_c" );
@@ -973,7 +981,7 @@ void map_data_common_t::load( JsonObject &jo, const std::string &src )
 void ter_t::load( JsonObject &jo, const std::string &src )
 {
     map_data_common_t::load( jo, src );
-    mandatory( jo, was_loaded, "name", name, translated_string_reader );
+    mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "move_cost", movecost );
     optional( jo, was_loaded, "max_volume", max_volume, legacy_volume_reader, DEFAULT_MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "trap", trap_id_str );
@@ -1056,7 +1064,7 @@ void ter_t::check() const
         debugmsg( "invalid terrain %s for closing %s", close.c_str(), id.c_str() );
     }
     if( transforms_into && transforms_into == id ) {
-        debugmsg( "%s transforms_into itself", name.c_str() );
+        debugmsg( "%s transforms_into itself", id.c_str() );
     }
 }
 
@@ -1070,7 +1078,7 @@ size_t furn_t::count()
 void furn_t::load( JsonObject &jo, const std::string &src )
 {
     map_data_common_t::load( jo, src );
-    mandatory( jo, was_loaded, "name", name, translated_string_reader );
+    mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "move_cost_mod", movecost );
     mandatory( jo, was_loaded, "required_str", move_str_req );
     optional( jo, was_loaded, "max_volume", max_volume, legacy_volume_reader, DEFAULT_MAX_VOLUME_IN_SQUARE );
@@ -1094,7 +1102,7 @@ void map_data_common_t::check() const
 {
     for( auto &harvest : harvest_by_season ) {
         if( !harvest.is_null() && examine == iexamine::none ) {
-            debugmsg( "Harvest data defined without examine function for %s", name.c_str() );
+            debugmsg( "Harvest data defined without examine function for %s", name_.c_str() );
         }
     }
 }

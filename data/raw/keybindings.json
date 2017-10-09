@@ -73,6 +73,90 @@
     },
     {
         "type" : "keybinding",
+        "id": "SHOW_DESCRIPTION",
+        "category": "MELEE_STYLE_PICKER",
+        "name": "Show description of melee style",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"F1"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SCROLL_UP",
+        "category": "MELEE_STYLE_PICKER",
+        "name": "Scroll up",
+        "bindings":[
+            {
+                "input_method":"mouse",
+                "key":"SCROLL_UP"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SCROLL_DOWN",
+        "category": "MELEE_STYLE_PICKER",
+        "name": "Scroll down",
+        "bindings":[
+            {
+                "input_method":"mouse",
+                "key":"SCROLL_DOWN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"UP",
+        "category": "MELEE_STYLE_PICKER",
+        "name":"Pan up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"UP"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"DOWN",
+        "category": "MELEE_STYLE_PICKER",
+        "name":"Pan down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"DOWN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id" : "FILTER",
+        "category" : "MELEE_STYLE_PICKER",
+        "name" : "Filter",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"/"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "QUIT",
+        "category": "MELEE_STYLE_PICKER",
+        "name": "Cancel menu",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"ESC"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"UP",
         "name":"Pan up",
         "bindings":[
@@ -2002,7 +2086,7 @@
     { "type":"keybinding", "name": "View Help", "category":"DEFAULTMODE", "id":"help", "bindings":[ { "input_method":"keyboard", "key":"?" } ] },
     { "type":"keybinding", "name": "Zoom In", "category":"DEFAULTMODE", "id":"zoom_in", "bindings":[ { "input_method":"keyboard", "key":"z" } ] },
     { "type":"keybinding", "name": "Zoom Out", "category":"DEFAULTMODE", "id":"zoom_out", "bindings":[ { "input_method":"keyboard", "key":"Z" } ] },
-    { "type":"keybinding", "name": "Toggle Debug Mode", "category":"DEFAULTMODE", "id":"debug_mode", "bindings":[ { "input_method":"keyboard", "key":"" } ] },
+    { "type":"keybinding", "name": "Toggle Debug Mode", "category":"DEFAULTMODE", "id":"debug_mode" },
     { "type":"keybinding", "name": "Debug Menu", "category":"DEFAULTMODE", "id":"debug" },
     { "type":"keybinding", "name": "View Scentmap", "category":"DEFAULTMODE", "id":"debug_scent" },
     { "type":"keybinding", "name": "Switch Sidebar Style", "category":"DEFAULTMODE", "id":"toggle_sidebar_style" },
@@ -2242,12 +2326,36 @@
         "type" : "keybinding",
         "id": "QUIT",
         "category": "HELP_KEYBINDINGS",
-        "name": "Exit all commands help screen",
+        "name": "Exit this keybinding screen",
         "comment": "separate entry, because the global entry also has 'q', 'Q' and space listed, which conflicts with the search text input",
         "bindings":[
             {
                 "input_method":"keyboard",
                 "key":"ESC"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"UP",
+        "category": "HELP_KEYBINDINGS",
+        "name":"Pan up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"UP"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"DOWN",
+        "category": "HELP_KEYBINDINGS",
+        "name":"Pan down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"DOWN"
             }
         ]
     },
@@ -2838,6 +2946,78 @@
         "id": "SAVE_DEFAULT",
         "category": "ADVANCED_INVENTORY",
         "name": "Save default layout"
+    },
+    {
+        "type" : "keybinding",
+        "id": "SCROLL_UP",
+        "category": "ITEM_ACTIONS",
+        "name": "Scroll up",
+        "bindings":[
+            {
+                "input_method":"mouse",
+                "key":"SCROLL_UP"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SCROLL_DOWN",
+        "category": "ITEM_ACTIONS",
+        "name": "Scroll down",
+        "bindings":[
+            {
+                "input_method":"mouse",
+                "key":"SCROLL_DOWN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"UP",
+        "category": "ITEM_ACTIONS",
+        "name":"Pan up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"UP"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"DOWN",
+        "category": "ITEM_ACTIONS",
+        "name":"Pan down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"DOWN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id" : "FILTER",
+        "category" : "ITEM_ACTIONS",
+        "name" : "Filter",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"/"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "QUIT",
+        "category": "ITEM_ACTIONS",
+        "name": "Cancel menu",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"ESC"
+            }
+        ]
     },
     {
         "type" : "keybinding",

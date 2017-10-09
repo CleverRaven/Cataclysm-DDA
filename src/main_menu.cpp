@@ -618,6 +618,8 @@ bool main_menu::new_character_tab()
                     }
                     if( !g->u.create( sel2 == 0 ? PLTYPE_CUSTOM : ( sel2 == 2 ? PLTYPE_RANDOM : PLTYPE_NOW ) ) ) {
                         g->u = player();
+                        werase( w_background );
+                        wrefresh( w_background );
                         continue;
                     }
 
@@ -701,6 +703,8 @@ bool main_menu::new_character_tab()
                 }
                 if( !g->u.create( PLTYPE_TEMPLATE, templates[sel3] ) ) {
                     g->u = player();
+                    werase( w_background );
+                    wrefresh( w_background );
                     continue;
                 }
                 werase( w_background );

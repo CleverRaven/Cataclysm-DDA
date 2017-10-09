@@ -79,7 +79,7 @@
     "color": "white",
     "broken_color": "blue",
     "durability": 20,
-    "epower": -2000,
+    "epower": -1500,
     "bonus": 8000,
     "damage_modifier": 10,
     "folded_volume": 8,

@@ -573,14 +573,13 @@ int iuse::fungicide(player *p, item *it, bool, const tripoint& )
                         continue;
                     }
                     if (g->m.passable(i, j) && x_in_y(spore_count, 8)) {
-                        const int zid = g->mon_at(dest);
-                        if (zid >= 0) {  // Spores hit a monster
+                        if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
+                            monster &critter = *mon_ptr;
                             if (g->u.sees(i, j) &&
-                                !g->zombie(zid).type->in_species( FUNGUS )) {
+                                !critter.type->in_species( FUNGUS ) ) {
                                 add_msg(m_warning, _("The %s is covered in tiny spores!"),
-                                        g->zombie(zid).name().c_str());
+                                        critter.name().c_str() );
                             }
-                            monster &critter = g->zombie( zid );
                             if( !critter.make_fungus() ) {
                                 critter.die( p ); // counts as kill by player
                             }
@@ -766,7 +765,7 @@ int iuse::vaccine(player *p, item *it, bool, const tripoint& )
     p->add_msg_if_player(m_good, _("You feel tough."));
     p->mod_healthy_mod(200, 200);
     p->mod_pain(3);
-    item syringe( "syringe", it->bday );
+    item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
     return it->type->charges_to_use();
 }
@@ -777,7 +776,7 @@ int iuse::flu_vaccine(player *p, item *it, bool, const tripoint& )
     p->add_msg_if_player(m_good, _("You no longer need to fear the flu."));
     p->add_effect( effect_flushot, 1, num_bp, true);
     p->mod_pain(3);
-    item syringe( "syringe", it->bday );
+    item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
     return it->type->charges_to_use();
 }
@@ -1513,8 +1512,7 @@ void spawn_spores( const player &p ) {
             continue;
         }
         if( one_in( 10 + 5 * dist ) && one_in( spores_spawned * 2 ) ) {
-            if( g->summon_mon( mon_spore, dest ) ) {
-                monster *spore = g->monster_at( dest );
+            if( monster * const spore = g->summon_mon( mon_spore, dest ) ) {
                 spore->friendly = -1;
                 spores_spawned++;
             }
@@ -1917,7 +1915,6 @@ int petfood( player *p, item *it, Petfood animal_food_type )
         return 0;
     }
     p->moves -= 15;
-    const int mon_idx = g->mon_at( dirp, true );
 
     // First a check to see if we are trying to feed a NPC dog food.
     if( animal_food_type == DOGFOOD && g->critter_at<npc>(dirp) != NULL ) {
@@ -1940,9 +1937,8 @@ int petfood( player *p, item *it, Petfood animal_food_type )
             }
         }
     // Then monsters.
-    } else if( mon_idx != -1 ) {
-
-        monster &mon = g->zombie( mon_idx );
+    } else if( monster *const mon_ptr = g->critter_at<monster>( dirp, true ) ) {
+        monster &mon = *mon_ptr;
         // This switch handles each petfood for each type of tameable monster.
         switch( animal_food_type ) {
         case DOGFOOD:
@@ -2390,7 +2386,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
             return 0;
         }
         it->active = true;
-        it->bday = calendar::turn;
+        it->set_age( 0 );
         g->m.add_item_or_charges(dirx, diry, *it);
         p->i_rem(it);
         p->add_msg_if_player(m_info, _("You place the fish trap, in three hours or so you may catch some fish."));
@@ -2404,7 +2400,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
             return 0;
         }
         //after 3 hours.
-        if (calendar::turn - it->bday > 1800) {
+        if( it->age() > 1800 ) {
             it->active = false;
 
             if (!g->m.has_flag("FISHABLE", pos)) {
@@ -2462,7 +2458,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
                         //but it's not as comfortable as if you just put fishes in the same tile with the trap.
                         //Also: corpses and comestibles do not rot in containers like this, but on the ground they will rot.
                         //we don't know when it was caught so use a random turn
-                        g->m.add_item_or_charges( pos, item::make_corpse( fish_mon, it->bday + rng(0, 1800) ) );
+                        g->m.add_item_or_charges( pos, item::make_corpse( fish_mon, it->birthday() + rng(0, 1800) ) );
                         break; //this can happen only once
                     }
                 }
@@ -2491,25 +2487,24 @@ int iuse::extinguisher(player *p, item *it, bool, const tripoint& )
     g->m.adjust_field_strength(dest, fd_fire, 0 - rng(2, 3));
 
     // Also spray monsters in that tile.
-    int mondex = g->mon_at( dest, true );
-    if (mondex != -1) {
-        g->zombie(mondex).moves -= 150;
+    if( monster *const mon_ptr = g->critter_at<monster>( dest, true ) ) {
+        monster &critter = *mon_ptr;
+        critter.moves -= 150;
         bool blind = false;
-        if (one_in(2) && g->zombie(mondex).has_flag(MF_SEES)) {
+        if( one_in( 2 ) && critter.has_flag( MF_SEES ) ) {
             blind = true;
-            g->zombie(mondex).add_effect( effect_blind, rng(10, 20));
+            critter.add_effect( effect_blind, rng( 10, 20 ) );
         }
-        if (g->u.sees(g->zombie(mondex))) {
-            p->add_msg_if_player(_("The %s is sprayed!"), g->zombie(mondex).name().c_str());
+        if( g->u.sees( critter ) ) {
+            p->add_msg_if_player( _( "The %s is sprayed!" ), critter.name().c_str() );
             if(blind) {
-                p->add_msg_if_player(_("The %s looks blinded."), g->zombie(mondex).name().c_str());
+                p->add_msg_if_player( _( "The %s looks blinded." ), critter.name().c_str() );
             }
         }
-        if (g->zombie(mondex).made_of(LIQUID)) {
-            if (g->u.sees(g->zombie(mondex))) {
-                p->add_msg_if_player(_("The %s is frozen!"), g->zombie(mondex).name().c_str());
+        if( critter.made_of( LIQUID ) ) {
+            if( g->u.sees( critter ) ) {
+                p->add_msg_if_player( _( "The %s is frozen!" ), critter.name().c_str() );
             }
-            monster &critter = g->zombie( mondex );
             critter.apply_damage( p, bp_torso, rng( 20, 60 ) );
             critter.set_speed_base( critter.get_speed_base() / 2 );
         }
@@ -2784,7 +2779,7 @@ int iuse::noise_emitter_on(player *p, item *it, bool t, const tripoint &pos)
     return it->type->charges_to_use();
 }
 
-int iuse::ma_manual(player *p, item *it, bool, const tripoint& )
+int iuse::ma_manual( player *p, item *it, bool, const tripoint& )
 {
     // [CR] - should NPCs just be allowed to learn this stuff? Just like that?
 
@@ -2792,14 +2787,14 @@ int iuse::ma_manual(player *p, item *it, bool, const tripoint& )
     // TODO: replace this terrible hack to rely on the item name matching the style name, it's terrible.
     const matype_id style_to_learn( "style_" + it->typeId().substr(7) );
 
-    if (p->has_martialart(style_to_learn)) {
-        p->add_msg_if_player(m_info, _("You already know all this book has to teach."));
+    if( p->has_martialart( style_to_learn ) ) {
+        p->add_msg_if_player( m_info, _( "You already know all this book has to teach." ) );
         return 0;
     }
 
-    p->ma_styles.push_back(style_to_learn);
+    p->ma_styles.push_back( style_to_learn );
 
-    p->add_msg_if_player(m_good, _("You learn what you can, and stow the book for further study."));
+    p->add_msg_if_player( m_good, _( "You learn the essential elements of the style." ) );
 
     return 1;
 }
@@ -3412,9 +3407,8 @@ int iuse::can_goo(player *p, item *it, bool, const tripoint& )
     if (tries == 10) {
         return 0;
     }
-    int mondex = g->mon_at(goop);
-    if (mondex != -1) {
-        auto &critter = g->zombie( mondex );
+    if( monster *const mon_ptr = g->critter_at<monster>( goop ) ) {
+        monster &critter = *mon_ptr;
         if (g->u.sees(goop)) {
             add_msg(_("Black goo emerges from the canister and envelopes a %s!"),
                     critter.name().c_str());
@@ -3427,8 +3421,7 @@ int iuse::can_goo(player *p, item *it, bool, const tripoint& )
         if (g->u.sees(goop)) {
             add_msg(_("Living black goo emerges from the canister!"));
         }
-        if (g->summon_mon(mon_blob, goop)) {
-            monster *goo = g->monster_at(goop);
+        if( monster * const goo = g->summon_mon( mon_blob, goop ) ) {
             goo->friendly = -1;
         }
     }
@@ -3534,11 +3527,9 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         tripoint dest( pos.x + i, pos.y + j, pos.z );
-                        const int zid = g->mon_at( dest, true );
-                        if (zid != -1 &&
-                            (g->zombie(zid).type->in_species( INSECT ) ||
-                             g->zombie(zid).is_hallucination())) {
-                            g->zombie( zid ).die_in_explosion( nullptr );
+                        monster *const mon = g->critter_at<monster>( dest, true );
+                        if( mon && ( mon->type->in_species( INSECT ) || mon->is_hallucination() ) ) {
+                            mon->die_in_explosion( nullptr );
                         }
                     }
                 }
@@ -3550,9 +3541,8 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         tripoint dest( pos.x + i, pos.y + j, pos.z );
-                        const int mon_hit = g->mon_at(dest);
-                        if (mon_hit != -1) {
-                            auto &critter = g->zombie( mon_hit );
+                        if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
+                            monster &critter = *mon_ptr;
                             critter.set_speed_base(
                                 critter.get_speed_base() * rng_float(1.1, 2.0) );
                             critter.set_hp( critter.get_hp() * rng_float( 1.1, 2.0 ) );
@@ -3592,9 +3582,8 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         tripoint dest( pos.x + i, pos.y + j, pos.z );
-                        const int mon_hit = g->mon_at(dest);
-                        if (mon_hit != -1) {
-                            auto &critter = g->zombie( mon_hit );
+                        if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
+                            monster &critter = *mon_ptr;
                             critter.set_speed_base(
                                 rng( 0, critter.get_speed_base() ) );
                             critter.set_hp( rng( 1, critter.get_hp() ) );
@@ -3633,9 +3622,8 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                 for (int i = -explosion_radius; i <= explosion_radius; i++) {
                     for (int j = -explosion_radius; j <= explosion_radius; j++) {
                         tripoint dest( pos.x + i, pos.y + j, pos.z );
-                        const int mon_hit = g->mon_at(dest);
-                        if (mon_hit != -1) {
-                            auto &critter = g->zombie( mon_hit );
+                        if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
+                            monster &critter = *mon_ptr;
                             critter.set_speed_base( critter.type->speed );
                             critter.set_hp( critter.get_hp_max() );
                             critter.clear_effects();
@@ -3791,15 +3779,14 @@ int iuse::firecracker_pack(player *p, item *it, bool, const tripoint& )
     p->add_msg_if_player(_("You light the pack of firecrackers."));
     it->convert( "firecracker_pack_act" );
     it->charges = 26;
-    it->bday = calendar::turn;
+    it->set_age( 0 );
     it->active = true;
     return 0; // don't use any charges at all. it has became a new item
 }
 
 int iuse::firecracker_pack_act(player *, item *it, bool, const tripoint &pos)
 {
-    int current_turn = calendar::turn;
-    int timer = current_turn - it->bday;
+    int timer = it->age();
     if (timer < 2) {
         sounds::sound(pos, 0, _("ssss..."));
         it->inc_damage();
@@ -3896,11 +3883,11 @@ int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
     for (int x = pos.x - 4; x <= pos.x + 4; x++) {
         for (int y = pos.y - 4; y <= pos.y + 4; y++) {
             tripoint dest( x, y, pos.z );
-            int mondex = g->mon_at( dest, true );
-            if( mondex == -1 ) {
+            monster *const mon_ptr = g->critter_at<monster>( dest, true );
+            if( !mon_ptr ) {
                 continue;
             }
-            monster &critter = g->zombie( mondex );
+            monster &critter = *mon_ptr;
             if( critter.type->in_species( ZOMBIE ) && critter.friendly == 0 && rng( 0, 500 ) > critter.get_hp() ) {
                 converts++;
                 critter.make_friendly();
@@ -4906,9 +4893,8 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 for (int x = p->posx() - 8; x <= p->posx() + 8; x++) {
                     for (int y = p->posy() - 8; y <= p->posy() + 8; y++) {
                         tripoint dest( x, y, p->posz() );
-                        int mondex = g->mon_at( dest, true );
-                        if (mondex != -1) {
-                            g->zombie(mondex).add_effect( effect_stunned, rng(5, 15));
+                        if( monster *const mon = g->critter_at<monster>( dest, true ) ) {
+                            mon->add_effect( effect_stunned, rng( 5, 15 ) );
                         }
                     }
                 }
@@ -4918,10 +4904,9 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 for (int x = p->posx() - 8; x <= p->posx() + 8; x++) {
                     for (int y = p->posy() - 8; y <= p->posy() + 8; y++) {
                         tripoint dest( x, y, p->posz() );
-                        int mondex = g->mon_at( dest, true );
-                        if (mondex != -1 && g->zombie(mondex).friendly == 0 &&
-                            rng(0, 600) > g->zombie(mondex).get_hp()) {
-                            g->zombie(mondex).make_friendly();
+                        monster *const mon = g->critter_at<monster>( dest, true );
+                        if( mon && mon->friendly == 0 && rng( 0, 600 ) > mon->get_hp() ) {
+                            mon->make_friendly();
                         }
                     }
                 }
@@ -4958,8 +4943,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 if( bug ) {
                     for (int j = 0; j < num && !empty.empty(); j++) {
                         const tripoint spawnp = random_entry_removed( empty );
-                        if (g->summon_mon(bug, spawnp)) {
-                            monster *b = g->monster_at(spawnp);
+                        if( monster * const b = g->summon_mon( bug, spawnp ) ) {
                             b->friendly = -1;
                         }
                     }
@@ -5082,9 +5066,8 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                     } while (tries < 5 && !g->is_empty(monp) &&
                              !g->m.sees(monp, p->pos(), 10));
                     if (tries < 5) {
-                        if (g->summon_mon(mon_shadow, monp)) {
+                        if( monster * const  spawned = g->summon_mon( mon_shadow, monp ) ) {
                             num_spawned++;
-                            monster *spawned = g->monster_at(monp);
                             spawned->reset_special_rng("DISAPPEAR");
                         }
                     }
@@ -5337,7 +5320,7 @@ int iuse::adrenaline_injector(player *p, item *it, bool, const tripoint& )
     p->add_msg_player_or_npc( _("You inject yourself with adrenaline."),
                               _("<npcname> injects themselves with adrenaline.") );
 
-    item syringe( "syringe", it->bday );
+    item syringe( "syringe", it->birthday() );
     p->i_add( syringe );
     if( p->has_effect( effect_adrenaline ) ) {
         p->add_msg_if_player( m_bad, _("Your heart spasms!") );
@@ -5636,7 +5619,7 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint& ) {
         }
     }
 
-    p->toolmod_add( *loc, *it );
+    p->toolmod_add( std::move( loc ), item_location( *p, it ) );
     return 0;
 }
 
@@ -6464,7 +6447,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
             return 0;
         }
 
-        const int sel_zid = g->mon_at( aim_point, true );
+        const monster *const sel_mon = g->critter_at<monster>( aim_point, true );
         const npc * const sel_npc = g->critter_at<npc>( aim_point );
 
         if( !g->critter_at( aim_point ) ) {
@@ -6480,10 +6463,9 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
 
         for (auto &i : trajectory) {
 
-            int zid = g->mon_at( i, true );
-
+            monster *const mon = g->critter_at<monster>( i, true );
             npc * const guy = g->critter_at<npc>( i );
-            if (zid != -1 || guy) {
+            if( mon || guy ) {
                 int dist = rl_dist( p->pos(), i );
 
                 int camera_bonus = it->has_flag("CAMERA_PRO") ? 10 : 0;
@@ -6500,8 +6482,8 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
 
                 const std::string quality_name = photo_quality_name( photo_quality );
 
-                if (zid != -1) {
-                    monster &z = g->zombie(zid);
+                if( mon ) {
+                    monster &z = *mon;
 
                     if (dist < 4 && one_in(dist + 2) && z.has_flag(MF_SEES)) {
                         p->add_msg_if_player(_("%s looks blinded."), z.name().c_str());
@@ -6509,12 +6491,12 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
                     }
 
                     // shoot past small monsters and hallucinations
-                    if (zid != sel_zid && (z.type->size <= MS_SMALL || z.is_hallucination() || z.type->in_species( HALLUCINATION ))) {
+                    if( mon != sel_mon && ( z.type->size <= MS_SMALL || z.is_hallucination() || z.type->in_species( HALLUCINATION ) ) ) {
                         continue;
                     }
 
                     // get an empty photo if the target is a hallucination
-                    if (zid == sel_zid && (z.is_hallucination() || z.type->in_species( HALLUCINATION ))) {
+                    if( mon == sel_mon && ( z.is_hallucination() || z.type->in_species( HALLUCINATION ) ) ) {
                         p->add_msg_if_player(_("Strange... there's nothing in the picture?"));
                         return it->type->charges_to_use();
                     }
@@ -6523,7 +6505,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
                         //quest processing...
                     }
 
-                    if (zid == sel_zid) {
+                    if( mon == sel_mon ) {
                         // if the loop makes it to the target, take its photo
                         if (p->is_blind()) {
                             p->add_msg_if_player(_("You took a photo of %s."), z.name().c_str());
@@ -7222,8 +7204,7 @@ bool multicooker_hallu(player *p)
             if (!one_in(5)) {
                 add_msg(m_warning, _("The multi-cooker runs away!"));
                 const tripoint random_point = random_entry( points );
-                if (g->summon_mon(mon_hallu_multicooker, random_point)) {
-                    monster *m = g->monster_at(random_point);
+                if( monster * const m = g->summon_mon( mon_hallu_multicooker, random_point ) ) {
                     m->hallucination = true;
                     m->add_effect( effect_run, 1, num_bp, true);
                 }
@@ -7231,8 +7212,7 @@ bool multicooker_hallu(player *p)
                 add_msg(m_bad, _("You're surrounded by aggressive multi-cookers!"));
 
                 for( auto &point : points ) {
-                    if (g->summon_mon(mon_hallu_multicooker, point )) {
-                        monster *m = g->monster_at(point);
+                    if( monster * const m = g->summon_mon( mon_hallu_multicooker, point ) ) {
                         m->hallucination = true;
                     }
                 }
@@ -7780,9 +7760,8 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
             return 0;
         }
         // Capture the thing, if it's on the same square.
-        int mon_dex = g->mon_at( target );
-        if( mon_dex != -1 ) {
-            monster f = g->zombie( mon_dex );
+        if( const monster *const mon_ptr = g->critter_at<monster>( target ) ) {
+            const monster &f = *mon_ptr;
 
             if( !it->has_property("monster_size_capacity") ) {
                 debugmsg( "%s has no monster_size_capacity.", it->tname().c_str() );
@@ -7836,7 +7815,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
                     break;
                 }
                 it->set_var( "weight", new_weight );
-                g->remove_zombie( mon_dex );
+                g->remove_zombie( f );
                 return 0;
             } else {
                 p->add_msg_if_player( m_bad, _("The %1$s avoids your attempts to put it in the %2$s."),
@@ -7872,38 +7851,6 @@ int iuse::ladder( player *p, item *, bool, const tripoint& )
     p->moves -= 500;
     g->m.furn_set( dirp, furn_str_id( "f_ladder" ) );
     return 1;
-}
-
-int iuse::saw_barrel( player *p, item *, bool t, const tripoint& )
-{
-    if( p == nullptr || t ) {
-        return 0;
-    }
-
-    auto filter = []( const item& e ) {
-        if( !e.is_gun() || e.type->gun->barrel_length <= 0 ) {
-            return false;
-        }
-
-        const auto gunmods = e.gunmods();
-        // cannot saw down barrel of gun that already has a barrel mod
-        return std::none_of( gunmods.begin(), gunmods.end(), []( const item *mod ) {
-            return mod->type->gunmod->location == gunmod_location( "barrel" );
-        });
-    };
-
-    const int pos = g->inv_for_filter( _( "Saw barrel?" ), filter, _( "You don't have guns with long barrels." ) );
-
-    if( pos == INT_MIN ) {
-        p->add_msg_if_player( _( "Never mind." ) );
-        return 0;
-    }
-
-    item &obj = p->i_at( pos );
-    p->add_msg_if_player( _( "You saw down the barrel of your %s" ), obj.tname().c_str() );
-    obj.contents.emplace_back( "barrel_small", calendar::turn );
-
-    return 0;
 }
 
 int iuse::washclothes( player *p, item *it, bool, const tripoint& )

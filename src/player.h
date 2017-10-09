@@ -77,8 +77,13 @@ enum edible_rating {
     NO_TOOL
 };
 
-// EDIBLE/INEDIBLE are used as the defaults for success/failure respectively.
-using edible_ret_val = ret_val<edible_rating, EDIBLE, INEDIBLE>;
+/** @relates ret_val */
+template<>
+struct ret_val<edible_rating>::default_success : public std::integral_constant<edible_rating, EDIBLE> {};
+
+/** @relates ret_val */
+template<>
+struct ret_val<edible_rating>::default_failure : public std::integral_constant<edible_rating, INEDIBLE> {};
 
 enum class rechargeable_cbm {
     none = 0,
@@ -357,7 +362,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true if the player has two functioning arms */
         bool has_two_arms() const;
         /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */
-        bool handle_melee_wear( float wear_multiplier = 1.0f );
         bool handle_melee_wear( item &shield, float wear_multiplier = 1.0f );
         /** True if unarmed or wielding a weapon with the UNARMED_WEAPON flag */
         bool unarmed_attack() const;
@@ -470,7 +474,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool is_immune_damage( const damage_type ) const override;
 
         /** Returns true if the player has technique-based miss recovery */
-        bool has_miss_recovery_tec() const;
+        bool has_miss_recovery_tec( const item &weap ) const;
         /** Returns true if the player has a grab breaking technique available */
         bool has_grab_break_tec() const override;
         /** Returns true if the player has the leg block technique available */
@@ -483,8 +487,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // melee.cpp
         /** Returns the best item for blocking with */
         item &best_shield();
-        /** Returns true if the player has a weapon with a block technique */
-        bool can_weapon_block() const;
         using Creature::melee_attack;
         /**
          * Sets up a melee attack and handles melee attack function calls
@@ -507,9 +509,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /**
          * Returns a weapon's modified dispersion value.
          * @param obj Weapon to check dispersion on
-         * @param range Distance to target against which we're calculating the dispersion
          */
-        dispersion_sources get_weapon_dispersion( const item &obj, float range ) const;
+        dispersion_sources get_weapon_dispersion( const item &obj ) const;
 
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
         bool handle_gun_damage( item &firing );
@@ -520,8 +521,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Current total maximum recoil penalty from all sources */
         double recoil_total() const;
 
-        /** How many moves does it take to aim gun to maximum accuracy? */
-        int gun_engagement_moves( const item &gun ) const;
+        /** How many moves does it take to aim gun to the target accuracy. */
+        int gun_engagement_moves( const item &gun, int target = 0, int start = MAX_RECOIL ) const;
 
         /**
          *  Fires a gun or auxiliary gunmod (ignoring any current mode)
@@ -581,7 +582,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the chance to crit given a hit roll and target's dodge roll */
         double crit_chance( float hit_roll, float target_dodge, const item &weap ) const;
         /** Returns true if the player scores a critical hit */
-        bool scored_crit( float target_dodge = 0.0f ) const;
+        bool scored_crit( float target_dodge, const item &weap ) const;
         /** Returns cost (in moves) of attacking with given item (no modifiers, like stuck) */
         int attack_speed( const item &weap ) const;
         /** Gets melee accuracy component from weapon+skills */
@@ -594,7 +595,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         // If average == true, adds expected values of random rolls instead of rolling.
         /** Adds all 3 types of physical damage to instance */
-        void roll_all_damage( bool crit, damage_instance &di ) const;
         void roll_all_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
         /** Adds player's total bash damage to the damage instance */
         void roll_bash_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
@@ -603,13 +603,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Adds player's total stab damage to the damage instance */
         void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
 
-        std::vector<matec_id> get_all_techniques() const;
+        std::vector<matec_id> get_all_techniques( const item &weap ) const;
 
         /** Returns true if the player has a weapon or martial arts skill available with the entered technique */
-        bool has_technique( const matec_id & tec ) const;
+        bool has_technique( const matec_id &tec, const item &weap ) const;
         /** Returns a random valid technique */
-        matec_id pick_technique(Creature &t,
-                                bool crit, bool dodge_counter, bool block_counter);
+        matec_id pick_technique( Creature &t, const item &weap,
+                                 bool crit, bool dodge_counter, bool block_counter );
         void perform_technique(const ma_technique &technique, Creature &t, damage_instance &di, int &move_cost);
         /** Performs special attacks and their effects (poisonous, stinger, etc.) */
         void perform_special_attacks(Creature &t);
@@ -617,7 +617,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns a vector of valid mutation attacks */
         std::vector<special_attack> mutation_attacks(Creature &t) const;
         /** Handles combat effects, returns a string of any valid combat effect messages */
-        std::string melee_special_effects(Creature &t, damage_instance &d, const ma_technique &tec);
+        std::string melee_special_effects( Creature &t, damage_instance &d, item &weap );
         /** Returns Creature::get_dodge_base modified by the player's skill level */
         float get_dodge_base() const override;   // Returns the players's dodge, modded by clothing etc
         /** Returns Creature::get_dodge() modified by any player effects */
@@ -769,12 +769,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool eat( item &food, bool force = false );
 
         /** Can the food be [theoretically] eaten no matter the consquences? */
-        edible_ret_val can_eat( const item &food ) const;
+        ret_val<edible_rating> can_eat( const item &food ) const;
         /**
          * Same as @ref can_eat, but takes consequences into account.
          * Asks about them if @param interactive is true, refuses otherwise.
          */
-        edible_ret_val will_eat( const item &food, bool interactive = false ) const;
+        ret_val<edible_rating> will_eat( const item &food, bool interactive = false ) const;
 
         // TODO: Move these methods out of the class.
         rechargeable_cbm get_cbm_rechargeable_with( const item &it ) const;
@@ -875,24 +875,25 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /**
          * Check player capable of wielding an item.
          * @param it Thing to be wielded
-         * @param alert display reason for any failure
          */
-        bool can_wield( const item& it, bool alert = true ) const;
+        ret_val<bool> can_wield( const item& it ) const;
         /**
          * Check player capable of unwielding an item.
          * @param it Thing to be unwielded
-         * @param alert display reason for any failure
          */
-        bool can_unwield( const item& it, bool alert = true ) const;
+        ret_val<bool> can_unwield( const item& it ) const;
         /** Check player's capability of consumption overall */
         bool can_consume( const item &it ) const;
 
+        bool is_wielding( const item& target ) const;
         /**
-         * Removes currently wielded item (if any) and replaces it with the target item
+         * Removes currently wielded item (if any) and replaces it with the target item.
          * @param target replacement item to wield or null item to remove existing weapon without replacing it
          * @return whether both removal and replacement were successful (they are performed atomically)
          */
         virtual bool wield( item& target );
+        bool unwield();
+
         /** Creates the UI and handles player input for picking martial arts styles */
         bool pick_style();
         /**
@@ -1021,7 +1022,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::pair<int, int> gunmod_installation_odds( const item& gun, const item& mod ) const;
 
         /** Starts activity to install toolmod */
-        void toolmod_add( item& tool, item& mod );
+        void toolmod_add( item_location tool, item_location mod );
 
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
         bool install_bionics(const itype &type, int skill_level = -1);
@@ -1184,7 +1185,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         const martialart &get_combat_style() const; // Returns the combat style object
         std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
         void place_corpse(); // put corpse+inventory on map at the place where this is.
-        item  *pick_usb(); // Pick a usb drive, interactively if it matters
 
         bool covered_with_flag( const std::string &flag, const std::bitset<num_bp> &parts ) const;
         bool is_waterproof( const std::bitset<num_bp> &parts ) const;

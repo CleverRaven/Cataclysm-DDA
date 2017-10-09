@@ -334,7 +334,7 @@ void mdeath::worm(monster *z)
     int worms = 0;
     while(worms < 2 && !wormspots.empty()) {
         const tripoint target = random_entry_removed( wormspots );
-        if(-1 == g->mon_at( target )) {
+        if( !g->critter_at( target ) ) {
             g->summon_mon(mon_halfworm, target);
             worms++;
         }
@@ -442,8 +442,7 @@ void mdeath::blobsplit(monster *z)
 
     for (int s = 0; s < 2 && !valid.empty(); s++) {
         const tripoint target = random_entry_removed( valid );
-        if (g->summon_mon(speed < 50 ? mon_blob_small : mon_blob, target)) {
-            monster *blob = g->monster_at( target );
+        if( monster * const blob = g->summon_mon( speed < 50 ? mon_blob_small : mon_blob, target ) ) {
             blob->make_ally(z);
             blob->set_speed_base(speed);
             blob->set_hp(speed);
@@ -766,7 +765,7 @@ void mdeath::preg_roach( monster *z )
 
     while( !roachspots.empty() ) {
         const tripoint target = random_entry_removed( roachspots );
-        if( -1 == g->mon_at( target ) ) {
+        if( !g->critter_at( target ) ) {
             g->summon_mon( mon_giant_cockroach_nymph, target );
             num_roach--;
             if( g->u.sees(*z) ) {

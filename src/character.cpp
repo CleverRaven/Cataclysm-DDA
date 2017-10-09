@@ -180,70 +180,129 @@ void Character::mod_stat( const std::string &stat, float modifier )
 
 int Character::effective_dispersion( int dispersion ) const
 {
-    /** @EFFECT_PER improves effectiveness of gun sights */
-    dispersion += ( 10 - per_cur ) * 15;
+    /** @EFFECT_PER penalizes sight dispersion when low. */
+    dispersion += ranged_per_mod();
 
     dispersion += encumb( bp_eyes );
 
     return std::max( dispersion, 0 );
 }
 
-double Character::aim_per_move( const item& gun, double recoil ) const
+std::pair<int, int> Character::get_best_sight( const item &gun, double recoil ) const
 {
-    if( !gun.is_gun() ) {
-        return 0;
-    }
-
-    // get fastest sight that can be used to improve aim further below @ref recoil
-    int cost = INT_MAX;
+    // Get fastest sight that can be used to improve aim further below @ref recoil.
+    int sight_speed_modifier = INT_MIN;
     int limit = 0;
     if( !gun.has_flag( "DISABLE_SIGHTS" ) && effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
-        cost  = std::max( std::min( gun.volume() / 250_ml, 8 ), 1 );
+        sight_speed_modifier = 6;
         limit = effective_dispersion( gun.type->gun->sight_dispersion );
     }
 
     for( const auto e : gun.gunmods() ) {
         const auto mod = e->type->gunmod.get();
-        if( mod->sight_dispersion < 0 || mod->aim_cost <= 0 ) {
+        if( mod->sight_dispersion < 0 || mod->aim_speed < 0 ) {
             continue; // skip gunmods which don't provide a sight
         }
-        if( effective_dispersion( mod->sight_dispersion ) < recoil && mod->aim_cost < cost ) {
-            cost  = mod->aim_cost;
+        if( effective_dispersion( mod->sight_dispersion ) < recoil && mod->aim_speed > sight_speed_modifier ) {
+            sight_speed_modifier = mod->aim_speed;
             limit = effective_dispersion( mod->sight_dispersion );
         }
     }
+    return std::make_pair( sight_speed_modifier, limit );
+}
 
-    if( cost == INT_MAX ) {
-        return 0; // no suitable sights (already at maxium aim)
+double Character::aim_speed_skill_modifier( const skill_id &gun_skill ) const
+{
+    double skill_mult = 1.0;
+    if( gun_skill == "pistol" ) {
+        skill_mult = 2.0;
+    } else if( gun_skill == "rifle" ) {
+        skill_mult = 0.9;
     }
-
-    // each 5 points (combined) of hand encumbrance increases aim cost by one unit
-    cost += round ( ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 10.0 );
-
-    /** @EFFECT_DEX increases aiming speed */
-    cost += 8 - dex_cur;
-
     /** @EFFECT_PISTOL increases aiming speed for pistols */
     /** @EFFECT_SMG increases aiming speed for SMGs */
     /** @EFFECT_RIFLE increases aiming speed for rifles */
     /** @EFFECT_SHOTGUN increases aiming speed for shotguns */
     /** @EFFECT_LAUNCHER increases aiming speed for launchers */
-    cost += ( ( MAX_SKILL / 2 ) - get_skill_level( gun.gun_skill() ) ) * 2;
+    return skill_mult * std::min( MAX_SKILL, static_cast<int>( get_skill_level( gun_skill ) ) );
+}
 
-    cost = std::max( cost, 1 );
+double Character::aim_speed_dex_modifier() const
+{
+    return get_dex() - 8;
+}
 
-    // constant at which one unit of aim cost ~75 moves
-    // (presuming aiming from nil to maximum aim via single sight at DEX 8)
-    int k = 25;
+double Character::aim_speed_encumbrance_modifier() const
+{
+    return ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 10.0;
+}
 
-    // calculate rate (b) from the exponential function y = a(1-b)^x where a is recoil
-    double improv = 1.0 - pow( 0.5, 1.0 / ( cost * k ) );
+double Character::aim_cap_from_volume( const item &gun ) const
+{
+    skill_id gun_skill = gun.gun_skill();
+    double aim_cap = std::min( 49.0, 49.0 - static_cast<float>( gun.volume() / 75_ml ) );
+    // TODO: also scale with skill level.
+    if( gun_skill == "smg" ) {
+        aim_cap = std::max( 12.0, aim_cap );
+    } else if( gun_skill == "shotgun" ) {
+        aim_cap = std::max( 12.0, aim_cap );
+    } else if( gun_skill == "pistol" ) {
+        aim_cap = std::max( 15.0, aim_cap * 1.25 );
+    } else if( gun_skill == "rifle" ) {
+        aim_cap = std::max( 7.0, aim_cap - 5.0 );
+    } else { // Launchers, etc.
+        aim_cap = std::max( 10.0, aim_cap );
+    }
+    return aim_cap;
+}
 
-    // minimum improvment is 0.1MoA
-    double aim = std::max( recoil * improv, 0.1 );
+double Character::aim_per_move( const item &gun, double recoil ) const
+{
+    if( !gun.is_gun() ) {
+        return 0.0;
+    }
 
-    // never improve by more than the currently used sights permit
-    return std::min( aim, recoil - limit );
+    std::pair<int, int> best_sight = get_best_sight( gun, recoil );
+    int sight_speed_modifier = best_sight.first;
+    int limit = best_sight.second;
+    if( sight_speed_modifier == INT_MIN ) {
+        // No suitable sights (already at maxium aim).
+        return 0;
+    }
+
+    // Overal strategy for determining aim speed is to sum the factors that contribute to it,
+    // then scale that speed by current recoil level.
+    // Player capabilities make aiming faster, and aim speed slows down as it approaches 0.
+    // Base speed is non-zero to prevent extreme rate changes as aim speed approaches 0.
+    double aim_speed = 10.0;
+
+    skill_id gun_skill = gun.gun_skill();
+    // Ranges [0 - 10]
+    aim_speed += aim_speed_skill_modifier( gun_skill );
+
+    // Range [0 - 12]
+    /** @EFFECT_DEX increases aiming speed */
+    aim_speed += aim_speed_dex_modifier();
+
+    // Range [0 - 10]
+    aim_speed += sight_speed_modifier;
+
+    // Each 5 points (combined) of hand encumbrance decreases aim speed by one unit.
+    aim_speed -= aim_speed_encumbrance_modifier();
+
+    aim_speed = std::min( aim_speed, aim_cap_from_volume( gun ) );
+
+    // Just a raw scaling factor.
+    aim_speed *= 6.5;
+
+    // Scale rate logistically as recoil goes from MAX_RECOIL to 0.
+    aim_speed *= 1.0 - logarithmic_range( 0, MAX_RECOIL, recoil );
+
+    // Minimum improvment is 5MoA.  This mostly puts a cap on how long aiming for sniping takes.
+    aim_speed = std::max( aim_speed, 5.0 );
+
+    // Never improve by more than the currently used sights permit.
+    return std::min( aim_speed, recoil - limit );
 }
 
 bool Character::move_effects(bool attacking)
@@ -357,9 +416,10 @@ bool Character::move_effects(bool attacking)
     if( has_effect( effect_grabbed ) && !attacking ) {
         int zed_number = 0;
         for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ){
-            if( g->mon_at( dest ) != -1 &&
-                ( g->zombie( g->mon_at( dest ) ).has_flag( MF_GRABS ) ||
-                  g->zombie( g->mon_at( dest ) ).type->has_special_attack( "GRAB" ) ) ) {
+            const monster *const mon = g->critter_at<monster>( dest );
+            if( mon &&
+                ( mon->has_flag( MF_GRABS ) ||
+                  mon->type->has_special_attack( "GRAB" ) ) ) {
                 zed_number ++;
             }
         }
@@ -1563,6 +1623,18 @@ int Character::get_int_bonus() const
     return int_bonus;
 }
 
+int Character::ranged_dex_mod() const
+{
+    ///\EFFECT_DEX <20 increases ranged penalty
+    return std::max( ( 20.0 - get_dex() ) * 2.25, 0.0 );
+}
+
+int Character::ranged_per_mod() const
+{
+    ///\EFFECT_PER <20 increases ranged aiming penalty.
+    return std::max( ( 20.0 - get_per() ) * 2.25, 0.0 );
+}
+
 int Character::get_healthy() const
 {
     return healthy;
@@ -1979,7 +2051,15 @@ std::string Character::get_name() const
 nc_color Character::symbol_color() const
 {
     nc_color basic = basic_symbol_color();
+
+    if( has_effect( effect_downed ) ) {
+        return hilite( basic );
+    } else if( has_effect( effect_grabbed ) ) {
+        return cyan_background( basic );
+    }
+    
     const auto &fields = g->m.field_at( pos() );
+
     bool has_fire = false;
     bool has_acid = false;
     bool has_elec = false;
@@ -2021,8 +2101,8 @@ nc_color Character::symbol_color() const
     } else if( has_fume ) {
         return white_background( basic );
     }
-
-    if( in_sleep_state() || has_effect( effect_downed ) ) {
+    
+    if( in_sleep_state() ) {
         return hilite( basic );
     }
 

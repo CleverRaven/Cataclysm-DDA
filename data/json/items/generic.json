@@ -209,6 +209,7 @@
     {
         "type":"GENERIC",
         "id": "chitin_piece",
+        "category": "spare_parts",
         "symbol": ",",
         "color": "light_gray",
         "name": "chunk of chitin",

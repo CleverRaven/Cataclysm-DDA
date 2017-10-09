@@ -198,7 +198,7 @@ void mission_start::place_zombie_bay( mission *miss )
     tripoint site = target_om_ter_random( "evac_center_9", 1, miss, false, EVAC_CENTER_SIZE );
     tinymap bay;
     bay.load( site.x * 2, site.y * 2, site.z, false );
-    bay.add_spawn( mon_zombie_electric, 1, SEEX, SEEY, false, -1, miss->uid, "Sean McLaughlin" );
+    bay.add_spawn( mon_zombie_electric, 1, SEEX, SEEY, false, -1, miss->uid, _( "Sean McLaughlin" ) );
     bay.save();
 }
 
@@ -288,7 +288,7 @@ void mission_start::place_grabber( mission *miss )
     tinymap there;
     there.load( site.x * 2, site.y * 2, site.z, false );
     there.add_spawn( mon_graboid, 1, SEEX + rng( -3, 3 ), SEEY + rng( -3, 3 ) );
-    there.add_spawn( mon_graboid, 1, SEEX, SEEY, false, -1, miss->uid, "Little Guy" );
+    there.add_spawn( mon_graboid, 1, SEEX, SEEY, false, -1, miss->uid, _( "Little Guy" ) );
     there.save();
 }
 
@@ -360,7 +360,7 @@ void mission_start::kill_horde_master( mission *miss )
     overmap_buffer.reveal( site, 6 );
     tinymap tile;
     tile.load( site.x * 2, site.y * 2, site.z, false );
-    tile.add_spawn( mon_zombie_master, 1, SEEX, SEEY, false, -1, miss->uid, "Demonic Soul" );
+    tile.add_spawn( mon_zombie_master, 1, SEEX, SEEY, false, -1, miss->uid, _( "Demonic Soul" ) );
     tile.add_spawn( mon_zombie_brute, 3, SEEX, SEEY );
     tile.add_spawn( mon_zombie_dog, 3, SEEX, SEEY );
 
@@ -604,7 +604,7 @@ void mission_start::find_safety( mission *miss )
 
 void mission_start::point_prison( mission *miss )
 {
-    target_om_ter( "prison_5", 3, miss, false );
+    target_om_ter( "prison_1_5", 3, miss, false );
 }
 
 void mission_start::point_cabin_strange( mission *miss )
@@ -620,11 +620,12 @@ void mission_start::recruit_tracker( mission *miss )
     tripoint site = target_om_ter( "cabin", 2, miss, false );
     miss->recruit_class = NC_COWBOY;
 
-    npc *temp = new npc();
+    std::shared_ptr<npc> temp = std::make_shared<npc>();
     temp->normalize();
     temp->randomize( NC_COWBOY );
     // NPCs spawn with submap coordinates, site is in overmap terrain coords
     temp->spawn_at_precise( { site.x * 2, site.y * 2 }, tripoint( 11, 11, site.z ) );
+    overmap_buffer.insert_npc( temp );
     temp->attitude = NPCATT_TALK;
     temp->mission = NPC_MISSION_SHOPKEEP;
     temp->personality.aggression -= 1;
@@ -1267,10 +1268,10 @@ void mission_start::ranch_construct_16(mission *miss)
  bay.draw_square_furn(f_wood_keg, 16, 19, 17, 19);
  bay.draw_square_furn(f_fvat_empty, 16, 21, 17, 21);
  //Do a check to prevent duplicate NPCs in the last mission of each version
- std::vector<npc*> all_npcs = overmap_buffer.get_npcs_near(site.x*2,site.y*2,site.z,3);
+    const std::vector<std::shared_ptr<npc>> all_npcs = overmap_buffer.get_npcs_near( site.x*2,site.y*2,site.z,3 );
  bool already_has = false;
  unsigned int a = -1;
- for( auto *elem : all_npcs) {
+ for( auto &elem : all_npcs ) {
     if (elem->name.find(", Bartender") != a){
         already_has = true;
     }

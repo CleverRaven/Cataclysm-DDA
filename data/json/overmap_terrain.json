@@ -521,10 +521,6 @@
         "see_cost" : 5,
         "extras" : "build",
         "mondensity" : 2,
-        "mapgen": [
-            { "method": "builtin", "name": "church_new_england" },
-            { "method": "builtin", "name": "church_gothic" }
-        ],
         "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
@@ -1123,92 +1119,139 @@
         "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_1",
+        "id" : "prison_1_1",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
         "see_cost" : 5,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_2",
+        "id" : "prison_1_2",
         "name" : "prison",
         "sym" : 80,
         "color" : "i_ltblue",
         "see_cost" : 5,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_3",
+        "id" : "prison_1_3",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
         "see_cost" : 5,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_4",
+        "id" : "prison_1_4",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
         "see_cost" : 5,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_5",
+        "id" : "prison_1_5",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
         "see_cost" : 5,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_6",
+        "id" : "prison_1_6",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
         "see_cost" : 5,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_7",
+        "id" : "prison_1_7",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
         "see_cost" : 5,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_8",
+        "id" : "prison_1_8",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
         "see_cost" : 5,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_9",
+        "id" : "prison_1_9",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
         "see_cost" : 5,
-        "flags" : [ "SIDEWALK", "NO_ROTATE" ]
+        "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_b",
+        "id" : "prison_1_b_1",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
-        "see_cost" : 5,
-        "flags" : [ "NO_ROTATE" ]
+        "see_cost" : 5
     },{
         "type" : "overmap_terrain",
-        "id" : "prison_b_entrance",
+        "id" : "prison_1_b_2",
+        "name" : "prison",
+        "sym" : 80,
+        "color" : "i_ltblue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_1_b_3",
         "name" : "prison",
         "sym" : 112,
         "color" : "i_ltblue",
-        "see_cost" : 5,
-        "flags" : [ "NO_ROTATE" ]
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_1_b_4",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_ltblue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_1_b_5",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_ltblue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_1_b_6",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_ltblue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_1_b_7",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_ltblue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_1_b_8",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_ltblue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "prison_1_b_9",
+        "name" : "prison",
+        "sym" : 112,
+        "color" : "i_ltblue",
+        "see_cost" : 5
     },{
         "type" : "overmap_terrain",
         "id" : "hotel_tower_1_1",
@@ -6887,5 +6930,197 @@
     "color": "brown",
     "see_cost": 5,
     "flags": [ "SIDEWALK", "NO_ROTATE" ]
+  },
+  {
+    "id": "orchard",
+    "type": "overmap_terrain",
+    "name": "orchard",
+    "sym": 35,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "dispensary",
+    "type": "overmap_terrain",
+    "name": "dispensary",
+    "sym": 68,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "skate_park",
+    "type": "overmap_terrain",
+    "name": "skate park",
+    "sym": 79,
+    "color": "grey",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "small_office",
+    "type": "overmap_terrain",
+    "name": "small office",
+    "sym": 111,
+    "color": "brown",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "small_wooded_trail",
+    "type": "overmap_terrain",
+    "name": "small wooded trail",
+    "sym": 83,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "art_gallery",
+    "type": "overmap_terrain",
+    "name": "art gallery",
+    "sym": 97,
+    "color": "i_yellow",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "derelict_property",
+    "type": "overmap_terrain",
+    "name": "derelict property",
+    "sym": 88,
+    "color": "i_brown",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "field"
+  },
+  {
+    "id": "state_park_0_0",
+    "type": "overmap_terrain",
+    "name": "state park",
+    "sym": 83,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "state_park_0_1",
+    "type": "overmap_terrain",
+    "name": "state park",
+    "sym": 83,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "state_park_1_0",
+    "type": "overmap_terrain",
+    "name": "state park parking",
+    "sym": 36,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "state_park_1_1",
+    "type": "overmap_terrain",
+    "name": "state park",
+    "sym": 83,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "pavilion",
+    "type": "overmap_terrain",
+    "name": "pavilion",
+    "sym": 65,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "fishing_pond_0_0",
+    "type": "overmap_terrain",
+    "name": "fishing pond",
+    "sym": 83,
+    "color": "i_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "fishing_pond_0_1",
+    "type": "overmap_terrain",
+    "name": "fishing pond",
+    "sym": 83,
+    "color": "i_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "fishing_pond_1_0",
+    "type": "overmap_terrain",
+    "name": "fishing pond",
+    "sym": 83,
+    "color": "i_blue",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "fishing_pond_1_1",
+    "type": "overmap_terrain",
+    "name": "fishing pond",
+    "sym": 83,
+    "color": "i_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "hunting_blind",
+    "type": "overmap_terrain",
+    "name": "hunting blind",
+    "sym": 72,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "field"
+  },
+  {
+    "id": "small_storage_units",
+    "type": "overmap_terrain",
+    "name": "small storage units",
+    "sym": 35,
+    "color": "i_yellow",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "cemetery_small",
+    "type": "overmap_terrain",
+    "name": "small cemetery",
+    "sym": 67,
+    "color": "i_grey",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
   }
 ]

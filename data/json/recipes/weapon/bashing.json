@@ -22,7 +22,7 @@
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": 300000,
+    "time": 120000,
     "autolearn": true,
     "using": [ [ "forging_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [
