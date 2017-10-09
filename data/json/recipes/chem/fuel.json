@@ -19,12 +19,10 @@
      ],
      "components": [ [
         [ "hard_liquor", 14, "LIST" ],
+        [ "weak_liquor", 10, "LIST" ],
+        [ "wash_liquor", 42, "LIST" ],
         [ "bum_wine", 56 ],
         [ "fruit_wine", 56 ],
-        [ "wash_moonshine", 42 ],
-        [ "wash_vodka", 42 ],
-        [ "wash_whiskey", 42 ],
-        [ "wash_rum", 42 ]
     ] ]
   },
   {
@@ -46,6 +44,8 @@
      ],
      "components": [ [
        [ "hard_liquor", 14, "LIST" ],
+       [ "weak_liquor", 10, "LIST" ],
+       [ "wash_liquor", 42, "LIST" ],
        [ "bum_wine", 56 ],
        [ "fruit_wine", 56 ]
     ] ]
