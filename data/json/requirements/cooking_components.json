@@ -51,7 +51,7 @@
     "id": "wash_liquor",
     "type": "requirement",
     "//": "Wash liquor - needs to be concentrated",
-    "components": [ [ [ "wash_vadka", 1 ], [ "wash_whiskey", 1 ], [ "wash_rum", 1 ], [ "wash_moonshine", 1 ] ] ]
+    "components": [ [ [ "wash_vodka", 1 ], [ "wash_whiskey", 1 ], [ "wash_rum", 1 ], [ "wash_moonshine", 1 ] ] ]
   },
   {
     "id": "weak_liquor",
