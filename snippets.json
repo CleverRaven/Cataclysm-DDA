@@ -2,7 +2,9 @@
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is an advertisement for a local wildlife exhibit, claiming to have new and exciting animals on display.  Strangely, the only imagery on it is a stylized silhouette of a T. Rex.  The flier reads \"Witness the rebirth of the extinct, grand opening this week!\"" ]
+    "text": [
+      "This is an advertisement for a local wildlife exhibit, claiming to have new and exciting animals on display.  Strangely, the only imagery on it is a stylized silhouette of a T. Rex.  The flier reads \"Witness the rebirth of the extinct, grand opening this week!\""
+    ]
   },
   {
     "type": "snippet",
