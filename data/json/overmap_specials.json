@@ -196,7 +196,7 @@
         "locations" : [ "land", "swamp" ],
         "city_distance" : [10, 200],
         "city_sizes" : [4, 12],
-        "occurrences" : [1, 4],
+        "occurrences" : [2, 4],
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
