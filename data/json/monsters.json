@@ -4774,7 +4774,7 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
   },
   {
-    "id": "mon_zombie_acidic",
+    "id": "mon_zombie_acidic2",
     "type": "MONSTER",
     "name": "acidic zombie",
     "description": "A sickly-looking dead one.  Its skin looks especially thin, with a sticky, yellow fluid flowing through the clearly visible veins.",
@@ -4803,6 +4803,35 @@
       "half_life": 10,
       "into": "mon_zombie_spitter"
     },
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "ACID_BLOOD", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
+  },
+  {
+    "id": "mon_zombie_acidic",
+    "type": "MONSTER",
+    "name": "acidic zombie",
+    "description": "Swollen cysts are covering this zombie's arms and legs and seem to pulse with a greenish shine. The body looks fragile, yet dangerous.'
+    "default_faction": "zombie",
+    "species": [ "ZOMBIE" ],
+    "diff": 5,
+    "size": "MEDIUM",
+    "hp": 55,
+    "speed": 80,
+    "material": [ "flesh" ],
+    "symbol": "Z",
+    "color": "ltgray_yellow",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 3,
+    "melee_dice": 2,
+    "melee_dice_sides": 3,
+    "melee_cut": 0,
+    "dodge": 1,
+    "vision_night": 3,
+    "special_attacks": [],
+    "special_attacks": [ [ "ACID_BARF", 10 ] ],
+    "death_drops": "default_zombie_death_drops",
+    "death_function": [ "ACIDBURST" ],
+    "burn_into": "mon_zombie_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "ACID_BLOOD", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON" ]
   },
   {

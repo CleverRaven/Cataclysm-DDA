@@ -80,89 +80,115 @@ void mdeath::normal(monster *z)
 
     z->bleed(); // leave some blood if we have to
 
-    if( !pulverized ) {
-        make_mon_corpse( z, int( std::floor( corpse_damage ) ) );
+if (!pulverized) {
+    make_mon_corpse(z, int(std::floor(corpse_damage)));
+}
+
+// Limit chunking to flesh, veggy and insect creatures until other kinds are supported.
+const std::vector<material_id> gib_mats = { {
+    material_id("flesh"), material_id("hflesh"),
+    material_id("veggy"), material_id("iflesh"),
+    material_id("bone")
+} };
+const bool gibbable = !z->type->has_flag(MF_NOGIB) &&
+std::any_of(gib_mats.begin(), gib_mats.end(), [&z](const material_id &gm) {
+    return z->made_of(gm);
+});
+
+const field_id type_blood = z->bloodType();
+const field_id type_gib = z->gibType();
+
+if (gibbable) {
+    const auto area = g->m.points_in_radius(z->pos(), 1);
+    int number_of_gibs = std::min(std::floor(corpse_damage) - 1, 1 + max_hp / 5.0f);
+
+    if (pulverized && z->type->size >= MS_MEDIUM) {
+        number_of_gibs += rng(1, 6);
+        sfx::play_variant_sound("mon_death", "zombie_gibbed", sfx::get_heard_volume(z->pos()));
     }
 
-    // Limit chunking to flesh, veggy and insect creatures until other kinds are supported.
-    const std::vector<material_id> gib_mats = {{
-        material_id( "flesh" ), material_id( "hflesh" ),
-        material_id( "veggy" ), material_id( "iflesh" ),
-        material_id( "bone" )
-    }};
-    const bool gibbable = !z->type->has_flag( MF_NOGIB ) &&
-        std::any_of( gib_mats.begin(), gib_mats.end(), [&z]( const material_id &gm ) {
-            return z->made_of( gm );
-        } );
-
-    const field_id type_blood = z->bloodType();
-    const field_id type_gib = z->gibType();
-
-    if( gibbable ) {
-        const auto area = g->m.points_in_radius( z->pos(), 1 );
-        int number_of_gibs = std::min( std::floor( corpse_damage ) - 1, 1 + max_hp / 5.0f );
-
-        if( pulverized && z->type->size >= MS_MEDIUM ) {
-            number_of_gibs += rng( 1, 6 );
-            sfx::play_variant_sound( "mon_death", "zombie_gibbed", sfx::get_heard_volume( z->pos() ) );
-        }
-
-        for( int i = 0; i < number_of_gibs; ++i ) {
-            g->m.add_splatter( type_gib, random_entry( area ), rng( 1, i + 1 ) );
-            g->m.add_splatter( type_blood, random_entry( area ) );
-        }
+    for (int i = 0; i < number_of_gibs; ++i) {
+        g->m.add_splatter(type_gib, random_entry(area), rng(1, i + 1));
+        g->m.add_splatter(type_blood, random_entry(area));
     }
+}
 
-    const int num_chunks = z->type->get_meat_chunks_count();
-    const itype_id meat = z->type->get_meat_itype();
+const int num_chunks = z->type->get_meat_chunks_count();
+const itype_id meat = z->type->get_meat_itype();
 
-    if( pulverized && gibbable ) {
-        const item chunk( meat );
-        for( int i = 0; i < num_chunks; i++ ) {
-            tripoint tarp( z->pos() + point( rng( -3, 3 ), rng( -3, 3 ) ) );
-            const auto traj = line_to( z->pos(), tarp );
+if (pulverized && gibbable) {
+    const item chunk(meat);
+    for (int i = 0; i < num_chunks; i++) {
+        tripoint tarp(z->pos() + point(rng(-3, 3), rng(-3, 3)));
+        const auto traj = line_to(z->pos(), tarp);
 
-            for( size_t j = 0; j < traj.size(); j++ ) {
-                tarp = traj[j];
-                if( one_in( 2 ) && type_blood != fd_null ) {
-                    g->m.add_splatter( type_blood, tarp );
-                } else {
-                    g->m.add_splatter( type_gib, tarp, rng( 1, j + 1 ) );
-                }
-                if( g->m.impassable( tarp ) ) {
-                    g->m.bash( tarp, 3 );
-                    if( g->m.impassable( tarp ) ) {
-                        // Target is obstacle, not destroyed by bashing,
-                        // stop trajectory in front of it, if this is the first
-                        // point (e.g. wall adjacent to monster) , make it invalid.
-                        if( j > 0 ) {
-                            tarp = traj[j - 1];
-                        } else {
-                            tarp = tripoint_min;
-                        }
-                        break;
+        for (size_t j = 0; j < traj.size(); j++) {
+            tarp = traj[j];
+            if (one_in(2) && type_blood != fd_null) {
+                g->m.add_splatter(type_blood, tarp);
+            }
+            else {
+                g->m.add_splatter(type_gib, tarp, rng(1, j + 1));
+            }
+            if (g->m.impassable(tarp)) {
+                g->m.bash(tarp, 3);
+                if (g->m.impassable(tarp)) {
+                    // Target is obstacle, not destroyed by bashing,
+                    // stop trajectory in front of it, if this is the first
+                    // point (e.g. wall adjacent to monster) , make it invalid.
+                    if (j > 0) {
+                        tarp = traj[j - 1];
                     }
+                    else {
+                        tarp = tripoint_min;
+                    }
+                    break;
                 }
             }
+        }
 
-            if( tarp != tripoint_min ) {
-                g->m.add_item_or_charges( tarp, chunk );
-            }
+        if (tarp != tripoint_min) {
+            g->m.add_item_or_charges(tarp, chunk);
         }
     }
+}
 }
 
 void mdeath::acid(monster *z)
 {
     if (g->u.sees(*z)) {
-        if(z->type->dies.size() ==
-           1) { //If this death function is the only function. The corpse gets dissolved.
+        if (z->type->dies.size() ==
+            1) { //If this death function is the only function. The corpse gets dissolved.
             add_msg(m_mixed, _("The %s's body dissolves into acid."), z->name().c_str());
-        } else {
+        }
+        else {
             add_msg(m_warning, _("The %s's body leaks acid."), z->name().c_str());
         }
     }
     g->m.add_field(z->pos(), fd_acid, 3, 0);
+}
+
+void mdeath::acidburst(monster *z)
+{
+    if (g->u.sees(*z)) {
+        add_msg(m_mixed, _("The %s bursts, showering the nearby area with acid."), z->name().c_str());
+    }
+
+    const tripoint origin = z->pos();
+    const int radius = 2;
+
+    g->m.add_field(origin, fd_acid, 3, 0);
+
+    /*for (int i = radius; i > 0; i--) {
+        for (auto &pt : g->m.points_in_radius(z->pos(), i)) {
+            g->m.add_field(pt, fd_acid, 1, 0);
+        }
+    }*/
+
+    for (int i = 0; i < rng(8, 11); i++) {
+        const tripoint dest(origin.x + rng(-radius, radius), origin.y + rng(-radius, radius), origin.z);
+        g->m.add_field(dest, fd_acid, rng(1, 2), 0);
+    }
 }
 
 void mdeath::boomer(monster *z)
