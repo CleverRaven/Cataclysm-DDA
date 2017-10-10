@@ -1494,7 +1494,8 @@
       ["survnote", 2],
       ["eclipse_glasses", 1]
     ]
-  },{
+  },
+  {
     "id": "magazines",
     "type": "item_group",
     "items": [
@@ -3049,7 +3050,8 @@
       ["kilt", 5],
       ["l-stick", 1]
     ]
-  },{
+  },
+  {
     "id": "novels",
     "type": "item_group",
     "items": [
@@ -3105,7 +3107,8 @@
       [ "ZSG", 5 ],
       [ "survnote", 1 ]
     ]
-  },{
+  },
+  {
     "id": "homebooks",
     "type": "item_group",
     "items": [
@@ -3989,7 +3992,8 @@
       ["newest_newspaper", 100],
       ["survnote", 1]
     ]
-  },{
+  },
+  {
     "id": "school",
     "type": "item_group",
     "items": [
