@@ -105,7 +105,7 @@ struct jmapgen_setmap {
     ) :
        x(ix), y(iy), x2(ix2), y2(iy2), op(iop), val(ival), chance(ione_in), repeat(irepeat), rotation(irotation),
        fuel(ifuel), status(istatus) {}
-    bool apply( map &m, int offset_x, int offset_y ) const;
+    bool apply( const mapgendata &dat, int offset_x, int offset_y ) const;
 };
 
 /**
@@ -133,8 +133,8 @@ class jmapgen_piece {
 protected:
     jmapgen_piece() { }
 public:
-    /** Place something on the map m at (x,y). mon_density */
-    virtual void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, float mon_density ) const = 0;
+    /** Place something on the map from mapgendata dat, at (x,y). mon_density */
+    virtual void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, float mon_density ) const = 0;
     virtual ~jmapgen_piece() { }
 };
 
@@ -223,8 +223,8 @@ struct jmapgen_objects {
     template<typename PieceType>
     void load_objects(JsonObject &jsi, const std::string &member_name);
 
-    void apply( map &m, float density ) const;
-    void apply( map &m, int offset_x, int offset_y, float density ) const;
+    void apply( const mapgendata &dat, float density ) const;
+    void apply( const mapgendata &dat, int offset_x, int offset_y, float density ) const;
 
 private:
     /**
@@ -295,7 +295,7 @@ class mapgen_function_json_nested : public mapgen_function_json_base {
         mapgen_function_json_nested( const std::string s );
         ~mapgen_function_json_nested() override { }
 
-        void nest( map &m, int offset_x, int offset_y, float density ) const;
+        void nest( const mapgendata &dat, int offset_x, int offset_y, float density ) const;
     protected:
         bool setup_internal( JsonObject &jo ) override;
 };

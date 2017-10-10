@@ -14,22 +14,22 @@ struct mapgendata
 {
 public:
   oter_id t_nesw[8];
-  int n_fac; // dir == 0
-  int e_fac; // dir == 1
-  int s_fac; // dir == 2
-  int w_fac; // dir == 3
-  int ne_fac; // dir == 4
-  int se_fac; // dir == 5
-  int sw_fac; // dir == 6
-  int nw_fac; // dir == 7
+  int n_fac = 0;  // dir == 0
+  int e_fac = 0;  // dir == 1
+  int s_fac = 0;  // dir == 2
+  int w_fac = 0;  // dir == 3
+  int ne_fac = 0; // dir == 4
+  int se_fac = 0; // dir == 5
+  int sw_fac = 0; // dir == 6
+  int nw_fac = 0; // dir == 7
   oter_id t_above;
   int zlevel;
-  const regional_settings * region;
-  map * m;
+  const regional_settings &region;
+  map &m;
   weighted_int_list<ter_id> default_groundcover;
   mapgendata(oter_id t_north, oter_id t_east, oter_id t_south, oter_id t_west,
              oter_id t_neast, oter_id t_seast, oter_id t_swest, oter_id t_nwest,
-             oter_id up, int z, const regional_settings * rsettings, map * mp );
+             oter_id up, int z, const regional_settings &rsettings, map &mp );
   void set_dir(int dir_in, int val);
   void fill(int val);
   int& dir(int dir_in);
