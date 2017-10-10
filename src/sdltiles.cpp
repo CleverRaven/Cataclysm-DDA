@@ -1205,6 +1205,7 @@ void CheckMessages()
 {
     SDL_Event ev;
     bool quit = false;
+    bool text_refresh = false;
     if(HandleDPad()) {
         return;
     }
@@ -1265,7 +1266,19 @@ void CheckMessages()
                     const unsigned lc = UTF8_getch( &c, &len );
                     last_input = input_event( lc, CATA_INPUT_KEYBOARD );
                     last_input.text = ev.text.text;
+                    text_refresh = true;
                 }
+            break;
+            case SDL_TEXTEDITING:
+            {
+                const char *c = ev.edit.text;
+                int len = strlen( ev.edit.text );
+                const unsigned lc = UTF8_getch( &c, &len );
+                last_input = input_event( lc, CATA_INPUT_KEYBOARD );
+                last_input.edit = ev.edit.text;
+                last_input.edit_refresh = true;
+                text_refresh = true;
+            }
             break;
             case SDL_JOYBUTTONDOWN:
                 last_input = input_event(ev.jbutton.button, CATA_INPUT_KEYBOARD);
@@ -1306,6 +1319,9 @@ void CheckMessages()
             case SDL_QUIT:
                 quit = true;
                 break;
+        }
+        if( text_refresh ) {
+            break;
         }
     }
     if (needupdate) {

@@ -45,7 +45,7 @@
         "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
         "city_distance" : [-1, 4], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [1, 2], "//":"how many per overmap",
+        "occurrences" : [0, 2], "//":"how many per overmap",
         "flags" : [ "CLASSIC" ]
 },{
         "type" : "overmap_special",
@@ -63,7 +63,7 @@
         "locations" : [ "land", "swamp" ],
         "city_distance" : [10, 120],
         "city_sizes" : [1, 12],
-        "occurrences" : [2, 5],
+        "occurrences" : [0, 5],
         "flags" : [ "CLASSIC" ]
 },{
         "type" : "overmap_special",
@@ -333,7 +333,7 @@
         "locations" : [ "wilderness" ],
         "city_distance" : [8, -1],
         "city_sizes" : [4, 12],
-        "occurrences" : [2, 5],
+        "occurrences" : [1, 5],
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -490,7 +490,7 @@
         "locations" : [ "wilderness", "swamp" ],
         "city_distance" : [2, 10],
         "city_sizes" : [4, 12],
-        "occurrences" : [1, 3],
+        "occurrences" : [0, 3],
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -508,7 +508,7 @@
         "locations" : [ "wilderness" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [4, 12],
-        "occurrences" : [1, 5],
+        "occurrences" : [0, 5],
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -526,7 +526,7 @@
         "locations" : [ "wilderness" ],
         "city_distance" : [-1, 2],
         "city_sizes" : [4, 12],
-        "occurrences" : [1, 4],
+        "occurrences" : [0, 4],
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -732,7 +732,7 @@
         "locations" : [ "wilderness", "swamp" ],
         "city_distance" : [5, -1],
         "city_sizes" : [0, 12],
-        "occurrences" : [1, 2],
+        "occurrences" : [0, 2],
         "rotate" : false,
         "spawns" : { "group" : "GROUP_FUNGI_FLOWERS", "population":[50,100], "radius":[2,4] }
     },{
@@ -761,7 +761,7 @@
         "locations" : [ "wilderness" ],
         "city_distance" : [5, 10],
         "city_sizes" : [4, 12],
-        "occurrences" : [5, 10],
+        "occurrences" : [1, 10],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
     },{
@@ -1351,7 +1351,7 @@
        "locations" : [ "wilderness" ],
         "city_distance" : [5, 16],
         "city_sizes" : [4, 14],
-        "occurrences" : [1, 3],
+        "occurrences" : [0, 3],
         "rotate" : false,
         "spawns" : { "group" : "GROUP_LARGE_STATION", "population":[4, 10], "radius":[1, 2] }
     },{
@@ -1385,7 +1385,7 @@
         "locations" : [ "wilderness" ],
         "city_distance" : [1, 10],
         "city_sizes" : [4, 20],
-        "occurrences" : [1, 3],
+        "occurrences" : [0, 3],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
  },{
@@ -1520,7 +1520,7 @@
         "locations" : [ "forest" ],
         "city_distance" : [15, -1],
         "city_sizes" : [0, 12],
-        "occurrences" : [1, 5],
+        "occurrences" : [0, 5],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
     },{
@@ -1532,7 +1532,7 @@
         "locations" : [ "forest" ],
         "city_distance" : [20, -1],
         "city_sizes" : [0, 12],
-        "occurrences" : [1, 3],
+        "occurrences" : [0, 3],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
     },{
@@ -1544,7 +1544,7 @@
         "locations" : [ "field" ],
         "city_distance" : [10, -1],
         "city_sizes" : [0, 12],
-        "occurrences" : [1, 3],
+        "occurrences" : [0, 3],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
     },{
@@ -1556,7 +1556,7 @@
         "locations" : [ "forest" ],
         "city_distance" : [10, -1],
         "city_sizes" : [0, 12],
-        "occurrences" : [2, 5],
+        "occurrences" : [0, 5],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
     },{
@@ -1568,7 +1568,7 @@
         "locations" : [ "field" ],
         "city_distance" : [10, -1],
         "city_sizes" : [0, 12],
-        "occurrences" : [1, 5],
+        "occurrences" : [0, 5],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
     },{
@@ -1583,7 +1583,7 @@
         "locations" : [ "land" ],
         "city_distance" : [10, 200],
         "city_sizes" : [1, 12],
-        "occurrences" : [ 1,2 ],
+        "occurrences" : [ 0,2 ],
         "extras" : "build",
         "flags" : [ "CLASSIC" ]
     },{
@@ -1598,7 +1598,7 @@
         "locations" : [ "land" ],
         "city_distance" : [10, 200],
         "city_sizes" : [1, 12],
-        "occurrences" : [ 1,2 ],
+        "occurrences" : [ 0,2 ],
         "extras" : "build",
         "flags" : [ "CLASSIC" ]
     },{
@@ -1613,7 +1613,7 @@
         "locations" : [ "land" ],
         "city_distance" : [10, 200],
         "city_sizes" : [1, 12],
-        "occurrences" : [ 1,2 ],
+        "occurrences" : [ 0,2 ],
         "extras" : "build",
         "flags" : [ "CLASSIC" ]
     },{
@@ -1669,7 +1669,7 @@
         "locations" : [ "forest", "field" ],
         "city_distance" : [2, 10],
         "city_sizes" : [2, 16],
-        "occurrences" : [2, 5],
+        "occurrences" : [0, 5],
         "rotate" : false,
         "flags" : [ "CLASSIC" ]
     },{
@@ -1764,7 +1764,7 @@
         "city_distance" : [5, 10],
         "city_sizes" : [4, 12],
         "rotate" : false,
-        "occurrences" : [1, 4]
+        "occurrences" : [0, 4]
     },
   {
     "type": "overmap_special",

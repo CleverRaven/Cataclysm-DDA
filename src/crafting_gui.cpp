@@ -408,9 +408,15 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             ypos = 0;
 
+            auto qry = trim( filterstring );
+            std::string qry_comps;
+            if( qry.compare( 0, 2, "c:" ) == 0 ) {
+                qry_comps = qry.substr( 2 );
+            }
+
             std::vector<std::string> component_print_buffer;
             auto tools = req.get_folded_tools_list( pane, col, crafting_inv, count );
-            auto comps = req.get_folded_components_list( pane, col, crafting_inv, count );
+            auto comps = req.get_folded_components_list( pane, col, crafting_inv, count, qry_comps );
             component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
             component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
 
