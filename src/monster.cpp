@@ -1270,7 +1270,8 @@ void monster::set_hp( const int hp )
     this->hp = hp;
 }
 
-void monster::apply_damage(Creature* source, body_part /*bp*/, int dam) {
+void monster::apply_damage(Creature* source, body_part /*bp*/, int dam)
+{
     if( is_dead_state() ) {
         return;
     }
@@ -1278,7 +1279,25 @@ void monster::apply_damage(Creature* source, body_part /*bp*/, int dam) {
     if( hp < 1 ) {
         set_killer( source );
     } else if( dam > 0 ) {
+        on_damage(source, dam);
         process_trigger( MTRIG_HURT, 1 + int( dam / 3 ) );
+    }
+}
+
+void monster::on_damage(Creature *source, int dmgAmount)
+{
+    if (has_flag(MF_ACID_BLOOD)) { // triggers only on acid-type Zs
+        if (rng(0, 1)) { // you dont hit a cyst, blood vessel every time
+            const tripoint origin = pos();
+            const int radius = 1; // can be based on size or some other thing
+            const float fraction = float(dmgAmount) / get_hp_max();
+            const int amount = ceil(fraction * 5); // spawn 1 tile with acid for each 20 % damage off maxHP, min 1
+
+            for (int i = 0; i < amount; i++) {
+                const tripoint dest(origin.x + rng(-radius, radius), origin.y + rng(-radius, radius), origin.z);
+                g->m.add_field(dest, fd_acid, 1);
+            }
+        }
     }
 }
 
@@ -2165,7 +2184,7 @@ void monster::on_hit( Creature *source, body_part,
                 critter.anger += anger_adjust;
             }
         }
-    }
+    } 
 
     check_dead_state();
     // TODO: Faction relations

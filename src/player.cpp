@@ -4123,6 +4123,10 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
     }
 }
 
+void player::on_damage(Creature *source, int dmgAmount)
+{
+}
+
 void player::heal(body_part healed, int dam)
 {
     hp_part healpart;

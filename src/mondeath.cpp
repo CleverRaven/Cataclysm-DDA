@@ -179,12 +179,6 @@ void mdeath::acidburst(monster *z)
 
     g->m.add_field(origin, fd_acid, 3, 0);
 
-    /*for (int i = radius; i > 0; i--) {
-        for (auto &pt : g->m.points_in_radius(z->pos(), i)) {
-            g->m.add_field(pt, fd_acid, 1, 0);
-        }
-    }*/
-
     for (int i = 0; i < rng(8, 11); i++) {
         const tripoint dest(origin.x + rng(-radius, radius), origin.y + rng(-radius, radius), origin.z);
         g->m.add_field(dest, fd_acid, rng(1, 2), 0);
