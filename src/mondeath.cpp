@@ -158,8 +158,7 @@ void mdeath::acid(monster *z)
         if (z->type->dies.size() ==
             1) { //If this death function is the only function. The corpse gets dissolved.
             add_msg(m_mixed, _("The %s's body dissolves into acid."), z->name().c_str());
-        }
-        else {
+        } else {
             add_msg(m_warning, _("The %s's body leaks acid."), z->name().c_str());
         }
     }
