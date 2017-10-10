@@ -141,7 +141,8 @@ void string_input_popup::add_to_history( const std::string &value ) const
     }
 }
 
-void string_input_popup::draw( const utf8_wrapper &ret, const int shift ) const
+void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit,
+                               const int shift ) const
 {
     // Not static because color values are not constants, but function calls!
     const nc_color string_color = c_magenta;
@@ -151,6 +152,7 @@ void string_input_popup::draw( const utf8_wrapper &ret, const int shift ) const
     const int scrmax = _endx - _startx;
     // remove the scrolled out of view part from the input string
     const utf8_wrapper ds( ret.substr_display( shift, scrmax ) );
+    int start_x_edit = _startx;
     // Clear the line
     mvwprintw( w, _starty, _startx, std::string( scrmax, ' ' ).c_str() );
     // Print the whole input string in default color
@@ -168,11 +170,14 @@ void string_input_popup::draw( const utf8_wrapper &ret, const int shift ) const
         }
         size_t left_over = ret.substr( 0, a ).display_width() - shift;
         mvwprintz( w, _starty, _startx + left_over, cursor_color, "%s", cursor.c_str() );
+        start_x_edit = _startx + left_over;
     } else if( _position == _max_length && _max_length > 0 ) {
         mvwprintz( w, _starty, _startx + sx, cursor_color, " " );
+        start_x_edit = _startx + sx;
         sx++; // don't override trailing ' '
     } else {
         mvwprintz( w, _starty, _startx + sx, cursor_color, "_" );
+        start_x_edit = _startx + sx;
         sx++; // don't override trailing '_'
     }
     if( ( int )sx < scrmax ) {
@@ -191,6 +196,9 @@ void string_input_popup::draw( const utf8_wrapper &ret, const int shift ) const
         if( l > 0 ) {
             mvwprintz( w, _starty, _startx + sx, underscore_color, std::string( l, '_' ).c_str() );
         }
+    }
+    if( !edit.empty() ) {
+        mvwprintz( w, _starty, start_x_edit, cursor_color, "%s", edit.c_str() );
     }
 }
 
@@ -218,6 +226,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         create_context();
     }
     utf8_wrapper ret( _text );
+    utf8_wrapper edit( ctxt->get_edittext() );
     if( _position == -1 ) {
         _position = ret.length();
     }
@@ -258,7 +267,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
 
         if( redraw ) {
             redraw = false;
-            draw( ret, shift );
+            draw( ret, edit, shift );
             wrefresh( w );
         }
 
@@ -346,6 +355,18 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             const utf8_wrapper t( ev.text );
             ret.insert( _position, t );
             _position += t.length();
+            edit.erase( 0 );
+            ctxt->set_edittext( edit.c_str() );
+            redraw = true;
+        } else if( ev.edit_refresh ) {
+            const utf8_wrapper t( ev.edit );
+            edit.erase( 0 );
+            edit.insert( 0, t );
+            ctxt->set_edittext( edit.c_str() );
+            redraw = true;
+        } else if( ev.edit.empty() ) {
+            edit.erase( 0 );
+            ctxt->set_edittext( edit.c_str() );
             redraw = true;
         }
     } while( loop == true );

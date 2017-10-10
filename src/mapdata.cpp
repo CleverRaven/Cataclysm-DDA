@@ -278,7 +278,7 @@ ter_t null_terrain_t() {
   new_terrain.name_ = translate_marker( "nothing" );
   new_terrain.symbol_.fill( ' ' );
   new_terrain.color_.fill( c_white );
-  new_terrain.movecost = 2;
+  new_terrain.movecost = 0;
   new_terrain.transparent = true;
   new_terrain.set_flag("TRANSPARENT");
   new_terrain.set_flag("DIGGABLE");
