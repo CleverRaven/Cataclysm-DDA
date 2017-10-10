@@ -148,10 +148,12 @@ int main( int argc, char *argv[] )
     } else {
         if( in.str() == out.str() ) {
             std::cout << "Unformatted " << filename << std::endl;
+            exit( EXIT_SUCCESS );
         } else {
             std::ofstream fout( filename, std::ios::binary | std::ios::trunc );
             fout << out.str();
             std::cout << "Formatted " << filename << std::endl;
+            exit( EXIT_FAILURE );
         }
     }
 }

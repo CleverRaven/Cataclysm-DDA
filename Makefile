@@ -69,6 +69,10 @@
 #  make astyle-check
 # Astyle all source files using the current rules (don't PR this, it's too many changes at once).
 #  make astyle-all
+# Style the whitelisted json files (maintain the current level of styling).
+#  make style-json
+# Style all json files using the current rules (don't PR this, it's too many changes at once).
+#  make style-all-json
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
