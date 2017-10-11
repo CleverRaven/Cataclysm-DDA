@@ -167,16 +167,16 @@ void mdeath::acid(monster *z)
 
 void mdeath::acidburst(monster *z) // makes monster w/ flag spawn acid upon death
 {
-    if (g->u.sees(*z)) {
+    if ( g->u.sees(*z) ) {
         add_msg(m_mixed, _("The %s bursts, showering the nearby area with acid."), z->name().c_str());
     }
     const tripoint origin = z->pos();
     const int radius = 2; // 2 so ranged attacks arent safe per se
-    g->m.add_field(origin, fd_acid, 3, 0);
+    g->m.add_field(origin, fd_acid, 3, 0); // death field, more severe acid
 
-    for (int i = 0; i < rng(8, 11); i++) {
-        const tripoint dest(origin.x + rng(-radius, radius), origin.y + rng(-radius, radius), origin.z);
-        g->m.add_field(dest, fd_acid, rng(1, 2), 0);
+    for ( int i = 0; i < rng(8, 11); i++ ) { // amount of burst and densitiy depends on RNG for now
+        const tripoint dest( origin.x + rng(-radius, radius), origin.y + rng(-radius, radius), origin.z );
+        g->m.add_field( dest, fd_acid, rng(1, 2), 0 );
     }
 }
 
