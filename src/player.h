@@ -687,7 +687,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
         void apply_damage(Creature *source, body_part bp, int amount) override;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
-        void on_damage_taken( Creature *source, dealt_damage_instance &d ) override; // if this damage, trigger stuff
         void mod_pain(int npain) override;
         /** Sets new intensity of pain an reacts to it */
         void set_pain(int npain) override;

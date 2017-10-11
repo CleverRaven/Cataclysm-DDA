@@ -262,7 +262,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
                                       int &pain ) override;
         void apply_damage( Creature *source, body_part bp, int amount ) override;
         // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
-        void on_damage_taken( Creature *source, dealt_damage_instance &d ) override; // if this receives actual damage, do something with it
         void explode();
         // Let the monster die and let its body explode into gibs
         void die_in_explosion( Creature *source );

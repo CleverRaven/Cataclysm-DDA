@@ -1173,28 +1173,6 @@ void monster::melee_attack( Creature &target, bool, const matec_id&, int hitspre
     }
 }
 
-void monster::on_damage_taken( Creature *source, dealt_damage_instance &d ) // trigger effects based on dmg type/amount
-{
-    if ( has_flag(MF_ACID_BLOOD )) { // currently only spreading acid blood, can be used for any on-hit splatter
-        if ( rng(0, 1) ) { // you dont hit a cyst, blood vessel every time     
-            const tripoint origin = pos();
-            const int totalDealt = d.type_damage(DT_CUT) + d.type_damage(DT_STAB) + floor(d.type_damage(DT_BASH) * 0.5);
-            // Bashing damage -> less chance to spread acid
-            // debugmsg("on_dmg scope target totalDealt %d", totalDealt);
-
-            const float fraction = float(totalDealt) / get_hp_max(); // % of total hp this hit takes off
-            const int radius = rng(1, 2);
-            const int density = 1;
-            const int amount = ceil(fraction * 5); // 1 acid for each 20 % damage this takes off maxHP, min 1
-
-            for ( int i = 0; i < amount; i++ ) {
-                const tripoint dest( origin.x + rng(-radius, radius), origin.y + rng(-radius, radius), origin.z );
-                g->m.add_field( dest, bloodType(), density );
-            }
-        }
-    }
-}
-
 void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) {
     const auto &proj = attack.proj;
     double &missed_by = attack.missed_by; // We can change this here

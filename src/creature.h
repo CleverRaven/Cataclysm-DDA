@@ -235,7 +235,6 @@ class Creature
         // increase pain, apply effects, etc
         virtual void apply_damage(Creature *source, body_part bp, int amount) = 0;
 
-        virtual void on_damage_taken( Creature *source, dealt_damage_instance &d ) = 0; // if this receives actual damage, do something with it
         /**
          * This creature just dodged an attack - possibly special/ranged attack - from source.
          * Players should train dodge, monsters may use some special defenses.

@@ -4123,10 +4123,6 @@ void player::apply_damage(Creature *source, body_part hurt, int dam)
     }
 }
 
-void player::on_damage_taken( Creature *source, dealt_damage_instance &d ) // trigger effects based on dmg type/amount, context target
-{
-}
-
 void player::heal(body_part healed, int dam)
 {
     hp_part healpart;
