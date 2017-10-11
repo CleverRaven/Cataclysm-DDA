@@ -690,6 +690,7 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
     mod_pain(total_pain);
 
     apply_damage( source, bp, total_damage );
+    on_damage_taken(source, dealt_dams);
     return dealt_dams;
 }
 void Creature::deal_damage_handle_type(const damage_unit &du, body_part bp, int &damage, int &pain)
