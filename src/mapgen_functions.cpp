@@ -381,6 +381,26 @@ ter_id mapgendata::groundcover() {
     return tid != nullptr ? *tid : t_null;
 }
 
+const oter_id &mapgendata::neighbor_at( om_direction::type dir ) const
+{
+    // @todo De-uglify, implement proper conversion somewhere
+    switch( dir ) {
+        case om_direction::type::north:
+            return north();
+        case om_direction::type::east:
+            return east();
+        case om_direction::type::south:
+            return south();
+        case om_direction::type::west:
+            return west();
+        default:
+            break;
+    }
+
+    debugmsg( "Tried to get neighbor from invalid direction %d", dir );
+    return north();
+}
+
 void mapgen_rotate( map * m, oter_id terrain_type, bool north_is_down ) {
     const auto dir = terrain_type->get_dir();
     m->rotate( static_cast<int>( north_is_down ? om_direction::opposite( dir ) : dir ) );

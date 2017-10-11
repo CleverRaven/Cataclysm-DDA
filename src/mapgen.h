@@ -256,7 +256,7 @@ class mapgen_function_json_base {
         virtual bool setup_internal( JsonObject &jo ) = 0;
         virtual void setup_setmap_internal() { };
 
-        void formatted_set_incredibly_simple( map *m ) const;
+        void formatted_set_incredibly_simple( map &m, int offset_x, int offset_y ) const;
 
         bool do_format;
         bool is_ready;

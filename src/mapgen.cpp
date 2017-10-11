@@ -1192,20 +1192,60 @@ public:
  * @param entries list of pairs [nested mapgen id, weight].
  */
 class jmapgen_nested : public jmapgen_piece {
+private:
+    class neighborhood_check {
+        private:
+            // To speed up the most common case: no checks
+            bool has_any = false;
+            std::array<std::set<oter_str_id>, om_direction::size> neighbors;
+        public:
+            neighborhood_check( JsonObject jsi ) {
+                for( om_direction::type dir : om_direction::all ) {
+                    int index = static_cast<int>( dir );
+                    neighbors[index] = jsi.get_tags<oter_str_id>( om_direction::id( dir ) );
+                    has_any |= !neighbors[index].empty();
+                }
+            }
+
+            bool test( const mapgendata &dat ) const {
+                if( !has_any ) {
+                    return true;
+                }
+
+                for( om_direction::type dir : om_direction::all ) {
+                    int index = static_cast<int>( dir );
+                    const std::set<oter_str_id> &allowed_neighbors = neighbors[index];
+                    if( !allowed_neighbors.empty() && allowed_neighbors.count( dat.neighbor_at( dir ).id() ) == 0 ) {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+    };
 public:
     weighted_int_list<std::string> entries;
-    jmapgen_nested( JsonObject &jsi ) : jmapgen_piece()
+    neighborhood_check neighbors;
+    jmapgen_nested( JsonObject &jsi ) : jmapgen_piece(), neighbors( jsi.get_object( "neighbors" ) )
     {
         JsonArray jarr = jsi.get_array( "entries" );
         while( jarr.has_more() ) {
-            JsonArray inner = jarr.next_array();
-            entries.add( inner.get_string( 0 ), inner.get_int( 1 ) );
+            if( jarr.test_array() ) {
+                JsonArray inner = jarr.next_array();
+                entries.add( inner.get_string( 0 ), inner.get_int( 1 ) );
+            } else {
+                entries.add( jarr.next_string(), 100 );
+            }
         }
     }
     void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const float d ) const override
     {
         const std::string *res = entries.pick();
-        if( res == nullptr || res->empty() ) {
+        if( res == nullptr || res->empty() || *res == "null" ) {
+            return;
+        }
+
+        if( !neighbors.test( dat ) ) {
             return;
         }
 
@@ -1850,20 +1890,22 @@ bool jmapgen_setmap::apply( const mapgendata &dat, int offset_x, int offset_y ) 
     return true;
 }
 
-void mapgen_function_json_base::formatted_set_incredibly_simple( map * const m ) const
+void mapgen_function_json_base::formatted_set_incredibly_simple( map &m, int offset_x, int offset_y ) const
 {
     for( size_t y = 0; y < mapgensize_y; y++ ) {
         for( size_t x = 0; x < mapgensize_x; x++ ) {
             const size_t index = calc_index( x, y );
             const ter_furn_id &tdata = format[index];
+            int map_x = x + offset_x;
+            int map_y = y + offset_y;
             if( tdata.furn != f_null ) {
                 if( tdata.ter != t_null ) {
-                    m->set( x, y, tdata.ter, tdata.furn );
+                    m.set( map_x, map_y, tdata.ter, tdata.furn );
                 } else {
-                    m->furn_set( x, y, tdata.furn );
+                    m.furn_set( map_x, map_y, tdata.furn );
                 }
             } else if( tdata.ter != t_null ) {
-                m->ter_set( x, y, tdata.ter );
+                m.ter_set( map_x, map_y, tdata.ter );
             }
         }
     }
@@ -1877,7 +1919,7 @@ void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const 
         m->draw_fill_background( fill_ter );
     }
     if( do_format ) {
-        formatted_set_incredibly_simple( m );
+        formatted_set_incredibly_simple( *m, 0, 0 );
     }
     for( auto &elem : setmap_points ) {
         elem.apply( md, 0, 0 );
@@ -1898,7 +1940,7 @@ void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const 
 void mapgen_function_json_nested::nest( const mapgendata &dat, int offset_x, int offset_y, float density ) const
 {
     if( do_format ) {
-        formatted_set_incredibly_simple( &dat.m );
+        formatted_set_incredibly_simple( dat.m, offset_x, offset_y );
     }
 
     for( auto &elem : setmap_points ) {

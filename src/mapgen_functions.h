@@ -33,15 +33,16 @@ public:
   void set_dir(int dir_in, int val);
   void fill(int val);
   int& dir(int dir_in);
-  oter_id  north() const { return t_nesw[0]; }
-  oter_id  east()  const { return t_nesw[1]; }
-  oter_id  south() const { return t_nesw[2]; }
-  oter_id  west()  const { return t_nesw[3]; }
-  oter_id  neast() const { return t_nesw[4]; }
-  oter_id  seast() const { return t_nesw[5]; }
-  oter_id  swest() const { return t_nesw[6]; }
-  oter_id  nwest() const { return t_nesw[7]; }
-  oter_id  above() const { return t_above; }
+  const oter_id &north() const { return t_nesw[0]; }
+  const oter_id &east()  const { return t_nesw[1]; }
+  const oter_id &south() const { return t_nesw[2]; }
+  const oter_id &west()  const { return t_nesw[3]; }
+  const oter_id &neast() const { return t_nesw[4]; }
+  const oter_id &seast() const { return t_nesw[5]; }
+  const oter_id &swest() const { return t_nesw[6]; }
+  const oter_id &nwest() const { return t_nesw[7]; }
+  const oter_id &above() const { return t_above; }
+  const oter_id &neighbor_at( om_direction::type dir ) const;
   void fill_groundcover();
   void square_groundcover(const int x1, const int y1, const int x2, const int y2);
   ter_id groundcover();
