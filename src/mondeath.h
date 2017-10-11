@@ -7,7 +7,7 @@ class monster;
 namespace mdeath
 {
 void normal( monster *z );        // Drop a body
-void acid( monster *z);           // Acid instead of a body
+void acid( monster *z );           // Acid instead of a body
 void acidburst(monster *z);       // Acidburst on death, no body
 void boomer( monster *z );        // Explodes in vomit :3
 void boomer_glow( monster *z );   // Explodes in vomit :3
