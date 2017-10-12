@@ -202,7 +202,6 @@ void mapgen_ants_queen(map *m, oter_id terrain_type, mapgendata dat, int turn, f
 void mapgen_tutorial(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 
 // Temporary wrappers
-void madd_trap( map *m, int x, int y, trap_id t );
 void mremove_trap( map *m, int x, int y );
 void mtrap_set( map *m, int x, int y, trap_id t );
 void madd_field( map *m, int x, int y, field_id t, int density );

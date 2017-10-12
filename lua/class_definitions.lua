@@ -1165,7 +1165,6 @@ classes = {
             { name = "add_spawn", rval = nil, args = { "mtype_id", "int", "int", "int", "bool", "int" } },
             { name = "add_spawn", rval = nil, args = { "mtype_id", "int", "int", "int", "bool", "int", "int" } },
             { name = "add_spawn", rval = nil, args = { "mtype_id", "int", "int", "int", "bool", "int", "int", "string" } },
-            { name = "add_trap", rval = nil, args = { "tripoint", "trap_id" } },
             { name = "adjust_field_age", rval = "int", args = { "tripoint", "field_id", "int" } },
             { name = "adjust_field_strength", rval = "int", args = { "tripoint", "field_id", "int" } },
             { name = "adjust_radiation", rval = nil, args = { "tripoint", "int" } },

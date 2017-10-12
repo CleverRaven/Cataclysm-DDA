@@ -6417,11 +6417,11 @@ void game::resonance_cascade( const tripoint &p )
             case  8:
             case  9:
             case 10:
-                m.add_trap( dest, tr_portal );
+                m.trap_set( dest, tr_portal );
                 break;
             case 11:
             case 12:
-                m.add_trap( dest, tr_goo );
+                m.trap_set( dest, tr_goo );
                 break;
             case 13:
             case 14:
