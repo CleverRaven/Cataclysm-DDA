@@ -8528,12 +8528,19 @@ hint_rating player::rate_action_reload( const item &it ) const
 
 hint_rating player::rate_action_unload( const item &it ) const
 {
-    if( ( it.is_container() || it.is_gun() || it.is_bandolier() ) && !it.contents.empty() ) {
-        // gunmods can also be unloaded
+    if( ( it.is_container() || it.is_bandolier() ) && !it.contents.empty() ) {
         return HINT_GOOD;
     }
 
-    if( it.ammo_type().is_null() || it.has_flag("NO_UNLOAD") ) {
+    if( it.has_flag("NO_UNLOAD") ) {
+        return HINT_CANT;
+    }
+
+    if( it.magazine_current() ) {
+        return HINT_GOOD;
+    }
+
+    if( it.ammo_type().is_null() ) {
         return HINT_CANT;
     }
 
@@ -8586,8 +8593,20 @@ hint_rating player::rate_action_use( const item &it ) const
         return HINT_GOOD;
     } else if( it.is_food() || it.is_medication() || it.is_book() || it.is_armor() ) {
         return HINT_IFFY; //the rating is subjective, could be argued as HINT_CANT or HINT_GOOD as well
-    } else if (it.is_gun()) {
-        return it.is_container_empty() ? HINT_IFFY : HINT_GOOD;
+    } else if ( it.is_gun() ) {
+        auto mods = it.gunmods();
+
+        if( !mods.empty() ) {
+            mods.erase( std::remove_if( mods.begin(), mods.end(), []( const item *e ) {
+                return e->has_flag( "IRREMOVABLE" );
+            } ), mods.end() );
+
+            if( !mods.empty() ) {
+                return HINT_GOOD;
+            }
+        }
+
+        return HINT_CANT;
     } else if( it.type->has_use() ) {
         return HINT_GOOD;
     } else if( !it.is_container_empty() ) {
