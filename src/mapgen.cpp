@@ -1228,7 +1228,7 @@ public:
     neighborhood_check neighbors;
     jmapgen_nested( JsonObject &jsi ) : jmapgen_piece(), neighbors( jsi.get_object( "neighbors" ) )
     {
-        JsonArray jarr = jsi.get_array( "entries" );
+        JsonArray jarr = jsi.get_array( "chunks" );
         while( jarr.has_more() ) {
             if( jarr.test_array() ) {
                 JsonArray inner = jarr.next_array();
