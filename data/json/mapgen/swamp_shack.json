@@ -129,41 +129,18 @@
         "x": "f_crate_o"
       },
       "place_nested": [
-        { "entries": [ "swamp_background_6x6" ], "x": 0, "y": 0, "neighbors": { "north": "forest_water" } },
-        { "entries": [ "swamp_background_6x6" ], "x": [ 5, 12 ], "y": 0, "neighbors": { "north": "forest_water"}, "repeat": 4 },
-        { "entries": [ "swamp_background_6x6" ], "x": 18, "y": 0, "neighbors": { "north": "forest_water" } },
-        { "entries": [ "swamp_background_6x6" ], "x": 18, "y": 0, "neighbors": { "east": "forest_water" } },
-        { "entries": [ "swamp_background_6x6" ], "x": 18, "y": [ 5, 12 ], "neighbors": { "east": "forest_water"}, "repeat": 4 },
-        { "entries": [ "swamp_background_6x6" ], "x": 18, "y": 18, "neighbors": { "east": "forest_water" } },
-        { "entries": [ "swamp_background_6x6" ], "x": 0, "y": 18, "neighbors": { "south": "forest_water" } },
-        { "entries": [ "swamp_background_6x6" ], "x": [ 5, 11 ], "y": 18, "neighbors": { "south": "forest_water"}, "repeat": 4 },
-        { "entries": [ "swamp_background_6x6" ], "x": 18, "y": 18, "neighbors": { "south": "forest_water" } },
-        { "entries": [ "swamp_background_6x6" ], "x": 0, "y": 0, "neighbors": { "west": "forest_water" } },
-        { "entries": [ "swamp_background_6x6" ], "x": 0, "y": [ 5, 12 ], "neighbors": { "west": "forest_water"}, "repeat": 4 },
-        { "entries": [ "swamp_background_6x6" ], "x": 0, "y": 18, "neighbors": { "west": "forest_water" } }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "swamp_background_6x6",
-    "object": {
-      "mapgensize": [ 6, 6 ],
-      "rows": [
-        "      ",
-        "      ",
-        "      ",
-        "      ",
-        "      ",
-        "      ",
-        "      "
-      ],
-      "palettes": [
-        "swamp_background"
-      ],
-      "place_nested": [
-        { "entries": [ [ "cattail", 1 ], [ "null", 0 ] ], "x": [ 0, 6 ], "y": [ 0, 6 ] }
+        { "entries": [ "cattail", "null" ], "x": [ 0, 6 ], "y": [ 0, 6 ], "neighbors": { "north": "forest_water" } },
+        { "entries": [ "cattail", "null" ], "x": [ 7, 17 ], "y": [ 0, 6 ], "neighbors": { "north": "forest_water"}, "repeat": 4 },
+        { "entries": [ "cattail", "null" ], "x": [ 18, 23 ], "y": [ 0, 6 ], "neighbors": { "north": "forest_water" } },
+        { "entries": [ "cattail", "null" ], "x": [ 18, 23 ], "y": [ 0, 6 ], "neighbors": { "east": "forest_water" } },
+        { "entries": [ "cattail", "null" ], "x": [ 18, 23 ], "y": [ 7, 17 ], "neighbors": { "east": "forest_water"}, "repeat": 4 },
+        { "entries": [ "cattail", "null" ], "x": [ 18, 23 ], "y": [ 18, 23 ], "neighbors": { "east": "forest_water" } },
+        { "entries": [ "cattail", "null" ], "x": [ 0, 6 ], "y": [ 18, 23 ], "neighbors": { "south": "forest_water" } },
+        { "entries": [ "cattail", "null" ], "x": [ 7, 17 ], "y": [ 18, 23 ], "neighbors": { "south": "forest_water"}, "repeat": 4 },
+        { "entries": [ "cattail", "null" ], "x": [ 18, 23 ], "y": [ 18, 23 ], "neighbors": { "south": "forest_water" } },
+        { "entries": [ "cattail", "null" ], "x": [ 0, 6 ], "y": [ 0, 6 ], "neighbors": { "west": "forest_water" } },
+        { "entries": [ "cattail", "null" ], "x": [ 0, 6 ], "y": [ 7, 17 ], "neighbors": { "west": "forest_water"}, "repeat": 4 },
+        { "entries": [ "cattail", "null" ], "x": [ 0, 6 ], "y": [ 18, 23 ], "neighbors": { "west": "forest_water" } }
       ]
     }
   },
