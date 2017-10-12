@@ -5783,7 +5783,7 @@ void player::suffer()
         g->is_in_sunlight( pos() ) && one_in(10) ) {
         // Umbrellas can keep the sun off the skin and sunglasses - off the eyes.
         if( !weapon.has_flag( "RAIN_PROTECT" ) ) {
-            add_msg( m_bad, _( "The sunlight is really irritating your skin." ) );
+            add_msg_if_player( m_bad, _( "The sunlight is really irritating your skin." ) );
             if( in_sleep_state() ) {
                 wake_up();
             }
@@ -5794,7 +5794,7 @@ void player::suffer()
         }
         if( !( ( (worn_with_flag( "SUN_GLASSES" ) ) || worn_with_flag( "BLIND" ) ) && ( wearing_something_on( bp_eyes ) ) )
             && !has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
-            add_msg( m_bad, _( "The sunlight is really irritating your eyes." ) );
+            add_msg_if_player( m_bad, _( "The sunlight is really irritating your eyes." ) );
             if( one_in(10) ) {
                 mod_pain(1);
             }
@@ -5804,7 +5804,7 @@ void player::suffer()
 
     if (has_trait( trait_SUNBURN ) && g->is_in_sunlight(pos()) && one_in(10)) {
         if( !( weapon.has_flag( "RAIN_PROTECT" ) ) ) {
-        add_msg(m_bad, _("The sunlight burns your skin!"));
+            add_msg_if_player(m_bad, _("The sunlight burns your skin!"));
         if (in_sleep_state()) {
             wake_up();
         }
