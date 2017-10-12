@@ -6879,16 +6879,14 @@ void game::open()
     if (!didit) {
         const ter_str_id tid = m.ter( openp ).id();
 
-        if( tid.str().find("t_door") != std::string::npos ) {
-            if( tid.str().find("_locked") != std::string::npos ) {
-                add_msg(m_info, _("The door is locked!"));
-                return;
-            } else if ( tid.obj().close ) {
-                // if the following message appears unexpectedly, the prior check was for t_door_o
-                add_msg(m_info, _("That door is already open."));
-                u.moves += 100;
-                return;
-            }
+        if( m.has_flag( "LOCKED", openp )) {
+            add_msg(m_info, _("The door is locked!"));
+            return;
+        } else if ( tid.obj().close ) {
+            // if the following message appears unexpectedly, the prior check was for t_door_o
+            add_msg(m_info, _("That door is already open."));
+            u.moves += 100;
+            return;
         }
         add_msg(m_info, _("No door there."));
         u.moves += 100;
