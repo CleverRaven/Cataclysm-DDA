@@ -137,6 +137,23 @@
     ]
   },
   {
+    "result": "noodles_fast",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_PASTA",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": 30000,
+    "autolearn": true,
+    "tools": [
+      [ [ "surface_heat", 25, "LIST" ] ],
+      [ [ "pastaextruder", -1 ] ]
+    ],
+    "components": [
+      [ [ "flour", 4 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
+  },  {
     "result": "spaghetti_raw",
     "type": "recipe",
     "category": "CC_FOOD",
