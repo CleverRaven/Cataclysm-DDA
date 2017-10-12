@@ -2995,20 +2995,22 @@ bool player::purifiable( const trait_id &flag ) const
     return flag->purifiable;
 }
 
-void player::set_cat_level_rec( const trait_id &sMut )
+void player::build_mut_dependency_map( const trait_id &mut, std::unordered_map<trait_id, int> &dependency_map, int distance )
 {
-    if( !has_base_trait( sMut ) ) { //Skip base traits
-        const auto &mdata = sMut.obj();
-        for( auto &elem : mdata.category ) {
-            mutation_category_level[elem] += 8;
-        }
-
+    // Skip base traits and traits we've seen with a lower distance
+    const auto lowest_distance = dependency_map.find( mut );
+    if( !has_base_trait( mut ) && (lowest_distance == dependency_map.end() || distance < lowest_distance->second) ) {
+        dependency_map[mut] = distance;
+        // Recurse over all prereqisite and replacement mutations
+        const auto &mdata = mut.obj();
         for( auto &i : mdata.prereqs ) {
-            set_cat_level_rec( i );
+            build_mut_dependency_map( i, dependency_map, distance + 1 );
         }
-
         for( auto &i : mdata.prereqs2 ) {
-            set_cat_level_rec( i );
+            build_mut_dependency_map( i, dependency_map, distance + 1 );
+        }
+        for( auto &i : mdata.replacements ) {
+            build_mut_dependency_map( i, dependency_map, distance + 1 );
         }
     }
 }
@@ -3017,9 +3019,20 @@ void player::set_highest_cat_level()
 {
     mutation_category_level.clear();
 
-    // Loop through our mutations
+    // For each of our mutations...
     for( auto &mut : my_mutations ) {
-        set_cat_level_rec( mut.first );
+        // ...build up a map of all prereq/replacement mutations along the tree, along with their distance from the current mutation
+        std::unordered_map<trait_id, int> dependency_map;
+        build_mut_dependency_map( mut.first, dependency_map, 0);
+
+        // Then use the map to set the category levels
+        for ( auto &i : dependency_map ) {
+            const auto &mdata = i.first.obj();
+            for( auto &cat : mdata.category ) {
+                // Decay category strength based on how far it is from the current mutation
+                mutation_category_level[cat] += 8 / (int) std::pow( 2, i.second );
+            }
+        }
     }
 }
 
