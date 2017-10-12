@@ -990,12 +990,6 @@ int player::calc_focus_equilibrium() const
     }
 
     int eff_morale = get_morale_level();
-    // Factor in perceived pain, since it's harder to rest your mind while your body hurts.
-    // Cenobites don't mind, though
-    if( !has_trait( trait_CENOBITE ) ) {
-        eff_morale = eff_morale - get_perceived_pain();
-    }
-
     if( eff_morale < -99 ) {
         // At very low morale, focus goes up at 1% of the normal rate.
         focus_gain_rate = 1;
