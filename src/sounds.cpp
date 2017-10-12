@@ -249,7 +249,7 @@ void sounds::process_sound_markers( player *p )
         if( is_deaf ) {
             if( is_sound_deafening && !p->is_immune_effect( effect_deaf ) ) {
                 p->add_effect( effect_deaf, std::min( 40, ( felt_volume - 130 ) / 8 ) );
-                if( !p->has_trait( trait_id( "DEADENED" ) ) ) {
+                if( !p->has_trait( trait_id( "NOPAIN" ) ) ) {
                     p->add_msg_if_player( m_bad, _( "Your eardrums suddenly ache!" ) );
                     if( p->get_pain() < 10 ) {
                         p->mod_pain( rng( 0, 2 ) );
@@ -272,7 +272,7 @@ void sounds::process_sound_markers( player *p )
         // The heard volume of a sound is the player heard volume, regardless of true volume level.
         const int heard_volume = ( int )( ( raw_volume - weather_vol ) * volume_multiplier ) - distance_to_sound;
 
-        if( heard_volume <= 0 ) {
+        if( heard_volume <= 0 && pos != p->pos() ) {
             continue;
         }
 
@@ -321,7 +321,7 @@ void sounds::process_sound_markers( player *p )
             } else {
                 // Else print a direction as well
                 std::string direction = direction_name( direction_from( p->pos(), pos ) );
-                add_msg( m_warning, _( "From the %s you hear %s" ), direction.c_str(), description.c_str() );
+                add_msg( m_warning, _( "From the %1$s you hear %2$s" ), direction.c_str(), description.c_str() );
             }
         }
         

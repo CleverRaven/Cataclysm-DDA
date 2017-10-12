@@ -312,6 +312,7 @@
                     "matches"
                 ],
                 "entries": [
+                    { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
                     { "item": "m1911", "ammo-item": "45_acp", "charges": 7, "container-item": "holster" },
                     { "item": "45_acp", "charges": 23 },
                     { "item": "garand", "ammo-item": "3006", "charges": 8, "contents-item": "shoulder_strap" },
@@ -716,6 +717,7 @@
                     "binoculars"
                 ],
                 "entries": [
+                    { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
                     { "item": "knife_combat", "container-item": "sheath" },
                     { "item": "m4a1", "ammo-item": "223", "charges": 30, "contents-item": "shoulder_strap" }
                 ]
@@ -785,6 +787,7 @@
                     "boots_combat"
                 ],
                 "entries": [
+                    { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
                     { "item": "kukri", "container-item": "sheath" },
                     { "item": "rm2000_smg", "ammo-item": "8mm_fmj", "charges": 25, "contents-item": [ "shoulder_strap", "suppressor" ] },
                     { "item": "8mm_fmj", "charges": 55 }
@@ -1189,6 +1192,7 @@
                     "whistle"
                 ],
                 "entries": [
+                    { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
                     { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
                     { "item": "45_acp", "charges": 18 }
                 ]
@@ -1295,6 +1299,7 @@
                     "flashbang"
                 ],
                 "entries": [
+                    { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
                     { "item": "usp_9mm", "ammo-item": "9mm", "charges": 15, "container-item": "sholster" },
                     { "item": "hk_mp5", "ammo-item": "9mm", "charges": 30, "contents-item": "shoulder_strap" },
                     { "item": "9mm", "charges": 55 }
@@ -1353,6 +1358,7 @@
                     "baton"
                 ],
                 "entries": [
+                    { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
                     { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "container-item": "sholster" },
                     { "item": "9mmfmj", "charges": 35 },
                     { "item": "ksg", "ammo-item": "shot_00", "charges": 7, "contents-item": "shoulder_strap" },
@@ -1405,6 +1411,7 @@
                     "wristwatch"
                 ],
                 "entries": [
+                    { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
                     { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
                     { "item": "45_acp", "charges": 18 },
                     { "item": "remington_700", "ammo-item": "3006", "charges": 4, "contents-item": [ "shoulder_strap", "rifle_scope" ] },
@@ -1611,6 +1618,7 @@
                     "hat_hunting"
                 ],
                 "entries": [
+                    { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
                     { "item": "shotgun_d", "ammo-item": "shot_00", "charges": 2, "contents-item": "shoulder_strap" },
                     { "item": "shot_00", "charges": 12, "container-item": "bandolier_shotgun" },
                     { "item": "shot_00", "charges": 6 },
@@ -1654,6 +1662,7 @@
                     "hat_hunting"
                 ],
                 "entries": [
+                    { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
                     { "item": "remington_700", "ammo-item": "270", "charges": 4, "contents-item": "shoulder_strap" },
                     { "item": "270", "charges": 16, "container-item": "bandolier_rifle" },
                     { "item": "sheath", "contents-item": "knife_hunting" }
@@ -2626,13 +2635,17 @@
             "bio_power_storage_mkII"
         ],
         "items": {
-            "both": [
-                "socks",
-                "sneakers",
-                "jeans",
-                "tshirt",
-                "ear_plugs"
-            ],
+            "both": {
+                "items": [
+                    "socks",
+                    "sneakers",
+                    "jeans",
+                    "tshirt"
+                ],
+                "entries": [
+                    { "item": "ear_plugs", "custom-flags": ["no_auto_equip"] }
+                ]
+            },
             "male": [
                 "briefs"
             ],
@@ -2969,6 +2982,7 @@
                     "pocketwatch"
                 ],
                 "entries": [
+                    { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
                     { "item": "halligan", "container-item": "fireman_belt" }
                 ]
             },
@@ -4082,6 +4096,7 @@
                     "quikclot"
                 ],
                 "entries": [
+                    { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
                     { "item": "knife_combat", "container-item": "sheath" },
                     { "item": "m4a1", "ammo-item": "556", "contents-item": "shoulder_strap" },
                     { "item": "stanag30", "ammo-item": "556", "count": 2 }
@@ -5048,21 +5063,26 @@
             "description": "You're a miner, not a minor!  Your canteen is dry, your jackhammer is out of gas, and you're on your last pair of batteries for your mining helmet...",
             "points": 0,
             "items": {
-                "both": [
-                    "socks",
-                    "boots_steel",
-                    "gloves_work",
-                    "knee_pads",
-                    "miner_hat",
-                    "jumpsuit",
-                    "mask_gas",
-                    "jackhammer",
-                    "canteen",
-                    "e_tool",
-                    "tool_belt",
-                    "mbag",
-                    "matches"
-                ],
+                "both": {
+                    "items": [
+                        "socks",
+                        "boots_steel",
+                        "gloves_work",
+                        "knee_pads",
+                        "miner_hat",
+                        "jumpsuit",
+                        "mask_gas",
+                        "jackhammer",
+                        "canteen",
+                        "e_tool",
+                        "tool_belt",
+                        "mbag",
+                        "matches"
+                    ],
+                    "entries": [
+                        { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] }
+                    ]
+                },
                 "male": [
                     "boxer_shorts"
                 ],

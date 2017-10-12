@@ -409,7 +409,7 @@ void trapfunc::shotgun( Creature *c, const tripoint &p )
         g->m.spawn_item( p, "shotgun_s" );
         g->m.spawn_item( p, "string_6" );
     } else {
-        g->m.add_trap( p, tr_shotgun_1 );
+        g->m.trap_set( p, tr_shotgun_1 );
     }
 }
 
@@ -569,17 +569,14 @@ void trapfunc::telepad( Creature *c, const tripoint &p )
 
             if( tries == 10 ) {
                 z->die_in_explosion( nullptr );
-            } else {
-                int mon_hit = g->mon_at( {newposx, newposy, z->posz()} );
-                if( mon_hit != -1 ) {
-                    if( g->u.sees( *z ) ) {
-                        add_msg( m_good, _( "The %1$s teleports into a %2$s, killing them both!" ),
-                                 z->name().c_str(), g->zombie( mon_hit ).name().c_str() );
-                    }
-                    g->zombie( mon_hit ).die_in_explosion( z );
-                } else {
-                    z->setpos( {newposx, newposy, z->posz()} );
+            } else if( monster *const mon_hit = g->critter_at<monster>( {newposx, newposy, z->posz()} ) ) {
+                if( g->u.sees( *z ) ) {
+                    add_msg( m_good, _( "The %1$s teleports into a %2$s, killing them both!" ),
+                             z->name().c_str(), mon_hit->name().c_str() );
                 }
+                mon_hit->die_in_explosion( z );
+            } else {
+                z->setpos( {newposx, newposy, z->posz()} );
             }
         }
     }
@@ -1207,9 +1204,8 @@ void trapfunc::shadow( Creature *c, const tripoint &p )
              !g->m.sees( monp, g->u.pos(), 10 ) );
 
     if( tries < 5 ) {
-        if( g->summon_mon( mon_shadow, monp ) ) {
+        if( monster *const spawned = g->summon_mon( mon_shadow, monp ) ) {
             add_msg( m_warning, _( "A shadow forms nearby." ) );
-            monster *spawned = g->monster_at( monp );
             spawned->reset_special_rng( "DISAPPEAR" );
         }
         g->m.remove_trap( p );

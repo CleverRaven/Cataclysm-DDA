@@ -1,0 +1,191 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "urban_21_1" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",|----------|,,,,,,,,,,,",
+        ",|''''''''''|,,,,,,,,,,,",
+        ",w''''''''''|--|,,,,,,,,",
+        ",|''''''''''|'r|,,,,,,,,",
+        ",|''''''''''''r|,^,,,,,,",
+        ",|''''''''''|w-|,,,,,,,,",
+        ",|''''''''''!;;;;;;;;;;;",
+        ",w''''''''''|,,,,,,,,,,,",
+        ",|''''''''''|,,,,,|---w-",
+        ",|-========-|,,,,,|     ",
+        ",,,________,,,,,,,|  htt",
+        ",,,________,,,,,,,|  htt",
+        ",,,________,,,,,,,|     ",
+        ",,,________,,,^,,,|-    ",
+        ",,,________,,,,,,,|     ",
+        ",,,________,,,,,,,|c    ",
+        ",,,________,,,,,,,|c  t ",
+        ",,,________,,,,,,,|c  t ",
+        ",,,________,,,,,,,|     ",
+        ",,,________,,,,,,,|---w-",
+        ",,,________,,,,,,,,,,,,,",
+        ",,,________,,,,,^,,,,,,,",
+        ",,,________,qq,,,,,,,,,,"
+      ],
+      "palettes": [
+        "acidia_residential_commercial_palette"
+      ],
+      "items": {
+        " ": { "item": "livingroom", "chance": 2 },
+        "'": { "item": "mechanics", "chance": 1 },
+        "c": { "item": "livingroom", "chance": 25 },
+        "q": { "item": "trash", "chance": 50 },
+        "r": { "item": "mechanics", "chance": 60 },
+        "t": { "item": "coffee_table", "chance": 25 }
+      },
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.09 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "suburban_home", "x": 6, "y": 6, "chance": 100, "rotation": 90 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "urban_21_2" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,mm,mm,mm,mm,,,,,",
+        "^,,,,,,,mm,mm,mm,mm,,,,,",
+        ",,,,,,,,mm,mm,mm,mm,,,,,",
+        ",,,,,,,,mm,mm,mm,mm,,,,,",
+        ",,,,,,,,mm,mm,mm,mm,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,^,,",
+        ";;;;;;;;;;,,,,,,,,,,,,,,",
+        ",,,,,,,,,;q,,,,,,,,,,,,,",
+        "w----|---!--|-w-|--w-|,,",
+        "    u|C2222S|T2B|   e|,,",
+        "th  u|o2222C|S2B|  bb|,,",
+        "th   |C2222f|-+-|  bb|,,",
+        "     +2222222222+   e|,,",
+        "-----|------ -|+|-|+-|,,",
+        " A    OO      | |r| r|,,",
+        "             A| |+|--|,,",
+        " @           t|      w,,",
+        " @           A|     b|,,",
+        "@@            |bb   b|,,",
+        "---IFI--1-----|--w---|,,",
+        ",,,IiI,''',,,,,,,,,,,,,,",
+        ",,,,,,,,;,,,,,,,,,,,,,,,",
+        ",,,,,,,,;,,,,,,,,,,,,,,,"
+      ],
+      "palettes": [
+        "acidia_residential_commercial_palette"
+      ],
+      "toilets": {
+        "T": {}
+      },
+      "items": {
+        " ": { "item": "livingroom", "chance": 2 },
+        "@": { "item": "magazines", "chance": 10 },
+        "A": { "item": "livingroom", "chance": 15 },
+        "C": { "item": "kitchen", "chance": 25 },
+        "O": { "item": "homebooks", "chance": 60 },
+        "b": { "item": "bed", "chance": 60 },
+        "c": { "item": "livingroom", "chance": 25 },
+        "e": { "item": "dresser", "chance": 60 },
+        "f": { "item": "fridge", "chance": 70 },
+        "o": { "item": "oven", "chance": 30 },
+        "q": { "item": "trash", "chance": 50 },
+        "r": { "item": "bedroom", "chance": 60 },
+        "t": { "item": "dining", "chance": 25 },
+        "u": { "item": "cannedfood", "chance": 50 }
+      },
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.09 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "urban_21_3" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "........................",
+        ".RRRRRRRRRRRR...........",
+        ".RRRRRRRRRRRR...........",
+        ".RRRRRRRRRRRRRRR........",
+        ".RRRRRRRRRRRRRRR........",
+        ".RRRRRRRRRRRRRRR........",
+        ".RRRRRRRRRRRRRRR........",
+        ".RRRRRRRRRRRR...........",
+        ".RRRRRRRRRRRR...........",
+        ".RRRRRRRRRRRR.....RRRRRR",
+        "..................RRRRRR",
+        "..................RRRRRR",
+        "..................RRRRRR",
+        "..................RRRRRR",
+        "..................RRRRRR",
+        "..................RRRRRR",
+        "..................RRRRRR",
+        "..................RRRRRR",
+        "..................RRRRRR",
+        "..................RRRRRR",
+        "..................RRRRRR",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "palettes": [
+        "acidia_residential_commercial_palette"
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "urban_21_4" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "RRRRRRRRRRRRRRRRRRRRRR..",
+        "RRRRRRRRRRRRRRRRRRRRRR..",
+        "RRRRRRRRRRRRRRRRRRRRRR..",
+        "RRRRRRRRRRRRRRRRRRRRRR..",
+        "RRRRRRRRRRRRRRRRRRRRRR..",
+        "RRRRRRRRRRRRRRRRRRRRRR..",
+        "RRRRRRRRRRRRRRRRRRRRRR..",
+        "RRRRRRRRRRRRRRRRRRRRRR..",
+        "RRRRRRRRRRRRRRRRRRRRRR..",
+        "RRRRRRRRRRRRRRRRRRRRRR..",
+        "RRRRRRRRRRRRRRRRRRRRRR..",
+        "RRRRRRRRRRRRRRRRRRRRRR..",
+        "...RRR.RRR..............",
+        "........................",
+        "........................"
+      ],
+      "palettes": [
+        "acidia_residential_commercial_palette"
+      ]
+    }
+  }
+]
+

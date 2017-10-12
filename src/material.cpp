@@ -146,7 +146,7 @@ material_id material_type::ident() const
 
 std::string material_type::name() const
 {
-    return _name;
+    return _( _name.c_str() );
 }
 
 itype_id material_type::salvaged_into() const

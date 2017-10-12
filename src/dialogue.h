@@ -4,6 +4,8 @@
 
 #include "output.h"
 #include "color.h"
+
+#include <memory>
 #include <vector>
 #include <string>
 #include <functional>
@@ -92,15 +94,15 @@ namespace talk_function {
     bool forage_return              ( npc &p );
 
     //Combat functions
-    void force_on_force(std::vector<npc *> defender, std::string def_desc,
-        std::vector<npc *> attacker, std::string att_desc, int advantage);
-    int combat_score    (std::vector<npc *> group);//Used to determine retreat
-    void attack_random  (std::vector<npc *> attacker, std::vector<npc *> defender);
-    npc *temp_npc       ( const string_id<npc_template> &type );
+    void force_on_force( std::vector<std::shared_ptr<npc>> defender, std::string def_desc,
+        std::vector<std::shared_ptr<npc>> attacker, std::string att_desc, int advantage );
+    int combat_score    ( const std::vector<std::shared_ptr<npc>> &group );//Used to determine retreat
+    void attack_random  ( const std::vector<std::shared_ptr<npc>> &attacker, const std::vector<std::shared_ptr<npc>> &defender );
+    std::shared_ptr<npc> temp_npc       ( const string_id<npc_template> &type );
 
     //Utility functions
     /// Returns npcs that have the given companion mission.
-    std::vector<npc *> companion_list   ( const npc &p, const std::string &id );
+    std::vector<std::shared_ptr<npc>> companion_list   ( const npc &p, const std::string &id );
     npc *companion_choose               ();
     npc *companion_choose_return        (std::string id, int deadline);
     void companion_return               ( npc &comp );//Return NPC to your party

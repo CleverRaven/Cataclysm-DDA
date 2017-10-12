@@ -63,7 +63,7 @@
   "type" : "recipe",
   "result": "copper_knife",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 1,
   "time": 5000,
@@ -74,8 +74,7 @@
   ],
   "tools": [
     [
-      [ "fire", -1 ],
-      [ "toolset", 10 ]
+      [ "surface_heat", 10, "LIST" ]
     ]
   ],
   "components": [
@@ -95,7 +94,7 @@
   "type" : "recipe",
   "result": "makeshift_knife",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "time": 5000,
   "reversible": true,
@@ -291,8 +290,7 @@
   ],
   "tools": [
     [
-      [ "fire", -1 ],
-      [ "toolset", 10 ]
+      [ "surface_heat", 10, "LIST" ]
     ]
   ],
   "components": [
@@ -2288,7 +2286,7 @@
   "type" : "recipe",
    "result": "sword_wood",
    "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_BASHING",
    "skill_used": "fabrication",
    "time": 25000,
    "autolearn": true,
@@ -2925,7 +2923,7 @@
   "type" : "recipe",
   "result": "knife_combat",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 6,
   "time": 360000,
@@ -2963,7 +2961,7 @@
   "type" : "recipe",
   "result": "knife_trench",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 6,
   "time": 390000,
@@ -3157,9 +3155,7 @@
     [
       ["mold_plastic", -1] ],
     [
-      ["hotplate", 10],
-      ["toolset", 10],
-      ["fire", -1]
+      [ "surface_heat", 10, "LIST" ]
     ]
   ],
   "components" : [
@@ -3174,7 +3170,7 @@
   "type" : "recipe",
   "result": "switchblade",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 8,
   "time": 460000,
@@ -3480,9 +3476,7 @@
   "book_learn": [[ "recipe_melee", 4 ]],
   "tools" : [ [ ["mold_plastic", -1] ],
     [
-      ["hotplate", 10],
-      ["toolset", 10],
-      ["fire", -1]
+      [ "surface_heat", 10, "LIST" ]
     ]
   ],
   "components" : [ [ ["plastic_chunk", 10] ] ]
@@ -3520,9 +3514,7 @@
   ], "tools" : [
      [ ["mold_plastic", -1] ],
      [
-      ["hotplate", 10],
-      ["toolset", 10],
-      ["fire", -1]
+      [ "surface_heat", 10, "LIST" ]
      ],
      [
       [ "soldering_iron", 10 ],
@@ -3871,7 +3863,7 @@
   "type" : "recipe",
   "result": "rapier",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 9,
   "time": 420000,
@@ -3990,7 +3982,7 @@
   "type" : "recipe",
   "result": "estoc",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 8,
   "time": 490000,
@@ -4143,7 +4135,7 @@
   "type" : "recipe",
   "result": "tanto",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 7,
   "time": 380000,
@@ -4714,7 +4706,7 @@
   "type" : "recipe",
   "result": "knife_steak",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 3,
   "time": 60000,
@@ -4747,7 +4739,7 @@
   "type" : "recipe",
   "result": "knife_rambo",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 6,
   "time": 180000,
@@ -4960,7 +4952,7 @@
   "type" : "recipe",
   "result": "spear_survivor",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 6,
   "skills_required" : [ "melee", 5 ],
@@ -5148,9 +5140,7 @@
         ["mold_plastic", -1]
       ],
       [
-        ["hotplate", 30],
-        ["toolset", 30],
-        ["fire", -1]
+        [ "surface_heat", 30, "LIST" ]
       ],
       [
         ["soldering_iron", 20],

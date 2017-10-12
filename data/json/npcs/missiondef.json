@@ -1107,7 +1107,7 @@
     "followup": "MISSION_RANCH_FOREMAN_16",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "Growth has lately begun to stall, we have individuals passing through the outpost but the prospect of hard labor just to eek out an existence is driving them away.  We've asked around and decided that, despite our pressing needs, building a bar ought to draw some of the less committed individuals to the outpost.  Unlike other settlements, the more hands we have to more food we can produce... at least in the long term.  Unfortunately, no one here has brewed alcoholic drinks before so we are going to need you to find a book called the 'Homebrewer's Bible' or something along those lines.",
+      "offer": "Growth has lately begun to stall, we have individuals passing through the outpost but the prospect of hard labor just to eke out an existence is driving them away.  We've asked around and decided that, despite our pressing needs, building a bar ought to draw some of the less committed individuals to the outpost.  Unlike other settlements, the more hands we have to more food we can produce... at least in the long term.  Unfortunately, no one here has brewed alcoholic drinks before so we are going to need you to find a book called the 'Homebrewer's Bible' or something along those lines.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance, we need skilled survivors.",
       "advice": "I guess you should search homes or libraries?",

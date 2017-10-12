@@ -137,6 +137,7 @@
     "items": [
       { "group": "tools_common", "prob": 50 },
       { "group": "tools_blacksmith", "prob": 50 },
+      [ "large_repairkit", 50 ],
       [ "puller", 100 ],
       [ "press", 100 ]
     ]

@@ -66,6 +66,8 @@ class ma_technique
         bool was_loaded = false;
         std::string name;
 
+        std::string description;
+
         std::string goal; // the melee goal this achieves
 
         // given a player's state, does this bonus apply to him?
@@ -220,6 +222,7 @@ class martialart
         std::set<matec_id> techniques; // all available techniques
         std::set<std::string> weapons; // all style weapons
         bool strictly_unarmed; // Punch daggers etc.
+        bool force_unarmed; // Don't use ANY weapon - punch or kick if needed
         std::vector<mabuff_id> static_buffs; // all buffs triggered by each condition
         std::vector<mabuff_id> onmove_buffs;
         std::vector<mabuff_id> onhit_buffs;

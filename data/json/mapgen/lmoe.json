@@ -1,0 +1,45 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lmoe" ],
+    "weight": 100,
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        $$$$$$$$        ",
+        "        $TTTTTT$        ",
+        "       $$T####T$$       ",
+        "       $$T#>>#T$$       ",
+        "       $$T#..#T$$       ",
+        "       $$T#+##T$$       ",
+        "        $$$ $$$$        ",
+        "        $$$ $$$$        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        " ": [ "t_dirt", "t_dirt", "t_grass" ],
+        "#": "t_rock",
+        "$": [ "t_tree", "t_tree_young", "t_tree_young", "t_shrub", "t_shrub", "t_shrub" ],
+        "+": "t_door_metal_c",
+        ".": "t_rock_floor",
+        ">": "t_stairs_down",
+        "T": "t_tree"
+      }
+    }
+  }
+]

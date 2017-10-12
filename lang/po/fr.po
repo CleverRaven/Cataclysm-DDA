@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-25 17:05+0800\n"
-"PO-Revision-Date: 2017-08-25 09:13+0000\n"
+"POT-Creation-Date: 2017-09-30 14:42+0800\n"
+"PO-Revision-Date: 2017-09-30 07:16+0000\n"
 "Last-Translator: Brett Dong <brett.browning.dong@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -3112,6 +3112,18 @@ msgid "A popular pre-cataclysm washing powder."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
+msgid "wood ash"
+msgid_plural "wood ashes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for wood ash
+#: lang/json/AMMO_from_json.py
+msgid ""
+"This is almost weightless residue left after the burning of some substance."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
 msgid "fungal seed"
 msgstr "semence de champignon"
 
@@ -3425,18 +3437,6 @@ msgid ""
 "energy based weapons.  The result was the standard fusion pack, capable of "
 "delivering bolts of superheated gas at near light speed with no recoil.  "
 "This one has been hand-crafted from spare parts."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "reloaded 5x50mm flechette"
-msgstr "fléchette 5x50mm rechargée"
-
-#. ~ Description for reloaded 5x50mm flechette
-#: lang/json/AMMO_from_json.py
-msgid ""
-"Designed to defeat modern body armor, the Rivtech 5x50mm flechette round "
-"features a biodegradable sabot and a single, fin-stabilized penetrator.  "
-"This one has been hand-reloaded."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -4362,6 +4362,18 @@ msgid ""
 "Designed to defeat modern body armor, the Rivtech 5x50mm RA119 penetrator "
 "round features a biodegradable sabot and a single, fin-stabilized tungsten "
 "alloy projectile."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded 5x50mm flechette"
+msgstr "fléchette 5x50mm rechargée"
+
+#. ~ Description for reloaded 5x50mm flechette
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Designed to defeat modern body armor, the Rivtech 5x50mm flechette round "
+"features a biodegradable sabot and a single, fin-stabilized penetrator.  "
+"This one has been hand-reloaded."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -9715,6 +9727,17 @@ msgstr ""
 msgid ""
 "A hockey jersey made of thick material imprinted with the logo of the "
 "Monroeville Zombies."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "judo belt template"
+msgid_plural "judo belt templates"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for judo belt template
+#: lang/json/ARMOR_from_json.py
+msgid "This is a template for judo belts. If found in a game it is a bug."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -18045,6 +18068,19 @@ msgid ""
 msgstr ""
 
 #: lang/json/BOOK_from_json.py
+msgid "Nuclear Physics Made Easy"
+msgid_plural "Nuclear Physics Made Easy"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for Nuclear Physics Made Easy
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A book detailing the workings of state of the art atomic technology, and the"
+" physics behind it"
+msgstr ""
+
+#: lang/json/BOOK_from_json.py
 msgid "Case #5846, Illegal Gun Modification"
 msgid_plural "Case #5846, Illegal Gun Modification"
 msgstr[0] "Procès #5846, Modification illégale d'arme à feu"
@@ -18253,6 +18289,19 @@ msgstr[1] "eaux usées"
 #. ~ Description for sewage water
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Turbid liquid from the sewers with awful stench."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "lye"
+msgid_plural "lye"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for lye
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"This is a liquid form of sodium hydroxide.  It is highly corrosive, handle "
+"with care."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -27261,6 +27310,17 @@ msgid "A small metal tank for holding gas or liquids.  Useful for crafting."
 msgstr "Un réservoir en métal conçu pour contenir des gaz ou des liquides, utile pour l'artisanat."
 
 #: lang/json/CONTAINER_from_json.py
+msgid "hazardous waste drum"
+msgid_plural "hazardous waste drums"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for hazardous waste drum
+#: lang/json/CONTAINER_from_json.py
+msgid "A yellow drum meant for the storage of hazardous substances."
+msgstr ""
+
+#: lang/json/CONTAINER_from_json.py
 msgid "steel bottle"
 msgid_plural "steel bottles"
 msgstr[0] ""
@@ -27473,15 +27533,15 @@ msgid ""
 "sports cars."
 msgstr "Un imposant et très puissant moteur V12, généralement intégré à des modèles haut de gamme de voitures de sport."
 
-#: lang/json/GENERIC_from_json.py
-msgid "5x50mm hull"
-msgid_plural "5x50mm hulls"
-msgstr[0] ""
-msgstr[1] ""
+#: lang/json/ENGINE_from_json.py
+msgid "V12 diesel engine"
+msgstr ""
 
-#. ~ Description for 5x50mm hull
-#: lang/json/GENERIC_from_json.py
-msgid "An empty plastic hull from a 5x50mm flechette round."
+#. ~ Description for V12 diesel engine
+#: lang/json/ENGINE_from_json.py
+msgid ""
+"A massive and extremely powerful V12 engine, usually built into heavy "
+"trucks."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -32836,6 +32896,17 @@ msgid "An empty casing from a 4.6x30mm round."
 msgstr "Une douille vide issue d'une cartouche de 4.6x30mm."
 
 #: lang/json/GENERIC_from_json.py
+msgid "5x50mm hull"
+msgid_plural "5x50mm hulls"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for 5x50mm hull
+#: lang/json/GENERIC_from_json.py
+msgid "An empty plastic hull from a 5x50mm flechette round."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid ".500 S&W Magnum casing"
 msgid_plural ".500 S&W Magnum casings"
 msgstr[0] "douille de .500 S&W Magnum"
@@ -33831,6 +33902,28 @@ msgid ""
 "A charger for batteries that runs off vehicle power.  It is quite "
 "inefficient, but charges fast."
 msgstr "Un chargeur pour les batteries qui utilise la puissance d'un véhicule. Il est assez inefficace, mais il charge rapidement."
+
+#: lang/json/GENERIC_from_json.py
+msgid "nuclear waste"
+msgid_plural "nuclear wastes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for nuclear waste
+#: lang/json/GENERIC_from_json.py
+msgid "A small pellet of silvery metal, still warm to the touch."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "nuclear fuel pellet"
+msgid_plural "nuclear fuel pellets"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for nuclear fuel pellet
+#: lang/json/GENERIC_from_json.py
+msgid "A small pellet of fissile material.  Handle carefully."
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "6.54x42mm casing"
@@ -35383,8 +35476,8 @@ msgstr[1] "batteries moyennes"
 
 #. ~ Description for medium storage battery
 #: lang/json/MAGAZINE_from_json.py
-msgid "A medium storage battery."
-msgstr "Une batterie moyenne."
+msgid "A medium storage battery containg multiple lithium ion cells."
+msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py lang/json/vehicle_part_from_json.py
 #: lang/json/vehicle_part_from_json.py
@@ -35395,8 +35488,10 @@ msgstr[1] "petites batteries"
 
 #. ~ Description for small storage battery
 #: lang/json/MAGAZINE_from_json.py
-msgid "A small storage battery.  Useful for crafting."
-msgstr "Une petite batterie d'accumulateurs, utile pour l'artisanat."
+msgid ""
+"A small storage battery created with pre-Cataclysm lithium ion technology.  "
+"Useful for crafting."
+msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py lang/json/vehicle_part_from_json.py
 msgid "storage battery"
@@ -35407,8 +35502,9 @@ msgstr[1] "batteries"
 #. ~ Description for storage battery
 #: lang/json/MAGAZINE_from_json.py
 msgid ""
-"A large storage battery.  Could be installed into a storage battery case for"
-" easy removal from a vehicle, or just welded straight in."
+"A large storage battery containg many lithium ion cells.  Could be installed"
+" into a storage battery case for easy removal from a vehicle, or just welded"
+" straight in."
 msgstr ""
 
 #: lang/json/MAGAZINE_from_json.py
@@ -42985,6 +43081,19 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/TOOL_from_json.py
+msgid "clairvoyance rod"
+msgid_plural "clairvoyance rods"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for clairvoyance rod
+#: lang/json/TOOL_from_json.py
+msgid ""
+"Item to test aep_clairvoyance_plus flag. If this spawns randomly, then it's "
+"a bug."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
 msgid "cash card"
 msgid_plural "cash cards"
 msgstr[0] "carte de crédit"
@@ -43560,6 +43669,41 @@ msgid ""
 "This is a large pair of bolt cutters.  You could use them to cut padlocks or"
 " heavy gauge wire."
 msgstr "Une grande pince coupante. Vous pourriez l'utiliser pour couper des cadenas ou des câbles en métal épais."
+
+#: lang/json/TOOL_from_json.py
+msgid "bone flute"
+msgid_plural "bone flutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action descriptions for bone flute.
+#. ~ Use action descriptions for flute.
+#: lang/json/TOOL_from_json.py
+msgid "You play a little tune on your flute."
+msgstr ""
+
+#. ~ Use action descriptions for bone flute.
+#. ~ Use action descriptions for flute.
+#: lang/json/TOOL_from_json.py
+msgid "You play a beautiful piece on your flute."
+msgstr ""
+
+#. ~ Use action descriptions for bone flute.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"You play a piece on your bone flute that resembles the howling wind through "
+"Aurignacian caves."
+msgstr ""
+
+#. ~ Use action descriptions for bone flute.
+#: lang/json/TOOL_from_json.py
+msgid "Your bone flute wails for the fallen during the hunt."
+msgstr ""
+
+#. ~ Description for bone flute
+#: lang/json/TOOL_from_json.py
+msgid "A polished bone flute with five finger holes."
+msgstr ""
 
 #: lang/json/TOOL_from_json.py lang/json/trap_from_json.py
 msgid "booby trap"
@@ -45251,16 +45395,6 @@ msgid "flute"
 msgid_plural "flutes"
 msgstr[0] ""
 msgstr[1] ""
-
-#. ~ Use action descriptions for flute.
-#: lang/json/TOOL_from_json.py
-msgid "You play a little tune on your flute."
-msgstr ""
-
-#. ~ Use action descriptions for flute.
-#: lang/json/TOOL_from_json.py
-msgid "You play a beautiful piece on your flute."
-msgstr ""
 
 #. ~ Use action descriptions for flute.
 #: lang/json/TOOL_from_json.py
@@ -52791,7 +52925,7 @@ msgid "head"
 msgstr "tête"
 
 #: lang/json/bodypart_from_json.py src/armor_layers.cpp src/character.cpp
-#: src/debug_menu.cpp
+#: src/debug_menu.cpp src/ranged.cpp
 msgid "Head"
 msgid_plural "Head"
 msgstr[0] "Tête"
@@ -55537,7 +55671,8 @@ msgid "Wasted"
 msgstr "Bousillé"
 
 #. ~ Miss message for effect(s) 'Tipsy, Drunk, Trashed, Wasted'.
-#: lang/json/effects_from_json.py src/player.cpp
+#. ~ Miss message for effect(s) 'Depressants'.
+#: lang/json/effects_from_json.py
 msgid "You feel woozy."
 msgstr ""
 
@@ -55956,6 +56091,66 @@ msgstr ""
 #: lang/json/effects_from_json.py
 msgid "The creature has been partially or fully milked."
 msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Painkillers"
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Happy"
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Joyful"
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Elated"
+msgstr "Exalté"
+
+#: lang/json/effects_from_json.py
+msgid "Unhappy"
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Sad"
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Depressed"
+msgstr "Déprimé"
+
+#. ~ Miss message for effect(s) 'Unhappy, Unhappy, Unhappy, Unhappy, Unhappy,
+#. Sad, Sad, Sad, Sad, Sad, Depressed'.
+#: lang/json/effects_from_json.py
+msgid "What's the point of fighting?"
+msgstr "Pourquoi se battre?"
+
+#: lang/json/effects_from_json.py src/bionics.cpp
+msgid "Irradiated"
+msgstr "Irradié"
+
+#. ~ Miss message for effect(s) 'Irradiated'.
+#: lang/json/effects_from_json.py
+msgid "Radiation weakens you."
+msgstr "Les radiations vous afaiblissent."
+
+#: lang/json/effects_from_json.py
+msgid "Stimulants"
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Depressants"
+msgstr "Dépresseurs"
+
+#: lang/json/effects_from_json.py
+msgid "Stimulant Overdose"
+msgstr "Overdose de Stimulant"
+
+#. ~ Miss message for effect(s) 'Stimulant Overdose'.
+#: lang/json/effects_from_json.py
+msgid "You shake with the excess stimulation."
+msgstr "La stimulation excessive vous fait trembler."
 
 #: lang/json/effects_from_json.py
 msgid "Offering"
@@ -63422,11 +63617,13 @@ msgid ""
 "styles</info>."
 msgstr ""
 
-#: lang/json/keybinding_from_json.py src/input.cpp src/messages.cpp
+#: lang/json/keybinding_from_json.py lang/json/keybinding_from_json.py
+#: src/input.cpp src/messages.cpp
 msgid "Scroll up"
 msgstr "Défiler vers le haut"
 
-#: lang/json/keybinding_from_json.py src/input.cpp src/messages.cpp
+#: lang/json/keybinding_from_json.py lang/json/keybinding_from_json.py
+#: src/input.cpp src/messages.cpp
 msgid "Scroll down"
 msgstr "Défiler vers le bas"
 
@@ -63444,6 +63641,10 @@ msgstr "Filtrer"
 
 #: lang/json/keybinding_from_json.py
 msgid "Cancel menu"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Show description of melee style"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -63683,6 +63884,10 @@ msgid "Toggle Overlays"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
+msgid "Toggle City Labels"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Toggle Explored"
 msgstr "Basculer zones explorées"
 
@@ -63718,7 +63923,7 @@ msgstr "Cible précédente"
 msgid "Next Target"
 msgstr "Cible suivante"
 
-#: lang/json/keybinding_from_json.py src/npcmove.cpp src/ranged.cpp
+#: lang/json/keybinding_from_json.py src/npcmove.cpp
 msgid "Aim"
 msgstr "Viser"
 
@@ -64300,6 +64505,10 @@ msgid "Color manager"
 msgstr "Gestionnaire de couleurs"
 
 #: lang/json/keybinding_from_json.py
+msgid "Active World Mods"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
 msgid "Toggle move mode (run/walk)"
 msgstr "Basculer course/marche"
 
@@ -64346,7 +64555,7 @@ msgid "Move cursor down"
 msgstr "Déplacer le curseur en bas"
 
 #: lang/json/keybinding_from_json.py
-msgid "Exit all commands help screen"
+msgid "Exit this keybinding screen"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -64723,13 +64932,24 @@ msgstr ""
 msgid "The other sign chastizes you for being a lazy bum and not helping me"
 msgstr ""
 
-#: lang/json/martial_art_from_json.py src/player.cpp
+#: lang/json/martial_art_from_json.py
 msgid "No style"
 msgstr "Pas de style"
 
 #. ~ Description for martial art 'No style'
 #: lang/json/martial_art_from_json.py
 msgid "Not a martial art, this is just plain old punching and kicking."
+msgstr ""
+
+#: lang/json/martial_art_from_json.py
+msgid "Force unarmed"
+msgstr ""
+
+#. ~ Description for martial art 'Force unarmed'
+#: lang/json/martial_art_from_json.py
+msgid ""
+"Not a martial art, setting this style will prevent weapon attacks and force "
+"punches (with free hand) or kicks."
 msgstr ""
 
 #: lang/json/martial_art_from_json.py
@@ -64921,7 +65141,9 @@ msgid ""
 "Also referred to as the \"Art of 8 Limbs,\" Muay Thai is a popular fighting "
 "technique from Thailand that uses powerful strikes.  Your strikes are more "
 "powerful with high strength and weaker with low strength, and can "
-"momentarily disorient enemies."
+"momentarily disorient enemies.  As this style focuses on using legs and "
+"elbow strikes rather than punches, it does not benefit from using any "
+"weapons."
 msgstr ""
 
 #. ~ Description of buff for martial art 'Muay Thai'
@@ -64963,8 +65185,9 @@ msgstr "Taekwondo"
 #: lang/json/martial_art_from_json.py
 msgid ""
 "Taekwondo is the national sport of Korea, and was used by the South Korean "
-"army in the 20th century.  Focused on kicks and punches, it also includes "
-"strength training; your blocks absorb extra damage the stronger you are."
+"army in the 20th century.  Focused on kicks and so it does not benefit from "
+"wielded weapons.  It also includes strength training; your blocks absorb "
+"extra damage the stronger you are."
 msgstr ""
 
 #. ~ Description of buff for martial art 'Taekwondo'
@@ -67478,7 +67701,7 @@ msgstr "Trouver la Bible de la distillation"
 #: lang/json/mission_def_from_json.py
 msgid ""
 "Growth has lately begun to stall, we have individuals passing through the "
-"outpost but the prospect of hard labor just to eek out an existence is "
+"outpost but the prospect of hard labor just to eke out an existence is "
 "driving them away.  We've asked around and decided that, despite our "
 "pressing needs, building a bar ought to draw some of the less committed "
 "individuals to the outpost.  Unlike other settlements, the more hands we "
@@ -69040,6 +69263,11 @@ msgstr ""
 msgid "everyanimalthateverlived..bursting.from.YOU!"
 msgstr ""
 
+#. ~ Mutation class: Chimera iv_sleep_message
+#: lang/json/mutation_category_from_json.py
+msgid "With a final *pop*, you go out like a light."
+msgstr ""
+
 #. ~ Mutation class: Chimera iv_sound_message
 #: lang/json/mutation_category_from_json.py
 msgid "You roar in agony!!"
@@ -69070,6 +69298,11 @@ msgstr ""
 #. ~ Mutation class: Fey iv_message
 #: lang/json/mutation_category_from_json.py
 msgid "Everything goes green for a second."
+msgstr ""
+
+#. ~ Mutation class: Fey iv_sleep_message
+#: lang/json/mutation_category_from_json.py
+msgid "It's painfully beautiful..."
 msgstr ""
 
 #. ~ Mutation class: Fey Male memorial messsage
@@ -74919,6 +75152,26 @@ msgid "underground temple"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
+msgid "municipal reactor"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "warehouse"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "waste storage"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "reactor control"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "reactor room"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
 msgid "wildlife field office"
 msgstr "office de la nature"
 
@@ -75079,6 +75332,10 @@ msgstr ""
 #: lang/json/start_location_from_json.py
 msgid "farm"
 msgstr "ferme"
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "dense urban"
+msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "2-story motel"
@@ -79579,7 +79836,7 @@ msgid "RIFLE"
 msgstr "FUSIL"
 
 #. ~ Crafting recipes subcategory of 'AMMO' category
-#: lang/json/recipe_category_from_json.py
+#: lang/json/recipe_category_from_json.py src/game_inventory.cpp
 msgid "SHOT"
 msgstr ""
 
@@ -90361,10 +90618,6 @@ msgid "brush."
 msgstr "scritch."
 
 #: lang/json/terrain_from_json.py
-msgid "foliage"
-msgstr "feuillage"
-
-#: lang/json/terrain_from_json.py
 msgid "shrub"
 msgstr "arbuste"
 
@@ -90539,10 +90792,6 @@ msgstr "générateur cassé"
 #: lang/json/terrain_from_json.py
 msgid "missile"
 msgstr "missile"
-
-#: lang/json/terrain_from_json.py
-msgid "metal screeching"
-msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "blown-out missile"
@@ -90894,6 +91143,10 @@ msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "scorched earth"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "nuclear reactor core"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -91684,6 +91937,10 @@ msgid "Truck Trailer"
 msgstr "Remorque"
 
 #: lang/json/vehicle_from_json.py
+msgid "Heavy Duty Cargo Truck"
+msgstr ""
+
+#: lang/json/vehicle_from_json.py
 msgid "Automatic Street Sweeper"
 msgstr ""
 
@@ -92313,7 +92570,7 @@ msgid "mounted light machine gun"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
-msgid "mounted heavy machine gum"
+msgid "mounted heavy machine gun"
 msgstr ""
 
 #: lang/json/vehicle_part_from_json.py
@@ -93700,7 +93957,7 @@ msgstr "Retour"
 #: src/debug_menu.cpp src/editmap.cpp src/game.cpp src/game.cpp src/game.cpp
 #: src/iexamine.cpp src/iexamine.cpp src/iexamine.cpp src/inventory_ui.cpp
 #: src/iuse.cpp src/iuse.cpp src/iuse_actor.cpp src/mission_companion.cpp
-#: src/pickup.cpp src/player.cpp src/turret.cpp src/vehicle.cpp
+#: src/pickup.cpp src/turret.cpp src/vehicle.cpp
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -94658,16 +94915,16 @@ msgid "Name (charges)"
 msgstr "Nom (charges)"
 
 #: src/advanced_inv.cpp
-msgid "Not dragging any vehicle"
+msgid "Not dragging any vehicle!"
 msgstr ""
 
 #: src/advanced_inv.cpp
-msgid "No dragged vehicle"
+msgid "No dragged vehicle!"
 msgstr ""
 
 #: src/advanced_inv.cpp
-msgid "Invalid container"
-msgstr "Contenant invalide"
+msgid "Invalid container!"
+msgstr ""
 
 #: src/advanced_inv.cpp
 msgid "All 9 squares"
@@ -94740,12 +94997,12 @@ msgid "< [?] show help >"
 msgstr "<[?] voir l'aide>"
 
 #: src/advanced_inv.cpp
-msgid "Default layout was saved"
+msgid "Default layout was saved."
 msgstr ""
 
 #: src/advanced_inv.cpp
-msgid "You can't put items there"
-msgstr "Vous ne pouvez pas mettre d'objets ici"
+msgid "You can't put items there!"
+msgstr ""
 
 #: src/advanced_inv.cpp
 #, c-format
@@ -94796,7 +95053,7 @@ msgid "You can't wear any more of that!"
 msgstr ""
 
 #: src/advanced_inv.cpp
-msgid "Destination area is full.  Remove some items first"
+msgid "Destination area is full.  Remove some items first."
 msgstr "La destination est pleine. Retirez des objets d'abord."
 
 #: src/advanced_inv.cpp
@@ -94820,16 +95077,12 @@ msgid "You can't pick up a liquid."
 msgstr "Vous ne pouvez pas ramasser un liquide."
 
 #: src/advanced_inv.cpp
-msgid "Destination area is full.  Remove some items first."
-msgstr "La destination est pleine. Retirez des objets d'abord."
-
-#: src/advanced_inv.cpp
 msgid "Destination area has too many items.  Remove some first."
 msgstr "La destination a trop d'objets. Retirez-en."
 
 #: src/advanced_inv.cpp
-msgid "This is too heavy!."
-msgstr "C'est trop lourd!"
+msgid "This is too heavy!"
+msgstr ""
 
 #: src/advanced_inv.cpp
 #, c-format
@@ -94844,6 +95097,10 @@ msgstr ""
 #: src/advanced_inv.cpp
 msgid "The destination is already full!"
 msgstr ""
+
+#: src/advanced_inv.cpp
+msgid "Invalid container"
+msgstr "Contenant invalide"
 
 #: src/animation.cpp
 msgid "Hang on a bit..."
@@ -95004,7 +95261,7 @@ msgid "Swap side for %s?"
 msgstr ""
 
 #: src/armor_layers.cpp
-msgid "Can't put this on"
+msgid "Can't put this on!"
 msgstr ""
 
 #: src/armor_layers.cpp
@@ -95906,10 +96163,6 @@ msgid "Mycal Spike"
 msgstr ""
 
 #: src/bionics.cpp
-msgid "Irradiated"
-msgstr "Irradié"
-
-#: src/bionics.cpp
 msgid "Blood Test Results"
 msgstr ""
 
@@ -96569,14 +96822,17 @@ msgid "m/s"
 msgstr "m/s"
 
 #: src/cata_utility.cpp
+msgctxt "Volume unit"
 msgid "c"
 msgstr "c"
 
 #: src/cata_utility.cpp
+msgctxt "Volume unit"
 msgid "L"
 msgstr "L"
 
 #: src/cata_utility.cpp
+msgctxt "Volume unit"
 msgid "qt"
 msgstr "qt"
 
@@ -97117,8 +97373,8 @@ msgid "Sewage map data downloaded.  Press any key..."
 msgstr "Plan des égouts téléchargé. Pressez une touche."
 
 #: src/computer.cpp
-msgid "Target acquisition canceled"
-msgstr "Acquisition de cible annulée"
+msgid "Target acquisition canceled."
+msgstr ""
 
 #: src/computer.cpp
 msgid "Confirm nuclear missile launch."
@@ -98112,10 +98368,6 @@ msgid "You can't finish it all!"
 msgstr "Vous ne terminez pas !"
 
 #: src/consumption.cpp
-msgid "You pick out the edible parts and throw away the rest."
-msgstr ""
-
-#: src/consumption.cpp
 msgid "You gorge yourself, preparing to hibernate."
 msgstr "Vous vous empiffrez, vous préparant ainsi à hiberner."
 
@@ -98371,8 +98623,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/crafting.cpp src/game.cpp src/game.cpp src/iexamine.cpp src/iuse.cpp
-#: src/iuse_actor.cpp src/npctalk.cpp src/npctalk.cpp src/pickup.cpp
-#: src/player.cpp src/player.cpp src/player.cpp src/veh_interact.cpp
+#: src/iuse.cpp src/iuse_actor.cpp src/iuse_actor.cpp src/npctalk.cpp
+#: src/npctalk.cpp src/pickup.cpp src/player.cpp src/player.cpp src/player.cpp
+#: src/veh_interact.cpp
 msgid "Never mind."
 msgstr "Pas la peine."
 
@@ -98531,7 +98784,7 @@ msgstr "Vous ne pouvez pas faire ça!"
 msgid "Nothing selected!"
 msgstr "Pas de sélection!"
 
-#: src/crafting_gui.cpp src/newcharacter.cpp
+#: src/crafting_gui.cpp src/newcharacter.cpp src/overmap.cpp
 msgid "Search:"
 msgstr "Chercher :"
 
@@ -100292,7 +100545,7 @@ msgstr "Original(e)"
 msgid "Powerful"
 msgstr "Puissant(e)"
 
-#: src/faction.cpp
+#: src/faction.cpp src/options.cpp
 msgid "Solid"
 msgstr "Solide"
 
@@ -104127,19 +104380,6 @@ msgid "You can't remove partially depleted plutonium!"
 msgstr "Vous ne pouvez pas retirer du plutonium partiellement appauvri!"
 
 #: src/game.cpp
-#, c-format
-msgid "You cannot unwield your %s."
-msgstr "Vous n'avez pas le choix, vous devez manier votre %s."
-
-#: src/game.cpp
-msgid "Wield item"
-msgstr "Manier"
-
-#: src/game.cpp
-msgid "You have nothing to wield."
-msgstr "Vous n'avez rien à prendre en main."
-
-#: src/game.cpp
 msgid "Who do you want to talk to or yell at?"
 msgstr ""
 
@@ -104683,12 +104923,12 @@ msgid "There is a sheer drop halfway down.  Jump?"
 msgstr "Le chemin descend à pic à la moitié du chemin. Sauter?"
 
 #: src/game.cpp
-msgid ">:W;AUTO: goes down"
-msgstr ">:W;AUTO: descend"
+msgid "AUTO: goes down"
+msgstr ""
 
 #: src/game.cpp
-msgid "<:W;AUTO: goes up"
-msgstr "<:W;AUTO: monte"
+msgid "AUTO: goes up"
+msgstr ""
 
 #: src/game.cpp
 #, c-format
@@ -104878,11 +105118,6 @@ msgstr "Vous sentez votre corps se flétrir."
 
 #: src/game.cpp
 #, c-format
-msgid "The %s emits some smoke."
-msgstr "Le/La %s emet de la fumée."
-
-#: src/game.cpp
-#, c-format
 msgid "You have an urge to wear the %s."
 msgstr "Vous êtes pressé d'enfiler le/la %s"
 
@@ -104969,6 +105204,10 @@ msgstr "Vous sentez une tempête arriver."
 
 #: src/game.cpp
 msgid "You feel unwell."
+msgstr ""
+
+#: src/game.cpp
+msgid "A cloud of smoke appears."
 msgstr ""
 
 #: src/game.cpp
@@ -105217,6 +105456,66 @@ msgstr ""
 #: src/game_inventory.cpp
 #, c-format
 msgid "%s's inventory is empty."
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "BASH"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "CUT"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "STAB"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "MELEE"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "MOVES"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "Wield item"
+msgstr "Manier"
+
+#: src/game_inventory.cpp
+msgid "You have nothing to wield."
+msgstr "Vous n'avez rien à prendre en main."
+
+#: src/game_inventory.cpp
+#, c-format
+msgid "You can't put anything into your %s."
+msgstr ""
+
+#: src/game_inventory.cpp src/iuse_actor.cpp
+msgid "Holster item"
+msgstr ""
+
+#: src/game_inventory.cpp
+#, c-format
+msgid "Choose a weapon to put into your %s"
+msgstr ""
+
+#: src/game_inventory.cpp
+#, c-format
+msgid "You have no weapons you could put into your %s."
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "Saw barrel"
+msgstr ""
+
+#: src/game_inventory.cpp
+msgid "You don't have any guns."
+msgstr ""
+
+#: src/game_inventory.cpp
+#, c-format
+msgid "Choose a weapon to use your %s on"
 msgstr ""
 
 #: src/game_inventory.cpp
@@ -108055,12 +108354,24 @@ msgid "Maximum range: "
 msgstr ""
 
 #: src/item.cpp
+msgid "Base aim speed: "
+msgstr ""
+
+#: src/item.cpp
+msgid "Even chance of good hit at range: "
+msgstr ""
+
+#: src/item.cpp
+msgid "<num>"
+msgstr ""
+
+#: src/item.cpp
 msgid "<num> seconds"
 msgstr "<num> secondes"
 
 #: src/item.cpp
-msgid "Maximum aiming time: "
-msgstr "Temps de visée maximum: "
+msgid "Time to reach aim level: "
+msgstr ""
 
 #: src/item.cpp
 msgid "Damage: "
@@ -108130,8 +108441,8 @@ msgid "Dispersion modifier: "
 msgstr "Modificateur de dispersion: "
 
 #: src/item.cpp
-msgid "Aim cost: "
-msgstr ""
+msgid "Aim speed: "
+msgstr "Vitesse de visée: "
 
 #: src/item.cpp
 msgid "Handling modifier: "
@@ -110283,7 +110594,7 @@ msgid "You already know all this book has to teach."
 msgstr "Vous savez déjà tout ce que ce livre peut enseigner."
 
 #: src/iuse.cpp
-msgid "You learn what you can, and stow the book for further study."
+msgid "You learn the essential elements of the style."
 msgstr ""
 
 #: src/iuse.cpp
@@ -110323,7 +110634,7 @@ msgid "You attempt to pry open your wallet"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "but alas. You are just too miserly."
+msgid "but alas.  You are just too miserly."
 msgstr ""
 
 #: src/iuse.cpp
@@ -110333,6 +110644,10 @@ msgstr "Vous forcez l'ouverture de la porte."
 #: src/iuse.cpp
 msgid "You pry, but cannot pry open the door."
 msgstr "Vous essayez de forcer l'ouverture de la porte mais échouez."
+
+#: src/iuse.cpp
+msgid "You notice the door is unlocked, so you simply open it."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "You lift the manhole cover."
@@ -112294,19 +112609,6 @@ msgid "You set down the ladder."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Saw barrel?"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "You don't have guns with long barrels."
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You saw down the barrel of your %s"
-msgstr "Vous sciez le canon de %s"
-
-#: src/iuse.cpp
 msgid "You need a cleansing agent to use this."
 msgstr ""
 
@@ -112725,10 +113027,6 @@ msgid "You holster your %s"
 msgstr ""
 
 #: src/iuse_actor.cpp
-msgid "Holster item"
-msgstr ""
-
-#: src/iuse_actor.cpp
 #, c-format
 msgid "You need to unwield your %s before using it."
 msgstr ""
@@ -113017,6 +113315,27 @@ msgstr "Où placer %s?"
 #: src/iuse_actor.cpp
 msgid "That trap needs a 3x3 space to be clear, centered two tiles from you."
 msgstr "Ce piège nécessite un espace libre de 3x3, dont le centre est à deux carreaux de vous."
+
+#: src/iuse_actor.cpp
+#, c-format
+msgid "You saw down the barrel of your %s."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "It's not a gun."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "The barrel is too short."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "The barrel is aleady sawn off."
+msgstr ""
+
+#: src/iuse_actor.cpp
+msgid "Can't saw off modified barrels."
+msgstr ""
 
 #: src/iuse_software.cpp
 msgid "You found kitten!"
@@ -114286,11 +114605,6 @@ msgstr "<Q|q>uitter"
 
 #: src/main_menu.cpp
 msgctxt "Main Menu|World"
-msgid "<C|c>reate World"
-msgstr "<C|c>réer Monde"
-
-#: src/main_menu.cpp
-msgctxt "Main Menu|World"
 msgid "<D|d>elete World"
 msgstr "<S|s>upprimer monde"
 
@@ -114298,6 +114612,11 @@ msgstr "<S|s>upprimer monde"
 msgctxt "Main Menu|World"
 msgid "<R|r>eset World"
 msgstr "<R|r>éinitialiser monde"
+
+#: src/main_menu.cpp
+msgctxt "Main Menu|World"
+msgid "<S|s>how World Mods"
+msgstr ""
 
 #: src/main_menu.cpp
 msgctxt "Main Menu|Settings"
@@ -114398,16 +114717,20 @@ msgid "No save games found!"
 msgstr "Pas de parties sauvegardées!"
 
 #: src/main_menu.cpp
-msgid "Only the admin can change worlds."
-msgstr "Seul l'administrateur peut changer les mondes."
-
-#: src/main_menu.cpp
 msgid "Delete the world and all saves?"
 msgstr "Supprimer le monde et toutes les sauvegardes?"
 
 #: src/main_menu.cpp
 msgid "Remove all saves and regenerate world?"
 msgstr "Supprimer toutes les sauvegardes et regénérer le monde?"
+
+#: src/main_menu.cpp
+msgid "Only the admin can change worlds."
+msgstr "Seul l'administrateur peut changer les mondes."
+
+#: src/main_menu.cpp
+msgid "Create World"
+msgstr ""
 
 #: src/map.cpp
 #, c-format
@@ -114689,18 +115012,6 @@ msgstr ""
 msgid "ERROR:  SIGNAL DISCONNECT"
 msgstr ""
 
-#: src/mapgen.cpp src/mapgen_functions.cpp src/mapgen_functions.cpp
-msgid "Medical Supply Access"
-msgstr ""
-
-#: src/mapgen.cpp src/mapgen_functions.cpp
-msgid "Lock Door"
-msgstr "Verrouiller la Porte"
-
-#: src/mapgen.cpp src/mapgen_functions.cpp src/mapgen_functions.cpp
-msgid "Unlock Door"
-msgstr "Déverrouiller la porte"
-
 #: src/mapgen.cpp
 msgid "SRCF Security Terminal"
 msgstr ""
@@ -114782,22 +115093,6 @@ msgid "DANGER! MINEFIELD!"
 msgstr "DANGER! CHAMP DE MINES!"
 
 #: src/mapgen_functions.cpp
-msgid "Church Bells 1.2"
-msgstr ""
-
-#: src/mapgen_functions.cpp
-msgid "Gathering Toll"
-msgstr ""
-
-#: src/mapgen_functions.cpp
-msgid "Wedding Toll"
-msgstr ""
-
-#: src/mapgen_functions.cpp
-msgid "Funeral Toll"
-msgstr ""
-
-#: src/mapgen_functions.cpp
 msgid "PolCom OS v1.47"
 msgstr ""
 
@@ -114808,14 +115103,6 @@ msgstr ""
 #: src/mapgen_functions.cpp
 msgid "Open Evidence Locker"
 msgstr "Ouvrir le casier des preuves"
-
-#: src/mapgen_functions.cpp
-msgid "Consolidated Computerized Bank of the Treasury"
-msgstr ""
-
-#: src/mapgen_functions.cpp
-msgid "Open Vault"
-msgstr "Ouvrir le Coffre"
 
 #: src/material.cpp
 msgid "damages"
@@ -117649,7 +117936,6 @@ msgstr ""
 msgid "The %s was destroyed!  GAME OVER!"
 msgstr "Le %s a été détruit! GAME OVER!"
 
-#. ~ %s is the possessive form of the monster's name
 #: src/mondeath.cpp
 #, c-format
 msgid "The %s's hands fly to its pockets, but there's nothing left in them."
@@ -118457,6 +118743,10 @@ msgid "Use this style?"
 msgstr "Utiliser ce style?"
 
 #: src/newcharacter.cpp
+msgid "Last Character"
+msgstr ""
+
+#: src/newcharacter.cpp
 msgid "POINTS"
 msgstr "POINTS"
 
@@ -118603,6 +118893,11 @@ msgid "Throwing penalty per target's dodge: +%d"
 msgstr "Pénalité en lancer par esquive de la cible: -%d"
 
 #: src/newcharacter.cpp
+#, c-format
+msgid "Ranged penalty: -%d"
+msgstr "Pénalité distance: -%d"
+
+#: src/newcharacter.cpp
 msgid "Dexterity also enhances many actions which require finesse."
 msgstr "La dextérité améliore aussi les actions qui nécessitent de la finesse."
 
@@ -118629,6 +118924,11 @@ msgstr "L'intelligence est aussi utilisée pour l'artisanat, l'installation de b
 #: src/newcharacter.cpp
 msgid "Increasing Per further costs 2 points."
 msgstr "Augmenter à nouveau la perception coûte 2 points."
+
+#: src/newcharacter.cpp
+#, c-format
+msgid "Aiming penalty: -%d"
+msgstr ""
 
 #: src/newcharacter.cpp
 msgid ""
@@ -121770,6 +122070,30 @@ msgid "Where new log messages should show."
 msgstr ""
 
 #: src/options.cpp
+msgid "Pixel Minimap drawing mode"
+msgstr ""
+
+#: src/options.cpp
+msgid "Specified the mode in which the minimap drawn."
+msgstr ""
+
+#: src/options.cpp
+msgid "Squares"
+msgstr ""
+
+#: src/options.cpp
+msgid "Dots"
+msgstr ""
+
+#: src/options.cpp
+msgid "Pixel Minimap brightness"
+msgstr ""
+
+#: src/options.cpp
+msgid "Overal brightness of pixel-detail minimap."
+msgstr ""
+
+#: src/options.cpp
 msgid ""
 "Use software renderer instead of graphics card acceleration.  Requires "
 "restart."
@@ -121978,8 +122302,12 @@ msgid "Previous target"
 msgstr "Cible précédente"
 
 #: src/overmap.cpp
-msgid "Find place:"
-msgstr "Trouver:"
+msgid "Result(s):"
+msgstr ""
+
+#: src/overmap.cpp
+msgid "Direction:"
+msgstr ""
 
 #: src/overmap.cpp
 msgid "'<' '>' Cycle targets."
@@ -122079,6 +122407,39 @@ msgid ""
 "food, water, and bedding.  This is FEMA camp %d%d.  A designated long-term "
 "emergency shelter."
 msgstr "Ceci est le camp %d%d de la FEMA. Les provisions sont limitées, veuillez apporter de la nourriture supplémentaire, de l'eau et des draps. Ceci est le camp %d%d de la FEMA. Un abri d'urgence à long terme désigné."
+
+#. ~ First parameter is a terrain name, second parameter is a city name.
+#: src/overmapbuffer.cpp
+#, c-format
+msgid "%1$s in central %2$s"
+msgstr ""
+
+#. ~ First parameter is a terrain name, second parameter is a direction, and
+#. third parameter is a city name.
+#: src/overmapbuffer.cpp
+#, c-format
+msgid "%1$s in %2$s %3$s"
+msgstr ""
+
+#. ~ First parameter is a terrain name, second parameter is a city name.
+#: src/overmapbuffer.cpp
+#, c-format
+msgid "%1$s in %2$s"
+msgstr ""
+
+#. ~ First parameter is a terrain name, second parameter is a direction, and
+#. third parameter is a city name.
+#: src/overmapbuffer.cpp
+#, c-format
+msgid "%1$s on the %2$s outskirts of %3$s"
+msgstr ""
+
+#. ~ First parameter is a terrain name, second parameter is a direction, and
+#. third parameter is a city name.
+#: src/overmapbuffer.cpp
+#, c-format
+msgid "%1$s %2$s from %3$s"
+msgstr ""
 
 #: src/pickup.cpp
 msgid "Examine vehicle"
@@ -122311,18 +122672,6 @@ msgid "Your pain distracts you!"
 msgstr "Votre douleur vous distrait!"
 
 #: src/player.cpp
-msgid "What's the point of fighting?"
-msgstr "Pourquoi se battre?"
-
-#: src/player.cpp
-msgid "Radiation weakens you."
-msgstr "Les radiations vous afaiblissent."
-
-#: src/player.cpp
-msgid "You shake with the excess stimulation."
-msgstr "La stimulation excessive vous fait trembler."
-
-#: src/player.cpp
 msgid "You're weak from hunger."
 msgstr ""
 
@@ -122428,32 +122777,12 @@ msgstr "une chômeuse"
 msgid "a %s"
 msgstr "un(e) %s"
 
-#. ~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain
-#. name.
+#. ~ First parameter is a pronoun ("He"/"She"), second parameter is a
+#. description
+#. that designates the location relative to its surroundings.
 #: src/player.cpp
 #, c-format
-msgid "%1$s was killed in a %2$s in the middle of nowhere."
-msgstr ""
-
-#. ~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain
-#. name.
-#: src/player.cpp
-#, c-format
-msgid "%1$s was killed in a %2$s in the wilderness."
-msgstr ""
-
-#. ~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain
-#. name, third parameter is a city name.
-#: src/player.cpp
-#, c-format
-msgid "%1$s was killed in a %2$s on the outskirts of %3$s."
-msgstr ""
-
-#. ~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain
-#. name, third parameter is a city name.
-#: src/player.cpp
-#, c-format
-msgid "%1$s was killed in a %2$s in %3$s."
+msgid "%1$s was killed in a %2$s."
 msgstr ""
 
 #: src/player.cpp
@@ -122579,28 +122908,8 @@ msgid "Ongoing Effects:"
 msgstr "Effets en cours:"
 
 #: src/player.cpp src/player_display.cpp
-msgid "Elated"
-msgstr "Exalté"
-
-#: src/player.cpp src/player_display.cpp
-msgid "Depressed"
-msgstr "Déprimé"
-
-#: src/player.cpp src/player_display.cpp
 msgid "Pain"
 msgstr "Douleur"
-
-#: src/player.cpp src/player_display.cpp
-msgid "Stimulant Overdose"
-msgstr "Overdose de Stimulant"
-
-#: src/player.cpp src/player_display.cpp
-msgid "Stimulant"
-msgstr "Stimulant"
-
-#: src/player.cpp src/player_display.cpp
-msgid "Depressants"
-msgstr "Dépresseurs"
 
 #: src/player.cpp
 msgid "Bionics:"
@@ -122989,6 +123298,10 @@ msgstr "<npcname> est aggripé par %s!"
 #, c-format
 msgid "You are grabbed by %s!"
 msgstr "Vous êtes aggripé par %s!"
+
+#: src/player.cpp
+msgid "Filth from your clothing has implanted deep in the wound."
+msgstr ""
 
 #: src/player.cpp
 msgid "Ouch, something hurts!"
@@ -123693,12 +124006,16 @@ msgid "antlers"
 msgstr "ramure"
 
 #: src/player.cpp
-#, c-format
-msgid "The %s can't be wielded with only one arm."
+msgid "Can't wield spilt liquids."
 msgstr ""
 
 #: src/player.cpp
 msgid "Something you are wearing hinders the use of both hands."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "The %s can't be wielded with only one arm."
 msgstr ""
 
 #: src/player.cpp
@@ -123708,17 +124025,13 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "You cannot unwield your %s"
-msgstr ""
+msgid "You cannot unwield your %s."
+msgstr "Vous n'avez pas le choix, vous devez manier votre %s."
 
 #: src/player.cpp
 #, c-format
 msgid "Stop wielding %s?"
 msgstr "Arrêter de manier %s?"
-
-#: src/player.cpp
-msgid "You're already wielding that!"
-msgstr "Vous maniez déjà cela!"
 
 #: src/player.cpp
 msgid "Technique:"
@@ -123727,8 +124040,18 @@ msgstr[0] "Technique:"
 msgstr[1] "Techniques:"
 
 #: src/player.cpp
-msgid "Select a style (press ? for more info)"
-msgstr "Sélectionner un style (? pour plus d'info)"
+msgid ""
+"This style forces you to use unarmed strikes, even if wielding a weapon."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "Select a style. (press %s for more info)"
+msgstr ""
+
+#: src/player.cpp
+msgid "Keep hands free (off)"
+msgstr "Garder les mains vides (off)"
 
 #: src/player.cpp
 msgid "Keep hands free (on)"
@@ -123738,10 +124061,6 @@ msgstr "Garder les mains vides (on)"
 msgid ""
 "When this is enabled, player won't wield things unless explicitly told to."
 msgstr "Si activé, le personnage ne tiendra aucun objet sauf si explicitement indiqué."
-
-#: src/player.cpp
-msgid "Keep hands free (off)"
-msgstr "Garder les mains vides (off)"
 
 #: src/player.cpp
 #, c-format
@@ -124428,20 +124747,25 @@ msgid "Dexterity %+.1f when throwing items;\n"
 msgstr "Dextérité %+.1f lorsque vous lancez des objets;\n"
 
 #: src/player_display.cpp
-msgid "Dexterity"
-msgstr "Dexterité"
+#, c-format
+msgid "Reduces aim speed of guns by %.1f."
+msgstr ""
 
 #: src/player_display.cpp src/veh_interact.cpp
 msgid "Strength"
 msgstr "Force"
 
 #: src/player_display.cpp
-msgid "Perception"
-msgstr "Perception"
+msgid "Dexterity"
+msgstr "Dexterité"
 
 #: src/player_display.cpp
 msgid "Intelligence"
 msgstr "Intelligence"
+
+#: src/player_display.cpp
+msgid "Perception"
+msgstr "Perception"
 
 #: src/player_display.cpp
 msgid "Speed"
@@ -124521,33 +124845,8 @@ msgstr "Surchargé        -%s%d%%"
 
 #: src/player_display.cpp
 #, c-format
-msgid "Good mood           +%s%d%%"
-msgstr "Bonne humeur           +%s%d%%"
-
-#: src/player_display.cpp
-#, c-format
-msgid "Depressed           -%s%d%%"
-msgstr "Déprimé           -%s%d%%"
-
-#: src/player_display.cpp
-#, c-format
 msgid "Pain                -%s%d%%"
 msgstr "Douleur                -%s%d%%"
-
-#: src/player_display.cpp
-#, c-format
-msgid "Painkillers         -%s%d%%"
-msgstr "Antalgiques         -%s%d%%"
-
-#: src/player_display.cpp
-#, c-format
-msgid "Stimulants          +%s%d%%"
-msgstr "Stimulants          +%s%d%%"
-
-#: src/player_display.cpp
-#, c-format
-msgid "Depressants         -%s%d%%"
-msgstr "Tranquillisants         -%s%d%%"
 
 #: src/player_display.cpp
 #, c-format
@@ -124612,6 +124911,10 @@ msgid "Melee to-hit bonus:"
 msgstr "Bonus toucher mêlée:"
 
 #: src/player_display.cpp
+msgid "Ranged penalty:"
+msgstr "Pénalité distance:"
+
+#: src/player_display.cpp
 msgid ""
 "Dexterity affects your chance to hit in melee combat, helps you steady your "
 "gun for ranged combat, and enhances many actions that require finesse."
@@ -124639,6 +124942,10 @@ msgstr "L'intelligence est moins importante dans la plupart des situations, mais
 #: src/player_display.cpp
 msgid "Trap detection level:"
 msgstr "Niv. détection pièges:"
+
+#: src/player_display.cpp
+msgid "Aiming penalty:"
+msgstr ""
 
 #: src/player_display.cpp
 msgid ""
@@ -125340,16 +125647,17 @@ msgid "Steadiness"
 msgstr ""
 
 #: src/ranged.cpp
-msgid "Confidence"
-msgstr "Fiabilité"
-
-#: src/ranged.cpp
 msgid "Symbols: * = Headshot + = Hit | = Graze"
 msgstr ""
 
 #: src/ranged.cpp
-msgid "Headshot"
-msgstr "Tir à la tête"
+msgid "Current Aim"
+msgstr ""
+
+#: src/ranged.cpp
+#, c-format
+msgid "%s: Moves to fire: %d"
+msgstr ""
 
 #: src/ranged.cpp
 msgid "Hit"
@@ -125365,9 +125673,17 @@ msgid "Turrets in range: %d"
 msgstr ""
 
 #: src/ranged.cpp
+msgid "Headshot"
+msgstr "Tir à la tête"
+
+#: src/ranged.cpp
 #, c-format
 msgid "%c to aim and fire."
 msgstr "%c pour viser et faire feu."
+
+#: src/ranged.cpp
+msgid "Regular Aim"
+msgstr ""
 
 #: src/ranged.cpp
 msgid "Careful Aim"
@@ -125688,8 +126004,8 @@ msgstr "Vous entendez %s"
 
 #: src/sounds.cpp
 #, c-format
-msgid "From the %s you hear %s"
-msgstr "Vous entendez un %2$s venant du/de l' %1$s."
+msgid "From the %1$s you hear %2$s"
+msgstr ""
 
 #: src/sounds.cpp
 msgid "Your alarm-clock finally wakes you up."
@@ -126637,6 +126953,10 @@ msgstr ""
 #: src/veh_interact.cpp
 #, c-format
 msgid "> <color_%1$s>%2$s</color>"
+msgstr ""
+
+#: src/veh_interact.cpp
+msgid "Remove attached parts first"
 msgstr ""
 
 #: src/veh_interact.cpp
@@ -127952,18 +128272,6 @@ msgid "Set to 5"
 msgstr "Régler à 5"
 
 #: src/worldfactory.cpp
-msgid "Content"
-msgstr "Contenu"
-
-#: src/worldfactory.cpp
-msgid "World Gen Options"
-msgstr "Options du monde"
-
-#: src/worldfactory.cpp
-msgid "CONFIRMATION"
-msgstr "CONFIRMATION"
-
-#: src/worldfactory.cpp
 msgid "Do you want to abort World Generation?"
 msgstr "Voulez-vous annuler la création du Monde?"
 
@@ -127995,6 +128303,14 @@ msgid "Do you want to start the game in world [%s]?"
 msgstr "Voulez-vous débuter le jeu dans le monde [%s]?"
 
 #: src/worldfactory.cpp
+msgid " ACTIVE WORLD MODS "
+msgstr ""
+
+#: src/worldfactory.cpp
+msgid "--NO ACTIVE MODS--"
+msgstr "--AUCUN MOD ACTIF--"
+
+#: src/worldfactory.cpp
 msgid "Switch to other list"
 msgstr ""
 
@@ -128013,10 +128329,6 @@ msgstr "Ordre de chargement des mods"
 #: src/worldfactory.cpp
 msgid "--NO AVAILABLE MODS--"
 msgstr "--AUCUN MOD DISPONIBLE--"
-
-#: src/worldfactory.cpp
-msgid "--NO ACTIVE MODS--"
-msgstr "--AUCUN MOD ACTIF--"
 
 #: src/worldfactory.cpp
 msgid "Can't add mod. This mod requires Lua support."
@@ -128061,6 +128373,18 @@ msgstr "Êtes vous sûr d'avoir terminé? Le nom du monde sera généré aléato
 msgid ""
 "Press %s to save the list of active mods as default. Press %s for help."
 msgstr "Presser %s pour en faire la liste des mods actifs par défaut. Presser %s pour l'aide."
+
+#: src/worldfactory.cpp
+msgid "World Mods"
+msgstr ""
+
+#: src/worldfactory.cpp
+msgid "World Options"
+msgstr ""
+
+#: src/worldfactory.cpp
+msgid "Finalize World"
+msgstr ""
 
 #: src/worldfactory.cpp
 #, c-format

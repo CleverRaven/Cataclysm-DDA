@@ -680,12 +680,12 @@ bool internal_query_yn( const char *mes, va_list ap )
         if( !w ) {
             // -2 to keep space for the border, use query without color tags so
             // utf8_width uses the same text as it will be printed in the window.
-            std::vector<std::string> textformatted = foldstring( text + query_nc, FULL_SCREEN_WIDTH - 2 );
+            std::vector<std::string> textformatted = foldstring( text + query_nc, FULL_SCREEN_WIDTH - 4 );
             for( auto &s : textformatted ) {
                 win_width = std::max( win_width, utf8_width( remove_color_tags( s ) ) );
             }
             w = newwin( textformatted.size() + 2, win_width + 2, ( TERMY - 3 ) / 2,
-                        std::max( TERMX - win_width, 0 ) / 2 );
+                        std::max( TERMX - win_width - 2, 0 ) / 2 );
             draw_border( w );
         }
         fold_and_print( w, 1, 1, win_width, c_ltred, text + query );

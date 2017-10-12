@@ -50,7 +50,7 @@ const string_id<start_location> &start_location::ident() const
 
 std::string start_location::name() const
 {
-    return _name;
+    return _( _name.c_str() );
 }
 
 std::string start_location::target() const
@@ -75,7 +75,7 @@ void start_location::load_location( JsonObject &jo, const std::string &src )
 
 void start_location::load( JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "name", _name, translated_string_reader );
+    mandatory( jo, was_loaded, "name", _name );
     mandatory( jo, was_loaded, "target", _target );
     optional( jo, was_loaded, "flags", _flags, auto_flags_reader<> {} );
 }

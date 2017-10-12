@@ -13,7 +13,7 @@ notifications:
   skip_join: true
 
 git:
-  depth: 500
+  depth: 5
 
 env:
   global:
@@ -51,14 +51,6 @@ matrix:
       addons: &gcc48
         apt:
           packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386", "lcov", "astyle"]
-          sources: *apt_sources
-
-    # GCC 4.8
-    - env: COMPILER=g++-4.8
-      compiler: gcc
-      addons: &gcc48
-        apt:
-          packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386"]
           sources: *apt_sources
 
     # GCC 4.9
@@ -133,3 +125,4 @@ script: make -j3 CCACHE=1 RELEASE=1 CROSS="$CROSS_COMPILATION" && $WINE ./tests/
 
 after_success:
   - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b . -i src -e tests --gcov /usr/bin/gcov-4.8; fi
+  - if [ -n "${CODE_COVERAGE}" ]; then bash <(curl -s https://codecov.io/bash); fi

@@ -9,6 +9,7 @@
 #include "addiction.h"
 #include "auto_pickup.h"
 #include "inventory.h"
+#include "ammo.h"
 #include "artifact.h"
 #include "options.h"
 #include <sstream>
@@ -79,7 +80,7 @@ std::vector<item> item::magazine_convert() {
         // limit ammo to base capacity and return any excess as a new item
         charges = std::min( charges, long( type->gun->clip ) );
         if( qty > 0 ) {
-            res.emplace_back( ammo_current() != "null" ? ammo_current() : default_ammo( ammo_type() ), calendar::turn, qty );
+            res.emplace_back( ammo_current() != "null" ? ammo_current() : ammo_type()->default_ammotype(), calendar::turn, qty );
         }
 
         contents.erase( std::remove_if( contents.begin(), contents.end(), []( const item& e ) {
@@ -91,7 +92,7 @@ std::vector<item> item::magazine_convert() {
 
     // now handle items using the new detachable magazines that haven't yet been converted
     item mag( magazine_default(), calendar::turn );
-    item ammo( ammo_current() != "null" ? ammo_current() : default_ammo( ammo_type() ), calendar::turn );
+    item ammo( ammo_current() != "null" ? ammo_current() : ammo_type()->default_ammotype(), calendar::turn );
 
     // give base item an appropriate magazine and add to that any ammo originally stored in base item
     if( !magazine_current() ) {
@@ -187,10 +188,11 @@ void player_activity::deserialize(JsonIn &jsin)
 void SkillLevel::serialize(JsonOut &json) const
 {
     json.start_object();
-    json.member("level", level() );
-    json.member("exercise", exercise(true) );
-    json.member("istraining", isTraining() );
-    json.member("lastpracticed", int ( lastPracticed() ) );
+    json.member( "level", level() );
+    json.member( "exercise", exercise( true ) );
+    json.member( "istraining", isTraining() );
+    json.member( "lastpracticed", int( lastPracticed() ) );
+    json.member( "highestlevel", highestLevel() );
     json.end_object();
 }
 
@@ -202,10 +204,14 @@ void SkillLevel::deserialize(JsonIn &jsin)
     data.read( "exercise", _exercise );
     data.read( "istraining", _isTraining );
     data.read( "lastpracticed", lastpractice );
+    data.read( "highestlevel", _highestLevel );
     if(lastpractice == 0) {
         _lastPracticed = HOURS( get_option<int>( "INITIAL_TIME" ) );
     } else {
         _lastPracticed = lastpractice;
+    }
+    if( _highestLevel < _level ) {
+        _highestLevel = _level;
     }
 }
 
@@ -1261,7 +1267,7 @@ void inventory::json_save_items(JsonOut &json) const
     json.start_array();
     for( const auto &elem : items ) {
         for( const auto &elem_stack_iter : elem ) {
-            elem_stack_iter.serialize( json, true );
+            elem_stack_iter.serialize( json );
         }
     }
     json.end_array();
@@ -1646,9 +1652,8 @@ void item::deserialize(JsonObject &data)
     io( archive );
 }
 
-void item::serialize(JsonOut &json, bool save_contents) const
+void item::serialize(JsonOut &json) const
 {
-    (void) save_contents;
     io::JsonObjectOutputArchive archive( json );
     const_cast<item*>(this)->io( archive );
 }
