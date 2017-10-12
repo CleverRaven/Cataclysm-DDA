@@ -1572,17 +1572,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       string_format( _( "%d moves per attack" ), attack_cost ) ) );
         }
 
-        if( !is_gunmod() && has_flag( "REACH_ATTACK" ) ) {
-            insert_separation_line();
-            if( has_flag( "REACH3" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This item can be used to make <info>long reach attacks</info>." ) ) );
-            } else {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This item can be used to make <info>reach attacks</info>." ) ) );
-            }
-        }
-
         //lets display which martial arts styles character can use with this weapon
         const auto &styles = g->u.ma_styles;
         const std::string valid_styles = enumerate_as_string( styles.begin(), styles.end(),

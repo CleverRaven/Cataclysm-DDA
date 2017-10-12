@@ -707,7 +707,6 @@ public:
  void add_msg_if_player(const char *, ...) const override PRINTF_LIKE( 2, 3 ) {};
  void add_msg_if_player(game_message_type, const char *, ...) const override PRINTF_LIKE( 3, 4 ) {};
  void add_memorial_log(const char*, const char*, ...) override  PRINTF_LIKE( 3, 4 ) {};
- virtual void add_miss_reason(const char *, unsigned int) {};
  void add_msg_player_or_say( const char *, const char *, ... ) const override PRINTF_LIKE( 3, 4 );
  void add_msg_player_or_say( game_message_type, const char *, const char *, ... ) const override PRINTF_LIKE( 4, 5 );
 
