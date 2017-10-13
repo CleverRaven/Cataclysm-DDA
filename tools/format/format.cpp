@@ -4,6 +4,7 @@
 
 #include <cstdlib>
 #include <fstream>
+#include <functional>
 #include <map>
 #include <sstream>
 #include <string>
@@ -20,42 +21,53 @@ static void write_array( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wra
     jsout.end_array();
 }
 
+static void write_object( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wrap )
+{
+    jsout.start_object( force_wrap );
+    jsin.start_object();
+    while( !jsin.end_object() ) {
+        std::string name = jsin.get_member_name();
+        jsout.member( name );
+        format( jsin, jsout, depth );
+    }
+    jsout.end_object();
+}
+
+static void format_collection( JsonIn &jsin, JsonOut &jsout, int depth,
+                               std::function<void(JsonIn &, JsonOut &, int, bool )>write_func )
+{
+    if( depth > 1 ) {
+        // We're backtracking by storing jsin and jsout state before formatting
+        // and restoring it afterwards if necessary.
+        int in_start_pos = jsin.tell();
+        bool ate_seperator = jsin.get_ate_separator();
+        int out_start_pos = jsout.tell();
+        bool need_separator = jsout.get_need_separator();
+        write_func( jsin, jsout, depth, false );
+        if( jsout.tell() - out_start_pos <= 120 ) {
+            // Line is short enough, so we're done.
+            return;
+        } else {
+            // Reset jsin and jsout to their initial state,
+            // and we'll serialize while forcing wrapping.
+            jsin.seek( in_start_pos );
+            jsin.set_ate_separator( ate_seperator );
+            jsout.seek( out_start_pos );
+            if( need_separator ) {
+                jsout.set_need_separator();
+            }
+        }
+    }
+    write_func( jsin, jsout, depth, true );
+}
+
 static void format( JsonIn &jsin, JsonOut &jsout, int depth )
 {
     depth++;
     if( jsin.test_array() ) {
-        if( depth > 1 ) {
-            // We're backtracking by storing jsin and jsout state before formatting
-            // and restoring it afterwards if necessary.
-            int in_start_pos = jsin.tell();
-            bool ate_seperator = jsin.get_ate_separator();
-            int out_start_pos = jsout.tell();
-            bool need_separator = jsout.get_need_separator();
-            write_array( jsin, jsout, depth, false );
-            if( jsout.tell() - out_start_pos <= 120 ) {
-                // Line is short enough, so we're done.
-                return;
-            } else {
-                // Reset jsin and jsout to their initial state,
-                // and we'll serialize while forcing wrapping.
-                jsin.seek( in_start_pos );
-                jsin.set_ate_separator( ate_seperator );
-                jsout.seek( out_start_pos );
-                if( need_separator ) {
-                    jsout.set_need_separator();
-                }
-            }
-        }
-        write_array( jsin, jsout, depth, true );
+        format_collection( jsin, jsout, depth, write_array );
     } else if( jsin.test_object() ) {
-        jsout.start_object();
-        jsin.start_object();
-        while( !jsin.end_object() ) {
-            std::string name = jsin.get_member_name();
-            jsout.member( name );
-            format( jsin, jsout, depth );
-        }
-        jsout.end_object();
+        format_collection( jsin, jsout, depth, write_object );
     } else if( jsin.test_string() ) {
         std::string str = jsin.get_string();
         jsout.write( str );
@@ -123,6 +135,7 @@ int main( int argc, char *argv[] )
         } else {
             std::ifstream fin( filename, std::ios::binary );
             in << fin.rdbuf();
+            fin.close();
         }
     } else {
         std::map<std::string, std::string> params;
@@ -135,6 +148,10 @@ int main( int argc, char *argv[] )
         header = "Content-type: application/json\n\n";
     }
 
+    if( in.str().size() == 0 ) {
+        std::cout << "Error, input empty." << std::endl;
+        exit( EXIT_FAILURE );
+    }
     JsonOut jsout( out, true );
     JsonIn jsin( in );
 
@@ -152,6 +169,7 @@ int main( int argc, char *argv[] )
         } else {
             std::ofstream fout( filename, std::ios::binary | std::ios::trunc );
             fout << out.str();
+            fout.close();
             std::cout << "Formatted " << filename << std::endl;
             exit( EXIT_FAILURE );
         }
