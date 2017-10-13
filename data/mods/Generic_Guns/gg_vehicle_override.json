@@ -14,11 +14,7 @@
     "size": 1000,
     "damage_modifier": 80,
     "folded_volume": 20,
-    "breaks_into": [ {
-        "item": "m240",
-        "prob": 50
-      }
-    ],
+    "breaks_into": [ { "item": "m240", "prob": 50 } ],
     "flags": [ "TURRET", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE" ]
   },
   {
@@ -36,11 +32,7 @@
     "size": 1000,
     "damage_modifier": 80,
     "folded_volume": 20,
-    "breaks_into": [ {
-        "item": "m60",
-        "prob": 50
-      }
-    ],
+    "breaks_into": [ { "item": "m60", "prob": 50 } ],
     "flags": [ "TURRET", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE" ]
   },
   {
@@ -58,11 +50,7 @@
     "size": 40,
     "damage_modifier": 80,
     "folded_volume": 14,
-    "breaks_into": [ {
-        "item": "m249",
-        "prob": 50
-      }
-    ],
+    "breaks_into": [ { "item": "m249", "prob": 50 } ],
     "flags": [ "TURRET", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE" ]
   },
   {
@@ -80,11 +68,7 @@
     "size": 1600,
     "damage_modifier": 80,
     "folded_volume": 20,
-    "breaks_into": [ {
-        "item": "m2browning",
-        "prob": 50
-      }
-    ],
+    "breaks_into": [ { "item": "m2browning", "prob": 50 } ],
     "flags": [ "TURRET", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE" ]
   },
   {
@@ -102,11 +86,7 @@
     "size": 2000,
     "range": 12,
     "damage_modifier": 80,
-    "breaks_into": [ {
-        "item": "m134",
-        "prob": 50
-      }
-    ],
+    "breaks_into": [ { "item": "m134", "prob": 50 } ],
     "flags": [ "TURRET" ]
   }
 ]

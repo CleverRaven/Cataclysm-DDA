@@ -21,9 +21,7 @@
     "phase": "liquid",
     "container": "bottle_plastic",
     "quench": 50,
-    "ammo_data": {
-      "ammo_type": "water"
-    },
+    "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD" ]
   }
 ]

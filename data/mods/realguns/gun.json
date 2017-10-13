@@ -93,9 +93,7 @@
     "dispersion": 360,
     "durability": 8,
     "clip_size": 6,
-    "proportional": {
-      "reload": 1.5
-    }
+    "proportional": { "reload": 1.5 }
   },
   {
     "id": "colt_lightning",
