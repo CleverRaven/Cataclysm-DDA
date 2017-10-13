@@ -370,7 +370,7 @@ void inline_requirements( std::vector< std::vector<T> > &list, Getter getter )
     for( auto &vec : list ) {
         // We always need to restart from the beginning in case of vector relocation
         while( true ) {
-            auto iter = std::find_if( vec.begin(), vec.end(), []( const T &req ) {
+            auto iter = std::find_if( vec.begin(), vec.end(), []( const T & req ) {
                 return req.requirement;
             } );
             if( iter == vec.end() ) {
@@ -419,8 +419,12 @@ void inline_requirements( std::vector< std::vector<T> > &list, Getter getter )
 void requirement_data::finalize()
 {
     for( auto &r : const_cast<std::map<requirement_id, requirement_data> &>( all() ) ) {
-        inline_requirements( r.second.tools, []( const requirement_data &d ) { return d.get_tools(); } );
-        inline_requirements( r.second.components, []( const requirement_data &d ) { return d.get_components(); } );
+        inline_requirements( r.second.tools, []( const requirement_data & d ) {
+            return d.get_tools();
+        } );
+        inline_requirements( r.second.components, []( const requirement_data & d ) {
+            return d.get_components();
+        } );
         auto &vec = r.second.tools;
         for( auto &list : vec ) {
             std::vector<tool_comp> new_list;
@@ -454,7 +458,8 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
     out_buffer.push_back( current_line.str() );
     current_line.str( "" );
 
-    std::vector<std::string> folded_buffer = get_folded_list( width, crafting_inv, components, batch, hilite );
+    std::vector<std::string> folded_buffer =
+      get_folded_list( width, crafting_inv, components, batch, hilite );
     out_buffer.insert( out_buffer.end(), folded_buffer.begin(), folded_buffer.end() );
 
     return out_buffer;
@@ -719,7 +724,7 @@ static bool apply_blacklist( std::vector<std::vector<T>> &vec, const std::string
 {
     // remove all instances of @id type from each of the options
     for( auto &opts : vec ) {
-        opts.erase( std::remove_if( opts.begin(), opts.end(), [&id]( const T &e ) {
+        opts.erase( std::remove_if( opts.begin(), opts.end(), [&id]( const T & e ) {
             return e.type == id;
         } ), opts.end() );
     }

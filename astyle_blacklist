@@ -55,7 +55,6 @@ src/monattack.cpp
 src/mondeath.cpp
 src/mongroup.cpp
 src/monster.cpp
-src/monstergenerator.cpp
 src/morale.cpp
 src/mutation.cpp
 src/mutation_data.cpp
@@ -76,7 +75,6 @@ src/savegame_json.cpp
 src/savegame_legacy.cpp
 src/sdltiles.cpp
 src/simplexnoise.cpp
-src/skill.cpp
 src/sounds.cpp
 src/ui.cpp
 src/vehicle.cpp
@@ -94,7 +92,6 @@ src/dialogue.h
 src/enums.h
 src/field.h
 src/game.h
-src/inventory.h
 src/io.h
 src/item_group.h
 src/item.h
@@ -105,7 +102,6 @@ src/mapdata.h
 src/mapgen_functions.h
 src/mapgen.h
 src/map.h
-src/mattack_common.h
 src/mingw.thread.h
 src/mission.h
 src/monattack.h
@@ -122,8 +118,5 @@ src/wcwidth.h
 src/wdirent.h
 tests/invlet_test.cpp
 tests/line_test.cpp
-tests/map_iterator_test.cpp
-tests/monster_test.cpp
 tests/savegame_test.cpp
 tests/shadowcasting_test.cpp
-tests/visitable_remove.cpp
