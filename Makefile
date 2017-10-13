@@ -955,13 +955,22 @@ endif
 
 lint-check: json_whitelist $(ODIR)/lint.cache
 
+
+define make-format-goal
+.PHONY: $1
+$1:
+	@echo "Linting $1";
+	@perl tools/format/format.pl -cqv $1 || exit 65;
+endef
+
+$(foreach json,$(FORMAT_ME),$(eval $(call make-format-goal,$(json))))
+.PHONY: do_format
+do_format:$(FORMAT_ME)
+	@touch $(ODIR)/lint.cache
+
 $(ODIR)/lint.cache: $(shell awk '/^[^#]/ { print $$1 }' json_whitelist) | $(ODIR)
 ifeq ($(shell if perl -c tools/format/format.pl 2>/dev/null; then echo $$?; fi),0)
-	@for file in $?; do \
-	    echo "Linting $$file"; \
-	    perl tools/format/format.pl -cqv $$file || exit 65; \
-	done;
-	@touch $@
+	$(MAKE) FORMAT_ME="$?" do_format
 else
 	@echo Cannot lint JSON, missing usable perl binary and/or p5-JSON module
 endif
