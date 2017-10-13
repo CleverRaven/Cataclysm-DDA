@@ -28,24 +28,16 @@
     "copy-from": "clothboard",
     "type": "vehicle_part",
     "name": "cloth quarterpanel",
-    "relative": {
-      "durability": 0.8
-    },
-    "delete": {
-      "flags": [ "OPAQUE" ]
-    }
+    "relative": { "durability": 0.8 },
+    "delete": { "flags": [ "OPAQUE" ] }
   },
   {
     "abstract": "halfboard",
     "copy-from": "board",
     "type": "vehicle_part",
     "name": "quarterpanel",
-    "relative": {
-      "durability": 0.8
-    },
-    "delete": {
-      "flags": [ "OPAQUE" ]
-    }
+    "relative": { "durability": 0.8 },
+    "delete": { "flags": [ "OPAQUE" ] }
   },
   {
     "abstract": "hdboard",
@@ -64,12 +56,8 @@
     "copy-from": "hdboard",
     "type": "vehicle_part",
     "name": "heavy duty quarterpanel",
-    "relative": {
-      "durability": 0.8
-    },
-    "delete": {
-      "flags": [ "OPAQUE" ]
-    }
+    "relative": { "durability": 0.8 },
+    "delete": { "flags": [ "OPAQUE" ] }
   },
   {
     "abstract": "woodboard",
@@ -89,12 +77,8 @@
     "copy-from": "woodboard",
     "type": "vehicle_part",
     "name": "wooden quarterpanel",
-    "relative": {
-      "durability": 0.8
-    },
-    "delete": {
-      "flags": [ "OPAQUE" ]
-    }
+    "relative": { "durability": 0.8 },
+    "delete": { "flags": [ "OPAQUE" ] }
   },
   {
     "abstract": "xlhalfboard",
@@ -104,11 +88,7 @@
     "location": "center",
     "difficulty": 1,
     "durability": 100,
-    "breaks_into": [ {
-        "item": "pipe",
-        "prob": 50
-      }
-    ],
+    "breaks_into": [ { "item": "pipe", "prob": 50 } ],
     "flags": [ "OBSTACLE" ]
   },
   {
