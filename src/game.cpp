@@ -8919,7 +8919,7 @@ int game::get_user_action_counter() const
 
 void game::list_items_monsters()
 {
-    const std::vector<Creature *> mons = u.get_visible_creatures( DAYLIGHT_LEVEL );
+    std::vector<Creature *> mons = u.get_visible_creatures( DAYLIGHT_LEVEL );
     ///\EFFECT_PER increases range of interacting with items on the ground from a list
     const std::vector<map_item_stack> items = find_nearby_items( 2 * u.per_cur + 12 );
 
@@ -8927,6 +8927,15 @@ void game::list_items_monsters()
         add_msg( m_info, _( "You don't see any items or monsters around you!" ) );
         return;
     }
+
+    std::sort( mons.begin(), mons.end(), [&]( const Creature *lhs, const Creature *rhs ){
+        const auto att_lhs = lhs->attitude_to( u );
+        const auto att_rhs = rhs->attitude_to( u );
+
+        return att_lhs < att_rhs || ( att_lhs == att_rhs
+            && rl_dist( u.pos(), lhs->pos() ) < rl_dist( u.pos(), rhs->pos() ) );
+    } );
+
     // If the current list is empty, switch to the non-empty list
     if( uistate.vmenu_show_items ) {
         if( items.empty() ) {
@@ -9391,6 +9400,18 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     }
     ctxt.register_action("HELP_KEYBINDINGS");
 
+    int iCatSortNum = 0;
+    std::map<int, std::string> mSortCategory;
+
+    std::string last_cat_name;
+    for( int i = 0; i < ( int )monster_list.size(); i++ ) {
+        const std::string &cat_name = Creature::get_attitude_ui_data( monster_list[i]->attitude_to( u ) ).first;
+        if( cat_name != last_cat_name ) {
+            mSortCategory[i + iCatSortNum++] = cat_name;
+            last_cat_name = cat_name;
+        }
+    }
+
     do {
         if (action == "UP") {
             iActive--;
@@ -9430,26 +9451,34 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             }
         }
 
+        int num_mon = monster_list.size() + iCatSortNum;
+
         if( monster_list.empty() ) {
             wrefresh(w_monsters_border);
             mvwprintz(w_monsters, 10, 2, c_white, _("You don't see any monsters around you!"));
         } else {
-            if( static_cast<size_t>( iActive ) >= monster_list.size() ) {
+            if( iActive >= num_mon ) {
                 iActive = 0;
             }
             werase(w_monsters);
 
-            calcStartPos( iStartPos, iActive, iMaxRows, int( monster_list.size() ) );
+            calcStartPos( iStartPos, iActive, iMaxRows, int( num_mon ) );
 
             cCurMon = monster_list[iActive];
             iActivePos = cCurMon->pos() - u.pos();
 
-            const auto endY = std::min<int>( iMaxRows, int( monster_list.size() ) - iStartPos );
+            int numw = num_mon > 9 ? 2 : 1;
+            int iCatSortOffset = 0;
+            const auto endY = std::min<int>( iMaxRows, int( num_mon ) - iStartPos );
             for( int y = 0; y < endY; ++y ) {
-                const auto critter = monster_list[y + iStartPos];
-                const bool selected = ( cCurMon == critter );
-                const auto m = dynamic_cast<monster*>( critter );
-                const auto p = dynamic_cast<npc*>( critter );
+                if( !mSortCategory[y].empty() ) {
+                    mvwprintz( w_monsters, y - iStartPos, 1, c_magenta, "%s", mSortCategory[y].c_str() );
+                    iCatSortOffset++;
+                } else {
+                    const auto critter = monster_list[y - iCatSortOffset + iStartPos];
+                    const bool selected = ( cCurMon == critter );
+                    const auto m = dynamic_cast<monster*>( critter );
+                    const auto p = dynamic_cast<npc*>( critter );
 
                     if( critter->sees( g->u ) ) {
                         mvwprintz(w_monsters, y, 0, c_yellow, "!");
@@ -9499,20 +9528,16 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     }
                     mvwprintz(w_monsters, y, 28, color, "%s", sText.c_str());
 
-                    int numw = monster_list.size() > 9 ? 2 : 1;
                     mvwprintz( w_monsters, y, width - (6 + numw), (selected ? c_ltgreen : c_ltgray), "%*d %s",
                                 numw, rl_dist( u.pos(), critter->pos() ),
                                 direction_name_short( direction_from( u.pos(), critter->pos() ) ).c_str() );
+                }
             }
 
-            // TODO: What makes 9 so magic?
-            mvwprintz( w_monsters_border, 0, (width - 9) / 2 + monster_list.size() > 9 ? 0 : 1,
-                       c_ltgreen, " %*d", monster_list.size() > 9 ? 2 : 1, iActive + 1 );
-            wprintz( w_monsters_border, c_white, " / %*d ", monster_list.size() > 9 ? 2 : 1, int( monster_list.size() ) );
+            mvwprintz( w_monsters_border, 0, (width / 2) - numw - 2, c_ltgreen, " %*d", numw, iActive + 1 );
+            wprintz( w_monsters_border, c_white, " / %*d ", numw, int( monster_list.size() ) );
 
             werase(w_monster_info);
-
-            //print monster info
             cCurMon->print_info(w_monster_info, 1, 11, 1);
 
             if (bVMonsterLookFire) {
