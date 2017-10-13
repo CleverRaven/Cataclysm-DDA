@@ -2799,55 +2799,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "soup_meat",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_MEAT",
-  "skill_used": "cooking",
-  "difficulty": 2,
-  "time": 20000,
-  "autolearn": true,
-  "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"COOK","level":3}
-  ],
-  "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-  "components": [
-    [
-      [ "broth", 1 ],
-      [ "broth_bone", 1]
-    ],
-    [
-      [ "spaghetti_raw", 1 ],
-      [ "macaroni_raw", 1],
-      [ "noodles_fast", 1],
-      [ "potato_irradiated", 1],
-      [ "potato_raw", 1 ],
-      [ "celery", 1 ],
-      [ "irradiated_celery", 1],
-      [ "cabbage", 1 ],
-      [ "irradiated_cabbage", 1 ],
-      [ "sauerkraut", 2 ],
-      [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
-      [ "egg_reptile", 1 ],
-      [ "dry_beans", 1 ],
-      [ "raw_beans", 1 ],
-      [ "dry_rice", 1 ],
-      [ "can_beans", 1 ],
-      [ "beans_cooked", 1 ],
-      [ "dandelion_cooked", 1 ],
-      [ "acorns_cooked", 1 ]
-    ],
-    [
-      [ "meat", 2],
-      [ "rehydrated_meat", 2 ],
-      [ "dry_meat", 2 ],
-      [ "meat_canned", 2 ],
-      [ "can_chicken", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "soup_fish",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -5600,67 +5551,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "soup_meat",
-  "id_suffix" : "jarred",
-  "container": "jar_glass_sealed",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_MEAT",
-  "skill_used": "cooking",
-  "skills_required": ["mechanics",1],
-  "difficulty": 4,
-  "time": 30000,
-  "result_mult": 2,
-  "autolearn": true,
-  "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"COOK","level":3}
-  ], "tools": [
-    [ [ "surface_heat", 10, "LIST" ] ],
-    [
-      [ "vac_sealer", 10 ],
-      [ "makeshift_sealer", 20 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "jar_glass", 1 ]
-    ],
-    [
-      [ "broth", 2 ],
-      [ "broth_bone", 2]
-    ],
-    [
-      [ "potato_irradiated", 2],
-      [ "potato_raw", 2 ],
-      [ "celery", 2 ],
-      [ "irradiated_celery", 2],
-      [ "cabbage", 2 ],
-      [ "irradiated_cabbage", 2 ],
-      [ "sauerkraut", 4 ],
-      [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
-      [ "egg_reptile", 2 ],
-      [ "can_beans", 2 ],
-      [ "beans_cooked", 2 ],
-      [ "spaghetti_raw", 2 ],
-      [ "macaroni_raw", 2],
-      [ "noodles_fast", 2],
-      [ "dry_beans", 2 ],
-      [ "raw_beans", 2 ],
-      [ "dry_rice", 2 ],
-      [ "dandelion_cooked", 2 ],
-      [ "acorns_cooked", 2 ]
-    ],
-    [
-      [ "meat", 4],
-      [ "rehydrated_meat", 4 ],
-      [ "dry_meat", 4 ],
-      [ "meat_canned", 4 ],
-      [ "can_chicken", 4 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "soup_fish",
   "id_suffix" : "jarred",
   "container": "jar_glass_sealed",
@@ -8242,71 +8132,6 @@
       [ "mushroom_cooked", 1 ],
       [ "morel_cooked", 1 ],
       [ "acorns_cooked", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "soup_meat",
-  "id_suffix" : "canned",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_MEAT",
-  "skill_used": "cooking",
-  "difficulty": 4,
-  "time": 24000,
-  "autolearn": true,
-  "contained": true,
-  "batch_time_factors":[83, 5],
-  "qualities" : [
-    {"id":"SAW_M","level":1},
-    {"id":"HAMMER","level":1},
-    {"id":"CUT","level":1},
-    {"id":"COOK","level":3}
-  ], "tools": [
-    [ [ "surface_heat", 10, "LIST" ] ],
-    [
-      [ "can_sealer", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "canister_empty", 1 ],
-      [ "can_food_unsealed", 1 ]
-    ],
-    [
-      [ "scrap", 1 ]
-    ],
-    [
-      [ "broth", 1 ],
-      [ "broth_bone", 1]
-    ],
-    [
-      [ "spaghetti_raw", 1 ],
-      [ "macaroni_raw", 1],
-      [ "noodles_fast", 1],
-      [ "potato_irradiated", 1],
-      [ "potato_raw", 1 ],
-      [ "celery", 1 ],
-      [ "irradiated_celery", 1],
-      [ "cabbage", 1 ],
-      [ "irradiated_cabbage", 1 ],
-      [ "sauerkraut", 2 ],
-      [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
-      [ "egg_reptile", 1 ],
-      [ "dry_beans", 1 ],
-      [ "raw_beans", 1 ],
-      [ "dry_rice", 1 ],
-      [ "can_beans", 1 ],
-      [ "beans_cooked", 1 ],
-      [ "dandelion_cooked", 1 ],
-      [ "acorns_cooked", 1 ]
-    ],
-    [
-      [ "meat", 2],
-      [ "rehydrated_meat", 2 ],
-      [ "dry_meat", 2 ],
-      [ "meat_canned", 2 ],
-      [ "can_chicken", 2 ]
     ]
   ]
 },{
