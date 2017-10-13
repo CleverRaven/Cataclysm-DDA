@@ -9457,9 +9457,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             wrefresh(w_monsters_border);
             mvwprintz(w_monsters, 10, 2, c_white, _("You don't see any monsters around you!"));
         } else {
-            if( iActive >= num_mon ) {
-                iActive = 0;
-            }
             werase(w_monsters);
 
             calcStartPos( iStartPos, iActive, iMaxRows, int( num_mon ) );
