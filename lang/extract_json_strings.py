@@ -328,6 +328,9 @@ def extract_gun(item):
         modes = item.get("modes")
         for fire_mode in modes:
             writestr(outfile, fire_mode[1])
+    if "reload_noise" in item:
+        item_reload_noise = item.get("reload_noise")
+        writestr(outfile, item_reload_noise)
 
 
 def extract_gunmod(item):
