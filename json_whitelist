@@ -58,8 +58,6 @@ data/mods/More_Survival_Tools/items.json
 data/mods/More_Survival_Tools/item_groups.json
 data/mods/More_Survival_Tools/snippets.json
 data/mods/More_Survival_Tools/terrain.json
-data/mods/PKs_Rebalance/items/*.json
-data/mods/PKs_Rebalance/monsters/*.json
 data/mods/BrightNights/gun.json
 data/mods/BrightNights/item_groups.json
 data/mods/BrightNights/misc.json

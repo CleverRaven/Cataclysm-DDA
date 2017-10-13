@@ -287,8 +287,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          *  Defaults to true
          */
         bool purifiable( const trait_id &flag ) const;
-        /** Modifies mutation_category_level[] based on the entered trait */
-        void set_cat_level_rec( const trait_id &sMut );
         /** Recalculates mutation_category_level[] values for the player */
         void set_highest_cat_level();
         /** Returns the highest mutation category */
@@ -1615,6 +1613,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int temp_corrected_by_climate_control( int temperature ) const;
         /** Define blood loss (in percents) */
         int blood_loss( body_part bp ) const;
+        /** Recursively traverses the mutation's prerequisites and replacements, building up a map */
+        void build_mut_dependency_map( const trait_id &mut, std::unordered_map<trait_id, int> &dependency_map, int distance );
 
         // Trigger and disable mutations that can be so toggled.
         void activate_mutation( const trait_id &mutation );

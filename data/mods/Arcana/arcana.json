@@ -1,9 +1,0 @@
-[
-    {
-        "type" : "skill",
-        "ident" : "magic",
-        "name" : "arcana",
-        "description" : "Your knowledge of strange, anomalous powers from far-off worlds.  While certain artifacts are beyond mortal understanding, this skill can be used for creating and using a few odd devices, some with lethal applications.",
-        "tags" : ["combat_skill"]
-    }
-]

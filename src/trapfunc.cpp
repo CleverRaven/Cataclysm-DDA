@@ -409,7 +409,7 @@ void trapfunc::shotgun( Creature *c, const tripoint &p )
         g->m.spawn_item( p, "shotgun_s" );
         g->m.spawn_item( p, "string_6" );
     } else {
-        g->m.add_trap( p, tr_shotgun_1 );
+        g->m.trap_set( p, tr_shotgun_1 );
     }
 }
 

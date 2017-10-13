@@ -2995,20 +2995,22 @@ bool player::purifiable( const trait_id &flag ) const
     return flag->purifiable;
 }
 
-void player::set_cat_level_rec( const trait_id &sMut )
+void player::build_mut_dependency_map( const trait_id &mut, std::unordered_map<trait_id, int> &dependency_map, int distance )
 {
-    if( !has_base_trait( sMut ) ) { //Skip base traits
-        const auto &mdata = sMut.obj();
-        for( auto &elem : mdata.category ) {
-            mutation_category_level[elem] += 8;
-        }
-
+    // Skip base traits and traits we've seen with a lower distance
+    const auto lowest_distance = dependency_map.find( mut );
+    if( !has_base_trait( mut ) && (lowest_distance == dependency_map.end() || distance < lowest_distance->second) ) {
+        dependency_map[mut] = distance;
+        // Recurse over all prereqisite and replacement mutations
+        const auto &mdata = mut.obj();
         for( auto &i : mdata.prereqs ) {
-            set_cat_level_rec( i );
+            build_mut_dependency_map( i, dependency_map, distance + 1 );
         }
-
         for( auto &i : mdata.prereqs2 ) {
-            set_cat_level_rec( i );
+            build_mut_dependency_map( i, dependency_map, distance + 1 );
+        }
+        for( auto &i : mdata.replacements ) {
+            build_mut_dependency_map( i, dependency_map, distance + 1 );
         }
     }
 }
@@ -3017,9 +3019,20 @@ void player::set_highest_cat_level()
 {
     mutation_category_level.clear();
 
-    // Loop through our mutations
+    // For each of our mutations...
     for( auto &mut : my_mutations ) {
-        set_cat_level_rec( mut.first );
+        // ...build up a map of all prereq/replacement mutations along the tree, along with their distance from the current mutation
+        std::unordered_map<trait_id, int> dependency_map;
+        build_mut_dependency_map( mut.first, dependency_map, 0);
+
+        // Then use the map to set the category levels
+        for ( auto &i : dependency_map ) {
+            const auto &mdata = i.first.obj();
+            for( auto &cat : mdata.category ) {
+                // Decay category strength based on how far it is from the current mutation
+                mutation_category_level[cat] += 8 / (int) std::pow( 2, i.second );
+            }
+        }
     }
 }
 
@@ -5783,7 +5796,7 @@ void player::suffer()
         g->is_in_sunlight( pos() ) && one_in(10) ) {
         // Umbrellas can keep the sun off the skin and sunglasses - off the eyes.
         if( !weapon.has_flag( "RAIN_PROTECT" ) ) {
-            add_msg( m_bad, _( "The sunlight is really irritating your skin." ) );
+            add_msg_if_player( m_bad, _( "The sunlight is really irritating your skin." ) );
             if( in_sleep_state() ) {
                 wake_up();
             }
@@ -5794,7 +5807,7 @@ void player::suffer()
         }
         if( !( ( (worn_with_flag( "SUN_GLASSES" ) ) || worn_with_flag( "BLIND" ) ) && ( wearing_something_on( bp_eyes ) ) )
             && !has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
-            add_msg( m_bad, _( "The sunlight is really irritating your eyes." ) );
+            add_msg_if_player( m_bad, _( "The sunlight is really irritating your eyes." ) );
             if( one_in(10) ) {
                 mod_pain(1);
             }
@@ -5804,7 +5817,7 @@ void player::suffer()
 
     if (has_trait( trait_SUNBURN ) && g->is_in_sunlight(pos()) && one_in(10)) {
         if( !( weapon.has_flag( "RAIN_PROTECT" ) ) ) {
-        add_msg(m_bad, _("The sunlight burns your skin!"));
+            add_msg_if_player(m_bad, _("The sunlight burns your skin!"));
         if (in_sleep_state()) {
             wake_up();
         }
@@ -7582,16 +7595,12 @@ bool player::can_wear( const item& it, bool alert ) const
         // Only headgear can be worn with power armor, except other power armor components.
         // You can't wear headgear if power armor helmet is already sitting on your head.
         bool has_helmet = false;
-        if( ( is_wearing_power_armor( &has_helmet ) && has_helmet ) &&
-            ( !it.covers( bp_head ) || !it.covers( bp_mouth ) || !it.covers( bp_eyes ) ) ) {
-            for( auto &i : worn ) {
-                if( i.is_power_armor() ) {
-                    if( alert ) {
-                        add_msg_if_player( m_info, _( "You can't wear %s with power armor!" ), it.tname().c_str() );
-                    }
-                    return false;
-                }
+        if( is_wearing_power_armor( &has_helmet ) &&
+            ( has_helmet || !(it.covers( bp_head ) || it.covers( bp_mouth ) || it.covers( bp_eyes ) ) ) ) {
+            if( alert ) {
+                add_msg_if_player( m_info, _( "You can't wear %s with power armor!" ), it.tname().c_str() );
             }
+            return false;
         }
     }
 
@@ -8634,12 +8643,12 @@ bool player::consume_charges( item& used, long qty )
         return false;
     }
 
-    if( !used.is_tool() && !used.is_food() && !used.is_medication() ) {
-        debugmsg( "Tried to consume charges for non-tool, non-food, non-med item" );
+    if( qty == 0 ) {
         return false;
     }
 
-    if( qty == 0 ) {
+    if( !used.is_tool() && !used.is_food() && !used.is_medication() ) {
+        debugmsg( "Tried to consume charges for non-tool, non-food, non-med item" );
         return false;
     }
 
