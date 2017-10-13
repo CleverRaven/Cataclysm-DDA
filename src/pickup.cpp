@@ -78,14 +78,14 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     const bool has_purify = ( veh->part_with_feature( veh_root_part, "WATER_PURIFIER" ) >= 0 );
     const bool has_controls = ( ( veh->part_with_feature( veh_root_part, "CONTROLS" ) >= 0 ) ||
                                 ( veh->part_with_feature( veh_root_part, "CTRL_ELECTRONIC" ) >= 0 ) );
-    const int cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
+    const int cargo_part = veh->part_with_feature( veh_root_part, "CARGO" );
     const bool from_vehicle = veh && cargo_part >= 0 && !veh->get_items( cargo_part ).empty();
     const bool can_be_folded = veh->is_foldable();
     const bool is_convertible = ( veh->tags.count( "convertible" ) > 0 );
     const bool remotely_controlled = g->remoteveh() == veh;
     typedef enum {
         EXAMINE, CONTROL, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, UNLOAD_TURRET, RELOAD_TURRET,
-        USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK
+        USE_HOTPLATE, FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK, CARGO_LOCK
     } options;
     uimenu selectmenu;
 
@@ -93,6 +93,14 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
 
     if( has_controls ) {
         selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
+    }
+
+    if( cargo_part >= 0 ) {
+        if( veh->is_cargo_locked( cargo_part ) ) {
+            selectmenu.addentry( CARGO_LOCK, true, 'l', _("Unlock cargo") );
+        } else {
+            selectmenu.addentry( CARGO_LOCK, true, 'l', _("Lock cargo") );
+        }
     }
 
     if( from_vehicle ) {
@@ -266,6 +274,11 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
 
         case GET_ITEMS:
             return from_vehicle ? ITEMS_FROM_CARGO : ITEMS_FROM_GROUND;
+
+        case CARGO_LOCK:
+            veh->toggle_cargo_lock( cargo_part );
+            return DONE;
+
     }
 
     return DONE;
