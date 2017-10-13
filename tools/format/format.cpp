@@ -134,6 +134,10 @@ int main( int argc, char *argv[] )
             in << std::cin.rdbuf();
         } else {
             std::ifstream fin( filename, std::ios::binary );
+            if( !fin.good() ) {
+                std::cout << "Failed to open " << filename << std::endl;
+                exit( EXIT_FAILURE );
+            }
             in << fin.rdbuf();
             fin.close();
         }
