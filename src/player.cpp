@@ -8540,6 +8540,13 @@ hint_rating player::rate_action_unload( const item &it ) const
         return HINT_GOOD;
     }
 
+    for( auto e : it.gunmods() ) {
+        if( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
+            ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) {
+            return HINT_GOOD;
+        }
+    }
+
     if( it.ammo_type().is_null() ) {
         return HINT_CANT;
     }
