@@ -2,16 +2,9 @@
 
 #include "auto_pickup.h"
 #include "coordinate_conversions.h"
-#include "rng.h"
 #include "map.h"
 #include "game.h"
-#include "debug.h"
-#include "bodypart.h"
-#include "skill.h"
-#include "output.h"
-#include "line.h"
 #include "item_group.h"
-#include "translations.h"
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "mission.h"
@@ -19,7 +12,6 @@
 #include "mutation.h"
 #include "npc_class.h"
 #include "ammo.h"
-#include "json.h"
 #include "sounds.h"
 #include "morale_types.h"
 #include "overmap.h"
@@ -27,9 +19,6 @@
 #include "mtype.h"
 #include "iuse_actor.h"
 
-#include <algorithm>
-#include <sstream>
-#include <string>
 
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_electronics( "electronics" );
@@ -491,6 +480,7 @@ void npc::randomize_from_faction(faction *fac)
     case 1: randomize( NC_NINJA );  break;
     case 2: randomize( NC_COWBOY );  break;
     case 3: randomize( NC_BOUNTY_HUNTER ); break;
+    default: randomize( NC_COWBOY ); break;
    }
   }
   personality.aggression += rng(0, 2);
@@ -533,7 +523,7 @@ void npc::randomize_from_faction(faction *fac)
   personality.altruism += rng(0, 4);
   int_max += rng(2, 4);
   per_max += rng(0, 2);
-  boost_skill_level( skill_firstaid, rng(1, 5));
+  boost_skill_level( skill_firstaid, int(rng(1, 5)));
  }
  if (fac->has_job(FACJOB_FARMERS)) {
   personality.aggression -= rng(2, 4);
@@ -549,10 +539,11 @@ void npc::randomize_from_faction(faction *fac)
   personality.aggression -= rng(0, 2);
   personality.bravery -= rng(0, 2);
   switch (rng(1, 4)) {
-   case 1: boost_skill_level( skill_mechanics, dice(2, 4));   break;
-   case 2: boost_skill_level( skill_electronics, dice(2, 4)); break;
-   case 3: boost_skill_level( skill_cooking, dice(2, 4));     break;
-   case 4: boost_skill_level( skill_tailor, dice(2,  4));     break;
+   case 1:  boost_skill_level( skill_mechanics,   dice(2, 4)); break;
+   case 2:  boost_skill_level( skill_electronics, dice(2, 4)); break;
+   case 3:  boost_skill_level( skill_cooking,     dice(2, 4)); break;
+   case 4:  boost_skill_level( skill_tailor,      dice(2, 4)); break;
+   default: boost_skill_level( skill_cooking,     dice(2, 4)); break;
   }
  }
 
@@ -599,7 +590,7 @@ void npc::randomize_from_faction(faction *fac)
   int_max += rng(0, 2);
   for( auto const &skill : Skill::skills ) {
    if (one_in(3))
-       boost_skill_level( skill.ident(), rng( 2, 4 ) );
+       boost_skill_level( skill.ident(), int(rng( 2, 4 )) );
   }
  }
  if (fac->has_value(FACVAL_ROBOTS)) {
@@ -719,7 +710,7 @@ void starting_inv( npc &me, const npc_class_id &type )
 
         // @todo Move to npc_class
         // NC_COWBOY and NC_BOUNTY_HUNTER get 5-15 whilst all others get 3-6
-        int qty = 1 + ( type == NC_COWBOY ||
+        long qty = 1 + ( type == NC_COWBOY ||
                         type == NC_BOUNTY_HUNTER );
         qty = rng( qty, qty * 2 );
 
@@ -733,7 +724,7 @@ void starting_inv( npc &me, const npc_class_id &type )
         res.emplace_back( "molotov" );
     }
 
-    int qty = ( type == NC_EVAC_SHOPKEEP ||
+    long qty = ( type == NC_EVAC_SHOPKEEP ||
                 type == NC_TRADER ) ? 5 : 2;
     qty = rng( qty, qty * 3 );
 
@@ -1150,15 +1141,15 @@ float npc::vehicle_danger(int radius) const
  int danger = 0;
 
  // TODO: check for most dangerous vehicle?
- for(size_t i = 0; i < vehicles.size(); ++i)
+ for(unsigned int i = 0; i < vehicles.size(); ++i)
   if (vehicles[i].v->velocity > 0)
   {
    float facing = vehicles[i].v->face.dir();
 
    int ax = vehicles[i].v->global_x();
    int ay = vehicles[i].v->global_y();
-   int bx = ax + cos (facing * M_PI / 180.0) * radius;
-   int by = ay + sin (facing * M_PI / 180.0) * radius;
+   int bx = int(ax + cos (facing * M_PI / 180.0) * radius);
+   int by = int(ay + sin (facing * M_PI / 180.0) * radius);
 
    // fake size
    /* This will almost certainly give the wrong size/location on customized
@@ -1167,8 +1158,8 @@ float npc::vehicle_danger(int radius) const
    vehicle_part last_part = vehicles[i].v->parts.back();
    int size = std::max(last_part.mount.x, last_part.mount.y);
 
-   float normal = sqrt((float)((bx - ax) * (bx - ax) + (by - ay) * (by - ay)));
-   int closest = abs((posx() - ax) * (by - ay) - (posy() - ay) * (bx - ax)) / normal;
+   double normal = sqrt((float)((bx - ax) * (bx - ax) + (by - ay) * (by - ay)));
+   int closest = int(abs((posx() - ax) * (by - ay) - (posy() - ay) * (bx - ax)) / normal);
 
    if (size > closest)
     danger = i;
@@ -1270,7 +1261,7 @@ bool npc::fac_has_job(faction_job job) const
 
 void npc::decide_needs()
 {
-    int needrank[num_needs];
+    double needrank[num_needs];
     for( auto &elem : needrank ) {
         elem = 20;
     }
@@ -1446,7 +1437,7 @@ int npc::value( const item &it, int market_price ) const
 
     int ret = 0;
     // TODO: Cache own weapon value (it can be a bit expensive to compute 50 times/turn)
-    int weapon_val = weapon_value( it ) - weapon_value( weapon );
+    double weapon_val = weapon_value( it ) - weapon_value( weapon );
     if( weapon_val > 0 ) {
         ret += weapon_val;
     }
@@ -1660,7 +1651,7 @@ float npc::danger_assessment()
 
 float npc::average_damage_dealt()
 {
-    return melee_value( weapon );
+    return float(melee_value( weapon ));
 }
 
 bool npc::bravery_check(int diff)
@@ -1717,7 +1708,7 @@ nc_color npc::basic_symbol_color() const
 int npc::print_info(WINDOW* w, int line, int vLines, int column) const
 {
     const int last_line = line + vLines;
-    const size_t iWidth = getmaxx(w) - 2;
+    const int iWidth = getmaxx(w) - 2;
     // First line of w is the border; the next 4 are terrain info, and after that
     // is a blank line. w is 13 characters tall, and we can't use the last one
     // because it's a border as well; so we have lines 6 through 11.
@@ -1731,7 +1722,7 @@ int npc::print_info(WINDOW* w, int line, int vLines, int column) const
         // @todo Replace with 'fold_and_print()'. Extend it with a 'height' argument to prevent leaking.
         size_t split;
         do {
-            split = (str_in.length() <= iWidth) ? std::string::npos : str_in.find_last_of(' ', iWidth);
+            split = (str_in.length() <= iWidth) ? std::string::npos : str_in.find_last_of(' ', long(iWidth));
             if (split == std::string::npos) {
                 mvwprintz(w, line, column, color, str_in.c_str());
             } else {
@@ -2321,8 +2312,10 @@ bool npc::will_accept_from_player( const item &it ) const
     }
 
     const auto comest = it.type->comestible;
-    if( comest != nullptr && ( comest->quench < 0 || it.poison > 0 ) ) {
-        return false;
+    if( comest != nullptr ) {
+        if ( comest->quench < 0 || it.poison > 0 ) {
+            return false;
+        }
     }
 
     return true;
@@ -2346,7 +2339,7 @@ std::set<tripoint> npc::get_path_avoid() const
 {
     std::set<tripoint> ret;
     ret.insert( g->u.pos() );
-    for( size_t i = 0; i < g->num_zombies(); i++ ) {
+    for(unsigned int i = 0; i < g->num_zombies(); i++ ) {
         // @todo Cache this somewhere
         ret.insert( g->zombie( i ).pos() );
     }

@@ -55,8 +55,7 @@ enum npc_attitude : int {
  NPCATT_HEAL,  // Get to the player and heal them
 
  NPCATT_LEGACY_4,
- NPCATT_LEGACY_5,
- NPCATT_MAX
+ NPCATT_LEGACY_5
 };
 
 std::string npc_attitude_name(npc_attitude);
@@ -72,13 +71,11 @@ enum npc_mission : int {
 
     NPC_MISSION_BASE, // Base Mission: unassigned (Might be used for assigning a npc to stay in a location).
     NPC_MISSION_GUARD, // Similar to Base Mission, for use outside of camps
-
-    NUM_NPC_MISSIONS
 };
 
 //std::string npc_mission_name(npc_mission);
 
-std::string npc_class_name( const npc_class_id & );
+std::string npc_class_name    ( const npc_class_id & );
 std::string npc_class_name_str( const npc_class_id & );
 
 enum npc_action : int;
