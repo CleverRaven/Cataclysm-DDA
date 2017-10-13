@@ -1647,7 +1647,7 @@ void JsonOut::end_pretty()
         indent_level -= 1;
         // Wrap after ending top level array and object.
         // Also wrap in the special case of exiting an array containing an object.
-        if( indent_level < 2 || need_wrap.back() || exited_object ) {
+        if( indent_level < 2 || need_wrap.back() ) {
             stream->put( '\n' );
             write_indent();
         } else {
@@ -1657,25 +1657,23 @@ void JsonOut::end_pretty()
     }
 }
 
-void JsonOut::start_object()
+void JsonOut::start_object( bool wrap )
 {
-    if (need_separator) {
+    if( need_separator ) {
         write_separator();
     }
-    stream->put('{');
-    need_wrap.push_back( true );
+    stream->put( '{' );
+    need_wrap.push_back( wrap );
     start_pretty();
     need_separator = false;
-    exited_object = false;
 }
 
 void JsonOut::end_object()
 {
     end_pretty();
     need_wrap.pop_back();
-    stream->put('}');
+    stream->put( '}' );
     need_separator = true;
-    exited_object = true;
 }
 
 void JsonOut::start_array( bool wrap )
@@ -1687,7 +1685,6 @@ void JsonOut::start_array( bool wrap )
     need_wrap.push_back( wrap );
     start_pretty();
     need_separator = false;
-    exited_object = false;
 }
 
 void JsonOut::end_array()
@@ -1696,7 +1693,6 @@ void JsonOut::end_array()
     need_wrap.pop_back();
     stream->put(']');
     need_separator = true;
-    exited_object = false;
 }
 
 void JsonOut::write_null()

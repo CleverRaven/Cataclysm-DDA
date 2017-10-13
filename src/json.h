@@ -448,7 +448,6 @@ class JsonOut
         std::ostream *stream;
         bool pretty_print;
         std::vector<bool> need_wrap;
-        bool exited_object = false;
         int indent_level = 0;
         bool need_separator = false;
 
@@ -467,7 +466,7 @@ class JsonOut
         void start_pretty();
         void end_pretty();
 
-        void start_object();
+        void start_object( bool wrap = false );
         void end_object();
         void start_array( bool wrap = false );
         void end_array();
