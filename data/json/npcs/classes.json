@@ -434,7 +434,6 @@
         "traits": [
             [ "THRESH_SLIME", 100 ],
             [ "POISRESIST", 100 ],
-            [ "ROBUST", 100 ],
             [ "CHEMIMBALANCE", 100 ],
             [ "REGEN", 100 ],
             [ "RADIOGENIC", 100 ],
