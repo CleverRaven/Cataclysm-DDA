@@ -47,6 +47,7 @@ static const trait_id trait_HOOVES( "HOOVES" );
 static const trait_id trait_TOUGH2( "TOUGH2" );
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
+static const trait_id trait_SLIMESPAWNER2( "SLIMESPAWNER2" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
@@ -477,6 +478,41 @@ void player::activate_mutation( const trait_id &mut )
             add_msg_if_player(m_good, _("come on, big me, let's go!"));
         } else {
             //~ Usual enthusiastic slimespring small voices! :D
+            add_msg_if_player(m_good, _("we're a team, we've got this!"));
+        }
+        tdata.powered = false;
+        return;
+    } else if( mut == trait_SLIMESPAWNER2 ) {
+        std::vector<tripoint> valid;
+        for (int x = posx() - 1; x <= posx() + 1; x++) {
+            for (int y = posy() - 1; y <= posy() + 1; y++) {
+                tripoint dest(x, y, posz());
+                if (g->is_empty(dest)) {
+                    valid.push_back( dest );
+                }
+            }
+        }
+        // Oops, no room to divide!
+        if (valid.size() == 0) {
+            add_msg_if_player(m_bad, _("You focus, but are too hemmed in to birth a new slimeling!"));
+            tdata.powered = false;
+            return;
+        }
+        add_msg_if_player(m_good, _("You focus, and with a pleasant splitting feeling, birth a new slimeling!"));
+        int numslime = 1;
+        for (int i = 0; i < numslime && !valid.empty(); i++) {
+            const tripoint target = random_entry_removed( valid );
+            string_id<npc_template> npc_template("slime");
+            g->summon_npc( npc_template, target );
+            }
+        if (one_in(3)) {
+            //~ Usual enthusiastic slimeling small voices! :D
+            add_msg_if_player(m_good, _("wow! you look just like me! we should look out for each other!"));
+        } else if (one_in(2)) {
+            //~ Usual enthusiastic slimeling small voices! :D
+            add_msg_if_player(m_good, _("come on, big me, let's go!"));
+        } else {
+            //~ Usual enthusiastic slimeling small voices! :D
             add_msg_if_player(m_good, _("we're a team, we've got this!"));
         }
         tdata.powered = false;
