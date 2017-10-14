@@ -491,6 +491,7 @@ public:
   void place_cities();
   void put_building( const tripoint &p, om_direction::type dir, const city &town );
 
+  void build_city( const tripoint &loc, int size );
   void build_city_street( const overmap_connection &connection, const point &p, int cs, om_direction::type dir, const city &town );
   bool build_lab(int x, int y, int z, int s, bool ice = false);
   void build_anthill(int x, int y, int z, int s);

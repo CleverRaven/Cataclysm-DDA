@@ -3279,16 +3279,6 @@ void overmap::place_river(point pa, point pb)
     } while (pb.x != x || pb.y != y);
 }
 
-/*: the root is overmap::place_cities()
-20:50 <kevingranade>: which is at overmap.cpp:1355 or so
-20:51 <kevingranade>: the key is cs = rng(4, 17), setting the "size" of the city
-20:51 <kevingranade>: which is roughly it's radius in overmap tiles
-20:52 <kevingranade>: then later overmap::place_mongroups() is called
-20:52 <kevingranade>: which creates a mongroup with radius city_size * 2.5 and population city_size * 80
-20:53 <kevingranade>: tadaa
-
-spawns happen at... <cue Clue music>
-20:56 <kevingranade>: game:pawn_mon() in game.cpp:7380*/
 void overmap::place_cities()
 {
     int op_city_size = get_option<int>( "CITY_SIZE" );
@@ -3318,9 +3308,6 @@ void overmap::place_cities()
     const int NUM_CITIES =
         roll_remainder(omts_per_overmap * city_map_coverage_ratio / omts_per_city);
 
-    const string_id<overmap_connection> local_road_id( "local_road" );
-    const overmap_connection &local_road( *local_road_id );
-
     // place a seed for NUM_CITIES cities, and maybe one more
     while ( cities.size() < size_t(NUM_CITIES) ) {
         // randomly make some cities smaller or larger
@@ -3338,24 +3325,145 @@ void overmap::place_cities()
 
         // TODO put cities closer to the edge when they can span overmaps
         // don't draw cities across the edge of the map, they will get clipped
-        int cx = rng(size - 1, OMAPX - size);
-        int cy = rng(size - 1, OMAPY - size);
-        if (ter(cx, cy, 0) == settings.default_oter ) {
-            ter(cx, cy, 0) = oter_id( "road_nesw" ); // every city starts with an intersection
-            city tmp;
-            tmp.x = cx;
-            tmp.y = cy;
-            tmp.s = size;
-            cities.push_back(tmp);
-
-            const auto start_dir = om_direction::random();
-            auto cur_dir = start_dir;
-
-            do {
-                build_city_street( local_road, point( cx, cy ), size, cur_dir, tmp );
-            } while( ( cur_dir = om_direction::turn_right( cur_dir ) ) != start_dir );
+        tripoint loc( rng( size + 1, OMAPX - size - 1 ), rng( size + 1, OMAPY - size - 1 ), 0 );
+        if( ter( loc ) == settings.default_oter ) {
+            build_city( loc, size );
         }
     }
+}
+
+struct city_block_stub {
+    tripoint origin;
+    om_direction::type dir;
+    float leftover_area;
+};
+
+struct block_blueprint {
+    int width = 0;
+    int length = 0;
+    std::set<om_direction::type> has_road;
+};
+
+static block_blueprint max_free_area( const overmap &om, const tripoint &origin, float max_area, om_direction::type dir1, om_direction::type dir2 )
+{
+    // @todo Base this on available buildings in current mod set
+    const int max_width = 4;
+    const int max_length = 4;
+    // It's possible for a block to be wider than it is long
+    // We'll swap that later
+    const point length_dir = om_direction::displace( dir1 );
+    const point width_dir = om_direction::displace( dir2 );
+
+    block_blueprint max_block_blueprint;
+    bool failed_expand_length = false;
+    bool failed_expand_width = false;
+    while( max_block_blueprint.width * max_block_blueprint.length < max_area ) {
+        if( failed_expand_length && failed_expand_width ) {
+            // Reached our limits, let's bail out
+            break;
+        }
+
+        const bool expanding_length = failed_expand_width || ( !failed_expand_length && !one_in( 3 ) );
+        // Direction in which we're expanding
+        const point &expand_dir = expanding_length ? length_dir : width_dir;
+        // The edge along which we're expanding
+        const point &edge_dir = expanding_length ? width_dir : length_dir;
+        int &expanded_edge = expanding_length ? max_block_blueprint.length : max_block_blueprint.width;
+        int edge_length = expanding_length ? max_block_blueprint.width : max_block_blueprint.length;
+        point cur_edge = max_block_blueprint.origin + expand_dir;
+        bool &failed = expanding_length ? failed_expand_length : failed_expand_width;
+        for( int edge_dist = 0; edge_dist < edge_length; edge_dist++ ) {
+            if( om.ter( cur_edge ) != om.settings.default_oter ) {
+                failed = true;
+                break;
+            }
+
+            cur_edge += edge_dir;
+        }
+
+        if( !failed ) {
+            expanded_edge++;
+        }
+    }
+
+    return max_block_blueprint;
+}
+
+/**
+ * New city building goes like this:
+ *  Place center block (nesw_road)
+ *  Extend main roads from center block to city size (or less, if blocked)
+ *  Create a queue of { origin, direction, leftover city area }
+ *  For direction in { north, east, south, west }:
+ * * Enqueue { city center, direction, ( city size * city size ) / 4 }
+ *  For every element in queue:
+ * * Take it down from the queue
+ * * If the leftover area is too small, go to old citygen (overmap::build_city_street)
+ * * If the area is big enough, try to build a rectangle on the right side of the road
+ *  * The rectangle must have size of at least 4x4 (2 for roads, then 2x2 in the center)
+ *  * The rectangle must be bounded from two sides by main roads
+ *  * Create the roads that form boundaries of the rectangle
+ *  * While the rectangle is not filled:
+ *   * Brute force all possible sizes of buildings (O(n^4), but n<10)
+ *   * Pick a building to place and place it
+ * * If the rectangle was placed, decrease leftover city area by area of new rectangle
+ * * If leftover city area is greater than some constant:
+ *  * Find two corners of the rectangle: one in current direction, other diagonal
+ *  * Enqueue { corner in front, direction, leftover city area / 2 }
+ *  * Enqueue { corner diagonal, rotate_clockwise( direction ), leftover city area / 2 }
+ */
+void overmap::build_city( const tripoint &loc, int size )
+{
+    static const string_id<overmap_connection> local_road_id( "local_road" );
+    const overmap_connection &local_road( *local_road_id );
+
+    // Every city starts with an intersection
+    ter( loc ) = oter_id( "road_nesw" );
+    city new_city;
+    new_city.x = cx;
+    new_city.y = cy;
+    new_city.s = size;
+
+    std::queue<city_block_stub> to_build;
+    // Pick random direction
+    om_direction::type start_dir = random_entry( om_direction::all );
+    om_direction::type cur_dir = start_dir;
+    do {
+        to_build.emplace_back( loc, cur_dir, static_cast<float>( size * size ) / 4.0f );
+        cur_dir = turn_right( end_dir );
+    } while( cur_dir != start_dir );
+
+    while( !to_build.empty() ) {
+        const city_block_stub cur_block = to_build.front();
+        to_build.pop();
+        if( size > 1 && cur_block.leftover_area < 1.0f ) {
+            // Not sure how we got here, but let's tolerate that
+            continue;
+        }
+
+        // @todo Less hardcoded
+        if( cur_block.leftover_area < size + 3 ) {
+            int road_len = roll_remainder( sqrt( cur_block.leftover_area ) );
+            build_city_street( local_road, { loc.x, loc.y }, road_len, cur_dir, new_city );
+            continue;
+        }
+
+        block_blueprint max_block_blueprint = max_free_area( *this, cur_block.origin, cur_block.leftover_area,
+                                                             cur_block.dir, turn_right( cur_block.dir ) );
+
+        // If we're here, it means we have a rectangle in which we can build
+        // It may be too small, though
+        // If so, fallback to old city gen
+        if( max_block_blueprint.width < 4 || max_block_blueprint.length < 4 ) {
+            int road_len = roll_remainder( sqrt( cur_block.leftover_area ) );
+            build_city_street( local_road, { loc.x, loc.y }, road_len, cur_dir, new_city );
+            continue;
+        }
+
+        // Brute force a 
+    }
+
+    cities.push_back( new_city );
 }
 
 building_size overmap::find_max_size( const tripoint &center, const building_size &limits ) const
