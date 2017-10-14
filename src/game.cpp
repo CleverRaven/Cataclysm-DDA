@@ -6626,6 +6626,18 @@ monster *game::summon_mon( const mtype_id& id, const tripoint &p )
     return add_zombie( mon, true ) ? critter_at<monster>( p ) : nullptr;
 }
 
+void *game::summon_npc( const string_id<npc_template> &id, const tripoint &p )
+{
+    std::shared_ptr<npc> temp = std::make_shared<npc>();
+    temp->load_npc_template( id );
+    temp->normalize();
+    temp->spawn_at_precise( { get_levx(), get_levy() }, p );
+    overmap_buffer.insert_npc( temp );
+    temp->mission = NPC_MISSION_NULL;
+    load_npcs();
+    return nullptr;
+}
+
 // By default don't pin upgrades to current day
 bool game::add_zombie(monster &critter)
 {
