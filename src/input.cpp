@@ -8,6 +8,7 @@
 #include "path_info.h"
 #include "filesystem.h"
 #include "translations.h"
+#include "string_formatter.h"
 #include "catacharset.h"
 #include "cata_utility.h"
 #include "options.h"

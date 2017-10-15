@@ -5,6 +5,7 @@
 #include "output.h"
 #include "catacharset.h"  // utf8_width()
 #include "translations.h"
+#include "string_formatter.h"
 
 #include <algorithm>
 #include <string>

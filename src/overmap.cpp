@@ -12,6 +12,7 @@
 #include "debug.h"
 #include "cursesdef.h"
 #include "options.h"
+#include "string_formatter.h"
 #include "catacharset.h"
 #include "overmapbuffer.h"
 #include "action.h"

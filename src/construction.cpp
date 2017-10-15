@@ -11,6 +11,7 @@
 #include "inventory.h"
 #include "mapdata.h"
 #include "skill.h"
+#include "string_formatter.h"
 #include "action.h"
 #include "translations.h"
 #include "messages.h"

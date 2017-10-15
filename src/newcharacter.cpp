@@ -9,6 +9,7 @@
 #include "rng.h"
 #include "game.h"
 #include "name.h"
+#include "string_formatter.h"
 #include "options.h"
 #include "catacharset.h"
 #include "debug.h"

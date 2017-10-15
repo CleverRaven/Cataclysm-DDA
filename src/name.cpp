@@ -3,6 +3,7 @@
 
 #include "json.h"
 #include "name.h"
+#include "string_formatter.h"
 #include "output.h"
 #include "translations.h"
 #include "rng.h"

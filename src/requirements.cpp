@@ -6,7 +6,7 @@
 #include "map.h"
 #include "debug.h"
 #include "inventory.h"
-#include "output.h"
+#include "string_formatter.h"
 #include "itype.h"
 #include "item_factory.h"
 #include <sstream>

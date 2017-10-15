@@ -12,6 +12,7 @@
 #include "ammo.h"
 #include "line.h"
 #include "player.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "uistate.h"
 #include "messages.h"

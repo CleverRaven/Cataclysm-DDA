@@ -23,6 +23,7 @@
 #include "mission.h"
 #include "mongroup.h"
 #include "monfaction.h"
+#include "string_formatter.h"
 #include "options.h"
 #include "trap.h"
 #include "line.h"

@@ -3,6 +3,7 @@
 #include "mutation.h"
 #include "options.h"
 #include "weather.h"
+#include "string_formatter.h"
 #include "profession.h"
 #include "input.h"
 #include "addiction.h"

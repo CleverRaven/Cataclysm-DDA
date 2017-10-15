@@ -14,6 +14,7 @@
 #include "vehicle.h"
 #include "mapdata.h"
 #include "cata_utility.h"
+#include "string_formatter.h"
 #include "debug.h"
 #include "vehicle_selector.h"
 #include "veh_interact.h"

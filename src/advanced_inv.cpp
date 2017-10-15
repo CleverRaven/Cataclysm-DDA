@@ -10,6 +10,7 @@
 #include "messages.h"
 #include "player_activity.h"
 #include "advanced_inv.h"
+#include "string_formatter.h"
 #include "compatibility.h"
 #include "enums.h"
 #include "input.h"
