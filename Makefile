@@ -69,6 +69,10 @@
 #  make astyle-check
 # Astyle all source files using the current rules (don't PR this, it's too many changes at once).
 #  make astyle-all
+# Style the whitelisted json files (maintain the current level of styling).
+#  make style-json
+# Style all json files using the current rules (don't PR this, it's too many changes at once).
+#  make style-all-json
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
@@ -249,7 +253,7 @@ ifdef RELEASE
   endif
   DEFINES += -DRELEASE
   # Check for astyle or JSON regressions on release builds.
-  CHECKS = astyle-check lint-check
+  CHECKS = astyle-check style-json
 endif
 
 ifndef RELEASE
@@ -624,10 +628,13 @@ ifdef MSYS2
   DEFINES += -D_GLIBCXX_USE_C99_MATH_TR1
 endif
 
+# Enumerations of all the source files and headers.
 SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
 HEADERS = $(wildcard $(SRC_DIR)/*.h)
 TESTSRC = $(wildcard tests/*.cpp)
 TESTHDR = $(wildcard tests/*.h)
+TOOLSRC = $(wildcard tools/json_tools/format/*.[ch]*)
+
 _OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)
 ifeq ($(TARGETSYSTEM),WINDOWS)
   RSRC = $(wildcard $(SRC_DIR)/*.rc)
@@ -931,12 +938,12 @@ etags: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
 	find data -name "*.json" -print0 | xargs -0 -L 50 etags --append
 
 # Generate a list of files to check based on the difference between the blacklist and the existing source files.
-ASTYLED_WHITELIST = $(filter-out $(shell cat astyle_blacklist), $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR))
+ASTYLED_WHITELIST = $(filter-out $(shell cat astyle_blacklist), $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR) $(TOOLSRC) )
 
 astyle: $(ASTYLED_WHITELIST)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLED_WHITELIST)
 
-astyle-all: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
+astyle-all: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR) $(TOOLSRC)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(SOURCES) $(HEADERS)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(TESTSRC) $(TESTHDR)
 
@@ -953,26 +960,14 @@ else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
 
-lint-check: json_whitelist $(ODIR)/lint.cache
+style-json: json_whitelist json_formatter
+	xargs -a json_whitelist -L 1 tools/format/json_formatter.cgi
 
-$(ODIR)/lint.cache: $(shell awk '/^[^#]/ { print $$1 }' json_whitelist) | $(ODIR)
-ifeq ($(shell if perl -c tools/format/format.pl 2>/dev/null; then echo $$?; fi),0)
-	@for file in $?; do \
-	    echo "Linting $$file"; \
-	    perl tools/format/format.pl -cqv $$file || exit 65; \
-	done;
-	@touch $@
-else
-	@echo Cannot lint JSON, missing usable perl binary and/or p5-JSON module
-endif
+style-all-json: json_formatter
+	find data -name "*.json" -print0 | xargs -0 -L 1 tools/format/json_formatter.cgi
 
-lint: $(shell awk '/^[^#]/ { print $$1 }' json_whitelist) | $(ODIR)
-	@for file in $?; do \
-		if [ ! $(ODIR)/lint.cache -nt $$file ]; then \
-			./tools/lint.sh $$file || exit $$?; \
-		fi; \
-	done;
-	@touch $(ODIR)/lint.cache
+json_formatter: tools/format/format.cpp src/json.cpp
+	$(CXX) $(CXXFLAGS) -Itools/format -Isrc tools/format/format.cpp src/json.cpp -o tools/format/json_formatter.cgi
 
 tests: version $(BUILD_PREFIX)cataclysm.a
 	$(MAKE) -C tests

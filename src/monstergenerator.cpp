@@ -201,6 +201,10 @@ void MonsterGenerator::finalize_pathfinding_settings( mtype &mon )
     if( mon.path_settings.bash_strength < 0 ) {
         mon.path_settings.bash_strength = mon.bash_skill;
     }
+
+    if( mon.has_flag( MF_CLIMBS ) ) {
+        mon.path_settings.climb_cost = 3;
+    }
 }
 
 template <typename T>

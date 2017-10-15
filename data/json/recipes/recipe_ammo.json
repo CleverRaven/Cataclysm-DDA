@@ -824,12 +824,7 @@
   "qualities":[
     {"id":"SAW_M","level":1}
   ],
-  "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ]
-    ]
-  ],
+  "using": [ [ "surface_heat", 2 ] ],
   "components": [
     [
       [ "gunpowder", 16 ],
@@ -859,14 +854,10 @@
   "autolearn": true,
   "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ]],
   "qualities":[
-  {"id":"SAW_M","level":1}
+    {"id":"SAW_M","level":1}
   ],
-  "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ]
-    ]
-  ],"components": [
+  "using": [ [ "surface_heat", 2 ] ],
+  "components": [
     [
       [ "gunpowder", 16 ],
       [ "chem_black_powder", 16 ]
@@ -891,14 +882,10 @@
   "autolearn": true,
   "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ]],
   "qualities":[
-  {"id":"SAW_M","level":1}
+    {"id":"SAW_M","level":1}
   ],
-  "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ]
-    ]
-  ], "components":  [
+  "using": [ [ "surface_heat", 2 ] ],
+  "components":  [
     [
       [ "gunpowder", 16 ],
       [ "chem_black_powder", 16 ]

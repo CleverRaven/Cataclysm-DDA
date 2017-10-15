@@ -816,6 +816,7 @@ class npc : public player
          */
         void on_load();
 
+
         /// Set up (start) a companion mission.
         void set_companion_mission( npc &p, const std::string &id );
         /// Unset a companion mission. Precondition: `!has_companion_mission()`

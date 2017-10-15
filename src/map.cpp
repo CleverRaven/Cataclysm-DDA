@@ -5263,11 +5263,6 @@ item *map::item_from( vehicle *veh, int cargo_part, size_t index ) {
     }
 }
 
-void map::trap_set( const tripoint &p, const trap_id id)
-{
-    add_trap( p, id );
-}
-
 const trap &map::tr_at( const tripoint &p ) const
 {
     if( !inbounds( p.x, p.y, p.z ) ) {
@@ -5284,7 +5279,7 @@ const trap &map::tr_at( const tripoint &p ) const
     return current_submap->get_trap( lx, ly ).obj();
 }
 
-void map::add_trap( const tripoint &p, const trap_id t)
+void map::trap_set( const tripoint &p, const trap_id t)
 {
     if( !inbounds( p ) )
     {
@@ -8237,6 +8232,9 @@ void map::update_pathfinding_cache( int zlev ) const
                         cur_value |= PF_SLOW;
                     } else if( cost <= 0 ) {
                         cur_value |= PF_WALL;
+                        if( terrain.has_flag( TFLAG_CLIMBABLE ) ) {
+                            cur_value |= PF_CLIMBABLE;
+                        }
                     }
 
                     if( veh != nullptr ) {
