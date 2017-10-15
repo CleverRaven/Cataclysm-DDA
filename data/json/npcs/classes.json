@@ -427,7 +427,7 @@
         "name" : "Slimeling",
         "job_description" : "I'm you!",
         "common" : false,
-        "bonus_str" : -8,
+        "bonus_int" : -100,
         "worn_override": "EMPTY_GROUP",
         "carry_override": "EMPTY_GROUP",
         "weapon_override": "EMPTY_GROUP",
@@ -462,8 +462,9 @@
             [ "PER_SLIME_OK", 100 ],
             [ "ACIDPROOF", 100 ],
             [ "ACIDBLOOD", 100 ],
-            [ "FLIMSY3", 100 ],
-            [ "ILLITERATE", 100 ]
+            [ "BADBACK", 100 ],
+            [ "ILLITERATE", 100 ],
+            [ "SLIMELING", 100 ]
         ]
     }
 ]
