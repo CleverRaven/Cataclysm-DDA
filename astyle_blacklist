@@ -60,8 +60,6 @@ src/morale.cpp
 src/mutation.cpp
 src/mutation_data.cpp
 src/newcharacter.cpp
-src/npc.cpp
-src/npcmove.cpp
 src/npctalk.cpp
 src/options.cpp
 src/output.cpp
@@ -109,7 +107,6 @@ src/mattack_common.h
 src/mingw.thread.h
 src/mission.h
 src/monattack.h
-src/npc.h
 src/overmapbuffer.h
 src/overmap.h
 src/player.h
