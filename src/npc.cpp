@@ -1708,7 +1708,7 @@ nc_color npc::basic_symbol_color() const
 int npc::print_info(WINDOW* w, int line, int vLines, int column) const
 {
     const int last_line = line + vLines;
-    const int iWidth = getmaxx(w) - 2;
+    const unsigned int iWidth = getmaxx(w) - 2;
     // First line of w is the border; the next 4 are terrain info, and after that
     // is a blank line. w is 13 characters tall, and we can't use the last one
     // because it's a border as well; so we have lines 6 through 11.
