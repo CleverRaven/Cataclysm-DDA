@@ -3344,49 +3344,67 @@ struct block_blueprint {
     std::set<om_direction::type> has_road;
 };
 
-static block_blueprint max_free_area( const overmap &om, const tripoint &origin, float max_area, om_direction::type dir1, om_direction::type dir2 )
+// Note: doesn't check roads
+static block_blueprint max_free_area( const overmap &om, const tripoint &origin, float max_area,
+                                      om_direction::type dir_lenght, int max_length,
+                                      om_direction::type dir_width, int max_width )
 {
-    // @todo Base this on available buildings in current mod set
-    const int max_width = 4;
-    const int max_length = 4;
+    // @todo De-hardcode
+    const oter_id &valid_ter = om.get_settings().default_oter;
     // It's possible for a block to be wider than it is long
     // We'll swap that later
-    const point length_dir = om_direction::displace( dir1 );
-    const point width_dir = om_direction::displace( dir2 );
 
     block_blueprint max_block_blueprint;
-    bool failed_expand_length = false;
-    bool failed_expand_width = false;
+    bool done_expanding_length = false;
+    bool done_expanding_width = false;
     while( max_block_blueprint.width * max_block_blueprint.length < max_area ) {
-        if( failed_expand_length && failed_expand_width ) {
-            // Reached our limits, let's bail out
+        done_expanding_length |= max_block_blueprint.length >= max_length;
+        done_expanding_width |= max_block_blueprint.width >= max_width;
+        if( done_expanding_length && done_expanding_width ) {
+            // Reached our limits
             break;
         }
 
-        const bool expanding_length = failed_expand_width || ( !failed_expand_length && !one_in( 3 ) );
+        const bool expanding_length = done_expanding_width || ( !done_expanding_length && !one_in( 3 ) );
         // Direction in which we're expanding
-        const point &expand_dir = expanding_length ? length_dir : width_dir;
-        // The edge along which we're expanding
-        const point &edge_dir = expanding_length ? width_dir : length_dir;
+        const om_direction::type expand_dir = expanding_length ? dir_lenght : dir_width;
         int &expanded_edge = expanding_length ? max_block_blueprint.length : max_block_blueprint.width;
+        // The edge along which we're expanding
+        const om_direction::type edge_dir = expanding_length ? dir_width : dir_lenght;
         int edge_length = expanding_length ? max_block_blueprint.width : max_block_blueprint.length;
-        point cur_edge = max_block_blueprint.origin + expand_dir;
-        bool &failed = expanding_length ? failed_expand_length : failed_expand_width;
+
+        tripoint cur_edge = origin + om_direction::displace( expand_dir, expanded_edge );
+        bool &failed_expand = expanding_length ? done_expanding_length : done_expanding_width;
         for( int edge_dist = 0; edge_dist < edge_length; edge_dist++ ) {
-            if( om.ter( cur_edge ) != om.settings.default_oter ) {
-                failed = true;
+            if( om.get_ter( cur_edge ) != valid_ter ) {
+                failed_expand = true;
                 break;
             }
 
-            cur_edge += edge_dir;
+            cur_edge += om_direction::displace( edge_dir );
         }
 
-        if( !failed ) {
+        if( !failed_expand ) {
             expanded_edge++;
         }
     }
 
     return max_block_blueprint;
+}
+
+static size_t road_len( const overmap &om, const tripoint &origin, om_direction::type dir, size_t max_len )
+{
+    // @todo This road should be the main road, not just any road
+    static const oter_type_id road( "road" );
+    const point offset = om_direction::displace( dir );
+    size_t ret = 0;
+    tripoint cur = origin + offset;
+    while( ret < max_len && om.get_ter( cur )->type_is( road ) ) {
+        ret++;
+        cur += offset;
+    }
+
+    return ret;
 }
 
 /**
@@ -3420,18 +3438,22 @@ void overmap::build_city( const tripoint &loc, int size )
     // Every city starts with an intersection
     ter( loc ) = oter_id( "road_nesw" );
     city new_city;
-    new_city.x = cx;
-    new_city.y = cy;
+    new_city.x = loc.x;
+    new_city.y = loc.y;
     new_city.s = size;
 
     std::queue<city_block_stub> to_build;
     // Pick random direction
-    om_direction::type start_dir = random_entry( om_direction::all );
-    om_direction::type cur_dir = start_dir;
-    do {
-        to_build.emplace_back( loc, cur_dir, static_cast<float>( size * size ) / 4.0f );
-        cur_dir = turn_right( end_dir );
-    } while( cur_dir != start_dir );
+    {
+        om_direction::type end_dir = random_entry( om_direction::all );
+        om_direction::type cur_dir = end_dir;
+        do {
+            cur_dir = om_direction::turn_right( cur_dir );
+            to_build.emplace( city_block_stub{ loc, cur_dir, static_cast<float>( size * size ) / 4.0f } );
+            const auto street_path = lay_out_street( local_road, point( loc.x, loc.y ) + om_direction::displace( cur_dir ), cur_dir, size );
+            build_connection( local_road, street_path, 0 );
+        } while( cur_dir != end_dir );
+    }
 
     while( !to_build.empty() ) {
         const city_block_stub cur_block = to_build.front();
@@ -3441,26 +3463,51 @@ void overmap::build_city( const tripoint &loc, int size )
             continue;
         }
 
+        const om_direction::type cur_dir = cur_block.dir;
+        const om_direction::type width_dir = om_direction::turn_right( cur_dir );
+        const tripoint &origin = cur_block.origin;
+
         // @todo Less hardcoded
-        if( cur_block.leftover_area < size + 3 ) {
+        if( cur_block.leftover_area < 3 ) {
             int road_len = roll_remainder( sqrt( cur_block.leftover_area ) );
             build_city_street( local_road, { loc.x, loc.y }, road_len, cur_dir, new_city );
             continue;
         }
 
-        block_blueprint max_block_blueprint = max_free_area( *this, cur_block.origin, cur_block.leftover_area,
-                                                             cur_block.dir, turn_right( cur_block.dir ) );
+        // First we check how much road we have on the edge
+        int max_length = road_len( *this, origin, cur_dir, 100 );
+        int max_width = road_len( *this, origin, width_dir, 5 );
+        if( max_length < 5 || max_length < 5 ) {
+            int road_len = roll_remainder( sqrt( cur_block.leftover_area ) );
+            build_city_street( local_road, { loc.x, loc.y }, road_len, cur_dir, new_city );
+            continue;
+        }
 
+        // We need to move the origin inside the 'V' formed by roads
+        const tripoint inner = origin + om_direction::displace( cur_dir ) + om_direction::displace( width_dir );
+        block_blueprint max_block_blueprint = max_free_area( *this, inner, cur_block.leftover_area,
+                                                             cur_dir, max_length,
+                                                             width_dir, max_width );
+
+        int length = max_block_blueprint.length;
+        int width = max_block_blueprint.width;
         // If we're here, it means we have a rectangle in which we can build
         // It may be too small, though
         // If so, fallback to old city gen
-        if( max_block_blueprint.width < 4 || max_block_blueprint.length < 4 ) {
+        if( width < 5 || length < 5 ) {
             int road_len = roll_remainder( sqrt( cur_block.leftover_area ) );
             build_city_street( local_road, { loc.x, loc.y }, road_len, cur_dir, new_city );
             continue;
         }
 
-        // Brute force a 
+        // Place roads
+        // Their length is padded with +1 because we want it to start at existing road, so it is moved one tile back
+        // Cast origin down to point because the function wants 2D for some reason
+        const point origin_pt = point( origin.x, origin.y );
+        const auto path_len = lay_out_street( local_road, origin_pt + om_direction::displace( width_dir, width ), cur_dir, length + 1 );
+        build_connection( local_road, path_len, 0 );
+        const auto path_wid = lay_out_street( local_road, origin_pt + om_direction::displace( cur_dir, length ), width_dir, width + 1 );
+        build_connection( local_road, path_wid, 0 );
     }
 
     cities.push_back( new_city );
