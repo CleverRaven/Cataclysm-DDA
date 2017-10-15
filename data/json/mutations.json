@@ -5230,5 +5230,27 @@
         "valid" : false,
         "description" : "NPC trait that makes it impossible to say anything.  It is a bug if you have it.",
         "threshold" : true
+    },{
+	    "type" : "mutation",
+		"id" : "SLIMELING",
+		"name" : "Slimeling",
+		"points" : 0,
+		"valid" : false,
+		"description" : "NPC trait that encumbers all parts of the body, reduces max HP by 60%, and makes it impossible to wear normal sized gear. It is a bug if you have it.",
+		"threshold" : true,
+		"restricts_gear" : [ "HEAD", "TORSO", "ARM_L", "ARM_R", "LEG_L", "LEG_R", "HAND_L", "HAND_R", "FOOT_L", "FOOT_R" ],
+		"encumbrance_always" : [
+            [ "TORSO", 10 ],
+            [ "HEAD", 10 ],
+            [ "ARM_L", 10 ],
+            [ "ARM_R", 10 ],
+            [ "HAND_L", 10 ],
+            [ "HAND_R", 10 ],
+            [ "LEG_L", 10 ],
+            [ "LEG_R", 10 ],
+            [ "FOOT_L", 10 ],
+            [ "FOOT_R", 10 ]
+        ],
+        "hp_modifier" : -0.5
     }
 ]
