@@ -735,6 +735,7 @@
     "name": "hickory root",
     "description": "A root from a hickory tree.  It has an earthy smell.",
     "price": 0,
+    "material": "wood",
     "weight": 500,
     "volume": 2,
     "to_hit": -2
