@@ -396,6 +396,7 @@ void npc::randomize( const npc_class_id &type )
     for( const auto &pr : type->traits ) {
         if( rng( 1, 100 ) <= pr.second ) {
             set_mutation( pr.first );
+            apply_mods( pr.first, true );
         }
     }
 }
