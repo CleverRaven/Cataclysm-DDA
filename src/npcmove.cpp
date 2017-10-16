@@ -182,9 +182,9 @@ float npc::evaluate_enemy( const Creature &target ) const
 void npc::assess_danger()
 {
     float assessment = 0;
-    for( size_t i = 0; i < g->num_zombies(); i++ ) {
-        if( sees( g->zombie( i ) ) ) {
-            assessment += g->zombie( i ).type->difficulty;
+    for( const monster &critter : g->all_monsters() ) {
+        if( sees( critter ) ) {
+            assessment += critter.type->difficulty;
         }
     }
     assessment /= 10;
@@ -751,8 +751,7 @@ void npc::choose_target()
         return true;
     };
 
-    for( size_t i = 0; i < g->num_zombies(); i++ ) {
-        monster &mon = g->zombie( i );
+    for( monster &mon : g->all_monsters() ) {
         if( !sees( mon ) ) {
             continue;
         }

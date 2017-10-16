@@ -870,12 +870,10 @@ bool game::start_game(std::string worldname)
     // Make sure that no monsters are near the player
     // This can happen in lab starts
     if( !spawn_near ) {
-        for( size_t i = 0; i < num_zombies(); ) {
-            if( rl_dist( zombie( i ).pos(), u.pos() ) <= 5 ||
-                m.clear_path( zombie( i ).pos(), u.pos(), 40, 1, 100 ) ) {
-                remove_zombie( zombie( i ) );
-            } else {
-                i++;
+        for( monster &critter : all_monsters() ) {
+            if( rl_dist( critter.pos(), u.pos() ) <= 5 ||
+                m.clear_path( critter.pos(), u.pos(), 40, 1, 100 ) ) {
+                remove_zombie( critter );
             }
         }
     }
@@ -1019,8 +1017,8 @@ bool game::cleanup_at_end()
     draw_sidebar();
     if (uquit == QUIT_DIED || uquit == QUIT_SUICIDE) {
         // Put (non-hallucinations) into the overmap so they are not lost.
-        while( num_zombies() > 0 ) {
-            despawn_monster( 0 );
+        for( monster &critter : all_monsters() ) {
+            despawn_monster( critter );
         }
         // Save the factions', missions and set the NPC's overmap coords
         // Npcs are saved in the overmap.
@@ -4070,7 +4068,7 @@ void game::debug()
             std::string s;
             s = _( "Location %d:%d in %d:%d, %s\n" );
             s += _( "Current turn: %d; Next spawn %d.\n%s\n" );
-            s += ngettext( "%d monster exists.\n", "%d monsters exist.\n", num_zombies() );
+            s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", num_creatures() );
             s += ngettext( "%d currently active NPC.\n", "%d currently active NPCs.\n", active_npc.size() );
             s += ngettext( "%d event planned.", "%d events planned", events.size() );
             popup_top(
@@ -4080,7 +4078,7 @@ void game::debug()
                 int( calendar::turn ), int( nextspawn ),
                 ( get_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
                   _( "NPCs are NOT going to spawn." ) ),
-                num_zombies(), active_npc.size(), events.size() );
+                num_creatures(), active_npc.size(), events.size() );
             if( !active_npc.empty() ) {
                 for( const auto &elem : active_npc ) {
                     tripoint t = ( elem )->global_sm_location();
@@ -4212,10 +4210,10 @@ void game::debug()
         break;
 
         case 19: {
-            for( size_t i = 0; i < num_zombies(); i++ ) {
+            for( monster &critter : all_monsters() ) {
                 // Use the normal death functions, useful for testing death
                 // and for getting a corpse.
-                zombie( i ).die( nullptr );
+                critter.die( nullptr );
             }
             cleanup_dead();
         }
@@ -4691,10 +4689,10 @@ void game::disp_NPCs()
         mvwprintz(w, i + 3, 0, c_white, "%s: %d, %d, %d", npcs[i]->name.c_str(),
                   apos.x, apos.y, apos.z);
     }
-    for( size_t j = 0; i + j < 20 && j < num_zombies(); j++ ) {
-        const monster &m = zombie( j );
-        mvwprintz( w, i + j + 3, 0, c_white, "%s: %d, %d, %d", m.name().c_str(),
+    for( const monster &m : all_monsters() ) {
+        mvwprintz( w, i + 3, 0, c_white, "%s: %d, %d, %d", m.name().c_str(),
                    m.posx(), m.posy(), m.posz() );
+        ++i;
     }
     wrefresh(w);
     inp_mngr.wait_for_any_key();
@@ -5048,18 +5046,9 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         draw_footsteps( w_terrain, {POSX - center.x, POSY - center.y, center.z} );
     }
 
-    // Draw monsters
-    for( size_t i = 0; i < num_zombies(); i++ ) {
-        draw_critter( zombie( i ), center );
+    for( Creature &critter : all_creatures() ) {
+        draw_critter( critter, center );
     }
-
-    // Draw NPCs
-    for( const auto &n : active_npc ) {
-        draw_critter( *n, center );
-    }
-
-    // Draw player last
-    draw_critter( u, center );
 
     if( u.has_active_bionic( bionic_id( "bio_scent_vision" ) ) && u.view_offset.z == 0 ) {
         tripoint tmp = center;
@@ -5526,13 +5515,11 @@ Creature *game::is_hostile_within(int distance)
 std::vector<monster*> game::get_fishable(int distance)
 {
     std::vector<monster*> unique_fish;
-    for (size_t i = 0; i < num_zombies(); i++) {
-        monster &critter = zombie( i );
-
+    for( monster &critter : all_monsters() ) {
         if (critter.has_flag(MF_FISHABLE)) {
             int mondist = rl_dist( u.pos(), critter.pos() );
             if (mondist <= distance) {
-            unique_fish.push_back (&critter);
+                unique_fish.push_back( &critter );
             }
         }
     }
@@ -5857,13 +5844,7 @@ void game::cleanup_dead()
 
     if( monster_is_dead ) {
         // From here on, pointers to creatures get invalidated as dead creatures get removed.
-        for( size_t i = 0; i < num_zombies(); ) {
-            if( zombie( i ).is_dead() ) {
-                remove_zombie( zombie( i ) );
-            } else {
-                i++;
-            }
-        }
+        critter_tracker->remove_dead();
     }
 
     if( npc_is_dead ) {
@@ -5889,25 +5870,23 @@ void game::monmove()
 
     mfactions monster_factions;
     const auto &playerfaction = mfaction_str_id( "player" );
-    for (size_t i = 0; i < num_zombies(); i++) {
+    for( monster &critter : all_monsters() ) {
         // The first time through, and any time the map has been shifted,
         // recalculate monster factions.
         if( cached_lev != m.get_abs_sub() ) {
             // monster::plan() needs to know about all monsters on the same team as the monster.
             monster_factions.clear();
-            for( int i = 0, numz = num_zombies(); i < numz; i++ ) {
-                monster &critter = zombie( i );
+            for( monster &critter : all_monsters() ) {
                 if( critter.friendly == 0 ) {
                     // Only 1 faction per mon at the moment.
-                    monster_factions[ critter.faction ].insert( i );
+                    monster_factions[ critter.faction ].insert( &critter );
                 } else {
-                    monster_factions[ playerfaction ].insert( i );
+                    monster_factions[ playerfaction ].insert( &critter );
                 }
             }
             cached_lev = m.get_abs_sub();
         }
 
-        monster &critter = zombie( i );
         while (!critter.is_dead() && !critter.can_move_to(critter.pos())) {
             // If we can't move to our current position, assign us to a new one
                 dbg(D_ERROR) << "game:monmove: " << critter.name().c_str()
@@ -5973,15 +5952,12 @@ void game::monmove()
     // The remaining monsters are all alive, but may be outside of the reality bubble.
     // If so, despawn them. This is not the same as dying, they will be stored for later and the
     // monster::die function is not called.
-    for( size_t i = 0; i < num_zombies(); ) {
-        monster &critter = zombie( i );
+    for( monster &critter : all_monsters() ) {
         if( critter.posx() < 0 - ( SEEX * MAPSIZE ) / 6 ||
             critter.posy() < 0 - ( SEEY * MAPSIZE ) / 6 ||
             critter.posx() > ( SEEX * MAPSIZE * 7 ) / 6 ||
             critter.posy() > ( SEEY * MAPSIZE * 7 ) / 6 ) {
-            despawn_monster( i );
-        } else {
-            i++;
+            despawn_monster( critter );
         }
     }
 
@@ -6050,8 +6026,8 @@ void game::flashbang( const tripoint &p, bool player_immune)
             u.add_env_effect( effect_blind, bp_eyes, (12 - flash_mod - dist) / 2, 10 - dist );
         }
     }
-    for( size_t i = 0; i < num_zombies(); i++ ) {
-        monster &critter = zombie( i );
+    for( monster &critter : all_monsters() ) {
+        //@todo can the following code be called for all types of creatures
         dist = rl_dist( critter.pos(), p );
         if( dist <= 8 ) {
             if( dist <= 4 ) {
@@ -6074,14 +6050,15 @@ void game::shockwave( const tripoint &p, int radius, int force, int stun, int da
 {
     draw_explosion( p, radius, c_blue );
 
-    sounds::sound( p, force * force * dam_mult / 2, _("Crack!") );
-    for (size_t i = 0; i < num_zombies(); i++) {
-        monster &critter = zombie( i );
+    sounds::sound( p, force * force * dam_mult / 2, _( "Crack!" ) );
+
+    for( monster &critter : all_monsters() ) {
         if( rl_dist( critter.pos(), p ) <= radius ) {
             add_msg(_("%s is caught in the shockwave!"), critter.name().c_str());
             knockback( p, critter.pos(), force, stun, dam_mult);
         }
     }
+    //@todo combine the two loops and the case for g->u using all_creatures()
     for( const auto &elem : active_npc ) {
         if( rl_dist( ( elem )->pos(), p ) <= radius ) {
             add_msg( _( "%s is caught in the shockwave!" ), ( elem )->name.c_str() );
@@ -6091,7 +6068,7 @@ void game::shockwave( const tripoint &p, int radius, int force, int stun, int da
     if( rl_dist(u.pos(), p ) <= radius && !ignore_player &&
           (!u.has_trait( trait_LEG_TENT_BRACE ) || u.footwear_factor() == 1 ||
           (u.footwear_factor() == .5 && one_in( 2 ) ) ) ) {
-        add_msg( m_bad, _("You're caught in the shockwave!") );
+        add_msg( m_bad, _( "You're caught in the shockwave!" ) );
         knockback( p, u.pos(), force, stun, dam_mult);
     }
 }
@@ -6649,15 +6626,9 @@ bool game::add_zombie(monster &critter, bool pin_upgrade)
     return critter_tracker->add(critter);
 }
 
-size_t game::num_zombies() const
+size_t game::num_creatures() const
 {
-    return critter_tracker->size();
-}
-
-monster &game::zombie( const int idx ) const
-{
-    //@todo hack. Get rid of this function and replace with visitor function.
-    return *critter_tracker->from_temporary_id( idx );
+    return critter_tracker->size() + active_npc.size() + 1; // 1 == g->u
 }
 
 bool game::update_zombie_pos( const monster &critter, const tripoint &pos )
@@ -11860,8 +11831,8 @@ void game::place_player_overmap( const tripoint &om_dest )
 {
     //First offload the active npcs.
     unload_npcs();
-    while( num_zombies() > 0 ) {
-        despawn_monster( 0 );
+    for( monster &critter : all_monsters() ) {
+        despawn_monster( critter );
     }
     if( u.in_vehicle ) {
         m.unboard_vehicle( u.pos() );
@@ -12577,8 +12548,7 @@ void game::vertical_move(int movez, bool force)
     if( !m.has_zlevels() ) {
         const int to_x = u.posx();
         const int to_y = u.posy();
-        for( unsigned int i = 0; i < num_zombies(); ) {
-            monster &critter = zombie(i);
+        for( monster &critter : all_monsters() ) {
             int turns = critter.turns_to_reach( to_x, to_y );
             if( turns < 10 && coming_to_stairs.size() < 8 && critter.will_reach( to_x, to_y )
                 && !slippedpast) {
@@ -12586,8 +12556,6 @@ void game::vertical_move(int movez, bool force)
                 critter.on_unload();
                 coming_to_stairs.push_back(critter);
                 remove_zombie( critter );
-            } else {
-                i++;
             }
         }
 
@@ -12604,8 +12572,7 @@ void game::vertical_move(int movez, bool force)
     }
 
     if( m.has_zlevels() && abs( movez ) == 1 ) {
-        for( size_t i = 0; i < num_zombies(); i++ ) {
-            monster &critter = zombie( i );
+        for( monster &critter : all_monsters() ) {
             if( critter.attack_target() == &g->u ) {
                 monsters_following.push_back( &critter );
             }
@@ -13194,9 +13161,8 @@ void game::update_stair_monsters()
     }
 }
 
-void game::despawn_monster(int mondex)
+void game::despawn_monster( monster &critter )
 {
-    monster &critter = zombie( mondex );
     if( !critter.is_hallucination() ) {
         // hallucinations aren't stored, they come and go as they like,
         overmap_buffer.despawn_monster( critter );
@@ -13212,21 +13178,19 @@ void game::shift_monsters( const int shiftx, const int shifty, const int shiftz 
     if( shiftx == 0 && shifty == 0 && shiftz == 0 ) {
         return;
     }
-    for( unsigned int i = 0; i < num_zombies(); ) {
-        monster &critter = zombie( i );
+    for( monster &critter : all_monsters() ) {
         if( shiftx != 0 || shifty != 0 ) {
             critter.shift( shiftx, shifty );
         }
 
         if( m.inbounds( critter.pos() ) && ( shiftz == 0 || m.has_zlevels() ) ) {
-            i++;
             // We're inbounds, so don't despawn after all.
             // No need to shift z coords, they are absolute
             continue;
         }
         // Either a vertical shift or the critter is now outside of the reality bubble,
         // anyway: it must be saved and removed.
-        despawn_monster( i );
+        despawn_monster( critter );
     }
     // The order in which zombies are shifted may cause zombies to briefly exist on
     // the same square. This messes up the mon_at cache, so we need to rebuild it.
@@ -13975,4 +13939,70 @@ std::vector<npc *> game::allies()
         }
     }
     return res;
+}
+
+std::vector<Creature *> game::get_creatures_if( const std::function<bool( const Creature & )> &pred )
+{
+    std::vector<Creature *> result;
+    for( Creature &critter : all_creatures() ) {
+        if( pred( critter ) ) {
+            result.push_back( &critter );
+        }
+    }
+    return result;
+}
+
+template<>
+bool game::non_dead_range<monster>::iterator::valid() {
+    current = iter->lock();
+    return current && !current->is_dead();
+}
+
+template<>
+bool game::non_dead_range<Creature>::iterator::valid() {
+    current = iter->lock();
+    // There is no Creature::is_dead function, so we can't write
+    // return current && !current->is_dead();
+    if( !current ) {
+        return false;
+    }
+    if( const monster *const ptr = dynamic_cast<monster*>( current.get() ) ) {
+        return !ptr->is_dead();
+    }
+    if( const npc *const ptr = dynamic_cast<npc*>( current.get() ) ) {
+        return !ptr->is_dead();
+    }
+    return true; // must be g->u
+}
+
+game::monster_range::monster_range( game &g ) {
+    const auto &monsters = g.critter_tracker->get_monsters_list();
+    items.insert( items.end(), monsters.begin(), monsters.end() );
+}
+
+game::Creature_range::Creature_range( game &g ) : u( &g.u, []( player * ) { } ) {
+    const auto &monsters = g.critter_tracker->get_monsters_list();
+    items.insert( items.end(), monsters.begin(), monsters.end() );
+    items.insert( items.end(), g.active_npc.begin(), g.active_npc.end() );
+    items.push_back( u );
+}
+
+game::Creature_range game::all_creatures()
+{
+    return Creature_range( *this );
+}
+
+game::monster_range game::all_monsters()
+{
+    return monster_range( *this );
+}
+
+Creature *game::get_creature_if( const std::function<bool( const Creature & )> &pred )
+{
+    for( Creature &critter : all_creatures() ) {
+        if( pred( critter ) ) {
+            return &critter;
+        }
+    }
+    return nullptr;
 }

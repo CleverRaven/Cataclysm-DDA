@@ -315,10 +315,12 @@ class game
         /** Calls the creature_tracker add function. Returns true if successful. */
         bool add_zombie(monster &critter);
         bool add_zombie(monster &critter, bool pin_upgrade);
-        /** Returns the number of creatures through the creature_tracker size() function. */
-        size_t num_zombies() const;
-        /** Returns the monster with match index. Redirects to the creature_tracker find() function. */
-        monster &zombie( const int idx ) const;
+        /**
+         * Returns the approximate number of creatures in the reality bubble.
+         * Because of performance restrictions it may return a slightly incorrect
+         * values (as it includes dead, but not yet cleaned up creatures).
+         */
+        size_t num_creatures() const;
         /** Redirects to the creature_tracker update_pos() function. */
         bool update_zombie_pos( const monster &critter, const tripoint &pos );
         void remove_zombie( const monster &critter );
@@ -328,6 +330,91 @@ class game
         bool spawn_hallucination();
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &first, Creature &second );
+
+    private:
+        friend class monster_range;
+        friend class Creature_range;
+
+        template<typename T>
+        class non_dead_range {
+            public:
+                std::vector<std::weak_ptr<T>> items;
+
+                class iterator {
+                    private:
+                        bool valid();
+                    public:
+                        std::vector<std::weak_ptr<T>> &items;
+                        typename std::vector<std::weak_ptr<T>>::iterator iter;
+                        std::shared_ptr<T> current;
+
+                        iterator( std::vector<std::weak_ptr<T>> &i, const typename std::vector<std::weak_ptr<T>>::iterator t ) : items( i ), iter( t ) {
+                            while( iter != items.end() && !valid() ) {
+                                ++iter;
+                            }
+                        }
+                        iterator( const iterator & ) = default;
+                        iterator &operator=( const iterator & ) = default;
+
+                        bool operator==( const iterator &rhs ) const {
+                            return iter == rhs.iter;
+                        }
+                        bool operator!=( const iterator &rhs ) const {
+                            return !operator==( rhs );
+                        }
+                        iterator &operator++() {
+                            do {
+                                ++iter;
+                            } while( iter != items.end() && !valid() );
+                            return *this;
+                        }
+                        T &operator*() const {
+                            return *current;
+                        }
+                };
+                iterator begin() {
+                    return iterator( items, items.begin() );
+                }
+                iterator end() {
+                    return iterator( items, items.end() );
+                }
+        };
+
+        class monster_range : public non_dead_range<monster> {
+            public:
+                monster_range( game &g );
+        };
+
+        class Creature_range : public non_dead_range<Creature> {
+            private:
+                std::shared_ptr<player> u;
+
+            public:
+                Creature_range( game &g );
+        };
+
+    public:
+        /**
+         * Returns an anonymous range that contains all creatures. The range allows iteration
+         * via a range-based for loop, e.g. `for( Creature &critter : all_creatures() ) { ... }`.
+         * One shall not store the returned range nor the iterators.
+         * One can freely remove and add creatures to the game during the iteration. Added
+         * monsters will not be iterated over.
+         */
+        Creature_range all_creatures();
+        monster_range all_monsters();
+
+        /**
+         * Returns all creatures matching a predicate. Only living ( not dead ) creatures
+         * are checked ( and returned ). Returned pointers are never null.
+         */
+        std::vector<Creature *> get_creatures_if( const std::function<bool( const Creature & )> &pred );
+        /**
+         * Returns a creature matching a predicate. Only living (not dead) creatures
+         * are checked. Returns `nullptr` if no creature matches the predicate.
+         * There is no guarantee which creature is returned when several creatures match.
+         */
+        Creature *get_creature_if( const std::function<bool( const Creature & )> &pred );
 
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
         bool is_empty( const tripoint &p );
@@ -878,10 +965,10 @@ private:
         void shift_monsters(const int shiftx, const int shifty, const int shiftz);
         /**
          * Despawn a specific monster, it's stored on the overmap. Also removes
-         * it from the creature tracker. Keep in mind that mondex points to a
-         * different monster after calling this (or to no monster at all).
+         * it from the creature tracker. Keep in mind that any monster index may
+         * point to a different monster after calling this (or to no monster at all).
          */
-        void despawn_monster(int mondex);
+        void despawn_monster( monster &critter );
 
         void spawn_mon(int shift, int shifty); // Called by update_map, sometimes
         void rebuild_mon_at_cache();

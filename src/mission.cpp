@@ -293,12 +293,10 @@ bool mission::is_complete( const int _npc_id ) const
             if( npc_id != -1 && npc_id != _npc_id ) {
                 return false;
             }
-            for( size_t i = 0; i < g->num_zombies(); i++ ) {
-                if( g->zombie( i ).mission_id == uid ) {
-                    return true;
-                }
-            }
-            return false;
+            return g->get_creature_if( [&]( const Creature &critter ) {
+                const monster *const mon_ptr = dynamic_cast<const monster*>( &critter );
+                return mon_ptr && mon_ptr->mission_id == uid;
+            } );
 
         case MGOAL_RECRUIT_NPC:
             {
