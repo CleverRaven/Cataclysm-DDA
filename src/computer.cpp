@@ -37,17 +37,9 @@ const efftype_id effect_stemcell_treatment( "stemcell_treatment" );
 
 int alerts = 0;
 
-computer::computer(): name(DEFAULT_COMPUTER_NAME)
+computer::computer( const std::string &new_name, int new_security ): name( new_name )
 {
-    security = 0;
-    w_terminal = NULL;
-    w_border = NULL;
-    mission_id = -1;
-}
-
-computer::computer(std::string Name, int Security): name(Name)
-{
-    security = Security;
+    security = new_security;
     w_terminal = NULL;
     w_border = NULL;
     mission_id = -1;
@@ -80,15 +72,25 @@ void computer::set_security(int Security)
     security = Security;
 }
 
+void computer::add_option( const computer_option &opt )
+{
+    options.emplace_back( opt );
+}
+
 void computer::add_option(std::string opt_name, computer_action action,
                           int Security)
 {
-    options.push_back(computer_option(opt_name, action, Security));
+    add_option( computer_option( opt_name, action, Security ) );
 }
 
-void computer::add_failure(computer_failure failure)
+void computer::add_failure( const computer_failure &failure )
 {
-    failures.push_back(failure);
+    failures.emplace_back( failure );
+}
+
+void computer::add_failure( computer_failure_type failure )
+{
+    add_failure( computer_failure( failure ) );
 }
 
 void computer::shutdown_terminal()
@@ -261,7 +263,7 @@ std::string computer::save_data()
     }
     data << failures.size() << " ";
     for( auto &elem : failures ) {
-        data << int( elem ) << " ";
+        data << int( elem.type ) << " ";
     }
 
     return data.str();
@@ -302,8 +304,17 @@ void computer::load_data(std::string data)
     dump >> failsize;
     for (int n = 0; n < failsize; n++) {
         dump >> tmpfail;
-        failures.push_back(computer_failure(tmpfail));
+        add_failure(computer_failure_type(tmpfail));
     }
+}
+
+static item *pick_usb()
+{
+    const int pos = g->inv_for_id( itype_id( "usb_drive" ), _( "Choose drive:" ) );
+    if( pos != INT_MIN ) {
+        return &g->u.i_at( pos );
+    }
+    return nullptr;
 }
 
 void computer::activate_function(computer_action action, char ch)
@@ -401,13 +412,13 @@ void computer::activate_function(computer_action action, char ch)
         for (int x = 0; x < SEEX * MAPSIZE; x++) {
             for (int y = 0; y < SEEY * MAPSIZE; y++) {
                 tripoint p( x, y, g->u.posz() );
-                int mondex = g->mon_at( p );
-                if (mondex != -1 &&
+                monster *const mon = g->critter_at<monster>( p );
+                if( mon &&
                     ((g->m.ter(x, y - 1) == t_reinforced_glass &&
                       g->m.ter(x, y + 1) == t_concrete_wall) ||
                      (g->m.ter(x, y + 1) == t_reinforced_glass &&
                       g->m.ter(x, y - 1) == t_concrete_wall))) {
-                    g->zombie( mondex ).die( &g->u );
+                    mon->die( &g->u );
                 }
             }
         }
@@ -437,7 +448,7 @@ void computer::activate_function(computer_action action, char ch)
                     if (g->m.tr_at( tmp ).id == trap_str_id( "tr_portal" )) {
                         g->m.remove_trap( tmp );
                     } else {
-                        g->m.add_trap( tmp, tr_portal );
+                        g->m.trap_set( tmp, tr_portal );
                     }
                 }
             }
@@ -519,7 +530,7 @@ void computer::activate_function(computer_action action, char ch)
         // Target Acquisition.
         tripoint target = overmap::draw_overmap(0);
         if (target == overmap::invalid_tripoint) {
-            add_msg(m_info, _("Target acquisition canceled"));
+            add_msg(m_info, _("Target acquisition canceled."));
             return;
         }
         if(query_yn(_("Confirm nuclear missile launch."))) {
@@ -772,7 +783,9 @@ of pureed bone & LSD."));
     case COMPACT_REPEATER_MOD:
         if (g->u.has_amount("radio_repeater_mod", 1)) {
             for( auto miss : g->u.get_active_missions() ) {
-                if (miss->name() == "Install Repeater Mod"){
+                static const mission_type_id commo_3 = mission_type_id("MISSION_OLD_GUARD_NEC_COMMO_3"),
+                    commo_4 = mission_type_id("MISSION_OLD_GUARD_NEC_COMMO_4");
+                if (miss->mission_id() == commo_3 || miss->mission_id() == commo_4) {
                     miss->step_complete( 1 );
                     print_error(_("Repeater mod installed..."));
                     print_error(_("Mission Complete!"));
@@ -791,9 +804,7 @@ of pureed bone & LSD."));
         break;
 
     case COMPACT_DOWNLOAD_SOFTWARE:
-        if (!g->u.has_amount("usb_drive", 1)) {
-            print_error(_("USB drive required!"));
-        } else {
+        if( item *const usb = pick_usb() ) {
             mission *miss = mission::find(mission_id);
             if (miss == NULL) {
                 debugmsg(_("Computer couldn't find its mission!"));
@@ -802,10 +813,11 @@ of pureed bone & LSD."));
             g->u.moves -= 30;
             item software(miss->get_item_id(), 0);
             software.mission_id = mission_id;
-            item *usb = g->u.pick_usb();
             usb->contents.clear();
             usb->put_in(software);
             print_line(_("Software downloaded."));
+        } else {
+            print_error(_("USB drive required!"));
         }
         inp_mngr.wait_for_any_key();
         break;
@@ -820,15 +832,15 @@ of pureed bone & LSD."));
                     } else if (g->m.i_at(x, y).size() > 1) {
                         print_error(_("ERROR: Please remove all but one sample from centrifuge."));
                     } else if (g->m.i_at(x, y)[0].typeId() != "vacutainer") {
-                        print_error(_("ERROR: Please use vacutainer-contained samples."));
+                        print_error(_("ERROR: Please use blood-contained samples."));
                     } else if (g->m.i_at(x, y)[0].contents.empty()) {
-                        print_error(_("ERROR: Vacutainer empty."));
+                        print_error(_("ERROR: Blood draw kit is empty."));
                     } else if (g->m.i_at(x, y)[0].contents.front().typeId() != "blood") {
                         print_error(_("ERROR: Please only use blood samples."));
                     } else { // Success!
                         const item &blood = g->m.i_at(x, y).front().contents.front();
                         const mtype *mt = blood.get_mtype();
-                        if( mt == nullptr || mt->id == NULL_ID ) {
+                        if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
                             print_line(_("Result:  Human blood, no pathogens found."));
                         } else if( mt->in_species( ZOMBIE ) ) {
                             if( mt->sym == "Z" ) {
@@ -838,14 +850,13 @@ of pureed bone & LSD."));
                             }
                             print_line(_("Pathogen bonded to erythrocytes and leukocytes."));
                             if (query_bool(_("Download data?"))) {
-                                if (!g->u.has_amount("usb_drive", 1)) {
-                                    print_error(_("USB drive required!"));
-                                } else {
+                                if( item *const usb = pick_usb() ) {
                                     item software("software_blood_data", 0);
-                                    item *usb = g->u.pick_usb();
                                     usb->contents.clear();
                                     usb->put_in(software);
                                     print_line(_("Software downloaded."));
+                                } else {
+                                    print_error(_("USB drive required!"));
                                 }
                             }
                         } else {
@@ -1178,11 +1189,12 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
 void computer::activate_random_failure()
 {
     next_attempt = int(calendar::turn) + 450;
-    computer_failure fail = random_entry( failures, COMPFAIL_SHUTDOWN );
-    activate_failure(fail);
+    static const computer_failure default_failure( COMPFAIL_SHUTDOWN );
+    const computer_failure &fail = random_entry( failures, default_failure );
+    activate_failure( fail.type );
 }
 
-void computer::activate_failure(computer_failure fail)
+void computer::activate_failure(computer_failure_type fail)
 {
     bool found_tile = false;
     switch (fail) {
@@ -1334,9 +1346,9 @@ void computer::activate_failure(computer_failure fail)
                     } else if (g->m.i_at(x, y).size() > 1) {
                         print_error(_("ERROR: Please remove all but one sample from centrifuge."));
                     } else if (g->m.i_at(x, y)[0].typeId() != "vacutainer") {
-                        print_error(_("ERROR: Please use vacutainer-contained samples."));
+                        print_error(_("ERROR: Please use blood-contained samples."));
                     } else if (g->m.i_at(x, y)[0].contents.empty()) {
-                        print_error(_("ERROR: Vacutainer empty."));
+                        print_error(_("ERROR: Blood draw kit, empty."));
                     } else if (g->m.i_at(x, y)[0].contents.front().typeId() != "blood") {
                         print_error(_("ERROR: Please only use blood samples."));
                     } else {
@@ -1522,4 +1534,97 @@ void computer::reset_terminal()
 void computer::print_newline()
 {
     wprintz(w_terminal, c_green, "\n");
+}
+
+computer_option computer_option::from_json( JsonObject &jo )
+{
+    std::string name = _( jo.get_string( "name" ).c_str() );
+    computer_action action = computer_action_from_string( jo.get_string( "action" ) );
+    int sec = jo.get_int( "security", 0 );
+    return computer_option( name, action, sec );
+}
+
+computer_failure computer_failure::from_json( JsonObject &jo )
+{
+    computer_failure_type type = computer_failure_type_from_string( jo.get_string( "action" ) );
+    return computer_failure( type );
+}
+
+computer_action computer_action_from_string( const std::string &str )
+{
+    static const std::map<std::string, computer_action> actions = {{
+        { "null", COMPACT_NULL },
+        { "open", COMPACT_OPEN },
+        { "lock", COMPACT_LOCK },
+        { "unlock", COMPACT_UNLOCK },
+        { "toll", COMPACT_TOLL },
+        { "sample", COMPACT_SAMPLE },
+        { "release", COMPACT_RELEASE },
+        { "release_bionics", COMPACT_RELEASE_BIONICS },
+        { "terminate", COMPACT_TERMINATE },
+        { "portal", COMPACT_PORTAL },
+        { "cascade", COMPACT_CASCADE },
+        { "research", COMPACT_RESEARCH },
+        { "maps", COMPACT_MAPS },
+        { "map_sewer", COMPACT_MAP_SEWER },
+        { "miss_launch", COMPACT_MISS_LAUNCH },
+        { "miss_disarm", COMPACT_MISS_DISARM },
+        { "list_bionics", COMPACT_LIST_BIONICS },
+        { "elevator_on", COMPACT_ELEVATOR_ON },
+        { "amigara_log", COMPACT_AMIGARA_LOG },
+        { "amigara_start", COMPACT_AMIGARA_START },
+        { "complete_mission", COMPACT_COMPLETE_MISSION },
+        { "repeater_mod", COMPACT_REPEATER_MOD },
+        { "download_software", COMPACT_DOWNLOAD_SOFTWARE },
+        { "blood_anal", COMPACT_BLOOD_ANAL },
+        { "data_anal", COMPACT_DATA_ANAL },
+        { "disconnect", COMPACT_DISCONNECT },
+        { "stemcell_treatment", COMPACT_STEMCELL_TREATMENT },
+        { "emerg_mess", COMPACT_EMERG_MESS },
+        { "emerg_ref_center", COMPACT_EMERG_REF_CENTER },
+        { "tower_unresponsive", COMPACT_TOWER_UNRESPONSIVE },
+        { "sr1_mess", COMPACT_SR1_MESS },
+        { "sr2_mess", COMPACT_SR2_MESS },
+        { "sr3_mess", COMPACT_SR3_MESS },
+        { "sr4_mess", COMPACT_SR4_MESS },
+        { "srcf_1_mess", COMPACT_SRCF_1_MESS },
+        { "srcf_2_mess", COMPACT_SRCF_2_MESS },
+        { "srcf_3_mess", COMPACT_SRCF_3_MESS },
+        { "srcf_seal_order", COMPACT_SRCF_SEAL_ORDER },
+        { "srcf_seal", COMPACT_SRCF_SEAL },
+        { "srcf_elevator", COMPACT_SRCF_ELEVATOR }
+    }};
+
+    const auto iter = actions.find( str );
+    if( iter != actions.end() ) {
+        return iter->second;
+    }
+
+    debugmsg( "Invalid computer action %s", str.c_str() );
+    return COMPACT_NULL;
+}
+
+computer_failure_type computer_failure_type_from_string( const std::string &str )
+{
+    static const std::map<std::string, computer_failure_type> fails = {{
+        { "null", COMPFAIL_NULL },
+        { "shutdown", COMPFAIL_SHUTDOWN },
+        { "alarm", COMPFAIL_ALARM },
+        { "manhacks", COMPFAIL_MANHACKS },
+        { "secubots", COMPFAIL_SECUBOTS },
+        { "damage", COMPFAIL_DAMAGE },
+        { "pump_explode", COMPFAIL_PUMP_EXPLODE },
+        { "pump_leak", COMPFAIL_PUMP_LEAK },
+        { "amigara", COMPFAIL_AMIGARA },
+        { "destroy_blood", COMPFAIL_DESTROY_BLOOD },
+        { "destroy_data", COMPFAIL_DESTROY_DATA }
+    }};
+
+    const auto iter = fails.find( str );
+    if( iter != fails.end() ) {
+        return iter->second;
+    }
+
+    debugmsg( "Invalid computer failure %s", str.c_str() );
+    return COMPFAIL_NULL;
 }

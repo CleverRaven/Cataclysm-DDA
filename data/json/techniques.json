@@ -13,7 +13,8 @@
         "messages" : [
             "You block %s",
             "<npcname> blocks %s"
-        ]
+        ],
+        "description" : "Medium blocking ability"
     },{
         "type" : "technique",
         "id" : "WBLOCK_2",
@@ -23,7 +24,8 @@
         "messages" : [
             "You parry %s",
             "<npcname> parries %s"
-        ]
+        ],
+        "description" : "High blocking ability"
     },{
         "type" : "technique",
         "id" : "WBLOCK_3",
@@ -33,18 +35,20 @@
         "messages" : [
             "You shield against %s",
             "<npcname> shields against %s"
-        ]
+        ],
+        "description" : "Very high blocking ability"
     },{
         "type" : "technique",
         "id" : "DEF_DISARM",
         "name" : "disarm",
         "min_unarmed" : 0,
         "melee_allowed" : true,
-        "disarms" : true
+        "disarms" : true,
+        "description" : "Unwield target's weapon"
     },{
         "type" : "technique",
         "id" : "GRAB",
-        "name" : "", "comment": "not imeplemented -> empty name",
+        "name" : "", "//": "not implemented -> empty name",
         "messages" : [
             "You grab %s",
             "<npcname> grabs %s"
@@ -61,7 +65,8 @@
             "You swing through %s and everyone nearby",
             "<npcname> swings through %s and everyone nearby"
         ],
-        "aoe" : "spin"
+        "aoe" : "spin",
+        "description" : "Attack adjacent enemies, crit only, min 4 melee"
     },{
         "type" : "technique",
         "id" : "WIDE",
@@ -75,7 +80,8 @@
             "You swing in a wide arc through %s",
             "<npcname> swings in a wide arc through %s"
         ],
-        "aoe" : "wide"
+        "aoe" : "wide",
+        "description" : "Attack in a wide arc, crit only, min 3 melee"
     },{
         "type" : "technique",
         "id" : "IMPALE",
@@ -87,7 +93,8 @@
             "You pierce straight through %s",
             "<npcname> pierces through %s"
         ],
-        "aoe" : "impale"
+        "aoe" : "impale",
+        "description" : "Attack target and another one behind it, crit only, min 4 melee"
     },{
         "type" : "technique",
         "id" : "BRUTAL",
@@ -100,7 +107,8 @@
         "messages" : [
             "You send %s reeling",
             "<npcname> sends %s reeling"
-        ]
+        ],
+        "description" : "Stun 1 turn, knockback 1 tile, crit only"
     },{
         "type" : "technique",
         "id" : "RAPID",
@@ -117,7 +125,8 @@
         "messages" : [
             "You quickly strike %s",
             "<npcname> quickly strikes %s"
-        ]
+        ],
+        "description" : "50% moves, 66% damage"
     },{
         "type" : "technique",
         "id" : "VORPAL",
@@ -131,18 +140,20 @@
         "messages" : [
             "Snicker-snack!  You behead %s",
             "Snicker-snack!  <npcname> beheads %s"
-        ]
+        ],
+        "description" : "Cut damage multiply by 99, crit only"
     },{
         "type" : "technique",
         "id" : "WRAP",
-        "name" : "Wrap attack",
+        "name" : "Wrap Attack",
         "min_unarmed" : 0,
         "unarmed_allowed" : true,
         "stun_dur" : 2,
         "messages" : [
             "You wrap up %s",
             "<npcname> wraps up %s"
-        ]
+        ],
+        "description" : "Stun 2 turns"
     },{
         "type" : "technique",
         "id" : "SWEEP",
@@ -153,7 +164,8 @@
         "messages" : [
             "You sweep %s",
             "<npcname> sweeps %s"
-        ]
+        ],
+        "description" : "Down 2 turns"
     },{
         "type" : "technique",
         "id" : "PRECISE",
@@ -166,7 +178,8 @@
             "You precisely hit %s",
             "<npcname> precisely hits %s"
         ],
-        "stun_dur" : 2
+        "stun_dur" : 2,
+        "description" : "Stun 2 turns, crit only"
     },{
         "type" : "technique",
         "id" : "WHIP_DISARM",
@@ -177,7 +190,8 @@
         "messages" : [
             "You disarm %s using your whip!",
             "<npcname> disarm %s using their whip!"
-        ]
+        ],
+        "description" : "Unwield target's weapon"
     },{
         "type" : "technique",
         "id" : "tec_counter",
@@ -1267,7 +1281,7 @@
             "You stun %s with the force of the blow!",
             "<npcname> stuns %s with the force of the blow!"
         ],
-        "stun_dir" : 2
+        "stun_dur" : 2
    },{
         "type" : "technique",
         "id" : "niten_timing_attack",
@@ -1287,7 +1301,7 @@
             ["damage", "cut", 1.5]
         ],
         "//" : "Minimum effective time for a status in combat is two turns, as you have one deducted on the same turn its applied.",
-        "stun_dir" : 2
+        "stun_dur" : 2
    },{
        "type" : "technique",
       "id" : "niten_feint",

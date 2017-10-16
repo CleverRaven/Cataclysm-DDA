@@ -30,10 +30,6 @@ bool monster_whitelist_is_exclusive = false;
 
 /** @relates string_id */
 template<>
-const mongroup_id string_id<MonsterGroup>::NULL_ID( "GROUP_NULL" );
-
-/** @relates string_id */
-template<>
 bool string_id<MonsterGroup>::is_valid() const
 {
     return MonsterGroupManager::isValidMonsterGroup( *this );
@@ -64,8 +60,8 @@ void mongroup::clear() {
 const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup_id& group )
 {
     const MonsterGroup *groupptr = &group.obj();
-    if (get_world_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0) {
-        const int replace_time = DAYS(groupptr->monster_group_time * get_world_option<float>( "MONSTER_UPGRADE_FACTOR" ) );
+    if (get_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0) {
+        const int replace_time = DAYS(groupptr->monster_group_time * get_option<float>( "MONSTER_UPGRADE_FACTOR" ) );
         while( groupptr->replace_monster_group && calendar::turn.get_turn() > replace_time ) {
             groupptr = &groupptr->new_monster_group.obj();
         }
@@ -80,10 +76,10 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     auto &group = GetUpgradedMonsterGroup( group_name );
     //Our spawn details specify, by default, a single instance of the default monster
     MonsterGroupResult spawn_details = MonsterGroupResult(group.defaultMonster, 1);
-    //If the default monster is too difficult, replace this with NULL_ID
+    //If the default monster is too difficult, replace this with NULL_ID.
     if(turn != -1 &&
        (turn + 900 < MINUTES(STARTING_MINUTES) + HOURS( group.defaultMonster.obj().difficulty))) {
-        spawn_details = MonsterGroupResult(NULL_ID, 0);
+        spawn_details = MonsterGroupResult();
     }
 
     bool monster_found = false;
@@ -96,7 +92,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
         valid_entry = valid_entry && (turn == -1 ||
                                       (turn + 900) >= (MINUTES(STARTING_MINUTES) + HOURS(mt.difficulty)));
         // If we are in classic mode, require the monster type to be either CLASSIC or WILDLIFE
-        if(get_world_option<bool>( "CLASSIC_ZOMBIES" ) ) {
+        if(get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
             valid_entry = valid_entry && (mt.in_category("CLASSIC") ||
                                           mt.in_category("WILDLIFE"));
         }
@@ -173,7 +169,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
                 //And if a quantity pointer with remaining value was passed, will modify the external value as a side effect
                 //We will reduce it by the spawn rule's cost multiplier
                 if(quantity) {
-                    *quantity -= it->cost_multiplier * spawn_details.pack_size;
+                    *quantity -= std::max( 1, it->cost_multiplier * spawn_details.pack_size );
                 }
                 monster_found = true;
                 //Otherwise, subtract the frequency from spawn result for the next loop around
@@ -181,6 +177,11 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
                 spawn_chance -= it->frequency;
             }
         }
+    }
+
+    // Force quantity to decrement regardless of whether we found a monster.
+    if( quantity && !monster_found ) {
+        (*quantity)--;
     }
 
     return spawn_details;
@@ -211,7 +212,7 @@ const mongroup_id& MonsterGroupManager::Monster2Group( const mtype_id& monster )
             return g.second.name;
         }
     }
-    return NULL_ID;
+    return mongroup_id::NULL_ID();
 }
 
 std::vector<mtype_id> MonsterGroupManager::GetMonstersFromGroup(const mongroup_id& group)
@@ -242,7 +243,7 @@ const MonsterGroup& MonsterGroupManager::GetMonsterGroup(const mongroup_id& grou
         // but it prevents further messages about invalid monster type id
         auto &g = monsterGroupMap[group];
         g.name = group;
-        g.defaultMonster = NULL_ID;
+        g.defaultMonster = mtype_id::NULL_ID();
         return g;
     } else {
         return it->second;
@@ -313,7 +314,7 @@ void MonsterGroupManager::FinalizeMonsterGroups()
             }
         }
         if(MonsterGroupManager::monster_is_blacklisted( mg.defaultMonster )) {
-            mg.defaultMonster = NULL_ID;
+            mg.defaultMonster = mtype_id::NULL_ID();
         }
     }
 }
@@ -342,16 +343,16 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
             int starts = 0;
             int ends = 0;
             if(mon.has_member("starts")) {
-                if (get_world_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0) {
-                    starts = mon.get_int("starts") * get_world_option<float>( "MONSTER_UPGRADE_FACTOR" );
+                if (get_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0) {
+                    starts = mon.get_int("starts") * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
                 } else {
                     // Default value if the monster upgrade factor is set to 0.0 - off
                     starts = mon.get_int("starts");
                 }
             }
             if(mon.has_member("ends")) {
-                if (get_world_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0) {
-                    ends = mon.get_int("ends") * get_world_option<float>( "MONSTER_UPGRADE_FACTOR" );
+                if (get_option<float>( "MONSTER_UPGRADE_FACTOR" ) > 0) {
+                    ends = mon.get_int("ends") * get_option<float>( "MONSTER_UPGRADE_FACTOR" );
                 } else {
                     // Default value if the monster upgrade factor is set to 0.0 - off
                     ends = mon.get_int("ends");
@@ -372,7 +373,7 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
         }
     }
     g.replace_monster_group = jo.get_bool("replace_monster_group", false);
-    g.new_monster_group = mongroup_id( jo.get_string("new_monster_group_id", mongroup_id::NULL_ID.str() ) );
+    g.new_monster_group = mongroup_id( jo.get_string("new_monster_group_id", mongroup_id::NULL_ID().str() ) );
     g.monster_group_time = jo.get_int("replacement_time", 0);
     g.is_safe = jo.get_bool( "is_safe", false );
 

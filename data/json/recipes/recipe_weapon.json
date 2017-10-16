@@ -74,8 +74,7 @@
   ],
   "tools": [
     [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
+      [ "surface_heat", 10, "LIST" ]
     ]
   ],
   "components": [
@@ -84,10 +83,7 @@
       [ "felt_patch", 1 ],
       [ "duct_tape", 50 ],
       [ "cordage_short", 2, "LIST" ],
-      [ "sinew", 50 ],
-      [ "thread", 50 ],
-      [ "yarn", 50 ],
-      [ "plant_fibre", 50 ]
+      [ "filament", 50, "LIST" ]
     ],
     [
       [ "scrap_copper", 2 ],
@@ -110,10 +106,7 @@
       [ "rag", 1 ],
       [ "duct_tape", 50 ],
       [ "cordage_short", 2, "LIST" ],
-      [ "sinew", 100 ],
-      [ "thread", 100 ],
-      [ "plant_fibre", 100 ],
-      [ "yarn", 100 ]
+      [ "filament", 100, "LIST" ]
     ],
     [
       [ "spike", 1 ]
@@ -181,6 +174,7 @@
   "time": 1000,
   "reversible": true,
   "autolearn": true,
+  "using": [ [ "filament", 20 ] ],
   "qualities":[
     {"id":"CUT","level":1}
   ],
@@ -188,12 +182,6 @@
     [
       [ "leather", 1 ],
       [ "fur", 1 ]
-    ],
-    [
-      [ "plant_fibre", 20 ],
-      [ "sinew", 20 ],
-      [ "thread", 20 ],
-      [ "yarn", 20 ]
     ]
   ]
 },{
@@ -277,15 +265,13 @@
     ],
     [
       [ "rag", 1 ],
+      [ "felt_patch", 1 ],
       [ "leather", 1 ],
       [ "fur", 1 ]
     ],
     [
-      [ "plant_fibre", 20 ],
-      [ "sinew", 20 ],
-      [ "thread", 20 ],
-      [ "yarn", 20 ],
-      [ "duct_tape", 20 ]
+      [ "duct_tape", 20 ],
+      [ "filament", 20, "LIST" ]
     ]
   ]
 },{
@@ -304,8 +290,7 @@
   ],
   "tools": [
     [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
+      [ "surface_heat", 10, "LIST" ]
     ]
   ],
   "components": [
@@ -323,12 +308,9 @@
       [ "fur", 1 ]
     ],
     [
-      [ "plant_fibre", 20 ],
-      [ "sinew", 20 ],
-      [ "thread", 20 ],
-      [ "yarn", 20 ],
       [ "duct_tape", 20 ],
-      [ "cordage_short", 1, "LIST" ]
+      [ "cordage_short", 1, "LIST" ],
+      [ "filament", 20, "LIST" ]
     ],
     [
       [ "scrap_copper", 3 ],
@@ -359,8 +341,8 @@
     ],
     [
       [ "rag", 1 ],
+      [ "felt_patch", 1 ],
       [ "leather", 1 ],
-      [ "duct_tape", 20 ],
       [ "fur", 1 ]
     ],
     [
@@ -396,15 +378,13 @@
     ],
     [
       [ "rag", 1 ],
+      [ "felt_patch", 1 ],
       [ "leather", 1 ],
       [ "fur", 1 ]
     ],
     [
-      [ "plant_fibre", 20 ],
-      [ "sinew", 20 ],
-      [ "thread", 20 ],
-      [ "yarn", 20 ],
-      [ "duct_tape", 20 ]
+      [ "duct_tape", 20 ],
+      [ "filament", 20, "LIST" ]
     ]
   ]
 },{
@@ -461,6 +441,7 @@
     ],
     [
       [ "rag", 1 ],
+      [ "felt_patch", 1 ],
       [ "leather", 1 ],
       [ "fur", 1 ]
     ],
@@ -469,38 +450,6 @@
       [ "duct_tape", 50 ]
     ]
   ]
-},{
-  "type" : "recipe",
-  "result": "spear_steel",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
-  "skill_used": "fabrication",
-  "skills_required": [ "melee", 1 ],
-  "difficulty": 1,
-  "time": 60000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":3},
-    {"id":"SAW_M","level":1},
-    { "id" : "GLARE", "level" : 2 }
-  ], "tools": [
-      [
-      [ "oxy_torch", 4 ],
-      [ "welder", 20 ],
-      [ "welder_crude", 30 ],
-      [ "toolset", 30 ]
-      ]
-      ],
-  "components":
-     [
-     [
-      [ "pipe", 1 ]
-     ],
-     [
-     [ "steel_chunk", 1 ],
-     [ "scrap", 3 ]
-     ]
-    ]
 },{
   "type" : "recipe",
   "result": "longbow",
@@ -523,11 +472,8 @@
       [ "2x4", 1 ]
     ],
     [
-      [ "string_36", 2 ],
-      [ "thread", 200 ],
-      [ "sinew", 200 ],
-      [ "plant_fibre", 200 ],
-      [ "yarn", 200 ]
+      [ "cordage", 2, "LIST" ],
+      [ "filament", 200, "LIST" ]
     ]
   ]
 },{
@@ -550,10 +496,7 @@
     ],
     [
       [ "cordage", 2, "LIST" ],
-      [ "thread", 200 ],
-      [ "sinew", 200 ],
-      [ "plant_fibre", 200 ],
-      [ "yarn", 200 ]
+      [ "filament", 200, "LIST" ]
     ]
   ]
 },{
@@ -578,11 +521,8 @@
       [ "2x4", 1 ]
     ],
     [
-      [ "string_36", 2 ],
-      [ "thread", 200 ],
-      [ "sinew", 200 ],
-      [ "plant_fibre", 200 ],
-      [ "yarn", 200 ]
+      [ "cordage", 2, "LIST" ],
+      [ "filament", 200, "LIST" ]
     ]
   ]
 },{
@@ -608,11 +548,8 @@
       [ "bone_human", 3 ]
     ],
     [
-      [ "string_36", 2 ],
-      [ "thread", 200 ],
-      [ "sinew", 200 ],
-      [ "plant_fibre", 200 ],
-      [ "yarn", 200 ]
+      [ "cordage", 2, "LIST" ],
+      [ "filament", 200, "LIST" ]
     ]
   ]
 },{
@@ -1030,8 +967,7 @@
   "result": "hand_crossbow",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": [ "archery", 3 ],
+  "skill_used": "fabrication",
   "difficulty": 3,
   "time": 30000,
   "reversible": true,
@@ -1065,8 +1001,7 @@
   "result": "crossbow",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": [ "archery", 3 ],
+  "skill_used": "fabrication",
   "difficulty": 3,
   "time": 15000,
   "reversible": true,
@@ -1092,8 +1027,7 @@
   "result": "bullet_crossbow",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": [ "archery", 2 ],
+  "skill_used": "fabrication",
   "difficulty": 3,
   "time": 15000,
   "reversible": true,
@@ -2318,8 +2252,7 @@
   "result": "gun_crossbow",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_MODS",
-  "skill_used": "mechanics",
-  "skills_required": [ "archery", 3 ],
+  "skill_used": "fabrication",
   "difficulty": 4,
   "time": 35000,
   "book_learn" : [[ "recipe_bows", 3 ] , [ "manual_archery", 5] , [ "book_archery", 4]],
@@ -2353,7 +2286,7 @@
   "type" : "recipe",
    "result": "sword_wood",
    "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_BASHING",
    "skill_used": "fabrication",
    "time": 25000,
    "autolearn": true,
@@ -2990,7 +2923,7 @@
   "type" : "recipe",
   "result": "knife_combat",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 6,
   "time": 360000,
@@ -3028,7 +2961,7 @@
   "type" : "recipe",
   "result": "knife_trench",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 6,
   "time": 390000,
@@ -3222,9 +3155,7 @@
     [
       ["mold_plastic", -1] ],
     [
-      ["hotplate", 10],
-      ["toolset", 10],
-      ["fire", -1]
+      [ "surface_heat", 10, "LIST" ]
     ]
   ],
   "components" : [
@@ -3545,9 +3476,7 @@
   "book_learn": [[ "recipe_melee", 4 ]],
   "tools" : [ [ ["mold_plastic", -1] ],
     [
-      ["hotplate", 10],
-      ["toolset", 10],
-      ["fire", -1]
+      [ "surface_heat", 10, "LIST" ]
     ]
   ],
   "components" : [ [ ["plastic_chunk", 10] ] ]
@@ -3585,9 +3514,7 @@
   ], "tools" : [
      [ ["mold_plastic", -1] ],
      [
-      ["hotplate", 10],
-      ["toolset", 10],
-      ["fire", -1]
+      [ "surface_heat", 10, "LIST" ]
      ],
      [
       [ "soldering_iron", 10 ],
@@ -3985,6 +3912,7 @@
   "difficulty": 8,
   "time": 480000,
   "book_learn": [[ "textbook_armschina", 7 ]],
+  "using": [ [ "filament", 100 ] ],
   "qualities": [
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
@@ -4011,13 +3939,7 @@
     [
       [ "fur", 1 ],
       [ "leather", 1 ]
-    ],
-    [
-      [ "thread", 100 ],
-      [ "sinew", 100 ],
-      [ "plant_fibre", 100 ],
-      [ "yarn", 100 ]
-   ]
+    ]
   ]
 },{
   "type" : "recipe",
@@ -4060,7 +3982,7 @@
   "type" : "recipe",
   "result": "estoc",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 8,
   "time": 490000,
@@ -4205,18 +4127,15 @@
       [ "leather", 2 ]
      ],
      [
-      [ "plant_fibre", 20 ],
-      [ "sinew", 20 ],
-      [ "thread", 20 ],
-      [ "yarn", 20 ],
-      [ "duct_tape", 20 ]
+      [ "duct_tape", 20 ],
+      [ "filament", 20, "LIST" ]
      ]
     ]
 },{
   "type" : "recipe",
   "result": "tanto",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 7,
   "time": 380000,
@@ -4658,8 +4577,7 @@
   "result": "huge_crossbow",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": [ "archery", 3 ],
+  "skill_used": "fabrication",
   "difficulty": 6,
   "time": 60000,
   "reversible": true,
@@ -4700,8 +4618,7 @@
   "result": "rep_crossbow",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": [ "archery", 3 ],
+  "skill_used": "fabrication",
   "difficulty": 3,
   "time": 45000,
   "reversible": true,
@@ -4789,7 +4706,7 @@
   "type" : "recipe",
   "result": "knife_steak",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 3,
   "time": 60000,
@@ -4822,7 +4739,7 @@
   "type" : "recipe",
   "result": "knife_rambo",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 6,
   "time": 180000,
@@ -4861,6 +4778,7 @@
   "difficulty": 7,
   "time": 460000,
   "book_learn": [[ "textbook_armschina", 6 ]],
+  "using": [ [ "filament", 100 ] ],
   "qualities" : [
     {"id":"HAMMER","level":3},
     { "id": "CHISEL", "level": 3 }
@@ -4887,12 +4805,6 @@
     [
       [ "fur", 2 ],
       [ "leather", 2 ]
-    ],
-    [
-      [ "thread", 100 ],
-      [ "sinew", 100 ],
-      [ "plant_fibre", 100 ],
-      [ "yarn", 100 ]
     ]
   ]
 },{
@@ -5040,7 +4952,7 @@
   "type" : "recipe",
   "result": "spear_survivor",
   "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
+  "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
   "difficulty": 6,
   "skills_required" : [ "melee", 5 ],
@@ -5228,9 +5140,7 @@
         ["mold_plastic", -1]
       ],
       [
-        ["hotplate", 30],
-        ["toolset", 30],
-        ["fire", -1]
+        [ "surface_heat", 30, "LIST" ]
       ],
       [
         ["soldering_iron", 20],

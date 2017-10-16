@@ -31,12 +31,9 @@ using trap_str_id = string_id<trap>;
 
 using ter_id = int_id<ter_t>;
 using ter_str_id = string_id<ter_t>;
-
 using furn_id = int_id<furn_t>;
 using furn_str_id = string_id<furn_t>;
-
 using itype_id = std::string;
-
 using harvest_id = string_id<harvest_list>;
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
@@ -64,11 +61,7 @@ struct map_bash_info {
     furn_str_id furn_set;   // furniture to set (only used by furniture, not terrain)
     // ids used for the special handling of tents (have to be ids of furniture)
     std::vector<std::string> tent_centers;
-    map_bash_info() : str_min(-1), str_max(-1), str_min_blocked(-1), str_max_blocked(-1),
-                      str_min_supported(-1), str_max_supported(-1),
-                      explosive(0), sound_vol(-1), sound_fail_vol(-1),
-                      collapse_radius(1), destroy_only(false), bash_below(false),
-                      drop_group("EMPTY_GROUP"), ter_set(NULL_ID), furn_set(NULL_ID) {};
+    map_bash_info();
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 struct map_deconstruct_info {
@@ -80,7 +73,7 @@ struct map_deconstruct_info {
     std::string drop_group;
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     furn_str_id furn_set;    // furniture to set (only used by furniture, not terrain)
-    map_deconstruct_info() : can_do(false), deconstruct_above(false), ter_set(NULL_ID), furn_set(NULL_ID) {};
+    map_deconstruct_info();
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 
@@ -119,6 +112,7 @@ struct map_deconstruct_info {
  * OPENCLOSE_INSIDE - If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
  * PERMEABLE - Allows gases to flow through unimpeded.
  * RAMP - Higher z-levels can be accessed from this tile
+ * EASY_DECONSTRUCT - Player can deconstruct this without tools
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
@@ -197,16 +191,21 @@ enum ter_connects : int {
 };
 
 struct map_data_common_t {
-    std::string name;  // The plaintext name of the terrain type the user would see (i.e. dirt)
-
     map_bash_info        bash;
     map_deconstruct_info deconstruct;
+
+    protected:
+        friend furn_t null_furniture_t();
+        friend ter_t null_terrain_t();
+        // The (untranslated) plaintext name of the terrain type the user would see (i.e. dirt)
+        std::string name_;
 
 private:
     std::set<std::string> flags;    // string flags which possibly refer to what's documented above.
     std::bitset<NUM_TERFLAGS> bitflags; // bitfield of -certian- string flags which are heavily checked
 
 public:
+        std::string name() const;
 
     enum { SEASONS_PER_YEAR = 4 };
     /*
@@ -231,7 +230,7 @@ public:
      * Note: This excludes items that take extra tools to harvest.
      */
     std::array<harvest_id, SEASONS_PER_YEAR> harvest_by_season = {{
-        harvest_id( "null" ), harvest_id( "null" ), harvest_id( "null" ), harvest_id( "null" )
+        harvest_id::NULL_ID(), harvest_id::NULL_ID(), harvest_id::NULL_ID(), harvest_id::NULL_ID()
     }};
 
     bool transparent;
@@ -287,12 +286,7 @@ struct ter_t : map_data_common_t {
 
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
 
-    ter_t() :
-        open( NULL_ID ),
-        close( NULL_ID ),
-        transforms_into( NULL_ID ),
-        roof( NULL_ID ),
-        trap( tr_null ) {};
+    ter_t();
 
     static size_t count();
 
@@ -323,9 +317,7 @@ struct furn_t : map_data_common_t {
     // May return NULL
     const itype *crafting_ammo_item_type() const;
 
-    furn_t() :
-        open( NULL_ID ),
-        close( NULL_ID ) {};
+    furn_t();
 
     static size_t count();
 
@@ -357,26 +349,6 @@ void verify_furniture();
 void verify_terrain();
 
 /*
- * Container for custom 'grass_or_dirt' functionality. Returns int but can store str values for delayed lookup and conversion
- */
-template<typename T>
-struct id_or_id {
-   int chance;                  // 8
-   int_id<T> primary;
-   int_id<T> secondary;
-   id_or_id(const int_id<T> id1, const int i, const int_id<T> id2) : chance(i), primary(id1), secondary(id2) { }
-   bool match( const int_id<T> iid ) const {
-       if ( iid == primary || iid == secondary ) {
-           return true;
-       }
-       return false;
-   }
-   int_id<T> get() const {
-       return ( one_in(chance) ? secondary : primary );
-   }
-};
-
-/*
 runtime index: ter_id
 ter_id refers to a position in the terlist[] where the ter_t struct is stored. These global
 ints are a drop-in replacement to the old enum, however they are -not- required (save for areas in
@@ -388,12 +360,13 @@ t_basalt
 extern ter_id t_null,
     t_hole, // Real nothingness; makes you fall a z-level
     // Ground
-    t_dirt, t_sand, t_dirtmound, t_pit_shallow, t_pit,
+    t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit,
     t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
     t_rock_floor,
     t_grass,
     t_metal_floor,
     t_pavement, t_pavement_y, t_sidewalk, t_concrete,
+    t_thconc_floor,
     t_floor, t_floor_waxed,
     t_dirtfloor,//Dirt floor(Has roof)
     t_carpet_red,t_carpet_yellow,t_carpet_purple,t_carpet_green,
@@ -512,7 +485,7 @@ extern furn_id f_null,
     f_flower_marloss,
     f_tatami,
     f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
-    f_robotic_arm;
+    f_robotic_arm, f_vending_reinforced;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.
@@ -529,7 +502,7 @@ void finalize_furniture_and_terrain();
 struct ter_furn_id {
    ter_id ter;
    furn_id furn;
-   ter_furn_id() : ter( t_null ), furn( f_null ) { }
+   ter_furn_id();
 };
 
 

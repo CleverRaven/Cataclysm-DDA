@@ -14,7 +14,7 @@
     "mod_targets": [ "shotgun", "rifle", "crossbow" ],
     "gun_data": {
       "ammo": "bolt",
-      "skill": "archery",
+      "skill": "rifle",
       "range": 8,
       "dispersion": 180,
       "durability": 10,
@@ -52,7 +52,7 @@
     "location": "rail",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
     "sight_dispersion": 360,
-    "aim_cost": 2,
+    "aim_speed": 8,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ]
   },
   {

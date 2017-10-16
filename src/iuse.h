@@ -68,7 +68,7 @@ public:
     int mycus               ( player*, item*, bool, const tripoint& );
     int dogfood             ( player*, item*, bool, const tripoint& );
     int catfood             ( player*, item*, bool, const tripoint& );
-
+    int feedcattle          ( player*, item*, bool, const tripoint& );
 // TOOLS
     int sew_advanced        ( player*, item*, bool, const tripoint& );
     int scissors            ( player*, item*, bool, const tripoint& );
@@ -135,7 +135,7 @@ public:
     int vibe                ( player*, item*, bool, const tripoint& );
     int vortex              ( player*, item*, bool, const tripoint& );
     int dog_whistle         ( player*, item*, bool, const tripoint& );
-    int vacutainer          ( player*, item*, bool, const tripoint& );
+    int blood_draw          ( player*, item*, bool, const tripoint& );
     static void cut_log_into_planks(player *);
     int lumber              ( player*, item*, bool, const tripoint& );
     int oxytorch            ( player*, item*, bool, const tripoint& );
@@ -185,7 +185,6 @@ public:
     int hairkit             ( player*, item*, bool, const tripoint& );
     int weather_tool        ( player*, item*, bool, const tripoint& );
     int ladder              ( player*, item*, bool, const tripoint& );
-    int saw_barrel          ( player*, item*, bool, const tripoint& );
     int washclothes         ( player*, item*, bool, const tripoint& );
 
 // MACGUFFINS
@@ -232,8 +231,8 @@ public:
 
     virtual ~iuse_actor() { }
     virtual void load( JsonObject &jo ) = 0;
-    virtual long use( player*, item*, bool, const tripoint& ) const = 0;
-    virtual bool can_use( const player*, const item*, bool, const tripoint& ) const { return true; }
+    virtual long use( player &, item &, bool, const tripoint& ) const = 0;
+    virtual bool can_use( const player &, const item &, bool, const tripoint& ) const { return true; }
     virtual void info( const item &, std::vector<iteminfo> & ) const {};
     /**
      * Returns a deep copy of this object. Example implementation:
@@ -274,7 +273,7 @@ public:
 
     ~use_function() = default;
 
-    long call( player*,item*,bool, const tripoint& ) const;
+    long call( player &, item &, bool, const tripoint & ) const;
 
     iuse_actor *get_actor_ptr() const
     {
@@ -292,7 +291,7 @@ public:
     /** @return Used by @ref item::info to get description of the actor */
     void dump_info( const item &, std::vector<iteminfo> & ) const;
 
-    bool can_call(const player *p, const item *it, bool t, const tripoint &pos) const
+    bool can_call(const player &p, const item &it, bool t, const tripoint &pos) const
     {
         return !actor || actor->can_use( p, it, t, pos );
     }

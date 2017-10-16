@@ -56,7 +56,18 @@
   "dispersion" : 50,
   "recoil" : 8000,
   "count" : 15,
-  "effects" : ["COOKOFF", "FRAG"]
+  "effects" : ["CUSTOM_EXPLOSION"],
+  "explode_in_fire" : true,
+  "explosion" : {
+     "power": 24,
+     "distance_factor": 0.6,
+     "shrapnel": {
+         "count": 40,
+         "mass": 5,
+         "recovery": 100,
+         "drop": "shrapnel"
+     }
+  }
   },
   {
   "type" : "AMMO",
@@ -79,7 +90,13 @@
   "dispersion" : 50,
   "recoil" : 8000,
   "count" : 15,
-  "effects" : ["COOKOFF", "NAPALM", "EXPLOSIVE_SMALL"]
+  "effects" : ["CUSTOM_EXPLOSION"],
+  "explode_in_fire" : true,
+  "explosion" : {
+     "power": 24,
+     "distance_factor": 0.4,
+     "fire" : true
+  }
   },
   {
   "type" : "AMMO",
@@ -118,13 +135,18 @@
   "bashing" : 1,
   "ammo_type" : "120mm_usable",
   "casing" : "120mm_casing",
-  "damage" : 4000,
+  "damage" : 3500,
   "pierce" : 800,
   "range" : 90,
   "dispersion" : 5,
   "recoil" : 6000,
   "count" : 1,
-  "effects" : ["COOKOFF", "EXPLOSIVE", "TRAIL"]
+  "effects" : ["CUSTOM_EXPLOSION", "TRAIL"],
+  "explode_in_fire" : true,
+  "explosion" : {
+     "power": 100,
+     "distance_factor": 0.4
+  }
   },
   {
   "type" : "AMMO",
@@ -140,7 +162,7 @@
   "bashing" : 1,
   "ammo_type" : "120mm_usable",
   "casing" : "120mm_casing",
-  "damage" : 6000,
+  "damage" : 4000,
   "pierce" : 800,
   "range" : 95,
   "dispersion" : 5,
@@ -206,13 +228,50 @@
   "bashing" : 1,
   "ammo_type" : "155mm",
   "casing" : "155mm_casing",
-  "damage" : 4500,
+  "damage" : 4000,
   "pierce" : 1200,
   "range" : 120,
   "dispersion" : 25,
   "recoil" : 6000,
   "count" : 1,
-  "effects" : ["COOKOFF", "EXPLOSIVE_BIG", "TRAIL"]
+  "effects" : ["CUSTOM_EXPLOSION", "TRAIL"],
+  "explode_in_fire" : true,
+  "explosion" : {
+     "power": 150,
+     "distance_factor": 0.5
+  }
+  },
+  {
+  "type" : "AMMO",
+  "id" : "155mm_frag",
+  "price" : 120000,
+  "name" : "155mm frag",
+  "symbol" : "=",
+  "color" : "dark_gray",
+  "description" : "A 155mm High Explosive Fragmentation round.  Designed to give anything near what you hit a really bad day.",
+  "material" : ["steel", "powder"],
+  "volume" : 15,
+  "weight" : 4000,
+  "bashing" : 1,
+  "ammo_type" : "155mm",
+  "casing" : "155mm_casing",
+  "damage" : 3500,
+  "pierce" : 1200,
+  "range" : 120,
+  "dispersion" : 25,
+  "recoil" : 6000,
+  "count" : 1,
+  "effects" : ["CUSTOM_EXPLOSION", "TRAIL"],
+  "explode_in_fire" : true,
+  "explosion" : {
+     "power": 40,
+     "shrapnel": {
+         "count": 60,
+         "mass": 6,
+         "recovery": 100,
+         "drop": "shrapnel"
+     }
+  }
   },
   {
   "type" : "AMMO",
@@ -262,7 +321,7 @@
   "type" : "AMMO",
   "id" : "atgm_heat",
   "price" : 70000,
-  "name" : "anti-tank guided missile",
+  "name" : "152mm anti-tank guided missile",
   "symbol" : "=",
   "color" : "dark_gray",
   "description" : "A tube-launched, optically tracked, wire-guided missile.  Designed to be highly effective against vehicles and structures.",
@@ -277,7 +336,12 @@
   "dispersion" : 0,
   "recoil" : 6000,
   "count" : 1,
-  "effects" : ["COOKOFF", "EXPLOSIVE", "NEVER_MISFIRES"]
+  "effects" : ["CUSTOM_EXPLOSION", "NEVER_MISFIRES"],
+  "explode_in_fire" : true,
+  "explosion" : {
+     "power": 300,
+     "distance_factor": 0.5
+  }
   },
   {
   "type" : "GENERIC",

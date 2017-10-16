@@ -4,11 +4,7 @@
       "id": "default",                      "//": "identifier, when region_map is in it will determine alternatives ('desert' etc)",
       "house_basement_chance": 3,           "//": "one_in(n) houses with basements",
       "default_oter": "field",              "//": "default oter_id (anything that isn't a house/road/etc) some become forests",
-      "default_groundcover": {              "//": "biome settings for generic 'grass_or_dirt' (which is reproduced below",
-          "primary": "t_grass",             "//": "default ter_id on ground",
-          "ratio": 4,                       "//": "one_in(n) chance that it becomes...",
-          "secondary": "t_dirt",            "//": "...this instead"
-      },
+      "default_groundcover": [ [ "t_grass", 4 ], [ "t_dirt",  1 ] ],
       "field_coverage": {                   "//": "biome settings for builtin field mapgen. The values below replicate results of hardcoded 'field' mapgen",
           "percent_coverage": 0.9333,       "//": "% of tiles that have a plant: one_in(120)",
           "default_ter": "t_shrub",         "//": "default plant",
@@ -112,7 +108,11 @@
           "park_radius": 130,               "//": "this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;",
           "parks": {                        "//": "weighted list for park overmap terrains",
               "park": 4,
-              "pool": 1
+              "pool": 1,
+              "skate_park": 1,
+              "small_wooded_trail": 3,
+              "pavilion": 2,
+              "cemetery_small":2
           },
           "shops": {                        "//": "weighted list of oterrains for commercial zoning",
               "s_gas": 5,
@@ -159,7 +159,12 @@
               "s_music": 2,
               "s_laundromat": 1,
               "veterinarian": 2,
-              "mortuary": 1
+              "mortuary": 1,
+              "orchard": 2,
+              "dispensary": 1,
+              "small_office": 2,
+              "art_gallery": 2,
+              "small_storage_units": 3
           }
       },
       "weather": {

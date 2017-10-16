@@ -14,9 +14,11 @@ class Creature;
 class player;
 enum game_message_type : int;
 using efftype_id = string_id<effect_type>;
+struct mutation_branch;
+using trait_id = string_id<mutation_branch>;
 
 /** Handles the large variety of weed messages. */
-void weed_msg(player *p);
+void weed_msg( player *p );
 
 enum effect_rating {
     e_good,     // The effect is good for the one who has it.
@@ -63,6 +65,8 @@ class effect_type
         /** Returns true if an effect will only target main body parts (i.e., those with HP). */
         bool get_main_parts() const;
 
+        bool is_show_in_info() const;
+
         /** Loading helper functions */
         bool load_mod_data( JsonObject &jsobj, std::string member );
         bool load_miss_msgs( JsonObject &jsobj, std::string member );
@@ -84,7 +88,10 @@ class effect_type
 
         bool main_parts_only;
 
-        std::vector<std::string> resist_traits;
+        // Determins if effect should be shown in description.
+        bool show_in_info;
+
+        std::vector<trait_id> resist_traits;
         std::vector<efftype_id> resist_effects;
         std::vector<efftype_id> removes_effects;
         std::vector<efftype_id> blocks_effects;
@@ -204,7 +211,7 @@ class effect : public JsonSerializer, public JsonDeserializer
         int mod_intensity( int mod, bool alert = false );
 
         /** Returns the string id of the resist trait to be used in has_trait("id"). */
-        const std::vector<std::string> &get_resist_traits() const;
+        const std::vector<trait_id> &get_resist_traits() const;
         /** Returns the string id of the resist effect to be used in has_effect("id"). */
         const std::vector<efftype_id> &get_resist_effects() const;
         /** Returns the string ids of the effects removed by this effect to be used in remove_effect("id"). */

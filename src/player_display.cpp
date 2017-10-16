@@ -175,6 +175,8 @@ std::string get_encumbrance_description( const player &p, body_part bp, bool com
             s += reload_cost_text( ( eff_encumbrance / 10 ) * 15 );
             s += string_format( _( "Dexterity %+.1f when throwing items;\n" ), -( eff_encumbrance / 10.0f ) );
             s += melee_cost_text( eff_encumbrance / 2 );
+            s += "\n";
+            s += string_format( _( "Reduces aim speed of guns by %.1f." ), p.aim_speed_encumbrance_modifier() );
             break;
         case bp_leg_l:
         case bp_leg_r:
@@ -209,26 +211,6 @@ void player::disp_info()
             }
         }
     }
-    if( abs( get_morale_level() ) >= 100 ) {
-        bool pos = ( get_morale_level() > 0 );
-        effect_name.push_back( pos ? _( "Elated" ) : _( "Depressed" ) );
-        std::stringstream morale_text;
-        if( abs( get_morale_level() ) >= 200 ) {
-            morale_text << _( "Dexterity" ) << ( pos ? " +" : " " ) <<
-                        get_morale_level() / 200 << "   ";
-        }
-        if( abs( get_morale_level() ) >= 180 ) {
-            morale_text << _( "Strength" ) << ( pos ? " +" : " " ) <<
-                        get_morale_level() / 180 << "   ";
-        }
-        if( abs( get_morale_level() ) >= 125 ) {
-            morale_text << _( "Perception" ) << ( pos ? " +" : " " ) <<
-                        get_morale_level() / 125 << "   ";
-        }
-        morale_text << _( "Intelligence" ) << ( pos ? " +" : " " ) <<
-                    get_morale_level() / 100 << "   ";
-        effect_text.push_back( morale_text.str() );
-    }
     if( get_perceived_pain() > 0 ) {
         effect_name.push_back( _( "Pain" ) );
         const auto ppen = get_pain_penalty();
@@ -250,51 +232,19 @@ void player::disp_info()
         }
         effect_text.push_back( pain_text.str() );
     }
-    if( stim > 0 ) {
-        int dexbonus = stim / 10;
-        int perbonus = stim /  7;
-        int intbonus = stim /  6;
-        if( abs( stim ) >= 30 ) {
-            dexbonus -= abs( stim - 15 ) /  8;
-            perbonus -= abs( stim - 15 ) / 12;
-            intbonus -= abs( stim - 15 ) / 14;
-        }
 
-        if( dexbonus < 0 ) {
-            effect_name.push_back( _( "Stimulant Overdose" ) );
-        } else {
-            effect_name.push_back( _( "Stimulant" ) );
-        }
-        std::stringstream stim_text;
-        stim_text << _( "Speed" ) << " +" << stim << "   " << _( "Intelligence" ) <<
-                  ( intbonus > 0 ? " + " : " " ) << intbonus << "   " << _( "Perception" ) <<
-                  ( perbonus > 0 ? " + " : " " ) << perbonus << "   " << _( "Dexterity" )  <<
-                  ( dexbonus > 0 ? " + " : " " ) << dexbonus;
-        effect_text.push_back( stim_text.str() );
-    } else if( stim < 0 ) {
-        effect_name.push_back( _( "Depressants" ) );
-        std::stringstream stim_text;
-        int dexpen = stim / 10;
-        int perpen = stim /  7;
-        int intpen = stim /  6;
-        // Since dexpen etc. are always less than 0, no need for + signs
-        stim_text << _( "Speed" ) << " " << stim / 4 << "   " << _( "Intelligence" ) << " " << intpen <<
-                  "   " << _( "Perception" ) << " " << perpen << "   " << _( "Dexterity" ) << " " << dexpen;
-        effect_text.push_back( stim_text.str() );
-    }
-
-    if( ( has_trait( "TROGLO" ) && g->is_in_sunlight( pos() ) &&
+    if( ( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
           g->weather == WEATHER_SUNNY ) ||
-        ( has_trait( "TROGLO2" ) && g->is_in_sunlight( pos() ) &&
+        ( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) &&
           g->weather != WEATHER_SUNNY ) ) {
         effect_name.push_back( _( "In Sunlight" ) );
         effect_text.push_back( _( "The sunlight irritates you.\n\
 Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" ) );
-    } else if( has_trait( "TROGLO2" ) && g->is_in_sunlight( pos() ) ) {
+    } else if( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) ) {
         effect_name.push_back( _( "In Sunlight" ) );
         effect_text.push_back( _( "The sunlight irritates you badly.\n\
 Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" ) );
-    } else if( has_trait( "TROGLO3" ) && g->is_in_sunlight( pos() ) ) {
+    } else if( has_trait( trait_id( "TROGLO3" ) ) && g->is_in_sunlight( pos() ) ) {
         effect_name.push_back( _( "In Sunlight" ) );
         effect_text.push_back( _( "The sunlight irritates you terribly.\n\
 Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
@@ -309,13 +259,15 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
     unsigned maxy = unsigned( TERMY );
 
-    unsigned infooffsetytop = 11;
-    unsigned infooffsetybottom = 15;
-    std::vector<std::string> traitslist = get_mutations();
+    std::vector<trait_id> traitslist = get_mutations();
 
     unsigned effect_win_size_y = 1 + unsigned( effect_name.size() );
     unsigned trait_win_size_y = 1 + unsigned( traitslist.size() );
     unsigned skill_win_size_y = 1 + unsigned( Skill::skill_count() );
+    unsigned info_win_size_y = 4;
+
+    unsigned infooffsetytop = 11;
+    unsigned infooffsetybottom = infooffsetytop + 1 + info_win_size_y;
 
     if( trait_win_size_y + infooffsetybottom > maxy ) {
         trait_win_size_y = maxy - infooffsetybottom;
@@ -344,13 +296,15 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     WINDOW *w_speed   = newwin( 9, 26,  1 + VIEW_OFFSET_Y, 54 + VIEW_OFFSET_X );
     WINDOW *w_skills  = newwin( skill_win_size_y, 26, infooffsetybottom + VIEW_OFFSET_Y,
                                 0 + VIEW_OFFSET_X );
-    WINDOW *w_info    = newwin( 3, FULL_SCREEN_WIDTH, infooffsetytop + VIEW_OFFSET_Y,
+    WINDOW *w_info    = newwin( info_win_size_y, FULL_SCREEN_WIDTH, infooffsetytop + VIEW_OFFSET_Y,
                                 0 + VIEW_OFFSET_X );
 
+    unsigned upper_info_border = 10;
+    unsigned lower_info_border = 1 + upper_info_border + info_win_size_y;
     for( unsigned i = 0; i < unsigned( FULL_SCREEN_WIDTH + 1 ); i++ ) {
         //Horizontal line top grid
-        mvwputch( w_grid_top, 10, i, BORDER_COLOR, LINE_OXOX );
-        mvwputch( w_grid_top, 14, i, BORDER_COLOR, LINE_OXOX );
+        mvwputch( w_grid_top, upper_info_border, i, BORDER_COLOR, LINE_OXOX );
+        mvwputch( w_grid_top, lower_info_border, i, BORDER_COLOR, LINE_OXOX );
 
         //Vertical line top grid
         if( i <= infooffsetybottom ) {
@@ -392,12 +346,12 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     }
 
     //Intersections top grid
-    mvwputch( w_grid_top, 14, 26, BORDER_COLOR, LINE_OXXX ); // T
-    mvwputch( w_grid_top, 14, 53, BORDER_COLOR, LINE_OXXX ); // T
-    mvwputch( w_grid_top, 10, 26, BORDER_COLOR, LINE_XXOX ); // _|_
-    mvwputch( w_grid_top, 10, 53, BORDER_COLOR, LINE_XXOX ); // _|_
-    mvwputch( w_grid_top, 10, FULL_SCREEN_WIDTH, BORDER_COLOR, LINE_XOXX ); // -|
-    mvwputch( w_grid_top, 14, FULL_SCREEN_WIDTH, BORDER_COLOR, LINE_XOXX ); // -|
+    mvwputch( w_grid_top, lower_info_border, 26, BORDER_COLOR, LINE_OXXX ); // T
+    mvwputch( w_grid_top, lower_info_border, 53, BORDER_COLOR, LINE_OXXX ); // T
+    mvwputch( w_grid_top, upper_info_border, 26, BORDER_COLOR, LINE_XXOX ); // _|_
+    mvwputch( w_grid_top, upper_info_border, 53, BORDER_COLOR, LINE_XXOX ); // _|_
+    mvwputch( w_grid_top, upper_info_border, FULL_SCREEN_WIDTH, BORDER_COLOR, LINE_XOXX ); // -|
+    mvwputch( w_grid_top, lower_info_border, FULL_SCREEN_WIDTH, BORDER_COLOR, LINE_XOXX ); // -|
     wrefresh( w_grid_top );
 
     mvwputch( w_grid_skill, skill_win_size_y, 26, BORDER_COLOR, LINE_XOOX ); // _|
@@ -436,7 +390,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     if( crossed_threshold() ) {
         std::string race;
         for( auto &mut : my_mutations ) {
-            const auto &mdata = mutation_branch::get( mut.first );
+            const auto &mdata = mut.first.obj();
             if( mdata.threshold ) {
                 race = mdata.name;
                 break;
@@ -513,7 +467,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     mvwprintz( w_traits, 0, 13 - utf8_width( title_TRAITS ) / 2, c_ltgray, title_TRAITS );
     std::sort( traitslist.begin(), traitslist.end(), trait_display_sort );
     for( size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++ ) {
-        const auto &mdata = mutation_branch::get( traitslist[i] );
+        const auto &mdata = traitslist[i].obj();
         const auto color = mdata.get_display_color();
         mvwprintz( w_traits, int( i ) + 1, 1, color, mdata.name.c_str() );
     }
@@ -569,7 +523,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 skill_id( "bashing" ), skill_id( "stabbing" ),
             }
         };
-        if( has_active_bionic( "bio_cqb" ) &&
+        if( has_active_bionic( bionic_id( "bio_cqb" ) ) &&
             std::find( cqb_skills.begin(), cqb_skills.end(), elem->ident() ) != cqb_skills.end() ) {
             level_num = 5;
             exercise = 0;
@@ -599,41 +553,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
-    pen = get_morale_level() / 25;
-    if( abs( pen ) >= 4 ) {
-        if( pen > 10 ) {
-            pen = 10;
-        } else if( pen < -10 ) {
-            pen = -10;
-        }
-        if( pen > 0 )
-            mvwprintz( w_speed, line, 1, c_green, _( "Good mood           +%s%d%%" ),
-                       ( pen < 10 ? " " : "" ), pen );
-        else
-            mvwprintz( w_speed, line, 1, c_red, _( "Depressed           -%s%d%%" ),
-                       ( abs( pen ) < 10 ? " " : "" ), abs( pen ) );
-        line++;
-    }
     pen = get_pain_penalty().speed;
     if( pen >= 1 ) {
         mvwprintz( w_speed, line, 1, c_red, _( "Pain                -%s%d%%" ),
                    ( pen < 10 ? " " : "" ), pen );
-        line++;
-    }
-    if( get_painkiller() >= 10 ) {
-        pen = int( get_painkiller() * .1 );
-        mvwprintz( w_speed, line, 1, c_red, _( "Painkillers         -%s%d%%" ),
-                   ( pen < 10 ? " " : "" ), pen );
-        line++;
-    }
-    if( stim != 0 ) {
-        pen = std::min( 10, stim / 4 );
-        if( pen > 0 )
-            mvwprintz( w_speed, line, 1, c_green, _( "Stimulants          +%s%d%%" ),
-                       ( pen < 10 ? " " : "" ), pen );
-        else
-            mvwprintz( w_speed, line, 1, c_red, _( "Depressants         -%s%d%%" ),
-                       ( abs( pen ) < 10 ? " " : "" ), abs( pen ) );
         line++;
     }
     if( get_thirst() > 40 ) {
@@ -648,24 +571,24 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
-    if( has_trait( "SUNLIGHT_DEPENDENT" ) && !g->is_in_sunlight( pos() ) ) {
+    if( has_trait( trait_id( "SUNLIGHT_DEPENDENT" ) ) && !g->is_in_sunlight( pos() ) ) {
         pen = ( g->light_level( posz() ) >= 12 ? 5 : 10 );
         mvwprintz( w_speed, line, 1, c_red, _( "Out of Sunlight     -%s%d%%" ),
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
-    if( has_trait( "COLDBLOOD4" ) && g->get_temperature() > 65 ) {
+    if( has_trait( trait_id( "COLDBLOOD4" ) ) && g->get_temperature() > 65 ) {
         pen = ( g->get_temperature() - 65 ) / 2;
         mvwprintz( w_speed, line, 1, c_green, _( "Cold-Blooded        +%s%d%%" ),
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
-    if( ( has_trait( "COLDBLOOD" ) || has_trait( "COLDBLOOD2" ) ||
-          has_trait( "COLDBLOOD3" ) || has_trait( "COLDBLOOD4" ) ) &&
+    if( ( has_trait( trait_id( "COLDBLOOD" ) ) || has_trait( trait_id( "COLDBLOOD2" ) ) ||
+          has_trait( trait_id( "COLDBLOOD3" ) ) || has_trait( trait_id( "COLDBLOOD4" ) ) ) &&
         g->get_temperature() < 65 ) {
-        if( has_trait( "COLDBLOOD3" ) || has_trait( "COLDBLOOD4" ) ) {
+        if( has_trait( trait_id( "COLDBLOOD3" ) ) || has_trait( trait_id( "COLDBLOOD4" ) ) ) {
             pen = ( 65 - g->get_temperature() ) / 2;
-        } else if( has_trait( "COLDBLOOD2" ) ) {
+        } else if( has_trait( trait_id( "COLDBLOOD2" ) ) ) {
             pen = ( 65 - g->get_temperature() ) / 3;
         } else {
             pen = ( 65 - g->get_temperature() ) / 5;
@@ -700,16 +623,16 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
     int quick_bonus = int( newmoves - ( newmoves / 1.1 ) );
     int bio_speed_bonus = quick_bonus;
-    if( has_trait( "QUICK" ) && has_bionic( "bio_speed" ) ) {
+    if( has_trait( trait_id( "QUICK" ) ) && has_bionic( bionic_id( "bio_speed" ) ) ) {
         bio_speed_bonus = int( newmoves / 1.1 - ( newmoves / 1.1 / 1.1 ) );
         std::swap( quick_bonus, bio_speed_bonus );
     }
-    if( has_trait( "QUICK" ) ) {
+    if( has_trait( trait_id( "QUICK" ) ) ) {
         mvwprintz( w_speed, line, 1, c_green, _( "Quick               +%s%d%%" ),
                    ( quick_bonus < 10 ? " " : "" ), quick_bonus );
         line++;
     }
-    if( has_bionic( "bio_speed" ) ) {
+    if( has_bionic( bionic_id( "bio_speed" ) ) ) {
         mvwprintz( w_speed, line, 1, c_green, _( "Bionic Speed        +%s%d%%" ),
                    ( bio_speed_bonus < 10 ? " " : "" ), bio_speed_bonus );
     }
@@ -767,7 +690,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_stats, 3, 1, h_ltgray, _( "Dexterity:" ) );
 
                     mvwprintz( w_stats, 6, 1, c_magenta, _( "Melee to-hit bonus:" ) );
-                    mvwprintz( w_stats, 6, 22, c_magenta, "%+.2lf", get_hit_base() );
+                    mvwprintz( w_stats, 6, 21, c_magenta, "%+.1lf", get_hit_base() );
+                    mvwprintz( w_stats, 7, 1, c_magenta, _( "Ranged penalty:" ) );
+                    mvwprintz( w_stats, 7, 23, c_magenta, "%+3d", -( abs( ranged_dex_mod() ) ) );
                     mvwprintz( w_stats, 8, 1, c_magenta, _( "Throwing penalty per target's dodge: +%d" ) );
                     mvwprintz( w_stats, 8, 22, c_magenta, "%3d", throw_dispersion_per_dodge( false ) );
 
@@ -792,6 +717,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_stats, 5, 1, h_ltgray, _( "Perception:" ) );
                     mvwprintz( w_stats, 7, 1, c_magenta, _( "Trap detection level:" ) );
                     mvwprintz( w_stats, 7, 23, c_magenta, "%2d", get_per() );
+                    if( ranged_per_mod() > 0 ) {
+                        mvwprintz( w_stats, 8, 1, c_magenta, _( "Aiming penalty:" ) );
+                        mvwprintz( w_stats, 8, 21, c_magenta, "%+4d", -ranged_per_mod() );
+                    }
 
                     fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
                                     _( "Perception is the most important stat for ranged combat.  It's also used for "
@@ -894,7 +823,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 }
 
                 for( size_t i = min; i < max; i++ ) {
-                    const auto &mdata = mutation_branch::get( traitslist[i] );
+                    const auto &mdata = traitslist[i].obj();
                     mvwprintz( w_traits, int( 1 + i - min ), 1, c_ltgray, "                         " );
                     const auto color = mdata.get_display_color();
                     if( i == line ) {
@@ -906,9 +835,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     }
                 }
                 if( line < traitslist.size() ) {
-                    const auto &mdata = mutation_branch::get( traitslist[line] );
                     fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
-                                    mdata.description );
+                                    traitslist[line]->description );
                 }
                 wrefresh( w_traits );
                 wrefresh( w_info );
@@ -927,7 +855,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     mvwprintz( w_traits, 0, 0, c_ltgray, header_spaces.c_str() );
                     mvwprintz( w_traits, 0, 13 - utf8_width( title_TRAITS ) / 2, c_ltgray, title_TRAITS );
                     for( size_t i = 0; i < traitslist.size() && i < trait_win_size_y; i++ ) {
-                        const auto &mdata = mutation_branch::get( traitslist[i] );
+                        const auto &mdata = traitslist[i].obj();
                         mvwprintz( w_traits, int( i + 1 ), 1, c_black, "                         " );
                         const auto color = mdata.get_display_color();
                         mvwprintz( w_traits, int( i + 1 ), 1, color, "%s", mdata.name.c_str() );

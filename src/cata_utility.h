@@ -12,6 +12,13 @@ class item;
 class Creature;
 class map_item_stack;
 struct tripoint;
+namespace units
+{
+template<typename V, typename U>
+class quantity;
+class mass_in_gram_tag;
+using mass = quantity<int, mass_in_gram_tag>;
+}
 
 /**
  * Greater-than comparison operator; required by the sort interface
@@ -184,7 +191,7 @@ double convert_velocity( int velocity, const units_type vel_units );
  *
  * @returns Weight converted to user selected unit
  */
-double convert_weight( int weight );
+double convert_weight( const units::mass &weight );
 
 /**
  * Convert volume from ml to units defined by user.
@@ -392,7 +399,21 @@ bool write_to_file_exclusive( const std::string &path,
 
 std::istream &safe_getline( std::istream &ins, std::string &str );
 
-std::string native_to_utf8( const std::string &str );
-std::string utf8_to_native( const std::string &str );
+/** Apply fuzzy effect to a string like:
+ * Hello, world! --> H##lo, wurl#!
+ *
+ * @param str the original string to be processed
+ * @param f the function that guides how to mess the message
+ * f() will be called for each character (lingual, not byte):
+ * [-] f() == -1 : nothing will be done
+ * [-] f() == 0  : the said character will be replace by a random character
+ * [-] f() == ch : the said character will be replace by ch
+ *
+ * @return The processed string
+ *
+ */
+
+std::string obscure_message( const std::string &str, std::function<char( void )> f );
+
 
 #endif // CAT_UTILITY_H

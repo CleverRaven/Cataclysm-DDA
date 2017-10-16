@@ -23,14 +23,13 @@ fungal_effects::fungal_effects( game &g, map &mp )
 
 void fungal_effects::fungalize( const tripoint &sporep, Creature *origin, double spore_chance )
 {
-    int mondex = gm.mon_at( sporep );
-    if( mondex != -1 ) { // Spores hit a monster
+    if( monster *const mon_ptr = g->critter_at<monster>( sporep ) ) {
+        monster &critter = *mon_ptr;
         if( gm.u.sees( sporep ) &&
-            !gm.zombie( mondex ).type->in_species( FUNGUS ) ) {
+            !critter.type->in_species( FUNGUS ) ) {
             add_msg( _( "The %s is covered in tiny spores!" ),
-                     gm.zombie( mondex ).name().c_str() );
+                     critter.name().c_str() );
         }
-        monster &critter = gm.zombie( mondex );
         if( !critter.make_fungus() ) {
             // Don't insta-kill non-fungables. Jabberwocks, for example
             critter.add_effect( effect_stunned, rng( 1, 3 ) );
@@ -41,7 +40,7 @@ void fungal_effects::fungalize( const tripoint &sporep, Creature *origin, double
         ///\EFFECT_DEX increases chance of knocking fungal spores away with your TAIL_CATTLE
 
         ///\EFFECT_MELEE increases chance of knocking fungal sports away with your TAIL_CATTLE
-        if( pl.has_trait( "TAIL_CATTLE" ) &&
+        if( pl.has_trait( trait_id( "TAIL_CATTLE" ) ) &&
             one_in( 20 - pl.dex_cur - pl.get_skill_level( skill_id( "melee" ) ) ) ) {
             pl.add_msg_if_player(
                 _( "The spores land on you, but you quickly swat them off with your tail!" ) );
@@ -58,13 +57,13 @@ void fungal_effects::fungalize( const tripoint &sporep, Creature *origin, double
         if( hit ) {
             add_msg( m_warning, _( "You're covered in tiny spores!" ) );
         }
-    } else if( gm.num_zombies() < 250 && x_in_y( spore_chance, 1.0 ) ) { // Spawn a spore
-        if( gm.summon_mon( mon_spore, sporep ) ) {
-            monster *spore = gm.monster_at( sporep );
+    } else if( gm.num_creatures() < 250 && x_in_y( spore_chance, 1.0 ) ) { // Spawn a spore
+        if( monster *const spore = gm.summon_mon( mon_spore, sporep ) ) {
             monster *origin_mon = dynamic_cast<monster *>( origin );
             if( origin_mon != nullptr ) {
                 spore->make_ally( origin_mon );
-            } else if( origin != nullptr && origin->is_player() && gm.u.has_trait( "THRESH_MYCUS" ) ) {
+            } else if( origin != nullptr && origin->is_player() &&
+                       gm.u.has_trait( trait_id( "THRESH_MYCUS" ) ) ) {
                 spore->friendly = 1000;
             }
         }

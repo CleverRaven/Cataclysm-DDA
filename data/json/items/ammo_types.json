@@ -182,7 +182,7 @@
     {
         "type" : "ammunition_type",
         "id" : "m235",
-        "name" : "M235 Incendiary TPA",
+        "name" : "M235 66mm Incendiary TPA",
         "default" : "m235tpa"
     },
     {
@@ -356,7 +356,7 @@
     {
         "type" : "ammunition_type",
         "id" : "RPG-7",
-        "name" : "RPG-7",
+        "name" : "93mm RPG-7",
         "default" : "RPG-7_ammo"
     },
     {
@@ -436,5 +436,11 @@
         "id" : "chemical_spray",
         "name" : "sprayable chemical",
         "default" : "gas_fungicidal"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "milk",
+        "name" : "milk",
+        "default" : "milk"
     }
 ]

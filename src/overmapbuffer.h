@@ -21,13 +21,13 @@ struct oter_t;
 using oter_id = int_id<oter_t>;
 
 class overmap;
+class overmap_special;
+class overmap_special_batch;
 struct radio_tower;
 struct regional_settings;
 class vehicle;
 
 struct radio_tower_reference {
-    /** Overmap the radio tower is on. */
-    overmap *om;
     /** The radio tower itself, points into @ref overmap::radios */
     radio_tower *tower;
     /** The global absolute position of the tower (in submap coordinates) */
@@ -40,17 +40,19 @@ struct radio_tower_reference {
 };
 
 struct city_reference {
-    /** Overmap the city is on. */
-    overmap *om;
+    static const city_reference invalid;
     /** The city itself, points into @ref overmap::cities */
-    struct city *city;
+    const struct city *city;
     /** The global absolute position of the city (in submap coordinates!) */
     tripoint abs_sm_pos;
     /** Distance to center of the search */
     int distance;
+
     operator bool() const {
         return city != nullptr;
     }
+
+    int get_distance_from_bounds() const;
 };
 
 class overmapbuffer
@@ -68,6 +70,7 @@ public:
     overmap &get( const int x, const int y );
     void save();
     void clear();
+    void create_custom_overmap( int const x, int const y, overmap_special_batch &specials );
 
     /**
      * Uses global overmap terrain coordinates, creates the
@@ -150,38 +153,40 @@ public:
      * A radius of 0 returns only those npcs that are on the
      * specifc submap.
      */
-    std::vector<npc*> get_npcs_near(int x, int y, int z, int radius);
+    std::vector<std::shared_ptr<npc>> get_npcs_near( int x, int y, int z, int radius );
+        /**
+         * Get all (currently loaded!) npcs that have a companion
+         * mission set.
+         */
+        std::vector<std::shared_ptr<npc>> get_companion_mission_npcs();
     /**
      * Uses overmap terrain coords, this also means radius is
      * in overmap terrain.
      * A radius of 0 returns all npcs that are on that specifc
      * overmap terrain tile.
      */
-    std::vector<npc*> get_npcs_near_omt(int x, int y, int z, int radius);
+    std::vector<std::shared_ptr<npc>> get_npcs_near_omt( int x, int y, int z, int radius );
     /**
      * Same as @ref get_npcs_near(int,int,int,int) but uses
      * player position as center.
      */
-    std::vector<npc*> get_npcs_near_player(int radius);
+    std::vector<std::shared_ptr<npc>> get_npcs_near_player( int radius );
     /**
      * Find the npc with the given ID.
      * Returns NULL if the npc could not be found.
      * Searches all loaded overmaps.
      */
-    npc* find_npc(int id);
+    std::shared_ptr<npc> find_npc( int id );
     /**
      * Find npc by id and if found, erase it from the npc list
-     * and delete the npc object. This assumes that the npc is
-     * already dead and not contained in game::active_npc anymore.
+     * and return it ( or return nullptr if not found ).
      */
-    void remove_npc(int id);
-
-    /**
-     * Find npc by id and if found, erase it from the npc list
-     * but not delete the npc object. This is used for missions
-     * that dispatch an npc on an abstracted quest.
-     */
-    void hide_npc(int id);
+    std::shared_ptr<npc> remove_npc( int id );
+        /**
+         * Adds the npc to an overmap ( based on the npcs current location )
+         * and stores it there. The overmap takes ownership of the pointer.
+         */
+        void insert_npc( std::shared_ptr<npc> who );
 
     /**
      * Find all places with the specific overmap terrain type.
@@ -323,11 +328,20 @@ public:
      */
     std::vector<radio_tower_reference> find_all_radio_stations();
     /**
+     * Find all cities within the specified @ref radius.
+     * Result is sorted by proximity to @ref location in ascending order.
+     */
+    std::vector<city_reference> get_cities_near( const tripoint &location, int radius );
+    /**
      * Find the closest city. If no city is close, returns an object with city set to nullptr.
      * @param center The center of the search, the distance for determining the closest city is
      * calculated as distance to this point. In global submap coordinates!
      */
     city_reference closest_city( const tripoint &center );
+
+    city_reference closest_known_city( const tripoint &center );
+
+    std::string get_description_at( const tripoint &where );
 
 private:
     std::unordered_map< point, std::unique_ptr< overmap > > overmaps;

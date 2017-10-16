@@ -11,6 +11,7 @@
 #include <deque>
 #include <algorithm>
 #include <memory>
+#include <fstream>
 
 // FILE I/O
 #include <sys/stat.h>
@@ -107,6 +108,15 @@ bool rename_file(const std::string &old_path, const std::string &new_path)
     return rename(old_path.c_str(), new_path.c_str()) == 0;
 }
 #endif
+
+bool remove_directory( const std::string &path )
+{
+#if (defined _WIN32 || defined __WIN32__)
+    return RemoveDirectory( path.c_str() );
+#else
+    return remove( path.c_str() ) == 0;
+#endif
+}
 
 const char *cata_files::eol()
 {
@@ -345,4 +355,15 @@ std::vector<std::string> get_directories_with(std::vector<std::string> const &pa
     files.erase(std::unique(std::begin(files), std::end(files)), std::end(files));
 
     return files;
+}
+
+bool copy_file( const std::string &source_path, const std::string &dest_path )
+{
+    std::ifstream source_stream( source_path.c_str(), std::ifstream::in | std::ifstream::binary );
+    std::ofstream dest_stream( dest_path.c_str(), std::ofstream::out | std::ofstream::binary );
+
+    dest_stream << source_stream.rdbuf();
+    dest_stream.close();
+
+    return dest_stream && source_stream;
 }

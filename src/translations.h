@@ -2,6 +2,10 @@
 #ifndef TRANSLATIONS_H
 #define TRANSLATIONS_H
 
+#ifndef translate_marker
+#define translate_marker(x) x
+#endif
+
 #ifdef LOCALIZE
 
 // MingW flips out if you don't define this before you try to statically link libintl.

@@ -23,6 +23,7 @@
 #include "cata_utility.h"
 #include "item_search.h"
 #include "string_input_popup.h"
+#include "pickup.h"
 
 #include <map>
 #include <set>
@@ -135,7 +136,12 @@ void advanced_inventory::load_settings()
 {
     aim_exit aim_code = static_cast<aim_exit>(uistate.adv_inv_exit_code);
     for(int i = 0; i < NUM_PANES; ++i) {
-        auto location = static_cast<aim_location>(uistate.adv_inv_area[i]);
+        aim_location location;
+        if (get_option<bool>("OPEN_DEFAULT_ADV_INV")) {
+            location = static_cast<aim_location>(uistate.adv_inv_default_areas[i]);
+        } else {
+            location = static_cast<aim_location>(uistate.adv_inv_area[i]);
+        }
         auto square = squares[location];
         // determine the square's veh/map item presence
         bool has_veh_items = (square.can_store_in_vehicle()) ?
@@ -599,7 +605,7 @@ void advanced_inv_area::init()
         case AIM_DRAGGED:
             if( g->u.grab_type != OBJECT_VEHICLE ) {
                 canputitemsloc = false;
-                desc[0] = _( "Not dragging any vehicle" );
+                desc[0] = _( "Not dragging any vehicle!" );
                 break;
             }
             // offset for dragged vehicles is not statically initialized, so get it
@@ -617,7 +623,7 @@ void advanced_inv_area::init()
             } else {
                 veh = nullptr;
                 canputitemsloc = false;
-                desc[0] = _( "No dragged vehicle" );
+                desc[0] = _( "No dragged vehicle!" );
             }
             break;
         case AIM_CONTAINER:
@@ -627,7 +633,7 @@ void advanced_inv_area::init()
             // and depends on selected item in pane (if it is valid container)
             canputitemsloc = true;
             if( get_container() == nullptr ) {
-                desc[0] = _( "Invalid container" );
+                desc[0] = _( "Invalid container!" );
             }
             break;
         case AIM_ALL:
@@ -1071,9 +1077,9 @@ void advanced_inventory::redraw_pane( side p )
     bool same_as_dragged = (square.id >= AIM_SOUTHWEST && square.id <= AIM_NORTHEAST) && // only cardinals
             square.id != AIM_CENTER && panes[p].in_vehicle() && // not where you stand, and pane is in vehicle
             square.off == squares[AIM_DRAGGED].off; // make sure the offsets are the same as the grab point
-    auto sq = (same_as_dragged) ? squares[AIM_DRAGGED] : square;
+    const advanced_inv_area &sq = ( same_as_dragged ) ? squares[AIM_DRAGGED] : square;
     bool car = square.can_store_in_vehicle() && panes[p].in_vehicle() && sq.id != AIM_DRAGGED;
-    auto name = utf8_truncate((car == true) ? sq.veh->name : sq.name, width);
+    auto name = utf8_truncate( car ? sq.veh->name : sq.name, width );
     auto desc = utf8_truncate(sq.desc[car], width);
     width -= 2 + 1; // starts at offset 2, plus space between the header and the text
     mvwprintz( w, 1, 2, active ? c_green  : c_ltgray, "%s", name.c_str() );
@@ -1160,6 +1166,7 @@ bool advanced_inventory::move_all_items(bool nested_call)
         switch(static_cast<aim_entry>(entry++)) {
             case ENTRY_START:
                 ++entry;
+                /* fallthrough */
             case ENTRY_VEHICLE:
                 if(squares[loc].can_store_in_vehicle()) {
                     // either do the inverse of the pane (if it is the one we are transferring to),
@@ -1400,11 +1407,12 @@ void advanced_inventory::display()
     ctxt.register_action( "ITEMS_DRAGGED_CONTAINER" );
     ctxt.register_action( "ITEMS_CONTAINER" );
 
+    ctxt.register_action( "ITEMS_DEFAULT" );
+    ctxt.register_action( "SAVE_DEFAULT" );
+
     exit = false;
     recalc = true;
     redraw = true;
-
-    string_input_popup spopup;
 
     while( !exit ) {
         if( g->u.moves < 0 ) {
@@ -1421,7 +1429,7 @@ void advanced_inventory::display()
             werase( minimap );
             werase( mm_border );
             draw_border( head );
-            Messages::display_messages( head, 2, 1, w_width - 1, 4 );
+            Messages::display_messages( head, 2, 1, w_width - 1, head_height - 2 );
             draw_minimap();
             const std::string msg = _( "< [?] show help >" );
             mvwprintz( head, 0,
@@ -1447,13 +1455,28 @@ void advanced_inventory::display()
         if( action == "CATEGORY_SELECTION" ) {
             inCategoryMode = !inCategoryMode;
             spane.redraw = true; // We redraw to force the color change of the highlighted line and header text.
-        } else if( action == "HELP_KEYBINDINGS" ) {
+        } else if (action == "HELP_KEYBINDINGS") {
+            redraw = true;
+        } else if (action == "ITEMS_DEFAULT") {
+            for( side cside : { left, right } ) {
+                auto &pane = panes[cside];
+                aim_location location = ( aim_location )uistate.adv_inv_default_areas[cside];
+                if( pane.get_area() != location || location == AIM_ALL ) {
+                    pane.recalc = true;
+                }
+                pane.set_area( squares[location] );
+            }
+            redraw = true;
+        } else if (action == "SAVE_DEFAULT") {
+            uistate.adv_inv_default_areas[left] = panes[left].get_area();
+            uistate.adv_inv_default_areas[right] = panes[right].get_area();
+            popup( _( "Default layout was saved." ) );
             redraw = true;
         } else if( get_square( action, changeSquare ) ) {
             if( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) {
                 if(squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED) {
                     // only deal with spane, as you can't _directly_ change dpane
-                    if(squares[changeSquare].can_store_in_vehicle() && dpane.get_area() == changeSquare) {
+                    if( dpane.get_area() == changeSquare ) {
                         spane.set_area(squares[changeSquare], !dpane.in_vehicle());
                         spane.recalc = true;
                     } else if(spane.get_area() == dpane.get_area()) {
@@ -1496,7 +1519,7 @@ void advanced_inventory::display()
                 }
                 redraw = true;
             } else {
-                popup( _( "You can't put items there" ) );
+                popup( _( "You can't put items there!" ) );
                 redraw = true; // to clear the popup
             }
         } else if( action == "MOVE_SINGLE_ITEM" ||
@@ -1533,6 +1556,7 @@ void advanced_inventory::display()
             // but are potentially at a different place).
             recalc = true;
             assert( amount_to_move > 0 );
+            int move_cost = 0;
             if( destarea == AIM_CONTAINER ) {
                 if( !move_content( *sitem->items.front(), *squares[destarea].get_container( dpane.in_vehicle() ) ) ) {
                     redraw = true;
@@ -1548,6 +1572,7 @@ void advanced_inventory::display()
                 if(by_charges) {
                     item moving_item = g->u.reduce_charges(idx, amount_to_move);
                     assert(!moving_item.is_null());
+                    move_cost = Pickup::cost_to_move_item( g->u, moving_item );
                     int items_left = add_item(destarea, moving_item);
                     // take care of charging back any items as well
                     if(items_left > 0) {
@@ -1587,6 +1612,7 @@ void advanced_inventory::display()
                 }
                 // add the item, and note any items that might be leftover
                 int items_left = add_item(destarea, new_item, (by_charges) ? 1 : amount_to_move);
+                move_cost = Pickup::cost_to_move_item( g->u, new_item );
                 // only remove item or charges if the add succeeded
                 if(items_left == 0) {
                     if(by_charges) {
@@ -1619,7 +1645,7 @@ void advanced_inventory::display()
                 }
             }
             // This is only reached when at least one item has been moved.
-            g->u.moves -= 100; // In pickup/move functions this depends on item stats
+            g->u.mod_moves( -move_cost );
             // Just in case the items have moved from/to the inventory
             g->u.inv.sort();
             g->u.inv.restack( &g->u );
@@ -1637,6 +1663,7 @@ void advanced_inventory::display()
             }
             redraw = true;
         } else if( action == "FILTER" ) {
+            string_input_popup spopup;
             std::string filter = spane.filter;
             filter_edit = true;
             spopup.window( spane.window, 4, w_height - 1, ( w_width / 2 ) - 4 )
@@ -1648,8 +1675,13 @@ void advanced_inventory::display()
             do {
                 mvwprintz( spane.window, getmaxy( spane.window ) - 1, 2, c_cyan, "< " );
                 mvwprintz( spane.window, getmaxy( spane.window ) - 1, ( w_width / 2 ) - 3, c_cyan, " >" );
-                filter = spopup.query_string( false );
-                spane.set_filter( filter );
+                std::string new_filter = spopup.query_string( false );
+                if( spopup.context().get_raw_input().get_first_input() == KEY_ESCAPE ) {
+                    // restore original filter
+                    spane.set_filter( filter );
+                } else {
+                    spane.set_filter( new_filter );
+                }
                 redraw_pane( src );
             } while( spopup.context().get_raw_input().get_first_input() != '\n' && spopup.context().get_raw_input().get_first_input() != KEY_ESCAPE );
             filter_edit = false;
@@ -1854,7 +1886,7 @@ bool advanced_inventory::query_destination( aim_location &def )
         if( squares[def].canputitems() ) {
             return true;
         }
-        popup( _( "You can't put items there" ) );
+        popup( _( "You can't put items there!" ) );
         redraw = true; // the popup has messed the screen up.
         return false;
     }
@@ -1977,7 +2009,7 @@ int advanced_inventory::add_item( aim_location destarea, item &new_item, int cou
             }
             
             if( !added ) {
-                msg = _("Destination area is full.  Remove some items first");
+                msg = _("Destination area is full.  Remove some items first.");
             }
         }
         // show a message to why we can't add the item
@@ -2111,12 +2143,13 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     }
     // Inventory has a weight capacity, map and vehicle don't have that
     if( destarea == AIM_INVENTORY  || destarea == AIM_WORN ) {
-        const long unitweight = it.weight() * 1000 / ( by_charges ? it.charges : 1 );
-        const long max_weight = ( g->u.weight_capacity() * 4 - g->u.weight_carried() ) * 1000;
+        const units::mass unitweight = it.weight() / ( by_charges ? it.charges : 1 );
+        const units::mass max_weight = g->u.has_trait( trait_id( "DEBUG_STORAGE" ) ) ?
+                                  units::mass_max : g->u.weight_capacity() * 4 - g->u.weight_carried();
         if( unitweight > 0 && ( unitweight * amount > max_weight ) ) {
             const long weightmax = max_weight / unitweight;
             if( weightmax <= 0 ) {
-                popup( _( "This is too heavy!." ) );
+                popup( _( "This is too heavy!" ) );
                 redraw = true;
                 return false;
             }

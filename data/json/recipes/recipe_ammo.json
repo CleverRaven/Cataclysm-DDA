@@ -452,7 +452,7 @@
     [
       [ "stick", 2 ],
       [ "broom", 2 ],
-      [ "2x4", 1 ],
+      [ "2x4", 2 ],
       [ "bee_sting", 2 ]
     ],
     [
@@ -493,7 +493,7 @@
     [
       [ "stick", 2 ],
       [ "broom", 2 ],
-      [ "2x4", 1 ],
+      [ "2x4", 2 ],
       [ "bee_sting", 2 ]
     ],
     [
@@ -548,7 +548,7 @@
     [
       [ "stick", 2 ],
       [ "broom", 2 ],
-      [ "2x4", 1 ],
+      [ "2x4", 2 ],
       [ "bee_sting", 2 ]
     ],
     [
@@ -679,7 +679,6 @@
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used": "fabrication",
-  "skills_required": [ "archery", 1 ],
   "difficulty": 1,
   "time": 5000,
   "autolearn": true,
@@ -700,7 +699,6 @@
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used": "fabrication",
-  "skills_required": ["archery", 3],
   "difficulty": 3,
   "time": 10000,
   "autolearn": true,
@@ -720,7 +718,6 @@
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used": "fabrication",
-  "skills_required": ["archery", 5],
   "difficulty": 5,
   "time": 10000,
   "autolearn": true,
@@ -749,7 +746,6 @@
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used": "fabrication",
-  "skills_required": ["archery", 3],
   "difficulty": 4,
   "time": 10000,
   "book_learn" : [[ "recipe_arrows", 7 ], [ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
@@ -828,13 +824,7 @@
   "qualities":[
     {"id":"SAW_M","level":1}
   ],
-  "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],
+  "using": [ [ "surface_heat", 2 ] ],
   "components": [
     [
       [ "gunpowder", 16 ],
@@ -864,15 +854,10 @@
   "autolearn": true,
   "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ]],
   "qualities":[
-  {"id":"SAW_M","level":1}
+    {"id":"SAW_M","level":1}
   ],
-  "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ],"components": [
+  "using": [ [ "surface_heat", 2 ] ],
+  "components": [
     [
       [ "gunpowder", 16 ],
       [ "chem_black_powder", 16 ]
@@ -897,15 +882,10 @@
   "autolearn": true,
   "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ]],
   "qualities":[
-  {"id":"SAW_M","level":1}
+    {"id":"SAW_M","level":1}
   ],
-  "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-    ]
-  ], "components":  [
+  "using": [ [ "surface_heat", 2 ] ],
+  "components":  [
     [
       [ "gunpowder", 16 ],
       [ "chem_black_powder", 16 ]
@@ -939,6 +919,7 @@
     [
       [ "can_drink_unsealed", 2 ],
       [ "can_food_unsealed", 2 ],
+      [ "canister_empty", 2 ],
       [ "scrap", 4 ]
     ],
       [
@@ -970,6 +951,7 @@
     [
       [ "can_drink_unsealed", 2 ],
       [ "can_food_unsealed", 2 ],
+      [ "canister_empty", 2 ],
       [ "scrap", 4 ]
     ],
       [
@@ -1001,6 +983,7 @@
     [
       [ "can_drink_unsealed", 2 ],
       [ "can_food_unsealed", 2 ],
+      [ "canister_empty", 2 ],
       [ "scrap", 4 ]
     ],
       [
@@ -1032,6 +1015,7 @@
     [
       [ "can_drink_unsealed", 2 ],
       [ "can_food_unsealed", 2 ],
+      [ "canister_empty", 2 ],
       [ "scrap", 4 ]
     ],
       [
@@ -1063,6 +1047,7 @@
     [
       [ "can_drink_unsealed", 2 ],
       [ "can_food_unsealed", 2 ],
+      [ "canister_empty", 2 ],
       [ "scrap", 4 ]
     ],
       [
@@ -1106,9 +1091,7 @@
   ],
   "tools" : [ [ ["mold_plastic", -1] ],
     [
-      ["hotplate", 15],
-      ["toolset", 15],
-      ["fire", -1]
+      [ "surface_heat", 15, "LIST" ]
     ]
   ],
   "components" : [
@@ -1179,50 +1162,7 @@
      [ "scrap", 48 ]
      ]
     ]
-  },{
-  "type" : "recipe",
-  "result": "reloaded_5x50dart",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 5 ],
-  "difficulty": 6,
-  "time": 8000,
-  "book_learn": [["recipe_caseless" , 4 ]],
-  "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      [ "fire", -1 ],
-      [ "toolset", 2 ],
-      [ "press", 2 ]
-        ]
-  ],
-  "components": [
-    [
-      [ "5x50_hull", 100 ]
-    ],
-    [
-      [ "plastic_chunk", 5 ]
-    ],
-    [
-      [ "smrifle_primer", 100 ]
-    ],
-    [
-      [ "gunpowder", 300 ]
-    ],
-    [
-      [ "lead", 200 ],
-      [ "gold_small", 200 ],
-      [ "silver_small", 200 ],
-      [ "tin", 200 ],
-      [ "bismuth", 200 ],
-      [ "solder_wire", 200 ],
-      [ "nail", 100 ]
-    ]
-  ]
-},
+  },
 {
   "type" : "recipe",
   "result": "combatnail",
@@ -1259,7 +1199,7 @@
   "qualities":[
     {"id":"CHEM","level":2}
   ], "book_learn": [["textbook_gaswarfare" , 8, "" ], ["textbook_anarch" , 7, "Stuff THE MAN doesn't want you to know" ], ["recipe_labchem", 6 ]],
-  "tools": [ [ ["hotplate", 25], ["toolset", 25], ["fire", -1] ] ],
+  "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
   "components": [
     [ [ "gasoline", 125 ], [ "diesel", 125 ] ],
     [ [ "plastic_chunk", 4 ] ],
@@ -1389,9 +1329,7 @@
     {"id":"CHEM","level":1}
   ], "tools": [
     [
-      [ "fire", -1 ],
-      [ "toolset", 5 ],
-      [ "hotplate", 5 ]
+      [ "surface_heat", 5, "LIST" ]
     ]
   ],
   "components": [
@@ -1415,9 +1353,7 @@
   "qualities":[ {"id":"CHEM","level":1} ],
   "tools": [
     [
-      [ "fire", -1 ],
-      [ "toolset", 5 ],
-      [ "hotplate", 5 ]
+      [ "surface_heat", 5, "LIST" ]
     ]
   ],
   "components": [

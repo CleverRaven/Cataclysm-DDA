@@ -17,11 +17,13 @@
 #include "string_id.h"
 #include "line.h"
 #include "item_location.h"
+#include "ret_val.h"
 #include "damage.h"
 #include "debug.h"
 #include "units.h"
 #include "cata_utility.h"
 
+class gunmod_location;
 class game;
 class Character;
 class player;
@@ -274,7 +276,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
          * With the default parameters it makes a human corpse, created at the current turn.
          */
         /*@{*/
-        static item make_corpse( const mtype_id& mt = NULL_ID, int turn = -1, const std::string &name = "" );
+        static item make_corpse( const mtype_id& mt = string_id<mtype>::NULL_ID(), int turn = -1, const std::string &name = "" );
         /*@}*/
         /**
          * @return The monster type associated with this item (@ref corpse). It is usually the
@@ -353,7 +355,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     std::string info( bool showtext, std::vector<iteminfo> &dump ) const;
 
     /** Burns the item. Returns true if the item was destroyed. */
-    bool burn( fire_data &bd );
+    bool burn( fire_data &bd, bool contained );
 
     // Returns the category of this item.
     const item_category &get_category() const;
@@ -399,9 +401,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     using archive_type_tag = io::object_archive_tag;
 
     using JsonSerializer::serialize;
-    // give the option not to save recursively, but recurse by default
-    void serialize(JsonOut &jsout) const override { serialize(jsout, true); }
-    virtual void serialize(JsonOut &jsout, bool save_contents) const;
+    void serialize( JsonOut &jsout ) const override;
     using JsonDeserializer::deserialize;
     // easy deserialization from JsonObject
     virtual void deserialize(JsonObject &jo);
@@ -430,7 +430,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
          */
         bool merge_charges( const item &rhs );
 
-        int weight( bool include_contents = true ) const;
+        units::mass weight( bool include_contents = true ) const;
 
     /* Total volume of an item accounting for all contained/integrated items
      * @param integral if true return effective volume if item was integrated into another */
@@ -786,6 +786,9 @@ public:
 
     /** How much damage has the item sustained? */
     int damage() const { return fast_floor( damage_ ); }
+    
+    /** Precise damage */
+    double precise_damage() const { return damage_; }
 
     /** Minimum amount of damage to an item (state of maximum repair) */
     int min_damage() const;
@@ -943,8 +946,14 @@ public:
          * @see player::can_reload()
          */
         bool is_reloadable() const;
-        /** Returns true if this item can be reloaded with specified ammo type. */
+        /** Returns true if this item can be reloaded with specified ammo type, ignoring capacity. */
+        bool can_reload_with( const itype_id& ammo ) const;
+        /** Returns true if this item can be reloaded with specified ammo type at this moment. */
         bool is_reloadable_with( const itype_id& ammo ) const;
+    private:
+        /** Helper for checking reloadability. **/
+        bool is_reloadable_helper( const itype_id& ammo, bool now ) const;
+    public:
 
         bool is_dangerous() const; // Is it an active grenade or something similar that will hurt us?
 
@@ -1456,7 +1465,7 @@ public:
          * Checks if mod can be applied to this item considering any current state (jammed, loaded etc.)
          * @param msg message describing reason for any incompatibility
          */
-        bool gunmod_compatible( const item& mod, std::string *msg = nullptr ) const;
+        ret_val<bool> is_gunmod_compatible( const item& mod ) const;
 
         struct gun_mode {
             /* contents of `modes` for GUN type, `mode_modifier` for GUNMOD type,
@@ -1571,7 +1580,7 @@ public:
          * Number of mods that can still be installed into the given mod location,
          * for non-guns it always returns 0.
          */
-        int get_free_mod_locations( const std::string& location ) const;
+        int get_free_mod_locations( const gunmod_location& location ) const;
         /**
          * Does it require gunsmithing tools to repair.
          */
@@ -1674,7 +1683,14 @@ public:
      bool active = false; // If true, it has active effects to be processed
 
     int burnt = 0;           // How badly we're burnt
-    int bday;                // The turn on which it was created
+    private:
+        int bday;                // The turn on which it was created
+    public:
+        int age() const;
+        void set_age( int age );
+        int birthday() const;
+        void set_birthday( int bday );
+
     int poison = 0;          // How badly poisoned is it?
     int frequency = 0;       // Radio frequency
     int note = 0;            // Associated dynamic text snippet.
@@ -1764,25 +1780,6 @@ class map_item_stack
             return lhs.example->get_category().sort_rank < rhs.example->get_category().sort_rank;
         }
 };
-
-/**
- *  Match an item with a locator.
- *
- *  Commonly used convenience functions that match an item to one of the 3 common types of locators:
- *      1) type_id (just a typedef to a string)
- *      2) position (int)
- *      3) pointer (item *)
- *
- *  The item's position is optional.  The default used if position is not given is expected to fail
- *  the position match in all cases.
- *
- *  @returns true if match is found, otherwise returns false
- */
-/*@{*/
-bool item_matches_locator(const item &it, const itype_id &id, int item_pos = INT_MIN);
-bool item_matches_locator(const item &it, int locator_pos, int item_pos = INT_MIN);
-bool item_matches_locator(const item &it, const item *other, int);
-/*@}*/
 
 /**
  *  Hint value used in a hack to decide text color.

@@ -293,12 +293,10 @@ bool mission::is_complete( const int _npc_id ) const
             if( npc_id != -1 && npc_id != _npc_id ) {
                 return false;
             }
-            for( size_t i = 0; i < g->num_zombies(); i++ ) {
-                if( g->zombie( i ).mission_id == uid ) {
-                    return true;
-                }
-            }
-            return false;
+            return g->get_creature_if( [&]( const Creature &critter ) {
+                const monster *const mon_ptr = dynamic_cast<const monster*>( &critter );
+                return mon_ptr && mon_ptr->mission_id == uid;
+            } );
 
         case MGOAL_RECRUIT_NPC:
             {
@@ -459,6 +457,14 @@ std::string mission::name()
     return type->name;
 }
 
+mission_type_id mission::mission_id()
+{
+    if (type == NULL) {
+        return mission_type_id( "NULL" );
+    }
+    return type->id;
+}
+
 void mission::load_info(std::istream &data)
 {
     int type_id, rewtype, reward_id, rew_skill, tmpfollow, item_num, target_npc_id;
@@ -522,7 +528,7 @@ mission::mission()
     target = tripoint(INT_MIN, INT_MIN, INT_MIN);
     item_id = "null";
     item_count = 1;
-    target_id = NULL_ID;
+    target_id = string_id<oter_type_t>::NULL_ID();
     recruit_class = NC_NONE;
     target_npc_id = -1;
     monster_type = "mon_null";

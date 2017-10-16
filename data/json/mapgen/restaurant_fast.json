@@ -65,7 +65,8 @@
       [ "tomato", 50 ],
       [ "irradiated_tomato", 10 ],
       [ "onion", 50 ],
-      [ "irradiated_onion", 10 ]
+      [ "irradiated_onion", 10 ],
+      [ "chili_pepper", 50 ]
     ]
   },
   {
@@ -86,6 +87,7 @@
       [ "sm_extinguisher", 40 ],
       [ "towel", 40 ],
       [ "soap", 30 ],
+      [ "detergent", 30 ],
       [ "rag", 30 ],
       [ "bleach", 30 ],
       [ "vinegar", 30 ],

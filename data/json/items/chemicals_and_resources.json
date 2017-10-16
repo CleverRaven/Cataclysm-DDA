@@ -18,7 +18,7 @@
     "count" : 100
    },
 {
-    "type" : "GENERIC",
+    "type" : "AMMO",
     "id" : "chunk_sulfur",
     "category" : "spare_parts",
     "price" : 50,
@@ -552,7 +552,7 @@
     "count" : 50
    },
 {
-    "type" : "GENERIC",
+    "type" : "AMMO",
     "id" : "material_niter",
     "category" : "spare_parts",
     "price" : 75,
@@ -739,8 +739,8 @@
     "weight": 500,
     "volume": 2,
     "to_hit": -2
-    },
-    {
+   },
+   {
     "type":"GENERIC",
     "id": "hickory_nut",
     "symbol": "%",
@@ -749,11 +749,11 @@
     "name_plural": "hickory nuts",
     "description": "A handful of hard nuts from a hickory tree, still in their shell.",
     "price": 0,
-    "material": "wood",
     "weight": 212,
     "volume": 1,
     "to_hit": -2
-    },{
+   },
+   {
     "type" : "COMESTIBLE",
     "id" : "water_sewage",
     "name" : "sewage water",
@@ -770,5 +770,55 @@
     "phase" : "liquid",
     "category" : "chems",
     "fun" : -20
+   },
+   {
+    "type" : "AMMO",
+    "id" : "detergent",
+    "category" : "chems",
+    "price" : 1000,
+    "name" : "detergent",
+    "symbol" : "=",
+    "color" : "white",
+    "description" : "A popular pre-cataclysm washing powder.",
+    "material" : "powder",
+    "volume" : 1,
+    "weight" : 1,
+    "ammo_type" : "components",
+    "container" : "box_small",
+    "count" : 20
+   },
+   {
+    "type" : "COMESTIBLE",
+    "id" : "lye",
+    "name" : "lye",
+    "name_plural" : "lye",
+    "weight" : 125,
+    "color" : "white",
+    "container" : "bottle_plastic",
+    "symbol" : "~",
+    "quench" : -96,
+    "healthy" : -20,
+    "description" : "This is a liquid form of sodium hydroxide.  It is highly corrosive, handle with care.",
+    "price" : 100,
+    "volume" : 1,
+    "phase" : "liquid",
+    "category" : "chems",
+    "fun": -20
+   },
+   {
+    "type" : "AMMO",
+    "id" : "ash",
+    "category" : "chems",
+    "price" : 0,
+    "name" : "wood ash",
+    "name_plural" : "wood ashes",
+    "symbol" : "=",
+    "color" : "gray",
+    "description" : "This is almost weightless residue left after the burning of some substance.",
+    "material" : "powder",
+    "volume" : 1,
+    "weight" : 10,
+    "ammo_type" : "components",
+    "count" : 10
    }
 ]

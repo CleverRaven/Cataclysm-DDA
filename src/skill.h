@@ -75,11 +75,13 @@ class SkillLevel : public JsonSerializer, public JsonDeserializer
         int _exercise;
         calendar _lastPracticed;
         bool _isTraining;
+        int _highestLevel;
 
     public:
-        SkillLevel( int level = 0, int exercise = 0, bool isTraining = true, int lastPracticed = 0 );
-        SkillLevel( int minLevel, int maxLevel, int minExercise, int maxExercise,
-                    bool isTraining = true, int lastPracticed = 0 );
+        SkillLevel( int level = 0, int exercise = 0, bool isTraining = true, int lastPracticed = 0,
+                    int highestLevel = 0 );
+        SkillLevel( int minLevel, int maxLevel, int minExercise, int maxExercise, bool isTraining,
+                    int lastPracticed, int highestLevel );
 
         bool isTraining() const {
             return _isTraining;
@@ -94,7 +96,14 @@ class SkillLevel : public JsonSerializer, public JsonDeserializer
         }
         int level( int plevel ) {
             _level = plevel;
+            if( _level > _highestLevel ) {
+                _highestLevel = _level;
+            }
             return plevel;
+        }
+
+        int highestLevel() const {
+            return _highestLevel;
         }
 
         int exercise( bool raw = false ) const {

@@ -8,6 +8,7 @@
 #include "translations.h"
 #include "color.h"
 #include "itype.h"
+#include "ammo.h"
 #include "vehicle_group.h"
 #include "init.h"
 #include "generic_factory.h"
@@ -80,10 +81,6 @@ static std::map<vpart_id, vpart_info> vpart_info_all;
 static std::map<vpart_id, vpart_info> abstract_parts;
 
 static DynamicDataLoader::deferred_json deferred;
-
-/** @relates string_id */
-template<>
-const vpart_id string_id<vpart_info>::NULL_ID( "null" );
 
 /** @relates string_id */
 template<>
@@ -721,7 +718,7 @@ void vehicle_prototype::finalize()
                     }
                 }
                 if( pt.ammo_types.empty() ) {
-                    pt.ammo_types.insert( default_ammo( base->gun->ammo ) );
+                    pt.ammo_types.insert( base->gun->ammo->default_ammotype() );
                 }
             }
 

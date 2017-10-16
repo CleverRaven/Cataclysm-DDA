@@ -2,13 +2,17 @@
   {
     "type": "snippet",
     "category": "flier",
-    "text": [ "This is a crumpled old advertisement for a local pizzaria.  It depicts smiling kids and some sort of animal mascot.  The flier reads \"Eat, rock, party, play.\"" ]
+    "text": [
+      "This is a crumpled old advertisement for a local pizzaria.  It depicts smiling kids and some sort of animal mascot.  The flier reads \"Eat, rock, party, play.\""
+    ]
   },
   {
     "type": "snippet",
     "category": "flier",
     "//": "Reference to 11 Drunk Guys Play FNAF.",
-    "text": [ "This is a crumpled old advertisement for a local pizzaria.  It depicts smiling kids and some sort of animal mascot.  The flier reads \"Eat, rock, party, play!\"  Someone has crudely scrawled underneath it \"Smoke weed every day!\"" ]
+    "text": [
+      "This is a crumpled old advertisement for a local pizzaria.  It depicts smiling kids and some sort of animal mascot.  The flier reads \"Eat, rock, party, play!\"  Someone has crudely scrawled underneath it \"Smoke weed every day!\""
+    ]
   },
   {
     "type": "snippet",

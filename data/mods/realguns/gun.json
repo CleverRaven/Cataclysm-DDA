@@ -34,10 +34,7 @@
     "type": "GUN",
     "name": "Saiga-12",
     "name_plural": "Saiga-12",
-    "magazines": [
-      [ "410", [ "saiga10mag_410", "saiga30mag_410" ] ],
-      [ "shot", [ "saiga10mag", "saiga30mag" ] ]
-    ]
+    "magazines": [ [ "410", [ "saiga10mag_410", "saiga30mag_410" ] ], [ "shot", [ "saiga10mag", "saiga30mag" ] ] ]
   },
   {
     "id": "saiga_410",
@@ -201,6 +198,7 @@
     "ammo": "38_super",
     "dispersion": 520,
     "durability": 7,
+    "modes": [ [ "DEFAULT", "multi", 2 ] ],
     "valid_mod_locations": [ [ "grip", 1 ] ],
     "magazine_well": 2,
     "magazines": [ [ "38_super", [ "af2011a1mag" ] ] ]
@@ -213,5 +211,15 @@
     "description": "A modern M1911, chambered for the .38 Super cartridge.  It can achieve good accuracy.",
     "ammo": "38_super",
     "magazines": [ [ "38_super", [ "m1991_38smag" ] ] ]
+  },
+  {
+    "id": "raging_judge",
+    "copy-from": "raging_bull",
+    "type": "GUN",
+    "name": "Taurus Raging Judge Magnum",
+    "name_plural": "Taurus Raging Judge Magnum",
+    "description": "The Taurus Raging Judge Magnum is a 5-shot revolver chambered in .454 Casull.  It has the ability to fire .410 shotshells and .45 Long Colt cartridges.",
+    "weight": 2268,
+    "dispersion": 480
   }
 ]

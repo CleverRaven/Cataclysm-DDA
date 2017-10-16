@@ -10,10 +10,6 @@
 #include <sstream>
 #include <string>
 
-/** @relates string_id */
-template <>
-const harvest_id string_id<harvest_list>::NULL_ID( "null" );
-
 // @todo Make a generic factory
 static std::map<harvest_id, harvest_list> harvest_all;
 
@@ -35,6 +31,18 @@ template<>
 bool string_id<harvest_list>::is_valid() const
 {
     return harvest_all.count( *this ) > 0;
+}
+
+harvest_list::harvest_list() : id_( harvest_id::NULL_ID() ) {}
+
+const harvest_id &harvest_list::id() const
+{
+    return id_;
+}
+
+bool harvest_list::is_null() const
+{
+    return id_ == harvest_id::NULL_ID();
 }
 
 harvest_entry harvest_entry::load( JsonObject &jo, const std::string &src )
@@ -76,7 +84,7 @@ const harvest_id &harvest_list::load( JsonObject &jo, const std::string &src,
 void harvest_list::finalize()
 {
     std::transform( entries_.begin(), entries_.end(), std::inserter( names_, names_.begin() ),
-    []( const harvest_entry &entry ) {
+    []( const harvest_entry & entry ) {
         return item::type_is_defined( entry.drop ) ? item::nname( entry.drop ) : "";
     } );
 }
@@ -98,7 +106,7 @@ void harvest_list::check_consistency()
     for( const auto &pr : harvest_all ) {
         const auto &hl = pr.second;
         const std::string errors = enumerate_as_string( hl.entries_.begin(), hl.entries_.end(),
-        []( const harvest_entry &entry ) {
+        []( const harvest_entry & entry ) {
             return item::type_is_defined( entry.drop ) ? "" : entry.drop;
         } );
         if( !errors.empty() ) {
@@ -134,7 +142,7 @@ std::string harvest_list::describe( int at_skill ) const
     }
 
     return enumerate_as_string( entries().begin(), entries().end(),
-    [at_skill]( const harvest_entry &en ) {
+    [at_skill]( const harvest_entry & en ) {
         float min_f = en.base_num.first;
         float max_f = en.base_num.second;
         if( at_skill >= 0 ) {

@@ -17,6 +17,16 @@
         "post_special" : "done_deconstruct"
     },{
         "type" : "construction",
+        "description" : "Deconstruct Simple Furniture",
+        "category" : "FURN",
+        "required_skills" : [ [ "fabrication", 0 ] ],
+        "time" : 10,
+        "pre_note" : "Certain terrain and furniture can be deconstructed without any tools.",
+        "pre_flags" : "EASY_DECONSTRUCT",
+        "pre_special" : "check_deconstruct",
+        "post_special" : "done_deconstruct"
+    },{
+        "type" : "construction",
         "description" : "Dig Pit", "//": "Step 1: shallow pit",
         "category" : "DIG",
         "required_skills" : [ [ "survival", 0 ] ],
@@ -175,6 +185,7 @@
             [ [ "stick", 1 ] ],
             [ [ "withered", 12 ], [ "straw_pile", 12 ], [ "string_36", 1 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "t_door_curtain_c"
     },{
@@ -190,6 +201,7 @@
             [ [ "2x4", 6 ], [ "stick", 6 ] ],
             [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_terrain" : "t_door_frame",
         "post_terrain" : "t_door_makeshift_c"
     },{
@@ -877,6 +889,7 @@
             [ [ "bag_canvas", 2 ] ],
             [ [ "material_sand", 20 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "f_sandbag_half"
     },{
@@ -889,6 +902,7 @@
             [ [ "bag_canvas", 4 ] ],
             [ [ "material_sand", 40 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_terrain" : "f_sandbag_half",
         "post_terrain" : "f_sandbag_wall"
     },{
@@ -1061,6 +1075,7 @@
         "components" : [
             [ [ "steel_plate", 2] ]
         ],
+        "pre_note" : "Must be supported on at least two sides.",
         "pre_special" : "check_support",
         "post_terrain" : "t_scrap_floor"
     },{
@@ -1200,6 +1215,7 @@
             [ [ "2x4", 8 ] ],
             [ [ "nail", 40 ] ]
         ],
+        "pre_note" : "Must be supported on at least two sides.",
         "pre_special" : "check_support",
         "post_terrain" : "t_floor"
     },{
@@ -1213,6 +1229,7 @@
             [ [ "log", 2 ] ],
             [ [ "stick", 4 ], [ "2x4", 8 ] ]
         ],
+        "pre_note" : "Must be supported on at least two sides.",
         "pre_special" : "check_support",
         "post_terrain" : "t_floor"
     },{
@@ -1228,7 +1245,7 @@
             [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ],
             [ [ "stick", 8 ], [ "2x4", 8 ] ]
         ],
-        "pre_note" : "Must be adjacent to a palisade wall that is itself adjacent to a palisade gate in order to open said gate.",
+        "pre_note" : "Can be deconstructed without tools.  Must be adjacent to a palisade wall that is itself adjacent to a palisade gate in order to open said gate.",
         "pre_special" : "check_empty",
         "post_terrain" : "t_palisade_pulley"
     },{
@@ -1373,6 +1390,7 @@
             [ [ "steel_chunk", 3 ], [ "scrap", 12 ] ],
             [ [ "pipe", 20 ] ]
         ],
+        "pre_note" : "Needs to be supported on both sides by fencing, walls, etc.",
         "pre_special" : "check_support",
         "post_terrain" : "t_chaingate_c"
     },{
@@ -1405,6 +1423,36 @@
         ],
         "pre_special" : "check_empty",
         "post_terrain" : "f_crate_o"
+    },{
+        "type" : "construction",
+        "description" : "Seal Coffin",
+        "category" : "FURN",
+        "required_skills" : [ [ "mechanics", 0 ] ],
+        "time" : 10,
+        "components" : [
+        [ ["nail", 6] ]
+        ],
+        "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
+        "pre_terrain" : "f_coffin_o",
+        "post_terrain" : "f_coffin_c"
+    },{
+        "type" : "construction",
+        "description" : "Build Coffin",
+        "category" : "FURN",
+        "required_skills" : [ [ "fabrication", 1 ] ],
+        "time" : 60,
+        "qualities": [
+            [
+            { "id": "HAMMER", "level": 2 }
+            ]
+            ],
+        "components" : [
+            [ [ "2x4", 12 ] ],
+            [ [ "sheet", 2 ], [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1] ],
+            [ [ "nail", 24 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_coffin_o"
     },{
         "type" : "construction",
         "description" : "Build Bulletin Board",
@@ -1605,6 +1653,7 @@
             [ [ "2x4", 4 ] ],
             [ [ "straw_pile", 8 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "f_straw_bed"
     },{
@@ -1791,6 +1840,7 @@
         "components" : [
             [ [ "anvil", 1 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "f_anvil"
     },{
@@ -1802,6 +1852,7 @@
         "components" : [
             [ [ "char_forge", 1 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "f_forge"
     },{
@@ -1813,6 +1864,7 @@
         "components" : [
             [ [ "still", 1 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "f_still"
     },{
@@ -2030,10 +2082,10 @@
         "time" : 420,
         "qualities": [ [ { "id": "AXE", "level": 2 } ],
                        [ { "id": "HAMMER", "level": 2 } ],
-                       [ { "id": "DIG", "level": 3 } ]
+                       [ { "id": "DIG", "level": 2 } ]
                        ],
         "tools" : [
-            [ "pickaxe" ]
+            [ [ "pickaxe", -1 ], [ "jackhammer", 30 ], [ "elec_jackhammer", 30 ] ]
         ],
         "components" : [
             [ [ "2x4", 8 ] , [ "log", 8 ] ],
@@ -2049,11 +2101,10 @@
         "time" : 480,
         "qualities": [ [ { "id": "AXE", "level": 2 } ],
                        [ { "id": "HAMMER", "level": 2 } ],
-                       [ { "id": "DIG", "level": 3 } ],
-                       [ { "id": "PRY", "level": 2 } ]
+                       [ { "id": "DIG", "level": 2 } ]
                        ],
         "tools" : [
-            [ [ "jackhammer", 30 ], [ "elec_jackhammer", 30 ] ]
+            [ [ "pickaxe", -1 ], [ "jackhammer", 30 ], [ "elec_jackhammer", 30 ] ]
         ],
         "components" : [
             [ [ "2x4", 12 ] , [ "log", 12 ] ],
@@ -2070,16 +2121,15 @@
         "time" : 480,
         "qualities": [ [ { "id": "AXE", "level": 2 } ],
                        [ { "id": "HAMMER", "level": 2 } ],
-                       [ { "id": "DIG", "level": 3 } ],
-                       [ { "id": "PRY", "level": 2 } ]
+                       [ { "id": "DIG", "level": 2 } ]
                        ],
         "tools" : [
-            [ [ "jackhammer", 30 ], [ "elec_jackhammer", 30 ] ],
+            [ [ "pickaxe", -1 ], [ "jackhammer", 30 ], [ "elec_jackhammer", 30 ] ],
             [ "miner_hat", "hat_hard", "firehelmet", "helmet_ball",
             "helmet_army", "helmet_lobster", "helmet_riot", "tac_helmet",
             "helmet_hsurvivor", "helmet_survivor", "helmet_xlsurvivor", "miner_hat_on"]
         ],
-        "note" : "Helmets are essential because you're digging up and things may fall on you.",
+        "//" : "Helmets are essential because you're digging up and things may fall on you.",
         "components" : [
             [ [ "2x4", 12 ] , [ "log", 12 ] ],
             [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ]
@@ -2155,22 +2205,22 @@
         "post_terrain" : "t_dirt"
     },{
         "type" : "construction",
-        "description" : "Extract Clay Mound",
+        "description" : "Extract Sand",
         "category" : "OTHER",
         "required_skills" : [ [ "survival", 0 ] ],
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-        "pre_terrain" : "t_water_sh",
-        "post_terrain" : "t_claymound"
+        "pre_terrain" : "t_sand",
+        "post_special" : "done_extract_sand"
     },{
         "type" : "construction",
-        "description" : "Extract Sand Mound",
+        "description" : "Extract Clay",
         "category" : "OTHER",
         "required_skills" : [ [ "survival", 0 ] ],
         "time" : 30,
         "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-        "pre_terrain" : "t_water_sh",
-        "post_terrain" : "t_sandmound"
+        "pre_terrain" : "t_clay",
+        "post_special" : "done_extract_clay"
     },{
         "type" : "construction",
         "description" : "Build Charcoal Kiln",
@@ -2188,6 +2238,7 @@
         "components" : [
             [ [ "rock", 40 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "f_kiln_empty"
     },{
@@ -2226,6 +2277,7 @@
             [ [ "stick", 16 ], [ "2x4", 16 ] ],
             [ [ "rock", 8 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "f_smoking_rack"
     },{
@@ -2241,6 +2293,7 @@
         "components" : [
             [ [ "rock", 40 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "f_forge_rock"
     },{
@@ -2257,6 +2310,7 @@
             [ [ "material_cement", 50 ], [ "mortar_build", 1 ], [ "clay_lump", 12 ] ],
             [ [ "water", 2 ], [ "water_clean", 2 ] ]
         ],
+        "pre_note" : "Can be deconstructed without tools.",
         "pre_special" : "check_empty",
         "post_terrain" : "f_clay_kiln"
     },{

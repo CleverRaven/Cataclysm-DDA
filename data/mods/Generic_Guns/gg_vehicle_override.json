@@ -56,7 +56,7 @@
   {
     "id": "mounted_browning",
     "type": "vehicle_part",
-    "name": "mounted heavy machine gum",
+    "name": "mounted heavy machine gun",
     "item": "m2browning",
     "location": "on_roof",
     "symbol": "t",

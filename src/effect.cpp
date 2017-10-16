@@ -32,10 +32,6 @@ bool string_id<effect_type>::is_valid() const
     return effect_types.count( *this ) > 0;
 }
 
-/** @relates string_id */
-template<>
-const efftype_id string_id<effect_type>::NULL_ID( "null" );
-
 const efftype_id effect_weed_high( "weed_high" );
 
 void weed_msg(player *p) {
@@ -139,9 +135,9 @@ void weed_msg(player *p) {
         case 1: // Real Life
             p->add_msg_if_player(_("Man, a cheeseburger sounds SO awesome right now."));
             p->mod_hunger(4);
-            if(p->has_trait("VEGETARIAN")) {
+            if( p->has_trait( trait_id( "VEGETARIAN" ) ) ) {
                 p->add_msg_if_player(_("Eh... maybe not."));
-            } else if(p->has_trait("LACTOSE")) {
+            } else if( p->has_trait( trait_id( "LACTOSE" ) ) ) {
                 p->add_msg_if_player(_("I guess, maybe, without the cheese... yeah."));
             }
             return;
@@ -333,7 +329,7 @@ effect_rating effect_type::get_rating() const
 
 bool effect_type::use_name_ints() const
 {
-    return ((size_t)max_intensity <= name.size());
+    return name.size() > 1;
 }
 
 bool effect_type::use_desc_ints(bool reduced) const
@@ -395,6 +391,10 @@ bool effect_type::get_main_parts() const
 {
     return main_parts_only;
 }
+bool effect_type::is_show_in_info() const
+{
+    return show_in_info;
+}
 bool effect_type::load_miss_msgs(JsonObject &jo, std::string member)
 {
     if (jo.has_array(member)) {
@@ -450,11 +450,12 @@ std::string effect::disp_name() const
 
     // End result should look like "name (l. arm)" or "name [intensity] (l. arm)"
     std::ostringstream ret;
-    if (eff_type->use_name_ints()) {
-        if(eff_type->name[intensity - 1] == "") {
+    if( eff_type->use_name_ints() ) {
+        const std::string &d_name = eff_type->name[ std::min<size_t>( intensity, eff_type->name.size() ) - 1 ];
+        if( d_name.empty() ) {
             return "";
         }
-        ret << _(eff_type->name[intensity - 1].c_str());
+        ret << _( d_name.c_str() );
     } else {
         if(eff_type->name[0] == "") {
             return "";
@@ -467,6 +468,7 @@ std::string effect::disp_name() const
     if (bp != num_bp) {
         ret << " (" << body_part_name(bp).c_str() << ")";
     }
+
     return ret.str();
 }
 
@@ -750,7 +752,7 @@ int effect::mod_intensity( int mod, bool alert )
     return set_intensity( intensity + mod, alert );
 }
 
-const std::vector<std::string> &effect::get_resist_traits() const
+const std::vector<trait_id> &effect::get_resist_traits() const
 {
     return eff_type->resist_traits;
 }
@@ -1077,7 +1079,7 @@ std::string effect::get_speed_name() const
     if( eff_type->speed_mod_name != "" ) {
         return eff_type->speed_mod_name;
     } else if( eff_type->use_name_ints() ) {
-        return eff_type->name[intensity-1];
+        return eff_type->name[ std::min<size_t>( intensity, eff_type->name.size() ) - 1 ];
     } else if( !eff_type->name.empty() ) {
         return eff_type->name[0];
     } else {
@@ -1164,7 +1166,9 @@ void load_effect_type(JsonObject &jo)
     new_etype.apply_memorial_log = jo.get_string("apply_memorial_log", "");
     new_etype.remove_memorial_log = jo.get_string("remove_memorial_log", "");
 
-    new_etype.resist_traits = jo.get_string_array("resist_traits");
+    for( auto &&f : jo.get_string_array( "resist_traits" ) ) {
+        new_etype.resist_traits.push_back( trait_id( f ) );
+    }
     for( auto &&f : jo.get_string_array( "resist_effects" ) ) {
         new_etype.resist_effects.push_back( efftype_id( f ) );
     }
@@ -1187,6 +1191,7 @@ void load_effect_type(JsonObject &jo)
     new_etype.load_decay_msgs(jo, "decay_messages");
 
     new_etype.main_parts_only = jo.get_bool("main_parts_only", false);
+    new_etype.show_in_info = jo.get_bool("show_in_info", false);
     new_etype.pkill_addict_reduces = jo.get_bool("pkill_addict_reduces", false);
 
     new_etype.pain_sizing = jo.get_bool("pain_sizing", false);

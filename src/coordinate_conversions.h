@@ -118,6 +118,12 @@ inline point sm_to_om_remain( point &p )
 }
 // overmap terrain to submap, basically: x *= 2
 point omt_to_sm_copy( int x, int y );
+
+inline int omt_to_sm_copy( int a )
+{
+    return 2 * a;
+}
+
 inline point omt_to_sm_copy( const point &p )
 {
     return omt_to_sm_copy( p.x, p.y );

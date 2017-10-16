@@ -16,9 +16,9 @@
     ],
     "tools": [
       [ [ "mold_plastic", -1 ] ],
-      [ [ "hotplate", 50 ], [ "toolset", 50 ], ["fire", -1 ] ]
+      [ [ "surface_heat", 50, "LIST" ] ]
     ],
-    "components": [ 
+    "components": [
         [ [ "plastic_chunk", 3 ] ],
         [ [ "wire", 1 ] ],
         [ [ "scrap", 1 ] ],
@@ -127,6 +127,29 @@
     "components": [
       [ [ "pot_copper", 1 ] ],
       [ [ "hose", 2 ] ]
+    ]
+  },
+  {
+    "result": "food_processor",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": 20000,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [
+      { "id": "SCREW", "level": 1, "amount": 1 },
+      { "id": "HAMMER", "level": 3, "amount": 1 }
+    ],
+    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
+    "components": [
+      [ [ "scrap", 4 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "pot", 1 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "e_scrap", 1 ] ]
     ]
   }
 ]

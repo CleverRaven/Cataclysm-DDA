@@ -50,7 +50,7 @@ const string_id<start_location> &start_location::ident() const
 
 std::string start_location::name() const
 {
-    return _name;
+    return _( _name.c_str() );
 }
 
 std::string start_location::target() const
@@ -75,7 +75,7 @@ void start_location::load_location( JsonObject &jo, const std::string &src )
 
 void start_location::load( JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "name", _name, translated_string_reader );
+    mandatory( jo, was_loaded, "name", _name );
     mandatory( jo, was_loaded, "target", _target );
     optional( jo, was_loaded, "flags", _flags, auto_flags_reader<> {} );
 }
@@ -199,44 +199,20 @@ void start_location::prepare_map( tinymap &m ) const
 
 tripoint start_location::find_player_initial_location() const
 {
-    const bool using_existing_initial_overmap = overmap_buffer.has( 0, 0 );
-    // The coordinates of an overmap that is known to *not* exist. We can regenerate this
-    // as often we like.
-    point non_existing_omt = point( 0, 0 );
-
-    if( using_existing_initial_overmap ) {
-        // arbitrary, should be large enough to include all overmaps ever created
-        const int radius = 32;
-        for( const point omp : closest_points_first( radius, point( 0, 0 ) ) ) {
-            const overmap *omap = overmap_buffer.get_existing( omp.x, omp.y );
-            if( omap == nullptr ) {
-                if( non_existing_omt == point( 0, 0 ) ) {
-                    non_existing_omt = omp;
-                }
-                continue;
-            }
-            const tripoint omtstart = omap->find_random_omt( target() );
-            if( omtstart != overmap::invalid_tripoint ) {
-                return omtstart + point( omp.x * OMAPX, omp.y * OMAPY );
-            }
-        }
-    }
-
-    while( true ) {
-        popup_nowait( _( "Please wait as we build your world" ) );
-        const overmap &initial_overmap = overmap_buffer.get( non_existing_omt.x, non_existing_omt.y );
-        const tripoint omtstart = initial_overmap.find_random_omt( target() );
+    popup_nowait( _( "Please wait as we build your world" ) );
+    // Spiral out from the world origin scaning for a compatible starting location,
+    // creating overmaps as necessary.
+    const int radius = 32;
+    for( const point omp : closest_points_first( radius, point( 0, 0 ) ) ) {
+        overmap &omap = overmap_buffer.get( omp.x, omp.y );
+        const tripoint omtstart = omap.find_random_omt( target() );
         if( omtstart != overmap::invalid_tripoint ) {
-            return omtstart + point( non_existing_omt.x * OMAPX, non_existing_omt.y * OMAPY );
+            return omtstart + point( omp.x * OMAPX, omp.y * OMAPY );
         }
-        if( !query_yn(
-                _( "The game could not create a world with a suitable starting location.\n\n"
-                   "Depending on the world options, the starting location may never appear. If the problem persists, you can try another starting location, or change the world options.\n\n"
-                   "Try again?" ) ) ) {
-            return overmap::invalid_tripoint;
-        }
-        overmap_buffer.clear();
     }
+    // Should never happen, if it does we messed up.
+    popup( _( "Unable to generate a valid starting location, please report this failure." ) );
+    return overmap::invalid_tripoint;
 }
 
 void start_location::prepare_map( const tripoint &omtstart ) const
@@ -431,6 +407,7 @@ void start_location::handle_heli_crash( player &u ) const
             case 1:
             case 2:// Damage + Bleed
                 u.add_effect( effect_bleed, 60, bp_part );
+            /* fallthrough */
             case 3:
             case 4:
             case 5: { // Just damage
@@ -442,6 +419,30 @@ void start_location::handle_heli_crash( player &u ) const
             }
             default: // No damage
                 break;
+        }
+    }
+}
+
+static void add_monsters( const tripoint &omtstart, const mongroup_id &type, float expected_points )
+{
+    const tripoint spawn_location = omt_to_sm_copy( omtstart );
+    tinymap m;
+    m.load( spawn_location.x, spawn_location.y, spawn_location.z, false );
+    // map::place_spawns internally multiplies density by rng(10, 50)
+    float density = expected_points / ( ( 10 + 50 ) / 2 );
+    m.place_spawns( type, 1, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, density );
+    m.save();
+}
+
+void start_location::surround_with_monsters( const tripoint &omtstart, const mongroup_id &type,
+        float expected_points ) const
+{
+    for( int x_offset = -1; x_offset <= 1; x_offset++ ) {
+        for( int y_offset = -1; y_offset <= 1; y_offset++ ) {
+            if( x_offset != 0 || y_offset != 0 ) {
+                add_monsters( omtstart + point( x_offset, y_offset ), type,
+                              roll_remainder( expected_points / 8.0f ) );
+            }
         }
     }
 }

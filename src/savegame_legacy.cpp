@@ -356,12 +356,12 @@ void overmap::unserialize_legacy(std::istream & fin) {
 //   assignment to an NPC.
 
             if (!npc_inventory.empty() && !npcs.empty()) {
-                npcs.back()->inv.add_stack(npc_inventory);
+                npcs.back()->inv.push_back(npc_inventory);
                 npc_inventory.clear();
             }
             std::string npcdata;
             getline(fin, npcdata);
-            npc * tmp = new npc();
+            std::shared_ptr<npc> tmp = std::make_shared<npc>();
             tmp->load_info(npcdata);
             npcs.push_back(tmp);
         } else if (datatype == 'P') {
@@ -378,7 +378,7 @@ void overmap::unserialize_legacy(std::istream & fin) {
             } else {
                 item tmp;
                 tmp.load_info(itemdata);
-                npc* last = npcs.back();
+                npc* last = npcs.back().get();
                 switch (datatype) {
                 case 'I': npc_inventory.push_back(tmp);                 break;
                 case 'C': npc_inventory.back().contents.push_back(tmp); break;
@@ -404,7 +404,7 @@ void overmap::unserialize_legacy(std::istream & fin) {
                                 // temporary; user changed option, this overmap should remain whatever it was set to.
                                 settings = rit->second; // todo optimize
                             } else { // ruh-roh! user changed option and deleted the .json with this overmap's region. We'll have to become current default. And whine about it.
-                                std::string tmpopt = get_world_option<std::string>( "DEFAULT_REGION" );
+                                std::string tmpopt = get_option<std::string>( "DEFAULT_REGION" );
                                 rit = region_settings_map.find( tmpopt );
                                 if ( rit == region_settings_map.end() ) { // ...oy. Hopefully 'default' exists. If not, it's crashtime anyway.
                                     debugmsg("               WARNING: overmap uses missing region settings '%s'                 \n\
@@ -430,7 +430,7 @@ void overmap::unserialize_legacy(std::istream & fin) {
 
 // If we accrued an npc_inventory, assign it now
     if (!npc_inventory.empty() && !npcs.empty()) {
-        npcs.back()->inv.add_stack(npc_inventory);
+        npcs.back()->inv.push_back(npc_inventory);
     }
 }
 
@@ -494,7 +494,7 @@ void overmap::unserialize_view_legacy( std::istream &fin )
 void player_activity::deserialize_legacy_type( int legacy_type, activity_id &dest )
 {
     static const std::vector< activity_id > legacy_map = {
-        activity_id( NULL_ID ),
+        activity_id::NULL_ID(),
         activity_id( "ACT_RELOAD" ),
         activity_id( "ACT_READ" ),
         activity_id( "ACT_GAME" ),
@@ -507,7 +507,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         activity_id( "ACT_FORAGE" ),
         activity_id( "ACT_BUILD" ),
         activity_id( "ACT_VEHICLE" ),
-        activity_id( NULL_ID ), // ACT_REFILL_VEHICLE is deprecated
+        activity_id::NULL_ID(), // ACT_REFILL_VEHICLE is deprecated
         activity_id( "ACT_TRAIN" ),
         activity_id( "ACT_WAIT_WEATHER" ),
         activity_id( "ACT_FIRSTAID" ),
@@ -538,12 +538,12 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         activity_id( "ACT_WAIT_NPC" ),
         activity_id( "ACT_CLEAR_RUBBLE" ),
         activity_id( "ACT_MEDITATE" ),
-        activity_id( NULL_ID ) // NUM_ACTIVITIES
+        activity_id::NULL_ID() // NUM_ACTIVITIES
     };
 
     if( legacy_type < 0 || ( size_t )legacy_type >= legacy_map.size() ) {
         debugmsg( "Bad legacy activity data. Got %d, exected something from 0 to %d", legacy_type, legacy_map.size() );
-        dest = activity_id( NULL_ID );
+        dest = activity_id::NULL_ID();
         return;
     }
     dest = legacy_map[ legacy_type ];

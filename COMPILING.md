@@ -1,3 +1,24 @@
+* [General Linux Guide](#general-linux-guide)
+  * [Compiler](#compiler)
+  * [Tools](#tools)
+  * [Dependencies](#dependencies)
+  * [Make flags](#make-flags)
+* [Debian](#debian)
+  * [Linux (native) ncurses builds](#linux-native-ncurses-builds)
+  * [Linux (native) SDL builds](#linux-native-sdl-builds)
+  * [Cross-compiling to linux 32-bit from linux 64-bit](#cross-compiling-to-linux-32-bit-from-linux-64-bit)
+  * [Cross-compile to Windows from Linux](#cross-compile-to-windows-from-linux)
+  * [Cross-compile to Mac OS X from Linux](#cross-compile-to-mac-os-x-from-linux)
+* [Mac OS X](#mac-os-x)
+  * [Simple build using Homebrew](#simple-build-using-homebrew)
+  * [Advanced info for Developers](#advanced-info-for-developers)
+  * [Troubleshooting](#troubleshooting)
+* [Windows](#windows)
+  * [Visual Studio Guide](#visual-studio-guide)
+  * [MinGW Guide](#mingw-guide)
+  * [Rough guide to building with only MSYS2](#rough-guide-to-building-with-only-msys2)
+* [BSDs](#bsds)
+
 # General Linux Guide
 
 To build Cataclysm from source you will need at least a C++ compiler, some basic developer tools, and necessary build dependencies. The exact package names vary greatly from distro to distro, so this part of the guide is intended to give you higher-level understanding of the process.
@@ -343,6 +364,27 @@ For MacPorts:
     sudo port install gettext ncurses
     hash -r
 
+### gcc
+    
+The version of gcc/g++ installed with the [Command Line Tools for Xcode](https://developer.apple.com/downloads/) is actually just a front end for the same Apple LLVM as clang.  This doesn't necessarily cause issues, but this version of gcc/g++ will have clang error messages and essentially produce the same results as if using clang. To compile with the "real" gcc/g++, install it with homebrew:
+
+    brew install gcc
+    
+However, homebrew installs gcc as gcc-6 (where 6 is the version) to avoid conflicts. The simplest way to use the homebrew version at `/usr/local/bin/gcc-6` instead of the Apple LLVM version at `/usr/bin/gcc` is to symlink the necessary.
+    
+    cd /usr/local/bin
+    ln -s gcc-6 gcc
+    ln -s g++-6 g++
+    ln -s c++-6 c++
+    
+Or, to do this for everything in `/usr/local/bin/` ending with `-6`, 
+
+    find /usr/local/bin -name "*-6" -exec sh -c 'ln -s "$1" $(echo "$1" | sed "s/..$//")' _ {} \;
+    
+Also, you need to make sure that `/usr/local/bin` appears before `/usr/bin` in your `$PATH`, or else this will not work.
+
+Check that `gcc -v` shows the homebrew version you installed.
+
 ### Compiling
 
 The Cataclysm source is compiled using `make`.
@@ -444,7 +486,11 @@ We've prepared an archive containing all the headers and libraries required to b
 
 Extract the 'WinDepend' folder and put it in the root folder of Cataclysm project.
 
-All the thing you need to do next is to install lua. Download x86 32-bit `lua.exe` from [http://lua-users.org/wiki/LuaBinaries](http://lua-users.org/wiki/LuaBinaries) and put it in `C:\Windows\System32` if you are using a 32-bit Windows, or `C:\Windows\SysWOW64` if you are using a 64-bit Windows.
+### Lua
+
+The next thing you need to do is to install lua. Download the appropriate x86 or x64 lua from [http://lua-users.org/wiki/LuaBinaries](http://lua-users.org/wiki/LuaBinaries), and extract it to `C:\Windows\System32` or somewhere else on your path.
+
+Once you have it installed, go to the project directory, then go to `src/lua`, and run `lua53 generate_bindings.lua catabindings.cpp`. This will generate the `catabindings.cpp` file which is necessary for compilation.
 
 ### Building
 

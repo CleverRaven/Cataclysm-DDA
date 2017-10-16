@@ -35,10 +35,7 @@
   "qualities":[ {"id":"CHEM","level":2} ],
   "tools": [
     [
-      [ "press", 50 ],
-      [ "hotplate", 50 ],
-      [ "toolset", 50 ],
-      [ "fire", -1 ]
+      [ "surface_heat", 50, "LIST" ]
     ],
     [ [ "press", -1 ] ]
   ],
@@ -70,10 +67,7 @@
   "qualities":[ {"id":"CHEM","level":2} ],
   "tools": [
     [
-      [ "press", 50 ],
-      [ "hotplate", 50 ],
-      [ "toolset", 50 ],
-      [ "fire", -1 ]
+      [ "surface_heat", 50, "LIST" ]
     ],
     [ [ "press", -1 ] ]
   ],
@@ -104,10 +98,7 @@
   "qualities":[ {"id":"CHEM","level":2} ],
   "tools": [
     [
-      [ "press", 50 ],
-      [ "hotplate", 50 ],
-      [ "toolset", 50 ],
-      [ "fire", -1 ]
+      [ "surface_heat", 50, "LIST" ]
     ],
     [ [ "boltcutters", -1 ], [ "toolset", -1 ] ],
     [ [ "press", -1 ] ]
@@ -132,10 +123,7 @@
   "qualities":[ {"id":"CHEM","level":2} ],
   "tools": [
     [
-      [ "press", 50 ],
-      [ "hotplate", 50 ],
-      [ "toolset", 50 ],
-      [ "fire", -1 ]
+      [ "surface_heat", 50, "LIST" ]
     ],
     [ [ "press", -1 ] ]
   ],
@@ -351,8 +339,8 @@
 {
   "type" : "recipe",
   "result": "smg_22_mag",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MAGAZINES",
   "skill_used": "fabrication",
   "skills_required": [ "gun", 1 ],
   "difficulty": 2,
@@ -379,8 +367,8 @@
 {
   "type" : "recipe",
   "result": "smg_38_mag",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MAGAZINES",
   "skill_used": "fabrication",
   "skills_required": [ "gun", 1 ],
   "difficulty": 2,
@@ -407,8 +395,8 @@
 {
   "type" : "recipe",
   "result": "smg_9mm_mag",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MAGAZINES",
   "skill_used": "fabrication",
   "skills_required": [ "gun", 1 ],
   "difficulty": 2,
@@ -435,8 +423,8 @@
 {
   "type" : "recipe",
   "result": "smg_40_mag",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MAGAZINES",
   "skill_used": "fabrication",
   "skills_required": [ "gun", 1 ],
   "difficulty": 2,
@@ -463,8 +451,8 @@
 {
   "type" : "recipe",
   "result": "smg_45_mag",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_MAGAZINES",
   "skill_used": "fabrication",
   "skills_required": [ "gun", 1 ],
   "difficulty": 2,

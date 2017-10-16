@@ -150,7 +150,7 @@
             },
             {
                 "level": 2,
-                "name": "archery"
+                "name": "rifle"
             },
             {
                 "level": 2,
@@ -312,6 +312,7 @@
                     "matches"
                 ],
                 "entries": [
+                    { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
                     { "item": "m1911", "ammo-item": "45_acp", "charges": 7, "container-item": "holster" },
                     { "item": "45_acp", "charges": 23 },
                     { "item": "garand", "ammo-item": "3006", "charges": 8, "contents-item": "shoulder_strap" },
@@ -716,6 +717,7 @@
                     "binoculars"
                 ],
                 "entries": [
+                    { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
                     { "item": "knife_combat", "container-item": "sheath" },
                     { "item": "m4a1", "ammo-item": "223", "charges": 30, "contents-item": "shoulder_strap" }
                 ]
@@ -785,6 +787,7 @@
                     "boots_combat"
                 ],
                 "entries": [
+                    { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
                     { "item": "kukri", "container-item": "sheath" },
                     { "item": "rm2000_smg", "ammo-item": "8mm_fmj", "charges": 25, "contents-item": [ "shoulder_strap", "suppressor" ] },
                     { "item": "8mm_fmj", "charges": 55 }
@@ -1189,6 +1192,7 @@
                     "whistle"
                 ],
                 "entries": [
+                    { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
                     { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
                     { "item": "45_acp", "charges": 18 }
                 ]
@@ -1295,6 +1299,7 @@
                     "flashbang"
                 ],
                 "entries": [
+                    { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
                     { "item": "usp_9mm", "ammo-item": "9mm", "charges": 15, "container-item": "sholster" },
                     { "item": "hk_mp5", "ammo-item": "9mm", "charges": 30, "contents-item": "shoulder_strap" },
                     { "item": "9mm", "charges": 55 }
@@ -1353,6 +1358,7 @@
                     "baton"
                 ],
                 "entries": [
+                    { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
                     { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "container-item": "sholster" },
                     { "item": "9mmfmj", "charges": 35 },
                     { "item": "ksg", "ammo-item": "shot_00", "charges": 7, "contents-item": "shoulder_strap" },
@@ -1405,6 +1411,7 @@
                     "wristwatch"
                 ],
                 "entries": [
+                    { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
                     { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
                     { "item": "45_acp", "charges": 18 },
                     { "item": "remington_700", "ammo-item": "3006", "charges": 4, "contents-item": [ "shoulder_strap", "rifle_scope" ] },
@@ -1554,7 +1561,7 @@
         "skills": [
             {
                 "level": 2,
-                "name": "archery"
+                "name": "rifle"
             }
         ],
         "items": {
@@ -1611,6 +1618,7 @@
                     "hat_hunting"
                 ],
                 "entries": [
+                    { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
                     { "item": "shotgun_d", "ammo-item": "shot_00", "charges": 2, "contents-item": "shoulder_strap" },
                     { "item": "shot_00", "charges": 12, "container-item": "bandolier_shotgun" },
                     { "item": "shot_00", "charges": 6 },
@@ -1654,6 +1662,7 @@
                     "hat_hunting"
                 ],
                 "entries": [
+                    { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
                     { "item": "remington_700", "ammo-item": "270", "charges": 4, "contents-item": "shoulder_strap" },
                     { "item": "270", "charges": 16, "container-item": "bandolier_rifle" },
                     { "item": "sheath", "contents-item": "knife_hunting" }
@@ -2583,7 +2592,7 @@
             "bio_power_storage_mkII"
         ],
         "skills": [
-            
+
             {
                 "level": 3,
                 "name": "dodge"
@@ -2626,13 +2635,17 @@
             "bio_power_storage_mkII"
         ],
         "items": {
-            "both": [
-                "socks",
-                "sneakers",
-                "jeans",
-                "tshirt",
-                "ear_plugs"
-            ],
+            "both": {
+                "items": [
+                    "socks",
+                    "sneakers",
+                    "jeans",
+                    "tshirt"
+                ],
+                "entries": [
+                    { "item": "ear_plugs", "custom-flags": ["no_auto_equip"] }
+                ]
+            },
             "male": [
                 "briefs"
             ],
@@ -2969,6 +2982,7 @@
                     "pocketwatch"
                 ],
                 "entries": [
+                    { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
                     { "item": "halligan", "container-item": "fireman_belt" }
                 ]
             },
@@ -3081,7 +3095,7 @@
         "type": "profession",
         "ident": "burglar",
         "name": "Burglar",
-        "description": "You thought this would your lucky break.  Does it count as breaking and entering if everyone in town is undead?",
+        "description": "You thought this would be your lucky break.  Does it count as breaking and entering if everyone in town is undead?",
         "points": 3,
         "//" : "A ski mask would fit the stereotype better, but wool allergy breaks this.",
         "items": {
@@ -3947,7 +3961,7 @@
             },
             {
                 "level": 3,
-                "name": "archery"
+                "name": "rifle"
             }
         ],
         "items": {
@@ -4082,6 +4096,7 @@
                     "quikclot"
                 ],
                 "entries": [
+                    { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
                     { "item": "knife_combat", "container-item": "sheath" },
                     { "item": "m4a1", "ammo-item": "556", "contents-item": "shoulder_strap" },
                     { "item": "stanag30", "ammo-item": "556", "count": 2 }
@@ -4291,29 +4306,27 @@
             }
         ],
         "items": {
-            "both": [
-                "gold_ear",
-                "pants_survivor",
-                "motorbike_boots",
-                "gauntlets_bone",
-                "survivor_goggles",
-                "nailrifle",
-                "shoulder_strap",
-                "folding_stock",
-                "nailmag",
-                "nailmag",
-                "combatnail",
-                "combatnail",
-                "chestpouch",
-                "waterskin2",
-                "survivor_scope",
-                "heavy_flashlight",
-                "makeshift_machete",
-                "scabbard",
-                "knuckle_steel",
-                "ref_lighter",
-                "mess_kit"
-            ],
+            "both": {
+                "items": [
+                    "gold_ear",
+                    "pants_survivor",
+                    "motorbike_boots",
+                    "gauntlets_bone",
+                    "survivor_goggles",
+                    "combatnail",
+                    "waterskin2",
+                    "survivor_scope",
+                    "heavy_flashlight",
+                    "knuckle_steel",
+                    "ref_lighter",
+                    "mess_kit"
+                ],
+                "entries": [
+                    { "item": "nailrifle", "ammo-item": "combatnail", "charges": 50, "contents-item": [ "shoulder_strap", "folding_stock" ] },
+                    { "item": "makeshift_machete", "container-item": "scabbard" },
+                    { "item": "nailmag", "ammo-item": "combatnail", "charges": 50, "container-item": "chestpouch" }
+                ]
+            },
             "male": [
                 "football_armor",
                 "elbow_pads",
@@ -4401,27 +4414,28 @@
             }
         ],
         "items": {
-            "both": [
-                "pants_fur",
-                "trenchcoat_fur",
-                "backpack_leather",
-                "boots_fur",
-                "gloves_fur",
-                "hat_fur",
-                "scarf_fur",
-                "quiver",
-                "sheath",
-                "shortbow",
-                "arrow_wood",
-                "arrow_wood",
-                "primitive_knife",
-                "shelter_kit",
-                "leather_funnel",
-                "rock_pot",
-                "waterskin",
-                "fur_rollmat",
-                "fire_drill"
-            ]
+            "both": {
+                "items": [
+                    "pants_fur",
+                    "trenchcoat_fur",
+                    "backpack_leather",
+                    "boots_fur",
+                    "gloves_fur",
+                    "hat_fur",
+                    "scarf_fur",
+                    "shortbow",
+                    "shelter_kit",
+                    "leather_funnel",
+                    "rock_pot",
+                    "waterskin",
+                    "fur_rollmat",
+                    "fire_drill"
+                ],
+                "entries": [
+                        { "item": "primitive_knife", "container-item": "sheath" },
+                        { "item": "arrow_wood", "charges": 20, "container-item": "quiver" }
+                ]
+            }
         },
          "flags" : ["SCEN_ONLY"]
     },
@@ -4448,18 +4462,17 @@
                     "tank_top",
                     "socks",
                     "fishing_waders",
-                    "knife_hunting",
                     "knit_scarf",
                     "fishing_rod_professional",
                     "fish_bait",
                     "fish_trap",
                     "vest",
                     "hat_boonie",
-                    "jacket_flannel",
-                    "sheath"
+                    "jacket_flannel"
                 ],
                 "entries": [
-                    { "item": "lighter", "charges": 100 }
+                    { "item": "lighter", "charges": 100 },
+                    { "item": "knife_hunting", "container-item": "sheath" }
                 ]
             },
             "male": [
@@ -4505,7 +4518,7 @@
             ],
             "male": [
                 "knee_high_boots",
-                "pants_leather",
+                "breeches",
                 "waistcoat",
                 "peacoat",
                 "knit_scarf",
@@ -4580,7 +4593,7 @@
             ],
             "female": [
                 "knee_high_boots",
-                "pants_leather",
+                "breeches",
                 "waistcoat",
                 "peacoat",
                 "leather_belt",
@@ -5050,21 +5063,26 @@
             "description": "You're a miner, not a minor!  Your canteen is dry, your jackhammer is out of gas, and you're on your last pair of batteries for your mining helmet...",
             "points": 0,
             "items": {
-                "both": [
-                    "socks",
-                    "boots_steel",
-                    "gloves_work",
-                    "knee_pads",
-                    "miner_hat",
-                    "jumpsuit",
-                    "mask_gas",
-                    "jackhammer",
-                    "canteen",
-                    "e_tool",
-                    "tool_belt",
-                    "mbag",
-                    "matches"
-                ],
+                "both": {
+                    "items": [
+                        "socks",
+                        "boots_steel",
+                        "gloves_work",
+                        "knee_pads",
+                        "miner_hat",
+                        "jumpsuit",
+                        "mask_gas",
+                        "jackhammer",
+                        "canteen",
+                        "e_tool",
+                        "tool_belt",
+                        "mbag",
+                        "matches"
+                    ],
+                    "entries": [
+                        { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] }
+                    ]
+                },
                 "male": [
                     "boxer_shorts"
                 ],

@@ -47,7 +47,7 @@
     "tools": [ [ [ "soldering_iron", 5 ], [ "toolset", 5 ], [ "duct_tape", 2 ] ] ],
     "components": [
       [ [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ] ],
-      [ [ "whiskey", 7 ], [ "single_malt_whiskey", 7 ], [ "vodka", 7 ], [ "rum", 7 ], [ "tequila", 7 ], [ "gin", 7 ], [ "triple_sec", 7 ], [ "moonshine", 7 ], [ "brandy", 7 ], [ "lamp_oil", 150 ], [ "gasoline", 200 ], [ "diesel", 200 ], [ "napalm", 100 ] ],
+      [ [ "hard_liquor_chem", 7, "LIST" ], [ "lamp_oil", 150 ], [ "gasoline", 200 ], [ "diesel", 200 ], [ "napalm", 100 ] ],
       [ [ "smpistol_primer", 1 ], [ "lgpistol_primer", 1 ], [ "smrifle_primer", 1 ], [ "lgrifle_primer", 1 ], [ "shotgun_primer", 1 ] ]
     ]
   },
@@ -67,11 +67,11 @@
     ],
     "tools": [
       [ [ "soldering_iron", 5 ], [ "toolset", 5 ], [ "duct_tape", 2 ] ],
-      [ [ "hotplate", 3 ], [ "toolset", 3 ], [ "fire", -1 ] ]
+      [ [ "surface_heat", 3, "LIST" ] ]
     ],
     "components": [
       [ [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ] ],
-      [ [ "whiskey", 21 ], [ "single_malt_whiskey", 21 ], [ "vodka", 21 ], [ "rum", 21 ], [ "tequila", 21 ], [ "gin", 21 ], [ "triple_sec", 21 ], [ "moonshine", 21 ], [ "brandy", 21 ], [ "lamp_oil", 600 ], [ "gasoline", 1000 ], [ "diesel", 1000 ], [ "napalm", 400 ] ],
+      [ [ "hard_liquor_chem", 21, "LIST" ], [ "lamp_oil", 600 ], [ "gasoline", 1000 ], [ "diesel", 1000 ], [ "napalm", 400 ] ],
       [ [ "smpistol_primer", 1 ], [ "lgpistol_primer", 1 ], [ "smrifle_primer", 1 ], [ "lgrifle_primer", 1 ], [ "shotgun_primer", 1 ] ]
     ]
   },
@@ -244,7 +244,7 @@
     "autolearn": true,
     "tools": [
       [ [ "crucible", -1 ] ],
-      [ [ "hotplate", 20 ], [ "toolset", 20 ], [ "fire", -1 ] ],
+      [ [ "surface_heat", 20, "LIST" ] ],
       [ [ "mold_plastic", -1 ] ]
     ],
     "components": [ [ [ "lead", 100 ] ] ]
@@ -258,6 +258,7 @@
     "difficulty": 3,
     "time": 20000,
     "autolearn": true,
+    "using": [ [ "forging_standard", 1 ], [ "steel_standard", 1 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 1, "amount": 1 },
       { "id": "CUT", "level": 1, "amount": 1 },
@@ -266,10 +267,8 @@
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "anvil", -1 ] ],
-      [ [ "swage", -1 ] ],
-      [ [ "forge", 100 ], [ "char_forge", 10 ], [ "oxy_torch", 10 ] ]
-    ],
-    "components": [ [ [ "scrap", 9 ], [ "steel_chunk", 3 ], [ "steel_lump", 1 ] ] ]
+      [ [ "swage", -1 ] ]
+    ]
   },
   {
     "result": "shards",

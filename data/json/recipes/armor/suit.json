@@ -50,7 +50,7 @@
       { "id": "COOK", "level": 3 },
       { "id": "SEW", "level": 1 }
     ],
-    "tools": [ [ [ "hotplate", 20 ], [ "toolset", 20 ], [ "fire", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "water", 10 ], [ "water_clean", 10 ] ],
       [ [ "wax", 2 ], [ "tallow", 8 ], [ "tallow_tainted", 8 ], [ "vinegar", 10 ], [ "pine_bough", 20 ] ],
@@ -89,10 +89,8 @@
     "time": 100000,
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
-    "components": [
-      [ [ "string_36", 2 ], [ "string_6", 12 ] ],
-      [ [ "chitin_piece", 15 ] ]
-    ]
+    "using": [ [ "cordage", 2 ] ],
+    "components": [ [ [ "chitin_piece", 15 ] ] ]
   },
   {
     "result": "armor_farmor",
@@ -429,10 +427,11 @@
     "skill_used": "tailor",
     "difficulty": 4,
     "time": 60000,
+    "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
     "using": [ [ "filament", 30 ] ],
     "qualities": [ { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "rag", 20 ] ] ]
+    "components": [ [ [ "rag", 26 ] ] ]
   },
   {
     "result": "h20survivor_suit",

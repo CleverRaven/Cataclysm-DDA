@@ -663,6 +663,37 @@
     "use_action": "BOLTCUTTERS"
   },
   {
+    "id": "bone_flute",
+    "type": "TOOL",
+    "category": "tools",
+    "name": "bone flute",
+    "name_plural": "bone flutes",
+    "description": "A polished bone flute with five finger holes.",
+    "weight": 250,
+    "volume": 2,
+    "price": 5000,
+    "bashing": 2,
+    "material": "bone",
+    "symbol": "-",
+    "color": "white",
+    "initial_charges": 1,
+    "max_charges": 1,
+    "use_action": {
+      "type": "musical_instrument",
+      "volume": 12,
+      "fun": -5,
+      "fun_bonus": 2,
+      "speed_penalty": 10,
+      "description_frequency": 20,
+      "descriptions": [
+        "You play a little tune on your flute.",
+        "You play a beautiful piece on your flute.",
+        "You play a piece on your bone flute that resembles the howling wind through Aurignacian caves.",
+        "Your bone flute wails for the fallen during the hunt."
+      ]
+    }
+  },
+  {
     "id": "boobytrap",
     "type": "TOOL",
     "name": "booby trap",
@@ -1337,6 +1368,25 @@
     "use_action": "CATFOOD"
   },
   {
+    "id": "cavalry_sabre",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "cavalry saber",
+    "description": "This is a curved sword associated with cavalry from the Early Modern period onwards.  Lightweight but a deadly slashing weapon.",
+    "weight": 910,
+    "volume": 5,
+    "price": 97000,
+    "to_hit": 2,
+    "bashing": 2,
+    "cutting": 26,
+    "material": "steel",
+    "symbol": "/",
+    "color": "dark_gray",
+    "techniques": [ "WBLOCK_2", "RAPID" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+  },
+  {
     "id": "cell_phone",
     "type": "TOOL",
     "name": "cell phone",
@@ -1525,7 +1575,7 @@
     "sub": "hotplate",
     "max_charges": 200,
     "charges_per_use": 1,
-    "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 2 ], [ "BOIL", 1 ] ],
+    "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
     "use_action": "HOTPLATE"
   },
   {
@@ -2184,6 +2234,7 @@
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "CUT", 1 ], [ "PRY", 1 ], [ "BUTCHER", 15 ] ],
+    "use_action": "CROWBAR",
     "flags": [ "SHEATH_KNIFE" ]
   },
   {
@@ -2701,6 +2752,7 @@
     "material": "paper",
     "symbol": "*",
     "color": "red",
+    "turns_per_charge": 7,
     "use_action": "FIRECRACKER_PACK_ACT",
     "flags": [ "TRADER_AVOID" ]
   },
@@ -3785,6 +3837,29 @@
     "flags": [ "STAB" ]
   },
   {
+    "id": "jar_pickles_pickled",
+    "type": "GENERIC",
+    "category": "food",
+    "name": "sealed jar of pickles",
+    "name_plural": "sealed jars of pickles",
+    "description": "This is a sealed glass jar containing pickles.  Use to open and eat to enjoy.",
+    "weight": 1750,
+    "volume": 2,
+    "price": 650,
+    "bashing": 4,
+    "material": [ "glass", "veggy" ],
+    "symbol": "%",
+    "color": "green",
+    "use_action": {
+      "target": "pickle",
+      "msg": "You open the jar, exposing it to the atmosphere.",
+      "container": "jar_glass",
+      "target_charges": 6,
+      "menu_text": "Open jar",
+      "type": "transform"
+    }
+  },
+  {
     "id": "jar_sauerkraut_pickled",
     "type": "GENERIC",
     "category": "food",
@@ -3936,7 +4011,7 @@
     "color": "dark_gray",
     "gunmod_data": {
       "location": "underbarrel",
-      "mod_targets": [ "shotgun", "rifle" ],
+      "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
       "dispersion_modifier": 10,
       "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
       "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]
@@ -4127,8 +4202,8 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "L-stick (off)",
-    "name_plural": "l-sticks (off)",
-    "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the l-stick or light stick as it is commonly called, batteries last longer than other light sources.",
+    "name_plural": "L-sticks (off)",
+    "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the L-stick or light stick as it is commonly called, batteries last longer than other light sources.",
     "weight": 1000,
     "volume": 12,
     "price": 5000,
@@ -4157,7 +4232,7 @@
     "category": "weapons",
     "name": "L-stick (on)",
     "name_plural": "L-sticks (on)",
-    "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the l-stick or light stick as it is commonly called, batteries last longer than other light sources.  The staff is glowing brightly, which is slowly draining the batteries.",
+    "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the L-stick or light stick as it is commonly called, batteries last longer than other light sources.  The staff is glowing brightly, which is slowly draining the batteries.",
     "weight": 1000,
     "volume": 12,
     "price": 8000,
@@ -5148,7 +5223,7 @@
       "menu_text": "Turn off",
       "type": "transform"
     },
-    "flags": [ "LIGHT_10", "TRADER_AVOID" ]
+    "flags": [ "LIGHT_10", "TRADER_AVOID", "FIRE" ]
   },
   {
     "id": "oxygen_tank",
@@ -5305,6 +5380,29 @@
     "use_action": {
       "type": "picklock",
       "pick_quality": 5
+    }
+  },
+  {
+    "id": "pickles_ferment",
+    "type": "GENERIC",
+    "category": "food",
+    "name": "fermenting pickle jar",
+    "description": "This jar contains a batch of pickles set to ferment.  You can seal up the jar once the process is completed.",
+    "weight": 52,
+    "volume": 1,
+    "price": 10,
+    "bashing": 8,
+    "material": [ "glass", "veggy" ],
+    "symbol": "%",
+    "color": "white",
+    "use_action": {
+      "target": "jar_pickles_pickled",
+      "msg": "You test the batch, and it tastes good, so you seal the jar up for storage.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 33600,
+      "not_ready_msg": "The pickles are not done fermenting yet.",
+      "//": "2 1/3 days, from the suggested recipie of 1 rl week"
     }
   },
   {
@@ -5493,7 +5591,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "brown",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
     "flags": [ "STAB" ]
   },
   {
@@ -5622,10 +5720,7 @@
     "bashing": 6,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
-    "color": "dark_gray",
-    "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100
+    "color": "dark_gray"
   },
   {
     "id": "primitive_adze",
@@ -7805,8 +7900,8 @@
     "id": "vacutainer",
     "type": "CONTAINER",
     "category": "tools",
-    "name": "vacutainer",
-    "description": "This is a tool for drawing blood, including a test tube for holding the sample.  Use this tool to draw blood, either from yourself or from a corpse you are standing on.",
+    "name": "blood draw kit",
+    "description": "This is a kit for drawing blood, including a test tube for holding the sample.  Use this tool to draw blood, either from yourself or from a corpse you are standing on.",
     "weight": 13,
     "volume": 1,
     "price": 3000,
@@ -7818,7 +7913,7 @@
     "contains": 1,
     "seals": true,
     "watertight": true,
-    "use_action": "VACUTAINER",
+    "use_action": "BLOOD_DRAW",
     "flags": [ "SPEAR" ]
   },
   {
@@ -7956,7 +8051,7 @@
     "id": "washboard",
     "type": "TOOL",
     "name": "washboard",
-    "description": "This is a wooden washboard.  You can use it to wash filthy clothing if it's supplied with soap.  It requires 1 unit of soap per use.",
+    "description": "This is a wooden washboard.  You can use it to wash filthy clothing if it's supplied with cleansing agent.",
     "weight": 90,
     "volume": 1,
     "price": 1000,
@@ -7964,10 +8059,6 @@
     "material": "wood",
     "symbol": ";",
     "color": "white",
-    "ammo": "soap",
-    "initial_charges": 5,
-    "max_charges": 10,
-    "charges_per_use": 1,
     "use_action": "WASHCLOTHES"
   },
   {
@@ -8095,7 +8186,7 @@
     "type": "TOOL",
     "category": "spare_parts",
     "name": "wool staple",
-    "description": "The natural cluster of wool fibres.  Could be processed to the felt patches or yarns.",
+    "description": "The natural cluster of wool fibers.  Could be processed to the felt patches or yarns.",
     "weight": 200,
     "volume": 2,
     "price": 0,
@@ -8164,7 +8255,7 @@
     "name": "flammenschwert (aus)",
     "name_plural": "flammenschwerter (aus)",
     "//": "All of this is SUPPOSED to be in German.",
-    "description": "Ein großes zweihändiges Schwert aus Deutschland, an dessen Klinge sich, unter zuführung von Benzin, eine anhaltende Flamme erzeugen lässt.  Es ist eine sehr mächtige Waffe.",
+    "description": "Ein großes zweihändiges Schwert aus Deutschland, an dessen Klinge sich, unter Zuführung von Benzin, eine anhaltende Flamme erzeugen lässt.  Es ist eine sehr mächtige Waffe.",
     "weight": 3400,
     "volume": 15,
     "price": 160000,
@@ -8193,7 +8284,7 @@
     "name": "flammenschwert (an)",
     "name_plural": "flammenschwerter (an)",
     "//": "All of this is SUPPOSED to be in German.",
-    "description": "Ein großes zweihändiges Schwert aus Deutschland, an dessen Klinge sich, unter zuführung von Benzin, eine anhaltende Flamme erzeugen lässt.  Es ist eine sehr mächtige Waffe.",
+    "description": "Ein großes zweihändiges Schwert aus Deutschland, an dessen Klinge sich, unter Zuführung von Benzin, eine anhaltende Flamme erzeugen lässt.  Es ist eine sehr mächtige Waffe.",
     "weight": 3400,
     "volume": 15,
     "price": 160000,
@@ -8240,5 +8331,38 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
+  },
+  {
+    "id": "food_processor",
+    "type": "TOOL",
+    "category": "tools",
+    "name": "food processor",
+    "description": "This is a kitchen appliance capable of slicing, chopping, shredding, grinding, pureeing and mixing.",
+    "weight": 3000,
+    "volume": 8,
+    "price": 50,
+    "to_hit": -1,
+    "bashing": 10,
+    "material": [ "iron" ],
+    "symbol": "%",
+    "color": "white",
+    "ammo": "battery",
+    "initial_charges": 100,
+    "max_charges": 100
+  },
+  {
+    "id": "cattlefodder",
+    "type": "TOOL",
+    "name": "cattle fodder",
+    "name_plural": "cattle fodder",
+    "description": "What cattle eats.  Mainly made of grass, silages or legumes, is perfect for ruminants.",
+    "weight": 300,
+    "volume": 1,
+    "price": 100,
+    "to_hit": -5,
+    "material": "veggy",
+    "symbol": ";",
+    "color": "brown",
+    "use_action": "FEEDCATTLE"
   }
 ]

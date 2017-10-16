@@ -17,7 +17,10 @@
   {
     "id": "basement_survival_last_stand_casing",
     "type": "item_group",
-    "items": [ { "item": "308_casing", "charges": [ 1, 1 ] } ]
+    "items": [
+      { "item": "308_casing", "charges": [ 1, 1 ] },
+      { "item": "ammolink308", "charges": [ 1, 1 ] }
+    ]
   },
   {
     "type": "mapgen",
@@ -94,8 +97,10 @@
       "toilets": {
         "t": {}
       },
+	  "place_liquids": [
+	    { "liquid": "water", "x": [ 4, 15 ], "y": [ 14, 15 ], "repeat": 3 }
+	  ],
       "place_loot": [
-        { "item": "water", "x": [ 4, 15 ], "y": [ 14, 15 ], "chance": 100, "repeat": 3 },
         { "group": "basement_survival_last_stand_casing", "x": 2, "y": 6, "chance": 20, "repeat": [ 1, 10 ] },
         { "group": "basement_survival_last_stand_casing", "x": 3, "y": 6, "chance": 20, "repeat": [ 1, 10 ] },
         { "group": "basement_survival_last_stand_casing", "x": 4, "y": 6, "chance": 20, "repeat": [ 1, 10 ] },

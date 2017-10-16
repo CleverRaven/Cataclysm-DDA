@@ -819,6 +819,12 @@ bool input_context::get_direction( int &dx, int &dy, const std::string &action )
     return true;
 }
 
+// Custom set of hotkeys that explicitly don't include the hardcoded
+// alternative hotkeys, which mustn't be included so that the hardcoded
+// hotkeys do not show up beside entries within the window.
+const std::string display_help_hotkeys =
+    "abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;'\",./<>?!@#$%^&*()_[]\\{}|`~";
+
 void input_context::display_help()
 {
     inp_mngr.reset_timeout();
@@ -835,16 +841,11 @@ void input_context::display_help()
     enum { s_remove, s_add, s_add_global, s_show } status = s_show;
     // copy of registered_actions, but without the ANY_INPUT and COORDINATE, which should not be shown
     std::vector<std::string> org_registered_actions( registered_actions );
-    std::vector<std::string>::iterator any_input = std::find( org_registered_actions.begin(),
-            org_registered_actions.end(), ANY_INPUT );
-    if( any_input != org_registered_actions.end() ) {
-        org_registered_actions.erase( any_input );
-    }
-    std::vector<std::string>::iterator coordinate = std::find( org_registered_actions.begin(),
-            org_registered_actions.end(), COORDINATE );
-    if( coordinate != org_registered_actions.end() ) {
-        org_registered_actions.erase( coordinate );
-    }
+    org_registered_actions.erase( std::remove_if( org_registered_actions.begin(),
+                                  org_registered_actions.end(),
+    []( const std::string & a ) {
+        return a == ANY_INPUT || a == COORDINATE;
+    } ), org_registered_actions.end() );
 
     // colors of the keybindings
     static const nc_color global_key = c_ltgray;
@@ -883,8 +884,7 @@ void input_context::display_help()
         ctxt.register_action( "HELP_KEYBINDINGS" );
     }
 
-    std::string hotkeys = ctxt.get_available_single_char_hotkeys();
-    const std::set<long> bound_character_blacklist = { '+', '-', '=', KEY_ESCAPE };
+    std::string hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );
     std::vector<std::string> filtered_registered_actions = org_registered_actions;
     std::string filter_phrase;
     std::string action;
@@ -898,7 +898,7 @@ void input_context::display_help()
         werase( w_help );
         draw_border( w_help );
         draw_scrollbar( w_help, scroll_offset, display_height,
-                        filtered_registered_actions.size() - display_height, 10, 0, c_white, true );
+                        filtered_registered_actions.size(), 10, 0, c_white, true );
         center_print( w_help, 0, c_ltred, _( "Keybindings" ) );
         fold_and_print( w_help, 1, 2, legwidth, c_white, legend.str() );
 
@@ -940,27 +940,23 @@ void input_context::display_help()
             mvwprintz( w_help, i + 10, 52, col, "%s", get_desc( action_id ).c_str() );
         }
 
+        // spopup.query_string() will call wrefresh( w_help )
+        refresh();
+
         spopup.text( filter_phrase );
         if( status == s_show ) {
-            spopup.ch_code_blacklist = bound_character_blacklist;
             filter_phrase = spopup.query_string( false );
             action = ctxt.input_to_action( ctxt.get_raw_input() );
         } else {
-            spopup.ch_code_blacklist.clear();
             spopup.query_string( false, true );
             action = ctxt.handle_input();
         }
         raw_input_char = ctxt.get_raw_input().get_first_input();
 
-
+        filtered_registered_actions = filter_strings_by_phrase( org_registered_actions, filter_phrase );
         if( scroll_offset > filtered_registered_actions.size() ) {
             scroll_offset = 0;
         }
-
-        filtered_registered_actions = filter_strings_by_phrase( org_registered_actions, filter_phrase );
-
-        wrefresh( w_help );
-        refresh();
 
         if( filtered_registered_actions.size() == 0 && action != "QUIT" ) {
             continue;
@@ -1073,7 +1069,7 @@ void input_context::display_help()
             }
         } else if( action == "HELP_KEYBINDINGS" ) {
             // update available hotkeys in case they've changed
-            hotkeys = ctxt.get_available_single_char_hotkeys();
+            hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );
         }
     }
 
@@ -1348,5 +1344,15 @@ std::vector<std::string> input_context::filter_strings_by_phrase(
     }
 
     return filtered_strings;
+}
+
+void input_context::set_edittext( std::string s )
+{
+    edittext = s;
+}
+
+std::string input_context::get_edittext()
+{
+    return edittext;
 }
 

@@ -306,7 +306,7 @@ static bool select_autopickup_items( std::vector<std::list<item_idx>> &here,
                     int volume_limit = get_option<int>( "AUTO_PICKUP_VOL_LIMIT" );
                     if( weight_limit && volume_limit ) {
                         if( here[i].begin()->_item.volume() <= units::from_milliliter( volume_limit * 50 ) &&
-                            here[i].begin()->_item.weight() <= weight_limit * 50 &&
+                            here[i].begin()->_item.weight() <= weight_limit * 50_gram &&
                             get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
                             bPickup = true;
                         }
@@ -403,7 +403,11 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
     }
 
     bool did_prompt = false;
-    if( newit.made_of( LIQUID ) ) {
+    newit.charges = u.i_add_to_container( newit, false );
+    if( newit.is_ammo() && newit.charges == 0 ) {
+        picked_up = true;
+        option = NUM_ANSWERS; //Skip the options part
+    } else if( newit.made_of( LIQUID ) ) {
         got_water = true;
     } else if( !u.can_pickWeight( newit, false ) ) {
         add_msg( m_info, _( "The %s is too heavy!" ), newit.display_name().c_str() );
@@ -736,7 +740,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
         int selected = 0;
         int iScrollPos = 0;
 
-        std::string filter;
+        std::string filter, new_filter;
         std::vector<int> matches;//Indexes of items that match the filter
         bool filter_changed = true;
         if( g->was_fullscreen ) {
@@ -802,17 +806,22 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 } else if( selected >= start + maxitems ) {
                     start += maxitems;
                 }
-            } else if( selected >= 0 && (
-                           ( action == "RIGHT" && !getitem[selected].pick ) ||
-                           ( action == "LEFT" && getitem[selected].pick )
-                       ) ) {
+            } else if( selected >= 0 && selected < int( matches.size() ) &&
+                       ( ( action == "RIGHT" && !getitem[matches[selected]].pick ) ||
+                         ( action == "LEFT" && getitem[matches[selected]].pick ) ) ) {
                 idx = selected;
             } else if( action == "FILTER" ) {
-                string_input_popup()
+                new_filter = filter;
+                string_input_popup popup;
+                popup
                 .title( _( "Set filter" ) )
                 .width( 30 )
-                .edit( filter );
-                filter_changed = true;
+                .edit( new_filter );
+                if( !popup.canceled() ) {
+                    filter_changed = true;
+                } else {
+                    wrefresh( g->w_terrain );
+                }
             } else if( action == "ANY_INPUT" && raw_input_char == '`' ) {
                 std::string ext = string_input_popup()
                                   .title( _( "Enter 2 letters (case sensitive):" ) )
@@ -860,7 +869,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
             if( filter_changed ) {
                 matches.clear();
                 while( matches.empty() ) {
-                    auto filter_func = item_filter_from_string( filter );
+                    auto filter_func = item_filter_from_string( new_filter );
                     for( size_t index = 0; index < stacked_here.size(); index++ ) {
                         if( filter_func( stacked_here[index].begin()->_item ) ) {
                             matches.push_back( index );
@@ -868,17 +877,29 @@ void Pickup::pick_up( const tripoint &pos, int min )
                     }
                     if( matches.empty() ) {
                         popup( _( "Your filter returned no results" ) );
-                        // The filter must have results, or simply be emptied,
+                        wrefresh( g->w_terrain );
+                        // The filter must have results, or simply be emptied or canceled,
                         // as this screen can't be reached without there being
                         // items available
-                        string_input_popup()
+                        string_input_popup popup;
+                        popup
                         .title( _( "Set filter" ) )
                         .width( 30 )
-                        .edit( filter );
+                        .edit( new_filter );
+                        if( popup.canceled() ) {
+                            new_filter = filter;
+                            filter_changed = false;
+                        }
                     }
                 }
-                filter_changed = false;
-                selected = 0;
+                if( filter_changed ) {
+                    filter = new_filter;
+                    filter_changed = false;
+                    selected = 0;
+                    start = 0;
+                    iScrollPos = 0;
+                }
+                wrefresh( g->w_terrain );
             }
             item &selected_item = stacked_here[matches[selected]].begin()->_item;
 
@@ -979,7 +1000,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 for( int i = 9; i < pickupW; ++i ) {
                     mvwaddch( w_pickup, 0, i, ' ' );
                 }
-                int weight_picked_up = 0;
+                units::mass weight_picked_up = 0;
                 units::volume volume_picked_up = 0;
                 for( size_t i = 0; i < getitem.size(); i++ ) {
                     if( getitem[i].pick ) {
@@ -1065,7 +1086,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 count -= num_picked;
             } else {
                 size_t num_picked = 1;
-                pick_values.push_back( { it.idx, 0 } );
+                pick_values.push_back( { static_cast<int>( it.idx ), 0 } );
                 count -= num_picked;
             }
         }
@@ -1105,4 +1126,20 @@ void show_pickup_message( const PickupMap &mapPickup )
                      entry.second.first.display_name( entry.second.second ).c_str() );
         }
     }
+}
+
+int Pickup::cost_to_move_item( const Character &who, const item &it )
+{
+    // Do not involve inventory capacity, it's not like you put it in backpack
+    int ret = 50;
+    if( who.is_armed() ) {
+        // No free hand? That will cost you extra
+        ret += 20;
+    }
+
+    // Is it too heavy? It'll take 10 moves per kg over limit
+    ret += std::max( 0, ( it.weight() - who.weight_capacity() ) / 100_gram );
+
+    // Keep it sane - it's not a long activity
+    return std::min( 400, ret );
 }

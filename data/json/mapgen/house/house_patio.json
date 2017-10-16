@@ -16,6 +16,7 @@
       [ "lettuce", 45 ],
       [ "tomato", 45 ],
       [ "onion", 30 ],
+      [ "chili_pepper", 30 ],
       [ "corn", 20 ],
       [ "irradiated_lettuce", 20 ],
       [ "irradiated_tomato", 20 ],

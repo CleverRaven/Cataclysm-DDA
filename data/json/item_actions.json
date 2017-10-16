@@ -149,7 +149,7 @@
         "name" : "Use holster"
     },{
         "type" : "item_action",
-        "id" : "SAW_BARREL",
+        "id" : "saw_barrel",
         "name" : "Saw down barrel"
     },{
         "type" : "item_action",
@@ -649,7 +649,7 @@
         "name" : "Inject"
     },{
         "type" : "item_action",
-        "id" : "VACUTAINER",
+        "id" : "BLOOD_DRAW",
         "name" : "Draw some blood"
     },{
         "type" : "item_action",
@@ -731,5 +731,10 @@
         "type" : "item_action",
         "id" : "ups_based_armor",
         "name" : "Activate/deactivate"
+    },
+    {
+        "type" : "item_action",
+        "id" : "FEEDCATTLE",
+        "name" : "Place"
     }
 ]

@@ -25,15 +25,15 @@ fi
 # Update cataclysm-dda.pot
 echo "> Running xgettext to create .pot file"
 xgettext --default-domain="cataclysm-dda" \
-         --sort-by-file \
          --add-comments="~" \
+         --sort-by-file \
          --output="lang/po/cataclysm-dda.pot" \
          --keyword="_" \
-         --keyword="gettext_noop" \
          --keyword="pgettext:1c,2" \
          --keyword="ngettext:1,2" \
+         --keyword="translate_marker" \
          --from-code="UTF-8" \
-         src/*.cpp src/*.h lang/json/*.py
+         src/*.cpp src/*.h lang/json/*.py lang/extra/android/*.cpp
 if [ $? -ne 0 ]; then
     echo "Error in xgettext. Aborting"
     cd $oldpwd

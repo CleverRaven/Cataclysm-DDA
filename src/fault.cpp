@@ -39,7 +39,7 @@ void fault::load_fault( JsonObject &jo )
     auto sk = jo.get_array( "skills" );
     while( sk.has_more() ) {
         auto cur = sk.next_array();
-        f.skills_.emplace( skill_id( cur.get_string( 0 ) ) , cur.size() >= 2 ? cur.get_int( 1 ) : 1 );
+        f.skills_.emplace( skill_id( cur.get_string( 0 ) ), cur.size() >= 2 ? cur.get_int( 1 ) : 1 );
     }
 
     if( jo.has_string( "requirements" ) ) {

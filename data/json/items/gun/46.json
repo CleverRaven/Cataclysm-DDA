@@ -17,12 +17,20 @@
     "dispersion": 260,
     "durability": 8,
     "burst": 20,
-    "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "built_in_mods": [ "folding_stock" ],
+    "valid_mod_locations": [
+      [ "accessories", 3 ],
+      [ "barrel", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "magazine_well": 1,
-    "magazines": [
-      [ "46", [ "hk46mag", "hk46bigmag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ]
-    ]
+    "magazines": [ [ "46", [ "hk46mag", "hk46bigmag" ] ], [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ] ]
   },
   {
     "id": "hk_ucp",
@@ -42,11 +50,18 @@
     "ranged_damage": -1,
     "dispersion": 440,
     "durability": 8,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "magazine_well": 1,
-    "magazines": [
-      [ "46", [ "hk46mag", "hk46bigmag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ]
-    ]
+    "magazines": [ [ "46", [ "hk46mag", "hk46bigmag" ] ], [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ] ]
   }
 ]

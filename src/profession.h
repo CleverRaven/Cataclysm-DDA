@@ -18,14 +18,16 @@ class player;
 class JsonArray;
 class JsonObject;
 class addiction;
+struct mutation_branch;
+using trait_id = string_id<mutation_branch>;
+struct bionic_data;
+using bionic_id = string_id<bionic_data>;
 enum add_type : int;
 
-    // The weird indentation is thanks to astyle; don't fix it unless you feel like
-    // failing a build or two.
-    class Skill;
-    using skill_id = string_id<Skill>;
+class Skill;
+using skill_id = string_id<Skill>;
 
-    class profession
+class profession
 {
     public:
         typedef std::pair<skill_id, int> StartingSkill;
@@ -64,8 +66,8 @@ enum add_type : int;
         itype_id no_bonus; // See profession::items and class json_item_substitution in profession.cpp
 
         std::vector<addiction> _starting_addictions;
-        std::vector<std::string> _starting_CBMs;
-        std::vector<std::string> _starting_traits;
+        std::vector<bionic_id> _starting_CBMs;
+        std::vector<trait_id> _starting_traits;
         std::set<std::string> flags; // flags for some special properties of the profession
         StartingSkillList  _starting_skills;
 
@@ -96,9 +98,9 @@ enum add_type : int;
         std::string gender_appropriate_name( bool male ) const;
         std::string description( bool male ) const;
         signed int point_cost() const;
-        std::list<item> items( bool male, const std::vector<std::string> &traits ) const;
+        std::list<item> items( bool male, const std::vector<trait_id> &traits ) const;
         std::vector<addiction> addictions() const;
-        std::vector<std::string> CBMs() const;
+        std::vector<bionic_id> CBMs() const;
         const StartingSkillList skills() const;
 
         /**
@@ -115,8 +117,8 @@ enum add_type : int;
          * @return true, if player can pick profession. Otherwise - false.
          */
         bool can_pick( player *u, int points ) const;
-        bool is_locked_trait( const std::string &trait ) const;
-        std::vector<std::string> get_locked_traits() const;
+        bool is_locked_trait( const trait_id &trait ) const;
+        std::vector<trait_id> get_locked_traits() const;
 };
 
 #endif

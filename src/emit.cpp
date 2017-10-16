@@ -5,10 +5,6 @@
 #include "debug.h"
 #include "generic_factory.h"
 
-/** @relates string_id */
-template <>
-const emit_id string_id<emit>::NULL_ID( "null" );
-
 static std::map<emit_id, emit> emits_all;
 
 /** @relates string_id */
@@ -34,6 +30,14 @@ const emit &string_id<emit>::obj() const
     }
     return found->second;
 }
+
+emit::emit() : id_( emit_id::NULL_ID() ) {}
+
+bool emit::is_null() const
+{
+    return id_ == emit_id::NULL_ID();
+}
+
 
 void emit::load_emit( JsonObject &jo )
 {

@@ -37,6 +37,7 @@ enum vision_modes {
     DARKNESS,
     IR_VISION,
     VISION_CLAIRVOYANCE,
+    VISION_CLAIRVOYANCE_PLUS,
     VISION_CLAIRVOYANCE_SUPER,
     NUM_VISION_MODES
 };
@@ -58,6 +59,14 @@ struct encumbrance_data {
                armor_encumbrance == rhs.armor_encumbrance &&
                layer_penalty == rhs.layer_penalty;
     }
+};
+
+struct aim_type {
+    std::string name;
+    std::string action;
+    std::string help;
+    bool has_threshold;
+    int threshold;
 };
 
 class Character : public Creature, public visitable<Character>
@@ -102,6 +111,10 @@ class Character : public Creature, public visitable<Character>
         virtual int get_dex_bonus() const;
         virtual int get_per_bonus() const;
         virtual int get_int_bonus() const;
+
+        // Penalty modifiers applied for ranged attacks due to low stats
+        virtual int ranged_dex_mod() const;
+        virtual int ranged_per_mod() const;
 
         /** Setters for stats exclusive to characters */
         virtual void set_str_bonus(int nstr);
@@ -151,6 +164,14 @@ class Character : public Creature, public visitable<Character>
         /* Adjusts provided sight dispersion to account for player stats */
         int effective_dispersion( int dispersion ) const;
 
+        /* Accessors for aspects of aim speed. */
+        std::vector<aim_type> get_aim_types( const item &gun ) const;
+        std::pair<int, int> get_best_sight( const item &gun, double recoil ) const;
+        double aim_speed_skill_modifier( const skill_id &gun_skill ) const;
+        double aim_speed_dex_modifier() const;
+        double aim_speed_encumbrance_modifier() const;
+        double aim_cap_from_volume( const item &gun ) const;
+
         /* Calculate aim improvement per move spent aiming at a given @ref recoil */
         double aim_per_move( const item &gun, double recoil ) const;
 
@@ -178,6 +199,8 @@ class Character : public Creature, public visitable<Character>
         /** Returns ENC provided by armor, etc. */
         int encumb( body_part bp ) const;
 
+        /** Returns body weight plus weight of inventory and worn/wielded items */
+        units::mass get_weight() const override;
         /** Get encumbrance for all body parts. */
         std::array<encumbrance_data, num_bp> get_encumbrance() const;
         /** Get encumbrance for all body parts as if `new_item` was also worn. */
@@ -224,27 +247,27 @@ class Character : public Creature, public visitable<Character>
         // --------------- Mutation Stuff ---------------
         // In newcharacter.cpp
         /** Returns the id of a random starting trait that costs >= 0 points */
-        std::string random_good_trait();
+        trait_id random_good_trait();
         /** Returns the id of a random starting trait that costs < 0 points */
-        std::string random_bad_trait();
+        trait_id random_bad_trait();
 
         // In mutation.cpp
         /** Returns true if the player has the entered trait */
-        bool has_trait(const std::string &flag) const override;
+        bool has_trait(const trait_id &flag) const override;
         /** Returns true if the player has the entered starting trait */
-        bool has_base_trait(const std::string &flag) const;
+        bool has_base_trait(const trait_id &flag) const;
         /** Returns true if player has a trait with a flag */
         bool has_trait_flag( const std::string &flag ) const;
         /** Returns true if player has a bionic with a flag */
         bool has_bionic_flag( const std::string &flag ) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
-        std::string trait_by_invlet( long ch ) const;
+        trait_id trait_by_invlet( long ch ) const;
 
         /** Toggles a trait on the player and in their mutation list */
-        void toggle_trait(const std::string &flag);
+        void toggle_trait( const trait_id &flag );
         /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
-        void set_mutation( const std::string &flag );
-        void unset_mutation( const std::string &flag );
+        void set_mutation( const trait_id &flag );
+        void unset_mutation( const trait_id &flag );
 
         /** Converts a body_part to an hp_part */
         static hp_part bp_to_hp(body_part bp);
@@ -268,10 +291,10 @@ class Character : public Creature, public visitable<Character>
 
  private:
         /** Retrieves a stat mod of a mutation. */
-        int get_mod(std::string mut, std::string arg) const;
+        int get_mod( const trait_id &mut, std::string arg ) const;
  protected:
         /** Applies stat mods to character. */
-        void apply_mods(const std::string &mut, bool add_remove);
+        void apply_mods(const trait_id &mut, bool add_remove);
 
         /** Recalculate encumbrance for all body parts. */
         std::array<encumbrance_data, num_bp> calc_encumbrance() const;
@@ -284,11 +307,11 @@ class Character : public Creature, public visitable<Character>
         void item_encumb( std::array<encumbrance_data, num_bp> &vals, const item &new_item ) const;
  public:
         /** Handles things like destruction of armor, etc. */
-        void mutation_effect(std::string mut);
+        void mutation_effect( const trait_id &mut );
         /** Handles what happens when you lose a mutation. */
-        void mutation_loss_effect(std::string mut);
+        void mutation_loss_effect( const trait_id &mut );
 
-        bool has_active_mutation(const std::string &b) const;
+        bool has_active_mutation( const trait_id &b ) const;
 
         /**
          * Returns resistances on a body part provided by mutations
@@ -300,9 +323,9 @@ class Character : public Creature, public visitable<Character>
 
         // --------------- Bionic Stuff ---------------
         /** Returns true if the player has the entered bionic id */
-        bool has_bionic(const std::string &b) const;
+        bool has_bionic(const bionic_id &b) const;
         /** Returns true if the player has the entered bionic id and it is powered on */
-        bool has_active_bionic(const std::string &b) const;
+        bool has_active_bionic(const bionic_id &b) const;
 
         // --------------- Generic Item Stuff ---------------
 
@@ -351,6 +374,22 @@ class Character : public Creature, public visitable<Character>
          */
         int get_item_position( const item *it ) const;
 
+        /**
+         * Returns a reference to the item which will be used to make attacks.
+         * At the moment it's always @ref weapon or @ref ret_null.
+         */
+        /*@{*/
+        const item &used_weapon() const;
+        item &used_weapon();
+        /*@}*/
+
+        /**
+         * Try to find a container/s on character containing ammo of type it.typeId() and
+         * add charges until the container is full.
+         * @param unloading Do not try to add to a container when the item was intentionally unloaded.
+         * @return Remaining charges which could not be stored in a container.
+         */
+        long int i_add_to_container(const item &it, const bool unloading);
         item &i_add(item it);
 
         /**
@@ -423,9 +462,9 @@ class Character : public Creature, public visitable<Character>
         /** How much dispersion does one point of target's dodge add when throwing at said target? */
         int throw_dispersion_per_dodge( bool add_encumbrance = true ) const;
 
-        int weight_carried() const;
+        units::mass weight_carried() const;
         units::volume volume_carried() const;
-        int weight_capacity() const override;
+        units::mass weight_capacity() const override;
         units::volume volume_capacity() const;
         units::volume volume_capacity_reduced_by( units::volume mod ) const;
 
@@ -438,6 +477,11 @@ class Character : public Creature, public visitable<Character>
          * @param context optionally override effective item when checking contextual skills
          */
         bool can_use( const item& it, const item &context = item() ) const;
+        /**
+         * Returns true if the character is wielding something.
+         * Note: this item may not actually be used to attack.
+         */
+        bool is_armed() const;
 
         void drop_inventory_overflow();
 
@@ -534,9 +578,9 @@ class Character : public Creature, public visitable<Character>
         /** Returns a random name from NAMES_* */
         void pick_name(bool bUseDefault = false);
         /** Get the idents of all base traits. */
-        std::vector<std::string> get_base_traits() const;
+        std::vector<trait_id> get_base_traits() const;
         /** Get the idents of all traits/mutations. */
-        std::vector<std::string> get_mutations() const;
+        std::vector<trait_id> get_mutations() const;
         const std::bitset<NUM_VISION_MODES> &get_vision_modes() const
         {
             return vision_mode_cache;
@@ -564,8 +608,8 @@ class Character : public Creature, public visitable<Character>
 
     protected:
         void on_stat_change( const std::string &, int ) override {};
-        virtual void on_mutation_gain( const std::string & ) {};
-        virtual void on_mutation_loss( const std::string & ) {};
+        virtual void on_mutation_gain( const trait_id & ) {};
+        virtual void on_mutation_loss( const trait_id & ) {};
 
     public:
         virtual void on_item_wear( const item & ) {};
@@ -613,11 +657,11 @@ class Character : public Creature, public visitable<Character>
          * If there is not entry for a mutation, the character does not have it. If the map
          * contains the entry, the character has the mutation.
          */
-        std::unordered_map<std::string, trait_data> my_mutations;
+        std::unordered_map<trait_id, trait_data> my_mutations;
         /**
          * Contains mutation ids of the base traits.
          */
-        std::unordered_set<std::string> my_traits;
+        std::unordered_set<trait_id> my_traits;
         /**
          * Pointers to mutation branches in @ref my_mutations.
          */

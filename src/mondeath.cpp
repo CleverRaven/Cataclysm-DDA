@@ -51,6 +51,13 @@ const efftype_id effect_no_ammo( "no_ammo" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_rat( "rat" );
 
+static const trait_id trait_PACIFIST( "PACIFIST" );
+static const trait_id trait_PRED1( "PRED1" );
+static const trait_id trait_PRED2( "PRED2" );
+static const trait_id trait_PRED3( "PRED3" );
+static const trait_id trait_PRED4( "PRED4" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+
 void mdeath::normal(monster *z)
 {
     if( z->no_corpse_quiet ) {
@@ -164,10 +171,9 @@ void mdeath::boomer(monster *z)
     sounds::sound(z->pos(), 24, explode);
     for( auto &&dest : g->m.points_in_radius( z->pos(), 1 ) ) {
         g->m.bash( dest, 10 );
-        int mondex = g->mon_at( dest );
-        if (mondex != -1) {
-            g->zombie(mondex).stumble();
-            g->zombie(mondex).moves -= 250;
+        if( monster * const z = g->critter_at<monster>( dest ) ) {
+            z->stumble();
+            z->moves -= 250;
         }
     }
 
@@ -185,13 +191,11 @@ void mdeath::boomer_glow(monster *z)
 
     for( auto &&dest : g->m.points_in_radius( z->pos(), 1 ) ) {
         g->m.bash(dest , 10 );
-        int mondex = g->mon_at(dest);
-        Creature *critter = g->critter_at(dest);
-        if (mondex != -1) {
-            g->zombie(mondex).stumble();
-            g->zombie(mondex).moves -= 250;
+        if( monster * const z = g->critter_at<monster>( dest ) ) {
+            z->stumble();
+            z->moves -= 250;
         }
-        if (critter != nullptr){
+        if( Creature * const critter = g->critter_at( dest ) ) {
             critter->add_env_effect( effect_boomered, bp_eyes, 5, 25 );
             for (int i = 0; i < rng(2,4); i++){
                 body_part bp = random_body_part();
@@ -208,24 +212,20 @@ void mdeath::boomer_glow(monster *z)
 
 void mdeath::kill_vines(monster *z)
 {
-    std::vector<int> vines;
-    std::vector<int> hubs;
-    for (size_t i = 0; i < g->num_zombies(); i++) {
-        bool isHub = g->zombie(i).type->id == mon_creeper_hub;
-        if (isHub && (g->zombie(i).posx() != z->posx() || g->zombie(i).posy() != z->posy())) {
-            hubs.push_back(i);
-        }
-        if (g->zombie(i).type->id == mon_creeper_vine) {
-            vines.push_back(i);
-        }
-    }
+    const std::vector<Creature*> vines = g->get_creatures_if( [&]( const Creature &critter ) {
+        const monster *const mon = dynamic_cast<const monster*>( &critter );
+        return mon && mon->type->id == mon_creeper_vine;
+    } );
+    const std::vector<Creature*> hubs = g->get_creatures_if( [&]( const Creature &critter ) {
+        const monster *const mon = dynamic_cast<const monster*>( &critter );
+        return mon && mon != z && mon->type->id == mon_creeper_hub;
+    } );
 
-    for( auto &i : vines ) {
-        monster *vine = &(g->zombie(i));
+    for( Creature *const vine : vines ) {
         int dist = rl_dist( vine->pos(), z->pos() );
         bool closer = false;
         for (auto &j : hubs) {
-            if (rl_dist(vine->pos(), g->zombie(j).pos()) < dist) {
+            if (rl_dist(vine->pos(), j->pos()) < dist) {
                 break;
             }
         }
@@ -237,7 +237,7 @@ void mdeath::kill_vines(monster *z)
 
 void mdeath::vine_cut(monster *z)
 {
-    std::vector<int> vines;
+    std::vector<monster*> vines;
     tripoint tmp = z->pos();
     int &x = tmp.x;
     int &y = tmp.y;
@@ -246,25 +246,25 @@ void mdeath::vine_cut(monster *z)
             if( tmp == z->pos() ) {
                 y++; // Skip ourselves
             }
-            int mondex = g->mon_at( tmp );
-            if (mondex != -1 && g->zombie(mondex).type->id == mon_creeper_vine) {
-                vines.push_back(mondex);
+            if( monster * const z = g->critter_at<monster>( tmp ) ) {
+                if( z->type->id == mon_creeper_vine ) {
+                    vines.push_back( z );
+                }
             }
         }
     }
 
-    for (auto &i : vines) {
+    for (auto &vine : vines) {
         bool found_neighbor = false;
-        monster *vine = &(g->zombie( i ));
         tmp = vine->pos();
         for( x = vine->posx() - 1; x <= vine->posx() + 1 && !found_neighbor; x++ ) {
             for( y = vine->posy() - 1; y <= vine->posy() + 1 && !found_neighbor; y++ ) {
                 if (x != z->posx() || y != z->posy()) {
                     // Not the dying vine
-                    int mondex = g->mon_at( { x, y, z->posz() } );
-                    if (mondex != -1 && (g->zombie(mondex).type->id == mon_creeper_hub ||
-                                         g->zombie(mondex).type->id == mon_creeper_vine)) {
-                        found_neighbor = true;
+                    if( monster * const v = g->critter_at<monster>( { x, y, z->posz() } ) ) {
+                        if( v->type->id == mon_creeper_hub || v->type->id == mon_creeper_vine ) {
+                            found_neighbor = true;
+                        }
                     }
                 }
             }
@@ -330,7 +330,7 @@ void mdeath::worm(monster *z)
     int worms = 0;
     while(worms < 2 && !wormspots.empty()) {
         const tripoint target = random_entry_removed( wormspots );
-        if(-1 == g->mon_at( target )) {
+        if( !g->critter_at( target ) ) {
             g->summon_mon(mon_halfworm, target);
             worms++;
         }
@@ -358,7 +358,7 @@ void mdeath::guilt(monster *z)
     guilt_tresholds[50] = _("You regret killing %s.");
     guilt_tresholds[25] = _("You feel remorse for killing %s.");
 
-    if (g->u.has_trait("PSYCHOPATH") || g->u.has_trait("PRED3") || g->u.has_trait("PRED4") ) {
+    if (g->u.has_trait( trait_PSYCHOPATH ) || g->u.has_trait( trait_PRED3 ) || g->u.has_trait( trait_PRED4 ) ) {
         return;
     }
     if (rl_dist( z->pos(), g->u.pos() ) > MAX_GUILT_DISTANCE) {
@@ -377,7 +377,7 @@ void mdeath::guilt(monster *z)
                               "about their deaths anymore."), z->name(maxKills).c_str());
         }
         return;
-    } else if ((g->u.has_trait("PRED1")) || (g->u.has_trait("PRED2"))) {
+    } else if ((g->u.has_trait( trait_PRED1 )) || (g->u.has_trait( trait_PRED2 ))) {
         msg = (_("Culling the weak is distasteful, but necessary."));
         msgtype = m_neutral;
     } else {
@@ -398,11 +398,11 @@ void mdeath::guilt(monster *z)
     int decayDelay = 30 * (1.0 - ((float) kill_count / maxKills));
     if (z->type->in_species( ZOMBIE )) {
         moraleMalus /= 10;
-        if (g->u.has_trait("PACIFIST")) {
+        if (g->u.has_trait( trait_PACIFIST )) {
             moraleMalus *= 5;
-        } else if (g->u.has_trait("PRED1")) {
+        } else if (g->u.has_trait( trait_PRED1 )) {
             moraleMalus /= 4;
-        } else if (g->u.has_trait("PRED2")) {
+        } else if (g->u.has_trait( trait_PRED2 )) {
             moraleMalus /= 5;
         }
     }
@@ -438,8 +438,7 @@ void mdeath::blobsplit(monster *z)
 
     for (int s = 0; s < 2 && !valid.empty(); s++) {
         const tripoint target = random_entry_removed( valid );
-        if (g->summon_mon(speed < 50 ? mon_blob_small : mon_blob, target)) {
-            monster *blob = g->monster_at( target );
+        if( monster * const blob = g->summon_mon( speed < 50 ? mon_blob_small : mon_blob, target ) ) {
             blob->make_ally(z);
             blob->set_speed_base(speed);
             blob->set_hp(speed);
@@ -448,21 +447,19 @@ void mdeath::blobsplit(monster *z)
 }
 
 void mdeath::brainblob(monster *z) {
-    for( size_t i = 0; i < g->num_zombies(); i++ ) {
-        monster *candidate = &g->zombie( i );
-        if(candidate->type->in_species( BLOB ) && candidate->type->id != mon_blob_brain ) {
-            candidate->remove_effect( effect_controlled);
+    for( monster &critter : g->all_monsters() ) {
+        if(critter.type->in_species( BLOB ) && critter.type->id != mon_blob_brain ) {
+            critter.remove_effect( effect_controlled);
         }
     }
     blobsplit(z);
 }
 
 void mdeath::jackson(monster *z) {
-    for( size_t i = 0; i < g->num_zombies(); i++ ) {
-        monster *candidate = &g->zombie( i );
-        if(candidate->type->id == mon_zombie_dancer ) {
-            candidate->poly( mon_zombie_hulk );
-            candidate->remove_effect( effect_controlled);
+    for( monster &critter : g->all_monsters() ) {
+        if(critter.type->id == mon_zombie_dancer ) {
+            critter.poly( mon_zombie_hulk );
+            critter.remove_effect( effect_controlled);
         }
         if (g->u.sees( *z )) {
             add_msg(m_warning, _("The music stops!"));
@@ -479,11 +476,14 @@ void mdeath::melt(monster *z)
 
 void mdeath::amigara(monster *z)
 {
-    for (size_t i = 0; i < g->num_zombies(); i++) {
-        const monster &critter = g->zombie( i );
-        if( critter.type == z->type && !critter.is_dead() ) {
-            return;
+    const bool has_others = g->get_creature_if( [&]( const Creature &critter ) {
+        if( const monster *const candidate = dynamic_cast<const monster*>( &critter ) ) {
+            return candidate->type == z->type;
         }
+        return false;
+    } );
+    if( has_others ) {
+        return;
     }
 
     // We were the last!
@@ -645,10 +645,10 @@ void mdeath::gameover(monster *z)
 void mdeath::kill_breathers(monster *z)
 {
     (void)z; //unused
-    for (size_t i = 0; i < g->num_zombies(); i++) {
-        const mtype_id& monID = g->zombie(i).type->id;
+    for( monster &critter : g->all_monsters() ) {
+        const mtype_id& monID = critter.type->id;
         if (monID == mon_breather_hub || monID == mon_breather) {
-            g->zombie(i).die( nullptr );
+            critter.die( nullptr );
         }
     }
 }
@@ -700,27 +700,29 @@ void mdeath::detonate(monster *z)
     }
 
 
-    if (g->u.sees(*z)) {
-        if (dets.empty()) {
+    if( g->u.sees( *z ) ) {
+        if( dets.empty() ) {
             //~ %s is the possessive form of the monster's name
-            add_msg(m_info, _("The %s's hands fly to its pockets, but there's nothing left in them."), z->name().c_str());
+            add_msg( m_info,
+                     _( "The %s's hands fly to its pockets, but there's nothing left in them." ),
+                     z->name().c_str() );
         } else {
             //~ %s is the possessive form of the monster's name
-            add_msg(m_bad, _("The %s's hands fly to its remaining pockets, opening them!"), z->name().c_str());
+            add_msg( m_bad, _( "The %s's hands fly to its remaining pockets, opening them!" ),
+                     z->name().c_str() );
         }
     }
-    const tripoint det_point = z->pos();
     // HACK, used to stop them from having ammo on respawn
-    z->add_effect( effect_no_ammo, 1, num_bp, true);
+    z->add_effect( effect_no_ammo, 1, num_bp, true );
 
     // First die normally
-    mdeath::normal(z);
+    mdeath::normal( z );
     // Then detonate our suicide bombs
-    for (auto bombs : dets) {
-        item bomb_item(bombs.first, 0);
+    for( auto bombs : dets ) {
+        item bomb_item( bombs.first, 0 );
         bomb_item.charges = bombs.second;
         bomb_item.active = true;
-        g->m.add_item_or_charges(z->pos(), bomb_item);
+        g->m.add_item_or_charges( z->pos(), bomb_item );
     }
 }
 
@@ -760,7 +762,7 @@ void mdeath::preg_roach( monster *z )
 
     while( !roachspots.empty() ) {
         const tripoint target = random_entry_removed( roachspots );
-        if( -1 == g->mon_at( target ) ) {
+        if( !g->critter_at( target ) ) {
             g->summon_mon( mon_giant_cockroach_nymph, target );
             num_roach--;
             if( g->u.sees(*z) ) {

@@ -2,11 +2,13 @@
 
 #include "bionics.h"
 #include "item.h"
+#include "ammo.h"
 #include "itype.h"
 #include "game.h"
 #include "player.h"
 
-void clear_bionics( player &p ) {
+void clear_bionics( player &p )
+{
     p.my_bionics.clear();
     p.power_level = 0;
     p.max_power_level = 0;
@@ -14,12 +16,13 @@ void clear_bionics( player &p ) {
     return;
 }
 
-void give_and_activate( player &p, std::string const &bioid ) {
-    INFO( "bionic " + bioid + " is valid" );
-    REQUIRE( is_valid_bionic( bioid ) );
-    
+void give_and_activate( player &p, bionic_id const &bioid )
+{
+    INFO( "bionic " + bioid.str() + " is valid" );
+    REQUIRE( bioid.is_valid() );
+
     p.add_bionic( bioid );
-    INFO( "dummy has gotten " + bioid + " bionic " );
+    INFO( "dummy has gotten " + bioid.str() + " bionic " );
     REQUIRE( p.has_bionic( bioid ) );
 
     // get bionic's index - might not be "last added" due to "integrated" ones
@@ -36,19 +39,20 @@ void give_and_activate( player &p, std::string const &bioid ) {
     REQUIRE( bio.id == bioid );
 
     // turn on if possible
-    if( bionic_info( bio.id ).toggled && !bio.powered ) {
+    if( bio.id->toggled && !bio.powered ) {
         p.activate_bionic( bioindex );
-        INFO( "bionic " + bio.id + " with index " + std::to_string( bioindex ) + " is active " );
+        INFO( "bionic " + bio.id.str() + " with index " + std::to_string( bioindex ) + " is active " );
         REQUIRE( p.has_active_bionic( bioid ) );
     }
 
     return;
 }
 
-void test_consumable_charges( player &p, std::string &itemname, bool when_none, bool when_max ) {
+void test_consumable_charges( player &p, std::string &itemname, bool when_none, bool when_max )
+{
     item it = item( itemname, 0, 0 ) ;
 
-    INFO( "\'" + it.tname() + "\' is count-by-charges");
+    INFO( "\'" + it.tname() + "\' is count-by-charges" );
     CHECK( it.count_by_charges() );
 
     it.charges = 0;
@@ -62,21 +66,23 @@ void test_consumable_charges( player &p, std::string &itemname, bool when_none, 
     return;
 }
 
-void test_consumable_ammo( player &p, std::string &itemname, bool when_empty, bool when_full ) {
+void test_consumable_ammo( player &p, std::string &itemname, bool when_empty, bool when_full )
+{
     item it = item( itemname, 0, 0 ) ;
 
     it.ammo_unset();
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
     REQUIRE( p.can_consume( it ) == when_empty );
 
-    it.ammo_set( default_ammo( it.ammo_type() ), -1 ); // -1 -> full
+    it.ammo_set( it.ammo_type()->default_ammotype(), -1 ); // -1 -> full
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
     REQUIRE( p.can_consume( it ) == when_full );
 
     return;
 }
 
-TEST_CASE( "bionics", "[bionics] [item]" ) {
+TEST_CASE( "bionics", "[bionics] [item]" )
+{
     player &dummy = g->u;
 
     // one section failing shouldn't affect the rest
@@ -86,20 +92,20 @@ TEST_CASE( "bionics", "[bionics] [item]" ) {
     INFO( "no power capacity at first" );
     CHECK( dummy.max_power_level == 0 );
 
-    dummy.add_bionic( "bio_power_storage" );
+    dummy.add_bionic( bionic_id( "bio_power_storage" ) );
 
     INFO( "adding Power Storage CBM only increases capacity" );
     CHECK( dummy.power_level == 0 );
     REQUIRE( dummy.max_power_level > 0 );
 
     SECTION( "bio_advreactor" ) {
-        give_and_activate( dummy, "bio_advreactor" );
+        give_and_activate( dummy, bionic_id( "bio_advreactor" ) );
 
         static const std::list<std::string> always = {
             "plut_cell",  // solid
             "plut_slurry" // uncontained liquid! not shown in game menu
         };
-        for( auto it: always ) {
+        for( auto it : always ) {
             test_consumable_charges( dummy, it, true, true );
         }
 
@@ -107,18 +113,18 @@ TEST_CASE( "bionics", "[bionics] [item]" ) {
             "battery_atomic", // TOOLMOD, no ammo actually
             "rm13_armor"      // TOOL_ARMOR
         };
-        for( auto it: never ) {
+        for( auto it : never ) {
             test_consumable_ammo( dummy, it, false, false );
         }
     }
 
     SECTION( "bio_batteries" ) {
-        give_and_activate( dummy, "bio_batteries" );
+        give_and_activate( dummy, bionic_id( "bio_batteries" ) );
 
         static const std::list<std::string> always = {
             "battery" // old-school
         };
-        for( auto it: always ) {
+        for( auto it : always ) {
             test_consumable_charges( dummy, it, true, true );
         }
 
@@ -128,7 +134,7 @@ TEST_CASE( "bionics", "[bionics] [item]" ) {
             "UPS_off",     // NO_UNLOAD, !is_magazine()
             "battery_car"  // NO_UNLOAD, is_magazine()
         };
-        for( auto it: never ) {
+        for( auto it : never ) {
             test_consumable_ammo( dummy, it, false, false );
         }
     }

@@ -90,10 +90,7 @@
     {"id":"COOK","level":2}
   ],
   "tools": [[
-    [ "hotplate", 7 ],
-    [ "char_smoker", 7 ],
-    [ "toolset", 7 ],
-    [ "fire", -1 ]
+    [ "surface_heat", 7, "LIST" ]
   ]],
   "components": [
     [
@@ -144,10 +141,7 @@
   "batch_time_factors":[83, 5],
   "qualities" : [{"id":"CUT","level":1}],
   "tools": [[
-    [ "hotplate", 10 ],
-    [ "char_smoker", 10 ],
-    [ "toolset", 10 ],
-    [ "fire", -1 ]
+    [ "surface_heat", 10, "LIST" ]
   ]],
   "components": [[[ "raw_leather", 1 ], [ "raw_tainted_leather", 1 ], [ "raw_hleather", 1 ]]]
 },
@@ -165,10 +159,7 @@
   "batch_time_factors":[83, 5],
   "qualities" : [{"id":"CUT","level":1}],
   "tools": [[
-    [ "hotplate", 10 ],
-    [ "char_smoker", 10 ],
-    [ "toolset", 10 ],
-    [ "fire", -1 ]
+    [ "surface_heat", 10, "LIST" ]
   ]],
   "components": [[[ "raw_fur", 1 ], [ "raw_tainted_fur", 1 ]]]
 },{
@@ -188,10 +179,7 @@
     {"id":"COOK","level":2}
   ],
   "tools": [[
-    [ "hotplate", 5 ],
-    [ "char_smoker", 5 ],
-    [ "toolset", 5 ],
-    [ "fire", -1 ]
+    [ "surface_heat", 5, "LIST" ]
   ]],
   "components": [
     [
@@ -360,8 +348,7 @@
   ],
   "tools": [
     [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
+      [ "surface_heat", 10, "LIST" ]
     ]
   ],
   "components": [
@@ -425,7 +412,7 @@
       { "id":"CUT","level":1 },
       { "id":"BOIL","level":1 }
     ],
-    "tools" : [ [ [ "hotplate", 20 ], [ "toolset", 20 ], [ "fire", -1 ] ] ],
+    "tools" : [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [
         [ "rag", 3 ],
@@ -545,8 +532,7 @@
   "tools": [
   [
     [ "brick_kiln", 10 ],
-    [ "toolset", 10 ],
-    [ "fire", -1 ]
+    [ "surface_heat", 10, "LIST" ]
   ]
   ],
   "components": [
@@ -611,8 +597,7 @@
       [ "clay_lump", -1 ]
     ],
     [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
+      [ "surface_heat", 10, "LIST" ]
     ]
     ],
     "components": [
@@ -708,8 +693,7 @@
   ],
   "tools": [
       [
-        [ "toolset", 10 ],
-        [ "fire", -1 ]
+        [ "surface_heat", 10, "LIST" ]
       ]
       ],
   "components":
@@ -734,8 +718,7 @@
   ],
   "tools": [
       [
-        [ "toolset", 10 ],
-        [ "fire", -1 ]
+        [ "surface_heat", 10, "LIST" ]
       ]
       ],
   "components": [
@@ -854,10 +837,7 @@
   "batch_time_factors": [83, 3],
   "tools": [
     [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
+      [ "surface_heat", 5, "LIST" ]
     ],
     [ [ "mortar_pestle", -1 ] ]
   ],
@@ -900,10 +880,7 @@
   "batch_time_factors":[83, 3],
   "tools": [
     [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 5 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
+      [ "surface_heat", 5, "LIST" ]
     ],
     [ [ "mortar_pestle", -1 ] ]
   ],

@@ -57,7 +57,7 @@ bool tutorial_game::init()
     starting_om.ter( lx, ly, -1 ) = oter_id( "tutorial" );
     starting_om.clear_mon_groups();
 
-    g->u.toggle_trait( "QUICK" );
+    g->u.toggle_trait( trait_id( "QUICK" ) );
     item lighter( "lighter", 0 );
     lighter.invlet = 'e';
     g->u.inv.add_item( lighter, true, false );
@@ -93,7 +93,7 @@ void tutorial_game::per_turn()
         add_message( LESSON_PAIN );
     }
 
-    if( g->u.recoil >= MIN_RECOIL ) {
+    if( g->u.recoil >= MAX_RECOIL ) {
         add_message( LESSON_RECOIL );
     }
 
@@ -216,7 +216,7 @@ void tutorial_game::post_action( action_id act )
 
         case ACTION_EXAMINE:
             add_message( LESSON_INTERACT );
-        // Fall through to...
+        /* fallthrough */
         case ACTION_PICKUP: {
             item it( g->u.last_item, 0 );
             if( it.is_armor() ) {

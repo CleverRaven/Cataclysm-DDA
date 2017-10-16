@@ -14,7 +14,9 @@
                 "buff_duration" : 3,
                 "melee_allowed" : true,
                 "bonus_dodges" : 2
-            },
+            }
+        ],
+        "ondodge_buffs" : [
             {
                 "id" : "swordsmanship_counter",
                 "name" : "Displacement",
@@ -51,6 +53,7 @@
             "makeshift_halberd",
             "glaive",
             "pike",
+            "spear_steel",
             "halberd"
         ]
     },{

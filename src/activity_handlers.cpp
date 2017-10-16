@@ -38,6 +38,8 @@
 const skill_id skill_survival( "survival" );
 const skill_id skill_firstaid( "firstaid" );
 
+const efftype_id effect_milked( "milked" );
+
 using namespace activity_handlers;
 
 const std::map< activity_id, std::function<void( player_activity *, player *)> > activity_handlers::do_turn_functions =
@@ -86,6 +88,7 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_REPAIR_ITEM" ), repair_item_finish },
     { activity_id( "ACT_MEND_ITEM" ), mend_item_finish },
     { activity_id( "ACT_GUNMOD_ADD" ), gunmod_add_finish },
+    { activity_id( "ACT_TOOLMOD_ADD" ), toolmod_add_finish },
     { activity_id( "ACT_CLEAR_RUBBLE" ), clear_rubble_finish },
     { activity_id( "ACT_MEDITATE" ), meditate_finish },
     { activity_id( "ACT_READ" ), read_finish },
@@ -99,7 +102,8 @@ const std::map< activity_id, std::function<void( player_activity *, player *)> >
     { activity_id( "ACT_VIBE" ), vibe_finish },
     { activity_id( "ACT_MOVE_ITEMS" ), move_items_finish },
     { activity_id( "ACT_ATM" ), atm_finish },
-    { activity_id( "ACT_AIM" ), aim_finish }
+    { activity_id( "ACT_AIM" ), aim_finish },
+    { activity_id( "ACT_WASH" ), washing_finish }
 };
 
 void activity_handlers::burrow_do_turn( player_activity *act, player *p )
@@ -142,7 +146,7 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
         p->mod_fatigue( 10 );
     }
     g->m.destroy( pos, true );
-    
+
     act->set_to_null();
 }
 
@@ -566,7 +570,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     item &corpse_item = items_here[act->index];
     auto contents = corpse_item.contents;
     const mtype *corpse = corpse_item.get_mtype();
-    const int age = corpse_item.bday;
+    const int age = corpse_item.birthday();
     g->m.i_rem( p->pos(), act->index );
 
     const int skill_level = p->get_skill_level( skill_survival );
@@ -613,7 +617,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
 }
 
-enum liquid_source_type { LST_INFINITE_MAP = 1, LST_MAP_ITEM = 2, LST_VEHICLE = 3, };
+enum liquid_source_type { LST_INFINITE_MAP = 1, LST_MAP_ITEM = 2, LST_VEHICLE = 3, LST_MONSTER = 4};
 
 // All serialize_liquid_source functions should add the same number of elements to the vectors of
 // the activity. This makes it easier to distinguish the values of the source and the values of the target.
@@ -623,6 +627,14 @@ void serialize_liquid_source( player_activity &act, const vehicle &veh, const it
     act.values.push_back( 0 ); // dummy
     act.coords.push_back( veh.global_pos3() );
     act.str_values.push_back( ftype );
+}
+
+void serialize_liquid_source( player_activity &act, const monster &mon, const item &liquid )
+{
+    act.values.push_back( LST_MONSTER );
+    act.values.push_back( 0 ); // dummy
+    act.coords.push_back( mon.pos() );
+    act.str_values.push_back( liquid.serialize() );
 }
 
 void serialize_liquid_source( player_activity &act, const tripoint &pos, const item &liquid )
@@ -642,7 +654,7 @@ void serialize_liquid_source( player_activity &act, const tripoint &pos, const i
     act.str_values.push_back( liquid.serialize() );
 }
 
-enum liquid_target_type { LTT_CONTAINER = 1, LTT_VEHICLE = 2, LTT_MAP = 3, };
+enum liquid_target_type { LTT_CONTAINER = 1, LTT_VEHICLE = 2, LTT_MAP = 3, LTT_MONSTER = 4 };
 
 void serialize_liquid_target( player_activity &act, const vehicle &veh )
 {
@@ -665,6 +677,13 @@ void serialize_liquid_target( player_activity &act, const tripoint &pos )
     act.coords.push_back( pos );
 }
 
+void serialize_liquid_target( player_activity &act, const monster &mon )
+{
+    act.values.push_back( LTT_MAP );
+    act.values.push_back( 0 ); // dummy
+    act.coords.push_back( mon.pos() );
+}
+
 void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
 {
     player_activity &act = *act_;
@@ -674,6 +693,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
         const tripoint source_pos = act.coords.at( 0 );
         map_stack source_stack = g->m.i_at( source_pos );
         std::list<item>::iterator on_ground;
+        monster *source_mon = nullptr;
         item liquid;
         const auto source_type = static_cast<liquid_source_type>( act.values.at( 0 ) );
         switch( source_type ) {
@@ -695,6 +715,17 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             on_ground = source_stack.begin();
             std::advance( on_ground, act.values.at( 1 ) );
             liquid = *on_ground;
+            break;
+        case LST_MONSTER:
+            Creature *c = g->critter_at( source_pos );
+            source_mon = dynamic_cast<monster *>( c );
+            if( source_mon == nullptr ) {
+                debugmsg( "could not find source creature for liquid transfer" );
+                act.set_to_null();
+            }
+            liquid.deserialize( act.str_values.at( 0 ) );
+            liquid.charges = 1;
+            break;
         }
 
         static const auto volume_per_turn = units::from_liter( 4 );
@@ -722,6 +753,9 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
                 p->add_msg_if_player( _( "You pour %1$s onto the ground." ), liquid.tname().c_str() );
                 liquid.charges = 0;
             }
+            break;
+        case LTT_MONSTER:
+            liquid.charges = 0;
             break;
         }
 
@@ -757,6 +791,12 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             break;
         case LST_INFINITE_MAP:
             // nothing, the liquid source is infinite
+            break;
+        case LST_MONSTER:
+            // liquid source charges handled in monexamine::milk_source
+            if( liquid.charges == 0 ) {
+                act.set_to_null();
+            }
             break;
         }
 
@@ -906,7 +946,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
             found_something = true;
         }
     }
-
+    // 10% to drop a item/items from this group. 
     if( one_in(10) ) {
         const auto dropped = g->m.put_items_from_loc( "trash_forest", p->pos(), calendar::turn );
         for( const auto &it : dropped ) {
@@ -925,7 +965,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     const int max_exp = 2 * ( max_forage_skill - p->get_skill_level( skill_survival ) );
     // Award experience for foraging attempt regardless of success
     p->practice( skill_survival, rng(1, max_exp), max_forage_skill );
-    
+
     act->set_to_null();
 }
 
@@ -1001,8 +1041,8 @@ void activity_handlers::longsalvage_finish( player_activity *act, player *p )
     }
 
     for( auto it = items.begin(); it != items.end(); ++it ) {
-        if( actor->valid_to_cut_up( &*it ) ) {
-            actor->cut_up( p, salvage_tool, &*it );
+        if( actor->valid_to_cut_up( *it ) ) {
+            actor->cut_up( *p, *salvage_tool, *it );
             return;
         }
     }
@@ -1117,7 +1157,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
         // Betcha wish you'd opted for the J-Hammer ;P
         p->mod_hunger( 15 );
         p->mod_thirst( 15 );
-        if( p->has_trait( "STOCKY_TROGLO" ) ) {
+        if( p->has_trait( trait_id( "STOCKY_TROGLO" ) ) ) {
             p->mod_fatigue( 20 ); // Yep, dwarves can dig longer before tiring
         } else {
             p->mod_fatigue( 30 );
@@ -1237,7 +1277,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
     if( reloadable->is_gun() ) {
         p->recoil -= act->moves_total;
-        p->recoil = std::max( MIN_RECOIL, p->recoil );
+        p->recoil = MAX_RECOIL;
 
         if( reloadable->has_flag( "RELOAD_ONE" ) ) {
             for( int i = 0; i != qty; ++i ) {
@@ -1259,7 +1299,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 void activity_handlers::start_fire_finish( player_activity *act, player *p )
 {
     item &it = p->i_at(act->position);
-    firestarter_actor::resolve_firestarter_use( p, &it, act->placement );
+    firestarter_actor::resolve_firestarter_use( *p, it, act->placement );
     act->set_to_null();
 }
 
@@ -1268,7 +1308,7 @@ void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
     item &lens_item = p->i_at(act->position);
     const auto usef = lens_item.type->get_use( "firestarter" );
     if( usef == nullptr || usef->get_actor_ptr() == nullptr ) {
-        add_msg( m_bad, "You have lost the item you were using to start the fire." );
+        add_msg( m_bad, _( "You have lost the item you were using to start the fire." ) );
         p->cancel_activity();
         return;
     }
@@ -1356,7 +1396,9 @@ void activity_handlers::vehicle_finish( player_activity *act, player *pl )
 
 void activity_handlers::vibe_do_turn( player_activity *act, player *p )
 {
-    //Using a vibrator takes time, not speed
+    //Using a vibrator takes time (10 minutes), not speed
+    //Linear increase in morale during action with a small boost at end
+    //Deduct 1 battery charge for every minute in use, or vibrator is much less effective
     act->moves_left -= 100;
 
     item &vibrator_item = p->i_at(act->position);
@@ -1367,17 +1409,18 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
         add_msg(m_bad, _("You have trouble breathing, and stop."));
     }
 
-    //Deduct 1 battery charge for every minute using the vibrator
     if( calendar::once_every(MINUTES(1)) ) {
-        vibrator_item.ammo_consume( 1, p->pos() );
-        p->add_morale(MORALE_FEELING_GOOD, 4, 320); //4 points/min, one hour to fill
-        // 1:1 fatigue:morale ratio, so maxing the morale is possible but will take
-        // you pretty close to Dead Tired from a well-rested state.
-        p->mod_fatigue(4);
-    }
-    if( vibrator_item.ammo_remaining() == 0 ) {
-        act->moves_left = 0;
-        add_msg(m_info, _("The %s runs out of batteries."), vibrator_item.tname().c_str());
+        p->mod_fatigue(1);
+        if( vibrator_item.ammo_remaining() > 0 ) {
+            vibrator_item.ammo_consume( 1, p->pos() );
+            p->add_morale(MORALE_FEELING_GOOD, 3, 40); 
+            if( vibrator_item.ammo_remaining() == 0 ) {
+                add_msg(m_info, _("The %s runs out of batteries."), vibrator_item.tname().c_str());
+            }
+        }
+        else { 
+            p->add_morale(MORALE_FEELING_GOOD, 1, 40); //twenty minutes to fill
+        }
     }
     if( p->get_fatigue() >= DEAD_TIRED ) { // Dead Tired: different kind of relaxation needed
         act->moves_left = 0;
@@ -1439,7 +1482,7 @@ void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
     if( act->values[0] <= 0 ) {
         return;
     }
-    
+
     item &it = p->i_at( act->position );
     // act->values[0] is the number of charges yet to be consumed
     const long charges_used = std::min( long( act->values[0] ), it.ammo_required() );
@@ -1527,12 +1570,12 @@ repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
     uimenu rmenu;
     rmenu.text = title;
     rmenu.return_invalid = true;
-    
+
     rmenu.addentry( REPEAT_ONCE, true, '1', _("Repeat once") );
     rmenu.addentry( REPEAT_FOREVER, true, '2', _("Repeat as long as you can") );
     rmenu.addentry( REPEAT_FULL, true, '3', _("Repeat until fully repaired, but don't reinforce") );
     rmenu.addentry( REPEAT_EVENT, true, '4', _("Repeat until success/failure/level up") );
-    
+
     rmenu.selected = last_selection;
 
     rmenu.query();
@@ -1754,7 +1797,7 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
     std::string tool = act->name;
     int qty = act->values[3];
 
-    if( !gun.gunmod_compatible( mod ) ) {
+    if( !gun.is_gunmod_compatible( mod ).success() ) {
         debugmsg( "Invalid arguments in ACT_GUNMOD_ADD" );
         return;
     }
@@ -1783,6 +1826,21 @@ void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
     }
 }
 
+void activity_handlers::toolmod_add_finish( player_activity *act, player *p )
+{
+    act->set_to_null();
+    if( act->targets.size() != 2 || !act->targets[0] || !act->targets[1] ) {
+        debugmsg( "Incompatible arguments to ACT_TOOLMOD_ADD" );
+        return;
+    }
+    item &tool = *act->targets[0];
+    item &mod = *act->targets[1];
+    p->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ), mod.tname().c_str(),
+                tool.tname().c_str() );
+    tool.contents.push_back( mod );
+    act->targets[1].remove_item();
+}
+
 void activity_handlers::clear_rubble_finish( player_activity *act, player *p )
 {
     const tripoint &target = act->coords[0];
@@ -1796,10 +1854,6 @@ void activity_handlers::clear_rubble_finish( player_activity *act, player *p )
     }
     g->m.furn_set( target, f_null );
 
-    const int bonus = act->index * act->index;
-    p->mod_hunger ( 10 / bonus );
-    p->mod_thirst ( 10 / bonus );
-    
     act->set_to_null();
 }
 
@@ -1847,7 +1901,7 @@ void activity_handlers::atm_do_turn( player_activity *, player *p )
 
 void activity_handlers::cracking_do_turn( player_activity *act, player *p )
 {
-    if( !( p->has_amount( "stethoscope", 1 ) || p->has_bionic( "bio_ears" ) ) ) {
+    if( !( p->has_amount( "stethoscope", 1 ) || p->has_bionic( bionic_id( "bio_ears" ) ) ) ) {
         // We lost our cracking tool somehow, bail out.
         act->set_to_null();
         return;
@@ -1929,6 +1983,7 @@ void activity_handlers::build_finish( player_activity *, player * )
 void activity_handlers::vibe_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( m_good, _( "You feel much better." ) );
+    p->add_morale(MORALE_FEELING_GOOD, 10, 40);
     act->set_to_null();
 }
 
@@ -1945,4 +2000,19 @@ void activity_handlers::aim_finish( player_activity *, player * )
     // Aim bails itself by resetting itself every turn,
     // you only re-enter if it gets set again.
     return;
+}
+
+void activity_handlers::washing_finish( player_activity *act, player *p )
+{
+    item &filthy_item = p->i_at( act->position );
+
+    if( p->is_worn( filthy_item ) ) {
+        filthy_item.on_takeoff( *p );
+        filthy_item.item_tags.erase( "FILTHY" );
+        filthy_item.on_wear( *p );
+    }
+    filthy_item.item_tags.erase( "FILTHY" );
+
+    p->add_msg_if_player( m_good, _( "You washed your clothing." ) );
+    act->set_to_null();
 }

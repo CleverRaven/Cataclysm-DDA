@@ -63,12 +63,16 @@
 #  make MSYS2=1
 # Enable printf format checks (disables localization, might break on Windows)
 #  make PRINTF_CHECKS=1
-# Astyle the currently whitelisted source files.
+# Astyle the source files that aren't blacklisted. (maintain current level of styling)
 #  make astyle
-# Check if the currently whitelisted source files are styled properly (regression test).
+# Check if source files are styled properly (regression test, astyle_blacklist tracks un-styled files)
 #  make astyle-check
 # Astyle all source files using the current rules (don't PR this, it's too many changes at once).
 #  make astyle-all
+# Style the whitelisted json files (maintain the current level of styling).
+#  make style-json
+# Style all json files using the current rules (don't PR this, it's too many changes at once).
+#  make style-all-json
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
@@ -154,23 +158,48 @@ ifneq ($(findstring BSD,$(OS)),)
   BSD = 1
 endif
 
-# Compiler version & target machine - used later for MXE ICE workaround
-ifdef CROSS
-  CXXVERSION := $(shell $(CROSS)$(CXX) --version | grep -i gcc | sed 's/^.* //g')
-  CXXMACHINE := $(shell $(CROSS)$(CXX) -dumpmachine)
+# This sets CXX and so must be up here
+ifdef CLANG
+  # Allow setting specific CLANG version
+  ifeq ($(CLANG), 1)
+    CLANGCMD = clang++
+  else
+    CLANGCMD = $(CLANG)
+  endif
+  ifeq ($(NATIVE), osx)
+    USE_LIBCXX = 1
+  endif
+  ifdef USE_LIBCXX
+    OTHERS += -stdlib=libc++
+    LDFLAGS += -stdlib=libc++
+  endif
+  ifdef CCACHE
+    CXX = CCACHE_CPP2=1 ccache $(CROSS)$(CLANGCMD)
+    LD  = CCACHE_CPP2=1 ccache $(CROSS)$(CLANGCMD)
+  else
+    CXX = $(CROSS)$(CLANGCMD)
+    LD  = $(CROSS)$(CLANGCMD)
+  endif
+else
+  # Compiler version & target machine - used later for MXE ICE workaround
+  ifdef CROSS
+    CXXVERSION := $(shell $(CROSS)$(CXX) --version | grep -i gcc | sed 's/^.* //g')
+    CXXMACHINE := $(shell $(CROSS)$(CXX) -dumpmachine)
+  endif
+
+  # Expand at reference time to avoid recursive reference
+  OS_COMPILER := $(CXX)
+  # Appears that the default value of $LD is unsuitable on most systems
+  OS_LINKER := $(CXX)
+  ifdef CCACHE
+    CXX = ccache $(CROSS)$(OS_COMPILER)
+    LD  = ccache $(CROSS)$(OS_LINKER)
+  else
+    CXX = $(CROSS)$(OS_COMPILER)
+    LD  = $(CROSS)$(OS_LINKER)
+  endif
 endif
 
-# Expand at reference time to avoid recursive reference
-OS_COMPILER := $(CXX)
-# Appears that the default value of $LD is unsuitable on most systems
-OS_LINKER := $(CXX)
-ifdef CCACHE
-  CXX = ccache $(CROSS)$(OS_COMPILER)
-  LD  = ccache $(CROSS)$(OS_LINKER)
-else
-  CXX = $(CROSS)$(OS_COMPILER)
-  LD  = $(CROSS)$(OS_LINKER)
-endif
 STRIP = $(CROSS)strip
 RC  = $(CROSS)windres
 AR  = $(CROSS)ar
@@ -224,24 +253,7 @@ ifdef RELEASE
   endif
   DEFINES += -DRELEASE
   # Check for astyle or JSON regressions on release builds.
-  CHECKS = astyle-check lint-check
-endif
-
-ifdef CLANG
-  ifeq ($(NATIVE), osx)
-    USE_LIBCXX = 1
-  endif
-  ifdef USE_LIBCXX
-    OTHERS += -stdlib=libc++
-    LDFLAGS += -stdlib=libc++
-  endif
-  ifdef CCACHE
-    CXX = CCACHE_CPP2=1 ccache $(CROSS)clang++
-    LD  = CCACHE_CPP2=1 ccache $(CROSS)clang++
-  else
-    CXX = $(CROSS)clang++
-    LD  = $(CROSS)clang++
-  endif
+  CHECKS = astyle-check style-json
 endif
 
 ifndef RELEASE
@@ -259,7 +271,7 @@ ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
     OTHERS += -std=c++11
 endif
 
-CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD
+CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
 
 BINDIST_EXTRAS += README.md data doc
 BINDIST    = $(BUILD_PREFIX)cataclysmdda-$(VERSION).tar.gz
@@ -285,12 +297,18 @@ ifeq ($(NATIVE), linux64)
   CXXFLAGS += -m64
   LDFLAGS += -m64
   TARGETSYSTEM=LINUX
+  ifdef GOLD
+    CXXFLAGS += -fuse-ld=gold
+  endif
 else
   # Linux 32-bit
   ifeq ($(NATIVE), linux32)
     CXXFLAGS += -m32
     LDFLAGS += -m32
     TARGETSYSTEM=LINUX
+    ifdef GOLD
+      CXXFLAGS += -fuse-ld=gold
+    endif
   endif
 endif
 
@@ -446,7 +464,7 @@ ifdef LUA
   else
     ifdef LUA_USE_PKGCONFIG
       # On unix-like systems, use pkg-config to find lua
-      LUA_CANDIDATES = lua5.3 lua5.2 lua-5.3 lua-5.2 lua5.1 lua-5.1 lua
+      LUA_CANDIDATES = lua5.3 lua5.2 lua-5.3 lua-5.2 lua5.1 lua-5.1 lua $(LUA_BINARY)
       LUA_FOUND = $(firstword $(foreach lua,$(LUA_CANDIDATES),\
           $(shell if $(PKG_CONFIG) --silence-errors --exists $(lua); then echo $(lua);fi)))
       LUA_PKG = $(if $(LUA_FOUND),$(LUA_FOUND),$(error "Lua not found by $(PKG_CONFIG), install it or make without 'LUA=1'"))
@@ -610,8 +628,13 @@ ifdef MSYS2
   DEFINES += -D_GLIBCXX_USE_C99_MATH_TR1
 endif
 
+# Enumerations of all the source files and headers.
 SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
 HEADERS = $(wildcard $(SRC_DIR)/*.h)
+TESTSRC = $(wildcard tests/*.cpp)
+TESTHDR = $(wildcard tests/*.h)
+TOOLSRC = $(wildcard tools/json_tools/format/*.[ch]*)
+
 _OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)
 ifeq ($(TARGETSYSTEM),WINDOWS)
   RSRC = $(wildcard $(SRC_DIR)/*.rc)
@@ -740,7 +763,6 @@ install: version $(TARGET)
 	cp -R --no-preserve=ownership data/mods $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/names $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/raw $(DATA_PREFIX)
-	cp -R --no-preserve=ownership data/recycling $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/motd $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/credits $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/title $(DATA_PREFIX)
@@ -777,7 +799,6 @@ install: version $(TARGET)
 	cp -R --no-preserve=ownership data/mods $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/names $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/raw $(DATA_PREFIX)
-	cp -R --no-preserve=ownership data/recycling $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/motd $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/credits $(DATA_PREFIX)
 	cp -R --no-preserve=ownership data/title $(DATA_PREFIX)
@@ -839,7 +860,6 @@ endif
 	cp -R data/mods $(APPDATADIR)
 	cp -R data/names $(APPDATADIR)
 	cp -R data/raw $(APPDATADIR)
-	cp -R data/recycling $(APPDATADIR)
 	cp -R data/motd $(APPDATADIR)
 	cp -R data/credits $(APPDATADIR)
 	cp -R data/title $(APPDATADIR)
@@ -910,25 +930,29 @@ endif
 
 export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS
 
-ctags: $(SOURCES) $(HEADERS)
-	ctags $(SOURCES) $(HEADERS)
+ctags: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
+	ctags $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
 
-etags: $(SOURCES) $(HEADERS)
-	etags $(SOURCES) $(HEADERS)
+etags: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
+	etags $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
 	find data -name "*.json" -print0 | xargs -0 -L 50 etags --append
 
-astyle:
-	$(ASTYLE_BINARY) --options=.astylerc -n $(shell cat astyled_whitelist)
+# Generate a list of files to check based on the difference between the blacklist and the existing source files.
+ASTYLED_WHITELIST = $(filter-out $(shell cat astyle_blacklist), $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR) $(TOOLSRC) )
 
-astyle-all: $(SOURCES) $(HEADERS)
+astyle: $(ASTYLED_WHITELIST)
+	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLED_WHITELIST)
+
+astyle-all: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR) $(TOOLSRC)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(SOURCES) $(HEADERS)
+	$(ASTYLE_BINARY) --options=.astylerc -n $(TESTSRC) $(TESTHDR)
 
 # Test whether the system has a version of astyle that supports --dry-run
 ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
-ASTYLE_CHECK=$(shell LC_ALL=C $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q $(shell cat astyled_whitelist))
+ASTYLE_CHECK=$(shell LC_ALL=C $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q $(ASTYLED_WHITELIST))
 endif
 
-astyle-check: $(SOURCES) $(HEADERS)
+astyle-check:
 ifdef ASTYLE_CHECK
 	@if [ "$(findstring Formatted,$(ASTYLE_CHECK))" = "" ]; then echo "no astyle regressions";\
         else printf "astyle regressions found.\n$(ASTYLE_CHECK)\n" && false; fi
@@ -936,26 +960,14 @@ else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
 
-lint-check: json_whitelist $(ODIR)/lint.cache
+style-json: json_whitelist json_formatter
+	xargs -a json_whitelist -L 1 tools/format/json_formatter.cgi
 
-$(ODIR)/lint.cache: $(shell awk '/^[^#]/ { print $$1 }' json_whitelist) | $(ODIR)
-ifeq ($(shell if perl -c tools/format/format.pl 2>/dev/null; then echo $$?; fi),0)
-	@for file in $?; do \
-	    echo "Linting $$file"; \
-	    perl tools/format/format.pl -cqv $$file || exit 65; \
-	done;
-	@touch $@
-else
-	@echo Cannot lint JSON, missing usable perl binary and/or p5-JSON module
-endif
+style-all-json: json_formatter
+	find data -name "*.json" -print0 | xargs -0 -L 1 tools/format/json_formatter.cgi
 
-lint: $(shell awk '/^[^#]/ { print $$1 }' json_whitelist) | $(ODIR)
-	@for file in $?; do \
-		if [ ! $(ODIR)/lint.cache -nt $$file ]; then \
-			./tools/lint.sh $$file || exit $$?; \
-		fi; \
-	done;
-	@touch $(ODIR)/lint.cache
+json_formatter: tools/format/format.cpp src/json.cpp
+	$(CXX) $(CXXFLAGS) -Itools/format -Isrc tools/format/format.cpp src/json.cpp -o tools/format/json_formatter.cgi
 
 tests: version $(BUILD_PREFIX)cataclysm.a
 	$(MAKE) -C tests

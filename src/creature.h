@@ -13,24 +13,26 @@
 #include <stdlib.h>
 #include <string>
 #include <unordered_map>
+
+class field;
+class field_entry;
 class game;
 class JsonObject;
 class JsonOut;
-struct projectile;
-struct damage_instance;
-struct dealt_damage_instance;
-struct damage_unit;
-struct dealt_projectile_attack;
-struct trap;
-enum m_flag : int;
-enum field_id : int;
-enum damage_type : int;
 class material_type;
-using material_id = string_id<material_type>;
-class field;
-class field_entry;
+enum damage_type : int;
 enum field_id : int;
+enum m_flag : int;
+struct damage_instance;
+struct damage_unit;
+struct dealt_damage_instance;
+struct dealt_projectile_attack;
 struct pathfinding_settings;
+struct projectile;
+struct trap;
+
+using material_id = string_id<material_type>;
+using trait_id = string_id<mutation_branch>;
 
 enum m_size : int {
     MS_TINY = 0,    // Squirrel
@@ -38,13 +40,6 @@ enum m_size : int {
     MS_MEDIUM,    // Human
     MS_LARGE,    // Cow
     MS_HUGE     // TAAAANK
-};
-
-/** Aim result for a single projectile attack */
-struct projectile_attack_aim {
-    double missed_by;       ///< Hit quality, where 0.0 is a perfect hit and 1.0 is a miss
-    double missed_by_tiles; ///< Number of tiles the attack missed by
-    double dispersion;      ///< Dispersion of this particular shot in arcminutes
 };
 
 class Creature
@@ -189,41 +184,10 @@ class Creature
         void melee_attack(Creature &t, bool allow_special);
 
         /**
-         *  Fires a projectile at the target point from the source point with total_dispersion
-         *  dispersion.
-         *  Returns the rolled dispersion of the shot and the actually hit point.
-         */
-        dealt_projectile_attack projectile_attack( const projectile &proj, const tripoint &source,
-                                                   const tripoint &target, double total_dispersion );
-        /** Overloaded version that assumes the projectile comes from this Creature's postion. */
-        dealt_projectile_attack projectile_attack( const projectile &proj, const tripoint &target,
-                                                   double total_dispersion );
-
-        /**
-         * Makes an aiming/attack roll for a single projectile attack shot
-         * @param dispersion Effective dispersion of the shot (higher = less accurate weapon/ammo/sights)
-         * @param range Range to the target
-         * @param target_size Ease of hitting target. 1.0 means target occupies entire tile and doesn't dodge.
-         */
-        projectile_attack_aim projectile_attack_roll( double dispersion, double range, double target_size ) const;
-
-        /**
          * Size of the target this creature presents to ranged weapons.
          * 0.0 means unhittable, 1.0 means all projectiles going through this creature's tile will hit it.
          */
         double ranged_target_size() const;
-
-        /**
-         * Probability that a projectile attack will hit with at least the given accuracy.
-         *
-         * @param total_dispersion nominal shot dispersion of gun + shooter
-         * @param range range of the attack
-         * @param accuracy the required accuracy, in the range [0..1]
-         * @param target_size Ease of hitting target. 1.0 means target occupies entire tile and doesn't dodge.
-         * @return the probability, in the range (0..1]
-         */
-        double projectile_attack_chance( double total_dispersion, double range,
-                                         double accuracy, double target_size ) const;
 
         // handles blocking of damage instance. mutates &dam
         virtual bool block_hit(Creature *source, body_part &bp_hit,
@@ -374,7 +338,7 @@ class Creature
         virtual void process_effects();
 
         /** Returns true if the player has the entered trait, returns false for non-humans */
-        virtual bool has_trait(const std::string &flag) const;
+        virtual bool has_trait( const trait_id &flag ) const;
 
         // not-quite-stats, maybe group these with stats later
         virtual void mod_pain(int npain);
@@ -497,8 +461,8 @@ class Creature
         virtual void set_grab_resist(int ngrabres);
         virtual void set_throw_resist(int nthrowres);
 
-        virtual int weight_capacity() const;
-        virtual int get_weight() const;
+        virtual units::mass weight_capacity() const;
+        virtual units::mass get_weight() const;
 
         /** Returns settings for pathfinding. */
         virtual const pathfinding_settings &get_pathfinding_settings() const = 0;

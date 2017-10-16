@@ -9543,12 +9543,6 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_f_standing_tank",
-          "fg": 1027,
-          "bg": 632,
-          "rotates": false
-        },
-        {
           "id": "overlay_wielded_meth",
           "fg": 900,
           "bg": 632,
@@ -9652,12 +9646,6 @@
         },
         {
           "id": "overlay_wielded_mininuke_launcher",
-          "fg": 1493,
-          "bg": 632,
-          "rotates": false
-        },
-        {
-          "id": "overlay_wielded_heavy_rail_rifle",
           "fg": 1493,
           "bg": 632,
           "rotates": false
@@ -17222,11 +17210,6 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_rm451_flamethrower",
-          "fg": 1546,
-          "rotates": false
-        },
-        {
           "id": "overlay_wielded_ruger_1022",
           "fg": 1552,
           "rotates": false
@@ -22800,7 +22783,7 @@
           "rotates": false
         },
         {
-          "id": "prussian_blue",
+          "id": ["prussian_blue", "calcium_tablet"],
           "fg": 3746,
           "rotates": false
         },
@@ -31050,7 +31033,7 @@
           "rotates": false
         },
         {
-          "id": "cerberus_laser",
+          "id": ["cerberus_laser", "emp_gun"],
           "fg": 1472,
           "bg": 632,
           "rotates": false
@@ -31602,7 +31585,7 @@
         },
         {
           "id": "heavy_rail_rifle",
-          "fg": 1493,
+          "fg": 3650,
           "bg": 632,
           "rotates": false
         },
@@ -39948,7 +39931,7 @@
         },
         {
           "id": "t_shrub_strawberry",
-          "fg": 2148,
+          "fg": 2149,
           "bg": 640
         },
         {
@@ -40510,8 +40493,13 @@
           "bg": 640
         },
         {
+          "id": "t_shrub_strawberry_season_spring",
+          "fg": 2149,
+          "bg": 640
+        },
+        {
           "id": "t_shrub_strawberry_season_summer",
-          "fg": 2150,
+          "fg": 2148,
           "bg": 640
         },
         {
@@ -43582,13 +43570,13 @@
         },
         {
           "id": "t_rdoor_c",
-          "fg": 2106,
+          "fg": [2906, 2920, 2906, 2920],
           "bg": 661,
           "rotates": true
         },
         {
           "id": "t_rdoor_o",
-          "fg": 2002,
+          "fg": [2937, 2936, 2937, 2936],
           "bg": 661,
           "rotates": true
         },
@@ -43650,7 +43638,7 @@
         },
         {
           "id": "t_window_boarded_noglass",
-          "fg": [2903, 2904, 2903, 2904],
+          "fg": [2916, 2915, 2916, 2915],
           "bg": 661,
           "rotates": true
         },
@@ -46809,7 +46797,7 @@
           "bg": 632
         },
         {
-          "id": "chem_aluminium_powder",
+          "id": "chem_aluminium_powder", 
           "fg": 3204,
           "bg": 632
         },
@@ -47632,13 +47620,13 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_cerberus_laser",
+          "id": ["overlay_wielded_cerberus_laser", "overlay_wielded_emp_gun"],
           "fg": 1509,
           "rotates": false
         },
         {
           "id": "overlay_wielded_heavy_rail_rifle",
-          "fg": 1509,
+          "fg": 3651,
           "rotates": false
         },
         {
@@ -48725,7 +48713,7 @@
         {
           "id": "t_door_b",
           "fg": 1997,
-          "rotates": true
+          "rotates": false
         },
         {
           "id": "t_door_boarded_peep",
@@ -48740,26 +48728,26 @@
         {
           "id": "t_door_boarded_damaged",
           "fg": 2000,
-          "rotates": true
+          "rotates": false
         },
         {
           "id": "t_door_boarded",
           "fg": 2000,
-          "rotates": true
+          "rotates": false
         },
         {
           "id": "t_door_b_peep",
           "fg": 2001,
-          "rotates": true
+          "rotates": false
         },
         {
           "id": "t_door_metal_locked",
-          "fg": 2007,
+          "fg": 3874,
           "rotates": true
         },
         {
           "id": "t_door_metal_pickable",
-          "fg": 2007,
+          "fg": 3874,
           "rotates": true
         },
         {
@@ -49205,12 +49193,7 @@
         },
         {
           "bg": 661,
-          "fg": [
-            2939,
-            2912,
-            2939,
-            2912
-          ],
+          "fg": [2939, 2912, 2939, 2912],
           "id": "t_window_no_curtains_open",
           "rotates": true
         },
@@ -51299,6 +51282,29 @@
               "fg": 3277
             }
 	    ]
+        },{
+          "id": "vp_external_tank_small",
+          "fg": 3275,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3277
+            }
+      ]
+        },
+        {
+          "id": "vp_external_tank",
+          "fg": 2678,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3062
+            }
+      ]
         },
         {
           "id": "vp_external_gas_tank",
@@ -53754,6 +53760,10 @@
           "fg": 4096
         },
         {
+          "id": "f_standing_tank",
+          "fg": 4095
+        },
+        {
           "id": "f_grave_stone",
           "fg": 4082
         },
@@ -53929,6 +53939,22 @@
           ]
         },
         {
+          "id": "overlay_female_effect_bite",
+          "fg": 4107
+        },
+        {
+          "id": "overlay_female_effect_infected",
+          "fg": 4108
+        },
+        {
+          "id": "overlay_male_effect_infected",
+          "fg": 4109
+        },
+        {
+          "id": "overlay_male_effect_bite",
+          "fg": 4116
+        },
+        {
           "id": "overlay_female_effect_weed_high",
           "fg": 4121
         },
@@ -54007,6 +54033,226 @@
         {
           "id": "overlay_female_effect_poison",
           "fg": 4143
+        },
+        {
+          "id": "30mm_hedp",
+          "fg": 4144,
+          "rotates": false
+        },
+        {
+          "id": "30mm_hei",
+          "fg": 4145,
+          "rotates": false
+        },
+        {
+          "id": "30mm_casing",
+          "fg": 4146,
+          "rotates": false
+        },
+        {
+          "id": ["120mm_casing", "155mm_casing"],
+          "fg": 4147,
+          "rotates": false
+        },
+        {
+          "id": "120mm_usable_ap",
+          "fg": 4148,
+          "rotates": false
+        },
+        {
+          "id": ["120mm_usable_shot", "120mm_usable_slug"],
+          "fg": 4149,
+          "rotates": false
+        },
+        {
+          "id": ["155mm_shot", "155mm_slug"],
+          "fg": 4150,
+          "rotates": false
+        },
+        {
+          "id": "atgm_heat",
+          "fg": 4151,
+          "rotates": false
+        },
+        {
+          "id": "atgm_launcher",
+          "fg": 4152,
+          "rotates": false
+        },
+        {
+          "id": "essence",
+          "fg": 4153,
+          "rotates": false
+        },
+        {
+          "id": "essence_blood",
+          "fg": 4154,
+          "rotates": false
+        },
+        {
+          "id": "essence_dull",
+          "fg": 4155,
+          "rotates": false
+        },
+        {
+          "id": ["book_magicfordummies", "book_hexenhammer"],
+          "fg": 4156,
+          "bg": 511,
+          "rotates": false
+        },
+        {
+          "id": "book_sacrifice",
+          "fg": 4157,
+          "bg": 508,
+          "rotates": false
+        },
+        {
+          "id": "book_bloodmagic",
+          "fg": 4158,
+          "bg": 508,
+          "rotates": false
+        },
+        {
+          "id": "book_summoning",
+          "fg": 4159,
+          "bg": 508,
+          "rotates": false
+        },
+        {
+          "id": "numbness_potion",
+          "fg": 4160,
+          "rotates": false
+        },
+        {
+          "id": "silver_glyph",
+          "fg": 4161,
+          "rotates": false
+        },
+        {
+          "id": ["summon_jabberwock", "summon_dark_wyrm", "summon_shoggoth", "summon_yugg", "summon_mi_go", "summon_kreck", "summon_blank", "summon_flaming_eye", "summon_hunting_horror", "summon_flying_polyp"],
+          "fg": 4162,
+          "rotates": false
+        },
+        {
+          "id": "mon_spirit_of_fire",
+          "fg": 4163,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "thunder_sigil",
+          "fg": 4164,
+          "rotates": false
+        },
+        {
+          "id": "bloodscourge",
+          "fg": 4165,
+          "rotates": false
+        },
+        {
+          "id": "ethereal_crossbow",
+          "fg": 4166,
+          "rotates": false
+        },
+        {
+          "id": "bagh_nakha",
+          "fg": 4167,
+          "rotates": false
+        },
+        {
+          "id": "hand_of_armok",
+          "fg": 4168,
+          "rotates": false
+        },
+        {
+          "id": "gilded_aegis",
+          "fg": 4169,
+          "rotates": false
+        },
+        {
+          "id": "revenant_crown",
+          "fg": 4170,
+          "rotates": false
+        },
+        {
+          "id": "gauntlets_necro",
+          "fg": 4171,
+          "rotates": false
+        },
+        {
+          "id": ["offering_chalice", "offering_chalice_active", "offering_chalice_used"],
+          "fg": 4172,
+          "rotates": false
+        },
+        {
+          "id": ["blood_athame", "blood_athame_active"],
+          "fg": 4173,
+          "rotates": false
+        },
+        {
+          "id": "sun_sword",
+          "fg": 4174,
+          "rotates": false
+        },
+        {
+          "id": "sun_sword_on",
+          "fg": 4175,
+          "rotates": false
+        },
+        {
+          "id": "bloodaxe",
+          "fg": 4176,
+          "rotates": false
+        },
+        {
+          "id": "bloodaxe_act",
+          "fg": 4177,
+          "rotates": false
+        },
+        {
+          "id": "diamond_zweihander",
+          "fg": 4178,
+          "rotates": false
+        },
+        {
+          "id": ["wakizashi", "wakizashi_fake", "wakizashi_inferior"],
+          "fg": 4179,
+          "rotates": false
+        },
+        {
+          "id": "diamond_wakizashi",
+          "fg": 4180,
+          "rotates": false
+        },
+        {
+          "id": "diamond_nodachi",
+          "fg": 4181,
+          "rotates": false
+        },
+        {
+          "id": "vp_tearer",
+          "fg": 4182,
+          "rotates": true
+        },
+        {
+          "id": "mask_guy_fawkes",
+          "fg": 4183,
+          "rotates": false
+        },
+        {
+          "id": "large_tent_kit",
+          "fg": 4184,
+          "rotates": false
+        },
+        {
+          "id": "shelter_kit",
+          "fg": 4185,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_mask_guy_fawkes",
+          "fg": 4186,
+          "rotates": false
         },
         {
           "id": ["vp_scorpion", "vp_40mmturret", "vp_am2browning", "vp_agattler1"],
@@ -54318,6 +54564,318 @@
         {
           "id": "overlay_effect_onfire",
           "fg": 6053,
+          "rotates": false
+        }
+    ]
+    },
+    {
+    "file": "tree.png",
+    "sprite_width":48,
+    "sprite_height":60,
+    "sprite_offset_x":-12,
+    "sprite_offset_y":-36,
+    "tiles":
+    [
+        {
+          "id": "t_tree",
+          "fg": 6328,
+          "bg": 6330,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_season_autumn",
+          "fg": 6364,
+          "bg": 6330,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_season_winter",
+          "fg": 6333,
+          "bg": 6331,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_pine",
+          "fg": 6329,
+          "bg": 6330,     
+          "rotates": false
+        },
+        {
+          "id": "t_tree_pine_season_winter",
+          "fg": 6334,
+          "bg": 6331,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_young",
+          "fg": 6332,
+          "bg": 6330,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_young_season_winter",
+          "fg": 6332,
+          "bg": 6331,
+          "rotates": false
+        },
+        {
+          "id": ["t_tree_apple_harvested", "t_tree_apricot_harvested", "t_tree_cherry_harvested", "t_tree_peach_harvested", "t_tree_pear_harvested", "t_tree_plum_harvested", "t_tree_apple", "t_tree_apricot", "t_tree_cherry", "t_tree_peach", "t_tree_pear", "t_tree_plum"],
+          "fg": 6335,
+          "bg": 6330
+        },
+        {
+          "id": "t_tree_cherry_season_summer",
+          "fg": 6336,
+          "bg": 6330
+        },
+        {
+          "id": "t_tree_peach_season_summer",
+          "fg": 6337,
+          "bg": 6330
+        },
+    {
+          "id": "t_tree_apple_season_autumn",
+          "fg": 6338,
+          "bg": 6330
+        },
+        {
+          "id": "t_tree_pear_season_autumn",
+          "fg": 6339,
+          "bg": 6330
+        },
+        {
+          "id": "t_tree_apricot_season_autumn",
+          "fg": 6340,
+          "bg": 6330
+        },
+        {
+          "id": "t_tree_plum_season_autumn",
+          "fg": 6341,
+          "bg": 6330
+        },
+        {
+          "id": ["t_tree_apple_harvested_season_winter", "t_tree_apricot_harvested_season_winter", "t_tree_cherry_harvested_season_winter", "t_tree_peach_harvested_season_winter", "t_tree_pear_harvested_season_winter", "t_tree_plum_harvested_season_winter", "t_tree_apple_season_winter", "t_tree_apricot_season_winter", "t_tree_cherry_season_winter", "t_tree_peach_season_winter", "t_tree_pear_season_winter", "t_tree_plum_season_winter"],
+          "fg": 6342,
+          "bg": 6331
+        },
+        {
+          "id": ["t_tree_dead", "t_tree_hickory_dead"],
+          "fg": 6345,
+          "bg": 6330
+        },
+        {
+          "id": ["t_tree_dead_season_winter", "t_tree_hickory_dead_season_winter"],
+          "fg": 6345,
+          "bg": 6331
+        },
+        {
+          "id": "t_tree_deadpine",
+          "fg": 6346,
+          "bg": 6330,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_deadpine_season_winter",
+          "fg": 6346,
+          "bg": 6331,
+          "rotates": false
+        },
+        {
+          "id": ["t_tree_hickory", "t_tree_hickory_harvested"],
+          "fg": 6347,
+          "bg": 6330,
+          "rotates": false
+        },
+        {
+          "id": ["t_tree_hickory_season_winter", "t_tree_hickory_harvested_season_winter"],
+          "fg": 6347,
+          "bg": 6331,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_hickory_season_autumn",
+          "fg": 6348,
+          "bg": 6330,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_blackjack",
+          "fg": 6343,
+          "bg": 6330,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_blackjack_season_winter",
+          "fg": 6344,
+          "bg": 6331,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_fungal",
+          "fg": 6350,
+          "bg": 6352,
+          "rotates": false
+        },
+        {
+          "id": "t_marloss_tree",
+          "fg": 6351,
+          "bg": 6352,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_birch",
+          "fg": 6353,
+          "bg": 6330,
+          "rotates": false
+        },
+        {
+          "id": ["t_tree_birch_harvested", "t_tree_birch_harvested_season_winter"],
+          "fg": 6354,
+          "bg": 6330,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_birch_season_winter",
+          "fg": 6355,
+          "bg": 6331,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_maple",
+          "fg": 6356,
+          "bg": 6330,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_maple_season_autumn",
+          "fg": 6358,
+          "bg": 6330,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_maple_season_winter",
+          "fg": 6358,
+          "bg": 6330,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_maple_tapped",
+          "fg": 6357,
+          "bg": 6330
+        },
+        {
+          "id": "t_tree_maple_tapped_season_autumn",
+          "fg": 6359,
+          "bg": 6330
+        },
+        {
+          "id": "t_tree_maple_tapped_season_winter",
+          "fg": 6359,
+          "bg": 6331
+        },
+        {
+          "id": "t_tree_willow",
+          "fg": 6360,
+          "bg": 6330,
+          "rotates": false
+        },
+        {
+          "id": ["t_tree_willow_harvested", "t_tree_willow_harvested_season_winter"],
+          "fg": 6361,
+          "bg": 6330,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_willow_season_winter",
+          "fg": 6362,
+          "bg": 6331,
+          "rotates": false
+        },
+        {
+          "id": "t_leanto",
+          "fg": 6363,
+          "bg": 6330,
+          "rotates": false
+        },
+        {
+          "id": "t_leanto_season_winter",
+          "fg": 6363,
+          "bg": 6331,
+          "rotates": false
+        },
+        {
+          "id": "hulk_weapon",
+          "fg": 5448,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_brute_shocker",
+          "fg": 6376,
+          "rotates": false
+        },
+        {
+          "id": "mon_chickenbot",
+          "fg": 6377,
+          "rotates": false
+        },
+        {
+          "id": "mon_jabberwock",
+          "fg": 6378,
+          "rotates": false
+        },
+        {
+          "id": "mon_jabberwock_pk",
+          "fg": 6379,
+          "rotates": false
+        },
+        {
+          "id": "mon_shoggoth",
+          "fg": 6380,
+          "rotates": false
+        },
+        {
+          "id": "mon_tankbot",
+          "fg": 6381,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_hulk",
+          "fg": 6382,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_hulk_pk",
+          "fg": 6383,
+          "rotates": false
+        },
+        {
+          "id": "mon_turret_searchlight",
+          "fg": 6384,
+          "rotates": false
+        },
+        {
+          "id": "mon_blob_brain",
+          "fg": 6385,
+          "rotates": false
+        },        {
+          "id": "mon_fungaloid_seeder",
+          "fg": 6386,
+          "rotates": false
+        },        {
+          "id": "mon_fungaloid_tower",
+          "fg": 6387,
+          "rotates": false
+        },        {
+          "id": "mon_fungaloid_queen",
+          "fg": 6388,
+          "rotates": false
+        },        {
+          "id": "mon_triffid_heart",
+          "fg": 6389,
+          "rotates": false
+        },        {
+          "id": "mon_yugg",
+          "fg": 6390,
           "rotates": false
         }
     ]

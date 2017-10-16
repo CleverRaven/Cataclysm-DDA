@@ -17,9 +17,7 @@
   "tools" : [
      [ ["mold_plastic", -1] ],
      [
-      ["hotplate", 10],
-      ["toolset", 10],
-      ["fire", -1]
+      [ "surface_heat", 10, "LIST" ]
      ],
      [
       [ "soldering_iron", 10 ],
@@ -52,9 +50,7 @@
   "tools" : [
     [ ["mold_plastic", -1] ],
     [
-      ["hotplate", 10],
-      ["toolset", 10],
-      ["fire", -1]
+      [ "surface_heat", 10, "LIST" ]
     ],
     [
       [ "soldering_iron", 10 ],
@@ -95,9 +91,7 @@
   "tools" : [
     [ ["mold_plastic", -1] ],
     [
-      ["hotplate", 12],
-      ["toolset", 12],
-      ["fire", -1]
+      [ "surface_heat", 12, "LIST" ]
     ],
     [
       [ "soldering_iron", 12 ],
@@ -128,9 +122,7 @@
    "tools" : [
     [ ["mold_plastic", -1] ],
     [
-      ["hotplate", 10],
-      ["toolset", 10],
-      ["fire", -1]
+      [ "surface_heat", 10, "LIST" ]
     ],
     [
       [ "soldering_iron", 10 ],
@@ -384,6 +376,7 @@
       [ "scrap", 4 ],
       [ "can_drink_unsealed", 1 ],
       [ "can_food_unsealed", 1 ],
+      [ "canister_empty", 1 ],
       [ "bottle_glass", 1 ],
       [ "bottle_plastic", 1 ],
       [ "bottle_plastic_small", 1 ]
@@ -1636,6 +1629,7 @@
     [ ["vac_sealer", 1], ["makeshift_sealer", 1] ],
     [ [ "dehydrator", 1 ] ],
     [ [ "water_purifier", 1 ] ],
+    [ [ "food_processor", 1 ] ],
     [ [ "press", 1 ] ],
     [ ["cable", 5] ]
   ]
@@ -2298,9 +2292,7 @@
    "tools" : [
     [ ["mold_plastic", -1] ],
     [
-      ["hotplate", 10],
-      ["toolset", 10],
-      ["fire", -1]
+      [ "surface_heat", 10, "LIST" ]
     ],
     [
       [ "soldering_iron", 10 ],
