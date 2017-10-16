@@ -1626,13 +1626,13 @@ int Character::get_int_bonus() const
 int Character::ranged_dex_mod() const
 {
     ///\EFFECT_DEX <20 increases ranged penalty
-    return std::max( ( 20.0 - get_dex() ) * 2.25, 0.0 );
+    return std::max( ( 20.0 - get_dex() ) * 2.5, 0.0 );
 }
 
 int Character::ranged_per_mod() const
 {
     ///\EFFECT_PER <20 increases ranged aiming penalty.
-    return std::max( ( 20.0 - get_per() ) * 2.25, 0.0 );
+    return std::max( ( 20.0 - get_per() ) * 2.0, 0.0 );
 }
 
 int Character::get_healthy() const
