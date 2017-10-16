@@ -7,7 +7,6 @@
 #include "iuse_actor.h"
 #include "options.h"
 #include "npc.h"
-#include "character.h"
 #include "itype.h"
 #include "vehicle.h"
 #include "mapdata.h"

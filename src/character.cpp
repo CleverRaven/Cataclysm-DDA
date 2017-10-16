@@ -813,7 +813,7 @@ bool Character::i_add_or_drop( item& it, int qty ) {
     bool retval = true;
     bool drop = it.made_of( LIQUID );
     bool add = it.is_gun() || !it.has_flag( "IRREMOVABLE" );
-    inv.assign_empty_invlet( it, false );
+    inv.assign_empty_invlet( it );
     for( int i = 0; i < qty; ++i ) {
         drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
         if( drop ) {
