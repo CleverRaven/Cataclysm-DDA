@@ -1961,10 +1961,10 @@
             "fun_bonus": 2,
             "description_frequency": 20,
             "descriptions": [
-                "pipes drone loudly as it strikes a battle hymn from the chanter.",
+              "pipes drone loudly as it strikes a battle hymn from the chanter.",
                 "pipes drone a slow and piercing dirge.",
                 "strike a lively quick step march on their pipes."
-            ]
+          ]
         },
         "symbol" : "-",
         "description" : "A traditional musical instrument using enclosed reeds fed from a reservoir of air contained within a leather bag.  It has a strap so you can wear it around, even when not playing.",

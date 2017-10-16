@@ -598,9 +598,13 @@ class musical_instrument_actor : public iuse_actor
          */
         int fun_bonus;
         /**
-         * List of sound descriptions
+         * List of sound descriptions for players
          */
         std::vector< std::string > descriptions;
+        /**
+         * List of sounds that NPCs make.
+         */
+        std::vector< std::string > NPCdescriptions;
         /**
          * Display description once per this many turns
          */
