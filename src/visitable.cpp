@@ -100,7 +100,7 @@ static int has_quality_internal( const T &self, const quality_id &qual, int leve
 {
     int qty = 0;
 
-    self.visit_items( [&qual, level, &limit, &qty]( const item *e ) {
+    self.visit_items( [&qual, level, &limit, &qty]( const item * e ) {
         if( e->get_quality( qual ) >= level ) {
             qty = sum_no_wrap( qty, e->count_by_charges() ? int( e->charges ) : 1 );
             if( qty >= limit ) {
@@ -296,7 +296,8 @@ std::vector<item *> visitable<T>::items_with( const std::function<bool( const it
 
 /** @relates visitable */
 template <typename T>
-std::vector<const item *> visitable<T>::items_with( const std::function<bool( const item & )> &filter ) const
+std::vector<const item *>
+visitable<T>::items_with( const std::function<bool( const item & )> &filter ) const
 {
     std::vector<const item *> res;
     visit_items( [&res, &filter]( const item * node, const item * ) {
@@ -310,16 +311,17 @@ std::vector<const item *> visitable<T>::items_with( const std::function<bool( co
 
 /** @relates visitable */
 template <typename T>
-VisitResponse visitable<T>::visit_items(
-    const std::function<VisitResponse( const item *, const item * )> &func ) const
+VisitResponse
+visitable<T>::visit_items( const std::function<VisitResponse( const item *,
+                                                              const item * )> &func ) const
 {
     return const_cast<visitable<T> *>( this )->visit_items(
                static_cast<const std::function<VisitResponse( item *, item * )>&>( func ) );
 }
 
 /** @relates visitable */
-template <typename T>
-VisitResponse visitable<T>::visit_items( const std::function<VisitResponse( const item * )> &func ) const
+template <typename T> VisitResponse
+visitable<T>::visit_items( const std::function<VisitResponse( const item * )> &func ) const
 {
     return const_cast<visitable<T> *>( this )->visit_items(
                static_cast<const std::function<VisitResponse( item * )>&>( func ) );
@@ -478,8 +480,11 @@ VisitResponse visitable<vehicle_selector>::visit_items(
 
 /** @relates visitable */
 template <typename T>
-item visitable<T>::remove_item( item& it ) {
-    auto obj = remove_items_with( [&it]( const item& e ) { return &e == &it; }, 1 );
+item visitable<T>::remove_item( item &it )
+{
+    auto obj = remove_items_with( [&it]( const item & e ) {
+        return &e == &it;
+    }, 1 );
     if( !obj.empty() ) {
         return obj.front();
 
@@ -825,7 +830,7 @@ template <typename T>
 static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, int limit )
 {
     int qty = 0;
-    self.visit_items( [&qty, &id, &pseudo, &limit] ( const item *e ) {
+    self.visit_items( [&qty, &id, &pseudo, &limit]( const item * e ) {
         if( e->typeId() == id && e->allow_crafting_component() && ( pseudo || !e->has_flag( "PSEUDO" ) ) ) {
             qty = sum_no_wrap( qty, 1 );
         }
@@ -871,7 +876,7 @@ int visitable<Character>::amount_of( const std::string &what, bool pseudo, int l
 
     if( what == "apparatus" && pseudo ) {
         int qty = 0;
-        visit_items( [&qty, &limit] ( const item *e ) {
+        visit_items( [&qty, &limit]( const item * e ) {
             if( e->get_quality( quality_id( "SMOKE_PIPE" ) ) >= 1 ) {
                 qty = sum_no_wrap( qty, 1 );
             }

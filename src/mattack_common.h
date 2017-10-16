@@ -9,60 +9,57 @@ class monster;
 class mattack_actor;
 
 using mattack_id = std::string;
-using mon_action_attack = bool (*)(monster*);
+using mon_action_attack = bool ( * )( monster * );
 
-class mattack_actor {
-protected:
-    mattack_actor() { }
-public:
-    mattack_actor( const mattack_id &new_id ) : id( new_id ) { }
+class mattack_actor
+{
+    protected:
+        mattack_actor() { }
+    public:
+        mattack_actor( const mattack_id &new_id ) : id( new_id ) { }
 
-    mattack_id id;
-    bool was_loaded = false;
+        mattack_id id;
+        bool was_loaded = false;
 
-    int cooldown = 0;
+        int cooldown = 0;
 
-    void load( JsonObject &jo, const std::string &src );
+        void load( JsonObject &jo, const std::string &src );
 
-    virtual ~mattack_actor() { }
-    virtual bool call( monster & ) const = 0;
-    virtual mattack_actor *clone() const = 0;
-    virtual void load_internal( JsonObject &jo, const std::string &src ) = 0;
+        virtual ~mattack_actor() { }
+        virtual bool call( monster & ) const = 0;
+        virtual mattack_actor *clone() const = 0;
+        virtual void load_internal( JsonObject &jo, const std::string &src ) = 0;
 };
 
 struct mtype_special_attack {
-protected:
-    // @todo Remove friend
-    friend struct mtype;
-    std::unique_ptr<mattack_actor> actor;
+    protected:
+        // @todo Remove friend
+        friend struct mtype;
+        std::unique_ptr<mattack_actor> actor;
 
-public:
-    mtype_special_attack( const mattack_id &id, mon_action_attack f );
-    mtype_special_attack( mattack_actor *f ) : actor( f ) { };
-    mtype_special_attack( const mtype_special_attack &other ) :
-        mtype_special_attack( other.actor->clone() ) { };
+    public:
+        mtype_special_attack( const mattack_id &id, mon_action_attack f );
+        mtype_special_attack( mattack_actor *f ) : actor( f ) { };
+        mtype_special_attack( const mtype_special_attack &other ) :
+            mtype_special_attack( other.actor->clone() ) { };
 
-    ~mtype_special_attack();
+        ~mtype_special_attack();
 
-    void operator=( const mtype_special_attack &other )
-    {
-        actor.reset( other.actor->clone() );
-    }
+        void operator=( const mtype_special_attack &other ) {
+            actor.reset( other.actor->clone() );
+        }
 
-    const mattack_actor &operator*() const
-    {
-        return *actor;
-    }
+        const mattack_actor &operator*() const {
+            return *actor;
+        }
 
-    const mattack_actor *operator->() const
-    {
-        return actor.get();
-    }
+        const mattack_actor *operator->() const {
+            return actor.get();
+        }
 
-    const mattack_actor *get() const
-    {
-        return actor.get();
-    }
+        const mattack_actor *get() const {
+            return actor.get();
+        }
 };
 
 #endif
