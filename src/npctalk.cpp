@@ -3821,7 +3821,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                     if( keychar > 'z' ) {
                         keychar = keychar - 'z' - 1 + 'A';
                     }
-                    trim_and_print( w_whose, i - offset + 1, 1, win_w, color , "%c %c %s",
+                    trim_and_print( w_whose, i - offset + 1, 1, win_w, color, "%c %c %s",
                                     ( char )keychar, ip.selected ? '+' : '-', itname.c_str() );
 
                     std::string price_str = string_format( "%.2f", ip.price / 100.0 );
@@ -4197,7 +4197,7 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
         };
     } else if( jo.has_member( "u_has_any_trait" ) ) {
         std::vector<trait_id> traits_to_check;
-        for( auto && f : jo.get_string_array( "u_has_any_trait" ) ) {
+        for( auto &&f : jo.get_string_array( "u_has_any_trait" ) ) {
             traits_to_check.emplace_back( f );
         }
         const dynamic_line_t yes = from_member( jo, "yes" );

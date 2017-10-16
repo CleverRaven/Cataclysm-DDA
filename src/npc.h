@@ -22,23 +22,23 @@ class monfaction;
 struct mission_type;
 enum game_message_type : int;
 
-    using npc_class_id = string_id<npc_class>;
-    using mission_type_id = string_id<mission_type>;
-    using mfaction_id = int_id<monfaction>;
+using npc_class_id = string_id<npc_class>;
+using mission_type_id = string_id<mission_type>;
+using mfaction_id = int_id<monfaction>;
 
-    void parse_tags( std::string &phrase, const player &u, const npc &me );
+void parse_tags( std::string &phrase, const player &u, const npc &me );
 
-    /*
-     * Talk:   Trust midlow->high, fear low->mid, need doesn't matter
-     * Trade:  Trust mid->high, fear low->midlow, need is a bonus
-     * Follow: Trust high, fear mid->high, need low->mid
-     * Defend: Trust mid->high, fear + need high
-     * Kill:   Trust low->midlow, fear low->midlow, need low
-     * Flee:   Trust low, fear mid->high, need low
-     */
+/*
+ * Talk:   Trust midlow->high, fear low->mid, need doesn't matter
+ * Trade:  Trust mid->high, fear low->midlow, need is a bonus
+ * Follow: Trust high, fear mid->high, need low->mid
+ * Defend: Trust mid->high, fear + need high
+ * Kill:   Trust low->midlow, fear low->midlow, need low
+ * Flee:   Trust low, fear mid->high, need low
+ */
 
-    // Attitude is how we feel about the player, what we do around them
-    enum npc_attitude : int {
+// Attitude is how we feel about the player, what we do around them
+enum npc_attitude : int {
     NPCATT_NULL = 0, // Don't care/ignoring player The places this is assigned is on shelter NPC generation, and when you order a NPC to stay in a location, and after talking to a NPC that wanted to talk to you.
     NPCATT_TALK,  // Move to and talk to player
     NPCATT_LEGACY_1,
@@ -80,7 +80,7 @@ std::string npc_class_name_str( const npc_class_id & );
 
 enum npc_action : int;
 
-    enum npc_need {
+enum npc_need {
     need_none,
     need_ammo, need_weapon, need_gun,
     need_food, need_drink,
@@ -694,20 +694,20 @@ class npc : public player
 
         //message related stuff
         void add_msg_if_npc( const char *msg, ... ) const override PRINTF_LIKE( 2, 3 );
-        void add_msg_player_or_npc( const char *player_str, const char *npc_str,
-                                    ... ) const override PRINTF_LIKE( 3, 4 );
-        void add_msg_if_npc( game_message_type type, const char *msg, ... ) const override PRINTF_LIKE( 3,
-                4 );
-        void add_msg_player_or_npc( game_message_type type, const char *player_str, const char *npc_str,
-                                    ... ) const override PRINTF_LIKE( 4, 5 );
+        void add_msg_player_or_npc( const char *player_str,
+                                    const char *npc_str, ... ) const override PRINTF_LIKE( 3, 4 );
+        void add_msg_if_npc( game_message_type type,
+                             const char *msg, ... ) const override PRINTF_LIKE( 3, 4 );
+        void add_msg_player_or_npc( game_message_type type, const char *player_str,
+                                    const char *npc_str, ... ) const override PRINTF_LIKE( 4, 5 );
         void add_msg_if_player( const char *, ... ) const override PRINTF_LIKE( 2, 3 ) {};
-        void add_msg_if_player( game_message_type, const char *, ... ) const override PRINTF_LIKE( 3,
-                4 ) {};
+        void add_msg_if_player( game_message_type,
+                                const char *, ... ) const override PRINTF_LIKE( 3, 4 ) {};
         void add_memorial_log( const char *, const char *, ... ) override  PRINTF_LIKE( 3, 4 ) {};
         virtual void add_miss_reason( const char *, unsigned int ) {};
         void add_msg_player_or_say( const char *, const char *, ... ) const override PRINTF_LIKE( 3, 4 );
-        void add_msg_player_or_say( game_message_type, const char *, const char *,
-                                    ... ) const override PRINTF_LIKE( 4, 5 );
+        void add_msg_player_or_say( game_message_type, const char *,
+                                    const char *, ... ) const override PRINTF_LIKE( 4, 5 );
 
         // The preceding are in npcmove.cpp
 
