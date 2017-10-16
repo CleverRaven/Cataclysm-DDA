@@ -1892,8 +1892,8 @@
             "fun_bonus": 2,
             "description_frequency": 20,
             "descriptions": [
-                "You produce a happy tune on your harmonica.",
-                "You whistle on your harmonica."
+                "produce a happy tune on the harmonica.",
+                "whistle on the harmonica."
             ]
         },
         "symbol" : "-",
@@ -2033,9 +2033,9 @@
             "fun_bonus": 4,
             "description_frequency": 20,
             "descriptions": [
-                "play a little tune on the saxophone.",
-                "play a soulful jazz piece on the sax.",
-                "play a quick, energetic ditty on the sax."
+              "play a little tune on the saxophone.",
+              "play a soulful jazz piece on the sax.",
+              "play a quick, energetic ditty on the sax."
             ]
         },
         "symbol" : "{",
