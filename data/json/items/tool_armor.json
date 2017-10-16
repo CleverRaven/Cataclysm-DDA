@@ -1894,6 +1894,10 @@
             "descriptions": [
                 "You produce a happy tune on your harmonica.",
                 "You whistle on your harmonica."
+            ],
+            "NPCdescriptions": [
+                "produces a happy tune on their harmonica.",
+                "whistles on their harmonica."
             ]
         },
         "symbol" : "-",
@@ -1927,6 +1931,11 @@
                 "You strum a few chords on your guitar.",
                 "You pluck a few notes on your guitar.",
                 "You play a slow blues-y tune on your guitar."
+            ],
+            "NPCdescriptions": [
+            	"strums a few chords on their guitar.",
+            	"plucks a few notes on their guitar.",
+            	"plays a slow blues-y tune on their guitar."
             ]
         },
         "symbol" : "-",
@@ -1964,6 +1973,11 @@
                 "Your pipes drone loudly as you strike a battle hymn from the chanter.",
                 "Your pipes drone a slow and piercing dirge.",
                 "You strike a lively quick step march on your pipes."
+            ],
+            "NPCdescriptions": [
+                "pipes drone loudly as they strike a battle hymn from the chanter.",
+                "pipes drone a slow and piercing dirge.",
+                "strikes a lively quick step march on their pipes."
             ]
         },
         "symbol" : "-",
@@ -2000,6 +2014,11 @@
                 "You play a little tune on your tuba.",
                 "You play a ditty on your tuba.",
                 "You play a marching tune on your tuba."
+            ],
+            "NPCdescriptions": [
+                "plays a little tune on their tuba.",
+                "plays a ditty on their tuba.",
+                "plays a marching tune on their tuba."
             ]
         },
         "symbol" : "&",
@@ -2036,6 +2055,11 @@
                 "You play a little tune on your saxophone.",
                 "You play a soulful jazz piece on your sax.",
                 "You play a quick, energetic ditty on your sax."
+            ],
+            "NPCdescriptions": [
+                "plays a little tune on their saxophone.",
+                "plays a soulful jazz piece on their sax.",
+                "plays a quick, energetic ditty on their sax."
             ]
         },
         "symbol" : "{",
