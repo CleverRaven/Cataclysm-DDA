@@ -511,12 +511,12 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         damage_mult *= rng_float(1, 1.5);
 
     } else if( goodhit < accuracy_standard ) {
-        damage_mult *= rng_float(0.5, 1);
+        damage_mult *= rng_float(0.6, 1);
 
     } else if( goodhit < accuracy_grazing ) {
         message = _("Grazing hit.");
         gmtSCTcolor = m_grazing;
-        damage_mult *= rng_float(0, .25);
+        damage_mult *= rng_float(0.4, 0.6);
     }
 
     if( source != nullptr && !message.empty() ) {
