@@ -1799,7 +1799,6 @@ void musical_instrument_actor::load( JsonObject &obj )
     fun_bonus = obj.get_int( "fun_bonus", 0 );
     description_frequency = obj.get_int( "description_frequency" );
     descriptions = obj.get_string_array( "descriptions" );
-    NPCdescriptions = obj.get_string_array( "NPCdescriptions" );
 }
 
 long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint& ) const
@@ -1808,7 +1807,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
         if ( p.is_player() ) {
             p.add_msg_if_player(m_bad, _("You can't play music underwater"));
         } else {
-            p.add_msg_if_player(m_bad, _("%s can't play music underwater"), p.disp_name(false));
+            p.add_msg_player_or_npc(m_bad, p.disp_name(false).c_str(), _("%s can't play music underwater"), p.disp_name(false).c_str());
         }
         it.active = false;
         return 0;
@@ -1820,7 +1819,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
         if ( p.is_player() ) {
             p.add_msg_if_player( m_bad, _("You stop playing your %s"), it.display_name().c_str() );
         } else {
-            p.add_msg_if_player( m_bad, _("%s stops playing their %s"), p.disp_name(false), it.display_name().c_str() );
+            p.add_msg_player_or_npc( m_bad, p.disp_name(false).c_str(), _("%s stops playing their %s"), p.disp_name(false).c_str(), it.display_name().c_str() );
         }
         it.active = false;
         return 0;
@@ -1830,7 +1829,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
         if (p.is_player()) {
             p.add_msg_if_player(_("You stop playing your %s"), it.display_name().c_str());
         } else {
-            p.add_msg_if_player(_("%s stops playing their %s"), p.disp_name(false));
+            p.add_msg_player_or_npc(p.disp_name(false).c_str(), _("%s stops playing their %s"), p.disp_name(false).c_str(), it.display_name().c_str());
         }
         it.active = false;
         return 0;
@@ -1843,7 +1842,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
         if ( p.is_player() ) {
             p.add_msg_if_player( m_bad, _("You need to hold or wear %s to play it"), it.display_name().c_str() );
         } else {
-            p.add_msg_if_player( m_bad, _("%s needs to hold or wear %s to play it"), p.disp_name(false), it.display_name().c_str() );
+            p.add_msg_player_or_npc( m_bad, p.disp_name(false).c_str(), _("%s needs to hold or wear %s to play it"), p.disp_name(false).c_str(), it.display_name().c_str());
         }
         it.active = false;
         return 0;
@@ -1854,7 +1853,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
         if ( p.is_player() ) {
             p.add_msg_if_player(m_bad, _("You feel too weak to play your %s"), it.display_name().c_str());
         } else {
-            p.add_msg_if_player(m_bad, _("%s feels too weak to play their %s"), p.disp_name(false), it.display_name().c_str() );
+            p.add_msg_player_or_npc( m_bad, p.disp_name(false).c_str(), _("%s feels too weak to play their %s"), p.disp_name(false).c_str(), it.display_name().c_str());
         }
         it.active = false;
         return 0;
@@ -1865,6 +1864,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
         if ( p.is_player() ) {
             p.add_msg_if_player(m_good, _("You start playing your %s"), it.display_name().c_str());
         } else {
+            p.add_msg_player_or_npc(m_good, p.disp_name(false).c_str(), _("%s starts playing their %s"), p.disp_name(false).c_str(), it.display_name().c_str());
             p.add_msg_if_player(m_good, _("%s starts playing their %s"), p.disp_name(false), it.display_name().c_str() );
         }
         it.active = true;
@@ -1889,7 +1889,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
         if ( p.is_player() ) {
             desc = _("You produce an annoying sound");
         } else {
-            desc = _("%s produces an annoying sound"), p.disp_name(false);
+            desc = _("%s produces an annoying sound"), p.disp_name(false).c_str();
         }
     }
 
