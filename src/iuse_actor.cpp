@@ -1854,8 +1854,10 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
     /** @EFFECT_PER increases morale bonus when playing an instrument */
     const int morale_effect = fun + fun_bonus * p.per_cur;
     if( morale_effect >= 0 && calendar::turn.once_every( description_frequency ) ) {
-        if( !descriptions.empty() ) {
+        if( !descriptions.empty() && p.is_player() ) {
             desc = _( random_entry( descriptions ).c_str() );
+        } else if (!descriptions.empty() && p.is_npc() ) {
+            desc = string_format(_("%1$s %2$s"), p.disp_name(false).c_str(), random_entry( descriptions ).c_str() );
         }
     } else if( morale_effect < 0 && int(calendar::turn) % 10 ) {
         // No musical skills = possible morale penalty
