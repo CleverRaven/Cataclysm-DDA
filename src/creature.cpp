@@ -259,23 +259,18 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         self_area_iff = true;
     }
 
-    std::vector<Creature*> targets;
-    targets.reserve( g->num_zombies() + g->active_npc.size() );
-    for (size_t i = 0; i < g->num_zombies(); i++) {
-        monster &m = g->zombie(i);
-        if( m.friendly != 0 ) {
+    std::vector<Creature*> targets = g->get_creatures_if( [&]( const Creature &critter ) {
+        if( const monster *const mon_ptr = dynamic_cast<const monster*>( &critter ) ) {
             // friendly to the player, not a target for us
-            continue;
+            return mon_ptr->friendly == 0;
         }
-        targets.push_back( &m );
-    }
-    for( auto &p : g->active_npc ) {
-        if( p->attitude != NPCATT_KILL ) {
+        if( const npc *const npc_ptr = dynamic_cast<const npc*>( &critter ) ) {
             // friendly to the player, not a target for us
-            continue;
+            return npc_ptr->attitude == NPCATT_KILL;
         }
-        targets.push_back( p.get() );
-    }
+        //@todo what about g->u?
+        return false;
+    } );
     for( auto &m : targets ) {
         if( !sees( *m ) ) {
             // can't see nor sense it

@@ -182,9 +182,9 @@ float npc::evaluate_enemy( const Creature &target ) const
 void npc::assess_danger()
 {
     float assessment = 0;
-    for( size_t i = 0; i < g->num_zombies(); i++ ) {
-        if( sees( g->zombie( i ) ) ) {
-            assessment += g->zombie( i ).type->difficulty;
+    for( const monster &critter : g->all_monsters() ) {
+        if( sees( critter ) ) {
+            assessment += critter.type->difficulty;
         }
     }
     assessment /= 10;
@@ -751,8 +751,7 @@ void npc::choose_target()
         return true;
     };
 
-    for( size_t i = 0; i < g->num_zombies(); i++ ) {
-        monster &mon = g->zombie( i );
+    for( monster &mon : g->all_monsters() ) {
         if( !sees( mon ) ) {
             continue;
         }
@@ -797,7 +796,7 @@ void npc::choose_target()
     }
 
     const auto check_hostile_character = [this, &ok_by_rules,
-    &highest_priority]( const Character & c ) {
+          &highest_priority]( const Character & c ) {
         float critter_danger = character_danger( c );
 
         int dist = rl_dist( pos(), c.pos() );
@@ -2115,13 +2114,15 @@ bool npc::find_corpse_to_pulp()
     // Pathing with overdraw can get expensive, limit it
     int path_counter = 4;
     const auto check_tile = [this, &path_counter]( const tripoint & p ) -> const item * {
-        if( !g->m.sees_some_items( p, *this ) || !sees( p ) ) {
+        if( !g->m.sees_some_items( p, *this ) || !sees( p ) )
+        {
             return nullptr;
         }
 
         const auto items = g->m.i_at( p );
         const item *found = nullptr;
-        for( const item &it : items ) {
+        for( const item &it : items )
+        {
             // Pulp only stuff that revives, but don't pulp acid stuff
             // That is, if you aren't protected from this stuff!
             if( it.can_revive() ) {
@@ -2136,7 +2137,8 @@ bool npc::find_corpse_to_pulp()
             }
         }
 
-        if( found != nullptr ) {
+        if( found != nullptr )
+        {
             path_counter--;
             // Only return corpses we can path to
             return update_path( p, false, false ) ? found : nullptr;
@@ -2592,7 +2594,7 @@ float rate_food( const item &it, int want_nutr, int want_quench )
         return 0.0f;
     }
 
-    float weight = std::max( 1.0d, 10.0d * relative_rot );
+    float weight = std::max( 1.0, 10.0 * relative_rot );
     if( food->fun < 0 ) {
         // This helps to avoid eating stuff like flour
         weight /= ( -food->fun ) + 1;

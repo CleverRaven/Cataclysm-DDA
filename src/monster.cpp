@@ -1773,8 +1773,7 @@ void monster::die(Creature* nkiller)
 
     if (anger_adjust != 0 || morale_adjust != 0) {
         int light = g->light_level( posz() );
-        for (size_t i = 0; i < g->num_zombies(); i++) {
-            monster &critter = g->zombie( i );
+        for( monster &critter : g->all_monsters() ) {
             if( !critter.type->same_species( *type ) ) {
                 continue;
             }
@@ -2154,8 +2153,7 @@ void monster::on_hit( Creature *source, body_part,
 
     if( anger_adjust != 0 || morale_adjust != 0 ) {
         int light = g->light_level( posz() );
-        for( size_t i = 0; i < g->num_zombies(); i++ ) {
-            monster &critter = g->zombie( i );
+        for( monster &critter : g->all_monsters() ) {
             if( !critter.type->same_species( *type ) ) {
                 continue;
             }

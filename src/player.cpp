@@ -11411,26 +11411,6 @@ int player::print_info(WINDOW* w, int vStart, int, int column) const
     return vStart;
 }
 
-std::vector<Creature *> get_creatures_if( std::function<bool (const Creature &)>pred )
-{
-    std::vector<Creature *> result;
-    for( size_t i = 0; i < g->num_zombies(); i++ ) {
-        auto &critter = g->zombie( i );
-        if( !critter.is_dead() && pred( critter ) ) {
-            result.push_back( &critter );
-        }
-    }
-    for( const auto &n : g->active_npc ) {
-        if( pred( *n ) ) {
-            result.push_back( n.get() );
-        }
-    }
-    if( pred( g->u ) ) {
-        result.push_back( &g->u );
-    }
-    return result;
-}
-
 bool player::is_visible_in_range( const Creature &critter, const int range ) const
 {
     return sees( critter ) && rl_dist( pos(), critter.pos() ) <= range;
@@ -11438,7 +11418,7 @@ bool player::is_visible_in_range( const Creature &critter, const int range ) con
 
 std::vector<Creature *> player::get_visible_creatures( const int range ) const
 {
-    return get_creatures_if( [this, range]( const Creature &critter ) -> bool {
+    return g->get_creatures_if( [this, range]( const Creature &critter ) -> bool {
         return this != &critter && pos() != critter.pos() && // @todo get rid of fake npcs (pos() check)
           rl_dist( pos(), critter.pos() ) <= range && sees( critter );
     } );
@@ -11446,7 +11426,7 @@ std::vector<Creature *> player::get_visible_creatures( const int range ) const
 
 std::vector<Creature *> player::get_targetable_creatures( const int range ) const
 {
-    return get_creatures_if( [this, range]( const Creature &critter ) -> bool {
+    return g->get_creatures_if( [this, range]( const Creature &critter ) -> bool {
         return this != &critter && pos() != critter.pos() && // @todo get rid of fake npcs (pos() check)
           rl_dist( pos(), critter.pos() ) <= range &&
           ( sees( critter ) || sees_with_infrared( critter ) );
@@ -11455,7 +11435,7 @@ std::vector<Creature *> player::get_targetable_creatures( const int range ) cons
 
 std::vector<Creature *> player::get_hostile_creatures( int range ) const
 {
-    return get_creatures_if( [this, range] ( const Creature &critter ) -> bool {
+    return g->get_creatures_if( [this, range] ( const Creature &critter ) -> bool {
         return this != &critter && pos() != critter.pos() && // @todo get rid of fake npcs (pos() check)
             rl_dist( pos(), critter.pos() ) <= range &&
             critter.attitude_to( *this ) == A_HOSTILE && sees( critter );

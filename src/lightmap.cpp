@@ -290,8 +290,7 @@ void map::generate_lightmap( const int zlev )
         }
     }
 
-    for (size_t i = 0; i < g->num_zombies(); ++i) {
-        auto &critter = g->zombie(i);
+    for( monster &critter : g->all_monsters() ) {
         if(critter.is_hallucination()) {
             continue;
         }
