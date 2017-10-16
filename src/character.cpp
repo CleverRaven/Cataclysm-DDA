@@ -707,7 +707,7 @@ item& Character::i_add(item it)
     // if there's a desired invlet for this item type, try to use it
     bool keep_invlet = false;
     const std::set<char> cur_inv = allocated_invlets();
-    for (auto iter : assigned_invlet) {
+    for (auto iter : inv.assigned_invlet) {
         if (iter.second == item_type_id && !cur_inv.count(iter.first)) {
             it.invlet = iter.first;
             keep_invlet = true;
@@ -813,7 +813,7 @@ bool Character::i_add_or_drop( item& it, int qty ) {
     bool retval = true;
     bool drop = it.made_of( LIQUID );
     bool add = it.is_gun() || !it.has_flag( "IRREMOVABLE" );
-    inv.assign_empty_invlet( it );
+    inv.assign_empty_invlet( it, false );
     for( int i = 0; i < qty; ++i ) {
         drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
         if( drop ) {
@@ -2057,7 +2057,7 @@ nc_color Character::symbol_color() const
     } else if( has_effect( effect_grabbed ) ) {
         return cyan_background( basic );
     }
-    
+
     const auto &fields = g->m.field_at( pos() );
 
     bool has_fire = false;
@@ -2101,7 +2101,7 @@ nc_color Character::symbol_color() const
     } else if( has_fume ) {
         return white_background( basic );
     }
-    
+
     if( in_sleep_state() ) {
         return hilite( basic );
     }
