@@ -1865,7 +1865,7 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
             p.add_msg_if_player(m_good, _("You start playing your %s"), it.display_name().c_str());
         } else {
             p.add_msg_player_or_npc(m_good, p.disp_name(false).c_str(), _("%s starts playing their %s"), p.disp_name(false).c_str(), it.display_name().c_str());
-            p.add_msg_if_player(m_good, _("%s starts playing their %s"), p.disp_name(false), it.display_name().c_str() );
+            p.add_msg_if_player(m_good, _("%s starts playing their %s"), p.disp_name(false).c_str(), it.display_name().c_str() );
         }
         it.active = true;
     }
