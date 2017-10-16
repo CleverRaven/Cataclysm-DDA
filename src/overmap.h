@@ -502,7 +502,8 @@ public:
 
     // Connection laying
     pf::path lay_out_connection( const overmap_connection &connection, const point &source, const point &dest, int z ) const;
-    pf::path lay_out_street( const overmap_connection &connection, const point &source, om_direction::type dir, size_t len ) const;
+    pf::path lay_out_street( const overmap_connection &connection, const point &source, om_direction::type dir,
+                             size_t len, bool force = false ) const;
 
     void build_connection( const overmap_connection &connection, const pf::path &path, int z );
     void build_connection( const point &source, const point &dest, int z, const overmap_connection &connection );
