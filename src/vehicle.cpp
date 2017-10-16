@@ -2103,45 +2103,6 @@ int vehicle::part_with_feature_at_relative (const point &pt, const std::string &
     return -1;
 }
 
-bool vehicle::is_cargo_locked (int part) const
-{
-    if( part_flag( part, _("CARGO") ) && !parts[part].is_broken() ) {
-        return parts[part].is_cargo_locked();
-    }
-
-    const auto it = relative_parts.find( parts[part].mount );
-    if( it != relative_parts.end() ) {
-        const std::vector<int> parts_here = it->second;
-        for (auto &i : parts_here) {
-            if( part_flag( i, _("CARGO") ) && !parts[i].is_broken() ) {
-                return parts[i].is_cargo_locked();
-            }
-        }
-    }
-
-    return false;
-}
-
-void vehicle::toggle_cargo_lock (int part)
-{
-    if( part_flag( part, _("CARGO") ) && !parts[part].is_broken() ) {
-        parts[part].toggle_cargo_lock();
-        return;
-    }
-
-    const auto it = relative_parts.find( parts[part].mount );
-    if( it != relative_parts.end() ) {
-        const std::vector<int> parts_here = it->second;
-        std::string cargo_lock_string = "CARGO";
-        for (auto &i : parts_here) {
-            if( part_flag( i, cargo_lock_string ) && !parts[i].is_broken() ) {
-                parts[i].toggle_cargo_lock();
-                return;
-            }
-        }
-    }
-}
-
 bool vehicle::has_part( const std::string &flag, bool enabled ) const
 {
     return std::any_of( parts.begin(), parts.end(), [&flag,&enabled]( const vehicle_part &e ) {

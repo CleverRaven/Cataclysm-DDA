@@ -1805,7 +1805,8 @@ void npc::find_item()
 
         veh_part = veh->part_with_feature( veh_part, VPFLAG_CARGO, true );
         static const std::string locked_string( "LOCKED" );
-        if( veh_part < 0 || veh->part_flag( veh_part, locked_string ) || veh->is_cargo_locked( veh_part ) ) {
+        static const std::string cargo_locking_string( "CARGO_LOCKING" );
+        if( veh_part < 0 || veh->part_flag( veh_part, locked_string ) || veh->part_flag( veh_part, cargo_locking_string ) ) {
             continue;
         }
 

@@ -265,8 +265,6 @@ private:
      */
     int crew_id = -1;
 
-    bool cargo_locked = false;
-
 public:
     /** Get part definition common to all parts of this type */
     const vpart_info &info() const;
@@ -284,9 +282,6 @@ public:
      * the hp (item damage), fuel charges (battery or liquids), aspect, ...
      */
     item properties_to_item() const;
-
-    bool is_cargo_locked() const;
-    void toggle_cargo_lock();
 };
 
 class turret_data {
@@ -731,9 +726,6 @@ public:
     // returns indices of all parts in the vehicle with the given flag
     std::vector<int> all_parts_with_feature(const std::string &feature, bool unbroken = true) const;
     std::vector<int> all_parts_with_feature(vpart_bitflags f, bool unbroken = true) const;
-
-    bool is_cargo_locked (int part) const;
-    void toggle_cargo_lock (int part);
 
     // returns indices of all parts in the given location slot
     std::vector<int> all_parts_at_location(const std::string &location) const;
