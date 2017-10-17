@@ -5236,7 +5236,7 @@
 		"name" : "Slimeling",
 		"points" : 0,
 		"valid" : false,
-		"description" : "NPC trait that encumbers all parts of the body, reduces max HP by 60%, and makes it impossible to wear normal sized gear. It is a bug if you have it.",
+		"description" : "NPC trait that encumbers all parts of the body, reduces max HP by 40%, grants armor, and makes it impossible to wear normal sized gear. It is a bug if you have it.",
 		"threshold" : true,
 		"restricts_gear" : [ "HEAD", "TORSO", "ARM_L", "ARM_R", "LEG_L", "LEG_R", "HAND_L", "HAND_R", "FOOT_L", "FOOT_R" ],
 		"encumbrance_always" : [
@@ -5251,6 +5251,7 @@
             [ "FOOT_L", 10 ],
             [ "FOOT_R", 10 ]
         ],
-        "hp_modifier" : -0.5
+        "hp_modifier" : -0.4,
+        "armor" : [ { "parts" : "ALL", "bash" : 5, "cut" : 5 } ]
     }
 ]
