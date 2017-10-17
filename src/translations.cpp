@@ -7,6 +7,7 @@
 #include "translations.h"
 
 #include <string>
+#include <algorithm>
 
 #ifdef LOCALIZE
 #include <stdlib.h> // for getenv()/setenv()/putenv()
@@ -48,23 +49,25 @@ const char *npgettext( const char *const context, const char *const msgid,
 
 void select_language()
 {
-    const std::vector<std::pair<std::string, std::string>> languages =
-    {
-        {"en", "Welcome"},
-        {"zh_CN", "欢迎"},
-        {"zh_TW", "歡迎"}
-    };
-    std::vector<std::string> entries;
-    for( const auto i : languages )
-    {
-        entries.push_back( i.second );
+    auto languages = get_options().get_option("USE_LANG").getItems();
+
+    languages.erase( std::remove_if( languages.begin(), languages.end(), []( const std::pair<std::string, std::string> &lang ) {
+        return lang.first.empty() || lang.second.empty();
+    } ), languages.end() );
+
+    wrefresh( stdscr );
+
+    uimenu sm;
+    sm.selected = 0;
+    sm.text = _( "Select your language" );
+    for (size_t i = 0; i < languages.size(); i++) {
+        sm.addentry( i, true, MENU_AUTOASSIGN, languages[i].second );
     }
-    int ret = uimenu( false, "Select your language", entries );
-    if( ret < 1 || ret >= languages.size() ) {
-        debugmsg( "selected language out of bound" );
-        ret = 1;
-    }
-    get_options().get_option("USE_LANG").setValue( languages[ret - 1].first );
+    sm.query();
+
+    //debugmsg("%d", sm.ret);
+
+    get_options().get_option("USE_LANG").setValue( languages[sm.ret].first );
     get_options().save();
 }
 

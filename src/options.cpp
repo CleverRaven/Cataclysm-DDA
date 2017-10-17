@@ -522,6 +522,11 @@ int options_manager::cOpt::getItemPos(const std::string sSearch) const
     return -1;
 }
 
+std::vector<std::pair<std::string, std::string>> options_manager::cOpt::getItems() const
+{
+    return vItems;
+}
+
 int options_manager::cOpt::getMaxLength() const
 {
     if (sType == "string_input") {
