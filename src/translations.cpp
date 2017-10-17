@@ -47,6 +47,38 @@ const char *npgettext( const char *const context, const char *const msgid,
     }
 }
 
+/* "Useful" links:
+ *  https://www.science.co.il/language/Locale-codes.php
+ *  https://support.microsoft.com/de-de/help/193080/how-to-use-the-getuserdefaultlcid-windows-api-function-to-determine-op
+ *  https://msdn.microsoft.com/en-us/library/cc233965.aspx
+ */
+std::string getLangFromLCID(const int& lcid)
+{
+    static std::map<std::string, std::set<int>> lang_lcid;
+    if( lang_lcid.empty() ) {
+        lang_lcid["en"] = {{ 1033, 2057, 3081, 4105, 5129, 6153, 7177, 8201, 9225, 10249, 11273 }};
+        lang_lcid["fr"] = {{ 1036, 2060, 3084, 4108, 5132 }};
+        lang_lcid["de"] = {{ 1031, 2055, 3079, 4103, 5127 }};
+        lang_lcid["it_IT"] = {{ 1040, 2064 }};
+        lang_lcid["es_AR"] = {{ 11274 }};
+        lang_lcid["es_ES"] = {{ 1034, 2058, 3082, 4106, 5130, 6154, 7178, 8202, 9226, 10250, 12298, 13322, 14346, 15370, 16394, 17418, 18442, 19466, 20490 }};
+        lang_lcid["ja"] = {{ 1041 }};
+        lang_lcid["ko"] = {{ 1042 }};
+        lang_lcid["pl"] = {{ 1045 }};
+        lang_lcid["pt_BR"] = {{ 1046, 2070 }};
+        lang_lcid["ru"] = {{ 1049 }};
+        lang_lcid["zh_CN"] = {{ 2052, 3076, 4100 }};
+        lang_lcid["zh_TW"] = {{ 1028 }};
+    }
+
+    for( auto &lang : lang_lcid ) {
+        if( lang.second.find( lcid ) != lang.second.end() ) {
+            return lang.first;
+        }
+    }
+    return "";
+}
+
 void select_language()
 {
     auto languages = get_options().get_option("USE_LANG").getItems();
@@ -73,8 +105,12 @@ void select_language()
 
 void set_language()
 {
+    std::string win_lang = "";
+#if (defined _WIN32 || defined WINDOWS)
+    win_lang = getLangFromLCID( GetUserDefaultLCID() );
+#endif
     // Step 1. Setup locale settings.
-    std::string lang_opt = get_option<std::string>( "USE_LANG" );
+    std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? win_lang : get_option<std::string>( "USE_LANG" );
     if( lang_opt != "" ) { // Not 'System Language'
         // Overwrite all system locale settings. Use CDDA settings. User wants this.
 #if (defined _WIN32 || defined WINDOWS)
