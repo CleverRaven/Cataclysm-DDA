@@ -1241,9 +1241,11 @@ void CheckMessages()
                 if( lc <= 0 ) {
                     // a key we don't know in curses and won't handle.
                     break;
+#ifdef __linux__
                 } else if( SDL_COMPILEDVERSION == SDL_VERSIONNUM( 2, 0, 5 ) && ev.key.repeat ) {
                     // https://bugzilla.libsdl.org/show_bug.cgi?id=3637
                     break;
+#endif
                 } else if( add_alt_code( lc ) ) {
                     // key was handled
                 } else {
