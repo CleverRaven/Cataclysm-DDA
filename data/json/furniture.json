@@ -69,9 +69,10 @@
         "name": "road barricade",
         "symbol": "#",
         "bgcolor": "yellow",
-        "move_cost_mod": 3,
+        "move_cost_mod": -1,
         "required_str": 5,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE"],
+        "flags": ["CLIMB_SIMPLE", "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE"],
+        "examine_action": "chainfence",
         "deconstruct": {
             "items": [
                 { "item": "2x4", "count": 6 },
@@ -94,9 +95,10 @@
         "name": "sandbag barricade",
         "symbol": "#",
         "bgcolor": "brown",
-        "move_cost_mod": 3,
+        "move_cost_mod": -1,
         "required_str": -1,
-        "flags": ["TRANSPARENT", "MOUNTABLE", "BLOCKSDOOR", "SHORT", "EASY_DECONSTRUCT"],
+        "flags": ["CLIMB_SIMPLE", "TRANSPARENT", "MOUNTABLE", "BLOCKSDOOR", "SHORT", "EASY_DECONSTRUCT"],
+        "examine_action": "chainfence",
         "deconstruct": {
             "items": [
                 { "item": "bag_canvas", "count": 2 },
