@@ -404,30 +404,11 @@ int main(int argc, char *argv[])
 
     setupDebug();
 
-    std::string win_lang = "";
-#if (defined _WIN32 || defined WINDOWS)
-    win_lang = getLangFromLCID( GetUserDefaultLCID() );
-    //auto langdui = GetUserDefaultUILanguage(); //Access Violation ?!
-
-    //Does nothing on windows
-    /*auto getEnvVar = []( std::string const & key ) {
-     * char * val = getenv( key.c_str() );
-     * return val == NULL ? std::string("") : std::string(val);
-};*/
-
-    /*
-     L *CID lcid = 0;
-     BOOL ok = GetLocaleInfoEx(L"en-US", LOCALE_RETURN_NUMBER | LOCALE_ILANGUAGE, (LPWSTR)&lcid, sizeof(lcid));
-     assert(ok);
-     wprintf(L"LCID = %04x\n", lcid);
-     */
-#endif
-
     if (setlocale(LC_ALL, "") == NULL) {
         DebugLog(D_WARNING, D_MAIN) << "Error while setlocale(LC_ALL, ''). ";
     } else {
         try {
-            std::locale::global( std::locale( win_lang ) );
+            std::locale::global( std::locale( "" ) );
         } catch( const std::exception& ) {
             // if user default locale retrieval isn't implemented by system
             try{
@@ -499,6 +480,11 @@ int main(int argc, char *argv[])
     sigemptyset(&sigIntHandler.sa_mask);
     sigIntHandler.sa_flags = 0;
     sigaction(SIGINT, &sigIntHandler, NULL);
+#endif
+
+    std::string win_lang = "";
+#if (defined _WIN32 || defined WINDOWS)
+    win_lang = getLangFromLCID( GetUserDefaultLCID() );
 #endif
 
     if( get_option<std::string>( "USE_LANG" ).empty() && ( win_lang.empty() || getenv( "LANGUAGE" ) == NULL ) ) {
