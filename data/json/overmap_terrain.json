@@ -7174,82 +7174,28 @@
     "name": "mansion",
     "sym": 77,
     "color": "green",
->>>>>>> master
     "see_cost": 5,
     "mondensity": 2
   },
   {
-<<<<<<< HEAD
-    "type": "overmap_terrain",
-    "id": "lumberyard_1_0",
-    "name": "lumberyard",
-    "sym": 76,
-    "color": "i_green",
-=======
     "id": "mansion_c_up",
     "type": "overmap_terrain",
     "name": "mansion",
     "sym": 77,
     "color": "green",
->>>>>>> master
     "see_cost": 5,
     "mondensity": 2
   },
   {
-<<<<<<< HEAD
-    "type": "overmap_terrain",
-    "id": "lumberyard_1_1",
-    "name": "lumberyard",
-    "sym": 76,
-    "color": "i_green",
-=======
     "id": "mansion_c1u",
     "type": "overmap_terrain",
     "name": "mansion",
     "sym": 77,
     "color": "green",
->>>>>>> master
     "see_cost": 5,
     "mondensity": 2
   },
   {
-<<<<<<< HEAD
-    "type": "overmap_terrain",
-    "id": "zoo_0_0",
-    "name": "zoo parking",
-    "sym": 80,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "zoo_1_0",
-    "name": "zoo parking",
-    "sym": 80,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "zoo_2_0",
-    "name": "zoo pavilion",
-    "sym": 80,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "zoo_0_1",
-    "name": "zoo",
-    "sym": 90,
-    "color": "i_green",
-=======
     "id": "mansion_c2u",
     "type": "overmap_terrain",
     "name": "mansion",
@@ -7471,127 +7417,55 @@
     "name": "mansion",
     "sym": 77,
     "color": "green",
->>>>>>> master
     "see_cost": 5,
     "mondensity": 2
   },
   {
-<<<<<<< HEAD
-    "type": "overmap_terrain",
-    "id": "zoo_1_1",
-    "name": "zoo",
-    "sym": 90,
-    "color": "i_green",
-=======
     "id": "mansion_t1",
     "type": "overmap_terrain",
     "name": "mansion",
     "sym": 77,
     "color": "green",
->>>>>>> master
     "see_cost": 5,
     "mondensity": 2
   },
   {
-<<<<<<< HEAD
-    "type": "overmap_terrain",
-    "id": "zoo_2_1",
-    "name": "zoo",
-    "sym": 90,
-    "color": "i_green",
-=======
     "id": "mansion_t2",
     "type": "overmap_terrain",
     "name": "mansion",
     "sym": 77,
     "color": "green",
->>>>>>> master
     "see_cost": 5,
     "mondensity": 2
   },
   {
-<<<<<<< HEAD
-    "type": "overmap_terrain",
-    "id": "zoo_0_2",
-    "name": "zoo",
-    "sym": 90,
-    "color": "i_green",
-=======
     "id": "mansion_t4",
     "type": "overmap_terrain",
     "name": "mansion",
     "sym": 77,
     "color": "green",
->>>>>>> master
     "see_cost": 5,
     "mondensity": 2
   },
   {
-<<<<<<< HEAD
-    "type": "overmap_terrain",
-    "id": "zoo_1_2",
-    "name": "zoo",
-    "sym": 90,
-    "color": "i_green",
-=======
     "id": "mansion_t5",
     "type": "overmap_terrain",
     "name": "mansion",
     "sym": 77,
     "color": "green",
->>>>>>> master
     "see_cost": 5,
     "mondensity": 2
   },
   {
-<<<<<<< HEAD
-    "type": "overmap_terrain",
-    "id": "zoo_2_2",
-    "name": "zoo",
-    "sym": 90,
-    "color": "i_green",
-=======
     "id": "mansion_t6",
     "type": "overmap_terrain",
     "name": "mansion",
     "sym": 77,
     "color": "green",
->>>>>>> master
     "see_cost": 5,
     "mondensity": 2
   },
   {
-<<<<<<< HEAD
-    "type": "overmap_terrain",
-    "id": "candy_shop",
-    "name": "candy shop",
-    "sym": 67,
-    "color": "yellow",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "icecream_shop",
-    "name": "icecream shop",
-    "sym": 73,
-    "color": "white",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "bakery",
-    "name": "bakery",
-    "sym": 66,
-    "color": "yellow",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-   }
-=======
     "id": "mansion_t7",
     "type": "overmap_terrain",
     "name": "mansion",
@@ -7838,10 +7712,10 @@
     "mondensity": 2
   },
   {
+    "id": "orchard",
     "type": "overmap_terrain",
-    "id": "pet_store",
-    "name": "pet store",
-    "sym": 112,
+    "name": "orchard",
+    "sym": 35,
     "color": "i_green",
     "see_cost": 5,
     "mondensity": 2,
@@ -7849,56 +7723,184 @@
     "flags": [ "SIDEWALK" ]
   },
   {
+    "id": "dispensary",
     "type": "overmap_terrain",
-    "id": "construction_site",
-    "name": "construction site",
-    "sym": 120,
+    "name": "dispensary",
+    "sym": 68,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "skate_park",
+    "type": "overmap_terrain",
+    "name": "skate park",
+    "sym": 79,
+    "color": "grey",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "small_office",
+    "type": "overmap_terrain",
+    "name": "small office",
+    "sym": 111,
+    "color": "brown",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "small_wooded_trail",
+    "type": "overmap_terrain",
+    "name": "small wooded trail",
+    "sym": 83,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "art_gallery",
+    "type": "overmap_terrain",
+    "name": "art gallery",
+    "sym": 97,
+    "color": "i_yellow",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "derelict_property",
+    "type": "overmap_terrain",
+    "name": "derelict property",
+    "sym": 88,
+    "color": "i_brown",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "field"
+  },
+  {
+    "id": "state_park_0_0",
+    "type": "overmap_terrain",
+    "name": "state park",
+    "sym": 83,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "state_park_0_1",
+    "type": "overmap_terrain",
+    "name": "state park",
+    "sym": 83,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "state_park_1_0",
+    "type": "overmap_terrain",
+    "name": "state park parking",
+    "sym": 36,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "state_park_1_1",
+    "type": "overmap_terrain",
+    "name": "state park",
+    "sym": 83,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "pavilion",
+    "type": "overmap_terrain",
+    "name": "pavilion",
+    "sym": 65,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "fishing_pond_0_0",
+    "type": "overmap_terrain",
+    "name": "fishing pond",
+    "sym": 83,
+    "color": "i_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "fishing_pond_0_1",
+    "type": "overmap_terrain",
+    "name": "fishing pond",
+    "sym": 83,
+    "color": "i_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "fishing_pond_1_0",
+    "type": "overmap_terrain",
+    "name": "fishing pond",
+    "sym": 83,
+    "color": "i_blue",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "fishing_pond_1_1",
+    "type": "overmap_terrain",
+    "name": "fishing pond",
+    "sym": 83,
+    "color": "i_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "hunting_blind",
+    "type": "overmap_terrain",
+    "name": "hunting blind",
+    "sym": 72,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "field"
+  },
+  {
+    "id": "small_storage_units",
+    "type": "overmap_terrain",
+    "name": "small storage units",
+    "sym": 35,
+    "color": "i_yellow",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "id": "cemetery_small",
+    "type": "overmap_terrain",
+    "name": "small cemetery",
+    "sym": 67,
     "color": "i_grey",
     "see_cost": 5,
     "mondensity": 2,
     "extras": "build",
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "post_office",
-    "name": "post office",
-    "sym": 80,
-    "color": "blue",
-    "see_cost": 5,
-    "mondensity": 2,
-    "extras": "build",
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "bike_shop",
-    "name": "bike shop",
-    "sym": 66,
-    "color": "i_brown",
-    "see_cost": 5,
-    "mondensity": 2,
-    "extras": "build",
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lumberyard_0_0",
-    "name": "lumberyard",
-    "sym": 76,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lumberyard_0_1",
-    "name": "lumberyard",
-    "sym": 76,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2,
     "flags": [ "SIDEWALK" ]
   }
 ]
