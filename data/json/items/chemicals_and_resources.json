@@ -18,7 +18,7 @@
     "count" : 100
    },
 {
-    "type" : "GENERIC",
+    "type" : "AMMO",
     "id" : "chunk_sulfur",
     "category" : "spare_parts",
     "price" : 50,
@@ -552,7 +552,7 @@
     "count" : 50
    },
 {
-    "type" : "GENERIC",
+    "type" : "AMMO",
     "id" : "material_niter",
     "category" : "spare_parts",
     "price" : 75,
@@ -749,7 +749,6 @@
     "name_plural": "hickory nuts",
     "description": "A handful of hard nuts from a hickory tree, still in their shell.",
     "price": 0,
-    "material": "wood",
     "weight": 212,
     "volume": 1,
     "to_hit": -2

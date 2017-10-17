@@ -194,11 +194,11 @@ char inventory::find_usable_cached_invlet(const std::string &item_type)
     // Some of our preferred letters might already be used.
     for( auto invlet : invlet_cache[item_type] ) {
         // Don't overwrite user assignments.
-        if( g->u.assigned_invlet.count(invlet) ) {
+        if( assigned_invlet.count(invlet) ) {
             continue;
         }
         // Check if anything is using this invlet.
-        if( g->u.invlet_to_position( invlet ) != INT_MIN ) {
+        if( invlet_to_position( invlet ) != INT_MIN ) {
             continue;
         }
         return invlet;
@@ -856,10 +856,9 @@ void inventory::assign_empty_invlet(item &it, bool force)
         return;
     }
 
-    player *p = &(g->u);
-    std::set<char> cur_inv = p->allocated_invlets();
+    std::set<char> cur_inv = allocated_invlets();
     itype_id target_type = it.typeId();
-    for (auto iter : p->assigned_invlet) {
+    for (auto iter : assigned_invlet) {
         if (iter.second == target_type && !cur_inv.count(iter.first)) {
             it.invlet = iter.first;
             return;
@@ -867,7 +866,7 @@ void inventory::assign_empty_invlet(item &it, bool force)
     }
     if (cur_inv.size() < inv_chars.size()) {
         for( const auto &inv_char : inv_chars ) {
-            if( p->assigned_invlet.count(inv_char) ) {
+            if( assigned_invlet.count(inv_char) ) {
                 // don't overwrite assigned keys
                 continue;
             }
@@ -913,8 +912,8 @@ void inventory::reassign_item( item &it, char invlet, bool remove_old )
 
 void inventory::update_invlet( item &newit, bool assign_invlet ) {
     // Avoid letters that have been manually assigned to other things.
-    if( newit.invlet && g->u.assigned_invlet.find( newit.invlet ) != g->u.assigned_invlet.end() &&
-            g->u.assigned_invlet[newit.invlet] != newit.typeId() ) {
+    if( newit.invlet && assigned_invlet.find( newit.invlet ) != assigned_invlet.end() &&
+            assigned_invlet[newit.invlet] != newit.typeId() ) {
         newit.invlet = '\0';
     }
 

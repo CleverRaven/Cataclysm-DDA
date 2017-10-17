@@ -328,6 +328,9 @@ def extract_gun(item):
         modes = item.get("modes")
         for fire_mode in modes:
             writestr(outfile, fire_mode[1])
+    if "reload_noise" in item:
+        item_reload_noise = item.get("reload_noise")
+        writestr(outfile, item_reload_noise)
 
 
 def extract_gunmod(item):
@@ -521,10 +524,17 @@ def extract_mutation(item):
 
     if "attacks" in item:
         attacks = item.get("attacks")
-        if "attack_text_u" in attacks:
-            writestr(outfile, attacks.get("attack_text_u"))
-        if "attack_text_npc" in attacks:
-            writestr(outfile, attacks.get("attack_text_npc"))
+        if type(attacks) is list:
+            for i in attacks:
+                if "attack_text_u" in i:
+                    writestr(outfile, i.get("attack_text_u"))
+                if "attack_text_npc" in i:
+                    writestr(outfile, i.get("attack_text_npc"))
+        else:
+            if "attack_text_u" in attacks:
+                writestr(outfile, attacks.get("attack_text_u"))
+            if "attack_text_npc" in attacks:
+                writestr(outfile, attacks.get("attack_text_npc"))
 
     if "spawn_item" in item:
         writestr(outfile, item.get("spawn_item").get("message"))
@@ -823,9 +833,6 @@ def extract(item, infilename):
         writestr(outfile, seed_data["plant_name"], **kwargs)
     if "text" in item:
         writestr(outfile, item["text"], **kwargs)
-        wrote = True
-    if "reload_noise" in item:
-        writestr(outfile, item["reload_noise"], **kwargs)
         wrote = True
     if "messages" in item:
         for message in item["messages"]:

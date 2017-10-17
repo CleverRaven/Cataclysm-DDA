@@ -17,8 +17,8 @@ void clear_game( const ter_id &terrain )
 {
     // Set to turn 0 to prevent solars from producing power
     calendar::turn = 0;
-    while( g->num_zombies() > 0 ) {
-        g->remove_zombie( g->zombie( 0 ) );
+    for( monster &critter : g->all_monsters() ) {
+        g->remove_zombie( critter );
     }
 
     g->unload_npcs();

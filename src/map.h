@@ -941,7 +941,6 @@ void add_corpse( const tripoint &p );
  void trap_set( const tripoint &p, const trap_id id);
 
     const trap & tr_at( const tripoint &p ) const;
- void add_trap( const tripoint &p, const trap_id t);
  void disarm_trap( const tripoint &p );
  void remove_trap( const tripoint &p );
  const std::vector<tripoint> &trap_locations(trap_id t) const;

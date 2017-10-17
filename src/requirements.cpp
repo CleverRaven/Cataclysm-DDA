@@ -370,7 +370,7 @@ void inline_requirements( std::vector< std::vector<T> > &list, Getter getter )
     for( auto &vec : list ) {
         // We always need to restart from the beginning in case of vector relocation
         while( true ) {
-            auto iter = std::find_if( vec.begin(), vec.end(), []( const T &req ) {
+            auto iter = std::find_if( vec.begin(), vec.end(), []( const T & req ) {
                 return req.requirement;
             } );
             if( iter == vec.end() ) {
@@ -419,8 +419,12 @@ void inline_requirements( std::vector< std::vector<T> > &list, Getter getter )
 void requirement_data::finalize()
 {
     for( auto &r : const_cast<std::map<requirement_id, requirement_data> &>( all() ) ) {
-        inline_requirements( r.second.tools, []( const requirement_data &d ) { return d.get_tools(); } );
-        inline_requirements( r.second.components, []( const requirement_data &d ) { return d.get_components(); } );
+        inline_requirements( r.second.tools, []( const requirement_data & d ) {
+            return d.get_tools();
+        } );
+        inline_requirements( r.second.components, []( const requirement_data & d ) {
+            return d.get_components();
+        } );
         auto &vec = r.second.tools;
         for( auto &list : vec ) {
             std::vector<tool_comp> new_list;
@@ -442,7 +446,7 @@ void requirement_data::reset()
 }
 
 std::vector<std::string> requirement_data::get_folded_components_list( int width, nc_color col,
-        const inventory &crafting_inv, int batch ) const
+        const inventory &crafting_inv, int batch, std::string hilite ) const
 {
     std::vector<std::string> out_buffer;
     if( components.empty() ) {
@@ -454,7 +458,8 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
     out_buffer.push_back( current_line.str() );
     current_line.str( "" );
 
-    std::vector<std::string> folded_buffer = get_folded_list( width, crafting_inv, components, batch );
+    std::vector<std::string> folded_buffer =
+      get_folded_list( width, crafting_inv, components, batch, hilite );
     out_buffer.insert( out_buffer.end(), folded_buffer.begin(), folded_buffer.end() );
 
     return out_buffer;
@@ -463,7 +468,7 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
 template<typename T>
 std::vector<std::string> requirement_data::get_folded_list( int width,
         const inventory &crafting_inv, const std::vector< std::vector<T> > &objs,
-        int batch ) const
+        int batch, std::string hilite ) const
 {
     // hack: ensure 'cached' availability is up to date
     can_make_with_inventory( crafting_inv );
@@ -477,7 +482,13 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
                 buffer << "<color_white> " << _( "OR" ) << "</color> ";
             }
             const std::string col = a->get_color( has_one, crafting_inv, batch );
-            buffer << "<color_" << col << ">" << a->to_string( batch ) << "</color>";
+
+            if( !hilite.empty() && lcmatch( a->to_string( batch ), hilite ) ) {
+                buffer << get_tag_from_color( yellow_background( color_from_string( col ) ) );
+            } else {
+                buffer << "<color_" << col << ">";
+            }
+            buffer << a->to_string( batch ) << "</color>" << "</color>";
         }
         std::vector<std::string> folded = foldstring( buffer.str(), width - 2 );
 
@@ -713,7 +724,7 @@ static bool apply_blacklist( std::vector<std::vector<T>> &vec, const std::string
 {
     // remove all instances of @id type from each of the options
     for( auto &opts : vec ) {
-        opts.erase( std::remove_if( opts.begin(), opts.end(), [&id]( const T &e ) {
+        opts.erase( std::remove_if( opts.begin(), opts.end(), [&id]( const T & e ) {
             return e.type == id;
         } ), opts.end() );
     }

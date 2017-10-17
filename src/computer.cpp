@@ -448,7 +448,7 @@ void computer::activate_function(computer_action action, char ch)
                     if (g->m.tr_at( tmp ).id == trap_str_id( "tr_portal" )) {
                         g->m.remove_trap( tmp );
                     } else {
-                        g->m.add_trap( tmp, tr_portal );
+                        g->m.trap_set( tmp, tr_portal );
                     }
                 }
             }

@@ -7124,6 +7124,720 @@
     "flags": [ "SIDEWALK" ]
   },
   {
+    "id": "mansion_c",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_c1",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_c2",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_c3",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_c4",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_c5",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+>>>>>>> master
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+<<<<<<< HEAD
+    "type": "overmap_terrain",
+    "id": "lumberyard_1_0",
+    "name": "lumberyard",
+    "sym": 76,
+    "color": "i_green",
+=======
+    "id": "mansion_c_up",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+>>>>>>> master
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+<<<<<<< HEAD
+    "type": "overmap_terrain",
+    "id": "lumberyard_1_1",
+    "name": "lumberyard",
+    "sym": 76,
+    "color": "i_green",
+=======
+    "id": "mansion_c1u",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+>>>>>>> master
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+<<<<<<< HEAD
+    "type": "overmap_terrain",
+    "id": "zoo_0_0",
+    "name": "zoo parking",
+    "sym": 80,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_1_0",
+    "name": "zoo parking",
+    "sym": 80,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_2_0",
+    "name": "zoo pavilion",
+    "sym": 80,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_0_1",
+    "name": "zoo",
+    "sym": 90,
+    "color": "i_green",
+=======
+    "id": "mansion_c2u",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_c3u",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_c4u",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_c5u",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_c_dn",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_c1d",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_c2d",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_c3d",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_c4d",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_c5d",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_+",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_+1",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_+2",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_+3",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_+4",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_+_up",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_+1u",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_+2u",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_+3u",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_+4u",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_+_dn",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_+1d",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_+2d",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_+4d",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_t",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+>>>>>>> master
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+<<<<<<< HEAD
+    "type": "overmap_terrain",
+    "id": "zoo_1_1",
+    "name": "zoo",
+    "sym": 90,
+    "color": "i_green",
+=======
+    "id": "mansion_t1",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+>>>>>>> master
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+<<<<<<< HEAD
+    "type": "overmap_terrain",
+    "id": "zoo_2_1",
+    "name": "zoo",
+    "sym": 90,
+    "color": "i_green",
+=======
+    "id": "mansion_t2",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+>>>>>>> master
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+<<<<<<< HEAD
+    "type": "overmap_terrain",
+    "id": "zoo_0_2",
+    "name": "zoo",
+    "sym": 90,
+    "color": "i_green",
+=======
+    "id": "mansion_t4",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+>>>>>>> master
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+<<<<<<< HEAD
+    "type": "overmap_terrain",
+    "id": "zoo_1_2",
+    "name": "zoo",
+    "sym": 90,
+    "color": "i_green",
+=======
+    "id": "mansion_t5",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+>>>>>>> master
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+<<<<<<< HEAD
+    "type": "overmap_terrain",
+    "id": "zoo_2_2",
+    "name": "zoo",
+    "sym": 90,
+    "color": "i_green",
+=======
+    "id": "mansion_t6",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+>>>>>>> master
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+<<<<<<< HEAD
+    "type": "overmap_terrain",
+    "id": "candy_shop",
+    "name": "candy shop",
+    "sym": 67,
+    "color": "yellow",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "icecream_shop",
+    "name": "icecream shop",
+    "sym": 73,
+    "color": "white",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bakery",
+    "name": "bakery",
+    "sym": 66,
+    "color": "yellow",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+   }
+=======
+    "id": "mansion_t7",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_t_up",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_t1u",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_t2u",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_t4u",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_t5u",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_t6u",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_t7u",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_t_dn",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_t1d",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_t2d",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_t4d",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_t5d",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_t6d",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_t7d",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_entry",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "light_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags" : [ "SIDEWALK" ]
+  },
+  {
+    "id": "mansion_e1",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "light_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags" : [ "SIDEWALK" ]
+  },
+  {
+    "id": "mansion_e2",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "light_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags" : [ "SIDEWALK" ]
+  },
+  {
+    "id": "mansion_entry_up",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_e1u",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_e2u",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_entry_dn",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_e1d",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_e2d",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_wild",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "light_green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_wild_up",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "id": "mansion_wild_dn",
+    "type": "overmap_terrain",
+    "name": "mansion",
+    "sym": 77,
+    "color": "green",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
     "type": "overmap_terrain",
     "id": "pet_store",
     "name": "pet store",
@@ -7184,138 +7898,7 @@
     "sym": 76,
     "color": "i_green",
     "see_cost": 5,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lumberyard_1_0",
-    "name": "lumberyard",
-    "sym": 76,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "lumberyard_1_1",
-    "name": "lumberyard",
-    "sym": 76,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "zoo_0_0",
-    "name": "zoo parking",
-    "sym": 80,
-    "color": "i_green",
-    "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "zoo_1_0",
-    "name": "zoo parking",
-    "sym": 80,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "zoo_2_0",
-    "name": "zoo pavilion",
-    "sym": 80,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "zoo_0_1",
-    "name": "zoo",
-    "sym": 90,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "zoo_1_1",
-    "name": "zoo",
-    "sym": 90,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "zoo_2_1",
-    "name": "zoo",
-    "sym": 90,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "zoo_0_2",
-    "name": "zoo",
-    "sym": 90,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "zoo_1_2",
-    "name": "zoo",
-    "sym": 90,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "zoo_2_2",
-    "name": "zoo",
-    "sym": 90,
-    "color": "i_green",
-    "see_cost": 5,
-    "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "candy_shop",
-    "name": "candy shop",
-    "sym": 67,
-    "color": "yellow",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "icecream_shop",
-    "name": "icecream shop",
-    "sym": 73,
-    "color": "white",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "bakery",
-    "name": "bakery",
-    "sym": 66,
-    "color": "yellow",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-   }
+  }
 ]

@@ -168,8 +168,8 @@ invlet_state check_invlet( player &p, item &it, char invlet ) {
     if( it.invlet == '\0' ) {
         return NONE;
     } else if( it.invlet == invlet ) {
-        if( p.assigned_invlet.find( invlet ) != p.assigned_invlet.end() &&
-                p.assigned_invlet[invlet] == it.typeId() ) {
+        if( p.inv.assigned_invlet.find( invlet ) != p.inv.assigned_invlet.end() &&
+            p.inv.assigned_invlet[invlet] == it.typeId() ) {
             return ASSIGNED;
         } else {
             return CACHED;
