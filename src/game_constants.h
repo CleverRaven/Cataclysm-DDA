@@ -95,7 +95,7 @@
 constexpr double accuracy_headshot = 0.1;
 constexpr double accuracy_critical = 0.2;
 constexpr double accuracy_goodhit  = 0.5;
-constexpr double accuracy_standard = 0.8;
+constexpr double accuracy_standard = 0.95;
 constexpr double accuracy_grazing  = 1.0;
 
 /** Minimum item damage output of relevant type to allow using with relevant weapon skill */
