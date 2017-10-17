@@ -89,7 +89,12 @@ class recipe_subset
 
         /** Check if the subset contains a recipe with the specified id. */
         bool contains( const recipe *r ) const {
-            return recipes.find( r ) != recipes.end();
+            for (const auto &elem : recipes) {
+                if (elem->ident() == r->ident()) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         /**
