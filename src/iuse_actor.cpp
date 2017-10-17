@@ -1804,11 +1804,9 @@ void musical_instrument_actor::load( JsonObject &obj )
 long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint& ) const
 {
     if( p.is_underwater() ) {
-        if ( p.is_player() ) {
-            p.add_msg_if_player(m_bad, _("You can't play music underwater"));
-        } else {
-            p.add_msg_player_or_npc(m_bad, p.disp_name(false).c_str(), _("%s can't play music underwater"), p.disp_name(false).c_str());
-        }
+        p.add_msg_player_or_npc(m_bad,
+                                _("You can't play music underwater"),
+                                _("<npcname> can't play music underwater"));
         it.active = false;
         return 0;
     }
@@ -1816,21 +1814,18 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
     // Stop playing a wind instrument when winded or even eventually become winded while playing it?
     // It's impossible to distinguish instruments for now anyways.
     if( p.has_effect( effect_sleep ) || p.has_effect( effect_stunned ) || p.has_effect( effect_asthma ) ) {
-        if ( p.is_player() ) {
-            p.add_msg_if_player( m_bad, _("You stop playing your %s"), it.display_name().c_str() );
-        } else {
-            p.add_msg_player_or_npc( m_bad, p.disp_name(false).c_str(), _("%s stops playing their %s"), p.disp_name(false).c_str(), it.display_name().c_str() );
-        }
+        p.add_msg_player_or_npc( m_bad,
+                                 _("You stop playing your %s"),
+                                 _("<npcname> stops playing their %s"),
+                                 it.display_name().c_str() );
         it.active = false;
         return 0;
     }
 
     if( !t && it.active ) {
-        if (p.is_player()) {
-            p.add_msg_if_player(_("You stop playing your %s"), it.display_name().c_str());
-        } else {
-            p.add_msg_player_or_npc(p.disp_name(false).c_str(), _("%s stops playing their %s"), p.disp_name(false).c_str(), it.display_name().c_str());
-        }
+        p.add_msg_player_or_npc(_("You stop playing your %s"),
+                                _("<npcname> stops playing their %s"),
+                                it.display_name().c_str());
         it.active = false;
         return 0;
     }
@@ -1839,34 +1834,30 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
     // TODO: Distinguish instruments played with hands and with mouth, consider encumbrance
     const int inv_pos = p.get_item_position( &it );
     if( inv_pos >= 0 || inv_pos == INT_MIN ) {
-        if ( p.is_player() ) {
-            p.add_msg_if_player( m_bad, _("You need to hold or wear %s to play it"), it.display_name().c_str() );
-        } else {
-            p.add_msg_player_or_npc( m_bad, p.disp_name(false).c_str(), _("%s needs to hold or wear %s to play it"), p.disp_name(false).c_str(), it.display_name().c_str());
-        }
+        p.add_msg_player_or_npc( m_bad,
+                                 _("You need to hold or wear %s to play it"),
+                                 _("<npcname> needs to hold or wear %s to play it"),
+                                 it.display_name().c_str());
         it.active = false;
         return 0;
     }
 
     // At speed this low you can't coordinate your actions well enough to play the instrument
     if( p.get_speed() <= 25 + speed_penalty ) {
-        if ( p.is_player() ) {
-            p.add_msg_if_player(m_bad, _("You feel too weak to play your %s"), it.display_name().c_str());
-        } else {
-            p.add_msg_player_or_npc( m_bad, p.disp_name(false).c_str(), _("%s feels too weak to play their %s"), p.disp_name(false).c_str(), it.display_name().c_str());
-        }
+        p.add_msg_player_or_npc( m_bad,
+                                 _("You feel too weak to play your %s"),
+                                 _("<npcname> feels too weak to play their %s"),
+                                 it.display_name().c_str());
         it.active = false;
         return 0;
     }
 
     // We can play the music now
     if( !it.active ) {
-        if ( p.is_player() ) {
-            p.add_msg_if_player(m_good, _("You start playing your %s"), it.display_name().c_str());
-        } else {
-            p.add_msg_player_or_npc(m_good, p.disp_name(false).c_str(), _("%s starts playing their %s"), p.disp_name(false).c_str(), it.display_name().c_str());
-            p.add_msg_if_player(m_good, _("%s starts playing their %s"), p.disp_name(false).c_str(), it.display_name().c_str() );
-        }
+        p.add_msg_player_or_npc(m_good,
+                                _("You start playing your %s"),
+                                _("<npcname> starts playing their %s"),
+                                it.display_name().c_str());
         it.active = true;
     }
 
