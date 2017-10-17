@@ -52,7 +52,7 @@ const char *npgettext( const char *const context, const char *const msgid,
  *  https://support.microsoft.com/de-de/help/193080/how-to-use-the-getuserdefaultlcid-windows-api-function-to-determine-op
  *  https://msdn.microsoft.com/en-us/library/cc233965.aspx
  */
-std::string getLangFromLCID(const int& lcid)
+std::string getLangFromLCID( const int &lcid )
 {
     static std::map<std::string, std::set<int>> lang_lcid;
     if( lang_lcid.empty() ) {
@@ -81,9 +81,10 @@ std::string getLangFromLCID(const int& lcid)
 
 void select_language()
 {
-    auto languages = get_options().get_option("USE_LANG").getItems();
+    auto languages = get_options().get_option( "USE_LANG" ).getItems();
 
-    languages.erase( std::remove_if( languages.begin(), languages.end(), []( const std::pair<std::string, std::string> &lang ) {
+    languages.erase( std::remove_if( languages.begin(),
+    languages.end(), []( const std::pair<std::string, std::string> &lang ) {
         return lang.first.empty() || lang.second.empty();
     } ), languages.end() );
 
@@ -92,14 +93,12 @@ void select_language()
     uimenu sm;
     sm.selected = 0;
     sm.text = _( "Select your language" );
-    for (size_t i = 0; i < languages.size(); i++) {
+    for( size_t i = 0; i < languages.size(); i++ ) {
         sm.addentry( i, true, MENU_AUTOASSIGN, languages[i].second );
     }
     sm.query();
 
-    //debugmsg("%d", sm.ret);
-
-    get_options().get_option("USE_LANG").setValue( languages[sm.ret].first );
+    get_options().get_option( "USE_LANG" ).setValue( languages[sm.ret].first );
     get_options().save();
 }
 
@@ -110,7 +109,8 @@ void set_language()
     win_lang = getLangFromLCID( GetUserDefaultLCID() );
 #endif
     // Step 1. Setup locale settings.
-    std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? win_lang : get_option<std::string>( "USE_LANG" );
+    std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? win_lang :
+                           get_option<std::string>( "USE_LANG" );
     if( lang_opt != "" ) { // Not 'System Language'
         // Overwrite all system locale settings. Use CDDA settings. User wants this.
 #if (defined _WIN32 || defined WINDOWS)
