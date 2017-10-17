@@ -60,15 +60,15 @@ std::string getLangFromLCID( const int &lcid )
         lang_lcid["fr"] = {{ 1036, 2060, 3084, 4108, 5132 }};
         lang_lcid["de"] = {{ 1031, 2055, 3079, 4103, 5127 }};
         lang_lcid["it_IT"] = {{ 1040, 2064 }};
-        lang_lcid["es_AR"] = {{ 11274 }};
+        lang_lcid["es_AR"] = { 11274 };
         lang_lcid["es_ES"] = {{ 1034, 2058, 3082, 4106, 5130, 6154, 7178, 8202, 9226, 10250, 12298, 13322, 14346, 15370, 16394, 17418, 18442, 19466, 20490 }};
-        lang_lcid["ja"] = {{ 1041 }};
-        lang_lcid["ko"] = {{ 1042 }};
-        lang_lcid["pl"] = {{ 1045 }};
+        lang_lcid["ja"] = { 1041 };
+        lang_lcid["ko"] = { 1042 };
+        lang_lcid["pl"] = { 1045 };
         lang_lcid["pt_BR"] = {{ 1046, 2070 }};
-        lang_lcid["ru"] = {{ 1049 }};
+        lang_lcid["ru"] = { 1049 };
         lang_lcid["zh_CN"] = {{ 2052, 3076, 4100 }};
-        lang_lcid["zh_TW"] = {{ 1028 }};
+        lang_lcid["zh_TW"] = { 1028 };
     }
 
     for( auto &lang : lang_lcid ) {
