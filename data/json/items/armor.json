@@ -163,7 +163,7 @@
     "encumbrance": 70,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "WATER_FRIENDLY", "OUTER", "SPLINT" ]
+    "flags": [ "WATER_FRIENDLY", "OUTER", "SPLINT", "OVERSIZE" ]
   },
   {
     "id": "arm_warmers",
@@ -5590,7 +5590,7 @@
     "encumbrance": 70,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "WATER_FRIENDLY", "OUTER", "SPLINT" ]
+    "flags": [ "WATER_FRIENDLY", "OUTER", "SPLINT", "OVERSIZE" ]
   },
   {
     "id": "leg_warmers",
