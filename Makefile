@@ -961,7 +961,11 @@ else
 endif
 
 style-json: json_whitelist json_formatter
+ifndef CROSS
 	xargs -a json_whitelist -L 1 tools/format/json_formatter.cgi
+else
+	@echo Cannot run json formatter in cross compiles.
+endif
 
 style-all-json: json_formatter
 	find data -name "*.json" -print0 | xargs -0 -L 1 tools/format/json_formatter.cgi
