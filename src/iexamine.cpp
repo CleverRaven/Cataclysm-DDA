@@ -745,11 +745,20 @@ void iexamine::crate(player &p, const tripoint &examp)
 
 void iexamine::chainfence( player &p, const tripoint &examp )
 {
-    if( !query_yn( _( "Climb %s?" ), g->m.tername( examp ).c_str() ) ) {
-        none( p, examp );
-        return;
+    // Skip prompt if easy to climb.
+    if( !g->m.has_flag( "CLIMB_SIMPLE", examp ) ) {
+        if( !query_yn( _( "Climb %s?" ), g->m.tername( examp ).c_str() ) ) {
+            none( p, examp );
+            return;
+        }
     }
-    if( p.has_trait( trait_ARACHNID_ARMS_OK ) && !p.wearing_something_on( bp_torso ) ) {
+    if ( g->m.has_flag( "CLIMB_SIMPLE", examp ) && p.has_trait( trait_PARKOUR ) ) {
+        add_msg( _( "You mantle over the obstacle with ease." ) );
+        p.moves -= 100; // Not tall enough to warrant spider-climbing, so only relevant trait.
+    } else if ( g->m.has_flag( "CLIMB_SIMPLE", examp ) ) {
+        add_msg( _( "You mantle over the obstacle." ) );
+        p.moves -= 300; // Most common move cost for barricades pre-change.
+    } else if( p.has_trait( trait_ARACHNID_ARMS_OK ) && !p.wearing_something_on( bp_torso ) ) {
         add_msg( _( "Climbing the fence is trivial for one such as you." ) );
         p.moves -= 75; // Yes, faster than walking.  6-8 limbs are impressive.
     } else if( p.has_trait( trait_INSECT_ARMS_OK ) && !p.wearing_something_on( bp_torso ) ) {
