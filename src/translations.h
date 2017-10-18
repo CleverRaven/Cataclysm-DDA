@@ -52,6 +52,7 @@ const char *strip_positional_formatting( const char *msgid );
 #define npgettext(STRING0, STRING1, STRING2, COUNT) ngettext(STRING1, STRING2, COUNT)
 
 #endif // LOCALIZE
+bool isValidLanguage( const std::string &lang );
 std::string getLangFromLCID( const int &lcid );
 void select_language();
 void set_language();

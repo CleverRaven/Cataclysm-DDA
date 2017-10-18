@@ -47,6 +47,16 @@ const char *npgettext( const char *const context, const char *const msgid,
     }
 }
 
+bool isValidLanguage( const std::string &lang )
+{
+    debugmsg("%s", lang.c_str());
+    const auto languages = get_options().get_option( "USE_LANG" ).getItems();
+    return std::find_if( languages.begin(),
+    languages.end(), [&lang]( const std::pair<std::string, std::string> &pair ) {
+        return pair.first == lang || pair.first == lang.substr( 0, 2 );
+    } ) != languages.end();
+}
+
 /* "Useful" links:
  *  https://www.science.co.il/language/Locale-codes.php
  *  https://support.microsoft.com/de-de/help/193080/how-to-use-the-getuserdefaultlcid-windows-api-function-to-determine-op
@@ -111,7 +121,7 @@ void set_language()
     // Step 1. Setup locale settings.
     std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? win_lang :
                            get_option<std::string>( "USE_LANG" );
-    if( lang_opt != "" ) { // Not 'System Language'
+    if( !lang_opt.empty() ) { // Not 'System Language'
         // Overwrite all system locale settings. Use CDDA settings. User wants this.
 #if (defined _WIN32 || defined WINDOWS)
         std::string lang_env = "LANGUAGE=" + lang_opt;
@@ -162,6 +172,16 @@ void set_language()
 
 #include <cstring> // strcmp
 #include <map>
+
+bool isValidLanguage( const std::string &lang )
+{
+    return true;
+}
+
+std::string getLangFromLCID( const int &lcid )
+{
+    return "";
+}
 
 void select_language()
 {
