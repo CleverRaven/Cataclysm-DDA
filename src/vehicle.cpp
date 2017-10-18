@@ -412,13 +412,14 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         }
 
         if( pt.is_battery() ) {
-            // Randomise battery ammo a bit
-            if (one_in(2)) {
-                pt.ammo_set("battery", pt.ammo_capacity() * (veh_fuel_mult + rng(3, 10)) / 100);
-            } else if (one_in(2)) {
-                pt.ammo_set("battery", pt.ammo_capacity() * (veh_fuel_mult - rng(0, 3)) / 100);
+            if( veh_fuel_mult == 100 ) { // Mint condition vehicle
+                pt.ammo_set( "battery", pt.ammo_capacity() * veh_fuel_mult / 100 );
+            } else if( one_in( 2 ) ) { // Randomise battery ammo a bit
+                pt.ammo_set( "battery", pt.ammo_capacity() * ( veh_fuel_mult + rng( 3, 10 ) ) / 100 );
+            } else if( one_in( 2 ) ) {
+                pt.ammo_set( "battery", pt.ammo_capacity() * ( veh_fuel_mult - rng( 0, 3 ) ) / 100 );
             } else {
-                pt.ammo_set("battery", pt.ammo_capacity() * veh_fuel_mult / 100);
+                pt.ammo_set( "battery", pt.ammo_capacity() * veh_fuel_mult / 100 );
             }
         }
 
@@ -469,15 +470,9 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
                     } while( one_in( 3 ) );
                 }
 
-            } else if (destroyTires && part_flag(p, VPFLAG_WHEEL)) {
-                // 50% chance of a wheel being destroyed but make sure at least 2 are destroyed
-                if (one_in(2) || wheelsDestoryed < 2) {
-                    set_hp(parts[p], 0);
-                    wheelsDestoryed++;
-                }
             } else if ((destroySeats && (part_flag(p, "SEAT") || part_flag(p, "SEATBELT"))) ||
                 (destroyControls && (part_flag(p, "CONTROLS") || part_flag(p, "SECURITY"))) ||
-                (destroyAlarm && part_flag(p, "SECURITY"))) {
+                destroyTires && part_flag( p, VPFLAG_WHEEL ) || (destroyAlarm && part_flag(p, "SECURITY"))) {
                 set_hp( parts[ p ], 0 );
             }
 
