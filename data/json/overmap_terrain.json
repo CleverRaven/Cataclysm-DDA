@@ -8087,7 +8087,8 @@
     "see_cost": 5,
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
-   },
+  },
+  {
     "type": "overmap_terrain",
     "id": "icecream_shop",
     "name": "icecream shop",
