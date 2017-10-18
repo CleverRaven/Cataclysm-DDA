@@ -1161,7 +1161,7 @@ void load_construction(JsonObject &jo)
         con.requirements = requirement_id( jo.get_string( "using" ) );
     } else {
         // Warning: the IDs may change!
-        std::string req_id = string_format( "inline_construction_%i", con.id );
+        std::string req_id = string_format( "inline_construction_%u", con.id );
         requirement_data::load_requirement( jo, req_id );
         con.requirements = requirement_id( req_id );
     }
@@ -1262,7 +1262,7 @@ void check_constructions()
             }
         }
         if( c->id != i ) {
-            debugmsg( "Construction \"%s\" has id %d, but should have %d",
+            debugmsg( "Construction \"%s\" has id %u, but should have %u",
                       c->description.c_str(), c->id, i );
         }
     }
