@@ -298,7 +298,6 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     bool blood_inside = false;
     bool has_no_key = false;
     bool destroyAlarm = false;
-    int wheelsDestoryed = 0;
 
     // More realistically it should be -5 days old
     last_update_turn = 0;
@@ -414,10 +413,10 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         if( pt.is_battery() ) {
             if( veh_fuel_mult == 100 ) { // Mint condition vehicle
                 pt.ammo_set( "battery", pt.ammo_capacity() );
-            } else if( one_in( 2 ) ) { // Randomise battery ammo a bit
-                pt.ammo_set( "battery", pt.ammo_capacity() * ( veh_fuel_mult + rng( 3, 10 ) ) / 100 );
-            } else if( one_in( 2 ) ) {
-                pt.ammo_set( "battery", pt.ammo_capacity() * ( veh_fuel_mult - rng( 0, 3 ) ) / 100 );
+            } else if( one_in( 2 ) && veh_fuel_mult > 0 ) { // Randomise battery ammo a bit
+                pt.ammo_set( "battery", pt.ammo_capacity() * ( veh_fuel_mult + rng( 0, 10 ) ) / 100 );
+            } else if( one_in( 2 ) && veh_fuel_mult > 0 ) {
+                pt.ammo_set( "battery", pt.ammo_capacity() * ( veh_fuel_mult - rng( 0, 10 ) ) / 100 );
             } else {
                 pt.ammo_set( "battery", pt.ammo_capacity() * veh_fuel_mult / 100 );
             }
@@ -531,16 +530,11 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     }
     // destroy tires until the vehicle is not drivable
     if( destroyTires ) {
-        for( size_t p = 0; p < parts.size(); p++ ) {
-            if( part_flag( p, VPFLAG_WHEEL ) ) {
-                if( valid_wheel_config( false ) ) {
-                    // wheel config is still valid, destroy the tire.
-                    set_hp( parts[p], 0 );
-                } else if( one_in( 2 ) ) {
-                    // 50% chance that other tires can be destroyed
-                    set_hp( parts[p], 0 );
-                }
-            }
+        int tries = 0;
+        while( valid_wheel_config( false ) && tries < 100 ) {
+            // wheel config is still valid, destroy the tire.
+            set_hp( parts[random_entry( wheelcache )], 0 );
+            tries++;
         }
     }
     
