@@ -472,7 +472,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 
             } else if ((destroySeats && (part_flag(p, "SEAT") || part_flag(p, "SEATBELT"))) ||
                 (destroyControls && (part_flag(p, "CONTROLS") || part_flag(p, "SECURITY"))) ||
-                destroyTires && part_flag( p, VPFLAG_WHEEL ) || (destroyAlarm && part_flag(p, "SECURITY"))) {
+                (destroyAlarm && part_flag(p, "SECURITY"))) {
                 set_hp( parts[ p ], 0 );
             }
 
@@ -529,7 +529,21 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             }
         }
     }
-
+    // destroy tires until the vehicle is not drivable
+    if( destroyTires ) {
+        for( size_t p = 0; p < parts.size(); p++ ) {
+            if( part_flag( p, VPFLAG_WHEEL ) ) {
+                if( valid_wheel_config( false ) ) {
+                    // wheel config is still valid, destroy the tire.
+                    set_hp( parts[p], 0 );
+                } else if( one_in( 2 ) ) {
+                    // 50% chance that other tires can be destroyed
+                    set_hp( parts[p], 0 );
+                }
+            }
+        }
+    }
+    
     invalidate_mass();
 }
 /**
