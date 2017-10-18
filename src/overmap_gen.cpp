@@ -11,6 +11,11 @@ using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
 
 struct city_block_stub {
+    city_block_stub( const tripoint &p, om_direction::type d )
+        : origin( p ), dir( d )
+    {
+    }
+
     tripoint origin;
     om_direction::type dir;
 };
@@ -257,14 +262,15 @@ void overmap_gen::build_city( overmap &om, const tripoint &city_origin, int size
     // Pick random direction
     {
         om_direction::type end_dir = random_entry( om_direction::all );
-        //om_direction::type cur_dir = end_dir;
-        om_direction::type cur_dir = om_direction::turn_left( end_dir );
+        om_direction::type cur_dir = end_dir;
         do {
             cur_dir = om_direction::turn_right( cur_dir );
-            to_build.emplace( city_block_stub{ city_origin, cur_dir } );
+            to_build.emplace( city_origin, cur_dir );
         } while( cur_dir != end_dir );
     }
 
+    // Old overmapgen roads - we only want those after all blocks are built
+    std::queue<city_block_stub> small_roads;
     while( !to_build.empty() ) {
         const city_block_stub cur_block = to_build.front();
         to_build.pop();
@@ -275,10 +281,7 @@ void overmap_gen::build_city( overmap &om, const tripoint &city_origin, int size
         if( leftover_area < 0.0f ) {
             continue;
         } else if( leftover_area < 3.0f ) {
-        /*
-            int road_len = roll_remainder( sqrt( leftover_area ) );
-            build_city_street( local_road, { origin.x, origin.y }, road_len, cur_block.dir, new_city );
-        */
+            small_roads.emplace( origin, cur_block.dir );
             continue;
         }
 
@@ -291,10 +294,7 @@ void overmap_gen::build_city( overmap &om, const tripoint &city_origin, int size
         int max_length = free_or_road_len( om, origin, cur_dir, static_cast<int>( std::min( size / 2.0f, leftover_area / 5.0f ) ) ) - 1; 
         int max_width = free_or_road_len( om, origin, width_dir, 7 ) - 1;
         if( max_length < 4 || max_length < 4 ) {
-        /*
-            int road_len = roll_remainder( sqrt( leftover_area ) );
-            build_city_street( local_road, { origin.x, origin.y }, road_len, cur_dir, new_city );
-        */
+            small_roads.emplace( origin, cur_block.dir );
             continue;
         }
 
@@ -311,10 +311,7 @@ void overmap_gen::build_city( overmap &om, const tripoint &city_origin, int size
         // It may be too small, though
         // If so, fallback to old city gen
         if( width < 4 || length < 4 ) {
-        /*
-            int road_len = roll_remainder( sqrt( leftover_area ) );
-            build_city_street( local_road, { origin.x, origin.y }, road_len, cur_dir, new_city );
-        */
+            small_roads.emplace( origin, cur_block.dir );
             continue;
         }
 
@@ -330,12 +327,11 @@ void overmap_gen::build_city( overmap &om, const tripoint &city_origin, int size
                 road_at_length = false;
             }
         }
-        /*
-        if( !road_at_length && length > 4 && length % 2 != 0 ) {
-            // @todo Get rid of this and allow filling with smaller buildings
+
+        // Avoid bigger blocks
+        if( !road_at_length && length > 4 && length % 2 != 0 && one_in( 2 ) ) {
             length -= length % 2;
         }
-        */
 
         // We request 6 width blocks, but we'll only take 4 with ones
         // This is, again, to avoid double roads
@@ -369,8 +365,19 @@ void overmap_gen::build_city( overmap &om, const tripoint &city_origin, int size
         city_building_line( om, new_city, second_line, cur_dir, length, width_dir, size_second );
 
         // Note: we are using the original directions here, otherwise they get flipped into inside
-        to_build.emplace( city_block_stub{ origin + om_direction::displace( cur_dir, length + 1 ), cur_block.dir } );
-        to_build.emplace( city_block_stub{ origin + om_direction::displace( width_dir, width + 1 ), cur_block.dir } );
+        to_build.emplace( origin + om_direction::displace( cur_dir, length + 1 ), cur_block.dir );
+        to_build.emplace( origin + om_direction::displace( width_dir, width + 1 ), cur_block.dir );
+    }
+
+    // Now small roads
+    // They must be last, otherwise they will mess up block construction
+    while( !small_roads.empty() ) {
+        const city_block_stub road = small_roads.front();
+        small_roads.pop();
+        float dist = trig_dist( road.origin, city_origin );
+        float leftover_area = static_cast<float>( size * size ) - dist * dist;
+        int road_len = roll_remainder( sqrt( leftover_area ) );
+        om.build_city_street( local_road, { road.origin.x, road.origin.y }, road_len, road.dir, new_city );
     }
 
     om.cities.push_back( new_city );
