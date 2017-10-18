@@ -8023,5 +8023,69 @@
     "color": "i_green",
     "see_cost": 5,
     "mondensity": 2
-  }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pet_store",
+    "name": "pet store",
+    "sym": 112,
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "construction_site",
+    "name": "construction site",
+    "sym": 120,
+    "color": "i_grey",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "post_office",
+    "name": "post office",
+    "sym": 80,
+    "color": "blue",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bike_shop",
+    "name": "bike shop",
+    "sym": 66,
+    "color": "i_brown",
+    "see_cost": 5,
+    "mondensity": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "candy_shop",
+    "name": "candy shop",
+    "sym": 67,
+    "color": "yellow",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bakery",
+    "name": "bakery",
+    "sym": 66,
+    "color": "yellow",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+   }
 ]
