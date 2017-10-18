@@ -8794,13 +8794,13 @@ void player::reassign_item( item &it, long invlet )
     }
 
     if( !invlet || inv_chars.valid( invlet ) ) {
-        const auto iter = assigned_invlet.find( it.invlet );
-        bool found = iter != assigned_invlet.end();
+        const auto iter = inv.assigned_invlet.find( it.invlet );
+        bool found = iter != inv.assigned_invlet.end();
         if( found ) {
-            assigned_invlet.erase( iter );
+            inv.assigned_invlet.erase( iter );
         }
         if( invlet && ( !found || it.invlet != invlet ) ) {
-            assigned_invlet[invlet] = it.typeId();
+            inv.assigned_invlet[invlet] = it.typeId();
         }
         inv.reassign_item( it, invlet, remove_old );
     }
@@ -10853,7 +10853,7 @@ bool player::wield_contents( item &container, int pos, bool penalties, int base_
     container.contents.erase( target );
     container.on_contents_changed();
 
-    inv.assign_empty_invlet( weapon, true );
+    inv.assign_empty_invlet( weapon, this, true );
     last_item = weapon.typeId();
 
     /**

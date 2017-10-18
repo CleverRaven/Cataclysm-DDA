@@ -64,6 +64,8 @@ class inventory : public visitable<inventory>
         size_t size() const;
         bool is_sorted() const;
 
+        std::map<char, itype_id> assigned_invlet;
+
         inventory();
         inventory( inventory && ) = default;
         inventory( const inventory & ) = default;
@@ -165,7 +167,7 @@ class inventory : public visitable<inventory>
 
         // Assigns an invlet if any remain.  If none do, will assign ` if force is
         // true, empty (invlet = 0) otherwise.
-        void assign_empty_invlet( item &it, bool force = false );
+        void assign_empty_invlet( item &it, Character *p, bool force = false );
         // Assigns the item with the given invlet, and updates the favourite invlet cache. Does not check for uniqueness
         void reassign_item( item &it, char invlet, bool remove_old = true );
         // Removes invalid invlets, and assigns new ones if assign_invlet is true. Does not update the invlet cache.
