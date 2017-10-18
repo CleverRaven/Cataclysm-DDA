@@ -49,7 +49,6 @@ const char *npgettext( const char *const context, const char *const msgid,
 
 bool isValidLanguage( const std::string &lang )
 {
-    debugmsg( "%s", lang.c_str() );
     const auto languages = get_options().get_option( "USE_LANG" ).getItems();
     return std::find_if( languages.begin(),
     languages.end(), [&lang]( const std::pair<std::string, std::string> &pair ) {

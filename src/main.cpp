@@ -405,7 +405,7 @@ int main(int argc, char *argv[])
     setupDebug();
 
     if (setlocale(LC_ALL, "") == NULL) {
-        DebugLog(D_WARNING, D_MAIN) << "Error while setlocale(LC_ALL, ''). ";
+        DebugLog(D_WARNING, D_MAIN) << "Error while setlocale(LC_ALL, '').";
     } else {
         try {
             std::locale::global( std::locale( "" ) );
@@ -496,9 +496,7 @@ int main(int argc, char *argv[])
         }
     }
 #endif
-
-    if( get_option<std::string>( "USE_LANG" ).empty() && ( lang.empty() ||
-        getenv( "LANGUAGE" ) == NULL || !isValidLanguage( lang ) ) ) {
+    if( get_option<std::string>( "USE_LANG" ).empty() && ( lang.empty() || !isValidLanguage( lang ) ) ) {
         select_language();
         set_language();
     }
