@@ -387,7 +387,7 @@
         "item" : "sheet_metal",
         "difficulty" : 2,
         "location" : "center",
-        "flags" : ["OBSTACLE", "OPAQUE", "CARGO", "CARGO_LOCKING", "COVERED"]
+        "flags" : ["OBSTACLE", "OPAQUE", "CARGO", "COVERED"]
     },{
         "type":"vehicle_part",
         "id" : "stowboard_vertical",
@@ -401,7 +401,7 @@
         "item" : "sheet_metal",
         "difficulty" : 2,
         "location" : "center",
-        "flags" : ["OBSTACLE", "OPAQUE", "CARGO", "CARGO_LOCKING", "COVERED"]
+        "flags" : ["OBSTACLE", "OPAQUE", "CARGO", "COVERED"]
     },{
         "type" : "vehicle_part",
         "id" : "roof_cloth",
@@ -722,6 +722,22 @@
         "item" : "frame",
         "difficulty" : 1,
         "location" : "center",
+        "flags" : ["CARGO", "TOOL_SCREWDRIVER", "BOARDABLE", "COVERED"],
+        "breaks_into": "ig_vp_frame"
+    },{
+        "type" : "vehicle_part",
+        "id" : "box_locking",
+        "name" : "locked box",
+        "symbol" : "o",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "damage_modifier" : 60,
+        "durability" : 100,
+        "size" : 275,
+        "item" : "frame",
+        "difficulty" : 2,
+        "location" : "center",
         "flags" : ["CARGO", "CARGO_LOCKING", "TOOL_SCREWDRIVER", "BOARDABLE", "COVERED"],
         "breaks_into": "ig_vp_frame"
     },{
@@ -767,6 +783,25 @@
         "item" : "frame_wood",
         "difficulty" : 0,
         "location" : "center",
+        "flags" : ["CARGO", "BOARDABLE", "COVERED", "NAILABLE"],
+        "breaks_into" : [
+            {"item": "splinter", "count": [3, 5]},
+            {"item": "nail", "charges": [10, 15]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "wood_box_locking",
+        "name" : "locked wood box",
+        "symbol" : "o",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "damage_modifier" : 60,
+        "durability" : 70,
+        "size" : 150,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "center",
         "flags" : ["CARGO", "CARGO_LOCKING", "BOARDABLE", "COVERED", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "count": [3, 5]},
@@ -786,6 +821,26 @@
         "size" : 120,
         "item" : "foldwoodframe",
         "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["CARGO", "BOARDABLE", "COVERED", "NAILABLE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "splinter", "count": [3, 5]},
+            {"item": "nail", "charges": [10, 15]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "folding_locked_wood_box",
+        "name" : "folding locked wood box",
+        "symbol" : "o",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "damage_modifier" : 60,
+        "durability" : 65,
+        "folded_volume": 6,
+        "size" : 120,
+        "item" : "foldwoodframe",
+        "difficulty" : 2,
         "location" : "center",
         "flags" : ["CARGO", "CARGO_LOCKING", "BOARDABLE", "COVERED", "NAILABLE", "FOLDABLE"],
         "breaks_into" : [
@@ -1696,7 +1751,7 @@
         "item" : "cargo_rack",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["BOARDABLE", "CARGO", "CARGO_LOCKING", "COVERED"],
+        "flags" : ["BOARDABLE", "CARGO", "COVERED"],
         "breaks_into" : [
             {"item": "steel_lump", "count": [6, 8]},
             {"item": "steel_chunk", "count": [6, 8]},

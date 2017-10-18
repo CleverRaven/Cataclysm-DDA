@@ -6398,22 +6398,6 @@ const vpart_info &vehicle_part::info() const
     return *info_cache;
 }
 
-bool vehicle_part::is_cargo_locked() const
-{
-    return cargo_locked;
-}
-
-void vehicle_part::toggle_cargo_lock()
-{
-    if( cargo_locked ) {
-        add_msg( _( "You unlock the cargo" ) );
-        cargo_locked = false;
-    } else {
-        add_msg( _( "You lock the cargo" ) );
-        cargo_locked = true;
-    }
-}
-
 void vehicle::invalidate_mass()
 {
     mass_dirty = true;

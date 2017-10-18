@@ -212,6 +212,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     /** Can a player or NPC use this part as a seat? */
     bool is_seat() const;
+
     /*@}*/
 
 public:
@@ -608,7 +609,6 @@ public:
     void play_music();
     void play_chimes();
     void operate_planter();
-
     // get vpart type info for part number (part at given vector index)
     const vpart_info& part_info (int index, bool include_removed = false) const;
 

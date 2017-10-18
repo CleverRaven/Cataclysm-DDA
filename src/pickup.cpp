@@ -266,7 +266,6 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
 
         case GET_ITEMS:
             return from_vehicle ? ITEMS_FROM_CARGO : ITEMS_FROM_GROUND;
-
     }
 
     return DONE;
