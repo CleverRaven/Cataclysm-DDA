@@ -198,7 +198,7 @@ char inventory::find_usable_cached_invlet(const std::string &item_type)
             continue;
         }
         // Check if anything is using this invlet.
-        if( g->u.invlet_to_position( invlet ) != INT_MIN ) {
+        if( invlet_to_position( invlet ) != INT_MIN ) {
             continue;
         }
         return invlet;

@@ -89,6 +89,8 @@ class inventory : public visitable<inventory>
         void add_item_keep_invlet( item newit );
         void push_back( item newit );
 
+        std::map<char, itype_id> assigned_invlet;
+
         /* Check all items for proper stacking, rearranging as needed
          * game pointer is not necessary, but if supplied, will ensure no overlap with
          * the player's worn items / weapon

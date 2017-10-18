@@ -599,7 +599,6 @@ class Character : public Creature, public visitable<Character>
         bool nv_cached;
 
         inventory inv;
-
         itype_id last_item;
         item weapon;
         item ret_null; // Null item, sometimes returns by weapon() etc

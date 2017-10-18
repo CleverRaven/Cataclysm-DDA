@@ -9227,7 +9227,8 @@ bool player::read( int inventory_position, const bool continuous )
                 const int lvl = elem.first->get_skill_level( skill );
                 const std::string lvl_text = skill ? string_format( _( " | current level: %d" ), lvl ) : "";
                 const std::string name_text = elem.first->disp_name() + elem.second;
-                return string_format( ( "%-*s%s" ), max_length( m ), name_text.c_str(), lvl_text.c_str() );
+                return string_format( ( "%-*s%s" ), static_cast<int>( max_length( m ) ),
+                                      name_text.c_str(), lvl_text.c_str() );
             };
 
             auto add_header = [&menu]( const std::string & str ) {
@@ -9410,10 +9411,12 @@ void player::do_read( item *book )
         }
         if( !recipe_list.empty() ) {
             std::string recipe_line = string_format(
-                ngettext("This book contains %1$d crafting recipe: %2$s",
-                         "This book contains %1$d crafting recipes: %2$s", recipe_list.size()),
-                recipe_list.size(), enumerate_as_string( recipe_list ).c_str());
-            add_msg(m_info, "%s", recipe_line.c_str());
+                ngettext( "This book contains %1$u crafting recipe: %2$s",
+                          "This book contains %1$u crafting recipes: %2$s",
+                          static_cast<unsigned long>( recipe_list.size() ) ),
+                static_cast<unsigned long>( recipe_list.size() ),
+                enumerate_as_string( recipe_list ).c_str() );
+            add_msg( m_info, "%s", recipe_line.c_str() );
         }
         if( recipe_list.size() != reading->recipes.size() ) {
             add_msg( m_info, _( "It might help you figuring out some more recipes." ) );

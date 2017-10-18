@@ -1180,6 +1180,13 @@
     ]
   },
   {
+    "result": "fancy_sunglasses",
+    "type": "uncraft",
+    "time": 100,
+    "components": [ [ [ "glass_tinted", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "felt_patch",
     "type": "uncraft",
     "time": 6000,
@@ -1191,6 +1198,13 @@
     "type": "uncraft",
     "time": 100,
     "components": [ [ [ "paper", 3 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "fitover_sunglasses",
+    "type": "uncraft",
+    "time": 100,
+    "components": [ [ [ "glass_tinted", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -2128,6 +2142,13 @@
     "time": 2000,
     "components": [ [ [ "straw_pile", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "sunglasses",
+    "type": "uncraft",
+    "time": 100,
+    "components": [ [ [ "glass_tinted", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "survivormap",
