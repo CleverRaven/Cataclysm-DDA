@@ -111,7 +111,7 @@ nc_color inventory_entry::get_invlet_color() const
 {
     if( !is_selectable() ) {
         return c_dkgray;
-    } else if( g->u.inv.assigned_invlet.count( get_invlet() ) ) {
+    } else if( g->u.assigned_invlet.count( get_invlet() ) ) {
         return c_yellow;
     } else {
         return c_white;

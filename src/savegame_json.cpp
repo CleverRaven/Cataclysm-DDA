@@ -648,7 +648,7 @@ void player::serialize(JsonOut &json) const
 
     json.member("assigned_invlet");
     json.start_array();
-    for (auto iter : inv.assigned_invlet) {
+    for (auto iter : assigned_invlet) {
         json.start_array();
         json.write(iter.first);
         json.write(iter.second);
@@ -833,7 +833,7 @@ void player::deserialize(JsonIn &jsin)
     parray = data.get_array("assigned_invlet");
     while (parray.has_more()) {
         JsonArray pair = parray.next_array();
-        inv.assigned_invlet[(char)pair.get_int(0)] = pair.get_string(1);
+        assigned_invlet[(char)pair.get_int(0)] = pair.get_string(1);
     }
 
     if ( data.has_member("invcache") ) {

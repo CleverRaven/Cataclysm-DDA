@@ -8794,13 +8794,13 @@ void player::reassign_item( item &it, long invlet )
     }
 
     if( !invlet || inv_chars.valid( invlet ) ) {
-        const auto iter = inv.assigned_invlet.find( it.invlet );
-        bool found = iter != inv.assigned_invlet.end();
+        const auto iter = assigned_invlet.find( it.invlet );
+        bool found = iter != assigned_invlet.end();
         if( found ) {
-            inv.assigned_invlet.erase( iter );
+            assigned_invlet.erase( iter );
         }
         if( invlet && ( !found || it.invlet != invlet ) ) {
-            inv.assigned_invlet[invlet] = it.typeId();
+            assigned_invlet[invlet] = it.typeId();
         }
         inv.reassign_item( it, invlet, remove_old );
     }
