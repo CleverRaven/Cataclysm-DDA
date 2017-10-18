@@ -413,7 +413,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 
         if( pt.is_battery() ) {
             if( veh_fuel_mult == 100 ) { // Mint condition vehicle
-                pt.ammo_set( "battery", pt.ammo_capacity() * veh_fuel_mult / 100 );
+                pt.ammo_set( "battery", pt.ammo_capacity() );
             } else if( one_in( 2 ) ) { // Randomise battery ammo a bit
                 pt.ammo_set( "battery", pt.ammo_capacity() * ( veh_fuel_mult + rng( 3, 10 ) ) / 100 );
             } else if( one_in( 2 ) ) {
