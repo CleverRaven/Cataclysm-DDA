@@ -89,12 +89,9 @@ class recipe_subset
 
         /** Check if the subset contains a recipe with the specified id. */
         bool contains( const recipe *r ) const {
-            for (const auto &elem : recipes) {
-                if (elem->ident() == r->ident()) {
-                    return true;
-                }
-            }
-            return false;
+            return std::any_of( recipes.begin(), recipes.end(), [r]( const recipe *elem ) {
+                return elem->ident() == r->ident();
+            } );
         }
 
         /**
