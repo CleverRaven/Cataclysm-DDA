@@ -25,6 +25,7 @@ class JsonObject;
 class npc;
 class overmapbuffer;
 class overmap_connection;
+class overmap_gen;
 
 struct mongroup;
 
@@ -32,28 +33,54 @@ namespace pf
 {
     struct path;
 }
+struct building_size {
+    int height = -1;
+    int depth = -1;
+    building_size() : building_size( -1, -1 ) {}
+    building_size( int h, int d ) : height( h ), depth( d ) {}
+    bool operator==( const building_size &other ) const {
+        return height == other.height && depth == other.depth;
+    };
+    bool operator!=( const building_size &other ) const {
+        return !( *this == other );
+    };
+    building_size &operator=( const building_size & ) = default;
+    static building_size max( const building_size &a, const building_size &b );
+};
 
-struct oter_weight {
-    inline bool operator ==(const oter_weight &other) const {
-        return id == other.id;
-    }
-
-    string_id<oter_type_t> id;
+class building_bin {
+    private:
+        bool finalized = false;
+        weighted_int_list<overmap_special_id> buildings;
+        std::map<overmap_special_id, int> unfinalized_buildings;
+    public:
+        building_bin() {};
+        void add( const overmap_special_id &building, int weight );
+        overmap_special_id pick() const;
+        void clear();
+        void finalize();
 };
 
 struct city_settings {
-   int shop_radius = 80;  // this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;
-   int park_radius = 130; // in theory, adjusting these can make a town with a few shops and alot of parks + houses......by increasing shop_radius
-   weighted_int_list<oter_weight> shops;
-   weighted_int_list<oter_weight> parks;
+    int shop_radius = 80;  // this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;
+    int park_radius = 130; // in theory, adjusting these can make a town with a few shops and alot of parks + houses......by increasing shop_radius
+    building_bin houses;
+    building_bin shops;
+    building_bin parks;
 
-    oter_id pick_shop() const {
-        return shops.pick()->id->get_first();
+    overmap_special_id pick_house() const {
+        return houses.pick()->id;
     }
 
-    oter_id pick_park() const {
-        return parks.pick()->id->get_first();
+    overmap_special_id pick_shop() const {
+        return shops.pick()->id;
     }
+
+    overmap_special_id pick_park() const {
+        return parks.pick()->id;
+    }
+
+    void finalize();
 };
 
 /*
@@ -75,7 +102,7 @@ struct groundcover_extra {
     int boosted_other_mpercent    = 1;
 
     ter_furn_id pick( bool boosted = false ) const;
-    void setup();
+    void finalize();
     groundcover_extra() = default;
 };
 
@@ -111,7 +138,7 @@ struct regional_settings {
     {
         default_groundcover.add( t_null, 0 );
     }
-    void setup();
+    void finalize();
 };
 
 
@@ -373,6 +400,7 @@ public:
 
  private:
     friend class overmapbuffer;
+    friend class overmap_gen;
 
         std::vector<std::shared_ptr<npc>> npcs;
 
@@ -454,19 +482,16 @@ public:
             const tripoint &orig, bool blink, bool showExplored,
             input_context* inp_ctxt, const draw_data_t &data);
 
+    building_size find_max_size( const tripoint &center, const building_size &limits ) const;
 
-  static void draw_city_labels(WINDOW *w, const tripoint &center);
-
-    oter_id random_shop() const;
-    oter_id random_park() const;
-    oter_id random_house() const;
+    static void draw_city_labels(WINDOW *w, const tripoint &center);
 
   // Overall terrain
   void place_river(point pa, point pb);
   void place_forest();
   // City Building
   void place_cities();
-  void put_building( int x, int y, om_direction::type dir, const city &town );
+  void put_building( const tripoint &p, om_direction::type dir, const city &town );
 
   void build_city_street( const overmap_connection &connection, const point &p, int cs, om_direction::type dir, const city &town );
   bool build_lab(int x, int y, int z, int s, bool ice = false);
@@ -478,7 +503,8 @@ public:
 
     // Connection laying
     pf::path lay_out_connection( const overmap_connection &connection, const point &source, const point &dest, int z ) const;
-    pf::path lay_out_street( const overmap_connection &connection, const point &source, om_direction::type dir, size_t len ) const;
+    pf::path lay_out_street( const overmap_connection &connection, const point &source, om_direction::type dir,
+                             size_t len, bool force = false ) const;
 
     void build_connection( const overmap_connection &connection, const pf::path &path, int z );
     void build_connection( const point &source, const point &dest, int z, const overmap_connection &connection );
