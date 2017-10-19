@@ -611,7 +611,7 @@ void set_item_inventory( item &newit )
     if( newit.made_of( LIQUID ) ) {
         g->handle_all_liquid( newit, PICKUP_RANGE );
     } else {
-        g->u.inv.assign_empty_invlet( newit );
+        g->u.inv.assign_empty_invlet( newit, &( g->u ) );
         // We might not have space for the item
         if( !g->u.can_pickVolume( newit ) ) { //Accounts for result_mult
             add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),

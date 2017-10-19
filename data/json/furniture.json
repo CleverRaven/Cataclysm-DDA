@@ -2769,5 +2769,30 @@
                 { "item": "rock", "count": [18, 30] }
             ]
         }
+    },{
+        "type" : "furniture",
+        "id" : "f_brazier",
+        "name": "brazier",
+        "symbol": "#",
+        "color": "red",
+        "move_cost_mod": 2,
+        "required_str": 16,
+        "flags": ["PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT"],
+        "deconstruct": {
+            "items": [
+                { "item": "brazier", "count": 1 }
+            ]
+        },
+        "max_volume": 4000,
+        "bash": {
+            "str_min": 8, "str_max": 30,
+            "sound": "metal screeching!",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "scrap", "count": [0, 3] },
+                { "item": "steel_chunk", "count": [0, 2] },
+                { "item": "sheet_metal", "count": [0, 2] }
+            ]
+        }
     }
 ]

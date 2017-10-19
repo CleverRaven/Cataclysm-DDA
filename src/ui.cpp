@@ -460,17 +460,16 @@ void uimenu::setup()
     }
 
     vmax = entries.size();
-    if ( vmax + 2 + text_separator_line + (int)textformatted.size() > w_height ) {
-        vmax = w_height - (2 + text_separator_line) - textformatted.size();
-        if ( vmax < 1 ) {
-            if (textformatted.empty()) {
-                popup("Can't display menu options, 0 %d available screen rows are occupied\nThis is probably a bug.\n",
-                      TERMY);
+    if( vmax + 2 + text_separator_line + (int)textformatted.size() > w_height ) {
+        vmax = w_height - ( 2 + text_separator_line ) - textformatted.size();
+        if( vmax < 1 ) {
+            if( textformatted.empty() ) {
+                popup( "Can't display menu options, 0 %d available screen rows are occupied\nThis is probably a bug.\n",
+                       TERMY );
             } else {
-                popup("Can't display menu options, %d %d available screen rows are occupied by\n'%s\n(snip)\n%s'\nThis is probably a bug.\n",
-                      textformatted.size(), TERMY, textformatted[0].c_str(),
-                      textformatted[ textformatted.size() - 1 ].c_str()
-                     );
+                popup( "Can't display menu options, %lu %d available screen rows are occupied by\n'%s\n(snip)\n%s'\nThis is probably a bug.\n",
+                       static_cast<unsigned long>( textformatted.size() ), TERMY, textformatted[ 0 ].c_str(),
+                       textformatted[ textformatted.size() - 1 ].c_str() );
             }
         }
     }

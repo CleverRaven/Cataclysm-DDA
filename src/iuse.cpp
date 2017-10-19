@@ -6842,7 +6842,7 @@ int iuse::radiocar(player *p, item *it, bool, const tripoint& )
             p->moves -= 150;
             item &bomb = it->contents.front();
 
-            p->inv.assign_empty_invlet(bomb, true); // force getting an invlet.
+            p->inv.assign_empty_invlet(bomb, p, true); // force getting an invlet.
             p->i_add(bomb);
             it->contents.erase(it->contents.begin());
 

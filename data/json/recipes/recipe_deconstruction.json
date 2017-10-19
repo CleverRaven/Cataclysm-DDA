@@ -1094,6 +1094,18 @@
     ]
   },
   {
+    "result": "crown_golden",
+    "type": "uncraft",
+    "time": 600,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 200 ] ] ]
+  },
+  {
+    "result": "crown_golden_survivor",
+    "type": "uncraft",
+    "copy-from": "crown_golden"
+  },
+  {
     "result": "cu_pipe",
     "type": "uncraft",
     "time": 1200,
@@ -1180,6 +1192,13 @@
     ]
   },
   {
+    "result": "fancy_sunglasses",
+    "type": "uncraft",
+    "time": 100,
+    "components": [ [ [ "glass_tinted", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "felt_patch",
     "type": "uncraft",
     "time": 6000,
@@ -1191,6 +1210,13 @@
     "type": "uncraft",
     "time": 100,
     "components": [ [ [ "paper", 3 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "fitover_sunglasses",
+    "type": "uncraft",
+    "time": 100,
+    "components": [ [ [ "glass_tinted", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -2128,6 +2154,13 @@
     "time": 2000,
     "components": [ [ [ "straw_pile", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "sunglasses",
+    "type": "uncraft",
+    "time": 100,
+    "components": [ [ [ "glass_tinted", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "result": "survivormap",

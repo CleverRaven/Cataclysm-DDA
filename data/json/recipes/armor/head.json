@@ -92,6 +92,27 @@
     "components": [ [ [ "felt_patch", 8 ] ] ]
   },
   {
+    "result": "crown_golden_survivor",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": 600000,
+    "book_learn": [ [ "jewelry_book", 6 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "anvil", -1 ] ],
+      [ [ "swage", -1 ] ],
+      [ [ "forge", 50 ], [ "oxy_torch", 10 ] ]
+    ],
+    "components": [ [ [ "gold_small", 300 ] ] ]
+  },
+  {
     "result": "fur_cat_ears",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -192,7 +213,7 @@
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "welding_book", 3 ] ],
     "components": [
       [ [ "goggles_ski", 1 ], [ "goggles_swim", 1 ], [ "glasses_safety", 1 ] ],
-      [ [ "eclipse_glasses", 1 ], [ "sunglasses", 3 ], [ "fancy_sunglasses", 3 ], [ "fitover_sunglasses", 3 ] ],
+      [ [ "eclipse_glasses", 1 ], [ "glass_tinted", 3 ] ],
       [ [ "duct_tape", 40 ], [ "medical_tape", 40 ] ]
     ]
   },
