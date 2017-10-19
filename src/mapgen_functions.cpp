@@ -2729,7 +2729,6 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
     m->rotate( static_cast<int>( terrain_type->get_dir() ) );
 }
 
-
 //////////////////////////////
 void mapgen_pharm(map *m, oter_id terrain_type, mapgendata dat, int, float density) {
 

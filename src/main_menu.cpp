@@ -29,7 +29,7 @@ void main_menu::on_move() const
 void main_menu::print_menu_items( WINDOW *w_in, std::vector<std::string> vItems, size_t iSel,
                                   int iOffsetY, int iOffsetX, int spacing )
 {
-    mvwprintz( w_in, iOffsetY, iOffsetX, c_black, "" );
+    wmove( w_in, iOffsetY, iOffsetX );
     for( size_t i = 0; i < vItems.size(); ++i ) {
         nc_color text_color;
         nc_color key_color;
@@ -882,7 +882,7 @@ void main_menu::world_tab()
                     text_color = c_ltgray;
                     key_color = c_white;
                 }
-                mvwprintz( w_open, yoffset - i, xoffset, c_black, "" );
+                wmove( w_open, yoffset - i, xoffset );
                 wprintz( w_open, c_ltgray, "[" );
                 shortcut_print( w_open, text_color, key_color, vWorldSubItems[i] );
                 wprintz( w_open, c_ltgray, "]" );

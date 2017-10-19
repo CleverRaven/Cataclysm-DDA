@@ -485,7 +485,8 @@ extern furn_id f_null,
     f_flower_marloss,
     f_tatami,
     f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
-    f_robotic_arm, f_vending_reinforced;
+    f_robotic_arm, f_vending_reinforced,
+    f_brazier;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.

@@ -2,7 +2,6 @@
    {
       "type": "region_settings",
       "id": "desert_test",                  "//": "identifier, when region_map is in it will determine alternatives ('desert' etc)",
-      "house_basement_chance": 2,           "//": "one_in(n) houses with basements",
       "default_oter": "field",              "//": "default oter_id (anything that isn't a house/road/etc) some become forests",
       "default_groundcover": [ [ "t_searth_test", 3 ], [ "t_sand", 1 ] ],
       "field_coverage": {                   "//": "biome settings for builtin field mapgen",
@@ -32,6 +31,10 @@
           "type": "town",
           "shop_radius": 80,                "//": "tldr: less means more",
           "park_radius": 130,               "//": "this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;",
+          "houses": {
+              "house": 1,
+              "house_base": 1
+          },
           "parks": {
               "park": 2,
               "pool": 1
