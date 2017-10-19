@@ -309,6 +309,12 @@ void overmap_specials::load( JsonObject &jo, const std::string &src )
     specials.load( jo, src );
 }
 
+void city_buildings::load( JsonObject &jo, const std::string &src )
+{
+    // Just an alias
+    overmap_specials::load( jo, src );
+}
+
 void overmap_specials::finalize()
 {
     for( const auto &elem : specials.get_all() ) {
@@ -1057,17 +1063,22 @@ bool overmap_special::can_belong_to_city( const tripoint &p, const city &cit ) c
 void overmap_special::load( JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
+    // city_building is just an alias of overmap_special
+    const bool is_special = jo.get_string( "type", "" ) == "overmap_special";
 
     mandatory( jo, was_loaded, "overmaps", terrains );
-    mandatory( jo, was_loaded, "locations", locations );
-    mandatory( jo, was_loaded, "occurrences", occurrences );
+    if( is_special ) {
+        mandatory( jo, was_loaded, "locations", locations );
+        mandatory( jo, was_loaded, "occurrences", occurrences );
 
-    optional( jo, was_loaded, "connections", connections );
+        optional( jo, was_loaded, "connections", connections );
+
+        assign( jo, "city_sizes", city_size, strict );
+        assign( jo, "city_distance", city_distance, strict );
+    }
 
     assign( jo, "spawns", spawns, strict );
 
-    assign( jo, "city_sizes", city_size, strict );
-    assign( jo, "city_distance", city_distance, strict );
     assign( jo, "rotate", rotatable, strict );
     assign( jo, "flags", flags, strict );
 }
@@ -3457,10 +3468,6 @@ void overmap::build_city_street( const overmap_connection &connection, const poi
     const auto to = street_path.nodes.end();
 
     for( auto iter = from; iter != to; ++iter ) {
-        if( !one_in( STREETCHANCE ) ) {
-            put_building( iter->x, iter->y, om_direction::turn_left( dir ), town );
-        }
-
         if( !one_in( STREETCHANCE ) ) {
             put_building( { iter->x, iter->y, 0 }, om_direction::turn_left( dir ), town );
         }

@@ -387,4 +387,11 @@ overmap_special_id create_building_from( const string_id<oter_type_t> &base );
 
 }
 
+namespace city_buildings
+{
+
+void load( JsonObject &jo, const std::string &src );
+
+}
+
 #endif
