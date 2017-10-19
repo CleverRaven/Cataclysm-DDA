@@ -1033,6 +1033,21 @@
     },
     {
         "type":"GENERIC",
+        "id": "glass_tinted",
+        "symbol": ".",
+        "color": "dark_gray",
+        "name": "pair of tinted glass",
+        "name_plural": "pairs of tinted glass",
+        "category": "spare_parts",
+        "description": "A pair of small darkened glass, like the one that sunglasses are made of.",
+        "price": 1000,
+        "material": "glass",
+        "weight": 340,
+        "volume": 0,
+        "to_hit": -3
+    },
+    {
+        "type":"GENERIC",
         "id": "burnt_out_bionic",
         "symbol": ",",
         "color": "dark_gray",

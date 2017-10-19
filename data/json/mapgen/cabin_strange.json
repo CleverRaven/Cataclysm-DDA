@@ -162,9 +162,6 @@
           "furniture": "f_table",
           "item": { "item": "etched_skull" }
         },
-        "b": {
-          "item": { "item": "brazier" }
-        },
         "c": {
           "furniture": "f_crate_o",
           "items": {
@@ -201,6 +198,7 @@
       "furniture": {
         "A": "f_armchair",
         "B": "f_bed",
+        "b": "f_brazier",
         "d": "f_desk",
         "h": "f_chair",
         "t": "f_table"

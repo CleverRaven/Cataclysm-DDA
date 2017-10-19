@@ -31666,12 +31666,12 @@
          "bg" : -1, 
          "rotates" : false, 
          "multitile" : false
-      }, 
-        {
-            "id":"tr_brazier",
-            "fg" : 1371,
-            "rotates":false
-        },
+      },
+      {
+         "id":"f_brazier",
+         "fg" : 1371,
+         "rotates":false
+      },
       { 
          "id" : "funnel", 
          "fg" : 1610, 

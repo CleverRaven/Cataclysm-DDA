@@ -965,7 +965,7 @@
     "id": "brazier",
     "type": "TOOL",
     "name": "brazier",
-    "description": "This is a large metal stand with slots on the side.  Use it to place it somewhere then set fires in it with no risk of spreading.",
+    "description": "This is a large metal stand with slots on the side.  You can set it somewhere through the construction menu and then set fires in it with no risk of spreading.",
     "weight": 2000,
     "volume": 6,
     "price": 9000,
@@ -974,14 +974,6 @@
     "material": "steel",
     "symbol": ";",
     "color": "light_gray",
-    "use_action": {
-      "type": "place_trap",
-      "allow_under_player": true,
-      "trap": "tr_brazier",
-      "moves": 100,
-      "practice": 0,
-      "done_message": "You place the brazier securely."
-    },
     "flags": [ "TRADER_AVOID" ]
   },
   {

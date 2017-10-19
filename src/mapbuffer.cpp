@@ -541,7 +541,13 @@ void mapbuffer::deserialize( JsonIn &jsin )
                     int i = jsin.get_int();
                     int j = jsin.get_int();
                     // TODO: jsin should support returning an id like jsin.get_id<trap>()
-                    sm->trp[i][j] = trap_str_id( jsin.get_string() );
+                    const trap_str_id trid( jsin.get_string() );
+                    if( trid == "tr_brazier" ) {
+                        sm->frn[i][j] = furn_id( "f_brazier" );
+                    } else {
+                        sm->trp[i][j] = trid.id();
+                    }
+                    // @todo: remove brazier trap-to-furniture conversion after 0.D
                     jsin.end_array();
                 }
             } else if( submap_member_name == "fields" ) {

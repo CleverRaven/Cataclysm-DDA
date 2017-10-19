@@ -45,6 +45,12 @@ class Creature_tracker
         void swap_positions( monster &first, monster &second );
         /** Kills 0 hp monsters. Returns if it killed any. */
         bool kill_marked_for_death();
+        /** Removes dead monsters from. Their pointers are invalidated. */
+        void remove_dead();
+
+        const std::vector<std::shared_ptr<monster>> &get_monsters_list() const {
+            return monsters_list;
+        }
 
     private:
         std::vector<std::shared_ptr<monster>> monsters_list;

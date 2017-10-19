@@ -43,10 +43,7 @@
     "charges": 1,
     "using": [ [ "ammo_shot", 1 ] ],
     "tools": [ [ [ "press", -1 ] ] ],
-    "components": [
-      [ [ "gunpowder", 6 ], [ "chem_black_powder", 6 ] ],
-      [ [ "combatnail", 10 ] ]
-    ]
+    "components": [ [ [ "gunpowder", 6 ], [ "chem_black_powder", 6 ] ], [ [ "combatnail", 10 ] ] ]
   },
   {
     "result": "reloaded_shot_slug",
@@ -77,10 +74,7 @@
     "charges": 2,
     "using": [ [ "ammo_shot", 2 ] ],
     "tools": [ [ [ "press", -1 ] ] ],
-    "components": [
-      [ [ "gunpowder", 12 ], [ "chem_black_powder", 12 ] ],
-      [ [ "scrap", 1 ], [ "nail", 10 ], [ "bb", 20 ] ]
-    ]
+    "components": [ [ [ "gunpowder", 12 ], [ "chem_black_powder", 12 ] ], [ [ "scrap", 1 ], [ "nail", 10 ], [ "bb", 20 ] ] ]
   },
   {
     "result": "signal_flare",

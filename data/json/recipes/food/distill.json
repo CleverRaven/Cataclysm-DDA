@@ -14,7 +14,7 @@
             { "id": "BOIL", "level": 2 },
             { "id": "DISTILL", "level": 2 }
         ],
-        "tools": [ [ [ "hotplate", 21 ], [ "char_smoker", 21 ], [ "toolset", 21 ], [ "fire", -1 ] ] ],
+        "tools": [ [ [ "water_boiling_heat", 21, "LIST" ] ] ],
         "components": [ [
             [ "fruit_wine", 21 ], [ "bum_wine", 21 ],
             [ "dandelion_wine", 21 ], [ "pine_wine", 21 ],
@@ -39,7 +39,7 @@
             { "id": "DISTILL", "level": 2 }
         ],
         "tools": [
-            [ [ "fire", -1 ], [ "hotplate", 21 ], [ "toolset", 21 ] ]
+            [ [ "water_boiling_heat", 21, "LIST" ] ]
         ],
         "components": [ [ [ "wash_vodka", 21 ] ] ]
     },
@@ -58,7 +58,7 @@
             { "id": "DISTILL", "level": 2 }
         ],
         "tools": [
-            [ [ "fire", -1 ], [ "hotplate", 21 ], [ "toolset", 21 ] ]
+            [ [ "water_boiling_heat", 21, "LIST" ] ]
         ],
         "components": [ [ [ "wash_rum", 21 ] ] ]
     },
@@ -77,7 +77,7 @@
             { "id": "DISTILL", "level": 2 }
         ],
         "tools": [
-            [ [ "fire", -1 ], [ "hotplate", 21 ], [ "toolset", 21 ] ]
+            [ [ "water_boiling_heat", 21, "LIST" ] ]
         ],
         "components": [ [ [ "wash_whiskey", 21 ] ] ]
     },
@@ -96,7 +96,7 @@
             { "id": "DISTILL", "level": 1 }
         ],
         "tools": [
-            [ [ "fire", -1 ], [ "hotplate", 21 ], [ "toolset", 21 ] ]
+            [ [ "water_boiling_heat", 21, "LIST" ] ]
         ],
         "components": [ [ [ "wash_moonshine", 21 ] ] ]
     }

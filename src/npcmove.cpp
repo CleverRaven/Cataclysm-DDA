@@ -25,7 +25,6 @@
 #include <sstream>
 
 // @todo Get rid of this include
-#include "mapdata.h"
 
 #define NPC_DANGER_VERY_LOW 5
 
@@ -183,9 +182,9 @@ float npc::evaluate_enemy( const Creature &target ) const
 void npc::assess_danger()
 {
     float assessment = 0;
-    for( size_t i = 0; i < g->num_zombies(); i++ ) {
-        if( sees( g->zombie( i ) ) ) {
-            assessment += g->zombie( i ).type->difficulty;
+    for( const monster &critter : g->all_monsters() ) {
+        if( sees( critter ) ) {
+            assessment += critter.type->difficulty;
         }
     }
     assessment /= 10;
@@ -752,8 +751,7 @@ void npc::choose_target()
         return true;
     };
 
-    for( size_t i = 0; i < g->num_zombies(); i++ ) {
-        monster &mon = g->zombie( i );
+    for( monster &mon : g->all_monsters() ) {
         if( !sees( mon ) ) {
             continue;
         }
@@ -999,19 +997,19 @@ bool wants_to_reload( const npc &who, const item &it )
         return false;
     }
 
-    const int required = it.ammo_required();
+    const long required = it.ammo_required();
     // TODO: Add bandolier check here, once they can be reloaded
     if( required < 1 && !it.is_magazine() ) {
         return false;
     }
 
-    const int remaining = it.ammo_remaining();
+    const long remaining = it.ammo_remaining();
     return remaining < required || remaining < it.ammo_capacity();
 }
 
 bool wants_to_reload_with( const item &weap, const item &ammo )
 {
-    if( ammo.is_magazine() && ammo.ammo_remaining() <= weap.ammo_remaining() ) {
+    if( ammo.is_magazine() && ( ammo.ammo_remaining() <= weap.ammo_remaining() ) ) {
         return false;
     }
 
@@ -1529,9 +1527,9 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         moved = true;
     } else if( g->m.open_door( p, !g->m.is_outside( pos() ) ) ) {
         moves -= 100;
-    } else if( g->m.has_flag_ter_or_furn( "CLIMBABLE", p ) ) {
+    } else if( get_dex() > 1 && g->m.has_flag_ter_or_furn( "CLIMBABLE", p ) ) {
         ///\EFFECT_DEX_NPC increases chance to climb CLIMBABLE furniture or terrain
-        int climb = dex_cur;
+        int climb = get_dex();
         if( one_in( climb ) ) {
             add_msg_if_npc( m_neutral, _( "%1$s falls tries to climb the %2$s but slips." ),
                             name.c_str(), g->m.tername( p ).c_str() );
@@ -1727,8 +1725,8 @@ void npc::find_item()
     fetching_item = false;
     int best_value = minimum_item_value();
     // Not perfect, but has to mirror pickup code
-    auto volume_allowed = volume_capacity() - volume_carried();
-    auto weight_allowed = weight_capacity() - weight_carried();
+    units::volume volume_allowed = volume_capacity() - volume_carried();
+    units::mass   weight_allowed = weight_capacity() - weight_carried();
     // For some reason range limiting by vision doesn't work properly
     const int range = 6;
     //int range = sight_range( g->light_level( posz() ) );
@@ -2021,7 +2019,7 @@ void npc::drop_items( int weight, int volume )
 
     // First fill our ratio vectors, so we know which things to drop first
     invslice slice = inv.slice();
-    for( size_t i = 0; i < slice.size(); i++ ) {
+    for( unsigned int i = 0; i < slice.size(); i++ ) {
         item &it = slice[i]->front();
         double wgt_ratio, vol_ratio;
         if( value( it ) == 0 ) {
@@ -2308,7 +2306,7 @@ void npc_throw( npc &np, item &it, int index, const tripoint &pos )
         add_msg( _( "%1$s throws a %2$s." ), np.name.c_str(), it.tname().c_str() );
     }
 
-    int stack_size = -1;
+    long stack_size = -1;
     if( it.count_by_charges() ) {
         stack_size = it.charges;
         it.charges = 1;
@@ -2593,13 +2591,13 @@ float rate_food( const item &it, int want_nutr, int want_quench )
         return 0.0f;
     }
 
-    float relative_rot = it.get_relative_rot();
+    double relative_rot = it.get_relative_rot();
     if( relative_rot >= 1.0f ) {
         // TODO: Allow sapro mutants to eat it anyway and make them prefer it
         return 0.0f;
     }
 
-    float weight = std::max( 1.0f, 10.0f * relative_rot );
+    float weight = std::max( 1.0, 10.0 * relative_rot );
     if( food->fun < 0 ) {
         // This helps to avoid eating stuff like flour
         weight /= ( -food->fun ) + 1;
@@ -2644,7 +2642,7 @@ bool npc::consume_food()
     int want_hunger = get_hunger();
     int want_quench = get_thirst();
     invslice slice = inv.slice();
-    for( size_t i = 0; i < slice.size(); i++ ) {
+    for( unsigned int i = 0; i < slice.size(); i++ ) {
         const item &it = slice[i]->front();
         const item &food_item = it.is_food_container() ?
                                 it.contents.front() : it;
@@ -2708,17 +2706,17 @@ void npc::mug_player( player &mark )
     // We already have their money; take some goodies!
     // value_mod affects at what point we "take the money and run"
     // A lower value means we'll take more stuff
-    double value_mod = 1 - double( ( 10 - personality.bravery )    * .05 ) -
-                       double( ( 10 - personality.aggression ) * .04 ) -
-                       double( ( 10 - personality.collector )  * .06 );
+    double value_mod = 1 - ( ( 10 - personality.bravery )    * .05 ) -
+                       ( ( 10 - personality.aggression ) * .04 ) -
+                       ( ( 10 - personality.collector )  * .06 );
     if( !mark.is_npc() ) {
-        value_mod += double( op_of_u.fear * .08 );
-        value_mod -= double( ( 8 - op_of_u.value ) * .07 );
+        value_mod += ( op_of_u.fear * .08 );
+        value_mod -= ( ( 8 - op_of_u.value ) * .07 );
     }
-    int best_value = minimum_item_value() * value_mod;
+    double best_value = minimum_item_value() * value_mod;
     int item_index = INT_MIN;
     invslice slice = mark.inv.slice();
-    for( size_t i = 0; i < slice.size(); i++ ) {
+    for( unsigned int i = 0; i < slice.size(); i++ ) {
         if( value( slice[i]->front() ) >= best_value &&
             can_pickVolume( slice[i]->front(), true ) &&
             can_pickWeight( slice[i]->front(), true ) ) {
@@ -3210,7 +3208,7 @@ bool npc::adjust_worn()
 
         if( !covers_broken( elem, elem.get_side() ) ) {
             const bool needs_change = covers_broken( elem, opposite_side( elem.get_side() ) );
-            // Try to change side (if it makes sense), or takoff.
+            // Try to change side (if it makes sense), or take off.
             if( ( needs_change && change_side( elem ) ) || takeoff( elem ) ) {
                 return true;
             }

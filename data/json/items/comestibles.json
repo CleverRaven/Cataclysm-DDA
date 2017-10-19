@@ -373,7 +373,7 @@
         "name_plural": "milk",
         "weight" : 258,
         "color" : "white",
-        "spoils_in" : 8,
+        "spoils_in" : 24,
         "container" : "jug_plastic",
         "comestible_type" : "DRINK",
         "symbol" : "~",

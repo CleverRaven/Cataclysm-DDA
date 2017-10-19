@@ -372,7 +372,7 @@ classes = {
             { name = "look_debug", rval = "tripoint", args = { } },
             { name = "natural_light_level", rval = "float", args = { "int" } },
             { name = "nuke", rval = nil, args = { "tripoint" } },
-            { name = "num_zombies", rval = "int", args = { } },
+            { name = "num_creatures", rval = "int", args = { } },
             { name = "open_gate", rval = nil, args = { "tripoint" } },
             { name = "peek", rval = nil, args = { "tripoint" } },
             { name = "peek", rval = nil, args = { } },
@@ -395,7 +395,6 @@ classes = {
             { name = "unload", rval = nil, args = { "item" } },
             { name = "unload", rval = nil, args = { } },
             { name = "use_computer", rval = nil, args = { "tripoint" } },
-            { name = "zombie", rval = "monster&", args = { "int" } },
         }
     },
     encumbrance_data = {
@@ -748,7 +747,6 @@ classes = {
             { name = "sees", rval = "bool", args = { "tripoint", "bool" } },
             { name = "sees_with_infrared", rval = "bool", args = { "Creature" } },
             { name = "setID", rval = nil, args = { "int" } },
-            { name = "set_cat_level_rec", rval = nil, args = { "trait_id" } },
             { name = "set_highest_cat_level", rval = nil, args = { } },
             { name = "get_skill_level", rval = "int", args = { "skill_id" } },
             { name = "set_skill_level", rval = nil, args = { "skill_id", "int" } },
@@ -1165,7 +1163,6 @@ classes = {
             { name = "add_spawn", rval = nil, args = { "mtype_id", "int", "int", "int", "bool", "int" } },
             { name = "add_spawn", rval = nil, args = { "mtype_id", "int", "int", "int", "bool", "int", "int" } },
             { name = "add_spawn", rval = nil, args = { "mtype_id", "int", "int", "int", "bool", "int", "int", "string" } },
-            { name = "add_trap", rval = nil, args = { "tripoint", "trap_id" } },
             { name = "adjust_field_age", rval = "int", args = { "tripoint", "field_id", "int" } },
             { name = "adjust_field_strength", rval = "int", args = { "tripoint", "field_id", "int" } },
             { name = "adjust_radiation", rval = nil, args = { "tripoint", "int" } },

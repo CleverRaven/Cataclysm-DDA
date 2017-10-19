@@ -4720,7 +4720,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
         chance = 70;
         part_damage = 300;
         if (t == tr_shotgun_2) {
-            g->m.add_trap(p, tr_shotgun_1);
+            g->m.trap_set(p, tr_shotgun_1);
         } else {
             g->m.remove_trap(p);
             g->m.spawn_item(p, "shotgun_s");
