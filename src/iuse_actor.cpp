@@ -1798,7 +1798,8 @@ void musical_instrument_actor::load( JsonObject &obj )
     fun = obj.get_int( "fun" );
     fun_bonus = obj.get_int( "fun_bonus", 0 );
     description_frequency = obj.get_int( "description_frequency" );
-    descriptions = obj.get_string_array( "descriptions" );
+    player_descriptions = obj.get_string_array( "player_descriptions" );
+    npc_descriptions = obj.get_string_array( " npc_descriptions" );
 }
 
 long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint& ) const
@@ -1870,17 +1871,17 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint&
     /** @EFFECT_PER increases morale bonus when playing an instrument */
     const int morale_effect = fun + fun_bonus * p.per_cur;
     if( morale_effect >= 0 && calendar::turn.once_every( description_frequency ) ) {
-        if( !descriptions.empty() && p.is_player() ) {
-            desc = _( random_entry( descriptions ).c_str() );
-        } else if (!descriptions.empty() && p.is_npc() ) {
-            desc = string_format(_("%1$s %2$s"), p.disp_name(false).c_str(), random_entry( descriptions ).c_str() );
+        if( !player_descriptions.empty() && p.is_player() ) {
+            desc = _( random_entry( player_descriptions ).c_str() );
+        } else if (!npc_descriptions.empty() && p.is_npc() ) {
+            desc = string_format(_("%1$s %2$s"), p.disp_name(false).c_str(), random_entry( npc_descriptions ).c_str() );
         }
     } else if( morale_effect < 0 && int(calendar::turn) % 10 ) {
         // No musical skills = possible morale penalty
         if ( p.is_player() ) {
             desc = _("You produce an annoying sound");
         } else {
-            desc = _("%s produces an annoying sound"), p.disp_name(false).c_str();
+            desc = string_format(_("%s produces an annoying sound"), p.disp_name(false).c_str());
         }
     }
 
