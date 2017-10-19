@@ -9,6 +9,7 @@
 #include <functional>
 #include <set>
 #include <vector>
+#include <algorithm>
 
 class JsonObject;
 typedef std::string itype_id;
