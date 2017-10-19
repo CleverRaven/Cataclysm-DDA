@@ -2995,20 +2995,22 @@ bool player::purifiable( const trait_id &flag ) const
     return flag->purifiable;
 }
 
-void player::set_cat_level_rec( const trait_id &sMut )
+void player::build_mut_dependency_map( const trait_id &mut, std::unordered_map<trait_id, int> &dependency_map, int distance )
 {
-    if( !has_base_trait( sMut ) ) { //Skip base traits
-        const auto &mdata = sMut.obj();
-        for( auto &elem : mdata.category ) {
-            mutation_category_level[elem] += 8;
-        }
-
+    // Skip base traits and traits we've seen with a lower distance
+    const auto lowest_distance = dependency_map.find( mut );
+    if( !has_base_trait( mut ) && (lowest_distance == dependency_map.end() || distance < lowest_distance->second) ) {
+        dependency_map[mut] = distance;
+        // Recurse over all prereqisite and replacement mutations
+        const auto &mdata = mut.obj();
         for( auto &i : mdata.prereqs ) {
-            set_cat_level_rec( i );
+            build_mut_dependency_map( i, dependency_map, distance + 1 );
         }
-
         for( auto &i : mdata.prereqs2 ) {
-            set_cat_level_rec( i );
+            build_mut_dependency_map( i, dependency_map, distance + 1 );
+        }
+        for( auto &i : mdata.replacements ) {
+            build_mut_dependency_map( i, dependency_map, distance + 1 );
         }
     }
 }
@@ -3017,9 +3019,20 @@ void player::set_highest_cat_level()
 {
     mutation_category_level.clear();
 
-    // Loop through our mutations
+    // For each of our mutations...
     for( auto &mut : my_mutations ) {
-        set_cat_level_rec( mut.first );
+        // ...build up a map of all prereq/replacement mutations along the tree, along with their distance from the current mutation
+        std::unordered_map<trait_id, int> dependency_map;
+        build_mut_dependency_map( mut.first, dependency_map, 0);
+
+        // Then use the map to set the category levels
+        for ( auto &i : dependency_map ) {
+            const auto &mdata = i.first.obj();
+            for( auto &cat : mdata.category ) {
+                // Decay category strength based on how far it is from the current mutation
+                mutation_category_level[cat] += 8 / (int) std::pow( 2, i.second );
+            }
+        }
     }
 }
 
@@ -5783,7 +5796,7 @@ void player::suffer()
         g->is_in_sunlight( pos() ) && one_in(10) ) {
         // Umbrellas can keep the sun off the skin and sunglasses - off the eyes.
         if( !weapon.has_flag( "RAIN_PROTECT" ) ) {
-            add_msg( m_bad, _( "The sunlight is really irritating your skin." ) );
+            add_msg_if_player( m_bad, _( "The sunlight is really irritating your skin." ) );
             if( in_sleep_state() ) {
                 wake_up();
             }
@@ -5794,7 +5807,7 @@ void player::suffer()
         }
         if( !( ( (worn_with_flag( "SUN_GLASSES" ) ) || worn_with_flag( "BLIND" ) ) && ( wearing_something_on( bp_eyes ) ) )
             && !has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
-            add_msg( m_bad, _( "The sunlight is really irritating your eyes." ) );
+            add_msg_if_player( m_bad, _( "The sunlight is really irritating your eyes." ) );
             if( one_in(10) ) {
                 mod_pain(1);
             }
@@ -5804,7 +5817,7 @@ void player::suffer()
 
     if (has_trait( trait_SUNBURN ) && g->is_in_sunlight(pos()) && one_in(10)) {
         if( !( weapon.has_flag( "RAIN_PROTECT" ) ) ) {
-        add_msg(m_bad, _("The sunlight burns your skin!"));
+            add_msg_if_player(m_bad, _("The sunlight burns your skin!"));
         if (in_sleep_state()) {
             wake_up();
         }
@@ -7582,16 +7595,12 @@ bool player::can_wear( const item& it, bool alert ) const
         // Only headgear can be worn with power armor, except other power armor components.
         // You can't wear headgear if power armor helmet is already sitting on your head.
         bool has_helmet = false;
-        if( ( is_wearing_power_armor( &has_helmet ) && has_helmet ) &&
-            ( !it.covers( bp_head ) || !it.covers( bp_mouth ) || !it.covers( bp_eyes ) ) ) {
-            for( auto &i : worn ) {
-                if( i.is_power_armor() ) {
-                    if( alert ) {
-                        add_msg_if_player( m_info, _( "You can't wear %s with power armor!" ), it.tname().c_str() );
-                    }
-                    return false;
-                }
+        if( is_wearing_power_armor( &has_helmet ) &&
+            ( has_helmet || !(it.covers( bp_head ) || it.covers( bp_mouth ) || it.covers( bp_eyes ) ) ) ) {
+            if( alert ) {
+                add_msg_if_player( m_info, _( "You can't wear %s with power armor!" ), it.tname().c_str() );
             }
+            return false;
         }
     }
 
@@ -8660,12 +8669,12 @@ bool player::consume_charges( item& used, long qty )
         return false;
     }
 
-    if( !used.is_tool() && !used.is_food() && !used.is_medication() ) {
-        debugmsg( "Tried to consume charges for non-tool, non-food, non-med item" );
+    if( qty == 0 ) {
         return false;
     }
 
-    if( qty == 0 ) {
+    if( !used.is_tool() && !used.is_food() && !used.is_medication() ) {
+        debugmsg( "Tried to consume charges for non-tool, non-food, non-med item" );
         return false;
     }
 
@@ -8811,13 +8820,13 @@ void player::reassign_item( item &it, long invlet )
     }
 
     if( !invlet || inv_chars.valid( invlet ) ) {
-        const auto iter = assigned_invlet.find( it.invlet );
-        bool found = iter != assigned_invlet.end();
+        const auto iter = inv.assigned_invlet.find( it.invlet );
+        bool found = iter != inv.assigned_invlet.end();
         if( found ) {
-            assigned_invlet.erase( iter );
+            inv.assigned_invlet.erase( iter );
         }
         if( invlet && ( !found || it.invlet != invlet ) ) {
-            assigned_invlet[invlet] = it.typeId();
+            inv.assigned_invlet[invlet] = it.typeId();
         }
         inv.reassign_item( it, invlet, remove_old );
     }
@@ -9244,7 +9253,8 @@ bool player::read( int inventory_position, const bool continuous )
                 const int lvl = elem.first->get_skill_level( skill );
                 const std::string lvl_text = skill ? string_format( _( " | current level: %d" ), lvl ) : "";
                 const std::string name_text = elem.first->disp_name() + elem.second;
-                return string_format( ( "%-*s%s" ), max_length( m ), name_text.c_str(), lvl_text.c_str() );
+                return string_format( ( "%-*s%s" ), static_cast<int>( max_length( m ) ),
+                                      name_text.c_str(), lvl_text.c_str() );
             };
 
             auto add_header = [&menu]( const std::string & str ) {
@@ -9427,10 +9437,12 @@ void player::do_read( item *book )
         }
         if( !recipe_list.empty() ) {
             std::string recipe_line = string_format(
-                ngettext("This book contains %1$d crafting recipe: %2$s",
-                         "This book contains %1$d crafting recipes: %2$s", recipe_list.size()),
-                recipe_list.size(), enumerate_as_string( recipe_list ).c_str());
-            add_msg(m_info, "%s", recipe_line.c_str());
+                ngettext( "This book contains %1$u crafting recipe: %2$s",
+                          "This book contains %1$u crafting recipes: %2$s",
+                          static_cast<unsigned long>( recipe_list.size() ) ),
+                static_cast<unsigned long>( recipe_list.size() ),
+                enumerate_as_string( recipe_list ).c_str() );
+            add_msg( m_info, "%s", recipe_line.c_str() );
         }
         if( recipe_list.size() != reading->recipes.size() ) {
             add_msg( m_info, _( "It might help you figuring out some more recipes." ) );
@@ -10870,7 +10882,7 @@ bool player::wield_contents( item &container, int pos, bool penalties, int base_
     container.contents.erase( target );
     container.on_contents_changed();
 
-    inv.assign_empty_invlet( weapon, true );
+    inv.assign_empty_invlet( weapon, this, true );
     last_item = weapon.typeId();
 
     /**
@@ -11428,26 +11440,6 @@ int player::print_info(WINDOW* w, int vStart, int, int column) const
     return vStart;
 }
 
-std::vector<Creature *> get_creatures_if( std::function<bool (const Creature &)>pred )
-{
-    std::vector<Creature *> result;
-    for( size_t i = 0; i < g->num_zombies(); i++ ) {
-        auto &critter = g->zombie( i );
-        if( !critter.is_dead() && pred( critter ) ) {
-            result.push_back( &critter );
-        }
-    }
-    for( const auto &n : g->active_npc ) {
-        if( pred( *n ) ) {
-            result.push_back( n.get() );
-        }
-    }
-    if( pred( g->u ) ) {
-        result.push_back( &g->u );
-    }
-    return result;
-}
-
 bool player::is_visible_in_range( const Creature &critter, const int range ) const
 {
     return sees( critter ) && rl_dist( pos(), critter.pos() ) <= range;
@@ -11455,7 +11447,7 @@ bool player::is_visible_in_range( const Creature &critter, const int range ) con
 
 std::vector<Creature *> player::get_visible_creatures( const int range ) const
 {
-    return get_creatures_if( [this, range]( const Creature &critter ) -> bool {
+    return g->get_creatures_if( [this, range]( const Creature &critter ) -> bool {
         return this != &critter && pos() != critter.pos() && // @todo get rid of fake npcs (pos() check)
           rl_dist( pos(), critter.pos() ) <= range && sees( critter );
     } );
@@ -11463,7 +11455,7 @@ std::vector<Creature *> player::get_visible_creatures( const int range ) const
 
 std::vector<Creature *> player::get_targetable_creatures( const int range ) const
 {
-    return get_creatures_if( [this, range]( const Creature &critter ) -> bool {
+    return g->get_creatures_if( [this, range]( const Creature &critter ) -> bool {
         return this != &critter && pos() != critter.pos() && // @todo get rid of fake npcs (pos() check)
           rl_dist( pos(), critter.pos() ) <= range &&
           ( sees( critter ) || sees_with_infrared( critter ) );
@@ -11472,7 +11464,7 @@ std::vector<Creature *> player::get_targetable_creatures( const int range ) cons
 
 std::vector<Creature *> player::get_hostile_creatures( int range ) const
 {
-    return get_creatures_if( [this, range] ( const Creature &critter ) -> bool {
+    return g->get_creatures_if( [this, range] ( const Creature &critter ) -> bool {
         return this != &critter && pos() != critter.pos() && // @todo get rid of fake npcs (pos() check)
             rl_dist( pos(), critter.pos() ) <= range &&
             critter.attitude_to( *this ) == A_HOSTILE && sees( critter );

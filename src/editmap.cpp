@@ -1277,7 +1277,7 @@ int editmap::edit_trp()
         } else if( action == "CONFIRM" || action == "CONFIRM_QUIT" ) {
             trset = trsel;
             for( auto &elem : target_list ) {
-                g->m.add_trap( elem, trset );
+                g->m.trap_set( elem, trset );
             }
             if( action == "CONFIRM_QUIT" ) {
                 break;

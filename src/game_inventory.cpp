@@ -934,7 +934,7 @@ void game_menus::inv::swap_letters( player &p )
     while( true ) {
         const std::string invlets = colorize_symbols( inv_chars.get_allowed_chars(),
         [ &p ]( const std::string::value_type & elem ) {
-            if( p.assigned_invlet.count( elem ) ) {
+            if( p.inv.assigned_invlet.count( elem ) ) {
                 return c_yellow;
             } else if( p.invlet_to_position( elem ) != INT_MIN ) {
                 return c_white;

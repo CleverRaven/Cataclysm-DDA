@@ -152,7 +152,7 @@
     "qualities":[
       {"id":"CHEM","level":2} ],
     "tools": [
-      [ [ "char_smoker", 3], [ "hotplate", 25], [ "toolset", 25], [ "fire", -1] ],
+      [ [ "water_boiling_heat", 25, "LIST" ] ],
       [ [ "vacutainer", -1] ]
     ],
     "components": [

@@ -15,7 +15,7 @@
     "tools": [
       [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ],
       [ [ "mold_plastic", -1 ] ],
-      [ [ "fire", -1 ], [ "hotplate", 50 ], [ "toolset", 50 ] ]
+      [ [ "surface_heat", 50, "LIST" ] ]
     ],
     "components": [
       [ [ "plastic_chunk", 20 ] ],
@@ -40,7 +40,7 @@
     "tools": [
       [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ],
       [ [ "mold_plastic", -1 ] ],
-      [ [ "fire", -1 ], [ "hotplate", 10 ], [ "toolset", 10 ] ]
+      [ [ "surface_heat", 10, "LIST" ] ]
     ],
     "components": [
       [ [ "plastic_chunk", 4 ] ],

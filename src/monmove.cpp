@@ -220,8 +220,7 @@ void monster::plan( const mfactions &factions )
         }
     } else if( friendly != 0 && !docile ) {
         // Target unfriendly monsters, only if we aren't interacting with the player.
-        for( int i = 0, numz = g->num_zombies(); i < numz; i++ ) {
-            monster &tmp = g->zombie( i );
+        for( monster &tmp : g->all_monsters() ) {
             if( tmp.friendly == 0 ) {
                 float rating = rate_target( tmp, dist, smart_planning );
                 if( rating < dist ) {
@@ -271,8 +270,8 @@ void monster::plan( const mfactions &factions )
                 continue;
             }
 
-            for( int i : fac.second ) { // mon indices
-                monster &mon = g->zombie( i );
+            for( monster *const mon_ptr : fac.second ) {
+                monster &mon = *mon_ptr;
                 float rating = rate_target( mon, dist, smart_planning );
                 if( rating < dist ) {
                     target = &mon;
@@ -299,8 +298,8 @@ void monster::plan( const mfactions &factions )
     }
     swarms = swarms && target == nullptr; // Only swarm if we have no target
     if( group_morale || swarms ) {
-        for( const int i : myfaction_iter->second ) {
-            monster &mon = g->zombie( i );
+        for( monster *const mon_ptr : myfaction_iter->second ) {
+            monster &mon = *mon_ptr;
             float rating = rate_target( mon, dist, smart_planning );
             if( group_morale && rating <= 10 ) {
                 morale += 10 - rating;

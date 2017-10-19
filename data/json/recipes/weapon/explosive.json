@@ -24,7 +24,7 @@
     "time": 10000,
     "book_learn": [ [ "textbook_anarch", 5 ], [ "adv_chemistry", 6 ], [ "textbook_chemistry", 6 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "hotplate", 25 ], [ "toolset", 25 ], [ "fire", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "paper", 5 ], [ "rolling_paper", 32 ] ],
       [ [ "acid", 2 ], [ "chem_sulphuric_acid", 2 ], [ "chem_nitric_acid", 2 ] ],
