@@ -231,6 +231,7 @@ void DynamicDataLoader::initialize()
     add( "overmap_connection", &overmap_connections::load );
     add( "overmap_location", &overmap_locations::load );
     add( "overmap_special", &overmap_specials::load );
+    add( "city_building", &city_buildings::load );
 
     add( "region_settings", &load_region_settings );
     add( "region_overlay", &load_region_overlay );

@@ -207,7 +207,6 @@ extern trap_id
 tr_null,
 tr_bubblewrap,
 tr_cot,
-tr_brazier,
 tr_funnel,
 tr_metal_funnel,
 tr_makeshift_funnel,

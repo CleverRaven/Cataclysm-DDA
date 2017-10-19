@@ -752,13 +752,6 @@ void Creature::set_fake(const bool fake_value)
     fake = fake_value;
 }
 
-void Creature::add_eff_effects(effect e, bool reduced)
-{
-    (void)e;
-    (void)reduced;
-    return;
-}
-
 void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
                            bool permanent, int intensity, bool force )
 {
@@ -870,8 +863,7 @@ void Creature::add_effect( const efftype_id &eff_id, int dur, body_part bp,
         }
         on_effect_int_change( eff_id, e.get_intensity(), bp );
         // Perform any effect addition effects.
-        bool reduced = resists_effect(e);
-        add_eff_effects(e, reduced);
+        process_one_effect( e, true );
     }
 }
 bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int strength, int dur,
