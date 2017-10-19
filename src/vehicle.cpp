@@ -529,7 +529,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         }
     }
     // destroy tires until the vehicle is not drivable
-    if( destroyTires ) {
+    if( destroyTires && !wheelcache.empty() ) {
         int tries = 0;
         while( valid_wheel_config( false ) && tries < 100 ) {
             // wheel config is still valid, destroy the tire.
