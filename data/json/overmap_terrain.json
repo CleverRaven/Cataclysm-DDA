@@ -267,18 +267,12 @@
     },{
         "type" : "overmap_terrain",
         "id" : "house_base",
-        "name" : "house",
-        "sym" : 94,
-        "color" : "light_green",
-        "see_cost" : 2,
-        "extras" : "build",
-        "mondensity" : 2,
+        "copy-from" : "house"
         "mapgen": [
             { "method": "builtin", "name": "house_generic_boxy" },
             { "method": "builtin", "name": "house_generic_big_livingroom" },
             { "method": "builtin", "name": "house_generic_center_hallway" }
-        ],
-        "flags" : [ "SIDEWALK" ]
+        ]
     },{
         "type" : "overmap_terrain",
         "id" : "s_lot",
@@ -352,76 +346,45 @@
         "flags" : [ "SIDEWALK" ]
     },{
         "type" : "overmap_terrain",
-        "id" : "apartments_con_tower_NW",
+        "abstract" : "apartments_tower_any",
         "name" : "apartment tower",
         "sym" : 65,
         "color" : "light_green",
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
+    },,{
+        "type" : "overmap_terrain",
+        "id" : "apartments_con_tower_NW",
+        "copy-from" : "apartments_tower_any"
     },{
         "type" : "overmap_terrain",
         "id" : "apartments_con_tower_NE",
-        "name" : "apartment tower",
-        "sym" : 65,
-        "color" : "light_green",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "copy-from" : "apartments_tower_any"
     },{
         "type" : "overmap_terrain",
         "id" : "apartments_con_tower_SW",
-        "name" : "apartment tower",
-        "sym" : 65,
-        "color" : "light_green",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "copy-from" : "apartments_tower_any"
     },{
         "type" : "overmap_terrain",
         "id" : "apartments_con_tower_SE",
-        "name" : "apartment tower",
-        "sym" : 65,
-        "color" : "light_green",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "copy-from" : "apartments_tower_any"
     },{
         "type" : "overmap_terrain",
         "id" : "apartments_mod_tower_NW",
-        "name" : "apartment tower",
-        "sym" : 65,
-        "color" : "light_green",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "copy-from" : "apartments_tower_any"
     },{
         "type" : "overmap_terrain",
         "id" : "apartments_mod_tower_NE",
-        "name" : "apartment tower",
-        "sym" : 65,
-        "color" : "light_green",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "copy-from" : "apartments_tower_any"
     },{
         "type" : "overmap_terrain",
         "id" : "apartments_mod_tower_SW",
-        "name" : "apartment tower",
-        "sym" : 65,
-        "color" : "light_green",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "copy-from" : "apartments_tower_any"
     },{
         "type" : "overmap_terrain",
         "id" : "apartments_mod_tower_SE",
-        "name" : "apartment tower",
-        "sym" : 65,
-        "color" : "light_green",
-        "see_cost" : 5,
-        "mondensity" : 2,
-        "flags" : [ "SIDEWALK" ]
+        "copy-from" : "apartments_tower_any"
     },{
         "type" : "overmap_terrain",
         "id" : "office_tower_1_entrance",
