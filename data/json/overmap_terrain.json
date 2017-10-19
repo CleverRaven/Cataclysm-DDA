@@ -34,13 +34,13 @@
         "type" : "overmap_terrain",
         "abstract" : "generic_mansion",
         "name" : "mansion",
-        "color" : "green"
+        "color" : "green",
         "sym" : 77,
         "see_cost" : 5,
         "mondensity" : 2
     },{
         "type" : "overmap_terrain",
-        "abstract" : "any_mall",
+        "abstract" : "generic_mall",
         "name" : "mall",
         "see_cost" : 5,
         "mondensity" : 2,
@@ -287,8 +287,6 @@
         "copy-from" : "generic_city_building",
         "name" : "house",
         "color" : "light_green",
-        "extras" : "build",
-        "mondensity" : 2,
         "mapgen": [
             { "method": "builtin", "name": "house_generic_boxy" },
             { "method": "builtin", "name": "house_generic_big_livingroom" },
@@ -298,7 +296,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "house_base",
-        "copy-from" : "house"
+        "copy-from" : "house",
         "mapgen": [
             { "method": "builtin", "name": "house_generic_boxy" },
             { "method": "builtin", "name": "house_generic_big_livingroom" },
@@ -369,7 +367,7 @@
         "see_cost" : 5,
         "mondensity" : 2,
         "flags" : [ "SIDEWALK" ]
-    },,{
+    },{
         "type" : "overmap_terrain",
         "id" : "apartments_con_tower_NW",
         "copy-from" : "apartments_tower_any"
@@ -2047,21 +2045,18 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_11",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_12",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_13",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
@@ -2117,42 +2112,36 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_21",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_22",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_23",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_24",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_25",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_26",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
@@ -2180,42 +2169,36 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_30",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_31",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_32",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_33",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_34",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_35",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
@@ -2236,49 +2219,42 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_38",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_39",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_40",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_41",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_42",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_43",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_44",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
@@ -2306,35 +2282,30 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_48",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_49",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_50",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_51",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_52",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
@@ -2362,49 +2333,42 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_56",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_57",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_58",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_59",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_60",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_61",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_62",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
@@ -2425,21 +2389,18 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_65",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_66",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_67",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
@@ -2453,21 +2414,18 @@
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_69",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_70",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
     },{
         "type" : "overmap_terrain",
         "id" : "mall_a_71",
-        "name" : "mall",
         "copy-from" : "generic_mall",
         "sym" : 77,
         "color" : "i_red"
