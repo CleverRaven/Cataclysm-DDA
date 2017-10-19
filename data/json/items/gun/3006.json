@@ -23,7 +23,7 @@
     "magazine_well": 1,
     "magazines": [
       [ "3006", [ "blrmag" ] ],
-      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
+      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
     ]
   },
   {
@@ -48,7 +48,7 @@
     "magazine_well": 1,
     "magazines": [
       [ "3006", [ "garandclip" ] ],
-      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
+      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
     ]
   },
   {
