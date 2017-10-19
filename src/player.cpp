@@ -5271,14 +5271,14 @@ void player::process_one_effect( effect &it, bool is_new )
     // Handle coughing
     mod = 1;
     val = 0;
-    if (is_new || it.activated(calendar::turn, "COUGH", val, reduced, mod)) {
+    if (it.activated(calendar::turn, "COUGH", val, reduced, mod)) {
         cough(it.get_harmful_cough());
     }
 
     // Handle vomiting
     mod = vomit_mod();
     val = 0;
-    if (is_new || it.activated(calendar::turn, "VOMIT", val, reduced, mod)) {
+    if (it.activated(calendar::turn, "VOMIT", val, reduced, mod)) {
         vomit();
     }
 
