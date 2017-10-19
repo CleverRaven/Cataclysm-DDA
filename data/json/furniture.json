@@ -2776,7 +2776,7 @@
         "symbol": "#",
         "color": "red",
         "move_cost_mod": 2,
-        "required_str": 16,
+        "required_str": 8,
         "flags": ["PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT"],
         "deconstruct": {
             "items": [
