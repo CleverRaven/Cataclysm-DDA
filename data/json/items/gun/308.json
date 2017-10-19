@@ -22,7 +22,7 @@
     "barrel_length": 2,
     "magazines": [
       [ "308", [ "falmag", "falbigmag" ] ],
-      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
+      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
     ]
   },
   {
