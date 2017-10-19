@@ -255,7 +255,8 @@
   "components": [
     [ [ "circuit", 2 ] ],
     [ [ "e_scrap", 5 ] ],
-    [ [ "cable", 2 ] ]
+    [ [ "cable", 2 ] ],
+    [ [ "amplifier", 1 ] ]
   ]
 },{
   "type" : "recipe",
@@ -278,7 +279,8 @@
   "components": [
     [ [ "circuit", 3 ] ],
     [ [ "e_scrap", 7 ] ],
-    [ [ "cable", 3 ] ]
+    [ [ "cable", 3 ] ],
+    [ [ "amplifier", 1 ] ]
   ]
 },{
   "type" : "recipe",
@@ -1936,8 +1938,10 @@
   "qualities" : [ {"id":"SCREW","level":1} ],
   "components": [
     [ [ "pipebomb", 1 ] ],
+    [ [ "pilot_light", 1 ] ],
     [ [ "battery", 5 ] ],
     [ [ "antenna", 1 ] ],
+    [ [ "amplifier", 1 ] ],
     [ [ "cable", 5 ] ]
   ]
 },{
@@ -1954,8 +1958,10 @@
   "qualities" : [ {"id":"SCREW","level":1} ],
   "components": [
     [ [ "dynamite", 1 ] ],
+    [ [ "pilot_light", 1 ] ],
     [ [ "battery", 5 ] ],
     [ [ "antenna", 1 ] ],
+    [ [ "amplifier", 1 ] ],
     [ [ "cable", 5 ] ]
   ]
 },{
@@ -2328,6 +2334,7 @@
     [ [ "antenna", 1 ] ],
     [ [ "pilot_light", 1 ] ],
     [ [ "battery", 10 ] ],
+    [ [ "amplifier", 1 ] ],
     [ [ "cable", 2 ] ]
   ]
 }
