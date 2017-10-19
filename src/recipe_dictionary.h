@@ -9,6 +9,7 @@
 #include <functional>
 #include <set>
 #include <vector>
+#include <algorithm>
 
 class JsonObject;
 typedef std::string itype_id;
@@ -89,7 +90,9 @@ class recipe_subset
 
         /** Check if the subset contains a recipe with the specified id. */
         bool contains( const recipe *r ) const {
-            return recipes.find( r ) != recipes.end();
+            return std::any_of( recipes.begin(), recipes.end(), [r]( const recipe * elem ) {
+                return elem->ident() == r->ident();
+            } );
         }
 
         /**
