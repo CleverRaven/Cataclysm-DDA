@@ -727,19 +727,10 @@
     },{
         "type" : "vehicle_part",
         "id" : "box_locking",
+        "copy-from": "box",
         "name" : "locked box",
-        "symbol" : "o",
-        "color" : "brown",
-        "broken_symbol" : "#",
-        "broken_color" : "brown",
-        "damage_modifier" : 60,
-        "durability" : 100,
-        "size" : 275,
-        "item" : "frame",
         "difficulty" : 2,
-        "location" : "center",
-        "flags" : ["CARGO", "CARGO_LOCKING", "TOOL_SCREWDRIVER", "BOARDABLE", "COVERED"],
-        "breaks_into": "ig_vp_frame"
+        "extend": { "flags" : [ "CARGO_LOCKING" ] }
     },{
         "type" : "vehicle_part",
         "id" : "travois",
@@ -791,22 +782,10 @@
     },{
         "type" : "vehicle_part",
         "id" : "wood_box_locking",
+        "copy-from": "wood box",
         "name" : "locked wood box",
-        "symbol" : "o",
-        "color" : "brown",
-        "broken_symbol" : "#",
-        "broken_color" : "brown",
-        "damage_modifier" : 60,
-        "durability" : 70,
-        "size" : 150,
-        "item" : "frame_wood",
         "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["CARGO", "CARGO_LOCKING", "BOARDABLE", "COVERED", "NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [3, 5]},
-            {"item": "nail", "charges": [10, 15]}
-        ]
+        "extend": { "flags": [ "CARGO_LOCKING" ] }
     },{
         "type" : "vehicle_part",
         "id" : "folding wood box",
@@ -830,23 +809,10 @@
     },{
         "type" : "vehicle_part",
         "id" : "folding_locked_wood_box",
+        "copy-from": "folding wood box"
         "name" : "folding locked wood box",
-        "symbol" : "o",
-        "color" : "brown",
-        "broken_symbol" : "#",
-        "broken_color" : "brown",
-        "damage_modifier" : 60,
-        "durability" : 65,
-        "folded_volume": 6,
-        "size" : 120,
-        "item" : "foldwoodframe",
         "difficulty" : 2,
-        "location" : "center",
-        "flags" : ["CARGO", "CARGO_LOCKING", "BOARDABLE", "COVERED", "NAILABLE", "FOLDABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [3, 5]},
-            {"item": "nail", "charges": [10, 15]}
-        ]
+        "extend": { "flags" : [ "CARGO_LOCKING" ] }
     },{
         "type" : "vehicle_part",
         "id" : "cargo_bag",
