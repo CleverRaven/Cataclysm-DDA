@@ -228,3 +228,10 @@ data/mods/RL_Classes/modinfo.json
 data/mods/No_NPC_Food/modinfo.json
 data/mods/DinoMod/modinfo.json
 data/mods/DinoMod/snippets.json
+data/json/items/gunmod/sights.json
+data/mods/bio_mod/b_bio_tools.json
+data/mods/bio_mod/b_bio_weapons.json
+data/mods/bio_mod/b_bionics.json
+data/mods/bio_mod/b_cbm.json
+data/mods/bio_mod/b_item_groups.json
+data/mods/bio_mod/b_professions.json

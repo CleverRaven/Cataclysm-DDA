@@ -1,4 +1,4 @@
-[  
+[
   {
     "id": "bio_emp_gun",
     "type": "GUN",
@@ -16,7 +16,8 @@
     "range": 10,
     "ranged_damage": 10,
     "pierce": 5,
-    "dispersion": 0,   "//": "This is a pulse, not a laser. It's a point and shoot system, like a shotgun but even more so since this is a single mass.",
+    "dispersion": 0,
+    "//": "This is a pulse, not a laser. It's a point and shoot system, like a shotgun but even more so since this is a single mass.",
     "durability": 10,
     "loudness": 20,
     "reload": 0,
@@ -49,5 +50,4 @@
     "ammo_effects": [ "PLASMA", "EXPLOSIVE_HUGE", "STREAM_BIG", "INCENDIARY", "WIDE" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "TRADER_AVOID" ]
   }
-]  
-  
+]

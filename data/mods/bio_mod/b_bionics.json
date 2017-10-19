@@ -3,16 +3,7 @@
     "type": "bionic",
     "id": "bio_emp_armgun",
     "name": "EMP Projector",
-    "occupied_bodyparts": [
-      [
-        "ARM_R",
-        10
-      ],
-      [
-        "HAND_R",
-        5
-      ]
-    ],
+    "occupied_bodyparts": [ [ "ARM_R", 10 ], [ "HAND_R", 5 ] ],
     "act_cost": 20,
     "gun_bionic": true,
     "fake_item": "bio_emp_gun",
@@ -22,12 +13,7 @@
     "type": "bionic",
     "id": "bio_chest_gun",
     "name": "Ionic Overload Generator",
-    "occupied_bodyparts": [
-      [
-        "TORSO",
-        20
-      ]
-    ],
+    "occupied_bodyparts": [ [ "TORSO", 20 ] ],
     "act_cost": 500,
     "gun_bionic": true,
     "fake_item": "bio_ion_gun",
@@ -38,10 +24,7 @@
     "type": "bionic",
     "name": "Autonomous Surgical Razors",
     "description": "Implanted on the user's fingers is a system of surgical grade razors.  While activated, they will continously drain power to make automated precise cuts but you will be unable to wield anything.",
-    "occupied_bodyparts": [
-      [ "ARM_R", 1 ],
-      [ "ARM_L", 1 ]
-    ],
+    "occupied_bodyparts": [ [ "ARM_R", 1 ], [ "ARM_L", 1 ] ],
     "toggled": true,
     "act_cost": 75,
     "fake_item": "bio_scalpel",

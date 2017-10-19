@@ -12,7 +12,7 @@
     "material": "steel",
     "symbol": ",",
     "color": "light_gray",
-    "techniques": ["RAPID", "PRECISE"],
+    "techniques": [ "RAPID", "PRECISE" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 50 ] ],
     "flags": [ "UNARMED_WEAPON", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID" ]
   }
