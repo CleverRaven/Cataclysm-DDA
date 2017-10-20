@@ -411,7 +411,15 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         }
 
         if( pt.is_battery() ) {
-            pt.ammo_set( "battery", pt.ammo_capacity() * veh_fuel_mult / 100 );
+            if( veh_fuel_mult == 100 ) { // Mint condition vehicle
+                pt.ammo_set( "battery", pt.ammo_capacity() );
+            } else if( one_in( 2 ) && veh_fuel_mult > 0 ) { // Randomise battery ammo a bit
+                pt.ammo_set( "battery", pt.ammo_capacity() * ( veh_fuel_mult + rng( 0, 10 ) ) / 100 );
+            } else if( one_in( 2 ) && veh_fuel_mult > 0 ) {
+                pt.ammo_set( "battery", pt.ammo_capacity() * ( veh_fuel_mult - rng( 0, 10 ) ) / 100 );
+            } else {
+                pt.ammo_set( "battery", pt.ammo_capacity() * veh_fuel_mult / 100 );
+            }
         }
 
         if( pt.is_tank() && type->parts[p].fuel != "null" ) {
@@ -463,7 +471,6 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 
             } else if ((destroySeats && (part_flag(p, "SEAT") || part_flag(p, "SEATBELT"))) ||
                 (destroyControls && (part_flag(p, "CONTROLS") || part_flag(p, "SECURITY"))) ||
-                (destroyTires && part_flag(p, VPFLAG_WHEEL)) ||
                 (destroyAlarm && part_flag(p, "SECURITY"))) {
                 set_hp( parts[ p ], 0 );
             }
@@ -521,7 +528,16 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             }
         }
     }
-
+    // destroy tires until the vehicle is not drivable
+    if( destroyTires && !wheelcache.empty() ) {
+        int tries = 0;
+        while( valid_wheel_config( false ) && tries < 100 ) {
+            // wheel config is still valid, destroy the tire.
+            set_hp( parts[random_entry( wheelcache )], 0 );
+            tries++;
+        }
+    }
+    
     invalidate_mass();
 }
 /**

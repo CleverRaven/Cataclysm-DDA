@@ -70,7 +70,7 @@
     "durability": 8,
     "burst": 6,
     "magazines": [
-      [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ],
+      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
       [ "308", [ "g3mag", "g3bigmag" ] ]
     ]
@@ -229,7 +229,7 @@
     "built_in_mods": [ "bipod" ],
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "magazines": [
-      [ "223", [ "stanag50", "stanag30", "belt223" ] ],
+      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag", "belt223" ] ],
       [ "308", [ "belt308" ] ]
     ]
   },
@@ -242,7 +242,7 @@
     "weight": 3495,
     "burst": 15,
     "magazines": [
-      [ "223", [ "stanag50", "stanag30", "stanag10" ] ],
+      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
       [ "308", [ "g3mag", "g3bigmag" ] ]
     ],
@@ -271,7 +271,7 @@
     "durability": 6,
     "burst": 10,
     "magazines": [
-      [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ],
+      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
       [ "308", [ "g3mag", "g3bigmag" ] ]
     ]
@@ -297,7 +297,7 @@
     "barrel_length": 2,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ],
     "magazines": [
-      [ "223", [ "stanag10", "survivor223mag" ] ],
+      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
       [ "308", [ "g3mag" ] ]
     ]
@@ -349,7 +349,7 @@
     ],
     "built_in_mods": [ "folding_stock" ],
     "magazines": [
-      [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ],
+      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
       [ "308", [ "g3mag", "g3bigmag" ] ]
     ]
