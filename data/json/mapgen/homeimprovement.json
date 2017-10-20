@@ -16,12 +16,7 @@
   {
     "id": "rug",
     "type": "item_group",
-    "items": [
-      [ "r_carpet", 45 ],
-      [ "g_carpet", 45 ],
-      [ "y_carpet", 45 ],
-      [ "p_carpet", 45 ]
-    ]
+    "items": [ [ "r_carpet", 45 ], [ "g_carpet", 45 ], [ "y_carpet", 45 ], [ "p_carpet", 45 ] ]
   },
   {
     "id": "home_improvement",

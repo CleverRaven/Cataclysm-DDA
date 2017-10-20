@@ -46,9 +46,7 @@
         "M": "t_wall_metal",
         "|": "t_chainfence_v"
       },
-      "furniture": {
-        "#": "f_table"
-      },
+      "furniture": { "#": "f_table" },
       "place_monster": [
         { "monster": "mon_turret_rifle", "x": 9, "y": 10 },
         { "monster": "mon_turret_rifle", "x": 14, "y": 10 },

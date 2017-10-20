@@ -43,12 +43,8 @@
         "w": "t_water_dp",
         "|": "t_chainfence_h"
       },
-      "place_items": [
-        { "item": "forest", "x": 18, "y": 8, "chance": 20 }
-      ],
-      "place_monsters": [
-        { "monster": "GROUP_POND_FISH", "x": [ 7, 7 ], "y": [ 6, 11 ], "repeat": 2 }
-      ]
+      "place_items": [ { "item": "forest", "x": 18, "y": 8, "chance": 20 } ],
+      "place_monsters": [ { "monster": "GROUP_POND_FISH", "x": [ 7, 7 ], "y": [ 6, 11 ], "repeat": 2 } ]
     }
   }
 ]

@@ -80,9 +80,7 @@
         "n": "f_table",
         "o": "f_bookcase"
       },
-      "toilets": {
-        "t": {}
-      },
+      "toilets": { "t": {  } },
       "place_loot": [
         { "group": "livingroom", "x": [ 3, 8 ], "y": [ 2, 10 ], "chance": 90, "repeat": [ 1, 5 ] },
         { "group": "kitchen", "x": [ 15, 20 ], "y": [ 2, 11 ], "chance": 75, "repeat": [ 1, 3 ] },

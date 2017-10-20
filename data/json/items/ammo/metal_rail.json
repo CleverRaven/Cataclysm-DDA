@@ -35,10 +35,6 @@
     "color": "light_gray",
     "dispersion": 0,
     "effects": [ "NEVER_MISFIRES" ],
-    "relative": {
-      "range": 10,
-      "damage": -5,
-      "pierce": 15
-    }
+    "relative": { "range": 10, "damage": -5, "pierce": 15 }
   }
 ]

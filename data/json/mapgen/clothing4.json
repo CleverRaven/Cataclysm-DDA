@@ -18,11 +18,7 @@
   {
     "id": "dress_shoes",
     "type": "item_group",
-    "items": [
-      [ "dress_shoes", 50 ],
-      [ "heels", 50 ],
-      [ "leathersandals", 20 ]
-    ]
+    "items": [ [ "dress_shoes", 50 ], [ "heels", 50 ], [ "leathersandals", 20 ] ]
   },
   {
     "type": "mapgen",
@@ -97,9 +93,7 @@
         "y": "f_indoor_plant_y",
         "}": "f_bookcase"
       },
-      "toilets": {
-        "t": {}
-      },
+      "toilets": { "t": {  } },
       "place_items": [
         { "item": "dress_shop", "x": 2, "y": 4, "chance": 40, "repeat": 2 },
         { "item": "dress_shop", "x": [ 4, 5 ], "y": 4, "chance": 40, "repeat": 2 },

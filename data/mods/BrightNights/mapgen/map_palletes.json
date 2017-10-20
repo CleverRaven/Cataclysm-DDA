@@ -55,11 +55,7 @@
       "^": "f_indoor_plant",
       "x": "f_safe_l"
     },
-    "toilets": {
-      ";": { }
-    },
-    "items": {
-       "d": { "item": "office", "chance": 70 }
-    }
+    "toilets": { ";": {  } },
+    "items": { "d": { "item": "office", "chance": 70 } }
   }
 ]

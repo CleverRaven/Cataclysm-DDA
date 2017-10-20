@@ -240,9 +240,7 @@
         "d": "f_dumpster",
         "{": "f_rack"
       },
-      "toilets": {
-        "P": {}
-      },
+      "toilets": { "P": {  } },
       "place_items": [
         { "item": "restaur_table", "x": [ 3, 4 ], "y": [ 7, 8 ], "chance": 25, "repeat": [ 1, 2 ] },
         { "item": "restaur_table", "x": [ 8, 9 ], "y": [ 7, 8 ], "chance": 25, "repeat": [ 1, 2 ] },
