@@ -62,6 +62,7 @@ ignore_files = {
 # these objects have no translatable strings
 ignorable = {
     "BULLET_PULLING",
+    "city_building",
     "colordef",
     "emit",
     "epilogue", # FIXME right now this object can't be translated correctly
