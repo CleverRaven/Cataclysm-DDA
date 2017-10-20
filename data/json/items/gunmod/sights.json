@@ -113,8 +113,8 @@
   {
     "id": "acog_scope",
     "type": "GUNMOD",
-    "name": "ACOG Scope",
-    "description": "An Advanced Combat Optical Gunsight, a milspec medium magnification scope. Increases weight but improves accuracy significantly.",
+    "name": "ACOG scope",
+    "description": "An Advanced Combat Optical Gunsight, a milspec medium magnification scope.  Increases weight but improves accuracy significantly.",
     "weight": 450,
     "volume": 2,
     "price": 68000,
