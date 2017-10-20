@@ -1501,5 +1501,16 @@
       { "monster": "mon_zombie", "freq": 20, "cost_multiplier": 1 },
       { "monster": "mon_zombie_fat", "freq": 10, "cost_multiplier": 1 }
     ]
+  },
+  {
+    "name": "GROUP_PETSTORE",
+    "type": "monstergroup",
+    "default": "mon_dog_zombie_rot",
+    "monsters": [
+      { "monster": "mon_dog_zombie_rot", "freq": 400, "cost_multiplier": 1 },
+      { "monster": "mon_dog_skeleton", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_dog", "freq": 400, "cost_multiplier": 1 },
+      { "monster": "mon_cat", "freq": 400, "cost_multiplier": 1 }
+    ]
   }
 ]
