@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-14 18:24+0800\n"
+"POT-Creation-Date: 2017-10-20 18:01+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -7437,6 +7437,22 @@ msgstr[1] ""
 msgid ""
 "A snuggly woolen cowl.  It's one of those stylish and bulky cowls you see in "
 "fashion magazines."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "golden crown"
+msgid_plural "golden crowns"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for golden crown
+#: lang/json/ARMOR_from_json.py
+msgid "A delicate golden crown featuring flowering trees."
+msgstr ""
+
+#. ~ Description for golden crown
+#: lang/json/ARMOR_from_json.py
+msgid "A golden crown for the monarch of survivors."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -14979,6 +14995,56 @@ msgid ""
 "water.  You must, however, have a container to store the water in."
 msgstr ""
 
+#: lang/json/BIONIC_ITEM_from_json.py
+msgid "EMP Projector CBM"
+msgid_plural "EMP Projector CBMs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for EMP Projector CBM
+#. ~ Description for EMP Projector
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
+#: lang/json/gun_from_json.py
+msgid ""
+"A ranged emp generator system is implanted on the palm of the user's right "
+"hand and arm.  Fires super-concentrated electric pulses for a short "
+"distance.  Extremely effective against electronic targets but mostly useless "
+"otherwise."
+msgstr ""
+
+#: lang/json/BIONIC_ITEM_from_json.py
+msgid "Ionic Overload Generator CBM"
+msgid_plural "Ionic Overload Generator CBMs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for Ionic Overload Generator CBM
+#. ~ Description for Ionic Overload Generator
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/bionic_from_json.py
+msgid ""
+"A powerful ion energy generator is implanted on the user's chest.  Fires a "
+"powerful, ever-expanding energy blast.  The resulting blast ignites oxygen "
+"creating fires as it moves and an explosion on impact. Close range use is "
+"highly discouraged."
+msgstr ""
+
+#: lang/json/BIONIC_ITEM_from_json.py
+msgid "Autonomous Surgical Razors CBM"
+msgid_plural "Autonomous Surgical Razors CBMs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for Autonomous Surgical Razors CBM
+#. ~ Description for autonomous surgical razors
+#. ~ Description for Autonomous Surgical Razors
+#: lang/json/BIONIC_ITEM_from_json.py lang/json/TOOL_from_json.py
+#: lang/json/bionic_from_json.py
+msgid ""
+"Implanted on the user's fingers is a system of surgical grade razors.  While "
+"activated, they will continously drain power to make automated precise cuts "
+"but you will be unable to wield anything."
+msgstr ""
+
 #: lang/json/BOOK_from_json.py
 msgid "Lessons for the Novice Bowhunter"
 msgid_plural "Lessons for the Novice Bowhunter"
@@ -15716,6 +15782,19 @@ msgstr[1] ""
 msgid ""
 "A textbook that illustrates the science and technique of the ancient art of "
 "glassblowing."
+msgstr ""
+
+#: lang/json/BOOK_from_json.py
+msgid "Antique Adornments"
+msgid_plural "Antique Adornments"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for Antique Adornments
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A comprehensive and illustrated history of crown, bracelet, necklace and "
+"others."
 msgstr ""
 
 #: lang/json/BOOK_from_json.py
@@ -27742,6 +27821,18 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "pair of tinted glass"
+msgid_plural "pairs of tinted glass"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for pair of tinted glass
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A pair of small darkened glass, like the one that sunglasses are made of."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "burnt out bionic"
 msgid_plural "burnt out bionics"
 msgstr[0] ""
@@ -35378,6 +35469,15 @@ msgid "Gives all zombies perfect nightvision."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
+msgid "Bionics Systems Mod"
+msgstr ""
+
+#. ~ Description for Bionics Systems Mod
+#: lang/json/MOD_INFO_from_json.py
+msgid "Adds and rebalances bionics and CBMs."
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
 msgid "Vehicle Additions Pack"
 msgstr ""
 
@@ -41196,22 +41296,18 @@ msgid ""
 "a built-in SMG."
 msgstr ""
 
-#: lang/json/TOOL_from_json.py lang/json/trap_from_json.py
+#: lang/json/TOOL_from_json.py lang/json/furniture_from_json.py
 msgid "brazier"
 msgid_plural "braziers"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action done_message for brazier.
-#: lang/json/TOOL_from_json.py
-msgid "You place the brazier securely."
-msgstr ""
-
 #. ~ Description for brazier
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is a large metal stand with slots on the side.  Use it to place it "
-"somewhere then set fires in it with no risk of spreading."
+"This is a large metal stand with slots on the side.  You can set it "
+"somewhere through the construction menu and then set fires in it with no "
+"risk of spreading."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -46926,6 +47022,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
+msgid "autonomous surgical razors"
+msgid_plural "autonomous surgical razorss"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/TOOL_from_json.py
 msgid "growing blob frame"
 msgid_plural "growing blob frames"
 msgstr[0] ""
@@ -48772,6 +48874,24 @@ msgstr ""
 msgid "Water Extraction Unit"
 msgstr ""
 
+#: lang/json/bionic_from_json.py lang/json/gun_from_json.py
+#: lang/json/gun_from_json.py
+msgid "EMP Projector"
+msgid_plural "EMP Projectors"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/bionic_from_json.py lang/json/gun_from_json.py
+#: lang/json/gun_from_json.py
+msgid "Ionic Overload Generator"
+msgid_plural "Ionic Overload Generators"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/bionic_from_json.py
+msgid "Autonomous Surgical Razors"
+msgstr ""
+
 #: lang/json/bodypart_from_json.py
 msgid "torso"
 msgstr ""
@@ -49361,6 +49481,10 @@ msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Place Still"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Place Brazier"
 msgstr ""
 
 #: lang/json/construction_from_json.py
@@ -52275,11 +52399,13 @@ msgid "oven"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
+#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 #: lang/json/terrain_from_json.py
 msgid "metal screeching!"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
+#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 #: lang/json/terrain_from_json.py
 msgid "clang!"
 msgstr ""
@@ -53395,6 +53521,10 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: lang/json/gun_from_json.py
+msgid "chuk chuk."
+msgstr ""
+
+#: lang/json/gun_from_json.py
 msgid "base SMG"
 msgid_plural "base SMGs"
 msgstr[0] ""
@@ -53697,7 +53827,7 @@ msgid ""
 msgstr ""
 
 #: lang/json/gun_from_json.py
-#: src/item_factory.cpp src/turret.cpp
+#: lang/json/gun_from_json.py src/item_factory.cpp src/turret.cpp
 msgid "auto"
 msgstr ""
 
@@ -55242,6 +55372,10 @@ msgid ""
 msgstr ""
 
 #: lang/json/gun_from_json.py
+msgid "slosh."
+msgstr ""
+
+#: lang/json/gun_from_json.py
 msgid "spraycan flamethrower"
 msgid_plural "spraycan flamethrowers"
 msgstr[0] ""
@@ -56332,12 +56466,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/gun_from_json.py
-msgid "EMP Projector"
-msgid_plural "EMP Projectors"
-msgstr[0] ""
-msgstr[1] ""
-
-#: lang/json/gun_from_json.py
 msgid ""
 "A powerful electrolaser developed by paramilitary R&D not long before the "
 "cataclysm.  Especially effective against electronic targets.  It charges off "
@@ -56565,6 +56693,14 @@ msgstr[1] ""
 msgid ""
 "A launcher for anti-tank guided missiles.  While highly accurate, it isn't "
 "fire-and-forget.  Obviously it needs to be mounted on a vehicle to fire."
+msgstr ""
+
+#: lang/json/gun_from_json.py
+msgid ""
+"A powerful ion energy generator is implanted on the user's chest.  Fires a "
+"powerful, ever-expanding energy blast that goes through various targets.  "
+"The energy shot ignites oxygen creating fires as it moves and an explosion "
+"on impact."
 msgstr ""
 
 #: lang/json/gun_from_json.py
@@ -57876,6 +58012,18 @@ msgstr[1] ""
 msgid ""
 "A long ranged rifle scope used by civilians and military alike, increases "
 "weight but improves accuracy greatly."
+msgstr ""
+
+#: lang/json/gunmod_from_json.py
+msgid "ACOG scope"
+msgid_plural "ACOG scopes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/gunmod_from_json.py
+msgid ""
+"An Advanced Combat Optical Gunsight, a milspec medium magnification scope.  "
+"Increases weight but improves accuracy significantly."
 msgstr ""
 
 #: lang/json/gunmod_from_json.py
@@ -66099,6 +66247,16 @@ msgid ""
 msgstr ""
 
 #: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You sink your fangs into %s"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s sinks their fangs into %2$s"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Incisors"
 msgstr ""
 
@@ -68517,6 +68675,16 @@ msgid ""
 msgstr ""
 
 #: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You jackhammer into %s with your beak"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s jackhammer into %2$s with their beak"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Hummingbird Beak"
 msgstr ""
 
@@ -68711,6 +68879,16 @@ msgstr ""
 msgid ""
 "You've developed the ability to control your vines; they make good lashes.  "
 "You can even rappel down sheer drops using them, but disconnecting HURTS."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You lash %s with a vine"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s lashes %2$s with their vines"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -68951,6 +69129,26 @@ msgid ""
 "Your arms have transformed into tentacles, resulting in a bonus of 1 to "
 "dexterity, permanent hand encumbrance of 30, and inability to wear gloves.  "
 "Somewhat decreases wet penalties."
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You slap %s with your tentacle"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s slaps %2$s with their tentacle"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "You rake %s with your tentacle"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
+#, no-python-format
+msgid "%1$s rakes %2$s with their tentacle"
 msgstr ""
 
 #: lang/json/mutation_from_json.py
@@ -69777,6 +69975,10 @@ msgstr ""
 msgid "Captive"
 msgstr ""
 
+#: lang/json/overmap_terrain_from_json.py
+msgid "house"
+msgstr ""
+
 #: lang/json/overmap_terrain_from_json.py src/mapdata.cpp
 #: src/mapdata.cpp
 msgid "nothing"
@@ -69825,10 +70027,6 @@ msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
 msgid "river bank"
-msgstr ""
-
-#: lang/json/overmap_terrain_from_json.py
-msgid "house"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
@@ -72967,7 +73165,7 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_male"
 msgid ""
-"You thought this would your lucky break.  Does it count as breaking and "
+"You thought this would be your lucky break.  Does it count as breaking and "
 "entering if everyone in town is undead?"
 msgstr ""
 
@@ -72980,7 +73178,7 @@ msgstr ""
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
 msgid ""
-"You thought this would your lucky break.  Does it count as breaking and "
+"You thought this would be your lucky break.  Does it count as breaking and "
 "entering if everyone in town is undead?"
 msgstr ""
 
@@ -74738,6 +74936,34 @@ msgctxt "prof_desc_female"
 msgid ""
 "A wise student of ancient and forbidden knowledge; you are a wizard, a "
 "mystical practitioner of the (bionic) arcane arts."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Bionic Surgeon"
+msgstr ""
+
+#. ~ Profession (male Bionic Surgeon) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"As one of the top surgeons in the country, you were chosen for an "
+"augmentation program to expand the medical field. With your experties and "
+"augmentations, you can preform precise surgery with little assitance."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Bionic Surgeon"
+msgstr ""
+
+#. ~ Profession (female Bionic Surgeon) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"As one of the top surgeons in the country, you were chosen for an "
+"augmentation program to expand the medical field. With your experties and "
+"augmentations, you can preform precise surgery with little assitance."
 msgstr ""
 
 #: lang/json/professions_from_json.py
@@ -97737,8 +97963,8 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "%d monster exists.\n"
-msgid_plural "%d monsters exist.\n"
+msgid "%d creature exists.\n"
+msgid_plural "%d creatures exist.\n"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -103597,7 +103823,7 @@ msgid_plural "This book has <num> <info>unread chapters</info>."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/item.cpp src/player.cpp
+#: src/item.cpp
 #, c-format
 msgid "This book contains %1$d crafting recipe: %2$s"
 msgid_plural "This book contains %1$d crafting recipes: %2$s"
@@ -116907,17 +117133,17 @@ msgid "Volume: %s %s, Weight: %.1f %s"
 msgstr ""
 
 #: src/npctalk.cpp
-#, c-format
-msgid "Cost $%.2f"
-msgstr ""
-
-#: src/npctalk.cpp
 msgid "Exchange"
 msgstr ""
 
 #: src/npctalk.cpp
 #, c-format
 msgid "Profit $%.2f"
+msgstr ""
+
+#: src/npctalk.cpp
+#, c-format
+msgid "Cost $%.2f"
 msgstr ""
 
 #: src/npctalk.cpp
@@ -118556,6 +118782,11 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
+msgid "Your %s HURTS!"
+msgstr ""
+
+#: src/player.cpp
+#, c-format
 msgid "Your %s hurts!"
 msgstr ""
 
@@ -118573,11 +118804,6 @@ msgstr ""
 
 #: src/player.cpp
 msgid "Your bowels gurgle as something inside them dies."
-msgstr ""
-
-#: src/player.cpp
-#, c-format
-msgid "Your %s HURTS!"
 msgstr ""
 
 #: src/player.cpp
@@ -119437,6 +119663,13 @@ msgstr ""
 #, c-format
 msgid "A chapter of this book takes %d minute to read."
 msgid_plural "A chapter of this book takes %d minutes to read."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/player.cpp
+#, c-format
+msgid "This book contains %1$u crafting recipe: %2$s"
+msgid_plural "This book contains %1$u crafting recipes: %2$s"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -123251,7 +123484,7 @@ msgstr ""
 
 #: src/worldfactory.cpp
 #, c-format
-msgid "Page %d"
+msgid "Page %lu"
 msgstr ""
 
 #: src/worldfactory.cpp
