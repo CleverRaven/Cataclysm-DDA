@@ -279,20 +279,19 @@ static void melee_train( player &p, int lo, int hi, const item &weap ) {
 void player::melee_attack( Creature &t, bool allow_special )
 {
     static const matec_id no_technique_id( "" );
-    melee_attack( t, allow_special, no_technique_id );
+    melee_attack( t, allow_special, no_technique_id, used_weapon() );
 }
 
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
 // we calculate if we would hit. In Creature::deal_melee_hit, we calculate if the target dodges.
-void player::melee_attack( Creature &t, bool allow_special, const matec_id &force_technique )
+void player::melee_attack( Creature &t, bool allow_special, const matec_id &force_technique, item &cur_weapon )
 {
-    float hit_spread = t.deal_melee_attack( this, get_hit( used_weapon() ) );
+    float hit_spread = t.deal_melee_attack( this, get_hit( cur_weapon ) );
     if( !t.is_player() ) {
         // @todo Per-NPC tracking? Right now monster hit by either npc or player will draw aggro...
         t.add_effect( effect_hit_by_player, 100 ); // Flag as attacked by us for AI
     }
 
-    item &cur_weapon = used_weapon();
     const bool critical_hit = scored_crit( t.dodge_roll(), cur_weapon );
     int move_cost = attack_speed( cur_weapon );
 
@@ -484,7 +483,7 @@ void player::reach_attack( const tripoint &p )
         return;
     }
 
-    melee_attack( *critter, false, force_technique );
+    melee_attack( *critter, false, force_technique, weapon );
 }
 
 int stumble( player &u, const item &weap )
@@ -1391,10 +1390,10 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
                            damage_blocked_description.c_str(), thing_blocked_with.c_str() );
 
     // Check if we have any block counters
-    matec_id tec = pick_technique( *source, shield, false, false, true );
+    matec_id tec = pick_technique( *source, used_weapon(), false, false, true );
 
     if( tec != tec_none ) {
-        melee_attack( *source, false, tec );
+        melee_attack( *source, false, tec, used_weapon() );
     }
 
     return true;

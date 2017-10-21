@@ -489,9 +489,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param allow_special whether non-forced martial art technique or mutation attack should be
          *   possible with this attack.
          * @param force_technique special technique to use in attack.
+         * @param weap weapon to use.
          */
         /*@{*/
-        void melee_attack( Creature &t, bool allow_special, const matec_id &force_technique );
+        void melee_attack( Creature &t, bool allow_special, const matec_id &force_technique, item &weap );
         void melee_attack( Creature &t, bool allow_special );
         /*@}*/
 
