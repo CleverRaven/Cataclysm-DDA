@@ -1,3 +1,4 @@
+#include "melee.h"
 #include "player.h"
 #include "bionics.h"
 #include "debug.h"
@@ -185,19 +186,19 @@ float player::get_hit_weapon( const item &weap ) const
     return ( skill / 3.0f ) + ( get_skill_level( skill_melee ) / 2.0f );
 }
 
-float player::get_hit_base() const
+float player::get_hit( const item &weap ) const
 {
     // Character::get_hit_base includes stat calculations already
-    return Character::get_hit_base() + get_hit_weapon( used_weapon() );
+    return Character::get_hit_base() + get_hit_weapon( weap );
 }
 
-float player::hit_roll() const
+float player::hit_roll( const item &weap ) const
 {
     // Dexterity, skills, weapon and martial arts
-    float hit = get_hit();
+    float hit = get_hit( weap );
     // Drunken master makes us hit better
     if( has_trait( trait_DRUNKEN ) ) {
-        hit += get_effect_dur( effect_drunk ) / ( used_weapon().is_null() ? 300.0f : 400.0f );
+        hit += get_effect_dur( effect_drunk ) / ( weap.is_null() ? 300.0f : 400.0f );
     }
 
     // Farsightedness makes us hit worse
@@ -213,7 +214,7 @@ float player::hit_roll() const
 
     hit *= std::max( 0.25f, 1.0f - encumb( bp_torso ) / 100.0f );
 
-    return hit_roll_at_accuracy( hit );
+    return melee::melee_hit_range( hit );
 }
 
 void player::add_miss_reason( const std::string reason, const unsigned int weight )
@@ -275,16 +276,17 @@ static void melee_train( player &p, int lo, int hi, const item &weap ) {
                 ceil( bash / total * rng( lo, hi ) ), hi );
 }
 
-void player::melee_attack( Creature &t, bool allow_special, const matec_id &force_technique )
+void player::melee_attack( Creature &t, bool allow_special )
 {
-    int hitspread = t.deal_melee_attack( this, hit_roll(), get_melee() );
-    melee_attack( t, allow_special, force_technique, hitspread );
+    static const matec_id no_technique_id( "" );
+    melee_attack( t, allow_special, no_technique_id );
 }
 
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
 // we calculate if we would hit. In Creature::deal_melee_hit, we calculate if the target dodges.
-void player::melee_attack(Creature &t, bool allow_special, const matec_id &force_technique, int hit_spread)
+void player::melee_attack( Creature &t, bool allow_special, const matec_id &force_technique )
 {
+    float hit_spread = t.deal_melee_attack( this, get_hit( used_weapon() ) );
     if( !t.is_player() ) {
         // @todo Per-NPC tracking? Right now monster hit by either npc or player will draw aggro...
         t.add_effect( effect_hit_by_player, 100 ); // Flag as attacked by us for AI
@@ -364,7 +366,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
         }
 
         if( allow_special && !t.is_dead_state() ) {
-            perform_special_attacks(t);
+            perform_special_attacks( t, cur_weapon );
         }
 
         // Proceed with melee attack.
@@ -503,7 +505,7 @@ int stumble( player &u, const item &weap )
 
 bool player::scored_crit( float target_dodge, const item &weap ) const
 {
-    return rng_float( 0, 1.0 ) < crit_chance( hit_roll(), target_dodge, weap );
+    return rng_float( 0, 1.0 ) < crit_chance( hit_roll( weap ), target_dodge, weap );
 }
 
 /**
@@ -1175,13 +1177,8 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
 
         //hit the targets in the lists (all candidates if wide or burst, or just the unlucky sod if deep)
         int count_hit = 0;
-        for( Creature *const c : targets) {
-            if (hit_roll() >= rng(0, 5) + c->dodge_roll()) {
-                count_hit++;
-                melee_attack( *c, false );
-
-                add_msg_player_or_npc( m_good, _("You hit %s!"), _("<npcname> hits %s!"), c->disp_name().c_str() );
-            }
+        for( Creature *const c : targets ) {
+            melee_attack( *c, false );
         }
 
         t.add_msg_if_player(m_good, ngettext("%d enemy hit!", "%d enemies hit!", count_hit), count_hit);
@@ -1403,7 +1400,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     return true;
 }
 
-void player::perform_special_attacks(Creature &t)
+void player::perform_special_attacks( Creature &t, const item &weap )
 {
     bool can_poison = false;
 
@@ -1420,7 +1417,7 @@ void player::perform_special_attacks(Creature &t)
         dealt_damage_instance dealt_dam;
 
         // @todo Make this hit roll use unarmed skill, not weapon skill + weapon to_hit
-        int hit_spread = t.deal_melee_attack( this, hit_roll() * 0.8, get_melee() );
+        int hit_spread = t.deal_melee_attack( this, get_hit( weap ) * 0.8 );
         if( hit_spread >= 0 ) {
             t.deal_melee_hit( this, hit_spread, false, att.damage, dealt_dam );
             if( !practiced ) {
@@ -1966,16 +1963,17 @@ void player::disarm( npc &target )
     their_roll += dice( 3, target.get_per() );
     their_roll += dice( 3, target.get_skill_level( skill_melee ) );
 
+    item &it = target.weapon;
+
     // roll your melee and target's dodge skills to check if grab/smash attack succeeds
-    int hitspread = target.deal_melee_attack( this, hit_roll(), get_melee() );
-    if( hitspread < 0 ) {
-        // this will not do damage, but trigger all miss effects and on_dodge on target
-        melee_attack( target, false, no_technique_id, hitspread );
+    float hitspread = target.deal_melee_attack( this, get_hit( weapon ) );
+    if( hitspread < 0.0f ) {
+        add_msg( _( "You lunge for the %s, but miss!" ), it.tname().c_str() );
+        mod_moves( -100 - stumble( *this, weapon ) - attack_speed( weapon ) );
         target.on_attacked( *this );
         return;
     }
 
-    item &it = target.weapon;
     // hitspread >= 0, which means we are going to disarm by grabbing target by their weapon
     if( !is_armed() ) {
         /** @EFFECT_UNARMED increases chance to disarm, bonus when nothing wielded */
@@ -1997,9 +1995,8 @@ void player::disarm( npc &target )
             mod_moves( -100 );
         }
     } else {
-        // deal damage with weapon wielded, and make their weapon fall on floor if we've rolled enough.
-        melee_attack( target, false, no_technique_id, hitspread );
-        mod_moves( -100 );
+        // Make their weapon fall on floor if we've rolled enough.
+        mod_moves( -100 - attack_speed( weapon ) );
         if( my_roll >= their_roll ) {
             add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ),
                     target.name.c_str(), it.tname().c_str() );
@@ -2058,4 +2055,18 @@ void player::steal( npc &target )
 
     // consider to deduce less/more moves for balance
     mod_moves( -200 );
+}
+
+namespace melee
+{
+
+/**
+ * Once the accuracy (sum of modifiers) of an attack has been determined,
+ * this is used to actually roll the "hit value" of the attack to be compared to dodge.
+ */
+float melee_hit_range( float accuracy )
+{
+    return normal_roll( accuracy * 5, 25.0f );
+}
+
 }

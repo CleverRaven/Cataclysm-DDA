@@ -4548,5 +4548,5 @@ bool mattack::dodge_check( monster &z, Creature &target, float at_accuracy ) {
         return true;
     }
     ///\EFFECT_DODGE increases chance of dodging a special attack, vs attacker's melee skill
-    return target.deal_melee_attack( &z, z.hit_roll_at_accuracy( at_accuracy ), at_accuracy ) < 0.0f;
+    return target.deal_melee_attack( &z, at_accuracy ) < 0.0f;
 }

@@ -202,7 +202,7 @@ bool melee_actor::call( monster &z ) const
              target->disp_name().c_str() );
 
     const int acc = accuracy >= 0 ? accuracy : z.get_melee();
-    float hitspread = target->deal_melee_attack( &z, z.hit_roll_at_accuracy( acc ), acc * 2 );
+    float hitspread = target->deal_melee_attack( &z, acc );
 
     if( hitspread <= 0.0f ) {
         auto msg_type = target == &g->u ? m_warning : m_info;

@@ -10,12 +10,26 @@
 
 const skill_id skill_dodge( "dodge" );
 
-static float brute_probability( Creature &attacker, Creature &target, size_t iters )
+static float brute_probability( monster &attacker, Creature &target, size_t iters )
 {
     // Note: not using deal_melee_attack because it trains dodge, which causes problems here
     size_t hits = 0;
     for( size_t i = 0; i < iters; i++ ) {
         int spread = attacker.hit_roll() - target.dodge_roll();
+        if( spread > 0 ) {
+            hits++;
+        }
+    }
+
+    return ( float )hits / iters;
+}
+
+static float brute_probability( npc &attacker, Creature &target, size_t iters )
+{
+    // Note: not using deal_melee_attack because it trains dodge, which causes problems here
+    size_t hits = 0;
+    for( size_t i = 0; i < iters; i++ ) {
+        int spread = attacker.hit_roll( attacker.weapon ) - target.dodge_roll();
         if( spread > 0 ) {
             hits++;
         }
@@ -45,7 +59,7 @@ static std::string full_attack_details( const player &dude )
 {
     std::stringstream ss;
     ss << "Details for " << dude.disp_name() << std::endl;
-    ss << "get_hit() == " << dude.get_hit() << std::endl;
+    ss << "get_hit() == " << dude.get_hit( dude.weapon ) << std::endl;
     ss << "get_hit_base() == " << dude.get_hit_base() << std::endl;
     ss << "get_hit_weapon() == " << dude.get_hit_weapon( dude.weapon ) << std::endl;
     return ss.str();

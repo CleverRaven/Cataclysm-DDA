@@ -31,6 +31,7 @@
 #include "field.h"
 #include "sounds.h"
 #include "npc.h"
+#include "melee.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
@@ -1011,19 +1012,20 @@ void monster::absorb_hit(body_part, damage_instance &dam) {
     }
 }
 
-void monster::melee_attack( Creature &target, bool allow_special, const matec_id& force_technique )
+float monster::get_hit() const
 {
-    float hitspread = target.deal_melee_attack( this, hit_roll(), get_melee() );
-    melee_attack( target, allow_special, force_technique, hitspread );
+    return get_hit_base() + get_hit_bonus();
 }
 
-void monster::melee_attack( Creature &target, bool, const matec_id&, int hitspread )
+void monster::melee_attack( Creature &target )
 {
     mod_moves( -type->attack_cost );
     if( type->melee_dice == 0 ) {
         // We don't attack, so just return
         return;
     }
+
+    float hitspread = target.deal_melee_attack( this, get_hit() );
 
     if( this == &target ) {
         // This happens sometimes
@@ -1470,7 +1472,7 @@ float monster::hit_roll() const {
         hit /= 4;
     }
 
-    return hit_roll_at_accuracy( hit );
+    return melee::melee_hit_range( hit );
 }
 
 bool monster::has_grab_break_tec() const

@@ -15,6 +15,7 @@
 #include "field.h"
 #include "projectile.h"
 #include "anatomy.h"
+#include "melee.h"
 
 #include <algorithm>
 #include <numeric>
@@ -336,21 +337,6 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
     return target;
 }
 
-void Creature::melee_attack(Creature &t, bool allow_special)
-{
-    static const matec_id no_technique_id( "" );
-    melee_attack( t, allow_special, no_technique_id );
-}
-
-/**
- * Once the accuracy (sum of modifiers) of an attack has been determined,
- * this is used to actually roll the "hit value" of the attack to be compared to dodge.
- */
-float Creature::hit_roll_at_accuracy( float accuracy )
-{
-    return normal_roll( accuracy * 5, 25.0f );
-}
-
 /*
  * Damage-related functions
  */
@@ -374,13 +360,13 @@ float size_melee_penalty( m_size target_size )
     return 0;
 }
 
-float Creature::deal_melee_attack( Creature *source, float hitroll, float difficulty )
+float Creature::deal_melee_attack( Creature *source, float accuracy )
 {
-    float hit_spread = hitroll - dodge_roll() - size_melee_penalty( get_size() );
+    float hit_spread = melee::melee_hit_range( accuracy ) - dodge_roll() - size_melee_penalty( get_size() );
 
     // If attacker missed call targets on_dodge event
     if( hit_spread <= 0.0f && !source->is_hallucination() ) {
-        on_dodge( source, difficulty );
+        on_dodge( source, accuracy );
     }
 
     return hit_spread;
@@ -1173,10 +1159,6 @@ int Creature::get_speed() const
 float Creature::get_dodge() const
 {
     return get_dodge_base() + get_dodge_bonus();
-}
-float Creature::get_hit() const
-{
-    return get_hit_base() + get_hit_bonus();
 }
 
 int Creature::get_speed_base() const
