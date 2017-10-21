@@ -1,6 +1,7 @@
 #include "item.h"
 
 #include "flag.h"
+#include "string_formatter.h"
 #include "advanced_inv.h"
 #include "player.h"
 #include "damage.h"

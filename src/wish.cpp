@@ -1,7 +1,7 @@
 #include "game.h"
 #include "map.h"
 #include "debug.h"
-#include "output.h"
+#include "string_formatter.h"
 #include "item_factory.h"
 #include "uistate.h"
 #include "monstergenerator.h"

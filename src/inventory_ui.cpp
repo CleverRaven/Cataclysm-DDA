@@ -5,6 +5,7 @@
 #include "action.h"
 #include "map.h"
 #include "translations.h"
+#include "string_formatter.h"
 #include "options.h"
 #include "messages.h"
 #include "catacharset.h"

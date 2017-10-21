@@ -19,6 +19,7 @@
 #include "veh_interact.h"
 #include "cata_utility.h"
 
+#include "string_formatter.h"
 #include <algorithm>
 #include <sstream>
 #include <numeric>

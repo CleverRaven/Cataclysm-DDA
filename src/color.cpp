@@ -5,6 +5,7 @@
 #include "path_info.h"
 #include "cata_utility.h"
 #include "filesystem.h"
+#include "string_formatter.h"
 #include "ui.h"
 #include "translations.h"
 #include <iostream>

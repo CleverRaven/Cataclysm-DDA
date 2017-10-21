@@ -4,6 +4,7 @@
 #include "item_factory.h"
 #include "debug.h"
 #include "json.h"
+#include "string_formatter.h"
 #include "cata_utility.h"
 #include "rng.h"
 #include "translations.h"

@@ -18,6 +18,7 @@
 #include "text_snippets.h"
 #include "item_factory.h"
 #include "vehicle_group.h"
+#include "string_formatter.h"
 #include "crafting.h"
 #include "crafting_gui.h"
 #include "mapdata.h"

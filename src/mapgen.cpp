@@ -12,6 +12,7 @@
 #include "ammo.h"
 #include "item_group.h"
 #include "mapgen_functions.h"
+#include "string_formatter.h"
 #include "mapgenformat.h"
 #include "mapbuffer.h"
 #include "overmapbuffer.h"

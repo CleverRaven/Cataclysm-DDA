@@ -4,6 +4,7 @@
 #include "debug.h"
 #include "translations.h"
 #include "filesystem.h"
+#include "string_formatter.h"
 #include "cursesdef.h"
 #include "path_info.h"
 #include "mapsharing.h"

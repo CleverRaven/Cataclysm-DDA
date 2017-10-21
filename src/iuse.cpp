@@ -11,6 +11,7 @@
 #include "options.h"
 #include "requirements.h"
 #include "rng.h"
+#include "string_formatter.h"
 #include "line.h"
 #include "mutation.h"
 #include "player.h"

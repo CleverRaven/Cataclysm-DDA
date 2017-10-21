@@ -10,6 +10,7 @@
 #include "sounds.h"
 #include "options.h"
 #include "mapdata.h"
+#include "string_formatter.h"
 #include "debug.h"
 #include "field.h"
 #include "vitamin.h"

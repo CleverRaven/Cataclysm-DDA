@@ -7,6 +7,7 @@
 #include "translations.h"
 #include "catacharset.h"
 #include "output.h"
+#include "string_formatter.h"
 
 #include <algorithm> //std::min
 #include <sstream>

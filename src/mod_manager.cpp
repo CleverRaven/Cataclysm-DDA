@@ -2,6 +2,7 @@
 #include "filesystem.h"
 #include "debug.h"
 #include "output.h"
+#include "string_formatter.h"
 #include "worldfactory.h"
 #include "cata_utility.h"
 #include "path_info.h"

@@ -3,6 +3,7 @@
 #include "color.h"
 #include "init.h"
 #include "game_constants.h"
+#include "string_formatter.h"
 #include "generic_factory.h"
 #include "harvest.h"
 #include "debug.h"

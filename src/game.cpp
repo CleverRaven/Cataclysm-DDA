@@ -32,6 +32,7 @@
 #include "action.h"
 #include "monstergenerator.h"
 #include "monattack.h"
+#include "string_formatter.h"
 #include "mondefense.h"
 #include "monfaction.h"
 #include "worldfactory.h"

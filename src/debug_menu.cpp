@@ -12,6 +12,7 @@
 #include "overmapbuffer.h"
 #include "vitamin.h"
 #include "mission.h"
+#include "string_formatter.h"
 
 #include <algorithm>
 #include <vector>

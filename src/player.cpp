@@ -3,6 +3,7 @@
 #include "action.h"
 #include "coordinate_conversions.h"
 #include "profession.h"
+#include "string_formatter.h"
 #include "bionics.h"
 #include "mission.h"
 #include "game.h"

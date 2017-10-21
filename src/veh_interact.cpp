@@ -8,6 +8,7 @@
 #include "map.h"
 #include "output.h"
 #include "catacharset.h"
+#include "string_formatter.h"
 #include "crafting.h"
 #include "options.h"
 #include "debug.h"
