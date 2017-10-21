@@ -36,6 +36,33 @@ inline std::string to_string( long const n )
     return buffer;
 }
 
+inline std::string to_string( unsigned long const n )
+{
+    //- and \0
+    constexpr int size = std::numeric_limits<unsigned long>::digits10 + 2;
+    char buffer[size];
+    snprintf( buffer, size, "%lu", n );
+    return buffer;
+}
+
+inline std::string to_string( long long const n )
+{
+    //- and \0
+    constexpr int size = std::numeric_limits<long long>::digits10 + 2;
+    char buffer[size];
+    snprintf( buffer, size, "%lld", n );
+    return buffer;
+}
+
+inline std::string to_string( unsigned long long const n )
+{
+    //- and \0
+    constexpr int size = std::numeric_limits<unsigned long long>::digits10 + 2;
+    char buffer[size];
+    snprintf( buffer, size, "%llu", n );
+    return buffer;
+}
+
 inline std::string to_string( int const n )
 {
     //- and \0
