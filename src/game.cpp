@@ -11732,9 +11732,7 @@ void game::place_player( const tripoint &dest_loc )
             auto items = m.i_at(u.pos());
 
             for( size_t i = 0; i < items.size(); i++ ) {
-                auto maybe_corpse = items[i];
-                if ( maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
-                    maybe_corpse.get_mtype()->has_flag( MF_REVIVES ) ) {
+                if ( items[i].is_corpse() ) {
                     corpses.push_back(i);
                 }
             }
