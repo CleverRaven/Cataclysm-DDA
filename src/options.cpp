@@ -816,8 +816,8 @@ void options_manager::init()
     mOptionsSort["general"]++;
 
     add( "AUTO_PULP_BUTCHER", "general", translate_marker( "Auto pulp or butcher" ),
-        translate_marker( "Set to automatically pulp or butcher corpses.  Off: Disabled. - Pulp: Pulp corpses you stand on. - Pulp Adjecent: Pulp corpses adjesent from you. - Butcher: Butcher corpses you stand on" ),
-        { { "off", translate_marker( "Off" ) }, { "pulp", translate_marker( "Pulp" ) }, { "pulp_adjacent", translate_marker( "Pulp Adjecent" ) }, { "butcher", translate_marker( "Butcher" ) } }, "off"
+         translate_marker( "Set to automatically pulp or butcher corpses.  Off: Disabled. - Pulp: Pulp corpses you stand on. - Pulp Adjacent: Pulp corpses adjacent from you. - Butcher: Butcher corpses you stand on." ),
+        { { "off", translate_marker( "Off" ) }, { "pulp", translate_marker( "Pulp" ) }, { "pulp_adjacent", translate_marker( "Pulp Adjacent" ) }, { "butcher", translate_marker( "Butcher" ) } }, "off"
         );
 
     add( "AUTO_PULP_BUTCHER_SAFEMODE", "general", translate_marker( "Auto pulp or butcher safe mode" ),
