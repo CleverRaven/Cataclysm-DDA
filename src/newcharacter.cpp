@@ -1754,17 +1754,9 @@ struct {
         } else if (a == gen) {
             return true;
         }
-        if( !cities_enabled ) {
-            if( a->has_flag( "CITY_START" ) == b->has_flag( "CITY_START" ) ) {
-                if( sort_by_points ) {
-                    return a->point_cost() < b->point_cost();
-                } else {
-                    return a->gender_appropriate_name( male ) <
-                        b->gender_appropriate_name( male );
-                }
-            } else {
-                return a->has_flag( "CITY_START" ) < b->has_flag( "CITY_START" );
-            }
+
+        if( !cities_enabled && a->has_flag( "CITY_START" ) != b->has_flag( "CITY_START" ) ) {
+            return a->has_flag( "CITY_START" ) < b->has_flag( "CITY_START" );
         } else if ( sort_by_points ) {
             return a->point_cost() < b->point_cost();
         } else {
@@ -1901,10 +1893,10 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
                   sorted_scens[cur_id]->gender_appropriate_name(u->male).c_str(),
                   pointsForScen);
 
-        std::string scenUnavailable = "This scenario is not available in this world due to city size settings. ";
+        std::string scenUnavailable = _( "This scenario is not available in this world due to city size settings. " );
         std::string scenDesc = ( sorted_scens[cur_id]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) ? 
-            (scenUnavailable + sorted_scens[cur_id]->description( u->male ).c_str()) :
-            sorted_scens[cur_id]->description( u->male ).c_str();
+            (scenUnavailable + sorted_scens[cur_id]->description( u->male ) ) :
+            sorted_scens[cur_id]->description( u->male );
         fold_and_print( w_description, 0, 0, TERMX - 2, c_green, scenDesc );
 
         //Draw options
@@ -2025,21 +2017,21 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
                 cur_id = scens_length - 1;
             }
         } else if (action == "CONFIRM") {
-            if( sorted_scens[cur_id]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {}
-            else {
-                u->start_location = sorted_scens[cur_id]->start_location();
-                u->str_max = 8;
-                u->dex_max = 8;
-                u->int_max = 8;
-                u->per_max = 8;
-                g->scen = sorted_scens[cur_id];
-                u->prof = &default_prof.obj();
-                u->empty_traits();
-                u->empty_skills();
-                u->add_traits();
-                points.init_from_options();
-                points.skill_points -= sorted_scens[cur_id]->point_cost();
+            if( sorted_scens[cur_id]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {
+                continue;
             }
+            u->start_location = sorted_scens[cur_id]->start_location();
+            u->str_max = 8;
+            u->dex_max = 8;
+            u->int_max = 8;
+            u->per_max = 8;
+            g->scen = sorted_scens[cur_id];
+            u->prof = &default_prof.obj();
+            u->empty_traits();
+            u->empty_skills();
+            u->add_traits();
+            points.init_from_options();
+            points.skill_points -= sorted_scens[cur_id]->point_cost();
         } else if( action == "PREV_TAB" ) {
             retval = tab_direction::BACKWARD;
         } else if( action == "NEXT_TAB" ) {
