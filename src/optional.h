@@ -5,6 +5,7 @@
 #include <type_traits>
 #include <stdexcept>
 #include <cassert>
+#include <initializer_list>
 
 namespace cata
 {
