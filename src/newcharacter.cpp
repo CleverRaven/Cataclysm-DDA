@@ -1894,10 +1894,14 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
                   pointsForScen);
 
         std::string scenUnavailable = _( "This scenario is not available in this world due to city size settings. " );
-        std::string scenDesc = ( sorted_scens[cur_id]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) ? 
-            (scenUnavailable + sorted_scens[cur_id]->description( u->male ) ) :
-            sorted_scens[cur_id]->description( u->male );
-        fold_and_print( w_description, 0, 0, TERMX - 2, c_green, scenDesc );
+        std::string scenDesc = sorted_scens[cur_id]->description( u->male );
+
+        if( sorted_scens[cur_id]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {
+            fold_and_print( w_description, 0, 0, TERMX - 2, c_red, scenUnavailable );
+            fold_and_print( w_description, 1, 0, TERMX - 2, c_green, scenDesc );
+        } else {
+            fold_and_print( w_description, 0, 0, TERMX - 2, c_green, scenDesc );
+        }
 
         //Draw options
         calcStartPos(iStartPos, cur_id, iContentHeight, scens_length);
