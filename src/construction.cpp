@@ -63,6 +63,7 @@ void done_tree( const tripoint & );
 void done_trunk_log( const tripoint & );
 void done_trunk_plank( const tripoint & );
 void done_vehicle( const tripoint & );
+void done_powered_furniture(const tripoint &);
 void done_deconstruct( const tripoint & );
 void done_digormine_stair( const tripoint &, bool );
 void done_dig_stair( const tripoint & );
@@ -938,6 +939,31 @@ void construct::done_vehicle( const tripoint &p )
     g->m.add_vehicle_to_cache( veh );
 }
 
+void construct::done_powered_furniture( const tripoint &p )
+{
+    std::string name = string_input_popup()
+                       .title( _( "Enter new powered furniture name:" ) )
+                       .width( 20 )
+                       .query_string();
+    if( name.empty() ) {
+        name = _( "Powered furniture" );
+    }
+
+    vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p, 270, 0, 0 );
+
+    if( !veh ) {
+        debugmsg( "error constructing vehicle" );
+        return;
+    }
+    veh->name = name;
+    veh->install_part( 0, 0, vpart_from_item( g->u.lastconsumed ) );
+    veh->is_furniture = true;
+
+    // Update the vehicle cache immediately,
+    // or the vehicle will be invisible for the first couple of turns.
+    g->m.add_vehicle_to_cache( veh );
+}
+
 void construct::done_deconstruct( const tripoint &p )
 {
     // TODO: Make this the argument
@@ -1207,6 +1233,7 @@ void load_construction(JsonObject &jo)
         { "done_window_curtains", construct::done_window_curtains },
         { "done_extract_sand", construct::done_extract_sand },
         { "done_extract_clay", construct::done_extract_clay },
+        { "done_powered_furniture", construct::done_powered_furniture },
     }};
     static const std::map<std::string, std::function<void( const tripoint & )>> explain_fail_map = {{
         { "", construct::failure_standard },

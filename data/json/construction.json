@@ -2382,5 +2382,15 @@
         ],
         "pre_terrain" : "t_reinforced_glass",
         "post_terrain" : "t_reinforced_glass_shutter"
+    },{
+        "type" : "construction",
+        "description" : "Start Powered Furniture Construction", "//": "Rest of vehicle construction done in the vehicle construction menu",
+        "category" : "OTHER",
+        "required_skills" : [ [ "mechanics", 0 ] ],
+        "time" : 10,
+        "//": "no components required, they are filled in at runtime based on the vehicle parts that can be used to start a vehicle",
+        "pre_special" : "check_empty",
+        "post_special" : "done_powered_furniture",
+        "vehicle_start" : true
     }
 ]
