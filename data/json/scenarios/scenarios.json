@@ -14,13 +14,14 @@
     "points" : 0,
     "description": "Whether due to stubbornness, ignorance, or just plain bad luck, you missed the evacuation, and are stuck in a city full of the risen dead.",
     "allowed_locs" : ["house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library","s_bookstore","boarded_house"],
+    "flags": [ "CITY_START" ],
     "start_name": "In Town"
   },
   {
     "type": "scenario",
     "name": "Infected",
     "description": "In the chaos and panic of evacuation, you got bitten by something!  You didn't get proper medical care, and now the wound has started turning green.",
-    "flags": [ "INFECTED" ],
+    "flags": [ "INFECTED", "CITY_START" ],
     "ident": "infected",
     "points" : -4,
     "start_name": "Anywhere",
@@ -32,7 +33,7 @@
     "type": "scenario",
     "name": "Burning Building",
     "description": "The building you had chosen to reside in has suddenly caught fire!  You might want to leave.",
-    "flags": [ "FIRE_START" ],
+    "flags": [ "FIRE_START", "CITY_START" ],
     "ident": "fire",
     "points" : -2,
     "start_name": "Anywhere",
@@ -47,7 +48,7 @@
     "start_name": "Anywhere",
     "allowed_locs" : ["house","s_grocery","s_gun","s_garage","pawn","bank","mil_surplus","furniture","s_library","s_bookstore"],
     "professions" : ["svictim","tweaker"],
-    "flags" : ["FIRE_START","INFECTED","BAD_DAY","CHALLENGE"]
+    "flags" : [ "FIRE_START", "INFECTED", "BAD_DAY", "CHALLENGE", "CITY_START" ]
   },{
     "type": "scenario",
     "ident": "medieval",
@@ -112,7 +113,7 @@
     "forced_traits" : ["FLIMSY2"],
     "forbidden_traits" : ["TOUGH","DISRESISTANT"],
     "professions" : ["unemployed","bionic_patient","patient","broken_cyborg"],
-    "flags" : ["CHALLENGE"]
+    "flags" : [ "CHALLENGE", "CITY_START" ]
   },{
     "type" : "scenario",
     "ident" : "prisonbreak",
@@ -141,7 +142,8 @@
     "description": "You've survived for as long as you could inside of the mall you worked at as a security guard.  Find a way out and try your best to survive.",
     "start_name": "Mall",
     "professions" : ["mall_cop"],
-    "allowed_locs" : ["mall_a_12", "mall_a_30"]
+    "allowed_locs" : ["mall_a_12", "mall_a_30"],
+    "flags" : ["CITY_START"]
   },{
     "type": "scenario",
     "ident": "last_firefighter",
@@ -151,7 +153,7 @@
     "allowed_locs" : ["fire_station"],
     "professions" : ["firefighter","bionic_firefighter"],
     "start_name": "Fire Station",
-    "flags" : ["SUR_START"]
+    "flags" : ["SUR_START", "CITY_START"]
   },{
     "type": "scenario",
     "ident": "precinct_zed",
@@ -161,7 +163,7 @@
     "allowed_locs" : ["police"],
     "professions" : ["cop","sniper_police","riot_police","bionic_cop","detective","swat","swat_heavy"],
     "start_name": "Police Station",
-    "flags" : ["SUR_START"]
+    "flags" : ["SUR_START", "CITY_START"]
   },{
     "type": "scenario",
     "ident": "schools_out",
@@ -170,7 +172,8 @@
     "description": "You were at school when the principal shambled in and ate one of the students, and before you knew it the entire campus was overrun by monsters.  Guess school's out forever.",
     "allowed_locs" : ["school"],
     "professions" : ["student", "skaterkid", "jdelinquent", "jr_survivalist", "bionic_student", "dodgeball_player", "science_club_mem", "av_club_mem", "teacher", "gym_teacher"],
-    "start_name": "School"
+    "start_name": "School",
+    "flags" : ["CITY_START"]
   },{
     "type": "scenario",
     "ident": "wilderness",
@@ -209,7 +212,7 @@
     "description": "You were assigned to the last of the real riots; one of the last to flee when the rioters stopped breathing but kept moving.",
     "start_name": "Public Holdout",
     "allowed_locs": [ "s_bookstore", "s_grocery", "police", "s_garage", "s_library", "hospital", "mall_a_30", "religous_church", "religous_cemetery" ],
-    "flags": [ "SUR_START" ]
+    "flags": [ "SUR_START", "CITY_START" ]
   },
   {
     "type": "scenario",
