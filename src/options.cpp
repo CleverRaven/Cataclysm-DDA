@@ -815,6 +815,18 @@ void options_manager::init()
 
     mOptionsSort["general"]++;
 
+    add( "AUTO_PULP_BUTCHER", "general", translate_marker( "Auto pulp or butcher" ),
+        translate_marker( "Set to automatically pulp or butcher corpses.  Off: Disabled. - Pulp: Pulp corpses you stand on. - Pulp Adjecent: Pulp corpses adjesent from you. - Butcher: Butcher corpses you stand on" ),
+        { { "off", translate_marker( "Off" ) }, { "pulp", translate_marker( "Pulp" ) }, { "pulp_adjacent", translate_marker( "Pulp Adjecent" ) }, { "butcher", translate_marker( "Butcher" ) } }, "off"
+        );
+
+    add( "AUTO_PULP_BUTCHER_SAFEMODE", "general", translate_marker( "Auto pulp or butcher safe mode" ),
+        translate_marker( "Auto pulp or butcher is disabled as long as you can see monsters nearby.  This is affected by 'Safe Mode proximity distance'." ),
+        false
+        );
+
+    mOptionsSort["general"]++;
+
     add( "DANGEROUS_PICKUPS", "general", translate_marker( "Dangerous pickups" ),
         translate_marker( "If false, will cause player to drop new items that cause them to exceed the weight limit." ),
         false

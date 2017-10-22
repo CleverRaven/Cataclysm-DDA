@@ -11724,6 +11724,51 @@ void game::place_player( const tripoint &dest_loc )
     // Important: don't use dest_loc after this line. `update_map` may have shifted the map
     // and dest_loc was not adjusted and therefor is still in the un-shifted system and probably wrong.
 
+    //Auto pulp or butcher
+    const std::string pulp_butcher = get_option<std::string>( "AUTO_PULP_BUTCHER" );
+    if( pulp_butcher != "off" && ( !get_option<bool>( "AUTO_PULP_BUTCHER_SAFEMODE" ) || mostseen == 0 ) ) {
+        if ( pulp_butcher == "butcher" && u.max_quality( quality_id( "BUTCHER" ) ) > INT_MIN ) {
+            std::vector<int> corpses;
+            auto items = m.i_at(u.pos());
+
+            for( size_t i = 0; i < items.size(); i++ ) {
+                auto maybe_corpse = items[i];
+                if ( maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
+                    maybe_corpse.get_mtype()->has_flag( MF_REVIVES ) ) {
+                    corpses.push_back(i);
+                }
+            }
+
+            if( !corpses.empty() ) {
+                u.assign_activity( activity_id( "ACT_BUTCHER" ), 0, -1 );
+                for( int i : corpses ) {
+                    u.activity.values.push_back( i );
+                }
+            }
+        } else if ( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ) {
+            static auto pulp = [&]( const tripoint &pos ) {
+                for( const auto &maybe_corpse : m.i_at( pos ) ) {
+                    if ( maybe_corpse.is_corpse() && maybe_corpse.damage() < maybe_corpse.max_damage() &&
+                        maybe_corpse.get_mtype()->has_flag( MF_REVIVES ) ) {
+                        // do activity forever. ACT_PULP stops itself
+                        u.assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
+                        u.activity.placement = pos;
+                        u.activity.auto_resume = true;
+                    }
+                }
+            };
+
+            pulp( u.pos() );
+
+            if( pulp_butcher == "pulp_adjacent" ) {
+                static const direction adjacentDir[8] = { NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST };
+                for( auto &elem : adjacentDir ) {
+                    pulp( tripoint( direction_XY( elem ), 0 ) + u.pos() );
+                }
+            }
+        }
+    }
+
     //Autopickup
     if (get_option<bool>( "AUTO_PICKUP" ) && (!get_option<bool>( "AUTO_PICKUP_SAFEMODE" ) || mostseen == 0) &&
         ( m.has_items( u.pos() ) || get_option<bool>( "AUTO_PICKUP_ADJACENT" ) ) ) {
