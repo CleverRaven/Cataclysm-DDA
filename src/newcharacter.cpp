@@ -1828,9 +1828,7 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
             for( const auto &scen : scenario::get_all() ) {
                 if( !lcmatch( scen.gender_appropriate_name( u->male ), filterstring ) ) {
                     continue;
-                } /*else if( scen.has_flag( "CITY_START" ) && wopts["CITY_SIZE"].getValue() == "0" ) {
-                    continue;
-                }*/
+                }
                 sorted_scens.push_back( &scen );
             }
             scens_length = sorted_scens.size();
