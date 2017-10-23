@@ -137,10 +137,6 @@
   {
     "type": "palette",
     "id": "mansion_palette_air",
-    "terrain": {
-      " ": "t_open_air_rooved",
-      "'": "t_flat_roof",
-      "*": "t_open_air"
-    }
+    "terrain": { " ": "t_open_air_rooved", "'": "t_flat_roof", "*": "t_open_air" }
   }
 ]

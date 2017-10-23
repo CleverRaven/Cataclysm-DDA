@@ -92,9 +92,7 @@
         "x": "f_null",
         "|": "f_null"
       },
-      "toilets": {
-        "T": {}
-      },
+      "toilets": { "T": {  } },
       "place_loot": [
         { "group": "gunmod_common", "x": [ 5, 10 ], "y": 10, "chance": 100, "repeat": [ 1, 2 ] },
         { "group": "gunmod_rare", "x": [ 5, 10 ], "y": 11, "chance": 100, "repeat": [ 2, 4 ] },

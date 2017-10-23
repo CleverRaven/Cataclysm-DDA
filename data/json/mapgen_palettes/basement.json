@@ -36,8 +36,6 @@
       "t": "f_table",
       "w": "f_washer"
     },
-    "toilets": {
-      "&": {}
-    }
+    "toilets": { "&": {  } }
   }
 ]

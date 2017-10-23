@@ -69,9 +69,7 @@
         "{": "f_rack",
         "}": "f_bookcase"
       },
-      "toilets": {
-        "t": {}
-      },
+      "toilets": { "t": {  } },
       "place_items": [
         { "item": "lmoe_guns", "x": [ 3, 6 ], "y": [ 3, 3 ], "chance": 80 },
         { "item": "ammo", "x": [ 3, 6 ], "y": [ 3, 3 ], "chance": 80 },
