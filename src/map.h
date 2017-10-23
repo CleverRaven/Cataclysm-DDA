@@ -568,8 +568,8 @@ class map
         std::string furnname( const tripoint &p );
         bool can_move_furniture( const tripoint &pos, player *p = nullptr );
         // Terrain: 2D overloads
-        ter_id ter( const int x, const int y )
-        const; // Terrain integer id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+        // Terrain integer id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+        ter_id ter( const int x, const int y ) const;
 
         void ter_set( const int x, const int y, const ter_id new_terrain );
 
@@ -626,39 +626,51 @@ class map
         bool is_harvestable( const tripoint &pos ) const;
 
         // Flags: 2D overloads
-        std::string features( const int x, const int y ); // Words relevant to terrain (sharp, etc)
-        bool has_flag( const std::string &flag, const int x,
-                       const int y ) const; // checks terrain, furniture and vehicles
-        bool can_put_items_ter_furn( const int x,
-                                     const int y ) const; // True if items can be placed in this tile
-        bool has_flag_ter( const std::string &flag, const int x, const int y ) const; // checks terrain
-        bool has_flag_furn( const std::string &flag, const int x, const int y ) const; // checks furniture
-        bool has_flag_ter_or_furn( const std::string &flag, const int x,
-                                   const int y ) const; // checks terrain or furniture
+        // Words relevant to terrain (sharp, etc)
+        std::string features( const int x, const int y );
+        // checks terrain, furniture and vehicles
+        bool has_flag( const std::string &flag, const int x, const int y ) const;
+        // True if items can be placed in this tile
+        bool can_put_items_ter_furn( const int x, const int y ) const;
+        // checks terrain
+        bool has_flag_ter( const std::string &flag, const int x, const int y ) const;
+        // checks furniture
+        bool has_flag_furn( const std::string &flag, const int x, const int y ) const;
+        // checks terrain or furniture
+        bool has_flag_ter_or_furn( const std::string &flag, const int x, const int y ) const;
         // fast "oh hai it's update_scent/lightmap/draw/monmove/self/etc again, what about this one" flag checking
-        bool has_flag( const ter_bitflags flag, const int x,
-                       const int y ) const; // checks terrain, furniture and vehicles
-        bool has_flag_ter( const ter_bitflags flag, const int x, const int y ) const; // checks terrain
-        bool has_flag_furn( const ter_bitflags flag, const int x, const int y ) const; // checks furniture
-        bool has_flag_ter_or_furn( const ter_bitflags flag, const int x,
-                                   const int y ) const; // checks terrain or furniture
+        // checks terrain, furniture and vehicles
+        bool has_flag( const ter_bitflags flag, const int x, const int y ) const;
+        // checks terrain
+        bool has_flag_ter( const ter_bitflags flag, const int x, const int y ) const;
+        // checks furniture
+        bool has_flag_furn( const ter_bitflags flag, const int x, const int y ) const;
+        // checks terrain or furniture
+        bool has_flag_ter_or_furn( const ter_bitflags flag, const int x, const int y ) const;
         // Flags: 3D
-        std::string features( const tripoint &p ); // Words relevant to terrain (sharp, etc)
-        bool has_flag( const std::string &flag,
-                       const tripoint &p ) const;  // checks terrain, furniture and vehicles
-        bool can_put_items( const tripoint &p ) const; // True if items can be dropped in this tile
-        bool can_put_items_ter_furn( const tripoint &p ) const; // True if items can be placed in this tile
-        bool has_flag_ter( const std::string &flag, const tripoint &p ) const;  // checks terrain
-        bool has_flag_furn( const std::string &flag, const tripoint &p ) const;  // checks furniture
-        bool has_flag_ter_or_furn( const std::string &flag,
-                                   const tripoint &p ) const; // checks terrain or furniture
+        // Words relevant to terrain (sharp, etc)
+        std::string features( const tripoint &p );
+        // checks terrain, furniture and vehicles
+        bool has_flag( const std::string &flag, const tripoint &p ) const;
+        // True if items can be dropped in this tile
+        bool can_put_items( const tripoint &p ) const;
+        // True if items can be placed in this tile
+        bool can_put_items_ter_furn( const tripoint &p ) const;
+        // checks terrain
+        bool has_flag_ter( const std::string &flag, const tripoint &p ) const;
+        // checks furniture
+        bool has_flag_furn( const std::string &flag, const tripoint &p ) const;
+        // checks terrain or furniture
+        bool has_flag_ter_or_furn( const std::string &flag, const tripoint &p ) const;
         // fast "oh hai it's update_scent/lightmap/draw/monmove/self/etc again, what about this one" flag checking
-        bool has_flag( const ter_bitflags flag,
-                       const tripoint &p ) const;  // checks terrain, furniture and vehicles
-        bool has_flag_ter( const ter_bitflags flag, const tripoint &p ) const;  // checks terrain
-        bool has_flag_furn( const ter_bitflags flag, const tripoint &p ) const;  // checks furniture
-        bool has_flag_ter_or_furn( const ter_bitflags flag,
-                                   const tripoint &p ) const; // checks terrain or furniture
+        // checks terrain, furniture and vehicles
+        bool has_flag( const ter_bitflags flag, const tripoint &p ) const;
+        // checks terrain
+        bool has_flag_ter( const ter_bitflags flag, const tripoint &p ) const;
+        // checks furniture
+        bool has_flag_furn( const ter_bitflags flag, const tripoint &p ) const;
+        // checks terrain or furniture
+        bool has_flag_ter_or_furn( const ter_bitflags flag, const tripoint &p ) const;
 
         // Bashable: 2D
         bool is_bashable( const int x, const int y ) const;
@@ -805,9 +817,10 @@ class map
         void adjust_radiation( const int x, const int y, const int delta );
 
         // Temperature
-        int &temperature( const tripoint &p );    // Temperature for submap
-        void set_temperature( const tripoint &p,
-                              const int temperature ); // Set temperature for all four submap quadrants
+        // Temperature for submap
+        int &temperature( const tripoint &p );
+        // Set temperature for all four submap quadrants
+        void set_temperature( const tripoint &p, const int temperature );
         // 2D overload for mapgen
         void set_temperature( const int x, const int y, const int temperature );
 
@@ -1129,8 +1142,8 @@ class map
                            const int x1, const int y1, const int x2, const int y2, const float density );
         void place_gas_pump( const int x, const int y, const int charges );
         void place_gas_pump( const int x, const int y, const int charges, std::string fuel_type );
-        void place_toilet( const int x, const int y,
-                           const int charges = 6 * 4 ); // 6 liters at 250 ml per charge
+        // 6 liters at 250 ml per charge
+        void place_toilet( const int x, const int y, const int charges = 6 * 4 );
         void place_vending( int x, int y, std::string type, bool reinforced = false );
         int place_npc( int x, int y, const string_id<npc_template> &type );
 
