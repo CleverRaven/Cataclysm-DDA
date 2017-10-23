@@ -1296,7 +1296,7 @@ void options_manager::init()
     mOptionsSort["world_default"]++;
 
     add( "CITY_SIZE", "world_default", translate_marker( "Size of cities" ),
-        translate_marker( "A number determining how large cities are.  0 disables cities and roads." ),
+        translate_marker( "A number determining how large cities are.  0 disables cities, roads and any scenario requiring a city start." ),
         0, 16, 4
         );
 
