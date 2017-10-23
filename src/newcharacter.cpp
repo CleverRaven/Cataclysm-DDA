@@ -1747,12 +1747,14 @@ struct {
     /** @related player */
     bool operator() (const scenario *a, const scenario *b)
     {
-        // The generic ("Unemployed") profession should be listed first.
-        const scenario *gen = scenario::generic();
-        if (b == gen) {
-            return false;
-        } else if (a == gen) {
-            return true;
+        if( cities_enabled ) {
+            // The generic ("Unemployed") profession should be listed first.
+            const scenario *gen = scenario::generic();
+            if( b == gen ) {
+                return false;
+            } else if( a == gen ) {
+                return true;
+            }
         }
 
         if( !cities_enabled && a->has_flag( "CITY_START" ) != b->has_flag( "CITY_START" ) ) {
@@ -1835,6 +1837,11 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
             scenario_sorter.male = u->male;
             scenario_sorter.cities_enabled = wopts["CITY_SIZE"].getValue() != "0";
             std::stable_sort(sorted_scens.begin(), sorted_scens.end(), scenario_sorter);
+
+            // If city size is 0 but the current scenario requires cities reset the scenario
+            if( !scenario_sorter.cities_enabled && g->scen->has_flag( "CITY_START" ) ) {
+                g->scen = sorted_scens[0];
+            }
 
             // Select the current scenario, if possible.
             for (int i = 0; i < scens_length; ++i) {
