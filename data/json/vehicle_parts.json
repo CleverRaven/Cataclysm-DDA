@@ -372,7 +372,7 @@
         "item" : "sheet_metal",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["AISLE", "BOARDABLE", "CARGO", "CARGO_LOCKING", "COVERED"],
+        "flags" : ["AISLE", "BOARDABLE", "CARGO", "LOCKABLE_CARGO", "COVERED"],
         "breaks_into": "ig_vp_sheet_metal"
     },{
         "type" : "vehicle_part",
@@ -517,7 +517,7 @@
         "item" : "frame",
         "difficulty" : 2,
         "location" : "center",
-        "flags" : ["CARGO", "CARGO_LOCKING", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED", "TOOL_WRENCH"],
+        "flags" : ["CARGO", "LOCKABLE_CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED", "TOOL_WRENCH"],
         "breaks_into": "ig_vp_frame"
     },{
         "type" : "vehicle_part",
@@ -533,7 +533,7 @@
         "item" : "frame",
         "difficulty" : 2,
         "location" : "center",
-        "flags" : ["CARGO", "CARGO_LOCKING", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED", "TOOL_WRENCH", "OPAQUE"],
+        "flags" : ["CARGO", "LOCKABLE_CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED", "TOOL_WRENCH", "OPAQUE"],
         "breaks_into": "ig_vp_frame"
     },{
         "type" : "vehicle_part",
@@ -549,7 +549,7 @@
         "item" : "hdframe",
         "difficulty" : 3,
         "location" : "center",
-        "flags" : ["CARGO", "CARGO_LOCKING", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED"],
+        "flags" : ["CARGO", "LOCKABLE_CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED"],
         "breaks_into": "ig_vp_hdframe"
     },{
         "type" : "vehicle_part",
@@ -565,7 +565,7 @@
         "item" : "hdframe",
         "difficulty" : 3,
         "location" : "center",
-        "flags" : ["CARGO", "CARGO_LOCKING", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED", "OPAQUE"],
+        "flags" : ["CARGO", "LOCKABLE_CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED", "OPAQUE"],
         "breaks_into": "ig_vp_hdframe"
     },{
         "type" : "vehicle_part",
@@ -706,7 +706,7 @@
         "item" : "frame",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["CARGO", "CARGO_LOCKING", "COVERED"],
+        "flags" : ["CARGO", "LOCKABLE_CARGO", "COVERED"],
         "breaks_into": "ig_vp_frame"
     },{
         "type" : "vehicle_part",
@@ -722,15 +722,8 @@
         "item" : "frame",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["CARGO", "TOOL_SCREWDRIVER", "BOARDABLE", "COVERED"],
+        "flags" : ["CARGO", "TOOL_SCREWDRIVER", "BOARDABLE", "COVERED", "LOCKABLE_CARGO"],
         "breaks_into": "ig_vp_frame"
-    },{
-        "type" : "vehicle_part",
-        "id" : "box_locking",
-        "copy-from": "box",
-        "name" : "locked box",
-        "difficulty" : 2,
-        "extend": { "flags" : [ "CARGO_LOCKING" ] }
     },{
         "type" : "vehicle_part",
         "id" : "travois",
@@ -774,18 +767,11 @@
         "item" : "frame_wood",
         "difficulty" : 0,
         "location" : "center",
-        "flags" : ["CARGO", "BOARDABLE", "COVERED", "NAILABLE"],
+        "flags" : ["CARGO", "BOARDABLE", "COVERED", "NAILABLE", "LOCKABLE_CARGO"],
         "breaks_into" : [
             {"item": "splinter", "count": [3, 5]},
             {"item": "nail", "charges": [10, 15]}
         ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "wood_box_locking",
-        "copy-from": "wood box",
-        "name" : "locked wood box",
-        "difficulty" : 1,
-        "extend": { "flags": [ "CARGO_LOCKING" ] }
     },{
         "type" : "vehicle_part",
         "id" : "folding wood box",
@@ -801,18 +787,11 @@
         "item" : "foldwoodframe",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : ["CARGO", "BOARDABLE", "COVERED", "NAILABLE", "FOLDABLE"],
+        "flags" : ["CARGO", "BOARDABLE", "COVERED", "NAILABLE", "FOLDABLE", "LOCKABLE_CARGO"],
         "breaks_into" : [
             {"item": "splinter", "count": [3, 5]},
             {"item": "nail", "charges": [10, 15]}
         ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "folding_locked_wood_box",
-        "copy-from": "folding wood box"
-        "name" : "folding locked wood box",
-        "difficulty" : 2,
-        "extend": { "flags" : [ "CARGO_LOCKING" ] }
     },{
         "type" : "vehicle_part",
         "id" : "cargo_bag",
@@ -2397,6 +2376,23 @@
             {"item": "cable", "charges": [3, 6]},
             {"item": "e_scrap", "count": [4, 10]},
             {"item": "plastic_chunk", "count": [1, 3]},
+            {"item": "scrap", "count": [2,6]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "cargo_lock",
+        "name" : "cargo lock",
+        "symbol" : "+",
+        "color" : "dark_gray",
+        "broken_symbol" : "+",
+        "broken_color" : "light_gray",
+        "durability" : 25,
+        "item" : "cargo_lock",
+        "difficulty" : 1,
+        "location" : "on_lockable_cargo",
+        "flags" : ["CARGO_LOCKED", "TOOL_SCREWDRIVER"],
+        "breaks_into" : [
+            {"item": "clockworks", "count": [0,2]},
             {"item": "scrap", "count": [2,6]}
         ]
     }
