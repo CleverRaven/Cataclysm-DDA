@@ -725,6 +725,12 @@ void player::mutate()
 
 void player::mutate_category( const std::string &cat )
 {
+    // Hacky ID comparison is better than separate hardcoded branch used before
+    if( cat == "MUTCAT_ANY" ) {
+        mutate();
+        return;
+    }
+
     bool force_bad = one_in(3);
     bool force_good = false;
     if (has_trait( trait_ROBUST ) && force_bad) {

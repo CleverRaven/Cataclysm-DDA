@@ -52,6 +52,7 @@
 #include <unordered_set>
 #include <set>
 #include <cstdlib>
+#include <functional>
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
@@ -989,415 +990,279 @@ int iuse::chew(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-static int marloss_reject_mutagen( player *p, item *it )
+enum class mutagen_rejection {
+    accepted,
+    rejected,
+    destroyed
+};
+
+static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool strong )
 {
-    // I've been unable to replicate the rejections on marloss berries
-    // but best to be careful-KA101.
-    if( (it->type->can_use( "MYCUS" )) || (it->type->can_use( "MARLOSS" )) ||
-      (it->type->can_use( "MARLOSS_SEED" )) || (it->type->can_use( "MARLOSS_GEL" )) ) {
-        return 0;
-    }
-    if (p->has_trait( trait_THRESH_MARLOSS )) {
-        p->add_msg_player_or_npc( m_warning,
-            _("The %s sears your insides white-hot, and you collapse to the ground!"),
-            _("<npcname> writhes in agony and collapses to the ground!"),
-            it->tname().c_str());
-        p->vomit();
-        p->mod_pain(35);
-        // Lose a significant amount of HP, probably about 25-33%
-        p->hurtall(rng(20, 35), nullptr);
-        // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
-        p->fall_asleep((3000 - p->int_cur * 10));
-        // Marloss is too thoroughly into your body to be dislodged by orals.
-        p->set_mutation( trait_MUTAGEN_AVOID );
-        p->add_msg_if_player(m_warning, _("That was some toxic %s!  Let's stick with Marloss next time, that's safe."), it->tname().c_str());
-        p->add_memorial_log(pgettext("memorial_male", "Suffered a toxic marloss/mutagen reaction."),
-                            pgettext("memorial_female", "Suffered a toxic marloss/mutagen reaction."));
-        return it->type->charges_to_use();
+    if( p.has_trait( trait_MUTAGEN_AVOID ) ) {
+         //~"Uh-uh" is a sound used for "nope", "no", etc.
+        p.add_msg_if_player( m_warning, _( "After what happened that last time?  uh-uh.  You're not drinking that chemical stuff." ) );
+        return mutagen_rejection::rejected;
     }
 
-    if (p->has_trait( trait_THRESH_MYCUS )) {
-        p->add_msg_if_player(m_info, _("This is a contaminant.  We reject it from the Mycus."));
-        if( p->has_trait( trait_M_SPORES ) || p->has_trait( trait_M_FERTILE ) ||
-            p->has_trait( trait_M_BLOSSOMS ) || p->has_trait( trait_M_BLOOM ) ) {
-            p->add_msg_if_player(m_good, _("We empty the %s and reflexively dispense spores onto the mess."));
-            g->m.ter_set(p->posx(), p->posy(), t_fungus);
-            p->add_memorial_log(pgettext("memorial_male", "Destroyed a harmful invader."),
+    static const std::vector<std::string> safe = {{
+        "MYCUS", "MARLOSS", "MARLOSS_SEED", "MARLOSS_GEL"
+    }};
+    if( std::any_of( safe.begin(), safe.end(), [it]( const std::string &flag ) {
+        return it.type->can_use( flag );
+    } ) ) {
+        return mutagen_rejection::accepted;
+    }
+
+    if( p.has_trait( trait_THRESH_MYCUS ) ) {
+        p.add_msg_if_player( m_info, _( "This is a contaminant.  We reject it from the Mycus." ) );
+        if( p.has_trait( trait_M_SPORES ) || p.has_trait( trait_M_FERTILE ) ||
+            p.has_trait( trait_M_BLOSSOMS ) || p.has_trait( trait_M_BLOOM ) ) {
+            p.add_msg_if_player( m_good, _( "We empty the %s and reflexively dispense spores onto the mess." ) );
+            g->m.ter_set( p.pos(), t_fungus );
+            p.add_memorial_log(pgettext("memorial_male", "Destroyed a harmful invader."),
                                 pgettext("memorial_female", "Destroyed a harmful invader."));
-            return it->type->charges_to_use();
-        }
-        else {
-            p->add_msg_if_player(m_bad, _("We must eliminate this contaminant at the earliest opportunity."));
-            return it->type->charges_to_use();
+            return mutagen_rejection::destroyed;
+        } else {
+            p.add_msg_if_player( m_bad, _( "We must eliminate this contaminant at the earliest opportunity." ) );
+            return mutagen_rejection::rejected;
         }
     }
-    return 0;
-}
 
-static int marloss_reject_mut_iv( player *p, item *it )
-{
-    if( it->type->can_use( "MYCUS" ) ) {
-        return 0;
-    }
-    if (p->has_trait( trait_THRESH_MARLOSS )) {
-        p->add_msg_player_or_npc( m_warning,
+    if( p.has_trait( trait_THRESH_MARLOSS ) ) {
+        p.add_msg_player_or_npc( m_warning,
             _("The %s sears your insides white-hot, and you collapse to the ground!"),
             _("<npcname> writhes in agony and collapses to the ground!"),
-            it->tname().c_str());
-        p->vomit();
-        p->mod_pain(55);
+            it.tname().c_str());
+        p.vomit();
+        p.mod_pain( 35 + strong ? 20 : 0 );
         // Lose a significant amount of HP, probably about 25-33%
-        p->hurtall(rng(30, 45), nullptr);
-         // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
-        /** @EFFECT_INT slightly reduces sleep duration when eating mycus+goo */
-        p->fall_asleep((4000 - p->int_cur * 10));
-        // Injection does the trick.  Burn the fungus out.
-        p->unset_mutation( trait_THRESH_MARLOSS );
-        p->set_mutation( trait_MUTAGEN_AVOID );
-        //~ Recall that Marloss mutations made you feel warmth spreading throughout your body.  That's gone.
-        p->add_msg_if_player(m_warning, _("You feel a cold burn inside, as though everything warm has left you."));
-        if( it->type->can_use("PURIFY_IV") ) {
-            p->add_msg_if_player(m_warning, _("It was probably that marloss -- how did you know to call it \"marloss\" anyway?"));
-            p->add_msg_if_player(m_warning, _("Best to stay clear of that alien crap in future."));
-            p->add_memorial_log(pgettext("memorial_male", "Burned out a particularly nasty fungal infestation."),
+        p.hurtall( rng( 20, 35 ) + ( strong ? 10 : 0 ), nullptr );
+        // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
+        p.fall_asleep( MINUTES( 300 - p.int_cur + ( strong ? 100 : 0 ) ) );
+        p.set_mutation( trait_MUTAGEN_AVOID );
+        // Injected mutagen purges marloss, ingested doesn't
+        if( strong ) {
+            p.unset_mutation( trait_THRESH_MARLOSS );
+            p.add_msg_if_player(m_warning, _("It was probably that marloss -- how did you know to call it \"marloss\" anyway?"));
+            p.add_msg_if_player(m_warning, _("Best to stay clear of that alien crap in future."));
+            p.add_memorial_log(pgettext("memorial_male", "Burned out a particularly nasty fungal infestation."),
                                 pgettext("memorial_female", "Burned out a particularly nasty fungal infestation."));
         } else {
-            p->add_memorial_log(pgettext("memorial_male", "Suffered a toxic marloss/mutagen reaction."),
-                                pgettext("memorial_female", "Suffered a toxic marloss/mutagen reaction."));
+            p.add_msg_if_player( m_warning, _( "That was some toxic %s!  Let's stick with Marloss next time, that's safe." ),
+                                  it.tname().c_str() );
+            p.add_memorial_log( pgettext( "memorial_male", "Suffered a toxic marloss/mutagen reaction." ),
+                                 pgettext( "memorial_female", "Suffered a toxic marloss/mutagen reaction." ) );
         }
-        return it->type->charges_to_use();
+
+        return mutagen_rejection::destroyed;
     }
 
-    if (p->has_trait( trait_THRESH_MYCUS )) {
-        p->add_msg_if_player(m_info, _("This is a contaminant.  We reject it from the Mycus."));
-        if( p->has_trait( trait_M_SPORES ) || p->has_trait( trait_M_FERTILE ) ||
-            p->has_trait( trait_M_BLOSSOMS ) || p->has_trait( trait_M_BLOOM ) ) {
-            p->add_msg_if_player(m_good, _("We empty the %s and reflexively dispense spores onto the mess."));
-            g->m.ter_set( p->pos(), t_fungus );
-            p->add_memorial_log(pgettext("memorial_male", "Destroyed a harmful invader."),
-                                pgettext("memorial_female", "Destroyed a harmful invader."));
-            return it->type->charges_to_use();
-        } else {
-            p->add_msg_if_player(m_bad, _("We must eliminate this contaminant at the earliest opportunity."));
-            return it->type->charges_to_use();
-        }
-    }
-    return 0;
+
+    return mutagen_rejection::accepted;
 }
 
-int iuse::mutagen(player *p, item *it, bool, const tripoint& )
+struct mutagen_attempt {
+    mutagen_attempt( bool a, int c ) : allowed( a ), charges_used( c )
+    { }
+    bool allowed;
+    int charges_used;
+};
+
+static mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,
+                                              const std::string &memorial_male, const std::string &memorial_female )
 {
-    if (p->has_trait( trait_MUTAGEN_AVOID )) {
-         //~"Uh-uh" is a sound used for "nope", "no", etc.
-        p->add_msg_if_player(m_warning, _("After what happened that last time?  uh-uh.  You're not drinking that chemical stuff."));
-        return 0;
+    mutagen_rejection status = try_reject_mutagen( p, it, strong );
+    if( status == mutagen_rejection::rejected ) {
+        return mutagen_attempt( false, 0 );
+    }
+    p.add_memorial_log( memorial_male.c_str(), memorial_female.c_str() );
+    if( status == mutagen_rejection::destroyed ) {
+        return mutagen_attempt( false, it.type->charges_to_use() );
     }
 
-    if( !(p->has_trait( trait_THRESH_MYCUS )) ) {
-        p->add_memorial_log(pgettext("memorial_male", "Consumed mutagen."),
-                            pgettext("memorial_female", "Consumed mutagen."));
+    return mutagen_attempt( true, 0 );
+}
+
+int iuse::mutagen( player *p, item *it, bool, const tripoint& )
+{
+    mutagen_attempt checks = mutagen_common_checks( *p, *it, false,
+        pgettext( "memorial_male", "Consumed mutagen." ), pgettext( "memorial_female", "Consumed mutagen." ) );
+    if( !checks.allowed ) {
+        return checks.charges_used;
     }
 
-    if( marloss_reject_mutagen( p, it ) ) {
+    if( !one_in( 3 ) && it->has_flag( "MUTAGEN_WEAK" ) ) {
+        // Nothing! Mutagenic flesh often just fails to work.
         return it->type->charges_to_use();
     }
 
-    if (p->has_trait( trait_MUT_JUNKIE )) {
+    if( p->has_trait( trait_MUT_JUNKIE ) ) {
         p->add_msg_if_player(m_good, _("You quiver with anticipation..."));
         p->add_morale(MORALE_MUTAGEN, 5, 50);
     }
-    bool downed = false;
-    std::string mutation_category;
-    // Generic "mutagen".
-    if (it->has_flag("MUTAGEN_STRONG")) {
-        mutation_category = "";
-        p->mutate();
-        p->mod_pain(2 * rng(1, 5));
-        p->mod_hunger(10);
-        p->mod_thirst(10);
-        p->mod_fatigue(5);
-        if (!one_in(3)) {
-            p->mutate();
-            p->mod_pain(2 * rng(1, 5));
-            p->mod_hunger(10);
-            p->mod_thirst(10);
-            p->mod_fatigue(5);
-            if (one_in(4)) {
-                downed = true;
-            }
-        }
-        if (one_in(2)) {
-            p->mutate();
-            p->mod_pain(2 * rng(1, 5));
-            p->mod_hunger(10);
-            p->mod_thirst(10);
-            p->mod_fatigue(5);
-            p->add_msg_player_or_npc( m_bad,
-                _("Oops.  You must've blacked out for a minute there."),
-                _("<npcname> suddenly collapses!") );
-            //Should be about 3 min, less 6 sec/IN point.
-            /** @EFFECT_INT reduces sleep duration when using mutagen */
-            p->fall_asleep((30 - p->int_cur));
-        }
-    }
-    if (it->has_flag("MUTAGEN_WEAK")) {
-        mutation_category = "";
-        // Stuff like the limbs, the tainted tornado, etc.
-        if (!one_in(3)) {
-            p->mutate();
-            p->mod_pain(2 * rng(1, 5));
-            p->mod_hunger(10);
-            p->mod_thirst(10);
-            p->mod_fatigue(5);
-            if (one_in(4)) {
-                downed = true;
-            }
-        }
-    } else {
-        // Categorized/targeted mutagens go here.
-        for (auto& iter : mutation_category_traits){
-            mutation_category_trait m_category = iter.second;
-            if (it->has_flag("MUTAGEN_" + m_category.category)) {
-                mutation_category = "MUTCAT_" + m_category.category;
-                p->add_msg_if_player(m_category.mutagen_message.c_str());
-                p->mutate_category(mutation_category);
-                p->mod_pain(m_category.mutagen_pain * rng(1, 5));
-                p->mod_hunger(m_category.mutagen_hunger);
-                p->mod_thirst(m_category.mutagen_thirst);
-                p->mod_fatigue(m_category.mutagen_fatigue);
-                break;
-            }
-        }
-        // Yep, orals take a bit out of you too
-        if (one_in(4)) {
-            downed = true;
-        }
-    }
 
-    // Don't print downed message for sleeping player
-    if( downed && !p->in_sleep_state() ) {
+    if( one_in( 6 ) ) {
         p->add_msg_player_or_npc( m_bad,
             _("You suddenly feel dizzy, and collapse to the ground."),
             _("<npcname> suddenly collapses to the ground!") );
         p->add_effect( effect_downed, 1, num_bp, false, 0, true );
     }
+
+    // Categorized/targeted mutagens go here.
+    for( auto& iter : mutation_category_traits ) {
+        mutation_category_trait m_category = iter.second;
+        std::string mutation_category = "MUTCAT_" + m_category.category;
+        if( !it->has_flag( mutation_category ) ) {
+            continue;
+        }
+
+        int mut_count = 1 + it->has_flag( "MUTAGEN_STRONG" ) ? one_in( 3 ) : 0;
+
+        p->add_msg_if_player( m_category.mutagen_message.c_str() );
+        for( int i = 0; i < mut_count; i++ ) {
+            p->mutate_category( mutation_category );
+            p->mod_pain( m_category.mutagen_pain * rng( 1, 5 ) );
+            p->mod_hunger( m_category.mutagen_hunger );
+            p->mod_thirst( m_category.mutagen_thirst );
+            p->mod_fatigue( m_category.mutagen_fatigue );
+        }
+
+        return it->type->charges_to_use();
+    }
+
     return it->type->charges_to_use();
 }
 
 static void test_crossing_threshold(player *p, const mutation_category_trait &m_category) {
     // Threshold-check.  You only get to cross once!
-    if (!p->crossed_threshold()) {
-        std::string mutation_category = "MUTCAT_" + m_category.category;
-        const trait_id mutation_thresh( "THRESH_" + m_category.category );
-        int total = 0;
-        for (auto& iter : mutation_category_traits){
-            total += p->mutation_category_level["MUTCAT_" + iter.second.category];
+    if( p->crossed_threshold() ) {
+        return;
+    }
+
+    // You can't mutate into Any
+    if( m_category.id == "MUTCAT_ANY" ) {
+        return;
+    }
+
+    std::string mutation_category = "MUTCAT_" + m_category.category;
+    const trait_id mutation_thresh( "THRESH_" + m_category.category );
+    int total = 0;
+    for (auto& iter : mutation_category_traits){
+        total += p->mutation_category_level["MUTCAT_" + iter.second.category];
+    }
+    // Threshold-breaching
+    const std::string &primary = p->get_highest_category();
+    int breach_power = p->mutation_category_level[primary];
+    // Only if you were pushing for more in your primary category.
+    // You wanted to be more like it and less human.
+    // That said, you're required to have hit third-stage dreams first.
+    if ((mutation_category == primary) && (breach_power > 50)) {
+        // Little help for the categories that have a lot of crossover.
+        // Starting with Ursine as that's... a bear to get.  8-)
+        // Alpha is similarly eclipsed by other mutation categories.
+        // Will add others if there's serious/demonstrable need.
+        int booster = 0;
+        if (mutation_category == "MUTCAT_URSINE"  || mutation_category == "MUTCAT_ALPHA") {
+            booster = 50;
         }
-        // Threshold-breaching
-        std::string primary = p->get_highest_category();
-        // Only if you were pushing for more in your primary category.
-        // You wanted to be more like it and less human.
-        // That said, you're required to have hit third-stage dreams first.
-        if ((mutation_category == primary) && (p->mutation_category_level[primary] > 50)) {
-            // Little help for the categories that have a lot of crossover.
-            // Starting with Ursine as that's... a bear to get.  8-)
-            // Alpha is similarly eclipsed by other mutation categories.
-            // Will add others if there's serious/demonstrable need.
-            int booster = 0;
-            if (mutation_category == "MUTCAT_URSINE"  || mutation_category == "MUTCAT_ALPHA") {
-                booster = 50;
-            }
-            int breacher = (p->mutation_category_level[primary]) + booster;
-            if (x_in_y(breacher, total)) {
-                p->add_msg_if_player(m_good,
-                                   _("Something strains mightily for a moment...and then..you're...FREE!"));
-                p->set_mutation(mutation_thresh);
-                p->add_memorial_log(pgettext("memorial_male", m_category.memorial_message.c_str()),
-                                    pgettext("memorial_female", m_category.memorial_message.c_str()));
-                if (mutation_category == "MUTCAT_URSINE") {
-                    // Manually removing Carnivore, since it tends to creep in
-                    // This is because carnivore is a prereq for the
-                    // predator-style post-threshold mutations.
-                    if (p->has_trait( trait_CARNIVORE )) {
-                        p->unset_mutation( trait_CARNIVORE );
-                        p->add_msg_if_player(_("Your appetite for blood fades."));
-                    }
-                }
-            }
-        } else if (p->mutation_category_level[primary] > 100) {
-            //~NOPAIN is a post-Threshold trait, so you shouldn't
-            //~legitimately have it and get here!
-            if (p->has_trait( trait_NOPAIN )) {
-                p->add_msg_if_player(m_bad, _("You feel extremely Bugged."));
-            } else {
-                p->add_msg_if_player(m_bad, _("You stagger with a piercing headache!"));
-                p->mod_pain_noresist( 8 );
-                p->add_effect( effect_stunned, rng(3, 5));
-            }
-        } else if (p->mutation_category_level[primary] > 80) {
-            if (p->has_trait( trait_NOPAIN )) {
-                p->add_msg_if_player(m_bad, _("You feel very Bugged."));
-            } else {
-                p->add_msg_if_player(m_bad, _("Your head throbs with memories of your life, before all this..."));
-                p->mod_pain_noresist( 6 );
-                p->add_effect( effect_stunned, rng(2, 4));
-            }
-        } else if (p->mutation_category_level[primary] > 60) {
-            if (p->has_trait( trait_NOPAIN )) {
-                p->add_msg_if_player(m_bad, _("You feel Bugged."));
-            } else {
-                p->add_msg_if_player(m_bad, _("Images of your past life flash before you."));
-                p->add_effect( effect_stunned, rng(2, 3));
+        int breacher = breach_power + booster;
+        if (x_in_y(breacher, total)) {
+            p->add_msg_if_player(m_good,
+                               _("Something strains mightily for a moment...and then..you're...FREE!"));
+            p->set_mutation(mutation_thresh);
+            p->add_memorial_log(pgettext("memorial_male", m_category.memorial_message.c_str()),
+                                pgettext("memorial_female", m_category.memorial_message.c_str()));
+            // Manually removing Carnivore, since it tends to creep in
+            // This is because carnivore is a prereq for the
+            // predator-style post-threshold mutations.
+            if( mutation_category == "MUTCAT_URSINE" && p->has_trait( trait_CARNIVORE ) ) {
+                p->unset_mutation( trait_CARNIVORE );
+                p->add_msg_if_player( _( "Your appetite for blood fades." ) );
             }
         }
+    } else if( p->has_trait( trait_NOPAIN ) ) {
+        //~NOPAIN is a post-Threshold trait, so you shouldn't
+        //~legitimately have it and get here!
+        p->add_msg_if_player( m_bad, _( "You feel extremely Bugged." ) );
+    } else if (breach_power > 100) {
+        p->add_msg_if_player(m_bad, _("You stagger with a piercing headache!"));
+        p->mod_pain_noresist( 8 );
+        p->add_effect( effect_stunned, rng(3, 5));
+    } else if (breach_power > 80) {
+        p->add_msg_if_player(m_bad, _("Your head throbs with memories of your life, before all this..."));
+        p->mod_pain_noresist( 6 );
+        p->add_effect( effect_stunned, rng(2, 4));
+    } else if (breach_power > 60) {
+        p->add_msg_if_player(m_bad, _("Images of your past life flash before you."));
+        p->add_effect( effect_stunned, rng(2, 3));
     }
 }
 
-int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
+int iuse::mut_iv( player *p, item *it, bool, const tripoint & )
 {
-    if (p->has_trait( trait_MUTAGEN_AVOID )) {
-         //~"Uh-uh" is a sound used for "nope", "no", etc.
-        p->add_msg_if_player(m_warning, _("After what happened that last time?  uh-uh.  You're not injecting that chemical stuff."));
-        return 0;
+    mutagen_attempt checks = mutagen_common_checks( *p, *it, false,
+        pgettext( "memorial_male", "Injected mutagen." ), pgettext( "memorial_female", "Injected mutagen." ) );
+    if( !checks.allowed ) {
+        return checks.charges_used;
     }
 
-    if (!p->is_npc() && !(p->has_trait( trait_THRESH_MYCUS ))) {
-        p->add_memorial_log(pgettext("memorial_male", "Injected mutagen."),
-                            pgettext("memorial_female", "Injected mutagen."));
-    }
+    for( auto& iter : mutation_category_traits ) {
+        // @todo Get rid of this revolting string hack
+        if( !it->has_flag( "MUTAGEN_" + iter.second.category ) ) {
+            continue;
+        }
 
-    if( marloss_reject_mut_iv( p, it) ) {
-        return it->type->charges_to_use();
-    }
+        const mutation_category_trait &m_category = iter.second;
+        std::string mutation_category = "MUTCAT_" + m_category.category;
+        std::string mutation_thresh = "THRESH_" + m_category.category;
 
-    if (p->has_trait( trait_MUT_JUNKIE )) {
-        p->add_msg_if_player(m_good, _("You quiver with anticipation..."));
-        p->add_morale(MORALE_MUTAGEN, 10, 100);
-    }
-    std::string mutation_category;
-    if (it->has_flag("MUTAGEN_STRONG")) {
-        // 3 guaranteed mutations, 75%/66%/66% for the 4th/5th/6th,
-        // 6-16 Pain per shot and potential knockdown/KO.
-        mutation_category = "";
-        // TODO: Make MUT_JUNKIE NPCs like the player for giving them some of that stuff
-        if (p->has_trait( trait_MUT_JUNKIE )) {
-            p->add_msg_if_player(m_good, _("Oh, yeah! That's the stuff!"));
-            /** @EFFECT_STR increases volume of shouting with strong mutagen */
-            sounds::sound(p->pos(), 15 + 3 * p->str_cur, _("YES!  YES!  YESSS!!!"));
-        } else if (p->has_trait( trait_NOPAIN )) {
-            p->add_msg_if_player(_("You inject yourself."));
+        // try to cross the threshold to be able to get post-threshold mutations this iv.
+        test_crossing_threshold(p, m_category);
+
+        if( p->has_trait( trait_MUT_JUNKIE ) ) {
+            p->add_msg_if_player( m_category.junkie_message.c_str() );
         } else {
-            p->add_msg_if_player(m_bad, _("You inject yoursel-arRGH!"));
-            /** @EFFECT_STR increases volume of painful shouting with strong mutagen */
-            std::string scream = p->is_player() ?
-                _("You scream in agony!!") :
-                _("an agonized scream!");
-            sounds::sound( p->pos(), 15 + 3 * p->str_cur, scream.c_str() );
+            p->add_msg_if_player( m_category.iv_message.c_str() );
         }
-        p->mutate();
-        p->mod_pain(1 * rng(1, 4));
-        //Standard IV-mutagen effect: 10 hunger/thirst & 5 Fatigue *per mutation*.
-        // Numbers may vary based on mutagen.
-        p->mod_hunger(10);
-        p->mod_thirst(10);
-        p->mod_fatigue(5);
-        p->mutate();
-        p->mod_pain(2 * rng(1, 3));
-        p->mod_hunger(10);
-        p->mod_thirst(10);
-        p->mod_fatigue(5);
-        p->mutate();
-        p->mod_hunger(10);
-        p->mod_thirst(10);
-        p->mod_fatigue(5);
-        p->mod_pain(3 * rng(1, 2));
-        if (!one_in(4)) {
-            p->mutate();
-            p->mod_hunger(10);
-            p->mod_thirst(10);
-            p->mod_fatigue(5);
+        // TODO: Remove the "is_player" part, implement NPC screams
+        if( p->is_player() && !(p->has_trait( trait_NOPAIN )) && m_category.iv_sound ) {
+            p->mod_pain(m_category.iv_pain);
+            /** @EFFECT_STR increases volume of painful shouting when using IV mutagen */
+            sounds::sound(p->pos(), m_category.iv_noise + p->str_cur, m_category.iv_sound_message);
         }
-        if (!one_in(3)) {
-            p->mutate();
-            p->mod_hunger(10);
-            p->mod_thirst(10);
-            p->mod_fatigue(5);
-            p->add_msg_player_or_npc( m_bad,
-                _("You writhe and collapse to the ground."),
-                _("<npcname> writhes and collapses to the ground.") );
-            p->add_effect( effect_downed, rng( 1, 4 ), num_bp, false, 0, true );
+        for( int i = 0; i < m_category.iv_min_mutations; i++ ){
+            p->mutate_category(mutation_category);
+            p->mod_pain(m_category.iv_pain * rng(1, 5));
+            p->mod_hunger(m_category.iv_hunger);
+            p->mod_thirst(m_category.iv_thirst);
+            p->mod_fatigue(m_category.iv_fatigue);
         }
-        if (!one_in(3)) {
-            //Jackpot! ...kinda, don't wanna go unconscious in dangerous territory
-            p->mutate();
-            p->mod_hunger(10);
-            p->mod_thirst(10);
-            p->mod_fatigue(5);
-            p->add_msg_player_or_npc( m_bad,
-                _("It all goes dark..."),
-                _("<npcname> suddenly falls over!") );
-            //Should be about 40 min, less 30 sec/IN point.
-            /** @EFFECT_INT decreases sleep duration with IV mutagen */
-            p->fall_asleep((400 - p->int_cur * 5));
-        }
-    } else {
-        mutation_category_trait m_category;
-        std::string mutation_thresh;
-        for (auto& iter : mutation_category_traits){
-            if (it->has_flag("MUTAGEN_" + iter.second.category)) {
-                m_category = iter.second;
-                mutation_category = "MUTCAT_" + m_category.category;
-                mutation_thresh = "THRESH_" + m_category.category;
-
-                // try to cross the threshold to be able to get post-threshold mutations this iv.
-                test_crossing_threshold(p, m_category);
-
-                if (p->has_trait( trait_MUT_JUNKIE )) {
-                    p->add_msg_if_player(m_category.junkie_message.c_str());
-                } else if (!(p->has_trait( trait_MUT_JUNKIE ))) {
-                    //there is only the one case, so no json, unless there is demand for it.
-                    p->add_msg_if_player(m_category.iv_message.c_str());
-                }
-                // TODO: Remove the "is_player" part, implement NPC screams
-                if( p->is_player() && !(p->has_trait( trait_NOPAIN )) && m_category.iv_sound ) {
-                    p->mod_pain(m_category.iv_pain);
-                    /** @EFFECT_STR increases volume of painful shouting when using IV mutagen */
-                    sounds::sound(p->pos(), m_category.iv_noise + p->str_cur, m_category.iv_sound_message);
-                }
-                for (int i=0; i < m_category.iv_min_mutations; i++){
-                    p->mutate_category(mutation_category);
-                    p->mod_pain(m_category.iv_pain * rng(1, 5));
-                    p->mod_hunger(m_category.iv_hunger);
-                    p->mod_thirst(m_category.iv_thirst);
-                    p->mod_fatigue(m_category.iv_fatigue);
-                }
-                for (int i=0; i < m_category.iv_additional_mutations; i++){
-                    if (!one_in(m_category.iv_additional_mutations_chance)) {
-                        p->mutate_category(mutation_category);
-                        p->mod_pain(m_category.iv_pain * rng(1, 5));
-                        p->mod_hunger(m_category.iv_hunger);
-                        p->mod_thirst(m_category.iv_thirst);
-                        p->mod_fatigue(m_category.iv_fatigue);
-                    }
-                }
-                if (m_category.category == "CHIMERA"){
-                     p->add_morale(MORALE_MUTAGEN_CHIMERA, m_category.iv_morale, m_category.iv_morale_max);
-                } else if (m_category.category == "ELFA"){
-                     p->add_morale(MORALE_MUTAGEN_ELF, m_category.iv_morale, m_category.iv_morale_max);
-                } else if(m_category.iv_morale > 0){
-                    p->add_morale(MORALE_MUTAGEN_MUTATION, m_category.iv_morale, m_category.iv_morale_max);
-                }
-
-                if (m_category.iv_sleep && !one_in(3)){
-                    p->add_msg_if_player(m_bad, m_category.iv_sleep_message.c_str());
-                    /** @EFFECT_INT reduces sleep duration when using IV mutagen */
-                    p->fall_asleep(m_category.iv_sleep_dur - p->int_cur * 5);
-                }
-                // try crossing again after getting new in-category mutations.
-                test_crossing_threshold(p, m_category);
+        for( int i = 0; i < m_category.iv_additional_mutations; i++ ){
+            if (!one_in(m_category.iv_additional_mutations_chance)) {
+                p->mutate_category(mutation_category);
+                p->mod_pain(m_category.iv_pain * rng(1, 5));
+                p->mod_hunger(m_category.iv_hunger);
+                p->mod_thirst(m_category.iv_thirst);
+                p->mod_fatigue(m_category.iv_fatigue);
             }
         }
+        if( m_category.category == "CHIMERA" ) {
+             p->add_morale(MORALE_MUTAGEN_CHIMERA, m_category.iv_morale, m_category.iv_morale_max);
+        } else if( m_category.category == "ELFA" ) {
+             p->add_morale(MORALE_MUTAGEN_ELF, m_category.iv_morale, m_category.iv_morale_max);
+        } else if( m_category.iv_morale > 0 ){
+            p->add_morale(MORALE_MUTAGEN_MUTATION, m_category.iv_morale, m_category.iv_morale_max);
+        }
+
+        if( m_category.iv_sleep && !one_in( 3 ) ) {
+            p->add_msg_if_player(m_bad, m_category.iv_sleep_message.c_str());
+            /** @EFFECT_INT reduces sleep duration when using IV mutagen */
+            p->fall_asleep(m_category.iv_sleep_dur - p->int_cur * 5);
+        }
+        // try crossing again after getting new in-category mutations.
+        test_crossing_threshold( p, m_category );
     }
+
     return it->type->charges_to_use();
 }
 
@@ -1429,39 +1294,22 @@ static void do_purify( player *p )
 
 int iuse::purifier(player *p, item *it, bool, const tripoint& )
 {
-    if (p->has_trait( trait_MUTAGEN_AVOID )) {
-         //~"Uh-uh" is a sound used for "nope", "no", etc.
-        p->add_msg_if_player(m_warning, _("After what happened that last time?  uh-uh.  You're not drinking that chemical stuff."));
-        return 0;
+    mutagen_attempt checks = mutagen_common_checks( *p, *it, false,
+        pgettext( "memorial_male", "Consumed purifier." ), pgettext( "memorial_female", "Consumed purifier." ) );
+    if( !checks.allowed ) {
+        return checks.charges_used;
     }
 
-    if (!p->is_npc() && !(p->has_trait( trait_THRESH_MYCUS ))) {
-        p->add_memorial_log(pgettext("memorial_male", "Consumed purifier."),
-                            pgettext("memorial_female", "Consumed purifier."));
-    }
-
-    if( marloss_reject_mutagen( p, it ) ) {
-        it->type->charges_to_use();
-    }
     do_purify( p );
     return it->type->charges_to_use();
 }
 
 int iuse::purify_iv(player *p, item *it, bool, const tripoint& )
 {
-    if (p->has_trait( trait_MUTAGEN_AVOID )) {
-         //~"Uh-uh" is a sound used for "nope", "no", etc.
-        p->add_msg_if_player(m_warning, _("After what happened that last time?  uh-uh.  You're not injecting that chemical stuff."));
-        return 0;
-    }
-
-    if( !(p->has_trait( trait_THRESH_MYCUS )) ) {
-        p->add_memorial_log(pgettext("memorial_male", "Injected purifier."),
-                            pgettext("memorial_female", "Injected purifier."));
-    }
-
-    if( marloss_reject_mut_iv( p, it ) ) {
-        return it->type->charges_to_use();
+    mutagen_attempt checks = mutagen_common_checks( *p, *it, false,
+        pgettext( "memorial_male", "Injected purifier." ), pgettext( "memorial_female", "Injected purifier." ) );
+    if( !checks.allowed ) {
+        return checks.charges_used;
     }
 
     std::vector<trait_id> valid; // Which flags the player has
