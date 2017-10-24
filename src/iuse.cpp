@@ -2958,7 +2958,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
 
     /** @EFFECT_STR speeds up crowbar prying attempts */
 
-    p->mod_moves( std::max( 20, ( difficulty * 20 ) - ( ( p->str_cur ) * 5 ) ) );
+    p->mod_moves( -( std::max( 20, ( difficulty * 20 ) - ( ( p->str_cur ) * 5 ) ) ) );
     /** @EFFECT_STR increases chance of crowbar prying success */
 
     if( dice( 4, difficulty ) < dice( 4, p->str_cur ) ) {
