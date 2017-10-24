@@ -1034,7 +1034,7 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
             _("<npcname> writhes in agony and collapses to the ground!"),
             it.tname().c_str());
         p.vomit();
-        p.mod_pain( 35 + strong ? 20 : 0 );
+        p.mod_pain( 35 + ( strong ? 20 : 0 ) );
         // Lose a significant amount of HP, probably about 25-33%
         p.hurtall( rng( 20, 35 ) + ( strong ? 10 : 0 ), nullptr );
         // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
@@ -1116,7 +1116,7 @@ int iuse::mutagen( player *p, item *it, bool, const tripoint& )
             continue;
         }
 
-        int mut_count = 1 + it->has_flag( "MUTAGEN_STRONG" ) ? one_in( 3 ) : 0;
+        int mut_count = 1 + ( it->has_flag( "MUTAGEN_STRONG" ) ? one_in( 3 ) : 0 );
 
         p->add_msg_if_player( m_category.mutagen_message.c_str() );
         for( int i = 0; i < mut_count; i++ ) {
