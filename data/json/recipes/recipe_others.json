@@ -5677,7 +5677,8 @@
   "time": 10000,
   "autolearn": true,
   "tools": [
-    [ [ [ "surface_heat", 6, "LIST" ], [ "soldering_iron", 10 ] ] ],
+    [ [ "surface_heat", 6, "LIST" ], [ "soldering_iron", 10 ] ]
+    ],
   "components": [ [ [ "cash_card", 4 ] ] ]
   },{
   "type" : "recipe",
