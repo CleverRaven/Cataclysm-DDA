@@ -39,7 +39,7 @@
     "warmth": 5,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "BELTED", "BLOCK_WHILE_WORN" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "2byshin_guard",
@@ -61,7 +61,7 @@
     "encumbrance": 25,
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "aep_suit",
@@ -143,7 +143,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "POCKETS", "BELTED" ]
+    "flags": [ "POCKETS", "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "arm_splint",
@@ -202,7 +202,7 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN" ]
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
   },
   {
     "id": "armguard_chitin",
@@ -224,7 +224,7 @@
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN" ]
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
   },
   {
     "id": "armguard_hard",
@@ -267,7 +267,7 @@
     "encumbrance": 16,
     "warmth": 25,
     "material_thickness": 4,
-    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN" ]
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
   },
   {
     "id": "armguard_lightplate",
@@ -310,7 +310,7 @@
     "encumbrance": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "BELTED", "BLOCK_WHILE_WORN" ]
+    "flags": [ "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
   },
   {
     "id": "armguard_paper",
@@ -683,7 +683,7 @@
     "storage": 40,
     "warmth": 10,
     "material_thickness": 3,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "badge_cybercop",
@@ -787,7 +787,7 @@
       "draw_cost": 10,
       "flags": [ "SHEATH_SWORD" ]
     },
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "bandana",
@@ -1001,7 +1001,7 @@
     "encumbrance": 40,
     "storage": 20,
     "material_thickness": 1,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
     "id": "blanket",
@@ -1146,7 +1146,7 @@
       "draw_cost": 30,
       "flags": [ "SHEATH_KNIFE" ]
     },
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
   },
   {
     "id": "bowhat",
@@ -1297,7 +1297,7 @@
     "encumbrance": 30,
     "storage": 24,
     "material_thickness": 2,
-    "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS" ]
+    "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
     "id": "briefs",
@@ -1355,7 +1355,7 @@
       "draw_cost": 20,
       "flags": [ "SHEATH_SWORD" ]
     },
-    "flags": [ "BELTED", "OVERSIZE" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "bunker_coat",
@@ -2246,7 +2246,7 @@
     "storage": 120,
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "dump_pouch",
@@ -2266,7 +2266,7 @@
     "coverage": 10,
     "storage": 8,
     "material_thickness": 1,
-    "flags": [ "WAIST" ]
+    "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
     "id": "duster",
@@ -2477,7 +2477,7 @@
     "encumbrance": 2,
     "storage": 6,
     "material_thickness": 1,
-    "flags": [ "WAIST" ]
+    "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
     "id": "fencing_jacket",
@@ -2602,7 +2602,7 @@
       "draw_cost": 50,
       "flags": [ "BELT_CLIP" ]
     },
-    "flags": [ "FANCY", "WAIST", "NO_QUICKDRAW" ]
+    "flags": [ "FANCY", "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
   },
   {
     "id": "fishing_waders",
@@ -3625,7 +3625,7 @@
     "encumbrance": 35,
     "warmth": 10,
     "material_thickness": 3,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "goggles_ski",
@@ -5114,7 +5114,7 @@
       "seals": true,
       "watertight": true
     },
-    "flags": [ "OVERSIZE", "BELTED" ]
+    "flags": [ "OVERSIZE", "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "jersey",
@@ -5188,7 +5188,7 @@
     "coverage": 5,
     "encumbrance": 2,
     "material_thickness": 5,
-    "flags": [ "WAIST" ]
+    "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
     "id": "judo_belt_black",
@@ -5536,7 +5536,7 @@
       "draw_cost": 60,
       "flags": [ "BELT_CLIP" ]
     },
-    "flags": [ "WAIST" ]
+    "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
     "id": "leather_cat_ears",
@@ -5598,7 +5598,7 @@
     "encumbrance": 3,
     "storage": 6,
     "material_thickness": 1,
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "leg_splint",
@@ -5755,7 +5755,7 @@
     "encumbrance": 6,
     "warmth": 10,
     "material_thickness": 4,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "legguard_paper",
@@ -6119,7 +6119,7 @@
     "storage": 20,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "makeshift_sling",
@@ -6139,7 +6139,7 @@
     "storage": 30,
     "warmth": 10,
     "material_thickness": 1,
-    "flags": [ "OVERSIZE", "BELTED" ]
+    "flags": [ "OVERSIZE", "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "mask_bal",
@@ -6494,7 +6494,7 @@
     "encumbrance": 5,
     "storage": 25,
     "material_thickness": 1,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "mittens",
@@ -6671,7 +6671,7 @@
     "storage": 48,
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "WATERPROOF", "BELTED" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "motorbike_armor",
@@ -7138,7 +7138,7 @@
     "encumbrance": 60,
     "storage": 20,
     "material_thickness": 1,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
     "id": "polo_shirt",
@@ -7469,7 +7469,7 @@
     "encumbrance": 7,
     "storage": 20,
     "material_thickness": 2,
-    "flags": [ "FANCY", "BELTED" ]
+    "flags": [ "FANCY", "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "quiver",
@@ -7493,7 +7493,7 @@
       "ammo": [ "arrow", "bolt" ],
       "draw_cost": 20
     },
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "quiver_birchbark",
@@ -7517,7 +7517,7 @@
       "ammo": [ "arrow", "bolt" ],
       "draw_cost": 20
     },
-    "flags": [ "WAIST", "VARSIZE", "OVERSIZE" ]
+    "flags": [ "WAIST", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "quiver_large",
@@ -7541,7 +7541,7 @@
       "ammo": [ "arrow", "bolt" ],
       "draw_cost": 20
     },
-    "flags": [ "BELTED", "OVERSIZE" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "quiver_large_birchbark",
@@ -7565,7 +7565,7 @@
       "ammo": [ "arrow", "bolt" ],
       "draw_cost": 20
     },
-    "flags": [ "BELTED", "VARSIZE", "OVERSIZE" ]
+    "flags": [ "BELTED", "VARSIZE", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "rad_badge",
@@ -7600,7 +7600,7 @@
     "encumbrance": 10,
     "storage": 9,
     "material_thickness": 1,
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "ring",
@@ -7653,7 +7653,7 @@
     "storage": 80,
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "runner_bag",
@@ -7673,7 +7673,7 @@
     "encumbrance": 3,
     "storage": 16,
     "material_thickness": 1,
-    "flags": [ "WATERPROOF", "BELTED" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "scabbard",
@@ -7698,7 +7698,7 @@
       "max_volume": 8,
       "flags": [ "SHEATH_SWORD" ]
     },
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "sf_watch",
@@ -7716,7 +7716,7 @@
     "color": "yellow",
     "covers": [ "HAND_EITHER" ],
     "coverage": 10,
-    "flags": [ "WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
   },
   {
     "id": "shark_suit",
@@ -7779,7 +7779,7 @@
       "draw_cost": 3,
       "flags": [ "SHEATH_KNIFE" ]
     },
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "sheet",
@@ -8213,7 +8213,7 @@
     "storage": 32,
     "warmth": 2,
     "material_thickness": 1,
-    "flags": [ "BELTED" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "small_relic",
@@ -8448,7 +8448,7 @@
     "encumbrance": 30,
     "storage": 9,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
     "id": "straw_hat",
@@ -8564,7 +8564,7 @@
     "encumbrance": 100,
     "storage": 80,
     "material_thickness": 3,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
     "id": "suitcase_m",
@@ -8582,7 +8582,7 @@
     "encumbrance": 100,
     "storage": 40,
     "material_thickness": 3,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
     "id": "sundress",
@@ -8781,7 +8781,7 @@
     "encumbrance": 100,
     "storage": 60,
     "material_thickness": 1,
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS" ]
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
     "id": "swat_armor",
@@ -9156,7 +9156,7 @@
       "draw_cost": 50,
       "flags": [ "BELT_CLIP" ]
     },
-    "flags": [ "WAIST", "NO_QUICKDRAW" ]
+    "flags": [ "WAIST", "NO_QUICKDRAW", "WATER_FRIENDLY" ]
   },
   {
     "id": "tophat",
@@ -9528,7 +9528,7 @@
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "BELTED" ]
+    "flags": [ "STURDY", "BELTED", "WATER_FRIENDLY" ]
   },
   {
     "id": "veil_wedding",
@@ -9845,7 +9845,7 @@
     "color": "dark_gray",
     "covers": [ "HAND_EITHER" ],
     "coverage": 5,
-    "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
   },
   {
     "id": "wsurvivor_suit",
