@@ -960,9 +960,13 @@ else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
 
-style-json: json_whitelist json_formatter
+JSON_WHITELIST = $(shell cat json_whitelist)
+
+style-json: $(JSON_WHITELIST)
+
+$(JSON_WHITELIST): json_whitelist json_formatter
 ifndef CROSS
-	xargs -a json_whitelist -L 1 tools/format/json_formatter.cgi
+	@tools/format/json_formatter.cgi $@
 else
 	@echo Cannot run json formatter in cross compiles.
 endif
