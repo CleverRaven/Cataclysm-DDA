@@ -22,6 +22,7 @@
 static int moves_to_destination( const std::string &monster_type,
                                  const tripoint &start, const tripoint &end )
 {
+    clear_creatures();
     REQUIRE( g->num_creatures() == 1 ); // the player
     monster &test_monster = spawn_test_monster( monster_type, start );
     // Get it riled up and give it a goal.
@@ -78,6 +79,7 @@ std::ostream &operator << ( std::ostream &os, std::vector<track> vec )
  **/
 static int can_catch_player( const std::string &monster_type, const tripoint &direction_of_flight )
 {
+    clear_creatures();
     REQUIRE( g->num_creatures() == 1 ); // the player
     player &test_player = g->u;
     // Strip off any potentially encumbering clothing.
@@ -111,11 +113,14 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
                 test_player.pos().y >= SEEY * ( 1 + int( MAPSIZE / 2 ) ) ) {
                 g->update_map( test_player );
                 wipe_map_terrain();
+                g->active_npc.clear();
                 for( monster &critter : g->all_monsters() ) {
                     if( &critter != &test_monster ) {
                         g->remove_zombie( critter );
                     }
                 }
+                // Verify that only the player and one monster are present.
+                REQUIRE( g->num_creatures() == 2 );
             }
             const int move_cost = g->m.combined_movecost(
                                       test_player.pos(), test_player.pos() + direction_of_flight, nullptr, 0 );

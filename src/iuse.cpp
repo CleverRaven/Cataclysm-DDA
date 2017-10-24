@@ -2956,17 +2956,12 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-    p->practice( skill_mechanics, 1 );
     /** @EFFECT_STR speeds up crowbar prying attempts */
 
-    /** @EFFECT_MECHANICS speeds up crowbar prying attempts */
-    p->moves -= std::max( 25, ( difficulty * 25 ) - ( ( p->str_cur + p->get_skill_level( skill_mechanics ) ) * 5 ) );
+    p->mod_moves( -( std::max( 20, ( difficulty * 20 ) - ( ( p->str_cur ) * 5 ) ) ) );
     /** @EFFECT_STR increases chance of crowbar prying success */
 
-    /** @EFFECT_MECHANICS increases chance of crowbar prying success */
-    if( dice( 4, difficulty ) < dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2,
-            p->str_cur ) ) {
-        p->practice( skill_mechanics, 1 );
+    if( dice( 4, difficulty ) < dice( 4, p->str_cur ) ) {
         p->add_msg_if_player( m_good, succ_action );
 
         if( g->m.furn( dirx, diry ) == f_crate_c ) {
