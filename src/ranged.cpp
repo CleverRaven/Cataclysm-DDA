@@ -1397,30 +1397,10 @@ static projectile make_gun_projectile( const item &gun ) {
 
 int time_to_fire( const Character &p, const itype &firingt )
 {
-    struct time_info_t {
-        int min_time;  // absolute floor on the time taken to fire.
-        int base;      // the base or max time taken to fire.
-        int reduction; // the reduction in time given per skill level.
-    };
-
-    static std::map<skill_id, time_info_t> const map {
-        {skill_id {"pistol"},   {10, 80,  10}},
-        {skill_id {"shotgun"},  {70, 150, 25}},
-        {skill_id {"smg"},      {20, 80,  10}},
-        {skill_id {"rifle"},    {30, 150, 15}},
-        {skill_id {"archery"},  {20, 220, 25}},
-        {skill_id {"throw"},    {50, 220, 25}},
-        {skill_id {"launcher"}, {30, 200, 20}},
-        {skill_id {"melee"},    {50, 200, 20}}
-    };
-
     const skill_id &skill_used = firingt.gun.get()->skill_used;
-    auto const it = map.find( skill_used );
-    // TODO: maybe JSON-ize this in some way? Probably as part of the skill class.
-    static const time_info_t default_info{ 50, 220, 25 };
-
-    time_info_t const &info = (it == map.end()) ? default_info : it->second;
-    return std::max(info.min_time, info.base - info.reduction * p.get_skill_level( skill_used ));
+    const ranged_skill_data &info = skill_used.obj().get_ranged_data();
+    return std::max( info.min_fire_time,
+                     info.base_fire_time - info.fire_time_skill_scaling * p.get_skill_level( skill_used ) );
 }
 
 static void cycle_action( item& weap, const tripoint &pos ) {
