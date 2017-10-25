@@ -174,6 +174,7 @@ tab_direction set_skills( WINDOW *w, player *u, points_left &points );
 tab_direction set_description(WINDOW *w, player *u, bool allow_reroll, points_left &points);
 
 void save_template( player *u, std::string name = "" );
+void reset_scenario( player *u, const scenario *scen );
 
 void Character::pick_name(bool bUseDefault)
 {
@@ -1841,7 +1842,9 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
 
             // If city size is 0 but the current scenario requires cities reset the scenario
             if( !scenario_sorter.cities_enabled && g->scen->has_flag( "CITY_START" ) ) {
-                g->scen = sorted_scens[0];
+                reset_scenario( u, sorted_scens[0] );
+                points.init_from_options();
+                points.skill_points -= sorted_scens[cur_id]->point_cost();
             }
 
             // Select the current scenario, if possible.
@@ -2032,16 +2035,7 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
             if( sorted_scens[cur_id]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {
                 continue;
             }
-            u->start_location = sorted_scens[cur_id]->start_location();
-            u->str_max = 8;
-            u->dex_max = 8;
-            u->int_max = 8;
-            u->per_max = 8;
-            g->scen = sorted_scens[cur_id];
-            u->prof = &default_prof.obj();
-            u->empty_traits();
-            u->empty_skills();
-            u->add_traits();
+            reset_scenario( u, sorted_scens[cur_id] );
             points.init_from_options();
             points.skill_points -= sorted_scens[cur_id]->point_cost();
         } else if( action == "PREV_TAB" ) {
@@ -2477,4 +2471,22 @@ void save_template( player *u, std::string name )
     write_to_file( playerfile, [&]( std::ostream &fout ) {
         fout << u->save_info();
     }, _( "player template" ) );
+}
+
+void reset_scenario( player *u, const scenario *scen ) {
+    auto psorter = profession_sorter;
+    psorter.sort_by_points = true;
+    const auto permitted = scen->permitted_professions();
+    const auto default_prof = *std::min_element( permitted.begin(), permitted.end(), psorter );
+
+    u->start_location = scen->start_location();
+    u->str_max = 8;
+    u->dex_max = 8;
+    u->int_max = 8;
+    u->per_max = 8;
+    g->scen = scen;
+    u->prof = &default_prof.obj();
+    u->empty_traits();
+    u->empty_skills();
+    u->add_traits();
 }
