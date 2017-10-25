@@ -47,7 +47,7 @@
         "baseballfield_pal"
       ],
       "place_loot": [
-        { "group": "baseball_equip", "x": [ 16, 2 ], "y": 6, "chance": 80, "repeat": [ 1, 3 ] },
+        { "group": "baseball_equip", "x": [ 16, 19 ], "y": 6, "chance": 80, "repeat": [ 1, 3 ] },
         { "group": "trash_cart", "x": 12, "y": 1, "chance": 90, "repeat": [ 2, 4 ] },
         { "group": "fast_food", "x": [ 13, 21 ], "y": [ 1, 3 ], "chance": 80, "repeat": [ 2, 4 ] }
       ],

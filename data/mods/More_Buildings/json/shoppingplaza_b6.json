@@ -36,7 +36,7 @@
       ],
       "place_items": [
         { "item": "vfw_tools", "x": 7, "y": [ 8, 12 ], "chance": 80, "repeat": [ 1, 5 ] },
-        { "item": "vfw_books", "x": 5, "y": [ 15, 19 ], "chance": 80, "repeat": [ 1, 5 ] },
+        { "item": "vfw_books", "x": 4, "y": [ 15, 19 ], "chance": 80, "repeat": [ 1, 5 ] },
         { "item": "vfw_alcohol", "x": 19, "y": [ 15, 19 ], "chance": 80, "repeat": [ 1, 5 ] }
       ],
       "place_monsters": [
