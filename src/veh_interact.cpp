@@ -1822,6 +1822,7 @@ void veh_interact::display_stats()
         }
     }
 
+    if( !veh->is_furniture) {
     fold_and_print( w_stats, y[0], x[0], w[0], c_ltgray,
                     _( "Safe/Top Speed: <color_ltgreen>%3d</color>/<color_ltred>%3d</color> %s" ),
                     int( convert_velocity( veh->safe_velocity( false ), VU_VEHICLE ) ),
@@ -1849,6 +1850,20 @@ void veh_interact::display_stats()
 
     fold_and_print( w_stats, y[5], x[5], w[5], c_ltgray, wheel_state_description( *veh ).c_str() );
 
+    } else {
+        fold_and_print(w_stats, y[0], x[0], w[0], c_ltgray,
+            _("Cargo Volume: <color_ltgray>%s/%s</color> %s"),
+            format_volume(total_cargo - free_cargo).c_str(),
+            format_volume(total_cargo).c_str(),
+            volume_units_abbr());
+        // Write the overall damage
+        mvwprintz(w_stats, y[1], x[1], c_ltgray, _("Status:"));
+        x[1] += utf8_width(_("Status:")) + 1;
+        fold_and_print(w_stats, y[1], x[1], w[1], totalDurabilityColor, totalDurabilityText);
+
+        fold_and_print(w_stats, y[2], x[2], w[2], c_ltgray, wheel_state_description(*veh).c_str());
+
+    }
 
     //This lambda handles printing parts in the "Most damaged" and "Needs repair" cases
     //for the veh_interact ui
@@ -1886,6 +1901,7 @@ void veh_interact::display_stats()
 
     bool is_boat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
 
+    if( !veh->is_furniture ) {
     fold_and_print(w_stats, y[8], x[8], w[8], c_ltgray,
                    _("K aerodynamics: <color_ltblue>%3d</color>%%"),
                    int(veh->k_aerodynamics() * 100));
@@ -1898,6 +1914,7 @@ void veh_interact::display_stats()
     fold_and_print( w_stats, y[11], x[11], w[11], c_ltgray,
                     _("Offroad:        <color_ltblue>%3d</color>%%"),
                     int( veh->k_traction( veh->wheel_area( is_boat ) * 0.5f ) * 100 ) );
+    }
 
     // Print fuel percentage & type name only if it fits in the window, 10 is width of "E...F 100%"
     veh->print_fuel_indicators (w_stats, y[13], x[13], fuel_index, true,

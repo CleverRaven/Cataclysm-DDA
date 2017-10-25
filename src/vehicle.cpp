@@ -838,6 +838,8 @@ void vehicle::use_controls( const tripoint &pos )
 {
     std::vector<uimenu_entry> options;
     std::vector<std::function<void()>> actions;
+    
+    vehicle * veh = g->m.veh_at(pos);
 
     auto const keybind = [&]( std::string const &opt ) {
         auto const keys = input_context( "VEHICLE" ).keys_bound_to( opt );
@@ -852,7 +854,7 @@ void vehicle::use_controls( const tripoint &pos )
         actions.push_back( [&]{
             g->u.controlling_vehicle = false;
             g->setremoteveh( nullptr );
-            add_msg( _( "You stop controlling the vehicle." ) );
+            !veh->is_furniture ? add_msg( _( "You stop controlling the vehicle." ) ) : add_msg(    _( "You stop controlling the furniture." ) );
         } );
 
         has_electronic_controls = has_part( "CTRL_ELECTRONIC" ) || has_part( "REMOTE_CONTROLS" );
@@ -952,19 +954,22 @@ void vehicle::use_controls( const tripoint &pos )
         add_toggle( _( "chimes" ), keybind( "TOGGLE_CHIMES" ), "CHIMES" );
         add_toggle( _( "fridge" ), keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
         add_toggle( _( "recharger" ), keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
-        add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
-        add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
-        add_toggle( _( "planter" ), keybind( "TOGGLE_PLANTER" ), "PLANTER" );
-        add_toggle( _( "scoop" ), keybind( "TOGGLE_SCOOP" ), "SCOOP" );
-        add_toggle( _( "water purifier" ), keybind( "TOGGLE_WATER_PURIFIER" ), "WATER_PURIFIER" );
+        if( veh->is_furniture ) {
+            add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
+            add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
+            add_toggle( _( "planter" ), keybind( "TOGGLE_PLANTER" ), "PLANTER" );
+            add_toggle( _( "scoop" ), keybind( "TOGGLE_SCOOP" ), "SCOOP" );
+            add_toggle( _( "water purifier" ), keybind( "TOGGLE_WATER_PURIFIER" ), "WATER_PURIFIER" );
+        }
 
         if( has_part( "DOOR_MOTOR" ) ) {
             options.emplace_back( _( "Toggle doors" ), keybind( "TOGGLE_DOORS" ) );
             actions.push_back( [&]{ control_doors(); } );
         }
 
+        if ( veh->is_furniture ) {
         options.emplace_back( cruise_on ? _( "Disable cruise control" ) : _( "Enable cruise control" ),
-                              keybind( "TOGGLE_CRUISE_CONTROL" ) );
+                              keybind( "TOGGLE_CRUISE_CONTROL" ) ); }
 
         actions.emplace_back( [&]{
             cruise_on = !cruise_on;
@@ -972,18 +977,26 @@ void vehicle::use_controls( const tripoint &pos )
         } );
     }
 
-    options.emplace_back( tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" ),
-                          keybind( "TOGGLE_TRACKING" ) );
+    if( !veh->is_furniture ) {
+       options.emplace_back( tracking_on ? _( "Forget vehicle position" ) :
+                             _( "Remember vehicle position" ),
+                             keybind( "TOGGLE_TRACKING" ) );
+   } else {
+       options.emplace_back( tracking_on ? _( "Forget furniture position" ) :
+                             _( "Remember furniture position" ),
+                             keybind( "TOGGLE_TRACKING" ) );
+   }
+
 
     actions.push_back( [&] {
         if( tracking_on ) {
             overmap_buffer.remove_vehicle( this );
             tracking_on = false;
-            add_msg( _( "You stop keeping track of the vehicle position." ) );
+            !veh->is_furniture ? add_msg( _( "You stop keeping track of the vehicle's  position." ) ) : add_msg(    _( "You stop keeping track of the furniture's position." ) );
         } else {
             overmap_buffer.add_vehicle( this );
             tracking_on = true;
-            add_msg( _( "You start keeping track of this vehicle's position." ) );
+            !veh->is_furniture ? add_msg( _( "You start keeping track of this vehicle's position." ) ) :add_msg( _( "You start keeping track of this furniture's position." ) );
         }
     } );
 
@@ -1051,7 +1064,7 @@ void vehicle::use_controls( const tripoint &pos )
 
     uimenu menu;
     menu.return_invalid = true;
-    menu.text = _( "Vehicle controls" );
+    !veh->is_furniture ? menu.text = _( "Vehicle controls" ) : menu.text = _( "Furniture controls" );
     menu.entries = options;
     menu.query();
     if( menu.ret >= 0 ) {
