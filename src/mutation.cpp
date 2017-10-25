@@ -726,6 +726,7 @@ void player::mutate()
 void player::mutate_category( const std::string &cat )
 {
     // Hacky ID comparison is better than separate hardcoded branch used before
+    // @todo Turn it into the null id
     if( cat == "MUTCAT_ANY" ) {
         mutate();
         return;

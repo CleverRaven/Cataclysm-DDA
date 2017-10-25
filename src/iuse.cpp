@@ -1109,9 +1109,9 @@ int iuse::mutagen( player *p, item *it, bool, const tripoint& )
     }
 
     // Categorized/targeted mutagens go here.
-    for( auto& iter : mutation_category_traits ) {
+    for( auto& iter : mutation_category_trait::get_all() ) {
         mutation_category_trait m_category = iter.second;
-        std::string mutation_category = "MUTCAT_" + m_category.category;
+        const std::string &mutation_category = m_category.category_full;
         if( !it->has_flag( mutation_category ) ) {
             continue;
         }
@@ -1139,16 +1139,16 @@ static void test_crossing_threshold(player *p, const mutation_category_trait &m_
         return;
     }
 
-    // You can't mutate into Any
-    if( m_category.id == "MUTCAT_ANY" ) {
+    // If there is no threshold for this category, don't check it
+    const trait_id &mutation_thresh = m_category.threshold_mut;
+    if( mutation_thresh.is_empty() ) {
         return;
     }
 
-    std::string mutation_category = "MUTCAT_" + m_category.category;
-    const trait_id mutation_thresh( "THRESH_" + m_category.category );
+    std::string mutation_category = m_category.category_full;
     int total = 0;
-    for (auto& iter : mutation_category_traits){
-        total += p->mutation_category_level["MUTCAT_" + iter.second.category];
+    for( const auto& iter : mutation_category_trait::get_all() ){
+        total += p->mutation_category_level[ iter.second.category_full ];
     }
     // Threshold-breaching
     const std::string &primary = p->get_highest_category();
@@ -1206,15 +1206,14 @@ int iuse::mut_iv( player *p, item *it, bool, const tripoint & )
         return checks.charges_used;
     }
 
-    for( auto& iter : mutation_category_traits ) {
+    for( auto& iter : mutation_category_trait::get_all() ) {
         // @todo Get rid of this revolting string hack
-        if( !it->has_flag( "MUTAGEN_" + iter.second.category ) ) {
+        if( !it->has_flag( iter.second.mutagen_flag ) ) {
             continue;
         }
 
         const mutation_category_trait &m_category = iter.second;
-        std::string mutation_category = "MUTCAT_" + m_category.category;
-        std::string mutation_thresh = "THRESH_" + m_category.category;
+        const std::string &mutation_category = m_category.category_full;
 
         // try to cross the threshold to be able to get post-threshold mutations this iv.
         test_crossing_threshold(p, m_category);
