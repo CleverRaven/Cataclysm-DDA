@@ -112,9 +112,7 @@
             { "item": "jewelry_safe", "x": [ 18, 18 ], "y": [ 20, 21 ], "chance": 95 },
             { "item": "trash", "x": [ 3, 3 ], "y": [ 17, 18 ], "chance": 50 }
           ],
-          "place_vehicles": [
-            { "vehicle": "security_van", "x": 11, "y": 2, "chance": 20, "fuel": 20, "status": 0, "rotation": 0 }
-          ]
+          "place_vehicles": [ { "vehicle": "security_van", "x": 11, "y": 2, "chance": 20, "fuel": 20, "status": 0, "rotation": 0 } ]
         }
       }
     ],

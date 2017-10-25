@@ -9,6 +9,7 @@
 #include "overmapbuffer.h"
 #include "trap.h"
 #include "math.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "weather_gen.h"
 #include "sounds.h"

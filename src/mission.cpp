@@ -4,6 +4,7 @@
 #include "overmapbuffer.h"
 #include "translations.h"
 #include "requirements.h"
+#include "string_formatter.h"
 #include "overmap.h"
 #include "line.h"
 #include "npc.h"

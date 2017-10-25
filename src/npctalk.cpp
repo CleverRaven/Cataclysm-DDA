@@ -27,6 +27,7 @@
 #include "vehicle_selector.h"
 #include "ui.h"
 
+#include "string_formatter.h"
 #include <vector>
 #include <string>
 #include <sstream>

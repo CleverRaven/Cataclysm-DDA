@@ -3,6 +3,7 @@
 #include "faction.h"
 #include "rng.h"
 #include "math.h"
+#include "string_formatter.h"
 #include "output.h"
 #include "omdata.h"
 #include "game.h"

@@ -12,6 +12,7 @@
 #include "debug.h"
 #include "cursesdef.h"
 #include "options.h"
+#include "string_formatter.h"
 #include "catacharset.h"
 #include "overmapbuffer.h"
 #include "action.h"
@@ -654,6 +655,7 @@ void overmap_terrains::check_consistency()
 
 void overmap_terrains::finalize()
 {
+    terrain_types.finalize();
 
     for( const auto &elem : terrain_types.get_all() ) {
         const_cast<oter_type_t &>( elem ).finalize(); // This cast is ugly, but safe.

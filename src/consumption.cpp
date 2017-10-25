@@ -10,6 +10,7 @@
 #include "material.h"
 #include "messages.h"
 #include "monster.h"
+#include "string_formatter.h"
 #include "morale_types.h"
 #include "mutation.h"
 #include "options.h"

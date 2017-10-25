@@ -16,6 +16,7 @@
 #include "rng.h"
 #include "options.h"
 #include "cursesdef.h"
+#include "string_formatter.h"
 #include "catacharset.h"
 #include "debug.h"
 #include "path_info.h"
@@ -1627,7 +1628,7 @@ std::string vstring_format( char const *format, va_list args )
 }
 #endif
 
-std::string string_format( const char *pattern, ... )
+std::string raw_string_format( const char *pattern, ... )
 {
     va_list ap;
     va_start( ap, pattern );
@@ -1639,15 +1640,6 @@ std::string string_format( const char *pattern, ... )
 std::string vstring_format( std::string const &pattern, va_list argptr )
 {
     return vstring_format( pattern.c_str(), argptr );
-}
-
-std::string string_format( std::string pattern, ... )
-{
-    va_list ap;
-    va_start( ap, pattern );
-    std::string result = vstring_format( pattern.c_str(), ap );
-    va_end( ap );
-    return result;
 }
 
 void replace_name_tags( std::string &input )

@@ -66,9 +66,7 @@
         "s": "f_sink",
         "u": "f_trashcan"
       },
-      "toilets": {
-        "t": {}
-      },
+      "toilets": { "t": {  } },
       "place_items": [
         { "item": "allclothes", "x": 3, "y": 4, "chance": 40, "repeat": 2 },
         { "item": "allclothes", "x": 5, "y": 4, "chance": 40, "repeat": 2 },

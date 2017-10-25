@@ -5,6 +5,7 @@
 #include "map.h"
 #include "game.h"
 #include "item_group.h"
+#include "string_formatter.h"
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "mission.h"

@@ -99,7 +99,6 @@ src/json.h
 src/mapdata.h
 src/mapgen_functions.h
 src/mapgen.h
-src/map.h
 src/mingw.thread.h
 src/mission.h
 src/monattack.h

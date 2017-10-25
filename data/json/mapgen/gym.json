@@ -138,9 +138,7 @@
             "x": "f_null",
             "|": "f_null"
           },
-          "place_items": [
-            { "item": "gym", "x": [ 5, 14 ], "y": [ 19, 19 ], "chance": 95 }
-          ]
+          "place_items": [ { "item": "gym", "x": [ 5, 14 ], "y": [ 19, 19 ], "chance": 95 } ]
         }
       }
     ],

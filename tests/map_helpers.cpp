@@ -22,14 +22,17 @@ void wipe_map_terrain()
     g->m.build_map_cache( 0, true );
 }
 
+void clear_creatures()
+{
+    // Remove any interfering monsters.
+    g->clear_zombies();
+    g->active_npc.clear();
+}
+
 void clear_map()
 {
     wipe_map_terrain();
-    // Remove any interfering monsters.
-    for( monster &critter : g->all_monsters() ) {
-        g->remove_zombie( critter );
-    }
-    g->active_npc.clear();
+    clear_creatures();
     // Make sure the player doesn't block the path of the monster being tested.
     g->u.setpos( { 0, 0, -2 } );
 }

@@ -11,6 +11,7 @@
 #include "mapgen.h"
 #include "mapgen_functions.h"
 #include "map.h"
+#include "string_formatter.h"
 #include "path_info.h"
 #include "monstergenerator.h"
 #include "messages.h"

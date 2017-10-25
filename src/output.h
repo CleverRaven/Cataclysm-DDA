@@ -182,7 +182,7 @@ int print_scrollable( WINDOW *w, int begin_line, const std::string &text, nc_col
 /**
  * Format, fold and print text in the given window. The function handles @ref color_tags and
  * uses them while printing. It expects a printf-like format string and matching
- * arguments to that format (see @ref string_format).
+ * arguments to that format (see @ref raw_string_format).
  *
  * @param w Window we are printing in
  * @param begin_y The column index on which to start each line.
@@ -394,9 +394,8 @@ std::string to_upper_case( const std::string &s );
  * There are more placeholders and options to them (see documentation of `printf`).
  */
 /*@{*/
-std::string string_format( const char *pattern, ... ) PRINTF_LIKE( 1, 2 );
+std::string raw_string_format( const char *pattern, ... ) PRINTF_LIKE( 1, 2 );
 std::string vstring_format( const char *pattern, va_list argptr );
-std::string string_format( std::string pattern, ... );
 std::string vstring_format( std::string const &pattern, va_list argptr );
 /*@}*/
 

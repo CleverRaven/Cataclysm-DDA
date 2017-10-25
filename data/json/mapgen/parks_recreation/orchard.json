@@ -54,13 +54,7 @@
         "w": "t_wall_log",
         "|": "t_fence_v"
       },
-      "furniture": {
-        "C": "f_chair",
-        "D": "f_desk",
-        "H": "f_sofa",
-        "b": "f_bench",
-        "p": "f_plant_harvest"
-      },
+      "furniture": { "C": "f_chair", "D": "f_desk", "H": "f_sofa", "b": "f_bench", "p": "f_plant_harvest" },
       "place_items": [
         { "item": "supplies_farming", "x": 6, "y": 13, "chance": 50 },
         { "item": "supplies_farming", "x": 4, "y": 11, "chance": 15 },

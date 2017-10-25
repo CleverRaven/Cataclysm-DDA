@@ -5,6 +5,7 @@
 #include "input.h"
 #include "output.h"
 #include "item.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "npc.h"
 #include "cata_utility.h"

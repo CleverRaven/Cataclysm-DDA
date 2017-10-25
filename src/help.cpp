@@ -5,6 +5,7 @@
 #include "input.h"
 #include "output.h"
 #include "rng.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "text_snippets.h"
 #include <cmath>  // max in help_main

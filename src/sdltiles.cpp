@@ -21,6 +21,7 @@
 #include "get_version.h"
 #include "init.h"
 #include "path_info.h"
+#include "string_formatter.h"
 #include "filesystem.h"
 #include "map.h"
 #include "game.h"

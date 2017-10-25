@@ -9,6 +9,7 @@
 #include "translations.h"
 #include "input.h"
 #include "output.h"
+#include "string_formatter.h"
 #include "catacharset.h"
 #include "cata_utility.h"
 #include "calendar.h"

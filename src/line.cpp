@@ -1,6 +1,7 @@
 #include "line.h"
 #include "game.h"
 #include "translations.h"
+#include "string_formatter.h"
 #include <cstdlib>
 
 #include "output.h"

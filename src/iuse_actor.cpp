@@ -17,6 +17,7 @@
 #include "crafting.h"
 #include "ui.h"
 #include "itype.h"
+#include "string_formatter.h"
 #include "vehicle.h"
 #include "mtype.h"
 #include "mapdata.h"

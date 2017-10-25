@@ -14,6 +14,7 @@
 #include "monster.h"
 #include "npc.h"
 #include "itype.h"
+#include "string_formatter.h"
 #include "line.h"
 #include "mtype.h"
 #include "field.h"

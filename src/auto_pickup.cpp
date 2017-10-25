@@ -8,6 +8,7 @@
 #include "translations.h"
 #include "cata_utility.h"
 #include "path_info.h"
+#include "string_formatter.h"
 #include "filesystem.h"
 #include "input.h"
 #include "worldfactory.h"

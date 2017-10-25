@@ -9,6 +9,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "assign.h"
+#include "string_formatter.h"
 #include "init.h"
 #include "item.h"
 #include "ammo.h"
