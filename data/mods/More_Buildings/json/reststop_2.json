@@ -70,7 +70,7 @@
         "K": "f_bench"
       },
       "toilets": { 
-        "B": {  } 
+        "B": {} 
       },
       "place_loot": [
         { "group": "snacks", "x": [ 19, 20 ], "y": [ 10, 12 ], "chance": 75, "repeat": [ 1, 2 ] },
