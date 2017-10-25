@@ -1245,9 +1245,20 @@ void vehicle::start_engines( const bool take_control )
     }
 
     int start_time = 0;
+    // record the first usable engine as the referenced position checked at the end of the engine starting activity
+    bool has_starting_engine_position = false;
+    tripoint starting_engine_position;
     for( size_t e = 0; e < engines.size(); ++e ) {
+        if( !has_starting_engine_position && !parts[ engines[ e ] ].is_broken() && parts[ engines[ e ] ].enabled ) {
+            starting_engine_position = global_part_pos3( engines[ e ] );
+            has_starting_engine_position = true;
+        }
         has_engine = has_engine || is_engine_on( e );
         start_time = std::max( start_time, engine_start_time( e ) );
+    }
+
+    if(!has_starting_engine_position){
+        starting_engine_position = global_pos3();
     }
 
     if( !has_engine ) {
@@ -1261,7 +1272,7 @@ void vehicle::start_engines( const bool take_control )
     }
 
     g->u.assign_activity( activity_id( "ACT_START_ENGINES" ), start_time );
-    g->u.activity.placement = global_pos3() - g->u.pos();
+    g->u.activity.placement = starting_engine_position - g->u.pos();
     g->u.activity.values.push_back( take_control );
 }
 
