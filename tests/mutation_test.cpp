@@ -8,7 +8,8 @@
 
 // Note: If a category has two mutually-exclusive mutations (like pretty/ugly for Lupine), the
 // one they ultimately end up with depends on the order they were loaded from JSON
-void give_all_mutations( player &p, const mutation_category_trait &category, bool include_postthresh )
+void give_all_mutations( player &p, const mutation_category_trait &category,
+                         bool include_postthresh )
 {
     const std::vector<trait_id> category_mutations = mutations_category[category.category_full];
 
