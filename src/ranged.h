@@ -65,8 +65,7 @@ class target_handler
                                          const target_callback &on_ammo_change = target_callback() );
 };
 
-struct ranged_skill_data
-{
+struct ranged_skill_data {
     ranged_skill_data()
     {}
 

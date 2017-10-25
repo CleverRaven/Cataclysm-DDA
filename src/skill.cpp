@@ -46,7 +46,7 @@ bool string_id<Skill>::is_valid() const
 
 Skill::Skill()
     : Skill( skill_id::NULL_ID(), "nothing", "The zen-most skill there is.",
-           std::set<std::string> {} )
+             std::set<std::string> {} )
 {
 }
 
