@@ -1932,7 +1932,7 @@
     "price": 700,
     "to_hit": 1,
     "bashing": 9,
-    "material": [ "iron", "wood" ],
+    "material": [ "brass", "wood" ],
     "symbol": ";",
     "color": "brown",
     "use_action": "BELL"
@@ -7803,7 +7803,7 @@
     "price": 7500,
     "to_hit": 1,
     "bashing": 7,
-    "material": [ "iron" ],
+    "material": [ "brass" ],
     "symbol": "-",
     "color": "yellow",
     "initial_charges": 1,
