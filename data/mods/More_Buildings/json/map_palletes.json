@@ -16,7 +16,7 @@
       "6": "t_chainfence_h",
       "7": "t_chainfence_v",
       "A": "t_floor",
-      "B": "t_floor",
+      "B": "t_sidewalk",
       "C": "t_floor",
       "D": "t_floor",
       "E": "t_dirtfloor",
@@ -30,7 +30,7 @@
     },
     "furniture": {
       "A": "f_rack",
-      "B": "f_toilet",
+      "B": "f_trashcan",
       "C": "f_counter",
       "D": "f_sink",
       "E": "f_sink",

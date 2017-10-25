@@ -33,6 +33,9 @@
       ],
       "palettes": [
         "shoppingplaza_pal"
+      ],
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 2 ] }
       ]
     }
   }
