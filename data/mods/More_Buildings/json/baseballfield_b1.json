@@ -32,7 +32,7 @@
         "666666666666666666666666"
       ],
       "palettes": [
-        "baseballfield_pal"
+        "baseballfield"
       ],
       "place_loot": [
         { "item": "baseball", "x": [ 1, 21 ], "y": [ 7, 22 ], "chance": 90}

@@ -32,7 +32,7 @@
         "888888888888888888888888"
       ],
       "palettes": [
-        "shoppingplaza_pal"
+        "shoppingplaza"
       ],
       "place_items": [
         { "item": "vfw_tools", "x": 7, "y": [ 8, 12 ], "chance": 80, "repeat": [ 1, 5 ] },

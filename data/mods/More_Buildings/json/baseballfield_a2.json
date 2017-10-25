@@ -44,7 +44,7 @@
         "......,................7"
       ],
       "palettes": [
-        "baseballfield_pal"
+        "baseballfield"
       ],
       "place_loot": [
         { "group": "baseball_equip", "x": [ 16, 19 ], "y": 6, "chance": 80, "repeat": [ 1, 3 ] },

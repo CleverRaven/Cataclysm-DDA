@@ -1,7 +1,7 @@
 [
   {
     "type": "palette",
-    "id": "baseballfield_pal",
+    "id": "baseballfield",
     "terrain": {
       " ": "t_floor",
       "+": "t_door_c",
@@ -42,7 +42,7 @@
   },
   {
     "type": "palette",
-    "id": "shoppingplaza_pal",
+    "id": "shoppingplaza",
     "terrain": {
       " ": "t_floor",
       "+": "t_door_locked",
