@@ -1017,7 +1017,7 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
         p.add_msg_if_player( m_info, _( "This is a contaminant.  We reject it from the Mycus." ) );
         if( p.has_trait( trait_M_SPORES ) || p.has_trait( trait_M_FERTILE ) ||
             p.has_trait( trait_M_BLOSSOMS ) || p.has_trait( trait_M_BLOOM ) ) {
-            p.add_msg_if_player( m_good, _( "We empty the %s and reflexively dispense spores onto the mess." ) );
+            p.add_msg_if_player( m_good, _( "We decontaminate it with spores." ) );
             g->m.ter_set( p.pos(), t_fungus );
             p.add_memorial_log(pgettext("memorial_male", "Destroyed a harmful invader."),
                                 pgettext("memorial_female", "Destroyed a harmful invader."));
