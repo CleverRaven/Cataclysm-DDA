@@ -748,7 +748,12 @@ bool veh_interact::do_install( std::string &msg )
     int pos = 0;
     size_t tab = 0;
     while (true) {
-        display_list(pos, tab_vparts, 2);
+
+        if ( veh->is_furniture ) {
+            display_list(pos, tab_vparts, 2);
+        } else {
+            display_list(pos, tab_vparts, 2, true);
+        }
 
         // draw tab menu
         int tab_x = 0;
@@ -1851,17 +1856,17 @@ void veh_interact::display_stats()
     fold_and_print( w_stats, y[5], x[5], w[5], c_ltgray, wheel_state_description( *veh ).c_str() );
 
     } else {
-        fold_and_print(w_stats, y[0], x[0], w[0], c_ltgray,
-            _("Cargo Volume: <color_ltgray>%s/%s</color> %s"),
-            format_volume(total_cargo - free_cargo).c_str(),
-            format_volume(total_cargo).c_str(),
-            volume_units_abbr());
+        fold_and_print( w_stats, y[0], x[0], w[0], c_ltgray,
+                        _( "Cargo Volume: <color_ltgray>%s/%s</color> %s" ),
+                        format_volume( total_cargo - free_cargo ).c_str(),
+                        format_volume( total_cargo ).c_str(),
+                        volume_units_abbr() );
         // Write the overall damage
-        mvwprintz(w_stats, y[1], x[1], c_ltgray, _("Status:"));
-        x[1] += utf8_width(_("Status:")) + 1;
-        fold_and_print(w_stats, y[1], x[1], w[1], totalDurabilityColor, totalDurabilityText);
+        mvwprintz( w_stats, y[1], x[1], c_ltgray, _( "Status:" ) );
+        x[1] += utf8_width( _( "Status:" ) ) + 1;
+        fold_and_print( w_stats, y[1], x[1], w[1], totalDurabilityColor, totalDurabilityText );
 
-        fold_and_print(w_stats, y[2], x[2], w[2], c_ltgray, wheel_state_description(*veh).c_str());
+        fold_and_print( w_stats, y[2], x[2], w[2], c_ltgray, wheel_state_description( *veh ).c_str() );
 
     }
 
@@ -2000,18 +2005,20 @@ size_t veh_interact::display_esc(WINDOW *win)
  * @param list The list to display parts from.
  * @param header Number of lines occupied by the list header
  */
-void veh_interact::display_list(size_t pos, std::vector<const vpart_info*> list, const int header)
+void veh_interact::display_list(size_t pos, std::vector<const vpart_info*> list, const int header, bool furni)
 {
     werase (w_list);
     int lines_per_page = page_size - header;
     size_t page = pos / lines_per_page;
     for (size_t i = page * lines_per_page; i < (page + 1) * lines_per_page && i < list.size(); i++) {
+        if ( !furni ) {
         const vpart_info &info = *list[i];
         int y = i - page * lines_per_page + header;
         mvwputch( w_list, y, 1, info.color, special_symbol( info.sym ) );
         nc_color col = can_potentially_install( info ) ? c_white : c_dkgray;
         trim_and_print( w_list, y, 3, getmaxx( w_list ) - 3, pos == i ? hilite( col ) : col,
                         info.name().c_str() );
+        }
     }
     wrefresh (w_list);
 }

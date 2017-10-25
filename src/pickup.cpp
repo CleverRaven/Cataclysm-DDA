@@ -89,14 +89,18 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     } options;
     uimenu selectmenu;
 
-    if (!veh->is_furniture) {
-        selectmenu.addentry(EXAMINE, true, 'e', _("Examine vehicle"));
-    }else { selectmenu.addentry(EXAMINE, true, 'e', _("Examine furniture")); }
+    if( !veh->is_furniture ) {
+        selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
+    } else {
+        selectmenu.addentry( EXAMINE, true, 'e', _( "Examine furniture" ) );
+    }
 
     if( has_controls ) {
-        if (!veh->is_furniture) {
-            selectmenu.addentry(CONTROL, true, 'v', _("Control vehicle"));
-        } else { selectmenu.addentry(CONTROL, true, 'v', _("Control furniture")); }
+        if( !veh->is_furniture ) {
+                selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
+            } else {
+                selectmenu.addentry( CONTROL, true, 'v', _( "Control furniture" ) );
+            }
     }
 
     if( from_vehicle ) {
@@ -108,9 +112,11 @@ interact_results interact_with_vehicle( vehicle *veh, const tripoint &pos,
     }
 
     if( ( can_be_folded || is_convertible ) && !remotely_controlled ) {
-        if (!veh->is_furniture) {
-            selectmenu.addentry(FOLD_VEHICLE, true, 'f', _("Fold vehicle"));
-        } else { selectmenu.addentry(FOLD_VEHICLE, true, 'f', _("Fold furniture")); }
+        if( !veh->is_furniture ) {
+            selectmenu.addentry( FOLD_VEHICLE, true, 'f', _( "Fold vehicle" ) );
+        } else {
+            selectmenu.addentry( FOLD_VEHICLE, true, 'f', _( "Fold furniture" ) );
+        }
     }
 
     if( turret.can_unload() ) {
