@@ -2194,6 +2194,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action("toggle_sidebar_style");
     ctxt.register_action("toggle_fullscreen");
     ctxt.register_action("toggle_pixel_minimap");
+    ctxt.register_action("toggle_auto_pulp_butcher");
     ctxt.register_action("action_menu");
     ctxt.register_action("main_menu");
     ctxt.register_action("item_action_menu");
@@ -3419,6 +3420,13 @@ bool game::handle_action()
 
         case ACTION_TOGGLE_PIXEL_MINIMAP:
             toggle_pixel_minimap();
+            break;
+
+        case ACTION_TOGGLE_AUTO_PULP_BUTCHER:
+            get_options().get_option( "AUTO_PULP_BUTCHER" ).setNext();
+            get_options().save();
+            //~ Auto Pulp/Pulp Adjacent/Butcher is now ON/OFF
+            add_msg( string_format( _( "Auto %s is now %s." ), get_options().get_option( "AUTO_PULP_BUTCHER_ACTION" ).getValueName(), get_option<bool>( "AUTO_PULP_BUTCHER" ) ? "ON" : "OFF" ).c_str() );
             break;
 
         case ACTION_DISPLAY_SCENT:
@@ -11725,8 +11733,8 @@ void game::place_player( const tripoint &dest_loc )
     // and dest_loc was not adjusted and therefor is still in the un-shifted system and probably wrong.
 
     //Auto pulp or butcher
-    const std::string pulp_butcher = get_option<std::string>( "AUTO_PULP_BUTCHER" );
-    if( pulp_butcher != "off" && ( !get_option<bool>( "AUTO_PULP_BUTCHER_SAFEMODE" ) || mostseen == 0 ) ) {
+    if( get_option<bool>( "AUTO_PULP_BUTCHER" ) && mostseen == 0 ) {
+        const std::string pulp_butcher = get_option<std::string>( "AUTO_PULP_BUTCHER_ACTION" );
         if( pulp_butcher == "butcher" && u.max_quality( quality_id( "BUTCHER" ) ) > INT_MIN ) {
             std::vector<int> corpses;
             auto items = m.i_at( u.pos() );
@@ -11746,7 +11754,7 @@ void game::place_player( const tripoint &dest_loc )
         } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ) {
             static const auto pulp = [&]( const tripoint &pos ) {
                 for( const auto &maybe_corpse : m.i_at( pos ) ) {
-                    if( maybe_corpse.is_corpse() && maybe_corpse.can_revive() ) {
+                    if( maybe_corpse.is_corpse() && maybe_corpse.can_revive() && maybe_corpse.get_mtype()->bloodType() != fd_acid ) {
                         u.assign_activity( activity_id( "ACT_PULP" ), calendar::INDEFINITELY_LONG, 0 );
                         u.activity.placement = pos;
                         u.activity.auto_resume = true;
