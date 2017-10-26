@@ -599,22 +599,8 @@ void draw_tabs( WINDOW *w, int active_tab, ... )
     }
 }
 
-bool query_yn( const char *mes, ... )
+bool query_yn( const std::string &text )
 {
-    va_list ap;
-    va_start( ap, mes );
-    bool ret = internal_query_yn( mes, ap );
-    va_end( ap );
-    return ret;
-}
-
-// yn to make an immediate selection
-// esc to cancel, returns false
-// enter or space to accept, any other key to toggle
-bool internal_query_yn( const char *mes, va_list ap )
-{
-    const std::string text = vstring_format( mes, ap );
-
     bool const force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
 
     //~ Translation of query answer letters (y mean yes, n - no)

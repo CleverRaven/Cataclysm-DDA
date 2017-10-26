@@ -8,6 +8,7 @@
 #include "translations.h"
 #include "units.h"
 #include "printf_check.h"
+#include "string_formatter.h"
 
 #include <cstdarg>
 #include <sstream>
@@ -278,10 +279,13 @@ std::string word_rewrap( const std::string &ins, int width );
 std::vector<size_t> get_tag_positions( const std::string &s );
 std::vector<std::string> split_by_color( const std::string &s );
 
-bool query_yn( const char *mes, ... ) PRINTF_LIKE( 1, 2 );
+bool query_yn( const std::string &msg );
+template<typename ...Args>
+inline bool query_yn( const char *const msg, Args &&... args )
+{
+    return query_yn( string_format( msg, std::forward<Args>( args )... ) );
+}
 bool query_int( int &result, const char *mes, ... ) PRINTF_LIKE( 2, 3 );
-
-bool internal_query_yn( const char *mes, va_list ap );
 
 // for the next two functions, if cancelable is true, esc returns the last option
 int  menu_vec( bool cancelable, const char *mes, const std::vector<std::string> options );
