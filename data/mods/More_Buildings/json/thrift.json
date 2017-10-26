@@ -104,7 +104,7 @@
         "H": "f_table",
         "I": "f_sofa"
       },
-      "toilets": { "B": {} },
+      "toilets": { "B": {  } },
       "place_items": [
         { "item": "thrift_misc", "x": [ 9, 12 ], "y": 18, "chance": 35, "repeat": [ 1, 4 ] },
         { "item": "thrift_misc", "x": [ 15, 17 ], "y": 18, "chance": 35, "repeat": [ 1, 4 ] },
