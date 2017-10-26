@@ -11253,28 +11253,28 @@ void player::add_msg_if_player(const char* msg, ...) const
 {
     va_list ap;
     va_start(ap, msg);
-    Messages::vadd_msg(msg, ap);
+    Messages::add_msg( vstring_format( msg, ap ) );
     va_end(ap);
 }
 void player::add_msg_player_or_npc(const char* player_str, const char* npc_str, ...) const
 {
     va_list ap;
     va_start(ap, npc_str);
-    Messages::vadd_msg(player_str, ap);
+    Messages::add_msg( vstring_format( player_str, ap ) );
     va_end(ap);
 }
 void player::add_msg_if_player(game_message_type type, const char* msg, ...) const
 {
     va_list ap;
     va_start(ap, msg);
-    Messages::vadd_msg(type, msg, ap);
+    Messages::add_msg( type, vstring_format( msg, ap ) );
     va_end(ap);
 }
 void player::add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...) const
 {
     va_list ap;
     va_start(ap, npc_str);
-    Messages::vadd_msg(type, player_str, ap);
+    Messages::add_msg( type, vstring_format( player_str, ap ) );
     va_end(ap);
 }
 
@@ -11282,7 +11282,7 @@ void player::add_msg_player_or_say( const char *player_str, const char *npc_str,
 {
     va_list ap;
     va_start( ap, npc_str );
-    Messages::vadd_msg( player_str, ap );
+    Messages::add_msg( vstring_format( player_str, ap ) );
     va_end(ap);
 }
 
@@ -11290,7 +11290,7 @@ void player::add_msg_player_or_say( game_message_type type, const char *player_s
 {
     va_list ap;
     va_start( ap, npc_str );
-    Messages::vadd_msg( type, player_str, ap );
+    Messages::add_msg( type, vstring_format( player_str, ap ) );
     va_end(ap);
 }
 
