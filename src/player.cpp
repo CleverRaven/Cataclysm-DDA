@@ -3775,7 +3775,7 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
         }
         if( !is_npc() ) {
             if( source != nullptr ) {
-                g->cancel_activity_query( _( "You were attacked by %s!" ), source->disp_name().c_str() );
+                g->cancel_activity_query( string_format( _( "You were attacked by %s!" ), source->disp_name().c_str() ) );
             } else {
                 g->cancel_activity_query( _( "You were hurt!" ) );
             }
@@ -4772,7 +4772,7 @@ void player::update_needs( int rate_multiplier )
             add_msg_if_player(m_warning, _("You're feeling tired.  %s to lie down for sleep."),
                 press_x(ACTION_SLEEP).c_str());
         } else {
-            g->cancel_activity_query(_("You're feeling tired."));
+            g->cancel_activity_query( _( "You're feeling tired." ) );
         }
     }
 
@@ -5699,7 +5699,7 @@ void player::suffer()
         } else {
             add_effect( effect_asthma, 50 * rng( 1, 4 ) );
             if (!is_npc()) {
-                g->cancel_activity_query(_("You have an asthma attack!"));
+                g->cancel_activity_query( _( "You have an asthma attack!" ) );
             }
         }
     }
