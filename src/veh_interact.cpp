@@ -1418,9 +1418,9 @@ bool veh_interact::do_tirechange( std::string &msg )
             return false;
 
         case LACK_TOOLS:
-            msg = string_format( _( "To change a wheel you need a <color_%1$s>wrench</color> and either "
-                                    "<color_%2$s>lifting equipment</color> or <color_%3$s>%4$d</color> strength." ),
-                                 status_color( has_wrench ), status_color( has_jack ),
+            msg = string_format( _( "To change a wheel you need a <color_%1$s>wrench</color>, a <color_%2$s>wheel</color> and either "
+                                    "<color_%3$s>lifting equipment</color> or <color_%4$s>%5$d</color> strength." ),
+                                 status_color( has_wrench ), status_color( has_wheel ), status_color( has_jack ),
                                  status_color( g->u.can_lift( *veh ) ), veh->lift_strength() );
             return false;
 
